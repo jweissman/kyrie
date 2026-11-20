@@ -9,9 +9,9 @@ import { Told } from './told';
 // place's own touch (see GlanceStage.Resting).
 export class Pastime {
   static View({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const s = app.state, exchange = s.frame!.leaf.exchange, wait = Pastime.wait(app);
+    const s = app.state, exchange = s.frame!.leaf.exchange;
     const told = s.kept && !s.pending && exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
-    const lengths = (wait?.children ?? []).filter(c => draw.index.has(c.id)), also = Pastime.also(app);
+    const lengths = Pastime.waits(app).filter(c => draw.index.has(c.id)), also = Pastime.also(app);
     const sleeps = Pastime.sleeps(app), night = lengths.some(c => c.does === 'wait_for_light');
     return (
       <div className="pastime" data-region="pastime">
@@ -40,10 +40,12 @@ export class Pastime {
     const parts = [food, ...e.hungry ? ['hungry'] : [], ...e.weary ? ['worn out'] : [], ...e.light ? [e.light] : []];
     return <p className="pt-means">{parts.join(' · ')}</p>;
   }
-  // The company's waiting, by what its choices do.
-  static wait(app: ReaderApp): Choice | undefined {
-    return (app.menu.scene?.you ?? []).find(c => c.children?.length && c.children.every(k => k.does?.startsWith('wait')));
+  // The company's waiting, by what its choices do: each length a flat row of its own, in whole words (PB-02: only a
+  // fight unfolds; a "Wait" opener had held "A while", "An hour").
+  static waits(app: ReaderApp): Choice[] {
+    return (app.menu.scene?.you ?? []).filter(c => !c.children?.length && !!c.does?.startsWith('wait'));
   }
+  static wait(app: ReaderApp): Choice | undefined { return Pastime.waits(app)[0]; }
   static search(app: ReaderApp): Choice | undefined {
     return (app.menu.scene?.you ?? []).find(c => c.does === 'search');
   }
@@ -81,8 +83,8 @@ export class Pastime {
   // What else the company does of itself here: not waiting, sleeping or searching, nor what the place offers (see
   // AtHand).
   static also(app: ReaderApp): Choice[] {
-    const wait = Pastime.wait(app), search = Pastime.search(app), sleeps = Pastime.sleeps(app);
-    return (app.menu.scene?.you ?? []).filter(c => c !== wait && c !== search && !sleeps.includes(c)
+    const waits = Pastime.waits(app), search = Pastime.search(app), sleeps = Pastime.sleeps(app);
+    return (app.menu.scene?.you ?? []).filter(c => !waits.includes(c) && c !== search && !sleeps.includes(c)
       && !SceneModel.own(c));
   }
 }

@@ -103,7 +103,7 @@ export class Bowl {
     'Hall of the Equals', 'Put in › A weight-stone', 'Put in › A weight-stone', 'Put in › A weight-stone',
     'Put in › A weight-stone', '^To the counting gallery', '^To the listening column', 'Strike the shortest',
     'Strike the longest', 'Strike the second bar', 'Strike the second bar', '^To the counting gallery',
-    '^To the governor', '^To the counting gallery', 'Into the depths of the Undercroft', '^Wait › A while',
+    '^To the governor', '^To the counting gallery', 'Into the depths of the Undercroft', '^Wait a while',
     'counting gallery', 'Hall of the Equals', '^To the dry vestibule', '^To the intake culvert', '^To the Ninth Lock'];
   // A bed at the Full Measure; in the morning the Cantor told what was seen, Halm at the dig, and the keystone read.
   static readonly night = ['^To the lock stair', "^To the Dyers' Walk", '^To Measures Square', '^Into the Full Measure',

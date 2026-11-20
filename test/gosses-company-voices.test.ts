@@ -35,7 +35,7 @@ class Pent {
     return this;
   }
 }
-const wait = 'Wait › A while';
+const wait = 'Wait a while';
 
 describe("Gosse's Company: the company speaks", () => {
   it('lints', async () => {

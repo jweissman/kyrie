@@ -12,7 +12,7 @@ const warrior = () => Ombra.start(campaign, 'a');
 async function press(g: Ombra, label: string, done: () => boolean, tries = 12) {
   for (let i = 0; i < tries && !done(); i++) {
     await g.play(`?${label}`);
-    if (!done()) { await g.play('?Wait › An hour'); }
+    if (!done()) { await g.play('?Wait an hour'); }
   }
   expect(done()).toBe(true);
 }

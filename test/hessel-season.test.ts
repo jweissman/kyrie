@@ -69,7 +69,7 @@ describe('The Banns at Hessel: voices, the peal, the bill and the Colonel', () =
     await g.play('Lim Bridge', 'Quay Lane', 'Stall Street', 'Into the Hospital');
     await g.play('Ask Colonel Ede about his regiment');
     expect(g.page).toMatch(/number of buttons on every/);
-    for (let turn = 0; turn < 40 && !g.j.offers('Sit up with Colonel Ede'); turn++) { await g.play('Wait › An hour'); }
+    for (let turn = 0; turn < 40 && !g.j.offers('Sit up with Colonel Ede'); turn++) { await g.play('Wait an hour'); }
     await g.play('Sit up with Colonel Ede');
     expect(g.holds('satWithEde', 'party')).toBe(true);
     await g.until();

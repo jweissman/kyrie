@@ -18,13 +18,13 @@ describe('a promise, as the one it was made to hears of it', () => {
     const back = await j.play("^To the hermit's cell");
     expect(back).toContain('The hermit sees the glow at the shrine and nods.');
     // Told once: waiting beside him does not tell it again.
-    expect(await j.play('Wait › A while')).not.toContain('sees the glow');
+    expect(await j.play('Wait a while')).not.toContain('sees the glow');
   }, 30000);
 
   it('is judged at the close when it is kept by something lasting, and told among the closing lines', async () => {
     const j = await Journey.start(probe);
     await j.play('Promise the hermit to leave him', 'Promise the hermit to light', '^To the shrine',
-      'Light the shrine lamp', 'Wait › An hour');
+      'Light the shrine lamp', 'Wait an hour');
     // Its condition has held all along, but it is not kept until the story closes.
     expect(j.holds('promiseKept', 'p__peace_promise')).toBe(false);
     const closing = await j.play('Take the road out of the hollow');
@@ -37,7 +37,7 @@ describe('a promise, as the one it was made to hears of it', () => {
 
   it('is broken at the close, not kept, when what it was kept by fails before it', async () => {
     const j = await Journey.start(probe);
-    await j.play('Promise the hermit to leave him', '^To the shrine', 'Wait › An hour', 'Ring the shrine bell');
+    await j.play('Promise the hermit to leave him', '^To the shrine', 'Wait an hour', 'Ring the shrine bell');
     expect(j.holds('promiseKept', 'p__peace_promise')).toBe(false);
     const closing = await j.play('Take the road out of the hollow');
     expect([j.holds('promiseKept', 'p__peace_promise'), j.holds('promiseBroken', 'p__peace_promise')])

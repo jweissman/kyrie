@@ -27,7 +27,7 @@ describe('the Patient Star, placed in a world', () => {
     const gold = j.measure('quantity', 'party', 'gold');
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('travelsWith', 'season__garret', 'party') },
       { kind: 'assert', call: ModuleWriter.call('at', 'season__garret', 'season__mutual_hall') }]));
-    expect(await j.play('Wait › A while')).toContain('I keep my word');
+    expect(await j.play('Wait a while')).toContain('I keep my word');
     expect(j.measure('quantity', 'party', 'gold')).toBe(gold + 14);
   }, 60000);
 });

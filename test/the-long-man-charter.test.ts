@@ -29,7 +29,7 @@ class Dale {
   static async until(s: PlaySession, watch: number): Promise<string> {
     let said = '';
     while (s.campaign.state.elapsed < watch) {
-      const [e] = await this.act(s, '^Wait › An hour');
+      const [e] = await this.act(s, '^Wait an hour');
       said += ' ' + [...(e!.perceptions ?? []).map(p => p.text), e!.response ?? ''].join(' ');
     }
     return said;

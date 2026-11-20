@@ -14,7 +14,7 @@ describe('a seizing temperament', () => {
     // The wait is told after the warning it belongs to (play 9 read it before).
     const page = j.taken.at(-1)!.page;
     expect(page.indexOf('Not yet.')).toBeLessThan(page.indexOf('In 10 minutes'));
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.taken.at(-1)!.page).toContain('The Weights take you by the arms');
     expect(j.taken.at(-1)!.event.combat).toEqual([]);
     expect(j.holds('captured', 'p__weights', 'party')).toBe(true);
@@ -22,7 +22,7 @@ describe('a seizing temperament', () => {
   }, 60000);
   it('lets one who heeds the warning go', async () => {
     const j = await Journey.start('test/fixtures/probes/seized/probe.campaign.json', 'k');
-    await j.play('To the black wall', 'To the quay', 'Wait › An hour');
+    await j.play('To the black wall', 'To the quay', 'Wait an hour');
     expect(j.holds('captured', 'p__weights', 'party')).toBe(false);
     expect(j.at('party')).toBe('p__quay');
   }, 60000);

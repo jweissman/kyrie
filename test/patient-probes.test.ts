@@ -47,7 +47,7 @@ describe('The Patient Star probes', () => {
     const s = await Probe.start('light');
     const minutes = () => s.campaign.world.number(ModuleWriter.call('watch', 'clock')) * 10 + (s.campaign.state.minutes ?? 0);
     await Probe.act(s, 'To the margin of the glass');
-    const told = await Probe.act(s, 'Wait › An hour');
+    const told = await Probe.act(s, 'Wait an hour');
     expect(told).toContain('Ama\'s own footsteps sound late');
     expect(told).not.toMatch(/What you carry/);
     expect(Probe.holds(s, 'laden', 'party')).toBe(false);
@@ -90,7 +90,7 @@ describe('The Patient Star probes', () => {
   // Repaired at integration: it stopped play ("Invalid quantity for p__dose(party)"), naming neither rule nor line.
   it('P5: a decrease past nothing stops at nothing', async () => {
     const s = await Probe.start('below-zero');
-    await Probe.act(s, 'Wait › A while');
+    await Probe.act(s, 'Wait a while');
     expect(s.campaign.world.number(ModuleWriter.call('p__dose', 'party'))).toBe(0);
   }, 60000);
 
@@ -99,7 +99,7 @@ describe('The Patient Star probes', () => {
     expect((await Probe.lint('stand')).map(f => f.message))
       .toEqual(['go_home seeks somewhere for p__garret, who cannot go there: give them `Uses go.`']);
     const s = await Probe.start('stand');
-    for (let i = 0; i < 6; i++) { await Probe.act(s, 'Wait › A while'); }
+    for (let i = 0; i < 6; i++) { await Probe.act(s, 'Wait a while'); }
     expect(s.campaign.world.one('at', 'p__garret')).toBe('p__yard');
   }, 60000);
 
@@ -110,12 +110,12 @@ describe('The Patient Star probes', () => {
   it('P7: a rule puts two known things together into a third, and says so', async () => {
     const s = await Probe.start('knows-rule');
     expect(Probe.holds(s, 'knows', 'party', 'p__same')).toBe(false);
-    const told = await Probe.act(s, 'Wait › A while');
+    const told = await Probe.act(s, 'Wait a while');
     expect(told).toContain("The words of the holding prayer are the clerk's line");
     expect(Probe.holds(s, 'knows', 'party', 'p__same')).toBe(true);
     expect(told).toContain('the granary bell rings once');
     expect(Probe.holds(s, 'knows', 'party', 'p__rung')).toBe(true);
-    expect(await Probe.act(s, 'Wait › A while')).not.toContain('the granary bell rings once');
+    expect(await Probe.act(s, 'Wait a while')).not.toContain('the granary bell rings once');
     let error = '';
     try { await Probe.start('knows-assert'); } catch (e) { error = (e as Error).message; }
     expect(error).toMatch(/^Rule put_together cannot change .* discovery knowledge \(a rule teaches what it says/);
@@ -130,7 +130,7 @@ describe('The Patient Star probes', () => {
 
   it('P9: an event happens once, seen or not: a man who wakes in the next room never says so to anyone', async () => {
     const s = await Probe.start('unseen-event');
-    await Probe.act(s, 'Wait › An hour');
+    await Probe.act(s, 'Wait an hour');
     expect(Probe.holds(s, 'p__woke', 'p__garret')).toBe(true);
     const told = await Probe.act(s, 'To the vault');
     expect(told).not.toMatch(/Where.s the light gone/);

@@ -36,7 +36,7 @@ export class KP {
   // The Trial over and the writ taken: the road to Dun Rierdan, and the city's gate.
   async toTheRoad() {
     this.assert('verdictRead', 'pentrice').set('tday', 'pentrice', '6').put('party', 'moon_yard');
-    await this.play('Wait › An hour', 'Wait › An hour', "Take the King's writ");
+    await this.play('Wait an hour', 'Wait an hour', "Take the King's writ");
     this.put('party', 'eastgate');
     await this.play('To the King\'s Road', 'To the River Gate');
     return this;
@@ -57,7 +57,7 @@ export async function fromTrial(fixture = 'bow', seed = 'g1') {
   return k;
 }
 export async function toTheGate(k: KP) {
-  await k.play('Wait › An hour', 'Out to the yard of the Painted Moon', "Take the King's writ", 'Out to the Westgate', 'To the Chepe',
+  await k.play('Wait an hour', 'Out to the yard of the Painted Moon', "Take the King's writ", 'Out to the Westgate', 'To the Chepe',
     'To Guildhall Square', 'To the Minster Close', 'To the Eastgate', "To the King's Road");
   return k;
 }

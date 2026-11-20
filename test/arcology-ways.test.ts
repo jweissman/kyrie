@@ -19,7 +19,7 @@ class House {
   // A fact made so for the test is seen by the page after the next command, so a short wait follows it.
   static async set(j: Journey, rel: string, ...args: string[]) {
     j.assert(rel, ...args.map(x => this.a(x)));
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
   }
   static async world(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
@@ -96,7 +96,7 @@ describe('the Marshal, and the figure on the green', () => {
     // The Roll, written in chalk, reopens the count: a brass figure walks to the green by night until it is wound down.
     await House.set(j, 'rolled', 'house');
     Placed.at(j, `region__${town}_green`);
-    await j.play('=until dark()').catch(() => j.play('Wait › Until dark'));
+    await j.play('=until dark()').catch(() => j.play('Wait until dark'));
     await j.play('==+1');
     expect(House.is(j, 'state', 'counter', 'counting')).toBe(true);
     expect(j.at('counter')).toMatch(/green$/);
@@ -126,7 +126,7 @@ describe('light, air, bait and the Gardener’s gift', () => {
     const g = await House.at('terrace', 'kahitude', 'warrior');
     expect(g.offers('Ask the Gardener for a seed-pod')).toBe(false);
     g.assert('been', 'party', 'arcology__roots');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.offers('Ask the Gardener for a seed-pod of the bells')).toBe(true);
   }, 300000);
 });

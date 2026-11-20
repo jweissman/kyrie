@@ -6,7 +6,7 @@ describe("The King's Players: from Pentrice by the natural route", () => {
     const k = await fromTrial();
     expect(k.holds('verdictRead', 'pentrice')).toBe(true);
     // A watch and a wait later, in the old code the book had closed. It must not.
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(reached(k)).toEqual([]);
     expect(k.j.choices().length).toBeGreaterThan(0);
     await toTheGate(k);
@@ -16,7 +16,7 @@ describe("The King's Players: from Pentrice by the natural route", () => {
     await k.play('To the River Gate');
     expect(k.at('party')).toBe(p('river_gate'));
     // Many hours in, in Acts II and III the Pentrice endings do not fire.
-    await k.play('Wait › An hour', 'Wait › An hour');
+    await k.play('Wait an hour', 'Wait an hour');
     expect(reached(k)).toEqual([]);
   }, 280000);
   it('holds the hinge open for a day and a half, warns before it closes, and then closes it', async () => {
@@ -31,7 +31,7 @@ describe("The King's Players: from Pentrice by the natural route", () => {
   }, 280000);
   it('refuses the herald and the Pentrice ending closes the book as it always did', async () => {
     const k = await fromTrial('bow', 'g1');
-    await k.play('Wait › An hour', 'Out to the yard of the Painted Moon', 'Tell Aubrey Lintel the company has had enough of masters, and will stay');
+    await k.play('Wait an hour', 'Out to the yard of the Painted Moon', 'Tell Aubrey Lintel the company has had enough of masters, and will stay');
     expect(reached(k).length).toBeGreaterThan(0);
   }, 280000);
 });
@@ -62,7 +62,7 @@ describe("The King's Players: one unbroken play, Pentrice to the last bow, on na
     await k.play("To the Rotunda's wings", 'Ask Hepzibah to prompt the Mousetrap', 'No name. Cancel the trap. Play something else', '=06:30');
     expect(k.holds('nightOver', 'rierdan')).toBe(true);
     expect(k.holds('marshalLives', 'rierdan')).toBe(true);
-    await k.play('Wait › An hour', 'Wait › An hour');
+    await k.play('Wait an hour', 'Wait an hour');
     expect(k.holds('wickGranted', 'rierdan')).toBe(true);
     // Act IV: the Wick, the plan, the draper, the opening night. Natural dice: the heist may go well or ill.
     await k.play("To the Rotunda's stage", "To the Rotunda's front of house", 'Out to Playhouse Row', 'Into the Wick', "To the Wick's wardrobe",
@@ -133,7 +133,7 @@ describe("The King's Players, Act I: the Marchants' Men", () => {
     k.j.roll('pass');
     await k.play('Play the King The Marchants\' Men, with the two companies and the two Oriels');
     expect(k.holds('auditioned', 'rierdan')).toBe(true);
-    await k.play('Wait › A while');
+    await k.play('Wait a while');
     expect(k.holds('titleByAccident', 'rierdan')).toBe(true);
     expect(k.measure('favour', 'rierdan')).toBeGreaterThanOrEqual(4);
   }, 280000);
@@ -144,7 +144,7 @@ describe("The King's Players, Act I (the honest road): the Miser", () => {
     const k = await KP.start('kp1m');
     k.assert('royalCall', 'pentrice');
     k.put('party', 'sparrow_loft');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     k.j.put('party', k.at('hepzibah')!);
     await k.play('Ask Hepzibah what the company will give the King', "The Miser's Wedding, the old one");
     await k.play('Ask Gosse how he wants the King to see him', "As what you are. He's old too");
@@ -166,7 +166,7 @@ describe("The King's Players, Act I: the bill, and Act IV: the draper", () => {
     const k = await KP.start('kp1f');
     k.assert('royalCall', 'pentrice').assert('masqueFarce', 'party');
     k.put('party', 'audience');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.pages).toMatch(/a farce wants its Kit and its Oriel/);
     await k.play('Tell Hepzibah to change the bill, since the farce has no cast');
     expect(k.holds('masqueMiser', 'party')).toBe(true);
@@ -212,14 +212,14 @@ describe("The King's Players, Act I: Kit's proof", () => {
     expect(k.j.offers("Prove Kit is a boy")).toBe(false);
     expect(k.at('kit')).toBe(p('marchant_hall'));
     k.assert('auditioned', 'rierdan');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.at('kit')).toBe(p('sparrow_loft'));
   }, 200000);
   it('greets the company differently while it is posing', async () => {
     const k = await KP.start('kp1c');
     k.assert('royalCall', 'pentrice').assert('posing', 'party');
     k.put('party', 'marchant_hall');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.pages).toMatch(/masquers' letter of engagement/);
   }, 200000);
 });
@@ -245,7 +245,7 @@ describe("The King's Players, Act II: the Mousetrap", () => {
     expect(k.holds('lotharWounded', 'rierdan')).toBe(false);
     expect(k.holds('flyGuard', 'rierdan')).toBe(true);
     k.put('party', 'rot_wings');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.holds('flyGuard', 'rierdan')).toBe(false);
     expect(k.holds('lotharWounded', 'rierdan')).toBe(true);
   }, 290000);
@@ -275,7 +275,7 @@ describe("The King's Players: from Act II's quiet night into Act IV", () => {
     expect(k.holds('bodyLies', 'pentrice')).toBe(false);
     expect(k.holds('edictOn', 'rierdan')).toBe(false);
     k.put('party', 'concourse');
-    await k.play('Wait › An hour', 'Wait › An hour');
+    await k.play('Wait an hour', 'Wait an hour');
     expect(k.holds('wickGranted', 'rierdan')).toBe(true);
     expect(k.at('hepzibah')).toBe(p('lant_ward'));
     await k.play('To Playhouse Row', 'Into the Wick', "To the Wick's wardrobe", 'Ask Hepzibah to gather the company about the note', "Jem's: a false clerk, a false summons, and a good coat");

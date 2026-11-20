@@ -33,7 +33,7 @@ describe('Quittance: the Descent', () => {
       const j = await Ds.start();
       await j.play(...City.honest, '>quittance__exchange_court');
       Ds.put(j, 'assert', 'cellarLeave', 'party');
-      await j.step('Wait › A while');
+      await j.step('Wait a while');
       await j.step('^To the foot of the Exchange stair$');
       expect(j.at('party')).toBe(Q('cellar_foot'));
       expect(City.state(j, 'ds_cellar_gate', 'ds_unlocked')).toBe(true);
@@ -56,10 +56,10 @@ describe('Quittance: the Descent', () => {
       await j.play('>quittance__slag_a', '>quittance__slag_b');
       const h = Ds.heat(j);
       expect(h).toBeGreaterThanOrEqual(2);
-      await j.play('Wait › A while', 'Wait › A while', 'Wait › A while');
+      await j.play('Wait a while', 'Wait a while', 'Wait a while');
       expect(Ds.heat(j)).toBeGreaterThanOrEqual(8);
       expect(City.pages(j)).toContain('breathing through your teeth');
-      await j.step('Wait › A while');
+      await j.step('Wait a while');
       expect(Ds.heat(j)).toBeGreaterThanOrEqual(9);
       expect(City.pages(j)).toContain('Your hair smells of singeing');
     }, 120000);
@@ -68,20 +68,20 @@ describe('Quittance: the Descent', () => {
       Ds.at(j, 'glass_street');
       await j.step('Fill every skin');
       expect(j.measure(Q('ds_skins'), 'party')).toBe(3);
-      await j.play('>quittance__slag_a', '>quittance__slag_b', 'Wait › A while', 'Wait › A while');
+      await j.play('>quittance__slag_a', '>quittance__slag_b', 'Wait a while', 'Wait a while');
       const before = Ds.heat(j);
       expect(before).toBeGreaterThanOrEqual(6);
       await j.step('Pour water over your heads');
       expect(Ds.heat(j)).toBe(before - 4);
       expect(j.measure(Q('ds_skins'), 'party')).toBe(2);
-      await j.play('>quittance__glass_street', 'Wait › An hour');
+      await j.play('>quittance__glass_street', 'Wait an hour');
       expect(Ds.heat(j)).toBe(0);
     }, 120000);
     it('is kept off by the Fire\'s leave', async () => {
       const j = await Ds.start();
       Ds.at(j, 'glass_street');
       Ds.put(j, 'assert', 'ds_leave', 'party');
-      await j.play('>quittance__slag_a', '>quittance__slag_b', 'Wait › A while', 'Wait › A while');
+      await j.play('>quittance__slag_a', '>quittance__slag_b', 'Wait a while', 'Wait a while');
       expect(Ds.heat(j)).toBe(0);
     }, 120000);
   });
@@ -140,7 +140,7 @@ describe('Quittance: the Descent', () => {
       expect(j.holds('able', 'party')).toBe(true);
       await j.step('Go through the fallen glass men');
       expect(j.holds('ownedItem', Q('ds_cuffs_item'), 'party') || City.pages(j).includes('cuffs')).toBe(true);
-      await j.play('>quittance__glass_street', '>quittance__slag_a', '>quittance__slag_b', 'Wait › A while', 'Wait › A while');
+      await j.play('>quittance__glass_street', '>quittance__slag_a', '>quittance__slag_b', 'Wait a while', 'Wait a while');
       // The slag gallery's two a watch is one with the cuffs.
       expect(Ds.heat(j)).toBeLessThan(8);
     }, 120000);
@@ -213,7 +213,7 @@ describe('Quittance: the Descent, continued', () => {
       const j = await Ds.start();
       Ds.at(j, 'hearth_below');
       expect(Ds.knows(j, 'd_fire_is_real')).toBe(false);
-      await j.step('Wait › A while');
+      await j.step('Wait a while');
       expect(Ds.knows(j, 'd_fire_is_real')).toBe(true);
       await j.step('Up to the Strongroom');
       expect(j.at('party')).toBe(Q('vault'));

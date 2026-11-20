@@ -23,14 +23,12 @@ export class Explorer {
     if (Wayfinder.ways(app).some(w => w.c.id === id || w.way.id === id)) { return 'go'; }
     if (AtHand.of(app).some(h => h.opens.includes(id) || h.choices.some(c => c.id === id))
       || GlanceStage.lensed(app, 'things').has(id)) { return 'look'; }
-    const wait = Pastime.wait(app);
-    if (wait?.id === id || wait?.children?.some(c => c.id === id) || Pastime.sleeps(app).some(c => c.id === id)
+    if (Pastime.waits(app).some(c => c.id === id) || Pastime.sleeps(app).some(c => c.id === id)
       || GlanceStage.lensed(app, 'time').has(id)) { return 'wait'; }
     return undefined;
   }
   // One opened: what it shows opened in the menu with it (the lengths of a wait, the acts of the thing led with).
   static open(app: ReaderApp, part?: Part) {
-    const wait = part === 'wait' ? Pastime.wait(app)?.id : undefined;
     const held = part === 'look' ? AtHand.led(app, AtHand.of(app)) ?? AtHand.of(app)[0] : undefined;
     // Put away, what was told in it stays told (not said again on the place at rest); opened, it begins afresh. A way
     // touched once in Go… that asked first is asked again (it goes at a click now: see Wayfinder.go), not taken by the
@@ -42,7 +40,7 @@ export class Explorer {
     const ways = [...part === 'look' ? GlanceStage.holders(app, 'things') : [], ...inner];
     app.setState({ exploring: part, hovered: held?.id, kept: part ? false : app.state.kept, keyed: false,
       confirming: undefined, focused: undefined,
-      open: wait ? [wait, ...inner] : held ? [...new Set([...held.opens, ...ways])] : ways.length ? ways : app.state.open });
+      open: held ? [...new Set([...held.opens, ...ways])] : ways.length ? ways : app.state.open });
   }
   // The keys while one is open: up and down through its own choices only, Enter on the one they are on (or the way
   // chosen), Esc to put it away. Nothing under it is done unseen.

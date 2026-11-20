@@ -63,7 +63,7 @@ describe('the silent lord alone: malice, and the signal before it', () => {
   }, 120000);
   it('lets a cleric who has read the oath release the household from it, so that the castellan will speak', async () => {
     const j = await Keep.at('chapel', 'cleric');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Keep.knows(j, 'oath_known')).toBe(true);
     j.assert('befriended', k('chaplain'), 'party');
     await j.play('Have .* say the office of release');
@@ -71,7 +71,7 @@ describe('the silent lord alone: malice, and the signal before it', () => {
   }, 120000);
   it('lets a warrior read the garrison at dawn, and the marshal answer to it', async () => {
     const j = await Keep.at('ward', 'warrior', '=day 10 05:30');
-    await j.play('Wait › A while', 'Wait › A while');
+    await j.play('Wait a while', 'Wait a while');
     expect(Keep.knows(j, 'garrison_read')).toBe(true);
     await j.play('Tell .* you know his garrison');
     expect(Keep.holds(j, 'befriended', k('marshal'), 'party')).toBe(true);

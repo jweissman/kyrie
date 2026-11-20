@@ -32,7 +32,7 @@ export const bow = (variant: 'A' | 'B') => {
     bowCache.set(variant, (async () => {
       const j = await Journey.start(city, 'g1');
       await j.play(...steps('bow'));
-      await j.play('Wait › An hour', 'Out to the yard of the Painted Moon', "Take the King's writ", 'Out to the Westgate', 'To the Chepe', 'To Guildhall Square', 'To the Minster Close', 'To the Eastgate', "To the King's Road");
+      await j.play('Wait an hour', 'Out to the yard of the Painted Moon', "Take the King's writ", 'Out to the Westgate', 'To the Chepe', 'To Guildhall Square', 'To the Minster Close', 'To the Eastgate', "To the King's Road");
       await j.play('To the River Gate', 'Say who you are, since the sergeant has not asked', "We are. The Marchants' masquers, and we are late");
       await j.play('To the Concourse of the Seven', 'To Playhouse Row', 'Into the Brazen Sparrow');
       if (j.offers("To the Sparrow's long loft")) { await j.play("To the Sparrow's long loft"); }
@@ -46,7 +46,7 @@ export const bow = (variant: 'A' | 'B') => {
       await j.play('Out to the Salt Quay', 'To Playhouse Row', '=06:00', '=17:50', 'Into the Rotunda');
       await j.play('=18:10', 'Lay a line of grey salt across the threshold', "To the Rotunda's stage");
       await j.play("To the Rotunda's wings", 'Ask Hepzibah to prompt the Mousetrap', 'No name. Cancel the trap. Play something else', '=06:30');
-      await j.play('Wait › An hour', 'Wait › An hour');
+      await j.play('Wait an hour', 'Wait an hour');
       await j.play("To the Rotunda's stage", "To the Rotunda's front of house", 'Out to Playhouse Row', 'Into the Wick', "To the Wick's wardrobe", 'Ask Hepzibah to gather the company about the note', "Jem's: a false clerk, a false summons, and a good coat");
       if (variant === 'B') { await j.play('Ask Swale why he cannot meet your eye', "Say nothing. We'll get the paper back"); }
       await j.play("To the Wick's dark stage", 'Out to Playhouse Row', 'To the Salt Quay', "To Mistress Pardew's draper's", 'Ask Mistress Pardew whether she dressed a clerk', "The note's a forgery. We mean to take it back");
@@ -88,9 +88,9 @@ export class R {
     return this;
   }
   // Wait an hour at a time until a condition holds (a night is a clock hour, not a count of waits).
-  async until(done: () => boolean, max = 48) { for (let i = 0; i < max && !done(); i++) { await this.play('Wait › An hour'); } expect(done()).toBe(true); return this; }
+  async until(done: () => boolean, max = 48) { for (let i = 0; i < max && !done(); i++) { await this.play('Wait an hour'); } expect(done()).toBe(true); return this; }
   // Wait a watch (ten minutes) at a time, for a beat whose deadline is an hour.
-  async untilFine(done: () => boolean, max = 240) { for (let i = 0; i < max && !done(); i++) { await this.play('Wait › A while'); } expect(done()).toBe(true); return this; }
+  async untilFine(done: () => boolean, max = 240) { for (let i = 0; i < max && !done(); i++) { await this.play('Wait a while'); } expect(done()).toBe(true); return this; }
   hour() { return this.measure('hour', 'clock'); }
-  async waits(n: number) { for (let i = 0; i < n; i++) { await this.play('Wait › An hour'); } return this; }
+  async waits(n: number) { for (let i = 0; i < n; i++) { await this.play('Wait an hour'); } return this; }
 }

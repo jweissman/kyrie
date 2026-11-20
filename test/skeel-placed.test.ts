@@ -25,7 +25,7 @@ describe('Fair Weather in the world', () => {
     // company, closing the Reach's chapter and not the book.
     await j.play('^To Fore Street', '^Into the Admiral', 'Talk to Mother Jago', 'about the wreck');
     expect(j.page).toMatch(/walks straight onto Scarth Bank like a cow onto a cart/);
-    for (let i = 0; i < 120 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
+    for (let i = 0; i < 120 && !c.world.related('reached').length; i++) { await j.play('^Wait an hour'); }
     expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${rid}__wreck`]);
     expect(c.running).toBe(true);
     // Coming back up Fore Street after: the Constancy's saint is on the Reeve's gable, and the Holm is Jack Cawse's.

@@ -28,7 +28,7 @@ const dead = async (prepared: boolean) => {
     w.state.hp = 0; w.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' });
     lease.commit(lease.creatures);
   } finally { lease.release(); }
-  return t.play('Wait › A while');
+  return t.play('Wait a while');
 };
 const on = (t: Tiny, who: string) => PlayerView.choices(t.campaign).map(r => r.choice)
   .filter(c => c.name.endsWith(` on ${who}`));

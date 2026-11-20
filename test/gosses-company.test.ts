@@ -35,7 +35,7 @@ class Gosse {
     await this.play(...steps(name));
     if (this.holds('verdictRead', 'pentrice') && !this.holds('heraldGone', 'pentrice') && !this.holds('summoned', 'pentrice')) {
       this.stage(['heraldGone', 'pentrice']);
-      await this.play('Wait › An hour');
+      await this.play('Wait an hour');
     }
     return this;
   }
@@ -286,7 +286,7 @@ describe("Gosse's Company: who plays it", () => {
   }, 240000);
   it('a mage under the stage lights the Ghost with a conjured light as he rises', async () => {
     const g = await Gosse.start(build('scholar'));
-    const night = Array.from({ length: 8 }, () => ['Wait › A while', '?Have the one of you who can, throw a conjured light']).flat();
+    const night = Array.from({ length: 8 }, () => ['Wait a while', '?Have the one of you who can, throw a conjured light']).flat();
     await g.play(...phase('book', 'arrive'), 'Out to the yard', 'Out to the Westgate', 'To the Chepe', 'To the Gullet', 'To the Water Stairs',
       'To the Soke landing', 'To Soke Lane', 'Into the Wheel', '=494', 'Go down under the stage', ...night);
     expect(g.holds('ghostLit', 'pentrice')).toBe(true);
@@ -392,7 +392,7 @@ describe("Gosse's Company: the dogs and the weir", () => {
     expect(g.page).toMatch(/draws the bolt/);
     expect(g.at('mastiffs')).toBe(p('bear_pen'));
     expect(g.j.offers('talk to the mastiffs as a drover')).toBe(true);
-    await g.play('Out to Soke Lane', 'Wait › A while');
+    await g.play('Out to Soke Lane', 'Wait a while');
     expect(g.at('the_bear')).toBe(p('soke_lane'));
     expect(g.at('mastiffs')).toBe(p('kennels'));
   }, 240000);
@@ -400,7 +400,7 @@ describe("Gosse's Company: the dogs and the weir", () => {
     const g = await Gosse.start(build('thief'), 't1');
     await g.play(...phase('book', 'arrive'));
     g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
-    await g.play(...penned, 'Wait › A while', 'Wait › A while', 'Wait › A while');
+    await g.play(...penned, 'Wait a while', 'Wait a while', 'Wait a while');
     expect(g.j.at('party')).toBe(p('soke_lane'));
     expect(g.page).toMatch(/You are bitten in three places/);
     expect(g.at('the_bear')).toBe(p('bear_pen'));
@@ -436,7 +436,7 @@ describe("Gosse's Company: the dogs and the weir", () => {
     await paid.play('Pay the weir-rats the price named', 'To Soke Lane');
     expect(paid.j.measure('quantity', 'party', 'gold')).toBe(purse - 2);
     const ducked = await at();
-    await ducked.play('Wait › A while', 'Wait › A while');
+    await ducked.play('Wait a while', 'Wait a while');
     expect(ducked.j.at('party')).toBe(p('soke_landing'));
     expect(ducked.page).toMatch(/fished you out with a boat-hook/);
     expect(ducked.j.measure('quantity', 'party', 'gold')).toBeLessThan(purse);

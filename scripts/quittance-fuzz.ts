@@ -8,7 +8,7 @@ const walks = Number(process.argv[2] ?? 10), steps = Number(process.argv[3] ?? 1
 
 class Fuzz {
   static readonly skip = [
-    /^The company: Wait › And watch/, /^Pack/, /Give to/, /Set down here/, /prepare spells/i, /Prepare spells/,
+    /^The company: Wait and watch/, /^Pack/, /Give to/, /Set down here/, /prepare spells/i, /Prepare spells/,
   ];
   static readonly hard = [
     'arcs stay within 0..4', 'regard stays within 0..12', 'gold is not negative', 'at most six wards lit',
@@ -56,7 +56,7 @@ for (let w = 0; w < walks; w++) {
     if (offered.length === 0 && !j.holds('able', 'party')) { console.log(`walk ${w} step ${i}: the company fell at ${j.at('party')} (a fight chosen at random; the world goes on without it)`); break; }
     if (offered.length === 0) { console.log(`walk ${w} step ${i}: nothing offered at ${j.at('party')} (watch ${j.watch()})\n  ${trail.slice(-8).join('\n  ')}`); failures++; break; }
     // Prefer the story to the weather: waits are picked a tenth of the time.
-    const doing = offered.filter(c => !/Wait ›|Make camp|Search here/.test(c.full));
+    const doing = offered.filter(c => !/Wait (a while|an hour|until|and watch)|Make camp|Search here/.test(c.full));
     const pool = Fuzz.pick() < 0.1 || doing.length === 0 ? offered : doing;
     const choice = pool[Math.floor(Fuzz.pick() * pool.length)]!;
     trail.push(`[${j.watch()}] ${choice.full}`);

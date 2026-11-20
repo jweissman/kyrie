@@ -77,7 +77,7 @@ describe('the Ring, signposted for a company that does not know the country', ()
     await j.play('Ask .* where the Principal is tonight');
     expect(j.holds('knows', 'party', F('principal_traced'))).toBe(true);
     expect(journal(j)).toMatch(/lamp lit in the gable by day means he is in/);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('routed', F('lieutenant'))).toBe(true);
     expect(j.at(F('lieutenant'))).toBe(F('abroad'));
   }, 900000);
@@ -98,7 +98,7 @@ describe('the Principal, met at the loft with the warning running', () => {
     await runs.play('Lay the waybill, the leaf and the lieutenant');
     expect(runs.holds('routed', F('principal'))).toBe(true);
     expect(hp(runs).every(h => h > 0)).toBe(true);
-    await runs.play('^Wait › A while');
+    await runs.play('^Wait a while');
     expect(runs.holds(T('ringFallen'), 'party')).toBe(true);
     // He buys, and no blow was struck while he was making his offer.
     const buys = fresh(3);
@@ -119,13 +119,13 @@ describe('the Principal, met at the loft with the warning running', () => {
     expect(stands.holds('tolerates', F('principal'), 'party')).toBe(true);
     expect(stands.matches('Lay the waybill, the leaf').length).toBe(0);
     expect(hp(stands).every(h => h > 0)).toBe(true);
-    await stands.play('^Wait › An hour');
+    await stands.play('^Wait an hour');
     expect(stands.holds('tolerates', F('principal'), 'party')).toBe(false);
     expect(stands.page).toMatch(/An hour\. After that I shall not be able to help/);
     // A company that took the hour walked out of it, down the ladder, and the Principal is still at his loft.
     const leaves = fresh(2);
     await leaves.play('Lay the waybill, the leaf and the lieutenant', 'Out to Salt Row');
-    await leaves.play('^Wait › An hour', '^Wait › An hour');
+    await leaves.play('^Wait an hour', '^Wait an hour');
     expect(hp(leaves).every(h => h > 0)).toBe(true);
     expect(leaves.holds('routed', F('principal'))).toBe(false);
   }, 1800000);
@@ -140,7 +140,7 @@ describe('the Principal, met at the loft with the warning running', () => {
     // The turned lieutenant gives up the Principal as an ordinary one does, and is not taken out of his store.
     expect(j.holds('knows', 'party', F('principal_traced'))).toBe(true);
     await j.play('Ask .* where the Principal is tonight');
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('routed', F('lieutenant'))).toBe(false);
     await loft(j);
     for (const nerve of [2, 3]) {
@@ -149,7 +149,7 @@ describe('the Principal, met at the loft with the warning running', () => {
       await b.play('Lay the waybill, the leaf and the lieutenant');
       expect(b.page).toMatch(/My man signed/);
       expect(b.holds('routed', F('principal'))).toBe(true);
-      await b.play('^Wait › A while');
+      await b.play('^Wait a while');
       expect(b.holds(T('ringFallen'), 'party')).toBe(true);
     }
   }, 1800000);

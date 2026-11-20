@@ -142,7 +142,12 @@ export class Journey {
     try { return new RegExp(either, 'i'); } catch { return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
   }
   private static plain(text: string): string { return text.replace(/[‐-―]/g, '-').toLowerCase(); }
-  private static straight(text: string): string { return text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"'); }
+  // And a step written to the wait's old opener ("Wait › A while") finds the flat row ("Wait a while"), so that what
+  // was recorded before the waits were flat plays the same (PB-02).
+  private static straight(text: string): string {
+    return text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
+      .replace(/Wait › (A while|An hour|Until|And watch)/g, (_, w: string) => `Wait ${w.toLowerCase()}`);
+  }
   // "register: Take" for "the register of names: Take": a thing called by part of its name, then what is done with it
   // (a step had to quote an item's whole name: Liberty of the Ice friction 19).
   private static named(pattern: string, all: Offered[]): Offered[] {
@@ -341,11 +346,11 @@ export class Journey {
         if (this.at(this.campaign.playerActor ?? 'party') !== here) { hour = undefined; }
         continue;
       }
-      const pick = long ? this.find('^Wait › Until dark') ?? this.find('^Wait › Until first light')
-        : this.find(watch - this.watch() >= 6 ? '^Wait › An hour' : '^Wait › A while');
-      const c = pick ?? this.find('^Wait › An hour');
+      const pick = long ? this.find('^Wait until dark') ?? this.find('^Wait until first light')
+        : this.find(watch - this.watch() >= 6 ? '^Wait an hour' : '^Wait a while');
+      const c = pick ?? this.find('^Wait an hour');
       if (!c) { throw Journey.unoffered(`Nothing to wait by at watch ${this.watch()}`); }
-      hour = /^Wait › An hour/.test(c.label) ? c : undefined;
+      hour = /^Wait an hour/.test(c.label) ? c : undefined;
       told += await this.perform(c.command, c.label);
     }
     return told;
@@ -467,7 +472,7 @@ export class Journey {
         const way = /^(go|travel)\b/.test(c.command);
         if (!way || this.at(this.campaign.playerActor ?? 'party') !== here) { return told; }
       }
-      await this.step('^Wait › A while');
+      await this.step('^Wait a while');
     }
     throw Journey.unoffered(`Never got through /${pattern}/`);
   }

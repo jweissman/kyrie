@@ -23,7 +23,7 @@ describe('what holds meanwhile', () => {
     expect(j.taken.at(-1)!.page).not.toContain('The stars go out');
     expect([j.holds('sawStars', 'party'), j.holds('asleep', 'party')]).toEqual([false, false]);
     const k = await Journey.start('test/fixtures/probes/meanwhile/probe.campaign.json');
-    await k.play('=22:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+    await k.play('=22:00', 'Wait an hour', 'Wait an hour', 'Wait an hour');
     expect(k.holds('sawStars', 'party')).toBe(true);
     // And the shared camp sleeps as the act of the module's own does (Mission 19: rest, camp and a bed say it).
     const c = await Journey.start('test/fixtures/probes/meanwhile/probe.campaign.json');

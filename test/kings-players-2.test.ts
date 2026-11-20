@@ -9,7 +9,7 @@ describe("The King's Players, Act III: the Unburied", () => {
       .assert('bodyLies', 'pentrice').assert('clemInWick', 'rierdan').assert('saltGiven', 'party').set('favour', 'rierdan', '3')
       .assert('lothalTrust', 'party');
     k.put('clemency', 'lant_ward').put('party', 'concourse');
-    await k.play('Wait › A while');
+    await k.play('Wait a while');
     expect(k.holds('edictOn', 'rierdan')).toBe(true);
     return k;
   };
@@ -44,7 +44,7 @@ describe("The King's Players, Act III: the Unburied", () => {
     expect(k.holds('lucanDead', 'rierdan')).toBe(false);
     // And the book goes on: a long wait does not leave Act III open.
     k.j.roll(undefined);
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.holds('wickGranted', 'rierdan')).toBe(true);
   }, 280000);
   it('can be ended by staging the tragedy over the body: the sextons are given a verdict to hear, and nobody is sealed', async () => {
@@ -60,7 +60,7 @@ describe("The King's Players, Act III: the Unburied", () => {
     k.j.roll('pass');
     await k.play('Play the Marshal\'s tragedy at the Field of Exposure, over the body, and name him');
     expect(k.holds('bodyStaged', 'rierdan')).toBe(true);
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.pages).toMatch(/take their hats off first/);
     expect(k.holds('actIIIDone', 'rierdan')).toBe(true);
     expect(k.holds('ysoltFree', 'rierdan')).toBe(true);
@@ -73,12 +73,12 @@ describe("The King's Players, Act IV: the Note", () => {
     const k = await KP.start(seed);
     k.assert('royalCall', 'pentrice').assert('auditioned', 'rierdan').set('favour', 'rierdan', '3');
     k.put('party', 'concourse');
-    await k.play('Wait › An hour'); // the company is lodged at the Sparrow, as the arrival leaves it
+    await k.play('Wait an hour'); // the company is lodged at the Sparrow, as the arrival leaves it
     expect(k.at('hepzibah')).toBe(p('sparrow_loft'));
     k.assert('actIIIDone', 'rierdan');
-    await k.play('Wait › A while');
+    await k.play('Wait a while');
     expect(k.holds('wickGranted', 'rierdan')).toBe(true);
-    await k.play('Wait › An hour'); // the company, lodged at the Sparrow, moves into the Wick it was given
+    await k.play('Wait an hour'); // the company, lodged at the Sparrow, moves into the Wick it was given
     expect(k.at('hepzibah')).toBe(p('lant_ward'));
     k.set('openingDay', 'rierdan', '0'); // the same evening, rather than waiting out the three days the lease allows
     return k;
@@ -181,7 +181,7 @@ describe("The King's Players, Act IV: the Note", () => {
     await k.play("Walk in at the counting-room door in the clerk's coat, as if you worked there");
     expect(k.measure('alarm', 'rierdan')).toBeGreaterThanOrEqual(2);
     k.j.roll('fail');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.holds('caughtInCounting', 'party')).toBe(true);
     await k.play('=22:10');
     expect(k.holds('noteGone', 'rierdan')).toBe(false);
@@ -195,7 +195,7 @@ describe("The King's Players, Act V: the Command", () => {
       .assert('heistOver', 'rierdan').assert('titleByAccident', 'rierdan').set('favour', 'rierdan', '4').set('openingDay', 'rierdan', '0');
     for (const f of flags) {k.assert(f, 'rierdan');}
     k.put('party', 'concourse');
-    await k.play('Wait › A while');
+    await k.play('Wait a while');
     expect(k.holds('commandOn', 'rierdan')).toBe(true);
     k.set('commandDay', 'rierdan', '0');
     await k.play('=19:10');
@@ -264,13 +264,13 @@ describe("The King's Players, Act V: the Command", () => {
     const k = await KP.start('kp-found');
     k.assert('dorcasGone', 'dorcas').retract('troupe', 'dorcas').assert('swaleGone', 'swale').retract('troupe', 'swale');
     k.assert('royalCall', 'pentrice');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.at('dorcas')).toBe(p('rot_front'));
     expect(k.at('swale')).toBe(p('sparrow_taproom'));
     expect(k.at('gosse')).toBe(p('sparrow_loft'));
     k.put('party', 'rot_front');
     await k.play('Ask Dorcas whether the Rotunda is all she thought it would be', 'There is a part, and a wardrobe, and a Gosse who has not got over you');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.holds('troupe', 'dorcas')).toBe(true);
     expect(k.holds('dorcasGone', 'dorcas')).toBe(false);
   }, 200000);
@@ -285,10 +285,10 @@ describe("The King's Players, Act V: the Command", () => {
   it('gathers the Repertory tour by who is in the troupe: Kit, sent to the Marchants, is not carried to the Wend', async () => {
     const k = await staged('kp5-tour', 'noteGone', 'ghostSatisfied');
     k.assert('commandOn', 'rierdan').assert('kitLeaves', 'party');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.holds('troupe', 'kit')).toBe(false);
     k.put('party', 'wend_cross');
-    await k.play('Wait › An hour');
+    await k.play('Wait an hour');
     expect(k.at('tam')).toBe(p('wend_taproom'));
     expect(k.at('kit')).not.toBe(p('wend_taproom'));
   }, 200000);

@@ -81,7 +81,7 @@ describe('a night waited out', () => {
     const s = await Night.start();
     const sheet = Night.sheet(s), lengths = /<ul class="pt-lengths">(.*?)<\/ul>/.exec(sheet)?.[1] ?? '';
     // The Delvers' hall is somewhere to rest: the rest is one of the ways of letting the night go.
-    expect(lengths).toContain('Until first light');
+    expect(lengths).toContain('Wait until first light');
     expect(lengths).toMatch(/Rest six hours|Try to rest/);
     expect(sheet).not.toContain(Pastime.sleepless());
     Night.apply(s, [{ kind: 'retract', call: ModuleWriter.call('restful', 'region__w9_haulage_hall') }]);

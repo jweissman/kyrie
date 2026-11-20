@@ -77,7 +77,7 @@ class HoweWeek {
     // On the evening of day 12 the company goes to the town below the ridge by the map, and waits there for the dark.
     const there = await MapPlay.press(j, `region__${this.bind.town}_green`);
     console.log(`[the map: to the town below the ridge] ${JSON.stringify(there)}`);
-    await this.step('Wait › Until dark', 100);
+    await this.step('Wait until dark', 100);
     this.page('the town below the ridge, at night, after day 12', 1700);
   }
 

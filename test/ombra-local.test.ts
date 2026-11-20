@@ -449,7 +449,7 @@ const wander = async (o: Ombra, seed: string, steps: number) => {
     const offered = o.j.choices()
       .filter(c => !/Set down here|Give to|Make camp|prepare spells|Prepare spells|Drop|Take$/.test(c.label));
     if (!offered.length) { break; }
-    const waits = offered.filter(c => /Wait › (An hour|Until)/.test(c.label));
+    const waits = offered.filter(c => /Wait (an hour|until)/.test(c.label));
     const pool = waits.length && next() < 0.15 ? waits : offered.filter(c => !/^Wait/.test(c.label));
     const c = (pool.length ? pool : offered)[Math.floor(next() * (pool.length || offered.length))]!;
     try { await o.j.perform(c.command, c.label, c.grave); } catch (e) {

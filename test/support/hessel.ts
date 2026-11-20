@@ -20,7 +20,7 @@ export class Hessel {
   // Waits on to the Season's end, or to a watch, an hour at a time: the book closes at noon on the fifth day.
   async until(watch = 700) {
     while (!this.ending().length && this.j.watch() < watch) {
-      const c = this.j.find('^Wait › An hour') ?? this.j.find('^Wait › A while');
+      const c = this.j.find('^Wait an hour') ?? this.j.find('^Wait a while');
       if (!c) { break; }
       await this.j.perform(c.command, c.label);
     }

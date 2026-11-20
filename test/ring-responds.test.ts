@@ -27,7 +27,7 @@ describe('the ring answers', () => {
     // The cellar-men saw the company search, and the Principal's hire is on its way; it is posted a few hours later.
     expect(j.holds(F('hired'), F('principal'))).toBe(true);
     expect(j.at(F('bravos'))).toBe(F('abroad'));
-    await j.play('^Wait › An hour', '^Wait › An hour');
+    await j.play('^Wait an hour', '^Wait an hour');
     expect(j.at(F('bravos'))).toBe(F('counting_room'));
   }, 600000);
 
@@ -35,8 +35,8 @@ describe('the ring answers', () => {
     const w = await Ring.world('thorn', 'mountain');
     const { j } = w;
     await cellar(w);
-    await j.play('^To the taproom', '^Wait › An hour', '^Wait › Until dark');
-    await j.play('^Wait › A while');
+    await j.play('^To the taproom', '^Wait an hour', '^Wait until dark');
+    await j.play('^Wait a while');
     expect(j.at(F('bravos'))).toBe(`region__${w.town}_taproom`);
     await j.play('Pay the hired men five coin');
     expect(j.holds('tolerates', F('bravos'), 'party')).toBe(true);
@@ -57,7 +57,7 @@ describe('the ring answers', () => {
     expect(j.holds('inside', F('leaf'), F('strongbox'))).toBe(false);
     expect(j.holds(F('burnt'), F('principal'))).toBe(true);
     j.put('party', F('counting_room'));
-    await j.play('^Wait › A while');
+    await j.play('^Wait a while');
     expect(seen(j)).toContain('fresh ash');
   }, 600000);
 
@@ -92,16 +92,16 @@ describe('the ring answers', () => {
     if (temper === 3) { await j.play("Lay the factor's day-book leaf before"); }
     j.roll(undefined);
     expect(j.holds(F('talkedLieutenant'), F('lieutenant'))).toBe(true);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('routed', F('lieutenant'))).toBe(true);
     expect(j.at(F('lieutenant'))).toBe(F('abroad'));
     await GeneratedWorld.travel(w.s, T('quay'));
     j.put('party', T('bonded_store'));
-    await j.play('^Wait › A while');
+    await j.play('^Wait a while');
     expect(seen(j)).toContain('The bonded store is swept');
     // The bill is on the harbourmaster's door, and the Principal's circuit leaves out the store.
     j.put('party', T('harbourmaster'));
-    await j.play('^Wait › A while');
+    await j.play('^Wait a while');
     expect(seen(j)).toContain('has absconded');
     const places = new Set<string>();
     for (let t = j.watch(); t < 1500; t += 36) { await j.play(`==${t + 36}`); places.add(String(j.at(F('principal')))); }
@@ -127,7 +127,7 @@ describe('the ring answers', () => {
     await j.play('Put the margin of the leaf to');
     expect(j.holds(F('turned'), F('lieutenant'))).toBe(true);
     expect([1, 2, 3]).toContain(secret);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('routed', F('lieutenant'))).toBe(false);
   }, 600000);
 });

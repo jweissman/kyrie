@@ -45,7 +45,7 @@ describe('the Numbered House alone: its ways round the Count', () => {
   it('shows the hull from the Ledge to anyone', async () => {
     const j = await House.at('ledge', 'ranger');
     expect(j.seen()).toMatch(/curved wall of dark metal/);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(House.is(j, 'knows', 'party', 'hull_seen')).toBe(true);
   });
   it('counts the company on the Roll, in chalk found at the Landing, and reopens the count', async () => {
@@ -60,14 +60,14 @@ describe('the Numbered House alone: its ways round the Count', () => {
   it('shows the ring in the sky from the roof', async () => {
     const j = await House.at('ring_walk', 'mage');
     expect(j.seen()).toMatch(/great ring stands on edge/);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(House.is(j, 'knows', 'party', 'ring_seen')).toBe(true);
   });
   it('vents the seed-vault before the door is safe: dead air stands behind it until the wheel is turned', async () => {
     const j = await House.at('roots');
     expect(House.is(j, 'state', 'vault_air', 'foul')).toBe(true);
     await j.play('Turn the vent-wheel');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(House.is(j, 'state', 'vault_air', 'clean')).toBe(true);
   });
 });
@@ -76,7 +76,7 @@ describe('the Numbered House alone: the Marshal’s key and the bronze ring', ()
   it('makes the keepers tolerate whoever holds the key', async () => {
     const j = await House.at('bay', 'thief');
     j.roll('pass');
-    await j.play('Draw the winding-key out of the Marshal’s back', 'Wait › A while');
+    await j.play('Draw the winding-key out of the Marshal’s back', 'Wait a while');
     expect(House.is(j, 'tolerates', 'keepers', 'party')).toBe(true);
     expect(House.is(j, 'tolerates', 'usher', 'party')).toBe(true);
   });

@@ -72,7 +72,7 @@ describe('allying with, racing, being robbed by and fighting the expedition', ()
     await j.play('Show .* the Prefect');
     expect(Rivals.is(j, 'quillAlly', 'party')).toBe(true);
     expect(Rivals.carries(j, 'the Collegium')).toBe(true);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Rivals.is(j, 'tolerates', 'crew', 'party')).toBe(true);
   }, 120000);
 
@@ -80,7 +80,7 @@ describe('allying with, racing, being robbed by and fighting the expedition', ()
     const j = await Rivals.bend();
     await Rivals.stage(j, 3);
     Placed.at(j, 'arcology__bridge_mid');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Rivals.is(j, 'warned', 'crew', 'party')).toBe(true);
     expect(j.page).toMatch(/That.s a toll/);
     expect(j.page).toMatch(/That line breaks at the right/);
@@ -96,7 +96,7 @@ describe('allying with, racing, being robbed by and fighting the expedition', ()
     const j = await Rivals.bend('thief');
     await Rivals.stage(j, 3);
     Placed.at(j, 'arcology__gantry');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Rivals.is(j, 'knows', 'party', 'pawl_seen')).toBe(true);
     await j.play('Knock the near capstan');
     expect(Rivals.is(j, 'state', 'deck', 'canted')).toBe(true);
@@ -110,7 +110,7 @@ describe('allying with, racing, being robbed by and fighting the expedition', ()
     await j.play('=+2');
     Placed.at(j, 'arcology__drawers');
     j.coin(30);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     if (Rivals.is(j, 'peaceable', 'crew')) { await j.play('Ask .* who they work for'); }
     await j.play('Buy .* governor');
     expect(Rivals.carries(j, 'a brass governor')).toBe(true);
@@ -123,7 +123,7 @@ describe('allying with, racing, being robbed by and fighting the expedition', ()
     await j.play('=+2');
     j.give('arcology__governor');
     Placed.at(j, 'arcology__drawers');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Rivals.is(j, 'warned', 'crew', 'party')).toBe(true);
     expect(j.page).toMatch(/toll/);
   }, 600000);

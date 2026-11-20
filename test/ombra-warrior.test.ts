@@ -246,7 +246,7 @@ describe('exploring', () => {
     for (let i = 0; i < 200; i++) {
       const offered = o.j.choices()
         .filter(c => !/^(Pack|a |an |the |some )/i.test(c.full) && !/Set down/.test(c.label) && !/^Wait/.test(c.label));
-      if (!offered.length || i % 9 === 8) { await o.play('Wait › An hour'); continue; }
+      if (!offered.length || i % 9 === 8) { await o.play('Wait an hour'); continue; }
       const c = offered[(i * 11 + 3) % offered.length]!;
       try { await o.play(c.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')); n++; } catch (e) { if (!o.running) { break; } throw e; }
       expect(o.measure('wr_height', 'party')).toBeLessThanOrEqual(9);

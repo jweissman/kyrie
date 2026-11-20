@@ -113,7 +113,7 @@ describe('the cutting, the breach, the flood, and the reset', () => {
     j.coin(40);
     await j.play('for the freedom of the camp');
     j.assert('state', R('face_wall'), R('broken'));
-    await j.play('Wait › Until dark');
+    await j.play('Wait until dark');
     expect(Howe.fact(j, 'raid_done')).toBe(true);
     expect(Howe.where(j, 'riders')).toBe(R('lee'));
     expect(Howe.where(j, 'foreman')).toBe(T('taproom'));

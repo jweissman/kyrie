@@ -25,7 +25,7 @@ describe('familiar scouting', () => {
     expect(t.journey.holds('knows', 'party', 't__sentry_seen')).toBe(false);
     // The missing act: nothing sends a companion somewhere the company does not go.
     await t.play('Send Hob .*yard');
-    await t.play('Wait › A while');
+    await t.play('Wait a while');
     expect(t.journey.holds('knows', 'party', 't__sentry_seen')).toBe(true);
   });
 });

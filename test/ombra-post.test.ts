@@ -385,7 +385,7 @@ describe('The Wet Post: what is done stays done', () => {
     const o = await start();
     await o.play(...rent('Crow'), ...toHall, 'Take a shift', digWanting, digWanting);
     expect(o.measure('ps_dug', 'ps_rack_wanting')).toBe(2);
-    await o.play('>ombra__post_street', 'Take your face off', 'Wait › An hour');
+    await o.play('>ombra__post_street', 'Take your face off', 'Wait an hour');
     expect(o.measure('ps_dug', 'ps_rack_wanting')).toBe(2);
     await o.play('=day 2 09:00', ...rent('Crow'), ...toHall, 'Take a shift', digWanting);
     expect(o.holds('ps_book_found', 'party')).toBe(true);

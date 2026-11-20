@@ -142,7 +142,7 @@ export class Probes {
     },
     time: async () => {
       const t = await Tiny.start(hall), before = t.campaign.readout.elapsed * 10 + (t.campaign.readout.minutes ?? 0);
-      await t.play('Wait › An hour');
+      await t.play('Wait an hour');
       const after = t.campaign.readout.elapsed * 10 + (t.campaign.readout.minutes ?? 0);
       return { status: after > before ? 'present' : 'absent', evidence: `minutes ${before} to ${after}` };
     },

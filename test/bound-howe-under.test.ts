@@ -49,7 +49,7 @@ describe('the howe sealed from within (a1) and left broken (d4): the laws hold e
     await warrior.play('Give the king');
     expect(Howe.state(warrior, 'seal', 'rolled')).toBe(true);
     const forced = await Howe.at('forecourt', company('warrior'), 'd4');
-    await forced.play('Wait › A while');
+    await forced.play('Wait a while');
     expect(Howe.state(forced, 'seal', 'forced')).toBe(true);
     expect(forced.offers('Call the roll of kings')).toBe(true);
     await forced.play('Call the roll of kings');
@@ -63,7 +63,7 @@ describe('the howe sealed from within (a1) and left broken (d4): the laws hold e
     j.give(R('salt_lick'));
     expect(j.offers('Lay a line of salt across the howe')).toBe(true);
     await j.play('Lay a line of salt across the howe');
-    await j.play('Wait › Until dark');
+    await j.play('Wait until dark');
     expect(Howe.holds(j, 'dark')).toBe(true);
     expect(Howe.where(j, 'household')).toBe(R('gallery'));
   }, 300000);

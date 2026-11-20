@@ -60,7 +60,7 @@ describe('The Third Night: the Bargeman at Wade\'s Step', () => {
 
   it('a seasoned company kills it, and the eel-men stand round it on the shingle with their caps off', async () => {
     const g = await Wrayford.start(build('seasoned'));
-    await g.play(...wade, 'Go at the Bargeman', 'Wait › A while', 'Wait › A while', 'Wait › A while');
+    await g.play(...wade, 'Go at the Bargeman', 'Wait a while', 'Wait a while', 'Wait a while');
     expect(g.holds('able', 'bargeman')).toBe(false);
     await g.play('To the tan-yards');
     expect(g.page).toMatch(/My grandfather fed that fish/);

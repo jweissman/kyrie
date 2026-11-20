@@ -202,7 +202,7 @@ describe('Let One Remember: names, the Chain and the rim', () => {
       'Talk to Lene', 'Pay Lene', 'Take your leave', '^(Down |Up )?To the hoist-house', '^(Down |Up )?To the rim and', '^(Down |Up )?To the terraces', '^(Down |Up )?To the hall of the Charge',
       '^(Down |Up )?To the archive', 'Read Cassen']);
     expect(T.knows(s, 'cassen_notes')).toBe(true);
-    let said = await T.play(s, ['~400', '?Wait › Until dark', 'Ask Teshen to read the sealed door', '^(Down |Up )?To the sealed room']);
+    let said = await T.play(s, ['~400', '?Wait until dark', 'Ask Teshen to read the sealed door', '^(Down |Up )?To the sealed room']);
     expect(T.knows(s, 'mountain_name')).toBe(true);
     expect(T.knows(s, 'method_known')).toBe(true);
     said = await T.play(s, ['^(Down |Up )?To the archive', '^(Down |Up )?To the hall of the Charge', '^(Down |Up )?To the terraces', '^(Down |Up )?To the rim and', 'Say the mountain\'s name']);

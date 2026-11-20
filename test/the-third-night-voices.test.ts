@@ -17,7 +17,7 @@ const canonFact = (g: Wrayford, name: string, ...args: string[]) => {
 describe('The Third Night: the company speaks', () => {
   it('a ranger reads the sky from the drove road on the first morning, and the swallows are there for anyone', async () => {
     const g = await Wrayford.start();
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.page).toMatch(/Swallows down on the river at eight in the morning/);
     expect(g.page).toMatch(/skimming it so low their wings wet/);
     expect(g.holds('heardSky', 'party')).toBe(true);
@@ -52,7 +52,7 @@ describe('The Third Night: a tale from the south', () => {
     await g.play(...wheels);
     expect(g.j.offers('what the carters are saying from the south')).toBe(false);
     canonFact(g, 'befell', 'slack_opened');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.j.offers('what the carters are saying from the south')).toBe(true);
     await g.play('what the carters are saying from the south');
     expect(g.page).toMatch(/kettle in the room above comes to the boil by itself/);

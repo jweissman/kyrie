@@ -116,7 +116,7 @@ describe('The House That Grows: the Slope', () => {
     await Ring.act(s, '^To the Slope', 'Ask Sabe whether she can read the Undal');
     expect(Ring.holds(s, 'knows', 'party', 'hhg__brother_letter')).toBe(true);
     const before = Journey.of(s).measure('hhg__sellVotes', 'hhg__tessa');
-    await Ring.act(s, '^To the Long Hall', Ring.look, 'back through the far door', 'Ask Tobu to stay here', '^Wait › A while', 'back through the far door',
+    await Ring.act(s, '^To the Long Hall', Ring.look, 'back through the far door', 'Ask Tobu to stay here', '^Wait a while', 'back through the far door',
       'back through the far door', 'back through the door into the hall of coats', 'Knock on the glass', 'back through the small door',
       'east lip', 'rim of Cobble', 'pond causeway', "reeve.s house");
     expect(Ring.said(await Ring.act(s, 'Give the reeve the Lifted'))).toContain('a thing to be answered');

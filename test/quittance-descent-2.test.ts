@@ -29,7 +29,7 @@ describe('Quittance: the Descent', () => {
       expect(Ds.accord(j)).toBe(3);
       await Ds.ask(j, 'Ask the Fire for leave');
       expect(Ds.rel(j, 'ds_leave')).toBe(true);
-      await j.step('Wait › An hour');
+      await j.step('Wait an hour');
       expect(Ds.heat(j)).toBeLessThan(10);
       expect(Ds.rel(j, 'fireTerms')).toBe(false);
     }, 120000);
@@ -91,12 +91,12 @@ describe('Quittance: the Descent', () => {
       Ds.num(j, 'ds_read', ['party'], 3);
       expect(Ds.accord(j)).toBe(0);
       Ds.num(j, 'ds_read', ['party'], 4);
-      await j.step('Wait › A while');
+      await j.step('Wait a while');
       expect(Ds.accord(j)).toBe(2);
       expect(Ds.rel(j, 'fireFed')).toBe(true);
       expect(City.pages(j)).toContain('I knew the Aldens');
       Ds.num(j, 'ds_read', ['party'], 11);
-      await j.step('Wait › A while');
+      await j.step('Wait a while');
       expect(Ds.accord(j)).toBe(5);
       expect(Ds.mood(j, 'ds_tender')).toBe(true);
       expect(City.pages(j)).toContain('You have missed one');

@@ -14,7 +14,7 @@ describe('a first-town job done out of order', () => {
       'Buy › An oil firebomb',
       'To the landing at Lowmouth', 'To Mik\'s salt-house', 'Ask Mik about the rats', 'To the landing at Lowmouth',
       'To the old corn-store', 'Down to the corn-store cellar', 'a candle: Light', 'Lay ratsbane', 'Up to the old corn-store',
-      'Wait › Until dark', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour']) { await j.step(step); }
+      'Wait until dark', 'Wait an hour', 'Wait an hour', 'Wait an hour']) { await j.step(step); }
     const before = gold();
     for (const step of ['To the landing at Lowmouth', 'To Mik\'s salt-house', 'Talk to Mik', 'Tell Mik the rats',
       'Take your leave']) { await j.step(step); }

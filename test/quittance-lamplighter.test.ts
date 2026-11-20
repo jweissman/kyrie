@@ -11,7 +11,7 @@ const steps = ['>quittance__round_steps', 'Swing the Steps lamp to light the sta
 const glaziers = ['>quittance__round_glaziers', "Hold Hob's taper", 'Light the Glaziers'];
 const wharf = ['>quittance__round_furnace', 'Ask Nan why', 'Sit by the lamp-house', 'Light the Furnace Wharf lamp'];
 const round = [...tinkers, ...steps, ...glaziers, ...wharf];
-const breath = ['Wait › A while', 'Wait › A while', 'Wait › A while'];
+const breath = ['Wait a while', 'Wait a while', 'Wait a while'];
 const L = (j: any, id: string) => City.state(j, id, 'lit');
 const done = (j: any, ...rels: string[]) => rels.forEach(r => expect(City.has(j, r, 'hob')).toBe(true));
 
@@ -30,7 +30,7 @@ describe('Quittance: the Lamplighter\'s Round', () => {
   it('is chalked on the Slate and also met in the street', async () => {
     const j = await City.start();
     await j.play(...City.slip, '=day 1 09:00');
-    await j.play('^Wait › A while');
+    await j.play('^Wait a while');
     expect(City.knows(j, 'll_claim')).toBe(true);
     const k = await City.start();
     await k.play(...row, '=day 1 17:00', 'Talk to Hob Tansy', 'what he is doing with that pole');
@@ -106,7 +106,7 @@ describe('Quittance: the Lamplighter\'s Round', () => {
         done(j, rel);
         expect(City.regard(j, 'gasco')).toBe(rel === 'll_sideBoth' ? gasco + 1 : gasco);
         if (rel === 'll_sideBoth') { expect(City.gold(j)).toBe(gold - 5); }
-        await j.play('Wait › A while');
+        await j.play('Wait a while');
         expect(City.pages(j)).toMatch(/shelling peas|fiddles|Two lamps on the Steps/);
       }
     }, 240000);

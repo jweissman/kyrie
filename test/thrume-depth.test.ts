@@ -187,7 +187,7 @@ describe('Thrume: Act IV voices', () => {
     for (const [place, heard, words] of [['hand_street', 'heardStreet', 'Thralls walk where they are walked'], ['thrall_market', 'heardNiches', 'there is no office for it'], ['hammer_hall', 'heardHammers', 'it would come alone']] as const) {
       j.put('party', `thrume__${place}`);
       await j.play('?a torch: Light');
-      await j.step('Wait › A while');
+      await j.step('Wait a while');
       expect(T.holds(s, `thrume__${heard}`, 'party')).toBe(true);
       expect(j.taken.map(t => t.told + t.page).join(' ')).toContain(words);
     }
@@ -210,9 +210,9 @@ describe('Thrume: a company that dithers', () => {
     const { s, j } = await T.start(depth);
     await j.play(...toWages);
     expect(T.holds(s, 'thrume__paidWaited', 'thrume__paid')).toBe(true);
-    await j.play('Read the pay-roll', '^Wait › An hour');
+    await j.play('Read the pay-roll', '^Wait an hour');
     for (let i = 0; i < 3 && !T.holds(s, 'dead', 'thrume__paid') && !T.fallen(s); i++) {
-      try { await j.play('^Wait › An hour'); } catch { break; }
+      try { await j.play('^Wait an hour'); } catch { break; }
     }
     expect(T.holds(s, 'dead', 'thrume__paid') || T.fallen(s) > 0).toBe(true);
   }, 180000);

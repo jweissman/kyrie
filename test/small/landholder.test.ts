@@ -56,7 +56,7 @@ describe('a landholder', () => {
     // Commissioned, not yet standing: the change takes time.
     expect([built(t), t.screen.purse.coin, seen(t.campaign)]).toEqual([0, 10, expect.stringMatching(/A bare plot/)]);
     await t.play('To the green', 'To the market');
-    await t.play(...Array.from({ length: 6 }, () => 'Wait › An hour'));
+    await t.play(...Array.from({ length: 6 }, () => 'Wait an hour'));
     await t.play('To the green', 'To the plot by the stream');
     expect(built(t)).toBe(1);
     expect(seen(t.campaign)).toMatch(/hut of new timber/);
@@ -65,7 +65,7 @@ describe('a landholder', () => {
   it('keeps it through a save and a load', async () => {
     const t = await Tiny.start(hythe);
     await t.play('To the plot by the stream', 'Buy the plot', 'Pay for a hut to be raised', 'To the green',
-      ...Array.from({ length: 6 }, () => 'Wait › An hour'), 'To the plot by the stream');
+      ...Array.from({ length: 6 }, () => 'Wait an hour'), 'To the plot by the stream');
     const again = PlaySession.fromSave(t.campaign.save(), 'tiny');
     expect(again.campaign.world.related('t__built').length).toBe(1);
     expect(again.campaign.world.related('t__deeded', 'party').length).toBe(1);

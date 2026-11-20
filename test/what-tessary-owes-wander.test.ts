@@ -24,7 +24,7 @@ describe('What Tessary Owes, wandered', () => {
           // Mostly what the place offers; sometimes a long wait, so that the fortnight's clocks are walked too.
           const offered = j.choices().filter(c => !/Set down here|Give to/.test(c.label));
           if (!offered.length) { break; }
-          const waits = offered.filter(c => /Wait › (An hour|Until)/.test(c.label));
+          const waits = offered.filter(c => /Wait (an hour|until)/.test(c.label));
           const pool = waits.length && next() < 0.15 ? waits : offered;
           const c = pool[Math.floor(next() * pool.length)]!;
           taken.push(c.command);

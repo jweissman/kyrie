@@ -21,7 +21,7 @@ export class Hume {
   // Waits on to the book's close, or to a watch, an hour at a time.
   async until(watch = 900) {
     while (!this.ending().length && this.j.watch() < watch && this.j.campaign.running) {
-      const c = this.j.find('^Wait › An hour') ?? this.j.find('^Wait › A while');
+      const c = this.j.find('^Wait an hour') ?? this.j.find('^Wait a while');
       if (!c) { break; }
       await this.j.perform(c.command, c.label);
     }

@@ -10,7 +10,7 @@ describe('what one person hears', () => {
     const j = await Journey.start('test/fixtures/probes/carried/probe.campaign.json');
     await j.play('Tell Abel his flock');
     expect(j.holds('heardOf', 'p__abel', 'p__flock_lie')).toBe(true);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.holds('heardOf', 'p__kemble', 'p__flock_lie')).toBe(true);
     expect(j.holds('heardOf', 'p__harker', 'p__flock_lie')).toBe(false);
     await j.play('=until heardOf(harker, flock_lie)');

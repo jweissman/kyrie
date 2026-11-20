@@ -23,7 +23,7 @@ const set = (g: Ombra, name: string, ...args: string[]) => {
   const c = g.j.campaign as unknown as Camp;
   c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call(`ombra__${name}`, ...args.map(a => (a === 'party' ? a : `ombra__${a}`))) }]));
 };
-const attempt = async (g: Ombra, step: string, done: () => boolean, { tries = 10, wait = 'Wait › A while' } = {}) => {
+const attempt = async (g: Ombra, step: string, done: () => boolean, { tries = 10, wait = 'Wait a while' } = {}) => {
   for (let i = 0; i < tries && !done(); i += 1) { await g.play(`?${step}`); if (!done()) { await g.play(wait); } }
   expect(done()).toBe(true);
 };
@@ -36,7 +36,7 @@ describe('A Trade of One\'s Own: the Ferry', () => {
     expect(g.holds('cm_ferry_asked', 'party')).toBe(true);
     await attempt(g, 'Learn the Cuff', () => g.holds('cm_began', 'party', 'cm_t_ferry'));
     await attempt(g, 'Take the Patience\'s oars across', () => g.holds('cm_tested', 'party', 'cm_t_ferry'));
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.at('cm_dill')).toBe('ombra__drip_landing');
   };
 
@@ -106,7 +106,7 @@ describe('A Trade of One\'s Own: the Lamp', () => {
     expect(g.holds('dr_jory_trusts', 'party')).toBe(true);
     // the next morning, in a face rented afresh
     await g.play('=day 7 08:30', '>ombra__annex_counter', 'Rent the Owl', 'Put on the Owl', '>ombra__lamp_yard');
-    await attempt(g, 'Mend the lamp-yard\'s oil-pump', () => g.holds('cm_tested', 'party', 'cm_t_lamp'), { tries: 12, wait: 'Wait › An hour' });
+    await attempt(g, 'Mend the lamp-yard\'s oil-pump', () => g.holds('cm_tested', 'party', 'cm_t_lamp'), { tries: 12, wait: 'Wait an hour' });
     const purse = g.gold();
     await g.play('Fill the lamps full, and buy the lamp-boys');
     expect(g.holds('cm_oil_paid', 'party')).toBe(true);
@@ -120,10 +120,10 @@ describe('A Trade of One\'s Own: the Lamp', () => {
     const g = await start('bard'); give(g, 20);
     await g.play('=day 8 09:00');
     set(g, 'cm_in', 'party', 'cm_t_lamp');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.measure('cm_trades', 'party')).toBe(1);
     set(g, 'dr_strike_broken', 'party');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.measure('cm_trades', 'party')).toBe(0);
     expect(g.holds('cm_in', 'party', 'cm_t_lamp')).toBe(false);
   }, 240000);
@@ -134,7 +134,7 @@ describe('A Trade of One\'s Own: the Chandler\'s stall, and the Procession', () 
     const g = await start('mage'); give(g, 30);
     await face(g, 'Cockle');
     await g.play('>ombra__bread_market', 'Ask Mistress Crumb whether the stall wants');
-    await attempt(g, 'Tally the stall', () => g.holds('cm_began', 'party', 'cm_t_chandler'), { tries: 8, wait: 'Wait › A while' });
+    await attempt(g, 'Tally the stall', () => g.holds('cm_began', 'party', 'cm_t_chandler'), { tries: 8, wait: 'Wait a while' });
     await g.play('=11:30');
     expect(g.at('cm_teale')).toBe('ombra__bread_market');
     await g.play('?Watch the customer at the wicks');
@@ -156,7 +156,7 @@ describe('A Trade of One\'s Own: the Chandler\'s stall, and the Procession', () 
     expect(g.carries('cm_scale')).toBe(true);
     // three trades' work, in a body that has earned it: the third is what the endowment asks
     set(g, 'cm_in', 'party', 'cm_t_ferry'); set(g, 'cm_in', 'party', 'cm_t_lamp');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.measure('cm_trades', 'party')).toBe(3);
     await g.play('Have Wren take on the work of three trades');
     expect(g.holds('cm_body_endowed', 'party')).toBe(true);
@@ -165,11 +165,11 @@ describe('A Trade of One\'s Own: the Chandler\'s stall, and the Procession', () 
   it('two trades that took you in and a city that is not on strike: the Procession is ready, and walks into the Urn Hall on the ninth night', async () => {
     const g = await start('warrior'); give(g, 10);
     set(g, 'cm_in', 'party', 'cm_t_ferry'); set(g, 'cm_in', 'party', 'cm_t_lamp'); set(g, 'holdsFace', 'party', 'face_gull'); set(g, 'fitted', 'party', 'face_gull');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.holds('handReady', 'party', 'hand_procession')).toBe(false);
     expect(g.holds('arcBegun', 'party', 'hand_procession')).toBe(true);
     set(g, 'dr_strike_settled', 'party');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.holds('handReady', 'party', 'hand_procession')).toBe(true);
     await g.play('Put on the Gull', '=day 9 19:00', '>ombra__urn_hall');
     await g.play('Walk the Trades\' procession');
@@ -181,10 +181,10 @@ describe('A Trade of One\'s Own: the Chandler\'s stall, and the Procession', () 
   it('a company with one trade, or with the strike unsettled, is not offered the Procession', async () => {
     const g = await start('warrior');
     set(g, 'cm_in', 'party', 'cm_t_ferry');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.holds('handReady', 'party', 'hand_procession')).toBe(false);
     set(g, 'cm_in', 'party', 'cm_t_lamp');
-    await g.play('Wait › A while');
+    await g.play('Wait a while');
     expect(g.holds('handReady', 'party', 'hand_procession')).toBe(false);
   }, 240000);
 });
@@ -202,16 +202,16 @@ describe('The Drip and the Trades: the world never enters an invalid state', () 
       + 'Search here|prepare spells|Light$|Put out|Grave');
     const wanted = new RegExp('^(To the (Drip|Lamp|Rain|kitchen|Anonymous|cistern|bread|eel|Row quay)|'
       + 'Ask|Speak|Say|Buy|Leave|Take|Put|Tell|Watch|Mend|Fill|Light the|Read|Knock|Go along|Count|Pay|Sell|Carry|'
-      + 'Weigh|Tally|Learn|Stand|Sit|Offer|Play|Reckon|Wait › An hour)');
+      + 'Weigh|Tally|Learn|Stand|Sit|Offer|Play|Reckon|Wait an hour)');
     const seen = new Set<string>();
     let seed = 7;
     for (let i = 0; i < 200 && g.running; i += 1) {
       seed = (seed * 1103515245 + 12345) % 2147483648;
       const offered = g.j.choices().filter(c => wanted.test(c.label) && !never.test(c.label));
-      if (offered.length === 0) { await g.play('Wait › An hour'); continue; }
+      if (offered.length === 0) { await g.play('Wait an hour'); continue; }
       const pick = offered[seed % offered.length]!;
       seen.add(pick.label.replace(/ · .*$/, ''));
-      try { await g.play(pick.label.replace(/ · .*$/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')); } catch { await g.play('Wait › An hour'); }
+      try { await g.play(pick.label.replace(/ · .*$/, '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&')); } catch { await g.play('Wait an hour'); }
       for (const p of people) { expect(g.j.campaign.world.related('at', `ombra__${p}`).length).toBeLessThanOrEqual(1); }
       if (g.holds('dr_pot_secured', 'party')) { expect(g.holds('dr_kitchen_shut', 'party') && !g.holds('dr_pot_dry', 'party')).toBe(false); }
       if (g.holds('dr_boat_sound', 'party')) { expect(g.holds('dr_berth_sold', 'party') && g.holds('dr_rill_hired', 'party')).toBe(false); }

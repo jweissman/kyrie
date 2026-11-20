@@ -36,7 +36,7 @@ describe('a kind of the module\'s own, used', () => {
     // Whole, it does nothing for anyone, and is not offered.
     expect(names(t).filter(n => /use a day tonic|day tonic: Use/.test(n))).toEqual([]);
     hurt(t, 6);
-    await t.play('Wait › A while');
+    await t.play('Wait a while');
     const before = hp(t).hp;
     await t.play('Tend Ama › Ama: use a day tonic');
     const healed = hp(t).hp - before;

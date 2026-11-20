@@ -12,7 +12,7 @@ const k = Keep.id;
 describe('the silent lord: malice, at the generated keep', () => {
   it('lets a thief who has read the gate lift the wicket’s bar without a bribe or a bell', async () => {
     const j = await Keep.at('gatehouse', { calling: 'thief' });
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Keep.knows(j, 'wire_seen')).toBe(true);
     const site = await Keep.site();
     await j.play('==day 10 23:00');

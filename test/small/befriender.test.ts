@@ -22,7 +22,7 @@ describe('a befriender', () => {
     expect(bonded(t)).toBe(true);
     await t.play('Ask (Bran|him) to come with you', 'To the lane', 'To the far field');
     expect(t.journey.at('t__bran')).toBe('t__field');
-    await t.play('Let (Bran|him) make (their|his) own way', 'To the lane', 'To the yard', 'Wait › An hour', 'To the lane',
+    await t.play('Let (Bran|him) make (their|his) own way', 'To the lane', 'To the yard', 'Wait an hour', 'To the lane',
       'To the far field');
     // Parted and reunited: the horse is where it was left, the bond stands, and it can be led again.
     expect([t.journey.at('t__bran'), bonded(t)]).toEqual(['t__field', true]);

@@ -11,13 +11,13 @@ describe('one on an errand of their own', () => {
   it('walks there a way at a time, and is seen going', async () => {
     const j = await Journey.start('test/fixtures/probes/errand/probe.campaign.json');
     const where: string[] = [];
-    for (let i = 0; i < 8; i++) { await j.play('Wait › A while'); where.push(j.at('p__webb')!); }
+    for (let i = 0; i < 8; i++) { await j.play('Wait a while'); where.push(j.at('p__webb')!); }
     expect([...new Set(where)]).toEqual(['p__yard', 'p__lane', 'p__keld']);
     expect(j.page).toContain('Webb takes the yard gate toward the lane to Keld.');
   }, 30000);
   it('is not warned off by a peaceable hound, whatever its kind', async () => {
     const j = await Journey.start('test/fixtures/probes/errand/probe.campaign.json');
-    await j.play('Wait › A while', 'Wait › A while');
+    await j.play('Wait a while', 'Wait a while');
     expect(j.holds('warned', 'p__bolt', 'party')).toBe(false);
     expect(j.page).not.toMatch(/Bolt stands its ground|will not have you here/);
   }, 30000);
@@ -28,7 +28,7 @@ describe('one on an errand of their own', () => {
 describe('an errand for someone declared elsewhere', () => {
   it('says what they go by and how far ahead they plan', async () => {
     const j = await Journey.start('test/fixtures/probes/errand-elsewhere/probe.campaign.json');
-    for (let i = 0; i < 12; i++) { await j.play('Wait › A while'); }
+    for (let i = 0; i < 12; i++) { await j.play('Wait a while'); }
     expect(j.at('p__ianthe')).toBe('p__guild');
   }, 30000);
   it('is written as it was read', () => {

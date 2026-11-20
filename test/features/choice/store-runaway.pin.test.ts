@@ -63,8 +63,8 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     expect([j, handed.journey].map(x => x.campaign.events.some(e => e.combat.some(c => c.type === 'attack'))))
       .toEqual([false, false]);
     // Left alone two days, the poison is laid as the merchant said, told where the company is, and she is gone.
-    for (const wait of ['Wait › Until dark', 'Wait › Until first light', 'Wait › Until dark', 'Wait › Until first light',
-      'Wait › Until dark']) { await given.journey.step(wait); }
+    for (const wait of ['Wait until dark', 'Wait until first light', 'Wait until dark', 'Wait until first light',
+      'Wait until dark']) { await given.journey.step(wait); }
     expect(given.journey.campaign.events.map(e => e.response).join(' '))
       .toContain('Word comes round Newmeet: Falkor has laid poison under the grain');
     expect([given.journey.holds('region__s1_u_runaway_lost', job),

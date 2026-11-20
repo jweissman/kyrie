@@ -15,7 +15,7 @@ describe('a favour remembered in trade', () => {
     const paid = async (thanks: boolean) => {
       const t = await Tiny.start(yard(thanks));
       t.journey.coin(10);
-      await t.play('Wait › A while', 'Buy a torch');
+      await t.play('Wait a while', 'Buy a torch');
       return 10 - t.journey.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     };
     expect(await paid(false)).toBe(3);

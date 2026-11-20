@@ -125,7 +125,7 @@ describe('Low Water: the breach, the warrant and the Hearing', () => {
     expect(j.holds(L('endedBy'), L('reckoner'), L('halm'))).toBe(true);
     expect(j.holds(L('complete'), L('reckoner'))).toBe(true);
     expect(Bowl.said(j)).toContain('laughing and weeping at once');
-    await j.play('Ask Isaura what she makes of the Short Hymn now|Wait › A while', 'Say something to Isaura about the diggers');
+    await j.play('Ask Isaura what she makes of the Short Hymn now|Wait a while', 'Say something to Isaura about the diggers');
     expect(Bowl.said(j, j.taken.length - 1)).toContain('Three people. Against being shouted at.');
     await j.play('^To the hall of the Office', '^Out to Measures Square', '^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('census_ended'))).toBe(true);

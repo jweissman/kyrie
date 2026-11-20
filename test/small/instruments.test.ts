@@ -19,7 +19,7 @@ describe('the company\'s instruments', () => {
     const sky = (t: Tiny) => t.leaf.instruments!.find(i => i.id === 'sky');
     // By day, nothing to read, and it bears on nothing.
     expect(sky(mage)).toMatchObject({ said: 'Daylight.', relevant: false });
-    for (const t of [mage, warrior]) { await t.play('Wait › Until dark'); }
+    for (const t of [mage, warrior]) { await t.play('Wait until dark'); }
     expect(sky(mage)).toMatchObject({ emblem: 'sign_scythe', relevant: true });
     expect(sky(mage)!.said).toMatch(/moon.*, and the Scythe rising\.$/);
     // What it reports is said beside it, and what the sign named means (TP-04).
@@ -39,7 +39,7 @@ describe('the company\'s instruments', () => {
       calendar: { year: 1312, month: 6, day: 5 } });
     const scythe = await born('sign_scythe'), bear = await born('sign_bear');
     expect(scythe.campaign.readout.creatures.find(c => c.name === 'Wat')!.sign).toBe('sign_scythe');
-    for (const t of [scythe, bear]) { await t.play('Wait › Until dark'); }
+    for (const t of [scythe, bear]) { await t.play('Wait until dark'); }
     const said = (t: Tiny) => t.leaf.instruments!.find(i => i.id === 'sky')!.said;
     expect(said(scythe)).toMatch(/, and the Scythe rising, your own sign\.$/);
     expect(said(bear)).toMatch(/, and the Scythe rising\.$/);
@@ -48,7 +48,7 @@ describe('the company\'s instruments', () => {
   it('count the provisions exactly, and bring them forward as night comes on', async () => {
     const t = await at('warrior'), food = () => t.leaf.instruments!.find(i => i.id === 'provisions')!;
     expect(food().said).toMatch(/^Food for \\d+ days?|^No food/);
-    await t.play('Wait › Until dark');
+    await t.play('Wait until dark');
     expect(food().relevant).toBe(true);
   });
 });

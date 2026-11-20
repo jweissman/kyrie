@@ -60,7 +60,7 @@ describe('A Winter in Carth: the night at Carth, every way through it', () => {
 
   it('for a mage, a light with no fire in it: the house sees, the child does not get warm, and the vigil holds', async () => {
     const g = await Gaunt.start(build('mage'), 'g1');
-    await g.play(...phases('letter').road!, 'Wait › Until dark', 'Light on Ivo', '=140');
+    await g.play(...phases('letter').road!, 'Wait until dark', 'Light on Ivo', '=140');
     expect(g.page).toMatch(/‘Is that a fire\?’ she says\. Nobody can say it is/);
     expect(g.holds('vigilBroken', 'carth_vigil')).toBe(false);
     // Light is not warmth: nobody did anything for the child, so Hern gave her his coat.
@@ -189,7 +189,7 @@ describe('A Winter in Carth: the city\'s strands', () => {
 
   it('the tower: the unbuilding seen from Gaol Lane, Joby told, and the Master of the Fabric\'s bargain taken for the Scaifes\' rent', async () => {
     const g = await Gaunt.start();
-    await g.play(...custody, ...reeve, ...walk(), 'Wait › Until dark', 'Make a fire of straw and thorn', '=139', 'To the house-place', ...down.slice(1), ...paid, 'To the Bearer',
+    await g.play(...custody, ...reeve, ...walk(), 'Wait until dark', 'Make a fire of straw and thorn', '=139', 'To the house-place', ...down.slice(1), ...paid, 'To the Bearer',
       'Bring Ninian Hern up', 'To the Bearer', '=222', 'To Gaol Lane', 'To the Bearer', 'To the Close of Saint Oswy', '=294',
       'Talk to Canon', 'Tell Canon Laverock you have seen', 'Tell Canon Laverock you saw nothing');
     expect(g.knows('unbuilding')).toBe(true);

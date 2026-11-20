@@ -19,7 +19,7 @@ describe('a wait', () => {
     const lease = store.acquire(ids);
     try { lease.creatures[0]!.state.hp = 3; lease.commit(lease.creatures); } finally { lease.release(); }
     t.campaign.refreshProjection();
-    await t.play('Wait › An hour');
+    await t.play('Wait an hour');
     expect(t.campaign.readout.creatures.find(c => ids.includes(c.id))!.state.hp).toBe(3);
   });
 });

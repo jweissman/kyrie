@@ -17,7 +17,7 @@ describe("a ranger's mount", () => {
     const t = await Tiny.start(country, { party: [{ name: 'Wren', raceId: 'human', classId: 'ranger' }] });
     await t.play('Ask (Bran|him) to come with you', 'To the lane', 'To the far field');
     expect(t.journey.at('t__bran')).toBe('t__field');
-    await t.play('Let (Bran|him) make (their|his) own way', 'To the lane', 'To the yard', 'Wait › An hour', 'To the lane',
+    await t.play('Let (Bran|him) make (their|his) own way', 'To the lane', 'To the yard', 'Wait an hour', 'To the lane',
       'To the far field');
     expect(t.journey.at('t__bran')).toBe('t__field');
     expect(t.journey.choices().some(c => /Ask (Bran|him) to come with you/.test(c.full))).toBe(true);

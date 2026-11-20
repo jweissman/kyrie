@@ -17,7 +17,7 @@ export class Rivals {
   static async bend(cls = 'warrior') {
     const j = await this.start(cls);
     Placed.at(j, 'host__outside');
-    await j.play('=day 3 06:00', 'Wait › A while');
+    await j.play('=day 3 06:00', 'Wait a while');
     return j;
   }
   static async stage(j: Journey, n: number) {

@@ -30,7 +30,7 @@ describe('the setting/framework boundary, as it leaks', () => {
   // to wait until dark; a campaign may keep none ("night": "none"), and its months are data (data/imbar/calendar.json).
   it('keeps no sun over a sealed station', async () => {
     const t = await Tiny.start(kyr, { own: true, night: 'none' });
-    expect(labels(t).some(l => /Until dark|first light/.test(l))).toBe(false);
+    expect(labels(t).some(l => /until dark|first light/i.test(l))).toBe(false);
   });
   // L4, repaired: money was gold and the purse coin; a campaign may name its own ("currency": "credit"), the word
   // the world's text and the purse say.

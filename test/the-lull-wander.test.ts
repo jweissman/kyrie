@@ -51,7 +51,7 @@ describe('The Lull, wandered', () => {
           for (let i = 0; i < steps && j.campaign.running; i++) {
             const offered = j.choices().filter(c => !/Set down here|Give to ›|prepare spells|Make camp/.test(c.label));
             if (!offered.length) { break; }
-            const resting = /Wait › (An hour|Until)|Lie down|Sit down by the Fold-stone/;
+            const resting = /Wait (an hour|until)|Lie down|Sit down by the Fold-stone/;
             const waits = offered.filter(c => resting.test(c.label));
             const pool = waits.length && next() < 0.15 ? waits : offered.filter(c => !/^Wait/.test(c.label));
             const c = (pool.length ? pool : offered)[Math.floor(next() * (pool.length || offered.length))]!;
@@ -61,7 +61,7 @@ describe('The Lull, wandered', () => {
           }
           for (let i = 0; i < 400 && j.campaign.running && !j.campaign.world.related('reached').length; i++) {
             const c = j.find('Lie down Lull-fashion') ?? j.find('Lie down with your hands open') ?? j.find('^Sit down by the Fold-stone')
-              ?? j.find('^Wait › An hour') ?? j.find('^Wait');
+              ?? j.find('^Wait an hour') ?? j.find('^Wait');
             if (!c) { break; }
             taken.push(c.command);
             await j.perform(c.command, c.label);

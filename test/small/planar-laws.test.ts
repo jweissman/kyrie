@@ -48,7 +48,7 @@ const prepared = (t: Tiny, slot = true) => {
     if (slot) { s.ready![6] = ['plane_shift']; s.prepared![6] = ['plane_shift']; }
     lease.commit(lease.creatures);
   } finally { lease.release(); }
-  return t.play('Wait › A while');
+  return t.play('Wait a while');
 };
 const told = (t: Tiny): CombatEvent[] => t.campaign.events.at(-1)!.combat;
 const names = (t: Tiny) => PlayerView.choices(t.campaign).map(r => r.choice.name);
@@ -82,8 +82,8 @@ describe('the planes\' laws and Plane Shift', () => {
 
   it('burns the company a little each watch it stands in the Fire, and not in Imbar', async () => {
     const fire = await start('inner_fire_threshold'), vale = await start('hall'), before = hp(fire);
-    await fire.play('Wait › An hour');
-    await vale.play('Wait › An hour');
+    await fire.play('Wait an hour');
+    await vale.play('Wait an hour');
     const burns = told(fire).filter(e => e.type === 'damage' && e.damageType === 'fire');
     expect(burns.length).toBeGreaterThan(1);
     expect(hp(fire)).toBe(before - burns.reduce((n, e) => n + (e.type === 'damage' ? e.amount : 0), 0));
@@ -101,7 +101,7 @@ describe('the planes\' laws and Plane Shift', () => {
       const t = await start(`inner_${plane}_threshold`), whole = hp(t);
       hurt(t, 1, whole - 3);
       if (ward) { lay(t, ward); }
-      await t.play('Wait › An hour');
+      await t.play('Wait an hour');
       return hp(t) - (whole - 3);
     };
     const changed = await Promise.all(inner.map(p => hour(p)));
@@ -117,15 +117,15 @@ describe('the planes\' laws and Plane Shift', () => {
     // Fireproof, as a fire ward lays it, on the world's clock for two hours.
     const warded = await start('inner_fire_threshold'), before = hp(warded);
     lay(warded, 'fireproof');
-    await warded.play('Wait › An hour');
+    await warded.play('Wait an hour');
     expect(told(warded).filter(e => e.type === 'damage' && e.amount > 0)).toEqual([]);
     expect(hp(warded)).toBe(before);
     const positive = await start('inner_positive_threshold'), whole = hp(positive);
     hurt(positive, 1, whole - 3);
-    await positive.play('Wait › An hour');
+    await positive.play('Wait an hour');
     expect(hp(positive)).toBe(whole);
     const earth = await start('inner_earth_threshold');
-    await earth.play('Wait › An hour');
+    await earth.play('Wait an hour');
     expect(hp(earth)).toBe(whole);
   });
 
@@ -138,7 +138,7 @@ describe('the planes\' laws and Plane Shift', () => {
     Items.take(store, id, { id: 'sealskin', definition: 'cold_ward_focus' }); Items.equip(store, id, 'sealskin');
     FieldUse.perform(store, [id], { ability: 'cold_ward', caster: id, target: id, seed: 'water' });
     expect(store.get(id).state.conditions.find(c => c.id === 'waterproof')).toMatchObject({ clock: 'world-time' });
-    await t.play('Wait › An hour');
+    await t.play('Wait an hour');
     expect(hp(t)).toBe(whole - 3);
     Items.drop(store, id, 'sealskin');
     expect(() => FieldUse.perform(store, [id], { ability: 'cold_ward', caster: id, target: id, seed: 'again' }))
@@ -165,7 +165,7 @@ describe('the planes\' laws and Plane Shift', () => {
     // Not offered again to where the company already is; offered to another plane.
     expect(names(t)).not.toContain('Have Ysabel cast Plane Shift to the Plane of Fire');
     const before = hp(t);
-    await t.play('Wait › An hour');
+    await t.play('Wait an hour');
     expect(hp(t)).toBeLessThan(before);
   });
 

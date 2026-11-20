@@ -66,7 +66,7 @@ describe('The Patient Star, the revision pass', () => {
   it('the cairn lamp keeps the wolves off a company caught at the cord after dark', async () => {
     const j = await K.start();
     await j.play('Rusk.*Buy › An umber felt', 'Pack › An umber felt cloak › Equip', 'Rusk.*Buy › A horn lantern', 'To the Ramp head', "To Ennick's lower road", 'To the upper terraces', "To the holders' cord");
-    for (let i = 0; i < 12 && !j.holds('dark'); i++) { await j.step('The company: Wait › Until'); }
+    for (let i = 0; i < 12 && !j.holds('dark'); i++) { await j.step('The company: Wait until'); }
     expect(j.holds('dark')).toBe(true);
     expect(j.choices().some(c => /Light the lantern in the cairn/.test(c.full ?? c.label))).toBe(false);
     await j.play('a candle: Light');

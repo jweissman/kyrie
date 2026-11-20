@@ -34,7 +34,7 @@ export const nod = 'Give Hepzibah the nod for the next scene';
 export async function toTheCity(seed = 'g1') {
   const k = await KP.start(seed);
   await k.play(...steps('bow'));
-  await k.play('Wait › An hour', 'Out to the yard of the Painted Moon', "Take the King's writ", 'Out to the Westgate', 'To the Chepe',
+  await k.play('Wait an hour', 'Out to the yard of the Painted Moon', "Take the King's writ", 'Out to the Westgate', 'To the Chepe',
     'To Guildhall Square', 'To the Minster Close', 'To the Eastgate', "To the King's Road");
   await k.play('To the River Gate', 'Say who you are, since the sergeant has not asked', "We are. The Marchants' masquers, and we are late");
   return k;

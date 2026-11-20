@@ -354,7 +354,7 @@ describe('The Cast-Room keeps its law', () => {
     const g = await Ombra.start(campaign, 'explore', burglar());
     await g.play(...sleeDeal);
     const persons = ['pavane', 'dov', 'mk_maule', 'th_slee', 'peck', 'vane', 'lacke'].filter(p => present(g, p));
-    const skip = /^(Attack|Lift|Name|Make camp|Search)|Set down|Pack|Light|Break|Sink|Wait › Until/;
+    const skip = /^(Attack|Lift|Name|Make camp|Search)|Set down|Pack|Light|Break|Sink|Wait until/;
     for (let i = 0; i < 200 && g.running; i++) {
       const offered = g.j.choices().filter(c => !skip.test(c.label) && !skip.test(c.full));
       if (!offered.length) { break; }

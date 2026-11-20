@@ -50,7 +50,7 @@ describe('Authorability probes', () => {
   it('K2: a condition applied for hours outside a fight takes, and wears off with the clock', async () => {
     expect((await Probe.lint('sleep-hours/probe.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
     const s = await Probe.start('sleep-hours/probe.campaign.json', 'q');
-    await Probe.act(s, '^Wait › A while');
+    await Probe.act(s, '^Wait a while');
     const body = () => s.campaign.readout.creatures.find(c => s.campaign.readout.partyIds.includes(c.id))!;
     const asleep = body().state.conditions.some(c => c.id === 'asleep');
     expect(Probe.holds(s, 'awake', 'p__member_party_1')).toBe(!asleep);
@@ -63,7 +63,7 @@ describe('Authorability probes', () => {
 
   it('K2: the same condition for turns lasts as many watches outside a fight', async () => {
     const s = await Probe.start('sleep-turns/probe.campaign.json', 'q');
-    await Probe.act(s, '^Wait › A while');
+    await Probe.act(s, '^Wait a while');
     const body = s.campaign.readout.creatures.find(c => s.campaign.readout.partyIds.includes(c.id))!;
     const held = body.state.conditions.find(c => c.id === 'asleep');
     if (held) { expect(held.clock).toBe('world-time'); expect(held.remaining).toBeGreaterThan(0); }
@@ -71,7 +71,7 @@ describe('Authorability probes', () => {
 
   it('K4: a query asked about someone not yet known is answered for whoever satisfies it', async () => {
     const s = await Probe.start('unbound-query/probe.campaign.json');
-    await Probe.act(s, '^Wait › A while');
+    await Probe.act(s, '^Wait a while');
     expect(Probe.holds(s, 'p__grew', 'p__room1')).toBe(true);
   }, 60000);
 
@@ -82,7 +82,7 @@ describe('Authorability probes', () => {
     await Probe.act(s, 'far door');
     const sizes: number[][] = [];
     for (let i = 0; i < 8; i++) {
-      await Probe.act(s, '^Wait › An hour');
+      await Probe.act(s, '^Wait an hour');
       sizes.push(['h__bedroom', 'h__coats_low', 'h__long_hall'].map(r => Probe.measure(s, 'h__size', r)));
     }
     expect(sizes.some(([a, b, c]) => a !== b || b !== c)).toBe(true);
@@ -107,7 +107,7 @@ describe('Authorability probes', () => {
     await Probe.act(s, 'far door');
     expect(Probe.choices(s).some(c => /crack in the glass/.test(c.label))).toBe(true);
     for (let i = 0; i < 24 && Probe.holds(s, 'connects', 'h__nowhere', 'h__long_hall', 'h__coats_high'); i++) {
-      await Probe.act(s, '^Wait › An hour');
+      await Probe.act(s, '^Wait an hour');
     }
     expect(Probe.holds(s, 'connects', 'h__nowhere', 'h__long_hall', 'h__coats_high')).toBe(false);
     expect(Probe.choices(s).some(c => /crack in the glass/.test(c.label))).toBe(false);
@@ -170,7 +170,7 @@ describe('Authorability probes', () => {
   it('K11: selm weighs less than nothing, and the world can say so', async () => {
     const s = await Probe.start('selm/selm.campaign.json');
     expect(Probe.measure(s, 'mass', 'selm_stone')).toBe(-2);
-    expect(await Probe.act(s, '^Wait › A while')).toContain('does not come down');
+    expect(await Probe.act(s, '^Wait a while')).toContain('does not come down');
   }, 60000);
 
   it('F15: an observation near a variable is told near each entity its condition finds, wherever that is', async () => {
@@ -203,7 +203,7 @@ describe('Authorability probes', () => {
     let told = '';
     for (let i = 0; i < 40 && Probe.measure(s, 'watch', 'clock') < 108; i++) {
       expect(Probe.holds(s, 'weary', 'party')).toBe(false);
-      told = await Probe.act(s, '^Wait › An hour');
+      told = await Probe.act(s, '^Wait an hour');
     }
     expect(Probe.holds(s, 'weary', 'party')).toBe(true);
     expect(told).not.toContain('weary');
@@ -214,7 +214,7 @@ describe('Authorability probes', () => {
     expect(Probe.holds(s, 'weary', 'party')).toBe(false);
     // The eighteen hours run from waking, not from lying down: a long night does not leave less of the day.
     const woke = Probe.measure(s, 'watch', 'clock');
-    for (let i = 0; i < 40 && Probe.measure(s, 'watch', 'clock') < woke + 102; i++) { await Probe.act(s, '^Wait › An hour'); }
+    for (let i = 0; i < 40 && Probe.measure(s, 'watch', 'clock') < woke + 102; i++) { await Probe.act(s, '^Wait an hour'); }
     expect(Probe.holds(s, 'weary', 'party')).toBe(false);
   }, 60000);
 

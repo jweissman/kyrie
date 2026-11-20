@@ -50,7 +50,7 @@ describe('The Grand Tour, second pass', () => {
 
   it('the Courant\'s chapter on the funeral morning, set beside the winch-gang\'s memory, makes the case', async () => {
     const g = await Sennet.start(undefined, 'sennet', Sennet.one('cleric', 'acolyte', 'human', 'Ama'));
-    await g.play(...steps('outcomes', 'found_out').slice(0, 6), '=day 3 08:10', '>sennet__taproom', 'Wait › A while');
+    await g.play(...steps('outcomes', 'found_out').slice(0, 6), '=day 3 08:10', '>sennet__taproom', 'Wait a while');
     expect(g.knows('thresholds_nine')).toBe(true);
     expect(g.knows('quance_pushed')).toBe(true);
     expect(g.page).toContain('One of them is lying in the Courant');

@@ -14,14 +14,14 @@ describe('what each calling reads in the House', () => {
     Placed.at(j, 'arcology__row');
     expect(j.seen()).toMatch(/numbered in sixes/);
     Placed.at(j, 'arcology__drawers');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.seen()).toMatch(/ring has six notches/);
   }, 120000);
 
   it('a ranger reads the owlbear’s line and goes round it', async () => {
     const j = await Rivals.start('ranger');
     Placed.at(j, 'arcology__foot');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Rivals.is(j, 'knows', 'party', 'owl_runs')).toBe(true);
     expect(Rivals.is(j, 'warned', 'owlbear', 'party')).toBe(true);
     await j.play('Take the owlbear.s line');
@@ -34,7 +34,7 @@ describe('what each calling reads in the House', () => {
     Placed.at(j, 'arcology__terrace');
     expect(j.seen()).toMatch(/figures of grey light file out/);
     Placed.at(j, 'arcology__gantry');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Rivals.is(j, 'knows', 'party', 'shift_known')).toBe(true);
     await j.play('Have .* say the office for the tenants');
     expect(Rivals.is(j, 'state', 'winch_a', 'wound')).toBe(true);

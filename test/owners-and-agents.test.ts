@@ -35,7 +35,7 @@ describe('a thing on the floor', () => {
     const j = await Journey.start('test/fixtures/probes/lent-ladder/probe.campaign.json');
     expect(await j.play('a lantern: Take')).toContain('takes a lantern.');
     await j.play('Ask the clerk for the loan');
-    expect(await j.play("the Guild's ladder: Take", 'Wait › A while')).not.toContain('That is mine');
+    expect(await j.play("the Guild's ladder: Take", 'Wait a while')).not.toContain('That is mine');
     expect(j.holds('objected', 'p__clerk', 'p__ladder')).toBe(false);
   }, 60000);
 });

@@ -134,7 +134,7 @@ describe('Low Water, the Auditor: the watch, the doubles and the jar', () => {
     expect(j.at(L('doubles'))).toBe(L('ward_landing'));
     expect(Bowl.page(j)).toContain('coming slowly up the steps');
     // Wait on the landing and they come; every way past them is still open in the fight.
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.holds('tolerates', L('doubles'), 'party')).toBe(false);
     expect(j.choices().some(c => c.label === 'Attack')).toBe(true);
     await j.play('Ask Isaura to measure your doubles');
@@ -273,7 +273,7 @@ describe('Low Water, the Auditor: the Hearing, the heart and the stair', () => {
     const fought = await Bowl.start('d3');
     await fought.play(...Bowl.arrive, ...Bowl.bell, '^To the new mud');
     await Bowl.untilNight(fought);
-    await fought.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6), 'Wait › A while');
+    await fought.play(...Bowl.underMere.slice(1), 'Ward in the water', '=+12', ...Bowl.fromSeat.slice(6), 'Wait a while');
     for (let i = 0; i < 12 && fought.find('^Attack'); i++) { await fought.play('^Attack'); }
     expect(Bowl.pages(fought)).toContain('The double that is late');
     expect(fought.holds('dead', L('doubles')) || /The fight is lost/.test(Bowl.pages(fought))).toBe(true);

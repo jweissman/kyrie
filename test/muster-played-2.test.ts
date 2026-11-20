@@ -62,7 +62,7 @@ describe('What telling and knowing cost', () => {
   it('has the Centurion march the First Century out, taking the scout and the wall with her', async () => {
     const j = await start();
     await toForum(j);
-    await j.play('To the barracks yard', 'Tell the Centurion that the empire is gone', '=+40', 'Wait › A while');
+    await j.play('To the barracks yard', 'Tell the Centurion that the empire is gone', '=+40', 'Wait a while');
     expect(j.at('muster__merula')).toBe('muster__sending_gate');
     expect(j.find('Ask the Centurion for a scout')).toBeUndefined();
   }, T);
@@ -113,7 +113,7 @@ describe('What telling and knowing cost', () => {
     await toForum(j);
     await interview(j);
     await j.play('Into the apothecary', 'Let Dame Orsa ask what herbs you carried over the Fells', 'Say that you asked a fair price, and would take a fair one',
-      'Ask Dame Orsa what the Prefect takes for his sleep', 'to the forum', 'To the Praetorium', 'Tell the Prefect what Dame Orsa puts in his evening cup', 'Wait › A while');
+      'Ask Dame Orsa what the Prefect takes for his sleep', 'to the forum', 'To the Praetorium', 'Tell the Prefect what Dame Orsa puts in his evening cup', 'Wait a while');
     expect(j.holds('doseTold', 'party')).toBe(true);
     expect(j.at('muster__orsa')).toBe('muster__praetorium_hall');
   }, T);

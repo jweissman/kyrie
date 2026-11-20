@@ -29,7 +29,7 @@ const toDawn = async (j: Journey, stand = yielded) => {
   if (j.watch() < 354) { await j.play('=day 3 19:00'); }
   for (let i = 0; i < 24 && ending(j) === undefined && j.campaign.running; i++) {
     if (j.choices().some(c => c.label.startsWith(arrows))) { await j.play(arrows); }
-    await j.play(j.choices().some(c => c.label.startsWith(stand)) ? stand : 'Wait › An hour');
+    await j.play(j.choices().some(c => c.label.startsWith(stand)) ? stand : 'Wait an hour');
   }
 };
 
@@ -113,7 +113,7 @@ describe("Three Nights at Sallowfield", () => {
     const pitch = ["Into Kersey's forge", 'a pot of pitch: Take', 'Out to Sallowfield green'];
     const toFirstReport = async () => {
       const j = await start();
-      await j.play(...steps.muster, ...pitch, ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+      await j.play(...steps.muster, ...pitch, ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait an hour', 'Wait an hour', 'Wait an hour');
       return j;
     };
     it('opens the road to the nave when the bridge falls, and shows it in the second wave', async () => {
@@ -139,12 +139,12 @@ describe("Three Nights at Sallowfield", () => {
     it("gives up a post that stood, and it is the enemy's without a second fight", async () => {
       const j = await toFirstReport();
       expect(held(j, 'stands1', 'ford_stones')).toBe(true);
-      await j.play('Give up the ford stones without a second fight', 'Wait › An hour');
+      await j.play('Give up the ford stones without a second fight', 'Wait an hour');
       expect(held(j, 'overrun2', 'ford_stones')).toBe(true);
     }, 300000);
     it('holds a post to the last, and its people do not come back', async () => {
       const j = await toFirstReport();
-      await j.play('Hold the ford stones to the last', 'Wait › An hour');
+      await j.play('Hold the ford stones to the last', 'Wait an hour');
       expect(held(j, 'felled', 'ashworth')).toBe(true);
     }, 300000);
   });
@@ -188,7 +188,7 @@ describe("Three Nights at Sallowfield", () => {
     expect(held(j, 'wyreEarly', 'party')).toBe(true);
     expect(j.measure('assaultAt', 'wyre')).toBe(222);
     await j.play('=day 2 19:00');
-    for (let i = 0; i < 30 && ending(j) === undefined && j.campaign.running; i++) { await j.play('Wait › An hour'); }
+    for (let i = 0; i < 30 && ending(j) === undefined && j.campaign.running; i++) { await j.play('Wait an hour'); }
     expect(ending(j)).toBeDefined();
     expect(j.watch()).toBeLessThan(330);
   }, 300000);
@@ -217,7 +217,7 @@ describe("Three Nights at Sallowfield", () => {
     expect(given.page).not.toContain('Nobody was asked');
     const passive = await start();
     await passive.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 19:00');
-    for (let i = 0; i < 24 && ending(passive) === undefined && passive.campaign.running; i++) { await passive.play('Wait › An hour'); }
+    for (let i = 0; i < 24 && ending(passive) === undefined && passive.campaign.running; i++) { await passive.play('Wait an hour'); }
     expect(held(passive, 'picksTook', 'party')).toBe(true);
     expect(passive.page).toContain('Nobody was asked');
   }, 300000);
@@ -268,7 +268,7 @@ describe("Three Nights at Sallowfield", () => {
       'Into the tithe granary', 'Steady Tib Elland with a word', "Ask Tib Elland to hold Quarmby's mill yard", 'Out to Sallowfield green',
       'To the high track', 'To the high fold', "Ask Old Crowther to hold Quarmby's mill yard", 'To the high track', 'To Sallowfield green',
       "To Greenhalgh's farm", "Ask Ned Greenhalgh to hold Quarmby's mill yard", 'To Sallowfield green',
-      ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+      ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait an hour', 'Wait an hour', 'Wait an hour');
     for (const p of ['ford stones', "Quarmby's mill yard"]) {
       if (j.choices().some(c => c.label.startsWith(`Hold the ${p}`) || c.label.startsWith(`Hold ${p}`))) { await j.play(`Hold .*${p}.* to the last`); }
     }
@@ -279,10 +279,10 @@ describe("Three Nights at Sallowfield", () => {
 
   it('pays for weariness at the clash, and a night in camp before it avoids the bill', async () => {
     const tired = await start();
-    await tired.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+    await tired.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 19:00', 'Wait an hour', 'Wait an hour', 'Wait an hour');
     expect(held(tired, 'wearyMod', 'party')).toBe(true);
     const rested = await start();
-    await rested.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 06:00', 'Make camp and sleep|Take a bed and supper', '=day 3 19:00', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour');
+    await rested.play(...steps.muster, ...steps.toTheFord, ...steps.wall, '=day 3 06:00', 'Make camp and sleep|Take a bed and supper', '=day 3 19:00', 'Wait an hour', 'Wait an hour', 'Wait an hour');
     expect(held(rested, 'weary', 'party')).toBe(false);
     expect(held(rested, 'wearyMod', 'party')).toBe(false);
   }, 300000);

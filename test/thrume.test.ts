@@ -40,11 +40,11 @@ describe('Thrume', () => {
     const s = await T.start();
     let said = '';
     // Saltgrave
-    said = await T.play(s, ["^To the market", "notice", "^Into Dunmore", "what is wrong", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "^Out", "^Into the Saltcellar", "about the giants", "^Out", "^Into the Red Lantern", "^To the smoke", "Listen", "Lie down", "^To the Red Lantern's front", "^Out", "^To the carters", "^Wait › Until dark", "^Wait › A while", "^To the market", "^Into the Red Lantern", "where the carts go", "^Take$", "^Out"]);
+    said = await T.play(s, ["^To the market", "notice", "^Into Dunmore", "what is wrong", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "Buy › A torch", "^Out", "^Into the Saltcellar", "about the giants", "^Out", "^Into the Red Lantern", "^To the smoke", "Listen", "Lie down", "^To the Red Lantern's front", "^Out", "^To the carters", "^Wait until dark", "^Wait a while", "^To the market", "^Into the Red Lantern", "where the carts go", "^Take$", "^Out"]);
     expect(T.holds(s, 'thrume__ringBroken', 'thrume__hushed')).toBe(true);
     expect(T.holds(s, 'knows', 'party', 'thrume__hush_named')).toBe(true);
     // Shoulder
-    said = await T.play(s, ["^To the miners", "about the giants", "^To the foot of the scree", "^To the top of the scree", "^To the glacier", "^Search here", "^To the midden", "^To the thrall", "why the giants", "won't look", "^To the midden", "^Take$", "^To the glacier", "^To the top of the scree", "^Wait › Until first light", "^To the gate-yard", "guest-pole", "^To the long hall|^Out to the long hall", "^To the mothers", "^Give", "who is warm", "teach you the song", "thing in the cellar", "^To the long hall|^Out to the long hall", "^To the high seat", "why he took", "Swear", "^Take$", "^To the long hall|^Out to the long hall"]);
+    said = await T.play(s, ["^To the miners", "about the giants", "^To the foot of the scree", "^To the top of the scree", "^To the glacier", "^Search here", "^To the midden", "^To the thrall", "why the giants", "won't look", "^To the midden", "^Take$", "^To the glacier", "^To the top of the scree", "^Wait until first light", "^To the gate-yard", "guest-pole", "^To the long hall|^Out to the long hall", "^To the mothers", "^Give", "who is warm", "teach you the song", "thing in the cellar", "^To the long hall|^Out to the long hall", "^To the high seat", "why he took", "Swear", "^Take$", "^To the long hall|^Out to the long hall"]);
     expect(T.holds(s, 'thrume__sworn', 'thrume__morrach')).toBe(true);
     expect(T.holds(s, 'thrume__freed', 'thrume__aud')).toBe(true);
     expect(T.holds(s, 'knows', 'party', 'thrume__song_known')).toBe(true);
@@ -78,7 +78,7 @@ describe('Thrume', () => {
     const s = await T.start();
     let said = '';
     while (!T.holds(s, 'thrume__woken', 'thrume__fells') && T.watch(s) < 1296) {
-      said += await T.play(s, [T.choices(s).some(c => /^Wait › Until dark/.test(c.label)) ? '^Wait › Until dark' : '^Wait › Until first light']);
+      said += await T.play(s, [T.choices(s).some(c => /^Wait until dark/.test(c.label)) ? '^Wait until dark' : '^Wait until first light']);
     }
     expect(T.holds(s, 'thrume__woken', 'thrume__fells')).toBe(true);
     expect(T.watch(s)).toBeLessThan(1296);
@@ -91,9 +91,9 @@ describe('Thrume', () => {
     const s = await T.start();
     await T.play(s, ['^To the market', '^To the miners', '^To the foot of the scree', '^To the top of the scree', '=132', '^To the gate-yard']);
     expect(T.holds(s, 'thrume__challenged', 'party')).toBe(true);
-    await T.play(s, ['^Wait › A while', '^Wait › A while']);
+    await T.play(s, ['^Wait a while', '^Wait a while']);
     expect(T.holds(s, 'thrume__roused', 'thrume__hold')).toBe(true);
-    for (let i = 0; i < 6 && !T.fallen(s); i++) { try { await T.play(s, ['^Wait › A while']); } catch { break; } }
+    for (let i = 0; i < 6 && !T.fallen(s); i++) { try { await T.play(s, ['^Wait a while']); } catch { break; } }
     expect(T.fallen(s)).toBeGreaterThan(0);
   }, 300000);
 });

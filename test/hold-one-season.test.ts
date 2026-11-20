@@ -10,7 +10,7 @@ import { Journey as Driver } from '../src/session/journey';
 class Journey {
   static readonly campaign = 'data/campaigns/hold-one-season.campaign.json';
   static async start(seed = 'p', campaign = Journey.campaign) { return new Journey(await Driver.start(campaign, seed)); }
-  async waitUntil(test: () => boolean, label = 'Wait › An hour', most = 60) {
+  async waitUntil(test: () => boolean, label = 'Wait an hour', most = 60) {
     for (let i = 0; i < most && !test(); i++) { await this.act(label); }
     return test();
   }
@@ -70,7 +70,7 @@ describe('Hold One Season', () => {
     const j = await Journey.start();
     // No felt: the cutter goes in bare.
     await j.play('Rusk.*Buy › A horn lantern', 'Rusk.*Buy › A flask', ...down, "Ways on: To the ninth vault$");
-    await j.play('The company: Wait › An hour', 'The company: Wait › An hour');
+    await j.play('The company: Wait an hour', 'The company: Wait an hour');
     expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(48);
     expect(j.page).toMatch(/footsteps sound late/);
     await j.play('Go into the beam and drag Garret out');
@@ -89,7 +89,7 @@ describe('Hold One Season', () => {
   it('J3, the world does not wait: the crew goes down, argues, frees him; Ness takes the jars; no debt is forgiven', async () => {
     const j = await Journey.start();
     await j.play(...bargain, "To the Mutual's yard");
-    expect(await j.waitUntil(() => j.holds('season__cameUp', 'season__garret'), 'The company: Wait › Until', 40)).toBe(true);
+    expect(await j.waitUntil(() => j.holds('season__cameUp', 'season__garret'), 'The company: Wait until', 40)).toBe(true);
     expect(j.holds('keeps', 'season__ness', 'season__jars')).toBe(true);
     expect(j.measure('day', 'clock')).toBeGreaterThanOrEqual(7);
     await j.play("Into the Mutual's hall");
@@ -123,7 +123,7 @@ describe('Hold One Season', () => {
     const j = await Journey.start();
     await j.play(...outfit, 'To the Ramp head', "To Ennick's lower road", 'To the shrine', 'To the Weeping Wall');
     expect(j.offers('Ways on: To the Flood Line')).toBe(false);
-    expect(await j.waitUntil(() => j.offers('Ways on: To the Flood Line'), 'The company: Wait › Until', 40)).toBe(true);
+    expect(await j.waitUntil(() => j.offers('Ways on: To the Flood Line'), 'The company: Wait until', 40)).toBe(true);
     expect(j.measure('season', 'clock')).toBe(3);
     await j.play('Ways on: To the Flood Line');
     expect(j.at('party')).toBe('season__flood_line');
@@ -134,18 +134,18 @@ describe('Hold One Season', () => {
     const j = await Journey.start('p', 'test/fixtures/patient/deep.campaign.json');
     await j.play(...outfit, ...down, 'To the Flood Line', 'To the Sluice');
     await j.play('Wind the Sluice open');
-    expect(await j.waitUntil(() => j.holds('season__washedOut', 'season__lower_road'), 'The company: Wait › Until', 12)).toBe(true);
-    expect(await j.waitUntil(() => j.holds('season__drained', 'season__quell_wells'), 'The company: Wait › Until', 12)).toBe(true);
+    expect(await j.waitUntil(() => j.holds('season__washedOut', 'season__lower_road'), 'The company: Wait until', 12)).toBe(true);
+    expect(await j.waitUntil(() => j.holds('season__drained', 'season__quell_wells'), 'The company: Wait until', 12)).toBe(true);
   }, 120000);
 
   it('J8, the mirror: cranked away from the Bunks, the Bunks crew notice; the north garden browns over days', async () => {
     const j = await Journey.start();
     await j.play(...outfit, ...down.slice(0, 7), 'To the third lamp-chamber', 'Crank the mirror round to the Bunks');
     expect(j.holds('season__bright', 'season__bunks')).toBe(true);
-    await j.play('The company: Wait › An hour', 'Crank the mirror round to the south', 'To the Mirror Road, north', 'Mirror Road, south stretch', 'To the Bunks');
+    await j.play('The company: Wait an hour', 'Crank the mirror round to the south', 'To the Mirror Road, north', 'Mirror Road, south stretch', 'To the Bunks');
     expect(j.page).toMatch(/Somebody.s been at the third mirror/);
     const green = j.measure('season__green', 'season__road_north');
-    await j.play('The company: Wait › Until', 'The company: Wait › Until');
+    await j.play('The company: Wait until', 'The company: Wait until');
     expect(j.measure('season__green', 'season__road_north')).toBeLessThan(green);
   }, 120000);
 
@@ -153,7 +153,7 @@ describe('Hold One Season', () => {
     const j = await Journey.start();
     await j.play(...outfit, ...down.slice(0, 5), 'Scratch a mark', "The company: Put out Tamsin's light for good");
     const dried = await j.waitUntil(() => j.measure('season__airGap', 'season__neck_water') >= j.measure('season__markedAt', 'party') + 2,
-      'The company: Wait › Until', 60);
+      'The company: Wait until', 60);
     if (process.env.JOURNEY_TRACE) { console.log('air', j.measure('season__airGap', 'season__neck_water'), 'mark', j.measure('season__markedAt', 'party'), j.measure('day', 'clock')); }
     expect(dried).toBe(true);
     // Three days on, the light put out when the mark was made: the mark is there, but nobody sees it without one. (A
@@ -169,7 +169,7 @@ describe('Hold One Season', () => {
     const j = await Journey.start();
     await j.play(...outfit, 'To the Ramp head', "To Ennick's lower road", 'To the upper terraces', "To the holders' cord",
       'To the edge of the glass', 'To three hundred paces in', "To Doran's brick");
-    expect(await j.waitUntil(() => j.holds('knows', 'party', 'season__doran_breathed'), 'The company: Wait › A while', 12)).toBe(true);
+    expect(await j.waitUntil(() => j.holds('knows', 'party', 'season__doran_breathed'), 'The company: Wait a while', 12)).toBe(true);
   }, 120000);
 
   it('J11, the wolves: they keep level with a company that can run, and come at one that cannot', async () => {
@@ -177,7 +177,7 @@ describe('Hold One Season', () => {
     // Bare, an hour on the glass is a point of dose: half speed, and the cord at dusk.
     await j.play('Rusk.*Buy › A horn lantern', 'To the Ramp head', "To Ennick's lower road", 'To the upper terraces',
       "To the holders' cord", 'To the edge of the glass');
-    await j.waitUntil(() => j.holds('dark'), 'The company: Wait › An hour', 12);
+    await j.waitUntil(() => j.holds('dark'), 'The company: Wait an hour', 12);
     expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(24);
     await j.play("To the holders' cord");
     expect(j.page).toMatch(/wolves come at you/);
@@ -188,14 +188,14 @@ describe('Hold One Season', () => {
     await j.play('Into the lazar house', 'Ask Saro what she wants');
     expect(j.offers('Tell Saro you are going down')).toBe(false);
     await j.play('Out to the Shift Market', ...bargain.slice(0, 3), "Out to the Mutual's yard", 'To the Shift Market', 'Into the lazar house',
-      'Tell Saro you are going down', 'Ask Saro to join', 'Out to the Shift Market', 'To Old Quell', 'The company: Wait › An hour');
+      'Tell Saro you are going down', 'Ask Saro to join', 'Out to the Shift Market', 'To Old Quell', 'The company: Wait an hour');
     expect(j.measure('season__dose', 'season__member_saro_person')).toBe(0);
     expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(24);
   }, 120000);
 
   it('J13, false felt: the barrow boy\'s cloak looks the same and stops nothing', async () => {
     const j = await Journey.start();
-    await j.play('barrow.*Buy an umber felt', 'Pack › An umber felt cloak › Equip', 'To Old Quell', 'The company: Wait › An hour');
+    await j.play('barrow.*Buy an umber felt', 'Pack › An umber felt cloak › Equip', 'To Old Quell', 'The company: Wait an hour');
     expect(j.measure('season__dose', me)).toBeGreaterThanOrEqual(24);
   }, 120000);
 
@@ -204,7 +204,7 @@ describe('Hold One Season', () => {
     await j.play('To the North Well head', 'unhook the chain-gate');
     expect(j.page).toMatch(/No,. he says/);
     // By night Hal is asleep on his stool, and the chain is anyone's to unhook.
-    await j.waitUntil(() => j.holds('asleep', 'season__hal'), 'The company: Wait › An hour', 24);
+    await j.waitUntil(() => j.holds('asleep', 'season__hal'), 'The company: Wait an hour', 24);
     await j.play('unhook the chain-gate', 'To the foot of the North Well');
     expect(j.at('party')).toBe('season__well_foot');
   }, 120000);

@@ -63,7 +63,7 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     // No fight was had for it, in either house.
     expect([j, marched.journey].map(x => x.campaign.events.some(e => e.combat.some(c => c.type === 'attack')))).toEqual([false, false]);
     // Left alone, the lad runs within two days, and it is told where the company is.
-    for (const wait of ['Wait › Until dark', 'Wait › Until first light', 'Wait › Until dark']) {
+    for (const wait of ['Wait until dark', 'Wait until first light', 'Wait until dark']) {
       await given.journey.step(wait);
     }
     expect(given.journey.campaign.events.map(e => e.response).join(' '))

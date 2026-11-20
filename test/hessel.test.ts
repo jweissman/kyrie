@@ -364,7 +364,7 @@ describe('The Banns at Hessel in the world', () => {
     await j.play('Seize the side', 'Ask the old woman');
     expect(j.page).toMatch(/I am Abigail Cherrett/);
     // Left to itself, the Season ends at noon on the fifth day; the chapter closes and the company can go on.
-    for (let i = 0; i < 200 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
+    for (let i = 0; i < 200 && !c.world.related('reached').length; i++) { await j.play('^Wait an hour'); }
     expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${rid}__seasons_end`]);
     expect(c.running).toBe(true);
     await j.play('To Stall Street', 'To Quay Lane', 'foot of Lim Bridge', 'south road');

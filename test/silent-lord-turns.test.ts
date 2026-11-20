@@ -19,7 +19,7 @@ describe('the silent lord: consequences that leave the keep', () => {
     Placed.at(j, r(site));
     expect(j.takes('Into the keep by the gate')).toBe(true);
     j.assert('keep__hunted', k('house'));
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.takes('Into the keep by the gate')).toBe(false);
     await j.play('==day 5 12:00', '==day 6 12:00');
     expect(j.takes('Into the keep by the gate')).toBe(false);

@@ -47,7 +47,7 @@ describe("Wapshott's Peregrine Circus", () => {
 
   it('comes into the fair town on the first afternoon, parades the green at four, and plays at seven', async () => {
     const t = await Circus.start();
-    await t.play('=day 1 15:55', 'Wait › An hour', '=day 1 18:30', '^To Wapshott', 'Buy a ticket', '^To the big top', '=day 1 21:40');
+    await t.play('=day 1 15:55', 'Wait an hour', '=day 1 18:30', '^To Wapshott', 'Buy a ticket', '^To the big top', '=day 1 21:40');
     expect(t.page).toContain('Here is the parade.');
     expect(t.page).toContain('The band crashes into the Grand Entry');
     expect(t.page).toContain('the Sylph: in silver, with a white parasol');

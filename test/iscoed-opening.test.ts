@@ -37,7 +37,7 @@ describe('the reference start, Iscoed', () => {
       expect(Iscoed.aims(pans)).toMatch(/fuel boat/);
       expect(Iscoed.aims(weir)).toMatch(/sea-gate .* will not shut/);
       // Met at once as leads, each with who to ask, not as aims held (HP-01): the drove holds its own errand alone.
-      await drove.play('Wait › A while');
+      await drove.play('Wait a while');
       const held = Iscoed.aims(drove);
       expect(held).toMatch(/how many head came down/);
       for (const aim of [/fuel boat/, /sea-gate/]) { expect(held).not.toMatch(aim); }

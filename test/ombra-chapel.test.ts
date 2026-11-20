@@ -135,7 +135,7 @@ describe('Chapel Island: the stranger on the steps', () => {
     const there = g.at('rill');
     expect(there).toBeDefined();
     await g.play('^To Counting Row', '^To Maskers', '^To the Drip');
-    for (let i = 0; i < 20 && g.at('rill') !== g.at('party'); i += 1) { await g.play('Wait › An hour'); }
+    for (let i = 0; i < 20 && g.at('rill') !== g.at('party'); i += 1) { await g.play('Wait an hour'); }
     if (g.at('rill') === g.at('party')) {
       await g.play('Talk to Rill', 'Ask Rill to carry the stranger');
       expect(g.holds('ch_buried', 'party')).toBe(true);
@@ -186,7 +186,7 @@ describe('Chapel Island: nothing in the Chapel is in two places, or known that c
       const options = g.j.choices()
         .filter(c => !/^Wait|prepare|Prepare|Set down|Pack|Take your leave|^Light/.test(c.label));
       const choice = options[i % Math.max(1, Math.min(options.length, 3))];
-      if (!choice) { await g.play('Wait › An hour'); continue; }
+      if (!choice) { await g.play('Wait an hour'); continue; }
       await g.play(`@${choice.command}`);
       for (const p of persons) {
         const places = g.j.campaign.world.related('at').filter(r => r.args[0] === p);

@@ -53,7 +53,7 @@ describe('Sennet, a province of the first country', () => {
     expect(s.campaign.world.related('reached').map(r => r.args[0])).toEqual(['psennet__end_second_whelming']);
     expect(s.campaign.running).toBe(true);
     await j.play('To the Quay');
-    expect(await j.play('Wait › A while')).toBeDefined();
+    expect(await j.play('Wait a while')).toBeDefined();
   }, 900000);
 
   it('an ordinary protagonist of the world opens the Door from below, and the Door then opens on Sennet\'s streets', async () => {

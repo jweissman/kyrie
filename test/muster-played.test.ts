@@ -26,7 +26,7 @@ describe('Four who go with the company', () => {
     await j.play('Ask Fenn why he has stopped at the Viaduct\'s head', 'Tell him to wait at the north head; you will send word by the rope-way');
     expect(j.holds('fennNerve', 'party')).toBe(true);
     await j.play('Drive a piton into the parapet and rig a line over the gap with a coil of rope', 'To the parapet of the fifth arch', 'To the south abutment');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.at('muster__fenn_hallam')).toBe('muster__via_s');
     await j.play('To the Mansio of the Eagle', 'Ask Fenn what he has found in the Eagle\'s wall',
       'Say it should be Thessaly Orde\'s, or the engineer\'s, whoever\'s it was: write down who');
@@ -53,7 +53,7 @@ describe('The Last Cohort asks, is answered, and is told', () => {
     await interview(j);
     await j.play('Into the Archive', 'Tell the Archivist what the road is');
     expect(j.holds('told_ostrander', 'party')).toBe(true);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.at('muster__ede_cassel')).toBe('muster__sending_gate');
   }, T);
 
@@ -219,11 +219,11 @@ describe('The road\'s beasts, and a way round each', () => {
     // bought first, with no tent, rope or pitons.
     await j.play('To Kell green', 'Into Pryor\'s store', 'Buy › A climber\'s harness', 'Out to Kell green', ...steps.hire, 'a climber\'s harness: Equip');
     await j.play('To the goatherds\' track', 'To the steep of the track', 'To the Mansio Septimus', '=day 2 05:00', 'To the foot of the High Road', 'To the open stretch of the High Road', 'To the wyvern\'s eyrie');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.holds('wyvernOut', 'wyvern')).toBe(true);
     expect(j.find('rotted cord')).toBeDefined();
     await j.play('a shed tooth, long as a finger: Take');
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.holds('wyvernOut', 'wyvern')).toBe(false);
     expect(j.at('muster__wyvern')).toBe('muster__eyrie');
   }, T);
@@ -349,7 +349,7 @@ describe('The weather over the Fells', () => {
       await ford(j);
       await j.play('To the goatherds\' track', 'To the steep of the track', 'To the Mansio Septimus');
       await untilSky(j, sky);
-      await j.play('To the foot of the High Road', 'To the open stretch of the High Road', 'Wait › A while');
+      await j.play('To the foot of the High Road', 'To the open stretch of the High Road', 'Wait a while');
       return j;
     };
     expect((await walk('wind_sky')).holds('stooped', 'party')).toBe(false);

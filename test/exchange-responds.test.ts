@@ -50,7 +50,7 @@ describe('the Exchange answers being asked', () => {
     expect(j.holds('factors__carterGone', 'factors__carter')).toBe(false);
     await j.play('Ask .* where the bronze comes from, in the north');
     expect(j.holds('factors__suspects', 'factors__factor', 'party')).toBe(true);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('factors__carterGone', 'factors__carter')).toBe(true);
     expect(j.holds('keeps', 'factors__carter', 'plongman__teeth')).toBe(true);
     // Three yardmen is not enough to spare one for a gate.
@@ -69,12 +69,12 @@ describe('the Exchange answers being asked', () => {
   it('closes up and goes if a poor house is named at the inn, and the Collegium and the island read it', async () => {
     const { s, j, frontier } = await Ring.lotAtTable('thorn', 'mountain');
     expect(j.measure('factors__stock', 'factors__factor')).toBeLessThan(9);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     await j.play('Tell .* the factor buys bronze that was not hers to sell');
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('routed', 'factors__hands')).toBe(true);
     expect(j.holds('at', 'factors__factor', 'factors__gone') || j.campaign.world.one('at', 'factors__factor') === 'factors__gone').toBe(true);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     // Low Water, entered later, finds no lot and a bare cloth; Halm says why.
     await GeneratedWorld.travel(s, 'gate_lowwater'); await frontier.expand(s.campaign);
     await GeneratedWorld.travel(s, 'plowwater__dig');
@@ -92,7 +92,7 @@ describe('the Exchange answers being asked', () => {
     expect(j.measure('factors__stock', 'factors__factor')).toBeGreaterThanOrEqual(9);
     await j.play('Ask .* where the bronze comes from, in the north');
     await j.play('Tell .* the factor buys bronze that was not hers to sell');
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('refusesService', keeper, 'party')).toBe(true);
     expect(j.holds('routed', 'factors__hands')).toBe(false);
     // And it keeps, across a reload.
@@ -122,7 +122,7 @@ describe('the Exchange\'s other answers', () => {
 describe('what the Exchange\'s fall does on an island', () => {
   it('leaves the factor\'s agent on Skerrow with a lot of bronze and no foundry, so the lamp is not sold', async () => {
     const { s, j, frontier } = await Ring.lotAtTable('thorn', 'mountain');
-    await j.play('^Wait › An hour', 'Tell .* the factor buys bronze that was not hers to sell', '^Wait › An hour');
+    await j.play('^Wait an hour', 'Tell .* the factor buys bronze that was not hers to sell', '^Wait an hour');
     expect(j.holds('routed', 'factors__hands')).toBe(true);
     await GeneratedWorld.travel(s, 'gate_tolleth'); await frontier.expand(s.campaign);
     const c = PlayerView.choices(s.campaign).find(x => /^Take the road on into/.test(x.choice.name))!;

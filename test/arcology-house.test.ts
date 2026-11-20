@@ -19,7 +19,7 @@ class House {
   // A fact made so for the test is seen by the page after the next command, so a short wait follows it.
   static async set(j: Journey, rel: string, ...args: string[]) {
     j.assert(rel, ...args.map(x => this.a(x)));
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
   }
   static async world(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
@@ -78,9 +78,9 @@ describe('the Question Hall and its hum', () => {
     expect(House.is(j, 'state', 'keepers', 'posted')).toBe(true);
     expect(j.takes('To the Drawer Gallery')).toBe(false);
     expect(House.is(j, 'peaceable', 'keepers')).toBe(true);
-    await j.play('Wait › An hour');
-    await j.play('Wait › An hour');
-    await j.play('Wait › An hour');
+    await j.play('Wait an hour');
+    await j.play('Wait an hour');
+    await j.play('Wait an hour');
     expect(House.hum(j)).toBeLessThanOrEqual(2);
     expect(House.is(j, 'state', 'keepers', 'niched')).toBe(true);
     expect(j.takes('To the Drawer Gallery')).toBe(true);
@@ -123,7 +123,7 @@ describe('the ring in the drawers, the governor, and the lift', () => {
     for (let i = 0; i < wrongTurns; i++) { await j.play('Turn the ring one notch'); }
     if (wrongTurns) { await j.play('Press the ring home'); expect(House.is(j, 'state', 'drawer', 'jammed')).toBe(true); expect(House.hum(j)).toBe(1); }
     else { await j.play('Press the ring home'); expect(House.is(j, 'state', 'drawer', 'jammed')).toBe(true); }
-    await j.play('Wait › An hour');
+    await j.play('Wait an hour');
     expect(House.is(j, 'state', 'drawer', 'locked')).toBe(true);
     const have = House.n(j, 'notch', 'ring');
     for (let i = have; i !== target; i = i % 6 + 1) { await j.play('Turn the ring one notch'); }
@@ -189,7 +189,7 @@ describe('the water', () => {
 
   it('drains the Drowned Level through the tipped bucket: the garden door clears, the eels are stranded, and the brook floods', async () => {
     const j = await House.at('valves', 'a1', 'warrior');
-    await j.play('Open the wheel with the tipped bucket', 'Wait › A while');
+    await j.play('Open the wheel with the tipped bucket', 'Wait a while');
     expect(House.is(j, 'state', 'waterlevel', 'low')).toBe(true);
     expect(House.is(j, 'state', 'roots_lock', 'clear')).toBe(true);
     expect(House.is(j, 'state', 'eels', 'stranded')).toBe(true);

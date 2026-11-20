@@ -47,7 +47,7 @@ class Slack {
 describe('the black square', () => {
   it('stays shut to a company with none of the three, and opens to a reading, a measure and a standing however they were had', async () => {
     const j = await Slack.nexus();
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.matches('Open the black square').length).toBe(0);
     // A reading by lore is no use to a company without lore; by rubbings it is, wherever they came from.
     j.give('plongman__writ_copy');
@@ -157,7 +157,7 @@ describe('the Remainder', () => {
   };
   it('binds a company that stood surety blind to the Watch\'s bread, every morning', async () => {
     const j = await harbour(false);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('psennet__liable', 'party')).toBe(true);
     const before = j.campaign.state.elapsed;
     await j.play(`==${Math.ceil(before / 144) * 144 + 60}`);
@@ -167,7 +167,7 @@ describe('the Remainder', () => {
   }, 900000);
   it('does not bind one that had the Valuer\'s note on what a surety owes', async () => {
     const j = await harbour(true);
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.holds('psennet__liable', 'party')).toBe(false);
   }, 900000);
 });

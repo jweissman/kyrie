@@ -49,7 +49,7 @@ describe('The Quiet in the Sky, wandered', () => {
             const skipped = /Set down here|Give to ›|prepare spells|Make camp|advance ›/;
             const offered = j.choices().filter(c => !skipped.test(c.label));
             if (!offered.length) { break; }
-            const resting = /Wait › (An hour|Until)|Rest six hours/;
+            const resting = /Wait (an hour|until)|Rest six hours/;
             const waits = offered.filter(c => resting.test(c.label));
             const pool = waits.length && next() < 0.15 ? waits : offered.filter(c => !/^Wait/.test(c.label));
             const c = (pool.length ? pool : offered)[Math.floor(next() * (pool.length || offered.length))]!;
@@ -58,7 +58,7 @@ describe('The Quiet in the Sky, wandered', () => {
             check();
           }
           for (let i = 0; i < 800 && j.campaign.running && !j.campaign.world.related('reached').length; i++) {
-            const c = j.find('^Wait › An hour') ?? j.find('^Wait');
+            const c = j.find('^Wait an hour') ?? j.find('^Wait');
             if (!c) { break; }
             taken.push(c.command);
             await j.perform(c.command, c.label);

@@ -47,7 +47,7 @@ describe('The Third Night, wandered', () => {
             const offered = j.choices().filter(c => !/Set down here|Give to|Make camp/.test(c.label));
             if (!offered.length) { break; }
             // Mostly what the place offers; now and then a long wait, so that the four days are walked too.
-            const waits = offered.filter(c => /Wait › (An hour|Until)/.test(c.label));
+            const waits = offered.filter(c => /Wait (an hour|until)/.test(c.label));
             const pool = waits.length && next() < 0.12 ? waits : offered.filter(c => !/^Wait/.test(c.label));
             const c = (pool.length ? pool : offered)[Math.floor(next() * (pool.length || offered.length))]!;
             taken.push(c.command);
@@ -55,7 +55,7 @@ describe('The Third Night, wandered', () => {
             check();
           }
           while (j.campaign.running && j.watch() < 440) {
-            const c = j.find('^Wait › An hour') ?? j.find('^Wait › A while') ?? j.find('^Wait');
+            const c = j.find('^Wait an hour') ?? j.find('^Wait a while') ?? j.find('^Wait');
             if (!c) { break; }
             taken.push(c.command);
             await j.perform(c.command, c.label);

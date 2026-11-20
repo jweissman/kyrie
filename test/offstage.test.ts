@@ -18,10 +18,10 @@ describe('someone nowhere until they come', () => {
   }, 60000);
   it('comes, said in their own words, and warns after', async () => {
     const j = await Journey.start(probe);
-    await j.play('^To Phoenix House$', 'Wait › An hour');
+    await j.play('^To Phoenix House$', 'Wait an hour');
     expect(j.latest).toMatch(/Three wardens in brass helmets come in from the yard/);
     expect(j.at('p__wardens')).toBe('p__house');
-    await j.play('Wait › An hour');
+    await j.play('Wait an hour');
     expect(j.latest).toMatch(/stand their ground/);
     expect(j.at('p__ghost')).toBeUndefined();
   }, 60000);

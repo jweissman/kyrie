@@ -8,7 +8,7 @@ describe('one who comes where the company stands', () => {
   const probe = 'test/fixtures/probes/arrives/probe.campaign.json';
   it('is said to come in their own words, before they warn', async () => {
     const j = await Journey.start(probe);
-    await j.play('Wait › An hour', 'Wait › An hour');
+    await j.play('Wait an hour', 'Wait an hour');
     expect(j.taken[0]!.page).toBe('Four grey shapes come down off the downs onto the ice, one behind another, and sit'
       + ' across the road.');
     expect(j.taken[1]!.page).toMatch(/^The wolves get up, without hurry/);

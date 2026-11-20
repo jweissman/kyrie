@@ -9,7 +9,7 @@ describe('an occasion', () => {
     const j = await Journey.start('test/fixtures/probes/occasion/probe.campaign.json');
     expect(j.offers('Speak for the herring men')).toBe(false);
     expect(await j.play('=until matterOpen(herring)')).toContain('Master Harker brings the herring case');
-    expect(await j.play('Speak for the herring men', 'Wait › A while')).toContain('The boat case is called');
+    expect(await j.play('Speak for the herring men', 'Wait a while')).toContain('The boat case is called');
     expect(j.holds('matterDone', 'p__herring')).toBe(true);
     expect(j.offers('Speak for the herring men')).toBe(false);
     expect(await j.play('=until occasionOver(landing)')).toContain('the Landing is over for the day');

@@ -271,7 +271,7 @@ describe('The Repertory, 4: The Wood near Athens-under-Hollin', () => {
     expect(r.offers('iron nails: Take')).toBe(true);
     await r.play('iron nails: Take');
     await r.play('To the edge of the wood');
-    for (let i = 0; i < 6; i++) { await r.play('Wait › A while'); }
+    for (let i = 0; i < 6; i++) { await r.play('Wait a while'); }
     expect(r.told()).not.toContain('goat');
   }, 290000);
   it('telegraphs the Hunt: the horn at the edge of the wood, then the hooves; an unprotected company is struck, and the edge is not fatal on arrival', async () => {
@@ -280,7 +280,7 @@ describe('The Repertory, 4: The Wood near Athens-under-Hollin', () => {
     expect(r.told()).toContain('The horn is in the beech-wood');
     expect(r.holds('e4EdgeSeen', 'rierdan')).toBe(true);
     const seen: string[] = [];
-    for (let i = 0; i < 10; i++) { await r.play('Wait › A while'); seen.push(r.told()); }
+    for (let i = 0; i < 10; i++) { await r.play('Wait a while'); seen.push(r.told()); }
     expect(seen.join(' ')).toContain('goat');
   }, 290000);
   it('ends in the glorious fiasco when the lovers are left as the wood made them; a fiasco no one chose is not credited, a fiasco the company stood at the edge to choose is', async () => {

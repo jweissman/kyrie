@@ -125,14 +125,14 @@ describe('The Patient Star', () => {
   it('S8, the long clock: the Corbel comes down two metres a day while the company waits', async () => {
     const j = await Journey.start();
     const h0 = j.measure('season__corbelHeight', 'season__corbel_site');
-    for (let i = 0; i < 10; i++) { await j.act('The company: Wait › Until'); }
+    for (let i = 0; i < 10; i++) { await j.act('The company: Wait until'); }
     expect(h0 - j.measure('season__corbelHeight', 'season__corbel_site')).toBeGreaterThanOrEqual(8);
   }, 120000);
 
   it('S9, the king: Amaru wakes by the week, and in the eighth the Warden\'s men carry him up with a fever', async () => {
     const j = await Journey.start();
     expect(j.measure('season__amaruRate', 'season__amaru')).toBe(6);
-    while (j.measure('day', 'clock') < 57) { await j.act('The company: Wait › Until'); }
+    while (j.measure('day', 'clock') < 57) { await j.act('The company: Wait until'); }
     expect(j.measure('season__amaruRate', 'season__amaru')).toBe(3);
     expect(j.at('season__amaru')).toBe('season__barracks');
     expect(j.holds('season__fevered', 'season__amaru')).toBe(true);

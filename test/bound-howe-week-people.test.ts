@@ -65,14 +65,14 @@ describe('what each calling sees on the ridge', () => {
   it('shows a ranger the crews’ tracks, a scholar the greeting on the lintel, a cleric the unfinished rite of the household', async () => {
     const wood = await Howe.at('ring', company('ranger'), 'a1');
     Howe.set(wood, 'rival_step', 'rcaptain', 1);
-    const page = await wood.play('Wait › A while');
+    const page = await wood.play('Wait a while');
     expect(page).toContain('shod ponies came up the steep path');
     const lore = await Howe.at('forecourt', company('mage'), 'a1');
-    await lore.play('Wait › A while').catch(() => '');
+    await lore.play('Wait a while').catch(() => '');
     expect(Howe.holds(lore, 'knows', 'party', R('kin_greeting'))).toBe(true);
     const priest = await Howe.at('gallery', company('cleric'), 'a1');
     priest.assert('tolerates', R('household'), 'party');
-    await priest.play('Wait › A while').catch(() => '');
+    await priest.play('Wait a while').catch(() => '');
     expect(Howe.holds(priest, 'knows', 'party', R('closing_known'))).toBe(true);
     expect(priest.offers('Say the closing rite')).toBe(true);
   }, 900000);

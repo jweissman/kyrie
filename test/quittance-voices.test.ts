@@ -19,23 +19,23 @@ describe('Quittance: the callings', () => {
   it('speaks once for each calling, in its own place, and not for a company that lacks the calling', async () => {
     const j = await Ds.start();
     Ds.at(j, 'candlewick');
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(rel(j, 'qv_hCourt')).toBe(true);
     expect(said(j)).toContain('Not spilled: laid');
     Ds.at(j, 'drill_yard');
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(rel(j, 'qv_hDrill')).toBe(true);
     Ds.at(j, 'queue_hall');
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(rel(j, 'qv_hQueue')).toBe(true);
     Ds.at(j, 'hearn_hearth');
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(rel(j, 'qv_hHearth')).toBe(true);
     expect(said(j)).toContain('how a guest behaves');
 
     const k = await Ds.start(['warrior', 'cleric', 'mage']);   // no ranger to read the gutter
     Ds.at(k, 'candlewick');
-    await k.step('Wait › A while');
+    await k.step('Wait a while');
     expect(rel(k, 'qv_hCourt')).toBe(false);
   }, 240000);
 
@@ -62,7 +62,7 @@ describe('Quittance: the callings', () => {
     await bribed(w);
     Ds.at(w, 'gasket_yard');
     Ds.num(w, 'regard', [ 'wardsfolk' ], 1);
-    await w.step('Wait › A while');
+    await w.step('Wait a while');
     expect(rel(w, 'qv_quarrelled')).toBe(true);
     expect(said(w)).toContain('Both are waiting for you to say which of them is right');
     expect(w.offers('Tell Dori that Bran is right')).toBe(true);
@@ -77,7 +77,7 @@ describe('Quittance: the callings', () => {
     await bribed(c);
     Ds.at(c, 'gasket_yard');
     Ds.num(c, 'regard', [ 'wardsfolk' ], 1);
-    await c.step('Wait › A while');
+    await c.step('Wait a while');
     await c.play('Tell Bran that Dori is right');
     expect(rel(c, 'qv_sidedCleric')).toBe(true);
     expect(c.measure(Q('regard'), Q('wardsfolk'))).toBe(2);         // the Wards remember who told them
@@ -125,10 +125,10 @@ describe('Quittance: depth, persons and links', () => {
   it('sets the saucers on the Row, and the Fire answers them; the strokes on the stair are answered only if looked at', async () => {
     const j = await Ds.start();
     Ds.at(j, 'row_street');
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(Ds.knows(j, 'qv_saucers')).toBe(true);
     Ds.at(j, 'cellar_foot');
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(Ds.knows(j, 'qv_strokes')).toBe(true);
     Ds.at(j, 'hearth_below');
     await Ds.speak(j);
@@ -144,7 +144,7 @@ describe('Quittance: depth, persons and links', () => {
     await j.step('^the Fire.*: Ask the Fire what it would take');
     await Ds.ask(j, 'Let old Auberon Hearn stay');
     expect(rel(j, 'fireTermKeeper')).toBe(true);
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(said(j)).toContain('one stroke more than there was');
     expect(said(j)).toContain('Twelve');
 

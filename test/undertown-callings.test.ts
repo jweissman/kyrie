@@ -50,13 +50,13 @@ describe('a calling\'s own way in the first town', () => {
     for (const step of ['To the landing at Lowmouth', 'To Ulf\'s chandlery', 'Buy › A twist of ratsbane', 'Buy › An oil firebomb',
       'To the landing at Lowmouth', 'To Mik\'s salt-house', 'Ask Mik about the rats', 'To the landing at Lowmouth',
       'To the old corn-store', 'Down to the corn-store cellar', 'a candle: Light', 'Lay ratsbane',
-      'Up to the old corn-store', 'Wait › Until dark', 'Wait › An hour', 'Wait › An hour', 'Wait › An hour']) {
+      'Up to the old corn-store', 'Wait until dark', 'Wait an hour', 'Wait an hour', 'Wait an hour']) {
       await j.step(step);
     }
     expect([j.holds('able', 'region__s1_u_rats'), j.holds('region__s1_u_done', 'region__s1_u_rats_job')]).toEqual([false, true]);
     for (const step of ['To the landing at Lowmouth', 'Into the Lucky Phoenix', 'Ask .* about the old quarry',
       'To the landing at Lowmouth', 'To the old quarry pit', '^Down to the quarry adit$', '?a candle: Light',
-      'Throw an oil firebomb', 'Wait › A while']) { await j.step(step); }
+      'Throw an oil firebomb', 'Wait a while']) { await j.step(step); }
     expect(j.holds('region__s1_u_done', 'region__s1_u_spiders_job')).toBe(true);
   }, 180000);
 });

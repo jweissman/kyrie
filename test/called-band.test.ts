@@ -8,7 +8,7 @@ describe('a band of people', () => {
     const j = await Journey.start('test/fixtures/probes/called-band/probe.campaign.json');
     const ids = j.campaign.readout.inhabitants['p__sons'] ?? [];
     expect(j.campaign.readout.creatures.filter(c => ids.includes(c.id)).map(c => c.name)).toEqual(['Abel', 'Cain', 'Seth']);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.offers("Pay Skell's sons the price named")).toBe(true);
     expect(await j.play('Pay')).toContain("You pay Skell's sons, and are let be.");
   }, 60000);

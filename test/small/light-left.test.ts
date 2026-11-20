@@ -16,7 +16,7 @@ describe('a search in a failing light', () => {
     await t.play('Pack › A torch › Light');
     expect(search(t)?.about ?? '').not.toMatch(/give out first/);
     for (let i = 0; i < 12 && (ScreenModel.build(t.campaign).expedition.flame?.left ?? 99) >= 20; i++) {
-      await t.play('Wait › A while');
+      await t.play('Wait a while');
     }
     expect(ScreenModel.build(t.campaign).expedition.flame?.left).toBeLessThan(20);
     expect(search(t)?.risk).toBeUndefined();

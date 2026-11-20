@@ -29,7 +29,7 @@ describe('Half the Hive in the world', () => {
     expect(c.running).toBe(true);
     // Left to itself the week goes on: the squire's flask, the Leaving to Larkhill, the Turning-out; the chapter
     // closes on its ending and the world goes on, with the Wold in it.
-    for (let i = 0; i < 200 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
+    for (let i = 0; i < 200 && !c.world.related('reached').length; i++) { await j.play('^Wait an hour'); }
     expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${rid}__lark_owned`]);
     expect(c.running).toBe(true);
     expect(c.world.test({ kind: 'call', name: 'stale', args: ['region__gate_hume_beyond'] } as never)).toBe(true);

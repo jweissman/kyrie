@@ -24,7 +24,7 @@ describe('A Winter in Carth in the world', () => {
     await j.play('Talk to Beadle', 'Ask the beadle what the commission', 'Take Ninian Hern into your custody');
     expect(j.page).toMatch(/My custodian/);
     // Left to itself, Ash Day comes; the chapter closes on an ending, and the world goes on.
-    for (let i = 0; i < 120 && !c.world.related('reached').length; i++) { await j.play('^Wait › An hour'); }
+    for (let i = 0; i < 120 && !c.world.related('reached').length; i++) { await j.play('^Wait an hour'); }
     expect(c.world.related('reached').map(r => r.args[0])).toEqual([`${rid}__put_out`]);
     expect(c.running).toBe(true);
   }, 600000);

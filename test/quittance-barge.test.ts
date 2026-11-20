@@ -185,7 +185,7 @@ describe('The Scuttled Barge: caught in Skell\'s yard', () => {
     expect(has(j, 'bg_killed_sons', 'party')).toBe(true);
     expect(has(j, 'bg_slighted_dree', 'party')).toBe(true);
     expect(has(j, 'bg_skell_out', 'bg_skell')).toBe(true);
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(City.pages(j)).toContain('three of Skell');
   }, 240000);
 

@@ -200,7 +200,7 @@ describe('exploring', () => {
       if (!o.running) { break; }
       const offered = o.j.choices()
         .filter(c => !/^(Pack|a |an |the |some )/i.test(c.full) && !/Set down/.test(c.label) && !/^Wait/.test(c.label));
-      if (!offered.length || i % 7 === 6) { await o.play('Wait › An hour'); continue; }
+      if (!offered.length || i % 7 === 6) { await o.play('Wait an hour'); continue; }
       const c = offered[(i * 13 + 5) % offered.length]!;
       try { await o.play(c.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')); n++; } catch (e) { if (!o.running) { break; } throw e; }
       if (o.knows('hl_heir')) { expect(o.knows('hl_orla') && o.knows('hl_thimble')).toBe(true); }

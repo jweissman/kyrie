@@ -2,7 +2,7 @@ import { KP } from './kp';
 
 // ── Act III, by route. Each starts at the Concourse on the morning the Edict is posted and ends with Act III done. ──
 export type Route = 'grave' | 'seat' | 'door' | 'pebble' | 'chain' | 'shamed' | 'sea' | 'staged' | 'exile' | 'river';
-export const toConcourse = (k: KP) => k.play('Wait › A while', "To the Rotunda's stage", "To the Rotunda's front of house", 'Out to Playhouse Row', 'To the Concourse of the Seven');
+export const toConcourse = (k: KP) => k.play('Wait a while', "To the Rotunda's stage", "To the Rotunda's front of house", 'Out to Playhouse Row', 'To the Concourse of the Seven');
 const toBells = (k: KP) => k.play('To the steps of the Tower of Bells', 'Into the Tower of Bells');
 const bellsToField = (k: KP) => k.play('Out to the steps of the Tower of Bells', 'To the Gate of Dust', 'To the Field of Exposure');
 const toCourt = (k: KP) => k.play('To the steps of the Tower of Law', "To the King's Court");

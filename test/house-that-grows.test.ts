@@ -30,7 +30,7 @@ class Ring {
   static async until(s: PlaySession, watch: number): Promise<string> {
     let said = '';
     while (s.campaign.state.elapsed < watch) {
-      const [e] = await this.act(s, '^Wait › An hour');
+      const [e] = await this.act(s, '^Wait an hour');
       said += ' ' + [...(e!.perceptions ?? []).map(p => p.text), e!.response ?? ''].join(' ');
     }
     return said;
@@ -158,7 +158,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
     await Ring.act(s, 'pond causeway', 'rim of Cobble', 'east lip', 'flattened barley', 'Ask Dace what his factor',
       'Ask Dace for the loan', '^Take', 'Pay the watchers', 'back through the small door', 'Draw the glass bedroom',
       'back through the door to the cup shelf', 'Draw the cup shelf', 'back through the door to the cup shelf',
-      '^Wait › A while', 'Knock on the glass', 'back through the small door');
+      '^Wait a while', 'Knock on the glass', 'back through the small door');
     expect(Ring.said(await Ring.act(s, 'Give Dace back his slate, with your map of the house \\(|Give Dace back his slate, with your map of the house$'))).toContain('five hundred marks');
     expect(Ring.holds(s, 'hhg__paidMap', 'hhg__dace')).toBe(true);
     // Drawn, then the stools turned away and nodding in the low hours often enough for a drawn room to grow.
@@ -168,7 +168,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
       'back through the door to the cup shelf', 'Draw the cup shelf', 'back through the door to the cup shelf',
       'Knock on the glass', 'back through the small door');
     const stale = () => Ring.holds(late, 'hhg__mapStale', 'hhg__bedroom') || Ring.holds(late, 'hhg__mapStale', 'hhg__cup_shelf');
-    for (let turn = 0; turn < 60 && !stale(); turn++) { await Ring.act(late, '?Pay the watchers', 'Wait › An hour'); }
+    for (let turn = 0; turn < 60 && !stale(); turn++) { await Ring.act(late, '?Pay the watchers', 'Wait an hour'); }
     expect(stale()).toBe(true);
     expect(Ring.said(await Ring.act(late, 'Give Dace back his slate'))).toContain('grown since you drew it');
     expect(Ring.holds(late, 'hhg__paidMap', 'hhg__dace')).toBe(false);
@@ -202,12 +202,12 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
       'Ask Dace for the loan', '^Take', 'Pay the watchers', 'back through the small door', 'back through the door to the cup shelf',
       'back through the narrow door');
     expect(Ring.said(await Ring.act(s, 'Draw the hall of coats'))).toContain('his hand is out');
-    await Ring.act(s, 'Wait › A while', 'Wait › A while');
+    await Ring.act(s, 'Wait a while', 'Wait a while');
     expect(Ring.holds(s, 'state', 'hhg__footman', 'hhg__reaching')).toBe(true);
     expect(Ring.holds(s, 'at', 'party', 'hhg__coats_high')).toBe(true);
     // Lying down beside him is a second lapse: he puts the sleeper away.
     await Ring.until(s, 84);
-    await Ring.act(s, 'Lie down and sleep', 'Wait › Until first light');
+    await Ring.act(s, 'Lie down and sleep', 'Wait until first light');
     expect(Ring.holds(s, 'at', 'party', 'hhg__drawer_dark')).toBe(true);
   }, 180000);
 
@@ -216,9 +216,9 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
     await Ring.up(s);
     await Ring.act(s, Ring.look, 'back through a door with a hum');
     expect(Ring.holds(s, 'knows', 'party', 'hhg__front_door_known')).toBe(true);
-    await Ring.act(s, 'Wait › A while', 'Wait › A while');
+    await Ring.act(s, 'Wait a while', 'Wait a while');
     expect(Ring.holds(s, 'at', 'party', 'hhg__lull_dream')).toBe(true);
-    expect(Ring.said([...await Ring.act(s, 'Wait › An hour')])).toContain('You wake on the glass floor');
+    expect(Ring.said([...await Ring.act(s, 'Wait an hour')])).toContain('You wake on the glass floor');
   }, 180000);
 
   it('maps the Annex and a room of the city for Dace, and leaves the mapper in the city with the slate', async () => {
@@ -241,7 +241,7 @@ describe('The House That Grows: its maps, its people and its sounds', () => {
     expect(Ring.said([await Ring.tryOn(s, 'hhg__seams', 'Hold a flame to it')])).toContain('watchers on their stools all look up');
     expect(Ring.holds(s, 'state', 'hhg__seams', 'hhg__scorched')).toBe(true);
     await Ring.act(s, 'back through the door to the cup shelf', 'back through the narrow door', 'back through the far door');
-    await Ring.act(s, 'back through a door with a hum', 'Wait › A while', 'Wait › A while', 'Wait › A while');
+    await Ring.act(s, 'back through a door with a hum', 'Wait a while', 'Wait a while', 'Wait a while');
     // Ears stopped: no count heard, and no dream.
     expect(Ring.holds(s, 'knows', 'party', 'hhg__front_door_known')).toBe(false);
     expect(Ring.holds(s, 'at', 'party', 'hhg__choir_room')).toBe(true);

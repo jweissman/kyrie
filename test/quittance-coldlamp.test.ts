@@ -21,7 +21,7 @@ const has = (j: any, r: string, who = 'wynne') => City.has(j, r, who);
 describe('Quittance: the Cold-Lamp Demonstration', () => {
   it('is on the Slate and also at the Lamp-house shopfront', async () => {
     const j = await City.start();
-    await j.play(...City.slip, '^Wait › A while');
+    await j.play(...City.slip, '^Wait a while');
     expect(City.knows(j, 'cl_claim')).toBe(true);
     const k = await City.start();
     await k.play(...row, '>quittance__lamp_front', 'Talk to Lemuel Quarrell', 'what the Lamp-house is showing');
@@ -296,7 +296,7 @@ describe('Quittance: the Cold-Lamp Demonstration, concluded', () => {
     it('takes the company\'s side once it has seen the pilots breathe, and then the Inspectorate\'s notice is lost and the lamps are adopted', async () => {
       const j = await City.start();
       const round = ['>quittance__round_tinkers', 'Buy a gas mantle', 'Knot a new mantle', 'Light the Tinkers', '>quittance__round_steps', 'Swing the Steps lamp to light the stair', 'Light the Stokers',
-        '>quittance__round_glaziers', "Hold Hob's taper", 'Light the Glaziers', '>quittance__round_furnace', 'Sit by the lamp-house', 'Light the Furnace Wharf lamp', 'Wait › A while', 'Wait › A while', 'Wait › A while'];
+        '>quittance__round_glaziers', "Hold Hob's taper", 'Light the Glaziers', '>quittance__round_furnace', 'Sit by the lamp-house', 'Light the Furnace Wharf lamp', 'Wait a while', 'Wait a while', 'Wait a while'];
       await j.play(...row, '=day 2 17:00', 'Talk to Hob Tansy', 'what he is doing with that pole', 'about the four lamps', 'Offer to walk', '?Take your leave', ...round);
       expect(City.knows(j, 'd_pilots_step')).toBe(true);
       await j.play('=day 3 10:00', '>quittance__round_steps', 'Talk to Amos Threlfall', 'what ails the stokers', 'Tell Threlfall the pilots go out in step', '?Take your leave');
@@ -308,7 +308,7 @@ describe('Quittance: the Cold-Lamp Demonstration, concluded', () => {
     it('lets the stokers\' men turn their backs at the boiler once he is the company\'s', async () => {
       const j = await City.start();
       const lamps = ['>quittance__round_tinkers', 'Buy a gas mantle', 'Knot a new mantle', 'Light the Tinkers', '>quittance__round_steps', 'Swing the Steps lamp to light the stair', 'Light the Stokers',
-        '>quittance__round_glaziers', "Hold Hob's taper", 'Light the Glaziers', '>quittance__round_furnace', 'Sit by the lamp-house', 'Light the Furnace Wharf lamp', 'Wait › A while', 'Wait › A while', 'Wait › A while'];
+        '>quittance__round_glaziers', "Hold Hob's taper", 'Light the Glaziers', '>quittance__round_furnace', 'Sit by the lamp-house', 'Light the Furnace Wharf lamp', 'Wait a while', 'Wait a while', 'Wait a while'];
       await j.play(...row, '=day 2 17:00', 'Talk to Hob Tansy', 'what he is doing with that pole', 'about the four lamps', 'Offer to walk', '?Take your leave', ...lamps);
       await j.play('=day 3 10:00', '>quittance__round_steps', 'Talk to Amos Threlfall', 'what ails the stokers', 'Tell Threlfall the pilots go out in step', '?Take your leave');
       await j.play('=day 3 14:00', ...toWynne, ...crate, '=day 3 19:00', ...vent, '=day 4 09:00', '>quittance__retort_house');

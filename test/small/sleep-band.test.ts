@@ -73,9 +73,9 @@ describe('Sleep cast over a band outside a fight', () => {
     await t.play('Have Ysabel cast Sleep over the rats');
     expect(fell(t)).toBe(false);
     // Ten rounds, ten watches outside a fight (FieldUse: as many watches as turns).
-    await t.play('Wait › An hour');
+    await t.play('Wait an hour');
     expect(band(t).every(c => c.state.conditions.some(s => s.id === 'asleep'))).toBe(true);
-    await t.play('Wait › An hour');
+    await t.play('Wait an hour');
     expect(band(t).some(c => c.state.conditions.some(s => s.id === 'asleep'))).toBe(false);
     expect(fell(t)).toBe(true);
   });

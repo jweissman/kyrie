@@ -21,7 +21,7 @@ class House {
   // A fact made so for the test is seen by the page after the next command, so a short wait follows it.
   static async set(j: Journey, rel: string, ...args: string[]) {
     j.assert(rel, ...args.map(x => this.a(x)));
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
   }
   static world(seed: string) {
     if (!House.worlds.has(seed)) { House.worlds.set(seed, House.assembled(seed)); }
@@ -207,7 +207,7 @@ describe('the Bridge of Weights', () => {
     await j.play('To the middle of the Bridge of Weights');
     expect(House.is(j, 'state', 'deck', 'canted')).toBe(true);
     expect(j.at('party')).toMatch(/bridge_near$/);
-    await j.play('Wait › An hour');
+    await j.play('Wait an hour');
     expect(House.is(j, 'state', 'deck', 'level')).toBe(true);
   }, 300000);
 

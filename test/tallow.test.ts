@@ -234,7 +234,7 @@ describe('Tallow Deep: the hill\'s own clocks', () => {
     // Waiting in the Hall with a light: the river is heard before it is seen, twice, and then it comes.
     const heard: string[] = [];
     for (let i = 0; i < 12 && j.holds('state', 'sluice', 'wound'); i++) {
-      await j.play('?Bran: light a torch', 'Wait › An hour');
+      await j.play('?Bran: light a torch', 'Wait an hour');
       heard.push(j.latest);
     }
     const heardHall = heard.join(' ');
@@ -256,7 +256,7 @@ describe('Tallow Deep: the hill\'s own clocks', () => {
     expect(j.offers('Turn the Cap\'s bronze ring')).toBe(false);
     // Let it come: the Cap tells of it, and the causeway is shut under the water.
     let said = '';
-    for (let i = 0; i < 12 && j.holds('state', 'sluice', 'wound'); i++) { said += await j.step('Wait › An hour'); }
+    for (let i = 0; i < 12 && j.holds('state', 'sluice', 'wound'); i++) { said += await j.step('Wait an hour'); }
     expect(said).toContain('groaning');
     expect(j.holds('state', 'sluice', 'open')).toBe(true);
     expect(j.takes('To the Cistern Hall')).toBe(false);
@@ -283,7 +283,7 @@ describe('Tallow Deep: people', () => {
     expect(j.holds('travelsWith', 'sib', 'party')).toBe(false);
     expect(j.offers('Talk to Sib Wray')).toBe(false);
     expect(j.offers('Sib Wray')).toBe(false);
-    await j.step('Wait › A while');
+    await j.step('Wait a while');
     expect(j.at('sib')).toBeUndefined();
     expect(j.latest).not.toContain('Sib Wray close by');
   }, 200000);

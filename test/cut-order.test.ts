@@ -7,7 +7,7 @@ import { Journey } from '../src/session/journey';
 describe('what rules say as a wait is cut short', () => {
   it('is told in the order the rules are written', async () => {
     const j = await Journey.start('test/fixtures/probes/cut-order/probe.campaign.json');
-    await j.play('Wait › An hour');
+    await j.play('Wait an hour');
     expect(j.taken.at(-1)!.page).toBe('The long night ends at last. Your second morning at the farm comes grey over the byre.');
   }, 30000);
   // The Banns at Hessel's 24 (HSL-22): a sentence about a thing came where the engine put it. Written as a line of the

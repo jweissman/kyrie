@@ -13,10 +13,10 @@ const start = async () => {
   return j;
 };
 const seen = (j: Journey) => PlayerView.observe(j.campaign).observations.map(o => o.text).join(' ');
-const s2 = (j: Journey) => j.play('^Examine › Look|^Wait › A while');
+const s2 = (j: Journey) => j.play('^Examine › Look|^Wait a while');
 const fall = async (j: Journey) => {
   j.assert('routed', 'ring_head');
-  await j.play('^Wait › A while');
+  await j.play('^Wait a while');
 };
 const descend = async (j: Journey) => {
   await fall(j);
@@ -31,7 +31,7 @@ describe('the Lamp Below', () => {
     expect(j.matches('Into the Lamp Below').length).toBe(0);
     expect(j.page).toContain('House padlock');
     // Waiting does not open it, nor does anything but the fall.
-    await j.play('^Wait › An hour');
+    await j.play('^Wait an hour');
     expect(j.matches('Into the Lamp Below').length).toBe(0);
     expect(j.at(k('lb_head'))).toBeUndefined();
     await fall(j);
@@ -45,7 +45,7 @@ describe('the Lamp Below', () => {
   it('is open too if the Principal is dead and not merely routed', async () => {
     const j = await start();
     j.assert('dead', 'ring_head');
-    await j.play('oil store', '^Wait › A while');
+    await j.play('oil store', '^Wait a while');
     expect(j.holds(k('ringFallen'), 'party')).toBe(true);
     expect(j.matches('Into the Lamp Below').length).toBe(1);
   }, 300000);
@@ -141,7 +141,7 @@ describe('the Lamp Below', () => {
   it('has a fourth, for a company of one, whom the Governor counts as the keeper', async () => {
     const j = await Journey.start('test/fixtures/ring/lone.campaign.json', 's1');
     j.put('party', k('lb_well'));
-    await j.play('^Wait › A while');
+    await j.play('^Wait a while');
     expect(j.holds('tolerates', k('governor'), 'party')).toBe(true);
     expect(j.page).toContain('One keeper. Tend.');
   }, 300000);

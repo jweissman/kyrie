@@ -211,7 +211,7 @@ describe('The Confessional: what is done stays done, and nothing is in two place
         .filter(c => !/^Wait|prepare|Prepare|Set down|Pack|Take your leave|^Light/.test(c.label))
         .filter(c => !/Take your face|nave of the Chapel/.test(c.label));
       const choice = options[0];
-      if (!choice) { await g.play('Wait › An hour'); continue; }
+      if (!choice) { await g.play('Wait an hour'); continue; }
       await g.play(`@${choice.command}`);
       for (const p of persons) { expect(g.j.campaign.world.related('at').filter(r => r.args[0] === p).length).toBeLessThanOrEqual(1); }
       // The measures never run past what is possible; a closed penitent is not also open.

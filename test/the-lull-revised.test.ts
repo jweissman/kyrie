@@ -25,7 +25,7 @@ describe('The Lull: the Account, kept', () => {
   it('the thief reads the beam in the dark: a T begun from behind, and never finished', async () => {
     const g = await Lull.start(five);
     await g.fixture('sixnight', 'arrive', 'hob');
-    await g.play('=23:30', 'Wait › An hour', 'To the Pleasure Gardens', 'To the Mill yard', 'Pack › .*torch.* › Light|a torch: Light', 'Into the mill');
+    await g.play('=23:30', 'Wait an hour', 'To the Pleasure Gardens', 'To the Mill yard', 'Pack › .*torch.* › Light|a torch: Light', 'Into the mill');
     expect(g.knows('beam_stroke')).toBe(true);
     expect(g.page).toMatch(/A T\. Begun and not finished/);
   }, 300000);

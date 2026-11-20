@@ -21,7 +21,7 @@ class Career {
   // A night and a day gone by, as a player lets them go: camped where that can be done, else waited out.
   static async night(t: Tiny) {
     const l = t.journey.choices().map(c => c.label);
-    await t.play(l.find(x => /^Make camp/.test(x)) ?? l.find(x => /Until first light/.test(x)) ?? 'Wait › Until dark');
+    await t.play(l.find(x => /^Make camp/.test(x)) ?? l.find(x => /until first light/i.test(x)) ?? 'Wait until dark');
   }
   static async attack(t: Tiny, who: string) {
     await t.perform(t.journey.choices().find(c => c.command === `attack(t__${who})`)!.command);

@@ -103,8 +103,9 @@ export class ChoiceGrouping {
     disarm: { slot: 'exit', param: 'destination', path: ['Disarm {trap}'], passage: 'hazard', via: '{trap}' },
     brace: { slot: 'exit', param: 'destination', path: ['Brace {trap} with {kit}'], passage: 'hazard', via: '{trap}' },
     escort: { slot: 'exit', param: 'destination', path: ['Escort {companion}'] },
-    pay: { slot: 'target', param: 'recipient', path: ['Give', 'one coin'] },
-    give_food: { slot: 'target', param: 'recipient', path: ['Give', 'one ration'] },
+    // Flat, in whole words, as the waits are (PB-02): a "Give" opener had held "one coin" and "one ration".
+    pay: { slot: 'target', param: 'recipient', path: ['Give one coin'] },
+    give_food: { slot: 'target', param: 'recipient', path: ['Give one ration'] },
     attack: { slot: 'target', param: 'opponent', path: ['Attack'], risk: true },
     buy: { slot: 'target', param: 'merchant', path: ['Buy', '{goods} — 2 coin'] },
     buy_item: { slot: 'target', param: 'merchant', path: ['Buy', '{find} — {price} coin', 'for {recipient}{versus}'],
@@ -174,11 +175,13 @@ export class ChoiceGrouping {
     learn_skill: { slot: 'member', param: 'member', path: ['Advance', 'Take up a skill', '{skill}'] },
     learn_spell: { slot: 'member', param: 'member', path: ['Advance', 'Learn a spell', '{spell}'], tells: 'spell' },
     take_feat: { slot: 'member', param: 'member', path: ['Advance', 'Take up a feat', '{choice}'], tells: 'choice' },
-    wait: { slot: 'camp', path: ['Wait', 'A while'] },
-    wait_hour: { slot: 'camp', path: ['Wait', 'An hour'] },
-    wait_for_light: { slot: 'camp', path: ['Wait', 'Until first light'] },
-    wait_for_dark: { slot: 'camp', path: ['Wait', 'Until dark'] },
-    wait_watch: { slot: 'camp', path: ['Wait', 'And watch, until something changes'] },
+    // Each wait a flat row in whole words, as the world names it (PB-02, the owner's ruling of 20 November: only a
+    // fight unfolds; a "Wait" opener had held "A while", "An hour", "Until dark", fragments of an act).
+    wait: { slot: 'camp', path: ['Wait a while'] },
+    wait_hour: { slot: 'camp', path: ['Wait an hour'] },
+    wait_for_light: { slot: 'camp', path: ['Wait until first light'] },
+    wait_for_dark: { slot: 'camp', path: ['Wait until dark'] },
+    wait_watch: { slot: 'camp', path: ['Wait and watch, until something changes'] },
     eat: { slot: 'camp', path: ['Eat a ration'] }, rest: { slot: 'camp', path: ['Rest six hours'] },
     // Said as what it is: with nothing to eat, a rest is no rest (it takes a minute, and says so; the architecture
     // review's H5 found it told and kept as six hours' rest).

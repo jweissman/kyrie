@@ -53,7 +53,7 @@ describe('A Winter in Carth, wandered', () => {
           for (let i = 0; i < steps && j.campaign.running; i++) {
             const offered = j.choices().filter(c => !/Set down here|Give to|Make camp/.test(c.label));
             if (!offered.length) { break; }
-            const waits = offered.filter(c => /Wait › (An hour|Until)/.test(c.label));
+            const waits = offered.filter(c => /Wait (an hour|until)/.test(c.label));
             const pool = waits.length && next() < 0.15 ? waits : offered.filter(c => !/^Wait/.test(c.label));
             const c = (pool.length ? pool : offered)[Math.floor(next() * (pool.length || offered.length))]!;
             taken.push(c.command);
@@ -61,7 +61,7 @@ describe('A Winter in Carth, wandered', () => {
             check();
           }
           while (j.campaign.running && !j.campaign.world.related('reached').length && j.watch() < 560) {
-            const c = j.find('^Wait › An hour') ?? j.find('^Wait › A while') ?? j.find('^Wait') ?? j.find('^Lie as you are');
+            const c = j.find('^Wait an hour') ?? j.find('^Wait a while') ?? j.find('^Wait') ?? j.find('^Lie as you are');
             if (!c) { break; }
             taken.push(c.command);
             await j.perform(c.command, c.label);

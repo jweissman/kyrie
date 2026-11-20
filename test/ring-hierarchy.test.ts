@@ -165,7 +165,7 @@ describe('the Principal, at the top', () => {
     expect(stands.holds(F('stood'), F('principal'))).toBe(true);
     expect(stands.holds('tolerates', F('principal'), 'party')).toBe(true);
     expect(stands.at(F('principal'))).toBe(T('ring_loft'));
-    await stands.play('^Wait › An hour');
+    await stands.play('^Wait an hour');
     expect(stands.holds('tolerates', F('principal'), 'party')).toBe(false);
   }, 900000);
 
@@ -173,11 +173,11 @@ describe('the Principal, at the top', () => {
     const w = await inTolleth();
     const { j } = w;
     j.put('party', T('oil_store'));
-    await j.play('^Wait › A while');
+    await j.play('^Wait a while');
     expect(j.holds(T('ringFallen'), 'party')).toBe(false);
     expect(j.matches('Into the Lamp Below').length).toBe(0);
     j.assert('routed', F('principal'));
-    await j.play('^Wait › A while');
+    await j.play('^Wait a while');
     expect(j.holds(T('ringFallen'), 'party')).toBe(true);
     await j.play('Into the Lamp Below');
     expect(j.at('party')).toBe(T('lb_head'));

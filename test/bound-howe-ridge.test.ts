@@ -77,7 +77,7 @@ describe('the howe’s three laws: the seal, the roll, the mounts, the flutes, t
     await Howe.torch(open);
     await open.fight('Attack');
     expect(Howe.holds(open, 'dead', R('iron_caps'))).toBe(true);
-    await open.play('Wait › Until dark');
+    await open.play('Wait until dark');
     expect(Howe.holds(open, 'dark')).toBe(true);
     expect(Howe.where(open, 'household')).toBe(R('forecourt'));
   }, 300000);

@@ -305,7 +305,7 @@ describe('What the Lane keeps', () => {
     const g = await start('explore');
     await g.play('=20:30', '>ombra__maskers_roof', 'Say you only came up for the air', 'Sit by Dov on the ridge', 'Ask Dov if you may try the mask on');
     const persons = ['pavane', 'dov', 'mk_maule', 'peck', 'tibb', 'rainmother', 'vane', 'lacke', 'moll'].filter(p => present(g, p));
-    const skip = /^(Attack|Lift|Name|Sink|Make camp|Search)|Burn|Set down|Pack|Light|Wait › Until dark/;
+    const skip = /^(Attack|Lift|Name|Sink|Make camp|Search)|Burn|Set down|Pack|Light|Wait until dark/;
     for (let i = 0; i < 200 && g.running; i++) {
       const offered = g.j.choices().filter(c => !skip.test(c.label) && !skip.test(c.full));
       if (!offered.length) { break; }

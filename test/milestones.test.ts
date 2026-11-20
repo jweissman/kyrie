@@ -16,7 +16,7 @@ describe('a milestone', () => {
     expect(told).toContain('120 experience: drew water from the old well');
     expect(j.holds('achieved', 'p__hauled')).toBe(true);
     expect(xp()).toBe(120);
-    await j.play('Wait › A while', 'Wait › A while');
+    await j.play('Wait a while', 'Wait a while');
     expect(xp()).toBe(120);
   }, 60000);
 });

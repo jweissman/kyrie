@@ -32,7 +32,7 @@ describe('the silent lord alone: consequences that leave the keep', () => {
     expect(again.campaign.world.one('state', k('banner'))).toBe(k('hushed'));
     await j.play('=day 13 12:00');
     Placed.at(j, 'host__green'); // (put down on the first town's green: the walk there is not the point)
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(Keep.state(j, 'levy_post')).toBe(k('quashed'));
     Placed.at(j, 'host__taproom'); // (the host's rooms have no ways between them)
     await j.play('Ask .* what the remission has done');
@@ -73,7 +73,7 @@ describe('the silent lord alone: consequences that leave the keep', () => {
     expect(j.at(k('castellan'))).toBe(k('oubliette'));
     await j.play('=day 14 12:00');
     Placed.at(j, 'host__green'); // (put down on the first town's green: the walk there is not the point)
-    await j.play('Wait › A while');
+    await j.play('Wait a while');
     expect(j.at(k('deserters'))).toBe('host__green');
     expect(Keep.state(j, 'levy_post')).toBe(k('abandoned'));
   }, 120000);
