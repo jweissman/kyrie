@@ -9,6 +9,7 @@ import { Content, type CreatureGenerationContext } from '../content';
 import { World } from '../lang/world';
 import { ModuleParser } from '../lang/module-parser';
 import { ModuleCompiler } from '../lang/module-compiler';
+import { Expressions } from '../expressions';
 import { ModuleWriter } from '../lang/module-writer';
 import { Cast } from './cast';
 import { ItemTraits } from './item-traits';
@@ -75,7 +76,7 @@ export class ModuleAssembly {
     // Checked once, with each pressure's measure, outcome and goal a well-formed predicate over it: the whole module,
     // the shared rules' every declaration with it, had been checked again after it was instantiated, which settles
     // only its dice (AX-03; that each install checks the shared rules at all: test/shared-validity).
-    const compiler = new ModuleCompiler(RuntimeCapabilities.signatures);
+    const compiler = new ModuleCompiler(RuntimeCapabilities.signatures, false, seed => new Expressions(seed));
     const instance = compiler.instantiate(module, seed, this.predicates(definition));
     for (const p of instance.module.pursuits ?? []) {
       const owner = definition.actors.find(a => a.id === p.actor)

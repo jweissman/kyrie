@@ -6,7 +6,7 @@
   "setting -> player": 17,
   "runtime -> player": 1,
   "lang -> setting": 5,
-  "lang -> runtime": 3,
+  "lang -> runtime": 2,
   "player -> client": 4
  },
  "edges": [
@@ -80,7 +80,6 @@
   "src/lang/catalog-parser.ts -> src/canon/schema",
   "src/lang/endings.ts -> src/campaign/definition",
   "src/lang/module-compiler.ts -> src/canon/canon",
-  "src/lang/module-compiler.ts -> src/expressions",
   "src/lang/module.ts -> src/campaign/definition",
   "src/lang/module.ts -> src/canon/local-catalog",
   "src/lang/vocabulary.ts -> src/canon/local-catalog",

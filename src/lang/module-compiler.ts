@@ -5,7 +5,6 @@ import { Canon } from '../canon/canon';
 import { ComputedRelations } from './computed-relations';
 import { ObservationText } from './observation-text';
 import { Deem } from 'deem';
-import { Expressions } from '../expressions';
 import type { Aspect, Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
 import { EngineOwned } from './engine-owned';
@@ -13,6 +12,8 @@ import { Arithmetic } from './arithmetic';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
+// What rolls a module's dice once as it is instantiated, made for its seed: the runtime's, by its rules (Expressions).
+export interface Dice { number(expression: string): number }
 export class ModuleCompiler {
   static readonly aspects: readonly Aspect[] = ['fixture', 'feature', 'sign', 'weather', 'ambience', 'event', 'revelation',
     'reading', 'hearsay', 'sound', 'felt'];
@@ -21,8 +22,10 @@ export class ModuleCompiler {
   // joined: checking a world joined from modules each checked on its own already. An action's parameter named as
   // something another module brought into the world (the catalog's lamp, once a country gave someone one) is no
   // ambiguity there: in the action, its parameter is meant. The Strewnfield's fuel_lamp could not be installed into a
-  // world that held a lamp (the library tour, wren).
-  constructor(private readonly capabilities: Signature[] = [], private readonly joined = false) {}
+  // world that held a lamp (the library tour, wren). dice: what rolls a module's dice as it is instantiated; a module
+  // instantiated with none may roll none.
+  constructor(private readonly capabilities: Signature[] = [], private readonly joined = false,
+    private readonly dice?: (seed: string) => Dice) {}
   // goals: predicates over the module (a pressure's measure, outcomes, people's goals), each checked in the one pass
   // with it, rather than the whole module checked again as each one's goal: a scenario of a hundred people had been
   // checked whole hundreds of times, a second of a generated start (Mission 21, world/construction.md §6).
@@ -172,7 +175,7 @@ export class ModuleCompiler {
   instantiate(definition: Module, seed: string, goals: readonly Predicate[] = []): Instance {
     this.validate(definition, goals);
     const module = definition;
-    const expressions = new Expressions(`${seed}:module`);
+    const expressions = this.dice?.(`${seed}:module`);
     const resolve = ModuleCompiler.resolve.bind(null, expressions);
     module.budget = resolve(module.budget);
     const changes = [...module.initial, ...(module.rules ?? []).flatMap(r => r.effects),
@@ -198,16 +201,18 @@ export class ModuleCompiler {
     return { module, world: world.snapshot, budget: World.literal(module.budget) };
   }
   // A value with its dice rolled once, for the module: what is left to the world is its measures.
-  private static settle(expressions: Expressions, value: Value): Value {
+  private static settle(expressions: Dice | undefined, value: Value): Value {
     if (value.kind === 'call' || value.kind === 'count') { return value; }
     if (value.kind === 'arith') { return { ...value, left: this.settle(expressions, value.left),
       right: this.settle(expressions, value.right) }; }
     return this.resolve(expressions, value);
   }
-  private static resolve(expressions: Expressions, value: NumberValue): NumberValue {
-    return { kind: 'number', value: value.kind === 'deem' ? expressions.number(value.expression) : value.value };
+  private static resolve(expressions: Dice | undefined, value: NumberValue): NumberValue {
+    if (value.kind !== 'deem') { return { kind: 'number', value: value.value }; }
+    if (!expressions) { throw new Error(`The module rolls (${value.expression}), and no dice were given to instantiate it`); }
+    return { kind: 'number', value: expressions.number(value.expression) };
   }
-  private resolvePredicate(predicate: Predicate, expressions: Expressions): Predicate {
+  private resolvePredicate(predicate: Predicate, expressions: Dice | undefined): Predicate {
     switch (predicate.kind) {
       case 'compare': return { ...predicate,
         left: ModuleCompiler.settle(expressions, predicate.left),
