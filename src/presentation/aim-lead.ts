@@ -62,7 +62,8 @@ export class AimLeading {
     if (!this.at(campaign, screen, named) && !this.entered(campaign, screen, named)) {
       return within ?? AimMeans.lead(campaign, def, named) ?? { aim, source: 'toward', next: [...named] };
     }
-    return within ?? this.deeper(campaign, screen, named, aim) ?? AimMeans.lead(campaign, def, named)
+    return within ?? this.level(campaign, screen, named, aim) ?? this.deeper(campaign, screen, named, aim)
+      ?? AimMeans.lead(campaign, def, named)
       ?? { aim, source: 'here', next: [screen.place.id] };
   }
   // Inside a site gone into from a place the aim names (Ironkeep's gate-passage, from the room before its gate): on
@@ -96,6 +97,29 @@ export class AimLeading {
     // gold went on elsewhere).
     if (!into && bar) { return { aim, source: 'barred', next: [bar] }; }
     return into ? { aim, source: 'deeper', next: [into.destination.id] } : undefined;
+  }
+  // What the aim names lying on another level of the site the company is in, and a room of that level known: the way
+  // there, barred ways and all, its first room the step (AT-15: from the barrow's cross-chamber, the back-stone seen
+  // and the stair down from it, the lead had pointed into a side recess, the first room not visited, and the gold
+  // went round between them).
+  private static level(campaign: Campaign, screen: Screen, named: Set<string>, aim: string): AimLead | undefined {
+    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world, here = screen.place.id;
+    const mine = this.levelOf(byId, here), site = this.siteOf(byId, here);
+    const levels = new Set([...named].flatMap(id => {
+      const at = byId.get(id)?.space ? id : w.one('at', id), level = at && this.levelOf(byId, at);
+      return level && level !== mine && site && this.siteOf(byId, at) === site ? [level] : [];
+    }));
+    if (!levels.size) { return undefined; }
+    const first = KnownWays.way(campaign, here, id => levels.has(this.levelOf(byId, id) ?? ''), { barred: true })
+      ?.legs[0]?.to;
+    if (!first) { return undefined; }
+    // The first way there barred (the stair under the back-stone, its wheel jammed): what bars it is the step.
+    const exit = screen.exits.find(e => e.destination.id === first);
+    const bar = exit && this.barred(exit) ? this.bar(campaign, here, first) ?? this.done(exit.acts)[0] : undefined;
+    return bar ? { aim, source: 'barred', next: [bar] } : { aim, source: 'beyond', next: [first] };
+  }
+  private static levelOf(byId: Map<string, Entity>, id: string): string | undefined {
+    return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'level')?.id;
   }
   // In the place it is gone to by, at what it is toward, or on the way from the one to the other.
   static there(campaign: Campaign, screen: Screen, t: ResolvedTarget): boolean {

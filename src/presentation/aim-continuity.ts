@@ -35,18 +35,21 @@ export class AimContinuity {
     { acts: Promoted[]; continuance?: Continuance } {
     const { acts, cands } = at, lead = AimLeading.of(campaign, screen);
     if (!Undertakings.followed(campaign) || !lead) { return { acts }; }
-    // A way gold by the glance's reading, back to a place already been to, is the step only where it goes on the
-    // lead's way (AT-14: from the back-stone the gold had led back to the chamber the lead had come from, and the two
-    // pointed at each other); taken off, the lead decides. Toward a place, or by the author's route or the means, the
-    // glance's ways are the lead's; a way into what is not yet seen, and an act done here (the ruts followed, the
-    // search), are the glance's to gild, as before.
+    // A way gold by the glance's reading is the step only where it goes on the lead's way, when it goes back to a
+    // place already been to (AT-14: from the back-stone the gold had led back to the chamber the lead had come from,
+    // and the two pointed at each other) or where another way offered here does go on it (AT-15: from the chamber,
+    // the back-stone and the stair down from it known, the gold had gone into a side recess); taken off, the lead
+    // decides. Toward a place, or by the author's route or the means, the glance's ways are the lead's; a way toward
+    // where what the aim waits on lies hidden, a way into what is not yet seen with nothing else known, and an act done
+    // here (the ruts followed, the search), are the glance's to gild, as before.
     // A wait is led with only in the dark, except where the aim's step is to stand here until the day (AimPlaced).
     const dawn = lead.source === 'placed' && lead.next[0] === screen.place.id;
     const eligible = cands.filter(c => !c.barred && (Promotion.eligible(c, at.s) || (dawn && c.kind === 'wait')));
     const gold = acts.find(a => a.continues), way = gold && cands.find(c => c.choice === gold.choice)?.exit;
     const back = way ? screen.exits.find(e => e.id === way) : undefined;
-    const off = !!gold && !!back?.visited && !['route', 'toward', 'means'].includes(lead.source)
-      && !this.acting(campaign, screen, lead, eligible).some(c => c.choice === gold.choice)
+    const weighed = !!gold && !!back && !['route', 'toward', 'means'].includes(lead.source);
+    const on = weighed ? this.acting(campaign, screen, lead, eligible) : [];
+    const off = weighed && (on.length > 0 || !!back.visited) && !on.some(c => c.choice === gold.choice)
       && !this.sought(campaign, screen, back.destination.id);
     if (gold && !off) { return { acts, continuance: { kind: 'step', witness: gold.choice } }; }
     if (gold) { return this.of(campaign, screen, { ...at, acts: acts.map(a => a === gold ? this.plain(a) : a) }); }
@@ -91,10 +94,12 @@ export class AimContinuity {
     return `Nothing here is known to hold what your aim waits on: ${site?.name ?? 'this place'} is still to be explored.`;
   }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
-  // Whether a way back goes toward where what the aim waits on lies hidden or to be learned, which the glance reads
-  // and the lead may not (a1's cross under the door-stone, outside the site gone into past it: test/gold-thread).
+  // Whether a way goes toward where what the aim waits on lies hidden, is to be learned or is to be come to, which the
+  // glance reads and the lead may not (a1's cross under the door-stone, outside the site gone into past it:
+  // test/gold-thread; a hold's rooms each to be been in, in the glance's order: test/small/aim-lead's survey).
   private static sought(campaign: Campaign, screen: Screen, to: string): boolean {
-    const there = new Set([...AimAdvances.sought(campaign), ...AimAdvances.taughtAt(campaign)]);
+    const there = new Set([...AimAdvances.sought(campaign), ...AimAdvances.taughtAt(campaign),
+      ...AimAdvances.unreached(campaign)]);
     return there.has(to) || (there.size > 0
       && KnownWays.first(campaign, screen.place.id, id => there.has(id), { able: true }) === to);
   }

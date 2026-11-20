@@ -143,3 +143,28 @@ describe('World › The gold never goes round', () => {
     expect(t.journey.holds('been', 'party', 't__below')).toBe(true);
   });
 });
+
+// The step toward another level (AT-15, the warned barrow walk: from the cross-chamber, the back-stone and the stair
+// down from it seen, the lead had pointed into a side recess, the first room not visited): where what the aim names
+// lies on another level of the site, and a room of it is known, the way there is the step, the back room, in gold,
+// never a recess not yet seen.
+const levels = winch
+  .replace('Place chamber "the chamber" is room within hold at 0, 0 indoors.',
+    'Place upper "the upper halls" is level within hold. Place lower "the lower halls" is level within hold.\n'
+    + '  Place chamber "the chamber" is room within upper at 0, 0 indoors.')
+  .replace(/is room within hold at (\d), (\d) indoors\.\n {2}Place right/, 'is room within upper at $1, $2 indoors.\n  Place right')
+  .replace('Place right "the right recess" is room within hold', 'Place right "the right recess" is room within upper')
+  .replace('Place back "the back room" is room within hold', 'Place back "the back room" is room within upper')
+  .replace('Place below "the vault below" is room within hold', 'Place below "the vault below" is room within lower')
+  .replace(/Objective vault[^\n]*/, 'Kind jar_kind "a sealed jar" is treasure worth 2 weighing 1 described "A jar of black clay.".\n'
+    + '  Item jar "the sealed jar" is jar_kind at below.\n'
+    + '  Objective vault when not holding(party, jar_kind) toward below "Bring up the sealed jar from the vault.".');
+describe('World › The step toward another level', () => {
+  it('leads back to the room the way down was seen from, not into a recess not yet seen', async () => {
+    const t = await Tiny.start(levels);
+    await t.play('To the back room', 'To the chamber');
+    t.follow('vault');
+    expect(t.glance.lead).toMatchObject({ source: 'beyond', next: ['t__back'] });
+    expect(Lead.gold(t)).toEqual(['go(t__back_way,t__back)']);
+  });
+});
