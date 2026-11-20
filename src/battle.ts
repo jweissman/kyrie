@@ -3,15 +3,13 @@ import { Spellcasting } from './rules/spellcasting';
 import { AttackRoutine } from './attack-routine'; import { AbilityUse } from './ability-use';
 import { CreatureStore, type CreatureLease } from './creature-store'; import type { Creature } from './creature';
 import { CombatProjection } from './combat-projection';
-import { Content } from './content';
-import { Expressions } from './expressions';
+import { Content } from './content'; import { Expressions } from './expressions';
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting'; import { Fighting } from './rules/fighting';
 import { Morale } from './rules/morale'; import { ShakingOff } from './rules/shaking-off';
 import { Tactics } from './tactics';
 import { Quarry } from './quarry'; import { Positions } from './rules/positions'; import { HitDicePool } from './rules/hit-dice-pool';
-import { ItemCatalog } from './item-catalog';
-import type { ArenaAbility } from './lang/parse';
+import { ItemCatalog } from './item-catalog'; import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
 
 // Orsino's combat loop (Combat.round and Combat.turn): each round everyone rolls initiative (d20 + DEX modifier +
@@ -155,8 +153,12 @@ export class Battle {
     }
     if (this.abilities === Content.abilities) { Battle.sound.set(this.abilities, this.abilities.length); }
   }
-  get state(): BattleState {
-    return { combatants: structuredClone(this.fighters), turn: this.turn,
+  get state(): BattleState { return this.read(structuredClone(this.fighters)); }
+  // The fight as it stands, uncopied, to be read only (tactics choosing, here and in DangerSense's rehearsals): a copy
+  // for every choice had been a fifth of a reckoning (OR-145 (b): a1's "Ask Eamon about the king-barrow", 1.2 s).
+  get view(): Readonly<BattleState> { return this.read(this.fighters); }
+  private read(combatants: Fighter[]): BattleState {
+    return { combatants, turn: this.turn,
       actor: this.outcome ? '' : this.order[this.cursor]!, outcome: this.outcome,
       ...(this.intents.size ? { intents: Object.fromEntries([...this.intents].map(([id, c]) => [id, { ...c }])) } : {}),
       order: this.order.slice(this.cursor), ...this.barked.length ? { barked: [...this.barked] } : {},
@@ -215,7 +217,7 @@ export class Battle {
   chosen(): Command {
     const legal = this.legalCommands(), intent = this.intents.get(this.actor().id);
     if (intent && legal.some(c => c.ability === intent.ability && c.target === intent.target)) { return { ...intent }; }
-    return Tactics.choose(this.state, this.plain(legal));
+    return Tactics.choose(this.view, this.plain(legal));
   }
   // The commands that use up nothing carried. What is chosen for anyone rather than by the company itself (a turn
   // left to the game's tactics, "auto", the laboratory's players) leaves what it carries to the company's own call.
@@ -241,7 +243,7 @@ export class Battle {
       const legal = this.commandsFor(f);
       const wound = f.windup && legal.find(c => c.ability === f.windup!.ability && c.target === f.windup!.target);
       if (f.windup && !wound) { delete f.windup; }
-      if (legal.length) { this.intents.set(f.id, wound ?? Tactics.choose({ ...this.state, actor: f.id }, legal)); }
+      if (legal.length) { this.intents.set(f.id, wound ?? Tactics.choose({ ...this.view, actor: f.id }, legal)); }
     }
   }
   private winding(actor: Fighter, command: Command): boolean {
@@ -319,7 +321,7 @@ export class Battle {
       const f = this.fighters.find(x => x.id === id), legal = f && f.hp > 0 ? this.commandsFor(f) : [];
       if (legal.some(c => c.ability === intent.ability && c.target === intent.target)) { continue; }
       if (!legal.length) { this.intents.delete(id); continue; }
-      this.intents.set(id, Tactics.choose({ ...this.state, actor: id }, this.plain(legal)));
+      this.intents.set(id, Tactics.choose({ ...this.view, actor: id }, this.plain(legal)));
     }
   }
   // What can be done in this fight: the catalog's abilities, and the things the company carries to use up.
