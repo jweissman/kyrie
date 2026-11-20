@@ -56,7 +56,9 @@ describe('kite at a glance', () => {
       // of what is under the town, the town's own (OWN-57), where the grey dog's sign had been fourth before her
       // (MT-15); Wynn the carter is not led with.
       ['region__s2_u_hand#talk', 'companion', 'might come along'],
-      ['company/1:Read the notice on the well-post', 'own', undefined]]);
+      // The notice's row is the company's fifth now that its four waits are rows of their own, where one Wait opener
+      // had held them (PB-02, 87b8d340: the menu's ids number a row among its siblings).
+      ['company/4:Read the notice on the well-post', 'own', undefined]]);
     expect(glance.acts[0]!.facets).toEqual(['here', 'aimed']);
     // The taproom the dog lies at the door of is named: first of the ways rowed.
     expect(glance.ways[0]).toBe('exit:region__s2_taproom');
