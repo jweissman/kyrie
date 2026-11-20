@@ -87,7 +87,7 @@ describe('the golden route, after the fourth cold play', () => {
     // not aims, and nothing else held once Bran is out, HP-01), and before anything else of the green but one who
     // would come along (Promotion's tiers: the hand on the green, MT-15).
     const spoken = (s: Said | undefined) => s!.offer.primary.filter(o => !o.id.startsWith('drove__')
-      && !o.aspects.includes('companionship')).map(o => o.id);
+      && !o.aspects.includes('companionship')).map(o => RunnerOffer.act(o));
     expect(spoken(byLine[13])[0]).toMatch(/^gate__reeve_/);
     expect(spoken(byLine[14])[0]).toMatch(/^gate__reeve_/);
     // And Gwil Pryce, greeted with nothing to say to him, says what his boats are for.

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerFind } from './support/runner-find';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -13,12 +14,8 @@ import { PlaySession } from '../src/session/play-session';
 // Bran's road west and the landing's word of it.
 const lines = readFileSync('doc/architecture/mission-22/cold/cold-4-lines.txt', 'utf8').split('\n').filter(Boolean);
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
-const offered = (s: Said) => [...s.offer.primary, ...s.offer.rest].flatMap(o => [o, ...o.opens ?? []]);
-const take = async (r: Runner, label: RegExp) => {
-  const o = offered(r.said()).find(x => label.test(x.label));
-  if (!o) { throw new Error(`not offered: ${label} (${offered(r.said()).map(x => x.label).join(' | ')})`); }
-  return said(await r.ask(JSON.stringify({ act: o.id })));
-};
+// Found as a player finds it, under someone's talk too (MT-18: what is said to Bran is held within his talk).
+const take = (r: Runner, label: RegExp) => RunnerFind.act(r, r.said(), label);
 describe('the drove life, kept and taken up again', () => {
   it('keeps Bran out, the drove sold and his share paid, and the world still answers it', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
@@ -36,7 +33,6 @@ describe('the drove life, kept and taken up again', () => {
     // Taken up again, what follows from it is still offered and still said: Bran's talk, open on the sale before the
     // save, is a view's and not the world's, so it is opened again.
     const on = new Runner(again);
-    await take(on, /^Talk to Bran ap Ifor/);
     expect(said(await take(on, /^Ask Bran about the work in Brynach/)).scene.lines.join(' ')).toContain('The old road west');
     await take(on, /^To the landing at Porthalen/);
     await take(on, /^Into the Stone Horn/);
