@@ -6,6 +6,7 @@ import { KeptPredicates } from '../lang/kept-predicates';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { QueryIndex } from '../lang/query-index';
+import { Nearby } from './nearby';
 
 // Explicitly authored local claims. Reading a description does not grant formal knowledge. A claim is anchored at a
 // place, near an entity wherever it now is (or across a way it guards), beside a passage (perceived from either
@@ -22,6 +23,12 @@ export class LocalObservations {
         : ModuleWriter.call('connects', place, '?here', '?there');
       return { kind: 'and', left: here, right: there };
     }));
+  }
+  // As perceives, near a thing or beside a way read from what is near the company at all (see Nearby).
+  private static reached(world: World, actor: string, place: string, anchor: Anchor = 'at'): boolean {
+    if (anchor === 'near') { return Nearby.of(world, actor).near.has(place); }
+    if (anchor === 'beside') { return Nearby.of(world, actor).beside.has(place); }
+    return this.perceives(world, actor, place, anchor);
   }
   // Whether one stands anywhere inside an area: the city, and not under the sea beneath it.
   static inArea(world: World, actor: string, area: string): boolean {
@@ -90,7 +97,7 @@ export class LocalObservations {
       .filter(o => !dark || ['sound', 'felt'].includes(o.aspect ?? ''));
     const seen = all.filter(o => !o.place.startsWith('?') && ((o.anchor ?? 'at') !== 'at' || o.place === here)
       && (!o.from || o.from === here)
-      && this.perceives(world, actor, o.place, o.anchor)
+      && this.reached(world, actor, o.place, o.anchor)
       && world.test(o.when) && this.noticed(world, o.about ?? (o.anchor === 'near' ? o.place : undefined), actor)
       && this.brings(world, actor, o.by));
     const told = [...seen.filter(o => (o.anchor ?? 'at') === 'at'), ...seen.filter(o => (o.anchor ?? 'at') !== 'at')]
