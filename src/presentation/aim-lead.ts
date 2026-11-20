@@ -11,13 +11,16 @@ import { Undertakings } from './undertakings';
 import { CompanyRecall } from './company-recall';
 import { KnownWays } from '../ui/known-ways';
 import { AimMeans } from './aim-means';
+import { AimPlaced } from './aim-placed';
 
 // Where the next step of the aim followed was learned (US-07, PD-08): the way its author says it is gone to by, not
 // yet taken (route); what it is toward, not yet come to (toward); at it, where what it waits on is hidden (hidden) or
 // to be learned (taught) or come to (beyond) further in, or what bars the way there (barred); or nothing further in,
 // its business here (here).
 // Or, with every way into it the company knows shut for what it has not got, whoever sells what would open one (means).
-export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'beyond' | 'barred' | 'deeper' | 'means' | 'here';
+// Or where what it waits on comes true by standing there (placed: the crown brought up into daylight, CL-65).
+export type LeadSource = 'route' | 'toward' | 'hidden' | 'taught' | 'beyond' | 'barred' | 'deeper' | 'means' | 'here'
+  | 'placed';
 // The aim followed, and its next step: one record for every reader, heard (the aim), where the step comes from
 // (source) and the step itself (next: the places, people or things it is taken to or done with).
 export interface AimLead { aim: string; source: LeadSource; next: string[] }
@@ -51,6 +54,8 @@ export class AimLeading {
   private static lead(campaign: Campaign, screen: Screen, def: Objective): AimLead {
     const route = this.route(campaign, screen), named = Stakes.named(campaign, def), aim = def.id;
     if (route) { return route; }
+    const placed = AimPlaced.of(campaign, def);
+    if (placed) { return { aim, source: 'placed', next: [placed.place] }; }
     // Gone in past the place it names, what it waits on further in is still the step, not the way back out to it (a
     // hold gone into from its porch had led back to the porch).
     const within = this.within(campaign, screen, def);
@@ -87,8 +92,10 @@ export class AimLeading {
     // the page names (AimContinuity), its next the way in, or what bars it (Ironkeep's portcullis).
     const into = inward.find(e => !this.barred(e)), shut = inward.find(e => this.barred(e));
     const bar = shut && (this.bar(campaign, screen.place.id, shut.destination.id) ?? this.done(shut.acts)[0]);
-    const next = into?.destination.id ?? bar;
-    return next ? { aim, source: 'deeper', next: [next] } : undefined;
+    // What bars the only way in is the step, as any bar is (AT-14: a winch's wheel had been a 'deeper' lead, and the
+    // gold went on elsewhere).
+    if (!into && bar) { return { aim, source: 'barred', next: [bar] }; }
+    return into ? { aim, source: 'deeper', next: [into.destination.id] } : undefined;
   }
   // In the place it is gone to by, at what it is toward, or on the way from the one to the other.
   static there(campaign: Campaign, screen: Screen, t: ResolvedTarget): boolean {
@@ -139,7 +146,18 @@ export class AimLeading {
       .map(l => l.args[0]!));
     const on = w.relates('on') ? w.related('on').filter(r => ways.has(r.args[1]!)).map(r => r.args[0]!) : [];
     const blocks = w.relates('blocksWhen') ? w.related('blocksWhen') : [];
-    return on.find(t => blocks.some(b => b.args[0] === t && w.test(ModuleWriter.call('state', t, b.args[1]!))));
+    return on.find(t => blocks.some(b => b.args[0] === t && w.test(ModuleWriter.call('state', t, b.args[1]!))))
+      ?? [...ways].map(way => this.works(campaign, way)).find(Boolean);
+  }
+  // A way that opens only while a thing is so (Passage … opening when state(gear, turning), its rule <way>__opens),
+  // still shut: what it turns on bars it (AT-14: the barrow's winch had barred the stair, and the lead knew no bar; as
+  // GlanceLines.works reads a way's works).
+  private static works(campaign: Campaign, way: string): string | undefined {
+    const rule = (campaign.module.rules ?? []).find(r => r.id === `${way}__opens`);
+    if (!rule || !campaign.world.test(ModuleWriter.call('unopened', way))) { return undefined; }
+    const gears: string[] = [];
+    ModuleWriter.conditionCalls(rule.when, c => { if (c.name === 'state') { gears.push(c.args[0]!); } return c; });
+    return gears[0];
   }
   // Else what the acts at a way are done to (the speaking door, under "Look at the speaking door").
   private static done(acts: ExitRow['acts']): string[] {

@@ -11,6 +11,8 @@ import { Stakes } from '../ui/stakes';
 import { CompanyLight } from './company-light';
 import { AimLeading, type AimLead } from './aim-lead';
 import type { Promoted } from './glance-types';
+import { KnownWays } from '../ui/known-ways';
+import { AimAdvances } from './aim-advances';
 
 // How the aim followed goes on from here (the owner's trust contracts, 18 November, B: "Gold must not vanish silently
 // because the route planner and local opportunity projection interpret an objective differently"). Gold had been an
@@ -33,14 +35,27 @@ export class AimContinuity {
     { acts: Promoted[]; continuance?: Continuance } {
     const { acts, cands } = at, lead = AimLeading.of(campaign, screen);
     if (!Undertakings.followed(campaign) || !lead) { return { acts }; }
-    const step = acts.find(a => a.continues);
-    if (step) { return { acts, continuance: { kind: 'step', witness: step.choice } }; }
+    // A way gold by the glance's reading, back to a place already been to, is the step only where it goes on the
+    // lead's way (AT-14: from the back-stone the gold had led back to the chamber the lead had come from, and the two
+    // pointed at each other); taken off, the lead decides. Toward a place, or by the author's route or the means, the
+    // glance's ways are the lead's; a way into what is not yet seen, and an act done here (the ruts followed, the
+    // search), are the glance's to gild, as before.
+    // A wait is led with only in the dark, except where the aim's step is to stand here until the day (AimPlaced).
+    const dawn = lead.source === 'placed' && lead.next[0] === screen.place.id;
+    const eligible = cands.filter(c => !c.barred && (Promotion.eligible(c, at.s) || (dawn && c.kind === 'wait')));
+    const gold = acts.find(a => a.continues), way = gold && cands.find(c => c.choice === gold.choice)?.exit;
+    const back = way ? screen.exits.find(e => e.id === way) : undefined;
+    const off = !!gold && !!back?.visited && !['route', 'toward', 'means'].includes(lead.source)
+      && !this.acting(campaign, screen, lead, eligible).some(c => c.choice === gold.choice)
+      && !this.sought(campaign, screen, back.destination.id);
+    if (gold && !off) { return { acts, continuance: { kind: 'step', witness: gold.choice } }; }
+    if (gold) { return this.of(campaign, screen, { ...at, acts: acts.map(a => a === gold ? this.plain(a) : a) }); }
     // Inside a site with nothing known to lie within (AimLeading.deeper): a frontier, named, its rooms exploration.
     if (lead.source === 'deeper') { return { acts, continuance: { kind: 'frontier', said: this.deeper(campaign, screen) } }; }
     // Never a way into the dark with nothing to see by (CompanyLight): said, the need beside it saying why.
     const unlit = CompanyLight.of(campaign, screen).dark;
     const ways = new Map(screen.exits.map(e => [e.id, e.destination.id]));
-    const reached = this.acting(campaign, screen, lead, cands.filter(c => !c.barred && Promotion.eligible(c, at.s)));
+    const reached = this.acting(campaign, screen, lead, eligible);
     const acting = reached.filter(c => !c.exit || !unlit?.has(ways.get(c.exit) ?? ''));
     if (!acting.length && reached.length) {
       return { acts, continuance: { kind: 'frontier', said: this.dark } };
@@ -76,6 +91,19 @@ export class AimContinuity {
     return `Nothing here is known to hold what your aim waits on: ${site?.name ?? 'this place'} is still to be explored.`;
   }
   private static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
+  // Whether a way back goes toward where what the aim waits on lies hidden or to be learned, which the glance reads
+  // and the lead may not (a1's cross under the door-stone, outside the site gone into past it: test/gold-thread).
+  private static sought(campaign: Campaign, screen: Screen, to: string): boolean {
+    const there = new Set([...AimAdvances.sought(campaign), ...AimAdvances.taughtAt(campaign)]);
+    return there.has(to) || (there.size > 0
+      && KnownWays.first(campaign, screen.place.id, id => there.has(id), { able: true }) === to);
+  }
+  // An act no longer gold: not continuing, nor of the aim.
+  private static plain(a: Promoted): Promoted {
+    const rest = { ...a, aspects: a.aspects.filter(x => x !== 'undertaking') };
+    delete rest.continues;
+    return rest;
+  }
   // The offered acts that act on the lead's step: done to or with what it names, a way to where it is, a journey to
   // the town or site it lies in (as RunnerLed reads the four).
   static acting(campaign: Campaign, screen: Screen, lead: AimLead, cands: Candidate[]): Candidate[] {
@@ -95,12 +123,18 @@ export class AimContinuity {
     const bound = new Map(PlayerView.choices(campaign).map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
       .filter(([k]) => !skip.includes(k)).map(([, v]) => v)]));
     const ways = new Map(screen.exits.map(e => [e.id, e.destination.id]));
+    // A way is on the step too where it is the first of the known way there (CL-65: from the barrow's halls the way
+    // out to the daylight is two rooms long, and only a way straight to the step had counted).
+    const here = screen.place.id;
+    const first = KnownWays.first(campaign, here, id => id !== here && step.has(id), { able: true });
+    // Where the step is to stand here until the day (AimPlaced), the wait for first light acts on it.
+    const dawn = lead.source === 'placed' && lead.next[0] === screen.place.id;
     return cands.filter(c => {
       // A way by where it goes; an act at a way (a look at the door on it) by what it is done to.
       const id = c.command ?? c.choice, way = c.exit && c.kind === 'way' ? ways.get(c.exit) : undefined;
       const far = c.choice.startsWith('travel:') ? c.choice.slice('travel:'.length) : undefined;
       return (search && c.kind === 'search') || (!way && !far && (bound.get(id) ?? []).some(x => step.has(x)))
-        || (!!way && step.has(way))
+        || (!!way && (step.has(way) || way === first)) || (dawn && /^wait_for_light\b/.test(c.command ?? ''))
         || (!!far && [...step].some(x => Itineraries.within(byId, x, far)));
     });
   }
