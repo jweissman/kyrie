@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleParser } from '../src/lang/module-parser';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 
 // What a campaign means does not turn on what else the process has done (the architecture review's H7, from its
 // probes det-kind-cache, det-parse-cache and det-concurrent): two campaigns' tonics were one tonic to whichever was

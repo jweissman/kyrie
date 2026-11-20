@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleParser } from '../src/lang/module-parser';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 import { Canon } from '../src/canon/canon';
 import { ItemCatalog } from '../src/item-catalog';
 

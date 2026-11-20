@@ -34,7 +34,7 @@ describe('the setting installed', () => {
       try { Calendar.months; console.log('read'); } catch (e) { console.log(String(e)); }`);
     expect(loaded.ok).toBe(true);
     expect(loaded.out).toMatch(/The setting has given the runtime nothing yet: import src\/canon\/setting-install/);
-    const filled = Bare.run(`await import(${JSON.stringify(`${root}/src/canon/setting-install.ts`)});
+    const filled = Bare.run(`await import(${JSON.stringify(`${root}/src/world/setting-install.ts`)});
       const { Calendar } = await import(${JSON.stringify(`${root}/src/campaign/calendar.ts`)});
       console.log(Calendar.short({ year: 1312, month: 1, day: 1 }, 0));`);
     expect(filled.out).toBe('1 Thaw');

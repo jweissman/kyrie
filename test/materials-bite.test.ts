@@ -2,7 +2,7 @@ import { afterAll, describe, expect, it } from 'bun:test';
 import { AbilityUse } from '../src/ability-use';
 import { Canon } from '../src/canon/canon';
 import { CanonValidation } from '../src/canon/canon-validation';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
 import { CreatureSchema } from '../src/creature';

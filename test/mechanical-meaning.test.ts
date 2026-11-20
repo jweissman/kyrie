@@ -5,7 +5,7 @@ import { AbilityUse } from '../src/ability-use';
 import { Effects } from '../src/effects';
 import { Expressions } from '../src/expressions';
 import type { CombatEvent } from '../src/model';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 
 // What a technique says is what it does (the architecture review's A5 and A15, from its probes): a cure lifts what
 // it names, by what the condition is and not its name alone; a stance that ends on answering a blow ends; a stun laid

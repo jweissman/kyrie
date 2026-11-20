@@ -1,6 +1,6 @@
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
-import { ConditionSense } from '../canon/condition-sense';
+import { ConditionSense } from '../rules/condition-sense';
 import { CombatPresenter } from './combat-presenter';
 import { DefenseTelling } from './defense-telling';
 import { Barks } from '../narrative/barks';

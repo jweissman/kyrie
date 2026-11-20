@@ -10,7 +10,7 @@ import { KnownNames } from './known-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../rules/background-catalog';
-import { ConditionSense } from '../canon/condition-sense';
+import { ConditionSense } from '../rules/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
 import { Illumination } from './illumination'; import { Standing } from './standing'; import { Patience } from './patience';

@@ -4,7 +4,7 @@ import { ModuleBundle } from '../src/campaign/module-bundle';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { Canon } from '../src/canon/canon';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 
 // A module read ahead of its being drawn into the game in play (the country beyond a march, while the player reads)
 // is parsed then, and found parsed when it is loaded; but the kinds of its own it declares are not left in the

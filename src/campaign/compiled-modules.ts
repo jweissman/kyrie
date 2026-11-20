@@ -1,5 +1,5 @@
 import { Costs } from '../costs';
-import { LocalKinds } from '../canon/local-catalog';
+import { LocalKinds } from '../catalog/local-catalog';
 import { ParseCache } from '../lang/parse-cache';
 import { TextHash } from '../lang/text-hash';
 import { Vocabularies } from '../lang/vocabulary';

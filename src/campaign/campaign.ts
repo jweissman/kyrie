@@ -23,7 +23,7 @@ import { World } from '../lang/world'; import { Beside } from './beside'; import
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { EngineDeclarations } from './engine-declarations'; import { Spoils } from './spoils'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
-import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
+import { Journey } from './journey'; import { LocalKinds } from '../catalog/local-catalog';
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';

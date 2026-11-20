@@ -4,7 +4,7 @@ import { KyrLint, type Finding } from './kyr-lint';
 import { ModuleBundle, type BundleManifest } from '../campaign/module-bundle';
 import { ModuleExports, type ExportReading } from '../campaign/module-exports';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
-import { LocalKinds } from '../canon/local-catalog';
+import { LocalKinds } from '../catalog/local-catalog';
 import { ModuleCanon } from '../campaign/module-canon';
 import type { Module } from '../lang/module';
 

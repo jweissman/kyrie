@@ -2,7 +2,7 @@ import type { DeemValue } from 'deem';
 import { Costs } from '../costs';
 import { RoleRequirements, type RoleContract } from './role-requirements';
 import { WorldConstructs } from '../lang/world-constructs';
-import { LocalKinds } from '../canon/local-catalog';
+import { LocalKinds } from '../catalog/local-catalog';
 import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
 import { ModuleParser } from '../lang/module-parser';

@@ -12,19 +12,23 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, normalize, relative } from 'node:path';
 
-export type Layer = 'lang' | 'runtime' | 'player' | 'setting' | 'client';
+export type Layer = 'lang' | 'runtime' | 'player' | 'domain' | 'setting' | 'client';
 
 export class Layers {
   static readonly root = join(import.meta.dir, '..');
   static readonly baseline = 'doc/architecture/mission-22/layers-baseline.json';
-  static readonly rank: Record<Layer, number> = { lang: 0, runtime: 1, player: 2, setting: 3, client: 4 };
+  static readonly rank: Record<Layer, number> = { lang: 0, runtime: 1, player: 2, domain: 3, setting: 4, client: 5 };
   static readonly seen = ['src', 'web/engine'];
   // Which unit a path is of, or none (a test, a script, a type stub).
   static of(path: string): Layer | undefined {
     if (path.startsWith('src/lang/')) { return 'lang'; }
-    // The registry is the setting's too: the pipeline that makes Orsino's corpus into the setting's catalog, read by
-    // the handbook, the world and the clients, the runtime reading only the files it writes (MT-16).
-    if (/^src\/(world|canon|paintings|handbook|registry)\//.test(path)
+    // The fantasy rules domain (the owner's ruling on MT-16, 20 November): the SRD and Orsino catalogs (data/catalog,
+    // the sources they are made from, data/sources), the canon that reads them (src/canon: the catalogs bound, lowered
+    // into the runtime's shapes, checked against each other, a life's traits granted, and given to the language as
+    // its vocabulary), and the registry, the pipeline that makes Orsino's corpus into the catalog. Not the setting
+    // (Imbar's world, its sky and paintings), which installs it, nor the kernel, which must not need it.
+    if (/^src\/(canon|registry)\//.test(path) || /^data\/(catalog|sources)\//.test(path)) { return 'domain'; }
+    if (/^src\/(world|paintings|handbook)\//.test(path)
       || path.startsWith('data/') || path === 'src/generation-setting.ts') { return 'setting'; }
     if (/^src\/(campaign|rules)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
     // Creation is the player's (MT-16, S5): the making of a life as a flow of questions (CreationFlow and its entries,
@@ -43,10 +47,14 @@ export class Layers {
   }
   // Whether one unit may import another: each from those beneath it; the setting from the language and the runtime
   // (it is written in Kyr and run by the runtime), never from the player; the clients from anything.
+  // The domain is written against the runtime's shapes and in Kyr, so it may import the language and the runtime,
+  // never the player, the setting or a client; the setting may import it. The runtime and the player may not: each
+  // such import is an edge of its own kind (runtime -> domain, player -> domain), counted, never allowed away.
   static allowed(from: Layer, to: Layer): boolean {
     if (from === 'client') { return true; }
     if (from === 'setting') { return to !== 'player' && to !== 'client'; }
-    return to !== 'setting' && this.rank[to] <= this.rank[from];
+    if (from === 'domain') { return to === 'lang' || to === 'runtime' || to === 'domain'; }
+    return to !== 'setting' && to !== 'domain' && this.rank[to] <= this.rank[from];
   }
   // Every import that goes the wrong way, as "from -> to" (each file by its path from the root, the target without its
   // extension).

@@ -3,7 +3,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { Canon } from '../src/canon/canon';
 import { LootTables } from '../src/world/loot-tables';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 
 // One authored catalog of the kinds of thing there are (data/catalog/items/; the owner, 6 November: the main catalog
 // holds only global item types, what one adventure or one generator alone uses is declared there, as a local Kind).

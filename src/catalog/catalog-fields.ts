@@ -1,4 +1,4 @@
-import { Canon } from './canon';
+import { Canon } from '../canon/canon';
 
 // The fields each catalog record may have (the SRD adaptation briefing, §14: unknown fields are errors at every
 // catalog boundary). A field Kyr does not read is refused as the canon loads, never carried inert: the unicorn's `dr`

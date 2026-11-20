@@ -1,4 +1,4 @@
-import { LocalKinds } from '../canon/local-catalog';
+import { LocalKinds } from '../catalog/local-catalog';
 import { Spatial } from '../lang/spatial';
 import { Canon } from '../canon/canon';
 import { RuntimeCapabilities } from './runtime-capabilities';

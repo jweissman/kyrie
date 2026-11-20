@@ -1,6 +1,6 @@
 import { World } from '../lang/world';
 import type { Module, WorldState } from '../lang/module';
-import { LocalKinds } from '../canon/local-catalog';
+import { LocalKinds } from '../catalog/local-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 
 // A campaign's world as last committed, kept as itself. It is written into the campaign's state as its facts only when

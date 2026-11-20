@@ -1,6 +1,6 @@
 import { Vocabularies, type KindsMade, type LocalKindSpec, type LocalSpeciesSpec, type Vocabulary }
   from '../lang/vocabulary';
-import { LocalKinds, type LocalCatalog } from './local-catalog';
+import { LocalKinds, type LocalCatalog } from '../catalog/local-catalog';
 import { Canon } from './canon';
 import { ItemCatalog } from '../item-catalog';
 

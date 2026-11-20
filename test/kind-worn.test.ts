@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'bun:test';
 import { ModuleParser } from '../src/lang/module-parser';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 // The setting a module's own kinds are made from: the parser imports none of its own (see Vocabulary).
 import '../src/canon/canon-vocabulary';
 

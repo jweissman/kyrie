@@ -1,4 +1,4 @@
-import { Canon } from './canon';
+import { Canon } from '../canon/canon';
 import { ItemCatalog } from '../item-catalog';
 import type { ItemKind, Species } from '../rules/catalog-schema';
 import { parseAbility } from '../lang/parse';

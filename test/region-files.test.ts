@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleParser } from '../src/lang/module-parser';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 
 // A generated country is written in several files, each read on its own, in order. Found measuring the browser:
 // Begin on wren failed ("names a kind missing from the item catalog: abbey_chalice") and the page stayed on the

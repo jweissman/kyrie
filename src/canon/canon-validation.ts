@@ -14,10 +14,10 @@ import { CastingLevel } from '../rules/casting-level';
 import type { Modifiers, Species } from '../rules/catalog-schema';
 import { Amounts } from '../rules/amounts';
 import { StatExpressions } from '../rules/stat-expressions';
-import { CatalogFields } from './catalog-fields';
+import { CatalogFields } from '../catalog/catalog-fields';
 import { CanonRuntime } from './canon-runtime';
 import { ModifierSet } from '../rules/modifiers';
-import { LocalKinds } from './local-catalog';
+import { LocalKinds } from '../catalog/local-catalog';
 import { CreatureVariants } from '../creature-variants';
 import { PaintingConcepts } from '../paintings/painting-concepts';
 

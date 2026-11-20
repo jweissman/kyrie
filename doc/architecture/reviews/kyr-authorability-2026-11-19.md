@@ -21,7 +21,7 @@ fix is a `shared` mark on `Relation` and `Measure`.
 ## 1. The machinery as it stands
 
 **Two meanings of `Kind`.** `Kind fact.` declares an entity type. `Kind id "name" is <category> | like <kind> …`
-declares an item kind, handled by `LocalKinds` in `src/canon/local-catalog.ts`.
+declares an item kind, handled by `LocalKinds` in `src/catalog/local-catalog.ts`.
 
 - While its campaign is played, a declared item kind joins `Canon.items` and `ItemCatalog` "as if it had always been
   there". It is taken out again when another campaign is played.

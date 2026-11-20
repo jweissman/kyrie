@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 
 // A game carrying a thing of its own kind is taken up again in a page that has played nothing yet. Found by the
 // follow-up independent review: two saves from the singing halls would not load in a fresh browser ("Unknown item

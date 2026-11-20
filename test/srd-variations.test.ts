@@ -1,7 +1,7 @@
 import { afterAll, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { CanonValidation } from '../src/canon/canon-validation';
-import { CatalogFields } from '../src/canon/catalog-fields';
+import { CatalogFields } from '../src/catalog/catalog-fields';
 import { Content } from '../src/content';
 import { CreatureVariants, type Variation } from '../src/creature-variants';
 import { KindDefenses } from '../src/kind-defenses';

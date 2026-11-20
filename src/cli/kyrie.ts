@@ -1,7 +1,7 @@
 // The Kyrie command line (bin/kyrie): play a campaign in the terminal, and the authoring and checking tools.
 import { readFile } from 'node:fs/promises';
 // The setting gives the runtime its parts before anything is asked of it (SettingPort, MT-16 S6).
-import '../canon/setting-install';
+import '../world/setting-install';
 import { TerminalCreation } from './terminal-creation';
 import { EngineHost } from '../../web/engine/engine-host';
 import { TerminalMode } from './terminal-mode';

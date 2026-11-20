@@ -1,4 +1,4 @@
-import { LocalKinds } from '../canon/local-catalog';
+import { LocalKinds } from '../catalog/local-catalog';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { RoleRequirements } from './role-requirements';
 import { ModuleCompiler } from '../lang/module-compiler';

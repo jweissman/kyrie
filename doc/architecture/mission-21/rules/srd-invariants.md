@@ -53,7 +53,7 @@ are summed as before.
 - **Unknown fields fail the canon's load** in every record of every family (species, devices, abilities, conditions,
   traits, items, ancestries, classes, skills, plants, deities, domains, materials, habitats, variations), as the
   canon resolves them, and in what they hold: a body's statistics, a weapon's and armour's stats, every source, every
-  defense (`src/canon/catalog-fields.ts`, `CanonValidation.defenses`). Found by it: the unicorn's `dr` and `resist`
+  defense (`src/catalog/catalog-fields.ts`, `CanonValidation.defenses`). Found by it: the unicorn's `dr` and `resist`
   (migrated to defenses), and the items' real but undeclared `mass` and `carries` (now declared fields).
 - **Reference only**: an ability whose record has no executable effect, and that is no move the rules resolve
   themselves (`wait`), is `CanonRuntime.referenceOnly`: never offered in a fight, learned, prepared or granted. A

@@ -7,7 +7,7 @@ import { CreatureStore } from '../creature-store';
 import { Tactics } from '../tactics';
 import { Effects } from '../effects';
 import { Environment } from '../campaign/environment';
-import { ConditionSense } from '../canon/condition-sense';
+import { ConditionSense } from '../rules/condition-sense';
 import { FightOdds } from './fight-odds';
 import type { Campaign } from '../campaign/campaign';
 import type { Creature } from '../creature';

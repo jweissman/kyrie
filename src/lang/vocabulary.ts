@@ -26,7 +26,7 @@ export interface LocalSpeciesSpec {
   id: string; name: string; like: string; temperament?: string; description?: string; habitats?: string[];
 }
 // What the setting made of a module's own kinds, kept with the module: the language reads only what each is called and
-// what a thing weighs; the rest of what each is, is the setting's (src/canon/local-catalog.ts).
+// what a thing weighs; the rest of what each is, is the setting's (src/catalog/local-catalog.ts).
 export interface KindMade { name: string; mass?: number }
 export interface SpeciesMade { name: string }
 export interface KindsMade { items?: Record<string, KindMade>; species?: Record<string, SpeciesMade> }

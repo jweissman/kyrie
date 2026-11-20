@@ -4,7 +4,7 @@ import { CreatureStore } from '../src/creature-store';
 import { Items } from '../src/campaign/items';
 import { Checks } from '../src/rules/checks';
 import { PartyCapabilities } from '../src/campaign/party-capabilities';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 import { Canon } from '../src/canon/canon';
 import { ItemCatalog } from '../src/item-catalog';
 import type { Creature } from '../src/creature';

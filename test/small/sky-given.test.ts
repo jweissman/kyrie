@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'bun:test';
 import { SettingPort, type SettingParts } from '../../src/setting-port';
 import { Calendar } from '../../src/campaign/calendar';
 import { SkyGifts } from '../../src/rules/sky-gifts';
-import { SettingInstall } from '../../src/canon/setting-install';
+import { SettingInstall } from '../../src/world/setting-install';
 
 // The months and signs are the setting's, given, never read (MT-16, S6): another setting's reckoning and sky given to
 // the port, the calendar counts its months and names its days, and a sign's gifts are its sky's; Imbar's again after.

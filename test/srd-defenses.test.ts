@@ -8,7 +8,7 @@ import { Canon } from '../src/canon/canon';
 import { Content } from '../src/content';
 import { Effects, type EffectContext } from '../src/effects';
 import { Expressions } from '../src/expressions';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 import { KindDefenses } from '../src/kind-defenses';
 import { CombatTelling } from '../src/ui/combat-telling';
 import type { Modifiers } from '../src/rules/modifiers';

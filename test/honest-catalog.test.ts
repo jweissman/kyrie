@@ -3,7 +3,7 @@ import monsters from '../data/catalog/monsters.json';
 import { Canon } from '../src/canon/canon';
 import { CanonRuntime } from '../src/canon/canon-runtime';
 import { CanonValidation } from '../src/canon/canon-validation';
-import { CatalogFields } from '../src/canon/catalog-fields';
+import { CatalogFields } from '../src/catalog/catalog-fields';
 import { Content } from '../src/content';
 import { Creation } from '../src/rules/creation';
 import type { Species } from '../src/rules/catalog-schema';

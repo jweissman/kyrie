@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { LocalKinds } from '../src/catalog/local-catalog';
 import type { BundleSource } from '../src/campaign/bundle-source';
 
 // A game begun in the same process as another (New game, in the page's engine): the other, saving and reading ahead
