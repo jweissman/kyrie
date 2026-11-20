@@ -12,7 +12,9 @@ export class SheetCompose {
     font: 15px/1.35 system-ui, sans-serif; } h1 { font-size: 20px; margin: 0 0 4px; } p.meta { color: #a59f94; margin: 0 0 18px; }
     .grid { display: grid; gap: 18px 14px; } figure { margin: 0; } figure img { width: 100%; display: block;
     border: 1px solid #2c2e36; } figcaption { color: #a59f94; font-size: 13px; margin-top: 6px; }
-    figcaption b { color: #ece6d9; font-weight: 600; } a { color: #d9b86a; } li { margin: 3px 0; }`;
+    figcaption b { color: #ece6d9; font-weight: 600; } a { color: #d9b86a; } li { margin: 3px 0; }
+    table { border-collapse: collapse; font-size: 13px; } td, th { border-bottom: 1px solid #2c2e36; padding: 4px 8px;
+    text-align: left; vertical-align: top; } tr.fails td { color: #f0a08a; }`;
   static escape(text: string): string {
     return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
@@ -41,7 +43,23 @@ export class SheetCompose {
     return `<!doctype html><html><head><meta charset="utf-8"><title>Kyrie contact sheets</title>`
       + `<style>${SheetCompose.style} body { max-width: 900px; }</style></head><body><h1>Kyrie contact sheets</h1>`
       + `<p class="meta">${SheetCompose.escape(meta)}</p><h2>Sheets</h2><ul>${sheets}</ul>`
-      + `<h2>Not reached</h2><ul>${missed}</ul>${all.join('')}</body></html>`;
+      + `<h2>Not reached</h2><ul>${missed}</ul>${SheetCompose.contrast(shots)}${all.join('')}</body></html>`;
+  }
+  // Each page's text against what is behind it (UI-19, SheetContrast: a line's 10th percentile against WCAG AA, 4.5:1
+  // and 3:1 large): how many lines, how many fail, and the worst of them.
+  static contrast(shots: SheetShot[]): string {
+    const rows = shots.filter(s => s.contrast).map(s => {
+      const c = s.contrast!, w = c.worst[0];
+      return `<tr${c.failing ? ' class="fails"' : ''}><td>${s.size}</td><td><a href="${s.file}">${SheetCompose.escape(s.name)}`
+        + `</a></td><td>${c.lines}</td><td>${c.failing}</td><td>${w ? w.ratio.toFixed(2) : ''}</td>`
+        + `<td>${w ? `${SheetCompose.escape(w.text)} <small>${SheetCompose.escape(w.where)}${w.large ? ', large' : ''}`
+        + '</small>' : ''}</td></tr>`;
+    }).join('');
+    const failing = shots.reduce((n, s) => n + (s.contrast?.failing ?? 0), 0);
+    return `<h2>Contrast against WCAG AA</h2><p class="meta">${failing} lines below AA (4.5:1, or 3:1 at 24 px or bold at `
+      + `18.66 px), each line's 10th percentile against the page drawn with its text hidden; contrast.json has every `
+      + 'page\'s worst five.</p><table><tr><th>size</th><th>page</th><th>lines</th><th>failing</th><th>worst</th>'
+      + `<th>worst line</th></tr>${rows}</table>`;
   }
   static async write(browser: Browser, out: string, at: { sizes: string[]; shots: SheetShot[];
     misses: SheetMiss[]; meta: string }): Promise<void> {
@@ -57,5 +75,10 @@ export class SheetCompose {
     await writeFile(join(out, 'index.html'), SheetCompose.index(at.sizes, at.shots, at.misses, at.meta));
     await writeFile(join(out, 'shots.json'), `${JSON.stringify({ meta: at.meta, shots: at.shots, misses: at.misses },
       null, 1)}\n`);
+    const contrast = at.shots.filter(s => s.contrast)
+      .map(s => ({ size: s.size, page: s.name, file: s.file, ...s.contrast }));
+    await writeFile(join(out, 'contrast.json'), `${JSON.stringify({ about: 'Each page\'s text against what is drawn '
+      + 'behind it (UI-19): lines measured, lines below WCAG AA, the worst five (scripts/contact-sheet-contrast.ts).',
+    failing: contrast.reduce((n, c) => n + (c.failing ?? 0), 0), pages: contrast }, null, 1)}\n`);
   }
 }

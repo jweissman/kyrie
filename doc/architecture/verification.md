@@ -91,7 +91,10 @@ one PNG a page, a captioned `sheet-<size>.png` a size and `index.html`, for revi
 alone. Nightly at 09:30 UTC, on a push to a `contact-sheets/*` branch, or on demand:
 `gh workflow run contact-sheets.yml --ref <branch>`, then `gh run download <run> -n contact-sheets -D <dir>` and open
 `<dir>/index.html`. A page it could not reach is listed there and in the run's summary, with a picture of where the
-page stood. Locally: `bun scripts/contact-sheets.ts --out <dir>`.
+page stood. Each page's text is measured against what is drawn behind it (UI-19, scripts/contact-sheet-contrast.ts:
+each line's 10th percentile contrast over the page drawn with its text hidden, against WCAG AA): a table in
+`index.html`, every page's worst five in `contrast.json`, and the lines below AA in the run's summary. Locally:
+`bun scripts/contact-sheets.ts --out <dir>`.
 
 Watch a run with `gh run watch <id> --interval 60 --exit-status`, one watch at a time: the default three-second poll
 once spent the shared hourly API limit.
