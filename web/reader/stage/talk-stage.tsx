@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { Glyphs } from '../creation/glyphs';
+import { DigitSettle } from '../digit-settle';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Counter } from '../../../src/ui/trade-model';
@@ -41,6 +42,8 @@ export class TalkStage {
     return !screen || AimNear.near(screen, line.aim ? { id: line.aim } : line.text) ? 'A new aim' : 'Noted, further off';
   }
   static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
+    // The numbered replies seen as they are drawn, so that a digit pressed as they change is refused (DigitSettle).
+    useLayoutEffect(() => { DigitSettle.seen(DigitSettle.drawn()); });
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
     // A name begins with a capital where it heads the page ("The wagoner", not "the wagoner": the owner, 7 November).
     const [name, ...role] = [Words.upper(Words.short(who.name)), who.note && Words.described(who.note)]
