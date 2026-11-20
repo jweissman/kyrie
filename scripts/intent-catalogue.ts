@@ -31,7 +31,7 @@ export class IntentCatalogue {
       'make_remedy', 'make_plain', 'work_keep', 'field_spell'],
     relationships: ['recruit', 'send_off', 'part_ways', 'pet', 'lead', 'hold_here', 'call_on'],
     conflict: ['attack', 'assail', 'face_down', 'lie_still', 'risk'],
-    reflection: ['wait', 'wait_hour', 'wait_watch', 'wait_for_dark', 'wait_for_light', 'rest', 'rest_unfed', 'camp',
+    reflection: ['wait', 'watch_sky', 'wait_hour', 'wait_watch', 'wait_for_dark', 'wait_for_light', 'rest', 'rest_unfed', 'camp',
       'take_lodging', 'take_lodging_guest', 'take_healing', 'take_raising', 'take_restoration', 'take_feat_rest'],
     organization: ['buy_goods', 'buy_item', 'sell', 'sell_valuable', 'sell_ware', 'change_thing_paying',
       'change_thing_spending', 'take_leave'],

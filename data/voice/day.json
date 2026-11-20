@@ -1,6 +1,6 @@
 {
-  "about": "The day's turn as a wait comes to it (Wait until first light, Wait until dark): told by where the company waits (out under the sky, indoors, under the ground) and, out of doors, by the sky (fair, grey, rain, fog, wind, cold, hot, ash; cold in winter and in frost country). One sentence or two, and never the same morning twice running while there is another (the boredom census, BO-08: 'The sky greys, then lightens. It is morning.' 23 times in eight walks).",
-  "kinds": ["day-dawn", "day-dusk"],
+  "about": "The day's turn as a wait comes to it (Wait until first light, Wait until dark): told by where the company waits (out under the sky, indoors, under the ground) and, out of doors, by the sky (fair, grey, rain, fog, wind, cold, hot, ash; cold in winter and in frost country). One sentence or two, and never the same morning twice running while there is another (the boredom census, BO-08: 'The sky greys, then lightens. It is morning.' 23 times in eight walks). And the night sky watched for its own sake (kind sky: Lie back and watch the sky, Fun Friday 20 November): told by the weather (sky), the sign riding this month (riding: yes, with {sign} and {signline}) and whether one of the company was born under it (own: yes, with {who}); nothing gained but the half hour.",
+  "kinds": ["day-dawn", "day-dusk", "sky"],
   "lines": [
     { "id": "day-dawn.outdoors.1", "when": { "shelter": "outdoors" }, "text": "The sky greys, then lightens. It is morning." },
     { "id": "day-dawn.outdoors.2", "when": { "shelter": "outdoors" }, "text": "The stars go out one by one, and the east turns pale. It is morning." },
@@ -40,6 +40,21 @@
     { "id": "day-dusk.indoors.1", "when": { "shelter": "indoors" }, "text": "The light at the window goes, and the room is dark." },
     { "id": "day-dusk.indoors.2", "when": { "shelter": "indoors" }, "text": "The cracks of the shutters go from gold to grey to nothing. It is dark." },
     { "id": "day-dusk.underground.1", "when": { "shelter": "underground" }, "text": "Down here nothing changes, but by the count of the hours it is night above." },
-    { "id": "day-dusk.elsewhere.1", "when": { "shelter": "elsewhere" }, "text": "The hours go by. By your own reckoning it is night." }
+    { "id": "day-dusk.elsewhere.1", "when": { "shelter": "elsewhere" }, "text": "The hours go by. By your own reckoning it is night." },
+    { "id": "sky.clear.sign.1", "when": { "sky": ["fair", "cold", "wind", "hot"], "riding": "yes"  }, "text": "The stars come out thick. The longer you look, the more there are. High in the south, {sign} is riding. {Signline}" },
+    { "id": "sky.clear.sign.2", "when": { "sky": ["fair", "cold", "wind", "hot"], "riding": "yes"  }, "text": "You find {sign} at last, low over the roofs. Once you have seen its shape you cannot unsee it. A star falls, and only you see it." },
+    { "id": "sky.clear.sign.3", "when": { "sky": ["fair", "cold", "wind", "hot"], "riding": "yes"  }, "text": "The ground is cold at your back. Overhead the sky turns, slow as a mill-wheel. {Sign} climbs out of the east and hangs there." },
+    { "id": "sky.clear.own.1", "when": { "sky": ["fair", "cold", "wind", "hot"], "riding": "yes", "own": "yes"  }, "text": "Overhead, {sign} is riding: the stars {who} was born under. {Signline} It seems a fair thing to have said of you." },
+    { "id": "sky.clear.own.2", "when": { "sky": ["fair", "cold", "wind", "hot"], "riding": "yes", "own": "yes"  }, "text": "There is {sign}, plain as a lantern. Old wives say a sign shines brightest over those born under it. Tonight it is easy to believe, for {who}." },
+    { "id": "sky.clear.1", "when": { "sky": ["fair", "cold", "wind", "hot"] }, "text": "The stars come out one at a time, then all at once. A dog barks across the river, and stops. You do not think of anything at all for a while." },
+    { "id": "sky.clear.2", "when": { "sky": ["fair", "cold", "wind", "hot"] }, "text": "The sky is enormous and very quiet. A bat crosses it, then another. The half hour goes by like a held breath." },
+    { "id": "sky.cloud.sign.1", "when": { "sky": ["grey", "fog"], "riding": "yes"  }, "text": "Cloud lies over everything. Once it thins, and for a breath you see a few stars where {sign} should be. Then it closes again." },
+    { "id": "sky.cloud.1", "when": { "sky": ["grey", "fog"] }, "text": "Cloud lies low, faintly lit from beneath. There is nothing to see. It is restful all the same, the dark and the ground at your back." },
+    { "id": "sky.rain.1", "when": { "sky": "rain"  }, "text": "Rain finds your face before you find a single star. You lie there a while anyway. Then you sit up, dripping, and oddly pleased." },
+    { "id": "sky.ash.1", "when": { "sky": "ash"  }, "text": "There are no stars, only a dull red smear where the ash hangs. A flake drifts down and settles on your eyelid like warm snow." },
+    { "id": "sky.rain.2", "when": { "sky": "rain"  }, "text": "The rain is soft and steady. You pull your hood over your face and listen to it on the cloth. It is the best roof there is, for a while." },
+    { "id": "sky.rain.3", "when": { "sky": "rain"  }, "text": "No stars tonight, only rain on the leaves and the gutters running. Down the street a door bangs, and a woman laughs. You stay until you are soaked." },
+    { "id": "sky.cloud.2", "when": { "sky": ["grey", "fog"] }, "text": "The fog takes the roofs, then the trees, then the ground a yard away. You lie in a small grey room of your own. It is very quiet." },
+    { "id": "sky.cloud.3", "when": { "sky": ["grey", "fog"] }, "text": "The clouds move fast and low. A gap opens, and for a moment there is one bright star in it. Then it is gone, like a word half heard." }
   ]
 }
