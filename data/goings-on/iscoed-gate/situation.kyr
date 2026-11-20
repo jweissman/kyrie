@@ -41,10 +41,24 @@ Module gate "The last sea-gate" {
   Observe bank_scene at bank when not mended(party) and not flooded(party) "The sea-bank runs straight as a rule between the grey water and the green fen, a man's height above both. Where it meets the river stands a squat stone gatehouse, and from under it, even now at the ebb, the sea runs into the fen with a sound like a mill-race.".
   Observe bank_mended at bank when mended(party) "The sea-bank runs straight between the grey water and the green fen. Under the gatehouse the water lies still.".
   Observe bank_flooded at bank when flooded(party) "The fen behind the sea-bank is a sheet of grey water to the ridge, with the roofs of {hamlet} standing out of it and gulls on the ridge-trees.".
-  Observe gatehouse_scene at gatehouse when not mended(party) "Inside, a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through a slot in the floor. A ratchet ring of bronze is set round its axle, and beside it an empty socket. Over the door a wave inside a ring is cut in the lintel.".
+  Observe gatehouse_scene at gatehouse when not mended(party) and not at(conger, well) "Inside, a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through a slot in the floor. A ratchet ring of bronze is set round its axle, and beside it an empty socket. Over the door a wave inside a ring is cut in the lintel.".
+  // At night, the conger in the well below is heard from here, before anyone goes down (CP-18).
+  Observe gatehouse_night at gatehouse when not mended(party) and at(conger, well) "Something big is feeding in the gate-well: down the slot in the floor its water slaps and heaves, though the tide has not turned. Over it a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through the slot. A ratchet ring of bronze is set round its axle, and beside it an empty socket. Over the door a wave inside a ring is cut in the lintel.".
   // The socket is empty only until the pawl is set in it (cold play 4, CL-47's 30: "an empty socket" after winding).
   Observe gatehouse_wound at gatehouse when mended(party) "Inside, a windlass of black oak as thick as a man fills the room, its drum wound tight with chain that goes down through a slot in the floor. A ratchet ring of bronze is set round its axle, and the pawl stands in its socket against a tooth of it. Over the door a wave inside a ring is cut in the lintel.".
   Observe well_scene at well when true "The iron rungs end in silt. Water stands knee-deep, cold and moving, and the gate's great chain goes down past you into the dark to the sluice below.".
+  // What comes up the chain at night (CP-18: the warrior's route met no danger in 34 turns, the gate-well only dark): a
+  // conger out of the sluice, feeding in the well's moving water from dark to first light, gone back down by day. Heard
+  // from the gatehouse before anyone goes down; in the well it warns, and comes at whoever stays to search the silt.
+  // One, a lone company's match, as the undertown's packs are (src/world/region-undertown.ts's values).
+  Person conger "the conger in the gate-well" nowhere {
+    Role "a sea-eel thicker than a man's arm and longer than he is tall, come up the gate's chain from the sluice to feed". Species eel. Numbers 1. Level 5. Temperament territorial. Lair well.
+    Warns "The water about your knees heaves. A grey back as long as you are rolls past the chain, turns, and comes round again, slower.".
+    Comes "The conger comes at you out of the silt, its jaws wide.".
+  }
+  Initially Set encounterXp(conger) to 60.
+  Rule conger_rises when not at(conger, well) and able(conger) and not at(party, well) and (hour(clock) >= 21 or hour(clock) < 6) { Assert at(conger, well). }
+  Rule conger_sinks when at(conger, well) and not at(party, well) and hour(clock) >= 6 and hour(clock) < 21 { Retract at(conger, well). }
   Discovery fault_found "The great windlass of the sea-gate at {hamlet} has lost its pawl, the iron tooth that holds it: without it the gate cannot be wound shut and held." {
     Found by searching gatehouse "The socket beside the ratchet is empty, and its pin-holes are bright. The pawl that should stand in it, the iron tooth that holds the drum, is gone. Whatever held it, it went down: there are fresh scrapes on the slot's edge where something heavy fell.".
   }

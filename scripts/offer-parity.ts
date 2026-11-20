@@ -52,9 +52,11 @@ export class OfferParity {
     return [...out].sort();
   }
   // One turn: the runner's rows against the engine's, by the act each does.
+  // Not a fight's turn: its hand is a surface of its own (RunnerFight), not the scene's rows, and read against the
+  // scene's it had counted every act of both as a divergence (the gate-well's conger on the warrior's walk, CP-18).
   private static turn(runner: Runner, said: Said, out: Set<string>) {
     const glance = runner.leaf?.glance;
-    if (!glance) { return; }
+    if (!glance || said.moment === 'fight') { return; }
     const rows = Doable.of(glance, ScreenModel.build(runner.session.campaign)), engine = this.engine(rows);
     const doing = new Map(Doable.flat(rows).flatMap(r => r.does ? [[r.id, r.does] as const] : []));
     const offered = RunnerOffer.flat([...said.offer.primary, ...said.offer.rest,

@@ -99,3 +99,10 @@ Proposed, smallest first, each Deem-drawn and seeded:
 
 The drove stays the primary acceptance route for the first hour; debt is a comparison for dramatic density, and the
 alternate mage route is kept. The reference does not move because debt plays better: the drove is brought up to it.
+
+## 20 November
+
+- Back: the hand on the green and the culvert's and cutting's dangers (MT-15). The kept plays read them as meant
+  (test/support/as-meant); the rooms' three arrivals are still set aside for them (MT-20).
+- The drove route's danger: by night a conger in the gate-well, heard from the gatehouse, coming at whoever searches the
+  silt (CP-18, test/gate-well-conger). The first hour's fights stay open (CP-19).
