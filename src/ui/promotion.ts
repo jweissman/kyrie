@@ -132,7 +132,9 @@ export class Promotion {
     return out.map((x, i) => ({ x, i })).sort((a, b) => this.weight(a.x) - this.weight(b.x) || a.i - b.i).map(o => o.x);
   }
   private static weight(x: Fit): number { return !this.opportunity(x) ? 0 : this.bears(x) ? 1 : 2; }
-  private static opportunity(x: Fit): boolean { return this.tiers[x.best][0] >= 3; }
+  // What is here to be done: below the urgent, the aim and need, and not whoever the company is speaking with, whose
+  // talk leads while it is had (CL-49; the golden route's Gwil Pryce, his boats, the scratch full run of 20 November).
+  private static opportunity(x: Fit): boolean { return this.tiers[x.best][0] >= 3 && x.best !== 'talking'; }
   private static bears(x: Fit): boolean { return this.aspects(x.c, x.best, x.whys).length > 0; }
   private static borne(xs: Fit[]): number { return xs.filter(x => this.bears(x)).length; }
   // In the dark with an aim followed, the light is the aim's next step: nothing else can be done until it is made, and

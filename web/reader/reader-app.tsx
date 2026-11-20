@@ -347,7 +347,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // its gate, not yet in it: entering is the player's. Set out on from the scene, the scene is back once the walk
         // is shown. A walk within a town or a site never raises the map (the
         // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
-        outdoors: walked ? !fromScene && !next.combat : journey && fromScene ? false : ReaderApp.outdoors(frame, next),
+        // Only a journey stays on the map it was walked on; anything else that crossed comes back as it would have
+        // (inside Tessary an act about the Landgate had left the map up: the scratch full run of 20 November).
+        outdoors: walked && journey ? !fromScene && !next.combat : journey && fromScene ? false
+          : ReaderApp.outdoors(frame, next),
         walking: undefined,
         exploring: keeps ? this.state.exploring : undefined, kept: keeps,
         // Talk is a lens on one place: gone on to another, it is put away (the contact sheet, 12 November: the rats
