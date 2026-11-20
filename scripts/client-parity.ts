@@ -8,7 +8,7 @@ import { MenuModel } from '../web/reader/menu-model';
 import { GlanceStage } from '../web/reader/stage/glance';
 import { LensRows } from '../web/reader/stage/lens-rows';
 import type { ReaderApp } from '../web/reader/reader-app';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 
 // The other clients at the runner's turns (MT-18, after the runner's own: scripts/offer-parity.ts): what the page
 // draws, built headlessly as the page builds it (its menu, MenuModel; the four, GlanceStage; each lens's rows,
