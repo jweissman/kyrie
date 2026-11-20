@@ -13,7 +13,9 @@ import type { Frame, Message } from '../web/engine/protocol';
 // second country (texts 3.3 s, place 4.5 s, the whole 8.5 s, 20 November), for CI.
 class Cold {
   static readonly seed = 'velmoor';
-  static readonly budget = { texts: 7000, place: 9000, whole: 18000 };
+  // CI's runners are slower than a desk (texts 7.1 s there on 20 November): their own budget, as test/act-budget's.
+  static readonly budget = process.env.CI ? { texts: 14000, place: 18000, whole: 36000 }
+    : { texts: 7000, place: 9000, whole: 18000 };
   static async click(seed: string) {
     const stamps: [string, number][] = [];
     const host = new EngineHost((m: Message) => {
