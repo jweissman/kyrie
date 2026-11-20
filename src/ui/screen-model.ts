@@ -60,7 +60,7 @@ export class ScreenModel {
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
     const items = this.items(campaign, grouped, entities);
     const dark = view.observations.some(o => o.id === 'darkness'), stakes = Stakes.of(campaign), owed = Owed.of(campaign);
-    const charted = new ChartModel(world, view.actor, entities).build(visited, here);
+    const charted = ChartModel.kept(world, view.actor, entities, { visited, here });
     // Each person in the one painting they are met in wherever they are (see Portraits).
     const rows = this.stack(view.present.map(p => ({ ...this.target(p, grouped, world, { dark, campaign }),
       ...this.marks(campaign, p.id, { along, stakes, owed }), ...FightHelp.reckoning(campaign, p.id, grouped.targets),

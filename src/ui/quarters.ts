@@ -2,6 +2,8 @@ import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import table from '../../data/generation/town/quarters.json';
 import { Spatial } from '../spatial';
+import { ObservationText } from '../lang/observation-text';
+import { KeptParts } from './kept-parts';
 
 // One quarter of the town the company is in (see RegionQuarters): its name, the place it is walked to, the places in
 // it, and whether the company is in it now.
@@ -30,8 +32,11 @@ export class Quarters {
       .map(c => (c.args[1] === e.id ? c.args[2] : c.args[1])!);
     return ends.map(id => world.one('inQuarter', id)).find(Boolean);
   }
+  // Kept from one world to the next while nothing they read has been written and the company stands where it stood
+  // (see KeptParts): every place of the world walked up through for every page (OR-91).
   static shown(world: World, byId: Map<string, Entity>, at?: string): { quarters?: QuarterRow[] } {
-    const quarters = at ? this.of(world, byId, at) : undefined;
+    const quarters = !at ? undefined : byId !== ObservationText.presented(world) ? this.of(world, byId, at)
+      : KeptParts.of(world, 'quarters', at, () => this.of(world, ObservationText.presented(world), at));
     return quarters ? { quarters } : {};
   }
   static of(world: World, byId: Map<string, Entity>, at: string): QuarterRow[] | undefined {

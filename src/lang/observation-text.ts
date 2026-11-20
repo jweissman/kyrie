@@ -3,6 +3,7 @@ import type { Call, Entity } from './module';
 import { ModuleWriter } from './module-writer';
 import { World } from './world';
 import { Reads } from './reads'; import { WorldReads } from './world-reads';
+import { KeptReading, type Kept } from './kept-reading';
 import { KyrText } from './kyr-text';
 
 // How a measure in a text asks to be said: in words ("one", not "1"), as a time of day, and with the one of two forms
@@ -96,20 +97,27 @@ export class ObservationText {
   // world presents turns only on its entities, the company and what it knows (see `known`), so a world presents what
   // an earlier one of its line did while neither of those has been written (not worked out again for every world).
   // Who someone is now turns too on what their roles read (a goose let out is no longer in her crate).
+  // And held to what of those names it picked (see KeptReading): a word with someone writes what the company knows,
+  // and the names it knows things by turn only on the few facts an alias waits on, so what reads the names of things
+  // (the chart, the journeys: KeptParts) need not be read again for every fact learnt (OR-91).
   private static readonly presentations = new WeakMap<readonly Entity[],
-    { size: number; naming: string[]; stamped: number[]; presented: Map<string, Entity> }>();
+    { size: number; naming: string[]; stamped: number[]; presented: Map<string, Entity>; kept?: Kept<unknown> }>();
   private static readonly naming = ['company', 'knows'];
   static presented(world: World): Map<string, Entity> {
     const entities = world.module.entities, kept = this.presentations.get(entities);
     const naming = kept?.size === entities.length ? kept.naming : [...this.naming,
       ...Reads.names(world.module, entities.flatMap(e => e.roles?.map(r => r.when) ?? []))];
-    // What it read, read again where it is kept (see WorldReads).
-    if (kept?.size === entities.length && world.agrees(naming, kept.stamped)) {
-      WorldReads.note(naming); return kept.presented;
+    if (kept?.size === entities.length && (world.agrees(naming, kept.stamped)
+      || (kept.kept && KeptReading.holds(world, kept.kept)))) {
+      // What it read, read again where it is kept (see WorldReads).
+      if (kept.kept) { WorldReads.note(kept.kept.reads, kept.kept.picks); } else { WorldReads.note(naming); }
+      kept.stamped = world.stamped(naming);
+      return kept.presented;
     }
-    const presented = new Map(entities.map(e => [e.id, this.present(world, e)]));
-    this.presentations.set(entities, { size: entities.length, naming, stamped: world.stamped(naming), presented });
-    return presented;
+    const read = KeptReading.read(world, () => new Map(entities.map(e => [e.id, this.present(world, e)])));
+    this.presentations.set(entities, { size: entities.length, naming, stamped: world.stamped(naming),
+      presented: read.value, ...read.kept ? { kept: read.kept } : {} });
+    return read.value;
   }
   private static present(world: World, e: Entity): Entity {
     const role = e.roles?.find(r => world.test(r.when)), now = role ? { ...e, name: role.name } : e;

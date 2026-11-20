@@ -3,16 +3,26 @@ import { ObservationText } from '../lang/observation-text';
 import type { Entity } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { VisitedPlaces } from './visited-places';
+import { KeptParts } from '../ui/kept-parts';
 
 // What a skill would open that the company has come to and cannot do now: a way it has stood at the end of that
 // wants it (the gauge shaft, climbing or a rope), and a change to something it has seen that wants it (the spade-cuts
 // staked, digging or a shovel), once it knows what the change is for. Read from the rules' own needs, so a level's
 // development says what it changes in the world, not only on the sheet.
+// Kept from one world to the next while nothing it read has been written and the company has been where it had been
+// (see KeptParts): read for every member's sheet on every page, it was the sheets' whole cost (OR-91).
 export class Openings {
   static of(campaign: Campaign): Map<string, string[]> {
-    const world = campaign.world, actor = campaign.playerActor, out = new Map<string, string[]>();
-    if (!actor || !world.relates('needs')) { return out; }
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e])), visited = VisitedPlaces.of(campaign, actor);
+    const actor = campaign.playerActor;
+    if (!actor) { return new Map(); }
+    const visited = VisitedPlaces.of(campaign, actor);
+    return KeptParts.of(campaign.world, `openings:${actor}`, [...visited].join('\u0000'),
+      () => this.read(campaign, actor, visited));
+  }
+  private static read(campaign: Campaign, actor: string, visited: Set<string>): Map<string, string[]> {
+    const world = campaign.world, out = new Map<string, string[]>();
+    if (!world.relates('needs')) { return out; }
+    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
     for (const [x, need] of world.related('needs').map(r => r.args)) {
       if (entities.get(need!)?.type !== 'capability' || world.test(ModuleWriter.call('capable', actor, need!))
         || world.test(ModuleWriter.call('equippedFor', actor, x!))) { continue; }

@@ -2,6 +2,8 @@ import { AuthoredLand } from '../world/authored-land';
 import { Spatial } from '../spatial';
 import { EntityIndex } from '../lang/entity-index';
 import { WaysInto } from './ways-into';
+import { WorldMemo } from '../lang/world-memo';
+import { KeptParts } from './kept-parts';
 import { ModuleWriter } from '../lang/module-writer';
 import { ActionTime } from '../campaign/action-time';
 import { ObservationText } from '../lang/observation-text';
@@ -41,16 +43,11 @@ export class ChartModel {
   ways(visited: Set<string>, roam = false): WayInfo[] {
     // Read once for a state of the world, whoever asks: the routes (Itineraries.graph) and the plan (build) had each
     // read them for every page (Mission 21's validation profile).
+    // What they read is noted wherever they are asked again (see WorldMemo).
     const key = `${this.actor}|${roam}|${[...visited].sort().join(',')}`;
-    const kept = ChartModel.read.get(this.world) ?? new Map<string, WayInfo[]>();
-    ChartModel.read.set(this.world, kept);
-    const known = kept.get(key);
-    if (known) { return known; }
-    const ways = this.read(visited, roam);
-    kept.set(key, ways);
-    return ways;
+    return ChartModel.read.of(this.world, key, () => this.read(visited, roam));
   }
-  private static readonly read = new WeakMap<object, Map<string, WayInfo[]>>();
+  private static readonly read = new WorldMemo<WayInfo[]>();
   private read(visited: Set<string>, roam: boolean): WayInfo[] {
     const model = new PassageModel(this.world, this.actor, this.entities);
     const seen = [...[...visited].flatMap(from => model.ways(from)), ...this.toldWays(model, visited),
@@ -127,6 +124,15 @@ export class ChartModel {
   duration(passage: string): string {
     const m = ActionTime.passage(this.world, passage);
     return m >= 60 ? `${Math.floor(m / 60)}h${m % 60 ? ` ${m % 60}m` : ''}` : `${m}m`;
+  }
+  // The page's chart, kept from one world to the next while nothing it read has been written and the company stands
+  // where it stood, having been where it had been (see KeptParts).
+  static kept(world: World, actor: string, entities: Map<string, Entity>, at: { visited: Set<string>; here: string }) {
+    if (entities !== ObservationText.presented(world)) {
+      return new ChartModel(world, actor, entities).build(at.visited, at.here);
+    }
+    return KeptParts.of(world, `chart:${actor}`, [at.here, ...at.visited].join('\u0000'),
+      () => new ChartModel(world, actor, ObservationText.presented(world)).build(at.visited, at.here));
   }
   build(visited: Set<string>, here: string): { chart?: Chart; region?: RegionChart } {
     if (!this.world.module.relations.some(r => r.name === 'connects')) { return {}; }

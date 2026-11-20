@@ -8,11 +8,14 @@ import { PlayerView } from '../../src/presentation/player-view';
 import { WorldReads } from '../../src/lang/world-reads';
 import { World } from '../../src/lang/world';
 import { KeptReading } from '../../src/lang/kept-reading';
+import { WorldMemo } from '../../src/lang/world-memo';
 import { ModuleWriter } from '../../src/lang/module-writer';
 import type { Module } from '../../src/lang/module';
 import { Nearby } from '../../src/campaign/nearby';
 import { LocalObservations } from '../../src/campaign/local-observations';
 import { Tiny } from '../support/tiny';
+import { KeptParts } from '../../src/ui/kept-parts';
+import { Openings } from '../../src/presentation/openings';
 
 // What is kept from one world to the next (OR-91: the offered actions, the ways, what is told, each kept while nothing
 // it read has been written) must agree exactly with working it out afresh. Two sessions of one game are played act by
@@ -69,6 +72,13 @@ class Twins {
   static seen(s: PlaySession) {
     return { screen: ScreenModel.build(s.campaign), observed: PlayerView.observe(s.campaign) };
   }
+  // One line done by both, and what each then shows; the kept twin's answer.
+  static async step(twins: { kept: PlaySession; fresh: PlaySession; k: Runner; f: Runner }, line: string) {
+    const ours = await twins.k.ask(line);
+    expect(await this.afresh(() => twins.f.ask(line))).toEqual(ours);
+    expect(await this.afresh(() => this.seen(twins.fresh))).toEqual(this.seen(twins.kept));
+    return ours;
+  }
   // Each act the kept twin's turn leads with (the first one first, if given), done by both; what each then shows.
   static async play(kept: PlaySession, fresh: PlaySession, acts: number, first?: RegExp): Promise<number> {
     const k = new Runner(kept), f = await this.afresh(() => new Runner(fresh));
@@ -102,6 +112,31 @@ describe('what is kept from world to world, against working it out afresh', () =
     expect(Twins.first(w2)).toBe('b');
     expect(KeptReading.holds(w2, kept)).toBe(false);
   });
+  // A view kept once a world (WorldMemo), asked first outside any reading and then within one: the reading still reads
+  // what it read, so a later world that writes of it keeps nothing (the journeys plan over the one search a world).
+  it('notes what a view kept once a world read, wherever it is asked again', () => {
+    const w0 = new World(Twins.knowing, { relations: [ModuleWriter.call('knows', 'c', 'a')], measures: [] });
+    const memo = new WorldMemo<string | undefined>(), first = () => memo.of(w0, 'c', () => Twins.first(w0));
+    expect(first()).toBe('a');
+    const kept = KeptReading.read(w0, () => [first(), first()]).kept!;
+    expect(kept.reads).toEqual(['knows']);
+    expect(KeptReading.holds(w0.apply([Twins.fact('assert', 'd', 'z')]), kept)).toBe(true);
+    expect(KeptReading.holds(w0.apply([Twins.fact('assert', 'c', 'e')]), kept)).toBe(false);
+  });
+  // A part of the page kept from one world to the next (KeptParts): again where what else it was worked out from, or a
+  // name it worded a row by, is not what it was.
+  it('keeps a part of the page while what it read, what it was worked out from and the names it asked are the same', () => {
+    const w0 = new World(Twins.knowing, { relations: [ModuleWriter.call('knows', 'c', 'a')], measures: [] });
+    const w1 = w0.apply([Twins.fact('assert', 'd', 'z')]), names = new Map([['a', 'Ann']]);
+    let reads = 0;
+    const part = (w: World, from: string) => KeptParts.named(w, 'twins', { from, names },
+      n => `${n.get(Twins.first(w)!)}${++reads}`);
+    expect([part(w0, 'here'), part(w1, 'here')]).toEqual(['Ann1', 'Ann1']);
+    expect(part(w1, 'there')).toBe('Ann2');
+    names.set('a', 'Anna');
+    expect(part(w1, 'there')).toBe('Anna3');
+    expect(part(w1.apply([Twins.fact('assert', 'c', 'b')]), 'there')).toBe('Anna4');
+  });
   it('finds near the company, read at once, just what each thing\'s own test of nearness finds', async () => {
     const t = await Tiny.start('Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard.');
     const c = t.journey.session.campaign, actor = c.playerActor!, at = c.world.one('at', actor)!;
@@ -120,6 +155,22 @@ describe('what is kept from world to world, against working it out afresh', () =
       'trap']);
     expect(['gate', 'path', 'lane'].filter(x => near.beside.has(x))).toEqual(['gate', 'path']);
   });
+  // What a skill would open is told of a way once the company has been at its foot, which the log says, not the
+  // world (Openings: KeptParts' from).
+  it('agrees as the company comes to the foot of a way it cannot yet climb', async () => {
+    const kyr = `Place lane "the lane" is room. Place foot "the foot of the tower" is room at 0, 0 outdoors.
+      Place top "the top of the tower" is room at 0, 1 outdoors.
+      Passage track "the track up from the lane" is path between lane and foot.
+      Passage stair "the broken stair" is climb between foot and top needing climbing or rope.
+      Company party "You" of 1 at lane.`;
+    const kept = (await Tiny.start(kyr)).journey.session;
+    const fresh = (await Twins.afresh(() => Tiny.start(kyr))).journey.session;
+    expect(await Twins.play(kept, fresh, 3, /foot of the tower|track/)).toBeGreaterThan(0);
+    // As a sheet's development tells it, where a level is to be had.
+    const opens = Openings.of(kept.campaign);
+    expect([...opens.values()].flat().join()).toContain('the broken stair');
+    expect(await Twins.afresh(() => Openings.of(fresh.campaign))).toEqual(opens);
+  }, 60000);
   it('agrees act by act on a small world', async () => {
     const party = [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }, { name: 'Bran', raceId: 'human',
       classId: 'warrior' }];
@@ -135,5 +186,24 @@ describe('what is kept from world to world, against working it out afresh', () =
     const kept = await start(), fresh = await Twins.afresh(start);
     expect(Twins.everywhere(kept)).toEqual([]);
     expect(await Twins.play(kept, fresh, 5, /^Give Eogan/)).toBe(5);
+  }, 120000);
+  // The journeys led with go by the aim followed first, which the world does not hold (KeptParts' from).
+  it('agrees in a drawn country as one aim and then another is followed, then none', async () => {
+    const drawn = { origin: 'order', party: [{ name: 'Hamo', raceId: 'human', classId: 'cleric',
+      backgroundId: 'doctor' }] };
+    const start = () => DrawnWorld.start('a1', drawn, NodeBundleSource.shared);
+    const kept = await start(), fresh = await Twins.afresh(start);
+    const twins = { kept, fresh, k: new Runner(kept), f: await Twins.afresh(() => new Runner(fresh)) };
+    const first = twins.k.said(), letter = [...first.offer.primary, ...first.offer.rest]
+      .find(o => /^Give Eogan/.test(o.label))!;
+    expect(await Twins.afresh(() => twins.f.said())).toEqual(first);
+    let said = await Twins.step(twins, JSON.stringify({ act: letter.id })) as Said, followed = 0;
+    // Between words with Eogan (each telling of somewhere), every aim held followed in turn, then none.
+    for (let round = 0; round < 3; round++) {
+      for (const a of said.aims ?? []) { await Twins.step(twins, JSON.stringify({ follow: a.id })); followed++; }
+      await Twins.step(twins, JSON.stringify({ follow: null }));
+      said = await Twins.step(twins, JSON.stringify({ act: said.offer.primary[0]!.id })) as Said;
+    }
+    expect(followed).toBeGreaterThan(2);
   }, 120000);
 });

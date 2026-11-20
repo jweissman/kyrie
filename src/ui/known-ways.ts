@@ -4,6 +4,7 @@ import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { VisitedPlaces } from '../presentation/visited-places';
+import { WorldMemo } from '../lang/world-memo';
 import { ChartModel } from './chart-model';
 import { LandModel } from './land-model';
 import { Overland } from './overland';
@@ -21,7 +22,7 @@ export interface Over {
   first?: ReadonlySet<string>;
 }
 // Every place reached from one, in the order settled, with its nearest way.
-export interface Tree { order: string[]; best: Map<string, Way>; reach?: Set<string>;
+export interface Tree { order: string[]; best: Map<string, Way>;
   // The first place settled within each place (see firstWithin).
   within?: { byId: Map<string, Entity>; first: Map<string, string> } }
 
@@ -35,20 +36,15 @@ export interface Tree { order: string[]; best: Map<string, Way>; reach?: Set<str
 // not a real speedup), then the one of fewer legs (OR-35). Never through a place the company does not know: a way
 // leads only from somewhere it has been or has been told of.
 export class KnownWays {
-  private static readonly read = new WeakMap<object, { at: string; ways: WayInfo[]; roam?: WayInfo[] }>();
+  // Read once a world (and what they read noted wherever they are asked again: see WorldMemo).
+  private static readonly read = new WorldMemo<WayInfo[]>();
   // The known ways from each place (see Itineraries.graph).
   static graph(campaign: Campaign, clear = false, roam = false, barred = false): Map<string, WayInfo[]> {
-    const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
-    let kept = this.read.get(world);
-    if (kept?.at !== at) {
-      kept = { at, ways: this.chart(campaign).ways(VisitedPlaces.of(campaign, actor)) };
-      this.read.set(world, kept);
-    }
-    if (roam) {
-      kept.roam ??= [...this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true),
-        ...Overland.unseen(campaign)];
-    }
-    const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>(), taken = new Set<string>();
+    const actor = campaign.playerActor!, at = `${actor}:${campaign.history.length}:${roam}`;
+    const ways = this.read.of(campaign.world, at, () => roam ? [...this.chart(campaign)
+      .ways(VisitedPlaces.of(campaign, actor), true), ...Overland.unseen(campaign)]
+      : this.chart(campaign).ways(VisitedPlaces.of(campaign, actor)));
+    const graph = new Map<string, WayInfo[]>(), taken = new Set<string>();
     for (const w of ways) {
       if ((w.status === 'blocked' && !barred) || (clear && w.status !== 'open')) { continue; }
       // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it. But from
@@ -86,16 +82,10 @@ export class KnownWays {
   // The nearest way from a place to every place it reaches, each settled in order of its minutes: searched once for
   // each state of the world and each kind of search, not once for every place asked of (the map's every area and mark
   // had each run the whole search, two thirds of a waited hour's time: Mission 21's validation profile).
-  private static readonly trees = new WeakMap<object, Map<string, Tree>>();
+  private static readonly trees = new WorldMemo<Tree>();
   static tree(campaign: Campaign, from: string, over: Over = {}): Tree {
-    const world = campaign.world, key = `${campaign.playerActor}:${campaign.history.length}:${from}:${this.key(over)}`;
-    const kept = this.trees.get(world) ?? new Map<string, Tree>();
-    this.trees.set(world, kept);
-    const known = kept.get(key);
-    if (known) { return known; }
-    const tree = this.search(campaign, from, over);
-    kept.set(key, tree);
-    return tree;
+    const key = `${campaign.playerActor}:${campaign.history.length}:${from}:${this.key(over)}`;
+    return this.trees.of(campaign.world, key, () => this.search(campaign, from, over));
   }
   private static key(o: Over): string {
     return [o.clear, o.roam, o.barred, o.able].map(Number).join('') + `|${o.area ?? ''}|${o.legs ?? ''}|`

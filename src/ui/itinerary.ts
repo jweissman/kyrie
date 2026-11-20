@@ -14,6 +14,8 @@ import { RegionIds } from '../world/region-ids';
 import { EntityIndex } from '../lang/entity-index';
 import { Overland } from './overland';
 import { Costs } from '../costs';
+import { WorldMemo } from '../lang/world-memo';
+import { KeptParts } from './kept-parts';
 import { KnownWays, type Leg, type Tree } from './known-ways';
 
 export type { Leg } from './known-ways';
@@ -83,13 +85,17 @@ export class Itineraries {
       .some((e, i) => reach.has(e.id) && (i === 0 || !['region', 'plane', 'wilderness'].includes(e.space!.kind)));
   }
   // Every place a known way comes to from here, or someone has told of, and what each lies within.
+  // Once a world, and what it read noted wherever it is asked again (see WorldMemo).
+  private static readonly reached = new WorldMemo<Set<string>>();
   private static reach(campaign: Campaign, here: string): Set<string> {
-    const tree = this.tree(campaign, here, false, false), byId = this.byId(campaign), world = campaign.world;
-    if (tree.reach) { return tree.reach; }
-    const told = world.relates('leadsTo') ? world.related('leadsTo')
-      .filter(r => world.test(ModuleWriter.call('knows', campaign.playerActor!, r.args[0]!))).map(r => r.args[1]!) : [];
-    tree.reach = new Set([...tree.order, ...told].flatMap(id => Spatial.ancestry(byId, id).map(e => e.id)));
-    return tree.reach;
+    const world = campaign.world;
+    return this.reached.of(world, `${campaign.playerActor}:${campaign.history.length}:${here}`, () => {
+      const tree = this.tree(campaign, here, false, false), byId = this.byId(campaign);
+      const told = world.relates('leadsTo') ? world.related('leadsTo')
+        .filter(r => world.test(ModuleWriter.call('knows', campaign.playerActor!, r.args[0]!)))
+        .map(r => r.args[1]!) : [];
+      return new Set([...tree.order, ...told].flatMap(id => Spatial.ancestry(byId, id).map(e => e.id)));
+    });
   }
   private static toward(campaign: Campaign, destination: string): Itinerary | undefined {
     const entities = this.byId(campaign);
@@ -182,7 +188,19 @@ export class Itineraries {
   // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them. And the
   // other places of the town it is in, further than a step.
   // And every other place the map draws (see mapped).
-  static shown(...a: Parameters<typeof Itineraries.showing>) { return Costs.time('itinerary', () => this.showing(...a)); }
+  // Kept from one world to the next while nothing they read has been written, and the company has been where it had
+  // been, follows the aim it followed and has the region drawn as it was (see KeptParts).
+  static shown(campaign: Campaign, names: Map<string, Entity>, region?: RegionChart) {
+    return Costs.time('itinerary', () => {
+      const world = campaign.world, actor = campaign.playerActor;
+      if (!actor || names !== ObservationText.presented(world)) { return this.showing(campaign, names, region); }
+      const following = campaign.tickState.current.following;
+      const from = [campaign.running, following?.id, following?.chosen, KeptParts.token(region),
+        ...VisitedPlaces.of(campaign, actor)].join('\u0000');
+      return KeptParts.of(world, `itineraries:${actor}`, from,
+        () => this.showing(campaign, ObservationText.presented(world), region));
+    });
+  }
   private static showing(campaign: Campaign, names: Map<string, Entity>,
     region?: RegionChart): Pick<Screen, 'destinations' | 'roads' | 'around' | 'mapped'> {
     if (!campaign.running) { return { destinations: [], roads: [], around: [], mapped: [] }; }

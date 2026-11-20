@@ -4,6 +4,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ActionTime } from '../campaign/action-time';
 import { Spatial } from '../spatial';
 import { VisitedPlaces } from '../presentation/visited-places';
+import { WorldMemo } from '../lang/world-memo';
 import { ChartModel } from './chart-model';
 import { LandModel } from './land-model';
 import type { WayInfo } from './passage-model';
@@ -26,15 +27,12 @@ export class Overland {
   static readonly ordinary = (tables as { land: Record<string, { minutes: number }> }).land.meadow!.minutes;
   static readonly way = 'the way across country';
   static readonly unknown = 'country not yet seen';
-  private static readonly read = new WeakMap<object, { at: string; land?: Reckoned }>();
-  // The company's country, read once for each state of the world and of where the company has been.
+  private static readonly read = new WorldMemo<Reckoned | undefined>();
+  // The company's country, read once for each state of the world and of where the company has been (and what it read
+  // noted wherever it is asked again: see WorldMemo).
   static of(campaign: Campaign): Reckoned | undefined {
-    const actor = campaign.playerActor!, world = campaign.world, at = `${actor}:${campaign.history.length}`;
-    const kept = this.read.get(world);
-    if (kept?.at === at) { return kept.land; }
-    const land = this.reckon(campaign);
-    this.read.set(world, { at, ...land ? { land } : {} });
-    return land;
+    const at = `${campaign.playerActor!}:${campaign.history.length}`;
+    return this.read.of(campaign.world, at, () => this.reckon(campaign));
   }
   private static reckon(campaign: Campaign): Reckoned | undefined {
     const actor = campaign.playerActor!, chart = new ChartModel(campaign.world, actor,

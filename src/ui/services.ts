@@ -6,6 +6,8 @@ import type { World } from '../lang/world';
 import { Canon } from '../canon/canon';
 import type { Screen } from './screen-types';
 import type { Names } from './known-names';
+import { KeptParts } from './kept-parts';
+import { EntityIndex } from '../lang/entity-index';
 
 // Where in the settlement the company is in it can find what it needs (Mission 18, the owner's fifth priority:
 // rations, light, rope and a crowbar found from a typical start without searching blindly through many shops): for
@@ -25,9 +27,15 @@ export class Services {
   private static is(world: World, relation: string, kind: string): boolean {
     return world.relates(relation) && world.related(relation, kind).length > 0;
   }
+  // Kept from one world to the next while nothing it read has been written and every name it words is as it was
+  // (see KeptParts): every counter of the town read for every page, a seventh of it (OR-91).
   static of(campaign: Campaign, names: Names): NonNullable<Screen['services']> {
+    return KeptParts.named(campaign.world, `services:${campaign.playerActor ?? 'party'}`, { from: '', names },
+      asked => this.read(campaign, asked));
+  }
+  private static read(campaign: Campaign, names: Names): NonNullable<Screen['services']> {
     const world = campaign.world, here = world.one('at', campaign.playerActor ?? 'party');
-    const byId = new Map(campaign.module.entities.map(e => [e.id, e]));
+    const byId = EntityIndex.of(campaign.module.entities).byId;
     const town = here && Spatial.ancestry(byId, here).find(e => e.space?.kind === 'settlement');
     if (!town) { return []; }
     const rooms = this.rooms(campaign.module.entities, byId, town.id);
@@ -45,8 +53,18 @@ export class Services {
     }
     return out;
   }
+  // A town's rooms, found once for a module's entities (again where more are installed).
+  private static readonly towns = new WeakMap<readonly Entity[], { length: number; rooms: Map<string, Entity[]> }>();
   private static rooms(entities: Entity[], byId: Map<string, Entity>, town: string): Entity[] {
-    return entities.filter(e => e.type === 'place' && e.space?.kind === 'room'
-      && Spatial.ancestry(byId, e.id).some(a => a.id === town));
+    const had = this.towns.get(entities);
+    const kept = had?.length === entities.length ? had.rooms : new Map<string, Entity[]>();
+    this.towns.set(entities, { length: entities.length, rooms: kept });
+    let rooms = kept.get(town);
+    if (!rooms) {
+      rooms = entities.filter(e => e.type === 'place' && e.space?.kind === 'room'
+        && Spatial.ancestry(byId, e.id).some(a => a.id === town));
+      kept.set(town, rooms);
+    }
+    return rooms;
   }
 }
