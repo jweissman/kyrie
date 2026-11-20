@@ -11,8 +11,9 @@ import { Runner, type Said } from '../src/cli/runner';
 // on CI a probe timed with the cold parse inside it came to 2 044 ms against a budget of 2 000). Its measure is the
 // clock's median over four questions (the fifth installs what he speaks of, an act of another kind); the process's
 // own time is told beside it (more than the clock's: the collector and the compiler work on threads of their own).
-// Locally 120 to 155 ms at perf-4 on a machine running another agent's tests, 230 to 275 at the baseline; on CI's
-// shared runners the bound only says nothing has gone back to where it was.
+// Locally 120 to 155 ms at perf-4 on a machine running another agent's tests, 230 to 275 at the baseline, 110 to 126
+// at perf-5 (the screen's parts and the offered actions kept by what they read); on CI's shared runners the bound
+// only says nothing has gone back to where it was.
 class Asking {
   static cpu(): number { const u = process.cpuUsage(); return (u.user + u.system) / 1000; }
   static median(xs: number[]): number { return [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)] ?? 0; }
@@ -35,6 +36,6 @@ describe('an ordinary act, headless', () => {
     console.log(`  asking Eogan: median ${Math.round(median)} ms (${asked.map(x =>
       `${Math.round(x.ms)}/${Math.round(x.cpu)}`).join(', ')} ms, the clock's/the process's)`);
     expect(asked.length).toBeGreaterThanOrEqual(3);
-    expect(median).toBeLessThan(process.env.CI ? 600 : 200);
+    expect(median).toBeLessThan(process.env.CI ? 500 : 170);
   }, 120000);
 });
