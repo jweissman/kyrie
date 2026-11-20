@@ -159,6 +159,15 @@
   Person pedlar "the pedlar" at {approach} {
     Role "a pedlar sitting in the ditch with a hand to his head". Ancestry {folk}. Peaceable. Pronouns he. Manner stoic.
   }
+  // The two men are people of the road, there to be fought if it comes to it (OR-146, the owner's playtest of 20
+  // November: a defeat had been narrated, "one shove", with no fight and no hurt). Not killers: a fight with them is a
+  // bout (yields), over at the first fall, and whoever loses it is the worse for wear.
+  Person robbers "the two robbers" at {approach} {
+    Role "two men of the road with the pedlar's pack open between them". Ancestry {folk}. Calling commoner. Numbers 2. Level 1. Peaceable. Pronouns they.
+    Called "the bigger robber", "the smaller robber".
+    Comes "The bigger of them comes at you with his fists up, and the other picks up the pedlar's stick.".
+  }
+  Initially Assert yields(robbers).
   Observe meeting near pedlar when not answered(party) "Two men are robbing a pedlar: they have his pack open in the middle of the road, and are going through it. The pedlar sits in the ditch with a hand to his head, blood between the fingers. One of them holds a lantern up to the light and laughs. Then they see you, and stop laughing. They wait to see what you are.".
   Entity pack_saved: fact "On the way into {home} you stood up to two men robbing a pedlar on the road.".
   Entity pack_bought: fact "On the way into {home} you paid off two men robbing a pedlar.".
@@ -169,11 +178,21 @@
     Requires able(actor) and company(actor) and at(actor, site) and at(pedlar, site) and not answered(actor).
     Time 2 minutes.
     Resolve check(actor, intimidation, dc_fair).
-    On success { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). Give lantern to actor. }
-    On failure { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). }
+    On success { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). Give lantern to actor. Retract at(robbers, {approach}). }
+    On failure { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). Retract peaceable(robbers). Assert assails(robbers, actor). }
     Result "They look at you, and at each other. They drop the lantern in the road and go off over the field without hurrying. The pedlar gets up, picks the lantern out of the mud, and puts it in your hands. 'Keep it. It's the least of what they'd have had.'".
-    Otherwise "The bigger of them puts you on your back in the road with one shove. They go off over the field laughing, with a fistful of the pack. But they go. The pedlar helps you up. 'Brave,' he says, 'and a fool. I'll say so at the inn, both.'".
+    Otherwise "They look at you, and at each other, and laugh. 'Two of us,' says the bigger, and puts the lantern down.".
   }
+  // The bout, won: they break and run, and the lantern is the pedlar's to give. Lost: the company is the worse for it
+  // (the hurt is the fight's own), and they go with a fistful of the pack.
+  Rule robbers_run when routed(robbers) and at(robbers, {approach}) says "The two of them break and run over the field, the smaller one holding his ribs. The pedlar gets up, picks the lantern out of the mud, and puts it in your hands. 'Keep it,' he says. 'You earned it the hard way.'" {
+    Retract at(robbers, {approach}). Give lantern to party.
+  }
+  Rule robbers_win when yielded(party, robbers) and at(robbers, {approach}) says "You are sitting in the road with blood in your mouth. They go off over the field laughing, with a fistful of the pack. The pedlar helps you up. 'Brave,' he says, 'and a fool. I'll say so at the inn, both.'" {
+    Retract at(robbers, {approach}).
+  }
+  // Paid, helped or walked past, they go on their way with what they have.
+  Rule robbers_go when answered(party) and peaceable(robbers) and at(robbers, {approach}) { Retract at(robbers, {approach}). }
   Topic pedlar_pay with pedlar "Pay the robbers three coin" when not answered(actor) and quantity(actor, gold) >= 3 once {
     Says "The one with the lantern weighs your coin in one hand and the lantern in the other. He tosses the lantern into the ditch beside the pedlar. 'Fair,' he says, and they go. The pedlar is a long time thanking you. He gives you a flask of lamp oil out of the pack for what you paid.".
     On discuss { Assert answered(actor). Assert wayIn(pack_bought). Assert knows(actor, pack_bought). Decrease quantity(actor, gold) by 3. Give lamp_oil to actor. }

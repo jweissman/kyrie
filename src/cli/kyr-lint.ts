@@ -16,6 +16,7 @@ import { ExportRoles } from './export-roles';
 import { LintSource } from './lint-source';
 import { OfficeLint } from './office-lint';
 import { CrossingLint } from './crossing-lint';
+import { FictionLint } from './fiction-lint';
 import { SiteKindLint } from './site-kind-lint';
 import { WorldAssembler } from '../world/world-assembler';
 
@@ -117,6 +118,8 @@ export class KyrLint {
     AuthorLint.run(lint);
     // An act that would put the company in another hex, which the engine never offers (TR-20).
     CrossingLint.run(lint);
+    // Fiction standing in for the rules: a blow, a wound, a defeat or a spell told with nothing of it done (OR-147).
+    FictionLint.run(lint);
     // A drawn world's towns, where generated people and every module placed there each say who holds what.
     if (LintSource.drawn.has(path)) { await OfficeLint.run(lint, source); }
     return lint.findings;
