@@ -40,8 +40,12 @@ class Act {
   async toSarn(kept = false) {
     await this.j.play('=day 2 10:30', 'To the backyard of the circus', 'Ask Mate Crewe who sent the crate', 'Ask Mate Crewe where the Sundial lies', 'Prise up the lid of the crate');
     if (kept) {
-      await this.j.play('To the big top', 'Ask the Colonel not to name them', 'To the backyard of the circus', 'Ask Billie about Bucephalus', 'Ask Billie what to do with the eggs', 'Ask Billie to make them a nest under a lamp', '=day 2 22:30');
-      await this.j.play("To Wapshott's ground");
+      // Kept warm in Honoria's oven (she is in the big top at half past ten): Billie's lamp asks her regard first
+      // (regard(billie) >= 1), which a company staged past the Revels has not earned (OA-03, OA-04: the walk had
+      // drifted when Billie's nest was gated).
+      await this.j.play('To the big top', 'Ask the Colonel not to name them',
+        'Ask Honoria to put the eggs in the cool end of her oven', '=day 2 22:30');
+      await this.j.play("?To Wapshott's ground");
     } else {
       await this.j.play('=day 2 22:30');
       this.j.roll('pass');
@@ -69,9 +73,10 @@ class Act {
     this.put('wapshott', 'landing'); this.put('party', 'landing');
     await this.j.play('Ask the Colonel what he means to do now');
   }
+  // The Duchess is put down only where the Colonel named her: a clutch he was asked not to name has none (?).
   async returnYoung() {
     await go(this, '=08:00', "To the Sundial's deck", "To the Sundial's hold", 'Take the young hook-claws ashore in a sack', "To the Sundial's deck", "To the Progress's landing",
-      "To the cycad forest's edge", 'To the cycad aisle', "To the hook-claws' hollow", 'Ask the Colonel to put the Duchess down at the edge of the hollow',
+      "To the cycad forest's edge", 'To the cycad aisle', "To the hook-claws' hollow", '?Ask the Colonel to put the Duchess down at the edge of the hollow',
       'Set the young hook-claws down at the edge of the hollow and step back');
     await go(this, 'To the cycad aisle', "To the cycad forest's edge", "To the Progress's landing");
   }
@@ -97,7 +102,7 @@ describe('Sarn, played end to end', () => {
     expect(j.holds(c('crateCome'), c('wapshotts'))).toBe(true);
   }, 900000);
 
-  it.skip('takes the egg home: to the egg-beds and back, the Colonel asked, the Sundial out, and Honoria turning it at home', async () => {
+  it('takes the egg home: to the egg-beds and back, the Colonel asked, the Sundial out, and Honoria turning it at home', async () => {
     const a = await Act.atSarn(true);
     await go(a, '=+1600', "To the Progress's landing");
     a.water(12); a.rations(14);
@@ -117,7 +122,7 @@ describe('Sarn, played end to end', () => {
     expect(told(a)).toContain('A grey egg lies in a basket by Honoria');
   }, 600000);
 
-  it.skip('takes the Society its pair: the scope asked at the quay, the runners netted at the forest edge, the Colonel signs', async () => {
+  it('takes the Society its pair: the scope asked at the quay, the runners netted at the forest edge, the Colonel signs', async () => {
     const a = await Act.atSarn(true);
     await go(a, '=+300', 'Ask Sir Gervase what he has signed the Colonel to', '=+1300', "To the Progress's landing");
     a.water(12); a.rations(14);
