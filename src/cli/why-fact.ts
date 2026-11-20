@@ -3,6 +3,7 @@ import type { Journey, Taken } from '../session/journey';
 import type { World } from '../lang/world';
 import { WhySources, type SourceLine } from './why-sources';
 import { WhyWriter } from './why-writer';
+import { WhyUnheld } from './why-unheld';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -19,7 +20,8 @@ interface Moved { step: string; label: string; act: string; changes: { change: s
 // §7.1; the maturity track's step 4). Told from what the engine already keeps: what holds now; whether it held as
 // play began, and the line of Kyr that says so (the person's declaration that sets them somewhere, an Initially); what
 // the assembly ledger committed of the things it names; and each step of play that changed it, by the rule that fired
-// (CampaignTick's witness), the act of someone else (the step's NPC decisions), or the act taken.
+// (CampaignTick's witness), the act of someone else (the step's NPC decisions), or the act taken; and of one that does
+// not hold, each act or rule that could write it, by the first part of its condition that fails now (WhyUnheld).
 export class WhyFact {
   static parse(text: string): Asked | undefined {
     const m = /^\s*(\w+)\s*(?:\((.*)\))?\s*$/.exec(text) ?? undefined;
@@ -98,6 +100,8 @@ export class WhyFact {
       lines.push(...await this.written(sources, asked, played.outset), ...await this.assembled(sources, asked, now));
     }
     if (!played.moved.length) { lines.push('  in play: no step changed it'); }
+    // One that does not hold: what could write it, and the first part of each one's condition that fails now.
+    if (!now.length && j.campaign.world.relates(asked.name)) { lines.push(...WhyUnheld.report(j.campaign, asked)); }
     for (const m of played.moved) {
       lines.push(`  in play: "${m.label}" (${m.act}):`);
       for (const c of m.changes) { lines.push(`    ${c.change}, by ${c.by}${await this.where(sources, c.by)}`); }
