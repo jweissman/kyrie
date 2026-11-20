@@ -37,7 +37,15 @@ for i in $(seq 1 40); do
       -q ".[] | select(.name==\"CI\" and .event==\"push\" and (.headSha|startswith(\"$h\"))) | .databaseId" | head -1)
     gh run watch "$id" --interval 60 --exit-status > /dev/null 2>&1 && echo "CI GREEN $h" || echo "CI RED $h"
     if [ -n "${KYRIE_LAND_FF:-}" ]; then
-      git -C "$KYRIE_LAND_FF" fetch -q && git -C "$KYRIE_LAND_FF" merge -q --ff-only origin/main && echo ff
+      git -C "$KYRIE_LAND_FF" fetch -q
+      # A file the owner wrote and left untracked that main now carries byte for byte (checked in from their checkout)
+      # is set aside only where it is identical, so the fast-forward can bring it back as tracked; any other stays,
+      # and the fast-forward stops as before.
+      git -C "$KYRIE_LAND_FF" ls-files --others --exclude-standard | while read -r f; do
+        git -C "$KYRIE_LAND_FF" cat-file -e "origin/main:$f" 2>/dev/null \
+          && git -C "$KYRIE_LAND_FF" show "origin/main:$f" | cmp -s - "$KYRIE_LAND_FF/$f" && rm -- "$KYRIE_LAND_FF/$f"
+      done
+      git -C "$KYRIE_LAND_FF" merge -q --ff-only origin/main && echo ff
     fi
     exit 0
   fi

@@ -1,7 +1,7 @@
 # Fun Fridays
 
 A small recurring creative experiment (the owner, 20 November 2026), inspired by the 282-item Pleasant Activities List
-(the owner's copy: doc/design/pleasant.md). **Build not only a world worth exploring or saving, but a world worth
+(doc/design/pleasant.md). **Build not only a world worth exploring or saving, but a world worth
 spending time in.** A creative-content lane and a positive test of the engine, complementary to the mission's
 priorities; not a reason to turn 282 activities into backlog obligations (no register rows: this record is its
 accounting). Part of the direction kept in doc/design/directions-2026-11-20.md (§1, §10).
