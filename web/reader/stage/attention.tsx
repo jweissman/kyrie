@@ -67,7 +67,7 @@ export class Attention {
       {h.seen.slice(0, 2).map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}
       {acts.length > 0 && <ul className="acts column">{acts.map(c => <li key={c.id}>
         <Act.View choice={c} draw={draw} marked className="unfolded-act">
-          {Typography.curl(c.alone ?? Words.upper(PlaceStage.also(c.label)))}</Act.View></li>)}</ul>}
+          {Typography.curl(c.alone || Words.upper(PlaceStage.also(c.label)))}</Act.View></li>)}</ul>}
     </div>;
   }
   // Whom to turn to: those with something for the company first (a tone), then whoever will talk, then the rest.
@@ -90,7 +90,7 @@ export class Attention {
       const mark = AtHand.mark(app, h), only = h.choices.length === 1 && h.choices[0]!.command ? h.choices[0] : undefined;
       // A thing done at a way off this place is said as the act ("Drop the bar across the camp gate"), as the glance
       // says it (GlanceStage.label), not the way it is on.
-      const said = only && (only.alone ?? Words.upper(/ — (.+)$/.exec(only.label)?.[1] ?? only.label));
+      const said = only && (only.alone || Words.upper(/ — (.+)$/.exec(only.label)?.[1] ?? only.label));
       return { id: h.id, label: said ?? Words.upper(h.name),
         ...h.note ? { note: h.note } : {}, ...mark ? { mark } : {}, chosen: app.state.hovered === h.id,
         ...only ? { choice: only } : {},

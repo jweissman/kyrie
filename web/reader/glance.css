@@ -230,6 +230,9 @@
 @keyframes prism-drift { from { background-position: 50% 0%; } to { background-position: 50% 100%; } }
 /* A led choice's own glyphs (see GlanceStage.Icons): who could join you, and going over into the next stretch of
    country, quiet and neutral (its colour is the indicator's). Beside the words, never instead of them. */
-.led-act .led-icon { width: 15px; height: 15px; margin-left: 8px; vertical-align: -2px; fill: none; stroke: var(--dim);
+/* Wherever a row draws it, not only among the four: in a talk the asking to come along bears it too (ChoiceRow.Parts),
+   and unsized there it had been drawn at an svg's own 300 by 150, its words pushed out of the row, which was drawn
+   blank and still taken (the owner's play, 20 November, P0: asking the brother to join). */
+:is(.led-act, .choice-row) .led-icon { width: 15px; height: 15px; margin-left: 8px; vertical-align: -2px; fill: none; stroke: var(--dim);
   stroke-width: 1.6; }
 

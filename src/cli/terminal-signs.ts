@@ -41,7 +41,7 @@ export class TerminalSigns {
     return { ...tags.length ? { tags } : {}, ...c?.hold ? { hold: true as const } : {},
       ...sensed ? { sensed, far: off.far } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
       ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
-      ...c && (c.alone ?? this.whole.has(id)) ? { shown: c.alone ?? c.label } : {},
+      ...c && (c.alone || this.whole.has(id)) ? { shown: c.alone || c.label } : {},
       ...c?.note ? { note: c.note } : {}, ...this.bearing(id) };
   }
   // As the page reads it (GlanceStage.Icons): a journey set out on that is not a walk about the town, or a way

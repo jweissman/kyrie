@@ -27,7 +27,7 @@ export class FightMoves {
     if (onward) {
       return <div className="hand ended"><div className="hand-menu" role="toolbar" aria-label="What you can do">
         <ChoiceRow.Act choice={onward} draw={Act.draw(app)} className="move main"
-          label={Typography.curl(onward.alone ?? Words.shown(onward.label))} /></div></div>;
+          label={Typography.curl(onward.alone || Words.shown(onward.label))} /></div></div>;
     }
     const attack = strike[0], shown = FightMoves.section(sections, strike, panel);
     const pace = sections.find(s => s.id === 'pace')?.choices ?? [];
@@ -73,7 +73,7 @@ export class FightMoves {
     </div>;
   }
   // A target's name, from its own label ("Strike the first rat" → "the first rat").
-  private static whom(t: Choice): string { return t.alone ?? Words.shown(t.label); }
+  private static whom(t: Choice): string { return t.alone || Words.shown(t.label); }
   // A kind opened (the owner's ruling 2: attending replaces the foreground, more than four are paged, never unfolded):
   // its moves in place of the hand's, in their order (what cannot be done now among them, saying why), as many at a
   // time as the hand has rows, so that the hand holds still (CN-06); turning the page (no act) and Back are beside them,
