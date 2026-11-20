@@ -15,8 +15,11 @@ import { MonoDriver } from './support/mono-driver';
 // written letter by letter replace no element of the page.
 class Still {
   // To how you present, each step's first option held on the way.
-  static async toPresenting(page: Page) {
-    for (let i = 0; i < 12 && await page.getAttribute('.creation', 'data-page') !== 'presenting'; i++) {
+  static async toPresenting(page: Page) { await Still.to(page, 'presenting'); }
+  // To a step by its id, each step's first option held on the way: found by what it is, never by its order (how one
+  // presents was moved to second, CR-03, the owner, 19 November).
+  static async to(page: Page, step: string) {
+    for (let i = 0; i < 12 && await page.getAttribute('.creation', 'data-page') !== step; i++) {
       const was = await page.getAttribute('.creation', 'data-page');
       await MonoDriver.hold(page, '.composed-rows [data-option]:not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
@@ -70,7 +73,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the names page', () => {
     // Presenting as a man deals his names: the page shows them once, never the hand drawn before it first.
     await Still.hands(page);
     await MonoDriver.hold(page, '[data-option="he"]');
-    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'name');
+    await Still.to(page, 'name');
     await page.waitForTimeout(600);
     const hands = await page.evaluate(() => (window as unknown as { hands: string[] }).hands);
     expect(hands).toHaveLength(1);

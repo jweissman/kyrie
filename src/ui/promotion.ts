@@ -68,8 +68,10 @@ export class Promotion {
   static pick(cands: Candidate[], s: Situation): Promoted[] {
     // Someone perceived along a way is the places lens's to rank (Go…), not a reason to lead the place with going to
     // look (the scene's four keep what is here: the notice, the dog's sign); a town entered from its country keeps it.
-    const eligible = cands.filter(c => !c.barred).map(c => ({ c, whys: this.allowed(c, s)
-      .filter(w => w !== 'companion' || !this.way(c) || c.whys.includes('entry')) }))
+    // But a way led with for another reason still bears whoever is perceived along it (the owner, 19 November: a way
+    // led with in Explore, a companion there, and no companion on its row): all, the reasons it is drawn by.
+    const eligible = cands.filter(c => !c.barred).map(c => ({ c, all: this.allowed(c, s) }))
+      .map(x => ({ ...x, whys: x.all.filter(w => w !== 'companion' || !this.way(x.c) || x.c.whys.includes('entry')) }))
       .filter(x => x.whys.length).map(x => ({ ...x, best: this.best(x.whys) }));
     // A risk of the place's own (skittles) is led with only when there is nothing else.
     const choices = new Set(eligible.map(x => x.c.choice));
@@ -99,7 +101,7 @@ export class Promotion {
       if (this.way(x.c)) { taken.ways++; }
       if (x.best === 'own') { taken.own++; }
       stepped ||= x.whys.includes('advance');
-      picked.push(this.promoted(x.c, x.best, x.whys));
+      picked.push(this.promoted(x.c, x.best, x.all));
     }
     return this.continued(this.lit(picked.length ? picked : this.bare(cands), s));
   }

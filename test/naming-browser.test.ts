@@ -23,10 +23,22 @@ class Naming {
     return page.locator('.composed-list [data-option] .row-label').allTextContents().then(t => t.map(x => x.trim()));
   }
   // To how you present, holding each step's first option on the way.
-  static async presenting(page: Page) {
-    for (let i = 0; i < 8 && await Naming.at(page) !== 'presenting'; i++) {
+  static async presenting(page: Page) { await Naming.on(page, 'presenting'); }
+  // To a step by its id, holding each step's first option on the way: steps are found by what they are, never by
+  // their order (how one presents was moved to second, CR-03, the owner, 19 November).
+  static async on(page: Page, step: string) {
+    for (let i = 0; i < 10 && await Naming.at(page) !== step; i++) {
       const was = await Naming.at(page);
       await MonoDriver.hold(page, '.composed-rows [data-option]:not(:disabled) >> nth=0');
+      await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
+        { timeout: 5000 });
+    }
+  }
+  // Back to a step by its id, a step at a time.
+  static async back(page: Page, step: string) {
+    for (let i = 0; i < 10 && await Naming.at(page) !== step; i++) {
+      const was = await Naming.at(page);
+      await page.keyboard.press('Escape');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
         { timeout: 5000 });
     }
@@ -34,7 +46,7 @@ class Naming {
   // Presenting as one, and the hand of names that comes of it.
   static async as(page: Page, id: string): Promise<string[]> {
     await MonoDriver.hold(page, `[data-option="${id}"]`);
-    await Naming.to(page, 'name');
+    await Naming.on(page, 'name');
     await page.waitForTimeout(300);
     return Naming.names(page);
   }
@@ -57,7 +69,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
     expect(await page.locator('.composed-rows [data-option] .row-aside').allTextContents())
       .toEqual(['she, her', 'he, him', 'they, them']);
     const hers = await Naming.as(page, 'she');
-    await page.keyboard.press('Escape'); await Naming.to(page, 'presenting');
+    await Naming.back(page, 'presenting');
     const his = await Naming.as(page, 'he');
     for (const names of [hers, his]) { expect(names.length >= 3 && names.length <= 6).toBe(true); }
     expect(his.filter(n => hers.includes(n))).toEqual([]);

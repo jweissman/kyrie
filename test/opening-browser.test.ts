@@ -199,8 +199,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     expect(await at()).toBe('you');
     // A people held is chosen and the page goes on; Escape goes back to it, its choice still marked (PA-04: where the
     // making stands is the engine's).
+    // On to how one presents, asked second (CR-03).
     await MonoDriver.hold(page, '[data-option="human"]');
-    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'sign');
+    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'presenting');
     // The life chosen so far gathers in the corner as its emblems; the likeness only once the name is asked.
     expect(await page.locator('.signature svg').count()).toBeGreaterThan(0);
     await page.keyboard.press('Escape');
