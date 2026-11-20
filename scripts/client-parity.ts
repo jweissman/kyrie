@@ -7,6 +7,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { MenuModel } from '../web/reader/menu-model';
 import { GlanceStage } from '../web/reader/stage/glance';
 import { LensRows } from '../web/reader/stage/lens-rows';
+import { PlaceStage } from '../web/reader/stage/place-stage';
 import type { ReaderApp } from '../web/reader/reader-app';
 import type { Frame } from '../src/creation/protocol';
 
@@ -20,7 +21,9 @@ interface Act {
   words: string; label?: string; short?: string; alts?: Set<string>; id: string; lens?: Lens; within?: string;
   map?: true; chart?: string;
 }
-interface Drawn { act: string; words: string; id: string; lens?: Lens; where: 'four' | 'lens' | 'menu' | 'pack' }
+interface Drawn {
+  act: string; words: string; id: string; lens?: Lens; where: 'four' | 'lens' | 'menu' | 'pack' | 'likeness' | 'talk';
+}
 export class ClientParity {
   // The engine's acts by what each does, in its own words, with its lens and what it is held within.
   static engine(rows: Row[]): Map<string, Act> {
@@ -71,11 +74,25 @@ export class ClientParity {
     for (const c of this.leaves(MenuModel.build(frame, 'pack', []).choices)) {
       drawn.push({ act: c.command!, words: c.label, id: c.id, where: 'pack' });
     }
+    drawn.push(...this.attended(frame, menu));
     return { drawn, app, four };
   }
   private static charted(app: ReaderApp, a: Promoted): string | undefined {
     const does = GlanceStage.taken(app, a)?.command;
     return does?.startsWith('view:map:') ? does : undefined;
+  }
+  // Whoever is here as the page draws them, by their likeness (taken, it talks to them: PlaceStage.into), and what
+  // their talk drawer holds once the company turns to them, trading too (MenuModel's attention, Wares): the measure
+  // had not read these (MT-18: talk_to, take_leave and buy_item counted the engine's only).
+  private static attended(frame: Frame, menu: ReturnType<typeof MenuModel.build>): Drawn[] {
+    const people = (menu.scene?.subjects ?? []).filter(x => ['person', 'companion'].includes(x.kind));
+    return people.flatMap(x => {
+      const into = PlaceStage.into(x), attention = { kind: 'person' as const, id: x.id };
+      const drawer = [false, true].flatMap(trading => this.leaves(MenuModel.build(frame, 'here', [],
+        { attention, trading }).choices));
+      return [...into?.command ? [{ act: into.command, words: into.label, id: into.id, where: 'likeness' as const }]
+        : [], ...drawer.map(c => ({ act: c.command!, words: c.label, id: c.id, where: 'talk' as const }))];
+    });
   }
   private static leaves(choices: Choice[]): Choice[] {
     return choices.flatMap(c => [...c.command ? [c] : [], ...this.leaves(c.children ?? [])]);
@@ -93,11 +110,11 @@ export class ClientParity {
         continue;
       }
       const wrong = at.filter(d => !this.says(d, e));
-      if (wrong.some(d => d.where !== 'menu' && d.where !== 'pack')) {
+      if (wrong.some(d => !this.menus.has(d.where))) {
         out.add(`page words: ${this.short(act)}`);
         this.example(`page words: ${this.short(act)}`, e.words, wrong[0]!.words);
       }
-      if (at.every(d => ['menu', 'pack'].includes(d.where)) && wrong.length) {
+      if (at.every(d => this.menus.has(d.where)) && wrong.length) {
         out.add(`page menu words: ${this.short(act)}`);
         this.example(`page menu words: ${this.short(act)}`, e.words, wrong[0]!.words);
       }
@@ -116,6 +133,8 @@ export class ClientParity {
       if (does && pressed !== does && a.inside?.[0]?.command !== does) { out.add(`page pressed: ${this.short(a.choice)}`); }
     }
   }
+  // Where the page draws a row in a list of its own (its menu, the pack, a talk drawer, a likeness).
+  private static readonly menus = new Set<Drawn['where']>(['menu', 'pack', 'talk', 'likeness']);
   // Whether a row the page draws says the engine's words: its own (what it is called, LedWords), or, under what holds
   // it (a person's talk, a thing, the pack), the engine's other words for it there (its label, Row.short); among the
   // four, only what it is called.

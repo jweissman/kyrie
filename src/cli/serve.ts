@@ -35,6 +35,8 @@ export class Serve {
     const c = session.campaign, screen = ScreenModel.build(c), glance = Narrator.leaf(c, screen, told).glance;
     const rows = glance ? Doable.flat(Doable.of(glance, screen)) : [];
     // An act by its own row's words; a talk led for it is the four's, not the act's (its label, not what it is called).
+    // And what a row is led for (a talk led for a question asks it: TB-01).
+    const led = new Set(rows.flatMap(r => r.for ?? []));
     const words = new Map(rows.flatMap(r => r.does ? [[r.does, r.label] as const] : []).reverse());
     return { at: { id: screen.place.id, name: screen.place.name }, clock: screen.clock, running: c.running,
       aims: (screen.aims ?? []).map(a => ({ id: a.id, text: a.text, ...a.followed ? { followed: true } : {} })),
@@ -44,10 +46,12 @@ export class Serve {
       // Every choice, and the aim to follow, which the glance offers as an act of the session (HeldActs.follow).
       // And the journeys from here, the engine's (Doable: DoableJourneys), less those on the map (MT-18: serve had
       // offered none, where the runner and the page set out by them).
-      // Each said in the engine's words where the engine has a row doing it (MT-18: one wording, Doable's), else the
-      // world's.
-      choices: [...PlayerView.choices(c).map(r => ({ id: r.choice.id,
-        label: words.get(r.choice.id) ?? r.choice.name })),
+      // Each said in the engine's words (MT-18: one wording, Doable's); only those the engine offers a row doing, where
+      // it offers any (MT-18: serve had offered the world's every choice, a talk with someone who has nothing to say
+      // and a gather "for Carlin" beside "for Wenna", which Doable leaves out).
+      choices: [...PlayerView.choices(c).filter(r => !rows.length || words.has(r.choice.id) || led.has(r.choice.id))
+        .map(r => ({
+        id: r.choice.id, label: words.get(r.choice.id) ?? r.choice.name })),
         ...(glance?.acts ?? []).filter(a => a.command?.startsWith('follow:')).map(a => ({ id: a.command!, label: a.label })),
         ...Serve.journeys(rows)],
       // What the map may set out for across the country, as the page and the terminal offer it (LandCrossing).

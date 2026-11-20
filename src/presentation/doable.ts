@@ -45,7 +45,8 @@ type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed
 interface Read { tree: Map<string, Choice>; parents?: Map<string, string>; acts: Map<string, Promoted>; glance: Offered;
   // The scene's choices by the command each does: a row offered by its command finds there its words under its holder.
   commands?: Map<string, Choice>;
-  // The pack's words for what is done with a thing carried, by command ("Light" under the torch): a row's short there.
+  // The pack's words for what is done with a thing carried, by command ("Light" under the torch), and a talk's for
+  // taking leave ("Take your leave"): a row's short there.
   packed?: Map<string, string>;
   lens?: Lens; led?: boolean; opening?: boolean;
   command?: string; legal?: Set<string> }
@@ -92,7 +93,7 @@ export class Doable {
   private static read(glance: Offered, screen: Screen): Kept {
     const kept = this.kept.get(glance);
     if (kept) { return kept; }
-    const scene = Attending.place(SceneModel.build(screen)), tree = new Map<string, Choice>();
+    const built = SceneModel.build(screen), scene = Attending.place(built), tree = new Map<string, Choice>();
     const parents = new Map<string, string>();
     this.index(tree, [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...scene.you], parents);
     const lensOf = new Map<string, Lens>(Object.entries(glance.lenses ?? {}).flatMap(([lens, l]) =>
@@ -100,9 +101,15 @@ export class Doable {
     const acts = new Map(glance.acts.map(a => [a.choice, a]));
     this.whose(screen, glance, parents);
     const commands = new Map([...tree.values()].flatMap(c => c.command ? [[c.command, c] as const] : []).reverse());
-    const at = { tree, parents, acts, glance, legal: this.legal(glance, tree), commands, packed: this.packed(screen) };
+    const at = { tree, parents, acts, glance, legal: this.legal(glance, tree), commands,
+      packed: this.packed(screen, built) };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
-    const listed = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []];
+    // Not a talk with someone who has nothing to be said to them but goodbye, in the rest: they are there, not someone
+    // to talk to (Attending.place, the owner, 9 November), where the offer had still offered it and the runner drawn
+    // it ("Talk to Dannel Hobb" at the taproom, and the page had not: the parity measure's page engine only, MT-18).
+    const mute = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.choices.length).map(x => `talk_to(${x.id})`));
+    const listed = [...glance.offer?.primary ?? [], ...(glance.offer?.rest ?? [])
+      .filter(o => !mute.has(o.command ?? o.choice) && !this.another(o.command ?? o.choice, screen, commands))];
     // And what a lens holds within an opener that the offer leaves out (a person's questions under their talk, the
     // people lens's): the engine offers them, so every client does, within their holder (MT-18: the page's menu and
     // serve had offered them, the runner not).
@@ -141,9 +148,20 @@ export class Doable {
     delete out.within;
     return out;
   }
-  // What is done with each thing carried, in the pack's words under it, by command (ChoiceList.pack).
-  private static packed(screen: Screen): Map<string, string> {
-    return new Map(this.leaves(ChoiceList.pack(screen).flatMap(s => s.choices)).map(c => [c.command!, c.label]));
+  // The same act for another of the company, where the scene offers it for the one it is (gather, take, buy "for
+  // Carlin" beside "for Wenna"): the scene and the page offer the one, what is had then given in the pack, and the
+  // offer had offered both, so that the runner drew each twice (the parity measure's page engine only, MT-18).
+  private static another(command: string, screen: Screen, commands: Map<string, Choice>): boolean {
+    const m = /^(\w+\(.*),([^,()]+)\)$/.exec(command), members = new Set(screen.party.flatMap(p => p.ref ?? []));
+    if (!m || commands.has(command) || !members.has(m[2]!)) { return false; }
+    return [...members].some(id => id !== m[2] && commands.has(`${m[1]},${id})`));
+  }
+  // What is done with each thing carried, in the pack's words under it, by command (ChoiceList.pack); and taking
+  // leave of someone, in their talk's (Attending.talk).
+  private static packed(screen: Screen, scene: ReturnType<typeof SceneModel.build>): Map<string, string> {
+    const leave = scene.subjects.flatMap(x => Attending.talk(scene, x.id)?.leave ?? []).filter(c => c.command);
+    return new Map([...this.leaves(ChoiceList.pack(screen).flatMap(s => s.choices)), ...leave]
+      .map(c => [c.command!, c.label]));
   }
   private static leaves(cs: Choice[]): Choice[] {
     return cs.flatMap(c => [...c.command ? [c] : [], ...this.leaves(c.children ?? [])]);

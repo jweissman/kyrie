@@ -111,7 +111,9 @@ describe('Gatesend, after the fifth cold play', () => {
   // in the undercroft is not drawn as a payoff nor found for experience, and its ring is bare only once it is lifted.
   it('says the music box is the steward\'s, and lifts the cup from its ring only when it is taken', async () => {
     const run = await play('elf/mage/Ilse/scholar', lines(5, 84));
-    const box = [...run.s.offer.primary, ...run.s.offer.rest].find(o => o.id.startsWith('take_item(region__s4_manor_box'));
+    // By what it does: the engine offers it for the one it is had by (Doable.another), its row the thing's look.
+    const box = [...run.s.offer.primary, ...run.s.offer.rest]
+      .find(o => (o.does ?? o.id).startsWith('take_item(region__s4_manor_box'));
     expect(box?.label).toContain('the steward of the Hall\'s, not yours');
     expect(text(await run.ask(box!.id))).not.toMatch(/experience/);
     let s = run.s;
@@ -119,7 +121,7 @@ describe('Gatesend, after the fifth cold play', () => {
     const look = text(said(await run.r.ask('{"look":true}')));
     expect(look).toContain('a small bronze cup stands in a ring of dust');
     expect(look).not.toContain('was lifted');
-    const cup = [...s.offer.primary, ...s.offer.rest].find(o => o.id.startsWith('take_item(region__s4_stones_cup'));
+    const cup = [...s.offer.primary, ...s.offer.rest].find(o => (o.does ?? o.id).startsWith('take_item(region__s4_stones_cup'));
     expect(cup?.aspects ?? ['none']).not.toContain('payoff');
     const taken = text(await run.ask(cup!.id));
     expect(taken).toContain('was lifted');
