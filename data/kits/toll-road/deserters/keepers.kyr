@@ -21,10 +21,17 @@ Module toll_deserters "Deserters on the road" {
 
   // The toll: four coin for the company, paid at the post, good there and back until the day is out (six for every
   // passing had made the road too dear to use: the owner, 31 October). Walk on without paying and they remember you.
-  Relation stopped(group). Relation stoppedFrom(group, passage). Measure paidOn(group).
+  // A company stopped once is known at the bar after (WM-09: the sergeant's speech had been said word for word at
+  // every passing, day after day, to a company he had stopped before; `stopped` is retracted on leaving).
+  Relation stopped(group). Relation stoppedFrom(group, passage). Relation stoppedBefore(group). Measure paidOn(group).
   Rule stops when at(party, post) and tolls(keepers, post) and able(keepers) and not routed(keepers)
-    and not tolerates(keepers, party) and not stopped(party) and not hostile(chief, party)
+    and not tolerates(keepers, party) and not stopped(party) and not hostile(chief, party) and not stoppedBefore(party)
     says "Pikes come down across the road. 'Toll,' says the sergeant, not getting up. 'Four coin, the lot of you. There's a war on.'" {
+    Assert stopped(party). Assert stoppedBefore(party).
+  }
+  Rule stops_again when at(party, post) and tolls(keepers, post) and able(keepers) and not routed(keepers)
+    and not tolerates(keepers, party) and not stopped(party) and not hostile(chief, party) and stoppedBefore(party)
+    says "The pikes come down again. The sergeant knows you, and does not trouble to say it all twice. 'Four coin. Same as before.'" {
     Assert stopped(party).
   }
   Action pay_toll(actor: group, site: place) "Pay the deserters' toll, four coin" {

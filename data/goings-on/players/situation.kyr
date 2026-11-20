@@ -182,9 +182,11 @@ Module players "The players on the green" {
 
   // The players go on to Pentrice the morning after they are free; if nobody frees them, they sell the king's cloak to
   // pay and go on in the end, a week late and poorer.
-  Rule players_go when reckoned(gosse) and hour(clock) == 6 and not gone(gosse) { Assert gone(gosse). }
-  Rule players_give_up when watch(clock) >= 1008 and stuck(gosse) and not gone(gosse) { Retract stuck(gosse). Assert reckoned(gosse). Assert gone(gosse). }
-  Rule players_leave when gone(gosse) and at(gosse, green) and not at(party, green) {
+  // Their going is told in the town, and they go then, in sight or not (WM-09: they had left without a line, and
+  // waited to be gone until the company was off the green, ruts told while the wagon still stood there).
+  Rule players_go heard within town when reckoned(gosse) and hour(clock) == 6 and not gone(gosse) says "At first light the players' wagon goes out of {town} on the west road, Gosse on the tail-board with his hat raised to the houses, Patience walking behind." { Assert gone(gosse). }
+  Rule players_give_up heard within town when watch(clock) >= 1008 and stuck(gosse) and not gone(gosse) says "Gosse's Company go out of {town} on the west road at last, a week late: the reckoning paid with the king's cloak, and the wagon the lighter for it." { Retract stuck(gosse). Assert reckoned(gosse). Assert gone(gosse). }
+  Rule players_leave when gone(gosse) and at(gosse, green) {
     Retract at(gosse, green). Retract at(hepzibah, green). Retract at(pudding, green). Retract at(the_bear, green). Retract at(wagon, green).
     Assert stale(on_green). }
   Rule lem_leaves when lemSent(lem) and at(lem, kiln) { Retract at(lem, kiln). }
