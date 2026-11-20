@@ -52,9 +52,12 @@ describe('the plan of a town', () => {
     Stood.campaign = campaign;
     const plan = Stood.at('the bailey')!;
     Stood.campaign = was;
-    expect(plan).toMatchObject({ kind: 'site', name: 'Ironkeep' });
+    // Since MT-11 gave the keep its floors (the lord's chamber up the stair), the plan is the floor the company is on,
+    // the ward and the hall, still drawn with where it is and its way out (7325b76bc, the scratch full run of 19 Nov).
+    expect(plan).toMatchObject({ kind: 'level', name: 'the ward and the hall' });
     expect(plan.cells.map(c => c.name)).toEqual(expect.arrayContaining(['the bailey', 'the great hall', 'the wall-walk']));
-    expect(plan.cells.filter(c => c.door)).toHaveLength(1);
+    // Its ways off the floor: out of the keep, and up the stair to the lord's chamber.
+    expect(plan.cells.filter(c => c.door).map(c => c.name)).toEqual(['a broken keep', 'the lord\'s chamber']);
   }, 120000);
   // Under a town, the rooms of its undertown the company knows, apart from the town above them, and the way up: a
   // dungeon's ways had been only a list (the product-design review's PD-09).
