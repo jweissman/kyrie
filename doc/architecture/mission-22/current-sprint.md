@@ -16,6 +16,18 @@ owner's word of 19 November: a focused drill into the live P0s, and the maturity
 | S3-5 | Story (E3) | WM-01, FH-08, CL-09, CL-46, CP-04 | The return verified: the dead do not speak, completed facts do not reset, a deed is attributed at its time; through save and resume (§8 step 6) | lead | open |
 | S3-P | Defect (P0 drill) | OR-91, OR-127 | Per-act cost to the owner's targets (pure simulation under 2 ms, the session's median under 20 ms, p95 and worst measured, incremental equal to full; P′ on the maturity track), and its browser half. OR-114, OR-94 and OPR-01 fixed (sprint audit, 19 November) | lead | open |
 
+Revisits of Sprints 1 and 2 (the sprint audit, 19 November: six stories weak, sprint-audit-2026-11-19.md §1; the
+owner, 20 November: "didn't the sprint audit suggest we needed to revisit stories from s1/s2 as well?"):
+
+| ID | Revisits | What is weak | Acceptance | State |
+|---|---|---|---|---|
+| S3-R1 | S1-1, S1-4 | Cold plays 4 and 5 played locally, not on the deployed build; their pins replay the kept lines with the 19 Nov arrivals set aside (BeforeRooms), so the first town as shipped is pinned by nothing that replays a play | S3-0's clean run on the world as shipped, no arrivals set aside, for the warrior and the mage; a deployed-build cold play only once the first hour's P0 and P1 are burned down (the owner, 20 November) | open |
+| S3-R2 | S1-3 | Reduced motion never checked; the phone frames kept only in /var/tmp | A CI browser recording of the opening at a laptop and a phone size, reduced motion on and off, its sheets checked in (TO-03) | open |
+| S3-R3 | S2-4 | The warrior's pin moves the company past the barrow's halls (Barrow.enter), and the jar passes the king without the forewarning too, so the outcome the forewarning changes is not measured; the mage's pin is a generic human mage | A played spec where the forewarning changes what happens in the barrow, halls walked; the mage case as the route's elf mage with the hire at Gatesend | open |
+| S3-R4 | S2-6 | "A first-level abjurer alone wins 90.5 % of 200" held by no spec; hireling-viable's mage loses alone, a different mage | The route's elf abjurer's odds alone and with the hire pinned as measured; the hire at Gatesend offered and affordable on the weir route | open |
+| S3-R5 | S2-7 | ST-03 open (Nest at the gate); ST-04's contradictory status | ST-04's stale clause withdrawn (done by the audit's edits); ST-03 closed or carried with its reason | partly |
+| S3-R6 | S2-3 | HP-01's remainder: the drove green still gives two stories' aims at once | One principal aim and two kept prospects after the first scenes (S3-3, on its branch, 20 November) | open |
+
 S3-H, the sprint audit's hygiene (19 Nov, s3-1): `scripts/promise-fidelity.ts` runs on iscoed (the drove by default; `--as`, `--origin`); test/small/runner-labels' factor buys, so CL-05's sale half asserts a real sale and fails if the label rule breaks. ST-04's stale line was withdrawn by the audit's own edits (7cdc72190); S2-1's row no longer names CL-52 open.
 
 Capacity reserve: CL rows from cold play 8; SI-08 (a look before a one-way drop) and AP-13 (danger remembered), the
