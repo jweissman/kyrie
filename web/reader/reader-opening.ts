@@ -76,13 +76,21 @@ export class ReaderOpening {
   steps(): CreationStep[] { return this.app.state.creation?.steps ?? []; }
   // A card chosen at a step of the flow: the choice goes to the engine, and what it settles comes back.
   choose(step: CreationStepId, id: string) { if (this.app.state.creation) { void this.chosen(step, id); } }
+  // How many choices have gone to the engine's making: a reply to one older than the last sent is dropped (see chosen).
+  private sent = 0;
   private async chosen(step: CreationChoice, value: string) {
     const app = this.app;
     // A press while a step that leads is answered goes nowhere: it had landed on the step after, as it stood before.
     if (app.state.waiting && step !== 'back') { return; }
     this.pressed(step, value);
+    const mine = ++this.sent;
     try {
       const creation = await app.engine.request<CreationState>({ kind: 'creation', step, value });
+      // Answered after a later choice was sent, the reply is dropped: that one's answer carries this one's too (the
+      // engine takes them in order), and this one's step would set the page back where it was (a name written and
+      // Enter pressed: the page went on, then the name's late answer set it back on "Choose your name" while the
+      // answer to going on was still being made; the browser's naming spec on a loaded runner, 19 and 20 November).
+      if (mine !== this.sent) { return; }
       // A name being written stays as the hand has it (a reply to an earlier letter must not undo a later one).
       const member = step === 'name' || step === 'drawn'
         ? { ...creation.member, name: app.state.party[0]?.name ?? creation.member.name } : creation.member;
@@ -91,7 +99,7 @@ export class ReaderOpening {
         ...step === 'drawn' ? { named: false } : {} });
       if (!ReaderOpening.unmade.includes(step)) { void this.preview(party); }
       this.readySoon();
-    } catch (error) { app.setState({ waiting: undefined }); this.fail(error, 'company'); }
+    } catch (error) { if (mine === this.sent) { app.setState({ waiting: undefined }); this.fail(error, 'company'); } }
   }
   // A change to one companion: the protagonist of a drawn country by the engine's making (which draws a name again
   // for a new people or way of presenting, and takes again as it stands what a change discards: CreationFlow); an
