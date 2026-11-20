@@ -66,7 +66,7 @@ export class ClientParity {
     return choices.flatMap(c => [...c.command ? [c] : [], ...this.leaves(c.children ?? [])]);
   }
   private static page(frame: Frame, rows: Row[], out: Set<string>) {
-    const engine = this.engine(rows), { drawn, app, four } = this.drawn(frame);
+    const { drawn, app, four } = this.drawn(frame), engine = this.lensed(frame, this.engine(rows), drawn);
     const acts = new Map<string, Drawn[]>();
     for (const d of drawn) { acts.set(d.act, [...acts.get(d.act) ?? [], d]); }
     const ids = new Set(drawn.map(d => d.id));
@@ -82,7 +82,7 @@ export class ClientParity {
         out.add(`page menu words: ${this.short(act)}`);
       }
       if (e.lens && at.some(d => d.lens && d.lens !== e.lens)) { out.add(`page lens: ${this.short(act)}`); }
-      if (e.map && at.some(d => ['four', 'lens'].includes(d.where))) { out.add(`page unfolded: ${this.short(act)}`); }
+      if (e.map && at.some(d => d.where === 'four')) { out.add(`page unfolded: ${this.short(act)}`); }
     }
     for (const [act, at] of acts) {
       if (!engine.has(act)) { out.add(`page only: ${at[0]!.where} ${this.short(act)}`); }
@@ -95,6 +95,17 @@ export class ClientParity {
       const does = Doable.one(glance, frame.screen, a.choice, a.command).does;
       if (does && pressed !== does && a.inside?.[0]?.command !== does) { out.add(`page pressed: ${this.short(a.choice)}`); }
     }
+  }
+  // A lens's rows are the engine's too where it offers them by Doable.one (the runner's lens view draws them so: a
+  // way off a road hex, a thing's look, which the turn's offer leaves out): the engine's act for each, by the act its
+  // row does, so that a lens row is read against its own engine row and not counted the page's own.
+  private static lensed(frame: Frame, engine: Map<string, Act>, drawn: Drawn[]): Map<string, Act> {
+    const glance = frame.leaf.glance!, out = new Map(engine);
+    for (const d of drawn.filter(x => x.where === 'lens' && !engine.has(x.act))) {
+      const one = Doable.one(glance, frame.screen, d.id, d.act === d.id ? undefined : d.act), act = one.for ?? one.does;
+      if (act && !out.has(act)) { out.set(act, { words: one.called ?? one.label, id: one.id, lens: d.lens }); }
+    }
+    return out;
   }
   // What `serve` answers at the same turn (Serve.of): the acts it leads with, and every choice it offers by id.
   private static serve(runner: Runner, rows: Row[], out: Set<string>) {
