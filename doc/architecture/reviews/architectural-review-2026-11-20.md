@@ -699,3 +699,28 @@ unknown-read checks keep those gains from eroding.
 
 None of that changes what the game is. It gives the existing idea a structure capable of carrying considerably more
 of it.
+
+## The owner's rulings (20 November, the same evening)
+
+On the decision register above, folded into the existing rows (AR-02, MT-16, MT-18, MT-24 to MT-29), not a new
+initiative:
+
+1. **Campaign isolation is an architectural invariant now**, though simultaneous play is no product requirement: two
+   campaigns with different rules and catalogs coexist in one process without leaking state or assumptions. A small
+   boundary test proves it (AR-02, MT-29).
+2. **Narration is durable.** The text the player experienced is kept; historical narration does not change when
+   templates or engine code change. Structured events and provenance are kept where available, but the player's past
+   is not reconstructed from them. Current observations still derive from authoritative world state (MT-24, MT-27).
+3. **No cross-version save promise yet.** Saves resume reliably under compatible versions and fail clearly when
+   incompatible, recording enough version and content identity to diagnose it; migration machinery waits for the
+   schemas to settle (MT-27).
+4. **Grouping, ordering and emphasis belong to the authoritative player projection.** The frame says which choices
+   are immediate, which secondary, and how the present situation constrains action; clients own visual layout, not
+   judgments of an action's meaning or priority. Parity across browser, terminal, API and runner (MT-18).
+5. **Setting independence.** Tethys runs without inheriting Imbar or fantasy/SRD assumptions; the generic engine,
+   installable domain rules and particular settings are kept conceptually distinct before they are packaged (MT-16).
+
+**The public lifecycle.** The engine's public lifecycle as small and coherent as possible: install a campaign; create
+or resume a session; obtain the player frame; submit an action; commit its consequences; inspect or persist the
+result. It is the main behavioural testing boundary: internal structures may be refactored freely while strong tests
+protect the actual guarantees rather than incidental implementation (MT-24, MT-18, MT-29).
