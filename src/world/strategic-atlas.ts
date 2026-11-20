@@ -12,8 +12,8 @@ export interface AtlasCountry {
   id: string; cell: [number, number]; name: string; terrain: string; ancestry?: string; domain?: string;
   shore?: Side; port?: boolean; arts?: string[]; goings?: string[]; exclude?: string[]; provinces?: string[];
   towns?: number; standing?: string[];
-  // Kits placed in the country besides the framework's (data/kits/<kit>/kit.json, by path from the root), each with
-  // its id and any dimension fixed for it: a profession's occasions, one to a settlement (Fun Fridays' tinker kit).
+  // Kits placed in the country besides the framework's (../kits/<kit>/kit.json, by path from the framework's file),
+  // each with its id and any dimension fixed for it: a profession's occasions, one to a settlement (the tinker kit).
   kits?: { kit: string; id: string; fix?: Record<string, string> }[];
   // An option fixed for a group of a town template, by template (see KyrTemplates.choose): what the country's first
   // town is held to, as a kit's author fixes a dimension.

@@ -125,8 +125,7 @@ export class WorldAssembler {
       this.arrival(region, { size: party.length, contacts, start: told?.start.place }, { files, root, modules });
     }
     const path = base.resolve(`${root}.campaign.json`);
-    const framework = options.framework === null ? [] : [...await this.framework(base, options.framework ?? this.frontier),
-      ...StrategicAtlas.kits(region).map(k => ({ ...k, kit: base.resolve(k.kit) }))];
+    const framework = options.framework === null ? [] : await this.framework(base, region, options.framework);
     this.write(region, { files, root, placements, company: { size: party.length, contacts,
       ...told ? { start: told.start, coin: told.coin } : {} } });
     if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }
@@ -277,9 +276,10 @@ export class WorldAssembler {
     RegionWriter.write(at.files, at.root, region, { company: at.company, taken: this.taken(at.placements) });
   }
   // A framework's kits, with their paths made absolute, to be composed into the campaign when it loads.
-  private static async framework(base: BundleSource, file: string): Promise<KitEntry[]> {
+  // And the country's own, where the atlas places some (StrategicAtlas.kits), their paths as the framework's are.
+  private static async framework(base: BundleSource, region: Region, file = this.frontier): Promise<KitEntry[]> {
     const path = base.resolve(file), framework = JSON.parse(await base.read(path)) as { kits: KitEntry[] };
-    return framework.kits.map(k => ({ ...k, kit: base.resolve(k.kit, path) }));
+    return [...framework.kits, ...StrategicAtlas.kits(region)].map(k => ({ ...k, kit: base.resolve(k.kit, path) }));
   }
   // The sites scenarios have taken, which no kit may also take.
   private static taken(placements: Placement[]): Record<string, string> {
