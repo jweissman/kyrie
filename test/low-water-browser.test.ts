@@ -21,6 +21,21 @@ class Page_ {
       }
     }
   }
+  // The words of the row a player would press are seen inside it, and any glyph beside them is drawn small
+  // (OR-148: the companion's glyph, unsized in a talk's reply, pushed "join the company" out of its row).
+  static seen(page: Page, words: string) {
+    return page.evaluate((w) => {
+      const rows = [...document.querySelectorAll('button, a, [data-choice], [data-act]')] as HTMLElement[];
+      const row = rows.reverse().find(e => new RegExp(w, 'i').test(e.textContent ?? ''));
+      if (!row) { return 'no row'; }
+      const box = row.getBoundingClientRect(), range = document.createRange();
+      range.selectNodeContents(row);
+      const inside = [...range.getClientRects()].filter(r => r.width > 0).every(r => r.left >= box.left - 1
+        && r.right <= box.right + 1 && r.top >= box.top - 1 && r.bottom <= box.bottom + 1);
+      const glyphs = [...row.querySelectorAll('svg')].every(g => g.getBoundingClientRect().width <= 48);
+      return inside && glyphs && row.innerText.trim() ? 'seen' : `unseen: ${row.innerText.trim()}`;
+    }, words);
+  }
 }
 
 describe.skipIf(!process.env.KYRIE_BROWSER)('Low Water in the browser', () => {
@@ -44,7 +59,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Low Water in the browser', () => {
     await page.keyboard.press('l'); await page.waitForTimeout(150);
     expect(await Page_.text(page)).toContain('the ring is mud');
     await page.keyboard.press('Escape'); await page.waitForTimeout(150);
-    await Page_.act(d, '^To the head of the Stair', '^Talk to Isaura', 'waiting for you', 'join the company');
+    await Page_.act(d, '^To the head of the Stair', '^Talk to Isaura', 'waiting for you');
+    expect(await Page_.seen(page, 'join the company')).toBe('seen');
+    await Page_.act(d, 'join the company');
     await d.away();
     // The channel head's gauging is done, and the company is at the place again with Isaura to hand: no page of the
     // thing's is left open to go back from (the owner's corn-store notes, 11 November: concrete acts drawn out of what
