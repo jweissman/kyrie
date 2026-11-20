@@ -39,8 +39,14 @@ describe('what each place is to the company, on the map', () => {
     expect(f.get('stow')?.map(l => l.id)).toEqual(['travel:stow']);
   });
   it('marks no place an aim names that no step from here goes toward', () => {
+    // No way led toward an aim's place, and no journey the map knows to it or its town: nothing but the mill's way.
+    const far = { ...screen, destinations: screen.destinations!.filter(d => ['lea', 'mill'].includes(d.id)) } as Screen;
+    expect([...PlaceFacets.of(far, { lenses: { places } } as unknown as Projected).keys()]).toEqual(['mill']);
+  });
+  it('marks a place an aim names by the journey the map knows to it, the first step there', () => {
     const f = PlaceFacets.of(screen, { lenses: { places } } as unknown as Projected);
-    expect([...f.keys()]).toEqual(['mill']);
+    expect([PlaceFacets.aspects(f.get('stow')), f.get('stow')?.map(l => l.id)]).toEqual([['undertaking'], ['travel:stow']]);
+    expect(PlaceFacets.aspects(f.get('fen'))).toEqual(['exploration']);
   });
   it('offers them in the map\'s menu by what they are, gold first, before the nearest', () => {
     const f = PlaceFacets.of(screen, glance);

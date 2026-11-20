@@ -31,6 +31,16 @@ export class PlaceFacets {
         : Attest.toward(id, ['exploration']);
       if (to) { this.add(out, at(to), Fold.step(id, [w])); }
     }
+    // And a journey the map knows straight to a place an aim names, or to its town: itself the first step of the way
+    // there (the map's set-out on the followed aim's road, gold: test/follow-offered-browser, where the aim named a
+    // road the room's way out did not reach and the map's journey there had been cream).
+    const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [], ...screen.mapped ?? []];
+    for (const aim of screen.aims ?? []) {
+      const said = [aim.followed ? 'undertaking' as const : 'exploration' as const];
+      for (const d of plans.filter(x => (aim.places ?? []).some(p => x.id === p || x.id === within[p]))) {
+        this.add(out, at(d.id), Fold.step(`travel:${d.id}`, [Attest.toward(`travel:${d.id}`, said)]));
+      }
+    }
     (glance?.sensed ?? []).forEach(s => this.add(out, at(s.to), Fold.step(`sensed:${s.to}`, [Attest.sensed(glance, s.to)])));
     for (const p of glance?.lenses?.places?.promoted ?? []) {
       const to = p.choice.startsWith('travel:') ? whither(p.choice) : exits.get(p.exit ?? p.choice);
@@ -56,6 +66,8 @@ export class PlaceFacets {
   // A place's, and its town's.
   private static add(out: Map<string, Leaf[]>, ids: string[], leaf: Leaf) {
     if (!leaf.witnesses.some(w => w.aspects.length)) { return; }
-    for (const id of new Set(ids)) { out.set(id, [...out.get(id) ?? [], leaf]); }
+    for (const id of new Set(ids)) {
+      if (!out.get(id)?.some(l => l.id === leaf.id)) { out.set(id, [...out.get(id) ?? [], leaf]); }
+    }
   }
 }

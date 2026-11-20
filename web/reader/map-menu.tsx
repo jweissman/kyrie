@@ -28,8 +28,10 @@ export class MapMenu {
   // neutral line.
   static gold(app: ReaderApp, screen: Screen, act: string): Pick<RowParts, 'indicator' | 'plain'> {
     const g = app.state.frame?.leaf?.glance, place = act.replace(/^travel:/, ''), own = Attest.witness(g, act);
-    const leaves = own ? [Fold.step(act, [own])] : (PlaceFacets.of(screen, g).get(place) ?? [])
-      .filter(l => l.witnesses.some(w => w.aspects.includes('undertaking')));
+    // The journey's own, and the place's aim's step beside it: since a row past the four has its witness, a journey's
+    // own (what it is for) had hidden the aim's gold its place carries (follow-offered, 19 November).
+    const leaves = [...own ? [Fold.step(act, [own])] : [], ...(PlaceFacets.of(screen, g).get(place) ?? [])
+      .filter(l => l.witnesses.some(w => w.aspects.includes('undertaking')))];
     const indicator = Fold.mark(leaves, Guidance.shown(app));
     return indicator?.tone === 'gold' ? { indicator } : { plain: 'neutral' };
   }
