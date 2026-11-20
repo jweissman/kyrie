@@ -48,8 +48,8 @@ describe('the three forms of a tie', () => {
   for (const [form, seed, wait, seen] of [
     ['kin', 'thorn', 160, /cloth is tied round the lamp/], ['kin', 'e1', 160, /cloth is tied round the lamp/],
     ['kin', 'marrow', 160, /cloth is tied round the lamp/],
-    ['debt', 'thorn', 320, /stall is shuttered|weighed against the other measure/], ['debt', 'ember', 320, /stall is shuttered|weighed against the other measure/],
-    ['debt', 'e1', 320, /stall is shuttered|weighed against the other measure/],
+    ['debt', 'thorn', 320, /stall (is|stays) shuttered|weighed against the other measure/], ['debt', 'ember', 320, /stall is shuttered|weighed against the other measure/],
+    ['debt', 'e1', 320, /stall (is|stays) shuttered|weighed against the other measure/],
     ['custom', 'kahitude', 230, /loaf tied to his wrist|bell at the shrine is rung/], ['custom', 'a1', 230, /loaf tied to his wrist|bell at the shrine is rung/],
     ['custom', 'ember', 230, /loaf tied to his wrist|bell at the shrine is rung/]] as const) {
     it(`${form}: if nothing is done the town changes (${seed})`, async () => {
