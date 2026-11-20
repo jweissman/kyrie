@@ -8,7 +8,7 @@ import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { ToldLines } from '../../../src/presentation/told-lines';
 import { Narration } from '../../../src/presentation/narration';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { AimNear } from '../aim-near';
 import { MenuModel } from '../menu-model';
 import { Moments } from './moments';

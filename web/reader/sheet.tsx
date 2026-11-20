@@ -4,7 +4,7 @@ import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { useState } from 'react';
 import { ChoiceRow } from './stage/choice-row';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 import { StorySearch } from './story-search';
 import { Told } from './stage/told';
 import { Typography } from '../../src/presentation/typography';

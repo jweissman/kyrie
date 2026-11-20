@@ -1,7 +1,7 @@
 import type { Exchange } from '../../../src/presentation/narrator';
 import type { Frame } from '../../engine/protocol';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Panorama } from './panorama';
 
 // The moments the page sets apart from the run of what happened (Mission 16's brief: vary the rhythm and intensity

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Words } from '../../web/reader/words';
+import { Words } from '../../src/presentation/words';
 
 // A way's row says its going whole, and only how it goes gives way where the row is narrow (the owner, 15 November: a
 // brief main action and its details on one row; on a phone "Into the old stones above Broadholm by the path up the

@@ -11,7 +11,7 @@ import { Doable } from '../../../src/presentation/doable';
 import { Typography } from '../../../src/presentation/typography';
 import { MenuModel } from '../menu-model';
 import { Aims } from '../aims';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Emphasis } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 import { Guidance } from '../guidance';

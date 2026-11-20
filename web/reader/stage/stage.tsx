@@ -5,7 +5,7 @@ import type { Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { FictionalTime } from '../../../src/campaign/fictional-time';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { PlanView } from '../plan-view';
 import { WorldStage } from './world-stage';
 import { TalkStage } from './talk-stage';

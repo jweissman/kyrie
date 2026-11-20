@@ -3,7 +3,7 @@ import type { Choice } from '../../../src/ui/choice-list';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';

@@ -2,7 +2,7 @@ import { Canon } from '../../src/canon/canon';
 import { CompanyChapters } from '../../src/handbook/phb-company';
 import { HandbookText } from '../../src/handbook/text';
 import { FirstSpells } from './first-spells';
-import { Words } from '../reader/words';
+import { Words } from '../../src/presentation/words';
 import type { Catalog } from './protocol';
 import type { CreationEntry } from './creation-flow';
 

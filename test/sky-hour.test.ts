@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Words } from '../web/reader/words';
+import { Words } from '../src/presentation/words';
 
 // The running head over Tatharimlad read "Night, sunny" (play 9).
 describe('the sky in the running head', () => {

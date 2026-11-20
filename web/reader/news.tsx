@@ -1,7 +1,7 @@
 import type { Frame } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 
 // What the company has come to know, and the aims it has taken up, kept for the Book rather than told over the place
 // (the owner, 17 November: "true system level info (details about new aims) like the toasts … could go in a 'news'

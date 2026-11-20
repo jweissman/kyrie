@@ -4,7 +4,7 @@ import type { Mark } from '../../../src/presentation/glance-types';
 import type { ReaderApp } from '../reader-app';
 import type { View } from '../menu-model';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Signs } from '../../../src/presentation/signs';
 import { Grave } from '../../../src/presentation/grave';
 import { Hold } from '../instrument/hold';

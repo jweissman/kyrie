@@ -2,7 +2,7 @@ import type { Successor } from '../../../src/presentation/glance-types';
 import { Typography } from '../../../src/presentation/typography';
 import type { ReaderApp } from '../reader-app';
 import { MenuModel } from '../menu-model';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { ChoiceRow } from './choice-row';
 
 // As an aim followed is seen through, the one thing that pulls next (see Succession, M21's PL-06): said once under

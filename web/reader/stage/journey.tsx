@@ -1,6 +1,6 @@
 import type { Frame } from '../../engine/protocol';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 
 // The way here, on arriving by known ways (see Told.Travelled).
 export class Journey {

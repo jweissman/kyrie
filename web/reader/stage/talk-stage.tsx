@@ -7,7 +7,7 @@ import type { ReaderApp } from '../reader-app';
 import type { TalkLine } from '../conversation';
 import { Typography } from '../../../src/presentation/typography';
 import { RecruitSaid } from '../../../src/presentation/recruit-said';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Moments } from './moments';

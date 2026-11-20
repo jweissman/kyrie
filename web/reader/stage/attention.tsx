@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { ReaderApp } from '../reader-app';
 import type { Choice } from '../../../src/ui/choice-list';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Act, type Draw } from './act';
 import { AtHand, type Held } from './at-hand';
 import { GlanceStage } from './glance';

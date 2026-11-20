@@ -2,7 +2,7 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { SceneModel } from '../../../src/ui/scene';
 import { Act, type Draw } from './act';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 
 // Under who is here, when looking about (Mission 18, the owner's review: what there is to do and where to find what
 // you need were lost among the company's own choices and the ways): what there is to do here, of the place's own; and,

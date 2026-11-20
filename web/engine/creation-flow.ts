@@ -2,7 +2,7 @@ import { Rolls } from '../../src/rules/rolls';
 import { CreationDefaults } from './creation-defaults';
 import { BackgroundCatalog } from '../../src/canon/background-catalog';
 import { CreationRules } from '../reader/creation-rules';
-import { Words } from '../reader/words';
+import { Words } from '../../src/presentation/words';
 import { CompanyChapters } from '../../src/handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
 import { CreationSpells, type SpellStepId } from './creation-spells';

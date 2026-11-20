@@ -2,7 +2,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import { Attending, type Attention } from '../../src/ui/attention';
 import { SceneModel } from '../../src/ui/scene';
 import type { Frame } from '../engine/protocol';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 
 // One line of a conversation as it is kept on the page: what the company said, what was said back or done, what it
 // came to know, and what it paid or was given.

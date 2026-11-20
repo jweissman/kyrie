@@ -2,7 +2,7 @@ import type { Screen } from '../../src/ui/screen-types';
 import { Typography } from '../../src/presentation/typography';
 import { Atlas } from '../reader/atlas';
 import type { Frame } from '../engine/protocol';
-import { Words } from '../reader/words';
+import { Words } from '../../src/presentation/words';
 
 // What can be looked up rather than done, the same for every composition, which decides where and when it shows:
 // what the company knows and how, who is in it and how they are, what they carry, and the country as far as known.

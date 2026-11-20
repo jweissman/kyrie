@@ -4,7 +4,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import { MapView } from './map-view';
 import { RouteCard } from './route-card';
 import { ChoiceRow, type RowParts } from './stage/choice-row';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 import { Typography } from '../../src/presentation/typography';
 import { PageFrame } from './page-frame';
 import { BoardField } from './board-field';

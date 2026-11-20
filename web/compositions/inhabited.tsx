@@ -2,7 +2,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { CombatScreen, TargetRow } from '../../src/ui/screen-types';
 import type { SceneSubject } from '../../src/ui/scene';
 import { Typography } from '../../src/presentation/typography';
-import { Words } from '../reader/words';
+import { Words } from '../../src/presentation/words';
 import { Stage } from '../reader/stage/stage';
 import { MapView } from '../reader/map-view';
 import { Offers, type Group, type Offer } from './offer';

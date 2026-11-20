@@ -3,7 +3,7 @@ import type { ReaderApp } from './reader-app';
 import { MapView } from './map-view';
 import { MapMenu } from './map-menu';
 import { HexLand } from './hex-land';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 import { Typography } from '../../src/presentation/typography';
 import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Marks } from '../../src/ui/marks';

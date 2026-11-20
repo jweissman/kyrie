@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Words } from '../web/reader/words';
+import { Words } from '../src/presentation/words';
 
 // A leg of a journey on the map's plan says its way and where it comes, and does not name the place twice when the
 // way is named for it (the cold evaluation: "By the track to a great long mound with a door of stone to a great long

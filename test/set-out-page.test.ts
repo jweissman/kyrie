@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { Frame } from '../web/engine/protocol';
 import { MenuModel } from '../web/reader/menu-model';
-import { Words } from '../web/reader/words';
+import { Words } from '../src/presentation/words';
 import { PlayerView } from '../src/presentation/player-view';
 import type { PlaySession } from '../src/session/play-session';
 

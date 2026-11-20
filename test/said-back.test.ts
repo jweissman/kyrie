@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Words } from '../web/reader/words';
+import { Words } from '../src/presentation/words';
 
 // What the company did is told back as the act, without what the choice said of its odds (round 5: "You read the
 // ring of letters on the flag · likely.").

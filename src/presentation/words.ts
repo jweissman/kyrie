@@ -1,6 +1,6 @@
-import { FictionalTime } from '../../src/campaign/fictional-time';
-import { Typography } from '../../src/presentation/typography';
-import { Counted } from '../../src/presentation/counted';
+import { FictionalTime } from '../campaign/fictional-time';
+import { Typography } from './typography';
+import { Counted } from './counted';
 
 // How the page says small things: the time of day, a choice echoed as what the company did, how hurt someone looks.
 export class Words {

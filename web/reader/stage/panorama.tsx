@@ -1,7 +1,7 @@
 import type { Exchange } from '../../../src/presentation/narrator';
 import type { Choice } from '../../../src/ui/choice-list';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { ChoiceRow } from './choice-row';
 
 export interface Sight {

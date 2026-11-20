@@ -7,7 +7,7 @@ import { Attending, type Attention, type Examined, type Talk } from '../../src/u
 import type { Frame } from '../engine/protocol';
 import type { Glance } from '../../src/presentation/glance-types';
 import type { Travel } from './reader-app';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 import { Hours } from './hours';
 import { Wares } from './wares';
 

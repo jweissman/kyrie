@@ -7,7 +7,7 @@ import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { Scenery } from '../../../src/ui/scenery';
 import { Likeness } from '../../../src/paintings/likeness';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Told } from './told';

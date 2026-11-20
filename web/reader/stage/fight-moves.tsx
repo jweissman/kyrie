@@ -2,7 +2,7 @@ import { useState, type ButtonHTMLAttributes, type ReactNode } from 'react';
 import type { Choice, Section } from '../../../src/ui/choice-list';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Act } from './act';
 import { ChoiceRow } from './choice-row';
 import { Paging } from '../paging';

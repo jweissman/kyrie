@@ -6,7 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { GeneratedWorld } from './support/generated';
 import { ScreenModel } from '../src/ui/screen-model';
-import { Words } from '../web/reader/words';
+import { Words } from '../src/presentation/words';
 
 // As you were told: what the innkeeper said of a place is borne out when the company comes to it, and the page says
 // so once, under the place, naming who told it; the Book's notes have it as heard and since seen. Coming to it is

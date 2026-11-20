@@ -1,7 +1,7 @@
 import type { Choice } from '../../src/ui/choice-list';
 import type { CombatScreen } from '../../src/ui/screen-types';
 import { Typography } from '../../src/presentation/typography';
-import { Words } from '../reader/words';
+import { Words } from '../../src/presentation/words';
 import { Stage } from '../reader/stage/stage';
 import type { Frame } from '../engine/protocol';
 import { Offers, type Group, type Offer } from './offer';

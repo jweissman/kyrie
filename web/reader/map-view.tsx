@@ -17,7 +17,7 @@ import { Notices } from './notices';
 import { Typography } from '../../src/presentation/typography';
 import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Marks } from '../../src/ui/marks';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 import { RouteCard } from './route-card';
 
 // The map (Mission 18, the owner's correction): the whole screen, the country as an illustrated hex crawl, with as

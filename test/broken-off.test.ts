@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Narrator } from '../src/presentation/narrator';
-import { Words } from '../web/reader/words';
+import { Words } from '../src/presentation/words';
 
 // An activity broken off before it had run its course is told as begun, not done. The Bushweald play read "You wait
 // until first light" at night: the storm had cut the wait short. The engine says so (cut), and the telling follows it.

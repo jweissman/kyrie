@@ -2,7 +2,7 @@ import type { Choice, Section } from '../../src/ui/choice-list';
 import type { ItemRow, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 import { Act, type Draw } from './stage/act';
 
 // What each of you carries, as the things themselves (the owner's own play, 7 November: the pack had been "a jagged

@@ -14,7 +14,7 @@ import { BoardField } from '../board-field';
 import { MapView } from '../map-view';
 import { MapMenu } from '../map-menu';
 import { RouteCard } from '../route-card';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { PageFrame } from '../page-frame';

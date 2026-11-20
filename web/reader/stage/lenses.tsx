@@ -1,6 +1,6 @@
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
-import { Words } from '../words';
+import { Words } from '../../../src/presentation/words';
 import { Pip } from './pip';
 import type { Attested } from '../../../src/presentation/attest';
 import { Fold } from '../../../src/presentation/fold';

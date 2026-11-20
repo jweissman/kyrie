@@ -9,7 +9,7 @@ import { Typography } from '../../src/presentation/typography';
 import { Counted } from '../../src/presentation/counted';
 import { Act, type Draw } from './stage/act';
 import { Told } from './stage/told';
-import { Words } from './words';
+import { Words } from '../../src/presentation/words';
 
 // The character: who they are, how they stand, what they can do and what they could become. Everything on it is
 // worked out by the rules the game plays by (see CharacterSheets), so what it says is what a fight or a check will

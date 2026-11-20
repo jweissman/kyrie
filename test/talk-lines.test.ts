@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Conversation } from '../web/reader/conversation';
-import { Words } from '../web/reader/words';
+import { Words } from '../src/presentation/words';
 import type { Frame } from '../web/engine/protocol';
 import type { Choice } from '../src/ui/choice-list';
 import { createElement } from 'react';
