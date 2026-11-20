@@ -1,48 +1,210 @@
 {
- "about": "What each live row of the register is (scripts/register-kinds.ts): a direction (future design or scope, counted apart from defects) or a gate (a playtest or reading only a person gives), with why; any other live row is a defect. blockedBy: the architecture row a row waits on; a blocked defect is still a defect.",
- "direction": {
-  "RI-01": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "RI-02": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "RI-03": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "RI-05": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "OA-12": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "HP-02": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "HP-03": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "WD-02": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "WD-09": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "AT-10": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "TB-11": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "ST-08": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "GT-01": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "GT-03": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "AP-03": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "OR-125": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "OR-133": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "BO-11": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "BO-12": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "OA-14": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "AR-05": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "AX-07": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "SP-02": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "OR-126": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "AT-09": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "AT-02": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "T24-27": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "OR-139": "register research, 20 Nov (scratch/register-research/report.md): future design or scope filed as a defect",
-  "DN-03": "register research, 20 Nov (scratch/register-research/report.md): prose to be rewritten (the owner, 20 Nov: keep the skeletons, rewrite later)",
-  "NP-20": "register research, 20 Nov (scratch/register-research/report.md): prose to be rewritten (the owner, 20 Nov: keep the skeletons, rewrite later)",
-  "CO-19": "register research, 20 Nov (scratch/register-research/report.md): prose to be rewritten (the owner, 20 Nov: keep the skeletons, rewrite later)",
-  "MT-22": "register research, 20 Nov: future scope (an office nobody holds; guilds and councils), M23",
-  "UI-20": "the design review, 20 Nov: a choice of register for the reference pages, the owner's",
-  "UI-21": "the design review, 20 Nov: new surface in creation",
-  "UI-22": "the design review, 20 Nov: a design pass"
- },
- "gate": {
-  "OB-05": "register research, 20 Nov (scratch/register-research/report.md): closed only by a person playing (Gate 1/2 or the owner's own reading)",
-  "OB-17": "register research, 20 Nov (scratch/register-research/report.md): closed only by a person playing (Gate 1/2 or the owner's own reading)",
-  "AI-07": "register research, 20 Nov (scratch/register-research/report.md): closed only by a person playing (Gate 1/2 or the owner's own reading)",
-  "OR-113": "register research, 20 Nov (scratch/register-research/report.md): closed only by a person playing (Gate 1/2 or the owner's own reading)",
-  "OR-75": "register research, 20 Nov (scratch/register-research/report.md): closed only by a person playing (Gate 1/2 or the owner's own reading)"
+ "about": "What each live row of the register is, auditable (scripts/register-kinds.ts; the owner, 20 Nov: release-blocking defects, outstanding requirements and future directions kept apart, every reclassification shown with what it was and why, never changing a row's priority, evidence or acceptance). A row not named here is a defect; the families KX, SS, PG, SR, IM are directions by prefix. Each entry: kind, was (its kind before), pri (its priority when reclassified, which the register must still show), why. blockedBy: the architecture row a row waits on; a blocked defect is still a defect.",
+ "rows": {
+  "OA-12": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "HP-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "HP-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "TB-11": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "ST-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "GT-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "GT-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "OR-125": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "OR-126": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "OR-133": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "RI-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "RI-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "RI-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "RI-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "AP-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "T24-27": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "OR-139": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "NP-20": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "WD-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "WD-09": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a commissioned requirement (a brief, an owner ask or an acceptance scenario), unmet; not a software failure"
+  },
+  "DN-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): prose the owner wants rewritten (20 Nov: keep the skeletons, rewrite later): a requirement"
+  },
+  "OR-75": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): prose the owner wants rewritten (20 Nov: keep the skeletons, rewrite later): a requirement"
+  },
+  "OB-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): an acceptance gate only a person playing closes (Gate 1/2, cold plays)"
+  },
+  "OB-17": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): an acceptance gate only a person playing closes (Gate 1/2, cold plays)"
+  },
+  "AI-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): an acceptance gate only a person playing closes (Gate 1/2, cold plays)"
+  },
+  "AT-02": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a flagged experiment after AT-01 (the atlas study)"
+  },
+  "AT-09": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): a preserved direction (doc/design/directions-2026-11-19.md)"
+  },
+  "AT-10": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): the opportunity architecture's M23 part"
+  },
+  "AX-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): order-independent generation: designed, not begun, future architecture"
+  },
+  "SP-02": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): lazy materialization of distant content: future architecture"
+  },
+  "MT-22": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): an M23 candidate (split from MT-10)"
+  },
+  "UI-20": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): the design review: the reference pages' register, the owner's call"
+  },
+  "UI-21": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): the design review: new surface in creation"
+  },
+  "UI-22": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): the design review: a design pass"
+  }
  },
  "blockedBy": {}
 }
