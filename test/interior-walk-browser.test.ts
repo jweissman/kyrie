@@ -96,14 +96,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the interior walk, in the browser',
     await w.shot('04-the-way-on');
     // A thing looked at, by the things lens: something told of it.
     if (await w.count('.rail-mark.opens-look:not([disabled])')) { await d.click('.rail-mark.opens-look'); }
-    const thing = page.locator('.glance .lens [data-act]').first();
+    // A row that looks (the lens's first had become an act at a risk, MT-15's culvert, or the way down looked into,
+    // SI-09, which a spec of a look should not lean on).
+    const looks = '.glance .lens [data-act]:has-text("Look") >> nth=0';
+    const thing = page.locator(looks);
     if (await thing.count()) {
       const before = await w.told();
-      await d.click('.glance .lens [data-act] >> nth=0');
+      await d.click(looks);
       // One that asks again before it is done (a change at a risk: the culvert's foul air propped clear, needing brawn,
       // which MT-15 put back by the warren's way down) is chosen again, as a player who has read what it risks, as
       // MonoDriver.pick does.
-      if ((await d.inspect()).confirming) { await d.click('.glance .lens [data-act] >> nth=0'); }
+      if ((await d.inspect()).confirming) { await d.click(looks); }
       expect(await w.told()).toBeGreaterThan(before);
       steps.push('a thing looked at');
     }
