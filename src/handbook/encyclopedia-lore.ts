@@ -1,7 +1,7 @@
 import arts from '../../data/generation/history/arts.json';
 import religion from '../../data/catalog/religion.json';
 import type { Section } from './model';
-import { Counted } from '../presentation/counted';
+import { Counted } from '../counted';
 import making from '../../data/rules/making.kyr' with { type: 'text' };
 import { ModuleParser } from '../lang/module-parser';
 import { Canon } from '../canon/canon';

@@ -1,6 +1,7 @@
 // How many of a thing, in words ("three torches", "two sacks of bell-teeth"), and alike things counted together:
 // three torches, not a torch three times, what is in use apart (the Third Night's playtest went into the dark with
-// eight torches listed as one, and a pack of one row a torch is no better: AUT-22).
+// eight torches listed as one, and a pack of one row a torch is no better: AUT-22). The runtime's, imports nothing:
+// the setting's tables and the player's words both count with it (MT-16).
 export class Counted {
   static readonly words = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven',
     'twelve'];

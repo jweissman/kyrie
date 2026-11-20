@@ -5,7 +5,7 @@ import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
-import { Counted } from '../presentation/counted';
+import { Counted } from '../counted';
 import { DefenseTelling } from './defense-telling';
 
 export class CombatPresenter {

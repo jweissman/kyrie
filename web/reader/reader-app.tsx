@@ -62,7 +62,7 @@ export interface AppState {
   // Whether the protagonist's name is one the player wrote: a name drawn for them is drawn again for a new people.
   named?: boolean;
   // Someone who died in this country before, whom it will remember when it is begun again.
-  memorial?: import('../../src/world/memorial').Memorial;
+  memorial?: import('../../src/memorial').Memorial;
   frame?: Frame; view: View; cursor: number; hovered?: string; member: string;
   // The aim the player follows, chosen in the Notes (see Followed).
   // Which beat of a new game's opening is shown, while it is, and when it came; and the opening itself, kept while it

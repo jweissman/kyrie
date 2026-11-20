@@ -24,7 +24,7 @@ export class Layers {
     if (path.startsWith('src/lang/')) { return 'lang'; }
     if (/^src\/(world|canon|paintings|handbook)\//.test(path) || path.startsWith('data/')
       || path === 'src/generation-setting.ts') { return 'setting'; }
-    if (/^src\/(campaign|rules|information|registry)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
+    if (/^src\/(campaign|rules|registry)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
     if (/^src\/(session|presentation|ui|autoplay|narrative)\//.test(path) || path.startsWith('web/engine/')) {
       return 'player';
     }

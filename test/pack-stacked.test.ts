@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { ChoiceList } from '../src/ui/choice-list';
-import { Counted } from '../src/presentation/counted';
+import { Counted } from '../src/counted';
 import type { ItemRow, Screen } from '../src/ui/screen-types';
 
 // Alike things carried are one row with their count, and what is done with it is done with one of them: the Third

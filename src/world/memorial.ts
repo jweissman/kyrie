@@ -1,5 +1,4 @@
-// Someone who died in a country, as the country remembers them: their name, where they fell, and how.
-export interface Memorial { name: string; place: string; how: string }
+import type { Memorial } from '../memorial';
 
 // Where someone who came before lies: a cairn where they fell, that a country begun again keeps. It is written with
 // who comes into the country (company.kyr), the country itself being the same whoever comes.

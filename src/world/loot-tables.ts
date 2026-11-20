@@ -1,11 +1,11 @@
-import arms from '../data/catalog/items/arms.json';
-import armour from '../data/catalog/items/armour.json';
-import gear from '../data/catalog/items/gear.json';
-import consumables from '../data/catalog/items/consumables.json';
-import wonders from '../data/catalog/items/wonders.json';
-import valuables from '../data/catalog/items/valuables.json';
-import gems from '../data/catalog/items/gems.json';
-import treasure from '../data/generation/tables/treasure.json';
+import arms from '../../data/catalog/items/arms.json';
+import armour from '../../data/catalog/items/armour.json';
+import gear from '../../data/catalog/items/gear.json';
+import consumables from '../../data/catalog/items/consumables.json';
+import wonders from '../../data/catalog/items/wonders.json';
+import valuables from '../../data/catalog/items/valuables.json';
+import gems from '../../data/catalog/items/gems.json';
+import treasure from '../../data/generation/tables/treasure.json';
 
 interface Lootable { value?: number; tier?: string; drops?: boolean }
 
@@ -13,7 +13,7 @@ interface Lootable { value?: number; tier?: string; drops?: boolean }
 // the illustration for). Every kind of thing in the catalog's files is in the tier its worth puts it in, or its own
 // `tier`, unless it says `drops: false`; and Orsino's own choices for a tier are in it besides, so they come up the
 // more often there. What a body fights with (natural.json) is no file of these, and a drill-yard's fine blades are
-// made, not found.
+// made, not found. The setting's (MT-16): it reads the catalog's files, and only the setting's generation uses it.
 export class LootTables {
   // The most a kind may be worth for each tier, from the worth of what Orsino put in each (basic up to 2, negligible to
   // about 12, minor to 100, major to 600, grand to 1,500, legendary above).

@@ -1,4 +1,4 @@
-import type { Memorial } from '../../src/world/memorial';
+import type { Memorial } from '../../src/memorial';
 import sky from '../../data/imbar/sky.json';
 import partyExamples from '../../data/campaigns/companies.json';
 import { Canon } from '../../src/canon/canon';

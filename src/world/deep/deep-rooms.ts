@@ -7,7 +7,7 @@ import { Draw } from '../land/draw';
 import { RegionMarvels, type Fragment } from '../region-marvels';
 import type { DeepContent, DeepDwellers } from './deep-pacing';
 import type { DeepPurpose } from './deep-purposes';
-import { Counted } from '../../presentation/counted';
+import { Counted } from '../../counted';
 import { KyrTemplates } from '../kyr-template';
 import { Stones } from './stones';
 

@@ -10,7 +10,7 @@ import { VisitedPlaces } from '../presentation/visited-places';
 import { Spatial } from '../lang/spatial';
 import type { RegionChart, Screen } from './screen-types';
 import { SiteScale } from './site-scale';
-import { RegionIds } from '../world/region-ids';
+import { RegionIds } from '../region-ids';
 import { EntityIndex } from '../lang/entity-index';
 import { Overland } from './overland';
 import { Costs } from '../costs';

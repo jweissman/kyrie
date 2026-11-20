@@ -1,6 +1,6 @@
 import type { Act, CombatScreen, ExitRow, ItemRow, MemberRow, Screen, TargetRow, Transition } from './screen-types';
 import { Patience } from './patience'; import { Tending } from './tending'; import { Marks } from './marks';
-import { Counted } from '../presentation/counted'; import { OutOf } from '../presentation/out-of';
+import { Counted } from '../counted'; import { OutOf } from '../presentation/out-of';
 import { SpellSchools } from '../presentation/spell-schools';
 import type { Mark } from '../presentation/glance-types';
 

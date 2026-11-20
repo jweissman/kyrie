@@ -1,5 +1,5 @@
 import gems from '../../../data/catalog/items/gems.json';
-import { LootTables } from '../../loot-tables';
+import { LootTables } from '../loot-tables';
 import { Canon } from '../../canon/canon';
 import { Content } from '../../content';
 import { ItemNames } from '../../lang/item-names';

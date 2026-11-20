@@ -6,7 +6,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { CharacterSheet, DevelopmentOption } from '../../src/presentation/character-sheet';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
-import { Counted } from '../../src/presentation/counted';
+import { Counted } from '../../src/counted';
 import { Act, type Draw } from './stage/act';
 import { Told } from './stage/told';
 import { Words } from '../../src/presentation/words';

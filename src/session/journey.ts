@@ -18,7 +18,7 @@ import { ActionFeedbackView } from '../presentation/action-feedback';
 import { EndingOrder } from '../lang/ending-order';
 import { Consequences } from '../campaign/consequences';
 import type { TickHost } from '../campaign/campaign-tick';
-import { RegionIds } from '../world/region-ids';
+import { RegionIds } from '../region-ids';
 import { Itineraries } from '../ui/itinerary';
 
 // A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A

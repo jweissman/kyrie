@@ -11,7 +11,7 @@ import { PlayerView } from '../presentation/player-view';
 import { Telling, type Voiced } from '../narrative/telling';
 import { Barks } from '../narrative/barks'; import { RuleWords } from '../narrative/rule-words';
 import { CombatTelling } from '../ui/combat-telling';
-import type { Memorial } from '../world/memorial';
+import type { Memorial } from '../memorial';
 import { Crossing } from '../campaign/crossing';
 import { Travel, type Journeyed } from './travel';
 import { HexBoundary } from '../hex-boundary';

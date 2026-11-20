@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import { Counted } from '../presentation/counted';
+import { Counted } from '../counted';
 import { Challenge } from './challenge';
 import { CreatureVariants } from '../creature-variants';
 import type { Draw } from './land/draw';

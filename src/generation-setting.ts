@@ -12,7 +12,7 @@ import weatherTables from '../data/generation/tables/weather.json';
 import treasureTables from '../data/generation/tables/treasure.json';
 import treasureTemplates from '../data/generation/templates/treasure.json';
 import gems from '../data/catalog/items/gems.json';
-import { LootTables } from './loot-tables';
+import { LootTables } from './world/loot-tables';
 
 // Kyr's Deem setting, split by domain (who a creature is drawn as, names, places) as the Deem CLI reads the folder:
 // each file adds tables or templates, and no name may be defined twice.

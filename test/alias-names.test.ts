@@ -5,7 +5,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { Openings } from '../src/presentation/openings';
 import { Obituary } from '../src/narrative/obituary';
-import { InformationView } from '../src/information/information-view';
+import { InformationView } from '../src/presentation/information-view';
 
 // A place the company knows only by what it looks like is called that everywhere the player reads it, not by its
 // real name (the architecture review's A13, from its probe know-alias-leaks: the journey's going, the character

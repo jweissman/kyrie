@@ -2,7 +2,7 @@ import type { CreatureGenerationContext } from '../../src/content';
 import type { Transcript } from '../../src/session/play-session';
 import type { CombatScreen, Screen } from '../../src/ui/screen-types';
 import type { Exchange, Leaf } from '../../src/presentation/narrator';
-import type { Memorial } from '../../src/world/memorial';
+import type { Memorial } from '../../src/memorial';
 export type { Exchange, Leaf };
 
 // What passes between the page and the engine. The engine (Kyrie, in a worker) is the only authority on what

@@ -1,4 +1,4 @@
-import { Memorials, type Memorial } from './memorial';
+import { Memorials } from './memorial'; import type { Memorial } from '../memorial';
 import type { DeemValue } from 'deem';
 import { Content, type CreatureGenerationContext } from '../content';
 import { RandomStreams } from '../random-streams'; import { Costs } from '../costs';

@@ -8,7 +8,7 @@ import { Telling } from './telling';
 import { BandNames } from './band-names';
 import { Provocation } from '../campaign/provocation';
 import { CombatProjection } from '../combat-projection';
-import type { Memorial } from '../world/memorial';
+import type { Memorial } from '../memorial';
 import { Endings } from '../lang/endings';
 
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;

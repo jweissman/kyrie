@@ -3,7 +3,7 @@ import type { Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
 import { Discovery } from '../lang/discovery';
-import { PlayerView } from '../presentation/player-view';
+import { PlayerView } from './player-view';
 import { ObservationText } from '../lang/observation-text';
 
 export interface InformationChoice { id: string; name: string; time: number }
@@ -15,6 +15,7 @@ export interface InformationSnapshot {
   assumptions: { id: string; text: string; value: false }[];
   choices: InformationChoice[];
 }
+// The player's (MT-16): what the company knows, read from the player's view of its choices.
 export class InformationView {
   static supported(campaign: Campaign): boolean { return Discovery.supported(campaign.module); }
   private static test(world: World, name: string, ...args: string[]): boolean {

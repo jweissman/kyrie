@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import { Counted } from '../presentation/counted';
+import { Counted } from '../counted';
 import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import type { Region, Site } from './region-writer';

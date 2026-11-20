@@ -1,5 +1,5 @@
 import { RegionNews } from './region-news';
-import { RegionIds } from './region-ids';
+import { RegionIds } from '../region-ids';
 import type { Landmark } from './region-land';
 import { RegionGeography } from './region-geography';
 import { RegionPeoples } from './region-peoples';

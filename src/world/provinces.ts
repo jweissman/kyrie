@@ -1,5 +1,5 @@
 import type { Cover } from './land/land-cover';
-import { RegionIds } from './region-ids';
+import { RegionIds } from '../region-ids';
 import { Gates, type Gate } from './land/gates';
 import { Firth } from './land/firth';
 import { RegionZones } from './region-zones';
