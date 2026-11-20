@@ -424,7 +424,7 @@ export class GlanceStage {
   // Someone talked to is not: a conversation is theirs, and its questions speak of them ("Ask about his work").
   static flat(app: ReaderApp, a: Promoted): Promoted[] {
     const kids = a.choice.endsWith('#talk') ? [] : GlanceStage.choice(app, a.choice)?.children ?? [];
-    const alone = (k: Choice) => k.alone ?? (/\b(it|its|him|his|her|them|their)\b/i.test(k.label) ? undefined : k.label);
+    const alone = (k: Choice) => k.alone || (/\b(it|its|him|his|her|them|their)\b/i.test(k.label) ? undefined : k.label);
     if (!kids.length || kids.length > 3 || !kids.every(k => k.command && !k.disabled && !k.children && alone(k))) { return [a]; }
     return kids.map(k => {
       const kid: Promoted = { ...a, choice: k.id, label: alone(k)!, command: k.command! };
@@ -623,7 +623,7 @@ export class GlanceStage {
   static label(app: ReaderApp, a: Promoted, c: Choice): string {
     // Someone not yet met, led for a question: talking to them, the question after it (see Doable.called, CL-45).
     const asked = a.unmet ? GlanceStage.within(a, c) : undefined;
-    if (asked) { return Doable.called(c.alone ?? c.label, asked); }
+    if (asked) { return Doable.called(c.alone || c.label, asked); }
     if (c.alone) { return c.alone; }
     const subject = a.subject && app.menu.scene?.subjects.find(x => x.id === a.subject);
     if (subject && /#look$/.test(c.id)) { return `Look at ${subject.name.replace(/^(The|A|An|Some) /, m => m.toLowerCase())}`; }

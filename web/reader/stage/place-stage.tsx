@@ -204,7 +204,7 @@ export class PlaceStage {
     const indicator = Fold.mark(k.children?.length && !k.command ? Fold.of(g, k, k.id, true)
       : [Fold.leaf(k, Attest.within(g, k))], Guidance.shown(draw.app));
     return <><ChoiceRow.Act choice={k} draw={draw} {...ChoiceRow.mark(indicator)}
-      label={Typography.curl(k.alone ?? Words.shown(k.label))} {...k.note ? { aside: Typography.curl(k.note) } : {}} />
+      label={Typography.curl(k.alone || Words.shown(k.label))} {...k.note ? { aside: Typography.curl(k.note) } : {}} />
       {k.children && draw.open.has(k.id) && <Act.List choices={k.children} draw={draw} className="column" />}</>;
   }
   // The largest run of choices worded alike but for one part ("Press the word …"): three at least, or none.

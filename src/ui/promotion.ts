@@ -200,7 +200,7 @@ export class Promotion {
     // names its change, not the thing).
     const things = new Map(acts.flatMap(c => c.targets?.[0] && !/^change_thing/.test(c.does ?? '')
       ? [[this.wayOf(c), c.targets[0]] as const] : []));
-    return acts.map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
+    return acts.map(c => ({ choice: c.id, label: c.alone || c.label, command: c.command!,
       subject: things.get(this.wayOf(c)) ?? c.targets?.[0] ?? this.wayOf(c),
       ...c.disabled ? { disabled: c.disabled } : {} }));
   }
@@ -213,7 +213,7 @@ export class Promotion {
     const choices = new Map([...scene.subjects.flatMap(x => x.choices), ...scene.you].map(c => [c.id, c]));
     const leaves = Object.fromEntries(acts.filter(a => choices.get(a.choice)?.children?.length)
       .map(a => [a.choice, Attending.all(choices.get(a.choice)!.children!).filter(c => c.command)
-        .map(c => ({ choice: c.id, label: c.alone ?? c.label, command: c.command!,
+        .map(c => ({ choice: c.id, label: c.alone || c.label, command: c.command!,
           ...c.disabled ? { disabled: c.disabled } : {} }))]));
     return Object.keys(leaves).length ? { leaves } : {};
   }
@@ -256,7 +256,7 @@ export class Promotion {
     return [...waits, ...own];
   }
   private static act(c: Choice): LensAct {
-    return { choice: c.id, label: c.alone ?? c.label, ...c.command ? { command: c.command } : {},
+    return { choice: c.id, label: c.alone || c.label, ...c.command ? { command: c.command } : {},
       ...c.disabled ? { disabled: c.disabled } : {} };
   }
   // Each lens's own order: talk first among people; looking and searching first among things; the near ways before the

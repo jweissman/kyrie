@@ -51,7 +51,7 @@ export class RunnerTalks {
   // A talk called as the page calls it ("Talk to Kynes", not "Talk to Kynes, innkeeper").
   private static called(screen: Screen, person: string): string | undefined {
     const talk = this.flat(screen.people.find(x => x.id === person)?.acts ?? []).find(a => a.does === 'talk_to');
-    return talk && (talk.alone ?? talk.label);
+    return talk && (talk.alone || talk.label);
   }
   private static flat(acts: Act[]): Act[] { return acts.flatMap(a => [a, ...this.flat(a.children ?? [])]); }
 }

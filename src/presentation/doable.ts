@@ -145,7 +145,10 @@ export class Doable {
   // neither does nor opens anything says why it cannot be done. Anything else is refused here, never drawn blank or
   // inert (the owner's playtest, 19 November, AT-04: a row with no words that went back to the landing).
   static made(r: Row, legal: ReadonlySet<string>): Row {
-    if (!r.label.trim()) { throw new Error(`Doable: ${r.id} has no words`); }
+    // Words a player can read, and so what it is called among the four (Worded; the owner's P0 of 20 November).
+    if (![r.label, ...r.called !== undefined ? [r.called] : []].every(w => /[\p{L}\p{N}]/u.test(w))) {
+      throw new Error(`Doable: ${r.id} (${r.does ?? 'opens'}) has no words, at Doable.made`);
+    }
     if (r.does && !legal.has(r.does) && !/^(travel|view):/.test(r.does)) {
       throw new Error(`Doable: ${r.id} does ${r.does}, which nothing here offers`);
     }
@@ -193,12 +196,12 @@ export class Doable {
       ? (Attending.all(c.children ?? []).find(k => k.command === led) ?? [...at.tree.values()]
         .find(k => k.command === led))?.label : undefined;
     const asked = within && (act?.unmet ? within : act?.words?.[led!] ?? within);
-    const full = c?.alone ?? label, under = c ?? at.commands?.get(act?.command ?? at.command ?? id);
+    const full = c?.alone || label, under = c ?? at.commands?.get(act?.command ?? at.command ?? id);
     const base = { id, label: full,
       ...under && under.label !== full && full.length > under.label.length ? { short: under.label } : {},
       witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led && at.led !== false ? { for: led } : {},
-      ...asked ? { called: act?.unmet ? this.called(c?.alone ?? c?.label ?? label, asked) : asked } : {},
+      ...asked ? { called: act?.unmet ? this.called(c?.alone || (c?.label ?? label), asked) : asked } : {},
       ...c?.disabled ? { shut: c.disabled } : {}, ...at.parents?.get(id) && !at.opening
         ? { within: at.parents.get(id)! } : {} }, legal = at.legal ?? new Set<string>();
     const kids = c?.children ?? [];

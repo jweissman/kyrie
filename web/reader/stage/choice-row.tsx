@@ -3,6 +3,7 @@ import type { Choice } from '../../../src/ui/choice-list';
 import { Act, type Draw } from './act';
 import type { Attested } from '../../../src/presentation/attest';
 import { Glyphs } from '../creation/glyphs';
+import { RowWords } from './row-words';
 
 // The one row every choice is drawn as (Mission 21's design system, proposal step 1: the M20 screens study's
 // proposal A): the scene's acts, a place's things that can change the world, a conversation's questions, its leave and
@@ -51,6 +52,7 @@ export class ChoiceRow {
   static Act({ choice, draw, className, number, shown, quiet, ...parts }: Omit<RowParts, 'number'> & { choice: Choice;
     draw: Draw; className?: string; quiet?: boolean; number?: number; shown?: number }) {
     const drawn = number ?? shown;
+    if (!RowWords.said(parts.label)) { return RowWords.refuse(choice.id, 'ChoiceRow.Act'); }
     return <Act.View choice={choice} draw={draw} quiet={quiet} number={number}
       className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}`}>
       <ChoiceRow.Parts {...parts} glyph={parts.glyph ?? choice.emblem}
@@ -67,6 +69,7 @@ export class ChoiceRow {
     expanded?: boolean; act?: string; shut?: boolean; own?: ButtonHTMLAttributes<HTMLButtonElement> & Record<string, unknown>;
     ref?: Ref<HTMLButtonElement>;
     events?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
+    if (!RowWords.said(parts.label)) { return RowWords.refuse(act ?? data.choice ?? data.action ?? '', 'ChoiceRow.Button'); }
     return <button ref={ref} type="button" data-control="row" className={ChoiceRow.classes(className, shut)} {...ChoiceRow.data(data, act)}
       {...shut ? { 'aria-disabled': true } : {}}
       {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} {...events} {...own}
@@ -75,6 +78,7 @@ export class ChoiceRow {
   // A row that is a way out of the game (the encyclopedia, in a new tab): a link drawn as the one row.
   static Link({ className, data, href, own, ...parts }: RowParts & { className?: string;
     data: Record<string, string | undefined>; href: string; own?: AnchorHTMLAttributes<HTMLAnchorElement> & Record<string, unknown> }) {
+    if (!RowWords.said(parts.label)) { return RowWords.refuse(data.action ?? href, 'ChoiceRow.Link'); }
     return <a className={ChoiceRow.classes(className)} href={href} {...ChoiceRow.data(data)} {...own}>
       <ChoiceRow.Parts {...parts} /></a>;
   }

@@ -8,6 +8,7 @@ import { Words } from '../../../src/presentation/words';
 import { Signs } from '../../../src/presentation/signs';
 import { Grave } from '../../../src/presentation/grave';
 import { Hold } from '../instrument/hold';
+import { RowWords } from './row-words';
 import { PageFrame } from '../page-frame';
 
 // What every choice on the stage is drawn by: one button, known by the engine's command through its place in the
@@ -45,6 +46,13 @@ export class Act {
     const warned = !!c.about && (c.risk || c.grave) && !children && !quiet;
     // The act taken, drawn so while the engine answers; a sustained act held (see Hold).
     const taken = s.pending?.taken === c.id || undefined, held = Hold.holds(c) ? Hold.props(draw.app, c) : {};
+    // Words a player can read, or the row is not drawn (RowWords; the owner, 20 November, P0): a row's own, else its
+    // choice's whole words; a glyph (a likeness, the fight's reticle on its card) the words of the act it is the face
+    // of, or what it is said to be.
+    const words = c.alone?.trim() || Words.shown(c.label);
+    if (!(variant === 'glyph' ? RowWords.said(said ?? words) : RowWords.said(children ?? words))) {
+      return RowWords.refuse(c.id, 'Act.View');
+    }
     return (
       <button type="button" className={classes} data-action="choice" data-choice={c.id} data-act={c.id} data-index={i}
         data-number={number}
@@ -52,7 +60,7 @@ export class Act {
         aria-expanded={opens ? draw.open.has(c.id) : undefined} data-taken={taken} aria-label={said}
         onClick={i >= 0 ? Act.click.bind(null, draw.app) : Act.direct.bind(null, draw.app, c)}
         {...held}>
-        {children ?? <><span className="row-label">{Typography.curl(c.alone ?? Words.shown(c.label))}</span>{c.note
+        {children ?? <><span className="row-label">{Typography.curl(words)}</span>{c.note
           && !warned && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>
           {Signs.marks[m.kind]}</span>)}

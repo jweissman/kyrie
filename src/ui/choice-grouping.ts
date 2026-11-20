@@ -365,8 +365,8 @@ export class ChoiceGrouping {
     data: { choice: string; b: Record<string, string>; context: GroupingContext }): Pick<Act, 'alone'> {
     const text = (subject && data.context.passageOf.has(subject) && rule.aloneOnWay) || rule.alone;
     // Else, done to a thing, by its action's own name: "Wind the sump gate up", where under the gate it is "Wind up"
-    // (a lens lists acts without headings: the owner, 15 November).
-    if (!text) { return rule.slot === 'target' && subject && !data.choice.includes('; ') ? { alone: data.choice } : {}; }
+    // (a lens lists acts without headings: the owner, 15 November); never words that say nothing (P0, 20 November).
+    if (!text) { return rule.slot === 'target' && subject && /\S/.test(data.choice) && !data.choice.includes('; ') ? { alone: data.choice } : {}; }
     return { alone: this.filled(text, data).replace(/^./, ch => ch.toUpperCase()) };
   }
   private static fallback(out: Grouped, row: Row, context: GroupingContext, leaf: Partial<Act>) {
