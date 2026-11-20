@@ -234,7 +234,7 @@ export class Campaign implements WatchHost {
   // The offered action of that id, if it may be done as it is asked (a way into another hex, only on a journey).
   private action(id: string, via: ExecutionContext): Operator {
     const action = structuredClone(this.offered().find(candidate => candidate.id === id));
-    if (!action) { throw new Error(`Unavailable campaign action: ${id}`); }
+    if (!action) { throw Crossing.withheld(this, id) ?? new Error(`Unavailable campaign action: ${id}`); }
     this.crossing.bound(this, action, via);
     return action;
   }
@@ -408,8 +408,8 @@ export class Campaign implements WatchHost {
     this.observe();
   }
   private apply(action: Operator, success: boolean) {
-    const before = this.world;
-    const after = Journey.along(before, before.apply(success ? action.success : action.failure), this.playerActor);
+    const before = this.world, after = Crossing.kept(this, action, before,
+      Journey.along(before, before.apply(success ? action.success : action.failure), this.playerActor));
     if (this.definition) { CreatureFacts.commitMoney(before, after, this.live, this.creatures); }
     this.commit(after);
   }

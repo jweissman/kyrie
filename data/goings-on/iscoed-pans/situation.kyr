@@ -9,6 +9,10 @@ Module pans "The cold pans" {
   Entity trader: group "The salter".
   Relation fuelled(group). Relation spoiled(group). Relation hired(group). Relation paid(group). Relation asked(group).
   Relation carted(group). Relation shared(group). Relation laidoff(group).
+  // The boat poled off the staithe and going down the cut with the company: the company's own journey to the town,
+  // walked on the map, brings her in (TR-20: the act had put the company in the boiling-house, hexes off, with no
+  // journey and no map; an act is never the way into another hex).
+  Relation afloat(group).
 
   Entity cold: fact "{trader}'s salt-pans at {town} are going cold: the fuel boat from {fuelvillage} is two days late, and the brine spoils if the fires are out three days.".
   Initially Assert established(cold).
@@ -56,24 +60,29 @@ Module pans "The cold pans" {
   }
   // Poled down, the whole load comes to the pans; carried, two sacks and a day's walk.
   Action pole_boat(actor: group, site: place) "Pole Ianto's fuel boat down the cut to {town}" {
-    Speaker ianto. Time 3 hours.
+    Speaker ianto. Time 1 hour.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, staithe) and knows(actor, boatman)
-      and not fuelled(actor) and not spoiled(actor) and not carted(actor) and not knows(actor, cut_clear).
+      and not fuelled(actor) and not spoiled(actor) and not carted(actor) and not afloat(actor)
+      and not knows(actor, cut_clear).
     Resolve check(actor, brawn, dc_fair).
-    On success { Assert carted(actor). Assert at(actor, boiling). Assert knows(actor, poled). }
+    On success { Assert afloat(actor). Assert knows(actor, poled). }
     On failure { Assert carted(actor). }
-    Result "The boat is heavy and the cut is half-silted where the sluice has let the sea in, and twice you ground her on the mud and lever her off with the pole. But by the afternoon she noses into {town}'s quay, low in the water, and men come running from the salt-house.".
+    Result "The boat is heavy and the cut is half-silted below the staithe where the sluice has let the sea in, and twice you ground her on the mud and lever her off with the pole. Then she is clear, low in the water and going down with the ebb, and {town} is the rest of the way down the cut.".
     Otherwise "Where the old sluice has let the sea into the cut, the boat goes hard aground on the mud and will not come off. You leave her there, and Ianto shakes his head. Two sacks will still go, carried.".
   }
   // With the sea-gate shut the sea is off the cut, and the boat comes down it without grounding (the sheet's handoff
   // in from the gate: shut, the cut is passable; open, it grounds).
   Action pole_shut(actor: group, site: place) "Pole Ianto's fuel boat down the cut to {town}" {
-    Speaker ianto. Time 3 hours.
+    Speaker ianto. Time 1 hour.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, staithe) and knows(actor, boatman)
-      and not fuelled(actor) and not spoiled(actor) and not carted(actor) and knows(actor, cut_clear).
-    Result "With the sea-gate at Gatesend shut, the sea is off the cut, and at the ebb the water runs out of it clean and brown over the silt. The boat is heavy, but she does not ground once, and by the afternoon she noses into {town}'s quay, low in the water, and men come running from the salt-house. A man mending a trap on the bank at Gatesend watches you all the way past.".
-    On success { Assert carted(actor). Assert at(actor, boiling). Assert knows(actor, poled). }
+      and not fuelled(actor) and not spoiled(actor) and not carted(actor) and not afloat(actor)
+      and knows(actor, cut_clear).
+    Result "With the sea-gate at Gatesend shut, the sea is off the cut, and at the ebb the water runs out of it clean and brown over the silt. The boat is heavy, but she does not ground once below the staithe, and she goes down with the ebb toward {town}. A man mending a trap on the bank at Gatesend will watch you all the way past.".
+    On success { Assert afloat(actor). Assert knows(actor, poled). }
   }
+  // Come down to the town with her, by the company's own journey: the boat at the quay, and the salter to be told.
+  Rule boat_in when afloat(party) and within(party, town) says "Ianto's fuel boat noses into {town}'s quay, low in the water, and men come running from the salt-house." {
+    Retract afloat(party). Assert carted(party). }
   Action give_sacks(actor: group, site: place) "Give {trader} the charcoal" {
     Speaker trader. Time 10 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, shop) and holding(actor, fuel_sack_kind) and not fuelled(party) and not spoiled(party).
@@ -125,8 +134,9 @@ Module pans "The cold pans" {
   }
   Milestone m_fuelled "kept {trader}'s pans burning" worth 100 when fuelled(party).
   Objective cold_aim when knows(party, cold) and not knows(party, boatman) and not fuelled(party) and not spoiled(party) toward ianto "Find out what has become of {trader}'s fuel boat at {fuelvillage}: the salt-pans at {town} go cold in three days without it.".
-  Objective cold_fetch when knows(party, boatman) and not fuelled(party) and not spoiled(party) and not carted(party) toward ianto by staithe "Bring {trader} fuel from Ianto's boat at {fuelvillage}: pole her down the cut, or carry two sacks.".
+  Objective cold_fetch when knows(party, boatman) and not fuelled(party) and not spoiled(party) and not carted(party) and not afloat(party) toward ianto by staithe "Bring {trader} fuel from Ianto's boat at {fuelvillage}: pole her down the cut, or carry two sacks.".
   Objective cold_carry when holding(party, fuel_sack_kind) and not fuelled(party) and not spoiled(party) toward trader by boiling "Take the charcoal to {trader}'s boiling-house at {town}.".
+  Objective cold_down when afloat(party) and not carted(party) and not fuelled(party) and not spoiled(party) toward trader by shop "Bring Ianto's fuel boat down the cut to {trader}'s salt-house at {town}.".
   Objective cold_told when carted(party) and not fuelled(party) and not spoiled(party) toward trader by shop "Tell {trader} in the salt-house that the fuel boat is at the quay.".
   Rule word_old when fuelled(party) and not stale(cold) { Assert stale(cold). }
   Goal fuelled(party).

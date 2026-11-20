@@ -25,7 +25,10 @@ class Pans {
     // Who is here is said by what their role names, filled in: "the fuel boatman of Reedbridge", not "of {region__s5}".
     expect(j.latest).toMatch(new RegExp(`Ianto, the fuel boatman of ${fuel}`));
     expect(JSON.stringify(j.screen().people)).not.toMatch(/\{region/);
-    await j.play('Ask Ianto about the fuel boat', 'Pole Ianto\'s fuel boat down the cut', 'To Holgar\'s salt-house');
+    // Poled off the staithe, the boat comes down the cut with the company's own journey to the town, on the map
+    // (TR-20: the act had put the company in the boiling-house, hexes off, with no journey).
+    await j.play('Ask Ianto about the fuel boat', 'Pole Ianto\'s fuel boat down the cut');
+    await j.play('map:Porthalen', '?map:Porthalen', '?map:Porthalen', 'To Holgar\'s salt-house');
   }
 }
 describe('the cold pans, with Ffion\'s beside them', () => {

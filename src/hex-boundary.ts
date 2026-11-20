@@ -1,4 +1,4 @@
-import type { Entity, Module } from './lang/module';
+import type { Entity, LandChart, Module } from './lang/module';
 import { EntityIndex } from './lang/entity-index';
 import { Spatial } from './spatial';
 
@@ -19,9 +19,28 @@ export class HexBoundary {
     const byId = EntityIndex.of(module.entities).byId, line = Spatial.ancestry(byId, id);
     const land = line.findLast(e => e.space!.kind === 'region');
     const chart = land ? this.land(module, land.id) : undefined, cell = this.cell(module, id);
+    if (chart && this.nowhere(module, chart, line)) { return undefined; }
     if (chart && cell !== undefined) { return `${land!.id}:${cell}`; }
     const road = chart?.roads && line.find(e => chart.roads[e.id] !== undefined);
     return road ? `${land!.id}:road:${road.id}` : undefined;
+  }
+  // The lost of a wild country ("Lost is nowhere in particular: the place has no position on any chart", as
+  // data/generation/wild/astray.kyrt has it): a room of a wild country whose landmarks the chart puts each at its own
+  // cell, that the chart puts at none, stands at none. It had stood at the wild country's own cell, its edge's, so
+  // that striking out across a wood and following the water out of it were each a crossing (TR-20).
+  private static readonly marked = new WeakMap<Module, Set<string>>();
+  private static nowhere(module: Module, chart: LandChart, line: Entity[]): boolean {
+    const [place, wild] = line;
+    if (place?.space?.kind !== 'room' || wild?.space?.kind !== 'wilderness' || chart.places[place.id] !== undefined) {
+      return false;
+    }
+    let marked = this.marked.get(module);
+    if (!marked) {
+      marked = new Set(module.entities.filter(e => e.space?.kind === 'room' && e.space.parent
+        && chart.places[e.id] !== undefined).map(e => e.space!.parent!));
+      this.marked.set(module, marked);
+    }
+    return marked.has(wild.id);
   }
   static cell(module: Module, id: string): number | undefined {
     const line = Spatial.ancestry(EntityIndex.of(module.entities).byId, id);

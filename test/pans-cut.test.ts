@@ -45,16 +45,30 @@ describe('the cold pans and the sea-gate\'s cut', () => {
     shut.roll('fail');
     await shut.play('Pole Ianto\'s fuel boat down the cut');
     expect(shut.latest).toMatch(/she does not ground once/);
-    expect(Cut.holds(shut, 'pans__carted', 'party')).toBe(true);
+    // The act leaves the company at the staithe with the boat afloat: down the cut is the company's own journey, on
+    // the map (TR-20), and the dice its own again past the staithe.
+    expect(Cut.holds(shut, 'pans__afloat', 'party')).toBe(true);
     expect(Cut.holds(shut, 'knows', 'party', 'pans__poled')).toBe(true);
-    // And on the eel-men's water by day, seen: Ifan says so at his door.
+    shut.roll('pass');
+    // And on the eel-men's water by day, seen: Ifan says so at his door, by the cut on the way down.
     await shut.play('map:Gatesend', '?map:Gatesend', '?map:Gatesend', '?map:Gatesend');
     expect(shut.latest).toMatch(/You poled Ianto.s boat down our cut in broad day/);
+    // Come down to the town, the boat is at the quay.
+    await shut.play('map:Porthalen', '?map:Porthalen', '?map:Porthalen');
+    expect(Cut.holds(shut, 'pans__carted', 'party')).toBe(true);
   }, 240000);
   it('has the salt written into the reeve\'s tally, by whichever pans burned', async () => {
     const j = await Cut.begin();
     await Cut.staithe(j);
-    await j.play('Pole Ianto\'s fuel boat down the cut', 'To Holgar\'s salt-house', 'Tell Holgar the fuel boat is at the quay');
+    // The act takes the boat off the staithe and leaves the company where it stands: the town is a journey, walked on
+    // the map (TR-20, the owner, 19 November: "I got from my quest destination back to town without the map").
+    const staithe = j.session.campaign.world.one('at', 'party');
+    await j.play('Pole Ianto\'s fuel boat down the cut');
+    expect(j.session.campaign.world.one('at', 'party')).toBe(staithe);
+    expect(Cut.holds(j, 'pans__afloat', 'party')).toBe(true);
+    await j.play('map:Porthalen', '?map:Porthalen', '?map:Porthalen');
+    expect(j.latest).toMatch(/noses into Porthalen.s quay/);
+    await j.play('To Holgar\'s salt-house', 'Tell Holgar the fuel boat is at the quay');
     expect(Cut.holds(j, 'knows', 'party', 'pans__salt_whole')).toBe(true);
     const c = j.session.campaign;
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('gate__mended', 'party') }]));

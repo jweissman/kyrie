@@ -55,7 +55,9 @@ describe('the reference start, Iscoed', () => {
     const fuel = /at (\w+): the salt-pans/.exec(Iscoed.aims(j))![1]!;
     await j.play(`map:${fuel}`, `?map:${fuel}`, `?map:${fuel}`, 'To the staithe', 'Ask Ianto about the fuel boat',
       'Pole Ianto\'s fuel boat down the cut');
-    await j.play('To Holgar\'s salt-house', 'Tell Holgar the fuel boat is at the quay');
+    // Down the cut by the company's own journey, walked on the map (TR-20), not by the act.
+    await j.play('map:Porthalen', '?map:Porthalen', '?map:Porthalen', 'To Holgar\'s salt-house',
+      'Tell Holgar the fuel boat is at the quay');
     expect(j.latest).toMatch(/The whole load/);
     await j.play('Ask Holgar for your week\'s wage', 'To the boiling-house', 'Work a shift at the pans');
     expect(j.latest).toMatch(/three coin into your hand/);

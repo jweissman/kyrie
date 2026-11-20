@@ -1,3 +1,4 @@
+import { Crossing } from '../campaign/crossing';
 import { OwnWords } from './own-words';
 import { Spatial } from '../spatial';
 import { ItemCatalog } from '../item-catalog';
@@ -165,7 +166,7 @@ export class PlayerView {
     const match = this.choices(campaign).find(c => c.choice.id === command);
     if (match) { return match.action.id; }
     if (campaign.offered().some(a => a.id === command)) { return command; }
-    throw new Error(`Unavailable command: ${command}`);
+    throw Crossing.withheld(campaign, command) ?? new Error(`Unavailable command: ${command}`);
   }
   // The entities a relation holds between the actor and, in the module's order.
   private static about(world: World, relation: string, actor: string, entities: Entity[]): Entity[] {
