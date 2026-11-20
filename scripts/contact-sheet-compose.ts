@@ -1,0 +1,61 @@
+/// <reference lib="dom" />
+import { writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import type { Browser } from 'playwright-core';
+import type { SheetMiss, SheetShot } from './contact-sheet-camera';
+
+// The contact sheets themselves (see scripts/contact-sheets.ts): for each size, a page of every picture at that size
+// in the order walked, each captioned, drawn by the browser and kept as sheet-<size>.png beside its HTML; and
+// index.html, which leads to each sheet and to every picture at its full size, with what could not be reached.
+export class SheetCompose {
+  static readonly style = `body { margin: 0; padding: 24px; background: #121318; color: #ece6d9;
+    font: 15px/1.35 system-ui, sans-serif; } h1 { font-size: 20px; margin: 0 0 4px; } p.meta { color: #a59f94; margin: 0 0 18px; }
+    .grid { display: grid; gap: 18px 14px; } figure { margin: 0; } figure img { width: 100%; display: block;
+    border: 1px solid #2c2e36; } figcaption { color: #a59f94; font-size: 13px; margin-top: 6px; }
+    figcaption b { color: #ece6d9; font-weight: 600; } a { color: #d9b86a; } li { margin: 3px 0; }`;
+  static escape(text: string): string {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  // How many across: a landscape screen's pictures four to a row, an upright one's six.
+  static columns(size: string): number {
+    const [w, h] = size.split('x').map(Number) as [number, number];
+    return w > h ? 4 : 6;
+  }
+  static sheet(size: string, shots: SheetShot[], meta: string): string {
+    const figures = shots.map(s => `<figure><img src="${s.file}" alt="">`
+      + `<figcaption><b>${String(s.n).padStart(2, '0')} ${SheetCompose.escape(s.name)}</b> · `
+      + `${SheetCompose.escape(s.caption)}</figcaption></figure>`).join('\n');
+    const across = SheetCompose.columns(size), wide = across * (size.startsWith('390') ? 230 : 300);
+    return `<!doctype html><html><head><meta charset="utf-8"><title>Kyrie at ${size}</title>`
+      + `<style>${SheetCompose.style} body { width: ${wide}px; } .grid { grid-template-columns: repeat(${across}, 1fr); }`
+      + `</style></head><body><h1>Kyrie at ${size}</h1><p class="meta">${SheetCompose.escape(meta)}</p>`
+      + `<div class="grid">${figures}</div></body></html>`;
+  }
+  static index(sizes: string[], shots: SheetShot[], misses: SheetMiss[], meta: string): string {
+    const sheets = sizes.map(s => `<li><a href="sheet-${s}.png">sheet-${s}.png</a> `
+      + `(<a href="sheet-${s}.html">as a page</a>), ${shots.filter(x => x.size === s).length} pictures</li>`).join('');
+    const missed = misses.length ? misses.map(m => `<li>${m.size} ${SheetCompose.escape(`${m.walk}/${m.step}`)}: `
+      + `${SheetCompose.escape(m.why)}</li>`).join('') : '<li>none</li>';
+    const all = sizes.map(s => `<h2>${s}</h2><ol>${shots.filter(x => x.size === s).map(x =>
+      `<li><a href="${x.file}">${SheetCompose.escape(x.name)}</a> · ${SheetCompose.escape(x.caption)}</li>`).join('')}</ol>`);
+    return `<!doctype html><html><head><meta charset="utf-8"><title>Kyrie contact sheets</title>`
+      + `<style>${SheetCompose.style} body { max-width: 900px; }</style></head><body><h1>Kyrie contact sheets</h1>`
+      + `<p class="meta">${SheetCompose.escape(meta)}</p><h2>Sheets</h2><ul>${sheets}</ul>`
+      + `<h2>Not reached</h2><ul>${missed}</ul>${all.join('')}</body></html>`;
+  }
+  static async write(browser: Browser, out: string, at: { sizes: string[]; shots: SheetShot[];
+    misses: SheetMiss[]; meta: string }): Promise<void> {
+    const page = await browser.newPage({ viewport: { width: 1400, height: 900 } });
+    for (const size of at.sizes) {
+      const html = join(out, `sheet-${size}.html`);
+      await writeFile(html, SheetCompose.sheet(size, at.shots.filter(s => s.size === size), at.meta));
+      await page.goto(`file://${html}`);
+      await page.waitForFunction(() => [...document.images].every(i => i.complete));
+      await page.screenshot({ path: join(out, `sheet-${size}.png`), fullPage: true });
+    }
+    await page.close();
+    await writeFile(join(out, 'index.html'), SheetCompose.index(at.sizes, at.shots, at.misses, at.meta));
+    await writeFile(join(out, 'shots.json'), `${JSON.stringify({ meta: at.meta, shots: at.shots, misses: at.misses },
+      null, 1)}\n`);
+  }
+}

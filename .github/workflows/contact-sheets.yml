@@ -1,0 +1,51 @@
+# Contact sheets of the app, for reviews of its composition and design alone (the owner, 20 November): every page of
+# the first hour pictured in the built site at a phone's size and an upright iPad's, a captioned sheet of each size and
+# an index (scripts/contact-sheets.ts), kept as the run's artifact for fourteen days. Evidence, not a gate: a workflow
+# of its own, so that nothing here can fail CI or hold a deploy, and never on an ordinary push (CI's minutes, and
+# main's runs, which Pages waits on). Nightly, on demand on any branch that has this file, and on a push to a
+# contact-sheets/* branch (to try a change to the walk before it is on main, where on demand first finds it).
+#   gh workflow run contact-sheets.yml --ref main
+#   gh run download <run> -n contact-sheets -D <dir>      then open <dir>/index.html
+name: Contact sheets
+on:
+  workflow_dispatch:
+  schedule: [{ cron: '30 9 * * *' }]
+  push:
+    branches: ['contact-sheets/**']
+permissions: { contents: read }
+concurrency: { group: "contact-sheets-${{ github.ref }}", cancel-in-progress: true }
+defaults:
+  run: { working-directory: kyrie }
+jobs:
+  sheets:
+    name: contact sheets
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store (ParseStore: parsed Kyr kept between processes) across runs, as CI's jobs keep it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+      - run: bunx playwright-core install --with-deps chromium
+      - run: bun scripts/contact-sheets.ts --out "${{ runner.temp }}/contact-sheets" --sizes 390x844,820x1180
+      - if: always()
+        run: |
+          f="${{ runner.temp }}/contact-sheets/shots.json"
+          if [ -f "$f" ]; then
+            { echo "## Contact sheets"; echo; jq -r '.meta' "$f"; echo
+              jq -r '.misses[] | "- not reached: \(.size) \(.walk)/\(.step): \(.why)"' "$f"; } >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contact-sheets
+          path: "${{ runner.temp }}/contact-sheets"
+          retention-days: 14
+          if-no-files-found: warn

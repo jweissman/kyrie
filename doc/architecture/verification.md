@@ -83,6 +83,16 @@ gate a deploy waits on. Work in flight is proven on its own `ci/<line>-<n>` bran
 to many worlds or to the page (the shared rules, the generators, the reader) also gets a dispatched run, for the long
 descents and the browser specs.
 
+**Contact sheets** (`.github/workflows/contact-sheets.yml`, a workflow of its own: it fails no CI and holds no
+deploy): every page of the first hour in a1 pictured in the built site at 390 × 844 and 820 × 1180 by
+`scripts/contact-sheets.ts` (the title, New game, options, the handbooks and encyclopedia; each page of creation; the
+place, the lenses, the book, a talk and a stall, the cellar, a fight and its end, the map, a journey, a town entered),
+one PNG a page, a captioned `sheet-<size>.png` a size and `index.html`, for reviews of the composition and design
+alone. Nightly at 09:30 UTC, on a push to a `contact-sheets/*` branch, or on demand:
+`gh workflow run contact-sheets.yml --ref <branch>`, then `gh run download <run> -n contact-sheets -D <dir>` and open
+`<dir>/index.html`. A page it could not reach is listed there and in the run's summary, with a picture of where the
+page stood. Locally: `bun scripts/contact-sheets.ts --out <dir>`.
+
 Watch a run with `gh run watch <id> --interval 60 --exit-status`, one watch at a time: the default three-second poll
 once spent the shared hourly API limit.
 
