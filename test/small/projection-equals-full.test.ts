@@ -222,7 +222,12 @@ describe('what is kept from world to world, against working it out afresh', () =
     for (let round = 0; round < 3; round++) {
       for (const a of said.aims ?? []) { await Twins.step(twins, JSON.stringify({ follow: a.id })); followed++; }
       await Twins.step(twins, JSON.stringify({ follow: null }));
-      said = await Twins.step(twins, JSON.stringify({ act: said.offer.primary[0]!.id })) as Said;
+      const led = said.offer.primary[0]!;
+      said = await Twins.step(twins, JSON.stringify({ act: led.id })) as Said;
+      // One led with across the country opens the map at where it goes (Row.chart): set out from there.
+      if (led.does?.startsWith('view:map:')) {
+        said = await Twins.step(twins, JSON.stringify({ act: said.offer.primary[0]!.id })) as Said;
+      }
     }
     expect(followed).toBeGreaterThan(2);
   }, 120000);

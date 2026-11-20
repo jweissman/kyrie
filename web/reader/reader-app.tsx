@@ -254,6 +254,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
     // A pointer to a book (a development to spend is spent in the character).
     const book = /^view:(\w+)(?::(.+))?$/.exec(choice.command);
+    // The map at a place (a row led with across the country: Row.chart), charted there.
+    if (book?.[1] === 'map' && book[2]) { this.chart(book[2]); return; }
     if (book) { this.show(book[1] as View, book[2]); return; }
     // Nothing that cannot be undone is done by a slip: it is said first, and done when chosen again.
     // So is a fight the company could lose, as it reckons it (see Marks).

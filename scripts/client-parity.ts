@@ -18,7 +18,7 @@ import type { Frame } from '../src/creation/protocol';
 // only once a person is turned to) and the map's menu (CO-20).
 interface Act {
   words: string; label?: string; short?: string; alts?: Set<string>; id: string; lens?: Lens; within?: string;
-  map?: true;
+  map?: true; chart?: string;
 }
 interface Drawn { act: string; words: string; id: string; lens?: Lens; where: 'four' | 'lens' | 'menu' | 'pack' }
 export class ClientParity {
@@ -34,7 +34,8 @@ export class ClientParity {
         ...r.short ? [r.short] : []]);
       if (had && !r.for) { out.set(act, { ...had, alts }); continue; }
       out.set(act, { words: r.called ?? r.label, label: r.label, ...r.short ? { short: r.short } : {}, alts, id: r.id,
-        ...r.lens ? { lens: r.lens } : {}, ...r.within ? { within: r.within } : {}, ...r.map ? { map: r.map } : {} });
+        ...r.lens ? { lens: r.lens } : {}, ...r.within ? { within: r.within } : {}, ...r.map ? { map: r.map } : {},
+        ...r.chart ? { chart: r.chart } : {} });
     }
     return out;
   }
@@ -53,8 +54,10 @@ export class ClientParity {
     const app = { state: { frame, open: [], focused: [] }, menu, props: { query: new URLSearchParams() } } as unknown as
       ReaderApp;
     const glance = frame.leaf.glance!, four = GlanceStage.offered(app) ?? GlanceStage.foreground(app, glance.acts);
-    const drawn: Drawn[] = four.map(a => ({ act: a.inside?.[0]?.command ?? a.command ?? a.choice, words: a.label,
-      id: a.choice, where: 'four' as const }));
+    // One of the four opening the map at a place (Row.chart) is drawn as what pressing it does.
+    const drawn: Drawn[] = four.map(a => ({
+      act: this.charted(app, a) ?? a.inside?.[0]?.command ?? a.command ?? a.choice,
+      words: a.label, id: a.choice, where: 'four' as const }));
     type Lenses = NonNullable<typeof glance.lenses>;
     for (const [lens, lensed] of Object.entries(glance.lenses ?? {}) as [Lens, Lenses[Lens]][]) {
       for (const a of LensRows.of(app, lens, lensed, GlanceStage.choice).all as (Promoted | LensAct)[]) {
@@ -69,6 +72,10 @@ export class ClientParity {
       drawn.push({ act: c.command!, words: c.label, id: c.id, where: 'pack' });
     }
     return { drawn, app, four };
+  }
+  private static charted(app: ReaderApp, a: Promoted): string | undefined {
+    const does = GlanceStage.taken(app, a)?.command;
+    return does?.startsWith('view:map:') ? does : undefined;
   }
   private static leaves(choices: Choice[]): Choice[] {
     return choices.flatMap(c => [...c.command ? [c] : [], ...this.leaves(c.children ?? [])]);
@@ -103,8 +110,8 @@ export class ClientParity {
     // What pressing one of the four does: as the engine's row for it does (Doable.one), never the page's own fold.
     const glance = frame.leaf.glance!;
     for (const a of four) {
-      const c = MenuModel.lead(app.menu, a.choice);
-      const pressed = c ? GlanceStage.acted(app, a, c).command ?? a.choice : a.command ?? a.choice;
+      const c = GlanceStage.taken(app, a);
+      const pressed = c ? c.command ?? a.choice : a.command ?? a.choice;
       const does = Doable.one(glance, frame.screen, a.choice, a.command).does;
       if (does && pressed !== does && a.inside?.[0]?.command !== does) { out.add(`page pressed: ${this.short(a.choice)}`); }
     }
@@ -131,7 +138,7 @@ export class ClientParity {
   }
   // What `serve` answers at the same turn (Serve.of): the acts it leads with, and every choice it offers by id.
   private static serve(runner: Runner, rows: Row[], out: Set<string>) {
-    const view = Serve.of(runner.session), engine = this.engine(rows);
+    const view = Serve.of(runner.session, runner.last), engine = this.engine(rows);
     const offered = new Map(view.choices.map(c => [c.id, c.label]));
     for (const [act, e] of engine) {
       if (e.map) { continue; }

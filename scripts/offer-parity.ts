@@ -100,8 +100,9 @@ export class OfferParity {
     // A row the runner names by an id that is no row of the engine's.
     const rowIds = new Set(Doable.flat(rows).map(r => r.id));
     for (const o of offered) { if (!rowIds.has(o.id)) { out.add(`runner only: ${o.id.replace(/\(.*$/, '(…)')}`); } }
-    const step = said.going?.act;
-    if (step && !drawn.has(step) && !ids.has(step)) { out.add(`lead names no row: ${step.replace(/[(:/].*$/, '…')}`); }
+    // A step across the country is named by the row that opens the map at where it goes (Row.chart).
+    const step = said.going?.act, charted = step && drawn.has(step.replace(/^travel:/, 'view:map:'));
+    if (step && !drawn.has(step) && !ids.has(step) && !charted) { out.add(`lead names no row: ${step.replace(/[(:/].*$/, '…')}`); }
   }
   // Whether the row an act is held within or under is offered: by its id, by what it does, or as the runner names a
   // person's talk (talk:<person>, itself counted runner only); an opener drawn as one row is turned to.

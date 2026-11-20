@@ -540,12 +540,23 @@ export class GlanceStage {
   // the one act under an opener that holds only that (the well's look, drawing a bucket); else it opens, in place,
   // the act it is led for first. The page had guessed again here: a commandless opener done by its first row under the
   // opener's words ("Push and pull" at the speaking door, CL-34), a look by its first act where it led none.
+  // One led with across the country opens the map at where it goes, as the engine's row does (Row.chart), where the
+  // page had opened the map on the aim, or on nothing (the lead's ruling, 20 November: the parity measure's pressed).
   static acted(app: ReaderApp, a: Promoted, c: Choice): Choice {
     const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
+    const journey = /^travel:/.test(a.command ?? a.choice);
+    const charted = g && screen && journey ? Doable.one(g, screen, a.choice, a.command) : undefined;
+    if (charted?.chart) { return { ...c, id: a.choice, command: charted.does! }; }
     if (c.focus || !c.children?.length || !g || !screen) { return c; }
     const does = Doable.one(g, screen, c.id, a.command).does;
     if (!does || c.command === does) { return c; }
     return Attending.all(c.children ?? []).find(k => k.command === does && !k.children?.length) ?? c;
+  }
+  // The choice one of the four is drawn as and done by (what the parity measure reads as the page's: MT-18).
+  static taken(app: ReaderApp, a: Promoted): Choice | undefined {
+    const c = GlanceStage.choice(app, a.choice) ?? app.menu.choices.find(m => !!a.command && m.command === a.command)
+      ?? GlanceStage.made(app, a.choice, a);
+    return c && GlanceStage.acted(app, a, c);
   }
   // A row the menu holds no choice for, as the engine's one row makes it (Doable.choice), or none where it refuses it.
   static made(app: ReaderApp, id: string, at: { label: string; command?: string; shut?: string }): Choice | undefined {
@@ -561,9 +572,8 @@ export class GlanceStage {
     // An act offered with no choice of the menu's own (talking to someone here, which the page otherwise draws by their
     // likeness) is drawn as its own row and done by its command, so that the four are the engine's four.
     const shown = acts.flatMap(a => {
-      const c = GlanceStage.choice(app, a.choice) ?? app.menu.choices.find(m => !!a.command && m.command === a.command)
-        ?? GlanceStage.made(app, a.choice, a);
-      return c ? [{ a, c: GlanceStage.acted(app, a, c) }] : [];
+      const c = GlanceStage.taken(app, a);
+      return c ? [{ a, c }] : [];
     }).filter((x, i, all) => all.findIndex(y => y.c.id === x.c.id) === i);
     if (!shown.length) { return null; }
     return (

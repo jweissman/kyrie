@@ -65,7 +65,9 @@ export class RunnerOffer {
     return { names, entries, byDoes };
   }
   // A row led with: as what it is led for, as an opener with its rows, or as the act it does.
-  private static row(r: Row, at: At, entry: Glanced | undefined = at.entries.get(r.id)): Offered[] {
+  // One opening the map at where it goes (Row.chart) is the offer's journey there, by the map's id.
+  private static row(r: Row, at: At,
+    entry: Glanced | undefined = at.entries.get(r.id) ?? at.entries.get(`travel:${r.chart}`)): Offered[] {
     if (r.for && at.names.has(r.for)) {
       return [this.made(r.id, r.called ?? at.names.get(r.for)!, entry, { does: r.for })];
     }
@@ -92,7 +94,7 @@ export class RunnerOffer {
   private static made(id: string, label: string, o?: Glanced, as: { does?: string; minutes?: number } = {}): Offered {
     const minutes = o?.minutes ?? as.minutes;
     return { id, label: Typography.plain(label), ...as.does ? { does: as.does } : {}, aspects: o?.aspects ?? [],
-      type: o?.type ?? (as.does?.startsWith('travel:') ? 'journey' : 'act'), ...minutes ? { minutes } : {},
+      type: o?.type ?? (/^(travel|view:map):/.test(as.does ?? '') ? 'journey' : 'act'), ...minutes ? { minutes } : {},
       marks: o?.marks.map(m => m.kind) ?? [],
       ...o?.bearing ? { bearing: o.bearing } : {}, ...this.aside(o) };
   }

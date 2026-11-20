@@ -21,18 +21,37 @@ export class DoableJourneys {
     return [...leaving, ...JourneyFold.every(screen).filter(d => !had.has(`travel:${d.id}`))
       .map(d => ({ command: `travel:${d.id}`, label: `Set out for ${d.name}`, minutes: d.minutes }))];
   }
-  // The rows with those journeys not kept in the rest marked as on the map; never one the four lead with. In a country
-  // drawn in hexes a journey across it is the map's unless an aim names where it goes: of those the fold keeps, only
-  // the walks about the town the company is in, the way out and the aim's stay in the rest (the owner, 31 October:
-  // "move all cross-hex travel out of the play environment"; the page's own rule till MT-18, MenuModel.stays, which
-  // the parity measure found the runner and serve did not keep).
+  // The rows with those journeys not kept in the rest marked as on the map. In a country drawn in hexes a journey
+  // across it is the map's: of those the fold keeps, only the walks about the town the company is in and the way out
+  // stay in the rest (the owner, 31 October: "move all cross-hex travel out of the play environment"; the page's own
+  // rule till MT-18, MenuModel.stays, which the parity measure found the runner and serve did not keep). An aim's
+  // journey across the country is the map's too, the map opening on it (MapView.aim), where the engine had kept it in
+  // the rest and the page had not drawn it (the parity measure's page engine only, MT-18).
+  // One the four lead with that goes across the country opens the map at where it goes (chart), every client alike:
+  // the page charts it, the runner opens its journeys there; the journey itself is set out on from the map (the lead's
+  // ruling, 20 November, on the parity measure's page pressed: the page had opened the map, the runner set out).
   static mapped(rows: Row[], screen: Screen, out?: Route): Row[] {
-    const fold = JourneyFold.kept(screen, out), aimed = new Set((screen.aims ?? []).flatMap(a => a.places ?? []));
-    const about = new Set([...(screen.around ?? []).map(d => d.id), ...aimed, ...out?.command ? [out.command] : [],
+    const fold = JourneyFold.kept(screen, out), drawn = !!screen.region?.land?.tracts;
+    const about = new Set([...(screen.around ?? []).map(d => d.id), ...out?.command ? [out.command] : [],
       ...out?.to ? [out.to] : []]);
-    const kept = screen.region?.land?.tracts ? new Set([...fold].filter(id => about.has(id))) : fold;
-    return rows.map(r => r.led ? r : this.mark(r, kept));
+    const kept = drawn ? new Set([...fold].filter(id => about.has(id))) : fold;
+    const marked = rows.map(r => r.led ? (drawn ? this.charted(r, about) : r) : this.mark(r, kept));
+    const going = new Set(marked.flatMap(r => r.does ? [r.does] : []));
+    // The journey a charted row opens the map on, there to be set out on, where no row of the rest does it.
+    const set = marked.flatMap(r => r.chart && !going.has(`travel:${r.chart}`)
+      ? [{ id: `travel:${r.chart}`, label: r.label, does: `travel:${r.chart}`, witnesses: r.witnesses, map: true as const,
+        ...r.minutes ? { minutes: r.minutes } : {} }] : []);
+    return [...marked, ...set];
   }
+  // A row the four lead with across the country, as opening the map at where it goes: by the map's own id where its
+  // own is the journey's (map:<place>), so that the journey keeps its id, set out on from the map.
+  private static charted(r: Row, about: Set<string>): Row {
+    const to = /^travel:(.+)$/.exec(r.does ?? '')?.[1];
+    if (!to || about.has(to) || about.has(r.does!)) { return r; }
+    return { ...r, id: this.id(r.id), does: `view:map:${to}`, chart: to };
+  }
+  // The id a row led with across the country is drawn by: map:<place> for its journey's own.
+  static id(choice: string): string { return choice.replace(/^travel:/, 'map:'); }
   private static mark(r: Row, kept: Set<string>): Row {
     return r.opens ? { ...r, opens: r.opens.map(k => this.mark(k, kept)) }
       : r.does?.startsWith('travel:') && !JourneyFold.keeps(kept, r.does) ? { ...r, map: true } : r;

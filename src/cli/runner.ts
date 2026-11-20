@@ -104,6 +104,8 @@ export class Runner {
   // The narrator's leaf the last turn said was told from, for a review of the journey (src/cli/journey-review.ts).
   private leafed?: Leaf;
   get leaf(): Leaf | undefined { return this.leafed; }
+  // What came of the last act, as the turn was told from it (serve's view of the same turn: the parity measure).
+  get last(): Told | undefined { return this.told; }
   constructor(private current: PlaySession) {}
   get session(): PlaySession { return this.current; }
   // Every presentation said so far, as a terminal walk keeps them, for the scene budget (TerminalWalk.budget).
@@ -243,9 +245,16 @@ export class Runner {
       this.with = turned;
       return this.talk(screen, turned);
     }
+    // The map opens at any place a journey goes from here (map:<place>), led with or not, as the page's map does.
+    const at = /^map:(.+)$/.exec(asked.act)?.[1];
+    if (at && offered.includes(`travel:${at}`)) { return this.lensed('journeys', `travel:${at}`); }
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}${Runner.why(screen, asked.act)}` }; }
     // An opener taken opens: its rows offered, no time (the page draws them; the runner had done its first).
     if (row?.opens) { return this.opened(row, screen); }
+    // One the four lead with across the country opens the map at where it goes, as the page charts it: the runner's
+    // map is its journeys, that one first, set out on from there (DoableJourneys: chart).
+    const charted = /^view:map:(.+)$/.exec(act)?.[1];
+    if (charted) { return this.lensed('journeys', `travel:${charted}`); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (act.startsWith('follow:')) { this.now = undefined; await this.session.leg(act); return this.said('look'); }
     const talking = /^talk_to\(([^)]+)\)$/.exec(act)?.[1] ?? RunnerTalks.whose(g ? Doable.of(g, screen) : []).get(act);
@@ -311,11 +320,13 @@ export class Runner {
   }
   // A lens looked through: no world act, no time; its acts as the offer, each as the scene offers it (Offers ranks a
   // lens as it ranks any surface of its own).
-  // The journeys' lens is every journey, those the rest keeps first, as the page's map holds them (CL-33).
-  private lensed(lens: Lens | 'journeys'): Said | { error: string } {
+  // The journeys' lens is every journey, those the rest keeps first, as the page's map holds them (CL-33); opened at a
+  // place (first: a row led with across the country, Row.chart), its journey first.
+  private lensed(lens: Lens | 'journeys', first?: string): Said | { error: string } {
     const screen = this.standing.screen, g = this.glanced();
     if (lens === 'journeys') {
-      const all = this.offer(screen, g).journeys;
+      const every = this.offer(screen, g).journeys;
+      const all = [...every.filter(o => o.does === first), ...every.filter(o => o.does !== first)];
       return { turn: this.n, moment: 'inspect', scene: { lines: [], prose: [] },
         offer: { primary: all.slice(0, 4), rest: all.slice(4) } };
     }

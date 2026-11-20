@@ -36,6 +36,9 @@ export interface Row {
   map?: true;
   // How long a journey the scene's offer left out takes (DoableJourneys), as its row says.
   minutes?: number;
+  // Where a row led with across the country opens the map (DoableJourneys.mapped): it does view:map:<place>, and the
+  // journey there is set out on from the map, by its own row.
+  chart?: string;
 }
 type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>
   & Partial<Pick<Glance, 'compass'>>;
@@ -52,8 +55,10 @@ export class Doable {
   static of(glance: Offered, screen: Screen): Row[] { return this.read(glance, screen).rows; }
   // Any choice of the scene as a row, offered or not (an act the glance leads with that the offer leaves out, an act a
   // lens holds within an opener).
+  // One the four lead with across the country is the map's row for it (DoableJourneys: chart).
   static one(glance: Offered, screen: Screen, id: string, command?: string): Row {
-    return this.rowOf(glance, screen, id, { command });
+    const charted = this.read(glance, screen).rows.find(r => r.chart && r.id === DoableJourneys.id(id));
+    return charted ?? this.rowOf(glance, screen, id, { command });
   }
   private static rowOf(glance: Offered, screen: Screen, id: string, as: { command?: string; label?: string }): Row {
     const { at, lensOf } = this.read(glance, screen), lens = lensOf.get(id);
