@@ -29,9 +29,12 @@ export interface CapturedRun {
 export class JourneyCapture {
   static readonly about = 'A journey as the player met it, by the runner (bin/kyrie run): each step\'s scene, offer,'
     + ' choice and exchange. Written by scripts/journey-read.ts; never edited by hand.';
-  // A game the runner's arguments name (--world iscoed --as human/warrior/Wenna), as `kyrie run` starts it.
+  // A game the runner's arguments name (--world iscoed --as human/warrior/Wenna), as `kyrie run` starts it; --roll
+  // pass|fail has every check in it come out so (Journey.roll), as `kyrie play` has it, and as a replay of it does.
   static async start(args: string[]): Promise<PlaySession> {
-    return (await PlayTool.start(PlayTool.parse(args))).journey.session;
+    const o = PlayTool.parse(args), { journey } = await PlayTool.start(o);
+    journey.roll(o.roll);
+    return journey.session;
   }
   // A journey of up to `limit` steps chosen by the policy "fresh": what pulls next, else the first of the led, the
   // four and the rest (journeys by road last) not yet taken anywhere; a fight's turn by its first offer.

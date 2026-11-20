@@ -3,6 +3,7 @@
 // were played, never written over), journey.md (to read aloud), findings.md (how much is known by its making, and the
 // unknown), and, once replayed, replay.json and replay.md (the same lines under the code as it is now, apart).
 //   bin/kyrie review record <dir> <lines.txt> [--force] [--played-at <commit>] --world iscoed --as human/warrior/Wenna
+//     [--roll pass|fail]   (every check comes out so, in the recording and its replay: JourneyCapture.start)
 //   bin/kyrie review replay <dir>
 //   bin/kyrie review step <dir> <n> [--replay]
 //   bin/kyrie review render <dir>
