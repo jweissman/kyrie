@@ -21,6 +21,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { ClientParity } from './client-parity';
 
 export interface Walk { world: string; as: string; lines: string }
+interface EngineAct { words: string; id: string; under?: string; within?: string; map?: true; led?: true }
 
 export class OfferParity {
   static readonly root = join(import.meta.dir, '..');
@@ -112,12 +113,17 @@ export class OfferParity {
   }
   // The engine's rows by the act each does, in its own words, with the opener each is held under (if any), and whether
   // it is on the map.
-  private static engine(rows: Row[], under?: string)
-    : Map<string, { words: string; id: string; under?: string; within?: string; map?: true }> {
-    return new Map(rows.flatMap(r => r.opens?.length ? [...this.engine(r.opens, under ?? r.id)]
+  // An act both a talk is led for and a question's own row does (the question held within the talk, MT-18) is the
+  // talk's, as the four lead with it.
+  private static engine(rows: Row[], under?: string): Map<string, EngineAct> {
+    const out = new Map<string, EngineAct>();
+    for (const [act, e] of rows.flatMap(r => r.opens?.length ? [...this.engine(r.opens, under ?? r.id)]
       : r.for ?? r.does ? [[(r.for ?? r.does)!, { words: r.called ?? r.label, id: r.id,
-        ...under ? { under } : {}, ...r.within ? { within: r.within } : {}, ...r.map ? { map: r.map } : {} }] as const]
-        : []));
+        ...under ? { under } : {}, ...r.within ? { within: r.within } : {}, ...r.map ? { map: r.map } : {},
+        ...r.for ? { led: true as const } : {} }] as const] : [])) {
+      if (!out.get(act)?.led) { out.set(act, e); }
+    }
+    return out;
   }
   static kinds(divergences: string[]): Record<string, number> {
     const out: Record<string, number> = {};

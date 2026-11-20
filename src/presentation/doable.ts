@@ -95,8 +95,17 @@ export class Doable {
     const commands = new Map([...tree.values()].flatMap(c => c.command ? [[c.command, c] as const] : []).reverse());
     const at = { tree, parents, acts, glance, legal: this.legal(glance, tree), commands };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
-    const offered = this.holders([...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(
-      o.choice, o.label, { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command })), at);
+    const listed = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []];
+    // And what a lens holds within an opener that the offer leaves out (a person's questions under their talk, the
+    // people lens's): the engine offers them, so every client does, within their holder (MT-18: the page's menu and
+    // serve had offered them, the runner not).
+    const had = new Set(listed.flatMap(o => [o.choice, ...o.command ? [o.command] : []]));
+    const held = Object.entries(glance.lenses ?? {}).flatMap(([lens, l]) => Object.values(l.leaves ?? {}).flat()
+      .filter(a => !had.has(a.choice) && !(a.command && had.has(a.command)) && parents.has(a.choice))
+      .map(a => ({ ...a, lens: lens as Lens })));
+    const offered = this.holders([...listed.map(o => this.row(o.choice, o.label, { ...at, lens: lensOf.get(o.choice),
+      led: led.has(o.choice), command: o.command })), ...[...new Map(held.map(a => [a.choice, a])).values()]
+      .map(a => this.row(a.choice, a.label, { ...at, lens: a.lens, led: false, command: a.command }))], at);
     const out = glance.compass?.out, journeys = DoableJourneys.more(this.flat(offered), screen, out)
       .map(j => ({ ...this.row(j.command, j.label, { ...at, command: j.command }), minutes: j.minutes }));
     const rows = DoableJourneys.mapped([...offered, ...journeys], screen, out);
