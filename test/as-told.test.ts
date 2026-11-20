@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { Tactics } from '../src/tactics';
-import { ItemNames } from '../src/item-names';
+import { ItemNames } from '../src/lang/item-names';
 import { Voice } from '../src/narrative/voice';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';

@@ -2,7 +2,7 @@ import gems from '../../../data/catalog/items/gems.json';
 import { LootTables } from '../../loot-tables';
 import { Canon } from '../../canon/canon';
 import { Content } from '../../content';
-import { ItemNames } from '../../item-names';
+import { ItemNames } from '../../lang/item-names';
 
 // A stone found in a deep site: a stone of the catalog's kind, drawn by Orsino's gemstone (its cut, size and quality)
 // and worth what its rank is, by what those make of it (data/catalog/items/gems.json), so that no two rubies found are

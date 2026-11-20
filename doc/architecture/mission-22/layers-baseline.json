@@ -6,7 +6,7 @@
   "setting -> player": 17,
   "runtime -> player": 1,
   "lang -> setting": 5,
-  "lang -> runtime": 9,
+  "lang -> runtime": 8,
   "player -> client": 4
  },
  "edges": [
@@ -89,7 +89,6 @@
   "src/lang/module.ts -> src/campaign/definition",
   "src/lang/module.ts -> src/canon/local-catalog",
   "src/lang/vocabulary.ts -> src/canon/local-catalog",
-  "src/lang/world-constructs.ts -> src/item-names",
   "src/loot-tables.ts -> data/catalog/items/armour.json",
   "src/loot-tables.ts -> data/catalog/items/arms.json",
   "src/loot-tables.ts -> data/catalog/items/consumables.json",

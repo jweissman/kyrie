@@ -6,7 +6,7 @@ import { DefenseTelling } from './defense-telling';
 import { Barks } from '../narrative/barks';
 import type { BattleState, CombatEvent, Fighter } from '../model';
 import { ItemCatalog } from '../item-catalog';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 
 // One exchange: what was told, the dice behind it, the round it fell in, and who acted (if anyone did).
 export interface Telling { text: string; detail: string; round: number; actor?: string }

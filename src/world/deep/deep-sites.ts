@@ -1,5 +1,5 @@
 import { Canon } from '../../canon/canon';
-import { ItemNames } from '../../item-names';
+import { ItemNames } from '../../lang/item-names';
 import { DeepLayouts, type DeepLayout, type DeepLink, type DeepRoom } from './deep-layout';
 import { DeepMechanisms } from './deep-mechanisms';
 import { DeepPacing, type DeepContent } from './deep-pacing';

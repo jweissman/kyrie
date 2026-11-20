@@ -5,7 +5,7 @@ import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } 
 import { CharacterSheets } from '../presentation/character-sheet'; import { Itineraries } from './itinerary';
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
-import { ItemNames } from '../item-names'; import { Passages } from './passages'; import { KnownNames } from './known-names';
+import { ItemNames } from '../lang/item-names'; import { Passages } from './passages'; import { KnownNames } from './known-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../canon/background-catalog';

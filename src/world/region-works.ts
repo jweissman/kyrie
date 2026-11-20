@@ -25,7 +25,7 @@ import { RegionRiddles } from './region-riddles';
 import { Draw } from './land/draw';
 import { Foundings } from './founding';
 import { Canon } from '../canon/canon';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import type { Region, Settlement, Site } from './region-writer';
 import { RegionKey } from './region-key';
 

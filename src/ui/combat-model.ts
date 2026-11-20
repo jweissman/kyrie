@@ -20,7 +20,7 @@ import { Tactics } from '../tactics';
 import { Positions } from '../rules/positions';
 import { DangerSense } from '../presentation/danger-sense';
 import { ItemCatalog } from '../item-catalog';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
 import { CreaturePortraits } from '../paintings/creature-portraits';
 import type { Face } from '../paintings/company-portraits';

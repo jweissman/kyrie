@@ -3,7 +3,7 @@ import { Canon } from '../canon/canon';
 import { RandomStreams } from '../random-streams';
 import { ModuleWriter } from '../lang/module-writer';
 import { Items } from './items';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import { Effects } from '../effects';
 import { ObservationText } from '../lang/observation-text';
 import type { Call, Change } from '../lang/module';

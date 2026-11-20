@@ -4,7 +4,7 @@ import { Content } from '../content';
 import { Canon } from '../canon/canon';
 import type { BattleState, CombatEvent } from '../model';
 import { ItemCatalog } from '../item-catalog';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import { Counted } from '../presentation/counted';
 import { DefenseTelling } from './defense-telling';
 

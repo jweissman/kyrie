@@ -1,4 +1,4 @@
-import { ItemNames } from './item-names';
+import { ItemNames } from './lang/item-names';
 import { Canon } from './canon/canon';
 import { ItemCatalog } from './item-catalog';
 import { ItemTraits } from './campaign/item-traits';

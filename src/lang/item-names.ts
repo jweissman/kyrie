@@ -1,5 +1,6 @@
 // What a thing from the catalog is called in a sentence. The catalogs name kinds as headings ("Torch", "Scale Mail",
-// "Bandages"); the page says "a torch", "scale mail", "bandages", as it says "a sack of bell-teeth".
+// "Bandages"); the page says "a torch", "scale mail", "bandages", as it says "a sack of bell-teeth". The language's
+// own: an item a module places by its kind alone is given this name as the module is read (see WorldConstructs).
 export class ItemNames {
   // Kinds that are not counted one by one: "scale mail", not "a scale mail".
   static readonly uncounted = new Set(['mail', 'armor', 'armour', 'leather', 'clothing', 'clothes', 'gear', 'rope', 'oil',

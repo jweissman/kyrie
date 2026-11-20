@@ -1,4 +1,4 @@
-import { ItemNames } from '../item-names';
+import { ItemNames } from './item-names';
 import type { Anchor, Call, Change, Module, Predicate } from './module';
 import { Vocabularies } from './vocabulary';
 

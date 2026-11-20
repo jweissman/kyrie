@@ -2,7 +2,7 @@ import type { Battle } from '../battle';
 import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { ItemCatalog } from '../item-catalog';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import { CombatChoices } from '../ui/combat-choices';
 import { CombatTelling } from '../ui/combat-telling';
 import { ChoiceList } from '../ui/choice-list';

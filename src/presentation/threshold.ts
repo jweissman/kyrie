@@ -3,7 +3,7 @@ import type { Screen } from '../ui/screen-types';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { Canon } from '../canon/canon';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import { Means, type Lead } from './means';
 
 // The threshold of the place the followed aim is about: what bars the way on, and the ways that leave it.

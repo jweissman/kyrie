@@ -1,5 +1,5 @@
 import { Canon } from '../../canon/canon';
-import { ItemNames } from '../../item-names';
+import { ItemNames } from '../../lang/item-names';
 import { Foundings } from '../founding';
 import { Terrain } from '../land/terrain';
 import { RegionGeography } from '../region-geography';

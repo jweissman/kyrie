@@ -2,7 +2,7 @@ import { Harm } from '../rules/harm';
 import { ModuleWriter } from '../lang/module-writer';
 import { KeptPredicates } from '../lang/kept-predicates';
 import { ObservationText } from '../lang/observation-text';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import { LocalObservations } from '../campaign/local-observations';
 import type { Entity, Module, Predicate } from '../lang/module';
 import { WorldReads } from '../lang/world-reads';

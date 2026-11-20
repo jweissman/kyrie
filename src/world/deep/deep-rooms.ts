@@ -2,7 +2,7 @@ import text from '../../../data/generation/deep/rooms.kyrt' with { type: 'text' 
 import world from '../../../data/generation/scenes/orsino-world.json';
 import table from '../../../data/generation/deep/hoards.json';
 import { Canon } from '../../canon/canon';
-import { ItemNames } from '../../item-names';
+import { ItemNames } from '../../lang/item-names';
 import { Draw } from '../land/draw';
 import { RegionMarvels, type Fragment } from '../region-marvels';
 import type { DeepContent, DeepDwellers } from './deep-pacing';

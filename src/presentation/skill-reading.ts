@@ -3,7 +3,7 @@ import type { Operator, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import { Canon } from '../canon/canon';
 import { SkillSources } from './skill-sources';
 

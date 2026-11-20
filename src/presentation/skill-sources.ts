@@ -1,6 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import { Canon } from '../canon/canon';
-import { ItemNames } from '../item-names';
+import { ItemNames } from '../lang/item-names';
 import { EntityIndex } from '../lang/entity-index';
 
 // Where a skill the company lacks is to be had: someone who sells a thing that gives it to whoever carries it (a
