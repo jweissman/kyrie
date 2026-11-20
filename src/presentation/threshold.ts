@@ -15,7 +15,7 @@ export class Threshold {
   // With who sells what it needs, where the world says (Means): "…: needs climbing or a coil of rope; Orm Ashby
   // sells a coil of rope".
   static barred(screen: Screen, named: Set<string>, campaign?: Campaign): string[] {
-    const ways = this.ways(screen, named);
+    const ways = this.ways(screen, named, campaign);
     const leads = campaign && ways.length ? Means.leads(campaign, screen, new Set(ways.map(e => e.id))) : [];
     const byId = campaign && EntityIndex.of(campaign.module.entities).byId;
     return ways.flatMap(e => {
@@ -29,14 +29,25 @@ export class Threshold {
   }
   // The same, typed, for every client and pin: each barred way on, what it needs, and who has it (Glance's leads).
   static leads(campaign: Campaign, screen: Screen, named: Set<string>): { leads?: Lead[] } {
-    const ways = this.ways(screen, named);
+    const ways = this.ways(screen, named, campaign);
     const leads = ways.length ? Means.leads(campaign, screen, new Set(ways.map(e => e.id))) : [];
     return leads.length ? { leads } : {};
   }
-  private static ways(screen: Screen, named: Set<string>): Screen['exits'] {
-    if (!named.has(screen.place.id) && !screen.path.some(p => p.kind === 'site')) { return []; }
+  // In a town, a barred way at the place the aim names is the aim's only where it goes toward something the aim names
+  // (the corn-store's padlock, said at Porthalen's landing as the need of the reeve's claim, which names the landing
+  // and nothing behind that door: S3-0, GR-11); in a site every way on not yet taken is.
+  private static ways(screen: Screen, named: Set<string>, campaign?: Campaign): Screen['exits'] {
+    const site = screen.path.some(p => p.kind === 'site');
+    if (!named.has(screen.place.id) && !site) { return []; }
     return screen.exits.filter(e => !e.visited && !e.crosses && !e.acts.some(a => a.moves && !a.disabled)
-      && (e.acts.some(a => a.disabled) || (!e.acts.length && !!e.blocked)));
+      && (e.acts.some(a => a.disabled) || (!e.acts.length && !!e.blocked))
+      && (site || !campaign || this.toward(campaign, screen, named, e.destination.id)));
+  }
+  // Whether a way goes to a place the aim names, or to where something it names lies or stands.
+  private static toward(campaign: Campaign, screen: Screen, named: Set<string>, to: string): boolean {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    return named.has(to) || [...named].some(id => id !== screen.place.id
+      && [id, campaign.world.one('at', id) ?? ''].some(at => Spatial.ancestry(byId, at).some(a => a.id === to)));
   }
   // "Needs brawn: no one in the company can use it now." and "You would need climbing or a coil of rope." alike.
   private static clause(reason: string): string {
