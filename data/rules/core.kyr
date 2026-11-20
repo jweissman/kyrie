@@ -190,6 +190,16 @@ Module world_core "Bodies, places, time and the shared catalog" {
     Meanwhile sittingOut(actor).
     Result "The light goes. It is dark.".
   }
+  // Fun Friday (20 November; doc/design/fun-fridays.md): the night sky watched for its own sake (stargazing, #266;
+  // watching the sky, #114; sitting and thinking, #97). Anywhere out of doors after dark; told by the sky as it is that
+  // night (the sign riding this month, the clouds, whose sign it is among the company: src/narrative/night-skies.ts,
+  // data/voice/day.json). Nothing is gained but the half hour.
+  Action watch_sky(actor: group, site: place) "Lie back and watch the sky" {
+    Description "Lie back on the ground, and let half an hour go by under the stars.".
+    Requires able(actor) and company(actor) and at(actor, site) and dark() and not indoors(site).
+    Time 30 minutes. Interrupted when threatened(actor).
+    Result "You lie back and look up.".
+  }
   Action wait_watch(actor: group) "Wait and watch" {
     Description "Until someone comes or goes, or something changes here; or until the day turns. It mends no wound.".
     Requires able(actor). Time untilTurn(clock). Interrupted when threatened(actor). Watchful.
