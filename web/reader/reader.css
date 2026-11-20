@@ -143,6 +143,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .options-page .option-set > .label { margin: 0 0 var(--s1); }
 .options-page .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .options-page .rows.back { margin-top: var(--s5); }
+/* Each row's emblem before its words (OR-143), sized here as a row's is in play: an unsized one is an svg's 300 by
+   150, which pushes the words out of the row (the owner's P0 of 20 November). */
+.options-page .choice-row .row-glyph { width: 20px; height: 20px; margin: 0 10px -4px 0; fill: none;
+  stroke: currentColor; stroke-width: 1.5; opacity: .85; }
 .options-page .colophon { margin: var(--s5) 0 0; font: italic 400 14px/1.4 var(--told); color: var(--faint); }
 :root[data-size="smaller"] #mono { zoom: .9; }
 :root[data-size="larger"] #mono { zoom: 1.15; }

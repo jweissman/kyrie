@@ -8,16 +8,21 @@ import { ChoiceRow } from './stage/choice-row';
 // Options, from the title: the size of the page's letters, whether the dice behind what happens are told ("Wenna
 // makes the persuasion check (d20 16 …)") or only what came of them, and a game saved elsewhere opened from its file;
 // at its foot, whose game it is. Drawn as the title is, in its dark, and every choice on it the one row every menu has
-// (ChoiceRow), the one chosen marked in the entry's gold as creation marks it (the owner, 18 November, OR-81: "a
-// complete mess", in the boxed diamond buttons of an older page; test/small/no-old-button forbids them).
+// (ChoiceRow; the owner, 18 November, OR-81: "a complete mess", in the boxed diamond buttons of an older page;
+// test/small/no-old-button forbids them).
+// Each setting one row, its emblem before it and what it is now beside it, taken to go on to the next (OR-143, the
+// owner's playtest of 20 November: "Too many similar items; no icons on grouping… Why is the handbook here at all?
+// It seems chaotic"): seven rows of three kinds had been five alike, a save file and the handbooks, which are an
+// author's and not the game's (at handbook/index.html, as they were).
 export class OptionsPage {
-  static readonly settings: { key: keyof Options; label: string; values: { id: string; label: string; note: string }[] }[] = [
-    { key: 'size', label: 'Letters', values: [
+  static readonly settings: { key: keyof Options; label: string; glyph: string;
+    values: { id: string; label: string; note: string }[] }[] = [
+    { key: 'size', label: 'Letters', glyph: 'look_about', values: [
       { id: 'smaller', label: 'Smaller', note: '' }, { id: 'usual', label: 'Usual', note: '' },
       { id: 'larger', label: 'Larger', note: '' }] },
-    { key: 'rolls', label: 'Dice', values: [
-      { id: 'shown', label: 'Told', note: 'What was rolled, and against what' },
-      { id: 'hidden', label: 'Not told', note: 'Only what came of it' }] }];
+    { key: 'rolls', label: 'Dice', glyph: 'sight', values: [
+      { id: 'shown', label: 'Told', note: 'what was rolled, and against what' },
+      { id: 'hidden', label: 'Not told', note: 'only what came of it' }] }];
   static View({ app }: { app: ReaderApp }) {
     const options = app.state.options, named = Identity.named(app.props.query);
     return (
@@ -25,35 +30,38 @@ export class OptionsPage {
         <main>
           <p className="label">{Identity.spoken(named.game)}</p>
           <h1>Options</h1>
-          {OptionsPage.settings.map(setting => (
-            <section key={setting.key} className="option-set" aria-label={setting.label}>
-              <p className="label">{setting.label}</p>
-              <ul className="rows">{setting.values.map(v => {
-                const chosen = options[setting.key] === v.id;
-                return <li key={v.id}><ChoiceRow.Button data={{ action: 'option', key: setting.key, id: v.id }}
-                  label={v.label} aside={v.note || undefined} plain={chosen ? 'chosen' : 'neutral'}
-                  own={{ 'data-nav': true, 'aria-pressed': chosen }} onClick={OptionsPage.set.bind(null, app)} /></li>;
-              })}</ul>
-            </section>))}
+          <section className="option-set" aria-label="Reading">
+            <p className="label">Reading</p>
+            <ul className="rows">{OptionsPage.settings.map(setting => {
+              const now = OptionsPage.now(setting, options), next = OptionsPage.next(setting, now.id);
+              return <li key={setting.key}><ChoiceRow.Button data={{ action: 'option', key: setting.key, id: next }}
+                label={setting.label} glyph={setting.glyph} plain="neutral"
+                aside={[now.label, now.note].filter(Boolean).join(': ')}
+                own={{ 'data-nav': true, 'aria-label': `${setting.label}: ${now.label}` }}
+                onClick={OptionsPage.set.bind(null, app)} /></li>;
+            })}</ul>
+          </section>
           <section className="option-set" aria-label="A saved game">
             <p className="label">A saved game</p>
             <ul className="rows"><li><ChoiceRow.Button data={{ action: 'load-file' }} label="Open a save file"
-              aside="Downloaded from this browser or another" plain="neutral" own={{ 'data-nav': true }}
-              onClick={OptionsPage.open} /></li></ul>
+              glyph="the_book" aside="Downloaded from this browser or another" plain="neutral"
+              own={{ 'data-nav': true }} onClick={OptionsPage.open} /></li></ul>
             <input type="file" id="load" accept="application/json" hidden onChange={TitlePage.load.bind(null, app)} />
           </section>
-          <section className="option-set" aria-label="For authors">
-            <p className="label">For authors</p>
-            <ul className="rows"><li><ChoiceRow.Link data={{ action: 'handbooks' }} href="handbook/index.html"
-              label="The Kyr handbooks" aside="Every definition the game plays from" plain="neutral"
-              own={{ 'data-nav': true }} /></li></ul>
-          </section>
-          <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" plain="neutral"
-            own={{ 'data-nav': true }} onClick={OptionsPage.back.bind(null, app)} /></li></ul>
+          <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" glyph="back"
+            plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.back.bind(null, app)} /></li></ul>
           <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>
         </main>
       </div>
     );
+  }
+  // What a setting is now, and what taking its row makes it: the next of its values, round again after the last.
+  static now(setting: (typeof OptionsPage.settings)[number], options: Options) {
+    return setting.values.find(v => v.id === options[setting.key]) ?? setting.values[0]!;
+  }
+  static next(setting: (typeof OptionsPage.settings)[number], id: string): string {
+    const at = setting.values.findIndex(v => v.id === id);
+    return setting.values[(at + 1) % setting.values.length]!.id;
   }
   private static set(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
     const { key, id } = e.currentTarget.dataset as { key: keyof Options; id: string };

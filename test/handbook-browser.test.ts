@@ -6,8 +6,8 @@ import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
-// The handbooks in the built site: reached from the options (the title opens the Encyclopedia), searchable,
-// filtered by status, and readable on a phone.
+// The handbooks in the built site, an author's and not the game's (OR-143: no longer among the options; at
+// handbook/index.html), searchable, filtered by status, and readable on a phone.
 // Opt in with KYRIE_BROWSER=1. Each is given a minute: under bun's five seconds, a loaded CI runner had timed the first
 // out as the page came up, and its browser closed under the two after it (CI on 7f392f0b and 13441a49).
 describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () => {
@@ -19,10 +19,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the handbooks in the browser', () =
   }, 60_000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('are linked from the options and open on the landing page', async () => {
-    const { page, errors } = await MonoBrowser.page(browser, { width: 1440, height: 900 }, { site, query: '' });
-    await page.click('[data-action="options"]');
-    await page.click('[data-action="handbooks"]');
+  it('open on their landing page', async () => {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } }), errors: string[] = [];
+    page.on('pageerror', e => errors.push(e.message));
+    await page.goto(`file://${join(site, 'handbook/index.html')}`);
     await page.waitForSelector('.cards .card');
     expect(await page.locator('.cards .card').count()).toBe(3);
     expect(errors).toEqual([]);
