@@ -14,7 +14,7 @@ owner's word of 19 November: a focused drill into the live P0s, and the maturity
 | S3-3 | Defect (E3) | PB-24, AP-07, CL-33, HP-01 | Each corpus cause repaired in the projection, not in CSS (§8 step 3); HP-01's notice the first | lead | open |
 | S3-4 | Defect (E3) | NP-01, NP-02, OA-13, CO-17 | The golden route's cases only: narration bound to perception, a painting removed where it contradicts (§8 steps 4–5) | lead | open |
 | S3-5 | Story (E3) | WM-01, FH-08, CL-09, CL-46, CP-04 | The return verified: the dead do not speak, completed facts do not reset, a deed is attributed at its time; through save and resume (§8 step 6) | lead | open |
-| S3-P | Defect (P0 drill) | OR-114, OR-91, OR-94, OPR-01 | Per-act cost (one cause: the screen built per act); the page's own buttons to the allowed set; one route finder for the gold after Ironkeep. Each P0 closed with its spec | lead | open |
+| S3-P | Defect (P0 drill) | OR-91, OR-127 | Per-act cost to the owner's targets (pure simulation under 2 ms, the session's median under 20 ms, p95 and worst measured, incremental equal to full; P′ on the maturity track), and its browser half. OR-114, OR-94 and OPR-01 fixed (sprint audit, 19 November) | lead | open |
 
 Capacity reserve: CL rows from cold play 8; SI-08 (a look before a one-way drop) and AP-13 (danger remembered), the
 lone-novice deaths. Not in Sprint 3: WD-16, careers. Carried from Sprint 2: HP-01 (S2-3's remainder, in S3-3), Nest at
