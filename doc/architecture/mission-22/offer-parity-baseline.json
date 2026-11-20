@@ -3,7 +3,7 @@
  "kinds": {
   "page engine only": 11,
   "page menu words": 10,
-  "page only": 4,
+  "page only": 5,
   "page pressed": 3,
   "page words": 4,
   "serve led": 2,
@@ -34,6 +34,7 @@
   "page only: lens region__e1_milestone#look",
   "page only: lens region__s5_altar#look",
   "page only: lens talk_to(…)",
+  "page only: lens tinker3Master__lantern#look",
   "page only: menu view:map",
   "page pressed: exit:region__e1",
   "page pressed: exit:region__t173",
