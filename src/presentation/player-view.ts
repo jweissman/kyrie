@@ -181,7 +181,10 @@ export class PlayerView {
   // anyone guarding a way, and anything inside something.
   private static nearby(world: World, place: string): Set<string> {
     const near = new Set<string>();
-    for (const name of ['at', 'mounted']) { for (const r of world.relatedTo(name, place)) { near.add(r.args[0]!); } }
+    // Mounted only where a module declares it (MT-25: read in every world, where none had, as an undeclared nothing).
+    for (const name of ['at', ...world.relates('mounted') ? ['mounted'] : []]) {
+      for (const r of world.relatedTo(name, place)) { near.add(r.args[0]!); }
+    }
     for (const name of ['guards', 'inside']) { for (const r of world.related(name)) { near.add(r.args[0]!); } }
     for (const e of EntityIndex.of(world.module.entities).typed('door')) { near.add(e.id); }
     return near;

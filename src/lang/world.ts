@@ -1,11 +1,8 @@
 import { Arithmetic } from './arithmetic';
 import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, WorldState } from './module';
-import { ComputedRelations } from './computed-relations';
-import { RelationViews } from './relation-views';
-import { Asking } from './asking';
-import { QueryModes } from './query-modes';
-import { Counts } from './counts';
-import { Displaced } from './displaced'; import { WorldReads } from './world-reads';
+import { ComputedRelations } from './computed-relations'; import { RelationViews } from './relation-views';
+import { Asking } from './asking'; import { QueryModes } from './query-modes'; import { Counts } from './counts';
+import { Displaced } from './displaced'; import { WorldReads } from './world-reads'; import { DeclaredReads } from './declared-reads';
 
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
@@ -104,12 +101,13 @@ export class World {
   measuresOf(first: string): Measure[] {
     WorldReads.all(); return [...this.measuresByName.values()].flatMap(values => RelationViews.by(values, 0, first));
   }
-  // Whether the module declares this relation; or this relation or query.
+  // Whether the module declares this relation; or this relation or query; or this measure.
   relates(name: string): boolean { return World.index(this.module).relations.has(name); }
   declares(name: string): boolean {
     const signatures = World.index(this.module);
     return signatures.relations.has(name) || signatures.queries.has(name);
   }
+  measures(name: string): boolean { return World.index(this.module).measures.has(name); }
   // Whether the fact with this key (see `key`) currently holds.
   holds(key: string): boolean { return this.facts(World.nameOf(key), 2, key)?.has(key) ?? false; }
   // A key's relation or measure name: a key is the JSON of [name, ...args], and no name holds a quote.
@@ -118,7 +116,10 @@ export class World {
   private allMeasures(): Measure[] { return [...this.measuresByName.values()].flatMap(m => [...m.values()]); }
   private measure(call: Call) { const key = World.key(call); return this.values(call.name, key)?.get(key); }
   // A name's facts, or its values, as read (see WorldReads): all of them, or those an argument or a key picks out.
-  private facts(name: string, at?: number, v?: string) { WorldReads.saw(name, at, v); return this.byName.get(name); }
+  // (And told where it names no relation the module declares: MT-25, DeclaredReads.)
+  private facts(name: string, at?: number, v?: string) {
+    WorldReads.saw(name, at, v); DeclaredReads.saw(this, name); return this.byName.get(name);
+  }
   private values(name: string, key?: string) { WorldReads.saw(name, 2, key); return this.measuresByName.get(name); }
   // A name's facts and values as held, to compare two worlds by (see KeptReading): read of nothing.
   held(name: string) { return [this.byName.get(name), this.measuresByName.get(name)] as const; }
