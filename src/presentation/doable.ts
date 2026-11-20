@@ -1,5 +1,5 @@
 import type { Choice } from '../ui/choice-list';
-import type { Screen } from '../ui/screen-types';
+import type { Act, Screen } from '../ui/screen-types';
 import { Attending } from '../ui/attention';
 import { SceneModel } from '../ui/scene';
 import { Attest, type Witness } from './attest';
@@ -19,11 +19,15 @@ import { Fold } from './fold';
 export interface Row {
   id: string; label: string; does?: string; opens?: Row[]; for?: string; lens?: Lens; led?: true; only?: true;
   says?: string; called?: string; witnesses: Witness[];
+  // The row it is held under, where the scene holds it under another (a question under its person's talk): every
+  // client draws it there, the engine saying so (MT-18; the runner and the page had each grouped asks their own way).
+  within?: string;
   // Why it cannot be done now (Choice.disabled): a row that neither does nor opens anything says why.
   shut?: string;
 }
 type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>;
-interface Read { tree: Map<string, Choice>; acts: Map<string, Promoted>; glance: Offered; lens?: Lens; led?: boolean;
+interface Read { tree: Map<string, Choice>; parents?: Map<string, string>; acts: Map<string, Promoted>; glance: Offered;
+  lens?: Lens; led?: boolean; opening?: boolean;
   command?: string; legal?: Set<string> }
 interface Kept { rows: Row[]; at: Omit<Read, 'lens' | 'led' | 'command'>; lensOf: Map<string, Lens> }
 
@@ -67,11 +71,13 @@ export class Doable {
     const kept = this.kept.get(glance);
     if (kept) { return kept; }
     const scene = Attending.place(SceneModel.build(screen)), tree = new Map<string, Choice>();
-    this.index(tree, [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...scene.you]);
+    const parents = new Map<string, string>();
+    this.index(tree, [...scene.subjects.flatMap(s => s.choices), ...scene.near, ...scene.far, ...scene.you], parents);
     const lensOf = new Map<string, Lens>(Object.entries(glance.lenses ?? {}).flatMap(([lens, l]) =>
       [...l.promoted.map(p => p.choice), ...l.rest.map(r => r.choice)].map(id => [id, lens as Lens] as const)));
     const acts = new Map(glance.acts.map(a => [a.choice, a]));
-    const at = { tree, acts, glance, legal: this.legal(glance, tree) };
+    this.whose(screen, glance, parents);
+    const at = { tree, parents, acts, glance, legal: this.legal(glance, tree) };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
     const rows = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(o.choice, o.label,
       { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command }));
@@ -99,8 +105,29 @@ export class Doable {
     }
     return r;
   }
-  private static index(tree: Map<string, Choice>, cs: Choice[]): void {
-    for (const c of cs) { tree.set(c.id, c); this.index(tree, c.children ?? []); }
+  // Whose each act done with one of the people here is, held within their talk (<person>#talk): their own acts as the
+  // screen holds them under them, and a word asked of them (ask(informant, topic)) where the screen holds it apart
+  // (MT-18: the runner had worked this out for itself, RunnerTalks.whose; the page draws it in its talk).
+  private static whose(screen: Screen, glance: Offered, parents: Map<string, string>): void {
+    const here = screen.people.filter(p => p.kind === 'person' && !p.state);
+    for (const p of here) {
+      for (const a of this.acts(p.acts)) {
+        if (a.command && !parents.has(a.command) && a.does !== 'talk_to') { parents.set(a.command, `${p.id}#talk`); }
+      }
+    }
+    const ids = new Set(here.map(p => p.id));
+    for (const o of [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []]) {
+      const id = o.command ?? o.choice, asked = /^ask\(([^,]+),/.exec(id)?.[1];
+      if (asked && ids.has(asked) && !parents.has(id)) { parents.set(id, `${asked}#talk`); }
+    }
+  }
+  private static acts(acts: Act[]): Act[] { return acts.flatMap(a => [a, ...this.acts(a.children ?? [])]); }
+  private static index(tree: Map<string, Choice>, cs: Choice[], parents: Map<string, string>, parent?: string): void {
+    for (const c of cs) {
+      tree.set(c.id, c);
+      if (parent) { parents.set(c.id, parent); }
+      this.index(tree, c.children ?? [], parents, c.id);
+    }
   }
   private static row(id: string, label: string, at: Read): Row {
     const c = at.tree.get(id), act = at.acts.get(id);
@@ -114,7 +141,8 @@ export class Doable {
     const base = { id, label: c?.alone ?? label, witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led ? { for: led } : {},
       ...asked ? { called: this.called(c?.alone ?? c?.label ?? label, asked) } : {},
-      ...c?.disabled ? { shut: c.disabled } : {} }, legal = at.legal ?? new Set<string>();
+      ...c?.disabled ? { shut: c.disabled } : {}, ...at.parents?.get(id) && !at.opening
+        ? { within: at.parents.get(id)! } : {} }, legal = at.legal ?? new Set<string>();
     const kids = c?.children ?? [];
     // A row with a command does it, even where acts hang under it (a way with a door to listen at is gone by).
     // One offered by its command, outside the scene's tree (a light, a set-down, a wait), does that command.
@@ -126,7 +154,7 @@ export class Doable {
     // An opener opens: what the engine leads it for first, then the rest in the scene's order.
     const first = new Set([act?.for, ...(act?.inside ?? []).map(i => i.command)].filter((x): x is string => !!x));
     const ordered = [...kids.filter(k => first.has(k.command ?? '')), ...kids.filter(k => !first.has(k.command ?? ''))];
-    const opens = ordered.map(k => this.row(k.id, k.label, { ...at, led: false, command: undefined }));
+    const opens = ordered.map(k => this.row(k.id, k.label, { ...at, led: false, command: undefined, opening: true }));
     // One with a single thing to do under it is that thing, called by its own words: there is nothing to choose in
     // opening it ("the sea-gate's pawl", gold at the gate-well, is collecting it: cold play 5, CL-33).
     const only = this.flat(opens).filter(r => !r.opens);

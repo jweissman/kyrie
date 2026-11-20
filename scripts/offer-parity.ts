@@ -44,15 +44,18 @@ export class OfferParity {
   private static turn(runner: Runner, said: Said, out: Set<string>) {
     const glance = runner.leaf?.glance;
     if (!glance) { return; }
-    const engine = this.engine(Doable.of(glance, ScreenModel.build(runner.session.campaign)));
+    const rows = Doable.of(glance, ScreenModel.build(runner.session.campaign)), engine = this.engine(rows);
+    const doing = new Map(Doable.flat(rows).flatMap(r => r.does ? [[r.id, r.does] as const] : []));
     const offered = RunnerOffer.flat([...said.offer.primary, ...said.offer.rest,
       ...Object.values(said.offer.lenses ?? {}).flatMap(os => os ?? [])] as Offered[]);
     const drawn = new Map(offered.filter(o => !o.opens?.length).map(o => [o.id, o.label]));
     // An act held under an opener (a person's asks under their talk) is offered where the opener is, by the engine's
     // own id: opened, it shows them, as the page's drawer does.
     const openers = new Set(offered.filter(o => o.opens?.length).map(o => o.id));
-    for (const [act, { words, id, under }] of engine) {
-      if (!drawn.has(act) && !(under && openers.has(under))) { out.add(`engine only: ${act}`); continue; }
+    for (const [act, { words, id, under, within }] of engine) {
+      if (!drawn.has(act) && !(under && openers.has(under)) && !(within && this.held(within, drawn, openers, doing))) {
+        out.add(`engine only: ${act}`); continue;
+      }
       if (drawn.has(act) && drawn.get(act) !== words) { out.add(`words: ${act}`); }
       // The same act under another name: the runner names a row by what it does, the engine by the row (AT-13).
       if (drawn.has(act) && id !== act) { out.add(`named apart: ${id.replace(/[(:/#].*$/, '…')}`); }
@@ -61,11 +64,19 @@ export class OfferParity {
     const step = said.going?.act;
     if (step && !drawn.has(step)) { out.add(`lead names no row: ${step.replace(/[(:/].*$/, '…')}`); }
   }
+  // Whether the row an act is held within is offered: by its id, by what it does, or as the runner names a person's
+  // talk (talk:<person>, itself counted runner only).
+  private static held(within: string, drawn: Map<string, string>, openers: Set<string>,
+    doing: Map<string, string>): boolean {
+    return openers.has(within) || drawn.has(within) || drawn.has(doing.get(within) ?? '')
+      || drawn.has(`talk:${within.replace(/#talk$/, '')}`);
+  }
   // The engine's rows by the act each does, in its own words, with the opener each is held under (if any).
-  private static engine(rows: Row[], under?: string): Map<string, { words: string; id: string; under?: string }> {
+  private static engine(rows: Row[], under?: string)
+    : Map<string, { words: string; id: string; under?: string; within?: string }> {
     return new Map(rows.flatMap(r => r.opens?.length ? [...this.engine(r.opens, under ?? r.id)]
       : r.for ?? r.does ? [[(r.for ?? r.does)!, { words: r.called ?? r.label, id: r.id,
-        ...under ? { under } : {} }] as const] : []));
+        ...under ? { under } : {}, ...r.within ? { within: r.within } : {} }] as const] : []));
   }
   static kinds(divergences: string[]): Record<string, number> {
     const out: Record<string, number> = {};
