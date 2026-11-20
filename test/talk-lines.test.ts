@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Conversation } from '../web/reader/conversation';
 import { Words } from '../src/presentation/words';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 import type { Choice } from '../src/ui/choice-list';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';

@@ -1,7 +1,7 @@
 import type { Attention } from '../../src/ui/attention';
 import type { Choice } from '../../src/ui/choice-list';
 import { SceneModel } from '../../src/ui/scene';
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import { Moments, type Beat } from './moments';
 import { Offers, type Offer } from './offer';
 

@@ -1,7 +1,7 @@
 import type { SessionCheckpoint } from '../../src/session/play-session';
 import type { CampaignSave } from '../../src/campaign/campaign-types';
 import type { Call, WorldState } from '../../src/lang/module';
-import type { Entry } from './protocol';
+import type { Entry } from '../../src/creation/protocol';
 import type { World } from '../../src/lang/world';
 import { BuildStamp } from '../../src/session/build-stamp';
 

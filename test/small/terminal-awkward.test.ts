@@ -18,8 +18,8 @@ import { join } from 'node:path';
 import { TerminalWalk } from '../../src/cli/terminal-walk';
 import { WalkStyle } from '../../src/cli/walk-style';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 
 // The terminal's awkward cases, in one tiny world (the owner, 14 November: TP-05), played in its human mode by keys
 // on the real picker (Keyed), drawn as the terminal draws it, without a terminal: many legal acts and four led with,

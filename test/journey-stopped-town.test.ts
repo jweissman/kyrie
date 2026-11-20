@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MenuModel } from '../web/reader/menu-model';
 import { WorldStage } from '../web/reader/stage/world-stage';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';
 

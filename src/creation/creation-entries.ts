@@ -1,8 +1,8 @@
-import { Canon } from '../../src/canon/canon';
-import { CompanyChapters } from '../../src/handbook/phb-company';
-import { HandbookText } from '../../src/handbook/text';
+import { Canon } from '../canon/canon';
+import { CompanyChapters } from '../handbook/phb-company';
+import { HandbookText } from '../handbook/text';
 import { FirstSpells } from './first-spells';
-import { Words } from '../../src/presentation/words';
+import { Words } from '../presentation/words';
 import type { Catalog } from './protocol';
 import type { CreationEntry } from './creation-flow';
 

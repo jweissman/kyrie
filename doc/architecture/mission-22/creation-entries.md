@@ -19,7 +19,7 @@ the encyclopedia keeps the fuller words. Surveyed for a human warrior, an elf ma
 | presenting | none | needs none: the three choices are their own words |
 | name | none | needs none |
 
-## What changed (CreationEntries, web/engine/creation-entries.ts)
+## What changed (CreationEntries, src/creation/creation-entries.ts)
 
 An entry may now lead with `play`: what the choice is in play, in one line, drawn under its name as *In play*.
 

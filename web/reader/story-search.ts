@@ -1,4 +1,4 @@
-import type { Entry } from '../engine/protocol';
+import type { Entry } from '../../src/creation/protocol';
 
 // A search of the story so far (the capstone map's "scrollback and search", 15 November): the entries that say the
 // words, by what the player did and by what was told, case and curled quotes set aside. A presentation operation only:

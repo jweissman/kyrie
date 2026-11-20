@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { StorySearch } from '../../web/reader/story-search';
-import type { Entry } from '../../web/engine/protocol';
+import type { Entry } from '../../src/creation/protocol';
 
 // A search of the story so far: by what was done and what was told, case and curled quotes aside; nothing asked, all.
 const entry = (id: number, said: string, lines: string[], placeName = 'The green'): Entry =>

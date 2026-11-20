@@ -7,8 +7,8 @@ import { Emblems } from '../../src/presentation/emblems';
 import { TerminalColour } from '../../src/cli/terminal-colour';
 import { BoardGlyphs } from '../../web/reader/board/board-glyphs';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 
 // The page and the terminal draw from one shared game definition (the owner, 14 November): each emblem and kind of
 // place has its one character for a client drawn in text, each sign beside an act's words is the shared table's

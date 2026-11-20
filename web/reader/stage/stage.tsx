@@ -1,6 +1,6 @@
 import { SceneRail } from './scene-rail';
 import { PlaceMark } from './place-mark';
-import type { Frame } from '../../engine/protocol';
+import type { Frame } from '../../../src/creation/protocol';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { FictionalTime } from '../../../src/campaign/fictional-time';

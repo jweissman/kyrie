@@ -1,7 +1,7 @@
 import { Creation } from './creation';
 import type { EngineCreation } from './engine-creation';
 import type { EngineStarts } from './engine-starts';
-import type { Setting } from './protocol';
+import type { Setting } from '../../src/creation/protocol';
 
 // The country a new game will begin in, drawn before it is asked for (the owner, 19 November, OR-121: "the default
 // world and a starting character prepared or restored before the title appears; the title immediate"). The page names

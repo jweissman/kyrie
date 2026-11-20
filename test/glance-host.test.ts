@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 import { MenuModel } from '../web/reader/menu-model';
 
 // The glance as the host carries it to the page (OWN-18, OWN-19): on every frame's leaf; a journey set out on and not

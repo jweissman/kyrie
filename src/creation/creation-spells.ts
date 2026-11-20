@@ -1,7 +1,7 @@
 import type { Catalog, FirstSpell, Member } from './protocol';
 import type { CreationCard, CreationStep } from './creation-flow';
-import { SpellSchools } from '../../src/presentation/spell-schools';
-import { Words } from '../../src/presentation/words';
+import { SpellSchools } from '../presentation/spell-schools';
+import { Words } from '../presentation/words';
 
 type Way = Catalog['callings'][number]['specializations'][number];
 export type SpellStepId = 'learn';

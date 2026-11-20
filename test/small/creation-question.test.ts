@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 
 // Creation's page is the engine's question (PA-04, the owner, 17 November): the step asked now, its options, which is
 // chosen, how it may be drawn (cards, rows, one dense list, the sky) and what else it offers (another hand, a field to

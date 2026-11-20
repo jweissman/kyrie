@@ -2,7 +2,7 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 import { Glanced } from './support/glanced';
 import { MenuModel } from '../web/reader/menu-model';
 import { Routes } from '../src/ui/route';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 
 // What the page draws to choose among, with the glance (OWN-18, OWN-19): what the glance leads with comes first (the
 // keys' 1, 2 and 3), then everything else as it was, none lost and none twice; every choice the glance does not draw

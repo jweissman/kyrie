@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 
 // A journey is kept once it ends, not after every leg (AX-05, computation locality: each keeping writes the whole game
 // out, and a journey of four legs had kept it five times while the page waited on the worker).

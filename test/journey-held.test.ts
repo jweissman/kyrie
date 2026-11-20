@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { SaveCodec } from '../web/engine/save-codec';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 
 // A journey set out on is held until the company comes to the place (the owner's interim report: a destination set out
 // for was forgotten as soon as the journey stopped, and the player went round in circles): every page says where the

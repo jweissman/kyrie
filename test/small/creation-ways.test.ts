@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 
 // What a life did before, and a caster's art, asked as the life knows them (the owner, 18 November): every kind of
 // life on one page, each said by what it is with the encyclopedia's entry beside it (OR-88); then the trade within the

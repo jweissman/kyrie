@@ -1,7 +1,7 @@
 import { PlaySession } from '../../src/session/play-session';
 import { Creation } from './creation';
 import { ScreenModel } from '../../src/ui/screen-model';
-import type { Message, Request } from './protocol';
+import type { Message, Request } from '../../src/creation/protocol';
 
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
 export type Starting = Omit<Extract<Request, { kind: 'begin' }>, 'kind'>;

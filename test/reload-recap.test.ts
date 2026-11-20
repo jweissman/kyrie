@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Frame, Message, Request } from '../web/engine/protocol';
+import type { Frame, Message, Request } from '../src/creation/protocol';
 
 // A host whose keeping is waited for: each command's game is kept once its frame has gone (EngineHost.keep), and a
 // game left being kept would be kept during whatever the process runs next.

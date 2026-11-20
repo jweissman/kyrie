@@ -1,4 +1,4 @@
-import type { CreationStep } from '../../engine/creation-flow';
+import type { CreationStep } from '../../../src/creation/creation-flow';
 import type { Option } from './composed-row';
 
 // What a step of the engine's creation flow offers, as the first touch draws it (see ComposedCreation): its options in

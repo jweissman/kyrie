@@ -1,6 +1,6 @@
 import { BackgroundCatalog } from '../../src/rules/background-catalog';
 import type { ChangeEvent, MouseEvent } from 'react';
-import type { CompanyView, Member } from '../engine/protocol';
+import type { CompanyView, Member } from '../../src/creation/protocol';
 import type { ReaderApp } from './reader-app';
 
 type Preview = CompanyView['members'][number];

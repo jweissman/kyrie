@@ -6,7 +6,7 @@ import { Stage } from './stage/stage';
 import { Flame } from './stage/flame';
 import { EncyclopediaOverlay } from './encyclopedia-overlay';
 import { Guidance } from './guidance';
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 
 // The lantern: a dark ground with the country's painting far behind it, dim and out of focus and tinted by the hour,
 // and on it one bounded stage, lit, where the game is played. Every page is held inside the stage, with its margins

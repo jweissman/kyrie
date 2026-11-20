@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { Tiny } from '../support/tiny';
 import { Gauntlet } from '../support/gauntlet';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
+import { CreationFlow } from '../../src/creation/creation-flow';
 import { PlaySession } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view';
 import { Undertakings } from '../../src/presentation/undertakings';

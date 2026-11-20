@@ -1,4 +1,4 @@
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 
 // How long the player waits: from the choice to the second frame painted after the engine's answer, with the
 // engine's own share (the command, the screen, the telling) as it reports it. Kept for the session, for whoever

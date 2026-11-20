@@ -1,12 +1,12 @@
-import type { CreationCard, CreationStep } from '../../web/engine/creation-flow';
+import type { CreationCard, CreationStep } from '../creation/creation-flow';
 import type { CreationState } from '../../web/engine/engine-creation';
 import type { EngineHost } from '../../web/engine/engine-host';
-import type { Setting } from '../../web/engine/protocol';
+import type { Setting } from '../creation/protocol';
 import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
 import { TerminalInput, type Asking, type Picking } from './terminal-input';
 import type { Menu, Row } from './terminal-picker';
-import type { FirstStep } from '../../web/engine/first-choice';
+import type { FirstStep } from '../creation/first-choice';
 
 // A step as it is asked: creation's (CreationFlow), or how the game begins (FirstChoice).
 type Asked = Pick<CreationStep, 'ask' | 'cards' | 'chosen' | 'all' | 'many' | 'picked'>;

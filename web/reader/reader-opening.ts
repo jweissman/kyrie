@@ -1,11 +1,11 @@
 import { WorldVault } from './world-vault';
-import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
+import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../../src/creation/protocol';
 import type { ReaderApp } from './reader-app';
-import { CreationRules } from '../engine/creation-rules';
-import { CreationDefaults } from '../engine/creation-defaults';
-import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../engine/creation-flow';
+import { CreationRules } from '../../src/creation/creation-rules';
+import { CreationDefaults } from '../../src/creation/creation-defaults';
+import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../../src/creation/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
-import type { Beginning } from '../engine/first-choice';
+import type { Beginning } from '../../src/creation/first-choice';
 import { WorldStage } from './stage/world-stage';
 import { Shell } from './shell';
 

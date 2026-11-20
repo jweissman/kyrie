@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Told } from '../../web/reader/stage/told';
-import type { Frame } from '../../web/engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 
 // The purse in play (CL-66, split from CL-06): what the company has to spend and to eat is said under where and when,
 // in the heading every place's page draws, not only in the Book. Drawn only by PlaceStage.You, which nothing

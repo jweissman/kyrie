@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';

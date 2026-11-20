@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { TerminalCreation } from '../src/cli/terminal-creation';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 import type { Asking } from '../src/cli/terminal-input';
 
 // OR-120 in the terminal: one at the keys is asked first how the game begins, as the page asks it (the engine's

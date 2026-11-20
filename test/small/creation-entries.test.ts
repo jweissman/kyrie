@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow, type CreationStep } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow, type CreationStep } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 
 // What creation sets beside a choice says what it is in play, from the catalog (OR-99, the owner, 18 November: "most
 // of the instruments next to the menu in character creation seem impoverished"): a people's qualities as a stat line

@@ -7,8 +7,8 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ProtagonistNames } from '../src/world/protagonist-names';
 import { Outfitters } from '../src/world/outfitters';
 import { EngineCreation } from '../web/engine/engine-creation';
-import { CreationDefaults } from '../web/engine/creation-defaults';
-import type { Member, Setting } from '../web/engine/protocol';
+import { CreationDefaults } from '../src/creation/creation-defaults';
+import type { Member, Setting } from '../src/creation/protocol';
 import folk from '../data/generation/scenes/folk.json';
 import naming from '../data/generation/scenes/naming.json';
 

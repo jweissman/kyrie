@@ -2,7 +2,7 @@
 import { EngineHost } from './engine-host';
 import { ParseKeep } from './parse-keep';
 import { ParseCache } from '../../src/lang/parse-cache';
-import type { Envelope, Message } from './protocol';
+import type { Envelope, Message } from '../../src/creation/protocol';
 
 // The engine's worker: Kyrie runs here, away from the page, so the page answers at once whatever the engine is doing.
 class EngineWorker {

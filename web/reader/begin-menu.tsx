@@ -3,7 +3,7 @@ import type { ReaderApp } from './reader-app';
 import { ChoiceRow } from './stage/choice-row';
 import { Hold } from './instrument/hold';
 import { Typography } from '../../src/presentation/typography';
-import { FirstChoice, type Beginning } from '../engine/first-choice';
+import { FirstChoice, type Beginning } from '../../src/creation/first-choice';
 
 // How a new game begins (OR-120), asked where the title's ways in stood, under the same name and over the same dark:
 // the engine's question and its two rows (FirstChoice), Build a character and Set out now, drawn as the ways in are

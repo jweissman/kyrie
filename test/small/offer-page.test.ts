@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Tiny } from '../support/tiny';
 import { TerminalDoable } from '../../src/cli/terminal-doable';
 import { MenuModel } from '../../web/reader/menu-model';
-import type { Frame } from '../../web/engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';

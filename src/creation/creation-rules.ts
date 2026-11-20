@@ -1,4 +1,4 @@
-import { BackgroundCatalog } from '../../src/rules/background-catalog';
+import { BackgroundCatalog } from '../rules/background-catalog';
 import type { Catalog, Member } from './protocol';
 
 type Calling = Catalog['callings'][number];

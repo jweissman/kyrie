@@ -1,4 +1,4 @@
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import type { RegionChart } from '../../src/ui/screen-types';
 
 // The way a journey went over the land, hex by hex, as the engine made it: from where the company stood, by each place

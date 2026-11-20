@@ -6,10 +6,10 @@ import { Effects } from '../../src/effects';
 import { CompanyChapters } from '../../src/handbook/phb-company';
 import { CombatProjection } from '../../src/combat-projection';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
+import { CreationFlow } from '../../src/creation/creation-flow';
 import { CharacterSheets } from '../../src/presentation/character-sheet';
 import { CreatureStore } from '../../src/creature-store';
-import type { Setting } from '../../web/engine/protocol';
+import type { Setting } from '../../src/creation/protocol';
 
 // The sky one is born under gives something, chosen with it (the owner, 18 November, OR-89: "there should probably be
 // perk selection happening when you select a star-sign and some output/descriptor from the encyclopedia about the

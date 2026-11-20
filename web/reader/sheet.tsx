@@ -1,5 +1,5 @@
 import { News } from './news';
-import type { Entry, Frame } from '../engine/protocol';
+import type { Entry, Frame } from '../../src/creation/protocol';
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { useState } from 'react';

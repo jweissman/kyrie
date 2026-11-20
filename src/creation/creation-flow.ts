@@ -1,9 +1,9 @@
-import { Rolls } from '../../src/rules/rolls';
+import { Rolls } from '../rules/rolls';
 import { CreationDefaults } from './creation-defaults';
-import { BackgroundCatalog } from '../../src/rules/background-catalog';
+import { BackgroundCatalog } from '../rules/background-catalog';
 import { CreationRules } from './creation-rules';
-import { Words } from '../../src/presentation/words';
-import { CompanyChapters } from '../../src/handbook/phb-company';
+import { Words } from '../presentation/words';
+import { CompanyChapters } from '../handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
 import { CreationSpells, type SpellStepId } from './creation-spells';
 import { CreationEntries } from './creation-entries';

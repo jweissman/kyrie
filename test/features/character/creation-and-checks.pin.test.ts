@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
 import { Creation } from '../../../web/engine/creation';
-import { CreationFlow } from '../../../web/engine/creation-flow';
-import type { Setting } from '../../../web/engine/protocol';
+import { CreationFlow } from '../../../src/creation/creation-flow';
+import type { Setting } from '../../../src/creation/protocol';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts.
 const names = { human: { she: ['Wenna'], he: ['Odo'], they: ['Wren'] } };

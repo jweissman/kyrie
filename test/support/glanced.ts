@@ -13,7 +13,7 @@ import { Attending } from '../../src/ui/attention';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { Journey } from '../../src/session/journey';
 import { MenuModel } from '../../web/reader/menu-model';
-import type { Frame } from '../../web/engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import { Undertakings } from '../../src/presentation/undertakings';
 
 // A game played for its glance (OWN-18, OWN-19): each command as the page does it, and the page told of it, with

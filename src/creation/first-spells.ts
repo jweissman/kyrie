@@ -1,10 +1,10 @@
-import { Canon } from '../../src/canon/canon';
-import { Content } from '../../src/content';
-import type { Trait } from '../../src/rules/catalog-schema';
-import { SpellSelection } from '../../src/rules/spell-selection';
-import { SpellKinds } from '../../src/presentation/spell-kinds';
-import { SpellLines } from '../../src/presentation/spell-lines';
-import { Expressions } from '../../src/expressions';
+import { Canon } from '../canon/canon';
+import { Content } from '../content';
+import type { Trait } from '../rules/catalog-schema';
+import { SpellSelection } from '../rules/spell-selection';
+import { SpellKinds } from '../presentation/spell-kinds';
+import { SpellLines } from '../presentation/spell-lines';
+import { Expressions } from '../expressions';
 import type { FirstSpell } from './protocol';
 
 // The spells a protagonist sets out knowing, shown before the school or god is chosen (OWN-15: a school had been its

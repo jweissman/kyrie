@@ -179,9 +179,9 @@ the adventure's docs at `bin/kyrie transcripts`, and delete the scripts. **S**
 ### 9. The engine depends on the page for creation's numbers and words
 
 **Where.**
-- web/engine/creation-flow.ts:4-5 and web/engine/engine-creation.ts:3 import `CreationRules` and `Words` from
+- src/creation/creation-flow.ts:4-5 and web/engine/engine-creation.ts:3 import `CreationRules` and `Words` from
   web/reader/.
-- src/cli/terminal-creation.ts imports web/engine/creation-flow.
+- src/cli/terminal-creation.ts imports src/creation/creation-flow.
 - test/support/glanced.ts imports web/reader/menu-model.
 
 **History.** workflow-parity.md's third row said the Details numbers should come from "the engine's character
@@ -194,7 +194,7 @@ page importing from src only. A lint `no-restricted-imports` for `web/engine →
 ### 10. The origin pick is gone from the page, but not from the tools or the flow
 
 **Where.**
-- web/engine/creation-flow.ts:74 filters the `why` step out ("remove the abstract origin-quest selection": the
+- src/creation/creation-flow.ts:74 filters the `why` step out ("remove the abstract origin-quest selection": the
   owner, boredom brief). The step is still built (line 125, "Why have you come to …?") and still answered
   (line 190).
 - Twelve CLI and script places take `--origin` (src/cli/play-tool.ts, runner, terminal-matrix and the rest).

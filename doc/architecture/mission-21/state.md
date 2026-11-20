@@ -100,7 +100,7 @@ The terminal is now:
 - able to take lenses;
 - timed at start-up, with `--profile`;
 - walkable by a measured walker (four real walks: 2.7–3.0 sentences an arrival);
-- given character creation, from one engine flow (`web/engine/creation-flow.ts`, which the page is to adopt).
+- given character creation, from one engine flow (`src/creation/creation-flow.ts`, which the page is to adopt).
 
 The owner still finds it "a mess and not really playable", and that is the measure. Start-up is 6 s. The aim's title is
 a crude cut of its first clause: a real short title needs authored data. And a walk's three sentences are still three

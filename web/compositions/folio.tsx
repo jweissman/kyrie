@@ -2,7 +2,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { Chart } from '../../src/ui/screen-types';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from '../../src/presentation/words';
-import type { Entry, Frame } from '../engine/protocol';
+import type { Entry, Frame } from '../../src/creation/protocol';
 import { Offers, type Group, type Offer } from './offer';
 import { Parts, type Kit } from './parts';
 import { References } from './references';

@@ -1,5 +1,5 @@
 import type { Exchange } from '../../../src/presentation/narrator';
-import type { Frame } from '../../engine/protocol';
+import type { Frame } from '../../../src/creation/protocol';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../../../src/presentation/words';
 import { Panorama } from './panorama';

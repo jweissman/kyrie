@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { Creation } from '../web/engine/creation';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 import { PlaySession, type SessionCheckpoint } from '../src/session/play-session';
 import { Narrator } from '../src/presentation/narrator';
 import { ScreenModel } from '../src/ui/screen-model';

@@ -1,4 +1,4 @@
-import type { Envelope, Message, Request } from '../engine/protocol';
+import type { Envelope, Message, Request } from '../../src/creation/protocol';
 
 interface Waiting { resolve: (value: unknown) => void; reject: (error: Error) => void }
 

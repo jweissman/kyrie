@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { PlayerView } from '../../src/presentation/player-view';
 import { Costs } from '../../src/costs';
 import { EngineHost } from '../../web/engine/engine-host';
-import type { Frame, Message } from '../../web/engine/protocol';
+import type { Frame, Message } from '../../src/creation/protocol';
 
 // What an act costs the page is counted, not timed (OR-91, OR-114: a loaded machine had failed a budget of time): its
 // screen built once, what the company perceives worked out once, and what has happened told from the log once for

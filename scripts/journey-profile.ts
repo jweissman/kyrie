@@ -14,7 +14,7 @@ import { appendFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { EngineHost } from '../web/engine/engine-host';
 import { Creation } from '../web/engine/creation';
 import { PlayerView } from '../src/presentation/player-view';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 import type { PlaySession } from '../src/session/play-session';
 import { Wanderer, type Offered } from './journey-wanderer';
 import { JourneyReport, type JourneyStep } from './journey-report';

@@ -2,11 +2,11 @@ import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { PlaySession } from '../src/session/play-session';
 import { Digest } from '../src/session/digest';
-import type { CreationChoice } from '../web/engine/creation-flow';
-import type { Message } from '../web/engine/protocol';
+import type { CreationChoice } from '../src/creation/creation-flow';
+import type { Message } from '../src/creation/protocol';
 import type { CreationState } from '../web/engine/engine-creation';
 import { Creation } from '../web/engine/creation';
-import { CreationRules } from '../web/engine/creation-rules';
+import { CreationRules } from '../src/creation/creation-rules';
 
 // OR-08: a life made through the engine's own making (EngineCreation) has its start made ready at each choice
 // (EngineStarts.readying), and Set out takes the one made ready for the life as it stands. Determinism: the game set

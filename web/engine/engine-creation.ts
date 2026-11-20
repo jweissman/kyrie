@@ -1,9 +1,9 @@
 import { Creation } from './creation';
-import { CreationDefaults } from './creation-defaults';
-import { CreationRules } from './creation-rules';
-import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from './creation-flow';
+import { CreationDefaults } from '../../src/creation/creation-defaults';
+import { CreationRules } from '../../src/creation/creation-rules';
+import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../../src/creation/creation-flow';
 import type { Starting } from './engine-starts';
-import type { Catalog, Member, Setting } from './protocol';
+import type { Catalog, Member, Setting } from '../../src/creation/protocol';
 
 // Where making a life stands, as the engine holds it for any client: every step as it now is (its question, its
 // cards, the four it leads with first, which is chosen), whom the choices have made so far, why they came, and the

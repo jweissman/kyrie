@@ -7,7 +7,7 @@ import { Glanced } from './support/glanced';
 import { Travel } from '../src/session/travel';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Itineraries } from '../src/ui/itinerary';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 import { AutoplayRun } from '../src/autoplay/run';
 
 // The way the map draws before setting out is the way the journey goes (the owner, 10 November: the journey had not

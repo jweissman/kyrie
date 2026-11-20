@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { ModuleParser } from '../src/lang/module-parser';
 import { ParseCache } from '../src/lang/parse-cache';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 
 // OR-121: the start itself made cheap, a cold Set out now (nothing drawn ahead) on a country never drawn before in the
 // process. Each text it reads is parsed once: a count of texts kept had let the country's own go while the rest of

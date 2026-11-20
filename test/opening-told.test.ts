@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Frame, Member, Message } from '../web/engine/protocol';
+import type { Frame, Member, Message } from '../src/creation/protocol';
 import { Origins } from '../src/world/origins';
 import { AtlasOrigins } from '../src/world/origin-atlas';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';

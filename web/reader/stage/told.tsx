@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { AimSaid } from '../../../src/presentation/aim-said';
-import type { Exchange, Frame } from '../../engine/protocol';
+import type { Exchange, Frame } from '../../../src/creation/protocol';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { Screen } from '../../../src/ui/screen-types';
 import { Illumination } from '../../../src/ui/illumination';

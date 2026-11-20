@@ -4,7 +4,7 @@ import { MemoryStorage } from './support/memory-storage';
 import { ActionSchemas } from '../src/campaign/action-schemas';
 import { ModuleParser } from '../src/lang/module-parser';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Message } from '../web/engine/protocol';
+import type { Message } from '../src/creation/protocol';
 import { SaveCodec } from '../web/engine/save-codec';
 
 // A failure is said, not taken for nothing (the architecture review's M8): a save slot that would not read vanished

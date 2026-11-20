@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { Creation } from '../web/engine/creation';
-import type { Frame, Member, Request } from '../web/engine/protocol';
+import type { Frame, Member, Request } from '../src/creation/protocol';
 
 // While the player reads the creation page, the start is made ready for the choices as they stand (EngineHost.prepare):
 // Begin asking the same takes it up, and does not start again; Begin asking anything else starts afresh, for what it

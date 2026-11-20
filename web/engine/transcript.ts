@@ -2,7 +2,7 @@ import { Narration } from '../../src/presentation/narration';
 import { Narrator } from '../../src/presentation/narrator';
 import type { ActionFeedback } from '../../src/presentation/action-feedback';
 import type { CampaignEvent } from '../../src/campaign/campaign';
-import type { Entry } from './protocol';
+import type { Entry } from '../../src/creation/protocol';
 import { Voice } from '../../src/narrative/voice';
 
 export interface Said {

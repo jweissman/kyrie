@@ -12,7 +12,7 @@ import type { BundleSource } from '../../src/campaign/bundle-source';
 import { ModuleBundle, type CampaignManifest } from '../../src/campaign/module-bundle';
 import { Scenarios } from '../scenarios';
 import { Origins } from '../../src/world/origins';
-import type { Catalog, CompanyView, Member, Setting } from './protocol';
+import type { Catalog, CompanyView, Member, Setting } from '../../src/creation/protocol';
 import { CreatureSchema } from '../../src/creature';
 import { CharacterSheets } from '../../src/presentation/character-sheet';
 import { Fighting } from '../../src/rules/fighting';
@@ -20,8 +20,8 @@ import { Creation as RulesCreation } from '../../src/rules/creation';
 import { MechanicsText } from '../../src/presentation/mechanics-text';
 import type { Trait } from '../../src/rules/catalog-schema';
 import { ProtagonistNames } from '../../src/world/protagonist-names';
-import { FirstSpells } from './first-spells';
-import { CardLines } from './card-lines';
+import { FirstSpells } from '../../src/creation/first-spells';
+import { CardLines } from '../../src/creation/card-lines';
 import { CompanyChapters } from '../../src/handbook/phb-company';
 
 

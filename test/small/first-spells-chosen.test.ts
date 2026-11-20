@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import { CreationDefaults } from '../../web/engine/creation-defaults';
-import { FirstSpells } from '../../web/engine/first-spells';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import { CreationDefaults } from '../../src/creation/creation-defaults';
+import { FirstSpells } from '../../src/creation/first-spells';
 import { Content } from '../../src/content';
-import type { Setting } from '../../web/engine/protocol';
+import type { Setting } from '../../src/creation/protocol';
 
 // A caster's first spells chosen in creation, all at once (the owner, 18 November: "a multiselect is really the only
 // path forward … you shouldn't have to page through all the spells three at a time"; OR-93 had asked them a step

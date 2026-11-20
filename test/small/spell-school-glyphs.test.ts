@@ -6,8 +6,8 @@ import { AbilityRows } from '../../src/ui/ability-rows';
 import { EncyclopediaHtml } from '../../src/handbook/encyclopedia-html';
 import type { CombatScreen } from '../../src/ui/screen-types';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 
 // The schools' and domains' emblems drawn wherever a spell or a school is shown (the owner, 18 November, OR-92: "we
 // have glyphs/icons for the spell schools and we don't surface those in the menu or in the display area"): a spell by

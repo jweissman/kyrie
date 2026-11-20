@@ -1,5 +1,5 @@
 import { useRef, type CSSProperties, type MouseEvent } from 'react';
-import type { Catalog } from '../../engine/protocol';
+import type { Catalog } from '../../../src/creation/protocol';
 import { SkyCanvas } from './sky-canvas';
 import { SkyTexture } from './sky-texture';
 

@@ -4,7 +4,7 @@ import { Guidance } from './guidance';
 import { ChoiceTree } from '../../src/ui/choice-tree';
 import { SceneModel, type Scene } from '../../src/ui/scene';
 import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import type { Glance } from '../../src/presentation/glance-types';
 import type { Travel } from './reader-app';
 import { Words } from '../../src/presentation/words';

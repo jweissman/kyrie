@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { CreationState } from '../web/engine/engine-creation';
-import type { CreationStep } from '../web/engine/creation-flow';
-import type { Frame, Setting } from '../web/engine/protocol';
+import type { CreationStep } from '../src/creation/creation-flow';
+import type { Frame, Setting } from '../src/creation/protocol';
 import { TerminalCreation } from '../src/cli/terminal-creation';
 import type { Asking } from '../src/cli/terminal-input';
 

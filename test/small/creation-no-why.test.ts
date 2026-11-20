@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 
 // Where a life begins is the world's, never a pick (OB-16; the owner, 17 November: "remove the abstract origin-quest
 // selection in favor of diegetic starting circumstances"): no step of the making asks why the life came, at any point

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Conversation } from '../../web/reader/conversation';
-import type { Frame } from '../../web/engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import type { Choice } from '../../src/ui/choice-list';
 
 // What the company learns in a talk is set apart on the page as learned, by what the narrator says it is (the

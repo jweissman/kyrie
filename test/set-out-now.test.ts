@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import { PlaySession } from '../src/session/play-session';
 import { Digest } from '../src/session/digest';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 
 // OR-120, OR-121: Set out now in under a second from the click to the first playable frame. The country a new game
 // will begin in is drawn while the title shows (ahead, by the seed the game will use), and the start Set out now asks

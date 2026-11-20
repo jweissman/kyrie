@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
-import { CreationRules } from '../../web/engine/creation-rules';
+import { CreationRules } from '../../src/creation/creation-rules';
 import { ReaderOpening } from '../../web/reader/reader-opening';
-import type { Member } from '../../web/engine/protocol';
+import type { Member } from '../../src/creation/protocol';
 import type { ReaderApp } from '../../web/reader/reader-app';
 
 // The one made sets out with the weapon creation showed them with (the second blind playtest, 15 November: "A battleaxe

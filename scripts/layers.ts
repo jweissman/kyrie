@@ -2,9 +2,9 @@
 // The layers as logical units, mechanically held (MT-16; the owner, 19 November, night: "force logical units we can
 // mechanically verify nothing imports inaccurately", a `packages/kyr` the eventual shape, not now). Four units, each
 // importing only from those beneath it: Kyr the language (src/lang); the runtime (campaign, rules, the engine's own
-// files); a generic player that knows no setting or scenario (session, presentation, ui, narrative, web/engine); and
+// files); a generic player that knows no setting or scenario (session, presentation, ui, narrative, creation); and
 // the setting's modules (world, canon, paintings, handbook, registry, data). The clients (src/cli, src/autoplay,
-// web/reader) stand over them all. Every import that goes the wrong way is an edge; today's are kept in
+// web/engine, web/reader) stand over them all. Every import that goes the wrong way is an edge; today's are kept in
 // doc/architecture/mission-22/layers-baseline.json, and test/small/layers fails on a new one, or on one gone that the
 // baseline still lists (so that it only shrinks, and on purpose).
 //   bun scripts/layers.ts            the edges by kind, with counts
@@ -27,11 +27,17 @@ export class Layers {
     if (/^src\/(world|canon|paintings|handbook|registry)\//.test(path)
       || path.startsWith('data/') || path === 'src/generation-setting.ts') { return 'setting'; }
     if (/^src\/(campaign|rules)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
-    if (/^src\/(session|presentation|ui|narrative)\//.test(path) || path.startsWith('web/engine/')) {
-      return 'player';
-    }
+    // Creation is the player's (MT-16, S5): the making of a life as a flow of questions (CreationFlow and its entries,
+    // spells, defaults, rules and cards, the first choice) and the protocol the engine and the page speak, moved out
+    // of web/engine so that the terminal (src/cli) and the page import one model, which imports no client.
+    if (/^src\/(session|presentation|ui|narrative|creation)\//.test(path)) { return 'player'; }
     // Autoplay is a client: a robot that drives the player as someone at the page would, over a world it draws,
-    // imported only by the clients (src/cli/reach-tool.ts), and no player imports it (MT-16).
+    // imported only by the clients (src/cli/reach-tool.ts), and no player imports it (MT-16). And web/engine is the
+    // browser's composition root (MT-16, S5): the worker and its host, which wire a campaign or a drawn country, the
+    // session, the presentation and the page's scenarios into one game (engine-host, engine-worker, engine-starts,
+    // engine-creation, engine-foresight, creation.ts, which composes a setting's companies, sky and drawn world for
+    // the page); and what the browser keeps of it (kept-game, parse-keep in IndexedDB, save-codec, transcript). Only
+    // the clients import it (src/cli, scripts, web/reader), as src/cli is the terminal's.
     if (/^src\/(cli|autoplay)\//.test(path) || path.startsWith('web/')) { return 'client'; }
     return undefined;
   }

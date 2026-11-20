@@ -3,7 +3,7 @@ import { Glyphs } from '../creation/glyphs';
 import type { Promoted } from '../../../src/presentation/glance-types';
 import { Guidance } from '../guidance';
 import type { Screen } from '../../../src/ui/screen-types';
-import type { Frame } from '../../engine/protocol';
+import type { Frame } from '../../../src/creation/protocol';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import { Typography } from '../../../src/presentation/typography';

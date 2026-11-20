@@ -2,7 +2,7 @@ import { News, type Item } from './news';
 import { MapView } from './map-view';
 import { Component, type ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
-import type { Catalog, CompanyView, Entry, Frame, Leaf, Member, Message, Setting } from '../engine/protocol';
+import type { Catalog, CompanyView, Entry, Frame, Leaf, Member, Message, Setting } from '../../src/creation/protocol';
 import { EngineClient } from './engine-client';
 import { JourneyCourse } from './journey-course';
 import { MenuModel, type Menu, type View } from './menu-model';

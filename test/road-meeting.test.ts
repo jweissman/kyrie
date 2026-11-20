@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Frame, Member } from '../web/engine/protocol';
+import type { Frame, Member } from '../src/creation/protocol';
 
 // Someone met on the way in, with something that wants deciding (the owner, 7 November: a decision on the road that
 // reveals your character early, diegetically): the opening sets them apart before the first place, with what can be

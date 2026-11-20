@@ -1,4 +1,4 @@
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from '../../src/presentation/words';

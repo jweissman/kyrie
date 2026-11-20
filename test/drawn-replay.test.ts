@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Frame } from '../web/engine/protocol';
+import type { Frame } from '../src/creation/protocol';
 import type { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 

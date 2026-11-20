@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../web/engine/creation';
-import { CreationRules } from '../web/engine/creation-rules';
+import { CreationRules } from '../src/creation/creation-rules';
 import { Fighting } from '../src/rules/fighting';
 import { Checks } from '../src/rules/checks';
 import type { Creature } from '../src/creature';
-import type { Member } from '../web/engine/protocol';
+import type { Member } from '../src/creation/protocol';
 
 // Creation says what a choice does by the rules (the owner's interim report: "+2 in a fight" explained nothing, and a
 // warrior was offered a longsword or a battleaxe): the numbers it says are the ones the fight and the checks use; a

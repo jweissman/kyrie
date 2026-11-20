@@ -9,7 +9,7 @@ import { ModuleParser } from '../src/lang/module-parser';
 import { World } from '../src/lang/world';
 import { Membership } from '../src/campaign/membership';
 import type { Campaign } from '../src/campaign/campaign';
-import type { Member } from '../web/engine/protocol';
+import type { Member } from '../src/creation/protocol';
 
 // How the protagonist presents, chosen at creation (the owner, 2026-10-30: a mechanism for the sex of the one who
 // plays), is the world's: the company that is them alone is spoken of in their words, the narrator says them, and

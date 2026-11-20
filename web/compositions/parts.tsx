@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { Choice } from '../../src/ui/choice-list';
 import { Typography } from '../../src/presentation/typography';
 import type { SceneSubject } from '../../src/ui/scene';
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import type { Offer } from './offer';
 import type { ProtoState, Recorded } from './proto';
 

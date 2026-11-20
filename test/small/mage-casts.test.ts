@@ -7,8 +7,8 @@ import { CombatModel } from '../../src/ui/combat-model';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { TerminalFight } from '../../src/cli/terminal-fight';
 import { Creation } from '../../web/engine/creation';
-import { CreationFlow } from '../../web/engine/creation-flow';
-import type { Setting } from '../../web/engine/protocol';
+import { CreationFlow } from '../../src/creation/creation-flow';
+import type { Setting } from '../../src/creation/protocol';
 import type { Choice } from '../../src/ui/choice-list';
 import type { Asking } from '../../src/cli/terminal-input';
 

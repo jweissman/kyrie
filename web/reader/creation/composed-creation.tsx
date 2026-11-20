@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
-import type { CreationStep } from '../../engine/creation-flow';
+import type { CreationStep } from '../../../src/creation/creation-flow';
 import { Typography } from '../../../src/presentation/typography';
 import { PressGuard } from '../press-guard';
 import { ComposedRow } from './composed-row';

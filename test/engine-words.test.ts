@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Entry } from '../web/engine/protocol';
+import type { Entry } from '../src/creation/protocol';
 import { ChoiceList } from '../src/ui/choice-list';
 import type { Screen } from '../src/ui/screen-types';
 

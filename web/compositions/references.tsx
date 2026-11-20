@@ -1,7 +1,7 @@
 import type { Screen } from '../../src/ui/screen-types';
 import { Typography } from '../../src/presentation/typography';
 import { Atlas } from '../reader/atlas';
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 import { Words } from '../../src/presentation/words';
 
 // What can be looked up rather than done, the same for every composition, which decides where and when it shows:

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Message } from '../web/engine/protocol';
+import type { Message } from '../src/creation/protocol';
 import type { PlaySession } from '../src/session/play-session';
 import { KeptGame } from '../web/engine/kept-game';
 import { SaveCodec } from '../web/engine/save-codec';

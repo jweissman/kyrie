@@ -7,7 +7,7 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { EngineHost } from '../web/engine/engine-host';
 import { Creation } from '../web/engine/creation';
-import type { Frame, Message } from '../web/engine/protocol';
+import type { Frame, Message } from '../src/creation/protocol';
 import type { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { SiteBuild } from '../src/cli/site-build';

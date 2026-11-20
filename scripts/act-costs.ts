@@ -19,7 +19,7 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { EngineHost } from '../web/engine/engine-host';
-import type { Message } from '../web/engine/protocol';
+import type { Message } from '../src/creation/protocol';
 import type { PlaySession } from '../src/session/play-session';
 import { BeforeRooms } from '../test/support/before-rooms';
 import { WorldReads } from '../src/lang/world-reads';

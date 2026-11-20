@@ -19,7 +19,7 @@ what, read [verification.md](verification.md); for what is open, read [the regis
 1. **A command** is chosen by its id (a page's act, a terminal's number, a spec's label through `Journey`).
    `PlaySession` (`src/session/play-session.ts`) performs it on the `Campaign` (`src/campaign`). In the browser this
    happens in a worker (`web/engine/engine-worker.ts`, `engine-host.ts`), behind the message protocol in
-   `web/engine/protocol.ts`.
+   `src/creation/protocol.ts`.
 2. **The world changes.** `World` (`src/lang/world.ts`) is immutable: every change is a new world from `apply`. The
    campaign runs each watch: people act on their plans, rules and events fire in authored order, and fights resolve
    in `src/battle.ts` with the rules in `src/rules`.
@@ -53,7 +53,7 @@ what, read [verification.md](verification.md); for what is open, read [the regis
      - signs (way arrows, marks, the hold, sensed and idle) and each emblem's character from `Signs`
        (`src/presentation/signs.ts`);
      - how an aim is said from `AimSaid`;
-     - character creation from `CreationFlow` (`web/engine/creation-flow.ts`).
+     - character creation from `CreationFlow` (`src/creation/creation-flow.ts`).
 
      `test/small/signs-shared` and `terminal-colour` hold the two clients to them.
 
@@ -70,11 +70,12 @@ what, read [verification.md](verification.md); for what is open, read [the regis
 | `src/presentation` | what the player is told and shown: narrator, glance, aims, perception, `Emphasis`, `Signs` |
 | `src/ui` | renderer-independent models: screen, choices, promotion, lenses, maps and routes, combat |
 | `src/narrative` | voice tables and how a fight is told |
+| `src/creation` | the making of a life as a flow of questions (CreationFlow, its entries, spells, rules and cards), and the protocol the engine and the page speak |
 | `src/paintings` | which painting shows whom or what |
 | `src/registry`, `src/handbook` | the Orsino registry and its adaptation; the generated PHB, DMG and MM, and the Encyclopedia |
 | `src/autoplay` | the laboratory: invariants every step keeps, failures shrunk |
 | `src/cli` | `bin/kyrie` (`kyrie.ts`): the terminal client and every authoring and checking tool |
-| `web/engine`, `web/reader` | the browser: the engine in a worker; the page and its stage |
+| `web/engine`, `web/reader` | the browser: the engine in a worker, its composition root (a client, MT-16); the page and its stage |
 | `data/rules` | the rule modules every world loads (passages, needs, people, elements…) |
 | `data/imbar` | the canon: Imbar, its planes and their thresholds, the House of Doors, installed first in every world with the same ids |
 | `data/catalog`, `data/generation`, `data/adventures`, `data/campaigns` | catalogs, Deem tables, authored adventures, campaigns; [data/README.md](../../data/README.md) has the rest |

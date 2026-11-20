@@ -1,7 +1,7 @@
 import { Attending, type Attention } from '../../src/ui/attention';
 import { ChoiceList, type Choice } from '../../src/ui/choice-list';
 import { SceneModel, type Scene, type SceneSubject } from '../../src/ui/scene';
-import type { Frame } from '../engine/protocol';
+import type { Frame } from '../../src/creation/protocol';
 
 // What a beat offers, the same for every composition: who and what is here, what is being attended to, and what can
 // be done now, in groups, each group about one subject or one kind of doing. Built from the reader's own scene and

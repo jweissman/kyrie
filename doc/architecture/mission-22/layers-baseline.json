@@ -2,9 +2,8 @@
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
   "runtime -> setting": 69,
-  "setting -> player": 13,
-  "player -> setting": 88,
-  "player -> client": 2
+  "player -> setting": 78,
+  "setting -> player": 13
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
@@ -39,6 +38,11 @@
   "src/content.ts -> src/canon/canon-vocabulary",
   "src/content.ts -> src/canon/trait-grants",
   "src/content.ts -> src/generation-setting",
+  "src/creation/creation-entries.ts -> src/canon/canon",
+  "src/creation/creation-entries.ts -> src/handbook/phb-company",
+  "src/creation/creation-entries.ts -> src/handbook/text",
+  "src/creation/creation-flow.ts -> src/handbook/phb-company",
+  "src/creation/first-spells.ts -> src/canon/canon",
   "src/creature-store.ts -> src/canon/canon",
   "src/creature-variants.ts -> data/catalog/orsino/variants.json",
   "src/creature-variants.ts -> data/catalog/variations.json",
@@ -161,23 +165,6 @@
   "src/world/community/community-writer.ts -> src/narrative/voice",
   "src/world/drawn-world.ts -> src/session/play-session",
   "src/world/region-news.ts -> src/narrative/voice",
-  "src/world/region-traffic.ts -> src/narrative/voice",
-  "web/engine/creation-entries.ts -> src/canon/canon",
-  "web/engine/creation-entries.ts -> src/handbook/phb-company",
-  "web/engine/creation-entries.ts -> src/handbook/text",
-  "web/engine/creation-flow.ts -> src/handbook/phb-company",
-  "web/engine/creation.ts -> data/campaigns/companies.json",
-  "web/engine/creation.ts -> data/imbar/sky.json",
-  "web/engine/creation.ts -> src/canon/canon",
-  "web/engine/creation.ts -> src/handbook/phb-company",
-  "web/engine/creation.ts -> src/world/drawn-world",
-  "web/engine/creation.ts -> src/world/origins",
-  "web/engine/creation.ts -> src/world/protagonist-names",
-  "web/engine/creation.ts -> src/world/world-assembler",
-  "web/engine/creation.ts -> web/scenarios",
-  "web/engine/engine-host.ts -> src/paintings/company-portraits",
-  "web/engine/engine-host.ts -> src/world/frontier",
-  "web/engine/engine-host.ts -> web/scenarios",
-  "web/engine/first-spells.ts -> src/canon/canon"
+  "src/world/region-traffic.ts -> src/narrative/voice"
  ]
 }
