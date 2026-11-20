@@ -11,9 +11,10 @@ export class GrammarRecipes {
   static readonly dir = 'src/lang';
   // Each grammar as its recipe, built from the sources as the parser had built it.
   static built(): Record<string, string> {
-    const core = readFileSync(`${this.dir}/Kyr.ohm`, 'utf8'), abilities = readFileSync(`${this.dir}/Abilities.ohm`, 'utf8');
-    return { 'Kyr.recipe.json': this.recipe(ohm.grammar(core)),
-      'Abilities.recipe.json': this.recipe(ohm.grammars(`${core}\n${abilities}`).KyrAbilities!) };
+    const [core, abilities, quick] = ['Kyr', 'Abilities', 'KyrQuick'].map(n => readFileSync(`${this.dir}/${n}.ohm`, 'utf8'));
+    return { 'Kyr.recipe.json': this.recipe(ohm.grammar(core!)),
+      'Abilities.recipe.json': this.recipe(ohm.grammars(`${core}\n${abilities}`).KyrAbilities!),
+      'KyrQuick.recipe.json': this.recipe(ohm.grammars(`${core}\n${quick}`).KyrQuick!) };
   }
   // ohm writes a grammar's recipe; its typings do not declare it.
   private static recipe(grammar: ohm.Grammar): string {

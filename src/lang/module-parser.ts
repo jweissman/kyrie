@@ -19,7 +19,7 @@ type Node = ohm.Node;
 type AstNode = ohm.Node & { ast(): unknown };
 type Field = { field: string; value: unknown };
 export class ModuleParser {
-  private static readonly grammar = Grammars.kyr;
+  private static readonly grammar = Grammars.quick;
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
     Place: ModuleParser.Place, PlaceParent: ModuleParser.PlaceParent, PlaceGrid: ModuleParser.PlaceGrid,
     PlaceAlias: ModuleParser.PlaceAlias, PlaceShelter: ModuleParser.text, PlaceDepth: ModuleParser.PlaceDepth,
@@ -96,14 +96,14 @@ export class ModuleParser {
     const key = `${Vocabularies.seen(text)}\u0000${text}`, known = ParseCache.get(key), began = performance.now();
     if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text);
-    if (match.failed()) { throw new Error(`Invalid Kyr module: ${match.message}`); }
+    if (match.failed()) { throw new Error(`Invalid Kyr module: ${Grammars.why(text)}`); }
     const module = ModuleParser.semantics(match).ast() as Module;
     ParseCache.set(key, module, performance.now() - began);
     return module;
   }
   static predicate(text: string): Predicate {
     const match = ModuleParser.grammar.match(text, 'Predicate');
-    if (match.failed()) { throw new Error(`Invalid predicate: ${match.message}`); }
+    if (match.failed()) { throw new Error(`Invalid predicate: ${Grammars.why(text, 'Predicate')}`); }
     return ModuleParser.semantics(match).ast() as Predicate;
   }
   static list(node: ohm.Node): unknown[] {

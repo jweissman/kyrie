@@ -1,0 +1,16 @@
+// Kyr as written (Kyr.ohm), read faster: the four rules it reads a character at a time each tried as ranges of
+// characters first, which ohm matches in one step where a rule, a lookahead and `any` were several (the drawn
+// country's texts, a megabyte and a half, had been 3.4 s of a cold start's reading: OR-121). Each accepts just the
+// characters its rule as written does, so a text matches here exactly where it matches Kyr, every rule outside these
+// four the same, and the parser reads it into the same module (test/small/kyr-quick). A text that does not match is
+// told why by Kyr as written, so its complaint is the one it was.
+KyrQuick <: Kyr {
+  // Any character but a quote or a line's end, or an escape: the ranges are of all but `"`, `\`, `\n` and `\r`.
+  string := "\"" ("\u005D".."\u{10FFFF}" | "\u0023".."\u005B" | " " | "!" | escaped
+    | "\u0000".."\u0009" | "\u000B".."\u000C" | "\u000E".."\u001F")* "\""
+  // Any character but a line's end.
+  comment := "//" ("\u000B".."\u{10FFFF}" | "\u0000".."\u0009")*
+  // A letter as Kyr says one (any of Unicode's), the commonest first.
+  identPart := "a".."z" | "_" | digit | "A".."Z" | "-" | letter
+  ident := ("a".."z" | "A".."Z" | letter) identPart*
+}
