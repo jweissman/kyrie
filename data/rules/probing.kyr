@@ -15,6 +15,16 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
     On success { Assert tried(target, looking). }
     Result "You look closely at {target}.".
   }
+  // A way down that does not come back up is looked down first, from its top, by any who can see (SI-09: a one-way
+  // chute was gone down blind): what lies below, and whether anything moves there.
+  Action look_down(actor: group, way: passage, site: place, below: place) "Look down {way} first" {
+    Time 2 minutes.
+    Requires able(actor) and company(actor) and at(actor, site) and connects(way, site, below)
+      and not connects(way, below, site) and visibleTo(way, actor) and not benighted(actor) and not tried(way, looking).
+    On success { Assert tried(way, looking). }
+    Result "You look down {way}, as far as you can see: {below} below, and something moving down there. There is no climbing back up it." when at(?other, below) and able(?other) and not peaceable(?other) and distinct(?other, actor).
+    Result "You look down {way}, as far as you can see: {below} below, and nothing moving. There is no climbing back up it.".
+  }
   Action prod(actor: group, target: entity, site: place) "Prod {target} with the pole" {
     Time 2 minutes.
     Requires able(actor) and at(actor, site) and probeable(target) and reaches(actor, target) and not benighted(actor)
