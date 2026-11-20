@@ -1,6 +1,6 @@
 import { Canon } from './canon';
 import { ItemCatalog } from '../item-catalog';
-import type { ItemKind, Species } from './schema';
+import type { ItemKind, Species } from '../rules/catalog-schema';
 import { parseAbility } from '../lang/parse';
 import type { KindsMade, LocalKindSpec, LocalSpeciesSpec } from '../lang/vocabulary';
 

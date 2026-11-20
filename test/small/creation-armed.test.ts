@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
-import { CreationRules } from '../../web/reader/creation-rules';
+import { CreationRules } from '../../web/engine/creation-rules';
 import { ReaderOpening } from '../../web/reader/reader-opening';
 import type { Member } from '../../web/engine/protocol';
 import type { ReaderApp } from '../../web/reader/reader-app';

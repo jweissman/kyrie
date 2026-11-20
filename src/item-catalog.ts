@@ -1,6 +1,6 @@
 import { CanonRuntime, type RuntimeItem } from './canon/canon-runtime';
 import { Canon } from './canon/canon';
-import type { HookKey, Hooks, Statistics } from './canon/schema';
+import type { HookKey, Hooks, Statistics } from './rules/catalog-schema';
 import { StatExpressions } from './rules/stat-expressions';
 import { parseAbility, type ArenaAbility, type Effect } from './lang/parse';
 import { ModifierSet, type Modifiers } from './rules/modifiers';

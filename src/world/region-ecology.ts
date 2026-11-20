@@ -3,7 +3,7 @@ import { Counted } from '../counted';
 import { Expressions } from '../expressions';
 import { GenerationSetting } from '../generation-setting';
 import type { Region, Site } from './region-writer';
-import type { Species } from '../canon/schema';
+import type { Species } from '../rules/catalog-schema';
 import { Draw } from './land/draw';
 import { CreatureVariants } from '../creature-variants';
 import { RegionWeather } from './region-weather';

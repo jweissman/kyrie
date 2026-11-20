@@ -6,7 +6,7 @@ import { CanonValidation } from '../src/canon/canon-validation';
 import { CatalogFields } from '../src/canon/catalog-fields';
 import { Content } from '../src/content';
 import { Creation } from '../src/rules/creation';
-import type { Species } from '../src/canon/schema';
+import type { Species } from '../src/rules/catalog-schema';
 
 // The honest catalog (the SRD adaptation briefing, increment A, §14): what a record says is what Kyr does with it.
 describe('a field nothing reads', () => {

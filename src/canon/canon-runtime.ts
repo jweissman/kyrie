@@ -1,7 +1,7 @@
 import { parseAbility, type Amount, type Area, type ArenaAbility } from '../lang/parse';
 import { Canon, type Family } from './canon';
 import { Amounts } from '../rules/amounts';
-import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats } from './schema';
+import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats } from '../rules/catalog-schema';
 
 // Where a perk is asked about: the holder's environment, and the weapon it wields.
 export interface PerkAt { environment?: string; weapon?: { weight?: string; missile?: boolean } }

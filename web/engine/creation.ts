@@ -18,7 +18,7 @@ import { CharacterSheets } from '../../src/presentation/character-sheet';
 import { Fighting } from '../../src/rules/fighting';
 import { Creation as RulesCreation } from '../../src/rules/creation';
 import { MechanicsText } from '../../src/presentation/mechanics-text';
-import type { Trait } from '../../src/canon/schema';
+import type { Trait } from '../../src/rules/catalog-schema';
 import { ProtagonistNames } from '../../src/world/protagonist-names';
 import { FirstSpells } from './first-spells';
 import { CardLines } from './card-lines';

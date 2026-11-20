@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { Content, type CreatureGenerationContext } from '../src/content';
 import { SpellSelection } from '../src/rules/spell-selection';
-import type { Ability } from '../src/canon/schema';
+import type { Ability } from '../src/rules/catalog-schema';
 
 // The spell draw is each spell's own (doc/architecture/mission-22/srd-proving-cases.md, case 11): a drawn caster's
 // spells are the least of their options ranked by a hash of its seed and each spell's id. So one spell added to a

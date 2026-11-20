@@ -1,4 +1,4 @@
-import type { Omissions, Source } from '../canon/schema';
+import type { Omissions, Source } from '../rules/catalog-schema';
 
 // The three references are views of the game's own definitions. Every entry carries a status that says how far the
 // game can actually play it:

@@ -3,7 +3,8 @@ import { Canon } from './canon';
 // The fields each catalog record may have (the SRD adaptation briefing, §14: unknown fields are errors at every
 // catalog boundary). A field Kyr does not read is refused as the canon loads, never carried inert: the unicorn's `dr`
 // and `resist` had sat in its record, read by nothing, while its card promised a defense it did not have. These lists
-// are the schema's (src/canon/schema.ts), kept beside it; a field added there is added here, or the catalog refuses it.
+// are the schema's (src/rules/catalog-schema.ts), kept with it; a field added there is added here, or the catalog
+// refuses it.
 const source = ['orsino', 'kyr', 'fidelity', 'notes', 'srd35', 'conversion'];
 const fields = {
   species: ['name', 'description', 'variantOf', 'type', 'kind', 'looks', 'material', 'requires', 'abundance', 'alone',

@@ -11,7 +11,7 @@ import geology from '../../data/catalog/geology.json';
 import weather from '../../data/generation/tables/weather.json';
 import { Canon } from './canon';
 import { CastingLevel } from '../rules/casting-level';
-import type { Modifiers, Species } from './schema';
+import type { Modifiers, Species } from '../rules/catalog-schema';
 import { Amounts } from '../rules/amounts';
 import { StatExpressions } from '../rules/stat-expressions';
 import { CatalogFields } from './catalog-fields';

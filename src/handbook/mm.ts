@@ -1,6 +1,6 @@
 import { Amounts } from '../rules/amounts';
 import { Defenses } from '../rules/defenses';
-import type { Species } from '../canon/schema';
+import type { Species } from '../rules/catalog-schema';
 import { Canon } from '../canon/canon';
 import { CanonValidation } from '../canon/canon-validation';
 import { Advancement } from '../rules/advancement';

@@ -8,7 +8,7 @@ import { Summoning } from './summoning';
 import { Content } from './content';
 import { Canon } from './canon/canon';
 import { Perks } from './rules/perks';
-import type { Condition, HookKey } from './canon/schema';
+import type { Condition, HookKey } from './rules/catalog-schema';
 import type { Area, Effect } from './lang/parse';
 import type { Expressions } from './expressions';
 import type { CombatEvent, Fighter } from './model';

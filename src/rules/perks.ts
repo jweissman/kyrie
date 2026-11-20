@@ -1,6 +1,6 @@
 import { Canon } from '../canon/canon';
 import { CanonRuntime } from '../canon/canon-runtime';
-import type { Bonuses, Perk, Triggers } from '../canon/schema';
+import type { Bonuses, Perk, Triggers } from './catalog-schema';
 
 // Where and with what a perk is asked about: the holder's environment and wielded weapon.
 export interface PerkContext { environment?: string; weapon?: { weight?: string; missile?: boolean } }

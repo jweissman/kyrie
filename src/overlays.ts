@@ -6,7 +6,7 @@ import type { Attribute, Creature } from './creature';
 import type { Instance } from './lang/module';
 import type { CampaignInstance } from './campaign/definition';
 import { ModuleWriter } from './lang/module-writer';
-import type { ItemKind } from './canon/schema';
+import type { ItemKind } from './rules/catalog-schema';
 
 export interface Overlay {
   role: 'background' | 'profession'; name: string;

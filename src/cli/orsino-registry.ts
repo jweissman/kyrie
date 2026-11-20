@@ -11,7 +11,7 @@ import { CatalogLedger } from '../registry/catalog-ledger';
 import { OrsinoBestiary } from '../registry/orsino-bestiary';
 import { OrsinoWorld } from '../registry/orsino-world';
 import { OrsinoVariants } from '../registry/orsino-variants';
-import type { Species } from '../canon/schema';
+import type { Species } from '../rules/catalog-schema';
 import type { RegistryEntry } from '../registry/orsino-extract';
 
 type Snapshot = { entries: RegistryEntry[] };

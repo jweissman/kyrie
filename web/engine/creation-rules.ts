@@ -1,5 +1,5 @@
-import { BackgroundCatalog } from '../../src/canon/background-catalog';
-import type { Catalog, Member } from '../engine/protocol';
+import { BackgroundCatalog } from '../../src/rules/background-catalog';
+import type { Catalog, Member } from './protocol';
 
 type Calling = Catalog['callings'][number];
 type Weapon = Calling['weapons'][number];
@@ -7,7 +7,8 @@ type Weapon = Calling['weapons'][number];
 // What a choice at creation is by the rules, said exactly rather than as "+2 in a fight": what a quality's score adds
 // to a blow and to a check, and what else rests on it; what a weapon does, what it is struck with, and what that
 // comes to at the score you have. Fighting adds round((score − 10) / 2) (Orsino's), a check ⌊(score − 10) / 2⌋, so a
-// score can add one to a blow and nothing to a roll (see Fighting, Checks).
+// score can add one to a blow and nothing to a roll (see Fighting, Checks). The player's (MT-16): creation's own
+// arithmetic, imported by the engine's creation and the page alike, so not the page's.
 export class CreationRules {
   static fight(score: number): number { return Math.round((score - 10) / 2) || 0; }
   static check(score: number): number { return Math.floor((score - 10) / 2); }

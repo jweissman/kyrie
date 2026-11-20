@@ -1,5 +1,5 @@
 import { Canon } from './canon';
-import type { Trait } from './schema';
+import type { Trait } from '../rules/catalog-schema';
 import type { Creature } from '../creature';
 import { SpellSelection } from '../rules/spell-selection';
 import { Creation } from '../rules/creation';

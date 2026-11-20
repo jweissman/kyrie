@@ -6,7 +6,7 @@ import { FieldResolver } from '../src/campaign/field-resolver';
 import { FieldUse } from '../src/campaign/field-use';
 import { CreatureStore } from '../src/creature-store';
 import { Content } from '../src/content';
-import type { Ability } from '../src/canon/schema';
+import type { Ability } from '../src/rules/catalog-schema';
 
 // Recharge declared on abilities (engine-pressure.md, section 5; recovery.md's rule 2 as data): an ability says what
 // gives its uses a day back, any rest (as saying nothing does), only a night (an inn's bed, a camp: not six hours'

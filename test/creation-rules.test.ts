@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../web/engine/creation';
-import { CreationRules } from '../web/reader/creation-rules';
+import { CreationRules } from '../web/engine/creation-rules';
 import { Fighting } from '../src/rules/fighting';
 import { Checks } from '../src/rules/checks';
 import type { Creature } from '../src/creature';

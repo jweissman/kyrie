@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
-import { BackgroundCatalog } from '../src/canon/background-catalog';
+import { BackgroundCatalog } from '../src/rules/background-catalog';
 import { SettlementWriter } from '../src/world/settlement-writer';
 
 // A trade is called as the one who has it is (the owner's play of 10 November: a man could be made an abbess): one

@@ -1,7 +1,7 @@
 import { Canon } from '../canon/canon';
 import { CanonRuntime } from '../canon/canon-runtime';
 import { CastingLevel } from './casting-level';
-import type { Attribute } from '../canon/schema';
+import type { Attribute } from './catalog-schema';
 import type { Fighter } from '../model';
 
 // The values an actor's expressions read (Effects.context): Orsino's #str, #wis are the record's scores; #level is

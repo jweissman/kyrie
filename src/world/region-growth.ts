@@ -6,7 +6,7 @@ import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
 import { RegionRoads } from './region-roads';
 import type { Region } from './region-writer';
-import type { Plant } from '../canon/schema';
+import type { Plant } from '../rules/catalog-schema';
 
 // What grows wild in a country, where the land lets it: willows and meadowsweet where a road or a wood runs by water,
 // sphagnum in the fen, yarrow at the waysides of open country. Each is a stand at a place on the land, seen there,

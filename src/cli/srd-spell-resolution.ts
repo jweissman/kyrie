@@ -1,6 +1,6 @@
 import { Amounts } from '../rules/amounts';
 import { CanonRuntime } from '../canon/canon-runtime';
-import type { Ability } from '../canon/schema';
+import type { Ability } from '../rules/catalog-schema';
 
 // The measures of a spell's resolution beside its harm and save (proof-slices.md, step 1: the census had rewarded a
 // numerically tidy but behaviourally false migration): the save's difficulty, how it is aimed, and what it falls on.

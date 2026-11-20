@@ -9,7 +9,7 @@ import { ItemNames } from '../lang/item-names'; import { Passages } from './pass
 import { KnownNames } from './known-names';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
-import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../canon/background-catalog';
+import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../rules/background-catalog';
 import { ConditionSense } from '../canon/condition-sense';
 import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';

@@ -1,5 +1,5 @@
 import type { Amount, Effect, Target } from '../lang/parse';
-import type { Ability, Bonuses, Condition, HookKey, Hooks, ItemKind, Omissions, Perk, Trait, Triggers } from '../canon/schema';
+import type { Ability, Bonuses, Condition, HookKey, Hooks, ItemKind, Omissions, Perk, Trait, Triggers } from '../rules/catalog-schema';
 import { ModifierSet, type Modifiers } from '../rules/modifiers';
 import type { RegistryEntry } from './orsino-extract';
 import { OrsinoGoods } from './orsino-goods';

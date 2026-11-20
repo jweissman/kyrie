@@ -1,4 +1,4 @@
-import type { Hooks, ItemKind, Omissions } from '../canon/schema';
+import type { Hooks, ItemKind, Omissions } from '../rules/catalog-schema';
 import type { Modifiers } from '../rules/modifiers';
 import type { Amount, Effect, Target } from '../lang/parse';
 import type { RegistryEntry } from './orsino-extract';

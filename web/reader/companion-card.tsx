@@ -1,4 +1,4 @@
-import { BackgroundCatalog } from '../../src/canon/background-catalog';
+import { BackgroundCatalog } from '../../src/rules/background-catalog';
 import type { ChangeEvent, MouseEvent } from 'react';
 import type { CompanyView, Member } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';

@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import type { Attribute, CharacterClass, Proficiencies } from '../canon/schema';
+import type { Attribute, CharacterClass, Proficiencies } from './catalog-schema';
 import { Fighting } from './fighting';
 import { Amounts } from './amounts';
 import { CanonRuntime } from '../canon/canon-runtime';

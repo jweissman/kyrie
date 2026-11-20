@@ -15,7 +15,7 @@ import type { Expressions } from './expressions';
 import type { ArenaAbility, Effect, Save } from './lang/parse';
 import type { Fighter } from './model';
 import { Fighting } from './rules/fighting';
-import type { HookKey } from './canon/schema';
+import type { HookKey } from './rules/catalog-schema';
 import { Canon } from './canon/canon';
 import { Perks } from './rules/perks';
 import { PerkTriggers } from './rules/perk-triggers';

@@ -1,7 +1,7 @@
 import { Canon } from '../canon/canon';
 import { CreatureVariants } from '../creature-variants';
 import { Creation } from '../rules/creation';
-import type { Attribute, Omissions, Species } from '../canon/schema';
+import type { Attribute, Omissions, Species } from '../rules/catalog-schema';
 import type { RegistryEntry } from './orsino-extract';
 import { OrsinoMonsters } from './orsino-monsters';
 import { OrsinoTranslate } from './orsino-translate';

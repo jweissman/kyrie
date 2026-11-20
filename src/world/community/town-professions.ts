@@ -1,4 +1,4 @@
-import { BackgroundCatalog } from '../../canon/background-catalog';
+import { BackgroundCatalog } from '../../rules/background-catalog';
 import { Likeness } from '../../paintings/likeness';
 import { Draw } from '../land/draw';
 import { Canon } from '../../canon/canon';

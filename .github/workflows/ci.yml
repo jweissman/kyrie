@@ -39,8 +39,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bun run lint
       - run: bun run typecheck
   # The player's contracts, first and on their own, so that a broken one says so in minutes rather than at the end
@@ -63,8 +63,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bun run test:intent
       - run: bun run test:honest
       # The rules on small worlds (test/small, Mission 21's fast loop): seconds, and the first to say a rule broke.
@@ -89,8 +89,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
       - run: bun test test/frame-browser.test.ts -t "820 by 1180" --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_BROWSER: "1" }
@@ -135,8 +135,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: |
           files=""
           if [ "${{ github.event_name }}" = "push" ]; then
@@ -167,8 +167,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bun test test/descent.test.ts test/all-in-one-world.test.ts --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_LONG: "1" }
       - if: always()
@@ -191,8 +191,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bin/kyrie lint
       - if: always()
         run: bin/kyrie lint --world a1 --world iscoed --world kite
@@ -216,8 +216,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
       - run: bun test --shard=${{ matrix.shard }}/3 $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_BROWSER: "1" }
@@ -242,8 +242,8 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
       - run: bun test test/reference-hour.test.ts
         env: { KYRIE_TOUR: "1", KYRIE_SHOTS: "${{ runner.temp }}/tour" }

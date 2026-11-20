@@ -13,7 +13,7 @@ import { RegionWriter } from '../src/world/region-writer';
 import { Herbals } from '../src/world/herbals';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import type { Region } from '../src/world/region-writer';
-import type { Plant, Species } from '../src/canon/schema';
+import type { Plant, Species } from '../src/rules/catalog-schema';
 
 // One record for each thing that lives, and one vocabulary of where (the owner, 5 November, late): plants in
 // data/catalog/plants.json, animals and monsters in their files, the kinds of country in data/catalog/habitats.json;

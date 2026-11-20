@@ -3,7 +3,7 @@ import concordance from '../../data/sources/srd35/concordance.json';
 import { Amounts } from '../rules/amounts';
 import { Lasting } from '../rules/lasting';
 import { Canon } from '../canon/canon';
-import type { Ability } from '../canon/schema';
+import type { Ability } from '../rules/catalog-schema';
 import type { Effect } from '../lang/parse';
 import { SpellResolution } from './srd-spell-resolution';
 

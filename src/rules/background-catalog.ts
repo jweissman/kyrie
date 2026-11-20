@@ -1,4 +1,4 @@
-import type { Background, Omissions } from './schema';
+import type { Background, Omissions } from './catalog-schema';
 
 type Channel = NonNullable<Background['contact']>['channel'];
 interface Table<T> { discriminator: string; groups: Record<string, T> }
@@ -35,7 +35,8 @@ export interface KyrProfession {
 
 // Backgrounds and professions, compiled from two sources: Orsino's backgroundModifier rows (scores, gold, class,
 // gear) and Kyr's Deem tables, which put each background in a kind and say what the kind means. Nothing is copied by
-// hand: a background differs from its kind only where an overlay says so.
+// hand: a background differs from its kind only where an overlay says so. The runtime's (MT-16): it reads only the
+// schema and the tables it is given, so the player's creation and the setting's towns both ask it.
 export class BackgroundCatalog {
   // What one of a trade is called by the pronouns they go by: she a woman's word, he a man's, they the word for one
   // who is neither; the trade's own name where it has no other.

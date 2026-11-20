@@ -1,7 +1,7 @@
 import { WorldVault } from './world-vault';
 import type { Catalog, CompanyView, Frame, Member, Request, Setting } from '../engine/protocol';
 import type { ReaderApp } from './reader-app';
-import { CreationRules } from './creation-rules';
+import { CreationRules } from '../engine/creation-rules';
 import { CreationDefaults } from '../engine/creation-defaults';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../engine/creation-flow';
 import type { CreationState } from '../engine/engine-creation';

@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import type { Trait } from '../canon/schema';
+import type { Trait } from './catalog-schema';
 import { Creation } from './creation';
 import { Spellcasting } from './spellcasting';
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
-import { BackgroundCatalog, type BackgroundTables, type OrsinoBackground } from '../src/canon/background-catalog';
+import { BackgroundCatalog, type BackgroundTables, type OrsinoBackground } from '../src/rules/background-catalog';
 import { Overlays } from '../src/overlays';
 import { Content } from '../src/content';
 import { buildSetting, Template } from 'deem';

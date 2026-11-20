@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import type { Trait } from '../canon/schema';
+import type { Trait } from './catalog-schema';
 
 // A member as a formation counts it: what it is and what it does.
 export interface FormationMember { raceId?: string; classId?: string }

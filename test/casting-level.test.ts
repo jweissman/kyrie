@@ -8,7 +8,7 @@ import { Expressions } from '../src/expressions';
 import { MechanicsText } from '../src/presentation/mechanics-text';
 import { Amounts } from '../src/rules/amounts';
 import { CastingLevel } from '../src/rules/casting-level';
-import type { Ability } from '../src/canon/schema';
+import type { Ability } from '../src/rules/catalog-schema';
 
 // The level a caster casts at (proof-slices.md, step 3): #castingLevel beside the encounter's #level, a calling's
 // level as it stands after any drain, a kind's own powers at its source Hit Dice; and one cap over it,

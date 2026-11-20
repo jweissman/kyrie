@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import type { Perk } from '../canon/schema';
+import type { Perk } from '../rules/catalog-schema';
 import { MechanicsText } from './mechanics-text';
 
 // What a perk does, said from what it is (its modifiers, bonuses, triggers and where it holds), so the words are the

@@ -1,6 +1,6 @@
 import { Canon } from '../../src/canon/canon';
 import { Content } from '../../src/content';
-import type { Trait } from '../../src/canon/schema';
+import type { Trait } from '../../src/rules/catalog-schema';
 import { SpellSelection } from '../../src/rules/spell-selection';
 import { SpellKinds } from '../../src/presentation/spell-kinds';
 import { SpellLines } from '../../src/presentation/spell-lines';

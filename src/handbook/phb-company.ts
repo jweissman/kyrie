@@ -1,4 +1,4 @@
-import type { Skill } from '../canon/schema';
+import type { Skill } from '../rules/catalog-schema';
 import { Canon } from '../canon/canon';
 import { PerkText } from '../presentation/perk-text';
 import { MechanicsText } from '../presentation/mechanics-text';
@@ -8,7 +8,7 @@ import { HandbookStatus, type Entry, type Section } from './model';
 import { HandbookText } from './text';
 import { PeopleFacts } from './phb-peoples';
 import { CanonValidation } from '../canon/canon-validation';
-import type { ItemKind } from '../canon/schema';
+import type { ItemKind } from '../rules/catalog-schema';
 import sky from '../../data/imbar/sky.json';
 
 // The Player's Handbook, first part: who can be in a company and what they bring. Every line is read from the

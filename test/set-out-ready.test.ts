@@ -6,7 +6,7 @@ import type { CreationChoice } from '../web/engine/creation-flow';
 import type { Message } from '../web/engine/protocol';
 import type { CreationState } from '../web/engine/engine-creation';
 import { Creation } from '../web/engine/creation';
-import { CreationRules } from '../web/reader/creation-rules';
+import { CreationRules } from '../web/engine/creation-rules';
 
 // OR-08: a life made through the engine's own making (EngineCreation) has its start made ready at each choice
 // (EngineStarts.readying), and Set out takes the one made ready for the life as it stands. Determinism: the game set

@@ -1,4 +1,4 @@
-import type { Attribute } from '../canon/schema';
+import type { Attribute } from './catalog-schema';
 
 // Something a condition does at the end of its holder's turn: Orsino's onTurnEnd damage or heal.
 // triggers: false, its harm sets off no condition by its kind (see Effect's).

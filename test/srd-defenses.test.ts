@@ -13,7 +13,7 @@ import { KindDefenses } from '../src/kind-defenses';
 import { CombatTelling } from '../src/ui/combat-telling';
 import type { Modifiers } from '../src/rules/modifiers';
 import type { CombatEvent, Fighter } from '../src/model';
-import type { Species } from '../src/canon/schema';
+import type { Species } from '../src/rules/catalog-schema';
 
 // Typed defenses with bypasses (the SRD adaptation briefing, §3), in their explicit order: immunity, the summed
 // fraction, the best flat resistance, the best reduction the blow does not pass; then regeneration at the turn's end,

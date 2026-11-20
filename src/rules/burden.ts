@@ -1,7 +1,7 @@
 import { Canon } from '../canon/canon';
 import { ItemCatalog } from '../item-catalog';
 import type { Creature } from '../creature';
-import type { ItemKind } from '../canon/schema';
+import type { ItemKind } from './catalog-schema';
 
 // What a member carries, and how much they can carry before it slows them. A kind of thing weighs what it says it
 // weighs (a module's own kind, "weighing 2"), else what its class of weapon or armour weighs, else what things of its

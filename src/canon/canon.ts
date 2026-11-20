@@ -31,11 +31,11 @@ import orsinoBackgrounds from '../../data/catalog/orsino/backgrounds.json';
 import professions from '../../data/catalog/professions.json';
 import forms from '../../data/catalog/forms.json';
 import { Defenses } from '../rules/defenses';
-import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type Forms, type KyrProfession } from './background-catalog';
+import { BackgroundCatalog, type BackgroundTables, type CompiledBackground, type Forms, type KyrProfession } from '../rules/background-catalog';
 import type {
   Ability, Ancestry, CharacterClass, Combat, Condition, Deity, Domain, Habitat, ItemKind, Plant, Procedure, Skill,
   Material, Overlay, Source, Species, Trait,
-} from './schema';
+} from '../rules/catalog-schema';
 
 export type Family = 'abilities' | 'conditions' | 'traits' | 'items' | 'plants' | 'species' | 'classes';
 

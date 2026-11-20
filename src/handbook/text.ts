@@ -3,7 +3,7 @@ import { parseAbility } from '../lang/parse';
 import { Content } from '../content';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { PerkText } from '../presentation/perk-text';
-import type { Proficiencies } from '../canon/schema';
+import type { Proficiencies } from '../rules/catalog-schema';
 
 // Small pieces of handbook text, each read from a definition: qualities, proficiencies, what an ability or a trait
 // does. An ability the game cannot play is named as such wherever it is mentioned.

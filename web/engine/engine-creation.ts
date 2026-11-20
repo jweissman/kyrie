@@ -1,6 +1,6 @@
 import { Creation } from './creation';
 import { CreationDefaults } from './creation-defaults';
-import { CreationRules } from '../reader/creation-rules';
+import { CreationRules } from './creation-rules';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from './creation-flow';
 import type { Starting } from './engine-starts';
 import type { Catalog, Member, Setting } from './protocol';

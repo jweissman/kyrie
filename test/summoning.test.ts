@@ -10,7 +10,7 @@ import { Expressions } from '../src/expressions';
 import { Summoning } from '../src/summoning';
 import { CanonRuntime } from '../src/canon/canon-runtime';
 import orsino from '../data/catalog/orsino/abilities.json';
-import type { Ability } from '../src/canon/schema';
+import type { Ability } from '../src/rules/catalog-schema';
 
 // Orsino's Lightning Bolt as it was, kept here as a fixture of the random draw: two foes drawn once for its harm and
 // its paralysis alike.
