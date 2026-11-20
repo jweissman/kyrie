@@ -2,6 +2,7 @@ import { Canon } from './canon';
 import { ItemCatalog } from '../item-catalog';
 import type { ItemKind, Species } from './schema';
 import { parseAbility } from '../lang/parse';
+import type { KindsMade, LocalKindSpec, LocalSpeciesSpec } from '../lang/vocabulary';
 
 // What one module declares for itself: kinds of thing and kinds of creature that only it has ("a little ox of dreg",
 // "the hall dog"). While its campaign is the one in play, its kinds join the catalogs under the names it gave them,
@@ -9,18 +10,12 @@ import { parseAbility } from '../lang/parse';
 // bestiary, a save restored later); when another campaign is played, they leave them, so two campaigns may give the
 // same name to different things. Within one campaign a name the catalog already has, or another of its modules gave
 // to something else, is an error.
-export interface LocalCatalog {
+// What the language keeps of them with the module (KindsMade), as this made them (item, species).
+export interface LocalCatalog extends KindsMade {
   items?: Record<string, ItemKind & { mass?: number }>;
   species?: Record<string, Species>;
 }
 type Declared = { source?: object };
-export interface LocalKindSpec {
-  id: string; name: string; base: { category?: ItemKind['category']; like?: string }; worth?: number; mass?: number;
-  description?: string; grants?: string; teaches?: string; slot?: string; use?: string;
-}
-export interface LocalSpeciesSpec {
-  id: string; name: string; like: string; temperament?: string; description?: string; habitats?: string[];
-}
 
 export class LocalKinds {
   // A document (a list, a playbill) is carried and read, never worn, and brings nothing unless it says it does: one
@@ -36,7 +31,7 @@ export class LocalKinds {
     ItemKind & { mass?: number } {
     const like = spec.base.like ? Canon.items[Canon.resolve('items', spec.base.like)] : undefined;
     if (spec.base.like && !like) { throw new Error(`Kind ${spec.id} is like ${spec.base.like}, which is no kind of item`); }
-    const category = spec.base.category ?? like?.category;
+    const category = (spec.base.category ?? like?.category) as ItemKind['category'] | undefined;
     if (!category || !this.categories.includes(category)) {
       const kinds = this.categories.join(', ');
       throw new Error(`Kind ${spec.id} is ${spec.base.category ?? '?'}: a kind of item is one of ${kinds}`);
@@ -75,7 +70,9 @@ export class LocalKinds {
   }
   // A module's own kinds, joined to the catalogs. The same module may declare a kind again (it is read again, or
   // edited); another may declare the same kind only the same way.
-  static install(catalog: LocalCatalog | undefined) {
+  // Given the setting's own (a spec's kind) or what a module kept of them.
+  static install(made: LocalCatalog | KindsMade | undefined) {
+    const catalog = this.made(made);
     for (const [id, item] of Object.entries(catalog?.items ?? {})) {
       // Checked before it is recorded as a module's: a kind refused (`Kind dagger`) is not one to take out later, with
       // the catalog's own dagger (Mission 15's independent audit, F1).
@@ -136,22 +133,22 @@ export class LocalKinds {
     } else { delete (Canon.species as Record<string, Species>)[id]; Canon.installed.delete(id); }
   }
   // The campaign in play: its modules' kinds, and no other campaign's.
-  static activate(catalog: LocalCatalog | undefined, owner?: object) {
+  static activate(catalog: KindsMade | undefined, owner?: object) {
     this.reset(); this.install(catalog); this.owner = owner;
   }
   // The campaign whose kinds are in the catalogs. One that reads its world while another's are (a second game in the
   // same process) puts its own back first, so the first game's things are not taken from it (the audit, F1). The
   // catalogs are still the process's: two campaigns' commands interleaved within one command would still meet.
   private static owner?: object;
-  static claim(owner: object, catalog: LocalCatalog | undefined) {
+  static claim(owner: object, catalog: KindsMade | undefined) {
     if (owner !== this.owner) { this.activate(catalog, owner); }
   }
   // And with a module being installed into it, whose kinds are not yet the campaign's own (see Campaign.install).
-  static reclaim(owner: object, catalog: LocalCatalog | undefined, installing: LocalCatalog | undefined) {
+  static reclaim(owner: object, catalog: KindsMade | undefined, installing: KindsMade | undefined) {
     this.claim(owner, catalog); this.install(installing);
   }
   // Two modules' own kinds together, when modules are joined.
-  static merge(...catalogs: (LocalCatalog | undefined)[]): { catalog?: LocalCatalog } {
+  static merge(...catalogs: (KindsMade | undefined)[]): { catalog?: LocalCatalog } {
     // Two modules that give one kind two meanings cannot be joined, whatever they are called (the audit, F1: two
     // modules both labelled `shared`, one coin worth 2 and the other 99).
     for (const family of ['items', 'species'] as const) {
@@ -176,6 +173,10 @@ export class LocalKinds {
     if (this.by(prior) !== this.by(next) && this.bare(prior) !== this.bare(next)) {
       throw new Error(`The ${family} ${id} is declared differently by two modules (${this.by(prior)} ${this.by(next)})`);
     }
+  }
+  // What a module keeps of its own kinds is what item and species made of them, so the setting's own again.
+  private static made(catalog: KindsMade | undefined): LocalCatalog | undefined {
+    return catalog as LocalCatalog | undefined;
   }
   private static by(x: Declared): string { return (x.source as { notes?: string } | undefined)?.notes ?? ''; }
   private static bare(x: Declared): string { return JSON.stringify({ ...x, source: undefined }); }

@@ -1,12 +1,10 @@
 import { Spatial } from './spatial';
-// The compiler still reads the setting's catalogs (an ability's statistics), and gives the language its vocabulary.
-import '../canon/canon-vocabulary';
-import { Canon } from '../canon/canon';
 import { ComputedRelations } from './computed-relations';
 import { ObservationText } from './observation-text';
 import { Deem } from 'deem';
 import type { Aspect, Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
+import { Vocabularies } from './vocabulary';
 import { EngineOwned } from './engine-owned';
 import { Arithmetic } from './arithmetic';
 
@@ -209,7 +207,9 @@ export class ModuleCompiler {
   }
   private static resolve(expressions: Dice | undefined, value: NumberValue): NumberValue {
     if (value.kind !== 'deem') { return { kind: 'number', value: value.value }; }
-    if (!expressions) { throw new Error(`The module rolls (${value.expression}), and no dice were given to instantiate it`); }
+    if (!expressions) {
+      throw new Error(`The module rolls (${value.expression}), and no dice were given to instantiate it`);
+    }
     return { kind: 'number', value: expressions.number(value.expression) };
   }
   private resolvePredicate(predicate: Predicate, expressions: Dice | undefined): Predicate {
@@ -283,7 +283,7 @@ export class ModuleCompiler {
   // An ability of Orsino's that Kyr cannot run, said so with why, where it had been only an invalid argument (the Book
   // of Faces' BOF-05: true_sight, an hour lost).
   private unrun(arg: string, kind: string | undefined): string | undefined {
-    const ability = kind === 'ability' ? Canon.abilities[arg] : undefined;
+    const ability = kind === 'ability' ? Vocabularies.ability(arg) : undefined;
     return ability?.unsupported ? `: ${ability.name} is Orsino's, and Kyr cannot run it (${Object.values(ability.unsupported)
       .join(' ')})` : undefined;
   }

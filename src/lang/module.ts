@@ -167,7 +167,7 @@ export interface Module {
   // The land of each region with one, by the region's id: what its map is drawn from.
   charts?: Record<string, LandChart>;
   // The kinds of thing and of creature the module declares for itself (see LocalKinds).
-  catalog?: import('../canon/local-catalog').LocalCatalog;
+  catalog?: import('./vocabulary').KindsMade;
   // Who and what is seen only by some: each entity's condition, ?viewer being whoever is looking (Person … Seen when).
   seen?: Record<string, Predicate>;
 }

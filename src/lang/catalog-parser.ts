@@ -1,8 +1,6 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
-import type { LocalCatalog, LocalKindSpec, LocalSpeciesSpec } from '../canon/local-catalog';
-import { Vocabularies } from './vocabulary';
-import type { ItemKind } from '../canon/schema';
+import { Vocabularies, type KindsMade, type LocalKindSpec, type LocalSpeciesSpec } from './vocabulary';
 import type { Entity, Module } from './module';
 
 type Node = ohm.Node;
@@ -23,7 +21,7 @@ export class CatalogParser {
     return Object.assign({ base: ModuleParser.ast(base) as LocalKindSpec['base'] },
       ...parts.children.map(part => ModuleParser.ast(part) as object)) as Partial<LocalKindSpec>;
   }
-  static KindIs(_is: Node, category: Node) { return { category: category.sourceString as ItemKind['category'] }; }
+  static KindIs(_is: Node, category: Node) { return { category: category.sourceString }; }
   static KindLike(_like: Node, kind: Node) { return { like: kind.sourceString }; }
   static Worth(_w: Node, n: Node) { return { worth: Number(n.sourceString) }; }
   static Weighing(_w: Node, n: Node) { return { mass: Number(n.sourceString) }; }
@@ -63,7 +61,7 @@ export class CatalogParser {
   };
   // The module's own kinds, made and joined to the catalogs, from the declarations that make them.
   static declare(module: Module, fields: Field[], located: (i: number, run: () => void) => void) {
-    const catalog: LocalCatalog = {}, taught: [string, string][] = [];
+    const catalog: KindsMade = {}, taught: [string, string][] = [];
     const capabilities = new Set(fields.filter(f => f.field === 'entity' && (f.value as Entity).type === 'capability')
       .map(f => (f.value as Entity).id));
     fields.forEach(({ field, value }, i) => located(i, () => {

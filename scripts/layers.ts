@@ -62,9 +62,11 @@ export class Layers {
     }
     return out;
   }
+  // Imported from, imported when wanted, and imported for what loading it does (`import '../canon/canon-vocabulary'`).
+  private static readonly importing =
+    /(?:import|export)[^'"]*?from\s+['"](\.[^'"]+)['"]|import\(\s*['"](\.[^'"]+)['"]|^import\s+['"](\.[^'"]+)['"]/gm;
   private static imports(text: string): string[] {
-    return [...text.matchAll(/(?:import|export)[^'"]*?from\s+['"](\.[^'"]+)['"]|import\(\s*['"](\.[^'"]+)['"]/g)]
-      .map(m => (m[1] ?? m[2])!);
+    return [...text.matchAll(this.importing)].map(m => (m[1] ?? m[2] ?? m[3])!);
   }
   private static files(dir: string): string[] {
     return readdirSync(dir, { withFileTypes: true }).flatMap(d => d.isDirectory() ? this.files(join(dir, d.name))

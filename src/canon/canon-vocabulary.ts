@@ -1,10 +1,12 @@
-import { Vocabularies, type Vocabulary } from '../lang/vocabulary';
-import { LocalKinds, type LocalCatalog, type LocalKindSpec, type LocalSpeciesSpec } from './local-catalog';
+import { Vocabularies, type KindsMade, type LocalKindSpec, type LocalSpeciesSpec, type Vocabulary }
+  from '../lang/vocabulary';
+import { LocalKinds, type LocalCatalog } from './local-catalog';
+import { Canon } from './canon';
 import { ItemCatalog } from '../item-catalog';
 
 // The setting's catalogs as the language reads a module against them (see Vocabulary): its kinds of thing, and a
 // module's own kinds made from them. Given to the language as this is imported, by whatever loads the setting (the
-// content, the compiler), so that the language itself imports none of it.
+// content), so that the language itself imports none of it.
 export class CanonVocabulary implements Vocabulary {
   readonly id = 'canon';
   kind(id: string): { name: string; use?: unknown } | undefined { return ItemCatalog.definitions[id]; }
@@ -13,7 +15,10 @@ export class CanonVocabulary implements Vocabulary {
   species(module: string, spec: LocalSpeciesSpec): NonNullable<LocalCatalog['species']>[string] {
     return LocalKinds.species(module, spec);
   }
-  install(catalog: LocalCatalog | undefined): void { LocalKinds.install(catalog); }
+  install(catalog: KindsMade | undefined): void { LocalKinds.install(catalog); }
   seen(text: string): string { return LocalKinds.seen(text); }
+  ability(id: string): { name: string; unsupported?: Record<string, string> } | undefined {
+    return Canon.abilities[id];
+  }
 }
 Vocabularies.use(new CanonVocabulary());
