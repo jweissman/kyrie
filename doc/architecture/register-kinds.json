@@ -206,5 +206,7 @@
    "why": "20 Nov, re-judged on the owner's ruling (a committed requirement unmet stays visible; an observed failure stays a defect): the design review: a design pass"
   }
  },
- "blockedBy": {}
+ "blockedBy": {
+  "OR-144": "AX-04"
+ }
 }
