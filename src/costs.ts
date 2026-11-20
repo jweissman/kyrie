@@ -1,3 +1,5 @@
+import { ParseCache } from './lang/parse-cache';
+
 // What an operation cost, stage by stage, so that a small one which draws in much of the setting is seen doing it (the
 // owner, 14 November: the cost of parsing Kyr, installing modules, invoking Deem, instantiating a world or starting a
 // session made explicit, measurable, and incurred only where the operation needs it). Each boundary notes itself
@@ -60,3 +62,5 @@ export class Costs {
       : ' ('}${Math.round(c.ms)} ms)`).join(' · ') || 'nothing';
   }
 }
+// The language's parses counted here too (see ParseCache.costs).
+ParseCache.costs = Costs;
