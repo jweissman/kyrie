@@ -18,7 +18,7 @@ describe('the fiction lint', () => {
       .toContain('a spell is cast by its caster');
   });
   it('says nothing where the act fights, or does no blow', () => {
-    const fight = [{ kind: 'assert', call: { kind: 'call', name: 'assails', args: [] } }];
+    const fight = [{ kind: 'assert' as const, call: { kind: 'call' as const, name: 'assails', args: [] } }];
     expect(FictionLint.of(act({ otherwise: 'He puts you on your back in the road with one shove.', failure: fight })))
       .toBeUndefined();
     expect(FictionLint.of(act({ otherwise: 'They look at you, and at each other, and laugh.' }))).toBeUndefined();

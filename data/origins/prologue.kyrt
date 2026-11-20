@@ -181,7 +181,7 @@
     On success { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). Give lantern to actor. Retract at(robbers, {approach}). }
     On failure { Assert answered(actor). Assert wayIn(pack_saved). Assert knows(actor, pack_saved). Retract peaceable(robbers). Assert assails(robbers, actor). }
     Result "They look at you, and at each other. They drop the lantern in the road and go off over the field without hurrying. The pedlar gets up, picks the lantern out of the mud, and puts it in your hands. 'Keep it. It's the least of what they'd have had.'".
-    Otherwise "They look at you, and at each other, and laugh. 'Two of us,' says the bigger, and puts the lantern down.".
+    Otherwise "They look at each other and laugh. 'Two of us,' says the bigger, and puts the lantern down.".
   }
   // The bout, won: they break and run, and the lantern is the pedlar's to give. Lost: the company is the worse for it
   // (the hurt is the fight's own), and they go with a fistful of the pack.
