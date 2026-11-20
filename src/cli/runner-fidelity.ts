@@ -39,7 +39,7 @@ export class RunnerFidelity {
         drawn.add(aspect);
         const session = await fork(), checked = this.checked(session, act, aspect);
         const changes = await this.done(session, act, aspect);
-        if (!changes.some(c => this.brings[aspect]!.test(c) || (aspect === 'exploration' && this.seen(c, act)))) {
+        if (!changes.some(c => this.brings[aspect]!.test(c) || (aspect === 'exploration' && this.seen(c, act, session)))) {
           if (checked) { chance.push(`${act.label}: drawn ${aspect}, not on this roll`); continue; }
           broken.push(`${act.label}: drawn ${aspect}, brought none`);
           traces.push(`${act.why} ${act.command} ${JSON.stringify(act.inside ?? [])}\n${changes.join('  ')}`);
@@ -54,10 +54,12 @@ export class RunnerFidelity {
     return session.campaign.offered().find(o => o.id === command)?.resolve?.name === 'check';
   }
   // A change to what the act is done to (its command's own arguments): its state, or a try at it.
-  private static seen(change: string, act: Promoted): boolean {
+  // (Or what it is about: change_thing's argument is the way of changing, the cairn mended is its subject, and the
+  // thing it is a change of: the padlock's hasp wrenched out, once the hand on the green would lend the brawn, MT-15.)
+  private static seen(change: string, act: Promoted, session: PlaySession): boolean {
     const on = /\((.*)\)/.exec(act.command ?? '')?.[1]?.split(',').map(a => a.trim()) ?? [];
-    // (Or what it is about: change_thing's argument is the way of changing, the cairn mended is its subject.)
-    return [...on, ...act.subject ? [act.subject] : []].some(a => change.startsWith(`+ state(${a},`) || change.startsWith(`+ tried(${a},`)
+    const of = on.flatMap(a => session.campaign.world.related('changeOf', a).map(f => f.args[1]!));
+    return [...on, ...of, ...act.subject ? [act.subject] : []].some(a => change.startsWith(`+ state(${a},`) || change.startsWith(`+ tried(${a},`)
       || change.startsWith(`+ changedBy(${a},`));
   }
   // The act done, and, where it opens onto others, the one within it that the facet is for.

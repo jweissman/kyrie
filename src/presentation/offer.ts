@@ -94,8 +94,10 @@ export class Offers {
         fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
       }
     }
-    const primary = [...led, ...fill].slice(0, this.four);
-    const rest = this.once(live.filter(c => !shown.has(c.choice)), [...shown])
+    // What was led past the four is the rest's, not lost: the Guldríce agent's one question, led fifth on the landing
+    // once the hand on the green was led before it, had been offered nowhere, nor the notice on the well-post (MT-15).
+    const primary = [...led, ...fill].slice(0, this.four), kept = new Set(primary.map(o => o.choice));
+    const rest = this.once(live.filter(c => !kept.has(c.choice)), [...kept])
       .sort((a, b) => this.rank(a) - this.rank(b) || a.order - b.order).map(c => this.candidate(c));
     // A site, or under the ground (a town's undertown is one too).
     const site = !!screen && (screen.path.some(p => p.kind === 'site') || !!screen.place.underground);

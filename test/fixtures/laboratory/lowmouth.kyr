@@ -404,6 +404,13 @@ Module lab "The undercroft at Lowmouth" {
   }
   Initially Set encounterXp(low_u_adit_beetles) to 40.
   Rule low_u_adit_beetles_come when at(party, low_u_adit) and lingered(party) >= 1 and able(low_u_adit_beetles) and not low_u_came(low_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert at(low_u_adit_beetles, low_u_adit). Assert assails(low_u_adit_beetles, party). Assert low_u_came(low_u_adit_beetles). }
+  Thing low_u_cutting_roof "the roof of the old cutting" on low_u_gallery_way {
+    State loose dangerous "Stones have come down from the roof of the cutting, and more hang cracked above it.".
+    State shored "A prop of old timber holds up the cracked roof of the cutting.".
+    Hurts with low_u_cutting_fall when loose then loose.
+    Change shore "Shore up the cracked roof with the quarrymen's old timbers" from loose to shored needing brawn.
+  }
+  Hazard low_u_cutting_fall "Stone falling from the cutting's roof" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
   Place low_u_drain "the old drain" is room within low at 0, 5 underground 2 down.
   Passage low_u_drain_way "a culvert going down" is crawl between low_u_warren and low_u_drain.
   Entity low_u_onward: fact "".
@@ -465,6 +472,13 @@ Module lab "The undercroft at Lowmouth" {
     Found by searching low_u_drain "Something wedged in the drain, where the water left it.".
   }
   Item low_u_drain_purse "a mouldy purse" is steel_coin at low_u_drain hidden until low_u_drain_cache_found.
+  Thing low_u_culvert_air "the air in the culvert" on low_u_drain_way {
+    State foul dangerous "The culvert breathes out a stink of old water and rot that catches in the throat.".
+    State clear "Air moves down the culvert now, from the cellar above.".
+    Hurts with low_u_drain_foul when foul then foul.
+    Change prop "Prop the trapdoor open above and let the air down the culvert" from foul to clear needing brawn.
+  }
+  Hazard low_u_drain_foul "The foul air of the culvert" means "Deal (1d4) poison damage to ally unless constitution save against (11).".
   Entity low_u_vault_found: fact "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark.".
   Discovery low_u_letters "A ring of letters is cut small over the oldest stone of the old work. Three of them are cut deeper than the rest, worn smooth by thumbs, as if pressed." {
     Found by searching low_u_ossuary "Over the oldest niche, behind the bone-heaps, a ring of letters cut small, three of them deeper than the rest.".
@@ -506,6 +520,13 @@ Module lab "The undercroft at Lowmouth" {
   Item low_u_vault_stone "a moonstone the size of a thumb" is moonstone at low_u_vault.
   Milestone low_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, low_u_vault).
   Objective low_u_vault_sought when knows(party, low_u_vault_found) and able(low_u_keeper) toward low_u_vault "Something keeps {low_u_vault} under the undercroft.".
+  Person low_u_hand "the sellsword on the green" at low_green {
+    Role "a sellsword between masters, sitting on the well-kerb with a notched blade across her knees". Ancestry human. Calling warrior. Level 1. Peaceable. Manner grim. Pronouns she.
+  }
+  Topic low_u_hand_ask with low_u_hand "Ask the sellsword what work she is after" when not willing(low_u_hand, actor) and not travelsWith(low_u_hand, actor) once {
+    Says "She looks you over. 'Going down under this town? Then I'll come. Two coin, and a share.'".
+    On discuss { Assert willing(low_u_hand, actor). Set hire(low_u_hand) to 2. }
+  }
   Entity low_u_notice: fact "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} at {low_shop} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest} at {low_chapel}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} at {low_taproom} for the gate key.'".
   Thing low_u_notice_post "the notice on the well-post" at low_green { }
   Observe low_u_notice_up near low_u_notice_post of low_u_notice_post when (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)) and not knows(party, low_u_notice) and not stale(low_u_notice) "A notice is nailed to the post by the well, written over in several hands.".

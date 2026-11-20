@@ -6,10 +6,12 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { World } from '../src/lang/world';
 import { BeforeRooms } from './support/before-rooms';
+import { AsMeant } from './support/as-meant';
 
 // The fifth cold play of the golden route (mission-22/cold/cold-5-report.md, the elf mage from Gatesend) and the
 // fourth's threads (cold-4-report.md), replayed by their own lines: the world answers what the company found and did
-// (CL-32, CL-46), and what is told is so (CL-35).
+// (CL-32, CL-46), and what is told is so (CL-35). Each line as it was meant (AsMeant: the culvert's foul air risked
+// where the play went up it).
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 const sent = { 4: 'doc/architecture/mission-22/cold/cold-4-lines.txt', 5: 'doc/architecture/mission-22/cold/cold-5-lines.txt' };
 const lines = (play: 4 | 5, n: number) => readFileSync(sent[play], 'utf8').split('\n').filter(Boolean).slice(0, n);
@@ -20,7 +22,7 @@ async function play(as: string, acts: string[]) {
   const r = new Runner(BeforeRooms.set(journey.session));
   // The plays' own lines, with the few it sent that were not offered then (an act refused is kept in the log).
   let s = r.said();
-  for (const line of acts) { const x = await r.ask(line); if (!('error' in x)) { s = x; } }
+  for (const line of acts) { const x = await AsMeant.ask(r, line); if (!('error' in x)) { s = x; } }
   return { r, s, journey, ask: async (act: string) => said(await r.ask(JSON.stringify({ act }))) };
 }
 describe('Gatesend, after the fifth cold play', () => {
@@ -50,7 +52,7 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(paid.purse).toEqual({ coin: before.coin + 8, rations: before.rations + 1 });
     expect(text(paid)).toContain('counts out eight coin');
     let s = paid;
-    for (const line of lines(5, 88).slice(77)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }
+    for (const line of lines(5, 88).slice(77)) { const x = await AsMeant.ask(run.r, line); if (!('error' in x)) { s = x; } }
     expect(text(s)).toContain('The steward says you are put out of the house');
     // Its 35: a second word with the cook had printed nothing at all.
     expect(text(await run.ask('talk_to(region__s4_manor_cook)'))).toContain('Well?');
@@ -102,7 +104,7 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(text(look)).toContain('nailed to the clerk’s own trestle, under the shire-reeve’s mark');
     expect(notices(run.s)).toHaveLength(1);
     let s = run.s;
-    for (const line of lines(5, 12)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }
+    for (const line of lines(5, 12)) { const x = await AsMeant.ask(run.r, line); if (!('error' in x)) { s = x; } }
     expect(notices(s).map(o => o.label)).toEqual(['Read the royal proclamation under the notices']);
   }, 180000);
   // CL-39's 33, 39, 40: the Hall's music box says whose it is before it is taken, and taking it is no find; the cup
@@ -113,7 +115,7 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(box?.label).toContain('the steward of the Hall\'s, not yours');
     expect(text(await run.ask(box!.id))).not.toMatch(/experience/);
     let s = run.s;
-    for (const line of lines(5, 94).slice(85)) { const x = await run.r.ask(line); if (!('error' in x)) { s = x; } }
+    for (const line of lines(5, 94).slice(85)) { const x = await AsMeant.ask(run.r, line); if (!('error' in x)) { s = x; } }
     const look = text(said(await run.r.ask('{"look":true}')));
     expect(look).toContain('a small bronze cup stands in a ring of dust');
     expect(look).not.toContain('was lifted');

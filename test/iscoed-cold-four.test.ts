@@ -4,10 +4,12 @@ import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { BeforeRooms } from './support/before-rooms';
+import { AsMeant } from './support/as-meant';
 
 // The fourth cold play of the golden route (mission-22/cold/cold-4-report.md), its one change held where it was met:
 // every scene says, in its own prose and the first time it is seen, what is there and what is happening (CL-42), and
-// the king answers his crown being lifted (CL-44). The play is replayed by its own lines, as the cold player sent them.
+// the king answers his crown being lifted (CL-44). The play is replayed by its own lines, as the cold player meant them
+// (AsMeant: the agent asked about the king-barrow by turning to him, since the hand on the green is led first).
 const lines = readFileSync('doc/architecture/mission-22/cold/cold-4-lines.txt', 'utf8').split('\n').filter(Boolean);
 describe('the golden route, after the fourth cold play', () => {
   const told: Said[] = [], byLine: (Said | undefined)[] = [];
@@ -19,7 +21,7 @@ describe('the golden route, after the fourth cold play', () => {
     runner = new Runner(BeforeRooms.set(journey.session));
     first = runner.said();
     for (const line of lines.slice(0, 90)) {
-      const s = await runner.ask(line);
+      const s = await AsMeant.ask(runner, line);
       byLine.push('error' in s ? undefined : s);
       if (!('error' in s)) { told.push(s); }
     }
@@ -82,8 +84,10 @@ describe('the golden route, after the fourth cold play', () => {
     expect(byLine[0]!.aims?.map(a => a.text).join(' ')).not.toContain('fuel boat');
     const led = (s: Said | undefined) => s!.offer.primary.map(o => RunnerOffer.act(o));
     // First after the company's own story's (the drove's aftermath, Owain's word led as kin: the green's signs leads,
-    // not aims, and nothing else held once Bran is out, HP-01), and before anything else of the green.
-    const spoken = (s: Said | undefined) => led(s).filter(id => !id.startsWith('drove__'));
+    // not aims, and nothing else held once Bran is out, HP-01), and before anything else of the green but one who
+    // would come along (Promotion's tiers: the hand on the green, MT-15).
+    const spoken = (s: Said | undefined) => s!.offer.primary.filter(o => !o.id.startsWith('drove__')
+      && !o.aspects.includes('companionship')).map(o => o.id);
     expect(spoken(byLine[13])[0]).toMatch(/^gate__reeve_/);
     expect(spoken(byLine[14])[0]).toMatch(/^gate__reeve_/);
     // And Gwil Pryce, greeted with nothing to say to him, says what his boats are for.
@@ -93,10 +97,16 @@ describe('the golden route, after the fourth cold play', () => {
   // met is led as talking to them, the question after it; Bran, whom the aim names, is asked by name.
   it('leads someone not yet met as talking to them, the question after it', () => {
     const labels = (s: Said | undefined) => s!.offer.primary.map(o => o.label);
-    // The company's head is called by its kingdom, not "the factor", beside Aster of the Exchange (CL-49's 12).
-    expect(labels(byLine[0])).toContain('Talk to the Guldríce agent — ask about the king-barrow');
-    expect(labels(byLine[0]).join(' ')).not.toContain('Ask the Guldríce agent');
-    expect(labels(byLine[0]).join(' ')).not.toContain('the factor');
+    const all = (s: Said | undefined) => [...s!.offer.primary, ...s!.offer.rest, ...s!.offer.lenses?.people ?? []]
+      .map(o => o.label);
+    // Led on the landing: the one on the green who would come along, before the agent's question (one who would come
+    // along leads first: Promotion's tiers; MT-15), asked as the agent's had been.
+    expect(labels(byLine[0])).toContain('Talk to the tinker\'s daughter — ask why she was left behind');
+    expect(labels(byLine[0]).join(' ')).not.toMatch(/^Ask the tinker|Ask the Guldríce agent/);
+    // The company's head is called by its kingdom, not "the factor", beside Aster of the Exchange (CL-49's 12): among
+    // the people here.
+    expect(all(byLine[0])).toContain('Talk to the Guldríce agent');
+    expect(all(byLine[0]).join(' ')).not.toContain('the factor');
     expect(labels(at('drove__customs'))).toContain('Ask Bran what happened');
   });
   // CL-48's 21: the north recess marked heard, and what is heard from it held for a look; it is said on coming.

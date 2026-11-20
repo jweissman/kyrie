@@ -41,9 +41,9 @@ describe('the menu at a glance', () => {
     Menus.check(g);
     // Talking to your brother is led with among the rest, the keys' 2 after the aim's gold way out (the owner, 18
     // November), as well as by his likeness (the owner, 12 November: someone with something for the company is among
-    // the few things led with, not only on the picture).
+    // the few things led with, not only on the picture); and the one on the green who would come along (AT-08, MT-15).
     expect([Menus.ids(g.frame()).slice(0, 2), [...MenuModel.build(g.frame(), 'here', []).leading ?? []]])
-      .toEqual([[MenuModel.country.id, 'drover__son#talk'], ['drover__son#talk']]);
+      .toEqual([[MenuModel.country.id, 'drover__son#talk'], ['drover__son#talk', 'region__s2_u_hand#talk']]);
     expect(MenuModel.build(g.frame(), 'here', []).sheets!.look).toContain('drover__son#talk');
     await g.to('region__w11');
     Menus.check(g);

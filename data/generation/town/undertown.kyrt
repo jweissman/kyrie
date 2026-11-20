@@ -721,7 +721,13 @@
   }
   Initially Set encounterXp({t}_u_adit_beetles) to 40.
   Rule {t}_u_adit_beetles_come when at(party, {t}_u_adit) and lingered(party) >= 1 and able({t}_u_adit_beetles) and not {t}_u_came({t}_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert at({t}_u_adit_beetles, {t}_u_adit). Assert assails({t}_u_adit_beetles, party). Assert {t}_u_came({t}_u_adit_beetles). }
-
+  Thing {t}_u_cutting_roof "the roof of the old cutting" on {t}_u_gallery_way {
+    State loose dangerous "Stones have come down from the roof of the cutting, and more hang cracked above it.".
+    State shored "A prop of old timber holds up the cracked roof of the cutting.".
+    Hurts with {t}_u_cutting_fall when loose then loose.
+    Change shore "Shore up the cracked roof with the quarrymen's old timbers" from loose to shored needing brawn.
+  }
+  Hazard {t}_u_cutting_fall "Stone falling from the cutting's roof" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
@@ -810,7 +816,13 @@
   Item {t}_u_drain_purse "a mouldy purse" is steel_coin at {t}_u_drain hidden until {t}_u_drain_cache_found.
   // The culvert down from the runs breathes out the drain's foul air, until the cellar's trapdoor is propped open and
   // the air moves (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
-
+  Thing {t}_u_culvert_air "the air in the culvert" on {t}_u_drain_way {
+    State foul dangerous "The culvert breathes out a stink of old water and rot that catches in the throat.".
+    State clear "Air moves down the culvert now, from the cellar above.".
+    Hurts with {t}_u_drain_foul when foul then foul.
+    Change prop "Prop the trapdoor open above and let the air down the culvert" from foul to clear needing brawn.
+  }
+  Hazard {t}_u_drain_foul "The foul air of the culvert" means "Deal (1d4) poison damage to ally unless constitution save against (11).".
 --- vault
   // The lettered flag is a lock with no keyhole (the owner, 8 November: a dungeon has at least one puzzle). Its ring of
   // letters is the makers' own, and the same ring is cut, smaller, in each of the three ways down to it, over the
@@ -864,3 +876,29 @@
   Item {t}_u_vault_stone "a moonstone the size of a thumb" is moonstone at {t}_u_vault.
   Milestone {t}_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, {t}_u_vault).
   Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) toward {t}_u_vault "Something keeps {{t}_u_vault} under the undercroft.".
+--- hand sellsword 1
+  // Someone on the green who would come along (the owner, 19 November, AT-08: in the very first space, in general,
+  // someone recruitable; the first choices, companions or alone). Its own draw (keyed), so no other draw moves.
+  Person {t}_u_hand "the sellsword on the green" at {t}_green {
+    Role "a sellsword between masters, sitting on the well-kerb with a notched blade across her knees". Ancestry human. Calling warrior. Level 1. Peaceable. Manner grim. Pronouns she.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the sellsword what work she is after" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "She looks you over. 'Going down under this town? Then I'll come. Two coin, and a share.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 2. }
+  }
+--- hand acolyte 1
+  Person {t}_u_hand "the runaway acolyte" at {t}_green {
+    Role "an acolyte run from a shrine two valleys over, still in his grey habit, counting the coppers in his palm". Ancestry human. Calling cleric. Level 1. Peaceable. Manner stoic. Pronouns he.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the acolyte where he is going" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "He counts the coppers in his palm. 'I know the rites for the dead. Feed me and I'll come.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 0. }
+  }
+--- hand tinker 1
+  Person {t}_u_hand "the tinker's daughter" at {t}_green {
+    Role "a tinker's daughter left behind when the cart went on, picking a lock on a strongbox for the fun of it". Ancestry human. Calling thief. Level 1. Peaceable. Manner proud. Pronouns she.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the tinker's daughter why she was left behind" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "The lock clicks open under her pick. 'He'll be back at harvest. Till then I go where the locks are. One coin.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 1. }
+  }

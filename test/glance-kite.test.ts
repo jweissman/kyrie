@@ -42,7 +42,7 @@ describe('kite at a glance', () => {
     expect(glance.aimed).toContain('exit:region__s2_green');
     Kite.drawn(Kite.g, glance);
   });
-  it('comes to the bridge-foot: its own line, the brother on the rail, three things to do', async () => {
+  it('comes to the bridge-foot: its own line, the brother on the rail, the hand, two things to do', async () => {
     const glance = await Kite.g.choose(/,region__s2_green\)$/);
     expect(glance.arrival).toBe('first');
     expect(glance.sight?.id).toBe('region__s2_day');
@@ -52,10 +52,11 @@ describe('kite at a glance', () => {
       // The aim's way first, gold (the owner, 18 November: a golden option first), then the brother.
       ['exit:region__s5_s2_way', 'named', 'your aim'],
       ['drover__son#talk', 'kin', 'your brother'],
-      // The notice of what is under the town, the town's own (OWN-57), before the grey dog's sign; the brother is
-      // talked to by his plate, so the dog is the third on the page (M19-24); Wynn the carter is not led with.
-      ['company/1:Read the notice on the well-post', 'own', undefined],
-      ['drover__dog/0:Make much of the grey dog', 'sign', undefined]]);
+      // The one on the green who would come along (AT-08), by her plate, the second of two (M19-24); then the notice
+      // of what is under the town, the town's own (OWN-57), where the grey dog's sign had been fourth before her
+      // (MT-15); Wynn the carter is not led with.
+      ['region__s2_u_hand#talk', 'companion', 'might come along'],
+      ['company/1:Read the notice on the well-post', 'own', undefined]]);
     expect(glance.acts[0]!.facets).toEqual(['here', 'aimed']);
     // The taproom the dog lies at the door of is named: first of the ways rowed.
     expect(glance.ways[0]).toBe('exit:region__s2_taproom');

@@ -17,15 +17,23 @@ describe('the runner holds what is said to someone under their talk', () => {
     const turn = said(await r.ask(JSON.stringify({ act: 'go(region__s1_inn_door,region__s1_taproom)' })));
     expect(turn.offer.rest.filter(o => /^Ask Kynes/.test(o.label))).toEqual([]);
     expect(turn.offer.rest.length).toBeLessThan(60);
-    // Offered by the engine's own row for him (MT-18), not one the runner made (talk:, kept as a way to turn to him).
-    expect(turn.offer.rest.find(o => RunnerOffer.act(o) === 'talk_to(region__s1_innkeeper)')?.label).toBe('Talk to Kynes');
-    // Turned to (no time), he is told, not the taproom again, and what can be said to him leads, talk before trade
-    // ("Talk to the factor" had told the green whole: cold play 4, CL-49).
-    const his = said(await r.ask(JSON.stringify({ act: 'talk:region__s1_innkeeper' })));
-    expect([his.moment, his.scene.lines[0]]).toEqual(['inspect', 'Kynes:']);
+    // His talk is one row, the engine's own for him (MT-18), by what it does: his talk (talk_to, a greeting). His own
+    // had been lost behind the four (MT-15: the fifth led, Kynes's, offered nowhere).
+    const talk = turn.offer.rest.find(o => o.label === 'Talk to Kynes');
+    expect(talk && RunnerOffer.act(talk)).toBe('talk_to(region__s1_innkeeper)');
+    // Talked to, he is told, not the taproom again, and what can be said to him leads, talk before trade ("Talk to
+    // the factor" had told the green whole: cold play 4, CL-49).
+    const his = said(await r.ask(JSON.stringify({ act: talk!.id })));
+    expect(his.scene.lines.join(' ')).toMatch(/^(Kynes:|Kynes looks up)/);
+    expect(his.scene.lines.join(' ')).not.toContain('the taproom of the Stone Horn');
     const labels = [...his.offer.primary, ...his.offer.rest].map(o => o.label);
     expect(labels).toContain('Ask Kynes about the drover the customs-men hold');
-    expect(labels.slice(0, 3).every(l => /^Ask Kynes/.test(l))).toBe(true);
+    const ids = [...his.offer.primary, ...his.offer.rest].map(o => RunnerOffer.act(o));
+    const asks = labels.flatMap((l, i) => /^Ask Kynes/.test(l) ? [i] : []);
+    const trade = ids.flatMap((id, i) => /^buy_item\(region__s1_innkeeper_/.test(id) ? [i] : []);
+    expect([asks.length > 2, trade.length > 0]).toEqual([true, true]);
+    expect(Math.max(...asks)).toBeLessThan(Math.min(...trade));
+    expect(his.offer.primary.filter(o => /^Ask Kynes/.test(o.label)).length).toBeGreaterThan(0);
     // Asked something, the talk holds; gone elsewhere, it is folded again.
     const asked = said(await r.ask(JSON.stringify({ act: 'region__s1_keeper_debts' })));
     expect(asked.offer.rest.some(o => o.label === 'Ask Kynes about the drover the customs-men hold')).toBe(true);

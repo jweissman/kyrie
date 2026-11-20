@@ -202,9 +202,12 @@ export class Doable {
   }
   // A talk led for a question to someone not yet met is talking to them, the question after it: "Ask the factor about
   // the king-barrow", led on the landing before anyone had said who the factor was, had asked a stranger by a title
-  // (cold play 4, CL-45; cold play 5, CL-36: Gek). "Talk to the factor — ask about the king-barrow".
+  // (cold play 4, CL-45; cold play 5, CL-36: Gek). "Talk to the factor — ask about the king-barrow". Called by a
+  // first name, never by an article: "the sellsword on the green" asked "Ask the sellsword what…" had been "— ask
+  // sellsword what work she is after" (MT-15).
   static called(talk: string, question: string): string {
-    const whom = /^Talk to (.+)$/.exec(talk)?.[1], by = [whom, whom?.split(' ')[0]].find(w => w
+    const whom = /^Talk to (.+)$/.exec(talk)?.[1], first = whom?.split(' ')[0];
+    const by = [whom, /^(the|a|an)$/i.test(first ?? '') ? undefined : first].find(w => w
       && question.startsWith(`Ask ${w} `));
     return `${talk} — ${by ? `ask ${question.slice(`Ask ${by} `.length)}`
       : `${question.charAt(0).toLowerCase()}${question.slice(1)}`}`;

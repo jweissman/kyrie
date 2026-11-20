@@ -100,7 +100,9 @@ export class Promotion {
       if (picked.length >= this.all) { break; }
       const step = !stepped && x.whys.includes('advance');
       if (x.c.kind !== 'talk' && picked.length - taken.plates >= this.cap && !step) { continue; }
-      if (x.c.kind === 'talk' && taken.plates >= 2) { continue; }
+      // Not the one spoken to, whose talk leads while it is had: Owain's word and the hand on the green had held both
+      // plates, and the reeve's questions stood in the rest while she was spoken to (cold play 4, CL-49; MT-15).
+      if (x.c.kind === 'talk' && taken.plates >= 2 && x.best !== 'talking') { continue; }
       if (!this.room(x, picked.map(p => p.c), { taken, s, lone })) { continue; }
       if (x.c.kind === 'talk') { taken.plates++; }
       const subject = x.c.subject ?? x.c.choice;

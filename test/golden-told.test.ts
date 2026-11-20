@@ -6,10 +6,12 @@ import { LocalObservations } from '../src/campaign/local-observations';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Scenery } from '../src/ui/scenery';
 import { Fits } from '../src/ui/fits';
+import { AsMeant } from './support/as-meant';
 
 // What the golden route tells and paints, against what the company is in (Sprint 3, S3-4 and S3-5; NP-01, NP-02,
 // OA-13): the warrior come down the drove road and the elf mage of the weir, played by cold plays 4 and 5's own lines
-// on the world as shipped (a line not offered now is refused and kept, as the plays' logs keep theirs), and each frame
+// on the world as shipped, each as it was meant (AsMeant: a question to someone now one step off, a way taken at its
+// risk; a line not offered now otherwise is refused and kept, as the plays' logs keep theirs), and each frame
 // read as a reader would. A painting of dusk at eight in the morning, of the moon in a well at a quarter to nine, of a
 // window's daylight four rooms under a barrow; the drove's sale cried to a mage in a kitchen at Gatesend; a word with
 // one who is dead.
@@ -23,7 +25,7 @@ async function walk(as: string, play: string, n: number): Promise<Frame[]> {
   const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
   const r = new Runner(journey.session), frames: Frame[] = [];
   for (const line of sent.slice(0, n)) {
-    const x = await r.ask(line);
+    const x = await AsMeant.ask(r, line);
     if ('error' in x) { continue; }
     const c = journey.session.campaign, w = c.world, screen = ScreenModel.build(c), painting = Scenery.seen(screen);
     // One who has joined the company is read as dead (CreatureFacts): not them.
