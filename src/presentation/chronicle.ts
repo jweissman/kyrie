@@ -22,7 +22,9 @@ export class Chronicle {
     for (const c of campaign.module.initial) {
       if (c.kind === 'assert' && c.call.name === 'at') { at.set(c.call.args[0]!, c.call.args[1]!); }
     }
-    const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds);
+    // Every creature drawn as a fighter only where some event of the log has a fight's to tell.
+    const names = CombatProjection.told(campaign.history.some(e => e.combat.length) ? campaign.readout.creatures : [],
+      campaign.readout.partyIds);
     const deadlines = campaign.installations.filter(m => m.deadline !== undefined);
     let previous = 0;
     const perceived = new Set<string>();

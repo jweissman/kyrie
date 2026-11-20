@@ -312,14 +312,19 @@ export class ActionFeedbackView {
     return { ...feedback, immediate: [...told, ...feedback.immediate.filter(t => t.startsWith('You witness: ')
       || lapsed.has(t) || keep.includes(t))] };
   }
+  // A fight told after it names a band's members by the band (see BandNames), not by their numbers in it: drawn only
+  // where something of a fight is told (every creature the world holds had been drawn as a fighter for each act).
+  private static named(campaign: Campaign, event: CampaignEvent): Parameters<typeof CombatPresenter.format>[1] {
+    const fought = event.combat.length > 0;
+    return CombatProjection.told(fought ? campaign.readout.creatures : [], campaign.readout.partyIds,
+      fought ? BandNames.of(campaign) : undefined);
+  }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
     const action = campaign.operator(event.action);
     // A command of the session that is no act of the world (an aim chosen to follow): said as it was.
     if (!action) { return this.session(event, after, before); }
-    // A fight told after it names a band's members by the band (see BandNames), not by their numbers in it.
-    const called = BandNames.of(campaign);
-    const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds, called);
+    const names = this.named(campaign, event);
     const combat = this.fights(event, before, names), split = event.prelude?.fought;
     const rolls = event.combat.filter(e => e.type === 'check' || (e.type === 'save' && !event.combat.some(x => x.type === 'initiative')))
       .map(e => CombatPresenter.format(e, names));
