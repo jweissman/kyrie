@@ -21,6 +21,20 @@ Module pentrice "Gosse's Company" {
     Greets "Hepzibah Dimmock looks up from the book: a small grey woman with spectacles on a ribbon and a pencil in her hair. She waits for you to say what you want, and does not help.".
     Offers lodging "a pallet in the loft among the hampers" for 1 coin.
   }
+  // Where the company's week begins (US-06: Gosse and Hepzibah had led nowhere after their first lines): the play
+  // cannot be cast or licensed without its book, and the book is in a parcel left with Merriman in the yard.
+  Topic gosse_first with gosse "Ask Gosse what the company needs before its night" when cameForTrial(party) and not bookCome(pentrice) and not knows(actor, parcel_waiting) {
+    Says "'A book,' says Gosse, as if it were a small thing. 'The Alderman's Ghost, which we are to play, exists in one fair copy, and it is not in this loft. It was to be sent. Merriman in the yard has the post of the Painted Moon in his apron; ask him whether anything has been left.' He beams. 'Without it we are players with nothing to play, and a bear.'".
+    On discuss { Assert knows(actor, book_awaited). }
+  }
+  Topic hepz_first with hepzibah "Ask Hepzibah what she is waiting for" when cameForTrial(party) and not bookCome(pentrice) and not knows(actor, parcel_waiting) {
+    Says "Hepzibah lays a hand flat on the book in front of her, which is last year's. 'The Ghost. I cannot prompt a play I have not got.' She does not look up. 'Ask Merriman in the yard. If it came, it came to him.'".
+    On discuss { Assert knows(actor, book_awaited). }
+  }
+  Topic gosse_parcel with gosse "Tell Gosse a parcel waits in the yard for whoever played the Fool the night of the riot" when knows(actor, parcel_waiting) and not knows(actor, parcel_freed) and not bookCome(pentrice) once {
+    Says "Gosse stops with a hamper in his arms and sets it down. 'The Fool,' he says. 'That was me, forty years ago, with a cap and bells and a great deal too much to say.' He laughs, and then does not. 'Merriman will want it proved, and quite right. The bill from that night is in the property chest, if the moth has left it. Hepzibah has the key.'".
+  }
+  Discovery book_awaited "The company's one copy of The Alderman's Ghost was to be sent to the Painted Moon; Merriman, in the yard, would have whatever was left.".
   Person swale "Ambrose Swale" at moon_loft {
     Role "the company's tragedian". Ancestry human. Peaceable. Pronouns he. Manner proud.
     Greets "Ambrose Swale turns from the window, where he has been saying 'Ay' to himself in several different keys, and inclines his head to you a measured inch. He is a tall man with a beautiful ruined face, and he holds himself as though there were a crown on it.".
