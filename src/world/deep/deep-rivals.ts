@@ -61,8 +61,10 @@ export class DeepRivals {
       `  Initially Set quantity(${head}, gold) to ${r.raised + 100}. Initially Set pays(${head}, ${r.kind}) to ${r.price}.`,
       `  Entity ${id}_offer: fact ${q(`${this.upper(this.fill(power.office, r))} at ${seat.name} wants ${r.prize}, and will pay for it.`)}.`,
       // Not asked, nor an advance to go down, with the prize in hand: the head had said "Bring me the crown" to one
-      // holding it, and offered "something to go down with" to one come up (cold play 4's 26, CL-46).
-      `  Topic ${id}_asked with ${head} ${q(`Ask {${head}} about ${purpose.hook.topic}`)} when not holding(actor, ${r.kind}) once {`,
+      // holding it, and offered "something to go down with" to one come up (cold play 4's 26, CL-46). Nor once the
+      // prize is theirs: sold to the agent, the crown was bid for again at 380 coin (S3-5).
+      `  Topic ${id}_asked with ${head} ${q(`Ask {${head}} about ${purpose.hook.topic}`)}`
+        + ` when not holding(actor, ${r.kind}) and not won(${id}) once {`,
       `    Says ${q(this.fill(power.asked, r))}.`,
       `    On discuss { Assert knows(actor, ${id}_offer). Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found).${story} }`,
       '  }',
