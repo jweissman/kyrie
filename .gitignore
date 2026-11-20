@@ -38,3 +38,6 @@ __pycache__/
 
 # Older bgs
 assets/bg/old
+
+# contact sheets (scripts/contact-sheets.ts)
+/contact-sheets
