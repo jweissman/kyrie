@@ -24,7 +24,12 @@ Module drove "The held drove" {
   Passage pens_gate "the gate to the drove pens" is passage between green and pens.
   Passage rhyne_bank "the bank down to the rhyne" is passage between pens and rhyne.
 
-  Observe held_sight at green as sign when not freed(party) "Across the green the customs-house door stands open, and a customs-man in the Rì's blue leans on the jamb with his staff. From the pens beyond comes the bawling of cattle nobody has fed." teaches held.
+  // Seen by a company the drove is not theirs (S3-R6, HP-01: the weir's mage, come home to the green, had been given
+  // the drove's two aims unasked): a lead, Owain the one to ask; asked, the story begins (owain_count_t).
+  Entity held_seen: fact "The customs-men at {town} hold a drover behind their grille, four head short of their clerk's count. His boy waits on the quay.".
+  Initially Assert askedOf(held_seen, owain).
+  Observe held_sight at green as sign when not freed(party) and knows(party, held) "Across the green the customs-house door stands open, and a customs-man in the Rì's blue leans on the jamb with his staff. From the pens beyond comes the bawling of cattle nobody has fed.".
+  Observe held_seen_sight at green as sign when not freed(party) and not knows(party, held) "Across the green the customs-house door stands open, and a customs-man in the Rì's blue leans on the jamb with his staff. From the pens beyond comes the bawling of cattle nobody has fed." teaches held_seen.
   Observe customs_scene at customs when not freed(party) "A long counter, a strongbox chained to the wall, and a window barred like a gaol's. Through a grille at the back a big man in a drover's cloak sits on a bench with his hands between his knees.".
   Observe customs_after at customs when freed(party) "A long counter and a strongbox chained to the wall. The grille at the back stands open on an empty bench.".
   Observe mardle_says at customs as sign when not freed(party) and not sent(party) and not knows(party, clerk_count) "'Forty head at the march-stone,' Mardle is saying to the customs-man, with a finger on the tally-book. 'Thirty-six in the pens. Four hidden from the Rì.'" teaches clerk_count.
@@ -74,7 +79,7 @@ Module drove "The held drove" {
   }
   Topic owain_count_t with owain "Ask Owain how many head came down" when not freed(party) once {
     Says "'Thirty-six,' says {owain} at once, and then, because you are listening: 'There were forty at Hafod. At the Black Rhyne the bank went from under the last of them, in the dark. We heard them in the water. Bran said leave them, or we'd lose the rest.' He points with his chin, behind the pens. 'They're still there.'".
-    On discuss { Assert knows(actor, boy_count). }
+    On discuss { Assert knows(actor, boy_count). Assert knows(actor, held). Retract knows(actor, held_seen). }
   }
   Topic keeper_drove with keeper "Ask {keeper} about the drover the customs-men hold" when not freed(party) once {
     Says "{keeper} lowers their voice. 'Third drove this year Mardle has found four short. The reeve takes his word: he keeps the Rì's book, and she has the sea-gate to think of. Nobody here will cross him. Nobody here sells cattle.'".

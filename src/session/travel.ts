@@ -20,7 +20,8 @@ export interface Journeyed {
   legs: { command: string; said: string; event: CampaignEvent; passed?: string; told?: Brought[] }[];
   arrived: boolean; stopped?: string;
 }
-export interface Brought { text: string; own?: true }
+// at: where on the way the world's words were said, for a telling of a leg passed (GR-07).
+export interface Brought { text: string; own?: true; at?: string }
 // What a journey does to the campaign: one ordinary command at a time, as the page would do it.
 export interface Traveller {
   campaign: Campaign; perform(command: string, said: string): Promise<CampaignEvent>;
@@ -84,22 +85,26 @@ export class Travel {
     // The leg is the journey's: it may cross into the next hex, as no command of the page's may (Campaign.bounded).
     const event = await t.campaign.crossing.travelling(leg.to, () => t.perform(choice.choice.id, choice.choice.name));
     const made: Journeyed['legs'][number] = { command: choice.choice.id, said: choice.choice.name, event,
-      ...this.brought(t.campaign, event) };
+      ...this.brought(t.campaign, event, leg.to) };
     done.legs.push(made);
     return this.interrupted(t.campaign, event, before, { leg, made });
   }
   // What a journey's legs brought, for a telling of its last leg alone (the runner's, the terminal's): every leg's,
   // but what the last one's own telling tells. A Light run out on the second of three legs had been told nowhere
   // (cold play 5's 19, CL-38), nor the pedlar seen far off on a fourth (TR-01).
+  // What the world said on a leg passed is said with where it was said: Gatesend's thanks, told as the journey ended on
+  // the Reedbridge road, had read as if said there (GR-07, S3-0's warrior step 50).
   static way(done: Journeyed): string[] {
-    return done.legs.flatMap((l, i) => i < done.legs.length - 1 ? (l.told ?? []).map(b => b.text) : this.found(l));
+    return done.legs.flatMap((l, i) => i < done.legs.length - 1
+      ? (l.told ?? []).map(b => b.at ? `At ${b.at}: ${b.text}` : b.text) : this.found(l));
   }
   // What a leg brought that its own telling does not tell (water gone round): for a telling of every leg's own.
   static found(leg: Journeyed['legs'][number]): string[] { return (leg.told ?? []).filter(b => !b.own).map(b => b.text); }
   // What a leg's own telling tells that it brought: what ran out on it, then the world's words said on it.
-  private static brought(campaign: Campaign, event: CampaignEvent): { told?: Brought[] } {
-    const told = [...ActionFeedbackView.lapses(campaign, event), ...RuleWords.said(event).map(p => p.text)]
-      .map(text => ({ text, own: true as const }));
+  private static brought(campaign: Campaign, event: CampaignEvent, to: string): { told?: Brought[] } {
+    const at = this.named(campaign, to);
+    const told = [...ActionFeedbackView.lapses(campaign, event).map(text => ({ text, own: true as const })),
+      ...RuleWords.said(event).map(p => ({ text: p.text, own: true as const, ...at ? { at } : {} }))];
     return told.length ? { told } : {};
   }
   // Water seen across the way ahead, where open country had been reckoned, and no way round it known.

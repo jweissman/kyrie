@@ -42,6 +42,12 @@ describe('the road home, on the warrior\'s route', () => {
   it('says why the journey home stopped short', () => {
     expect([at[49]!.at, at[49]!.scene.lines]).toEqual(['region__s5_s2_way', expect.arrayContaining(['You are weary'])]);
   });
+  // Gatesend's thanks, said as the company passed its green, said with where (GR-07), not as if on the Reedbridge road.
+  it('tells what a place passed on the way said with that place', () => {
+    const lines = at[49]!.scene.lines;
+    expect(lines.filter(l => /Doors are open all along the lane/.test(l)))
+      .toEqual([expect.stringMatching(/^At the gate-yard of Gatesend: Doors are open/)]);
+  });
 });
 describe('the road home, on the mage\'s route', () => {
   let at: Said[] = [], c: Campaign;

@@ -50,4 +50,22 @@ describe('stories apart from the other aims', () => {
     await act(s, 'wait');
     expect(Undertakings.held(s.campaign).map(o => o.id)).toEqual(['gate__gate_aim']);
   }, 180000);
+  // Nor the drove's to a company that came for something else (S3-R6, HP-01's remainder; S3-0's mage, step 52: come
+  // home to Porthalen from the sea-gate, the customs-house door seen across the green had given her the drove's two
+  // aims, Owain's count and Bran behind the grille, unasked). Seen, it is a lead with who to ask; asked, it begins.
+  it('on the green, the held drove is a lead to a mage of the weir, and begins when Owain is asked', async () => {
+    const s = await DrawnWorld.start('iscoed', { origin: 'weir',
+      party: [{ name: 'Aud', raceId: 'elf', classId: 'mage' }] }, NodeBundleSource.shared);
+    const c = s.campaign, drove = () => Undertakings.held(c).map(o => o.id).filter(id => id.startsWith('drove__'));
+    c.commitWorld(c.world.apply([{ kind: 'retract', call: { kind: 'call', name: 'at', args: ['party', c.world.one('at', 'party')!] } },
+      { kind: 'assert', call: { kind: 'call', name: 'at', args: ['party', 'region__s1_green'] } }]));
+    await act(s, 'wait');
+    expect(drove()).toEqual([]);
+    const leads = new Map((ScreenModel.build(c).leads ?? []).map(l => [l.id, l.ask]));
+    expect(leads.get('drove__held_seen')).toEqual(['Owain']);
+    await act(s, 'talk_to(drove__owain)');
+    expect([...new Set(await act(s, 'drove__owain_count_t'))]).toEqual(['The held drove']);
+    expect(drove()).toEqual(expect.arrayContaining(['drove__held_rhyne']));
+  }, 180000);
 });
+
