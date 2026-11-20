@@ -4,8 +4,8 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Placed } from './support/placed';
 
-const start = async (classId = 'warrior') => Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt',
-  party: [{ name: 'Ralf', raceId: 'human', classId }] }, NodeBundleSource.shared));
+const start = async (classId = 'warrior', seed = 'kahitude') => Journey.of(await DrawnWorld.start(seed,
+  { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human', classId }] }, NodeBundleSource.shared));
 const r = (id: string) => `region__${id}`;
 const key = async (j: Journey) => {
   await j.play('>s1_manor_kitchen', 'Ask Orla Pennick what is the matter with the cellar', '>s1_manor_cellar');
@@ -66,8 +66,11 @@ describe('the Hall, below stairs and in its papers', () => {
 });
 
 describe('the old stones, below the dome', () => {
+  // The undercroft's keeper is drawn (under: revenant, bats or quiet): the cup is taken past the revenant, which e1's
+  // first town draws; kahitude's draws the bats since keyed draws (MT-14), six of them, more than a lone warrior lives
+  // through.
   it('has an undercroft whose cup, set back in its niche, mends the boy at the Hall; and a tunnel from the cellar to it', async () => {
-    const j = await start();
+    const j = await start('warrior', 'e1');
     await j.play('>s1_manor_cellar').catch(() => '');
     await j.fight('Attack').catch(() => '');
     await j.play('light a torch', 'Search here');
