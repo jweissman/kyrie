@@ -189,9 +189,9 @@
   Rule pedlar_goes_on when answered(party) and at(pedlar, {approach}) and not at(party, {approach}) {
     Retract at(pedlar, {approach}). Assert at(pedlar, {inn}).
   }
-  // His pack saved on the road, he would come along (the owner, 19 November: the very first choices, to help someone or not and to go with companions or alone, the one
+  // His pack saved on the road, or bought back, he would come along; never with one who helped themselves to it (the owner, 19 November: the very first choices, to help someone or not and to go with companions or alone, the one
   // met on the road someone who could come along; AT-08).
-  Topic pedlar_come with pedlar "Ask the pedlar whether he would come with you" when at(pedlar, {inn}) and (wayIn(pack_saved) or wayIn(pack_shared)) and not willing(pedlar, actor) and not travelsWith(pedlar, actor) once {
+  Topic pedlar_come with pedlar "Ask the pedlar whether he would come with you" when at(pedlar, {inn}) and (wayIn(pack_saved) or wayIn(pack_bought)) and not willing(pedlar, actor) and not travelsWith(pedlar, actor) once {
     Says "The pedlar touches the bandage on his head. 'The pack can wait with the innkeeper. I know every road hereabouts. I'd sooner walk with someone who stops for a man in a ditch.'".
     On discuss { Assert willing(pedlar, actor). Set hire(pedlar) to 0. }
   }
