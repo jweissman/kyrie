@@ -211,6 +211,9 @@ export interface Screen {
   aims?: { id: string; text: string; followed?: true; follow?: string; chosen?: true; own?: true; places?: string[];
     who?: string[]; story?: { id: string; title: string };
     about?: string[] }[];
+  // The leads, apart from the aims (US-07): what the company knows of work to be had and who to ask of it (a notice, a
+  // cold chimney), not held until the one named is asked (see Undertakings.leads).
+  leads?: { id: string; text: string; ask: string[] }[];
   // What can be said now that pays the company (see Owed): the talk leads with it, marked as the likeness is.
   paying?: string[];
   // What can be said now that the company has come to say or settle (see TalkWeight): the talk leads with it.

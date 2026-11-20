@@ -137,10 +137,12 @@ describe('Gatesend, after the fifth cold play', () => {
 // and the reeve says why nobody in Gatesend will go into the gatehouse.
 describe('the drove road, after the fourth cold play', () => {
   it('lets Bran and Owain say what comes next, and the reeve why the gatehouse is shunned', async () => {
-    const { s: freed, ask } = await play('human/warrior/Wenna', lines(4, 12));
+    const { s: freed, ask, r } = await play('human/warrior/Wenna', lines(4, 12));
     expect(text(freed)).toContain('Now I sell them, and drink, and go home');
     said(await ask('go(drove__customs_door,region__s1_green)'));
-    await ask('talk_to(drove__owain)');
+    // Owain's question is led on the green as itself where no other story's aim is held (HP-01: the green's signs are
+    // leads), and under his talk where it is not: talked to first where that is offered.
+    await r.ask(JSON.stringify({ act: 'talk_to(drove__owain)' }));
     expect(text(await ask('drove__owain_after'))).toContain('Go home with Bran');
     await ask('talk_to(gate__reeve)');
     expect(text(await ask('gate__reeve_gate'))).toContain('with the sea running under it like a mill-race');

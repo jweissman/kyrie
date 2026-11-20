@@ -7,6 +7,7 @@ import type { PlayerSnapshot } from './player-view';
 import { VisitedPlaces } from './visited-places';
 import { ChoiceGrouping } from '../ui/choice-grouping';
 import { QueryIndex } from '../lang/query-index';
+import { Undertakings } from './undertakings';
 
 // What the company knows, and how: seen with its own eyes, found in a source, read, or heard from someone; and when
 // it learned it.
@@ -14,8 +15,11 @@ export class CompanyKnowledge {
   static of(campaign: Campaign, actor: string, labels: Map<string, string>): PlayerSnapshot['knowledge'] {
     const world = campaign.world, learned = this.learned(campaign, actor), reached = this.reached(campaign, actor);
     // A fact with no words is a mark an author keeps (the brother knelt by the cart), not something to be told.
+    // Nor a lead spent (stale, with someone to ask of it: the notice whose jobs are all paid), let go from the Notes as
+    // the aims it gave are (FH-05; see Undertakings.leads).
+    const spent = Undertakings.spent(world);
     const known = EntityIndex.of(campaign.module.entities).ordered(world.related('knows', actor).map(r => r.args[1]!))
-      .filter(e => e.name);
+      .filter(e => e.name && !spent.has(e.id));
     return known.map(e => {
       const told = world.related('toldBy', actor).find(r => r.args[2] === e.id);
       const found = world.related('learnedFrom', actor).find(r => r.args[2] === e.id);

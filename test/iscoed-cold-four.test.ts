@@ -76,10 +76,15 @@ describe('the golden route, after the fourth cold play', () => {
     const owain = text(byLine[0]);
     expect(owain).toContain('looking up the river for the fuel boat from Reedbridge, two days late');
     expect(owain).toContain('the reeve’s seal at its foot');
-    expect(byLine[0]!.aims?.map(a => a.text).join(' ')).toContain('sea-gate at Gatesend');
+    // Said, and leads, not aims (HP-01): the sea-gate is held once the reeve is asked of it, not from her notice seen.
+    expect(byLine[0]!.aims?.map(a => a.text).join(' ')).not.toContain('sea-gate at Gatesend');
+    expect(byLine[0]!.aims?.map(a => a.text).join(' ')).not.toContain('fuel boat');
     const led = (s: Said | undefined) => s!.offer.primary.map(o => o.id);
-    expect(led(byLine[13])[0]).toMatch(/^gate__reeve_/);
-    expect(led(byLine[14])[0]).toMatch(/^gate__reeve_/);
+    // First after the company's own story's (the drove's aftermath, Owain's word led as kin: the green's signs leads,
+    // not aims, and nothing else held once Bran is out, HP-01), and before anything else of the green.
+    const spoken = (s: Said | undefined) => led(s).filter(id => !id.startsWith('drove__'));
+    expect(spoken(byLine[13])[0]).toMatch(/^gate__reeve_/);
+    expect(spoken(byLine[14])[0]).toMatch(/^gate__reeve_/);
     // And Gwil Pryce, greeted with nothing to say to him, says what his boats are for.
     expect(led(byLine[16])).toContain('gate__wright_boats');
   });

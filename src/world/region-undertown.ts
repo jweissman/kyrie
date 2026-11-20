@@ -59,11 +59,26 @@ export class RegionUndertown {
         // description (the owner, 7 November: the place had read as a list of objects).
         `  Thing ${notice}_post "the notice on the well-post" at ${t}_green { }`,
         `  Observe ${notice}_up near ${notice}_post of ${notice}_post when (${open}) and not knows(party, ${notice})`
+          + ` and not stale(${notice})`
           + ` ${q('A notice is nailed to the post by the well, written over in several hands.')}.`,
         `  Action ${notice}_read(actor: group, site: place) "Read the notice on the well-post" {`,
         `    Requires able(actor) and at(actor, site) and at(actor, ${t}_green) and not knows(actor, ${notice})`
-          + ` and (${open}).`,
-        '    Time 1.', `    On success { Assert knows(actor, ${notice}). }`, `    Result ${q(said)}.`, '  }'] : []];
+          + ` and (${open}) and not stale(${notice}).`,
+        '    Time 1.', `    On success { Assert knows(actor, ${notice}). }`, `    Result ${q(said)}.`, '  }',
+        ...this.spent(t, troubles)] : []];
+  }
+  // Who each job on the notice is asked of (its giver, the one its _job_ask topic is with), and the notice spent
+  // (stale) once every job on it is paid, a lead let go from the Notes: it had stayed among them after (FH-05).
+  private static spent(t: string, troubles: KyrSection[]): string[] {
+    const notice = `${t}_u_notice`, givers = new Set<string>();
+    for (const x of troubles) {
+      const ask = new RegExp(`Topic \\{t\\}_u_${x.option}_job_ask with \\{t\\}(_\\w+)`);
+      const by = x.lines.map(l => ask.exec(l)?.[1]).find(Boolean);
+      if (by) { givers.add(`${t}${by}`); }
+    }
+    const paid = troubles.map(x => `${t}_u_paid(${t}_u_${x.option}_job)`).join(' and ');
+    return [...[...givers].map(g => `  Initially Assert askedOf(${notice}, ${g}).`),
+      `  Rule ${notice}_spent when ${paid} and not stale(${notice}) { Assert stale(${notice}). }`];
   }
   // Under the vault, behind its keeper's chair, a stair down into what the town was built over: the barrow of the
   // country's first dead, three levels more (the passage-grave, the halls of the dead, the king's grave), written by

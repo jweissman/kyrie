@@ -36,9 +36,13 @@ describe('the reference start, Iscoed', () => {
       expect(Iscoed.aims(drove)).toMatch(/Ask Owain how many head came down/);
       expect(Iscoed.aims(pans)).toMatch(/fuel boat/);
       expect(Iscoed.aims(weir)).toMatch(/sea-gate .* will not shut/);
+      // Met at once as leads, each with who to ask, not as aims held (HP-01): the drove holds its own errand alone.
       await drove.play('Wait › A while');
       const held = Iscoed.aims(drove);
-      for (const aim of [/how many head came down/, /fuel boat/, /sea-gate/]) { expect(held).toMatch(aim); }
+      expect(held).toMatch(/how many head came down/);
+      for (const aim of [/fuel boat/, /sea-gate/]) { expect(held).not.toMatch(aim); }
+      const leads = (drove.screen().leads ?? []).map(l => `${l.text} (${l.ask.join(', ')})`).join(' | ');
+      for (const lead of [/chimney.*\(Holgar/, /sea-gate.*\(Reeve Annis Talfryn\)/]) { expect(leads).toMatch(lead); }
     }, 180000);
   it('frees the drover by what the drove itself shows: the four drowned in the rhyne, against the clerk\'s count',
     async () => {

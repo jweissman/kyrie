@@ -32,7 +32,12 @@ Module gate "The last sea-gate" {
   Thing notice "the reeve's notice" at green {
     State posted "A notice in a clerk's hand is nailed to the post by the well: THE SEA-GATE AT GATESEND IS TO BE MENDED BEFORE THE SPRING TIDE. THIRTY CROWNS OF THE REEVE TO WHOEVER MENDS IT. A. TALFRYN, REEVE.".
   }
-  Observe notice_read at green as sign when not mended(party) and not flooded(party) and not knows(party, failing) "A notice is nailed to the post by the well, newer than the others, the reeve's seal at its foot." teaches failing.
+  // The notice is a lead, not the aim (HP-01): read, it says who to ask; the gate is an aim once the reeve is asked
+  // (reeve_gate), and the lead's knowing is let go then, as a job's is when it is paid. The green had given two
+  // stories' aims at once on the drove road, before anyone there had asked the company for anything.
+  Entity gate_posted: fact "A notice on the well-post at {town}, under the reeve's seal: thirty crowns to whoever mends the sea-gate at {hamlet}. Reeve Annis Talfryn is on the green.".
+  Initially Assert askedOf(gate_posted, reeve).
+  Observe notice_read at green as sign when not mended(party) and not flooded(party) and not knows(party, failing) and not knows(party, gate_posted) "A notice is nailed to the post by the well, newer than the others, the reeve's seal at its foot." teaches gate_posted.
   Observe bank_scene at bank when not mended(party) and not flooded(party) "The sea-bank runs straight as a rule between the grey water and the green fen, a man's height above both. Where it meets the river stands a squat stone gatehouse, and from under it, even now at the ebb, the sea runs into the fen with a sound like a mill-race.".
   Observe bank_mended at bank when mended(party) "The sea-bank runs straight between the grey water and the green fen. Under the gatehouse the water lies still.".
   Observe bank_flooded at bank when flooded(party) "The fen behind the sea-bank is a sheet of grey water to the ridge, with the roofs of {hamlet} standing out of it and gulls on the ridge-trees.".
@@ -50,7 +55,7 @@ Module gate "The last sea-gate" {
 
   Topic reeve_gate with reeve "Ask the reeve about the sea-gate at Gatesend" when not mended(party) and not flooded(party) once {
     Says "'It will not shut,' says the reeve. 'It has not shut since the new moon. I have written to the Rì's engineers in Dun Rìerdan, and they will come in the summer, with a bill, and the fen will have been sea since the spring.' She looks at you as if measuring rope. 'Six days to the spring tide. Thirty crowns. Nobody in Gatesend will go into the gatehouse now, with the sea running under it like a mill-race.'".
-    On discuss { Assert knows(actor, failing). Assert knows(actor, tide). }
+    On discuss { Assert knows(actor, failing). Assert knows(actor, tide). Retract knows(actor, gate_posted). }
   }
   Action wind_gate(actor: group, site: place) "Set the pawl in its socket and wind the sea-gate shut" {
     Time 1 hours.

@@ -23,6 +23,9 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   // What a fact tells of where something is (a site named, a country rumoured beyond a march): known, the place is on
   // the company's map, as told, before it has been there or knows the way.
   Relation leadsTo(fact, place).
+  // A lead and who to ask of it (a notice on a post, a cold chimney): known, it is a lead in the Notes and not an aim;
+  // asked, the one asked gives the aim, and the lead's knowing is let go (HP-01, US-07: see Undertakings.leads).
+  Relation askedOf(fact, group).
   // The ways a fact tells (the way to a ruin deep in a wood, landmark by landmark): known, the company knows them as if
   // it had walked them, and can set out along them. The way into a place it has been told of it knows already: from
   // where the place's own track starts.

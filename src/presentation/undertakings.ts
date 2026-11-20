@@ -94,8 +94,28 @@ export class Undertakings {
         ...def && Stakes.own(def) ? { own: true as const } : {},
         ...def ? { places: this.places(campaign, def) } : {}, ...def && this.who(campaign, def).length
           ? { who: this.who(campaign, def) } : {} }));
-    const folded = this.folded(campaign, ordered);
-    return { objectives: folded.map(o => o.text), ...folded.length ? { aims: folded } : {} };
+    const folded = this.folded(campaign, ordered), leads = this.leads(campaign);
+    return { objectives: folded.map(o => o.text), ...folded.length ? { aims: folded } : {},
+      ...leads.length ? { leads } : {} };
+  }
+  // The leads spent: stale, nothing left to ask of them (every job on the notice paid).
+  static spent(w: Campaign['world']): Set<string> {
+    if (!w.relates('askedOf') || !w.relates('stale')) { return new Set(); }
+    const stale = new Set(w.related('stale').map(r => r.args[0]!));
+    return new Set(w.related('askedOf').map(r => r.args[0]!).filter(f => stale.has(f)));
+  }
+  // The leads, a record apart from the aims (US-07, HP-01): each fact the company knows that names someone to ask of
+  // it (askedOf: the notice on the well-post, the one chimney smoking), with who. A lead is not held: asking gives the
+  // aim, and the lead's knowing is let go then, or it is spent once every job it tells of is paid.
+  static leads(campaign: Campaign): { id: string; text: string; ask: string[] }[] {
+    const w = campaign.world;
+    if (!w.relates('askedOf')) { return []; }
+    const byId = EntityIndex.of(campaign.module.entities).byId, asked = new Map<string, string[]>();
+    for (const r of w.related('askedOf')) { asked.set(r.args[0]!, [...asked.get(r.args[0]!) ?? [], r.args[1]!]); }
+    const known = new Set(w.related('knows', 'party').map(r => r.args[1]!)), spent = this.spent(w);
+    return [...asked].filter(([fact]) => known.has(fact) && !spent.has(fact) && byId.get(fact)?.name)
+      .map(([fact, who]) => ({ id: fact, text: ObservationText.render(byId.get(fact)!.name!, w),
+        ask: who.map(g => ObservationText.label(w, g)) }));
   }
   private static rank(campaign: Campaign, def: Objective | undefined, id: string, followed?: string): number {
     return id === followed ? 0 : def && Stakes.own(def) ? 1 : Stories.of(campaign, id) ? 2 : 3;

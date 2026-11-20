@@ -35,7 +35,11 @@ Module pans "The cold pans" {
   Passage staithe_lane "the lane down to the staithe" is passage between fuelgreen and staithe.
   Item sacks "two sacks of charcoal" is fuel_sack_kind at staithe.
 
-  Observe cold_sign at green as sign when not fuelled(party) and not spoiled(party) "Over the salt-houses only one chimney is smoking, thin and grey. A salter stands in a doorway with his arms folded, looking up the river for the fuel boat from {fuelvillage}, two days late." teaches cold.
+  // The one chimney is a lead, not the aim (HP-01): the boat is an aim once {trader} is asked why the pans are cold
+  // (trader_cold), and the lead's knowing is let go then.
+  Entity chimney: fact "Only one chimney smokes over the salt-houses at {town}, and {trader} watches the river for the fuel boat from {fuelvillage}, two days late. {trader} is at the salt-house.".
+  Initially Assert askedOf(chimney, trader).
+  Observe cold_sign at green as sign when not fuelled(party) and not spoiled(party) and not knows(party, cold) and not knows(party, chimney) "Over the salt-houses only one chimney is smoking, thin and grey. A salter stands in a doorway with his arms folded, looking up the river for the fuel boat from {fuelvillage}, two days late." teaches chimney.
   Observe boiling_cold at boiling when not fuelled(party) and not spoiled(party) "Three iron pans the size of a cart-floor stand over brick hearths, the brine in them grey and still. Only one hearth is lit, low, fed with broken barrel-staves. A crust of salt is setting on the cold ones like ice.".
   Observe boiling_hot at boiling when fuelled(party) "All three hearths roar. The brine seethes in the pans and the air is thick with steam and the smell of the sea, and a man with a long wooden rake draws the white salt up onto the boards to drain.".
   Observe boiling_spoiled at boiling when spoiled(party) "The pans are cold and the brine in them has gone to a brown scum. Two men are tipping it out into the ditch, and nobody is speaking.".
@@ -45,7 +49,7 @@ Module pans "The cold pans" {
 
   Topic trader_cold with trader "Ask {trader} why the pans are cold" when not fuelled(party) and not spoiled(party) once {
     Says "{trader} wipes salt off both hands. 'No fuel. The boat from {fuelvillage} is two days late and there's not a stick to be had in {town}: the ridge wood is the reeve's and the peat is wet. Three days cold and the brine's spoiled, and the season with it.' A look at your arms. 'If you've a back, I'll pay for it. Get me fuel and there's work here after.'".
-    On discuss { Assert asked(actor). }
+    On discuss { Assert asked(actor). Assert knows(actor, cold). Retract knows(actor, chimney). }
   }
   Topic ianto_boat with ianto "Ask Ianto about the fuel boat" when not fuelled(party) once {
     Says "'Broke it on the windlass, loading her,' says Ianto, and nods at the arm. 'She's full. Two sacks would keep his fires a day or two; the whole load, a month. I can't pole her down with one arm, and nobody here will take her through the sluice-cut since the water went wrong.' He looks at you. 'You could carry two. Or pole her, if you've done it.'".
