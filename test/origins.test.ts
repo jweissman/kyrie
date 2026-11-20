@@ -224,7 +224,10 @@ describe('an origin', () => {
     // Whom an aim sends the company to is said with the room they keep (4bcc957a), so the creditor is the salter at
     // the salt-house.
     expect(ScreenModel.build(s.campaign).objectives.join(' ')).toContain("50 coin by market day, owed to Mik, salter at Lowmouth");
-    for (let n = 0; n < 30 && !s.campaign.world.test(ModuleWriter.call('origin__called', 'party')); n++) {
+    // Waited out by the page's own waits until it is called in, ten days on: a wait until dark or light is cut short by
+    // what the town is told (the players' going, WM-09, is said there now), so the waits are counted to the day, not
+    // to thirty of them.
+    for (let n = 0; n < 80 && !s.campaign.world.test(ModuleWriter.call('origin__called', 'party')); n++) {
       const until = PlayerView.choices(s.campaign).find(c => ['wait_for_dark', 'wait_for_light'].includes(c.choice.id));
       await s.leg(until?.choice.id ?? 'wait_hour');
     }
