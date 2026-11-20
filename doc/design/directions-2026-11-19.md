@@ -116,3 +116,13 @@ intermediate tool, kept distinct from concurrent actors in one world.
 
 **The useful result, when taken up:** a short, concrete assessment of the existing machinery, the smallest credible
 two-faction experiment, its missing capabilities, and how the findings should shape progression and campaign design.
+
+## 6. An assembler-derived interior map (the owner, 19 November, night)
+
+Preserved as a future architectural experiment, not M22 work: no roguelike, new tactical engine or general map system
+during M22's stabilization. Kyr should ordinarily describe an interior's meaningful spatial constraints (room
+topology, passage conditions, containment, size requirements and the like) rather than use coordinates merely to lay
+rooms out. The assembler should produce one authoritative geometric realization, from which a terminal schematic, an
+architectural drawing and eventually player navigation are derived. Atlas marks on passages reuse the existing
+authoritative opportunity model (the folds of AT-05/AT-06; a passage's mark a route's first step). The future proof
+of the boundary: one small existing interior.

@@ -488,6 +488,16 @@ why he will not go home, who later does): it is not offered again, and needs no 
 A journey step that names the first wording matches the "again" offer once the first is gone, so a step meant to ask
 once comes before anything that would ask it again.
 
+What a topic does may cost the company. Guard it by the purse, so that it is not offered to an empty one, and take the
+coin in what it does, as the debt's creditor does (`data/origins/debt/origin.kyr`):
+
+```text
+  Topic pay with creditor "Pay {creditor} what you owe" when owed(loan) > 0 and quantity(actor, gold) >= owed(loan) once {
+    Says "{creditor} counts it twice, and sweeps it into the drawer. 'We're square.'".
+    On discuss { Decrease quantity(actor, gold) by owed(loan). Set owed(loan) to 0. }
+  }
+```
+
 What a topic or an action puts in the company's hands is given in so many words: `Give davy_coat to actor.` gives the
 coat to the first of the company who is up, out of whoever had it or from wherever it lay, and the page says "You take
 Davy's red coat." Nothing need be set on the floor to be taken (What Tessary Owes' W3, the Banns at Hessel's 14).
@@ -1114,7 +1124,8 @@ holds the one its seed chooses (`src/world/frontier.ts`). `bin/kyrie countries` 
   and what kind of country it is, the side of a generated country it lies on, and the terrains of those it may lie
   beside; and its rumour, what the innkeeper of the town the road leaves from says of it when asked about the road
   (`{keeper}` is the innkeeper), with what the company knows of it once told (`heard`), which the journal keeps as
-  heard from them.
+  heard from them. The marker is an entity no other country has: the frontier knows which country a region already
+  has by finding `<region>__<marker>` (src/world/frontier.ts), so two countries sharing one are taken for each other.
 
 What is said passes one way. The country's keepers speak of yours in your words; your people cannot name the
 country's towns, inns or keepers, which are drawn for each world after yours is written, so a topic of yours names

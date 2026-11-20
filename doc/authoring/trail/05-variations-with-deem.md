@@ -80,6 +80,22 @@ What the journey met that an author should know: the thanks given by kind (`Give
 own items (`Item … "a twist of betony" is betony`) are two rows in the pack ("A twist of betony", "Two
 betonies"), because a named item is its own thing; and the kind's name is made plural by a rule ("betonies").
 
+## The order of draws
+
+A template's options are drawn from one stream for each place it is written for (`KyrTemplates.choose`,
+`src/world/kyr-template.ts`): its groups in the order the file gives them, one weighted draw for each group that
+chooses. A group whose only section is the group itself (`--- notice`) is always written and draws nothing; so does a
+group none of whose options is allowed there (`when`/`unless`). So:
+
+- a new choosing group appended last changes nothing already drawn; anywhere earlier, it draws again every group after
+  it, in every world (the undertown's hand on the green was appended last for this);
+- changing an option's weight, or adding an option to a group, changes what that group draws and nothing after it;
+- a `when` that empties a group in one town moves every later group's draw in that town alone;
+- a group fixed for a country (`StrategicAtlas.fix`) still takes its draw, so fixing one does not move the others.
+
+What a moved draw breaks is whatever names a seed's draws: the kept replays (`test/support/before-rooms`) and specs
+that walk a drawn town. Look at `bin/kyrie world <seed>` before and after.
+
 ## What is not yet data
 
 Most of what a country holds is still written by TypeScript that emits Kyr text: 27 of the 61 files in `src/world`

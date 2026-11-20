@@ -17,6 +17,9 @@ adds a record, it does not invent a private one (the owner, 5 November: one cano
 | `abilities.json`, `conditions.json` | effects: what an ability does (typed effects are what combat executes and what its text says), a condition's modifiers and ticks | see each file's `about` and `src/rules/modifiers.ts` |
 | `habitats.json` (15) | a kind of country (wood, river, fen, cave…) a record can live in | |
 
+A plant whose `yields` is its own id gathers an item named `<plant>_gathered`, since an item and a plant are never one
+id (`Canon.yielded`, src/canon/canon.ts): a module asks for `betony_plant_gathered`, not `betony_plant`, when so.
+
 Orsino's generated entries (`data/catalog/orsino/*.json`) are joined with these; a hand record replaces the Orsino one
 its `source` names. `bin/kyrie validate` checks the catalog; `bin/kyrie handbook` regenerates the handbooks
 (`doc/handbook`) after a catalog change.
