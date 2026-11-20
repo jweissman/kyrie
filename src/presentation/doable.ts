@@ -206,10 +206,12 @@ export class Doable {
   // (cold play 4, CL-45; cold play 5, CL-36: Gek). "Talk to the factor — ask about the king-barrow". Called by a
   // first name, never by an article: "the sellsword on the green" asked "Ask the sellsword what…" had been "— ask
   // sellsword what work she is after" (MT-15).
+  // Whom the question names, by as much of the talk's name as it says ("Ask the sellsword what…" under "Talk to the
+  // sellsword on the green"), never a bare article: said once, not twice (CL-45; foreground-browser at a1's camp).
   static called(talk: string, question: string): string {
-    const whom = /^Talk to (.+)$/.exec(talk)?.[1], first = whom?.split(' ')[0];
-    const by = [whom, /^(the|a|an)$/i.test(first ?? '') ? undefined : first].find(w => w
-      && question.startsWith(`Ask ${w} `));
+    const words = /^Talk to (.+)$/.exec(talk)?.[1]?.split(' ') ?? [];
+    const by = words.map((_, i) => words.slice(0, words.length - i).join(' '))
+      .find(w => !/^(the|a|an)$/i.test(w) && question.startsWith(`Ask ${w} `));
     return `${talk} — ${by ? `ask ${question.slice(`Ask ${by} `.length)}`
       : `${question.charAt(0).toLowerCase()}${question.slice(1)}`}`;
   }

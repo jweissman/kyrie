@@ -40,5 +40,8 @@ describe('a question led to someone not yet met', () => {
   it('drops whom the question names where the talk names them already, and keeps other words whole', () => {
     expect(Doable.called('Talk to Bran ap Ifor', 'Ask Bran what happened')).toBe('Talk to Bran ap Ifor — ask what happened');
     expect(Doable.called('Talk to Gesk', 'Whether he would come along')).toBe('Talk to Gesk — whether he would come along');
+    // A stranger named by a longer name than the question says (a1's camp, foreground-browser): said once.
+    expect(Doable.called('Talk to the sellsword on the green', 'Ask the sellsword what brings him here'))
+      .toBe('Talk to the sellsword on the green — ask what brings him here');
   });
 });
