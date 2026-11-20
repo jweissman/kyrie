@@ -358,6 +358,10 @@ export class CreationFlow {
   }
   // Whether the reason for having come gives a trade of its own (one who comes over the hills brings their own).
   private given(): boolean { return !!this.setting.origins?.find(o => o.id === this.origin)?.background; }
+  // A life drawn whole, as the flow would draw it were nothing chosen (Set out now, OR-120): the country's people, how
+  // they present and their name as drawn for it, the calling's first way and its spells, and the calling's own trade
+  // unless the reason for coming gives one (see CreationDefaults).
+  rolled() { CreationDefaults.settle(this.member, this.catalog, { trade: !this.given() }); }
   static readonly presenting = [['she', 'A woman', 'she, her'], ['he', 'A man', 'he, him'],
     ['they', 'Neither', 'they, them']] as const;
   private static has(entry?: CreationEntry): Pick<CreationCard, 'entry'> { return entry ? { entry } : {}; }

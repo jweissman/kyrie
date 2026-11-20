@@ -125,10 +125,18 @@ export type Request =
   | { kind: 'catalog' }
   | { kind: 'setting'; campaign: string }
   | { kind: 'world'; seed: string; terrain?: string }
+  // The country a new game will begin in, by the seed it will use, drawn while the title shows, and the start Set out
+  // now asks made ready behind it (see EngineForesight); a world asked for by the same seed is that one.
+  | { kind: 'ahead'; seed: string }
+  // How a new game begins, the first thing asked of it (see FirstChoice): asked before any country is drawn.
+  | { kind: 'beginning' }
+  // For automation: answered once nothing is under way (a country drawn ahead, a start made ready: EngineHost.idle).
+  | { kind: 'idle' }
   // Making a life, as the engine holds it: where it stands, or a choice at a step and where it then stands (see
   // EngineCreation); and setting out as it stands, the start the page's Begin asks.
   | { kind: 'creation'; step?: import('./creation-flow').CreationChoice; value?: string }
-  | { kind: 'set-out'; apart?: boolean }
+  // rolled: Set out now, the life drawn whole from the flow's own defaults (see EngineCreation.rolled).
+  | { kind: 'set-out'; apart?: boolean; rolled?: boolean }
   | { kind: 'preview'; party: Member[]; generated: boolean }
   // apart: the page tells the opening apart, before the first place (see Prologue), and its frame says so.
   | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;

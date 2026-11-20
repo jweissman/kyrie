@@ -15,12 +15,14 @@ import { Creation } from './creation';
 import { EngineCreation, type CreationState } from './engine-creation';
 import type { CreationChoice } from './creation-flow'; import { Foregone } from '../../src/ui/foregone';
 import { EngineStarts, type Starting } from './engine-starts';
+import { EngineForesight } from './engine-foresight';
+import { FirstChoice } from './first-choice';
 import { Frontier } from '../../src/world/frontier';
 import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
 import { Scenarios } from '../scenarios';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { PlayTranscript } from './transcript';
-import type { Entry, Frame, Leaf, Message, Request, SaveSummary, Setting } from './protocol';
+import type { Entry, Frame, Leaf, Message, Request, SaveSummary } from './protocol';
 import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
@@ -69,8 +71,10 @@ export class EngineHost {
   private fought?: Battle;
   private readonly creation = new Creation(); private readonly made = new EngineCreation();
   private readonly starts = new EngineStarts(this.creation, m => this.post(m));
-  // Idle at last: nothing more begun, and what was under way finished (see EngineStarts.settled).
-  idle(): Promise<void> { return this.starts.settled(); }
+  private readonly foresight = new EngineForesight(this.creation, this.made, this.starts);
+  // Idle at last: nothing more begun, and what was under way finished (a country drawn ahead, and the start it asks:
+  // see EngineForesight.settled, EngineStarts.settled).
+  async idle(): Promise<void> { await this.foresight.settled(); await this.starts.settled(); }
   // The command under way, if any, which a checkpoint waits for.
   private working: Promise<unknown> = Promise.resolve();
   // Which game the host plays: one begun or opened is the next. A command that ends after another game has begun
@@ -86,9 +90,14 @@ export class EngineHost {
     switch (request.kind) {
       case 'catalog': return Creation.catalog();
       case 'setting': return this.creation.setting(request.campaign);
-      case 'world': return this.drawn(request.seed, request.terrain);
+      case 'world': return this.foresight.drawn(request.seed, request.terrain);
+      case 'ahead': this.foresight.ahead(request.seed); return null;
+      case 'beginning': return FirstChoice.step();
+      case 'idle': await this.idle(); return null;
       case 'creation': return request.step ? this.chosen(request.step, request.value ?? '') : this.made.state();
-      case 'set-out': return this.begin({ ...this.made.starting(), ...request.apart ? { apart: true } : {} });
+      // Set out now (rolled): the life drawn whole from the flow's defaults, as the start made ahead was (OR-120).
+      case 'set-out': return this.begin({ ...request.rolled ? this.made.rolled() : this.made.starting(),
+        ...request.apart ? { apart: true } : {} });
       case 'preview': return Creation.preview(request.party, request.generated);
       case 'begin': return this.begin(request);
       case 'ready': this.starts.prepare(request); return null;
@@ -109,14 +118,6 @@ export class EngineHost {
           log: this.log, ...this.bound ? { bound: this.bound } : {} }) : null;
       case 'story': return this.log;
     }
-  }
-  // A country drawn for a life to be made for, and its texts read while the player reads the first page.
-  private async drawn(seed: string, terrain?: string): Promise<Setting> {
-    this.starts.drop();
-    const setting = this.made.begun(await this.creation.generate(seed, terrain),
-      { campaign: Creation.generated, seed, ...terrain ? { terrain } : {} });
-    this.starts.readying(this.made.starting(), 'read');
-    return setting;
   }
   // A choice in the making of a life, and the start it now asks for made ready meanwhile (see EngineStarts.readying).
   private chosen(step: CreationChoice, value: string): CreationState {
@@ -141,7 +142,7 @@ export class EngineHost {
   // A game kept in this browser (packed), or a save file: a checkpoint, with or without the page's telling of it.
   // A game kept in this browser is its state and the world it names, kept apart (see KeptGame).
   private async resume(text: string, { world, apart }: { world?: string; apart?: boolean } = {}): Promise<Frame> {
-    const game = this.abandon();
+    const game = this.abandon(); this.foresight.drop();
     const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
     const unpacked = world ? await SaveCodec.unpack(world) : undefined;
     const part = unpacked ? JSON.parse(unpacked) as WorldPart : undefined;

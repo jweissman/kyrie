@@ -6,6 +6,10 @@ import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
 import { TerminalInput, type Asking, type Picking } from './terminal-input';
 import type { Menu, Row } from './terminal-picker';
+import type { FirstStep } from '../../web/engine/first-choice';
+
+// A step as it is asked: creation's (CreationFlow), or how the game begins (FirstChoice).
+type Asked = Pick<CreationStep, 'ask' | 'cards' | 'chosen' | 'all' | 'many' | 'picked'>;
 
 // Who comes into the world, chosen in the terminal as the page chooses: by asking the engine where the making of a
 // life stands and sending it each choice, through the same requests the page's worker answers (world, creation,
@@ -16,6 +20,18 @@ import type { Menu, Row } from './terminal-picker';
 export class TerminalCreation {
   private all = false;
   constructor(private readonly input: Asking, private readonly say: (line: string) => void = console.log) {}
+  // How the game begins, asked first of one at the keys, as the page asks it (FirstChoice, OR-120): a life built step
+  // by step, or one drawn whole from creation's defaults and set out with at once (set-out's rolled). The country is
+  // drawn while the question is read, and the start Set out now asks made ready behind it (see EngineForesight).
+  async begin(host: EngineHost, seed: string): Promise<{ rolled: boolean }> {
+    await host.handle({ kind: 'ahead', seed });
+    if ((await this.card(await host.handle({ kind: 'beginning' }) as FirstStep)).id !== 'set-out-now') {
+      await this.choose(host, seed);
+      return { rolled: false };
+    }
+    await host.handle({ kind: 'world', seed });
+    return { rolled: true };
+  }
   async choose(host: EngineHost, seed: string): Promise<{ state: CreationState; setting: Setting }> {
     const setting = await host.handle({ kind: 'world', seed }) as Setting;
     let state = await host.handle({ kind: 'creation' }) as CreationState;
@@ -29,7 +45,7 @@ export class TerminalCreation {
     return { state, setting };
   }
   // A step's cards by number, under their groups; a card that cannot be taken says why, and is not taken.
-  private async card(step: CreationStep): Promise<CreationCard> {
+  private async card(step: Asked): Promise<CreationCard> {
     if (TerminalInput.picks(this.input)) { return this.picked(step, this.input); }
     this.say(`\n${Typography.plain(step.ask)}`);
     let group: string | undefined;
@@ -58,7 +74,7 @@ export class TerminalCreation {
   }
   // The human mode: the same cards, the four the step leads with and the rest behind More, picked by the same keys as
   // a scene (TP-05: creation and navigation through one grammar). A card that cannot be taken says why, on Enter.
-  private async picked(step: CreationStep, input: Picking): Promise<CreationCard> {
+  private async picked(step: Asked, input: Picking): Promise<CreationCard> {
     const menu = TerminalCreation.menu(step), picked = await input.pick(menu);
     if (!picked) { throw new Error(TerminalCreation.left); }
     return step.cards.find(c => 'choice' in picked && c.id === picked.choice)
@@ -66,7 +82,7 @@ export class TerminalCreation {
   }
   // A step as a picker's menu: its question, its four and the rest, each card by its emblem and name, its line under
   // it while focused, its whole on asking; the focus on the card chosen already.
-  static menu(step: CreationStep): Menu {
+  static menu(step: Asked): Menu {
     const rows: Row[] = step.cards.map(c => {
       const sign = c.emblem && Signs.emblem(c.emblem);
       const taken = step.picked?.includes(c.id) ? ' *' : '';

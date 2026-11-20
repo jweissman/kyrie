@@ -32,6 +32,7 @@ export class EngineStarts {
     clearTimeout(this.soon); this.soon = undefined;
     const key = EngineStarts.key(r), country = EngineStarts.country(r);
     if (this.ready && this.ready.key !== key) { this.ready = undefined; }
+    if (this.foreseen !== key) { this.foreseen = undefined; }
     if (this.warm?.key !== country) {
       const before = this.warm?.done ?? Promise.resolve();
       this.warm = { key: country, done: before.then(() => this.warmed(r)).catch(() => undefined) };
@@ -46,6 +47,15 @@ export class EngineStarts {
   }
   // The start the last change asked for: a warm finished after another change does not make ready the one before.
   private next?: string;
+  // A start made ready before anything was asked of the country, while the title shows (OR-121: Set out now in under
+  // a second): its texts read first, then the start itself, unless a choice or another country comes meanwhile.
+  private foreseen?: string;
+  foresee(r: Starting): void {
+    this.readying(r, 'read');
+    const key = EngineStarts.key(r);
+    this.foreseen = key;
+    void this.warm?.done.then(() => { if (this.foreseen === key) { this.prepare(r); } });
+  }
   static readonly moment = 300;
   // What the country's texts are drawn by: not the life, but the country and the reason for coming.
   static country(r: Starting): string {
@@ -69,7 +79,10 @@ export class EngineStarts {
     await this.ready?.started.catch(() => undefined);
   }
   // Nothing made ready any longer: a new country is being drawn.
-  drop(): void { clearTimeout(this.soon); this.soon = undefined; this.ready = undefined; this.next = undefined; }
+  drop(): void {
+    clearTimeout(this.soon); this.soon = undefined; this.ready = undefined; this.next = undefined;
+    this.foreseen = undefined;
+  }
   prepare(r: Starting): void {
     const key = EngineStarts.key(r);
     if (this.ready?.key === key) { return; }
@@ -80,7 +93,7 @@ export class EngineStarts {
   // The start Begin asks for: the one made ready for the same choices, what is left of it, or a fresh one.
   async take(r: Starting): Promise<PlaySession> {
     const key = EngineStarts.key(r), ready = this.ready?.key === key ? this.ready.started : undefined;
-    clearTimeout(this.soon); this.soon = undefined; this.next = undefined;
+    clearTimeout(this.soon); this.soon = undefined; this.next = undefined; this.foreseen = undefined;
     this.ready = undefined; this.waiting = key;
     try {
       if (ready) { this.said('Placing its people'); }

@@ -3,7 +3,7 @@ import { CreationDefaults } from './creation-defaults';
 import { CreationRules } from '../reader/creation-rules';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from './creation-flow';
 import type { Starting } from './engine-starts';
-import type { Member, Setting } from './protocol';
+import type { Catalog, Member, Setting } from './protocol';
 
 // Where making a life stands, as the engine holds it for any client: every step as it now is (its question, its
 // cards, the four it leads with first, which is chosen), whom the choices have made so far, why they came, and the
@@ -22,10 +22,13 @@ export interface CreationState {
 // it asks for is the one the page's Begin asks (see EngineHost).
 export class EngineCreation {
   private flow?: CreationFlow;
+  // The choices a life is made from, read once (80 ms each time: Set out now's click had waited on it, OR-120); the
+  // flow only reads it.
+  private static catalog?: Catalog;
   private at?: { campaign: string; seed: string; terrain?: string };
   // The country a life is now made for: the flow begins again on it.
   begun(setting: Setting, at: { campaign: string; seed: string; terrain?: string }): Setting {
-    this.flow = new CreationFlow(setting, Creation.catalog());
+    this.flow = new CreationFlow(setting, EngineCreation.catalog ??= Creation.catalog());
     // The first reason for having come is chosen to begin with, as the page's own making had it: set out at once, a
     // life comes by its country's first origin, not by none (a drawn country had begun in its town square, unarrived).
     if (setting.origins?.[0]) { this.flow.origin = setting.origins[0].id; }
@@ -56,6 +59,8 @@ export class EngineCreation {
       party: [{ ...member, name: CreationDefaults.named(member, flow.setting), ...weapon ? { weapon } : {} }],
       ...at.terrain ? { terrain: at.terrain } : {}, ...flow.origin ? { origin: flow.origin } : {} };
   }
+  // The life drawn whole from the flow's own defaults, to set out with at once (see CreationFlow.rolled).
+  rolled(): Starting { this.made().rolled(); return this.starting(); }
   private made(): CreationFlow {
     if (!this.flow) { throw new Error('No country has been drawn to make a life for: ask for a world first.'); }
     return this.flow;

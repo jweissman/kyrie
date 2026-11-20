@@ -130,11 +130,13 @@ export class KyrieCli {
     const create = !!options.world && !options.as && (!!process.stdin.isTTY || args.includes('--create'));
     if (create) {
       const host = new EngineHost(() => undefined);
-      try { await new TerminalCreation(input).choose(host, options.world!); } catch (error) {
+      // How the game begins is asked first, as the page asks it: Build a character, or Set out now (OR-120).
+      let rolled = false;
+      try { ({ rolled } = await new TerminalCreation(input).begin(host, options.world!)); } catch (error) {
         if (error instanceof Error && error.message === TerminalCreation.left) { input.close(); return 0; }
         throw error;
       }
-      await host.handle({ kind: 'set-out' });
+      await host.handle({ kind: 'set-out', ...rolled ? { rolled } : {} });
       await Terminal.play(host.played!, { input, profile: options.profile, ...played });
       return 0;
     }
