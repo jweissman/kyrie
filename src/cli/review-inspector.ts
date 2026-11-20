@@ -43,8 +43,8 @@ export class ReviewInspector {
   // The offer whole, the chosen marked.
   private static offer(r: JourneyReviewV1, offer: readonly ReviewChoice[], s: ReviewStep): string[] {
     if (!offer.length) { return ['(nothing offered)']; }
-    return offer.map((o, i) => `${i + 1}. ${o.id === s.chosen?.command ? '**→** ' : ''}[${o.group}${o.led ? ', led' : ''}] `
-      + `${o.label}  \`${o.id}\`${o.aspects?.length ? ` (${o.aspects.join(', ')})` : ''}${o.aside ? ` — ${o.aside}` : ''}`
+    return offer.map((o, i) => `${i + 1}. ${o.id === s.chosen?.command ? '**→** ' : ''}[${o.group}${o.led ? ', led' : ''}`
+      + `${o.why ? `, ${o.why}${o.note ? `: ${o.note}` : ''}` : ''}] ${o.label}  \`${o.id}\`${o.aspects?.length ? ` (${o.aspects.join(', ')})` : ''}${o.aside ? ` — ${o.aside}` : ''}`
       + ` ← ${(r.makers[o.id]?.sources ?? []).map(x => this.source(x)).join(' + ') || 'unknown'}`);
   }
   private static chosen(s: ReviewStep): string[] {
