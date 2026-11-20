@@ -40,12 +40,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     // A walk about the town is held (T8-T9: pressed and let go, it had done nothing).
     expect((await act('travel:drove__customs')).place?.id).toBe('drove__customs');
     // Out of Porthalen by the map: a journey the map rows, set out on there.
-    const now = await d.inspect(), here = new Set((now.path ?? []).map(p => p.name));
-    const far = (now.observed ?? []).find(id => id.startsWith('travel:') && !now.choices.some(c => c.id === id));
-    expect(far).toBeDefined();
-    const after = await act(far!);
+    // Reedbridge, the golden route's road out, which the engine puts on the map (DoableJourneys), not in the rest.
+    const now = await d.inspect(), here = new Set((now.path ?? []).map(p => p.name)), far = 'travel:region__s5';
+    const after = await act(far);
     expect(after.place?.id).not.toBe('drove__customs');
-    expect((after.path ?? []).some(p => !here.has(p.name)) || after.place?.id === far!.slice('travel:'.length)).toBe(true);
+    expect((after.path ?? []).some(p => !here.has(p.name)) || after.place?.id === far.slice('travel:'.length)).toBe(true);
     console.log(by.join('\n'));
     expect(by.filter(b => b.endsWith('fallback'))).toEqual([]);
     expect(errors).toEqual([]);
