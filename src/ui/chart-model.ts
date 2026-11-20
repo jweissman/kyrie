@@ -1,5 +1,7 @@
 import { AuthoredLand } from '../world/authored-land';
 import { Spatial } from '../spatial';
+import { EntityIndex } from '../lang/entity-index';
+import { WaysInto } from './ways-into';
 import { ModuleWriter } from '../lang/module-writer';
 import { ActionTime } from '../campaign/action-time';
 import { ObservationText } from '../lang/observation-text';
@@ -110,9 +112,8 @@ export class ChartModel {
   }
   private knows(fact: string): boolean { return this.world.test(ModuleWriter.call('knows', this.actor, fact)); }
   // The ways into a place from outside it.
-  private into(place: string): string[] {
-    return this.world.related('connects').filter(c => this.inside(c.args[2]!, place) && !this.inside(c.args[1]!, place))
-      .map(c => c.args[0]!);
+  private into(place: string): readonly string[] {
+    return WaysInto.of(this.world.related('connects'), EntityIndex.of(this.world.module.entities).byId, place);
   }
   private inside(id: string, place: string): boolean {
     return id === place || Spatial.ancestry(this.entities, id).some(e => e.id === place);

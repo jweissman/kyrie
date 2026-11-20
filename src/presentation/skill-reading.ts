@@ -17,6 +17,8 @@ export interface Wanting {
   had?: string;
 }
 interface Call { kind: 'call'; name: string; args: string[] }
+// Which schemas name a skill outright, and which ask for whatever a thing or a way needs.
+interface Shape { named: Map<string, Set<string>>; needing: Set<string> }
 // How the company's skills bear on what it can do here: which skill each choice relies on (and so who does it),
 // and what the company could do if anyone in it had a skill it lacks, read from the same legal commands in a world
 // that differs by that one skill. Nothing is assumed about any particular skill or place.
@@ -35,7 +37,16 @@ export class SkillReading {
     if (node.kind === 'not') { this.calls(node.value, out); }
     return out;
   }
-  private static shape(campaign: Campaign) {
+  // Read once for a module's actions (and again if they grow), not for every screen.
+  private static readonly shapes = new WeakMap<readonly Operator[], { length: number; shape: Shape }>();
+  private static shape(campaign: Campaign): Shape {
+    const actions = campaign.module.actions, kept = this.shapes.get(actions);
+    if (kept?.length === actions.length) { return kept.shape; }
+    const shape = this.shaped(campaign);
+    this.shapes.set(actions, { length: actions.length, shape });
+    return shape;
+  }
+  private static shaped(campaign: Campaign): Shape {
     const named = new Map<string, Set<string>>(), needing = new Set<string>();
     for (const a of campaign.module.actions) {
       const params = new Set((a.parameters ?? []).map(p => p.name));
@@ -52,13 +63,19 @@ export class SkillReading {
     return campaign.world.test(ModuleWriter.call('capable', actor, skill));
   }
   // The things at the company's place, the ways out of it and what is on or guards them, and their changes.
+  // Read by each relation's index, not by going through every fact the world holds.
   private static near(campaign: Campaign, actor: string): Set<string> {
-    const rel = campaign.world.view.relations, here = campaign.world.one('at', actor);
-    const ways = new Set(rel.filter(r => r.name === 'connects' && r.args[1] === here).map(r => r.args[0]!));
-    const things = new Set([...rel.filter(r => r.name === 'at' && r.args[1] === here).map(r => r.args[0]!),
-      ...rel.filter(r => (r.name === 'on' || r.name === 'guards') && ways.has(r.args[1]!)).map(r => r.args[0]!)]);
-    const changes = rel.filter(r => r.name === 'changeOf' && things.has(r.args[1]!)).map(r => r.args[0]!);
+    const world = campaign.world, here = world.one('at', actor);
+    if (here === undefined) { return new Set(); }
+    const ways = new Set(this.firsts(world, 'connects', here));
+    const things = new Set([...this.firsts(world, 'at', here),
+      ...[...ways].flatMap(w => [...this.firsts(world, 'on', w), ...this.firsts(world, 'guards', w)])]);
+    const changes = [...things].flatMap(t => this.firsts(world, 'changeOf', t));
     return new Set([...ways, ...things, ...changes]);
+  }
+  // Whatever stands in a relation to this one (on(?, way)).
+  private static firsts(world: Campaign['world'], name: string, second: string): string[] {
+    return world.relatedTo(name, second).map(r => r.args[0]!);
   }
   static read(campaign: Campaign): { uses: Map<string, string[]>; wanting: Wanting[] } {
     const world = campaign.world, actor = campaign.playerActor;

@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../item-names';
+import { EntityIndex } from '../lang/entity-index';
 
 // Where a skill the company lacks is to be had: someone who sells a thing that gives it to whoever carries it (a
 // glossary of the old script, for lore; a ladder, for a climb), and where they keep it (the first the world names).
@@ -11,11 +12,12 @@ export class SkillSources {
     const kinds = new Set(Object.entries(Canon.items).filter(([, i]) => i.grants?.skill === skill
       || i.aids?.includes(skill)).map(([k]) => k));
     if (!kinds.size) { return undefined; }
-    const world = campaign.world, byId = new Map(campaign.module.entities.map(e => [e.id, e]));
-    const ware = world.related('itemKind').find(r => kinds.has(r.args[1]!)
-      && world.related('soldBy').some(s => s.args[0] === r.args[0]));
+    // By the indexes of the module's entities and of who sells each thing, not by going through every sale for each
+    // thing of every kind.
+    const world = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
+    const ware = world.related('itemKind').find(r => kinds.has(r.args[1]!) && world.related('soldBy', r.args[0]).length);
     if (!ware) { return undefined; }
-    const seller = world.related('soldBy').find(s => s.args[0] === ware.args[0])!.args[1]!;
+    const seller = world.related('soldBy', ware.args[0])[0]!.args[1]!;
     const place = world.one('at', seller), who = byId.get(seller)?.name, kind = Canon.items[ware.args[1]!]!.name;
     if (!who) { return undefined; }
     const at = place && byId.get(place)?.name;

@@ -108,7 +108,7 @@ export class Itineraries {
     if (!here || here === destination) { return undefined; }
     const tree = this.tree(campaign, here, clear, roam), entities = this.byId(campaign);
     // The first place settled that is the destination or within it: as near as the search came to it.
-    const at = tree.order.find(id => this.within(entities, id, destination));
+    const at = KnownWays.firstWithin(tree, entities, destination);
     if (!at) { return undefined; }
     const so = tree.best.get(at)!;
     return { id: destination, to: at, name: ObservationText.label(world, destination), legs: so.legs,

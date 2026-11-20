@@ -21,7 +21,9 @@ export interface Over {
   first?: ReadonlySet<string>;
 }
 // Every place reached from one, in the order settled, with its nearest way.
-export interface Tree { order: string[]; best: Map<string, Way>; reach?: Set<string> }
+export interface Tree { order: string[]; best: Map<string, Way>; reach?: Set<string>;
+  // The first place settled within each place (see firstWithin).
+  within?: { byId: Map<string, Entity>; first: Map<string, string> } }
 
 // The one way-finder over the ways the company knows (AR-21): those it has walked from, been told of, the country's
 // roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways). Every
@@ -46,16 +48,19 @@ export class KnownWays {
       kept.roam ??= [...this.chart(campaign).ways(VisitedPlaces.of(campaign, actor), true),
         ...Overland.unseen(campaign)];
     }
-    const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>();
+    const ways = roam ? kept.roam! : kept.ways, graph = new Map<string, WayInfo[]>(), taken = new Set<string>();
     for (const w of ways) {
       if ((w.status === 'blocked' && !barred) || (clear && w.status !== 'open')) { continue; }
       // Not seen nor been to, a place is not struck out toward: a journey goes into no open country for it. But from
       // out on the open country it crosses what it knows of it, back to a way (over the march, from a hex beside the
       // march-stone, nothing on the map had a way to it: the owner, OWN-43).
       if (!roam && LandModel.tract.test(w.to) && !LandModel.tract.test(w.from)) { continue; }
-      if (!(graph.get(w.from) ?? []).some(x => x.passage === w.passage && x.to === w.to)) {
-        graph.set(w.from, [...graph.get(w.from) ?? [], w]);
-      }
+      // Each way from a place once (by its passage and where it comes to), as first listed.
+      const key = `${w.from}\u0000${w.passage}\u0000${w.to}`;
+      if (taken.has(key)) { continue; }
+      taken.add(key);
+      const from = graph.get(w.from);
+      if (from) { from.push(w); } else { graph.set(w.from, [w]); }
     }
     return graph;
   }
@@ -131,6 +136,20 @@ export class KnownWays {
   }
   static within(byId: Map<string, Entity>, id: string, place: string): boolean {
     return id === place || Spatial.ancestry(byId, id).some(e => e.id === place);
+  }
+  // The first place a tree settled that is a place or within it (see within): each settled place's ancestry walked
+  // once for the tree, not once for every place a journey is planned to (a screen plans to every lead, road, walk
+  // about town and mark on the map, and each had walked the whole of the order: OR-91's profile).
+  static firstWithin(tree: Tree, byId: Map<string, Entity>, place: string): string | undefined {
+    if (tree.within?.byId !== byId) {
+      const first = new Map<string, string>();
+      for (const id of tree.order) {
+        if (!first.has(id)) { first.set(id, id); }
+        for (const e of Spatial.ancestry(byId, id)) { if (!first.has(e.id)) { first.set(e.id, id); } }
+      }
+      tree.within = { byId, first };
+    }
+    return tree.within.first.get(place);
   }
   // The roads of the country as places (a road is one place, its stretches each a way onto it): read once a module.
   private static readonly roadsOf = new WeakMap<object, Set<string>>();
