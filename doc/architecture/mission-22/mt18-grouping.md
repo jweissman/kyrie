@@ -70,3 +70,13 @@ act within one is; and a row named by what an engine row does is the engine's. R
 runner stands at 149 still; this step's at 141, none new. What is left, by cause: the journeys (31, the runner's own
 from JourneyFold, not Doable's rows), the follow rows (8, the runner's aims), and the 68 rows the runner names by their
 command where the engine names them by the row (AT-13).
+
+## The journeys (20 November)
+
+The runner had made its own journey rows from the screen (the roads, the places further off, a site's way out) and
+folded them by JourneyFold, which no other client read; the page's menu and map made theirs by rules of their own. The
+engine now makes them (src/presentation/doable-journeys.ts): every journey from here is a Doable row, how long it takes
+on it, and a journey JourneyFold does not keep in the rest is marked as on the map (`map`). The runner draws those rows
+and folds what the engine marks; nothing of journeys is left in it. The measure holds it: a journey on the map drawn
+in the rest, or a count of them folded that is not the engine's, is a divergence. 141 → 107, none new; the page's
+menu and map are to read the same rows (step 4).

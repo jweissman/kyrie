@@ -58,7 +58,14 @@ export class OfferParity {
     // An act held under an opener (a person's asks under their talk) is offered where the opener is, by the engine's
     // own id: opened, it shows them, as the page's drawer does.
     const openers = new Set(offered.filter(o => o.opens?.length).map(o => o.id));
-    for (const [act, { words, id, under, within }] of engine) {
+    // A journey the engine puts on the map is offered there (the runner's folded journeys, counted in more), never in
+    // the rest.
+    const mapped = [...engine].filter(([, e]) => e.map);
+    if (mapped.length !== (said.offer.more?.journeys ?? 0)) {
+      out.add(`map count: engine ${mapped.length}, runner ${said.offer.more?.journeys ?? 0}`);
+    }
+    for (const [act] of mapped) { if (drawn.has(act)) { out.add(`unfolded: ${act}`); } }
+    for (const [act, { words, id, under, within }] of engine.entries().filter(([, e]) => !e.map)) {
       if (!drawn.has(act) && ![under, within].some(h => h && this.held(h, drawn, openers, doing))) {
         out.add(`engine only: ${act}`); continue;
       }
@@ -82,12 +89,14 @@ export class OfferParity {
     return openers.has(within) || drawn.has(within) || drawn.has(doing.get(within) ?? '')
       || drawn.has(`talk:${within.replace(/#talk$/, '')}`);
   }
-  // The engine's rows by the act each does, in its own words, with the opener each is held under (if any).
+  // The engine's rows by the act each does, in its own words, with the opener each is held under (if any), and whether
+  // it is on the map.
   private static engine(rows: Row[], under?: string)
-    : Map<string, { words: string; id: string; under?: string; within?: string }> {
+    : Map<string, { words: string; id: string; under?: string; within?: string; map?: true }> {
     return new Map(rows.flatMap(r => r.opens?.length ? [...this.engine(r.opens, under ?? r.id)]
       : r.for ?? r.does ? [[(r.for ?? r.does)!, { words: r.called ?? r.label, id: r.id,
-        ...under ? { under } : {}, ...r.within ? { within: r.within } : {} }] as const] : []));
+        ...under ? { under } : {}, ...r.within ? { within: r.within } : {}, ...r.map ? { map: r.map } : {} }] as const]
+        : []));
   }
   static kinds(divergences: string[]): Record<string, number> {
     const out: Record<string, number> = {};
