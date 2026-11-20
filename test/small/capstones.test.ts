@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { Features, SECTIONS } from '../capstones/features';
 import { Probes } from '../capstones/probes';
+import { Tiny } from '../support/tiny';
 
 // The capstone map (the owner, 15 November): the table of features a mature platform has, held as a ratchet. The
 // table is the owner's whole (51 features, six sections); every proof named is a spec that exists; every probe
@@ -24,6 +25,9 @@ describe('the capstone map', () => {
     }
   });
   it('is observed by a probe that agrees with each claim, cheaply', async () => {
+    // The process's first world parses the shared rules once (main's CI, 19 November: the first probe, scene, at
+    // 2044 ms on a runner); that is no probe's own cost, so it is paid before the probes are timed.
+    await Tiny.start('Place hall "the hall" is room at 0, 0 indoors.\n  Company party "You" of 1 at hall.\n  Goal false.');
     const off: string[] = [];
     let total = 0;
     for (const f of Features.all) {
