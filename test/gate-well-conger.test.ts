@@ -51,9 +51,15 @@ describe('the conger in the gate-well, on the warrior\'s route', () => {
     let s = fight;
     for (let n = 0; s.moment === 'fight' && n < 40; n++) { s = said(await r.ask('{"act":"fight:auto"}')); }
     expect(text(s)).toContain('The fight is won.');
+    // Its coming is told as the fight begins, never again after it is won (GR-05, S3-0's warrior step 43).
+    expect(text(s)).not.toContain('comes at you out of the silt');
     // The search it broke off, made again; then the pawl taken, as the route took it.
     expect(text(said(await r.ask(lines[43]!)))).toContain('under the silt, a curved bar of iron');
     expect(text(said(await r.ask(lines[44]!)))).toContain('pawl');
+    // Dead, it feeds no more: the gatehouse above says the windlass as by day (GR-04, S3-0's warrior step 46).
+    const up = said(await r.ask('{"act":"go(gate__well_ladder,gate__gatehouse)"}'));
+    expect([up.at, text(up)]).toEqual(['gate__gatehouse', expect.not.stringContaining('Something big is feeding')]);
+    expect(text(up)).toContain('a windlass of black oak');
   }, 60000);
   // Fair for the company the route has, and a real risk alone: one conger, as the undertown sets one of each for a
   // company of one. Level 5 (an eel's hit die is a d4): Wenna alone wins 180 of 200 (90 %), with Carlin all 200;

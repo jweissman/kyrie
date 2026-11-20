@@ -21,6 +21,8 @@ export class RunnerFight {
   // The battle last waited in, and what of it was left untold when it ended (see closed).
   private battle?: Battle;
   private closing?: string[];
+  // What the fight opened on, told then and not again as it closes (GR-05).
+  private opening: string[] = [];
   private waking?: () => void;
   private from = 0;
   private rest = false;
@@ -48,9 +50,10 @@ export class RunnerFight {
   // whole fight again, "Rat 1" become "the first rat"), then what was witnessed meanwhile and how it ended, as the
   // page's host tells it (EngineHost.unfought); a fight that never waited on the agent keeps its one telling.
   closed(feedback: ActionFeedback): ActionFeedback {
-    const closing = this.closing;
-    this.closing = undefined;
-    return closing ? ActionFeedbackView.fought(feedback, closing, feedback.result ? [feedback.result] : []) : feedback;
+    const closing = this.closing, opened = this.opening;
+    this.closing = undefined; this.opening = [];
+    return closing ? ActionFeedbackView.fought(feedback, closing, feedback.result ? [feedback.result] : [], opened)
+      : feedback;
   }
   get fighting(): boolean { return !!this.pending; }
   // What has happened since the agent last chose, and who stands as they are.
@@ -59,6 +62,7 @@ export class RunnerFight {
     const b = this.pending?.battle;
     if (!b) { return []; }
     const opening = this.opened ? [] : begun?.() ?? [];
+    if (!this.opened) { this.opening = opening; }
     this.opened = true;
     const events = b.events, told = CombatTelling.since(events, this.from, b.state).map(t => t.text);
     this.from = events.length;

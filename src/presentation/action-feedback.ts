@@ -309,11 +309,14 @@ export class ActionFeedbackView {
   // A fought act, its fight told turn by turn on its own page (or the runner's turns): told by the fight's own lines
   // where they are given, then only what was witnessed meanwhile, and what ran out in it, a light above all: the
   // torch gone out in the fight in the bone hall had been told nowhere, and the dark came on with no word (cold play 4,
-  // CL-42). keep: what else is told (how it ended).
-  static fought(feedback: ActionFeedback, told: string[] = [], keep: string[] = []): ActionFeedback {
-    const lapsed = new Set(feedback.lapsed ?? []);
+  // CL-42). keep: what else is told (how it ended). opened: what the fight opened on (FightBegun), told as it began and
+  // not again after it is won (GR-05: "The fight is won." and then "The conger comes at you out of the silt").
+  static fought(feedback: ActionFeedback, told: string[] = [], keep: string[] = [], opened: string[] = [])
+    : ActionFeedback {
+    const lapsed = new Set(feedback.lapsed ?? []), said = new Set(opened);
     return { ...feedback, immediate: [...told, ...feedback.immediate.filter(t => t.startsWith('You witness: ')
-      || lapsed.has(t) || keep.includes(t))] };
+      || lapsed.has(t) || keep.includes(t))], events: feedback.events.filter(t => !said.has(t)),
+    observations: feedback.observations.filter(t => !said.has(t)) };
   }
   // A fight told after it names a band's members by the band (see BandNames), not by their numbers in it: drawn only
   // where something of a fight is told (every creature the world holds had been drawn as a fighter for each act).

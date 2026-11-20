@@ -218,7 +218,8 @@ export class EngineHost {
         place: after.location?.id ?? '', placeName: after.location?.name ?? '', elapsed: event.elapsed }));
       // A choice made from an opened list is echoed as the action it was ("You buy a torch for Bran").
       const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
-      this.told = { event, feedback: this.fought ? EngineHost.unfought(feedback) : feedback, said, moved };
+      const told = this.fought ? EngineHost.unfought(feedback, this.begun()) : feedback;
+      this.told = { event, feedback: told, said, moved };
     } finally {
       if (game === this.game) { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
     }
@@ -292,7 +293,10 @@ export class EngineHost {
     return this.session!.campaign.history.at(-1)!;
   }
   // A fight held on its own page is not told again at the place it was fought in (see ActionFeedbackView.fought).
-  private static unfought(feedback: ActionFeedback): ActionFeedback { return ActionFeedbackView.fought(feedback); }
+  // A fought act told after its fight: what the fight opened on is not told again (GR-05).
+  private static unfought(feedback: ActionFeedback, opened: string[]): ActionFeedback {
+    return ActionFeedbackView.fought(feedback, [], [], opened);
+  }
   private next(): number { return this.log.reduce((n, e) => Math.max(n, e.id + 1), 0); }
   // Coming to a march-stone draws the country beyond it, the first time: some seconds, once, said while it lasts. It
   // is drawn as part of the command (see PlaySession.extend), so a replay of the game draws it too.
