@@ -4,6 +4,7 @@ import { Calendar } from '../campaign/calendar';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
+import { Narrator } from './narrator';
 
 // An instrument of observation, as the company has it now (the owner, 14 November: earned, contextual, optional,
 // authoritative and honest): what it reads, in words no more precise than the company could know, the emblem it is
@@ -21,6 +22,9 @@ const phases = ['a new moon', 'a thin crescent moon', 'the moon at its first qua
 // rising this month is named only by someone who reads the stars (wayfinding, or lore), and is otherwise just stars.
 // The provisions are known exactly, for the company can count its own pack; they bear on the moment when they run
 // short, or when night or the dark comes on.
+// The night sky as the company reads it (see Instruments.night).
+export interface Night { dark: boolean; moon: string; sign?: { id: string; name: string; line: string };
+  own?: { name: string; alone: boolean } }
 export class Instruments {
   static of(campaign: Campaign, screen: Screen): Instrument[] {
     return [...this.sky(campaign, screen), this.provisions(screen)];
@@ -29,26 +33,39 @@ export class Instruments {
     const v = (voice.instruments as Record<string, { label: string; gloss: string }>)[id]!;
     return { label: v.label, gloss: extra ? `${v.gloss} ${extra}` : v.gloss };
   }
-  private static sky(campaign: Campaign, screen: Screen): Instrument[] {
+  // The night sky as the company reads it, the one reading the instrument says and the night's telling tells (Fun
+  // Friday's night sky: src/narrative/night-skies.ts): out under the sky only; the moon by its phase; the sign rising
+  // this month named only by one who reads the stars; and whose sign it is, of the company's (chosen at creation:
+  // OR-13), one who came alone told of their own.
+  static night(campaign: Campaign, screen: Screen): Night | undefined {
     const start = campaign.readout.calendar;
-    if (!start || !screen.place.open || screen.place.underground || screen.place.indoors) { return []; }
+    // Under the sky as the narrator reckons it (Narrator.shelter): a town's green declares no shelter and is out of doors
+    // (the instrument had read only places that declare themselves open, so Porthalen's green had no sky at night).
+    if (!start || Narrator.shelter(campaign, screen.place.id) !== 'outdoors') { return undefined; }
     const date = Calendar.date(start, campaign.readout.elapsed);
     const dark = ['night', 'evening'].includes(screen.expedition.daylight);
-    // By day there is no moon to read nor stars to name; by night the moon, and the sign to one who knows it.
     const sign = this.reader(campaign) ? SettingPort.sky.signs.find(s => s.month === date.name) : undefined;
     const moon = phases[Math.floor(((date.day - 1) / 30) * phases.length) % phases.length]!;
     const own = sign && this.born(campaign, sign.id);
-    const said = !dark ? 'Daylight.'
-      : `${moon[0]!.toUpperCase()}${moon.slice(1)}${sign ? `, and ${sign.name} rising${own ? `, ${own}` : ''}` : ''}.`;
-    const told = dark && sign ? `${sign.name}: ${sign.line}` : undefined;
-    return [{ id: 'sky', ...this.named('sky', told), said, ...dark && sign ? { emblem: sign.id } : {}, relevant: dark }];
+    return { dark, moon, ...sign ? { sign: { id: sign.id, name: sign.name, line: sign.line } } : {},
+      ...own ? { own } : {} };
   }
-  // Whose sign it is, of the company's, if one was born under it (chosen at creation: OR-13): one who came alone is
-  // told of their own.
-  private static born(campaign: Campaign, sign: string): string | undefined {
+  private static sky(campaign: Campaign, screen: Screen): Instrument[] {
+    const n = this.night(campaign, screen);
+    if (!n) { return []; }
+    const whose = n.own && (n.own.alone ? 'your own sign' : `${n.own.name}'s own sign`);
+    const said = !n.dark ? 'Daylight.'
+      : `${n.moon[0]!.toUpperCase()}${n.moon.slice(1)}${n.sign ? `, and ${n.sign.name} rising${whose ? `, ${whose}` : ''}`
+        : ''}.`;
+    const told = n.dark && n.sign ? `${n.sign.name}: ${n.sign.line}` : undefined;
+    return [{ id: 'sky', ...this.named('sky', told), said, ...n.dark && n.sign ? { emblem: n.sign.id } : {},
+      relevant: n.dark }];
+  }
+  // Whose sign it is, of the company's, if one was born under it: by name, and whether they came alone.
+  private static born(campaign: Campaign, sign: string): Night['own'] {
     const ids = campaign.readout.partyIds;
     const under = campaign.readout.creatures.find(c => ids.includes(c.id) && c.sign === sign);
-    return !under ? undefined : ids.length === 1 ? 'your own sign' : `${under.name}'s own sign`;
+    return under && { name: under.name, alone: ids.length === 1 };
   }
   // Whether anyone of the company reads the stars.
   private static reader(campaign: Campaign): boolean {
