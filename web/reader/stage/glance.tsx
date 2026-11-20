@@ -391,8 +391,15 @@ export class GlanceStage {
   // The scene's four, as the engine offers them (Glance.offer, TB-02: the same four in the page and the terminal, each
   // a different kind of act where it can be): as the glance led with each where it did (its reason, its subject, what
   // it is for), else as offered, to make four.
+  // Each said in the engine's words (Doable: what a talk led for a question is called, "Talk to Kynes — ask what the
+  // waterfront is saying"), not the glance's own label for it (MT-18: one wording, the parity measure's page words).
   static offered(app: ReaderApp): Promoted[] | undefined {
-    const g = app.state.frame?.leaf.glance;
+    const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
+    const four = GlanceStage.engine(g);
+    return four && g && screen
+      ? four.map(a => ({ ...a, label: Doable.one(g, screen, a.choice, a.command).called ?? a.label })) : undefined;
+  }
+  private static engine(g: Glance | undefined): Promoted[] | undefined {
     return g?.offer?.primary.map(o => g.acts.find(a => a.choice === o.choice) ?? { choice: o.choice,
       ...o.command ? { command: o.command } : {}, label: o.label, aspects: o.aspects, marks: o.marks,
       ...o.continues ? { continues: true as const } : {}, why: 'present', facets: ['here'], tier: 4 });

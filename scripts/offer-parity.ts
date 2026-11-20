@@ -10,6 +10,7 @@
 //   bun scripts/offer-parity.ts              the divergences by kind, with counts
 //   bun scripts/offer-parity.ts --write      the baseline written from them
 //   bun scripts/offer-parity.ts --where      each divergence with the turn it was first met at, and the move
+//   bun scripts/offer-parity.ts --words      each words divergence with the engine's words and the client's
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PlayTool } from '../src/cli/play-tool';
@@ -127,6 +128,9 @@ export class OfferParity {
     const where = argv.includes('--where') ? new Map<string, string>() : undefined;
     const found = await this.divergences(this.walks, Infinity, where);
     if (where) { console.log([...where].map(([d, w]) => `${w}\t${d}`).sort().join('\n')); }
+    if (argv.includes('--words')) {
+      console.log([...ClientParity.examples].map(([d, [e, c]]) => `${d}\n  engine: ${e}\n  client: ${c}`).join('\n'));
+    }
     if (argv.includes('--write')) {
       writeFileSync(join(this.root, this.baseline), `${JSON.stringify({ about: 'What the runner, the page and serve '
         + 'offer that the engine does not, and the reverse, over the golden walks (MT-18, scripts/offer-parity.ts, '

@@ -43,5 +43,7 @@ describe('a question led to someone not yet met', () => {
     // A stranger named by a longer name than the question says (a1's camp, foreground-browser): said once.
     expect(Doable.called('Talk to the sellsword on the green', 'Ask the sellsword what brings him here'))
       .toBe('Talk to the sellsword on the green — ask what brings him here');
+    expect(Doable.called('Talk to a drover\'s boy', 'Ask the drover\'s boy what he was doing on the hill'))
+      .toBe('Talk to a drover\'s boy — ask what he was doing on the hill');
   });
 });
