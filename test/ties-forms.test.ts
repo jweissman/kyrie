@@ -38,7 +38,7 @@ const offered = (j: Journey) => j.choices().map(c => c.full).join(' | ');
 describe('the three forms of a tie', () => {
   it('draws each form in more than one seed, each with its own third party', async () => {
     const drawn: Record<string, string[]> = { kin: [], debt: [], custom: [] };
-    for (const seed of ['thorn', 'e1', 'a1', 'ember']) {
+    for (const seed of ['thorn', 'e1', 'a1', 'ember', 'kahitude']) {
       for (const x of await shapes(seed)) { drawn[x.form]!.push(`${seed}:${x.t}`); }
     }
     for (const form of Object.keys(drawn)) { expect(drawn[form]!.length).toBeGreaterThanOrEqual(3); }
@@ -49,7 +49,7 @@ describe('the three forms of a tie', () => {
     ['kin', 'thorn', 160, /cloth is tied round the lamp/], ['kin', 'e1', 160, /cloth is tied round the lamp/],
     ['kin', 'marrow', 160, /cloth is tied round the lamp/],
     ['debt', 'thorn', 320, /stall is shuttered|weighed against the other measure/], ['debt', 'ember', 320, /stall is shuttered|weighed against the other measure/],
-    ['debt', 'kahitude', 320, /stall is shuttered|weighed against the other measure/],
+    ['debt', 'e1', 320, /stall is shuttered|weighed against the other measure/],
     ['custom', 'kahitude', 230, /loaf tied to his wrist|bell at the shrine is rung/], ['custom', 'a1', 230, /loaf tied to his wrist|bell at the shrine is rung/],
     ['custom', 'ember', 230, /loaf tied to his wrist|bell at the shrine is rung/]] as const) {
     it(`${form}: if nothing is done the town changes (${seed})`, async () => {
