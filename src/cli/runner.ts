@@ -147,6 +147,13 @@ export class Runner {
   }
   // The glance's own offer (Offers.scene) as rows that can be done (RunnerOffer, from Doable): its four and its rest.
   private offer(screen: Screen, g: Leaf['glance']) { return RunnerOffer.of(screen, g, this.names(), this.with); }
+  // The command a row offered now does, asked by the engine's id or by the command (as the step above finds it), for a
+  // client given commands (a page's kyrieMono.act); the id as it is where nothing offered answers it.
+  does(id: string): string {
+    const screen = this.standing.screen, { offer: o, under } = this.offer(screen, this.glanced());
+    const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
+    return (all.find(x => x.id === id) ?? all.find(x => x.does === id))?.does ?? id;
+  }
   // Why an act asked for is not offered, where the page knows (cold play 3, CL-21: talk_to the boy refused, saying
   // nothing): someone here is talked to by their row; one not here cannot be.
   private static why(screen: Screen, act: string): string {

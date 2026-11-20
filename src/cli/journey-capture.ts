@@ -126,6 +126,9 @@ export class JourneyCapture {
     return rest && { label: rest.label, from: 'rest' };
   }
   private static is(o: Offered, id: string): boolean { return o.id === id || o.does === id; }
+  // The command a row asked by the engine's id does, where the session offers it now (MT-18: a capture keeps the row's
+  // id, and a page is given the command, as the kept lines ask by command); else the id as it is.
+  static command(session: PlaySession, id: string): string { return new Runner(session).does(id); }
   // The build this is played by: its commit, and whether the tree had changes not committed.
   static build(): Build {
     return { commit: this.git('rev-parse', '--short', 'HEAD') || 'unknown',

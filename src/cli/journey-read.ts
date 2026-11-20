@@ -103,7 +103,8 @@ export class JourneyRead {
     }
     const file = out ?? join(tmpdir(), 'kyrie-journey-scenes', `step-${n}.checkpoint.json`);
     mkdirSync(join(file, '..'), { recursive: true });
-    const act = 'act' in step.asked ? step.asked.act : '';
+    // The page is given the command the row does, not the engine's id the capture kept it by (JourneyCapture.command).
+    const act = 'act' in step.asked ? JourneyCapture.command(session, step.asked.act) : '';
     const prior = before ? [{ id: 0, at: '', elapsed: 0, place: before.said.at ?? '', placeName: '', said: before.label,
       lines: before.said.scene.prose, notes: [], tone: 'act' as const, title: before.label }] : [];
     writeFileSync(file, JSON.stringify({ about: `Before step ${n} of ${dir}/captured.json (${step.label}), its commands`
