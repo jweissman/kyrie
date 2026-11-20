@@ -4,6 +4,7 @@ import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { PlayerView, type PlayerSnapshot } from './player-view';
 import { CombatPresenter } from '../ui/combat-presenter';
 import { CombatProjection } from '../combat-projection';
+import { Fought } from './fought';
 import { Outmatched } from './outmatched';
 import { Stories } from './stories';
 import { FictionalTime } from '../campaign/fictional-time';
@@ -264,7 +265,9 @@ export class ActionFeedbackView {
   }
   // What lasting conditions ran out in an event, in the words they are told by (a leg of a journey: see Travel).
   static lapses(campaign: Campaign, event: CampaignEvent): string[] {
-    const names = CombatProjection.told(campaign.readout.creatures, campaign.readout.partyIds, BandNames.of(campaign));
+    if (!event.combat.length) { return []; }
+    const names = CombatProjection.told(Fought.of(campaign, [event]), campaign.readout.partyIds,
+      BandNames.of(campaign));
     return this.lapsed(event, names).lapsed ?? [];
   }
   // What ran out in it, and what a journey's legs before it brought, where it is a journey's last (see Travel.way).
@@ -316,7 +319,7 @@ export class ActionFeedbackView {
   // where something of a fight is told (every creature the world holds had been drawn as a fighter for each act).
   private static named(campaign: Campaign, event: CampaignEvent): Parameters<typeof CombatPresenter.format>[1] {
     const fought = event.combat.length > 0;
-    return CombatProjection.told(fought ? campaign.readout.creatures : [], campaign.readout.partyIds,
+    return CombatProjection.told(Fought.of(campaign, [event]), campaign.readout.partyIds,
       fought ? BandNames.of(campaign) : undefined);
   }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {

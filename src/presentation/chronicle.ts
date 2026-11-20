@@ -6,6 +6,7 @@ import { CombatProjection } from '../combat-projection';
 import { ObservationText } from '../lang/observation-text';
 import { Spoken } from './spoken';
 import { VisitedPlaces } from './visited-places';
+import { Fought } from './fought';
 import type { ChronicleEntry } from './player-view';
 
 // What has happened, as the company has it: what it did, what it saw others do, the deadlines come and what it
@@ -22,9 +23,8 @@ export class Chronicle {
     for (const c of campaign.module.initial) {
       if (c.kind === 'assert' && c.call.name === 'at') { at.set(c.call.args[0]!, c.call.args[1]!); }
     }
-    // Every creature drawn as a fighter only where some event of the log has a fight's to tell.
-    const names = CombatProjection.told(campaign.history.some(e => e.combat.length) ? campaign.readout.creatures : [],
-      campaign.readout.partyIds);
+    // Drawn as fighters only the creatures some fight of the log names (see Fought).
+    const names = CombatProjection.told(Fought.of(campaign, campaign.history), campaign.readout.partyIds);
     const deadlines = campaign.installations.filter(m => m.deadline !== undefined);
     let previous = 0;
     const perceived = new Set<string>();

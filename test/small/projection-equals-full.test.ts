@@ -137,6 +137,19 @@ describe('what is kept from world to world, against working it out afresh', () =
     expect(part(w1, 'there')).toBe('Anna3');
     expect(part(w1.apply([Twins.fact('assert', 'c', 'b')]), 'there')).toBe('Anna4');
   });
+  // The offered actions grounded together (KeptGroundings.all), asked again in the same world within a reading: what
+  // they read is still read there, though none is grounded again.
+  it('notes what the offered actions read when none of them is grounded again', async () => {
+    const t = await Tiny.start('Place yard "the yard" is room. Place lane "the lane" is room. '
+      + 'Passage gate "the gate" is path between yard and lane. Company party "You" of 1 at yard.');
+    const c = t.journey.session.campaign, w = c.world, actor = c.playerActor!;
+    const offered = c.operators.applicable(w, actor);
+    const kept = KeptReading.read(w, () => c.operators.applicable(w, actor)).kept!;
+    expect(kept.value).toBe(offered);
+    const moved = w.apply([...w.related('at', actor).map(f => ({ kind: 'retract' as const, call: f })),
+      { kind: 'assert', call: ModuleWriter.call('at', actor, 't__lane') }]);
+    expect(KeptReading.holds(moved, kept)).toBe(false);
+  });
   it('finds near the company, read at once, just what each thing\'s own test of nearness finds', async () => {
     const t = await Tiny.start('Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard.');
     const c = t.journey.session.campaign, actor = c.playerActor!, at = c.world.one('at', actor)!;

@@ -36,6 +36,8 @@ export class WorldReads {
     made?.set(value, pick);
     return pick;
   }
+  // Whether any reading is under way.
+  static under(): boolean { return this.open.length > 0; }
   // Everything asked of at once.
   static all(): void { this.saw(this.every); }
   // Names read by a reading kept and used again (see the head), and what of them it picked. Noted once in each reading

@@ -52,19 +52,24 @@ export class Operators {
   }
   // Operators whose preconditions hold, in schema order and then binding order. With an actor, only actions that
   // actor performs: schemas whose actor parameter it may bind.
+  // Of every schema, only those that read what was written since asked again (see KeptGroundings.all).
   applicable(world: World, actor?: string, only?: Set<string>): Operator[] {
-    const out: Operator[] = [];
+    const schemas: Operator[] = [];
     for (const schema of this.schemas.values()) {
       if (only && !only.has(schema.id)) { continue; }
       const parameters = schema.parameters ?? [];
       if (actor !== undefined && !parameters.some(p => p.name === 'actor')) { continue; }
       if (actor !== undefined && !ActionSchemas.mayAct(schema, actor, this.actors)) { continue; }
-      out.push(...this.groundings.of(world, schema, actor, this.schemaOps.bind(this, world, schema, actor)));
+      schemas.push(schema);
     }
-    return out;
+    if (!only) { return this.groundings.all(world, actor, schemas, this.grounding.bind(this, world, actor)); }
+    return schemas.flatMap(s => this.groundings.of(world, s, actor, this.schemaOps.bind(this, world, s, actor)));
   }
   // What one schema grounds to (kept from world to world: see KeptGroundings).
   private readonly groundings = new KeptGroundings();
+  private grounding(world: World, actor: string | undefined, schema: Operator): Operator[] {
+    return this.schemaOps(world, schema, actor);
+  }
   private schemaOps(world: World, schema: Operator, actor?: string): Operator[] {
     // A candidate's precondition is the schema's under its binding (World.test binds a schema's parameters as an
     // action made of it has them bound), so only the candidates it holds for are made into actions.

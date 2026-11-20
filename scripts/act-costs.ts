@@ -24,7 +24,10 @@ import type { PlaySession } from '../src/session/play-session';
 import { BeforeRooms } from '../test/support/before-rooms';
 import { WorldReads } from '../src/lang/world-reads';
 
-interface Row { n: number; act: string; moment: string; ms: number; stages: Tally; said: string; fight?: number }
+// cpu: the process's own time over the act (every thread's: the collector's and the compiler's too), less swayed than
+// the clock's by whatever else the machine is running.
+interface Row { n: number; act: string; moment: string; ms: number; cpu: number; stages: Tally; said: string;
+  fight?: number }
 type Inner = { session?: PlaySession; saving: () => void };
 const shown: Stage[] = ['act', 'screen', 'itinerary', 'observe', 'leaf', 'glance'];
 export class ActCosts {
@@ -44,15 +47,17 @@ export class ActCosts {
   private said = '';
   async timed(n: number, act: string, f: () => Promise<string>): Promise<void> {
     ActCosts.fought = undefined;
-    const mark = Costs.mark(), began = performance.now(), moment = await f();
+    const mark = Costs.mark(), began = performance.now(), used = ActCosts.cpu(), moment = await f();
     const fight = ActCosts.fought === undefined ? {} : { fight: ActCosts.fought - began };
-    const row = { n, act, moment, ms: performance.now() - began, stages: Costs.since(mark), said: this.said, ...fight };
+    const row = { n, act, moment, ms: performance.now() - began, cpu: ActCosts.cpu() - used, stages: Costs.since(mark),
+      said: this.said, ...fight };
     this.rows.push(row);
     if (this.out) { appendFileSync(this.out, JSON.stringify(row) + '\n'); }
     console.log(`${String(n).padStart(3)} ${Math.round(row.ms).toString().padStart(5)} ms ${moment.padEnd(7)} `
       + `${shown.map(s => `${s} ${ActCosts.of(row, s)}`).join(' · ')}`
       + `${row.fight === undefined ? '' : ` · first fight frame ${Math.round(row.fight)} ms`}  ${act.slice(0, 60)}`);
   }
+  private static cpu(): number { const u = process.cpuUsage(); return (u.user + u.system) / 1000; }
   private static of(row: Row, s: Stage): string {
     const c = row.stages[s];
     return c ? `${c.n}/${Math.round(c.ms)}` : '0';
@@ -66,8 +71,9 @@ export class ActCosts {
     const worst = acts.reduce<Row | undefined>((w, r) => !w || r.ms > w.ms ? r : w, undefined);
     const fights = acts.flatMap(r => r.fight === undefined ? [] : [r.fight]);
     if (fights.length) { console.log(`\nfights' first frames: ${fights.map(Math.round).join(', ')} ms`); }
+    const cpu = Math.round(ActCosts.median(acts.map(r => r.cpu)));
     console.log(`\n${acts.length} acts: median ${Math.round(ActCosts.median(ms))} ms, worst ${Math.round(worst?.ms ?? 0)} ms`
-      + ` (${worst?.n} ${worst?.act})`);
+      + ` (${worst?.n} ${worst?.act}); the process's own time a median ${cpu} ms`);
     for (const s of shown) {
       const per = acts.map(r => r.stages[s]?.ms ?? 0), n = acts.map(r => r.stages[s]?.n ?? 0);
       console.log(`  ${s.padEnd(9)} median ${Math.round(ActCosts.median(per)).toString().padStart(4)} ms`
