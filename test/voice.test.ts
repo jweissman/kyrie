@@ -69,7 +69,9 @@ describe('The voice tables', () => {
   const keys = ['bond', 'manner', 'pronoun', 'kind', 'species', 'time', 'shelter', 'moment', 'cause', 'side', 'role', 'slain',
     'sky', 'land', 'crossing', 'size', 'temper', 'mood', 'light', 'number', 'present', 'capability', 'owing',
     // The night sky as the sky instrument reads it (NightSkies): a sign rising, and whose sign it is.
-    'riding', 'own'];
+    'riding', 'own',
+    // Who did a skilled act, you or a companion (feat: GR-19).
+    'by'];
   it('every line has its own id, names only circumstances the narrator knows, and says where it came from', () => {
     const ids = Voice.tables.flatMap(t => t.lines.map(l => l.id));
     expect(new Set(ids).size).toBe(ids.length);

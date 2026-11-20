@@ -43,7 +43,7 @@ describe('a calling\'s own act', () => {
     await t.perform('change_thing(t__lock_pick)');
     const feat = (t.campaign.history.at(-1)?.voiced ?? []).find(v => v.kind === 'feat');
     expect(feat?.id).toMatch(/^feat\.lockwork\.companion\./);
-    expect(feat?.text).toMatch(/^(Haze|It is an old lock and a stiff one\. Haze) /);
+    expect(feat?.text).toMatch(/^(Haze|It is an old, stiff lock\. Haze) /);
     expect(feat?.text).not.toMatch(/\b[Yy]ou (work|take)\b/);
   });
 });
