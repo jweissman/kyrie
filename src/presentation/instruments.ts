@@ -39,8 +39,8 @@ export class Instruments {
   // OR-13), one who came alone told of their own.
   static night(campaign: Campaign, screen: Screen): Night | undefined {
     const start = campaign.readout.calendar;
-    // Under the sky as the narrator reckons it (Narrator.shelter): a town's green declares no shelter and is out of doors
-    // (the instrument had read only places that declare themselves open, so Porthalen's green had no sky at night).
+    // Under the sky as the narrator reckons it (Narrator.shelter): a town's green declares no shelter and is out of
+    // doors (the instrument had read only places that declare themselves open: Porthalen's green had no sky at night).
     if (!start || Narrator.shelter(campaign, screen.place.id) !== 'outdoors') { return undefined; }
     const date = Calendar.date(start, campaign.readout.elapsed);
     const dark = ['night', 'evening'].includes(screen.expedition.daylight);
