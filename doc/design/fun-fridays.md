@@ -44,6 +44,7 @@ reusable capability was missing (and whether it was built), and what play said.
 
 | Pin | Friday | Where | Activities (#) | Already worked | Authored new | Capability missing | Play says |
 |---|---|---|---|---|---|---|---|
+| The old pump on the green, mended with Hesper Lowe | 20 Nov | every first town's green (Porthalen in iscoed), data/generation/town/neighbours.kyrt; test/hesper-pump.test.ts | 38 working on machines, 217 repairing things | a Thing with states and Changes, refused with a reason when she is not there; a Topic asked once; Observes; a Rule noting the company has walked off | the pump's four states, Hesper's invitation, her account of how a pump works, the children at it afterwards | none: met with what Kyr has. Wanted later: an observation told again on a return (each is told once, so her invitation shows only on the first look). The owner, after it: one authored scene is not the idea; the tinker kit is (fun-fridays-tinker-kit, to come) | three short steps with someone who loves how things work; the water so cold it hurts; nothing paid and no aim; the green answers when you come back |
 
 Capabilities found missing, by how many pins want them (one capability can serve many pins):
 

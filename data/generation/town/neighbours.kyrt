@@ -56,6 +56,28 @@
     Role "a boat-wright's apprentice with a drawing of a bell". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
     Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks you up and down. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
   }
+  // Fun Friday (20 November): working on machines and repairing things (the Pleasant Activities List, #38 and #217).
+  // The old pump on the green has seized, and Hesper Lowe has its cap off; she calls the company over. Nothing is paid
+  // and nothing is an aim: a stiff old thing made to work again, with someone who loves how things work, and after it
+  // the green has water.
+  Thing {t}_pump "the old pump on the green" at {t}_green {
+    State seized "An iron pump stands by the horse-trough. Its handle is rusted up like a raised arm. The trough is dry and full of leaves.".
+    State apart "The pump lies in pieces on a sack. There is the rod, and the bucket with its perished leather cup. The clack-valve is stuck shut with green. Hesper names each piece for you, as if introducing friends. 'The leather is the heart of it. When it goes stiff, the whole thing forgets how to breathe.'".
+    State greased "Hesper cuts new leather from her own apron-string. You work tallow into it until it shines. The clack swings free on its pin now. Hesper blows through the bucket. It whistles, and she grins.".
+    State working "You fit it back together while Hesper calls the order. Then she nods at the handle: yours. It is stiff for three strokes. On the fourth, something deep in the iron catches. On the sixth the spout coughs rust, then brown water, then clear. It is so cold it hurts. Hesper laughs out loud. 'There,' she says. 'It remembered.'".
+    Change open "Help Hesper Lowe take the old pump apart" from seized to apart when at({t}_hesper, {t}_green) "Without Hesper you could not tell the rod from the bucket.".
+    Change grease "Cut new leather for the pump and work tallow into it" from apart to greased when at({t}_hesper, {t}_green) "Hesper has the knife and the tallow, and she is not here.".
+    Change rebuild "Put the pump back together and try the handle" from greased to working when at({t}_hesper, {t}_green) "The pieces lie on their sack; Hesper will want to see it go back.".
+  }
+  Topic {t}_hesper_pump with {t}_hesper "Ask Hesper Lowe how a pump knows to lift water" when not state({t}_pump, seized) once {
+    Says "'It does not know anything,' says Hesper Lowe, delighted to be asked. 'That is the beauty. The leather cups on the way down. It lies flat on the way up. The clack lets water in and will not let it out. The air does the rest. Every part is too stupid to fail on its own. It is only all of them together that is clever.' She looks at the pump the way other people look at horses.".
+  }
+  // She calls the company over: it begins with her, not with the company.
+  Observe {t}_pump_called at {t}_green when state({t}_pump, seized) and at({t}_hesper, {t}_green) "By the horse-trough, Hesper Lowe has the cap off the old pump. Both her arms are down its throat. 'You,' she says, not looking up. 'Hands. Hold the rod while I find out what has died in here.'".
+  // Come back to the green after mending it, and the green has water.
+  Relation {t}_pump_left(group).
+  Rule {t}_pump_walked_off when state({t}_pump, working) and not at(party, {t}_green) and not {t}_pump_left(party) { Assert {t}_pump_left(party). }
+  Observe {t}_pump_used at {t}_green when {t}_pump_left(party) "Two children hang their whole weight on the old pump's handle. It gives water, clear and cold. Hesper goes by with an armful of planks, and pats the iron as she passes.".
   Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {
     Says "'A bell,' says Hesper Lowe. 'The town had one over the well and the hobs took it, and the wright I am bound to says a bell is a lump of metal and a good one is luck. It is not luck. It is the shape of the lip and the thickness of the shoulder, and the old people knew it, and I have a sixth of the knowledge and no pattern. If I could put my hands on one good bell, or on anything that rings true and was made by somebody who meant it. They say the Hall's boy comes home humming four notes from the hill, three down and one up, and that something up there rings them. If I had the shape of it...' She stops. 'Do not laugh. Everyone does.'".
     On discuss { Assert {t}_hesper_told(party). }
