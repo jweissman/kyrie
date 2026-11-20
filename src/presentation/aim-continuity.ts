@@ -50,7 +50,7 @@ export class AimContinuity {
     const weighed = !!gold && !!back && !['route', 'toward', 'means'].includes(lead.source);
     const on = weighed ? this.acting(campaign, screen, lead, eligible) : [];
     const off = weighed && (on.length > 0 || !!back.visited) && !on.some(c => c.choice === gold.choice)
-      && !this.sought(campaign, screen, back.destination.id);
+      && !this.sought(campaign, screen, back.destination.id, lead.aim);
     if (gold && !off) { return { acts, continuance: { kind: 'step', witness: gold.choice } }; }
     if (gold) { return this.of(campaign, screen, { ...at, acts: acts.map(a => a === gold ? this.plain(a) : a) }); }
     // Inside a site with nothing known to lie within (AimLeading.deeper): a frontier, named, its rooms exploration.
@@ -97,9 +97,11 @@ export class AimContinuity {
   // Whether a way goes toward where what the aim waits on lies hidden, is to be learned or is to be come to, which the
   // glance reads and the lead may not (a1's cross under the door-stone, outside the site gone into past it:
   // test/gold-thread; a hold's rooms each to be been in, in the glance's order: test/small/aim-lead's survey).
-  private static sought(campaign: Campaign, screen: Screen, to: string): boolean {
+  // And where one the aim names stands (the rats of a job to clear them, back in their runs: test/small/idle-aim).
+  private static sought(campaign: Campaign, screen: Screen, to: string, aim: string): boolean {
+    const named = campaign.module.objectives?.find(o => o.id === aim)?.toward ?? [];
     const there = new Set([...AimAdvances.sought(campaign), ...AimAdvances.taughtAt(campaign),
-      ...AimAdvances.unreached(campaign)]);
+      ...AimAdvances.unreached(campaign), ...named.flatMap(id => campaign.world.one('at', id) ?? [])]);
     return there.has(to) || (there.size > 0
       && KnownWays.first(campaign, screen.place.id, id => there.has(id), { able: true }) === to);
   }
