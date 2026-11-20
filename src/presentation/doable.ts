@@ -1,4 +1,4 @@
-import type { Choice } from '../ui/choice-list';
+import { ChoiceList, type Choice } from '../ui/choice-list';
 import type { Act, Screen } from '../ui/screen-types';
 import { Attending } from '../ui/attention';
 import { SceneModel } from '../ui/scene';
@@ -45,6 +45,8 @@ type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed
 interface Read { tree: Map<string, Choice>; parents?: Map<string, string>; acts: Map<string, Promoted>; glance: Offered;
   // The scene's choices by the command each does: a row offered by its command finds there its words under its holder.
   commands?: Map<string, Choice>;
+  // The pack's words for what is done with a thing carried, by command ("Light" under the torch): a row's short there.
+  packed?: Map<string, string>;
   lens?: Lens; led?: boolean; opening?: boolean;
   command?: string; legal?: Set<string> }
 interface Kept { rows: Row[]; at: Omit<Read, 'lens' | 'led' | 'command'>; lensOf: Map<string, Lens> }
@@ -98,7 +100,7 @@ export class Doable {
     const acts = new Map(glance.acts.map(a => [a.choice, a]));
     this.whose(screen, glance, parents);
     const commands = new Map([...tree.values()].flatMap(c => c.command ? [[c.command, c] as const] : []).reverse());
-    const at = { tree, parents, acts, glance, legal: this.legal(glance, tree), commands };
+    const at = { tree, parents, acts, glance, legal: this.legal(glance, tree), commands, packed: this.packed(screen) };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
     const listed = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []];
     // And what a lens holds within an opener that the offer leaves out (a person's questions under their talk, the
@@ -138,6 +140,13 @@ export class Doable {
     const out = { ...r };
     delete out.within;
     return out;
+  }
+  // What is done with each thing carried, in the pack's words under it, by command (ChoiceList.pack).
+  private static packed(screen: Screen): Map<string, string> {
+    return new Map(this.leaves(ChoiceList.pack(screen).flatMap(s => s.choices)).map(c => [c.command!, c.label]));
+  }
+  private static leaves(cs: Choice[]): Choice[] {
+    return cs.flatMap(c => [...c.command ? [c] : [], ...this.leaves(c.children ?? [])]);
   }
   // The commands a row may do: a choice's of the scene, or one the glance offers by its command (a light, a wait, a
   // journey), or a book's (view:).
@@ -202,8 +211,10 @@ export class Doable {
         .find(k => k.command === led))?.label : undefined;
     const asked = within && (act?.unmet ? within : act?.words?.[led!] ?? within);
     const full = c?.alone || label, under = c ?? at.commands?.get(act?.command ?? at.command ?? id);
-    const base = { id, label: full,
-      ...under && under.label !== full && full.length > under.label.length ? { short: under.label } : {},
+    const offered = act?.command ?? at.command, journey = offered?.startsWith('travel:') ? offered : undefined;
+    const does = journey ?? (c ? c.command ?? act?.command : offered ?? id);
+    const short = [under?.label, does && at.packed?.get(does)].find(w => w && w !== full && full.length > w.length);
+    const base = { id, label: full, ...short ? { short } : {},
       witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led && at.led !== false ? { for: led } : {},
       ...asked ? { called: act?.unmet ? this.called(c?.alone || (c?.label ?? label), asked) : asked } : {},
@@ -214,8 +225,6 @@ export class Doable {
     // One offered by its command, outside the scene's tree (a light, a set-down, a wait), does that command.
     // A way over into the next stretch of country is set out on as a journey there, as the engine offers it (travel:,
     // HexBoundary) and the page's map does: walked as a way, a cold play's journey had not been offered (cold play 4).
-    const offered = act?.command ?? at.command, journey = offered?.startsWith('travel:') ? offered : undefined;
-    const does = journey ?? (c ? c.command ?? act?.command : offered ?? id);
     if (c?.command || !kids.length) { return this.made({ ...base, ...does ? { does } : {} }, legal); }
     // An opener opens: what the engine leads it for first, then the rest in the scene's order.
     const first = new Set([act?.for, ...(act?.inside ?? []).map(i => i.command)].filter((x): x is string => !!x));

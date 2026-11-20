@@ -63,4 +63,10 @@ export class Tending {
   private static thing(name: string): string {
     return /^[A-Z]\w*'s /.test(name) ? name : name.replace(/^(The|A|An|Some) /, m => m.toLowerCase());
   }
+  // What is done with one of the company in the pack, said whom to as the scene says it (MT-18: the pack had said
+  // "Carlin: Ask them to stay here" and "Carlin: Ask Carlin about home", where the engine said "Ask Carlin to stay
+  // here" and "Ask Carlin about home").
+  static whom(label: string, name: string): string {
+    return label.includes(name) ? label : /\bthem\b/.test(label) ? label.replace(/\bthem\b/, name) : `${name}: ${label}`;
+  }
 }

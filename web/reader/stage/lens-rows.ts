@@ -6,6 +6,7 @@ import type { QuarterRow } from '../../../src/ui/quarters';
 import { LensFocus, type Part } from './lens-focus';
 import { Fold, type Leaf } from '../../../src/presentation/fold';
 import { Selection } from './lens-selection';
+import { Doable } from '../../../src/presentation/doable';
 
 // What a lens draws, row by row, and the witnesses of the marks those rows bear: one selection, read by the lens as
 // it draws (GlanceStage.Lens) and by the rail's mark that opens it (SceneRail.go, SceneRail.look), so the mark can be
@@ -25,12 +26,20 @@ export class LensRows {
   // every act the lens gives itself (the speaking door's look) is not drawn as well.
   static of(app: ReaderApp, lens: Lens, lensed: Lensed, choice: Named): Drawn {
     const sel = new Selection(app, lensed, lens === 'things' ? lensed.leaves ?? {} : {}, choice);
-    const promoted = lensed.promoted.filter(p => !sel.opens(p) && !sel.covered(p));
+    const promoted = lensed.promoted.filter(p => !sel.opens(p) && !sel.covered(p)).map(p => LensRows.worded(app, p));
     const opened = lensed.promoted.filter(p => sel.opens(p) && sel.inside(p).length);
-    const rest = lensed.rest.flatMap(a => sel.opens(a) ? sel.inside(a) : sel.covered(a) ? [] : [a]);
+    const rest = lensed.rest.flatMap(a => sel.opens(a) ? sel.inside(a) : sel.covered(a) ? [] : [a])
+      .map(a => LensRows.worded(app, a));
     const flat = LensRows.grouped(rest).flatMap(g => g.acts);
     const all = [...promoted, ...opened.flatMap(p => sel.inside(p)), ...flat];
     return { promoted, opened, flat, all, inside: sel.inside.bind(sel) };
+  }
+  // A look or a talk that holds one act is that act (Row.only), in its words, not the thing's or the person's name
+  // (MT-18, the parity measure's page words: "Talk to Reeve Annis Talfryn" for asking her about the sea-gate).
+  static worded<T extends LensAct>(app: ReaderApp, a: T): T {
+    const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
+    const one = g && screen && /#(look|talk)$/.test(a.choice) ? Doable.one(g, screen, a.choice, a.command) : undefined;
+    return one?.only ? { ...a, label: one.label } : a;
   }
   // Whether the lens is drawn by focus (more than four, or something focused already: see LensFocused).
   static focused(app: ReaderApp, drawn: Drawn): boolean {

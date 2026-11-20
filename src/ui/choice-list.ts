@@ -347,7 +347,7 @@ export class ChoiceList {
     if (!tenders.length) { return []; }
     return [{ id: 'tend', title: 'Tend the company', tone: 'member', glyph: '✚',
       choices: tenders.flatMap(m => this.flatten(m.acts, `tend:${m.id}`, 'member')
-        .map(c => ({ ...c, label: `${m.name}: ${c.label}` }))) }];
+        .map(c => ({ ...c, label: Tending.whom(c.label, m.name) }))) }];
   }
   static party(screen: Screen): Section[] {
     return [{ id: 'party', title: 'The company', tone: 'member', glyph: '☺', choices: screen.party.map(m => ({

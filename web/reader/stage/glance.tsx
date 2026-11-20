@@ -7,7 +7,7 @@ import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
 import type { ReaderApp } from '../reader-app';
 import { Attending } from '../../../src/ui/attention';
-import { Doable } from '../../../src/presentation/doable';
+import { Doable, type Row } from '../../../src/presentation/doable';
 import { Typography } from '../../../src/presentation/typography';
 import { MenuModel } from '../menu-model';
 import { Aims } from '../aims';
@@ -397,8 +397,11 @@ export class GlanceStage {
     const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
     const four = GlanceStage.engine(g);
     return four && g && screen
-      ? four.map(a => ({ ...a, label: Doable.one(g, screen, a.choice, a.command).called ?? a.label })) : undefined;
+      ? four.map(a => ({ ...a, label: GlanceStage.called(Doable.one(g, screen, a.choice, a.command), a) })) : undefined;
   }
+  // A look that holds one act is that act, in its words, not the thing's name (MT-18: "a wax tablet in a wooden case"
+  // for "Read the strokes on the wax tablet"); a talk led for a question is what Doable calls it.
+  private static called(row: Row, a: Promoted): string { return row.called ?? (row.only ? row.label : a.label); }
   private static engine(g: Glance | undefined): Promoted[] | undefined {
     return g?.offer?.primary.map(o => g.acts.find(a => a.choice === o.choice) ?? { choice: o.choice,
       ...o.command ? { command: o.command } : {}, label: o.label, aspects: o.aspects, marks: o.marks,
