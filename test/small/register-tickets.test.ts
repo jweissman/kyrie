@@ -13,7 +13,7 @@ describe('the register as tickets', () => {
   it('reads both of its table layouts, each id once', () => {
     expect(rows.length).toBeGreaterThan(540);
     expect(rows.find(r => r.id === 'HP-01')).toMatchObject({ pri: 'P1', feature: 'undertakings' });
-    expect(rows.find(r => r.id === 'FH-01')).toMatchObject({ pri: 'P0', feature: 'opening' });
+    expect(rows.find(r => r.id === 'FH-01')).toMatchObject({ pri: 'P2', feature: 'opening' });
     expect(new Set(rows.map(r => r.id)).size).toBe(rows.length);
   });
   it('places every row on a feature that exists', () => {

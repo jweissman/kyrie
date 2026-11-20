@@ -48,17 +48,24 @@ export class OfferParity {
     const offered = RunnerOffer.flat([...said.offer.primary, ...said.offer.rest,
       ...Object.values(said.offer.lenses ?? {}).flatMap(os => os ?? [])] as Offered[]);
     const drawn = new Map(offered.filter(o => !o.opens?.length).map(o => [o.id, o.label]));
-    for (const [act, words] of engine) {
-      if (!drawn.has(act)) { out.add(`engine only: ${act}`); }
-      else if (drawn.get(act) !== words) { out.add(`words: ${act}`); }
+    // An act held under an opener (a person's asks under their talk) is offered where the opener is, by the engine's
+    // own id: opened, it shows them, as the page's drawer does.
+    const openers = new Set(offered.filter(o => o.opens?.length).map(o => o.id));
+    for (const [act, { words, id, under }] of engine) {
+      if (!drawn.has(act) && !(under && openers.has(under))) { out.add(`engine only: ${act}`); continue; }
+      if (drawn.has(act) && drawn.get(act) !== words) { out.add(`words: ${act}`); }
+      // The same act under another name: the runner names a row by what it does, the engine by the row (AT-13).
+      if (drawn.has(act) && id !== act) { out.add(`named apart: ${id.replace(/[(:/#].*$/, '…')}`); }
     }
     for (const id of drawn.keys()) { if (!engine.has(id)) { out.add(`runner only: ${id.replace(/\(.*$/, '(…)')}`); } }
     const step = said.going?.act;
     if (step && !drawn.has(step)) { out.add(`lead names no row: ${step.replace(/[(:/].*$/, '…')}`); }
   }
-  // The engine's rows by the act each does, in its own words (an opener's leaves, each by its own).
-  private static engine(rows: Row[]): Map<string, string> {
-    return new Map(Doable.flat(rows).flatMap(r => r.does && !r.opens?.length ? [[r.does, r.called ?? r.label]] : []));
+  // The engine's rows by the act each does, in its own words, with the opener each is held under (if any).
+  private static engine(rows: Row[], under?: string): Map<string, { words: string; id: string; under?: string }> {
+    return new Map(rows.flatMap(r => r.opens?.length ? [...this.engine(r.opens, under ?? r.id)]
+      : r.for ?? r.does ? [[(r.for ?? r.does)!, { words: r.called ?? r.label, id: r.id,
+        ...under ? { under } : {} }] as const] : []));
   }
   static kinds(divergences: string[]): Record<string, number> {
     const out: Record<string, number> = {};
