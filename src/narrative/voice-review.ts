@@ -7,15 +7,18 @@ export interface Reviewed { id: string; kind: string; when: string; readings: st
 // said beside it (a blank left unfilled, a word
 // doubled, "they is"). For editors (bin/kyrie voice review), and for the test that keeps the tables clean.
 export class VoiceReview {
+  // The night sky's own blanks, as the sky instrument fills them (NightSkies).
+  private static readonly night = { sign: 'the Hearth', signline: 'Where they sit, people gather and stay.', who: 'Wenna',
+    moon: 'a waxing moon' };
   static readonly contexts: Speaking[] = [
     { actor: 'Tobu', pronoun: 'he', target: 'the boar', place: 'the green',
-      values: { from: 'Merscheald', to: 'Meósdael', way: 'road', behind: 'fen', ahead: 'forest' } },
+      values: { from: 'Merscheald', to: 'Meósdael', way: 'road', behind: 'fen', ahead: 'forest', ...this.night } },
     { actor: 'Edda', pronoun: 'she', target: 'the two goats', place: 'the ford',
-      values: { from: 'Glōmstede', to: 'the mere', way: 'path', behind: 'hill', ahead: 'upland' } },
+      values: { from: 'Glōmstede', to: 'the mere', way: 'path', behind: 'hill', ahead: 'upland', ...this.night } },
     { actor: 'Wren', pronoun: 'they', target: 'Aelfric', place: 'the taproom',
-      values: { from: 'the fen', to: 'Murksīe', way: 'road', behind: 'frozen', ahead: 'frozen' } },
+      values: { from: 'the fen', to: 'Murksīe', way: 'road', behind: 'frozen', ahead: 'frozen', ...this.night } },
     { actor: 'the grey dog', pronoun: 'it', target: 'you', place: 'the yard',
-      values: { from: 'the lane', to: 'the yard', way: 'path', behind: 'desert', ahead: 'hill' } },
+      values: { from: 'the lane', to: 'the yard', way: 'path', behind: 'desert', ahead: 'hill', ...this.night } },
   ];
   static review(kind?: string): Reviewed[] {
     return Voice.tables.flatMap(t => t.lines.map(line => ({ line, kind: line.id.split('.')[0] ?? t.kinds[0]! })))
