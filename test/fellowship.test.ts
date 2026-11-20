@@ -50,6 +50,8 @@ describe('the fellowship, played (m13: a guild whose hall sold its tally)', () =
     const j = Journey.of(await PlaySession.start(world.path, 'm13', world.source, party));
     const placed = world.report.placements.find(p => p.scenario === 'fellowship')!;
     const buyer = 'c';
+    // Toward the head, at the seat (MT-12: the carry had been about the order, a fact, and led nowhere).
+    expect(j.campaign.module.objectives?.find(o => o.id === 'fellowship__carry')?.toward).toEqual(['fellowship__head']);
     const say = async (s: string) => j.play(s);
     Placed.at(j, 'fellowship__hall_a');
     await say('Ask \\w+ what is wrong with the roll');
