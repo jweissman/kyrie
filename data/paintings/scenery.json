@@ -130,7 +130,7 @@
     {"kind": "chandlery", "words": ["chandlery", "chandler", "chandlers", "candlemaker", "candle-maker", "tallow-chandler", "tallowhouse", "tallow-house"], "room": ["scene-chandlery", "scene-chandelry", "scene-tallowhouse"]},
     {"kind": "larder", "words": ["provision", "provisions", "bakehouse", "general", "larder"], "room": ["scene-larder", "scene-general-store", "scene-town-merchant"]},
     {"kind": "riches", "words": ["jewel", "jeweller", "jewelry", "exchange", "counting", "strongroom", "treasury", "hoard", "money", "mint", "mint-house"], "room": ["scene-counting-house", "scene-mint-house", "silver", "cup"]},
-    {"kind": "counting-room", "words": ["counting-room", "counting-house", "countinghouse", "office", "chancery"], "room": ["scene-counting-room"]},
+    {"kind": "counting-room", "words": ["counting-room", "counting-house", "countinghouse", "office", "chancery", "customs-house"], "room": ["scene-counting-room"]},
     {"kind": "cloth", "words": ["cloth", "clothier", "fabrics", "tailor", "draper"], "room": ["scene-clothier"]},
     {"kind": "spicery", "words": ["spicery", "spicer", "spicers", "spices", "grocer", "grocery"], "room": ["scene-spicery"]},
     {"kind": "infirmary", "words": ["infirmary", "hospital", "hospice", "sickroom", "sick-room", "lazar-house"], "room": ["scene-infirmary"]},

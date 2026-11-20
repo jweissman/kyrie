@@ -16,7 +16,8 @@ describe('a painting\'s light, season and weather', () => {
     const snowy = at('the shrine of Danu', { weather: 'snowy' });
     expect(Fits.fits(snowy, 'scene-temple')).toBe(false);
     expect(Fits.fits(snowy, 'scene-woodland-shrine')).toBe(true);
-    expect(Fits.fits(at('Danu\'s town', { weather: 'snowy' }), 'scene-town-snowbound')).toBe(true);
+    // At evening: the snowbound town is painted at dusk, which is not the day's (S3-4, test/small/paintings-fit).
+    expect(Fits.fits(at('Danu\'s town', { weather: 'snowy', daylight: 'evening' }), 'scene-town-snowbound')).toBe(true);
   });
   // Each of these says nothing of its light or season in its few words: only what it was looked at for refuses it.
   it('are read beside its words: a summer garden in snow, a sunny market by night, a bright bailey in rain', () => {

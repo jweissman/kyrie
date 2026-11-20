@@ -5,15 +5,19 @@
       "forbids": "\\bbanners?\\b|\\bflags?\\b|turreted|castle walls|golden|sunlit|sunny|roses|flowering|bustling|crowd|thriving",
       "unless": "ruin|broken|roofless|overgrown|crumbl|fallen" },
     { "id": "foul weather", "weather": "storm|rain|snow|sleet|fog|mist|overcast|gale|drizzle|squall",
-      "forbids": "sunny|sunlit|golden|bright|haze|blue sky|sunshine" },
+      "forbids": "sunny|sunlit|golden|bright|haze|blue sky|sunshine|\\bclear\\b" },
     { "id": "winter", "weather": "snow|sleet|frost|ice|freezing",
       "forbids": "flowering|blossom|roses|summer|spring|autumn|lush|harvest|wheat|in leaf|green leaves" },
     { "id": "evening or night", "daylight": "evening|night",
-      "forbids": "sunny|sunlit|noon|midday|sunshine|bright day" },
+      "forbids": "sunny|sunlit|noon|midday|sunshine|bright day|\\bdaylight\\b" },
+    { "id": "by day", "daylight": "^day$",
+      "forbids": "\\bdusk\\b|\\bnight\\b|moonlit|\\bmoon\\b|starlit|\\bat evening\\b|sunset" },
+    { "id": "a sea-bank is not the sea", "place": "\\bsea-(bank|wall)\\b",
+      "forbids": "\\bship\\b|\\bboats?\\b|\\bdeck\\b|founder" },
     { "id": "a holy thing in the open", "place": "\\b(shrine|holy)\\b",
       "told": "^(a|an) (long stone|slab|figure|spring|well-head|standing stone|pillar|wall painted|painted wall|bronze box|niche)\\b",
       "forbids": "church|spire|abbey|cathedral|temple|columns" },
     { "id": "under the ground", "underground": true,
-      "forbids": "hillside|\\bsky\\b|\\bfield\\b|meadow|sunlit|sunny|stars|mountains|courtyard|parkland" }
+      "forbids": "hillside|\\bsky\\b|\\bfield\\b|meadow|sunlit|sunny|stars|mountains|courtyard|parkland|\\bdaylight\\b|\\bwindows?\\b|\\bmoon" }
   ]
 }

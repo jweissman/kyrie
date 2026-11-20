@@ -20,7 +20,7 @@ Module gate "The last sea-gate" {
 
   Kind pawl_kind "the sea-gate's pawl" is gear worth 6 weighing 6 described "A tooth of bronze-shod iron as long as a forearm, curved to fit a ratchet, with a hole through its heel where a pin went. The Water-Wardens' mark, a wave inside a ring, is cut into its face.".
   Place bank "the sea-bank at {hamlet}" is room within hamlet at 4, 0.
-  Place gatehouse "the Wardens' gatehouse" is room within hamlet at 5, 0.
+  Place gatehouse "the Wardens' gatehouse" is room within hamlet at 5, 0 indoors.
   Place well "the gate-well, under the gatehouse" is room within hamlet at 5, 1.
   Passage bank_path "the path along the sea-bank" is passage between hamletgreen and bank.
   Passage gate_door "the gatehouse door" is door between bank and gatehouse.

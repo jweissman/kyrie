@@ -17,7 +17,7 @@ Module drove "The held drove" {
   Entity altered: fact "In Mardle's tally-book the forty for Bran's drove is written over a thirty-six, in fresher ink.".
   Entity road_west: fact "The drove road goes west from {town} up the pass to Caer Brynach, where the lord pays for swords.".
 
-  Place customs "the customs-house" is room within town at 6, 3.
+  Place customs "the customs-house" is room within town at 6, 3 indoors.
   Place pens "the drove pens" is room within town at 6, 4.
   Place rhyne "the Black Rhyne, behind the pens" is room within town at 7, 4.
   Passage customs_door "the customs-house door" is door between green and customs.
@@ -160,9 +160,11 @@ Module drove "The held drove" {
   Rule share_half when sold(party) and halved(party) and not paid(party) { Assert paid(party). Increase quantity(party, gold) by 2. }
   // Mardle sells the drove himself, on a clock of his own (the owner's structural critique, 18 November, ST-02: a
   // deadline had been the only actor): the sale cried, a buyer at the pens, half the drove under the hammer.
-  Rule sale_cried when not freed(party) and not sent(party) and not cried(party) and watch(clock) >= 60 says "A customs-man nails a paper to the customs-house door: Bran ap Ifor's drove to be sold at the pens on the third day, for the Rì's toll." { Assert cried(party). }
-  Rule buyer_comes when not freed(party) and not sent(party) and cried(party) and not bidden(party) and watch(clock) >= 162 says "A buyer from Wrackham walks the rails at the pens with Mardle, pointing with his stick. Owain stands in the gate and will not move out of it until Mardle tells him to." { Assert bidden(party). }
-  Rule half_sold when not freed(party) and not sent(party) and bidden(party) and not halved(party) and watch(clock) >= 312 says "The sale begins at the pens. Eighteen of Bran's bullocks go under the hammer to the Wrackham man before Mardle calls a halt for the day." { Assert halved(party). }
+  // Each is done wherever the company is, and heard only in the town: the paper nailed up had been told to a mage in a
+  // kitchen at Gatesend who had never heard of Bran (S3-4, NP-02).
+  Rule sale_cried heard within town when not freed(party) and not sent(party) and not cried(party) and watch(clock) >= 60 says "A customs-man nails a paper to the customs-house door: Bran ap Ifor's drove to be sold at the pens on the third day, for the Rì's toll." { Assert cried(party). }
+  Rule buyer_comes heard within town when not freed(party) and not sent(party) and cried(party) and not bidden(party) and watch(clock) >= 162 says "A buyer from Wrackham walks the rails at the pens with Mardle, pointing with his stick. Owain stands in the gate and will not move out of it until Mardle tells him to." { Assert bidden(party). }
+  Rule half_sold heard within town when not freed(party) and not sent(party) and bidden(party) and not halved(party) and watch(clock) >= 312 says "The sale begins at the pens. Eighteen of Bran's bullocks go under the hammer to the Wrackham man before Mardle calls a halt for the day." { Assert halved(party). }
   // What Mardle is afraid of, said where he is pressed (ST-02: obstruction had stood where a claim should).
   Topic clerk_fear with clerk "Ask Mardle who he counts for" when knows(actor, bran_count) and not freed(party) once {
     Says "'For the toll-farmer at Dun Rìerdan,' says Mardle. 'He docks me a crown for every beast that comes in short of what the march-stone saw, and he does not ask why. I have three children in the house behind the chandlery.' He closes the book. 'Count for him a year, and see if you count kinder.'".
@@ -203,7 +205,7 @@ Module drove "The held drove" {
   // pens, offered there (an aim of its own had taken the thread from the inquiry: CL-04).
   Objective bran_aim when not sent(party) and knows(party, held) and not freed(party) and not knows(party, bran_count) toward customs "Go to Bran behind the customs-house grille, and hear what he says of the count.".
   // The clock: four days, and the customs-men send a man who will not pay north to the Judges, and sell his drove.
-  Rule sent_north when not freed(party) and not sent(party) and watch(clock) >= 576 says "Word comes along the waterfront: the customs-men have sent Bran ap Ifor north to the Judges in chains, and sold his drove at the sales for the Rì's toll." {
+  Rule sent_north heard within town when not freed(party) and not sent(party) and watch(clock) >= 576 says "Word comes along the waterfront: the customs-men have sent Bran ap Ifor north to the Judges in chains, and sold his drove at the sales for the Rì's toll." {
     Assert sent(party). Assert stale(held). Retract at(bran, customs). Assert offstage(bran). Assert at(owain, green).
   }
   Rule word_old when freed(party) and not stale(held) { Assert stale(held). }

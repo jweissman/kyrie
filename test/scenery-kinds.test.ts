@@ -76,7 +76,8 @@ describe('the painting of a place', () => {
       // The owner's paintings of 8 November: the runs and the drain, a burrow or a culvert; the brood, its webbed cave.
       expect(['scene-burrow', 'scene-sewer-drain', 'scene-spider-chamber']).toContain(Scene.seen(Scene.room(id, name, under))!);
     }
-    const dead = ['scene-crypt', 'scene-ossuary', 'scene-barrow-interior', 'perdition'];
+    // A sealed vault's own painting among them: the crypt's, lit by a window, is not one under the ground (S3-4).
+    const dead = ['scene-crypt', 'scene-ossuary', 'scene-barrow-interior', 'perdition', 'scene-vault-sealed'];
     const crypt = Scene.seen(Scene.room('region__s2_u_crypt', 'the crypt', under));
     const ossuary = Scene.seen(Scene.room('region__s2_u_ossuary', 'the ossuary', under));
     const vault = Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under));
@@ -123,6 +124,8 @@ describe('the painting of a place', () => {
     expect(Scene.seen(Scene.room('region__s2_gate', 'the gate-yard', open))).toBe('scene-village-gate-yard');
     expect(['scene-town-lane', 'scene-town-lanes']).toContain(Scene.seen(Scene.room('region__s2_lanes', 'the lanes behind Millholm', open))!);
     expect(Scene.seen(Scene.room('region__s2_houses', 'the houses of Millholm', open))).toBe('scene-town-houses');
+    // Porthalen's customs-house, a counter and a barred window, had been a cottage room with a bed (S3-4).
+    expect(Scene.seen(Scene.room('drove__customs', 'the customs-house', { indoors: true }))).toBe('scene-counting-room');
     expect(['scene-vault-sealed', 'scene-crypt', 'scene-ossuary'])
       .toContain(Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under))!);
     expect(Scene.seen(Scene.room('region__s2_green', 'the landing at Millholm', open))).toBe('scene-landing');

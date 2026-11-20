@@ -39,4 +39,23 @@ describe('a painting against the place', () => {
     expect(Fits.fits(at('The shrine of Coventina'), 'chapel')).toBe(true);
     expect(Fits.fits(at('The bailey', { told: well }), 'castle')).toBe(true);
   });
+  // The golden route (S3-4, OA-13): Gatesend's gate-yard painted at dusk at eight in the morning, the gate-well at
+  // a quarter to nine painted as a town under the moon, a Hall kitchen in daylight at evening, a barrow's king's
+  // treasury four rooms under the mound as a counting-house by its barred window's daylight, a forecourt "clear" in
+  // the rain, and a sea-bank as a ship foundering in a heavy sea.
+  it('is not of dusk or the moon by day, nor of daylight at evening', () => {
+    expect(Fits.fits(at('the gate-yard of Gatesend'), 'scene-village-gate-yard')).toBe(false);
+    expect(Fits.fits(at('the gate-well, under the gatehouse'), 'scene-town-night')).toBe(false);
+    expect(Fits.fits(at('the gate-yard of Gatesend', { daylight: 'evening' }), 'scene-village-gate-yard')).toBe(true);
+    expect(Fits.fits(at('the Hall kitchen', { daylight: 'evening' }), 'scene-kitchen')).toBe(false);
+    expect(Fits.fits(at('the Hall kitchen'), 'scene-kitchen')).toBe(true);
+  });
+  it('is not of a window\'s daylight under the ground, nor clear in the rain, nor a ship at sea for a sea-bank', () => {
+    expect(Fits.fits(at('the king\'s treasury', { underground: true }), 'scene-counting-house')).toBe(false);
+    expect(Fits.fits(at('the antechamber', { underground: true }), 'scene-crypt')).toBe(false);
+    expect(Fits.fits(at('the forecourt', { weather: 'rainy', daylight: 'evening' }), 'scene-barrow-forecourt')).toBe(false);
+    expect(Fits.fits(at('the forecourt', { daylight: 'evening' }), 'scene-barrow-forecourt')).toBe(true);
+    expect(Fits.fits(at('the sea-bank at Gatesend'), 'wreck')).toBe(false);
+    expect(Fits.fits(at('the deck'), 'wreck')).toBe(true);
+  });
 });
