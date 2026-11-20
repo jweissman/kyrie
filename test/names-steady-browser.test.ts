@@ -26,12 +26,14 @@ class Still {
         { timeout: 5000 });
     }
   }
-  // Every hand of names the page shows from now on, in the order it shows them.
+  // Every hand of names the page shows from now on, in the order it shows them: on the name page alone, so that the
+  // steps between how one presents and the name (asked second since CR-03) are not counted as hands of names.
   static hands(page: Page) {
     return page.evaluate(() => {
       const w = window as unknown as { hands: string[] };
       w.hands = [];
       const look = () => {
+        if (document.querySelector('.creation')?.getAttribute('data-page') !== 'name') { return; }
         const hand = [...document.querySelectorAll('.composed-list [data-option]')].map(o => o.getAttribute('data-option'))
           .join('|');
         if (hand && w.hands.at(-1) !== hand) { w.hands.push(hand); }
