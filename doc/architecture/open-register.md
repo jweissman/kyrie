@@ -7,6 +7,14 @@ live rows; `--touching <file>` says which features a changed file could touch an
 lists rows with no feature. A new row must be placeable (its id in `rows`, or its prefix in `byPrefix`):
 test/small/register-tickets fails with the row named.
 
+**No row is partly (the owner, 20 November: "It's pretty binary in planning, isn't it? Either it was done or not. Items
+don't need to be immutable; we can split off the undone work").** A row is open, closed (on the spec that proves it),
+duplicate, deferred (on the owner's ruling) or reference. Work half done is split: the row closes on what its spec
+proves, and the remainder becomes a row of its own ("split from X"), at the remainder's own priority. The rows still
+marked partly are converted by the tribunal (Z0, first-hour rows first); test/small/register-tickets holds their count
+and lets it only fall. Closed rows with a proof spec, read by someone other than their closer, move to the register's
+archive (to come), which the readers read too.
+
 **Closing a row (the sprint audit's lesson, 19 November).** A row is closed (fixed, met, closed) only with one of:
 a spec that tests the row's own claim, named in the status (not a neighbour that passes either way: barrow-forewarned
 passed without the forewarning); or a stated reason it cannot be checked headless and what would prove it (a CI

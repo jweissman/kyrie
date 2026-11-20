@@ -16,6 +16,11 @@ describe('the register as tickets', () => {
     expect(rows.find(r => r.id === 'FH-01')).toMatchObject({ pri: 'P2', feature: 'opening' });
     expect(new Set(rows.map(r => r.id)).size).toBe(rows.length);
   });
+  // No row is partly (the owner, 20 November): half-done work is split into a closed row and its remainder. The rows
+  // still partly are converted by the tribunal; their count only falls (203 on 20 November).
+  it('holds no more rows partly than it did, and lets the count only fall', () => {
+    expect(rows.filter(r => r.state === 'partly').length).toBeLessThanOrEqual(203);
+  });
   it('places every row on a feature that exists', () => {
     const known = new Set(map.features.map(f => f.id));
     const unplaced = rows.filter(r => !known.has(r.feature)).map(r => r.id);
