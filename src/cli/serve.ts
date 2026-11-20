@@ -8,6 +8,7 @@ import { LandCrossing } from '../ui/land-crossing';
 import { Narrator } from '../presentation/narrator';
 import { PlayerView } from '../presentation/player-view';
 import { EntityCard } from '../presentation/entity-card';
+import { Doable, type Row } from '../presentation/doable';
 import type { CampaignEvent } from '../campaign/campaign';
 
 // One long-lived game over standard input and output, a JSON object a line each way (the forward-design record's
@@ -33,10 +34,17 @@ export class Serve {
         ...a.for ? { for: a.for } : {}, label: a.label, why: a.why, aspects: a.aspects,
         ...a.continues ? { continues: true } : {} })),
       // Every choice, and the aim to follow, which the glance offers as an act of the session (HeldActs.follow).
+      // And the journeys from here, the engine's (Doable: DoableJourneys), less those on the map (MT-18: serve had
+      // offered none, where the runner and the page set out by them).
       choices: [...PlayerView.choices(c).map(r => ({ id: r.choice.id, label: r.choice.name })),
-        ...(glance?.acts ?? []).filter(a => a.command?.startsWith('follow:')).map(a => ({ id: a.command!, label: a.label }))],
+        ...(glance?.acts ?? []).filter(a => a.command?.startsWith('follow:')).map(a => ({ id: a.command!, label: a.label })),
+        ...glance ? Serve.journeys(Doable.flat(Doable.of(glance, screen))) : []],
       // What the map may set out for across the country, as the page and the terminal offer it (LandCrossing).
       across: LandCrossing.offers(screen) };
+  }
+  private static journeys(rows: Row[]): { id: string; label: string }[] {
+    return [...new Map(rows.filter(r => r.does?.startsWith('travel:') && !r.map)
+      .map(r => [r.does!, { id: r.does!, label: r.called ?? r.label }])).values()];
   }
   static told(e: CampaignEvent): string[] {
     return [...(e.perceptions ?? []).map(p => p.text), ...e.response ? [e.response] : []];

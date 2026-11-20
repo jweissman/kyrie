@@ -21,9 +21,16 @@ export class DoableJourneys {
     return [...leaving, ...JourneyFold.every(screen).filter(d => !had.has(`travel:${d.id}`))
       .map(d => ({ command: `travel:${d.id}`, label: `Set out for ${d.name}`, minutes: d.minutes }))];
   }
-  // The rows with those journeys not kept in the rest marked as on the map; never one the four lead with.
+  // The rows with those journeys not kept in the rest marked as on the map; never one the four lead with. In a country
+  // drawn in hexes a journey across it is the map's unless an aim names where it goes: of those the fold keeps, only
+  // the walks about the town the company is in, the way out and the aim's stay in the rest (the owner, 31 October:
+  // "move all cross-hex travel out of the play environment"; the page's own rule till MT-18, MenuModel.stays, which
+  // the parity measure found the runner and serve did not keep).
   static mapped(rows: Row[], screen: Screen, out?: Route): Row[] {
-    const kept = JourneyFold.kept(screen, out);
+    const fold = JourneyFold.kept(screen, out), aimed = new Set((screen.aims ?? []).flatMap(a => a.places ?? []));
+    const about = new Set([...(screen.around ?? []).map(d => d.id), ...aimed, ...out?.command ? [out.command] : [],
+      ...out?.to ? [out.to] : []]);
+    const kept = screen.region?.land?.tracts ? new Set([...fold].filter(id => about.has(id))) : fold;
     return rows.map(r => r.led ? r : this.mark(r, kept));
   }
   private static mark(r: Row, kept: Set<string>): Row {
