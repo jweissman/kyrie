@@ -29,8 +29,24 @@ class Why {
     Retract at(halm, shop). Assert at(halm, yard). }
   Goal false.
 }`;
-  static async fact(fact: string, ...steps: string[]): Promise<string[]> {
-    const one = SingleModule.source(this.yard), j = await Journey.start(one.campaign, 'why', { source: one.source });
+  // A fact not yet so, and three ways to it, each shut by something else (MT-13: the AT-09 analysis's held drove).
+  static readonly desk = `Module desk "A desk" {
+  Place hall "the hall" is room.
+  Place yard "the yard" is room.
+  Company party "You" of 1 at hall.
+  Relation freed(entity). Relation inked(entity).
+  Action pay_fine(actor: group, site: place) "Pay the fine" { Requires at(actor, site) and quantity(actor, gold) >= 12.
+    On success { Assert freed(actor). } Result "Paid.". }
+  Action read_book(actor: group, site: place) "Read the book" {
+    Requires at(actor, site) and at(actor, yard) and not inked(actor). On success { Assert freed(actor). } Result "Read.". }
+  Action blot(actor: group, site: place) "Blot the page" { Requires at(actor, site) and not inked(actor).
+    On success { Assert inked(actor). } Result "Blotted.". }
+  Rule pardon when inked(party) and at(party, yard) { Assert freed(party). }
+  Goal false.
+}`;
+  static async fact(fact: string, ...steps: string[]): Promise<string[]> { return this.of(this.yard, fact, ...steps); }
+  static async of(kyr: string, fact: string, ...steps: string[]): Promise<string[]> {
+    const one = SingleModule.source(kyr), j = await Journey.start(one.campaign, 'why', { source: one.source });
     const asked = WhyFact.resolved(j.campaign.world, WhyFact.parse(fact)!), sources = new WhySources(one.campaign, one.source, 'why');
     return WhyFact.report(j, sources, asked, await WhyFact.play(j, steps, asked));
   }
@@ -67,6 +83,16 @@ describe('kyrie inspect --why', () => {
       '  holds: yard__rung(yard__yard)', expect.stringMatching(/^ {4}\+ yard__rung\(yard__yard\), by the act yard__ring\(party,yard__yard\)/)]);
     expect((await Why.fact('rung(?)'))[1]).toBe('  holds: nothing of it');
     expect((await Why.fact('sung(?)'))[1]).toBe('  holds: nothing; nothing in the rules is called sung');
+  });
+  it('names, for a fact that does not hold, each writer\'s first condition that fails now', async () => {
+    const as = ' (as actor party, site desk__hall)', head = ['  could be written by:',
+      `    desk__pay_fine: quantity(actor, gold) >= 12${as}`, `    desk__read_book: at(actor, desk__yard)${as}`];
+    expect((await Why.of(Why.desk, 'freed(party)')).slice(4)).toEqual([...head, '    rule desk__pardon: desk__inked(party)']);
+    // Blotted, the rule waits only on the yard (and the act asked of it is not a writer: it writes inked).
+    expect((await Why.of(Why.desk, 'freed(party)', 'Blot the page')).slice(4))
+      .toEqual([...head, '    rule desk__pardon: at(party, desk__yard)']);
+    expect((await Why.fact('rung(?)')).slice(-2)).toEqual(['  could be written by:',
+      '    yard__ring: nothing fails: it can be done now (as actor party, site yard__yard)']);
   });
   // The draw it says chose is the binder's own: the lowest of those best preferred, by the placement's seed.
   it('says why a kit placement won: what each requirement ruled out, the preference, the seeded draw', async () => {
