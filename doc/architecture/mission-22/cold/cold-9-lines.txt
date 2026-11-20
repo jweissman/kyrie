@@ -1,0 +1,130 @@
+{"act":"drove__owain#talk"}
+{"act":"drove__owain/0:Talk/0:Ask Owain how many head came down"}
+{"follow":"drove__held_rhyne"}
+{"act":"exit:drove__pens"}
+{"act":"company/0:Water the drove from the pens' trough"}
+{"act":"exit:drove__rhyne"}
+{"act":"company/0:Search here"}
+{"act":"travel:drove__customs"}
+{"act":"travel:drove__customs"}
+{"act":"exit:drove__pens"}
+{"act":"drove__owain#talk"}
+{"act":"drove__owain#leave"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:drove__customs"}
+{"act":"drove__bran#talk"}
+{"act":"drove__bran/0:Talk/0:Ask Bran what happened"}
+{"act":"drove__bran#leave"}
+{"act":"drove__clerk#talk"}
+{"act":"drove__clerk/0:Talk/0:Ask Mardle how many droves he has found four short this year"}
+{"act":"drove__clerk/0:Talk/0:Ask Mardle who he counts for"}
+{"act":"drove__clerk#leave"}
+{"act":"company/0:Tell Mardle where the four bullocks are"}
+{"act":"exit:region__s1_green"}
+{"act":"region__s1_u_hand#talk"}
+{"act":"region__s1_u_hand/0:Talk/0:Ask the tinker's daughter why she was left behind"}
+{"act":"region__s1_u_hand/0:Ask the tinker's daughter to join the company — 1 coin"}
+{"act":"region__s1_u_hand#leave"}
+{"act":"exit:region__s1_u_store/0:Pick the corn-store padlock"}
+{"act":"exit:region__s1_u_store"}
+{"act":"exit:region__s1_u_cellar"}
+{"act":"light:region__party_1__torch"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s1_u_warren"}
+{"act":"region__s1_u_rats/0:Attack"}
+{"act":"exit:region__s1_u_nest"}
+{"act":"region__s1_u_buck/0:Attack"}
+{"act":"ability:cleave"}
+{"act":"ability:ranged"}
+{"act":"ability:ranged"}
+{"act":"ability:melee"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"onward"}
+{"act":"company/0:Search here"}
+{"follow":"region__s1_u_onward_sought"}
+{"look":true}
+{"act":"follow:region__s1_u_onward_sought"}
+{"act":"exit:region__s1_u_drain"}
+{"act":"region__s1_u_crawler/0:Attack"}
+{"act":"ability:dirty_trick"}
+{"act":"ability:sweep"}
+{"act":"ability:melee"}
+{"act":"ability:ranged"}
+{"act":"onward"}
+{"act":"light:region__party_1__candle"}
+{"act":"exit:region__s1_u_undercroft"}
+{"act":"company/0:Lever the lettered flag up by main force · an even chance"}
+{"act":"exit:region__s1_u_charnel"}
+{"act":"region__s1_u_shamblers/0:Attack"}
+{"act":"ability:cleave"}
+{"act":"ability:cleave/region__s1_u_shamblers_person_2"}
+{"act":"ability:ranged"}
+{"act":"ability:ranged"}
+{"act":"onward"}
+{"act":"exit:region__s1_u_ossuary"}
+{"act":"region__s1_u_raiser/0:Talk/0:Ask the man with the black candle who he is"}
+{"act":"region__s1_u_candle#look"}
+{"act":"region__s1_u_candle/0:Creep round behind the bone-heaps and pinch out the black candle at his back · an even chance"}
+{"act":"region__s1_u_raiser_book#look"}
+{"act":"region__s1_u_raiser_book/0:Take"}
+{"act":"exit:region__s1_u_crypt"}
+{"act":"exit:region__s1_u_yard/0:Pick the old lock of the stone door"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"onward"}
+{"act":"exit:region__s1_u_yard"}
+{"follow":"region__s1_u_dead_job_owed"}
+{"act":"travel:region__s1_shrine"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_shrine"}
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest/0:Talk/0:Tell Leif the dead under the churchyard are laid, and the man who raised them gone"}
+{"act":"region__s1_priest/0:Ask about the sea-gate at Gatesend that will not shut"}
+{"act":"region__s1_priest/0:Ask about the hum in the hollow beyond the fallen walls"}
+{"act":"region__s1_priest#leave"}
+{"act":"exit:region__s1_green"}
+{"act":"gate__reeve#talk"}
+{"act":"gate__reeve/0:Talk/0:Ask the reeve about the sea-gate at Gatesend"}
+{"act":"gate__reeve#leave"}
+{"follow":"gate__gate_aim"}
+{"act":"view:map"}
+{"look":true}
+{"act":"exit:region__t258"}
+{"act":"company/0:Read the notice on the well-post"}
+{"act":"exit:region__s1_shop"}
+{"look":true}
+{"act":"exit:region__s1_shop"}
+{"act":"region__w8_head#talk"}
+{"act":"region__w8_head/0:Talk/0:Ask the Guldríce agent about the king-barrow"}
+{"act":"region__w8_head#leave"}
+{"act":"exit:region__s1_waterside"}
+{"follow":"gate__gate_aim"}
+{"act":"travel:region__s1_shop"}
+{"act":"region__s1_merchant#talk"}
+{"act":"region__s1_merchant/0:Talk/0:Tell Holgar the rats under the corn-store are dead, nest and all"}
+{"act":"region__s1_merchant#leave"}
+{"act":"view:map"}
+{"act":"mend:region__party_1"}
+{"act":"mend:region__party_1"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__t258"}
+{"act":"gate__wright#talk"}
+{"act":"gate__wright/0:Talk/0:Ask Gwil Pryce what his boats are for"}
+{"act":"gate__wright/0:Buy one of Gwil's fen-boats, thirty coin"}
+{"act":"gate__wright#leave"}
+{"act":"exit:region__s1_fields"}
+{"act":"exit:region__s1_waterside"}
+{"follow":"gate__gate_aim"}
+{"act":"company/0:Read the royal proclamation under the notices"}
+{"act":"region__s1_tie_heir#talk"}
+{"act":"region__s1_tie_heir/0:Talk/0:Ask the surveyor's son what he wants with the measure"}
+{"act":"region__s1_tie_heir#leave"}
+{"act":"region__s1_inndog/0:Make much of Patch"}
+{"look":true}
+{"act":"exit:region__edge_east"}
+{"act":"region__s1_inndog#back"}
+{"act":"exit:drove__pens"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__t258"}
