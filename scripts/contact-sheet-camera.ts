@@ -3,8 +3,11 @@ import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import type { MonoDriver } from '../test/support/mono-driver';
+import { SheetContrast, type PageContrast } from './contact-sheet-contrast';
 
-export interface SheetShot { size: string; n: number; name: string; file: string; caption: string; walk: string }
+// contrast: each line of the page's text against what is drawn behind it (UI-19: SheetContrast), where it was measured.
+export interface SheetShot { size: string; n: number; name: string; file: string; caption: string; walk: string;
+  contrast?: PageContrast }
 export interface SheetMiss { size: string; walk: string; step: string; why: string }
 
 // One walk's pictures at one size (see scripts/contact-sheets.ts): each page as it stands once the engine has
@@ -22,7 +25,11 @@ export class SheetCamera {
     const file = join(size, `${String(n).padStart(2, '0')}-${walk}-${name}.png`);
     await mkdir(join(out, size), { recursive: true });
     await this.page.screenshot({ path: join(out, file), animations: 'disabled' });
-    shots.push({ size, n, name, file, caption, walk });
+    const contrast = await SheetContrast.measure(this.page).catch((e: unknown) => {
+      console.log(`  contrast not measured: ${String(e).split('\n')[0]}`);
+      return undefined;
+    });
+    shots.push({ size, n, name, file, caption, walk, ...contrast ? { contrast } : {} });
     console.log(`shot ${file}: ${caption}`);
   }
   // A step of the walk, and its picture: false (and nothing more done in this walk) where it could not be taken.

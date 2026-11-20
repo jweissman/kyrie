@@ -42,6 +42,13 @@ jobs:
             { echo "## Contact sheets"; echo; jq -r '.meta' "$f"; echo
               jq -r '.misses[] | "- not reached: \(.size) \(.walk)/\(.step): \(.why)"' "$f"; } >> "$GITHUB_STEP_SUMMARY"
           fi
+          # Each page's text against what is behind it (UI-19): the lines below WCAG AA, and the pages they are on.
+          c="${{ runner.temp }}/contact-sheets/contrast.json"
+          if [ -f "$c" ]; then
+            { echo; echo "### Contrast (WCAG AA)"; echo
+              jq -r '"\(.failing) lines below AA, on \([.pages[] | select(.failing > 0)] | length) of \(.pages | length) pages"' "$c"
+              jq -r '.pages[] | select(.failing > 0) | "- \(.size) \(.page): \(.failing) of \(.lines), worst \(.worst[0].ratio) (\(.worst[0].text))"' "$c"; } >> "$GITHUB_STEP_SUMMARY"
+          fi
       - if: always()
         uses: actions/upload-artifact@v4
         with:
