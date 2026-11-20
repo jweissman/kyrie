@@ -759,6 +759,10 @@ points), and the hand spell on the caster or one ally, Orsino's school kept, the
 declared. Spec: `test/mage-armor` (2); the owner's pin of 15 November (test/small/mage-casts) now offers it on the mage
 or its companion, as Arcane Ward. The census: structure, resolution and identity pass.
 
+**Read again (20 November, S3-R4).** The 90.5 % was of made human abjurers, not of the golden route's mage, who is
+a diviner (Ilse, the weir life); and it does not reproduce on today's rules: 200 made abjurers against three rats win
+44.5 %. The route's mage's own odds, against the corn-store's two rats, are pinned by test/weir-mage-odds (CB-03).
+
 ### 23. Divine Favor: stopped by the census, a decision for the lead (18 November)
 
 Not migrated: it moves every installed divine caster. The SRD's Divine Favor is a first-level evocation on the caster,

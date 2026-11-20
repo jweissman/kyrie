@@ -2,6 +2,7 @@ import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
 import { Battle } from '../../src/battle';
 import { Tactics } from '../../src/tactics';
+import type { Creature } from '../../src/creature';
 
 // A company of one against some of one kind: a level-one calling of the human people, `count` of `foe`. The company is
 // the same character at every seed unless `who` varies (its rolls are drawn from `who`): the fight's seed varies, so
@@ -26,7 +27,15 @@ export class Gauntlet {
   }
   // Fought to its end by the company's own tactics: whether the company won, and the rounds it took.
   static fight(bout: Bout, seed: string): { won: boolean; rounds: number } {
-    const battle = this.encounter(bout, seed);
+    return this.fought(this.encounter(bout, seed));
+  }
+  // Creatures as they stand in a world (copied: the store copies what it is given), one side against the other.
+  static between(ours: readonly Creature[], foes: readonly Creature[], seed: string): Battle {
+    return Battle.encounter(new CreatureStore([...ours, ...foes]), [
+      ...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
+      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed });
+  }
+  static fought(battle: Battle): { won: boolean; rounds: number } {
     let rounds = 0;
     for (; rounds < 120 && !battle.state.outcome; rounds++) {
       battle.step(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));
