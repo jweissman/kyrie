@@ -7,12 +7,13 @@ import { ModuleWriter } from '../src/lang/module-writer';
 
 // Rooms under the town with something in them that sends the company back up to someone (the owner, 19 November: the
 // dungeons "deathly dull", the quests not circling back): the cellar's strongbox, which the merchant says was the old
-// corn-factor's; the crypt's brass token, which the innkeeper knows for the back-stair lodger's.
+// corn-factor's; the crypt's brass token, which the innkeeper knows for the back-stair lodger's. The strongbox is the
+// rats' (store rats): mere's first town draws them, kite's the runaway since keyed draws (MT-14).
 describe('what is found under the town', () => {
   it('is asked about of whoever above it is someone\'s', async () => {
-    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
+    const w = await WorldAssembler.assemble('mere', NodeBundleSource.shared,
       { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign, t = 'region__s1';
+    const s = await PlaySession.start(w.path, 'mere', w.source), c = s.campaign, t = 'region__s1';
     const put = (p: string) => c.commitWorld(c.world.apply([
       { kind: 'retract', call: ModuleWriter.call('at', 'party', c.world.one('at', 'party')!) },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', p) },

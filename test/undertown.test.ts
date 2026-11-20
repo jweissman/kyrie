@@ -11,11 +11,11 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // someone in the town who pays to be rid of it, the three joined below in an undercroft, and under that a vault found
 // by searching it (the owner, 1 November: "we shouldn't have to explore to start an adventuring loop").
 class Town {
-  static async start(two = false) {
-    const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
+  static async start(two = false, seed = 'kite') {
+    const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' },
         ...two ? [{ name: 'Brand', raceId: 'human', classId: 'cleric' }] : []] });
-    return PlaySession.start(w.path, 'kite', w.source);
+    return PlaySession.start(w.path, seed, w.source);
   }
   static async take(s: PlaySession, ...steps: RegExp[]) {
     let said = '';
@@ -33,19 +33,21 @@ describe('under the town the company begins in', () => {
   // as the trouble; and what is said on coming back names what was done, and is paid for in what a company going down
   // needs (the owner, 3 November: done without a word to anyone, "it is done", one fight, coin).
   // The buck is a fight a lone novice can lose (reckoned fair, and lost on this seed's dice): a company of two goes.
+  // The rats are mere's first town's (Broadholm, Xyn's salt-house): since keyed draws (MT-14) kite's corn-store holds
+  // the runaway, and its other troubles stay kite's.
   it('is posted on the green; the rats are the merchant\'s, behind a locked door, and come up from a nest to be cleared', async () => {
-    const s = await Town.start(true), c = s.campaign;
+    const s = await Town.start(true, 'mere'), c = s.campaign;
     await Town.take(s, /^Read the notice on the well-post/);
     const aims = () => ScreenModel.build(c).objectives.join(' ');
     // The notice is a lead, not an aim, and says whom to ask and where (HP-01).
     expect(aims()).toBe('');
     expect(ScreenModel.build(c).knowledge.map(k => k.text).join(' '))
-      .toContain('Ask Falkor at Falkor\'s herb-shop for the key');
+      .toContain('Ask Xyn at Xyn\'s salt-house for the key');
     // Locked until asked.
     expect(PlayerView.choices(c).some(x => /^Take the corn-store door/.test(x.choice.name))).toBe(false);
-    await Town.take(s, /^Take Falkor's door/, /^Ask .* about the rats/);
+    await Town.take(s, /^Take Xyn's door/, /^Ask .* about the rats/);
     expect(aims()).toContain('Clear the rats out of the corn-store cellar');
-    await Town.take(s, /^Take Falkor's door/, /^Take the corn-store door/, /^Take the trapdoor/, /^Light a torch/,
+    await Town.take(s, /^Take Xyn's door/, /^Take the corn-store door/, /^Take the trapdoor/, /^Light a torch/,
       /^Take a hole gnawed/, /^Attack the rats/);
     expect(c.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);
     // Their run goes down to their nest, and the old buck rat that keeps it (Mission 19: two rats had been the job).
@@ -56,8 +58,8 @@ describe('under the town the company begins in', () => {
     expect(c.world.test(ModuleWriter.call('able', 'region__s1_u_buck'))).toBe(false);
     const before = ScreenModel.build(c).purse.coin;
     await Town.take(s, /^Take the rats' run down/, /^Take a hole gnawed/, /^Take the trapdoor/,
-      /^Take the corn-store door/, /^Take Falkor's door/);
-    expect(await Town.take(s, /^Tell Falkor the rats under the corn-store are dead, nest and all/))
+      /^Take the corn-store door/, /^Take Xyn's door/);
+    expect(await Town.take(s, /^Tell Xyn the rats under the corn-store are dead, nest and all/))
       .toContain('a lantern and two flasks of oil');
     expect(ScreenModel.build(c).purse.coin).toBe(before + 10);
     const kit = c.readout.creatures[0]!.state.inventory!.map(i => i.definition);
