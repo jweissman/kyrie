@@ -2,8 +2,9 @@
 # Land a commit on main from a spare worktree, so the working tree it was made in stays free (Mission 22, 19 November).
 # Waits for main's push lane and Pages to be idle (a workflow_dispatch run is never waited on), rebases onto main there
 # and gates it with check:fast if main moved, runs the type-aware lint CI runs (check:fast's is not), pushes, and
-# watches its own run by head sha. One landing at a time, whoever runs it (a lock): two at once shared the spare tree
-# and one's checkout swallowed the other's.
+# watches its own run by head sha; it says which register rows cite a spec the landing changes, to be read again
+# (scripts/spec-citers.ts). One landing at a time, whoever runs it (a lock): two at once shared the spare tree and
+# one's checkout swallowed the other's.
 #   scripts/landing/land.sh [commit]          default the branch checked out where it is run from
 # Settings, by environment: KYRIE_LAND_TREE (the spare worktree, default /var/tmp/kyrie/wt-land), KYRIE_LAND_LOCK
 # (default /var/tmp/kyrie/land.lock), KYRIE_LAND_LOGS (default /var/tmp/kyrie), KYRIE_LAND_FF (a checkout to
@@ -27,6 +28,8 @@ for i in $(seq 1 40); do
     fi
     [ -n "${linted:-}" ] || { bun run lint > "$logs/land-lint.log" 2>&1 \
       || { echo "LINT RED"; tail -5 "$logs/land-lint.log"; exit 1; }; linted=1; }
+    # The rows citing a spec this landing changes, to be read again (MT-19, pattern 4): told, never a bar.
+    bun scripts/spec-citers.ts origin/main | grep -v ': 0 rows cite' | sed 's/^/READ AGAIN: /'
     h=$(git rev-parse --short HEAD)
     git push -q origin HEAD:main || { echo "PUSH REFUSED"; continue; }
     echo "PUSHED $h"; sleep 25

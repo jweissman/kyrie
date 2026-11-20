@@ -1,13 +1,15 @@
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { ClosureClauses } from '../../scripts/closure-clauses';
 import { ClosureLint } from '../../scripts/closure-lint';
 
-// Closures checked mechanically (MT-17; mission-22/closure-review-method.md, patterns 5 and 6). Every closed row's
-// cited paths and specs are on disk, a spec named by its name alone is one file, and a size the defect names is a
-// size a cited spec says. Today's findings are the baseline; a new one fails here, and so does one mended that the
-// baseline still lists, so that the count only falls, each time on purpose (`bun scripts/closure-lint.ts --write`
-// after mending one, the row named in the commit).
+// Closures checked mechanically (MT-17, MT-19; mission-22/closure-review-method.md, patterns 1, 3, 5 and 6). Every
+// closed row's cited paths and specs are on disk, a spec named by its name alone is one file, a size the defect names
+// is a size a cited spec says, each cold-play reference and clause is answered in the status, and a rule against is
+// closed on a negative assertion. Today's findings are the baseline; a new one fails here, and so does one mended
+// that the baseline still lists, so that the count only falls, each time on purpose (`bun scripts/closure-lint.ts
+// --write` after mending one, the row named in the commit).
 describe('the closure lint', () => {
   const kept = JSON.parse(readFileSync(join(ClosureLint.root, ClosureLint.baseline), 'utf8')) as { findings: string[] };
   const now = ClosureLint.all().filter(f => ClosureLint.counted.includes(f.kind)).map(f => ClosureLint.key(f));
@@ -33,5 +35,28 @@ describe('the closure lint', () => {
     const census = { id: 'ZZ-02', what: 'a count', status: 'fixed: scripts/register-state.ts says 0' };
     expect(ClosureLint.findings(census).map(f => f.kind)).toEqual(['unpinned']);
     expect(ClosureLint.says('page.setViewportSize({ width: 390, height: 844 })', '390', '844')).toBe(true);
+  });
+  // Pattern 1: a many-part row closed on one part (CL-50: (20) and (28) unanswered).
+  it('says which cold-play reference or clause a closed status leaves unanswered', () => {
+    const what = 'Supply (cold play 4): no food met (27); "1 candle to spare" with one lit (20); a road stops after one hex (28)';
+    const status = 'fixed: the supply sold in the store (27, test/store-wares); the candle ruled a harness count (20)';
+    expect(ClosureClauses.refs(what)).toEqual(['(27)', '(20)', '(28)']);
+    expect(ClosureClauses.unanswered(what, status)).toEqual(['ref (28)', 'clause "a road stops after one hex (28)"']);
+    expect(ClosureClauses.answered('(Q 69, 135)', 'held (Q 69) and moved to XX-02 (135)')).toBe(true);
+    expect(ClosureClauses.answered('(Q 69, 135)', 'held (Q 69), the rest not')).toBe(false);
+    expect(ClosureClauses.answered('(19)', 'fixed (19 Nov): test/x:19-20')).toBe(false);
+    expect(ClosureClauses.clauses('one; two (a; b); "three; four"')).toEqual(['one', 'two (a; b)', '"three; four"']);
+    expect(ClosureClauses.clauses('no clauses here')).toEqual([]);
+  });
+  // Pattern 3: the driver may do what a rule forces (OR-111); a rule against is closed on a negative assertion.
+  it('asks a rule against for a negative assertion in a cited spec', () => {
+    const row = { id: 'ZZ-03', what: 'A journey must be held to set out on', status: 'fixed: test/small/closure-lint' };
+    expect(ClosureClauses.forbids(row.what)).toBe(true);
+    expect(ClosureClauses.forbids('a journey is set out on')).toBe(false);
+    expect(ClosureLint.findings(row).filter(f => f.kind === 'negative')).toEqual([]);
+    expect(ClosureLint.findings({ ...row, status: 'fixed: scripts/register-state.ts' }).map(f => f.kind))
+      .toContain('negative');
+    expect([ClosureClauses.negative('expect(log).toEqual(before)'), ClosureClauses.negative('expect(x).toBe(1)')])
+      .toEqual([true, false]);
   });
 });

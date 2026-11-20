@@ -6,16 +6,19 @@
 // `x` followed by its lines (`drove-reeve:21-50`), in backquotes or after "held by"; and any hyphenated word that is a
 // spec's own name. A cited path that is not on disk is missing; a spec named by its name alone that two files answer
 // is ambiguous; a size the row's what cell names (1280×800) that no cited spec says is a size unpinned. A closure
-// that cites a census under scripts/ and no spec is said too, as advice: it is not counted. Today's findings are in
+// that cites a census under scripts/ and no spec is said too, as advice: it is not counted. And (MT-19, patterns 1 and
+// 3, scripts/closure-clauses.ts): a cold-play reference or "; " clause of the what cell the status leaves unanswered,
+// and a rule against ("must not", "must be held") closed on no spec with a negative assertion. Today's findings are in
 // doc/architecture/mission-22/closure-lint-baseline.json, and test/small/closure-lint fails on a new one, or on one
 // gone that the baseline still lists (so that it only shrinks, and on purpose).
 //   bun scripts/closure-lint.ts            the findings by kind, with counts and each one
 //   bun scripts/closure-lint.ts --write    the baseline written from today's findings
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
+import { ClosureClauses } from './closure-clauses';
 import { RegisterTickets, type Row } from './register-tickets';
 
-export type Kind = 'missing' | 'ambiguous' | 'size' | 'unpinned';
+export type Kind = 'missing' | 'ambiguous' | 'size' | 'unpinned' | 'unanswered' | 'negative';
 export interface Finding { id: string; kind: Kind; detail: string }
 // A citation: its words in the status, the files that answer it, whether it was meant as one (a path, a spec's form)
 // or only a hyphenated word that happens to be a spec's name, and whether it names a spec.
@@ -24,7 +27,10 @@ export interface Cite { said: string; files: string[]; meant: boolean; spec: boo
 export class ClosureLint {
   static readonly root = RegisterTickets.root;
   static readonly baseline = 'doc/architecture/mission-22/closure-lint-baseline.json';
-  static readonly counted: Kind[] = ['missing', 'ambiguous', 'size'];
+  static readonly counted: Kind[] = ['missing', 'ambiguous', 'size', 'unanswered', 'negative'];
+  // What a row's evidence must be clear of to be archived (scripts/register-archive.ts): its cited paths and sizes.
+  // Its parts unanswered (MT-19) are a reading's, kept in the baseline wherever the row is, not a bar to moving it.
+  static readonly evidence: Kind[] = ['missing', 'ambiguous', 'size'];
   private static index?: Map<string, string[]>;
   // Every spec by its own name (foo for test/foo.test.ts, test/small/foo.test.ts and test/features/x/foo.pin.test.ts).
   static specs(): Map<string, string[]> {
@@ -100,6 +106,10 @@ export class ClosureLint {
         out.push({ id, kind: 'size', detail: `${w}×${h} in no cited spec (${specs.length})` });
       }
     }
+    for (const left of ClosureClauses.unanswered(row.what, row.status)) { out.push({ id, kind: 'unanswered', detail: left }); }
+    if (ClosureClauses.forbids(row.what) && !texts.some(t => ClosureClauses.negative(t))) {
+      out.push({ id, kind: 'negative', detail: `a rule against, and no negative assertion in a cited spec (${specs.length})` });
+    }
     if (!specs.length && cites.some(c => c.said.startsWith('scripts/'))) {
       out.push({ id, kind: 'unpinned', detail: cites.filter(c => c.said.startsWith('scripts/')).map(c => c.said)
         .join(', ') });
@@ -118,7 +128,7 @@ export class ClosureLint {
     const rows = this.closed(), found = this.all(rows), counted = found.filter(f => this.counted.includes(f.kind));
     if (argv.includes('--write')) {
       writeFileSync(join(this.root, this.baseline), `${JSON.stringify({ about: 'Closed rows whose cited evidence does '
-        + 'not hold (MT-17, scripts/closure-lint.ts), kept so that none is added; each mended is taken off.',
+        + 'not hold, or whose parts are unanswered (MT-17, MT-19, scripts/closure-lint.ts), kept so that none is added; each mended is taken off.',
       kinds: this.kinds(counted), findings: counted.map(f => this.key(f)) }, null, 1)}\n`);
     }
     console.log(`${rows.length} closed rows; ${new Set(counted.map(f => f.id)).size} with a finding`);

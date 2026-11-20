@@ -2,8 +2,9 @@
 // The register's archive (the owner, 20 November: "We could also archive out old items once they're verified or have a
 // proof spec"). A closed row moves from doc/architecture/open-register.md to doc/architecture/register-archive.md
 // only when all of these hold: its status cites a spec that exists; the closure lint (scripts/closure-lint.ts) finds
-// nothing on it; and its status names a second reading (verified, the tribunal's, a second reader's) or its closure
-// is older than fourteen days. A row closed "for a second reading" waits for it; a row met only in part waits for its
+// nothing wrong with its evidence (a path, a spec or a size: its parts unanswered stay in the lint's baseline); and
+// its status names a second reading (verified, the tribunal's, a second reader's) or its closure is older than
+// fourteen days. A row closed "for a second reading" waits for it; a row met only in part waits for its
 // split. Open, deferred, duplicate and reference rows never move. The archive keeps the register's sections and
 // table layouts, so that a row reads there as it read here; both readers read both files (RegisterTickets.text).
 //   bun scripts/register-archive.ts                     what would move, and why
@@ -41,7 +42,7 @@ export class RegisterArchive {
     if (/^\W*\w+ in part/i.test(row.status)) { return 'stays: met in part'; }
     const specs = ClosureLint.cites(row.status).filter(c => c.spec && c.files.some(f => f.endsWith('.test.ts')));
     if (!specs.length) { return 'stays: no spec that exists'; }
-    const found = ClosureLint.findings(row).filter(f => ClosureLint.counted.includes(f.kind));
+    const found = ClosureLint.findings(row).filter(f => ClosureLint.evidence.includes(f.kind));
     if (found.length) { return `stays: ${found.map(f => ClosureLint.key(f)).join('; ')}`; }
     const on = this.closedOn(row.status), age = on ? (today.getTime() - on.getTime()) / 86_400_000 : 0;
     const read = this.secondReading(row.status) ? 'a second reading' : age > this.days ? `closed ${age} days ago` : '';
