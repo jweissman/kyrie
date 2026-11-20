@@ -90,8 +90,12 @@ describe('a newcomer who sees only the page', () => {
       // With the adventure branch's first region (12 November), mere's newcomer finds the lead in 22 and stands there
       // in 46 (17 and 24 before): three more on the first green to ask, and on the way out a bailiff's dues-receipt in
       // each town, the clues of the forged seal, which it reads as it reads everything. Thorn's is as it was (7, 22).
+      // With the first town's hand back on the green (MT-15, 20 November), who might come along and has her own
+      // questions, which the newcomer asks as it asks every question, the lead comes four commands later in each
+      // (thorn 25 to 29 and stands there in 34, from 29; mere 24 to 28, and 29 from 25): the budget for the lead
+      // 25 to 30, where thorn's had stood at 25 exactly; standing there is held to 50 as before.
       while (!there && newcomer.commands < 55) { there = await newcomer.step(); }
-      expect([there, newcomer.lead! <= 25, newcomer.commands <= 50]).toEqual([true, true, true]);
+      expect([there, newcomer.lead! <= 30, newcomer.commands <= 50]).toEqual([true, true, true]);
     }, 180000);
   }
 });
