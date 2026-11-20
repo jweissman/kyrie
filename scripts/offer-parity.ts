@@ -9,6 +9,7 @@
 // `serve` to follow (MT-18).
 //   bun scripts/offer-parity.ts              the divergences by kind, with counts
 //   bun scripts/offer-parity.ts --write      the baseline written from them
+//   bun scripts/offer-parity.ts --where      each divergence with the turn it was first met at, and the move
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PlayTool } from '../src/cli/play-tool';
@@ -26,7 +27,7 @@ export class OfferParity {
   static readonly walks: Walk[] = [{ world: 'iscoed', as: 'human/warrior/Wenna',
     lines: 'doc/architecture/mission-22/golden/warrior-lines.txt' }];
   // Every divergence of every walk, as "kind: what" (one entry however many turns it stands at).
-  static async divergences(walks = this.walks, turns = Infinity): Promise<string[]> {
+  static async divergences(walks = this.walks, turns = Infinity, where?: Map<string, string>): Promise<string[]> {
     const out = new Set<string>();
     for (const w of walks) {
       const lines = readFileSync(join(this.root, w.lines), 'utf8').split('\n').filter(Boolean).slice(0, turns);
@@ -34,8 +35,13 @@ export class OfferParity {
       const runner = new Runner(journey.session);
       this.turn(runner, runner.said(), out);
       for (const line of lines) {
-        const said = await runner.ask(line);
-        if (!('error' in said)) { this.turn(runner, said, out); }
+        const said = await runner.ask(line), before = new Set(out);
+        if ('error' in said) { continue; }
+        this.turn(runner, said, out);
+        // Where each was first met, for --where: the turn, its moment, and the move that came to it.
+        for (const d of out) {
+          if (!before.has(d) && where && !where.has(d)) { where.set(d, `T${said.turn} ${said.moment} after ${line}`); }
+        }
       }
     }
     return [...out].sort();
@@ -53,19 +59,24 @@ export class OfferParity {
     // own id: opened, it shows them, as the page's drawer does.
     const openers = new Set(offered.filter(o => o.opens?.length).map(o => o.id));
     for (const [act, { words, id, under, within }] of engine) {
-      if (!drawn.has(act) && !(under && openers.has(under)) && !(within && this.held(within, drawn, openers, doing))) {
+      if (!drawn.has(act) && ![under, within].some(h => h && this.held(h, drawn, openers, doing))) {
         out.add(`engine only: ${act}`); continue;
       }
       if (drawn.has(act) && drawn.get(act) !== words) { out.add(`words: ${act}`); }
       // The same act under another name: the runner names a row by what it does, the engine by the row (AT-13).
       if (drawn.has(act) && id !== act) { out.add(`named apart: ${id.replace(/[(:/#].*$/, '…')}`); }
     }
-    for (const id of drawn.keys()) { if (!engine.has(id)) { out.add(`runner only: ${id.replace(/\(.*$/, '(…)')}`); } }
+    // A row the runner names by the engine's own id, or by what a row of the engine's does (a talk led for a
+    // question, offered as the talk), is the engine's: a companion's talk only holds.
+    const ids = new Set([...Doable.flat(rows).map(r => r.id), ...doing.values()]);
+    for (const id of drawn.keys()) {
+      if (!engine.has(id) && !ids.has(id)) { out.add(`runner only: ${id.replace(/\(.*$/, '(…)')}`); }
+    }
     const step = said.going?.act;
     if (step && !drawn.has(step)) { out.add(`lead names no row: ${step.replace(/[(:/].*$/, '…')}`); }
   }
-  // Whether the row an act is held within is offered: by its id, by what it does, or as the runner names a person's
-  // talk (talk:<person>, itself counted runner only).
+  // Whether the row an act is held within or under is offered: by its id, by what it does, or as the runner names a
+  // person's talk (talk:<person>, itself counted runner only); an opener drawn as one row is turned to.
   private static held(within: string, drawn: Map<string, string>, openers: Set<string>,
     doing: Map<string, string>): boolean {
     return openers.has(within) || drawn.has(within) || drawn.has(doing.get(within) ?? '')
@@ -84,7 +95,9 @@ export class OfferParity {
     return out;
   }
   static async main(argv: string[]): Promise<number> {
-    const found = await this.divergences();
+    const where = argv.includes('--where') ? new Map<string, string>() : undefined;
+    const found = await this.divergences(this.walks, Infinity, where);
+    if (where) { console.log([...where].map(([d, w]) => `${w}\t${d}`).sort().join('\n')); }
     if (argv.includes('--write')) {
       writeFileSync(join(this.root, this.baseline), `${JSON.stringify({ about: 'What the runner offers that the '
         + 'engine does not, and the reverse, over the golden walks (MT-18, scripts/offer-parity.ts): kept so that none '

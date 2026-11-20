@@ -35,11 +35,11 @@ export class RunnerOffer {
       if (k.lens) { lens.set(o.id, k.lens); }
       return [o];
     }));
-    const all = [...RunnerTalks.talks(screen, under, primary, talking), ...this.journeys(screen, g, [...primary,
+    const all = [...RunnerTalks.talks(screen, rows, under, talking), ...this.journeys(screen, g, [...primary,
       ...under])];
     const kept = JourneyFold.kept(screen, g?.compass?.out);
     const folded = all.filter(o => o.type === 'journey' && !JourneyFold.keeps(kept, o.id)), rest = all
-      .filter(o => !folded.includes(o)), grouped = this.grouped(screen, rest, { lens, talking });
+      .filter(o => !folded.includes(o)), grouped = this.grouped(rows, rest, { lens, talking });
     return { offer: { primary, ...grouped, ...folded.length ? { more: { journeys: folded.length } } : {} },
       under: [...under, ...folded], journeys: [...grouped.lenses.journeys ?? [], ...folded] };
   }
@@ -93,9 +93,9 @@ export class RunnerOffer {
     return said ? { aside: Typography.plain(`${said.charAt(0).toUpperCase()}${said.slice(1)}`) } : {};
   }
   // The rest by lens, in the order they are met (the one talked with first, CL-07), and flat in that order.
-  private static grouped(screen: Screen, rest: Offered[], at: { lens: Map<string, Lens>; talking?: string })
+  private static grouped(rows: readonly Row[], rest: Offered[], at: { lens: Map<string, Lens>; talking?: string })
     : { rest: Offered[]; lenses: Partial<Record<Kept, Offered[]>> } {
-    const whose = RunnerTalks.whose(screen, rest);
+    const whose = RunnerTalks.whose(rows);
     const order = at.talking ? ['people' as const, ...this.order.filter(k => k !== 'people')] : this.order;
     const lenses = order.map(k => [k, rest.filter(o => this.where(o, at.lens, whose) === k)] as const)
       .filter(([, os]) => os.length);

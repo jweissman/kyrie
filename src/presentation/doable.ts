@@ -22,6 +22,8 @@ export interface Row {
   // The row it is held under, where the scene holds it under another (a question under its person's talk): every
   // client draws it there, the engine saying so (MT-18; the runner and the page had each grouped asks their own way).
   within?: string;
+  // What a person's talk holds: the rows within it, in the engine's order (mt18-grouping.md, step 2).
+  holds?: string[];
   // Why it cannot be done now (Choice.disabled): a row that neither does nor opens anything says why.
   shut?: string;
 }
@@ -79,11 +81,32 @@ export class Doable {
     this.whose(screen, glance, parents);
     const at = { tree, parents, acts, glance, legal: this.legal(glance, tree) };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
-    const rows = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(o.choice, o.label,
-      { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command }));
+    const rows = this.holders([...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(o.choice,
+      o.label, { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command })), at);
     const read = { rows, at, lensOf };
     this.kept.set(glance, read);
     return read;
+  }
+  // Each row a person's acts are within, offered (mt18-grouping.md, steps 1 and 2): their talk drawn from the scene
+  // where the turn's offer left it out, holding the ids of what is within it; an act whose holder the scene has not
+  // stands on its own (Ianto's boat at the staithe had been folded under a talk no client drew).
+  private static holders(rows: Row[], at: Read): Row[] {
+    const ids = new Set(this.flat(rows).map(r => r.id));
+    const wanted = [...new Set(rows.flatMap(r => r.within && !ids.has(r.within) ? [r.within] : []))];
+    // A holder made here is the talk itself, never led for a question within it (that question is its own row).
+    const plain = { ...at, acts: new Map<string, Promoted>(), led: false };
+    const made = wanted.flatMap(id => at.tree.has(id) ? [this.row(id, at.tree.get(id)!.label, plain)] : []);
+    const all = [...rows, ...made], drawn = new Set(all.map(r => r.id));
+    return all.map(r => {
+      const holds = all.filter(k => k.within === r.id).map(k => k.id);
+      const kept = r.within && !drawn.has(r.within) ? this.loose(r) : r;
+      return holds.length ? { ...kept, holds } : kept;
+    });
+  }
+  private static loose(r: Row): Row {
+    const out = { ...r };
+    delete out.within;
+    return out;
   }
   // The commands a row may do: a choice's of the scene, or one the glance offers by its command (a light, a wait, a
   // journey), or a book's (view:).
