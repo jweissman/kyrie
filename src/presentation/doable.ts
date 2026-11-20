@@ -5,6 +5,7 @@ import { SceneModel } from '../ui/scene';
 import { Attest, type Witness } from './attest';
 import type { Aspect, Glance, Lens, Promoted } from './glance-types';
 import { Fold } from './fold';
+import { DoableJourneys } from './doable-journeys';
 
 // One resolution from the engine's offer to rows that can be done (mission-22/doable-design.md, TB-12): what each
 // offered choice is, what taking it does, and what it opens, read once from the scene the page draws its menu from
@@ -26,8 +27,14 @@ export interface Row {
   holds?: string[];
   // Why it cannot be done now (Choice.disabled): a row that neither does nor opens anything says why.
   shut?: string;
+  // A journey set out on from the map, not drawn in the rest (DoableJourneys: JourneyFold's, the runner's alone till
+  // MT-18).
+  map?: true;
+  // How long a journey the scene's offer left out takes (DoableJourneys), as its row says.
+  minutes?: number;
 }
-type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>;
+type Offered = Pick<Glance, 'acts' | 'lenses' | 'offer' | 'likenesses' | 'sensed' | 'following' | 'lead'>
+  & Partial<Pick<Glance, 'compass'>>;
 interface Read { tree: Map<string, Choice>; parents?: Map<string, string>; acts: Map<string, Promoted>; glance: Offered;
   lens?: Lens; led?: boolean; opening?: boolean;
   command?: string; legal?: Set<string> }
@@ -81,8 +88,11 @@ export class Doable {
     this.whose(screen, glance, parents);
     const at = { tree, parents, acts, glance, legal: this.legal(glance, tree) };
     const led = new Set((glance.offer?.primary ?? []).map(o => o.choice));
-    const rows = this.holders([...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(o.choice,
-      o.label, { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command })), at);
+    const offered = this.holders([...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(o => this.row(
+      o.choice, o.label, { ...at, lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command })), at);
+    const out = glance.compass?.out, journeys = DoableJourneys.more(this.flat(offered), screen, out)
+      .map(j => ({ ...this.row(j.command, j.label, { ...at, command: j.command }), minutes: j.minutes }));
+    const rows = DoableJourneys.mapped([...offered, ...journeys], screen, out);
     const read = { rows, at, lensOf };
     this.kept.set(glance, read);
     return read;

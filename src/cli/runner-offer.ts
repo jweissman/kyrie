@@ -4,7 +4,6 @@ import type { Lens } from '../presentation/glance-types';
 import { Offers, type Offered as Glanced } from '../presentation/offer';
 import { Doable, type Row } from '../presentation/doable';
 import { Typography } from '../presentation/typography';
-import { JourneyFold } from '../presentation/journey-fold';
 import { RunnerTalks } from './runner-talks';
 import type { Offered, Said } from './runner';
 
@@ -35,11 +34,11 @@ export class RunnerOffer {
       if (k.lens) { lens.set(o.id, k.lens); }
       return [o];
     }));
-    const all = [...RunnerTalks.talks(screen, rows, under, talking), ...this.journeys(screen, g, [...primary,
-      ...under])];
-    const kept = JourneyFold.kept(screen, g?.compass?.out);
-    const folded = all.filter(o => o.type === 'journey' && !JourneyFold.keeps(kept, o.id)), rest = all
-      .filter(o => !folded.includes(o)), grouped = this.grouped(rows, rest, { lens, talking });
+    // The journeys are the engine's, those on the map folded out of the rest as it marks them (MT-18).
+    const all = RunnerTalks.talks(screen, rows, under, talking);
+    const mapped = new Set(Doable.flat(rows).flatMap(r => r.map && r.does ? [r.does] : []));
+    const folded = all.filter(o => mapped.has(o.id)), rest = all.filter(o => !folded.includes(o));
+    const grouped = this.grouped(rows, rest, { lens, talking });
     return { offer: { primary, ...grouped, ...folded.length ? { more: { journeys: folded.length } } : {} },
       under: [...under, ...folded], journeys: [...grouped.lenses.journeys ?? [], ...folded] };
   }
@@ -79,11 +78,13 @@ export class RunnerOffer {
     // One that is an opener's one act is called by that act's whole words ("Ask the apprentice about the old drain").
     const own = entry ?? at.byDoes.get(id), label = r.only ? at.names.get(id) ?? r.label
       : entry ? r.label : own?.label ?? at.names.get(id) ?? r.label;
-    return { ...this.made(id, label, own), ...own || !opener ? {} : { type: opener.type } };
+    return { ...this.made(id, label, own, r.minutes), ...own || !opener ? {} : { type: opener.type } };
   }
-  private static made(id: string, label: string, o?: Glanced): Offered {
-    return { id, label: Typography.plain(label), aspects: o?.aspects ?? [], type: o?.type ?? 'act',
-      ...o?.minutes ? { minutes: o.minutes } : {}, marks: o?.marks.map(m => m.kind) ?? [],
+  // A journey the scene's offer left out is the engine's row's own: a journey, as long as the row says.
+  private static made(id: string, label: string, o?: Glanced, minutes = o?.minutes): Offered {
+    return { id, label: Typography.plain(label), aspects: o?.aspects ?? [],
+      type: o?.type ?? (id.startsWith('travel:') ? 'journey' : 'act'), ...minutes ? { minutes } : {},
+      marks: o?.marks.map(m => m.kind) ?? [],
       ...o?.bearing ? { bearing: o.bearing } : {}, ...this.aside(o) };
   }
   // A fight that could be lost says so on its row, its odds and the help that can be had, as the page and the
@@ -106,18 +107,5 @@ export class RunnerOffer {
     if (o.type === 'journey' || (o.type === 'go' && !lens.has(o.id))) { return 'journeys'; }
     return lens.get(o.id) ?? (o.type === 'talk' || whose.has(o.id) ? 'people' : o.type === 'wait' ? 'time'
       : o.type === 'light' || o.type === 'other' ? 'gear' : 'things');
-  }
-  // A journey the map offers and the scene does not (the terminal sets out by them too); none to where a way from
-  // here already goes (CL-07: the same place offered twice, as a way and as a journey). Inside a site, the way out as
-  // the page's compass gives it (Compass.out), the whole route in one act (cold play 4, CL-44).
-  private static journeys(screen: Screen, g: Leaf['glance'], offered: Offered[]): Offered[] {
-    const had = new Set(offered.flatMap(o => [o.id, /^go\([^,]+,([^)]+)\)$/.exec(o.id)?.[1] ?? '']
-      .map((x, i) => i ? `travel:${x}` : x)));
-    const out = g?.compass?.out;
-    const leaving = out?.command && !out.barred && !had.has(out.command) ? [{ id: out.command, label: `Out to ${
-      Typography.plain(out.name)}`, aspects: [], type: 'journey' as const, minutes: out.minutes, marks: [] }] : [];
-    return [...leaving, ...[...new Map([...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]
-      .map(d => [d.id, d])).values()].filter(d => !had.has(`travel:${d.id}`)).map(d => ({ id: `travel:${d.id}`,
-      label: `Set out for ${d.name}`, aspects: [], type: 'journey' as const, minutes: d.minutes, marks: [] }))];
   }
 }
