@@ -20,8 +20,11 @@ describe('an adventure begun with kyrie new', () => {
     root = await mkdtemp(join(tmpdir(), 'kyrie-new-'));
     await mkdir(join(root, 'data'));
     await symlink(resolve('data', 'rules'), join(root, 'data', 'rules'));
-    // The tests it writes play the adventure with the engine, as they would in the repository.
+    // The tests it writes play the adventure with the engine, as they would in the repository: the setting given the
+    // runtime by the repository's preload (bunfig.toml, MT-16's setting port), its months and signs with it.
     await symlink(resolve('src'), join(root, 'src'));
+    await symlink(resolve('bunfig.toml'), join(root, 'bunfig.toml'));
+    await symlink(resolve('data', 'imbar'), join(root, 'data', 'imbar'));
   });
   afterAll(async () => { await rm(root, { recursive: true, force: true }); });
 
