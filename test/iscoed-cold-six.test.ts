@@ -37,7 +37,9 @@ describe('the golden route, after the sixth cold play', () => {
     const text = (n: number) => at[n - 1]!.scene.lines.join(' '), aims = (n: number) => at[n - 1]!.aims?.map(a => a.text)
       .join(' ') ?? '';
     expect(text(10)).not.toContain('someone else');
-    expect(at[9]!.offer.primary[0]!.id).toBe('drove__clerk_short_t');
+    // Among the engine's four, after its own lead to follow the held drover's aim (the runner had dropped that row:
+    // MT-18, every client the engine's four).
+    expect(at[9]!.offer.primary.map(o => o.id)).toContain('drove__clerk_short_t');
     expect(text(18)).toBe('Owain turns to you.');
     expect(aims(24)).toContain('Find out where Joss Hatherly was the night he drowned.');
     expect(at[30]!.offer.primary.map(o => o.id)).toContain('region__s1_u_raiser_who');

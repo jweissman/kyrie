@@ -70,11 +70,13 @@ export class RunnerOffer {
     return opens.length ? [{ ...this.made(r.id, r.label, entry), opens, ...r.says ? { says: r.says } : {} }] : [];
   }
   private static leaves(r: Row): Row[] { return r.opens ? r.opens.flatMap(k => this.leaves(k)) : [r]; }
-  // A row done by its command, where it is one the company can do: called by the offer's words where the offer has
-  // it, else by its choice's own ("Push and pull at the padlock"); its meaning the offer's, never its opener's.
+  // A row done by its command (Doable makes none that does what nothing here offers: Doable.made, so none is
+  // refused here; an aim to follow, follow:, had been, as no choice of the world's): called by the offer's words where
+  // the offer has it, else by its choice's own ("Push and pull at the padlock"); its meaning the offer's, never its
+  // opener's.
   private static one(r: Row, at: At, entry?: Glanced, opener?: Glanced): Offered | undefined {
     const id = r.does;
-    if (!id || !(at.names.has(id) || id.startsWith('travel:'))) { return undefined; }
+    if (!id) { return undefined; }
     // One that is an opener's one act is called by that act's whole words ("Ask the apprentice about the old drain").
     const own = entry ?? at.byDoes.get(id), label = r.only ? at.names.get(id) ?? r.label
       : entry ? r.label : own?.label ?? at.names.get(id) ?? r.label;
