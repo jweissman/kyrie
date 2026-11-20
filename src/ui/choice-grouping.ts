@@ -15,6 +15,7 @@ import type { Act, Passage } from './screen-types';
 import type { Names } from './known-names';
 import { Exposure } from './exposure';
 import { Carriers } from './carriers';
+import { ChoiceIds } from './choice-ids';
 
 type Slot = 'exit' | 'target' | 'item' | 'member' | 'camp';
 interface Rule {
@@ -439,12 +440,13 @@ export class ChoiceGrouping {
     const [head, ...rest] = path;
     if (head === undefined) { return; }
     let node = acts.find(a => a.label === head);
-    if (!node) { node = { key: `${acts.length}:${head}`, label: head }; acts.push(node); }
+    // Keyed by its label (ChoiceIds): its place among its siblings is no part of its id.
+    if (!node) { node = { key: ChoiceIds.key(acts, head), label: head }; acts.push(node); }
     if (!rest.length) {
       // The same command reached twice is one choice; a different command with the same words is another choice.
       if (node.command === leaf.command && node.command) { return; }
-      if (node.command) { node = { key: `${acts.length}:${head}`, label: head }; acts.push(node); }
-      if (node.children) { node = { key: `${acts.length}:${head}`, label: head }; acts.push(node); }
+      if (node.command) { node = { key: ChoiceIds.key(acts, head), label: head }; acts.push(node); }
+      if (node.children) { node = { key: ChoiceIds.key(acts, head), label: head }; acts.push(node); }
       Object.assign(node, leaf);
       return;
     }
