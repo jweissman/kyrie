@@ -94,3 +94,8 @@ Proposed, smallest first, each Deem-drawn and seeded:
    (rooms.kyrt, hoards.json, powers.json); deterministic, so saves and replays hold. Generation at play time is M23's.
 4. Beginning in the dark: reconciled with the opening's painting (dim, at night), the first act a light that shows the
    meeting; the owner's word wanted first.
+
+## The reference route (the owner, 19 November, night)
+
+The drove stays the primary acceptance route for the first hour; debt is a comparison for dramatic density, and the
+alternate mage route is kept. The reference does not move because debt plays better: the drove is brought up to it.

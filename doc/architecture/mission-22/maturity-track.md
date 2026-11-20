@@ -250,14 +250,18 @@ a construction invariant):
 
 1. **P′, per-act cost (OR-91's headless half), first.** The owner ("unacceptable … sometimes 200 millis") withdrew the
    150 ms target for the standard of 25 October: a routine headless act in microseconds to low milliseconds, its cost
-   following what it changed. Layers measured apart (pure simulation; headless session) by act class; then the
+   following what it changed (the owner's targets, 19 November: pure simulation under 2 ms, the headless session's
+   median under 20 ms, p95 and the worst measured; incremental projections equal to full recomputation). Layers measured apart (pure simulation; headless session) by act class; then the
    session's rebuild taken largest first (the offered actions' `at` re-read, the screen's parts, the ways, the leaf),
    held by a causal-extent invariant.
-2. **L** (on its branch with MT-11; compat and a scratch full run).
-3. **S′** and the review's `--why` (on its branch).
-4. **KX-03, relations as typed exports** (step 3 extended, in place of kx-1's `shared`: the maturity path lands only
+2. **MT-14, keyed draws, and MT-15, replays by meaning** (the owner's rulings, 19 November): content made local, so
+   that adding a group moves no other draw, and specs read acts by what they do; the held content comes back under
+   both. Then the drove, the primary acceptance route (debt a comparison, the mage route kept).
+3. **L** (on its branch with MT-11; compat and a scratch full run).
+4. **S′** and the review's `--why`: landed (review-roll, 19 November).
+5. **KX-03, relations as typed exports** (step 3 extended, in place of kx-1's `shared`: the maturity path lands only
    what advances its goals).
-5. **7a, offices as facts**; then steps 7 and 8.
+6. **7a, offices as facts**; then steps 7 and 8.
 
 Running beside: a verify-or-close day over the 155 live rows not checked since 11 November (no code); the browser
 and phone sweep on CI; the danger census and typed fight telling in the combat lane beside SR-01.
