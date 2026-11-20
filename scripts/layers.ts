@@ -2,8 +2,8 @@
 // The layers as logical units, mechanically held (MT-16; the owner, 19 November, night: "force logical units we can
 // mechanically verify nothing imports inaccurately", a `packages/kyr` the eventual shape, not now). Four units, each
 // importing only from those beneath it: Kyr the language (src/lang); the runtime (campaign, rules, the engine's own
-// files); a generic player that knows no setting or scenario (session, presentation, ui, autoplay, narrative,
-// web/engine); and the setting's modules (world, canon, paintings, handbook, registry, data). The clients (src/cli,
+// files); a generic player that knows no setting or scenario (session, presentation, ui, narrative, web/engine); and
+// the setting's modules (world, canon, paintings, handbook, registry, data). The clients (src/cli, src/autoplay,
 // web/reader) stand over them all. Every import that goes the wrong way is an edge; today's are kept in
 // doc/architecture/mission-22/layers-baseline.json, and test/small/layers fails on a new one, or on one gone that the
 // baseline still lists (so that it only shrinks, and on purpose).
@@ -27,10 +27,12 @@ export class Layers {
     if (/^src\/(world|canon|paintings|handbook|registry)\//.test(path)
       || path.startsWith('data/') || path === 'src/generation-setting.ts') { return 'setting'; }
     if (/^src\/(campaign|rules)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
-    if (/^src\/(session|presentation|ui|autoplay|narrative)\//.test(path) || path.startsWith('web/engine/')) {
+    if (/^src\/(session|presentation|ui|narrative)\//.test(path) || path.startsWith('web/engine/')) {
       return 'player';
     }
-    if (path.startsWith('src/cli/') || path.startsWith('web/')) { return 'client'; }
+    // Autoplay is a client: a robot that drives the player as someone at the page would, over a world it draws,
+    // imported only by the clients (src/cli/reach-tool.ts), and no player imports it (MT-16).
+    if (/^src\/(cli|autoplay)\//.test(path) || path.startsWith('web/')) { return 'client'; }
     return undefined;
   }
   // Whether one unit may import another: each from those beneath it; the setting from the language and the runtime

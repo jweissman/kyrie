@@ -2,20 +2,13 @@
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
   "runtime -> setting": 80,
-  "player -> setting": 100,
   "setting -> player": 13,
+  "player -> setting": 93,
   "player -> client": 4
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
   "src/ability-use.ts -> src/canon/schema",
-  "src/autoplay/encounters.ts -> src/canon/canon",
-  "src/autoplay/run.ts -> src/world/frontier",
-  "src/autoplay/run.ts -> src/world/world-assembler",
-  "src/autoplay/tour.ts -> src/world/countries",
-  "src/autoplay/tour.ts -> src/world/land/borders",
-  "src/autoplay/tour.ts -> src/world/world-grid",
-  "src/autoplay/widening.ts -> src/world/frontier",
   "src/battle.ts -> src/canon/canon",
   "src/campaign/calendar.ts -> data/imbar/calendar.json",
   "src/campaign/campaign.ts -> src/canon/local-catalog",
