@@ -1,0 +1,33 @@
+compat: /var/tmp/kyrie/wt-m21 -> this tree: world-moving
+save-breaking: 0
+replay-breaking: 0
+world-moving: 15
+  a1 (9)
+    a1: person region__s1_stones_bats_person gone (nowhere)
+    a1: person region__s1_stones_bats_person_2 gone (nowhere)
+    a1: person region__s1_stones_bats_person_3 gone (nowhere)
+  iscoed/drove (4)
+    iscoed/drove: person region__s2_tie_heir_person gone (nowhere)
+    iscoed/drove: person region__s3_tie_nan_person gone (nowhere)
+    iscoed/drove: person region__s4_tie_nan_person gone (nowhere)
+  cold-4 (2)
+    cold-4 step 1 {"act":"drove__owain_count_t"}: the state differs from here, at the same watch and place
+    cold-4 step 2 {"follow":"drove__held_rhyne"}: lines: "A quay of grey stone runs out into the water at Porthalen, its edge worn round and green with weed, and the town climbs behind it. Gulls sit along it in a row, facing the wind, over the slap of water on stone. The Whitewater runs by below the houses. Twice this month the Hall’s keeper has driven the town’s pigs off the verge of the old road. The geese are kept in a bunch at the well, hissing at the lane to the Hall, and three hens have gone from the inn’s yard since Tuesday." -> "A quay of grey stone runs out into the water at Porthalen, its edge worn round and green with weed, and the town climbs behind it. Gulls sit along it in a row, facing the wind, over the slap of water on stone. The Whitewater runs by below the houses. The boat-sheds are short of oak this year: the Hall has chained the road-wood, and the good timber is behind it. At dusk every dog in the town turns its head toward the hill, and the geese go silent."
+presentation-only: 106
+  a1 (31)
+    a1: act region__s1_manor_boy_voice says otherwise
+    a1: act region__s1_manor_boy_voice_again says otherwise
+    a1: act region__s1_theft_ask says otherwise
+  iscoed/drove (75)
+    iscoed/drove: act region__s1_manor_boy_voice says otherwise
+    iscoed/drove: act region__s1_manor_boy_voice_again says otherwise
+    iscoed/drove: act region__s1_theft_ask says otherwise
+additive: 74
+  a1 (19)
+    a1: person region__s1_tie_nan_person added (nowhere)
+    a1: act region__s1_tie_nan_pouch says: The old woman finds the pouch with her thumbs before she has quite turned her he
+    a1: act region__s1_tie_nan_walked says: 'Walked,' says the old woman. 'On his feet.' She is quiet. 'Then he is somewhere
+  iscoed/drove (55)
+    iscoed/drove: person region__s2_tie_boy_person added (nowhere)
+    iscoed/drove: person region__s3_tie_heir_person added (nowhere)
+    iscoed/drove: person region__s4_tie_boy_person added (nowhere)
