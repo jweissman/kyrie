@@ -38,7 +38,13 @@ export class OfferParity {
       const runner = new Runner(journey.session);
       this.turn(runner, runner.said(), out);
       for (const line of lines) {
-        const said = await runner.ask(line), before = new Set(out);
+        let said = await runner.ask(line);
+        const before = new Set(out);
+        // A fight a line brings on is played through by the runner's own hand (fight:auto), as the conger's spec plays
+        // it (CP-18): a walk cannot say how many rounds it takes, and a fight's turns are its own surface (below).
+        for (let n = 0; !('error' in said) && said.moment === 'fight' && n < 40; n++) {
+          said = await runner.ask('{"act":"fight:auto"}');
+        }
         // A line refused is a walk gone stale, not a turn to pass over: the measure would cover less than it says
         // (lead-contract.md: four follows of the fuel boat's aim had said "no aim", following nothing after T8).
         if ('error' in said) { throw new Error(`${w.lines}: ${line}: ${said.error}`); }

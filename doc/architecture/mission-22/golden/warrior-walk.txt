@@ -40,4 +40,5 @@
 {"act":"go(gate__well_ladder,gate__well)"}
 {"act":"light_item(region__party_1__torch)"}
 {"act":"search(gate__well)"}
+{"act":"search(gate__well)"}
 {"act":"take_item(gate__pawl,region__member_party_1)"}

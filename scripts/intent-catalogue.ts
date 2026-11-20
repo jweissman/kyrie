@@ -20,7 +20,7 @@ export class IntentCatalogue {
   // take_lodging_guest)
   // are one capability: see `distinct`.
   static readonly table: Record<Family, string[]> = {
-    perception: ['look_closely', 'examine', 'listen', 'read_item', 'appraise', 'appraise_beyond'],
+    perception: ['look_closely', 'look_down', 'examine', 'listen', 'read_item', 'appraise', 'appraise_beyond'],
     discovery: ['search', 'prod', 'pry', 'experiment'],
     movement: ['go', 'arrive', 'depart', 'slip_past', 'plane_shift'],
     social: ['talk_to', 'ask', 'tell', 'talk_round', 'sing_supper', 'pay_tribute', 'make_offering', 'haggle', 'haggle_item'],
