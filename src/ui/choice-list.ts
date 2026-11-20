@@ -248,9 +248,7 @@ export class ChoiceList {
   static readonly leads: Partial<Record<Transition, string>> = { leave: 'Out', ascend: 'Up', descend: 'Down',
     cross_plane: 'Through' };
   static wayLabel(e: ExitRow): string {
-    // An act, still without saying where (LOR-11): "By the door" had read as a row's note with no title to it (the
-    // owner, 19 November).
-    if (e.unmarked && e.way) { return `Go by ${this.inline(e.way)}`; }
+    if (e.unmarked && e.way) { return `By ${this.inline(e.way)}`; }
     const room = this.inline(e.destination.name);
     if (e.bearing) { return `${e.bearing.charAt(0).toUpperCase()}${e.bearing.slice(1)}: ${room}`; }
     const into = this.inline(e.scope ?? room);

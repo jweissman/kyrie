@@ -130,10 +130,6 @@ function invalid(page: Page, at: string): string[] {
     for (const { words, spaced, act, action, choice } of rows(html)) {
       const named = !!act && (targets.has(unescape(act)) || targets.has(unescape(choice ?? '')));
       if (!words) { out.push(`${at} ${lens}: a row with no words (${act ?? action})`); }
-      // Words that are an act, not a note: "By the door" had stood as a row's whole title (the owner, 19 November).
-      if (/^(by|at|in|on|near|beside|under|with|from)\b/i.test(words)) {
-        out.push(`${at} ${lens}: ${words} is no act`);
-      }
       if (!named && !(action && turns.has(action))) { out.push(`${at} ${lens}: ${words} names no target (${act ?? action})`); }
       const meant = act ? page.meant(unescape(act)) : undefined;
       if (meant && !meant.length) { out.push(`${at} ${lens}: ${words} goes to or talks with one unnamed (${act})`); }

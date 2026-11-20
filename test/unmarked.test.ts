@@ -6,12 +6,12 @@ import { Journey } from '../src/session/journey';
 describe('an unmarked way', () => {
   it('is said by its own name, until it is known where it goes', async () => {
     const j = await Journey.start('test/fixtures/probes/unmarked/probe.campaign.json');
-    const ways = () => j.choices().filter(c => /^(Go by|To) /.test(c.label)).map(c => c.label).sort();
-    expect(ways()).toEqual(['Go by the left-hand passage', 'Go by the right-hand passage']);
+    const ways = () => j.choices().filter(c => /^(By|To) /.test(c.label)).map(c => c.label).sort();
+    expect(ways()).toEqual(['By the left-hand passage', 'By the right-hand passage']);
     expect(j.taken.length ? '' : JSON.stringify(j.choices())).not.toContain('Kept Hall');
     await j.play('Make out what is cut');
-    expect(ways()).toEqual(['Go by the right-hand passage', 'To the Kept Hall']);
-    await j.play('Go by the right-hand passage', 'To the fork');
+    expect(ways()).toEqual(['By the right-hand passage', 'To the Kept Hall']);
+    await j.play('By the right-hand passage', 'To the fork');
     expect(ways()).toEqual(['To the Aun pit', 'To the Kept Hall']);
   }, 60000);
 });
