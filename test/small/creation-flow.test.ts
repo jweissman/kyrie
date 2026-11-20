@@ -24,7 +24,7 @@ describe('making the protagonist', () => {
     const lost: Setting = { ...setting, origins: [{ id: 'lost', title: 'Gone under', choice: 'Someone went under',
       background: 'prospector' }] };
     const flow = new CreationFlow(lost, Creation.catalog());
-    flow.choose('why', 'lost');
+    flow.choose('origin', 'lost');
     flow.choose('calling', 'warrior');
     const kind = Creation.catalog().backgrounds.find(b => b.id === 'prospector')!.kind;
     flow.choose('before', kind);
@@ -36,14 +36,14 @@ describe('making the protagonist', () => {
   it('takes the new calling\'s own past where none was chosen, and lays none over a reason for coming\'s', () => {
     const catalog = Creation.catalog(), own = (calling: string) => catalog.callings.find(c => c.id === calling)!.trade;
     const flow = new CreationFlow(setting, catalog);
-    flow.choose('why', 'debt');
+    flow.choose('origin', 'debt');
     flow.choose('calling', 'warrior');
     flow.choose('calling', 'mage');
     expect(flow.member.backgroundId).toBe(own('mage'));
     const before = flow.steps().find(s => s.id === 'before')!;
     expect(before.cards.map(c => c.id)).toContain(before.chosen ?? '');
     const wandering = new CreationFlow(setting, catalog);
-    wandering.choose('why', 'wanderer');
+    wandering.choose('origin', 'wanderer');
     wandering.choose('calling', 'warrior');
     wandering.choose('calling', 'mage');
     // The reason for coming brings its own trade (set out with it): no calling's past is laid over it.
@@ -99,7 +99,7 @@ describe('making the protagonist', () => {
     wandering.choose('before', kind('drifter'));
     expect(wandering.circumstance()).toBe('wanderer');
     const asked = new CreationFlow(setting, catalog);
-    asked.choose('why', 'wanderer');
+    asked.choose('origin', 'wanderer');
     expect(asked.circumstance()).toBe('wanderer');
   });
   // A life may begin for more kinds of past than its own background's (WD-11: Iscoed's three lives had been matched by

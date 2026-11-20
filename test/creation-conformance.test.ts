@@ -13,8 +13,8 @@ import type { Asking } from '../src/cli/terminal-input';
 // client decides a step, a card's place or what a choice settles. The lives made, the starts, the places come to and
 // the four each first page leads with, and what each of them is, are the same.
 const seed = 'conform';
-// What is chosen, by step: a card by its id; and the name written.
-const chosen = (setting: Setting): Partial<Record<CreationStep['id'], string>> => ({ why: setting.origins![1]!.id,
+// What is chosen, by step: a card by its id; and the name written. Where the life begins is not asked (OB-16).
+const chosen = (_setting: Setting): Partial<Record<CreationStep['id'], string>> => ({
   you: 'dwarf', calling: 'cleric', before: 'learning', presenting: 'she', name: 'Hild' });
 class Conform {
   // As the terminal plays, blind: the number printed beside the card's name, read off the lines as a player reads

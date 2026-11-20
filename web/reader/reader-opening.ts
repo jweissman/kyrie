@@ -54,7 +54,7 @@ export class ReaderOpening {
       // Where the life begins is the world's (CreationFlow.circumstance); an address may name one (?origin=kin), for a
       // tester or a spec that must begin in a known circumstance.
       const named = app.props.query.get('origin');
-      if (creation && named && setting.origins?.some(o => o.id === named)) { await this.chosen('why', named); }
+      if (creation && named && setting.origins?.some(o => o.id === named)) { await this.chosen('origin', named); }
       this.readySoon();
       await this.preview(party);
     // A pick that fails goes back where it came from: the title, or for development (?dev) the list of campaigns (a
@@ -135,7 +135,7 @@ export class ReaderOpening {
     // At a step of many a card is taken or let go at once, and the page stays; its last card goes on.
     const here = creation.steps.find(x => x.id === step), toggle = !!here?.many && value !== here.cards.at(-1)?.id;
     const steps = creation.steps.map(x => x.id !== step ? x : toggle ? { ...x, picked: ReaderOpening.toggled(x, value) }
-      : { ...x, chosen: value }), why = step === 'why' ? { origin: value } : {};
+      : { ...x, chosen: value }), why = step === 'origin' ? { origin: value } : {};
     // Where the making goes, as the engine said it would: a card chosen at the step asked (or a name drawn at the name)
     // goes on, back goes back; the engine's answer then stands in its place.
     // A step whose next hangs on the choice (CreationStep.leads) waits for the engine to say where it goes.

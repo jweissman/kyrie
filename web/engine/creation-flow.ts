@@ -32,7 +32,7 @@ export interface CreationEntry {
 // a calling), as rows, as one dense list (the names of a people, creation's one exception to four in view), or as
 // rows over the sky they are signs of (the observatory).
 export type CreationPresent = 'cards' | 'rows' | 'list' | 'sky';
-export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'trade'
+export type CreationStepId = 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'trade'
   | 'presenting' | 'name' | SpellStepId;
 // What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
 // a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
@@ -40,9 +40,10 @@ export type CreationStepId = 'why' | 'you' | 'sign' | 'calling' | 'specialty' | 
 // A name taken from the table of names (drawn) is borne but still the table's: a new people or way of presenting draws
 // again over it, as over a name never written.
 // back and onward move between the steps (the flow keeps where it stands); roll deals another hand of a step's options
-// (the names of a people).
+// (the names of a people). origin is where the life begins, named outside the making (a tester's ?origin=): no step
+// asks it (OB-16).
 export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 'reroll' | 'spells' | 'drawn' | 'back'
-  | 'onward' | 'roll';
+  | 'onward' | 'roll' | 'origin';
 // One step of making the protagonist: its question, its cards, which is chosen, and for the name the names drawn.
 // cards: every card, the four the step leads with first (the owner, 14 November: four promoted on every surface, the
 // rest reachable); a client shows the first four and offers the rest, numbered as they stand, unless all (every card
@@ -70,7 +71,7 @@ export class CreationFlow {
   readonly member: Member;
   origin?: string;
   private named = false;
-  // Whether the reason for having come was chosen by hand (a client or a spec that still asks it); else the world
+  // Whether the reason for having come was named (a tester's address or a spec: no step asks it); else the world
   // gives it at setting out, as the life's circumstance (see circumstance).
   private asked = false;
   // Whether the player chose what the life did before (its kind of life), which the circumstance follows.
@@ -95,7 +96,7 @@ export class CreationFlow {
   // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
   // "remove the abstract origin-quest selection in favor of diegetic starting circumstances"; see circumstance).
   steps(): CreationStep[] {
-    return this.unranked().filter(step => step.id !== 'why').map(step => ({ ...step, cards: this.ranked(step),
+    return this.unranked().map(step => ({ ...step, cards: this.ranked(step),
       ...CreationFlow.leading.includes(step.id) ? { leads: true } : {} }));
   }
   // How one presents leads too: the names asked next are drawn for it, and the page going on before the engine's answer
@@ -150,11 +151,8 @@ export class CreationFlow {
   }
   private unranked(): CreationStep[] {
     const c = this.catalog, m = this.member, people = c.ancestries.find(a => a.id === m.raceId);
-    const country = this.setting.title || 'this country';
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
     return [
-      { id: 'why', ask: `Why have you come to ${country}?`, present: 'rows', chosen: this.origin, cards: (this.setting.origins ?? [])
-        .map(o => ({ id: o.id, name: o.title, line: o.choice, emblem: o.id })) },
       { id: 'you', ask: 'Choose your ancestry', present: 'cards', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id,
         name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a),
         ...CreationFlow.has(CreationEntries.people(a)) })) },
@@ -275,7 +273,7 @@ export class CreationFlow {
   }
   private settled(step: CreationChoice, value: string) {
     const m = this.member, was = m.classId, people = m.raceId;
-    if (step === 'why') { this.origin = value; this.asked = true; return; }
+    if (step === 'origin') { this.origin = value; this.asked = true; return; }
     if (step === 'weapon') { m.weapon = value; return; }
     if (step === 'drawn') { m.name = value; this.named = false; return; }
     if (step === 'spells') { m.spells = value.split(',').filter(Boolean); return; }

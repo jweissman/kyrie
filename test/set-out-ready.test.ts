@@ -32,7 +32,7 @@ class Making {
     const session = host.played!;
     return { checkpoint: JSON.stringify(session.checkpoint()), digest: Digest.of(session.campaign) };
   }
-  static readonly first: [CreationChoice, string][] = [['why', 'order'], ['you', 'human'], ['calling', 'mage']];
+  static readonly first: [CreationChoice, string][] = [['you', 'human'], ['calling', 'mage']];
   static readonly last: [CreationChoice, string][] = [['calling', 'warrior'], ['presenting', 'she'], ['name', 'Ysolde']];
 }
 
@@ -63,7 +63,7 @@ describe('a life made by the engine, set out on', () => {
   it('sets out with the weapon its name page shows in hand, the one struck best with', async () => {
     const { host } = Making.host();
     await host.handle({ kind: 'world', seed: Making.seed });
-    await Making.choose(host, [['why', 'order'], ['you', 'human'], ['calling', 'warrior']]);
+    await Making.choose(host, [['you', 'human'], ['calling', 'warrior']]);
     const { member } = await host.handle({ kind: 'creation' }) as CreationState, catalog = Creation.catalog();
     const calling = catalog.callings.find(c => c.id === member.classId)!;
     const shown = CreationRules.best(calling.weapons, member, catalog)?.id;
