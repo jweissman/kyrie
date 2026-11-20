@@ -4,6 +4,7 @@ import { Undertakings } from './undertakings';
 import { Stakes } from '../ui/stakes';
 import { Itineraries } from '../ui/itinerary';
 import { EntityIndex } from '../lang/entity-index';
+import { Spatial } from '../lang/spatial';
 import { AimLeading } from './aim-lead';
 import { CompanyRecall } from './company-recall';
 import { VisitedPlaces } from './visited-places';
@@ -43,6 +44,29 @@ export class AimRoute {
         : Itineraries.plan(campaign, to)?.legs ?? [];
       const out = legs.find(l => !Itineraries.enclosed(campaign, l.to));
       if (out) { return out.to; }
+    }
+    return this.holding(campaign, screen, named);
+  }
+  // Where no plan reaches what the aim names itself (a person's room not yet been to), the nearest town or site holding
+  // it that the company knows a journey to, as the open country reads it (Glance.going), never its own: the plan's
+  // first leg not enclosed is the way out. From the Stone Horn's taproom the fuel boat's aim had said nothing bore on
+  // it, the landing a minute off leading with Reedbridge (AT-12). Only a journey already known to the company is
+  // taken, so that no town is told of by the way out that it was not told of before; and one inside the company's own
+  // town leads nowhere out (a shop beside the target).
+  private static holding(campaign: Campaign, screen: Screen, named: Set<string>): string | undefined {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const mine = new Set([screen.place.id, ...Spatial.ancestry(byId, screen.place.id).map(e => e.id)]);
+    // The journeys the company knows, as the open country offers them (none are listed from inside: CN-02).
+    const leads = Itineraries.destinations(campaign);
+    const known = new Set([...leads, ...Itineraries.roads(campaign, leads)].map(d => d.id));
+    for (const id of named) {
+      const to = byId.get(id)?.space ? id : campaign.world.one('at', id);
+      if (!to || id === campaign.playerActor) { continue; }
+      for (const e of Spatial.ancestry(byId, to)) {
+        if (!['settlement', 'site'].includes(e.space?.kind ?? '') || mine.has(e.id) || !known.has(e.id)) { continue; }
+        const out = Itineraries.plan(campaign, e.id)?.legs.find(l => !Itineraries.enclosed(campaign, l.to));
+        if (out) { return out.to; }
+      }
     }
     return undefined;
   }
