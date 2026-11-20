@@ -134,7 +134,8 @@ export class MenuModel {
   // on this stretch of country, the parts of an authored province on the one hex of its way in). A way into another
   // hex, the next stretch of the wild, the road's next hex, a town further off, is the map's and only the map's, by
   // what the world says of where it goes (Passages.crosses), not by its kind of going (the owner, 3 and 4 November;
-  // 9 November: "enforce this as a structural invariant at the action/navigation level").
+  // 9 November: "enforce this as a structural invariant at the action/navigation level"). The engine holds it of every
+  // act it offers (Crossing, TR-20): here it only says which of its rows are the map's.
   private static stays(c: Choice, screen: Frame['screen']): boolean {
     // A journey set out on (travel:) stays only where it is a walk about the town the company is in.
     if (c.id.startsWith('travel:')) { return (screen.around ?? []).some(d => `travel:${d.id}` === c.id); }

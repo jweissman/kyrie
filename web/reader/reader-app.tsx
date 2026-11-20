@@ -319,13 +319,14 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
         : unbind ? await this.engine.request<Frame>({ kind: 'unbind' })
           : await this.engine.request<Frame>({ kind: 'perform', command: choice.command! });
-      // A journey over the land is walked on the map, wherever it was set out from, to the hex it came to: where it
-      // arrived, or where it was stopped; what came of it is told once the company is there.
-      // Set out on from the scene (a road chosen among the acts), it is no walk on the map: the company comes to its next
-      // place and the scene is there, with nothing else to press (the owner, 15 November: the map is looked at, not
-      // the way travel is done).
-      const fromScene = !!journey && !this.state.outdoors && this.state.view !== 'map';
-      const walked = journey && !fromScene ? JourneyCourse.of(frame, next) : undefined;
+      // Every crossing of a hex is walked on the map, to the hex it came to, before what came of it is told: a journey
+      // wherever it was set out from (the map, or the menu that proposed it), and what the world carried the company
+      // over by (a wagon ridden on, a way found out of the lost: see Crossing). Set out on from the scene, the walk is
+      // shown and then the scene is back, at the place come to, with nothing else to press: the map is looked at, not
+      // a grammar of its own for going (the owner, 15 November), and no hex is crossed unseen (TR-20, 19 November: "I
+      // got from my quest destination back to town without the map").
+      const fromScene = !this.state.outdoors && this.state.view !== 'map';
+      const walked = JourneyCourse.of(frame, next);
       if (walked) { await this.walk(walked, next.screen.region?.land?.known); }
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
@@ -343,9 +344,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         heard: person && was.kind === 'person' ? heard : undefined,
         trading: person && was.kind === 'person' && was.id === attention.id ? this.state.trading : undefined,
         // A journey across the land (from one hex to another) is told on the map, and come to a town the company is at
-        // its gate, not yet in it: entering is the player's. A walk within a town or a site never raises the map (the
+        // its gate, not yet in it: entering is the player's. Set out on from the scene, the scene is back once the walk
+        // is shown. A walk within a town or a site never raises the map (the
         // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
-        outdoors: fromScene ? false : walked ? !next.combat : ReaderApp.outdoors(frame, next), walking: undefined,
+        outdoors: walked ? !fromScene && !next.combat : journey && fromScene ? false : ReaderApp.outdoors(frame, next),
+        walking: undefined,
         exploring: keeps ? this.state.exploring : undefined, kept: keeps,
         // Talk is a lens on one place: gone on to another, it is put away (the contact sheet, 12 November: the rats
         // lay dead in the next room's foot, Talk still on).
