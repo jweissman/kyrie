@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "name": "The Long Man, with lodestar chips, the pedlar not importing their vocabulary",
+  "calendar": { "year": 1312, "month": 8, "day": 17 },
+  "modules": [
+    { "id": "longman", "bundle": "../../../data/adventures/the-long-man/module.json" },
+    { "id": "lodestar", "bundle": "lodestar/module.json", "imports": { "party": "longman.party" } },
+    { "id": "chips", "bundle": "chips/module.json", "imports": { "party": "longman.party", "green": "longman.green", "tunedTo": "lodestar.tunedTo", "leanings": "lodestar.leanings" } },
+    { "id": "pedlar", "bundle": "pedlar/module.json", "imports": { "party": "longman.party", "green": "longman.green" } }
+  ],
+  "party": [
+    { "name": "Elen", "raceId": "elf", "classId": "ranger", "backgroundId": "hunter" },
+    { "name": "Bran", "raceId": "human", "classId": "warrior", "backgroundId": "locksmith" },
+    { "name": "Dori", "raceId": "dwarf", "classId": "cleric", "backgroundId": "medic" }
+  ]
+}

@@ -1,0 +1,3 @@
+{ "version": 1, "source": "lodestar.kyr", "rules": ["world"], "globals": ["party"], "imports": ["party"],
+  "roles": { "party": { "type": "group" } },
+  "exports": { "tunedTo": { "entity": "tunedTo", "role": "relation" }, "leanings": { "entity": "leanings", "role": "measure" } } }

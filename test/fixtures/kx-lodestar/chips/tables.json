@@ -1,0 +1,7 @@
+{
+  "chipStone": { "discriminator": "any", "groups": { "any": [
+    "a lodestar chip of grey slate", "a lodestar chip of red sandstone", "a lodestar chip of black basalt",
+    "a lodestar chip of blue flint", "a lodestar chip of green serpentine", "a lodestar chip of white quartz"
+  ] } },
+  "chipHome": { "discriminator": "any", "groups": { "any": ["grey_home", "red_home", "black_home"] } }
+}

@@ -34,8 +34,11 @@ export class ModuleNamespace {
       bindings.imports[e.id] ?? ((bindings.globals.includes(e.id) || ModuleNamespace.canonical.includes(e.type)) ? e.id
         : scope + e.id)]));
     const shared = [...rules.relations, ...rules.measures, ...rules.queries].map(f => f.name);
+    // A relation or measure imported (KX-03) is the installed one its manifest binds it to; the shared rules' keep
+    // their names; the rest are the installation's own.
     this.functions = Object.fromEntries([...instance.module.relations, ...instance.module.measures,
-      ...instance.module.queries].map(f => [f.name, shared.includes(f.name) ? f.name : scope + f.name]));
+      ...instance.module.queries].map(f => [f.name, bindings.imports[f.name]
+        ?? (shared.includes(f.name) ? f.name : scope + f.name)]));
     this.kinds = Object.fromEntries(instance.module.kinds.map(k => [k, rules.kinds.includes(k) ? k : scope + k]));
   }
   private call(call: Call, bound: string[] = []): Call {
@@ -147,10 +150,15 @@ export class ModuleNamespace {
     return { id: this.bindings.id, seed: this.bindings.seed, instance: { ...this.instance, module, campaign },
       imports: Object.values(this.bindings.imports), exports: Object.fromEntries(
         Object.entries(this.bindings.exports).map(([name, local]) => {
-          const id = this.entities[local];
+          const id = this.entities[local] ?? this.vocabulary(local);
           if (!id) { throw new Error(`Unknown export ${local}`); }
           return [name, id];
         })) };
+  }
+  // A relation or measure exported by its name (KX-03), as installed; a query is not exported.
+  private vocabulary(local: string): string | undefined {
+    const own = [...this.instance.module.relations, ...this.instance.module.measures].some(f => f.name === local);
+    return own ? this.functions[local] : undefined;
   }
   // An entity under its installation's names: its id, its kind, what its name and alias name, where it lies.
   // What a rule says, its again and its lines in turn after that (QTC-A35), in the installation's words.

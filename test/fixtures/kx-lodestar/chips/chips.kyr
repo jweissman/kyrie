@@ -1,0 +1,25 @@
+Module chips "Lodestar chips on the green" {
+  // What the generator lays on a green it is given: three of five chips, each named, tuned and charged by
+  // templates.json, and the three way-stones a chip may be tuned to.
+  Entity party: group "Your company".
+  // The lodestar chip's own vocabulary, declared as lodestar declares it and imported from it (module.json).
+  Relation tunedTo(item, fact). Measure leanings(item).
+  Place green "the green" is room.
+  Item chip_a "a lodestar chip" is lodestar_chip nowhere.
+  Item chip_b "a lodestar chip" is lodestar_chip nowhere.
+  Item chip_c "a lodestar chip" is lodestar_chip nowhere.
+  Item chip_d "a lodestar chip" is lodestar_chip nowhere.
+  Item chip_e "a lodestar chip" is lodestar_chip nowhere.
+  Place grey_stone "the grey way-stone" is room.
+  Entity grey_home: fact "A grey way-stone stands in the bracken above the green, where a chip of it leaned.".
+  Initially Assert established(grey_home). Initially Assert leadsTo(grey_home, grey_stone).
+  Passage grey_path "the bracken path to the grey stone" is path between green and grey_stone hidden until grey_home taking 20 minutes.
+  Place red_stone "the red way-stone" is room.
+  Entity red_home: fact "A red way-stone leans in a hedge-bank past the last house, where a chip of it leaned.".
+  Initially Assert established(red_home). Initially Assert leadsTo(red_home, red_stone).
+  Passage red_path "the hedge-bank to the red stone" is path between green and red_stone hidden until red_home taking 15 minutes.
+  Place black_stone "the black way-stone" is room.
+  Entity black_home: fact "A black way-stone lies in the beck below the green, where a chip of it leaned.".
+  Initially Assert established(black_home). Initially Assert leadsTo(black_home, black_stone).
+  Passage black_path "the way down to the black stone" is path between green and black_stone hidden until black_home taking 10 minutes.
+}

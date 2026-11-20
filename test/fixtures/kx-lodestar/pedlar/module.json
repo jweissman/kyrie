@@ -1,0 +1,3 @@
+{ "version": 1, "source": "pedlar.kyr", "rules": ["world"], "globals": ["party"],
+  "imports": ["party", "green", "tunedTo", "leanings"],
+  "roles": { "party": { "type": "group" }, "green": { "type": "place" } } }

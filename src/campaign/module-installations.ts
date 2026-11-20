@@ -3,7 +3,7 @@ import { RuntimeCapabilities } from './runtime-capabilities';
 import { RoleRequirements } from './role-requirements';
 import { ModuleCompiler } from '../lang/module-compiler';
 import { ModuleWriter } from '../lang/module-writer';
-import type { Instance, Module } from '../lang/module';
+import type { Instance, Module, Signature } from '../lang/module';
 import { World } from '../lang/world';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
@@ -101,10 +101,22 @@ export class ModuleInstallations {
       }
     }
   }
+  // A relation or measure imported (KX-03) is declared by the importer as its definer declares it, or refused: the
+  // edge is typed, as an entity's import is held to the type its role names.
+  private static agree(left: Signature[], right: Signature[], imports: Set<string>) {
+    for (const r of right.filter(s => imports.has(s.name))) {
+      const l = left.find(s => s.name === r.name);
+      if (l && JSON.stringify(l.types) !== JSON.stringify(r.types)) {
+        throw new Error(`${r.name} is imported as (${r.types.join(', ')}) but declared (${l.types.join(', ')})`);
+      }
+    }
+  }
   // The campaign module with an installation joined to it.
   private static joined(base: Module | undefined, incoming: Module, draft: ModuleDraft,
     schemas: Module['actions']): Module {
     const existing = base?.entities ?? [], known = new Set(existing.map(e => e.id)), imports = new Set(draft.imports);
+    this.agree([...base?.relations ?? [], ...base?.measures ?? []], [...incoming.relations, ...incoming.measures],
+      imports);
     const entities = [...existing, ...incoming.entities.filter(e => !imports.has(e.id) && !known.has(e.id))];
     return { ...incoming, id: 'campaign', name: base?.name ?? 'Campaign',
       description: base?.description ?? 'Installed situations share this persistent world.',

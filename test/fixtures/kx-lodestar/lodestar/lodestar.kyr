@@ -1,0 +1,23 @@
+Module lodestar "Lodestar chips" {
+  // Installed once in a campaign, before any module that lays a chip.
+  Entity party: group "Your company".
+  // A kind of thing the catalog has no like of (the kx-1 authorability experiment, 19 November): a sliver of a
+  // way-stone that leans toward the stone it was broken from. It is carried and handed on as any gear is; what is its
+  // own is what each chip is tuned to and how many more times it will lean, and what leaning does.
+  Kind lodestar_chip "a lodestar chip" is gear worth 6 weighing 0 described "A sliver of dark stone on a waxed thread. Held up by the thread, it leans toward the stone it was broken from.".
+  // What one chip is tuned to (a fact of where its stone stands, which leads there), and how many more times it will
+  // lean before it hangs straight: exported (module.json), so that a module that lays a chip of its own imports them.
+  Relation tunedTo(item, fact).
+  Measure leanings(item).
+  // Its use: held up and followed, it tells where its stone is, and is the weaker for it.
+  Action follow_lean(actor: group, chip: item, carrier: member, home: fact) "Hold up {chip} and follow its lean" {
+    Time 10 minutes.
+    Requires able(actor) and memberOf(carrier, actor) and awake(carrier) and ownedItem(chip, carrier)
+      and itemKind(chip, lodestar_chip) and tunedTo(chip, home) and leanings(chip) > 0 and not knows(actor, home).
+    On success { Assert knows(actor, home). Decrease leanings(chip) by 1. }
+    Result "{carrier} holds up {chip} by its thread. It swings, steadies, and leans one way.".
+  }
+  // Spent, it says so where it is carried.
+  Observe chip_spent near ?c of ?c when itemKind(?c, lodestar_chip) and carries(party, ?c) and leanings(?c) == 0 "The lodestar chip hangs straight on its thread now.".
+  Goal false.
+}

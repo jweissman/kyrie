@@ -1,0 +1,4 @@
+{ "version": 1, "source": "chips.kyr", "rules": ["world"], "globals": ["party"],
+  "imports": ["party", "green", "tunedTo", "leanings"],
+  "roles": { "party": { "type": "group" }, "green": { "type": "place" } },
+  "generation": { "type": "lodestar_chips", "templates": "templates.json", "tables": "tables.json" } }

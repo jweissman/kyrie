@@ -1,0 +1,19 @@
+{
+  "lodestar_chips": {
+    "__no_id": true,
+    "name": "Lodestar chips on the green",
+    "creatures": [],
+    "actors": { "order": [] },
+    "_found": "=sample(concat('chip_a', 'chip_b', 'chip_c', 'chip_d', 'chip_e'), 3)",
+    "facts": "=concat(mapGenList(chip_lying, #_found, 'chip'), mapGenList(chip_tuned, #_found, 'chip'))",
+    "initial": "=mapGenList(chip_charge, #_found, 'chip')",
+    "_stones": "=sample(gatherEntries(chipStone, any), 5)",
+    "labels": "=gen(chip_names)",
+    "outcomes": []
+  },
+  "chip_lying": { "__no_id": true, ">name": "at", "args": "=concat(#chip, 'green')" },
+  "chip_tuned": { "__no_id": true, ">name": "tunedTo", "args": "=concat(#chip, lookup(chipHome, any))" },
+  "chip_charge": { "__no_id": true, ">name": "leanings", "args": "=concat(#chip)", "value": "=1d3" },
+  "chip_names": { "__no_id": true, "chip_a": "=dig(#_stones, 0)", "chip_b": "=dig(#_stones, 1)",
+    "chip_c": "=dig(#_stones, 2)", "chip_d": "=dig(#_stones, 3)", "chip_e": "=dig(#_stones, 4)" }
+}

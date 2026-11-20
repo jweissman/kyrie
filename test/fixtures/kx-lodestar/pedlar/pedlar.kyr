@@ -1,0 +1,23 @@
+Module pedlar "The stone-pedlar" {
+  // A separate scenario that uses the lodestar chip as it is written (test/fixtures/kx-lodestar/lodestar, installed
+  // before it): a pedlar on the green who buys chips, and gives the company one of his own to begin with.
+  Entity party: group "Your company".
+  // The lodestar chip's own vocabulary, declared as lodestar declares it and imported from it (module.json).
+  Relation tunedTo(item, fact). Measure leanings(item).
+  Place green "the green" is room.
+  Person pedlar "the stone-pedlar" at green {
+    Role "a pedlar of curious stones". Ancestry human. Calling commoner. Level 1. Peaceable. Pronouns he.
+    Buys lodestar_chip for 4 coin.
+  }
+  Item pedlar_chip "the pedlar's chip of yellow chert" is lodestar_chip nowhere.
+  Initially Set leanings(pedlar_chip) to 2.
+  Place chert_pit "the old chert pit" is room.
+  Entity chert_home: fact "The yellow chert the pedlar's chip was broken from is in an old pit past the chapel.".
+  Initially Assert established(chert_home). Initially Assert leadsTo(chert_home, chert_pit).
+  Initially Assert tunedTo(pedlar_chip, chert_home).
+  Passage chert_path "the track to the old chert pit" is path between green and chert_pit hidden until chert_home taking 15 minutes.
+  Topic chip_gift with pedlar "Ask the stone-pedlar what he has" when true once {
+    Says "'Nothing you can afford but this,' he says, and drops a chip of yellow stone on a thread into your hand. 'Hold it up. It knows where it came from.'".
+    On discuss { Give pedlar_chip to party. }
+  }
+}

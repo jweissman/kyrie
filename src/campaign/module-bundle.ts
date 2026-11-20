@@ -190,7 +190,8 @@ export class ModuleBundle {
     const seen = new Set<string>();
     return declared.filter(d => seen.size < seen.add(JSON.stringify(d)).size);
   }
-  // Each declared import bound to an entity another installation exports; globals keep their own names.
+  // Each declared import bound to an entity, a relation or a measure another installation exports; globals keep their
+  // own names.
   private static imports(manifest: BundleManifest, request: BundleRequest, installed: InstalledModule[] | undefined,
     module: Module): Record<string, string> {
     const imports: Record<string, string> = {};
@@ -202,7 +203,9 @@ export class ModuleBundle {
       const reference = request.imports?.[name];
       const [owner, exported, extra] = reference?.split('.') ?? [];
       const id = installed?.find(m => m.id === owner)?.exports[exported ?? ''];
-      if (!id || extra || !module.entities.some(e => e.id === name)) {
+      // An entity of its own, or a relation or measure it declares (KX-03), bound to the one another exports.
+      const own = module.entities.some(e => e.id === name) || ModuleExports.vocabulary(name, module) !== undefined;
+      if (!id || extra || !own) {
         if (manifest.optional?.includes(name)) { continue; }
         throw new Error(`Unresolved module import ${name}: ${reference ?? 'missing'}`);
       }

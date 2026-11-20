@@ -6,18 +6,24 @@ import type { InstalledModule } from './definition';
 // platform maturity study's §8.1 B): a fact it keeps, an outcome it comes to, a participant (someone, a company, a
 // house), a place (or a way between places), or a capability (a thing to be had and used). A parent then reads what
 // a child is by its manifest, not its Kyr. A role is optional: the string form ("held": "held") stays valid, and the
-// role is inferred from the entity it names (see infer); a role declared is held to that entity at the load.
-export type ExportRole = 'fact' | 'outcome' | 'participant' | 'place' | 'capability';
+// role is inferred from the entity it names (see infer); a role declared is held to that entity at the load. And a
+// kind's vocabulary (KX-03): a relation or a measure the module declares, exported by its name and imported by a
+// consumer's manifest as an entity is, the consumer's own declaration of it bound to the installed one, so that a
+// thing of a kind one module defines (kx-1's lodestar chip, its tunedTo and leanings) is the same to every module
+// that lays one: an explicit, typed edge between the two modules, never a name shared by all.
+export type ExportRole = 'fact' | 'outcome' | 'participant' | 'place' | 'capability' | 'relation' | 'measure';
 export type ExportEntry = string | { entity: string; role?: ExportRole };
 export interface ExportReading { name: string; local: string; type: string; inferred: ExportRole | undefined;
   declared?: ExportRole }
 
 export class ModuleExports {
-  static readonly roles: readonly ExportRole[] = ['fact', 'outcome', 'participant', 'place', 'capability'];
+  static readonly roles: readonly ExportRole[] = ['fact', 'outcome', 'participant', 'place', 'capability', 'relation',
+    'measure'];
   // The entity types each role names. An outcome is a fact too: one read as where the module comes out.
   private static readonly types: Record<ExportRole, readonly string[]> = {
     fact: ['fact'], outcome: ['fact', 'condition', 'ending', 'milestone'], participant: ['group', 'identity'],
-    place: ['place', 'passage'], capability: ['thing', 'item', 'good', 'capability'] };
+    place: ['place', 'passage'], capability: ['thing', 'item', 'good', 'capability'], relation: ['relation'],
+    measure: ['measure'] };
   static valid(exports: unknown): boolean {
     return exports === undefined || (typeof exports === 'object' && exports !== null && !Array.isArray(exports)
       && Object.entries(exports).every(([k, v]) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(k) && this.entry(v)));
@@ -61,10 +67,16 @@ export class ModuleExports {
     module: Module): ExportReading[] {
     const declared = this.declared(exports), locals = this.locals(exports);
     return Object.entries(locals).map(([name, local]) => {
-      const entity = module.entities.find(e => e.id === (ids[name] ?? local));
-      return { name, local, type: entity?.type ?? 'unknown', inferred: entity && this.infer(entity, module),
-        ...declared[name] ? { declared: declared[name] } : {} };
+      const entity = module.entities.find(e => e.id === (ids[name] ?? local)), said = declared[name];
+      const word = entity ? undefined : this.vocabulary(ids[name] ?? local, module);
+      return { name, local, type: entity?.type ?? word ?? 'unknown',
+        inferred: entity ? this.infer(entity, module) : word, ...said ? { declared: said } : {} };
     });
+  }
+  // A relation or a measure the module declares by that name (its own, or as installed), or none.
+  static vocabulary(name: string, module: Pick<Module, 'relations' | 'measures'>): 'relation' | 'measure' | undefined {
+    return module.relations.some(r => r.name === name) ? 'relation'
+      : module.measures.some(m => m.name === name) ? 'measure' : undefined;
   }
   // A role declared that its entity cannot play, said with the module, the export and the entity.
   static admits(role: ExportRole, type: string): boolean { return this.types[role].includes(type); }
