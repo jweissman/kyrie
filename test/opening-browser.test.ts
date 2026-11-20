@@ -85,7 +85,7 @@ class Stage {
   }
   // The keys alone, as a player at a keyboard finds the title: New game is lit, so Enter held begins, whether the title
   // is still coming up or has come (M22: the reveal swallowed the press, and after it nothing had the keys' focus).
-  static readonly begun = ['reveal: create', 'ready: create'];
+  static readonly begun = ['reveal: begin', 'ready: begin'];
   static async keyed(browser: Awaited<ReturnType<typeof MonoBrowser.launch>>, site: string) {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '?ident' });
     const begun: string[] = [];
@@ -93,7 +93,8 @@ class Stage {
       if (begun.length) { await page.reload(); }
       await page.waitForSelector(`.beat-${beat}`, { timeout: 30000 });
       await page.keyboard.down('Enter'); await page.waitForTimeout(800); await page.keyboard.up('Enter');
-      await page.waitForSelector('[data-mode="create"]', { timeout: 20000 }).catch(() => undefined);
+      // New game asks first how the game begins (OR-120): a hold begins at that choice.
+      await page.waitForSelector('[data-mode="begin"]', { timeout: 20000 }).catch(() => undefined);
       begun.push(`${beat}: ${await page.getAttribute('[data-mode]', 'data-mode')}`);
     }
     await page.close();
@@ -151,20 +152,20 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await page.waitForFunction(b => !!document.querySelector(`.beat-${b}`), beat, { polling: 10, timeout: 30000 });
       const begin = await Stage.begin(page);
       await (how === 'hold' ? Stage.held(page, begin) : page.touchscreen.tap(begin.x, begin.y));
-      await page.waitForSelector('.beat-ready, [data-mode="create"]', { timeout: 120000 });
+      await page.waitForSelector('.beat-ready, [data-mode="begin"]', { timeout: 120000 });
       await page.waitForTimeout(600);
       tapped.push(`${begin.beat === 'ready' ? 'too late' : 'opening'} ${how}: ${
         await page.getAttribute('[data-mode]', 'data-mode')}`);
     }
     // Before the ways are there, only the title; a tap on New game only arms it, held it begins (the owner, 16 Nov).
-    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening hold: create']);
+    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening hold: begin']);
     // The keys skip the studio's mark by Escape alone (a stray key no more than a stray touch: the owner, 17 November).
     await page.reload(); await page.waitForSelector('.beat-ident', { timeout: 30000 });
     await page.keyboard.press('Escape');
     await page.waitForSelector('.beat-ready', { timeout: 5000 });
     const begin = await Stage.begin(page);
     await Stage.held(page, begin);
-    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.waitForSelector('[data-mode="begin"]', { timeout: 120000 });
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);

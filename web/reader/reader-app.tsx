@@ -134,6 +134,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   readonly engine = new EngineClient(this.listen.bind(this));
   readonly keys = new ReaderKeys(this);
   readonly opening = new ReaderOpening(this);
+  // The page's own start (the catalog read, the new game's country asked for), which automation waits on before the
+  // engine's own idle (OR-121: the title is up before the country is asked for).
+  booted: Promise<void> = Promise.resolve();
   override state: AppState = ReaderApp.initial(ReaderStore.read());
   private static initial(saved?: SavedGame): AppState {
     return { phase: 'title', options: ReaderOptions.read(), campaign: '', seed: '', party: [], editing: -1, view: 'here',
@@ -150,7 +153,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       : this.state.frame ?? this.state.phase);
     Hold.attach();
     ReaderOptions.apply(this.state.options);
-    void this.opening.boot();
+    this.booted = this.opening.boot();
   }
   override componentWillUnmount() { window.removeEventListener('keydown', this.keys.press); }
   // A new place opens at the top; what came of something done at the same place is in view where it is told; the

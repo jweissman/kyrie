@@ -34,7 +34,7 @@ class ReaderMain {
       // A save file opened as the title page opens one (the journey reader's scene view: scripts/journey-scene.ts).
       resume: (text: string) => app()?.opening.resume(text),
       // Once the engine has nothing under way: the country drawn behind the title, and its start made ready (OR-121).
-      idle: () => app()?.engine.request({ kind: 'idle' }),
+      idle: async () => { await app()?.booted; return app()?.engine.request({ kind: 'idle' }); },
       // A composition drawn over the same state, for captures (see Look).
       relook: (name: string) => { Look.set(name); app()?.forceUpdate(); } };
   }

@@ -38,6 +38,8 @@ class Naming {
   static async back(page: Page, step: string) {
     for (let i = 0; i < 10 && await Naming.at(page) !== step; i++) {
       const was = await Naming.at(page);
+      // Out of the field a name is written in first: there Escape only lets go of the field.
+      await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
       await page.keyboard.press('Escape');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
         { timeout: 5000 });
