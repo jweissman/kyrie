@@ -68,15 +68,20 @@ export class Promotion {
   static pick(cands: Candidate[], s: Situation): Promoted[] {
     // Someone perceived along a way is the places lens's to rank (Go…), not a reason to lead the place with going to
     // look (the scene's four keep what is here: the notice, the dog's sign); a town entered from its country keeps it.
-    const eligible = cands.filter(c => !c.barred).map(c => ({ c, whys: this.allowed(c, s)
-      .filter(w => w !== 'companion' || !this.way(c) || c.whys.includes('entry')) }))
+    // But a way led with for another reason still bears whoever is perceived along it (the owner, 19 November: a way
+    // led with in Explore, a companion there, and no companion on its row): all, the reasons it is drawn by.
+    const eligible = cands.filter(c => !c.barred).map(c => ({ c, all: this.allowed(c, s) }))
+      .map(x => ({ ...x, whys: x.all.filter(w => w !== 'companion' || !this.way(x.c) || x.c.whys.includes('entry')) }))
       .filter(x => x.whys.length).map(x => ({ ...x, best: this.best(x.whys) }));
     // A risk of the place's own (skittles) is led with only when there is nothing else.
     const choices = new Set(eligible.map(x => x.c.choice));
     const fit = eligible.filter(x => !(x.c.own && x.c.risk && x.best === 'own' && choices.size > 1));
     // Of the place's own acts, its own (the notice of jobs on the well-post) before a thing's found in it (a forged
     // seal's receipt): the town's offer to everyone first (the integration of the adventure branch).
-    fit.sort((a, b) => this.ranked(a) - this.ranked(b) || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
+    // And, below the urgent, the aim and need, what the Atlas marks before what it does not (the owner, 19 November,
+    // AT-11: "a matching opportunity beneath a lens … should outweigh at least non-atlas-indicated items").
+    fit.sort((a, b) => this.marked(a) - this.marked(b) || this.ranked(a) - this.ranked(b)
+      || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
       || this.found(a) - this.found(b) || a.c.order - b.c.order);
     const subjects = new Set(fit.map(x => x.c.subject ?? x.c.choice)), picked: Promoted[] = [];
     // Someone to talk to is led with as well, two at most, and they take none of the three places (after the notice at
@@ -99,7 +104,7 @@ export class Promotion {
       if (this.way(x.c)) { taken.ways++; }
       if (x.best === 'own') { taken.own++; }
       stepped ||= x.whys.includes('advance');
-      picked.push(this.promoted(x.c, x.best, x.whys));
+      picked.push(this.promoted(x.c, x.best, x.all));
     }
     return this.continued(this.lit(picked.length ? picked : this.bare(cands), s));
   }
@@ -333,6 +338,11 @@ export class Promotion {
   // the way back from it (a lone warrior led to attack the hobs' raiding party, "beyond you", fell: Mission 20).
   private static ranked(x: { c: Candidate; best: Why }): number {
     return this.rank(x.best) + (x.c.kind === 'attack' && x.c.marks.some(m => m.danger === 'deadly') ? 5 : 0);
+  }
+  // The urgent, the aim and the company's needs (tiers 0 to 2) as they rank; then, of what is here to be done, what
+  // the Atlas marks before what it does not (AT-11): a marked act beneath a lens never loses its place to a bare way.
+  private static marked(x: { c: Candidate; best: Why; whys: Why[] }): number {
+    return this.tiers[x.best][0] <= 2 ? 0 : this.aspects(x.c, x.best, x.whys).length ? 1 : 2;
   }
   private static found(x: { c: Candidate; best: Why }): number { return Number(x.best === 'own' && !!x.c.subject); }
   private static best(whys: Why[]): Why { return [...whys].sort((a, b) => this.rank(a) - this.rank(b))[0]!; }
