@@ -30,8 +30,18 @@ describe('a life before, and a caster\'s art', () => {
     expect(water.entry!.rules[0]).toMatch(/^Climbing: /);
   });
 
+  // Who one is comes before what one did (the owner, 19 November: "you can be a male abbess"): how one presents is
+  // asked second, so every trade is named for the one choosing it, in the one flow every client reads.
+  it('asks how one presents before any trade, and names the trade for them', () => {
+    expect(new CreationFlow(setting, Creation.catalog()).steps().map(x => x.id).slice(0, 2)).toEqual(['you', 'presenting']);
+    for (const [who, word] of [['she', 'fisherwoman'], ['he', 'fisherman']] as const) {
+      const flow = made(['you', 'human'], ['presenting', who], ['sign', 'sign_ship'], ['calling', 'warrior']);
+      flow.choose('before', 'water');
+      expect(step(flow, 'trade')!.cards.find(c => c.id === 'fisherman')?.name.toLowerCase()).toBe(word);
+    }
+  });
   it('asks the trade within the kind chosen, in its words, and the life says it', () => {
-    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['calling', 'warrior']);
+    const flow = made(['you', 'human'], ['presenting', 'he'], ['sign', 'sign_ship'], ['calling', 'warrior']);
     expect(step(flow, 'trade')).toBeUndefined();
     flow.choose('before', 'water');
     expect(flow.current()).toBe('trade');
@@ -40,12 +50,12 @@ describe('a life before, and a caster\'s art', () => {
     expect(trade.cards.every(c => sailors.some(b => b.id === c.id))).toBe(true);
     expect(trade.cards.map(c => c.id)).toContain(trade.chosen!);
     flow.choose('trade', 'fisherman');
-    expect([flow.member.backgroundId, flow.current()]).toEqual(['fisherman', 'presenting']);
+    expect([flow.member.backgroundId, flow.current()]).toEqual(['fisherman', 'name']);
     expect(flow.life()).toContain('Once a fisherman.');
   });
 
   it('deals the trades of a large kind a hand at a time', () => {
-    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['calling', 'warrior'], ['before', 'trade']);
+    const flow = made(['you', 'human'], ['presenting', 'he'], ['sign', 'sign_ship'], ['calling', 'warrior'], ['before', 'trade']);
     const hand = () => step(flow, 'trade')!.cards.map(c => c.id), first = hand();
     expect([first.length <= CreationFlow.trades, step(flow, 'trade')!.roll]).toEqual([true, 'other trades']);
     flow.choose('roll', '');
@@ -53,7 +63,7 @@ describe('a life before, and a caster\'s art', () => {
   });
 
   it('asks a mage the art learnt and a cleric what their god keeps, each way with its entry', () => {
-    const flow = made(['you', 'human'], ['sign', 'sign_ship'], ['calling', 'mage']);
+    const flow = made(['you', 'human'], ['presenting', 'he'], ['sign', 'sign_ship'], ['calling', 'mage']);
     expect(flow.current()).toBe('specialty');
     const school = step(flow, 'specialty')!;
     expect([school.ask, school.cards.length]).toEqual(['Which art did you learn?', 8]);

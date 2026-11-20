@@ -15,8 +15,8 @@ describe('creation as the engine asks it', () => {
   it('says how each step may be drawn, and with what beside its options', () => {
     const steps = new CreationFlow(setting, Creation.catalog()).steps();
     const of = (id: string) => steps.find(x => x.id === id)!;
-    expect(steps.map(x => [x.id, x.present])).toEqual([['you', 'cards'], ['sign', 'sky'], ['calling', 'cards'],
-      ['before', 'list'], ['presenting', 'rows'], ['name', 'list']]);
+    expect(steps.map(x => [x.id, x.present])).toEqual([['you', 'cards'], ['presenting', 'rows'], ['sign', 'sky'],
+      ['calling', 'cards'], ['before', 'list'], ['name', 'list']]);
     expect(of('presenting').cards.map(c => c.aside)).toEqual(['she, her', 'he, him', 'they, them']);
     expect(of('sign').cards.every(c => c.aside && c.say && /^[A-Z]/.test(c.name))).toBe(true);
     expect(of('you').cards.every(c => c.say && !/[.!?].+[.!?]$/.test(c.say))).toBe(true);
@@ -26,12 +26,12 @@ describe('creation as the engine asks it', () => {
 
   it('stands at a step until a card of it is chosen, and goes back and on as asked', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
-    expect([flow.current(), flow.beside(-1), flow.beside(1)]).toEqual(['you', undefined, 'sign']);
+    expect([flow.current(), flow.beside(-1), flow.beside(1)]).toEqual(['you', undefined, 'presenting']);
     flow.choose('you', 'human');
-    expect([flow.current(), flow.beside(-1)]).toEqual(['sign', 'you']);
+    expect([flow.current(), flow.beside(-1)]).toEqual(['presenting', 'you']);
     // A choice behind Details, or of another step, settles it and stays.
     flow.choose('weapon', 'dagger');
-    expect(flow.current()).toBe('sign');
+    expect(flow.current()).toBe('presenting');
     flow.choose('back', '');
     expect(flow.current()).toBe('you');
     for (const id of ['onward', 'onward', 'onward', 'onward', 'onward']) { flow.choose(id as 'onward', ''); }

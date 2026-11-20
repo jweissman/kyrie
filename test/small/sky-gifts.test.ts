@@ -34,13 +34,13 @@ describe('the gifts of the sky', () => {
 
   it('set the sign\'s entry beside it, saying both gifts, and ask no gift: the sign chosen, the calling is next', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
-    flow.choose('you', 'human');
+    flow.choose('you', 'human'); flow.choose('presenting', 'he');
     const bear = flow.steps().find(x => x.id === 'sign')!.cards.find(c => c.id === 'sign_bear')!;
     expect(bear.entry!.facts).toEqual([['Month', 'Thaw'], ['Gifts', 'Unturned and Hard to fell']]);
     expect(bear.entry!.rules[0]).toBe('Unturned: +2 against fear, +1 against charms. Skilled in brawn.');
     flow.choose('sign', 'sign_bear');
-    expect([flow.current(), flow.steps().map(x => x.id)]).toEqual(['calling', ['you', 'sign', 'calling', 'before',
-      'presenting', 'name']]);
+    expect([flow.current(), flow.steps().map(x => x.id)]).toEqual(['calling', ['you', 'presenting', 'sign', 'calling',
+      'before', 'name']]);
     expect(Object.hasOwn(flow.member, 'gift')).toBe(false);
   });
 

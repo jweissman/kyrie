@@ -158,6 +158,11 @@ export class CreationFlow {
       { id: 'you', ask: 'Choose your ancestry', present: 'cards', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id,
         name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a),
         ...CreationFlow.has(CreationEntries.people(a)) })) },
+      // How one presents, second, before anything named for who one is (the owner, 19 November: "you can be a male
+      // abbess"): a trade's word, an abbot or an abbess, is said for the one choosing it.
+      { id: 'presenting', ask: 'How do you present?', present: 'rows', all: true, chosen: m.pronouns,
+        cards: CreationFlow.presenting.map(([id, name, aside]) => ({ id, name, aside,
+          say: 'The words the world will speak of you in.' })) },
       // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
       // them. A page may draw it as a sky; the terminal names it. The owner, 14 November: the observatory (TO-04).
       // All twelve at once, the whole zodiac beside them (FM-02: a fixed set's instrument, the four's exception).
@@ -177,9 +182,6 @@ export class CreationFlow {
           .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}`, ...k.life ? { say: k.life } : {},
             entry: CompanyChapters.kind(k.id) })) },
       ...this.trades(),
-      { id: 'presenting', ask: 'How do you present?', present: 'rows', all: true, chosen: m.pronouns,
-        cards: CreationFlow.presenting.map(([id, name, aside]) => ({ id, name, aside,
-          say: 'The words the world will speak of you in.' })) },
       // The names of your people as one list, a hand of them at a time (creation's one dense menu: the owner, 17
       // November), another hand dealt on asking, and a field to write your own in.
       { id: 'name', ask: 'Choose your name', present: 'list', all: true, chosen: m.name, write: 'Or write your own',
