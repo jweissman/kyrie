@@ -26,6 +26,11 @@ describe('the way back', () => {
       .toEqual([]);
     GeneratedWorld.put(s, start.replace(/^region__/, ''));
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('keyholder', 'party', id('_u_adit_lock')) }]));
+    // The old cutting's cracked roof shored (MT-15 put it back: loose, the way to the gallery is risked or shored, not
+    // simply taken, and the walk had been put there by hand, came from nowhere): the way back is the subject here.
+    const roof = id('_u_cutting_roof');
+    c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('state', roof, c.world.one('state', roof)!) },
+      { kind: 'assert', call: ModuleWriter.call('state', roof, 'region__shored') }]));
     await GeneratedWorld.travel(s, id('_u_adit'));
     await GeneratedWorld.travel(s, id('_u_gallery'));
     expect(c.world.one('at', 'party')).toBe(id('_u_gallery'));
