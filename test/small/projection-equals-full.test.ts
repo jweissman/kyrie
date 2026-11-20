@@ -6,6 +6,10 @@ import { Runner, type Said } from '../../src/cli/runner';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { PlayerView } from '../../src/presentation/player-view';
 import { WorldReads } from '../../src/lang/world-reads';
+import { World } from '../../src/lang/world';
+import { KeptReading } from '../../src/lang/kept-reading';
+import { ModuleWriter } from '../../src/lang/module-writer';
+import type { Module } from '../../src/lang/module';
 
 // What is kept from one world to the next (OR-91: the offered actions, the ways, what is told, each kept while nothing
 // it read has been written) must agree exactly with working it out afresh. Two sessions of one game are played act by
@@ -14,6 +18,11 @@ import { WorldReads } from '../../src/lang/world-reads';
 // same in both: no stale act, indicator, route or narration.
 type Read = <T>(read: () => T) => { value: T; reads?: string[] };
 class Twins {
+  // A world of one relation, and a reading of what one party first knows.
+  static readonly knowing = { relations: [{ name: 'knows', types: ['entity', 'entity'], exclusive: false }], measures: [],
+    queries: [], entities: [], actions: [] } as unknown as Module;
+  static fact(kind: 'assert' | 'retract', ...args: string[]) { return { kind, call: ModuleWriter.call('knows', ...args) }; }
+  static first(w: World) { return w.related('knows', 'c')[0]?.args[1]; }
   private static readonly keeping: Read = WorldReads.of.bind(WorldReads);
   static fresh<T>(read: () => T): { value: T } { return { value: read() }; }
   // Done with nothing kept from one world to the next.
@@ -43,6 +52,19 @@ class Twins {
   }
 }
 describe('what is kept from world to world, against working it out afresh', () => {
+  it('holds a reading over what it did not pick, and not over a fact of it written, or moved in its order', () => {
+    const w0 = new World(Twins.knowing, { relations: [ModuleWriter.call('knows', 'c', 'a'),
+      ModuleWriter.call('knows', 'c', 'b')], measures: [] });
+    const kept = KeptReading.read(w0, () => Twins.first(w0)).kept!;
+    expect(kept.picks?.get('knows')).toBeDefined();
+    const w1 = w0.apply([Twins.fact('assert', 'd', 'z')]);
+    expect(KeptReading.holds(w1, kept)).toBe(true);
+    expect(KeptReading.holds(w1.apply([Twins.fact('assert', 'c', 'e')]), kept)).toBe(false);
+    // Taken away and put back, knows(c, a) is listed after knows(c, b): what c first knows is b now.
+    const w2 = w1.apply([Twins.fact('retract', 'c', 'a')]).apply([Twins.fact('assert', 'c', 'a')]);
+    expect(Twins.first(w2)).toBe('b');
+    expect(KeptReading.holds(w2, kept)).toBe(false);
+  });
   it('agrees act by act on a small world', async () => {
     const party = [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }, { name: 'Bran', raceId: 'human',
       classId: 'warrior' }];

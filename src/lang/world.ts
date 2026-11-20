@@ -68,14 +68,13 @@ export class World {
   // cheaper than `snapshot`, which copies every fact.
   // Read by views kept with the relation's facts, which forked worlds share (see RelationViews).
   related(name: string, first?: string): readonly Call[] {
-    const facts = this.facts(name);
+    const facts = this.facts(name, 0, first);
     if (!facts) { return RelationViews.none; }
     return first === undefined ? RelationViews.list(facts) : RelationViews.by(facts, 0, first);
   }
   // The facts of one relation whose second argument is this one (`ownedItem(?, member)`): for reading only.
   relatedTo(name: string, second: string): readonly Call[] {
-    const facts = this.facts(name);
-    return facts ? RelationViews.by(facts, 1, second) : RelationViews.none;
+    const facts = this.facts(name, 1, second); return facts ? RelationViews.by(facts, 1, second) : RelationViews.none;
   }
   // The other party of a fact that relates this one to one other (`at(party, ?)`): the first, if there are several.
   one(name: string, first: string): string | undefined { return this.related(name, first)[0]?.args[1]; }
@@ -112,15 +111,17 @@ export class World {
     return signatures.relations.has(name) || signatures.queries.has(name);
   }
   // Whether the fact with this key (see `key`) currently holds.
-  holds(key: string): boolean { return this.facts(World.nameOf(key))?.has(key) ?? false; }
+  holds(key: string): boolean { return this.facts(World.nameOf(key), 2, key)?.has(key) ?? false; }
   // A key's relation or measure name: a key is the JSON of [name, ...args], and no name holds a quote.
   private static nameOf(key: string): string { return key.slice(2, key.indexOf('"', 2)); }
   private allFacts(): Call[] { WorldReads.all(); return [...this.byName.values()].flatMap(m => [...m.values()]); }
   private allMeasures(): Measure[] { return [...this.measuresByName.values()].flatMap(m => [...m.values()]); }
-  private measure(call: Call): Measure | undefined { return this.values(call.name)?.get(World.key(call)); }
-  // A name's facts, or its values, as read (see WorldReads).
-  private facts(name: string) { WorldReads.saw(name); return this.byName.get(name); }
-  private values(name: string) { WorldReads.saw(name); return this.measuresByName.get(name); }
+  private measure(call: Call) { const key = World.key(call); return this.values(call.name, key)?.get(key); }
+  // A name's facts, or its values, as read (see WorldReads): all of them, or those an argument or a key picks out.
+  private facts(name: string, at?: number, v?: string) { WorldReads.saw(name, at, v); return this.byName.get(name); }
+  private values(name: string, key?: string) { WorldReads.saw(name, 2, key); return this.measuresByName.get(name); }
+  // A name's facts and values as held, to compare two worlds by (see KeptReading): read of nothing.
+  held(name: string) { return [this.byName.get(name), this.measuresByName.get(name)] as const; }
   static key(call: Call): string { return JSON.stringify([call.name, ...call.args]); }
   static format(call: Call): string { return `${call.name}(${call.args.join(', ')})`; }
   private static index(module: Module): Signatures {
@@ -240,7 +241,7 @@ export class World {
         if (!signatures.relations.has(call.name)) { throw new Error(`Unknown predicate ${call.name}`); }
         // Two parties distinct, a thing within an area: computed, not stored for every pair.
         if (ComputedRelations.has(call.name)) { return ComputedRelations.test(this, call); }
-        return this.facts(call.name)?.has(World.key(call)) ?? false;
+        const key = World.key(call); return this.facts(call.name, 2, key)?.has(key) ?? false;
       }
       case 'compare': {
         const left = this.number(predicate.left, bindings), right = this.number(predicate.right, bindings);

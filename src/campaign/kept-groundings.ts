@@ -1,11 +1,12 @@
 import type { Module, Operator } from '../lang/module';
 import type { World } from '../lang/world';
-import { WorldReads } from '../lang/world-reads';
+import { KeptReading, type Kept } from '../lang/kept-reading';
 
-interface Grounding { module: Module; reads: string[]; stamped: number[]; ops: Operator[] }
+type Grounding = Kept<Operator[]> & { module: Module };
 // What one schema grounds to for one actor, kept from one world to the next of its line while nothing it read has
-// been written (see WorldReads, World.agrees): an act writes a few names, and of two thousand schemas grounded for
-// every world (what the company may do, worked out again after each act) all but a few dozen read none of them
+// been written, or nothing of what it picked of a name written (see KeptReading): an act writes a few names, and of two
+// thousand schemas grounded for every world (what the company may do, worked out again after each act) all but a few
+// dozen read none of them, and of those most asked only whether the company knows one thing or where one thing stands
 // (OR-91: the offered actions a sixth of an act). A grounding that read everything keeps nothing. Kept by the
 // Operators it was made by, so a changed module, entity list or controllers keep nothing either.
 export class KeptGroundings {
@@ -14,14 +15,10 @@ export class KeptGroundings {
   private static readonly actors = 16;
   of(world: World, schema: Operator, actor: string | undefined, ground: () => Operator[]): Operator[] {
     const kept = this.actor(actor ?? ''), was = kept.get(schema.id);
-    if (was && was.module === world.module && world.agrees(was.reads, was.stamped)) {
-      WorldReads.note(was.reads);
-      return was.ops;
-    }
-    const { value, reads } = WorldReads.of(ground);
-    if (reads) { kept.set(schema.id, { module: world.module, reads, stamped: world.stamped(reads), ops: value }); }
-    else { kept.delete(schema.id); }
-    return value;
+    if (was && was.module === world.module && KeptReading.holds(world, was)) { return was.value; }
+    const read = KeptReading.read(world, ground);
+    if (read.kept) { kept.set(schema.id, { ...read.kept, module: world.module }); } else { kept.delete(schema.id); }
+    return read.value;
   }
   private actor(actor: string): Map<string, Grounding> {
     let kept = this.by.get(actor);

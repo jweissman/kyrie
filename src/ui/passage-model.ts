@@ -6,10 +6,11 @@ import { ItemNames } from '../item-names';
 import { LocalObservations } from '../campaign/local-observations';
 import type { Entity, Module, Predicate } from '../lang/module';
 import { WorldReads } from '../lang/world-reads';
+import { KeptReading, type Kept } from '../lang/kept-reading';
 import type { World } from '../lang/world';
 
-// The ways from a place as read, and the names they read (none where they read everything: see WorldReads).
-interface Read { ways: readonly WayInfo[]; reads?: string[]; stamped?: number[] }
+// The ways from a place as read, and what they read (nothing where they read everything: see WorldReads).
+type Read = Kept<readonly WayInfo[]>;
 export type WayStatus = 'open' | 'blocked' | 'hazard' | 'guarded' | 'needs';
 export interface WayInfo {
   passage: string; name: string; from: string; to: string; oneWay: boolean; status: WayStatus;
@@ -76,37 +77,37 @@ export class PassageModel {
   // And kept from one world to the next of its line, of the same module, while nothing they read has been written and
   // every way is still called what it was (see WorldReads): the ways of the whole open country, which a journey plans
   // over, had been read again for every act, though an act changes few of them (OR-91: about 50 ms of an act's 245).
-  private static readonly read = new WeakMap<World, Map<string, Read>>();
+  private static readonly read = new WeakMap<World, Map<string, { value: readonly WayInfo[]; kept?: Read }>>();
   private static readonly lasting = new WeakMap<Module, Map<string, Read>>();
   ways(from: string): readonly WayInfo[] {
     if (!this.supported()) { return []; }
     let kept = PassageModel.read.get(this.world);
     if (!kept) { kept = new Map(); PassageModel.read.set(this.world, kept); }
     const key = `${this.actor}\u0000${from}`, now = kept.get(key);
-    const had = now && this.named(now) ? now : this.lasted(key);
-    if (had) {
-      if (had.reads) { WorldReads.note(had.reads); } else { WorldReads.all(); }
-      kept.set(key, had);
-      return had.ways;
+    if (now && this.named(now.value)) {
+      if (now.kept) { WorldReads.note(now.kept.reads, now.kept.picks); } else { WorldReads.all(); }
+      return now.value;
     }
-    const { value: ways, reads } = WorldReads.of(() => this.world.relatedTo('connects', from)
+    const had = this.lasted(key);
+    if (had) { kept.set(key, { value: had.value, kept: had }); return had.value; }
+    const read = KeptReading.read(this.world, () => this.world.relatedTo('connects', from)
       .filter(r => this.visible(r.args[0]!)).map(r => this.way(r.args[0]!, from, r.args[2]!)));
-    const read: Read = { ways, ...reads ? { reads, stamped: this.world.stamped(reads) } : {} };
     kept.set(key, read);
-    if (reads) {
+    if (read.kept) {
       const lasting = PassageModel.lasting.get(this.world.module) ?? new Map<string, Read>();
-      PassageModel.lasting.set(this.world.module, lasting.set(key, read));
+      PassageModel.lasting.set(this.world.module, lasting.set(key, read.kept));
     }
-    return ways;
+    return read.value;
   }
-  // The ways read in an earlier world of this one's line, if nothing they read has been written since.
+  // The ways read in an earlier world of this one's line, if nothing they read has been written since (or nothing of
+  // what they picked).
   private lasted(key: string): Read | undefined {
     const was = PassageModel.lasting.get(this.world.module)?.get(key);
-    return was?.reads && this.world.agrees(was.reads, was.stamped) && this.named(was) ? was : undefined;
+    return was && this.named(was.value) && KeptReading.holds(this.world, was) ? was : undefined;
   }
   // Whether each way is called as these entities call it (the company's names for things: see ObservationText).
-  private named(read: Read): boolean {
-    return read.ways.every(w => (this.entities.get(w.passage)?.name ?? w.passage) === w.name);
+  private named(ways: readonly WayInfo[]): boolean {
+    return ways.every(w => (this.entities.get(w.passage)?.name ?? w.passage) === w.name);
   }
   private way(passage: string, from: string, to: string): WayInfo {
     const base = { passage, name: this.entities.get(passage)?.name ?? passage, from, to,
