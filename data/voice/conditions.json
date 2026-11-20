@@ -588,7 +588,7 @@
   "shred": {
    "begins": "{target}'s armour is torn open.",
    "ends": "{target}'s armour is whole again.",
-   "held": "{target}'s armour holds."
+   "held": "The blow does not tear {target}'s armour."
   },
   "sunmarked": {
    "begins": "{target} is marked by the sun.",

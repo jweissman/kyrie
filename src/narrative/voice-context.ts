@@ -30,7 +30,8 @@ export class VoiceContext {
       moment: pairs.has(`${h.kind}:${actor}`) || (['greet', 'address'].includes(h.kind) && pairs.has(`met:${actor}`))
         ? 'again' : 'first', ...h.cause ? { cause: this.cause(h.cause) } : {},
       // The skill a feat was done by (see Telling.feat).
-      ...h.kind === 'feat' && h.object ? { capability: h.object.replace(/^.*__/, '') } : {},
+      ...h.kind === 'feat' && h.object ? { capability: h.object.replace(/^.*__/, ''), by: h.actor ? 'companion' : 'you' }
+        : {},
       // A band of many (the elders), for the lines said only of many; one alone, for those of one (a band's "one of
       // {them} says" had been said of a lone grave-robber: round 12, B, T24-19).
       number: (campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 ? 'many' : 'one' };

@@ -18,8 +18,21 @@ export class Tending {
         means.set(mend.recipient, [...means.get(mend.recipient) ?? [], mend.choice]);
       }
     }
-    return screen.party.filter(m => m.ref && means.has(m.ref)).map(m => ({ id: `mend:${m.id}`,
-      label: `Tend ${m.name}`, tone: 'company' as const, note: this.state(m), children: means.get(m.ref!)! }));
+    return screen.party.filter(m => m.ref && means.has(m.ref)).map(m => this.tend(m, means.get(m.ref!)!));
+  }
+  // Tend someone: with one way to, that way itself, said as it is done (a fold of one had opened out of sight, and
+  // "Tend Aldith" was pressed twice, opening it and closing it, with nothing tended and nothing said: cold play 9,
+  // GR-16); with several, the ways under their name. None that can be done now: shut, saying why.
+  private static tend(m: Screen['party'][number], ways: Choice[]): Choice {
+    const open = ways.filter(c => !c.disabled), shut = open.length ? {} : { disabled: ways[0]!.disabled! };
+    const [one] = ways;
+    if (ways.length === 1 && one) {
+      const [who, what] = one.label.split(/: (.*)/s);
+      return { ...one, id: `mend:${m.id}`, label: `Tend ${m.name}: ${what}${who && who !== m.name ? `, by ${who}` : ''}`,
+        note: this.state(m) };
+    }
+    return { id: `mend:${m.id}`, label: `Tend ${m.name}`, tone: 'company' as const, note: this.state(m), children: ways,
+      ...shut };
   }
   // How they are: their hit points against their whole, and what is on them.
   private static state(m: Screen['party'][number]): string {

@@ -65,7 +65,18 @@ export class Telling {
     if (!how || event.result !== 'success' || !campaign.world.relates('needs')) { return []; }
     const byId = EntityIndex.of(campaign.world.module.entities).byId;
     const skill = campaign.world.related('needs').find(r => r.args[0] === how && byId.get(r.args[1]!)?.type === 'capability');
-    return skill ? [{ kind: 'feat', object: skill.args[1]!, cause: event.action }] : [];
+    if (!skill) { return []; }
+    const by = this.featBy(campaign, skill.args[1]!);
+    return [{ kind: 'feat', object: skill.args[1]!, cause: event.action, ...by ? { actor: by } : {} }];
+  }
+  // Who of the company did it: the one who plays where they bring the skill (or nobody does: a thing carried, a skill
+  // granted); else the companion who brings it, told as theirs. The tinker's daughter picked the corn-store's lock and
+  // it was told "You take your time over it, by feel" (cold play 9, GR-19).
+  private static featBy(campaign: Campaign, skill: string): string | undefined {
+    if (!campaign.world.relates('brings')) { return undefined; }
+    const bringing = campaign.world.related('brings').filter(r => r.args[1] === skill).map(r => r.args[0]!);
+    const lead = campaign.readout.partyIds[0], you = campaign.module.entities.find(e => e.creatureId === lead)?.id;
+    return !bringing.length || (you && bringing.includes(you)) ? undefined : bringing[0];
   }
   // Whoever the company has had to do with before: followed by, travelled with, spoken to or greeted. Someone met
   // again is greeted as one met again (Hern, who had walked a day with the company, greeted it as a stranger: A Winter

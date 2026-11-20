@@ -13,7 +13,7 @@ export class CombatPresenter {
   // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
   // In the condition's own words, else the voice table's (data/voice/conditions.json): never its name and duration
   // ("Hild gains inspired for 3h": the cold playtest, CO-10).
-  // held: what is said where a save held it off ("{target}'s armour holds."), where the voice table has it.
+  // held: what is said where a save held it off ("The blow does not tear {target}'s armour."), where the voice has it.
   static told(id: string, when: 'begins' | 'ends' | 'held'): string | undefined {
     const resolved = Canon.resolve('conditions', id), voice = voiced.conditions as Record<string, Record<string, string>>;
     const own = when === 'held' ? undefined : Canon.conditions[resolved]?.[when];

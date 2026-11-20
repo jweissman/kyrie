@@ -36,7 +36,9 @@ Module drove "The held drove" {
   Observe pens_scene at pens when not freed(party) and not watered(party) and not halved(party) "Thirty-six black bullocks of the fells, rough-coated and restless, crowd the rails, bawling to be watered.".
   Observe pens_halved at pens when not freed(party) and halved(party) "Eighteen black bullocks are left at the rails. The other half of the pen is churned and empty.".
   Observe pens_watered at pens when not freed(party) and watered(party) and not halved(party) "Thirty-six black bullocks of the fells stand quiet at the rails, steaming, their trough full.".
-  Observe owain_water near owain of owain when at(owain, pens) and not freed(party) "{owain} is carrying water to them a bucket at a time, in a cloak too big for him.".
+  Observe owain_water near owain of owain when at(owain, pens) and not freed(party) and not watered(party) "{owain} is carrying water to them a bucket at a time, in a cloak too big for him.".
+  // Watered, the boy has nothing left to carry (cold play 9, GR-18: still "carrying water" to a full trough).
+  Observe owain_rested near owain of owain when at(owain, pens) and not freed(party) and watered(party) "{owain} sits on the top rail with the empty bucket between his feet, watching the customs-house door.".
   Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "{owain} stands at the edge of the quay with his hands in his armpits, watching the customs-house door.".
   Observe pens_freed at pens when freed(party) and not sold(party) and not fined(party) "Bran is in among the bullocks, counting them again with a hand on each back.".
   Observe pens_after at pens when freed(party) and (sold(party) or fined(party)) "The pens are churned and empty. The drove has gone on to the sales.".
@@ -129,7 +131,9 @@ Module drove "The held drove" {
   // show_altered) stays the quiet way.
   Entity reeve_ruled: fact "The reeve heard what was found against Mardle, on the green before the customs-house, and ruled on it.".
   // One act, said as what was found allows: with the ink, Mardle is turned out as surely as by it at his counter alone.
-  Action before_reeve(actor: group, site: place) "Call Mardle out to the reeve, and say what you found before her" {
+  // Named by his office, as the aim names him (CL-45): the drowned four are found before Mardle is met, and the act had
+  // called out a man the company had never heard of (cold play 9, GR-20). With the ink he has been met at his counter.
+  Action before_reeve(actor: group, site: place) "Call the customs clerk out to the reeve, and say what you found before her" {
     Time 20 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, green) and not freed(actor) and not sent(actor) and knows(actor, found_drowned) and not knows(actor, altered).
     Result "The reeve sends the customs-man in for Mardle, and he comes out onto the step with the tally-book under his arm. You tell it in front of all three of them: the four bullocks in the Black Rhyne, a Brynach brand on each. Mardle says that beasts in a ditch prove nothing to the Rì's book, and the customs-man beside him says nothing at all, and will not look at you. The reeve hears it out. 'The book is his,' she says at last, 'and I will not take it off him for a ditch. But no drover is held here for beasts the sea took.' She sends the customs-man to open the grille. Mardle watches you from the step until Bran is out.".

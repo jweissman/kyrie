@@ -31,7 +31,15 @@ describe('a fight\'s status against its telling', () => {
     const held: CombatEvent = { type: 'save', turn: 2, actor: 'x', target: 'r', rolled: 18, difficulty: 15,
       success: true, kind: 'reflex', against: 'shred' };
     const told = (events: CombatEvent[]) => CombatTelling.exchanges(events, state).map(t => t.text).join(' ');
-    expect(told([shredded, held])).not.toMatch(/armour holds/);
-    expect(told([held])).toMatch(/armour holds/);
+    expect(told([shredded, held])).not.toMatch(/does not tear/);
+    // Not "armour holds" after a blow that landed for 4 (cold play 9, GR-17): the armour held against the tearing.
+    expect(told([held])).toMatch(/does not tear Ralf's armour/);
+  });
+  it('says nothing of a wound the dead cannot take the infection of (GR-17: "The first zombie cannot be infected.")', () => {
+    const state = { combatants: [{ id: 'z', name: 'the first zombie', team: 'foes' } as unknown as Fighter], turn: 1,
+      actor: '', outcome: null };
+    const immune = { type: 'save', turn: 1, actor: 'x', target: 'z', rolled: 0, difficulty: 0, success: true,
+      immune: true, against: 'infected' } as unknown as CombatEvent;
+    expect(CombatTelling.exchanges([immune], state).map(t => t.text).join(' ')).not.toMatch(/infected/);
   });
 });

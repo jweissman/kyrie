@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
+import { SceneModel } from '../../src/ui/scene';
+import { ScreenModel } from '../../src/ui/screen-model';
 import { Canon } from '../../src/canon/canon';
 import { PlayerView } from '../../src/presentation/player-view';
 import type { CreatureStore } from '../../src/creature-store';
@@ -38,7 +40,13 @@ describe('a kind of the module\'s own, used', () => {
     hurt(t, 6);
     await t.play('Wait a while');
     const before = hp(t).hp;
-    await t.play('Tend Ama › Ama: use a day tonic');
+    // One way to tend her: the row is that way, done at once, not a fold of one (GR-16: "Tend Aldith" pressed twice
+    // had opened its one way out of sight and closed it again, nothing tended and nothing said).
+    const [tend, ...more] = SceneModel.build(ScreenModel.build(t.campaign)).you.filter(c => c.id.startsWith('mend:'));
+    expect(more).toEqual([]);
+    expect(tend).toMatchObject({ label: 'Tend Ama: use a day tonic', command: expect.stringMatching(/^use_item\(/) });
+    expect(tend!.children).toBeUndefined();
+    await t.play('Tend Ama: use a day tonic');
     const healed = hp(t).hp - before;
     expect(healed).toBeGreaterThanOrEqual(2);
     expect(healed).toBeLessThanOrEqual(8);
