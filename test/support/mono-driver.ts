@@ -161,7 +161,12 @@ export class MonoDriver {
         await this.click(opener);
         continue;
       }
-      // Waiting, opened, is Wait… itself: its lengths are what it shows.
+      // Waiting, opened, is Wait… itself: its lengths are what it shows, each a flat row (PB-02), done by its own
+      // touch; an opener of lengths, where one is still offered, is open already.
+      if (part === 'wait' && await has(`.pastime [data-choice="${id}"]`)) {
+        await this.click(`.pastime [data-choice="${id}"]`);
+        return true;
+      }
       if (part === 'wait' && (await this.inspect()).choices.find(c => c.id === id)?.children
         && await has('.pastime .pt-length')) { return true; }
       if (part === 'go' && await has(`[data-pick-index="${index}"]`)) {

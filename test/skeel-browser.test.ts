@@ -59,7 +59,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Fair Weather in the browser', () =>
     // sands at low water), at most twelve times: six fixed waits had held only for one draw of the world.
     await act(d, '^To the Slip');
     const low = async () => (await d.inspect()).choices.some(c => /over the sands/i.test(c.label));
-    for (let w = 0; w < 12 && !await low(); w++) { await act(d, '^Wait', '^A while'); }
+    for (let w = 0; w < 12 && !await low(); w++) { await act(d, '^Wait a while'); }
     expect(await low()).toBe(true);
     await act(d, '^To the open Strand');
     // Come out of the town onto the open sand, the page may lead with the map: the place is a touch back.
