@@ -116,3 +116,18 @@ Deem are the means (doc/design/directions-2026-11-20.md §13).
 - The first striking moment (beauty, wonder, fear, awe, delight) within 30 seconds; another by 5 minutes; never more
   than 10 minutes without one.
 - The first turn: at most 6 lines and 4 led rows.
+
+## The telling and the talk (the owner's playtest, 20 November, night)
+
+The hour's aesthetic rules, for every beat:
+
+- **Generative minimalism.** A richly modelled world told in short, exact, beautiful prose. Each sentence says what the
+  protagonist perceives or knows (sight, sound, touch, smell, speech, memory, inference); the few facts that matter now,
+  not an inventory. Questions are asked only as questions: no "What lies beneath…", no "What remained was…", no
+  delayed subjects or portentous abstraction (OR-150).
+- **Conversation is talking to someone.** One page that scrolls as one; the person, what they say, and your replies hold
+  the page while the map and the Book recede. What you say is shown as said ("You ask the castellan about the old
+  workings", or your own words). People answer in one or two plain sentences, ask you things, interrupt, refuse.
+  No little square marks: type and a restrained colour carry meaning (OR-149). One excellent conversation first:
+  Owain on the green, then Mardle at his counter.
+- **No act without words.** Every row the player can choose says what it does (OR-148).
