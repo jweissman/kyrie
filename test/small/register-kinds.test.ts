@@ -2,22 +2,24 @@ import { describe, expect, it } from 'bun:test';
 import { RegisterKinds } from '../../scripts/register-kinds';
 import { RegisterTickets } from '../../scripts/register-tickets';
 
-// What each live row is (the owner, 20 November: future design apart from defects, and which tickets an architecture
-// change blocks; a true defect stays a defect however it is blocked). The file names only rows there are, with why;
-// what blocks a row is a row still to be done; and a defect blocked is counted a defect.
+// What each live row is, auditable (the owner, 20 November: release-blocking defects, outstanding requirements and
+// future directions apart; every reclassification shown with what it was and why; a kind never moves a priority, and
+// a blocked defect is still a defect). The file names only rows there are; a row's priority is still the one it had
+// when reclassified; what blocks a row is a row still to be done.
 const kinds = RegisterKinds.read(), rows = RegisterTickets.rows(RegisterTickets.text());
-const ids = new Set(rows.map(r => r.id));
+const pri = new Map(rows.map(r => [r.id, r.pri]));
 const live = new Set(rows.filter(r => RegisterTickets.live.includes(r.state)).map(r => r.id));
 describe('the register by kind', () => {
-  it('names only rows there are, each with why', () => {
-    const named = [...Object.entries(kinds.direction), ...Object.entries(kinds.gate)];
-    expect(named.filter(([id, why]) => !ids.has(id) || !why.trim()).map(([id]) => id)).toEqual([]);
-    expect(Object.keys(kinds.direction).filter(id => id in kinds.gate)).toEqual([]);
+  it('names only rows there are, each with what it was and why, its priority unmoved', () => {
+    const named = Object.entries(kinds.rows);
+    expect(named.filter(([id, n]) => !pri.has(id) || !n.why.trim() || !n.was || n.was === n.kind)
+      .map(([id]) => id)).toEqual([]);
+    expect(named.filter(([id, n]) => pri.get(id) !== n.pri).map(([id, n]) => `${id}: ${n.pri} → ${pri.get(id)}`))
+      .toEqual([]);
   });
   it('is blocked only by a row still to be done, and a blocked defect is still a defect', () => {
-    expect(Object.entries(kinds.blockedBy).filter(([id, by]) => !ids.has(id) || !live.has(by))).toEqual([]);
-    const blocked = RegisterKinds.live()
-      .filter(r => r.blockedBy && !(r.id in kinds.direction) && !(r.id in kinds.gate));
+    expect(Object.entries(kinds.blockedBy).filter(([id, by]) => !pri.has(id) || !live.has(by))).toEqual([]);
+    const blocked = RegisterKinds.live().filter(r => r.blockedBy && !(r.id in kinds.rows));
     expect(blocked.filter(r => r.kind !== 'defect')).toEqual([]);
   });
 });
