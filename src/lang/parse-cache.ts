@@ -13,8 +13,7 @@ export class ParseCache {
   // it first (ModuleParser.parse does).
   static get(key: string): Module | undefined {
     const known = this.parsed.get(key), kept = known ?? this.store?.get(key);
-    if (kept) { Costs.note('parse kept', 0, { bytes: key.length }); }
-    if (kept && !known) { this.remember(key, kept); }
+    if (kept) { Costs.note('parse kept', 0, { bytes: key.length }); this.remember(key, kept); }
     return kept;
   }
   // What a parse cost (see Costs): the text's length, and the time taken.
@@ -23,8 +22,18 @@ export class ParseCache {
     this.remember(key, structuredClone(module));
     this.store?.set(key, module);
   }
+  // Kept by how much text, not how many: a drawn country is some thirty texts of a megabyte and a half between them,
+  // and its world a hundred and fifty, so that a count of ninety-six had let the country's go while the rest of its
+  // world was read, and its start parsed the country again (3.5 s of a cold set-out's 7.3: OR-121). The most recently
+  // asked for are kept; a world and the next country beyond it fit.
+  static readonly budget = 12 * 1024 * 1024;
+  private static held = 0;
   private static remember(key: string, module: Module) {
-    if (this.parsed.size >= 96) { this.parsed.delete(this.parsed.keys().next().value!); }
-    this.parsed.set(key, module);
+    if (this.parsed.delete(key)) { this.held -= key.length; }
+    this.parsed.set(key, module); this.held += key.length;
+    for (const oldest of this.parsed.keys()) {
+      if (this.held <= this.budget || oldest === key) { break; }
+      this.parsed.delete(oldest); this.held -= oldest.length;
+    }
   }
 }

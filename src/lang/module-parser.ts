@@ -12,6 +12,7 @@ import { CatalogParser } from './catalog-parser'; import { Milestones } from './
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
 import { Vocabularies } from './vocabulary';
 import { ModuleDeclarations } from './module-declarations'; import { Routes } from './routes'; import { ActionParts } from './action-parts';
+import { TemplatedPredicates } from './templated-predicates';
 import { Superseded } from './superseded'; import { Bringing } from './bringing'; import { ObjectiveParser } from './objective-parser';
 
 type Node = ohm.Node;
@@ -287,17 +288,11 @@ export class ModuleParser {
     _when: Node, condition: Node, once: Node, _open: Node, before: Node, _says: Node, response: Node, again: Node,
     _dot: Node, after: Node, effects: Node, _close: Node): Field {
     const who = speaker.sourceString;
-    // Someone who has joined the company is still themselves: what could be put to them where they were can be put to
-    // them on the way, so long as they can answer (not fallen, nor asleep).
-    const along = `travelsWith(${who}, actor) and not (joinedAs(?m, ${who}) and not awake(?m))`;
-    const text = travelling.children.length
-      ? `able(actor) and distinct(actor, ${who}) and at(actor, site) and ${along}`
-      : `able(actor) and distinct(actor, ${who}) and at(actor, site)`
-        + ` and ((able(${who}) and not asleep(${who}) and at(${who}, site)) or (${along}))`;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title), description: '', speaker: who,
       topic: true, report: ModuleParser.ast(response), ...PersonParser.topic(once, [before, after], answering, again),
       parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
-      requires: { kind: 'and', left: ModuleParser.predicate(text), right: ModuleParser.ast(condition) },
+      requires: { kind: 'and', left: TemplatedPredicates.topic(who, travelling.children.length > 0,
+        ModuleParser.predicate), right: ModuleParser.ast(condition) },
       success: PersonParser.told(effects.children.length ? ModuleParser.ast(effects.children[0]!) as Change[] : [],
         who),
       failure: [], cost: 1, time: 0 } };
