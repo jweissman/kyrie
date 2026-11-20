@@ -100,6 +100,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the interior walk, in the browser',
     if (await thing.count()) {
       const before = await w.told();
       await d.click('.glance .lens [data-act] >> nth=0');
+      // One that asks again before it is done (a change at a risk: the culvert's foul air propped clear, needing brawn,
+      // which MT-15 put back by the warren's way down) is chosen again, as a player who has read what it risks, as
+      // MonoDriver.pick does.
+      if ((await d.inspect()).confirming) { await d.click('.glance .lens [data-act] >> nth=0'); }
       expect(await w.told()).toBeGreaterThan(before);
       steps.push('a thing looked at');
     }
