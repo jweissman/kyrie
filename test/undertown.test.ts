@@ -37,11 +37,14 @@ describe('under the town the company begins in', () => {
     const s = await Town.start(true), c = s.campaign;
     await Town.take(s, /^Read the notice on the well-post/);
     const aims = () => ScreenModel.build(c).objectives.join(' ');
-    expect(aims()).toContain('Ask Falkor, herb-wife at Falkor\'s herb-shop, about the rats in the corn-store at Newmeet: '
-      + 'the corn-store is locked');
+    // The notice is a lead, not an aim, and says whom to ask and where (HP-01).
+    expect(aims()).toBe('');
+    expect(ScreenModel.build(c).knowledge.map(k => k.text).join(' '))
+      .toContain('Ask Falkor at Falkor\'s herb-shop for the key');
     // Locked until asked.
     expect(PlayerView.choices(c).some(x => /^Take the corn-store door/.test(x.choice.name))).toBe(false);
     await Town.take(s, /^Take Falkor's door/, /^Ask .* about the rats/);
+    expect(aims()).toContain('Clear the rats out of the corn-store cellar');
     await Town.take(s, /^Take Falkor's door/, /^Take the corn-store door/, /^Take the trapdoor/, /^Light a torch/,
       /^Take a hole gnawed/, /^Attack the rats/);
     expect(c.world.test(ModuleWriter.call('able', 'region__s1_u_rats'))).toBe(false);

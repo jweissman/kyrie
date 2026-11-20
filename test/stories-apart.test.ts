@@ -18,15 +18,14 @@ describe('stories apart from the other aims', () => {
     const before = PlayerView.observe(s.campaign);
     const event = await s.leg('region__s1_u_notice_read(party,region__s1_green)');
     const taken = ActionFeedbackView.read(s.campaign, event, before).taken ?? [];
-    // Two stories begin by it, each once; the town's jobs are aims, and begin none.
+    // Two stories begin by it, each once; the town's jobs are leads, not aims, until their giver is asked (HP-01).
     expect(taken.flatMap(t => t.begins ?? []).toSorted()).toEqual(['The cold pans', 'The last sea-gate']);
-    expect(taken.filter(t => t.id.startsWith('region__')).every(t => !t.begins)).toBe(true);
+    expect(taken.filter(t => t.id.startsWith('region__'))).toEqual([]);
     const aims = ScreenModel.build(s.campaign).aims ?? [];
     const titles = aims.map(a => a.story?.title ?? '-');
-    // The stories' aims first, and the jobs after them, as every client numbers them to follow by.
-    expect(titles.slice(0, titles.indexOf('-'))).toEqual(expect.arrayContaining(['The held drove', 'The cold pans',
-      'The last sea-gate']));
-    expect(titles.slice(titles.indexOf('-')).every(t => t === '-')).toBe(true);
+    // The stories' aims only: four aims of three stories, where one notice had made seven of one weight.
+    expect(titles).toEqual(expect.arrayContaining(['The held drove', 'The cold pans', 'The last sea-gate']));
+    expect(titles.filter(t => t === '-')).toEqual([]);
     // No story is called twice over ("The unquiet tower: The unquiet tower").
     expect(s.campaign.installations.filter(m => /^(.+): \1$/.test(m.name)).map(m => m.name)).toEqual([]);
     // The runner says it too.

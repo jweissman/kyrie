@@ -51,9 +51,13 @@ export class FirstQuarter {
   static minutes(s: PlaySession): number {
     return s.campaign.readout.elapsed * 10 + (s.campaign.readout.minutes ?? 0);
   }
-  static async walk(seed: string, origin: string, classId: string, steps: number): Promise<Quarter> {
+  // What the player does first, before following the gold (a job asked after: a notice's jobs are leads, HP-01).
+  static async walk(seed: string, origin: string, classId: string, by: number | { steps: number; asked: string[] })
+    : Promise<Quarter> {
+    const [steps, asked] = typeof by === 'number' ? [by, []] : [by.steps, by.asked];
     const spec = { seed, origin, policy: 'gold' as const, steps, protagonist: { name: 'Wenna', raceId: 'human', classId } };
     const metrics = AutoplayRun.empty(), s = await AutoplayRun.start(spec, metrics), c = s.campaign;
+    for (const act of asked) { await s.leg(act); }
     const player = new AutoPlayer('gold', new Draw(`${seed}:${origin}:gold`));
     const start = this.minutes(s), first = ScreenModel.build(c).place.id, out: Step[] = [];
     let held = new Set(Undertakings.held(c).map(o => o.id));

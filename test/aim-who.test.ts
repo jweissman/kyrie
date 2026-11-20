@@ -10,11 +10,11 @@ describe('an aim not yet on the map', () => {
       protagonist: { name: 'Wenna', raceId: 'human', classId: 'cleric' } });
     await s.leg('go(party,region__s1_approach_way,region__s1_approach,region__s1_green)');
     await s.leg('region__s1_u_notice_read(party,region__s1_green)');
-    const aims = ScreenModel.build(s.campaign).aims ?? [];
-    const dead = aims.find(a => /under the churchyard/.test(a.text));
-    // Whom to ask, and where: said in the aim itself (the owner's own session, 7 November), so the map needs no
-    // "may know where" of him.
-    expect(dead?.text).toMatch(/^Ask Eogan, priest of \S+ at the shrine of \S+, about what has come up/);
+    const screen = ScreenModel.build(s.campaign), aims = screen.aims ?? [];
+    // Whom to ask, and where: said on the notice itself (the owner's own session, 7 November), now a lead in the
+    // Notes and not an aim (HP-01), so the map needs no "may know where" of him.
+    expect(aims.some(a => /under the churchyard/.test(a.text))).toBe(false);
+    expect(screen.knowledge.map(k => k.text).join(' ')).toMatch(/Ask Eogan at the shrine of \S+\./);
     // The father's own errand names no one to ask.
     expect(aims.find(a => /your father/i.test(a.text))?.who).toBeUndefined();
   }, 120000);

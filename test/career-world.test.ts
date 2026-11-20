@@ -32,8 +32,10 @@ describe('the hunter\'s career in a world', () => {
     await j.play('Into the Lucky Phoenix', 'Out to the landing');
     await j.play('Read the royal proclamation under the notices');
     const aims = (PlayerView.observe(j.campaign).objectives ?? []).map(o => o.text);
-    expect(aims).toEqual(expect.arrayContaining([expect.stringMatching(/^Ask Mik/),
+    // An aim, where the town's jobs on the notice are leads until their giver is asked (HP-01).
+    expect(aims).toEqual(expect.arrayContaining([
       expect.stringMatching(/^Slay Old Brennoch, the dragon of the high country north-west of here/)]));
+    expect(aims.filter(a => /^Ask Mik/.test(a))).toEqual([]);
     // Toward the first step the company knows of (MT-12: about the commission alone, it had led nowhere): the march
     // on the dragon's side; once it is slain, the march toward Dun Rìerdan, north.
     const toward = (id: string) => j.campaign.module.objectives?.find(o => o.id === id)?.toward;

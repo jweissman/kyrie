@@ -172,7 +172,6 @@ Module lab "The undercroft at Lowmouth" {
     Result "You lay the ratsbane in twists along the foot of the wall where the droppings are thickest. Something scrabbles behind the brick, and goes quiet. By morning, it will have done its work.".
   }
   Rule low_u_rats_poisoned when low_u_baited(low_u_rats) and able(low_u_rats) and watch(clock) >= low_u_baited_at(low_u_rats) + 36 { Slay low_u_rats. }
-  Objective low_u_rats_job_sought when knows(party, low_u_notice) and not low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) toward low_merchant "Ask {low_merchant} about the rats in the corn-store at Lowmouth: the corn-store is locked.".
   Objective low_u_rats_job_aim when low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) toward low_u_cellar, low_u_rats by low_u_store "Clear the rats out of {low_u_cellar}, under {low_u_store} at Lowmouth, and find where they get in.".
   Objective low_u_rats_job_way when low_u_done(low_u_rats_job) and not knows(party, low_u_rats_source) and not low_u_nest_cleared(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_u_warren by low_u_cellar "The rats in {low_u_cellar} are dead. Find where they got in: there will be more where they came from.".
   Objective low_u_rats_job_run when low_u_done(low_u_rats_job) and knows(party, low_u_rats_source) and not low_u_nest_cleared(low_u_rats_job) and not low_u_paid(low_u_rats_job) toward low_u_nest, low_u_buck by low_u_warren "Clear the nest down the rats' run from {low_u_warren} under {low_u_store}. Deal with the old buck rat that keeps it, or they will be back.".
@@ -301,7 +300,6 @@ Module lab "The undercroft at Lowmouth" {
   Rule low_u_dead_lie when state(low_u_candle, snuffed) and at(low_u_dead, low_u_ossuary) and able(low_u_dead) says "With the candle out, the dead fold down into the bone-heaps like coats let fall, and are only bones again." { Retract at(low_u_dead, low_u_ossuary). Assert low_u_done(low_u_dead_job). }
   Rule low_u_dead_cleared when not able(low_u_dead) and not low_u_done(low_u_dead_job) { Assert low_u_done(low_u_dead_job). }
   Rule low_u_raiser_ended when not able(low_u_raiser) and not low_u_done(low_u_raiser) { Assert low_u_done(low_u_raiser). }
-  Objective low_u_dead_job_sought when knows(party, low_u_notice) and not low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_priest "Ask {low_priest} about what has come up under the churchyard at Lowmouth: the crypt is locked.".
   Objective low_u_dead_job_aim when low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_u_dead, low_u_raiser by low_u_yard "Lay the dead in {low_u_crypt} under {low_u_yard} at Lowmouth, and find out who raised them.".
   Topic low_u_dead_job_paid with low_priest "Tell {low_priest} the dead under the churchyard are laid, and the man who raised them gone" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
     Says "{low_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {low_priest} says. 'The bottles are for after.'".
@@ -380,7 +378,6 @@ Module lab "The undercroft at Lowmouth" {
     Result "The flask bursts against the web. The fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
   Rule low_u_spiders_cleared when not able(low_u_spiders) and not low_u_done(low_u_spiders_job) { Assert low_u_done(low_u_spiders_job). }
-  Objective low_u_spiders_job_sought when knows(party, low_u_notice) and not low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) toward low_innkeeper "Ask {low_innkeeper} about the old quarry at Lowmouth: its gate is locked.".
   Objective low_u_spiders_job_aim when low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) toward low_u_gallery by low_u_pit "Burn the spiders out of {low_u_adit} under {low_u_pit} at Lowmouth.".
   Objective low_u_spiders_job_eggs when low_u_done(low_u_spiders_job) and knows(party, low_u_spiders_eggs) and state(low_u_eggs, hanging) and able(low_u_mother) toward low_u_brood "Deal with the spiders' mother in {low_u_brood} behind the quarry's gallery, and burn her eggs, or the spiders will come again.".
   Objective low_u_spiders_job_burn when low_u_done(low_u_spiders_job) and knows(party, low_u_spiders_eggs) and state(low_u_eggs, hanging) and not able(low_u_mother) toward low_u_brood "Burn the spiders' eggs in {low_u_brood} behind the quarry's gallery, or the spiders will come again.".
@@ -509,13 +506,13 @@ Module lab "The undercroft at Lowmouth" {
   Item low_u_vault_stone "a moonstone the size of a thumb" is moonstone at low_u_vault.
   Milestone low_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, low_u_vault).
   Objective low_u_vault_sought when knows(party, low_u_vault_found) and able(low_u_keeper) toward low_u_vault "Something keeps {low_u_vault} under the undercroft.".
-  Entity low_u_notice: fact "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} for the gate key.'".
+  Entity low_u_notice: fact "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} at {low_shop} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest} at {low_chapel}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} at {low_taproom} for the gate key.'".
   Thing low_u_notice_post "the notice on the well-post" at low_green { }
   Observe low_u_notice_up near low_u_notice_post of low_u_notice_post when (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)) and not knows(party, low_u_notice) "A notice is nailed to the post by the well, written over in several hands.".
   Action low_u_notice_read(actor: group, site: place) "Read the notice on the well-post" {
     Requires able(actor) and at(actor, site) and at(actor, low_green) and not knows(actor, low_u_notice) and (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)).
     Time 1.
     On success { Assert knows(actor, low_u_notice). }
-    Result "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} for the gate key.'".
+    Result "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} at {low_shop} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest} at {low_chapel}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} at {low_taproom} for the gate key.'".
   }
 }

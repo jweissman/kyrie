@@ -6,10 +6,11 @@
 // a company); {brood} is how many of the first foes each trouble sets: two for a company of more than one, one for a company of
 // one, as a player begins (a lone first-level mage had died to the corn-store's two great rats three times in four).
 // id of the foe it sets there ({t}_u_<option>) and of the job of being rid of it ({t}_u_<option>_job), and its ">>"
-// lines are what is said of it on the notice on the green. Add an option to add a trouble; nothing in the engine
-// needs to change. An option may be another cause of the same trouble rather than another creature: the store's
-// apprentice and runaway are the people its job turns out to be about, not foes (the variety study's experiment,
-// mission-22/variety-study/experiment.md). A country of the strategic atlas may fix a group's option (its `fix` in
+// lines are what is said of it on the notice on the green. The notice read is a lead in the Notes, not an aim; a job's
+// aim comes of asking the one who gives it (HP-01: the notice had made each job a held aim at once). Add an option
+// to add a trouble; nothing in the engine needs to change. An option may be another cause of the same trouble rather
+// than another creature: the store's apprentice and runaway are the people its job turns out to be about, not foes
+// (the variety study's experiment, mission-22/variety-study/experiment.md). A country of the strategic atlas may fix a group's option (its `fix` in
 // data/imbar/atlas.json): Iscoed's first town keeps the rats, so the first-hour route it is measured by holds.
 --- base
   // Each fight under the town is worth three times its plain worth, so that a company that clears all of it (some
@@ -235,12 +236,11 @@
   Topic {t}_u_apprentice_gone_told with {t}_innkeeper "Ask {{t}_innkeeper} about the apprentice who ran" when {t}_u_apprentice_fled({t}_u_apprentice_job) once {
     Says "'Went off in the boat with the ring on its bow,' says {{t}_innkeeper}. 'The seed-corn under a sail.' '{{t}_merchant} will be buying seed at the spring price.'".
   }
-  Objective {t}_u_apprentice_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) toward {t}_merchant "Ask {{t}_merchant} about the grain going from the corn-store at {town}: the corn-store is locked.".
   Objective {t}_u_apprentice_job_aim when {t}_u_given({t}_u_apprentice_job) and not knows(party, {t}_u_apprentice_swept) and not knows(party, {t}_u_apprentice_bolt) and not knows(party, {t}_u_apprentice_landing) and not {t}_u_done({t}_u_apprentice_job) toward {t}_u_cellar by {t}_u_store "Find what is taking the grain from {{t}_u_cellar}, under {{t}_u_store} at {town}.".
   Objective {t}_u_apprentice_job_watch when (knows(party, {t}_u_apprentice_swept) or knows(party, {t}_u_apprentice_bolt) or knows(party, {t}_u_apprentice_landing)) and not {t}_u_apprentice_caught({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) toward {t}_u_cellar by {t}_u_store "No rat takes the grain from under {{t}_u_store}. Wait in {{t}_u_cellar} after dark, and see what comes.".
   Objective {t}_u_apprentice_job_word when at({t}_u_apprentice, {t}_u_cellar) and not {t}_u_done({t}_u_apprentice_job) toward {t}_u_apprentice "The apprentice of {{t}_merchant} stands caught with the lantern in {{t}_u_cellar}. Take him up to {{t}_merchant}, or talk to him.".
   Objective {t}_u_apprentice_job_owed when {t}_u_given({t}_u_apprentice_job) and {t}_u_done({t}_u_apprentice_job) and not {t}_u_paid({t}_u_apprentice_job) and not {t}_u_apprentice_fled({t}_u_apprentice_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} the grain will stop going. Ten coin are owed for it, or six for keeping a secret.".
->> 'GRAIN going from the old corn-store, a sack a night. Rats, says {{t}_merchant}. Ten coin, and a lantern. Ask for the key.'
+>> 'GRAIN going from the old corn-store, a sack a night. Rats, says {{t}_merchant}. Ten coin, and a lantern. Ask for the key at {{merchantat}}.'
 --- store runaway 1
   // Something at the grain that is no rat (the variety study's §8, under its §9 rule that a cause must move the crux
   // into another family than the rats'): a girl run from the mill lives in the crawl behind the cellar wall, on the
@@ -342,12 +342,11 @@
   Topic {t}_u_runaway_gone with {t}_priest "Ask {{t}_priest} about the girl from the corn-store" when {t}_u_runaway_lost({t}_u_runaway_job) and knows(actor, {t}_u_runaway_prints) once {
     Says "'Gone down the drain when the poison went down, they say,' says {{t}_priest}. 'A carter saw a girl on the road at first light, alone.'".
   }
-  Objective {t}_u_runaway_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) toward {t}_merchant "Ask {{t}_merchant} about what is at the grain in the corn-store at {town}: the corn-store is locked.".
   Objective {t}_u_runaway_job_aim when {t}_u_given({t}_u_runaway_job) and not knows(party, {t}_u_runaway_prints) and not {t}_u_done({t}_u_runaway_job) toward {t}_u_cellar by {t}_u_store "Find what is at the grain in {{t}_u_cellar}, under {{t}_u_store} at {town}. In two days {{t}_merchant} lays poison.".
   Objective {t}_u_runaway_job_found when knows(party, {t}_u_runaway_prints) and not {t}_u_runaway_trusts({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) toward {t}_u_runaway by {t}_u_cellar "A child's bare prints go through the grain. Find who sleeps behind the wall of {{t}_u_cellar}, and come quietly.".
   Objective {t}_u_runaway_job_send when {t}_u_runaway_trusts({t}_u_runaway_job) and not {t}_u_done({t}_u_runaway_job) toward {t}_u_runaway "The girl in {{t}_u_warren} will go where you send her: to {{t}_priest} at the shrine, or up to {{t}_merchant}.".
   Objective {t}_u_runaway_job_owed when {t}_u_given({t}_u_runaway_job) and {t}_u_done({t}_u_runaway_job) and not {t}_u_runaway_lost({t}_u_runaway_job) and not {t}_u_paid({t}_u_runaway_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} what has been at the grain.".
->> 'Something at the grain in the old corn-store, nights, and the bread off the sill. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
+>> 'Something at the grain in the old corn-store, nights, and the bread off the sill. Ten coin, and a lantern. Ask {{t}_merchant} at {{merchantat}} for the key.'
 --- store rats 12
   // The rats: the corn-store is locked and its key is the merchant's, given with the job. A brood in the runs behind
   // the cellar wall, and below them, down their own run into the old drain, the nest and the old buck rat that keeps
@@ -419,7 +418,6 @@
     Result "You lay the ratsbane in twists along the foot of the wall where the droppings are thickest. Something scrabbles behind the brick, and goes quiet. By morning, it will have done its work.".
   }
   Rule {t}_u_rats_poisoned when {t}_u_baited({t}_u_rats) and able({t}_u_rats) and watch(clock) >= {t}_u_baited_at({t}_u_rats) + 36 { Slay {t}_u_rats. }
-  Objective {t}_u_rats_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) toward {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store at {town}: the corn-store is locked.".
   Objective {t}_u_rats_job_aim when {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) toward {t}_u_cellar, {t}_u_rats by {t}_u_store "Clear the rats out of {{t}_u_cellar}, under {{t}_u_store} at {town}, and find where they get in.".
   // The cellar's rats dead and how they came up not yet found, the job's second half is still asked: it had dropped
   // out of the aim unsaid, and the cold player was never told where they got in (cold play 5, CL-35).
@@ -441,7 +439,7 @@
   // unasked had been told of the rest of a pay it had never been offered (round 6, I 144, J 38).
   Objective {t}_u_rats_job_owed when {t}_u_given({t}_u_rats_job) and {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} that the rats and their nest are dealt with. The rest of the pay is yours, and a lantern.".
   Objective {t}_u_rats_job_owed_whole when {t}_u_given({t}_u_rats_job) and {t}_u_done({t}_u_rats_job) and {t}_u_nest_cleared({t}_u_rats_job) and not {t}_u_halved({t}_u_rats_job) and not {t}_u_paid({t}_u_rats_job) toward {t}_merchant "Tell {{t}_merchant} at {{merchantat}} that the rats and their nest are dealt with. Ten coin are yours, and a lantern.".
->> 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {{t}_merchant} for the key.'
+>> 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {{t}_merchant} at {{merchantat}} for the key.'
   Rule {t}_u_rats_onward when ({t}_u_paid({t}_u_rats_job) or ({t}_u_done({t}_u_rats_job) and not {t}_u_given({t}_u_rats_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_warren). }
   // By force or by craft, the job is paid, and the merchant remembers which (M21's FF-04). A door torn open is docked
   // from the pay, unless it was mended first; rats laid by ratsbane are smelt on the one who laid it.
@@ -586,7 +584,6 @@
   Rule {t}_u_dead_lie when state({t}_u_candle, snuffed) and at({t}_u_dead, {t}_u_ossuary) and able({t}_u_dead) says "With the candle out, the dead fold down into the bone-heaps like coats let fall, and are only bones again." { Retract at({t}_u_dead, {t}_u_ossuary). Assert {t}_u_done({t}_u_dead_job). }
   Rule {t}_u_dead_cleared when not able({t}_u_dead) and not {t}_u_done({t}_u_dead_job) { Assert {t}_u_done({t}_u_dead_job). }
   Rule {t}_u_raiser_ended when not able({t}_u_raiser) and not {t}_u_done({t}_u_raiser) { Assert {t}_u_done({t}_u_raiser). }
-  Objective {t}_u_dead_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) toward {t}_priest "Ask {{t}_priest} about what has come up under the churchyard at {town}: the crypt is locked.".
   // Toward the dead themselves and whoever raised them (its own words: "and find out who raised them"), by the
   // churchyard: the crypt is where the priest said they came up, but they are in the
   // ossuary beyond it, and an aim that pointed at the crypt left a company that had been through the ossuary standing
@@ -605,7 +602,7 @@
     On discuss { Increase quantity(actor, gold) by 10. Assert {t}_u_halved({t}_u_dead_job). }
   }
   Objective {t}_u_dead_job_owed when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_paid({t}_u_dead_job) toward {t}_priest "Tell {{t}_priest} at {{priestat}} that the dead are laid, and the man who raised them gone. Fifteen coin are yours, and what the shrine can give.".
->> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest}.'
+>> 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {{t}_priest} at {{priestat}}.'
   Rule {t}_u_dead_onward when ({t}_u_paid({t}_u_dead_job) or ({t}_u_done({t}_u_dead_job) and not {t}_u_given({t}_u_dead_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_ossuary). }
   // The crypt's own, before the ossuary: bats in its vault that the raiser's comings and goings have kept stirred, and
   // that come down at a light (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").
@@ -691,7 +688,6 @@
     Result "The flask bursts against the web. The fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
   Rule {t}_u_spiders_cleared when not able({t}_u_spiders) and not {t}_u_done({t}_u_spiders_job) { Assert {t}_u_done({t}_u_spiders_job). }
-  Objective {t}_u_spiders_job_sought when knows(party, {t}_u_notice) and not {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) toward {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry at {town}: its gate is locked.".
   // Toward where the spiders are, the gallery past the adit: toward the adit, the gold had led back out of the
   // gallery with the spiders in it, "the way you came" (rounds 10 and 11, R and U).
   Objective {t}_u_spiders_job_aim when {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) toward {t}_u_gallery by {t}_u_pit "Burn the spiders out of {{t}_u_adit} under {{t}_u_pit} at {town}.".
@@ -716,7 +712,7 @@
     On discuss { Spend hobb_knife from actor. Give minor_healing_potion to actor. }
   }
   Objective {t}_u_spiders_job_owed when {t}_u_done({t}_u_spiders_job) and state({t}_u_eggs, burnt) and not {t}_u_paid({t}_u_spiders_job) toward {t}_innkeeper "Tell {{t}_innkeeper} at {{innkeeperat}} that the spiders are dead and their eggs burned. Twelve coin are yours, with salve and rope.".
->> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper} for the gate key.'
+>> 'SPIDERS in the old quarry. Twelve coin from the house. Ask {{t}_innkeeper} at {{innkeeperat}} for the gate key.'
   Rule {t}_u_spiders_onward when ({t}_u_paid({t}_u_spiders_job) or ({t}_u_done({t}_u_spiders_job) and not {t}_u_given({t}_u_spiders_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_gallery). }
   // What feeds under the web: carrion beetles in the adit, at what the spiders let fall; and the old cutting's cracked
   // roof, shored with the quarrymen's timbers or passed under at a risk (the owner, 19 November: the dungeons "deathly dull … almost no content or combat").

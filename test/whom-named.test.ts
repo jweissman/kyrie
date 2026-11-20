@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { ModuleWriter } from '../src/lang/module-writer';
 import { Glanced } from './support/glanced';
 import { Undertakings } from '../src/presentation/undertakings';
 import { SceneModel } from '../src/ui/scene';
@@ -11,7 +12,11 @@ describe('whom an open job names', () => {
     const g = await Glanced.country('kite'), c = g.campaign;
     await g.to('region__s2_green');
     await g.choose(/^region__s2_u_notice_read\(/);
-    Undertakings.follow(c, 'region__s2_u_rats_job_sought');
+    // The notice's jobs are leads (HP-01): the job taken on and done, its aim names him, to be told and paid.
+    const job = 'region__s2_u_rats_job';
+    c.commitWorld(c.world.apply(['given', 'done', 'nest_cleared'].map(r => ({ kind: 'assert' as const,
+      call: ModuleWriter.call(`region__s2_u_${r}`, job) }))));
+    Undertakings.follow(c, 'region__s2_u_rats_job_owed_whole');
     const glance = await g.choose(/^wait$/);
     const shop = c.world.one('at', 'region__s2_merchant')!;
     // The way the page leads with (Go… opens on it) is toward his shop, not out along the road toward the drover (the

@@ -47,7 +47,8 @@ export class RegionUndertown {
     return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`, {}, StrategicAtlas.fix(region, 'undertown'))
       .some(x => x.said.length > 0);
   }
-  // The notice on the green that gathers what each trouble chosen says of itself; read, an aim for each.
+  // The notice on the green that gathers what each trouble chosen says of itself; read, a lead in the Notes, and each
+  // job an aim only when the one who gives it is asked (HP-01).
   static notice(t: string, sections: KyrSection[], values: Record<string, string>): string[] {
     const troubles = sections.filter(x => x.said.length), notice = `${t}_u_notice`, q = JSON.stringify;
     const open = troubles.map(x => `able(${t}_u_${x.option})`).join(' or ');
@@ -90,7 +91,7 @@ export class RegionUndertown {
     const q = JSON.stringify;
     return [`  Entity ${w}_named: fact ${q(`Below the vault under ${s.name} a stair goes on down, into ${site.name}.`)}.`,
       `  Entity ${w}_found: fact ${q(`The way down into ${site.name} is behind the keeper's chair in the vault.`)}.`,
-      `  Place ${w} "the stair below the vault" is room within ${t} at 1, 7 underground.`,
+      `  Place ${w} "the stair below the vault" is room within ${t} at 1, 7 underground 4 down.`,
       `  Initially Assert unlit(${w}).`,
       // What it is for comes before the way to it is known (the crown, heard of at the inn): the next thing to find is
       // said, and where, so that the aim leads somewhere (the product-design review's PD-03: "a barrow, not yet made

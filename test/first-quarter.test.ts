@@ -7,7 +7,10 @@ import { FirstQuarter } from '../scripts/first-quarter';
 // under it. It had gone up to be paid and off to the next notice, and the rooms below were never led to.
 describe('the first quarter hour, by the gold', () => {
   it('goes from the corn-store job on down to the sealed vault', async () => {
-    const q = await FirstQuarter.walk('iscoed', 'debt', 'warrior', 35);
+    // The notice read and its rats asked after, as it says: its jobs are leads until their giver is asked (HP-01).
+    const q = await FirstQuarter.walk('iscoed', 'debt', 'warrior', { steps: 35, asked: [
+      'region__s1_u_notice_read(party,region__s1_green)', 'go(region__s1_shop_door,region__s1_shop)',
+      'region__s1_u_rats_job_ask'] });
     const places = q.steps.map(x => x.place);
     expect(places).toContain('the undercroft');
     expect(places).toContain('the sealed vault');

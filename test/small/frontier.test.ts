@@ -13,6 +13,8 @@ import { RunnerExperience } from '../../src/cli/runner-experience';
 describe('the laboratory walked straight at its aim', () => {
   it('tells the frontier from the retreat underground, and sees an aim through', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse([Laboratory.file, '--as', 'human/thief/Haze']));
+    // The notice read is a lead; the rats are an aim once Mik is asked (HP-01), and the walk goes straight at it.
+    for (const step of ['Read the notice', 'To Mik\'s salt-house', 'Ask Mik about the rats']) { await journey.step(step); }
     const walk = await RunnerWalk.run(new Runner(journey.session), 'straight', 30, 1);
     const ways = walk.turns.map(t => [...t.offer.primary, ...t.offer.rest].filter(o => o.bearing));
     expect(ways.some(w => w.some(o => o.bearing === 'frontier') && w.some(o => o.bearing === 'retreat'))).toBe(true);

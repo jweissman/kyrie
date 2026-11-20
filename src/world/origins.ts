@@ -301,8 +301,9 @@ export class Origins {
   // Come over the hills to no trouble in particular, the first aim is the inn, where work is heard of (the owner, 7
   // November: every origin leads plainly into its first goal); a town with no inn leaves the road to the player. And
   // at the inn the work is told: its keeper sends the company to the town's notice, and the company knows what is on
-  // it (an aim of each job). Come there, the aim had been seen through on the threshold with nothing said of any work
-  // (thorn's Misthythe, round 9's diagnosis of the owner's OR-60).
+  // it (the notice, a lead; each job an aim when its giver is asked, HP-01). Come there, the aim had been seen
+  // through on the threshold with nothing said of any work (thorn's Misthythe, round 9's diagnosis of the owner's
+  // OR-60).
   private static unhired(region: Region, s: Settlement, bound: Bound): Bound {
     if (!SettlementWriter.rooms(region, s).taproom) { return { ...bound, values: { ...bound.values, incident: '' } }; }
     const told = RegionUndertown.noticed(region, s), keeper = this.said(s.innkeeper);

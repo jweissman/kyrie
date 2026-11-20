@@ -14,10 +14,6 @@ import { Spatial } from '../spatial';
 // of the company's own for them ("an old man by the stove"), or found where the aim says (Ask Beak about the rats in
 // the corn-store at Karir), is said by their name as before.
 export class AimWords {
-  // The aims the company holds, each by its id and in its words.
-  static held(world: World, objectives: Objective[]): { id: string; text: string }[] {
-    return objectives.filter(o => world.test(o.when)).map(o => ({ id: o.id, text: this.render(world, o) }));
-  }
   static render(world: World, o: Objective): string {
     let text = o.text;
     for (const id of this.strangers(world, o)) {

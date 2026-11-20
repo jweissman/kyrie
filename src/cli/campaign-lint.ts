@@ -245,9 +245,10 @@ export class CampaignLint {
   passageKind(way: string, a: string, b: string) {
     const kind = this.relations('passageKind').find(r => r.args[0] === way)?.args[1] ?? '';
     // So does one between the open or a house and somewhere underground, as the page says it (Down to the undercroft:
-    // Passages.transition): a founding's well, a town's slab over its undercroft (MT-11).
+    // Passages.transition): a founding's well, a town's slab over its undercroft (MT-11); and one between two storeys
+    // underground its author gives ("underground 2 down"): the vault under the town's undercroft.
     if (['way_stair', 'way_shaft', 'way_incline'].includes(kind) && this.level(a) === this.level(b)
-      && this.area(a) === this.area(b) && this.under(a) === this.under(b)) {
+      && this.area(a) === this.area(b) && this.under(a) === this.under(b) && this.depth(a) === this.depth(b)) {
       this.add('warning', 'passage', `${way} is a ${kind.slice(4)} but does not change level`);
     }
     if (['way_road', 'way_path', 'way_track', 'way_ford'].includes(kind) && (this.indoors(a) || this.indoors(b))) {
@@ -260,6 +261,7 @@ export class CampaignLint {
       .find(e => ['building', 'site', 'settlement', 'wilderness'].includes(e.space?.kind ?? ''))?.id;
   }
   under(id: string) { return this.entities.get(id)?.space?.shelter === 'underground'; }
+  depth(id: string) { return this.entities.get(id)?.space?.depth; }
   indoors(id: string) { return this.world.test({ kind: 'call', name: 'indoors', args: [id] }); }
   traversal() {
     const legacy = ['route', 'gate', 'hazardPassage', 'climbingPassage', 'informedPassage', 'footway'];

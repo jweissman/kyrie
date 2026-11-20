@@ -6,7 +6,6 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ObservationText } from '../src/lang/observation-text';
 import type { Change } from '../src/lang/module';
-import { AimWords } from '../src/presentation/aim-words';
 
 // The fresh playtest of 7 November broke the bone lantern in the unquiet tower without ever coming to the shrine whose
 // priest the tower's story binds, and was given "The dead in the tower are still. Kellen will want to know.", of a
@@ -34,9 +33,9 @@ describe('an aim that leads to someone the company has never met', () => {
     x.commit(x.world.apply([{ kind: 'assert', call: ModuleWriter.call('acquainted', priest, 'party') }]));
     aim = ScreenModel.build(c).aims!.find(a => a.id === 'tower__report')!;
     expect(aim.text).toBe(`The dead in the tower are still. ${name} will want to know.`);
-    // A job read on a notice names the town; whom to ask there is said by the room they keep.
-    const jobs = c.module.objectives!.filter(o => o.id.endsWith('_job_sought'));
-    expect(jobs.length).toBeGreaterThan(0);
-    for (const job of jobs) { expect(AimWords.render(c.world, job)).toMatch(/^Ask [^,]+, [^,]+ at [^,]+, about /); }
+    // A job read on a notice is a lead, not an aim (HP-01); whom to ask is said there by the room they keep.
+    expect(c.module.objectives!.filter(o => o.id.endsWith('_job_sought'))).toEqual([]);
+    const notice = c.module.entities.find(e => e.id.endsWith('_u_notice'))!;
+    expect(ObservationText.render(notice.name, c.world)).toMatch(/Ask [^.']+ at [^.']+(for|\.)/);
   }, 120000);
 });

@@ -68,7 +68,11 @@ describe('Gatesend, after the fifth cold play', () => {
   // CL-33: at the gate-well 27 journeys had been the rest's (14 "Set out for …", 12 "To the …"); the rest keeps the
   // roads leaving, where an aim names, where gone before and the nearest three, the others behind the journeys lens.
   it('folds the journeys at the gate-well behind their lens, never one an aim names', async () => {
-    const { s, r } = await play('elf/mage/Ilse/scholar', lines(5, 7));
+    const { r } = await play('elf/mage/Ilse/scholar', lines(5, 7));
+    // A job of the town taken on, whose aim names the churchyard: the notice's jobs are leads until asked (HP-01).
+    const c = r.session.campaign;
+    c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('region__s4_u_given', 'region__s4_u_dead_job') }]));
+    const s = r.said() as Said;
     const kept = (s.offer.lenses?.journeys ?? []).map(o => o.id), lensed = said(await r.ask('{"lens":"journeys"}'));
     const all = [...lensed.offer.primary, ...lensed.offer.rest].map(o => o.id);
     // 27 when the ruling was made (11 kept, 16 folded); the counts move as the country does, the fold holds.

@@ -51,7 +51,10 @@ export class Passages {
     const a = this.enclosures(origin), b = this.enclosures(destination);
     if (b.some(id => !a.includes(id))) { return 'enter'; }
     if (a.some(id => !b.includes(id))) { return 'leave'; }
+    // Underground, from one storey its author gives to another ("underground 2 down"): the vault under the undercroft.
     const [over, under] = [this.under(origin), this.under(destination)];
+    const [up, down] = [origin, destination].map(id => this.entities.get(id)?.space?.depth ?? 0);
+    if (over && under && up && down && up !== down) { return down > up ? 'descend' : 'ascend'; }
     return over === under ? 'walk' : under ? 'descend' : 'ascend';
   }
   // Below ground, a later level of a site is deeper: down to it, or up from it; elsewhere (a tower's floors, an

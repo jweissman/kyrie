@@ -266,8 +266,10 @@ export class PlayerView {
         providers: PartyCapabilities.providers(e.id, state.creatures.filter(c => state.partyIds.includes(c.id)))
           .map(c => `${c.name} (${c.raceId} ${c.classId})`) })),
       choices: publicChoices.map(c => c.choice), followed: perceiving ? Undertakings.followed(campaign)?.id : undefined,
-      ...(campaign.module.objectives?.length ? { objectives: perceiving ? AimWords.held(world,
-        campaign.module.objectives).toSorted((a, b) => PlayerView.own(a.id) - PlayerView.own(b.id)) : [] } : {}),
+      // The aims held by the one test every client counts by (Undertakings.held), each in its words.
+      ...(campaign.module.objectives?.length ? { objectives: perceiving ? Undertakings.held(campaign)
+        .map(o => ({ id: o.id, text: AimWords.render(world, o) }))
+        .toSorted((a, b) => PlayerView.own(a.id) - PlayerView.own(b.id)) : [] } : {}),
       map: CompanyMap.of(campaign, actor, publicChoices.filter(c => c.choice.category === 'travel').map(c => c.action)) };
   }
   // Your own errand before what the country holds (the page's aim had wandered to whatever was heard of last: the lone
