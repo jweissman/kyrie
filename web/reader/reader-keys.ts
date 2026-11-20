@@ -8,6 +8,8 @@ import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
 import { PressGuard } from './press-guard';
 import { Hold } from './instrument/hold';
+import { DigitSettle } from './digit-settle';
+import type { Choice } from '../../src/ui/choice-list';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
 // a place: see Raised), Enter does it, a digit does one at once (at a place, 1 to 3 what the glance leads with), Esc
@@ -67,16 +69,17 @@ export class ReaderKeys {
       const chosen = menu.choices[s.cursor];
       if (chosen && Hold.key(app, chosen, key)) { return true; }
       if (chosen && ReaderKeys.opener(chosen.id)) { ReaderKeys.opener(chosen.id)!.click(); return true; }
-      if (chosen) { app.choose(chosen); }
-      return !!chosen;
+      return chosen ? this.commit(chosen, key) : false;
     }
     if (/^[1-9]$/.test(key) && Stage.mode(app) === 'talk') {
-      // In a conversation, the reply that number is beside, kept through the conversation (see TalkStage.n).
+      // In a conversation, the reply that number is beside as the rows stand when the key goes down, and only once
+      // they have stood a moment (R11-01: see DigitSettle); refused, not passed on, while they are changing.
+      if (!DigitSettle.settled(DigitSettle.drawn())) { return true; }
       const id = document.querySelector<HTMLElement>(`.talk [data-number="${key}"]`)?.dataset.choice;
       const at = id ? menu.choices.findIndex(c => c.id === id) : -1;
       if (at < 0) { return false; }
-      app.setState({ cursor: at }); app.choose(menu.choices[at]!);
-      return true;
+      app.setState({ cursor: at });
+      return this.commit(menu.choices[at]!, key);
     }
     if (/^[1-9]$/.test(key)) {
       // What is drawn with that key on it, first: the glance numbers what it leads with by their places among
@@ -89,17 +92,28 @@ export class ReaderKeys {
         if (row) { row.click(); return true; }
       }
       if (drawn && ReaderKeys.opener(drawn)) { ReaderKeys.opener(drawn)!.click(); return true; }
-      if (shown >= 0 && Hold.key(app, menu.choices[shown]!, key)) { return true; }
-      if (shown >= 0) { app.setState({ cursor: shown }); app.choose(menu.choices[shown]!); return true; }
+      if (shown >= 0) { app.setState({ cursor: shown }); return this.commit(menu.choices[shown]!, key); }
       // At a place, what the glance leads with (1 to 3), never something under a sheet and out of sight.
       const led = Stage.mode(app) === 'explore' ? Raised.led(app) : undefined;
       if (led !== undefined && Number(key) > led) { return false; }
       const chosen = menu.choices[Number(key) - 1];
-      if (chosen) { app.setState({ cursor: Number(key) - 1 }); app.choose(chosen); }
+      if (chosen) { app.setState({ cursor: Number(key) - 1 }); this.commit(chosen, key); }
       return !!chosen;
     }
     if (key === 'Escape' || key === 'Backspace') { app.back(); return true; }
     return this.letter(key.toLowerCase());
+  }
+  // A choice the keys take, by the one path a row is taken by (OR-128): held on its own button where it is held (a
+  // digit or Enter as long as the hand would hold), else its own button pressed, which does what a tap on it does;
+  // only a choice drawn by no button of its own is chosen directly.
+  private commit(c: Choice, key: string): boolean {
+    if (Hold.key(this.app, c, key)) { return true; }
+    const row = document.querySelector<HTMLElement>(`[data-choice="${CSS.escape(c.id)}"]`), keyed = this.app.state.keyed;
+    if (!row) { this.app.choose(c); return true; }
+    // As a tap on it, which lets the keys' highlight go: the keys keep it.
+    row.click();
+    if (keyed) { this.app.setState({ keyed: true }); }
+    return true;
   }
   // An act the four draw as an opener in place (a thing's look: see GlanceStage.Acts), which the keys open there as a
   // touch does, never turning the page to the thing.
