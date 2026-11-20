@@ -46,6 +46,9 @@ export interface Situation { threat: boolean; warned: boolean; dark: boolean; se
 // place itself offers that is new, and a way not yet taken. At most four, three of them besides talk, never padded;
 // at most one for each subject
 // (a danger may take two and the way back), two ways, and one of the place's own acts. Pure and deterministic.
+// A candidate as it is weighed: every reason it is drawn by (all), those it may be led with for (whys), the best.
+interface Fit { c: Candidate; all: Why[]; whys: Why[]; best: Why }
+
 export class Promotion {
   static readonly cap = 3;
   // With whoever there is to talk to.
@@ -80,31 +83,58 @@ export class Promotion {
     // seal's receipt): the town's offer to everyone first (the integration of the adventure branch).
     fit.sort((a, b) => this.ranked(a) - this.ranked(b) || Number(a.c.kind === 'attack') - Number(b.c.kind === 'attack')
       || this.found(a) - this.found(b) || a.c.order - b.c.order);
-    const subjects = new Set(fit.map(x => x.c.subject ?? x.c.choice)), picked: Promoted[] = [];
-    // Someone to talk to is led with as well, two at most, and they take none of the three places (after the notice at
-    // Millholm the three job-givers had taken them all, and only the map was led: M19-24); four in all, never padded
-    // (the owner, 12 November: a taproom had led with two things, though several there had something for the company).
-    // And the aim's own next step, by type (see AimAdvances), has a place though the three are taken: at
-    // Gefeohtgaet's door the hobs' two acts and the way back had filled them, the search under the door-stone the
-    // dead man's map marks was only under `all`, and the gold went to the parley (M21's playability list, PL-19).
-    const taken = { ways: 0, own: 0, plates: 0, by: new Map<string, number>() };
+    const lone = new Set(fit.map(x => x.c.subject ?? x.c.choice)).size === 1;
+    const picked = this.marked(fit, s, lone).map(x => this.promoted(x.c, x.best, x.all));
+    return this.continued(this.lit(picked.length ? picked : this.bare(cands), s));
+  }
+  // Someone to talk to is led with as well, two at most, and they take none of the three places (after the notice at
+  // Millholm the three job-givers had taken them all, and only the map was led: M19-24); four in all, never padded
+  // (the owner, 12 November: a taproom had led with two things, though several there had something for the company).
+  // And the aim's own next step, by type (see AimAdvances), has a place though the three are taken: at
+  // Gefeohtgaet's door the hobs' two acts and the way back had filled them, the search under the door-stone the
+  // dead man's map marks was only under `all`, and the gold went to the parley (M21's playability list, PL-19).
+  private static fill(fit: Fit[], s: Situation, lone: boolean): Fit[] {
+    const picked: Fit[] = [], taken = { ways: 0, own: 0, plates: 0, by: new Map<string, number>() };
     let stepped = false;
     for (const x of fit) {
       if (picked.length >= this.all) { break; }
       const step = !stepped && x.whys.includes('advance');
       if (x.c.kind !== 'talk' && picked.length - taken.plates >= this.cap && !step) { continue; }
       if (x.c.kind === 'talk' && taken.plates >= 2) { continue; }
-      if (!this.room(x, picked, { taken, s, lone: subjects.size === 1 })) { continue; }
+      if (!this.room(x, picked.map(p => p.c), { taken, s, lone })) { continue; }
       if (x.c.kind === 'talk') { taken.plates++; }
       const subject = x.c.subject ?? x.c.choice;
       taken.by.set(subject, (taken.by.get(subject) ?? 0) + 1);
       if (this.way(x.c)) { taken.ways++; }
       if (x.best === 'own') { taken.own++; }
       stepped ||= x.whys.includes('advance');
-      picked.push(this.promoted(x.c, x.best, x.all));
+      picked.push(x);
     }
-    return this.continued(this.lit(picked.length ? picked : this.bare(cands), s));
+    return picked;
   }
+  // What the Atlas marks outweighs what it does not (the owner, 19 November, AT-11: "a matching opportunity beneath a
+  // lens … should outweigh at least non-atlas-indicated items"): of what is here to be done (below the urgent, the aim
+  // and need), a marked act left out takes an unmarked one's place where the four lose nothing for it, never fewer
+  // rows nor fewer marked (a first try ranked marked first, and at kite's road "Help him" shut out both the wagoner's
+  // talk and his cart by the one-a-person and one-own rules).
+  private static marked(fit: Fit[], s: Situation, lone: boolean): Fit[] {
+    let pool = fit, out = this.fill(pool, s, lone);
+    for (const m of fit.filter(x => this.opportunity(x) && this.bears(x))) {
+      if (out.includes(m)) { continue; }
+      for (const u of [...out].reverse().filter(x => this.opportunity(x) && !this.bears(x))) {
+        const tried = this.fill(pool.filter(x => x !== u), s, lone);
+        if (tried.includes(m) && tried.length >= out.length && this.borne(tried) > this.borne(out)) {
+          pool = pool.filter(x => x !== u); out = tried; break;
+        }
+      }
+    }
+    // And among what is here to be done, the marked first; the urgent, the aim and need where they rank.
+    return out.map((x, i) => ({ x, i })).sort((a, b) => this.weight(a.x) - this.weight(b.x) || a.i - b.i).map(o => o.x);
+  }
+  private static weight(x: Fit): number { return !this.opportunity(x) ? 0 : this.bears(x) ? 1 : 2; }
+  private static opportunity(x: Fit): boolean { return this.tiers[x.best][0] >= 3; }
+  private static bears(x: Fit): boolean { return this.aspects(x.c, x.best, x.whys).length > 0; }
+  private static borne(xs: Fit[]): number { return xs.filter(x => this.bears(x)).length; }
   // In the dark with an aim followed, the light is the aim's next step: nothing else can be done until it is made, and
   // the gold had gone out on every dark threshold the aim led over (the laboratory's blind walks: 89 turns of 2,520
   // with an aim followed and nothing leading to it, most of them in a cellar or a crypt before the candle).
@@ -286,7 +316,7 @@ export class Promotion {
   // and so may a place with nothing else); two ways; one of the place's own; a way not yet taken only while fewer than
   // two are led with, and none of them an act: beside Bran's line to read, "To the taproom of the Stone Horn" had led
   // from the third turn on for no reason a player could see (cold plays 2 and 3, CL-25).
-  private static room(x: { c: Candidate; best: Why }, picked: Promoted[],
+  private static room(x: { c: Candidate; best: Why }, picked: Pick<Candidate, 'choice' | 'exit'>[],
     at: { taken: { ways: number; own: number; plates: number; by: Map<string, number> }; s: Situation; lone: boolean }):
     boolean {
     const c = x.c, subject = c.subject ?? c.choice;
