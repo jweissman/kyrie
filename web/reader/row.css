@@ -33,6 +33,10 @@
   background-color: color-mix(in oklab, var(--row-tone) var(--row-press), transparent); color: #fff; transition: none; }
 :root .stage[aria-busy] :is(.choice-row, .act-glyph):not([data-taken]) {
   opacity: .42; pointer-events: none; transition: opacity var(--row-out) var(--ease) 80ms; }
+/* Committed: until the answer comes nothing on the stage takes a press, the row taken included, which stays shown
+   as taken (OR-145: a long press done had left the page open to more input). */
+:root .stage[aria-busy], :root .stage[aria-busy] * { pointer-events: none; }
+:root .stage[aria-busy] [data-taken] { cursor: progress; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: .5; cursor: default; }
 @media (prefers-reduced-motion: reduce) {

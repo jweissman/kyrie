@@ -31,6 +31,9 @@ export class ReaderKeys {
     }
     // A key held down does its act once (IG-17): its repeats are dropped, the browser's click on a focused button too.
     if (PressGuard.repeated(e)) { e.preventDefault(); return; }
+    // A choice committed (a hold done, a press taken) closes the page to every other input until its answer comes
+    // (OR-145, the owner's playtest of 20 November): no key does anything meanwhile.
+    if (this.app.state.phase === 'play' && this.app.state.pending) { e.preventDefault(); return; }
     // Enter or Space on a focused act is that act, at once (IG-07: one press commits), where the arrows are not
     // driving the page's own highlight.
     if ((e.key === 'Enter' || e.key === ' ') && !this.app.state.keyed
