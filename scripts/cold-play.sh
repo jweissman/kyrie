@@ -8,14 +8,16 @@
 #   scripts/cold-play.sh --n 7 --world iscoed --as human/warrior/Wenna [--rev origin/main] [--agent none|claude|codex]
 #     [--turns 120] [--dir /var/tmp/kyrie/cold/7]
 #   scripts/cold-play.sh --stop /var/tmp/kyrie/cold/7
+# --page <url> [--query '?world=iscoed']: on the deployed page in one headless Chromium (scripts/cold-play/page-runner.ts,
+#   OB-05), not the runner on a revision built here; the browser's libraries as the host needs them (LD_LIBRARY_PATH).
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"; repo="$(cd "$here/.." && pwd)"; kit="$here/cold-play"
-n=""; world=""; as=""; rev="origin/main"; agent="none"; turns=120; dir=""; stop=""
+n=""; world=""; as=""; rev="origin/main"; agent="none"; turns=120; dir=""; stop=""; page=""; query=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --n) n="$2"; shift 2 ;; --world) world="$2"; shift 2 ;; --as) as="$2"; shift 2 ;; --rev) rev="$2"; shift 2 ;;
     --agent) agent="$2"; shift 2 ;; --turns) turns="$2"; shift 2 ;; --dir) dir="$2"; shift 2 ;;
-    --stop) stop="$2"; shift 2 ;;
+    --stop) stop="$2"; shift 2 ;; --page) page="$2"; shift 2 ;; --query) query="$2"; shift 2 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
 done
@@ -24,9 +26,20 @@ if [ -n "$stop" ]; then
   if [ -f "$stop/runner.pgid" ]; then kill -- "-$(cat "$stop/runner.pgid")" 2>/dev/null || true; rm -f "$stop/runner.pgid"; fi
   echo "stopped: $stop"; exit 0
 fi
-[ -n "$n" ] && [ -n "$world" ] && [ -n "$as" ] || { sed -n '2,12p' "$0"; exit 2; }
+[ -n "$n" ] && { [ -n "$page" ] || { [ -n "$world" ] && [ -n "$as" ]; }; } || { sed -n '2,14p' "$0"; exit 2; }
 dir="${dir:-/var/tmp/kyrie/cold/$n}"; tree="/var/tmp/kyrie/cold/$n-tree"
 mkdir -p "$dir"
+if [ -n "$page" ]; then
+  # The deployed page, played where it is served: what it says it was built from (version.json) is what was played.
+  cp "$kit/send.sh" "$kit/show.py" "$dir/"; chmod +x "$dir/send.sh"
+  : > "$dir/lines.txt"; : > "$dir/out.jsonl"; : > "$dir/err.txt"
+  sed -e "s#{DIR}#$dir#g" -e "s#{N}#$n#g" -e "s#{TURNS}#$turns#g" "$kit/prompt.md" > "$dir/prompt.md"
+  built=$(curl -s "${page%/*}/version.json" || echo '?')
+  printf 'the deployed page %s%s, built %s\n' "$page" "$query" "$built" > "$dir/played.txt"
+  setsid bash -c "cd '$repo' && tail -n +1 -f '$dir/lines.txt' | bun scripts/cold-play/page-runner.ts '$page' '$query' \
+    > '$dir/out.jsonl' 2> '$dir/err.txt'" < /dev/null > /dev/null 2>&1 &
+  echo $! > "$dir/runner.pgid"
+else
 # The revision played, in a tree of its own (never the owner's checkout), built as the page would be.
 git -C "$repo" fetch -q origin || true
 if [ -d "$tree" ]; then git -C "$tree" checkout -q --detach "$rev"; else git -C "$repo" worktree add -q --detach "$tree" "$rev"; fi
@@ -41,6 +54,7 @@ printf 'world %s, as %s, at %s (%s)\n' "$world" "$as" "$played" "$rev" > "$dir/p
 setsid bash -c "cd '$tree' && tail -n +1 -f '$dir/lines.txt' | bin/kyrie run --world '$world' --as '$as' \
   > '$dir/out.jsonl' 2> '$dir/err.txt'" < /dev/null > /dev/null 2>&1 &
 echo $! > "$dir/runner.pgid"
+fi
 for _ in $(seq 1 300); do [ -s "$dir/out.jsonl" ] && break; sleep 0.5; done
 [ -s "$dir/out.jsonl" ] || { echo "the runner did not answer: $dir/err.txt" >&2; "$0" --stop "$dir"; exit 1; }
 echo "cold play $n: $(cat "$dir/played.txt"); play directory $dir"
