@@ -16,7 +16,8 @@ const take = async (r: Runner, label: RegExp) => {
   if (!o) { throw new Error(`not offered: ${label} (${offered(r.said()).map(x => x.label).join(' | ')})`); }
   return said(await r.ask(JSON.stringify({ act: o.id })));
 };
-const before = /^Call Mardle out to the reeve, and say what you found before her/;
+// By his office where he has not been met (GR-20), by his name once his ink has been read at his counter.
+const before = /^Call (Mardle|the customs clerk) out to the reeve, and say what you found before her/;
 describe('what was found against Mardle, said before the reeve', () => {
   it('has each of the three answer the drowned four, Bran let out by her ruling and Mardle kept', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
@@ -28,6 +29,9 @@ describe('what was found against Mardle, said before the reeve', () => {
       + 'before the reeve on the green, and have Bran let out.');
     await take(r, /^To the drove pens/);
     await take(r, /^To the landing at Porthalen/);
+    // Mardle not met nor heard of: the act calls out the customs clerk, not a name the company has never heard.
+    expect(offered(r.said()).map(o => o.label).filter(l => before.test(l)))
+      .toEqual(['Call the customs clerk out to the reeve, and say what you found before her']);
     const told = (await take(r, before)).scene.lines.join(' ');
     expect(told).toContain('no drover is held here for beasts the sea took');
     expect(told).toContain('will not look at you');

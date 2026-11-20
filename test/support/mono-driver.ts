@@ -48,6 +48,15 @@ export class MonoDriver {
     await at.hover(); await page.mouse.down(); await page.waitForTimeout(700); await page.mouse.up();
   }
   async key(key: string) { this.presses++; await this.page.keyboard.press(key); await this.settle(); }
+  // Enter held on the keys' highlight, as long as the hold takes (see hold).
+  private async heldKey() {
+    this.presses++;
+    await this.page.keyboard.down('Enter'); await this.page.waitForTimeout(700);
+    await this.page.waitForFunction(() => !('holding' in document.documentElement.dataset), null, { timeout: 5000 })
+      .catch(MonoDriver.none);
+    await this.page.keyboard.up('Enter');
+    await this.settle();
+  }
   async settle() {
     await this.page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
       .kyrieMono.inspect().pending, null, { timeout: 60000 });
@@ -275,7 +284,11 @@ export class MonoDriver {
     }
     for (let i = 0; i <= state.choices.length && (await this.inspect()).selected !== id; i++) { await this.key('ArrowDown'); }
     if ((await this.inspect()).selected !== id) { return false; }
-    await this.key('Enter');
+    // A row that is held (a journey set out on, a night's rest: Hold.holds) is held by the key, as a player holds it:
+    // Enter pressed and let go at once begins a hold and ends it, and nothing is done (cold play 9's "To the
+    // customs-house", T8–T9 and T75: the same screen again, GR-24).
+    const c = state.choices[index]!;
+    if (c.hold === 'sustained' || c.command?.startsWith('travel:')) { await this.heldKey(); } else { await this.key('Enter'); }
     return true;
   }
   // A choice about a subject (its id, or the id without the installation prefix), by the start of its label; then

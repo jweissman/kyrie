@@ -37,4 +37,13 @@ describe('a calling\'s own act', () => {
     await t.perform('change_thing(t__lock_wrench)');
     expect((t.campaign.history.at(-1)?.voiced ?? []).find(v => v.kind === 'feat')?.id).toMatch(/^feat\.brawn\./);
   });
+  it('is told as the companion\'s who did it, by name, not as the one who plays (GR-19)', async () => {
+    const t = await Tiny.start(store.replace('of 1', 'of 2'), { party: [{ name: 'Brann', raceId: 'human', classId: 'warrior' },
+      { name: 'Haze', raceId: 'human', classId: 'thief' }] });
+    await t.perform('change_thing(t__lock_pick)');
+    const feat = (t.campaign.history.at(-1)?.voiced ?? []).find(v => v.kind === 'feat');
+    expect(feat?.id).toMatch(/^feat\.lockwork\.companion\./);
+    expect(feat?.text).toMatch(/^(Haze|It is an old lock and a stiff one\. Haze) /);
+    expect(feat?.text).not.toMatch(/\b[Yy]ou (work|take)\b/);
+  });
 });

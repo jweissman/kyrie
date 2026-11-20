@@ -244,6 +244,9 @@ export class CombatTelling {
     const state = /(ed|ing)$/.test(what.split(' ')[0] ?? '');
     // What cannot bleed does not; "cannot be bleeding" (a warded vessel, round 5) is said of no one.
     if (e.immune && e.against === 'bleed') { return `${who} does not bleed.`; }
+    // What cannot take a wound's infection (the dead) is not said to: "The first zombie cannot be infected." had named
+    // a rule after a blow (cold play 9, GR-17).
+    if (e.immune && e.against === 'infected') { return undefined; }
     if (e.immune) {
       return !what ? `${who} is untouched by it.` : /ing$/.test(what) ? `${who} is proof against ${what}.`
         : state ? `${who} cannot be ${what}.` : `${who} cannot suffer ${what}.`;
@@ -255,7 +258,7 @@ export class CombatTelling {
     // Not "is not bleeding", which reads as news of how they are (the cold evaluation).
     if (e.against === 'bleed') { return `${who} does not bleed from it.`; }
     // In the condition's own words where it has them: "Wenna shrugs off the armor shred" had named a rule the player
-    // was never told (cold play 4, CL-48); "Wenna's armour holds."
+    // was never told (cold play 4, CL-48); "The blow does not tear Wenna's armour."
     const held = e.against ? CombatPresenter.told(e.against, 'held') : undefined;
     if (held) { return held.replaceAll('{target}', who); }
     // A state held off is said of the blow that would have laid it, as the bleeding is: "The old buck rat is not

@@ -50,3 +50,13 @@ Registered as GR-24 (the driver), so that the next page cold play can measure th
 Seen before and registered elsewhere: the companion acting twice running (T37–T38: cold play 5's 20); the drowned
 four with no way to tell Owain or Bran (T7: a design question, the find itself frees Bran by Mardle). What worked is
 in the report: the drove, Mardle's grey, the dungeon under the town, light on a clock, the grave-robber's ways.
+
+## Defect 1, after: the travel rows that did nothing (cold9-fix, 20 November)
+
+The report's first defect, "To the customs-house" (T8–T9) and "To the shrine of Nodens" (T75) doing nothing, is the
+driver's. Replayed headlessly on the deployed sha's lines, through EngineHost (the page's own engine: a `travel`
+request) and through the runner, the walk from the Black Rhyne to the customs-house arrives. On the page a journey
+(travel:) is held (Hold.holds), as every journey is (OR-111). MonoDriver.keyed brought the arrows to the row and pressed
+Enter, down and up at once, which begins a hold and lets it go, so nothing was done and the same screen was read again.
+T95's journey worked because it went by the hand's path, which already held. The keys now hold Enter on a held row
+(test/support/mono-driver.ts). Folded into GR-24.
