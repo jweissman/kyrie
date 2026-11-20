@@ -37,6 +37,47 @@ export class DangerSense {
   private static readonly keeping: Record<string, string> = { prone: 'down', asleep: 'asleep' };
   private static readonly reckoned = new Map<string, Reckoning>();
   static reckon(campaign: Campaign, group: string): Reckoning | undefined {
+    const set = this.setup(campaign, group);
+    if (!set) { return undefined; }
+    const { ours, foes, key, place } = set;
+    const reckoning = this.kept(key, () => {
+      const reckoning = this.judge(this.play(ours, foes, key, place), ours, foes);
+      return place.terms?.yields ? { ...reckoning, text: `${reckoning.text} ${DangerSense.bout}` } : reckoning;
+    });
+    this.foreseen.set(this.lineup(ours, foes), reckoning);
+    if (this.foreseen.size > 200) { this.foreseen.delete(this.foreseen.keys().next().value!); }
+    return reckoning;
+  }
+  // Whether a fight is beyond the company (grave or deadly: Outmatched), as reckon would say, by as few of the same
+  // fights as settle it (OR-145 (b): a quest given that names a band elsewhere had played up to eighteen fights before
+  // its giver's answer, 0.8 s of a1's "Ask Eamon about the king-barrow"). The same fights, keyed as reckon keys them,
+  // in its order and to its count, stopped once the rest could not change which side of the line the odds fall on;
+  // reckon itself where it has been made, or where its count is open (every fight won, played on until sure).
+  static beyond(campaign: Campaign, group: string): boolean {
+    const set = this.setup(campaign, group);
+    if (!set) { return false; }
+    const { ours, foes, key, place } = set, line = ours.length === 1 ? 0.75 : 0.6;
+    const made = this.reckoned.get(key) ?? this.verdicts.get(key);
+    if (made !== undefined) { return typeof made === 'boolean' ? made : DangerSense.grave.has(made.danger); }
+    const played: Trial[] = [];
+    for (let trial = 0; trial < this.trials; trial++) { played.push(this.trial(ours, foes, `${key}:${trial}`, place)); }
+    const first = played.filter(t => t.won).length / this.trials, near = played.some(t => t.won && t.hurt > 0.6);
+    if (first === 1 && !near) { return DangerSense.grave.has(this.reckon(campaign, group)!.danger); }
+    const all = first === 0 ? this.trials : first > 0.3 && first < 0.9 ? this.trials * 3
+      : first < 0.9 || near ? this.trials * 2 : this.trials;
+    let won = played.filter(t => t.won).length;
+    for (let trial = this.trials; trial < all && won / all < line && (won + all - trial) / all >= line; trial++) {
+      if (this.trial(ours, foes, `${key}:${trial}`, place).won) { won++; }
+    }
+    const verdict = won / all < line;
+    if (this.verdicts.size > 200) { this.verdicts.clear(); }
+    this.verdicts.set(key, verdict);
+    return verdict;
+  }
+  private static readonly verdicts = new Map<string, boolean>();
+  static readonly grave: ReadonlySet<Danger> = new Set(['grave', 'deadly']);
+  // Who would fight, the key their fights are seeded by, and where; none where either side has no one standing.
+  private static setup(campaign: Campaign, group: string) {
     const read = campaign.readout;
     const foes = this.standing(campaign, Beside.members(campaign.world, read.inhabitants, group));
     const ours = this.standing(campaign, read.partyIds);
@@ -54,14 +95,8 @@ export class DangerSense {
       (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition), c.state.daily ?? {}])]);
     // A bout is reckoned as it will be fought, and said to be one: the odds of a sparring bout had read as a killing
     // (the Quiet in the Sky's QIS-04).
-    const place = { ...Environment.encounter(campaign.world, campaign.playerActor, [], group), ...dark };
-    const reckoning = this.kept(key, () => {
-      const reckoning = this.judge(this.play(ours, foes, key, place), ours, foes);
-      return place.terms?.yields ? { ...reckoning, text: `${reckoning.text} ${DangerSense.bout}` } : reckoning;
-    });
-    this.foreseen.set(this.lineup(ours, foes), reckoning);
-    if (this.foreseen.size > 200) { this.foreseen.delete(this.foreseen.keys().next().value!); }
-    return reckoning;
+    const place: Place = { ...Environment.encounter(campaign.world, campaign.playerActor, [], group), ...dark };
+    return { ours, foes, key, place };
   }
   // What the company reckoned of a fight before it began, by who would be in it and how each stands: a fight joined
   // is reckoned as it was foreseen until something in it has changed (someone hurt, a spell spent). Each reckoning is

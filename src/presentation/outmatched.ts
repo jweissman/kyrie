@@ -26,7 +26,8 @@ export class Outmatched {
     const bands = named.flatMap(id => byId.get(id)?.space ? w.related('at').filter(r => r.args[1] === id)
       .map(r => r.args[0]!) : [id]).filter(id => id !== actor && byId.get(id)?.type === 'group'
       && w.test(ModuleWriter.call('able', id)) && !(w.relates('peaceable') && w.test(ModuleWriter.call('peaceable', id))));
-    return [...new Set(bands)].find(id => this.beyond.has(DangerSense.reckon(campaign, id)?.danger ?? ''));
+    // Beyond it or not, by as few fights as settle it (DangerSense.beyond: OR-145 (b)).
+    return [...new Set(bands)].find(id => DangerSense.beyond(campaign, id));
   }
   // Whoever would go along, and where, while the aim followed leads into a fight the company reckons beyond it alone:
   // the place then leads with the help as it leads with the aim (OR-64; see Affordances' help).
