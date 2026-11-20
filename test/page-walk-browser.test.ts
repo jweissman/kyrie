@@ -39,7 +39,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     expect(await page.locator('.stage').innerText()).toMatch(/four in all/);
     // A walk about the town is held (T8-T9: pressed and let go, it had done nothing).
     expect((await act('travel:drove__customs')).place?.id).toBe('drove__customs');
-    // Out of Porthalen by the map: a journey the map rows, set out on there.
+    // Back out of doors (the country's journeys are set out on from the town's open places, not from inside a house),
+    // then out of Porthalen by the map: a journey the map rows, set out on there.
+    await act('exit:region__s1_green');
     // Reedbridge, the golden route's road out, which the engine puts on the map (DoableJourneys), not in the rest.
     const now = await d.inspect(), here = new Set((now.path ?? []).map(p => p.name)), far = 'travel:region__s5';
     const after = await act(far);
