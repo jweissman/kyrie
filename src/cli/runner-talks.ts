@@ -1,43 +1,42 @@
 import type { Act, Screen } from '../ui/screen-types';
 import { TalkFocus } from '../ui/talk-focus';
-import { Typography } from '../presentation/typography';
 import type { Offered } from './runner';
+import { Doable, type Row } from '../presentation/doable';
 
-// What can be said to each of the people here, one row a person, as the page holds it under their talk (CL-07, the
-// cold plays: 30 asks to six people in the rest at the Stone Horn). The one the company is talking with (see
-// Runner.with) has theirs first, talk before trade; anyone else is their talk alone: its own row where it is one
-// ("Talk to Kynes", a world act), else talk:<id>, which turns to them taking no time.
+// What can be said to each of the people here, as the engine holds it (MT-18, mt18-grouping.md): a row within a
+// person's talk (Doable's within) is drawn when the company turns to them, by their talk (talk_to, the engine's own
+// row for them, bearing the fold of what it holds); never grouped by rules of the runner's own. The one the company is
+// talking with (see Runner.with) has theirs first, talk before trade. A ware on a thing's shelf stays the thing's.
 export class RunnerTalks {
-  static talks(screen: Screen, rest: Offered[], primary: Offered[], talking?: string): Offered[] {
-    const whose = this.whose(screen, [...primary, ...rest]), paid = this.services(screen);
-    const many = new Set([...whose.values()].filter((p, i, all) => all.indexOf(p) !== i && p !== talking));
+  static talks(screen: Screen, rows: readonly Row[], rest: Offered[], talking?: string): Offered[] {
+    const whose = this.whose(rows), paid = this.services(screen);
+    const shelved = new Set(screen.things.flatMap(t => this.flat(t.acts)).flatMap(a => a.command ? [a.command] : []));
     const theirs = rest.filter(o => talking && whose.get(o.id) === talking);
-    const out: Offered[] = [...theirs.filter(o => !paid.has(o.id)), ...theirs.filter(o => paid.has(o.id))];
-    const led = new Set(primary.map(o => whose.get(o.id) && /^talk_to\(/.test(o.id) ? whose.get(o.id) : ''));
-    // What also stands under a thing here is the thing's as much as theirs, as the page holds it: a ware, bought off
-    // the shelf it is on (the general store at Porthalen had shown its haggling and none of its buying, folded under
-    // Marjory Ashby's talk: cold play 4, CL-50).
-    const told = new Set<string>(), shelved = new Set(screen.things.flatMap(t => this.flat(t.acts))
-      .flatMap(a => a.command ? [a.command] : []));
-    for (const o of rest.filter(x => !theirs.includes(x))) {
-      const p = whose.get(o.id);
-      if (!p || !many.has(p) || shelved.has(o.id)) { out.push(o); continue; }
-      if (told.has(p) || led.has(p)) { continue; }
-      told.add(p);
-      const own = rest.find(x => x.id === `talk_to(${p})`), name = screen.people.find(x => x.id === p)!.name;
-      out.push({ ...own ?? { id: `talk:${p}`, label: Typography.plain(this.called(screen, p)
-        ?? `Talk to ${name.split(', ')[0]}`), type: 'talk' as const, marks: [] },
-      aspects: [...new Set(rest.filter(x => whose.get(x.id) === p).flatMap(x => x.aspects))] });
-    }
-    return out;
+    const loose = rest.filter(o => !theirs.includes(o) && (!whose.has(o.id) || shelved.has(o.id)));
+    return [...theirs.filter(o => !paid.has(o.id)), ...theirs.filter(o => paid.has(o.id)), ...loose,
+      ...this.holders(rows, rest, loose, whose)].map(o => {
+      const p = /^talk_to\((.+)\)$/.exec(o.id)?.[1], held = p ? rest.filter(x => whose.get(x.id) === p) : [];
+      return held.length ? { ...o, aspects: [...new Set([...o.aspects, ...held.flatMap(x => x.aspects)])] } : o;
+    });
   }
-  // Each command done with one of the people here, by whom: their own acts as the screen holds them under them.
-  // A word asked of someone (ask(informant, topic)) is theirs too, where the screen holds it apart from them.
-  static whose(screen: Screen, rest: Offered[] = []): Map<string, string> {
-    const here = screen.people.filter(p => p.kind === 'person' && !p.state), ids = new Set(here.map(p => p.id));
-    return new Map([...rest.flatMap(o => [/^ask\(([^,]+),/.exec(o.id)?.[1] ?? ''].filter(p => ids.has(p))
-      .map(p => [o.id, p] as const)),
-    ...here.flatMap(p => this.flat(p.acts).flatMap(a => a.command ? [[a.command, p.id] as const] : []))]);
+  // The engine's talk of each person whose acts are held within it and who is not otherwise drawn by it: led for a
+  // question (the four drawn as that question), their talk is still offered, so that what it holds can be reached
+  // (Kynes at the Stone Horn, led for what the waterfront is saying, her other words and her trade had gone). It is
+  // offered as the engine has it: by what it does, or, a companion's that only holds, by its own id.
+  private static holders(rows: readonly Row[], rest: Offered[], drawn: Offered[], whose: Map<string, string>):
+    Offered[] {
+    const people = [...new Set(rest.flatMap(o => whose.get(o.id) ?? []))];
+    return people.filter(p => !drawn.some(o => o.id === `talk_to(${p})`)).flatMap(p => {
+      const row = Doable.flat(rows).find(r => r.id === `${p}#talk`);
+      return row ? [{ id: row.does ?? row.id, label: row.label, aspects: [], type: 'talk' as const, marks: [] }] : [];
+    });
+  }
+  // Each command done with one of the people here, by whom, as the engine holds it (Doable's within).
+  static whose(rows: readonly Row[]): Map<string, string> {
+    return new Map(Doable.flat(rows).flatMap(r => {
+      const p = /^(.+)#talk$/.exec(r.within ?? '')?.[1];
+      return p && r.does ? [[r.does, p] as const] : [];
+    }));
   }
   // What is had of someone for coin or work, said after what is said to them (TalkFocus.services: the page's own, and
   // the haggling and buying of a trader's wares, which the page keeps with them).

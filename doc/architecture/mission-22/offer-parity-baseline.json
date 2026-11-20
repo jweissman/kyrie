@@ -1,10 +1,10 @@
 {
  "about": "What the runner offers that the engine does not, and the reverse, over the golden walks (MT-18, scripts/offer-parity.ts): kept so that none is added; each removed is taken off.",
  "kinds": {
-  "engine only": 28,
+  "engine only": 27,
   "lead names no row": 2,
   "named apart": 88,
-  "runner only": 23,
+  "runner only": 16,
   "words": 8
  },
  "divergences": [
@@ -17,7 +17,6 @@
   "engine only: follow:pans__cold_fetch",
   "engine only: follow:pans__cold_told",
   "engine only: follow:region__e1_sought",
-  "engine only: pans__pole_boat",
   "engine only: travel:drove__customs",
   "engine only: travel:pans__boiling",
   "engine only: travel:region__s1_byre",
@@ -126,13 +125,6 @@
   "named apart: region__s5_th_veteran…",
   "named apart: region__s5_tie_heir…",
   "named apart: region__w8_head…",
-  "runner only: talk:pans__ianto",
-  "runner only: talk:region__s1_innkeeper",
-  "runner only: talk:region__s1_merchant",
-  "runner only: talk:region__s1_traveller",
-  "runner only: talk:region__s4_merchant",
-  "runner only: talk:region__s5_merchant",
-  "runner only: talk:region__s5_r4",
   "runner only: travel:region__e1",
   "runner only: travel:region__edge_east",
   "runner only: travel:region__edge_north",
