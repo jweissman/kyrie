@@ -127,26 +127,12 @@ export class Stage {
     }
     return Stage.fresher.get(frame)!;
   }
-  // Yourself, at a glance: how you are, what ails you, what you have to spend and to eat, and your light if it matters.
-  // How you are and what you have, and under it what being down means for whoever is: it had been only in the Book,
-  // while the page offered to strip the one lying senseless of their bow and their mail (the cold evaluation).
-  static Me({ screen }: { screen: Screen }) {
-    const me = screen.party[0];
-    if (!me) { return null; }
-    return <>
-      <p className="me">{me.portrait && <img className="face" src={me.portrait.src} alt="" decoding="async"
-        style={{ objectPosition: `50% ${me.portrait.focus}%` }} />}<b>{me.name}</b>
-        <span className={me.hp < me.maxHp ? 'hurt' : undefined}>{Words.hurt(me.hp, me.maxHp)}</span>
-        {[...new Set(me.conditions)].map(c => <span key={c} className="hurt">{c.toLowerCase()}</span>)}
-        {screen.expedition.hungry && <span className="hurt">hungry</span>}
-        {screen.expedition.weary && <span className="hurt">weary</span>}
-        <span data-id="purse">{screen.purse.coin} {screen.purse.currency ?? 'coin'}</span>
-        <span>
-          {screen.purse.rations} {screen.purse.rations === 1 ? 'ration' : 'rations'}</span>
-        {screen.expedition.light && <span className="light" data-id="light">{Typography.curl(screen.expedition.light)}</span>}
-      </p>
-      {screen.party.filter(m => m.fallen).map(m => <p key={m.id} className="fallen" data-id="fallen">
-        <b>{Typography.curl(m.name)}</b> {Typography.curl(m.fallen!.replace(/^(\w+): /, (_, how: string) => `is ${how.toLowerCase()}: `))}</p>)}
-    </>;
+  // What the company has to spend and to eat, said quietly under where and when, on every page of play (CL-66: it had
+  // been drawn only by PlaceStage.You, which nothing rendered, so the purse was in the Book alone). A reading, not a
+  // control.
+  static Purse({ screen }: { screen: Screen }) {
+    const p = screen.purse;
+    return <p className="stage-purse" data-id="purse">
+      {`${p.coin} ${p.currency ?? 'coin'} · ${p.rations} ${p.rations === 1 ? 'ration' : 'rations'}`}</p>;
   }
 }

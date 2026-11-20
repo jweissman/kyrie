@@ -90,6 +90,7 @@ export class Told {
         ? `Into ${heading.title}` : heading.title)}</p>}
       <h1 className="place" data-id="place">{Typography.curl(Words.upper(frame.screen.place.name))}</h1>
       <Stage.When frame={frame} {...app ? { app } : {}} />
+      <Stage.Purse screen={frame.screen} />
     </>;
   }
   // The way here, on arriving: a journey along known ways leg by leg, or what the way was like.

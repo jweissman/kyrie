@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Glyphs } from '../creation/glyphs';
 import type { Choice } from '../../../src/ui/choice-list';
-import { SceneModel, type SceneSubject } from '../../../src/ui/scene';
+import type { SceneSubject } from '../../../src/ui/scene';
 import type { ExitRow, Screen } from '../../../src/ui/screen-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
@@ -9,7 +9,6 @@ import { Scenery } from '../../../src/ui/scenery';
 import { Likeness } from '../../../src/paintings/likeness';
 import { Words } from '../../../src/presentation/words';
 import { Act, type Draw } from './act';
-import { Stage } from './stage';
 import { Told } from './told';
 import { GlanceStage } from './glance';
 import { Raised } from './raised';
@@ -222,16 +221,5 @@ export class PlaceStage {
   static hurt(screen: Screen, name: string): string | undefined {
     const m = screen.party.slice(1).find(p => p.name === Words.short(name));
     return m && m.hp < m.maxHp ? Words.hurt(m.hp, m.maxHp) : undefined;
-  }
-  // Yourself, at the end of what is here: how you are and what you have, and what you can do of yourself (wait,
-  // search, rest). It had stood across the foot of the screen, under everything, with the ways (the owner's report).
-  static You({ app, draw }: { app: ReaderApp; draw: Draw }) {
-    const scene = app.menu.scene!, screen = app.state.frame!.screen;
-    return (
-      <section className="you" data-region="party" aria-label="Yourself">
-        <Stage.Me screen={screen} />
-        <Act.List choices={scene.you.filter(c => !SceneModel.own(c))} draw={draw} className="small yours" />
-      </section>
-    );
   }
 }
