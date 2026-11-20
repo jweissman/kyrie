@@ -230,7 +230,9 @@ export class GlanceStage {
           {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
         {/* What can change the world is drawn as a thing to do, a row with its line at the left, not a bare link (the
             owner, 12 November: "The dues-receipt nailed to the post…" as a link); only the ways on stay quiet words. */}
-        {posted && !drawn.some(d => d?.id === posted.id) && <ChoiceRow.Act choice={posted} draw={draw} quiet
+        {/* Not beside the engine's four where it offers them: the notice is then one of them, or no act drawn here (a
+            fifth item at a1's camp, the sellsword in the fourth place: foreground-browser, MT-18). */}
+        {posted && !offer && !drawn.some(d => d?.id === posted.id) && <ChoiceRow.Act choice={posted} draw={draw} quiet
           className="opener opens-posted as-act" plain="neutral" label={Typography.curl(posted.label)} />}
         {/* Its mark its witness's own (the trust contracts): it had been gold for any act the place led with. */}
         {yours && <ChoiceRow.Act choice={yours} draw={draw} quiet className="opener opens-yours led as-act"
