@@ -7,7 +7,7 @@ import { FictionalTime } from '../campaign/fictional-time';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
 import { ObservationText } from '../lang/observation-text';
-import { AimWords } from './aim-words';
+import { AimWords } from './aim-words'; import { SiteOutsides } from './site-outsides';
 import type { Promoted } from './glance-types';
 import { Stories } from './stories';
 
@@ -168,8 +168,7 @@ export class Undertakings {
     const named = [...Stakes.named(campaign, o)].filter(id => byId.get(id)?.space);
     // A site's outside: a place outside the site a way joins to one of its rooms.
     const inside = new Map(named.flatMap(id => { const s = this.site(byId, id); return s ? [[id, s] as const] : []; }));
-    const joined = w.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const)
-      .flatMap(([a, b]) => inside.has(a) && this.site(byId, b) !== inside.get(a) ? [b] : []);
+    const joined = SiteOutsides.joins(w, byId).flatMap(([a, b]) => inside.has(a) ? [b] : []);
     const around = named.flatMap(id => Spatial.ancestry(byId, id).slice(1)
       .filter(e => !['plane', 'region'].includes(e.space?.kind ?? '')).map(e => e.id));
     // And where whoever it names is found, where its words do not say (see AimWords): tell Kellen the dead are still.

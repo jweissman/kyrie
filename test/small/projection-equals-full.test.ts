@@ -136,6 +136,13 @@ describe('what is kept from world to world, against working it out afresh', () =
     names.set('a', 'Anna');
     expect(part(w1, 'there')).toBe('Anna3');
     expect(part(w1.apply([Twins.fact('assert', 'c', 'b')]), 'there')).toBe('Anna4');
+    // An install adds to the module's entities in place: a part that went through them is read again.
+    const w2 = new World({ ...Twins.knowing, entities: [] }, { relations: [ModuleWriter.call('knows', 'c', 'a')],
+      measures: [] });
+    const count = () => KeptParts.of(w2, 'twins', '', () => `${w2.module.entities.length}:${++reads}`);
+    expect([count(), count()]).toEqual(['0:5', '0:5']);
+    w2.module.entities.push({ id: 'e', type: 'thing', name: 'e' });
+    expect(count()).toBe('1:6');
   });
   // The offered actions grounded together (KeptGroundings.all), asked again in the same world within a reading: what
   // they read is still read there, though none is grounded again.

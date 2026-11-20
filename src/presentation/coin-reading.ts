@@ -25,7 +25,7 @@ export class CoinReading {
   static read(campaign: Campaign): Short[] {
     const world = campaign.world, actor = campaign.playerActor, hit = this.cache.get(campaign);
     if (hit?.world === world) { return hit.short; }
-    const priced = new Set(campaign.module.actions.filter(a => this.prices(a.requires).length).map(a => a.id));
+    const priced = this.priced(campaign.module.actions);
     if (!actor || !priced.size || !world.module.measures.some(m => m.name === 'quantity')) { return []; }
     const have = world.number(ModuleWriter.call('quantity', actor, 'gold'));
     const rich = world.apply([{ kind: 'set', call: ModuleWriter.call('quantity', actor, 'gold'),
@@ -39,6 +39,15 @@ export class CoinReading {
         .map(p => world.number(p.right))) }));
     this.cache.set(campaign, { world, short });
     return short;
+  }
+  // The actions with a price, found once for a module's actions (again where they grow), not for every page.
+  private static readonly pricing = new WeakMap<readonly Operator[], { length: number; priced: Set<string> }>();
+  private static priced(actions: readonly Operator[]): Set<string> {
+    const had = this.pricing.get(actions);
+    if (had?.length === actions.length) { return had.priced; }
+    const priced = new Set(actions.filter(a => this.prices(a.requires).length).map(a => a.id));
+    this.pricing.set(actions, { length: actions.length, priced });
+    return priced;
   }
   // Why it cannot be done: "It costs 6 coin, and you have 5."
   static why(s: Short): string { return `It costs ${s.cost} coin, and you have ${s.have}.`; }

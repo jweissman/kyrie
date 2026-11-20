@@ -20,11 +20,20 @@ export class RefusalReading {
     if (p.kind === 'and' || p.kind === 'or') { this.hosts(p.left, out); this.hosts(p.right, out); }
     return out;
   }
+  // The actions someone may refuse, found once for a module's actions (again where they grow), not for every page.
+  private static readonly gating = new WeakMap<readonly Operator[], { length: number; gated: Set<string> }>();
+  private static gated(actions: readonly Operator[]): Set<string> {
+    const had = this.gating.get(actions);
+    if (had?.length === actions.length) { return had.gated; }
+    const gated = new Set(actions.filter(a => this.hosts(a.requires).length).map(a => a.id));
+    this.gating.set(actions, { length: actions.length, gated });
+    return gated;
+  }
   static read(campaign: Campaign): Refused[] {
     const world = campaign.world, actor = campaign.playerActor, hit = this.cache.get(campaign);
     if (hit?.world === world) { return hit.refused; }
     const refusals = actor ? world.related('refusesService').filter(r => r.args[1] === actor) : [];
-    const gated = new Set(campaign.module.actions.filter(a => this.hosts(a.requires).length).map(a => a.id));
+    const gated = this.gated(campaign.module.actions);
     if (!actor || !refusals.length || !gated.size) { return []; }
     const served = world.apply(refusals.map(r => ({ kind: 'retract' as const,
       call: ModuleWriter.call('refusesService', ...r.args) })));

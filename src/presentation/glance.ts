@@ -20,7 +20,7 @@ import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead';
 import { Perception } from './perception'; import { Companions } from './companions';
 import { Outmatched } from './outmatched'; import { CompanyRecall } from './company-recall';
 import { Acquainted } from './acquainted'; import { DecisionFrame } from './decision-frame';
-import { GlanceLines } from './glance-lines';
+import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
 import { PlayerView } from './player-view'; import { TalkingWith } from './talking-with';
 import type { Told } from './narrator';
@@ -385,11 +385,7 @@ export class Glance {
     const town = screen.path.some(p => p.kind === 'settlement');
     // A site's outside (the mound a barrow's door is in) is the way into it too: a place outside any site a way joins
     // to one of its rooms (the barrow's mound, beside the wood, had been only under Every way).
-    const outsides = new Map(campaign.world.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!],
-      [r.args[2]!, r.args[1]!]] as const).flatMap(([a, b]) => {
-      const site = this.siteOf(byId, b);
-      return site && !this.siteOf(byId, a) ? [[a, site] as const] : [];
-    }));
+    const outsides = SiteOutsides.of(campaign.world, byId);
     // From a town's own ground, only a way down into a site under it: the Hall and the old stones on the hill, a walk
     // from the landing, had been led as "further in" ahead of the town's own people (Mission 20's outskirts).
     const inward = new Set(screen.exits.filter(e => {
@@ -424,7 +420,7 @@ export class Glance {
     return new Set(exit ? [`^${exit.id}`] : []);
   }
   private static siteOf(byId: Map<string, Entity>, id: string): string | undefined {
-    return Spatial.ancestry(byId, id).find(a => a.space?.kind === 'site')?.id;
+    return SiteOutsides.siteOf(byId, id);
   }
   // The first place on the way to a place: within the area when it lies in it, two legs away at most when not; by the
   // known ways (KnownWays), the quickest first, or only those the company can take now (able).

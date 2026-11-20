@@ -33,6 +33,7 @@ import { Seats } from '../world/seats'; import { TalkWeight } from '../presentat
 import { Stakes } from './stakes'; import { Quarters } from './quarters'; import { TownPlan } from './town-plan'; import { Undertakings } from '../presentation/undertakings';
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 import { Deeds } from '../presentation/deeds';
+import { KeptParts } from './kept-parts';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
 export class ScreenModel {
@@ -100,11 +101,12 @@ export class ScreenModel {
       screen.expedition.flame),
       ...TownPlan.of(screen, entities, world, { visited, recall: CompanyRecall.of(campaign) }) };
   }
-  // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity.
+  // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity;
+  // kept from one world to the next while no price read is written (see KeptParts).
   private static prices(world: World): Map<string, number> {
     if (!world.module.measures.some(m => m.name === 'price')) { return new Map(); }
-    return new Map(EntityIndex.of(world.module.entities).typed('item')
-      .map(e => [e.id, world.number(ModuleWriter.call('price', e.id))]));
+    return KeptParts.of(world, 'prices', '', () => new Map(EntityIndex.of(world.module.entities).typed('item')
+      .map(e => [e.id, world.number(ModuleWriter.call('price', e.id))])));
   }
   // What things cost: a service's fee, goods by the measure, and what a sale fetches (what a buyer pays for a kind, and
   // what a valuable is worth).

@@ -4,7 +4,7 @@ import { KeptReading, type Kept } from '../lang/kept-reading';
 import { AskedNames } from './asked-names';
 import type { Names } from './known-names';
 
-type Part = Kept<unknown> & { from: string; asked?: ReadonlyMap<string, string | undefined> };
+type Part = Kept<unknown> & { from: string; shape: string; asked?: ReadonlyMap<string, string | undefined> };
 // A part of the page kept from one world to the next of its line, of the same module, while nothing it read of the
 // world has been written, or nothing of what it picked of a name written (see KeptReading), and what else it was
 // worked out from is as it was: `from`, said in words by the part (where the company has been, read from the log; the
@@ -16,22 +16,28 @@ export class KeptParts {
   static of<T>(world: World, key: string, from: string, read: () => T): T {
     const kept = this.by.get(world.module) ?? new Map<string, Part>();
     this.by.set(world.module, kept);
-    const was = kept.get(key);
-    if (was && was.from === from && KeptReading.holds(world, was)) { return was.value as T; }
+    const was = kept.get(key), shape = this.shape(world.module);
+    if (was && was.from === from && was.shape === shape && KeptReading.holds(world, was)) { return was.value as T; }
     const now = KeptReading.read(world, read);
-    if (now.kept) { kept.set(key, { ...now.kept, from }); } else { kept.delete(key); }
+    if (now.kept) { kept.set(key, { ...now.kept, from, shape }); } else { kept.delete(key); }
     return now.value;
+  }
+  // A module's entities, actions and observations as they stand: an install adds to them, and a part that went
+  // through them (every item's price, every place's quarter) is then read again.
+  private static shape(m: Module): string {
+    return [m.entities, m.actions, m.observations].map(xs => `${this.token(xs)}.${xs?.length ?? 0}`).join(':');
   }
   // A part worded by the names the company knows things by: kept while each name it asked is still what it was.
   static named<T>(world: World, key: string, at: { from: string; names: Names }, read: (names: Names) => T): T {
     const { from, names } = at, kept = this.by.get(world.module) ?? new Map<string, Part>();
     this.by.set(world.module, kept);
-    const was = kept.get(key);
-    if (was?.asked && was.from === from && AskedNames.same(was.asked, names) && KeptReading.holds(world, was)) {
+    const was = kept.get(key), shape = this.shape(world.module);
+    if (was?.asked && was.from === from && was.shape === shape && AskedNames.same(was.asked, names)
+      && KeptReading.holds(world, was)) {
       return was.value as T;
     }
     const asking = new AskedNames(names), now = KeptReading.read(world, () => read(asking));
-    if (now.kept) { kept.set(key, { ...now.kept, from, asked: asking.asked }); } else { kept.delete(key); }
+    if (now.kept) { kept.set(key, { ...now.kept, from, shape, asked: asking.asked }); } else { kept.delete(key); }
     return now.value;
   }
   // An object said by a token of its own: the same object, the same token; another, another.
