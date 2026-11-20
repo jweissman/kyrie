@@ -20,6 +20,7 @@ import { Masked } from './masked'; import { EntityIndex } from '../lang/entity-i
 import { Frozen } from './frozen'; import { Costs } from '../costs'; import { Chronicle } from './chronicle';
 import { CompanyKnowledge } from './company-knowledge';
 import { CompanyMap } from './company-map'; import { Undertakings } from './undertakings';
+import { QueryIndex } from '../lang/query-index';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -186,7 +187,7 @@ export class PlayerView {
     const ways = world.related('guards', id).map(r => r.args[1]);
     return ways.length > 0 && this.test(world, 'able', id)
       && ways.some(w => world.related('connects', w!).some(r => r.args[1] === here))
-      && world.module.queries.some(q => q.name === 'watched')
+      && !!QueryIndex.of(world.module, 'watched')
       && ways.some(w => world.test(ModuleWriter.call('watched', w!)));
   }
   private static lasting(statuses: { id: string; remaining: number; clock?: string }[]):
@@ -196,7 +197,7 @@ export class PlayerView {
   }
   // Unable to see here: an unlit place without a light, or one where light dies, without sunlight.
   private static benighted(world: World, actor: string, place: string): boolean {
-    return world.module.queries.some(q => q.name === 'benighted') ? world.test(ModuleWriter.call('benighted', actor))
+    return QueryIndex.of(world.module, 'benighted') ? world.test(ModuleWriter.call('benighted', actor))
       : this.test(world, 'unlit', place) && !this.test(world, 'capable', actor, 'light');
   }
   // What the company perceives turns on the world and, beside it, the campaign's clock, creatures and log. A page asks

@@ -9,6 +9,7 @@ import { Depth } from './depth';
 import { EntityIndex } from '../lang/entity-index';
 import { HexBoundary } from '../hex-boundary';
 import { ModuleWriter } from '../lang/module-writer';
+import { QueryIndex } from '../lang/query-index';
 
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
@@ -190,7 +191,7 @@ export class Passages {
   private lurking(here: string, there: string): boolean {
     const w = this.world;
     if (!w.relates('lurks')) { return false; }
-    const dark = w.module.queries.some(q => q.name === 'benighted') ? w.test(ModuleWriter.call('benighted', this.actor))
+    const dark = QueryIndex.of(w.module, 'benighted') ? w.test(ModuleWriter.call('benighted', this.actor))
       : w.test(ModuleWriter.call('unlit', here));
     return !dark && w.related('lurks').some(r => r.args[1] === there && w.one('at', r.args[0]!) === there
       && w.test(ModuleWriter.call('able', r.args[0]!)));

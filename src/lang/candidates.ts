@@ -1,6 +1,7 @@
 import type { Call, Predicate, Query, Value } from './module';
 import { ComputedRelations } from './computed-relations';
 import type { World } from './world';
+import { QueryIndex } from './query-index';
 
 type Binding = Record<string, string>;
 // The bindings that might satisfy a predicate: every one that does, and perhaps others. Facts are joined as
@@ -19,7 +20,7 @@ export class Candidates {
     }
   }
   private static *call(world: World, p: Call, b: Binding): Generator<Binding> {
-    const query = world.module.queries.find(q => q.name === p.name);
+    const query = QueryIndex.of(world.module, p.name);
     if (query) { yield* this.ask(world, query, p.args.map(a => this.value(a, b)), b); return; }
     // Two parties distinct, a thing within an area: a test of what is bound, proposing nothing.
     if (ComputedRelations.has(p.name)) { if (this.open(p, b) || world.test(p, this.flat(b))) { yield b; } return; }

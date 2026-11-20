@@ -6,6 +6,7 @@ import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { PlayerSnapshot } from './player-view';
 import { VisitedPlaces } from './visited-places';
 import { ChoiceGrouping } from '../ui/choice-grouping';
+import { QueryIndex } from '../lang/query-index';
 
 // What the company knows, and how: seen with its own eyes, found in a source, read, or heard from someone; and when
 // it learned it.
@@ -88,7 +89,7 @@ export class CompanyKnowledge {
   }
   // A query (carries) as well as a relation.
   private static asks(world: World, name: string, ...args: string[]): boolean {
-    return world.module.queries.some(q => q.name === name) && world.test(ModuleWriter.call(name, ...args));
+    return !!QueryIndex.of(world.module, name) && world.test(ModuleWriter.call(name, ...args));
   }
   private static holds(world: World, name: string, ...args: string[]): boolean {
     return world.relates(name) && world.test(ModuleWriter.call(name, ...args));

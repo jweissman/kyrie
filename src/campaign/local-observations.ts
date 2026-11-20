@@ -5,6 +5,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { KeptPredicates } from '../lang/kept-predicates';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../spatial';
+import { QueryIndex } from '../lang/query-index';
 
 // Explicitly authored local claims. Reading a description does not grant formal knowledge. A claim is anchored at a
 // place, near an entity wherever it now is (or across a way it guards), beside a passage (perceived from either
@@ -66,7 +67,7 @@ export class LocalObservations {
     if (!entity) { return true; }
     const seen = world.module.seen?.[entity];
     if (seen && !world.test(seen, { '?viewer': actor })) { return false; }
-    if (!world.module.queries.some(q => q.name === 'noticed')) { return true; }
+    if (!QueryIndex.of(world.module, 'noticed')) { return true; }
     return world.test(ModuleWriter.call('noticed', entity, actor));
   }
   // Whether the company brings what it takes to notice something (the old script, an eye for stone).

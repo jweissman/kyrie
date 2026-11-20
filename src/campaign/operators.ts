@@ -6,6 +6,7 @@ import type { World } from '../lang/world';
 import { Candidates } from '../lang/candidates';
 import { PresenceGate } from './presence-gate';
 import { EntityIndex } from '../lang/entity-index';
+import { KeptGroundings } from './kept-groundings';
 
 type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
@@ -58,20 +59,24 @@ export class Operators {
       const parameters = schema.parameters ?? [];
       if (actor !== undefined && !parameters.some(p => p.name === 'actor')) { continue; }
       if (actor !== undefined && !ActionSchemas.mayAct(schema, actor, this.actors)) { continue; }
-      // A candidate's precondition is the schema's under its binding (World.test binds a schema's parameters as an
-      // action made of it has them bound), so only the candidates it holds for are made into actions.
-      if (!parameters.length) {
-        if (world.test(schema.requires) && world.admits(schema.success)) { out.push(schema); }
-        continue;
-      }
-      // Not where whoever it needs beside the actor is not (see PresenceGate): a word with someone elsewhere.
-      if (actor !== undefined && !PresenceGate.open(world, schema, actor)) {
-        if (Operators.checking) { this.unneeded(world, schema, actor); }
-        continue;
-      }
-      out.push(...this.grounded(world, schema, actor));
+      out.push(...this.groundings.of(world, schema, actor, this.schemaOps.bind(this, world, schema, actor)));
     }
     return out;
+  }
+  // What one schema grounds to (kept from world to world: see KeptGroundings).
+  private readonly groundings = new KeptGroundings();
+  private schemaOps(world: World, schema: Operator, actor?: string): Operator[] {
+    // A candidate's precondition is the schema's under its binding (World.test binds a schema's parameters as an
+    // action made of it has them bound), so only the candidates it holds for are made into actions.
+    if (!schema.parameters?.length) {
+      return world.test(schema.requires) && world.admits(schema.success) ? [schema] : [];
+    }
+    // Not where whoever it needs beside the actor is not (see PresenceGate): a word with someone elsewhere.
+    if (actor !== undefined && !PresenceGate.open(world, schema, actor)) {
+      if (Operators.checking) { this.unneeded(world, schema, actor); }
+      return [];
+    }
+    return this.grounded(world, schema, actor);
   }
   private grounded(world: World, schema: Operator, actor?: string): Operator[] {
     return this.bindings(world, schema, actor !== undefined ? { actor } : {})
