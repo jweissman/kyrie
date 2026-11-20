@@ -28,6 +28,7 @@ import { RunnerEnding } from './runner-ending';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Obituary } from '../narrative/obituary';
 import { FightBegun } from '../presentation/fight-begun';
+import { ChoiceIds } from '../ui/choice-ids';
 
 // One choice as the runner offers it: its id is the command that does it, the real choice id (PlayerView), so that an
 // agent acts on what the page and the terminal would have it act on.
@@ -147,12 +148,19 @@ export class Runner {
   }
   // The glance's own offer (Offers.scene) as rows that can be done (RunnerOffer, from Doable): its four and its rest.
   private offer(screen: Screen, g: Leaf['glance']) { return RunnerOffer.of(screen, g, this.names(), this.with); }
+  // A row by its id, by what it does, or by the id an older build kept it by (its place among its siblings: ChoiceIds).
+  private static row<T extends { id: string; does?: string }>(all: T[], id: string): T | undefined {
+    const kept = all.find(x => x.id === id) ?? all.find(x => x.does === id);
+    if (kept) { return kept; }
+    const now = ChoiceIds.resolve(id, all.map(x => x.id));
+    return now === undefined ? undefined : all.find(x => x.id === now);
+  }
   // The command a row offered now does, asked by the engine's id or by the command (as the step above finds it), for a
   // client given commands (a page's kyrieMono.act); the id as it is where nothing offered answers it.
   does(id: string): string {
     const screen = this.standing.screen, { offer: o, under } = this.offer(screen, this.glanced());
     const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
-    return (all.find(x => x.id === id) ?? all.find(x => x.does === id))?.does ?? id;
+    return Runner.row(all, id)?.does ?? id;
   }
   // Why an act asked for is not offered, where the page knows (cold play 3, CL-21: talk_to the boy refused, saying
   // nothing): someone here is talked to by their row; one not here cannot be.
@@ -209,7 +217,7 @@ export class Runner {
     const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
     const offered = all.flatMap(x => [x.id, ...x.does ? [x.does] : []]).concat(g?.next?.command ?? []);
     // The row asked for, by its id or by what it does; and what taking it does.
-    const row = all.find(x => x.id === asked.act) ?? all.find(x => x.does === asked.act), act = row?.does ?? asked.act;
+    const row = Runner.row(all, asked.act), act = row?.does ?? asked.act;
     // Turning to someone with acts held within their talk takes no time: by the engine's holder (<person>#talk) where
     // it does nothing of its own (a companion's, which only holds; one the four lead for an act does that act: TB-01),
     // or by talk:<person>, as the cold plays' kept lines turned to people before the engine held a person's acts

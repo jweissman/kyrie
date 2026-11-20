@@ -21,6 +21,7 @@ import { Frozen } from './frozen'; import { Costs } from '../costs'; import { Ch
 import { CompanyKnowledge } from './company-knowledge';
 import { CompanyMap } from './company-map'; import { Undertakings } from './undertakings';
 import { QueryIndex } from '../lang/query-index';
+import { ChoiceIds } from '../ui/choice-ids';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -164,7 +165,10 @@ export class PlayerView {
   // architecture review's H2: a legal action the page folded away could not be done, and a game kept by one build's
   // wording could fail to play again by another's).
   static resolve(campaign: Campaign, command: string): string {
-    const match = this.choices(campaign).find(c => c.choice.id === command);
+    const rows = this.choices(campaign);
+    // By its id, or by the id an older build kept it by, its place among its siblings in it (ChoiceIds).
+    const id = ChoiceIds.resolve(command, rows.map(c => c.choice.id));
+    const match = id === undefined ? undefined : rows.find(c => c.choice.id === id);
     if (match) { return match.action.id; }
     if (campaign.offered().some(a => a.id === command)) { return command; }
     throw Crossing.withheld(campaign, command) ?? new Error(`Unavailable command: ${command}`);

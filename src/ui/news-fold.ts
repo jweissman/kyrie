@@ -1,4 +1,5 @@
 import type { Act } from './screen-types';
+import { ChoiceIds } from './choice-ids';
 
 // Someone who has heard a good deal is asked once, for news (the owner, 15 November: "I shouldn't open a topic to
 // find 30 rumors beneath it. Just sample one and have a 'Heard any news?' question"). Hearsay is the shared ask:
@@ -13,7 +14,8 @@ export class NewsFold {
       if (asks.length < this.most) { continue; }
       const pick = asks[[...who].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % asks.length]!;
       const label = `Ask ${(names.get(who) ?? who).split(', ')[0]} for news`;
-      targets.set(who, [...acts.filter(a => !asks.includes(a)), { ...pick, key: `${acts.length}:news`, label,
+      const kept = acts.filter(a => !asks.includes(a));
+      targets.set(who, [...kept, { ...pick, key: ChoiceIds.key(kept, label), label,
         alone: label, about: 'They tell you what they have heard lately.' }]);
     }
   }
