@@ -3,7 +3,7 @@ import { Stakes } from '../ui/stakes';
 import { PlaySession } from '../session/play-session';
 import { ItemCatalog } from '../item-catalog';
 import { Canon } from '../canon/canon';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { Effects } from '../effects';
 import { parseAbility } from '../lang/parse';
 import type { Entity, Module } from '../lang/module';

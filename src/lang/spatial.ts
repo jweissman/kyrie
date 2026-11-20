@@ -1,6 +1,9 @@
-import type { Change, Entity, ExitDefinition, Module, Operator, Predicate } from './lang/module';
-import { World } from './lang/world';
+import type { Change, Entity, ExitDefinition, Module, Operator, Predicate } from './module';
+import { World } from './world';
 
+// The language's places and ways between them: the kinds of place a module nests (a plane down to a room), an exit
+// lowered to the action that follows it, the searches and escorts a module's facts imply, all done as the module is
+// read and checked as it is compiled.
 export class Spatial {
   static readonly kinds = ['plane', 'region', 'settlement', 'wilderness', 'site', 'building', 'level', 'room'];
   private static call(name: string, ...args: string[]): Predicate { return { kind: 'call', name, args }; }

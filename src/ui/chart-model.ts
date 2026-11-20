@@ -1,5 +1,5 @@
 import { AuthoredLand } from '../world/authored-land';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { EntityIndex } from '../lang/entity-index';
 import { WaysInto } from './ways-into';
 import { WorldMemo } from '../lang/world-memo';

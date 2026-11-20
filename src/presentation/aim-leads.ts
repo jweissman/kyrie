@@ -2,7 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Entity, Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { Stakes } from '../ui/stakes';
 import { Itineraries } from '../ui/itinerary';
 import { AimAdvances } from './aim-advances';

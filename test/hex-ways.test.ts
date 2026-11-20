@@ -5,7 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change, Entity } from '../src/lang/module';
 import { ScreenModel } from '../src/ui/screen-model';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 import { MenuModel } from '../web/reader/menu-model';
 import { Glanced } from './support/glanced';
 import { Travel } from '../src/session/travel';

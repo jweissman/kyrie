@@ -1,4 +1,4 @@
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import type { SpatialScene } from '../presentation/player-view';

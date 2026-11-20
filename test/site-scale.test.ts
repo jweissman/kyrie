@@ -6,7 +6,7 @@ import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
 import type { Entity } from '../src/lang/module';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 
 // How big a place set out for is, said before the journey: one that goes down level under level (or up), a large
 // place or a small one (NAV-09: a minor cave could be taken for the reward of a long journey).

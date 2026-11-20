@@ -2,7 +2,7 @@ import type { Campaign } from '../src/campaign/campaign';
 import type { Entity } from '../src/lang/module';
 import { EntityIndex } from '../src/lang/entity-index';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 import { Itineraries } from '../src/ui/itinerary';
 import { RegionWriter } from '../src/world/region-writer';
 

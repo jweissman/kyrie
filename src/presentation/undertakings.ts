@@ -5,7 +5,7 @@ import { AimAdvances } from './aim-advances';
 import { Stakes } from '../ui/stakes';
 import { FictionalTime } from '../campaign/fictional-time';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { ObservationText } from '../lang/observation-text';
 import { AimWords } from './aim-words'; import { SiteOutsides } from './site-outsides';
 import type { Promoted } from './glance-types';

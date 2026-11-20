@@ -4,7 +4,7 @@ import type { Candidate, Situation } from '../ui/promotion';
 import { Promotion } from '../ui/promotion';
 import { PlayerView } from './player-view';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { Itineraries } from '../ui/itinerary';
 import { Undertakings } from './undertakings';
 import { Stakes } from '../ui/stakes';

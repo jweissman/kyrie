@@ -3,7 +3,7 @@ import type { Screen } from '../ui/screen-types';
 import { Undertakings } from '../presentation/undertakings';
 import { Stakes } from '../ui/stakes';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 
 // Whether the company stands in, or at the door of, the site its followed aim is about: what the aim names, or where
 // it is pursued, lies in that site. There, with no gold, the site's rooms not yet seen are what serves the aim, and a

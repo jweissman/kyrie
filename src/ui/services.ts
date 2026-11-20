@@ -1,6 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { TradeModel, type Counter } from './trade-model';
 import type { World } from '../lang/world';
 import { Canon } from '../canon/canon';

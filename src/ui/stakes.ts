@@ -3,7 +3,7 @@ import type { Objective, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { ObjectiveTarget, type ResolvedTarget } from './objective-target';
 
 // Whom and what the company has a stake in, met first wherever they are: its own family, and whoever and wherever an

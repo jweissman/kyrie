@@ -4,7 +4,7 @@ import { Environment } from '../src/campaign/environment';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlaySession } from '../src/session/play-session';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Frontier } from '../src/world/frontier';
 import { WorldAssembler } from '../src/world/world-assembler';

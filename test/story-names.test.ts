@@ -3,7 +3,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { Communities } from '../src/world/community/community';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 import type { Campaign } from '../src/campaign/campaign';
 
 // The people of a story cast in a country (a sick child's mother and sister, a drover's wife and son, the parties to a

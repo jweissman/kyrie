@@ -4,7 +4,7 @@ import type { World } from '../lang/world';
 import { ModuleWriter } from '../lang/module-writer';
 import { KeptPredicates } from '../lang/kept-predicates';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { QueryIndex } from '../lang/query-index';
 import { Nearby } from './nearby';
 

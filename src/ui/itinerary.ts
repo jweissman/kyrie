@@ -7,7 +7,7 @@ import { ObservationText } from '../lang/observation-text';
 import { LandModel } from './land-model';
 import type { WayInfo } from './passage-model';
 import { VisitedPlaces } from '../presentation/visited-places';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import type { RegionChart, Screen } from './screen-types';
 import { SiteScale } from './site-scale';
 import { RegionIds } from '../world/region-ids';

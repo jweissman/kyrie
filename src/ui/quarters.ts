@@ -1,7 +1,7 @@
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
 import table from '../../data/generation/town/quarters.json';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { ObservationText } from '../lang/observation-text';
 import { KeptParts } from './kept-parts';
 

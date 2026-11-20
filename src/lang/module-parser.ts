@@ -1,5 +1,5 @@
 import { parseAbility } from './parse';
-import { Spatial } from '../spatial';
+import { Spatial } from './spatial';
 import { Discovery, type DiscoveryDefinition } from '../information/discovery';
 import * as ohm from 'ohm-js';
 import { Grammars } from './grammars';

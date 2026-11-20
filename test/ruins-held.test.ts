@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 import { ModuleWriter } from '../src/lang/module-writer';
 
 // Every ruin of a generated country holds something to meet, look at, change, take or find out inside it: a quarter of

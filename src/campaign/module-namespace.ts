@@ -1,4 +1,4 @@
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { ObservationText } from '../lang/observation-text';
 import type { BoundRole } from './role-requirements';
 import type { Call, Change, Instance, Module, Operator, Predicate, Value, WorldRule } from '../lang/module';

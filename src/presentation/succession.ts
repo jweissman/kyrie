@@ -3,7 +3,7 @@ import type { Entity, Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { ObservationText } from '../lang/observation-text';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { Itineraries } from '../ui/itinerary';
 import type { Screen } from '../ui/screen-types';
 import type { Successor } from './glance-types';

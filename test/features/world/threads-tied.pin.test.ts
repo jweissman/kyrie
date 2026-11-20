@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../../../src/cli/play-tool';
-import { Spatial } from '../../../src/spatial';
+import { Spatial } from '../../../src/lang/spatial';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. A town's thread tied to the place it names (FH-08,
 // the golden route's part; S3-5): Iscoed's word of the bell says the hobs took it to their hold at Holyking, and

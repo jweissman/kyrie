@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Campaign } from '../src/campaign/campaign';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ProvincePlay } from './support/province-play';

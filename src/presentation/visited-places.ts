@@ -1,6 +1,6 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 
 interface Deck { vessel: string; site: string }
 // Where a company has been, from the event log: kept per log and read on from where the last reading stopped.

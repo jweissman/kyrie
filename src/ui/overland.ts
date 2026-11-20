@@ -2,7 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { LandChart } from '../lang/module';
 import { ObservationText } from '../lang/observation-text';
 import { ActionTime } from '../campaign/action-time';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { WorldMemo } from '../lang/world-memo';
 import { ChartModel } from './chart-model';

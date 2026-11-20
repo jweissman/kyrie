@@ -1,7 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../lang/item-names';
 import { Means, type Lead } from './means';

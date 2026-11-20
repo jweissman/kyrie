@@ -1,7 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Entity, Objective } from '../lang/module';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { KnownWays } from '../ui/known-ways';
 import { VisitedPlaces } from './visited-places';
 import { Means } from './means';

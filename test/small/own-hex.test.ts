@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
-import { Spatial } from '../../src/spatial';
+import { Spatial } from '../../src/lang/spatial';
 import { EntityIndex } from '../../src/lang/entity-index';
 import { MapView } from '../../web/reader/map-view';
 

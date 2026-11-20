@@ -4,7 +4,7 @@ import { ModuleBundle } from '../src/campaign/module-bundle';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 
 // An adventure installed as a province of the country it is placed in, not as a country of its own (Mission 18's
 // Gate B): its own region is set within the host's, so its places lie in that country (the rules' `within` says so of

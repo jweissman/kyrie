@@ -5,7 +5,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { Stakes } from '../src/ui/stakes';
 import { EntityIndex } from '../src/lang/entity-index';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 
 // Every origin's premise is pursuable from the first page (the blind playtest, 13 November: BP-05). "A dead man's
 // map" named Greyhold, the map drew it, and nothing routed to it. On a1, each origin's own errand: where it sends the

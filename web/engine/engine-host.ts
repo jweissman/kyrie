@@ -34,7 +34,7 @@ import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary';
 import { ObservationText } from '../../src/lang/observation-text';
-import { Spatial } from '../../src/spatial';
+import { Spatial } from '../../src/lang/spatial';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { Likenesses } from '../../src/presentation/likenesses';

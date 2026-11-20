@@ -1,6 +1,6 @@
 import { Crossing } from '../campaign/crossing';
 import { OwnWords } from './own-words';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { ItemCatalog } from '../item-catalog';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { LocalObservations } from '../campaign/local-observations';

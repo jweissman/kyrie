@@ -1,5 +1,5 @@
 import { LocalKinds } from '../canon/local-catalog';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { Canon } from '../canon/canon';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { ItemCatalog } from '../item-catalog';

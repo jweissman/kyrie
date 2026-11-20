@@ -2,7 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
 import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { WorldMemo } from '../lang/world-memo';
 import { ChartModel } from './chart-model';

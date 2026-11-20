@@ -1,6 +1,6 @@
 import type { Entity, LandChart, Module } from './lang/module';
 import { EntityIndex } from './lang/entity-index';
-import { Spatial } from './spatial';
+import { Spatial } from './lang/spatial';
 
 // Which hex of its country's land a place stands at, and whether a way from one place to another crosses from one hex
 // to the next. One reading for the page, which leaves such a way to the map (see Passages), and for the campaign,

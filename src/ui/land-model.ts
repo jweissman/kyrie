@@ -1,5 +1,5 @@
 import { LandCrossing } from './land-crossing';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import type { Entity, LandChart } from '../lang/module';
 import type { WayInfo } from './passage-model';
 import type { Knowing, RegionChart } from './screen-types';

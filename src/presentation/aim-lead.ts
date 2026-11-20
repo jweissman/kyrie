@@ -2,7 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { ExitRow, Screen } from '../ui/screen-types';
 import type { Entity, Objective } from '../lang/module';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { ModuleWriter } from '../lang/module-writer';
 import { Stakes } from '../ui/stakes';
 import type { ResolvedTarget } from '../ui/objective-target';

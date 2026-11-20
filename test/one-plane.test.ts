@@ -3,7 +3,7 @@ import { ModuleBundle } from '../src/campaign/module-bundle';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { Journey } from '../src/session/journey';
-import { Spatial } from '../src/spatial';
+import { Spatial } from '../src/lang/spatial';
 
 // Modules that name the canon (data/imbar) in their manifests extend it and do not redeclare it: two courts of the
 // Plane of Fire, by two hands, are regions of one plane, joined to its one threshold; what one says of the canon's

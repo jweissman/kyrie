@@ -1,6 +1,6 @@
 import type { Call, Entity } from '../lang/module';
 import type { World } from '../lang/world';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 
 // A site's outsides: each place outside any site that a way joins to one of its rooms (the barrow's mound beside the
 // wood), with the site it leads into. Read once for the ways of a world as they stand (the same list from one world

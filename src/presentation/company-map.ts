@@ -1,6 +1,6 @@
 import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 import { VisitedPlaces } from './visited-places';
 import type { Campaign } from '../campaign/campaign';
 import type { PlayerSnapshot } from './player-view';

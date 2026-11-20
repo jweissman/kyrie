@@ -1,6 +1,6 @@
 import type { Entity } from '../lang/module';
 import type { World } from '../lang/world';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 
 interface Way { passage: string; from: string; to: string }
 

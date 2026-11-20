@@ -1,7 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Objective } from '../lang/module';
 import { EntityIndex } from '../lang/entity-index';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 
 // What an aim is pursued toward, resolved once for everything that shows it (the quest-intent and travel-contract
 // review, 9 November: the journal, the map, the ways lit, the likenesses and the topics had each worked out the aim's

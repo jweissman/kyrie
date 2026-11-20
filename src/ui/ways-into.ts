@@ -1,5 +1,5 @@
 import type { Call, Entity } from '../lang/module';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 
 // The ways into each place from outside it: for every way (connects(way, from, to)), each place its far end is in and
 // its near end is not. Worked out once for a world's ways and its places (what the ways are is the same from world to

@@ -3,7 +3,7 @@ import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
-import { Spatial } from '../spatial';
+import { Spatial } from '../lang/spatial';
 
 // An aim in words, naming no one the company cannot place. Someone an aim leads to (tell them, find them) whom the
 // company has never spoken with, and whose town the aim does not name, is said as who they are and where they are
