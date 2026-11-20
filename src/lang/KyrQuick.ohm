@@ -10,7 +10,8 @@ KyrQuick <: Kyr {
     | "\u0000".."\u0009" | "\u000B".."\u000C" | "\u000E".."\u001F")* "\""
   // Any character but a line's end.
   comment := "//" ("\u000B".."\u{10FFFF}" | "\u0000".."\u0009")*
-  // A letter as Kyr says one (any of Unicode's), the commonest first.
-  identPart := "a".."z" | "_" | digit | "A".."Z" | "-" | letter
-  ident := ("a".."z" | "A".."Z" | letter) identPart*
+  // A letter as Kyr says one (any of Unicode's), the commonest first; an ident's own written out, not applied as a
+  // rule for each of them.
+  identPart := "a".."z" | "_" | "0".."9" | "A".."Z" | "-" | letter
+  ident := ("a".."z" | "A".."Z" | letter) ("a".."z" | "_" | "0".."9" | "A".."Z" | "-" | letter)*
 }
