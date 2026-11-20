@@ -28,6 +28,8 @@ export class PageRunner {
       offer: { primary: primary.map(PageRunner.row), rest: rest.map(PageRunner.row) },
       ...s.combat ? { fight: { yours: s.combat.ours, foes: s.combat.foes, outcome: s.combat.outcome } } : {},
       ...s.party ? { you: s.party.map(m => `${m.name} ${m.hp} HP`).join(', ') } : {},
+      // The aims as the page's journal draws them (GR-24: "aims: []" on every turn had been the driver's).
+      aims: (s.aims ?? []).map(a => ({ id: a.id, text: a.text, ...a.followed ? { followed: true } : {} })),
       ...s.error ? { error: s.error } : {} };
   }
   private static row(c: ChoiceShape): Row {
@@ -38,13 +40,14 @@ export class PageRunner {
     const m = JSON.parse(line) as { act?: string; look?: boolean; follow?: string };
     // An aim followed is its row on the page (follow:<aim>), taken as any row is.
     const act = m.follow ? `follow:${m.follow}` : m.act;
+    // How it was done (MonoDriver.act): by the page's controls, the map's, or, where the driver found no control a
+    // player has, the page's automation, said so that the gap is counted (GR-24).
+    let by: string | undefined;
     try {
-      if (act === 'fight:auto') { await this.d.key('t'); } else if (act) {
-        await this.d.pick(c => c.id === act, act);
-      }
+      if (act === 'fight:auto') { await this.d.key('t'); } else if (act) { by = await this.d.act(act); }
     } catch (e) { return { turn: this.turn, error: String(e).split('\n')[0]!.slice(0, 600) }; }
     this.turn++;
-    return this.said();
+    return { ...await this.said(), ...by && by !== 'page' ? { by } : {} };
   }
   // One turn written, with what the page threw since the last.
   private static out(o: Record<string, unknown>, errors: string[]): void {
@@ -54,6 +57,8 @@ export class PageRunner {
     const path = process.env.KYRIE_CHROMIUM;
     const browser = await chromium.launch(path ? { executablePath: path } : {});
     const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    // A control not found is said in seconds, not half a minute, so the driver's other ways are tried (GR-24).
+    page.setDefaultTimeout(8000);
     const errors: string[] = [];
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(`${url}${query}`);

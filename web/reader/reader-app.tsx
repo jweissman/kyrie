@@ -484,6 +484,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
           acts: frame.leaf.glance.acts.map(a => ({ choice: a.choice, why: a.why, marks: a.marks.map(m => m.kind) })),
           ways: frame.leaf.glance.ways }, sheets: menu.sheets } : {},
       ...s.confirming ? { confirming: s.confirming } : {},
+      // The aims as the journal draws them, which is followed and by what (GR-24: a page cold play wrote none down).
+      aims: (frame?.screen.aims ?? []).map(a => ({ id: a.id, text: a.text, ...a.followed ? { followed: true } : {},
+        ...a.follow ? { follow: a.follow } : {} })),
       combat: frame?.combat, log: (frame?.entries ?? []).slice(-5), party: frame?.screen.party.map(m => ({ name: m.name,
         hp: m.hp })), pending: !!s.pending || s.phase === 'loading', error: s.error, timings: Timings.list,
       begun: s.frame?.timing,
