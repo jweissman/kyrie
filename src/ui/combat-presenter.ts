@@ -6,6 +6,7 @@ import type { BattleState, CombatEvent } from '../model';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import { Counted } from '../counted';
+import { Words } from '../presentation/words';
 import { DefenseTelling } from './defense-telling';
 
 export class CombatPresenter {
@@ -43,6 +44,17 @@ export class CombatPresenter {
   }
   // Two or more of a thing given are said as many ("2 flasks of lamp oil"), a thing's name being capitalised as the
   // catalog has it; a count of something else (experience, spell slots) as it is.
+  // What one gains, said as the thing it is: a level with its hit points, one thing taken into the hands ("Ivo gains 1
+  // the deeds of the held", "Ama gains 1 Davy's red coat" are things taken, not counts gained), one of a kind the
+  // catalogue names ("Lantern": "Ilse gains 1 Lantern" beside "a lantern" in the same turn, S3-0, GR-10), else a count.
+  private static gained(event: { detail?: string; amount?: number }, target: string): string {
+    const what = event.detail ?? '';
+    if (event.amount === undefined) { return `${target}: ${what}.`; }
+    if (what.startsWith('level ')) { return `${target} reaches ${what} (+${event.amount} HP).`; }
+    if (event.amount === 1 && what !== 'experience' && /^(the|a|an) |\w['’]s /i.test(what)) { return `${target} takes ${what}.`; }
+    if (event.amount === 1 && /^[A-Z][a-z]+( [a-z]+)*$/.test(what)) { return `${target} takes ${Words.article(what.toLowerCase())}.`; }
+    return `${target} gains ${event.amount} ${this.counted(event)}.`;
+  }
   private static counted(event: { detail?: string; amount?: number }): string {
     const what = event.detail ?? '';
     return (event.amount ?? 0) > 1 && /^[A-Z]/.test(what) ? Counted.plural(`${what.charAt(0).toLowerCase()}${what.slice(1)}`)
@@ -128,12 +140,7 @@ export class CombatPresenter {
       case 'expire': return this.told(event.detail, 'ends')?.replace('{target}', target) ?? `${target}'s ${event.detail} expires.`;
       // One beaten in a bout to yielding gets up again, beaten (see Morale).
       case 'revive': return this.revived(event.detail, target, event.amount ?? 0);
-      case 'gain': return event.amount === undefined ? `${target}: ${event.detail}.`
-        : event.detail?.startsWith('level ') ? `${target} reaches ${event.detail} (+${event.amount} HP).`
-          // One thing taken into the hands ("Ivo gains 1 the deeds of the held", "Ama gains 1 Davy's red coat") is a
-          // thing taken, not a count gained.
-          : event.amount === 1 && event.detail !== 'experience' && /^(the|a|an) |\w['’]s /i.test(event.detail ?? '')
-            ? `${target} takes ${event.detail}.` : `${target} gains ${event.amount} ${this.counted(event)}.`;
+      case 'gain': return this.gained(event, target);
       // By the ability's name, never its id ("Krex learns true_sight": round 11, T).
       case 'learn': return `${target} learns ${Content.abilities.find(a => a.id === event.detail)?.name ?? event.detail}.`;
       case 'summon': return `${actor} calls ${event.detail}.`;
