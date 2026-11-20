@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -45,9 +46,10 @@ class Walk {
   }
   // The way to a room, by where it goes.
   async to(room: string): Promise<Said> {
-    const way = offered(this.r.said()).find(o => o.id.startsWith('go(') && o.id.endsWith(`,${room})`));
+    const way = offered(this.r.said()).map(o => RunnerOffer.act(o))
+      .find(id => id.startsWith('go(') && id.endsWith(`,${room})`));
     if (!way) { throw new Error(`no way from ${this.at} to ${room}`); }
-    return this.act(way.id);
+    return this.act(way);
   }
   // From the mound's forecourt to the long gallery: the rune on the way to the cross-chamber risked, the portal stone's
   // counterweight levered free, the stair down, the hall of the bones and whatever keeps it.

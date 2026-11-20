@@ -215,7 +215,7 @@ describe('what is kept from world to world, against working it out afresh', () =
     const kept = await start(), fresh = await Twins.afresh(start);
     const twins = { kept, fresh, k: new Runner(kept), f: await Twins.afresh(() => new Runner(fresh)) };
     const first = twins.k.said(), letter = [...first.offer.primary, ...first.offer.rest]
-      .find(o => /^Give Eogan/.test(o.label))!;
+      .find(o => /^(Give Eogan|Talk to Eogan — give)/.test(o.label))!;
     expect(await Twins.afresh(() => twins.f.said())).toEqual(first);
     let said = await Twins.step(twins, JSON.stringify({ act: letter.id })) as Said, followed = 0;
     // Between words with Eogan (each telling of somewhere), every aim held followed in turn, then none.

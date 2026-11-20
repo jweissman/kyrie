@@ -26,18 +26,18 @@ export class RunnerOffer {
     : { offer: Said['offer']; under: Offered[]; journeys: Offered[] } {
     const rows = g ? Doable.of(g, screen) : [], at = this.at(g, rows, names);
     const primary = rows.filter(r => r.led).flatMap(r => this.row(r, at));
-    const lens = new Map<string, Lens>(), seen = new Set(primary.map(o => o.id));
+    const lens = new Map<string, Lens>(), seen = new Set(primary.map(o => o.does ?? o.id));
     const under = rows.filter(r => !r.led).flatMap(r => this.leaves(r).flatMap(k => {
       const o = this.one(k, at, k === r ? at.entries.get(r.id) : undefined, at.entries.get(r.id));
-      if (!o || seen.has(o.id)) { return []; }
-      seen.add(o.id);
+      if (!o || seen.has(o.does ?? o.id)) { return []; }
+      seen.add(o.does ?? o.id);
       if (k.lens) { lens.set(o.id, k.lens); }
       return [o];
     }));
     // The journeys are the engine's, those on the map folded out of the rest as it marks them (MT-18).
     const all = RunnerTalks.talks(screen, rows, under, talking);
     const mapped = new Set(Doable.flat(rows).flatMap(r => r.map && r.does ? [r.does] : []));
-    const folded = all.filter(o => mapped.has(o.id)), rest = all.filter(o => !folded.includes(o));
+    const folded = all.filter(o => mapped.has(o.does ?? '')), rest = all.filter(o => !folded.includes(o));
     const grouped = this.grouped(rows, rest, { lens, talking });
     return { offer: { primary, ...grouped, ...folded.length ? { more: { journeys: folded.length } } : {} },
       under: [...under, ...folded], journeys: [...grouped.lenses.journeys ?? [], ...folded] };
@@ -55,6 +55,8 @@ export class RunnerOffer {
   private static lensRows(screen: Screen, g: Glance, os: Glanced[], at: At): Offered[] {
     return os.flatMap(o => this.row({ ...Doable.one(g, screen, o.choice, o.command), for: undefined }, at, o));
   }
+  // What taking a row does: its command, which may be asked for in place of its id (Offered.does); an opener's id.
+  static act(o: Offered): string { return o.does ?? o.id; }
   // Every row of an offer, an opener's under it.
   static flat(os: readonly Offered[]): Offered[] { return os.flatMap(o => [o, ...this.flat(o.opens ?? [])]); }
   private static at(g: Leaf['glance'], rows: Row[], names: Map<string, string>): At {
@@ -64,7 +66,9 @@ export class RunnerOffer {
   }
   // A row led with: as what it is led for, as an opener with its rows, or as the act it does.
   private static row(r: Row, at: At, entry: Glanced | undefined = at.entries.get(r.id)): Offered[] {
-    if (r.for && at.names.has(r.for)) { return [this.made(r.for, r.called ?? at.names.get(r.for)!, entry)]; }
+    if (r.for && at.names.has(r.for)) {
+      return [this.made(r.id, r.called ?? at.names.get(r.for)!, entry, { does: r.for })];
+    }
     if (!r.opens) { return [this.one(r, at, entry, entry)].flatMap(o => o ?? []); }
     const opens = this.leaves(r).flatMap(k => this.one(k, at, undefined, entry) ?? []);
     return opens.length ? [{ ...this.made(r.id, r.label, entry), opens, ...r.says ? { says: r.says } : {} }] : [];
@@ -80,12 +84,15 @@ export class RunnerOffer {
     // One that is an opener's one act is called by that act's whole words ("Ask the apprentice about the old drain").
     const own = entry ?? at.byDoes.get(id), label = r.only ? at.names.get(id) ?? r.label
       : entry ? r.label : own?.label ?? at.names.get(id) ?? r.label;
-    return { ...this.made(id, label, own, r.minutes), ...own || !opener ? {} : { type: opener.type } };
+    return { ...this.made(r.id, label, own, { does: id, minutes: r.minutes }),
+      ...own || !opener ? {} : { type: opener.type } };
   }
-  // A journey the scene's offer left out is the engine's row's own: a journey, as long as the row says.
-  private static made(id: string, label: string, o?: Glanced, minutes = o?.minutes): Offered {
-    return { id, label: Typography.plain(label), aspects: o?.aspects ?? [],
-      type: o?.type ?? (id.startsWith('travel:') ? 'journey' : 'act'), ...minutes ? { minutes } : {},
+  // A row by the engine's id, doing its command; a journey the scene's offer left out is the engine's row's own: a
+  // journey, as long as the row says.
+  private static made(id: string, label: string, o?: Glanced, as: { does?: string; minutes?: number } = {}): Offered {
+    const minutes = o?.minutes ?? as.minutes;
+    return { id, label: Typography.plain(label), ...as.does ? { does: as.does } : {}, aspects: o?.aspects ?? [],
+      type: o?.type ?? (as.does?.startsWith('travel:') ? 'journey' : 'act'), ...minutes ? { minutes } : {},
       marks: o?.marks.map(m => m.kind) ?? [],
       ...o?.bearing ? { bearing: o.bearing } : {}, ...this.aside(o) };
   }
@@ -107,7 +114,7 @@ export class RunnerOffer {
   // The lens a row is kept in: the page's, else by what it is (a way out of the place by road is a journey).
   private static where(o: Offered, lens: Map<string, Lens>, whose: Map<string, string>): Kept {
     if (o.type === 'journey' || (o.type === 'go' && !lens.has(o.id))) { return 'journeys'; }
-    return lens.get(o.id) ?? (o.type === 'talk' || whose.has(o.id) ? 'people' : o.type === 'wait' ? 'time'
+    return lens.get(o.id) ?? (o.type === 'talk' || whose.has(o.does ?? o.id) ? 'people' : o.type === 'wait' ? 'time'
       : o.type === 'light' || o.type === 'other' ? 'gear' : 'things');
   }
 }

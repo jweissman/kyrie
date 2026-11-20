@@ -91,7 +91,7 @@ export class ClosureLint {
     const cites = this.cites(row.status), out: Finding[] = [], id = row.id;
     for (const c of cites) {
       if (c.meant && !c.files.length) { out.push({ id, kind: 'missing', detail: c.said }); }
-      if (c.files.length > 1) { out.push({ id, kind: 'ambiguous', detail: `${c.said}: ${c.files.join(', ')}` }); }
+      if (c.files.length > 1) { out.push({ id, kind: 'ambiguous', detail: `${c.said}: ${[...c.files].sort().join(', ')}` }); }
     }
     const specs = [...new Set(cites.filter(c => c.spec).flatMap(c => c.files))].filter(f => f.endsWith('.test.ts'));
     const texts = specs.map(f => readFileSync(join(this.root, f), 'utf8'));

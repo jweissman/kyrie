@@ -6,6 +6,7 @@ import { ReviewMarkdown } from '../src/cli/review-markdown';
 import { ReviewProvenance, type Unit } from '../src/cli/review-provenance';
 import { ReviewInspector } from '../src/cli/review-inspector';
 import { Runner, type Said } from '../src/cli/runner';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import type { Campaign } from '../src/campaign/campaign';
 import type { JourneyReviewV1 } from '../src/cli/review-types';
 
@@ -33,7 +34,7 @@ describe('a journey reviewed', () => {
       ?? review.frames[s.after!]!.lines.map(l => l.text))];
     expect(kept).toEqual(shown);
     const offered = plain.flatMap(s => 'error' in s ? [] : [[...s.next?.act ? [s.next.act] : [],
-      ...s.offer.primary.map(o => o.id), ...s.offer.rest.map(o => o.id)]]);
+      ...s.offer.primary.map(o => RunnerOffer.act(o)), ...s.offer.rest.map(o => RunnerOffer.act(o))]]);
     expect(review.frames.map(f => f.offer.map(o => o.id))).toEqual(offered);
     expect(review.source.transcript.steps.map(s => s.digest)).toEqual(digests);
   });
@@ -41,12 +42,14 @@ describe('a journey reviewed', () => {
     const acts = review.steps.filter(s => s.chosen?.from !== 'asked' && !s.error);
     expect(acts.length).toBeGreaterThan(10);
     for (const s of acts) {
-      const offered = review.frames[s.before]!.offer.find(o => o.id === s.chosen!.command);
+      const offered = review.frames[s.before]!.offer.find(o => [o.id, o.row].includes(s.chosen!.command));
       expect([s.n, offered?.label]).toEqual([s.n, s.chosen!.label]);
     }
     const refused = review.steps.find(s => s.error)!;
+    // The cold player's next line, the clerk's question by its own id: asked already by the lead's (drove__clerk#talk,
+    // refused until the runner named Doable's rows: MT-18, AT-13).
     expect([refused.chosen?.command, refused.after, refused.chosen?.from])
-      .toEqual(['drove__clerk#talk', undefined, 'not in the scene before']);
+      .toEqual(['drove__clerk_short_t', undefined, 'not in the scene before']);
     expect([refused.consequential, refused.delta.aims, refused.events])
       .toEqual([false, { taken: [], retired: [] }, []]);
   });

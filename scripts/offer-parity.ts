@@ -23,9 +23,12 @@ export interface Walk { world: string; as: string; lines: string }
 export class OfferParity {
   static readonly root = join(import.meta.dir, '..');
   static readonly baseline = 'doc/architecture/mission-22/offer-parity-baseline.json';
-  // The golden route's warrior (S3-0): the drove, the fuel boat, the night road and the gate-well.
+  // The golden route's warrior (S3-0): the drove, the fuel boat, the night road and the gate-well; its lines as the
+  // route is played now (warrior-walk.txt, re-taken from the kept warrior-lines.txt on 20 November: the fuel boat's
+  // and the sea-gate's aims taken up by asking Holgar and the reeve, as they now arise, and three lines dropped that
+  // the runner refused, an aim already done and a journey no longer offered).
   static readonly walks: Walk[] = [{ world: 'iscoed', as: 'human/warrior/Wenna',
-    lines: 'doc/architecture/mission-22/golden/warrior-lines.txt' }];
+    lines: 'doc/architecture/mission-22/golden/warrior-walk.txt' }];
   // Every divergence of every walk, as "kind: what" (one entry however many turns it stands at).
   static async divergences(walks = this.walks, turns = Infinity, where?: Map<string, string>): Promise<string[]> {
     const out = new Set<string>();
@@ -36,7 +39,9 @@ export class OfferParity {
       this.turn(runner, runner.said(), out);
       for (const line of lines) {
         const said = await runner.ask(line), before = new Set(out);
-        if ('error' in said) { continue; }
+        // A line refused is a walk gone stale, not a turn to pass over: the measure would cover less than it says
+        // (lead-contract.md: four follows of the fuel boat's aim had said "no aim", following nothing after T8).
+        if ('error' in said) { throw new Error(`${w.lines}: ${line}: ${said.error}`); }
         this.turn(runner, said, out);
         // Where each was first met, for --where: the turn, its moment, and the move that came to it.
         for (const d of out) {
@@ -54,7 +59,10 @@ export class OfferParity {
     const doing = new Map(Doable.flat(rows).flatMap(r => r.does ? [[r.id, r.does] as const] : []));
     const offered = RunnerOffer.flat([...said.offer.primary, ...said.offer.rest,
       ...Object.values(said.offer.lenses ?? {}).flatMap(os => os ?? [])] as Offered[]);
-    const drawn = new Map(offered.filter(o => !o.opens?.length).map(o => [o.id, o.label]));
+    // What the runner draws by the act each does (its words, and the id it names it by), and every id it names.
+    const leaves = offered.filter(o => !o.opens?.length);
+    const drawn = new Map(leaves.map(o => [o.does ?? o.id, o.label])), named = new Map(leaves.map(o => [o.does ?? o.id,
+      o.id])), ids = new Set(offered.map(o => o.id));
     // An act held under an opener (a person's asks under their talk) is offered where the opener is, by the engine's
     // own id: opened, it shows them, as the page's drawer does.
     const openers = new Set(offered.filter(o => o.opens?.length).map(o => o.id));
@@ -66,27 +74,28 @@ export class OfferParity {
     }
     for (const [act] of mapped) { if (drawn.has(act)) { out.add(`unfolded: ${act}`); } }
     for (const [act, { words, id, under, within }] of engine.entries().filter(([, e]) => !e.map)) {
-      if (!drawn.has(act) && ![under, within].some(h => h && this.held(h, drawn, openers, doing))) {
+      if (!drawn.has(act) && ![under, within].some(h => h && this.held(h, { drawn, ids, openers }, doing))) {
         out.add(`engine only: ${act}`); continue;
       }
       if (drawn.has(act) && drawn.get(act) !== words) { out.add(`words: ${act}`); }
-      // The same act under another name: the runner names a row by what it does, the engine by the row (AT-13).
-      if (drawn.has(act) && id !== act) { out.add(`named apart: ${id.replace(/[(:/#].*$/, '…')}`); }
+      // The same act under another name: the runner names it by no row of the engine's that does it (AT-13).
+      const its = Doable.flat(rows).filter(r => (r.for ?? r.does) === act).map(r => r.id);
+      if (drawn.has(act) && !its.includes(named.get(act)!)) {
+        out.add(`named apart: ${id.replace(/[(:/#].*$/, '…')}`);
+      }
     }
-    // A row the runner names by the engine's own id, or by what a row of the engine's does (a talk led for a
-    // question, offered as the talk), is the engine's: a companion's talk only holds.
-    const ids = new Set([...Doable.flat(rows).map(r => r.id), ...doing.values()]);
-    for (const id of drawn.keys()) {
-      if (!engine.has(id) && !ids.has(id)) { out.add(`runner only: ${id.replace(/\(.*$/, '(…)')}`); }
-    }
+    // A row the runner names by an id that is no row of the engine's.
+    const rowIds = new Set(Doable.flat(rows).map(r => r.id));
+    for (const o of offered) { if (!rowIds.has(o.id)) { out.add(`runner only: ${o.id.replace(/\(.*$/, '(…)')}`); } }
     const step = said.going?.act;
-    if (step && !drawn.has(step)) { out.add(`lead names no row: ${step.replace(/[(:/].*$/, '…')}`); }
+    if (step && !drawn.has(step) && !ids.has(step)) { out.add(`lead names no row: ${step.replace(/[(:/].*$/, '…')}`); }
   }
   // Whether the row an act is held within or under is offered: by its id, by what it does, or as the runner names a
   // person's talk (talk:<person>, itself counted runner only); an opener drawn as one row is turned to.
-  private static held(within: string, drawn: Map<string, string>, openers: Set<string>,
+  private static held(within: string, at: { drawn: Map<string, string>; ids: Set<string>; openers: Set<string> },
     doing: Map<string, string>): boolean {
-    return openers.has(within) || drawn.has(within) || drawn.has(doing.get(within) ?? '')
+    const { drawn, ids, openers } = at;
+    return openers.has(within) || ids.has(within) || drawn.has(within) || drawn.has(doing.get(within) ?? '')
       || drawn.has(`talk:${within.replace(/#talk$/, '')}`);
   }
   // The engine's rows by the act each does, in its own words, with the opener each is held under (if any), and whether

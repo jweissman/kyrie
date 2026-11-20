@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Runner, type Said } from '../../src/cli/runner';
+import { RunnerOffer } from '../../src/cli/runner-offer';
 import { Tiny } from '../support/tiny';
 
 // A row says what it does (cold play 2, CL-05: "Talk to the factor" had sold the crown): a talk is offered only by an
@@ -24,13 +25,15 @@ const sale = 'sell(t__crown,t__factor)';
 // The crown taken, talking with the factor or not yet met with him: the row that sells, and what it is called.
 async function sold(talk: boolean): Promise<{ r: Runner; row: { id: string; label: string } }> {
   const r = new Runner((await Tiny.start(yard)).session);
-  const by = async (id: string) => { const o = rows(r.said()).find(x => x.id.startsWith(id)); expect(o).toBeDefined();
+  const by = async (id: string) => {
+    const o = rows(r.said()).find(x => RunnerOffer.act(x).startsWith(id));
+    expect(o).toBeDefined();
     return said(await r.ask(JSON.stringify({ act: o!.id }))); };
   // Met first, and the talk begun again with the crown carried: a stranger's row leads with the sale (as below).
   if (talk) { await by('talk_to(t__factor)'); await by('take_leave(t__factor)'); }
   await by('take_item(t__crown,');
   if (talk) { await by('talk_to(t__factor)'); }
-  const row = (talk ? rows(r.said()) : r.said().offer.primary).find(o => o.id === sale);
+  const row = (talk ? rows(r.said()) : r.said().offer.primary).find(o => RunnerOffer.act(o) === sale);
   expect(row).toBeDefined();
   return { r, row: row! };
 }
@@ -41,7 +44,7 @@ describe('a row says what it does', () => {
     for (let i = 0; i < 4; i++) {
       const turn = r.said(), all = [...turn.offer.primary, ...turn.offer.rest];
       // Or opens onto what can be said to them, doing nothing of its own (TB-12).
-      expect(all.filter(o => /^Talk to /.test(o.label) && !/^talk_to\(/.test(o.id) && !o.opens)
+      expect(all.filter(o => /^Talk to /.test(o.label) && !/^talk_to\(/.test(RunnerOffer.act(o)) && !o.opens)
         .map(o => `${o.label} = ${o.id}`)).toEqual([]);
       const next = all.find(o => o.type === 'talk') ?? all[0];
       if (!next) { break; }

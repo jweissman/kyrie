@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Runner, type Said } from '../src/cli/runner';
@@ -27,8 +28,11 @@ describe('an ordinary act, headless', () => {
     let said = await r.ask(JSON.stringify({ act: letter.id })) as Said;
     const spent: { label: string; cpu: number; ms: number }[] = [];
     for (let i = 0; i < 4; i++) {
-      const o = said.offer.primary[0]!, cpu = Asking.cpu(), began = performance.now();
-      said = await r.ask(JSON.stringify({ act: o.id })) as Said;
+      // The first of the four that is an act here: not following an aim (the engine's own row, which the runner had
+      // dropped: MT-18), nor a journey, nor an opener.
+      const o = said.offer.primary.find(x => !/^(follow|travel):/.test(RunnerOffer.act(x)) && !x.opens)!;
+      const cpu = Asking.cpu(), began = performance.now();
+      said = await r.ask(JSON.stringify({ act: RunnerOffer.act(o) })) as Said;
       spent.push({ label: o.label, cpu: Asking.cpu() - cpu, ms: performance.now() - began });
       expect(said.moment).toBe('outcome');
     }

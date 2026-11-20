@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Runner, type Said } from '../../src/cli/runner';
+import { RunnerOffer } from '../../src/cli/runner-offer';
 import { PlayerView } from '../../src/presentation/player-view';
 
 // The runner for agents playing blind (the owner, 14 November: TB-05): the terminal's own projection as one JSON value
@@ -24,7 +25,7 @@ describe('the runner', () => {
     expect(first.offer.primary.length).toBeGreaterThan(0);
     // An opener is listed by its own id, its rows under it each by a legal one (TB-12).
     for (const o of [...first.offer.primary, ...first.offer.rest].flatMap(x => x.opens ?? [x])) {
-      expect([o.id, legal.has(o.id)]).toEqual([o.id, true]);
+      expect([o.id, legal.has(RunnerOffer.act(o))]).toEqual([o.id, true]);
     }
   });
   it('takes an act by its id: a way arrives somewhere, telling it', async () => {
@@ -38,7 +39,7 @@ describe('the runner', () => {
     const t = await Tiny.start(yard), r = new Runner(t.session);
     await r.ask(JSON.stringify({ act: r.said().offer.primary.find(o => /kitchen/.test(o.label))!.id }));
     const at = t.campaign.readout.elapsed, lens = said(await r.ask(JSON.stringify({ lens: 'people' })));
-    expect([lens.moment, lens.offer.primary.map(o => [o.label, o.id])])
+    expect([lens.moment, lens.offer.primary.map(o => [o.label, RunnerOffer.act(o)])])
       .toEqual(['inspect', [['Talk to Wat', 'talk_to(t__wat)']]]);
     expect(said(await r.ask(JSON.stringify({ look: true }))).moment).toBe('inspect');
     expect(t.campaign.readout.elapsed).toBe(at);
@@ -52,7 +53,8 @@ describe('the runner', () => {
     await r.ask(JSON.stringify({ act: r.said().offer.primary.find(o => /kitchen/.test(o.label))!.id }));
     // Wat, kin, is led for the first thing to ask him; done by "Talk to Wat", a walk had taken his first reply instead
     // (Eamon's bed, nine nights running: TB-04).
-    expect(r.said().offer.primary.map(o => [o.label, o.id])).toContainEqual(['Ask Wat about the weather', 't__weather']);
+    expect(r.said().offer.primary.map(o => [o.label, RunnerOffer.act(o)]))
+      .toContainEqual(['Ask Wat about the weather', 't__weather']);
     expect(await r.ask(JSON.stringify({ follow: 'none' }))).toEqual({ error: 'no aim: none' });
     // By the number the scene says it by ("· follow 1": cold play 2, CL-11), where there is no such aim, said so.
     expect(await r.ask(JSON.stringify({ follow: 3 }))).toEqual({ error: 'no aim: 3' });

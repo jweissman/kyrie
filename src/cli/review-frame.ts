@@ -97,9 +97,11 @@ export class ReviewFrame {
   // A row of the four the glance led with keeps its reason: led as what it is for, as its opener, or as its command.
   private row(c: { led: Set<string>; fight: boolean; promoted: readonly Promoted[] }, o: Offered,
     group: ReviewChoice['group']): ReviewChoice {
-    this.makers[o.id] ??= { type: o.type, ...this.provenance.choice(o) };
-    const p = group === 'primary' ? c.promoted.find(x => [x.for, x.choice, x.command].includes(o.id)) : undefined;
-    return { id: o.id, label: o.label, group: c.fight ? 'fight' : group, ...c.led.has(o.id) ? { led: true as const } : {},
+    const id = o.does ?? o.id;
+    this.makers[id] ??= { type: o.type, ...this.provenance.choice({ ...o, id }) };
+    const p = group === 'primary' ? c.promoted.find(x => [x.for, x.choice, x.command].includes(id)) : undefined;
+    return { id, label: o.label, group: c.fight ? 'fight' : group, ...o.id !== id ? { row: o.id } : {},
+      ...c.led.has(id) ? { led: true as const } : {},
       ...o.aspects?.length ? { aspects: o.aspects } : {}, ...o.aside ? { aside: o.aside } : {},
       ...p ? { why: p.why } : {}, ...p?.note ? { note: p.note } : {} };
   }

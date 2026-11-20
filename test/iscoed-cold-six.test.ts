@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -39,16 +40,16 @@ describe('the golden route, after the sixth cold play', () => {
     expect(text(10)).not.toContain('someone else');
     // Among the engine's four, after its own lead to follow the held drover's aim (the runner had dropped that row:
     // MT-18, every client the engine's four).
-    expect(at[9]!.offer.primary.map(o => o.id)).toContain('drove__clerk_short_t');
+    expect(at[9]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('drove__clerk_short_t');
     expect(text(18)).toBe('Owain turns to you.');
     expect(aims(24)).toContain('Find out where Joss Hatherly was the night he drowned.');
-    expect(at[30]!.offer.primary.map(o => o.id)).toContain('region__s1_u_raiser_who');
+    expect(at[30]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('region__s1_u_raiser_who');
     expect(text(34)).toContain('the warding line is left out');
     expect(aims(38)).not.toContain('lettered');
     expect(aims(38)).not.toContain('Something is under the floor');
     expect(aims(39)).toContain('Something is under the floor');
     // And the letters are pressed only where they can be seen: not in the undercroft's pitch dark, once the candle is.
-    const all = (n: number) => [...at[n - 1]!.offer.primary, ...at[n - 1]!.offer.rest].map(o => o.id);
+    const all = (n: number) => [...at[n - 1]!.offer.primary, ...at[n - 1]!.offer.rest].map(o => RunnerOffer.act(o));
     expect(all(38)).not.toContain('region__s1_u_flag_pressed(party,region__s1_u_undercroft)');
     expect(all(39)).toContain('region__s1_u_flag_pressed(party,region__s1_u_undercroft)');
     // CL-55: the receipt, then what is read in it, in its own capitals; not read out again on coming back; the body,

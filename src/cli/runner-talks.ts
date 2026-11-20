@@ -11,11 +11,12 @@ export class RunnerTalks {
   static talks(screen: Screen, rows: readonly Row[], rest: Offered[], talking?: string): Offered[] {
     const whose = this.whose(rows), paid = this.services(screen);
     const shelved = new Set(screen.things.flatMap(t => this.flat(t.acts)).flatMap(a => a.command ? [a.command] : []));
-    const theirs = rest.filter(o => talking && whose.get(o.id) === talking);
-    const loose = rest.filter(o => !theirs.includes(o) && (!whose.has(o.id) || shelved.has(o.id)));
-    return [...theirs.filter(o => !paid.has(o.id)), ...theirs.filter(o => paid.has(o.id)), ...loose,
+    const theirs = rest.filter(o => talking && whose.get(this.act(o)) === talking);
+    const loose = rest.filter(o => !theirs.includes(o) && (!whose.has(this.act(o)) || shelved.has(this.act(o))));
+    return [...theirs.filter(o => !paid.has(this.act(o))), ...theirs.filter(o => paid.has(this.act(o))), ...loose,
       ...this.holders(rows, rest, loose, whose)].map(o => {
-      const p = /^talk_to\((.+)\)$/.exec(o.id)?.[1], held = p ? rest.filter(x => whose.get(x.id) === p) : [];
+      const p = /^talk_to\((.+)\)$/.exec(this.act(o))?.[1];
+      const held = p ? rest.filter(x => whose.get(this.act(x)) === p) : [];
       return held.length ? { ...o, aspects: [...new Set([...o.aspects, ...held.flatMap(x => x.aspects)])] } : o;
     });
   }
@@ -25,12 +26,15 @@ export class RunnerTalks {
   // offered as the engine has it: by what it does, or, a companion's that only holds, by its own id.
   private static holders(rows: readonly Row[], rest: Offered[], drawn: Offered[], whose: Map<string, string>):
     Offered[] {
-    const people = [...new Set(rest.flatMap(o => whose.get(o.id) ?? []))];
-    return people.filter(p => !drawn.some(o => o.id === `talk_to(${p})`)).flatMap(p => {
-      const row = Doable.flat(rows).find(r => r.id === `${p}#talk`);
-      return row ? [{ id: row.does ?? row.id, label: row.label, aspects: [], type: 'talk' as const, marks: [] }] : [];
+    const people = [...new Set(rest.flatMap(o => whose.get(o.does ?? o.id) ?? []))];
+    return people.filter(p => !drawn.some(o => (o.does ?? o.id) === `talk_to(${p})`)).flatMap(p => {
+      // Never one the four lead with: it is drawn there.
+      const row = Doable.flat(rows).find(r => r.id === `${p}#talk` && !r.led);
+      return row ? [{ id: row.id, label: row.label, ...row.does ? { does: row.does } : {}, aspects: [],
+        type: 'talk' as const, marks: [] }] : [];
     });
   }
+  private static act(o: Offered): string { return o.does ?? o.id; }
   // Each command done with one of the people here, by whom, as the engine holds it (Doable's within).
   static whose(rows: readonly Row[]): Map<string, string> {
     return new Map(Doable.flat(rows).flatMap(r => {

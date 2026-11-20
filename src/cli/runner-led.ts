@@ -9,7 +9,7 @@ import type { Offered } from './runner';
 // Which of the four act on the aim followed's next step (US-07's AimLead): done to or with what the step names, or
 // going where it is. A turn that leads with one is led, gold or not: the speaking door's words are a1's step at
 // Mistlake, grave and never gold (the lead's ruling, 15 November), and a walk that stood before them had been counted
-// lost. Said with the turn (Said.led); never a reason to gild anything (PB-16b).
+// lost. Said with the turn (Said.led), each by what it does; never a reason to gild anything (PB-16b).
 export class RunnerLed {
   static of(campaign: Campaign, screen: Screen, lead: AimLead | undefined, primary: Offered[]): string[] {
     if (!lead?.next.length) { return []; }
@@ -22,11 +22,12 @@ export class RunnerLed {
       ? [[a.command, e.destination.id] as const] : [])));
     return primary.filter(o => {
       // A way to where it is; a journey to the town or site it lies in.
-      const way = ways.get(o.id), far = o.id.startsWith('travel:') ? o.id.slice('travel:'.length) : undefined;
+      const act = o.does ?? o.id, way = ways.get(act);
+      const far = act.startsWith('travel:') ? act.slice('travel:'.length) : undefined;
       // A way is led by where it goes, never by where it leaves: a door of the room the step is in binds that room
       // too, and following an aim already at its place had led out of it and back (the second cold play, CL-03).
-      return (!way && (bound.get(o.id) ?? []).some(id => step.has(id))) || (!!way && step.has(way))
+      return (!way && (bound.get(act) ?? []).some(id => step.has(id))) || (!!way && step.has(way))
         || (!!far && [...step].some(id => Itineraries.within(byId, id, far)));
-    }).map(o => o.id);
+    }).map(o => o.does ?? o.id);
   }
 }

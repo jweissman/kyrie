@@ -50,7 +50,8 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
       /herb-shop/, /^Tell Falkor what has been at the grain/);
     expect(said(s)).toMatch(/A child\. On my corn, all winter/);
     // Kept, she tells what she saw below: the letters on the drain's keystone, the vault's way.
-    s = await Store.walk(r, s, /^To the market/, /^To the shrine/, /^Ask the girl what she saw down below/);
+    s = await Store.walk(r, s, /^To the market/, /^To the shrine/,
+      /^(Ask the girl|Talk to the girl — ask) what she saw down below/);
     expect(j.holds('knows', 'party', 'region__s1_u_letters')).toBe(true);
     s = await Store.walk(r, s, /^Take your leave/, /^Ask Carmine about the girl from the corn-store/);
     expect(said(s)).toMatch(/She has asked twice whether you will come back/);

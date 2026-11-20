@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Atlas } from '../support/atlas';
 import { Runner, type Said } from '../../src/cli/runner';
+import { RunnerOffer } from '../../src/cli/runner-offer';
 
 // What a headless client is offered is called by what it does (promise fidelity: the promise-fidelity walk, 14
 // November). A look at a thing on a way opens onto its tries on the page; the runner had done the first of them,
@@ -13,12 +14,12 @@ describe('an opener the runner lists with its rows', () => {
     const t = await Tiny.start(Atlas.ground.replace('of 1 at green.', 'of 1 at yard.'));
     const r = new Runner(t.session), offer = r.said().offer;
     const all = [...offer.primary, ...offer.rest].flatMap(o => [o, ...o.opens ?? []]);
-    const opener = all.find(o => o.opens?.some(k => k.id === 'push(t__lock)'))!;
+    const opener = all.find(o => o.opens?.some(k => RunnerOffer.act(k) === 'push(t__lock)'))!;
     expect(opener.id).not.toBe('push(t__lock)');
-    expect(all.find(o => o.id === 'push(t__lock)')?.label).toBe('Push and pull at the padlock');
+    expect(all.find(o => RunnerOffer.act(o) === 'push(t__lock)')?.label).toBe('Push and pull at the padlock');
     // Taken, it opens: its rows, no time.
     const opened = said(await r.ask(JSON.stringify({ act: opener.id })));
     expect([opened.moment, opened.turn]).toEqual(['inspect', 0]);
-    expect(opened.offer.primary.map(o => o.id)).toContain('push(t__lock)');
+    expect(opened.offer.primary.map(o => RunnerOffer.act(o))).toContain('push(t__lock)');
   });
 });

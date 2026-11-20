@@ -80,3 +80,16 @@ on it, and a journey JourneyFold does not keep in the rest is marked as on the m
 and folds what the engine marks; nothing of journeys is left in it. The measure holds it: a journey on the map drawn
 in the rest, or a count of them folded that is not the engine's, is a divergence. 141 → 107, none new; the page's
 menu and map are to read the same rows (step 4).
+
+## Doable's ids, the follow rows, the words (20 November)
+
+The runner offers the engine's rows by the engine's ids (Doable's), each with the command taking it does (`does`),
+which may be asked in its place, so that the kept lines play as they were played (RunnerOffer.act). An aim to follow
+(follow:) is no longer refused by the runner's own filter of the world's names. A talk the four lead for an act is
+called by what it does, in the world's whole words, which the glance now says (LedWords: "Ask Ebba for a lesson",
+where her talk's row says "Ask for a lesson"); a stranger's by the talk and the act (CL-45); asked by its id it does
+that act (TB-01), and only a holder that does nothing of its own (a companion's) is turned to. The measure plays a walk
+re-taken from the golden lines (warrior-walk.txt: the fuel boat's and the sea-gate's aims taken up by asking, as they
+now arise; lines the runner refused dropped) and fails on any line refused, which had been passed over (the walk had
+followed nothing after T8). 149 → 1: the one left is the scene's "Wait" opener of fragments outside a fight (PB-02,
+flat-1). Next: the page's lenses and `serve` in the measure; the runner's own RunnerLed (Said.led) into the engine.

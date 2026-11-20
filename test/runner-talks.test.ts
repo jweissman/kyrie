@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Runner, type Said } from '../src/cli/runner';
@@ -17,7 +18,7 @@ describe('the runner holds what is said to someone under their talk', () => {
     expect(turn.offer.rest.filter(o => /^Ask Kynes/.test(o.label))).toEqual([]);
     expect(turn.offer.rest.length).toBeLessThan(60);
     // Offered by the engine's own row for him (MT-18), not one the runner made (talk:, kept as a way to turn to him).
-    expect(turn.offer.rest.find(o => o.id === 'talk_to(region__s1_innkeeper)')?.label).toBe('Talk to Kynes');
+    expect(turn.offer.rest.find(o => RunnerOffer.act(o) === 'talk_to(region__s1_innkeeper)')?.label).toBe('Talk to Kynes');
     // Turned to (no time), he is told, not the taproom again, and what can be said to him leads, talk before trade
     // ("Talk to the factor" had told the green whole: cold play 4, CL-49).
     const his = said(await r.ask(JSON.stringify({ act: 'talk:region__s1_innkeeper' })));

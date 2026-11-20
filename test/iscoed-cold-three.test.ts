@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { ScreenModel } from '../src/ui/screen-model';
@@ -30,7 +31,7 @@ describe('the drove road, after the third cold play', () => {
     let s: Said | undefined;
     for (const act of ['drove__owain_count_t', 'go(drove__customs_door,drove__customs)', 'drove__bran_count_t',
       'drove__clerk_count_t']) { s = said(await r.ask(JSON.stringify({ act }))); }
-    const primary = s!.offer.primary.map(o => o.id);
+    const primary = s!.offer.primary.map(o => RunnerOffer.act(o));
     expect(primary).toContain('drove__read_book(party,drove__customs)');
     expect(primary.filter(id => id.startsWith('travel:'))).toEqual([]);
   }, 180000);

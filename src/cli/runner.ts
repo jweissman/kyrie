@@ -34,7 +34,9 @@ import { FightBegun } from '../presentation/fight-begun';
 // opens: an opener's rows, where it is one: taken, it opens (it does nothing of its own: TB-12).
 // says: an opener's focus, what opening it reads out whole (the speaking door's riddle: Doable's Row.says).
 // aside: what the row says before it is chosen, of a fight that could be lost: its odds and the help to be had (CL-52).
-export interface Offered { id: string; label: string; aspects: string[]; type: ActType; minutes?: number;
+// id: the engine's own row's (Doable's), as every client names it (MT-18, AT-13); does: the command taking it does,
+// which may be asked for in its place (the cold plays' kept lines ask by command). An opener does nothing: it opens.
+export interface Offered { id: string; label: string; does?: string; aspects: string[]; type: ActType; minutes?: number;
   marks: string[]; bearing?: Bearing; opens?: Offered[]; says?: string; aside?: string }
 // What the runner says on each turn: how it was come to (arriving somewhere, what came of an act, or looked at on
 // purpose), the scene's lines as the terminal tells them, the four led with and the rest, the aim and what is needed.
@@ -198,25 +200,27 @@ export class Runner {
     // What pulls next is offered too, by its own act.
     // And what is under each person's talk, offered as it is on the page (see RunnerTalks), and under an opener.
     const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
-    const offered = all.map(x => x.id).concat(g?.next?.command ?? []);
-    // Turning to someone with acts held within their talk takes no time: by the engine's holder (<person>#talk, a
-    // companion's, which does nothing but hold), or by talk:<person>, as the cold plays' kept lines turned to people
-    // before the engine held a person's acts (MT-18).
-    const turned = /^talk:(.+)$/.exec(asked.act)?.[1] ?? /^(.+)#talk$/.exec(asked.act)?.[1];
+    const offered = all.flatMap(x => [x.id, ...x.does ? [x.does] : []]).concat(g?.next?.command ?? []);
+    // The row asked for, by its id or by what it does; and what taking it does.
+    const row = all.find(x => x.id === asked.act) ?? all.find(x => x.does === asked.act), act = row?.does ?? asked.act;
+    // Turning to someone with acts held within their talk takes no time: by the engine's holder (<person>#talk) where
+    // it does nothing of its own (a companion's, which only holds; one the four lead for an act does that act: TB-01),
+    // or by talk:<person>, as the cold plays' kept lines turned to people before the engine held a person's acts
+    // (MT-18).
+    const holder = row?.id === asked.act && !row.does ? /^(.+)#talk$/.exec(asked.act)?.[1] : undefined;
+    const turned = /^talk:(.+)$/.exec(asked.act)?.[1] ?? holder;
     if (turned && g && [...RunnerTalks.whose(Doable.of(g, screen)).values()].includes(turned)) {
       this.with = turned;
       return this.talk(screen, turned);
     }
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}${Runner.why(screen, asked.act)}` }; }
     // An opener taken opens: its rows offered, no time (the page draws them; the runner had done its first).
-    const opener = all.find(x => x.id === asked.act && x.opens);
-    if (opener) { return this.opened(opener, screen); }
+    if (row?.opens) { return this.opened(row, screen); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
-    if (asked.act.startsWith('follow:')) { this.now = undefined; await this.session.leg(asked.act); return this.said('look'); }
-    const talking = /^talk_to\(([^)]+)\)$/.exec(asked.act)?.[1]
-      ?? RunnerTalks.whose(g ? Doable.of(g, screen) : []).get(asked.act);
-    this.doing = { act: asked.act, before: PlayerView.observe(this.campaign), since: this.campaign.history.length,
-      label: this.names().get(asked.act), leg: this.lead(asked.act),
+    if (act.startsWith('follow:')) { this.now = undefined; await this.session.leg(act); return this.said('look'); }
+    const talking = /^talk_to\(([^)]+)\)$/.exec(act)?.[1] ?? RunnerTalks.whose(g ? Doable.of(g, screen) : []).get(act);
+    this.doing = { act, before: PlayerView.observe(this.campaign), since: this.campaign.history.length,
+      label: this.names().get(act), leg: this.lead(act),
       ...talking ? { with: talking } : {} };
     return this.went();
   }
@@ -299,7 +303,7 @@ export class Runner {
     const seen = (p.says?.length ? p.says : [p.name]).map(l => Typography.plain(l));
     const g = this.glanced(), lines = [`${p.name.split(', ')[0]}:`, ...seen];
     const whose = RunnerTalks.whose(g ? Doable.of(g, screen) : []);
-    const primary = said.offer.rest.filter(o => whose.get(o.id) === who).slice(0, 4);
+    const primary = said.offer.rest.filter(o => whose.get(o.does ?? o.id) === who).slice(0, 4);
     const rest = [...said.offer.primary, ...said.offer.rest.filter(o => !primary.includes(o))];
     return { ...said, moment: 'inspect', scene: { lines, prose: seen },
       offer: primary.length ? { ...said.offer, primary, rest } : said.offer };

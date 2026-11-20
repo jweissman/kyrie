@@ -13,7 +13,7 @@
   "BL-01 size: 820×1180 in no cited spec (0)",
   "PB-09 size: 1280×800 in no cited spec (0)",
   "PB-09 size: 820×1180 in no cited spec (0)",
-  "PB-16 ambiguous: gold-thread: test/small/gold-thread.test.ts, test/gold-thread.test.ts",
+  "PB-16 ambiguous: gold-thread: test/gold-thread.test.ts, test/small/gold-thread.test.ts",
   "CL-34 missing: test/riddle-focus",
   "AR-23 missing: test/support/cold-player.ts"
  ]

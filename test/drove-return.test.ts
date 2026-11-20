@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerFind } from './support/runner-find';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -15,11 +16,8 @@ describe('the drove life, after Bran is let out', () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const r = new Runner(journey.session), c = journey.session.campaign;
     for (const line of lines.slice(0, 12)) { said(await r.ask(line)); }
-    const take = async (label: RegExp) => {
-      const s = r.said(), o = offered(s).find(x => label.test(x.label));
-      if (!o) { throw new Error(`not offered: ${label} (${offered(s).map(x => x.label).join(' | ')})`); }
-      return said(await r.ask(JSON.stringify({ act: o.id })));
-    };
+    // Found as a player finds it, under someone's talk too (MT-18: what is said to Bran is held within his).
+    const take = (label: RegExp) => RunnerFind.act(r, r.said(), label);
     const coin = () => c.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
     await take(/^To the drove pens/);
     const before = coin(), sold = await take(/^Help Bran take the drove to the sales/);

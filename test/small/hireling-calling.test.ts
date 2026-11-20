@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Atlas } from '../support/atlas';
 import { Runner, type Said } from '../../src/cli/runner';
+import { RunnerOffer } from '../../src/cli/runner-offer';
 
 // A hireling's calling is said before they are asked and while they go with the company, in the terminal and the
 // runner as on the page's talk (RecruitSaid): cold play 2 met its ranger's bow and animal companion first in a fight's
@@ -9,7 +10,8 @@ const said = (out: Awaited<ReturnType<Runner['ask']>>): Said => {
   if ('error' in out || 'end' in out && !('scene' in out)) { throw new Error(JSON.stringify(out)); }
   return out as Said;
 };
-const offered = (s: Said, pattern: RegExp) => [...s.offer.primary, ...s.offer.rest].find(o => pattern.test(o.id));
+const offered = (s: Said, pattern: RegExp) => [...s.offer.primary, ...s.offer.rest]
+  .find(o => pattern.test(RunnerOffer.act(o)));
 describe('a hireling\'s calling', () => {
   it('is said once they would join, and in the company after', async () => {
     const r = new Runner((await Atlas.start('companion', 'green')).session);

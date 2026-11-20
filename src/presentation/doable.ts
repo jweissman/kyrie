@@ -169,11 +169,16 @@ export class Doable {
     // Not a look at a way barred, which opens onto its tries and is never done by the first of them, whatever inside
     // it bears what it is led for (CL-34; AT-07: the try now bears the look's 'worth a look').
     const led = act?.exit && !act.for ? undefined : act?.inside?.filter(i => !i.borne)[0]?.command ?? act?.for;
-    const asked = act?.unmet && led && c
-      ? Attending.all(c.children ?? []).find(k => k.command === led)?.label : undefined;
+    // A talk led for a question or an act of theirs is called by what it does (TB-01: it does that act), in the world's
+    // whole words (LedWords), a stranger's by both, the talk first (CL-45): the act's words from within the talk, else
+    // the scene's (MT-18: the runner had said them, the engine nothing).
+    const within = led && c && (act?.unmet || c.command?.startsWith('talk_to('))
+      ? (Attending.all(c.children ?? []).find(k => k.command === led) ?? [...at.tree.values()]
+        .find(k => k.command === led))?.label : undefined;
+    const asked = within && (act?.unmet ? within : act?.words?.[led!] ?? within);
     const base = { id, label: c?.alone ?? label, witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led ? { for: led } : {},
-      ...asked ? { called: this.called(c?.alone ?? c?.label ?? label, asked) } : {},
+      ...asked ? { called: act?.unmet ? this.called(c?.alone ?? c?.label ?? label, asked) : asked } : {},
       ...c?.disabled ? { shut: c.disabled } : {}, ...at.parents?.get(id) && !at.opening
         ? { within: at.parents.get(id)! } : {} }, legal = at.legal ?? new Set<string>();
     const kids = c?.children ?? [];

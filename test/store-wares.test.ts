@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -19,7 +20,7 @@ describe('the general store at Porthalen', () => {
     const store = said(await r.ask(act('go(region__s1_general_door,region__s1_general)')));
     // That food is not bought here, naming no tradesman a town may lack (a drawn town's descriptions, test/named-held).
     expect(store.scene.lines.join(' ')).toContain('Meal and lamp-oil are not sold here.');
-    const buys = [...store.offer.primary, ...store.offer.rest].filter(o => o.id.startsWith('buy_item('));
+    const buys = [...store.offer.primary, ...store.offer.rest].filter(o => RunnerOffer.act(o).startsWith('buy_item('));
     expect(buys.map(o => o.label)).toContainEqual(expect.stringMatching(/^Buy a backpack/));
     for (const line of ['go(region__s1_general_door,region__s1_green)', 'go(region__s1_inn_door,region__s1_taproom)',
       'region__s1_traveller_brings', 'recruit(region__s1_traveller)']) { said(await r.ask(act(line))); }

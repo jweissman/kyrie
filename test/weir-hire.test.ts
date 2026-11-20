@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { DangerSense } from '../src/presentation/danger-sense';
@@ -11,7 +12,7 @@ import { DangerSense } from '../src/presentation/danger-sense';
 // odds measured in test/weir-mage-odds). Each act is taken by its id.
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 const offered = (s: Said) => [...s.offer.primary, ...s.offer.rest].flatMap(o => [o, ...o.opens ?? []]);
-const ids = (s: Said) => offered(s).map(o => o.id);
+const ids = (s: Said) => offered(s).map(o => RunnerOffer.act(o));
 const text = (s: Said) => s.scene.lines.join(' ');
 describe('the weir life\'s hire at Gatesend', () => {
   it('is told of, asks what she can pay, and once taken on changes what the rats are reckoned', async () => {

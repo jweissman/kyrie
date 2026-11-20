@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Runner } from '../src/cli/runner';
@@ -20,14 +21,14 @@ describe('the speaking door, its safe tries spent', () => {
     // "look at the speaking door", they pushed. Opening it takes a turn of the walk's, no time.)
     const said = walk.turns.find(t => t.offer.primary.some(o => /^Press the word/.test(o.label))
       && !t.offer.primary.flatMap(o => [o, ...o.opens ?? []])
-        .some(o => /^(push|listen|look_closely)\(region__w2_riddle\b/.test(o.id)))!;
+        .some(o => /^(push|listen|look_closely)\(region__w2_riddle\b/.test(RunnerOffer.act(o))))!;
     expect(said).toBeDefined();
     const words = said.offer.primary.filter(o => /^Press the word/.test(o.label));
     expect(words.length).toBeGreaterThanOrEqual(2);
     expect(words.every(o => o.marks.includes('grave') && !o.aspects.includes('undertaking'))).toBe(true);
     expect(said.offer.primary.filter(o => o.aspects.includes('undertaking'))).toEqual([]);
     // And the turn is led, not lost: its four act on that step (Said.led), gold or not (US-07).
-    expect(words.every(o => said.led?.includes(o.id))).toBe(true);
+    expect(words.every(o => said.led?.includes(RunnerOffer.act(o)))).toBe(true);
     expect(RunnerWalk.lostIndices(walk)).not.toContain(walk.turns.indexOf(said));
     // Not gold, and still the step: the aim's next step is the door, the old writing beyond it (US-07, PB-16b).
     const c = s.campaign, glance = Narrator.leaf(c, ScreenModel.build(c)).glance!;

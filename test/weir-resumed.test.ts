@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { RunnerFind } from './support/runner-find';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -59,8 +60,8 @@ describe('the weir life, kept and taken up again', () => {
     expect(w.one('at', 'gate__reeve')).toBe('region__s1_green');
     said(await last.ask(JSON.stringify({ act: 'travel:region__s4_green' })));
     await reach(last, 'region__s1', 'region__s1_green');
-    await take(last, /^Talk to Reeve Annis Talfryn/);
-    expect(said(await take(last, /^Ask the reeve about Ifan Rhys's boat/)).scene.lines.join(' '))
+    // Her question found under her talk, as a player turns to her (MT-18: her talk is led for the sea-gate's news).
+    expect((await RunnerFind.act(last, last.said(), /^Ask the reeve about Ifan Rhys's boat/)).scene.lines.join(' '))
       .toContain('for a smuggler');
   }, 240000);
 });

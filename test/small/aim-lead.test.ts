@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Runner } from '../../src/cli/runner';
+import { RunnerOffer } from '../../src/cli/runner-offer';
 
 // The aim followed and its next step are one record, read by every client (US-07, PD-08): the aim, where its next step
 // was learned, and the step. At a1's Mistlake the brothers' errand had named only the place the company stood in, and
@@ -94,7 +95,8 @@ describe('the aim followed and its next step', () => {
     t.follow('crypt');
     expect(t.glance.lead).toEqual({ aim: 't__crypt', source: 'route', next: ['t__yard'] });
     const r = new Runner(t.session), said = r.said();
-    expect(said.led?.map(id => said.offer.primary.find(o => o.id === id)?.label)).toEqual(['To the churchyard']);
+    expect(said.led?.map(id => said.offer.primary.find(o => RunnerOffer.act(o) === id)?.label))
+      .toEqual(['To the churchyard']);
     await t.play('To the churchyard');
     expect(t.glance.lead).toEqual({ aim: 't__crypt', source: 'toward', next: ['t__dead'] });
   });

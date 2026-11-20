@@ -6,6 +6,7 @@ import { GlanceStage } from '../../web/reader/stage/glance';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { TerminalDoable } from '../../src/cli/terminal-doable';
 import { Runner } from '../../src/cli/runner';
+import { RunnerOffer } from '../../src/cli/runner-offer';
 
 // One projection, read alike (TB-01): from the same state the page, the terminal and the runner (the blind walkers')
 // lead with the same four acts, in the same order, each done by the same command and meaning the same thing (its
@@ -28,7 +29,7 @@ const read = async (kind: Kind, at: Where, aim: boolean) => {
   const runner = new Runner(t.session).said().offer.primary;
   return {
     page: page.map(a => a.inside?.[0]?.command ?? Projected.page(app, a)),
-    terminal: TerminalDoable.led(g.glance, g.screen), runner: runner.map(o => o.id),
+    terminal: TerminalDoable.led(g.glance, g.screen), runner: runner.map(o => RunnerOffer.act(o)),
     // What the page's four do when pressed (GlanceStage.acted): as the engine's one row says (Doable).
     pressed: page.map(a => {
       const c = MenuModel.lead(app.menu, a.choice);

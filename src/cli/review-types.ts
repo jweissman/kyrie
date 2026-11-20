@@ -23,8 +23,10 @@ export interface ToldLine { text: string; role: 'prologue' | 'heading' | 'prose'
 // Its makers, which are the same wherever it is offered, are kept once for the artifact, by its id (makers).
 // why, note: of one of the four the glance led with, its reason (Promoted.why: named, advance, own…) and that reason
 // in words ("your aim"), as the glance gave them (the AT-09 analysis: the reason had been dropped before the review).
+// id: what taking it does (its command, as the review explains it); row: the engine's own row's id, where that is
+// another (MT-18: the runner names a row by Doable's id).
 export interface ReviewChoice { id: string; label: string; group: 'next' | 'primary' | 'rest' | 'fight'; led?: true;
-  aspects?: string[]; aside?: string; why?: string; note?: string }
+  row?: string; aspects?: string[]; aside?: string; why?: string; note?: string }
 export interface Maker { type?: string; exact: Exactness; sources: SourceRef[] }
 // A scene as the player was shown it: when and where, the lines, the offer, the aims, and the world in a word.
 export interface ReviewFrame {

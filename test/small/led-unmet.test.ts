@@ -30,11 +30,12 @@ describe('a question led to someone not yet met', () => {
     expect(act.aspects).toContain('knowledge');
     expect(act.inside!.filter(i => i.aspects.includes('knowledge')).map(i => i.command)).toEqual(['t__ask_mill']);
   });
+  // Once met, called by the question (MT-18: the engine had said nothing of it, the runner the question).
   it('is the question itself once he has been met', async () => {
     const t = await Tiny.start(verge);
     await t.perform('t__ask_road');
     expect(talk(t)?.for).toBe('t__ask_mill');
-    expect(talk(t)?.called).toBeUndefined();
+    expect(talk(t)?.called).toMatch(/^Ask .+ about the mill$/);
   });
   it('drops whom the question names where the talk names them already, and keeps other words whole', () => {
     expect(Doable.called('Talk to Bran ap Ifor', 'Ask Bran what happened')).toBe('Talk to Bran ap Ifor — ask what happened');

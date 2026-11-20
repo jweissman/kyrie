@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -79,7 +80,7 @@ describe('the golden route, after the fourth cold play', () => {
     // Said, and leads, not aims (HP-01): the sea-gate is held once the reeve is asked of it, not from her notice seen.
     expect(byLine[0]!.aims?.map(a => a.text).join(' ')).not.toContain('sea-gate at Gatesend');
     expect(byLine[0]!.aims?.map(a => a.text).join(' ')).not.toContain('fuel boat');
-    const led = (s: Said | undefined) => s!.offer.primary.map(o => o.id);
+    const led = (s: Said | undefined) => s!.offer.primary.map(o => RunnerOffer.act(o));
     // First after the company's own story's (the drove's aftermath, Owain's word led as kin: the green's signs leads,
     // not aims, and nothing else held once Bran is out, HP-01), and before anything else of the green.
     const spoken = (s: Said | undefined) => led(s).filter(id => !id.startsWith('drove__'));

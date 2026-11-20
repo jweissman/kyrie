@@ -117,10 +117,15 @@ export class JourneyCapture {
   // Where an act stood in a turn's offer, by its id.
   static where(said: Said, id: string): { label: string; from: From } | undefined {
     if (said.next?.act === id) { return { label: said.next.label ?? said.next.text, from: 'next' }; }
-    const four = said.offer.primary.find(o => o.id === id), rest = said.offer.rest.find(o => o.id === id);
-    if (four) { return { label: four.label, from: said.moment === 'fight' ? 'fight' : said.led?.includes(id) ? 'led' : 'primary' }; }
+    // By the row's id or by what it does, as the runner takes it (Offered.does).
+    const four = said.offer.primary.find(o => this.is(o, id)), rest = said.offer.rest.find(o => this.is(o, id));
+    if (four) {
+      const led = said.led?.includes(four.does ?? four.id);
+      return { label: four.label, from: said.moment === 'fight' ? 'fight' : led ? 'led' : 'primary' };
+    }
     return rest && { label: rest.label, from: 'rest' };
   }
+  private static is(o: Offered, id: string): boolean { return o.id === id || o.does === id; }
   // The build this is played by: its commit, and whether the tree had changes not committed.
   static build(): Build {
     return { commit: this.git('rev-parse', '--short', 'HEAD') || 'unknown',

@@ -75,6 +75,9 @@ export interface Promoted {
   subject?: string; exit?: string;
   // A talk with someone not yet met: led as talking to them, for what it is led for (see Doable.called).
   unmet?: true;
+  // What it is or may be led for (for, inside), each by the world's whole words (LedWords): what a talk led for it is
+  // called by.
+  words?: Record<string, string>;
   // Within an opener, the act each of its aspects is for, best first (see Promotion.inside): the page draws each where
   // the player finds it, the topic that teaches in blue, the asking to come along in rose.
   // borne: an act that bears what the opener is drawn as, and nothing it is led for (Promotion.inside).

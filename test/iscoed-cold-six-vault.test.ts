@@ -1,4 +1,5 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
+import { RunnerOffer } from '../src/cli/runner-offer';
 import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -25,7 +26,7 @@ describe('the sealed vault, after the sixth cold play', () => {
     }
   }, 240000);
   it('says the odds of the keeper and what would help, and does not lead with it', () => {
-    const attack = vault.offer.primary.find(o => o.id === 'attack(region__s1_u_keeper)');
+    const attack = vault.offer.primary.find(o => RunnerOffer.act(o) === 'attack(region__s1_u_keeper)');
     expect(attack?.aside).toMatch(/^Beyond you: It is more than you can take\. What would help: /);
     expect(attack?.aside).toContain('a companion (');
     expect(attack?.aside).toContain('the way back to the undercroft');
