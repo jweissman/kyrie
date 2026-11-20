@@ -2,7 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
-import { Discovery } from './discovery';
+import { Discovery } from '../lang/discovery';
 import { PlayerView } from '../presentation/player-view';
 import { ObservationText } from '../lang/observation-text';
 

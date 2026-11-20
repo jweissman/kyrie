@@ -4,7 +4,7 @@ import { Canon } from '../canon/canon';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { ItemCatalog } from '../item-catalog';
 import { FieldUse } from './field-use';
-import { Discovery, type DiscoveryBinding, type DiscoveryDefinition } from '../information/discovery';
+import { Discovery, type DiscoveryBinding, type DiscoveryDefinition } from '../lang/discovery';
 import { Content, type CreatureGenerationContext } from '../content';
 import { World } from '../lang/world';
 import { ModuleParser } from '../lang/module-parser';

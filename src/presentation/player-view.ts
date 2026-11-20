@@ -9,7 +9,7 @@ import type { Call, Entity, MovementMode } from '../lang/module';
 import type { Operator } from '../campaign/planner';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
-import { Discovery } from '../information/discovery';
+import { Discovery } from '../lang/discovery';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ObservationText } from '../lang/observation-text';
 import { AimWords } from './aim-words';

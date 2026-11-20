@@ -46,7 +46,7 @@ export class StartupProbes {
     const { ModuleNamespace } = await import('../src/campaign/module-namespace');
     const { ModuleBundle } = await import('../src/campaign/module-bundle');
     const { CreatureFacts } = await import('../src/campaign/creature-facts');
-    const { Discovery } = await import('../src/information/discovery');
+    const { Discovery } = await import('../src/lang/discovery');
     const { RoleRequirements } = await import('../src/campaign/role-requirements');
     this.wrap(ModuleCompiler.prototype, 'validate', 'validate');
     this.wrap(ModuleCompiler.prototype, 'instantiate', 'instantiate');

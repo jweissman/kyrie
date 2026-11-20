@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Discovery } from '../src/information/discovery';
+import { Discovery } from '../src/lang/discovery';
 import { World } from '../src/lang/world';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change, Module } from '../src/lang/module';

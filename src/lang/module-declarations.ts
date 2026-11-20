@@ -1,5 +1,5 @@
 import { Spatial } from './spatial';
-import type { DiscoveryDefinition } from '../information/discovery';
+import type { DiscoveryDefinition } from './discovery';
 import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature, WorldRule } from './module';
 import { WorldConstructs, type EventSpec, type PassageSpec, type ThingSpec } from './world-constructs';
 import { Vocabularies } from './vocabulary';

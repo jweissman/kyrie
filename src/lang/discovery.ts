@@ -1,6 +1,6 @@
-import { ModuleWriter } from '../lang/module-writer';
-import type { Change, Entity, Module, Observation, Predicate } from '../lang/module';
-import { World } from '../lang/world';
+import { ModuleWriter } from './module-writer';
+import type { Change, Entity, Module, Observation, Predicate } from './module';
+import { World } from './world';
 
 export interface DiscoveryBinding { actor: string; source: string; fact: string; place: string }
 export interface DiscoveryDefinition {
@@ -10,6 +10,8 @@ export interface DiscoveryDefinition {
   // Places where searching finds it (with a skill, if named), and what the searcher then sees there.
   found?: { place: string; with?: string; text?: string }[];
 }
+// A module's Discovery declarations (a fact, who knows it, where it is read or found), expanded as the module is read
+// into the entities, facts and observations the rest of the language already runs: the language's own sugar.
 export class Discovery {
   // Authoring expansion only: the result uses the existing world and information-transfer rules.
   static describe(definitions: DiscoveryDefinition[]):

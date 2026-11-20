@@ -18,7 +18,7 @@ import { Composition } from '../../src/world/compose/composition';
 import { Geography } from '../../src/world/compose/geography';
 import { CanonInstall } from '../../src/campaign/canon-install';
 import { EngineDeclarations } from '../../src/campaign/engine-declarations';
-import { Discovery } from '../../src/information/discovery';
+import { Discovery } from '../../src/lang/discovery';
 import { Content } from '../../src/content';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionWriter } from '../../src/world/region-writer';

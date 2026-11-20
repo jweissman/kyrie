@@ -15,7 +15,7 @@ import { Progression } from './progression';
 import { Content } from '../content';
 import { InstalledInstance } from './installed-instance';
 import type { Creature } from '../creature';
-import { Discovery } from '../information/discovery';
+import { Discovery } from '../lang/discovery';
 import { EngineOwned } from '../lang/engine-owned';
 
 export class ModuleInstallations {
