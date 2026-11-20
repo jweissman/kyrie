@@ -1,6 +1,6 @@
 import type { CreatureGenerationContext } from '../content';
 import type { BoundRole } from './role-requirements';
-import type { Operator, Predicate } from '../lang/module';
+import type { Instance, Operator, Predicate } from '../lang/module';
 
 export interface CampaignGoal {
   id: string; when: Predicate; target: Predicate; priority: number; urgent?: { when: Predicate; priority: number };
@@ -32,3 +32,5 @@ export interface CampaignDefinition {
   outcomes: { id: string; predicate: Predicate }[];
   pressures: { id: string; at: number; measure: { kind: 'call'; name: string; args: string[] }; required: number }[];
 }
+// A world instantiated from a campaign's modules, with the definition it was composed by.
+export interface CampaignInstance extends Instance { campaign?: CampaignDefinition }

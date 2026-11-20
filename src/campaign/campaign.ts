@@ -8,7 +8,7 @@ import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
-import type { InstalledModule, CampaignActor, CampaignDefinition } from './definition';
+import type { InstalledModule, CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
 import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang/module-compiler';
 import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
@@ -18,7 +18,7 @@ import { Membership, type LiveCache } from './membership';
 import { CampaignPlan } from './campaign-plan'; import { Battle } from '../arena';
 import { LoadCache, type Assembly } from './load-cache'; import { CombatProjection } from '../combat-projection';
 import { Content, type CreatureGenerationContext } from '../content';
-import type { CombatEvent, Fighter } from '../model'; import type { Instance, Module } from '../lang/module';
+import type { CombatEvent, Fighter } from '../model'; import type { Module } from '../lang/module';
 import { World } from '../lang/world'; import { Beside } from './beside'; import { Checks } from '../rules/checks';
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { EngineDeclarations } from './engine-declarations'; import { Spoils } from './spoils'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
@@ -42,7 +42,7 @@ export class Campaign implements WatchHost {
   // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
   // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
   // module checked unless it is a game this engine kept itself (trusted).
-  constructor(seed: string, instance: Instance, restored?: Restored, dated?: Dated) {
+  constructor(seed: string, instance: CampaignInstance, restored?: Restored, dated?: Dated) {
     const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
       // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.

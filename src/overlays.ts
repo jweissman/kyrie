@@ -4,6 +4,7 @@ import { ItemCatalog } from './item-catalog';
 import { ItemTraits } from './campaign/item-traits';
 import type { Attribute, Creature } from './creature';
 import type { Instance } from './lang/module';
+import type { CampaignInstance } from './campaign/definition';
 import { ModuleWriter } from './lang/module-writer';
 import type { ItemKind } from './canon/schema';
 
@@ -149,7 +150,7 @@ export class Overlays {
     const own = wonder && ['equipment', 'consumable'].includes(item.category) ? undefined : by[item.category];
     return [...own ? [own] : [], ...wonder ? ['trade_rare'] : []];
   }
-  static declareGear(instance: Instance) {
+  static declareGear(instance: CampaignInstance) {
     const module = instance.module;
     for (const c of instance.campaign?.creatures ?? []) {
       const carried = (c.context.gear ?? []).map(k => Canon.resolve('items', k));

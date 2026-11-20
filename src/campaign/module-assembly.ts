@@ -13,7 +13,7 @@ import { Expressions } from '../expressions';
 import { ModuleWriter } from '../lang/module-writer';
 import { Cast } from './cast';
 import { ItemTraits } from './item-traits';
-import type { CampaignActor, CampaignDefinition } from './definition';
+import type { CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
 import type { Instance, Operator, Module, Person, Predicate } from '../lang/module';
 import { EngineOwned } from '../lang/engine-owned';
 
@@ -41,7 +41,7 @@ export type AdventureManifest = SituationManifest;
 // Combines declarative content and a reusable ruleset; contains no adventure-specific decisions.
 export class ModuleAssembly {
   static compose(situationSource: string | Module, rulesSource: string | Module, manifest: AdventureManifest,
-    seed: string): Instance {
+    seed: string): CampaignInstance {
     const situation = typeof situationSource === 'string' ? ModuleParser.parse(situationSource) : situationSource;
     const rules = typeof rulesSource === 'string' ? ModuleParser.parse(rulesSource) : rulesSource;
     const module = this.joined(situation, rules, manifest);

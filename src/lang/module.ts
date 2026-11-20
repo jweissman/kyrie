@@ -191,4 +191,4 @@ export interface WorldState {
   relations: Call[];
   measures: { call: Call; value: number }[];
 }
-export interface Instance { module: Module; world: WorldState; budget: number; campaign?: import('../campaign/definition').CampaignDefinition }
+export interface Instance { module: Module; world: WorldState; budget: number }

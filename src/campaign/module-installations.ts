@@ -6,7 +6,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import type { Instance, Module } from '../lang/module';
 import { World } from '../lang/world';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
-import type { CampaignActor, CampaignDefinition } from './definition';
+import type { CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
 import { CreatureStore } from '../creature-store';
 import { Membership } from './membership';
 import { ClockShift } from './clock-shift';
@@ -39,7 +39,7 @@ export class ModuleInstallations {
   // goal they pursue is checked against that world before it is accepted.
   // everyone: whether everyone's facts are projected again, or only the newcomers' (while a campaign is assembled
   // from many modules at once, when everyone's are projected once at the end).
-  static populate(next: Instance & { live?: World }, creatures: CreatureStore,
+  static populate(next: CampaignInstance & { live?: World }, creatures: CreatureStore,
     current: Parameters<typeof Membership.live>[1], everyone = true) {
     const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
     const live = Membership.live(next.campaign!.actors, current).actors;
@@ -130,8 +130,8 @@ export class ModuleInstallations {
     Discovery.validate(module, world);
   }
   // base.live: the world the installation joins, as it is (given, it is not built again from every fact).
-  static prepare(base: (Instance & { live?: World }) | undefined, draft: ModuleDraft, elapsed: number, checked = true):
-    InstalledInstance {
+  static prepare(base: (CampaignInstance & { live?: World }) | undefined, draft: ModuleDraft, elapsed: number,
+    checked = true): InstalledInstance {
     // A draft is made for the one installation, and is the installation's own to change.
     const incoming = draft.instance, addition = incoming.campaign!;
     ClockShift.apply(incoming.module, addition, draft.id, elapsed);

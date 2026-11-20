@@ -1,7 +1,8 @@
-import type { Instance, Module, Predicate, Value } from '../lang/module';
+import type { Module, Predicate, Value } from '../lang/module';
+import type { CampaignDefinition } from './definition';
 
 type Compare = Extract<Predicate, { kind: 'compare' }>;
-type Addition = NonNullable<Instance['campaign']>;
+type Addition = CampaignDefinition;
 
 // A module installed after a campaign began counts its own time from the first morning after it was installed: every
 // read of the clock's watch in what it brings (its rules, observations, objectives, actions, queries, pursuits, the

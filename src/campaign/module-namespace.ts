@@ -1,14 +1,14 @@
 import { Spatial } from '../lang/spatial';
 import { ObservationText } from '../lang/observation-text';
 import type { BoundRole } from './role-requirements';
-import type { Call, Change, Instance, Module, Operator, Predicate, Value, WorldRule } from '../lang/module';
+import type { Call, Change, Module, Operator, Predicate, Value, WorldRule } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
-import type { CampaignDefinition, InstalledModule } from './definition';
+import type { CampaignDefinition, CampaignInstance, InstalledModule } from './definition';
 import type { ExportRole } from './module-exports';
 
 export interface ModuleDraft {
-  id: string; seed: string; instance: Instance; imports: string[]; exports: Record<string, string>; roles?: BoundRole[];
-  experience?: number;
+  id: string; seed: string; instance: CampaignInstance; imports: string[]; exports: Record<string, string>;
+  roles?: BoundRole[]; experience?: number;
   // The roles its manifest declares for its exports, by export (see ModuleExports).
   exported?: Record<string, ExportRole>;
   // Installed into a world already under way (a country beyond a march): its ending closes its chapter, not the book.
@@ -28,7 +28,7 @@ export class ModuleNamespace {
   private entities: Record<string, string>;
   private functions: Record<string, string>;
   private kinds: Record<string, string>;
-  constructor(private instance: Instance, private rules: Module, private bindings: ModuleBindings) {
+  constructor(private instance: CampaignInstance, private rules: Module, private bindings: ModuleBindings) {
     const scope = `${bindings.id}__`;
     this.entities = Object.fromEntries(instance.module.entities.map(e => [e.id,
       bindings.imports[e.id] ?? ((bindings.globals.includes(e.id) || ModuleNamespace.canonical.includes(e.type)) ? e.id

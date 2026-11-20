@@ -1,7 +1,6 @@
 import type * as ohm from 'ohm-js';
 import type { Module, Predicate } from './module';
 import type { World } from './world';
-import type { InstalledModule } from '../campaign/definition';
 import { ObservationText } from './observation-text';
 import { Chapters } from './chapters';
 import { Promises } from './promises';
@@ -56,8 +55,9 @@ export class Endings {
       { kind: 'assert', call: concluded }] });
   }
   // The ending the world has come to, as the page closes on it: one of a module the campaign was made of, not of a
-  // chapter installed into it as it went on.
-  static reached(world: World, installations: readonly InstalledModule[] = []):
+  // chapter installed into it as it went on (each installation by its id, and whether it was one: the runtime's
+  // InstalledModule).
+  static reached(world: World, installations: readonly { id: string; chapter?: boolean }[] = []):
     { title: string; lines: string[] } | undefined {
     const chapters = installations.filter(m => m.chapter).map(m => `${m.id}__`);
     const id = world.relates('reached') ? world.related('reached').map(r => r.args[0]!)
