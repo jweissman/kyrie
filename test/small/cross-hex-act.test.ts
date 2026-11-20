@@ -4,11 +4,13 @@ import { PlayerView } from '../../src/presentation/player-view';
 import { CrossingRefused } from '../../src/campaign/crossing-refused';
 import { Crossing } from '../../src/campaign/crossing';
 import { ModuleWriter } from '../../src/lang/module-writer';
+import { CampaignLint } from '../../src/cli/campaign-lint';
+import { CrossingLint } from '../../src/cli/crossing-lint';
 
 // An act that is no way gone by and would put the company in another hex is never offered and is refused if sent; one
-// that puts it somewhere else in its own hex is done as written (TR-20; the owner, 19 November: "I got from my quest
-// destination back to town without the map"). A land of two stretches of fen drawn by hand, a quay and a boat-shed in
-// the near one, the far bank in the other.
+// that puts it somewhere else in its own hex is done as written; and the lint says the first is an error, in its own
+// words (TR-20; the owner, 19 November: "I got from my quest destination back to town without the map"). A land of
+// two stretches of fen drawn by hand, a quay and a boat-shed in the near one, the far bank in the other.
 class Fen {
   static readonly land = `
     Place region "the Reedlands" is region.
@@ -53,5 +55,12 @@ describe('an act that would cross into another hex', () => {
     expect(Fen.offered(t)).toContain('t__slip_in');
     await t.play('Slip into the boat-shed by the slipway');
     expect(t.where()).toBe('t__shed');
+  });
+  it('is an error of the lint, said in the act\'s own words', async () => {
+    const t = await Fen.start(), lint = new CampaignLint('fen', t.session);
+    CrossingLint.run(lint);
+    expect(lint.findings.map(f => [f.level, f.check])).toEqual([['error', 'crossing']]);
+    expect(lint.findings[0]!.message)
+      .toMatch(/t__ferry_over "Take the ferry over the fen" puts the company at t__bank/);
   });
 });
