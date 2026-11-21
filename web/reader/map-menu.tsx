@@ -48,9 +48,12 @@ export class MapMenu {
     return c ? [{ ...r, c: { ...r.c, ...c, tone: r.c.tone } }] : [];
   }
   // Put away the map: its one row, held where something on the way stops the company (the map put away first).
-  static putAway(app: ReaderApp, put: () => void, held: boolean) {
+  // One gold on the menu (the owner's playtest, 20 November, OR-161: gold on a journey and on Put away the map at once):
+  // where a row of the map's is the aim's, putting the map away does not take the scene's gold beside it.
+  static putAway(app: ReaderApp, put: () => void, held: boolean, gilt = false) {
+    const tone = gilt ? { plain: 'neutral' as const } : MapMenu.away(app);
     return <li><ChoiceRow.Button className={`led-act put-away${held ? ' held' : ''}`} data={{ action: 'put-away-map' }}
-      onClick={put} {...MapMenu.away(app)} label={held ? 'Something is here: put away the map' : 'Put away the map'} /></li>;
+      onClick={put} {...tone} label={held ? 'Something is here: put away the map' : 'Put away the map'} /></li>;
   }
   // A place as the map's board knows it (its mark, its town, its hex: BoardField.whither).
   static whither(screen: Screen, id: string): string {
@@ -105,6 +108,9 @@ export class MapMenu {
     const all = MapMenu.rows(app, screen, { taken, chosen }).flatMap(r => MapMenu.made(app, screen, { ...r,
       c: { id: r.row.id, label: r.row.label, tone: 'way' as const, command: r.row.does!, minutes: r.minutes } }));
     const paged = MapMenu.paged(all, room, page);
+    const gold = (x: Pick<RowParts, 'indicator' | 'plain'>) => x.indicator?.tone === 'gold';
+    const gilt = aimed || (!!onward && gold(MapMenu.gold(app, screen, onward.c.id)))
+      || paged.shown.some(r => gold(MapMenu.marked(r.leaves, gilded)));
     return (
       <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
         {/* The way on in the aim's gold where the journey is the followed aim's (PB-14: it had stayed grey). */}
@@ -132,7 +138,7 @@ export class MapMenu {
         {paged.pages > 1 && <li><ChoiceRow.Button className="led-act more-places" data={{ action: 'more-places' }}
           onClick={() => app.setState({ mapPage: paged.at + 1 })} plain="neutral" label="More places…"
           aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
-        {MapMenu.putAway(app, put, false)}
+        {MapMenu.putAway(app, put, false, gilt)}
       </ol>
     );
   }

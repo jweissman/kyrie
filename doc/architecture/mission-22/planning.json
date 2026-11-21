@@ -158,11 +158,6 @@
     "accept": "the prologue's painting and first sentences shown while the world is made; no checklist, no black frame"
    },
    {
-    "id": "OR-161",
-    "owner": "lead",
-    "accept": "one gold on the map's menu at a time: the aim's next step, never also Put away the map"
-   },
-   {
     "id": "OR-163",
     "owner": "maturity",
     "accept": "with a live threat only the responses to it are offered (act on it, an environmental act, flee, stand); on the map, Put away the map alone; no wait, no fast travel beyond the hex; browser-proved"
@@ -176,6 +171,11 @@
     "id": "OR-160",
     "owner": "lead",
     "accept": "the title and identity only on the title page and never moving; the begin question simple, the embers kept; browser at 390 and 1280"
+   },
+   {
+    "id": "CL-32",
+    "owner": "world",
+    "accept": "the sea-gate answers the deed as the drove does: the pin discussed, the gate's shutting remarked, Nest's payment, a next state of the sabotage; pinned on the weir route"
    }
   ],
   "platform": [
