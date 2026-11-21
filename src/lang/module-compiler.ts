@@ -84,49 +84,9 @@ export class ModuleCompiler {
       this.predicate(module, p.when); this.predicate(module, p.target);
     }
     ModuleCompiler.unique((module.rules ?? []).map(r => r.id), 'rule');
-    for (const r of module.rules ?? []) {
-      this.predicate(module, r.when); ModuleCompiler.bound(`Rule ${r.id}`, r.when);
-      if (r.place?.startsWith('?')) { this.subject(`Rule ${r.id}`, r.anchor, r.place, r.when); }
-      else if (r.place) { this.anchor(module, r.place, r.anchor); }
-      if (r.say) {
-        this.text(module, r.say);
-        for (const line of [r.again ?? '', ...r.then ?? []].filter(Boolean)) { this.text(module, line); }
-        const named = JSON.stringify(r.when);
-        for (const v of ObservationText.variables([r.say, r.again ?? '', ...r.then ?? []].join(' ')).filter(v => !named.includes(`"${v}"`))) {
-          throw new Error(`Rule ${r.id} speaks of ${v}, which its condition does not bind`);
-        }
-      }
-      if (r.teaches && (!r.say || this.type(module, r.teaches) !== 'fact')) {
-        // What is learned is learned from something said or seen (GTR-24: the refusal says how).
-        throw new Error(`Rule ${r.id} teaches ${r.teaches}: a rule teaches a fact by what it says (\`Rule … says "…" `
-          + `teaches fact\`), or the fact is taught where it is seen (\`Observe … teaches fact\`); see the guide's `
-          + `"Words that teach"`);
-      }
-      r.effects.forEach(c => this.change(module, c)); ModuleCompiler.writes(`Rule ${r.id}`, r.when, r.effects);
-      if (r.effects.some(c => EngineOwned.rules.has(c.call.name))) {
-        throw new Error(`Rule ${r.id} cannot change canonical projections, clocks, records or discovery knowledge`
-          + ' (a rule teaches what it says: says "…" teaches fact)');
-      }
-    }
+    for (const r of module.rules ?? []) { this.once(module, r, () => this.rule(module, r)); }
     ModuleCompiler.unique((module.observations ?? []).map(o => o.id), 'observation');
-    for (const o of module.observations ?? []) {
-      // Near a variable: near each entity its condition binds it to (a lamp, wherever a lamp is lit).
-      const subject = o.place.startsWith('?') ? o.place : undefined;
-      if (subject) { this.subject(o.id, o.anchor, subject, o.when); } else { this.anchor(module, o.place, o.anchor); }
-      this.predicate(module, o.when); ModuleCompiler.bound(`Observation ${o.id}`, o.when);
-      this.text(module, o.text, subject ? { [subject]: 'entity' } : {});
-      // What it speaks of is what its condition binds ("{?who} waits here." printed ?who: the review's A17).
-      const named = JSON.stringify(o.when);
-      for (const v of ObservationText.variables(o.text).filter(v => v !== subject && !named.includes(`"${v}"`))) {
-        throw new Error(`Observation ${o.id} speaks of ${v}, which its condition does not bind`);
-      }
-      if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
-      if (o.about && !o.about.startsWith('?') && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
-      if (o.aspect && !ModuleCompiler.aspects.includes(o.aspect)) {
-        throw new Error(`${o.id} is told as ${o.aspect}; an observation is one of ${ModuleCompiler.aspects.join(', ')}`);
-      }
-      if (o.by && this.type(module, o.by) !== 'capability') { throw new Error(`${o.id} is noticed by ${o.by}, not a capability`); }
-    }
+    for (const o of module.observations ?? []) { this.once(module, o, () => this.observation(module, o)); }
     for (const [id, p] of Object.entries(module.seen ?? {})) {
       if (!this.type(module, id)) { throw new Error(`${id} is seen only by some, but is not an entity`); }
       this.predicate(module, p);
@@ -134,20 +94,66 @@ export class ModuleCompiler {
     ModuleCompiler.unique((module.objectives ?? []).map(o => o.id), 'objective');
     for (const o of module.objectives ?? []) { this.objective(module, o); }
   }
+  // A rule's own check (see behaviours), checked once while its lookups hold (once).
+  private rule(module: Module, r: NonNullable<Module['rules']>[number]) {
+    this.predicate(module, r.when); ModuleCompiler.bound(`Rule ${r.id}`, r.when);
+    if (r.place?.startsWith('?')) { this.subject(`Rule ${r.id}`, r.anchor, r.place, r.when); }
+    else if (r.place) { this.anchor(module, r.place, r.anchor); }
+    if (r.say) {
+      this.text(module, r.say);
+      for (const line of [r.again ?? '', ...r.then ?? []].filter(Boolean)) { this.text(module, line); }
+      const named = JSON.stringify(r.when);
+      for (const v of ObservationText.variables([r.say, r.again ?? '', ...r.then ?? []].join(' ')).filter(v => !named.includes(`"${v}"`))) {
+        throw new Error(`Rule ${r.id} speaks of ${v}, which its condition does not bind`);
+      }
+    }
+    if (r.teaches && (!r.say || this.type(module, r.teaches) !== 'fact')) {
+      // What is learned is learned from something said or seen (GTR-24: the refusal says how).
+      throw new Error(`Rule ${r.id} teaches ${r.teaches}: a rule teaches a fact by what it says (\`Rule … says "…" `
+        + `teaches fact\`), or the fact is taught where it is seen (\`Observe … teaches fact\`); see the guide's `
+        + `"Words that teach"`);
+    }
+    r.effects.forEach(c => this.change(module, c)); ModuleCompiler.writes(`Rule ${r.id}`, r.when, r.effects);
+    if (r.effects.some(c => EngineOwned.rules.has(c.call.name))) {
+      throw new Error(`Rule ${r.id} cannot change canonical projections, clocks, records or discovery knowledge`
+        + ' (a rule teaches what it says: says "…" teaches fact)');
+    }
+  }
+  // An observation's own check (see behaviours), likewise.
+  private observation(module: Module, o: NonNullable<Module['observations']>[number]) {
+    // Near a variable: near each entity its condition binds it to (a lamp, wherever a lamp is lit).
+    const subject = o.place.startsWith('?') ? o.place : undefined;
+    if (subject) { this.subject(o.id, o.anchor, subject, o.when); } else { this.anchor(module, o.place, o.anchor); }
+    this.predicate(module, o.when); ModuleCompiler.bound(`Observation ${o.id}`, o.when);
+    this.text(module, o.text, subject ? { [subject]: 'entity' } : {});
+    // What it speaks of is what its condition binds ("{?who} waits here." printed ?who: the review's A17).
+    const named = JSON.stringify(o.when);
+    for (const v of ObservationText.variables(o.text).filter(v => v !== subject && !named.includes(`"${v}"`))) {
+      throw new Error(`Observation ${o.id} speaks of ${v}, which its condition does not bind`);
+    }
+    if (o.teaches && this.type(module, o.teaches) !== 'fact') { throw new Error(`${o.id} teaches ${o.teaches}, not a fact`); }
+    if (o.about && !o.about.startsWith('?') && !this.type(module, o.about)) { throw new Error(`${o.id} is of ${o.about}, which is not an entity`); }
+    if (o.aspect && !ModuleCompiler.aspects.includes(o.aspect)) {
+      throw new Error(`${o.id} is told as ${o.aspect}; an observation is one of ${ModuleCompiler.aspects.join(', ')}`);
+    }
+    if (o.by && this.type(module, o.by) !== 'capability') { throw new Error(`${o.id} is noticed by ${o.by}, not a capability`); }
+  }
   // An aim's condition and words, and what it is toward: entities, each of them.
   private objective(module: Module, o: NonNullable<Module['objectives']>[number]) {
     this.predicate(module, o.when); this.text(module, o.text);
     const missing = [...o.toward ?? [], ...o.route ? [o.route] : []].find(t => !this.type(module, t));
     if (missing) { throw new Error(`Objective ${o.id} is toward ${missing}, which is not an entity`); }
   }
-  // Each checked once while nothing it looks up changes (CheckedActions), its lookups noted as it is checked.
-  private action(module: Module, action: Module['actions'][number]) {
+  // Each checked once while nothing it looks up changes (CheckedActions), its lookups noted as it is checked: an
+  // action, a rule, an observation.
+  private action(module: Module, action: Module['actions'][number]) { this.once(module, action, () => this.whole(module, action)); }
+  private once(module: Module, element: object, check: () => void) {
     const at = { joined: this.joined, capabilities: this.capabilities };
-    if (CheckedActions.holds(action, at, n => this.answer(module, n))) { return; }
+    if (CheckedActions.holds(element, at, n => this.answer(module, n))) { return; }
     const noted: string[] = [];
     this.noted = noted;
-    try { this.whole(module, action); } finally { this.noted = undefined; }
-    CheckedActions.keep(action, at, noted);
+    try { check(); } finally { this.noted = undefined; }
+    CheckedActions.keep(element, at, noted);
   }
   private noted?: string[];
   // A lookup's note as the module answers it now: `t <id> <type>`, `k <kind>`, `s <list> <name> <types>`.
