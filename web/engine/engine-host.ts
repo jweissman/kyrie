@@ -117,7 +117,7 @@ export class EngineHost {
       case 'checkpoint': await this.working;
         return this.session ? JSON.stringify({ build: BuildStamp.current, checkpoint: this.session.checkpoint(true),
           log: this.log, ...this.bound ? { bound: this.bound } : {} }) : null;
-      case 'story': return this.log;
+      case 'story': return this.log; case 'receipts': return this.session?.receipts ?? [];
     }
   }
   // A choice in the making of a life, and the start it now asks for made ready meanwhile (see EngineStarts.readying).

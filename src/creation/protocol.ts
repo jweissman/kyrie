@@ -167,6 +167,8 @@ export type Request =
   | { kind: 'checkpoint' }
   // The whole story so far, for the Story page: frames carry only its last entries.
   | { kind: 'story' }
+  // The receipts of the commands done in the game in play (MT-24), for automation (OR-91's evidence).
+  | { kind: 'receipts' }
   // Whether the page kept the world it was sent (see the saved message): until it says so, the world is sent again.
   | { kind: 'kept'; key: string; ok: boolean };
 export interface Envelope { id: number; request: Request }
