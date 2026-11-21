@@ -148,24 +148,9 @@
     "accept": "Owain's and Mardle's conversations on one scrolling page, said as said, read aloud by the lead; browser specs green"
    },
    {
-    "id": "CL-32",
-    "owner": "sprint",
-    "accept": "the drove's deeds answered (doc/design/drove-response-audit.md): Owain at the Rhyne, Bran out, the green remembers; test/drove-answers"
-   },
-   {
     "id": "CL-33",
     "owner": "lead",
     "accept": "the act that matters marked among the four, proven in the browser"
-   },
-   {
-    "id": "OR-152",
-    "owner": "maturity",
-    "accept": "the map's menu rows the engine's journey rows (DoableJourneys); every place the engine sets out for reachable by keys"
-   },
-   {
-    "id": "OR-151",
-    "owner": "maturity",
-    "accept": "from indoors, setting out goes out of doors first, or the map says why not"
    },
    {
     "id": "OR-23",
@@ -173,17 +158,27 @@
     "accept": "the prologue's painting and first sentences shown while the world is made; no checklist, no black frame"
    },
    {
-    "id": "OR-143",
+    "id": "OR-161",
     "owner": "lead",
-    "accept": "the options page has fewer distinct choices grouped with their icons; handbooks are not game options; checked at laptop and phone widths"
+    "accept": "one gold on the map's menu at a time: the aim's next step, never also Put away the map"
+   },
+   {
+    "id": "OR-163",
+    "owner": "maturity",
+    "accept": "with a live threat only the responses to it are offered (act on it, an environmental act, flee, stand); on the map, Put away the map alone; no wait, no fast travel beyond the hex; browser-proved"
+   },
+   {
+    "id": "OR-162",
+    "owner": "lead",
+    "accept": "a journey walked hex by hex with a reveal each step and the route recomputed from what is known, never overshooting and doubling back; traced on the golden route in the browser"
+   },
+   {
+    "id": "OR-160",
+    "owner": "lead",
+    "accept": "the title and identity only on the title page and never moving; the begin question simple, the embers kept; browser at 390 and 1280"
    }
   ],
   "platform": [
-   {
-    "id": "MT-18",
-    "owner": "maturity",
-    "accept": "offer parity 0 on the golden walks, with no client exceptions"
-   },
    {
     "id": "MT-24",
     "owner": "maturity",
@@ -193,6 +188,11 @@
     "id": "AX-04",
     "owner": "maturity",
     "accept": "a new world starts in under 3 s warm"
+   },
+   {
+    "id": "MT-30",
+    "owner": "maturity",
+    "accept": "Route, Promise and Occasion answer the five questions in authored terms (inspect --why process); every Kyr file parses identically; no world moves"
    }
   ],
   "urgent": []
