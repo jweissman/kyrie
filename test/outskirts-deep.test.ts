@@ -90,11 +90,13 @@ describe('the old stones, below the dome', () => {
     const seen = await j.play('>s1_manor_kitchen');
     expect(seen).toMatch(/horn lantern hangs on a nail/);
     Placed.at(j, r('s1_stones_under'));
-    const under = await j.play('Wait a while');
-    expect(under).toMatch(/To lift it would be to take from the dead what the dead were given/);
+    // Read where the company stands, not waited for: what is down here warns it off, and while it does there is no
+    // wait but standing its ground (OR-163: Engaged).
+    const told = () => j.screen().prose.join(' ');
+    expect(told()).toMatch(/To lift it would be to take from the dead what the dead were given/);
     const taken = await j.play('cup of the old stones: Take').catch(() => '');
     expect(Placed.carried(j, r('s1_stones_cup'))).toBe(true);
-    expect(taken + await j.play('Wait a while')).toMatch(/no longer the stillness of a place left alone/);
+    expect(`${taken} ${told()}`).toMatch(/no longer the stillness of a place left alone/);
   }, 240000);
 
   it('gives the wax from the chime somewhere to go: the girl at the landing casts a bell, and the bell, rung, opens the way under the hill', async () => {
