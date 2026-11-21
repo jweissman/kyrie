@@ -160,6 +160,7 @@ Module lab "The undercroft at Lowmouth" {
   Rule low_u_rats_cleared when (dead(low_u_rats) or (not able(low_u_rats) and not low_u_rats_lulled(low_u_rats_job))) and not low_u_done(low_u_rats_job) { Assert low_u_done(low_u_rats_job). }
   Relation low_u_nest_cleared(entity).
   Rule low_u_nest_ended when not able(low_u_buck) and not low_u_nest_cleared(low_u_rats_job) { Assert low_u_nest_cleared(low_u_rats_job). }
+  Observe low_u_buck_hoard near low_u_buck as sign when able(low_u_buck) "The old buck rat sits on the heap with a ring round one forefoot. It does not run from your light: it watches what you carry.".
   Discovery low_u_nest_hoard "Under the nest's sacking, what the rats dragged in over the years." {
     Found by searching low_u_nest "Under the chewed sacking something catches the light.".
   }
@@ -209,11 +210,6 @@ Module lab "The undercroft at Lowmouth" {
     says "{low_merchant} has been to look at the corn-store door. 'New bolts,' {low_merchant} says, and nods once." {
     Assert low_u_mended(low_u_store_lock).
   }
-  Person low_u_cellar_rats "the rats on the cellar floor" nowhere {
-    Role "rats out of the runs at the spilled grain, bold enough to go for a boot". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_cellar.
-  }
-  Initially Set encounterXp(low_u_cellar_rats) to 30.
-  Rule low_u_cellar_rats_come when at(party, low_u_cellar) and lingered(party) >= 1 and able(low_u_cellar_rats) and not low_u_came(low_u_cellar_rats) says "Rats drop off the grain sacks in the dark. They come for your boots." { Assert at(low_u_cellar_rats, low_u_cellar). Assert assails(low_u_cellar_rats, party). Assert low_u_came(low_u_cellar_rats). }
   Discovery low_u_cellar_box "Under the gnawed sacks, a little iron strongbox, its corner chewed through." {
     Found by searching low_u_cellar "Under the gnawed sacks in the corner, the edge of an iron box.".
   }
@@ -319,7 +315,7 @@ Module lab "The undercroft at Lowmouth" {
     Role "bats roosting in the crypt's vault, that wheel down shrieking when a light comes in". Species bat. Numbers 2. Level 1. Temperament territorial. Lair low_u_crypt.
   }
   Initially Set encounterXp(low_u_crypt_bats) to 30.
-  Rule low_u_crypt_bats_come when at(party, low_u_crypt) and lingered(party) >= 1 and able(low_u_crypt_bats) and not low_u_came(low_u_crypt_bats) says "The roof of the crypt is moving. It is bats, hundreds of them, and the nearest come down shrieking." { Assert at(low_u_crypt_bats, low_u_crypt). Assert assails(low_u_crypt_bats, party). Assert low_u_came(low_u_crypt_bats). }
+  Rule low_u_crypt_bats_come when at(party, low_u_crypt) and lingered(party) >= 1 and able(low_u_crypt_bats) and not low_u_came(low_u_crypt_bats) says "The roof of the crypt is moving: bats, and the nearest come down shrieking." { Assert at(low_u_crypt_bats, low_u_crypt). Assert assails(low_u_crypt_bats, party). Assert low_u_came(low_u_crypt_bats). }
   Discovery low_u_crypt_token "By the coffins, a brass token stamped with the inn's sign: a lodger's, for the back stair." {
     Found by searching low_u_crypt "In the dust by the pushed coffins, a small brass token.".
   }
@@ -399,11 +395,6 @@ Module lab "The undercroft at Lowmouth" {
   }
   Objective low_u_spiders_job_owed when low_u_done(low_u_spiders_job) and state(low_u_eggs, burnt) and not low_u_paid(low_u_spiders_job) toward low_innkeeper "Tell {low_innkeeper} at {low_taproom} that the spiders are dead and their eggs burned. Twelve coin are yours, with salve and rope.".
   Rule low_u_spiders_onward when (low_u_paid(low_u_spiders_job) or (low_u_done(low_u_spiders_job) and not low_u_given(low_u_spiders_job))) and not low_u_done(low_u_onward) { Assert low_u_done(low_u_onward). Assert low_u_onward_by(low_u_gallery). }
-  Person low_u_adit_beetles "the carrion beetles in the adit" nowhere {
-    Role "carrion beetles as big as rats, feeding on what the spiders let fall from the web". Species beetle. Numbers 1. Level 1. Temperament territorial. Lair low_u_adit.
-  }
-  Initially Set encounterXp(low_u_adit_beetles) to 40.
-  Rule low_u_adit_beetles_come when at(party, low_u_adit) and lingered(party) >= 1 and able(low_u_adit_beetles) and not low_u_came(low_u_adit_beetles) says "Something clicks in the dark at the foot of the web. Black beetles as big as rats come scuttling at the light." { Assert at(low_u_adit_beetles, low_u_adit). Assert assails(low_u_adit_beetles, party). Assert low_u_came(low_u_adit_beetles). }
   Thing low_u_cutting_roof "the roof of the old cutting" on low_u_gallery_way {
     State loose dangerous "Stones have come down from the roof of the cutting, and more hang cracked above it.".
     State shored "A prop of old timber holds up the cracked roof of the cutting.".
@@ -429,6 +420,7 @@ Module lab "The undercroft at Lowmouth" {
     Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers 2. Level 1. Temperament territorial. Lair low_u_charnel.
   }
   Initially Set encounterXp(low_u_shamblers) to 90.
+  Observe low_u_shamblers_folding near low_u_shamblers as sign when able(low_u_shamblers) "The dead in the passage are folding the brown cloth from the empty shelves. They do it slowly, and over again.".
   Rule low_u_charnel_lie when state(low_u_candle, snuffed) and at(low_u_shamblers, low_u_charnel) and able(low_u_shamblers) says "In the charnel passage behind the bone-heaps, the dead fall down too." { Retract at(low_u_shamblers, low_u_charnel). }
   Discovery low_u_charnel_goods "On the last shelf, under a fall of cloth, lies what the old dead were buried with. Nobody has been down to take it." {
     Found by searching low_u_charnel "Under the cloth on the last shelf, something hard and cold.".
@@ -450,7 +442,7 @@ Module lab "The undercroft at Lowmouth" {
   Initially Assert unlit(low_u_drain). Initially Assert unlit(low_u_undercroft).
   Initially Assert restful(low_u_undercroft).
   Observe low_u_drain_scene at low_u_drain as fixture when true "An old drain of fitted stone, tall enough to stoop along, with a black trickle down the middle. The walls are furred with something pale that moves when the light touches it.".
-  Observe low_u_undercroft_scene at low_u_undercroft as fixture when true "A long room of round pillars, older than anything above it. The corn-store, the church and the quarry were all dug down into it from three sides. Those who dug did not know it was here.".
+  Observe low_u_undercroft_scene at low_u_undercroft as fixture when true "A long room of round pillars, older than anything above it. The corn-store, the church and the quarry were all dug down into it from three sides.".
   Entity low_u_flag_seen: fact "One flag in the undercroft floor is cut with a ring of letters, and does not sit level.".
   Observe low_u_undercroft_flag at low_u_undercroft as sign when not knows(party, low_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest." teaches low_u_flag_seen.
   Person low_u_crawler "a great centipede" at low_u_drain {

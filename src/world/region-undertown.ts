@@ -126,6 +126,11 @@ export class RegionUndertown {
       `  Entity ${w}_found: fact ${q(`The way down into ${site.name} is behind the keeper's chair in the vault.`)}.`,
       `  Place ${w} "the stair below the vault" is room within ${t} at 1, 7 underground 4 down.`,
       `  Initially Assert unlit(${w}).`,
+      // The one sight of awe at the bottom of the first hour's under-the-town (doc/design/first-hour-beats.md, 15–35
+      // minutes): a vast old place under a small town, told once, the first time the company comes out on the stair,
+      // and nothing to fight there.
+      `  Relation ${w}_beheld(group).`,
+      `  Rule ${w}_awe heard at ${w} when at(party, ${w}) and not ${w}_beheld(party) says ${q(`The stair comes out on a ledge, and your light goes out into nothing. Below you is a hall that could hold the whole of ${s.name}, its pillars going down further than the light does, and far down water lies still. Those who dug the cellars of ${s.name} did not know it was here.`)} { Assert ${w}_beheld(party). }`,
       // What it is for comes before the way to it is known (the crown, heard of at the inn): the next thing to find is
       // said, and where, so that the aim leads somewhere (the product-design review's PD-03: "a barrow, not yet made
       // out", and nothing to say the way was down through the town).

@@ -86,6 +86,20 @@ praised: "the candle has 50 minutes left"), then awe: "Those who dug did not kno
 **Changes.** Fewer, stranger things below, each worth meeting; one sight of awe at the bottom (a vast old place under a
 small town).
 
+**Built (21 November).**
+
+- **Fewer things below.** The rats on the cellar floor and the beetles in the adit are gone: the warren's rats and
+  their buck, and the spiders and their mother, are the ones met. The crypt's bats are no longer "hundreds" when they
+  are two.
+- **Two of what is below have a strangeness of their own:**
+  - The old buck rat sits on its hoard with a ring round one forefoot, and watches what the company carries.
+  - The raiser's first dead in the charnel passage go on folding the shelves' brown cloth, slowly, over again.
+- **The awe moves to the bottom.** It had been the undercroft's fixture. Now it is told once, on the stair below the
+  sealed vault, with nothing to fight there: "a hall that could hold the whole of Porthalen … Those who dug the cellars
+  of Porthalen did not know it was here." The light economy is unchanged.
+- **Pinned** in test/features/world/under-the-town.pin, by the gold from the corn-store's rats job to the stair. The
+  vault's keeper is fought there, as a player would fight it: the gold alone goes to and fro at its warning.
+
 ## 35–50 minutes: the dead raised
 
 **Wanted.** The grave-robber in the ossuary: talk, creep, warn off, fight, a rite. The best scene of every cold play that
