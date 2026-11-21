@@ -42,11 +42,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     // Back out of doors (the country's journeys are set out on from the town's open places, not from inside a house),
     // then out of Porthalen by the map: a journey the map rows, set out on there.
     await act('exit:region__s1_green');
-    // Reedbridge, the golden route's road out, which the engine puts on the map (DoableJourneys), not in the rest.
-    const now = await d.inspect(), here = new Set((now.path ?? []).map(p => p.name)), far = 'travel:region__s5';
-    const after = await act(far);
+    // The first place across the country the map's menu rows (it rows three, ranked; the rest are touched on the map
+    // itself): viewed, then Travel to, held.
+    const now = await d.inspect(), here = new Set((now.path ?? []).map(p => p.name));
+    await d.key('m');
+    const far = await page.locator('[data-action="map-view"]').first().getAttribute('data-choice');
+    expect(far).toMatch(/^travel:/);
+    await d.key('Escape');
+    const after = await act(far!);
     expect(after.place?.id).not.toBe('drove__customs');
-    expect((after.path ?? []).some(p => !here.has(p.name)) || after.place?.id === far.slice('travel:'.length)).toBe(true);
+    expect((after.path ?? []).some(p => !here.has(p.name)) || after.place?.id === far!.slice('travel:'.length)).toBe(true);
     console.log(by.join('\n'));
     expect(by.filter(b => b.endsWith('fallback'))).toEqual([]);
     expect(errors).toEqual([]);
