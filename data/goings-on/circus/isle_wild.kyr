@@ -97,7 +97,9 @@ Module circus "Wapshott's Peregrine Circus" {
     On success { Assert tolerates(hook_claws, actor). }
     Result "Mumchance walks into the hollow with his hands open and sits down in the middle of the bare earth. The pack looks at him for a long time. One, then another, lowers its head to the earth. At the end of an hour the youngest has gone to sleep against his boot, and the rest have forgotten there was anyone to guard against.".
   }
-  Topic wap_let_go with wapshott "Ask the Colonel to put the Duchess down at the edge of the hollow" when at(party, hook_den) and colonelNamed(wapshotts) and not namedLetGo(wapshotts) and youngAshore(party) once {
+  // With the pack there, which is what it answers: under its warning (OR-163) the frame offers what answers the pack,
+  // and the Duchess given back to it is that (an act's own condition naming the threat: Engaged).
+  Topic wap_let_go with wapshott "Ask the Colonel to put the Duchess down at the edge of the hollow" when at(party, hook_den) and at(hook_claws, hook_den) and colonelNamed(wapshotts) and not namedLetGo(wapshotts) and youngAshore(party) once {
     Says "The littlest is on the Colonel's boot, as she has been since the sack was opened. The Colonel looks at the pack. 'She has not once asked me to be anything,' he says. He kneels. He takes her off his boot with both hands and holds her up, and then sets her down on the bare earth. She sits there looking at him. 'Go on,' he says. 'Go on, Duchess.'".
     On discuss { Assert namedLetGo(wapshotts). Increase regard(billie) by 2. }
   }
