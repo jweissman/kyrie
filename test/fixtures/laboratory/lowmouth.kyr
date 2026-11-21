@@ -446,7 +446,7 @@ Module lab "The undercroft at Lowmouth" {
   Entity low_u_flag_seen: fact "One flag in the undercroft floor is cut with a ring of letters, and does not sit level.".
   Observe low_u_undercroft_flag at low_u_undercroft as sign when not knows(party, low_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest." teaches low_u_flag_seen.
   Person low_u_crawler "a great centipede" at low_u_drain {
-    Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair low_u_drain.
+    Role "a centipede as long as a man, living in the old drain". Species centipede. Variant long. Numbers 1. Level 2. Temperament territorial. Lair low_u_drain.
   }
   Initially Set encounterXp(low_u_crawler) to 60.
   Entity low_u_drain_warm: fact "The old drain's centipede lies up by the bakehouse flue, where the stone is warm. It does not stir for one who keeps to the cold side.".

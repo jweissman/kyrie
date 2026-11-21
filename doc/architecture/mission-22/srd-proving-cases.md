@@ -2096,6 +2096,56 @@ It goes without Orsino's five powers and the wild aspect, which had added +2 to 
 
 There, the fight is the fear the place promises and a choice the player is told of. Half the Hive's dell and the circus's menagerie keep Orsino's owlbear until those placements are fought (their ways round are unread). It is `unplaced`: never drawn into a den. Kept: data/sources/srd35/encounters.json still lists the arcology's group as `owlbear` until the slow `--encounters` measure runs again.
 
+### 63. The long centipede (21 November): the SRD Medium monstrous centipede as a breed, and a poison's ability damage
+
+**The centipede on the fidelity table:** the old drain under every first town (undertown.kyrt) kept Orsino's great
+centipede (`great_centipede`, a compound kind: centipede/great). It is Orsino's body grown by its level, with chitin
+and Orsino's Venomous Bite, and grades S✗ R✗. It was also one of the compound kinds OR-158's lint holds in its baseline.
+
+**The long centipede** (`centipede/long`, a breed over Orsino's centipede, data/catalog/variations.json; spec
+`test/long-centipede` (6)) is the SRD's stat block:
+- 1d8 Hit Dice, four hit points at every rank;
+- its scores (9, 15, 10, 10, 2; mindless, its Intelligence left as Orsino's);
+- a bite of 1d6 with its Strength, struck at the SRD's +2 (exact);
+- saves of +2, +2 and +0 (exact);
+- AC 14 as Westernesse 7 (converted: its Dexterity of 15 alone, so it wears nothing, as the barrow ghoul).
+
+It goes without Orsino's Venomous Bite. **Its poison** rides on each bite that lands, and is the save the opening's
+fights most often ask for:
+- a poison save against 10, or 1d3 off Dexterity (**Numbed**, a new condition: a point off for each point laid, on the
+  world's clock for a day, beyond the fight and in a saved game);
+- and, whatever came of the first, the venom working (`centipede_venom`): a watch later a second save against 10, or
+  1d3 more.
+
+**What it needed of the engine:** ability damage that stacks. A condition's `stacking` may now be `accrue`
+(ConditionAmount.prior): a second laying adds its amount to the one held, for its own time from then, where any other
+condition laid again replaces the one held. Numbed accrues, so a second bite or the second dose adds to the first, as
+the SRD's ability damage does. The venom working is a poison by its kind of harm, so Cleanse, whose pattern is poison,
+ends it before it works, and leaves the Numbed it has laid (the SRD's damage already dealt stays). The antidote names
+the poisoned it ends, and does not.
+
+**Adapted:** the second save a watch after the bite, where the SRD's is a minute (the first watch after the fight); the
+Dexterity all back at the end of the day, where the SRD's comes back a point a day; and no Dexterity of nothing, which
+would leave the SRD's holder unable to move (Effects.scores keeps a score at one). **Omitted:** darkvision, vermin
+traits. The census grades it S✓ R✓ I✓, its poison carried (5 of 77 creatures pass in resolution, 2 in play identity).
+
+**Its challenge,** measured (bin/kyrie bestiary challenge, test/srd-challenge): **1/3** at the first rank, the SRD's
+challenge 1/2. Orsino's great centipede measures 1/4 at its first level and 1/2 at its fifth.
+
+**What it moves:** the one placement, the old drain's centipede under the first town. It is in every world, alone, and
+warned of: the innkeeper tells where it lies up, and one who keeps to the cold side does not wake it. undertown.kyrt
+now names the base and the breed (`Species centipede. Variant long.`), so OR-158's baseline loses a compound kind. Its
+fight in the laboratory (Lowmouth's undertown, a fresh company of one taking "Attack", 40 seeds), Orsino's → the SRD's:
+- a warrior wins 34 → 39;
+- a mage wins 12 → 20;
+- a thief wins 21 → 26.
+
+The SRD's centipede is a quarter of Orsino's at the second level, and its bite hurts less. What it leaves is the
+venom: nine of the forty warriors leave the drain Numbed. **Cards that move:** the centipede's (four hit points, AC
+7, no Venomous Bite), and the card of anyone it bit, who carries Numbed for a day with Dexterity the lower for it (their
+armour, and their Reflex save). Kept: data/sources/srd35/encounters.json still lists the drain's group as
+`great_centipede` until the slow `--encounters` measure runs again.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

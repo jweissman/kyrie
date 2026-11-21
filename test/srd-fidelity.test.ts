@@ -69,11 +69,11 @@ describe('the SRD fidelity census', () => {
   it('measures a blow\'s chance to hit SRD AC 15, and grades a row in structure, resolution and play identity', () => {
     expect(CreatureFidelity.row('rat').hit).toEqual({ verdict: 'differs', ours: '20%', theirs: '50%' });
     const rows = [...SpellFidelity.rows(), ...CreatureFidelity.rows()];
-    // Proved only where the concordance names a focused test: the SRD rat's, and the spells moved by cases 7, 9, 12,
-    // 14 to 24, 31 to 33, 35, 36, 38 to 40, 42, 44, 45, 48 to 50, 52, 55 and 58.
+    // Proved only where the concordance names a focused test: the SRD rat's, the long centipede's (case 63), and the
+    // spells moved by cases 7, 9, 12, 14 to 24, 31 to 33, 35, 36, 38 to 40, 42, 44, 45, 48 to 50, 52, 55 and 58.
     expect(rows.filter(r => r.grades.identity === 'proved').map(r => r.id).sort()).toEqual(['acid_arrow', 'armor', 'barkskin', 'bless', 'blur',
       'burning_hands',
-      'calm_emotions', 'chain_lightning', 'command', 'cone_of_cold', 'cure', 'cure_critical', 'cure_disease', 'cure_moderate', 'cure_serious', 'divine_favor',
+      'calm_emotions', 'centipede/long', 'chain_lightning', 'command', 'cone_of_cold', 'cure', 'cure_critical', 'cure_disease', 'cure_moderate', 'cure_serious', 'divine_favor',
       'entangle', 'fireball', 'flesh_to_stone', 'hold_animal', 'hold_person', 'life_drain', 'lightning_bolt', 'magic_missile', 'mass_curse', 'mirror_image', 'paralyzing_touch', 'protection_from_evil', 'rat/cellar', 'ray_of_frost', 'remove_fear', 'resist_fire', 'shield',
       'shocking_grasp', 'sleep', 'terror', 'weakness']);
     expect(SpellFidelity.row('cloudkill', 'cloudkill').grades).toEqual({ structural: 'fail', resolution: 'fail',

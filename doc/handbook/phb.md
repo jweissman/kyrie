@@ -11005,6 +11005,12 @@ Spells 1 harder to resist.
 
 > The law of Nirvana: a stillness so whole that a working, once made, holds fast.
 
+### Numbed
+
+*Kyr · lasts beyond a fight* · `condition:numbed`
+
+> Venom in the blood: stiff and slow in the hands and feet, by as much as it took, for a day.
+
 ### Oathbound
 
 *Faithful · lasts the fight at most* · `condition:oathbound`
@@ -11578,6 +11584,14 @@ Immune to poison.
 +2 healing, +2 to will saves.
 
 > Lampfall's beacon burns: in its light the dead are slow and the living steady.
+
+### Venom working
+
+*Kyr · lasts beyond a fight* · `condition:centipede_venom`
+
+- Resisted by: a poison save
+
+> A long centipede's venom not done with its work: within a watch it takes more, unless it is shaken off.
 
 ### Vigorous
 

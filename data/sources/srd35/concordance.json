@@ -28,6 +28,13 @@
   "centipede/great": {
    "srd": "monstrous-centipede-medium"
   },
+  "centipede/long": {
+   "srd": "monstrous-centipede-medium",
+   "carries": {
+    "poison": "rider:numbed"
+   },
+   "notes": "Its poison carried as Dexterity damage on the world's clock (srd-proving-cases.md, case 63)."
+  },
   "chimera": {
    "srd": "chimera"
   },
@@ -365,6 +372,7 @@
   "weird": "weird"
  },
  "identities": {
+  "centipede/long": "test/long-centipede.test.ts",
   "rat/cellar": "test/fixed-stat-block.test.ts",
   "magic_missile": "test/magic-missile.test.ts",
   "divine_favor": "test/divine-favor.test.ts",

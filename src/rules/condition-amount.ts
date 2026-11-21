@@ -14,6 +14,17 @@ export class ConditionAmount {
     if (!amount || !expressions) { return undefined; }
     return Math.max(0, amount.kind === 'literal' ? amount.value : expressions.number(amount.expression, values));
   }
+  // What a laying of one that accrues (stacking: accrue) finds held already, to add its own amount to: none of another
+  // kind, or not held.
+  static prior(stacking: string | undefined, held: readonly ConditionInstance[], id: string):
+    ConditionInstance | undefined {
+    return stacking === 'accrue' ? held.find(s => s.id === id) : undefined;
+  }
+  // What it is held with: the amount laid, and what it found held if it accrues; nothing where both are none.
+  static held(laid: number | undefined, prior: ConditionInstance | undefined): { amount?: number } {
+    const amount = (laid ?? 0) + (prior?.amount ?? 0);
+    return amount ? { amount } : {};
+  }
   // What one held adds for its amount: each number of its perAmount (scores, saves, the numeric modifiers) that many
   // times; the canon allows no other kind there (ModifierSet.uncounted).
   static added(per: Modifiers | undefined, held: ConditionInstance): Modifiers {
