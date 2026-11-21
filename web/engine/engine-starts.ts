@@ -105,7 +105,7 @@ export class EngineStarts {
   async take(r: Starting): Promise<PlaySession> {
     const key = EngineStarts.key(r), ready = this.ready?.key === key ? this.ready.started : undefined;
     clearTimeout(this.soon); this.soon = undefined; this.next = undefined; this.foreseen = undefined;
-    this.ready = undefined; this.waiting = key;
+    this.ready = undefined; this.waiting = key; this.saying = undefined;
     try {
       if (ready) { this.said('Placing its people'); }
       return await (ready?.catch(() => this.start(r, true)) ?? this.afresh(r));
@@ -118,9 +118,13 @@ export class EngineStarts {
     if (warm) { this.said('Drawing the world'); await warm; }
     return this.start(r, true);
   }
+  // A stage said once: waited for, then begun, "Drawing the world" had been said twice running (OR-144).
   said(stage: string, step?: [number, number]): void {
+    if (!step && stage === this.saying) { return; }
+    this.saying = step ? undefined : stage;
     this.post({ kind: 'progress', stage, ...step ? { step } : {} });
   }
+  private saying?: string;
   private async start(r: Starting, asked = false): Promise<PlaySession> {
     const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
       ...r.memorial ? { memorial: r.memorial } : {} }, key = EngineStarts.key(r);

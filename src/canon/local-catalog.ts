@@ -99,17 +99,32 @@ export class LocalKinds {
   static local(id: string): boolean { return this.installed.has(`item:${id}`); }
   // Which kinds modules have put in the catalogs now: what a reading of a module could have turned on.
   static fingerprint(): string { return [...this.installed].sort().join(' '); }
-  // The kinds installed that a text could name: those whose id occurs in it. What a text is parsed into depends on no
-  // others, so a parse kept by these alone is good wherever they stand as they do (a new country's own kinds had made
-  // every adventure's parse that country's alone: M19-49). An id that only occurs inside another word is kept too,
-  // which costs a parse kept twice, never a wrong one.
+  // The kinds installed that a text could name: those whose id is one of its words (an identifier anywhere in it, in
+  // its quoted words too). What a text is parsed into depends on no others, so a parse kept by these alone is good
+  // wherever they stand as they do (a new country's own kinds had made every adventure's parse that country's alone:
+  // M19-49). Its words are gathered once: every installed kind looked for through the whole text (text.includes) had
+  // been a third of a second of a country's start, every key of every parse (OR-144); an id met only inside a longer
+  // word ("iron" in star_iron) is no word the parser reads as that kind.
   // Not those it declares itself: its own parse installed them, and the same text read again (a generated country's
   // first file, read for its places and then for play) had missed the cache and been parsed twice, three quarters of a
   // second of a new country's start (the headless investigation, 11 November).
   static seen(text: string): string {
-    const own = new Set([...text.matchAll(/^\s*(?:Kind|Species) ([A-Za-z_][\w]*) "/gm)].map(m => m[1]!));
-    return [...this.installed].filter(k => { const id = k.slice(k.indexOf(':') + 1); return !own.has(id) && text.includes(id); })
+    const { own, words } = this.words(text);
+    return [...this.installed].filter(k => { const id = k.slice(k.indexOf(':') + 1); return !own.has(id) && words.has(id); })
       .sort().join(' ');
+  }
+  // A text's words and the kinds it declares, gathered once: the same text is keyed many times as a world is read (its
+  // parse, its bundle's, its reading ahead), a country's first file a third of a megabyte. The last few hundred kept.
+  private static readonly worded = new Map<string, { own: Set<string>; words: Set<string> }>();
+  private static words(text: string): { own: Set<string>; words: Set<string> } {
+    let w = this.worded.get(text);
+    if (!w) {
+      w = { own: new Set([...text.matchAll(/^\s*(?:Kind|Species) ([A-Za-z_][\w]*) "/gm)].map(m => m[1]!)),
+        words: new Set(text.match(/[A-Za-z_]\w*/g)) };
+      if (this.worded.size >= 400) { this.worded.delete(this.worded.keys().next().value!); }
+      this.worded.set(text, w);
+    }
+    return w;
   }
   // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.
   static reset() {
