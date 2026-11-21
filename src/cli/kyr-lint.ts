@@ -18,6 +18,7 @@ import { OfficeLint } from './office-lint';
 import { CrossingLint } from './crossing-lint';
 import { FictionLint } from './fiction-lint';
 import { SiteKindLint } from './site-kind-lint';
+import { CompoundKindLint } from './compound-kind-lint';
 import { WorldAssembler } from '../world/world-assembler';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
@@ -128,7 +129,9 @@ export class KyrLint {
     const results: Record<string, Finding[]> = { vocabulary: this.vocabulary(), names: [...AdventureNames.clashes(),
       ...AdventureNames.twice().map(t => `two adventures of one module id, ${t}`)]
       .map(message => ({ level: 'error', check: 'names', where: 'data/adventures', message })),
-    sites: SiteKindLint.findings(SiteKindLint.read(this.root)) };
+    sites: SiteKindLint.findings(SiteKindLint.read(this.root)),
+    // Compound kinds named where generation draws a creature (OR-158), against the baseline that only shrinks.
+    creatures: CompoundKindLint.run(this.root) };
     for (const path of paths.length ? paths : this.campaigns()) {
       try { results[path] = await this.campaign(path); }
       catch (e) {
@@ -166,7 +169,7 @@ export class KyrLint {
       // A drawn world is told in full, as recommended content is, but held to its errors only.
       const recommended = this.recommended.includes(where), drawn = seeds.length > 0;
       const tag = recommended ? 'recommended' : drawn ? 'drawn'
-        : ['vocabulary', 'sites'].includes(where) ? 'repository' : 'legacy';
+        : ['vocabulary', 'sites', 'creatures'].includes(where) ? 'repository' : 'legacy';
       console.log(`${where} [${tag}]: ${errors} errors, ${warnings} warnings${advice ? `, ${advice} to look at` : ''}`);
       for (const f of findings.filter(x => x.level === 'error' || (!only && (verbose || recommended || drawn)))) {
         console.log(`  ${f.level} ${f.check}: ${f.where === where ? '' : `${f.where}: `}${f.message}`);
