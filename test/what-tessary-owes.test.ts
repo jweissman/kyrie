@@ -347,7 +347,10 @@ describe('What Tessary Owes: saving, replaying, and the world it lies in', () =>
     await resumed.play(...all.slice(at));
     expect(resumed.campaign.world.related('reached').map(r => r.args[0])).toEqual(whole.ending());
     expect(resumed.campaign.state.elapsed).toBe(whole.j.campaign.state.elapsed);
-    expect(JSON.stringify(resumed.campaign.world.related('heldNow'))).toBe(JSON.stringify(whole.j.campaign.world.related('heldNow')));
+    // Who is held, by the module's own relation (MT-25's strict reads: an unqualified heldNow was never one, and the
+    // two had been compared as nothing to nothing).
+    const held = (w: { related(n: string): unknown }) => JSON.stringify(w.related('tessary__heldNow'));
+    expect(held(resumed.campaign.world)).toBe(held(whole.j.campaign.world));
   }, 300000);
 
   it('as a chapter of a world that goes on, the city is still there after the Settlement, and shows what became of it', async () => {
