@@ -69,9 +69,9 @@ export class ModuleAssembly {
         predicate: ModuleParser.predicate(outcome.predicate) })) };
     this.validate(actors, module.entities, module.actions, definition);
     for (const [id, name] of Object.entries(manifest.labels ?? {})) {
-      const entity = module.entities.find(e => e.id === id);
-      if (!entity || typeof name !== 'string' || !name.length) { throw new Error('Invalid generated entity label'); }
-      entity.name = name;
+      const at = module.entities.findIndex(e => e.id === id);
+      if (at < 0 || typeof name !== 'string' || !name.length) { throw new Error('Invalid generated entity label'); }
+      module.entities[at] = { ...module.entities[at]!, name };
     }
     // Checked once, with each pressure's measure, outcome and goal a well-formed predicate over it: the whole module,
     // the shared rules' every declaration with it, had been checked again after it was instantiated, which settles
@@ -130,7 +130,9 @@ export class ModuleAssembly {
       horizon: p.horizon ?? 4, actions: p.actions, goals: [] }));
     for (const p of people) {
       const name = manifest.casting?.[p.id]?.name;
-      if (name) { module.entities.find(e => e.id === p.id)!.name = p.role ? `${name}, ${p.role}` : name; }
+      // Named in a copy of its entity: the module's own entities are shared with the module kept (AX-04).
+      const at = module.entities.findIndex(e => e.id === p.id);
+      if (name) { module.entities[at] = { ...module.entities[at]!, name: p.role ? `${name}, ${p.role}` : name }; }
     }
     if (company && manifest.actors.order.some(a => a.player)) { throw new Error('Declare the company once: in the module or the party table'); }
     if (Object.keys(manifest.casting ?? {}).some(id => !people.some(p => p.id === id))) {
@@ -179,7 +181,8 @@ export class ModuleAssembly {
   }
   // Controllers for the manifest's actors, the company and declared people, with their goals and pursuits.
   private static actors(order: AdventureManifest['actors']['order'], module: Module): CampaignActor[] {
-    const actors: CampaignActor[] = order.map(actor => ({ ...actor,
+    // Each its own, its acts too, which are added to below: a company's had been the kept module's (AX-04).
+    const actors: CampaignActor[] = order.map(actor => ({ ...actor, actions: [...actor.actions],
       goals: actor.goals.map(goal => ({ id: goal.id, priority: goal.priority, when: ModuleParser.predicate(goal.when),
         target: ModuleParser.predicate(goal.target), ...(goal.urgent ? {
           urgent: { ...goal.urgent, when: ModuleParser.predicate(goal.urgent.when) },

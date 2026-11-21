@@ -131,7 +131,7 @@ export class ModuleBundle {
   }
   // The shared rules a module is read with, joined once for each set of them and kept: every module of a world is read
   // with the same few, and joining them again for each (each file copied out of the parse cache, then joined) had
-  // been most of what reading a generated world cost (M19-49). Kept, never changed: compose is given its own copy.
+  // been most of what reading a generated world cost (M19-49). Kept, never changed: compose writes nothing of it.
   private static readonly rulesets = new Map<string, Module>();
   private static shared(files: SourceFile[]): Module {
     const key = files.map(f => f.text).join('\u0001');
@@ -345,13 +345,17 @@ export class ModuleBundle {
     // as they were compiled before beside the same rules (see CompiledModules).
     const own = files.slice(0, situationPaths.length), rules = files.slice(situationPaths.length);
     const key = CompiledModules.key(CompiledModules.edition(rules.map(f => f.text)), own.map(f => f.text));
-    const kept = CompiledModules.get(key), mine = kept ? [] : this.own(own);
+    const kept = CompiledModules.get(key, true), mine = kept ? [] : this.own(own);
     const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...ModuleBundle.apart(request.context, options.people), now: options.elapsed ?? 0 }),
     imports: manifest.imports ?? [] };
     const combined = this.shared(rules);
-    const { module: composed, told } = kept ?? this.compiled(key, own, mine, combined);
+    // The one kept is shared: of it, only what is changed here is copied (its company, sized; its entities, given the
+    // canon's), and the shared rules too go to compose uncopied, which writes into neither (ModuleCompiler.instantiate
+    // lowers into a module of its own: AX-04, test/small/frozen-modules).
+    const made = kept ?? this.compiled(key, own, mine, combined), told = made.told;
+    const composed = kept ? ModuleBundle.owned(made.module) : made.module;
     ModuleBundle.sized(composed, options.party);
     // What it names of the canon is given it, and bound as the world's own (see ModuleCanon).
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
@@ -360,7 +364,7 @@ export class ModuleBundle {
     LocalKinds.install(combined.catalog); LocalKinds.install(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
-      const instance = ModuleAssembly.compose(composed, structuredClone(combined), generated, seed);
+      const instance = ModuleAssembly.compose(composed, combined, generated, seed);
       ModuleCanon.settle(instance.module, given);
       if (told.length) { instance.campaign = { ...instance.campaign!, shadows: told }; }
       imports = this.imports(options.unbound ? { ...bound, optional: bound.imports } : bound, request,
@@ -392,6 +396,9 @@ export class ModuleBundle {
   // A company of one to three is of as many as are chosen for it, within those: a campaign of three had been refused
   // a module written for one ("Choose 1 companions"), and the Lull kept a copy of its company for its tests (its F12,
   // LUL-09). Chosen by no one, it is of the fewest.
+  private static owned(m: Module): Module {
+    return { ...m, entities: [...m.entities], ...m.company ? { company: { ...m.company } } : {} };
+  }
   private static sized(module: Module, chosen?: number) {
     const c = module.company;
     if (!c?.most || chosen === undefined) { return; }

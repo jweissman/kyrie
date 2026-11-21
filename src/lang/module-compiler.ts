@@ -166,39 +166,39 @@ export class ModuleCompiler {
     if (action.resolve) { this.call(module, action.resolve, this.capabilities, bindings); }
     if (action.duration) { this.value(module, action.duration, bindings); }
   }
-  // The definition is taken, not copied: it is lowered in place. Its one caller (ModuleAssembly.compose) hands it a
-  // module it has just joined from its own copies of what was parsed, and reads only the instance after; a copy here
-  // had been 353 ms of a 6.5 s start of a1 (the boundaries' profile, 14 November). A caller that keeps the definition
-  // passes its own copy. goals: predicates checked over it in the same pass (see validate).
+  // The definition is read, never written: what is lowered (its dice settled, its predicates resolved) is a new value
+  // in a module of its own, each element copied only where it is changed and only a level deep (the review of
+  // generated parsing, 20 November, §3; AX-04): the shared rules and a compiled module kept between campaigns are
+  // joined into a definition uncopied, and a lowering in place had made each caller copy them whole first (0.18 s and
+  // 0.21 s of a new world's install). goals: predicates checked over it in the same pass (see validate).
   instantiate(definition: Module, seed: string, goals: readonly Predicate[] = []): Instance {
     this.validate(definition, goals);
-    const module = definition;
-    const expressions = this.dice?.(`${seed}:module`);
-    const resolve = ModuleCompiler.resolve.bind(null, expressions);
-    module.budget = resolve(module.budget);
-    const changes = [...module.initial, ...(module.rules ?? []).flatMap(r => r.effects),
-      ...module.actions.flatMap(action => [...action.success, ...action.failure])];
-    for (const change of changes) {
-      if ('value' in change) { change.value = ModuleCompiler.settle(expressions, change.value); }
-    }
-    for (const p of module.pursuits ?? []) {
-      p.when = this.resolvePredicate(p.when, expressions); p.target = this.resolvePredicate(p.target, expressions);
-    }
-    for (const r of module.rules ?? []) { r.when = this.resolvePredicate(r.when, expressions); }
-    for (const o of module.observations ?? []) { o.when = this.resolvePredicate(o.when, expressions); }
-    for (const o of module.objectives ?? []) { o.when = this.resolvePredicate(o.when, expressions); }
-    module.goal = this.resolvePredicate(module.goal, expressions);
-    for (const query of module.queries) { query.body = this.resolvePredicate(query.body, expressions); }
-    for (const action of module.actions) {
-      action.requires = this.resolvePredicate(action.requires, expressions);
-      if (action.interrupt) { action.interrupt = this.resolvePredicate(action.interrupt, expressions); }
-      for (const t of action.told ?? []) { t.when = this.resolvePredicate(t.when, expressions); }
-      if (action.duration) { action.duration = ModuleCompiler.settle(expressions, action.duration); }
-    }
+    const expressions = this.dice?.(`${seed}:module`), when = this.resolved.bind(this, expressions);
+    const change = ModuleCompiler.change.bind(null, expressions);
+    const module: Module = { ...definition, budget: ModuleCompiler.resolve(expressions, definition.budget),
+      initial: definition.initial.map(change), goal: when(definition.goal),
+      queries: definition.queries.map(q => ({ ...q, body: when(q.body) })),
+      actions: definition.actions.map(a => ({ ...a, requires: when(a.requires), success: a.success.map(change),
+        failure: a.failure.map(change), ...a.interrupt ? { interrupt: when(a.interrupt) } : {},
+        ...a.told ? { told: a.told.map(t => ({ ...t, when: when(t.when) })) } : {},
+        ...a.duration ? { duration: ModuleCompiler.settle(expressions, a.duration) } : {} })),
+      ...definition.rules ? { rules: definition.rules.map(r => ({ ...r, when: when(r.when),
+        effects: r.effects.map(change) })) } : {},
+      ...definition.pursuits ? { pursuits: definition.pursuits.map(p => ({ ...p, when: when(p.when),
+        target: when(p.target) })) } : {},
+      ...definition.observations ? { observations: definition.observations.map(o => ({ ...o, when: when(o.when) })) }
+        : {},
+      ...definition.objectives ? { objectives: definition.objectives.map(o => ({ ...o, when: when(o.when) })) } : {} };
     const world = new World(module).apply(module.initial);
     return { module, world: world.snapshot, budget: World.literal(module.budget) };
   }
-  // A value with its dice rolled once, for the module: what is left to the world is its measures.
+  private resolved(expressions: Dice | undefined, p: Predicate): Predicate {
+    return this.resolvePredicate(p, expressions);
+  }
+  // A change with its value settled (its dice rolled), as a new change; one with no value as it is.
+  private static change<C extends Module['initial'][number]>(expressions: Dice | undefined, c: C): C {
+    return 'value' in c ? { ...c, value: ModuleCompiler.settle(expressions, c.value) } : c;
+  }
   private static settle(expressions: Dice | undefined, value: Value): Value {
     if (value.kind === 'call' || value.kind === 'count') { return value; }
     if (value.kind === 'arith') { return { ...value, left: this.settle(expressions, value.left),

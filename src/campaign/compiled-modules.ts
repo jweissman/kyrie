@@ -36,14 +36,16 @@ export class CompiledModules {
     const all = texts.join('\u0001');
     return `\u0003compiled\u0000${edition}\u0000${Vocabularies.seen(all)}\u0000${all}`;
   }
-  // The module compiled before, its own kinds put back in the catalogs as reading it would have put them.
-  static get(key: string): Compiled | undefined {
+  // The module compiled before, its own kinds put back in the catalogs as reading it would have put them: a copy, or,
+  // shared, the one kept, for a caller that writes nothing of it (ModuleBundle.loading, which copies only what it
+  // changes: the company's size, the canon's entities given it; test/small/frozen-modules: AX-04).
+  static get(key: string, shared = false): Compiled | undefined {
     const known = this.kept.get(key), kept = known ?? ParseCache.store?.get(key) as unknown as Compiled | undefined;
     if (!kept?.module) { return undefined; }
     if (!known) { this.remember(key, kept); }
     Costs.note('compiled kept', 0, { bytes: key.length });
     LocalKinds.install(kept.module.catalog);
-    return structuredClone(kept);
+    return shared ? kept : structuredClone(kept);
   }
   static set(key: string, compiled: Compiled) {
     const copy = structuredClone(compiled);
