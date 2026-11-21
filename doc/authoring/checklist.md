@@ -27,6 +27,23 @@ It then lists what no play here answered: the topics, acts, observations, milest
 or reached. Each one is either a way in still to write, or something to cut. A clean compile is not a passing test. A
 passing test is not exploration. Exploration is not anyone having enjoyed it.
 
+Some things to know about these checks:
+
+- **New ids.** `bin/kyrie new` refuses an id that is taken: an adventure of that name, a `Module <id>` in any
+  adventure's files, or a `test/fixtures/<id>` that is not empty. `lint` and `verify` report two adventures of one
+  module id. The scaffold leaves `web/bundles.generated.json` (the browser's copy of `data/`) alone: a build or
+  `bin/kyrie preview` rewrites it.
+- **The test company.** The campaign's company is a test company of one, *Tester*. No line of the adventure names
+  them, as no line names a player's company.
+- **Names.** A surname or a place's name another adventure gives fails `verify`. A first name another adventure gives
+  is said as advisory (`bin/kyrie names` says so too). First names may be shared, but a distinctive one reads as kin.
+- **Reach is greedy.** It takes the first way that ends the story. Its line says which ending it came to, and that
+  the others want journeys of their own.
+- **A rule that only tells, once.** `Rule <id> when … once says "…" { }` needs no change in its braces, and lint asks
+  for none. `once` comes before `says`.
+- **Deadlines.** Talk takes no time, so a deadline's slack is not felt in a conversation. Find a sensible one by
+  playing the paths against it (AU-30).
+
 **What none of these prove**: that a player finds it, understands it, or wants to go on. Only someone playing it can
 say that (page 8 of the trail, [08-testing.md](trail/08-testing.md)).
 

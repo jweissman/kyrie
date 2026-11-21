@@ -125,7 +125,8 @@ export class KyrLint {
     return lint.findings;
   }
   static async run(paths: string[]) {
-    const results: Record<string, Finding[]> = { vocabulary: this.vocabulary(), names: AdventureNames.clashes()
+    const results: Record<string, Finding[]> = { vocabulary: this.vocabulary(), names: [...AdventureNames.clashes(),
+      ...AdventureNames.twice().map(t => `two adventures of one module id, ${t}`)]
       .map(message => ({ level: 'error', check: 'names', where: 'data/adventures', message })),
     sites: SiteKindLint.findings(SiteKindLint.read(this.root)) };
     for (const path of paths.length ? paths : this.campaigns()) {

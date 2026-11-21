@@ -44,7 +44,7 @@ export class Sites {
         modules: [{ id: 'country', bundle: 'country/module.json' },
           { id, bundle: `../../../data/sites/${id}/module.json`,
             imports: { party: 'country.party', march: 'country.region', approach: 'country.road' } }],
-        party: [{ name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' }] }),
+        party: [{ name: 'Tester', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' }] }),
       [`test/${id}.test.ts`]: [`import { describe, expect, it } from 'bun:test';`,
         `import { Journey } from '../src/session/journey';`, '',
         `// ${name}, a site of the generator's library, walked in a probe country of its own (bin/kyrie new wrote it).`,

@@ -82,7 +82,8 @@ describe('an adventure begun with kyrie new', () => {
   it('writes nothing over what is there, and asks for an id it can use', async () => {
     const said: string[] = [];
     expect(await NewTool.main(['ashhollow'], root, l => said.push(l))).toBe(1);
-    expect(said[0]).toStartWith('Already there, so nothing is written');
+    // An id that is taken is refused before anything is looked for to write (AU-19).
+    expect(said[0]).toStartWith('Not written: the id ashhollow is taken (data/adventures/ashhollow is there;');
     expect(await NewTool.main(['Ash_Hollow'], root, l => said.push(l))).toBe(1);
     expect(said.at(-1)).toStartWith('usage: kyrie new');
   }, 60000);

@@ -36,6 +36,8 @@ export class Happened {
       promises: ['Made', 'Kept', 'Broken'].flatMap(how => this.not(`promise${how}`, promises!)
         .map(id => `${id} (never ${how.toLowerCase()})`)), silent: rules.filter(r => !r.say).length };
   }
+  // The endings these plays came to.
+  endingsReached(): string[] { return this.ofType('ending').filter(id => this.facts.has(`reached(${id})`)); }
   // A line for each kind, its ids without their module's prefix.
   lines(): string[] {
     const n = this.never();

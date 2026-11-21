@@ -4,15 +4,18 @@
 // an item, a chapter, a character: see new-parts, new-character), or a site of the generator's library (new-site).
 // Each is a working example: it lints clean and its test passes as written. Nothing it writes is overwritten.
 //   bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>
-import { existsSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { Parts } from './new-parts';
 import { Adventures, type Home } from './new-home';
 import { Characters } from './new-character';
 import { Sites } from './new-site';
+import { AdventureNames } from './adventure-names';
 
 export class NewTool {
+  // The scaffold's test company's one member: a name that is plainly no one's, never written into an adventure.
+  static readonly tester = 'Tester';
   private static json(v: unknown): string { return `${JSON.stringify(v, null, 2)}\n`; }
   static files(id: string, title: string): Record<string, string> {
     const q = JSON.stringify.bind(JSON), json = NewTool.json.bind(NewTool);
@@ -44,11 +47,14 @@ export class NewTool {
       [`data/campaigns/${id}.campaign.json`]: json({ version: 1, name: title,
         pitch: { heading: title, text: 'What is asked, and why it matters.' },
         modules: [{ id, bundle: `../adventures/${id}/module.json` }],
-        // A test company for playing the adventure alone (bin/kyrie play); a player's own company is the world's.
-        party: [{ name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' }] }),
+        // A test company for playing the adventure alone (bin/kyrie play), named as what it is, so that no author
+        // takes it for a character to write for (AU-22, M19-75: "Elen gains …"); a player's own company is the world's.
+        party: [{ name: NewTool.tester, raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' }] }),
       [`data/adventures/${id}/NOTES.md`]: [`# ${title}: notes`, '', 'What it is for, who comes to it, and what is open.',
         '', '## Before you hand it in', '', '```', ...NewTool.path(id), '```', '',
-        'Human play is evidence of its own: say who played it, when and how far (`--played`), or verify says none.', ''].join('\n'),
+        'Human play is evidence of its own: say who played it, when and how far (`--played`), or verify says none.', '',
+        `The campaign's company is a test company of one, ${NewTool.tester}: no line of the adventure names them, as no`
+          + ' line names a player\'s company (a player comes with their own).', ''].join('\n'),
       [`test/fixtures/${id}/journey.json`]: json({ arrive: ['^To the square'] }),
       [`test/${id}.test.ts`]: [`import { describe, expect, it } from 'bun:test';`,
         `import { Journey } from '../src/session/journey';`,
@@ -95,8 +101,16 @@ export class NewTool {
     if (kind === 'site') { return this.site(rest, root, print); }
     const [id, title] = kind === 'adventure' ? rest : args;
     if (!id || !/^[a-z][a-z0-9]*$/.test(id)) { print(this.usage); return 1; }
+    const taken = this.taken(root, id);
+    if (taken.length) { print(`Not written: the id ${id} is taken (${taken.join('; ')}); choose another`); return 1; }
     const wrote = await this.write(this.files(id, title ?? id.charAt(0).toUpperCase() + id.slice(1)), root, print);
-    if (wrote) { for (const line of this.path(id)) { print(line); } }
+    if (wrote) {
+      // The browser's bundle of data/ is not written here; it is now behind what was (AU-20: a scaffold run had
+      // rewritten it in the author's tree unsaid).
+      print('  (web/bundles.generated.json, the browser\'s copy of data/, is not written; a build or `bin/kyrie preview`'
+        + ' rewrites it, and it is committed with the adventure only when the adventure lands)');
+      for (const line of this.path(id)) { print(line); }
+    }
     return wrote ? 0 : 1;
   }
   // A part of an adventure that is there: its own file of the adventure's module, which the module (and the bundle
@@ -127,6 +141,17 @@ export class NewTool {
     print(`Next: bun test test/${id}.test.ts; bin/kyrie play test/fixtures/${id}/probe.campaign.json --choices;`
       + ' to place it in generated worlds, a scenario binds its imports (data/scenarios/brood-hollow.scenario.json)');
     return 0;
+  }
+  // Why an id cannot be a new adventure's: an adventure of that name, a module of that id in any adventure's files, or
+  // a journey's fixtures there already (AU-19: `pellam`, The Liberty of the Ice's, scaffolded over without a word).
+  static taken(root: string, id: string): string[] {
+    const why: string[] = [], adventures = join(root, 'data/adventures');
+    if (existsSync(join(adventures, id))) { why.push(`data/adventures/${id} is there`); }
+    const by = existsSync(adventures) ? AdventureNames.modules(adventures).get(id) : undefined;
+    if (by) { why.push(`Module ${id} is declared by ${[...by].map(d => `data/adventures/${d}`).join(', ')}`); }
+    const fixtures = join(root, 'test/fixtures', id);
+    if (existsSync(fixtures) && readdirSync(fixtures).length) { why.push(`test/fixtures/${id} is not empty`); }
+    return why;
   }
   private static flag(args: string[], name: string): string | undefined {
     const i = args.indexOf(`--${name}`);

@@ -50,7 +50,10 @@ export class AdventureNames {
     const names = [...this.read()], lines = words.map(w => {
       const by = names.filter(([n]) => n.replace(/^\w+: /, '').toLowerCase() === w.toLowerCase())
         .flatMap(([, m]) => [...m].map(([a, said]) => `${said} (${a})`));
-      return `${w}: ${by.length ? `taken by ${by.join(', ')}` : 'free'}`;
+      const firsts = [...this.firsts().get(w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()) ?? []]
+        .map(([a, said]) => `${said} (${a})`);
+      const also = firsts.length ? `; as a first name, given by ${firsts.join(', ')} (advisory)` : '';
+      return `${w}: ${by.length ? `taken by ${by.join(', ')}` : 'free'}${also}`;
     });
     console.log(lines.join('\n'));
     return lines.some(l => l.includes(': taken by ')) ? 1 : 0;
@@ -58,6 +61,49 @@ export class AdventureNames {
   // "Person: Coyle: Agnes Coyle (low-water), Dennet Coyle (the-patient-star)".
   static clashes(root?: string): string[] {
     return [...this.read(root)].filter(([n, by]) => by.size > 1 && !this.shared.has(n.replace(/^\w+: /, '')))
+      .map(([n, by]) => `${n}: ${[...by].map(([a, said]) => `${said} (${a})`).join(', ')}`);
+  }
+  // Each module id the adventures declare, with the adventures that declare it: two adventures of one id are one module
+  // to the engine (The Ninth Voice's friction 1, AU-19: `pellam` scaffolded over The Liberty of the Ice's).
+  static modules(root = resolve(import.meta.dir, '../../data/adventures')): Map<string, Set<string>> {
+    const ids = new Map<string, Set<string>>();
+    for (const dir of readdirSync(root, { withFileTypes: true }).filter(d => d.isDirectory())) {
+      for (const file of readdirSync(join(root, dir.name)).filter(f => /\.kyrt?$/.test(f))) {
+        for (const m of readFileSync(join(root, dir.name, file), 'utf8').matchAll(/^\s*Module\s+(\w+)\b/gm)) {
+          ids.set(m[1]!, new Set([...ids.get(m[1]!) ?? [], dir.name]));
+        }
+      }
+    }
+    return ids;
+  }
+  // "Module pellam: liberty-of-the-ice, pellam".
+  static twice(root?: string): string[] {
+    return [...this.modules(root)].filter(([, by]) => by.size > 1).map(([id, by]) => `Module ${id}: ${[...by].join(', ')}`);
+  }
+  // A person's first name another adventure gives a person too (The Ninth Voice's friction 3, AU-21: its choirmistress
+  // Ysolde, and The Book of Faces' Registrar): advisory, as first names may be shared, but a small corpus feels it.
+  static firsts(root = resolve(import.meta.dir, '../../data/adventures')): Map<string, Map<string, string>> {
+    const names = new Map<string, Map<string, string>>();
+    for (const dir of readdirSync(root, { withFileTypes: true }).filter(d => d.isDirectory())) {
+      for (const file of readdirSync(join(root, dir.name)).filter(f => f.endsWith('.kyr'))) {
+        for (const m of readFileSync(join(root, dir.name, file), 'utf8').matchAll(this.declared)) {
+          const first = m[1] === 'Person' ? this.first(m[3]!) : undefined;
+          if (!first) { continue; }
+          if (!names.has(first)) { names.set(first, new Map()); }
+          names.get(first)!.set(dir.name, m[3]!);
+        }
+      }
+    }
+    return names;
+  }
+  // The first of a person's proper names where they have two or more ("Ysolde Marr"), or the one ("Ysolde").
+  private static first(name: string): string | undefined {
+    if (!/^[A-Z]/.test(name) || /^The /.test(name)) { return undefined; }
+    return name.split(/\s+/).find(w => /^[A-Z][a-z]+$/.test(w) && !this.titles.has(w));
+  }
+  // "Ysolde: Ysolde (the-book-of-faces), Ysolde Venn (the-ninth-voice)", for the first names one adventure shares.
+  static sharedFirsts(adventure: string, root?: string): string[] {
+    return [...this.firsts(root)].filter(([, by]) => by.has(adventure) && by.size > 1)
       .map(([n, by]) => `${n}: ${[...by].map(([a, said]) => `${said} (${a})`).join(', ')}`);
   }
 }

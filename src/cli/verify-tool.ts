@@ -41,7 +41,7 @@ export class VerifyTool {
     const ran: Ran[] = [], compiled = await this.lint(root, campaign, print);
     ran.push(...compiled);
     if (!compiled[0]!.held) { return this.summary(adventure, { ran, ...played ? { played } : {} }, print); }
-    ran.push(this.names(root, adventure, print), this.repeats(root, adventure, print),
+    ran.push(...this.names(root, adventure, print), this.repeats(root, adventure, print),
       this.tests(root, adventure, print), await this.traces(root, adventure, campaign, print));
     const reach = await this.reach(root, campaign, { steps, own: this.declared(root, adventure) }, print);
     ran.push(reach.ran);
@@ -63,11 +63,20 @@ export class VerifyTool {
       { check: 'lint', held: !failing.length, said: failing.length ? `${failing.length} to fix` : 'clean' }];
   }
   // A name this adventure gives that another gives too (`kyrie names`, the cross-adventure lint).
-  private static names(root: string, adventure: string, print: Print): Ran {
-    const clashes = AdventureNames.clashes(join(root, 'data/adventures')).filter(c => c.includes(`(${adventure})`));
+  // And a module id another adventure declares (AU-19), which fails as a clash does; and first names another adventure
+  // gives, advisory (AU-21).
+  private static names(root: string, adventure: string, print: Print): Ran[] {
+    const dir = join(root, 'data/adventures');
+    const clashes = [...AdventureNames.clashes(dir).filter(c => c.includes(`(${adventure})`)),
+      ...AdventureNames.twice(dir).filter(t => t.split(': ')[1]!.split(', ').includes(adventure))
+        .map(t => `two adventures of one module id, ${t}`)];
     for (const c of clashes) { print(`  name: ${c}`); }
     print(`names: ${clashes.length ? `${clashes.length} given by another adventure too` : 'none shared'}`);
-    return { check: 'names', held: !clashes.length, said: clashes.length ? `${clashes.length} reused` : 'none shared' };
+    const firsts = AdventureNames.sharedFirsts(adventure, dir);
+    for (const f of firsts) { print(`  first name (advisory): ${f}`); }
+    return [{ check: 'names', held: !clashes.length, said: clashes.length ? `${clashes.length} reused` : 'none shared' },
+      { check: 'firsts', held: true, said: firsts.length ? `${firsts.length} first names another adventure gives`
+        : 'none shared' }];
   }
   // The adventure's own phrases said more than once: found, not failed (a refrain may be meant).
   private static repeats(root: string, adventure: string, print: Print): Ran {
@@ -127,8 +136,14 @@ export class VerifyTool {
     const said = `topics ${ReachTool.ratio(reach.topicsOffered, written.topics)}, acts ${ReachTool.ratio(reach.actsOffered,
       written.acts)}, seen ${ReachTool.ratio(reach.observed, written.observations)}, rooms ${ReachTool.ratio(reach.rooms,
       written.rooms)}`;
-    print(`reach: in ${reach.steps} steps of a curious player, ${said}`);
-    return { ran: { check: 'reach', held: true, said }, unreached };
+    // It takes the first way that ends the story and says little after (AU-32): which it took, and that the others
+    // want journeys of their own.
+    const ended = happened.endingsReached().map(id => id.replace(/^\w+?__/, ''));
+    const by = ended.length ? `ended by ${ended.join(', ')}` : `ended: ${reach.ended ?? 'steps'}`;
+    const others = never.endings.length ? `; ${never.endings.length} other ending${never.endings.length > 1 ? 's' : ''}`
+      + ' want journeys of their own (reach is greedy: it takes the first way that ends it)' : '';
+    print(`reach: in ${reach.steps} steps of a curious player, ${said}; ${by}${others}`);
+    return { ran: { check: 'reach', held: true, said: `${said}; ${by}` }, unreached };
   }
   // The four kinds of evidence, each as it is; then what no play answered; and whether it holds.
   private static summary(adventure: string, at: { ran: Ran[]; unreached?: Unreached; played?: string },
@@ -142,6 +157,7 @@ export class VerifyTool {
     print(`  tests:      ${of('tests')?.said ?? 'not run'}`);
     print(`  explored:   ${of('reach') ? `reach ${of('reach')!.said}; traces ${of('traces')!.said}` : 'not run'}`);
     print(`  human play: ${played ? `recorded: ${played}` : 'no human play recorded'}`);
+    if (of('firsts')) { print(`  advisory:   ${of('firsts')!.said} (first names may be shared; distinctive ones read as kin)`); }
     if (unreached) {
       print('  unanswered by any play here (never offered, seen or reached):');
       for (const [kind, ids] of Object.entries(unreached) as [keyof Unreached, string[]][]) {

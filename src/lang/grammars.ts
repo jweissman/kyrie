@@ -17,6 +17,14 @@ export class Grammars {
   // Why a text KyrQuick does not match is not Kyr, as Kyr as written says it.
   static why(text: string, rule?: string): string {
     const written = Grammars.kyr.match(text, rule);
-    return written.failed() ? written.message : 'Kyr as written reads it';
+    return written.failed() ? `${written.message}${Grammars.hint(text, written.getRightmostFailurePosition())}`
+      : 'Kyr as written reads it';
+  }
+  // What an author most often writes the other way round, said where the parse stops on it (The Ninth Voice's friction
+  // 9, AU-27: `says "…" once` on a Rule had pointed at its brace).
+  private static hint(text: string, at: number): string {
+    const line = text.slice(text.lastIndexOf('\n', at - 1) + 1, at);
+    return /^\s*Rule\b/.test(line) && /^once\b/.test(text.slice(at)) && /\bsays\s+"/.test(line)
+      ? '\nHint: a Rule is told once by `once` before what it says: Rule <id> when <condition> once says "…" { … }' : '';
   }
 }
