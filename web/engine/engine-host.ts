@@ -122,8 +122,7 @@ export class EngineHost {
   }
   // A choice in the making of a life, and the start it now asks for made ready meanwhile (see EngineStarts.readying).
   private chosen(step: CreationChoice, value: string): CreationState {
-    const state = this.made.choose(step, value);
-    this.starts.readying(this.made.starting());
+    const state = this.made.choose(step, value); this.starts.readying(this.made.starting());
     return state;
   }
   private async begin(r: Starting): Promise<Frame> {
@@ -169,8 +168,7 @@ export class EngineHost {
     this.world = 'version' in parsed && parsed.version === 2 && part ? { key: parsed.world, kept: true,
       part: { ...part, module: live.module, ...live.definition ? { definition: live.definition } : {} },
       index: KeptGame.index(part.base ?? []) } : undefined;
-    const t = saved.checkpoint.transcript;
-    const terrain = t.drawn?.terrain;
+    const t = saved.checkpoint.transcript, terrain = t.drawn?.terrain;
     this.frontier = Frontier.generated(t.scenario)
       ? new Frontier(t.seed, Scenarios.source(), terrain ? { region: { terrain } } : {}) : undefined;
     if (this.frontier) { this.session.extend({ expand: this.widening(game) }); }
@@ -320,8 +318,7 @@ export class EngineHost {
       resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); return;
     }
     this.pressing = false;
-    this.turn = { battle, resolve };
-    this.fought = battle;
+    this.turn = { battle, resolve }; this.fought = battle;
     this.post({ kind: 'frame', frame: this.frame() });
   });
   // What the fight opens on (see FightBegun); the page's opening is never empty once the fight has begun.
@@ -337,8 +334,7 @@ export class EngineHost {
     const chosen = choice ? legal.find(c => c.actor === battle.state.actor && c.ability === ability
       && (!target || c.target === target)) : Tactics.choose(battle.state, battle.plain(legal));
     if (!chosen) { throw new Error('That is no longer possible.'); }
-    this.turn = undefined;
-    turn.resolve(chosen);
+    this.turn = undefined; turn.resolve(chosen);
   }
   // A frame once a command is done, with the game to keep in this browser sent after it.
   private settled(): Frame {
@@ -354,12 +350,18 @@ export class EngineHost {
     return frame;
   }
   // The aim the player chose to follow, kept with the game; the page drawn again for it, nothing else done.
-  // The game is kept after every command, once its frame has gone to the page, so the page never waits on it.
+  // The game is kept once its frame has gone to the page, so the page never waits on it: at a receipt, a command
+  // committed (MT-24), or the journey held changed, and not again for a message that committed nothing (a frame
+  // drawn again, a story asked for): it had been kept twice for every act.
   private saving() { setTimeout(() => { void this.keep(); }, 0); }
-  // What changed is kept after every command; the world it happened in, only when it is new.
+  // What changed is kept; the world it happened in, only when it is new.
   private async keep() {
     if (!this.session || this.turn) { return; }
+    const at = this.session.keeping(this.bound);
     try {
+      if (!at) { this.ahead(); this.danger.start(this.session); return; }
+      // Marked kept before it is packed: a second keep asked meanwhile (a followed aim's) finds nothing to keep.
+      this.session.kept(at);
       const checkpoint = this.session.checkpoint(true), world = this.worldOf(checkpoint);
       const save = JSON.stringify({ ...KeptGame.split(checkpoint, world, this.log, this.session.campaign.world),
         ...this.bound ? { bound: this.bound } : {} });
@@ -369,6 +371,7 @@ export class EngineHost {
         ...fresh ? { world: fresh } : {} });
       if (fresh) { world.sent = true; }
     } catch (error) {
+      if (at) { this.session.kept(''); }
       // A command begun before the game could be kept: it is kept after that one. Anything else is said to the page.
       if (this.busy !== this.game) { this.post({ kind: 'unkept', reason: error instanceof Error ? error.message : String(error) }); }
     }

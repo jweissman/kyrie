@@ -1,3 +1,4 @@
+import { OpenCommand, type Receipt } from './open-command';
 import { AimSaid } from '../presentation/aim-said';
 import type { CreatureGenerationContext } from '../content';
 import { Costs } from '../costs';
@@ -35,9 +36,7 @@ export type CombatController = (battle: Battle) => Promise<Command>;
 export interface SessionCheckpoint { version: 1; transcript: Transcript; save: CampaignSave }
 
 export interface Expander { expand(campaign: Campaign): Promise<unknown> }
-// What a command came to, written once as it is committed (MT-24, command-receipt.md): the command as sent, the
-// revision it moved the game to (the steps kept: a transcript replays to it), and its outcome, or undone if it failed.
-export interface Receipt { id: string; revision: number; outcome: CampaignEvent['result'] | 'undone' }
+export type { Receipt } from './open-command';
 
 // Host-neutral play loop shared by the browser, CLI replay and tests. Kyr remains the sole rules authority:
 // commands are resolved through PlayerView, executed by Campaign, and combat steps through Battle.
@@ -46,6 +45,18 @@ export class PlaySession {
   private busy = false;
   // One for each command performed in this session (not kept in a save: a resumed game's revision is its steps).
   readonly receipts: Receipt[] = [];
+  // The last command, by its phases (MT-24: OpenCommand), for whoever asks how far it went.
+  last?: OpenCommand;
+  // What the game was last kept at: its receipts and the journey it holds (see keeping).
+  private keptAt?: string;
+  // Whether there is anything to keep since the game was last kept: a command committed (a receipt), or the journey
+  // the host holds, which its save holds, changed (MT-24's second step: the host keeps at a receipt, not after every
+  // message it answers). at: what kept marks it kept at.
+  keeping(bound: unknown): string | undefined {
+    const at = `${this.receipts.length} ${JSON.stringify(bound ?? null)}`;
+    return at === this.keptAt ? undefined : at;
+  }
+  kept(at: string): void { this.keptAt = at; }
   // The last journey set out on (travel:), leg by leg, for a client that tells its legs as the page does.
   journeyed?: Journeyed;
   readonly scenario: string;
@@ -143,13 +154,15 @@ export class PlaySession {
     if (this.busy) { throw new Error('A command is already in progress'); }
     if (command.startsWith('follow:')) {
       const followed = this.follow(command.slice('follow:'.length));
-      this.receipts.push({ id: command, revision: this.steps.length, outcome: followed.result });
+      this.last = new OpenCommand(command);
+      this.receipts.push(this.last.receipt(this.steps.length, followed.result));
       return followed;
     }
     const id = PlayerView.resolve(this.campaign, command);
     const aims = Undertakings.held(this.campaign).map(o => o.id);
     // Open from resolved to committed: no save, no frame meanwhile.
     this.busy = true; this.campaign.command = id;
+    const open = this.last = new OpenCommand(command);
     const combat: Command[] = [], barked: Voiced[] = [];
     try {
       const event = await this.campaign.executeAsync(id, async battle => {
@@ -169,24 +182,28 @@ export class PlaySession {
         }
         barked.push(...CombatTelling.barks(battle.events, battle.state));
       });
+      open.reach('executed');
       // What comes of the command after it (the country beyond drawn and installed), and what the company is told of
       // it, are one with it and its step in the transcript: if either fails, the campaign is put back as it was before
       // the command, and nothing of it is kept (Mission 15's independent audit, F3).
       let voiced: Voiced[], words: ReturnType<typeof RuleWords.tell>;
       try {
         if (this.expander) { await this.expander.expand(this.campaign); }
+        open.reach('expanded');
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
         words = RuleWords.tell(this.campaign, event);
         voiced = [...barked, ...words.told, ...Telling.tell(this.campaign, event)];
       } catch (error) { this.campaign.undo(); throw error; }
+      open.reach('told');
       Undertakings.after(this.campaign, aims);
+      open.reach('settled');
       this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
       if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); event.voiced = voiced; }
       if (words.unsaid.length) { event.unsaid = words.unsaid; }
-      this.receipts.push({ id: command, revision: this.steps.length, outcome: event.result });
+      this.receipts.push(open.receipt(this.steps.length, event.result));
       return event;
     } catch (error) {
-      this.receipts.push({ id: command, revision: this.steps.length, outcome: 'undone' });
+      this.receipts.push(open.receipt(this.steps.length, 'undone'));
       throw error;
     } finally { this.busy = false; this.campaign.closeCommand(); }
   }
