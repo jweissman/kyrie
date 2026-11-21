@@ -22,18 +22,15 @@ const yard = `
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 const rows = (s: Said) => [...s.offer.primary, ...s.offer.rest, ...s.offer.primary.flatMap(o => o.opens ?? [])];
 const sale = 'sell(t__crown,t__factor)';
-// The crown taken, talking with the factor or not yet met with him: the row that sells, and what it is called.
-async function sold(talk: boolean): Promise<{ r: Runner; row: { id: string; label: string } }> {
+// The crown taken, the factor not yet met: the row that sells, and what it is called.
+async function sold(): Promise<{ r: Runner; row: { id: string; label: string } }> {
   const r = new Runner((await Tiny.start(yard)).session);
-  const by = async (id: string) => {
-    const o = rows(r.said()).find(x => RunnerOffer.act(x).startsWith(id));
-    expect(o).toBeDefined();
-    return said(await r.ask(JSON.stringify({ act: o!.id }))); };
-  // Met first, and the talk begun again with the crown carried: a stranger's row leads with the sale (as below).
-  if (talk) { await by('talk_to(t__factor)'); await by('take_leave(t__factor)'); }
-  await by('take_item(t__crown,');
-  if (talk) { await by('talk_to(t__factor)'); }
-  const row = (talk ? rows(r.said()) : r.said().offer.primary).find(o => RunnerOffer.act(o) === sale);
+  const take = rows(r.said()).find(x => RunnerOffer.act(x).startsWith('take_item(t__crown,'));
+  expect(take).toBeDefined();
+  said(await r.ask(JSON.stringify({ act: take!.id })));
+  // With nothing to say to him but the sale, there is no talk to open (Doable, as the page: MT-18): his row sells.
+  expect(rows(r.said()).some(o => RunnerOffer.act(o).startsWith('talk_to(t__factor)'))).toBe(false);
+  const row = r.said().offer.primary.find(o => RunnerOffer.act(o) === sale);
   expect(row).toBeDefined();
   return { r, row: row! };
 }
@@ -51,14 +48,13 @@ describe('a row says what it does', () => {
       said(await r.ask(JSON.stringify({ act: next.id })));
     }
   });
-  // The aim toward a stranger leads with talking to him, the sale after it (Doable.called); talking with him, the
-  // sale is its own row by its own words. Either way the row says the sale, and doing it sells: the purse up by the
-  // factor's price, the crown gone. Called by the opener's words alone ("Talk to the factor"), it would fail here.
-  it('calls a sale by the sale\'s words, led or talked into', async () => {
-    const led = await sold(false), talked = await sold(true);
+  // The aim toward a stranger leads with talking to him, the sale after it (Doable.called): the row says the sale, and
+  // doing it sells: the purse up by the factor's price, the crown gone. Called by the opener's words alone ("Talk to
+  // the factor"), it would fail here.
+  it('calls a sale by the sale\'s words', async () => {
+    const led = await sold();
     expect(led.row.label).toBe('Talk to the factor — sell the bronze crown');
-    expect(talked.row.label).toBe('Sell the bronze crown to the factor');
-    const before = talked.r.said().purse!.coin, after = said(await talked.r.ask(JSON.stringify({ act: sale })));
+    const before = led.r.said().purse!.coin, after = said(await led.r.ask(JSON.stringify({ act: led.row.id })));
     expect(after.purse!.coin - before).toBe(20);
     expect(rows(after).some(o => o.id.includes('t__crown'))).toBe(false);
   });

@@ -61,6 +61,7 @@ describe('the road home, on the mage\'s route', () => {
   it('has one gold on the road beside Porthalen: the landing, not a journey to the country it is in', () => {
     expect(at[50]!.at).toBe('region__s1_s5_way');
     expect(Route.gold(c)).toEqual(['exit:region__s1_green']);
-    expect(at[50]!.led).toEqual(['travel:region__s1_green']);
+    // Led across into the next hex, it opens the map at the landing, every client alike (the owner's ruling, MT-18).
+    expect(at[50]!.led).toEqual(['view:map:region__s1_green']);
   });
 });

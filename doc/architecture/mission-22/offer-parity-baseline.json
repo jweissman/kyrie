@@ -3,7 +3,7 @@
  "kinds": {
   "page engine only": 1,
   "page menu words": 1,
-  "page only": 4,
+  "page only": 5,
   "serve only": 1
  },
  "divergences": [
@@ -12,6 +12,7 @@
   "page only: lens region__e1_milestone#look",
   "page only: lens region__s5_altar#look",
   "page only: lens talk_to(…)",
+  "page only: lens tinker3Master__lantern#look",
   "page only: menu view:map",
   "serve only: talk_to(…)"
  ]
