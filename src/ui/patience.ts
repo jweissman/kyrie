@@ -6,16 +6,20 @@ import { ObservationText } from '../lang/observation-text';
 // small things are done in it (data/rules/inhabitants.kyr, temper_closes). It was spent silently, by reading and
 // looking, until they came on (the play-structure investigation's PT-39; the register's CMB-13).
 export class Patience {
-  static of(campaign: Campaign, minutes = 0): { warned?: { by: string; left: number; id: string } } {
+  // also: the others warning it off there too (three dangers at one door), each a threat the company answers (OR-163).
+  static of(campaign: Campaign, minutes = 0): { warned?: { by: string; left: number; id: string; also?: string[] } } {
     const world = campaign.world, company = campaign.playerActor, here = company && world.one('at', company);
     // None to a company that has fallen: the barrow-king had given a dead warrior ten minutes (AB-04).
     if (!here || !world.relates('warned') || !campaign.running) { return {}; }
-    const by = world.related('warned').map(r => r.args).filter(([g, c]) => c === company && world.one('at', g!) === here)
-      .map(([g]) => g!).filter(g => this.standing(world, g, company)).find(g => world.number(ModuleWriter.call('patience', g))
-        > world.number(ModuleWriter.call('watch', 'clock')));
+    const now = world.number(ModuleWriter.call('watch', 'clock'));
+    const all = world.related('warned').map(r => r.args).filter(([g, c]) => c === company && world.one('at', g!) === here)
+      .map(([g]) => g!).filter(g => this.standing(world, g, company)
+        && world.number(ModuleWriter.call('patience', g)) > now);
+    const by = all[0];
     if (!by) { return {}; }
-    const watches = world.number(ModuleWriter.call('patience', by)) - world.number(ModuleWriter.call('watch', 'clock'));
-    return { warned: { by: ObservationText.label(world, by), left: watches * 10 - minutes, id: by } };
+    const watches = world.number(ModuleWriter.call('patience', by)) - now, also = all.slice(1);
+    return { warned: { by: ObservationText.label(world, by), left: watches * 10 - minutes, id: by,
+      ...also.length ? { also } : {} } };
   }
   // Only one who could still come on: a robbers' captain dead on the floor had gone on giving the company seven
   // minutes (round 5), as the rules' warning stands until it is spent (temper_closes asks able, not routed).
