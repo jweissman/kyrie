@@ -66,6 +66,12 @@ export class VerifyTool {
     for (const f of failing) { print(`  lint ${f.level}: ${f.where}: ${f.message}`); }
     const advice = findings.filter(f => f.level === 'advice').length;
     print(`lint: ${failing.length ? `${failing.length} to fix` : 'clean'}${advice ? `, ${advice} to look at` : ''}`);
+    // Beside lint's, how many telling rules are heard wherever the company is, each by name (AU-36: advice).
+    const everywhere = findings.filter(f => f.check === 'everywhere');
+    if (everywhere.length) {
+      print(`heard everywhere: ${everywhere.length} telling ${everywhere.length === 1 ? 'rule' : 'rules'} with no anchor`);
+      for (const f of everywhere) { print(`  ${f.message}`); }
+    }
     return [{ check: 'compiled', held: true, said: 'loads' },
       { check: 'lint', held: !failing.length, said: failing.length ? `${failing.length} to fix` : 'clean' }];
   }

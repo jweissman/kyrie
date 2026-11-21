@@ -15,6 +15,7 @@ export class AuthorLint {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
     this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
     this.nearWay(lint); this.unheard(lint); this.untied(lint); this.neverThere(lint); this.unpaid(lint);
+    this.everywhere(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
@@ -82,6 +83,16 @@ export class AuthorLint {
       if (!held) { continue; }
       lint.add('advice', 'unheard', `${r.id} says what happens with ${held.args[0]} at ${held.args[1]}, and is heard `
         + `wherever the company is: write it at ${held.args[1]} (or near ${held.args[0]}), or heard at it, if not meant`);
+    }
+  }
+  // A telling rule of a module's own with no anchor is heard wherever the company is (AU-36, The Warm Wall's friction:
+  // the heard-anywhere form passed its tests silently, found only by reading the page): each one said, as advice, so
+  // that verify can count them. Not the shared rules' (the world's own news), nor the lines told as the book closes
+  // (upkeep), which are for wherever the company is.
+  static everywhere(lint: CampaignLint) {
+    for (const r of (lint.module.rules ?? []).filter(x => x.say && !x.place && !x.upkeep && x.id.includes('__'))) {
+      lint.add('advice', 'everywhere', `${r.id} says "${r.say!.slice(0, 50)}${r.say!.length > 50 ? '…' : ''}" `
+        + 'wherever the company is: anchor it (at, near, within) if it is not news for everywhere');
     }
   }
   // An act asked where the one who acts stands (at(actor, site)) and of a thing's state, that never asks the thing be
