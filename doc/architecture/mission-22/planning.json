@@ -173,9 +173,9 @@
     "accept": "the prologue's painting and first sentences shown while the world is made; no checklist, no black frame"
    },
    {
-    "id": "OR-159",
+    "id": "OR-143",
     "owner": "lead",
-    "accept": "one Open the world map at every turn and lens (test/one-world-map)"
+    "accept": "the options page has fewer distinct choices grouped with their icons; handbooks are not game options; checked at laptop and phone widths"
    }
   ],
   "platform": [
@@ -195,12 +195,6 @@
     "accept": "a new world starts in under 3 s warm"
    }
   ],
-  "urgent": [
-   {
-    "id": "OR-159",
-    "why": "a selectable map row three times over: a breach of basic trust (the owner's P0, 20 November); fixed at once",
-    "displaced": "OR-143"
-   }
-  ]
+  "urgent": []
  }
 }

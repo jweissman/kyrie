@@ -1,5 +1,9 @@
 # Westernesse delivery plan after Mission 22
 
+> **Superseded for current planning on 20 November 2026 by
+> [planning-report-2026-11-20.md](planning-report-2026-11-20.md).** This 17 November report remains the forecast against
+> which Sprints 0–3 were run; its section numbers are retained because the sprint record cites them.
+
 **Planning date:** 17 November 2026  
 **Planning horizon:** five one-week sprints, preceded by a two-day control sprint; a sixth sprint is conditional  
 **Source of truth:** `doc/architecture/open-register.md`  

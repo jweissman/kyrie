@@ -50,11 +50,13 @@ export class PlanningViews {
     const active = new Set([...blockers, ...platform].map(q => q.id));
     for (const q of [...blockers, ...platform]) {
       if (!rows.has(q.id)) { out.push(`${q.id} is active and in no register`); }
+      if (rows.has(q.id) && !this.live(rows.get(q.id))) { out.push(`${q.id} is active but ${rows.get(q.id)!.state}`); }
       if (!q.owner.trim() || !q.accept.trim()) { out.push(`${q.id} is active without an owner and an acceptance`); }
     }
     for (const q of blockers) { if (!members.has(q.id)) { out.push(`${q.id} is an active blocker outside the slice`); } }
     for (const u of urgent) {
       if (!blockers.some(q => q.id === u.id)) { out.push(`${u.id} is urgent and not among the blockers`); }
+      if (rows.has(u.id) && !this.live(rows.get(u.id))) { out.push(`${u.id} is urgent but ${rows.get(u.id)!.state}`); }
       if (!u.why.trim()) { out.push(`${u.id} is urgent with no reason`); }
       if (u.displaced && active.has(u.displaced)) { out.push(`${u.id} displaced ${u.displaced}, still active`); }
     }

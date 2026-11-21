@@ -39,4 +39,12 @@ describe('the planning views', () => {
     const outside = plan(['A-1'], { 'M-1': 'platform' }, { blockers: [q('M-1')] });
     expect(PlanningViews.faults(outside, rows)).toContain('M-1 is an active blocker outside the slice');
   });
+  it('reject a closed row left active or urgent', () => {
+    const rows = new Map([row('A-1', 'P1', 'closed'), row('A-2')].map(r => [r.id, r]));
+    const stale = plan(['A-1', 'A-2'], {}, { blockers: [q('A-1'), q('A-2')],
+      urgent: [{ id: 'A-1', why: 'a breach of trust' }] });
+    expect(PlanningViews.faults(stale, rows)).toEqual([
+      'A-1 is active but closed', 'A-1 is urgent but closed',
+    ]);
+  });
 });
