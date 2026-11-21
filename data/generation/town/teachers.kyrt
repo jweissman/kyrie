@@ -35,6 +35,23 @@
     On discuss { Assert knows(actor, {s}_scriv_curtain). }
   }
   Person {s}_scriv_reader "{name}" at {s}_scriv_back { Role "who teaches spells, for {fee} coin a lesson". Ancestry {folk}.{!likeness} Peaceable. Pronouns {pronoun}. Manner proud. }
+  // Fun Friday (20 November): writing letters (the Pleasant Activities List, #223). The scrivener writes a letter home
+  // for a penny; the carrier takes it up the valley; a day later the answer waits under the stone, in a hand you know,
+  // and the scrivener reads it to you. Nothing is gained but the news from home.
+  Relation {s}_letter_sent(group). Relation {s}_letter_read(group). Measure {s}_letter_at(group).
+  Action {s}_write_home(actor: group, site: place) "Have the scrivener write a letter home for you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_scriv) and at({s}_scriv_clerk, {s}_scriv) and not {s}_letter_sent(actor) and quantity(actor, gold) >= 1.
+    Time 2.
+    On success { Decrease quantity(actor, gold) by 1. Assert {s}_letter_sent(actor). Set {s}_letter_at(actor) to watch(clock). }
+    Result "You say it, and the scrivener writes it down. Twice the pen stops to ask how a word is spelled where you come from. It comes to less than you meant. The road was long. You are well. Tell them not to worry. The scrivener sands it, folds it and writes the name of your village on the back. 'A penny,' {{s}_scriv_clerk} says. 'The carrier goes up the valley on Thursdays. Answers come here, under the stone.'".
+  }
+  Observe {s}_letter_waiting at {s}_scriv when {s}_letter_sent(party) and not {s}_letter_read(party) and watch(clock) >= {s}_letter_at(party) + 144 "Under the stone on the counter, among the letters waiting to be called for, there is one with your name on it. You know the hand.".
+  Action {s}_read_reply(actor: group, site: place) "Have the scrivener read you the letter from home" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_scriv) and at({s}_scriv_clerk, {s}_scriv) and {s}_letter_sent(actor) and not {s}_letter_read(actor) and watch(clock) >= {s}_letter_at(actor) + 144.
+    Time 1.
+    On success { Assert {s}_letter_read(actor). }
+    Result "'Dear,' the scrivener reads. Then a pause, and the word again, more kindly. The rest is short. The goat has kidded. Your sister is walking out with the miller's boy, and nobody approves. There is snow on the top field already. Come home when you can, and not before. The scrivener folds it back along its creases and gives it to you. There is no charge for the reading.".
+  }
 --- scrivenerafter
   Initially Set lessonFee({s}_scriv_reader) to {fee}.
   Observe {s}_scriv_back_scene at {s}_scriv_back as fixture when true "A low room lined with shelves of things that are not books: jars, a skull with a candle in it, a slate covered in figures. It smells of hot wax and iron.".
