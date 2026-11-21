@@ -25,8 +25,9 @@ export class Patience {
   // minutes (round 5), as the rules' warning stands until it is spent (temper_closes asks able, not routed).
   // Nor one who now lets the company be (the old drain's centipede, kept to the cold side of: tolerates), as the
   // rules' warning closes only on one it does not tolerate (temper_closes), and no engagement stands (OR-163).
+  // Nor one made peaceable (the gallery's eels, stranded at the ebb), who comes on at no one (temper_closes).
   private static standing(world: Campaign['world'], g: string, company: string): boolean {
-    return this.holds(world, 'able', g) && !this.holds(world, 'routed', g)
+    return this.holds(world, 'able', g) && !this.holds(world, 'routed', g) && !this.holds(world, 'peaceable', g)
       && !(world.relates('tolerates') && world.test(ModuleWriter.call('tolerates', g, company)));
   }
   private static holds(world: Campaign['world'], name: string, g: string): boolean {
