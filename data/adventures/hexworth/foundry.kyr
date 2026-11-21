@@ -1,0 +1,183 @@
+Module hexworth "A Voice for Hexworth" {
+  // ── The pot ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Metal is counted in weights. copperIn() and tinIn() are what the bell wants; leadIn() is pewter and bad tin, which
+  // sours it; ironIn() is anything that rusts, which cracks it. A bell is good when there is tin (two weights at the
+  // least), and copper is between three and six times the tin. voice() is what the pour will turn out to be, known to
+  // the company only when the mould is broken: 1 cracked, 2 dull, 3 soft, 4 brittle, 5 small, 6 fair, 7 great.
+
+  Measure copperIn(). Measure tinIn(). Measure leadIn(). Measure ironIn(). Measure spill().
+  Measure fireFuel(). Measure heat(). Measure pouredAt(). Measure voice(). Measure rings(). Measure fogAt(). Measure fogHour().
+  Measure marlinLeaded(). Measure whiteIn(). Measure lastBellows(). Measure carry(). Measure bellScore(). Measure extraScore().
+  Initially Set fireFuel() to 0. Initially Set heat() to 0. Initially Set voice() to 0. Initially Set rings() to 0.
+  Initially Set fogHour() to (1d4) + 14.
+  Initially Set marlinLeaded() to (1d2) - 1.
+
+  Measure potKettle().     
+  Measure potSoldier(). Measure potWhistle(). Measure potPieces(). Measure potKey().
+
+  Relation trusted(group). Relation keyTold(group). Relation piersReady(group). Relation crewLent(group).
+  Relation orlopDeal(group). Relation culverDeal(group). Relation lampsSet(group). Relation handbellRung(group).
+   Relation pouredBy(group, group). Relation fatedCutters(group). Relation fatedGundred(group).
+  Relation fatedPiers(group). Relation fatedName(group). Relation fatedDilly(group). 
+   Relation pouredAlone(group). Relation pouredShared(group). Relation pouredPiers(group). Relation knockersAsked(group).
+
+  Query potAtLeast(n: number) means copperIn() + tinIn() + leadIn() + ironIn() - spill() * 3 >= n.
+  Query potReady() means heat() >= 6 and watch(clock) <= lastBellows() + 18 and (day(clock) >= 4 or (day(clock) == 3 and hour(clock) >= 14)).
+  Query fogged() means day(clock) >= 4 and hour(clock) >= fogHour().
+  Query isCracked() means ironIn() >= 1.
+  Query isDull() means ironIn() == 0 and leadIn() >= 2.
+  Query isSoft() means ironIn() == 0 and leadIn() < 2 and (tinIn() < 2 or copperIn() > tinIn() * 6).
+  Query isBrittle() means ironIn() == 0 and leadIn() < 2 and tinIn() >= 2 and copperIn() <= tinIn() * 6 and copperIn() < tinIn() * 3.
+
+  Kind iron_heap "a barrow of the town's iron" is treasure worth 0 weighing 3 described "Horseshoes, a ploughshare, a gate hinge, three pots: the iron of forty kitchens, brought for the bell.".
+  Kind margery_pieces "the broken bell" is treasure worth 0 weighing 3 described "Pieces of Long Margery.".
+  Kind charcoal_sack "a sack of charcoal" is treasure worth 1 weighing 1 described "A sack of birch charcoal, light as a bird.".
+  Kind orlop_kettle "a brewing kettle" is treasure worth 0 weighing 2 described "A copper kettle you could bathe a child in, dented where it has been dropped by brewers.".
+  Kind orlop_tun "a mash-copper" is treasure worth 0 weighing 2 described "A shallow copper pan the width of a cartwheel, green at the seams.".
+  Kind culver_censer "the chapel's brass censer" is treasure worth 0 weighing 1 described "A brass censer on three chains, black inside, smelling still of the last Easter.".
+  Kind culver_pewter "the chapel's Lenten dishes" is treasure worth 0 weighing 2 described "Six grey pewter dishes with a pattern of wheat-ears round the rim, soft as cheese.".
+  Kind hasket_pan "a brass bedwarmer" is treasure worth 0 weighing 1 described "A brass bedwarmer with a long wooden handle, and a lid pierced in the shape of a rose.".
+  Kind brass_knockers "a bag of door-knockers" is treasure worth 0 weighing 1 described "Brass off a dozen doors: a hand, a hare, a ring, a plain plate. The doors have been left, for now, with a string.".
+  Kind marlin_tin "Marlin's tin tray and spoons" is treasure worth 0 weighing 2 described "A tin tray, scratched, and four spoons to match, bright white and light.".
+  Kind dilly_soldier "a tin soldier" is treasure worth 0 weighing 1 described "A soldier two fingers high, with one arm raised and the paint gone from his face.".
+  Kind piers_whistle "a tin whistle" is treasure worth 0 weighing 1 described "A six-holed tin whistle, with the first hole bitten, and a worn place at the mouth.".
+
+  // ── What the founder's yard holds ───────────────────────────────────────────────────────────────────────────────
+  Item sledge "the foundry's sledge" is crowbar at yard.
+  Item heap_item "the town's iron" is iron_heap at square.
+
+  Thing margery "Long Margery" at yard {
+    Tries looking.
+    State lying "Long Margery lies on her side across two trestles, cracked from the lip to the waist. Forty winters of weather have not taken the gloss off her.".
+    State broken "Long Margery lies in pieces on the clinker, each the size of a loaf, with a bright edge where the sledge went through her.".
+    State cleaned "Margery's pieces lie in a barrow, clean, with a small round hole in the largest.".
+    State melted "Where Margery lay there is a clean place on the clinker.".
+    Change break_up "Break Margery up with the sledge" from lying to broken needing crowbar.
+  }
+  Observe margery_looked near margery when state(margery, lying) and tried(margery, looking) "The crack runs from the lip upward. Along the first hand's breadth of it the bronze is dull, not bright, like a cheese that has been cut with a knife that was not clean. Whatever is inside would show if she were broken.".
+  Observe seam_seen near margery when state(margery, broken) "At the crack's beginning, set in the heart of the biggest piece, is a bright knuckle that is not bronze. It is grey, the size of a thumb, and it has not rusted, because it has had no air for thirty-eight years. If you turn the piece to the light it has the shape of a key." teaches iron_known.
+  Discovery iron_known "There is iron in Long Margery: a key, the length of a thumb, set into her heart at the place where she began to crack.".
+  Discovery edric_lost "Edric Ludlam went out after his cows one October dusk, with no bell to walk home by, and the Edge kept him till Easter.".
+  Discovery nothing_rusts "A bell cast with anything that rusts in the pot will crack: no iron. Pewter sours it too, and bad tin.".
+  Discovery four_to_one "A bell wants copper and tin about four to one: tin at the least two weights, copper not less than three times the tin nor more than six.".
+  Discovery weights_known "Twelve weights of metal will carry a bell to the last stile on a still night. Nine will carry a little; fewer is a cowbell.".
+  Discovery cry_known "Good tin cries when it is bent, a small high crackle. Pewter does not.".
+
+  Thing mould "the mould" at shed {
+    State waiting "The mould stands in its pit, dry as a loaf, its black mouth open to the roof.".
+    State poured "The mould's mouth is a grey scab. The shed is warm to the rafters, and the clay ticks as it cools.".
+    State out "The bell stands in the middle of the shed on its crown, in a ring of broken clay.".
+    State empty "A ring of broken clay lies on the shed floor where the bell stood.".
+  }
+  Thing newbell "the new bell" nowhere {
+    State unmade "The new bell is not yet made.".
+    State cast "The new bell hangs in the frame, a dark thing the colour of bread crust, with letters running round her shoulder.".
+  }
+  Thing furnace "the furnace" at shed {
+    State lit "A furnace as tall as a person, set into the wall of the shed. A crucible the size of a barrel sits in the pit before it, with a ladle on a long iron shank hung on two hooks.".
+  }
+  Rule furnace_cools when heat() > 0 and not poured() and watch(clock) > lastBellows() + 18
+    says "Nobody has worked the bellows for three hours, and the furnace has gone back to a grey sulk. Piers looks at it as at a dog that has died." { Set heat() to 0. Set fireFuel() to 0. }
+  Observe furnace_cold at shed when heat() == 0 "The furnace is cold, and the crucible beside it is bare.".
+  Observe furnace_warm at shed when heat() >= 1 and heat() <= 3 "The furnace has begun to tick. The bricks are warm to the hand.".
+  Observe furnace_hot at shed when heat() >= 4 and heat() <= 5 "The furnace is roaring. The bricks are the colour of a boiled sweet, and Piers has stripped to his shirt.".
+  Observe furnace_ready at shed when heat() >= 6 and not poured() "The furnace has gone from red to yellow to something with no name. The crucible glows in the pit like a small low sun.".
+  Query poured() means state(mould, poured) or state(mould, out) or state(mould, empty).
+
+  Action feed_furnace(actor: group) "Feed the furnace a sack of charcoal" {
+    Requires able(actor) and at(actor, shed) and holding(actor, charcoal_sack) and not poured().
+    Time 10 minutes.
+    On success { Spend charcoal_sack from actor. Increase fireFuel() by 3. }
+    Result "You tip the sack into the firebox. It goes up with a sound like a held breath.".
+  }
+  Action work_bellows(actor: group) "Work the bellows for an hour" {
+    Requires able(actor) and at(actor, shed) and fireFuel() >= 1 and heat() < 8 and not poured().
+    Time 1 hour.
+    On success { Decrease fireFuel() by 1. Increase heat() by 1. Set lastBellows() to watch(clock). }
+    Result "Piers takes the other handle. You count your strokes against the sound of the fire, and lose count, and begin again." when heat() < 3.
+    Result "The bellows are a pair of ox-hides on a beam, and a thing you lean on, and lean on. By the end of the hour the heat is on your face like a hand." when heat() >= 3.
+  }
+
+  // ── What goes in ────────────────────────────────────────────────────────────────────────────────────────────────
+  // Each gift is put in by an act of its own. What the pot does with it is in the counts above.
+
+  Action put_pieces_clean(actor: group) "Put Margery's cleaned pieces in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and state(margery, cleaned).
+    Time 10 minutes.
+    On success { Increase potPieces() by 1. Increase copperIn() by 5. Increase tinIn() by 1. Assert state(margery, melted). }
+    Result "You tip the barrow. The pieces go in one at a time, and each, as it goes, rings once in the pot, a small high note, and is quiet. Piers has stopped working the bellows to listen.".
+  }
+  Action put_pieces_dirty(actor: group) "Put Margery's pieces in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and state(margery, broken).
+    Time 10 minutes.
+    On success { Increase potPieces() by 1. Increase copperIn() by 5. Increase tinIn() by 1. Increase ironIn() by 1. Assert state(margery, melted). }
+    Result "Gundred watches the barrow go into the pot with her hand flat on the door-post. 'That is how it is done,' she says. 'She goes back in.' It is not clear whom she is telling.".
+  }
+  Action put_kettle(actor: group) "Put Ebba Orlop's kettle in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, orlop_kettle).
+    Time 10 minutes.
+    On success { Spend orlop_kettle from actor. Increase potKettle() by 1. Increase copperIn() by 3. }
+    Result "The kettle goes into the crucible with a shiver of steam from last winter's mash, and sags, and is gone, bright orange, into the rest.".
+  }
+  Action put_tun(actor: group) "Put Ebba Orlop's mash-copper in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, orlop_tun).
+    Time 10 minutes.
+    On success { Spend orlop_tun from actor. Increase copperIn() by 3. }
+    Result "The great flat pan goes in on its edge like a coin into a well. It is a long time melting. The shed smells, for a moment, of malt.".
+  }
+  Action put_censer(actor: group) "Put the chapel's censer in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, culver_censer).
+    Time 10 minutes.
+    On success { Spend culver_censer from actor. Increase copperIn() by 2. }
+    Result "The censer goes in on its three chains, and a last sweet smoke of Easter rises off it and goes up through the roof-vent.".
+  }
+  Action put_pan(actor: group) "Put Hasket's wife's bedwarmer in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, hasket_pan).
+    Time 10 minutes.
+    On success { Spend hasket_pan from actor. Increase copperIn() by 2. }
+    Result "The brass rose on the lid is the last thing to go. For a moment it floats, quite plainly, on the top.".
+  }
+  Action put_knockers(actor: group) "Put the door-knockers in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, brass_knockers).
+    Time 10 minutes.
+    On success { Spend brass_knockers from actor. Increase copperIn() by 2. }
+    Result "A hand, a hare, a ring and a plain plate go into the pot together, and are one thing.".
+  }
+  Action put_soldier(actor: group) "Put Dilly's tin soldier in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, dilly_soldier).
+    Time 10 minutes.
+    On success { Spend dilly_soldier from actor. Increase whiteIn() by 1. Increase potSoldier() by 1. Increase tinIn() by 1. }
+    Result "He goes in with his arm up. Piers looks away; then, because it seems wrong to, looks back.".
+  }
+  Action put_whistle(actor: group) "Put Piers's tin whistle in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, piers_whistle).
+    Time 10 minutes.
+    On success { Spend piers_whistle from actor. Increase whiteIn() by 1. Increase potWhistle() by 1. Increase tinIn() by 1. }
+    Result "Piers puts it in himself, with the tongs, and does not say anything, and then says, 'It had a bad first hole anyway.'".
+  }
+  Action put_pewter(actor: group) "Put the chapel's pewter dishes in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, culver_pewter).
+    Time 10 minutes.
+    On success { Spend culver_pewter from actor. Increase whiteIn() by 3. Increase leadIn() by 3. }
+    Result "The dishes go to a bright soft soup that skins grey as you watch. Gundred's nostrils move. She says nothing yet.".
+  }
+  Action put_iron(actor: group) "Put the town's iron in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, iron_heap).
+    Time 10 minutes.
+    On success { Spend iron_heap from actor. Increase ironIn() by 3. }
+    Result "Horseshoe, ploughshare, hinge and pots go in. They do not melt. They sink, and sit at the bottom like sulking children, and the pot goes on glowing around them.".
+  }
+
+  Action put_tray_true(actor: group) "Put Marlin's tin in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, marlin_tin) and marlinLeaded() == 0.
+    Time 10 minutes.
+    On success { Spend marlin_tin from actor. Increase tinIn() by 2. Increase whiteIn() by 2. }
+    Result "The tray goes in flat, and slides under, and the spoons after it. The surface is bright and quick for a moment, like water with a coin in it.".
+  }
+  Action put_tray_lead(actor: group) "Put Marlin's tin in the pot" {
+    Requires able(actor) and at(actor, shed) and not poured() and holding(actor, marlin_tin) and marlinLeaded() == 1.
+    Time 10 minutes.
+    On success { Spend marlin_tin from actor. Increase leadIn() by 2. Increase whiteIn() by 2. }
+    Result "The tray goes in flat, and slides under, and the spoons after it. The surface skins over grey, slowly, and Piers frowns at it.".
+  }
+}

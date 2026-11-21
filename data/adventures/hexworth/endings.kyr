@@ -1,0 +1,90 @@
+Module hexworth "A Voice for Hexworth" {
+  // ── Four days ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Chapter c_crack "The Crack" when day(clock) == 1 "Long Margery cracked on Tuesday night with nobody near her. The cutters come in off the Edge on the fourth evening, and the fog with them.".
+  Chapter c_heap "The Heap" when day(clock) == 2 "The mould is baking. The town has brought iron.".
+  Chapter c_pour "The Pour" when day(clock) == 3 "The mould is dry by mid-afternoon. A bell wants twelve hours to cool, and no bell has ever been hurried.".
+  Chapter c_fog "The Fog" when day(clock) == 4 "Somewhere past the middle of the afternoon the fog comes, as it does every autumn, flat and white at the height of a wall.".
+
+  Measure tier().
+  Relation keyOut(group). Relation fatedPromise(group). Relation lettered(group). Relation lettersEbba(group). Relation lettersOdwin(group). Relation lettersHome(group). Relation lettersEdric(group).
+
+  Rule fog_comes when fogged() and fogAt() == 0
+    says "The fog comes in off the Edge flat and white at the height of a wall, and the square goes quiet, as a room does when someone has said a name. Somewhere past the last stile, where nobody can see them, eleven men and a boy have stopped walking." { Set fogAt() to watch(clock). }
+
+  // What the first ringing says is in her.
+  Rule heard_soldier when rings() >= 1 and voice() >= 5 and potSoldier() > 0 once
+    says "High up, a small bright note like a pin, a salute. In the square, a child in a grey shawl puts both hands over her mouth." { }
+  Rule heard_whistle when rings() >= 1 and voice() >= 5 and potWhistle() > 0 once
+    says "And behind it, so faint that only a founder could say it was there, a little breath with a bad first hole. Piers, in the shed door, has not moved." { }
+  Rule heard_kettle when rings() >= 1 and voice() >= 5 and potKettle() > 0 once
+    says "Under the note, sweet and round, a kettle on a hearth. It is the sound of a house at the end of a day." { }
+  Rule heard_margery when rings() >= 1 and voice() >= 5 and potPieces() > 0 and keyOut(party) once
+    says "And low in it, under the hum, so that it is felt and not heard: Margery. Not the whole of her. The memory of the note, as a hand is the memory of a shoulder. Gundred, who cannot hear it, has her forehead against the frame." { }
+
+  // ── When the cutters come ──────────────────────────────────────────────────────────────────────────────────────
+
+  Rule cutters_home when fogged() and fogAt() > 0 and watch(clock) >= fogAt() + 18 and tier() == 0 and bellScore() + extraScore() >= 5
+    says "They come in at the second hour of the dark, out of the white, one and then four and then all of them, walking with their lanterns shut and their heads up, like men listening for a name. Kit Hasket is the fourth. Nobody says anything. Jonas Hasket goes down on one knee at the stile, very quietly, as though he had dropped something, and then gets up again." { Set tier() to 4. }
+  Rule cutters_hurt when fogged() and fogAt() > 0 and watch(clock) >= fogAt() + 18 and tier() == 0 and bellScore() + extraScore() >= 3
+    says "They come in near midnight, in twos and threes, hoarse, a long way apart, and one of them leaning on another: old Tam Culp's second son went into the Sour to the thigh at the second stile and was pulled out by a rope of braces. Kit Hasket is last, carrying a shut lantern he does not seem to know he still has." { Set tier() to 3. }
+  Rule cutters_late when fogged() and fogAt() > 0 and watch(clock) >= fogAt() + 18 and tier() == 0 and bellScore() + extraScore() >= 1
+    says "By dawn, ten have come in. Kit Hasket is not among them. He walked toward the wrong sound in the dark, they say, a boy of sixteen who heard something in the fog and was sure it was behind him. Hasket goes out along the track with a rope, and finds him on the second day, in the Sour to his ribs and alive. He will lose three toes and a good deal of his idea of the Edge." { Set tier() to 2. }
+  Rule cutters_lost when fogged() and fogAt() > 0 and watch(clock) >= fogAt() + 18 and tier() == 0
+    says "In the morning ten have come in, by their own luck and the cold. Kit Hasket is not among them. They find him on the third day at the far edge of the Sour, sitting up, with his lantern shut beside him, quite dead. He must have walked all night toward a sound that never came." { Set tier() to 1. }
+
+  // ── What came of each ──────────────────────────────────────────────────────────────────────────────────────────
+
+  Rule fate_gundred_key when tier() > 0 and not fatedGundred(party) and keyOut(party)
+    says "Gundred Ludlam hangs Edric's key on a nail over the shed door, where it is neither a secret nor a relic, and on winter nights puts her hand on it as you would on a dog's head. She has stopped going down to the yard in her nightgown." { Assert fatedGundred(party). }
+  Rule fate_gundred_cracked when tier() > 0 and not fatedGundred(party) and ironIn() >= 1
+    says "Gundred Ludlam finds the new crack in the dark of the shed, and puts her hand over it. It is in the same place as the old one, to the inch. She does not say a word to anyone, and in the spring she gives the foundry to Piers, who does not yet know how to be given it." { Assert fatedGundred(party). }
+  Rule fate_gundred_plain when tier() > 0 and not fatedGundred(party)
+    says "Gundred Ludlam goes on going down to the yard at night in her nightgown, and puts her hand on the place where Margery lay. Nobody has told her it is not necessary. Piers has taken to leaving a lamp on the step." { Assert fatedGundred(party). }
+
+  Rule fate_piers_piers when tier() > 0 and fatedGundred(party) and not fatedPiers(party) and pouredPiers(party)
+    says "Piers Ansell cuts his name small on the lip of the next cowbell, and Gundred, who cannot hear it, reads it with her thumb, and says nothing for a quarter of an hour, and then says, 'You have the E backwards.' He leaves it." { Assert fatedPiers(party). }
+  Rule fate_piers_shared when tier() > 0 and fatedGundred(party) and not fatedPiers(party) and pouredShared(party)
+    says "Piers Ansell goes on holding the other handle of the ladle, and now it is by arrangement. Gundred has not said when, in so many words. She says, now, 'You know the colour.'" { Assert fatedPiers(party). }
+  Rule fate_piers_alone when tier() > 0 and fatedGundred(party) and not fatedPiers(party) and pouredAlone(party)
+    says "Gundred Ludlam pours no more bells. She says it is the clay. Piers holds the other handle, and will, and nobody in Hexworth says what both of them know." { Assert fatedPiers(party). }
+
+  Rule fate_piers_none when tier() > 0 and fatedGundred(party) and not fatedPiers(party)
+    says "The ladle hangs on its hooks, and Piers Ansell, who has never been let hold it, looks at it more than at anything. By spring he will have asked. Gundred will say when." { Assert fatedPiers(party). }
+
+  Rule fate_name_edric when tier() > 0 and fatedPiers(party) and not fatedName(party) and lettersEdric(party)
+    says "Round the shoulder of the bell, in letters a hand high, it says THERE IS A BELL. Gundred Ludlam reads it from the foot of the frame on Sundays, with her thumb. The tablet in the chapel has not been altered, and has been seen to have somebody standing in front of it." { Assert fatedName(party). }
+  Rule fate_name_ebba when tier() > 0 and fatedPiers(party) and not fatedName(party) and lettersEbba(party)
+    says "Round the shoulder of the bell, in letters that can be read from the stile on a clear day, it says BIG EBBA. Ebba Orlop has never in her life been so well looked at, and takes her ale out into the square on Fridays to be looked at some more." { Assert fatedName(party). }
+  Rule fate_name_odwin when tier() > 0 and fatedPiers(party) and not fatedName(party) and lettersOdwin(party)
+    says "Round the shoulder of the bell it says SAINT ODWIN, and she rings the Hours. On Fridays Father Culver climbs the frame himself to oil her, and the cutters have taken to touching their hats to him, which he finds unbearable." { Assert fatedName(party). }
+  Rule fate_name_home when tier() > 0 and fatedPiers(party) and not fatedName(party) and lettersHome(party)
+    says "Round the shoulder of the bell it says COME HOME, which is what the old one said, in the only language she had. It is the plainest thing in Hexworth, and the only one nobody has an opinion about." { Assert fatedName(party). }
+  Rule fate_name_plain when tier() > 0 and fatedPiers(party) and not fatedName(party) and potSoldier() > 0
+    says "She has no letters on her. Dilly Drave has called her Sergeant, because of the small raised arm of high note in her, and by the second winter the whole town does, and the Bishop's visitor, who asks, is told it is a saint." { Assert fatedName(party). }
+  Rule fate_name_bare when tier() > 0 and fatedPiers(party) and not fatedName(party)
+    says "She has no letters and no name. The town calls her the New Bell for a year, and then, from habit, Margery, and Gundred, who cannot hear the difference, lets it stand." { Assert fatedName(party). }
+
+  Rule fate_promise_both when tier() > 0 and fatedName(party) and not fatedPromise(party) and orlopDeal(party) and culverDeal(party) and not lettersEbba(party) and not lettersOdwin(party)
+    says "Ebba Orlop and Father Culver have each been promised the bell, and neither has had her. They have been seen, on the same Friday, standing in the square with their arms folded, on either side of her rope, in perfect agreement." { Assert fatedPromise(party). }
+  Rule fate_promise_both_one when tier() > 0 and fatedName(party) and not fatedPromise(party) and orlopDeal(party) and culverDeal(party)
+    says "Ebba Orlop and Father Culver were both promised the name, and only one has it. The other has decided to forgive it in public, which is worse. They are, at the time of writing, still at it." { Assert fatedPromise(party). }
+  Rule fate_promise_ebba when tier() > 0 and fatedName(party) and not fatedPromise(party) and orlopDeal(party) and not lettersEbba(party)
+    says "Ebba Orlop has given her kettle and her mash-copper and has not been called. She says nothing. The Wake ale is a penny dearer, and nobody has been told why." { Assert fatedPromise(party). }
+  Rule fate_promise_odwin when tier() > 0 and fatedName(party) and not fatedPromise(party) and culverDeal(party) and not lettersOdwin(party)
+    says "Father Culver has not got his Offices, and has not complained. The chapel goes on saying Prime by the sun. He cleans the drowned a little harder, on Thursdays." { Assert fatedPromise(party). }
+  Rule fate_promise_none when tier() > 0 and fatedName(party) and not fatedPromise(party) { Assert fatedPromise(party). }
+
+  Rule fate_done when tier() > 0 and fatedPromise(party) and not fatedDilly(party) { Assert fatedDilly(party). }
+
+  Ending home "Home by the Voice" when tier() == 4 and fatedDilly(party) "Hexworth rings the bell at dusk, and the cutters come off the Edge by her. The note is not Margery's. Nobody says it is. Every autumn on the fourth evening the town stands in its doors with whatever it was holding and listens for it, and it does not need to be told for whom.".
+  Ending lamps "By the Lamps and a Rope" when tier() == 3 and fatedDilly(party) "She did not carry far enough. What carried was a row of lamps, and a handbell, and a man up to his thigh in the Sour with a rope of braces. The town knows it. At the next Michaelmas, a second bell is subscribed for, in iron, and refused by Gundred in writing.".
+  Ending kit_alive "Kit on the Edge" when tier() == 2 and fatedDilly(party) "Kit Hasket walks with a stick, and does not go onto the Edge, and cuts peat in the yard behind his father's house, and is the only man in Hexworth who can say what a bell sounds like from outside it.".
+  Ending nothing_called "Nothing Called" when tier() == 1 and fatedDilly(party) "Kit Hasket is buried at Saint Odwin's, near the door, in the cleaner part of the chapel. The new bell is rung for him, once, because it is the custom, and it is Hexworth's bell, and nobody who hears it can say what is wrong with it.".
+
+  Milestone hx_ms_seam "found what was in Margery" worth 40 when knows(party, iron_known).
+  Milestone hx_ms_key "heard Gundred out about the key" worth 50 when keyTold(party).
+  Milestone hx_ms_pour "got the metal poured" worth 60 when poured().
+  Milestone hx_ms_true "broke out a bell that was true" worth 80 when voice() >= 5 and state(mould, empty).
+  Milestone hx_ms_home "brought the cutters home" worth 100 when tier() >= 3.
+}

@@ -1,0 +1,211 @@
+Module hexworth "A Voice for Hexworth" {
+  // ── Who is in Hexworth ──────────────────────────────────────────────────────────────────────────────────────────
+
+  Relation kettleGot(group). Relation hasketKit(group).
+  Kind culver_handbell "the chapel's handbell" is treasure worth 0 weighing 1 described "A brass handbell with a wooden grip, worn pale where fifty years of hands have held it.".
+
+  // Gundred Ludlam: founder, hears the hum and not the voice, reads mouths.
+  Person gundred "Gundred Ludlam" at shed {
+    Role "bell-founder". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A broad old woman in a leather apron stands by the furnace with her arms folded, looking at nothing, and then at your mouth. 'You are the one the town has sent,' says Gundred Ludlam. 'Say it slowly. I have the hum of a voice, and none of the words, and I read the rest. Do not mumble. Do not turn away to the fire to be tactful.' She has hands like two spades, and she keeps them folded, hard, one inside the other.".
+    Greets again "Gundred Ludlam watches your mouth come in at the door. 'Well?' she says.".
+  }
+  Topic g_bell with gundred "Ask what has to be done" when true once {
+    Says "'A bell is asked for, and then made of what is given,' says Gundred. 'Twelve weights of metal and she will carry to the last stile on a still night. Nine and she will carry a little. Fewer, and she is a cowbell. Margery is six of them. The rest is the town's, and I have asked, and the town has brought me iron.' She nods at the square, which you cannot see from here. 'Giving is a skill. They have not been told.'".
+    On discuss { Assert knows(actor, weights_known). }
+  }
+  Topic g_iron with gundred "Ask what must not go in the pot" when true once {
+    Says "'Nothing that rusts,' says Gundred. 'Not a nail. Not a horseshoe, not a pot, not a hinge. Iron does not melt where copper does, and it sits in the bell like a stone in a loaf, and the bell rings, and rings, and one winter it does not.' She is not looking at you. 'And no pewter. Pewter is lead with ideas. A bell that has had lead put in her sounds like a pot, and cannot be forgiven.'".
+    On discuss { Assert knows(actor, nothing_rusts). }
+  }
+  Topic g_tin with gundred "Ask about tin and copper" when true once {
+    Says "'Four of copper to one of tin,' says Gundred. 'Less tin and she sings like a pot; more and she breaks like a plate. Two weights of tin, I need, at the least. Copper not less than three times the tin, nor more than six.' She holds up two fingers, and a spade of a hand. 'And I cannot tell you if the tin is good, because tin cries when you bend it, high, and I have not heard a cry in nine years. Bend it. Tell me.'".
+    On discuss { Assert knows(actor, four_to_one). Assert knows(actor, cry_known). }
+  }
+  Topic g_margery with gundred "Ask about Long Margery" when true once {
+    Says "'Cast her thirty-eight winters ago, in a week, and she was the best I ever made,' says Gundred. 'She called thirty-eight winters of cutters home off the Edge. She did not crack from age. A bell does not crack from age.' Her hands tighten. 'She went on Tuesday night with nobody near her, from the lip to the waist, in a sound like a plate. Nobody heard it but Brome, on the hill. I did not hear it at all.'".
+  }
+  Topic g_mould with gundred "Ask when she can pour" when true once {
+    Says "'The third day, by the middle of the afternoon,' says Gundred. 'Not before. I will not pour into damp clay. Piers put the first coat on before Margery was cold, because he is a boy and thinks that is what one does, and it has been four days drying.' She seems about to say more. 'The furnace wants six hours of bellows, and two sacks of Brome's charcoal, and it wants them together. Let it go grey for three hours and you begin again. Six. Not five and a prayer.'".
+  }
+  Topic g_letters with gundred "Ask what will be written on her" when true once {
+    Says "'Letters are cut in wax and set on the mould before the pour,' says Gundred. 'After, there is no adding to her. The town asks for its name and I put it round her shoulder, and the town is pleased, and the name rings a very little worse than none.' She shrugs. 'Ebba will ask for hers. Culver will ask for a saint. They always ask. You may choose, and you may be sorry. I have never been asked what I would put.'".
+  }
+  Topic g_hands with gundred "Ask about her hands" when true once {
+    Says "She looks at you for a long time. Her hands come unfolded, and for a moment you see them as they are, going at nothing in the air like two animals in a sack, and then she puts them behind her. 'Nine years,' says Gundred. 'It is a thing hands do. I have poured four hundred and six bells, and I could pour you a fifth tonight.' She does not say the whole of it, which is that it would go over the lip.".
+  }
+  Topic g_pot with gundred "Ask Gundred what the pot holds" when copperIn() + whiteIn() > 0 {
+    Says "She lays a palm flat on the crucible, and closes her eyes. 'Heft,' she says. 'By what you have told me: {copperIn()} weights of red metal, and {whiteIn()} of white. My arm cannot tell me what is in the white.'".
+  }
+  Topic g_test_true with gundred "Bend a spoon of Marlin's tin by Gundred's face, and tell her" when holding(actor, marlin_tin) and marlinLeaded() == 0 and not testedTray(party) {
+    Says "You bend the spoon. It cries: a high small crackle, as if a very little frost were breaking. Gundred reads it off your face before you have said it. 'Tin,' she says. 'Good. Again.' You bend it again. She watches you do it. It is a long time since someone did this for her.".
+    On discuss { Assert testedTray(party). Assert trusted(party). }
+  }
+  Topic g_test_lead with gundred "Bend a spoon of Marlin's tin by Gundred's face, and tell her" when holding(actor, marlin_tin) and marlinLeaded() == 1 and not testedTray(party) {
+    Says "You bend the spoon. It folds like candle wax, and does not cry at all. 'Lead,' says Gundred, from your face, before you have said it. 'He has sold you pewter at the price of tin. Marlin would not know the difference. Nobody in Hafod would.' She almost smiles. 'Thank you for bending it.'".
+    On discuss { Assert testedTray(party). Assert trusted(party). }
+  }
+  Topic g_test_pewter with gundred "Bend one of the chapel's dishes by Gundred's face, and tell her" when holding(actor, culver_pewter) and not testedPewter(party) {
+    Says "You bend the rim of a dish. It gives like cheese. There is no cry. 'Father Culver has been saying his Lent from lead for thirty years,' says Gundred, 'and not died of it. Do not put it in my pot.'".
+    On discuss { Assert testedPewter(party). Assert trusted(party). }
+  }
+  Relation testedTray(group). Relation testedPewter(group).
+  Topic g_seam with gundred "Show Gundred the iron in Margery" when knows(actor, iron_known) and not keyTold(party) once {
+    Says "She takes the piece from you in both hands, and for the first time the hands are still. She turns it to the light until the grey knuckle in its heart is a key. 'It was his byre key,' says Gundred, to the piece, not to you. 'It was in his coat. They found him at Easter, and I thought it should be in her, to call him.' She turns it over. 'It has called thirty-eight winters of cutters home, and not him. I do not know what I expected.' She puts the piece in your hands as if it were hot. 'You will want to take it out. Take it out. I will not watch.'".
+    On discuss { Assert keyTold(party). Assert trusted(party). Assert knows(actor, edric_lost). }
+  }
+  Topic g_edric with gundred "Ask Gundred about Edric" when keyTold(party) {
+    Says "'Cows,' says Gundred. 'An October dusk. A horn and no bell, and a fog you could have sat on.' She is looking at nothing. 'Forty winters, and I have not once let a cutter on the Edge without a bell to walk to. Do not tell me what that is.'".
+  }
+
+  // Piers Ansell: the apprentice who has never been let pour.
+  Person piers "Piers Ansell" at shed {
+    Role "Gundred's apprentice". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A boy of fifteen with a burnt forearm and a bellows-handle in each fist looks round at the door. 'She said the town would send somebody good with their hands,' he says, 'and it would be a fool. I don't think she meant you. She says that every time.' He jerks his head. 'Piers. Don't say I said.'".
+    Greets again "'Hot enough for you?' says Piers, and then, with feeling, 'It isn't. It isn't nearly.'".
+  }
+  Topic p_margery with piers "Ask Piers about Margery" when true once {
+    Says "'She comes down at night,' says Piers, low, with a glance at the door. 'I sleep in the loft. She comes into the yard in her nightgown and puts her hand flat on the crack. Just her hand. Then she goes back up.' He turns a bellows-handle in his fist. 'I thought she was sorry for the bell. I don't know that she is. I don't think she knows what it is she's doing.'".
+  }
+  Topic p_hands with piers "Ask Piers about Gundred's hands" when true once {
+    Says "'She poured a cowbell in the spring and it went over the lip,' says Piers. 'She said the clay was damp. It wasn't damp, I'd baked it myself.' He says it very fast. 'She's never said. I've never said. But I hold the other handle, now, on the ladle, when she lifts it, and she lets me, and she thinks it's by accident.'".
+  }
+  Topic p_pour with piers "Ask Piers if he has ever poured" when true once {
+    Says "'Cowbells,' says Piers. 'Sand moulds, for practice, on the yard floor. Never a real one. It's not that she won't. She says when. She hasn't said when in nine years.' He shrugs, elaborately. 'I could. I know the colour. I know the count. I've been counting it in my sleep since I was ten.'".
+  }
+  Topic p_whistle with piers "Ask Piers for his tin whistle" when knows(actor, four_to_one) once {
+    Says "'It's good tin,' says Piers, after a moment. 'My mam bought it at Hafod at the fair for a penny. I've never got the first hole right.' He takes it out of his shirt and looks at it, and it is a very ordinary thing, and then he puts it in your hand fast, before he can change his mind. 'It's only a whistle. Put it in. I'd like some of me to be in it, if she's going to be asked to do all that.'".
+    On discuss { Give piers_whistle to actor. }
+  }
+
+  // Dilly Drave, on the heap.
+  Person dilly "Dilly Drave" at square {
+    Role "a child on a heap of iron". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A girl of eight sits on the heap of iron under the frame, eating a turnip, with a tin soldier on her knee. 'It's for the bell,' she says, before you have asked. 'Everybody brought. Mam brought the big pot, and Dad said not that one, and Mam said it's only a pot, and Dad said it's only a bell.' She considers it. 'It's a lot of pots.'".
+    Greets again "'Still here,' says Dilly, on the heap, and holds up the soldier so you can see he is.".
+  }
+  Topic d_soldier with dilly "Ask Dilly about the soldier" when true once {
+    Says "'Sergeant,' says Dilly. 'He's the best one. He got his arm up in the wash and it stuck, so he's always saluting.' She makes him do it. 'A man from Hafod gave him me, a pedlar, because I was good about a thing.' She looks at him very gravely. 'He was meant to be a lot of soldiers. He's the only one that came.'".
+  }
+  Topic d_give with dilly "Ask Dilly if Sergeant would go in the bell" when knows(actor, four_to_one) once {
+    Says "Dilly's face does something complicated. 'Would I hear him?' she says. 'When it rings. Would he be in it?' 'Somewhere,' you say. 'High up. A small bright bit.' She looks at him, and at the frame, and at you, and then at him. 'He'd like that,' she says, in a small, correct voice. 'He's always wanted to be loud.' She puts him in your hand, carefully, arm up.".
+    On discuss { Give dilly_soldier to actor. }
+  }
+
+  // Marlin the tinker.
+  Person marlin "Marlin" at square {
+    Role "a tinker". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Sells marlin_tin for 5 coin from 1.
+    Greets "A man with a pack the size of a pig and a tray of bright things on a strap round his neck is selling a spoon to a woman who does not want it. 'Tin!' says Marlin, to the square in general. 'Honest tin! Hafod tin! Tin that cries when you bend it!' The woman buys the spoon. 'They love it,' he tells you, aside. 'It's the crying.'".
+    Greets again "'Tin,' says Marlin, hopefully.".
+  }
+  Topic m_seethe with marlin "Ask Marlin where he has come from" when true once {
+    Says "'Over the tops from Seethe,' says Marlin. 'Hot-spring place, baths. Sleet. Two women have a bath-house between them, and a wall down the middle of it, and neither has said a word to the other in thirty years. I sold each of them a kettle, and each of them thought I was selling her something the other didn't have.' He seems delighted. 'Then Hafod. Then here. I'd stay. It's the first town I have been in this year where nobody wanted to haggle.'".
+  }
+  Rule marlin_leaves at square when day(clock) >= 2 and hour(clock) >= 12 and at(marlin, square)
+    says "Marlin shoulders his pack in the middle of the square, calls 'Tin!' once to the frame, and goes out along the Hafod road with his tray flashing. 'Not a haggler in the place,' he says over his shoulder, as if it were a complaint." { Retract at(marlin, square). }
+  Topic m_tin with marlin "Ask Marlin where the tin comes from" when true once {
+    Says "'A man in Hafod,' says Marlin. 'A pedlar's man, who had it of a smith, who had it of his uncle.' He looks hurt. 'Why? Is there something wrong with it?' He means it. He has no idea.".
+  }
+
+  // Hasket at the stile.
+  Person hasket "Jonas Hasket" at stile {
+    Role "foreman of the peat-cutters". Ancestry human. Peaceable. Pronouns he. Manner grim.
+    Greets "A big man stands at the stile with his hands behind him and his face to the moor, as a man stands at a window. 'Hasket,' he says, without turning. 'Foreman of the cutters. Eleven of mine are out on the Edge at the far workings with the last of the peat, and they will be coming in on the fourth evening, as they always do. There is no bell.' He turns then, and he is not an angry man. He has just not slept. 'I am told there will be.'".
+    Greets again "Jonas Hasket does not turn from the moor. 'Well?' he says.".
+  }
+  Topic h_cutters with hasket "Ask Hasket about the cutters" when true once {
+    Says "'Eleven men and a boy,' says Hasket. 'Out at the far workings since Saturday, cutting the last stack before the frost. They cut and stack by day, and sleep in the hut, and walk home on the fourth evening by the bell. They don't use a lamp in fog. A lamp in fog is a bigger fog.' His jaw works. 'The Edge takes a cart a year. It took my brother's. It never took a man who had a bell to walk toward.'".
+  }
+  Topic h_kit with hasket "Ask Hasket if he has family out there" when true once {
+    Says "'Kit,' says Hasket. 'My boy. Sixteen last month. He wanted to go. His mother would have said no.' He turns his hat over once. 'She died in March.'".
+    On discuss { Assert hasketKit(party). Assert knows(actor, kit_known). }
+  }
+  Discovery kit_known "Hasket's son Kit, sixteen, is out on the Edge with the cutters, and Hasket's wife died in March.".
+  Topic h_pan with hasket "Ask Hasket if there is brass in his house" when hasketKit(party) once {
+    Says "He is quiet. 'Her bedwarmer,' he says. 'It's been on the nail since March. I don't know what it's for, now.' He walks to the end of the track and back, and comes back with it under his arm: a brass bedwarmer, a long handle, a rose pierced in the lid. 'Put it in the thing,' says Hasket. 'Put it in Margery's. In whatever she's called.'".
+    On discuss { Give hasket_pan to actor. }
+  }
+  Topic h_crew with hasket "Ask Hasket for his men to haul the bell" when true once {
+    Says "'The ones I have left,' says Hasket. 'Four. Old Tam Culp and his sons and the lame lad. They will haul a bell. They have hauled a plough up a church.' He nods. 'Send word when she is ready. Not before. I will not have them stood about with their hands out.'".
+    On discuss { Assert crewLent(party). }
+  }
+  Topic h_lamps with hasket "Ask Hasket about the lamp-hooks" when true once {
+    Says "'We put them in when my father was foreman,' says Hasket. 'Eleven hooks, a man's reach apart, and an oil-can at the stile. A lamp in fog is a smear. They are no good for finding a track, only for keeping to one, if you are already on it.' He looks at them. 'They are better than nothing. It is two coin of oil, and a night's trimming, and you must be here for it, because I cannot leave my post.'".
+  }
+
+  // Ebba Orlop, the brewer.
+  Person orlop "Ebba Orlop" at taproom {
+    Role "brewer". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Greets "A woman built like a barrel in a barrel's apron is scouring a cask with a birch broom and singing in a voice with a great deal of beer in it. 'In, in!' says Ebba Orlop. 'You're the one who's here about the bell. Half the town's been in to say it. I've told them all the same: if you want a thing done properly in Hexworth, ask the brewer, because she'll have heard it first and be right about it.'".
+    Greets again "'Back,' says Ebba Orlop. 'Good. Sit. What do you want to know that I do not already know?'".
+  }
+  Topic o_kettle with orlop "Ask Ebba about her brewing copper" when not kettleGot(party) once {
+    Says "'The kettle is my living,' says Ebba. 'Six coin for it, and I shall buy a poorer one in Hafod and curse you for the rest of the winter. Or—' She leans on the broom, and her face is very sly and very serious. 'Or I give it free, and what it's worth in beer, if the bell is called for me. Not a Saint. Not Margery the Second. Big Ebba. On the lip, round the shoulder, in letters you could read from the stile. I shall not ask for more.'".
+  }
+  Topic o_buy with orlop "Buy the kettle for six coin" when not kettleGot(party) and quantity(actor, gold) >= 6 once {
+    Says "'Done,' says Ebba, sighing. She counts it twice into her apron. Then she lifts down the kettle herself, and sets it in your arms, and rubs the dent in it once with her thumb. 'Mind her,' she says. 'She has never been out of the house.'".
+    On discuss { Decrease quantity(actor, gold) by 6. Give orlop_kettle to actor. Assert kettleGot(party). }
+  }
+  Topic o_name with orlop "Promise that the bell will be called for Ebba" when not kettleGot(party) once {
+    Says "'Say it,' says Ebba. 'Aloud. So I can hear it in the beer.' You say it. 'Big Ebba,' she says, with great satisfaction, and lifts down the kettle, and puts it in your arms. 'And when you've done that, come back, and we'll see about the mash-copper.'".
+    On discuss { Assert orlopDeal(party). Give orlop_kettle to actor. Assert kettleGot(party). }
+  }
+  Topic o_tun with orlop "Ask Ebba about the mash-copper" when orlopDeal(party) once {
+    Says "'Oh, that,' says Ebba. 'It'll be a nuisance, I'll have to mash in the kettle at the Wake and scorch it.' She is already taking it off its brick. 'Take it. Take it, you've a bell to name.' She sets it against your hip. It weighs as much as a child.".
+    On discuss { Give orlop_tun to actor. }
+  }
+  Topic o_edric with orlop "Ask Ebba about Edric Ludlam" when true once {
+    Says "'Edric,' says Ebba, delighted to be asked and sorry about it. 'Went out after his cows one October dusk, when there was no bell, only a horn, and the horn was no use in that. The Edge had him till Easter. Brome found him.' She leans on the cask. 'Gundred cast Margery that winter. Nobody saw her do it. I will say she did it very fast.'".
+    On discuss { Assert knows(actor, edric_lost). }
+  }
+  Topic o_hands with orlop "Ask Ebba what ails Gundred" when true once {
+    Says "'Her hands,' says Ebba. 'She's been going at that since before the Michaelmas fair. Nine years. She says it is a cold snap.' She snorts into the broom. 'It has been a cold snap for nine years, then.'".
+  }
+
+  // Father Culver, who has his own bell in mind.
+  Person culver "Father Culver" at nave {
+    Role "priest of Saint Odwin's". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A thin young priest in a patched surplice is on his knees on the damp floor, scrubbing at a tablet with a toothbrush. 'Forgive me,' says Father Culver, getting up. 'I am cleaning the drowned. It is the only act of mercy I can perform on them in a place where nothing dries.' He has a kind, worried, stubborn face. 'You are here about the bell. I am so glad. May I ask you for a thing?'".
+    Greets again "'Welcome,' says Father Culver, and brushes at his knees, and does not succeed.".
+  }
+  Topic c_hours with culver "Ask what Father Culver would ask for" when true once {
+    Says "'The Hours,' says Father Culver. 'For forty years the chapel has said Prime and Compline by the sun, because Margery was a moor bell and nobody was ever to ring her for anything else. If the new bell could be rung for the Offices, and be called for Saint Odwin, who was lost on a moor himself and found by a bell, I would—' He stops. 'It is not for me. I mean it is for the Offices.'".
+  }
+  Topic c_deal with culver "Promise that the bell will ring the Hours and carry Saint Odwin's name" when true once {
+    Says "'Oh,' says Father Culver. 'Oh, that is very good of you.' He seems quite undone. 'You will not regret it. I am afraid Ebba Orlop has asked for a different name, but I am sure—' He stops, and looks stricken. 'Or perhaps you have not been to Ebba. I shall not say a word.'".
+    On discuss { Assert culverDeal(party). }
+  }
+  Topic c_censer with culver "Ask Father Culver for the chapel's censer" when culverDeal(party) once {
+    Says "He takes it down himself from its hook, a brass censer on three chains, and wipes it on his surplice. 'It has been blessed a great many times,' says Father Culver. 'I do not think it minds.' He gives it to you.".
+    On discuss { Give culver_censer to actor. }
+  }
+  Topic c_pewter with culver "Ask whether the chapel has pewter to give" when true once {
+    Says "'The Lenten dishes,' says Father Culver, brightening. 'Six. We use them for the loaves on Fridays. They came from the old church. They are a very good grey.' He goes and brings them out of the vestry, one at a time, and puts them in your arms, wiped. 'It is not much. I have always felt they were for something.'".
+    On discuss { Give culver_pewter to actor. }
+  }
+  Topic c_handbell with culver "Ask Father Culver for the handbell" when true once {
+    Says "'We used it for the Hours, before Margery,' says Father Culver. 'It was not much use on the Edge. It is a child's note.' He puts it in your hand. 'But in my experience a child's note is sometimes the one a lost person hears.'".
+    On discuss { Give culver_handbell to actor. }
+  }
+  Thing tablet "Edric Ludlam's tablet" at nave {
+    Tries looking.
+    State plain "One tablet, near the door, is cleaner than the rest, and has been touched.".
+  }
+  Observe tablet_looked near tablet when tried(tablet, looking) "EDRIC LUDLAM, HUSBAND OF GUNDRED, WHO WENT OUT AFTER THE COWS. FOUND AT EASTER. Under it, in smaller and later letters, as if it had been added at night: THERE WAS NO BELL." teaches edric_lost.
+
+  // Brome, who burns.
+  Person brome "Brome" at clamp {
+    Role "charcoal-burner". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Sells charcoal_sack for 1 coin from 4.
+    Greets "A man the colour of his own work sits on an upturned bucket by the clamp, smoking nothing. 'Sacks,' says Brome. 'A coin.' He nods at four of them, stacked against a birch. 'Mind the fire.'".
+    Greets again "'Sacks,' says Brome, and nods.".
+  }
+  Topic b_crack with brome "Ask Brome if he heard the bell crack" when true once {
+    Says "'Tuesday,' says Brome. 'Past midnight.' He draws on the nothing. 'Sounded like a plate dropped in the next field. I was sitting up with the clamp. I knew what it was.' He looks at the clamp. 'Didn't go down. Nobody could have done a thing.'".
+  }
+  Topic b_edric with brome "Ask Brome about Edric Ludlam" when true once {
+    Says "'I found him,' says Brome. 'Easter. Under the Stile, face up, quite whole, as though he had been put there.' He is quiet. 'She came up for the coat. She did not look at him. She asked what was in the pockets, and I told her: a knife, and a byre key by his hand. She took the key.' He looks at the smoke. 'Next I heard she was casting.'".
+    On discuss { Assert knows(actor, edric_lost). }
+  }
+}

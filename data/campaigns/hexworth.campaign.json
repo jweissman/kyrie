@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "A Voice for Hexworth",
+  "pitch": {
+    "heading": "A Voice for Hexworth",
+    "text": "Long Margery, the bell that has called Hexworth's peat-cutters home across the Sour Edge for thirty-eight winters, cracked on Tuesday night with nobody near her. Her founder is seventy-one and hears nothing above a hum, and her hands have begun to shake. The cutters come off the moor on the fourth evening, and the fog comes with them. A bell is made of what a town gives it: ask carefully, and mind what goes in."
+  },
+  "modules": [
+    {
+      "id": "hexworth",
+      "bundle": "../adventures/hexworth/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}
