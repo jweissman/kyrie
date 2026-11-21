@@ -10,6 +10,8 @@
    "FH-24",
    "CB-01",
    "CB-30",
+   "CB-31",
+   "CB-32",
    "NM-01",
    "AP-18",
    "AP-03",
@@ -174,9 +176,9 @@
     "accept": "the title and identity only on the title page and never moving; the begin question simple, the embers kept; browser at 390 and 1280"
    },
    {
-    "id": "CB-30",
+    "id": "CB-01",
     "owner": "lead",
-    "accept": "the weir route played end to end as one spec, the corn-store's rats fought in play, with its fights' challenge and cost read"
+    "accept": "the first hour's fights on both acceptance routes cost something: a hit point lost or a resource spent in most, a risk said before each, none won in a round by a boss"
    }
   ],
   "platform": [
