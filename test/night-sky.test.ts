@@ -36,7 +36,8 @@ describe('the night sky, watched', () => {
     // Clear: the sign named exactly where the sky instrument names it (only one who reads the stars can), and one's
     // own sign as the instrument says it; the telling and the instrument the page shows never disagree.
     sky('clear');
-    const night = Instruments.night(c, ScreenModel.build(c))!;
+    const screen = ScreenModel.build(c);
+    const night = Instruments.night(c, { place: screen.place.id, daylight: screen.expedition.daylight })!;
     const told = text(said(await r.ask(JSON.stringify({ act: watch }))));
     if (night.sign) { expect(told).toContain(night.sign.name); }
     else { expect(SettingPort.sky.signs.filter(x => told.includes(x.name))).toEqual([]); }

@@ -37,13 +37,15 @@ export class Instruments {
   // Friday's night sky: src/narrative/night-skies.ts): out under the sky only; the moon by its phase; the sign rising
   // this month named only by one who reads the stars; and whose sign it is, of the company's (chosen at creation:
   // OR-13), one who came alone told of their own.
-  static night(campaign: Campaign, screen: Screen): Night | undefined {
+  // Of a place and the hour as the screen says them, never the screen itself: the night's telling reads it in the
+  // middle of the act that watches the sky, when no frame may be built (MT-24).
+  static night(campaign: Campaign, at: { place: string; daylight: string }): Night | undefined {
     const start = campaign.readout.calendar;
     // Under the sky as the narrator reckons it (Narrator.shelter): a town's green declares no shelter and is out of
     // doors (the instrument had read only places that declare themselves open: Porthalen's green had no sky at night).
-    if (!start || Narrator.shelter(campaign, screen.place.id) !== 'outdoors') { return undefined; }
+    if (!start || Narrator.shelter(campaign, at.place) !== 'outdoors') { return undefined; }
     const date = Calendar.date(start, campaign.readout.elapsed);
-    const dark = ['night', 'evening'].includes(screen.expedition.daylight);
+    const dark = ['night', 'evening'].includes(at.daylight);
     const sign = this.reader(campaign) ? SettingPort.sky.signs.find(s => s.month === date.name) : undefined;
     const moon = phases[Math.floor(((date.day - 1) / 30) * phases.length) % phases.length]!;
     const own = sign && this.born(campaign, sign.id);
@@ -51,7 +53,7 @@ export class Instruments {
       ...own ? { own } : {} };
   }
   private static sky(campaign: Campaign, screen: Screen): Instrument[] {
-    const n = this.night(campaign, screen);
+    const n = this.night(campaign, { place: screen.place.id, daylight: screen.expedition.daylight });
     if (!n) { return []; }
     const whose = n.own && (n.own.alone ? 'your own sign' : `${n.own.name}'s own sign`);
     const said = !n.dark ? 'Daylight.'

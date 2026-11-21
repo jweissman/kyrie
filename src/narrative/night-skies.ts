@@ -1,7 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Instruments } from '../presentation/instruments';
-import { ScreenModel } from '../ui/screen-model';
 import { Voice } from './voice';
 import { Editor } from './editor';
 import { Journeys } from './journeys';
@@ -17,9 +16,10 @@ export class NightSkies {
   static readonly kind = 'sky';
   static tell(campaign: Campaign, event: CampaignEvent, used: Set<string>): Voiced[] {
     if (campaign.operator(event.action)?.schema !== 'watch_sky' || event.result !== 'success') { return []; }
-    const night = Instruments.night(campaign, ScreenModel.build(campaign));
-    if (!night) { return []; }
+    // Watched only in the dark (watch_sky asks it), and read mid-act, where no frame is built (MT-24).
     const at = campaign.world.one('at', campaign.playerActor ?? 'party') ?? '';
+    const night = Instruments.night(campaign, { place: at, daylight: 'night' });
+    if (!night) { return []; }
     const context = { sky: Journeys.sky(campaign, at, event.elapsed), ...night.sign ? { riding: 'yes' } : {},
       ...night.own ? { own: night.own.alone ? 'mine' : 'yes' } : {} };
     const tiers = Voice.tiers(this.kind, context);
