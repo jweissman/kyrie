@@ -1,7 +1,6 @@
 import { parseAbility } from './parse';
-import { Spatial } from './spatial'; import { KeptParses } from './kept-parses';
+import { KeptParses } from './kept-parses'; import type { DiscoveryDefinition } from './discovery';
 import type { Declared } from './module-source'; import { DeclaredValues } from './declared-values';
-import { Discovery, type DiscoveryDefinition } from './discovery';
 import * as ohm from 'ohm-js';
 import { Grammars } from './grammars';
 import type { Change, Module, Operator, Predicate } from './module';
@@ -11,10 +10,10 @@ import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
-import { Vocabularies } from './vocabulary';
-import { ModuleDeclarations } from './module-declarations'; import { Routes } from './routes'; import { ActionParts } from './action-parts';
+import { Vocabularies } from './vocabulary'; import { DeclarationParses, type Parts } from './declaration-parses';
+import { ModuleMade } from './module-made'; import { Routes } from './routes'; import { ActionParts } from './action-parts';
 import { TemplatedPredicates } from './templated-predicates';
-import { Superseded } from './superseded'; import { Bringing } from './bringing'; import { ObjectiveParser } from './objective-parser';
+import { ObjectiveParser } from './objective-parser';
 
 type Node = ohm.Node; type AstNode = ohm.Node & { ast(): unknown }; type Field = { field: string; value: unknown };
 export class ModuleParser {
@@ -86,7 +85,7 @@ export class ModuleParser {
     Operand_count: StatementParser.Count,
     ...CatalogParser.actions, ...InformationParser.actions, ...Endings.actions, ...Milestones.actions,
     ...PersonParser.actions, ...Routes.actions,
-  });
+  }).addOperation<unknown>('parts', { Module: ModuleParser.Parts });
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
   // may have put other kinds in their place, and the files read after it place things of these kinds.
   // Kept by the text and the kinds it was read among: one read while another campaign's kinds were in the catalogs
@@ -97,9 +96,9 @@ export class ModuleParser {
     const key = KeptParses.key(text, declared);
     const known = ParseCache.get(key), began = performance.now();
     if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
-    const match = ModuleParser.grammar.match(text), matched = performance.now();
-    if (match.failed()) { throw new Error(`Invalid Kyr module: ${Grammars.why(text)}`); }
-    const module = DeclaredValues.during(declared, () => ModuleParser.semantics(match).ast() as Module);
+    // Its declarations parsed before taken as they were, the rest matched (DeclarationParses), else the text whole.
+    const split = ModuleParser.chunked(text, declared), matched = performance.now();
+    const module = split ?? ModuleParser.whole(text, declared);
     const lowered = performance.now();
     // Each part told apart (the review of generated parsing, §4), the bytes the text's own in UTF-8.
     const bytes = ParseCache.costs ? new TextEncoder().encode(text).byteLength : text.length;
@@ -107,6 +106,21 @@ export class ModuleParser {
     ParseCache.costs?.note('parse lower', lowered - matched, { bytes });
     ParseCache.set(key, module, lowered - began, bytes);
     return module;
+  }
+  static whole(text: string, declared: readonly Declared[] = []): Module {
+    const match = ModuleParser.grammar.match(text);
+    if (match.failed()) { throw new Error(`Invalid Kyr module: ${Grammars.why(text)}`); }
+    return DeclaredValues.during(declared, () => ModuleParser.semantics(match).ast() as Module);
+  }
+  // The text's declarations, each its kept field where it was parsed before, the rest matched (DeclarationParses),
+  // read as its header and each declaration's field and text.
+  static chunked(text: string, declared: readonly Declared[] = []): Module | undefined {
+    return DeclarationParses.module(text, declared, t => { const match = ModuleParser.grammar.match(t);
+      return match.failed() ? undefined : ModuleParser.semantics(match).parts() as Parts; });
+  }
+  static Parts(_m: Node, id: Node, name: Node, _o: Node, declarations: Node, _c: Node): Parts {
+    const c = declarations.children, fields = c.map(x => ModuleParser.ast(x) as Field);
+    return { id: id.sourceString, name: ModuleParser.ast(name) as string, fields, sources: c.map(x => x.sourceString) };
   }
   static predicate(text: string): Predicate {
     const match = ModuleParser.grammar.match(text, 'Predicate');
@@ -132,27 +146,12 @@ export class ModuleParser {
     return { field: 'buys', value: { what: what.sourceString, fee: Number(fee.sourceString) } };
   }
   static Module(_module: Node, id: Node, name: Node, _open: Node, declarations: Node, _close: Node): Module {
-    const module: Module = { id: id.sourceString, name: ModuleParser.ast(name) as string, description: '', kinds: [],
-      entities: [], relations: [], measures: [], queries: [], initial: [], actions: [],
-      goal: { kind: 'boolean', value: false }, budget: { kind: 'number', value: 10 } };
-    const information: DiscoveryDefinition[] = [], singleton = new Set<string>(), into = { information, singleton };
-    // A module's own kinds come first, wherever they are written, so that its items and people may be of them.
     // Ohm builds a node's children afresh each time they are asked for: asked once per declaration, a module of N
     // declarations took N² to read (scripts/scale-costs).
     const children = declarations.children;
     const fields = children.map(child => ModuleParser.located(child, () => ModuleParser.ast(child) as Field));
-    CatalogParser.declare(module, fields, (i, run) => ModuleParser.located(children[i]!, run));
-    // And what a generator declared for it as values, each where its line was (DeclaredValues).
-    DeclaredValues.interleave(children.map(c => c.source.startIdx), module, into,
-      i => ModuleParser.located(children[i]!, () => ModuleDeclarations.declare(module, fields[i]!, into)));
-    const expanded = Discovery.describe(information);
-    module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
-    if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
-    Spatial.addEscorts(module); Spatial.addSearches(module); Endings.rank(module, fields);
-    Superseded.lower(module, false); Bringing.lower(module);
-    // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
-    // several files says it for all of them.
-    return module;
+    return ModuleMade.of({ id: id.sourceString, name: ModuleParser.ast(name) as string, fields,
+      starts: children.map(c => c.source.startIdx) }, (i, run) => ModuleParser.located(children[i]!, run));
   }
   // An error in a declaration, said with the line and column it begins at.
   static located<T>(node: Node, run: () => T): T {
