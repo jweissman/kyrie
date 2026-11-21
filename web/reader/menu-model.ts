@@ -8,6 +8,7 @@ import type { Frame } from '../../src/creation/protocol';
 import type { Glance } from '../../src/presentation/glance-types';
 import type { Travel } from './reader-app';
 import { Words } from '../../src/presentation/words';
+import { Doable } from '../../src/presentation/doable';
 import { Hours } from './hours';
 import { Wares } from './wares';
 
@@ -104,8 +105,10 @@ export class MenuModel {
       .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
     const leading = new Set(shown.filter(a => talked.has(a.choice)).map(a => a.choice));
     // Underground, the world map is not a way out (a cellar under a corn-store had offered it beside the rat-runs).
-    const going = inside ? [] : journeys, country = !screen.place.underground
-      && (overland.length || (inside && journeys.length)) ? MenuModel.country : undefined;
+    // The map's own row where the engine offers one (Doable: DoableJourneys.mapped, MT-18), the page's own rule only
+    // where no glance is drawn (a road).
+    const going = inside ? [] : journeys, country = (glance ? Doable.of(glance, screen).some(r => r.id === 'view:map')
+      : !screen.place.underground && (overland.length || (inside && journeys.length))) ? MenuModel.country : undefined;
     const about = [...this.around(screen), ...country ? [country] : []];
     const subjects = scene.subjects.flatMap(s => s.choices);
     const ways = [...scene.near, ...about, ...scene.far, ...going];

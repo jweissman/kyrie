@@ -36,6 +36,12 @@ export class ClientParity {
       const had = out.get(act), alts = new Set([...had?.alts ?? [], r.label, ...r.called ? [r.called] : [],
         ...r.short ? [r.short] : []]);
       if (had && !r.for) { out.set(act, { ...had, alts }); continue; }
+      // A talk led for a question does the talk too (Row.does): drawn as the talk where it is not led (a lens, a
+      // likeness), it is the engine's row, not the client's own.
+      if (r.for && r.does && r.does !== r.for && !out.has(r.does)) {
+        out.set(r.does, { words: r.label, label: r.label, alts: new Set([r.label]), id: r.id,
+          ...r.lens ? { lens: r.lens } : {} });
+      }
       out.set(act, { words: r.called ?? r.label, label: r.label, ...r.short ? { short: r.short } : {}, alts, id: r.id,
         ...r.lens ? { lens: r.lens } : {}, ...r.within ? { within: r.within } : {}, ...r.map ? { map: r.map } : {},
         ...r.chart ? { chart: r.chart } : {} });
@@ -121,8 +127,13 @@ export class ClientParity {
       if (e.lens && at.some(d => d.lens && d.lens !== e.lens)) { out.add(`page lens: ${this.short(act)}`); }
       if (e.map && at.some(d => d.where === 'four')) { out.add(`page unfolded: ${this.short(act)}`); }
     }
+    // An opener the page draws by itself (a thing's look whose every act is shut, the wayside shrine with no coin) is
+    // the engine's where a row of the engine's by that id opens: it does no act, so it is met by its id.
+    const opening = new Set(Doable.flat(rows).filter(r => r.opens?.length).map(r => r.id));
     for (const [act, at] of acts) {
-      if (!engine.has(act)) { out.add(`page only: ${at[0]!.where} ${this.short(act)}`); }
+      if (!engine.has(act) && !at.every(d => d.id === act && opening.has(d.id))) {
+        out.add(`page only: ${at[0]!.where} ${this.short(act)}`);
+      }
     }
     // What pressing one of the four does: as the engine's row for it does (Doable.one), never the page's own fold.
     const glance = frame.leaf.glance!;

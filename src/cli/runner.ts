@@ -253,8 +253,8 @@ export class Runner {
     if (row?.opens) { return this.opened(row, screen); }
     // One the four lead with across the country opens the map at where it goes, as the page charts it: the runner's
     // map is its journeys, that one first, set out on from there (DoableJourneys: chart).
-    const charted = /^view:map:(.+)$/.exec(act)?.[1];
-    if (charted) { return this.lensed('journeys', `travel:${charted}`); }
+    const charted = /^view:map(?::(.+))?$/.exec(act);
+    if (charted) { return this.lensed('journeys', charted[1] && `travel:${charted[1]}`); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (act.startsWith('follow:')) { this.now = undefined; await this.session.leg(act); return this.said('look'); }
     const talking = /^talk_to\(([^)]+)\)$/.exec(act)?.[1] ?? RunnerTalks.whose(g ? Doable.of(g, screen) : []).get(act);

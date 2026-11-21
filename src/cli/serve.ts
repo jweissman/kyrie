@@ -74,7 +74,7 @@ export class Serve {
   }
   private static journeys(rows: Row[]): { id: string; label: string }[] {
     // One led with across the country, by opening the map there (Row.chart: view:map:<place>).
-    return [...new Map(rows.filter(r => (r.does?.startsWith('travel:') || r.chart) && !r.map)
+    return [...new Map(rows.filter(r => (r.does?.startsWith('travel:') || r.chart || r.does === 'view:map') && !r.map)
       .map(r => [r.does!, { id: r.does!, label: r.called ?? r.label }])).values()];
   }
   static told(e: CampaignEvent): string[] {
@@ -96,8 +96,8 @@ export class Serve {
     switch (r.op) {
       case 'view': return { view: this.view() };
       case 'act': {
-        const to = /^view:map:(.+)$/.exec(r.id ?? '')?.[1];
-        if (to) { return { map: Serve.charted(this.session, to), view: this.view() }; }
+        const to = /^view:map(?::(.+))?$/.exec(r.id ?? '');
+        if (to) { return { map: Serve.charted(this.session, to[1] ?? ''), view: this.view() }; }
         const c = this.session.campaign, before = PlayerView.observe(c);
         const e = await this.session.leg(r.id!);
         this.told = { event: e, feedback: ActionFeedbackView.read(c, e, before), said: r.id!,

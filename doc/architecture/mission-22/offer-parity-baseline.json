@@ -1,19 +1,9 @@
 {
  "about": "What the runner, the page and serve offer that the engine does not, and the reverse, over the golden walks (MT-18, scripts/offer-parity.ts, scripts/client-parity.ts): kept so that none is added; each removed is taken off.",
  "kinds": {
-  "page engine only": 1,
-  "page menu words": 1,
-  "page only": 5,
-  "serve only": 1
+  "page menu words": 1
  },
  "divergences": [
-  "page engine only: go(…)",
-  "page menu words: region__gate_longman_beyond_told_s1",
-  "page only: lens region__e1_milestone#look",
-  "page only: lens region__s5_altar#look",
-  "page only: lens talk_to(…)",
-  "page only: lens tinker3Master__lantern#look",
-  "page only: menu view:map",
-  "serve only: talk_to(…)"
+  "page menu words: region__gate_longman_beyond_told_s1"
  ]
 }

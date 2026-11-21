@@ -35,13 +35,19 @@ export class DoableJourneys {
     const about = new Set([...(screen.around ?? []).map(d => d.id), ...out?.command ? [out.command] : [],
       ...out?.to ? [out.to] : []]);
     const kept = drawn ? new Set([...fold].filter(id => about.has(id))) : fold;
-    const marked = rows.map(r => r.led ? (drawn ? this.charted(r, about) : r) : this.mark(r, kept));
+    // A way walked into another hex (onto the road out, into the wood's heart) is the map's too, as the page has it
+    // (MenuModel.stays, Passages.crosses): offered by its command, it had stood in the rest (the parity measure).
+    const crossing = new Set(drawn ? screen.exits.filter(e => e.crosses).map(e => e.destination.id) : []);
+    const marked = rows.map(r => r.led ? (drawn ? this.charted(r, about) : r) : this.mark(r, kept, crossing));
     const going = new Set(marked.flatMap(r => r.does ? [r.does] : []));
     // The journey a charted row opens the map on, there to be set out on, where no row of the rest does it.
     const set = marked.flatMap(r => r.chart && !going.has(`travel:${r.chart}`)
       ? [{ id: `travel:${r.chart}`, label: r.label, does: `travel:${r.chart}`, witnesses: r.witnesses, map: true as const,
         ...r.minutes ? { minutes: r.minutes } : {} }] : []);
-    return [...marked, ...set];
+    // And the map itself, where any journey is set out on from it, but underground (MenuModel.country, the page's
+    // own row till now: the parity measure's page only, MT-18), the runner's journeys and serve's map alike.
+    const all = [...marked, ...set], map = drawn && !screen.place.underground && all.some(r => r.map || r.chart);
+    return map ? [...all, { id: 'view:map', label: 'Open the world map', does: 'view:map', witnesses: [] }] : all;
   }
   // A row the four lead with across the country, as opening the map at where it goes: by the map's own id where its
   // own is the journey's (map:<place>), so that the journey keeps its id, set out on from the map.
@@ -52,9 +58,11 @@ export class DoableJourneys {
   }
   // The id a row led with across the country is drawn by: map:<place> for its journey's own.
   static id(choice: string): string { return choice.replace(/^travel:/, 'map:'); }
-  private static mark(r: Row, kept: Set<string>): Row {
-    return r.opens ? { ...r, opens: r.opens.map(k => this.mark(k, kept)) }
-      : r.does?.startsWith('travel:') && !JourneyFold.keeps(kept, r.does) ? { ...r, map: true } : r;
+  private static mark(r: Row, kept: Set<string>, crossing: Set<string>): Row {
+    const to = /^go\([^,]+,([^)]+)\)$/.exec(r.does ?? '')?.[1];
+    return r.opens ? { ...r, opens: r.opens.map(k => this.mark(k, kept, crossing)) }
+      : (r.does?.startsWith('travel:') && !JourneyFold.keeps(kept, r.does)) || (to && crossing.has(to)) ? { ...r, map: true }
+        : r;
   }
   private static reached(does: string): string[] {
     const to = /^go\([^,]+,([^)]+)\)$/.exec(does)?.[1];
