@@ -129,7 +129,7 @@
   // still enough, a vixen and her cubs come out to play; if not, a blackbird gives it away. Nothing is gained but the
   // sight of them, and after it the path remembers.
   Relation {t}_fox_seen(group).
-  Observe {t}_fox_earth at {t}_stones_top as sign when not {t}_fox_seen(party) "Below the path, in the bracken, there is a bank of fresh red earth. A run is worn through the grass to it. Small bones lie at its mouth. It is a fox's earth, and foxes come out at dusk and at first light.".
+  Observe {t}_fox_earth at {t}_stones_top as sign when not {t}_fox_seen(party) "Below the path a run through the bracken goes to a fox's earth, small bones at its mouth; the foxes come out at dusk and at first light.".
   Action {t}_watch_fox(actor: group, site: place) "Sit still in the bracken below the path, and watch the fox's earth" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_stones_top) and not {t}_fox_seen(actor) and ((hour(clock) >= 5 and hour(clock) < 8) or (hour(clock) >= 17 and hour(clock) < 21)).
     Time 3.
