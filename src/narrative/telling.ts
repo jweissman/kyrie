@@ -31,7 +31,12 @@ export class Telling {
     // someone brought home is not told to have left.
     const said = (event.perceptions ?? []).filter(p => p.kind === 'event').map(p => p.text).join(' ');
     const home = new Set(event.changes.map(c => /^\+ cameHome\(([^)]*)\)$/.exec(c)?.[1]).filter(Boolean));
-    const happenings = [...this.feat(campaign, event), ...Happenings.read(event, company, petted)]
+    // In a conversation only the one spoken with greets: a dog coming to see who you are is told after it, with what is
+    // done next (OR-149: Patch had barked inside Owain's greeting).
+    const talking = Telling.talking(campaign, event.action);
+    const happenings = [...this.feat(campaign, event), ...Happenings.read(event, company, petted),
+      ...talking ? [] : Telling.deferred(campaign, event, company, petted)]
+      .filter(h => !talking || h.kind !== 'greet' || h.actor === Telling.spokenTo(campaign, event.action))
       .filter(h => this.priority[h.kind] !== undefined)
       .filter(h => !(h.kind === 'part' && home.has(h.actor)))
       // Taking leave is a farewell; walking off from someone mid-word is not.
@@ -40,7 +45,9 @@ export class Telling {
       .filter(h => !h.actor || !this.silent(campaign, h.actor))
       .filter(h => !(['thank', 'turn', 'object'].includes(h.kind) && said.includes(this.called(campaign, h.actor ?? ''))))
       .filter(h => !(h.kind === 'thank' && VoiceContext.species(campaign, h.actor ?? '')))
-      .sort((a, b) => this.priority[a.kind]! - this.priority[b.kind]!)
+      // What was held from a conversation is told after what this command brought.
+      .sort((a, b) => Number(a.cause !== event.action) - Number(b.cause !== event.action)
+        || this.priority[a.kind]! - this.priority[b.kind]!)
       // Three dogs and a cat coming to see who you are is one of them doing it: the rest have greeted too, unsaid.
       .filter((h, i, all) => h.kind !== 'greet' || all.findIndex(x => x.kind === 'greet') === i).slice(0, this.most);
     const greeting = happenings.filter(h => h.kind === 'greet' || h.kind === 'address').map(h => h.actor ?? '');
@@ -57,6 +64,27 @@ export class Telling {
       if (said) { told.push(said); Editor.said(used, said.id); }
     }
     return told;
+  }
+  private static talking(campaign: Campaign, action: string): boolean {
+    const op = campaign.operator(action);
+    return !!op?.topic || op?.schema === 'talk_to';
+  }
+  private static spokenTo(campaign: Campaign, action: string): string | undefined {
+    const op = campaign.operator(action);
+    return op?.topic ? op.speaker : op?.bindings?.person;
+  }
+  // What greeted the company while it was talking and was held for after: from the conversation's acts just before.
+  private static deferred(campaign: Campaign, event: CampaignEvent, company: string, petted: Set<string>): Happening[] {
+    // The history as it was before this command (it may hold a copy of it already).
+    const past = campaign.history.filter(e => e !== event
+      && !(e.action === event.action && e.elapsed === event.elapsed));
+    const held: Happening[] = [];
+    for (let i = past.length - 1; i >= 0 && Telling.talking(campaign, past[i]!.action); i--) {
+      const to = Telling.spokenTo(campaign, past[i]!.action);
+      held.push(...Happenings.read(past[i]!, company, petted).filter(h => h.kind === 'greet' && h.actor !== to
+        && campaign.world.one('at', h.actor ?? '') === campaign.world.one('at', company)));
+    }
+    return held;
   }
   // A thing changed by a skill (Change … needing lockwork): the act told as it is, before what it came to (the blind
   // playtest, 13 November: BP-06). Which skill, of those it needs, is the first that is one.

@@ -12,7 +12,7 @@ export class Spoken {
   // What the company said, as said (OR-149, the owner's playtest: a conversation is talking to someone, not operating
   // records): a topic's words as the company says them, "You ask Owain how many head came down.", not the row's label.
   static said(operator: Operator | undefined, label: string): string {
-    return operator?.topic ? Words.echo(label) : label;
+    return operator?.topic || operator?.schema === 'take_leave' ? Words.echo(label) : label;
   }
   // What a conversation tells it learned: what the one spoken with told, not what the place taught as it was asked
   // (four facts of the green's notices and boats had come under Owain's answer); the rest is in the Book as ever.

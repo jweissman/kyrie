@@ -7,7 +7,7 @@ Module drove "The held drove" {
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
-  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group). Relation owainAnswered(group). Relation mardleAnswered(group).
+  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group). Relation owainAnswered(group). Relation mardleAnswered(group). Relation owainAsked(group). Relation mardleAsked(group).
 
   Entity held: fact "The customs-men at {town} hold Bran, the Brynach lead-drover, for cheating the Rì's toll: four head short, their clerk says.".
   Initially Assert established(held).
@@ -39,7 +39,7 @@ Module drove "The held drove" {
   Observe owain_water near owain of owain when at(owain, pens) and not freed(party) and not watered(party) "{owain} is carrying water to them a bucket at a time, in a cloak too big for him.".
   // Watered, the boy has nothing left to carry (cold play 9, GR-18: still "carrying water" to a full trough).
   Observe owain_rested near owain of owain when at(owain, pens) and not freed(party) and watered(party) "{owain} sits on the top rail with the empty bucket between his feet, watching the customs-house door.".
-  Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "{owain} stands at the edge of the quay with his hands in his armpits, watching the customs-house door.".
+  Observe owain_waits near owain of owain when at(owain, green) and not freed(party) "{owain} stands at your elbow with his hands in his armpits, watching the customs-house door.".
   Observe pens_freed at pens when freed(party) and not sold(party) and not fined(party) "Bran is in among the bullocks, counting them again with a hand on each back.".
   Observe pens_after at pens when freed(party) and (sold(party) or fined(party)) "The pens are churned and empty. The drove has gone on to the sales.".
   // A sign, for anyone who looks, that something lies in the water to be searched for (CL-04: the search had sat in the
@@ -47,7 +47,8 @@ Module drove "The held drove" {
   Observe rhyne_sign at rhyne as sign when not knows(party, found_drowned) "Where the bank has slumped, something big and dark lies just under the black water, and the smell is worst there.".
   Observe rhyne_scene at rhyne when true "A dyke of black water between steep banks, the far bank slumped into it where the sea came over in the winter. The smell reaches you before the sight does.".
 
-  Person clerk "Silas Mardle" at customs { Role "the Rì's customs clerk at Porthalen, who counts every beast that crosses the march". Pronouns he. Peaceable. Manner proud. }
+  Person clerk "Silas Mardle" at customs { Role "the Rì's customs clerk at Porthalen, who counts every beast that crosses the march". Pronouns he. Peaceable. Manner proud.
+    Greets "Mardle looks up from the tally-book and waits." when not freed(party). }
   // Known to a company that came down with the drove (the drove road's origin: Owain its kin), not met as a stranger
   // (cold play 3, CL-26: Owain, "your cousin", and Bran had both greeted it as someone they had never seen).
   // Who he is follows what became of him (ST-10: once let out he had still been "held behind the grille" at the pens).
@@ -74,14 +75,14 @@ Module drove "The held drove" {
 
   Topic clerk_count_t with clerk "Ask Mardle how many head crossed" when not knows(actor, found_drowned) and not freed(party) and not sent(party) once {
     Says "Mardle turns the tally-book round and lays a finger on the line. 'Forty at the march-stone, thirty-six in the pens,' he says. 'Twelve crowns, or he stays. You came down with them?'".
-    On discuss { Assert knows(actor, clerk_count). }
+    On discuss { Assert knows(actor, clerk_count). Assert mardleAsked(party). }
   }
   // Mardle's own question, answered one way of two, once he has asked it (OR-149: people who ask).
-  Topic mardle_with with clerk "Tell Mardle you came down with the drove" when knows(actor, clerk_count) and not mardleAnswered(party) and not freed(party) {
+  Topic mardle_with with clerk "Tell Mardle you came down with the drove" when mardleAsked(party) and not mardleAnswered(party) and not freed(party) {
     Says "'Then you can find twelve crowns,' says Mardle. 'Or he waits.'".
     On discuss { Assert mardleAnswered(party). }
   }
-  Topic mardle_thirty_six with clerk "Tell Mardle it was thirty-six that crossed" when knows(actor, clerk_count) and not mardleAnswered(party) and not freed(party) {
+  Topic mardle_thirty_six with clerk "Tell Mardle it was thirty-six that crossed" when mardleAsked(party) and not mardleAnswered(party) and not freed(party) {
     Says "'The march-stone saw forty,' says Mardle, and does not look up.".
     On discuss { Assert mardleAnswered(party). }
   }
@@ -93,18 +94,18 @@ Module drove "The held drove" {
   // operating records; one or two sentences, three plenty).
   Topic owain_count_t with owain "Ask Owain how many head came down" when not freed(party) once {
     Says "'Thirty-six,' says {owain}. 'Four went into the Black Rhyne in the dark, and they're still there.' Then, quieter: 'Will they hang him?'".
-    On discuss { Assert knows(actor, boy_count). Assert knows(actor, held). Retract knows(actor, held_seen). }
+    On discuss { Assert knows(actor, boy_count). Assert knows(actor, held). Retract knows(actor, held_seen). Assert owainAsked(party). }
   }
   // His question answered, one answer only, once he has asked it.
-  Topic owain_no_hang with owain "Tell Owain nobody hangs a man for four head of cattle" when knows(actor, boy_count) and not owainAnswered(party) and not freed(party) {
+  Topic owain_no_hang with owain "Tell Owain nobody hangs a man for four head of cattle" when owainAsked(party) and not owainAnswered(party) and not freed(party) {
     Says "{owain} lets his breath go. 'Bran said that,' he says. 'He didn't sound sure.'".
     On discuss { Assert owainAnswered(party). }
   }
-  Topic owain_find with owain "Tell Owain you will find the four" when knows(actor, boy_count) and not owainAnswered(party) and not freed(party) {
+  Topic owain_find with owain "Tell Owain you will find the four" when owainAsked(party) and not owainAnswered(party) and not freed(party) {
     Says "{owain} nods hard. 'I'll water them, then,' he says. 'They've had nothing since Hafod.'".
     On discuss { Assert owainAnswered(party). }
   }
-  Topic owain_dont_know with owain "Tell Owain you don't know" when knows(actor, boy_count) and not owainAnswered(party) and not freed(party) {
+  Topic owain_dont_know with owain "Tell Owain you don't know" when owainAsked(party) and not owainAnswered(party) and not freed(party) {
     Says "{owain} looks at the customs-house door. 'No,' he says. 'Nor do I.'".
     On discuss { Assert owainAnswered(party). }
   }

@@ -20,7 +20,9 @@ export class Charge {
   // road home), nor where the opening is a meeting on the road (kite's carter), told as the opening's pages tell it.
   static of(screen: Screen): ReadonlySet<string> {
     const first = screen.aims?.[0]?.id.split('__')[0];
-    const met = screen.observed.some(o => o.id === Charge.meeting);
+    // An origin to tell it by (a campaign or a small world of one module has none), and no meeting on the road.
+    const met = screen.observed.some(o => o.id === Charge.meeting)
+      || !screen.observed.some(o => o.id.startsWith(`${Charge.origin}__`));
     const situated = !met && !!first && first !== screen.aims?.[0]?.id && ![Charge.origin, 'region'].includes(first);
     return new Set(situated ? [Charge.origin, first] : []);
   }
@@ -52,6 +54,15 @@ export class Charge {
     const said = [...paragraphs(told).map(p => p.text), ...near].map((text): BudgetLine => ({ text, kind: 'bearing' }));
     return { budget: SceneBudget.compose(said, 0),
       later: [...paragraphs(kept).map(p => p.text), ...presence.filter(p => !near.includes(p))] };
+  }
+  // Each thing to do once among the four at the opening: the aim's follow and the talk it leads to had both said "Ask
+  // Owain how many head came down". The follow, which carries the aim, is kept.
+  static once<A extends { choice: string; label: string; for?: string; words?: Record<string, string> }>(acts: A[],
+    opening: boolean): A[] {
+    if (!opening) { return acts; }
+    const followed = new Set(acts.filter(a => a.choice.startsWith('follow:')).map(a => a.label));
+    return acts.filter(a => a.choice.startsWith('follow:')
+      || !followed.has(a.for && a.words?.[a.for] ? a.words[a.for]! : a.label));
   }
   private static rank(id: string): number {
     return id === Charge.arrival ? 1 : id.startsWith(`${Charge.origin}__`) ? 0 : 2;

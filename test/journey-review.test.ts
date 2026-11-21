@@ -45,10 +45,13 @@ describe('a journey reviewed', () => {
       const offered = review.frames[s.before]!.offer.find(o => [o.id, o.row].includes(s.chosen!.command));
       expect([s.n, offered?.label]).toEqual([s.n, s.chosen!.label]);
     }
-    // The cold player's next line, the clerk's question by its own id, had been refused, asked already by the lead's
-    // (drove__clerk#talk: MT-18, AT-13); with Mardle's own question led now in its place (OR-149), it is offered as
-    // itself, and every line is taken.
-    expect(review.steps.filter(s => s.error).map(s => s.chosen?.command)).toEqual([]);
+    const refused = review.steps.find(s => s.error)!;
+    // The cold player's next line, the clerk's question by its own id: asked already by the lead's (drove__clerk#talk,
+    // refused until the runner named Doable's rows: MT-18, AT-13).
+    expect([refused.chosen?.command, refused.after, refused.chosen?.from])
+      .toEqual(['drove__clerk_short_t', undefined, 'not in the scene before']);
+    expect([refused.consequential, refused.delta.aims, refused.events])
+      .toEqual([false, { taken: [], retired: [] }, []]);
   });
   it('counts consequential steps in order, and not an aim followed nor a look', () => {
     const [followed, ...rest] = review.steps, look = review.steps.find(s => s.line === '{"look":true}')!;
