@@ -303,7 +303,7 @@ export class PlayerView {
     const now = ObservationText.presented(world);
     return EntityIndex.of(campaign.module.entities).ordered(this.nearby(world, here)).filter(e => e.id !== actor
       && e.type !== 'place' && (!dark || e.type === 'group') && LocalObservations.noticed(world, e.id, actor)
-      && (this.test(world, 'at', e.id, here) || this.test(world, 'mounted', e.id, here)
+      && (this.test(world, 'at', e.id, here) || (world.relates('mounted') && this.test(world, 'mounted', e.id, here))
         || (e.type === 'door' && this.test(world, 'doorHere', e.id, here))
         || (e.type === 'group' && this.guarding(world, e.id, here))
         || LocalObservations.within(world, e.id, here))

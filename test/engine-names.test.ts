@@ -18,6 +18,7 @@ class EngineNames {
     recorded: 'the record of a situation manifest\'s pressure, a deadline no generator or module has used since the '
       + 'first commit; saves carry its empty list (Gate E\'s deadlines use it, declared, or remove it)',
     deficit: 'the same pressure\'s shortfall',
+    mounted: 'a rider on a mount, read only where a world declares it (world.relates first: MT-25)',
     companyCameHere: 'that the company has stood in one of a module\'s places, which its endings wait on: written by '
       + 'the assembler into each module with endings, its own (GOS-06)',
   };

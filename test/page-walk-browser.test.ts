@@ -43,10 +43,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     // then out of Porthalen by the map: a journey the map rows, set out on there.
     await act('exit:region__s1_green');
     // The first place across the country the map's menu rows (it rows three, ranked; the rest are touched on the map
-    // itself): viewed, then Travel to, held.
+    // itself): gone to by its row, or viewed and then Travel to, held; not one entered in the company's own hex.
     const now = await d.inspect(), here = new Set((now.path ?? []).map(p => p.name));
     await d.key('m');
-    const far = await page.locator('[data-action="map-view"]').first().getAttribute('data-choice');
+    const far = await page.locator(':is([data-action="map-view"], [data-action="map-road"]):not(:has-text("Enter "))')
+      .first().getAttribute('data-choice');
     expect(far).toMatch(/^travel:/);
     await d.key('Escape');
     const after = await act(far!);
