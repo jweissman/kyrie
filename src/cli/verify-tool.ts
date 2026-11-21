@@ -21,6 +21,7 @@ import { PlayTool } from './play-tool';
 import { Traces, type Kept } from './traces';
 import { Happened } from './happened';
 import { AdventureNames } from './adventure-names';
+import { CanonicalNames } from './canonical-names';
 import { Repeats } from './repeats';
 import { ReachTool } from './reach-tool';
 
@@ -76,8 +77,14 @@ export class VerifyTool {
     const clashes = [...AdventureNames.clashes(dir).filter(c => c.includes(`(${adventure})`)),
       ...AdventureNames.twice(dir).filter(t => t.split(': ')[1]!.split(', ').includes(adventure))
         .map(t => `two adventures of one module id, ${t}`)];
+    // And its own names against the canon's and each other (AU-35): a relation, measure or query shadowing the shared
+    // rules' or the engine's, and a rule and an ending of one name, said here before lint says them.
+    const own = join(dir, adventure), canon = [...CanonicalNames.shadows(own), ...CanonicalNames.doubled(own)];
     for (const c of clashes) { print(`  name: ${c}`); }
-    print(`names: ${clashes.length ? `${clashes.length} given by another adventure too` : 'none shared'}`);
+    for (const c of canon) { print(`  name: ${c}`); }
+    print(`names: ${clashes.length ? `${clashes.length} given by another adventure too` : 'none shared'}${canon.length
+      ? `; ${canon.length} of the canon's or doubled` : ''}`);
+    clashes.push(...canon);
     const firsts = AdventureNames.sharedFirsts(adventure, dir);
     for (const f of firsts) { print(`  first name (advisory): ${f}`); }
     return [{ check: 'names', held: !clashes.length, said: clashes.length ? `${clashes.length} reused` : 'none shared' },

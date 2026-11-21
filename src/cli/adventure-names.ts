@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { CanonicalNames } from './canonical-names';
 
 // One world holds every authored adventure (Mission 16's XIII), so no two of them may give one name to different
 // people or places: a Coyle in the Corrow and another on the Ghessil Uplands read as kin who are not (What Tessary
@@ -53,10 +54,12 @@ export class AdventureNames {
       const firsts = [...this.firsts().get(w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()) ?? []]
         .map(([a, said]) => `${said} (${a})`);
       const also = firsts.length ? `; as a first name, given by ${firsts.join(', ')} (advisory)` : '';
-      return `${w}: ${by.length ? `taken by ${by.join(', ')}` : 'free'}${also}`;
+      // A name the canon gives a relation, measure or query, said too (AU-35).
+      const canon = CanonicalNames.said(w);
+      return `${w}: ${by.length ? `taken by ${by.join(', ')}` : 'free'}${also}${canon ? `\n${canon}` : ''}`;
     });
     console.log(lines.join('\n'));
-    return lines.some(l => l.includes(': taken by ')) ? 1 : 0;
+    return lines.some(l => l.includes(': taken by ') || l.includes("not for an adventure's own")) ? 1 : 0;
   }
   // "Person: Coyle: Agnes Coyle (low-water), Dennet Coyle (the-patient-star)".
   static clashes(root?: string): string[] {
