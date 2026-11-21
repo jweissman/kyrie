@@ -44,7 +44,12 @@ export class ScreenModel {
     return { ...start ? { date: { short: Calendar.short(start, elapsed), long: Calendar.long(start, elapsed) } } : {},
       ...sky ? { weather: sky.replace(/^.*__/, '').replace(/^weather_/, '') } : {} };
   }
-  static build(campaign: Campaign): Screen { return Costs.time('screen', () => ScreenModel.built(campaign)); }
+  // Only between commands: one open (MT-24, command-receipt.md) is half done, its world not yet the game's; a client
+  // that must draw meanwhile draws the last frame it was given. A fight of it waiting on the player is drawn where it
+  // is fought (the page's fight, the company perhaps just come there): that frame is the fight's.
+  static build(c: Campaign): Screen { return c.command && !c.fighting ? this.refused(c) : this.time(c); }
+  private static time(c: Campaign): Screen { return Costs.time('screen', () => ScreenModel.built(c)); }
+  private static refused(c: Campaign): never { throw new Error(`Frame only between commands (${c.command} is under way)`); }
   private static built(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
     const names = new KnownNames(campaign), prices = this.prices(world), module = campaign.module;
@@ -54,8 +59,7 @@ export class ScreenModel {
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), module,
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
-    const here = view.location?.id ?? '';
-    const passages = new Passages(entities, world, view.actor);
+    const here = view.location?.id ?? '', passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
     const unclaimed = new Map([...grouped.targets].filter(([id]) => !present.has(id)));
     const companions = this.companions(campaign, view.actor, { unclaimed, present });
@@ -288,8 +292,7 @@ export class ScreenModel {
   }
   private static target(p: PlayerSnapshot['present'][number], grouped: Grouped, w: Campaign['world'],
     at: { dark?: boolean; campaign?: Campaign } = {}): TargetRow {
-    const dark = !!at.dark;
-    const acts = grouped.targets.get(p.id) ?? [];
+    const dark = !!at.dark, acts = grouped.targets.get(p.id) ?? [];
     if (p.type === 'group') {
       const member = p.members?.[0];
       // Anyone of a people (an ancestry, whether or not a player may be one) is a person; anything else a creature.

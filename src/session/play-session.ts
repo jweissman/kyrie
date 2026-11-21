@@ -35,12 +35,17 @@ export type CombatController = (battle: Battle) => Promise<Command>;
 export interface SessionCheckpoint { version: 1; transcript: Transcript; save: CampaignSave }
 
 export interface Expander { expand(campaign: Campaign): Promise<unknown> }
+// What a command came to, written once as it is committed (MT-24, command-receipt.md): the command as sent, the
+// revision it moved the game to (the steps kept: a transcript replays to it), and its outcome, or undone if it failed.
+export interface Receipt { id: string; revision: number; outcome: CampaignEvent['result'] | 'undone' }
 
 // Host-neutral play loop shared by the browser, CLI replay and tests. Kyr remains the sole rules authority:
 // commands are resolved through PlayerView, executed by Campaign, and combat steps through Battle.
 export class PlaySession {
   private steps: TranscriptStep[];
   private busy = false;
+  // One for each command performed in this session (not kept in a save: a resumed game's revision is its steps).
+  readonly receipts: Receipt[] = [];
   // The last journey set out on (travel:), leg by leg, for a client that tells its legs as the page does.
   journeyed?: Journeyed;
   readonly scenario: string;
@@ -136,10 +141,15 @@ export class PlaySession {
   }
   async perform(command: string, controller: CombatController = PlaySession.auto): Promise<CampaignEvent> {
     if (this.busy) { throw new Error('A command is already in progress'); }
-    if (command.startsWith('follow:')) { return this.follow(command.slice('follow:'.length)); }
+    if (command.startsWith('follow:')) {
+      const followed = this.follow(command.slice('follow:'.length));
+      this.receipts.push({ id: command, revision: this.steps.length, outcome: followed.result });
+      return followed;
+    }
     const id = PlayerView.resolve(this.campaign, command);
     const aims = Undertakings.held(this.campaign).map(o => o.id);
-    this.busy = true;
+    // Open from resolved to committed: no save, no frame meanwhile.
+    this.busy = true; this.campaign.command = id;
     const combat: Command[] = [], barked: Voiced[] = [];
     try {
       const event = await this.campaign.executeAsync(id, async battle => {
@@ -149,7 +159,7 @@ export class PlaySession {
           const actor = battle.state.combatants.find(f => f.id === battle.state.actor)!;
           const legal = battle.legalCommands();
           const player = battle.playerControls(actor.id);
-          const chosen = player ? await controller(battle) : battle.chosen();
+          const chosen = player ? await this.asked(controller, battle) : battle.chosen();
           if (!legal.some(c => c.actor === chosen.actor && c.ability === chosen.ability
             && c.target === chosen.target)) {
             throw new Error('Illegal combat command');
@@ -163,9 +173,6 @@ export class PlaySession {
       // it, are one with it and its step in the transcript: if either fails, the campaign is put back as it was before
       // the command, and nothing of it is kept (Mission 15's independent audit, F3).
       let voiced: Voiced[], words: ReturnType<typeof RuleWords.tell>;
-      // Until it is finished, the campaign is not saved by anyone (MT-24: Campaign.save had taken the world the command
-      // left before the session had told it or kept its step, while the session's own checkpoint refused).
-      this.campaign.held = true;
       try {
         if (this.expander) { await this.expander.expand(this.campaign); }
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
@@ -176,8 +183,17 @@ export class PlaySession {
       this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
       if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); event.voiced = voiced; }
       if (words.unsaid.length) { event.unsaid = words.unsaid; }
+      this.receipts.push({ id: command, revision: this.steps.length, outcome: event.result });
       return event;
-    } finally { this.busy = false; this.campaign.held = false; }
+    } catch (error) {
+      this.receipts.push({ id: command, revision: this.steps.length, outcome: 'undone' });
+      throw error;
+    } finally { this.busy = false; this.campaign.closeCommand(); }
+  }
+  // A fight's turn put to the player's controller: while it waits, the fight's page may be drawn (Campaign.fighting).
+  private async asked(controller: CombatController, battle: Battle): Promise<Command> {
+    this.campaign.fighting = true;
+    try { return await controller(battle); } finally { this.campaign.fighting = false; }
   }
   // An aim chosen to follow (the glance offers it as an act: HeldActs.follow): no time passes and no world fact
   // changes, so it is told as a command and kept in the steps, for the browser, the terminal and a replay alike.

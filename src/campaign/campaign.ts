@@ -36,11 +36,12 @@ export class Campaign implements WatchHost {
   private current: Omit<CampaignState, 'party' | 'creatures'>;
   private creatures = new CreatureStore(); private log: CampaignEvent[] = []; private encounter = 0;
   // A check made to come out so, for a test (see Checks.make; Journey.roll).
-  forced?: 'pass' | 'fail';
-  private definition?: CampaignDefinition;
-  // held: a session is finishing a command carried out here (what came of it drawn, told, its step kept), and the
-  // campaign is not to be saved until it has (MT-24: a save had held the command's world without its step).
-  private observations: Record<string, number> = {}; private executing = false; held = false;
+  forced?: 'pass' | 'fail'; private definition?: CampaignDefinition;
+  // command: the command a session has open here, from resolved to committed (what came of it drawn, told, its step
+  // kept): no save and no frame is made of it meanwhile (MT-24, command-receipt.md: a save had held the command's world
+  // without its step). Set and closed by the session (PlaySession.perform); see closeCommand. fighting: a fight of it
+  // waits on the player, whose page is drawn where the fight is (the one frame made mid-command: ScreenModel.build).
+  private observations: Record<string, number> = {}; private executing = false; command?: string; fighting = false;
   // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
   // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
   // module checked unless it is a game this engine kept itself (trusted).
@@ -170,7 +171,7 @@ export class Campaign implements WatchHost {
   }
   // A save holds schemas (operators are grounded on demand); a copy, unless written out at once (live: not to be kept).
   save(_compact = false, live = false): CampaignSave {
-    if (this.executing || this.held || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
+    if (this.executing || this.command || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
     this.keepFacts();
     // Written out at once (live), the creatures are given as they are: a copy of every one is what a kept copy needs.
     // Its declarations as written are the compiler's, read again from source, never kept (MT-30: SemanticRecords).
@@ -283,6 +284,9 @@ export class Campaign implements WatchHost {
   // it out (drawing the country beyond) keeps nothing of it (Mission 15's independent audit, F3).
   private begun?: ReturnType<Campaign['checkpoint']>;
   undo() { if (this.begun) { this.rollback(undefined, this.begun); this.begun = undefined; } }
+  // The command's world made the campaign's for good, at the session's end, its receipt written (MT-24's third step):
+  // until then it is undone whole (undo), after it never.
+  closeCommand() { this.command = undefined; this.begun = undefined; this.fighting = false; }
   // A command that throws commits nothing: combat damage taken before the error is discarded with it.
   private rollback(battle: Battle | undefined, checkpoint: ReturnType<Campaign['checkpoint']>) {
     battle?.close();

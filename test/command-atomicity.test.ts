@@ -33,9 +33,12 @@ describe('a command and what comes of it', () => {
       expect(s.transcript.steps).toEqual([]);
       expect(s.campaign.history.length).toBe(0);
       expect(s.campaign.installed).not.toContain('nook');
+      // Its receipt says it was undone, and moved the game nowhere (MT-24).
+      expect(s.receipts).toEqual([{ id: 'wait', revision: 0, outcome: 'undone' }]);
       // Done again with what comes after it as it should be, it is the game the failure never happened in.
       s.extend({ expand: () => Promise.resolve(undefined) });
       await s.leg('wait');
+      expect(s.receipts.at(-1)).toEqual({ id: 'wait', revision: 1, outcome: 'success' });
       const plain = await PlaySession.start(ordinary, 'atomic', source);
       await plain.perform('wait');
       expect(s.canonical()).toBe(plain.canonical());

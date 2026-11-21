@@ -73,7 +73,7 @@ describe('two campaigns in one process', () => {
     let open!: () => void;
     const gate = new Promise<void>(resolve => { open = resolve; });
     gilt.extend({ expand: () => gate });
-    const steps = gilt.transcript.steps.length, pending = gilt.perform(take(gilt));
+    const taking = take(gilt), steps = gilt.transcript.steps.length, pending = gilt.perform(taking);
     await Promise.resolve();
     // The other acts, and is itself, while the first waits.
     expect((await lead.perform(take(lead))).result).toBe('success');
@@ -81,9 +81,13 @@ describe('two campaigns in one process', () => {
     // Persisted mid-command: refused, by the session and by its campaign alike.
     expect(() => gilt.checkpoint()).toThrow('Save only between campaign commands');
     expect(() => gilt.campaign.save()).toThrow('Save only between campaign commands');
+    // And no frame is made of it (MT-24's first step: a frame built at the expander's await had shown half a command).
+    expect(() => ScreenModel.build(gilt.campaign)).toThrow('Frame only between commands');
     open();
     await pending;
     expect([gilt.transcript.steps.length - steps, coin(gilt)]).toEqual([1, ['a gilt coin']]);
+    // One receipt, at the revision its step moved the game to.
+    expect(gilt.receipts.at(-1)).toEqual({ id: taking, revision: steps + 1, outcome: 'success' });
     const again = PlaySession.resume(gilt.checkpoint());
     expect([again.canonical() === gilt.canonical(), coin(again)]).toEqual([true, ['a gilt coin']]);
     LocalKinds.reset();
