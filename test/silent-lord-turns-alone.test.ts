@@ -14,6 +14,9 @@ const k = Keep.id;
 describe('the silent lord alone: consequences that leave the keep', () => {
   it('can be ended by a cup: the herald dies at the feast, the garrison paid, the lie holds, the town’s levy is remitted, and a save keeps it', async () => {
     const j = await Keep.at('kitchen');
+    // (given as a fact, as the keep's other cases give it: in the ward Ansel takes a warrior for the king's champion and
+    // warns him off, and while he does only answering Ansel is offered, not the garrison's pay: OR-163, Engaged)
+    j.assert('befriended', k('ansel'), 'party');
     await j.play('=day 12 11:00', '>keep__ward');
     j.coin(100);
     await j.play('Ask .* how the garrison stands', 'Put eighty crowns');
