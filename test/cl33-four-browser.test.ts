@@ -78,7 +78,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the act that matters, gold among th
       await driver.act('pans__ianto#talk');
       const reply = page.locator('.replies .aimed').first();
       await reply.waitFor({ state: 'visible', timeout: 30000 });
-      expect(await reply.innerText()).toMatch(/Pole Ianto's fuel boat/);
+      expect(await reply.innerText()).toMatch(/Pole Ianto.s fuel boat/);
       expect(errors).toEqual([]);
     }, 300000);
   }
