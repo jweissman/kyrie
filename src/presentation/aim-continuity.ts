@@ -14,6 +14,7 @@ import type { Promoted } from './glance-types';
 import { KnownWays } from '../ui/known-ways';
 import { AimAdvances } from './aim-advances';
 import { Guarded } from './guarded';
+import { Shut } from './shut';
 
 // How the aim followed goes on from here (the owner's trust contracts, 18 November, B: "Gold must not vanish silently
 // because the route planner and local opportunity projection interpret an objective differently"). Gold had been an
@@ -55,6 +56,19 @@ export class AimContinuity {
       return { acts: acts.map(a => a === gold ? this.plain(a) : a),
         continuance: { kind: 'frontier', said: Guarded.said(back.way ?? back.name, guard), need: true } };
     }
+    // What shuts the company out of the aim's place, met and with nothing to open it, or a keeper beyond the company
+    // at the aim's place itself, from further off than the way in: no step either (see Shut; OR-171).
+    const shut = this.shut(campaign, screen, lead);
+    if (shut) {
+      return { acts: acts.map(a => a.continues ? this.plain(a) : a),
+        continuance: { kind: 'frontier', said: shut, need: true } };
+    }
+    // Where what the aim waits on lies here to be found or learned (AimLeading.lies), no way out is its step: in the
+    // ossuary, the lettered flag's ring to be found there, the way on into the crypt had been gold, and in the crypt
+    // nothing, and the way back (OR-168).
+    if (gold && back && AimLeading.lies(campaign, screen)) {
+      return this.of(campaign, screen, { ...at, acts: acts.map(a => a === gold ? this.plain(a) : a) });
+    }
     const weighed = !!gold && !!back && !['route', 'toward', 'means'].includes(lead.source);
     const on = weighed ? this.acting(campaign, screen, lead, eligible) : [];
     const off = weighed && (on.length > 0 || !!back.visited) && !on.some(c => c.choice === gold.choice)
@@ -95,6 +109,24 @@ export class AimContinuity {
     const tried = PlayerView.choices(campaign).some(r => Object.entries(r.action.bindings ?? {})
       .some(([k, v]) => k !== 'actor' && lead.next.includes(v)));
     return { acts, continuance: { kind: 'frontier', said: this.frontier(campaign, lead, tried) } };
+  }
+  // Where the aim's place is shut to the company from here (Shut): not where the bar itself is the step, or the means.
+  private static shut(campaign: Campaign, screen: Screen, lead: AimLead): string | undefined {
+    if (['barred', 'means', 'placed', 'route'].includes(lead.source) || !lead.next[0]) { return undefined; }
+    const byId = EntityIndex.of(campaign.module.entities).byId, next = lead.next[0];
+    const to = byId.get(next)?.space ? next : campaign.world.one('at', next);
+    if (!to || to === screen.place.id) { return undefined; }
+    const keeper = Guarded.beyond(campaign, to);
+    const shut = !keeper ? this.shutFrom(campaign, screen.place.id, to) : undefined;
+    return keeper ? Guarded.said(byId.get(to)?.name ?? to, keeper) : shut && Shut.said(campaign, shut);
+  }
+  // Whether a place is shut to the company from another (Shut), by the ways it knows.
+  static shutFrom(campaign: Campaign, from: string, to: string): ReturnType<typeof Shut.of> {
+    if (from === to) { return undefined; }
+    const able = !!KnownWays.way(campaign, from, id => id === to, { able: true });
+    const legs = able ? []
+      : KnownWays.way(campaign, from, id => id === to, { barred: true })?.legs.map(l => l.to) ?? [];
+    return Shut.of(campaign, from, { able, legs });
   }
   // The offered act that was the last thing done, and did not come off: a fresh try at it is still the aim's step.
   private static retry(campaign: Campaign, cands: Candidate[]): Candidate | undefined {

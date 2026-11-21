@@ -21,6 +21,8 @@ export class Means {
       return { way: e.id, needs, from: this.sources(campaign, needs) };
     }).filter(l => l.needs.length);
   }
+  // The catalog's name for a kind of thing, if it is one of the catalog's.
+  static item(kind: string): string | undefined { return Canon.items[kind]?.name; }
   // Who sells a kind it needs, or a kind that gives a skill it needs (a kind of the catalog kept on a shelf, or a
   // good of the module's own, sold).
   static sources(campaign: Campaign, needs: string[]): Lead['from'] {

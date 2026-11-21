@@ -332,13 +332,16 @@ export class Glance {
       const near = !!area && Spatial.ancestry(byId, id).some(e => e.id === area);
       const first = this.leading(campaign, { here, id, byId, ...near ? { area } : {} });
       // No known way to it, but a way from here into the site it is in: that (the far end of a hold not yet walked,
-      // through its door just opened).
-      const site = Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id;
+      // through its door just opened). Within the site already, a way on into it not yet taken, never one back: in
+      // Porthalen Hall, toward the muniment room no known way reached, the forecourt had led to the great hall and the
+      // great hall back to the forecourt, fifty times on the first quarter hour's walk (OR-171).
+      const site = Spatial.ancestry(byId, id).find(e => e.space?.kind === 'site')?.id, inside = !!site && around.has(site);
       // Where no way to it is known yet, the heart of the town's quarter it stands in: from Tuck's yard, the landing
       // the inn stands on had been led only as somewhere not yet been, not as the way toward the aim (Mission 20).
       const to = first ?? (near && id !== here ? screen.quarters?.find(q => q.places.includes(id))?.heart : undefined);
       const exit = to && to !== here ? screen.exits.find(e => e.destination.id === to)
-        : site ? screen.exits.find(e => Spatial.ancestry(byId, e.destination.id).some(a => a.id === site) && !e.blocked)
+        : site ? screen.exits.find(e => Spatial.ancestry(byId, e.destination.id).some(a => a.id === site) && !e.blocked
+          && !(inside && e.visited))
           : undefined;
       // Or the walk about the town that goes there.
       const walk = !exit && to && screen.around?.some(d => d.id === to) ? `travel:${to}` : undefined;

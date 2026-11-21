@@ -14,6 +14,10 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { AimLeading } from '../src/presentation/aim-lead';
 import { Narrator } from '../src/presentation/narrator';
 import { Guarded } from '../src/presentation/guarded';
+import { AimContinuity } from '../src/presentation/aim-continuity';
+import { EntityIndex } from '../src/lang/entity-index';
+import { Spatial } from '../src/lang/spatial';
+import { KnownWays } from '../src/ui/known-ways';
 import { Stakes } from '../src/ui/stakes';
 import { Itineraries } from '../src/ui/itinerary';
 import type { Objective } from '../src/lang/module';
@@ -78,8 +82,9 @@ export class FirstQuarter {
       else if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, this.nearest(s, aims).id); }
       // Nor, the need said, does a player take the way it says is beyond them while nothing else is led (its four still
       // show it: only gold is the aim's step).
+      // Nor, the aim's place shut to it (Shut: the press-door locked, nothing to open it), a way or a walk back to it.
       const led = AutoplayRun.situation(s, step, true, 'undertaking'), sit = between ? { ...led, led: (led.led ?? [])
-        .filter(id => !/^go\(/.test(id) || !Guarded.beyond(c, AutoPlayer.destination(id))) } : led;
+        .filter(id => !this.beyond(s, id)) } : led;
       const move = this.rest(s, sit.offered) ?? player.next(sit);
       if (!move) { break; }
       const fights = metrics.fights;
@@ -100,6 +105,20 @@ export class FirstQuarter {
       sites: new Set(out.filter(x => x.under).map(x => x.place)).size, minutes: out.at(-1)?.minute ?? 0,
       talks: out.filter(x => /talk|ask|topic/.test(x.command)).length,
       looks: out.filter(x => /look|search|listen|examine|read/.test(x.command)).length };
+  }
+  // A way or a walk the need said goes nowhere for now: back in to a keeper beyond the company (Guarded), or on the
+  // way toward the aim's place where its keeper is beyond the company or it is shut to the company (Shut).
+  static beyond(s: PlaySession, id: string): boolean {
+    const c = s.campaign, to = id.startsWith('travel:') ? id.slice('travel:'.length)
+      : /^go\(/.test(id) ? AutoPlayer.destination(id) : undefined;
+    if (!to) { return false; }
+    if (Guarded.beyond(c, to)) { return true; }
+    const lead = AimLeading.of(c, ScreenModel.build(c)), aim = lead?.next[0], here = c.world.one('at', 'party') ?? '';
+    const byId = EntityIndex.of(c.module.entities).byId;
+    const place = aim && (byId.get(aim)?.space ? aim : c.world.one('at', aim));
+    if (!place || (!Guarded.beyond(c, place) && !AimContinuity.shutFrom(c, here, place))) { return false; }
+    return Spatial.ancestry(byId, place).some(e => e.id === to)
+      || KnownWays.places(c, here, place, { barred: true }).includes(to);
   }
   // What the aim followed is led by where the company stands, and what is gold (--lead N, from act N).
   static lead(s: PlaySession): string {
