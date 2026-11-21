@@ -45,7 +45,14 @@ for i in $(seq 1 40); do
         git -C "$KYRIE_LAND_FF" cat-file -e "origin/main:$f" 2>/dev/null \
           && git -C "$KYRIE_LAND_FF" show "origin/main:$f" | cmp -s - "$KYRIE_LAND_FF/$f" && rm -- "$KYRIE_LAND_FF/$f"
       done
-      git -C "$KYRIE_LAND_FF" merge -q --ff-only origin/main && echo ff
+      # So is a tracked file the owner changed that main now carries byte for byte (their edit checked in as written):
+      # restored to what it was, which the fast-forward then brings again; a change main does not hold stays, and stops
+      # the fast-forward as before.
+      git -C "$KYRIE_LAND_FF" diff --name-only | while read -r f; do
+        git -C "$KYRIE_LAND_FF" show "origin/main:$f" 2>/dev/null | cmp -s - "$KYRIE_LAND_FF/$f" \
+          && git -C "$KYRIE_LAND_FF" checkout -q -- "$f"
+      done
+      git -C "$KYRIE_LAND_FF" merge -q --ff-only origin/main && echo ff || echo "FF STOPPED (local changes main does not hold)"
     fi
     exit 0
   fi
