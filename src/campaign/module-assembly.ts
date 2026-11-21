@@ -257,12 +257,14 @@ export class ModuleAssembly {
   // owned" out of the paying (its friction 9, TTN-09). The action is simply not offered.
   private static unheld(module: Module) {
     if (!module.relations.some(r => r.name === 'ownedItem')) { return; }
-    for (const action of module.actions.filter(a => ['acquire', 'purchase'].includes(a.resolve?.name ?? ''))) {
-      const item = action.resolve!.args[0]!;
-      if (action.parameters?.some(p => p.name === item)) { continue; }
-      action.requires = { kind: 'and', left: action.requires,
-        right: { kind: 'not', value: ModuleWriter.call('ownedItem', item, '?holder') } };
-    }
+    // Each an action of the composed module's own: the one read is the compiled module's, shared with every load of it
+    // (a second load had asked it twice: test/play-session).
+    module.actions = module.actions.map(action => {
+      const item = ['acquire', 'purchase'].includes(action.resolve?.name ?? '') ? action.resolve!.args[0]! : undefined;
+      if (!item || action.parameters?.some(p => p.name === item)) { return action; }
+      return { ...action, requires: { kind: 'and', left: action.requires,
+        right: { kind: 'not', value: ModuleWriter.call('ownedItem', item, '?holder') } } };
+    });
   }
   // An ending is of a module the company has come into, one of whose places (its own, or one it names) it has stood
   // in: a company that never left Wending Cross was ended by Pentrice's verdict, from a city it had never entered
@@ -279,10 +281,12 @@ export class ModuleAssembly {
       right: { kind: 'and', left: call('at', '?c', '?p'), right: call('placeHere', '?p') } };
     module.rules!.unshift({ id: 'company_came_here', when: { kind: 'and', left: { kind: 'not', value: came }, right: among },
       effects: [{ kind: 'assert', call: came }] });
-    for (const r of endings) {
-      r.when = r.when.kind === 'and' ? { ...r.when, left: { kind: 'and', left: r.when.left, right: came } }
-        : { kind: 'and', left: r.when, right: came };
-    }
+    // Each a rule of the composed module's own: the rule read is the compiled module's, kept and shared with every
+    // load of it, and guarded where it lay, a second load (the browser's beside the files', test/play-session) had
+    // guarded it again (companyCameHere twice).
+    const guarded = new Set(endings);
+    module.rules = module.rules!.map(r => !guarded.has(r) ? r : { ...r, when: r.when.kind === 'and'
+      ? { ...r.when, left: { kind: 'and', left: r.when.left, right: came } } : { kind: 'and', left: r.when, right: came } });
   }
   private static references(module: Module, cast: SituationManifest['creatures']) {
     if (module.relations.some(r => r.name === 'fieldUsable')) {
