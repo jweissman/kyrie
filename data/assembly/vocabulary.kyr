@@ -31,6 +31,8 @@ Module assembly "What a world is made of, for assembling one" {
   // practises the craft there and need not make someone up (a tinker who lives in the town: the tinker kit).
   Relation practises(group, craft). Relation dwells(group, place).
   Query tended(t: place, c: craft) means practises(?p, c) and dwells(?p, t).
+  // One of them a town's author wrote (Hesper Lowe), whom a kit binds before the town's generated folk.
+  Relation written(group).
   // A place given over to one placement's purpose; another kit does not take it.
   Relation taken(place, kit).
   Query free(p: place) means not taken(p, ?k).

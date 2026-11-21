@@ -102,7 +102,9 @@ export class Origins {
     const names = Object.keys(bound.imports), dir = `${at.root}/origin`;
     at.files[`${dir}/module.json`] = JSON.stringify({ version: 1, source: 'origin.kyr', rules: ['world'],
       globals: ['party'], imports: ['party', ...names], ...o.manifest.experience ? { experience: o.manifest.experience } : {},
-      roles: Object.fromEntries([['party', { type: 'group' }], ...names.map(n => [n, { type: bound.imports[n]![1] }])]) });
+      // A relation imported (KX-03: the gate's letThrough) is bound by its name, and is no entity to hold a role to.
+      roles: Object.fromEntries([['party', { type: 'group' }],
+        ...names.filter(n => bound.imports[n]![1] !== 'relation').map(n => [n, { type: bound.imports[n]![1] }])]) });
     // The inn, wherever whoever was met on the road goes on to or the origin's aim sends the company, is the origin's
     // once, however many ask for it.
     const lines = [...bound.imports.inn ? ['  Place inn "the inn" is room.'] : [], ...prologue?.lines ?? []];

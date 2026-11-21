@@ -56,6 +56,14 @@ describe('people in the ledger, and the kits that bind them', () => {
       'tinker#tinker2 at region__s5: apprentice, its practitioner made up',
       'tinker#tinker3 at region__s4: master, its practitioner made up']));
   }, 120000);
+  // Hesper lives in the town the company begins in; begun in Gatesend (the weir's mage), Porthalen has Sabine the
+  // tinker at the pump, not no tinker at all (fixed to Hesper, the placement had been refused there, silently).
+  it('Iscoed begun elsewhere: Porthalen\'s own tinker bound where Hesper Lowe is not', async () => {
+    const lines: string[] = [];
+    expect(await WhyTool.main(['people', '--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar'], l => lines.push(l))).toBe(0);
+    expect(lines).toContain('region__s1_r7: practises tinkering, lives at region__s1; bound by tinker#tinker4');
+    expect(lines.some(l => l.includes('hesper'))).toBe(false);
+  }, 120000);
   it('drawn countries: a resident bound wherever one is drawn, and no second shop beside one', async () => {
     const census = await Promise.all(['thorn', 'ash', 'brine'].map(seed => PeopleCensus.of(seed)));
     console.log(JSON.stringify(census));

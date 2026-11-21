@@ -34,7 +34,7 @@ framework's kits in WorldAssembler). It is proved through the runner by test/fea
 
 | | Porthalen | Wrackham | Gatesend |
 |---|---|---|---|
-| Practitioner | travelling, **generated**: name, tools and road drawn (travelling/tables.json; in this world "Brother Wil") | Tomos Bevan, an apprentice of fifteen, authored; his mistress Eira Ffowc away across the town | Nest Cadwgan, a master of the city guild, authored, the guild's stamp on her tools |
+| Practitioner | travelling, **generated**: name, tools and road drawn (travelling/tables.json; in this world "Brother Wil") | Tomos Bevan, an apprentice of fifteen, authored; his mistress Eira Ffowc away across the town | Eluned Cadwgan, a master of the city guild, authored, the guild's stamp on her tools |
 | Work | a child's clockwork bird, its spring out | a hurdy-gurdy whose wheel he glued crooked | the harbour lantern, its burner collar cracked |
 | Difficulty | another pair of hands; the spring tried oneself (a check of lockwork); coiling it unaided only for one with lockwork | an unfamiliar fault to diagnose (insight), a nervous boy to steady (persuasion), or the master fetched | a missing part: found in her salvage (insight, hard), improvised from a torch the company carries (mending), or cut from brass (lockwork) |
 | Social occasion | friendly; a child waiting | an embarrassed apprentice | a master asking to see competence; a boy waiting |
@@ -99,8 +99,10 @@ framework's kits in WorldAssembler). It is proved through the runner by test/fea
    - The kit's fourth realization, `resident`, implies `?practitioner`: `practises(?practitioner, tinkering)` and
      `dwells(?practitioner, ?town)`. Its module (resident/resident.kyr) is the old pump, moved out of
      neighbours.kyrt and written over the imported practitioner. Iscoed places it twice: Hesper Lowe in Porthalen
-     (fixed by the atlas, as Sabine the tinker lives there too) and Elfred the tinker in Wrackham (bound by the
-     binder, the only one there).
+     (preferred over Sabine the tinker, who lives there too, as one the town's author wrote: `written`) and Elfred
+     the tinker in Wrackham (the only one there). Neither is fixed by the atlas: Hesper lives in the town the company
+     begins in, so a company begun elsewhere (the weir's mage, in Gatesend) finds Sabine at the pump instead. Fixed
+     to Hesper, that placement had been refused in such a world, silently, as an optional kit is.
    - The apprentice and the master require `not tended(?town, tinkering)`: a second shop beside a town's own tinker
      is not made up. The travelling tinker passes through anywhere. The town slot prefers a tended town.
    - `kyrie inspect --why people --world <seed>` lists the ledger's people with what they practise, where they live

@@ -44,7 +44,9 @@ export class AtlasOrigins {
     return { values: { ...this.values(s), hamlet: h.name }, start: { place: `${h.id}_green` },
       imports: { hamlet: [`region.${h.id}`, 'place'], hamletgreen: [`region.${h.id}_green`, 'place'],
         reeve: [`${m}.reeve`, 'group'], failing: [`${m}.failing`, 'fact'], tide: [`${m}.tide`, 'fact'],
-        cut: [`${m}.cut`, 'fact'], shut: [`${m}.shut`, 'fact'] } };
+        cut: [`${m}.cut`, 'fact'], shut: [`${m}.shut`, 'fact'],
+        // What came of Ifan Rhys's boat under the shut gate, for Nest to answer.
+        letThrough: [`${m}.letThrough`, 'relation'], turnedBack: [`${m}.turnedBack`, 'relation'], named: [`${m}.named`, 'relation'] } };
   }
   private static values(s: Settlement): Record<string, string> {
     return { town: s.name, home: s.name, homename: s.name };

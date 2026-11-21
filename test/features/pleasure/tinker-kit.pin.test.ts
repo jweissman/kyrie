@@ -103,7 +103,7 @@ describe('the tinker kit, five occasions in Iscoed', () => {
     const found = await Occasion.start('s4_green');
     found.journey.roll('pass');
     const gold = found.c.world.number(ModuleWriter.call('quantity', 'party', 'gold'));
-    const told = await Occasion.take(found.r, /^Look through Nest Cadwgan's box of salvage/);
+    const told = await Occasion.take(found.r, /^Look through Eluned Cadwgan's box of salvage/);
     expect(told).toContain("'Well found,' she says");
     expect(told).toContain("there's a bench at the back of my stall for a season");
     expect(found.c.world.test(ModuleWriter.call('knows', 'party', 'tinker3Master__trade_open'))).toBe(true);

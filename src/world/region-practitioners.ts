@@ -8,11 +8,13 @@ import type { Company, Region } from './region-writer';
 // {t}_hesper tinkering": data/generation/town/neighbours.kyrt). So a kit of the craft binds someone who already
 // lives there, and makes nobody up where there is one (the tinker kit's resident).
 export class RegionPractitioners {
-  static of(region: Region, company?: Company): { id: string; craft: string; at: string }[] {
+  static of(region: Region, company?: Company):
+    { id: string; craft: string; at: string; written?: boolean }[] {
     const folk = region.settlements.flatMap(s => Communities.plan(region, s).residents
       .flatMap(r => r.work.craft ? [{ id: r.id, craft: r.work.craft, at: s.id }] : []));
     const home = company && this.home(region, company);
-    const own = home ? RegionOutskirts.practitioners(region, home).map(p => ({ ...p, at: home.id })) : [];
+    const own = home
+      ? RegionOutskirts.practitioners(region, home).map(p => ({ ...p, at: home.id, written: true })) : [];
     return [...folk, ...own];
   }
   // The town the company begins in, whose own people the outskirts' sections are written for (see RegionWriter.lines).

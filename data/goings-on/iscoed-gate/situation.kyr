@@ -163,7 +163,7 @@ Module gate "The last sea-gate" {
   Rule hamlet_thanks when mended(party) and at(party, hamletgreen) and not thanked(party) says "Doors are open all along the lane. Someone has chalked a wave inside a ring on the well-post, and an old man you have never met takes your hand in both of his and says nothing at all." { Assert thanked(party). }
   // The sawn pin is a question: who wants the gate open? Whoever cut it comes and goes under the gatehouse, and the
   // store behind the chain answers it (cold play 5's 8, cold play 4's 29: the pin led nowhere).
-  Objective gate_cutter when knows(party, cut) and not knows(party, store_found) and not flooded(party) toward gallery by well "Find out who sawed through the pawl's pin, and why they want the sea-gate open.".
+  Objective gate_cutter when knows(party, cut) and not knows(party, store_found) and not letThrough(party) and not turnedBack(party) and not ifanHeard(party) and not flooded(party) toward gallery by well "Find out who sawed through the pawl's pin, and why they want the sea-gate open.".
 
   // ── The lower works: under the gate-well, the Water-Wardens' sluice gallery, their tide-room, a store the smugglers
   // keep behind the chain, and past the lower sluice door the wardens' undercroft. The door opens with the wardens'
@@ -303,6 +303,8 @@ Module gate "The last sea-gate" {
   Rule cursing when not mended(party) and not flooded(party) and prowled(party) and not cursed(party) and watch(clock) >= 576 says "The eel-men of {hamlet} will not go near the gatehouse now. Someone has told them a drowned warden walks the sea-bank at night, and Ifan Rhys tells it loudest." { Assert cursed(party). }
   // The crisis's two choices are made about the boat under the gate, where the scene's four are chosen (ST-03): as his,
   // beside his talk, they had been had only by talking to him (CL-54's opener).
+  // What came of the boat is exported as the relations themselves (letThrough, turnedBack, named), for those beyond
+  // this module to answer (the weir's Nest: data/origins/weir).
   Thing ifanboat "Ifan Rhys's boat, under the shut gate" nowhere {
     State waiting "Below the slot Ifan Rhys holds his boat against the shut gate with the pole, and waits.".
   }
@@ -340,10 +342,23 @@ Module gate "The last sea-gate" {
   Topic reeve_turned with reeve "Ask the reeve about Ifan Rhys's boat" when turnedBack(actor) and reeveSaw(actor) once {
     Says "'Ifan Rhys will pay the toll on every sack since the new moon, or lose the boat,' says the reeve. 'His children will be hungry this winter. That is his doing, not yours.' She looks at you a moment longer. 'But it was you at the gate.'".
   }
+  // Back at {town} with what the reeve did not see for herself, who it was is the company's to tell or to keep (the
+  // defect-centres review's sea-gate increment: one new choice after the return). Told, she writes his name down, and
+  // the hamlet knows by the next time the company comes (ifan_named); kept, nothing is said, and Ifan goes on.
+  Relation named(group). Relation ifanNamed(group).
+  Topic reeve_name with reeve "Tell the reeve it is Ifan Rhys's boat that comes up the cut" when (boatCome(actor) or ifanHeard(actor)) and not reeveSaw(actor) and not letThrough(actor) and not named(actor) once {
+    Says "'Ifan Rhys,' says the reeve, and writes it on her tablet. 'His grandfather ran that cut, and his father paid the Rì for it, and he has been paying nobody.' She looks up. 'The toll on every sack since the new moon, or the boat. You will not be thanked for this on the lane.'".
+    On discuss { Assert named(actor). }
+  }
+  Topic reeve_name_let with reeve "Tell the reeve it is Ifan Rhys's boat that comes up the cut" when letThrough(actor) and not reeveSaw(actor) and not named(actor) once {
+    Says "The reeve writes the name down before you have finished. Then she waits. 'And on the night after you shut it,' she says, 'did his boat come up against the gate?' You say nothing, and she writes something else. 'The thirty crowns are for a gate that shuts. Do not bring me half of a thing again.'".
+    On discuss { Assert named(actor). }
+  }
+  Rule ifan_named when named(party) and at(party, hamletgreen) and not ifanNamed(party) says "Ifan Rhys's boat is drawn up on the bank below his door, with the reeve's chalk on its bow. Ifan is on his step. He watches you come the length of the lane and does not get up." { Assert ifanNamed(party). }
   // The cold pans' fuel boat poled down the cut by day (data/goings-on/iscoed-pans): on the eel-men's water, seen.
   Relation ifanPoled(group).
   Rule ifan_poled heard at hamletgreen when knows(party, poledword) and at(party, hamletgreen) and at(ifan, hamletgreen) and not boatCome(party) and not ifanPoled(party) says "Ifan Rhys looks up from his trap as you come along the lane. 'You poled Ianto's boat down our cut in broad day,' he says. 'Half {hamlet} watched you go by. Next time you're on our water, ask.'" { Assert ifanPoled(party). }
-  Rule ifan_after when letThrough(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys is mending a trap at his door. He nods to you as you pass, as one eel-man to another, and says nothing of boats." { Assert ifanMet(party). }
-  Rule ifan_cold when turnedBack(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys's door is shut, and his nets are off the fence. A child on the step watches you all the way along the lane." { Assert ifanMet(party). }
+  Rule ifan_after when letThrough(party) and not named(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys is mending a trap at his door. He nods to you as you pass, as one eel-man to another, and says nothing of boats." { Assert ifanMet(party). }
+  Rule ifan_cold when turnedBack(party) and not named(party) and at(party, hamletgreen) and not ifanMet(party) says "Ifan Rhys's door is shut, and his nets are off the fence. A child on the step watches you all the way along the lane." { Assert ifanMet(party). }
   Goal mended(party).
 }

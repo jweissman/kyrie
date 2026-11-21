@@ -1,6 +1,6 @@
 Module tinker_master "A master short of a part" {
   Description "A master tinker has her stall on the square at {town}, and the harbour lantern she has promised by nightfall wants a part she has not got.".
-  // The tinker kit's master (data/kits/tinker/kit.json): authored, Nest Cadwgan, who served her time in the city's
+  // The tinker kit's master (data/kits/tinker/kit.json): authored, Eluned Cadwgan, who served her time in the city's
   // guild and has the stamp to show it, and the harbour's lamp-boy waiting on the work. The lantern's burner wants a
   // brass collar. The company may find one in her salvage (insight), improvise one from its own lantern or torch, or
   // cut one from brass itself (lockwork), which she asks to see done: a stranger who can is told where the trade can
@@ -9,44 +9,44 @@ Module tinker_master "A master short of a part" {
   Place town "The town" is settlement.
   Place market "The square" is room.
   Relation rummaged(group). Relation spoiled(group). Relation shown(group). Relation closedUp(group). Relation sentFor(group).
-  Entity trade_open: fact "Nest Cadwgan, a master tinker of the guild, says that anyone who can cut a burner collar true can learn the rest at her bench, a season for a start.".
-  Person nest "Nest Cadwgan" at market {
+  Entity trade_open: fact "Eluned Cadwgan, a master tinker of the guild, says that anyone who can cut a burner collar true can learn the rest at her bench, a season for a start.".
+  Person eluned "Eluned Cadwgan" at market {
     Role "a master tinker of the city guild, with its stamp on her tools and her own stall on the square". Ancestry human. Level 1. Peaceable. Manner stoic. Pronouns she.
   }
   Person boy "the lamp-boy" at market {
     Role "the harbour's lamp-boy, sent to wait for the lantern and not to come back without it". Ancestry human. Level 1. Peaceable. Pronouns he.
   }
   Thing lantern "the harbour lantern" at market {
-    State apart "On Nest Cadwgan's stall the harbour lantern stands in pieces round its burner, which has no collar to hold the wick: the old one is cracked through and lies beside it.".
+    State apart "On Eluned Cadwgan's stall the harbour lantern stands in pieces round its burner, which has no collar to hold the wick: the old one is cracked through and lies beside it.".
     State whole "The harbour lantern stands whole on the stall, its new collar bright against the old brass, waiting to be carried down to the quay.".
     Change cut "Cut a burner collar from a strip of her brass, and let her watch" from apart to whole needing lockwork.
   }
-  Observe stall at market when state(lantern, apart) and at(nest, market) "At a stall with a guild's stamp painted on its board a woman is turning a cracked brass ring over in her fingers. 'Not tonight,' she says to the boy waiting beside her. 'Not without a collar.' The boy looks at the sky.".
+  Observe stall at market when state(lantern, apart) and at(eluned, market) "At a stall with a guild's stamp painted on its board a woman is turning a cracked brass ring over in her fingers. 'Not tonight,' she says to the boy waiting beside her. 'Not without a collar.' The boy looks at the sky.".
   // Found in her salvage, with an eye for what fits.
-  Action search_salvage(actor: group, site: place) "Look through Nest Cadwgan's box of salvage for a collar that fits" {
+  Action search_salvage(actor: group, site: place) "Look through Eluned Cadwgan's box of salvage for a collar that fits" {
     Time 20 minutes.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(lantern, apart) and at(nest, market) and not rummaged(actor).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(lantern, apart) and at(eluned, market) and not rummaged(actor).
     Resolve check(actor, insight, dc_hard).
     On success { Assert rummaged(actor). Retract state(lantern, apart). Assert state(lantern, whole). }
     On failure { Assert rummaged(actor). }
-    Result "At the very bottom of the box, under a nest of hinges, there is a collar from some other lamp, a hair too wide. Nest Cadwgan looks at it, shrugs, and takes it down to size with three strokes of a file. 'Well found,' she says, which from her is a great deal.".
-    Otherwise "You turn over hinges, hasps, spoons without bowls and a great many keys, and nothing is the right size. 'No,' says Nest Cadwgan, who has been watching. 'I looked.'".
+    Result "At the very bottom of the box, under a nest of hinges, there is a collar from some other lamp, a hair too wide. Eluned Cadwgan looks at it, shrugs, and takes it down to size with three strokes of a file. 'Well found,' she says, which from her is a great deal.".
+    Otherwise "You turn over hinges, hasps, spoons without bowls and a great many keys, and nothing is the right size. 'No,' says Eluned Cadwgan, who has been watching. 'I looked.'".
   }
   // Improvised from what the company carries: a torch's iron ferrule bent to it, which spoils it if it goes wrong.
   Action improvise_collar(actor: group, site: place) "Offer the iron ring off one of your torches, bent to fit" {
     Time 20 minutes.
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(lantern, apart) and at(nest, market) and not spoiled(actor) and holding(actor, torch).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, market) and state(lantern, apart) and at(eluned, market) and not spoiled(actor) and holding(actor, torch).
     Resolve check(actor, mending, dc_fair).
     On success { Spend torch from actor. Retract state(lantern, apart). Assert state(lantern, whole). }
     On failure { Spend torch from actor. Assert spoiled(actor). Assert sentFor(actor). }
-    Result "Nest Cadwgan hammers the torch's ring round her mandrel, files the seam, and seats it. It is iron, not brass, and she says so, twice; but it holds the wick, and the lantern lights. 'It'll do till Martinmas,' she says, and the lamp-boy runs off with it before she can change her mind.".
-    Otherwise "The ring splits on the mandrel at the second blow. Nest Cadwgan looks at the two halves and then at the boy, and sends him running up to the smithy for a strip of brass, and the lantern will be late, and that is that.".
+    Result "Eluned Cadwgan hammers the torch's ring round her mandrel, files the seam, and seats it. It is iron, not brass, and she says so, twice; but it holds the wick, and the lantern lights. 'It'll do till Martinmas,' she says, and the lamp-boy runs off with it before she can change her mind.".
+    Otherwise "The ring splits on the mandrel at the second blow. Eluned Cadwgan looks at the two halves and then at the boy, and sends him running up to the smithy for a strip of brass, and the lantern will be late, and that is that.".
   }
-  Topic nest_guild with nest "Ask Nest Cadwgan about the guild's stamp" when true once {
-    Says "'Seven years in the city, at the Tinplate Hall,' says Nest Cadwgan. 'They stamp your tools when you can make the tools.' She turns her file so you can see the little anvil struck in the tang. 'Down here nobody asks to see it. They ask if the kettle holds.'".
+  Topic nest_guild with eluned "Ask Eluned Cadwgan about the guild's stamp" when true once {
+    Says "'Seven years in the city, at the Tinplate Hall,' says Eluned Cadwgan. 'They stamp your tools when you can make the tools.' She turns her file so you can see the little anvil struck in the tang. 'Down here nobody asks to see it. They ask if the kettle holds.'".
   }
   // Shown it done, she says where the trade is to be had.
-  Rule shown_true when state(lantern, whole) and at(party, market) and at(nest, market) and not shown(party) says "Nest Cadwgan watches the lamp-boy go. 'You've hands,' she says, without looking at you. 'If you ever want a trade instead of whatever that is,' a nod at your weapons, 'there's a bench at the back of my stall for a season, and I'll take you for a start.'" teaches trade_open { Assert shown(party). }
-  Rule shuts heard at market when at(nest, market) and hour(clock) >= 17 and not closedUp(party) says "Nest Cadwgan folds the board with the guild's stamp on it, locks her box, and goes home." { Assert closedUp(party). Retract at(nest, market). Retract at(boy, market). }
+  Rule shown_true when state(lantern, whole) and at(party, market) and at(eluned, market) and not shown(party) says "Eluned Cadwgan watches the lamp-boy go. 'You've hands,' she says, without looking at you. 'If you ever want a trade instead of whatever that is,' a nod at your weapons, 'there's a bench at the back of my stall for a season, and I'll take you for a start.'" teaches trade_open { Assert shown(party). }
+  Rule shuts heard at market when at(eluned, market) and hour(clock) >= 17 and not closedUp(party) says "Eluned Cadwgan folds the board with the guild's stamp on it, locks her box, and goes home." { Assert closedUp(party). Retract at(eluned, market). Retract at(boy, market). }
   Goal false.
 }

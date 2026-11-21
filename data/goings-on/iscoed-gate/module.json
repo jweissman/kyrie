@@ -103,6 +103,18 @@
     "shut": {
       "entity": "shut",
       "role": "outcome"
+    },
+    "letThrough": {
+      "entity": "letThrough",
+      "role": "relation"
+    },
+    "turnedBack": {
+      "entity": "turnedBack",
+      "role": "relation"
+    },
+    "named": {
+      "entity": "named",
+      "role": "relation"
     }
   }
 }

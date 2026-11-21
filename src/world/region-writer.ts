@@ -301,7 +301,7 @@ export class RegionWriter {
       .map(id => ['landmark', id]);
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
-      ...practitioners.flatMap(p => [['practises', p.id, p.craft], ['dwells', p.id, p.at]]),
+      ...practitioners.flatMap(p => [['practises', p.id, p.craft], ['dwells', p.id, p.at], ...p.written ? [['written', p.id]] : []]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by]),
       // The Empire's posting-house is no band's hold: a kit may not take it, as no scenario may.
       ...region.sites.filter(w => w.work?.imperial && !taken[w.id]).map(w => ['taken', w.id, 'empire'])];

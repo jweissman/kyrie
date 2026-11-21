@@ -4,6 +4,9 @@ Module origin "Your aunt's weir" {
   Place hamlet "The hamlet" is settlement. Place hamletgreen "The hamlet's green" is room.
   Entity reeve: group "The reeve". Entity failing: fact "The sea-gate fails". Entity tide: fact "The spring tide".
   Entity cut: fact "The pawl's pin was sawn". Entity shut: fact "The sea-gate shuts".
+  // What came of Ifan Rhys's boat under the shut gate, the gate's own relations (data/goings-on/iscoed-gate).
+  Relation letThrough(group). Relation turnedBack(group). Relation named(group).
+  Relation nestHeard(group).
   Relation lifted(group). Relation sold(group).
   Entity lease: fact "The weir at {hamlet} is yours on the reeve's lease. Five coin is owed to the reeve of {town} at the quarter-day, a month off.".
   Kind lease_kind "Tegwen's lease" is document teaching lease worth 0 weighing 1 described "A strip of parchment, much folded, in the reeve's clerk's hand: the eel-weir at the second bend below the sea-gate, with its stakes, wattles and traps, to Tegwen and her heirs, at five coin the quarter. Under it, in your aunt's careful capitals: TO GO TO MY SISTER'S CHILD.".
@@ -11,7 +14,11 @@ Module origin "Your aunt's weir" {
   Item lease_scroll "Tegwen's lease" is lease_kind at hamletgreen.
   Place weir "Tegwen's eel-weir" is room within hamlet at 2, 1.
   Passage weir_path "the path down to the weir" is passage between hamletgreen and weir.
-  Person nest "Nest" at hamletgreen { Role "the eel-wife of {hamlet}, who was your aunt's neighbour". Pronouns she. Peaceable. Manner acerbic. }
+  Person nest "Nest" at hamletgreen { Role "the eel-wife of {hamlet}, who was your aunt's neighbour". Pronouns she. Peaceable. Manner acerbic.
+    // Turned to after the gate is shut, she is not "Still here. I suppose that's something." (cold play 5's 7).
+    Greets "Nest is on her step with her arms folded, looking up at the gatehouse, where there is no sound. 'Well,' she says, and waits for you to say it." when knows(party, shut) and not nestHeard(party).
+    Greets again "Nest is on her step with her arms folded, looking up at the gatehouse, where there is no sound. 'Well,' she says, and waits for you to say it." when knows(party, shut) and not nestHeard(party).
+    Greets again "'Tegwen's,' says Nest, which from her is a greeting." when nestHeard(party). }
   Initially Assert established(lease). Initially Assert knows(party, failing). Initially Assert knows(party, tide).
   Observe arrival at hamletgreen as fixture when watch(clock) < 1 "Your aunt Tegwen is a month buried, and her eel-weir is yours: her lease came to you from the reeve's clerk, folded small. Her door in {hamlet} has a wreath of dried rushes on it, and her nets are still on the fence. Below the last houses the fen goes away green and flat. Above the hamlet, where the river meets the sea-bank, stands a squat stone gatehouse. From under it comes a sound you do not remember from when you were a child. It is the sea, running in.".
   Observe charge at hamletgreen as feature when watch(clock) < 2 "'You'll be Tegwen's,' says the woman at the next door, and looks you over. 'Nest. I kept her weir going since the burying. The traps want lifting every morning or the eels rot in them.' She nods up at the gatehouse. 'And the gate's not shut since the new moon. Spring tide's in six days. When the sea comes over, there's no weir, and no Gatesend either.'".
@@ -46,6 +53,18 @@ Module origin "Your aunt's weir" {
   // Told at once, on coming down from the bank, it was held behind the hamlet's own answer (the gate's).
   Topic nest_shut with nest "Tell Nest the sea-gate shuts" when knows(actor, shut) once {
     Says "'I heard it stop,' says Nest. 'Half the lane came out to listen to nothing.' She does not thank you. 'Tegwen would have liked that,' she says, and goes back to her nets.".
+    On discuss { Assert nestHeard(actor). }
+  }
+  // Ifan Rhys is her neighbour on the lane: what was done about his boat is hers to answer, each way once (the
+  // defect-centres review's sea-gate increment: three people answering one deed differently: the reeve, Ifan, Nest).
+  Topic nest_let with nest "Tell Nest about Ifan Rhys's boat" when letThrough(actor) and not named(actor) once {
+    Says "'I know,' says Nest. 'He was in at my door with a sack of flour, as if I'd asked for it.' She looks at you sideways. 'Tegwen let him through once. She said the gate was the Rì's and the children were the lane's.'".
+  }
+  Topic nest_turned with nest "Tell Nest about Ifan Rhys's boat" when turnedBack(actor) and not named(actor) once {
+    Says "'I heard him go back down,' says Nest. 'His wife was at the well this morning and did not speak to anyone.' She pulls a net straight. 'It is the Rì's gate. You did what the paper says. It will be a long winter on this lane all the same.'".
+  }
+  Topic nest_named with nest "Tell Nest about Ifan Rhys's boat" when named(actor) once {
+    Says "Nest does not look up from the net. 'The reeve's men have chalked his boat,' she says. 'The whole lane knows who went to {town}.' A long pause. 'I'd have done the same, maybe. I'd not have done it from outside.'".
   }
   Goal false.
 }
