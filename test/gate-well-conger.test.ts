@@ -32,10 +32,14 @@ describe('the conger in the gate-well, on the warrior\'s route', () => {
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     r = new Runner(journey.session); c = journey.session.campaign;
-    for (const line of lines.slice(0, 44)) {
+    for (const line of lines.slice(0, 43)) {
       const s = await AsMeant.ask(r, line);
       at.push('error' in s ? at.at(-1)! : s);
     }
+    // Warned in the well, the company answers the conger, not the silt (OR-163: Engaged offers no search while a
+    // threat stands): it stands its ground where the route searched, and the conger comes on.
+    const stand = at.at(-1)!.offer.primary.concat(at.at(-1)!.offer.rest).find(o => o.label === 'Stand your ground')!;
+    at.push(said(await r.ask(JSON.stringify({ act: stand.id }))));
   }, 120000);
   it('is heard from the gatehouse before anyone goes down, and warns in the well', () => {
     expect([at[39]!.at, text(at[39]!)]).toEqual(['gate__gatehouse', expect.stringContaining(
@@ -43,7 +47,7 @@ describe('the conger in the gate-well, on the warrior\'s route', () => {
     expect([at[41]!.at, at[41]!.moment]).toEqual(['gate__well', 'arrive']);
     expect(text(at[41]!)).toContain('A grey back as long as you are rolls past the chain');
   });
-  it('comes at whoever stays to search the silt, and the pawl is there once it is fought', async () => {
+  it('comes at whoever stays in the well, and the pawl is there under the silt once it is fought', async () => {
     const fight = at[43]!;
     expect([fight.moment, fight.scene.lines[0]]).toEqual(['fight',
       'The conger comes at you out of the silt, its jaws wide.']);
