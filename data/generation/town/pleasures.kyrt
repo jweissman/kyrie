@@ -110,3 +110,99 @@
   Relation {s}_pl_bench_left(group).
   Rule {s}_pl_bench_gone when state({s}_pl_bench, heard) and not at(party, {s}_green) and not {s}_pl_bench_left(party) { Assert {s}_pl_bench_left(party). }
   Observe {s}_pl_bench_after at {s}_green when {s}_pl_bench_left(party) "On the bench by the well the two women shift along to make room for you.".
+--- kite
+  // Doing things with children (#240), being outdoors (#3): a kite that will not go up.
+  Thing {s}_pl_kite "the boy's kite" at {s}_green {
+    State grounded "A boy keeps running with a paper kite, and it keeps falling on its face.".
+    State held "You hold the kite up into the wind and wait. The string goes tight in his hands.".
+    State flying "You let go, and it climbs. The boy runs backward, mouth open, and does not fall over.".
+    Change hold "Hold the boy's kite up into the wind" from grounded to held.
+    Change release "Let the kite go" from held to flying.
+  }
+  Relation {s}_pl_kite_left(group).
+  Rule {s}_pl_kite_gone when state({s}_pl_kite, flying) and not at(party, {s}_green) and not {s}_pl_kite_left(party) { Assert {s}_pl_kite_left(party). }
+  Observe {s}_pl_kite_after at {s}_green when {s}_pl_kite_left(party) "High over the roofs a paper kite hangs on the wind. Somewhere below it a boy is holding on.".
+--- needle
+  // Helping someone (#151): an old man who cannot thread his needle.
+  Thing {s}_pl_needle "the old man's needle" at {s}_green {
+    State squinting "An old man on a doorstep holds a needle up to the light, and misses the eye again.".
+    State threaded "You thread it for him. He says nothing, and starts on a torn sleeve.".
+    State mended "He bites off the thread and holds the sleeve up. 'There,' he says. 'Good as it was, nearly.'".
+    Change thread "Thread the old man's needle for him" from squinting to threaded.
+    Change watch "Watch him sew" from threaded to mended.
+  }
+  Relation {s}_pl_needle_left(group).
+  Rule {s}_pl_needle_gone when state({s}_pl_needle, mended) and not at(party, {s}_green) and not {s}_pl_needle_left(party) { Assert {s}_pl_needle_left(party). }
+  Observe {s}_pl_needle_after at {s}_green when {s}_pl_needle_left(party) "The old man on his doorstep holds up a needle as you pass. It is threaded already.".
+--- puppies
+  // Being with animals (#52): a box of puppies.
+  Thing {s}_pl_puppies "the box of puppies" at {s}_green {
+    State boxed "In a box by a door, five puppies climb over each other and fall down again.".
+    State held "You pick up the smallest. It chews your thumb with great seriousness.".
+    State asleep "It falls asleep in the crook of your arm. You put it back with the others, and it does not wake.".
+    Change pick "Pick up the smallest puppy" from boxed to held.
+    Change settle "Let it fall asleep" from held to asleep.
+  }
+  Relation {s}_pl_puppies_left(group).
+  Rule {s}_pl_puppies_gone when state({s}_pl_puppies, asleep) and not at(party, {s}_green) and not {s}_pl_puppies_left(party) { Assert {s}_pl_puppies_left(party). }
+  Observe {s}_pl_puppies_after at {s}_green when {s}_pl_puppies_left(party) "One puppy in the box by the door stops climbing when it sees you.".
+--- hopscotch
+  // Playing games (#129): a hopscotch chalked on the stones.
+  Thing {s}_pl_hop "the hopscotch on the stones" at {s}_green {
+    State chalked "A hopscotch is chalked on the stones. Two girls take turns, and argue over every line.".
+    State hopped "They let you have a turn. You get to seven before your foot comes down on a line.".
+    State won "On the second turn you hop to ten and back. The girls clap, and then rub out the lines and draw them harder.".
+    Change hop "Take a turn at the hopscotch" from chalked to hopped.
+    Change again "Try the hopscotch again" from hopped to won.
+  }
+  Relation {s}_pl_hop_left(group).
+  Rule {s}_pl_hop_gone when state({s}_pl_hop, won) and not at(party, {s}_green) and not {s}_pl_hop_left(party) { Assert {s}_pl_hop_left(party). }
+  Observe {s}_pl_hop_after at {s}_green when {s}_pl_hop_left(party) "The hopscotch is chalked longer now. It goes up to twelve.".
+--- riddles
+  // Solving riddles (#244): an old woman who asks one of everyone.
+  Thing {s}_pl_riddle "the old woman's riddle" at {s}_green {
+    State asked "An old woman on a stool asks each passer-by a riddle. Most of them walk faster.".
+    State heard "'What has a mouth and never eats?' she asks you. She waits, and does not help.".
+    State answered "'A river,' you say. She laughs, and gives you a dried plum from her apron pocket.".
+    Change listen "Stop for the old woman's riddle" from asked to heard.
+    Change answer "Tell her it is a river" from heard to answered.
+  }
+  Relation {s}_pl_riddle_left(group).
+  Rule {s}_pl_riddle_gone when state({s}_pl_riddle, answered) and not at(party, {s}_green) and not {s}_pl_riddle_left(party) { Assert {s}_pl_riddle_left(party). }
+  Observe {s}_pl_riddle_after at {s}_green when {s}_pl_riddle_left(party) "The old woman on her stool nods to you. 'I have a harder one,' she says. 'Another day.'".
+--- garland
+  // Making something with the hands (#55): a garland for a door.
+  Thing {s}_pl_garland "the half-made garland" at {s}_green {
+    State loose "On the well-kerb lies a heap of green stems and yellow flowers, and a garland half woven.".
+    State woven "You weave in a hand's length. The stems keep springing loose, and then they stop.".
+    State hung "A girl takes it from you and hangs it on a door. She stands back to look at it.".
+    Change weave "Weave the garland a little" from loose to woven.
+    Change give "Give her the garland" from woven to hung.
+  }
+  Relation {s}_pl_garland_left(group).
+  Rule {s}_pl_garland_gone when state({s}_pl_garland, hung) and not at(party, {s}_green) and not {s}_pl_garland_left(party) { Assert {s}_pl_garland_left(party). }
+  Observe {s}_pl_garland_after at {s}_green when {s}_pl_garland_left(party) "Your garland hangs on a door, wilting a little. Nobody has taken it down.".
+--- washing
+  // Singing (#82), working with others (#164): a washing song at the trough.
+  Thing {s}_pl_washing "the washing at the trough" at {s}_green {
+    State scrubbing "Three women are scrubbing linen at the trough, and singing a song with too many verses.".
+    State wringing "You take one end of a sheet and twist. The water runs out of it, and the song does not stop.".
+    State sung "By the last verse you have the chorus. They laugh at how you sing it, and then sing it your way.".
+    Change wring "Help wring out a sheet" from scrubbing to wringing.
+    Change sing "Sing the chorus with them" from wringing to sung.
+  }
+  Relation {s}_pl_washing_left(group).
+  Rule {s}_pl_washing_gone when state({s}_pl_washing, sung) and not at(party, {s}_green) and not {s}_pl_washing_left(party) { Assert {s}_pl_washing_left(party). }
+  Observe {s}_pl_washing_after at {s}_green when {s}_pl_washing_left(party) "At the trough a woman hums your way of the chorus, and stops when she sees you.".
+--- conkers
+  // Playing games (#129): conkers, with a boy who has never lost.
+  Thing {s}_pl_conkers "the boy's conker" at {s}_green {
+    State swinging "A boy swings a conker on a string. He says it has never lost.".
+    State lent "He lends you one on a string. It is soft, and he is sorry for you.".
+    State struck "You swing. His conker splits in two. He looks at it for a long time, and then laughs.".
+    Change borrow "Take a conker from him" from swinging to lent.
+    Change strike "Strike his conker" from lent to struck.
+  }
+  Relation {s}_pl_conkers_left(group).
+  Rule {s}_pl_conkers_gone when state({s}_pl_conkers, struck) and not at(party, {s}_green) and not {s}_pl_conkers_left(party) { Assert {s}_pl_conkers_left(party). }
+  Observe {s}_pl_conkers_after at {s}_green when {s}_pl_conkers_left(party) "The boy with the conkers has a new one. He holds it up as you pass: this one has never lost either.".

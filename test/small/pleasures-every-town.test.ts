@@ -5,13 +5,14 @@ import { RegionGeography } from '../../src/world/region-geography';
 
 // A few pleasant things to do in every generated settlement (the owner, 20 November): in a1, iscoed and six countries
 // drawn about a1, every settlement has three of the pool on its green (data/generation/town/pleasures.kyrt), written
-// as Kyr, none of them twice, and no two settlements a road joins draw the same three; the town the company begins in
-// draws none of the first town's own kin (its pump, fiddle and cards are neighbours.kyrt's).
+// as Kyr, none of them twice, and none drawn twice in a country while the pool has others (the difference census's
+// third proposal: with eight, every life met the same few); the town the company begins in draws none of the first
+// town's own kin (its fiddle and cards are neighbours.kyrt's).
 const countries = [['a1', [0, 0]], ['iscoed', [0, 0]], ...[[-1, 0], [0, 1], [0, -1], [-1, -1], [-1, 1], [0, 2]]
   .map(at => ['a1', at])] as [string, [number, number]][];
 describe('pleasant things to do, in every generated town', () => {
-  it('are three of a pool of at least eight in each, written, and differ between neighbours', () => {
-    expect(RegionPleasures.pool.length).toBeGreaterThanOrEqual(8);
+  it('are three of a pool of at least sixteen in each, written, and drawn apart across the country', () => {
+    expect(RegionPleasures.pool.length).toBeGreaterThanOrEqual(16);
     const count = new Map<string, number>();
     let towns = 0;
     for (const [seed, at] of countries) {
@@ -23,6 +24,11 @@ describe('pleasant things to do, in every generated town', () => {
         const kyr = RegionPleasures.lines(region, s).join('\n');
         for (const p of three) { expect(kyr).toMatch(new RegExp(`Thing ${s.id}_pl_\\w+ `)); count.set(p, (count.get(p) ?? 0) + 1); }
         towns++;
+      }
+      // Drawn apart: no pleasure twice in a country of five towns or fewer (fifteen of sixteen).
+      const all = region.settlements.flatMap(s => drawn.get(s.id)!);
+      if (all.length < RegionPleasures.pool.length) {
+        expect([seed, at, new Set(all).size]).toEqual([seed, at, all.length]);
       }
       for (const r of RegionGeography.roads(region)) {
         expect(drawn.get(r.from.id)!.join()).not.toBe(drawn.get(r.to.id)!.join());

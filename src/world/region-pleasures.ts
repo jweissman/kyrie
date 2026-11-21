@@ -2,15 +2,14 @@ import text from '../../data/generation/town/pleasures.kyrt' with { type: 'text'
 import { Draw } from './land/draw';
 import { KyrTemplates } from './kyr-template';
 import { RegionKey } from './region-key';
-import { RegionGeography } from './region-geography';
 import type { Region, Settlement } from './region-writer';
 import { RegionPractitioners } from './region-practitioners';
 
 // A few pleasant things to do in every generated settlement (the owner, 20 November: "make sure there's at least a few
 // pleasant activities available in every generated town"): three of the pool in data/generation/town/pleasures.kyrt,
-// drawn for each settlement by its own key, so that towns differ, and no two settlements a road joins draw the same
-// three. The first town keeps its own pump, fiddle and cards (neighbours.kyrt), so where it has them its three are
-// drawn from the rest; and a town with a tinker of its own draws no pump.
+// drawn for each settlement by its own key, none drawn twice in a country while the pool has others. The first town
+// keeps its own fiddle and cards (neighbours.kyrt), so its three are drawn from the rest; and a town with a tinker of
+// its own draws no pump.
 export class RegionPleasures {
   static readonly template = KyrTemplates.parse(text);
   static readonly per = 3;
@@ -22,22 +21,21 @@ export class RegionPleasures {
   // pump on the same green, with a second mender, is not drawn there (Wrackham had had both, with Elfred).
   static readonly tinkers = ['pump'];
   private static readonly drawn = new WeakMap<Region, Map<string, Map<string, string[]>>>();
-  // Each settlement's three, by id: drawn in the settlements' order, drawn again where a road-neighbour drew the same.
+  // Each settlement's three, by id: drawn in the settlements' order, from those no other settlement of the country has
+  // drawn while there are three such left (the difference census's third proposal: with eight, every life met the same
+  // dog in the sun), and then from all.
   static of(region: Region, home = ''): Map<string, string[]> {
     const kept = this.drawn.get(region) ?? new Map<string, Map<string, string[]>>(), had = kept.get(home);
     if (had) { return had; }
-    const out = new Map<string, string[]>(), key = RegionKey.of(region);
-    const roads = RegionGeography.roads(region);
+    const out = new Map<string, string[]>(), key = RegionKey.of(region), used = new Set<string>();
     const tended = new Set(RegionPractitioners.of(region).filter(p => p.craft === 'tinkering').map(p => p.at));
     for (const s of region.settlements) {
-      const near = roads.flatMap(r => r.from.id === s.id ? [r.to.id] : r.to.id === s.id ? [r.from.id] : []);
       const pool = this.pool.filter(p => !(s.id === home && this.kept.includes(p))
         && !(tended.has(s.id) && this.tinkers.includes(p)));
-      let three: string[] = [];
-      for (let n = 0; n < 12; n++) {
-        three = new Draw(`${key}:${s.id}:pleasures${n ? `:${n}` : ''}`).shuffle(pool).slice(0, this.per).sort();
-        if (!near.some(id => out.get(id)?.join() === three.join())) { break; }
-      }
+      const order = new Draw(`${key}:${s.id}:pleasures`).shuffle(pool);
+      const fresh = order.filter(p => !used.has(p)), from = fresh.length >= this.per ? fresh : [...fresh, ...order];
+      const three = [...new Set(from)].slice(0, this.per).sort();
+      for (const p of three) { used.add(p); }
       out.set(s.id, three);
     }
     this.drawn.set(region, kept.set(home, out));

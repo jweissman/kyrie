@@ -93,7 +93,7 @@ export class SettlementWriter {
         when: 'true', text: SettlementScenes.taproom(region, i) })] : [],
       // Why the place is there is history: it goes in the company's notes on first seeing the place, not in what is
       // seen there (doc/authoring/narratology.md).
-      `  Entity ${s.id}_why: fact ${q(f.why)}.`,
+      `  Entity ${s.id}_why: fact ${q(`${f.why} ${this.oldest(region, s)}`.trim())}.`,
       ...SettlementScenes.life(region, i) ? [this.observe(`${s.id}_life`, `${s.id}_green`, { aspect: 'ambience',
         when: 'not dark()', text: SettlementScenes.life(region, i)! })] : [],
       ...RegionFaith.lines(s, cult, has.shrine ? `${s.id}_shrine` : `${s.id}_green`, this.wayside(f, cult)),
@@ -105,6 +105,12 @@ export class SettlementWriter {
       // The people who live there, at their work and about the place, and its animals (see Communities).
       ...CommunityWriter.lines(region, Communities.plan(region, s, this.trade(s).stock.map(([what]) => what))),
     ];
+  }
+  // One particular of the town itself beside why it is there, which is said alike of every town founded so (the
+  // difference census's third proposal): whose is its oldest house, by the family of its first-drawn household.
+  private static oldest(region: Region, s: Settlement): string {
+    const family = Communities.plan(region, s).residents[0]?.family;
+    return family ? `The oldest house in ${s.name} is the ${family}s'.` : '';
   }
   // The house where travellers sleep, and its door onto the heart.
   private static keeping(s: Settlement, f: Founding): string[] {

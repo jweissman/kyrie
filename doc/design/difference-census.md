@@ -136,6 +136,42 @@ This is the hand of data/generation/town/undertown.kyrt, "if fromdrove", and so 
 nothing that names it breaks. test/features/world/first-cast.pin meets the drover's lad in Iscoed and the bailiff's
 man in a1.
 
+## The small fixed pools (proposal 3)
+
+- **The pleasures:** sixteen now, up from eight. The eight new ones are a kite, an old man's needle, a box of puppies, a
+  hopscotch, an old woman's riddle, a garland, the washing song at the trough and a boy's conkers. Each is a small arc
+  of an invitation, two steps and an after-line. A country draws its towns' threes apart: none twice while the pool
+  has others, so five towns' fifteen are fifteen different ones.
+  - test/small/pleasures-every-town checks this over eight countries.
+  - test/features/pleasure/pleasures-in-town plays Edderwick's three: the needle, the puppies and the washing song.
+- **The room:** its terms are now the house's that keeps travellers in the first town. Each house has its own name,
+  way up, look, words and price, and the chest and the night are the same in all four:
+
+  | house | the room | price for a week |
+  |---|---|---|
+  | inn | the room under the eaves | four coin |
+  | alehouse | the loft | three coin and supper |
+  | brothers' house | a guest-cell | two coin, keeping the hours |
+  | fort | a bunk in the barrack | three coin |
+
+  test/features/world/a-room-of-ones-own lets the warrior the inn's room in Porthalen and the mage a guest-cell in
+  Gatesend.
+- **The "why" fact:** a town's standing "why" now carries one particular of its own beside why it is there: whose is
+  its oldest house ("The oldest house in Lowmouth is the Ashbys'"), from its first household.
+
+The census, again (who they are; slot for everything else):
+
+| pair | met | spoke | offered | found | answered |
+|---|---|---|---|---|---|
+| (a) Iscoed: drove warrior / weir mage | 0.04 | 0 | 0.04 (was 0.14) | 0.05 | 0 |
+| (a) a1: kin / debt | 0 | 0 | 0.06 | 0.26 | 0 |
+| (b) the debt's warrior, a1 / thorn | 0.02 | 0.50 | 0.05 (was 0.10) | 0.28 | 0.08 |
+| (b) the debt's warrior, thorn / ash | 0.01 | 0.20 | 0.04 (was 0.08) | 0.10 | 0.02 |
+
+What is offered is now nearly all a life's own. Found is unchanged: the census keys a fact by its slot, so a town's
+`why` counts as one thing in every town, though what it says is now that town's own. Keying a fact by what it says is
+the next refinement of the census, as keying a person by who they are was.
+
 ## Not measured yet
 
 - Relationships deepened over several visits. The walks are an hour long.

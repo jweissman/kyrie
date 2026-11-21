@@ -77,4 +77,22 @@ describe('a room of one\'s own at the inn', () => {
       .flatMap(o => [o, ...o.opens ?? []]).map(o => o.label);
     expect(rows.some(l => /^Take .* out of the chest at the foot of your bed/.test(l))).toBe(true);
   }, 300000);
+  // The room's terms are the house's that keeps travellers in the first town: an inn's room under the eaves for the
+  // drover's warrior in Porthalen, a guest-cell at the brothers' house for the weir's mage in Gatesend; the chest is
+  // the same.
+  it('is let on the house\'s own terms: an inn\'s room in Porthalen, a guest-cell at Gatesend', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
+    const r = new Runner(journey.session), c = journey.session.campaign;
+    const n = (name: string, ...args: string[]) => c.world.number(ModuleWriter.call(name, ...args));
+    await journey.play('>s4_taproom');
+    const coin = n('quantity', 'party', 'gold');
+    const asked = curl((await RunnerFind.act(r, r.said(), /for a guest-cell, by the week/)).scene.lines.join(' '));
+    expect(asked).toContain("'Two coin the week, and you keep the hours,'");
+    expect(n('quantity', 'party', 'gold')).toBe(coin - 2);
+    expect(curl(await journey.play('>s4_room'))).toContain('A whitewashed cell with a cot');
+    const rows = [...r.said().offer.primary, ...r.said().offer.rest].flatMap(o => [o, ...o.opens ?? []])
+      .map(o => o.label);
+    expect(rows.some(l => /^Put .* in the chest at the foot of your bed/.test(l))).toBe(true);
+    expect(c.module.entities.find(e => e.id === 'region__s4_room')?.name).toBe("a guest-cell at the brothers' house");
+  }, 300000);
 });

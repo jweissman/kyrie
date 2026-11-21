@@ -5,20 +5,21 @@
 // house remembers the company: the bed made, a candle in the window after dark, a letter from home sent up to the
 // pillow instead of left under the scrivener's stone. Coming back to it after time away is told, by the keeper and by
 // the room. Slept in, it is the rules' own room's night (sleep_own_room: data/rules/services.kyr). {t} is the
-// settlement's id, {town} its name; {letterfrom} and {letter} the answer to a letter home (letters.json).
+// settlement's id, {town} its name; {letterfrom} and {letter} the answer to a letter home (letters.json); the room's
+// name, its way up, its look, what is asked for, its price and its terms by the house that keeps it (RegionRoom).
 --- room
   Relation {t}_rented(group). Measure {t}_rent_until(group). Relation {t}_room_away(group). Measure {t}_room_left(group).
   Relation {t}_room_kept(group). Relation {t}_keeper_saw(group).
-  Place {t}_room "your room upstairs" is room within {t}_inn at 1, 1 indoors.
-  Passage {t}_room_stair "the stair up to your room" is steps between {t}_taproom and {t}_room opening when {t}_rented(party) "The stair is for those who have a room here.".
-  Observe {t}_room_scene at {t}_room when true "A low room under the eaves, with a bed under a patched quilt and a window over {town}.".
+  Place {t}_room "{roomname}" is room within {t}_inn at 1, 1 indoors.
+  Passage {t}_room_stair "{roomway}" is steps between {t}_taproom and {t}_room opening when {t}_rented(party) "The stair is for those who have a room here.".
+  Observe {t}_room_scene at {t}_room when true "{roomscene}".
   Thing {t}_room_chest "the chest at the foot of your bed" at {t}_room {
     State kept "A plain chest stands at the foot of the bed, its lid worn smooth by other people's elbows.".
   }
   Initially Assert receptacle({t}_room_chest).
-  Topic {t}_room_rent with {t}_innkeeper "Ask {{t}_innkeeper} for a room of your own, by the week" when not {t}_rented(actor) and quantity(actor, gold) >= 4 {
-    Says "'Four coin the week, bed and board,' says {{t}_innkeeper}. The coins are gone before you have quite decided. 'Top of the stair. There is a chest, and nobody opens it but you.'".
-    On discuss { Decrease quantity(actor, gold) by 4. Assert {t}_rented(actor). Assert keepsRoom(actor, {t}_room). Set {t}_rent_until(actor) to watch(clock) + 1008. }
+  Topic {t}_room_rent with {t}_innkeeper "Ask {{t}_innkeeper} for {roomask}, by the week" when not {t}_rented(actor) and quantity(actor, gold) >= {price} {
+    Says "{!terms}".
+    On discuss { Decrease quantity(actor, gold) by {price}. Assert {t}_rented(actor). Assert keepsRoom(actor, {t}_room). Set {t}_rent_until(actor) to watch(clock) + 1008. }
   }
   Rule {t}_rent_lapses when {t}_rented(party) and watch(clock) >= {t}_rent_until(party) { Retract {t}_rented(party). Retract keepsRoom(party, {t}_room). }
   // What the house keeps for the company while it is out: the bed made, a candle after dark, a letter from home.
