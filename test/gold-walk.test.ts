@@ -16,7 +16,7 @@ import { Undertakings } from '../src/presentation/undertakings';
 // no gold the walker goes by its own policy, and that is not judged here.
 describe('a walk by the gold', () => {
   it('is led only to what can be done, one act at a time, and not round in circles', async () => {
-    const spec = { seed: 'kahitude', origin: 'debt', policy: 'gold' as const, steps: 40,
+    const spec = { seed: 'kahitude', origin: 'debt', chain: 'salvage', policy: 'gold' as const, steps: 40,
       protagonist: { name: 'Ralf', raceId: 'human', classId: 'warrior' } };
     const metrics = AutoplayRun.empty(), s = await AutoplayRun.start(spec, metrics), c = s.campaign;
     // The debt followed, as a player chooses it with Follow this (nothing is followed for them: the owner, 12

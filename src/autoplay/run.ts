@@ -28,6 +28,8 @@ export interface RunSpec {
   // Every how many steps the game is kept and opened again; whether the run is played again from its commands at the
   // end; whether the world widens when the company crosses a march.
   keep?: number; replay?: boolean; frontier?: boolean;
+  // The debt's chain fixed, not drawn (see DebtShapes).
+  chain?: string;
 }
 export interface Failure { kind: string; message: string; step: number; move?: Move; stack?: string }
 export interface Metrics {
@@ -51,7 +53,7 @@ export interface RunResult {
 export class AutoplayRun {
   static async start(spec: RunSpec, metrics?: Metrics): Promise<PlaySession> {
     const w = await WorldAssembler.assemble(spec.seed, NodeBundleSource.shared,
-      { origin: spec.origin, party: [spec.protagonist] });
+      { origin: spec.origin, party: [spec.protagonist], ...spec.chain ? { chain: spec.chain } : {} });
     const s = await PlaySession.start(w.path, spec.seed, w.source);
     if (spec.frontier !== false) {
       const widening = new Widening(new Frontier(spec.seed, NodeBundleSource.shared), metrics);

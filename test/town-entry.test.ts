@@ -13,7 +13,7 @@ import { Undertakings } from '../src/presentation/undertakings';
 // join, one place off), never who is within or what they would ask; and the aim's own step keeps its gold.
 describe('a town at hand', () => {
   it('is entered by name from its own country, with only what is perceived of it', async () => {
-    const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
+    const s = await DrawnWorld.start('kahitude', { origin: 'debt', chain: 'salvage', party: [{ name: 'Ralf', raceId: 'human',
       classId: 'warrior' }] }, NodeBundleSource.shared);
     const c = s.campaign;
     const at = (place: string) => {

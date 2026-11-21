@@ -11,7 +11,7 @@ export class DrawnWorld {
   static options(drawn: Drawn): Parameters<typeof WorldAssembler.assemble>[2] {
     return { ...drawn.terrain ? { region: { terrain: drawn.terrain } } : {}, party: drawn.party,
       ...drawn.origin ? { origin: drawn.origin } : {}, ...drawn.memorial ? { memorial: drawn.memorial } : {},
-      ...drawn.standing ? { standing: drawn.standing } : {} };
+      ...drawn.standing ? { standing: drawn.standing } : {}, ...drawn.chain ? { chain: drawn.chain } : {} };
   }
   // A watch, where one is kept, times each phase (see Stopwatch: the terminal says them as they begin).
   static async start(seed: string, drawn: Drawn, source: BundleSource, watch?: Stopwatch): Promise<PlaySession> {

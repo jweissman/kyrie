@@ -5,7 +5,7 @@ import { Journey } from '../src/session/journey';
 import { Glanced } from './support/glanced';
 
 // The debt followed, as the player chooses it (nothing is followed for them: the owner, 12 November).
-const debtor = async () => Journey.of(Glanced.following(await DrawnWorld.start('kahitude', { origin: 'debt',
+const debtor = async () => Journey.of(Glanced.following(await DrawnWorld.start('kahitude', { origin: 'debt', chain: 'salvage',
   party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared)));
 
 // The landing at Thornhaven, the debt's way to the inn: the page had led with Stoneking's mound beside it, "further
@@ -73,7 +73,7 @@ describe('the hobs’ store, after a parley', () => {
     const steps = ['Tell Tuck', 'To the landing', 'Into the Stormy Horn', 'Ask Aiden what is out', 'map:Silverford'];
     const leads = async (raceId: string, classId: string) => {
       const party = [{ name: 'Mialee', raceId, classId }];
-      const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt', party }, NodeBundleSource.shared));
+      const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt', chain: 'salvage', party }, NodeBundleSource.shared));
       await j.play(...steps);
       return Glanced.of(j.session).glance.acts.map(a => a.label).join(' | ');
     };

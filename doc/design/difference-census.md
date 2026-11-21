@@ -75,6 +75,35 @@ These are counted from the things every pair shares.
    brothers' guest-cell, a fort's bunk. Each of the town's standing facts should carry one particular of the town
    (its founding's own), not the form alone.
 
+## After the debt's chain was drawn from the country (proposal 2)
+
+The debt's chain is now drawn by the country's key (src/world/debt-shapes.ts), one of three shapes. Each is a whole
+chain an hour can finish, pinned in its world in test/features/world/debt-chains.pin:
+
+- **salvage:** the inn's word of the old places round about, and what is in them sold (thorn).
+- **carry:** the creditor's own trade sets the work. A load goes to the merchant of the nearest other town, and that
+  merchant's purse for the creditor comes back (ash).
+- **recover:** the lost thing sets where it went. What went into the river at the ford was fished out and sold
+  downstream. It is claimed with a word or a finder's fee, and carried home (a1).
+
+A world's chain can be fixed rather than drawn, as an author fixes a kit's dimension. The specs that walk the salvage
+fix it (`--chain salvage`; `chain` on a drawn world, an autoplay run and a page's Begin).
+
+The census, again (the same six walks, 100 acts each):
+
+| pair | met | spoke | offered | found | answered |
+|---|---|---|---|---|---|
+| (a) Iscoed: drove warrior / weir mage | 0.14 | 0 | 0.14 | 0.05 | 0 |
+| (a) a1: kin / debt | 0.11 | 0 | 0.06 | 0.26 | 0 |
+| (b) the debt's warrior, a1 / thorn | 0.08 (was 0.38) | 0.50 | 0.10 (was 0.29) | 0.28 (was 0.38) | 0.08 |
+| (b) the debt's warrior, thorn / ash | 0.09 (was 0.26) | 0.20 | 0.08 (was 0.56) | 0.10 (was 0.26) | 0.02 |
+
+One character in two worlds now shares about a tenth of what it is offered, where it had shared a third to a half.
+Whom it meets falls with it, because a chain that sends the company to the next town takes it out of the first town
+sooner. What it finds falls less in a1 / thorn: the first town's standing facts are still the same (proposal 3).
+Shared by all four pairs now: the inn's dog, the innkeeper, the traveller and the town's `why`. The first town's cast
+(proposal 1) is the largest sameness left.
+
 ## Not measured yet
 
 - Relationships deepened over several visits. The walks are an hour long.

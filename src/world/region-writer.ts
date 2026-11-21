@@ -108,6 +108,8 @@ export interface Region extends Naming {
   reserved?: string[];
   // The answer to a letter home, from the company's own people (see RegionLetters), where its life has a start.
   letter?: { from: string; news: string };
+  // The debt's chain where it is fixed, not drawn (see DebtShapes).
+  chain?: string | undefined;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }

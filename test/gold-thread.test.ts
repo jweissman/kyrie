@@ -17,7 +17,9 @@ import { GeneratedWorld } from './support/generated';
 // and nothing is gold, and never the same act at the same place three times over.
 class Thread {
   static async walk(seed: string, origin: string, most = 30) {
-    const s = await DrawnWorld.start(seed, { origin, party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] },
+    // The debt walked is the salvage the thread leads through (the place told of), not drawn (DebtShapes).
+    const s = await DrawnWorld.start(seed, { origin, ...origin === 'debt' ? { chain: 'salvage' } : {},
+      party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] },
       NodeBundleSource.shared);
     const c = s.campaign, trail: string[] = [], seen = new Map<string, number>();
     Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);

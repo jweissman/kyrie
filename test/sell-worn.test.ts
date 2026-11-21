@@ -11,7 +11,7 @@ import { Carriers } from '../src/ui/carriers';
 // key, and a companion's armour sat on the counter with the rest (round 7).
 describe('a sale of what is in hand', () => {
   it('asks first, saying who would go without it', async () => {
-    const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
+    const s = await DrawnWorld.start('kahitude', { origin: 'debt', chain: 'salvage', party: [{ name: 'Ralf', raceId: 'human',
       classId: 'warrior' }] }, NodeBundleSource.shared);
     const c = s.campaign, shop = c.world.one('at', 'region__s2_merchant')!;
     c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', c.world.one('at', 'party')!) },
@@ -24,7 +24,7 @@ describe('a sale of what is in hand', () => {
   // selling the weapon the company lives by). With the debt followed and the buyer at hand, nothing worn is led, and
   // nothing led is the sale of what is on or in hand.
   it('is never the gold of a debt', async () => {
-    const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
+    const s = await DrawnWorld.start('kahitude', { origin: 'debt', chain: 'salvage', party: [{ name: 'Ralf', raceId: 'human',
       classId: 'warrior' }] }, NodeBundleSource.shared);
     const c = s.campaign, shop = c.world.one('at', 'region__s2_merchant')!;
     c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', c.world.one('at', 'party')!) },

@@ -18,7 +18,8 @@ export class EngineStarts {
   phases: { texts?: number; draw?: number; place?: number } = {};
   constructor(private readonly creation: Creation, private readonly post: (message: Message) => void) {}
   static key(r: Starting): string {
-    return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
+    return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null,
+      r.chain ?? null]);
   }
   // A start made ready a moment after the life made was last changed (OR-08): the engine's own making (EngineCreation)
   // asks for it at each choice, for the start its set-out will ask, so that setting out finds it made or under way.
@@ -59,14 +60,15 @@ export class EngineStarts {
   static readonly moment = 300;
   // What the country's texts are drawn by: not the life, but the country and the reason for coming.
   static country(r: Starting): string {
-    return JSON.stringify([r.campaign, r.seed, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
+    return JSON.stringify([r.campaign, r.seed, r.terrain ?? null, r.origin ?? null, r.memorial ?? null,
+      r.chain ?? null]);
   }
   // A turn of the worker's loop first, so that the answer to what asked for it is sent before the reading begins.
   private async warmed(r: Starting): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 0));
     if (r.campaign !== Creation.generated) { return; }
     const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
-      ...r.memorial ? { memorial: r.memorial } : {} };
+      ...r.memorial ? { memorial: r.memorial } : {}, ...r.chain ? { chain: r.chain } : {} };
     const drawn = this.creation.origin(r.campaign, r.seed, r.party, at);
     this.drawnFor = { key: EngineStarts.key(r), world: drawn };
     const world = await drawn;
@@ -132,7 +134,7 @@ export class EngineStarts {
   private saying?: string;
   private async start(r: Starting, asked = false): Promise<PlaySession> {
     const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
-      ...r.memorial ? { memorial: r.memorial } : {} }, key = EngineStarts.key(r);
+      ...r.memorial ? { memorial: r.memorial } : {}, ...r.chain ? { chain: r.chain } : {} }, key = EngineStarts.key(r);
     if (asked) { this.said('Drawing the world'); }
     const began = performance.now();
     const origin = await this.origin(r, at);

@@ -20,8 +20,9 @@ class Opened {
   // The world each begins in: Kite holds the library's eight, Iscoed (the strategic atlas's) its own three.
   static seed(origin: string): string { return AtlasOrigins.binders.includes(origin) ? 'iscoed' : 'kite'; }
   static async begin(origin: string, apart: boolean, host = new EngineHost(() => undefined)): Promise<Frame> {
+    // The debt's chain is the salvage these cases walk (the inn's word, the place told of), not drawn (DebtShapes).
     return await host.handle({ kind: 'begin', campaign: 'world', seed: this.seed(origin), party: this.party, origin,
-      apart }) as Frame;
+      apart, ...origin === 'debt' ? { chain: 'salvage' } : {} }) as Frame;
   }
   // What the origin says in the first moment, as a page sets it.
   static said(frame: Frame): string[] {

@@ -17,6 +17,7 @@ import { SettlementWriter } from './settlement-writer';
 import { RegionUndertown } from './region-undertown';
 import { AtlasOrigins } from './origin-atlas';
 import { RegionKey } from './region-key';
+import { DebtShapes } from './debt-shapes';
 import { OriginOpenings, type OriginOpening } from './origin-opening';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
@@ -195,16 +196,17 @@ export class Origins {
     // again and again (the gold walk, 12 November).
     const owing = 'owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, '
       + 'gold) < owed(loan) and not worthSelling(party) and knows(party, told)';
-    const out = this.chain(owing, near);
-    return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out,
-      lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },
+    const drawn = DebtShapes.of(region, s, owing, this.chain(owing, near));
+    return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out: drawn.lines,
+      lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods', ...drawn.values },
     start: { place: `${s.id}_shop` }, imports: { shop: [`region.${s.id}_shop`, 'place'],
       // Where the creditor says work is asked after; a town with no inn, the shop itself.
       ...inn
         ? { inn: this.inn(s), keeper: [`region.${s.id}_innkeeper`, 'group'] as [string, string],
-          told: [`region.${s.id}_country_told`, 'fact'] as [string, string], ...near }
+          told: [`region.${s.id}_country_told`, 'fact'] as [string, string],
+          ...drawn.shape === 'salvage' ? near : {} }
         : { inn: [`region.${s.id}_shop`, 'place'] as [string, string], keeper: [`region.${s.id}_merchant`, 'group'] as [string, string] },
-      creditor: [`region.${s.id}_merchant`, 'group'], ...after.imports } };
+      creditor: [`region.${s.id}_merchant`, 'group'], ...after.imports, ...drawn.imports } };
   }
   // The nearest of the old places the innkeeper tells of, for the debt's aim once told (see RegionRumours), and the
   // next two after it.
