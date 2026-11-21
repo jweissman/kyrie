@@ -18,12 +18,12 @@ content.
 | 3 | The Colour Atlas indicator specification | Normative appendix (indicator-appendix.md); every pip from a witness (Attest; trust-contracts.md) | Blue on a person whose topics carry none; a teaching reply unmarked; an unexplained glyph (OR-178) | **Partial** |
 | 4 | Measured performance | A press drawn within 100 ms at both sizes; act median ~104–126 ms headless; the map no longer rebuilt at a journey's end | A new world 5.4–5.8 s warm against 3 s (AX-04); no real-device measurement (SP-05) | **Partial** |
 | 5 | Real progress on SRD, authorability, density, backlog | SRD spells 37 of 119 in resolution; 2 of 88 placed encounters faithful; three creatures by the SRD (cases 63–65); `verify` and `kyrie new` | Fights on the routes cost nothing (CB-01); half the first hour unpainted (art-wishlist.md) | **Partial** |
-| 6 | A reconciled register and design recommendations | 1,118 rows, 483 live, hygiene clean (no id twice, no closed row saying open); the planning views; directions kept apart | — | **Met** |
+| 6 | A reconciled register and design recommendations | 1,123 rows, 488 live, hygiene clean (no id twice, no closed row saying open); the planning views; directions kept apart | — | **Met** |
 
 ## The gate, exactly
 
 - **Main** green at the last landing (CI on each push and a full run before each landing).
-- **The supported first hour** (planning.json's slice): 82 of 95 P0/P1 rows live. Its zero is not met.
+- **The supported first hour** (planning.json's slice): 85 of 97 P0/P1 rows live. Its zero is not met.
 - **P0:** none live. OR-91 closed on its acceptance (a press drawn within 100 ms on mouse and touch, a long press
   committed once). Its remainders are ruled below.
 - **The active queue:** at the cap (10 blockers, 3 platform), each with an owner and an acceptance; none abandoned.

@@ -38,7 +38,7 @@ table.
   119 pass in resolution; of creatures, 7 of 79. The census is in [rules/srd-fidelity.md](architecture/mission-21/rules/srd-fidelity.md).
 
 Every open promise is a row in [the register](architecture/open-register.md), and the register is the only ledger:
-1,118 rows, 483 live, 101 of them P0 or P1 (none P0). What is worked on is the planning views' capped queue
+1,123 rows, 488 live, 104 of them P0 or P1 (none P0). What is worked on is the planning views' capped queue
 (`bun scripts/planning-views.ts`), not the count.
 `bun scripts/register-state.ts` counts its rows by state and priority, and its hygiene; `bun scripts/register-tickets.ts`
 reads the same rows by feature and readiness.
