@@ -3,7 +3,7 @@ import deep from '../../data/generation/town/outskirts-deep.kyrt' with { type: '
 import conflict from '../../data/generation/town/conflict.kyrt' with { type: 'text' };
 import troubles from '../../data/generation/town/troubles.kyrt' with { type: 'text' };
 import neighbours from '../../data/generation/town/neighbours.kyrt' with { type: 'text' };
-import { KyrTemplates } from './kyr-template';
+import { KyrTemplates, type KyrSection } from './kyr-template';
 import { Terrain } from './land/terrain';
 import { RegionBonds } from './region-bonds';
 import { SettlementWriter } from './settlement-writer';
@@ -24,15 +24,30 @@ export class RegionOutskirts {
   static readonly troubled = KyrTemplates.parse(troubles);
   static readonly contested = KyrTemplates.parse(conflict);
   static lines(region: Region, s: Settlement, company = 3): string[] {
+    const chosen = this.chosen(region, s, company);
+    if (!chosen) { return []; }
+    return [...chosen.sections.flatMap(x => KyrTemplates.fill(x.lines, chosen.filled)),
+      ...chosen.peopled ? RegionBonds.lines(s.id) : []];
+  }
+  // The town's people who practise a craft, as the sections written for it say of them (">> practises {t}_hesper
+  // tinkering"), for the assembler to commit (see RegionWriter.manifest): each one's id and craft.
+  static practitioners(region: Region, s: Settlement): { id: string; craft: string }[] {
+    const chosen = this.chosen(region, s);
+    return (chosen?.sections ?? []).flatMap(x => KyrTemplates.fill(x.said, chosen!.filled))
+      .map(line => /^practises\s+(\w+)\s+(\w+)$/.exec(line))
+      .flatMap(m => m ? [{ id: m[1]!, craft: m[2]! }] : []);
+  }
+  private static chosen(region: Region, s: Settlement, company = 3):
+    { sections: KyrSection[]; filled: Record<string, string>; peopled: boolean } | undefined {
     const history = region.history, makers = history?.makers[0];
-    if (!history || !makers) { return []; }
+    if (!history || !makers) { return undefined; }
     const values: Record<string, string> = { t: s.id, town: s.name, old: makers.epithet,
       craft: makers.craft, belief: makers.belief, makersfact: `history_${makers.art}`,
       kingdom: history.successors.name, ...this.sight(region, s),
       // A colony under the old stones as a pack is under the town: two for one who came alone, never the six that kill
       // a lone first-level warrior in the undercroft (keyed draws' review, 20 November: kahitude's bats).
       colony: company > 1 ? '6' : '2' };
-    if (!values.sight) { return []; }
+    if (!values.sight) { return undefined; }
     // The deeper layer (outskirts-deep.kyrt) hangs on the first layer's ids; what needs the Empire's posting-house says
     // so itself ("if station") and is written only in a country that has one.
     const all = { ...values, ...this.station(region) };
@@ -42,7 +57,7 @@ export class RegionOutskirts {
       ...peopled ? [...KyrTemplates.choose(this.neighbourly, `${key}:neighbours`, all),
         ...KyrTemplates.choose(this.troubled, `${key}:troubles`, all),
         ...KyrTemplates.choose(this.contested, `${key}:conflict`, filled)] : []];
-    return [...sections.flatMap(x => KyrTemplates.fill(x.lines, filled)), ...peopled ? RegionBonds.lines(s.id) : []];
+    return { sections, filled, peopled };
   }
   // The two settlements nearest the town, whom the bailiff of conflict.kyrt also collects from.
   private static others(region: Region, s: Settlement): Record<string, string> {

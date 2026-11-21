@@ -26,6 +26,11 @@ Module assembly "What a world is made of, for assembling one" {
   // A settlement a practitioner of a craft works in today, by the craft (a tinker on the square: the tinker kit), so
   // that one settlement has one such occasion of a craft.
   Kind craft. Relation practisedIn(place, craft). Entity tinkering: craft "Tinkering".
+  // The people of the land who practise a craft, and the settlement each lives in: read from a region's manifest (its
+  // generated folk by their work, its authored people as their author says), so that a kit can bind whoever already
+  // practises the craft there and need not make someone up (a tinker who lives in the town: the tinker kit).
+  Relation practises(group, craft). Relation dwells(group, place).
+  Query tended(t: place, c: craft) means practises(?p, c) and dwells(?p, t).
   // A place given over to one placement's purpose; another kit does not take it.
   Relation taken(place, kit).
   Query free(p: place) means not taken(p, ?k).

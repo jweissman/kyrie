@@ -1,0 +1,33 @@
+Module tinker_resident "The old pump on the square" {
+  Description "Someone who lives at {town} and mends things has the old pump on the square in pieces, and calls a stranger over to hold the rod.".
+  // The tinker kit's resident (data/kits/tinker/kit.json): nobody made up for it. The practitioner is whoever already
+  // lives in the town and practises the craft, as the assembler's ledger knows them (practises, dwells: a generated
+  // tinker by their work, or one the town's author says practises it, as Hesper Lowe in Porthalen: neighbours.kyrt).
+  // Fun Friday (20 November): working on machines and repairing things (the Pleasant Activities List, #38 and #217).
+  // The old pump on the square has seized, and the practitioner has its cap off and calls the company over. Nothing is
+  // paid and nothing is an aim: a stiff old thing made to work again, with someone who loves how things work, and
+  // after it the square has water. They live here, so it does not pass by evening; it waits for them to be about.
+  Entity party: group "Your company".
+  Place town "The town" is settlement.
+  Place market "The square" is room.
+  Entity practitioner: group "Who mends things here".
+  Relation pump_left(group).
+  Thing pump "the old pump" at market {
+    State seized "An iron pump stands by the horse-trough. Its handle is rusted up like a raised arm. The trough is dry and full of leaves.".
+    State apart "The pump lies in pieces on a sack. There is the rod, and the bucket with its perished leather cup. The clack-valve is stuck shut with green. {practitioner} names each piece for you, as if introducing friends. 'The leather is the heart of it. When it goes stiff, the whole thing forgets how to breathe.'".
+    State greased "{practitioner} cuts new leather from an apron-string. You work tallow into it until it shines. The clack swings free on its pin now. {practitioner} blows through the bucket. It whistles, and {practitioner} grins.".
+    State working "You fit it back together while {practitioner} calls the order. Then a nod at the handle: yours. It is stiff for three strokes. On the fourth, something deep in the iron catches. On the sixth the spout coughs rust, then brown water, then clear. It is so cold it hurts. {practitioner} laughs out loud. 'There. It remembered.'".
+    Change open "Help {practitioner} take the old pump apart" from seized to apart when at(practitioner, market) "Without {practitioner} you could not tell the rod from the bucket.".
+    Change grease "Cut new leather for the pump and work tallow into it" from apart to greased when at(practitioner, market) "{practitioner} has the knife and the tallow, and is not here.".
+    Change rebuild "Put the pump back together and try the handle" from greased to working when at(practitioner, market) "The pieces lie on their sack; {practitioner} will want to see it go back.".
+  }
+  Topic how_pumps with practitioner "Ask {practitioner} how a pump knows to lift water" when not state(pump, seized) once {
+    Says "'It does not know anything,' says {practitioner}, delighted to be asked. 'That is the beauty. The leather cups on the way down. It lies flat on the way up. The clack lets water in and will not let it out. The air does the rest. Every part is too stupid to fail on its own. It is only all of them together that is clever.' {practitioner} looks at the pump the way other people look at horses.".
+  }
+  // They call the company over: it begins with them, not with the company.
+  Observe called at market when state(pump, seized) and at(practitioner, market) "By the horse-trough, {practitioner} has the cap off the old pump, both arms down its throat. 'You,' says {practitioner}, not looking up. 'Hands. Hold the rod while I find out what has died in here.'".
+  // Come back to the square after mending it, and the square has water.
+  Rule walked_off when state(pump, working) and not at(party, market) and not pump_left(party) { Assert pump_left(party). }
+  Observe used at market when pump_left(party) "Two children hang their whole weight on the old pump's handle. It gives water, clear and cold. {practitioner} goes by with an armful of planks, and pats the iron in passing.".
+  Goal false.
+}

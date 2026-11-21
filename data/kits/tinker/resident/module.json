@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "source": "resident.kyr",
+  "rules": ["world"],
+  "globals": ["party"],
+  "imports": ["party", "town", "market", "practitioner"],
+  "roles": { "party": { "type": "group" }, "town": { "type": "place" }, "market": { "type": "place" },
+    "practitioner": { "type": "group" } }
+}

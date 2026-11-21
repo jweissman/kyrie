@@ -55,6 +55,17 @@ export class Ledger {
       call: ModuleWriter.call(v.fact, ...v.args), value: ModuleWriter.number(v.value) })));
     this.commitments.push(...fresh.map(v => ({ ...v, by })));
   }
+  // The people the ledger knows of, as a list an author reads: each one who practises a craft, what they practise,
+  // and the settlement they live in (practises, dwells), in the order they were committed.
+  people(): { person: string; practises: string[]; dwells?: string }[] {
+    const known = new Map<string, { person: string; practises: string[]; dwells?: string }>();
+    for (const c of this.commitments.filter(x => x.fact === 'practises' || x.fact === 'dwells')) {
+      const person = c.args[0]!, one = known.get(person) ?? { person, practises: [] };
+      known.set(person, one);
+      if (c.fact === 'practises') { one.practises.push(c.args[1]!); } else { one.dwells = c.args[1]!; }
+    }
+    return [...known.values()];
+  }
   // The commitments that name an entity, for explaining where it came from.
   about(id: string): Commitment[] { return this.commitments.filter(c => c.args.includes(id)); }
   static restore(vocabulary: Module, commitments: Commitment[]): Ledger {

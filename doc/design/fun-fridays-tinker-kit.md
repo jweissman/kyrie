@@ -91,13 +91,21 @@ framework's kits in WorldAssembler). It is proved through the runner by test/fea
 
 ## Reusable capabilities genuinely missing
 
-1. **People in the ledger.** The assembler knows places, roads and powers, not people. The variety study found the same
-   (mission-22/variety-study/report.md §4).
-   - So the kit cannot bind an existing practitioner: Wrackham's Elfred, or Hesper Lowe, whose mended pump is the same
-     pattern authored by hand (data/generation/town/neighbours.kyrt, test/hesper-pump).
-   - It makes its own person instead. Folding Hesper in as a realization of the kit wants exactly this: her town
-     template to commit `practises(hesper, tinkering)` and the kit to bind `?practitioner` to whoever practises there.
-   - So she is left as she is, and named here as the kit's fourth realization once people are in the ledger.
+1. **People in the ledger.** Built (people-ledger, 20 November).
+   - The vocabulary has `practises(group, craft)`, `dwells(group, place)` and the query `tended(town, craft)`. A
+     region's manifest commits them: each settlement's folk whose occupation has a `craft` (the tinker:
+     occupations.json), and whoever the first town's sections say practises one (`>> practises {t}_hesper
+     tinkering` in neighbours.kyrt). An authored region writes the same facts in its manifest's commitments.
+   - The kit's fourth realization, `resident`, implies `?practitioner`: `practises(?practitioner, tinkering)` and
+     `dwells(?practitioner, ?town)`. Its module (resident/resident.kyr) is the old pump, moved out of
+     neighbours.kyrt and written over the imported practitioner. Iscoed places it twice: Hesper Lowe in Porthalen
+     (fixed by the atlas, as Sabine the tinker lives there too) and Elfred the tinker in Wrackham (bound by the
+     binder, the only one there).
+   - The apprentice and the master require `not tended(?town, tinkering)`: a second shop beside a town's own tinker
+     is not made up. The travelling tinker passes through anywhere. The town slot prefers a tended town.
+   - `kyrie inspect --why people --world <seed>` lists the ledger's people with what they practise, where they live
+     and the placement that binds them, then each placement that made its practitioner up. test/people-ledger
+     pins Iscoed and takes a census of the kit placed freely in three drawn countries.
 2. **A profession as an entity.** Its competences, tools, products, practices, transmission and institutions (a
    guild), as directions §7–§8 ask. Competence, profession and office are kept apart: lockwork is a competence,
    tinkering a profession, the guild master an office.

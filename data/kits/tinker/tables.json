@@ -3,9 +3,10 @@
     "discriminator": "terrain",
     "groups": {
       "default": [
-        { "_key": "travelling", "__weight": 2, "_why": "a travelling tinker of no shop, whose barrow is the shop, mending what the town brings out to the square" },
-        { "_key": "apprentice", "_why": "a tinker's apprentice minding the bench while the master is out, with a job that has gone wrong" },
-        { "_key": "master", "_why": "a master of the craft with a shop of her own, short of a part for work that is promised" }
+        { "_key": "resident", "__weight": 8, "_why": "someone who already lives in the town and practises the craft, bound from the assembler's ledger, with the old pump on the square in pieces", "_implies": { "practitioner": { "is": "practises(?practitioner, tinkering)", "requires": ["dwells(?practitioner, ?town)"] } } },
+        { "_key": "travelling", "__weight": 2, "_why": "a travelling tinker of no shop, whose barrow is the shop, mending what the town brings out to the square: passing through, so in a town with a tinker of its own as well" },
+        { "_key": "apprentice", "_requires": ["not tended(?town, tinkering)"], "_why": "a tinker's apprentice minding the bench while the master is out, with a job that has gone wrong: only where no one who lives there practises the craft, or the town would have two tinkers of its own" },
+        { "_key": "master", "_requires": ["not tended(?town, tinkering)"], "_why": "a master of the craft with a shop of her own, short of a part for work that is promised: only where no one who lives there practises the craft" }
       ]
     }
   }

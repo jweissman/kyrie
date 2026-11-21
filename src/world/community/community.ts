@@ -19,6 +19,9 @@ export interface Occupation {
   foundings?: string[];
   water?: boolean; sizes?: string[]; pronoun?: string; wanders?: boolean; animal?: string; knows?: string[];
   concern?: string;
+  // The craft of the assembly vocabulary the work is a practice of (tinkering), which the assembler commits of each one
+  // who does it, for a kit of the craft to bind (see RegionWriter.manifest).
+  craft?: string;
   // What they sell, of the catalog's kinds, each with its price and how many they have (a tinker's wares spread on a
   // blanket, which had sold nothing: play 7).
   sells?: [string, number, number][];

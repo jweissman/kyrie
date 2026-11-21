@@ -8,6 +8,7 @@ import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionUndertown } from './region-undertown';
 import { RegionOutskirts } from './region-outskirts';
+import { RegionPractitioners } from './region-practitioners';
 import { RegionTies } from './region-ties';
 import { RegionThreads } from './region-threads';
 import { RegionZones } from './region-zones';
@@ -224,8 +225,7 @@ export class RegionWriter {
         ...a.now ? [`  Observe ${a.settlement}_approach_life at ${a.settlement}_approach as ambience when not dark() ${q(a.now)}.`] : []);
     }
     // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
-    const home = region.settlements.find(t => t.id === (a?.settlement ?? /^(s\d+)_/.exec(company.start?.place ?? '')?.[1]))
-      ?? region.settlements[0]!;
+    const home = RegionPractitioners.home(region, company);
     lines.push(...RegionUndertown.lines(region, home, company.size),
       ...RegionOutskirts.lines(region, home, company.size),
       ...RegionTies.lines(region), ...RegionThreads.lines(region));
@@ -269,6 +269,7 @@ export class RegionWriter {
   static manifest(region: Region, taken: Record<string, string> = {}, beyond = false,
     { company, sources = ['region.kyr'] }: { company?: Company; sources?: string[] } = {}): object {
     const roads = RegionGeography.roads(region), ways = roads.map(r => r.way);
+    const practitioners = RegionPractitioners.of(region, company);
     const zones = RegionGeography.atlas(region).zones;
     const ids = ['party', 'region', ...region.settlements.flatMap(s => {
       const has = SettlementWriter.rooms(region, s);
@@ -286,7 +287,8 @@ export class RegionWriter {
     ...RegionGates.ids(region),
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
     ...region.history ? ['history_successors'] : [],
-    ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : [], ...this.notice(region, company)];
+    ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : [], ...this.notice(region, company),
+    ...practitioners.map(p => p.id)];
     // A site's land is the wild country it stands in, or its own stretch of open country.
     const lands = region.sites.map(w => [`${w.id}_land`, w.zone ?? `${w.id}_land`]);
     // A ford, a bridge and a pass are where a road can be held; a road through a wood and the edge of wild country
@@ -296,6 +298,7 @@ export class RegionWriter {
       .map(id => ['landmark', id]);
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
+      ...practitioners.flatMap(p => [['practises', p.id, p.craft], ['dwells', p.id, p.at]]),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by]),
       // The Empire's posting-house is no band's hold: a kit may not take it, as no scenario may.
       ...region.sites.filter(w => w.work?.imperial && !taken[w.id]).map(w => ['taken', w.id, 'empire'])];

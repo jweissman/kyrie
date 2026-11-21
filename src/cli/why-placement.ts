@@ -4,6 +4,7 @@ import { RandomStreams } from '../random-streams';
 import type { WorldReport } from '../world/world-assembler';
 import type { WhySources } from './why-sources';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
+import { ModuleParser } from '../lang/module-parser';
 
 type Candidate = Extract<TraceEntry, { kind: 'candidate' }>;
 type Bound = Extract<TraceEntry, { kind: 'bound' }>;
@@ -29,6 +30,27 @@ export class WhyPlacement {
     }
     for (const r of (composed?.refused ?? []).filter(r => r.id === id)) { lines.push(`${r.id}: refused (${r.reason})`); }
     return lines.length ? lines : [`Nothing was placed as or at ${id}.`];
+  }
+  // The people the assembly ledger knows (Ledger.people): each with what they practise and where they live, and the
+  // placement that binds them, where one does; then each placement of a craft's kit that bound nobody who lives there.
+  static async people(sources: WhySources): Promise<string[]> {
+    const composed = (await sources.manifest()).composition;
+    if (!composed) { return ['Nothing was composed: the campaign places no kits.']; }
+    const lines = composed.ledger.people().map(p => {
+      const binds = composed.placements.filter(x => Object.values(x.bindings).includes(p.person));
+      return `${p.person}: practises ${p.practises.join(', ') || 'nothing'}${p.dwells ? `, lives at ${p.dwells}` : ''}`
+        + `${binds.length ? `; bound by ${binds.map(b => `${b.kit}#${b.id}`).join(', ')}` : ''}`;
+    });
+    const people = composed.ledger.people();
+    const invented = composed.placements.filter(p => p.bindings.town && !p.bindings.practitioner).flatMap(p => {
+      const crafts = composed.ledger.solve(ModuleParser.predicate(`practisedIn(${p.bindings.town}, ?c)`)).map(b => b['?c']!);
+      if (!crafts.length) { return []; }
+      const beside = people.filter(x => x.dwells === p.bindings.town && x.practises.some(c => crafts.includes(c)));
+      return [`${p.kit}#${p.id} at ${p.bindings.town}: ${Object.values(p.choices).join(', ')}, its practitioner made up`
+        + `${beside.length ? `, beside ${beside.map(x => x.person).join(', ')}, ${beside.length > 1
+          ? 'who live there and practise it' : 'who lives there and practises it'}` : ''}`];
+    });
+    return [...lines.length ? lines : ['The ledger knows of nobody.'], ...invented];
   }
   // One kit's placement, by its trace.
   private static kit(trace: Trace, step: string, seed: string): string[] {

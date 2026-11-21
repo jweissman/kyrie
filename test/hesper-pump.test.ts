@@ -5,8 +5,10 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { RunnerFind } from './support/runner-find';
 
 // Fun Friday (20 November; doc/design/fun-fridays.md): working on machines and repairing things (#38, #217). Hesper
-// Lowe calls the company over to the seized pump on Porthalen's green; taken apart, new leather cut and greased, put
-// back and tried, it gives water; come back later and children are working it. Nothing is paid and nothing is an aim.
+// Lowe calls the company over to the seized pump on Porthalen's green: the tinker kit's resident (data/kits/tinker/
+// resident), bound to her from the assembler's ledger as one who practises tinkering there (test/people-ledger).
+// Taken apart, new leather cut and greased, put back and tried, it gives water; come back later and children are
+// working it. Nothing is paid and nothing is an aim.
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 describe('the old pump on the green, mended with Hesper Lowe', () => {
   it('is called over to, worked on in three steps with her, and gives the green water after', async () => {
