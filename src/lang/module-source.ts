@@ -30,7 +30,9 @@ export class ModuleSource {
     return ModuleSource.asText ? kyr : ModuleSource.line({ observation, kyr, provenance });
   }
   // The lines standing for a Topic made as a value: its condition is the generator's few words, read as the parser
-  // reads a predicate; its words and what it teaches given whole (the bytes were its words).
+  // reads a predicate, once for each text (each keeper of the country asked of one land beyond has the same: fifteen
+  // parses of each had put a cold set-out over its predicate budget, 1072 of 1000); its words and what it teaches
+  // given whole (the bytes were its words).
   static topic(t: TopicSpec, kyr: string[], provenance: Provenance): string[] {
     if (ModuleSource.asText) { return kyr; }
     const told: Change[] = t.knows.flatMap(k => [ModuleSource.assert('knows', 'actor', k),
@@ -38,7 +40,7 @@ export class ModuleSource {
     const action = { id: t.id, name: t.title, description: '', speaker: t.keeper, topic: true, report: t.says,
       parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: TemplatedPredicates.topic(t.keeper, false, ModuleParser.predicate),
-        right: ModuleParser.predicate(t.when) }, success: told, failure: [], cost: 1, time: 0 } as unknown as Operator;
+        right: TemplatedPredicates.of(t.when, '', ModuleParser.predicate) }, success: told, failure: [], cost: 1, time: 0 } as unknown as Operator;
     return [ModuleSource.line({ action, kyr: kyr.join('\n'), provenance })];
   }
   private static assert(name: string, ...args: string[]): Change {
