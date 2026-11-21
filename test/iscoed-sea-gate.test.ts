@@ -25,8 +25,10 @@ describe('the sea-gate at Gatesend', () => {
         'the wardens\' sluice-key: Take', 'To the sluice gallery');
       expect(j.matches('To the wardens\' undercroft')).toEqual([]);
       // The eels warn the company off the gallery while the water runs (OR-163: only answering them is offered, not a
-      // search): it waits out the flood in the dry tide-room, and comes back down at the ebb by a candle, the torch burned down, the eels stranded.
-      await j.play('To the wardens\' tide-room', '=16:10', 'Pack › A candle › Light', 'To the sluice gallery');
+      // search): it waits out the flood in the dry tide-room, and comes back down at the ebb by a candle (the torch
+      // burned down), the eels stranded.
+      await j.play('To the wardens\' tide-room', '=16:10', 'Pack › A candle › Light',
+        'To the sluice gallery');
       expect(j.holds('state', 'gate__eels', 'gate__stranded')).toBe(true);
       await j.play('Search', 'To the smugglers\' store', 'a smuggler\'s tally: Take', 'To the sluice gallery');
       await j.play('To the wardens\' undercroft');
