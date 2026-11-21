@@ -11,6 +11,7 @@ import { RegionUndertown } from './region-undertown';
 import { RegionOutskirts } from './region-outskirts';
 import { RegionPractitioners } from './region-practitioners';
 import { RegionPleasures } from './region-pleasures';
+import { RegionAfoot } from './region-afoot';
 import { RegionTies } from './region-ties';
 import { RegionThreads } from './region-threads';
 import { RegionZones } from './region-zones';
@@ -250,6 +251,8 @@ export class RegionWriter {
       ...RegionOutskirts.lines(region, home, company.size),
       // A few pleasant things to do on every settlement's green (see RegionPleasures).
       ...region.settlements.flatMap(t => RegionPleasures.lines(region, t, home.id)),
+      // And something going on there that moves on by the days, with or without the company (see RegionAfoot).
+      ...region.settlements.flatMap(t => RegionAfoot.lines(region, t)),
       ...RegionTies.lines(region), ...RegionThreads.lines(region));
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');

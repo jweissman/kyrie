@@ -1,0 +1,78 @@
+# afoot: something small going on in every generated town that moves on by the days, whether or not the company acts.
+// A Kyr template (see src/world/kyr-template.ts), one option of the group drawn for each settlement by its own key (see
+// src/world/region-afoot.ts). The owner's first-hour beat sheet, checkpoint 10: a local situation can develop without
+// the player (doc/design/golden-thread.md; doc/design/situations-census.md). Each has three stages by the country's
+// clock, told on the town's heart (the first two days, the next two, after the fourth), and one point where the company
+// may step in, which the last stage remembers. {s} is the settlement's id, {town} its name. Each stage is one sentence:
+// it stands in the town's glance beside everything else there.
+--- afoot barn
+  // A barn going up: a frame, then the rafters (and a pair of hands short), then thatched, with a bough on the ridge.
+  Relation {s}_af_helped(group).
+  Observe {s}_af_one at {s}_green as sign when watch(clock) < 288 "At the end of a lane a new barn stands as a bare frame of posts, its tie-beams waiting on trestles.".
+  Observe {s}_af_two at {s}_green as sign when watch(clock) >= 288 and watch(clock) < 576 "Three men on the new barn's frame are pegging rafters, a pair of hands short for the last truss.".
+  Action {s}_af_lend(actor: group, site: place) "Lend a hand raising the new barn's last truss" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_green) and watch(clock) >= 288 and watch(clock) < 576 and not {s}_af_helped(actor) and not dark().
+    Time 1 hours.
+    Result "You take the rope with the others and walk the truss up hand over hand.".
+    On success { Assert {s}_af_helped(actor). }
+  }
+  Observe {s}_af_three at {s}_green as sign when watch(clock) >= 576 and not {s}_af_helped(party) "The new barn has its thatch on now, with a leafy bough tied to the ridge for luck.".
+  Observe {s}_af_three_helped at {s}_green as sign when watch(clock) >= 576 and {s}_af_helped(party) "The new barn is thatched now, and its owner lifts his hand to you from the door.".
+--- afoot feud
+  // Two neighbours and a wall between them: shouting, then silence and the wall built higher, then a jug or a wall.
+  Relation {s}_af_helped(group).
+  Observe {s}_af_one at {s}_green as sign when watch(clock) < 288 "Two neighbours are shouting at each other across a garden wall about whose side a fallen pear tree is on.".
+  Observe {s}_af_two at {s}_green as sign when watch(clock) >= 288 and watch(clock) < 576 "The two neighbours have stopped speaking, and each is laying stones on his own side of the garden wall.".
+  Action {s}_af_lend(actor: group, site: place) "Carry a word over the garden wall between the two neighbours" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_green) and watch(clock) >= 288 and watch(clock) < 576 and not {s}_af_helped(actor) and not dark().
+    Time 30 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert {s}_af_helped(actor). }
+    Result "You go from one side to the other until each of them says the pears were never worth it.".
+    Otherwise "Each of them hears you out, and each lays one more stone.".
+  }
+  Observe {s}_af_three at {s}_green as sign when watch(clock) >= 576 and not {s}_af_helped(party) "The garden wall between the two neighbours stands head-high now, and neither looks over it.".
+  Observe {s}_af_three_helped at {s}_green as sign when watch(clock) >= 576 and {s}_af_helped(party) "The two neighbours sit on their garden wall sharing a jug, the pear tree cut up and stacked between them.".
+--- afoot cow
+  // A sick cow: down in a yard, then worse and the cow-leech not come, then dead or on her feet.
+  Relation {s}_af_helped(group).
+  Observe {s}_af_one at {s}_green as sign when watch(clock) < 288 "In a yard by the lane a red cow lies down and will not get up, and her owner kneels beside her.".
+  Observe {s}_af_two at {s}_green as sign when watch(clock) >= 288 and watch(clock) < 576 "The red cow is still down in her yard, swollen now, and the cow-leech has not come.".
+  Action {s}_af_lend(actor: group, site: place) "Look at the red cow that is down in her yard" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_green) and watch(clock) >= 288 and watch(clock) < 576 and not {s}_af_helped(actor) and not dark().
+    Time 1 hours.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert {s}_af_helped(actor). }
+    Result "You find the bloat high on her left side and walk it out of her, round and round the yard.".
+    Otherwise "You do what you can. Her owner thanks you for it, and does not look at you.".
+  }
+  Observe {s}_af_three at {s}_green as sign when watch(clock) >= 576 and not {s}_af_helped(party) "The red cow's yard is empty, and her hide is stretched on a frame by the door.".
+  Observe {s}_af_three_helped at {s}_green as sign when watch(clock) >= 576 and {s}_af_helped(party) "The red cow is up and grazing the verge, and her owner raises a hand to you from the gate.".
+--- afoot wedding
+  // A wedding: the banns and the teasing, then the bower going up, then the day itself, with a toast for a gift given.
+  Relation {s}_af_helped(group).
+  Observe {s}_af_one at {s}_green as sign when watch(clock) < 288 "A girl with flour on her arms is being teased about the carter's son, and does not seem to mind.".
+  Observe {s}_af_two at {s}_green as sign when watch(clock) >= 288 and watch(clock) < 576 "Children are weaving a bower of green branches over a door for a wedding at the week's end.".
+  Action {s}_af_lend(actor: group, site: place) "Give a coin toward the wedding feast" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_green) and watch(clock) >= 288 and watch(clock) < 576 and not {s}_af_helped(actor) and quantity(actor, gold) >= 1.
+    Time 10 minutes.
+    On success { Decrease quantity(actor, gold) by 1. Assert {s}_af_helped(actor). }
+    Result "The bride's mother takes the coin, looks at it, and writes your name on the list by the door.".
+  }
+  Observe {s}_af_three at {s}_green as sign when watch(clock) >= 576 and not {s}_af_helped(party) "The bower over the door is wilting now, and a fiddler is still playing for the wedding guests.".
+  Observe {s}_af_three_helped at {s}_green as sign when watch(clock) >= 576 and {s}_af_helped(party) "A fiddler plays at the wedding under the wilting bower, and the bride raises her cup to you.".
+--- afoot boat 1 if water
+  // A boat being built on trestles: the keel laid, then planked and a seam that will not close, then launched or still dry.
+  Relation {s}_af_helped(group).
+  Observe {s}_af_one at {s}_green as sign when watch(clock) < 288 "On trestles at the lane's end lies the keel of a new boat, and an old man is steaming the first plank.".
+  Observe {s}_af_two at {s}_green as sign when watch(clock) >= 288 and watch(clock) < 576 "The new boat is planked to the gunwale now, but one seam will not close.".
+  Action {s}_af_lend(actor: group, site: place) "Help the old man close the seam on his new boat" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_green) and watch(clock) >= 288 and watch(clock) < 576 and not {s}_af_helped(actor) and not dark().
+    Time 1 hours.
+    Resolve check(actor, mending, dc_fair).
+    On success { Assert {s}_af_helped(actor). }
+    Result "You hold the clamp while he drives the oakum home, and the seam closes along its whole length.".
+    Otherwise "The plank springs back under the clamp, and the old man says it has always done that.".
+  }
+  Observe {s}_af_three at {s}_green as sign when watch(clock) >= 576 and not {s}_af_helped(party) "The new boat is still on its trestles, its bad seam stuffed with rags.".
+  Observe {s}_af_three_helped at {s}_green as sign when watch(clock) >= 576 and {s}_af_helped(party) "The trestles at the lane's end are empty: the new boat is in the water, and the old man in it.".
