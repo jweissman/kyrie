@@ -2,6 +2,8 @@ Module journeydriver "A yard, a clerk and a tide" {
   Place yard "the yard" is room.
   Company party "You" of 1 at yard.
   Relation turned(group). Relation creaked(group). Relation rung(group). Relation flooded(group).
+  // A condition of no arguments, waited for by its bare name (=until pealed: A Voice for Hexworth's friction).
+  Query pealed() means rung(party).
   Action turn_wheel(actor: group, site: place) "Turn the wheel" {
     Requires able(actor) and at(actor, site) and not turned(actor).
     Time 1 minute.

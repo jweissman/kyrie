@@ -392,7 +392,10 @@ export class Journey {
     const module = this.campaign.world.module, prefixes = this.campaign.installed.map(id => `${id}__`);
     const functions = new Set([...module.relations, ...module.measures, ...module.queries].map(f => f.name));
     const ids = new Set(module.entities.map(e => e.id));
-    return ModuleWriter.conditionCalls(ModuleParser.predicate(text), c => {
+    // A relation or query of no arguments may be waited for by its bare name (=until fogged is fogged()): A Voice
+    // for Hexworth's author wrote it so and was told only that it did not parse.
+    const bare = /^\s*(\w+)\s*$/.exec(text)?.[1], written = bare && Journey.called(bare, functions, prefixes) ? `${bare}()` : text;
+    return ModuleWriter.conditionCalls(ModuleParser.predicate(written), c => {
       const name = Journey.called(c.name, functions, prefixes);
       if (!name) { throw new Error(`=until ${text}: nothing is called ${c.name}`); }
       return { ...c, name, args: c.args.map(a => Journey.called(a, ids, prefixes) ?? a) };

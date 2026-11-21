@@ -5,21 +5,22 @@ import s from './fixtures/hexworth/journey.json';
 
 // A Voice for Hexworth, played by the labels a player sees. Marlin's tray is true tin on some seeds and pewter on
 // others (a Deem roll when the module is installed): 'd' draws true tin, 'hexworth' draws pewter.
-describe("A Voice for Hexworth", () => {
-  const campaign = 'data/campaigns/hexworth.campaign.json';
-  const start = async (seed = 'd') => Journey.start(campaign, seed);
-  const reached = (j: Journey, ending: string) => j.holds('reached', 'hexworth__' + ending);
+const campaign = 'data/campaigns/hexworth.campaign.json';
+const start = async (seed = 'd') => Journey.start(campaign, seed);
+const reached = (j: Journey, ending: string) => j.holds('reached', 'hexworth__' + ending);
+// Everything good, in the pot, poured by Piers: a great bell.
+const goodSet = [...s.arrive, ...s.yard, ...s.learn, ...s.key, ...s.whistle, ...s.soldier, ...s.doors, ...s.ebba,
+  ...s.culver, ...s.hasket, ...s.tray, ...s.charcoal, ...s.fire, ...s.testTin, ...s.potAll, ...s.trayIn, ...s.practise,
+  ...s.bellows];
+const ending = ['=day 4 04:00', 'Break out the mould', ...s.hang, '=until fogged()', ...s.ringFog, ...s.rest];
 
-  // Everything good, in the pot, poured by Piers: a great bell.
-  const goodSet = [...s.arrive, ...s.yard, ...s.learn, ...s.key, ...s.whistle, ...s.soldier, ...s.doors, ...s.ebba,
-    ...s.culver, ...s.hasket, ...s.tray, ...s.charcoal, ...s.fire, ...s.testTin, ...s.potAll, ...s.trayIn, ...s.practise,
-    ...s.bellows];
-  const ending = ['=day 4 04:00', 'Break out the mould', ...s.hang, '=until fogged()', ...s.ringFog, ...s.rest];
-
+describe("A Voice for Hexworth's Kyr", () => {
   it('lints clean', async () => {
     expect((await KyrLint.campaign(campaign)).filter(f => f.level === 'error')).toEqual([]);
   }, 60000);
+});
 
+describe("A Voice for Hexworth", () => {
   it('is played from the road into the square, where a child sits on a heap of iron', async () => {
     const j = await start();
     await j.play(...s.arrive);
@@ -140,8 +141,8 @@ describe("A Voice for Hexworth", () => {
 
   it('sours the bell if the chapel\'s pewter goes in, and the founder hears it dull', async () => {
     const j = await start();
-    await j.play(...s.arrive, ...s.yard, ...s.learn, ...s.key, ...s.whistle, ...s.soldier, ...s.doors, ...s.ebba, ...s.pewter,
-      ...s.hasket, ...s.charcoal, ...s.fire);
+    await j.play(...s.arrive, ...s.yard, ...s.learn, ...s.key, ...s.whistle, ...s.soldier, ...s.doors, ...s.ebba,
+      ...s.pewter, ...s.hasket, ...s.charcoal, ...s.fire);
     await j.play('Put Margery\'s cleaned pieces in the pot', 'Put Ebba Orlop\'s kettle in the pot', 'Put Ebba Orlop\'s mash-copper in the pot',
       'Put the door-knockers in the pot', 'Put Dilly\'s tin soldier in the pot', 'Put Piers\'s tin whistle in the pot',
       'Put the chapel\'s pewter dishes in the pot', ...s.practise, ...s.bellows, ...s.pourPiers);

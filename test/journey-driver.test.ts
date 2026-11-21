@@ -58,6 +58,9 @@ describe('the journey driver', () => {
     const j = await Journey.start(probe);
     expect(await j.play('=until rung(party)')).toContain('A bell rings in the gate-house.');
     expect(j.watch()).toBe(4);
+    // A condition of no arguments by its bare name, as an author writes it (AU-49).
+    await j.play('=until pealed');
+    expect(j.watch()).toBe(4);
     await j.play('?=+3');
     expect(j.watch()).toBe(7);
     await expect(j.play('=until rang(party)')).rejects.toThrow(/nothing is called rang/);
