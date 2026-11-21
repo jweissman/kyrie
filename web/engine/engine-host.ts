@@ -38,7 +38,7 @@ import { Spatial } from '../../src/lang/spatial';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { Likenesses } from '../../src/presentation/likenesses';
-import { Glance } from '../../src/presentation/glance';
+import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left.
 interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
@@ -87,6 +87,7 @@ export class EngineHost {
   get played(): PlaySession | undefined { return this.session; }
   warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
   async handle(request: Request): Promise<unknown> {
+    this.danger.stop();
     switch (request.kind) {
       case 'catalog': return Creation.catalog();
       case 'setting': return this.creation.setting(request.campaign);
@@ -371,11 +372,12 @@ export class EngineHost {
       // A command begun before the game could be kept: it is kept after that one. Anything else is said to the page.
       if (this.busy !== this.game) { this.post({ kind: 'unkept', reason: error instanceof Error ? error.message : String(error) }); }
     }
-    this.ahead();
+    this.ahead(); this.danger.start(this.session);
   }
   // The country beyond a march-stone a step away, drawn and parsed while the player reads (see Frontier.prepare); one
   // at a time, and what goes wrong is left for the crossing itself to say.
-  private preparing?: Promise<void>;
+  // And what an act here could lead to, its danger reckoned while the player reads (see DangerAhead).
+  private preparing?: Promise<void>; readonly danger = new DangerAhead();
   private ahead() {
     if (!this.frontier || !this.session || this.preparing) { return; }
     this.preparing = this.frontier.prepare(this.session.campaign).catch(() => undefined)
