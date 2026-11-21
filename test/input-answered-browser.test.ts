@@ -143,10 +143,18 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('every input answered at once', () =
       const ms = await page.evaluate(() => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hold-ms'), 10)
         || 520);
       const held = '[data-hold="sustained"][data-act^="travel:"]';
-      // None in the town: what is held there said, so that the first run on CI says where to hold instead.
+      // Held on the map (CI's first run: none in a1's first town, whose four lead over the country to the map, OR-159):
+      // the map opened, a place further off viewed, and its Travel to held.
+      await page.keyboard.press('m');
+      const far = page.locator('[data-action="map-view"][data-choice^="travel:"]:not(:has-text("Enter "))').first();
+      if (await far.count()) {
+        await far.click();
+        await page.waitForSelector(held, { timeout: 8000 }).catch(() => undefined);
+      }
       if (!await page.locator(held).count()) {
-        const there = await page.evaluate(() => [...document.querySelectorAll('[data-hold], [data-act^="travel:"]')]
-          .map(e => `${e.getAttribute('data-act')} hold=${e.getAttribute('data-hold')}`));
+        const there = await page.evaluate(() => [...document.querySelectorAll('[data-hold], [data-act^="travel:"], '
+          + '[data-choice^="travel:"]')].map(e => `${e.getAttribute('data-act') ?? e.getAttribute('data-choice')} `
+          + `hold=${e.getAttribute('data-hold')}`));
         throw new Error(`No journey held at ${width}x${height}; held or travel rows here: ${there.join(', ') || 'none'}`);
       }
       const journey = await Answered.gesture(page, () => Answered.hold(page, held, touch, ms * 3));
