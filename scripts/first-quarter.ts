@@ -13,6 +13,7 @@ import { Undertakings } from '../src/presentation/undertakings';
 import { ScreenModel } from '../src/ui/screen-model';
 import { AimLeading } from '../src/presentation/aim-lead';
 import { Narrator } from '../src/presentation/narrator';
+import { Guarded } from '../src/presentation/guarded';
 import { Stakes } from '../src/ui/stakes';
 import { Itineraries } from '../src/ui/itinerary';
 import type { Objective } from '../src/lang/module';
@@ -66,12 +67,19 @@ export class FirstQuarter {
       // A player follows the first aim they hold, as Follow this is chosen.
       // A player follows the first aim they hold, as Follow this is chosen; and, turned back from a step they will not
       // take yet (a fight the page reckons deadly), going to and fro, the next.
+      // So too where the aim followed says what stands between it and the company, beyond it (Guarded: the keeper of
+      // the vault, reckoned deadly): a player reads that and follows another.
       const aims = Undertakings.held(c), was = out.slice(-4).map(x => x.place);
       const fro = was.length === 4 && was[0] === was[2] && was[1] === was[3] && was[0] !== was[1];
-      const next = fro ? aims.find(o => o.id !== Undertakings.followed(c, aims)?.id) : undefined;
+      const stands = Narrator.leaf(c, ScreenModel.build(c)).glance?.continuance;
+      const between = stands?.kind === 'frontier' && !!stands.need;
+      const next = fro || between ? aims.find(o => o.id !== Undertakings.followed(c, aims)?.id) : undefined;
       if (next) { Undertakings.follow(c, next.id); }
       else if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, this.nearest(s, aims).id); }
-      const sit = AutoplayRun.situation(s, step, true, 'undertaking');
+      // Nor, the need said, does a player take the way it says is beyond them while nothing else is led (its four still
+      // show it: only gold is the aim's step).
+      const led = AutoplayRun.situation(s, step, true, 'undertaking'), sit = between ? { ...led, led: (led.led ?? [])
+        .filter(id => !/^go\(/.test(id) || !Guarded.beyond(c, AutoPlayer.destination(id))) } : led;
       const move = this.rest(s, sit.offered) ?? player.next(sit);
       if (!move) { break; }
       const fights = metrics.fights;

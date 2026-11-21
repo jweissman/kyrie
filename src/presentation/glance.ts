@@ -70,7 +70,8 @@ export class Glance {
     const said = aim && !(arrival === 'opening' && telling.opened) && !told?.feedback.aims?.includes(aim)
       && (['opening', 'resume'].includes(arrival) || bearing || turned);
     const need = [...this.need(screen, cands.some(c => c.kind === 'light' && !c.barred), !!reading.needs.dark),
-      ...Threshold.barred(screen, reading.named, campaign)],
+      ...Threshold.barred(screen, reading.named, campaign),
+      ...continuance?.kind === 'frontier' && continuance.need ? [continuance.said] : []],
       after = told && this.after(campaign, told, { screen, acts, scene });
     // The first page says the company's own errand as its first goal, once, followed or not (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;

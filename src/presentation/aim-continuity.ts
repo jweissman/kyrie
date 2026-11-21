@@ -13,6 +13,7 @@ import { AimLeading, type AimLead } from './aim-lead';
 import type { Promoted } from './glance-types';
 import { KnownWays } from '../ui/known-ways';
 import { AimAdvances } from './aim-advances';
+import { Guarded } from './guarded';
 
 // How the aim followed goes on from here (the owner's trust contracts, 18 November, B: "Gold must not vanish silently
 // because the route planner and local opportunity projection interpret an objective differently"). Gold had been an
@@ -24,9 +25,9 @@ import { AimAdvances } from './aim-advances';
 //   gilded:   none was, but one offered here acts on the lead's step: it is led with, gold;
 //   led:      the step is here and grave (a fight, a trap, a one-way drop): led with, never gold (PB-16b), and said;
 //   frontier: nothing offered acts on it: what stands is said (what bars the way, that the place has given what it
-//             had), never a silent nothing.
+//             had), never a silent nothing; need: said with the needs too (a keeper beyond the way: Guarded).
 export type Continuance = { kind: 'step' | 'gilded' | 'led'; witness: string; said?: string }
-  | { kind: 'frontier'; said: string };
+  | { kind: 'frontier'; said: string; need?: true };
 
 export class AimContinuity {
   static readonly grave = ['grave', 'fight', 'trap', 'one-way'];
@@ -47,6 +48,13 @@ export class AimContinuity {
     const eligible = cands.filter(c => !c.barred && (Promotion.eligible(c, at.s) || (dawn && c.kind === 'wait')));
     const gold = acts.find(a => a.continues), way = gold && cands.find(c => c.choice === gold.choice)?.exit;
     const back = way ? screen.exits.find(e => e.id === way) : undefined;
+    // The way back in to a keeper met there, that the company reckons beyond it: no step of the aim's, and said (see
+    // Guarded; the vault's stair had been gold and back again forty times on the first quarter hour's walk).
+    const guard = back && Guarded.beyond(campaign, back.destination.id);
+    if (gold && back && guard) {
+      return { acts: acts.map(a => a === gold ? this.plain(a) : a),
+        continuance: { kind: 'frontier', said: Guarded.said(back.way ?? back.name, guard), need: true } };
+    }
     const weighed = !!gold && !!back && !['route', 'toward', 'means'].includes(lead.source);
     const on = weighed ? this.acting(campaign, screen, lead, eligible) : [];
     const off = weighed && (on.length > 0 || !!back.visited) && !on.some(c => c.choice === gold.choice)
