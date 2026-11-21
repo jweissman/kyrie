@@ -127,7 +127,7 @@ Module lab "The undercroft at Lowmouth" {
   }
   Initially Set encounterXp(low_u_rats) to 60.
   Person low_u_buck "the old buck rat" at low_u_nest {
-    Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species great_rat. Variant elder. Numbers 1. Level 2. Temperament territorial. Lair low_u_nest.
+    Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species rat. Variant midden. Numbers 1. Level 2. Temperament territorial. Lair low_u_nest.
   }
   Initially Set encounterXp(low_u_buck) to 120.
   Entity low_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth.".

@@ -856,6 +856,40 @@
         "conversion": "srd35-westernesse-v1",
         "notes": "The SRD Medium monstrous centipede's poison's secondary damage (srd-proving-cases.md, case 63): a watch after the bite, a second save against 10, or 1d3 more Dexterity off (Numbed). Its kind of harm is poison, so what ends a poison by its kind ends it before it works (Cleanse, whose pattern is poison), and the Numbed it has laid stays, as the SRD's damage already dealt does; the antidote, which names the poisoned it ends, does not. Adapted: a watch of ten minutes, where the SRD's is one."
       }
+    },
+    "filth_fever": {
+      "name": "Filth fever coming on",
+      "description": "A bite gone bad: a fever is coming on, and in a day or three it will take its toll, unless it is cured first.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "saveKind": "disease",
+      "begins": "The bite on {target} is hot and angry at the edges.",
+      "ends": "The fever comes on {target}.",
+      "hooks": {
+        "onExpire": [{ "kind": "apply", "status": "fevered", "duration": 144, "clock": "world-time", "amount": { "kind": "deem", "expression": "1d3" }, "target": "self" }]
+      },
+      "source": {
+        "kyr": true,
+        "srd35": "monster:dire-rat",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD dire rat's filth fever (srd-proving-cases.md, case 64): caught on a bite unless saved against 11 (a disease save), it comes on after 1d3 days on the world's clock (its incubation, 144 watches a day) and lays Fevered. Its kind of harm is disease, so what ends a disease ends it before it comes on (Remove Disease, Orsino's Cure Disease). Adapted: the fever is the one day's toll, where the SRD's goes on each day until two saves in a row are made."
+      }
+    },
+    "fevered": {
+      "name": "Fevered",
+      "description": "Filth fever: weak and shaking, slow in the hands, by as much as it took, for a day.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "perAmount": { "attributes": { "dexterity": -1, "constitution": -1 } },
+      "stacking": "accrue",
+      "begins": "{target} is sweating and shaking with fever.",
+      "ends": "{target}'s fever breaks.",
+      "source": {
+        "kyr": true,
+        "srd35": "monster:dire-rat",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "Filth fever's toll (srd-proving-cases.md, case 64): a point of Dexterity and of Constitution off for each point it was laid with, 1d3 (ConditionAmount), on the world's clock for a day. Adapted: one throw for both, where the SRD throws 1d3 for each; all of it back at the end of the day, where the SRD's comes back a point a day. Not a disease itself: the damage done stays when the disease is cured, as the SRD's does."
+      }
     }
   }
 }
