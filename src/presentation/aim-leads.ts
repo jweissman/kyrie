@@ -6,6 +6,7 @@ import { Spatial } from '../lang/spatial';
 import { Stakes } from '../ui/stakes';
 import { Itineraries } from '../ui/itinerary';
 import { AimAdvances } from './aim-advances';
+import { AimMeans } from './aim-means';
 import type { PlayerView } from './player-view';
 import { Undertakings } from './undertakings';
 import type { Screen } from '../ui/screen-types';
@@ -19,7 +20,14 @@ import { AimLeading } from './aim-lead';
 export class AimLeads {
   // What brings the aim followed about here (see AimAdvances), and its leads.
   static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
-    return new Set([...AimAdvances.of(campaign, rows), ...this.of(campaign, rows)]);
+    return new Set([...AimAdvances.of(campaign, rows), ...this.of(campaign, rows), ...this.opening(campaign, rows)]);
+  }
+  // The acts that open the aim's place where it is shut to the company (AimMeans.opening: OR-172).
+  private static opening(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): string[] {
+    const def = Undertakings.followed(campaign), here = campaign.world.one('at', campaign.playerActor ?? 'party');
+    if (!def || !here) { return []; }
+    const acts = AimMeans.opening(campaign, here, def, Stakes.named(campaign, def));
+    return rows.filter(r => acts.has(r.action.schema ?? r.action.id)).map(r => r.choice.id);
   }
   // The acts that tell where a place the aim names lies, or where what it waits on someone keeping (the herbs or
   // willow bark the child's mother wants) grows to be gathered: their facts lead there (leadsTo), not yet known.

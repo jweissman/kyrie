@@ -6,6 +6,9 @@ import { KnownWays } from '../ui/known-ways';
 import { VisitedPlaces } from './visited-places';
 import { Means } from './means';
 import type { AimLead } from './aim-lead';
+import type { Screen } from '../ui/screen-types';
+import { Shut } from './shut';
+import { Waits } from './waits';
 
 // What the aim followed waits on lies in a site the company has come to and found shut to it: every way in it knows
 // asks for something it has not got (a climb, without climbing or a rope; a portcullis to heave, without the brawn),
@@ -32,6 +35,47 @@ export class AimMeans {
       .map(s => ({ s, way: s.at === here ? 0 : KnownWays.way(campaign, here, id => id === s.at)?.minutes }))
       .filter(x => x.way !== undefined).toSorted((a, b) => a.way! - b.way!)[0]?.s;
     return seller ? { aim: def.id, source: 'means', next: [seller.seller] } : undefined;
+  }
+  // The aim's place shut to the company (Shut) and a thing it wants to be had in the world: whoever tells where it is,
+  // or the thing where it lies, is the step (OR-172: Orla Pennick, who knows where the old press key hangs, once the
+  // cellar's rats are seen to; the need had named only a crowbar's seller).
+  static unshut(campaign: Campaign, screen: Screen, def: Objective, named: Set<string>): AimLead | undefined {
+    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
+    for (const id of named) {
+      const place = byId.get(id)?.space ? id : w.one('at', id), here = screen.place.id;
+      if (!place || place === here) { continue; }
+      const ways = this.ways(campaign, here, place), found = Shut.of(campaign, here, ways)?.found;
+      if (found) { return { aim: def.id, source: 'means', next: [found.waits ?? found.teller ?? found.item] }; }
+      // What opens it in hand: to the place before what bars the way, and there, what bars it.
+      const open = Shut.opens(campaign, here, ways);
+      if (open) {
+        return open.before === here ? { aim: def.id, source: 'barred', next: [open.bar] }
+          : { aim: def.id, source: 'toward', next: [open.before] };
+      }
+    }
+    return undefined;
+  }
+  // The acts here that open the aim's shut place (see unshut): the telling of where the thing is, and what that
+  // waits on, a step or two back (Waits.acts), as the rows offer them.
+  static opening(campaign: Campaign, here: string, def: Objective, named: Set<string>): Set<string> {
+    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
+    for (const id of named) {
+      const place = byId.get(id)?.space ? id : w.one('at', id);
+      const telling = place && this.shutFrom(campaign, here, place)?.found?.telling;
+      const op = telling && campaign.module.actions.find(o => o.id === telling);
+      if (op) { return new Set(Waits.acts(campaign, op)); }
+    }
+    return new Set();
+  }
+  // Whether a place is shut to the company from another (Shut), by the ways it knows.
+  static shutFrom(campaign: Campaign, from: string, to: string): ReturnType<typeof Shut.of> {
+    return from === to ? undefined : Shut.of(campaign, from, this.ways(campaign, from, to));
+  }
+  private static ways(campaign: Campaign, from: string, to: string): { able: boolean; legs: string[] } {
+    const able = !!KnownWays.way(campaign, from, id => id === to, { able: true });
+    const legs = able ? []
+      : KnownWays.way(campaign, from, id => id === to, { barred: true })?.legs.map(l => l.to) ?? [];
+    return { able, legs };
   }
   // A room of the site not yet been in.
   private static untried(at: { byId: Map<string, Entity>; site: string; been: Set<string> }, id: string): boolean {

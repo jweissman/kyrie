@@ -15,6 +15,8 @@ import { KnownWays } from '../ui/known-ways';
 import { AimAdvances } from './aim-advances';
 import { Guarded } from './guarded';
 import { Shut } from './shut';
+import { Unread } from './unread';
+import { AimMeans } from './aim-means';
 
 // How the aim followed goes on from here (the owner's trust contracts, 18 November, B: "Gold must not vanish silently
 // because the route planner and local opportunity projection interpret an objective differently"). Gold had been an
@@ -115,18 +117,23 @@ export class AimContinuity {
     if (['barred', 'means', 'placed', 'route'].includes(lead.source) || !lead.next[0]) { return undefined; }
     const byId = EntityIndex.of(campaign.module.entities).byId, next = lead.next[0];
     const to = byId.get(next)?.space ? next : campaign.world.one('at', next);
+    const def = Undertakings.followed(campaign), unread = to && def ? Unread.at(campaign, to, def) : undefined;
+    if (unread) { return Unread.said(campaign, unread); }
     if (!to || to === screen.place.id) { return undefined; }
     const keeper = Guarded.beyond(campaign, to);
     const shut = !keeper ? this.shutFrom(campaign, screen.place.id, to) : undefined;
     return keeper ? Guarded.said(byId.get(to)?.name ?? to, keeper) : shut && Shut.said(campaign, shut);
   }
-  // Whether a place is shut to the company from another (Shut), by the ways it knows.
+  // Whether the aim's place is closed to the company from here, for now (a keeper beyond it, a way shut, what it
+  // waits on there not to be read): what the first quarter's walker reads as the need says.
+  static closed(campaign: Campaign, from: string, to: string): boolean {
+    const def = Undertakings.followed(campaign);
+    return !!Guarded.beyond(campaign, to) || !!this.shutFrom(campaign, from, to)
+      || (!!def && !!Unread.at(campaign, to, def));
+  }
+  // Whether a place is shut to the company from another (see AimMeans.shutFrom).
   static shutFrom(campaign: Campaign, from: string, to: string): ReturnType<typeof Shut.of> {
-    if (from === to) { return undefined; }
-    const able = !!KnownWays.way(campaign, from, id => id === to, { able: true });
-    const legs = able ? []
-      : KnownWays.way(campaign, from, id => id === to, { barred: true })?.legs.map(l => l.to) ?? [];
-    return Shut.of(campaign, from, { able, legs });
+    return AimMeans.shutFrom(campaign, from, to);
   }
   // The offered act that was the last thing done, and did not come off: a fresh try at it is still the aim's step.
   private static retry(campaign: Campaign, cands: Candidate[]): Candidate | undefined {

@@ -113,8 +113,12 @@ export class AutoPlayer {
       case 'expedition': return this.expedition(s) ?? this.command(d.pick(this.winnable(s)) ?? d.pick(this.fresh(s)));
       case 'deviate': return this.command(d.pick(s.offered));
       // One who follows the page: what it leads with that can be done, else as one who investigates.
+      // With nothing led, nothing new to say or see and no way not yet taken, on somewhere else rather than wait about
+      // (an aim said to be beyond the company for now, nothing else held: a warrior had waited out two days in the
+      // undercroft below the dome, putting things down and taking them up, the way out to the town offered).
       case 'follow': case 'silver': case 'gold': return this.followed(s)
-        ?? this.command(d.pick(this.of(s, 'talk', 'look').filter(o => !this.tried.has(o.id)))) ?? this.command(d.pick(this.fresh(s)));
+        ?? this.command(d.pick(this.of(s, 'talk', 'look').filter(o => !this.tried.has(o.id)))) ?? this.command(d.pick(this.fresh(s)))
+        ?? this.onward(s);
     }
   }
   // What the page leads with that can be done: a walk it leads with is walked, as the page walks it.
@@ -144,6 +148,12 @@ export class AutoPlayer {
   // The fights the page does not reckon could be lost, or beyond the company.
   private winnable(s: Situation): Offered[] {
     return this.of(s, 'fight').filter(o => !['grave', 'deadly'].includes(s.dangers?.[o.id] ?? ''));
+  }
+  // Somewhere known not yet been to, else any way on, not the one just come by where there is another.
+  private onward(s: Situation): Move | undefined {
+    const unvisited = s.destinations.filter(t => !s.visited.has(t.id)), to = this.draw.pick(unvisited);
+    if (to) { return { kind: 'travel', to: to.id }; }
+    return this.command(this.draw.pick(this.of(s, 'go')));
   }
   // Somewhere known and not yet been to, along the ways the company knows.
   private travel(s: Situation): Move | undefined {

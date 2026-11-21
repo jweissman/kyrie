@@ -137,10 +137,11 @@ export class AutoplayRun {
     // Then what the offer's four add (the roads of a crossroads among them): the menu is all a player is given.
     const added = (glance?.offer?.primary ?? []).filter(o => o.command && !acts.some(a => a.command === o.command))
       .map(o => o.command!);
-    // The talk itself is what its row does (Doable), not a command made of its id.
+    // The talk itself is what its row does (Doable), not a command made of its id: the one command, never its letters
+    // (a row's does spread as a list had led "t", "a", "l", "k" … ahead of the walk out, OR-172).
     return [...acts.flatMap(a => a.choice.endsWith('#talk')
       ? [...a.for ? [a.for] : [], ...a.command?.startsWith('ask(') ? [a.command] : [],
-        ...Doable.one(glance!, screen, a.choice, a.command).does ?? []]
+        ...[Doable.one(glance!, screen, a.choice, a.command).does ?? []].flat()]
       : a.command ? [a.command] : []), ...added];
   }
   // Whether a led act is what a walker prefers: the gold walker goes by the one the glance marks as carrying the aim

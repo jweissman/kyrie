@@ -116,9 +116,10 @@ export class FirstQuarter {
     const lead = AimLeading.of(c, ScreenModel.build(c)), aim = lead?.next[0], here = c.world.one('at', 'party') ?? '';
     const byId = EntityIndex.of(c.module.entities).byId;
     const place = aim && (byId.get(aim)?.space ? aim : c.world.one('at', aim));
-    if (!place || (!Guarded.beyond(c, place) && !AimContinuity.shutFrom(c, here, place))) { return false; }
-    return Spatial.ancestry(byId, place).some(e => e.id === to)
-      || KnownWays.places(c, here, place, { barred: true }).includes(to);
+    if (!place || !AimContinuity.closed(c, here, place)) { return false; }
+    // To it, or to what it is within: not a way through on to somewhere else (the cellar, the way out from below).
+    return to === place || (id.startsWith('travel:') && Spatial.ancestry(byId, place).some(e => e.id === to))
+      || KnownWays.places(c, here, place, { barred: true }).slice(-2).includes(to);
   }
   // What the aim followed is led by where the company stands, and what is gold (--lead N, from act N).
   static lead(s: PlaySession): string {

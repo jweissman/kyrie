@@ -59,10 +59,12 @@ export class AimLeading {
     // Gone in past the place it names, what it waits on further in is still the step, not the way back out to it (a
     // hold gone into from its porch had led back to the porch).
     const within = this.within(campaign, screen, def);
+    // The aim's place shut to the company, and what would open it to be had: that first (AimMeans.unshut, OR-172).
+    const unshut = AimMeans.unshut(campaign, screen, def, named);
     if (!this.at(campaign, screen, named) && !this.entered(campaign, screen, named)) {
-      return within ?? AimMeans.lead(campaign, def, named) ?? { aim, source: 'toward', next: [...named] };
+      return unshut ?? within ?? AimMeans.lead(campaign, def, named) ?? { aim, source: 'toward', next: [...named] };
     }
-    return within ?? this.level(campaign, screen, named, aim) ?? this.deeper(campaign, screen, named, aim)
+    return unshut ?? within ?? this.level(campaign, screen, named, aim) ?? this.deeper(campaign, screen, named, aim)
       ?? AimMeans.lead(campaign, def, named)
       ?? { aim, source: 'here', next: [screen.place.id] };
   }
