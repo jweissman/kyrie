@@ -78,9 +78,8 @@ export class Narrator {
   static leaf(...a: Parameters<typeof Narrator.leafed>): Leaf { return Costs.time('leaf', () => Narrator.leafed(...a)); }
   private static leafed(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
-    const seenBefore = this.seenBefore(campaign);
+    const seenBefore = this.seenBefore(campaign), turned = this.skyTurned(told?.event);
     const known = [...seenBefore].some(id => Narrator.def(defs, id)?.place === screen.place.id);
-    const turned = this.skyTurned(told?.event);
     // The sky is told when the company comes out under it (from indoors, or at the start), or when it turns; walking on
     // from one place to the next under the same sky, it is not told again.
     const under = !told || (told.moved && this.cameOut(campaign, told.event));
@@ -90,10 +89,9 @@ export class Narrator {
     // place or with what is here before them: the Lull's chair was told ravelled before the Watching that ravelled it
     // (its friction 11, LUL-08).
     const altered = told?.moved ? screen.observed.filter(o => this.altered(this.def(defs, o.id), told.event)) : [];
-    const at = { shelter, known, arrived: under, turned, here: screen.place.id };
-    const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { ...at,
-      seen: seenBefore.has(o.id) }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id))
-      && !altered.includes(o)), opening);
+    const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known,
+      arrived: under, turned, here: screen.place.id, seen: seenBefore.has(o.id) })
+      && !(/__shut$/.test(o.id) && seenBefore.has(o.id)) && !altered.includes(o)), opening);
     // What has changed since the company was last here is told under that, not twice.
     const changed = known && told?.moved ? screen.fresh : [], exchange = told && this.exchange(campaign, told);
     // What the last command did to the place (a trap sprung, a wonder gone quiet) is told as what happened, not again
