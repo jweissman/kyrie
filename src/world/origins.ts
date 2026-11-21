@@ -16,6 +16,7 @@ import { SettlementWriter } from './settlement-writer';
 import { RegionUndertown } from './region-undertown';
 import { AtlasOrigins } from './origin-atlas';
 import { RegionKey } from './region-key';
+import { OriginOpenings, type OriginOpening } from './origin-opening';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -34,7 +35,8 @@ export interface OriginManifest {
 }
 // An origin as the creation page offers it; with the background it makes the protagonist, if it makes one.
 // kinds: the kinds of past whose lives begin so, beyond its own background's (see CreationFlow.circumstance).
-export interface OriginChoice { id: string; title: string; choice: string; background?: string; kinds?: string[] }
+export interface OriginChoice { id: string; title: string; choice: string; background?: string; kinds?: string[];
+  opening?: OriginOpening }
 // What an origin is bound to in one world: the words its text is filled with, the entities it imports (with their
 // types), and where the protagonist begins.
 export interface OriginBound { values: Record<string, string>; imports: Record<string, [string, string]>; start: Start }
@@ -59,8 +61,9 @@ export class Origins {
   static choices(loaded: Loaded[], region: Region, placements: Placement[]): OriginChoice[] {
     return loaded.flatMap(o => {
       const bound = this.bind(o.manifest.binder, region, placements);
+      const opening = bound && OriginOpenings.of(this.fill(o.source, bound.values), o.manifest.title);
       return bound ? [{ id: o.manifest.id, title: o.manifest.title, choice: this.fill(o.manifest.choice, bound.values),
-        ...o.manifest.background ? { background: o.manifest.background } : {},
+        ...opening ? { opening } : {}, ...o.manifest.background ? { background: o.manifest.background } : {},
         ...o.manifest.kinds ? { kinds: o.manifest.kinds } : {} }] : [];
     });
   }

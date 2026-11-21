@@ -7,6 +7,7 @@ import { CreationFlow, type CreationChoice, type CreationStep, type CreationStep
 import type { CreationState } from '../engine/engine-creation';
 import type { Beginning } from '../../src/creation/first-choice';
 import { WorldStage } from './stage/world-stage';
+import { Scenery } from '../../src/ui/scenery';
 import { Shell } from './shell';
 
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
@@ -202,6 +203,7 @@ export class ReaderOpening {
     const starting = this.starting();
     this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
     clearTimeout(this.readyTimer);
+    await this.rising();
     // The life the engine holds, set out with as it stands (EngineCreation); else the page's own company.
     await this.enter(this.app.state.creation
       ? this.app.engine.request<Frame>({ kind: 'set-out', apart: this.apart() })
@@ -210,7 +212,7 @@ export class ReaderOpening {
   // Whether the page tells a new game's opening apart, before the first place (see PrologueStage). The engine says
   // whether there is one (an origin's first moment; an authored campaign has none, and opens on its first place).
   // Automation goes straight to the place unless the address asks (?opening), as it is spared the studio's mark.
-  private apart(): boolean {
+  apart(): boolean {
     return !navigator.webdriver || this.app.props.query.has('opening');
   }
   // Automation (kyrieMono.begin): set out with exactly this company, as Begin would, so a kept journey can be played
@@ -243,7 +245,19 @@ export class ReaderOpening {
   // dark behind the setting out's last words, and the opening begins over it once it is most of the way up, so that
   // it is seen once, rising, and never shown and put up again (the owner, 18 November, OR-77). One who asks for less
   // motion is not kept waiting on it, nor one who set out now (quick: in the world in under a second, OR-120).
+  // Setting out on a life whose origin tells its opening, the painting comes up at once, behind that opening's first
+  // page (see LoadingPage.opening), and stays: the first scene is then drawn on it, not cut to (OR-23).
+  private async rising() {
+    const s = this.app.state, told = s.setting?.origins?.find(o => o.id === s.origin)?.opening;
+    if (!told || !this.apart()) { return; }
+    const plate = Scenery.country(s.setting?.terrain, s.seed);
+    if (!plate) { return; }
+    await Shell.had(plate);
+    this.app.setState({ approach: plate });
+  }
   private async approach(frame: Frame, quick: boolean) {
+    // Up already behind the opening's first page while the world was made: kept as it is.
+    if (this.app.state.approach) { return; }
     const plate = frame.leaf.prologue && this.app.state.leaving
       ? Shell.way(frame, this.app.state.setting?.terrain, this.app.state.seed) : undefined;
     if (!plate) { return; }
@@ -293,6 +307,7 @@ export class ReaderOpening {
       app.setState({ campaign: 'world', seed, setting, party: [creation.member], editing: -1, origin: creation.origin,
         named: false, creation });
     } catch (error) { this.fail(error, 'title'); return; }
+    await this.rising();
     await this.enter(app.engine.request<Frame>({ kind: 'set-out', rolled: true, apart: this.apart() }), 'title', true);
   }
   // Another country, from creation: drawn from a seed of its own, which the save keeps.

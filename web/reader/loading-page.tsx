@@ -2,6 +2,8 @@ import type { CSSProperties } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { TitlePage } from './title-page';
+import { PageFrame } from './page-frame';
+import { Typography } from '../../src/presentation/typography';
 
 // While the engine draws the country or finds where you left off: what it is doing, said once. Setting out from the
 // choice of a life, only that, over the country chosen in: the country's question ("Who comes to Acornweald?") had
@@ -12,6 +14,16 @@ export class LoadingPage {
     // Drawing a country after the title, and setting out from the choice of a life, in the title's own dark with its
     // embers: one passage from the title into play, not a black page between, nor a blurred photograph while the world
     // is drawn (TO-03, IG-05; the owner, 15 November: just embers, no background).
+    // Setting out on a life whose opening its origin tells (OR-23): while the world is made, that opening's first page,
+    // the chapter and why the company came, over its painting; not a checklist, nor a dark frame. When the world is
+    // ready the opening's own first page is this one, the same words on the same painting, and goes on from it.
+    const opening = LoadingPage.opening(app);
+    if (opening) {
+      return <PageFrame.View kind="opening" body="prologue-body" className="prologue-page page-beat loading"
+        attrs={{ 'data-mode': 'loading', 'data-beat': '0', 'aria-busy': 'true', 'aria-label': 'The opening' }}
+        header={<p className="kicker chapter kind-opening" data-id="chapter">{Typography.curl(opening.title)}</p>}
+        narrative={<p className="beat" data-id="beat" aria-live="polite">{Typography.curl(opening.beats[0]!)}</p>} />;
+    }
     return (
       <div className={`opening loading sky-page${s.leaving ? ' leaving' : ''}`} data-mode="loading" aria-busy="true">
         <TitlePage.Motes />
@@ -23,6 +35,14 @@ export class LoadingPage {
         <Toast.View app={app} />
       </div>
     );
+  }
+  // The opening shown while setting out: the life's origin's, as the country gives it (Setting.origins), where the
+  // page tells openings apart (ReaderOpening.apart) and the painting is up (ReaderOpening.rising).
+  static opening(app: ReaderApp): { title: string; beats: string[] } | undefined {
+    const s = app.state;
+    if (s.phase !== 'loading' || !s.leaving || !s.approach || !app.opening.apart()) { return undefined; }
+    const opening = s.setting?.origins?.find(o => o.id === s.origin)?.opening;
+    return opening?.beats.length ? opening : undefined;
   }
   // What the engine is doing while the company sets out, step by step as it reports each beginning (M19-49): no
   // share of the whole is guessed at.
