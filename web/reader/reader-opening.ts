@@ -18,7 +18,7 @@ export class ReaderOpening {
       const catalog = await app.engine.request<Catalog>({ kind: 'catalog' });
       app.setState({ catalog });
       // A campaign named in the address is where a new company would begin, unless a game is already under way.
-      if (app.state.saved) { return; }
+      if (app.savedGame) { return; }
       if (query.get('world')) { await this.pick('world', query.get('world')!); }
       else if (query.get('campaign')) { await this.pick(this.campaign(query.get('campaign')!, catalog)); }
       else { this.foresee(); }
@@ -309,7 +309,7 @@ export class ReaderOpening {
     return [...bytes].map(b => 'bcdfghjklmnprstvwz'[b % 18]! + 'aeiou'[(b >> 5) % 5]!).join('');
   }
   readonly carryOn = () => {
-    const saved = this.app.state.saved;
+    const saved = this.app.savedGame;
     if (!saved) { return; }
     // A world kept in the vault is fetched as the game is taken up (see WorldVault).
     void (async () => {

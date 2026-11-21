@@ -8,7 +8,7 @@ import { TitlePage } from './title-page';
 // been asked again of one who had just answered it, over the engine's own steps (the opening's critique).
 export class LoadingPage {
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, heading = s.setting?.pitch.heading ?? s.saved?.title;
+    const s = app.state, heading = s.setting?.pitch.heading ?? app.savedGame?.title;
     // Drawing a country after the title, and setting out from the choice of a life, in the title's own dark with its
     // embers: one passage from the title into play, not a black page between, nor a blurred photograph while the world
     // is drawn (TO-03, IG-05; the owner, 15 November: just embers, no background).
