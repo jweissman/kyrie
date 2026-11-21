@@ -43,6 +43,19 @@ describe('what is said, as attention holds it', () => {
     NewsFold.of(after as never, new Map());
     expect(after.get('inn')!.map(a => a.command)).toEqual(['gate_saltgrave_beyond_told_s2']);
   });
+  // First the land the company has reason to ask about (the owner's ruling, 20 November), a notice of it read: said in
+  // its own words where it is the one, the next unheard after it.
+  it('asks first of the land the company has reason to ask about, and says which', () => {
+    const act = (x: string) => ({ label: `Ask the keeper about ${x}`, command: `gate_${x}_beyond_told_s2`, key: x });
+    const inn = () => new Map([['inn', ['crowns', 'saltgrave', 'glass'].map(act)]]);
+    const one = inn();
+    NewsFold.of(one as never, new Map(), new Set(['gate_glass_notice']));
+    expect(one.get('inn')!.map(a => [a.command, a.label])).toEqual([['gate_glass_beyond_told_s2',
+      'Ask the keeper about glass']]);
+    const two = inn();
+    NewsFold.of(two as never, new Map(), new Set(['gate_glass_notice', 'gate_saltgrave_notice']));
+    expect(two.get('inn')!.map(a => [a.command, a.label])).toEqual([['gate_saltgrave_beyond_told_s2', NewsFold.beyond]]);
+  });
   // What the last answer opened is kept among the few, in its written place: put first, it had moved every other
   // topic after each question (round 6, the register's FH-16).
   it('puts first what the page leads them with, keeps what the last answer opened, and last what was asked', () => {

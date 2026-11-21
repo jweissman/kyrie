@@ -8,6 +8,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
+import { News } from './support/news';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 
@@ -341,7 +342,8 @@ describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
     // The innkeeper tells of the country to the west.
     const told = s.campaign.module.actions.find(a => a.id.startsWith('region__gate_pentrice_beyond_told_'))!;
     GeneratedWorld.put(s, s.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
-    expect(await j.play('about the Trial of the Wheel at Pentrice')).toMatch(/Trial|Pentrice|players/);
+    // Asked as the engine offers it: the one question for news, until Pentrice is told (CL-67's fold).
+    expect(await News.of(j, 'about the Trial of the Wheel at Pentrice', /Pentrice/)).toMatch(/Trial|Pentrice|players/);
     await GeneratedWorld.travel(s, 'gate_pentrice');
     await new Frontier('troupe', NodeBundleSource.shared).expand(s.campaign);
     expect(s.campaign.installations.find(m => m.id === 'ppentrice')?.chapter).toBe(true);
