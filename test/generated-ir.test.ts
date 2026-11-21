@@ -8,8 +8,9 @@ import { RuntimeCapabilities } from '../src/campaign/runtime-capabilities';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Module } from '../src/lang/module';
 
-// The settlement writer's Observe declared as values (ModuleSource; AX-04, doc/architecture/mission-22/generated-ir.md,
-// its first step), held to the text it stands for by a differential harness: over the six countries, a1 and iscoed,
+// The settlement writer's Observe, and the Topic each town's keeper is asked of a land beyond by (by bytes the largest
+// of a drawn country's constructs), declared as values (ModuleSource; AX-04, doc/architecture/mission-22/
+// generated-ir.md), held to the text they stand for by a differential harness: over the six countries, a1 and iscoed,
 // each world begun twice in one process, once with the values written as their Kyr and parsed as before, once lowered
 // into their files' modules, and the two the same module and the same game. A malformed value is refused by the
 // validator that refuses the text.
@@ -19,10 +20,10 @@ async function begun(seed: string, asText: boolean) {
   ModuleSource.asText = asText;
   try { return await DrawnWorld.start(seed, party, NodeBundleSource.shared); } finally { ModuleSource.asText = false; }
 }
-describe('the settlement writer\'s Observe, as values', () => {
+describe('a drawn country\'s declarations made as values', () => {
   it('makes the module and the game the text makes, in every country of the corpus', async () => {
     const differ: string[] = [];
-    let moved = 0;
+    let moved = 0, topics = 0;
     for (const seed of seeds) {
       const text = await begun(seed, true), ir = await begun(seed, false);
       const [a, b] = [text.campaign.module, ir.campaign.module];
@@ -30,9 +31,11 @@ describe('the settlement writer\'s Observe, as values', () => {
       if (Bun.hash(text.canonical()) !== Bun.hash(ir.canonical())) { differ.push(`${seed}: game`); }
       const own = /_(day|night|tap|life|shop_scene|shrine_view_seen)$/;
       moved += (b.observations ?? []).filter(o => own.test(o.id)).length;
+      topics += b.actions.filter(x => /_beyond_told_/.test(x.id)).length;
     }
     expect(differ).toEqual([]);
     expect(moved).toBeGreaterThan(seeds.length * 6);
+    expect(topics).toBeGreaterThan(seeds.length * 20);
   }, 900000);
   it('refuses a malformed value as the text is refused, naming what it is', () => {
     const kyr = (when: string) => `Module t "t" { Place yard "the yard" is room at 0, 0 outdoors.
@@ -43,7 +46,7 @@ describe('the settlement writer\'s Observe, as values', () => {
     const fromText = said(() => check(ModuleParser.parse(kyr('nosuch(yard)'))));
     const declared = { id: 'o', place: 'yard', when: ModuleWriter.call('nosuch', 'yard'), text: 'It is here.' };
     const fromValue = said(() => check(ModuleSource.lowered(ModuleParser.parse(kyr('true')), { file: 't.kyr',
-      observations: [{ observation: declared, kyr: '', provenance: { generator: 'test', construct: 'Observe' } }] })));
+      declared: [{ observation: declared, kyr: '', provenance: { generator: 'test', construct: 'Observe' } }] })));
     expect(fromValue).not.toBe('accepted');
     expect(fromValue).toBe(fromText);
   });

@@ -161,7 +161,8 @@ export class RegionWriter {
     for (const line of [...own, ...body.filter(l => !RegionWriter.ownKind.test(l))]) {
       if (depth === 0 && ended && size > 40000) { parts.push([]); size = 0; }
       // (A declaration made as a value counted as its Kyr, so that the files part where the text's would.)
-      parts.at(-1)!.push(line); size += ModuleSource.is(line) ? ModuleSource.read(line).kyr.length : line.length;
+      parts.at(-1)!.push(line); size += ModuleSource.is(line) ? ModuleSource.read(line).kyr.replace(/\n/g, '').length
+        : line.length;
       depth += RegionWriter.braces(line);
       ended = /[.}]$/.test(line.trim()) || line.trim().startsWith('//');
     }
@@ -172,7 +173,7 @@ export class RegionWriter {
     for (const [i, lines] of parts.entries()) {
       const name = i ? `region-${i + 1}.kyr` : 'region.kyr', { text, source } = ModuleSource.parted(name, lines);
       out.push([name, [head, ...text, '}'].join('\n')]);
-      if (source.observations.length) {
+      if (source.declared.length) {
         out.push([`${name}.ir.json`, JSON.stringify(source)], [`${name}.ir.kyr`, ModuleSource.kyr(source)]);
       }
     }

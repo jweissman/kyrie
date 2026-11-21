@@ -1,3 +1,4 @@
+import { ModuleSource } from '../lang/module-source';
 import borders from '../../data/generation/scenes/borders.json';
 import { RegionGeography } from './region-geography';
 import { RegionRoads } from './region-roads';
@@ -82,9 +83,13 @@ export class RegionBorders {
     for (const s of region.settlements) {
       const keeper = `${s.id}_innkeeper`, about = beyond.topic ?? b.way;
       const directions = s === seat ? '' : ` '${seat.name} is where ${b.way} goes out from,' {${keeper}} adds.`;
-      lines.push(`  Topic ${id}_told_${s.id} with ${keeper} ${q(`Ask {${keeper}} about ${about}`)} when not knows(actor, ${id})${fresh} {`,
-        `    Says ${q(beyond.rumour.replaceAll('{keeper}', `{${keeper}}`) + directions)}.`,
-        `    On discuss { Assert knows(actor, ${id}). }`, '  }', ...this.back(b, beyond, { sid: s.id,
+      // Declared as a value (ModuleSource: AX-04, by bytes a drawn country's largest construct), its Kyr beside.
+      const title = `Ask {${keeper}} about ${about}`, when = `not knows(actor, ${id})${fresh}`;
+      const says = beyond.rumour.replaceAll('{keeper}', `{${keeper}}`) + directions;
+      lines.push(...ModuleSource.topic({ id: `${id}_told_${s.id}`, keeper, title, when, says, knows: [id] }, [
+        `  Topic ${id}_told_${s.id} with ${keeper} ${q(title)} when ${when} {`, `    Says ${q(says)}.`,
+        `    On discuss { Assert knows(actor, ${id}). }`, '  }'], { generator: 'region-borders', construct: 'Topic' }),
+      ...this.back(b, beyond, { sid: s.id,
           place: SettlementWriter.standing(region, s, 'innkeeper'), posted: this.posted(region, beyond!).includes(s) }));
     }
     return lines;
