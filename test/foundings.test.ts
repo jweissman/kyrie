@@ -60,6 +60,7 @@ describe('a settlement is what made it', () => {
     const town = w.report.region.settlements.find(t => screen.place.id === `region__${t.id}_green`)!;
     const why = Foundings.of(w.report.region as Region, w.report.region.settlements.indexOf(town)).why;
     expect(screen.prose.join(' ')).not.toContain(why);
-    expect(screen.knowledge.map(k => k.text)).toContain(why);
+    // Noted with what else is known of the town (its oldest house, among the town's particulars).
+    expect(screen.knowledge.some(k => k.text.startsWith(why))).toBe(true);
   }, 60000);
 });

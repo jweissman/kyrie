@@ -68,7 +68,8 @@ describe('the three forms of a tie', () => {
       expect(holds(j, 'tie_done', s.t)).toBe(false);
       await j.play(`?>${s.t}_green`);
       expect(told + j.page).toMatch(seen);
-      if (form === 'kin') { expect(offered(j)).not.toMatch(/old woman/); }
+      // The tie's mother, not the riddle-teller a town's pleasures may seat on the green.
+      if (form === 'kin') { expect(offered(j)).not.toMatch(/old woman(?!'s riddle)/); }
     }, 900000);
   }
 
