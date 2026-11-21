@@ -40,6 +40,13 @@ class Turn {
     await row.waitFor({ state: 'visible', timeout: 30000 });
     return (await row.innerText()).replace(/\s+/g, ' ');
   }
+  // The wall of rows the cold play met, counted as test/foreground-browser counts it: the visible acts drawn, the
+  // likenesses of who is here and a closed fold apart. At most four, the gold among them.
+  static async drawn(page: Page): Promise<string[]> {
+    return page.evaluate(() => [...document.querySelectorAll('[data-act]')]
+      .filter(e => (e as HTMLElement).offsetParent !== null && !e.closest('.portraits, details:not([open])'))
+      .map(e => (e as HTMLElement).innerText.replace(/\s+/g, ' ').trim().slice(0, 60)));
+  }
 }
 const weir = 'doc/architecture/mission-22/cold/cold-5-lines.txt', drove = 'doc/architecture/mission-22/golden/warrior-walk.txt';
 const ilse = { name: 'Ilse', raceId: 'elf', classId: 'mage', backgroundId: 'scholar' };
@@ -62,6 +69,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the act that matters, gold among th
       await Turn.begin(page, 'weir', ilse);
       await Turn.play(page, turns.pawl!);
       expect(await Turn.gold(page)).toMatch(/pawl/i);
+      expect((await Turn.drawn(page)).length).toBeLessThanOrEqual(4);
       expect(errors).toEqual([]);
     }, 300000);
     it(`at ${width}: at the windlass with Gesk hired, winding the gate gold in the four`, async () => {
@@ -69,6 +77,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the act that matters, gold among th
       await Turn.begin(page, 'weir', ilse);
       await Turn.play(page, turns.wind!);
       expect(await Turn.gold(page)).toMatch(/wind the sea-gate shut/i);
+      expect((await Turn.drawn(page)).length).toBeLessThanOrEqual(4);
       expect(errors).toEqual([]);
     }, 300000);
     it(`at ${width}: turned to Ianto at the staithe, poling his boat gold among what is had of him`, async () => {
