@@ -108,9 +108,9 @@ export class AimAdvances {
     return [];
   }
   // A thing taken is what the aim waits on only where it names that thing: an aim that reads whatever is carried (the
-  // debt, laden or not) was advanced by every flower gathered on a green.
-  // Nor is what the aim waits on through a rule's pattern of unknowns alone (inside(?x, ?y), read by the debt's laden):
-  // every flower gathered had matched it.
+  // debt, worth selling or not) was advanced by every flower gathered on a green.
+  // Nor is what the aim waits on through a rule's pattern of unknowns alone (inside(?x, ?y), read by the debt's
+  // worthSelling): every flower gathered had matched it.
   private static match(c: { call: Call; thing?: string }, x: Call): boolean {
     if (!x.args.some(a => !a.startsWith('?'))) { return false; }
     return c.thing ? x.name === c.call.name && x.args.at(-1) === c.thing : this.meets(c.call, x);

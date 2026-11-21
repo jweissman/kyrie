@@ -194,7 +194,7 @@ export class Origins {
     // Been to the nearest and still short, the next the innkeeper told of: the gold had led back to the first, spent,
     // again and again (the gold walk, 12 November).
     const owing = 'owed(loan) > 0 and not called(party) and (spoke(party) or not at(party, shop)) and quantity(party, '
-      + 'gold) < owed(loan) and not laden(party) and knows(party, told)';
+      + 'gold) < owed(loan) and not worthSelling(party) and knows(party, told)';
     const out = this.chain(owing, near);
     return { values: { ...this.approach(region, s), merchant: s.merchant, after: after.said, out,
       lost: (tables.lost as Record<string, string>)[s.trade] ?? 'a cartload of goods' },

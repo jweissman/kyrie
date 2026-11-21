@@ -29,21 +29,35 @@ export class CanonicalNames {
     if (dir === CanonicalNames.rules) { this.cached = names; }
     return names;
   }
-  // What an adventure's own files declare: its relations, measures and queries, and its rules and endings, by file.
-  static own(adventure: string): Own[] {
+  // What an adventure's own files declare: its relations, measures and queries, and its rules and endings, by file;
+  // an origin's, a kit's, and a generation template's (.kyrt) as well, which are bound into the world beside the
+  // shared rules as an adventure is (the World agent's origin `claimed`, bound silently to care.kyr's). Each
+  // declaration wherever it stands on its line ("Relation a(x). Relation b(y)." had been read for its first alone).
+  static own(dir: string): Own[] {
     const out: Own[] = [];
-    for (const file of readdirSync(adventure).filter(f => f.endsWith('.kyr')).sort()) {
-      const text = readFileSync(join(adventure, file), 'utf8');
-      for (const m of text.matchAll(/^\s*(Relation|Measure|Query|Rule|Ending)\s+(\w+)\b/gm)) {
-        out.push({ kind: m[1]!, name: m[2]!, file });
+    for (const file of readdirSync(dir).filter(f => /\.kyrt?$/.test(f)).sort()) {
+      const text = readFileSync(join(dir, file), 'utf8');
+      const declared = /(?:^|[.{])\s*(Relation|Measure|Query)\s+(\w+)\s*\(|^\s*(Rule|Ending)\s+(\w+)\b/gm;
+      for (const m of text.matchAll(declared)) {
+        out.push({ kind: m[1] ?? m[3]!, name: m[2] ?? m[4]!, file });
       }
     }
     return out;
   }
-  // "Relation yields (q.kyr) is the shared rules' Relation (dominion.kyr): name the adventure's own otherwise".
+  // Every shipped directory of Kyr bound into a world beside the shared rules: each adventure, origin and kit, and
+  // each folder of generation templates, by its path under data.
+  static readonly shipped = ['adventures', 'origins', 'kits', 'generation'];
+  static dirs(root = resolve(CanonicalNames.rules, '..')): string[] {
+    return CanonicalNames.shipped.flatMap(p => CanonicalNames.walk(join(root, p)));
+  }
+  private static walk(d: string): string[] {
+    return [...readdirSync(d).some(f => /\.kyrt?$/.test(f)) ? [d] : [], ...readdirSync(d, { withFileTypes: true })
+      .filter(e => e.isDirectory()).flatMap(e => CanonicalNames.walk(join(d, e.name)))];
+  }
+  // "Relation yields (q.kyr) is the shared rules' Relation (dominion.kyr): name its own otherwise".
   static shadows(adventure: string, canon = CanonicalNames.all()): string[] {
     return this.own(adventure).filter(o => ['Relation', 'Measure', 'Query'].includes(o.kind) && canon.has(o.name))
-      .map(o => `${o.kind} ${o.name} (${o.file}) is ${canon.get(o.name)}: name the adventure's own otherwise`);
+      .map(o => `${o.kind} ${o.name} (${o.file}) is ${canon.get(o.name)}: name its own otherwise`);
   }
   // "step_again: a Rule (endings.kyr) and an Ending (endings.kyr), one rule to the engine".
   static doubled(adventure: string): string[] {
