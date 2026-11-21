@@ -5,20 +5,21 @@ import { MonoBrowser } from '../test/support/mono-browser';
 import { MonoDriver } from '../test/support/mono-driver';
 import { SheetCamera, type SheetMiss, type SheetShot } from './contact-sheet-camera';
 
+// reduced: the pages opened as for a player who asks for less motion (prefers-reduced-motion; S3-R2, TO-03).
 export interface SheetRun { browser: Browser; site: string; out: string; size: { width: number; height: number };
-  shots: SheetShot[]; misses: SheetMiss[] }
+  shots: SheetShot[]; misses: SheetMiss[]; reduced?: boolean }
 
 // The walks before play (see scripts/contact-sheets.ts): the title and its ways in, how a new game begins, the
 // options and the handbooks they lead to, the encyclopedia; and a life built step by step in a1, a mage so that the
 // first spells' page is among them, every page of the making pictured before it is chosen.
 export class SheetWalks {
-  static label(run: SheetRun): string { return `${run.size.width}x${run.size.height}`; }
+  static label(run: SheetRun): string { return `${run.size.width}x${run.size.height}${run.reduced ? '-reduced' : ''}`; }
   static camera(run: SheetRun, page: Page, walk: string, driver?: MonoDriver): SheetCamera {
     return new SheetCamera(page, driver, { out: run.out, size: SheetWalks.label(run), walk, shots: run.shots,
       misses: run.misses });
   }
   static async title(run: SheetRun): Promise<void> {
-    const { page } = await MonoBrowser.page(run.browser, run.size, { site: run.site, query: '' });
+    const { page } = await MonoBrowser.page(run.browser, run.size, { site: run.site, query: '', reduced: run.reduced });
     page.setDefaultTimeout(30000);
     const cam = SheetWalks.camera(run, page, 'title');
     await cam.step('title', 'The title and its ways in', () => page.waitForSelector('.beat-ready'));
@@ -40,7 +41,7 @@ export class SheetWalks {
   }
   // The pages beside the game: the encyclopedia and the three handbooks, as they open.
   static async books(run: SheetRun): Promise<void> {
-    const page = await run.browser.newPage({ viewport: run.size });
+    const page = await run.browser.newPage({ viewport: run.size, ...run.reduced ? { reducedMotion: 'reduce' } : {} });
     page.setDefaultTimeout(30000);
     const cam = SheetWalks.camera(run, page, 'books');
     await cam.step('encyclopedia', 'The encyclopedia', () =>
@@ -55,7 +56,7 @@ export class SheetWalks {
   // Each page of the making, as it first stands, then chosen by a hold as a player chooses: the calling a mage's (the
   // first spells' page then comes), the spells the page offers taken as they are, the rest the first card shown.
   static async creation(run: SheetRun): Promise<void> {
-    const { page, driver } = await MonoBrowser.page(run.browser, run.size, { site: run.site, query: '?world=a1' });
+    const { page, driver } = await MonoBrowser.page(run.browser, run.size, { site: run.site, query: '?world=a1', reduced: run.reduced });
     page.setDefaultTimeout(30000);
     const cam = SheetWalks.camera(run, page, 'make', driver);
     if (!await cam.step('first', 'Creation: its first page', () =>

@@ -13,7 +13,7 @@ import { SheetWalks, type SheetRun } from './contact-sheet-walks';
 export class SheetHour {
   constructor(readonly page: Page, readonly d: MonoDriver, readonly cam: SheetCamera) {}
   static async walk(run: SheetRun): Promise<void> {
-    const { page, driver } = await MonoBrowser.page(run.browser, run.size, { site: run.site, query: '?world=a1' });
+    const { page, driver } = await MonoBrowser.page(run.browser, run.size, { site: run.site, query: '?world=a1', reduced: run.reduced });
     page.setDefaultTimeout(30000);
     const hour = new SheetHour(page, driver, SheetWalks.camera(run, page, 'hour', driver));
     await hour.town();

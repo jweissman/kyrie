@@ -20,7 +20,7 @@ export class SheetCompose {
   }
   // How many across: a landscape screen's pictures four to a row, an upright one's six.
   static columns(size: string): number {
-    const [w, h] = size.split('x').map(Number) as [number, number];
+    const [w, h] = size.split('x').map(n => parseInt(n, 10)) as [number, number];
     return w > h ? 4 : 6;
   }
   static sheet(size: string, shots: SheetShot[], meta: string): string {

@@ -11,8 +11,9 @@ export class MonoBrowser {
     return chromium.launch({ ...path ? { executablePath: path } : {}, args });
   }
   static async page(browser: Awaited<ReturnType<typeof MonoBrowser.launch>>, size: { width: number; height: number },
-    options: { site?: string; pointer?: boolean; query: string }) {
-    const page = await browser.newPage({ viewport: size, ...(options.pointer ? { hasTouch: true } : {}) });
+    options: { site?: string; pointer?: boolean; query: string; reduced?: boolean }) {
+    const page = await browser.newPage({ viewport: size, ...(options.pointer ? { hasTouch: true } : {}),
+      ...(options.reduced ? { reducedMotion: 'reduce' as const } : {}) });
     const errors: string[] = [];
     page.on('pageerror', e => errors.push(e.message));
     await page.goto(`file://${join(options.site ?? resolve(import.meta.dir, '../../site'), 'mono.html')}${options.query}`);

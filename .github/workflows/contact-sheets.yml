@@ -5,10 +5,14 @@
 # main's runs, which Pages waits on). Nightly, on demand on any branch that has this file, and on a push to a
 # contact-sheets/* branch (to try a change to the walk before it is on main, where on demand first finds it).
 #   gh workflow run contact-sheets.yml --ref main
+#   gh workflow run contact-sheets.yml --ref main -f sizes=1280x800,390x844 -f motion=both   (reduced motion on and off)
 #   gh run download <run> -n contact-sheets -D <dir>      then open <dir>/index.html
 name: Contact sheets
 on:
   workflow_dispatch:
+    inputs:
+      sizes: { description: 'sizes, as WxH,WxH', default: '390x844,820x1180' }
+      motion: { description: 'full, reduce or both', default: 'full' }
   schedule: [{ cron: '30 9 * * *' }]
   push:
     branches: ['contact-sheets/**']
@@ -34,7 +38,7 @@ jobs:
           key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/information/**', 'kyrie/src/canon/**', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
-      - run: bun scripts/contact-sheets.ts --out "${{ runner.temp }}/contact-sheets" --sizes 390x844,820x1180
+      - run: bun scripts/contact-sheets.ts --out "${{ runner.temp }}/contact-sheets" --sizes "${{ inputs.sizes || '390x844,820x1180' }}" --motion "${{ inputs.motion || 'full' }}"
       - if: always()
         run: |
           f="${{ runner.temp }}/contact-sheets/shots.json"

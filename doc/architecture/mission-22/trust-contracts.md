@@ -54,6 +54,9 @@ is no opportunity.
 
 ## 3. The contracts and their pins
 
+Carried as beta commitments (closeout.md, 21 November): knowledge integrity, restoration and travel continuity are
+first-class contracts of M22-beta (Integrity and Trust), not open notes of this investigation.
+
 | Contract | State | Pin | Its counterexample (fails the pin) |
 |---|---|---|---|
 | **Indicator soundness**: no pip without a witness | built, by construction | test/small/indicator-witness (structural: no Atlas tone written outside the indicator's own drawing, the legend, and what an indicator already says; the brand cast nowhere but `attest.ts`; Pip and ChoiceRow take an `Attested`); test/small/witnessed (behaviour) | `<Pip.View fill="var(--tone-gold)">`, `mark="var(--tone-gold)"` (the "your aim" row had been gold for any act the place led with), a likeness pip composed from acts (PL-32), a reply drawn from a snapshot |

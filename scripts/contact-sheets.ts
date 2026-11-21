@@ -5,7 +5,7 @@
 // is a1, the walk test/safe-zone-browser's, the animations run to their end: two runs' sheets can be compared. What
 // could not be reached is said in index.html and shots.json, with a picture of where the page stood; it fails no
 // one. CI keeps it as the contact-sheets workflow's artifact (doc/architecture/verification.md).
-//   bun scripts/contact-sheets.ts [--out dir] [--sizes 390x844,820x1180]
+//   bun scripts/contact-sheets.ts [--out dir] [--sizes 390x844,820x1180] [--motion full|reduce|both]
 // Needs a Playwright Chromium (KYRIE_CHROMIUM may name it) and, on this machine, LD_LIBRARY_PATH for NSS.
 import { mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -26,7 +26,11 @@ export class ContactSheets {
     ['title', SheetWalks.title], ['make', SheetWalks.creation], ['hour', SheetHour.walk], ['books', SheetWalks.books]];
   static async main(args: string[]): Promise<number> {
     const out = resolve(ContactSheets.option(args, 'out', 'contact-sheets'));
-    const sizes = ContactSheets.option(args, 'sizes', '390x844,820x1180').split(',');
+    // --motion full (the default), reduce, or both: each size walked again as for one who asks for less motion.
+    const motion = ContactSheets.option(args, 'motion', 'full'), passes = motion === 'both' ? [false, true]
+      : [motion === 'reduce'];
+    const sizes = ContactSheets.option(args, 'sizes', '390x844,820x1180').split(',')
+      .flatMap(s => passes.map(r => (r ? `${s}-reduced` : s)));
     await rm(out, { recursive: true, force: true });
     await mkdir(out, { recursive: true });
     const site = await mkdtemp(join(tmpdir(), 'kyrie-sheets-site-'));
@@ -35,8 +39,9 @@ export class ContactSheets {
     const shots: SheetShot[] = [], misses: SheetMiss[] = [];
     try {
       for (const size of sizes) {
-        const [width, height] = size.split('x').map(Number) as [number, number];
-        const run: SheetRun = { browser, site, out, size: { width, height }, shots, misses };
+        const [width, height] = size.split('x').map(n => parseInt(n, 10)) as [number, number];
+        const run: SheetRun = { browser, site, out, size: { width, height }, shots, misses,
+          ...size.endsWith('-reduced') ? { reduced: true } : {} };
         for (const [walk, go] of ContactSheets.walks) {
           await go(run).catch((e: unknown) => {
             misses.push({ size, walk, step: '(the walk)', why: String(e).split('\n')[0]!.slice(0, 240) });
