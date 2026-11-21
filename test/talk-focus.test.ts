@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import type { Choice } from '../src/ui/choice-list';
 import { TalkFocus } from '../web/reader/talk-focus';
+import { NewsFold } from '../src/ui/news-fold';
 
 // A conversation as attention holds it (the owner, 5 November: an innkeeper had stood with twenty-five things to talk
 // about at once, a herb-wife with nine): three salient things at most, the rest a touch away, what is had of them
@@ -9,8 +10,8 @@ const said = (id: string, command?: string, more: Partial<Choice> = {}): Choice 
   ({ id, label: id, tone: 'person', ...command ? { command, does: command.replace(/\(.*$/, '') } : {}, ...more });
 describe('what is said, as attention holds it', () => {
   const replies = [said('well', 'ask(inn,word2)'), said('mound', 'ask(inn,word4)'),
-    ...['crowns', 'saltgrave', 'glass'].map(x => said(x, `gate_${x}_beyond_told_s2`)), said('tower', 'w9_asked'),
-    said('quarry', 'spiders_job_ask'), said('ford', 'ask(inn,word6)'), said('weir', 'ask(inn,word7)'),
+    said('tower', 'w9_asked'), said('quarry', 'spiders_job_ask'), said('ford', 'ask(inn,word6)'),
+    said('weir', 'ask(inn,word7)'), said('news', 'gate_crowns_beyond_told_s2', { label: NewsFold.beyond }),
     said('bed', 'take_lodging(lodging,inn)'),
     said('song', undefined, { disabled: 'Needs persuasion', does: 'sing_supper' })];
   // A short list is one flat list (the owner, 15 November: no cluster to open); only a long one keeps a fold.
@@ -23,15 +24,24 @@ describe('what is said, as attention holds it', () => {
     const f = TalkFocus.of(replies, { asked: [] });
     expect(f.salient.map(c => c.id)).toEqual(['well', 'mound', 'tower']);
     // The lands beyond are one question, "what news is there?", the next not yet heard; the rest are for it to bring.
-    expect(f.more.map(c => c.id)).toEqual(['quarry', 'ford', 'weir', 'crowns']);
-    expect(f.more[3]!.label).toBe('Ask what news there is of the lands beyond');
+    expect(f.more.map(c => c.id)).toEqual(['quarry', 'ford', 'weir', 'news']);
     expect(f.more.some(c => c.children?.length)).toBe(false);
-    // Heard, it is the next of the table, and said again once all are heard.
-    const heard = TalkFocus.of(replies, { asked: ['crowns'] });
-    expect([...heard.salient, ...heard.more].find(c => /news/.test(c.label))!.id).toBe('saltgrave');
-    const all = TalkFocus.of(replies, { asked: ['crowns', 'saltgrave', 'glass'] });
-    expect([...all.salient, ...all.more].find(c => /news/.test(c.label))!.label).toMatch(/^Ask again what news/);
     expect(f.services.map(c => c.id)).toEqual(['bed', 'song']);
+  });
+  // The lands beyond are one question, "what news is there?", the next not yet heard, made so by the engine for every
+  // client (NewsFold, MT-18): each heard is known as a fact of the world and its ask no longer offered, so the next
+  // offered is the next unheard; the page no longer keeps its own memory of what was asked for it.
+  it('asks of the lands beyond as one question, the next not yet heard', () => {
+    const act = (x: string) => ({ label: `Ask the keeper about ${x}`, command: `gate_${x}_beyond_told_s2`, key: x });
+    const targets = new Map([['inn', [{ label: 'Ask about the well', command: 'ask(inn,word2)', does: 'ask' },
+      ...['crowns', 'saltgrave', 'glass'].map(act)]]]);
+    NewsFold.of(targets as never, new Map());
+    const news = targets.get('inn')!.filter(a => /beyond_told/.test(a.command ?? ''));
+    expect(news.map(a => [a.command, a.label])).toEqual([['gate_crowns_beyond_told_s2', NewsFold.beyond]]);
+    // Heard (its ask taken off the offer), the next is the one asked.
+    const after = new Map([['inn', ['saltgrave', 'glass'].map(act)]]);
+    NewsFold.of(after as never, new Map());
+    expect(after.get('inn')!.map(a => a.command)).toEqual(['gate_saltgrave_beyond_told_s2']);
   });
   // What the last answer opened is kept among the few, in its written place: put first, it had moved every other
   // topic after each question (round 6, the register's FH-16).

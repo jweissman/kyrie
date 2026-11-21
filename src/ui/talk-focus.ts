@@ -30,7 +30,8 @@ export class TalkFocus {
     const replies = TalkFocus.simple(all).filter(c => !TalkFocus.orders.has(c.does ?? ''));
     const answers = replies.filter(c => c.answer);
     const services = replies.filter(c => !c.answer && TalkFocus.service(c));
-    const said = TalkFocus.beyond(replies.filter(c => !c.answer && !services.includes(c)), at.asked);
+    // (What is told of the lands beyond is one question already, the engine's: NewsFold.)
+    const said = replies.filter(c => !c.answer && !services.includes(c));
     // What is refused (a try spent, a way barred: "Orsik will not serve you") goes with what was asked: it had held a
     // conversation's second place beside topics that could be taken (the owner's play, 17 November).
     const spent = said.filter(c => at.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '') || !!c.disabled);
@@ -75,19 +76,6 @@ export class TalkFocus {
   // saying it does, never by its words: "Tell …" and "Pay …" had been read off the labels (M21's PL-15).
   static weighty(c: Choice, weighty: readonly string[] = []): boolean {
     return c.does === 'recruit' || weighty.includes(c.command ?? '') || !!c.children?.some(k => weighty.includes(k.command ?? ''));
-  }
-  // What is told of the countries beyond this one (twenty and more at an inn): one question, "what news is there?",
-  // which is the next thing not yet heard from the table of them, in its order (the owner, 17 November: never a menu
-  // that unfolds, never a compound act; a roll on the table is the act). It is the engine's own act of that topic, said
-  // in other words; what has been heard can be asked again by name, and what has not is for the news to bring.
-  private static beyond(said: Choice[], asked: string[]): Choice[] {
-    const far = said.filter(c => /_beyond_told_/.test(c.command ?? c.id));
-    if (far.length < 2) { return said; }
-    const fresh = far.filter(c => !asked.includes(c.id));
-    const next = fresh[0] ?? far[(far.length - fresh.length) % far.length]!;
-    const news: Choice = { ...next, label: fresh.length ? 'Ask what news there is of the lands beyond'
-      : 'Ask again what news there is of the lands beyond' };
-    return [...said.filter(c => !far.includes(c)), news, ...far.filter(c => c !== next && asked.includes(c.id))];
   }
   // Had of them for coin or work: by what it does, or a group of such (a lesson in each skill).
   private static service(c: Choice): boolean {
