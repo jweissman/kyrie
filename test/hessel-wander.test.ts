@@ -42,8 +42,9 @@ describe('The Banns at Hessel, wandered', () => {
             expect(j.measure(h('failing'), h('cherrett'))).toBeGreaterThanOrEqual(5);
             expect(world.one('at', h('cherrett'))).toBe(h('cherrett_bedroom'));
           }
-          // Whoever follows the company is where the company is.
-          for (const f of world.related(h('following')).filter(r => r.args[1] === 'party')) {
+          // Whoever follows the company is where the company is: by the shared rules' following, which Hessel reads
+          // and does not declare (MT-25's strict reads: hessel__following was never a relation, and read as none).
+          for (const f of world.related('following').filter(r => r.args[1] === 'party')) {
             expect(world.one('at', f.args[0]!)).toBe(here);
           }
           // At most one ending.
