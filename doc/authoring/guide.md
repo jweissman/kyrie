@@ -730,6 +730,15 @@ the Banns at Hessel's 24).
   Observe tablet_newer at nave when state(tablets, newer) "Under the west window one tablet is newer and whiter than the rest.".
 ```
 
+What a glance tells of a place, and what it holds for a deliberate look (Look…), goes by what each line is, never by
+its words. A sign (`as sign`, and a revelation, a reading, hearsay, or any line that teaches something and is not the
+place's own standing look) bears on what the company may come to know: it is told whenever it holds, whatever the
+place's budget of three sentences. The place's own telling (its first line, its features, its weather and its
+ambience) is told within that budget, and what it cannot tell is held for the look. Ambience is the place's passing
+life: each line of it is told the first time it is seen there, in a place the company comes to for the first time or
+in one it knows (a stage of what is afoot in a town, come to hold on its green on the third day), and not again once
+seen. A line that must be read every time it holds is written `as sign` (GR-26; `test/ambience-told`).
+
 A line that is to replace another while something holds is written `instead of` it, in any of the module's files, and
 the other is not told meanwhile: `Observe oven_cold at bakehouse instead of bakehouse_scene when coalDead(bakehouse)
 "The oven is cold…".` (`test/fixtures/probes/instead`; Quittance's ms 4 could only add the cold oven below "banked and

@@ -43,6 +43,13 @@ Some things to know about these checks:
   for none. `once` comes before `says`.
 - **Deadlines.** Talk takes no time, so a deadline's slack is not felt in a conversation. Find a sensible one by
   playing the paths against it (AU-30).
+- **Names of the canon's.** A relation, measure or query of a name the shared rules or the engine use already, and a
+  rule and an ending of one name, fail `verify`'s names (`bin/kyrie names <word>` says which; AU-35).
+- **Heard everywhere.** `verify` counts the telling rules with no anchor, each by name: heard wherever the company is.
+  Anchor any that is not news for everywhere (`at`, `near`, `within`; AU-36).
+- **Sign or ambience.** A sign is told whenever it holds. Ambience is the place's passing life: told the first time
+  each line of it is seen, and within the place's three sentences, the rest held for a look. A line to be read every
+  time it holds (a stage of what is afoot) is a sign (GR-26; the guide's place lines).
 
 **What none of these prove**: that a player finds it, understands it, or wants to go on. Only someone playing it can
 say that (page 8 of the trail, [08-testing.md](trail/08-testing.md)).

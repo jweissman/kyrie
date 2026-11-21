@@ -90,8 +90,9 @@ export class Narrator {
     // place or with what is here before them: the Lull's chair was told ravelled before the Watching that ravelled it
     // (its friction 11, LUL-08).
     const altered = told?.moved ? screen.observed.filter(o => this.altered(this.def(defs, o.id), told.event)) : [];
-    const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known,
-      arrived: under, turned, here: screen.place.id }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id))
+    const at = { shelter, known, arrived: under, turned, here: screen.place.id };
+    const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { ...at,
+      seen: seenBefore.has(o.id) }) && !(/__shut$/.test(o.id) && seenBefore.has(o.id))
       && !altered.includes(o)), opening);
     // What has changed since the company was last here is told under that, not twice.
     const changed = known && told?.moved ? screen.fresh : [], exchange = told && this.exchange(campaign, told);
@@ -218,13 +219,16 @@ export class Narrator {
     return defs;
   }
   // What the place's description holds now. Lines about someone or something here are told with them; an event is
-  // told as part of what happened; ambience only the first time; the sky only in the open, and only on arriving or
-  // when it turns.
+  // told as part of what happened; ambience (the place's passing life) the first time each line of it is seen: in a
+  // place not known yet, or a line come to hold in a place known (GR-26: the second stage of what is afoot in a town,
+  // holding on its green on day 3, had gone untold because the green was known, where the same line as a sign was
+  // told); the sky only in the open, and only on arriving or when it turns.
   private static tells(def: Observation | undefined,
-    at: { shelter?: Shelter; known: boolean; arrived: boolean; turned: boolean; here: string }): boolean {
+    at: { shelter?: Shelter; known: boolean; seen: boolean; arrived: boolean; turned: boolean; here: string }):
+    boolean {
     if (!def) { return true; }
     if (def.anchor === 'near' || def.aspect === 'event') { return false; }
-    if (def.aspect === 'ambience') { return !at.known; }
+    if (def.aspect === 'ambience') { return !at.known || !at.seen; }
     if (def.aspect === 'weather') {
       return at.shelter !== 'underground' && at.shelter !== 'elsewhere' && (at.arrived || at.turned);
     }
