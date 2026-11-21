@@ -1,5 +1,6 @@
 import text from '../../data/generation/town/undertown.kyrt' with { type: 'text' };
 import { KyrTemplates, type KyrSection } from './kyr-template';
+import { Outfitters } from './outfitters';
 import { SettlementWriter } from './settlement-writer';
 import { DeepPurposes } from './deep/deep-purposes';
 import { DeepSites } from './deep/deep-sites';
@@ -20,8 +21,9 @@ export class RegionUndertown {
   static lines(region: Region, s: Settlement, company = 3, fix = StrategicAtlas.fix(region, 'undertown')): string[] {
     // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed; and how
     // many of the first foes a trouble sets, for the company that takes it (M19-87).
-    const t = s.id, values = this.values(t, s.name, company, { merchant: SettlementWriter.standing(region, s, 'merchant'),
-      priest: SettlementWriter.standing(region, s, 'priest'), innkeeper: SettlementWriter.standing(region, s, 'innkeeper') });
+    const t = s.id, standing = { merchant: SettlementWriter.standing(region, s, 'merchant'),
+      priest: SettlementWriter.standing(region, s, 'priest'), innkeeper: SettlementWriter.standing(region, s, 'innkeeper') };
+    const values = { ...this.values(t, s.name, company, standing), ratsbane: this.ratsbane(s) };
     const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`, {}, fix);
     return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
       ...RegionMarket.home(region, s), ...this.notice(t, sections, values)];
@@ -42,6 +44,20 @@ export class RegionUndertown {
         ? 'cave spiders the size of dogs, that have' : 'a cave spider the size of a dog, that has',
       merchantat: standing.merchant, priestat: standing.priest, innkeeperat: standing.innkeeper };
   }
+  // What the merchant says of ratsbane for the corn-store's rats, by where it is had in the town: their own shelf,
+  // the chandlery's, or nowhere, when nothing is said of it (cold play 5's 12: "lay ratsbane… It wants a night", with
+  // none to be had in a town whose merchant did not keep it).
+  static ratsbane(s: Settlement): string {
+    if (this.bane(SettlementWriter.trade(s).stock)) {
+      return " And, looking you over: 'I've ratsbane on the shelf, if you'd sooner not be bitten. Lay it where they "
+        + "come up. It wants a night.'";
+    }
+    if (Outfitters.needed(s) && this.bane(Outfitters.kit)) {
+      return " And, looking you over: 'Or there's ratsbane at the chandler's, if you'd sooner not be bitten. It wants a night.'";
+    }
+    return '';
+  }
+  private static bane(stock: [string, number, number][]): boolean { return stock.some(([what]) => what === 'ratsbane'); }
   // Whether the town has a notice of its troubles on the green (see notice): one of its troubles says itself there.
   static noticed(region: Region, s: Settlement): boolean {
     return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`, {}, StrategicAtlas.fix(region, 'undertown'))

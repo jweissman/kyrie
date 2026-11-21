@@ -64,6 +64,9 @@
       Retract state({t}_manor_bar, barred). Assert state({t}_manor_bar, open). Retract state({t}_manor_bar2, barred). Assert state({t}_manor_bar2, open).
       Assert {t}_manor_amends(party). }
   }
+  // And the one it was taken from, once, the next time the company comes into his hall: he has counted it back.
+  Relation {t}_manor_steward_counted(group).
+  Rule {t}_manor_steward_back heard at {t}_manor_hall when {t}_manor_amends(party) and at(party, {t}_manor_hall) and at({t}_manor_steward, {t}_manor_hall) and not {t}_manor_steward_counted(party) says "The steward looks up from his ledger and turns a page. 'Fourteen spoons,' he says, 'and the box. We will say no more about it.'" { Assert {t}_manor_steward_counted(party). }
   Entity {t}_manor_key_told: fact "The cook knows where the old press key is kept: on a nail behind the dresser, where she hung it when the steward lost it.".
   // Sent to her by the steward before the cellar is seen to, she says what the key waits on: she had had no word of it
   // (cold play 5, CL-36's 29).

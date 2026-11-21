@@ -12,8 +12,9 @@ export class Laboratory {
   static readonly dir = join(import.meta.dir, '../test/fixtures/laboratory');
   static readonly file = join(this.dir, 'lowmouth.kyr');
   static text(company = 1): string {
-    const values = RegionUndertown.values('low', 'Lowmouth', company,
-      { merchant: 'low_shop', priest: 'low_chapel', innkeeper: 'low_taproom' });
+    // Its merchant keeps no ratsbane (host.kyr), so promises none (RegionUndertown.ratsbane).
+    const values = { ...RegionUndertown.values('low', 'Lowmouth', company,
+      { merchant: 'low_shop', priest: 'low_chapel', innkeeper: 'low_taproom' }), ratsbane: '' };
     const sections = KyrTemplates.choose(RegionUndertown.template, 'laboratory:low:undertown');
     const host = readFileSync(join(this.dir, 'host.kyr'), 'utf8').split('\n').filter(l => !l.startsWith('//'));
     return ['// Written by scripts/laboratory.ts from test/fixtures/laboratory/host.kyr and',
