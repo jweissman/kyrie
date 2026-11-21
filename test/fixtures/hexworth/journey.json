@@ -1,0 +1,153 @@
+{
+  "arrive": [
+    "To the square"
+  ],
+  "yard": [
+    "Into Ludlam's foundry",
+    "Take",
+    "Break Margery up with the sledge"
+  ],
+  "learn": [
+    "To the casting shed",
+    "Talk to Gundred",
+    "Ask what has to be done",
+    "Ask what must not go in the pot",
+    "Ask about tin and copper"
+  ],
+  "key": [
+    "Show Gundred the iron in Margery",
+    "To the foundry yard",
+    "Chip the key out of Margery's pieces",
+    "To the casting shed"
+  ],
+  "whistle": [
+    "Talk to Piers Ansell",
+    "Ask Piers for his tin whistle"
+  ],
+  "soldier": [
+    "To the foundry yard",
+    "Out to the square",
+    "Talk to Dilly Drave",
+    "Ask Dilly if Sergeant would go in the bell"
+  ],
+  "doors": [
+    "Go round the doors and ask for brass"
+  ],
+  "ebba": [
+    "Into Orlop's brewhouse",
+    "Talk to Ebba Orlop",
+    "Promise that the bell will be called for Ebba",
+    "Ask Ebba about the mash-copper",
+    "Out to the square"
+  ],
+  "culver": [
+    "Into the chapel of Saint Odwin",
+    "Talk to Father Culver",
+    "Promise that the bell will ring the Hours and carry Saint Odwin's name",
+    "Ask Father Culver for the chapel's censer",
+    "Ask Father Culver for the handbell",
+    "Out to the square"
+  ],
+  "pewter": [
+    "Into the chapel of Saint Odwin",
+    "Talk to Father Culver",
+    "Ask whether the chapel has pewter to give",
+    "Out to the square"
+  ],
+  "hasket": [
+    "To the last stile",
+    "Talk to Jonas Hasket",
+    "Ask Hasket if he has family out there",
+    "Ask Hasket if there is brass in his house",
+    "Ask Hasket for his men to haul the bell",
+    "Ask Hasket about the lamp-hooks",
+    "To the square"
+  ],
+  "tray": [
+    "Buy from Marlin — 5 coin for Tester"
+  ],
+  "charcoal": [
+    "To the charcoal burn",
+    "Buy a sack of charcoal",
+    "Buy a sack of charcoal",
+    "To the square"
+  ],
+  "fire": [
+    "Into Ludlam's foundry",
+    "To the casting shed",
+    "Feed the furnace a sack of charcoal",
+    "Feed the furnace a sack of charcoal"
+  ],
+  "bellows": [
+    "=day 3 08:00",
+    "Work the bellows for an hour",
+    "Work the bellows for an hour",
+    "Work the bellows for an hour",
+    "Work the bellows for an hour",
+    "Work the bellows for an hour",
+    "Work the bellows for an hour"
+  ],
+  "potAll": [
+    "Put Margery's cleaned pieces in the pot",
+    "Put Ebba Orlop's kettle in the pot",
+    "Put Ebba Orlop's mash-copper in the pot",
+    "Put the chapel's censer in the pot",
+    "Put Hasket's wife's bedwarmer in the pot",
+    "Put the door-knockers in the pot",
+    "Put Dilly's tin soldier in the pot",
+    "Put Piers's tin whistle in the pot"
+  ],
+  "trayIn": [
+    "Put Marlin's tin in the pot"
+  ],
+  "practise": [
+    "Pour a ladle of water along the runner with Piers"
+  ],
+  "pourPiers": [
+    "Ask Piers to take the ladle, with Gundred to say when"
+  ],
+  "pourShared": [
+    "Take the far end of the ladle, with Gundred"
+  ],
+  "pourAlone": [
+    "Stand back and let Gundred pour"
+  ],
+  "coolOut": [
+    "=day 4 04:00",
+    "Break out the mould"
+  ],
+  "hang": [
+    "Haul the bell to the square and hang her in the frame",
+    "To the foundry yard",
+    "Out to the square"
+  ],
+  "testTin": [
+    "Bend a spoon of Marlin's tin by Gundred's face, and tell her"
+  ],
+  "fog": [
+    "=day 4 19:00"
+  ],
+  "ringFog": [
+    "Ring the bell for the moor"
+  ],
+  "lamps": [
+    "To the last stile",
+    "Fill and light the lamps along the track",
+    "Ring the chapel's handbell from the stile"
+  ],
+  "rest": [
+    "=day 5 08:00"
+  ],
+  "lettersEdric": [
+    "Have the letters THERE IS A BELL cut round her shoulder"
+  ],
+  "lettersEbba": [
+    "Have the letters BIG EBBA cut round her shoulder"
+  ],
+  "lettersHome": [
+    "Have the letters COME HOME cut round her shoulder"
+  ],
+  "lettersOdwin": [
+    "Have the letters SAINT ODWIN cut round her shoulder"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "foundry.kyr",
+    "pour.kyr",
+    "folk.kyr",
+    "endings.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "country",
+    "road": "approach"
+  },
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}

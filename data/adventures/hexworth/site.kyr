@@ -1,0 +1,44 @@
+Module hexworth "A Voice for Hexworth" {
+  Description "Hexworth, a peat town on the lip of the Sour Edge, whose bell has cracked, and a founder's yard where a new one must be poured before the fog.".
+
+  Place country "the Hexworth country" is region within imbar.
+  Place hexworth "Hexworth" is settlement within country at 1, 1.
+  Place edge "the Sour Edge" is wilderness within country at 1, 0.
+  Place wood "Brome's wood" is wilderness within country at 2, 1.
+  Place foundry "Ludlam's foundry" is building within hexworth.
+  Place chapel "the chapel of Saint Odwin" is building within hexworth.
+  Place brewhouse "Orlop's brewhouse" is building within hexworth.
+
+  Place approach "the Hexworth road" is room within hexworth at 0, 1 outdoors.
+  Place square "the square" is room within hexworth at 1, 1 outdoors.
+  Place yard "the foundry yard" is room within foundry at 0, 0.
+  Place shed "the casting shed" is room within foundry at 1, 0.
+  Place nave "the chapel" is room within chapel at 0, 0.
+  Place taproom "the brewhouse" is room within brewhouse at 0, 0.
+  Place stile "the last stile" is room within edge at 0, 0 outdoors.
+  Place clamp "the charcoal burn" is room within wood at 0, 0 outdoors.
+
+  Passage town_gate "the Hexworth road" is road between approach and square taking 10 minutes.
+  Passage yard_gate "the foundry gate" is gate between square and yard.
+  Passage shed_door "the casting-shed door" is door between yard and shed.
+  Passage chapel_door "the chapel door" is door between square and nave.
+  Passage brew_door "the brewhouse door" is door between square and taproom.
+  Passage moor_path "the path to the stile" is path between square and stile taking 10 minutes.
+  Passage clamp_track "the track to the clamp" is track between square and clamp taking 30 minutes.
+
+  Observe approach_scene at approach when true "The road comes up out of the lowland hedges to a town with no wall, only a low frame of black timbers standing in the middle of it, empty. North of the roofs the ground stops being ground. It goes on, brown and level, under a sky exactly its own height.".
+  Observe approach_edge at approach when true "Nobody walks on the Edge for pleasure. A cart-track runs out onto it and is gone in a mile.".
+
+  Observe square_scene at square when true "A square of trodden peat-ash round a bare timber frame, forty feet up, with a rope hanging from nothing. Under it someone has made a heap.".
+  Observe square_doors at square as feature when true "The doors are low and the knockers are brass, most of them, and bright in the way brass is when it is the one thing in the house that is polished.".
+  Observe square_fog at square when fogged() "The fog has come down to the roofs. The frame is a post and a cross-piece and then it is nothing.".
+
+  Observe yard_scene at yard when true "A yard of clinker and clay behind a high gate. Trestles, a sledge leaning on a wall, and a smell of cold ash. Whatever lies on the trestles has had a tarpaulin pulled half off it.".
+  Observe shed_scene at shed when true "A long shed, warm and smelling of loam and horsehair. At one end a furnace with a crucible-pit before it; at the other, sunk in the floor to its shoulders in sand, a clay mould the shape of a bell, with a small black mouth at its crown.".
+
+  Observe nave_scene at nave when true "A low chapel with whitewashed walls and a damp floor. Tablets line the north wall, mostly of men, mostly drowned in the same four feet of ground.".
+  Observe taproom_scene at taproom when true "A brewhouse with a front room for drinking, and through an arch a great copper kettle on a brick hearth, and a smell like warm bread.".
+  Observe stile_scene at stile when true "The last stile before the Edge: two posts, a step, and the moor beyond going away without any mark. A track of cut turves leads out, and a row of iron lamp-hooks stands in the ground beside it at the height of a man's chest.".
+  Observe stile_fog at stile when fogged() "The fog is the colour of the inside of a shell. At the second hook it has already eaten the track.".
+  Observe burn_scene at clamp when true "A clearing in a stand of birch, and in the middle of it a low hump of turf smoking from forty small holes, like a loaf of bread that has been set to sulk.".
+}

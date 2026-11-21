@@ -1,0 +1,4 @@
+Module hexworth "A Voice for Hexworth" {
+  Company party "You" of 1 at approach.
+  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.
+}

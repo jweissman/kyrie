@@ -1,0 +1,148 @@
+Module hexworth "A Voice for Hexworth" {
+  // ── Margery's seam, and the pot ─────────────────────────────────────────────────────────────────────────────────
+
+  Action chip_seam(actor: group) "Chip the key out of Margery's pieces" {
+    Requires able(actor) and at(actor, yard) and state(margery, broken) and keyTold(party) and holding(actor, crowbar).
+    Time 1 hour.
+    On success { Assert state(margery, cleaned). Assert keyOut(party). }
+    Result "The key comes out in three blows, with a sound like a tooth. Gundred is at the shed door. She does not come to take it, and you do not hold it out. After a while you set it on the trestle, and a while after that it is not there.".
+  }
+  Action ask_doors(actor: group) "Go round the doors and ask for brass" {
+    Requires able(actor) and at(actor, square) and not knockersAsked(party).
+    Time 2 hours.
+    On success { Assert knockersAsked(party). Give brass_knockers to actor. }
+    Result "A hand, a hare, a ring and a plain plate. Mostly they hand it over without a word, and a few with a speech. Wherever the knocker is gone, a loop of string has been put through the hole, and the doors are still, in a way, answered.".
+  }
+  Action practise_pour(actor: group) "Pour a ladle of water along the runner with Piers" {
+    Requires able(actor) and at(actor, shed) and at(piers, shed) and not piersReady(party) and not poured().
+    Time 1 hour.
+    On success { Assert piersReady(party). }
+    Result "You stand behind him with your hands on his, and let go a finger at a time. By the fourth ladle he is not shaking. By the sixth he has stopped looking at you, and is looking at the water. 'It's only the same thing slower,' he says.".
+  }
+
+  // ── The letters ─────────────────────────────────────────────────────────────────────────────────────────────────
+  // Whatever is to be on her shoulder is cut in wax and set on the mould before the pour, and cannot be added after.
+
+  Action letter_ebba(actor: group) "Have the letters BIG EBBA cut round her shoulder" {
+    Requires able(actor) and at(actor, shed) and not poured() and not lettered(party).
+    Time 30 minutes.
+    On success { Assert lettered(party). Assert lettersEbba(party). }
+    Result "Piers sets the wax letters on the mould with a pair of tweezers, one at a time, with his tongue between his teeth. B. I. G. Gundred reads them upside down over his shoulder, and says nothing, and when he has done E-B-B-A she says, 'It is a name. They have had worse.'".
+  }
+  Action letter_odwin(actor: group) "Have the letters SAINT ODWIN cut round her shoulder" {
+    Requires able(actor) and at(actor, shed) and not poured() and not lettered(party).
+    Time 30 minutes.
+    On success { Assert lettered(party). Assert lettersOdwin(party). }
+    Result "'Odwin,' says Gundred, reading it off your mouth, 'who was lost on a moor himself and found by a bell.' Piers has the wax letters in a row on a slate. 'It is a good name for a bell,' she says. 'I would not have chosen it.'".
+  }
+  Action letter_home(actor: group) "Have the letters COME HOME cut round her shoulder" {
+    Requires able(actor) and at(actor, shed) and not poured() and not lettered(party).
+    Time 30 minutes.
+    On success { Assert lettered(party). Assert lettersHome(party). }
+    Result "Gundred reads it off your mouth, and nods slowly, twice. 'That is what Margery said,' she says. 'It is all any of them say.' Piers sets the letters on the mould: C, O, M, E, and a space, and the others.".
+  }
+  Action letter_edric(actor: group) "Have the letters THERE IS A BELL cut round her shoulder" {
+    Requires able(actor) and at(actor, shed) and not poured() and not lettered(party) and keyTold(party) and knows(party, edric_lost).
+    Time 30 minutes.
+    On success { Assert lettered(party). Assert lettersEdric(party). }
+    Result "You say it to her mouth, slowly, so that she will not have to ask you to say it again. Gundred does not move. 'There was no bell,' she says. 'It is on the tablet. Culver cleans it every Thursday.' She looks at the mould. 'Yes,' she says. 'Cut it.' She does not look at Piers while he does it, and Piers does not look at her.".
+  }
+
+  // ── The pour ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Action pour_alone(actor: group) "Stand back and let Gundred pour" {
+    Requires able(actor) and at(actor, shed) and at(gundred, shed) and potReady() and not poured() and not trusted(party) and potAtLeast(1).
+    Time 30 minutes.
+    On success { Set spill() to 1. Set pouredAt() to watch(clock). Assert state(mould, poured). Assert pouredAlone(party). }
+    Result "She takes the ladle off its hooks and lifts it, and the colour is right. At the third breath it begins to move. By the fifth the metal is going over the lip of the runner and onto the sand, bright and slow, and she says, quite calmly, 'Clay was damp,' and keeps pouring. The mouth of the mould takes what is left of it, and the shed is very quiet.".
+  }
+  Action pour_shared(actor: group) "Take the far end of the ladle, with Gundred" {
+    Requires able(actor) and at(actor, shed) and at(gundred, shed) and potReady() and not poured() and trusted(party) and potAtLeast(1).
+    Time 30 minutes.
+    On success { Set pouredAt() to watch(clock). Assert state(mould, poured). Assert pouredShared(party). }
+    Result "'Not there,' says Gundred. 'There.' She puts her own hands where yours will go, and then moves them, and then there is nothing for you to do but hold what you are given. The metal goes down the runner in one long unbroken thread, and she counts, aloud, in a voice you have not heard her use, and at nine she says 'Now,' and you both lift.".
+  }
+  Action pour_piers(actor: group) "Ask Piers to take the ladle, with Gundred to say when" {
+    Requires able(actor) and at(actor, shed) and at(gundred, shed) and at(piers, shed) and potReady() and not poured() and trusted(party) and piersReady(party) and potAtLeast(1).
+    Time 30 minutes.
+    On success { Set pouredAt() to watch(clock). Assert state(mould, poured). Assert pouredPiers(party). }
+    Result "Gundred looks at him a long time. 'Hands on the shank,' she says. 'Not there. There.' He lifts. She stands behind him with her hands not quite touching his, as you stood behind him with water, and says in his ear the whole of the pour: the colour, the breath, the breath, the breath. At nine she says nothing at all. He tips. The thread goes down the runner like a drawn line and the mould takes it.".
+  }
+
+  // What the pour will turn out to be, found out when the mould is broken.
+  Rule judge_cracked when state(mould, poured) and voice() == 0 and isCracked()
+    says "The sand over the mould ticks as it settles. Gundred has her hand flat on the clay, and takes it away." { Set voice() to 1. Set carry() to 0. }
+  Rule judge_dull when state(mould, poured) and voice() == 0 and isDull()
+    says "The clay settles with a dry little tick. Gundred listens for it through the soles of her boots, and says nothing." { Set voice() to 2. Set carry() to 1. }
+  Rule judge_soft when state(mould, poured) and voice() == 0 and isSoft()
+    says "Under the sand the clay settles, with a shiver in it. Gundred puts her ear to the mould, forgetting she cannot use it, and then her forehead." { Set voice() to 3. Set carry() to 2. }
+  Rule judge_brittle when state(mould, poured) and voice() == 0 and isBrittle()
+    says "The mould ticks as it cools, a little too fast. Gundred counts it under her breath." { Set voice() to 4. Set carry() to 3. }
+  Rule judge_small when state(mould, poured) and voice() == 0 and ironIn() == 0 and leadIn() < 2 and tinIn() >= 2 and copperIn() <= tinIn() * 6 and copperIn() >= tinIn() * 3 and not potAtLeast(9)
+    says "The mould ticks as it cools, quickly, like a small clock." { Set voice() to 5. Set carry() to 3. }
+  Rule judge_fair when state(mould, poured) and voice() == 0 and ironIn() == 0 and leadIn() < 2 and tinIn() >= 2 and copperIn() <= tinIn() * 6 and copperIn() >= tinIn() * 3 and potAtLeast(9) and not potAtLeast(12)
+    says "Gundred sits down on an upturned bucket as the mould begins to tick, and does not seem to know she has sat." { Set voice() to 6. Set carry() to 4. }
+  Rule judge_great when state(mould, poured) and voice() == 0 and ironIn() == 0 and leadIn() < 2 and tinIn() >= 2 and copperIn() <= tinIn() * 6 and copperIn() >= tinIn() * 3 and potAtLeast(12)
+    says "The sand over the mould ticks as it settles, slow and even, like someone sleeping in the next room. Gundred stands with her forehead against the clay, as she has stood at four hundred and six moulds, and does not move." { Set voice() to 7. Set carry() to 5. }
+
+  Action break_out(actor: group) "Break out the mould" {
+    Requires able(actor) and at(actor, shed) and state(mould, poured) and watch(clock) >= pouredAt() + 72 and voice() > 0 and holding(actor, crowbar).
+    Time 30 minutes.
+    On success { Assert state(mould, out). }
+    Result "The clay comes away in plates. She stands in it: not a crack, no bloom of green. Brown as a loaf and as tall as a child, with a lip that shines where the mould was thinnest. Gundred puts her forehead on the shoulder before anyone has said anything, and the whole shed goes quiet to let her hear. She is a long time. 'Hum,' she says. 'Oh, you beauty,' and strikes her once with the flat of her hand, and you feel it in the sole of your foot, a note you have been walking toward without knowing." when voice() == 7.
+    Result "Not a crack. Brown, and a little lean in the shoulder, a good bell. Gundred puts her forehead against her and listens with her skull. 'She is true,' she says. 'She is not the great one. Hum like a hive in a wall.' Her hand stays on the metal. 'She will carry to the Stile on a still night, and not much farther.'" when voice() == 6.
+    Result "She comes out whole, and she is lovely, and she is small: the size of a churn. The hum is right. Gundred listens a long time. 'She is true,' she says, and it is not quite praise. 'She is not enough bell for what she has to do.'" when voice() == 5.
+    Result "She comes out whole, and bright, almost silver at the lip. Gundred strikes her once, and Piers winces. The note is a fat clear bright thing with a rattle in the heart of it. 'She is hard,' says Gundred. 'Too hard. Too much tin. She will ring, and ring, and some morning she will stop being a bell.'" when voice() == 4.
+    Result "She comes out whole and stands there, a bell-shaped thing the colour of a wet slate. Gundred strikes her. Piers, who can hear the high end, puts a hand over his mouth. A wavering moan, with no top to it, as if somebody were trying to remember a tune. 'Soft,' says Gundred, from the hum alone. 'The tin was short, or the copper was long.'" when voice() == 3.
+    Result "She comes out grey, and Piers says a word his master does not pretend to have heard. Gundred strikes her. A dead thud, like a pot hit with a spoon. 'Lead,' she says. 'Somebody's pewter. A bell is a thing that cannot be forgiven.'" when voice() == 2.
+    Result "When the last plate of clay comes away you see it, before she has been struck: a hair of dark running up from the lip, from the place under the shoulder, like a path on a map. Gundred sees it. She does not say anything. Then she says, 'Iron,' very quietly, and puts her hand over the crack, flat, as you would over a mouth.".
+  }
+  Action break_early(actor: group) "Break out the mould before she has cooled" {
+    Requires able(actor) and at(actor, shed) and state(mould, poured) and watch(clock) < pouredAt() + 72 and voice() > 0 and holding(actor, crowbar).
+    Time 30 minutes.
+    On success { Assert state(mould, out). Set voice() to 1. Set carry() to 0. }
+    Result "Gundred says, 'No.' She says it once, and does not stop you. The first plate comes away and the air gets in. There is a sound like a spoon on a glass, from inside the clay, and then the bell is standing there in her own ruin, a hair of dark running up the lip, steaming.".
+  }
+
+  // The bell goes up.
+  Action hang_bell(actor: group) "Haul the bell to the square and hang her in the frame" {
+    Requires able(actor) and at(actor, shed) and state(mould, out) and crewLent(party).
+    Time 2 hours.
+    On success { Assert state(mould, empty). Assert at(newbell, square). Assert state(newbell, cast). }
+    Result "Hasket's cutters have her on a sledge in a quarter of an hour, and up the frame on three ropes in an hour and a half, with a great deal of singing, none of it in time. When she swings clear for the first time, all forty feet of the frame sway, and the singing stops.".
+  }
+
+  // ── The ringing ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Action ring_bell(actor: group) "Ring the bell" {
+    Requires able(actor) and at(actor, square) and state(newbell, cast) and not fogged().
+    Time 10 minutes.
+    On success { Increase rings() by 1. }
+    Result "The rope is thick as a wrist, and goes through your hands. For a moment nothing, and then everything, over every roof in Hexworth. Doors open. Nobody comes out, they only stand in them, with whatever they were holding." when voice() >= 5.
+    Result "A flat dead clack, like a plate set down. A few doors open and shut." when voice() == 1.
+    Result "A dull, short note that doesn't go as far as the end of the square. Somebody says, at a door, 'Is that it?'" when voice() == 2.
+    Result "A low wobbling moan over the roofs. A dog starts up, and thinks better of it." when voice() == 3.
+    Result "A great bright ringing that fills the square, with a rattle in the heart of it. People stop in the street, and don't know why they've stopped.".
+  }
+  Action ring_in_fog(actor: group) "Ring the bell for the moor" {
+    Requires able(actor) and at(actor, square) and state(newbell, cast) and fogged().
+    Time 30 minutes.
+    On success { Increase rings() by 1. Set bellScore() to carry(). }
+    Result "You ring until your arms stop being yours, a stroke, and a count of twelve, and a stroke. She goes out over the roofs and out over the moor, low and long, and the fog takes her sound and carries it a long way farther than it would have, and you ring on." when voice() >= 5.
+    Result "You ring. It is a soft moan, and the fog drinks it in a hundred paces. You ring on anyway." when voice() == 3.
+    Result "You ring, and the dull note drops dead at the edge of the square.".
+  }
+  Rule brittle_goes when state(newbell, cast) and voice() == 4 and rings() >= 3
+    says "On the third stroke a note comes out of the bell that is not a note at all, and a sound like a tray of cutlery dropped from a height. A hair of dark runs up the lip from the place under the shoulder, as you watch." { Set voice() to 1. Set carry() to 0. }
+
+  Action light_lamps(actor: group) "Fill and light the lamps along the track" {
+    Requires able(actor) and at(actor, stile) and fogged() and not lampsSet(party) and quantity(actor, gold) >= 2.
+    Time 1 hour.
+    On success { Decrease quantity(actor, gold) by 2. Assert lampsSet(party). Increase extraScore() by 2. }
+    Result "Eleven hooks. By the fourth you have a rhythm; by the seventh you have found that a flame in fog is a smear, a glow with no edge. They go out into the white like a row of small yellow moons, and the track is a track again for thirty paces.".
+  }
+  Action ring_handbell(actor: group) "Ring the chapel's handbell from the stile" {
+    Requires able(actor) and at(actor, stile) and fogged() and holding(actor, culver_handbell) and not handbellRung(party).
+    Time 1 hour.
+    On success { Assert handbellRung(party). Increase extraScore() by 1. }
+    Result "A thin, sharp clapper-note, a child's note. It goes out across the moor about as far as a shout. You ring it for an hour, without a break, with your whole arm.".
+  }
+}
