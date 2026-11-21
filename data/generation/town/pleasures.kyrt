@@ -159,14 +159,41 @@
   Rule {s}_pl_hop_gone when state({s}_pl_hop, won) and not at(party, {s}_green) and not {s}_pl_hop_left(party) { Assert {s}_pl_hop_left(party). }
   Observe {s}_pl_hop_after at {s}_green when {s}_pl_hop_left(party) "The hopscotch is chalked longer now. It goes up to twelve.".
 --- riddles
-  // Solving riddles (#244): an old woman who asks one of everyone.
+  // Solving riddles (#244): an old woman who asks one of everyone. Stopped for, the riddle is an engagement
+  // (engaged_in; the owner, 21 November: the possible answers presented together, with a way to leave or refuse): the
+  // frame is her riddle's three answers and the ways off the green, nothing else. The right one wins a dried plum;
+  // a wrong one, or none, and she tells it you; walked off from, she remembers.
   Thing {s}_pl_riddle "the old woman's riddle" at {s}_green {
     State asked "An old woman on a stool asks each passer-by a riddle. Most of them walk faster.".
-    State heard "'What has a mouth and never eats?' she asks you. She waits, and does not help.".
-    State answered "'A river,' you say. She laughs, and gives you a dried plum from her apron pocket.".
-    Change listen "Stop for the old woman's riddle" from asked to heard.
-    Change answer "Tell her it is a river" from heard to answered.
+    State heard "'What has a mouth and never eats, a bed and never sleeps?' she asks you. She waits, and does not help.".
+    State answered "The old woman on her stool has put her riddle away for the day.".
   }
+  Relation {s}_pl_riddle_got(group). Relation {s}_pl_riddle_walked(group).
+  Action {s}_pl_riddle_listen(actor: group, site: place) "Stop for the old woman's riddle" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_green) and state({s}_pl_riddle, asked).
+    Time 1.
+    On success { Assert state({s}_pl_riddle, heard). Assert engaged_in(actor, {s}_pl_riddle). }
+  }
+  Action {s}_pl_riddle_river(actor: group, site: place) "Tell her it is a river" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {s}_pl_riddle).
+    Time 1.
+    On success { Assert {s}_pl_riddle_got(actor). Assert state({s}_pl_riddle, answered). Retract engaged_in(actor, {s}_pl_riddle). }
+    Result "'A river,' you say. She laughs, and gives you a dried plum from her apron pocket.".
+  }
+  Action {s}_pl_riddle_well(actor: group, site: place) "Tell her it is a well" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {s}_pl_riddle).
+    Time 1.
+    On success { Assert state({s}_pl_riddle, answered). Retract engaged_in(actor, {s}_pl_riddle). }
+    Result "'A well has a mouth,' she says, 'but where does it sleep?' She pats your arm. 'A river. Mouth, bed, and it runs all night.'".
+  }
+  Action {s}_pl_riddle_give(actor: group, site: place) "Say you do not know" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {s}_pl_riddle).
+    Time 1.
+    On success { Assert state({s}_pl_riddle, answered). Retract engaged_in(actor, {s}_pl_riddle). }
+    Result "'Nobody knows,' she says, pleased. 'A river. Think about it on the road.'".
+  }
+  Rule {s}_pl_riddle_off when engaged_in(party, {s}_pl_riddle) and not at(party, {s}_green) { Assert {s}_pl_riddle_walked(party). Retract engaged_in(party, {s}_pl_riddle). Assert state({s}_pl_riddle, asked). }
+  Observe {s}_pl_riddle_back at {s}_green when {s}_pl_riddle_walked(party) and state({s}_pl_riddle, asked) "The old woman on her stool watches you come. 'Walked off with my riddle,' she says. 'Have you found the answer yet?'".
   Relation {s}_pl_riddle_left(group).
   Rule {s}_pl_riddle_gone when state({s}_pl_riddle, answered) and not at(party, {s}_green) and not {s}_pl_riddle_left(party) { Assert {s}_pl_riddle_left(party). }
   Observe {s}_pl_riddle_after at {s}_green when {s}_pl_riddle_left(party) "The old woman on her stool nods to you. 'I have a harder one,' she says. 'Another day.'".

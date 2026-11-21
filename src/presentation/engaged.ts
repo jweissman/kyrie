@@ -42,7 +42,9 @@ export class Engaged {
     return { ...screen,
       camp: screen.camp.flatMap(a => a.command !== 'wait' ? this.acts([a], at) : fight ? [{ ...a, label: this.stand }] : []),
       people: screen.people.map(p => threats.has(p.id) ? p : { ...p, acts: this.acts(p.acts, at) }),
-      ...fight ? {} : { things: screen.things.map(t => threats.has(t.id) ? t : { ...t, acts: this.acts(t.acts, at) }) },
+      // Engaged in something not a threat, a way out is a way to leave it, nothing done to the way (a padlock tried).
+      ...fight ? {} : { things: screen.things.map(t => threats.has(t.id) ? t : { ...t, acts: this.acts(t.acts, at) }),
+        exits: screen.exits.map(e => ({ ...e, acts: e.acts.filter(a => this.going(a) || this.names(a, at)) })) },
       items: screen.items.map(i => ({ ...i, acts: i.acts.filter(a => (fight && this.light(a)) || this.names(a, at)) })),
       party: screen.party.map(m => ({ ...m, acts: this.acts(m.acts, at) })),
       unplaced: this.acts(screen.unplaced, at),
@@ -82,6 +84,7 @@ export class Engaged {
     return (a.targets ?? []).some(t => at.threats.has(t)) || at.about.has(command.split('(')[0]!)
       || (/\(([^)]*)\)/.exec(command)?.[1]?.split(',') ?? []).some(x => at.threats.has(x));
   }
+  private static going(a: Act): boolean { return /^(go|enter|leave|exit)\(/.test(a.command ?? ''); }
   private static naming(words: string, named: string[]): boolean { return named.some(n => words.includes(n)); }
   // What the company takes up against it: a light (what fears flame), a weapon or armour readied (the king-barrow's
   // bane, equipped as the king warns).
