@@ -120,6 +120,15 @@ class Answered {
         draws: performance.getEntriesByName('board:draw').filter(after).slice(0, 40)
           .map(e => [at(e.startTime), Math.round(e.duration)]),
         drifts: performance.getEntriesByName('board:drift').filter(after).slice(0, 40).map(e => at(e.startTime)),
+        // The drawings that cast the shadows again (the costliest), the board's knowledge laid, and the page's own
+        // marks: the journey answered by the engine, and its walk on the map done.
+        shaded: performance.getEntriesByName('board:shaded').filter(after).map(e => [at(e.startTime), Math.round(e.duration)]),
+        know: performance.getEntriesByName('board:know').filter(after).map(e => [at(e.startTime), Math.round(e.duration)]),
+        answered: performance.getEntriesByName('page:answered').filter(after).map(e => at(e.startTime)),
+        walked: performance.getEntriesByName('page:walked').filter(after).map(e => at(e.startTime)),
+        // The frame come set on the page, and drawn (React's commit of it).
+        frame: performance.getEntriesByName('page:frame').filter(after).map(e => at(e.startTime)),
+        drawn: performance.getEntriesByName('page:drawn').filter(after).map(e => at(e.startTime)),
         long: (window as unknown as { __long: number[][] }).__long.filter(([s]) => s! >= from)
           .map(([s, d]) => [at(s!), d]) };
     });

@@ -163,6 +163,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   override componentDidUpdate(_props: unknown, prev: AppState) {
     const frame = this.state.frame;
     if (frame && prev.frame !== frame) {
+      performance.mark('page:drawn');
       Timings.painted(frame);
       PressGuard.changed();
       // The keys rest on what the page marks first, not on whatever is drawn first (the owner, 4 November: the first
@@ -343,7 +344,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       // got from my quest destination back to town without the map").
       const fromScene = !this.state.outdoors && this.state.view !== 'map';
       const walked = JourneyCourse.of(frame, next);
+      performance.mark('page:answered');
       if (walked) { await this.walk(walked, next.screen.region?.land?.known); }
+      performance.mark('page:walked');
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
       const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
@@ -351,6 +354,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const person = attention.kind === 'person';
       const talk = person ? [...this.state.talk, ...Conversation.lines(next, choice, said, this.state.talk)] : [];
       const keeps = ReaderApp.keeps(this.state.exploring, frame, next);
+      performance.mark('page:frame');
       this.setState({ frame: next, pending: undefined, cursor: 0,
         open: keeps ? this.state.open : this.kept(next, attention), hovered: keeps ? this.state.hovered : undefined,
         // Set out from the map, the journey is told where it arrives; anything else done from the map or the company

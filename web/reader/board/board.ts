@@ -163,14 +163,14 @@ export class Board implements BoardApi {
   // Knowledge as it stands: the tiles standing up, what stands on them with them, the rivers and roads laid over them.
   // Only what is on the hexes that have moved since is moved with them (all of it, the first time).
   private know(all = false): void {
-    const moved = this.tiles.update(this.knowing), cells = all ? undefined : moved;
+    const at = performance.now(), moved = this.tiles.update(this.knowing), cells = all ? undefined : moved;
     for (const s of this.scatters) { s.place(c => this.up(c), cells); }
     for (const c of cells ?? this.standing.keys()) {
       const [lift, shown] = this.up(c);
       for (const o of this.standing.get(c) ?? []) { o.position.y = this.ground.levels[c]! + lift; o.visible = shown; }
     }
     this.paths.lay(this.scene, (x, z) => this.ground.at(x, z), c => this.tiles.lift(c) > -0.001, this.river);
-    this.rims(); this.shade(all || moved.length > 0); this.dirty = true;
+    this.rims(); this.shade(all || moved.length > 0); this.dirty = true; performance.measure('board:know', { start: at });
   }
   // The rings about where you are, what is chosen and what is pointed at, each on its hex as it now stands (where you
   // are bound has its pennant and the way there instead, so that it is not taken for where you are).
@@ -362,9 +362,8 @@ export class Board implements BoardApi {
     this.lost = setTimeout(() => this.hooks.lost?.(), 2000);
   }
   // A hold under way, or a command the page waits on (the stage busy).
-  private static busy(): boolean {
-    return 'holding' in document.documentElement.dataset || !!document.querySelector('.stage[aria-busy="true"]');
-  }
+  private static busy(): boolean { return Board.holding() || !!document.querySelector('.stage[aria-busy="true"]'); }
+  private static holding(): boolean { return 'holding' in document.documentElement.dataset; }
   private tick(now: number): void {
     const t = this.began === undefined ? 0 : Math.max(0, now - this.began) / 1000;
     if (this.view.step(now) || this.labels.step(now)) { this.dirty = true; }
@@ -377,10 +376,14 @@ export class Board implements BoardApi {
     // The air's drift is drawn only while the page waits on nothing: a drawing can hold the page's one thread for a
     // fifth of a second where it is drawn without a GPU, and a hold's timer and the answer to a command waited behind
     // it (OR-91: a hold done 0.36 s late, every drift frame a long task on CI's headless Chromium).
-    const drifting = !this.still && now - this.active < Board.settles && !Board.busy();
-    if (this.dirty || (drifting && now - this.drawn > 120)) {
+    // So too what the camera's move or the labels ask while a hold is under way: drawn once it is done (OR-91: a hold
+    // begun as a place viewed was flown to waited behind each frame of the flight). A command waited on still draws
+    // what moves: a journey's walk is drawn while the page waits on its end.
+    const holding = Board.holding(), drifting = !this.still && now - this.active < Board.settles && !Board.busy();
+    if ((this.dirty && !holding) || (drifting && now - this.drawn > 120)) {
       // Each drawing measured, by why (see test/input-answered-browser's TRACE).
-      const at = performance.now(), why = this.dirty ? 'board:draw' : 'board:drift';
+      const at = performance.now(), why = this.dirty ? this.renderer.shadowMap.needsUpdate ? 'board:shaded'
+        : 'board:draw' : 'board:drift';
       this.look.air(this.view.distance, this.still ? 40 : t);
       this.renderer.render(this.scene, this.view.camera); this.began ??= performance.now();
       if (this.dirty) { this.labels.place(this.view.camera, [this.host.clientWidth, this.host.clientHeight],
