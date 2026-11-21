@@ -3,4 +3,6 @@
 preload = ["./src/canon/setting-install.ts"]
 
 [test]
-preload = ["./src/canon/setting-install.ts"]
+# And every read of a relation no module declares fails the spec that makes it (MT-25; a read that may name another
+# module's relation says so: DeclaredReads.optional).
+preload = ["./src/canon/setting-install.ts", "./test/support/declared-strict.ts"]
