@@ -109,7 +109,8 @@ export class Doable {
     // it ("Talk to Dannel Hobb" at the taproom, and the page had not: the parity measure's page engine only, MT-18).
     const mute = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.choices.length).map(x => `talk_to(${x.id})`));
     const listed = [...glance.offer?.primary ?? [], ...(glance.offer?.rest ?? [])
-      .filter(o => !mute.has(o.command ?? o.choice) && !this.another(o.command ?? o.choice, screen, commands))];
+      .filter(o => !mute.has(o.command ?? o.choice) && !this.another(o.command ?? o.choice, screen, commands)
+        && !this.folded(o.command ?? o.choice, commands))];
     // And what a lens holds within an opener that the offer leaves out (a person's questions under their talk, the
     // people lens's): the engine offers them, so every client does, within their holder (MT-18: the page's menu and
     // serve had offered them, the runner not).
@@ -147,6 +148,12 @@ export class Doable {
     const out = { ...r };
     delete out.within;
     return out;
+  }
+  // A telling of the lands beyond the scene has folded into its one question (NewsFold: the next not yet heard), which
+  // the offer still lists by itself: the scene's one is the engine's row, not each (int-mat5's CI: the parity measure
+  // at Porthalen's taproom, the lands under Kynes's Talk now folded too).
+  private static folded(command: string, commands: Map<string, Choice>): boolean {
+    return /_beyond_told_/.test(command) && !commands.has(command);
   }
   // The same act for another of the company, where the scene offers it for the one it is (gather, take, buy "for
   // Carlin" beside "for Wenna"): the scene and the page offer the one, what is had then given in the pack, and the

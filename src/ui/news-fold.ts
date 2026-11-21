@@ -14,13 +14,19 @@ export class NewsFold {
   // the page's talk drawer had folded them by its own memory of what was asked, TalkFocus.beyond, and the engine's rows
   // and the page's menu had offered each by name).
   static readonly beyond = 'Ask what news there is of the lands beyond';
+  // Folded wherever they stand among what is said to someone, under their Talk as at its top (int-mat5's CI: at
+  // Brockminster the innkeeper's twenty-five were under his Talk, unfolded, and stood before every other question).
+  private static lands(acts: Act[]): void {
+    const far = acts.filter(a => /_beyond_told_/.test(a.command ?? '') && !a.children);
+    if (far.length >= 2) {
+      acts.splice(0, acts.length, ...acts.filter(a => !far.includes(a)), { ...far[0]!, key: `${acts.length}:beyond`,
+        label: this.beyond, alone: this.beyond });
+    }
+    for (const a of acts) { if (a.children) { NewsFold.lands(a.children); } }
+  }
   static of(targets: Map<string, Act[]>, names: { get(id: string): string | undefined }) {
     for (const [who, acts] of targets) {
-      const far = acts.filter(a => /_beyond_told_/.test(a.command ?? '') && !a.children);
-      if (far.length >= 2) {
-        acts.splice(0, acts.length, ...acts.filter(a => !far.includes(a)), { ...far[0]!, key: `${acts.length}:beyond`,
-          label: this.beyond, alone: this.beyond });
-      }
+      NewsFold.lands(acts);
       const asks = acts.filter(a => a.does === 'ask' && a.command && !a.children);
       if (asks.length < this.most) { continue; }
       const pick = asks[[...who].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % asks.length]!;
