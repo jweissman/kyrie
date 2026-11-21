@@ -7,7 +7,7 @@ Module drove "The held drove" {
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
-  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group). Relation owainAnswered(group). Relation mardleAnswered(group). Relation owainAsked(group). Relation mardleAsked(group).
+  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group). Relation owainAnswered(group). Relation mardleAnswered(group). Relation owainAsked(group). Relation mardleAsked(group). Relation owainTold(group). Relation deedSaid(group). Relation greenTold(group). Relation greenSeen(group).
 
   Entity held: fact "The customs-men at {town} hold Bran, the Brynach lead-drover, for cheating the Rì's toll: four head short, their clerk says.".
   Initially Assert established(held).
@@ -179,6 +179,16 @@ Module drove "The held drove" {
   }
   // Let out, Bran says his thanks and where he is going himself, at once: the second cold play had him leave without
   // a word, his thanks behind a question nobody thought to ask (CL-03).
+  // The world answers what was done (the defect-centres review's Centre 2; doc/design/drove-response-audit.md): Owain
+  // told of the four where he minds the drove, Bran saying how he came out, and the landing remembering it after.
+  Topic owain_found with owain "Tell Owain you found the four in the Rhyne" when knows(actor, found_drowned) and not freed(party) and not sent(party) and not owainTold(party) once {
+    Says "{owain}'s face goes still. 'All four,' he says. Then, not looking at you: 'Thanks. I couldn't go in there.'".
+    On discuss { Assert owainTold(party). }
+  }
+  Rule bran_found when freed(party) and knows(party, found_drowned) and not fined(party) and not turned(clerk) and not deedSaid(party) says "'You found them in the Rhyne,' says Bran. 'Nobody else looked.'" { Assert deedSaid(party). }
+  Rule bran_ink when freed(party) and turned(clerk) and not deedSaid(party) says "'You read his ink,' says Bran, and looks back at the counter. 'Good.'" { Assert deedSaid(party). }
+  Rule bran_paid when freed(party) and fined(party) and not knows(party, found_drowned) and not deedSaid(party) says "'Twelve crowns of yours,' says Bran. 'I won't forget it.'" { Assert deedSaid(party). }
+  Rule bran_paid_knowing when freed(party) and fined(party) and knows(party, found_drowned) and not deedSaid(party) says "'You knew where they lay,' says Bran, 'and you paid him all the same.' He does not say it kindly." { Assert deedSaid(party). }
   Rule bran_thanks when freed(party) and not thanked(party) says "'Now I sell them, and drink, and go home,' says Bran. 'Up the drove road to Caer Brynach, four days with an empty drove.' He grips your hand like a gate-post. 'Come up the pass. There's work in Brynach for anyone who'll stand by a drover, and the lord pays for a sword: something has been at the cattle on the high pasture. Say Bran ap Ifor sent you.'" teaches road_west { Assert thanked(party). }
 
   Rule bran_out when freed(party) and at(bran, customs) { Assert at(bran, pens). }
@@ -232,6 +242,14 @@ Module drove "The held drove" {
   // the onward hook leading nowhere, cold play 6): the way west asked of him, once the drove is sold or he is paid out.
   Objective west_aim when knows(party, road_west) and freed(party) and (sold(party) or fined(party)) and not westAsked(party) toward bran "Ask Bran about the work up the pass in Brynach: the lord there pays for a sword.".
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }
+  // Back on the landing, someone who remembers: Owain, telling it to drovers off a boat, as it went. Seen while the
+  // company is on the landing and gone once it leaves, so a walk passing through sees it and goes on.
+  Entity green_heard: fact "Owain has told the landing how Bran came out.".
+  Rule green_seen when freed(party) and at(party, green) and at(owain, green) and not greenSeen(party) { Assert greenSeen(party). }
+  Rule green_past when greenSeen(party) and not at(party, green) and not greenTold(party) { Assert greenTold(party). }
+  Observe green_found at green as sign when greenSeen(party) and not greenTold(party) and knows(party, found_drowned) and not fined(party) and not turned(clerk) "Owain is telling two drovers off the Wrackham boat about the Rhyne. He sees you and stops. 'That's who,' he says." teaches green_heard.
+  Observe green_ink at green as sign when greenSeen(party) and not greenTold(party) and turned(clerk) "Owain is telling two drovers off the Wrackham boat how you read Mardle's ink. 'In front of him,' he says." teaches green_heard.
+  Observe green_paid at green as sign when greenSeen(party) and not greenTold(party) and fined(party) "Owain is telling two drovers off the Wrackham boat that you paid Mardle's twelve crowns. One of them looks at you a long while." teaches green_heard.
 
   Milestone m_freed "saw Bran ap Ifor let out of the customs-house" worth 150 when freed(party).
   Milestone m_turned "showed what was under the clerk's forty" worth 100 when turned(clerk).

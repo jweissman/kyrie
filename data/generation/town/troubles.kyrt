@@ -98,7 +98,7 @@
   // (doc/design/first-hour-beats.md, 2–5 minutes, "something not right in this town"; first-hour-evidence.md: no
   // drove-road cold play met anything strange in its first five minutes). Not explained; one row toward it.
   Relation {t}_dogs_turned(group). Relation {t}_dogs_past(group). Relation {t}_hill_looked(group).
-  Entity {t}_dogs_seen: fact "The dogs of {t} all turned to the hill at once. Four notes came down from the stones.".
+  Entity {t}_dogs_seen: fact "The town's dogs all turned to the hill at once. Four notes came down from the stones.".
   // Seen while the company is on the green, and gone once it leaves: a journey passing through sees it and goes on.
   Rule {t}_dogs_turn when at(party, {t}_green) and watch(clock) >= 1 and not dark() and not {t}_dogs_turned(party) and not {t}_animals_known(party) { Assert {t}_dogs_turned(party). }
   Rule {t}_dogs_gone when {t}_dogs_turned(party) and not at(party, {t}_green) and not {t}_dogs_past(party) { Assert {t}_dogs_past(party). }
