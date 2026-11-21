@@ -210,9 +210,11 @@ describe('Thrume: a company that dithers', () => {
     const { s, j } = await T.start(depth);
     await j.play(...toWages);
     expect(T.holds(s, 'thrume__paidWaited', 'thrume__paid')).toBe(true);
-    await j.play('Read the pay-roll', '^Wait an hour');
-    for (let i = 0; i < 3 && !T.holds(s, 'dead', 'thrume__paid') && !T.fallen(s); i++) {
-      try { await j.play('^Wait an hour'); } catch { break; }
+    // Dithering under the Paid's warning is standing there (OR-163: the one wait offered while a warning stands), and
+    // they come on as the hour's waiting had let them.
+    await j.play('Read the pay-roll', '^Stand your ground');
+    for (let i = 0; i < 12 && !T.holds(s, 'dead', 'thrume__paid') && !T.fallen(s); i++) {
+      try { await j.play('^Stand your ground'); } catch { break; }
     }
     expect(T.holds(s, 'dead', 'thrume__paid') || T.fallen(s) > 0).toBe(true);
   }, 180000);
