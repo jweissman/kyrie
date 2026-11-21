@@ -41,4 +41,16 @@ describe('a journey across the country', () => {
     expect(rows.map(r => [r.id, r.map ?? null])).toEqual([['go(gate,road)', true], ['go(door,inn)', null],
       ['view:map', null]]);
   });
+  // Entering a town from the stretch of country it stands in is not a crossing (a1: Millholm from hex 89, by its
+  // gate): led, a journey to one of its places stays an act that goes there; one to another town is charted.
+  it('led into a town from its own hex, stays an act that enters; to a town further off, opens the map', () => {
+    const own = { ...screen, around: [], exits: [{ id: 'exit:millholm_green', destination: { id: 'millholm_green' } }],
+      region: { land: { tracts: 'region__t', here: 89, towns: { millholm: 'known', lowmouth: 'known' } } } };
+    const rows = DoableJourneys.mapped([row('travel:millholm_store', 'travel:millholm_store', true),
+      row('travel:lowmouth', 'travel:lowmouth', true), row('exit:millholm_green', 'go(gate,millholm_green)', true)],
+    own as unknown as Screen);
+    expect(rows.filter(r => r.led).map(r => [r.id, r.does])).toEqual([
+      ['travel:millholm_store', 'travel:millholm_store'], ['map:lowmouth', 'view:map:lowmouth'],
+      ['exit:millholm_green', 'go(gate,millholm_green)']]);
+  });
 });

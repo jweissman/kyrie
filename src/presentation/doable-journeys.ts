@@ -38,7 +38,7 @@ export class DoableJourneys {
     // A way walked into another hex (onto the road out, into the wood's heart) is the map's too, as the page has it
     // (MenuModel.stays, Passages.crosses): offered by its command, it had stood in the rest (the parity measure).
     const crossing = new Set(drawn ? screen.exits.filter(e => e.crosses).map(e => e.destination.id) : []);
-    const marked = rows.map(r => r.led ? (drawn ? this.charted(r, about) : r) : this.mark(r, kept, crossing));
+    const marked = rows.map(r => r.led ? (drawn ? this.charted(r, about, screen) : r) : this.mark(r, kept, crossing));
     const going = new Set(marked.flatMap(r => r.does ? [r.does] : []));
     // The journey a charted row opens the map on, there to be set out on, where no row of the rest does it.
     const set = marked.flatMap(r => r.chart && !going.has(`travel:${r.chart}`)
@@ -51,10 +51,28 @@ export class DoableJourneys {
   }
   // A row the four lead with across the country, as opening the map at where it goes: by the map's own id where its
   // own is the journey's (map:<place>), so that the journey keeps its id, set out on from the map.
-  private static charted(r: Row, about: Set<string>): Row {
+  // Only one that leaves the hex the company is in: going into the town from the stretch of country it stands in, or
+  // to a place within it, is entered, not charted (a1's Millholm from its own hex, 89: the led "To the corn-store"
+  // had opened the map, and the company stayed out: test/safe-zone-browser at 390 wide).
+  private static charted(r: Row, about: Set<string>, screen: Screen): Row {
     const to = /^travel:(.+)$/.exec(r.does ?? '')?.[1];
-    if (!to || about.has(to) || about.has(r.does!)) { return r; }
+    // A way out of here says itself whether it crosses (ExitRow.crosses); a journey further, by where it goes.
+    const exit = screen.exits.find(e => e.id === r.id);
+    const crosses = exit ? !!exit.crosses : !!to && this.crosses(screen, to);
+    if (!to || about.has(to) || about.has(r.does!) || !crosses) { return r; }
     return { ...r, id: this.id(r.id), does: `view:map:${to}`, chart: to };
+  }
+  // Whether a journey leaves the hex the company is in: not one into a town a way from here walks into without
+  // crossing (Millholm's corn-store from Millholm's own stretch of country, by its gate), nor to a place of the
+  // country's own hex; every other journey across a country drawn in hexes does.
+  private static crosses(screen: Screen, to: string): boolean {
+    const land = screen.region?.land, towns = Object.keys(land?.towns ?? {}), at = this.town(towns, to);
+    if (at && screen.exits.some(e => !e.crosses && this.town(towns, e.destination.id) === at)) { return false; }
+    const tract = land?.tracts && to.startsWith(land.tracts) ? Number(to.slice(land.tracts.length)) : undefined;
+    return tract === undefined || tract !== land?.here;
+  }
+  private static town(towns: string[], id: string): string | undefined {
+    return towns.find(t => id === t || id.startsWith(`${t}_`));
   }
   // The id a row led with across the country is drawn by: map:<place> for its journey's own.
   static id(choice: string): string { return choice.replace(/^travel:/, 'map:'); }
