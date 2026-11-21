@@ -111,10 +111,29 @@
     State patience "At the window table an old woman lays out patience with cards as soft as cloth. She cheats, slowly and with great care.".
     State dealt "She sweeps the patience up without a word and deals two hands. 'Beggar-my-neighbour,' she says. 'Pennies, if you have them. Buttons if you don't.'".
     State beaten "It goes on a long time. Kings and knaves cross the table and come back. Then she turns a queen, and then another. Your last card goes under them, and she laughs like a gate. She pushes your buttons back to you.".
-    State taken "This time the cards come your way. On the last turn you take her ace with a knave. Morwen Ashlock looks at the table for a while. Then she deals the patience out again. 'Tomorrow,' she says.".
+    State taken "The cards lie squared on the window table. Morwen Ashlock lays the patience out again, and hums to herself.".
     Change sit "Sit down across from Morwen Ashlock and let her deal you in" from patience to dealt when at({t}_morwen, {t}_taproom) "The window table is empty, and the cards are put away.".
     Change play "Play the hand out" from dealt to beaten when at({t}_morwen, {t}_taproom) "Morwen Ashlock is not at her table.".
-    Change redeal "Ask for another hand" from beaten to taken when at({t}_morwen, {t}_taproom) "Morwen Ashlock is not at her table.".
+  }
+  // The second hand is a game: read her hands and play it slow (a fair chance, and another hand if not), or cheat back
+  // as she does (a hard one, and caught, never again at her table).
+  Relation {t}_cards_caught(group).
+  Action {t}_cards_read(actor: group, site: place) "Watch Morwen Ashlock's hands, and play the next hand slow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_taproom) and at({t}_morwen, {t}_taproom) and state({t}_cards, beaten).
+    Time 1.
+    Resolve check(actor, insight, dc_fair).
+    On success { Assert state({t}_cards, taken). }
+    Result "This time you watch her hands, not the cards. Her queens come from the bottom of the pack. You hold your knave back for it, and on the last turn you take her ace. Morwen Ashlock looks at the table for a while. Then she deals the patience out again. 'Tomorrow,' she says.".
+    Otherwise "She takes it again, as easily as breathing. Her queens come in pairs, and you never see from where. 'Again?' she says, and is already dealing.".
+  }
+  Action {t}_cards_cheat(actor: group, site: place) "Cheat back, the way she does" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_taproom) and at({t}_morwen, {t}_taproom) and state({t}_cards, beaten) and not {t}_cards_caught(actor).
+    Time 1.
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert state({t}_cards, taken). }
+    On failure { Assert {t}_cards_caught(actor). }
+    Result "You slide a knave into your sleeve the way she slid her queens. She watches it go and says nothing, and loses. Then Morwen Ashlock laughs until she has to wipe her eyes. 'Forty years,' she says. 'Nobody on the boats ever had the face for it.'".
+    Otherwise "Morwen Ashlock puts one finger on the back of your hand, quite gently, and turns over the card under it. 'No,' she says. 'At my table, I cheat.'".
   }
   Topic {t}_morwen_patience with {t}_morwen "Ask Morwen Ashlock where she learned to cheat at patience" when not state({t}_cards, patience) once {
     Says "'On the boats,' says Morwen Ashlock. 'Forty years of fog. You learn to cheat yourself or you learn to talk, and I never liked talking.' She turns a card. 'There. Out.'".
