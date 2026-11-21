@@ -84,7 +84,7 @@ export class FirstQuarter {
       // show it: only gold is the aim's step).
       // Nor, the aim's place shut to it (Shut: the press-door locked, nothing to open it), a way or a walk back to it.
       const led = AutoplayRun.situation(s, step, true, 'undertaking'), sit = between ? { ...led, led: (led.led ?? [])
-        .filter(id => !this.beyond(s, id)) } : led;
+        .filter(id => !this.beyond(s, id) && !(/^(go\(|travel:)/.test(id) && this.went(s, id))) } : led;
       const move = this.rest(s, sit.offered) ?? player.next(sit);
       if (!move) { break; }
       const fights = metrics.fights;
@@ -108,6 +108,12 @@ export class FirstQuarter {
   }
   // A way or a walk the need said goes nowhere for now: back in to a keeper beyond the company (Guarded), or on the
   // way toward the aim's place where its keeper is beyond the company or it is shut to the company (Shut).
+  // A way to somewhere been already: with the aim's step said to be beyond the company for now, not walked again for
+  // its own sake (the ossuary and the charnel passage, each led from the other, twenty times).
+  static went(s: PlaySession, id: string): boolean {
+    const to = id.startsWith('travel:') ? id.slice('travel:'.length) : AutoPlayer.destination(id);
+    return s.campaign.world.test({ kind: 'call', name: 'been', args: [s.campaign.playerActor ?? 'party', to] });
+  }
   static beyond(s: PlaySession, id: string): boolean {
     const c = s.campaign, to = id.startsWith('travel:') ? id.slice('travel:'.length)
       : /^go\(/.test(id) ? AutoPlayer.destination(id) : undefined;

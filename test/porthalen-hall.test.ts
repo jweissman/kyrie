@@ -39,8 +39,8 @@ describe('Porthalen Hall, by the gold', () => {
     expect(screen.place.name).toBe('the forecourt of Porthalen Hall');
     expect(g.acts.filter(a => a.continues)).toEqual([]);
     expect(g.continuance).toMatchObject({ kind: 'frontier', need: true });
-    expect(g.need ?? []).toContain('The muniment-press door bars the way: it wants the old press key, lockwork or a '
-      + 'crowbar, and the company has none of them; Sabine, the tinker, Martin\'s daughter, sells a crowbar.');
+    // A warrior: the grant beyond the press-door wants lore she has not got, and that is said first (OR-175).
+    expect(g.need ?? []).toContain('The road-grant in the press: it wants lore, and the company has none of it.');
   }, 600000);
   it('looks for the lettered flag\'s ring in the ossuary, not on into the crypt, and is not walked to and fro below', async () => {
     const q = await FirstQuarter.walk('iscoed', 'debt', 'warrior', { steps: 70, asked: [

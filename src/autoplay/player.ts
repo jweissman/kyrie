@@ -153,7 +153,9 @@ export class AutoPlayer {
   private onward(s: Situation): Move | undefined {
     const unvisited = s.destinations.filter(t => !s.visited.has(t.id)), to = this.draw.pick(unvisited);
     if (to) { return { kind: 'travel', to: to.id }; }
-    return this.command(this.draw.pick(this.of(s, 'go')));
+    // The way it has taken least often: two rooms with nothing in them had been gone between twenty times.
+    const ways = this.of(s, 'go'), least = Math.min(...ways.map(o => this.looked.get(o.id) ?? 0));
+    return this.command(this.draw.pick(ways.filter(o => (this.looked.get(o.id) ?? 0) === least)));
   }
   // Somewhere known and not yet been to, along the ways the company knows.
   private travel(s: Situation): Move | undefined {
