@@ -17,11 +17,28 @@ class Route {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
     const r = new Runner(journey.session), at: Said[] = [];
     for (const line of lines.slice(0, upto)) {
-      const s = await AsMeant.ask(r, line);
+      let s = await AsMeant.ask(r, line);
+      if ('error' in s) { s = await Route.answer(r, line, at) ?? s; }
       if ('error' in s) { throw new Error(`${line}: ${s.error}`); }
       at.push(s);
     }
     return { at, c: journey.session.campaign };
+  }
+  // A line the recording took that a warning now holds (OR-163: under a warning only its answers are offered): the
+  // warning answered as the engine's rows offer it. Going on elsewhere is leaving by the way the company came, and
+  // then the line (the mage's drain, the centipede warning her off); anything else is standing its ground, which lets
+  // what warns come on, as the line had (the warrior's search of the gate-well, the conger coming at the search).
+  static async answer(r: Runner, line: string, at: Said[]): Promise<Said | undefined> {
+    const s = r.said(), rows = [...s.offer.primary, ...s.offer.rest].flatMap(o => [o, ...o.opens ?? []]);
+    const stand = rows.find(o => o.label === 'Stand your ground');
+    if (!stand) { return undefined; }
+    const before = [...at].reverse().find(x => x.at !== s.at)?.at;
+    const back = rows.find(o => /^go\(/.test(o.does ?? o.id) && !!before && (o.does ?? o.id).endsWith(`,${before})`));
+    const done = (x: Said | { error: string }) => ('error' in x ? undefined : x);
+    if (line.includes('travel:') && back) {
+      return done(await r.ask(JSON.stringify({ act: back.id }))) && done(await AsMeant.ask(r, line));
+    }
+    return done(await r.ask(JSON.stringify({ act: stand.id })));
   }
   // What the page draws in gold toward the aim followed: the glance's acts drawn for it.
   static gold(c: Campaign): string[] {
