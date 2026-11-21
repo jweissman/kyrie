@@ -18,6 +18,9 @@ open finding ([../architecture/findings/index.md](../history/findings/index.md) 
 | 9 | [When the contracts are not enough](trail/09-extending.md) | know where an engine change belongs, and how to record what you could not do | yes |
 | 10 | [Scenes, opportunities and what a character perceives](trail/10-scenes-and-opportunities.md) | write a place the page paints, whose worthwhile acts reach the player's foreground, and whose signs only some characters notice | yes for what it describes; its "not built yet" list is open |
 
+**Before handing an adventure in,** take [the author's checklist](checklist.md): `bin/kyrie new` prints it, and
+`bin/kyrie verify <id>` runs it whole and says which kinds of evidence there are and which there are not.
+
 **Before writing a flag by hand,** see [forms the engine already has](forms.md).
 
 **The reference behind the trail.** The [authoring guide](guide.md) is the full manual of the language: every

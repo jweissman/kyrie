@@ -94,17 +94,14 @@ should know.)
 
 ```sh
 bun test test/lanternwell.test.ts       # the scaffold's spec: lints clean, and walks the road into the square
-bin/kyrie verify lanternwell             # lint, the adventure's tests and its kept traces, together
+bin/kyrie verify lanternwell             # the one check before handing it in (doc/authoring/checklist.md)
 ```
 
-```text
- 2 pass
- 0 fail
-lint: clean, 1 to look at
-tests: 2 passed, 0 failed, in 1 file
-traces: 0 of 0 come to what they came to
-lanternwell: lint, tests and traces all hold
-```
+`verify` checks, in order: that it compiles, its lint, the names another adventure gives too, your repeated phrases,
+its tests, its kept traces, and a curious player's reach. It ends with the evidence kept apart: compiled, tests,
+explored, and human play, which reads `no human play recorded` unless you say otherwise (`--played`). Then it lists
+the topics, acts, observations, milestones and endings no play reached ([the author's checklist](../checklist.md);
+`test/author-path.test.ts` shows its output).
 
 Grow the journey file (`test/fixtures/lanternwell/journey.json`) with the steps a player takes and the spec with what
 must then hold. `bin/kyrie new scene|item|chapter|character <id> --in lanternwell` adds a part with its own spec, and

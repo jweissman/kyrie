@@ -46,6 +46,9 @@ export class NewTool {
         modules: [{ id, bundle: `../adventures/${id}/module.json` }],
         // A test company for playing the adventure alone (bin/kyrie play); a player's own company is the world's.
         party: [{ name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' }] }),
+      [`data/adventures/${id}/NOTES.md`]: [`# ${title}: notes`, '', 'What it is for, who comes to it, and what is open.',
+        '', '## Before you hand it in', '', '```', ...NewTool.path(id), '```', '',
+        'Human play is evidence of its own: say who played it, when and how far (`--played`), or verify says none.', ''].join('\n'),
       [`test/fixtures/${id}/journey.json`]: json({ arrive: ['^To the square'] }),
       [`test/${id}.test.ts`]: [`import { describe, expect, it } from 'bun:test';`,
         `import { Journey } from '../src/session/journey';`,
@@ -64,6 +67,23 @@ export class NewTool {
         '  }, 60000);', '});', ''].join('\n'),
     };
   }
+  // The author's path, in the order to take it, each with the question it answers (the owner, 20 November: an
+  // adventure-writing agent missed verify, reach, voice repeats and the name lint): printed after scaffolding, and
+  // kept in the adventure's NOTES.md; the whole checklist is doc/authoring/checklist.md.
+  static path(id: string): string[] {
+    const c = `data/campaigns/${id}.campaign.json`;
+    return ['The author\'s path (doc/authoring/checklist.md), in this order:',
+      `  bin/kyrie names <Surname> <Place> ...           is each name free, across every adventure?`,
+      `  bin/kyrie lint ${c}   does it load and lint clean?`,
+      `  bin/kyrie play ${c} --choices   does it play as you meant, by hand?`,
+      `  bin/kyrie inspect --why fact ${c} "<fact>"   why is something so, or not?`,
+      `  bin/kyrie reach ${c} --detail   what does a curious player never reach?`,
+      `  bin/kyrie voice repeats data/adventures/${id}   which of your phrases come again and again?`,
+      `  bun test test/${id}.test.ts   do its journeys play as written?`,
+      `  bin/kyrie verify ${id} [--played "who, when, how far"]   all of it at once, before you hand it in`,
+      `People or scenes in files of their own, if you like: bin/kyrie new character <id> --in ${id}`
+        + ` [--major|--companion|…], bin/kyrie new scene <id> --in ${id}.`];
+  }
   static readonly usage = ['usage: kyrie new <id> ["Title"]   an adventure (an id of lower-case letters and digits)',
     '       kyrie new scene|item|chapter <id> --in <adventure> [--from <place>]',
     `       kyrie new character <id> --in <adventure> [${Characters.tiers.map(t => `--${t}`).join('|')}] [--from <place>]`,
@@ -76,10 +96,7 @@ export class NewTool {
     const [id, title] = kind === 'adventure' ? rest : args;
     if (!id || !/^[a-z][a-z0-9]*$/.test(id)) { print(this.usage); return 1; }
     const wrote = await this.write(this.files(id, title ?? id.charAt(0).toUpperCase() + id.slice(1)), root, print);
-    if (wrote) {
-      print(`Next: bin/kyrie lint data/campaigns/${id}.campaign.json; bin/kyrie play data/campaigns/${id}.campaign.json --choices;`
-        + ` bun test test/${id}.test.ts; bin/kyrie preview data/campaigns/${id}.campaign.json`);
-    }
+    if (wrote) { for (const line of this.path(id)) { print(line); } }
     return wrote ? 0 : 1;
   }
   // A part of an adventure that is there: its own file of the adventure's module, which the module (and the bundle

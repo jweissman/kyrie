@@ -70,7 +70,9 @@ export class KyrieCli {
     '           bin/kyrie transcripts <campaign.json> --out <dir> [--seed s] <steps.json>... (journeys as the page told them)',
     '           bin/kyrie prose <campaign.json>          (a campaign\'s own words, each under its id)',
     '           bin/kyrie voice show|moments|coverage|review|orsino | voice repeats <module dir> | handbook [--html <dir>]',
-    'Check:     bin/kyrie test [bun test arguments] | verify <adventure> | validate',
+    'Check:     bin/kyrie verify <adventure> [--steps n] [--played "who, when"]  (before handing in: compiled, lint, names,',
+    '                repeats, tests, traces, reach, and what no play reached; doc/authoring/checklist.md)',
+    '           bin/kyrie test [bun test arguments] | validate',
     '           bin/kyrie orsino check|report|generate|catalog|world|inventory',
     'Look up:   bin/kyrie ancestries | species | classes | abilities | batch [count]'].join('\n');
   static async main(args: string[]): Promise<number> {

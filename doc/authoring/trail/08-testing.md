@@ -53,7 +53,7 @@ reloads into a page that has played nothing yet (a game carrying a kind of its o
 ## The adventure as a whole
 
 ```sh
-bin/kyrie verify lanternwell        # lint, its specs and its kept traces
+bin/kyrie verify lanternwell        # all of it before handing in: see ../checklist.md
 bun run test:changed                # the specs a change touches, by its code and the data it names
 bun run test:quick                  # about half a minute; the full suite and the browser specs are CI's
 ```

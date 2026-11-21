@@ -865,6 +865,9 @@ kept traces):
 bin/kyrie verify ashhollow
 ```
 
+It runs, in order, compile, lint, the names other adventures give, your repeated phrases, the tests, the kept
+traces and a curious player's reach, and ends with the evidence kept apart: compiled, tests, explored, and human play
+(none recorded unless `--played "who, when, how far"` says so). The whole path is [the author's checklist](checklist.md).
 It says too what of the adventure none of its kept traces came to: each rule or event that says something and was
 never told, each ending never reached, milestone never achieved, and promise never made, kept or broken (a rule that
 says nothing is counted, not judged); `bin/kyrie reach <campaign.json>` says the same of a curious player's plays (the

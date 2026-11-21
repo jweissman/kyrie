@@ -42,12 +42,15 @@ describe('an adventure begun with kyrie new', () => {
       { source: string[]; imports: string[] };
     expect([placed.source, placed.imports]).toEqual([['site.kyr', 'placed.kyr'], ['party']]);
   }, 60000);
-  // And holds: its lint, the test kyrie new wrote, and its kept traces (none), checked at once.
+  // And holds: its lint, its names, its phrases, the test kyrie new wrote, its kept traces (none) and a curious
+  // player's reach, checked at once, the evidence said each kind for itself.
   it('is verified whole', async () => {
     const said: string[] = [];
-    expect(await VerifyTool.main(['ashhollow'], root, l => said.push(l))).toBe(0);
-    expect(said).toEqual(['lint: clean', 'tests: 2 passed, 0 failed, in 1 file', 'traces: 0 of 0 come to what they came to',
-      'ashhollow: lint, tests and traces all hold']);
+    expect(await VerifyTool.main(['ashhollow', '--steps', '60'], root, l => said.push(l))).toBe(0);
+    expect(said.slice(0, 5)).toEqual(['lint: clean', 'names: none shared', 'repeats: none',
+      'tests: 2 passed, 0 failed, in 1 file', 'traces: 0 of 0 come to what they came to']);
+    expect(said).toContain('  human play: no human play recorded');
+    expect(said.at(-1)).toBe('ashhollow: every check holds (see doc/authoring/checklist.md for what none of them proves)');
   }, 60000);
   // A part written into it is a working example: the module lints clean with it, and the steps its test plays tell
   // what the test says they will.
