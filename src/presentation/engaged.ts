@@ -1,4 +1,5 @@
 import type { Act, Screen } from '../ui/screen-types';
+import type { Operator } from '../lang/module';
 import type { Row } from './doable';
 
 // An engagement, as the engine's state (OR-163; the owner, 17 November and 20 November late: with a live threat the
@@ -10,20 +11,27 @@ import type { Row } from './doable';
 // on). No other wait, no search, no camp, no aim taken up, no talk with anyone else, no journey beyond the hex, and no
 // world map: the company resolves what is in front of it. Read into the Screen itself (ScreenModel), so that the scene,
 // the glance, Doable and every client built on them offer the same few and none can offer more.
+// threat: who it is; here: the things of the place; about: the acts whose words name the threat.
+interface At { threat: string; here: ReadonlySet<string>; about: ReadonlySet<string> }
 export class Engaged {
   // The one wait offered: standing where the company is, and letting the threat come on.
   static readonly stand = 'Stand your ground';
   static threat(screen: Pick<Screen, 'warned'>): string | undefined { return screen.warned?.id; }
   // The frame as it is engaged: every act that does not answer the threat taken out of it, and the ways beyond.
-  static screen(screen: Screen): Screen {
+  // operators: the campaign's acts, by which an act whose own words name the threat is known for one that answers it
+  // (keeping to the old drain's cold side, which the centipede then lets by: tolerates).
+  static screen(screen: Screen, operators: readonly Operator[] = []): Screen {
     const threat = this.threat(screen);
     if (!threat) { return screen; }
-    const here = new Set(screen.things.map(t => t.id));
-    return { ...screen, camp: screen.camp.flatMap(a => a.command === 'wait' ? [{ ...a, label: this.stand }] : []),
-      people: screen.people.map(p => p.id === threat ? p : { ...p, acts: this.acts(p.acts, threat, here) }),
-      items: screen.items.map(i => ({ ...i, acts: i.acts.filter(a => this.light(a) || this.names(a, threat)) })),
-      party: screen.party.map(m => ({ ...m, acts: this.acts(m.acts, threat, here) })),
-      unplaced: this.acts(screen.unplaced, threat, here),
+    const named = `"${threat}"`, at: At = { threat, here: new Set(screen.things.map(t => t.id)),
+      about: new Set(operators.filter(o => JSON.stringify([o.requires, o.success, o.failure]).includes(named))
+        .map(o => o.id)) };
+    return { ...screen,
+      camp: screen.camp.flatMap(a => a.command === 'wait' ? [{ ...a, label: this.stand }] : this.acts([a], at)),
+      people: screen.people.map(p => p.id === threat ? p : { ...p, acts: this.acts(p.acts, at) }),
+      items: screen.items.map(i => ({ ...i, acts: i.acts.filter(a => this.light(a) || this.names(a, at)) })),
+      party: screen.party.map(m => ({ ...m, acts: this.acts(m.acts, at) })),
+      unplaced: this.acts(screen.unplaced, at),
       ...screen.aims ? { aims: screen.aims.map(({ follow: _f, ...a }) => a) } : {},
       destinations: [], roads: [], around: [], mapped: [], quarters: [] };
   }
@@ -46,16 +54,18 @@ export class Engaged {
   private static commands(acts: Act[]): string[] {
     return acts.flatMap(a => [...a.command ? [a.command] : [], ...this.commands(a.children ?? [])]);
   }
-  private static acts(acts: Act[], threat: string, here: ReadonlySet<string>): Act[] {
+  private static acts(acts: Act[], at: At): Act[] {
     return acts.flatMap(a => {
-      if (this.names(a, threat) || (a.targets ?? []).some(t => here.has(t))) { return [a]; }
-      const children = a.children ? this.acts(a.children, threat, here) : [];
+      if (this.names(a, at) || (a.targets ?? []).some(t => at.here.has(t))) { return [a]; }
+      const children = a.children ? this.acts(a.children, at) : [];
       return children.length ? [{ ...a, children }] : [];
     });
   }
-  private static names(a: Act, threat: string): boolean {
-    return (a.targets ?? []).includes(threat) || (/\(([^)]*)\)/.exec(a.command ?? '')?.[1]?.split(',') ?? [])
-      .includes(threat);
+  // Done to the threat: it is among what the act binds, or the act's own condition or changes name it.
+  private static names(a: Act, at: At): boolean {
+    const command = a.command ?? '';
+    return (a.targets ?? []).includes(at.threat) || at.about.has(command.split('(')[0]!)
+      || (/\(([^)]*)\)/.exec(command)?.[1]?.split(',') ?? []).includes(at.threat);
   }
   // What the company takes up against it: a light (what fears flame), a weapon or armour readied (the king-barrow's
   // bane, equipped as the king warns).

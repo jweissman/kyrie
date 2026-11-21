@@ -11,7 +11,7 @@ export class Patience {
     // None to a company that has fallen: the barrow-king had given a dead warrior ten minutes (AB-04).
     if (!here || !world.relates('warned') || !campaign.running) { return {}; }
     const by = world.related('warned').map(r => r.args).filter(([g, c]) => c === company && world.one('at', g!) === here)
-      .map(([g]) => g!).filter(g => this.standing(world, g)).find(g => world.number(ModuleWriter.call('patience', g))
+      .map(([g]) => g!).filter(g => this.standing(world, g, company)).find(g => world.number(ModuleWriter.call('patience', g))
         > world.number(ModuleWriter.call('watch', 'clock')));
     if (!by) { return {}; }
     const watches = world.number(ModuleWriter.call('patience', by)) - world.number(ModuleWriter.call('watch', 'clock'));
@@ -19,8 +19,11 @@ export class Patience {
   }
   // Only one who could still come on: a robbers' captain dead on the floor had gone on giving the company seven
   // minutes (round 5), as the rules' warning stands until it is spent (temper_closes asks able, not routed).
-  private static standing(world: Campaign['world'], g: string): boolean {
-    return this.holds(world, 'able', g) && !this.holds(world, 'routed', g);
+  // Nor one who now lets the company be (the old drain's centipede, kept to the cold side of: tolerates), as the
+  // rules' warning closes only on one it does not tolerate (temper_closes), and no engagement stands (OR-163).
+  private static standing(world: Campaign['world'], g: string, company: string): boolean {
+    return this.holds(world, 'able', g) && !this.holds(world, 'routed', g)
+      && !(world.relates('tolerates') && world.test(ModuleWriter.call('tolerates', g, company)));
   }
   private static holds(world: Campaign['world'], name: string, g: string): boolean {
     return world.relates(name) && world.test(ModuleWriter.call(name, g));

@@ -105,7 +105,7 @@ export class ScreenModel {
     // Engaged, only what answers the threat (OR-163).
     const recall = CompanyRecall.of(campaign), camp = LightLeft.warned(screen.camp, screen.expedition.flame);
     return Engaged.screen({ ...screen, people: FightHelp.on(campaign, screen), camp,
-      ...TownPlan.of(screen, entities, world, { visited, recall }) });
+      ...TownPlan.of(screen, entities, world, { visited, recall }) }, campaign.schemaList);
   }
   // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity;
   // kept from one world to the next while no price read is written (see KeptParts).
