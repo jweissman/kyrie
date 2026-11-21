@@ -40,7 +40,10 @@ describe('the golden route, after the sixth cold play', () => {
     expect(text(10)).not.toContain('someone else');
     // Among the engine's four, after its own lead to follow the held drover's aim (the runner had dropped that row:
     // MT-18, every client the engine's four).
-    expect(at[9]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('drove__clerk_short_t');
+    // Mardle's own question ("You came down with them?") leads now, his answer owed (OR-149); his short count is
+    // still offered.
+    expect(at[9]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('drove__mardle_with');
+    expect([...at[9]!.offer.primary, ...at[9]!.offer.rest].map(o => RunnerOffer.act(o))).toContain('drove__clerk_short_t');
     expect(text(18)).toBe('Owain turns to you.');
     expect(aims(24)).toContain('Find out where Joss Hatherly was the night he drowned.');
     expect(at[30]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('region__s1_u_raiser_who');

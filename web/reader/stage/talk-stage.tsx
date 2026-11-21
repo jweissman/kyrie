@@ -181,7 +181,9 @@ export class TalkStage {
     const replied = lines.findIndex((l, i) => i > from && ['speech', 'telling', 'event'].includes(l.kind)), last = lines.map((l, i) => l.kind === 'aim'
       || Moments.ending.test(l.text) ? i : -1).reduce((a, b) => Math.max(a, b), -1);
     useLayoutEffect(() => {
-      end.current?.scrollIntoView({ block: 'nearest' });
+      // One page (OR-149): what you said last brought to the head of the view, the answer under it; the page
+      // scrolls, not a box of its own.
+      (newest.current ?? end.current)?.scrollIntoView({ block: newest.current ? 'start' : 'nearest' });
       const box = end.current?.parentElement, first = newest.current;
       if (box && first && first.getBoundingClientRect().top < box.getBoundingClientRect().top) {
         box.scrollTop -= box.getBoundingClientRect().top - first.getBoundingClientRect().top;
@@ -200,7 +202,8 @@ export class TalkStage {
     }, [lines.length, pending]);
     // What was said before the last three things said is folded away: a conversation had scrolled into an
     // ever-growing log (round 7, L).
-    const yours = lines.flatMap((l, i) => l.kind === 'you' ? [i] : []), cut = yours.length > 3 ? yours.at(-3)! : 0;
+    // The whole of it, one page (OR-149): nothing folded away above.
+    const cut = 0;
     const line = (l: TalkLine, i: number) => {
       // Something seen through, or a level gained, is set apart here as on the place's page.
       const ended = Moments.ending.exec(l.text), levelled = Moments.levelled.exec(l.text);
@@ -227,7 +230,7 @@ export class TalkStage {
         {cut > 0 && <details className="said-before"><summary>Said before…</summary>
           {lines.slice(0, cut).map((l, i) => line(l, i))}</details>}
         {lines.slice(cut).map((l, k) => line(l, cut + k))}
-        {pending && <p className="line you waiting">{Typography.curl(Words.lastSaid(pending))}</p>}
+        {pending && <p className="line you waiting">{Typography.curl(Words.echo(Words.lastSaid(pending)))}</p>}
         <div ref={end} />
       </div>
     );

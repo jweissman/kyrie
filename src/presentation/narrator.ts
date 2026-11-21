@@ -20,15 +20,16 @@ import { Likenesses } from './likenesses';
 import { LensSubjects } from './lens-subjects';
 import { Glance } from './glance'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
 import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
-import { TaughtSigns } from './taught-signs';
-import { Charge } from './charge';
+import { TaughtSigns } from './taught-signs'; import { Charge } from './charge';
 import type { Glance as GlanceView } from './glance-types';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
-// A revelation is a discovery an author marked as deserving the page to itself (`as revelation`: NAR-14).
+// A revelation is a discovery an author marked as deserving the page to itself (`as revelation`: NAR-14); by, who said
+// a topic's speech (OR-149).
 export interface ExchangeLine {
   text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation';
+  by?: string;
 }
 // aims: the aims it took up, by id with their words (the notes say them too, in the narration's words).
 // learned: those of the notes that are what the company learned or saw borne out; act: the action told, by its name.
@@ -399,7 +400,7 @@ export class Narrator {
   // What came of the command. Something learned by asking is said in the words of whoever told it, where they told
   // it: the journal keeps it, but the page does not send the player there to find out what was said.
   private static exchange(campaign: Campaign, told: Told): Exchange {
-    const { event, feedback } = told, action = campaign.operator(event.action);
+    const { event } = told, action = campaign.operator(event.action), feedback = Spoken.kept(campaign, action, told);
     const informant = action?.schema === 'ask' ? action.bindings?.informant : undefined;
     const speaker = informant ? this.nameOf(campaign, informant) : undefined;
     const spoken = speaker ? feedback.discoveries.map(d => Spoken.speech(d, speaker)) : [];
@@ -475,8 +476,8 @@ export class Narrator {
     const turned = this.tidy(unique, fight && FightSeen.acted(campaign, event)).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
       ? { ...l, text: SecondPerson.turn(l.text, me) } : l)
       .map(l => revealed.has(this.plain(l.text)) ? { ...l, kind: 'revelation' as const } : l);
-    return { ...told.said ? { said: begun ? Narrator.begun(begun) : told.said } : {},
-      lines: turned, notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
+    return { ...told.said ? { said: begun ? Narrator.begun(begun) : Spoken.said(operator, told.said) } : {},
+      lines: Spoken.by(turned, campaign, operator), notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
       ...act ? { act } : {}, ...feedback.taken?.length ? { aims: feedback.taken } : {}, ...learned.length + borne.length
         ? { learned: [...learned, ...borne] } : {} };
   }

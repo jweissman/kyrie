@@ -76,7 +76,10 @@ describe('the golden route, after the fourth cold play', () => {
   // the reeve's own topics had stood in the rest while she was spoken to (the 14th line greets her, the 15th tells her
   // of Mardle).
   it('says the signs an act on the landing learns from, and leads by whom the company is speaking with', () => {
-    const owain = text(byLine[0]);
+    // Not over what Owain is saying (OR-149: a conversation is talking to someone), but with the next thing done on
+    // the landing once he has said it.
+    expect(text(byLine[0])).not.toContain('looking up the river for the fuel boat');
+    const owain = `${text(byLine[1])} ${text(byLine[2])}`;
     expect(owain).toContain('looking up the river for the fuel boat from Reedbridge, two days late');
     expect(owain).toContain('the reeve’s seal at its foot');
     // Said, and leads, not aims (HP-01): the sea-gate is held once the reeve is asked of it, not from her notice seen.

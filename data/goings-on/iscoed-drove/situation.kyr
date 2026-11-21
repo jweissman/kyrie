@@ -7,7 +7,7 @@ Module drove "The held drove" {
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
-  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group).
+  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group). Relation owainAnswered(group). Relation mardleAnswered(group).
 
   Entity held: fact "The customs-men at {town} hold Bran, the Brynach lead-drover, for cheating the Rì's toll: four head short, their clerk says.".
   Initially Assert established(held).
@@ -60,10 +60,11 @@ Module drove "The held drove" {
     Greets "Owain is at your side at once. 'He's out,' he says, and grins." when kin(party, owain) and freed(party). }
   // Bran let out, the boy has his own way home to say (cold play 4's 11: "What do we do?" with nothing to answer).
   Topic owain_after with owain "Ask Owain what he will do now" when freed(party) once {
-    Says "'Go home with Bran,' says {owain}. 'He sells them at the sales, and then it's four days up the drove road to Caer Brynach.' He looks at you, and then away. 'You could come. He said so.'".
+    Says "'Go home with Bran, four days up the drove road to Caer Brynach,' says {owain}, and looks away. 'You could come. He said so.'".
   }
   // The boy waits on the landing for whoever will listen, and goes back to the beasts once someone has.
-  Rule owain_to_pens when knows(party, boy_count) and at(owain, green) and not freed(party) and not sent(party) { Assert at(owain, pens). }
+  // Once the company has gone from the green: not in the middle of what he asked it, nor before it is done with him.
+  Rule owain_to_pens when knows(party, boy_count) and at(owain, green) and not freed(party) and not sent(party) and not at(party, green) { Assert at(owain, pens). }
   Thing book "Mardle's tally-book" at customs {
     State shut "A tally-book bound in sheepskin lies open on the counter, under Mardle's hand.".
   }
@@ -72,16 +73,43 @@ Module drove "The held drove" {
   }
 
   Topic clerk_count_t with clerk "Ask Mardle how many head crossed" when not knows(actor, found_drowned) and not freed(party) and not sent(party) once {
-    Says "Mardle turns the tally-book so you can see it, and lays a finger on the line. 'Forty head at the march-stone. I counted them myself, at dawn. Thirty-six in the pens. The Rì's law is the Rì's law: four hidden beasts, a fine of twelve crowns, or the man stays where he is.'".
+    Says "Mardle turns the tally-book round and lays a finger on the line. 'Forty at the march-stone, thirty-six in the pens,' he says. 'Twelve crowns, or he stays. You came down with them?'".
     On discuss { Assert knows(actor, clerk_count). }
+  }
+  // Mardle's own question, answered one way of two, once he has asked it (OR-149: people who ask).
+  Topic mardle_with with clerk "Tell Mardle you came down with the drove" when knows(actor, clerk_count) and not mardleAnswered(party) and not freed(party) {
+    Says "'Then you can find twelve crowns,' says Mardle. 'Or he waits.'".
+    On discuss { Assert mardleAnswered(party). }
+  }
+  Topic mardle_thirty_six with clerk "Tell Mardle it was thirty-six that crossed" when knows(actor, clerk_count) and not mardleAnswered(party) and not freed(party) {
+    Says "'The march-stone saw forty,' says Mardle, and does not look up.".
+    On discuss { Assert mardleAnswered(party). }
   }
   Topic bran_count_t with bran "Ask Bran what happened" when not freed(party) once {
     Says "Bran looks up slowly. 'Thirty-six crossed. Four went into the Black Rhyne behind the pens, when the bank gave under them. Ask the boy. And I'd pay the tenth on thirty-six without a word if it were the Rì's tenth.' He looks past you at the counter. 'It is not the Rì's. Ask how many droves Mardle has found four short this year.'".
     On discuss { Assert knows(actor, bran_count). }
   }
+  // Owain told short and plain, and asking something himself (OR-149, the owner's playtest: talking to someone, not
+  // operating records; one or two sentences, three plenty).
   Topic owain_count_t with owain "Ask Owain how many head came down" when not freed(party) once {
-    Says "'Thirty-six,' says {owain} at once, and then, because you are listening: 'There were forty at Hafod. At the Black Rhyne the bank went from under the last of them, in the dark. We heard them in the water. Bran said leave them, or we'd lose the rest.' He points with his chin, behind the pens. 'They're still there.'".
+    Says "'Thirty-six,' says {owain}. 'Four went into the Black Rhyne in the dark, and they're still there.' Then, quieter: 'Will they hang him?'".
     On discuss { Assert knows(actor, boy_count). Assert knows(actor, held). Retract knows(actor, held_seen). }
+  }
+  // His question answered, one answer only, once he has asked it.
+  Topic owain_no_hang with owain "Tell Owain nobody hangs a man for four head of cattle" when knows(actor, boy_count) and not owainAnswered(party) and not freed(party) {
+    Says "{owain} lets his breath go. 'Bran said that,' he says. 'He didn't sound sure.'".
+    On discuss { Assert owainAnswered(party). }
+  }
+  Topic owain_find with owain "Tell Owain you will find the four" when knows(actor, boy_count) and not owainAnswered(party) and not freed(party) {
+    Says "{owain} nods hard. 'I'll water them, then,' he says. 'They've had nothing since Hafod.'".
+    On discuss { Assert owainAnswered(party). }
+  }
+  Topic owain_dont_know with owain "Tell Owain you don't know" when knows(actor, boy_count) and not owainAnswered(party) and not freed(party) {
+    Says "{owain} looks at the customs-house door. 'No,' he says. 'Nor do I.'".
+    On discuss { Assert owainAnswered(party). }
+  }
+  Topic owain_bran with owain "Ask Owain about Bran" when not freed(party) and not sent(party) once {
+    Says "'He knew they'd be waiting,' says {owain}. 'He threw the stick to you, not to them.'".
   }
   Topic keeper_drove with keeper "Ask {keeper} about the drover the customs-men hold" when not freed(party) once {
     Says "{keeper} lowers their voice. 'Third drove this year Mardle has found four short. The reeve takes his word: he keeps the Rì's book, and she has the sea-gate to think of. Nobody here will cross him. Nobody here sells cattle.'".
@@ -103,7 +131,7 @@ Module drove "The held drove" {
     Says "'Every drove that was four short,' says Mardle. His finger stays on the line in the book, and he does not look at you.".
   }
   Topic pay_fine with clerk "Pay Mardle the twelve crowns, and have Bran let out" when not freed(party) and not sent(party) and quantity(actor, gold) >= 12 once {
-    Says "Mardle counts the coins twice and writes in the book. The grille opens. Bran comes out stooping, straightens, and looks at Mardle a long moment before he looks at you. 'He'll do it to the next drove,' he says.".
+    Says "Mardle counts the coins twice and writes in the book. Bran comes out from behind the grille and looks at Mardle a long time. 'He'll do it to the next drove,' he says.".
     On discuss {
       Decrease quantity(actor, gold) by 12. Assert freed(actor). Assert fined(actor). Assert knows(actor, road_west).
       Assert knows(actor, mardle_paid).
@@ -181,7 +209,7 @@ Module drove "The held drove" {
   Rule half_sold heard within town when not freed(party) and not sent(party) and bidden(party) and not halved(party) and watch(clock) >= 312 says "The sale begins at the pens. Eighteen of Bran's bullocks go under the hammer to the Wrackham man before Mardle calls a halt for the day." { Assert halved(party). }
   // What Mardle is afraid of, said where he is pressed (ST-02: obstruction had stood where a claim should).
   Topic clerk_fear with clerk "Ask Mardle who he counts for" when knows(actor, bran_count) and not freed(party) once {
-    Says "'For the toll-farmer at Dun Rìerdan,' says Mardle. 'He docks me a crown for every beast that comes in short of what the march-stone saw, and he does not ask why. I have three children in the house behind the chandlery.' He closes the book. 'Count for him a year, and see if you count kinder.'".
+    Says "'For the toll-farmer at Dun Rìerdan,' says Mardle. 'He docks me a crown a beast short, and I have three children.' He shuts the book: 'Count for him a year, and see if you count kinder.'".
   }
   // What each way of getting Bran out leaves behind (ST-02's aftermath): shown up by the ink, Mardle is gone, and his
   // family with him; bought out, he is at the counter for the next drove.

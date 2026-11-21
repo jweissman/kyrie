@@ -36,8 +36,8 @@ describe('the drove road\'s first turn', () => {
     expect([...glanced.situation, ...glanced.presence].join(' ')).not.toMatch(Road.town);
     expect(glanced.situation.length + glanced.presence.length).toBeLessThanOrEqual(6);
     expect(glanced.held.join(' ')).toMatch(/salter/);
-    // And the second turn is the place's again.
-    expect(Road.text(await Road.act(r, 'drove__owain#talk'))).toMatch(/salter/);
+    // And a look is the place's again.
+    expect(Road.text(Road.said(await r.ask('{"look":true}')))).toMatch(/salter/);
   }, 120000);
 });
 describe('something not right in Porthalen', () => {

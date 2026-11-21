@@ -50,16 +50,14 @@ describe('a conversation\'s lines', () => {
     expect(Conversation.lines(frame('Collect the dyke-reeve’s rod for Aldith', 'Aldith takes the dyke-reeve’s rod.'),
       choice('take'), '').map(l => l.kind)).toEqual(['telling']);
   });
-  // What was said before the last three things said is folded away (round 7, L: "each conversation scrolls into an
-  // ever-growing log").
-  it('folds away what was said before the last three things said', () => {
+  // The whole conversation on one page, scrolled as one (OR-149, the owner's playtest: no nested scroll regions; it
+  // had folded away what was said before the last three things said, round 7's ever-growing log).
+  it('keeps what was said whole, nothing folded away above', () => {
     const lines: TalkLine[] = [1, 2, 3, 4, 5].flatMap(n => [{ kind: 'you', text: `Question ${n}` },
       { kind: 'speech', text: `Answer ${n}` }]);
     const html = renderToStaticMarkup(createElement(TalkStage.Lines, { lines }));
-    const [before, after] = html.split('</details>');
-    expect([/Answer 2/.test(before!), /Question 3/.test(before!), /Question 3/.test(after!)])
-      .toEqual([true, false, true]);
-    expect(renderToStaticMarkup(createElement(TalkStage.Lines, { lines: lines.slice(0, 6) }))).not.toContain('details');
+    expect(html).not.toContain('details');
+    expect(['Question 1', 'Answer 2', 'Question 5'].every(t => html.includes(t))).toBe(true);
   });
 });
 

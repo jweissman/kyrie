@@ -193,3 +193,36 @@
   .talk .sitter:not(.unpainted) .cap { position: relative; left: auto; right: auto; bottom: auto;
     padding: var(--safe-t) calc(var(--safe-r) + 100px) 18px var(--safe-l); }
 }
+
+/* ---- OR-149 (the owner's playtest, 20 November, night): a conversation is talking to someone. One page that scrolls
+   as one: what was said, newest last, and what you might say under it, in one flow; no box of its own that scrolls,
+   no menu held apart at the foot. What you said is said, in the telling's own type ("You ask Owain how many head came
+   down."), not a label in capitals behind a diamond. No little marks: the rows' bars and key squares go, and the aim's
+   gold is the colour of the words. The map and the Book recede while it lasts. ---- */
+.talk .dialogue { display: block; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.talk .dialogue .lines, .talk .dialogue .lines[data-above] { flex: none; max-height: none; min-height: 0; height: auto;
+  overflow: visible; mask-image: none; padding: 0; }
+.talk .dialogue .answer, .talk .dialogue .answer > .choosing { flex: none; max-height: none; overflow: visible;
+  mask-image: none; }
+.talk .dialogue .answer { border-top: 0; padding: 10px 0 var(--safe-b); }
+.talk .lines .line.you { font: italic 400 18px/1.55 var(--told); letter-spacing: 0; color: var(--dim); margin-top: 22px; }
+.talk .lines .line.you::before { display: none; }
+.talk .lines .line.speech, .talk .lines .line.telling { font: 400 20px/1.55 var(--told); color: var(--ivory); }
+.talk .replies .choice-row > .row-mark, .talk .replies .row-key, .talk .leave .row-key { display: none; }
+.talk .replies .choice-row { background: transparent; border-color: transparent; min-height: 0; padding: 6px 0; }
+.talk .replies .row-label { font: 400 18px/1.45 var(--told); color: var(--ivory); }
+.talk .replies .choice-row:hover .row-label, .talk .replies .choice-row:focus-visible .row-label { color: var(--accent); }
+.talk .replies .aimed .row-label { color: var(--tone-gold); }
+.talk .replies .asked .row-label, .talk .leave .row-label { color: var(--dim); }
+.talk .answering { color: var(--dim); }
+.talk .replies.answers { border-left: 0; padding-left: 0; }
+.mode-talk .scene-rail, .mode-talk .corner { opacity: .16; transition: opacity .5s var(--ease); }
+.mode-talk .scene-rail:hover, .mode-talk .scene-rail:focus-within, .mode-talk .corner:hover,
+.mode-talk .corner:focus-visible { opacity: 1; }
+/* Upright, the likeness above and the conversation under it are one page, scrolled as one. */
+@media (max-width: 1023px), (orientation: portrait) {
+  .talk { overflow-y: auto; grid-template-rows: auto auto; }
+  .talk .sitter { height: clamp(180px, 34vh, 420px); }
+  .talk:has(.sitter.unpainted) .sitter { height: auto; }
+  .talk .dialogue { max-height: none; overflow: visible; }
+}

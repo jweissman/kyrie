@@ -45,13 +45,10 @@ describe('a journey reviewed', () => {
       const offered = review.frames[s.before]!.offer.find(o => [o.id, o.row].includes(s.chosen!.command));
       expect([s.n, offered?.label]).toEqual([s.n, s.chosen!.label]);
     }
-    const refused = review.steps.find(s => s.error)!;
-    // The cold player's next line, the clerk's question by its own id: asked already by the lead's (drove__clerk#talk,
-    // refused until the runner named Doable's rows: MT-18, AT-13).
-    expect([refused.chosen?.command, refused.after, refused.chosen?.from])
-      .toEqual(['drove__clerk_short_t', undefined, 'not in the scene before']);
-    expect([refused.consequential, refused.delta.aims, refused.events])
-      .toEqual([false, { taken: [], retired: [] }, []]);
+    // The cold player's next line, the clerk's question by its own id, had been refused, asked already by the lead's
+    // (drove__clerk#talk: MT-18, AT-13); with Mardle's own question led now in its place (OR-149), it is offered as
+    // itself, and every line is taken.
+    expect(review.steps.filter(s => s.error).map(s => s.chosen?.command)).toEqual([]);
   });
   it('counts consequential steps in order, and not an aim followed nor a look', () => {
     const [followed, ...rest] = review.steps, look = review.steps.find(s => s.line === '{"look":true}')!;
@@ -67,7 +64,8 @@ describe('a journey reviewed', () => {
     expect(dear?.source).toMatchObject({ type: 'Rule', via: 'rule fired' });
     expect(dear?.changes).toContain('+ goodsPrice(region__s3_innkeeper, rations) = 3');
     expect(asked.delta.measures).toContainEqual({ measure: 'goodsPrice(region__s3_innkeeper, rations)', before: 2, after: 3 });
-    const owain = asked.delta.by.find(b => b.changes.includes('+ at(drove__owain, drove__pens)'));
+    // Owain goes to the pens once the company has left the green, not in the middle of what he asked it (OR-149).
+    const owain = review.steps.flatMap(s => s.delta.by).find(b => b.changes.includes('+ at(drove__owain, drove__pens)'));
     expect(owain?.source).toMatchObject({ kind: 'kyr', declaration: 'drove__owain_to_pens', type: 'Rule' });
     expect(asked.delta.by.find(b => b.source.kind === 'kyr' && b.source.via === 'command')?.changes)
       .toContain('+ knows(party, drove__boy_count)');
