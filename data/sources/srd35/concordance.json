@@ -149,6 +149,10 @@
   "owlbear": {
    "srd": "owlbear"
   },
+  "owlbear/fell": {
+   "srd": "owlbear",
+   "notes": "Improved grab and scent omitted."
+  },
   "pegasus": {
    "srd": "pegasus"
   },

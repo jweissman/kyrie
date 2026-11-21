@@ -9,7 +9,7 @@ Module tallow "Tallow Deep" {
 
   // The upland.
   Person owlbear "the owlbear" at scrub {
-    Role "a she-owlbear, heavy with a late litter". Species owlbear. Level 2. Numbers 1. Temperament territorial.
+    Role "a she-owlbear, heavy with a late litter". Species owlbear. Variant fell. Level 2. Numbers 1. Temperament territorial.
     Warns "The heather ahead heaves, and something broad as a cart turns its head: a beak where a muzzle should be, a mat of brown feathers on a bear's shoulders. It rises on its hind legs and the sheep's bones slide off its back. It does not roar. It breathes in, once, long.".
     Comes "The owlbear drops on all fours and comes through the heather like a landslide.".
     Flinches "The owlbear backs into the scrub with her head low, and a sound comes out of her like a kettle.".

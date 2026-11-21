@@ -2075,6 +2075,27 @@ the slump (14), the wisp (14: a summoned mote, not the will-o'-wisp), the banshe
 automaton (8), the marl pike and the shore brooder (7 each), the mind destroyer (6), and a few birds and devices. The
 young owlbear is a module's own kind (the circus menagerie).
 
+### 62. The fell owlbear (20 November): the SRD owlbear as a breed, placed where it can be gone round
+
+**The owlbear on the fidelity table:** the most-met kind with an SRD counterpart that no slice had moved. Orsino's owlbear (`owlbear`) is 9 hit points and three a level. It has one claw of 1d4 and wears hide. It has Maul, Charge, Enrage, Poison Bite, Stomp and the wild aspect, and grades S✗ R✗.
+
+**The fell owlbear** (`owlbear/fell`, a breed over it, data/catalog/variations.json; spec `test/fell-owlbear` (4)) is the SRD's stat block, through the barrow ghoul's fields alone:
+- 5d10+25, fifty-two hit points at every rank;
+- its scores (21, 12, 21, 2, 12, 10);
+- two claws of 1d6 and a bite of 1d8 with its Strength, struck at the SRD's +9, so it hits SRD AC 15 three times in four at any rank (exact for the claws);
+- saves of +9, +5 and +2 (exact);
+- AC 15 as Westernesse 6 (converted: natural 2 and Dexterity 1).
+
+It goes without Orsino's five powers and the wild aspect, which had added +2 to hit, +1 to every roll, evasion, bonus damage and a tenth off all harm. **Adapted:** the bite at the claws' +9 and full Strength (one bonus a body). **Omitted:** improved grab, scent. The census grades it S✓ R✓ I–: 4 of 76 creatures now pass in resolution.
+
+**Its challenge,** measured (bin/kyrie bestiary challenge, test/srd-challenge): **8.** A lone warrior needs the eighth level to beat it; it is the SRD's challenge 4 for a company of four. Orsino's owlbear measures 1 at its first level and 6 at its fifth.
+
+**What it moves:** two placements, chosen because each is warned of and has a way round:
+- **Tallow's scrub,** the she-owlbear: baited with a ration of meat. Tallow's own fight table (scripts/tallow-fights.ts, its fresh company, 20 seeds): won 12/20 → 3/20, all three members down in 16.
+- **a1's arcology foot:** baited with rations, or gone round by woodcraft along its run.
+
+There, the fight is the fear the place promises and a choice the player is told of. Half the Hive's dell and the circus's menagerie keep Orsino's owlbear until those placements are fought (their ways round are unread). It is `unplaced`: never drawn into a den. Kept: data/sources/srd35/encounters.json still lists the arcology's group as `owlbear` until the slow `--encounters` measure runs again.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

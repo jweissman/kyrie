@@ -131,7 +131,7 @@ Module arcology "The Numbered House" {
   Discovery foot_searched "Among what fell into the Void, a pouch with a few coin in it." { Found by searching foot "Under the tent-cloth is a leather pouch with a few coin in it, and a note in a clerk's hand: ALL OF IT ARE OWED.". }
   Kind pouch_kind "a pouch of old coin" is treasure worth 18 weighing 1 described "A leather pouch, stiff with damp, with a handful of thin coin in it stamped with a wheel and a wing. A slip of lead is tied to the neck with the legend OWED, and a number.".
   Person owlbear "the owlbear" at foot {
-    Role "a great shaggy thing, fed by what falls". Species owlbear. Level 2. Temperament territorial.
+    Role "a great shaggy thing, fed by what falls". Species owlbear. Variant fell. Level 2. Temperament territorial.
     Warns "Something huge uncoils among the ferns at the edge of the pool and turns its head to look at you. It is covered in feathers and fur in equal parts, and its eyes are round and yellow. It breathes in, slowly, through a beak the length of your forearm. It will not have you here long.".
     Comes "The owlbear comes out of the ferns at a rolling run, all beak and claws and a hoarse falsetto scream.".
   }

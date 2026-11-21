@@ -50,6 +50,7 @@ describe('a stat block read over its context', () => {
     } finally { variations.t_grown = was; }
   });
   // A placed record may state a natural weapon's damage as dice of its own (the barrow ghoul's claws of 1d3,
+  // the fell owlbear's claws, bite and natural 2: case 62;
   // srd-proving-cases.md case 25; the royal mummy's slam, case 30) and its hide's bonus as a number (the royal mummy's
   // natural armour), which no context moves; none reads its context.
   it('is declared by no record a world places', () => {
@@ -58,7 +59,8 @@ describe('a stat block read over its context', () => {
       ...Object.entries(CreatureVariants.variations).filter(([id]) => id !== 't_grown').map(([, v]) => v)];
     expect(records.filter(r => [...Object.values(r.damage ?? {}), r.armorBonus ?? '', r.hitDice ?? '']
       .some(x => /#/.test(x)) || /\D/.test(r.armorBonus ?? ''))).toEqual([]);
-    expect(records.filter(r => r.damage).map(r => r.damage)).toEqual([{ claws: '1d3' }, { slam: '1d6+3' }]);
-    expect(records.filter(r => r.armorBonus).map(r => r.armorBonus)).toEqual(['9']);
+    expect(records.filter(r => r.damage).map(r => r.damage)).toEqual([{ claws: '1d3' }, { slam: '1d6+3' },
+      { claws: '1d6', bite: '1d8' }]);
+    expect(records.filter(r => r.armorBonus).map(r => r.armorBonus)).toEqual(['9', '2']);
   });
 });

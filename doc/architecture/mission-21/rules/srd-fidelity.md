@@ -7,16 +7,16 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 kind passes in structure and resolution); 61 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 45 pass in structure
 (level, school), 37 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 36 proved in play identity.** Creatures with one (75):
-4 in structure (Hit
-Dice, armour), 3 in resolution (blows, chance to hit, defences, saves), 1 proved in
+target, duration), 36 proved in play identity.** Creatures with one (76):
+5 in structure (Hit
+Dice, armour), 4 in resolution (blows, chance to hit, defences, saves), 1 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
 
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 60 % of meetings are with a
 kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
-| creatures, field exact or converted | hitDice 5 | armour 6 | attacks 23 | hit 9 | defences 5 | specials 0 | saves 4 | of 75 |
+| creatures, field exact or converted | hitDice 6 | armour 7 | attacks 24 | hit 10 | defences 5 | specials 0 | saves 5 | of 76 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | spells, field exact or converted | level 56 | school 84 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
 
@@ -86,6 +86,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | nightmare | nightmare | 0/0 | S✗ R✗ I– | O | ✗ 7 → -3 | ✗ 1d4 → 1d8 1d8 1d8 | ✗ 60% → 75% | – | O | ✗ +2/+3/-2 → +8/+7/+6 |
 | nymph | nymph | 0/0 | S✗ R✗ I– | O | ✗ 7 → 4 | ✓ | ✗ 35% → 60% | ✗ · → reduction 10/cold_iron | O | ✗ +1/+2/+4 → +7/+12/+12 |
 | owl | owl | 0/0 | S✗ R✗ I– | O | ✗ 11 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
+| owlbear/fell | owlbear | 0/0 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | – | ✗ · → improved grab | ✓ |
 | pegasus | pegasus | 0/0 | S✗ R✗ I– | O | ✗ 6 → 7 | ✗ 1d2 → 1d3 1d6 1d6 | ✗ 25% → 65% | – | O | ✗ +0/+4/+2 → +7/+6/+4 |
 | pixie | pixie | 0/0 | S✗ R✗ I– | O | ✗ 4 → 5 | ✓ | ✗ 35% → 55% | ✗ SR 15 → SR 15, reduction 10/cold_iron | O | ✗ +1/+5/+2 → +0/+6/+4 |
 | pony | pony | 0/0 | S✗ R✗ I– | O | ✗ 11 → 8 | ✗ 1d2 → 1d3 1d3 | ✗ 30% → 15% | – | – | ✗ +0/-1/-1 → +4/+4/+0 |
