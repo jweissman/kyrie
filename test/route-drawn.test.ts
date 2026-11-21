@@ -39,7 +39,10 @@ describe('a way drawn on the map', () => {
     const s = await AutoplayRun.start({ seed: 'a1', origin: 'debt', policy: 'gold', steps: 1,
       protagonist: { name: 'Wenna', raceId: 'human', classId: 'warrior' } });
     const screen = ScreenModel.build(s.campaign), course = JourneyCourse.planned(screen, 'region__w9')!;
-    expect(course.slice(-3)).toEqual([129, 109, 118]);
+    // Off the road at 109 and along the tower's track a hex at a time to it at 118 (OR-162: it had jumped the nine).
+    const off = course.indexOf(109);
+    expect([course[off - 1], course.at(-1)]).toEqual([129, 118]);
+    expect(course.slice(off)).toEqual([109, 110, 111, 112, 113, 114, 115, 116, 117, 118]);
     expect(new Set(course).size).toBe(course.length);
   }, 120000);
   // And the journey made goes by those same stops, the walk drawn after it over the very hexes drawn before it (the

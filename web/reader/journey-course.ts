@@ -1,5 +1,6 @@
 import type { Frame } from '../../src/creation/protocol';
 import type { RegionChart } from '../../src/ui/screen-types';
+import { HexGrid } from './board/hex-grid';
 
 // The way a journey went over the land, hex by hex, as the engine made it: from where the company stood, by each place
 // it came to on the way, along each known way's own course between them (its road, or its path), to the hex it came
@@ -18,7 +19,7 @@ export class JourneyCourse {
       way.push(...JourneyCourse.between(region, stops[i - 1]!, stops[i]!, way.at(-1)!));
     }
     const end = way.indexOf(b.here), cells = end >= 0 ? way.slice(0, end + 1) : [...way, b.here];
-    return cells.filter((c, i) => c !== cells[i - 1]);
+    return JourneyCourse.unlooped(cells.filter((c, i) => c !== cells[i - 1]), region.land!);
   }
   // The way a journey set out for now would go, hex by hex, by the itinerary's own stops: the map had drawn its own
   // shortest way over the hexes, and the journey went by the known ways, another way (the owner, 10 November).
@@ -43,7 +44,41 @@ export class JourneyCourse {
     const to = mark ?? JourneyCourse.cell(region, stops.at(-1)!);
     const end = to === undefined ? -1 : way.indexOf(to);
     const cells = end >= 0 ? way.slice(0, end + 1) : mark === undefined ? way : [...way, mark];
-    return cells.filter((c, i) => c !== cells[i - 1]);
+    return JourneyCourse.unlooped(cells.filter((c, i) => c !== cells[i - 1]), region.land!);
+  }
+  // The way walked a hex at a time (the owner's playtest, 20 November, OR-162: "seemingly overshooting the target and
+  // doubling back"): a hex jumped to that the way comes to again by its road is not gone to first (the middle of the
+  // vale of the Whitewater, 170, had been jumped to from 174 and the road then walked back to it, 173, 172, 171, 170);
+  // and a jump still left is walked hex by hex towards where it goes, each step the neighbour nearest it. A spur into
+  // a landmark and out again is kept: it is the way the landmark is come to (test/route-weave).
+  static unlooped(cells: number[], land: { width: number; height: number }): number[] {
+    const grid = new HexGrid(land.width, land.height);
+    const kept = cells.filter((c, i) => i === 0 || JourneyCourse.next(grid, cells[i - 1]!, c)
+      || cells.indexOf(c, i + 1) < 0);
+    const out: number[] = [];
+    for (const c of kept) {
+      const last = out.at(-1);
+      if (last !== undefined && !JourneyCourse.next(grid, last, c)) {
+        out.push(...JourneyCourse.walk(grid, last, c));
+      }
+      out.push(c);
+    }
+    return out;
+  }
+  // The hexes between two, a step at a time, each the neighbour nearest the end (the end itself not among them).
+  private static walk(grid: HexGrid, from: number, to: number): number[] {
+    const out: number[] = [];
+    for (let at = from, n = 0; n < 64; n++) {
+      const step = grid.neighbours(at)
+        .reduce((x, y) => JourneyCourse.near(grid, y, to) < JourneyCourse.near(grid, x, to) ? y : x);
+      if (step === to || JourneyCourse.near(grid, step, to) >= JourneyCourse.near(grid, at, to)) { break; }
+      out.push(step); at = step;
+    }
+    return out;
+  }
+  private static next(grid: HexGrid, a: number, b: number): boolean { return grid.neighbours(a).includes(b); }
+  private static near(grid: HexGrid, c: number, to: number): number {
+    return grid.centre(c).distanceTo(grid.centre(to));
   }
   // Where a journey comes to, as the map stands it: the place, or what the map draws it within; a stretch of open
   // country is its own hex. The chart had a stretch within the wide country or wood it lies in, and the walk to the
