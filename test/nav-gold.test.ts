@@ -120,7 +120,10 @@ describe('Go… and the gold, for a player come home', () => {
     const page = Page.at(g), screen = g.screen;
     const town = screen.region!.areas.find(a => a.kind === 'settlement' && a.here)!;
     const card = Page.text(renderToStaticMarkup(createElement(WorldStage.Town, { app: page.app, screen, town })));
-    expect(card).toMatch(/^You are in Brightbridge Averil’s chandlery\. (?:To [A-Z][a-z]+ )*Put away the map/);
+    // Where it stands first; then the map's rows, the engine's journeys from here (MapRows, OR-152), a house of the
+    // town setting out by its door as the square does (OR-151), and the last row putting the map away.
+    expect(card).toMatch(new RegExp('^You are in Brightbridge Averil’s chandlery\\. (?:(?:To|Set out for) [^.]+? )*'
+      + '(?:More places… \\d+ of \\d+ )?Put away the map$'));
     expect(card).not.toMatch(/\bgate\b/i);
   }, 60000);
 
