@@ -39,7 +39,7 @@ const fields = {
   variation: ['axis', 'word', 'says', 'kinds', 'attributes', 'health', 'abilities', 'traits', 'hint', 'habitats',
     'abundance', 'resistances', 'types', 'weapon', 'material', 'temperament', 'type', 'source', 'hitDice', 'defenses',
     'attacks', 'armor', 'forgoes', 'unplaced', 'riders', 'damage', 'armorBonus', 'saves',
-    'attackBonus', 'actions', 'portrait'],
+    'attackBonus', 'actions', 'portrait', 'scores'],
 } as const;
 type Record_ = Record<string, unknown>;
 

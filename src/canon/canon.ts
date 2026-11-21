@@ -247,7 +247,8 @@ export class Canon {
     const said = { hitDice: this.first(over, 'hitDice'), attacks: this.first(over, 'attacks'),
       armor: this.first(over, 'armor'), riders: this.first(over, 'riders'), damage: this.first(over, 'damage'),
       armorBonus: this.first(over, 'armorBonus'), saves: this.first(over, 'saves'),
-      attackBonus: this.first(over, 'attackBonus'), actions: this.first(over, 'actions') };
+      attackBonus: this.first(over, 'attackBonus'), actions: this.first(over, 'actions'),
+      attributes: this.first(over, 'scores') };
     const defenses = over.flatMap(v => v.defenses ?? []);
     const forgone = new Set(over.flatMap(v => [...v.forgoes?.abilities ?? [], ...v.forgoes?.traits ?? []]));
     // Its base's fractions of the harm it goes without (the mummy's half of every blow): gone before its own are laid.

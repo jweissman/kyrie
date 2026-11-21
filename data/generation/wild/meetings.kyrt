@@ -43,7 +43,7 @@
   // pack of someone who did not heed it.
   Observe {m}_rooting at {tract} as sign when able({m}_boar) "The ground under the oaks is rooted up in raw swathes, the earth in them still dark and wet. Whatever did it is not far off.".
   Person {m}_boar "a boar" at {tract} {
-    Role "an old boar with one tusk broken, rooting for mast". Species boar. Numbers 1. Level 1. Temperament territorial. Lair {tract}.
+    Role "an old boar with one tusk broken, rooting for mast". Species boar. Variant wild. Numbers 1. Level 1. Temperament territorial. Lair {tract}.
     Warns "A boar comes out of the holly with its head low, and stands, and blows. It does not mean to go round you.".
   }
   Initially Set encounterXp({m}_boar) to 20.

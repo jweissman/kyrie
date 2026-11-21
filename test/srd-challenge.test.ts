@@ -13,11 +13,11 @@ import { Challenge } from '../src/world/challenge';
 // hide's 6, claws of 1d3, struck at the SRD's +2 and not by its Strength): 2, a second-level warrior's match.
 // Measured for the fell owlbear by the SRD's numbers (20 November, case 62): 8, the SRD's challenge 4 for a company of
 // four met by one warrior alone. The long centipede (21 November, case 63): a third, as the SRD's challenge 1/2; the
-// midden rat (case 64): a third, as the SRD's 1/3.
+// midden rat (case 64): a third, as the SRD's 1/3; the wild boar (case 65): 2, the SRD's 2.
 describe('the challenge of the SRD kinds', () => {
   it('measures each of them, and none by its base', () => {
     for (const kind of ['unicorn', 'ghoul/barrow', 'golem/flesh', 'owlbear/fell',
-      'centipede/long', 'rat/midden']) {
+      'centipede/long', 'rat/midden', 'boar/wild']) {
       expect([kind, Challenge.measured(kind)]).toEqual([kind, true]);
     }
     // The barrow ghoul is four of Orsino's: a lone warrior of the second level, against half of one of the first.

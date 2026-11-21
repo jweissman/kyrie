@@ -163,6 +163,9 @@ export interface Overlay {
   forgoes?: { abilities?: string[]; traits?: string[]; resistances?: string[] }; riders?: Record<string, Effect[]>;
   damage?: Record<string, string>; armorBonus?: string; saves?: Statistics['saves']; attackBonus?: number;
   actions?: number;
+  // Its six scores, in place of its base's, rolled or fixed (an SRD boar over Orsino's rolled one): where it says them
+  // it lays no attributes of its own beside them (srd-proving-cases.md case 65).
+  scores?: Record<Attribute, number>;
   // Met only where an author names it (golem/flesh), never drawn into a generated country's dens and encounters: a
   // stat block placed nowhere until each placement has been fought (the ghoul's lesson, srd-invariants.md).
   unplaced?: true;

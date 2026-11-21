@@ -3389,6 +3389,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | fell | breed | fell | of the fell breed: as heavy as a bear and as quick as an owl, with a hug that breaks bones | Strength +4, Dexterity +4, Constitution +10, Intelligence -1, Wisdom +9, Charisma +7 | only by an author |
 | long | breed | long | as long as a man, of the old drains and the warm dark: its bite numbs, and goes on numbing after | Strength +4, Dexterity +8, Constitution +5, Wisdom +5, Charisma -2 | only by an author |
 | midden | breed | midden | of the middens and the drains, the size of a dog: its bite carries the filth fever | Strength +6, Dexterity +7, Constitution +6, Intelligence -2, Wisdom +2, Charisma +1 | only by an author |
+| wild | breed | wild | of the old woods, heavy in the shoulder and quick to anger, and once it has charged it does not stop | — | only by an author |
 | cellar | breed | cellar | of the cellars and the sewers: small, quick and grey, and there is never only one | Strength -2, Dexterity +5, Constitution +4, Intelligence -1, Wisdom +2, Charisma -1 | only by an author |
 | flesh | material | flesh | stitched together from the dead and bolted at the joints: steel does little to it | Strength +4, Dexterity +2, Constitution -7, Intelligence -8, Wisdom +2, Charisma -7 | only by an author |
 | bronze | material | bronze | made of bronze: brown-gold, dark with handling | Constitution +3, Dexterity -2, Strength +1 | only by an author |
