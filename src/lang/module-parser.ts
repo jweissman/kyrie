@@ -95,10 +95,14 @@ export class ModuleParser {
   static parse(text: string): Module {
     const key = `${Vocabularies.seen(text)}\u0000${text}`, known = ParseCache.get(key), began = performance.now();
     if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
-    const match = ModuleParser.grammar.match(text);
+    const match = ModuleParser.grammar.match(text), matched = performance.now();
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${Grammars.why(text)}`); }
-    const module = ModuleParser.semantics(match).ast() as Module;
-    ParseCache.set(key, module, performance.now() - began);
+    const module = ModuleParser.semantics(match).ast() as Module, lowered = performance.now();
+    // Each part told apart (the review of generated parsing, §4), the bytes the text's own in UTF-8.
+    const bytes = ParseCache.costs ? new TextEncoder().encode(text).byteLength : text.length;
+    ParseCache.costs?.note('parse match', matched - began, { bytes });
+    ParseCache.costs?.note('parse lower', lowered - matched, { bytes });
+    ParseCache.set(key, module, lowered - began, bytes);
     return module;
   }
   static predicate(text: string): Predicate {

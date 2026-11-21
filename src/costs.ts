@@ -9,6 +9,10 @@ import { ParseCache } from './lang/parse-cache';
 export type Stage =
   // Kyr text parsed, and parses taken from the cache (in the process or on disk) instead.
   | 'parse' | 'parse kept'
+  // A parse by its parts (the review of generated parsing, 20 November, §4): the grammar's match, the lowering into a
+  // module (the semantics), the cache's copy of it, and what keeping it where the process keeps parses cost; bytes
+  // the text's UTF-8 size. 'parse' is match and lowering together, as it always was.
+  | 'parse match' | 'parse lower' | 'parse clone' | 'parse store'
   // A module's own files compiled before (joined and shadowed), taken from where its parses are kept.
   | 'compiled kept'
   // A module bundle loaded and compiled, by its id (the canon, data/imbar, is `canon`).

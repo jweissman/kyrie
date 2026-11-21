@@ -10,7 +10,8 @@ export class ParseCache {
   static store?: { get(key: string): Module | undefined; set(key: string, module: Module): void };
   // Where what a parse cost is noted, when the process counts it: the runtime's Costs, which gives itself here as it
   // is loaded (src/costs.ts), so that the language counts nothing of its own and imports none of the runtime.
-  static costs?: { note(stage: 'parse' | 'parse kept', ms: number, o: { bytes: number }): void };
+  static costs?: { note(stage: 'parse' | 'parse kept' | 'parse match' | 'parse lower' | 'parse clone' | 'parse store',
+    ms: number, o: { bytes: number }): void };
   // The module remembered for a key, as it was parsed: the one kept, not a copy, so a caller that may change it copies
   // it first (ModuleParser.parse does).
   static get(key: string): Module | undefined {
@@ -19,10 +20,15 @@ export class ParseCache {
     return kept;
   }
   // What a parse cost (see Costs): the text's length, and the time taken.
-  static set(key: string, module: Module, ms = 0) {
-    this.costs?.note('parse', ms, { bytes: key.length });
+  // bytes: the text's UTF-8 size, where the parser gives it (the key's length had been taken for it).
+  static set(key: string, module: Module, ms = 0, bytes = key.length) {
+    this.costs?.note('parse', ms, { bytes });
+    const cloned = performance.now();
     this.remember(key, structuredClone(module));
+    const stored = performance.now();
     this.store?.set(key, module);
+    this.costs?.note('parse clone', stored - cloned, { bytes });
+    this.costs?.note('parse store', performance.now() - stored, { bytes });
   }
   // Kept by how much text, not how many: a drawn country is some thirty texts of a megabyte and a half between them,
   // and its world a hundred and fifty, so that a count of ninety-six had let the country's go while the rest of its
