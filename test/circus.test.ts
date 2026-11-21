@@ -311,6 +311,9 @@ describe("Wapshott's second pass: chapters, the worst hour, and what changes", (
     const t = await Circus.start();
     await t.play(...onGround, 'Sign Ada', 'Talk to Ada', '>host__a_tap', '=day 10 22:30', '>' + c('tober_a'), '=day 10 23:05');
     expect(t.page).toContain('We\u2019re paid by the rope');
+    // Raised while the men warn the company off (OR-163): the cry names them in its condition, an answer the
+    // engagement keeps among the few it offers.
+    expect(t.j.screen().warned?.id).toBe(c('raiders'));
     await t.play('Raise the old cry');
     expect(t.holds('raidStopped', 'wapshotts')).toBe(true);
     expect(t.page).toContain('Honoria Bulstrode in a flowered nightgown with a frying-pan');
