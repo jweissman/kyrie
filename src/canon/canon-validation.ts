@@ -14,6 +14,7 @@ import { CastingLevel } from '../rules/casting-level';
 import type { Modifiers, Species } from '../rules/catalog-schema';
 import { Amounts } from '../rules/amounts';
 import { StatExpressions } from '../rules/stat-expressions';
+import { StatBlockCheck } from './stat-block-check';
 import { CatalogFields } from './catalog-fields';
 import { CanonRuntime } from './canon-runtime';
 import { ModifierSet } from '../rules/modifiers';
@@ -181,7 +182,7 @@ export class CanonValidation {
   // A stat block's expressions (see StatExpressions): its damage by a natural weapon, reading only what a blow binds;
   // its natural armour's bonus, reading only what its making binds, and no dice.
   private expressions(where: string, st: { damage?: Record<string, string>; armorBonus?: string; saves?: object;
-    attackBonus?: number; hitDice?: string }) {
+    attackBonus?: number; hitDice?: string; scores?: object; attributes?: object | string }) {
     this.fixed(where, st);
     for (const [weapon, text] of Object.entries(st.damage ?? {})) {
       if (!Canon.items[weapon]?.weapon?.natural) { this.fail(where, `damage for ${weapon}, which is no natural weapon`); }
@@ -194,16 +195,9 @@ export class CanonValidation {
       this.fail(where, `armour bonus ${refused ?? `${st.armorBonus} throws dice`}`);
     }
   }
-  // A fixed stat block's saves and attack bonus (FixedStatBlock): the three saves and a bonus, whole numbers, and only
-  // where the record's Hit Dice make it fixed: an ordinary creature keeps the saves and blows its level gives it.
-  private fixed(where: string, st: { saves?: object; attackBonus?: number; hitDice?: string }) {
-    const saves = Object.entries(st.saves ?? {});
-    if (st.saves && (saves.length !== 3 || saves.some(([k, n]) => !['fortitude', 'reflex', 'will'].includes(k)
-      || !Number.isInteger(n)))) { this.fail(where, 'saves are Fortitude, Reflex and Will, each a whole number'); }
-    if (st.attackBonus !== undefined && !Number.isInteger(st.attackBonus)) { this.fail(where, 'attack bonus not whole'); }
-    if ((st.saves || st.attackBonus !== undefined) && !st.hitDice) {
-      this.fail(where, 'saves and an attack bonus are a fixed stat block\'s, and want its Hit Dice beside them');
-    }
+  // A fixed stat block's saves, attack bonus and scores (StatBlockCheck.refused).
+  private fixed(where: string, st: Parameters<typeof StatBlockCheck.refused>[0]) {
+    for (const problem of StatBlockCheck.refused(st)) { this.fail(where, problem); }
   }
   // What a blow carries (see Statistics.riders) is carried by a natural weapon, and lands on what it struck.
   private riders(where: string, riders: Record<string, { target: string }[]> | undefined) {

@@ -19,6 +19,10 @@
   "boar": {
    "srd": "boar"
   },
+  "boar/wild": {
+   "srd": "boar",
+   "notes": "Ferocity omitted (srd-proving-cases.md, case 65)."
+  },
   "cat": {
    "srd": "cat"
   },
@@ -379,6 +383,7 @@
   "weird": "weird"
  },
  "identities": {
+  "boar/wild": "test/wild-boar.test.ts",
   "rat/midden": "test/midden-rat.test.ts",
   "centipede/long": "test/long-centipede.test.ts",
   "rat/cellar": "test/fixed-stat-block.test.ts",

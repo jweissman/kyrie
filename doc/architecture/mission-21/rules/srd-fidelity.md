@@ -7,16 +7,16 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 kind passes in structure and resolution); 61 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 45 pass in structure
 (level, school), 37 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 36 proved in play identity.** Creatures with one (78):
-7 in structure (Hit
-Dice, armour), 6 in resolution (blows, chance to hit, defences, saves), 3 proved in
+target, duration), 36 proved in play identity.** Creatures with one (79):
+8 in structure (Hit
+Dice, armour), 7 in resolution (blows, chance to hit, defences, saves), 3 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
 
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 60 % of meetings are with a
 kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
-| creatures, field exact or converted | hitDice 8 | armour 9 | attacks 26 | hit 12 | defences 5 | specials 2 | saves 7 | of 78 |
+| creatures, field exact or converted | hitDice 9 | armour 10 | attacks 27 | hit 13 | defences 5 | specials 2 | saves 8 | of 79 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | spells, field exact or converted | level 56 | school 84 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
 
@@ -61,6 +61,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | wyvern | wyvern | 0/1 | S✗ R✗ I– | O | ✗ -4 → 3 | ✗ 1d6 → 1d6 1d8 1d8 2d6 2d6 2d8 | ✗ 95% → 80% | – | O | ✗ +11/+11/+12 → +7/+6/+6 |
 | badger | badger | 0/0 | S✗ R✗ I– | O | ✗ 11 → 6 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 25% → 50% | – | ✗ · → rage | ✗ -1/-1/-1 → +4/+5/+1 |
 | balor | balor | 0/0 | S✗ R✗ I– | O | ✗ 4 → -14 | ✗ 1d4 → · | – | ✗ SR 28 → SR 28, immunity fire, immunity lightning, reduction 15/cold_iron, resistance acid 10 | O | ✗ +5/+5/+2 → +22/+19/+19 |
+| boar/wild | boar | 0/0 | S✓ R✓ I– | ✓ | ✓ | ✓ | ✓ | – | ✗ · → ferocity | ✓ |
 | cat | cat | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d4 → 1d2 1d2 1d3 | ✗ 40% → 50% | – | – | ✗ +3/+0/+1 → +2/+4/+1 |
 | centipede/long | monstrous-centipede-medium | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | chimera | chimera | 0/0 | S✗ R✗ I– | O | ✗ 8 → 2 | ✗ 1d4 → 1d6 1d6 1d8 1d8 2d6 | ✗ 65% → 90% | – | O | ✗ +2/+2/-2 → +9/+7/+6 |

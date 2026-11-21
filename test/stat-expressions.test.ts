@@ -51,7 +51,7 @@ describe('a stat block read over its context', () => {
   });
   // A placed record may state a natural weapon's damage as dice of its own (the barrow ghoul's claws of 1d3,
   // the fell owlbear's claws, bite and natural 2: case 62; the long centipede's bite, case 63; the midden rat's,
-  // case 64;
+  // case 64; the wild boar's natural 4, case 65;
   // srd-proving-cases.md case 25; the royal mummy's slam, case 30) and its hide's bonus as a number (the royal mummy's
   // natural armour), which no context moves; none reads its context.
   it('is declared by no record a world places', () => {
@@ -63,6 +63,6 @@ describe('a stat block read over its context', () => {
     expect(records.filter(r => r.damage).map(r => r.damage)).toEqual([{ claws: '1d3' }, { slam: '1d6+3' },
       { claws: '1d6', bite: '1d8' }, { bite: '1d6' },
       { gnaw: '1d4' }]);
-    expect(records.filter(r => r.armorBonus).map(r => r.armorBonus)).toEqual(['9', '2']);
+    expect(records.filter(r => r.armorBonus).map(r => r.armorBonus)).toEqual(['9', '2', '4']);
   });
 });

@@ -2191,6 +2191,39 @@ for one to three days and then Fevered for a day. **A pin that moved:** test/fea
 gold to the vault's keeper. Its warrior is now of the fourth level: at the third the barrow ghoul is an even fight
 (BestiaryTool.won: 5 of 12), and the walk's dice changed once the buck was the SRD's.
 
+### 65. The wild boar (21 November): a breed's own scores over a rolled base, and the SRD boar where it warns
+
+**The boar on the fidelity table:** Orsino's boar (`boar`) rolls its scores, so no breed of it could be the SRD's: a
+breed's attributes are added to its base's, and a rolled base gives each boar its own Dexterity (its armour) and
+Strength (its blow). It grows by its level in hide, and grades S✗ R✗. The spider, the wolf and the bear are rolled too.
+
+**What it needed of the engine:** a stat block's own scores. A variation that is a stat block may say `scores`, the
+six in place of its base's, rolled or fixed (Canon.stated lays them as the composed body's attributes, so creation reads
+them as any fixed kind's). Validation holds them to the six, each a whole number of one or more, beside Hit Dice and with
+no attributes of the breed's own beside them.
+
+**The wild boar** (`boar/wild`, a breed over Orsino's boar; spec `test/wild-boar` (5)) is the SRD's stat block:
+- 3d8+12 Hit Dice, twenty-five hit points at every rank;
+- its scores (15, 10, 17, 2, 13, 4), the same for every boar of the breed;
+- a gore of 1d8 with its Strength (the tusks', 1d8+3: exact), struck at the SRD's +4 (exact);
+- saves of +6, +3 and +2 (exact);
+- AC 16 as Westernesse 5 (converted: its natural armour 6 as the boar's hide and a bonus of 4).
+
+**Omitted:** ferocity (the SRD's boar fights on while disabled or dying, which Westernesse's fallen do not), low-light
+vision, scent. The census grades it S✓ R✓ I–, ferocity the one special it lacks (7 of 79 creatures pass in resolution).
+
+**Its challenge,** measured: **2**, the SRD's 2. A lone warrior of the first level wins 2 of 12 against it, one of the
+second 9 of 12 (BestiaryTool.won). Orsino's boar at the first level is beaten by every lone first-level warrior: 12 of 12.
+
+**What it moves:** one placement, the old boar of the open country's wood meetings (meetings.kyrt, `--- wood boar`):
+`Species boar. Variant wild.` Over generation, the eight countries' open country (a1, iscoed, kite, thorn, wren,
+kahitude, mere, ember) draws 156 meetings, and 10 of them are the boar (a1 1, kite 2, thorn 2, wren 2, kahitude 3).
+A danger is met only away from the roads and the towns. The ground rooted up is seen first, then the boar warns
+("It does not mean to go round you"), and while it warns the company may answer it or take the way across country out
+of its stretch (OR-163). So the fight is the fear the place promises: a pack dropped by someone running lies past it.
+**Cards that move:** the boar's (twenty-five hit points, AC 5, saves +6/+3/+2), and its reckoning: for a novice alone it
+reads as a fight to lose. The roadstation's three boars and the ecology's dens keep Orsino's.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)
