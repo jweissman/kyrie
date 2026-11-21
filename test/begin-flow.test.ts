@@ -60,6 +60,7 @@ describe('a new game, set out on at once', () => {
     await page.opening.boot();
     // The title: its ways in, and the country a new game will begin in asked for behind it, by its seed.
     expect(page.mode()).toBe('title');
+    expect(page.html()).toContain('class="mark"');
     expect(page.actions()).toEqual(['begin', 'encyclopedia', 'options']);
     const ahead = page.asked.find(r => r.kind === 'ahead');
     expect(ahead).toBeDefined();
@@ -72,6 +73,9 @@ describe('a new game, set out on at once', () => {
     expect(page.actions()).toEqual(['build', 'set-out-now']);
     const html = page.html();
     for (const card of FirstChoice.step().cards) { expect(html).toContain(card.name); }
+    // The name is the title page's alone: the question stands by itself (OR-160), so nothing above it moves.
+    expect(html).not.toContain('class="mark"');
+    expect(html).not.toContain('class="lede"');
     expect(/<nav class="title-menu begin-menu".*?<\/nav>/s.exec(html)?.[0]).not.toContain('<svg');
     expect(page.asked.length).toBe(before);
     await page.host.idle();

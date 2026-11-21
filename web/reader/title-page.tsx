@@ -46,7 +46,9 @@ export class TitlePage {
       body="title-main" hidden={beat === 'ident' || beat === 'dark'}
       background={<>{beat !== 'ident' && <TitlePage.Motes />}
         {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
-      header={<><TitlePage.Mark name={named.game} />
+      // The name is the title page's alone: the question how a new game begins stands by itself over the embers, the
+      // name neither kept above it nor moved as the menu below it changes (the owner's playtest, 20 November, OR-160).
+      header={s.phase === 'begin' ? undefined : <><TitlePage.Mark name={named.game} />
         <p className="horizon" aria-hidden="true"><i /></p>
         <p className="lede">Vol I: A History of Emprise</p></>}
       menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label="Ways in">
