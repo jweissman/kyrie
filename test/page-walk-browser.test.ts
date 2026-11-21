@@ -48,7 +48,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
   // OR-152, open: the map's menu rows three places of its own list, and a place across the country the engine sets
   // out for is reached only by touching it on the board, which keys cannot. Failing until the map's rows are the
   // engine's journeys (it then passes, and this is made an ordinary case).
-  it.failing('leaves Porthalen by the map to a place across the country, by a player\'s controls (OR-152)', async () => {
+  // The map's rows are the engine's journeys, every one reached a page at a time (MapRows, OR-152).
+  it('leaves Porthalen by the map to a place across the country, by a player\'s controls (OR-152)', async () => {
     const { page, driver: d } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
       { site, pointer: false, query: '?world=iscoed' });
     page.setDefaultTimeout(8000);
@@ -57,8 +58,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     await page.waitForSelector('[data-mode="explore"], [data-mode="prologue"]', { timeout: 180000 });
     const here = (await d.inspect()).place?.id;
     await d.key('m');
-    const far = await page.locator(':is([data-action="map-view"], [data-action="map-road"]):not(:has-text("Enter "))')
-      .first().getAttribute('data-choice');
+    // A journey across the country among the map's rows (a way into the next hex is one too, by go(…): not that).
+    const far = await page.locator(':is([data-action="map-view"], [data-action="map-road"])[data-choice^="travel:"]'
+      + ':not(:has-text("Enter "))').first().getAttribute('data-choice');
     expect(far).toMatch(/^travel:/);
     await d.key('Escape');
     const said = await d.act(far!);
