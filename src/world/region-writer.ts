@@ -1,3 +1,4 @@
+import { ModuleSource } from '../lang/module-source';
 import { RegionNews } from './region-news';
 import { RegionIds } from '../region-ids';
 import type { Landmark } from './region-land';
@@ -140,7 +141,9 @@ export class RegionWriter {
   // A region beyond the first (company null) has no company of its own: the one company comes to it from the others.
   static source(region: Region, company: Company | null = { size: 3, contacts: [] },
     taken: Record<string, string> = {}): string {
-    return [`Module ${this.id} ${JSON.stringify(region.name)} {`, ...this.body(region, taken), ...this.company(region, company),
+    // One text whole (a fixture, an author's look): what was declared as values written as its Kyr.
+    const body = this.body(region, taken).map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l);
+    return [`Module ${this.id} ${JSON.stringify(region.name)} {`, ...body, ...this.company(region, company),
       '}'].join('\n');
   }
   // The same, as the files of one module: the country in parts small enough to be read one at a time, then who
@@ -157,13 +160,26 @@ export class RegionWriter {
     let depth = 0, size = 0, ended = true;
     for (const line of [...own, ...body.filter(l => !RegionWriter.ownKind.test(l))]) {
       if (depth === 0 && ended && size > 40000) { parts.push([]); size = 0; }
-      parts.at(-1)!.push(line); size += line.length;
+      // (A declaration made as a value counted as its Kyr, so that the files part where the text's would.)
+      parts.at(-1)!.push(line); size += ModuleSource.is(line) ? ModuleSource.read(line).kyr.length : line.length;
       depth += RegionWriter.braces(line);
       ended = /[.}]$/.test(line.trim()) || line.trim().startsWith('//');
     }
-    return Object.fromEntries([...parts.map((lines, i) => [i ? `region-${i + 1}.kyr` : 'region.kyr',
-      [head, ...lines, '}'].join('\n')]), ['company.kyr', [head, ...this.company(region, company), '}'].join('\n')]]);
+    // What a writer declared as values (ModuleSource) goes beside its file, not in it: its declarations, each at its
+    // place among the file's own (a stub in the text), and their Kyr for inspection, never parsed (AX-04,
+    // generated-ir.md).
+    const out: [string, string][] = [];
+    for (const [i, lines] of parts.entries()) {
+      const name = i ? `region-${i + 1}.kyr` : 'region.kyr', { text, source } = ModuleSource.parted(name, lines);
+      out.push([name, [head, ...text, '}'].join('\n')]);
+      if (source.observations.length) {
+        out.push([`${name}.ir.json`, JSON.stringify(source)], [`${name}.ir.kyr`, ModuleSource.kyr(source)]);
+      }
+    }
+    return Object.fromEntries([...out, ['company.kyr', [head, ...this.company(region, company), '}'].join('\n')]]);
   }
+  // A file the module reads as Kyr (not what stands beside one for inspection, nor its declarations made as values).
+  static readsAsKyr(name: string): boolean { return !/\.ir\.(json|kyr)$/.test(name); }
   // A kind of thing or creature the country declares for itself (Kind delver_token "a Delver's token" is …).
   private static readonly ownKind = /^\s*(Kind|Species) [A-Za-z_][\w]* "/;
   // How many blocks a line opens, less those it closes, outside its quoted text.
@@ -265,8 +281,10 @@ export class RegionWriter {
   static write(files: Record<string, string>, root: string, region: Region,
     at: { company: Company | null; taken: Record<string, string>; beyond?: boolean }) {
     const parts = this.files(region, at.company, at.taken);
-    files[`${root}/region/module.json`] = JSON.stringify(this.manifest(region, at.taken, at.beyond,
-      { ...at.company ? { company: at.company } : {}, sources: Object.keys(parts) }));
+    const sources = Object.keys(parts).filter(n => RegionWriter.readsAsKyr(n)), ir = Object.keys(parts).filter(n => n.endsWith('.ir.json'));
+    files[`${root}/region/module.json`] = JSON.stringify({ ...this.manifest(region, at.taken, at.beyond,
+      { ...at.company ? { company: at.company } : {}, sources }),
+    ...ir.length ? { ir: Object.fromEntries(ir.map(n => [n.replace(/\.ir\.json$/, ''), n])) } : {} });
     for (const [name, text] of Object.entries(parts)) { files[`${root}/region/${name}`] = text; }
   }
   static manifest(region: Region, taken: Record<string, string> = {}, beyond = false,

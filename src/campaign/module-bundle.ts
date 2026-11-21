@@ -16,6 +16,7 @@ import { Superseded } from '../lang/superseded';
 import { Bringing } from '../lang/bringing';
 import { ModuleShadow } from './module-shadow';
 import { CompiledModules, type Compiled } from './compiled-modules';
+import { ModuleSource, type FileSource } from '../lang/module-source';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
@@ -51,6 +52,9 @@ export interface CampaignManifest {
 export interface BundleManifest {
   roles?: Record<string, RoleContract>;
   version: 1; source: string | string[]; rules: string | string[]; globals?: string[]; imports?: string[];
+  // Beside a source file, what a generator declared for it as values (ModuleSource), by the file's name: lowered into
+  // its module where it stands, never parsed (AX-04, generated-ir.md).
+  ir?: Record<string, string>;
   // Imports a module goes on without, keeping its own: what the country below says of it, in a world kept from before
   // it said so.
   optional?: string[];
@@ -305,6 +309,23 @@ export class ModuleBundle {
   // its own, read as its sources are and named for it (a rules file of its own had declared another module's private
   // relation and written it, and a rule of the same id as another's was dropped unsaid: the architecture review's A7).
   // A world of a setting of its own (canonless: BX-01's L6) is played by the world's rules without the canon's.
+  // A module's own files compiled before, or each read (among the kinds they declare) with what was declared for it
+  // as values put in its place (ModuleSource), by the key of both and the shared rules.
+  private static async reading(own: SourceFile[], rules: SourceFile[],
+    at: { manifest: BundleManifest; path: string; source: BundleSource }) {
+    const sources = await this.sources(at.manifest, at.path, at.source);
+    const key = CompiledModules.key(CompiledModules.edition(rules.map(f => f.text)),
+      [...own.map(f => f.text), ...sources.some(Boolean) ? sources.map(x => x ? JSON.stringify(x) : '') : []]);
+    const kept = CompiledModules.get(key, true);
+    return { key, kept, mine: kept ? [] : this.own(own).map((m, i) => ModuleSource.lowered(m, sources[i])) };
+  }
+  // What was declared for each of a module's own files as values, in their order (none where nothing was).
+  private static async sources(manifest: BundleManifest, path: string, source: BundleSource):
+    Promise<(FileSource | undefined)[]> {
+    const files = typeof manifest.source === 'string' ? [manifest.source] : manifest.source;
+    return Promise.all(files.map(async f => manifest.ir?.[f]
+      ? JSON.parse(await source.read(source.resolve(manifest.ir[f], path))) as FileSource : undefined));
+  }
   private static paths(manifest: BundleManifest, path: string, source: BundleSource, canonless = false) {
     const rules = typeof manifest.rules === 'string' ? [manifest.rules] : manifest.rules;
     const world = canonless ? ModuleBundle.world.filter(r => r !== ModuleCanon.id) : ModuleBundle.world;
@@ -344,8 +365,7 @@ export class ModuleBundle {
     // Its own files first, each read among every kind they declare (see `own`), and then the shared rules; or its own
     // as they were compiled before beside the same rules (see CompiledModules).
     const own = files.slice(0, situationPaths.length), rules = files.slice(situationPaths.length);
-    const key = CompiledModules.key(CompiledModules.edition(rules.map(f => f.text)), own.map(f => f.text));
-    const kept = CompiledModules.get(key, true), mine = kept ? [] : this.own(own);
+    const { key, kept, mine } = await this.reading(own, rules, { manifest, path, source });
     const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...ModuleBundle.apart(request.context, options.people), now: options.elapsed ?? 0 }),

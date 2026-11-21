@@ -1,3 +1,5 @@
+import { ModuleSource } from '../lang/module-source';
+import type { Predicate } from '../lang/module';
 import { GenerationSetting } from '../generation-setting';
 import { RegionGeography } from './region-geography';
 import { RegionFaith, type Cult } from './region-faith';
@@ -34,6 +36,25 @@ interface Tables {
 // what they are and where they stand is the founding's.
 export class SettlementWriter {
   static readonly q = JSON.stringify;
+  // An Observe of the town, declared as a value (ModuleSource: AX-04, generated-ir.md's first step), its Kyr beside it
+  // for inspection: what the parser would make of the line, made here, never parsed. when: one of the few conditions
+  // a town's scenes are told under, as their Kyr.
+  private static observe(id: string, place: string, o: { aspect: 'fixture' | 'ambience' | 'sign'; when: string;
+    text: string; teaches?: string }): string {
+    const { aspect, when, text, teaches } = o;
+    const kyr = `  Observe ${id} at ${place} as ${aspect} when ${when} ${this.q(text)}${teaches ? ` teaches ${teaches}` : ''}.`;
+    return ModuleSource.observe({ id, place, when: SettlementWriter.when(when), text, aspect,
+      ...teaches ? { teaches } : {} }, kyr, { generator: 'settlement-writer', construct: 'Observe' });
+  }
+  private static when(when: string): Predicate {
+    if (when === 'true') { return { kind: 'boolean', value: true }; }
+    const dark: Predicate = { kind: 'call', name: 'dark', args: [] };
+    if (when === 'dark()') { return dark; }
+    if (when === 'not dark()') { return { kind: 'not', value: dark }; }
+    const state = /^state\(([\w]+), (\w+)\)$/.exec(when);
+    if (!state) { throw new Error(`settlement-writer: no condition ${when} to declare`); }
+    return { kind: 'call', name: 'state', args: [state[1]!, state[2]!] };
+  }
   // What the settlement has besides its heart.
   static rooms(region: Region, s: Settlement): { taproom: boolean; shrine: boolean; shop: boolean } {
     const f = Foundings.of(region, region.settlements.indexOf(s));
@@ -57,20 +78,24 @@ export class SettlementWriter {
       ...has.shrine ? this.holy(s, f, cult) : [],
       ...has.shop ? [`  Place ${s.id}_shop ${q(`${s.merchant}'s ${this.trade(s).shop}`)} is room within ${s.id} at 2, 1.`,
         `  Passage ${s.id}_shop_door ${q(`${s.merchant}'s door`)} is door between ${s.id}_shop and ${s.id}_green.`,
-        ...this.trade(s).scene ? [`  Observe ${s.id}_shop_scene at ${s.id}_shop as fixture when true ${q(this.trade(s).scene!)}.`] : []]
+        ...this.trade(s).scene ? [this.observe(`${s.id}_shop_scene`, `${s.id}_shop`, { aspect: 'fixture', when: 'true',
+          text: this.trade(s).scene! })] : []]
         : [],
       this.keeper(s, f, region),
       this.priest(s, f, region),
       this.merchant(s, f, region),
       ...RegionRecruits.traveller(s, i, region, has.taproom ? `${s.id}_taproom` : `${s.id}_green`),
-      `  Observe ${s.id}_day at ${s.id}_green as fixture when not dark() ${q(SettlementScenes.green(region, i, cult.name))}`
-        + ` teaches ${s.id}_why.`,
-      `  Observe ${s.id}_night at ${s.id}_green as fixture when dark() ${q(SettlementScenes.night(region, i))}.`,
-      ...has.taproom ? [`  Observe ${s.id}_tap at ${s.id}_taproom as fixture when true ${q(SettlementScenes.taproom(region, i))}.`] : [],
+      this.observe(`${s.id}_day`, `${s.id}_green`, { aspect: 'fixture', when: 'not dark()',
+        text: SettlementScenes.green(region, i, cult.name), teaches: `${s.id}_why` }),
+      this.observe(`${s.id}_night`, `${s.id}_green`, { aspect: 'fixture', when: 'dark()',
+        text: SettlementScenes.night(region, i) }),
+      ...has.taproom ? [this.observe(`${s.id}_tap`, `${s.id}_taproom`, { aspect: 'fixture',
+        when: 'true', text: SettlementScenes.taproom(region, i) })] : [],
       // Why the place is there is history: it goes in the company's notes on first seeing the place, not in what is
       // seen there (doc/authoring/narratology.md).
       `  Entity ${s.id}_why: fact ${q(f.why)}.`,
-      ...SettlementScenes.life(region, i) ? [`  Observe ${s.id}_life at ${s.id}_green as ambience when not dark() ${q(SettlementScenes.life(region, i)!)}.`] : [],
+      ...SettlementScenes.life(region, i) ? [this.observe(`${s.id}_life`, `${s.id}_green`, { aspect: 'ambience',
+        when: 'not dark()', text: SettlementScenes.life(region, i)! })] : [],
       ...RegionFaith.lines(s, cult, has.shrine ? `${s.id}_shrine` : `${s.id}_green`, this.wayside(f, cult)),
       // A chandlery, where the merchant is not a chandler (see Outfitters); the shops a town keeps besides.
       ...Outfitters.lines(region, s),
@@ -107,7 +132,8 @@ export class SettlementWriter {
       `    State below ${q(Foundings.fill(t.unseen, words))}.`,
       `    State above "The way down is the stair you came up.".`,
       `    Change climb ${q(Foundings.fill(t.change, words))} from below to above.`, '  }',
-      `  Observe ${id}_seen at ${s.id}_shrine as sign when state(${id}, above) ${q(Foundings.fill(t.seen, words))}.`,
+      this.observe(`${id}_seen`, `${s.id}_shrine`, { aspect: 'sign', when: `state(${id}, above)`,
+        text: Foundings.fill(t.seen, words) }),
       `  Rule ${id}_down when state(${id}, above) and not at(party, ${s.id}_shrine) { Assert state(${id}, below). }`];
   }
   private static wayside(f: Founding, cult: Cult): string | undefined {
