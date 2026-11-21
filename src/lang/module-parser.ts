@@ -1,5 +1,6 @@
 import { parseAbility } from './parse';
 import { Spatial } from './spatial';
+import type { Declared } from './module-source'; import { DeclaredValues } from './declared-values';
 import { Discovery, type DiscoveryDefinition } from './discovery';
 import * as ohm from 'ohm-js';
 import { Grammars } from './grammars';
@@ -15,9 +16,7 @@ import { ModuleDeclarations } from './module-declarations'; import { Routes } fr
 import { TemplatedPredicates } from './templated-predicates';
 import { Superseded } from './superseded'; import { Bringing } from './bringing'; import { ObjectiveParser } from './objective-parser';
 
-type Node = ohm.Node;
-type AstNode = ohm.Node & { ast(): unknown };
-type Field = { field: string; value: unknown };
+type Node = ohm.Node; type AstNode = ohm.Node & { ast(): unknown }; type Field = { field: string; value: unknown };
 export class ModuleParser {
   private static readonly grammar = Grammars.quick;
   private static readonly semantics = ModuleParser.grammar.createSemantics().addOperation<unknown>('ast', {
@@ -92,12 +91,16 @@ export class ModuleParser {
   // may have put other kinds in their place, and the files read after it place things of these kinds.
   // Kept by the text and the kinds it was read among: one read while another campaign's kinds were in the catalogs
   // (Kind figurine like dreg_ox) is not taken for one read without them (the review's H7).
-  static parse(text: string): Module {
-    const key = `${Vocabularies.seen(text)}\u0000${text}`, known = ParseCache.get(key), began = performance.now();
+  // declared: what a generator declared for the text as values, each declared where its line was (ModuleSource,
+  // AX-04), and kept with the text (the same text with other values is another module).
+  static parse(text: string, declared: readonly Declared[] = []): Module {
+    const key = `${Vocabularies.seen(text)}\u0000${text}${declared.length ? `\u0000${JSON.stringify(declared)}` : ''}`;
+    const known = ParseCache.get(key), began = performance.now();
     if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text), matched = performance.now();
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${Grammars.why(text)}`); }
-    const module = ModuleParser.semantics(match).ast() as Module, lowered = performance.now();
+    const module = DeclaredValues.during(declared, () => ModuleParser.semantics(match).ast() as Module);
+    const lowered = performance.now();
     // Each part told apart (the review of generated parsing, §4), the bytes the text's own in UTF-8.
     const bytes = ParseCache.costs ? new TextEncoder().encode(text).byteLength : text.length;
     ParseCache.costs?.note('parse match', matched - began, { bytes });
@@ -132,16 +135,16 @@ export class ModuleParser {
     const module: Module = { id: id.sourceString, name: ModuleParser.ast(name) as string, description: '', kinds: [],
       entities: [], relations: [], measures: [], queries: [], initial: [], actions: [],
       goal: { kind: 'boolean', value: false }, budget: { kind: 'number', value: 10 } };
-    const information: DiscoveryDefinition[] = [];
-    const singleton = new Set<string>();
+    const information: DiscoveryDefinition[] = [], singleton = new Set<string>(), into = { information, singleton };
     // A module's own kinds come first, wherever they are written, so that its items and people may be of them.
     // Ohm builds a node's children afresh each time they are asked for: asked once per declaration, a module of N
     // declarations took N² to read (scripts/scale-costs).
     const children = declarations.children;
     const fields = children.map(child => ModuleParser.located(child, () => ModuleParser.ast(child) as Field));
     CatalogParser.declare(module, fields, (i, run) => ModuleParser.located(children[i]!, run));
-    fields.forEach((f, i) => ModuleParser.located(children[i]!,
-      () => ModuleDeclarations.declare(module, f, { information, singleton })));
+    // And what a generator declared for it as values, each where its line was (DeclaredValues).
+    DeclaredValues.interleave(children.map(c => c.source.startIdx), module, into,
+      i => ModuleParser.located(children[i]!, () => ModuleDeclarations.declare(module, fields[i]!, into)));
     const expanded = Discovery.describe(information);
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }

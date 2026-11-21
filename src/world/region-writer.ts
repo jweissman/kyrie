@@ -170,12 +170,13 @@ export class RegionWriter {
       depth += RegionWriter.braces(line);
       ended = /[.}]$/.test(line.trim()) || line.trim().startsWith('//');
     }
-    // What a writer declared as values (ModuleSource) goes beside its file, not in it: its declarations, each at its
-    // place among the file's own (a stub in the text), and their Kyr for inspection, never parsed (AX-04,
-    // generated-ir.md).
+    // What a writer declared as values (ModuleSource) goes beside its file, not in it: its declarations, each at the
+    // character its line would have begun at (nothing of it in the text), and their Kyr for inspection, never parsed
+    // (AX-04, generated-ir.md).
     const out: [string, string][] = [];
     for (const [i, lines] of parts.entries()) {
-      const name = i ? `region-${i + 1}.kyr` : 'region.kyr', { text, source } = ModuleSource.parted(name, lines);
+      const name = i ? `region-${i + 1}.kyr` : 'region.kyr';
+      const { text, source } = ModuleSource.parted(name, lines, head.length + 1);
       out.push([name, [head, ...text, '}'].join('\n')]);
       if (source.declared.length) {
         out.push([`${name}.ir.json`, JSON.stringify(source)], [`${name}.ir.kyr`, ModuleSource.kyr(source)]);
@@ -222,8 +223,8 @@ export class RegionWriter {
     region.settlements.forEach(s => lines.push(...this.economy(s, region)));
     // Where its ordinary gear and clothing are bought, kept by people named apart from everyone the country has.
     lines.push(...GeneralStores.lines(region, new Set(StoryPeople.country(region))));
-    // Each town's quarters, by the places it was written with (see RegionQuarters).
-    lines.push(...RegionQuarters.lines(region, lines));
+    // Each town's quarters, by the places it was written with (see RegionQuarters), a value's by its Kyr.
+    lines.push(...RegionQuarters.lines(region, lines.map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l)));
     return lines;
   }
   // The notice of the troubles of the town the company begins in, for an origin that sends it there (Origins.unhired).

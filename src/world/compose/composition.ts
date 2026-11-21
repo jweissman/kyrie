@@ -2,6 +2,7 @@ import type { BundleSource } from '../../campaign/bundle-source';
 import type { BundleManifest, BundleRequest } from '../../campaign/module-bundle';
 import type { Module } from '../../lang/module';
 import { ModuleParser } from '../../lang/module-parser';
+import { ModuleSource } from '../../lang/module-source';
 import { Composer, type Placement } from './composer';
 import { Geography } from './geography';
 import { Kits } from './kit';
@@ -77,8 +78,11 @@ export class Composition {
     if (!manifest.assembly) { return; }
     // A module in several files (a generated region) is read whole: its places and ways are in all of them.
     const files = Array.isArray(manifest.source) ? manifest.source : [manifest.source];
+    // Each with what was declared for it as values (ModuleSource), as the module is loaded: its ways across country
+    // are among them (AX-04: read without them, the composer had placed the raiders' hold elsewhere).
     const texts = await Promise.all(files.map(f => source.read(source.resolve(f, entry.bundle))));
-    const parts = texts.map(text => ModuleParser.parse(text));
+    const sources = await ModuleSource.sources(manifest, entry.bundle, source);
+    const parts = texts.map((text, i) => ModuleParser.parse(text, sources[i]?.declared));
     const company = parts.find(m => m.company)?.company;
     const module = { ...parts[0]!, ...company ? { company } : {}, entities: parts.flatMap(m => m.entities),
       initial: parts.flatMap(m => m.initial) };

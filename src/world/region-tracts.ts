@@ -13,6 +13,7 @@ import { Vantage } from './vantage';
 import type { Region } from './region-writer';
 import tables from '../../data/generation/scenes/tracts.json';
 import { RegionKey } from './region-key';
+import { TractValues } from './tract-values';
 
 interface Lie { name: string; zoned: string; minutes: number; told: string[] }
 // A place that stands on a cell of the land, the room the company goes into from the open country there, and what
@@ -83,20 +84,20 @@ export class RegionTracts {
     const land = RegionGeography.atlas(region).land, q = JSON.stringify, id = this.id(c);
     return [`  Place ${id} ${q(this.name(region, c))} is room within ${at.parent} at ${c % land.width}, `
       + `${Math.floor(c / land.width)} outdoors.`, `  Initially Assert tract(${id}).`,
-    `  Observe ${id}_scene at ${id} as fixture when true ${q(this.told(region, c))}.`,
-    ...this.neighbours(c, land.width, land.height).filter(m => m > c && at.cells.has(m)).map(n => `  Passage tw${c}_${n} `
-      + `"the way across country" is overland between ${id} and ${this.id(n)} taking ${this.minutes(region, c, n)} minutes.`)];
+    TractValues.seen(`${id}_scene`, id, { aspect: 'fixture', text: this.told(region, c) }),
+    ...this.neighbours(c, land.width, land.height).filter(m => m > c && at.cells.has(m)).map(n => TractValues.way(
+      `tw${c}_${n}`, 'the way across country', [id, this.id(n)], this.minutes(region, c, n)))];
   }
   // From a stretch into whatever stands on it, and onto the road that crosses it.
   private static links(region: Region, cells: Set<number>): string[] {
-    const lines = this.standing(region).filter(s => cells.has(s.cell)).map(s => `  Passage tl_${s.room} `
-      + `"the way across country" is overland between ${this.id(s.cell)} and ${s.room} taking 10 minutes.`);
+    const lines = this.standing(region).filter(s => cells.has(s.cell)).map(s => TractValues.way(`tl_${s.room}`,
+      'the way across country', [this.id(s.cell), s.room], 10));
     for (const r of RegionGeography.roads(region)) {
       const ends = new Set([r.from.cell, r.to.cell]);
       for (const c of new Set(r.route.cells)) {
         if (cells.has(c) && !ends.has(c)) {
-          lines.push(`  Passage tr${c}_${r.way} ${JSON.stringify(this.off(region, r, c))} is overland between `
-            + `${this.id(c)} and ${r.way} taking ${Math.max(5, RegionRoads.along(region, r, c))} minutes.`);
+          lines.push(TractValues.way(`tr${c}_${r.way}`, this.off(region, r, c), [this.id(c), r.way],
+            Math.max(5, RegionRoads.along(region, r, c))));
         }
       }
     }
@@ -165,8 +166,9 @@ export class RegionTracts {
             `  Initially Assert leadsTo(${fact}, ${what.id}).`);
         }
         // Said as from any height (RegionSights), so the page sets each out on its compass, with setting out for it.
-        lines.push(`  Observe ${this.id(c)}_saw_${s.id} at ${this.id(c)} as sign when surveyed(party, ${this.id(c)})`
-          + ` ${q(`To the ${s.bearing}, ${Vantage.said(s)}: ${what.afar}.`)} teaches ${fact}.`);
+        lines.push(TractValues.seen(`${this.id(c)}_saw_${s.id}`, this.id(c), { aspect: 'sign',
+          when: ['surveyed', `party, ${this.id(c)}`], text: `To the ${s.bearing}, ${Vantage.said(s)}: ${what.afar}.`,
+          teaches: fact }));
       }
     }
     return lines;

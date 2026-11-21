@@ -1,4 +1,5 @@
-import type { Change, Module, Observation, Operator } from './module';
+import type { Change, Observation, Operator } from './module';
+import type { PassageSpec } from './world-constructs';
 import { ModuleParser } from './module-parser';
 import { TemplatedPredicates } from './templated-predicates';
 
@@ -8,15 +9,19 @@ import { TemplatedPredicates } from './templated-predicates';
 // downstream of one point. The settlement writer's Observe first; then, by bytes, a Topic of the lands beyond (each
 // town's keeper asked of a province or a country over the march: a fifth of a drawn country's Kyr).
 // A generator still writes lines (the country's other declarations): a declaration made here is a line marked as
-// such, carrying its value and the Kyr it stands for (written apart, for inspection), never parsed.
+// such, carrying its value and the Kyr it stands for (written apart, for inspection), never parsed; then, of its
+// RegionTracts, each stretch's Passage and Observe (the next by bytes, an eighth of a country between them).
 // provenance: which generator made it, of which construct (diagnostics name it where no source line does).
 export interface Provenance { generator: string; construct: string }
-export type Declared = ({ observation: Observation } | { action: Operator }) & { kyr: string; provenance: Provenance };
-// One file's declarations made here. Each keeps its place among the file's own by a stub the text holds where its
-// line was (`Observe <id> at <place> when true "".`, `Topic <id> with <keeper> "" when true { Says "". }`): a file's
+// at: where its line was in the file's text, by the character (see parted); a passage is the parser's own field for
+// it, declared as the line would be, an observation and a topic the Module elements their lines make.
+export type Declared = ({ observation: Observation } | { action: Operator } | { passage: PassageSpec })
+  & { kyr: string; provenance: Provenance; at?: number };
+// One file's declarations made here. Each keeps its place among the file's own by where its line was (at): a file's
 // observations and actions are made by many of its declarations (a thing's states, a discovery's finds, a thing's
-// changes), in the order they are written, and the stub is what keeps the joined module the one the text would have
-// made. The stub goes when the IR owns the order of all that makes them (generated-ir.md).
+// changes), in the order they are written, so the parser declares each value as it comes to that place, between the
+// text's declarations (ModuleParser.parse), and the text holds nothing for it. (It had held a stub declaration for
+// each, which kept the order and the parse's cost, which goes by declarations: generated-ir.md.)
 export interface FileSource { file: string; declared: Declared[] }
 // A topic as a generator says it: the parser's Topic, without its optional parts (travelling, answering, once, grave).
 export interface TopicSpec { id: string; keeper: string; title: string; when: string; says: string; knows: string[] }
@@ -28,6 +33,10 @@ export class ModuleSource {
   // A line standing for an Observe made as a value.
   static observe(observation: Observation, kyr: string, provenance: Provenance): string {
     return ModuleSource.asText ? kyr : ModuleSource.line({ observation, kyr, provenance });
+  }
+  // A line standing for a Passage made as a value: the parser's field for its line.
+  static passage(passage: PassageSpec, kyr: string, provenance: Provenance): string {
+    return ModuleSource.asText ? kyr : ModuleSource.line({ passage, kyr, provenance });
   }
   // The lines standing for a Topic made as a value: its condition is the generator's few words, read as the parser
   // reads a predicate, once for each text (each keeper of the country asked of one land beyond has the same: fifteen
@@ -49,29 +58,25 @@ export class ModuleSource {
   private static line(d: Declared): string { return `${ModuleSource.mark}${JSON.stringify(d)}`; }
   static is(line: string): boolean { return line.startsWith(ModuleSource.mark); }
   static read(line: string): Declared { return JSON.parse(line.slice(ModuleSource.mark.length)) as Declared; }
-  // A file's lines parted: the text to be parsed (a stub where a declaration made here was), and what was declared.
-  static parted(file: string, lines: string[]): { text: string[]; source: FileSource } {
+  // A file's lines parted: the text to be parsed, and what was declared, each at the character where its line would
+  // have begun (start: where the first line begins in the file, after its head).
+  static parted(file: string, lines: string[], start = 0): { text: string[]; source: FileSource } {
     const text: string[] = [], declared: Declared[] = [];
+    let at = start;
     for (const line of lines) {
-      if (!ModuleSource.is(line)) { text.push(line); continue; }
-      const d = ModuleSource.read(line);
-      declared.push(d);
-      text.push('observation' in d ? `  Observe ${d.observation.id} at ${d.observation.place} when true "".`
-        : `  Topic ${d.action.id} with ${d.action.speaker!} "" when true { Says "". }`);
+      if (ModuleSource.is(line)) { declared.push({ ...ModuleSource.read(line), at }); continue; }
+      text.push(line); at += line.length + 1;
     }
     return { text, source: { file, declared } };
   }
-  // A file's module with what was declared for it in its stubs' places: a module of its own, the parsed one unchanged.
-  static lowered(module: Module, source: FileSource | undefined): Module {
-    if (!source?.declared.length) { return module; }
-    const seen = new Map<string, unknown>(source.declared.map(d => 'observation' in d
-      ? [`o:${d.observation.id}`, d.observation] : [`a:${d.action.id}`, d.action]));
-    return { ...module, ...module.observations
-      ? { observations: module.observations.map(o => ModuleSource.made(seen, `o:${o.id}`, o)) } : {},
-    actions: module.actions.map(a => ModuleSource.made(seen, `a:${a.id}`, a)) };
-  }
-  private static made<T>(seen: Map<string, unknown>, key: string, parsed: T): T {
-    return seen.has(key) ? structuredClone(seen.get(key) as T) : parsed;
+  // What was declared for each of a module's own files as values, in their order (none where nothing was), read from
+  // beside them as its manifest names them (ir): for its loading, and for the composer reading its places and ways.
+  static sources(manifest: { source: string | string[]; ir?: Record<string, string> }, path: string,
+    source: { read(path: string): Promise<string>; resolve(relative: string, from?: string): string }):
+    Promise<(FileSource | undefined)[]> {
+    const files = typeof manifest.source === 'string' ? [manifest.source] : manifest.source;
+    return Promise.all(files.map(async f => manifest.ir?.[f]
+      ? JSON.parse(await source.read(source.resolve(manifest.ir[f], path))) as FileSource : undefined));
   }
   // The Kyr the declarations stand for, as a file to read (never parsed in play).
   static kyr(source: FileSource): string { return source.declared.map(d => d.kyr).join('\n'); }
