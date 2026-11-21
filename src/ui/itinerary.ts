@@ -206,7 +206,10 @@ export class Itineraries {
     if (!campaign.running) { return { destinations: [], roads: [], around: [], mapped: [] }; }
     // From an enclosed place, nothing overland: the way out is walked first (CN-02; see Compass). Inside a building
     // the world map had opened, and set out across the country past the site's own ways.
-    const inside = this.enclosed(campaign, campaign.world.one('at', campaign.playerActor!) ?? '');
+    // But a house of a town, on the ground, is left by its door: a journey from it goes out of doors first, its way out
+    // the first leg (OR-151: at Porthalen's customs-house the map drew the country and set out for none of it).
+    const at = campaign.world.one('at', campaign.playerActor!) ?? '';
+    const inside = this.enclosed(campaign, at) && !this.house(campaign, at);
     const leads = inside ? [] : this.destinations(campaign), roads = inside ? [] : this.roads(campaign, leads);
     const around = this.around(campaign);
     const listed = new Set([...leads, ...roads, ...around].map(d => d.id));
@@ -220,6 +223,13 @@ export class Itineraries {
     const byId = this.byId(campaign), space = byId.get(place)?.space;
     return !!space && (['indoors', 'underground'].includes(space.shelter ?? '') || (space.depth ?? 0) > 0
       || Spatial.ancestry(byId, place).some(e => e.id !== place && ['building', 'site'].includes(e.space?.kind ?? '')));
+  }
+  // A house of a town on the ground (a shop, the customs-house), not under it nor deep in a site.
+  private static house(campaign: Campaign, place: string): boolean {
+    const byId = this.byId(campaign), space = byId.get(place)?.space;
+    return !!space && space.shelter !== 'underground' && !(space.depth ?? 0)
+      && Spatial.ancestry(byId, place).some(e => e.space?.kind === 'settlement')
+      && !Spatial.ancestry(byId, place).some(e => e.id !== place && e.space?.kind === 'site');
   }
   // Every other place the map draws that the company knows a way to, in whatever country it is in: each area and
   // mark on its land not set out for already, a single way off too, so that a place chosen on the map is set out for
