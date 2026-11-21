@@ -1,0 +1,192 @@
+{
+ "about": "The three planning views (the owner, 20 November: unlimited honesty about what is wrong; disciplined limits on what we work on; demanding acceptance for what we call good). The register is the record; this file declares the supported slice and the capped active queue, and scripts/planning-views.ts derives the views from both.",
+ "slice": {
+  "name": "The supported first hour",
+  "since": "2026-11-20",
+  "scope": "creation; the opening; Iscoed's two acceptance routes (the warrior down the drove road, the mage at the weir); ordinary travel; a first fight; return; save and resume; on the deployed page",
+  "members": [
+   "FH-25",
+   "FH-07",
+   "FH-24",
+   "CB-01",
+   "CB-30",
+   "NM-01",
+   "AP-18",
+   "AP-03",
+   "AP-07",
+   "NP-19",
+   "NP-20",
+   "US-15",
+   "US-09",
+   "CP-19",
+   "SP-02",
+   "SP-05",
+   "AR-05",
+   "AI-07",
+   "R11-02",
+   "T24-27",
+   "TO-03",
+   "TO-06",
+   "RI-01",
+   "RI-02",
+   "RI-03",
+   "RI-05",
+   "OA-12",
+   "OA-14",
+   "CO-20",
+   "CO-19",
+   "AX-04",
+   "AX-05",
+   "DN-08",
+   "DN-03",
+   "BL-12",
+   "HP-08",
+   "HP-02",
+   "HP-03",
+   "PB-29",
+   "SI-01",
+   "SI-07",
+   "OR-23",
+   "OR-37",
+   "OR-140",
+   "OR-71",
+   "OR-139",
+   "OR-142",
+   "OR-143",
+   "OR-144",
+   "OR-145",
+   "OR-148",
+   "OR-149",
+   "OR-151",
+   "OR-152",
+   "OR-133",
+   "OR-75",
+   "OR-91",
+   "OR-96",
+   "OR-113",
+   "OR-137",
+   "OR-123",
+   "OR-125",
+   "OR-126",
+   "OR-127",
+   "CL-01",
+   "CL-67",
+   "CL-31",
+   "CL-32",
+   "CL-33",
+   "OB-21",
+   "OB-17",
+   "BO-11",
+   "BO-12",
+   "BO-05",
+   "BO-07",
+   "WD-07",
+   "WD-12",
+   "FM-01",
+   "FM-03",
+   "TR-21",
+   "ST-03",
+   "ST-11",
+   "AT-10"
+  ],
+  "outside": {
+   "GT-01": "the planes are met after the first hour (no plane is reached from Iscoed's starts)",
+   "GT-03": "the planes' tour, after the first hour",
+   "TB-03": "the runner is not the supported client (the page is); what a terminal walk finds on the page's first hour is filed apart, and MT-18 holds the clients to one projection",
+   "TB-04": "the runner is not the supported client (the page is); what a terminal walk finds on the page's first hour is filed apart, and MT-18 holds the clients to one projection",
+   "TB-06": "the runner is not the supported client (the page is); what a terminal walk finds on the page's first hour is filed apart, and MT-18 holds the clients to one projection",
+   "TB-09": "the runner is not the supported client (the page is); what a terminal walk finds on the page's first hour is filed apart, and MT-18 holds the clients to one projection",
+   "TB-10": "the runner is not the supported client (the page is); what a terminal walk finds on the page's first hour is filed apart, and MT-18 holds the clients to one projection",
+   "TB-11": "the runner is not the supported client (the page is); what a terminal walk finds on the page's first hour is filed apart, and MT-18 holds the clients to one projection",
+   "CL-53": "a death in the runner's terminal game; the page's ending is its own row",
+   "CO-03": "a second country, not reached in the first hour",
+   "AX-03": "platform: the shared rules composed per install; its first-hour cost is AX-04's",
+   "AX-07": "platform: drawing order commitments; no first-hour symptom reproduced",
+   "MT-16": "platform: the layers as units; no player meets it",
+   "MT-18": "platform: one projection; its player-facing symptoms are rows in the set (OR-152, AR-05)",
+   "MT-24": "platform: command atomicity; a lost or half state met in play would be a row in the set",
+   "MT-25": "platform: string reads; symptoms met in play are rows in the set",
+   "WD-02": "world composition (a direction-sized redesign); the first town's symptom is WD-12, in the set",
+   "WD-09": "world composition, after the first hour",
+   "ST-08": "authoring: the adventure-structure brief",
+   "R10-01": "deferred by the owner to M23 (combat as a mode of the scene); a first fight's defects are rows of their own",
+   "CR-01": "a career, beyond the first hour"
+  }
+ },
+ "active": {
+  "limits": {
+   "blockers": 10,
+   "platform": 3
+  },
+  "blockers": [
+   {
+    "id": "OR-91",
+    "owner": "maturity",
+    "accept": "every input answered within 100 ms on the page; a long press's commit can't be lost; measured on touch and mouse"
+   },
+   {
+    "id": "OR-145",
+    "owner": "maturity",
+    "accept": "a committed choice closes the page to input until its answer; a1's third act under 300 ms"
+   },
+   {
+    "id": "OR-144",
+    "owner": "maturity",
+    "accept": "Set out now to the first scene in under 3 s on the deployed page (blocked by AX-04)"
+   },
+   {
+    "id": "OR-149",
+    "owner": "sprint",
+    "accept": "Owain's and Mardle's conversations on one scrolling page, said as said, read aloud by the lead; browser specs green"
+   },
+   {
+    "id": "CL-32",
+    "owner": "sprint",
+    "accept": "the drove's deeds answered (doc/design/drove-response-audit.md): Owain at the Rhyne, Bran out, the green remembers; test/drove-answers"
+   },
+   {
+    "id": "CL-33",
+    "owner": "lead",
+    "accept": "the act that matters marked among the four, proven in the browser"
+   },
+   {
+    "id": "OR-152",
+    "owner": "maturity",
+    "accept": "the map's menu rows the engine's journey rows (DoableJourneys); every place the engine sets out for reachable by keys"
+   },
+   {
+    "id": "OR-151",
+    "owner": "maturity",
+    "accept": "from indoors, setting out goes out of doors first, or the map says why not"
+   },
+   {
+    "id": "OR-143",
+    "owner": "maturity",
+    "accept": "the options page's four rows, proven in the browser (int-mat2)"
+   },
+   {
+    "id": "OR-23",
+    "owner": "lead",
+    "accept": "the prologue's painting and first sentences shown while the world is made; no checklist, no black frame"
+   }
+  ],
+  "platform": [
+   {
+    "id": "MT-18",
+    "owner": "maturity",
+    "accept": "offer parity 0 on the golden walks, with no client exceptions"
+   },
+   {
+    "id": "MT-24",
+    "owner": "maturity",
+    "accept": "one unit of work per command with a committed receipt (command-receipt.md), its first step landed"
+   },
+   {
+    "id": "AX-04",
+    "owner": "maturity",
+    "accept": "a new world starts in under 3 s warm"
+   }
+  ],
+  "urgent": []
+ }
+}
