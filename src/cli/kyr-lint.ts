@@ -19,6 +19,7 @@ import { CrossingLint } from './crossing-lint';
 import { FictionLint } from './fiction-lint';
 import { SiteKindLint } from './site-kind-lint';
 import { CompoundKindLint } from './compound-kind-lint';
+import { FateChainLint } from './fate-chain-lint';
 import { WorldAssembler } from '../world/world-assembler';
 
 // An error fails the lint; a warning fails it in recommended content; advice is for the author to look at, and fails
@@ -121,6 +122,8 @@ export class KyrLint {
     CrossingLint.run(lint);
     // Fiction standing in for the rules: a blow, a wound, a defeat or a spell told with nothing of it done (OR-147).
     FictionLint.run(lint);
+    // A chain of fates told at the close with no case for some state, so that its ending waits for ever (AU-37).
+    FateChainLint.run(lint);
     // A drawn world's towns, where generated people and every module placed there each say who holds what.
     if (LintSource.drawn.has(path)) { await OfficeLint.run(lint, source); }
     return lint.findings;
