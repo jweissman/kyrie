@@ -14,7 +14,8 @@ describe('a seizing temperament', () => {
     // The wait is told after the warning it belongs to (play 9 read it before).
     const page = j.taken.at(-1)!.page;
     expect(page.indexOf('Not yet.')).toBeLessThan(page.indexOf('In 10 minutes'));
-    await j.play('Wait a while');
+    // Staying is standing one's ground, the one wait offered while they warn (OR-163: Engaged).
+    await j.play('Stand your ground');
     expect(j.taken.at(-1)!.page).toContain('The Weights take you by the arms');
     expect(j.taken.at(-1)!.event.combat).toEqual([]);
     expect(j.holds('captured', 'p__weights', 'party')).toBe(true);
