@@ -25,6 +25,8 @@ const phase = (name: string, key: string): string[] =>
   (JSON.parse(readFileSync(`test/fixtures/gosse/${name}.json`, 'utf8')) as Record<string, string[]>)[key]!;
 const p = (id: string) => `pentrice__${id}`;
 class Gosse {
+  // The short wait, however it is worded: Stand your ground while someone warns the company off (OR-163: Engaged).
+  static readonly stay = '^(Wait a while|Stand your ground)$';
   static async start(campaign = city, seed = 'g1') { return new Gosse(await Journey.start(campaign, seed)); }
   constructor(readonly j: Journey) {}
   async play(...labels: string[]) { await this.j.play(...labels); return this; }
@@ -402,7 +404,8 @@ describe("Gosse's Company: the dogs and the weir", () => {
     const g = await Gosse.start(build('thief'), 't1');
     await g.play(...phase('book', 'arrive'));
     g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
-    await g.play(...penned, 'Wait a while', 'Wait a while', 'Wait a while');
+    // Staying while the mastiffs warn is standing one's ground (OR-163: Engaged), and then waiting, the fight over.
+    await g.play(...penned, Gosse.stay, Gosse.stay, Gosse.stay);
     expect(g.j.at('party')).toBe(p('soke_lane'));
     expect(g.page).toMatch(/You are bitten in three places/);
     expect(g.at('the_bear')).toBe(p('bear_pen'));
@@ -438,7 +441,8 @@ describe("Gosse's Company: the dogs and the weir", () => {
     await paid.play('Pay the weir-rats the price named', 'To Soke Lane');
     expect(paid.j.measure('quantity', 'party', 'gold')).toBe(purse - 2);
     const ducked = await at();
-    await ducked.play('Wait a while', 'Wait a while');
+    // Staying while the weir-rats warn: standing one's ground (OR-163), and they come on.
+    await ducked.play(Gosse.stay, Gosse.stay);
     expect(ducked.j.at('party')).toBe(p('soke_landing'));
     expect(ducked.page).toMatch(/fished you out with a boat-hook/);
     expect(ducked.j.measure('quantity', 'party', 'gold')).toBeLessThan(purse);
