@@ -1,0 +1,112 @@
+# pleasures: small pleasant things to do on a generated settlement's green, nothing paid and no aim.
+// A Kyr template (see src/world/kyr-template.ts), written for every generated settlement (see src/world/region-pleasures.ts,
+// which draws three of them for each, by its seed, so that towns differ). The owner, 20 November: "make sure there's at
+// least a few pleasant activities available in every generated town" (the Pleasant Activities List, doc/design/pleasant.md;
+// Fun Fridays, doc/design/fun-fridays.md). Each is one group, anchored only to the green, which every settlement has:
+// an invitation (the thing as first seen), two or three steps (its Changes), and an aftermath on coming back (a rule
+// noting the company has gone, and what the green shows after). {s} is the settlement's id, {town} its name. The
+// first town's own pump, fiddle and cards (neighbours.kyrt) are kept as they are; these are their kin elsewhere.
+--- pump
+  // Repairing things (#217), working on machines (#38): the pump on the green, mended with a woman who knows how.
+  Thing {s}_pl_pump "the stiff pump on the green" at {s}_green {
+    State stiff "A woman has the cap off the pump on the green and is swearing at it, quietly. 'Hold this,' she says, and holds out the rod.".
+    State held "You hold the rod. She scrapes old leather off the bucket and cuts a new cup from her apron's hem. 'Now tallow,' she says.".
+    State greased "She works the tallow in with her thumbs. You drop the rod back down the pipe. She nods at the handle: 'You try.'".
+    State drawing "You work the handle. It coughs, then gulps. Water comes, brown and then clear, so cold it aches. She drinks from her hands and laughs.".
+    Change hold "Hold the pump rod for her" from stiff to held.
+    Change grease "Help her work tallow into the new leather" from held to greased.
+    Change work "Work the pump handle" from greased to drawing.
+  }
+  Relation {s}_pl_pump_left(group).
+  Rule {s}_pl_pump_gone when state({s}_pl_pump, drawing) and not at(party, {s}_green) and not {s}_pl_pump_left(party) { Assert {s}_pl_pump_left(party). }
+  Observe {s}_pl_pump_after at {s}_green when {s}_pl_pump_left(party) "A girl fills a bucket at the pump on the green. It draws clear, first time.".
+--- fiddle
+  // Playing a musical instrument (#65): an old man's fiddle, lent on the green.
+  Thing {s}_pl_fiddle "the old man's fiddle" at {s}_green {
+    State offered "On the bench by the well an old man tunes a fiddle and gives up. 'My hands have gone,' he says. 'You play it.'".
+    State taken "The fiddle is warm from his lap. He shows you where the fingers go. 'That one is a little sharp,' he says. 'Everyone knows it.'".
+    State scraped "You try a tune. It comes out like a gate in the wind. He winces. Then he laughs, and so do you.".
+    State played "Slower, this time. The tune comes in pieces, then whole. The old man beats time on his knee, and two children stop to listen.".
+    Change take "Take the old man's fiddle" from offered to taken.
+    Change scrape "Try a tune on it" from taken to scraped.
+    Change again "Try the tune again, slower" from scraped to played.
+  }
+  Relation {s}_pl_fiddle_left(group).
+  Rule {s}_pl_fiddle_gone when state({s}_pl_fiddle, played) and not at(party, {s}_green) and not {s}_pl_fiddle_left(party) { Assert {s}_pl_fiddle_left(party). }
+  Observe {s}_pl_fiddle_after at {s}_green when {s}_pl_fiddle_left(party) "On the bench by the well the old man is humming your tune, sharp note and all.".
+--- cards
+  // Playing cards (#40): a hand on a doorstep with an old woman who cheats.
+  Thing {s}_pl_cards "the cards on the doorstep" at {s}_green {
+    State patience "On a doorstep by the green an old woman lays out patience. She cheats, slowly, with great care.".
+    State dealt "She sweeps the cards up and deals two hands. 'Buttons,' she says. 'I don't play for coin.'".
+    State beaten "Kings and knaves go back and forth. Then she turns two queens and laughs like a gate. She gives your buttons back.".
+    State won "This time the cards come your way. You take her ace with a knave. She looks at it a long while. 'Tomorrow,' she says.".
+    Change sit "Sit down on the step and let her deal you in" from patience to dealt.
+    Change play "Play the hand out" from dealt to beaten.
+    Change redeal "Ask for another hand" from beaten to won.
+  }
+  Relation {s}_pl_cards_left(group).
+  Rule {s}_pl_cards_gone when state({s}_pl_cards, won) and not at(party, {s}_green) and not {s}_pl_cards_left(party) { Assert {s}_pl_cards_left(party). }
+  Observe {s}_pl_cards_after at {s}_green when {s}_pl_cards_left(party) "On the doorstep the old woman lays out patience. A second hand lies dealt, face down, for you.".
+--- skittles
+  // Playing lawn sports (#141): skittles in the grass with the men of the place.
+  Thing {s}_pl_skittles "the skittles in the grass" at {s}_green {
+    State set "At the end of the green three men are playing skittles with a wooden ball. One of them holds it out to you.".
+    State first "You bowl. The ball wobbles off into the nettles. Nobody laughs out loud.".
+    State second "You bowl again, low and straight. Four pins go over, then a fifth, slowly.".
+    State felled "Last ball. It goes in among the pins and they all fall, one after another. The men cheer. They clap you on the back, all three.".
+    Change bowl "Bowl a ball at the skittles" from set to first.
+    Change again "Bowl again, lower" from first to second.
+    Change last "Bowl the last ball" from second to felled.
+  }
+  Relation {s}_pl_skittles_left(group).
+  Rule {s}_pl_skittles_gone when state({s}_pl_skittles, felled) and not at(party, {s}_green) and not {s}_pl_skittles_left(party) { Assert {s}_pl_skittles_left(party). }
+  Observe {s}_pl_skittles_after at {s}_green when {s}_pl_skittles_left(party) "Your mark is chalked on the skittles board now. One of the men raises a hand.".
+--- dog
+  // Playing with pets (#264), being with animals (#52): sitting with an old dog in the sun.
+  Thing {s}_pl_dog "the old dog in the sun" at {s}_green {
+    State lying "An old dog lies in the sun by the wall, grey at the muzzle. One eye opens as you pass, and closes.".
+    State sat "You sit down by the wall. The dog thinks about it, and then puts its chin on your boot.".
+    State asleep "You scratch behind its ears. It sighs, the whole length of it, and goes to sleep against your leg. The sun is warm on the wall.".
+    Change sit "Sit down by the old dog" from lying to sat.
+    Change scratch "Scratch the old dog behind the ears" from sat to asleep.
+  }
+  Relation {s}_pl_dog_left(group).
+  Rule {s}_pl_dog_gone when state({s}_pl_dog, asleep) and not at(party, {s}_green) and not {s}_pl_dog_left(party) { Assert {s}_pl_dog_left(party). }
+  Observe {s}_pl_dog_after at {s}_green when {s}_pl_dog_left(party) "The old dog by the wall lifts its head when it sees you, and thumps its tail twice.".
+--- hens
+  // Being with animals (#52): the hens on the green, fed by hand.
+  Thing {s}_pl_hens "the hens on the green" at {s}_green {
+    State scratching "Hens scratch about the green, and a brown one watches you sideways, hopeful.".
+    State scattered "You find some crumbs in your pack and scatter them. The hens come at a run, shoving.".
+    State tame "You hold out the last crumbs on your palm. The brown hen eats from it, quick and careful. Then she stays.".
+    Change scatter "Scatter some crumbs for the hens" from scratching to scattered.
+    Change hand "Hold out the last crumbs to the brown hen" from scattered to tame.
+  }
+  Relation {s}_pl_hens_left(group).
+  Rule {s}_pl_hens_gone when state({s}_pl_hens, tame) and not at(party, {s}_green) and not {s}_pl_hens_left(party) { Assert {s}_pl_hens_left(party). }
+  Observe {s}_pl_hens_after at {s}_green when {s}_pl_hens_left(party) "The brown hen comes across the green to you at a trot, and looks at your hands.".
+--- tag
+  // Doing things with children (#240): a game of tag on the green.
+  Thing {s}_pl_tag "the children's game on the green" at {s}_green {
+    State playing "Children chase each other round the green, shrieking. A small boy stops in front of you. 'You're it,' he says, and runs.".
+    State chasing "You give chase. They scatter like starlings and dodge round the well.".
+    State caught "You catch the smallest by the sleeve. She shrieks with joy. Then they all run at you at once, and you are it again.".
+    Change chase "Give chase" from playing to chasing.
+    Change catch "Catch one of them" from chasing to caught.
+  }
+  Relation {s}_pl_tag_left(group).
+  Rule {s}_pl_tag_gone when state({s}_pl_tag, caught) and not at(party, {s}_green) and not {s}_pl_tag_left(party) { Assert {s}_pl_tag_left(party). }
+  Observe {s}_pl_tag_after at {s}_green when {s}_pl_tag_left(party) "A child runs past, taps your arm, and runs off laughing. 'You're it!'".
+--- gossip
+  // Having a lively talk (#105), being with friends (#72): an hour on the bench with the women of the place.
+  Thing {s}_pl_bench "the bench by the well" at {s}_green {
+    State full "Two women sit on the bench by the well, shelling peas into a bowl. There is room at the end.".
+    State shelling "You sit, and one of them tips half the peas into your lap without a word. You shell.".
+    State heard "They talk about a roof, a wedding and a pig that got loose. You learn who is not speaking to whom. The bowl fills.".
+    Change sit "Sit on the end of the bench" from full to shelling.
+    Change listen "Shell peas and listen" from shelling to heard.
+  }
+  Relation {s}_pl_bench_left(group).
+  Rule {s}_pl_bench_gone when state({s}_pl_bench, heard) and not at(party, {s}_green) and not {s}_pl_bench_left(party) { Assert {s}_pl_bench_left(party). }
+  Observe {s}_pl_bench_after at {s}_green when {s}_pl_bench_left(party) "On the bench by the well the two women shift along to make room for you.".

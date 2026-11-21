@@ -9,6 +9,7 @@ import { RegionRoads } from './region-roads';
 import { RegionUndertown } from './region-undertown';
 import { RegionOutskirts } from './region-outskirts';
 import { RegionPractitioners } from './region-practitioners';
+import { RegionPleasures } from './region-pleasures';
 import { RegionTies } from './region-ties';
 import { RegionThreads } from './region-threads';
 import { RegionZones } from './region-zones';
@@ -228,6 +229,8 @@ export class RegionWriter {
     const home = RegionPractitioners.home(region, company);
     lines.push(...RegionUndertown.lines(region, home, company.size),
       ...RegionOutskirts.lines(region, home, company.size),
+      // A few pleasant things to do on every settlement's green (see RegionPleasures).
+      ...region.settlements.flatMap(t => RegionPleasures.lines(region, t, home.id)),
       ...RegionTies.lines(region), ...RegionThreads.lines(region));
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');

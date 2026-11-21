@@ -15,15 +15,15 @@
  "steps": [
   {
    "command": "go(region__s1_approach_way,region__s1_green)",
-   "digest": "35296.5048.gngoji.1nbbxae.1.14bm1of"
+   "digest": "35480.5048.lc3y2b.1fg11d1.1.14bm1of"
   },
   {
    "command": "go(region__s1_shrine_door,region__s1_shrine)",
-   "digest": "35299.5048.j1i187.lpafsi.1.14bm1of"
+   "digest": "35483.5048.nq5ar0.dtzjv5.1.14bm1of"
   },
   {
    "command": "change_thing(region__s1_shrine_view_climb)",
-   "digest": "35314.5048.1gp1rk1.1902nal.1.14bm1of"
+   "digest": "35498.5048.1ldp12u.114rrd8.1.14bm1of"
   }
  ],
  "complete": true
