@@ -71,6 +71,9 @@ describe('the silent lord alone: malice, and the signal before it', () => {
   }, 120000);
   it('lets a warrior read the garrison at dawn, and the marshal answer to it', async () => {
     const j = await Keep.at('ward', 'warrior', '=day 10 05:30');
+    // (given as a fact, as in the first case: Ansel takes a swordsman for the king's champion and warns him off, and
+    // while he does only answering Ansel is offered, not a word with the marshal: OR-163, Engaged)
+    j.assert('befriended', k('ansel'), 'party');
     await j.play('Wait a while', 'Wait a while');
     expect(Keep.knows(j, 'garrison_read')).toBe(true);
     await j.play('Tell .* you know his garrison');
