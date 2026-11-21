@@ -24,6 +24,11 @@ describe('the first town’s troubles', () => {
       .toContainEqual(expect.stringMatching(/^Hesper Lowe's apron was found/));
     await j.play('Ask');
     Placed.at(j, r('s1_stones_under'));
+    // (given as a fact: what lives under the old stones warns the company off, and has its own cases in
+    // test/outskirts-deep; while it warns, only answering it is offered, not a hand to Hesper: OR-163, Engaged)
+    for (const id of ['s1_stones_bats', 's1_stones_warden'].map(r).filter(x => j.campaign.module.entities.some(e => e.id === x))) {
+      j.assert('tolerates', id, 'party');
+    }
     await j.play('=+1');
     await j.play('Help Hesper Lowe up');
     expect(Placed.holds(j, 'region__s1_hesper_found', 'party')).toBe(true);
