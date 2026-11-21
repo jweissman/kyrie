@@ -244,12 +244,13 @@ Module drove "The held drove" {
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }
   // Back on the landing, someone who remembers: Owain, telling it to drovers off a boat, as it went. Seen while the
   // company is on the landing and gone once it leaves, so a walk passing through sees it and goes on.
-  Entity green_heard: fact "Owain has told the landing how Bran came out.".
   Rule green_seen when freed(party) and at(party, green) and at(owain, green) and not greenSeen(party) { Assert greenSeen(party). }
   Rule green_past when greenSeen(party) and not at(party, green) and not greenTold(party) { Assert greenTold(party). }
-  Observe green_found at green as sign when greenSeen(party) and not greenTold(party) and knows(party, found_drowned) and not fined(party) and not turned(clerk) "Owain is telling two drovers off the Wrackham boat about the Rhyne. He sees you and stops. 'That's who,' he says." teaches green_heard.
-  Observe green_ink at green as sign when greenSeen(party) and not greenTold(party) and turned(clerk) "Owain is telling two drovers off the Wrackham boat how you read Mardle's ink. 'In front of him,' he says." teaches green_heard.
-  Observe green_paid at green as sign when greenSeen(party) and not greenTold(party) and fined(party) "Owain is telling two drovers off the Wrackham boat that you paid Mardle's twelve crowns. One of them looks at you a long while." teaches green_heard.
+  // Owain's own doing on the landing, the one the company has a stake in (what the glance tells first of who is about):
+  // one sentence, as a sign of life is told.
+  Observe green_found near owain of owain when greenSeen(party) and not greenTold(party) and knows(party, found_drowned) and not fined(party) and not turned(clerk) "{owain} is telling two drovers off the Wrackham boat about the Rhyne, and stops when he sees you: 'That's who.'".
+  Observe green_ink near owain of owain when greenSeen(party) and not greenTold(party) and turned(clerk) "{owain} is telling two drovers off the Wrackham boat how you read Mardle's ink: 'In front of him, too.'".
+  Observe green_paid near owain of owain when greenSeen(party) and not greenTold(party) and fined(party) "{owain} is telling two drovers off the Wrackham boat that you paid Mardle's twelve crowns: 'Out of your own purse.'".
 
   Milestone m_freed "saw Bran ap Ifor let out of the customs-house" worth 150 when freed(party).
   Milestone m_turned "showed what was under the clerk's forty" worth 100 when turned(clerk).

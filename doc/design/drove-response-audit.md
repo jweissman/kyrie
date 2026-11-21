@@ -25,7 +25,13 @@ do about it. The last column gives the dead ends as they were before this pass.
    - For the crowns paid by someone who knew where the four lay: "'You knew where they lay,' says Bran, 'and you paid
      him all the same.' He does not say it kindly."
 3. **The green remembers.** Coming back to the landing once Bran is out, Owain is telling two drovers off the Wrackham
-   boat how it went: the Rhyne, the ink, or the twelve crowns. He tells it once.
+   boat how it went, as a line of his on the landing, seen while the company is there:
+   - "…about the Rhyne, and stops when he sees you: 'That's who.'"
+   - "…how you read Mardle's ink: 'In front of him, too.'"
+   - "…that you paid Mardle's twelve crowns: 'Out of your own purse.'"
+
+All four paths are played in test/drove-answers.test.ts: the four found, the ink read, the crowns paid, and the crowns
+paid knowing where the four lay. Each Bran line and each landing line is said once, where it belongs.
 
 ## Still open
 
