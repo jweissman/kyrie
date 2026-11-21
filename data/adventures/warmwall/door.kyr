@@ -1,0 +1,235 @@
+Module warmwall "The Warm Wall" {
+  // ── The second evening: a man at the gate who does not knock ──────────────────────────────────────────────────
+
+  Relation warmed(group). Relation routeStoke(group). Relation routeCold(group). Relation routeHall(group).
+  Relation maudOpens(group). Relation maudWater(group). Relation droveGone(group). Relation gethinHeard(group).
+  Relation songDone(group). Relation stoneHallowed(group). Relation pearSet(group). Relation lieTriedNesta(group). Relation lieTriedMaud(group).
+  Relation fated(group). Relation fatedSpring(group). Relation fatedOsric(group). Relation fatedDrove(group). Relation fatedCuthwin(group). Relation fatedSong(group). Relation fatedPen(group).
+  Relation beat1(group). Relation beat2(group). Relation beat3(group). Relation beat4(group).
+
+  Kind wm_pear "a dried pear" is treasure worth 1 weighing 1 described "A pear dried whole on a string, brown and hard, with a small curl of stalk.".
+  Kind wm_maul "Nesta's mason's maul" like crowbar described "A short-handled maul, the head dished with use, the handle black from one pair of hands.".
+
+  Discovery maud_secret "The morning after Ammet Sallis died on the step, Maud Veale carried him in herself, washed him, sent for his nephew and buried him on the drying green; and she has let Osric in by the stoke door every winter since, and told nobody.".
+
+  Person osric "Osric Sallis" nowhere {
+    Role "the Rì's headsman for the south, retired". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Arrives at yard when day(clock) == 2 and hour(clock) >= arrivalHour().
+    Arrives "Toward dark a man comes down the drove road with a bundle on his back and a string of dried pears at his belt, a big grey man bent like a tree that has lived on a ridge. He stops at the yard gate. He does not knock. He looks at the lit windows of the Hot Side as a man looks at a clock he has stopped trusting.".
+    Greets "'I beg your pardon,' says the man, to you, and takes off his hat. 'I'll not be in anybody's way. I'll sit a while on the step, if it's the same to you, and go on in the morning.' He has hands like two loaves, held in front of him a little, the way a man carries something he is afraid of breaking.".
+    Greets again "'Sallis,' says the old man, and half-rises. 'Osric. You'll forgive me. I had it in my head you were somebody I owed an apology.'".
+  }
+  Observe stoke_tub at hot_wheel when routeStoke(party) and at(osric, hot_wheel) "By the copper a big man sits in a tin bath with a sheet over his shoulders and his hands open in the water, and Maud Veale kneels at his back with a cloth, working it along the spine with the heel of her bad hand. Neither of them looks round.".
+  Rule step_begins when at(osric, yard) and onStepSince() == 0 { Set onStepSince() to watch(clock). }
+  Rule pen_sees at yard when at(osric, yard) and onStepSince() > 0 and not warmed(osric) once
+    says "Pen has gone very still on the mounting-block with the turnip halfway. 'Oh,' he says. 'It's that time.' He keeps his voice down. 'He'll not knock. He never knocks. You'd best decide something before the drove sees him, and before she does.'" { }
+  Relation penCalled(group).
+  Rule pen_calls when at(osric, yard) and onStepSince() > 0 and not at(party, yard) and not warmed(osric) and not penCalled(party)
+    says "Somebody is running along the passage. Pen puts his head round the door, out of breath. 'He's here,' he says. 'In the yard. On the step. You'd best come, and not let on to the drove.'" { Assert penCalled(party). }
+  Observe step_sits at yard when at(osric, yard) and watch(clock) < onStepSince() + 12 "A man sits on the step, in the hollow in the middle of it, with his hat on his knee and the sleet on his shoulders, looking at his boots.".
+  Observe step_stopped at yard when at(osric, yard) and watch(clock) >= onStepSince() + 12 and watch(clock) < onStepSince() + 24 "The man on the step has stopped shivering. His hands lie open on his knees and the sleet is not melting on them.".
+  Observe step_late at yard when at(osric, yard) and watch(clock) >= onStepSince() + 24 "The man on the step is leaning against the doorpost with his eyes closed, and has stopped answering when his name is said.".
+  Rule step_ends at yard when at(osric, yard) and onStepSince() > 0 and watch(clock) >= onStepSince() + 30 and able(osric) says "Sometime in the night the man on the step stops breathing, quietly, so as not to be a trouble." { Slay osric. }
+
+  Topic osric_pear with osric "Take a pear from Osric" when not warmed(osric) once {
+    Says "'Please,' says Osric Sallis, with the air of a man who has been refused this many times and has not stopped. He pulls one off the string. 'They keep. I dry them myself. I'd as soon someone had one.'".
+    On discuss { Give wm_pear to actor. }
+  }
+  Topic osric_who with osric "Ask Osric who he is" when true once {
+    Says "'Sallis,' he says. 'Osric. I was headsman for the Rì's south thirty years: Dun Rìerdan, Caerwen, Llanfor. I am retired, and my back is not.' He turns his hat. 'Folk don't care to sit by me. I don't take it hard, it was the work. I'll just sit a while.'".
+  }
+  Topic osric_why with osric "Ask Osric why he comes to Seethe every winter" when warmed(osric) once {
+    Says "'My back,' says Osric. 'It's the only water in the north that gets into it. And my uncle came here once, for his back, and I like to think...' He stops. 'It's warm, here. It's a kindness when a place is warm.'".
+  }
+  Topic osric_stone with osric "Ask Osric about the stone on the drying green" when warmed(osric) and knows(actor, stone_seen) once {
+    Says "He is quiet a long time, with his big hands round the cup. 'You'll want it plain,' he says. 'My uncle Ammet died on that step, thirty-one winters back, and Mistress Veale went out in her shift at first light and carried him in. Herself. She'd a scalded hand then, it was new. She washed him, and sent a boy up the road for me, and when I came she'd done the rest. The Rì don't let a headsman's dead be named in the ground, so the stone is bare.' He looks into the cup. 'She lets me in by the stoke door. Every winter. She asked me not to tell the other keeper. I'd not break that for anyone, but you have the face of someone who'd decide what to do about it, so I'll have said it to you, and not to her.'".
+    On discuss { Assert knows(actor, maud_secret). }
+  }
+  Topic osric_madoc with osric "Ask Osric about Madoc Hafren" when warmed(osric) and knows(actor, madoc_hanged) once {
+    Says "'I remember every one,' says Osric. 'I'd not be good at it otherwise. The Hafren lad asked me if the rope would chafe his beard, and I said I'd greased it, and he laughed.' A long breath. 'He asked me to tell his brother he wasn't afraid, and that the pike was his own idea, and that nobody was to say he'd been led. I had no way to tell him. A hangman can't walk up to a drove.'".
+    On discuss { Assert knows(actor, madoc_message). }
+  }
+  Discovery madoc_message "Madoc Hafren's last word to his brother: he was not afraid, the pike was his own idea, and nobody was to say he had been led.".
+
+  // ── The three ways in ──────────────────────────────────────────────────────────────────────────────────────────
+
+  // Maud's way: the stoke door, and no one told.
+  Topic maud_headsman with maud "Tell Maud quietly that the headsman is on the step" when at(osric, yard) and not maudOpens(party) once {
+    Says "The towel stops. 'In the yard,' says Maud. 'Since when.' She looks at the door, and not at you. 'Not through my front. The drove is in the water, and they will have their evening.' She takes the lamp from its hook. 'The stoke door. I will draw the bar. You will bring him round the back, and you will not speak of this to Thaxter.' She is already going.".
+    On discuss { Assert maudOpens(party). Assert knows(actor, stoke_known). Assert at(maud, hot_wheel). }
+  }
+  Action help_stoke(actor: group) "Help Osric round to the stoke door" {
+    Requires able(actor) and company(actor) and at(actor, yard) and at(osric, yard) and maudOpens(party).
+    Time 10 minutes.
+    On success { Assert at(osric, hot_wheel). Assert warmed(osric). Assert routeStoke(party). }
+    Result "You take his arm: all bone and wet wool, and he apologises to the cobbles. Round the back, the stoke door stands open on a bar of orange light, and a tall woman in a grey apron stands in it with her sleeves rolled. 'Give him to me,' says Maud Veale, 'and go and be warm somewhere else.' The door shuts, and you hear her say, inside, in a voice you would not have known: 'Sit. Sit. It is not a trouble.'".
+  }
+
+  // Nesta's way: the Cold Side takes him in and has no heat. The heat is next door.
+  Action help_cold(actor: group) "Help Osric across the yard to the Cold Side" {
+    Requires able(actor) and company(actor) and at(actor, yard) and at(osric, yard).
+    Time 10 minutes.
+    On success { Assert at(osric, cold_hall). Assert routeCold(party). Assert at(nesta, cold_hall). }
+    Result "Nesta Thaxter has the green door open before you reach it. 'Sallis,' she says, looking him over, and does not say the other thing. 'Sit. Questions after soup.' The soup is good. Halfway down it Osric asks, very humbly, whether the Cold Side has any warm water at all, because of his back. 'Not a drop,' says Nesta. 'Not a—' She stops, and looks at the wall, which is warm. 'Somebody,' she says, 'go and ask Veale what she'll take for four buckets of hot water. Not me. I would sooner bathe in the plunge.'".
+  }
+  Topic maud_water with maud "Ask Maud for four buckets of hot water for the Cold Side" when routeCold(party) and not maudWater(party) and not warmed(osric) once {
+    Says "Maud is silent so long the clock is audible. 'For whom,' she says. 'On the Cold Side.' She puts down the towel, and takes up the lamp. 'The left-hand side of the tub is filled first, so that it does not scald. You may tell her that.' She is walking. 'The copper is in the wheelhouse. I will stand at the hatch. You will carry.'".
+    On discuss { Assert maudWater(party). Assert at(maud, hot_wheel). Assert at(nesta, cold_wheel). }
+  }
+  Action pass_bucket(actor: group) "Pass a bucket of hot water through the hatch" {
+    Requires able(actor) and company(actor) and at(actor, hot_wheel) and at(maud, hot_wheel) and at(nesta, cold_wheel) and maudWater(party) and bucketsPassed() < 4 and not warmed(osric).
+    Time 10 minutes.
+    On success { Increase bucketsPassed() by 1. }
+    Result "Another bucket, through the hatch.".
+    Result "You fill a bucket at the copper and put it through the hatch, and a hand you cannot see takes it." when bucketsPassed() == 0.
+  }
+  Rule hatch_1 when bucketsPassed() == 1 and not beat1(party)
+    says "'Mind,' says Maud Veale, to the hatch. 'It is hot.' 'I know what hot water is, Veale,' says a voice on the other side. 'Then you will know to fill the left-hand side first.' A long pause. 'Thirty-one years,' says the voice, to somebody who is not Maud, 'and she still tells me which side of a tub.'" { Assert beat1(party). }
+  Rule hatch_2 when bucketsPassed() == 2 and not beat2(party)
+    says "'He wants to know is it Maud's soap,' says Nesta's voice. 'I said it was mine.' 'It is the Hot Side's soap,' says Maud. 'The crock to the left of my kettle, which you know, because it went missing from the left of my kettle the second winter.' 'Borrowed.' 'You have had it thirty winters.' 'It is a very good soap,' says Nesta, a little unevenly." { Assert beat2(party). }
+  Rule hatch_3 when bucketsPassed() == 3 and not beat3(party)
+    says "'How does he sit?' says Maud, to the brick. A pause. 'Bent,' says Nesta. 'Like a man waiting to be told he's wrong.' 'He sat like that on the step.' Both sides of the wall are quiet. 'Thirty-one winters,' says Nesta, carefully. 'Has he been coming?' 'I have not said that,' says Maud, and the bucket goes through the hatch rather faster than the last." { Assert beat3(party). }
+  Rule hatch_4 when bucketsPassed() == 4 and not beat4(party)
+    says "'That's the tub,' says Nesta's voice, thick. 'That's a tub.' 'The left side first,' says Maud, 'so that it does not scald.' 'I did.' Neither goes away from the hatch. After a time you hear the little door closed from the Hot Side. A minute later it is opened again, a hand's width, and left." {
+    Assert beat4(party). Assert warmed(osric). Assert hatchMade(party). Assert reassured(maud). Assert reassured(nesta).
+  }
+
+  Rule maud_home when at(maud, hot_wheel) and warmed(osric) and not stationed(party) and not at(party, hot_wheel) and not at(party, cold_wheel) { Assert at(maud, hot_hall). }
+  Rule nesta_home when at(nesta, cold_wheel) and warmed(osric) and not stationed(party) and not at(party, hot_wheel) and not at(party, cold_wheel) { Assert at(nesta, cold_hall). }
+
+  // The front way, and its price.
+  Action bring_hall(actor: group) "Bring Osric in at the Hot Side's door" {
+    Requires able(actor) and company(actor) and at(actor, yard) and at(osric, yard).
+    Time 10 minutes.
+    On success { Assert at(osric, hot_hall). Assert routeHall(party). }
+    Result "The bell by the Hot Side's door, which has never needed ringing, rings.".
+  }
+  Rule hall_refused when at(osric, hot_hall) and at(maud, hot_hall) and routeHall(party) and not droveGone(party) and not gethinHeard(party) and not warmed(osric)
+    says "'Not this year,' says Maud Veale, and says it so evenly that the pool goes quiet behind her. 'Mr Sallis. You will forgive me.' From the water comes the sound of ten men getting out. Gethin Hafren stands in the arch with the water running off his beard. 'Sallis,' he says, 'is a Rì's name,' and the drove goes out into the sleet with its boots in its hands, rather than wait for them to dry. Maud does not turn her head. When the door has shut she says, to the room, 'Sit down, Mr Sallis.' And then, lower: 'Sit. It is a bad habit I have. I am trying to break it.' She takes him round to the stoke door herself." {
+    Assert droveGone(party). Assert warmed(osric). Assert at(osric, hot_wheel). Assert at(maud, hot_wheel).
+  }
+  Rule drove_leaves when droveGone(party) and at(gethin, ?p) { Retract at(gethin, ?p). }
+  Rule drovers_leave when droveGone(party) and at(drovers, ?p) { Retract at(drovers, ?p). }
+
+  // ── The dark: the dawn steam ───────────────────────────────────────────────────────────────────────────────────
+
+  Rule gethin_steams when hour(clock) == 5 and at(gethin, hot_room) { Assert at(gethin, steam). }
+  Rule drovers_steam when hour(clock) == 5 and at(drovers, hot_room) { Assert at(drovers, steam). }
+  Rule gethin_pool when hour(clock) == 7 and at(gethin, steam) { Assert at(gethin, hot_room). }
+  Rule drovers_pool when hour(clock) == 7 and at(drovers, steam) { Assert at(drovers, hot_room). }
+  Rule nesta_swims when hour(clock) == 6 and at(nesta, cold_hall) { Assert at(nesta, plunge). }
+  Rule nesta_dries when hour(clock) == 7 and at(nesta, plunge) { Assert at(nesta, cold_hall). }
+
+  Action to_steam(actor: group, site: place) "Take Osric into the steam room before the drove" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(osric, site) and warmed(osric) and day(clock) == 3 and hour(clock) >= 5 and hour(clock) < 7 and at(gethin, steam) and not gethinHeard(party) and not droveGone(party).
+    Time 10 minutes.
+    On success { Assert at(osric, steam). Assert at(actor, steam). }
+    Result "You take him across the yard in the dark and in at the Hot Side's door by the lamp-less passage, and nobody sees. The steam room takes the lamp, and then the walls, and then your hands.".
+  }
+  Rule dark_talk when at(osric, steam) and at(gethin, steam) and not gethinHeard(party)
+    says "Gethin's voice goes on from the top bench with the second verse of the toll-song, and stops, because there is another voice in the room: low, slow, a little hoarse, like an old tool. 'Master Hafren,' it says. 'You'll not know me, and I don't think you should. I'd like to say something and then go, and you can do as you like.' The song has stopped. 'I sat with your brother the last night. He asked me to tell you he was not afraid, and that the pike was his own idea, and that nobody was to say he had been led. I have had no way to tell you. It isn't done, a hangman walking up to a drove.' The stone-cooling silence. 'The rope was greased,' says the voice. 'I would not have you think it wasn't.' Nobody in the dark says anything for as long as it takes a hot stone to cool. 'Say the verse,' says Gethin at last, roughly. 'Madoc's. You'll know it.' 'I don't know the tune.' 'I'll hum it,' says Gethin. 'You'll find it.' And in the dark, badly, two voices find the last verse of the toll-song between them, and nobody sees whose they are." {
+    Assert gethinHeard(party).
+  }
+  Observe osric_with_drove at hot_room when gethinHeard(party) and at(osric, hot_room) "Tegwyn, who was asleep, moves along the bench to make room.".
+
+  // ── The song ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Rule song_heard when songSung(party) and not songDone(party)
+    says "Ottoline's voice goes up into the vault and finds the place where the stone passes it through the wall as if there were no wall. The first part is a plain, warm tune: a wassail, for a house with its door open. In the hot hall Maud Veale stops folding. In the cold hall, on the other side of a yard of brick, Nesta Thaxter, who had been laughing at something, is not. The second part has nobody to sing it. Ottoline sings it, and leaves a gap where the third should go, as a stair leaves a gap in the dark." {
+    Assert songDone(party). Assert reassured(maud). Assert reassured(nesta).
+  }
+  Rule third_part when songDone(party) and not thirdPart(party) and memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, steam)
+    says "{?m} takes the third part before anyone has decided to: low, a little under the note, the part a stair leaves. Ottoline stops with her mouth open. 'That,' she says, 'is exactly where it went.' Through the wall, very faintly, someone on the Cold Side takes a breath and sings the first line again." {
+    Assert thirdPart(party).
+  }
+
+  // ── The lie ────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Action lie_to_nesta(actor: group, site: place) "Tell Nesta that Maud has already eased her wheel" {
+    Speaker nesta.
+    Requires able(actor) and at(actor, site) and at(nesta, site) and evidenced(nesta) and not reassured(nesta) and not lieTriedNesta(party).
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert reassured(nesta). Assert lied(party). }
+    On failure { Assert lieTriedNesta(party). }
+    Result "Nesta stares at you, and then at the wall. 'Has she,' she says. 'Has she, by God.' She takes her hands off her hips. 'Well. I'll not be second to that woman at anything.'".
+    Otherwise "Nesta stops with the kettle in the air. 'Has she,' she says. 'Then you will not mind if I go and look.' She does not go. The way she does not go is quite clear. You will not be believed about this again.".
+  }
+  Action lie_to_maud(actor: group, site: place) "Tell Maud that Nesta has already eased her wheel" {
+    Speaker maud.
+    Requires able(actor) and at(actor, site) and at(maud, site) and evidenced(maud) and not reassured(maud) and not lieTriedMaud(party).
+    Resolve check(actor, deception, dc_hard).
+    On success { Assert reassured(maud). Assert lied(party). }
+    On failure { Assert lieTriedMaud(party). }
+    Result "Maud Veale's hands stop. 'She has,' she says, as if reading it off a wall. 'In that case.' She squares the pile of towels very carefully. 'In that case it would be ungenerous not to.'".
+    Otherwise "'I would hear it from her wheel,' says Maud, 'and not from you.' She is not unkind. She is simply closed, like a book, and you were told the place was open.".
+  }
+
+  // ── What each learns of the other ──────────────────────────────────────────────────────────────────────────────
+
+  Topic nesta_told with nesta "Tell Nesta what Osric said of the dawn after the step" when knows(actor, maud_secret) and not softened(nesta) once {
+    Says "Nesta says nothing for some time. She sits down on the nearest cot, the one against the wall. 'In her shift,' she says. 'She carried him.' Something that is not a laugh. 'And buried him on the drying green. With a pear on it.' She looks at the brick beside her, flat-handed, the way one looks at a face. 'Thirty-one years I have been telling the drovers what she did.' A long breath. 'She might have said.' And then, so low you almost miss it: 'No. She couldn't. Not the first answer. I would not have been able either.' She wipes her face with the towel the size of a sail. 'Tell her,' says Nesta Thaxter. 'No. Don't tell her that. Tell her the bed is where it was.'".
+    On discuss { Assert nestaMessage(party). Assert reassured(nesta). Assert softened(nesta). }
+  }
+  Relation maudAsked(group). Relation stationed(group). Relation wordGiven(group).
+  Topic maud_confession with maud "Ask Maud about the old man on the step" when knows(actor, maud_secret) and not softened(maud) once {
+    Says "She does not stop folding. 'Osric has been talking,' says Maud. 'He would. It is the one thing he has never learned not to do, being kind.' The towel is squared. 'I carried him in at six. He weighed nothing, and the sleet had gone to ice in his coat. The first thing I said in that doorway, in front of eleven drovers, was wrong, and the second thing I could not say, because saying it meant taking back the first.' She looks at you for the first time. 'I have done the rest of it every winter since. It is not the same, and I know it is not the same. Thaxter had the right of it. It is her least forgivable quality.' A pause. 'You will not tell her.'".
+    On discuss { Assert maudAsked(party). }
+  }
+  Topic maud_told_again with maud "Tell Maud that the bed is where it was" when nestaMessage(party) and maudAsked(party) and not softened(maud) once {
+    Says "Maud Veale stands very still, with a towel in her good hand. 'You told her,' she says. 'What I asked you not to.' She does not turn round. 'I find I am not angry. I find I am relieved, and that is a great deal worse.' She puts the towel down on the pile, squares it, picks it up again. 'The bed is where it was. She said that. In those words.' Something goes out of her shoulders that has been in them thirty-one winters. 'Then she is a great fool, and so am I.'".
+    On discuss { Assert reassured(maud). Assert softened(maud). }
+  }
+  Topic maud_told with maud "Tell Maud that the bed is where it was" when nestaMessage(party) and not maudAsked(party) and not softened(maud) once {
+    Says "Maud Veale stands very still, with a towel in her good hand. 'She said that,' she says. 'Those words.' She does not turn round. 'Then she is a great fool, and so am I.' She puts the towel down on the pile, squares it, and picks it up again. 'It is not thirty-one years I mind,' she says. 'It is that the first thing I said was wrong, and the wrong thing has been standing between us ever since, holding up a roof.'".
+    On discuss { Assert reassured(maud). Assert softened(maud). }
+  }
+
+  // ── The word ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Topic maud_stations with maud "Ask Maud to stand at her wheel while Nesta stands at hers" when willingToEase(maud) and willingToEase(nesta) and not bothEased() and not stationed(party) once {
+    Says "'On my word, then,' says Maud. 'I do not count in threes.' 'She does,' says Pen, from the doorway, where he has not been standing. 'She counts everything in threes.' Maud's mouth does something it has not done in your sight. 'Pen will fetch her to her own wheel,' she says. 'You will stand at the hatch. I will not be hurried.'".
+    On discuss { Assert at(maud, hot_wheel). Assert at(nesta, cold_wheel). Assert stationed(party). }
+  }
+  Action give_word(actor: group) "Give the word through the hatch" {
+    Requires able(actor) and company(actor) and at(actor, hot_wheel) and at(maud, hot_wheel) and at(nesta, cold_wheel) and stationed(party) and not bothEased().
+    Time 2 minutes.
+    On success { Assert state(hot_valve, eased). Assert state(cold_valve, eased). Assert wordGiven(party). Retract stationed(party). }
+    Result "You put your mouth to the hatch. 'Now,' you say. 'I will say when,' says Maud's voice, level, at your elbow. 'I do not wait on that woman's say-so,' says Nesta's through the brick. 'One,' says Maud. 'Two,' says Nesta, who has never in her life waited for three, and on two both wheels turn: the pointers go down together past nine like two people who have both stood up.".
+  }
+
+  // ── The wall ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Thing wall "the bricked arch" on wall_arch {
+    State whole blocking "The arch between the hot pool and the plunge is bricked up, grey with whitewash, and as thick as a man is long.".
+    State breached "Where the arch was bricked there is a doorway, raw at the edges, with dust still on the water.".
+    Change breach "Knock a doorway through the bricks" from whole to breached needing wm_maul when softened(maud) and softened(nesta) "A wall that has stood thirty-one winters is not knocked through by a stranger; the two who built it should have said what it is for.".
+  }
+  Topic nesta_maul with nesta "Ask Nesta for the maul" when softened(maud) and softened(nesta) and not holding(actor, wm_maul) once {
+    Says "'The maul,' says Nesta Thaxter. 'Yes.' She goes to the cold wheelhouse and comes back with it in both hands, and gives it to you handle first, the way one does with something that has done its work. 'Mind the pipe behind the third course. No: she'll say. She'll be here. She always was.'".
+    On discuss { Give wm_maul to actor. }
+  }
+  Rule wall_down when state(wall, breached) and not wallTold(party)
+    says "The first brick goes into the hot pool with a sound like a cough. 'Mind the pipe behind the third course,' says Maud Veale's voice, perfectly steady, from the hot side. 'I know where my pipe is, Veale,' says Nesta's, from the other. There is a great deal of dust. In the dust, for the first time in thirty-one winters, two women look at each other through a hole the size of a hat. 'You have got old,' says one. 'So have you, you great fool,' says the other, and neither says anything else for a long time." {
+    Assert wallTold(party). Assert reassured(maud). Assert reassured(nesta).
+  }
+  Relation wallTold(group).
+
+  // ── The stone ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Topic cuth_stone with cuthwin "Ask Brother Cuthwin to say the words over the stone on the drying green" when cuthwinPlunged(party) and knows(actor, maud_secret) once {
+    Says "He listens with his head on one side, and when you have finished he is already putting on his boots. 'The Rì forbids a headsman's name in the ground,' says Brother Cuthwin. 'The Plain Cloth is not in the Rì's pay. And I am, as of this morning, a man who knows that cold water is a mortification.' He stands. 'Lead on.'".
+    On discuss { Assert following(cuthwin, actor). }
+  }
+  Action say_office(actor: group) "Have Brother Cuthwin say the words over the stone" {
+    Requires able(actor) and company(actor) and at(actor, green) and following(cuthwin, actor) and not stoneHallowed(party).
+    Time 20 minutes.
+    On success { Assert stoneHallowed(party). Retract following(cuthwin, actor). }
+    Result "Brother Cuthwin kneels on the warm stone in his wet habit and says the office for the dead, all of it, from memory, in the sleet. 'Who is it for?' he asks, getting up. 'Ammet Sallis,' you say. He says the name twice: once for the Plain Cloth, and once for himself. Then he goes back to the plunge, because he has discovered he likes it.".
+  }
+  Action set_pear(actor: group) "Set a dried pear on the stone" {
+    Requires able(actor) and company(actor) and at(actor, green) and holding(actor, wm_pear) and not pearSet(party).
+    Time 2 minutes.
+    On success { Spend wm_pear from actor. Assert pearSet(party). }
+    Result "You set the pear down on the warm stone, the way one sets down a coin. The sleet does not touch it.".
+  }
+}

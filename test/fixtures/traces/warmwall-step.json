@@ -1,0 +1,11 @@
+{
+ "about": "Kept by bin/kyrie play --keep, or bin/kyrie keep, and played again by test/traces.test.ts: what it came to must be what it comes to.",
+ "play": [
+  "data/campaigns/warmwall.campaign.json",
+  "^To the bath-yard",
+  "=day 3 06:00"
+ ],
+ "at": "warmwall__yard",
+ "watch": 223,
+ "told": "In the morning there is frost in his eyebrows. Pen finds him, and does not say anything, and goes in at the Hot Side’s door and then, a minute later, at the Cold Side’s, and it is the first time anybody has seen him use both in a day. They carry him in between them, the two keepers, and neither speaks, and neither lets go of her end. By the evening the pointers are at nine and the pipes are tick-ticking to themselves in the empty wheelhouses, and there is a warm place on the drying green where the snow will not lie."
+}

@@ -1,0 +1,96 @@
+Module warmwall "The Warm Wall" {
+  // ── The last night ─────────────────────────────────────────────────────────────────────────────────────────────
+  // When the Soak is over (the third night, or the wall coming down) each person's fate is told, and then the book closes.
+
+  Query soakOver() means (day(clock) >= 4 or (day(clock) == 3 and hour(clock) >= 21) or (state(wall, breached) and bothEased())) and not dead(osric).
+
+  Rule fate_spring_door when soakOver() and not fatedSpring(party) and state(wall, breached) and bothEased()
+    says "Seethe is one hall again by midwinter: a raw-edged hole where the arch was, and a rail across it where Pen can lean. The pointers stand at seven. Nobody has said who closed hers first, and nobody will, and the drovers have taken to calling the hot pool the Maud and the cold the Nesta, which neither of them has been able to stop." {
+    Assert fatedSpring(party).
+  }
+  Rule fate_spring_lie when soakOver() and not fatedSpring(party) and bothEased() and lied(party) and not songDone(party) and not hatchMade(party)
+    says "The wheels stand at eight, and the water is hot at both ends of the roof. On the Hot Side Maud believes that Nesta closed hers first, and on the Cold Side Nesta believes the same of Maud, and Pen, who knows, has told nobody. It works. He is eleven, and has already decided it is the most useful thing he has ever learned about grown people." {
+    Assert fatedSpring(party).
+  }
+  Rule fate_spring_word when soakOver() and not fatedSpring(party) and bothEased() and wordGiven(party)
+    says "The wall stands. The wheels went down together on one word, and it is a thing both women will tell you the other began. The hatch is left open a hand's width now, and the linen goes through it by the armful, and in the evenings a plate. They have been heard speaking through it: the weather, the price of lye, whose turn it is to oil the latch. It is more than the wall was built for." {
+    Assert fatedSpring(party).
+  }
+  Rule fate_spring_wall when soakOver() and not fatedSpring(party) and bothEased()
+    says "The wall stands. The hatch is left open a hand's width, and linen goes through it by the armful, and in the evenings now and then a plate. They have been heard speaking through it: the weather, the price of lye, whose turn it is to oil the latch. It is more than the wall was built for." {
+    Assert fatedSpring(party).
+  }
+  Rule fate_spring_cold when soakOver() and not fatedSpring(party) and not bothEased()
+    says "By the morning of the fourth day the Hot Side's pool is the temperature of the plunge, and the drovers say so at every inn down to Hafod. By spring the two keepers sell the roof to a brewer from Caerwen who wants the warm for his mash. They carry their separate boxes down the drove road in the same cart, because there is only one, and sit at opposite ends of it, and do not look round." {
+    Assert fatedSpring(party).
+  }
+
+  Rule fate_osric_named when soakOver() and fatedSpring(party) and not fatedOsric(party) and stoneHallowed(party) and gethinHeard(party)
+    says "Osric Sallis goes up the drove road with his pears. Gethin Hafren walks him to the gate, and stops there, and says nothing, and then says the second line of a song Osric has only ever hummed. In the autumn, on the warm stone on the drying green, there is a pear, and a name cut shallow with a nail." {
+    Assert fatedOsric(party).
+  }
+  Rule fate_osric_heard when soakOver() and fatedSpring(party) and not fatedOsric(party) and gethinHeard(party)
+    says "Osric Sallis goes up the drove road with his pears, and a drover of Brynach walks beside him as far as the first wall, and says nothing, and carries his bundle." {
+    Assert fatedOsric(party).
+  }
+  Rule fate_osric_named_only when soakOver() and fatedSpring(party) and not fatedOsric(party) and stoneHallowed(party)
+    says "Osric Sallis goes up the drove road with his pears. The words have been said over the warm stone: it is the first time anyone has said his uncle's name in the ground. He puts a pear on it, and does not let anyone see his face." {
+    Assert fatedOsric(party).
+  }
+  Rule fate_osric_gone when soakOver() and fatedSpring(party) and not fatedOsric(party) and droveGone(party)
+    says "Osric Sallis goes up the drove road with his pears, alone, a day after the drove left by the same road. He is sorry to have been the cause of it, and has said so to Maud, who said that he was not the cause. He will come next winter. She will draw the bar." {
+    Assert fatedOsric(party).
+  }
+  Rule fate_osric_plain when soakOver() and fatedSpring(party) and not fatedOsric(party)
+    says "Osric Sallis goes up the drove road with his pears, and is back the winter after, by whichever door will have him. The pear is on the stone in the first hard frost." {
+    Assert fatedOsric(party).
+  }
+
+  Rule fate_drove_gone when soakOver() and fatedOsric(party) and not fatedDrove(party) and droveGone(party)
+    says "The drove of Brynach is next heard of at Hafod, where it has taken to bathing in a horse-trough and holds it to be a comparison." {
+    Assert fatedDrove(party).
+  }
+  Rule fate_drove_heard when soakOver() and fatedOsric(party) and not fatedDrove(party) and gethinHeard(party)
+    says "The drove goes down to Brynach on Thursday, and sings the last verse of the toll-song at every inn on the way, with a second part under it that nobody can account for. Gethin, asked, says only that the Rì's pay is not what it was, and that some of the Rì's men are better than the Rì." {
+    Assert fatedDrove(party).
+  }
+  Rule fate_drove_plain when soakOver() and fatedOsric(party) and not fatedDrove(party)
+    says "The drove goes down to Brynach on Thursday, with the toll-song, and the Rì's headsman in it still a hood and a rope. Gethin sings the last verse a little slower than he did." {
+    Assert fatedDrove(party).
+  }
+  Rule fate_cuthwin when soakOver() and fatedDrove(party) and not fatedCuthwin(party) and cuthwinPlunged(party)
+    says "Brother Cuthwin keeps the last eleven of his forty days, and keeps them a good deal cleaner. His text, preached at Caerwen in the autumn, begins: Cleanliness is not holiness, but I have been in the plunge at Seethe and I would not wish to be the one to say so to the Almighty." {
+    Assert fatedCuthwin(party).
+  }
+  Rule fate_cuthwin_no when soakOver() and fatedDrove(party) and not fatedCuthwin(party)
+    says "Brother Cuthwin goes on down the drove road in the sleet, still preaching against baths, on his twenty-ninth day, and is heard of at Hafod for a fortnight afterwards, mostly from upwind." {
+    Assert fatedCuthwin(party).
+  }
+  Rule fate_song when soakOver() and fatedCuthwin(party) and not fatedSong(party) and thirdPart(party)
+    says "Ottoline Brightwell is heard from the Hot Side and the Cold Side all that evening, singing in three parts: hers, the Cold Side's, and a stranger's that nobody has yet been able to place. She says it is the best room in the north. She says it is no longer a room." {
+    Assert fatedSong(party).
+  }
+  Rule fate_song_plain when soakOver() and fatedCuthwin(party) and not fatedSong(party)
+    says "Ottoline Brightwell stays the winter in the room over the copper, and is heard singing in the steam in the early mornings, and is not always alone." {
+    Assert fatedSong(party).
+  }
+  Rule fate_pen when soakOver() and fatedSong(party) and not fatedPen(party) and state(wall, breached)
+    says "Pen is out of work. He does not mind. He has been told by both of them to sit down, and he is, for the first time in his life, between." {
+    Assert fatedPen(party).
+  }
+  Rule fate_pen_plain when soakOver() and fatedSong(party) and not fatedPen(party)
+    says "Pen goes on going through the hatch with the linen, and now when he comes back through it with an answer, he does not make up the second half." {
+    Assert fatedPen(party).
+  }
+  Rule fate_all when soakOver() and fatedPen(party) and not fated(party) { Assert fated(party). }
+
+  Chapter c_two_doors "The Two Doors" when day(clock) == 1 "Sleet since noon, and one roof with two doors, and two wheels at nine. The spring has three days of heat in it, perhaps; nobody has said so aloud.".
+  Chapter c_the_step "The Step" when day(clock) == 2 and hour(clock) >= 12 "By noon the drove has the pool and Pen has taken his post on the mounting-block, which he calls a habit, and looks down the drove road more often than a habit explains.".
+  Chapter c_last_night "The Last Night" when day(clock) == 3 and hour(clock) >= 18 "The third night is the drove's last, and the pool is as hot as it is going to be.".
+
+  Ending step_again "The Step Again" when dead(osric) "In the morning there is frost in his eyebrows. Pen finds him, and does not say anything, and goes in at the Hot Side's door and then, a minute later, at the Cold Side's, and it is the first time anybody has seen him use both in a day. They carry him in between them, the two keepers, and neither speaks, and neither lets go of her end. By the evening the pointers are at nine and the pipes are tick-ticking to themselves in the empty wheelhouses, and there is a warm place on the drying green where the snow will not lie.".
+  Ending door_in_the_wall "A Door in the Wall" when fated(party) and state(wall, breached) and bothEased() "Seethe, in the sleet, smokes at both ends of one roof, and the wall that divides the slates into two colours has a hole in it where, if you stand in the yard on the right night, you can see a lamp pass from one side to the other, carried by somebody with a bad hand.".
+  Ending even_heat "Even Heat" when fated(party) and bothEased() and lied(party) and not songDone(party) and not hatchMade(party) and not softened(nesta) "The wheels stand at eight. The spring runs hot at both ends of the roof and cold at the plunge, and the two keepers are, between themselves, perfectly civil, each in the belief of her own good faith, and the other's. It will hold for a winter, or for as long as nobody checks.".
+  Ending warm_wall "The Warm Wall" when fated(party) and bothEased() "The wall stands. It is warm on both faces, and has been for thirty-one winters, and one of the two women who built it sleeps with her head against it, and tonight, at least, the other is not sleeping at all.".
+  Ending cold_water "Cold Water" when fated(party) "The spring comes up cold at the Throat on the first morning of the thaw, and is only water.".
+}
