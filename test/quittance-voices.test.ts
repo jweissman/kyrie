@@ -178,6 +178,9 @@ describe('Quittance: depth, persons and links', () => {
     await j.play('=day 5 16:00');                                   // Candlewick burns on its own night
     expect(City.has(j, 'burned', 'candlewick')).toBe(true);
     Ds.at(j, 'skelter_room');
+    // (given as a fact: his hired men, back in his room from the fire, would warn the company off, and while they do
+    // only answering them is offered, not a word with Skelter: OR-163, Engaged; their own cases are the Court's)
+    for (const men of ['torchmen', 'burners']) { Ds.put(j, 'assert', 'tolerates', men, 'party'); }
     await j.play('Talk to Mr Skelter', 'Ask Mr Skelter why the candle');
     expect(j.holds('holding', 'party', 'skelter_book')).toBe(true);
     expect(Ds.knows(j, 'd_skelter_book')).toBe(true);
