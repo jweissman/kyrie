@@ -84,8 +84,11 @@ export class AdventureNames {
   // Ysolde, and The Book of Faces' Registrar): advisory, as first names may be shared, but a small corpus feels it.
   static firsts(root = resolve(import.meta.dir, '../../data/adventures')): Map<string, Map<string, string>> {
     const names = new Map<string, Map<string, string>>();
-    for (const dir of readdirSync(root, { withFileTypes: true }).filter(d => d.isDirectory())) {
-      for (const file of readdirSync(join(root, dir.name)).filter(f => f.endsWith('.kyr'))) {
+    // In the adventures' order by name, never the file system's (CI lists them otherwise than a desk does).
+    const dirs = readdirSync(root, { withFileTypes: true }).filter(d => d.isDirectory())
+      .sort((a, b) => a.name.localeCompare(b.name));
+    for (const dir of dirs) {
+      for (const file of readdirSync(join(root, dir.name)).filter(f => f.endsWith('.kyr')).sort()) {
         for (const m of readFileSync(join(root, dir.name, file), 'utf8').matchAll(this.declared)) {
           const first = m[1] === 'Person' ? this.first(m[3]!) : undefined;
           if (!first) { continue; }

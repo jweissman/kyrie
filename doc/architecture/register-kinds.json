@@ -246,6 +246,18 @@
    "was": "defect",
    "pri": "P2",
    "why": "20 Nov, filed from the owner's directions after the cards pin and classified as filed (a row is a defect until named otherwise): not an observed failure"
+  },
+  "OR-164": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "20 Nov, filed from the owner's notes after the playtest and classified as filed (a row is a defect until named otherwise): not an observed failure"
+  },
+  "OR-165": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, filed from the owner's notes after the playtest and classified as filed (a row is a defect until named otherwise): not an observed failure"
   }
  },
  "blockedBy": {
