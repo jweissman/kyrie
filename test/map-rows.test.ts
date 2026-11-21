@@ -32,4 +32,18 @@ describe('the map\'s rows', () => {
     }
     expect(seen.size).toBe(rows.length);
   }, 120000);
+  // From a town's own stretch of country the town is entered from the map, first (a1: Millholm from hex 89, by its
+  // gate); and a journey across the country comes before a step into the next stretch (int-mat5's CI: the landing's
+  // first page had been steps alone).
+  it('enter the town on the company\'s own stretch first, then journeys before steps', async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wenna']));
+    for (const go of ['travel:region__s2_green', 'travel:region__t90', 'travel:region__t89']) { await journey.session.leg(go); }
+    const r = new Runner(journey.session);
+    r.said();
+    const rows = MapRows.of(r.leaf!.glance!, ScreenModel.build(r.session.campaign));
+    expect([rows[0]?.row.label, rows[0]?.close]).toEqual(['Enter Millholm', true]);
+    const first = rows.findIndex(x => x.row.does?.startsWith('travel:')), step = rows.findIndex(x => x.row.does?.startsWith('go(')
+      && !x.close);
+    expect(step < 0 || first < step).toBe(true);
+  }, 120000);
 });
