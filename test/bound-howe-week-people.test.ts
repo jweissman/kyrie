@@ -26,8 +26,11 @@ describe('the people of the camp and the first town', () => {
     // The crew suffers the company to stand in the camp while it talks to the boy: the territorial hands had come at it
     // as it lingered, and the company had won that fight only by the spells its casters drew (the draw by rank, case
     // 11 of srd-proving-cases.md, lost it); the camp's fight is test/bound-howe's.
+    // And its foreman, who warns a stranger off the camp as the hands do: while she does, only answering her is offered
+    // (OR-163: Engaged), not a word with the boy.
     const j = await Howe.at('lee');
     j.assert('tolerates', R('crew'), 'party');
+    j.assert('tolerates', R('foreman'), 'party');
     j.coin(20);
     await j.play('Ask .+ what is wrong');
     expect(Howe.holds(j, 'knows', 'party', R('face_thin'))).toBe(true);
