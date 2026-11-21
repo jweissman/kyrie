@@ -1,0 +1,143 @@
+Module warmwall "The Warm Wall" {
+  // ── Who is at Seethe ───────────────────────────────────────────────────────────────────────────────────────────
+
+  Person pen "Pen" at yard {
+    Role "the bath-boy". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A boy in a man's waistcoat sits on the mounting-block in the sleet, eating a turnip, and has watched you come the whole length of the drove road. 'Hot Side or Cold,' he says. 'Hot's fourpence and a towel is a towel. Cold's free if you can stand it. Don't go in at one and change your mind. It's a long yard.'".
+    Greets again "'Back already,' says Pen, with his mouth full. 'Mind the step. It's the only thing here that belongs to both of them.'".
+  }
+  Topic pen_wall with pen "Ask Pen why there is a wall" when true once {
+    Says "'Because,' says Pen. 'Thirty-one winters. Before me.' He bites the turnip. 'Ask Mistress Thaxter and you get a door. Ask Mistress Veale and you get a towel.' He nods at the roof, and the brick going up through the middle of it. 'There's a hatch in the wheelhouses, for linen. I go through. They don't.'".
+    On discuss { Assert knows(actor, hatch_known). }
+  }
+  Topic pen_wheels with pen "Ask Pen about the wheels" when true once {
+    Says "'Both at nine,' says Pen. 'They were at four when old Mistress Veale had it, and her and Mistress Thaxter's mother both on the one wheel, they say. I hear them. One goes up a notch, the other hears the pipe, and goes up a notch.' He shrugs. 'Neither of them has said the number to the other. They think the number is a secret.'".
+  }
+  Topic pen_stone with pen "Ask Pen about the stone on the drying green" when knows(actor, stone_seen) and quantity(actor, gold) >= 1 once {
+    Says "'A penny,' says Pen, and takes it. 'There's no list it's on. A pear gets left there, the first hard frost, every year, by who I couldn't tell you, and the snow won't lie on it. I've seen Mistress Veale go the long way round it with the sheets, like there was a person sitting down.'".
+    On discuss { Decrease quantity(actor, gold) by 1. }
+  }
+  Topic pen_song with pen "Ask Pen what the drove sings" when true once {
+    Says "'The toll-song,' says Pen. 'The No-song. And then the Wassail, at the end, that everybody knows, with the bit missing. Old Madam in the steam-room says there was a third part. Nobody's heard it. Do not ask her to sing it, she will, and then you'll never get your hands clean of it.'".
+  }
+
+  // Maud Veale: the Hot Side. Cold on the surface, warm underneath; speaks as she folds.
+  Person maud "Maud Veale" at hot_hall {
+    Role "keeper of the Hot Side". Ancestry human. Profession innkeeper. Peaceable. Pronouns she. Manner stoic.
+    Sells rations for 2 coin from 6.
+    Greets "A tall woman in a grey apron is folding towels in thirds on a table scrubbed to the colour of bread, and does not look up until the towel is done. 'The Hot Side,' says Maud Veale. 'Fourpence for the day, sixpence with the steam. The drove has the pool till nine. Boots on the rack, not under it.' Her left hand does not close; she folds with the right and pins with the heel of the other.".
+    Greets again "Maud Veale folds a towel in thirds. 'You have been across the yard,' she says. 'It is in your boots. On the rack.'".
+  }
+  Topic maud_wall with maud "Ask Maud about the wall" when true once {
+    Says "'The wall is Mistress Thaxter's,' says Maud. 'She ordered it and paid the mason, and she can say what for.' She squares the pile. 'The Hot Side is heated at a fair rate and the boards are sound. Those are the true things about the wall.'".
+  }
+  Topic maud_cooler with maud "Ask Maud why the water is not as hot as it was" when true once {
+    Says "'It is as hot as last winter,' says Maud, 'and last winter it was as hot as the winter before, only warmer.' A towel goes down very straight. 'The Cold Side takes more than her share. I hear her pipe from my own wheelhouse. I will not say what the woman does with a warm spring to make it so cold.'".
+  }
+  Topic maud_guests with maud "Ask Maud who is staying" when true once {
+    Says "'The drove has the pool till nine and the steam at five, as it has had eleven winters. Brother Cuthwin has the cot nearest the door, and has not been persuaded to a bath; I have stopped offering.' She does not smile. 'Madam Brightwell has the steam room whenever there is nobody in it, and sometimes when there is. She does not need a bath. She needs an acoustic.'".
+  }
+  Topic maud_stone with maud "Ask Maud about the stone on the drying green" when knows(actor, stone_seen) once {
+    Says "'That is the drying green,' says Maud. 'The grass will not hold there. It is warm ground.' She folds the towel a fourth time, which makes it too small to use. 'Pen is not to be paid for saying otherwise.'".
+  }
+  Topic maud_evidence with maud "Tell Maud what the Throat shows" when knows(actor, overdraw_known) and not evidenced(maud) once {
+    Says "She hears it through, left hand flat on the table. 'The Cold Side's pointer stands at nine,' says Maud. 'Mine stands at nine because hers does. You think I have not done that sum?' A pause. 'If I close a notch and she does not, I have made her a present of my heat. So she must close hers first, and she will not. And if I am assured that she will—' She stops. 'Assured. Not told.'".
+    On discuss { Assert evidenced(maud). }
+  }
+
+  // Nesta Thaxter: the Cold Side. Loud, warm, entirely proud.
+  Person nesta "Nesta Thaxter" at cold_hall {
+    Role "keeper of the Cold Side". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "A broad woman in an oilskin is rubbing herself down at the stove with a towel the size of a sail, steaming like a horse. 'In or out!' says Nesta Thaxter. 'Not both, I've a draught. Cold Side, no charge, there's a cot and there's porridge, and if you're not blue by supper you've been cheating.'".
+    Greets again "'Back!' says Nesta Thaxter. 'Good. Shift that, sit. How is the other end of the world?' She means the Hot Side, and does not say so.".
+  }
+  Discovery wall_history "Thirty-one winters ago the Rì's headsman Ammet Sallis died on the step of the baths, and Nesta Thaxter built the wall that week.".
+  Topic nesta_wall with nesta "Ask Nesta about the wall" when true once {
+    Says "Nesta puts down the kettle. 'Thirty-one winters ago,' she says, 'a man sat on the step in sleet. The Rì's headsman, old Ammet Sallis, who had come for his back. Veale had eleven drovers in the hall that night and a rule. Guests are the house. I said, Maud, put him in the stoke-room, the barn, my bed, I don't care, and she said guests are the house.' She is quite calm. 'In the morning there was frost in his eyebrows. I had the first course of bricks laid by noon.' She pours. 'She never said sorry. A word. I would have taken the word.'".
+    On discuss { Assert knows(actor, wall_history). }
+  }
+  Topic nesta_cooler with nesta "Ask Nesta why the water is not as hot as it was" when true once {
+    Says "'The Hot Side's going,' says Nesta, delighted and furious. 'Not mine. Mine's meant to be cold, that's the point of it. Veale opens her wheel up, I hear it, I know the sound of that woman's pipe the way I know my own cough, and I take what I have always taken.'".
+  }
+  Topic nesta_evidence with nesta "Tell Nesta what the Throat shows" when knows(actor, overdraw_known) and not evidenced(nesta) once {
+    Says "She listens to the end, and for once says nothing. 'Nine,' says Nesta. 'It was four.' She rubs the back of her neck with the towel. 'I haven't looked at that pointer since I turned it. If I close a notch and she doesn't, she keeps what I give her and thinks me soft.' A snort. 'So let her go first. I'll go second. I'm not proud.' She is entirely proud, and a little of it shows.".
+    On discuss { Assert evidenced(nesta). }
+  }
+  Topic nesta_cot with nesta "Ask Nesta why her cot stands against the wall" when tried(cot, looking) once {
+    Says "'The draught,' says Nesta, and is gone through the plunge arch into the ice before the word has finished.".
+  }
+  Thing cot "Nesta's cot" at cold_hall {
+    Tries looking.
+    State made "A cot stands hard against the west wall, made up very tight, with a pillow worn flat in the middle.".
+  }
+  Observe cot_looked near cot when tried(cot, looking) "The plaster above the pillow is smooth and a little discoloured, as plaster is where somebody has leaned her head for a good many winters. Behind it, you know from the other side, the flue runs warm.".
+
+  // Gethin Hafren and the drove of Brynach.
+  Person gethin "Gethin Hafren" at hot_room {
+    Role "master of the Brynach drove". Ancestry dwarf. Peaceable. Pronouns he. Manner jovial.
+    Greets "A dwarf the width of a door lies in the pool up to the beard with his eyes shut, conducting something with one finger. 'Brynach drove,' he says, without looking. 'Eleven men and four hundred head on the tops. We'll be down by Thursday unless the Rì thinks of another toll. Gethin Hafren. Sit, sit. Mind your left, that's Tegwyn, he's asleep.'".
+    Greets again "'Ha,' says Gethin Hafren, one eye open. 'The traveller. Is it hotter in here or are you cooler?'".
+  }
+  Person drovers "the drovers of Brynach" at hot_room {
+    Role "ten drovers in a pool". Ancestry dwarf. Numbers 10. Peaceable.
+  }
+  Discovery madoc_hanged "Madoc Hafren, a drover of Brynach, was hanged at Dun Rìerdan six winters ago by the Rì's headsman for the south, who is said to have done it kindly.".
+  Discovery gethin_seeks "Gethin Hafren has never seen the face of the man who hanged his brother, and would know him among ten thousand.".
+  Discovery oath_known "Brother Cuthwin has sworn forty days without comfort of the body, and is afraid of hot rooms.".
+  Topic drove_sing with drovers "Ask the drovers what they sing" when true once {
+    Says "They sing it for you, all ten, from the water: the toll-song of Brynach, a verse for each of the Rì's toll-bars and a chorus that is only the word NO in three parts. 'And the last verse,' says a young one, 'is Madoc Hafren, who put a pike through the toll-board at the Brynach gate. Hanged in the yard at Dun Rìerdan six winters back, by the Rì's man for the south.' 'Kindly,' says another. 'They say he did it kindly.' 'That's worse,' says the first. Nobody sings the last verse.'".
+    On discuss { Assert knows(actor, madoc_hanged). }
+  }
+  Topic gethin_why with gethin "Ask Gethin why the drove comes to Seethe" when true once {
+    Says "'Because the Cold Side's cold and the Hot Side's hot,' says Gethin, 'and a dwarf likes to know which he's in.' One eye opens. 'Veale never charges a drover for the steam, and Thaxter never charges a drover for anything. I have not met a better-run ruin.'".
+  }
+  Topic gethin_madoc with gethin "Ask Gethin about his brother" when knows(actor, madoc_hanged) once {
+    Says "The finger stops. 'Madoc,' says Gethin. 'Six years. The Rì's man did it between two bells in the morning with a rope he'd greased; I have that from the clerk who watched. That he did it kindly.' He sinks to the beard. 'I would know that man in a crowd of ten thousand. I have never seen him. They hood them.'".
+    On discuss { Assert knows(actor, gethin_seeks). }
+  }
+  Topic gethin_headsman with gethin "Ask Gethin what he would do if he met the Rì's headsman" when knows(actor, gethin_seeks) once {
+    Says "'Thank him,' says Gethin, and is surprised, and does not take it back. 'And then I don't know. A Rì's man comes to a bad end or a good pension.' The water moves. 'Sit down. You are letting the steam out.'".
+  }
+
+  // Brother Cuthwin, who is not here to bathe.
+  Person cuthwin "Brother Cuthwin" at plunge {
+    Role "a travelling brother of the Plain Cloth". Ancestry human. Peaceable. Pronouns he. Manner proud.
+    Greets "A young man in a brown habit sits on the bench by the hooks, fully dressed, boots on, a wax tablet on his knee, writing very fast with the stylus held like a dagger. He smells of forty days. 'I am not here to bathe,' says Brother Cuthwin. 'I am here because of the sleet. I am preaching against baths. Not the sleet. I have a text.'".
+    Greets again "Brother Cuthwin does not look up from his tablet. 'I have crossed it out,' he says. 'No: I have crossed out the second half. The first half stands.'".
+  }
+  Topic cuth_text with cuthwin "Ask Brother Cuthwin about his text" when true once {
+    Says "'Cleanliness is not holiness,' says Cuthwin, 'but neither is it not-holiness, which is the difficulty, I find. The Plain Cloth teaches that the body is a coat. You do not wash a coat in a river, you wear it out. I have worn mine out.' He considers the sleeve. 'It has begun to speak.'".
+  }
+  Topic cuth_oath with cuthwin "Ask Brother Cuthwin why he will not go in" when true once {
+    Says "'A small oath, at a low moment,' says Cuthwin. 'Forty days, to take no comfort of the body. I have eleven to go.' He lowers his voice. 'It is a hot room I am afraid of. A man in a hot room might forget himself and be comforted. I should have to do it again from the beginning.'".
+    On discuss { Assert knows(actor, oath_known). }
+  }
+  Topic cuth_cold with cuthwin "Point out that the plunge is cold" when knows(actor, oath_known) once {
+    Says "He looks at the green water. He looks at the ice at its edge. 'Cold,' says Brother Cuthwin. 'It is very cold. It is, now that you say it, not a comfort at all.' A long pause, in which a man discovers a loophole and is slightly horrified by how much he likes it. 'It is a mortification,' he says. 'It is a clear mortification. I could do it with a clear conscience, and clean.'".
+    On discuss { Assert cuthwinWilling(party). }
+  }
+  Relation cuthwinWilling(group). Relation cuthwinPlunged(group).
+  Topic cuth_go with cuthwin "Ask Brother Cuthwin to try the plunge" when cuthwinWilling(party) and not cuthwinPlunged(party) once {
+    Says "He takes off the boots with his eyes shut, and then, one at a time, forty days. 'Do not watch,' says Brother Cuthwin, and goes in with a cry like a heron. There is a long silence, and then a sound you will not forget: a man laughing in cold water. 'It is a mortification!' he shouts. 'It is the best thing that has ever happened to me!'".
+    On discuss { Assert cuthwinPlunged(party). }
+  }
+
+  // Madam Ottoline Brightwell, in the steam.
+  Person ottoline "Ottoline Brightwell" at steam {
+    Role "a retired contralto". Ancestry human. Peaceable. Pronouns she. Manner proud.
+    Greets "A stout old woman in a towel and a great many pearls reclines on the top bench with her eyes shut, and you hear her before you see her: a note so low and round it seems to come out of the stone. She stops. 'Don't stand in the door,' says Ottoline Brightwell. 'You are letting the acoustic out.'".
+    Greets again "'Ah,' says Ottoline Brightwell, in the steam. 'The traveller. Shut the door, dear, I was in the middle of a rest.'".
+  }
+  Topic ott_who with ottoline "Ask Ottoline who she is" when true once {
+    Says "'Ottoline Brightwell,' she says, 'contralto to the Court at Dun Rìerdan for nineteen winters, and before that other places that do not bear repeating in a steam room. I am seventy-one and merely excellent. It is the hardest thing I have ever had to sing.'".
+  }
+  Topic ott_here with ottoline "Ask Ottoline why she comes to Seethe" when true once {
+    Says "'The Court was a very bad room,' says Ottoline. 'This is the best room in the north: stone, steam, a vault of exactly the right shape and nobody in it with any right to an opinion.' She sits up, and the pearls settle. 'And I taught two girls a duet here once, the winter before the wall. In three parts, because one of them could never keep to her own. We sang it from the two ends of the hall, and the hall was one hall.'".
+    On discuss { Assert knows(actor, wassail_known). }
+  }
+  Discovery wassail_known "Ottoline taught the two keepers of Seethe a duet in three parts, before the wall, and it can be sung through the brick.".
+  Topic ott_sing with ottoline "Ask Ottoline to sing the old duet" when knows(actor, wassail_known) and not songSung(party) once {
+    Says "'In the steam?' says Ottoline Brightwell. 'At last. Someone with sense.' She stands, and settles the towel, and begins.".
+    On discuss { Assert songSung(party). }
+  }
+}

@@ -1,0 +1,64 @@
+Module warmwall "The Warm Wall" {
+  // ── The spring and its two wheels ──────────────────────────────────────────────────────────────────────────────
+  // heat() is how hot the spring comes up: 3 at the start. Every dawn it drops one, unless both wheels have been eased.
+  // Neither can be eased alone: what one gives up the other draws. Each keeper eases hers only when she has
+  // been shown why (evidenced) and has a reason to think the other will too (trusts).
+
+  Measure heat(). Measure dawnDone(). Measure arrivalHour(). Measure onStepSince(). Measure bucketsPassed().
+  Initially Set heat() to 3.
+  Initially Set dawnDone() to 1.
+  Initially Set arrivalHour() to (1d3) + 15.
+  Initially Set onStepSince() to 0.
+  Initially Set bucketsPassed() to 0.
+
+  Relation evidenced(group). Relation reassured(group). Relation easedTold(group). Relation lied(group). Relation songSung(group).
+  Relation thirdPart(group). Relation hatchMade(group). Relation softened(group). Relation nestaMessage(group). Relation maudMessage(group).
+  Query willingToEase(k: group) means evidenced(k) and reassured(k).
+  Query bothEased() means state(hot_valve, eased) and state(cold_valve, eased).
+
+  Thing hot_valve "the Hot Side's wheel" at hot_wheel {
+    State wide "The wheel stands at nine, and the pipe beside it hums like a held note.".
+    State eased "The wheel stands at eight, and the pipe's note has dropped.".
+    Change ease "Turn the Hot Side's wheel back a notch" from wide to eased when willingToEase(maud) "Maud Veale watches your hand on the wheel and does not intend to give a notch while the Cold Side takes hers.".
+  }
+  Thing cold_valve "the Cold Side's wheel" at cold_wheel {
+    State wide "The wheel stands at nine, and the pipe beside it hums like a held note.".
+    State eased "The wheel stands at eight, and the pipe's note has dropped.".
+    Change ease "Turn the Cold Side's wheel back a notch" from wide to eased when willingToEase(nesta) "Nesta Thaxter stands in the doorway with her arms folded: she will not give a notch while the Hot Side takes hers.".
+  }
+
+  // A wheel eased alone is put back by its keeper at dawn, with some remark.
+  Rule hot_reopens when day(clock) > dawnDone() and hour(clock) >= 6 and state(hot_valve, eased) and not state(cold_valve, eased)
+    says "Maud Veale's wheel is back at nine by morning. She says nothing about it, and puts the towels out in thirds." {
+    Assert state(hot_valve, wide). Retract reassured(maud).
+  }
+  Rule cold_reopens when day(clock) > dawnDone() and hour(clock) >= 6 and state(cold_valve, eased) and not state(hot_valve, eased)
+    says "Nesta Thaxter has put her wheel back to nine in the night. 'I'm not a fool,' she tells the stove, loud enough to carry." {
+    Assert state(cold_valve, wide). Retract reassured(nesta).
+  }
+
+  Rule both_ease when bothEased() and not easedTold(party)
+    says "Through the floor, through the brick, you feel the pipes change their note together, as two voices do when they find the same pitch." {
+    Assert easedTold(party). Assert state(seep, easing). Set heat() to min(5, heat() + 1).
+  }
+
+  Rule dawn_cools_3 when day(clock) > dawnDone() and hour(clock) >= 6 and not bothEased() and heat() == 3
+    says "At dawn the pipes tick as they cool. The Hot Side's pool is a shade less than it was." {
+    Set heat() to 2. Set dawnDone() to day(clock).
+  }
+  Rule dawn_cools_2 when day(clock) > dawnDone() and hour(clock) >= 6 and not bothEased() and heat() == 2
+    says "At dawn the steam over the Hot Side's roof is thin and white and gone before it reaches the ridge. In the yard the sleet is melting off the slates more slowly." {
+    Set heat() to 1. Set dawnDone() to day(clock).
+  }
+  Rule dawn_cools_1 when day(clock) > dawnDone() and hour(clock) >= 6 and not bothEased() and heat() <= 1
+    says "At dawn the Hot Side's roof does not smoke. The water in both pools is the same temperature, and nobody has said so." {
+    Set heat() to 0. Set dawnDone() to day(clock).
+  }
+  Rule dawn_warms when day(clock) > dawnDone() and hour(clock) >= 6 and bothEased()
+    says "At dawn both roofs smoke, steadily, the way a roof does that is not being asked for more than it has." {
+    Set heat() to min(5, heat() + 1). Set dawnDone() to day(clock).
+  }
+
+  Milestone wm_ms_cause "found what is taking the heat" worth 40 when knows(party, overdraw_known).
+  Milestone wm_ms_eased "had both wheels eased" worth 100 when bothEased().
+}

@@ -1,0 +1,26 @@
+Module warmwall "The Warm Wall" {
+  Description "What each of the company makes of Seethe by what they are: the warrior on the step, the cleric on the green, the ranger on the gill, the thief at the hatch, the bard in the steam.".
+
+  Relation heardStep(group). Relation heardGreen(group). Relation heardGill(group). Relation heardLatch(group). Relation heardSteam(group).
+
+  Rule voice_step at yard when memberOf(?m, party) and hasCalling(?m, calling_warrior) and awake(?m) and at(osric, yard) and watch(clock) >= onStepSince() + 12 and not warmed(osric) and not heardStep(party)
+    says "{?m} crouches by the man on the step and lifts an eyelid with a thumb. 'He is past shivering,' {?m} says, low. 'That is not resting. I have seen men sit like that on a field and not get up in the morning. Get him indoors, and I do not much mind whose door.'" {
+    Assert heardStep(party).
+  }
+  Rule voice_green at green when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, green) and not heardGreen(party)
+    says "{?m} stands at the edge of the stone with a hand half raised, and lowers it. 'The Rì buries its headsmen outside the hallowed ground, and forbids their names in it,' {?m} says. 'Somebody has put this where nobody would look, and kept it clear of snow, and has not once been asked to. That is a grave tended by someone who knew exactly what the rule was.'" {
+    Assert heardGreen(party).
+  }
+  Rule voice_gill at gill when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and at(party, gill) and not heardGill(party)
+    says "{?m} lays two fingers on the brown main, and then two on the green. 'Both of them are ticking fast,' {?m} says. 'Pipes tick like that when more is going through them than they were laid for. Whatever is at the top of this is being asked for more than it has.'" {
+    Assert heardGill(party).
+  }
+  Rule voice_latch at hot_wheel when memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(party, hot_wheel) and not heardLatch(party)
+    says "{?m} runs a thumbnail along the hatch's latch. 'Goose-grease on this side,' {?m} says, 'and lard on the other. Both within the week, and neither of them has ever used it.' {?m} lets the latch fall. 'Somebody is keeping a door in working order that nobody is allowed to go through.'" {
+    Assert heardLatch(party).
+  }
+  Rule voice_steam at steam when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, steam) and not heardSteam(party)
+    says "{?m} hums a low note and lets it go, and listens to where it goes. 'It does not stop at that wall,' {?m} says slowly. 'There is a place in the vault where a voice passes through as if there were nothing there. Somebody built this room to be sung in from both ends at once.'" {
+    Assert heardSteam(party).
+  }
+}

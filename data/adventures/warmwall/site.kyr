@@ -1,0 +1,85 @@
+Module warmwall "The Warm Wall" {
+  Description "Seethe: one long bath-hall at the foot of the Brynach fells, cut in two by a brick wall, with a hot spring behind it going cold.".
+
+  // The hall, front to back: the yard and its one step, the Hot Side (brown door) and the Cold Side (green door), a wall
+  // between them that runs the whole length of the roof, and behind both the gill, the two mains and the spring.
+  Place country "the Seethe country" is region within imbar.
+  Place seethe "Seethe" is settlement within country at 0, 1.
+  Place drove "the drove road" is wilderness within country at 0, 0.
+  Place springhead "the head of the gill" is site within country at 1, 1.
+
+  Place hot_side "the Hot Side" is building within seethe.
+  Place cold_side "the Cold Side" is building within seethe.
+
+  Place road "the drove road above Seethe" is room within drove at 0, 0.
+  Place yard "the bath-yard" is room within seethe at 1, 1 outdoors.
+  Place green "the drying green" is room within seethe at 2, 2 outdoors.
+  Place hot_hall "the Hot Side's hall" is room within hot_side at 0, 0.
+  Place hot_room "the hot pool" is room within hot_side at 1, 0.
+  Place steam "the steam room" is room within hot_side at 2, 0.
+  Place hot_wheel "the hot wheelhouse" is room within hot_side at 0, 1.
+  Place cold_hall "the Cold Side's hall" is room within cold_side at 0, 0.
+  Place plunge "the plunge" is room within cold_side at 1, 0.
+  Place cold_wheel "the cold wheelhouse" is room within cold_side at 0, 1.
+  Place gill "the gill path" is room within springhead at 0, 0.
+  Place throat "the Throat" is room within springhead at 1, 0.
+
+  Passage drove_end "the last of the drove road" is road between road and yard taking 20 minutes.
+  Passage hot_door "the Hot Side's door" is door between yard and hot_hall.
+  Passage cold_door "the Cold Side's door" is door between yard and cold_hall.
+  Passage hot_arch "the pool arch" is doorway between hot_hall and hot_room.
+  Passage steam_door "the steam-room door" is door between hot_room and steam.
+  Passage hot_wheel_door "the wheelhouse door" is door between hot_hall and hot_wheel.
+  Passage stoke_door "the stoke door" is door between yard and hot_wheel hidden until stoke_known.
+  Passage plunge_arch "the plunge arch" is doorway between cold_hall and plunge.
+  Passage cold_wheel_door "the wheelhouse door" is door between cold_hall and cold_wheel.
+  Passage wall_arch "the bricked arch" is doorway between hot_room and plunge.
+  Passage hatch "the hatch" is crawl between hot_wheel and cold_wheel taking 2 minutes hidden until hatch_known.
+  Passage green_path "round the back of the Hot Side" is path between yard and green taking 10 minutes.
+  Passage gill_path "the gill path" is path between yard and gill taking 20 minutes.
+  Passage throat_steps "the steps to the Throat" is steps between gill and throat.
+
+  // ── Places ─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Observe road_scene at road when true "The drove road comes down off the tops between walls of black stone, and ends in steam. Under it a long roof lies smoking at both ends, and a brick wall rises through the ridge, so that the slates are blue on one side of it and red on the other.".
+  Observe road_sleet at road when not dark() "Sleet comes across the fell sideways. Somewhere below the road, in the white, a cattle-bell clanks in the folds where the drove has penned its herd, and a boy is telling the animals something in a low voice, off the note.".
+  Observe road_dark at road when dark() "The only light on the whole fell is two windows under one roof, one yellow and one white.".
+
+  Observe yard_scene at yard when true "A cobbled yard in front of one long roof, and a stone step along the whole front of it, with a door at each end: the Hot Side's brown, the Cold Side's green. Steam leaves the slates in both directions.".
+  Observe yard_step at yard when true "The step is worn into a hollow in the middle, where, apparently, people have sat down.".
+  Observe yard_gill at yard as feature when true "Two iron mains run up the beck behind the roof, one painted brown, one green, side by side, like two people walking out of speaking distance.".
+
+  Observe hot_hall_scene at hot_hall when true "A hall of scrubbed boards that smells of hot wool and lye. Boots stand in a rack by size; towels lie on a counter in thirds; a bell hangs by the door that has never needed ringing. The east wall is brick, and newer than the rest, and warm to the hand.".
+  Observe hot_room_scene at hot_room when true "A long stone pool under a vault, steam standing in the lamplight. At the far end an arch has been bricked up, the new brick pale among the old, like a patch on a sleeve.".
+  Observe pool_hot at hot_room when heat() >= 3 "The water is hot enough to make you swear, quietly, as you go in.".
+  Observe pool_warm at hot_room when heat() == 2 "The water is warm: very warm, the way a held breath is. Nobody in it mentions that it was hotter at Michaelmas.".
+  Observe pool_tepid at hot_room when heat() <= 1 "The water is the temperature of a cup of tea left standing. The steam is mostly the lamps.".
+  Observe steam_scene at steam when true "A low black room of stone benches and one iron door, so full of steam that you find the walls with your hands. Voices go through it as through water, and nobody here can see whose they are.".
+  Observe steam_wall at steam when true "The far wall is not warm. It is damp and cool, and on the other side of a yard of brick somebody is splashing.".
+  Observe hot_wheel_scene at hot_wheel when true "A stone room of pipes and shelves of linen, with a great copper kettle on a fire-bed. A wheel the size of a cart-wheel stands at head height on a post, and the brass pointer beside it reads nine. Low in the east wall is a small square door with a latch, brighter than anything else in the room.".
+  Observe hot_wheel_hatch at hot_wheel when true "The little door is a hatch: a boy could go through, or a stack of sheets." teaches hatch_known.
+
+  Observe cold_hall_scene at cold_hall when true "A long low room with a stove, a table for twelve and a row of cots under blankets in blue and white check. The west wall is brick, and newer than the rest. Somebody has been swimming: there are wet footprints from the plunge to the stove, and a trail of ice.".
+  Observe cold_hall_warm at cold_hall when true "The brick is warm. On this side as on the other.".
+  Observe plunge_scene at plunge when true "A stone tank of green water under a skylight, ice at its edges. A bench, a row of hooks, and over them a sign in a very large hand: IN.".
+  Observe plunge_arch_seen at plunge when true "On the pool side the plunge's far wall is plain brick. A bricked arch shows in it, grey with whitewash, as if somebody had wanted to be sure it was not mistaken for a wall.".
+  Observe cold_wheel_scene at cold_wheel when true "A stone room of pipes: a mirror of the other, except that the paint is green and there is a jar of pickled onions on the shelf. A wheel on a post; the pointer reads nine. Low in the west wall, a small square door with a latch kept bright with oil." teaches hatch_known.
+
+  Observe green_scene at green when true "A drying green behind the Hot Side, sheets hung on lines in frozen planks. In the corner, one flat stone the size of a table-top, with no snow on it, and the grass around it green in the sleet.".
+  Observe green_pear at green when true "On the stone, set down as one sets down a coin, is the core of a dried pear." teaches stone_seen.
+  Observe gill_scene at gill when true "The gill path climbs beside the two mains, which tick as the water goes through them. The brown pipe ticks faster. Higher up, steam stands in a cleft of the rock.".
+  Observe throat_scene at throat when true "A cave full of warm mist, and in it a stone cistern the size of a cart, with a crack in the floor beneath it where the water comes up. Both mains leave from the cistern's west lip, side by side.".
+
+  // ── The spring ─────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Thing seep "the cold seep" at throat {
+    Tries looking.
+    State weeping "Along the cistern's south edge cold water weeps out of the rock and drops into the warm, with a sound like a tongue clicking.".
+    State easing "The weeping along the cistern's south edge has slowed to an occasional click.".
+  }
+  Observe seep_looked near seep when tried(seep, looking) "The weeping is only at the rim: the cistern stands so far below its old mark that the cold has room to come in. On the wall behind it are scratches at each water-level, one a winter, each lower than the last. The newest is further under the lip than a person could comfortably reach. Whatever the two wheels draw, the spring cannot make up; the rock fills the difference with cold." teaches overdraw_known.
+  Discovery overdraw_known "The cistern is drawn lower every winter, and the cold seeps in to fill it. The spring is not failing. It is being asked for too much, by two wheels, each opened a notch because the other was.".
+  Discovery stoke_known "There is a stoke door to the hot wheelhouse, round the back of the Hot Side, and it opens on the yard.".
+  Discovery hatch_known "There is a hatch in the wall between the two wheelhouses, and linen goes through it.".
+  Discovery stone_seen "On the drying green a stone with no name lies bare of snow, and a dried pear core sits on it.".
+}

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "spring.kyr",
+    "folk.kyr",
+    "door.kyr",
+    "voices.kyr",
+    "endings.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "country",
+    "road": "road"
+  }
+}

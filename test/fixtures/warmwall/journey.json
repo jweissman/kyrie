@@ -1,0 +1,101 @@
+{
+  "arrive": [
+    "^To the bath-yard"
+  ],
+  "research": [
+    "^To the gill path",
+    "^To the Throat",
+    "the cold seep: Look closely",
+    "^To the gill path",
+    "^To the bath-yard",
+    "^Into the Hot Side",
+    "Talk to Maud",
+    "Tell Maud what the Throat shows",
+    "Take your leave",
+    "^Out to the bath-yard",
+    "^Into the Cold Side",
+    "Talk to Nesta",
+    "Tell Nesta what the Throat shows",
+    "Ask Nesta about the wall",
+    "Take your leave",
+    "^Out to the bath-yard"
+  ],
+  "stone": [
+    "^To the drying green",
+    "^To the bath-yard"
+  ],
+  "evening": [
+    "=day 2 18:00"
+  ],
+  "hatch": [
+    "Help Osric across the yard to the Cold Side",
+    "^Into the Hot Side",
+    "Talk to Maud",
+    "Ask Maud for four buckets of hot water",
+    "^To the hot wheelhouse",
+    "^Pass a bucket",
+    "^Pass a bucket",
+    "^Pass a bucket",
+    "^Pass a bucket"
+  ],
+  "learn": [
+    "^Into the Cold Side by the hatch",
+    "^To the Cold Side's hall",
+    "Talk to Osric",
+    "Ask Osric about the stone",
+    "Ask Osric why he comes"
+  ],
+  "carry": [
+    "Take your leave",
+    "Talk to Nesta",
+    "Tell Nesta what Osric said",
+    "Take your leave",
+    "^Out to the bath-yard",
+    "^Into the Hot Side",
+    "Talk to Maud",
+    "Tell Maud that the bed is where it was",
+    "Take your leave",
+    "^Out to the bath-yard",
+    "^Into the Cold Side",
+    "Talk to Nesta",
+    "Ask Nesta for the maul",
+    "Take your leave"
+  ],
+  "word": [
+    "^Out to the bath-yard",
+    "^Into the Hot Side",
+    "Talk to Maud",
+    "Ask Maud to stand at her wheel",
+    "^To the hot wheelhouse",
+    "Give the word through the hatch"
+  ],
+  "breach": [
+    "^To the Hot Side's hall",
+    "^To the hot pool",
+    "Knock a doorway"
+  ],
+  "stoke": [
+    "Talk to Maud",
+    "Tell Maud quietly that the headsman",
+    "^Out to the bath-yard",
+    "Help Osric round to the stoke door"
+  ],
+  "hall": [
+    "Bring Osric in at the Hot Side's door"
+  ],
+  "dark": [
+    "=day 3 05:10",
+    "^Into the Cold Side by the hatch",
+    "^To the Cold Side's hall",
+    "Take Osric into the steam room before the drove"
+  ],
+  "drove": [
+    "^Into the Hot Side",
+    "^To the hot pool",
+    "Talk to the drovers",
+    "Ask the drovers what they sing",
+    "Take your leave",
+    "^To the Hot Side's hall",
+    "^Out to the bath-yard"
+  ]
+}

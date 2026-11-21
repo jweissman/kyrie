@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Warm Wall",
+  "pitch": {
+    "heading": "The Warm Wall",
+    "text": "At the foot of the Brynach fells a bath-hall has stood cut in two by a brick wall for thirty-one winters, and the hot spring that heats both halves is going cold. Two women keep the two sides and have not spoken since the wall went up. In three days the spring will be gone, and on the second evening a man will come down the drove road and stop at the gate, and not knock."
+  },
+  "modules": [
+    {
+      "id": "warmwall",
+      "bundle": "../adventures/warmwall/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Elen",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}
