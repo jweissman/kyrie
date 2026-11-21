@@ -13,7 +13,7 @@ export class Patience {
     if (!here || !world.relates('warned') || !campaign.running) { return {}; }
     const now = world.number(ModuleWriter.call('watch', 'clock'));
     const all = world.related('warned').map(r => r.args).filter(([g, c]) => c === company && world.one('at', g!) === here)
-      .map(([g]) => g!).filter(g => this.standing(world, g, company)
+      .map(([g]) => g!).filter(g => this.standing(world, g, company) && this.closes(world, g, here)
         && world.number(ModuleWriter.call('patience', g)) > now);
     const by = all[0];
     if (!by) { return {}; }
@@ -29,6 +29,12 @@ export class Patience {
   private static standing(world: Campaign['world'], g: string, company: string): boolean {
     return this.holds(world, 'able', g) && !this.holds(world, 'routed', g) && !this.holds(world, 'peaceable', g)
       && !(world.relates('tolerates') && world.test(ModuleWriter.call('tolerates', g, company)));
+  }
+  // Nor a defensive one away from its lair, which comes on only there (temper_defends): the Patient Star's Delver,
+  // drilling under the Tip's floor with no lair, had held the company from a word with the Masons over it.
+  private static closes(world: Campaign['world'], g: string, here: string): boolean {
+    const defensive = world.relates('temperament') && world.test(ModuleWriter.call('temperament', g, 'temper_defensive'));
+    return !defensive || (world.relates('lair') && world.test(ModuleWriter.call('lair', g, here)));
   }
   private static holds(world: Campaign['world'], name: string, g: string): boolean {
     return world.relates(name) && world.test(ModuleWriter.call(name, g));
