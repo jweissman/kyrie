@@ -52,7 +52,9 @@ describe('A Parliament of Books: the Stacks', () => {
     expect(j.holds('travelsWith', C('quire'), 'party')).toBe(true);
     await Calamy.play(j, 'go:hex_chronicles', 'brown history', 'go:hex_two_books', 'Talk to the Two Books',
       'how they came to talk', 'Take your leave', 'go:hex_untitled', 'Attack', 'go:mirror_hex', 'over your shoulder', 'go:rotunda',
-      'Talk to Tobias Hask', 'who he is', 'what he did to the Concordance', 'only nearness', 'Take your leave');
+      // Warned off in the rotunda (OR-163), the company is offered the binder's own questions as they are, which answer
+      // what warns it, not behind a word with him first.
+      'who he is', 'what he did to the Concordance', 'only nearness');
     expect(Calamy.holds(j, 'haskConfessed', 'hask')).toBe(true);
     expect(Calamy.holds(j, 'haskRelents', 'hask')).toBe(true);
     await Calamy.play(j, 'go:hex_concordance', 'let him Sew it');
