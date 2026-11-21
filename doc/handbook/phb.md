@@ -10481,6 +10481,20 @@ Dexterity +2, Charisma +1.
 
 *Not playable — mayUseItems: Kyr does not execute this Orsino effect yet.*
 
+### Fevered
+
+*Kyr · lasts beyond a fight* · `condition:fevered`
+
+> Filth fever: weak and shaking, slow in the hands, by as much as it took, for a day.
+
+### Filth fever coming on
+
+*Kyr · lasts beyond a fight* · `condition:filth_fever`
+
+- Resisted by: a disease save
+
+> A bite gone bad: a fever is coming on, and in a day or three it will take its toll, unless it is cured first.
+
 ### Fire-Resistant
 
 *Kyr · lasts beyond a fight* · `condition:fire_resistant`

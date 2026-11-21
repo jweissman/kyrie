@@ -801,7 +801,7 @@
     "faithful": 723,
     "adapted": 424,
     "represented": 4,
-    "kyr": 616,
+    "kyr": 618,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -983,7 +983,7 @@
       "faithful": 121,
       "adapted": 31,
       "represented": 0,
-      "kyr": 55,
+      "kyr": 57,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -12542,6 +12542,20 @@
    "id": "condition:feebleminded",
    "title": "Feebleminded",
    "status": "unsupported",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:fevered",
+   "title": "Fevered",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:filth_fever",
+   "title": "Filth fever coming on",
+   "status": "kyr",
    "book": "phb",
    "section": "conditions"
   },

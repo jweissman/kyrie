@@ -181,6 +181,13 @@
   "rat/great": {
    "srd": "dire-rat"
   },
+  "rat/midden": {
+   "srd": "dire-rat",
+   "carries": {
+    "disease": "rider:filth_fever"
+   },
+   "notes": "Its filth fever carried, coming on after days on the world's clock (srd-proving-cases.md, case 64)."
+  },
   "raven": {
    "srd": "raven"
   },
@@ -372,6 +379,7 @@
   "weird": "weird"
  },
  "identities": {
+  "rat/midden": "test/midden-rat.test.ts",
   "centipede/long": "test/long-centipede.test.ts",
   "rat/cellar": "test/fixed-stat-block.test.ts",
   "magic_missile": "test/magic-missile.test.ts",

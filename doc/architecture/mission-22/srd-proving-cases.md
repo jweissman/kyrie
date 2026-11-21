@@ -2146,6 +2146,51 @@ venom: nine of the forty warriors leave the drain Numbed. **Cards that move:** t
 armour, and their Reflex save). Kept: data/sources/srd35/encounters.json still lists the drain's group as
 `great_centipede` until the slow `--encounters` measure runs again.
 
+### 64. The midden rat (21 November): the SRD dire rat as a breed, and a disease that comes on days later
+
+**The buck rat on the fidelity table:** the old buck rat that keeps the corn-store's nest under every first town (the
+first job's second fight) was Orsino's great rat made old (`great_rat`, a compound kind: rat/great, with the elder
+variation). Its body grows by its level, AC 11 in fur, a bite of 1d3, and it grades S✗ R✗.
+
+**The midden rat** (`rat/midden`, a breed over the catalog's rat; spec `test/midden-rat` (6)) is the SRD's stat block:
+- 1d8+1 Hit Dice, five hit points at every rank;
+- its scores (10, 17, 12, 1, 12, 4);
+- a bite of 1d4 struck at the SRD's +4 (exact);
+- saves of +3, +5 and +3 (exact);
+- AC 15 as Westernesse 6 (converted: its Dexterity of 17 alone, in the rat's fur).
+
+**Its filth fever** rides on each bite that lands: a disease save against 11, or the fever is caught (`filth_fever`,
+"Filth fever coming on"). It comes on after 1d3 days on the world's clock (its incubation, 144 watches a day), and then
+lays **Fevered**: 1d3 off Dexterity and Constitution for a day, accruing as Numbed does (case 63). The fever coming on is
+a disease by its kind of harm, so Remove Disease and Orsino's Cure Disease end it before it comes on. Fevered is the
+damage done, not the disease, and stays when the disease is cured, as the SRD's does. Nothing new was needed of the
+engine: a rider's duration is already a Deem amount (`144 * 1d3`), and a condition's onExpire already lays another.
+
+**Adapted:** one throw for both scores, where the SRD throws each; the toll taken once, where the SRD's comes each day
+until two saves in a row are made; the scores back at the end of the day, where the SRD's come back a point a day.
+**Omitted:** low-light vision, scent, Climb and Swim. The census grades it S✓ R✓ I✓, its disease carried (6 of 78
+creatures pass in resolution, 3 in play identity).
+
+**Its challenge,** measured: **1/3**, the SRD's. Orsino's great rat measures 1/6 at its first level and 1/3 at its fifth.
+
+**What it moves:** the one placement, the buck in the nest. undertown.kyrt names the base and the breed
+(`Species rat. Variant midden.`), so OR-158's baseline loses great_rat. The elder variation goes with it: an age laid
+over a fixed stat block would make it no longer the SRD's, and the buck's grey muzzle is in its role. The buck is told of
+by the rats' run up from the nest, and can be gone round: a firebomb thrown from the runs ends it without a fight
+(test/small/laboratory-retreat). Its fight in the laboratory (a fresh company of one taking "Attack", 40 seeds), Orsino's
+→ the SRD's:
+- a warrior wins 40 → 36;
+- a mage wins 16 → 15;
+- a thief wins 33 → 15.
+
+The SRD's rat is harder to hit (AC 6 where Orsino's was 11) and bites harder, so the first job's second fight is a
+real fight for a thief alone (CB-01: the first hour's fights had been trivial). The fever is the other change: a third of
+those who fight it leave with it coming on (13 warriors, 16 mages and 16 thieves of the 40). **Cards that move:** the
+buck's (five hit points, AC 6, saves +3/+5/+3, no longer old), and the card of anyone it gave the fever, who carries it
+for one to three days and then Fevered for a day. **A pin that moved:** test/features/world/under-the-town walks by the
+gold to the vault's keeper. Its warrior is now of the fourth level: at the third the barrow ghoul is an even fight
+(BestiaryTool.won: 5 of 12), and the walk's dice changed once the buck was the SRD's.
+
 ## What stays unsupported (the catalogue as it stands, 16 November)
 
 **33 of the merged catalogue's 364 abilities** carry `unsupported` (34 of 363 until case 15). Orsino's file (data/catalog/orsino/abilities.json)

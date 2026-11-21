@@ -10,12 +10,14 @@ import { FirstQuarter } from '../../../scripts/first-quarter';
 // at the bottom. The warrior walks by the gold from the corn-store's rats job down through the cellar, the runs, the
 // drain and the undercroft to the sealed vault; its keeper fought (the gold alone goes to and fro at its warning: a
 // player answers it), and on down the stair behind its chair, where the vast old hall under the town is told once.
-// At the third level, as a company is that comes down so far: alone at the first, the barrow ghoul kills her.
+// At the fourth level, as a company is that comes down so far: alone at the first, the barrow ghoul kills her, and at
+// the third it is an even fight (BestiaryTool.won: 5 of 12), lost on this walk's dice once the buck rat was the SRD's
+// (srd-proving-cases.md case 64).
 const awe = 'Those who dug the cellars of';
 describe('under the town, by the gold', () => {
   it('meets fewer and stranger things below, and is told the hall under the town once, at the bottom', async () => {
     const spec = { seed: 'iscoed', origin: 'debt', policy: 'gold' as const, steps: 90,
-      protagonist: { name: 'Wenna', raceId: 'human', classId: 'warrior', level: 3 } };
+      protagonist: { name: 'Wenna', raceId: 'human', classId: 'warrior', level: 4 } };
     const metrics = AutoplayRun.empty(), s = await AutoplayRun.start(spec, metrics), c = s.campaign;
     for (const act of ['region__s1_u_notice_read(party,region__s1_green)', 'go(region__s1_shop_door,region__s1_shop)',
       'region__s1_u_rats_job_ask']) { await s.leg(act); }

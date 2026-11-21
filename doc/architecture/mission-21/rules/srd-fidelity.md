@@ -7,16 +7,16 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 kind passes in structure and resolution); 61 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (119 of 286 catalog spells): 45 pass in structure
 (level, school), 37 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 36 proved in play identity.** Creatures with one (77):
-6 in structure (Hit
-Dice, armour), 5 in resolution (blows, chance to hit, defences, saves), 2 proved in
+target, duration), 36 proved in play identity.** Creatures with one (78):
+7 in structure (Hit
+Dice, armour), 6 in resolution (blows, chance to hit, defences, saves), 3 proved in
 play identity. A grade passes when none of its fields differs; play identity is proved by a focused test the
 concordance names (proof-slices.md: the five pieces of evidence).
 
 In six generated countries' dens (kite, thorn, wren, kahitude, mere, ember), 60 % of meetings are with a
 kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
-| creatures, field exact or converted | hitDice 7 | armour 8 | attacks 25 | hit 11 | defences 5 | specials 1 | saves 6 | of 77 |
+| creatures, field exact or converted | hitDice 8 | armour 9 | attacks 26 | hit 12 | defences 5 | specials 2 | saves 7 | of 78 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | spells, field exact or converted | level 56 | school 84 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
 
@@ -93,6 +93,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | pony | pony | 0/0 | S✗ R✗ I– | O | ✗ 11 → 8 | ✗ 1d2 → 1d3 1d3 | ✗ 30% → 15% | – | – | ✗ +0/-1/-1 → +4/+4/+0 |
 | pseudodragon | pseudodragon | 0/0 | S✗ R✗ I– | O | ✗ 7 → 3 | ✗ 1d6 → 1d3 | ✗ 30% → 50% | ✓ | ✗ · → poison | ✗ +0/+0/+0 → +4/+5/+4 |
 | rat/cellar | rat | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ |
+| rat/midden | dire-rat | 0/0 | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | ✓ | ✓ |
 | raven | raven | 0/0 | S✗ R✗ I– | O | ✗ 11 → 7 | ✗ 1d4 → 1d2 | ✗ 25% → 50% | – | – | ✗ -1/+0/-1 → +2/+4/+2 |
 | rhino | rhinoceros | 0/0 | S✗ R✗ I– | O | ✗ 7 → 5 | ✗ 1d4 → 2d6 | ✗ 35% → 95% | – | O | ✗ -1/+3/+0 → +11/+6/+3 |
 | satyr | satyr | 0/0 | S✗ R✗ I– | O | ✗ 5 → 6 | ✗ 1d4 → 1d4 1d6 | ✗ 35% → 40% | ✗ · → reduction 5/cold_iron | O | ✗ +1/+4/+2 → +2/+5/+5 |

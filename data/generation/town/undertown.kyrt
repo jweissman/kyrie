@@ -365,7 +365,7 @@
   }
   Initially Set encounterXp({t}_u_rats) to 60.
   Person {t}_u_buck "the old buck rat" at {t}_u_nest {
-    Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species great_rat. Variant elder. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_nest.
+    Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species rat. Variant midden. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_nest.
   }
   Initially Set encounterXp({t}_u_buck) to 120.
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
