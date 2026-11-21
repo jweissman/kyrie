@@ -121,11 +121,11 @@ export class MapMenu {
           aside={way?.d ? `${aimed ? 'your aim · ' : ''}${Words.span(way.d.minutes)}` : 'across the country'} /></li>}
         {/* Each in the engine's words (MapRows), or, a place chosen on the map, viewing another (a gesture). */}
         {paged.shown.map(r => <li key={r.place}><ChoiceRow.Button className="led-act"
-          data={{ action: view ? 'map-view' : 'map-road', choice: r.c.id }}
-          {...view ? {} : { act: r.c.command }}
-          onClick={() => (view ? view(MapMenu.whither(screen, r.place)) : app.choose(r.c))}
+          data={{ action: view && !r.close ? 'map-view' : 'map-road', choice: r.c.id }}
+          {...view && !r.close ? {} : { act: r.c.command }}
+          onClick={() => (view && !r.close ? view(MapMenu.whither(screen, r.place)) : app.choose(r.c))}
           {...MapMenu.marked(r.leaves, gilded)}
-          label={<>{Typography.curl(view ? `View ${Words.upper(r.name)}` : r.c.label)}{PlaceFacets.aspects(r.leaves)
+          label={<>{Typography.curl(view && !r.close ? `View ${Words.upper(r.name)}` : r.c.label)}{PlaceFacets.aspects(r.leaves)
             .includes('companionship') && <Glyphs.View id="companion" className="led-icon" label="someone who might join you" />}</>}
           {...r.minutes ? { aside: Words.span(r.minutes) } : {}} /></li>)}
         {/* The rest a page at a time, every place reached by keys (OR-152). */}

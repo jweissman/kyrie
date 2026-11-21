@@ -11,22 +11,38 @@ import type { Leaf } from './fold';
 // map menu had made its own list (MapMenu.roads: the screen's destinations and the facets' places, three at most),
 // and a place the engine set out for past those three had no row a key or a reader could reach. Every one is here; the
 // menu shows them a page at a time.
-export interface MapRow { place: string; name: string; row: Row; minutes: number; leaves?: Leaf[] }
+export interface MapRow { place: string; name: string; row: Row; minutes: number; leaves?: Leaf[]; close?: true }
 export class MapRows {
+  // Ranked: what stands on the company's own stretch of country first (entered from it: Millholm from hex 89, its
+  // gate the engine's row, which the map's menu had offered as "Enter …" and lost with OR-152: int-mat5's CI,
+  // test/safe-zone-browser at 1180 wide); then by what each place is to the company; then a journey across the
+  // country before a step into the next stretch (a map is for setting out, its next hexes the board's own: int-mat5's
+  // CI, test/page-walk-browser, whose landing's first page had been steps alone); then the nearest.
   static of(glance: Glance, screen: Screen): MapRow[] {
     const facets = PlaceFacets.of(screen, glance), every = new Map(JourneyFold.every(screen).map(d => [d.id, d]));
-    const seen = new Set<string>();
+    const seen = new Set<string>(), open = MapRows.open(screen);
     return Doable.flat(Doable.of(glance, screen)).flatMap(row => {
-      const place = row.map ? MapRows.place(row.does) : undefined;
+      const to = MapRows.place(row.does), close = !row.map && open && !!to && MapRows.enters(screen, row, to);
+      const place = row.map || close ? to : undefined;
       if (!place || seen.has(place)) { return []; }
       seen.add(place);
       const leaves = facets.get(place);
       const d = every.get(place);
       return [{ place, name: d?.name ?? row.label, row, minutes: row.minutes ?? d?.minutes ?? 0,
-        ...leaves ? { leaves } : {} }];
-    }).toSorted((a, b) => MapRows.rank(a.leaves) - MapRows.rank(b.leaves) || a.minutes - b.minutes
-      || a.place.localeCompare(b.place));
+        ...leaves ? { leaves } : {}, ...close ? { close: true as const } : {} }];
+    }).toSorted((a, b) => Number(!!b.close) - Number(!!a.close) || MapRows.rank(a.leaves) - MapRows.rank(b.leaves)
+      || MapRows.kind(a.row) - MapRows.kind(b.row) || a.minutes - b.minutes || a.place.localeCompare(b.place));
   }
+  // Whether the company stands in a stretch of open country (region__t<cell>), where the map is the place itself.
+  private static open(screen: Screen): boolean {
+    const tracts = screen.region?.land?.tracts;
+    return !!tracts && screen.place.id.startsWith(tracts) && /^\d+$/.test(screen.place.id.slice(tracts.length));
+  }
+  // A way from here into a place on this stretch (one that does not cross into another).
+  private static enters(screen: Screen, row: Row, to: string): boolean {
+    return screen.exits.some(e => e.destination.id === to && !e.crosses && (e.id === row.id || row.does?.startsWith('go(')));
+  }
+  private static kind(row: Row): number { return row.does?.startsWith('travel:') ? 0 : 1; }
   private static rank(leaves?: Leaf[]): number {
     const i = PlaceFacets.order.findIndex(a => PlaceFacets.aspects(leaves).includes(a));
     return i < 0 ? PlaceFacets.order.length : i;
