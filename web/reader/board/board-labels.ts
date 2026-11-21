@@ -3,6 +3,7 @@ import { type Camera, Vector3 } from 'three';
 import { BoardGlyphs } from './board-glyphs';
 import { BoardCamera } from './board-camera';
 import type { BoardHooks, BoardMark } from './board-types';
+import { BoardModel } from './board-model';
 
 interface Label {
   el: HTMLElement; at: Vector3; cell: number; id: string; town: boolean; w: number; h: number; name?: HTMLElement;
@@ -84,6 +85,7 @@ export class BoardLabels {
   // short staff down to its shadow on the ground where you are; on the plate your face where there is one (a pin where
   // there is not, or it cannot be had); and the name or sign of where you are, saying so too.
   here(at: Vector3, cell: number, face?: string): void {
+    this.unhere();
     const el = document.createElement('span');
     el.className = 'board-you'; el.setAttribute('aria-current', 'location');
     el.setAttribute('role', 'img'); el.setAttribute('aria-label', 'You are here');
@@ -92,6 +94,29 @@ export class BoardLabels {
     if (face) { BoardLabels.face(el.querySelector('.you-plate')!, face); }
     for (const l of this.labels.filter(x => x.cell === cell)) {
       l.el.setAttribute('aria-label', `${l.el.getAttribute('aria-label') ?? ''}, where you are`);
+    }
+  }
+  // Your mark taken off (made again where you now are: see Board.update), and the labels it had said were yours.
+  unhere(): void {
+    const you = this.you;
+    if (!you) { return; }
+    you.el.remove(); this.you = undefined;
+    for (const l of this.labels.filter(x => x.cell === you.cell)) {
+      l.el.setAttribute('aria-label', (l.el.getAttribute('aria-label') ?? '').replace(/, where you are$/, ''));
+    }
+  }
+  // Each place's label as it is drawn (see BoardModel.label), and the hex your mark is on.
+  drawn(): { labels: Record<string, string>; here?: number } {
+    return { labels: Object.fromEntries(this.labels.map(l => [l.id, BoardModel.label({ state: l.el.dataset.known as
+      BoardMark['state'], visited: l.el.classList.contains('visited'), ...l.el.dataset.tone ? { tone: l.el.dataset.tone }
+      : {}, companion: 'companion' in l.el.dataset })])), ...this.you ? { here: this.you.cell } : {} };
+  }
+  // Where your mark stands now, walking or not.
+  at(): Vector3 | undefined { return this.you?.at; }
+  // A place's label taken off, to be made again as it is now known.
+  remove(id: string): void {
+    for (const l of this.labels.filter(x => x.id === id)) {
+      l.el.remove(); this.labels.splice(this.labels.indexOf(l), 1);
     }
   }
   // Your mark set walking along the way, a hex in about two thirds of a second, the whole in no less than a second

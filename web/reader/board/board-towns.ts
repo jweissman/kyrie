@@ -25,9 +25,10 @@ export class BoardTowns {
   private readonly tile = new MeshStandardMaterial({ color: '#6b3a2c', roughness: 0.8 });
   private readonly houses: House[] = [];
   private readonly known: Set<number>;
+  // known: the country known as it is now (the board's land, updated in place: see Board.update).
   constructor(private readonly scene: Scene, private readonly ground: BoardGround, look: BoardLook,
-    towns: BoardMark[]) {
-    this.known = new Set(ground.land.known);
+    { towns, known = ground.land.known }: { towns: BoardMark[]; known?: number[] }) {
+    this.known = new Set(known);
     for (const t of towns) { this.town(t, look); }
     this.scatters = this.build();
   }

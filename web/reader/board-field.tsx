@@ -3,6 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import type { RegionChart } from '../../src/ui/screen-types';
 import type { BoardApi, BoardLand, BoardModule, Dress } from './board/board-types';
 import { HexLand } from './hex-land';
+import { BoardModel } from './board/board-model';
 import { PageFrame } from './page-frame';
 
 type Land = NonNullable<RegionChart['land']>;
@@ -67,9 +68,20 @@ export class BoardField {
   }
   // The land as the board is given it, and that land told whole as text: a new frame that leaves the land as it was
   // (anything done with the map open, short of a journey) leaves the board as it is, its view where the player had it.
+  // The board last made, and the land it is given now: for automation to read back what it draws (kyrieMono.board).
+  static last?: { api: BoardApi; land: () => BoardLand };
+  static async readback() {
+    const b = BoardField.last;
+    if (!b) { return undefined; }
+    await b.api.busy;
+    return { drawn: b.api.drawing(), wanted: BoardModel.drawn(b.land()) };
+  }
+  static now() { return BoardField.last?.api.now(); }
+  // The land as the board is given it, and what only a new board can draw of it (BoardModel's shape): a journey that
+  // changes what is known, where you are and how each place is known updates the board in place (OR-91's rest).
   static drawn(region: RegionChart, face?: string, dress?: Dress): [BoardLand, string] {
     const land = BoardField.land(region, face, dress);
-    return [land, JSON.stringify(land)];
+    return [land, BoardModel.of(land).shape];
   }
   // Where the company is bound, as the maps know it (the board and the flat map have the same places): a town or a
   // place on the land by itself; a stretch of open country, or an area of the land that is neither, by its hex; a
@@ -121,6 +133,7 @@ export class BoardField {
           // A board made again (the land changed under it) shows at once what is chosen and where you are bound,
           // and the one it replaces is let go.
           board.current.show(at.chosen, at.bound, at.courses); readied(true);
+          BoardField.last = { api: board.current, land: () => now.current.land };
           BoardField.release(old.current.splice(0));
         } catch (e) {
           // Made again, and why told where it can be read (a land the board could not be made of).
@@ -136,8 +149,12 @@ export class BoardField {
     // Put away as the map closes, before it is taken off the page, while the page can still be told (see
     // BoardCamera.dispose).
     useLayoutEffect(() => () => {
+      if (BoardField.last?.api === board.current) { BoardField.last = undefined; }
       board.current?.dispose(); board.current = undefined; BoardField.release(old.current.splice(0));
     }, []);
+    // The land changed in what the board can draw in place: drawn so, else a new board made.
+    const whole = JSON.stringify(land);
+    useEffect(() => { if (board.current && !board.current.update(land)) { retry(n => n + 1); } }, [whole]);
     const laid = JSON.stringify(courses ?? {});
     useEffect(() => { board.current?.show(chosen, bound, courses); }, [chosen, bound, ready, laid]);
     const done = useRef(walked); done.current = walked;

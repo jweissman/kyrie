@@ -126,6 +126,10 @@ class Answered {
         know: performance.getEntriesByName('board:know').filter(after).map(e => [at(e.startTime), Math.round(e.duration)]),
         answered: performance.getEntriesByName('page:answered').filter(after).map(e => at(e.startTime)),
         walked: performance.getEntriesByName('page:walked').filter(after).map(e => at(e.startTime)),
+        // The board at the journey's end: made again (board:made), or updated in place (board:update), its land
+        // laid again a part a task (board:part) and shown (board:relaid), each [start, ms].
+        ...Object.fromEntries(['board:made', 'board:update', 'board:part', 'board:relaid'].map(n => [n.slice(6),
+          performance.getEntriesByName(n).filter(after).map(e => [at(e.startTime), Math.round(e.duration)])])),
         // The frame come set on the page, and drawn (React's commit of it).
         frame: performance.getEntriesByName('page:frame').filter(after).map(e => at(e.startTime)),
         drawn: performance.getEntriesByName('page:drawn').filter(after).map(e => at(e.startTime)),

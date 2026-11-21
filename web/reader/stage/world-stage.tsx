@@ -216,6 +216,9 @@ export class WorldStage {
     const walking = app.state.walking, bound = BoardField.whither(screen.region!, app.state.frame?.bound?.id);
     return <div className="board-surface"><BoardField.View region={screen.region!} chosen={chosen} choose={pick}
       bound={bound} face={screen.party[0]?.face?.medium} walking={walking?.way} walked={walking?.done}
+      // What the journey came to know, lit as the mark passes it (OR-112, OR-162): the map in the scene had been given
+      // none, and the country came all at once when the walk was done.
+      learned={walking?.known}
       courses={MapView.courses(app, screen, { chosen, bound, planned })} dress={MapView.dress(app, screen)} /></div>;
   }
   // What the map says of a hex: the one the company stands in (what it is, whether anyone is about, and entering it);

@@ -67,6 +67,19 @@ export class BoardKnowing {
       this.delay[c] = t + (i / Math.max(1, points.length - 1)) * ms / 1000 - 0.4;
     }
   }
+  // The country known as a new frame has it, on the board as it stands (see Board.update): what a journey's walk has
+  // lit already stays as it is; anything else newly known arrives as it does when the map is opened, the nearest
+  // hexes first, t seconds into the board's arrivals.
+  learn(known: number[], t: number, here?: number): void {
+    const to = this.levels(new Set(known));
+    BoardKnowing.last.set(this.key, known);
+    if (to.every((v, c) => v === this.to[c])) { return; }
+    const at = here !== undefined ? this.grid.centres[here]! : new Vector2(this.grid.across / 2, this.grid.down / 2);
+    this.from = Array.from(this.now); this.to = to;
+    for (const c of this.grid.cells) {
+      if (this.from[c] !== this.to[c]) { this.delay[c] = t + 0.1 + this.grid.centres[c]!.distanceTo(at) * 0.2; }
+    }
+  }
   // At once, for whoever has asked for less motion.
   settle(): void { this.now.set(this.to); this.from = [...this.to]; this.draw(); }
   known(c: number): boolean { return this.now[c]! > 0.5; }

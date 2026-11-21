@@ -3,10 +3,7 @@ import {
   PCFShadowMap, Raycaster, Scene, type ShaderMaterial, SRGBColorSpace, type Texture, Vector2, Vector3, WebGLRenderer,
 } from 'three';
 import { BoardCamera } from './board-camera';
-import { BoardFlora } from './board-flora';
-import { BoardFringe } from './board-fringe';
 import { BoardGround } from './board-ground';
-import { BoardKit } from './board-kit';
 import { BoardKnowing } from './board-knowing';
 import { BoardLabels } from './board-labels';
 import { BoardLook } from './board-look';
@@ -14,11 +11,11 @@ import { BoardPaths } from './board-paths';
 import { BoardPlaces } from './board-places';
 import { BoardPresses } from './board-presses';
 import { BoardTiles } from './board-tiles';
-import { BoardTowns } from './board-towns';
 import { BoardUnder } from './board-under';
-import type { BoardApi, BoardHooks, BoardLand, Courses } from './board-types';
+import type { BoardApi, BoardHooks, BoardLand, BoardMark, Courses } from './board-types';
+import { BoardModel, type BoardDrawn, type BoardState } from './board-model';
+import { BoardLayer } from './board-layer';
 import { HexGrid } from './hex-grid';
-import { Scatter } from './scatter';
 
 // The map's board (Mission 18, the owner's addendum): the country as a table of hex tiles in three dimensions, lit at
 // dusk, the unknown under mist. Drawn only when something has changed (the mist drifting a few times a second when
@@ -29,17 +26,17 @@ export class Board implements BoardApi {
   private readonly renderer = new WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
   private readonly scene = new Scene();
   private readonly grid: HexGrid;
-  private readonly ground: BoardGround;
   private readonly knowing: BoardKnowing;
   private readonly look: BoardLook;
-  private readonly paths: BoardPaths;
-  private readonly tiles: BoardTiles;
-  private readonly scatters: Scatter[];
-  // What stands on a hex, kept with it: a town's church and wall, a place, your lantern; and all of them, for what is
-  // pointed at to be found among (see under).
-  private readonly standing = new Map<number, Object3D[]>();
-  private readonly models: Object3D[] = [];
-  private readonly places: BoardPlaces;
+  // The land as it is laid (see BoardLayer), and one being laid in its place.
+  private layer: BoardLayer;
+  private laying = Promise.resolve();
+  private get ground(): BoardGround { return this.layer.ground; }
+  private get paths(): BoardPaths { return this.layer.paths; }
+  private get tiles(): BoardTiles { return this.layer.tiles; }
+  private get places(): BoardPlaces { return this.layer.places; }
+  private get standing(): Map<number, Object3D[]> { return this.layer.standing; }
+  private get models(): Object3D[] { return this.layer.models; }
   private readonly labels: BoardLabels;
   private readonly view: BoardCamera;
   private readonly river: ShaderMaterial;
@@ -67,15 +64,15 @@ export class Board implements BoardApi {
   private bound?: string;
   private courses: Courses = {};
   private pointed?: number;
+  // What the board draws, as plain data (see BoardModel).
+  private state: BoardState;
   static mount(host: HTMLElement, land: BoardLand, hooks: BoardHooks,
     still: boolean): Board { return new Board(host, land, hooks, still); }
-  constructor(private readonly host: HTMLElement, private readonly land: BoardLand, private readonly hooks: BoardHooks,
+  constructor(private readonly host: HTMLElement, private land: BoardLand, private readonly hooks: BoardHooks,
     private readonly still: boolean) {
     try {
-      const towns = land.marks.filter(m => m.town);
+      const towns = land.marks.filter(m => m.town), made = performance.now(); this.state = BoardModel.of(land);
       this.grid = new HexGrid(land.width, land.height);
-      this.paths = new BoardPaths(this.grid, land, new Set(towns.map(t => t.cell)));
-      this.ground = new BoardGround(this.grid, land, this.paths.reach);
       this.knowing = new BoardKnowing(this.grid, land.known, land.key, land.here);
       if (still) { this.knowing.settle(); }
       this.renderer.setPixelRatio(Math.min(1.5, devicePixelRatio));
@@ -85,24 +82,21 @@ export class Board implements BoardApi {
       Object.assign(this.renderer.shadowMap, { enabled: true, type: PCFShadowMap, autoUpdate: false });
       this.offer(host);
       this.look = new BoardLook(this.scene, this.grid, this.knowing);
-      this.tiles = new BoardTiles(this.scene, this.ground, this.look.water(), { ...this.paths.reach,
-        beds: this.paths.beds, tracks: this.paths.tracks });
-      new BoardUnder(this.scene, this.ground); new BoardFringe(this.scene, this.ground, c => this.knowing.will(c));
-      const flora = new BoardFlora(this.ground, this.paths.reach, towns.map(t => t.cell));
-      this.scatters = Object.entries(flora.spots).map(([kind, spots]) => new Scatter(this.scene, BoardKit.make(kind),
-        spots, (x, z) => this.ground.at(x, z)));
       this.river = this.look.water();
-      this.places = new BoardPlaces(this.scene, this.ground, this.look);
+      this.layer = BoardLayer.now(this.grid, land, this.by()); this.scene.add(this.layer.group); this.layer.show();
+      new BoardUnder(this.scene, this.ground);
       this.labels = new BoardLabels(host, hooks, c => this.heed(c), c => this.up(c));
       this.view = new BoardCamera(this.renderer.domElement, this.grid.centres[land.here ?? towns[0]?.cell ?? 0]!,
         still);
       this.hold();
-      this.furnish(new BoardTowns(this.scene, this.ground, this.look, towns));
+      this.labels.remember(land.key, land.marks);
+      for (const m of land.marks) { this.label(m); }
+      this.you();
       this.look.mist([0.16, 0.05, 0.31], [0.85, 0.64]); this.look.mist([0.62, 0.03, 0.77], [0.36, 0]);
       this.know(true);
       this.watch = new ResizeObserver(() => this.fit()); this.watch.observe(host);
       this.listen();
-      this.frame = requestAnimationFrame(t => this.tick(t));
+      this.frame = requestAnimationFrame(t => this.tick(t)); performance.measure('board:made', { start: made });
     } catch (e) {
       // A land the board cannot be made of: all it had begun let go at once (the view's controls, listening on the
       // whole page, among it), and what it had put on the page taken off, so that the flat map stands in its place
@@ -124,35 +118,76 @@ export class Board implements BoardApi {
     this.keys.textContent = 'The arrow keys move you about the map; Tab goes from place to place on it.';
     host.append(el, this.keys);
   }
-  private furnish(towns: BoardTowns): void {
-    for (const [c, gs] of towns.groups) { for (const g of gs) { this.stand(c, g); } }
-    this.scatters.push(...towns.scatters); this.labels.remember(this.land.key, this.land.marks);
-    for (const m of this.land.marks) {
-      // A town or a place on land not known stands over the mist, at no height of the land it stands on.
-      const p = this.grid.centres[m.cell]!, low = !this.knowing.will(m.cell),
-        at = new Vector3(p.x, low ? BoardUnder.TOP : this.ground.levels[m.cell]!, p.y);
-      if (m.town) { this.labels.town(m, at.setY(at.y + (low ? 0.3 : 0.42))); continue; }
-      // A place only heard of, or not made out, is its sign over the land and nothing standing there.
-      if (!BoardLabels.afar(m)) { const g = this.places.place(m); this.scene.add(g); this.stand(m.cell, g); }
-      this.labels.sign(m, at.setY(at.y + (low ? 0.2 : m.kind === 'tower' ? 0.78 : 0.36)));
-    }
-    const here = this.land.here;
-    if (here !== undefined) {
-      // On a hex a town or a place stands on, your lantern stands toward the near side of it, in front of them.
-      const aside = this.land.marks.some(m => m.cell === here) ? 0.28 : 0, lamp = this.places.lantern(here, aside);
-      this.scene.add(lamp); this.stand(here, lamp);
-      const p = this.grid.centres[here]!;
-      this.labels.here(new Vector3(p.x, this.ground.levels[here]! + 0.03, p.y + aside), here, this.land.face);
-    }
+  private by() { return { look: this.look, knowing: this.knowing, river: this.river }; }
+  // A place's label: a town by its name, anything else by its sign, over the land where it is, or over the mist.
+  private label(m: BoardMark): void {
+    // A town or a place on land not known stands over the mist, at no height of the land it stands on.
+    const p = this.grid.centres[m.cell]!, low = !this.knowing.will(m.cell),
+      at = new Vector3(p.x, low ? BoardUnder.TOP : this.ground.levels[m.cell]!, p.y);
+    if (m.town) { this.labels.town(m, at.setY(at.y + (low ? 0.3 : 0.42))); return; }
+    this.labels.sign(m, at.setY(at.y + (low ? 0.2 : m.kind === 'tower' ? 0.78 : 0.36)));
   }
+  // Your mark where your lantern stands (see BoardLayer.lantern), or none.
+  private you(): void {
+    const lit = this.layer.lantern(this.land.here, this.land.marks), here = this.land.here;
+    if (!lit || here === undefined) { this.labels.unhere(); return; }
+    this.labels.here(lit[0], here, this.land.face);
+  }
+  // The land changed under the board in what an update can draw (what is known, where you are, the places known and
+  // how): drawn again in place (see BoardModel); false where only a new board can draw it (another country, or its
+  // shape). OR-91's rest: made again at each journey's end, the board had held the page 1.3-1.6 s without a GPU.
+  // Where what is known or which places there are changed, the land is laid again a part at a time, a task each,
+  // the old drawn until the new is shown; where only how places are known or where you are, those alone.
+  update(land: BoardLand): boolean {
+    const next = BoardModel.of(land), change = BoardModel.change(this.state, next);
+    if (change.rebuild) { return false; }
+    const at = performance.now(), t = this.began === undefined ? 0 : Math.max(0, at - this.began) / 1000;
+    const relay = change.laid || change.known || change.towns;
+    this.land = land; this.state = next;
+    if (change.known) { this.knowing.learn(land.known, t, land.here); if (this.still) { this.knowing.settle(); } }
+    this.labels.remember(land.key, land.marks);
+    for (const id of change.marks) { this.labels.remove(id); }
+    for (const m of land.marks.filter(x => change.marks.includes(x.id))) { this.label(m); }
+    if (relay) {
+      this.laying = this.laying.then(() => this.relay(land));
+    } else {
+      for (const id of change.marks) { this.layer.unmark(id); }
+      for (const m of land.marks.filter(x => change.marks.includes(x.id))) { this.layer.mark(m); }
+      this.you(); this.after();
+    }
+    performance.measure('board:update', { start: at });
+    return true;
+  }
+  // The land laid again beside the old, a part a task, then shown in its place (unless a later land is laid since).
+  private async relay(land: BoardLand): Promise<void> {
+    const made = await BoardLayer.soon(this.grid, land, this.by());
+    if (this.land !== land) { made.off(); return; }
+    const at = performance.now();
+    this.layer.off(); this.layer = made; this.scene.add(made.group); made.show();
+    this.you(); this.after(); performance.measure('board:relaid', { start: at });
+  }
+  private after(): void { this.hold(); this.know(true); this.lay(); this.rims(); }
+  // What the board draws now, read back from what it has drawn: for a check that an update draws what a new board
+  // would (BoardModel.drawn of the same land).
+  drawing(): BoardDrawn {
+    const { labels, here } = this.labels.drawn();
+    return { known: this.grid.cells.filter(c => this.knowing.will(c)), ...here === undefined ? {} : { here }, labels,
+      models: this.layer.drawn() };
+  }
+  // Where your mark is now (the hex under it, walking or not), and the hexes the board shows known now (arriving
+  // ones once they are most of the way): to follow a walk hex by hex, and what is lit as it goes.
+  now(): { at?: number; seen: number[]; width: number; height: number } {
+    const p = this.labels.at(), at = p ? this.grid.cellAt(p.x, p.z) : undefined;
+    return { ...at === undefined ? {} : { at }, seen: this.grid.cells.filter(c => this.knowing.known(c)),
+      width: this.grid.width, height: this.grid.height };
+  }
+  // Whether a land laid again is still being laid.
+  get busy(): Promise<void> { return this.laying; }
   // The view kept to the country known (and where you are, and the places heard of), with some hexes to spare.
   private hold(): void {
     const g = this.grid, at = [...this.land.known, ...this.land.marks.map(m => m.cell), this.land.here ?? 0]
       .map(c => g.centres[c]!), mid = at.reduce((a, b) => a.clone().add(b)).multiplyScalar(1 / at.length);
     this.view.hold(mid, Math.max(...at.map(p => p.distanceTo(mid))) + 2);
-  }
-  private stand(c: number, o: Object3D): void {
-    this.standing.set(c, [...this.standing.get(c) ?? [], o]); this.models.push(o);
   }
   // How far a hex stands below where it belongs, and whether what is on it is shown: not until the hex has come most
   // of the way up out of the mist (sunk out of knowing, the hex itself is not drawn at all).
@@ -164,12 +199,13 @@ export class Board implements BoardApi {
   // Only what is on the hexes that have moved since is moved with them (all of it, the first time).
   private know(all = false): void {
     const at = performance.now(), moved = this.tiles.update(this.knowing), cells = all ? undefined : moved;
-    for (const s of this.scatters) { s.place(c => this.up(c), cells); }
+    for (const s of this.layer.scatters) { s.place(c => this.up(c), cells); }
     for (const c of cells ?? this.standing.keys()) {
       const [lift, shown] = this.up(c);
       for (const o of this.standing.get(c) ?? []) { o.position.y = this.ground.levels[c]! + lift; o.visible = shown; }
     }
-    this.paths.lay(this.scene, (x, z) => this.ground.at(x, z), c => this.tiles.lift(c) > -0.001, this.river);
+    this.paths.lay(this.layer.group as unknown as Scene, (x, z) => this.ground.at(x, z),
+      c => this.tiles.lift(c) > -0.001, this.river);
     this.rims(); this.shade(all || moved.length > 0); this.dirty = true; performance.measure('board:know', { start: at });
   }
   // The rings about where you are, what is chosen and what is pointed at, each on its hex as it now stands (where you

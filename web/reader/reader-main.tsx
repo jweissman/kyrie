@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { ReaderApp } from './reader-app';
 import { Identity } from '../../src/presentation/identity';
 import { Look } from './look';
+import { BoardField } from './board-field';
 import { Tone } from './instrument/tone';
 
 // Starts the page and exposes the same semantic state it draws to tests and automation.
@@ -39,6 +40,11 @@ class ReaderMain {
       idle: async () => { await app()?.booted; return app()?.engine.request({ kind: 'idle' }); },
       // One receipt for each command done (MT-24): what a gesture did, counted (test/input-answered-browser).
       receipts: () => app()?.engine.request({ kind: 'receipts' }),
+      // What the map's board draws, read back from it, beside what it is wanted to draw of the land it is given
+      // (OR-91's rest: an update draws what a board made again would).
+      board: () => BoardField.readback(),
+      // Where your mark is on the board now, and the hexes it shows known (a walk followed hex by hex: OR-162).
+      boardNow: () => BoardField.now(),
       // A composition drawn over the same state, for captures (see Look).
       relook: (name: string) => { Look.set(name); app()?.forceUpdate(); } };
   }

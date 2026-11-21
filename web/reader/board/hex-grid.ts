@@ -1,12 +1,11 @@
 import { Vector2 } from 'three';
+import { HexSteps } from './hex-steps';
 
 // The hexes of a country's land as the board lays them out: rows of hexes pointed at top and foot, every other row
 // set half a hex east, a hex one unit across. Where each stands, which are about it, which a point of the land is in.
 export class HexGrid {
   static readonly ROW = Math.sqrt(3) / 2;
   static readonly R = 0.5 / Math.cos(Math.PI / 6);
-  private static readonly steps = [[[1, 0], [-1, 0], [0, -1], [-1, -1], [0, 1], [-1, 1]],
-    [[1, 0], [-1, 0], [1, -1], [0, -1], [1, 1], [0, 1]]];
   private static readonly bearings = ['east', 'south-east', 'south', 'south-west', 'west', 'north-west', 'north',
     'north-east'];
   readonly centres: Vector2[];
@@ -23,12 +22,7 @@ export class HexGrid {
   static at(col: number, row: number): Vector2 {
     return new Vector2(col + (((row % 2) + 2) % 2) * 0.5 + 0.5, row * HexGrid.ROW + 0.5);
   }
-  neighbours(i: number): number[] {
-    const x = i % this.width, y = Math.floor(i / this.width);
-    return HexGrid.steps[y % 2]!.map(([dx, dy]) => [x + dx!, y + dy!])
-      .filter(([a, b]) => a! >= 0 && a! < this.width && b! >= 0 && b! < this.height).map(([a,
-        b]) => b! * this.width + a!);
-  }
+  neighbours(i: number): number[] { return HexSteps.neighbours(this.width, this.height, i); }
   // The hex a point of the land lies in: the nearest centre, as hexes are; none past the land's edge.
   cellAt(x: number, z: number): number | undefined {
     const r0 = Math.round((z - 0.5) / HexGrid.ROW);

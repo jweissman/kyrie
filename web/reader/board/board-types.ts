@@ -1,4 +1,5 @@
 import type { Knowing } from '../../../src/ui/screen-types';
+import type { BoardDrawn } from './board-model';
 
 // What the map's board is given, and what it gives back. The board is its own script, loaded only when the map is
 // first opened (see BoardField), so the reader and it share these shapes and nothing else. Each town and place with
@@ -30,6 +31,13 @@ export interface BoardApi {
   show(chosen?: string, bound?: string, courses?: Courses): void;
   // Your mark walked along the way a journey went, hex by hex; how long it takes.
   walk(way: number[], known?: number[]): number;
+  // The land as it now stands drawn in place, where only what is known, where you are and how each place is known
+  // have changed; false where it takes a new board (see BoardModel).
+  update(land: BoardLand): boolean;
+  // What it draws, read back from what it has drawn (see BoardModel.drawn), once any land being laid is laid.
+  drawing(): BoardDrawn;
+  readonly busy: Promise<void>;
+  now(): { at?: number; seen: number[]; width: number; height: number };
   zoom(by: number): void;
   home(): void;
   dispose(): void;
