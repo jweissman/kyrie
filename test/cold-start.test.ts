@@ -47,9 +47,10 @@ describe('A cold set-out', () => {
     // The country's topics are a thousand and more, and each had been a predicate parsed: what is parsed for them now
     // is a template or two, beside some seven hundred small ones of the world's own (a dealer's price, a fee).
     expect(predicates.mock.calls.length).toBeLessThan(1000);
-    // Its texts read (from the first "Drawing the world" to the second), then the start placed.
-    const at = (stage: string, nth = 0) => stamps.filter(([s]) => s === stage)[nth]?.[1] ?? NaN;
-    const texts = at('Drawing the world', 1) - at('Drawing the world'), place = frame.timing?.place ?? NaN;
+    // Its texts read (the start's own phase: "Drawing the world" is said once now, OR-144, where this had measured from
+    // its first saying to its second), then the start placed.
+    const texts = frame.timing?.texts ?? NaN, place = frame.timing?.place ?? NaN;
+    expect(stamps.filter(([s]) => s === 'Drawing the world').length).toBe(1);
     console.log(`  cold set-out: ${Math.round(whole)} ms (texts ${Math.round(texts)}, place ${place}, `
       + `${parsed.size} texts parsed, ${predicates.mock.calls.length} predicates)`);
     expect(texts).toBeLessThan(Cold.budget.texts);

@@ -108,8 +108,9 @@ export interface Frame {
   transcript: Transcript;
   // How long the engine took over it, in milliseconds: the command itself, building the screen, telling it.
   timing?: { engine: number; screen: number; narrative: number;
-    // A new game's: drawing its world, and placing its people (reading and starting it).
-    draw?: number; place?: number };
+    // A new game's: the country's texts waited for (read beside the creation pages), drawing its world, and placing
+    // its people (reading and starting it).
+    texts?: number; draw?: number; place?: number };
   // When no one is left standing: how it came to that, said plainly (see Obituary), and where they lie, for a country
   // begun again to remember.
   ending?: { title: string; lines: string[]; memorial?: Memorial };

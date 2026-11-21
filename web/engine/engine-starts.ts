@@ -15,7 +15,7 @@ export class EngineStarts {
   // The choices a Begin waits on, while it waits: a start made ready for them says how far it has got.
   private waiting?: string;
   // How long each step of the last start took, kept for its first frame (M19-49: where the wait goes).
-  phases: { draw?: number; place?: number } = {};
+  phases: { texts?: number; draw?: number; place?: number } = {};
   constructor(private readonly creation: Creation, private readonly post: (message: Message) => void) {}
   static key(r: Starting): string {
     return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null]);
@@ -115,8 +115,13 @@ export class EngineStarts {
   // the two had parsed the same texts at once, each as slowly (a set-out at once after the last choice, 9–12 s).
   private async afresh(r: Starting): Promise<PlaySession> {
     const warm = this.warm?.key === EngineStarts.country(r) ? this.warm.done : undefined;
+    // How long the texts were waited for is its own phase: said once, "Drawing the world" no longer marks their end
+    // (OR-144), where test/cold-start had measured them between its two sayings.
+    const waited = performance.now();
     if (warm) { this.said('Drawing the world'); await warm; }
-    return this.start(r, true);
+    const texts = Math.round(performance.now() - waited), session = await this.start(r, true);
+    if (warm) { this.phases = { texts, ...this.phases }; }
+    return session;
   }
   // A stage said once: waited for, then begun, "Drawing the world" had been said twice running (OR-144).
   said(stage: string, step?: [number, number]): void {
