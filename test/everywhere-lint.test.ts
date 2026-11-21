@@ -5,7 +5,8 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 
 // A telling rule with no anchor is heard wherever the company is (AU-36, The Warm Wall's friction: the form passed its
 // tests silently, and was found only by reading the page): each of a module's own said, as advice, and verify counts
-// them beside lint's; one anchored (at a place) is not, nor a closing line, nor the shared rules' own news.
+// them beside lint's; one anchored (at a place) is not, nor one whose condition holds the company somewhere (at(party,
+// yard): the author's path's Mary at the well), nor a closing line, nor the shared rules' own news.
 describe('a telling rule heard everywhere', () => {
   it('is said, by name, where it has no anchor, and not where it is at a place', async () => {
     const source = new OverlayBundleSource(NodeBundleSource.shared, {
@@ -15,6 +16,7 @@ describe('a telling rule heard everywhere', () => {
         Action ring(actor: group, site: place) "Ring" { Requires at(actor, site). On success { Assert rung(yard). } }
         Rule toll when rung(yard) and not heardOnce(yard) says "The bell tolls over the fields." { Assert heardOnce(yard). }
         Rule echo at yard when rung(yard) and not saidOnce(yard) says "It echoes in the yard." { Assert saidOnce(yard). }
+        Rule hum when at(party, yard) once says "Someone hums by the pump." { }
         Goal false. }`,
       'ev/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'], globals: ['party'],
         exports: { party: 'party' } }),

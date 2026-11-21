@@ -88,9 +88,12 @@ export class AuthorLint {
   // A telling rule of a module's own with no anchor is heard wherever the company is (AU-36, The Warm Wall's friction:
   // the heard-anywhere form passed its tests silently, found only by reading the page): each one said, as advice, so
   // that verify can count them. Not the shared rules' (the world's own news), nor the lines told as the book closes
-  // (upkeep), which are for wherever the company is.
+  // (upkeep), which are for wherever the company is; nor one whose condition holds the company somewhere (at, near,
+  // within): "when at(party, square)" is heard in the square (the author's path's Mary, humming at the well).
   static everywhere(lint: CampaignLint) {
-    for (const r of (lint.module.rules ?? []).filter(x => x.say && !x.place && !x.upkeep && x.id.includes('__'))) {
+    const company = lint.session.campaign.playerActor;
+    for (const r of (lint.module.rules ?? []).filter(x => x.say && !x.place && !x.upkeep && x.id.includes('__')
+      && !this.placed(x.when, company))) {
       lint.add('advice', 'everywhere', `${r.id} says "${r.say!.slice(0, 50)}${r.say!.length > 50 ? '…' : ''}" `
         + 'wherever the company is: anchor it (at, near, within) if it is not news for everywhere');
     }
@@ -152,6 +155,9 @@ export class AuthorLint {
     return p.kind === 'and' || p.kind === 'or' ? [...this.asked(p.left), ...this.asked(p.right)] : [];
   }
   // The calls a condition needs to hold, not under a "not".
+  private static placed(when: Predicate, company?: string): boolean {
+    return this.held(when).some(c => ['at', 'near', 'within'].includes(c.name) && c.args[0] === company);
+  }
   private static held(p: Predicate): { name: string; args: string[] }[] {
     if (p.kind === 'call') { return [p]; }
     return p.kind === 'and' ? [...this.held(p.left), ...this.held(p.right)] : [];
