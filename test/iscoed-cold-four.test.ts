@@ -103,9 +103,10 @@ describe('the golden route, after the fourth cold play', () => {
     const all = (s: Said | undefined) => [...s!.offer.primary, ...s!.offer.rest, ...s!.offer.lenses?.people ?? []]
       .map(o => o.label);
     // Led on the landing: the one on the green who would come along, before the agent's question (one who would come
-    // along leads first: Promotion's tiers; MT-15), asked as the agent's had been.
-    expect(labels(byLine[0])).toContain('Talk to the tinker\'s daughter — ask why she was left behind');
-    expect(labels(byLine[0]).join(' ')).not.toMatch(/^Ask the tinker|Ask the Guldríce agent/);
+    // along leads first: Promotion's tiers; MT-15), asked as the agent's had been. On the drove's green it is the
+    // drover's lad, drawn for the drover's life (undertown.kyrt's hand: the difference census's first proposal).
+    expect(labels(byLine[0])).toContain('Talk to the drover\'s lad — ask where his drove went');
+    expect(labels(byLine[0]).join(' ')).not.toMatch(/^Ask the drover|Ask the Guldríce agent/);
     // The company's head is called by its kingdom, not "the factor", beside Aster of the Exchange (CL-49's 12): among
     // the people here.
     expect(all(byLine[0])).toContain('Talk to the Guldríce agent');
