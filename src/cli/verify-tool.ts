@@ -42,10 +42,16 @@ export class VerifyTool {
     ran.push(...compiled);
     if (!compiled[0]!.held) { return this.summary(adventure, { ran, ...played ? { played } : {} }, print); }
     ran.push(...this.names(root, adventure, print), this.repeats(root, adventure, print),
-      this.tests(root, adventure, print), await this.traces(root, adventure, campaign, print));
+      this.tests(root, adventure, print));
+    const traced = await this.traces(root, adventure, campaign, print);
+    ran.push(traced.ran);
     const reach = await this.reach(root, campaign, { steps, own: this.declared(root, adventure) }, print);
     ran.push(reach.ran);
-    return this.summary(adventure, { ran, unreached: reach.unreached, ...played ? { played } : {} }, print);
+    // An ending or milestone a kept trace came to is answered, though reach never came to it.
+    const unreached = traced.never ? { ...reach.unreached,
+      endings: reach.unreached.endings.filter(e => traced.never!.endings.includes(e)),
+      milestones: reach.unreached.milestones.filter(m => traced.never!.milestones.includes(m)) } : reach.unreached;
+    return this.summary(adventure, { ran, unreached, ...played ? { played } : {} }, print);
   }
   // Loaded, then linted: one that does not load has nothing else to check.
   private static async lint(root: string, campaign: string, print: Print): Promise<Ran[]> {
@@ -104,7 +110,8 @@ export class VerifyTool {
     return Number(new RegExp(`(\\d+) ${word}`).exec(said)?.[1] ?? 0);
   }
   // The traces kept of the adventure: those played by its campaign, or into its scenes and people.
-  private static async traces(root: string, adventure: string, campaign: string, print: Print): Promise<Ran> {
+  private static async traces(root: string, adventure: string, campaign: string, print: Print):
+    Promise<{ ran: Ran; never?: { endings: string[]; milestones: string[] } }> {
     const dir = join(root, Traces.dir), kept = existsSync(dir) ? readdirSync(dir)
       .filter(f => f.endsWith('.json') && !f.endsWith('.transcript.json'))
       .map(f => ({ name: Traces.named(f), k: JSON.parse(readFileSync(join(dir, f), 'utf8')) as Kept }))
@@ -112,7 +119,9 @@ export class VerifyTool {
     let held = 0;
     const happened = new Happened();
     for (const { name, k } of kept) {
-      const came = await PlayTool.again(k.play!, happened);
+      // A trace that cannot be played again (its steps file gone, kept from a scratch path) is said, not thrown.
+      const came = await PlayTool.again(k.play!, happened).catch((e: Error) => e);
+      if (came instanceof Error) { print(`  trace ${name}: cannot be played again: ${came.message}`); continue; }
       const same = came.at === k.at && came.watch === k.watch && came.told === k.told;
       if (same) { held++; continue; }
       print(`  trace ${name}: came to ${came.at} at watch ${came.watch}, not ${k.at} at ${k.watch}`
@@ -120,7 +129,8 @@ export class VerifyTool {
     }
     print(`traces: ${held} of ${kept.length} come to what they came to`);
     if (kept.length) { for (const line of happened.lines()) { print(`  in none of them: ${line}`); } }
-    return { check: 'traces', held: held === kept.length, said: `${held} of ${kept.length} hold` };
+    const ran = { check: 'traces', held: held === kept.length, said: `${held} of ${kept.length} hold` };
+    return kept.length ? { ran, never: happened.never() } : { ran };
   }
   // A curious player's ordinary play: what of what was written it was offered or saw, and what never happened.
   private static async reach(root: string, campaign: string, at: { steps: number; own: Set<string> }, print: Print):
@@ -159,7 +169,7 @@ export class VerifyTool {
     print(`  human play: ${played ? `recorded: ${played}` : 'no human play recorded'}`);
     if (of('firsts')) { print(`  advisory:   ${of('firsts')!.said} (first names may be shared; distinctive ones read as kin)`); }
     if (unreached) {
-      print('  unanswered by any play here (never offered, seen or reached):');
+      print('  unanswered by reach or the kept traces (never offered, seen or reached; the tests are not read):');
       for (const [kind, ids] of Object.entries(unreached) as [keyof Unreached, string[]][]) {
         print(`    ${kind}: ${ids.length ? ids.map(id => id.replace(/^\w+?__/, '')).join(' ') : '-'}`);
       }
