@@ -210,6 +210,42 @@
    "was": "defect",
    "pri": "P2",
    "why": "the owner's design investigation of 20 Nov (narration provenance, questions, generative minimalism): a committed study, not a software failure"
+  },
+  "OR-153": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "20 Nov, filed from the owner's directions after the cards pin and classified as filed (a row is a defect until named otherwise): not an observed failure"
+  },
+  "OR-154": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "20 Nov, filed from the owner's directions after the cards pin and classified as filed (a row is a defect until named otherwise): not an observed failure"
+  },
+  "OR-155": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "20 Nov, filed from the owner's directions after the cards pin and classified as filed (a row is a defect until named otherwise): not an observed failure"
+  },
+  "OR-156": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "20 Nov, filed from the owner's directions after the cards pin and classified as filed (a row is a defect until named otherwise): not an observed failure"
+  },
+  "OR-157": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "20 Nov, filed from the owner's directions after the cards pin and classified as filed (a row is a defect until named otherwise): not an observed failure"
+  },
+  "OR-158": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "20 Nov, filed from the owner's directions after the cards pin and classified as filed (a row is a defect until named otherwise): not an observed failure"
   }
  },
  "blockedBy": {
