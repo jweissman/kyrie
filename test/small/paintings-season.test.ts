@@ -28,8 +28,17 @@ describe('a painting\'s light, season and weather', () => {
     expect(Fits.fits(at('the inn', { daylight: 'night' }), 'scene-inn-town')).toBe(true);
     expect(Fits.fits(at('the cellar', { underground: true }), 'scene-cellar')).toBe(true);
   });
+  // The landing at Porthalen under each sky (the art wishlist's second ask, the owner's quay in rain and by moon,
+  // 21 November): one painting fits each, and the rainy quay never stands for a fair night (the fair-weather rule).
+  it('give the landing its own painting in rain, by a fair moon, and by a fair day', () => {
+    const landing = (weather: string, daylight: string) => ['scene-landing', 'scene-harbor-rain', 'scene-harbor-dusk']
+      .filter(p => Fits.fits(at('the landing at Porthalen', { weather, daylight }), p));
+    expect(landing('rainy', 'day')).toEqual(['scene-harbor-rain']);
+    expect(landing('fair', 'night')).toEqual(['scene-harbor-dusk']);
+    expect(landing('fair', 'day')).toEqual(['scene-landing']);
+  });
   it('are recorded for every scene painting: its light always, its season and weather in plain words', () => {
-    expect(scenes.length).toBe(245);
+    expect(scenes.length).toBe(248);
     expect(scenes.filter(([, p]) => !p.light).map(([id]) => id)).toEqual([]);
     expect(scenes.filter(([, p]) => p.season && !/^(spring|summer|autumn|winter)$/.test(p.season))).toEqual([]);
     expect(scenes.filter(([, p]) => p.weather && !/^(snow|rain|storm|fog|clear)$/.test(p.weather))).toEqual([]);

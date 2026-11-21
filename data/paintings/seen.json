@@ -6797,6 +6797,27 @@
    "era": "late",
    "light": "sunlit"
   },
+  "scene-harbor-rain": {
+   "form": "exterior",
+   "shows": "a stone river quay under low rain: barrels and baled goods under a dripping awning, a lamp lit at a warehouse door, a covered boat at the posts, a barge beyond, a hill town and its church in the murk",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-harbor-dusk": {
+   "form": "exterior",
+   "shows": "the same stone river quay by moonlight: lamps lit along the warehouses, a covered boat at the posts, a barge beyond, the hill town's windows lit, a full moon over the water",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-harbor-town": {
+   "form": "exterior",
+   "shows": "a busy town harbour on a bright day: a paved quay with market awnings, porters and a mule, a moored boat in the foreground, a white town climbing to a castle, ships and a lighthouse across the bay",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
   "scene-spicery": {
    "form": "interior",
    "shows": "a spicery: jars and sacks of spices, scales, herbs hanging, a marble counter",
