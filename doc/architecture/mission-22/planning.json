@@ -88,7 +88,12 @@
    "ST-03",
    "ST-11",
    "AT-10",
-   "OR-153"
+   "OR-153",
+   "OR-159",
+   "OR-160",
+   "OR-161",
+   "OR-162",
+   "OR-163"
   ],
   "outside": {
    "GT-01": "the planes are met after the first hour (no plane is reached from Iscoed's starts)",
@@ -162,14 +167,14 @@
     "accept": "from indoors, setting out goes out of doors first, or the map says why not"
    },
    {
-    "id": "OR-143",
-    "owner": "maturity",
-    "accept": "the options page's four rows, proven in the browser (int-mat2)"
-   },
-   {
     "id": "OR-23",
     "owner": "lead",
     "accept": "the prologue's painting and first sentences shown while the world is made; no checklist, no black frame"
+   },
+   {
+    "id": "OR-159",
+    "owner": "lead",
+    "accept": "one Open the world map at every turn and lens (test/one-world-map)"
    }
   ],
   "platform": [
@@ -189,6 +194,12 @@
     "accept": "a new world starts in under 3 s warm"
    }
   ],
-  "urgent": []
+  "urgent": [
+   {
+    "id": "OR-159",
+    "why": "a selectable map row three times over: a breach of basic trust (the owner's P0, 20 November); fixed at once",
+    "displaced": "OR-143"
+   }
+  ]
  }
 }

@@ -544,12 +544,13 @@ export class GlanceStage {
   // the act it is led for first. The page had guessed again here: a commandless opener done by its first row under the
   // opener's words ("Push and pull" at the speaking door, CL-34), a look by its first act where it led none.
   // One led with across the country opens the map at where it goes, as the engine's row does (Row.chart), where the
-  // page had opened the map on the aim, or on nothing (the lead's ruling, 20 November: the parity measure's pressed).
+  // page had opened the map on the aim, or on nothing (the lead's ruling, 20 November: the parity measure's pressed),
+  // and in the engine's words, never the world map's own row's (the owner's playtest, 20 November, P0: three of it).
   static acted(app: ReaderApp, a: Promoted, c: Choice): Choice {
     const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
     const journey = /^travel:/.test(a.command ?? a.choice);
     const charted = g && screen && journey ? Doable.one(g, screen, a.choice, a.command) : undefined;
-    if (charted?.chart) { return { ...c, id: a.choice, command: charted.does! }; }
+    if (charted?.chart) { return { ...c, id: a.choice, label: charted.label, command: charted.does! }; }
     if (c.focus || !c.children?.length || !g || !screen) { return c; }
     const does = Doable.one(g, screen, c.id, a.command).does;
     if (!does || c.command === does) { return c; }

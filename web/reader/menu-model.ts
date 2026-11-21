@@ -126,12 +126,17 @@ export class MenuModel {
   // The choice a lead of the glance is drawn as and done by: its own, or, for a way out into the country, going out
   // to it (the keys had counted a lead on the road as none, and every digit at Millholm's camp did nothing).
   static lead(menu: Menu, id: string): Choice | undefined {
-    return this.found(menu.choices, id, menu.overland ?? new Set());
+    return this.found(menu.choices, id, menu.overland ?? new Set(), menu.leads);
   }
-  // A choice by its id; a way out into the country, in a town or a site, as going out to it.
-  private static found(choices: Choice[], id: string, overland: Set<string>): Choice | undefined {
-    return choices.find(c => c.id === id)
-      ?? (overland.has(id) ? choices.find(c => c.id === MenuModel.country.id) : undefined);
+  // A choice by its id; a way out into the country, in a town or a site, as the map opened at where it goes, in the
+  // lead's own words: never the world map's row again beside the world map's own (the owner's playtest, 20 November,
+  // P0: three "Open the world map" offered at once).
+  private static found(choices: Choice[], id: string, overland: Set<string>,
+    leads?: { choice: string; label: string }[]): Choice | undefined {
+    const own = choices.find(c => c.id === id);
+    if (own || !overland.has(id)) { return own; }
+    const to = id.startsWith('travel:') ? id.slice('travel:'.length) : undefined, words = leads?.find(a => a.choice === id);
+    return { ...MenuModel.country, id, ...words ? { label: words.label } : {}, command: to ? `view:map:${to}` : 'view:map' };
   }
   // A way that stays on the page: one within the hex the company is in (a room, a lane, a landmark, a site, the town
   // on this stretch of country, the parts of an authored province on the one hex of its way in). A way into another
