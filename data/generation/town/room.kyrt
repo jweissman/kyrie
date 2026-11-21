@@ -24,6 +24,9 @@
   // What the house keeps for the company while it is out: the bed made, a candle after dark, a letter from home.
   Observe {t}_room_made at {t}_room as sign when {t}_rented(party) and {t}_room_kept(party) "The bed has been made while you were out, and the quilt turned down.".
   Observe {t}_room_candle at {t}_room as sign when dark() and {t}_rented(party) "{{t}_innkeeper} has set a candle in the window for you, and lit it.".
+  // Once the company has a room, the answer is sent up to it, not left under the scrivener's stone: what the
+  // scrivener's says of it then.
+  Observe {t}_letter_sent_up at {t}_scriv instead of {t}_letter_waiting when {t}_rented(party) and {t}_letter_sent(party) and not {t}_letter_read(party) and watch(clock) >= {t}_letter_at(party) + 144 "There is no letter for you under the stone: the scrivener has sent it up to your room.".
   Observe {t}_room_letter at {t}_room as sign when {t}_rented(party) and {t}_letter_sent(party) and not {t}_letter_read(party) and watch(clock) >= {t}_letter_at(party) + 144 "On the pillow lies a letter sent up from the scrivener's, in a hand you know.".
   Action {t}_room_read(actor: group, site: place) "Read the letter from home left on your pillow" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_room) and {t}_rented(actor) and {t}_letter_sent(actor) and not {t}_letter_read(actor) and watch(clock) >= {t}_letter_at(actor) + 144.
