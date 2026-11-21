@@ -30,8 +30,8 @@ Module world_services "Lodging, goods and camping" {
   // room, data/generation/town/room.kyrt): slept in on the week's rent, bed and board, and a better night than a
   // common bed: the company wakes rested, and is weary six hours later than after a night in the common room.
   Relation keepsRoom(group, place).
-  Action sleep_own_room(actor: group, room: place, site: place) "Sleep in your own room" {
-    Requires able(actor) and at(actor, site) and at(actor, room) and keepsRoom(actor, room).
+  Action sleep_own_room(actor: group, keptroom: place, site: place) "Sleep in your own room" {
+    Requires able(actor) and at(actor, site) and at(actor, keptroom) and keepsRoom(actor, keptroom).
     Time untilMorning(clock). Resolve recover(actor). Meanwhile asleep(actor).
     On success { Retract hungry(actor). Increase nextMeal(actor) by 144.
       Set lastSlept(actor) to watch(clock) + untilMorning(clock) + 36. Retract weary(actor). }
