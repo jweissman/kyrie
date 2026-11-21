@@ -142,6 +142,21 @@
   Relation {t}_cards_left(group).
   Rule {t}_cards_walked_off when state({t}_cards, taken) and not at(party, {t}_taproom) and not {t}_cards_left(party) { Assert {t}_cards_left(party). }
   Observe {t}_cards_kept at {t}_taproom when {t}_cards_left(party) and at({t}_morwen, {t}_taproom) "At the window table Morwen Ashlock lays out patience. A second hand lies dealt, face down, at the empty place across from her.".
+  // Fun Friday (20 November): watching wild animals (the Pleasant Activities List, #90). Below the hill-path to the old
+  // stones, a fox's earth. At dusk or first light the company can sit still in the bracken and watch: if it keeps
+  // still enough, a vixen and her cubs come out to play; if not, a blackbird gives it away. Nothing is gained but the
+  // sight of them, and after it the path remembers.
+  Relation {t}_fox_seen(group).
+  Observe {t}_fox_earth at {t}_stones_top as sign when not {t}_fox_seen(party) "Below the path, in the bracken, there is a bank of fresh red earth. A run is worn through the grass to it. Small bones lie at its mouth. It is a fox's earth, and foxes come out at dusk and at first light.".
+  Action {t}_watch_fox(actor: group, site: place) "Sit still in the bracken below the path, and watch the fox's earth" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_stones_top) and not {t}_fox_seen(actor) and ((hour(clock) >= 5 and hour(clock) < 8) or (hour(clock) >= 17 and hour(clock) < 21)).
+    Time 3.
+    Resolve check(actor, stealth, dc_fair).
+    On success { Assert {t}_fox_seen(actor). }
+    Result "You sit so long your legs go to sleep. Then a vixen comes out of the bank. She stands and looks straight at you, and decides you are a stone. Three cubs tumble out behind her. They fight over a feather until one of them rolls down the bank. The vixen yawns. When the light goes they go in one by one, the last one looking back.".
+    Otherwise "A blackbird finds you first. It says so, loudly and over and over. Nothing comes out of the bank. Another time, perhaps.".
+  }
+  Observe {t}_fox_after at {t}_stones_top when {t}_fox_seen(party) "The cubs' run through the bracken is beaten flat. A grey feather lies on the path where they fought over it.".
   Topic {t}_hesper_bell with {t}_hesper "Ask Hesper Lowe about the drawing" when true once {
     Says "'A bell,' says Hesper Lowe. 'The town had one over the well and the hobs took it, and the wright I am bound to says a bell is a lump of metal and a good one is luck. It is not luck. It is the shape of the lip and the thickness of the shoulder, and the old people knew it, and I have a sixth of the knowledge and no pattern. If I could put my hands on one good bell, or on anything that rings true and was made by somebody who meant it. They say the Hall's boy comes home humming four notes from the hill, three down and one up, and that something up there rings them. If I had the shape of it...' She stops. 'Do not laugh. Everyone does.'".
     On discuss { Assert {t}_hesper_told(party). }
