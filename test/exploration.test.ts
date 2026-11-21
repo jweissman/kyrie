@@ -8,6 +8,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Moments } from '../web/reader/stage/moments';
 import { Panorama } from '../web/reader/stage/panorama';
+import { LineMoments } from '../src/presentation/line-moments';
 import { MenuModel } from '../web/reader/menu-model';
 
 // Leaving a town simply to explore (the owner's correction of Mission 18: exploration as one of the game's central
@@ -45,7 +46,9 @@ describe('exploring the open country', () => {
     // Set out: the navigation review).
     const s = j.screen(), going = [...s.destinations ?? [], ...s.roads ?? []];
     expect([going.filter(d => /_green$/.test(d.id)), new Set(going.map(d => d.name)).size]).toEqual([[], going.length]);
-    const seen = (j.taken.at(-1)!.event.perceptions ?? []).map(p => ({ text: p.text, kind: 'change' as const }));
+    // As the narrator gives them to the page, each with what it is (AR-05).
+    const seen = LineMoments.typed((j.taken.at(-1)!.event.perceptions ?? []).map(p => ({ text: p.text,
+      kind: 'change' as const })));
     const { sights } = Moments.of(seen);
     const towns = sights.filter(x => s.region!.areas.some(a => a.kind === 'settlement' && a.name === x.place));
     const html = renderToStaticMarkup(createElement(Panorama.View, { sights: towns, choose: () => undefined,

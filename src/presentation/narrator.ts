@@ -8,14 +8,14 @@ import type { Screen, TargetRow } from '../ui/screen-types';
 import { ActionFeedbackView, type ActionFeedback } from './action-feedback';
 import { FictionalTime } from '../campaign/fictional-time';
 import { Typography } from './typography';
-import { Narration } from './narration';
+import { Narration } from './narration'; import { LineMoments, type Typed } from './line-moments';
 import { Spoken } from './spoken';
 import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
 import { Succession } from './succession'; import { Readings } from './readings';
-import { Compass } from './compass';
+import { Compass } from './compass'; import { Noted, type Note } from './noted';
 import { Likenesses } from './likenesses';
 import { LensSubjects } from './lens-subjects';
 import { Glance } from './glance'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
@@ -27,15 +27,17 @@ import type { Glance as GlanceView } from './glance-types';
 // change to the place, or a fight's turning point.
 // A revelation is a discovery an author marked as deserving the page to itself (`as revelation`: NAR-14); by, who said
 // a topic's speech (OR-149).
-export interface ExchangeLine {
-  text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation';
-  by?: string;
+// What it is besides, where it is a moment, a roll or a part of a view (see LineMoments).
+export interface ExchangeLine extends Typed {
+  text: string; kind: 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation'; by?: string;
 }
+// notes: in the narration's words, for the terminal; noted: the same by kind, for the page (AR-05).
 // aims: the aims it took up, by id with their words (the notes say them too, in the narration's words).
-// learned: those of the notes that are what the company learned or saw borne out; act: the action told, by its name.
+// act: the action told, by its name; struck: someone was hurt by it (a trap's blade on the way in).
 // held: a fight that had a page of its own, whose blows and end were told there (the page's host says so).
-export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; tone: 'act' | 'fight' | 'fail';
-  aims?: { id: string; text: string; now?: true; begins?: string }[]; learned?: string[]; act?: string; held?: true }
+export interface Exchange { said?: string; lines: ExchangeLine[]; notes: string[]; noted?: Note[];
+  tone: 'act' | 'fight' | 'fail'; aims?: { id: string; text: string; now?: true; begins?: string }[]; act?: string;
+  struck?: true; held?: true }
 // What the page tells, kept apart by what it is for: the present situation (what this place is, and who and what
 // is here), what has changed since the company was last here, and what came of the last thing it did.
 export interface Leaf {
@@ -462,12 +464,11 @@ export class Narrator {
     const said = new Set(unique.map(l => l.text));
     // Nor what a new aim says again ("You know now: Clear the rats out of the cellar" over the aim to).
     const aimed = [...feedback.aims ?? [], ...feedback.amended ?? []];
-    // What was learned is said apart as well (learned), for the page that sets it apart: it had known it by its words.
-    const learned = [...spoken.length ? [] : feedback.discoveries.filter(d => !this.heard(d, said, aimed))
-      .map(d => `Noted: ${this.gist(d)}`), ...(feedback.leads ?? []).map(l => `Noted: ${l}`)];
-    const borne = (feedback.borne ?? []).map(b => `Borne out: ${this.gist(b.text)}${b.from ? ` (${b.from})` : ''}`);
-    const notes = [...feedback.resources.map(r => this.resource(r)), ...learned,
-      ...(feedback.aims ?? []).map(a => `Aim: ${a}`), ...(feedback.amended ?? []).map(a => `Aim now: ${a}`), ...borne];
+    // Each note by its kind, for the page that sets each apart (AR-05: it had known them by their words).
+    const noted = Noted.of({ ...feedback, resources: feedback.resources.map(r => this.resource(r)),
+      learned: (spoken.length ? [] : feedback.discoveries.filter(d => !this.heard(d, said, aimed)))
+        .map(d => this.gist(d)),
+      borne: (feedback.borne ?? []).map(b => `${this.gist(b.text)}${b.from ? ` (${b.from})` : ''}`) });
     // A fight that fell on the company is not an activity it began (its action is the attack it was drawn into: "You
     // begin to attack the wheel-keeper" was told of a company that walked into the wheel-room and fled).
     const operator = campaign.operator(event.action), act = operator?.schema;
@@ -478,10 +479,11 @@ export class Narrator {
     const turned = this.tidy(unique, fight && FightSeen.acted(campaign, event)).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
       ? { ...l, text: SecondPerson.turn(l.text, me) } : l)
       .map(l => revealed.has(this.plain(l.text)) ? { ...l, kind: 'revelation' as const } : l);
+    const out = LineMoments.typed(Spoken.by(turned, campaign, operator));
     return { ...told.said ? { said: begun ? Narrator.begun(begun) : Spoken.said(operator, told.said) } : {},
-      lines: Spoken.by(turned, campaign, operator), notes, tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act',
-      ...act ? { act } : {}, ...feedback.taken?.length ? { aims: feedback.taken } : {}, ...learned.length + borne.length
-        ? { learned: [...learned, ...borne] } : {} };
+      lines: out, notes: noted.map(n => Noted.said(n)), ...noted.length ? { noted } : {}, ...act ? { act } : {},
+      tone: fight ? 'fight' : event.result === 'failure' ? 'fail' : 'act', ...feedback.taken?.length
+        ? { aims: feedback.taken } : {}, ...Narration.placeFirst(true, out) ? {} : { struck: true } };
   }
   // What the act brought to light that its author marked as a revelation (a body found, who drowned the miller): told
   // as one, set apart from what else happened, not in the run of it (NAR-14).

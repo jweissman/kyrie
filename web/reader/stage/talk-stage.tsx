@@ -24,7 +24,6 @@ import { Fold, type Leaf } from '../../../src/presentation/fold';
 import { Attending } from '../../../src/ui/attention';
 import { ChoiceRow } from './choice-row';
 import { PageFrame } from '../page-frame';
-import { Check } from './check';
 import type { Promoted } from '../../../src/presentation/glance-types';
 
 // Speaking with someone. Their painting, large, with their name on it; beside it the conversation: what they were
@@ -179,7 +178,7 @@ export class TalkStage {
     // letter had been pushed off the top, "You know now" and "A new aim" whole beneath it).
     const from = Math.max(0, lines.map(l => l.kind).lastIndexOf('you'));
     const replied = lines.findIndex((l, i) => i > from && ['speech', 'telling', 'event'].includes(l.kind)), last = lines.map((l, i) => l.kind === 'aim'
-      || Moments.ending.test(l.text) ? i : -1).reduce((a, b) => Math.max(a, b), -1);
+      || l.ended ? i : -1).reduce((a, b) => Math.max(a, b), -1);
     useLayoutEffect(() => {
       // One page (OR-149): what you said last brought to the head of the view, the answer under it; the page
       // scrolls, not a box of its own.
@@ -205,15 +204,17 @@ export class TalkStage {
     // The whole of it, one page (OR-149): nothing folded away above.
     const cut = 0;
     const line = (l: TalkLine, i: number) => {
-      // Something seen through, or a level gained, is set apart here as on the place's page.
-      const ended = Moments.ending.exec(l.text), levelled = Moments.levelled.exec(l.text);
+      // Something seen through, or a level gained, is set apart here as on the place's page; a check's dice, said as
+      // what decided it ("Nest makes the persuasion check (d20 17 + charisma 0 = 17 against 13)."), is a disclosure,
+      // never a line of what was said (the owner's ruling 1): each as the engine says the line is (AR-05).
+      const { ended, levelled } = l;
       // Things learned together are one "You know now", a line each: four of them, each under its own label, had
       // filled the room for talk, and only the first label was in view (Mission 20's fourth round, E 34).
       // By what the label says, given or not: notes from the engine carry "You know now" as theirs (round 5's three).
       const prior = lines[i - 1], said = (x: TalkLine) => x.label ?? 'You know now';
       const more = l.kind === 'learned' && prior?.kind === 'learned' && said(l) === said(prior);
       return ended ? <div key={i} ref={i === last && last > from ? aim : undefined}><Moments.SeenThrough ended={ended} ready={ready} /></div>
-        : TalkStage.check.test(l.text) ? <details key={i} className="how"><summary>How it fell</summary>
+        : l.roll ? <details key={i} className="how"><summary>How it fell</summary>
           <p>{Typography.curl(l.text)}</p></details>
         : levelled ? <Moments.Levelled key={i} levels={[levelled]} />
         : l.kind === 'learned' || l.kind === 'aim'
@@ -252,9 +253,6 @@ export class TalkStage {
       </section>
     );
   }
-  // A check's dice, said as what decided it ("Nest makes the persuasion check (d20 17 + charisma 0 = 17 against 13)."),
-  // read as the place's page reads a roll (Check): a disclosure, never a line of what was said (the owner's ruling 1).
-  static readonly check = { test: (text: string): boolean => !!Check.read(text) };
   // What is had of someone for coin or work, apart from what is said (the owner, 16 November: the trade page in the menu's
   // own rows, never a table, a list that unfolds or an act that is two; 17 November: a long counter is the one narrow
   // exception to the four, a list that scrolls in the menu's place, not pages): what they will buy of what the company

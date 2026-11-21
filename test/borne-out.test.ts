@@ -6,7 +6,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { GeneratedWorld } from './support/generated';
 import { ScreenModel } from '../src/ui/screen-model';
-import { Words } from '../src/presentation/words';
+import { Noted, type Note } from '../src/presentation/noted';
 
 // As you were told: what the innkeeper said of a place is borne out when the company comes to it, and the page says
 // so once, under the place, naming who told it; the Book's notes have it as heard and since seen. Coming to it is
@@ -50,17 +50,18 @@ class Told {
     throw new Error(`No asking ${at.keeper} of ${at.site}`);
   }
   // Walks there leg by leg, as the company would, and every note the page made on the way.
-  static async walk(host: EngineHost, s: PlaySession, place: string): Promise<string[]> {
-    const notes: string[] = [];
+  static async walk(host: EngineHost, s: PlaySession, place: string): Promise<Note[]> {
+    const notes: Note[] = [];
     for (const [passage, to] of GeneratedWorld.path(s, place)) {
-      notes.push(...(await this.step(host, s, `go(${passage},${to})`)).leaf.exchange?.notes ?? []);
+      notes.push(...(await this.step(host, s, `go(${passage},${to})`)).leaf.exchange?.noted ?? []);
     }
     return notes;
   }
   static fact(s: PlaySession, id: string) {
     return PlayerView.observe(s.campaign).knowledge.find(k => k.id === id);
   }
-  static borne(notes: string[]): string[] { return notes.filter(n => n.startsWith('Borne out: ')); }
+  // Borne out, by the kind the engine gives the note (AR-05), not its words.
+  static borne(notes: Note[]): Note[] { return notes.filter(n => n.kind === 'borne'); }
 }
 
 describe('as you were told', () => {
@@ -73,13 +74,13 @@ describe('as you were told', () => {
     expect(before.confirmed).toBeUndefined();
     const notes = await Told.walk(host, s, at!.site), borne = Told.borne(notes);
     expect(borne).toHaveLength(1);
-    expect(borne[0]).toContain(`(${before.from!})`);
-    expect(Words.label(borne[0]!)).toBe('As you were told');
+    expect(borne[0]!.text).toContain(`(${before.from!})`);
+    expect(Noted.labels[borne[0]!.kind]).toBe('As you were told');
     expect(Told.fact(s, named)!.confirmed).toBe(true);
     expect(ScreenModel.build(s.campaign).knowledge.find(k => k.text === Told.fact(s, named)!.text)?.kind)
       .toBe('confirmed');
     // Said once: not on the next thing done there, nor on coming back.
-    expect(Told.borne((await Told.perform(host, 'wait')).leaf.exchange?.notes ?? [])).toEqual([]);
+    expect(Told.borne((await Told.perform(host, 'wait')).leaf.exchange?.noted ?? [])).toEqual([]);
     const away = GeneratedWorld.path(s, at!.room)[0]!;
     await Told.step(host, s, `go(${away[0]},${away[1]})`);
     expect(Told.borne(await Told.walk(host, s, at!.site))).toEqual([]);
@@ -96,6 +97,6 @@ describe('as you were told', () => {
       c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', `${site}_found`) },
         { kind: 'assert', call: ModuleWriter.call('toldBy', 'party', first!.keeper, `${site}_found`) }]));
       expect(Told.fact(s, `${site}_found`)).toMatchObject({ source: 'heard', confirmed: true });
-      expect(Told.borne((await Told.perform(host, 'wait')).leaf.exchange?.notes ?? [])).toEqual([]);
+      expect(Told.borne((await Told.perform(host, 'wait')).leaf.exchange?.noted ?? [])).toEqual([]);
     }, 90000);
 });

@@ -152,8 +152,10 @@ export interface MemberRow {
   experience: number; gold: number;
   // What the next level brings in kind (a technique, a calling trait, a new level of spells), if anything.
   next?: string[];
-  // How far they are from it, in a sentence.
+  // How far they are from it, in a sentence; and as what it is (AR-05: the page had read the sentence back), the
+  // level next, the experience had and needed for it, and whether it is enough (none at the highest level).
   progress?: string;
+  toward?: { level: number; have: number; need: number; ready: boolean };
   // Conditions that harm by name, and those that help (a lit torch) apart.
   conditions: string[]; boons?: string[];
   // Down: what follows for them, which no cure changes (see Standing).

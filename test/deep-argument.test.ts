@@ -83,7 +83,7 @@ describe('the walled stair, argued at the shrine', () => {
     expect(Shrine.test(s, 'knows', 'party', 'region__w9_bane')).toBe(true);
     // Told in the priest's words, it is not noted again under them word for word (OR-30).
     expect(feedback.discoveries.join(' ')).toContain('cannot bear the light of noon');
-    expect((told.learned ?? []).filter(l => /light of noon/.test(l))).toEqual([]);
+    expect((told.noted ?? []).filter(n => n.kind === 'learned' && /light of noon/.test(n.text))).toEqual([]);
     expect(Shrine.names(s)).toContain('Ask Baern again about the walled stair');
   }, 90000);
   it('is lost for good by a threat: the shrine is shut to the company, and shows it', async () => {

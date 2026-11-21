@@ -380,7 +380,7 @@ export class ScreenModel {
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
         ...(m.prepared ? { spells: this.prepared(m.prepared, m.ready ?? []) } : {}),
         experience: m.experience, gold: m.gold, next: Advancement.next(m.classId, m.level),
-        progress: this.progress(m.level, m.experience, Advancement.next(m.classId, m.level)),
+        ...this.progress(m.level, m.experience, Advancement.next(m.classId, m.level)),
         conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)), ...Standing.of(m),
         boons: m.conditions.filter(c => this.boon(c))
           .map(c => `${this.condition(c)}${m.lasting?.[c] ? ` · ${FictionalTime.duration(m.lasting[c])} left` : ''}`),
@@ -403,12 +403,12 @@ export class ScreenModel {
   private static offered(acts: Act[]): string[] {
     return acts.flatMap(a => [...a.command ? [a.command] : [], ...this.offered(a.children ?? [])]);
   }
-  // How far a companion is from the next level, and what it brings.
-  private static progress(level: number, experience: number, next: string[]): string {
-    const needed = Advancement.threshold(level + 1), brings = next.length ? `, which brings ${next.join(', ')}` : '';
-    if (needed === Infinity) { return 'At the highest level'; }
-    return needed <= experience ? `Ready for level ${level + 1}${brings}: a night under a roof`
-      : `${experience} of ${needed} experience to level ${level + 1}${brings}`;
+  // How far a companion is from the next level, and what it brings: in a sentence, and as what it is (AR-05).
+  private static progress(level: number, have: number, next: string[]): Pick<MemberRow, 'progress' | 'toward'> {
+    const need = Advancement.threshold(level + 1), brings = next.length ? `, which brings ${next.join(', ')}` : '';
+    if (need === Infinity) { return { progress: 'At the highest level' }; }
+    return { toward: { level: level + 1, have, need, ready: need <= have }, progress: need <= have ? `Ready for level ${
+      level + 1}${brings}: a night under a roof` : `${have} of ${need} experience to level ${level + 1}${brings}` };
   }
   // Each prepared spell by level, the ready ones first, as the company sheet lists them.
   private static prepared(prepared: string[][], ready: string[][]) {

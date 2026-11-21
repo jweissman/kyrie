@@ -3,6 +3,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Moments } from '../web/reader/stage/moments';
 import { Panorama } from '../web/reader/stage/panorama';
+import { LineMoments } from '../src/presentation/line-moments';
 
 // What can be seen from somewhere high, on the page (Mission 17's vantage points): the view from the top as told, then
 // the compass, each way once and nearest first, a ruin known for what it is by its name with what it looked like and
@@ -16,7 +17,7 @@ describe('a panorama', () => {
     'To the west, some way off: the march-stone of the Corrow.',
     'Beyond it, over the march: a mountain hanging in the sky, with nothing under it but air.',
     'The way down is the stair you came up.']
-    .map(text => ({ text, kind: 'change' as const }));
+    .map(text => ({ text, kind: 'change' as const })).map(l => ({ ...l, ...LineMoments.of(l.text) }));
   it('sets the ways round the compass between the view from the top and the way down', () => {
     const { plain, rest, sights } = Moments.of(lines);
     expect(plain.map(l => l.text)).toEqual(['From the top of the tower Weligtún lies below you.']);
@@ -44,8 +45,9 @@ describe('a panorama', () => {
   });
   it('leaves out of the margin what it says itself', () => {
     const { sights } = Moments.of(lines);
-    expect(Panorama.unsaid(['Noted: Paliduslac: a square doorway in a hillside in Beorquudu', 'Noted: Fearnglaed lies west'],
-      sights)).toEqual(['Noted: Fearnglaed lies west']);
+    const noted = (text: string) => ({ kind: 'learned' as const, text });
+    expect(Panorama.unsaid([noted('Paliduslac: a square doorway in a hillside in Beorquudu'), noted('Fearnglaed lies west')],
+      sights)).toEqual([noted('Fearnglaed lies west')]);
   });
   it('leaves an exchange with nothing seen from up high as it was', () => {
     const { plain, rest, sights } = Moments.of([{ text: 'To the inn, then.', kind: 'telling' }]);

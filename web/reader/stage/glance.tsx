@@ -48,8 +48,8 @@ export class GlanceStage {
   static View({ app, draw, apart }: { app: ReaderApp; draw: Draw; apart?: boolean }) {
     const s = app.state, frame = s.frame!, leaf = frame.leaf, g = leaf.glance!, screen = frame.screen;
     const exchange = leaf.exchange, told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
-    // Hurt on the way in (a trap's blade), what happened comes before the place (see Told.Place).
-    const stayed = !leaf.moved && !!told, struck = !stayed && !!told && told.lines.some(l => Told.harm.test(l.text));
+    // Hurt on the way in (a trap's blade: Exchange.struck), what happened comes before the place (see Told.Place).
+    const stayed = !leaf.moved && !!told, struck = !stayed && !!told?.struck;
     const ready = Moments.ready(screen);
     // Someone here with something for the company is led with as well as by their likeness (the owner, 12 November,
     // superseding 4 November's "talked to by their own plate"), and the lead says what it is for.
@@ -154,7 +154,7 @@ export class GlanceStage {
     // What came of what was just done is told here, a lens on or not: it had been the explorer's pane's to tell (kept),
     // and with the lenses in the scene it was told nowhere (the grave spec's statue broken, and nothing said).
     const told = exchange && (exchange.lines.length || exchange.notes.length) ? exchange : undefined;
-    const struck = !leaf.moved ? false : !!told && told.lines.some(l => Told.harm.test(l.text));
+    const struck = !!leaf.moved && !!told?.struck;
     const col = useRef<HTMLDivElement>(null);
     Scrolled.useCue(col, s.frame);
     GlanceStage.useHeld(col, !!s.pending);

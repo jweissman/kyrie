@@ -7,8 +7,8 @@ import { Illumination } from '../../../src/ui/illumination';
 import type { ReaderApp, Travel } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import { ToldLines } from '../../../src/presentation/told-lines';
-import { Narration } from '../../../src/presentation/narration';
 import { Words } from '../../../src/presentation/words';
+import { Noted, type Note } from '../../../src/presentation/noted';
 import { AimNear } from '../aim-near';
 import { MenuModel } from '../menu-model';
 import { Moments } from './moments';
@@ -42,8 +42,8 @@ export class Told {
     const kept = exchange && { ...exchange, lines: exchange.lines.filter(l => !placed.has(Typography.curl(l.text))) };
     const told = !whole && kept && (kept.lines.length || kept.notes.length) ? kept : undefined;
     const stayed = !leaf.moved && !!told;
-    // Hurt on the way in, what happened comes before the place (see Narration.placeFirst).
-    const struck = !stayed && !!told && !Narration.placeFirst(true, told.lines);
+    // Hurt on the way in, what happened comes before the place (Exchange.struck; see Narration.placeFirst).
+    const struck = !stayed && !!told?.struck;
     const subjects = app.menu.scene?.subjects ?? [];
     // What someone here is doing is told with them, not again in the telling (an origin's greeting was told twice);
     // so is what a danger is doing, in its own block.
@@ -74,7 +74,6 @@ export class Told {
       {!s.pending && told && !stayed && !struck && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
     </>;
   }
-  static readonly harm = Narration.harm;
   // Words as the author set them: curled, and a run marked *so* in italics (Typography.spans), its stars gone; a plain
   // client gives the words alone (Typography.plain).
   static Said({ text }: { text: string }) {
@@ -221,11 +220,10 @@ export class Told {
     const lines = ToldLines.said(exchange.lines, looked, room);
     const moments = Moments.of(lines.filter(l => !left.has(l.text))), { sights, ended, levels } = moments;
     const [plain, rest] = [moments.plain, moments.rest].map(ls => fought ? ls.filter(l => l.kind !== 'fight') : ls);
-    // The aims it took up, from the aims themselves, by id: those the company holds (one folded into another is told
-    // as something known of it: see folded); their notes are the narration's words for the terminal.
-    const held = app?.state.frame?.screen.aims, taken = (exchange.aims ?? []).filter(a => !held || held.some(h => h.id === a.id));
-    const notes = Told.few(Told.folded(app, Panorama.unsaid(exchange.notes, sights))
-      .filter(n => !exchange.aims?.length || !Words.aimed.test(n)), taken.length + (unsaid ? 1 : 0));
+    // Its notes by their kind (AR-05), the aims among them said from the aims themselves (one folded into another is
+    // something known of it: see folded): here only whether there is anything to tell at all.
+    const notes = Told.folded(app, Panorama.unsaid(exchange.noted ?? [], sights))
+      .filter(n => !exchange.aims?.length || !Noted.aim(n));
     Scrolled.useNewest(at, exchange, !!said);
     if (fought && !plain!.length && !rest!.length && !sights.length && !ended && !levels.length && !notes.length) {
       return null;
@@ -247,28 +245,11 @@ export class Told {
       </section>
     );
   }
-  // Notes said under one label each, those of a kind together, a line each (M22's review, OR-32: "Noted", "You know
-  // now", "You know now", "And 5 things more" had read as a bookkeeping stack); what the Book holds besides, quietly.
-  static grouped(notes: string[]): [string | undefined, string[]][] {
-    const out: [string | undefined, string[]][] = [];
-    for (const n of notes) {
-      const label = Words.noted.test(n) ? Words.label(n) : undefined, text = n.replace(Words.noted, ''), last = out.at(-1);
-      if (label && last?.[0] === label) { last[1].push(text); } else { out.push([label, [text]]); }
-    }
-    return out;
-  }
-  // What came to be known, few enough to read before the choices: every new aim, first, then two things learned, and
-  // how many more the Book holds (an arrival had stacked five notes over the choices, pushing them off the screen).
-  static few(notes: string[], taken = 0): string[] {
-    const aims = notes.filter(n => Words.aimed.test(n)), rest = notes.filter(n => !aims.includes(n));
-    const room = aims.length || taken ? 1 : 2, more = rest.length - room;
-    return [...aims, ...rest.slice(0, room), ...more > 0 ? [`And ${more === 1 ? 'one thing more' : `${more} things more`}, in the Book.`] : []];
-  }
   // A place's own aim folded into an aim held for it is something known of where that aim leads, not an aim to follow
   // beside it (see Undertakings.folded).
-  static folded(app: ReaderApp | undefined, notes: string[]): string[] {
+  static folded(app: ReaderApp | undefined, notes: Note[]): Note[] {
     const about = new Set((app?.state.frame?.screen.aims ?? []).flatMap(a => a.about ?? []));
-    return notes.map(n => /^Aim: /.test(n) && about.has(n.replace(Words.noted, '')) ? n.replace(/^Aim: /, 'Noted: ') : n);
+    return notes.map(n => n.kind === 'aim' && about.has(n.text) ? { ...n, kind: 'learned' } : n);
   }
   // Several aims taken up at once (a notice of three jobs) are one note, a line each, not a block each (the
   // product-design review's PD-11: three quest paragraphs in the town's telling).

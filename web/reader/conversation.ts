@@ -3,10 +3,13 @@ import { Attending, type Attention } from '../../src/ui/attention';
 import { SceneModel } from '../../src/ui/scene';
 import type { Frame } from '../../src/creation/protocol';
 import { Words } from '../../src/presentation/words';
+import { Noted } from '../../src/presentation/noted';
+import type { Typed } from '../../src/presentation/line-moments';
 
 // One line of a conversation as it is kept on the page: what the company said, what was said back or done, what it
 // came to know, and what it paid or was given.
-export interface TalkLine {
+// What a line of the telling is besides its words (a moment, a roll), as the engine says it (AR-05).
+export interface TalkLine extends Pick<Typed, 'ended' | 'levelled' | 'roll'> {
   kind: 'you' | 'speech' | 'telling' | 'event' | 'change' | 'fight' | 'roll' | 'opening' | 'revelation' | 'learned' | 'aim'
     | 'tally';
   text: string;
@@ -24,6 +27,9 @@ export class Conversation {
   static readonly place: Attention = { kind: 'place' };
   // Ten-minute turns: past six hours, whatever was being said is over.
   static readonly night = 36;
+  static typed({ ended, levelled, roll }: Typed): Typed {
+    return { ...ended ? { ended } : {}, ...levelled ? { levelled } : {}, ...roll ? { roll } : {} };
+  }
   static turn(choice: Choice): Attention | undefined {
     const m = /^(.+)#(talk|look|leave|back)$/.exec(choice.id);
     if (!m) { return undefined; }
@@ -54,12 +60,10 @@ export class Conversation {
     const aims = exchange?.aims ?? [], aimed = new Set(aims.map(a => a.text));
     const before = new Set(heard.filter(l => l.kind === 'speech').map(l => l.text));
     return [...you, ...(exchange?.lines ?? []).map(l => l.kind === 'speech' && before.has(l.text)
-      ? { kind: 'telling' as const, text: this.again } : { kind: l.kind, text: l.text }),
-      ...(exchange?.notes ?? []).filter(text => (!aims.length || !Words.aimed.test(text))
-        && !aimed.has(text.replace(Words.noted, '')))
-        .map(text => ({ kind: exchange?.learned?.includes(text) ? 'learned' as const
-        : Words.aimed.test(text) ? 'aim' as const : 'tally' as const, text: text.replace(Words.noted, ''),
-        ...Words.label(text) ? { label: Words.label(text) } : {} })),
+      ? { kind: 'telling' as const, text: this.again } : { kind: l.kind, text: l.text, ...this.typed(l) }),
+      ...(exchange?.noted ?? []).filter(n => (!aims.length || !Noted.aim(n)) && !aimed.has(n.text))
+        .map(n => ({ kind: Noted.known(n) ? 'learned' as const : Noted.aim(n) ? 'aim' as const : 'tally' as const,
+          text: n.text, ...Noted.labels[n.kind] ? { label: Noted.labels[n.kind] } : {} })),
       ...aims.map(a => ({ kind: 'aim' as const, text: a.text, aim: a.id }))];
   }
 }

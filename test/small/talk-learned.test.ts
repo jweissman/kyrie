@@ -5,8 +5,8 @@ import type { Frame } from '../../src/creation/protocol';
 import type { Choice } from '../../src/ui/choice-list';
 
 // What the company learns in a talk is set apart on the page as learned, by what the narrator says it is (the
-// exchange's learned), not by the words its note begins with ("Noted: ", "Borne out: "): AR-05, text inference in the
-// page. A miller who says why the wheel stopped.
+// exchange's noted, by kind), not by the words its note begins with ("Noted: ", "Borne out: "): AR-05, text
+// inference in the page. A miller who says why the wheel stopped.
 const mill = `
   Place mill "the mill" is room at 0, 0.
   Company party "You" of 1 at mill.
@@ -22,7 +22,7 @@ describe('what a talk teaches', () => {
     const t = await Tiny.start(mill);
     await t.perform(t.journey.choices().find(c => /^Ask Tam why the wheel stopped/.test(c.label))!.command);
     const exchange = t.leaf.exchange!;
-    expect(exchange.learned?.length).toBe(1);
+    expect(exchange.noted?.filter(n => n.kind === 'learned').length).toBe(1);
     const lines = Conversation.lines({ leaf: t.leaf } as unknown as Frame, { id: 'x' } as Choice, 'Ask Tam why');
     expect(lines.filter(l => l.kind === 'learned').map(l => l.text)).toEqual([expect.stringMatching(/wedge/)]);
   });

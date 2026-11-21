@@ -2,13 +2,15 @@ import { describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Moments } from '../web/reader/stage/moments';
+import { LineMoments } from '../src/presentation/line-moments';
 
 // Moments the page sets apart from the run of what happened (Mission 16's brief: vary the rhythm and intensity for
 // exceptional events). Something seen through ends a chapter; a level gained is a moment of the person who gains it,
 // where the free play read it as one more line after a night's rest.
 describe('a moment on the page', () => {
   const told = (...texts: string[]) => {
-    const { plain, levels } = Moments.of(texts.map(text => ({ text, kind: 'event' as const })));
+    // As the narrator gives them: each line with what the engine says it is (AR-05).
+    const { plain, levels } = Moments.of(LineMoments.typed(texts.map(text => ({ text, kind: 'event' as const }))));
     return { plain: plain.map(l => l.text), html: renderToStaticMarkup(createElement(Moments.Levelled, { levels })) };
   };
   it('sets a level gained apart, with what it gave and the development it brings', () => {

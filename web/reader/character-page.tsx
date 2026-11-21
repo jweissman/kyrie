@@ -83,9 +83,9 @@ export class CharacterPage {
     const d = m.development;
     // How far the next level is, where the measure above does not say it (ready for a level, at the highest).
     if (!d) {
-      const brings = /, which brings (.+)$/.exec(m.progress ?? '')?.[1];
-      if (m.progress && / of [\d,]+ experience/.test(m.progress)) {
-        return brings ? <p className="progress">{Typography.curl(`Level ${m.level + 1} brings ${brings}.`)}</p> : null;
+      if (m.toward && !m.toward.ready) {
+        return m.next?.length ? <p className="progress">{Typography.curl(`Level ${m.toward.level} brings ${m.next
+          .join(', ')}.`)}</p> : null;
       }
       return m.progress ? <p className="progress">{Typography.curl(m.progress)}.</p> : null;
     }
@@ -117,8 +117,7 @@ export class CharacterPage {
   }
   // How much harm they can still take, and how far they are from the next level, as two measures.
   static Gauges({ member: m }: { member: MemberRow }) {
-    const needed = /(\d[\d,]*) of (\d[\d,]*) experience/.exec(m.progress ?? '');
-    const [got, of] = needed ? [Number(needed[1]!.replace(/,/g, '')), Number(needed[2]!.replace(/,/g, ''))] : [m.experience, 0];
+    const [got, of] = m.toward && !m.toward.ready ? [m.toward.have, m.toward.need] : [m.experience, 0];
     return (
       <div className="gauges">
         <p className="gauge"><span className="label">Hit points</span><b>{m.hp}</b><span className="of"> of {m.maxHp}</span>

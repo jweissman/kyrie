@@ -1,7 +1,7 @@
 import type { Frame } from '../../src/creation/protocol';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
-import { Words } from '../../src/presentation/words';
+import { Noted } from '../../src/presentation/noted';
 
 // What the company has come to know, and the aims it has taken up, kept for the Book rather than told over the place
 // (the owner, 17 November: "true system level info (details about new aims) like the toasts … could go in a 'news'
@@ -17,9 +17,9 @@ export class News {
     const seen = new Set(had.map(i => i.text));
     const aims: Item[] = (exchange.aims ?? []).map(a => ({ text: a.text, aim: true,
       label: a.begins ? `A story begins: ${a.begins}` : a.now ? 'The aim now' : 'A new aim' }));
-    const notes: Item[] = exchange.notes.filter(n => !Words.aimed.test(n) || !exchange.aims?.length)
-      .map(n => ({ text: n.replace(Words.noted, ''), ...Words.label(n) ? { label: Words.label(n)! } : {},
-        ...Words.aimed.test(n) ? { aim: true as const } : {} }));
+    const notes: Item[] = (exchange.noted ?? []).filter(n => !Noted.aim(n) || !exchange.aims?.length)
+      .map(n => ({ text: n.text, ...Noted.labels[n.kind] ? { label: Noted.labels[n.kind]! } : {},
+        ...Noted.aim(n) ? { aim: true as const } : {} }));
     return [...aims, ...notes].filter(i => !seen.has(i.text) && (seen.add(i.text), true));
   }
   // What the Book's mark carries while anything is unread: how many, in ivory, never a pip of the Atlas's tones. What
