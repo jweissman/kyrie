@@ -7,7 +7,7 @@ Module drove "The held drove" {
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
-  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group). Relation owainAnswered(group). Relation mardleAnswered(group). Relation owainAsked(group). Relation mardleAsked(group). Relation owainTold(group). Relation deedSaid(group). Relation greenTold(group). Relation greenSeen(group).
+  Relation sold(group). Relation cried(group). Relation bidden(group). Relation halved(group). Relation emptied(group). Relation paid(group). Relation gone(group). Relation heard(group). Relation told(group). Relation westAsked(group). Relation owainAnswered(group). Relation mardleAnswered(group). Relation owainAsked(group). Relation mardleAsked(group). Relation owainTold(group). Relation deedSaid(group). Relation greenTold(group). Relation greenSeen(group). Relation cmSeen(group). Relation cmPast(group). Relation cartSpoken(group).
 
   Entity held: fact "The customs-men at {town} hold Bran, the Brynach lead-drover, for cheating the Rì's toll: four head short, their clerk says.".
   Initially Assert established(held).
@@ -242,6 +242,22 @@ Module drove "The held drove" {
   // the onward hook leading nowhere, cold play 6): the way west asked of him, once the drove is sold or he is paid out.
   Objective west_aim when knows(party, road_west) and freed(party) and (sold(party) or fined(party)) and not westAsked(party) toward bran "Ask Bran about the work up the pass in Brynach: the lord there pays for a sword.".
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }
+  // The customs-man who went out to the Rhyne and looked (show_drowned): back at the pens, getting the four out of the
+  // water, once, while the company is there (the drove-response audit's still-open, CL-32).
+  Rule cm_seen when freed(party) and at(party, pens) and knows(party, found_drowned) and not fined(party) and not cmSeen(party) { Assert cmSeen(party). }
+  Rule cm_past when cmSeen(party) and not at(party, pens) and not cmPast(party) { Assert cmPast(party). }
+  Observe cm_rope at pens as sign when cmSeen(party) and not cmPast(party) "The customs-man who went out to the Rhyne is at the pens with a rope and a horse. He is getting the four out of the water. He nods to you, once." teaches cm_known.
+  Entity cm_known: fact "The customs-man who looked in the Rhyne took Bran's side, and is getting the drowned four out.".
+  // Mardle's family gone with their handcart: Bran has seen it, and says what it is to him, once.
+  Topic bran_cart with bran "Ask Bran about the handcart on the quay" when turned(clerk) and gone(party) and not cartSpoken(party) once {
+    Says "'I saw it,' says Bran. 'Three children on a box of pots.' He is quiet a while. 'I wanted him gone. Not like that.'".
+    On discuss { Assert cartSpoken(party). }
+  }
+  // Owain goes on with his day on the landing after Bran is out, as the hours go: once he has told it to the drovers,
+  // a halter mended in the morning, asleep in the sun after noon, at the inn door at dusk listening.
+  Observe owain_morning near owain of owain when at(owain, green) and freed(party) and greenTold(party) and hour(clock) < 12 "Owain sits on the edge of the trough, mending a halter with his teeth and a bit of twine.".
+  Observe owain_noon near owain of owain when at(owain, green) and freed(party) and greenTold(party) and hour(clock) >= 12 and hour(clock) < 18 "Owain is asleep against the pens' gate in the sun, his cloak over his face.".
+  Observe owain_dusk near owain of owain when at(owain, green) and freed(party) and greenTold(party) and hour(clock) >= 18 "Owain stands at the inn door with his hands in his pockets, listening to the noise inside.".
   // Back on the landing, someone who remembers: Owain, telling it to drovers off a boat, as it went. Seen while the
   // company is on the landing and gone once it leaves, so a walk passing through sees it and goes on.
   Rule green_seen when freed(party) and at(party, green) and at(owain, green) and not greenSeen(party) { Assert greenSeen(party). }

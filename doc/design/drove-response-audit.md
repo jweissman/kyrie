@@ -33,10 +33,23 @@ do about it. The last column gives the dead ends as they were before this pass.
 All four paths are played in test/drove-answers.test.ts: the four found, the ink read, the crowns paid, and the crowns
 paid knowing where the four lay. Each Bran line and each landing line is said once, where it belongs.
 
+## Closed after (CL-32)
+
+- **The reeve, after a quiet settlement at the counter.** Turned to, she says what she has heard, until she is told
+  how. For the four found: "'The Brynach man is out,' she says. 'Mardle says his count was wrong. He did not say how
+  you knew.'" For the crowns: "'Twelve crowns, Mardle tells me … I would sooner have heard it from you.'" For the ink:
+  "'Mardle is packing his house … I hear you read his book for him.'"
+- **The customs-man who looked in the Rhyne** is at the pens with a rope and a horse, getting the four out. He nods to
+  you once, while you are there, and is not seen at it again.
+- **Mardle's family's handcart.** Bran says what it was to him, once: "'I saw it,' says Bran. 'Three children on a box
+  of pots.' He is quiet a while. 'I wanted him gone. Not like that.'"
+- **Owain goes on with his day** on the landing once Bran is out and he has told it to the drovers. In the morning he
+  mends a halter on the trough, after noon he is asleep against the pens' gate, and at dusk he is at the inn door,
+  listening.
+
+Pinned in test/drove-answers-after.test.ts (test/drove-answers' sibling).
+
 ## Still open
 
-- The reeve says nothing to the company after a quiet settlement at the counter.
-- The customs-man who checked the Rhyne is never seen again.
-- Mardle's family's going is told, but nobody speaks of it to the company.
 - None of these needs an engine abstraction yet. What repeats is the shape: a deed, then the person it is about, then a
   short line, once, and where it is said. That is the case for one later.

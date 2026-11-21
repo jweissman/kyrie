@@ -28,7 +28,12 @@ Module gate "The last sea-gate" {
   Initially Assert unlit(well).
   Item pawl "the sea-gate's pawl" is pawl_kind at well hidden until pawl_found.
 
-  Person reeve "Reeve Annis Talfryn" at green { Role "the reeve of Iscoed, who keeps the march and the sea-gates for the Rì". Pronouns she. Peaceable. Manner grim. }
+  Person reeve "Reeve Annis Talfryn" at green { Role "the reeve of Iscoed, who keeps the march and the sea-gates for the Rì". Pronouns she. Peaceable. Manner grim.
+    // Bran let out quietly at the counter, not before her: she has heard, and says so to the one who did it, until told
+    // how (the drove-response audit's still-open, CL-32).
+    Greets "The reeve looks up. 'The Brynach man is out,' she says. 'Mardle says his count was wrong. He did not say how you knew.'" when knows(party, freedword) and not knows(party, ruledword) and not knows(party, clerkkept) and not knows(party, clerkgone) and not mardleTold(party).
+    Greets "The reeve looks up. 'Twelve crowns, Mardle tells me,' she says. 'I would sooner have heard it from you.'" when knows(party, clerkkept) and not mardleTold(party).
+    Greets "The reeve looks up. 'Mardle is packing his house,' she says. 'I hear you read his book for him.' She nearly smiles." when knows(party, clerkgone) and not knows(party, ruledword) and not mardleTold(party). }
   Thing notice "the reeve's notice" at green {
     State posted "A notice in a clerk's hand is nailed to the post by the well: THE SEA-GATE AT GATESEND IS TO BE MENDED BEFORE THE SPRING TIDE. THIRTY CROWNS OF THE REEVE TO WHOEVER MENDS IT. A. TALFRYN, REEVE.".
   }
