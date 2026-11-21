@@ -7,6 +7,7 @@ import { World } from './world';
 import { Vocabularies } from './vocabulary';
 import { EngineOwned } from './engine-owned';
 import { Arithmetic } from './arithmetic';
+import { CheckedActions } from './checked-actions';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
@@ -139,7 +140,28 @@ export class ModuleCompiler {
     const missing = [...o.toward ?? [], ...o.route ? [o.route] : []].find(t => !this.type(module, t));
     if (missing) { throw new Error(`Objective ${o.id} is toward ${missing}, which is not an entity`); }
   }
+  // Each checked once while nothing it looks up changes (CheckedActions), its lookups noted as it is checked.
   private action(module: Module, action: Module['actions'][number]) {
+    const at = { joined: this.joined, capabilities: this.capabilities };
+    if (CheckedActions.holds(action, at, n => this.answer(module, n))) { return; }
+    const noted: string[] = [];
+    this.noted = noted;
+    try { this.whole(module, action); } finally { this.noted = undefined; }
+    CheckedActions.keep(action, at, noted);
+  }
+  private noted?: string[];
+  // A lookup's note as the module answers it now: `t <id> <type>`, `k <kind>`, `s <list> <name> <types>`.
+  private answer(module: Module, note: string): string {
+    const [q, a, b] = note.split(' ');
+    if (q === 't') { return `t ${a} ${this.type(module, a!) ?? ''}`; }
+    if (q === 'k') { return a === 'entity' || module.kinds.includes(a!) ? note : ''; }
+    const list = this.list(module, a!), found = list && this.index(list).get(b!);
+    return `s ${a} ${b} ${found?.types.join(',') ?? ''}`;
+  }
+  private list(module: Module, label: string): Signature[] | undefined {
+    return ({ p: this.lookup?.predicates, r: module.relations, m: module.measures, c: this.capabilities })[label];
+  }
+  private whole(module: Module, action: Module['actions'][number]) {
     if (!Number.isSafeInteger(action.cost) || action.cost < 0
       || !Number.isSafeInteger(action.time) || action.time < 0) { throw new Error(`Invalid cost/time for ${action.id}`); }
     const bindings = Object.fromEntries((action.parameters ?? []).map(p => [p.name, p.type]));
@@ -154,7 +176,7 @@ export class ModuleCompiler {
     [...action.success, ...action.failure].forEach(change => this.change(module, change, bindings));
     // What it writes is what its requirement binds, as a rule's is (ARV-A9: `Assert stale(?nobody)` had loaded).
     ModuleCompiler.writes(`Action ${action.id}`, action.requires, [...action.success, ...action.failure]);
-    if (action.speaker && !module.entities.some(e => e.id === action.speaker && e.type === 'group')) {
+    if (action.speaker && this.type(module, action.speaker) !== 'group') {
       throw new Error(`Unknown topic speaker ${action.speaker}`);
     }
     this.text(module, action.report ?? '', bindings);
@@ -247,17 +269,27 @@ export class ModuleCompiler {
     if (repeated.length) { throw new Error(`Duplicate ${label} ${[...new Set(repeated)].join(', ')}`); }
   }
   private type(module: Module, id: string): string | undefined {
-    return this.lookup ? this.lookup.types.get(id) : module.entities.find(e => e.id === id)?.type;
+    const type = this.lookup ? this.lookup.types.get(id) : module.entities.find(e => e.id === id)?.type;
+    this.noted?.push(`t ${id} ${type ?? ''}`);
+    return type;
   }
   private kind(module: Module, kind: string) {
     if (kind !== 'entity' && !module.kinds.includes(kind)) { throw new Error(`Unknown kind ${kind}`); }
+    this.noted?.push(`k ${kind}`);
   }
-  private call(module: Module, call: Call, signatures: Signature[], bindings: Record<string, string> = {}) {
+  private index(signatures: Signature[]): Map<string, Signature> {
     let index = this.signatures.get(signatures);
     if (!index) { index = new Map(signatures.map(s => [s.name, s])); this.signatures.set(signatures, index); }
-    const signature = index.get(call.name);
+    return index;
+  }
+  private call(module: Module, call: Call, signatures: Signature[], bindings: Record<string, string> = {}) {
+    const signature = this.index(signatures).get(call.name);
     if (!signature || signature.types.length !== call.args.length) {
       throw new Error(`Unknown function or arity: ${World.format(call)}${signature ? `; it is ${this.shape(signature)}` : ''}`);
+    }
+    if (this.noted) {
+      const label = (['p', 'r', 'm', 'c'] as const).find(l => this.list(module, l) === signatures);
+      this.noted.push(label ? `s ${label} ${call.name} ${signature.types.join(',')}` : CheckedActions.unknown);
     }
     call.args.forEach((arg, i) => {
       if (arg.startsWith('?') || (signature.types[i] === 'number' && (/^\d+$/.test(arg) || bindings[arg] === 'number'))) {
