@@ -2191,6 +2191,13 @@ for one to three days and then Fevered for a day. **A pin that moved:** test/fea
 gold to the vault's keeper. Its warrior is now of the fourth level: at the third the barrow ghoul is an even fight
 (BestiaryTool.won: 5 of 12), and the walk's dice changed once the buck was the SRD's.
 
+**Replays that moved:** the kept plays' lines (the cold plays' and S3-0's, test/iscoed-cold-five, test/hall-answers,
+test/golden-road-home) had killed the buck in two melee lines. Against the SRD's buck, on the elf mage's weir route
+with Gesk hired, the two blows miss, Gesk is at 8 of 17 and the buck still stands. The company still wins when it
+presses on: a replay now fights a fight its lines no longer end to its end by the game's tactics ("Press on to the end",
+test/support/as-meant), as a player would, before the line after it. The buck does not beat that route; it costs it
+more.
+
 ### 65. The wild boar (21 November): a breed's own scores over a rolled base, and the SRD boar where it warns
 
 **The boar on the fidelity table:** Orsino's boar (`boar`) rolls its scores, so no breed of it could be the SRD's: a

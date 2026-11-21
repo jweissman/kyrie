@@ -32,7 +32,8 @@ class Route {
     const s = r.said(), rows = [...s.offer.primary, ...s.offer.rest].flatMap(o => [o, ...o.opens ?? []]);
     const stand = rows.find(o => o.label === 'Stand your ground');
     if (!stand) { return undefined; }
-    const before = [...at].reverse().find(x => x.at !== s.at)?.at;
+    // Where it was before, not a turn of a fight (which stands nowhere: the buck fought on past the recording's blows).
+    const before = [...at].reverse().find(x => x.at && x.at !== s.at)?.at;
     const back = rows.find(o => /^go\(/.test(o.does ?? o.id) && !!before && (o.does ?? o.id).endsWith(`,${before})`));
     const done = (x: Said | { error: string }) => ('error' in x ? undefined : x);
     if (line.includes('travel:') && back) {

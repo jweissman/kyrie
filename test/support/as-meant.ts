@@ -1,4 +1,5 @@
 import type { Runner, Said } from '../../src/cli/runner';
+import { RunnerFight } from '../../src/cli/runner-fight';
 
 // A kept play's line asked as it was meant, by what it does and to whom, not by where its row stood (MT-15: the
 // owner, 19 November). A line is its act's id, as the play sent it; where the world has more in it than when it was
@@ -7,12 +8,21 @@ import type { Runner, Said } from '../../src/cli/runner';
 //   about the king-barrow", once the hand on the green was led before it);
 // - a way taken that something dangerous now lies on (the culvert's foul air, the cutting's cracked roof) is taken
 //   at its risk, the one who sent the play going first, as the play took that way.
+// - a fight the play's own blows ended that its lines no longer end (the corn-store's buck, the SRD's dire rat since
+//   srd-proving-cases.md case 64, still up after the elf mage's two blows) is fought on to its end by the game's
+//   tactics ("Press on to the end"), as a player who pressed on would, before the line after it.
 // Nothing else is changed: a line refused for any other reason is refused, as the play's own log kept it.
 export class AsMeant {
   static async ask(r: Runner, line: string): Promise<Said | { error: string }> {
     const said = await r.ask(line);
     if (!('error' in said) || !said.error.startsWith('not offered')) { return said; }
     const act = (JSON.parse(line) as { act?: unknown }).act;
+    if (typeof act === 'string' && !act.startsWith('fight:') && said.error.startsWith('not offered in the fight')) {
+      for (let i = 0; i < 40 && 'error' in (await r.ask(JSON.stringify({ act: RunnerFight.through }))) === false; i++) {
+        const again = await r.ask(line);
+        if (!('error' in again) || !again.error.startsWith('not offered in the fight')) { return again; }
+      }
+    }
     if (typeof act !== 'string') { return said; }
     for (const way of AsMeant.ways(r, act)) {
       const step = way.length > 1 ? await r.ask(JSON.stringify({ act: way[0] })) : undefined;
