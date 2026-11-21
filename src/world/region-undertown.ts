@@ -24,10 +24,12 @@ export class RegionUndertown {
     const t = s.id, standing = { merchant: SettlementWriter.standing(region, s, 'merchant'),
       priest: SettlementWriter.standing(region, s, 'priest'), innkeeper: SettlementWriter.standing(region, s, 'innkeeper') };
     const values = { ...this.values(t, s.name, company, standing), ratsbane: this.ratsbane(s) };
-    const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`, {}, fix);
+    const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`, this.lives(region), fix);
     return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
       ...RegionMarket.home(region, s), ...this.notice(t, sections, values)];
   }
+  // How the company's life began, for the sections drawn only for one (who is on the green: "if fromdrove").
+  static lives(region: Region): Record<string, string> { return region.origin ? { [`from${region.origin}`]: 'yes' } : {}; }
   // The values a town's undertown is written with (see lines): its id and name, how many of each foe for a company
   // of so many, and where each who pays stands.
   static values(t: string, town: string, company: number, standing: Record<'merchant' | 'priest' | 'innkeeper', string>)
@@ -60,7 +62,7 @@ export class RegionUndertown {
   private static bane(stock: [string, number, number][]): boolean { return stock.some(([what]) => what === 'ratsbane'); }
   // Whether the town has a notice of its troubles on the green (see notice): one of its troubles says itself there.
   static noticed(region: Region, s: Settlement): boolean {
-    return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`, {}, StrategicAtlas.fix(region, 'undertown'))
+    return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`, this.lives(region), StrategicAtlas.fix(region, 'undertown'))
       .some(x => x.said.length > 0);
   }
   // The notice on the green that gathers what each trouble chosen says of itself; read, a lead in the Notes, and each

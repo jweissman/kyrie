@@ -3,7 +3,8 @@ import { DifferenceCensus, type Walk } from '../../scripts/difference-census';
 
 // The difference census's invariant (doc/design/difference-census.md; scripts/difference-census.ts): what a thing is
 // is compared, not where it is. A generated town's own is its template's whichever town has it; a town's folk are
-// their work, never their slot; and the overlap of two walks is what they share over what either met.
+// their work, never their slot, and anyone else who they are (their name); and the overlap of two walks is what they
+// share over what either met.
 describe('the difference census', () => {
   it('keys a thing by what it is, wherever it is', () => {
     expect(DifferenceCensus.key('region__s1_hesper')).toBe(DifferenceCensus.key('region__s3_hesper'));
@@ -12,6 +13,10 @@ describe('the difference census', () => {
     expect(DifferenceCensus.person('region__s1_r7', 'Sabine, the tinker, Martin\'s daughter')).toBe('folk:tinker');
     expect(DifferenceCensus.person('region__s4_r2', 'Elfred, the tinker')).toBe('folk:tinker');
     expect(DifferenceCensus.person('region__s1_r3', 'Wat, the collier')).not.toBe('folk:tinker');
+    // Anyone else by who they are: one first town's Hesper is another's; two countries' innkeepers are two people.
+    expect(DifferenceCensus.person('region__s1_hesper', 'Hesper Lowe, a boat-wright\'s apprentice'))
+      .toBe(DifferenceCensus.person('region__s3_hesper', 'Hesper Lowe, a boat-wright\'s apprentice'));
+    expect(DifferenceCensus.person('region__s1_innkeeper', 'Kynes')).not.toBe(DifferenceCensus.person('region__s1_innkeeper', 'Aelfra'));
   });
   it('measures the overlap of two walks as what both met over what either did', () => {
     const walk = (met: string[]): Walk => ({ name: met.join(), seed: '', origin: '', calling: '',

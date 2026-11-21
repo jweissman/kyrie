@@ -15,6 +15,7 @@ export class RegionLetters {
   // The country's answer, for the protagonist an origin makes (Origins.protagonist): by their origin, else
   // their background.
   static give(region: Region, origin: string | undefined, protagonist?: { backgroundId?: string }): void {
+    region.origin = origin;
     region.letter = this.of(region, { ...origin ? { origin } : {},
       ...protagonist?.backgroundId ? { background: protagonist.backgroundId } : {} });
   }

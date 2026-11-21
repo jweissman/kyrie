@@ -104,6 +104,38 @@ sooner. What it finds falls less in a1 / thorn: the first town's standing facts 
 Shared by all four pairs now: the inn's dog, the innkeeper, the traveller and the town's `why`. The first town's cast
 (proposal 1) is the largest sameness left.
 
+## The first town's cast, looked at again (proposal 1)
+
+The census had keyed a template's person by their slot (`innkeeper`, `u_hand`). But a slot is not a person. Every
+country's innkeeper is someone else, with a name and lines drawn for them. The figure on the green is already one of
+several (the sellsword, the runaway acolyte, the tinker's daughter). Keyed by who they are (their name), with a town's
+folk still keyed by their work, the four pairs' met falls from 0.08 to 0.14 to almost nothing:
+
+| pair | met, by slot | met, by who they are |
+|---|---|---|
+| (a) Iscoed: drove warrior / weir mage | 0.14 | 0.04 |
+| (a) a1: kin / debt | 0.11 | 0 |
+| (b) the debt's warrior, a1 / thorn | 0.08 | 0.02 |
+| (b) the debt's warrior, thorn / ash | 0.09 | 0.01 |
+
+What the people of the first town are is mostly drawn already. The same person met in two lives is now rare. The ones
+seen are the authored first-town people, Aldous Fenn and Dannel Hobb (each in one pair), and Hesper, Morwen and
+Isaure, who stay as they are by intent.
+
+What the slot keying did show is that the drawn figures were not of the life. So the green's figure who would come
+along is now drawn by how the life began too, where a life has its own people. These hands are each one of the green's
+options, weighted three to the others' one, and each is willing to come for a coin or two, or for nothing:
+
+- **The drove:** a drover's lad with his dog, his drove sold at the march.
+- **The debt:** a bailiff's man owed a month's wages by the same merchant the company owes.
+- **The weir:** an eel-boy who has never seen the sea-gate shut.
+- **The pans:** a salt-raker laid off when the fires went out.
+- **The kin road:** your father's old carter's boy.
+
+This is the hand of data/generation/town/undertown.kyrt, "if fromdrove", and so on. The slot `u_hand` is kept, so
+nothing that names it breaks. test/features/world/first-cast.pin meets the drover's lad in Iscoed and the bailiff's
+man in a1.
+
 ## Not measured yet
 
 - Relationships deepened over several visits. The walks are an hour long.

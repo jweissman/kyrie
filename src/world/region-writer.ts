@@ -108,6 +108,8 @@ export interface Region extends Naming {
   reserved?: string[];
   // The answer to a letter home, from the company's own people (see RegionLetters), where its life has a start.
   letter?: { from: string; news: string };
+  // How the protagonist's life began (an origin's id), where one did (see RegionLetters.give).
+  origin?: string | undefined;
   // The debt's chain where it is fixed, not drawn (see DebtShapes).
   chain?: string | undefined;
 }

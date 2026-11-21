@@ -902,3 +902,47 @@
     Says "The lock clicks open under her pick. 'He'll be back at harvest. Till then I go where the locks are. One coin.'".
     On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 1. }
   }
+// Who is on the green is drawn by how the company's life began, where the life has its own people (the difference
+// census's first proposal: the first town's cast had been the same few for every life): a drover's town has a drover's
+// lad, a debtor's a bailiff's man owed by the same creditor, an heir to the weir an eel-boy, a salt-raker's a raker
+// laid off, a son come home his father's old carter's boy. Each would come along, as the others would.
+--- hand drover 3 if fromdrove
+  Person {t}_u_hand "the drover's lad" at {t}_green {
+    Role "a drover's lad from over the fells, his dog at his heel and no drove to follow". Ancestry human. Calling ranger. Level 1. Peaceable. Manner cheerful. Pronouns he.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the drover's lad where his drove went" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "'Sold at the march, and me with nothing to drive,' says the lad. The dog looks up at him. 'I can walk all day. One coin, and the dog comes too.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 1. }
+  }
+--- hand bailiff 3 if fromdebt
+  Person {t}_u_hand "the bailiff's man" at {t}_green {
+    Role "a bailiff's man in a good coat gone thin, owed a month's wages by the same merchant you owe". Ancestry human. Calling warrior. Level 1. Peaceable. Manner acerbic. Pronouns he.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the bailiff's man what he is waiting for" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "'My wages,' he says. 'Same as you're waiting to pay, I expect.' He stands up. 'Two coin, and I'll help you find it.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 2. }
+  }
+--- hand eelboy 3 if fromweir
+  Person {t}_u_hand "the eel-boy" at {t}_green {
+    Role "an eel-boy with a trap on his back, who has never seen the sea-gate shut". Ancestry human. Calling thief. Level 1. Peaceable. Manner cheerful. Pronouns he.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the eel-boy what he wants" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "'To see it shut,' says the boy. 'Just once. I'll carry. I'll not eat much.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 0. }
+  }
+--- hand raker 3 if frompans
+  Person {t}_u_hand "the laid-off raker" at {t}_green {
+    Role "a salt-raker laid off when the fires went out, salt still in the creases of her hands". Ancestry human. Calling warrior. Level 1. Peaceable. Manner grim. Pronouns she.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the raker what she will do now" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "'Whatever pays,' she says. 'Not raking. Two coin, and I'll go where you go.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 2. }
+  }
+--- hand carter 3 if fromkin
+  Person {t}_u_hand "the carter's boy" at {t}_green {
+    Role "the boy who used to hold your father's horse, grown now, and still looking down the road". Ancestry human. Calling ranger. Level 1. Peaceable. Manner stoic. Pronouns he.
+  }
+  Topic {t}_u_hand_ask with {t}_u_hand "Ask the carter's boy whether he saw the cart go" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
+    Says "'I held the horse while he loaded,' says the boy. 'He said he'd be back by dark.' He looks down the road. 'I'll come and look. For nothing.'".
+    On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 0. }
+  }

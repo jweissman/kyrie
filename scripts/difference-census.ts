@@ -32,9 +32,11 @@ export class DifferenceCensus {
     return id.replace(/^region__(s\d+|w\d+|x-?\d+y-?\d+)_/, '').replace(/^region__/, '').replace(/\d+(?=__)/, '');
   }
   // A town's generated folk (s1_r7) by the work they do, as every town has its tinker or its salter; anyone else by
-  // what they are.
+  // who they are, their name: two countries' innkeepers are two people, though both keep the inn, and Hesper Lowe is
+  // Hesper Lowe in any first town.
   static person(id: string, name: string): string {
-    return /^region__s\d+_r\d+$/.test(id) ? `folk:${name.split(', the ')[1]?.split(',')[0] ?? name}` : this.key(id);
+    return /^region__s\d+_r\d+$/.test(id) ? `folk:${name.split(', the ')[1]?.split(',')[0] ?? name}`
+      : `who:${name.split(', ')[0]}`;
   }
   static overlap(a: Set<string>, b: Set<string>): { fraction: number; shared: string[] } {
     const shared = [...a].filter(x => b.has(x)), either = new Set([...a, ...b]).size;
