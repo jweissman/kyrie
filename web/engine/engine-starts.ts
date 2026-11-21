@@ -67,8 +67,19 @@ export class EngineStarts {
     if (r.campaign !== Creation.generated) { return; }
     const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
       ...r.memorial ? { memorial: r.memorial } : {} };
-    const world = await this.creation.origin(r.campaign, r.seed, r.party, at);
+    const drawn = this.creation.origin(r.campaign, r.seed, r.party, at);
+    this.drawnFor = { key: EngineStarts.key(r), world: drawn };
+    const world = await drawn;
     await Creation.warm(world.path, world.source);
+  }
+  // The world the texts were read for, kept for the start made for the same choices (OR-144): it had been drawn again
+  // by the start, the same world a second time (a third of a second of a Set out now pressed while the country drew).
+  // Taken once, and let go when another country is drawn.
+  private drawnFor?: { key: string; world: ReturnType<Creation['origin']> };
+  private origin(r: Starting, at: Parameters<Creation['origin']>[3]): ReturnType<Creation['origin']> {
+    const kept = this.drawnFor?.key === EngineStarts.key(r) ? this.drawnFor.world : undefined;
+    this.drawnFor = undefined;
+    return kept ?? this.creation.origin(r.campaign, r.seed, r.party, at);
   }
   // Nothing more begun, and what is under way finished (the reading, a start made ready): for whatever must know the
   // engine is idle, as a spec that makes a life and sets out on none (its warming had run on into the next spec and
@@ -81,7 +92,7 @@ export class EngineStarts {
   // Nothing made ready any longer: a new country is being drawn.
   drop(): void {
     clearTimeout(this.soon); this.soon = undefined; this.ready = undefined; this.next = undefined;
-    this.foreseen = undefined;
+    this.foreseen = undefined; this.drawnFor = undefined;
   }
   prepare(r: Starting): void {
     const key = EngineStarts.key(r);
@@ -115,7 +126,7 @@ export class EngineStarts {
       ...r.memorial ? { memorial: r.memorial } : {} }, key = EngineStarts.key(r);
     if (asked) { this.said('Drawing the world'); }
     const began = performance.now();
-    const origin = await this.creation.origin(r.campaign, r.seed, r.party, at);
+    const origin = await this.origin(r, at);
     if (asked) { this.said('Placing its people'); }
     const drawn = performance.now();
     // An origin makes the protagonist what it says (their background, what they carry): the world's telling of them.
