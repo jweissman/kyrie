@@ -16,6 +16,8 @@ import { Widening } from './widening';
 import { DangerSense } from '../presentation/danger-sense';
 import { ScreenModel } from '../ui/screen-model';
 import { Doable } from '../presentation/doable';
+import { Engaged } from '../presentation/engaged';
+import { Patience } from '../ui/patience';
 import { Narrator } from '../presentation/narrator';
 import { ChoiceList, type Choice } from '../ui/choice-list';
 import type { Aspect } from '../presentation/glance-types';
@@ -102,10 +104,23 @@ export class AutoplayRun {
     return choices.flatMap(c => c.children ? this.leaves(c.children) : [c]);
   }
   static situation(s: PlaySession, step: number, led = false, prefer?: Aspect): Situation {
-    const c = s.campaign, offered = PlayerView.choices(c).map(x => ({ id: x.choice.id, name: x.choice.name }));
-    return { offered, destinations: Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
+    const c = s.campaign, engaged = this.engaged(s);
+    const offered = PlayerView.choices(c).filter(x => !engaged || engaged.has(x.choice.id))
+      .map(x => ({ id: x.choice.id, name: x.choice.name }));
+    return { offered, destinations: engaged ? []
+      : Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
       visited: VisitedPlaces.of(c, c.playerActor!), step, dangers: this.dangers(s, offered),
       dark: Travel.dark(c), ...led ? { led: this.led(s, prefer) } : {} };
+  }
+  // While a warning stands, what the engaged frame offers, by command (Doable's rows: OR-166): every policy answers
+  // what is in front of it as a player must (OR-163), where the campaign's offer had kept its waits and its search;
+  // and no journey. Undefined where nothing warns, the campaign's offer as it was.
+  private static engaged(s: PlaySession): Set<string> | undefined {
+    // The warning asked first (Patience, what the frame reads it by), the frame built only where one stands.
+    if (!Engaged.threat(Patience.of(s.campaign))) { return undefined; }
+    const screen = ScreenModel.build(s.campaign);
+    const glance = Narrator.leaf(s.campaign, screen).glance;
+    return new Set(glance ? Doable.flat(Doable.of(glance, screen)).flatMap(r => r.does ? [r.does] : []) : []);
   }
   // What the page leads with where the company stands, best first, by command (see Glance); for a walker that
   // prefers an aspect (silver: what is worth exploring; gold: the aim followed), what has it first, the page's order
