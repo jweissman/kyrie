@@ -31,7 +31,10 @@ class Answered {
       true);
     const seen = (e: Element) => {
       const after = performance.now() - w.__pressed;
-      if (e.hasAttribute('data-taken')) { w.__taken.push({ act: e.getAttribute('data-act'), ms: after }); }
+      // A row drawn taken; or, a journey set out on from the map, its On the way card (WorldStage.Going).
+      if (e.hasAttribute('data-taken') || e.getAttribute('data-state') === 'travelling') {
+        w.__taken.push({ act: e.getAttribute('data-act'), ms: after });
+      }
       if (e.hasAttribute('data-holding')) { w.__held.push(after); }
     };
     new MutationObserver(ms => {
@@ -39,10 +42,12 @@ class Answered {
         if (m.type === 'attributes' && m.attributeName === 'data-mode') { w.__turned.push(performance.now() - w.__pressed); }
         if (m.type === 'attributes') { seen(m.target as Element); continue; }
         for (const n of m.addedNodes) {
-          if (n instanceof Element) { [n, ...n.querySelectorAll('[data-taken], [data-holding]')].forEach(seen); }
+          if (n instanceof Element) {
+            [n, ...n.querySelectorAll('[data-taken], [data-holding], [data-state="travelling"]')].forEach(seen);
+          }
         }
       }
-    }).observe(document, { attributes: true, attributeFilter: ['data-taken', 'data-holding', 'data-mode'], childList: true,
+    }).observe(document, { attributes: true, attributeFilter: ['data-taken', 'data-holding', 'data-mode', 'data-state'], childList: true,
       subtree: true });
     const post = Worker.prototype.postMessage;
     Worker.prototype.postMessage = function (this: Worker, m: { request?: { kind: string } }, ...rest: never[]) {
