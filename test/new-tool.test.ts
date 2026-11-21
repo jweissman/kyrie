@@ -25,6 +25,10 @@ describe('an adventure begun with kyrie new', () => {
     await symlink(resolve('src'), join(root, 'src'));
     await symlink(resolve('bunfig.toml'), join(root, 'bunfig.toml'));
     await symlink(resolve('data', 'imbar'), join(root, 'data', 'imbar'));
+    // And what that preload names besides (MT-25's strict reads, test/support/declared-strict.ts): without it the test
+    // kyrie new wrote ran nothing ("0 passed, 0 failed").
+    await mkdir(join(root, 'test'), { recursive: true });
+    await symlink(resolve('test', 'support'), join(root, 'test', 'support'));
   });
   afterAll(async () => { await rm(root, { recursive: true, force: true }); });
 
