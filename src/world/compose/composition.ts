@@ -3,6 +3,7 @@ import type { BundleManifest, BundleRequest } from '../../campaign/module-bundle
 import type { Module } from '../../lang/module';
 import { ModuleParser } from '../../lang/module-parser';
 import { ModuleSource } from '../../lang/module-source';
+import { KeptParses } from '../../lang/kept-parses';
 import { Composer, type Placement } from './composer';
 import { Geography } from './geography';
 import { Kits } from './kit';
@@ -82,7 +83,9 @@ export class Composition {
     // are among them (AX-04: read without them, the composer had placed the raiders' hold elsewhere).
     const texts = await Promise.all(files.map(f => source.read(source.resolve(f, entry.bundle))));
     const sources = await ModuleSource.sources(manifest, entry.bundle, source);
-    const parts = texts.map((text, i) => ModuleParser.parse(text, sources[i]?.declared));
+    // Read, never changed: the parses as they are kept, uncopied (KeptParses).
+    const parse = ModuleParser.parse.bind(ModuleParser);
+    const parts = texts.map((text, i) => KeptParses.of(text, sources[i]?.declared ?? [], parse));
     const company = parts.find(m => m.company)?.company;
     const module = { ...parts[0]!, ...company ? { company } : {}, entities: parts.flatMap(m => m.entities),
       initial: parts.flatMap(m => m.initial) };

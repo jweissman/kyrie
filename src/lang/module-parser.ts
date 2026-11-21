@@ -1,5 +1,5 @@
 import { parseAbility } from './parse';
-import { Spatial } from './spatial';
+import { Spatial } from './spatial'; import { KeptParses } from './kept-parses';
 import type { Declared } from './module-source'; import { DeclaredValues } from './declared-values';
 import { Discovery, type DiscoveryDefinition } from './discovery';
 import * as ohm from 'ohm-js';
@@ -94,7 +94,7 @@ export class ModuleParser {
   // declared: what a generator declared for the text as values, each declared where its line was (ModuleSource,
   // AX-04), and kept with the text (the same text with other values is another module).
   static parse(text: string, declared: readonly Declared[] = []): Module {
-    const key = `${Vocabularies.seen(text)}\u0000${text}${declared.length ? `\u0000${JSON.stringify(declared)}` : ''}`;
+    const key = KeptParses.key(text, declared);
     const known = ParseCache.get(key), began = performance.now();
     if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
     const match = ModuleParser.grammar.match(text), matched = performance.now();

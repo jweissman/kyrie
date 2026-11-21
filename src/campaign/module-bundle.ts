@@ -6,6 +6,7 @@ import { LocalKinds } from '../canon/local-catalog';
 import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
 import { ModuleParser } from '../lang/module-parser';
+import { KeptParses } from '../lang/kept-parses';
 import { Diagnostics, type SourceFile } from '../lang/diagnostics';
 import { ModuleAssembly, type AdventureManifest } from './module-assembly';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
@@ -131,7 +132,8 @@ export class ModuleBundle {
     const key = this.key(file.text, among, declared);
     let module = this.parses.get(key);
     if (!module) {
-      try { module = ModuleParser.parse(file.text, declared); }
+      // Kept here uncopied (each caller is given a copy below): KeptParses.
+      try { module = KeptParses.of(file.text, declared, ModuleParser.parse.bind(ModuleParser)); }
       catch (error) { throw Diagnostics.parse(error, file.path); }
       if (this.parses.size > 400) { this.parses.clear(); }
       this.parses.set(key, module);
@@ -291,7 +293,7 @@ export class ModuleBundle {
     const key = this.key(text, own, declared), known = this.parses.get(key);
     if (known) { return known; }
     try {
-      const parsed = ModuleParser.parse(text, declared);
+      const parsed = KeptParses.of(text, declared, ModuleParser.parse.bind(ModuleParser));
       if (this.parses.size < 400) { this.parses.set(key, parsed); }
       return parsed;
     } catch { return undefined; }
@@ -308,7 +310,9 @@ export class ModuleBundle {
       const own = i < at.own, declared = own ? at.values[i]?.declared ?? [] : [];
       const text = await source.read(file), key = this.key(text, own, declared);
       if (!this.parses.has(key)) {
-        try { this.parses.set(key, ModuleParser.parse(text, declared)); } catch { /* said when it is loaded */ }
+        // The parse kept, uncopied: these are copied as they are handed out (see parsed).
+        try { this.parses.set(key, KeptParses.of(text, declared, ModuleParser.parse.bind(ModuleParser))); }
+        catch { /* said when it is loaded */ }
         await new Promise(resolve => setTimeout(resolve, 0));
       }
       LocalKinds.install(this.parses.get(key)?.catalog);
