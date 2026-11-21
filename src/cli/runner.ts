@@ -344,8 +344,11 @@ export class Runner {
     const seen = (p.says?.length ? p.says : [p.name]).map(l => Typography.plain(l));
     const g = this.glanced(), lines = [`${p.name.split(', ')[0]}:`, ...seen];
     const whose = RunnerTalks.whose(g ? Doable.of(g, screen) : []);
-    const primary = said.offer.rest.filter(o => whose.get(o.does ?? o.id) === who).slice(0, 4);
-    const rest = [...said.offer.primary, ...said.offer.rest.filter(o => !primary.includes(o))];
+    // What the engine holds within their talk, the act it was led for among it (CL-33: Ianto's boat, gold on "Talk to
+    // Ianto", had not been among what was had of him once turned to).
+    const all = [...said.offer.primary, ...said.offer.rest];
+    const primary = all.filter(o => whose.get(o.does ?? o.id) === who).slice(0, 4);
+    const rest = all.filter(o => !primary.includes(o));
     return { ...said, moment: 'inspect', scene: { lines, prose: seen },
       offer: primary.length ? { ...said.offer, primary, rest } : said.offer };
   }

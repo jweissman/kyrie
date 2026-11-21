@@ -73,11 +73,25 @@ export class AimContinuity {
     if (grave) {
       return { acts, continuance: { kind: 'led', witness: grave.choice, said: `${grave.label}: your aim's way, at a risk.` } };
     }
+    // The step just tried here and not come off: not led again for nothing (CompanyRecall: a try failed is done until
+    // the company grows, test/small/tried-again-grown), but never said to be nothing that bears on the aim (cold play
+    // 5's 10, CL-33: failed at the windlass, the frontier had said nothing here bore on the aim; the next try shut the
+    // gate). What stands is said as it is.
+    const retry = this.retry(campaign, cands);
+    if (retry) {
+      return { acts, continuance: { kind: 'frontier', said: `${retry.label.split(' · ')[0]}: that try did not come off.`
+        + ' Another may, or more hands.' } };
+    }
     // Something can be done to the bar, but none of it is the step yet (the speaking door's words, a guess until its
     // letters are read): never "nothing here opens it".
     const tried = PlayerView.choices(campaign).some(r => Object.entries(r.action.bindings ?? {})
       .some(([k, v]) => k !== 'actor' && lead.next.includes(v)));
     return { acts, continuance: { kind: 'frontier', said: this.frontier(campaign, lead, tried) } };
+  }
+  // The offered act that was the last thing done, and did not come off: a fresh try at it is still the aim's step.
+  private static retry(campaign: Campaign, cands: Candidate[]): Candidate | undefined {
+    const last = campaign.history.at(-1);
+    return last?.result === 'failure' ? cands.find(c => !c.barred && c.command === last.action) : undefined;
   }
   // What stands, where nothing offered acts on the step.
   private static frontier(campaign: Campaign, lead: AimLead, tried: boolean): string {

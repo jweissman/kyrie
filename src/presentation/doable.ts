@@ -120,13 +120,25 @@ export class Doable {
       .map(a => ({ ...a, lens: lens as Lens })));
     const offered = this.holders([...listed.map(o => this.row(o.choice, o.label, { ...at, lens: lensOf.get(o.choice),
       led: led.has(o.choice), command: o.command })), ...[...new Map(held.map(a => [a.choice, a])).values()]
-      .map(a => this.row(a.choice, a.label, { ...at, lens: a.lens, led: false, command: a.command }))], at);
+      .map(a => this.row(a.choice, a.label, { ...at, lens: a.lens, led: false, command: a.command })),
+      ...this.ledFor(glance, at, had)], at);
     const out = glance.compass?.out, journeys = DoableJourneys.more(this.flat(offered), screen, out)
       .map(j => ({ ...this.row(j.command, j.label, { ...at, command: j.command }), minutes: j.minutes }));
     const rows = DoableJourneys.mapped([...offered, ...journeys], screen, out);
     const read = { rows, at, lensOf };
     this.kept.set(glance, read);
     return read;
+  }
+  // What a talk is led for that is no row of its own (an act done with them: Ianto's boat, poled down the cut), a row
+  // within their talk, so that turned to them it is among what is had of them: the aim's step had been gold on "Talk to
+  // Ianto" and then, turned to him, nowhere among what was said to him (CL-33, the golden route's fuel boat).
+  private static ledFor(glance: Offered, at: Kept['at'] & { commands: Map<string, Choice> }, had: Set<string>): Row[] {
+    const talks = glance.acts.flatMap(a => /#talk$/.test(a.choice)
+      ? (a.inside ?? []).map(i => ({ talk: a.choice, cmd: i.command })) : []);
+    return talks.filter(x => !had.has(x.cmd) && at.commands.has(x.cmd)).map(x => {
+      const c = at.commands.get(x.cmd)!;
+      return { ...this.row(c.id, c.label, { ...at, led: false, command: x.cmd }), within: x.talk };
+    });
   }
   // Each row a person's acts are within, offered (mt18-grouping.md, steps 1 and 2): their talk drawn from the scene
   // where the turn's offer left it out, holding the ids of what is within it; an act whose holder the scene has not
