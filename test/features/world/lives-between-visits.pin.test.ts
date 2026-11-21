@@ -13,10 +13,10 @@ describe('the first town\'s people, between visits', () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const r = new Runner(journey.session), look = () => curl(r.said('look').scene.lines.join(' '));
     const act = async (label: RegExp) => curl((await RunnerFind.act(r, r.said(), label)).scene.lines.join(' '));
-    // The first visit: a hand at Morwen's table, and a question put to Isaure.
+    // The first visit: a hand at Morwen's table, laid down, and a question put to Isaure.
     await journey.play('>s1_taproom');
     await act(/^Sit down across from Morwen Ashlock/);
-    await act(/^Play the hand out/);
+    await act(/^Lay your cards down/);
     await act(/^Talk to Isaure Venn$/);
     await act(/^Ask Isaure Venn what she is reading/);
     expect(look()).not.toContain('stiff as boards');
@@ -25,7 +25,7 @@ describe('the first town\'s people, between visits', () => {
     const second = look();
     expect(second).toContain('Morwen Ashlock has a new pack of cards, stiff as boards');
     expect(second).toContain('Isaure Venn has drawn the hill three times on one sheet');
-    expect(await act(/^Talk to Morwen Ashlock$/)).toContain("'Back for your buttons,' says Morwen Ashlock.");
+    expect(await act(/^Talk to Morwen Ashlock/)).toContain("'Back for your buttons,' says Morwen Ashlock.");
     expect(await act(/^Talk to Isaure Venn$/)).toContain("'Still the same page,' says Isaure Venn");
     // By the hour: Hesper Lowe in the taproom of an evening, drawing bells.
     await journey.play('==day 3 20:00');

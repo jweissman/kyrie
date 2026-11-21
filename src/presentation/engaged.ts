@@ -11,27 +11,39 @@ import type { Row } from './doable';
 // on). No other wait, no search, no camp, no aim taken up, no talk with anyone else, no journey beyond the hex, and no
 // world map: the company resolves what is in front of it. Read into the Screen itself (ScreenModel), so that the scene,
 // the glance, Doable and every client built on them offer the same few and none can offer more.
-// threat: who it is; here: the things of the place; about: the acts whose words name the threat.
+// The same narrowing holds for an engagement that is not a threat (OR-173: a hand of cards, a riddle, a performance;
+// Screen.engaged, see Engagement): only its own moves, what is done on the place, and the ways out, which are its
+// withdrawal; but no wait (nothing is coming on) and no light taken up. A threat comes first: one warning the company
+// off cuts into a hand of cards.
+// threat: who it is (or what the company is engaged in); here: the things of the place; about: the acts whose words
+// name it.
 interface At { threats: ReadonlySet<string>; here: ReadonlySet<string>; about: ReadonlySet<string> }
 export class Engaged {
   // The one wait offered: standing where the company is, and letting the threat come on.
   static readonly stand = 'Stand your ground';
   static threat(screen: Pick<Screen, 'warned'>): string | undefined { return screen.warned?.id; }
+  // Who or what the frame is narrowed to: the threats warning the company off, or else what it is engaged in.
+  static subjects(screen: Pick<Screen, 'warned' | 'engaged'>): string[] {
+    const by = screen.warned?.id ? screen.warned : screen.engaged;
+    return by?.id ? [by.id, ...by.also ?? []] : [];
+  }
   // The frame as it is engaged: every act that does not answer the threat taken out of it, and the ways beyond.
   // operators: the campaign's acts, by which an act whose own words name the threat is known for one that answers it
   // (keeping to the old drain's cold side, which the centipede then lets by: tolerates).
   static screen(screen: Screen, operators: readonly Operator[] = []): Screen {
-    const threat = this.threat(screen);
-    if (!threat) { return screen; }
     // Every one warning the company off here is a threat it answers (three dangers at one door).
-    const threats = new Set([threat, ...screen.warned?.also ?? []]), named = [...threats].map(t => `"${t}"`);
-    const at: At = { threats, here: new Set(screen.things.map(t => t.id)),
+    const subjects = this.subjects(screen);
+    if (!subjects.length) { return screen; }
+    const threats = new Set(subjects), named = subjects.map(t => `"${t}"`), fight = !!this.threat(screen);
+    // An act on the place is a fight's answer (a way's hazard, a light); a hand of cards has none but its own.
+    const at: At = { threats, here: new Set(fight ? screen.things.map(t => t.id) : []),
       about: new Set(operators.filter(o => this.naming(JSON.stringify([o.requires, o.success, o.failure]), named))
         .map(o => o.id)) };
     return { ...screen,
-      camp: screen.camp.flatMap(a => a.command === 'wait' ? [{ ...a, label: this.stand }] : this.acts([a], at)),
+      camp: screen.camp.flatMap(a => a.command !== 'wait' ? this.acts([a], at) : fight ? [{ ...a, label: this.stand }] : []),
       people: screen.people.map(p => threats.has(p.id) ? p : { ...p, acts: this.acts(p.acts, at) }),
-      items: screen.items.map(i => ({ ...i, acts: i.acts.filter(a => this.light(a) || this.names(a, at)) })),
+      ...fight ? {} : { things: screen.things.map(t => threats.has(t.id) ? t : { ...t, acts: this.acts(t.acts, at) }) },
+      items: screen.items.map(i => ({ ...i, acts: i.acts.filter(a => (fight && this.light(a)) || this.names(a, at)) })),
       party: screen.party.map(m => ({ ...m, acts: this.acts(m.acts, at) })),
       unplaced: this.acts(screen.unplaced, at),
       ...screen.aims ? { aims: screen.aims.map(({ follow: _f, ...a }) => a) } : {},
@@ -41,15 +53,16 @@ export class Engaged {
   // campaign, not the frame, and had kept its waits and its search), the short wait worded as standing; never a
   // journey, the world map or an aim.
   static rows(rows: Row[], screen: Screen): Row[] {
-    if (!this.threat(screen)) { return rows; }
+    if (!this.subjects(screen).length) { return rows; }
+    const fight = !!this.threat(screen);
     const held = new Set(this.commands([screen.camp, screen.unplaced, ...[...screen.people, ...screen.things,
       ...screen.exits, ...screen.items, ...screen.party].map(x => x.acts)].flat()));
-    return rows.flatMap(r => this.row(r, held));
+    return rows.flatMap(r => this.row(r, held, fight));
   }
-  private static row(r: Row, held: ReadonlySet<string>): Row[] {
-    const opens = r.opens?.flatMap(o => this.row(o, held));
+  private static row(r: Row, held: ReadonlySet<string>, fight: boolean): Row[] {
+    const opens = r.opens?.flatMap(o => this.row(o, held, fight));
     if (r.map || r.chart || /^(travel:|view:|follow:)/.test(r.does ?? '')) { return []; }
-    if (r.does === 'wait') { return [{ ...r, label: this.stand, short: this.stand }]; }
+    if (r.does === 'wait') { return fight ? [{ ...r, label: this.stand, short: this.stand }] : []; }
     if (r.does && held.has(r.does)) { return [{ ...r, ...opens ? { opens } : {} }]; }
     return opens?.length ? [{ ...r, opens }] : [];
   }

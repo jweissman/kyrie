@@ -177,6 +177,8 @@ export interface Screen {
   // Who is warning the company off where it stands, and the minutes they will wait (see Patience).
   // also: any others warning it off there too.
   warned?: { by: string; left: number; id?: string; also?: string[] };
+  // What the company has entered into that is not a threat, and who or what is in it with it (see Engagement).
+  engaged?: { id: string; also?: string[] };
   // The day as the calendar has it ("20 Leaffall", and in full with the season), and the weather, when known.
   date?: { short: string; long: string }; weather?: string;
   path: PlaceRef[]; place: PlaceRef; prose: string[];

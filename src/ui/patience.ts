@@ -1,13 +1,21 @@
 import type { Campaign } from '../campaign/campaign';
+import type { Screen } from './screen-types';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
+import { Engagement } from './engagement';
 
 // Who is warning the company off where it stands, and how long they will wait: the rest of this watch, however many
 // small things are done in it (data/rules/inhabitants.kyr, temper_closes). It was spent silently, by reading and
 // looking, until they came on (the play-structure investigation's PT-39; the register's CMB-13).
 export class Patience {
   // also: the others warning it off there too (three dangers at one door), each a threat the company answers (OR-163).
-  static of(campaign: Campaign, minutes = 0): { warned?: { by: string; left: number; id: string; also?: string[] } } {
+  // With it, what the company is engaged in that is not a threat (see Engagement): both hold it where it stands.
+  static of(campaign: Campaign, minutes = 0): Pick<Screen, 'engaged'> & { warned?: { by: string; left: number;
+    id: string; also?: string[]; }; } {
+    return { ...this.warning(campaign, minutes), ...Engagement.of(campaign) };
+  }
+  private static warning(campaign: Campaign, minutes: number): { warned?: { by: string; left: number; id: string;
+    also?: string[]; }; } {
     const world = campaign.world, company = campaign.playerActor, here = company && world.one('at', company);
     // None to a company that has fallen: the barrow-king had given a dead warrior ten minutes (AB-04).
     if (!here || !world.relates('warned') || !campaign.running) { return {}; }

@@ -101,48 +101,92 @@
   Relation {t}_fiddle_left(group).
   Rule {t}_fiddle_walked_off when state({t}_fiddle, played) and not at(party, {t}_taproom) and not {t}_fiddle_left(party) { Assert {t}_fiddle_left(party). }
   Observe {t}_fiddle_heard at {t}_green as sound when {t}_fiddle_left(party) "A boy sits on the edge of the horse-trough, whistling. It takes you a moment. It is your tune, with your wrong note in the same place.".
-  // Fun Friday (20 November): playing cards (the Pleasant Activities List, #40). At the taproom's window table an old
-  // boatwoman lays out patience; sit across from her and she deals you in. You lose the first hand and take the second,
-  // and when you come back she has dealt a hand for you at the empty place. Nothing is won but buttons, and no aim.
+  // Fun Friday (20 November), made a game (the owner, 21 November: an engagement, not a chain of acts; OR-174,
+  // doc/design/focus-activity-engagement.md). At the taproom's window table an old boatwoman lays out patience. Sit
+  // across from her and she deals you in, a penny a hand, best of three tricks, and she tells you she cheats. While
+  // the hand is dealt the company is engaged in it (engaged_in): the frame is the hand's moves, laying the cards down,
+  // and the door; nothing else in the room. Each trick is one of three moves: play it straight (hard while she
+  // cheats), watch her hands (a fair chance to catch the queen coming from the bottom, the trick yours and the rest of
+  // the hand straight), or cheat back (a hard one, and caught, never again at her table). Two tricks win the hand: two
+  // pennies back, and played honestly to the end she tells you where she learned; two tricks lost, the penny is hers;
+  // laid down, she keeps the penny and thinks no less of you; walked out on, she remembers.
   Person {t}_morwen "Morwen Ashlock" at {t}_taproom {
     Role "an old boatwoman going down to her boat for the night" when at({t}_morwen, {t}_green).
     Role "an old boatwoman playing patience at the window table". Ancestry human. Calling thief. Background laborer. Level 1. Peaceable. Manner stoic. Pronouns she.
-    // What she keeps of the company: a cheat caught at her table, or a hand played out.
+    // What she keeps of the company: a cheat caught at her table, a hand walked out on, or a hand played out.
     Greets "Morwen Ashlock turns her cards face down as you come." when {t}_cards_caught(party).
-    Greets "'Back for your buttons,' says Morwen Ashlock." when state({t}_cards, beaten) or state({t}_cards, taken).
+    Greets "'You left a hand on my table,' says Morwen Ashlock. 'Sit, if you are sitting this time.'" when {t}_cards_walked(party).
+    Greets "'Back for your buttons,' says Morwen Ashlock." when {t}_cards_won(party) or {t}_cards_lost(party) or {t}_cards_laid(party).
     Greets "Morwen Ashlock does not look up from her cards. 'Sit, if you are sitting,' she says.".
   }
   Thing {t}_cards "the cards on the window table" at {t}_taproom {
     State patience "At the window table an old woman lays out patience with cards as soft as cloth. She cheats, slowly and with great care.".
-    State dealt "She sweeps the patience up without a word and deals two hands. 'Beggar-my-neighbour,' she says. 'Pennies, if you have them. Buttons if you don't.'".
-    State beaten "It goes on a long time. Kings and knaves cross the table and come back. Then she turns a queen, and then another. Your last card goes under them, and she laughs like a gate. She pushes your buttons back to you.".
+    State dealt "Two hands lie dealt on the window table, three cards each. Morwen Ashlock holds hers close and watches yours.".
     State taken "The cards lie squared on the window table. Morwen Ashlock lays the patience out again, and hums to herself.".
-    Change sit "Sit down across from Morwen Ashlock and let her deal you in" from patience to dealt when at({t}_morwen, {t}_taproom) "The window table is empty, and the cards are put away.".
-    Change play "Play the hand out" from dealt to beaten when at({t}_morwen, {t}_taproom) "Morwen Ashlock is not at her table.".
   }
-  // The second hand is a game: read her hands and play it slow (a fair chance, and another hand if not), or cheat back
-  // as she does (a hard one, and caught, never again at her table).
-  Relation {t}_cards_caught(group).
-  Action {t}_cards_read(actor: group, site: place) "Watch Morwen Ashlock's hands, and play the next hand slow" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_taproom) and at({t}_morwen, {t}_taproom) and state({t}_cards, beaten).
+  Measure {t}_mine(entity). Measure {t}_hers(entity).
+  Relation {t}_cards_watched(group). Relation {t}_cards_slipped(group).
+  Relation {t}_cards_won(group). Relation {t}_cards_lost(group). Relation {t}_cards_laid(group).
+  Relation {t}_cards_walked(group). Relation {t}_cards_caught(group). Relation {t}_cards_told(group).
+  Action {t}_cards_sit(actor: group, site: place) "Sit down across from Morwen Ashlock and let her deal you in, a penny a hand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_taproom) and at({t}_morwen, {t}_taproom) and not state({t}_cards, dealt) and not {t}_cards_caught(actor) and quantity(actor, gold) >= 1.
+    Time 1.
+    On success { Assert state({t}_cards, dealt). Set {t}_mine({t}_cards) to 0. Set {t}_hers({t}_cards) to 0. Retract {t}_cards_watched(actor). Retract {t}_cards_slipped(actor). Retract {t}_cards_walked(actor). Decrease quantity(actor, gold) by 1. Assert engaged_in(actor, {t}_cards). Assert engaged_in(actor, {t}_morwen). }
+    Result "She sweeps the patience up and deals three cards each, face down. 'A penny,' she says, and takes yours. 'Best of three tricks. I cheat. If you catch me at it, the trick is yours.' She looks at you over her cards. 'If I catch you, you can drink somewhere else.'".
+  }
+  Action {t}_cards_straight(actor: group, site: place) "Play the trick straight, and hope" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {t}_cards) and not {t}_cards_watched(actor).
+    Time 1.
+    Resolve check(actor, insight, dc_hard).
+    On success { Increase {t}_mine({t}_cards) by 1. }
+    On failure { Increase {t}_hers({t}_cards) by 1. }
+    Result "You lead your best card and she has nothing over it. The trick is yours. She looks at it for a long moment, and then at you.".
+    Otherwise "She takes it with a queen you would have sworn was played already.".
+  }
+  Action {t}_cards_plain(actor: group, site: place) "Play the trick straight, now she has stopped cheating" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {t}_cards) and {t}_cards_watched(actor).
+    Time 1.
+    Resolve check(actor, insight, dc_easy).
+    On success { Increase {t}_mine({t}_cards) by 1. }
+    On failure { Increase {t}_hers({t}_cards) by 1. }
+    Result "Played straight, it is only cards, and you have the better of them. The trick is yours.".
+    Otherwise "Played straight, she is still better at it than you. Her trick.".
+  }
+  Action {t}_cards_watch(actor: group, site: place) "Watch her hands this trick, not the cards" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {t}_cards) and not {t}_cards_watched(actor).
     Time 1.
     Resolve check(actor, insight, dc_fair).
-    On success { Assert state({t}_cards, taken). }
-    Result "This time you watch her hands, not the cards. Her queens come from the bottom of the pack. You hold your knave back for it, and on the last turn you take her ace. Morwen Ashlock looks at the table for a while. Then she deals the patience out again. 'Tomorrow,' she says.".
-    Otherwise "She takes it again, as easily as breathing. Her queens come in pairs, and you never see from where. 'Again?' she says, and is already dealing.".
+    On success { Assert {t}_cards_watched(actor). Increase {t}_mine({t}_cards) by 1. }
+    On failure { Increase {t}_hers({t}_cards) by 1. }
+    Result "You watch her hands, not the cards, and see the queen come from the bottom of the pack. You put one finger on it. Morwen Ashlock lets go of it and pushes the trick to you. 'Fair,' she says, and plays the rest of the hand straight.".
+    Otherwise "You watch her hands so hard you lose track of your own cards. She takes the trick, and you never saw from where.".
   }
-  Action {t}_cards_cheat(actor: group, site: place) "Cheat back, the way she does" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_taproom) and at({t}_morwen, {t}_taproom) and state({t}_cards, beaten) and not {t}_cards_caught(actor).
+  Action {t}_cards_cheat(actor: group, site: place) "Cheat back: slip a knave from your sleeve" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {t}_cards).
     Time 1.
     Resolve check(actor, deception, dc_hard).
-    On success { Assert state({t}_cards, taken). }
-    On failure { Assert {t}_cards_caught(actor). }
-    Result "You slide a knave into your sleeve the way she slid her queens. She watches it go and says nothing, and loses. Then Morwen Ashlock laughs until she has to wipe her eyes. 'Forty years,' she says. 'Nobody on the boats ever had the face for it.'".
-    Otherwise "Morwen Ashlock puts one finger on the back of your hand, quite gently, and turns over the card under it. 'No,' she says. 'At my table, I cheat.'".
+    On success { Assert {t}_cards_slipped(actor). Increase {t}_mine({t}_cards) by 1. }
+    On failure { Assert {t}_cards_caught(actor). Retract engaged_in(actor, {t}_cards). Retract engaged_in(actor, {t}_morwen). Assert state({t}_cards, taken). }
+    Result "The knave goes down from your sleeve without a sound. She watches it go and says nothing, and the trick is yours.".
+    Otherwise "Morwen Ashlock puts one finger on the back of your hand, quite gently, and turns over the card under it. 'No,' she says. 'At my table, I cheat.' She sweeps your cards away with the penny under them.".
   }
-  Topic {t}_morwen_patience with {t}_morwen "Ask Morwen Ashlock where she learned to cheat at patience" when not state({t}_cards, patience) once {
+  Action {t}_cards_lay(actor: group, site: place) "Lay your cards down, and let her have the penny" {
+    Requires able(actor) and at(actor, site) and engaged_in(actor, {t}_cards).
+    Time 1.
+    On success { Assert {t}_cards_laid(actor). Retract engaged_in(actor, {t}_cards). Retract engaged_in(actor, {t}_morwen). Assert state({t}_cards, taken). }
+    Result "You lay your cards face down. Morwen Ashlock turns them over, looks, and nods. 'Knowing when is most of it,' she says, and puts your penny with hers.".
+  }
+  Topic {t}_morwen_patience with {t}_morwen "Ask Morwen Ashlock where she learned to cheat" when state({t}_cards, taken) and not {t}_cards_won(party) once {
     Says "'On the boats,' says Morwen Ashlock. 'Forty years of fog. You learn to cheat yourself or you learn to talk, and I never liked talking.' She turns a card. 'There. Out.'".
   }
+  // The hand's end, two tricks either way; and a hand walked out on.
+  Rule {t}_cards_win when engaged_in(party, {t}_cards) and {t}_mine({t}_cards) >= 2 { Assert {t}_cards_won(party). Retract engaged_in(party, {t}_cards). Retract engaged_in(party, {t}_morwen). Assert state({t}_cards, taken). Increase quantity(party, gold) by 2. }
+  Rule {t}_cards_lose when engaged_in(party, {t}_cards) and {t}_hers({t}_cards) >= 2 { Assert {t}_cards_lost(party). Retract engaged_in(party, {t}_cards). Retract engaged_in(party, {t}_morwen). Assert state({t}_cards, taken). }
+  Rule {t}_cards_walk when engaged_in(party, {t}_cards) and not at(party, {t}_taproom) { Assert {t}_cards_walked(party). Retract engaged_in(party, {t}_cards). Retract engaged_in(party, {t}_morwen). Assert state({t}_cards, taken). }
+  Observe {t}_cards_end_won at {t}_taproom as event when {t}_cards_won(party) and not {t}_cards_slipped(party) and not {t}_cards_told(party) "Morwen Ashlock counts two pennies back across the table. 'Honest,' she says, as if it were a fault. 'On the boats, then: forty years of fog. You learn to cheat yourself or you learn to talk, and I never liked talking.'".
+  Observe {t}_cards_end_slipped at {t}_taproom as event when {t}_cards_won(party) and {t}_cards_slipped(party) "Morwen Ashlock counts two pennies back across the table, and then laughs until she has to wipe her eyes. 'Forty years,' she says. 'Nobody on the boats ever had the face for it.'".
+  Observe {t}_cards_end_lost at {t}_taproom as event when {t}_cards_lost(party) and not {t}_cards_won(party) "Her last card goes over yours. Morwen Ashlock puts the penny in her apron and lays the patience out again. 'Again tomorrow,' she says.".
+  Rule {t}_cards_told_once when {t}_cards_won(party) and not {t}_cards_slipped(party) and not at(party, {t}_taproom) and not {t}_cards_told(party) { Assert {t}_cards_told(party). }
   // Leave the taproom after a game, and the window table keeps a place for you.
   Relation {t}_cards_left(group).
   Rule {t}_cards_walked_off when state({t}_cards, taken) and not at(party, {t}_taproom) and not {t}_cards_left(party) { Assert {t}_cards_left(party). }

@@ -36,6 +36,9 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // What drives it off (sunlight, flame), and the price a proud one names.
   Relation fears(group, capability). Measure tribute(group).
   Relation warned(group, group). Relation yielded(group, group).
+  // What a company has entered into that is not a threat (a hand of cards, a riddle, a performance): asserted as it
+  // begins and retracted as it ends; while it stands the frame offers only its own moves and the ways out (Engaged).
+  Relation engaged_in(group, entity).
   // Plain words for a creature whose place gives it none, by temperament: temper_words_<temperament>_<what>.
   Entity temper_words_territorial_warning: fact "{?g} stands its ground and watches you. It will not have you here for long.".
   Entity temper_words_territorial_onslaught: fact "{?g} comes at you.".
