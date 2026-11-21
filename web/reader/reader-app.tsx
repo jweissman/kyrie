@@ -82,6 +82,8 @@ export interface AppState {
   // What is chosen on the map, and where the company stood when it was chosen (a choice made at one place is let go
   // of at the next): chosen on the map itself, or by the Notes, opening it on an aim's place (see chart).
   charted?: { at: string; id?: string };
+  // The page of the map's menu's places shown (MapMenu: More places…, OR-152).
+  mapPage?: number;
   // What is opened over a place at rest, if anything (see Explorer): the wayfinder, what is at hand, a wait, or
   // everyone here the picture has no room for; and whether what is told in it is what came of something done there
   // (it stays open over what was done to a thing or a wait, and closes on going anywhere).
