@@ -7,6 +7,7 @@ import { Frontier } from '../src/world/frontier';
 import { Countries } from '../src/world/countries';
 import { Journey } from '../src/session/journey';
 import { GeneratedWorld } from './support/generated';
+import { News } from './support/news';
 
 // Ombra in a world that goes on: a province of the first country, its way in on the country's own land a little in
 // from the west, with a road to it from the nearest town. In every town the Watch's notice is nailed up where
@@ -32,7 +33,8 @@ describe('Ombra, a province of the first country', () => {
     expect(notices.length).toBeGreaterThan(0);
     const keeper = s.campaign.module.actions.find(a => a.id.startsWith('region__gate_ombra_beyond_told_'))!;
     await GeneratedWorld.travel(s, s.campaign.world.one('at', keeper.speaker!)!.replace(/^region__/, ''));
-    const told = await j.play('Drawing at Ombra');
+    // Asked as the engine offers it: the one question for news, until Ombra is told (CL-67's fold).
+    const told = await News.of(j, 'Drawing at Ombra', /Registrar/);
     expect(told).toContain('Registrar');
     expect(PlayerView.observe(s.campaign).knowledge.some(k => k.id === 'region__gate_ombra_beyond')).toBe(true);
     await GeneratedWorld.travel(s, 'gate_ombra');

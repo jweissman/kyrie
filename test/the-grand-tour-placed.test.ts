@@ -7,6 +7,7 @@ import { Frontier } from '../src/world/frontier';
 import { Countries } from '../src/world/countries';
 import { Journey } from '../src/session/journey';
 import { GeneratedWorld } from './support/generated';
+import { News } from './support/news';
 import { steps } from './support/sennet';
 
 // Sennet in a world that goes on: a province of the first country (Mission 18's Gate B), its way in on the country's
@@ -34,7 +35,8 @@ describe('Sennet, a province of the first country', () => {
     expect(notices.length).toBeGreaterThan(0);
     const keeper = s.campaign.module.actions.find(a => a.id.startsWith('region__gate_sennet_beyond_told_'))!;
     await GeneratedWorld.travel(s, s.campaign.world.one('at', keeper.speaker!)!.replace(/^region__/, ''));
-    const told = await j.play('Grand Tour at Sennet');
+    // Asked as the engine offers it: the one question for news, until Sennet is told (CL-67's fold).
+    const told = await News.of(j, 'Grand Tour at Sennet', /Door of Doors/);
     expect(told).toContain('Door of Doors');
     expect(PlayerView.observe(s.campaign).knowledge.some(k => k.id === 'region__gate_sennet_beyond')).toBe(true);
     // To the way in by the country's roads, and the province is installed within the country there.

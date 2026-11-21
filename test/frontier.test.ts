@@ -7,6 +7,7 @@ import { Frontier } from '../src/world/frontier';
 import { WorldGrid } from '../src/world/world-grid';
 import { RegionLand } from '../src/world/region-land';
 import { GeneratedWorld } from './support/generated';
+import { News } from './support/news';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
@@ -130,7 +131,8 @@ describe('the world beyond a region', () => {
     const u = await PlaySession.start(wren.path, 'wren', wren.source);
     const told = u.campaign.module.actions.find(a => a.id.startsWith('region__gate_ghessil_beyond_told_'))!;
     GeneratedWorld.put(u, u.campaign.world.one('at', told.speaker!)!.replace(/^region__/, ''));
-    expect(await Journey.of(u).play('about the Ghessil Uplands')).toContain('people standing in it');
+    // Asked as the engine offers it: the one question for news, until the Uplands are told (CL-67's fold).
+    expect(await News.of(Journey.of(u), 'about the Ghessil Uplands', /people standing in it/)).toContain('people standing in it');
     const known = PlayerView.observe(u.campaign).knowledge.find(k => k.id === 'region__gate_ghessil_beyond')!;
     const keeper = u.campaign.module.entities.find(e => e.id === told.speaker)!.name;
     expect([known.source, known.from?.startsWith(keeper)]).toEqual(['heard', true]);

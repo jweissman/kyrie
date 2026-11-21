@@ -1,5 +1,6 @@
 import type { Act } from './screen-types';
 import { ChoiceIds } from './choice-ids';
+import type { World } from '../lang/world';
 
 // Someone who has heard a good deal is asked once, for news (the owner, 15 November: "I shouldn't open a topic to
 // find 30 rumors beneath it. Just sample one and have a 'Heard any news?' question"). Hearsay is the shared ask:
@@ -16,17 +17,34 @@ export class NewsFold {
   static readonly beyond = 'Ask what news there is of the lands beyond';
   // Folded wherever they stand among what is said to someone, under their Talk as at its top (int-mat5's CI: at
   // Brockminster the innkeeper's twenty-five were under his Talk, unfolded, and stood before every other question).
-  private static lands(acts: Act[]): void {
+  // It tells first the land the company has reason to ask about (the owner's ruling, 20 November: CL-67's fold kept),
+  // a notice of it read or its name heard (anything the company knows of that land: knows(party, <land>_…), the
+  // notice's discovery among it), and says so, in that land's own words ("Ask Ulric about the Trial of the Wheel at
+  // Pentrice") where it is the one; else the next not yet heard, in the order written.
+  private static lands(acts: Act[], known?: Set<string>): void {
     const far = acts.filter(a => /_beyond_told_/.test(a.command ?? '') && !a.children);
     if (far.length >= 2) {
-      acts.splice(0, acts.length, ...acts.filter(a => !far.includes(a)), { ...far[0]!, key: `${acts.length}:beyond`,
-        label: this.beyond, alone: this.beyond });
+      const reasons = far.filter(a => NewsFold.reason(a.command!, known)), next = reasons[0] ?? far[0]!;
+      const label = reasons.length === 1 ? next.label : this.beyond;
+      acts.splice(0, acts.length, ...acts.filter(a => !far.includes(a)), { ...next, key: `${acts.length}:beyond`,
+        label, alone: reasons.length === 1 ? next.alone ?? next.label : this.beyond });
     }
-    for (const a of acts) { if (a.children) { NewsFold.lands(a.children); } }
+    for (const a of acts) { if (a.children) { NewsFold.lands(a.children, known); } }
   }
-  static of(targets: Map<string, Act[]>, names: { get(id: string): string | undefined }) {
+  // Whether the company knows anything of the land a telling is of (<land>_beyond_told_<town>: <land>_notice read).
+  private static reason(command: string, known?: Set<string>): boolean {
+    const land = command.replace(/_beyond_told_.*$/, '_');
+    return !!known && [...known].some(k => k.startsWith(land));
+  }
+  // What the company knows (knows(party, …)), for the lands it has reason to ask about first.
+  static known(world?: World): Set<string> | undefined {
+    return world?.relates('knows') ? new Set(world.related('knows').filter(f => f.args[0] === 'party')
+      .map(f => f.args[1]!)) : undefined;
+  }
+  // known: what the company knows, for the lands it has reason to ask about first.
+  static of(targets: Map<string, Act[]>, names: { get(id: string): string | undefined }, known?: Set<string>) {
     for (const [who, acts] of targets) {
-      NewsFold.lands(acts);
+      NewsFold.lands(acts, known);
       const asks = acts.filter(a => a.does === 'ask' && a.command && !a.children);
       if (asks.length < this.most) { continue; }
       const pick = asks[[...who].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % asks.length]!;

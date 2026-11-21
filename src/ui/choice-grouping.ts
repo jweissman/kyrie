@@ -205,7 +205,7 @@ export class ChoiceGrouping {
     const several = new Set([...ways].filter(([, w]) => w.size > 1).map(([d]) => d));
     const struck = this.struck(rows), hands = context.carrier ? Carriers.hands(rows, context.carrier) : undefined;
     for (const row of rows) { this.place(out, row, { ...context, several, struck, ...hands ? { hands } : {} }); }
-    NewsFold.of(out.targets, context.names);
+    NewsFold.of(out.targets, context.names, NewsFold.known(context.world));
     for (const acts of [...out.targets.values(), ...out.items.values(), ...out.members.values(), out.camp,
       ...[...out.exits.values()].map(e => e.acts)]) { this.distinguish(acts); }
     return out;
