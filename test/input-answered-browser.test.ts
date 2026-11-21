@@ -50,6 +50,10 @@ class Answered {
       }
     }).observe(document, { attributes: true, attributeFilter: ['data-taken', 'data-holding', 'data-mode', 'data-state'], childList: true,
       subtree: true });
+    // What held the page's one thread (OR-91): each long task, by when and how long.
+    (w as unknown as { __long: number[][] }).__long = [];
+    new PerformanceObserver(l => (w as unknown as { __long: number[][] }).__long.push(...l.getEntries()
+      .map(e => [Math.round(e.startTime), Math.round(e.duration)]))).observe({ type: 'longtask', buffered: true });
     const post = Worker.prototype.postMessage;
     Worker.prototype.postMessage = function (this: Worker, m: { request?: { kind: string } }, ...rest: never[]) {
       if (m?.request && ['perform', 'travel'].includes(m.request.kind)) { w.__sent.push(m.request.kind); }
@@ -104,6 +108,21 @@ class Answered {
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
     await page.waitForTimeout(ms);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  }
+  // The page's thread from the hold's start (OR-91): when the hold was done and the act performed, each drawing of the
+  // map and each long task since, all from the hold's start, in ms.
+  static trace(page: Page) {
+    return page.evaluate(() => {
+      const from = performance.getEntriesByName('hold:start').at(-1)?.startTime ?? 0, at = (t: number) => Math.round(t - from);
+      const after = (e: PerformanceEntry) => e.startTime >= from;
+      return { done: performance.getEntriesByName('hold:done').filter(after).map(e => at(e.startTime)),
+        perform: performance.getEntriesByName('page:perform').filter(after).map(e => at(e.startTime)),
+        draws: performance.getEntriesByName('board:draw').filter(after).slice(0, 40)
+          .map(e => [at(e.startTime), Math.round(e.duration)]),
+        drifts: performance.getEntriesByName('board:drift').filter(after).slice(0, 40).map(e => at(e.startTime)),
+        long: (window as unknown as { __long: number[][] }).__long.filter(([s]) => s! >= from)
+          .map(([s, d]) => [at(s!), d]) };
+    });
   }
   // A gesture's measure: the row drawn taken after it, the receipts it made, and the commands sent.
   static async gesture(page: Page, go: () => Promise<void>) {
@@ -169,6 +188,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('every input answered at once', () =
       throw new Error(`No journey held at ${width}x${height}; held or travel rows here: ${there.join(', ') || 'none'}`);
     }
     const journey = await Answered.gesture(page, () => Answered.hold(page, held, touch, ms * 3));
+    console.log(`TRACE ${width}x${height} ${JSON.stringify(await Answered.trace(page))}`);
     console.log(`ANSWERED ${width}x${height} ${JSON.stringify({ act, talk, reply, journey, hold: ms })}`);
     await context.close();
     return { act, talk, reply, journey, ms, errors };
@@ -193,10 +213,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('every input answered at once', () =
       expect(journey.receipts).toBeGreaterThanOrEqual(1);
       expect(errors).toEqual([]);
     }, 300000);
-  // OR-91, open (P0): the held journey is late. Its hold done when full (within its length and the budget), not
-  // 0.9 s after the press as on 21 November; its On the way card drawn within the budget of the hold's end, not
-  // 0.9-1.2 s after the press. Failing until it is fixed, when the suite says so.
-  it.failing.each(sizes)('at %ix%i (touch: %p): a held journey commits when full, and is answered at once (OR-91)',
+  // OR-91 (P0): the held journey answered at once. Its hold done when full (within its length and the budget) and
+  // its On the way card drawn within the budget of the hold's end: on 21 November done 0.9 s after the press and the
+  // card at 0.9-1.2 s, the map's drift drawn behind the hold (a fifth of a second a drawing, without a GPU); with the
+  // drift paused while the page holds or waits (Board.busy), 522 ms and 531 ms.
+  it.each(sizes)('at %ix%i (touch: %p): a held journey commits when full, and is answered at once (OR-91)',
     async (width, height, touch) => {
       const { journey, ms } = await measured(width, height, touch);
       expect(journey.sentAt !== undefined && journey.sentAt < ms + Answered.budget).toBe(true);

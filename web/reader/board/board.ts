@@ -361,6 +361,10 @@ export class Board implements BoardApi {
     if (document.visibilityState !== 'visible' || !this.renderer.getContext().isContextLost()) { return; }
     this.lost = setTimeout(() => this.hooks.lost?.(), 2000);
   }
+  // A hold under way, or a command the page waits on (the stage busy).
+  private static busy(): boolean {
+    return 'holding' in document.documentElement.dataset || !!document.querySelector('.stage[aria-busy="true"]');
+  }
   private tick(now: number): void {
     const t = this.began === undefined ? 0 : Math.max(0, now - this.began) / 1000;
     if (this.view.step(now) || this.labels.step(now)) { this.dirty = true; }
@@ -370,13 +374,18 @@ export class Board implements BoardApi {
       if (!moving) { this.lay(); }
     }
     if (this.dirty) { this.active = now; }
-    const drifting = !this.still && now - this.active < Board.settles;
+    // The air's drift is drawn only while the page waits on nothing: a drawing can hold the page's one thread for a
+    // fifth of a second where it is drawn without a GPU, and a hold's timer and the answer to a command waited behind
+    // it (OR-91: a hold done 0.36 s late, every drift frame a long task on CI's headless Chromium).
+    const drifting = !this.still && now - this.active < Board.settles && !Board.busy();
     if (this.dirty || (drifting && now - this.drawn > 120)) {
+      // Each drawing measured, by why (see test/input-answered-browser's TRACE).
+      const at = performance.now(), why = this.dirty ? 'board:draw' : 'board:drift';
       this.look.air(this.view.distance, this.still ? 40 : t);
       this.renderer.render(this.scene, this.view.camera); this.began ??= performance.now();
       if (this.dirty) { this.labels.place(this.view.camera, [this.host.clientWidth, this.host.clientHeight],
         [this.chosen, this.pointed, this.bound]); }
-      this.dirty = false; this.drawn = now;
+      this.dirty = false; this.drawn = now; performance.measure(why, { start: at });
     }
     this.frame = requestAnimationFrame(x => this.tick(x));
   }

@@ -326,6 +326,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     this.setState({ pending: undefined, error: error instanceof Error ? error.message : String(error) });
   };
   private async perform(choice: Choice, said: string, turning?: Attention) {
+    performance.mark('page:perform');
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame), going = /^travel:/.test(choice.command!);
     const heard = this.menu.talk?.replies.map(c => c.id), was = this.state.attention;
     this.setState({ pending: { said, taken: choice.id, ...travel ? { travel } : {}, ...going ? { going } : {} }, error: '' });

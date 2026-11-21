@@ -123,7 +123,7 @@ export class Hold {
     delete button.dataset.letGo; Hold.unhint();
     button.style.setProperty('--hold-ms', `${ms}ms`);
     button.dataset.holding = '';
-    document.documentElement.dataset.holding = '';
+    document.documentElement.dataset.holding = ''; performance.mark('hold:start');
     Hold.at = { button, go, started: performance.now(), timer: window.setTimeout(Hold.done, ms),
       ...key ? { key } : {} };
   }
@@ -131,7 +131,7 @@ export class Hold {
   private static done() {
     const at = Hold.at;
     if (!at) { return; }
-    Hold.at = undefined;
+    Hold.at = undefined; performance.mark('hold:done');
     Hold.clear(at.button);
     at.button.dataset.held = '';
     window.setTimeout(() => { delete at.button.dataset.held; }, 240);
