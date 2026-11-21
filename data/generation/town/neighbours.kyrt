@@ -54,12 +54,31 @@
   Entity {t}_coin_habit: fact "The shrine's offering-book shows a coin left at the old numbered post on the road every year for two hundred years, through plague, famine and war: a habit, not a fashion of piety.".
   Person {t}_hesper "Hesper Lowe" at {t}_green {
     Role "a boat-wright's apprentice with a drawing of a bell". Ancestry human. Calling thief. Background locksmith. Level 1. Peaceable. Manner stoic. Pronouns she.
+    // What she keeps of the company: the bell, or the asking.
+    Greets "'It rang,' says Hesper Lowe, before you have said anything." when {t}_bell_cast(party).
+    Greets "'Found me a pattern?' says Hesper Lowe." when {t}_hesper_told(party).
     Greets "A girl in a leather apron, with soot to the elbows and a roll of paper under her arm, looks you up and down. 'Can you carry? Can you keep quiet? Can you stand still while somebody takes a measurement?'".
   }
   // Hesper Lowe mends things: the assembler knows her for one who practises tinkering in this town, so that the tinker
   // kit binds her and makes nobody up for it here (data/kits/tinker/resident: the old pump on the green, which she has
   // in pieces and calls the company over to).
 >> practises {t}_hesper tinkering
+  // Three of the town's own go on with their lives between the company's visits (the first-hour beat sheet's
+  // checkpoint 9: people who act on their own and remember). By the hour, Hesper Lowe is at the taproom of an evening
+  // and Morwen Ashlock down at her boat by night; by the days, what each is about has moved on; and each greets the
+  // company again by what it last did with them (their Greets, by what was done).
+  Rule {t}_hesper_evening when hour(clock) >= 19 and hour(clock) < 23 and at({t}_hesper, {t}_green) { Retract at({t}_hesper, {t}_green). Assert at({t}_hesper, {t}_taproom). }
+  Rule {t}_hesper_night when (hour(clock) >= 23 or hour(clock) < 19) and at({t}_hesper, {t}_taproom) { Retract at({t}_hesper, {t}_taproom). Assert at({t}_hesper, {t}_green). }
+  Observe {t}_hesper_slate near {t}_hesper when at({t}_hesper, {t}_taproom) "Hesper Lowe draws bells on the table in spilt beer.".
+  Rule {t}_morwen_night when (hour(clock) >= 22 or hour(clock) < 7) and at({t}_morwen, {t}_taproom) and not state({t}_cards, dealt) { Retract at({t}_morwen, {t}_taproom). Assert at({t}_morwen, {t}_green). }
+  Rule {t}_morwen_day when hour(clock) >= 7 and hour(clock) < 22 and at({t}_morwen, {t}_green) { Retract at({t}_morwen, {t}_green). Assert at({t}_morwen, {t}_taproom). }
+  Observe {t}_morwen_boat near {t}_morwen when at({t}_morwen, {t}_green) "Morwen Ashlock goes by with a lantern, down to her boat for the night.".
+  Observe {t}_hesper_mould near {t}_hesper when watch(clock) >= 288 and watch(clock) < 576 and not {t}_bell_cast(party) "Hesper Lowe has a clay mould drying on a board, a bell's shape, the wrong size.".
+  Observe {t}_hesper_mould_again near {t}_hesper when watch(clock) >= 576 and not {t}_bell_cast(party) "Hesper Lowe has broken her clay mould up and begun another.".
+  Observe {t}_morwen_pack near {t}_morwen when watch(clock) >= 288 and watch(clock) < 576 "Morwen Ashlock has a new pack of cards, stiff as boards, and keeps dropping them.".
+  Observe {t}_morwen_pack_soft near {t}_morwen when watch(clock) >= 576 "Morwen Ashlock's new cards have gone soft at the corners already.".
+  Observe {t}_iv_hill_drawn near {t}_iv when watch(clock) >= 288 and watch(clock) < 576 and not travelsWith({t}_iv, party) "Isaure Venn has drawn the hill three times on one sheet, each time from a different side.".
+  Observe {t}_iv_writing near {t}_iv when watch(clock) >= 576 and not travelsWith({t}_iv, party) "Isaure Venn is writing to her teacher, and has crossed out the first line six times.".
   // Fun Friday (20 November): playing a musical instrument (the Pleasant Activities List, #65). Over the taproom's
   // settle hangs a fiddle nobody has played since the house's old man died. Taken down, tuned, tried badly, tried
   // again slower, and a tune comes; leave, and on the green a boy is whistling it, wrong note and all. Nothing is paid
@@ -86,7 +105,11 @@
   // boatwoman lays out patience; sit across from her and she deals you in. You lose the first hand and take the second,
   // and when you come back she has dealt a hand for you at the empty place. Nothing is won but buttons, and no aim.
   Person {t}_morwen "Morwen Ashlock" at {t}_taproom {
+    Role "an old boatwoman going down to her boat for the night" when at({t}_morwen, {t}_green).
     Role "an old boatwoman playing patience at the window table". Ancestry human. Calling thief. Background laborer. Level 1. Peaceable. Manner stoic. Pronouns she.
+    // What she keeps of the company: a cheat caught at her table, or a hand played out.
+    Greets "Morwen Ashlock turns her cards face down as you come." when {t}_cards_caught(party).
+    Greets "'Back for your buttons,' says Morwen Ashlock." when state({t}_cards, beaten) or state({t}_cards, taken).
     Greets "Morwen Ashlock does not look up from her cards. 'Sit, if you are sitting,' she says.".
   }
   Thing {t}_cards "the cards on the window table" at {t}_taproom {
@@ -285,6 +308,7 @@
   Person {t}_iv "Isaure Venn" at {t}_taproom {
     Role "a scholar of the old script, who has been turned back from the hill twice". Ancestry human. Calling mage. Background scholar. Level 1. Peaceable. Manner cheerful. Pronouns she.
     Greets "A young woman with ink on both cuffs rises from a table covered with paper, knocks over a candle, catches it, and says, 'You look as if you can read or, failing that, walk. Which?'".
+    Greets again "'Still the same page,' says Isaure Venn, and holds it up. 'It has not got any shorter.'" when {t}_iv_asked(party) and not travelsWith({t}_iv, party).
     Joins "Isaure Venn gathers her papers, looks at them, puts back half, picks up the other half and says, to nobody, 'Bring the whole trunk to the shrine; I shall send for it.' Then, to you: 'Where first?'".
     Leaves "Isaure Venn smiles, a little crookedly. 'I shall be at the table by the window,' she says. 'It has an excellent light for being wrong in.'" to {t}_taproom.
     Remarks at {station}_hall "Isaure Venn stops in the doorway of the posting-hall and does not breathe for a moment. 'A *map*,' she says. 'A painted road, on a wall. Of the kind I have only read about in a footnote that said they did not survive.' She walks the length of it with a finger an inch from the plaster. 'There is a grey blank here. Written beside it, THE WORKS. I want it more than I have ever wanted anything.'".
@@ -312,6 +336,7 @@
   Person {t}_iv "Isaure Venn" at {t}_taproom {
     Role "a scholar of the old script, who has been turned back from the hill twice". Ancestry human. Calling mage. Background scholar. Level 1. Peaceable. Manner cheerful. Pronouns she.
     Greets "A young woman with ink on both cuffs rises from a table covered with paper, knocks over a candle, catches it, and says, 'You look as if you can read or, failing that, walk. Which?'".
+    Greets again "'Still the same page,' says Isaure Venn, and holds it up. 'It has not got any shorter.'" when {t}_iv_asked(party) and not travelsWith({t}_iv, party).
     Joins "Isaure Venn gathers her papers, looks at them, puts back half, picks up the other half and says, to nobody, 'Bring the whole trunk to the shrine; I shall send for it.' Then, to you: 'Where first?'".
     Leaves "Isaure Venn smiles, a little crookedly. 'I shall be at the table by the window,' she says. 'It has an excellent light for being wrong in.'" to {t}_taproom.
     Remarks at {t}_stones_hall "Isaure Venn stands at the foot of the dais and does not climb it, and reads the letters aloud to the wind, softly, as if not to wake anyone: the judgement-seat, the names of the judges, and, beneath, scored out hard, a word she cannot read. 'Somebody did not want this remembered,' she says. 'Or somebody wanted it remembered so much they could not bear to leave it as it was.'".
