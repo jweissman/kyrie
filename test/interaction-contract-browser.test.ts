@@ -17,8 +17,9 @@ class Census {
   static readonly presentation = new Set(['lens', 'lens-page', 'back', 'back-to-place', 'back-to-map', 'book', 'mode',
     'close', 'journey', 'map-nearer', 'map-further', 'map-here', 'map-place', 'map-unchoose', 'dismiss',
     'help', 'sheet', 'tab', 'details', 'unfold', 'explore', 'export', 'title', 'put-away-map', 'consider-aim',
-    // A place viewed on the map, and a thing or a riddle's words focused in a lens: attention (OR-62, OR-59).
-    'map-view', 'focus', 'defocus',
+    // A place viewed on the map, and a thing or a riddle's words focused in a lens: attention (OR-62, OR-59); the
+    // map's places turned a page (More places…, OR-152), as a lens's are.
+    'map-view', 'focus', 'defocus', 'more-places',
     // The page's own instruments, named (test/small/page-controls: OR-94's allowed set).
     'lens-tile', 'likeness-still', 'way-row', 'ability', 'consider-item', 'change-companion', 'fight-log', 'dice']);
   // Independently implemented controls still standing, named so that no new one joins them; it may only shrink.
