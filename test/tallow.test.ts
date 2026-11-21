@@ -89,10 +89,13 @@ describe('Tallow Deep: two expeditions', () => {
     expect(rations(j)).toBe(food - 1);
     expect(j.watch()).toBeGreaterThanOrEqual(watch + 6);
     expect(j.measure('ringTurns', 'sluice')).toBe(1);
-    await j.play(...steps.bore, 'Ask Usk to leave the wall alone');
-    expect(j.holds('oskLeft', 'party')).toBe(true);
-    await j.play(...steps.gear);
+    // In the Gear-Hall the custodians warn the company off (OR-163): the escapement set to the wall's beat answers them
+    // first, and then there is time for a word with Usk about the wall.
+    await j.play(...steps.bore, steps.gear[0]!);
     expect(j.holds('tolerates', 'custodians', 'party')).toBe(true);
+    await j.play('Ask Usk to leave the wall alone');
+    expect(j.holds('oskLeft', 'party')).toBe(true);
+    await j.play(...steps.gear.slice(1));
     expect(j.at('party')).toBe('tallow__dial_room');
     await j.play(...steps.dial);
     expect(kinds(j, 'celestial_chart', 'ancient_orrery', 'lensing_crystal', 'antique_compass')).toEqual([true, true, true, true]);
@@ -275,6 +278,9 @@ describe('Tallow Deep: people', () => {
     expect(j.holds('travelsWith', 'sib', 'party')).toBe(true);
     await j.play(...steps.to_settling);
     expect(j.page).toContain('I know that coat');
+    // (given as a fact: the settling's rats warn the company off, and while they do only answering them is offered, not
+    // a letter read: OR-163, Engaged; their ratsbane and their fight are this spec's other cases)
+    j.assert('tolerates', 'tallow__settling_rats', 'party');
     await j.play('a letter on the Board\'s paper: Take', 'a letter on the Board\'s paper: Read', 'Show Sib the letter from the drowned man');
     const gold = j.measure('quantity', 'party', 'gold');
     await j.play('Take it to the Board yourself, for the reward');
