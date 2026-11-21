@@ -52,6 +52,7 @@
    "OR-71",
    "OR-139",
    "OR-142",
+   "OR-169",
    "OR-143",
    "OR-144",
    "OR-145",
@@ -128,9 +129,9 @@
   },
   "blockers": [
    {
-    "id": "OR-91",
+    "id": "OR-169",
     "owner": "maturity",
-    "accept": "every input answered within 100 ms on the page; a long press's commit can't be lost; measured on touch and mouse"
+    "accept": "creation's sign and life before commit at the first hold of a finger at 390x844, in the browser"
    },
    {
     "id": "OR-145",
@@ -173,9 +174,9 @@
     "accept": "the title and identity only on the title page and never moving; the begin question simple, the embers kept; browser at 390 and 1280"
    },
    {
-    "id": "OR-142",
-    "owner": "maturity",
-    "accept": "a digit in a conversation is the reply beside it as the rows stand, in the browser, after an answer renumbers them"
+    "id": "CB-30",
+    "owner": "lead",
+    "accept": "the weir route played end to end as one spec, the corn-store's rats fought in play, with its fights' challenge and cost read"
    }
   ],
   "platform": [
