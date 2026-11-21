@@ -8,6 +8,7 @@ import { MenuModel } from '../web/reader/menu-model';
 import { GlanceStage } from '../web/reader/stage/glance';
 import { LensRows } from '../web/reader/stage/lens-rows';
 import { PlaceStage } from '../web/reader/stage/place-stage';
+import { MapMenu } from '../web/reader/map-menu';
 import type { ReaderApp } from '../web/reader/reader-app';
 import type { Frame } from '../src/creation/protocol';
 
@@ -16,13 +17,14 @@ import type { Frame } from '../src/creation/protocol';
 // LensRows), and what `serve` answers (its view: the acts led, every choice by id), each read against the engine's one
 // projection of the same turn (Doable), by the act each row does. Each divergence is named by its client and kind
 // ("page engine only: …", "serve words: …"), into the one baseline. Not measured yet: the page's talk drawer (drawn
-// only once a person is turned to) and the map's menu (CO-20).
+// only once a person is turned to) and the map's menu (CO-20); the map's menu is read now, every page of it (OR-152).
 interface Act {
   words: string; label?: string; short?: string; alts?: Set<string>; id: string; lens?: Lens; within?: string;
   map?: true; chart?: string;
 }
 interface Drawn {
-  act: string; words: string; id: string; lens?: Lens; where: 'four' | 'lens' | 'menu' | 'pack' | 'likeness' | 'talk';
+  act: string; words: string; id: string; lens?: Lens;
+  where: 'four' | 'lens' | 'menu' | 'pack' | 'likeness' | 'talk' | 'map';
 }
 export class ClientParity {
   // The engine's acts by what each does, in its own words, with its lens and what it is held within.
@@ -89,6 +91,10 @@ export class ClientParity {
       drawn.push({ act: c.command!, words: c.label, id: c.id, where: 'pack' });
     }
     drawn.push(...this.attended(frame, menu));
+    // And the map's menu, every page of it: each journey it sets out on (MapMenu.rows, the engine's MapRows).
+    for (const r of MapMenu.rows(app, frame.screen, { taken: [] })) {
+      drawn.push({ act: r.row.does!, words: r.row.label, id: r.row.id, where: 'map' });
+    }
     return { drawn, app, four };
   }
   private static charted(app: ReaderApp, a: Promoted): string | undefined {
@@ -120,7 +126,7 @@ export class ClientParity {
       const at = acts.get(act);
       if (!at) {
         const held = e.within && (ids.has(e.within) || acts.has(engine.get(e.within)?.id ?? e.within));
-        if (!held && !e.map) { out.add(`page engine only: ${this.short(act)}`); }
+        if (!held) { out.add(`page engine only: ${e.map ? 'map ' : ''}${this.short(act)}`); }
         continue;
       }
       const wrong = at.filter(d => !this.says(d, e));
@@ -153,7 +159,7 @@ export class ClientParity {
     }
   }
   // Where the page draws a row in a list of its own (its menu, the pack, a talk drawer, a likeness).
-  private static readonly menus = new Set<Drawn['where']>(['menu', 'pack', 'talk', 'likeness']);
+  private static readonly menus = new Set<Drawn['where']>(['menu', 'pack', 'talk', 'likeness', 'map']);
   // Whether a row the page draws says the engine's words: its own (what it is called, LedWords), or, under what holds
   // it (a person's talk, a thing, the pack), the engine's other words for it there (its label, Row.short); among the
   // four, only what it is called.
