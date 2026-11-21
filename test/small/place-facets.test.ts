@@ -48,9 +48,9 @@ describe('what each place is to the company, on the map', () => {
     expect([PlaceFacets.aspects(f.get('stow')), f.get('stow')?.map(l => l.id)]).toEqual([['undertaking'], ['travel:stow']]);
     expect(PlaceFacets.aspects(f.get('fen'))).toEqual(['exploration']);
   });
-  it('offers them in the map\'s menu by what they are, gold first, before the nearest', () => {
+  // (Ranked by the engine now, gold first, before the nearest: MapRows, test/map-rows.)
+  it('marks them in the map\'s menu by what they are, the aim\'s gold only where the way is shown', () => {
     const f = PlaceFacets.of(screen, glance);
-    expect(MapMenu.roads(screen, f, { taken: [] }).map(r => r.id)).toEqual(['stow', 'mill', 'lea', 'fen']);
     expect(MapMenu.marked(f.get('stow'), true).indicator?.tone).toBe('gold');
     expect(MapMenu.marked(f.get('stow'), false)).toEqual({ plain: 'neutral' });
   });

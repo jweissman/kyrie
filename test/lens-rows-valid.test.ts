@@ -115,8 +115,10 @@ function says(words: string, names: string[], common = new Set<string>()): boole
   });
 }
 // The menu's own turns of attention: rows, no act (see test/small/page-controls).
-// The map's own (putting it away, viewing a place on it) and the talk's (turning its page, trade, back from it).
-const turns = new Set(['focus', 'defocus', 'lens-page', 'put-away-map', 'map-view', 'more-talk', 'trade', 'trade-back']);
+// The map's own (putting it away, viewing a place on it, turning its page: OR-152) and the talk's (turning its page,
+// trade, back from it).
+const turns = new Set(['focus', 'defocus', 'lens-page', 'put-away-map', 'map-view', 'more-places', 'more-talk', 'trade',
+  'trade-back']);
 const unescape = (s: string) => s.replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&');
 // A drawn container's rows: their words (and spaced, where a row's parts run together), the act or the menu's turn.
 const rows = (html: string) => html.split('<button').slice(1).map(x => x.split('</button>')[0]!).map(b => ({
