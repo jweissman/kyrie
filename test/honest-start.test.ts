@@ -10,8 +10,10 @@ import { Glanced } from './support/glanced';
 // fixed world by an ordinary character: the reviews of 9 November asked for one honest-start journey that proves the
 // next thing to do can be found, not only done. Each step is the page's lead; nothing is put, taught or chosen by id.
 const start = async (origin: string) => {
+  // The debtor's cases walk the salvage (the inn's word, the place told of, what is found sold): its chain fixed so,
+  // not drawn (DebtShapes), as the specs that walk it fix it.
   const w = await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, { origin,
-    party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+    ...origin === 'debt' ? { chain: 'salvage' } : {}, party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
   // The reason the company came followed, as the page offers it (Follow this): nothing is followed for the player
   // until they choose (the owner, 12 November).
   return new HonestPlayer(Glanced.following(await PlaySession.start(w.path, 'kahitude', w.source)));
