@@ -14,6 +14,10 @@ describe('the first quarter hour, by the gold', () => {
     const places = q.steps.map(x => x.place);
     expect(places).toContain('the undercroft');
     expect(places).toContain('the sealed vault');
-    expect(q.fights).toBeGreaterThanOrEqual(3);
+    // The rats and their buck fought; the man with the black candle, warning the company off in the ossuary, answered
+    // by talking him round (an engagement answered: OR-163), where the aim's search there, led while he warned, had
+    // brought his dead down on the company for a third fight.
+    expect(q.fights).toBeGreaterThanOrEqual(2);
+    expect(q.steps.map(x => x.command)).toContain('region__s1_u_raiser_talked(party,region__s1_u_ossuary)');
   }, 300000);
 });
