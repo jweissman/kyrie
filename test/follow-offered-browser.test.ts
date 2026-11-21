@@ -14,7 +14,9 @@ class Journey {
   static async open(page: Page) {
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
-    await page.waitForSelector('.prologue-page', { timeout: 120000 });
+    // The opening's own first page, not the loading page that shows it while the world is made (OR-23: the same words,
+    // a prologue-page too, data-mode loading); Esc there is before there is an opening to leave.
+    await page.waitForSelector('.prologue-page:not(.loading)', { timeout: 120000 });
     await page.keyboard.press('Escape');
     for (let i = 0; i < 40 && await page.locator('.prologue-page').count(); i++) {
       const meeting = page.locator('.page-meeting [data-act], .page-meeting button').first();

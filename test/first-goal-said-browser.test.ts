@@ -15,7 +15,9 @@ class Opening {
   static async play(page: Page, skip: boolean) {
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
-    await page.waitForSelector('.prologue-page', { timeout: 120000 });
+    // The opening's own first page, not the loading page that shows it while the world is made (OR-23: the same words,
+    // a prologue-page too, data-mode loading); Esc there is before there is an opening to leave.
+    await page.waitForSelector('.prologue-page:not(.loading)', { timeout: 120000 });
     if (skip) { await page.keyboard.press('Escape'); }
     let onward = '';
     for (let i = 0; i < 40 && await page.locator('.prologue-page').count(); i++) {
