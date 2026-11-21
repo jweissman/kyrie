@@ -54,26 +54,47 @@ export class DangerSense {
   // in its order and to its count, stopped once the rest could not change which side of the line the odds fall on;
   // reckon itself where it has been made, or where its count is open (every fight won, played on until sure).
   static beyond(campaign: Campaign, group: string): boolean {
+    for (;;) {
+      const said = this.advance(campaign, group);
+      if (said !== undefined) { return said === 'reckon' ? DangerSense.grave.has(this.reckon(campaign, group)!.danger) : said; }
+    }
+  }
+  // One fight more toward that verdict, kept by its key, so that it can be reckoned a fight at a time while the player
+  // reads (the host's idle: OR-145 (b)) and the act that needs it reads it kept: the verdict once settled; 'reckon'
+  // where only the whole reckoning can say (every fight of the first six won); else none yet. The same fights in the
+  // same order whenever they are played, so a verdict made ahead is the one made at the act.
+  static advance(campaign: Campaign, group: string): boolean | 'reckon' | undefined {
     const set = this.setup(campaign, group);
     if (!set) { return false; }
     const { ours, foes, key, place } = set, line = ours.length === 1 ? 0.75 : 0.6;
     const made = this.reckoned.get(key) ?? this.verdicts.get(key);
     if (made !== undefined) { return typeof made === 'boolean' ? made : DangerSense.grave.has(made.danger); }
-    const played: Trial[] = [];
-    for (let trial = 0; trial < this.trials; trial++) { played.push(this.trial(ours, foes, `${key}:${trial}`, place)); }
-    const first = played.filter(t => t.won).length / this.trials, near = played.some(t => t.won && t.hurt > 0.6);
-    if (first === 1 && !near) { return DangerSense.grave.has(this.reckon(campaign, group)!.danger); }
-    const all = first === 0 ? this.trials : first > 0.3 && first < 0.9 ? this.trials * 3
-      : first < 0.9 || near ? this.trials * 2 : this.trials;
-    let won = played.filter(t => t.won).length;
-    for (let trial = this.trials; trial < all && won / all < line && (won + all - trial) / all >= line; trial++) {
-      if (this.trial(ours, foes, `${key}:${trial}`, place).won) { won++; }
+    if (this.wholes.has(key)) { return 'reckon'; }
+    const at = this.under.get(key) ?? { played: 0, won: 0, near: false };
+    const t = this.trial(ours, foes, `${key}:${at.played}`, place);
+    const now = { played: at.played + 1, won: at.won + (t.won ? 1 : 0), near: at.near || (t.won && t.hurt > 0.6),
+      ...at.all ? { all: at.all } : {} };
+    if (now.played === this.trials) {
+      const first = now.won / this.trials;
+      if (first === 1 && !now.near) { this.under.delete(key); this.wholes.add(key); return 'reckon'; }
+      now.all = first === 0 ? this.trials : first > 0.3 && first < 0.9 ? this.trials * 3
+        : first < 0.9 || now.near ? this.trials * 2 : this.trials;
     }
-    const verdict = won / all < line;
+    const all = now.all;
+    if (!all || (now.played < all && now.won / all < line && (now.won + all - now.played) / all >= line)) {
+      if (this.under.size > 200) { this.under.clear(); }
+      this.under.set(key, now);
+      return undefined;
+    }
+    this.under.delete(key);
+    const verdict = now.won / all < line;
     if (this.verdicts.size > 200) { this.verdicts.clear(); }
     this.verdicts.set(key, verdict);
     return verdict;
   }
+  // Those only the whole reckoning can say, known so after their first six fights, not played again to find it out.
+  private static readonly wholes = new Set<string>();
+  private static readonly under = new Map<string, { played: number; won: number; near: boolean; all?: number }>();
   private static readonly verdicts = new Map<string, boolean>();
   static readonly grave: ReadonlySet<Danger> = new Set(['grave', 'deadly']);
   // Who would fight, the key their fights are seeded by, and where; none where either side has no one standing.

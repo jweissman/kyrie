@@ -1,6 +1,8 @@
 import voice from '../../data/voice/outmatched.json';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
-import type { Objective } from '../lang/module';
+import type { Call, Objective, Predicate } from '../lang/module';
+import { World } from '../lang/world';
+import { Undertakings } from './undertakings';
 import type { Screen } from '../ui/screen-types';
 import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
@@ -18,16 +20,34 @@ export class Outmatched {
   // The first band the aim names, or that stands where it names, which the company reckons beyond it; none for a
   // company that is more than one already.
   static band(campaign: Campaign, o: Objective): string | undefined {
+    // Beyond it or not, by as few fights as settle it (DangerSense.beyond: OR-145 (b)).
+    return this.bands(campaign, o).find(id => DangerSense.beyond(campaign, id));
+  }
+  // The bands an aim names, or that stand where it names, that could be beyond a company going alone.
+  private static bands(campaign: Campaign, o: Objective): string[] {
     const w = campaign.world, actor = campaign.playerActor, read = campaign.readout;
     if (!actor || read.partyIds.length > 1 || (w.relates('travelsWith') && w.related('travelsWith').length)) {
-      return undefined;
+      return [];
     }
     const byId = EntityIndex.of(campaign.module.entities).byId, named = [...Stakes.named(campaign, o)];
-    const bands = named.flatMap(id => byId.get(id)?.space ? w.related('at').filter(r => r.args[1] === id)
+    return [...new Set(named.flatMap(id => byId.get(id)?.space ? w.related('at').filter(r => r.args[1] === id)
       .map(r => r.args[0]!) : [id]).filter(id => id !== actor && byId.get(id)?.type === 'group'
-      && w.test(ModuleWriter.call('able', id)) && !(w.relates('peaceable') && w.test(ModuleWriter.call('peaceable', id))));
-    // Beyond it or not, by as few fights as settle it (DangerSense.beyond: OR-145 (b)).
-    return [...new Set(bands)].find(id => DangerSense.beyond(campaign, id));
+      && w.test(ModuleWriter.call('able', id))
+      && !(w.relates('peaceable') && w.test(ModuleWriter.call('peaceable', id)))))];
+  }
+  // The bands of the aims an act offered here would give (an act asserting what the aim holds by), whose warning the
+  // giver says as it is given: reckoned ahead while the player reads (DangerAhead, OR-145 (b)), so that the act reads
+  // its verdict kept. A guess at what is worth reckoning, never at what is said: the verdict is the same either way.
+  static ahead(campaign: Campaign): string[] {
+    const asserted = new Set(campaign.offered().flatMap(a => (a.success ?? [])
+      .flatMap(c => c.kind === 'assert' ? [World.format(c.call)] : [])));
+    const held = new Set(Undertakings.held(campaign).map(o => o.id));
+    return [...new Set((campaign.module.objectives ?? []).filter(o => !held.has(o.id)
+      && Outmatched.calls(o.when).some(c => asserted.has(c))).flatMap(o => this.bands(campaign, o)))];
+  }
+  private static calls(p: Predicate): string[] {
+    const q = p as { kind: string; left?: Predicate; right?: Predicate; value?: Predicate };
+    return q.kind === 'call' ? [World.format(q as Call)] : [q.left, q.right, q.value].flatMap(x => x ? this.calls(x) : []);
   }
   // Whoever would go along, and where, while the aim followed leads into a fight the company reckons beyond it alone:
   // the place then leads with the help as it leads with the aim (OR-64; see Affordances' help).

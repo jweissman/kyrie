@@ -130,6 +130,8 @@ export class JourneyProfile {
     // What the engine prepares while the player reads (the country beyond a march-stone a step away), waited for as
     // a player's reading would give it time.
     await this.inner.preparing;
+    // And the danger of what an act here could lead to, reckoned while the player reads (DangerAhead).
+    await this.host.danger.done;
     const t4 = performance.now(), t = (frame as Frame).timing ?? { engine: 0, screen: 0, narrative: 0 };
     const installed = (campaign as unknown as { definition?: { installations?: unknown[] } }).definition?.installations;
     return { step: n, choice: c.choice.name, command: c.choice.id, total: Math.round(t2 - t1), ...t,
