@@ -66,8 +66,9 @@ describe('the Numbered House alone: its ways round the Count', () => {
   it('vents the seed-vault before the door is safe: dead air stands behind it until the wheel is turned', async () => {
     const j = await House.at('roots');
     expect(House.is(j, 'state', 'vault_air', 'foul')).toBe(true);
+    // Turned with the beetles warning the company off (OR-163: an act on the place, which the engagement keeps), the
+    // draught runs at once; there is no wait while they stand, only the ground to stand.
     await j.play('Turn the vent-wheel');
-    await j.play('Wait a while');
     expect(House.is(j, 'state', 'vault_air', 'clean')).toBe(true);
   });
 });
