@@ -1,7 +1,6 @@
 import type { Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import type { Choice } from '../../src/ui/choice-list';
-import { useState } from 'react';
 import { MapRows, type MapRow } from '../../src/presentation/map-rows';
 import { MapView } from './map-view';
 import { RouteCard } from './route-card';
@@ -84,7 +83,8 @@ export class MapMenu {
     // Stopped on the way by something here (a band on the road, a toll, someone met), the map is put away first: its
     // one row says so, red where it means harm (the owner, 17 November: you must put away the map to deal with what
     // has stopped you; red if a violent encounter waits).
-    const [page, turn] = useState(0);
+    // The page of the map's places shown, kept by the page (the menu holds no state of its own: MapCard draws it).
+    const page = app.state.mapPage ?? 0;
     const scene = app.menu?.scene, danger = (scene?.subjects ?? []).some(x => x.danger);
     // Only what means harm holds the map: a beast that might join, met on the way, is gone on from as before.
     const travel = app.state.frame?.travel, held = !!travel && !travel.arrived && !chosen && danger;
@@ -126,7 +126,7 @@ export class MapMenu {
           {...r.minutes ? { aside: Words.span(r.minutes) } : {}} /></li>)}
         {/* The rest a page at a time, every place reached by keys (OR-152). */}
         {paged.pages > 1 && <li><ChoiceRow.Button className="led-act more-places" data={{ action: 'more-places' }}
-          onClick={() => turn(paged.at + 1)} plain="neutral" label="More places…"
+          onClick={() => app.setState({ mapPage: paged.at + 1 })} plain="neutral" label="More places…"
           aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
         <li><ChoiceRow.Button className="led-act put-away" data={{ action: 'put-away-map' }} onClick={put}
           {...MapMenu.away(app)} label="Put away the map" /></li>
