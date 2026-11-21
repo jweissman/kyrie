@@ -1,6 +1,7 @@
 import { Marks } from '../ui/marks';
 import type { Screen } from '../ui/screen-types';
 import { AimSaid } from './aim-said';
+import { Engaged } from './engaged';
 import type { Promoted } from './glance-types';
 
 // The journey held by the host (see EngineHost.bound), and whether the game was just taken up again.
@@ -24,9 +25,10 @@ export class HeldActs {
   // An aim held and none followed, offered to be followed, as any act is (the owner, 15 November: one action grammar,
   // no stray buttons): the glance's own act, so that every client is offered it and does it the same way (the
   // session's `follow:<aim>`).
-  static follow(screen: Pick<Screen, 'aims'>): Promoted | undefined {
+  // None while the company is engaged: it resolves what is in front of it first (OR-163: Engaged).
+  static follow(screen: Pick<Screen, 'aims' | 'warned'>): Promoted | undefined {
     const aims = screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
-    if (!pull || aims.some(a => a.followed)) { return undefined; }
+    if (!pull || aims.some(a => a.followed) || Engaged.threat(screen)) { return undefined; }
     const choice = `follow:${pull.id}`;
     // Said by the aim's own words, no prefix (OR-72: "Follow: Look along the road between Mistshaw" read as following a
     // road); what it is, a decision and not an act in the world, is its note.

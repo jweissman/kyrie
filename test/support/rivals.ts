@@ -24,5 +24,7 @@ export class Rivals {
     while (this.n(j, 'rivalStage', 'house') < n) { await j.play('=+60'); }
   }
   static at(j: Journey, who: string) { return j.at(this.a(who)); }
-  static carries(j: Journey, name: string) { return j.choices().some(c => new RegExp(`^Pack › ${name}`, 'i').test(c.full)); }
+  // What the company carries, from its things (not the pack's offered acts: while a crew warns it off, the pack offers
+  // only a light or a weapon readied, OR-163).
+  static carries(j: Journey, name: string) { return j.screen().items.some(i => new RegExp(`^${name}`, 'i').test(i.name)); }
 }

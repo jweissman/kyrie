@@ -6,6 +6,7 @@ import { Attest, type Witness } from './attest';
 import type { Aspect, Glance, Lens, Promoted } from './glance-types';
 import { Fold } from './fold';
 import { DoableJourneys } from './doable-journeys';
+import { Engaged } from './engaged';
 
 // One resolution from the engine's offer to rows that can be done (mission-22/doable-design.md, TB-12): what each
 // offered choice is, what taking it does, and what it opens, read once from the scene the page draws its menu from
@@ -124,7 +125,8 @@ export class Doable {
       ...this.ledFor(glance, at, had)], at);
     const out = glance.compass?.out, journeys = DoableJourneys.more(this.flat(offered), screen, out)
       .map(j => ({ ...this.row(j.command, j.label, { ...at, command: j.command }), minutes: j.minutes }));
-    const rows = DoableJourneys.mapped([...offered, ...journeys], screen, out);
+    // Engaged, only what answers the threat (OR-163: Engaged).
+    const rows = Engaged.rows(DoableJourneys.mapped([...offered, ...journeys], screen, out), screen);
     const read = { rows, at, lensOf };
     this.kept.set(glance, read);
     return read;

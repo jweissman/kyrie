@@ -348,7 +348,9 @@ export class Journey {
       }
       const pick = long ? this.find('^Wait until dark') ?? this.find('^Wait until first light')
         : this.find(watch - this.watch() >= 6 ? '^Wait an hour' : '^Wait a while');
-      const c = pick ?? this.find('^Wait an hour');
+      // Engaged, the one wait is standing one's ground (the short wait, in Engaged's words), and the threat comes on
+      // (OR-163).
+      const c = pick ?? this.find('^Wait an hour') ?? this.choices().find(x => x.command === 'wait');
       if (!c) { throw Journey.unoffered(`Nothing to wait by at watch ${this.watch()}`); }
       hour = /^Wait an hour/.test(c.label) ? c : undefined;
       told += await this.perform(c.command, c.label);

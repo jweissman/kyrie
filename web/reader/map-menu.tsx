@@ -14,6 +14,7 @@ import { Guidance } from './guidance';
 import { Attest } from '../../src/presentation/attest';
 import { Fold, type Leaf } from '../../src/presentation/fold';
 import { Doable } from '../../src/presentation/doable';
+import { Engaged } from '../../src/presentation/engaged';
 import { SceneRail } from './stage/scene-rail';
 import { Glyphs } from './creation/glyphs';
 import { Hold } from './instrument/hold';
@@ -94,8 +95,10 @@ export class MapMenu {
     // The page of the map's places shown, kept by the page (the menu holds no state of its own: MapCard draws it).
     const page = app.state.mapPage ?? 0;
     const scene = app.menu?.scene, danger = (scene?.subjects ?? []).some(x => x.danger);
-    // Only what means harm holds the map: a beast that might join, met on the way, is gone on from as before.
-    const travel = app.state.frame?.travel, held = !!travel && !travel.arrived && !chosen && danger;
+    // Only what means harm holds the map: a beast that might join, met on the way, is gone on from as before. Engaged
+    // (the engine's: Engaged, OR-163), the map is put away and nothing else, wherever the company is.
+    const travel = app.state.frame?.travel;
+    const held = (!!travel && !travel.arrived && !chosen && danger) || !!Engaged.threat(screen);
     if (held) {
       return <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
         {MapMenu.putAway(app, put, true)}</ol>;

@@ -15,6 +15,7 @@ import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
 import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
+import { Engaged } from './engaged';
 import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
@@ -91,8 +92,9 @@ export class Glance {
   static readonly changes = ['change_thing', 'change_thing_paying', 'change_thing_spending'];
   // The host's part: the journey set out on and not yet come to the end of is gone on with first of what the aims ask
   // ("Go on to Gaudumport"), and the game taken up again opens as a return.
-  static held(glance: View, host: Host): View {
-    const { bound } = HeldActs.of(host);
+  // Engaged (at: the frame it was made for), no journey is gone on with until the threat is answered (OR-163).
+  static held(glance: View, host: Host, at?: Pick<Screen, 'warned'>): View {
+    const { bound } = at && Engaged.threat(at) ? { bound: undefined } : HeldActs.of(host);
     const acts = bound ? this.first(glance.acts, bound) : glance.acts;
     const offer = bound && glance.offer ? Offers.headed(glance.offer, bound) : undefined;
     return { ...glance, ...host.resumed ? { arrival: 'resume' as const } : {}, acts,

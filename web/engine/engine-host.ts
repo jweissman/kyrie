@@ -457,7 +457,7 @@ export class EngineHost {
     const leaf = this.leaf(), going = this.journeying();
     if (leaf.glance) {
       leaf.glance = Likenesses.with(Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
-        ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }), this.screen);
+        ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }, this.screen), this.screen);
     }
     return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
       leaf,

@@ -12,6 +12,7 @@ describe('someone turned against the company', () => {
     expect(told).toContain("'Say that again,' he says, 'and see.'");
     expect([j.holds('warned', 'ruff', 'party'), j.holds('assails', 'ruff', 'party')]).toEqual([true, false]);
     expect(j.offers('Warn Ruff off')).toBe(true);
-    expect(await j.play('Wait')).toContain('Ruff comes at you');
+    // Warned, the one wait is standing one's ground (OR-163: Engaged), and he comes on.
+    expect(await j.play('Stand your ground')).toContain('Ruff comes at you');
   }, 30000);
 });

@@ -6,7 +6,7 @@ import { CharacterSheets } from '../presentation/character-sheet'; import { Itin
 import type { World } from '../lang/world';
 import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../lang/item-names'; import { Passages } from './passages';
-import { KnownNames } from './known-names';
+import { KnownNames } from './known-names'; import { Engaged } from '../presentation/engaged';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../rules/background-catalog';
@@ -102,9 +102,10 @@ export class ScreenModel {
       unplaced: [...grouped.unplaced, ...[...unclaimed.entries()].flatMap(([id, acts]) =>
         acts.map(a => ({ ...a, label: `${entities.get(id)?.name ?? id}: ${a.label}` })))],
     };
-    return { ...screen, people: FightHelp.on(campaign, screen), camp: LightLeft.warned(screen.camp,
-      screen.expedition.flame),
-      ...TownPlan.of(screen, entities, world, { visited, recall: CompanyRecall.of(campaign) }) };
+    // Engaged, only what answers the threat (OR-163).
+    const recall = CompanyRecall.of(campaign), camp = LightLeft.warned(screen.camp, screen.expedition.flame);
+    return Engaged.screen({ ...screen, people: FightHelp.on(campaign, screen), camp,
+      ...TownPlan.of(screen, entities, world, { visited, recall }) });
   }
   // What each item is priced at, where prices are measured: its items read by the entities' index, not every entity;
   // kept from one world to the next while no price read is written (see KeptParts).
