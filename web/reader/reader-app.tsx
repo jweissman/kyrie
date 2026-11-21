@@ -207,6 +207,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     }
   }
   private keeping: Promise<void> = Promise.resolve();
+  // The game last kept in play (see keep), and the one the title offers to carry on with: that, else the one read.
+  private lastKept?: SavedGame;
+  get savedGame(): SavedGame | undefined { return this.lastKept ?? this.state.saved; }
   private async keep(message: Extract<Message, { kind: 'saved' }>) {
     const started = performance.now(), size = message.save.length + (message.world?.text.length ?? 0);
     // A state is kept only beside the world it was kept against; the engine is told whether its world is kept here,
@@ -220,7 +223,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (message.world || !beside) {
       void this.engine.request({ kind: 'kept', key: message.key, ok: !!saved }).catch(() => undefined);
     }
-    if (saved) { this.setState({ saved, unkept: false }, () => Timings.kept(performance.now() - started, size)); }
+    // In play the game kept is held, not drawn (only the title draws it): drawn, it had been the page rebuilt whole a
+    // second time after every answer, as the player began to read it and might press again (OR-91).
+    if (saved && this.state.phase === 'play' && !this.state.unkept) {
+      this.lastKept = saved; Timings.kept(performance.now() - started, size);
+    } else if (saved) { this.setState({ saved, unkept: false }, () => Timings.kept(performance.now() - started, size)); }
     // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
     else if (!this.state.unkept) { this.setState({ unkept: true }); }
   }

@@ -28,7 +28,7 @@ type Way = 'continue' | 'begin' | 'encyclopedia' | 'options';
 // and the studio's (src/presentation/identity.ts).
 export class TitlePage {
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, saved = s.saved, query = app.props.query, dev = query.has('dev');
+    const s = app.state, saved = app.savedGame, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), [beat, skip] = TitlePage.useBeat(query.has('ident') || query.has('studio'));
     const first: Way = saved ? 'continue' : 'begin', [active, activate] = useState<Way>(first);
     // The way the hand or the keys are on, marked at once by the reticule, the one sign of focus; the sky is still.
