@@ -102,12 +102,12 @@
   // Seen while the company is on the green, and gone once it leaves: a journey passing through sees it and goes on.
   Rule {t}_dogs_turn when at(party, {t}_green) and watch(clock) >= 1 and not dark() and not {t}_dogs_turned(party) and not {t}_animals_known(party) { Assert {t}_dogs_turned(party). }
   Rule {t}_dogs_gone when {t}_dogs_turned(party) and not at(party, {t}_green) and not {t}_dogs_past(party) { Assert {t}_dogs_past(party). }
-  Observe {t}_dogs_event at {t}_green as sign when {t}_dogs_turned(party) and not {t}_dogs_past(party) "Every dog on the green lifts its head at once. They all look toward the hill: the inn's dog on the step, a lurcher by the well, two by the boat-sheds. The geese stop. From the stones on the hill come four notes, three down and one up, so faint you could not swear to them. A gull cries. The dogs put their heads down, and nobody on the green says a word." teaches {t}_dogs_seen.
+  Observe {t}_dogs_event at {t}_green as sign when {t}_dogs_turned(party) and not {t}_dogs_past(party) "Every dog in {town} lifts its head at once. They all look toward the hill: the inn's dog on the step, a lurcher by the well, two by the boat-sheds. The geese stop. From the stones on the hill come four notes, three down and one up, so faint you could not swear to them. A gull cries. The dogs put their heads down, and nobody says a word." teaches {t}_dogs_seen.
   Action {t}_look_hill(actor: group, site: place) "Look up at the hill" {
     Time 5 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_green) and {t}_dogs_turned(actor) and not {t}_hill_looked(actor) and not dark().
     On success { Assert {t}_hill_looked(actor). }
-    Result "Above the last roofs the hill rises in wet bracken to a ring of old stones. Nothing moves there. The path up starts behind the green, and nobody is on it.".
+    Result "Above the last roofs the hill rises in wet bracken to a ring of old stones. Nothing moves there. The path up starts behind the houses, and nobody is on it.".
   }
   Thing {t}_draught "the mouth of the old passage" at {t}_manor_cellar {
     State still "The back of the cellar is quiet. The bricks that cover the old way are cold to the hand and do not hum.".

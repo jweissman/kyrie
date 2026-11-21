@@ -46,7 +46,7 @@ describe('something not right in Porthalen', () => {
     await Road.act(r, 'drove__owain#talk');
     await Road.act(r, 'exit:drove__pens');
     const back = await Road.act(r, 'exit:region__s1_green');
-    expect(Road.text(back)).toContain('Every dog on the green lifts its head at once. They all look toward the hill');
+    expect(Road.text(back)).toContain('lifts its head at once. They all look toward the hill');
     expect(Road.text(back)).toContain('four notes, three down and one up');
     expect(Road.labels(back)).toContain('Look up at the hill');
     const looked = await Road.act(r, 'company/0:Look up at the hill');
@@ -55,6 +55,6 @@ describe('something not right in Porthalen', () => {
     expect(Road.labels(looked)).not.toContain('Look up at the hill');
     // Once: gone from the green when the company has left it, and not seen again on coming back.
     await Road.act(r, 'exit:drove__pens');
-    expect(Road.text(await Road.act(r, 'exit:region__s1_green'))).not.toContain('Every dog on the green');
+    expect(Road.text(await Road.act(r, 'exit:region__s1_green'))).not.toContain('lifts its head at once');
   }, 120000);
 });
