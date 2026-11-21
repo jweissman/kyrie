@@ -638,6 +638,15 @@ export class GlanceStage {
     // Someone not yet met, led for a question: talking to them, the question after it (see Doable.called, CL-45).
     const asked = a.unmet ? GlanceStage.within(a, c) : undefined;
     if (asked) { return Doable.called(c.alone || c.label, asked); }
+    // Someone met, led for a question or an act within their talk: the engine's words for it ("Ask Owain how many head
+    // came down", "Pole Ianto's fuel boat …"), not "Talk to your cousin" with the question as an aside (MT-18: the
+    // parity measure, made to read what the four draw, found the page's own words here, 20 November).
+    const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
+    const led = a.for ?? a.inside?.[0]?.command;
+    if (g && screen && led && led !== c.command && /#talk$/.test(c.id)) {
+      const row = Doable.one(g, screen, a.choice, a.command);
+      return row.called ?? row.label;
+    }
     if (c.alone) { return c.alone; }
     const subject = a.subject && app.menu.scene?.subjects.find(x => x.id === a.subject);
     if (subject && /#look$/.test(c.id)) { return `Look at ${subject.name.replace(/^(The|A|An|Some) /, m => m.toLowerCase())}`; }

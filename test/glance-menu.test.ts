@@ -18,13 +18,15 @@ class Menus {
     const frame = g.frame(), glance = frame.leaf.glance!, menu = MenuModel.build(frame, 'here', []);
     // A road draws no glance, and keeps its own order.
     expect(Routes.of(frame.screen)).toBeUndefined();
-    // In a town or a site, a way out into the country the glance leads with is drawn as going out to it.
-    const ids = menu.choices.map(c => c.id), out = (id: string) => menu.overland?.has(id) ? MenuModel.country.id : id;
+    // In a town or a site, a way out into the country the glance leads with is its own row, opening the map at where it
+    // goes, never the world map's row again (OR-159).
+    const ids = menu.choices.map(c => c.id), out = (id: string) => id;
     // (Less talk with anyone here, who is talked to by their own plate: the owner, 4 November.)
     const led = [...new Set((menu.leads ?? glance.acts).map(a => out(a.choice)))];
     expect(ids.slice(0, led.length)).toEqual(led);
     expect(glance.ways.map(out).filter(id => !ids.includes(id))).toEqual([]);
-    expect([...ids].sort()).toEqual(Menus.ids(Menus.unglanced(frame)).sort());
+    // Every choice the unglanced menu has, and the glance's leads out over the country, each its own row (OR-159).
+    expect([...ids].sort()).toEqual([...new Set([...Menus.ids(Menus.unglanced(frame)), ...led])].sort());
     // Each choice is drawn on the glance or under a sheet.
     const sheets = menu.sheets!, drawn = new Set([...led, ...glance.ways.map(out), ...sheets.look,
       ...sheets.ways, ...sheets.more]);
@@ -43,7 +45,7 @@ describe('the menu at a glance', () => {
     // November), as well as by his likeness (the owner, 12 November: someone with something for the company is among
     // the few things led with, not only on the picture); and the one on the green who would come along (AT-08, MT-15).
     expect([Menus.ids(g.frame()).slice(0, 2), [...MenuModel.build(g.frame(), 'here', []).leading ?? []]])
-      .toEqual([[MenuModel.country.id, 'drover__son#talk'], ['drover__son#talk', 'region__s2_u_hand#talk']]);
+      .toEqual([['exit:region__s5_s2_way', 'drover__son#talk'], ['drover__son#talk', 'region__s2_u_hand#talk']]);
     expect(MenuModel.build(g.frame(), 'here', []).sheets!.look).toContain('drover__son#talk');
     await g.to('region__w11');
     Menus.check(g);

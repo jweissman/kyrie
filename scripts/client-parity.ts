@@ -57,16 +57,24 @@ export class ClientParity {
     this.page(frame, rows, out);
     this.serve(runner, rows, out);
   }
+  // A row of the four in the words the page draws it in: its label as GlanceStage.Acts draws the choice it is taken as.
+  private static four(app: ReaderApp, a: Promoted): string {
+    const c = GlanceStage.taken(app, a);
+    return c ? GlanceStage.label(app, a, c) : a.label;
+  }
   // What the page draws: the four, every lens's rows, the menu's every choice (what the keys and automation reach).
   static drawn(frame: Frame): { drawn: Drawn[]; app: ReaderApp; four: Promoted[] } {
     const menu = MenuModel.build(frame, 'here', []);
     const app = { state: { frame, open: [], focused: [] }, menu, props: { query: new URLSearchParams() } } as unknown as
       ReaderApp;
     const glance = frame.leaf.glance!, four = GlanceStage.offered(app) ?? GlanceStage.foreground(app, glance.acts);
-    // One of the four opening the map at a place (Row.chart) is drawn as what pressing it does.
+    // One of the four opening the map at a place (Row.chart) is drawn as what pressing it does, and in the words of
+    // the choice the page draws it as (GlanceStage.taken), not the glance's own label for it: the page had drawn a
+    // journey led across the country as the world map's own row (the owner's P0, 20 November, OR-159), and the
+    // measure, reading the glance's label, had seen nothing wrong.
     const drawn: Drawn[] = four.map(a => ({
       act: this.charted(app, a) ?? a.inside?.[0]?.command ?? a.command ?? a.choice,
-      words: a.label, id: a.choice, where: 'four' as const }));
+      words: this.four(app, a), id: a.choice, where: 'four' as const }));
     type Lenses = NonNullable<typeof glance.lenses>;
     for (const [lens, lensed] of Object.entries(glance.lenses ?? {}) as [Lens, Lenses[Lens]][]) {
       for (const a of LensRows.of(app, lens, lensed, GlanceStage.choice).all as (Promoted | LensAct)[]) {
