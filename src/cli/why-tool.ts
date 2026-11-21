@@ -6,19 +6,23 @@
 //   bin/kyrie inspect --why placement <campaign.json> | --world <seed> <id> [step ...]
 //   bin/kyrie inspect --dependents <campaign.json> | --world <seed> <symbol>   (see WhyDependents: nothing is played)
 //   bin/kyrie inspect --why people <campaign.json> | --world <seed>   (the ledger's people: see WhyPlacement.people)
+//   bin/kyrie inspect --why process <campaign.json> | --world <seed> <name> [step ...]   (a Route, Promise, Occasion)
 import { PlayTool } from './play-tool';
+import type { Journey } from '../session/journey';
 import { WhyFact } from './why-fact';
 import { WhyPlacement } from './why-placement';
 import { WhySources } from './why-sources';
 import { WhyDependents } from './why-dependents';
+import { WhyProcess } from './why-process';
 
 export class WhyTool {
-  static readonly usage = 'usage: kyrie inspect --why fact|placement|people <campaign.json> | --world <seed> "<fact>" | <id>'
+  static readonly usage = 'usage: kyrie inspect --why fact|placement|people|process <campaign.json> | --world <seed>'
+    + ' "<fact>" | <id>'
     + ' [--seed s] [--steps steps.json] [step ...]; kyrie inspect --dependents <campaign.json> | --world <seed> <symbol>';
   static async main(args: string[], print: (line: string) => void = console.log): Promise<number> {
     const [kind, ...rest] = args, o = PlayTool.parse(rest), [what, ...steps] = o.steps;
     const asked = kind === 'fact' && what ? WhyFact.parse(what) : undefined;
-    const placed = kind === 'placement' || kind === 'dependents';
+    const placed = kind === 'placement' || kind === 'dependents' || kind === 'process';
     const people = kind === 'people', world = o.campaign || o.world || o.part;
     if (people && world) { return this.people(o, print); }
     if (!world || !what || (!placed && !asked)) { print(this.usage); return 1; }
@@ -29,6 +33,7 @@ export class WhyTool {
       return 0;
     }
     const all = [...started.lead, ...await PlayTool.steps(o.file), ...steps];
+    if (kind === 'process') { return this.process(j, all, what, print); }
     try {
       const fact = asked && WhyFact.resolved(j.campaign.world, asked);
       const played = fact ? await WhyFact.play(j, all, fact) : undefined;
@@ -46,6 +51,16 @@ export class WhyTool {
     const lines = source ? await WhyPlacement.people(new WhySources(j.session.scenario, source, j.session.seed))
       : ['Nothing is known of how it was assembled.'];
     for (const line of lines) { print(line); }
+    return 0;
+  }
+  // A Route, a Promise or an Occasion, by its name, played through the steps (MT-30).
+  private static async process(j: Journey, steps: string[], name: string, print: (line: string) => void) {
+    const found = WhyProcess.found(j.campaign.module, name);
+    if (!found.length) { print(`Nothing in the campaign is a Route, Promise or Occasion called ${name}.`); return 1; }
+    try {
+      const advances = await WhyProcess.play(j, steps, found[0]!);
+      for (const line of WhyProcess.report(j, found[0]!, advances)) { print(line); }
+    } catch (e) { print(`! ${(e as Error).message}`); return 1; }
     return 0;
   }
 }

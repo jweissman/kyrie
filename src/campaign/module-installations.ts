@@ -128,6 +128,7 @@ export class ModuleInstallations {
       rules: this.union(base?.rules ?? [], incoming.rules ?? [], r => r.id),
       observations: [...(base?.observations ?? []), ...(incoming.observations ?? [])],
       objectives: [...(base?.objectives ?? []), ...(incoming.objectives ?? [])],
+      ...base?.semantic || incoming.semantic ? { semantic: [...base?.semantic ?? [], ...incoming.semantic ?? []] } : {},
       initial: [...(base?.initial ?? []), ...incoming.initial], actions: schemas,
       ...base?.charts || incoming.charts ? { charts: { ...base?.charts, ...incoming.charts } } : {},
       ...LocalKinds.merge(base?.catalog, incoming.catalog),

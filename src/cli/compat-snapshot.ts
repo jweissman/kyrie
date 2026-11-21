@@ -17,8 +17,9 @@ import { PlayTool } from './play-tool';
 // words: what its module says, by the id that says it (a topic's or an act's answer, an observation, a rule's line),
 // so that words no pinned journey meets are compared too (S2-4's innkeeper had come out the same).
 // within: where each place lies and how it is sheltered (MT-11: a room moved to a floor of its own is layout).
+// semantic: each Route, Promise and Occasion by its semantic id, and its phases (MT-30: see SemanticRecords).
 export interface WorldShot { name: string; places: string[]; within?: Record<string, string>;
-  passages: Record<string, string>;
+  passages: Record<string, string>; semantic?: Record<string, string>;
   people: Record<string, string>; placements: Record<string, string>; words?: Record<string, string> }
 // One step of a journey: the line or step sent, whether it was taken (or why not), and what the turn then was.
 export interface StepShot { line: string; ok: boolean; error?: string; rows: string[]; lines: string[];
@@ -70,7 +71,8 @@ export class CompatSnapshot {
     for (const id of c.readout.creatures.map(x => x.id).sort()) { people[id] = w.one('at', id) ?? 'nowhere'; }
     const within = Object.fromEntries(c.module.entities.filter(e => e.type === 'place')
       .map(e => [e.id, `within ${e.space?.parent ?? 'nothing'}${e.space?.shelter ? `, ${e.space.shelter}` : ''}`]));
-    return { places, within, passages, people, words: CompatSnapshot.words(c) };
+    const semantic = Object.fromEntries((c.module.semantic ?? []).map(r => [r.id, r.phases.map(p => p.id).join(', ')]));
+    return { places, within, passages, people, words: CompatSnapshot.words(c), semantic };
   }
   private static words(c: Campaign): Record<string, string> {
     const m = c.module, out: Record<string, string> = {};

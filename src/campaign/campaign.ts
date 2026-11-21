@@ -29,12 +29,12 @@ import { ActionTime } from './action-time'; import { Engagement } from './engage
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent, Dated, Restored } from './campaign-types';
 import { Crossing, type ExecutionContext } from './crossing';
+import { SemanticRecords } from '../lang/semantic-record';
 export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
   private current: Omit<CampaignState, 'party' | 'creatures'>;
-  private creatures = new CreatureStore();
-  private log: CampaignEvent[] = []; private encounter = 0;
+  private creatures = new CreatureStore(); private log: CampaignEvent[] = []; private encounter = 0;
   // A check made to come out so, for a test (see Checks.make; Journey.roll).
   forced?: 'pass' | 'fail';
   private definition?: CampaignDefinition;
@@ -63,8 +63,7 @@ export class Campaign implements WatchHost {
       return;
     }
     if (!instance.campaign) { throw new Error('A campaign is a composition of installed modules'); }
-    this.definition = instance.campaign;
-    const content = new Content(`${seed}:campaign`);
+    this.definition = instance.campaign; const content = new Content(`${seed}:campaign`);
     this.compiled = instance.module;
     for (const entry of this.definition.creatures) {
       this.creatures.insert(ModuleInstallations.creature(entry, content));
@@ -174,9 +173,11 @@ export class Campaign implements WatchHost {
     if (this.executing || this.held || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }
     this.keepFacts();
     // Written out at once (live), the creatures are given as they are: a copy of every one is what a kept copy needs.
-    const save = { version: 1 as const, actionFormat: 'schemas' as const, module: this.module, definition: this.definition,
-      state: this.current, creatures: live ? this.creatures.live as Creature[] : this.creatures.snapshot,
-      events: this.log, encounter: this.encounter, observations: this.observations };
+    // Its declarations as written are the compiler's, read again from source, never kept (MT-30: SemanticRecords).
+    const save = { version: 1 as const, actionFormat: 'schemas' as const, module: SemanticRecords.unwritten(this.module),
+      definition: this.definition, state: this.current,
+      creatures: live ? this.creatures.live as Creature[] : this.creatures.snapshot, events: this.log,
+      encounter: this.encounter, observations: this.observations };
     return live ? save : structuredClone(save);
   }
   static restore(saved: CampaignSave, handed: { owned?: boolean; trusted?: boolean } = {}): Campaign {

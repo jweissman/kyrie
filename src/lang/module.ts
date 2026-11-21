@@ -170,6 +170,9 @@ export interface Module {
   catalog?: import('./vocabulary').KindsMade;
   // Who and what is seen only by some: each entity's condition, ?viewer being whoever is looking (Person … Seen when).
   seen?: Record<string, Predicate>;
+  // Each high-level declaration (a Route, a Promise, an Occasion) as written, beside what it was lowered into: for
+  // the tools, never the runtime, and never saved (MT-30; see SemanticRecords).
+  semantic?: import('./semantic-record').SemanticRecord[];
 }
 // A region's land for its map: each cell's cover in one string (row by row), the cells of its rivers, of each road
 // (by its way), of each part of its wild country (by room), the cell of each place on it, and what its names mean.

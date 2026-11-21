@@ -1,9 +1,12 @@
 import type * as ohm from 'ohm-js';
 import type { Module, Predicate, Pursuit } from './module';
+import { SemanticRecords, type Span } from './semantic-record';
+import { SemanticLowering } from './semantic-lowering';
 
 type Node = ohm.Node;
 interface LegSpec { id: string; label?: string; place: string; from: number }
-export interface RouteSpec { id: string; actor: string; priority: number; when?: Predicate; legs: LegSpec[] }
+export interface RouteSpec { id: string; actor: string; priority: number; when?: Predicate; legs: LegSpec[];
+  span?: Span }
 
 // Someone who keeps to a round on the clock: at one place from one watch, at the next from the next, while a
 // condition holds (the maturity track's step 5; the requests' R41, R89). Written as a pursuit for each leg by hand
@@ -21,7 +24,8 @@ export class Routes {
     RouteFrom: Routes.from, PursuitAim_company: Routes.company_aim };
   // Route = "Route" RouteHead "{" RouteLegs; RouteLegs = RouteLeg+ "}"
   static parse(_route: Node, head: Node, _open: Node, legs: Node) {
-    return { field: 'route', value: { ...Routes.ast(head) as object, legs: Routes.ast(legs) as LegSpec[] } };
+    return { field: 'route', value: { ...Routes.ast(head) as object, legs: Routes.ast(legs) as LegSpec[],
+      span: SemanticRecords.span(_route) } };
   }
   static legs(legs: Node, _close: Node) { return legs.children.map(l => Routes.ast(l) as LegSpec); }
   // RouteHead = ident "for" ident RoutePriority
@@ -52,7 +56,9 @@ export class Routes {
         throw new Error(`Route ${r.id}'s leg ${leg.id} begins at watch ${leg.from}, not after the leg before it`);
       }
     });
-    (module.pursuits ??= []).push(...r.legs.map((leg, i) => Routes.pursuit(r, leg, r.legs[i + 1])));
+    const pursuits = r.legs.map((leg, i) => Routes.pursuit(r, leg, r.legs[i + 1]));
+    (module.pursuits ??= []).push(...pursuits);
+    SemanticLowering.route(module, r, pursuits);
   }
   // A leg as the pursuit an author had written for it: its window on the clock first, then the route's condition,
   // joined as the parser joins "a and b and c" (to the right), so that the two are one and the same.

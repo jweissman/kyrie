@@ -7,6 +7,7 @@ import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { LocalKinds } from '../canon/local-catalog';
 import { ModuleCanon } from '../campaign/module-canon';
 import type { Module } from '../lang/module';
+import type { ModuleDraft } from '../campaign/module-namespace';
 
 // `kyrie lint --exports`: every module's exports in data/, each with the role its entity plays (inferred from the
 // module as it is compiled, read on its own: see ModuleExports.infer) and the role declared, where one is. A declared
@@ -29,16 +30,26 @@ export class ExportRoles {
   static async read(path: string): Promise<ModuleReading> {
     const module = path.startsWith(KyrLint.root) ? path.slice(KyrLint.root.length + 1) : path;
     const manifest = JSON.parse(readFileSync(path, 'utf8')) as BundleManifest;
+    const draft = await this.draft(path);
+    return 'error' in draft ? { module, readings: [], error: draft.error }
+      : { module, readings: ModuleExports.read(manifest.exports, draft.exports, draft.instance.module) };
+  }
+  // A module read on its own, among the canon's kinds, its imports unbound; or why it could not be.
+  static async draft(path: string): Promise<ModuleDraft | { error: string }> {
+    const module = path.startsWith(KyrLint.root) ? path.slice(KyrLint.root.length + 1) : path;
     const id = basename(dirname(path)).replace(/[^A-Za-z0-9-]/g, '-').replace(/^[^A-Za-z]/, 'm');
     const kinds = await this.kinds();
     LocalKinds.reset(); LocalKinds.install(kinds);
     try {
-      const draft = await ModuleBundle.load({ id, bundle: module }, { seed: 'exports', unbound: true },
-        NodeBundleSource.shared);
-      return { module, readings: ModuleExports.read(manifest.exports, draft.exports, draft.instance.module) };
+      return await ModuleBundle.load({ id, bundle: module }, { seed: 'exports', unbound: true }, NodeBundleSource.shared);
     } catch (e) {
-      return { module, readings: [], error: (e instanceof Error ? e.message : String(e)).split('\n')[0]! };
+      return { error: (e instanceof Error ? e.message : String(e)).split('\n')[0]! };
     }
+  }
+  // Its module as installed alone (its declarations as written among it: MT-30's SemanticIds).
+  static async module(path: string): Promise<Module | { error: string }> {
+    const draft = await this.draft(path);
+    return 'error' in draft ? draft : draft.instance.module;
   }
   static findings(read: ModuleReading[]): Finding[] {
     return read.flatMap(({ module, readings, error }) => [

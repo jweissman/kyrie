@@ -1,10 +1,12 @@
 import type * as ohm from 'ohm-js';
 import type { Change, Module, Predicate, WorldRule } from './module';
+import { SemanticRecords, type Span } from './semantic-record';
+import { SemanticLowering } from './semantic-lowering';
 
 type Node = ohm.Node;
 // close: kept only as the story or chapter closes (`kept at the close when …`), and broken there if it is not.
 export interface PromiseSpec {
-  id: string; words: string; to: string;
+  id: string; words: string; to: string; span?: Span;
   kept: { when: Predicate; text?: string; close?: boolean; effects?: Change[] };
   broken: { when: Predicate; text: string; effects: Change[] };
 }
@@ -29,7 +31,7 @@ export class Promises {
   // Promise = "Promise" PromiseHead PromiseKept PromiseBroken
   static parse(_p: Node, head: Node, kept: Node, broken: Node) {
     return { field: 'promise', value: { ...Promises.ast(head) as object, kept: Promises.ast(kept),
-      broken: Promises.ast(broken) } };
+      broken: Promises.ast(broken), span: SemanticRecords.span(_p) } };
   }
   // PromiseHead = ident string "to" ident
   static head(id: Node, words: Node, _to: Node, to: Node) {
@@ -85,6 +87,7 @@ export class Promises {
         effects: breaking, upkeep: true }] : [],
       ...p.kept.text ? Promises.lines(p, 'kept', p.kept.text) : [], ...Promises.lines(p, 'broken', p.broken.text));
     (module.objectives ??= []).push({ id: `${p.id}_aim`, when: stands, text: `Keep your promise to {${p.to}}: ${p.words}.` });
+    SemanticLowering.promise(module, p, { stands, kept: kept!, broken: broken!, made: made! });
   }
   private static readonly told = 'promiseTold';
   private static readonly concluded = 'concluded';

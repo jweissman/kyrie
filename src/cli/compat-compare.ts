@@ -50,6 +50,7 @@ export class CompatCompare {
         out.push({ kind: 'world-moving', where, text: `${what} ${id} gone (${was[id]})` });
       }
     }
+    out.push(...this.semantic(b, w));
     // What is said: a line changed or gone is how it is told, one more is the module grown (both only where the base
     // kept its words).
     if (b.words && w.words) {
@@ -60,6 +61,22 @@ export class CompatCompare {
       for (const id of Object.keys(b.words).filter(id => !(id in w.words!))) {
         out.push({ kind: 'presentation-only', where, text: `${id} no longer said` });
       }
+    }
+    return out;
+  }
+  // A declaration's semantic id is what a replay by meaning names (MT-30): one gone breaks such a replay, its phases
+  // changed move the world, one more is the module grown (only where the base kept them).
+  private static semantic(b: WorldShot, w: WorldShot): Finding[] {
+    if (!b.semantic || !w.semantic) { return []; }
+    const out: Finding[] = [], where = w.name;
+    for (const [id, phases] of Object.entries(w.semantic)) {
+      if (!(id in b.semantic)) { out.push({ kind: 'additive', where, text: `${id} added (${phases})` }); }
+      else if (b.semantic[id] !== phases) {
+        out.push({ kind: 'world-moving', where, text: `${id}'s phases: ${b.semantic[id]} -> ${phases}` });
+      }
+    }
+    for (const id of Object.keys(b.semantic).filter(id => !(id in w.semantic!))) {
+      out.push({ kind: 'replay-breaking', where, text: `${id} gone` });
     }
     return out;
   }

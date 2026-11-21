@@ -17,6 +17,7 @@ import { Bringing } from '../lang/bringing';
 import { ModuleShadow } from './module-shadow';
 import { CompiledModules, type Compiled } from './compiled-modules';
 import { ModuleSource, type FileSource } from '../lang/module-source';
+import { SemanticRecords } from '../lang/semantic-record';
 import { ModuleCanon } from './module-canon';
 import { FictionalTime } from './fictional-time';
 import { Composition, type Composed, type ManifestEntry } from '../world/compose/composition';
@@ -186,6 +187,7 @@ export class ModuleBundle {
       actions: modules.flatMap(m => m.actions), people: modules.flatMap(m => m.people ?? []),
       pursuits: modules.flatMap(m => m.pursuits ?? []), rules: Bringing.once(modules.flatMap(m => m.rules ?? [])),
       observations: modules.flatMap(m => m.observations ?? []), objectives: modules.flatMap(m => m.objectives ?? []),
+      ...modules.some(m => m.semantic) ? { semantic: modules.flatMap(m => m.semantic ?? []) } : {},
       ...LocalKinds.merge(...modules.map(m => m.catalog)) });
   }
   // A relation declared alike in two files is one relation: what an Ending declares for itself in each file it is in
@@ -317,7 +319,8 @@ export class ModuleBundle {
     const key = CompiledModules.key(CompiledModules.edition(rules.map(f => f.text)),
       [...own.map(f => f.text), ...sources.some(Boolean) ? sources.map(x => x ? JSON.stringify(x) : '') : []]);
     const kept = CompiledModules.get(key, true);
-    return { key, kept, mine: kept ? [] : this.own(own).map((m, i) => ModuleSource.lowered(m, sources[i])) };
+    return { key, kept, mine: kept ? [] : this.own(own)
+      .map((m, i) => SemanticRecords.filed(ModuleSource.lowered(m, sources[i]), own[i]!.path)) };
   }
   // What was declared for each of a module's own files as values, in their order (none where nothing was).
   private static async sources(manifest: BundleManifest, path: string, source: BundleSource):
@@ -407,7 +410,8 @@ export class ModuleBundle {
   private static compiled(key: string, own: SourceFile[], mine: Module[], combined: Module): Compiled {
     const parsed = this.merge(mine), shadowed = ModuleShadow.shared(parsed, combined);
     const module = ModuleShadow.apart(shadowed.functions.length
-      ? this.merge(own.map(f => this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) }, true))) : parsed,
+      ? this.merge(own.map(f => SemanticRecords.filed(this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) },
+        true), f.path))) : parsed,
     shadowed);
     const compiled = { module, id: mine[0]!.id, told: ModuleShadow.told(shadowed) };
     CompiledModules.set(key, compiled);

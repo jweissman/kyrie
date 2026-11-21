@@ -1,10 +1,12 @@
 import type * as ohm from 'ohm-js';
 import type { Change, Module, Predicate, Value, WorldRule } from './module';
+import { SemanticRecords, type Span } from './semantic-record';
+import { SemanticLowering } from './semantic-lowering';
 
 type Node = ohm.Node;
 interface MatterSpec { id: string; text: string; watches: number; until?: Predicate }
 export interface OccasionSpec {
-  id: string; title: string; at?: string; when: Predicate; matters: MatterSpec[]; closes?: string;
+  id: string; title: string; at?: string; when: Predicate; matters: MatterSpec[]; closes?: string; span?: Span;
 }
 
 // An occasion with matters taken up in order (a court's cases, a council's business, a hearing): it opens when its
@@ -24,7 +26,8 @@ export class Occasions {
   // Occasion = "Occasion" OccasionHead "{" OccasionBody
   static parse(_o: Node, head: Node, _open: Node, body: Node) {
     const [matters, closes] = Occasions.ast(body) as [MatterSpec[], string | undefined];
-    return { field: 'occasion', value: { ...Occasions.ast(head) as object, matters, ...closes ? { closes } : {} } };
+    return { field: 'occasion', value: { ...Occasions.ast(head) as object, matters, ...closes ? { closes } : {},
+      span: SemanticRecords.span(_o) } };
   }
   // OccasionBody = OccasionMatter+ OccasionCloses? "}"
   static body(matters: Node, closes: Node, _close: Node) {
@@ -69,6 +72,7 @@ export class Occasions {
       effects: [{ kind: 'assert', call: call('occasionBegun', o.id) }, ...Occasions.open(first.id)] }];
     o.matters.forEach((m, i) => rules.push(...Occasions.closing(o, m, o.matters[i + 1], place)));
     (module.rules ??= []).push(...rules);
+    SemanticLowering.occasion(module, o, rules.map(r => r.id));
   }
   // A matter closed, by its own condition or its time; and then, once whatever the module says comes of it has been
   // said (late), the next taken up, or the occasion over. A matter decided by a rule as its time ran out had been

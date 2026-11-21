@@ -3,6 +3,7 @@ import { ObservationText } from '../lang/observation-text';
 import type { BoundRole } from './role-requirements';
 import type { Call, Change, Module, Operator, Predicate, Value, WorldRule } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
+import type { SemanticRecord } from '../lang/semantic-record';
 import type { CampaignDefinition, CampaignInstance, InstalledModule } from './definition';
 import type { ExportRole } from './module-exports';
 
@@ -134,6 +135,7 @@ export class ModuleNamespace {
         ...o.from ? { from: this.entities[o.from] ?? o.from } : {},
         text: this.text(o.text), ...(o.teaches ? { teaches: this.entities[o.teaches]! } : {}),
         ...(o.about ? { about: this.entities[o.about] ?? o.about } : {}) })),
+      ...original.semantic ? { semantic: original.semantic.map(r => this.semantic(r)) } : {},
       initial: original.initial.map(c => this.change(c)), goal: this.predicate(original.goal),
       actions: definition.schemas!.map(a => this.action(a)) };
     const extensions = definition.extensions?.map(e => ({ ...e, actor: this.entities[e.actor]!,
@@ -154,6 +156,20 @@ export class ModuleNamespace {
           if (!id) { throw new Error(`Unknown export ${local}`); }
           return [name, id];
         })) };
+  }
+  // A declaration as written, in the installation's names: its id kind:installation/name, and all it names and became
+  // as the installation names them (a pursuit keeps its id, a rule and an aim are the installation's own).
+  private semantic(r: SemanticRecord): SemanticRecord {
+    const scope = `${this.bindings.id}__`;
+    return { ...r, id: `${r.kind}:${this.bindings.id}/${r.name}`,
+      participants: r.participants.map(p => ({ ...p, id: this.entities[p.id] ?? p.id })),
+      phases: r.phases.map(ph => ({ ...ph, holds: this.predicate(ph.holds) })),
+      requires: r.requires.map(p => this.predicate(p)), effects: r.effects.map(c => this.change(c)),
+      lowered: { rules: r.lowered.rules.map(id => this.rules.rules?.some(s => s.id === id) ? id : scope + id),
+        pursuits: [...r.lowered.pursuits], objectives: r.lowered.objectives.map(o => scope + o),
+        entities: r.lowered.entities.map(id => this.entities[id] ?? id) },
+      reads: r.reads.map(n => this.functions[n] ?? n), writes: r.writes.map(n => this.functions[n] ?? n),
+      serves: r.serves.map(c => this.call(c)) };
   }
   // A relation or measure exported by its name (KX-03), as installed; a query is not exported.
   private vocabulary(local: string): string | undefined {
