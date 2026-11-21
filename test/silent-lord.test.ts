@@ -68,8 +68,11 @@ describe('the silent lord: where it stands in the world', () => {
     const j = await start('warrior');
     await arrive(j, 'ward');
     GOLD(j, 120);
-    // The marshal: the pay-roll says why there has been no mutiny, and eighty crowns settles it.
-    await j.play('Ask .* how the garrison stands', 'Ask .* what became of the Empire', 'Put eighty crowns');
+    // The marshal: the pay-roll says why there has been no mutiny, and eighty crowns settles it. Ansel Verrick takes a
+    // warrior in the ward for the king's champion and warns him off, and while he does only answering him is offered
+    // (OR-163): told the truth, he laughs and lets him be.
+    await j.play('Ask .* how the garrison stands', 'Ask .* what became of the Empire',
+      '?Tell .* you are not the king.s champion', 'Put eighty crowns');
     expect(holds(j, 'paid_off', k('house'))).toBe(true);
     expect(knows(j, 'reading_garrison')).toBe(true);
     // The household's tells: the cook's trays, the old dog's howl.
