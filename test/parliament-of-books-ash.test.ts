@@ -25,7 +25,9 @@ describe('A Parliament of Books: the Ash', () => {
     await Calamy.play(j, 'Search here', 'Talk to the Almanack', 'last year.s almanack', 'Take your leave');
     expect(Calamy.knows(j, 'father_cinder')).toBe(true);
     expect(Calamy.holds(j, 'almanackSawAsh', 'almanack')).toBe(true);
-    await Calamy.play(j, 'go:hearth', 'Talk to the Index', 'who it is', 'what it means to do', 'anything would keep', 'Take your leave');
+    // At the hearth the penknife warns the company off (OR-163): the Index's own questions answer it, and are offered
+    // as they are, not behind a word with the Index first.
+    await Calamy.play(j, 'go:hearth', 'who it is', 'what it means to do', 'anything would keep');
     expect(Calamy.knows(j, 'index_bargain')).toBe(true);
     expect(j.holds('tolerates', C('penknife'), 'party')).toBe(true);
     expect(Calamy.holds(j, 'indexEnded', 'index')).toBe(false);
