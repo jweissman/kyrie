@@ -64,7 +64,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('The Long Man in the browser', () =>
       'lift the oak bar', '^To the grey gallery', 'light a torch', '^To the wet gallery');
     expect(Merrow.count(await Merrow.text(page), 'the floor heaves')).toBe(1);
     expect((await d.inspect()).mode).toBe('explore');
-    for (let i = 0; i < 4 && (await d.inspect()).mode !== 'combat'; i++) { await Merrow.act(d, '^Wait a while'); }
+    // Warned in the wet gallery, the company stands its ground and the thing in the floor comes on, as the waiting had
+    // let it (OR-163: the one wait offered under a warning is standing one's ground).
+    for (let i = 0; i < 4 && (await d.inspect()).mode !== 'combat'; i++) { await Merrow.act(d, '^Stand your ground'); }
     expect((await d.inspect()).mode).toBe('combat');
     const fight = await Merrow.text(page);
     expect([Merrow.count(fight, 'faster than mud should'), Merrow.count(fight, 'comes at you!')]).toEqual([1, 0]);
