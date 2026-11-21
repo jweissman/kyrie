@@ -52,7 +52,7 @@ const rows: Record<string, string[]> = {
   'web/reader/begin-menu.tsx': ['action'],
   'web/reader/creation/composed-creation.tsx': ['whole-sky'],
   'web/reader/creation/composed-row.tsx': ['option'],
-  'web/reader/map-menu.tsx': ['put-away-map', 'go-on', 'enter', 'set-out', 'action', 'more-places', 'put-away-map'],
+  'web/reader/map-menu.tsx': ['go-on', 'enter', 'set-out', 'action', 'more-places', 'put-away-map'],
   'web/reader/notices.tsx': ['download'],
   'web/reader/options-page.tsx': ['option', 'load-file', 'back'],
   'web/reader/sheet.tsx': ['export', 'title', 'follow', 'aim-map'],

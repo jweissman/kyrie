@@ -47,6 +47,11 @@ export class MapMenu {
     const c = g ? Doable.choice(g, screen, r.c.id, { label: r.c.label, command: r.c.command }) : r.c;
     return c ? [{ ...r, c: { ...r.c, ...c, tone: r.c.tone } }] : [];
   }
+  // Put away the map: its one row, held where something on the way stops the company (the map put away first).
+  static putAway(app: ReaderApp, put: () => void, held: boolean) {
+    return <li><ChoiceRow.Button className={`led-act put-away${held ? ' held' : ''}`} data={{ action: 'put-away-map' }}
+      onClick={put} {...MapMenu.away(app)} label={held ? 'Something is here: put away the map' : 'Put away the map'} /></li>;
+  }
   // A place as the map's board knows it (its mark, its town, its hex: BoardField.whither).
   static whither(screen: Screen, id: string): string {
     return screen.region?.land ? BoardField.whither(screen.region, id) ?? id : id;
@@ -90,8 +95,7 @@ export class MapMenu {
     const travel = app.state.frame?.travel, held = !!travel && !travel.arrived && !chosen && danger;
     if (held) {
       return <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
-        <li><ChoiceRow.Button className="led-act put-away held" data={{ action: 'put-away-map' }} onClick={put}
-          {...MapMenu.away(app)} label="Something is here: put away the map" /></li></ol>;
+        {MapMenu.putAway(app, put, true)}</ol>;
     }
     const land = screen.region?.land, way = chosen && land ? MapView.way(screen, chosen) : undefined, go = way?.go;
     const aimed = !!go && MapMenu.gold(app, screen, go.id).indicator?.tone === 'gold';
@@ -128,8 +132,7 @@ export class MapMenu {
         {paged.pages > 1 && <li><ChoiceRow.Button className="led-act more-places" data={{ action: 'more-places' }}
           onClick={() => app.setState({ mapPage: paged.at + 1 })} plain="neutral" label="More places…"
           aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
-        <li><ChoiceRow.Button className="led-act put-away" data={{ action: 'put-away-map' }} onClick={put}
-          {...MapMenu.away(app)} label="Put away the map" /></li>
+        {MapMenu.putAway(app, put, false)}
       </ol>
     );
   }
