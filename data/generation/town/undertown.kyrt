@@ -788,7 +788,7 @@
   Entity {t}_u_flag_seen: fact "One flag in the undercroft floor is cut with a ring of letters, and does not sit level.".
   Observe {t}_u_undercroft_flag at {t}_u_undercroft as sign when not knows(party, {t}_u_vault_found) "One flag in the middle of the floor is cut with a ring of letters nobody here can read. It does not sit quite level with the rest." teaches {t}_u_flag_seen.
   Person {t}_u_crawler "a great centipede" at {t}_u_drain {
-    Role "a centipede as long as a man, living in the old drain". Species great_centipede. Numbers 1. Level 2. Lair {t}_u_drain.
+    Role "a centipede as long as a man, living in the old drain". Species centipede. Variant long. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_drain.
   }
   Initially Set encounterXp({t}_u_crawler) to 60.
   // What is known above opens a better way below (M21's FF-02): asked about the old drain, the innkeeper tells where

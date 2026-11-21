@@ -42,7 +42,9 @@ export interface Condition {
   perAmount?: Modifiers;
   // Levels taken (energy drain): its holder stands as many levels lower as it counts, until it is lifted.
   drains?: true;
-  stacking?: 'source-refresh'; omits?: Omissions; unsupported?: Omissions; source?: Source;
+  // How a second laying meets one held: source-refresh, beside one another's sources; accrue, its amount added to the
+  // one held, for its own time from now (the SRD's ability damage, which stacks: srd-proving-cases.md case 63).
+  stacking?: 'source-refresh' | 'accrue'; omits?: Omissions; unsupported?: Omissions; source?: Source;
   // A capability its holder brings to the company while it lasts (a lit torch brings light), and what is said
   // when it runs out.
   grants?: string[]; begins?: string; ends?: string;

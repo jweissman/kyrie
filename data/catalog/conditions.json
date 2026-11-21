@@ -822,6 +822,40 @@
         "kyr": true,
         "notes": "Kyr's own energy drain (see LevelDrain): it counts the levels taken; until a restoration lifts it its holder stands that many levels lower, beyond the fight and in a saved game."
       }
+    },
+    "numbed": {
+      "name": "Numbed",
+      "description": "Venom in the blood: stiff and slow in the hands and feet, by as much as it took, for a day.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "perAmount": { "attributes": { "dexterity": -1 } },
+      "stacking": "accrue",
+      "begins": "{target} goes stiff in the hands and feet as the venom takes.",
+      "ends": "The stiffness goes out of {target}'s hands and feet.",
+      "source": {
+        "kyr": true,
+        "srd35": "monster:monstrous-centipede-medium",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD's Dexterity damage by a poison (srd-proving-cases.md, case 63): a point of Dexterity off for each point it was laid with (ConditionAmount), a second laying adding its own (stacking: accrue, as the SRD's ability damage stacks), on the world's clock for a day of 144 watches, beyond the fight and in a saved game; Dexterity never below one (Effects.scores). Adapted: all of it comes back at the end of the day, where the SRD's comes back a point a day; and no Dexterity of nothing, which would leave the SRD's holder unable to move."
+      }
+    },
+    "centipede_venom": {
+      "name": "Venom working",
+      "description": "A long centipede's venom not done with its work: within a watch it takes more, unless it is shaken off.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "saveKind": "poison",
+      "begins": "The bite on {target} throbs: the venom is still working.",
+      "ends": "The venom in {target} has done what it will.",
+      "hooks": {
+        "onExpire": [{ "kind": "apply", "status": "numbed", "duration": 144, "clock": "world-time", "amount": { "kind": "deem", "expression": "1d3" }, "target": "self", "save": { "kind": "poison", "difficulty": { "kind": "literal", "value": 10 } } }]
+      },
+      "source": {
+        "kyr": true,
+        "srd35": "monster:monstrous-centipede-medium",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD Medium monstrous centipede's poison's secondary damage (srd-proving-cases.md, case 63): a watch after the bite, a second save against 10, or 1d3 more Dexterity off (Numbed). Its kind of harm is poison, so what ends a poison by its kind ends it before it works (Cleanse, whose pattern is poison), and the Numbed it has laid stays, as the SRD's damage already dealt does; the antidote, which names the poisoned it ends, does not. Adapted: a watch of ten minutes, where the SRD's is one."
+      }
     }
   }
 }

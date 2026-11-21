@@ -324,6 +324,8 @@ Set it in, on or into the thing, where it stays until someone takes it out.
 - Takes: 10 minutes
 - Costs: 1
 
+A lamp sold with nothing to burn in it says so (CL-62: a lantern bought before the gate-well was never offered as a light, and neither the sale nor the pack said it wanted oil).
+
 > Needs: able(actor); memberOf(wearer, actor); awake(wearer); ownedItem(tool, wearer); itemKind(tool, form); wearable(form); proficient(wearer, form); not (wearing(tool, wearer))
 
 > Then: nothing changes
@@ -848,7 +850,7 @@ Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, cl
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 22 | 53 | 18 | 5 | 5 | 8 |
+| 22 | 53 | 18 | 5 | 5 | 9 |
 
 #### quarter, inQuarter, heartOf
 
@@ -1166,6 +1168,22 @@ A company sitting out the hours (until first light, until dark) puts its lights 
 
 > Then: nothing changes
 
+#### watch sky
+
+*Kyr · action (group, place)* · `rule:world_core.watch_sky`
+
+- Shown as: Lie back and watch the sky
+- Takes: 10 minutes
+- Costs: 1
+
+Fun Friday (20 November; doc/design/fun-fridays.md): the night sky watched for its own sake (stargazing, #266; watching the sky, #114; sitting and thinking, #97). Anywhere out of doors after dark; told by the sky as it is that night (the sign riding this month, the clouds, whose sign it is among the company: src/narrative/night-skies.ts, data/voice/day.json). Nothing is gained but the half hour.
+
+Lie back on the ground, and let half an hour go by under the stars.
+
+> Needs: able(actor); company(actor); at(actor, site); dark(); not (indoors(site))
+
+> Then: nothing changes
+
 #### wait watch
 
 *Kyr · action (group)* · `rule:world_core.wait_watch`
@@ -1252,7 +1270,7 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 21 | 0 | 0 | 0 | 5 |
+| 2 | 22 | 0 | 0 | 0 | 5 |
 
 #### readIn
 
@@ -1271,6 +1289,12 @@ A place where a story is being told (a cart gone off the road, a man under it), 
 *Kyr · relation(fact, place)* · `rule:discovery_rules.leadsTo`
 
 What a fact tells of where something is (a site named, a country rumoured beyond a march): known, the place is on the company's map, as told, before it has been there or knows the way.
+
+#### askedOf
+
+*Kyr · relation(fact, group)* · `rule:discovery_rules.askedOf`
+
+A lead and who to ask of it (a notice on a post, a cold chimney): known, it is a lead in the Notes and not an aim; asked, the one asked gives the aim, and the lead's knowing is let go (HP-01, US-07: see Undertakings.leads).
 
 #### leadsVia
 
@@ -1638,7 +1662,7 @@ A warning spent: whoever stayed is fallen on (for a defensive one, only in its l
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); together(?g, ?c); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); not (temperament(?g, temper_seizing)); not (temperament(?g, temper_obedient)); onslaught(?g, ?o)
+> When: warned(?g, ?c); together(?g, ?c); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); not (peaceable(?g)); patience(?g) <= watch(clock); not (temperament(?g, temper_defensive)); not (temperament(?g, temper_seizing)); not (temperament(?g, temper_obedient)); onslaught(?g, ?o)
 
 > Then: Assert assails(?g, ?c). Retract warned(?g, ?c).
 
@@ -1650,7 +1674,7 @@ A seizing one takes whoever stayed, and there is no fight (What Tessary Owes' W9
 
 Says: "{?o}"
 
-> When: warned(?g, ?c); together(?g, ?c); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); patience(?g) <= watch(clock); temperament(?g, temper_seizing); onslaught(?g, ?o)
+> When: warned(?g, ?c); together(?g, ?c); able(?g); able(?c); not (routed(?g)); not (tolerates(?g, ?c)); not (peaceable(?g)); patience(?g) <= watch(clock); temperament(?g, temper_seizing); onslaught(?g, ?o)
 
 > Then: Assert captured(?g, ?c). Retract warned(?g, ?c).
 
@@ -2426,7 +2450,7 @@ Nor does a conversation outlast whoever it was with falling, nor their turning o
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 0 | 0 | 0 | 1 | 6 |
+| 0 | 0 | 0 | 0 | 1 | 7 |
 
 #### look closely
 
@@ -2441,6 +2465,20 @@ Anything that can be handled can be tried, in the ways its look suits (and any i
 > Needs: able(actor); at(actor, site); probeable(target); reaches(actor, target); not (benighted(actor)); suits(target, looking); answers(target, looking); not (tried(target, looking))
 
 > Then: Assert tried(target, looking).
+
+#### look down
+
+*Kyr · action (group, passage, place, place)* · `rule:probing.look_down`
+
+- Shown as: Look down {way} first
+- Takes: 10 minutes
+- Costs: 1
+
+A way down that does not come back up is looked down first, from its top, by any who can see (SI-09: a one-way chute was gone down blind): what lies below, and whether anything moves there.
+
+> Needs: able(actor); company(actor); at(actor, site); connects(way, site, downTo); not (connects(way, downTo, site)); visibleTo(way, actor); not (benighted(actor)); not (tried(way, looking))
+
+> Then: Assert tried(way, looking).
 
 #### prod
 
@@ -2520,7 +2558,7 @@ Also kept, without comment: offers, serviceOf, sells, thanksPricedItem, fee, goo
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 9 | 3 | 0 | 2 | 11 |
+| 2 | 10 | 3 | 0 | 2 | 12 |
 
 #### onTheHouse
 
@@ -2551,6 +2589,24 @@ A host who owes the company a night for what it did (it brought up what a deep s
 > Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); onTheHouse(host, actor); offers(host, service); serviceOf(service, lodging)
 
 > Then: Retract onTheHouse(host, actor). Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to (watch(clock) + untilMorning(clock)). Retract weary(actor).
+
+#### keepsRoom
+
+*Kyr · relation(group, place)* · `rule:world_services.keepsRoom`
+
+A room of one's own at an inn, kept by the week (the first-hour beat sheet's checkpoint 7, a home: the first town's room, data/generation/town/room.kyrt): slept in on the week's rent, bed and board, and a better night than a common bed: the company wakes rested, and is weary six hours later than after a night in the common room.
+
+#### sleep own room
+
+*Kyr · action (group, place, place)* · `rule:world_services.sleep_own_room`
+
+- Shown as: Sleep in your own room
+- Takes: the untilMorning of the way
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); at(actor, keptroom); keepsRoom(actor, keptroom)
+
+> Then: Retract hungry(actor). Increase nextMeal(actor) by 144. Set lastSlept(actor) to ((watch(clock) + untilMorning(clock)) + 36). Retract weary(actor).
 
 #### singsAgain
 
@@ -2757,6 +2813,17 @@ A generated world is assembled from a region's geography and kits. A kit is a si
 
 > A band that has made a stretch of road between two settlements its own: it stops whoever comes and takes a toll, and buys its bread on credit at the nearest inn. While the road is tolled the settlements it joins pay more for their meal and are not restocked; an inn bought empty means the band comes for bread in the night. Where the road runs and which inn feeds it are bound to the region; who keeps the toll is Deem's to propose, and each kind is dealt with differently.
 
+#### A tinker at work
+
+*Kyr* · `kit:tinker`
+
+- Fills: town (settlement(?town)); market (square(?town, ?market))
+- Draws: kind from tinker_practitioner by terrain
+- Provides: 1 facts
+- Modules: 4
+
+> A practitioner of a craft at their characteristic work, and an opportunity for the company to take part (Fun Fridays, 20 November; doc/design/fun-fridays-tinker-kit.md): here tinkering, written so that the same pattern serves a carpenter, a cook, a shepherd or a physician. The settlement and its square are bound to the region; who is at the work, and so what the work is, how they take a stranger's help and what comes of it, is Deem's to propose (a travelling tinker, generated, with a child's toy; an apprentice alone with an instrument they have made worse; a master of the craft short of a part; or, wherever someone who lives there already practises the craft, that resident, bound from the ledger and made up by nobody: the old pump on the square). One occasion of the craft to a settlement; each passes: the tinker moves on, the master shuts the shop.
+
 ### Frameworks
 
 #### Frontier
@@ -2806,6 +2873,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > The south road comes down to the river Lim, and on the far side Hessel goes up its hill in tiers of steam and honey-coloured stone: the spa where the old come to be mended and the young to be married, in the last four days of its Season. You have a little money, no letters of introduction, and nothing to do there but see it.
+
+### A Voice for Hexworth
+
+*Kyr* · `campaign:hexworth`
+
+- Regions and sites: hexworth
+- Kits placed: —
+
+> Long Margery, the bell that has called Hexworth's peat-cutters home across the Sour Edge for thirty-eight winters, cracked on Tuesday night with nobody near her. Her founder is seventy-one and hears nothing above a hum, and her hands have begun to shake. The cutters come off the moor on the fourth evening, and the fog comes with them. A bell is made of what a town gives it: ask carefully, and mind what goes in.
 
 ### Hold One Season
 
@@ -3004,6 +3080,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > In the salt town under the fells, people pay to sleep, and some of them do not come home. The giants of Thrume have come down off the mountain for the first time in living memory, and the Margravine of Ebb will pay a barony for the thane's head before the Duke of Harle's host crosses the river. Choose three companions.
+
+### The Warm Wall
+
+*Kyr* · `campaign:warmwall`
+
+- Regions and sites: warmwall
+- Kits placed: —
+
+> At the foot of the Brynach fells a bath-hall has stood cut in two by a brick wall for thirty-one winters, and the hot spring that heats both halves is going cold. Two women keep the two sides and have not spoken since the wall went up. In three days the spring will be gone, and on the second evening a man will come down the drove road and stop at the gate, and not knock.
 
 ### What Tessary Owes
 

@@ -107,8 +107,7 @@ export class Effects {
     return ActorValues.of(actor, Effects.modifiers(actor).bonusSpellDC ?? 0);
   }
   static dice(value: Dice | undefined, context: EffectContext, actor?: Fighter): number {
-    if (value === undefined) { return 0; }
-    if (typeof value === 'number') { return value; }
+    if (value === undefined || typeof value === 'number') { return value ?? 0; }
     if (!context.expressions) { throw new Error('Dice bonuses need a seeded expression stream'); }
     return context.expressions.integer(value, actor ? Effects.context(actor) : {});
   }
@@ -431,6 +430,7 @@ export class Effects {
     const rounds = Lasting.laid(effect.duration, context.expressions, Effects.context(context.actor ?? target));
     if (rounds < 1) { return; }
     const status = Effects.status(effect.status);
+    const prior = ConditionAmount.prior(status.stacking, target.statuses, effect.status);
     // A flame in hand is one: a lantern lit puts out the candle that burned (see Flames).
     const out = Flames.out(target.statuses, effect.status);
     target.statuses = target.statuses.filter(s => !out.includes(s) && (s.id !== effect.status
@@ -447,7 +447,7 @@ export class Effects {
     target.statuses.push({ id: effect.status, remaining: rounds + longer, ...effect.clock ? { clock: effect.clock }: {},
       ...!effect.clock && context.actor && context.actor.id !== target.id ? { waits: true } : {},
       ...context.source ? { source: context.source.id } : {}, ...context.actor ? { by: context.actor.id } : {},
-      ...pool ? { tempHp: pool } : {}, ...images ? { images } : {}, ...amount ? { amount } : {} });
+      ...pool ? { tempHp: pool } : {}, ...images ? { images } : {}, ...ConditionAmount.held(amount, prior) });
     Effects.detail(context, target, { type: 'status', detail: effect.status, amount: rounds,
       ...effect.clock ? { clock: effect.clock } : {} });
   }

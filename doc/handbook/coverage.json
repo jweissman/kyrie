@@ -801,7 +801,7 @@
     "faithful": 723,
     "adapted": 424,
     "represented": 4,
-    "kyr": 614,
+    "kyr": 616,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -983,7 +983,7 @@
       "faithful": 121,
       "adapted": 31,
       "represented": 0,
-      "kyr": 53,
+      "kyr": 55,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 316,
+    "kyr": 324,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 284,
+      "kyr": 289,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1036,7 +1036,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 4,
+      "kyr": 5,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 28,
+      "kyr": 30,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -12987,6 +12987,13 @@
    "section": "conditions"
   },
   {
+   "id": "condition:numbed",
+   "title": "Numbed",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
    "id": "condition:oathbound",
    "title": "Oathbound",
    "status": "faithful",
@@ -13444,6 +13451,13 @@
   {
    "id": "condition:beacon_law",
    "title": "Under the beacon",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:centipede_venom",
+   "title": "Venom working",
    "status": "kyr",
    "book": "phb",
    "section": "conditions"
@@ -14989,6 +15003,13 @@
    "section": "world-rules/rules-core"
   },
   {
+   "id": "rule:world_core.watch_sky",
+   "title": "watch sky",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.wait_watch",
    "title": "wait watch",
    "status": "kyr",
@@ -15047,6 +15068,13 @@
   {
    "id": "rule:discovery_rules.leadsTo",
    "title": "leadsTo",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-discovery"
+  },
+  {
+   "id": "rule:discovery_rules.askedOf",
+   "title": "askedOf",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-discovery"
@@ -15920,6 +15948,13 @@
    "section": "world-rules/rules-probing"
   },
   {
+   "id": "rule:probing.look_down",
+   "title": "look down",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-probing"
+  },
+  {
    "id": "rule:probing.prod",
    "title": "prod",
    "status": "kyr",
@@ -15978,6 +16013,20 @@
   {
    "id": "rule:world_services.take_lodging_guest",
    "title": "take lodging guest",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.keepsRoom",
+   "title": "keepsRoom",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-services"
+  },
+  {
+   "id": "rule:world_services.sleep_own_room",
+   "title": "sleep own room",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-services"
@@ -16116,6 +16165,13 @@
    "section": "making-worlds/kits"
   },
   {
+   "id": "kit:tinker",
+   "title": "A tinker at work",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
    "id": "framework:frontier",
    "title": "Frontier",
    "status": "kyr",
@@ -16146,6 +16202,13 @@
   {
    "id": "campaign:hessel",
    "title": "The Banns at Hessel",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:hexworth",
+   "title": "A Voice for Hexworth",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
@@ -16300,6 +16363,13 @@
   {
    "id": "campaign:thrume",
    "title": "Thrume",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:warmwall",
+   "title": "The Warm Wall",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
