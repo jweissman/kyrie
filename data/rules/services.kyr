@@ -26,6 +26,17 @@ Module world_services "Lodging, goods and camping" {
       Set lastSlept(actor) to watch(clock) + untilMorning(clock). Retract weary(actor). }
     Result "You eat what is put in front of you, and sleep long, under a roof, and nobody will take your coin.".
   }
+  // A room of one's own at an inn, kept by the week (the first-hour beat sheet's checkpoint 7, a home: the first town's
+  // room, data/generation/town/room.kyrt): slept in on the week's rent, bed and board, and a better night than a
+  // common bed: the company wakes rested, and is weary six hours later than after a night in the common room.
+  Relation keepsRoom(group, place).
+  Action sleep_own_room(actor: group, room: place, site: place) "Sleep in your own room" {
+    Requires able(actor) and at(actor, site) and at(actor, room) and keepsRoom(actor, room).
+    Time untilMorning(clock). Resolve recover(actor). Meanwhile asleep(actor).
+    On success { Retract hungry(actor). Increase nextMeal(actor) by 144.
+      Set lastSlept(actor) to watch(clock) + untilMorning(clock) + 36. Retract weary(actor). }
+    Result "You sleep in your own bed with your own things about you, and wake before anyone calls you, rested as you have not been since the road.".
+  }
   // Work at an inn: an evening's fetching and carrying for whoever keeps it, for the night's bed and supper on the house;
   // and for one who can hold a room (a bard, or anyone with a tongue for it), a song for the supper, and what the room
   // throws: there had been no work at the inn, and no performance for a bard (the play-structure investigation's PT-14).

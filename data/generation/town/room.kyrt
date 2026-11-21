@@ -1,0 +1,38 @@
+# room: a room of one's own at the inn of the town the company begins in, rented by the week and kept.
+// A Kyr template (see src/world/kyr-template.ts), written for the first town where it keeps travellers (see
+// src/world/region-room.ts). The first-hour beat sheet's checkpoint 7, a home (doc/design/golden-thread.md): rented of
+// whoever keeps the house, at a price the company can pay early; then kept. What is put in the chest stays there. The
+// house remembers the company: the bed made, a candle in the window after dark, a letter from home sent up to the
+// pillow instead of left under the scrivener's stone. Coming back to it after time away is told, by the keeper and by
+// the room. Slept in, it is the rules' own room's night (sleep_own_room: data/rules/services.kyr). {t} is the
+// settlement's id, {town} its name; {letterfrom} and {letter} the answer to a letter home (letters.json).
+--- room
+  Relation {t}_rented(group). Measure {t}_rent_until(group). Relation {t}_room_away(group). Measure {t}_room_left(group).
+  Relation {t}_room_kept(group). Relation {t}_keeper_saw(group).
+  Place {t}_room "your room upstairs" is room within {t}_inn at 1, 1 indoors.
+  Passage {t}_room_stair "the stair up to your room" is steps between {t}_taproom and {t}_room opening when {t}_rented(party) "The stair is for those who have a room here.".
+  Observe {t}_room_scene at {t}_room when true "A low room under the eaves, with a bed under a patched quilt and a window over {town}.".
+  Thing {t}_room_chest "the chest at the foot of your bed" at {t}_room {
+    State kept "A plain chest stands at the foot of the bed, its lid worn smooth by other people's elbows.".
+  }
+  Initially Assert receptacle({t}_room_chest).
+  Topic {t}_room_rent with {t}_innkeeper "Ask {{t}_innkeeper} for a room of your own, by the week" when not {t}_rented(actor) and quantity(actor, gold) >= 4 {
+    Says "'Four coin the week, bed and board,' says {{t}_innkeeper}. The coins are gone before you have quite decided. 'Top of the stair. There is a chest, and nobody opens it but you.'".
+    On discuss { Decrease quantity(actor, gold) by 4. Assert {t}_rented(actor). Assert keepsRoom(actor, {t}_room). Set {t}_rent_until(actor) to watch(clock) + 1008. }
+  }
+  Rule {t}_rent_lapses when {t}_rented(party) and watch(clock) >= {t}_rent_until(party) { Retract {t}_rented(party). Retract keepsRoom(party, {t}_room). }
+  // What the house keeps for the company while it is out: the bed made, a candle after dark, a letter from home.
+  Observe {t}_room_made at {t}_room as sign when {t}_rented(party) and {t}_room_kept(party) "The bed has been made while you were out, and the quilt turned down.".
+  Observe {t}_room_candle at {t}_room as sign when dark() and {t}_rented(party) "{{t}_innkeeper} has set a candle in the window for you, and lit it.".
+  Observe {t}_room_letter at {t}_room as sign when {t}_rented(party) and {t}_letter_sent(party) and not {t}_letter_read(party) and watch(clock) >= {t}_letter_at(party) + 144 "On the pillow lies a letter sent up from the scrivener's, in a hand you know.".
+  Action {t}_room_read(actor: group, site: place) "Read the letter from home left on your pillow" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_room) and {t}_rented(actor) and {t}_letter_sent(actor) and not {t}_letter_read(actor) and watch(clock) >= {t}_letter_at(actor) + 144.
+    Time 10 minutes.
+    On success { Assert {t}_letter_read(actor). }
+    Result "The letter is from {letterfrom}. You read it by the window. {letter}".
+  }
+  // Coming back to it after time away (half a day or more out of {town}): the keeper says so, and the room.
+  Rule {t}_room_goes when {t}_rented(party) and not within(party, {t}) and not {t}_room_away(party) { Assert {t}_room_away(party). Set {t}_room_left(party) to watch(clock). Retract {t}_keeper_saw(party). }
+  Rule {t}_keeper_back heard at {t}_taproom when {t}_room_away(party) and at(party, {t}_taproom) and at({t}_innkeeper, {t}_taproom) and watch(clock) >= {t}_room_left(party) + 72 and not {t}_keeper_saw(party) says "'Back, then,' says {{t}_innkeeper}. 'I kept your room. Nobody has been in it but the girl with the broom.'" { Assert {t}_keeper_saw(party). }
+  Rule {t}_room_welcome heard at {t}_room when {t}_room_away(party) and at(party, {t}_room) and watch(clock) >= {t}_room_left(party) + 72 says "Your room is as you left it, the chest where it stood. There is a jug of water and a cup on the sill." { Retract {t}_room_away(party). Assert {t}_room_kept(party). }
+  Rule {t}_room_soon when {t}_room_away(party) and at(party, {t}_room) and watch(clock) < {t}_room_left(party) + 72 { Retract {t}_room_away(party). }

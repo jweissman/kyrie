@@ -12,6 +12,7 @@ import { RegionOutskirts } from './region-outskirts';
 import { RegionPractitioners } from './region-practitioners';
 import { RegionPleasures } from './region-pleasures';
 import { RegionAfoot } from './region-afoot';
+import { RegionRoom } from './region-room';
 import { RegionTies } from './region-ties';
 import { RegionThreads } from './region-threads';
 import { RegionZones } from './region-zones';
@@ -247,7 +248,7 @@ export class RegionWriter {
     }
     // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
     const home = RegionPractitioners.home(region, company);
-    lines.push(...RegionUndertown.lines(region, home, company.size),
+    lines.push(...RegionUndertown.lines(region, home, company.size), ...RegionRoom.lines(region, home),
       ...RegionOutskirts.lines(region, home, company.size),
       // A few pleasant things to do on every settlement's green (see RegionPleasures).
       ...region.settlements.flatMap(t => RegionPleasures.lines(region, t, home.id)),

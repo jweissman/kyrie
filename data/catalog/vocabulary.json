@@ -135,6 +135,7 @@
       "nights": [
         "take_lodging",
         "take_lodging_guest",
+        "sleep_own_room",
         "camp"
       ],
       "technique": 3,
