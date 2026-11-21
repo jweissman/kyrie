@@ -104,6 +104,8 @@ export interface Region extends Naming {
   // The names the people of the stories placed in it have of their authors (see StoryPeople): none of its own people
   // is given one.
   reserved?: string[];
+  // The answer to a letter home, from the company's own people (see RegionLetters), where its life has a start.
+  letter?: { from: string; news: string };
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }

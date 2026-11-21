@@ -2,6 +2,7 @@
 // A Kyr template (see src/world/kyr-template.ts), written for every generated settlement (see src/world/region-market.ts,
 // which draws who teaches, what and for how much). {s} is the settlement's id, {town} its name, {inn} its inn's name,
 // {folk} its people; {name} the teacher's, {pronoun} theirs, {fee} a lesson's coin, {lessons} what they teach;
+// {letterfrom} and {letter} who the answer to a letter home is from and its news (data/generation/town/letters.json);
 // {!likeness} and {!sells} pieces of Kyr the generator writes. Change the yard, the shop or the words here; nothing in
 // the engine needs to change.
 --- yard
@@ -50,7 +51,7 @@
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {s}_scriv) and at({s}_scriv_clerk, {s}_scriv) and {s}_letter_sent(actor) and not {s}_letter_read(actor) and watch(clock) >= {s}_letter_at(actor) + 144.
     Time 1.
     On success { Assert {s}_letter_read(actor). }
-    Result "'Dear,' the scrivener reads. Then a pause, and the word again, more kindly. The rest is short. The goat has kidded. Your sister is walking out with the miller's boy, and nobody approves. There is snow on the top field already. Come home when you can, and not before. The scrivener folds it back along its creases and gives it to you. There is no charge for the reading.".
+    Result "The letter is from {letterfrom}. 'Dear,' the scrivener reads. Then a pause, and the word again, more kindly. The rest is short. {letter} The scrivener folds it back along its creases and gives it to you. There is no charge for the reading.".
   }
 --- scrivenerafter
   Initially Set lessonFee({s}_scriv_reader) to {fee}.

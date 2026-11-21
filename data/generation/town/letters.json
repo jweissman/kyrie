@@ -1,0 +1,49 @@
+{
+  "about": "The answer to a letter home (data/generation/town/teachers.kyrt, the scrivener's): who it is from and two or three lines of news, true to where the character's life began. By the origin they set out from (its id: data/origins), else, where a life begins with no story of its own (the wanderer), by the kind of their background (data/catalog/backgrounds.json, backgroundKind), else the default. One of each list is drawn by the country's key. {home} is the town the company begins in. The owner's first-hour beat sheet: the character belongs to a family or community (doc/design/golden-thread.md, checkpoint 1).",
+  "origins": {
+    "drove": [
+      { "from": "your mother, up in the fells above Brynach", "news": "The lambing went well, and there were twins from the old ewe nobody thought would take the ram. Bran's wife came down to the farm to ask had we heard anything of the drove; tell her yourself, when you know. The beck is over the stepping-stones again." }
+    ],
+    "weir": [
+      { "from": "your mother, Tegwen's sister", "news": "So she left it to you. She always said she would, and nobody believed her. Mind the traps every morning, as she did, and do not let that Nest cheat you on the eels. I have put a candle in the window for her. Write when the gate is mended, if it is ever mended." }
+    ],
+    "pans": [
+      { "from": "your brother, at home on the bank", "news": "Mam's chest is no better and no worse. The rent is paid to Lady Day, so do not send what you have not got. Dad says salt money is wet money, and to come home before it rusts you." }
+    ],
+    "kin": [
+      { "from": "your father's sister, over the fell", "news": "Nobody has heard of him here either, and I asked at every fair. If the cart is anywhere, it is on the road, and a carter will have seen it. Look after your mother. She will not say so, but she was glad when you came back." }
+    ],
+    "courier": [
+      { "from": "the master of the post-house you rode out from", "news": "Your horse is better, and eats like two. The roads south are clear to the ford. Deliver it into the right hands and no others. Come back by the ridge road, not the river." }
+    ],
+    "debt": [
+      { "from": "your cousin, who stood surety for you", "news": "I told them you would come back and pay. Do not make me a liar. The dog has had six, and I am keeping the brindled one for you, whether you like it or not." }
+    ],
+    "herbs": [
+      { "from": "the herb-wife who sent you", "news": "Did you dawdle? Do not tell me. The feverwort by the wall has come again from the root, so if the child wants a second dose there is more. Wash your hands after." }
+    ],
+    "lost": [
+      { "from": "your mother", "news": "There is no word of her here. Her bed is made and I make it again every morning. If you find her, bring her home; if you do not, come home anyway. I cannot lose the two of you." }
+    ],
+    "map": [
+      { "from": "the woman who keeps the dice-house you won it in", "news": "The drover's people came asking after his things. I said I had none of them, which is true now. If the map is good, you owe me a drink. If it is not, you owe me two." }
+    ],
+    "order": [
+      { "from": "the brother who keeps your order's library", "news": "We are well. The roof of the scriptorium leaks over the third desk again. Copy what you can, as truly as you can, and do not improve on it. Father Abbot says to eat." }
+    ]
+  },
+  "kinds": {
+    "wild": [{ "from": "your sister, at the forester's cottage", "news": "The deer have been at the cabbages again, and Father says it is your fault for not being here. The stream froze over one night last week. The hound misses you, and lies by the door." }],
+    "roads": [{ "from": "the innkeeper where you last wintered", "news": "Your room is let, but the corner of the stable is not. The roads east are bad with mud. A man in a grey coat was asking after you. I said I had not seen you, and I had not." }],
+    "earth": [{ "from": "your brother, at the quarry", "news": "The new face is cutting well. The master says there is a place for you, if you come back before the frost. Mam has had the cough again. The goat got onto the roof." }],
+    "faith": [{ "from": "the old priest who taught you your letters", "news": "I pray for you at matins, and occasionally remember to at vespers. The bell-rope broke on the feast day, which the village took as a sign. Of what, nobody could agree." }],
+    "learning": [{ "from": "your old master, at the school", "news": "Your copy of the herbal is still on my shelf, and still wrong in the third chapter. Write down what you see, not what you are told you see. The cat has had the ink over again." }],
+    "arms": [{ "from": "your old sergeant", "news": "The company has gone north and left me behind with my knee. Keep your guard up and your boots dry. If anyone asks, you never served with us, which is a kindness to them." }],
+    "healing": [{ "from": "the midwife you learned under", "news": "Three babies this month, all of them hungry. The willow by the well is down in the wind; I have the bark, if you want it. Keep your hands clean and your mouth shut." }],
+    "shadows": [{ "from": "an old friend, who signs only with a mark you know", "news": "Nobody is asking after you, which is good. The magistrate has a new clerk, who can read, which is not. Do not come back this way before spring." }],
+    "mechanisms": [{ "from": "your old master, at the workshop", "news": "The mill-clock you mended is still keeping time, which is more than the miller does. Bring back anything strange that you find. Do not take it apart until you have drawn it." }]
+  },
+  "default": [
+    { "from": "home", "news": "The goat has kidded. Your sister is walking out with the miller's boy, and nobody approves. There is snow on the top field already. Come home when you can, and not before." }
+  ]
+}

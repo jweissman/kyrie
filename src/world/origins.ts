@@ -1,3 +1,4 @@
+import { RegionLetters } from './region-letters';
 import { FamilyNames } from './family-names';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { BundleRequest } from '../campaign/module-bundle';
@@ -84,6 +85,8 @@ export class Origins {
   static protagonist(origin: OriginManifest, chosen: CreatureGenerationContext,
     at: { chosen: boolean; region: Region; placements: Placement[] }): CreatureGenerationContext {
     const { region, placements } = at, member = this.member(origin, chosen, at.chosen);
+    // The answer to a letter home is from their own people: by the origin, else by their background (RegionLetters).
+    RegionLetters.give(region, origin.id, member);
     const p = origin.binder === 'kin' ? this.placed(placements, 'drover') : undefined;
     const town = p && this.home(region, p.bindings.town ?? '');
     if (!town || !member.name) { return member; }

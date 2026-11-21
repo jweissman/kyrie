@@ -8,6 +8,7 @@ import { Canon } from '../canon/canon';
 import folk from '../../data/generation/scenes/folk.json';
 import text from '../../data/generation/town/teachers.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
+import { RegionLetters } from './region-letters';
 import { RegionKey } from './region-key';
 
 interface Teacher { kind: 'arms' | 'arcane'; name: string; pronoun: string; draw: Draw }
@@ -79,8 +80,9 @@ export class RegionMarket {
     const t = this.teacher(region, s, 'arcane'), who = `${s.id}_scriv_reader`;
     const taught = t.draw.shuffle(this.spells).slice(0, 3), fee = 45 + Math.floor(t.draw.next() * 4) * 5;
     const likeness = CommunityWriter.likenessOf(region, { pronoun: t.pronoun, painting: 'esotericist', id: who });
+    const letter = region.letter ?? RegionLetters.table.default[0]!;
     const at = { s: s.id, town: s.name, folk: s.folk ?? region.ancestry, name: t.name, pronoun: t.pronoun,
-      fee: String(fee), likeness, lessons: this.lessons(taught) };
+      fee: String(fee), likeness, lessons: this.lessons(taught), letterfrom: letter.from, letter: letter.news };
     return [...this.section('scrivener', at), ...taught.map(a => `  Initially Assert teaches(${who}, ${a}).`),
       ...this.section('scrivenerafter', at)];
   }
