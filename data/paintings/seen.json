@@ -7714,6 +7714,283 @@
    "shows": "a long vaulted colonnaded gallery with lit lanterns and a polished floor, a balustrade opening on a glass-roofed hall of tiers with a bridge and a waterfall",
    "era": "late",
    "light": "daylight, lamplit"
+  },
+  "scene-boat-sheds-rain": {
+   "form": "exterior",
+   "shows": "open timber boat-sheds over a muddy slipway in rain at sunset: a hull on trestles, coiled rope, tar-pots and a bench, the river and a moored boat beyond",
+   "era": "late",
+   "light": "dusk",
+   "weather": "rain"
+  },
+  "scene-byre": {
+   "form": "interior",
+   "shows": "inside a stone byre: cattle steaming in their stalls, straw underfoot, a lantern on a beam, a pitchfork, the door open on a wet yard",
+   "era": "late",
+   "light": "lamplit",
+   "weather": "rain"
+  },
+  "scene-coast-house": {
+   "form": "exterior",
+   "shows": "a stone cottage on a clifftop path above a rocky shore at sunset, foxgloves and a fence, breakers below, a lighthouse on the far headland",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast": {
+   "form": "landscape",
+   "shows": "a long grass bank above wide tidal flats under a heavy sky, a path along its crest, the tide-line below, nothing afloat",
+   "era": "late",
+   "light": "overcast"
+  },
+  "scene-drill-yard-rain": {
+   "form": "exterior",
+   "shows": "a muddy walled drill-yard in rain: a practice post hacked pale, a spear rack and a shield under a lean-to, a helmet on a bench, a barred gate",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-drowned-village": {
+   "form": "exterior",
+   "shows": "a drowned village by moonlight: roofs and chimneys standing out of black water, a dam's crest pouring beyond, a stone stair going down into the mere",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-gate-well": {
+   "form": "interior",
+   "shows": "down a stone shaft: a wooden ladder and a hanging chain, water roaring out of an arch below, light falling from the opening above",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-gate-yard-rain": {
+   "form": "exterior",
+   "shows": "a small walled gate-yard in rain: a stone well with its bucket, nets hung to dry, a herb-seller's door with jars, a portcullised arch to the water",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-hamlet": {
+   "form": "exterior",
+   "shows": "a hamlet of stone cottages along a hill track, smoke from a chimney, a shed and walled fields, a wide valley and river below",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-harbor-sluice": {
+   "form": "exterior",
+   "shows": "a stone sluice-house in a storm: its windlass under a timber hood, water forcing white through the gate below, a bollard on the wet wall",
+   "era": "late",
+   "light": "overcast",
+   "weather": "storm"
+  },
+  "scene-keep-bailey-dawn": {
+   "form": "exterior",
+   "shows": "a castle bailey at dawn: the keep's tower, a well, a lean-to and barrels, a cart, the gate arch with the sun low through it",
+   "era": "late",
+   "light": "dawn",
+   "weather": "clear"
+  },
+  "scene-keep-bailey-fog": {
+   "form": "exterior",
+   "shows": "the same castle bailey in thick fog, the keep a shape, a lamp lit at the tower door, puddles in the yard",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-keep-bailey-rain": {
+   "form": "exterior",
+   "shows": "a castle bailey in rain: a timber gallery and stair against the wall, a well, a trough spilling, wet cobbles, the gate arch",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-keep-gate": {
+   "form": "interior",
+   "shows": "a castle gate-passage under vaults: a guard-bench, spears against the wall, a barrel, the great door open on a wet courtyard",
+   "era": "late",
+   "light": "daylight"
+  },
+  "scene-lighthouse": {
+   "form": "exterior",
+   "shows": "a stone lighthouse with its keeper's cottage on a heather headland, its lamp lit, waves on the rocks below, the sun going down",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-manor-chamber": {
+   "form": "interior",
+   "shows": "a manor chamber by firelight: a great carved hearth, a stag tapestry, a fur-draped chair, a candle and papers on a table, a leaded window",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-manor-rain": {
+   "form": "exterior",
+   "shows": "a plain stone manor front in rain: a pedimented door up wet steps, one lit window, wet gravel, a gate in the wall beyond",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-reed-landing": {
+   "form": "exterior",
+   "shows": "a reed-bed landing of laid planks on still water in rain, tall reeds bowed, a boat tied up, low trees across the mere",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-ruins-keep-dawn": {
+   "form": "exterior",
+   "shows": "a ruined keep on a crag at dawn: a broken arch and roofless walls overgrown, a track across the rocks, mist in the valley below",
+   "era": "late",
+   "light": "dawn",
+   "weather": "clear"
+  },
+  "scene-ruins-keep-fog": {
+   "form": "exterior",
+   "shows": "the same ruined keep in fog, its broken walls fading into white, the arch and fallen stones near",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-ruins-keep-overlook": {
+   "form": "interior",
+   "shows": "inside a ruined tower at sunset: a winding stair, an arcade of broken arches open on a river valley, ivy and a lit sconce",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-ruins-keep-rain": {
+   "form": "exterior",
+   "shows": "the same ruined keep in rain, water on the track, the broken arch dark, cloud over the valley",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-ruins-keep-tower": {
+   "form": "interior",
+   "shows": "the top of a ruined tower at sunrise: a spiral stair going down, a broken parapet open on misty valleys and a river",
+   "era": "late",
+   "light": "dawn",
+   "weather": "clear"
+  },
+  "scene-ruins-keep-tower-fog": {
+   "form": "interior",
+   "shows": "the same ruined tower top under grey wet cloud, a candle down the stair, the valleys in mist",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-ruins-keep-tower-rain": {
+   "form": "interior",
+   "shows": "the same ruined tower top in rain, water on the stone, cloud low over the valleys",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-ruins-keep-tower-winter": {
+   "form": "interior",
+   "shows": "the same ruined tower top in hard frost at sunrise, rime on the parapet, a town smoking in the snowy valley",
+   "era": "late",
+   "light": "dawn",
+   "season": "winter",
+   "weather": "snow"
+  },
+  "scene-rustic-room": {
+   "form": "interior",
+   "shows": "a plain lived-in room: a table with a jug and bread, a chair, cloaks on pegs, a hearth with a basket, a door to a bedroom",
+   "era": "late",
+   "light": "daylight"
+  },
+  "scene-salt-pans-cloudy": {
+   "form": "exterior",
+   "shows": "salt-pans under low cloud: square pans of grey water, heaps of salt, a barrow under a lean-to, a stone boiling-house",
+   "era": "late",
+   "light": "overcast"
+  },
+  "scene-staithe": {
+   "form": "exterior",
+   "shows": "a river staithe in rain: stacked timber, a wooden crane, a moored barge, a shed roof dripping",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-storage": {
+   "form": "interior",
+   "shows": "a windowless store of presses and tagged chests by one candle, papers fanned on a table under a green glass paperweight",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-town-alley-day": {
+   "form": "exterior",
+   "shows": "a back lane of a small town in low sun: timbered houses, a wood-stack, a broom and a cart, washing across the lane, a church tower",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-town-alley-fog": {
+   "form": "exterior",
+   "shows": "the same back lane in fog, a window lit, washing hung across, the church tower a shape",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-town-alley-rain": {
+   "form": "exterior",
+   "shows": "the same back lane in rain, puddles and running water, a window lit, washing hung across",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-town-waterside-fog": {
+   "form": "exterior",
+   "shows": "a town waterside in fog: a lamp under an awning, fruit and barrels, a stone quay and a rowing boat, a bridge and a moored boat in the mist",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-town-waterside-rain": {
+   "form": "exterior",
+   "shows": "the same town waterside in rain: lamps lit under the awnings, wet stones, a rowing boat, the bridge and a church tower beyond",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-village-dawn": {
+   "form": "landscape",
+   "shows": "a thatched village at dawn: cottages and gardens, a well, a church, sheep by the lane, hills and the sun rising",
+   "era": "late",
+   "light": "dawn",
+   "weather": "clear"
+  },
+  "scene-village-lane": {
+   "form": "exterior",
+   "shows": "a village lane by a churchyard wall and a lych-gate, apple blossom, a thatched cottage, low evening sun",
+   "era": "late",
+   "light": "sunlit",
+   "season": "spring",
+   "weather": "clear"
+  },
+  "scene-village-overview-rain": {
+   "form": "landscape",
+   "shows": "a thatched village seen from above in rain: cottages, a church, a well in a flooded square, apple trees in blossom, a stone bridge",
+   "era": "late",
+   "light": "overcast",
+   "season": "spring",
+   "weather": "rain"
+  },
+  "scene-village-overview": {
+   "form": "landscape",
+   "shows": "the same thatched village from above at sunset: cottages, a church, a well, apple trees, a stone bridge and fields",
+   "era": "late",
+   "light": "dusk",
+   "season": "spring",
+   "weather": "clear"
+  },
+  "scene-village-square": {
+   "form": "exterior",
+   "shows": "a village square in afternoon light: a roofed well, timbered houses and a barn, barrels, a church beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   }
  }
 }
