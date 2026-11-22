@@ -1,5 +1,7 @@
 # Art wishlist: the blanks a player meets (21 November)
 
+> **Superseded for scenes (21 November):** the backgrounds still needed are in [scene-needs.md](scene-needs.md), measured again after the owner's paintings of that day. This list stays as the record, and remains the current list for portraits.
+
 Measured on main (827040ca8), not remembered. It follows the 12 November list in
 [doc/paintings/commission-list.md](../paintings/commission-list.md). That list is still good for wild country, the
 circus, Sarn and the Numbered House, and is not repeated here. This one ranks what the **first hour** meets.

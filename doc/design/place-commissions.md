@@ -1,5 +1,7 @@
 # Place commissions (21 November)
 
+> **Superseded (21 November):** what is still needed is in [scene-needs.md](scene-needs.md), measured by `bun scripts/scene-census.ts` after the paintings filled most of this list. Kept as the record of the commission and what filled it.
+
 A painting commission list for places, not people, drawn from the measured blanks in
 [art-wishlist.md](art-wishlist.md): ten first-quarter walks of Iscoed (810 steps), the two acceptance routes, and
 every one of Iscoed's 756 places under four skies. It is ordered by how much of the first hour each painting would
