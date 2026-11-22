@@ -14,7 +14,7 @@ overcast, dusk, night, lamplit, dim) and weather (clear, rain, fog, storm, snow)
 no code: rain refuses a sunlit painting, and fair weather refuses a rainy one (added 21 November). A painting is
 seen as the place is: wide, no figure in the foreground who could be taken for someone met.
 
-## Filled today
+## Filled (21 November)
 
 | Painting | Fills |
 |---|---|
@@ -22,6 +22,18 @@ seen as the place is: wide, no figure in the foreground who could be taken for s
 | `scene-harbor-dusk` | the landing on a fair evening or night |
 | `scene-harbor-dawn`, `scene-harbor-town` | the harbour kind at dawn and on a bright day |
 | `scene-manor-study` | a library or muniment room in rain, Porthalen Hall's among them (wishlist 12: 39) |
+| `scene-manor-rain`, `scene-manor-chamber` | Tier 1: the Hall's front in rain; a chamber by firelight |
+| `scene-boat-sheds-rain`, `scene-byre`, `scene-drill-yard-rain` | Tier 1: the boat-sheds at evening in rain (by day still blank), the byre, the drill-yard |
+| `scene-drowned-village` | Tier 1: Deepwater by moonlight (the dam and the mere; "the drowned street" reads as a lane and is still blank at night) |
+| `scene-storage` | Tier 1: the muniment room, windowless, in every sky |
+| `scene-town-waterside-rain`, `-fog` | Tier 1: a town's waterside in rain and fog |
+| `scene-coast` | Tier 2: the sea-bank at Gatesend, in every sky (a new kind, sea-bank) |
+| `scene-gate-yard-rain`, `scene-gate-well`, `scene-harbor-sluice` | Tier 2: the gate-yard in rain, the gate-well's shaft, a sluice in storm (a new kind, sluice) |
+| `scene-staithe`, `scene-reed-landing` | Tier 2: the staithe and the reed landing in rain |
+| `scene-rustic-room` | Tier 3: the plain room, also the fallback for a room with no kind |
+| `scene-keep-gate`, `scene-keep-bailey-*`, `scene-ruins-keep-*` | Tier 3: a keep's gate-passage; a bailey at dawn, in fog and rain; a ruined keep and its tower at dawn, in fog, rain and frost |
+| `scene-salt-pans-cloudy`, `scene-town-alley-*` | Tier 3: salt-pans under cloud; back lanes by day, in fog and rain |
+| `scene-hamlet`, `scene-village-*`, `scene-lake-*`, `scene-woodland-*`, `scene-coast-house`, `scene-lighthouse` | beyond the list: settlements, lakes and an oak pasture in each season and weather, a coast; a painting of a season now shows only in it (Scenery.seasonal) |
 
 ## Tier 1: the first hour's own places
 

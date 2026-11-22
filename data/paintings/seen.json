@@ -7991,6 +7991,120 @@
    "era": "late",
    "light": "sunlit",
    "weather": "clear"
+  },
+  "scene-lake-hermitage": {
+   "form": "landscape",
+   "shows": "a stone hermitage under an old tree on a lake shore, a lit window and a path of steps, mist on the water, wooded hills and mountains beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-lake-view": {
+   "form": "landscape",
+   "shows": "a still lake under an old oak, wooded hills and mountains mirrored in it, stones at the water's edge",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-lake-view-spring": {
+   "form": "landscape",
+   "shows": "the same lake in spring: the oak in new leaf, blossom in the woods across the water, violets by the stones, peaks white beyond",
+   "era": "late",
+   "light": "daylight",
+   "season": "spring",
+   "weather": "clear"
+  },
+  "scene-lake-view-autumn": {
+   "form": "landscape",
+   "shows": "the same lake in autumn: the oak and the far woods turned orange and red, fallen leaves by the stones",
+   "era": "late",
+   "light": "daylight",
+   "season": "autumn",
+   "weather": "clear"
+  },
+  "scene-lake-view-winter": {
+   "form": "landscape",
+   "shows": "the same lake in winter: the oak bare, the water skinned with ice, the shore and the far woods under snow",
+   "era": "late",
+   "light": "daylight",
+   "season": "winter",
+   "weather": "snow"
+  },
+  "scene-village-overview-fog": {
+   "form": "landscape",
+   "shows": "a thatched village from above in fog: cottages and a church fading into white, apple trees in blossom, a stone bridge, smoke hanging",
+   "era": "late",
+   "light": "overcast",
+   "season": "spring",
+   "weather": "fog"
+  },
+  "scene-woodland-autumn": {
+   "form": "landscape",
+   "shows": "an oak pasture in autumn: a great oak and the wood in orange leaf, sheep grazing, a stream and a dry-stone wall with a gate",
+   "era": "late",
+   "light": "daylight",
+   "season": "autumn",
+   "weather": "clear"
+  },
+  "scene-woodland-drought": {
+   "form": "landscape",
+   "shows": "the same oak pasture in a drought: the grass parched yellow, the stream shrunk to puddles, sheep on the dry ground",
+   "era": "late",
+   "light": "daylight",
+   "season": "summer",
+   "weather": "clear"
+  },
+  "scene-woodland-fog": {
+   "form": "landscape",
+   "shows": "the same oak pasture in fog: the far trees grey shapes, sheep in the wet grass, the stream running",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-woodland-night": {
+   "form": "landscape",
+   "shows": "the same oak pasture by moonlight: sheep in the dark grass, fireflies, the stream catching the moon",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-woodland-rain": {
+   "form": "landscape",
+   "shows": "the same oak pasture in heavy rain: the trees dripping, sheep in the wet, the stream running high",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-woodland-spring": {
+   "form": "landscape",
+   "shows": "the same oak pasture in spring: the oak in new leaf, blossoming trees, primroses by the stream, sheep grazing",
+   "era": "late",
+   "light": "daylight",
+   "season": "spring",
+   "weather": "clear"
+  },
+  "scene-woodland-summer": {
+   "form": "landscape",
+   "shows": "the same oak pasture in high summer: deep green leaf and long grass, sheep by the wall, the stream over stones",
+   "era": "late",
+   "light": "daylight",
+   "season": "summer",
+   "weather": "clear"
+  },
+  "scene-woodland-sunset": {
+   "form": "landscape",
+   "shows": "the same oak pasture at sunset: the sky red behind the oak, sheep grazing, the stream catching the light",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-woodland-winter": {
+   "form": "landscape",
+   "shows": "the same oak pasture in winter: the trees bare, snow on the ground and the wall, sheep by the dark stream",
+   "era": "late",
+   "light": "daylight",
+   "season": "winter",
+   "weather": "snow"
   }
  }
 }

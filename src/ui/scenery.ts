@@ -116,10 +116,15 @@ export class Scenery {
     const views = screen ? all.filter(v => Fits.fits(screen, v)) : all;
     return views.length ? views[this.spread(id) % views.length] : undefined;
   }
+  // A painting of a season (data/paintings/scenery.json: spring, summer, autumn, winter) is shown only in it: an autumn
+  // lake had nothing to keep it from a spring morning. Only winter's are preferred in their season.
   private static seasonal(views: string[], season?: string): string[] {
     const cold = views.filter(v => this.winter.has(v));
-    return season === 'winter' && cold.length ? cold : views.filter(v => season === 'winter' || !this.winter.has(v));
+    if (season === 'winter' && cold.length) { return cold; }
+    return views.filter(v => !Object.entries(this.seasons).some(([s, own]) => s !== season && own.has(v)));
   }
+  private static readonly seasons: Record<string, ReadonlySet<string>> = { winter: this.winter,
+    spring: new Set(table.spring), summer: new Set(table.summer), autumn: new Set(table.autumn) };
   // The hash, its bits mixed, so that a few ids alike but for their ends (a barrow's rooms) fall apart.
   private static spread(text: string): number {
     return Math.imul(this.hash(text), 2654435761) >>> 16;

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import scenery from '../data/paintings/scenery.json';
 import { Scenery } from '../src/ui/scenery';
 import type { PlaceRef, Screen } from '../src/ui/screen-types';
 
@@ -29,6 +30,19 @@ const vaults = ['library', 'cathedral', 'colonnade', 'narthex', 'well', 'grotto'
 describe('the painting of a place', () => {
   // The way in through a country in winter is a winter's country, even where the country's own paintings are all of
   // leaf (OR-46: "snowy, Deepwinter" over a summer wood); in summer never a winter painting.
+  // A painting of a season is shown in it alone (the owner's lake and oak pasture in four seasons, 21 November): over
+  // forty places of a forest country, no season draws another's, and winter draws its own.
+  it('shows a season\'s painting only in its season', () => {
+    const tied = scenery as unknown as Record<string, string[]>;
+    const seasons = ['spring', 'summer', 'autumn', 'winter'];
+    for (const season of seasons) {
+      const drawn = Array.from({ length: 40 }, (_, i) => Scenery.of({ ...Scene.of({ id: `region__w${i}_wood`,
+        name: 'the wood', kind: 'wild' }, []), date: { short: '', long: `the 1st; ${season}` } } as Screen));
+      const others = new Set(seasons.filter(s => s !== season).flatMap(s => tied[s] ?? []));
+      expect(drawn.filter(d => d && others.has(d))).toEqual([]);
+      if (season === 'winter') { expect(drawn.some(d => d && tied.winter!.includes(d))).toBe(true); }
+    }
+  });
   it('agrees with the season on the way in', () => {
     const road: PlaceRef = { id: 'region__w1_road', name: 'the road into Pardaael', kind: 'wild' };
     const on = (long: string) => ({ ...Scene.of(road, []), date: { short: '', long } }) as Screen;
