@@ -129,7 +129,8 @@ describe('the painting of a place', () => {
     const crossing = Scene.room('region__s2_ud_adit_crossing', 'the crossing', under);
     expect(['scene-mine-gallery', 'scene-mine-shaft', 'scene-mine-tunnel']).toContain(Scene.seen(crossing, [site, mine])!);
     const cave: PlaceRef = { id: 'raidersHold__lair', name: 'the cave', kind: 'site' };
-    expect(Scene.seen(Scene.room('raidersHold__cavern', 'the smoky cavern', under), [wild, cave])).toBe('scene-cave');
+    expect(['scene-cave', 'scene-crystal-grotto', 'scene-cave-mouth-interior'])
+      .toContain(Scene.seen(Scene.room('raidersHold__cavern', 'the smoky cavern', under), [wild, cave])!);
     expect(Scene.seen(Scene.room('sink__nest', 'the nest', under), [wild, cave])).not.toBe('library');
   });
   it('is of a small town\'s own places, not a castle\'s or a chapel\'s', () => {
@@ -139,12 +140,14 @@ describe('the painting of a place', () => {
     expect(['scene-town-lane', 'scene-town-lanes']).toContain(Scene.seen(Scene.room('region__s2_lanes', 'the lanes behind Millholm', open))!);
     expect(Scene.seen(Scene.room('region__s2_houses', 'the houses of Millholm', open))).toBe('scene-town-houses');
     // Porthalen's customs-house, a counter and a barred window, had been a cottage room with a bed (S3-4).
-    expect(Scene.seen(Scene.room('drove__customs', 'the customs-house', { indoors: true }))).toBe('scene-counting-room');
+    expect(['scene-counting-room', 'scene-accountancy', 'scene-accountancy-night'])
+      .toContain(Scene.seen(Scene.room('drove__customs', 'the customs-house', { indoors: true }))!);
     expect(['scene-vault-sealed', 'scene-crypt', 'scene-ossuary'])
       .toContain(Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under))!);
     expect(Scene.seen(Scene.room('region__s2_green', 'the landing at Millholm', open))).toBe('scene-landing');
     expect(Scene.seen(Scene.room('region__s2_sheds', 'the boat-sheds', open))).toBe('scene-boat-sheds');
-    expect(Scene.seen(Scene.room('region__w7_counting', 'the counting-room'))).toBe('scene-counting-room');
+    expect(['scene-counting-room', 'scene-accountancy', 'scene-accountancy-night'])
+      .toContain(Scene.seen(Scene.room('region__w7_counting', 'the counting-room'))!);
     expect(Scene.seen(Scene.room('region__w7_store', 'the warehouse'))).toBe('scene-warehouse');
   });
   it('keeps the painting an author chose for a place of theirs', () => {

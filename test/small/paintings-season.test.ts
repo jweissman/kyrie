@@ -45,7 +45,7 @@ describe('a painting\'s light, season and weather', () => {
     expect(library('fair')).toEqual(['scene-library']);
   });
   it('are recorded for every scene painting: its light always, its season and weather in plain words', () => {
-    expect(scenes.length).toBe(306);
+    expect(scenes.length).toBe(345);
     expect(scenes.filter(([, p]) => !p.light).map(([id]) => id)).toEqual([]);
     expect(scenes.filter(([, p]) => p.season && !/^(spring|summer|autumn|winter)$/.test(p.season))).toEqual([]);
     expect(scenes.filter(([, p]) => p.weather && !/^(snow|rain|storm|fog|clear)$/.test(p.weather))).toEqual([]);

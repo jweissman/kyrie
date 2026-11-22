@@ -8112,6 +8112,278 @@
    "era": "late",
    "light": "daylight",
    "weather": "clear"
+  },
+  "scene-accountancy": {
+   "form": "interior",
+   "shows": "a counting-room by day: a ledger open on the desk, a quill and inkwell, an unlit lamp, an iron-bound strongbox on the shelf, shutters letting in a bar of light",
+   "era": "late",
+   "light": "daylight"
+  },
+  "scene-accountancy-night": {
+   "form": "interior",
+   "shows": "the same counting-room after hours: the lamp lit over the open ledger, the strongbox in shadow, the shutters closed",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-cave-mouth-interior": {
+   "form": "interior",
+   "shows": "inside a cave looking out: water dripping from the rock, a stream over stones toward the bright mouth, trees beyond",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-courtyard": {
+   "form": "exterior",
+   "shows": "a small walled yard on a fair day: a roofed well, a herb-seller's door with pots of lavender, nets hung to dry, an arch through the wall to the water",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-dam": {
+   "form": "landscape",
+   "shows": "a dressed-stone dam across a mountain valley by day, water spilling through its gates, the mere behind it, foxgloves on the bank",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-dam-night": {
+   "form": "landscape",
+   "shows": "the same dam by moonlight, water white through its gates, the mere silver behind it",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-fairground": {
+   "form": "exterior",
+   "shows": "a fairground by day: striped tents and a big top, booths of wares, pennants and banners, a trodden field, a castle on the hill",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-fairground-night": {
+   "form": "exterior",
+   "shows": "the same fairground at night: lanterns under the awnings, a torch by the big top, pennants against the moon",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-fairground-menagerie": {
+   "form": "interior",
+   "shows": "inside a menagerie tent by day: a leopard behind bars, an owl and a parrot in cages, a monkey, straw and a lantern, the tent open on the field",
+   "era": "late",
+   "light": "daylight"
+  },
+  "scene-fairground-menagerie-evening": {
+   "form": "interior",
+   "shows": "the same menagerie tent at evening by lantern light, the leopard's eyes in the shadow of its cage",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-great-oak": {
+   "form": "landscape",
+   "shows": "a vast old oak on a hillside by day, its roots over the rocks, sheep in the valley below",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-great-oak-dusk": {
+   "form": "landscape",
+   "shows": "the same great oak at dusk, the valley in the last light, sheep below",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-great-oak-night": {
+   "form": "landscape",
+   "shows": "the same great oak by moonlight, the valley dark below",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-hearth": {
+   "form": "interior",
+   "shows": "a plain room by lamplight: a low fire in the hearth, a table with a jug and a stool, a settle, shutters closed, a hanging lamp",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-hill-door": {
+   "form": "exterior",
+   "shows": "a square stone doorway in a grassy hillside by day, a path up to it, a lake and hills below",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-hill-door-night": {
+   "form": "exterior",
+   "shows": "the same stone doorway in the hillside by moonlight, a candle lit within",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-ice-village": {
+   "form": "landscape",
+   "shows": "a snowbound village of stone and turf by a frozen lake at dusk, smoke from the chimneys, a cauldron over a fire, peaks behind",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "snow"
+  },
+  "scene-ice-village-night": {
+   "form": "landscape",
+   "shows": "the same snowbound village by moonlight, its windows lit, the frozen lake catching the light",
+   "era": "late",
+   "light": "night",
+   "season": "winter",
+   "weather": "snow"
+  },
+  "scene-kitchen-evening": {
+   "form": "interior",
+   "shows": "a great kitchen by its fire at evening: a cauldron on the hearth, copper pots on the wall, bread and vegetables on the table, a dark window",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-manor-night": {
+   "form": "exterior",
+   "shows": "a stone manor at night, a few windows lit, the portico dark, wet gravel before it",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-sea-cliffs": {
+   "form": "landscape",
+   "shows": "sea-cliffs by day: green clifftops falling to the sea, headland after headland, surf on the rocks",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-seacoast": {
+   "form": "landscape",
+   "shows": "tall sea-cliffs by day, birds on their ledges, waves breaking at their foot",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-seacoast-dusk": {
+   "form": "landscape",
+   "shows": "the same sea-cliffs at dusk, birds on the ledges, the sea dark below",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-sluice": {
+   "form": "exterior",
+   "shows": "a stone sluice by day in fair weather, its wooden gate half open, water running through, steps and a bucket",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-sluice-night": {
+   "form": "exterior",
+   "shows": "the same sluice by moonlight, water running through the half-open gate",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-store-evening": {
+   "form": "exterior",
+   "shows": "a village store at evening, its door open on lit shelves, sacks and barrels out front, scales hung over the door",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-store-night": {
+   "form": "exterior",
+   "shows": "the same village store at night, lamplight in its door and windows, the lane dark",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-town-drillyard": {
+   "form": "exterior",
+   "shows": "a walled drill-yard by day: a practice post, a rack of spears and shields under a lean-to, a banner on the wall, the gate open",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-town-drillyard-dusk": {
+   "form": "exterior",
+   "shows": "the same drill-yard at dusk, a torch lit at the gate",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-town-drillyard-night": {
+   "form": "exterior",
+   "shows": "the same drill-yard at night, the torch at the gate, the sky dark blue",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-valley": {
+   "form": "landscape",
+   "shows": "a mountain valley under an oak, a path winding down past grazing sheep, a river far below",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-night": {
+   "form": "landscape",
+   "shows": "the same mountain valley by moonlight, the path pale, sheep in the grass",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-valley-spring": {
+   "form": "landscape",
+   "shows": "the same mountain valley in spring, blossom on the trees and flowers in the grass",
+   "era": "late",
+   "light": "daylight",
+   "season": "spring",
+   "weather": "clear"
+  },
+  "scene-valley-summer": {
+   "form": "landscape",
+   "shows": "the same mountain valley in high summer, deep green, white cloud over the peaks",
+   "era": "late",
+   "light": "daylight",
+   "season": "summer",
+   "weather": "clear"
+  },
+  "scene-valley-autumn": {
+   "form": "landscape",
+   "shows": "the same mountain valley in autumn, the oak and the woods turned red and gold",
+   "era": "late",
+   "light": "daylight",
+   "season": "autumn",
+   "weather": "clear"
+  },
+  "scene-valley-winter": {
+   "form": "landscape",
+   "shows": "the same mountain valley in winter, snow on the slopes and the path, the oak bare",
+   "era": "late",
+   "light": "daylight",
+   "season": "winter",
+   "weather": "snow"
+  },
+  "scene-watermill-dawn": {
+   "form": "exterior",
+   "shows": "a stone water-mill at dawn, its wheel by the mill-pond, mist on the water, a light in its window",
+   "era": "late",
+   "light": "dawn",
+   "weather": "clear"
+  },
+  "scene-watermill-dusk": {
+   "form": "exterior",
+   "shows": "the same water-mill at dusk, the wheel still, the window lit",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-watermill-night": {
+   "form": "exterior",
+   "shows": "the same water-mill by moonlight, the window lit over the dark pond",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
   }
  }
 }

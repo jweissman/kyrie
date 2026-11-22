@@ -11,8 +11,32 @@ day, rain by day, a fair evening and a fair night. A place is *blank* in a sky w
 page draws a dim ground. Run it again after each batch; the counts below are from 21 November, after the owner's 61
 paintings of that day.
 
-**Where things stand.** Iscoed: 83 of 756 places blank in some sky. a1: 124 of 877. Nearly every blank is in two of
+**Where things stood on 21 November.** Iscoed: 83 of 756 places blank in some sky. a1: 124 of 877. Nearly every blank is in two of
 the four skies, so what is wanted is mostly the same subject under another light, not new subjects.
+
+## Still blank after 22 November
+
+The owner's 39 paintings of 22 November filled the dam, the fairground and menagerie, the great oak, the sea-cliffs by
+day, the sluice, the gate-yard on a fair day, the counting-room, the kitchen and store by evening, the water-mill
+outside, the plain room by lamplight, the door in the hill (now its own kind, so "a square doorway in a hillside" is
+no longer a market) and the barrows by day. Iscoed: **60 of 756** places blank in some sky (was 83). a1: **95 of 877**
+(was 124). What is left, by what would fill it:
+
+| Wanted | Kinds it fills | Blank places (Iscoed + a1) |
+|---|---|---|
+| **The same subjects in rain by day.** The day paintings just added are all of clear weather, so rain refuses them. | barrow and hill-door, dam and mere, fair, great oak, coast, cave, granary, charcoal, stones, well | about 25 + 40 |
+| **A keep's rooms by firelight** (lord's chamber, gate-passage, store-pit, keep top, gatehouse) | fort | 8 + 13 |
+| **A bailey at night**, with a watch-fire | bailey | 4 + 6 |
+| **Back lanes at evening**, windows lit | lanes | 3 + 6 |
+| **A byre or stable by lantern**, no weather | stable | 4 + 4 |
+| **The manor's library, loggia, walled garden and muniment room at evening** | manor | 4 + 4 |
+| **A great house of many windows by day** (the Numbered House, a chapter-house, a moot-house) | home | 3 + 8 |
+| **A chandlery at evening** | chandlery | 2 + 2 |
+| **A mill's floor by lamp** (the mill as a room) | mill | 0 + 2 |
+| One each: the boat-sheds by day; the broken sluice by day; a stalled lift; the stair down the mere's side at night; a wright's yard, a lime-kiln, an inn's back garden, a fulling-mill, a preserve-house, a great cabin, kennels and mews | (various) | 1 to 3 each |
+
+The tables below are the list as measured on 21 November; most of their rows are now filled, and the census is the
+current count.
 
 ## How to paint and bind
 
