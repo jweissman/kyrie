@@ -14,29 +14,50 @@ paintings of that day.
 **Where things stood on 21 November.** Iscoed: 83 of 756 places blank in some sky. a1: 124 of 877. Nearly every blank is in two of
 the four skies, so what is wanted is mostly the same subject under another light, not new subjects.
 
-## Still blank after 22 November
+## The asks, checked against what was delivered (22 November)
 
-The owner's 39 paintings of 22 November filled the dam, the fairground and menagerie, the great oak, the sea-cliffs by
-day, the sluice, the gate-yard on a fair day, the counting-room, the kitchen and store by evening, the water-mill
-outside, the plain room by lamplight, the door in the hill (now its own kind, so "a square doorway in a hillside" is
-no longer a market) and the barrows by day. Iscoed: **60 of 756** places blank in some sky (was 83). a1: **95 of 877**
-(was 124). What is left, by what would fill it:
+Each ask of the 21 November list, the paintings that answered it, and what the census (`bun scripts/scene-census.ts`,
+Iscoed and a1 together) still finds blank. **Iscoed: 60 of 756 places blank in some sky; a1: 95 of 877** (from 83 and
+124). A row is *filled* when its kind has a painting in every sky the ask named.
 
-| Wanted | Kinds it fills | Blank places (Iscoed + a1) |
-|---|---|---|
-| **The same subjects in rain by day.** The day paintings just added are all of clear weather, so rain refuses them. | barrow and hill-door, dam and mere, fair, great oak, coast, cave, granary, charcoal, stones, well | about 25 + 40 |
-| **A keep's rooms by firelight** (lord's chamber, gate-passage, store-pit, keep top, gatehouse) | fort | 8 + 13 |
-| **A bailey at night**, with a watch-fire | bailey | 4 + 6 |
-| **Back lanes at evening**, windows lit | lanes | 3 + 6 |
-| **A byre or stable by lantern**, no weather | stable | 4 + 4 |
-| **The manor's library, loggia, walled garden and muniment room at evening** | manor | 4 + 4 |
-| **A great house of many windows by day** (the Numbered House, a chapter-house, a moot-house) | home | 3 + 8 |
-| **A chandlery at evening** | chandlery | 2 + 2 |
-| **A mill's floor by lamp** (the mill as a room) | mill | 0 + 2 |
-| One each: the boat-sheds by day; the broken sluice by day; a stalled lift; the stair down the mere's side at night; a wright's yard, a lime-kiln, an inn's back garden, a fulling-mill, a preserve-house, a great cabin, kennels and mews | (various) | 1 to 3 each |
+| Ask | Delivered | Status | Still blank (both worlds) |
+|---|---|---|---|
+| A plain room by lamp | `scene-hearth` | **filled** | none |
+| A keep's chamber and gate-passage by firelight | `scene-chamber`, `scene-keep-gate` (both by day) | **open** at evening and night | 21 keep rooms |
+| A bailey at night | none | **open** | 10 baileys at evening and night |
+| The manor at night and its garden at dusk | `scene-manor-night` (the house and forecourt) | **partly**: the library, loggia, walled garden and muniment room at evening, and in rain | 8 |
+| A byre by lantern | none (the byre painted shows rain at its door) | **open** | 8 stables at evening and night |
+| A counting-room by lamp | `scene-accountancy-night` (and `scene-accountancy` by day) | **filled** | none |
+| Back lanes at evening | none | **open** | 9 lanes at evening and night |
+| A chandlery at evening | none | **open** | 4 |
+| A kitchen by firelight | `scene-kitchen-evening` | **filled** | none |
+| A store at evening | `scene-store-evening`, `scene-store-night` | **filled** | none |
+| A mill at dusk | `scene-watermill-dawn`, `-dusk`, `-night` (the mill outside) | **partly**: the mill as a room (its floor) at evening | 2 |
+| A drill-yard at dusk | `scene-town-drillyard`, `-dusk`, `-night` | **filled** | none |
+| A long barrow by grey day | `scene-hill-door` on the barrows' ground | **partly**: by day yes; in rain no | 18 barrows in rain |
+| A dam by day | `scene-dam`, `scene-dam-night` | **partly**: in rain no | 9 |
+| A great house by day (the Numbered House, a chapter-house, a moot-house) | none | **open** | 11 by day |
+| A fairground by day | `scene-fairground`, `-night`; the menagerie tent | **partly**: in rain no | 8 |
+| Sea-cliffs by day | `scene-sea-cliffs`, `scene-seacoast`, `-dusk` | **partly**: in rain no | 3 |
+| A sluice by day | `scene-sluice`, `scene-sluice-night` | **partly**: "the broken sluice" refuses a whole one (the ruin rule) | 2 by day |
+| The boat-sheds by day | none | **open** | 2 by day |
+| The gate-yard on a fair day | `scene-courtyard` | **filled** | none |
+| The old stones in mist; the dome at evening | none | **open** | 6 in rain, evening and night |
+| A granary by lantern | none | **open** | 5 |
+| The great oak in rain and at dusk | `scene-great-oak`, `-dusk`, `-night` | **partly**: in rain no | 4 |
+| Charcoal clamps in drizzle | none | **open** | 4 |
+| A well in rain | none | **open** | 2 |
+| A cave, dim | `scene-cave-mouth-interior` (a room) | **partly**: a cave seen as ground (a hollow, a far end of a hall) in rain and dark | 3 |
+| The menagerie tent | `scene-fairground-menagerie`, `-evening` | **filled** | none |
 
-The tables below are the list as measured on 21 November; most of their rows are now filled, and the census is the
-current count.
+**Beyond the asks**, also placed: a hoard and a treasury (strongrooms), a mountain valley in each season and by moon, a
+snowbound village (a frost country's winter), and the door in the hill as its own kind.
+
+**What would close most of what is left**, in order of places filled: the same subjects **in rain** (barrows, dam,
+fair, oak, coast, cave, granary, charcoal: about 50 places); **a keep's rooms after dark** (21); **a great house by
+day** (11); **a bailey at night** (10); **back lanes at evening** (9); **a byre by lantern** (8); **the manor's rooms at
+evening** (8). Then single places: a wright's yard, a lime-kiln, an inn's garden, a fulling-mill, a preserve-house, a
+ship's great cabin, kennels, a stalled lift.
 
 ## How to paint and bind
 

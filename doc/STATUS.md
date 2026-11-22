@@ -8,7 +8,8 @@ README and the index say what is lasting, and point here for what is current.
 product.** Its close is [mission-22/closeout.md](architecture/mission-22/closeout.md): the six commission outcomes,
 the gate as it stands, the ruling on responsiveness, and beta's entry conditions. Why it ended there, and what beta
 should change, is [mission-22/alpha-retrospective.md](architecture/mission-22/alpha-retrospective.md); what the
-owner's play found is [mission-22/alpha-acceptance.md](architecture/mission-22/alpha-acceptance.md). M22-beta is to
+owner's play found is [mission-22/alpha-acceptance.md](architecture/mission-22/alpha-acceptance.md). The builder of
+beta starts from [mission-22/handoff-beta.md](architecture/mission-22/handoff-beta.md). M22-beta is to
 be architecture and housecleaning: the first minute, one authoritative action model, Atlas continuity, focus,
 performance and save integrity, under four contracts (authority, integrity, separation, trust), with no major new
 content systems. The golden route is the drove road in `?world=iscoed`.

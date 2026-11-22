@@ -19,7 +19,8 @@ full suite, the browser specs, the long descents) are CI's, by `gh workflow run 
   <register> <edits.json>` sets rows' status cells by id (`{"ID": {"status": "fixed (…)"}}`; never a `|` in a cell).
 
 Before a landing, locally: `bun run check:fast` alone, `bun run lint`, then `bun test <explicit paths>` for what
-changed (never an empty path: it runs the whole suite). After a landing that moves worlds, dispatch the full run.
+changed (never an empty path: it runs the whole suite). A change that moves worlds (content, paintings, generation,
+rules) lands by `scripts/landing/full.sh <sha>`: the whole suite on a check branch first, then land.sh.
 
 ## Reading where things stand
 
