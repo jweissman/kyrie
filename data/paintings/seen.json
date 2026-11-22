@@ -8384,6 +8384,24 @@
    "era": "late",
    "light": "night",
    "weather": "clear"
+  },
+  "scene-cache": {
+   "form": "interior",
+   "shows": "a hoard in a stone niche by lantern light: an open chest of gold coin and pearls, a gilt cup, a sealed scroll, a locked strongbox, a red cloth",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-chamber": {
+   "form": "interior",
+   "shows": "a lord's chamber by day: a curtained window, a carved chair and a table with fruit and a book, columns and an arch into a further room with a chest and a hanging",
+   "era": "late",
+   "light": "daylight"
+  },
+  "scene-treasury": {
+   "form": "interior",
+   "shows": "a treasury by one candle: iron-bound chests, stacked gold bars and coin-sacks on shelves, a ledger open on a draped table with a quill, columns into the dark",
+   "era": "late",
+   "light": "dim"
   }
  }
 }

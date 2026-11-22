@@ -13,7 +13,7 @@
     { "id": "evening or night", "daylight": "evening|night",
       "forbids": "sunny|sunlit|noon|midday|sunshine|bright day|\\bdaylight\\b|\\bdawn\\b|sunrise" },
     { "id": "by day", "daylight": "^day$",
-      "forbids": "\\bdusk\\b|\\bnight\\b|moonlit|\\bmoon\\b|starlit|\\bat evening\\b|sunset" },
+      "forbids": "\\bdusk\\b|\\bnight\\b|moonlit|\\bmoon\\b|starlit|\\bat evening\\b|sunset|after hours" },
     { "id": "a sea-bank is not the sea", "place": "\\bsea-(bank|wall)\\b",
       "forbids": "\\bship\\b|\\bboats?\\b|\\bdeck\\b|founder" },
     { "id": "a holy thing in the open", "place": "\\b(shrine|holy)\\b",
