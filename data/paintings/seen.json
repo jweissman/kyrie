@@ -8105,6 +8105,13 @@
    "light": "daylight",
    "season": "winter",
    "weather": "snow"
+  },
+  "scene-lake-village": {
+   "form": "exterior",
+   "shows": "a fishing village on a lake shore in soft daylight: stone cottages and a net-shed, jetties with a sailing boat and rowing boats, nets and lobster pots, wooded hills and white peaks across the water",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
   }
  }
 }
