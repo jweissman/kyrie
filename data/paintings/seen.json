@@ -6736,6 +6736,13 @@
    "era": "late",
    "light": "sunlit"
   },
+  "scene-manor-study": {
+   "form": "interior",
+   "shows": "a dim panelled study: shelves of old books, a reading stand with an open book, a studded leather chair, a draped table, a tall window streaming with rain, a closed panelled door",
+   "era": "late",
+   "light": "dim",
+   "weather": "rain"
+  },
   "scene-menagerie": {
    "form": "landscape",
    "shows": "a menagerie court of cages and an aviary, a peacock and a deer",
@@ -6809,6 +6816,13 @@
    "shows": "the same stone river quay by moonlight: lamps lit along the warehouses, a covered boat at the posts, a barge beyond, the hill town's windows lit, a full moon over the water",
    "era": "late",
    "light": "night",
+   "weather": "clear"
+  },
+  "scene-harbor-dawn": {
+   "form": "exterior",
+   "shows": "a great seaport at dawn: a paved quay under wisteria and arcades with market stalls, a ship moored in the foreground, a domed town of cypresses on the hill, a lighthouse and tall ships across the bay, the sun just risen",
+   "era": "late",
+   "light": "dawn",
    "weather": "clear"
   },
   "scene-harbor-town": {

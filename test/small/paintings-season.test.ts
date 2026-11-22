@@ -37,8 +37,15 @@ describe('a painting\'s light, season and weather', () => {
     expect(landing('fair', 'night')).toEqual(['scene-harbor-dusk']);
     expect(landing('fair', 'day')).toEqual(['scene-landing']);
   });
+  // Porthalen Hall's library (the wishlist's twelfth: its only painting sunlit): the rain-dark study in rain.
+  it('give a library the sunlit room on a fair day and the dim study in rain', () => {
+    const library = (weather: string) => ['scene-library', 'scene-manor-study']
+      .filter(p => Fits.fits(at('the library', { weather, daylight: 'day' }), p));
+    expect(library('rainy')).toEqual(['scene-manor-study']);
+    expect(library('fair')).toEqual(['scene-library']);
+  });
   it('are recorded for every scene painting: its light always, its season and weather in plain words', () => {
-    expect(scenes.length).toBe(248);
+    expect(scenes.length).toBe(250);
     expect(scenes.filter(([, p]) => !p.light).map(([id]) => id)).toEqual([]);
     expect(scenes.filter(([, p]) => p.season && !/^(spring|summer|autumn|winter)$/.test(p.season))).toEqual([]);
     expect(scenes.filter(([, p]) => p.weather && !/^(snow|rain|storm|fog|clear)$/.test(p.weather))).toEqual([]);
