@@ -1,0 +1,31 @@
+# The quarantined specs (test/quarantine.json), optionally, after CI has passed on main (the owner, 23 November:
+# "an optional quarantine test batch after the main job passes and deploys are kicked off ... it should be optional
+# and not fail things"). It starts beside the deploy (pages.yml), never before it, and every step may fail without
+# failing the run: its summary is the flake record, by which a spec is rewritten lower or let back into a lane.
+name: Quarantine
+on:
+  workflow_run: { workflows: [CI], types: [completed], branches: [main] }
+  workflow_dispatch:
+permissions: { contents: read }
+defaults:
+  run: { working-directory: kyrie }
+jobs:
+  quarantine:
+    name: quarantined specs (optional)
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie, ref: "${{ github.event.workflow_run.head_sha || github.sha }}" }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright-core install --with-deps chromium
+      - continue-on-error: true
+        run: bun test $(bun scripts/test-lane.ts quarantine) --reporter=junit --reporter-outfile=junit.xml
+        env: { KYRIE_BROWSER: "1" }
+      - if: always()
+        continue-on-error: true
+        run: bun scripts/test-summary.ts junit.xml --title "Quarantined specs (optional; failures are flake, not gates)"

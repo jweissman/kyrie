@@ -186,7 +186,9 @@ After these: sprint 2's first minute, starting with OR-160 (Play) and the pre-ro
   - cache invalidation, guarded by incremental-equals-full;
   - journeys walking past a guard, guarded by the five-case spec;
   - specs that pin today's frame shapes (sprint 4: land behind parity and the census, not spec by spec);
-  - OR-182's intermittent card timing, which can fail an unrelated push.
+  - flaky timing specs: quarantined (test/quarantine.json), run only by the optional quarantine workflow after CI
+    passes on main; a spec leaves it by being rewritten lower. OR-182's card timing and act-budget's wall clock are the
+    first two.
 - **Decisions still the owner's:**
   - is a job offer knowledge or an undertaking (OR-178);
   - do rooms answer weather;

@@ -138,11 +138,10 @@ jobs:
           key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: |
-          files=""
-          if [ "${{ github.event_name }}" = "push" ]; then
-            files=$(bun scripts/test-lane.ts push | tr '\n' ' ')
-            test -n "$files" || { echo "the push lane is empty"; exit 1; }
-          fi
+          # Quarantined specs (test/quarantine.json) are in neither lane; quarantine.yml runs them, optionally.
+          lane=${{ github.event_name == 'push' && 'push' || 'all' }}
+          files=$(bun scripts/test-lane.ts $lane | tr '\n' ' ')
+          test -n "$files" || { echo "the $lane lane is empty"; exit 1; }
           bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/${{ github.event_name == 'push' && 8 || 16 }} --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $files
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of ${{ github.event_name == 'push' && 8 || 16 }}"
@@ -219,7 +218,7 @@ jobs:
           key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
           restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
       - run: bunx playwright-core install --with-deps chromium
-      - run: bun test --shard=${{ matrix.shard }}/3 $(ls test/*-browser.test.ts) --reporter=junit --reporter-outfile=junit.xml
+      - run: bun test --shard=${{ matrix.shard }}/3 $(bun scripts/test-lane.ts browser) --reporter=junit --reporter-outfile=junit.xml
         env: { KYRIE_BROWSER: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 3" --none-skipped
