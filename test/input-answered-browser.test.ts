@@ -141,13 +141,16 @@ class Answered {
   static async gesture(page: Page, go: () => Promise<void>) {
     const [receipts, sent] = [await Answered.receipts(page), await Answered.sent(page)];
     await Answered.reset(page);
+    // Settled: from the press until the page is idle again, the answer drawn (measured from here, so a little over;
+    // logged as a baseline for beta's 300 ms budget, not asserted: mission-22-beta/sprint-0-baseline.md).
+    const began = performance.now();
     await go();
     await Answered.idle(page);
-    const a = await Answered.read(page);
+    const settled = Math.round(performance.now() - began), a = await Answered.read(page);
     // Answered: the row drawn taken, or the page turned to what it opened (a talk), whichever came first.
     const first = [a.taken[0]?.ms, a.turned[0]].filter((t): t is number => t !== undefined);
     return { ms: first.length ? Math.min(...first) : undefined, held: a.held[0], taken: a.taken[0]?.ms,
-      sentAt: a.sentAt[0],
+      sentAt: a.sentAt[0], settled,
       receipts: await Answered.receipts(page) - receipts,
       sent: await Answered.sent(page) - sent };
   }

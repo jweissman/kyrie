@@ -61,6 +61,25 @@ walks has a blue reply. The script now checks there.
   gold walk that cannot pass a riddle door cannot test the undertaking invariant beyond it: teaching HonestPlayer to
   answer a way's riddle is the next step for this measure.
 
+## Browser timings (CI full run 45195920420, 23 November)
+
+In the browser, at a laptop's size (1280×800, mouse) and a phone's (390×844, touch), from the specs that already
+measure them (test/input-answered-browser, test/set-out-now-browser, test/board-update-browser):
+
+| What | 1280×800 | 390×844 | Budget |
+|---|---|---|---|
+| An act pressed → drawn taken (acknowledged) | 7.7 ms | 8.9 ms | 100 ms |
+| A talk opened → the page turned to it | 22.8 ms | 21.4 ms | 100 ms |
+| A reply pressed → drawn taken | 10.8 ms | 8.0 ms | 100 ms |
+| A journey held → committed at the hold's end, card drawn | 521 → 534 ms | 521 → 523 ms | the hold (520 ms) + 100 ms |
+| Set out now → in the world | within 1 s (the start drawn ahead) | | 3 s |
+| The map at a journey's end: updated in place, its parts | 97 ms; parts 16–158 ms | 72 ms; parts 9–177 ms | |
+| A journey's hexes revealed as it walks | every 0.6–0.75 s | every 0.7 s | |
+| **Settled** (pressed → answer drawn, page open again) | logged from the next run | | 300 ms p95 |
+
+*[F]* Acknowledgement is far inside budget everywhere. *Open:* settled time per act, now logged by
+test/input-answered-browser (`settled` in its ANSWERED line) and read from the next full run.
+
 ## Limits
 
 - Two walks, Iscoed only, as the lines send them. A walk that follows only the gold, and a1, are the obvious
