@@ -100,6 +100,9 @@ parts:
   src/presentation/coin-reading.ts:31 forks the world with `world.apply` to test affordability. The risk is cost,
   since every offered row is forked on every frame. It needs memoising per world and a measured budget before it is
   adopted.
+  *Measured since* (outcome-cost-study.md): forking every offered campaign act costs 750 ms a turn at the median,
+  out of budget; only the rows drawn, about 125 ms. And most rows drawn are the session's commands (a talk, a way, a
+  journey), not campaign acts, so the Outcome must be defined over the session's commands.
 - **Response contracts versus situation state.** Defect centres proposes typed response contracts (who learns of a
   deed, who answers it, what follows). The Kyr review proposes Undertaking and Occasion as language constructs. These
   are the same idea at two levels. The construct is what authors write; the response is what it lowers to.
