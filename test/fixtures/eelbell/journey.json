@@ -1,0 +1,119 @@
+{
+ "arrive": [
+  "^To the staithe"
+ ],
+ "gather": [
+  "To the staithe",
+  "Ask Posy what she hums",
+  "To the eel-weirs",
+  "Ask Rushby about the eels",
+  "Ask Rushby about the Grandam",
+  "Promise Rushby",
+  "To the staithe",
+  "To the foot of the sea-gate tower",
+  "Ask Dyce about the gate",
+  "Ask Dyce what happened",
+  "Ask Dyce for the Grandam's pieces",
+  "Ask Dyce for the windlass",
+  "To the bell loft",
+  "To the foot of the sea-gate tower",
+  "Ask Dyce about the cat",
+  "To the staithe",
+  "Tell Posy her cat",
+  "Ask Posy to hum",
+  "To the eel-weirs",
+  "Tell Rushby what Dyce did",
+  "To the staithe",
+  "To Maudlin Greave's cottage",
+  "Ask Maudlin about Edric",
+  "Promise Maudlin",
+  "To the staithe",
+  "Into the Two Weirs",
+  "Ask Aggie Pargill for her pewter",
+  "To the staithe",
+  "To the charcoal clamp",
+  "Mind the clamp",
+  "To the staithe",
+  "To the church green",
+  "Ask Sount how long a tide-bell"
+ ],
+ "ringers": [
+  "To the staithe",
+  "To Maudlin Greave's cottage",
+  "Ask Maudlin to take a turn",
+  "To the staithe",
+  "Into the Two Weirs",
+  "Ask Aggie to take a turn",
+  "To the staithe",
+  "To the charcoal clamp",
+  "Ask Wickens to come",
+  "To the staithe",
+  "To the church green"
+ ],
+ "fire": [
+  "Bank the furnace",
+  "Bank the furnace",
+  "Bank the furnace",
+  "Light the furnace",
+  "Put a piece of the Grandam",
+  "Put a piece of the Grandam",
+  "Put a piece of the Grandam",
+  "Cut up a copper kettle",
+  "Ask Sount how the charge looks",
+  "Tell Sount to cut the seven names",
+  "=+36",
+  "Tap the crucible",
+  "=+72",
+  "Break the loam"
+ ],
+ "tune": [
+  "Strike the bell",
+  "Pare the sound-bow",
+  "Strike the bell",
+  "Wait for the hum",
+  "Pare the waist",
+  "Wait for the hum"
+ ],
+ "hang": [
+  "Drag the bell",
+  "Raise the bell"
+ ],
+ "night": [
+  "=until tideOn()",
+  "To the bell loft",
+  "Take a turn on the bell-rope",
+  "Take a turn on the bell-rope",
+  "=until dawnOn()"
+ ],
+ "gather_chain": [
+  "To the staithe",
+  "To the foot of the sea-gate tower",
+  "Ask Dyce what iron",
+  "To the staithe",
+  "To the church green"
+ ],
+ "fire_iron": [
+  "Bank the furnace",
+  "Bank the furnace",
+  "Bank the furnace",
+  "Light the furnace",
+  "Put a piece of the Grandam",
+  "Put a piece of the Grandam",
+  "Put a piece of the Grandam",
+  "Feed the sea-gate chain",
+  "Tell Sount to leave the shoulder plain",
+  "=+36",
+  "Tap the crucible",
+  "=+72",
+  "Break the loam",
+  "Strike the bell"
+ ],
+ "cresset": [
+  "To the staithe",
+  "To the foot of the sea-gate tower",
+  "Lay a sack of charcoal",
+  "=until tideOn()",
+  "Kindle the Warden's cresset",
+  "=until dawnOn()"
+ ]
+}

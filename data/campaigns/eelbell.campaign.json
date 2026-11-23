@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Eel Bell",
+  "pitch": {
+    "heading": "The Eel Bell",
+    "text": "Quillet's tide-bell cracked two winters ago, and seven boats did not come home. In three days the silver eels run on the spring tide, and every boat in the fen will be out in the dark. A deaf founder has a pit, a furnace and no one to hear her bell. Cast it, tune it, hang it, and find someone to ring it."
+  },
+  "modules": [
+    {
+      "id": "eelbell",
+      "bundle": "../adventures/eelbell/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

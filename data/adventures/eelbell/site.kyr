@@ -1,0 +1,47 @@
+Module eelbell "The Eel Bell" {
+  Description "Quillet on the Iscoed sea-bank: a staithe, a church green with a founding-pit, the weirs, the Warden's gate, and three days before the Silver Run.".
+
+  Place washes "the Quillet washes" is region within imbar.
+  Place quillet "Quillet" is settlement within washes at 0, 0.
+  Place weirs_land "the weirs" is wilderness within washes at 1, 0.
+  Place ridge_land "the charcoal ridge" is wilderness within washes at 0, 1.
+  Place gate_site "the Warden's gate" is site within washes at 1, 1.
+  Place inn "the Two Weirs" is building within quillet.
+
+  Place road "the sea-bank road" is room within quillet at 0, 0 outdoors.
+  Place staithe "the staithe" is room within quillet at 1, 0 outdoors.
+  Place green "the church green" is room within quillet at 2, 0 outdoors.
+  Place taproom "the taproom of the Two Weirs" is room within inn at 1, 1.
+  Place cottage "Maudlin Greave's cottage" is room within quillet at 1, 1.
+  Place weirs "the eel-weirs" is room within weirs_land at 0, 0 outdoors.
+  Place clearing "the charcoal clamp" is room within ridge_land at 0, 0 outdoors.
+  Place gate_foot "the foot of the sea-gate tower" is room within gate_site at 0, 0 outdoors.
+  Place loft "the bell loft" is room within gate_site at 1, 0.
+
+  Passage bank_way "the sea-bank road" is road between road and staithe taking 10 minutes.
+  Passage green_way "the lane to the church green" is path between staithe and green taking 10 minutes.
+  Passage inn_door "the Two Weirs' door" is door between staithe and taproom.
+  Passage cottage_door "Maudlin Greave's door" is door between staithe and cottage.
+  Passage weir_path "the duckboards to the weirs" is path between staithe and weirs taking 10 minutes.
+  Passage ridge_path "the track up to the ridge" is track between staithe and clearing taking 30 minutes.
+  Passage bank_walk "along the sea-bank to the gate" is path between staithe and gate_foot taking 20 minutes.
+  Passage tower_ladder "the tower ladder" is ladder between gate_foot and loft.
+
+  Observe road_scene at road when true "The road is the top of the sea-bank, grass-grown, with the washes on one hand, flat and shining to the edge of the sky, and the sea on the other, which is higher.".
+  Observe road_sign at road as sign when not been(party, staithe) "A little way along, a church tower stands with no bell in its louvres, and beyond it the roofs of Quillet, each with a smoke-hole and an eel-net hung to dry.".
+  Observe staithe_scene at staithe when true "Eel-boats lie hauled on the hard in rows, black and flat as shoes. Nets hang from every rail, and the whole staithe smells of smoke and mud and something sweet.".
+  Observe staithe_gone at staithe as ambience when true "Above the roofs the louvres of the church tower are empty. Nobody looks up at them; everybody has learned not to.".
+  Observe green_scene at green when true "The green in front of the bell-less church has been dug into a pit as deep as a man, and a mound of loam stands over it, heaped with goat-hair and horse-dung and old sacking.".
+  Observe taproom_scene at taproom when true "A low room under smoked rafters, with wooden plates racked on the wall and, on the dresser, a gap where the pewter was.".
+  Observe cottage_scene at cottage when true "One room, scrubbed. A man's boots stand by the hearth, greased, as if he were due.".
+  Observe weirs_scene at weirs when true "Hurdles of withy run out across the channel in a long V, and in the narrow of it the eel-traps lie stacked like lobster-pots. The water is black and perfectly still.".
+  Observe weirs_run at weirs as ambience when true "A boy is mending a trap with his teeth and a knife, looking at the sky.".
+  Observe clearing_scene at clearing when true "A mound of turf as big as a cottage smokes quietly on the ridge. It is a clamp: charcoal, under turf, burning without flame, and a man sits by it with a stool and a blanket.".
+  Observe gate_scene at gate_foot when true "The Water-Wardens' sea-gate stands in the bank, two great leaves of black oak that have not met in forty years, with the tide-line green up the posts. A squat tower rises beside it, and a lean-to at its foot with a stove.".
+  Observe loft_scene at loft when true "A timber frame as wide as a barn door, with nothing hanging in it. Under the louvres a wide, flat shelf of sacking holds the shapes of a bell, in pieces, laid out in order.".
+
+  Thing frame "the empty bell-frame" at loft {
+    State empty "Two oak cheeks and a headstock worn with ropes. The frame is empty.".
+    State hung "The new bell hangs in the frame, its rope coiled on the floor below.".
+  }
+}

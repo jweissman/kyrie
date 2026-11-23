@@ -1,0 +1,100 @@
+Module eelbell "The Eel Bell" {
+  // ── The clock: three days to the Silver Run ─────────────────────────────────────────────────────────────────────
+  Relation begun(place). Measure begunAt(place).
+  Rule begins when within(party, quillet) and not begun(quillet) { Assert begun(quillet). Set begunAt(quillet) to watch(clock). }
+  Query tideOn() means begun(quillet) and watch(clock) >= begunAt(quillet) + 372.
+  Query dawnOn() means begun(quillet) and watch(clock) >= begunAt(quillet) + 414.
+  Query midTide() means begun(quillet) and watch(clock) >= begunAt(quillet) + 396.
+  Relation nightTold(entity).
+
+  Chapter ch_arrive "Three Days to the Run" when within(party, quillet) "Quillet has no bell, and is three nights from the only tide that pays.".
+  Chapter ch_pour "The Pour" when state(bell, cast) "The loam ticks over the bell, and for the first time in two winters something is being made in Quillet.".
+  Chapter ch_tide "The Silver Run" when tideOn() and begun(quillet) "The tide comes up the washes in the dusk, brown and quiet, and thirty boats put out into it, one after another, without lights.".
+
+  // ── The Warden's cresset: a fire, if there is no bell ───────────────────────────────────────────────────────────
+  Thing cresset "the Warden's cresset" at gate_foot {
+    State cold "On a post at the tower's foot stands an iron fire-basket, black with old fires, empty.".
+    State laid "The cresset is laid with charcoal and waits for a light.".
+    State lit "The cresset burns on its post, red, with the tide-wind tearing at it.".
+    Change lay "Lay a sack of charcoal in the Warden's cresset" from cold to laid consuming eb_charcoal.
+    Change kindle "Kindle the Warden's cresset" from laid to lit when tideOn() "It is too early: a fire in the cresset now would be burned out by the tide.".
+  }
+
+  // ── The night itself ────────────────────────────────────────────────────────────────────────────────────────────
+  Action take_turn(actor: group, site: place) "Take a turn on the bell-rope" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bell, site) and state(bell, hung) and tideOn() and not dawnOn() and turns(bell) < 4.
+    Time 6.
+    On success { Increase rope(bell) by 1. Increase turns(bell) by 1. }
+    Result "You take the rope. The bell comes up out of the dark above you with a weight that wants your shoulders, and goes out over the washes, and you pull, and it comes again. At the end of the hour your palms are open, and you can feel your heartbeat in them.".
+  }
+  Rule tide_bell_strikes when within(party, washes) and tideOn() and state(bell, hung) and not nightTold(bell)
+    says "At the turn of the dusk the bell begins. Strike by strike it goes out over the washes: at first a stranger to the air, and then somebody's. Down at the staithe nobody speaks. Out on the dark water, one by one, the lanterns turn." {
+    Assert nightTold(bell).
+  }
+  Rule tide_no_bell when within(party, washes) and tideOn() and not state(bell, hung) and not nightTold(bell)
+    says "The tide comes up the washes and there is no bell. The louvres of the church are empty. At the gate Dyce stands with a feather and a prayer, and in Quillet nobody sleeps." {
+    Assert nightTold(bell).
+  }
+  Rule ringers_come when within(party, washes) and tideOn() and state(bell, hung) and ringer(rushby) and ringer(dyce) and not nightTold(frame)
+    says "Dyce and Rushby come up the ladder at the same time and find that the loft is not large. Rushby takes the rope on the east side of the bell. Dyce takes the west. Neither of them looks across. The bell, between them, begins to speak in one voice." {
+    Assert nightTold(frame).
+  }
+  Rule eels_run when within(party, washes) and midTide() and state(bell, hung) and strike(bell) == 2 and hum(bell) == 2 and not brittle(bell) and rope(bell) >= 6 and not nightTold(weirs)
+    says "At two in the morning the eels come. They come down the weir-channel out of the dark in a line, silver, in a river of silver, over the sills and into the V of the withies and into the traps, as if called, which they have been. Along the bank the whole of Quillet stands in the mud with lanterns and makes no sound at all." {
+    Assert nightTold(weirs).
+  }
+  Rule rope_fails when within(party, washes) and midTide() and state(bell, hung) and rope(bell) < 6 and not nightTold(weirs)
+    says "At three in the morning the rope goes slack, and the bell winds down in the dark, a note at a time, as a clock does. Nobody is left to take it." {
+    Assert nightTold(weirs).
+  }
+  Rule sount_in_loft when within(party, washes) and state(bell, hung) and not nightTold(sount) says "Sount has come along the bank after you, slowly, in the dark, and stands in the door at the foot of the tower with one palm flat on the stone." {
+    Assert nightTold(sount). Assert at(sount, gate_foot).
+  }
+
+  // ── What a company grows by here ────────────────────────────────────────────────────────────────────────────────
+  Milestone m_hum "learned the Grandam's hum from the child who hums it" worth 150 when knows(party, hum_known).
+  Milestone m_cat "found Posy's cat" worth 80 when knows(party, cat_found).
+  Milestone m_night "heard what Dyce did that night" worth 150 when knows(party, dyce_rang).
+  Milestone m_cast "poured a bell" worth 250 when state(bell, cast).
+  Milestone m_true "tuned a bell both true and sweet" worth 300 when state(bell, bare) and strike(bell) == 2 and hum(bell) == 2 and not cracked(bell).
+  Milestone m_hung "hung the bell in the Warden's tower" worth 200 when state(bell, hung).
+  Milestone m_run "brought the boats home" worth 400 when reached(silver) or reached(home_poor) or reached(cracked_rung) or reached(cresset_night).
+  Milestone m_names "cut the seven names on the bell" worth 100 when cutNames(bell).
+
+  // ── The grey hour: what each person did, told before the book closes ───────────────────────────────────────────
+  Query greyOn() means begun(quillet) and watch(clock) >= begunAt(quillet) + 408.
+  Relation fateTold(entity).
+
+  Rule fate_maudlin when within(party, washes) and greyOn() and state(bell, hung) and ringer(greave) and cutNames(bell) and not fateTold(greave)
+    says "Maudlin Greave rings her turn with her left hand on the bell's shoulder, and as she rings she reads the seven names with her thumb, one at a time, as she would read a child's palm. Edric is the first." { Assert fateTold(greave). }
+  Rule fate_maudlin_spurned when within(party, washes) and greyOn() and state(bell, hung) and maudlinBetrayed(party) and not fateTold(greave)
+    says "Maudlin Greave does not come to the tower. Her spoons are in the bell, and her husband's name is not. At dawn her door is shut, and the boots by her hearth have been taken away." { Assert fateTold(greave). }
+  Rule fate_dyce_rushby when within(party, washes) and greyOn() and state(bell, hung) and ringer(rushby) and ringer(dyce) and not cracked(bell) and not fateTold(dyce)
+    says "Towards morning Rushby and Dyce have changed sides of the bell, without a word, because the east rope had a worse pull; and in the grey hour Rushby says over the sound of it, in the voice of a man talking to a rope, 'You'll want to ease your hands.' Dyce says, 'Aye.' It is eleven words in two years." { Assert fateTold(dyce). }
+  Rule fate_dyce_cracked when within(party, washes) and greyOn() and state(bell, hung) and cracked(bell) and ringer(dyce) and not fateTold(dyce)
+    says "Dyce rings the cracked bell as though it were an old dog he had been told was dead. He does not use the word. He does not say anything until the light comes, and then he says, 'I know this voice.'" { Assert fateTold(dyce). }
+  Rule fate_wickens when within(party, washes) and greyOn() and state(bell, hung) and ringer(wickens) and not fateTold(wickens)
+    says "Up on the ridge, unwatched for a night, Wickens's clamp has got its wind and gone: twelve days' charcoal, white ash under the turf. He is told at dawn by a boy. 'Well,' says Wickens, who had left it to ring a bell. 'It was due.'" { Assert fateTold(wickens). }
+  Rule fate_aggie when within(party, washes) and greyOn() and state(bell, hung) and ringer(pargill) and not fateTold(pargill)
+    says "Aggie Pargill rings from midnight to two in her good apron, swearing steadily, with a pewter pot of something on the floor beside her that is not for the rope." { Assert fateTold(pargill). }
+  Rule fate_posy_biscuit when within(party, washes) and greyOn() and state(bell, hung) and cutBiscuit(bell) and not fateTold(posy)
+    says "Posy Rushby has come to the foot of the tower to look at the name on the bell's shoulder, which she cannot read from there, and does not need to. The cat has come with her. The cat takes no notice at all." { Assert fateTold(posy). }
+  Rule fate_posy when within(party, washes) and greyOn() and state(bell, hung) and posyTrusts(party) and not cutBiscuit(bell) and not fateTold(posy)
+    says "Posy Rushby sits on the bell-loft step all night with Biscuit asleep in her arms, humming, in time, under the bell." { Assert fateTold(posy). }
+  Rule fate_sount when within(party, washes) and greyOn() and state(bell, hung) and toldSount(party) and not fateTold(sount)
+    says "Sount has not moved from the tower stair. She has her left ear against the stone and her right palm on it, and her lips are moving, as if counting." { Assert fateTold(sount). }
+
+  Rule fate_sweet when within(party, washes) and greyOn() and state(bell, hung) and silvered(furnace) and not fateTold(furnace)
+    says "Whoever takes the rope says the same thing, in different words: that there is a sweetness in the strike which the old bell did not have, a small high edge like the last of the light on a wet slate. Three silver spoons are somewhere in that." { Assert fateTold(furnace). }
+  Rule fate_rushby_bitter when within(party, washes) and greyOn() and state(bell, hung) and rushbyBitter(party) and not fateTold(rushby)
+    says "Rushby comes down to the foot of the tower in the grey hour and stands with his head on one side, listening, as a man listens to a stranger at his door. 'That is not the Grandam,' he says. He is right, and he says it gently, which is worse." { Assert fateTold(rushby). }
+
+  // ── Endings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Ending silver "The Silver Run" when dawnOn() and state(bell, hung) and strike(bell) == 2 and hum(bell) == 2 and not brittle(bell) and rope(bell) >= 6 "Thirty boats come home to the bell, one by one, all night, and at two in the morning the eels come in over the weir-sills like poured silver, because the hum called them. By dawn every trap on the Quillet weirs is so full that it will not lift. Quillet eats smoked eel off slates on the staithe until noon, and nobody says very much. In the spring Sount comes back to hear it, and stands on the tower stair with her hand on the stone, and says: 'Tell me again.'".
+  Ending cracked_rung "A Cracked Voice" over thin_voice when dawnOn() and state(bell, hung) and cracked(bell) and rope(bell) >= 6 "It is an ugly noise. It is loud, and wide, and hurts, and it goes out over the washes like a knife, and every boat in Quillet comes home to it. Nobody says it is a good bell. 'A cracked bell still tells,' says someone on a rope, as the sun comes up, and someone else says, 'Aye.' They leave it hung. Sount, in the spring, puts her palm to the tower stone and does not need to be told. 'I would have liked,' she says, 'to have heard it.' The eels do not come that year. The boats do.".
+  Ending rung_out "The Bell Stops at Three" when dawnOn() and state(bell, hung) and rope(bell) < 6 "The bell goes out into the dark at dusk and is a fine sound, and at three in the morning it stops. A voice goes on in the dark for a moment, calling from boat to boat, and then there is only the wind. Eleven boats do not come home. It is some weeks before anyone in Quillet speaks to anyone about it. The bell is a good bell. It is rung on every tide after, by a crowd.".
+  Ending thin_voice "A Voice That Did Not Carry" when dawnOn() and state(bell, hung) and strike(bell) != 2 "It rings all night, and nobody can say it does not ring. But it does not go out. It goes up the tower and falls on the roofs, and on the washes the lanterns hear it as a thing nearly heard, and do not know which way is home. Eight boats come in by luck and the sea-gate lamp. Nine do not. The next morning Sount says, with her hand on the stone, that she is sorry, that she should have said, and that she did not know how. Nobody blames her. It is somehow worse.".
+  Ending home_poor "A Poor Winter" when dawnOn() and state(bell, hung) and strike(bell) == 2 and rope(bell) >= 6 "Thirty boats come home to the bell, and it rings the tide down with a strike you could have drawn a line by. And the eels do not come in. The hum under the strike is wrong, and Quillet has called its eels with the Grandam's note for as long as there has been a Quillet; a wrong note down the weir-channel is a thing they know. They go by to the sea, a river of silver, a quarter-mile off, in the dark. Rushby stands on the weir-rail and watches them go. It is a poor winter, and no one is drowned, and he is a man who can tell the difference, though it takes him till spring.".
+  Ending cresset_night "The Warden's Fire" when dawnOn() and not state(bell, hung) and state(cresset, lit) "There is no bell. There is a fire on the gate-tower, and Dyce feeds it, and the boats steer by it, in the dark, one at a time, as they steered before there were bells. Fourteen come in. Sixteen do not. The church tower stands over Quillet with its louvres empty, and the Run goes by in the night with nobody to call it, and in the morning Posy Rushby takes the cat out onto the staithe and sits with her on the upturned boat, saying nothing, with her hand on the cat's back.".
+  Ending dark_washes "The Dark Washes" when dawnOn() and not state(bell, hung) "The tide comes up the washes in the dark and there is no bell, and no fire, and thirty boats are out on the Silver Run. Some of them find the staithe. Most of them find the sea-bank. In the morning Quillet puts out in what is left of its boats, and finds what it finds. Dyce is not at the gate. Nobody looks for him until noon, when someone remembers to, and finds him at the foot of the tower, at his post, in his black coat, with the feather behind his ear.".
+}
