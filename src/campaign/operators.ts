@@ -8,7 +8,6 @@ import { PresenceGate } from './presence-gate';
 import { EntityIndex } from '../lang/entity-index';
 import { KeptGroundings } from './kept-groundings';
 import { WorldMemo } from '../lang/world-memo';
-import { Costs } from '../costs';
 
 type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
@@ -64,7 +63,7 @@ export class Operators {
       if (actor !== undefined && !ActionSchemas.mayAct(schema, actor, this.actors)) { continue; }
       schemas.push(schema);
     }
-    if (!only) { return Costs.time('legal', () => this.legal(world, actor, schemas)); }
+    if (!only) { return this.legal(world, actor, schemas); }
     return schemas.flatMap(s => this.groundings.of(world, s, actor, this.schemaOps.bind(this, world, s, actor)));
   }
   private legal(world: World, actor: string | undefined, schemas: readonly Operator[]): Operator[] {
