@@ -55,6 +55,20 @@ it.
 - *[I]* **A reasonable target:** a non-journey act's whole turn (act, screen, glance) under 30 ms headless, and the
   decision itself (act plus legal actions) under 15 ms. Journeys budgeted per leg, under 5 ms a leg without the frame.
 
+## Checked for quick wins, and why none is quick (23 November)
+
+- **Fact keys.** `World.key` builds every fact's key with `JSON.stringify`, but that is only part of
+  `JSON.stringify`'s 3.9% of the walk. And the key's JSON form is parsed back: `World.nameOf` slices the relation's
+  name out of it, and the read-set tracking (`WorldReads.saw`) records keys. One script builds a key by hand
+  (src/cli/srd-encounters.ts:18). A faster key format is a careful change for about a 2% gain.
+- **A journey leg's danger check** (`Travel.danger`, about 10%) builds the whole presented choice list
+  (`PlayerView.choices`) on every leg, only to ask whether an attack is offered. A pre-check would skip it on empty
+  legs. But `reaches` (data/rules/passages.kyr:86) lets an attack reach an opponent five ways: at the same place; on a
+  way from here; guarding a way from here, standing at its far end; inside an open container here; or carried. A
+  pre-check that misses one walks a journey past a guard. The right fix asks the attack operator's own grounding for
+  the leg's place, not the whole presented list, and needs a spec over journeys past each of the five.
+- **The terminal's scene text** (about 8%) is the runner's only; the browser does not pay it.
+
 ## For beta
 
 This belongs to the first sprint's performance gate (owner-direction-2026-11-23.md: first meaningful action within
