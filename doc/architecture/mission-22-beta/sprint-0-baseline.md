@@ -75,10 +75,10 @@ measure them (test/input-answered-browser, test/set-out-now-browser, test/board-
 | Set out now → in the world | within 1 s (the start drawn ahead) | | 3 s |
 | The map at a journey's end: updated in place, its parts | 97 ms; parts 16–158 ms | 72 ms; parts 9–177 ms | |
 | A journey's hexes revealed as it walks | every 0.6–0.75 s | every 0.7 s | |
-| **Settled** (pressed → answer drawn, page open again) | logged from the next run | | 300 ms p95 |
+| **Settled** (pressed → answer drawn, page open again; run 45217483792) | | an act 372 ms, a talk 202 ms, a reply 134 ms | 300 ms p95 |
 
-*[F]* Acknowledgement is far inside budget everywhere. *Open:* settled time per act, now logged by
-test/input-answered-browser (`settled` in its ANSWERED line) and read from the next full run.
+*[F]* Acknowledgement is far inside budget everywhere. *[F]* Settled is not: an ordinary act (a way taken) settled
+at 372 ms at a phone's size, over the 300 ms budget (one sample; test/input-answered-browser logs it every run).
 
 ## Limits
 
