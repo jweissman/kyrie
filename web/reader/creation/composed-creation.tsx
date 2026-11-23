@@ -19,8 +19,8 @@ import { Signature } from './signature';
 // is the engine's (CreationFlow: its question, its options in its order, which is chosen), and every step is answered
 // the same way: the hand or the keys consider an option (it is lit, its sentence said, the sky turned to it), and a
 // press chooses it and goes on, as an act in the game does. Ancestry and calling keep their cards; the rest are rows.
-// Back (Escape, or the corner) returns to a step with its choice still marked. Last, setting out is the one act held:
-// its ring filled, or tapped once to be asked and again to go.
+// Back (Escape, or the corner) returns to a step with its choice still marked. Last, setting out, at a press as every
+// row of it is (OR-169: no long presses; it had been the one act held).
 export class ComposedCreation {
   static readonly folded = 4;
   static View({ app }: { app: ReaderApp }) {
@@ -156,7 +156,7 @@ export class ComposedCreation {
   }
   static readonly rest = 140;
   static readonly idle = 3000;
-  // picked: at a step of many, those taken: each a press that takes or lets go, and only learn (its last card) held.
+  // picked: at a step of many, those taken: each a press that takes or lets go, its last card (learn) going on.
   static Options({ offer, more, unfold, chosen, lit, consider, choose, after, list, committed, picked, learn }: {
     committed?: string; offer: Offer; more: number; unfold: () => void; chosen?: string; lit: string;
     consider: (id: string) => void; choose: (id: string) => void; after?: ReactNode; list?: boolean; picked?: string[];
@@ -176,7 +176,7 @@ export class ComposedCreation {
       aside: `${page + 1} of ${pages}` }} onConsider={() => undefined} onChoose={unfold} />];
     const rows = shown.map((o, k) => <ComposedRow.View key={o.id} option={o} n={k < 9 ? k + 1 : undefined}
       chosen={chosen === o.id || !!picked?.includes(o.id)} lit={lit === o.id} taken={committed === o.id}
-      hold={!picked || o.id === learn} onConsider={consider}
+      onConsider={consider}
       onChoose={id => choose(id)} />);
     // A list is one of the four, its options set close together in it (creation's one dense menu: a people's names);
     // the row that learns a hand stands under it, the step's one way on.
@@ -221,18 +221,17 @@ export class ComposedCreation {
       {card.entry.after && <p className="entry-after">{Typography.curl(card.entry.after)}</p>}
     </aside>;
   }
-  // Setting out: the life chosen in a line, and the one act of the opening held to be done (a tap asks; again, goes).
+  // Setting out: the life chosen in a line, and the one row that sets out, at a press.
   static Go({ app, frame }: { app: ReaderApp; frame: Frame }) {
     useEffect(() => { ComposedCreation.focus(); }, []);
     const name = app.state.party[0]?.name ?? '', country = app.state.setting?.title ?? 'the country';
     const go = () => app.opening.begin();
     return <PageFrame.View kind="creation" {...frame} body="composed-step composed-go" column="composed-col"
       header={<h1 className="ask">{Typography.curl(name)}</h1>}
-      narrative={<><p className="life">{Typography.curl((app.state.creation?.life ?? []).join(' '))}</p>
-        <p className="consider" aria-live="polite">Hold to set out.</p></>}
+      narrative={<p className="life">{Typography.curl((app.state.creation?.life ?? []).join(' '))}</p>}
       menu={<div className="composed-rows" role="menu">
-        <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}`, aside: 'hold' }}
-          hold n={1} lit onConsider={() => undefined} onChoose={go} />
+        <ComposedRow.View option={{ id: 'set-out', name: `Set out into ${country}` }}
+          n={1} lit onConsider={() => undefined} onChoose={go} />
       </div>} />;
   }
   // The option already chosen, or the first, in focus as a step comes: the keys are on it at once.

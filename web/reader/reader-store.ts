@@ -106,7 +106,7 @@ export class ReaderStore {
     localStorage.removeItem(this.key); localStorage.removeItem(this.world);
   }
   private static summaryOf(s: SaveSummary & Pointer): SaveSummary {
-    return { title: s.title, where: s.where, when: s.when, company: s.company };
+    return { title: s.title, where: s.where, when: s.when, company: s.company, ...s.ended ? { ended: true } : {} };
   }
   static clear() {
     try {

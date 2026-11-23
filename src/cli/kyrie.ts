@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 // The setting gives the runtime its parts before anything is asked of it (SettingPort, MT-16 S6).
 import '../canon/setting-install';
 import { TerminalCreation } from './terminal-creation';
+import { TerminalPlay } from './terminal-play';
 import { EngineHost } from '../../web/engine/engine-host';
 import { TerminalMode } from './terminal-mode';
 import { TerminalSlots } from './terminal-slots';
@@ -44,7 +45,8 @@ import { ReviewTool } from './review-tool';
 
 export class KyrieCli {
   static readonly usage = [
-    'Play:      bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name] | resume [save.json]',
+    'Play:      bin/kyrie adventure (Play: the game kept in the slot taken up, else a new one begun)',
+    '           bin/kyrie adventure --world <seed> [--origin o] [--as race/calling/Name] | resume [save.json]',
     '           (a picker on a terminal, plain lines through a pipe; --interactive or --headless to say which;',
     '            save keeps the game in one slot, resume takes it up; --save-as asks for a path instead)',
     '           bin/kyrie run --world <seed> [--origin o] [--as race/calling/Name] [--transcript out.jsonl] (JSON lines)',
@@ -124,6 +126,10 @@ export class KyrieCli {
   private static async adventure(all: string[]): Promise<number> {
     if (all.includes('--help') || all.includes('-h')) { console.log(this.adventureUsage); return 0; }
     const args = TerminalMode.rest(all), options = PlayTool.parse(args);
+    // No world named, at the keys (or asked, --create): the title's Play, as the page's (TerminalPlay, OR-160).
+    if (!options.world && !options.campaign && (!!process.stdin.isTTY || args.includes('--create'))) {
+      return TerminalPlay.main(all);
+    }
     if (!options.world && !options.campaign) { console.error(PlayTool.usage); return 1; }
     // Who you are, chosen as the page chooses, where someone is at the keyboard and has not said (--as); then the
     // world, said as it is made, phase by phase, and how long it took (with --profile, each phase, and each command).
@@ -160,12 +166,7 @@ export class KyrieCli {
     const path = TerminalMode.rest(args)[0];
     const parsed = path ? CheckpointStore.parse(await readFile(path, 'utf8'))
       : TerminalSlots.store().read(CheckpointStore.autosave);
-    const session = 'transcript' in parsed ? PlaySession.resume(parsed) : PlaySession.fromSave(parsed, path);
-    const drawn = session.transcript.drawn;
-    if (drawn && Frontier.generated(session.scenario)) {
-      session.extend(new Frontier(session.seed, NodeBundleSource.shared, DrawnWorld.options(drawn)));
-    }
-    await Terminal.play(session, TerminalMode.play(args));
+    await Terminal.play(TerminalPlay.opened(parsed, path), TerminalMode.play(args));
     return 0;
   }
   // A game saved from the browser kept as a regression test (see Traces).

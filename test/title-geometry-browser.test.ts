@@ -9,7 +9,8 @@ import { MonoBrowser } from './support/mono-browser';
 
 // The title's foreground is geometrically exact (the owner, 15 November: one viewport-centred composition, buttons of
 // one width and alignment, concise labels, the saved game's description apart from the rows), measured in boxes,
-// with and without a saved game, on a desk and on an iPad both ways up. Opt in with KYRIE_BROWSER=1.
+// with and without a saved game, on a desk, on an iPad both ways up and on a phone: its one way in, Play, the same
+// box either way (OR-160). Opt in with KYRIE_BROWSER=1.
 interface Box { x: number; y: number; width: number; height: number }
 class Title {
   static async boxes(page: Page): Promise<{ rows: Box[]; texts: string[]; mark: Box; menu: Box; save?: Box;
@@ -43,7 +44,7 @@ class Title {
       expect(Math.abs(r.x + r.width / 2 - centre)).toBeLessThan(1);
     }
     const gaps = t.rows.slice(1).map((r, i) => r.y - (t.rows[i]!.y + t.rows[i]!.height));
-    expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(0.6);
+    if (gaps.length) { expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(0.6); }
     expect(Math.abs(t.mark.x + t.mark.width / 2 - centre)).toBeLessThan(1);
     // The name and the ways in are one composition about the screen's middle.
     const top = t.mark.y, bottom = t.menu.y + t.menu.height;
@@ -55,13 +56,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => { site = await mkdtemp(join(tmpdir(), 'kyrie-title-')); await SiteBuild.site(site, {}); browser = await MonoBrowser.launch(); }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
-  const views = [{ width: 1280, height: 800 }, { width: 1180, height: 820 }, { width: 820, height: 1180 }];
+  // And a phone's (OR-160's last size: 390 had not been measured).
+  const views = [{ width: 1280, height: 800 }, { width: 1180, height: 820 }, { width: 820, height: 1180 },
+    { width: 390, height: 844 }];
   for (const size of views) {
     it(`is exact at ${size.width}×${size.height}, with and without a saved game`, async () => {
       const { page } = await MonoBrowser.page(browser, size, { site, pointer: false, query: '' });
       await Title.ready(page);
       const bare = await Title.boxes(page);
-      Title.check(bare, 3);
+      // One way in, Play, with or without a game kept (OR-160: the title says only Play).
+      Title.check(bare, 1);
       // A game kept (begun by the address, as the other specs do), then the title again with nothing in the address.
       const base = page.url().split('?')[0]!;
       await page.goto(`${base}?world=a1`);
@@ -74,12 +78,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       await page.waitForSelector('[data-action="continue"]', { timeout: 60000 });
       await Title.ready(page);
       const kept = await Title.boxes(page);
-      Title.check(kept, 4);
+      Title.check(kept, 1);
       await page.screenshot({ path: `/var/tmp/kyrie/title/title-${size.width}.png` });
       // The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
       // November); the rows are the same width and place with or without a save.
       expect(kept.save).toBeUndefined();
-      expect(await page.getAttribute('[data-action="continue"]', 'aria-label')).toMatch(/^Continue: ./);
+      expect(await page.getAttribute('[data-action="continue"]', 'aria-label')).toMatch(/^Play: continue, ./);
       expect(Math.abs(kept.rows[0]!.width - bare.rows[0]!.width)).toBeLessThan(0.6);
       expect(Math.abs(kept.rows[0]!.x - bare.rows[0]!.x)).toBeLessThan(0.6);
     }, 400000);

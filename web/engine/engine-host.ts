@@ -408,7 +408,7 @@ export class EngineHost {
     const campaign = this.session!.campaign, place = this.screen?.place.name ?? '';
     return { title: campaign.module.name.split(': ')[0]!, where: place.charAt(0).toUpperCase() + place.slice(1),
       when: FictionalTime.at(campaign.readout.elapsed),
-      company: campaign.fighters.map(m => m.name).filter(Boolean).join(', ') };
+      company: campaign.fighters.map(m => m.name).filter(Boolean).join(', '), ...campaign.running ? {} : { ended: true } };
   }
   // The page's telling: the narrator's, with a heading when the game opens and when the company comes into a country
   // it was not in before.

@@ -71,6 +71,10 @@ export class Sheet {
             label="Download a save file" /></li>
           <li><ChoiceRow.Button data={{ action: 'title' }} onClick={app.opening.title} plain="neutral"
             label="Back to the title" /></li>
+          {/* Leaving this life for another (the owner, 23 November: a game easy to abandon back to the world): how a
+              new game begins, asked at once; this one is kept, and Play takes it up, until the new one is begun. */}
+          <li><ChoiceRow.Button data={{ action: 'anew' }} onClick={app.opening.leave} plain="neutral"
+            label="Begin a new life" /></li>
         </ol>
       </article>
     );

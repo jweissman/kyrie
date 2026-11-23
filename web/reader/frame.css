@@ -94,6 +94,15 @@ html, body { overflow: hidden; }
   margin: 0; font: 400 11.5px var(--do); color: var(--dim); letter-spacing: .04em; }
 .title-page .build { position: absolute; right: max(20px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
   margin: 0; font: 400 11px var(--do); letter-spacing: .06em; color: var(--dim); }
+/* Options and the encyclopedia at the title's foot, opposite the build's stamp: quiet words, not ways in (the owner,
+   23 November: the title says only Play). Each the one row's grammar, small, its mark at its left. */
+.title-page .title-foot { position: absolute; left: max(20px, env(safe-area-inset-left));
+  bottom: max(10px, env(safe-area-inset-bottom)); display: flex; gap: 4px; z-index: 2; }
+:root .title-foot .foot-way.choice-row.choice-row { min-height: 32px; padding: 0 10px 0 18px; color: var(--dim);
+  font: 400 12px var(--do); letter-spacing: .06em; }
+:root .title-foot .foot-way.choice-row.choice-row:is([data-considered], :focus-visible) { color: var(--ivory); }
+.beat-ident .title-foot, .beat-dark .title-foot { visibility: hidden; }
+.beat-reveal .title-foot { animation: fade-in 1.2s 2.2s var(--ease) both; }
 /* The title stands in the dark with nothing behind it but the embers going up (the owner, 15 November: "just embers
    and getting rid of the background"): no painting, no sky, no ridge, no glow. */
 :is(.title-page, .sky-page) { --deep-top: #07080b; --deep-low: #141016; }

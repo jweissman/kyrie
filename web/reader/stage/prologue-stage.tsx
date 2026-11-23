@@ -2,7 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { ChoiceRow } from './choice-row';
 import { PageFrame } from '../page-frame';
-import { Hold } from '../instrument/hold';
+import { PressGuard } from '../press-guard';
 import type { Meeting } from '../../../src/presentation/prologue';
 import { Scenery } from '../../../src/ui/scenery';
 import { Typography } from '../../../src/presentation/typography';
@@ -105,12 +105,12 @@ export class PrologueStage {
       <p className="first-aim" data-id="aim"><span className="kicker">Your first goal</span>{Typography.curl(aim)}</p>
     </div> : null;
   }
-  // The one way on from a page of the opening: a row held to be done, as the opening's choices are, the keys on it
-  // from the start; a tap says Hold, and nothing goes on by itself (the owner, 16 November).
+  // The one way on from a page of the opening: a row taken at a press (OR-169: no long presses; it had been held), the
+  // keys on it from the start, and nothing goes on by itself (the owner, 16 November).
   static Continue({ action, then }: { action: string; then: () => void }) {
     const ref = useRef<HTMLButtonElement>(null);
     useEffect(() => { ref.current?.focus({ preventScroll: true }); }, []);
-    return <ChoiceRow.Button ref={ref} className="go-on" data={{ action }} own={{ 'data-nav': true, ...Hold.bind(then) }}
+    return <ChoiceRow.Button ref={ref} className="go-on" data={{ action }} own={{ 'data-nav': true, ...PressGuard.once(then) }}
       plain="neutral" label="Continue" />;
   }
   // An answer to the meeting, done as any choice is (and timed so); its page waits on what came of it.
@@ -147,9 +147,11 @@ export class PrologueStage {
   // The opening's keys: on, a digit for an answer, Esc straight on; nothing reaches the place's choices under it.
   static key(app: ReaderApp, key: string, held: boolean): boolean {
     const page = PrologueStage.page(app), n = Number(key);
-    // Going on is the Continue's, held (Hold has the key on it): a key elsewhere puts the keys on it, and does nothing.
+    // Going on is the Continue's: Enter or Space on it is its own press (the button's), and a key elsewhere puts the
+    // keys on it, and does nothing.
     if (/^(Enter| |ArrowRight|ArrowDown)$/.test(key)) {
       const on = document.querySelector<HTMLElement>('.prologue-page .go-on');
+      if (on && document.activeElement === on && (key === 'Enter' || key === ' ')) { return false; }
       if (on && document.activeElement !== on && !held) { on.focus({ preventScroll: true }); }
       return true;
     }

@@ -174,7 +174,8 @@ export type Request =
   | { kind: 'kept'; key: string; ok: boolean };
 export interface Envelope { id: number; request: Request }
 // What a kept game says about itself on the title: the campaign, where the company is, when, and who.
-export interface SaveSummary { title: string; where: string; when: string; company: string }
+// ended: the game kept has come to its end (a death, or the campaign's close): the title's Play begins anew.
+export interface SaveSummary { title: string; where: string; when: string; company: string; ended?: boolean }
 export type Message =
   | { kind: 'reply'; id: number; value?: unknown; error?: string }
   | { kind: 'frame'; frame: Frame }

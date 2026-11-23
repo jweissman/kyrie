@@ -4,11 +4,12 @@ import { Toast } from './toast';
 import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
 import { Build } from './build';
-import { Hold } from './instrument/hold';
 import { createPortal } from 'react-dom';
 import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
 import { BeginMenu } from './begin-menu';
+import { PressGuard } from './press-guard';
+import { FirstChoice } from '../../src/creation/first-choice';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -18,29 +19,26 @@ type Way = 'continue' | 'begin' | 'encyclopedia' | 'options';
 // legible foreground over a deeper, more complex, subtly moving background"; the moving double box about the choices
 // had been where he bounced off). Once a session the studio's mark draws its seven towers on a horizon; its horizon
 // becomes the title's own as the sky comes up behind it (no black between), and the game's name is lit from its middle
-// letter outward. The ways in are the game's rows (see ChoiceRow), centred: the one the hand or the keys are on has
-// the strong gold mark at its left at once, and nothing moves to get there; ceremonial gold, the entry's alone (inside
-// the game gold is the aim followed). The sky answers it over most of a second, never the menu: New game turns it to
-// the road's dawn far off, Continue to the hearth's warmth close by, the Encyclopedia to lamplight, Options to the
-// quiet dark. Any key or touch skips straight to the ways in. One who asks for less motion is shown them at once, and
-// the sky changes without moving. Nothing here says how a country is made; a save brought from elsewhere is opened
-// from Options, and the ways in for testing appear only when the address asks (?dev). The names shown are the game's
-// and the studio's (src/presentation/identity.ts).
+// letter outward. The one way in is Play (FirstChoice.title, the owner, 23 November), a row of the game's own (see
+// ChoiceRow), centred: lit at once by its mark at its left when the hand or the keys are on it, and nothing moves to
+// get there. Options and the encyclopedia stand quietly at the foot. Any key or touch skips straight to the way in.
+// One who asks for less motion is shown it at once. Nothing here says how a country is made; a save brought from
+// elsewhere is opened from Options, and the ways in for testing appear only when the address asks (?dev). The names
+// shown are the game's and the studio's (src/presentation/identity.ts).
 export class TitlePage {
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, saved = app.savedGame, query = app.props.query, dev = query.has('dev');
+    const s = app.state, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), [beat, skip] = TitlePage.useBeat(query.has('ident') || query.has('studio'));
-    const first: Way = saved ? 'continue' : 'begin', [active, activate] = useState<Way>(first);
+    const step = FirstChoice.title(app.opening.kept()), first: Way = step.chosen, [active, activate] = useState<Way>(first);
     // The way the hand or the keys are on, marked at once by the reticule, the one sign of focus; the sky is still.
     const item = (way: Way) => ({ 'data-nav': true, onMouseEnter: () => activate(way), onFocus: () => activate(way),
       'data-considered': active === way || undefined, 'aria-current': active === way || undefined, 'data-way': way });
-    // The keys are on the first way in as soon as it is offered, not one Tab away: New game is lit as the current way,
-    // so Enter held on it begins (M22: a held Enter on the lit row had done nothing).
-    // And again on coming back from how a new game begins (Escape): the keys on the first way in again.
+    // The keys are on Play as soon as it is offered, not one Tab away: Enter on it plays (M22: Enter on the lit row
+    // had done nothing). And again on coming back from how a new game begins (Escape).
     useEffect(() => {
       if ((beat === 'reveal' || beat === 'ready') && s.phase === 'title') { TitlePage.focus(first); }
     }, [beat, first, s.phase]);
-    // New game asks first how the game begins, where the ways in stood, under the same name (see BeginMenu).
+    // A new game asks first how it begins, where Play stood (see BeginMenu).
     return <PageFrame.View kind="title" className={`opening title-page beat-${beat}`}
       attrs={{ 'data-mode': s.phase === 'begin' ? 'begin' : 'title' }}
       body="title-main" hidden={beat === 'ident' || beat === 'dark'}
@@ -51,36 +49,28 @@ export class TitlePage {
       header={s.phase === 'begin' ? undefined : <><TitlePage.Mark name={named.game} />
         <p className="horizon" aria-hidden="true"><i /></p>
         <p className="lede">Vol I: A History of Emprise</p></>}
-      menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label="Ways in">
-        <ul>
-          {/* The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
-              November: the line beneath naming the game was strange). */}
-          {saved && <li><ChoiceRow.Button className="way-in" data={{ action: 'continue' }} label="Continue"
-            plain="neutral" own={{ ...Hold.bind(app.opening.carryOn), ...item('continue'),
-              ...TitlePage.saved(saved) }} /></li>}
-          <li><ChoiceRow.Button className="way-in" data={{ action: 'begin' }} label="New game"
-            plain="every" own={{ ...Hold.bind(app.opening.anew), ...item('begin') }} /></li>
-          {/* One thing said: its name (that it opens in a new tab is said to a screen reader, never written out beside
-              it: the owner, 15 November; nor on hover: 18 November, OR-79). Its mark is the row's own at the left, in
-              the blue of knowledge, the atlas's tone for what is learnt; no icon (the owner, 18 November, OR-86:
-              "there shouldn't be icons for the encyclopedia; I just meant the left atlas-indicator should be blue"). */}
-          <li><ChoiceRow.Link className="way-in" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
-            label={<span aria-hidden="true">The encyclopedia</span>} plain="knowing"
-            own={{ target: '_blank', rel: 'noopener', 'aria-label': 'The encyclopedia, opens in a new tab',
-              ...item('encyclopedia') }} /></li>
-          <li><ChoiceRow.Button className="way-in" data={{ action: 'options' }} label="Options" plain="neutral"
-            own={item('options')} onClick={TitlePage.options.bind(null, app)} /></li>
-        </ul>
+      // The title's one way in, the engine's (FirstChoice.title, OR-160): Play, which takes up the game kept here, or
+      // begins one; what it does is its id, and the game it continues is said to a pointer and a reader only, never as
+      // a line of its own (the owner, 17 November). Taken at a press, never held (OR-169).
+      menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={step.ask}>
+        <ul>{step.cards.map(card => <li key={card.id}><ChoiceRow.Button className="way-in" data={{ action: card.id }}
+          label={card.name} plain="every" own={{ ...PressGuard.once(app.opening.play), ...item(card.id),
+            'aria-label': card.said }} /></li>)}</ul>
       </nav>}
+      // Options and the encyclopedia are not ways into the game: they stand quietly at the title's foot, as the build's
+      // stamp does, reached by the keys after Play (the owner, 23 November: the title says only Play). The
+      // encyclopedia's mark is the knowledge blue (OR-86), and it opens in a new tab (said to a reader, never written).
+      rail={s.phase === 'begin' ? undefined : <nav className="title-foot" aria-label="Beside the game">
+        <ChoiceRow.Button className="foot-way" data={{ action: 'options' }} label="Options" plain="neutral"
+          own={{ ...item('options'), ...PressGuard.once(TitlePage.options.bind(null, app)) }} />
+        <ChoiceRow.Link className="foot-way" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
+          label={<span aria-hidden="true">The encyclopedia</span>} plain="knowing"
+          own={{ target: '_blank', rel: 'noopener', 'aria-label': 'The encyclopedia, opens in a new tab',
+            ...item('encyclopedia') }} /></nav>}
       over={<>{dev && <TitlePage.Dev app={app} />}
         {beat === 'ident' && <TitlePage.Skip skip={skip} />}
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} /></>} />;
-  }
-  // The saved game's place and time, as Continue's name to a reader: never hover text (the owner, 18 November, OR-79).
-  static saved(saved: { where?: string; when?: string }): { 'aria-label'?: string } {
-    const said = [saved.where, saved.when].filter(Boolean).join(' · ');
-    return said ? { 'aria-label': `Continue: ${said}` } : {};
   }
   static focus(way: Way) {
     if (!document.activeElement || document.activeElement === document.body) {
@@ -161,13 +151,14 @@ export class TitlePage {
     }, [beat]);
     return [beat, () => { TitlePage.swallow(); go('ready'); }];
   }
-  // Skip, held: a small reticle at the foot of the corner and the word, quiet, done when its ring fills (see Hold), so
-  // that no touch meant for anything else cuts the studio's mark short.
+  // Skip: a small reticle at the foot of the corner and the word, quiet, done at a press (OR-169: no long presses; it
+  // had been held). A touch anywhere else leaves the studio's mark playing (see useBeat), so nothing meant for
+  // anything else cuts it short.
   // On the page itself, beside the early mark (which is the page's, not the app's: SiteBuild.mark), so that it stands
   // above it.
   static Skip({ skip }: { skip: () => void }) {
-    const button = <button type="button" className="skip-mark" data-action="skip" aria-label="Hold to skip"
-      {...Hold.bind(skip)}><i className="skip-ring" aria-hidden="true" /><span>Skip</span></button>;
+    const button = <button type="button" className="skip-mark" data-action="skip" aria-label="Skip"
+      {...PressGuard.once(skip)}><i className="skip-ring" aria-hidden="true" /><span>Skip</span></button>;
     return typeof document === 'undefined' ? button : createPortal(button, document.body);
   }
   // The click that follows a pointerdown which skipped the opening, wherever it lands, is the skip's, however long the

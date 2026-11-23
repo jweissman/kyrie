@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import type { ReaderApp } from './reader-app';
 import { ChoiceRow } from './stage/choice-row';
-import { Hold } from './instrument/hold';
+import { PressGuard } from './press-guard';
 import { Typography } from '../../src/presentation/typography';
 import { FirstChoice, type Beginning } from '../../src/creation/first-choice';
 
-// How a new game begins (OR-120), asked where the title's ways in stood, under the same name and over the same dark:
-// the engine's question and its two rows (FirstChoice), Build a character and Set out now, drawn as the ways in are
-// drawn (ChoiceRow: a mark at the left and the words, one line each), held or pressed as they are, and reached by the
-// keys at once, the first lit. What the row the hand or the keys are on means is said under them in a sentence, never
+// How a new game begins (OR-120), asked where the title's Play stood, over the same dark: the engine's question and
+// its two rows (FirstChoice), Create a character and We enter the world as we are, drawn as Play is drawn (ChoiceRow:
+// a mark at the left and the words, one line each), taken at a press, never held (OR-169), and reached by the keys at
+// once, the first lit. What the row the hand or the keys are on means is said under them in a sentence, never
 // as a second line of the row (the owner, 15 November: no row with a subheader). Escape goes back to the title.
 export class BeginMenu {
   // Each row as the engine asks it, and what pressing it does: the page draws these and nothing else, and a spec
@@ -28,7 +28,7 @@ export class BeginMenu {
       <p className="begin-ask">{Typography.curl(step.ask)}</p>
       <ul>{rows.map(row => <li key={row.id}><ChoiceRow.Button className="way-in" data={{ action: row.id }}
         label={row.label} plain={row.id === 'build' ? 'every' : 'neutral'}
-        own={{ ...Hold.bind(row.go), 'data-nav': true, 'data-way': row.id,
+        own={{ ...PressGuard.once(row.go), 'data-nav': true, 'data-way': row.id,
           'data-considered': lit === row.id || undefined, 'aria-current': lit === row.id || undefined,
           onMouseEnter: consider.bind(null, row.id), onFocus: consider.bind(null, row.id) }} /></li>)}</ul>
       <p className="begin-line" aria-live="polite">{Typography.curl(rows.find(r => r.id === lit)?.say ?? '')}</p>

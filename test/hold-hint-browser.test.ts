@@ -6,9 +6,10 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
-// "Hold" said on one row at a time (the owner, 18 November, OR-87: "the text 'Hold' shows up on more than one item at
-// once; it should only be active on one thing at a time"): a held row let go early says it, and only it, until the
-// hand or the keys go to another.
+// "Hold" said on one row at a time (the owner, 18 November, OR-87), and never where nothing is held: creation's rows
+// are taken at a press since OR-169 (the owner, 23 November: no long presses), so a short tap on one goes on at once
+// and no row says Hold. The hint's one-at-a-time rule is Hold's own (Hold.hint lets the last go first), left to the
+// engine's held acts in play (test/hold-browser).
 const hinted = (page: Page) => page.evaluate(() =>
   [...document.querySelectorAll('[data-hint]')].map(e => e.getAttribute('data-option') ?? e.tagName));
 const tap = async (page: Page, n: number) => {
@@ -26,23 +27,16 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('"Hold" on one row', () => {
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('is the last row let go early, and none once the hand goes to another', async () => {
+  it('is said by no row of creation: a short tap goes on at once', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, pointer: true, query: '?world=kite' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.mouse.move(8, 792);
-    const rows = page.locator('.composed-rows [data-option]');
-    const ids = await rows.evaluateAll(es => es.map(e => e.getAttribute('data-option')!));
-    await tap(page, 0);
-    expect(await hinted(page)).toEqual([ids[0]!]);
-    await tap(page, 1);
-    expect(await hinted(page)).toEqual([ids[1]!]);
-    await rows.nth(2).hover();
-    expect(await hinted(page)).toEqual([]);
-    // The keys going on take it away too.
-    await tap(page, 2);
-    await page.keyboard.press('ArrowDown');
-    expect((await hinted(page)).length).toBeLessThanOrEqual(1);
     expect(await page.getAttribute('.creation', 'data-page')).toBe('you');
+    await tap(page, 0);
+    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') !== 'you',
+      null, { timeout: 4000 });
+    expect(await hinted(page)).toEqual([]);
+    expect(await page.locator('.composed-rows [data-hold]').count()).toBe(0);
     expect(errors).toEqual([]);
     await page.close();
   }, 200000);

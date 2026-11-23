@@ -5,11 +5,14 @@ import { CreationRules } from '../../src/creation/creation-rules';
 import { CreationDefaults } from '../../src/creation/creation-defaults';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../../src/creation/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
-import type { Beginning } from '../../src/creation/first-choice';
+import { FirstChoice, type Beginning } from '../../src/creation/first-choice';
+import type { SavedGame } from './reader-store';
 import { WorldStage } from './stage/world-stage';
 import { Scenery } from '../../src/ui/scenery';
 import { Shell } from './shell';
 
+// Where a resume that fails goes: back to a phase, or on to what the caller does (Play: a new game, see played).
+type Otherwise = 'company' | 'title' | ((error: unknown) => void);
 // Before play: the title, the choice of campaign, forming the company, and setting out (or carrying on).
 export class ReaderOpening {
   constructor(private readonly app: ReaderApp) {}
@@ -18,8 +21,9 @@ export class ReaderOpening {
     try {
       const catalog = await app.engine.request<Catalog>({ kind: 'catalog' });
       app.setState({ catalog });
-      // A campaign named in the address is where a new company would begin, unless a game is already under way.
-      if (app.savedGame) { return; }
+      // A campaign named in the address is where a new company would begin, unless a game is already under way (one
+      // ended is not: Play begins anew over it, so its country is drawn ahead as for none).
+      if (FirstChoice.continues(this.kept())) { return; }
       if (query.get('world')) { await this.pick('world', query.get('world')!); }
       else if (query.get('campaign')) { await this.pick(this.campaign(query.get('campaign')!, catalog)); }
       else { this.foresee(); }
@@ -221,13 +225,14 @@ export class ReaderOpening {
     this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
     await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting }), 'company');
   }
-  // A game kept before anything was done in it opens on its opening again, where the page tells it apart.
-  async resume(text: string, world?: string) {
+  // A game kept before anything was done in it opens on its opening again, where the page tells it apart. One that
+  // cannot be opened goes back to the title, or where Play took it up, on to a new game (see played).
+  async resume(text: string, world?: string, otherwise: Otherwise = 'title') {
     this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '', leaving: false });
     await this.enter(this.app.engine.request<Frame>({ kind: 'resume', saved: text, ...world ? { world } : {},
-      apart: this.apart() }), 'title');
+      apart: this.apart() }), otherwise);
   }
-  private async enter(request: Promise<Frame>, otherwise: 'company' | 'title', quick = false) {
+  private async enter(request: Promise<Frame>, otherwise: Otherwise, quick = false) {
     try {
       const frame = await request;
       await this.approach(frame, quick);
@@ -239,7 +244,7 @@ export class ReaderOpening {
         approach: undefined,
         outdoors: WorldStage.begins(frame),
         prologue: frame.leaf.prologue ? 0 : undefined, told: frame.leaf.prologue, beat: performance.now() });
-    } catch (error) { this.fail(error, otherwise); }
+    } catch (error) { if (typeof otherwise === 'function') { otherwise(error); } else { this.fail(error, otherwise); } }
   }
   // A new game's opening is told over the way in: set out from the choice of a life, that painting comes up out of the
   // dark behind the setting out's last words, and the opening begins over it once it is most of the way up, so that
@@ -274,6 +279,9 @@ export class ReaderOpening {
   readonly title = () => {
     this.app.setState({ phase: 'title', frame: undefined, view: 'here', pending: undefined, error: '' });
   };
+  // From a game in play, how a new one begins (Begin a new life, in the notes): the game left is kept until the new one
+  // is begun, so that Escape back to the title and Play take it up again.
+  readonly leave = () => { this.title(); this.anew(); };
   readonly campaigns = () => { this.app.setState({ phase: 'campaigns', error: '' }); };
   // A new game: first, how it begins (FirstChoice, the engine's question: build a character, or set out now), asked at
   // once, the country it will begin in drawn meanwhile if it is not drawn already (see foresee).
@@ -318,17 +326,33 @@ export class ReaderOpening {
     this.app.setState({ ...memorial ? { memorial } : {} });
     void this.pick('world', frame?.transcript.seed ?? ReaderOpening.seed());
   };
-  static seed(): string {
-    const bytes = new Uint8Array(4);
-    crypto.getRandomValues(bytes);
-    return [...bytes].map(b => 'bcdfghjklmnprstvwz'[b % 18]! + 'aeiou'[(b >> 5) % 5]!).join('');
-  }
-  readonly carryOn = () => {
+  static seed(): string { return FirstChoice.seed(); }
+  // The game kept here, as Play would take it up: none once it has failed to open in this page (see played).
+  kept(): SavedGame | undefined {
     const saved = this.app.savedGame;
+    return saved && saved.text !== this.unopened ? saved : undefined;
+  }
+  private unopened?: string;
+  // Play, the title's one way in (FirstChoice.title, OR-160): the game kept here taken up while it is still going;
+  // else, or where it ended, how a new game begins.
+  readonly play = () => {
+    if (FirstChoice.title(this.kept()).chosen === 'continue') { this.carryOn(); } else { this.anew(); }
+  };
+  readonly carryOn = () => {
+    const saved = this.kept();
     if (!saved) { return; }
     // A world kept in the vault is fetched as the game is taken up (see WorldVault).
     void (async () => {
-      await this.resume(saved.text, saved.world ?? (saved.vaulted ? await WorldVault.get(saved.vaulted) : undefined));
+      await this.resume(saved.text, saved.world ?? (saved.vaulted ? await WorldVault.get(saved.vaulted) : undefined),
+        this.played.bind(this, saved));
     })();
   };
+  // The kept game Play took up could not be opened (another edition kept it, or its world is gone): Play is never a way
+  // that goes nowhere, so a new game begins, why said in a line, and that game is not taken up again from this page.
+  private played(saved: SavedGame, error: unknown) {
+    this.unopened = saved.text;
+    this.app.setState({ leaving: false, approach: undefined });
+    this.anew();
+    this.app.setState({ error: FirstChoice.played(error instanceof Error ? error.message : String(error)).said });
+  }
 }

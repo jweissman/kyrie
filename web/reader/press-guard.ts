@@ -44,6 +44,14 @@ export class PressGuard {
     if (root.dataset.still === undefined || (r && Math.abs(r.x - x) + Math.abs(r.y - y) < 4)) { return; }
     delete root.dataset.still;
   }
+  // A way in taken by one press, at once (the owner, 23 November, OR-169: no long presses on the way into the game:
+  // the title's Play, how a game begins, creation's rows, the opening's Continue): a click, a tap, the keys' Enter or
+  // Space, or an assistive technology's activation. The second click of a double press is not a second choice: the
+  // page it would land on came under the hand between the two (a double click on Play would choose how to begin).
+  static once(go: () => void) {
+    return { onClick: PressGuard.first.bind(null, go) };
+  }
+  private static first(go: () => void, e: { detail: number }) { if (e.detail <= 1) { go(); } }
   // A key's repeat that would do something again: Enter, Space or a digit, held down.
   static repeated(e: KeyboardEvent): boolean { return e.repeat && /^(Enter| |[1-9])$/.test(e.key); }
 }

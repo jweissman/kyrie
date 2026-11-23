@@ -9,17 +9,20 @@ import type { ReaderApp, AppState } from '../web/reader/reader-app';
 import { TitlePage } from '../web/reader/title-page';
 import { BeginMenu } from '../web/reader/begin-menu';
 import { Shell } from '../web/reader/shell';
+import type { SavedGame } from '../web/reader/reader-store';
 
-// OR-120, as the page plays it, headless: the title, New game, how the game begins (the engine's question, two rows),
-// Set out now, and play. A page object over the reader's own opening (ReaderOpening) and its pages as they render,
-// with the engine in process and asked as the worker is (each request and its answer passed as a message would be):
-// every press by the action id the page draws, never a row's place or its words. The title draws its New game;
-// pressed, the two rows are drawn at once, the engine asked nothing (the country drawn already, while the title
-// showed); Set out now asks for that country and sets out rolled, and the page is in play in the country drawn ahead.
+// OR-120 and OR-160, as the page plays it, headless: the title, Play, how the game begins (the engine's question, two
+// rows), We enter the world as we are, and play. A page object over the reader's own opening (ReaderOpening) and its
+// pages as they render, with the engine in process and asked as the worker is (each request and its answer passed as
+// a message would be): every press by the action id the page draws, never a row's place or its words. The title draws
+// Play alone; with no game kept, pressed, the two rows are drawn at once, the engine asked nothing (the country drawn
+// already, while the title showed); We enter the world as we are asks for that country and sets out rolled, and the
+// page is in play in the country drawn ahead. A kept game Play cannot open goes on to a new game, never nowhere.
 class Page {
   state = { phase: 'title', options: {}, campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0,
     open: [], member: '', stage: '', error: '' } as unknown as AppState;
   readonly props = { query: new URLSearchParams() };
+  savedGame?: SavedGame;
   readonly asked: Request[] = [];
   readonly host = new EngineHost(() => undefined);
   readonly engine = { request: this.request.bind(this) };
@@ -40,14 +43,14 @@ class Page {
   // (BeginMenu.rows).
   press(id: string) {
     expect(this.actions()).toContain(id);
-    const title: Record<string, () => void> = { begin: this.opening.anew, continue: this.opening.carryOn };
+    const title: Record<string, () => void> = { begin: this.opening.play, continue: this.opening.play };
     const row = this.state.phase === 'begin' ? BeginMenu.rows(this as unknown as ReaderApp).find(r => r.id === id)
       : undefined;
     (row?.go ?? title[id]!)();
   }
-  async until(phase: AppState['phase']) {
+  async until(phase: AppState['phase'], error = '') {
     for (let i = 0; i < 1200 && this.state.phase !== phase; i++) { await new Promise(r => setTimeout(r, 50)); }
-    expect(this.state.error).toBe('');
+    expect(this.state.error).toBe(error);
     expect(this.state.phase).toBe(phase);
   }
 }
@@ -61,7 +64,7 @@ describe('a new game, set out on at once', () => {
     // The title: its ways in, and the country a new game will begin in asked for behind it, by its seed.
     expect(page.mode()).toBe('title');
     expect(page.html()).toContain('class="mark"');
-    expect(page.actions()).toEqual(['begin', 'encyclopedia', 'options']);
+    expect(page.actions()).toEqual(['begin']);
     const ahead = page.asked.find(r => r.kind === 'ahead');
     expect(ahead).toBeDefined();
     page.press('begin');
@@ -88,6 +91,24 @@ describe('a new game, set out on at once', () => {
     expect(page.asked.find(r => r.kind === 'world')).toMatchObject({ seed });
     expect([page.state.seed, page.state.frame?.transcript.seed]).toEqual([seed, seed]);
     expect(page.state.frame?.screen.place.name).toBeTruthy();
+  }, 120000);
+  it('goes on from a kept game Play cannot open to how a new game begins, and says why', async () => {
+    const page = new Page();
+    page.savedGame = { text: 'not a kept game', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud' };
+    await page.opening.boot();
+    // Kept and still going: Play continues it, and nothing is drawn ahead for a new game meanwhile.
+    expect(page.actions()).toEqual(['continue']);
+    expect(page.asked.some(r => r.kind === 'ahead')).toBe(false);
+    page.press('continue');
+    // Not opened: how a new game begins, at once, why said in a line; and the country for it drawn meanwhile.
+    for (let i = 0; i < 400 && page.state.phase !== 'begin'; i++) { await new Promise(r => setTimeout(r, 25)); }
+    expect(page.mode()).toBe('begin');
+    expect(page.state.error).toStartWith('The game kept here could not be taken up, so a new one begins.');
+    expect(page.asked.some(r => r.kind === 'ahead')).toBe(true);
+    // Back at the title (Escape), Play no longer offers the game that would not open: it begins.
+    page.opening.title();
+    expect(page.actions()).toEqual(['begin']);
+    await page.host.idle();
   }, 120000);
   it('builds a character in the same country, by the other row', async () => {
     const page = new Page();

@@ -41,7 +41,8 @@ class Stage {
   // settled: once the letters' face has come and the title has stood still a moment.
   static async ways(page: Page, settled = false) {
     if (settled) { await page.evaluate(() => document.fonts.ready.then(() => new Promise(r => setTimeout(r, 400)))); }
-    return page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.title-menu .way-in')].map(w => {
+    // Play, and at the title's foot Options and the encyclopedia (OR-160: the title says only Play).
+    return page.evaluate(() => [...document.querySelectorAll<HTMLElement>('.title-menu .way-in, .title-foot .foot-way')].map(w => {
       const r = w.getBoundingClientRect(), mark = getComputedStyle(w.querySelector('.row-mark')!).backgroundColor;
       return { way: w.dataset.way, said: w.textContent ?? '', box: [r.x, r.y, r.width, r.height].map(Math.round).join(','),
         marked: w.getAttribute('aria-current') === 'true', gold: /242, 189, 76/.test(mark) };
