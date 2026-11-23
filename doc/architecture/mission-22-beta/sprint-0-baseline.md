@@ -8,7 +8,7 @@ counted over every turn of the golden walks **as shipped**, with no engine chang
 ## How it counts
 
 - **Opportunity:** every act on someone or something present is tried, and done then undone (`Campaign.undo`). The
-  same goes for every question once a talk is opened, asked on a copy of the game with the talk open there. Each is
+  person's questions, which are offered at the place, are among them. Each is
   checked for whether it is blue (its witness says knowledge) and whether it teaches (what the company knows grows).
   A breach is blue that teaches nothing, or teaching that is not blue. Also a breach: a person blue as a likeness
   while none of their replies is.
@@ -17,34 +17,37 @@ counted over every turn of the golden walks **as shipped**, with no engine chang
 - **Focus:** only the frames engaged (by a threat or an occasion) are counted. Whether the page draws them as their
   own is the browser's to measure; Sprint 0's parity extension covers it.
 
-## The baseline, main at 5210cc6ef
+## The baseline (corrected 23 November)
 
 | Walk | Turns | Engaged frames | Opportunity breaches | Undertaking breaches |
 |---|---|---|---|---|
-| The warrior (golden/warrior-walk.txt) | 44 | 3 | 13 | 0 |
-| The mage (cold/cold-5-lines.txt, Gatesend) | 96 | 14 | 13 | 0 |
+| The warrior (golden/warrior-walk.txt) | 44 | 3 | 4 | 0 |
+| The mage (cold/cold-5-lines.txt, Gatesend) | 96 | 14 | 6 | 0 |
 
-**Distinct cases**, by how many turns each stands:
+**Distinct cases:**
 
 | Case | Walk | Turns |
 |---|---|---|
-| A blue likeness with no blue reply: the Guldríce agent | warrior | 3 |
-| A blue likeness with no blue reply: Carlin | warrior | 2 |
-| A blue likeness with no blue reply: Kynes, Holgar, Luthor, Gek | warrior | 1 each |
-| A blue likeness with no blue reply: Gek, Dreg | mage | 3 each |
-| A blue likeness with no blue reply: the steward of the Hall | mage | 1 |
 | Teaches, not blue: stopping for the old woman's riddle | warrior | 4 |
-| Teaches, not blue: offering a bent iron ring for the harbour lantern; looking through Eluned Cadwgan's salvage | mage | 5, 1 |
+| Teaches, not blue: offering a bent iron ring for the harbour lantern | mage | 5 |
+| Teaches, not blue: looking through Eluned Cadwgan's salvage for a collar | mage | 1 |
+
+**A correction.** The first run of this census reported eight people blue as a likeness with none of their replies
+blue. That was the census's own error, not the game's. It tried to open each talk on a copy of the game, but opening a
+talk is the page's and the runner's concept, not an act of the campaign's, so the attempt failed and was counted as
+"no blue reply". A person's questions are offered at the place already; checked there, every blue likeness on these
+walks has a blue reply. The script now checks there.
 
 **What it shows.**
-- *[F]* The owner's case 5 is reproduced headlessly: **eight distinct people are blue as a person while none of their
-  questions, opened and tried, is blue.** The likeness and the replies are judged by different code (Likenesses
-  against Attest.reply over ChoiceGrouping.teaches). This is mechanism A of the preparation report.
-- *[I]* The riddle's and the lantern's misses are acts on things whose teaching is an observation shown after the act,
-  the second hop the audit predicted a static scan would miss.
-- *[F]* No undertaking breach on these two walks. This is not evidence that the hand-off is sound: OR-179 has not been
-  reproduced, and these scripted walks follow their own lines rather than the gold. The undertaking invariant needs
-  a gold-following walk too (scripts/gold-continuity.ts is the model). That is the next refinement.
+- *[F]* Three acts teach while not blue. Each is an act on a thing whose teaching arrives as something shown after
+  the act (the riddle heard; what the lantern's keeper says of the collar). That is the second hop the independent
+  audit predicted a scan of an act's own effects would miss: mechanism A of the preparation report.
+- *[F]* **The owner's case 5 (blue on a person, none on their topics) is not reproduced** by these two scripted walks.
+  Every blue likeness met has a blue reply at the place. The case may live in what the page's talk drawer draws,
+  which the parity tool does not measure yet (Sprint 0's parity extension), or on a walk these lines do not take.
+- *[F]* No undertaking breach on these walks. That is not evidence that the hand-off is sound: OR-179 has not been
+  reproduced, and these scripted walks follow their own lines rather than the gold. The undertaking invariant needs a
+  gold-following walk too (scripts/gold-continuity.ts is the model).
 
 ## Limits
 

@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner } from '../src/cli/runner';
-import { PlaySession } from '../src/session/play-session';
+import type { PlaySession } from '../src/session/play-session';
 import { Attest } from '../src/presentation/attest';
 import { SceneModel } from '../src/ui/scene';
 import { Attending } from '../src/ui/attention';
@@ -32,18 +32,16 @@ export class ContinuityCensus {
   }
   // What the company knows, as a count: what asking a reply would add to it.
   private static known(s: PlaySession): number { return ScreenModel.build(s.campaign).knowledge.length; }
-  // Each act on someone or something here, and each question once a talk with them is opened: blue by its witness,
-  // and whether doing it teaches (done, then undone). A talk's questions are asked on a copy of the game, opened there.
+  // Each act on someone or something here, their questions among them (a question is offered at the place; opening a
+  // talk is the page's): blue by its witness, and whether doing it teaches (done, then undone).
   static opportunity(s: PlaySession, walk: string, turn: number): Breach[] {
     const out: Breach[] = [];
     for (const sub of this.subjects(s)) {
       const replies = this.replies(sub);
       const at: At = { walk, turn, who: sub.name };
       out.push(...this.tried(s, replies, at));
-      const opener = replies.find(c => /^talk_to\(/.test(c.command ?? ''));
-      if (opener) { out.push(...this.talk(s, opener.command!, sub.id, at)); }
       const likeness = Glanced.of(s).glance.likenesses?.[sub.id];
-      if (likeness?.aspects.includes('knowledge') && !this.blueSomewhere(s, sub.id, opener?.command)) {
+      if (likeness?.aspects.includes('knowledge') && !this.blueSomewhere(s, sub.id)) {
         out.push({ walk, turn, invariant: 'opportunity', what: `a blue likeness with no blue reply: ${sub.name}` });
       }
     }
@@ -69,19 +67,13 @@ export class ContinuityCensus {
     }
     return out;
   }
-  // The talk opened on a copy, and its questions tried there.
-  private static talk(s: PlaySession, opener: string, id: string, at: At): Breach[] {
-    const copy = PlaySession.fromSave(s.campaign.save());
-    try { copy.campaign.execute(opener); } catch { return []; }
-    const sub = this.subjects(copy).find(x => x.id === id);
-    return sub ? this.tried(copy, this.replies(sub), at) : [];
-  }
-  private static blueSomewhere(s: PlaySession, id: string, opener?: string): boolean {
-    const at = opener ? PlaySession.fromSave(s.campaign.save()) : s;
-    if (opener) { try { at.campaign.execute(opener); } catch { return false; } }
-    const sub = this.subjects(at).find(x => x.id === id), g = Glanced.of(at).glance;
+  // Whether any reply of theirs is blue: the questions are among their choices at the place (opening a talk is the
+  // page's and the runner's, not an act of the campaign's, so a talk is not opened here).
+  private static blueSomewhere(s: PlaySession, id: string): boolean {
+    const sub = this.subjects(s).find(x => x.id === id), g = Glanced.of(s).glance;
     return this.replies(sub ?? {}).some(c => Attest.reply(g, c).some(w => w.aspects.includes('knowledge')));
   }
+
   private static aims(s: PlaySession): { followed?: string; held: string[] } {
     const aims = ScreenModel.build(s.campaign).aims ?? [];
     return { followed: aims.find(a => a.followed)?.id, held: aims.map(a => a.id) };
