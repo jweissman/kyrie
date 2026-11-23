@@ -1,5 +1,9 @@
 # M22-beta: preparation report (23 November 2026)
 
+> **Revised 23 November** by the owner's direction ([owner-direction-2026-11-23.md](owner-direction-2026-11-23.md)): every
+> sprint is judged by a first-hour demonstration, and the order is the 90-second opening, the first town and its dungeon,
+> trust in what is offered, combat and conversation, then separation and authoring. Where the two differ, the direction governs.
+
 A preliminary investigation, architectural reconciliation and sprint plan for M22-beta. It is not an authorization to
 start implementation. It draws on the alpha documents (closeout, retrospective, acceptance record, hand-off), six
 November studies (platform maturity, world-interaction evolution, the architectural review, Kyr language evolution,
