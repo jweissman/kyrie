@@ -83,6 +83,12 @@ run like a test:
 Its first deliverable is the aspect tree over features.json and a generated page. Bringing doc/design's ambitions in
 with IDs follows.
 
+## The scorecard
+
+`bun run quality` (scripts/quality/quality.ts), nightly in CI, about two minutes. The first reading (23 November,
+local): slice P0/P1 defects 67; a new life to its first act 7.3 s headless (the start 6.5 s); the median turn 121 ms
+(p90 334); census breaches 13; main CI on a push 10.3 minutes. Each is held by a ratchet; lower it when it falls.
+
 ## The first queue
 
 In doc/architecture/mission-22/planning.json (`bun scripts/planning-views.ts`).

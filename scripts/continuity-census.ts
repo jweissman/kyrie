@@ -31,6 +31,7 @@ const walks: Walk[] = [
   { name: 'mage', as: 'elf/mage/Ilse/scholar', lines: 'doc/architecture/mission-22/cold/cold-5-lines.txt' },
   { name: 'gold', as: 'human/warrior/Wenna', steps: 80 }];
 export class ContinuityCensus {
+  static readonly walks = walks;
   static lines(path: string): string[] {
     return readFileSync(path, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#'));
   }

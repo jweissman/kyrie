@@ -172,6 +172,22 @@ jobs:
         env: { KYRIE_LONG: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
+  # The experience gate, nightly and on demand (scripts/quality): five numbers held by ratchets. About two minutes;
+  # its table is the run's summary. Times have no CI baseline until a night's readings are written into it.
+  quality:
+    name: quality (five numbers)
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions: { contents: read, actions: read }
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bun run quality
+        env: { GH_TOKEN: "${{ github.token }}" }
   # The Kyr lint, nightly and on demand, not on the push lane (about a minute for every campaign, 19 s a drawn world):
   # every campaign held to errors and recommended content to warnings too (clean since 19 November, mt-7); the drawn
   # worlds a1, iscoed and kite held to errors, their warnings told in the log (MT-02: 44 left, each registered).

@@ -1,0 +1,13 @@
+{
+ "ci": {
+  "slice": 67,
+  "breaches": 13
+ },
+ "local": {
+  "slice": 67,
+  "first": 7258,
+  "turn": 121,
+  "breaches": 13,
+  "ci": 10.3
+ }
+}

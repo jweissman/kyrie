@@ -83,6 +83,10 @@ this help the player forget the interface and become interested in what happens 
 
 ## Testing
 
+- **The experience gate:** `bun run quality` (scripts/quality/) reads five numbers nightly and holds each by a
+  ratchet in scripts/quality/baseline.json: the slice's P0/P1 defects, a new life to its first act, the median turn,
+  the continuity census's breaches, and main's CI minutes. Lower a baseline with `--update` when a number falls. A
+  week's work should move at least one.
 - **The acceptance ladder,** cheapest first:
   1. setting-independent contracts;
   2. seeded headless journeys, with invariants at every turn;
