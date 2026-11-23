@@ -52,6 +52,8 @@ index nor the README names a mission or a date. Every open promise is a row in o
 |---|---|
 | [STATUS.md](STATUS.md) | where things stand |
 | [architecture/open-register.md](architecture/open-register.md) | every open promise, defect and request, by id, with its state |
+| [architecture/ways-of-working.md](architecture/ways-of-working.md) | how work is done here: worktrees, gates, landing, housekeeping |
+| [design/paintings-needed.md](design/paintings-needed.md) | the one current list of paintings still needed, scenes and portraits |
 | `architecture/mission-<n>/` | the current mission's working record (STATUS.md links it); it moves to history when the mission closes |
 
 ## History

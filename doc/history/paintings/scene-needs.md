@@ -1,5 +1,7 @@
 # Scenes still needed (21 November)
 
+> **History.** Superseded by [doc/design/paintings-needed.md](../../design/paintings-needed.md), the one current list.
+
 The one current list of the scene paintings, the backgrounds, that the game still lacks. It supersedes the scene
 parts of [art-wishlist.md](art-wishlist.md) and [place-commissions.md](place-commissions.md), which stay as the record
 of how the list was first made. Portraits (people, creatures, creation's grid) are not here; they remain in

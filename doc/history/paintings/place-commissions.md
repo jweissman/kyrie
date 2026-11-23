@@ -1,6 +1,6 @@
 # Place commissions (21 November)
 
-> **Superseded (21 November):** what is still needed is in [scene-needs.md](scene-needs.md), measured by `bun scripts/scene-census.ts` after the paintings filled most of this list. Kept as the record of the commission and what filled it.
+> **History.** Superseded by [doc/design/paintings-needed.md](../../design/paintings-needed.md), the one current list.
 
 A painting commission list for places, not people, drawn from the measured blanks in
 [art-wishlist.md](art-wishlist.md): ten first-quarter walks of Iscoed (810 steps), the two acceptance routes, and

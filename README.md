@@ -22,6 +22,7 @@ experience for what you resolve), JRPG party combat without a battle grid, and O
 | what it is meant to be | [the creative vision](doc/design/VISION.md) |
 | to write something for it | [the authoring trail](doc/authoring/README.md) |
 | how it is built | [the map of the code](doc/architecture/README.md), then [the project contract](doc/CONTRACT.md) |
+| to work on it: worktrees, gates, landing, the register | [ways of working](doc/architecture/ways-of-working.md) |
 | what is promised, open or broken | [the register](doc/architecture/open-register.md) |
 | everything else | [the documentation index](doc/README.md) |
 

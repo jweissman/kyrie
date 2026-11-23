@@ -45,7 +45,7 @@ alpha documents.
 - **OR-178:** is a job offered knowledge (blue) or an undertaking (gold)? The old quarry's missing blue is traced to
   ChoiceGrouping.teaches: a job's own given-marker counts its id as made. Fix only once the semantics are settled.
 - **Rooms and weather:** should a room's painting answer the weather outside? A byre painted with rain at its door is
-  refused on fair days. Until decided, rooms are painted with no weather (scene-needs.md).
+  refused on fair days. Until decided, rooms are painted with no weather (paintings-needed.md).
 - **The awaiting-judgment portfolio:** OR-75, FM-03 and IG-20 close only on the owner's reading. Their engineering
   half, OR-180, is separate.
 - **The design review** of the portrait tablet, surfaces and the fight (doc/design/design-review-2026-11-21.md): seven
@@ -63,52 +63,17 @@ alpha documents.
   first-hour bands) and CB-32 (lone thieves' fights out of town).
 
 **Responsiveness:** ruled in closeout.md. The budget is acknowledged within 100 ms and settled within 300 ms at p95 on
-the deployed page on a phone and an iPad; OR-170 and OR-127 are its first rows. One timing is near its edge: OR-91's
+the browser (CI, at a phone's and a laptop's size); OR-170 and OR-127 are its first rows. One timing is near its edge: OR-91's
 held journey at 390 px drew its card at 999 ms once on CI (passing at 523 ms on rerun).
 
-**Paintings:** [scene-needs.md](../../design/scene-needs.md) is the one current list, cross-checked against what was
+**Paintings:** [paintings-needed.md](../../design/paintings-needed.md) is the one current list, cross-checked against what was
 delivered. It names four blanks that are bindings, not paintings: "the drowned street", Holgar's salt-house, groups
 of a painted kind, and the room-and-weather rule above.
 
 ## How work is done here
 
-**Landing.**
-- `scripts/landing/land.sh <sha>` lands a commit from a spare worktree. It rebases and gates if main moved, pushes,
-  watches CI, and with `KYRIE_LAND_FF=/home/jweissman/work/kyrie` fast-forwards the owner's checkout.
-- `scripts/landing/full.sh <sha>` first runs the whole suite on a check branch. Use it for anything that moves worlds
-  (content, paintings, generation, rules), since the push lane does not see that fallout.
-- Land an explicit sha, never HEAD. Batch landings: each main push cancels the previous run and starves Pages.
-
-**The owner's checkout** (`/home/jweissman/work/kyrie`) is theirs.
-- Never edit it, stash in it, or run git there except the fast-forward. Use `git -C` and absolute paths.
-- After every landing, check it for new untracked files: the owner drops paintings and notes there. Check their
-  content in byte for byte (`cmp`).
-- If it will not fast-forward, find out why (a local change identical to history, local commits) and tell the owner
-  the command.
-
-**Gates.**
-- `bun run check:fast` (about 70 s), then `bun run test:small`, then the specs you touched, one file at a time.
-- Gate on the exit status, never on a grep of the output: `grep "1 fail" && commit` commits on failure.
-- No browsers locally (they exhaust the machine); the browser lane is CI's.
-- One heavy job at a time.
-
-**Worktrees** go in `/var/tmp/kyrie`, with dated names (`wt-<what>-<mmdd>`). Check that the path is free before
-`git worktree add`, and symlink node_modules from an existing worktree. Never `git stash`.
-
-**The register** (`doc/architecture/open-register.md`):
-- A new row needs a feature in `doc/architecture/features.json`, and, if live P0/P1, either slice membership or an
-  `outside` reason in `mission-22/planning.json`.
-- `test/small/register-*`, `planning-views` and `closure-lint` check this.
-- A closed row must answer each clause and reference of its own text, or closure-lint refuses it.
-- No "partly": split the remainder into its own row.
-
-**Prose** has ratchets (test/small/empty-words: similes, indeterminates). Run test:small before landing any new prose.
-
-**Paintings**, to import: convert to `assets/portraits/scene-<name>.jpeg`; record in `data/paintings/seen.json`
-what it shows, its light, and its weather and season only if shown; place it on a kind in
-`data/paintings/scenery.json`; run `bun scripts/paintings.ts`, keeping only the new entries from its output (it
-re-encodes some unrelated copies); then run `bun scripts/scene-census.ts` to see what it filled. Seasonal paintings go
-on the season's list. Specs that pin one exact painting of a kind need widening to the kind when a painting is added.
+In [ways-of-working.md](../ways-of-working.md): the owner's checkout, gates, landing, housekeeping, the register,
+measuring tools, and importing paintings.
 
 ## Advice, from alpha
 
@@ -121,4 +86,4 @@ on the season's list. Specs that pin one exact painting of a kind need widening 
   reading predicates their own way. Before adding another guard, ask whether a single transition summary per action
   would remove the need (the retrospective's §2).
 - **Put a person in front of it.** The retrospective's recommendation: one unfamiliar player, recorded, for fifteen
-  minutes on an iPad. Alpha had none.
+  minutes on the page. Alpha had none.

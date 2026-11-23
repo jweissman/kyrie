@@ -6263,7 +6263,7 @@
    "form": "interior",
    "shows": "a guardroom with a brazier and a rack of weapons",
    "era": "late",
-   "light": "daylight, firelit"
+   "light": "dusk, firelit"
   },
   "scene-heath": {
    "form": "landscape",

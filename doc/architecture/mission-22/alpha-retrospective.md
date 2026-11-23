@@ -151,7 +151,7 @@ first creatures that are *situations* (answers other than a fight).
 - **Fights do not matter.** On the weir route both fights cost no hit point (test/weir-route); CB-01 is still open.
   Without risk the first hour has no tension.
 - **Half the first hour has no picture.** 409 of 810 first-quarter steps drew a dim ground, mostly because Porthalen is
-  raining and every painting of it is sunlit (doc/design/art-wishlist.md, the World agent's measurement).
+  raining and every painting of it is sunlit (doc/history/paintings/art-wishlist.md, the World agent's measurement).
 - **Activities narrate instead of being played** (the focus audit: six of eight pins fiction or partial).
 - **Trust failures break immersion** within minutes (§2), and each one teaches the player not to believe the marks.
 - **Open:** whether the opening's *story* (the debt, the sea-gate, the kin) is compelling once the mechanics hold. We

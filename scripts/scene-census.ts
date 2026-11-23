@@ -6,7 +6,7 @@ import { Scenery } from '../src/ui/scenery';
 import { SceneKinds } from '../src/ui/scene-kinds';
 import type { Screen } from '../src/ui/screen-types';
 
-// Which places of a generated world have no painting, and under which sky (doc/design/scene-needs.md): the company
+// Which places of a generated world have no painting, and under which sky (doc/design/paintings-needed.md): the company
 // put at each place in turn, its screen built as play builds it, and the scene asked for (Scenery.seen) on a fair day,
 // a rainy day, a fair evening and a fair night. A list of what to paint next, not a gate.
 //   bun scripts/scene-census.ts [world] [out.json]      prints blanks by kind; writes each place's row

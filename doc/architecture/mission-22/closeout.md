@@ -17,7 +17,7 @@ content.
 | 2 | A coherent, tested primary interaction | One projection for rows (OR-159; parity measure); four led, the act that matters gold (CL-33); holds and long presses secure (OR-91); engagement as a frame state (OR-174) | Focus breaks at the riddle and the map (OR-177); activities narrated, not played (focus audit) | **Met structurally, not experientially** |
 | 3 | The Colour Atlas indicator specification | Normative appendix (indicator-appendix.md); every pip from a witness (Attest; trust-contracts.md) | Blue on a person whose topics carry none; a teaching reply unmarked; an unexplained glyph (OR-178) | **Partial** |
 | 4 | Measured performance | A press drawn within 100 ms at both sizes; act median ~104–126 ms headless; the map no longer rebuilt at a journey's end | A new world 5.4–5.8 s warm against 3 s (AX-04); no real-device measurement (SP-05) | **Partial** |
-| 5 | Real progress on SRD, authorability, density, backlog | SRD spells 37 of 119 in resolution; 2 of 88 placed encounters faithful; three creatures by the SRD (cases 63–65); `verify` and `kyrie new` | Fights on the routes cost nothing (CB-01); half the first hour unpainted (art-wishlist.md) | **Partial** |
+| 5 | Real progress on SRD, authorability, density, backlog | SRD spells 37 of 119 in resolution; 2 of 88 placed encounters faithful; three creatures by the SRD (cases 63–65); `verify` and `kyrie new` | Fights on the routes cost nothing (CB-01); half the first hour unpainted (../../history/paintings/art-wishlist.md) | **Partial** |
 | 6 | A reconciled register and design recommendations | 1,123 rows, 488 live, hygiene clean (no id twice, no closed row saying open); the planning views; directions kept apart | — | **Met** |
 
 ## The gate, exactly
@@ -33,7 +33,8 @@ content.
 
 **Target revised, and made beta's first foundation epic.** The 2 ms engine and 20 ms main-thread figures are kept as
 diagnostics, not as the target, because a player perceives acknowledgement and settling, not engine time. Beta's
-responsiveness contract replaces them with a perceptual budget, measured on the deployed page on a phone and an iPad:
+responsiveness contract replaces them with a perceptual budget, measured in the browser (the CI browser lane, at a phone's and a laptop's size; the owner, 23 November: no per-device
+timing):
 
 1. **Acknowledged** within 100 ms of every press: the choice drawn taken, and the page closed to a second command
    (already held in the browser; OR-145's half to finish).
@@ -75,7 +76,7 @@ Beta begins when these hold, none of them new work in alpha:
 
 The three demonstrations the retrospective recommends before committing beta's plan: the continuity invariants as
 walk-wide specs (failing is fine), a transition-summary spike over Iscoed's first hour, and one recorded unfamiliar
-player for fifteen minutes on an iPad.
+player for fifteen minutes on the page.
 
 ## Awaiting the owner's judgment
 

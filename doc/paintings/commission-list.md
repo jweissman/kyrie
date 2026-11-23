@@ -1,5 +1,9 @@
 # Paintings to commission
 
+> **History (23 November).** The current list is [doc/design/paintings-needed.md](../design/paintings-needed.md),
+> measured against the corpus as it now stands; this list's scene asks are mostly filled or superseded, and its
+> adventure, creature and plate asks are carried there.
+
 ## The wishlist (12 November, evening): scenes, likenesses, creatures and plates
 
 Measured, not remembered: every room of three generated countries (a1, kahitude and pine; 2 062 places) set in turn

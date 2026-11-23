@@ -137,7 +137,8 @@ describe('the painting of a place', () => {
     // The owner's paintings of 10 November: Brockminster's gate-yard had been a gothic castle's, the lanes a chapel.
     const open = { open: true };
     expect(Scene.seen(Scene.room('region__s2_gate', 'the gate-yard', open))).toBe('scene-village-gate-yard');
-    expect(['scene-town-lane', 'scene-town-lanes']).toContain(Scene.seen(Scene.room('region__s2_lanes', 'the lanes behind Millholm', open))!);
+    expect(['scene-town-lane', 'scene-town-lanes', 'scene-alley', 'scene-town-alley-fog', 'scene-town-alley-rain'])
+      .toContain(Scene.seen(Scene.room('region__s2_lanes', 'the lanes behind Millholm', open))!);
     expect(Scene.seen(Scene.room('region__s2_houses', 'the houses of Millholm', open))).toBe('scene-town-houses');
     // Porthalen's customs-house, a counter and a barred window, had been a cottage room with a bed (S3-4).
     expect(['scene-counting-room', 'scene-accountancy', 'scene-accountancy-night'])
@@ -145,7 +146,8 @@ describe('the painting of a place', () => {
     expect(['scene-vault-sealed', 'scene-crypt', 'scene-ossuary'])
       .toContain(Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under))!);
     expect(Scene.seen(Scene.room('region__s2_green', 'the landing at Millholm', open))).toBe('scene-landing');
-    expect(Scene.seen(Scene.room('region__s2_sheds', 'the boat-sheds', open))).toBe('scene-boat-sheds');
+    expect(['scene-boat-sheds', 'scene-boat-sheds-rain', 'scene-shipwright'])
+      .toContain(Scene.seen(Scene.room('region__s2_sheds', 'the boat-sheds', open))!);
     expect(['scene-counting-room', 'scene-accountancy', 'scene-accountancy-night'])
       .toContain(Scene.seen(Scene.room('region__w7_counting', 'the counting-room'))!);
     expect(Scene.seen(Scene.room('region__w7_store', 'the warehouse'))).toBe('scene-warehouse');
