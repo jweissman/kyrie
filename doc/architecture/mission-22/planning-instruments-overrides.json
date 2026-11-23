@@ -1,0 +1,35 @@
+{
+  "about": "Manual review overrides for planning-instruments-demo.ts. Use this only for high-severity rows and ambiguous classifications after human review. Keep IDs stable and add a short reason.",
+  "rows": {
+    "AR-05": {
+      "instrument": "architecture_roadmap",
+      "why": "Cross-cutting architecture obligation that drives multiple trust bugs; not a direct player-facing defect row.",
+      "reviewer": "m22-beta-discovery",
+      "at": "2026-11-23"
+    },
+    "AX-03": {
+      "instrument": "architecture_roadmap",
+      "why": "Composition and cache architecture enabling work; tracked as enabler with defect consequences.",
+      "reviewer": "m22-beta-discovery",
+      "at": "2026-11-23"
+    },
+    "AX-04": {
+      "instrument": "architecture_roadmap",
+      "why": "Startup/load architecture budget and proving item; queue as platform not product defect triage.",
+      "reviewer": "m22-beta-discovery",
+      "at": "2026-11-23"
+    },
+    "AX-05": {
+      "instrument": "architecture_roadmap",
+      "why": "Determinism and consistency architecture obligation.",
+      "reviewer": "m22-beta-discovery",
+      "at": "2026-11-23"
+    },
+    "AX-07": {
+      "instrument": "architecture_roadmap",
+      "why": "Order-independence generation architecture direction and dependency.",
+      "reviewer": "m22-beta-discovery",
+      "at": "2026-11-23"
+    }
+  }
+}
