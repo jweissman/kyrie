@@ -13,7 +13,8 @@
   "abbey": {
    "form": "landscape",
    "shows": "gothic abbey church in green parkland",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "academician": {
    "form": "portrait",
@@ -295,12 +296,16 @@
   "arcadia": {
    "form": "landscape",
    "shows": "wooded valley with a river and a far town",
-   "era": "early"
+   "era": "early",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "arch": {
    "form": "landscape",
    "shows": "ruined arch in a golden landscape with figures resting",
-   "era": "early"
+   "era": "early",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "archaeologist": {
    "form": "portrait",
@@ -442,7 +447,8 @@
   "astrolabe": {
    "form": "object",
    "shows": "a globe, a spyglass and an open book",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "astrologer": {
    "form": "group",
@@ -496,7 +502,9 @@
   "aurora": {
    "form": "landscape",
    "shows": "lights in a night sky over a dark sea and hills",
-   "era": "late"
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
   },
   "autumn": {
    "form": "scene",
@@ -507,7 +515,9 @@
   "avalanche": {
    "form": "landscape",
    "shows": "snow sweeping down a mountainside in a storm",
-   "era": "late"
+   "era": "late",
+   "light": "stormy",
+   "weather": "storm"
   },
   "avenger": {
    "form": "scene",
@@ -600,7 +610,9 @@
   "bear": {
    "form": "landscape",
    "shows": "crags over a lake in a wide valley",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "believer": {
    "form": "portrait",
@@ -695,7 +707,9 @@
   "bolt": {
    "form": "landscape",
    "shows": "a ruined tower in a stormy landscape, figures fleeing",
-   "era": "late"
+   "era": "late",
+   "light": "stormy",
+   "weather": "storm"
   },
   "bookie": {
    "form": "portrait",
@@ -766,7 +780,8 @@
   "breviary": {
    "form": "object",
    "shows": "candlestick and books in a dark cell",
-   "era": "early"
+   "era": "early",
+   "light": "dim, candlelit"
   },
   "brewer": {
    "form": "portrait",
@@ -780,7 +795,8 @@
   "bridge": {
    "form": "landscape",
    "shows": "a valley under pale cliffs with a bridge and smoke",
-   "era": "late"
+   "era": "late",
+   "light": "overcast"
   },
   "bright-eyes": {
    "form": "scene",
@@ -886,7 +902,8 @@
   "camp": {
    "form": "scene",
    "shows": "a fire under a lean-to at night",
-   "era": "early"
+   "era": "early",
+   "light": "night, firelit"
   },
   "canal": {
    "form": "landscape",
@@ -985,7 +1002,8 @@
   "castle": {
    "form": "landscape",
    "shows": "castle walls in a golden haze by a river",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit"
   },
   "cataclysm": {
    "form": "scene",
@@ -1030,7 +1048,8 @@
   "chapel": {
    "form": "landscape",
    "shows": "a lane to a village church spire",
-   "era": "late"
+   "era": "late",
+   "light": "overcast"
   },
   "character-actor": {
    "form": "portrait",
@@ -1523,7 +1542,8 @@
   "cup": {
    "form": "object",
    "shows": "a nautilus cup, porcelain and fruit on a dark table",
-   "era": "early"
+   "era": "early",
+   "light": "dim"
   },
   "curator": {
    "form": "portrait",
@@ -1582,7 +1602,8 @@
   "death": {
    "form": "object",
    "shows": "a skull and an hourglass",
-   "era": "early"
+   "era": "early",
+   "light": "dim"
   },
   "decadence": {
    "form": "group",
@@ -1757,7 +1778,8 @@
   "dissolution": {
    "form": "interior",
    "shows": "a vaulted hall lit by fire",
-   "era": "late"
+   "era": "late",
+   "light": "firelit"
   },
   "diviner": {
    "form": "scene",
@@ -1967,7 +1989,8 @@
   "encampment": {
    "form": "landscape",
    "shows": "a camp among palm trees at dusk",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "enchanter": {
    "form": "scene",
@@ -2164,7 +2187,9 @@
   "fane": {
    "form": "landscape",
    "shows": "ruined gothic arches",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "far-shooter": {
    "form": "scene",
@@ -2313,7 +2338,8 @@
   "folio": {
    "form": "object",
    "shows": "music, armour and silver on a rich cloth",
-   "era": "early"
+   "era": "early",
+   "light": "dim"
   },
   "folly": {
    "form": "portrait",
@@ -2326,7 +2352,8 @@
   "food": {
    "form": "object",
    "shows": "a hanging fish, onions and jugs on a stone shelf",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "fool": {
    "form": "portrait",
@@ -2347,7 +2374,9 @@
   "forest": {
    "form": "landscape",
    "shows": "a sunlit clearing in deep woods",
-   "era": "late"
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
   },
   "forge": {
    "form": "group",
@@ -2442,7 +2471,9 @@
   "gale": {
    "form": "landscape",
    "shows": "trees bent by a gale",
-   "era": "late"
+   "era": "late",
+   "light": "stormy",
+   "weather": "storm"
   },
   "gallery": {
    "form": "interior",
@@ -2562,7 +2593,8 @@
   "globe": {
    "form": "object",
    "shows": "a globe, books and a violin on a table",
-   "era": "early"
+   "era": "early",
+   "light": "dim"
   },
   "goat": {
    "form": "scene",
@@ -2643,7 +2675,9 @@
   "grove": {
    "form": "landscape",
    "shows": "dark trees by a pool under clouds",
-   "era": "early"
+   "era": "early",
+   "light": "daylight",
+   "weather": "clear"
   },
   "gryphon": {
    "form": "scene",
@@ -2777,7 +2811,9 @@
   "herd": {
    "form": "landscape",
    "shows": "sheep driven along a lane past cottages under trees",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "heretic": {
    "form": "portrait",
@@ -2940,7 +2976,9 @@
    "shows": "a horse sledge hauling ice across a frozen bay",
    "era": "late",
    "sex": "man",
-   "station": "labouring"
+   "station": "labouring",
+   "light": "daylight",
+   "weather": "snow"
   },
   "icon": {
    "form": "portrait",
@@ -2961,7 +2999,9 @@
   "idyll": {
    "form": "landscape",
    "shows": "a cabin in a wild valley below mountains",
-   "era": "late"
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
   },
   "illuminator": {
    "form": "portrait",
@@ -3011,7 +3051,9 @@
   "indolence": {
    "form": "landscape",
    "shows": "a golden river valley with fountains and ruins",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "inferno": {
    "form": "scene",
@@ -3324,7 +3366,8 @@
   "library": {
    "form": "interior",
    "shows": "a vaulted gothic library with a great window",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "lich": {
    "form": "scene",
@@ -3578,7 +3621,8 @@
    "era": "early",
    "sex": "man",
    "age": "old",
-   "station": "learned"
+   "station": "learned",
+   "light": "daylight"
   },
   "medium": {
    "form": "portrait",
@@ -3678,14 +3722,16 @@
   "mill": {
    "form": "landscape",
    "shows": "a windmill on a dark bluff over a river",
-   "era": "early"
+   "era": "early",
+   "light": "stormy"
   },
   "miller": {
    "form": "landscape",
    "shows": "a figure on a path by a mill-house and a river",
    "era": "late",
    "sex": "man",
-   "station": "labouring"
+   "station": "labouring",
+   "light": "daylight"
   },
   "mime": {
    "form": "portrait",
@@ -3802,7 +3848,9 @@
    "form": "landscape",
    "shows": "a figure by a dolmen under a crescent moon",
    "era": "late",
-   "sex": "mixed"
+   "sex": "mixed",
+   "light": "night, moonlit",
+   "weather": "clear"
   },
   "mortiloquist": {
    "form": "portrait",
@@ -3887,7 +3935,8 @@
   "narthex": {
    "form": "interior",
    "shows": "tall pillars of a gothic cathedral nave",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "naturalist": {
    "form": "portrait",
@@ -4189,7 +4238,9 @@
    "form": "landscape",
    "shows": "a golden lake under umbrella pines with revellers",
    "era": "late",
-   "sex": "mixed"
+   "sex": "mixed",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "patron": {
    "form": "portrait",
@@ -4257,7 +4308,8 @@
   "perdition": {
    "form": "interior",
    "shows": "an angel in a grey vaulted corridor of bodies",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "performer": {
    "form": "group",
@@ -4690,7 +4742,9 @@
    "shows": "a quarry with carts in a wooded landscape",
    "era": "early",
    "sex": "mixed",
-   "station": "labouring"
+   "station": "labouring",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "queen": {
    "form": "portrait",
@@ -4783,7 +4837,8 @@
   "redoubt": {
    "form": "landscape",
    "shows": "a turreted castle on a crag",
-   "era": "late"
+   "era": "late",
+   "light": "daylight"
   },
   "reeve": {
    "form": "portrait",
@@ -4845,7 +4900,9 @@
   "rest": {
    "form": "landscape",
    "shows": "classical ruins and a broken colonnade",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "restorer": {
    "form": "portrait",
@@ -4919,7 +4976,9 @@
   "road": {
    "form": "landscape",
    "shows": "a road past a tower under tall pines by a lake",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "robber": {
    "form": "scene",
@@ -4948,7 +5007,9 @@
   "ruin": {
    "form": "landscape",
    "shows": "a ruined arcade with figures and a statue",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "rumormonger": {
    "form": "portrait",
@@ -5253,7 +5314,8 @@
   "silver": {
    "form": "object",
    "shows": "heaped silver plate and fruit on a buffet",
-   "era": "early"
+   "era": "early",
+   "light": "dim"
   },
   "silversmith": {
    "form": "portrait",
@@ -5557,7 +5619,9 @@
   "tempest": {
    "form": "landscape",
    "shows": "boats in a storm under a rocky coast",
-   "era": "late"
+   "era": "late",
+   "light": "stormy",
+   "weather": "storm"
   },
   "temple": {
    "form": "landscape",
@@ -5699,7 +5763,9 @@
   "tower": {
    "form": "landscape",
    "shows": "a ruined round tower on a sea cliff",
-   "era": "late"
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
   },
   "toymaker": {
    "form": "portrait",
@@ -5762,17 +5828,21 @@
    "shows": "boats drawn up on a rocky islet in a pale bay",
    "era": "modern",
    "sex": "man",
-   "station": "labouring"
+   "station": "labouring",
+   "light": "overcast"
   },
   "trick": {
    "form": "object",
    "shows": "a dead bird, flowers and playing cards hanging",
-   "era": "late"
+   "era": "late",
+   "light": "dim"
   },
   "trilith": {
    "form": "landscape",
    "shows": "a ring of standing stones on a plain",
-   "era": "late"
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   },
   "troubadour": {
    "form": "portrait",
@@ -5841,7 +5911,8 @@
   "vanity": {
    "form": "object",
    "shows": "a skull in a niche with a glass sphere and a vase",
-   "era": "early"
+   "era": "early",
+   "light": "dim"
   },
   "vedette": {
    "form": "portrait",
@@ -6012,7 +6083,9 @@
    "form": "landscape",
    "shows": "a frozen river below a snowy town with skaters",
    "era": "early",
-   "sex": "mixed"
+   "sex": "mixed",
+   "light": "daylight",
+   "weather": "snow"
   },
   "witch": {
    "form": "portrait",
@@ -6096,7 +6169,9 @@
   "wreck": {
    "form": "landscape",
    "shows": "a ship foundering in a heavy sea",
-   "era": "late"
+   "era": "late",
+   "light": "stormy",
+   "weather": "storm"
   },
   "writer": {
    "form": "group",
@@ -8448,8 +8523,7 @@
    "form": "exterior",
    "shows": "a chandler's shop front at dusk: candles lit in the window, the door open, a wet cobbled lane, a church tower",
    "era": "late",
-   "light": "dusk",
-   "weather": "clear"
+   "light": "dusk, lamplit"
   },
   "scene-country-lane": {
    "form": "landscape",
@@ -8598,6 +8672,13 @@
    "era": "late",
    "light": "overcast",
    "weather": "rain"
+  },
+  "scene-great-oak-view-night": {
+   "form": "landscape",
+   "shows": "the same great oak on its hillside by moonlight, the river valley pale below and a hill town far off",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
   }
  }
 }

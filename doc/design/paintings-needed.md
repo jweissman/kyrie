@@ -6,13 +6,24 @@ the place commissions and the scene-needs list of 21–22 November, which are ke
 
 **Measured 23 November**, after the owner's ~200 scene paintings of 21–22 November and a tagging pass over the whole
 corpus. Re-measure after each batch with `bun scripts/scene-census.ts <world>`: it puts the company at every place of
-a generated world and asks for the scene's painting on a fair day, in rain by day, on a fair evening and on a fair
-night.
+a generated world and asks for the scene's painting on a fair day, in rain by day, on a fair evening, on a fair
+night and in rain by night.
 
-| World | Places | Blank in some sky | Was (21 Nov) |
-|---|---|---|---|
-| Iscoed | 756 | **50** | 83 |
-| a1 | 877 | **77** | 124 |
+**Measured again 23 November, evening, against the sky** (BRIEF §3.4; register CP-20). The census now also judges
+each painting it is given against the sky it is asked under, by the light and weather recorded for it in
+`data/paintings/seen.json` (src/ui/painted-sky.ts): never clear or sunlit in rain, never rain on a dry day, never
+daylit at evening or night, never of dusk or the moon by day, never a painting with no light recorded. Fifty placed
+paintings, most of them the old masters, had no light recorded and stood in any sky; they are tagged now, and the fit
+rules refuse what they contradict. So places that had a painting against the sky now have none: the counts rose, and
+each is a painting wanted, not a picture against the place.
+
+| World | Places | Blank in some sky | Painted against some sky | Was (morning, four skies) |
+|---|---|---|---|---|
+| Iscoed | 756 | **136** | **0** (509 before the tagging) | 50 blank |
+| a1 | 877 | **184** | **0** | 77 blank |
+
+The warrior's golden walk (`bun scripts/scene-census.ts walk`) is held at no fault at every turn by
+test/features/world/the-sky-in-the-painting.pin. Porthalen rains through it and it ends at night.
 
 ## Scenes still needed
 
@@ -43,6 +54,38 @@ rules choose by.
 
 One place each, any sky: a ship's great cabin, a stalled lift, a wright's yard in rain, an old lime-kiln, an inn's back
 garden, an old fulling-mill at evening, a preserve-house, kennels and mews.
+
+### Wanted by the sky census (23 November, evening)
+
+Kinds whose only paintings are of a fair day, now blank in the other skies (places in Iscoed + a1):
+
+| Paint as | Light, weather | For (kind) | Places | Brief |
+|---|---|---|---|---|
+| `scene-fields-rain`, `scene-fields-evening`, `scene-fields-night` | overcast, rain; dusk; night | fields: the home fields, open fields | 45 + 28 | Open fields under rain; the same at evening, a hedge dark against the sky; by moon. |
+| `scene-stones-rain`, `scene-stones-dusk`, `scene-stones-night` | overcast, rain; dusk; night | stones: old stones, march-stones | 10 + 8 | A standing stone on open ground in rain; at evening; by moon. |
+| `scene-town-gate-evening`, `scene-town-gate-night` | dusk; night, lamplit | fort, seen from without: the edge of a country (a town gate) | 13 + 39 | The town gate between its towers at evening, a lamp in the arch; by night. |
+| `scene-quarry-dusk` | dusk | mine, seen from without: the quarry pit, the robbers' hole | 5 | An old quarry pit at evening, a lantern at an adit. |
+| `scene-well-dusk` | dusk | well: the makers' well | 3 | A well-head in a yard at evening. |
+| `scene-lone-tower-dusk` | dusk | tower, seen from without | 2 | A lone tower against an evening sky. |
+
+The roads' blanks (10 + 33 places in rain, at evening and at night) are the held-back road and lane paintings' (below):
+nothing new is wanted for them.
+
+**Rain by night.** The golden walk's last third is a rainy night. Its places show their rain-by-day paintings, dimmed by
+the page (no fault: the weather is the world's). Each would be truer painted for itself, first the landing:
+`scene-harbor-rain-night` (four turns of the walk: the quay in rain at night, lamps smeared on the wet stones), then the
+gate-yard, the castle bailey (for the gate-well), the sea-bank, the salt-pans and the bridge, each in rain by night.
+
+**The way in.** A new life's opening plate is no longer shown against the sky. A frost country has only a dusk painting
+outside winter, so it opens on none by day; it opens on none in rain or fog. A forest country in rain opens only on
+the grey chapel. Wanted: `scene-approach-frost` (the road between snow-fences to turf roofs, by day, no snow falling)
+and a forest road in rain.
+
+**Authored places.** An author's own painting is now kept only where it fits the sky. The Howe's and the Arcology's are
+painted for one light, so they go blank, or take their kind's, in the others: the camp in the lee and the Lantern
+Company's camp by day (their painting is a campfire by night); the survey cairn, the heather rise and the Arcology's
+sunlit terraces, bridges and garden in rain or after dark; the salvagers' lookout and the old sheepfold by day (dusk
+paintings). Those adventures' authors would paint them again in another light.
 
 ## Portraits still needed
 
@@ -105,7 +148,8 @@ re-measured since:
 ## Held back
 
 The road and country-lane paintings of 23 November (`scene-road`, `scene-road-night`, `scene-country-lane` in five
-lights and two seasons) are imported but not yet placed on the road or path kinds. A phone's held journey drew its card
+lights and two seasons) are imported but not yet placed on the road or path kinds (and the sky census, 23 November
+evening, counts the roads blank in rain, at evening and at night for want of them). A phone's held journey drew its card
 late in three full runs carrying them (OR-182); they are placed once that is understood. The country lanes still stand
 in the hills' views.
 

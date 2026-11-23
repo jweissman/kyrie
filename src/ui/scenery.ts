@@ -30,7 +30,9 @@ export class Scenery {
     const terrain = screen.region?.terrain?.replace(/^.*__/, '') ?? '';
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
     const own = this.approaches[terrain] ?? this.approaches.forest!;
-    const views = season === 'winter' && !own.some(v => this.winter.has(v)) ? this.winterOpen : this.seasonal(own, season);
+    const all = season === 'winter' && !own.some(v => this.winter.has(v)) ? this.winterOpen : this.seasonal(own, season);
+    // Never against the sky it opens under (BRIEF §3.4): a sunlit way in had been free to open a storm; none, if none.
+    const views = all.filter(v => Fits.fits(screen, v));
     return country && views.includes(country) ? country : views[this.hash(screen.place.id) % views.length];
   }
   // What is painted in winter is shown only in winter (a frozen river with skaters was shown on 23 Midsummer); and in
@@ -42,16 +44,23 @@ export class Scenery {
   static readonly winterOpen: string[] = table.winterOpen;
   // An author's own painting for a place of theirs, kept before any kind's (data/paintings/scenery.json, places).
   static readonly places: Record<string, string> = table.places;
+  // That painting, where it fits the place as it now is: the camp in the lee had been its campfire by night at noon,
+  // and the Arcology's sunlit terraces stood in the rain (BRIEF §3.4); where it does not, the kind's choice, or none.
+  static authored(screen: Screen): string | undefined {
+    const own = this.places[screen.place.id];
+    return own && Fits.fits(screen, own) ? own : undefined;
+  }
   // Under a roof (a room of a building, anywhere within a level of a site not said to be open, or a room whose kind
   // is seen from within: a shop off the market-place), no country is painted: the Hall cellar at Merrow had opened on
   // a sunlit wood (Mission 18's first walk), and a picture that contradicts the place is worse than none.
   static of(screen: Screen): string | undefined {
     const roofed = this.roofed(screen), season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
-    if (roofed && !this.places[screen.place.id]) { return undefined; }
+    const own = this.authored(screen);
+    if (roofed && !own) { return undefined; }
     // A town by night is a town's night, its windows lit, not the wild's moon over dark country.
     const night = this.views[`night:${this.where(screen)}`] ?? this.views.night ?? [];
     if (screen.dark) { return this.pick(this.seasonal(night, season), screen.place.id, screen); }
-    if (this.places[screen.place.id]) { return this.places[screen.place.id]; }
+    if (own) { return own; }
     const where = this.where(screen), named = SceneKinds.of(screen);
     const known = named && SceneKinds.views(named, { roofed: false, underground: false });
     // A kind seen from within (a taproom, a cellar) is not painted as the country, nor is one with nothing to show.
@@ -76,7 +85,8 @@ export class Scenery {
   // spiders' brood), which the page draws as a dim ground (the owner, 7 November: a dark room is better than a
   // cathedral for a taproom). With no kind, a site's deep rooms are its vaults and stairs; elsewhere, nothing.
   static inside(screen: Screen): string | undefined {
-    if (this.places[screen.place.id]) { return this.places[screen.place.id]; }
+    const own = this.authored(screen);
+    if (own) { return own; }
     const at = { roofed: this.roofed(screen), underground: !!screen.place.underground };
     const named = SceneKinds.of(screen, k => !!SceneKinds.painted(k, at));
     // A room's paintings keep to the season as the country's do (a tower's top in frost had stood for a summer room).

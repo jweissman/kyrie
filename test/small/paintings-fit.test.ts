@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Fits, type Seen } from '../../src/ui/fits';
+import { PaintedSky } from '../../src/ui/painted-sky';
+import { Scenery } from '../../src/ui/scenery';
+import type { Screen } from '../../src/ui/screen-types';
 
 // A painting is not chosen for a place it contradicts (data/paintings/fit.json, against what each painting shows in
 // seen.json): the cold rounds' paintings against the text (R9-12, R10-08, R11-09, CP-01): an intact sunlit castle for
@@ -57,5 +60,35 @@ describe('a painting against the place', () => {
     expect(Fits.fits(at('the forecourt', { daylight: 'evening' }), 'scene-barrow-forecourt')).toBe(true);
     expect(Fits.fits(at('the sea-bank at Gatesend'), 'wreck')).toBe(false);
     expect(Fits.fits(at('the deck'), 'wreck')).toBe(true);
+  });
+});
+// BRIEF §3.4, "Do not depict a sunny day when the world is in a storm": every dry sky refuses a painting of rain (only
+// "fair" had, and a sunny or a cloudy day could show the quay in rain); an author's own painting for a place is kept
+// only where it fits (the Howe's camp in the lee had been its campfire by night at noon); and a new life's way in is
+// never against the sky it opens under.
+describe('a painting against the sky', () => {
+  const scene = (id: string, name: string, weather: string, o: { daylight?: string; terrain?: string } = {}) => ({
+    place: { id, name }, path: [], weather, expedition: { daylight: o.daylight ?? 'day' },
+    ...o.terrain ? { region: { terrain: o.terrain, areas: [] } } : {} }) as unknown as Screen;
+  it('is not of rain on any dry day', () => {
+    for (const weather of ['fair', 'sunny', 'hot', 'cloudy', 'windy', 'cold']) {
+      expect([weather, Fits.fits(at('the landing', { weather }), 'scene-harbor-rain')]).toEqual([weather, false]);
+    }
+    expect(Fits.fits(at('the landing', { weather: 'rainy' }), 'scene-harbor-rain')).toBe(true);
+  });
+  it('is not an author\'s own where it is against the hour or the weather', () => {
+    expect(Scenery.places.howe__lee).toBe('scene-campfire');
+    expect(Scenery.authored(scene('howe__lee', 'the camp in the lee', 'fair', { daylight: 'night' }))).toBe('scene-campfire');
+    expect(Scenery.authored(scene('howe__lee', 'the camp in the lee', 'fair'))).toBeUndefined();
+    expect(Scenery.seen(scene('howe__lee', 'the camp in the lee', 'fair'))).not.toBe('scene-campfire');
+  });
+  it('is not the way in where it is against the sky', () => {
+    for (const weather of ['rainy', 'snowy', 'foggy', 'fair']) {
+      for (const terrain of ['forest', 'marsh', 'mountain', 'frost']) {
+        const way = Scenery.approach(scene('region__s1_green', 'the green', weather, { terrain }));
+        expect([weather, terrain, way === undefined || PaintedSky.of(scene('x', 'x', weather), way).fault === undefined])
+          .toEqual([weather, terrain, true]);
+      }
+    }
   });
 });

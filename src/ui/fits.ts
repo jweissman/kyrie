@@ -10,7 +10,7 @@ import type { Screen } from './screen-types';
 // told: what the place's own description begins by saying it is (a shrine "A well-head with a carved lip").
 interface Rule { id: string; place?: string; told?: string; weather?: string; daylight?: string; underground?: boolean;
   forbids: string; unless?: string }
-interface Looked { shows?: string; light?: string; season?: string; weather?: string }
+export interface Looked { shows?: string; light?: string; season?: string; weather?: string }
 export type Seen = Pick<Screen, 'weather'> & { place: Pick<Screen['place'], 'name' | 'underground'> & { description?: string };
   expedition?: Pick<Screen['expedition'], 'daylight'> };
 export class Fits {
@@ -23,6 +23,8 @@ export class Fits {
     return !this.rules.some(r => this.applies(r, screen, `${screen.place.name} ${words}`)
       && r.forbidden.test(shows) && !r.answered?.test(shows));
   }
+  // What a painting was seen to show, as recorded (its light and weather read by PaintedSky).
+  static looked(painting: string): Looked | undefined { return this.seen[painting]; }
   // All a painting was seen to show: its few words, and its light, season and weather where it shows them.
   static words(painting: string): string {
     const p = this.seen[painting];
