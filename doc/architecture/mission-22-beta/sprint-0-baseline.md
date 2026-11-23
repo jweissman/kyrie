@@ -57,3 +57,21 @@ walks has a blue reply. The script now checks there.
   something known, without adding to it, would be missed.
 - Acts that fail on their own (a check) are tried once, as the game would roll them: a chance act may teach on one
   roll and not another.
+
+## Next, for Sprint 0
+
+1. **Find case 5 in the talk drawer.** The drawer colours each question by `Attest.reply(frame.leaf.glance, c,
+   paying)` and draws a question already asked plain (web/reader/stage/talk-stage.tsx:66-70). The census checks the
+   same witness against the place's glance and finds them agreeing. So the owner's case needs one of two things:
+   - a glance at the moment of turning to someone that differs from the place's;
+   - questions whose own `teaches` flag is false while the opener's knowledge aspect came from elsewhere (the glance's
+     inside acts, a rumour). The likeness aggregates the glance's act aspects (src/presentation/likenesses.ts); a reply
+     is witnessed by `within` plus `c.teaches` (attest.ts:95).
+
+   Build the drawer headlessly as the page builds it (TalkFocus over the person's replies, with the frame's glance), at
+   every turn of a walk that turns to each person. Compare its drawn blue with the likeness. This is the parity
+   extension's first piece: tone, not only rows.
+2. **A gold-following walk for the undertaking invariant,** after scripts/gold-continuity.ts, so that OR-179's case
+   (a payoff that must be chosen as a separate aim) can show.
+3. **Parity for the terminal** (src/cli/terminal-scene.ts picks its own colour for "Following"), and for tone across
+   all three clients.
