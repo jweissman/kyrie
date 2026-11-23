@@ -103,6 +103,13 @@ re-measured since:
 - **Item plates**: 65 wonders (amulets, rings, cloaks, crowns, named blades and mails); 54 plant yields (amaranth to
   thyme); the iron torc.
 
+## Held back
+
+The road and country-lane paintings of 23 November (`scene-road`, `scene-road-night`, `scene-country-lane` in five
+lights and two seasons) are imported but not yet placed on the road or path kinds. A phone's held journey drew its card
+late in three full runs carrying them (OR-182); they are placed once that is understood. The country lanes still stand
+in the hills' views.
+
 ## Not paintings: bindings
 
 Blank or wrong because of how a place or person is bound, not for want of a painting:
