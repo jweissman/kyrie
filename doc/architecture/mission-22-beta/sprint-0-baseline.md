@@ -23,6 +23,7 @@ counted over every turn of the golden walks **as shipped**, with no engine chang
 |---|---|---|---|---|
 | The warrior (golden/warrior-walk.txt) | 44 | 3 | 4 | 0 |
 | The mage (cold/cold-5-lines.txt, Gatesend) | 96 | 14 | 6 | 0 |
+| Gold only (HonestPlayer, the warrior, up to 80 steps) | 14 | 0 | 3 | 0 |
 
 **Distinct cases:**
 
@@ -48,6 +49,17 @@ walks has a blue reply. The script now checks there.
 - *[F]* No undertaking breach on these walks. That is not evidence that the hand-off is sound: OR-179 has not been
   reproduced, and these scripted walks follow their own lines rather than the gold. The undertaking invariant needs a
   gold-following walk too (scripts/gold-continuity.ts is the model).
+
+**Added 23 November.**
+- *[F]* **The drawer's first page:** at every turn where a person is blue, the talk drawer's first page (TalkFocus as
+  the page builds it, marked by what the glance found in their opener) shows a blue question, on all three walks.
+  So case 5 is not on these walks. The check stays in the census as a guard.
+- *[F]* **A gold-only walk** (the page's lead, as HonestPlayer plays it) stops at turn 14, at Redkeep's gate, where
+  the page leads with "look at the speaking door", a riddle on a way. The honest player finds nothing to do with it.
+  [I] This is probably the honest player's limit (it does not answer a riddle on a way; the browser spec
+  test/riddle-on-way does), not a lost thread. To confirm on the page before treating it as a defect. Either way, a
+  gold walk that cannot pass a riddle door cannot test the undertaking invariant beyond it: teaching HonestPlayer to
+  answer a way's riddle is the next step for this measure.
 
 ## Limits
 

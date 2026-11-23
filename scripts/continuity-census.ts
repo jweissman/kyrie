@@ -7,8 +7,10 @@ import { SceneModel } from '../src/ui/scene';
 import { Attending } from '../src/ui/attention';
 import { ScreenModel } from '../src/ui/screen-model';
 import type { Choice } from '../src/ui/choice-list';
+import { TalkFocus } from '../src/ui/talk-focus';
 import { Glanced } from '../test/support/glanced';
 import { AsMeant } from '../test/support/as-meant';
+import { HonestPlayer } from '../test/support/honest-player';
 
 // The three continuity invariants of the alpha acceptance record (mission-22/alpha-acceptance.md), counted over every
 // turn of the golden walks as shipped, before beta changes anything (mission-22-beta/preparation-report.md, Sprint 0).
@@ -19,13 +21,15 @@ import { AsMeant } from '../test/support/as-meant';
 // - undertaking: when the followed aim is done and others are still held, the next turn follows one of them.
 // - focus: only counted here (the frames engaged, by threat or occasion); what the page draws of them is the browser's.
 //   bun scripts/continuity-census.ts [out.json]
-interface Walk { name: string; as: string; lines: string }
+// lines: the walk's own lines; none, and the walk follows the page's lead (the gold) as HonestPlayer plays it.
+interface Walk { name: string; as: string; lines?: string; steps?: number }
 interface Breach { walk: string; turn: number; invariant: string; what: string }
 // Where a reply is tried: the walk, the turn, and whose it is.
 interface At { walk: string; turn: number; who: string }
 const walks: Walk[] = [
   { name: 'warrior', as: 'human/warrior/Wenna', lines: 'doc/architecture/mission-22/golden/warrior-walk.txt' },
-  { name: 'mage', as: 'elf/mage/Ilse/scholar', lines: 'doc/architecture/mission-22/cold/cold-5-lines.txt' }];
+  { name: 'mage', as: 'elf/mage/Ilse/scholar', lines: 'doc/architecture/mission-22/cold/cold-5-lines.txt' },
+  { name: 'gold', as: 'human/warrior/Wenna', steps: 80 }];
 export class ContinuityCensus {
   static lines(path: string): string[] {
     return readFileSync(path, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#'));
@@ -41,6 +45,9 @@ export class ContinuityCensus {
       const at: At = { walk, turn, who: sub.name };
       out.push(...this.tried(s, replies, at));
       const likeness = Glanced.of(s).glance.likenesses?.[sub.id];
+      if (likeness?.aspects.includes('knowledge') && !this.blueFirst(s, sub.id, replies)) {
+        out.push({ walk, turn, invariant: 'opportunity', what: `a blue likeness, no blue on the drawer's first page: ${sub.name}` });
+      }
       if (likeness?.aspects.includes('knowledge') && !this.blueSomewhere(s, sub.id)) {
         out.push({ walk, turn, invariant: 'opportunity', what: `a blue likeness with no blue reply: ${sub.name}` });
       }
@@ -67,6 +74,15 @@ export class ContinuityCensus {
     }
     return out;
   }
+  // The talk drawer's first page as the page draws it (web/reader/stage/talk-stage.tsx): TalkFocus over their replies,
+  // led and marked by what the glance found in their opener, an answer owed and the salient three.
+  private static blueFirst(s: PlaySession, id: string, replies: Choice[]): boolean {
+    const g = Glanced.of(s).glance, screen = ScreenModel.build(s.campaign), acts = g.acts.filter(a => a.subject === id);
+    const led = acts.find(a => a.for)?.for, marked = acts.flatMap(a => (a.inside ?? []).map(x => x.command));
+    const focus = TalkFocus.of(replies.filter(c => !/^talk_to\(/.test(c.command ?? '')), { ...led ? { led } : {}, marked,
+      asked: [], weighty: screen.weighty ?? [], paying: screen.paying ?? [] });
+    return [...focus.answers, ...focus.salient].some(c => Attest.reply(g, c, screen.paying).some(w => w.aspects.includes('knowledge')));
+  }
   // Whether any reply of theirs is blue: the questions are among their choices at the place (opening a talk is the
   // page's and the runner's, not an act of the campaign's, so a talk is not opened here).
   private static blueSomewhere(s: PlaySession, id: string): boolean {
@@ -80,11 +96,13 @@ export class ContinuityCensus {
   }
   static async walk(w: Walk): Promise<{ breaches: Breach[]; turns: number; engaged: number }> {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', w.as]));
-    const s = journey.session, r = new Runner(s), lines = this.lines(w.lines), breaches: Breach[] = [];
-    let engaged = 0, before = this.aims(s);
+    const s = journey.session, r = new Runner(s), breaches: Breach[] = [];
+    const lines = w.lines ? this.lines(w.lines) : Array.from({ length: w.steps ?? 0 }, () => ''), honest = new HonestPlayer(s);
+    let engaged = 0, played = 0, before = this.aims(s);
     for (const [turn, line] of lines.entries()) {
       breaches.push(...this.opportunity(s, w.name, turn));
-      await AsMeant.ask(r, line);
+      if (w.lines) { await AsMeant.ask(r, line); } else if (!await honest.step()) { break; }
+      played++;
       const after = this.aims(s), screen = ScreenModel.build(s.campaign);
       if (screen.engaged || screen.warned) { engaged++; }
       // The followed aim done (gone from those held), others still held, and none followed now.
@@ -95,7 +113,7 @@ export class ContinuityCensus {
       }
       before = after;
     }
-    return { breaches, turns: lines.length, engaged };
+    return { breaches, turns: played, engaged };
   }
   private static count(breaches: Breach[], invariant: string): number {
     return breaches.filter(b => b.invariant === invariant).length;
