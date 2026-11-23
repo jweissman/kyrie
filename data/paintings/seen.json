@@ -8528,6 +8528,55 @@
    "era": "late",
    "light": "daylight",
    "weather": "clear"
+  },
+  "scene-alpine-tarn": {
+   "form": "landscape",
+   "shows": "a rocky shoulder above a small tarn in a forested valley, a pine and fireweed, snowy peaks in the evening light",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-broken-keep": {
+   "form": "interior",
+   "shows": "inside a broken keep by day: roofless walls with empty windows, ivy, fallen stones on the flags, a stair going up in the ruined wall",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-broken-keep-tower": {
+   "form": "interior",
+   "shows": "the top of a broken keep's tower by day: a worn stair, a ruined parapet open on wooded valleys, fallen stones",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-circus": {
+   "form": "exterior",
+   "shows": "a circus fairground's lane by day: painted wagons and striped tents, a horse under an awning, banners, mud and straw, a castle on the hill",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-circus-fog": {
+   "form": "exterior",
+   "shows": "the same circus lane in fog, lanterns lit under the awnings, the tents grey shapes",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-circus-rain": {
+   "form": "exterior",
+   "shows": "the same circus lane in rain, awnings dripping, lanterns lit, the lane mud and puddles",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-water-stairs-night": {
+   "form": "exterior",
+   "shows": "stone steps going down into dark still water by moonlight, a worn wall above",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
   }
  }
 }

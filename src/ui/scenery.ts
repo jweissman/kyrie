@@ -79,8 +79,10 @@ export class Scenery {
     if (this.places[screen.place.id]) { return this.places[screen.place.id]; }
     const at = { roofed: this.roofed(screen), underground: !!screen.place.underground };
     const named = SceneKinds.of(screen, k => !!SceneKinds.painted(k, at));
+    // A room's paintings keep to the season as the country's do (a tower's top in frost had stood for a summer room).
+    const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
     const known = named && SceneKinds.views(named, at);
-    if (known) { return this.varied(known, screen, named!); }
+    if (known) { return this.varied(this.seasonal(known, season), screen, named!); }
     const site = screen.path.some(p => p.kind === 'site');
     const views = at.underground ? this.within[site ? 'underground:site' : 'underground'] : this.within.indoors;
     return this.pick(views ?? [], screen.place.id, screen);

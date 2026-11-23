@@ -41,6 +41,12 @@ describe('the painting of a place', () => {
       const others = new Set(seasons.filter(s => s !== season).flatMap(s => tied[s] ?? []));
       expect(drawn.filter(d => d && others.has(d))).toEqual([]);
       if (season === 'winter') { expect(drawn.some(d => d && tied.winter!.includes(d))).toBe(true); }
+      // And a room's: the tops of forty towers, none drawing another season's painting (Scenery.inside).
+      const rooms = Array.from({ length: 40 }, (_, i) => Scenery.seen({ ...Scene.of(Scene.room(`tower${i}__top`,
+        'the top of the tower'), [{ id: `tower${i}`, name: 'The tower', kind: 'site' },
+        { id: `tower${i}__inside`, name: 'Inside the tower', kind: 'level' }]),
+      date: { short: '', long: `the 1st; ${season}` } } as Screen));
+      expect(rooms.filter(d => d && others.has(d))).toEqual([]);
     }
   });
   it('agrees with the season on the way in', () => {
