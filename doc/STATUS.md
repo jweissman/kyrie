@@ -4,9 +4,9 @@ The one page that says where things stand now. It is rewritten when a mission be
 something material changes. Nothing else at the top of the documentation dates itself or names a mission: the
 README and the index say what is lasting, and point here for what is current.
 
-**As of 23 November 2026: M22-beta is authorized to build.** Its order, first queue and first three tasks are
-[mission-22-beta/execution-plan.md](architecture/mission-22-beta/execution-plan.md), which governs where the
-plans below differ. **Mission 22 alpha is closed as an alpha (a proving phase), not accepted as a first-hour
+**As of 23 November 2026: M22-beta is authorized to build.** The owner's commission,
+[mission-22-beta/BRIEF.md](architecture/mission-22-beta/BRIEF.md), governs it; the first queue and first three tasks
+are [mission-22-beta/execution-plan.md](architecture/mission-22-beta/execution-plan.md). **Mission 22 alpha is closed as an alpha (a proving phase), not accepted as a first-hour
 product.** Its close is [mission-22/closeout.md](architecture/mission-22/closeout.md): the six commission outcomes,
 the gate as it stands, the ruling on responsiveness, and beta's entry conditions. Why it ended there, and what beta
 should change, is [mission-22/alpha-retrospective.md](architecture/mission-22/alpha-retrospective.md); what the

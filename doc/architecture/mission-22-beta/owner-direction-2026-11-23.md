@@ -64,8 +64,8 @@ many small **Incidents**, which contribute to its resolution in different ways a
 
 ## How this revises the sprint plan
 
-*Now carried into [execution-plan.md](execution-plan.md), which sets the final order (act cost, the first minute,
-action and Atlas truth, situation continuity, the town and its dungeon, combat and conversation).*
+*Superseded by the owner's commission, [BRIEF.md](BRIEF.md), which governs beta; its execution plan is
+[execution-plan.md](execution-plan.md).*
 
 The preparation report's architecture stands: one outcome per act, one situation state, atomic commands, setting
 independence. But **each sprint is now judged by a first-hour demonstration**, and the architecture is what makes it

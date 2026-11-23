@@ -3,8 +3,8 @@
 > **Revised 23 November** by the owner's direction ([owner-direction-2026-11-23.md](owner-direction-2026-11-23.md)): every
 > sprint is judged by a first-hour demonstration, and the order is the 90-second opening, the first town and its dungeon,
 > trust in what is offered, combat and conversation, then separation and authoring. Where the two differ, the direction governs.
-> **Superseded for order, 23 November:** beta is authorized to build; [execution-plan.md](execution-plan.md)
-> governs the order, the first queue and the first tasks, and replaces §F's table.
+> **Superseded, 23 November:** the owner's commission, [BRIEF.md](BRIEF.md), governs beta, and its execution plan
+> ([execution-plan.md](execution-plan.md)) replaces §F's table. This report is evidence.
 > **Revised again 23 November:** act cost is the wave's first priority. A pure, incremental headless decision under
 > 15 ms (mission-22-beta/act-cost-profile.md) comes before the 90-second opening.
 

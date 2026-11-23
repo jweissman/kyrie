@@ -3,10 +3,9 @@
 **Beta is authorized to build.** The owner, 23 November: "We know enough to begin. Build, test cheaply, integrate
 frequently, and reserve scarce human attention for judging whether the game has actually become better."
 
-This page governs beta's order and its first work. Where earlier documents differ, this one wins:
-- the preparation report's sprint table (§F) is superseded;
-- the owner's direction (owner-direction-2026-11-23.md) still says what beta is for;
-- this plan says what is built, in what order, and how each step is accepted.
+**The owner's commission, [BRIEF.md](BRIEF.md), governs beta.** This page is its execution plan: the first queue,
+the first tasks and how each is accepted. Where this page and the brief differ, the brief wins. The preparation
+report's sprint table (§F) is superseded, and the owner's direction (owner-direction-2026-11-23.md) is evidence.
 
 No discovery phase stands between this page and code.
 
@@ -52,6 +51,9 @@ re-establish a known problem.
 
 ## The order
 
+The brief's integration sequence (§10), as gates, not a calendar. The small-world loop comes before the full
+Outcome and situation work, and those contracts are worked on from the first wave wherever they block the loop.
+
 Each sprint ends with a playable reference build on main (`?world=iscoed`, the drove road), an invariant for each
 repair, and a demonstration. **A structural cause is fixed in preference to a local guard.**
 
@@ -59,14 +61,14 @@ repair, and a demonstration. **A structural cause is fixed in preference to a lo
 |---|---|---|---|---|---|
 | 1 | **Act cost** | Legal actions found stale by what changed (OR-183); a journey's legs checked without the frame (AX-05); routes and perception only when drawn | Incremental equals full on every turn of the golden walks; the turn-cost ratchet | Decision under 15 ms median; an act settled under 300 ms p95 in the browser (OR-145) | — |
 | 2 | **The first minute** | The world and a life pre-rolled at the title; Play → build, or "We enter the world as we are"; the opening as one Situation of Incidents (light, ration, recruit, fight, puzzle); no long presses (OR-160, OR-23, OR-169, OR-144) | A spec over the opening's Incidents, each reachable and each changing the situation; Play-to-act timed | First meaningful action within 1.5 s of Play; cold agents of each kind out of the opening in under 2 minutes | 1 (speed), AX-04 |
-| 3 | **Action and Atlas truth** | One Outcome per drawn row, over session commands, by the cheap apply-and-rules step, memoised per world (outcome-cost-study.md); Attest, the gold and the Atlas read only it (OR-178) | Predicted equals observed on every turn of the walks; census opportunity breaches at 0 | The three census walks clean; ChoiceGrouping.teaches and Teaching.shows deleted | 1 (the budget it spends) |
-| 4 | **Situation continuity** | One situation state (place, talk, engagement, map, journey, fight) with explicit transitions, owned by the engine (OR-177, OR-173, OR-163); undertaking hand-off with reward and aftermath (OR-179) | One state per frame, every client drawing it (parity); the gold walk past Redkeep's riddle door with no undertaking breach | A riddle, a card hand, the map and a fight each held to their focus in the browser | 3; MT-24 (atomic command) |
-| 5 | **Town and dungeon** | One settlement alone in a hexcrawlable wild, a deep repeatable dungeon in its hex; teaching quests; people who respond (the owner's direction) | The census at 0 breaches on the town's walks; the dungeon re-entered differently | Cold agents complete town → dungeon → return unprompted | 2–4 |
-| 6 | **Combat and conversation** | Occasion as the Kyr construct for engagement and talk (the authorability gain); fights that cost (CB-01); conversation that progresses (OR-149, OR-165) | Control facts counted down; challenge per round measured | Cold agents rate the fights risky and the talks consequential; **the owner's acceptance of the opening and loop** | 4, 5 |
+| 3 | **Town and dungeon** | One settlement alone in a hexcrawlable wild, a deep repeatable dungeon in its hex; teaching quests; people who respond (the owner's direction) | The census at 0 breaches on the town's walks; the dungeon re-entered differently | Cold agents complete town → dungeon → return unprompted | 2; the contracts of 4 where they block it |
+| 4 | **Action and Atlas truth** | One Outcome per drawn row, over session commands, by the cheap apply-and-rules step, memoised per world (outcome-cost-study.md); Attest, the gold and the Atlas read only it (OR-178) | Predicted equals observed on every turn of the walks; census opportunity breaches at 0 | The three census walks clean; ChoiceGrouping.teaches and Teaching.shows deleted | 1 (the budget it spends) |
+| 5 | **Situation continuity** | One situation state (place, talk, engagement, map, journey, fight) with explicit transitions, owned by the engine (OR-177, OR-173, OR-163); undertaking hand-off with reward and aftermath (OR-179) | One state per frame, every client drawing it (parity); the gold walk past Redkeep's riddle door with no undertaking breach | A riddle, a card hand, the map and a fight each held to their focus in the browser | 4; MT-24 (atomic command) |
+| 6 | **Combat and conversation** | Occasion as the Kyr construct for engagement and talk (the authorability gain); fights that cost (CB-01); conversation that progresses (OR-149, OR-165) | Control facts counted down; challenge per round measured | Cold agents rate the fights risky and the talks consequential; **the owner's acceptance of the opening and loop** | 3–5 |
 
 **Platform work rides with the sprint it unblocks:** MT-24 before sprint 4, AX-04 for sprint 2, and the layer ratchet
 on the paths each sprint touches. The separation proof (the allotment scenario) and the Deem workbench run on the
-second agent's stream when a sprint gives them leverage; they are beta's conditional items.
+second agent's stream when a sprint gives them leverage; both are beta exit conditions (the brief, §11: portable platform, authorial leverage), not optional.
 
 **The feature atlas is M22's instrument project** (the owner, 23 November). It runs on the instruments stream,
 beside the sprints, and never in their place. Its aim is a behavioural map of the product that is read top-down and
@@ -111,7 +113,8 @@ The alpha queue's other rows (OR-149, OR-173, OR-163, OR-162) stay live in the s
   - the legal actions (`KeptGroundings.all`);
   - `ScreenModel.build`;
   - `Glance.of`;
-  - the whole runner turn.
+  - the whole runner turn, with non-journey turns and journey legs counted apart (the brief's targets: a
+    non-journey turn under 30 ms, a leg under 5 ms).
 
   It records the median and p90 in a baseline file and fails on a regression beyond a set margin (CI machines vary;
   start at 1.5× the recorded median). It runs nightly, not on push: it is a 44-turn walk.
