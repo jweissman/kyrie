@@ -60,17 +60,19 @@ walks has a blue reply. The script now checks there.
 
 ## Next, for Sprint 0
 
-1. **Find case 5 in the talk drawer.** The drawer colours each question by `Attest.reply(frame.leaf.glance, c,
-   paying)` and draws a question already asked plain (web/reader/stage/talk-stage.tsx:66-70). The census checks the
-   same witness against the place's glance and finds them agreeing. So the owner's case needs one of two things:
-   - a glance at the moment of turning to someone that differs from the place's;
-   - questions whose own `teaches` flag is false while the opener's knowledge aspect came from elsewhere (the glance's
-     inside acts, a rumour). The likeness aggregates the glance's act aspects (src/presentation/likenesses.ts); a reply
-     is witnessed by `within` plus `c.teaches` (attest.ts:95).
+1. **Find case 5 in the talk drawer.** One hypothesis is ruled out (23 November). It was that turning to someone
+   changes the glance the drawer colours by.
+   - Opening a talk through the runner (`talk:<id>`) on the warrior's walk changed neither the likeness nor any
+     question's blue: Carlin's and Kynes's blue questions stayed blue, and the plain ones were plain.
+   - One real miss showed: "Ask about the old quarry" teaches but is plain (OR-178: the job's own given-marker).
+   - What is left is the page's own drawing (web/reader/stage/talk-stage.tsx):
+     - a question already asked is drawn plain (`spent`);
+     - questions are paged three at a time after any answer owed (`Paging.of`), so a person's blue question can sit
+       off the first page while the likeness is blue.
+   - Build the drawer headlessly (TalkFocus over the person's replies, paged as the page pages) and check that the
+     first page shows the blue a blue likeness promises. If it does not, that is case 5, and the fix is the drawer's
+     order (the promised question first), not the witness.
 
-   Build the drawer headlessly as the page builds it (TalkFocus over the person's replies, with the frame's glance), at
-   every turn of a walk that turns to each person. Compare its drawn blue with the likeness. This is the parity
-   extension's first piece: tone, not only rows.
 2. **A gold-following walk for the undertaking invariant,** after scripts/gold-continuity.ts, so that OR-179's case
    (a payoff that must be chosen as a separate aim) can show.
 3. **Parity for the terminal** (src/cli/terminal-scene.ts picks its own colour for "Following"), and for tone across
