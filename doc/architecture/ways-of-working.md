@@ -46,6 +46,9 @@ missions.
   pushes, and watches CI. With `KYRIE_LAND_FF=/home/jweissman/work/kyrie`, it fast-forwards the owner's checkout.
 - **`scripts/landing/full.sh <sha>`** first runs the whole suite on a check branch, then calls land.sh. Use it for
   anything that moves worlds (content, paintings, generation, rules); the push lane does not see that fallout.
+- **A landed commit gets a new id.** land.sh rebases onto main, so never wait for a sha to appear on main. Chain
+  landings in one script (land.sh takes a lock), or test whether a commit has landed by patch:
+  `git cherry origin/main <sha>` shows no `+`.
 - **Land an explicit sha, never HEAD.** Batch your landings: each push to main cancels the previous run and delays
   Pages.
 - **Commit messages** say what changed and why, in the project's prose. They end with the attribution line your
@@ -59,6 +62,12 @@ missions.
   shows no `+`). Check that it is clean first.
 - **Check branches** (`check-*`) are landing scratch. Delete them, local and remote, once their commit has landed.
 - **Never `git stash`.**
+
+## Players
+
+No gate waits on a human player. A cold play is a cold-play agent on the rendered page, of a stated kind (a careful
+reader, an impatient presser, a gold-follower, a wanderer who ignores the gold). Timings are measured in the browser
+on CI, not per device.
 
 ## The register and the plan
 
@@ -76,7 +85,7 @@ missions.
 
 | Question | Tool |
 |---|---|
-| Do the three continuity invariants hold over the golden walks? | `bun scripts/continuity-census.ts` |
+| Do the three continuity invariants hold over the golden walks (and a walk that follows only the gold)? | `bun scripts/continuity-census.ts` |
 | Which places have no painting, in which sky? | `bun scripts/scene-census.ts <world>` |
 | Does the gold go dark on a walk that follows it? | `bun scripts/gold-continuity.ts` |
 | Do the page, terminal and runner offer the same? | `scripts/client-parity.ts` (it does not yet see the terminal or the talk drawer) |
