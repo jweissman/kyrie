@@ -1,0 +1,226 @@
+Module eelbell "The Eel Bell" {
+  // ── The pit: a furnace, a crucible, a mould, and a bell that does not exist yet ──────────────────────────────────
+
+  Kind eb_kettle "a great copper eel-kettle" is gear worth 3 weighing 3 described "A copper kettle big enough to boil a day's eels, beaten thin and green at the seams, with a dent where somebody once lost an argument.".
+  Kind eb_gannet "a piece of the Grandam" is gear worth 6 weighing 3 described "A piece of old bell-bronze the size of a hat, brown on the outside and the colour of a new penny where it broke. It is heavier than it looks, and warm from the loft.".
+  Kind eb_pewter "a bundle of pewter plates" is gear worth 2 weighing 2 described "Eight pewter plates tied up in a dishcloth. They knock together dully; some of them seem to knock more dully than others.".
+  Kind eb_clear "a stack of plates that ring clear" is gear worth 2 weighing 1 described "Five pewter plates that ring when struck: tin, near enough, and a little copper.".
+  Kind eb_dull "a stack of plates that thud" is gear worth 0 weighing 1 described "Three pewter plates that answer a knuckle with a dead sound. Lead, mostly. They would soften a bell like butter.".
+  Kind eb_spoons "Maudlin Greave's wedding spoons" is treasure worth 8 weighing 0 described "Three silver spoons worn thin at the bowl, on a loop of faded ribbon.".
+  Kind eb_chain "a length of the sea-gate chain" is gear worth 1 weighing 4 described "Eight links of black iron, each as long as your forearm, scaled and heavy. It has held a sea out.".
+  Kind eb_charcoal "a sack of charcoal" is gear worth 2 weighing 2 described "A sack of ridge charcoal, light for its size, which ticks as it cools.".
+
+  Measure temper(entity). Measure bulk(entity). Measure coals(entity). Measure litAt(entity). Measure pouredAt(entity).
+  Measure strike(entity). Measure hum(entity). Measure rope(entity). Measure turns(entity).
+  Relation inIron(entity). Relation silvered(entity). Relation leaded(entity).
+  Relation brittle(entity). Relation cracked(entity). Relation sounded(entity).
+  Relation shapedStrike(entity). Relation shapedHum(entity).
+  Relation cutNames(entity). Relation cutBiscuit(entity). Relation cutPlain(entity). Relation cutSet(entity).
+  Relation sledgeLent(group). Relation dyceHelps(group). Relation rushbyKnows(group).
+
+  Discovery metal_known "Bell-metal is about three parts copper to one of tin. Too much copper and the bell is flat and dull; too much tin and it is sharp and brittle; lead softens it, and iron will crack it. Perpetua Sount can read the charge by its colour.".
+  Discovery pare_known "A flat bell can be pared sharp, a little at a time; bronze taken off does not go back. A bell cast sharp cannot be mended.".
+  Discovery tide_known "A tide-bell is rung six hours through the tide, and a man on the rope is good for two.".
+  Discovery grandam_hum "The Grandam had a low hum under its strike, and the silver eels come to it.".
+  Discovery hum_known "Posy Rushby's hum is the Grandam's: a low note with a floor under it. A new bell can be pared to match.".
+
+  Thing furnace "the furnace" at green {
+    State cold "A beehive furnace of brick stands at the pit's mouth, cold, with a crucible the size of a font set in its belly.".
+    State roaring "The furnace roars. Its mouth is white and the air above it is a ripple. The crucible is a pool of something that was never meant to be looked at.".
+    State emptied "The furnace is dark and ticking, its crucible empty.".
+  }
+  Initially Set temper(furnace) to 20.
+  Thing bell "the bell" at green {
+    State mould "The mould is sunk in the pit, loam and goat-hair bound in iron hoops, with its mouth open at the top.".
+    State cast "The mould lies buried in the pit, still too hot to touch; the ground over it ticks.".
+    State bare "The bell stands in the pit, broken out of its loam: a great dull bronze cup, rough, with the casting-seam still up its flank.".
+    State hung "The bell hangs in its frame.".
+    Change breakout "Break the loam off the bell" from cast to bare when watch(clock) >= pouredAt(bell) + 72 "The loam is far too hot to touch. It wants half a day.".
+  }
+
+  // Feeding the furnace: three sacks, then a night's heat.
+  Action stoke(actor: group, site: place) "Bank the furnace with a sack of charcoal" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_charcoal) and state(furnace, cold) and coals(furnace) < 3.
+    Time 6.
+    On success { Spend eb_charcoal from actor. Increase coals(furnace) by 1. }
+    Result "You pack the sack's charcoal under the crucible, black on black, and the furnace takes it like a held breath.".
+  }
+  Action light_furnace(actor: group, site: place) "Light the furnace" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and state(furnace, cold) and coals(furnace) >= 3.
+    Time 2.
+    On success { Assert state(furnace, roaring). Set litAt(furnace) to watch(clock). }
+    Result "Sount puts the coal to it herself, with a grunt, and stands back. The bellows-boy's work is yours: for an hour you pump, and then the furnace begins to roar on its own. 'Six hours,' says Sount, 'and it will be ready to pour.'".
+  }
+
+  // Charging the crucible. Each thing tipped in changes what the metal will be.
+  Action charge_kettle(actor: group, site: place) "Cut up a copper kettle and put it in the crucible" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_kettle) and not state(furnace, emptied) and not state(bell, cast).
+    Time 1.
+    On success { Spend eb_kettle from actor. Decrease temper(furnace) by 3 or to nothing. Increase bulk(furnace) by 3. }
+    Result "The kettle goes in, in pieces, and slumps. The crucible takes a good deal of copper without comment.".
+  }
+  Action charge_gannet(actor: group, site: place) "Put a piece of the Grandam in the crucible" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_gannet) and not state(furnace, emptied) and not state(bell, cast).
+    Time 1.
+    On success { Spend eb_gannet from actor. Increase temper(furnace) by 1. Increase bulk(furnace) by 3. }
+    Result "You lay the piece of the old bell on the pile. It does not look like metal about to be melted; it looks like someone going to bed.".
+  }
+  Action charge_clear(actor: group, site: place) "Add a plate that rings clear to the crucible" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_clear) and not state(furnace, emptied) and not state(bell, cast).
+    Time 1.
+    On success { Spend eb_clear from actor. Increase temper(furnace) by 3. Increase bulk(furnace) by 1. }
+    Result "The plate goes in with a flash of white. Tin goes quickly and brightly into whatever it is given.".
+  }
+  Action charge_dull(actor: group, site: place) "Add a plate that thuds to the crucible" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_dull) and not state(furnace, emptied) and not state(bell, cast).
+    Time 1.
+    On success { Spend eb_dull from actor. Decrease temper(furnace) by 2 or to nothing. Increase bulk(furnace) by 1. Assert leaded(furnace). }
+    Result "The lead plate goes in and is gone at once, without a sound. Sount, watching, makes a small face.".
+  }
+  Action charge_pewter(actor: group, site: place) "Tip the unsorted pewter into the crucible, plates and all" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_pewter) and not state(furnace, emptied) and not state(bell, cast).
+    Time 1.
+    On success { Spend eb_pewter from actor. Increase temper(furnace) by 9. Increase bulk(furnace) by 8. Assert leaded(furnace). }
+    Result "All eight go in together. Five of them were tin, and three were lead, and the crucible does not distinguish.".
+  }
+  Action charge_spoons(actor: group, site: place) "Drop Maudlin Greave's spoons into the crucible" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_spoons) and not state(furnace, emptied) and not state(bell, cast).
+    Time 1.
+    On success { Spend eb_spoons from actor. Increase bulk(furnace) by 1. Assert silvered(furnace). }
+    Result "The spoons slide off their ribbon and are silver for a moment, and then they are part of it. A pinch of silver, Sount says, is what the old founders put in for love.".
+  }
+  Action charge_chain(actor: group, site: place) "Feed the sea-gate chain into the crucible" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and holding(actor, eb_chain) and not state(furnace, emptied) and not state(bell, cast).
+    Time 1.
+    On success { Spend eb_chain from actor. Increase bulk(furnace) by 4. Assert inIron(furnace). }
+    Result "The chain goes in link by link and does not so much melt as give up. A grey scum rises on the crucible, and Sount, if she could hear, would be saying something.".
+  }
+  Action ring_plates(actor: group, site: place) "Ring the pewter plates, one by one, and sort them" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, eb_pewter).
+    Time 1.
+    On success { Spend eb_pewter from actor. Give 5 eb_clear to actor. Give 3 eb_dull to actor. }
+    Result "You ring them against the table-edge. Five sing; three go flat as a slap. You tie the two stacks in separate cloths.".
+  }
+
+  // What Sount reads in the charge. She cannot hear, but she can see.
+  Topic charge_read_low with sount "Ask Sount how the charge looks" when temper(furnace) <= 12 {
+    Says "'Red,' says Sount, scowling into the crucible. 'Red as a fox. Copper, copper, copper, and no voice in it. It would give you a bell like a pot-lid. More tin, or less of the red.'".
+  }
+  Topic charge_read_flat with sount "Ask Sount how the charge looks" when temper(furnace) >= 13 and temper(furnace) <= 16 {
+    Says "'Gold, going to orange,' says Sount. 'A little heavy on the copper. It would cast a flat bell, and a flat bell can be pared, if you have patience.'".
+  }
+  Topic charge_read_true with sount "Ask Sount how the charge looks" when temper(furnace) >= 17 and temper(furnace) <= 20 {
+    Says "'Straw,' says Sount, and for the first time she smiles. 'Pale straw. That is the colour of a bell.'".
+  }
+  Topic charge_read_sharp with sount "Ask Sount how the charge looks" when temper(furnace) >= 21 and temper(furnace) <= 23 {
+    Says "'Lemon,' says Sount. 'Getting white at the edge. Too much tin, a little. It will ring high, and it will not take being pared; you cannot pare a bell lower. I'd put in a kettle.'".
+  }
+  Topic charge_read_brittle with sount "Ask Sount how the charge looks" when temper(furnace) >= 24 {
+    Says "'White,' says Sount, flatly. 'A white as a boiled egg. That bell would crack the first time a pigeon sat on it. Copper, now, before the fire.'".
+  }
+  Topic charge_read_lead with sount "Ask Sount about the grey bloom on the melt" when leaded(furnace) {
+    Says "'Lead,' says Sount, and lifts a rake of the skin off the pool, grey and soft. 'Somebody's pewter was not tin. It will make the bell soft and flat. More tin, if you have clean tin, or be ready to pare.'".
+  }
+  Topic charge_read_iron with sount "Ask Sount about the grey scum on the crucible" when inIron(furnace) {
+    Says "'Iron,' says Sount, and spits, carefully, to one side. 'Who put iron in my pot?' She looks at you, then at the crucible, then at the sky. 'That bell will ring once. It will ring beautifully, once.'".
+  }
+
+  // ── What goes on the shoulder ─────────────────────────────────────────────────────────────────────────────────────
+  Action cut_names(actor: group, site: place) "Tell Sount to cut the seven names on the bell's shoulder" {
+    Speaker sount.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sount, site) and knows(actor, seven_names) and not cutSet(bell).
+    Time 1.
+    On success { Assert cutSet(bell). Assert cutNames(bell). }
+    Result "Sount takes a stick of wax and a rule and cuts the seven names into the mould's shoulder, in capitals, with her tongue between her teeth. It takes her an hour. When she has finished she blows the wax-dust off and hands you the stick, as if it were a thing you should keep.".
+  }
+  Action cut_biscuit(actor: group, site: place) "Tell Sount to cut BISCUIT on the bell's shoulder" {
+    Speaker sount.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sount, site) and knows(actor, biscuit_named) and not cutSet(bell).
+    Time 1.
+    On success { Assert cutSet(bell). Assert cutBiscuit(bell). }
+    Result "'Biscuit,' says Sount, writing it down in the air with a finger to be certain she has it. 'The bell is called Biscuit.' 'It is Posy's choice,' you say. 'I have cast bells called Bellona and Mother Hesper,' says Sount, 'and one called Good King Dunstan by a baron who did not know him. I like Biscuit.'".
+  }
+  Action cut_plain(actor: group, site: place) "Tell Sount to leave the shoulder plain" {
+    Speaker sount.
+    Requires able(actor) and company(actor) and at(actor, site) and at(sount, site) and not cutSet(bell).
+    Time 0.
+    On success { Assert cutSet(bell). Assert cutPlain(bell). }
+    Result "'Plain,' says Sount. 'Good. Bells talk enough.' She smooths the loam with the flat of her hand, and the shoulder is bare.".
+  }
+
+  // ── The pour ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Action pour(actor: group, site: place) "Tap the crucible and pour the bell" {
+    Grave "A pour is done once. What is in the crucible is what the bell will be.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(furnace, site) and state(furnace, roaring) and watch(clock) >= litAt(furnace) + 36 and bulk(furnace) >= 6 and cutSet(bell) and state(bell, mould).
+    Time 2.
+    On success { Assert state(bell, cast). Assert state(furnace, emptied). Set pouredAt(bell) to watch(clock). }
+    Result "Sount puts both hands on the tapping-bar and you put yours over them. The plug goes. A white rope of bronze pours out of the furnace into the mould's mouth, with a sound like the world being torn, and then there is a smell of scorched hair, and a long silence, and Sount sits down on the ground and laughs until she coughs.".
+  }
+
+  // ── What the pour made ────────────────────────────────────────────────────────────────────────────────────────────
+  Rule strike4 when state(bell, cast) and not shapedStrike(bell) and temper(furnace) >= 24 { Set strike(bell) to 4. Assert brittle(bell). Assert shapedStrike(bell). }
+  Rule strike3 when state(bell, cast) and not shapedStrike(bell) and temper(furnace) >= 21 and temper(furnace) <= 23 { Set strike(bell) to 3. Assert shapedStrike(bell). }
+  Rule strike2 when state(bell, cast) and not shapedStrike(bell) and temper(furnace) >= 17 and temper(furnace) <= 20 { Set strike(bell) to 1. Assert shapedStrike(bell). }
+  Rule strike1 when state(bell, cast) and not shapedStrike(bell) and temper(furnace) >= 13 and temper(furnace) <= 16 { Set strike(bell) to 0. Assert shapedStrike(bell). }
+  Rule strike0 when state(bell, cast) and not shapedStrike(bell) and temper(furnace) <= 12 { Set strike(bell) to 0. Assert shapedStrike(bell). }
+  Rule hum2 when state(bell, cast) and not shapedHum(bell) and bulk(furnace) <= 9 { Set hum(bell) to 3. Assert shapedHum(bell). }
+  Rule hum1 when state(bell, cast) and not shapedHum(bell) and bulk(furnace) >= 10 and bulk(furnace) <= 14 { Set hum(bell) to 1. Assert shapedHum(bell). }
+  Rule hum0 when state(bell, cast) and not shapedHum(bell) and bulk(furnace) >= 15 { Set hum(bell) to 0. Assert shapedHum(bell). }
+  Rule iron_brittle when state(bell, cast) and inIron(furnace) and not brittle(bell) { Assert brittle(bell). }
+
+  // ── Listening ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Action sound_bell(actor: group, site: place) "Strike the bell and listen to it go out" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bell, site) and (state(bell, bare) or state(bell, hung)) and not cracked(bell).
+    Time 1.
+    On success { Assert sounded(bell). }
+    Result "A plain flat clang, a pot-lid dropped in a well, and it stops." when strike(bell) == 0.
+    Result "A dull note, round, like the lid of a bucket, and it does not go anywhere." when strike(bell) == 1.
+    Result "A clear note comes up out of the bronze like something let out of a box, and goes out over the washes and does not seem to stop." when strike(bell) == 2.
+    Result "A bright, thin note, a hair high, like a wet finger on a glass, and it hurts a little behind the eyes." when strike(bell) == 3.
+    Result "A shrill, tinny note, high and small, that sets your teeth on edge." when strike(bell) == 4.
+    Result "You strike it with the leather mallet.".
+  }
+  Rule bell_cracks when within(party, washes) and sounded(bell) and brittle(bell) and not cracked(bell)
+    says "The note starts clean. Then something in it comes undone, from the lip upward, with a sound like ice taking a weight, and a hair-line runs up the flank of the bell and stops under the shoulder. The note that is left is ugly, and wide, and very loud. Sount has her palm flat on the bronze. She takes it away. 'Say it,' she says. 'What did it do?'" {
+    Assert cracked(bell).
+  }
+  Action listen_hum(actor: group, site: place) "Wait for the hum to settle, and listen under the strike" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bell, site) and (state(bell, bare) or state(bell, hung)) and not cracked(bell).
+    Time 1.
+    On success { Assert sounded(bell). }
+    Result "Under the strike a long low note remains, like a cow lowing in a cellar. It has a floor under it, and you cannot tell whether it is the right one." when not knows(actor, hum_known).
+    Result "Under the strike a long low note remains. It is well below Posy's hum, a stair too low and then another." when hum(bell) == 0 and knows(actor, hum_known).
+    Result "Under the strike a long low note remains, and it is close to Posy's, but a stair too low still." when hum(bell) == 1 and knows(actor, hum_known).
+    Result "Under the strike the long low note settles, and it is Posy's: the floor under it, the one she hummed to the cat. You feel it in your breastbone." when hum(bell) == 2 and knows(actor, hum_known).
+    Result "Under the strike a long low note remains, and it is a stair too high for Posy's. The waist is too thin for that voice now." when hum(bell) >= 3 and knows(actor, hum_known).
+  }
+
+  // ── Tuning: bronze comes off, and does not go back ────────────────────────────────────────────────────────────────
+  Action pare_strike(actor: group, site: place) "Pare the sound-bow to raise the strike" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bell, site) and state(bell, bare) and not cracked(bell) and strike(bell) < 4.
+    Time 6.
+    On success { Increase strike(bell) by 1. }
+    Result "You hold the bell steady while Sount sets the chisel against the sound-bow and takes off a curl of bronze as fine as a fiddle-string. It rolls across the floor, bright. 'Now strike it,' she says.".
+  }
+  Action pare_waist(actor: group, site: place) "Pare the waist to raise the hum" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bell, site) and state(bell, bare) and not cracked(bell) and hum(bell) < 3.
+    Time 6.
+    On success { Increase hum(bell) by 1. }
+    Result "Sount scrapes the waist inside with a hook, and you hold the lamp. A bell's hum is in its waist; the bronze comes away in grey crumbs. 'Now listen under it,' she says.".
+  }
+
+  // ── Getting it to the tower ───────────────────────────────────────────────────────────────────────────────────────
+  Action haul_bell(actor: group, site: place) "Drag the bell on Rushby's mud-sledge to the sea-gate" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bell, site) and state(bell, bare) and sledgeLent(party).
+    Time 24.
+    On success { Assert at(bell, gate_foot). Assert at(actor, gate_foot). }
+    Result "Six eel-catchers and a borrowed mud-sledge take it along the bank, and you walk behind it as it goes, like a corpse at a funeral, slowly and under a good deal of criticism. They set it down at the foot of the tower and wipe their hands on their thighs and look up. Nobody says it is a good bell. Everybody has looked at it twice.".
+  }
+  Action hang_bell(actor: group, site: place) "Raise the bell into the tower and hang it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(bell, site) and state(bell, bare) and (dyceHelps(party) or rushbyKnows(party)).
+    Time 18.
+    On success { Assert state(bell, hung). Assert state(frame, hung). Assert at(bell, loft). }
+    Result "It takes the gate's old windlass, and every hand in Quillet who will come. When the headstock bolts down into the cheeks, somebody lets go of a rope, and the bell swings, once, and does not ring. Everybody waits for it to ring. Dyce takes his hand off the rope. 'Not now,' he says. 'Tonight.'" when dyceHelps(party).
+    Result "It takes the Rushbys' ropes and every back in Quillet. When the headstock bolts down into the cheeks, somebody lets go, and the bell swings, once, and does not ring. Everybody waits for it to ring. Rushby lays a palm on the bronze and takes it off. 'Not now,' he says. 'Tonight.'".
+  }
+}

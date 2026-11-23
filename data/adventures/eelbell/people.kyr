@@ -1,0 +1,229 @@
+Module eelbell "The Eel Bell" {
+  Relation ringer(group). Relation dyceTold(group). Relation posyTrusts(group). Relation toldSount(group).
+  Relation helpedWickens(group). Relation maudlinBetrayed(group). Relation rushbyBitter(group).
+
+  Discovery run_known "The Silver Run falls on the third night's spring tide: every boat in Quillet will be out on the washes in the dark, because the eels run once.".
+  Discovery gate_known "Ansgar Dyce is the last Water-Warden of the Quillet gate. The gate has not closed in forty years.".
+  Discovery sount_deaf "Perpetua Sount cannot hear above the fourth fret; she works by sight and by touch, and needs someone's ears.".
+  Discovery wenlow_known "Sount's last bell, at Wenlow, cracked at its first stroke, with the bishop watching.".
+  Discovery dyce_rang "On the night of the Candlemas flood the Grandam cracked in the eleventh hour, and Dyce rang it cracked until the light. Nineteen boats came home to it.".
+  Discovery seven_names "Seven boats were lost on the Candlemas flood, and their crews' names are cut in the gate-post: Edric Greave, Gil Rushby, and five more.".
+  Discovery cat_found "Biscuit, Posy Rushby's cat, is alive and sleeps in the Warden's bell loft on the Grandam's pieces.".
+  Discovery cat_missing "Posy Rushby's cat Biscuit went missing the morning after the Candlemas flood.".
+  Discovery biscuit_named "Posy Rushby wants the new bell to be called Biscuit.".
+
+  // ── Perpetua Sount, founder ──────────────────────────────────────────────────────────────────────────────────────
+  Person sount "Perpetua Sount" at green {
+    Role "bell-founder". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Greets "A woman is shouting at a hole in the ground. She turns and shouts at you instead. 'Not from the side! I take the left ear off a man's mouth and the right ear off his hands. Stand there. Good. You have ears. I have a crucible, a pit, a mould of loam and goat-hair, and the wrong amount of everything else. We will trade.'".
+    Greets again "'Ears,' says Sount, not turning round. 'Good.'".
+    Farewell "'Don't go far,' says Sount. 'Metal does not wait.'".
+  }
+  Topic sount_job with sount "Ask Sount what she needs" when true once {
+    Says "'Metal,' says Sount. 'Bell-metal is three of copper to one of tin, and I can tell you the colour of the right amount but not what it weighs, because I have not got any. Fuel: three sacks of charcoal to bring it up, and a night's heat. Quiet. A good deal of quiet. And someone to say what it sounds like.' She taps the pit with her heel. 'Bring it here and I will make it sing.'".
+    On discuss { Assert knows(actor, metal_known). }
+  }
+  Topic sount_ears with sount "Ask Sount about her ears" when true once {
+    Says "'Forty years at the furnace mouth,' says Sount. 'Above the fourth fret I hear nothing. A bell is mostly above the fourth fret. I feel the hum in my feet, if the floor is good, and I read the metal by its colour. The strike I take on trust.' She does not look at you. 'The bishop of Wenlow took it on trust too.'".
+    On discuss { Assert knows(actor, sount_deaf). }
+  }
+  Topic sount_wenlow with sount "Ask Sount about Wenlow" when knows(party, sount_deaf) once {
+    Says "'It cracked at the first stroke. The bishop was holding the rope.' Sount looks at the pit. 'I had said it was true, and it was not, because I could not hear that it was not, and I did not say so because I did not know how. Do not look at me like that. I say so now. You will tell me the truth about this one, whatever it is, and I will not be ashamed of being told.'".
+    On discuss { Assert knows(actor, wenlow_known). }
+  }
+  Topic sount_dear with sount "Ask Sount why bronze is so dear" when true once {
+    Says "'The Founders' Exchange. Somebody sold the teeth off the Long Man's wall to their factor, which put the price of old bronze up three shillings in the hundredweight, and now every parish in the country is melting its own door-knockers. And in Porthalen the Rì's reeve has been round the smithies for iron, for pikes, so what iron there is goes north and what copper there is goes in the pot.' She sniffs. 'It is a pleasure to cast a bell in a country that cannot afford one.'".
+  }
+  Topic sount_pare with sount "Ask Sount how a bell is tuned" when true once {
+    Says "'It comes out of the mould a little flat, if it comes out well: a stair low in the strike, and low in the hum. You pare it up, a curl at a time, from the sound-bow for the strike and from the waist for the hum, and listen between curls. Bronze comes off; it does not go back. If it comes out sharp I can do nothing, and I do not mean that kindly.'".
+    On discuss { Assert knows(actor, pare_known). }
+  }
+  Topic sount_tide with sount "Ask Sount how long a tide-bell is rung" when true once {
+    Says "'On a spring tide, from the making to the turn. Six hours. A man on a rope is good for two, a woman perhaps three if she is angry, and one on his own is good for eleven only once.' She looks briefly, surprisingly, tired. 'They tell me that is how the old one went.'".
+    On discuss { Assert knows(actor, tide_known). }
+  }
+  Topic sount_shoulder with sount "Ask Sount what goes on the bell's shoulder" when true {
+    Says "'Whatever you like, so long as I know before the pour. A line, no longer than my arm. Names, a text, a joke. The gentry like a text. Widows like a name. Children like a name too, but not the same one.'".
+  }
+  Topic sount_crack with sount "Tell Sount the bell has cracked" when cracked(bell) once {
+    Says "'I thought so,' says Sount. 'I felt it come up through my feet like a tooth going.' She sits down on the edge of the pit. After a while she says, to the bell, 'I am sorry,' and then, to you, 'We have not time to cast another. I think the Warden will know what to do with it.'".
+  }
+  Topic sount_told_both with sount "Tell Sount what the bell sounds like" when state(bell, hung) and strike(bell) == 2 and hum(bell) == 2 and not brittle(bell) and not toldSount(party) once {
+    Says "You tell her the strike is clear, and goes out; that the hum under it has a floor. Sount puts her palm flat on the tower stone for a long time. 'Yes,' she says. 'Yes. I can feel it from here.' She takes her hand away and looks at it as if it were somebody else's. 'Thank you.'".
+    On discuss { Assert toldSount(party). }
+  }
+  Topic sount_told_flawed with sount "Tell Sount what the bell sounds like" when state(bell, hung) and not (strike(bell) == 2 and hum(bell) == 2 and not brittle(bell)) and not toldSount(party) once {
+    Says "You tell her, and you do not make it kinder than it is. Sount hears you out with her palm on the stone. 'Thank you,' she says at last. 'That is more than the bishop got. It will do what it does; ring it hard.'".
+    On discuss { Assert toldSount(party). }
+  }
+
+  // ── Ansgar Dyce, the last Warden ─────────────────────────────────────────────────────────────────────────────────
+  Person dyce "Ansgar Dyce" at gate_foot {
+    Role "the last Warden of the Quillet gate". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "A man in a Warden's black coat, gone green at the seams, is oiling a gate-hinge with a feather. He has not looked up. His palms, when he turns them to wipe the feather, are scarred across in a pattern like rope. 'The gate does not close,' he says. 'If that is why you have come.'".
+    Greets again "'Well,' says Dyce.".
+    Farewell "'Mind the bank,' says Dyce. 'It's the sea's side that gives.'".
+  }
+  Topic dyce_gate with dyce "Ask Dyce about the gate" when true once {
+    Says "'It was made to close on the tide,' says Dyce. 'Two leaves, and a wheel the Wardens turned, forty men to the wheel, that were taken off for the wars before my grandfather. It closes if you will give it forty men and a month.' He turns the feather over. 'I am the Warden. There are no Wardens. Somebody must go on being it, or the word goes.'".
+    On discuss { Assert knows(actor, gate_known). }
+  }
+  Topic dyce_bell with dyce "Ask Dyce about the Grandam" when knows(party, gate_known) once {
+    Says "'Cracked,' says Dyce. He says no more, and in the silence there is the tide in the bank. 'You will have heard how.'".
+  }
+  Topic dyce_night with dyce "Ask Dyce what happened the night of the Candlemas flood" when knows(party, gate_known) once {
+    Says "He is silent so long you think the question is refused. 'It was two in the morning when the water came over the bank at the north end,' he says. 'The boats were out. I rang. At the eleventh hour it cracked: you feel that, in the rope, it goes up your arms. I thought, it is done, and then I thought, it is not done, it is still a noise. A cracked bell is a terrible noise. It carries like a knife. I rang it till the light.' He opens his hands. 'Nineteen came in to it. Seven did not hear it in time. I have the names.'".
+    On discuss { Assert knows(actor, dyce_rang). Assert dyceTold(actor). Assert knows(actor, seven_names). }
+  }
+  Topic dyce_pieces with dyce "Ask Dyce for the Grandam's pieces" when not dyceTold(party) {
+    Says "'No,' says Dyce, not unkindly, and goes back to the hinge. 'No, I do not think so. It is not metal.'".
+  }
+  Topic dyce_pieces_given with dyce "Ask Dyce for the Grandam's pieces" when dyceTold(party) once {
+    Says "He is silent again, but it is a different silence. 'A bell remembers its metal,' he says, 'the founders say. If you must have something of it, take three. Leave the lip.' You go up the ladder with him, and he lifts three pieces off the sacking one at a time, as he might lift a child off a bed, and puts them in your arms.".
+    On discuss { Give 3 eb_gannet to actor. }
+  }
+  Topic dyce_chain with dyce "Ask Dyce what iron the gate can spare" when true once {
+    Says "'The old chain,' says Dyce, after consideration. 'It held the sea out two hundred years. It is no use to anyone now.' He fetches eight links from the stove-corner and puts them down at your feet with a clank. 'If that is what you want. It is iron, and it is the gate's.'".
+    On discuss { Give eb_chain to actor. }
+  }
+  Topic dyce_cat with dyce "Ask Dyce about the cat in the loft" when knows(party, cat_found) once {
+    Says "'She came the morning after,' says Dyce. 'I did not ask her to. She sleeps on the lip, and I put out a saucer. I have not told the child, because the child will not speak to me, and I do not know whose she is.'".
+  }
+  Topic dyce_help with dyce "Ask Dyce for the windlass, and a turn on the rope" when dyceTold(party) and not ringer(dyce) once {
+    Says "'The windlass is the gate's, and the gate is mine,' says Dyce. 'It will lift your bell. And I will ring it. I will ring it two hours, and not eleven.' He looks at his hands. 'I have been told it is not a thing to do alone.'".
+    On discuss { Assert dyceHelps(actor). Assert ringer(dyce). Increase rope(bell) by 2. }
+  }
+
+  Topic dyce_cracked with dyce "Tell Dyce the new bell has cracked" when cracked(bell) once {
+    Says "Dyce looks at you, and for the first time he seems to be present. 'Cracked,' he says. 'Aye. At the first stroke? Then it has said what it had to say. Bring it.' He is already on his feet. 'Give me the windlass and I will have it up by morning. I know what a cracked bell is for.'".
+    On discuss { Assert dyceHelps(actor). Assert ringer(dyce). Increase rope(bell) by 2. }
+  }
+
+  // ── Tobias Rushby of the weirs ───────────────────────────────────────────────────────────────────────────────────
+  Person rushby "Tobias Rushby" at weirs {
+    Role "who keeps the Quillet weirs". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "A big man in a leather apron is leaning on a weir-rail, and does not stop leaning. 'If you have come about the bell,' he says, 'I have heard.'".
+    Greets again "'Still here,' says Rushby, to the water.".
+  }
+  Topic rushby_run with rushby "Ask Rushby about the eels" when true once {
+    Says "'The silver eels,' says Rushby. 'They go out to the sea once in a year, in the dark of the autumn, all the eels in all the fens, in a river of them, all in one night, on the highest tide. That is the Silver Run. It is the only night that pays for the year, and it is the third night from now.' He glances at the sky, in which nothing is happening. 'You would not credit the number. Thirty boats. Every hand in Quillet. All of them out on the washes in the dark, and a tide coming.'".
+    On discuss { Assert knows(actor, run_known). }
+  }
+  Topic rushby_bell with rushby "Ask Rushby about the Grandam" when knows(party, run_known) once {
+    Says "'Racket,' says Rushby. 'It rang the tide, and it hummed the eels in. Under the strike it had a note like a cow in a cellar, and the eels came to it, down the weir-channel, in a line. Everyone knows that.' He is silent. 'Since it cracked they come when they like. The Run last year was a sorry thing. You could have counted them.'".
+    On discuss { Assert knows(actor, grandam_hum). }
+  }
+  Topic rushby_gil with rushby "Ask Rushby about the seven" when knows(party, grandam_hum) once {
+    Says "'My boy,' says Rushby. 'Gil. He had the ten-foot boat with the green rail. His girl is the child on the staithe.' He turns his head to look at the washes. 'I will not say anything about the Warden. It is his business what he did and did not do on the bank. There was a bell and it stopped. That is all that was said to me.'".
+    On discuss { Assert knows(actor, seven_names). }
+  }
+  Topic rushby_promise with rushby "Promise Rushby the new bell will have the Grandam's hum" when knows(party, grandam_hum) once {
+    Grave "He will hold you to it: the eels are his year.".
+    Says "Rushby looks at you for a long time, as at a cheap net. 'You can't promise that,' he says. 'But you will try. The kettles are my wife's mother's. Take two, and may they do better in your pot.' He whistles, and two lads come out of the reeds with a mud-sledge. 'That is for your bell, when it is cast. Six of us will drag it.'".
+    On discuss { Assert promiseMade(hum_promise). Give 2 eb_kettle to actor. Assert sledgeLent(actor). }
+  }
+  Topic rushby_dyce with rushby "Tell Rushby what Dyce did that night" when knows(party, dyce_rang) and knows(party, grandam_hum) once {
+    Says "Rushby hears you out with his back to you. He says nothing for a long time, and the weir-boy, mending a trap, stops mending. Then Rushby unhooks a third copper kettle from the post, and puts it into your hands without looking at it. 'Eleven hours,' he says. 'He might have said.' He wipes his face with his apron. 'I will take a turn on the rope. I will not stand next to him. I will stand on the other side of the bell.'".
+    On discuss { Give eb_kettle to actor. Assert rushbyKnows(actor). Assert ringer(rushby). Increase rope(bell) by 2. }
+  }
+
+  // ── Posy ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person posy "Posy Rushby" at staithe {
+    Role "Gil Rushby's daughter". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A girl sits on an upturned boat with her arms around nothing, in the shape of a cat. She looks at you with some hostility. 'If you want me to sing for the bell,' she says, 'no.'".
+    Greets again "'Still no,' says Posy, not unfriendly.".
+  }
+  Topic posy_hum with posy "Ask Posy what she hums" when true once {
+    Says "'To the cat,' says Posy. 'She liked it. It's just a hum. Granda says it was the bell's, but it was mine first.' She hugs the cat-shaped nothing. 'She's gone. She went the morning after. I told her to go in, and she did not.'".
+    On discuss { Assert knows(actor, cat_missing). }
+  }
+  Topic posy_name with posy "Ask Posy what the new bell should be called" when true once {
+    Says "'Biscuit,' says Posy at once. 'That is the cat,' you say. 'It is what she would be called if she were a bell,' says Posy, with immense reasonableness. 'She is round, and she goes out and comes back.'".
+    On discuss { Assert knows(actor, biscuit_named). }
+  }
+  Topic tell_posy_cat with posy "Tell Posy her cat is alive, and fat, in the Warden's loft" when knows(party, cat_found) once {
+    Says "Posy gets off the boat. For a moment her face is only a face. 'In the Warden's,' she says. 'The Warden has her.' Her mouth works. 'I will not forgive him.' She sits down again. 'But I do not mind about the hum. I will do it. Only once, and not loud, and only you.'".
+    On discuss { Assert posyTrusts(actor). }
+  }
+  Topic posy_hum_given with posy "Ask Posy to hum the Grandam's hum" when posyTrusts(party) once {
+    Says "She hums it with her eyes shut and her hands flat on her knees: a low note, and under it a floor you could stand on, like a boat settling on a hard. She hums it three times, to be sure, and the third time you are humming too. 'That is it,' she says. 'Do not tell Granda I did it for you.'".
+    On discuss { Assert knows(actor, hum_known). }
+  }
+
+  // ── The Two Weirs ────────────────────────────────────────────────────────────────────────────────────────────────
+  Person pargill "Aggie Pargill" at taproom {
+    Role "who keeps the Two Weirs". Ancestry human. Profession innkeeper. Pronouns she. Manner jovial. Peaceable.
+    Sells rations for 2 coin from 6.
+    Offers lodging "a pallet in the loft, over the smoke-hole, warm as a loaf" for 2 coin.
+    Greets "'Sit,' says Aggie Pargill. 'You look like someone who has been told a bell is a good idea.'".
+    Greets again "'More?' says Aggie.".
+  }
+  Topic pargill_pewter with pargill "Ask Aggie Pargill for her pewter" when true once {
+    Says "'The plates?' She gives a bark of laughter. 'I have been eating off wood for two winters, since the price of tin went up; there are eight on the dresser for show and the gentry. Take them. Knock them before you put them in; the old pewter was cast by whoever had lead.' She wraps them in a dishcloth, and presses them into your hands as if they were a loaf.".
+    On discuss { Give eb_pewter to actor. }
+  }
+  Topic pargill_town with pargill "Ask Aggie about Quillet" when true once {
+    Says "'We live on eels,' says Aggie. 'We eat them, sell them, smoke them, and some of us have married them. The tide is higher than the land and has been for two hundred years, and the Wardens' gate was to keep it so, and now it is Ansgar Dyce, a feather and a faith. It is the finest town in the world,' she says, 'if you do not look at it from the sea side.'".
+  }
+  Topic pargill_ring with pargill "Ask Aggie to take a turn on the bell-rope" when knows(party, tide_known) and not ringer(pargill) once {
+    Says "'Me? I'll ring till I'm sick,' says Aggie. 'After the taproom's shut. My mother rang for the Candlemas tide, and she's sworn at the bell ever since. Put me down.'".
+    On discuss { Assert ringer(pargill). Increase rope(bell) by 2. }
+  }
+
+  // ── Maudlin Greave ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person greave "Maudlin Greave" at cottage {
+    Role "a widow". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A woman is sweeping a floor that does not need it. 'He is not back,' she says, to the broom, before she has seen who you are. 'I mean, that is a thing I say, it is not a thing I think.'".
+    Greets again "'Come in,' says Maudlin Greave. 'The floor is clean.'".
+  }
+  Topic greave_edric with greave "Ask Maudlin about Edric" when true once {
+    Says "'Edric Greave. Eel-man. He could whistle through his teeth so you would think there were two of him.' She sets the broom against the wall. 'He was out on the washes when it came over. They have his name on the gate-post, in the Warden's hand. Seven of them. He said, Maudlin, that bell has never failed us. It was the last thing, and it was not true. I do not hold it against the bell.'".
+    On discuss { Assert knows(actor, seven_names). }
+  }
+  Topic greave_spoons with greave "Promise Maudlin that Edric's name will be cast on the bell" when knows(party, seven_names) once {
+    Says "She goes to the dresser and takes down three spoons on a ribbon. 'We had them for the wedding,' she says. 'Silver. They put sweetness in a bell, the old woman said, who rang the Grandam. I have not had the heart to eat with them.' She holds them out. 'Put his name on it. All seven, if you can. I will not have him off the bell.'".
+    On discuss { Assert promiseMade(names_promise). Give eb_spoons to actor. }
+  }
+  Topic greave_ring with greave "Ask Maudlin to take a turn on the bell-rope" when knows(party, tide_known) and not ringer(greave) and not maudlinBetrayed(party) once {
+    Says "'I will ring,' says Maudlin Greave. 'He would have liked it to be rung by someone who knew what for.'".
+    On discuss { Assert ringer(greave). Increase rope(bell) by 2. }
+  }
+
+  // ── Coll Wickens, charcoal-burner ───────────────────────────────────────────────────────────────────────────────
+  Person wickens "Coll Wickens" at clearing {
+    Role "a charcoal-burner". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Sells eb_charcoal for 3 coin from 6.
+    Greets "A man sitting on a milking-stool in a blanket looks up from the clamp with the pleased look of someone who has not spoken for two days. 'I'd get up,' he says, 'but it has got to be watched, and I'm watching it.'".
+    Greets again "'Back!' says Wickens, delighted.".
+  }
+  Topic wickens_clamp with wickens "Ask Wickens about the clamp" when true once {
+    Says "'Twelve days,' says Wickens. 'It must not flame; it must not go out. You turn the vents with the wind. If you leave it for an hour it comes up in a column of fire and you've no clamp. It's the finest charcoal in Iscoed, for the fire is going the whole time, and not showing, like a good marriage. The reeve's men took my iron rake to Porthalen for pikes. I use a spade.'".
+  }
+  Action help_clamp(actor: group, site: place) "Mind the clamp's vents for Wickens while he walks his legs" {
+    Speaker wickens.
+    Requires able(actor) and company(actor) and at(actor, site) and at(wickens, site) and not helpedWickens(party).
+    Time 12.
+    On success { Assert helpedWickens(party). Give 3 eb_charcoal to actor. }
+    Result "For two hours you turn the wind-boards on the clamp, from east to north and back, and watch the smoke change colour, from white to blue, while Wickens walks the clearing's edge and talks to the trees. When he comes back he has gathered mushrooms, and he gives you three sacks of charcoal and will not hear of money.".
+  }
+  Topic wickens_ring with wickens "Ask Wickens to come down for the tide" when knows(party, tide_known) and helpedWickens(party) and not ringer(wickens) once {
+    Says "'The clamp will go on without me for a night,' says Wickens, 'or it won't. I'll come. I haven't rung a bell since I was a boy and they put me up the rope as a counterweight.'".
+    On discuss { Assert ringer(wickens). Increase rope(bell) by 2. }
+  }
+
+  // ── Biscuit ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person biscuit "Biscuit" at loft {
+    Role "a ginger cat". Species cat. Pronouns she. Peaceable.
+  }
+  Observe cat_seen at loft as sign when not knows(party, cat_found) "A round ginger cat is asleep in the curve of the biggest piece of the bell, and does not move. She has the look of a creature who has been told to wait and has decided what for." teaches cat_found.
+
+  // ── The names on the gate-post ───────────────────────────────────────────────────────────────────────────────────
+  Observe names_seen at gate_foot as sign when not knows(party, seven_names) "Seven names are cut into the gate-post at the height of a man's chest, in a careful square hand. The last is still white." teaches seven_names.
+
+  Promise names_promise "to have the seven names cast on the bell" to greave
+    kept when cutNames(bell) "Somewhere in Quillet a woman puts down a broom." { }
+    broken when cutBiscuit(bell) or cutPlain(bell) "Somewhere in Quillet a woman puts a spoon-ribbon in a drawer, and shuts it." { Assert maudlinBetrayed(party). }.
+  Promise hum_promise "to give the new bell the Grandam's hum" to rushby
+    kept when state(bell, hung) and hum(bell) == 2 and not cracked(bell) "On the weirs a man stands with his hand on the rail and does not say anything." { }
+    broken when state(bell, hung) and (hum(bell) != 2 or cracked(bell)) "On the weirs a man looks at the sky, and then at the ground." { Assert rushbyBitter(party). }.
+}
