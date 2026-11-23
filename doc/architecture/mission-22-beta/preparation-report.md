@@ -3,11 +3,13 @@
 > **Revised 23 November** by the owner's direction ([owner-direction-2026-11-23.md](owner-direction-2026-11-23.md)): every
 > sprint is judged by a first-hour demonstration, and the order is the 90-second opening, the first town and its dungeon,
 > trust in what is offered, combat and conversation, then separation and authoring. Where the two differ, the direction governs.
+> **Superseded for order, 23 November:** beta is authorized to build; [execution-plan.md](execution-plan.md)
+> governs the order, the first queue and the first tasks, and replaces §F's table.
 > **Revised again 23 November:** act cost is the wave's first priority. A pure, incremental headless decision under
 > 15 ms (mission-22-beta/act-cost-profile.md) comes before the 90-second opening.
 
-A preliminary investigation, architectural reconciliation and sprint plan for M22-beta. It is not an authorization to
-start implementation. It draws on the alpha documents (closeout, retrospective, acceptance record, hand-off), six
+A preliminary investigation, architectural reconciliation and sprint plan for M22-beta. It was not, when written, an authorization to
+start implementation; execution-plan.md now is. It draws on the alpha documents (closeout, retrospective, acceptance record, hand-off), six
 November studies (platform maturity, world-interaction evolution, the architectural review, Kyr language evolution,
 Kyr authorability, defect centres), the register, targeted measurement made for this report, and an **independent
 read-only audit** commissioned for it (§ Independent audit).

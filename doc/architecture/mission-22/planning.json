@@ -103,7 +103,8 @@
    "OR-160",
    "OR-161",
    "OR-162",
-   "OR-163"
+   "OR-163",
+   "OR-183"
   ],
   "outside": {
    "GT-01": "the planes are met after the first hour (no plane is reached from Iscoed's starts)",
@@ -138,14 +139,14 @@
   },
   "blockers": [
    {
-    "id": "OR-169",
-    "owner": "maturity",
-    "accept": "creation's sign and life before commit at the first hold of a finger at 390x844, in the browser"
+    "id": "OR-145",
+    "owner": "lead",
+    "accept": "an ordinary act settled (pressed to answer drawn, page open again) under 300 ms p95 in test/input-answered-browser at both sizes"
    },
    {
-    "id": "OR-145",
+    "id": "OR-182",
     "owner": "maturity",
-    "accept": "a committed choice closes the page to input until its answer; a1's third act under 300 ms"
+    "accept": "the held journey's card within the hold plus 100 ms on every run for ten consecutive CI runs, the cause named from a main-thread trace"
    },
    {
     "id": "OR-144",
@@ -153,56 +154,56 @@
     "accept": "Set out now to the first scene in under 3 s on the deployed page (blocked by AX-04)"
    },
    {
-    "id": "OR-149",
-    "owner": "sprint",
-    "accept": "Owain's and Mardle's conversations on one scrolling page, said as said, read aloud by the lead; browser specs green"
-   },
-   {
-    "id": "OR-173",
+    "id": "OR-160",
     "owner": "lead",
-    "accept": "focus the engine's: what the company is engaged in leads the frame for every client, set by the act that began it; Attention in src/ui reads it rather than deciding it"
+    "accept": "the title says only Play; Play continues a game or offers build or 'We enter the world as we are', in the first scene's form; browser-proved"
    },
    {
     "id": "OR-23",
     "owner": "lead",
-    "accept": "the prologue's painting and first sentences shown while the world is made; no checklist, no black frame"
+    "accept": "from Play to the opening's first act in 1.5 s, with the world pre-rolled at the title; no checklist, no black frame"
    },
    {
-    "id": "OR-163",
-    "owner": "maturity",
-    "accept": "with a live threat only the responses to it are offered (act on it, an environmental act, flee, stand); on the map, Put away the map alone; no wait, no fast travel beyond the hex; browser-proved"
-   },
-   {
-    "id": "OR-162",
+    "id": "OR-169",
     "owner": "lead",
-    "accept": "a journey walked hex by hex with a reveal each step and the route recomputed from what is known, never overshooting and doubling back; traced on the golden route in the browser"
+    "accept": "no long presses in creation or the opening: one press commits, with the sign and the life shown before; at 390x844 by touch"
    },
    {
-    "id": "OR-160",
+    "id": "OR-178",
     "owner": "lead",
-    "accept": "the title and identity only on the title page and never moving; the begin question simple, the embers kept; browser at 390 and 1280"
+    "accept": "every coloured promise drawn has an engine witness checked against the act's outcome; the continuity census's opportunity breaches at 0 on the three walks"
+   },
+   {
+    "id": "OR-177",
+    "owner": "lead",
+    "accept": "the engaged frame owned by the engine and drawn as its own by every client; the census counts it and the parity check holds"
+   },
+   {
+    "id": "OR-179",
+    "owner": "lead",
+    "accept": "a gold-following walk through a payoff and its successor with no undertaking breach, including past Redkeep's riddle door"
    },
    {
     "id": "CB-01",
-    "owner": "lead",
-    "accept": "the first hour's fights on both acceptance routes cost something: a hit point lost or a resource spent in most, a risk said before each, none won in a round by a boss"
+    "owner": "sprint",
+    "accept": "the opening's and the first dungeon's fights cost hit points or a choice on the representative route; challenge measured per round"
    }
   ],
   "platform": [
    {
+    "id": "OR-183",
+    "owner": "maturity",
+    "accept": "the decision under 15 ms median on the golden walks, held by the turn-cost ratchet; incremental equal to full"
+   },
+   {
+    "id": "AX-05",
+    "owner": "maturity",
+    "accept": "a journey leg under 5 ms without the frame, and the screen after an act under 20 ms, on the ratchet"
+   },
+   {
     "id": "MT-24",
     "owner": "maturity",
-    "accept": "one unit of work per command with a committed receipt (command-receipt.md), its first step landed"
-   },
-   {
-    "id": "AX-04",
-    "owner": "maturity",
-    "accept": "a new world starts in under 3 s warm"
-   },
-   {
-    "id": "MT-25",
-    "owner": "maturity",
-    "accept": "undeclared relation reads fail across the whole suite (the strict preload on by default), one full CI run clean"
+    "accept": "one command coordinator, atomic under fault injection"
    }
   ],
   "urgent": []
