@@ -26,8 +26,9 @@ export type Stage =
   | 'campaign' | 'session' | 'screen' | 'leaf'
   // Within a turn: what the company perceives worked out (PlayerView.observe, not taken from what it kept), the glance
   // (within the leaf), the ways set out on (Itineraries.shown, within the screen), and a command done (the engine's own
-  // act, a fight's waits on its controller within it).
-  | 'observe' | 'glance' | 'itinerary' | 'act';
+  // act, a fight's waits on its controller within it); and what an actor may do worked out (Operators.applicable over
+  // every schema): with the act, the decision the owner's budget is for (BRIEF.md §4: under 15 ms).
+  | 'observe' | 'glance' | 'itinerary' | 'act' | 'legal';
 export interface Cost { n: number; ms: number; bytes: number; ids: string[] }
 export type Tally = Partial<Record<Stage, Cost>>;
 export class Costs {

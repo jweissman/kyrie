@@ -7,6 +7,8 @@ import { Candidates } from '../lang/candidates';
 import { PresenceGate } from './presence-gate';
 import { EntityIndex } from '../lang/entity-index';
 import { KeptGroundings } from './kept-groundings';
+import { WorldMemo } from '../lang/world-memo';
+import { Costs } from '../costs';
 
 type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
@@ -62,13 +64,25 @@ export class Operators {
       if (actor !== undefined && !ActionSchemas.mayAct(schema, actor, this.actors)) { continue; }
       schemas.push(schema);
     }
-    if (!only) { return this.groundings.all(world, actor, schemas, this.grounding.bind(this, world, actor)); }
+    if (!only) { return Costs.time('legal', () => this.legal(world, actor, schemas)); }
     return schemas.flatMap(s => this.groundings.of(world, s, actor, this.schemaOps.bind(this, world, s, actor)));
+  }
+  private legal(world: World, actor: string | undefined, schemas: readonly Operator[]): Operator[] {
+    const ground = this.grounding.bind(this, world, actor);
+    if (actor === undefined) { return this.groundings.all(world, actor, schemas, { ground }); }
+    const closed = this.shut.bind(this, world, actor, PresenceGate.with(world, actor));
+    return this.groundings.all(world, actor, schemas, { ground, closed });
   }
   // What one schema grounds to (kept from world to world: see KeptGroundings).
   private readonly groundings = new KeptGroundings();
   private grounding(world: World, actor: string | undefined, schema: Operator): Operator[] {
     return this.schemaOps(world, schema, actor);
+  }
+  // Whether a schema is shut for the actor by who it needs (see PresenceGate.with), checked as schemaOps checks it.
+  private shut(world: World, actor: string, present: ReadonlySet<string>, schema: Operator): boolean {
+    if (!schema.parameters?.length || !PresenceGate.shut(schema, present)) { return false; }
+    if (Operators.checking) { this.unneeded(world, schema, actor); }
+    return true;
   }
   private schemaOps(world: World, schema: Operator, actor?: string): Operator[] {
     // A candidate's precondition is the schema's under its binding (World.test binds a schema's parameters as an
@@ -172,6 +186,21 @@ export class Operators {
     const ranked = rows.map(row => ({ row, rank: parameters.map(p => this.order.get(row[p.name]!) ?? 0) }));
     return ranked.sort((a, b) => a.rank.reduce((d, v, i) => d || v - b.rank[i]!, 0)).map(r => r.row);
   }
+  // What a query proposes for one pattern of its arguments, found once a world (see WorldMemo) and given back under
+  // the asker's names for what is open: nine ways with things (attack, listen, push, pry, burn…) each asked what the
+  // company reaches, at a millisecond each, in every world (OR-183).
+  private static readonly proposals = new WorldMemo<Binding[]>();
+  private static proposed(world: World, query: Call): Binding[] {
+    const open = [...new Set(query.args.filter(a => a.startsWith('?')))];
+    const plain = { ...query, args: query.args.map(a => a.startsWith('?') ? `?$${open.indexOf(a)}` : a) };
+    const found = this.proposals.of(world, `${plain.name}(${plain.args.join(',')})`,
+      () => [...Candidates.of(world, plain, {})]);
+    return found.map(f => {
+      const out: Binding = {};
+      open.forEach((name, i) => { const v = f[`?$${i}`]; if (v !== undefined) { out[name] = v; } });
+      return out;
+    });
+  }
   // The rows extended by what an atom proposes for its open parameters. A query that leaves one of them open in any
   // of what it proposes narrows nothing, and the rows are left as they were (undefined).
   private join(world: World, schema: Operator, atom: Call, rows: Binding[]): Binding[] | undefined {
@@ -179,7 +208,7 @@ export class Operators {
     const asked = this.queries.has(atom.name);
     for (const row of rows) {
       const query = { ...atom, args: atom.args.map(x => names.has(x) ? row[x] ?? `?$${x}` : x) };
-      for (const solution of asked ? Candidates.of(world, query, {}) : world.solve(query, {})) {
+      for (const solution of asked ? Operators.proposed(world, query) : world.solve(query, {})) {
         const extended = { ...row };
         if (asked && atom.args.some(x => names.has(x) && row[x] === undefined && solution[`?$${x}`] === undefined)) {
           return undefined;

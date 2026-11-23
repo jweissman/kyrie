@@ -18,6 +18,20 @@ export class PresenceGate {
     return (here !== undefined && world.one('at', who) === here)
       || world.test(ModuleWriter.call('travelsWith', who, actor));
   }
+  // Everyone who may be with an actor in this world, found once for all its actions (see shut): those where it is, and
+  // those who travel with it. As many or more than open admits, never fewer: a gate it leaves open is still tested.
+  static with(world: World, actor: string): Set<string> {
+    const out = new Set<string>(), here = world.declares('at') ? world.one('at', actor) : undefined;
+    if (here !== undefined) { for (const fact of world.relatedTo('at', here)) { out.add(fact.args[0]!); } }
+    if (!world.declares('travelsWith')) { return out; }
+    for (const fact of world.relatedTo('travelsWith', actor)) { out.add(fact.args[0]!); }
+    return out;
+  }
+  // Whether an action is shut for an actor because who it needs is not among those with it (with).
+  static shut(schema: Operator, present: ReadonlySet<string>): boolean {
+    const who = this.gate(schema);
+    return !!who && !present.has(who);
+  }
   static gate(schema: Operator): string | undefined {
     if (!this.gates.has(schema)) { this.gates.set(schema, this.read(schema) ?? null); }
     return this.gates.get(schema) ?? undefined;

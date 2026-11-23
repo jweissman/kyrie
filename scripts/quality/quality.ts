@@ -6,6 +6,9 @@
 //   first:     a new life started and its first act answered, headless, in ms (the browser's Play-to-act is the
 //              page's to measure; this is the engine's share of it)
 //   turn:      the median turn of the warrior's golden walk through the runner, headless, in ms
+//   decision:  the median decision on that walk: the engine's act and what the company may do after it worked out
+//              (src/costs.ts: act and legal), over the turns of one act; the owner's budget is 15 ms (BRIEF.md §4).
+//              A journey's turns, an act a leg, are said beside it by the leg (their budget is 5 ms)
 //   breaches:  the continuity census's opportunity and undertaking breaches over its three walks
 //   ci:        main's last successful CI run on a push, wall-clock minutes (from GitHub; skipped without gh)
 // Each is compared with scripts/quality/baseline.json, kept apart for CI and for a local machine (times differ): a
@@ -15,13 +18,15 @@
 import { execSync } from 'node:child_process';
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import type { Campaign } from '../../src/campaign/campaign';
+import { Costs } from '../../src/costs';
 import { PlayTool } from '../../src/cli/play-tool';
 import { Runner } from '../../src/cli/runner';
 import { AsMeant } from '../../test/support/as-meant';
 import { ContinuityCensus } from '../continuity-census';
 import { PlanningInstruments } from '../planning-instruments';
 
-type Measure = 'slice' | 'first' | 'turn' | 'breaches' | 'ci';
+type Measure = 'slice' | 'first' | 'turn' | 'decision' | 'breaches' | 'ci';
 interface Reading { value: number | null; note: string }
 type Baseline = Record<'ci' | 'local', Partial<Record<Measure, number>>>;
 
@@ -30,9 +35,10 @@ export class Quality {
   static readonly walk = 'doc/architecture/mission-22/golden/warrior-walk.txt';
   // Times may drift this far over their baseline before the gate fails; counts may not rise at all.
   static readonly slack = 1.5;
-  static readonly timed = new Set<Measure>(['first', 'turn', 'ci']);
+  static readonly timed = new Set<Measure>(['first', 'turn', 'decision', 'ci']);
   static readonly labels: Record<Measure, string> = { slice: 'Supported slice P0/P1 defects',
     first: 'New life to first act answered (headless ms)', turn: 'Median turn, warrior walk (headless ms)',
+    decision: 'Median decision, act and legal actions (headless ms)',
     breaches: 'Continuity census breaches', ci: 'Main CI on a push (minutes)' };
 
   static slice(): Reading {
@@ -44,19 +50,34 @@ export class Quality {
     return readFileSync(this.walk, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#'));
   }
   // One walk serves both: the start and first act timed, then every turn.
-  static async played(): Promise<{ first: Reading; turn: Reading }> {
+  static async played(): Promise<{ first: Reading; turn: Reading; decision: Reading }> {
     const lines = this.lines(), t0 = performance.now();
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
-    const begun = performance.now() - t0, r = new Runner(journey.session), turns: number[] = [];
+    const begun = performance.now() - t0, r = new Runner(journey.session), turns: number[] = [], decided: number[] = [];
+    const legs: number[] = [];
+    this.timing(journey.session.campaign);
     for (const line of lines) {
-      const t = performance.now();
+      const t = performance.now(), mark = Costs.mark();
       await AsMeant.ask(r, line);
       turns.push(performance.now() - t);
+      const { act, legal } = Costs.since(mark);
+      const ms = (act?.ms ?? 0) + (legal?.ms ?? 0);
+      if (act?.n === 1) { decided.push(ms); } else if (act) { legs.push(ms / act.n); }
     }
-    const sorted = [...turns].sort((a, b) => a - b);
+    const sorted = this.sorted(turns), decisions = this.sorted(decided), legged = this.sorted(legs);
     return { first: { value: Math.round(begun + turns[0]!), note: `the start ${Math.round(begun)} ms, the first line ${Math.round(turns[0]!)}` },
-      turn: { value: Math.round(this.at(sorted, 0.5)), note: `p90 ${Math.round(this.at(sorted, 0.9))} ms over ${turns.length} turns` } };
+      turn: { value: Math.round(this.at(sorted, 0.5)), note: `p90 ${Math.round(this.at(sorted, 0.9))} ms over ${turns.length} turns` },
+      decision: { value: Math.round(this.at(decisions, 0.5)),
+        note: `p90 ${Math.round(this.at(decisions, 0.9))} ms over ${decisions.length} acts, target 15; a journey's leg `
+          + `${Math.round(this.at(legged, 0.5))} ms at the median over ${legged.length} journeys, target 5` } };
   }
+  // The engine's own act timed (each leg of a journey its own), apart from the legal actions, never worked out
+  // within it, so that the two add up without counting anything twice.
+  static timing(c: Campaign): void { c.executeAsync = this.execute.bind(this, c.executeAsync.bind(c)); }
+  private static execute(execute: Campaign['executeAsync'], ...a: Parameters<Campaign['executeAsync']>) {
+    return Costs.timed('act', () => execute(...a));
+  }
+  static sorted(xs: number[]): number[] { return [...xs].sort((a, b) => a - b); }
   static at(sorted: number[], q: number): number { return sorted[Math.floor(q * (sorted.length - 1))]!; }
   static async breaches(): Promise<Reading> {
     const counts: string[] = [];
@@ -89,7 +110,7 @@ export class Quality {
     const env = process.env.CI ? 'ci' : 'local';
     const read: Partial<Record<Measure, Reading>> = {};
     if (this.want(only, 'slice')) { read.slice = this.slice(); }
-    if (this.want(only, 'first') || this.want(only, 'turn')) { Object.assign(read, await this.played()); }
+    if (['first', 'turn', 'decision'].some(m => this.want(only, m as Measure))) { Object.assign(read, await this.played()); }
     if (this.want(only, 'breaches')) { read.breaches = await this.breaches(); }
     if (this.want(only, 'ci')) { read.ci = this.ci(); }
     const baseline: Baseline = existsSync(this.file) ? JSON.parse(readFileSync(this.file, 'utf8')) as Baseline

@@ -12,6 +12,8 @@ interface Line {
   by: Map<string, Set<string>>; names: Map<string, readonly string[]>; stamps: Map<string, number>;
   unkept: Set<string>;
 }
+// How the caller grounds a schema, and finds it shut (see all).
+export interface Asking { ground(schema: Operator): Operator[]; closed?(schema: Operator): boolean }
 interface Actor { kept: Map<string, Grounding>; line?: Line }
 // What one schema grounds to for one actor, kept from one world to the next of its line while nothing it read has
 // been written, or nothing of what it picked of a name written (see KeptReading): an act writes a few names, and of two
@@ -23,6 +25,7 @@ interface Actor { kept: Map<string, Grounding>; line?: Line }
 // names each read, not by asking each of the two thousand whether it still holds (OR-91: observe's grounding walk).
 export class KeptGroundings {
   private readonly by = new Map<string, Actor>();
+  private static readonly none: Operator[] = [];
   // How many actors' groundings are kept at once: the player's, and a few townsfolk planning in turn.
   private static readonly actors = 16;
   of(world: World, schema: Operator, actor: string | undefined, ground: () => Operator[]): Operator[] {
@@ -32,16 +35,20 @@ export class KeptGroundings {
     if (read.kept) { kept.set(schema.id, { ...read.kept, module: world.module }); } else { kept.delete(schema.id); }
     return read.value;
   }
-  // What the schemas ground to together, in their order: each as `of` has it.
-  all(world: World, actor: string | undefined, schemas: readonly Operator[],
-    ground: (schema: Operator) => Operator[]): Operator[] {
+  // What the schemas ground to together, in their order: each as `of` has it. A schema the caller finds shut in this
+  // world (closed: no one it needs is with the actor, see PresenceGate) grounds to nothing without a reading of its
+  // own, and is asked again every time: when the company moves, a thousand words with people elsewhere had each been
+  // found stale by where the company is, and each read afresh to find it so (OR-183).
+  all(world: World, actor: string | undefined, schemas: readonly Operator[], ask: Asking): Operator[] {
     const a = this.actor(actor ?? ''), was = a.line, same = !!was && this.same(was, world, schemas);
     const line = same ? was! : KeptGroundings.line(world, schemas);
     const stale = same ? this.stale(line, world) : new Set(schemas.map(s => s.id));
     let changed = !same;
     for (const schema of schemas) {
       if (!stale.has(schema.id)) { if (WorldReads.under()) { this.noted(a, schema.id); } continue; }
-      const value = this.of(world, schema, actor, () => ground(schema));
+      const shut = ask.closed?.(schema);
+      if (shut) { a.kept.delete(schema.id); }
+      const value = shut ? KeptGroundings.none : this.of(world, schema, actor, () => ask.ground(schema));
       this.index(line, schema.id, a.kept.get(schema.id));
       if (value !== line.values.get(schema.id)) { changed = true; line.values.set(schema.id, value); }
     }
