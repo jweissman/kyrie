@@ -13,7 +13,9 @@ beta starts from [mission-22/handoff-beta.md](architecture/mission-22/handoff-be
 contract matrix, the synthesis of the November studies, and a sprint plan) is
 [mission-22-beta/preparation-report.md](architecture/mission-22-beta/preparation-report.md). The owner's direction of 23 November
 ([mission-22-beta/owner-direction-2026-11-23.md](architecture/mission-22-beta/owner-direction-2026-11-23.md)) revises
-its sprint order: architecture proven by the first hour, from Play to the first action in 1.5 s. M22-beta is to
+its sprint order: act cost first (a pure headless decision under 15 ms,
+[mission-22-beta/act-cost-profile.md](architecture/mission-22-beta/act-cost-profile.md)), then architecture proven by
+the first hour, from Play to the first action in 1.5 s. M22-beta is to
 be architecture and housecleaning: the first minute, one authoritative action model, Atlas continuity, focus,
 performance and save integrity, under four contracts (authority, integrity, separation, trust), with no major new
 content systems. The golden route is the drove road in `?world=iscoed`.

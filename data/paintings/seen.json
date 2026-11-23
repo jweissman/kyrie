@@ -8577,6 +8577,27 @@
    "era": "late",
    "light": "night",
    "weather": "clear"
+  },
+  "scene-great-oak-view": {
+   "form": "landscape",
+   "shows": "a great oak on a rocky hillside by day, its roots over the stones, a river valley and a hill town far below",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-great-oak-view-fog": {
+   "form": "landscape",
+   "shows": "the same great oak in fog, the valley below lost in white",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-great-oak-view-rain": {
+   "form": "landscape",
+   "shows": "the same great oak in rain, the valley grey below",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
   }
  }
 }

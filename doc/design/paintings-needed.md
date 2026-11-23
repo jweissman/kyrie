@@ -32,7 +32,6 @@ rules choose by.
 | `scene-granary-lantern` | lamplit | granary: a granary, the old corn-store | 5 | A granary by lantern: sacks, a ladder to the loft. Serves rain and dark alike. |
 | `scene-chandlery-evening` | lamplit | chandlery | 4 | A chandlery at evening, candles lit in the window, shutters half closed. |
 | `scene-charcoal-drizzle` | overcast, rain; dusk | charcoal: the clamps, the burners' clearings | 4 | Charcoal clamps smoking in drizzle; the clearing at dusk. |
-| `scene-great-oak-rain` | overcast, rain | tree: the great oak | 4 | The great oak in rain. |
 | `scene-cave-dark` | dim (no daylight) | cave as ground: a hollow, the far end of a hall | 3 | A cave's mouth from within at night or in rain, a trickle of water, no sky. |
 | `scene-sea-cliffs-rain` | overcast, rain | coast: sea-cliffs, their foot and top | 3 | Sea-cliffs in rain, surf grey. |
 | `scene-water-stair-night` | night | stair: the stair down the mere's side, a water-stair | 3 | Stone steps down into dark water by moonlight. |

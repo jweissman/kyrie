@@ -3,6 +3,8 @@
 > **Revised 23 November** by the owner's direction ([owner-direction-2026-11-23.md](owner-direction-2026-11-23.md)): every
 > sprint is judged by a first-hour demonstration, and the order is the 90-second opening, the first town and its dungeon,
 > trust in what is offered, combat and conversation, then separation and authoring. Where the two differ, the direction governs.
+> **Revised again 23 November:** act cost is the wave's first priority. A pure, incremental headless decision under
+> 15 ms (mission-22-beta/act-cost-profile.md) comes before the 90-second opening.
 
 A preliminary investigation, architectural reconciliation and sprint plan for M22-beta. It is not an authorization to
 start implementation. It draws on the alpha documents (closeout, retrospective, acceptance record, hand-off), six
@@ -293,7 +295,9 @@ can run in a separate process; the performance occasion.
   - do rooms answer weather;
   - the design review's seven questions;
   - whether "no save promise" holds for the deployed alpha.
-- **The first well-defined task**: Sprint 0's first item. Write the three continuity invariants (focus, opportunity,
+- **The first well-defined task** (revised 23 November): act cost. Add a turn-cost ratchet over every turn of the
+  golden walks, by stage, then re-ground legal actions incrementally (act-cost-profile.md, fixes 1 and 2), re-profiling
+  with `bun --cpu-prof` after each. *Previously:* Sprint 0's first item, now done (sprint-0-baseline.md): Write the three continuity invariants (focus, opportunity,
   undertaking) as specs over every turn of the warrior's and the mage's golden walks, as test/one-world-map does, and
   record how many turns break each. Change no engine code. The count is beta's baseline and the gate sprint 1 must
   move.
