@@ -47,6 +47,9 @@ completed the one that was a single contract (client divergence), not the ones t
 
 - **One projection.** The page, the terminal and the runner offer the same rows in the engine's words (OR-159 closed;
   scripts/client-parity reads the page's drawn words; MT-18). Divergence now has a measure and a ratchet.
+  *Corrected 23 November (the independent audit, mission-22-beta/preparation-report.md):* partial, not reliable.
+  The parity tool does not measure the terminal or the talk drawer, and the page still decides focus, leading and
+  tone from label text and id shapes.
 - **Input answered.** Every press is drawn taken within 100 ms in the browser on mouse at 1280 and touch at 390, and a
   held journey commits once (test/input-answered-browser, CI 44897906386; OR-91, the P0, closed).
 - **The wall of rows.** At the golden route's crowded places the page draws at most four acts with the one that
