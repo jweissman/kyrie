@@ -165,7 +165,7 @@ retire families of rows. D and E need their own work and should not be expected 
      authored control facts before and after.
    - Then *Undertaking*: Objective (289 uses) with fulfilment, aftermath and reward retained, proved on the weir's
      rats job and OR-179's case.
-2. **An independent authoring exercise** [P]. Someone other than the builder writes one new Occasion, a contested
+2. **An independent authoring exercise** [P]. An agent other than the builder, given only the authoring guide, writes one new Occasion, a contested
    performance at the inn (the fiddle, as the focus audit asked), from the guide alone. Measure the time taken, the
    authored control facts, lint findings and play defects.
 3. **A Deem/Studio experiment** [P].
@@ -220,12 +220,12 @@ the capped active queue holds 10 blockers and 3 platform rows. [P]
 
 | Sprint | Goal | Demonstration (acceptance) | Depends on |
 |---|---|---|---|
-| **0. Baseline** (½ week) | Measure the truth before changing it | The three continuity invariants as walk-wide specs, run and failing with counts. Browser timings on CI at a phone's and a laptop's size: press to acknowledged, to settled, and a new world (the owner, 23 November: the browser is enough, no per-device timing). Presses per intention over the golden walks. The parity tool extended to the terminal and the talk drawer. One recorded unfamiliar player for 15 minutes. | none |
+| **0. Baseline** (½ week) | Measure the truth before changing it | The three continuity invariants as walk-wide specs, run and failing with counts. Browser timings on CI at a phone's and a laptop's size: press to acknowledged, to settled, and a new world (the owner, 23 November: the browser is enough, no per-device timing). Presses per intention over the golden walks. The parity tool extended to the terminal and the talk drawer. Cold-play agents of four kinds (a careful reader, an impatient presser, a gold-follower, a wanderer), 15 minutes each on the page. | none |
 | **1. Outcome** | Marks that do not lie | An Outcome per offered act by bounded speculative step, memoised per world, within a measured cost budget. Attest, the gold and the Atlas read only from it. ChoiceGrouping.teaches and Teaching.shows deleted. Gate: predicted equals observed across the golden walks. | 0 |
 | **2. Situation** | One state the player is in | Place, conversation, occasion, map, journey and fight as one engine state with transitions. Attention reads it; the page draws only it. The riddle, the card hand, the map and the fight's reach (OR-181) pass on the page. Gate: one situation at every turn, and parity holds over it. | 1 (the Outcome supplies what ends an engagement) |
 | **3. Occasion and the loop** | Kyr construct and the game together | Occasion as a construct (window table, riddle and performance rewritten, control facts counted). Undertaking's reward and aftermath for OR-179/OR-176. The reference loop's fights tuned to cost something. One progressing conversation. | 2 |
 | **4. Separation and commands** | The platform holds | MT-24 atomic with fault injection. AR-02 per-campaign catalog. The allotment scenario through the public lifecycle beside a1. Runtime→setting edges for its path driven to zero. | 1–3 |
-| **5. Authoring and acceptance** | Prove it to people | The Deem upgrade and workbench demonstration. The independent author's Occasion. Several consecutive cold rendered plays of the slice. The owner's acceptance. | all |
+| **5. Authoring and acceptance** | Prove it to people | The Deem upgrade and workbench demonstration. The independent author agent's Occasion. Several consecutive cold plays of the slice by agents of each kind, on the page. The owner's acceptance. | all |
 
 **Mandatory beta outcomes:**
 - sprints 0–3;
@@ -259,7 +259,7 @@ can run in a separate process; the performance occasion.
 - **The separation proof may expose more than a sprint can fix.** That is acceptable. The deliverable is the measured
   edge count for one path at zero, not the whole ratchet.
 - **Where the preferred approach may be wrong** [I]. The owner's acceptance may hinge on content and feel (mechanism
-  D) more than on architecture. Sprint 0's unfamiliar player decides how much of sprint 3 goes to the loop's content
+  D) more than on architecture. Sprint 0's cold-play agents decide how much of sprint 3 goes to the loop's content
   rather than constructs.
 - **Explicitly deferred**:
   - state-only saves (MT-27) and mutable shared structures (MT-28), unless a sprint-4 fault-injection test needs them;

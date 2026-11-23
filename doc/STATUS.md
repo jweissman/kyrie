@@ -33,7 +33,8 @@ table.
 
 - **No independent player, and not the owner, has accepted a build (FH-01).** The owner's playtests of 20–21 November
   found focus, opportunity and undertaking continuity failing in ordinary first-hour play (alpha-acceptance.md:
-  OR-177, OR-178, OR-179). Beta's success is several consecutive cold rendered plays of the supported slice.
+  OR-177, OR-178, OR-179). Beta's success is several consecutive cold plays of the supported slice by agents of different kinds, on
+  the rendered page; no gate waits on a human player.
 - **The game is still a collection of pages, not one scene.** The register's continuity rows (CN, §26) are open.
 - **Planes differ only in combat.** Their laws and Plane Shift are commissioned (GT, §28).
 - **A push runs the push lane; the night runs the whole suite** (the owner, 15 November). The push lane is 720 files and about 74 CI-minutes over 16 shards; the 267 slow files (about 680 CI-minutes) run nightly and on demand, and the night is kept green.

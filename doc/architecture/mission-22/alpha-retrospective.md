@@ -77,7 +77,7 @@ completed the one that was a single contract (client divergence), not the ones t
 **Where automated evidence exceeds human play (inference):** everything in the first list has been seen by specs at
 multiple sizes; only OR-159 and OR-91 have been seen to hold by the owner in play. The first fifteen minutes as a
 whole have no human evidence of holding, and the owner's last two playtests are evidence that they do not.
-**Open:** whether the reliable list survives an unfamiliar player who does not follow the gold.
+**Open:** whether the reliable list survives a cold player who does not follow the gold.
 
 ## 2. Recurring trust failures
 
@@ -199,8 +199,8 @@ scenario where an invariant exists.
 **Defer to gamma/delta:** the Arcana and the perk stage, new SRD creatures, new adventures, conversation as dialectic
 (OR-165), the studio (OR-164).
 
-**Investigate independently (studies, not tickets):** (a) an unfamiliar player, recorded, for fifteen minutes on the
-deployed page on an iPad, with no instruction; (b) the steps per intention measure; (c) whether a transition summary can
+**Investigate independently (studies, not tickets):** (a) cold-play agents of different kinds, each fifteen minutes on the
+rendered page with no instruction (amended 23 November: no gate waits on a human player); (b) the steps per intention measure; (c) whether a transition summary can
 be derived for the existing corpus without author changes (the report's Stage 1 inventory).
 
 **Assumptions the evidence challenges:**
@@ -227,5 +227,6 @@ blue semantics are open; startup is 5–6 s against 3; fights are riskless.
    a measured count of contract breaches, not a ticket count.
 2. **A transition-summary spike** over Iscoed's first hour: can one summary per action reproduce what ChoiceGrouping.
    teaches, AimAdvances and Attest compute today, and where it disagrees, which one is right?
-3. **One recorded unfamiliar player**, fifteen minutes on the deployed page on an iPad, to set beta's gate in what a
-   human does rather than what a spec asserts.
+3. **Cold-play agents of different kinds** (a careful reader, an impatient presser, a gold-follower, a wanderer),
+   fifteen minutes each on the rendered page, to set beta's gate in what a player does rather than what a spec
+   asserts (amended 23 November: agents, not a human).

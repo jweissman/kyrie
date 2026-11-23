@@ -85,5 +85,6 @@ measuring tools, and importing paintings.
 - **Prefer one engine answer to many scanners.** Where the Atlas, the gold, the journal and focus disagree, they are
   reading predicates their own way. Before adding another guard, ask whether a single transition summary per action
   would remove the need (the retrospective's §2).
-- **Put a person in front of it.** The retrospective's recommendation: one unfamiliar player, recorded, for fifteen
-  minutes on the page. Alpha had none.
+- **Put cold players in front of it.** Cold-play agents of different kinds (a careful reader, an impatient presser, a
+  gold-follower, a wanderer who ignores the gold), each fifteen minutes on the rendered page with no instruction.
+  No gate waits on a human player (the owner, 23 November).

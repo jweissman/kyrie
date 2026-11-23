@@ -8402,6 +8402,132 @@
    "shows": "a treasury by one candle: iron-bound chests, stacked gold bars and coin-sacks on shelves, a ledger open on a draped table with a quill, columns into the dark",
    "era": "late",
    "light": "dim"
+  },
+  "scene-alpine-overlook": {
+   "form": "landscape",
+   "shows": "a mountain overlook at sunset: a fence and wildflowers on the rocks, a long lake between forested slopes, snowy peaks",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-alpine-pond": {
+   "form": "landscape",
+   "shows": "a high mountain tarn among rocks and rhododendrons, peaks and a far lake beyond, evening light",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-arcadia": {
+   "form": "landscape",
+   "shows": "an idyllic valley under a flowering tree: deer by a stream and a small fall, sheep, a round temple on the hill, snowy peaks",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-byre-lantern": {
+   "form": "interior",
+   "shows": "a byre at night by a lantern on a beam: cattle in their stalls, straw, a pitchfork, the door shut",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-castle-bailey": {
+   "form": "exterior",
+   "shows": "a castle's outer bailey by day: a gate with its portcullis raised, a lean-to with a horse, a tent and a cold fire, the keep on the hill",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-castle-bailey-night": {
+   "form": "exterior",
+   "shows": "the same castle bailey at night: a watch-fire burning, torches at the lit gate, the keep dark under the moon",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-chandelry-exterior-dusk": {
+   "form": "exterior",
+   "shows": "a chandler's shop front at dusk: candles lit in the window, the door open, a wet cobbled lane, a church tower",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-country-lane": {
+   "form": "landscape",
+   "shows": "a country lane under an oak by a dry-stone wall, winding down to low hills",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-country-lane-dawn": {
+   "form": "landscape",
+   "shows": "the same country lane at dawn, mist in the valley",
+   "era": "late",
+   "light": "dawn",
+   "weather": "clear"
+  },
+  "scene-country-lane-dusk": {
+   "form": "landscape",
+   "shows": "the same country lane at dusk, the sky red over the hills",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-country-lane-night": {
+   "form": "landscape",
+   "shows": "the same country lane by moonlight",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-country-lane-autumn": {
+   "form": "landscape",
+   "shows": "the same country lane in autumn, the oak turned red and gold, leaves on the track",
+   "era": "late",
+   "light": "daylight",
+   "season": "autumn",
+   "weather": "clear"
+  },
+  "scene-country-lane-winter": {
+   "form": "landscape",
+   "shows": "the same country lane in winter, snow on the track and the wall, the oak bare",
+   "era": "late",
+   "light": "daylight",
+   "season": "winter",
+   "weather": "snow"
+  },
+  "scene-field-lake": {
+   "form": "landscape",
+   "shows": "a meadow above a long lake under a heavy sky, wooded shores and mountains beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-granary-lantern": {
+   "form": "interior",
+   "shows": "a granary by lantern light: sacks, a ladder to the loft, a grain bin, a sheaf, the door shut",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-road": {
+   "form": "landscape",
+   "shows": "a road along a stone parapet under an oak, a walled hill town above a river valley",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-road-night": {
+   "form": "landscape",
+   "shows": "the same road by moonlight, the hill town dark above the river",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-valley-river": {
+   "form": "landscape",
+   "shows": "a river valley under an oak, sheep in the meadow, a round temple on a crag, mountains beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
   }
  }
 }

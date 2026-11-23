@@ -73,7 +73,8 @@ describe('the painting of a place', () => {
     const road = Scene.room('region__s1_s4_way', 'the road between Newmeet and Brockfield');
     expect(['scene-bridge', 'bridge', 'arcadia']).toContain(Scene.seen(foot)!);
     expect(['castle', 'redoubt']).toContain(Scene.seen(gate)!);
-    expect(['road', 'arcadia']).toContain(Scene.seen(road, [])!);
+    expect(['road', 'arcadia', 'scene-road', 'scene-road-night', 'scene-country-lane', 'scene-country-lane-dawn',
+      'scene-country-lane-dusk', 'scene-country-lane-night']).toContain(Scene.seen(road, [])!);
     const camp = Scene.room('region__s5_green', 'the camp at Windscar');
     expect(['herd', 'chapel', 'arcadia']).toContain(Scene.seen(camp)!);
     // No lane of sheep for the road, the bridge-foot or the forge; no wood for a market; no mountains for a gate.

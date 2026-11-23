@@ -75,8 +75,8 @@ Beta begins when these hold, none of them new work in alpha:
 4. **The owner's awaiting-judgment portfolio set apart** (below), so that no engineering orbits it.
 
 The three demonstrations the retrospective recommends before committing beta's plan: the continuity invariants as
-walk-wide specs (failing is fine), a transition-summary spike over Iscoed's first hour, and one recorded unfamiliar
-player for fifteen minutes on the page.
+walk-wide specs (failing is fine), a transition-summary spike over Iscoed's first hour, and cold-play agents of different
+kinds for fifteen minutes each on the page. No gate waits on a human player (the owner, 23 November).
 
 ## Awaiting the owner's judgment
 
