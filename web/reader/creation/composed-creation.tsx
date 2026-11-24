@@ -46,9 +46,10 @@ export class ComposedCreation {
         {step && <ComposedCreation.Mark id="" action="start" label="Set out now" words go={app.opening.begin} />}
       </nav>,
       over: <Signature.View app={app} likeness={!step || step.write !== undefined} passed={step ? ids.slice(0, i) : ids} /> };
-    return step ? <ComposedCreation.Step key={step.id} app={app} step={step}
-      more={more} unfold={() => turn(m => m + 1)} onward={next} frame={frame} />
-      : <ComposedCreation.Go key="go" app={app} frame={frame} />;
+    // One page from the first step to setting out, never keyed by its step: a step's change is the same page with its
+    // words changed, its root the node it was (FM-01: the page had been made again at every choice, and faded up).
+    return <ComposedCreation.Step app={app} step={step} more={more} unfold={() => turn(m => m + 1)} onward={next}
+      frame={frame} />;
   }
   // words: the mark is its words, not a glyph.
   static Mark({ id, action, label, words, go }: { id: string; action: string; label: string; words?: boolean;
@@ -69,15 +70,19 @@ export class ComposedCreation {
     window.addEventListener('keydown', key, true);
     return () => window.removeEventListener('keydown', key, true);
   }
-  static Step({ app, step, more, unfold, onward, frame }: { app: ReaderApp; step: CreationStep; more: number;
+  // A step, or with none left setting out (see Go). What is kept of a step (what is lit, a sign flared, a press gone
+  // on) is let go when the step changes.
+  static Step({ app, step, more, unfold, onward, frame }: { app: ReaderApp; step?: CreationStep; more: number;
     unfold: () => void; onward: () => void; frame: Frame }) {
     // What is lit first: the choice already made where it is among those offered, else the first (M22's review: a mage's
     // "before" step had lit nothing and described Brawn, the warrior's default, which a mage is not offered).
-    const offer = ComposedOptions.of(step);
-    const first = (offer.options.some(o => o.id === step.chosen) ? step.chosen : offer.options[0]?.id) ?? '';
+    const offer = step ? ComposedOptions.of(step) : ComposedCreation.none;
+    const first = (offer.options.some(o => o.id === step?.chosen) ? step?.chosen : offer.options[0]?.id) ?? '';
     const [lit, consider] = useState(first), [flare, flared] = useState<string>(), leaving = useRef(false);
-    useEffect(() => { ComposedCreation.focus(); }, []);
+    const [shown, show] = useState(step?.id);
+    useEffect(() => { ComposedCreation.focus(); }, [step?.id]);
     const choose = (id: string) => {
+      if (!step) { return; }
       // At a step of many a press takes a card or lets it go, and the page stays (see CreationSpells).
       if (step.many && id !== step.cards.at(-1)?.id) { app.opening.choose(step.id, id); return; }
       if (leaving.current) { return; }
@@ -89,7 +94,9 @@ export class ComposedCreation {
       if (step.present === 'sky' && !still) { flared(id); window.setTimeout(send, ComposedCreation.flare); } else { send(); }
     };
     const look = (id: string) => { if (ComposedRow.moved()) { consider(id); } };
-    const sky = step.present === 'sky', [zoom, row, out] = ComposedCreation.useZoom(sky && !!step.all, consider);
+    const sky = step?.present === 'sky', [zoom, row, out] = ComposedCreation.useZoom(sky && !!step?.all, consider);
+    if (shown !== step?.id) { show(step?.id); consider(first); flared(undefined); leaving.current = false; out(); }
+    if (!step) { return ComposedCreation.go(app, frame); }
     // Over the sky the entry stands under the rows, the wheel having the room beside the question (OR-89).
     const entry = <ComposedCreation.Entry card={step.cards.find(c => c.id === lit)} />;
     return <PageFrame.View kind="creation" {...frame} body="composed-step"
@@ -223,8 +230,9 @@ export class ComposedCreation {
     </aside>;
   }
   // Setting out: the life chosen in a line, and the one row that sets out, at a press.
-  static Go({ app, frame }: { app: ReaderApp; frame: Frame }) {
-    useEffect(() => { ComposedCreation.focus(); }, []);
+  static readonly none: Offer = { options: [], say: () => '' };
+  // Setting out, the page's last (a part of Step's page, not a page of its own: see View).
+  static go(app: ReaderApp, frame: Frame) {
     const name = app.state.party[0]?.name ?? '', country = app.state.setting?.title ?? 'the country';
     const go = () => app.opening.begin();
     return <PageFrame.View kind="creation" {...frame} body="composed-step composed-go" column="composed-col"
