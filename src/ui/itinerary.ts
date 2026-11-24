@@ -225,7 +225,7 @@ export class Itineraries {
       || Spatial.ancestry(byId, place).some(e => e.id !== place && ['building', 'site'].includes(e.space?.kind ?? '')));
   }
   // A house of a town on the ground (a shop, the customs-house), not under it nor deep in a site.
-  private static house(campaign: Campaign, place: string): boolean {
+  static house(campaign: Campaign, place: string): boolean {
     const byId = this.byId(campaign), space = byId.get(place)?.space;
     return !!space && space.shelter !== 'underground' && !(space.depth ?? 0)
       && Spatial.ancestry(byId, place).some(e => e.space?.kind === 'settlement')

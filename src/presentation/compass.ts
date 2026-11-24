@@ -27,18 +27,20 @@ export class Compass {
     // Something left is what the glance leads with for a reason, not a lens's own acts filling it (why 'present').
     const left = [...glance.lenses.things.promoted, ...glance.lenses.people.promoted].some(a => a.why !== 'present');
     // In the dark nothing is seen, and so nothing is known to be left or not: not exhausted.
-    const offer = this.offered(glance.offer, out);
+    const offer = this.offered(glance.offer, out, !Itineraries.house(campaign, here));
     return { enclosed: true, compass: { ...out ? { out } : {}, ...next ? { next } : {},
       exhausted: !screen.dark && !next && !left }, ...offer ? { offer } : {} };
   }
-  // The offer with the way out the last of the four, where it is open and not among them already: inside, the way out
-  // is always in sight (as the compass's own rows had made room for it beside the four), what it takes the place of
-  // the first of the rest; offered among the rest already, it is moved up, not offered twice. A way out something bars
-  // offers nothing; what bars it is said (Threshold).
-  static offered(offer: Glance['offer'], out?: Route): Glance['offer'] {
+  // The offer with the way out the last of the four, where it is open and not among them already: in a site or under
+  // the ground the way out is always in sight (as the compass's own rows had made room for it beside the four), what
+  // it takes the place of the first of the rest; in a house of a town (its way out its door) only where the four have
+  // room, never put before an act led with for a reason (CL-25: a way led with for being untaken). Offered among the
+  // rest already, it is moved up, not offered twice. A way out something bars offers nothing; what bars it is said.
+  static offered(offer: Glance['offer'], out?: Route, displace = true): Glance['offer'] {
     const command = out?.command;
     if (!offer || !out || !command || out.barred) { return offer; }
     if (offer.primary.some(o => this.is(o, command))) { return offer; }
+    if (!displace && offer.primary.length >= Offers.four) { return offer; }
     const row: Offered = offer.rest.find(o => this.is(o, command)) ?? { choice: command, command, label: `Out to ${Typography.plain(out.name)}`,
       type: 'journey', aspects: [], marks: [], ...out.minutes ? { minutes: out.minutes } : {} };
     const kept = offer.primary.slice(0, Offers.four - 1), moved = offer.primary.slice(Offers.four - 1);

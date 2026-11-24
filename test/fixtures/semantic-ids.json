@@ -1,6 +1,8 @@
 [
  "data/adventures/book-of-faces/module.json promise:th_dov_promise: unmade, standing, kept, broken",
  "data/adventures/book-of-faces/module.json promise:lc_unread: unmade, standing, kept, broken",
+ "data/adventures/eelbell/module.json promise:names_promise: unmade, standing, kept, broken",
+ "data/adventures/eelbell/module.json promise:hum_promise: unmade, standing, kept, broken",
  "data/adventures/half-the-hive/module.json promise:carry_hannet: unmade, standing, kept, broken",
  "data/adventures/half-the-hive/module.json occasion:the_calling: waiting, call_open, call_keepers, call_searchers, call_households, call_escort, call_mead, between, over",
  "data/adventures/hollins/module.json promise:pye_promise: unmade, standing, kept, broken",

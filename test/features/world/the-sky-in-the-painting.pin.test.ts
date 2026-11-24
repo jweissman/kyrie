@@ -17,7 +17,11 @@ describe('the painting a scene shows', () => {
     const screens = new Map<string, Screen>();
     const turns = await SceneCensus.walk(undefined, s => screens.set(s.place.id, s));
     expect(turns.length).toBeGreaterThan(40);
-    expect(turns.filter(t => t.fault).map(said)).toEqual([]);
+    // But for a painting wanted and asked for (doc/design/paintings-needed.md: scene-fields-rain, -evening, -night),
+    // which the walk has met since its life began in the adit (OR-186: an hour later through the fields): the dim
+    // ground there, not a picture against the sky.
+    const wanted = (t: Turn) => t.fault === 'blank' && /open fields/.test(t.place);
+    expect(turns.filter(t => t.fault && !wanted(t)).map(said)).toEqual([]);
     // And every place the walk passes, put under each of the census's skies (a fair day, rain by day, a fair
     // evening, a fair night, rain by night), is never painted against it: none, where nothing fits, is a painting
     // wanted (doc/design/paintings-needed.md), not a picture against the place.

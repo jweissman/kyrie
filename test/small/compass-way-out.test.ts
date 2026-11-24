@@ -25,6 +25,11 @@ describe('the way out, in the engine offer', () => {
     expect([got.primary.map(o => o.choice), got.rest.map(o => o.choice)])
       .toEqual([['a0', 'a1', 'a2', 'travel:yard'], ['a3', 'r0']]);
   });
+  it('in a house of a town, takes no place from four that are full (CL-25)', () => {
+    const full = offer(4, [act('r0')]);
+    expect(Compass.offered(full, out, false)).toBe(full);
+    expect(Compass.offered(offer(2), out, false)!.primary.map(o => o.choice)).toEqual(['a0', 'a1', 'travel:yard']);
+  });
   it('is never offered twice, nor where something bars it', () => {
     const led = offer(1); led.primary.push({ ...act('x'), command: 'travel:yard' });
     expect(Compass.offered(led, out)).toBe(led);
