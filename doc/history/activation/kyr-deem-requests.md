@@ -479,7 +479,7 @@ Numbered after R46. The integrator renumbers if a sibling branch also continued 
 
 ## F. Requests from `adventure/p3-enthusiasm` (the Walk of the Milestones; R85 to R88)
 
-*From `modules/walk.md`. Each was met by a workaround in the module; the workaround is named.*
+*From `data/situations/walk/walk.md`. Each was met by a workaround in the module; the workaround is named.*
 
 ### R85. A standing scenario cannot read or move the first town's own people (R38 again, now with a cost)
 

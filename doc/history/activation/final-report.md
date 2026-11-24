@@ -13,7 +13,7 @@
 | *The Silent Lord* (a keep) | A dated decision among factions, with a quiet-watch assault, a poisoned cup and a comic misunderstanding; the town reacts before the company arrives. | [modules/keep.md](modules/keep.md) |
 | *The Numbered House* (a ruined arcology) | A rival survey (Quill's Collegium, Brannock's hands) running on its own clock; eight visible stages; ally, race, robbery, fight. | [modules/arcology.md](modules/arcology.md) |
 | *The Bound Howe* (an expedition) | An escalating crisis with a rival company, a levy, a breach and four ground states; the Lantern Company reaches the torc by dice or by the player's help. | [modules/barrow.md](modules/barrow.md) |
-| *The Walk of the Milestones* (a movement) | A pilgrimage that crosses four towns through shared state; six end states, each visible in all four towns' chalk, notices and shop rations. | modules/walk.md |
+| *The Walk of the Milestones* (a movement) | A pilgrimage that crosses four towns through shared state; six end states, each visible in all four towns' chalk, notices and shop rations. | data/situations/walk/walk.md |
 
 **Corpus and variation:** 27 adventure reviews in [corpus/](corpus/README.md); a dramatic assessment ([dramatic-assessment.md](dramatic-assessment.md)); six new cross-adventure events; Deem draws for the Fellowship and the Walk ([deem-variation.md](deem-variation.md)).
 

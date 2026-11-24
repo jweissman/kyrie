@@ -139,6 +139,31 @@ Stages 1 and 2 are cheap, and safe to start while everything else runs. Stage 3 
 it wants its own short design note, the one asked of every port: what the runtime asks, what a setting answers, and
 how a second setting answers it (Tethys, and the allotment society).
 
+## Within the packages: the reviewer's consolidations
+
+The external reviewer's [orthogonal extraction and consolidation plan](orthogonal-extraction-consolidation-plan.md)
+(24 November) is the work inside these packages, and it agrees with the order above. Its rule 7, "enforce an import
+boundary before considering a directory or package extraction", is stage 1. Each of its four consolidations has a
+home here.
+
+| Its extraction | Package | Rides with | Notes |
+|---|---|---|---|
+| 1. Typed Kyr predicate and value traversal | `kyr-lang` | stage 2, or any compiler or lint task | The reviewer's recommended first. It also cures a defect found today: `World.variables` (QueryModes) does not see a variable inside a comparison, which the rules' idle hold had to work around (test/small/idle-held) |
+| 2. Identity- and dependency-aware memoisation | `kyr-lang` (WorldMemo, KeptReading), used by the runtime and the player | OR-183, and AX-10's rule index | `KeptParts`, `WorldMemo`, `PassageModel`'s lasting map and `KeptGroundings` are today's consumers. The reviewer's warning about length-checked indexes applies to `EntityIndex.of` |
+| 3. A checked monotone command lifecycle | `kyrie-player` (the session) | MT-24's remainder | MT-24 closed on fault injection (test/command-faults), but `OpenCommand.reach` still accepts any phase in any order (src/session/open-command.ts:13). The enforcement is still to do, and cheap |
+| 4. An engine-owned question protocol | `kyrie-player`, as TB-09's contract | stage 4 | The reviewer's contrasting second consumer (a riddle, a card hand or a dialectic) can be OR-149's conversation, or the old woman's riddle already pinned |
+
+The reviewer's rejection of a general state-machine framework and of a generic projection pipeline is adopted here.
+TB-09 asks that each activity's questions be the engine's, not that they share one machine.
+
+## The web client, later
+
+The owner, 24 November: ideally everything in `web` becomes part of `packages/kyrie-player`, as a longer-term
+transformation. On this plan, `web/engine` (the host, its worker and protocol) is the player package's own host, and
+moves with it at stage 6. `web/reader`, the page, becomes the player package's reference renderer once TB-09 leaves
+it nothing to decide: its frame, its stage and its instruments over the engine's questions. Until then it stays a
+client, because moving it before the protocol is all it draws would carry its interpretations into the package.
+
 ## What this buys
 
 - **Parity known, not hoped for.** A client cannot decide gameplay if its package gives it nothing to decide with.
