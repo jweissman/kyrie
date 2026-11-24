@@ -173,6 +173,8 @@ this help the player forget the interface and become interested in what happens 
   cost, under the rules.
 - **Directions kept whole, not commissioned:**
   - the seven programs (doc/design/directions-2026-11-20.md);
+  - the civilizational atlas (doc/design/direction-2026-11-24-civilization.md): gamma's commission
+    (doc/architecture/mission-22-gamma/COMMISSION.md); beta builds only its six proving cases;
   - adventure → career;
   - a middle scale inside a hex;
   - books and practices as perception instruments.

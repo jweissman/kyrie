@@ -744,6 +744,78 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from OR-382: an instrument's reach (the runner at the title), not an observed failure"
+  },
+  "OR-440": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov: the owner's civilizational direction, beta's narrow proving cases (a commissioned requirement, unmet; no observed failure)"
+  },
+  "OR-441": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov: the owner's civilizational direction, beta's narrow proving cases (a commissioned requirement, unmet; no observed failure)"
+  },
+  "OR-442": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov: the owner's civilizational direction, beta's narrow proving cases (a commissioned requirement, unmet; no observed failure)"
+  },
+  "OR-443": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov: the owner's civilizational direction, beta's narrow proving cases (a commissioned requirement, unmet; no observed failure)"
+  },
+  "OR-450": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-451": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-452": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-453": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-454": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-455": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-456": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-457": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
   }
  },
  "blockedBy": {
@@ -774,6 +846,10 @@
   "CO-03": "OR-310",
   "WD-12": "OR-310",
   "BO-12": "OR-310",
-  "OR-407": "BX-02"
+  "OR-407": "BX-02",
+  "OR-454": "OR-442",
+  "OR-455": "OR-440",
+  "OR-457": "OR-443",
+  "OR-452": "OR-451"
  }
 }

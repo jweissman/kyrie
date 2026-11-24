@@ -83,6 +83,23 @@ run like a test:
 Its first deliverable is the aspect tree over features.json and a generated page. Bringing doc/design's ambitions in
 with IDs follows.
 
+## The owner's civilizational direction (24 November): beta's six proving cases
+
+The direction ([doc/design/direction-2026-11-24-civilization.md](../../design/direction-2026-11-24-civilization.md)) is
+gamma's ([mission-22-gamma/COMMISSION.md](../mission-22-gamma/COMMISSION.md), OR-450 to OR-457, deferred). It does not
+enlarge the active queue or change the order above. Beta implements six narrow cases in the sprints they belong to:
+
+| Case | Sprint | Rows |
+|---|---|---|
+| A rapid opening, dark to revelation: light, a person, a fight won together, loot, a wonder | 2 | OR-184, OR-441 |
+| Town, dungeon, return, with a nearby discoverable dungeon and preparation by its entry | 3 | OR-311 (closed), OR-321, OR-370 |
+| One persistent, semantically declared Wonder | 2–3 (language) | OR-440 |
+| Variable opening situations, across seeds by cold play | 3 | OR-310 |
+| Asset metadata and placement interfaces, so gamma's atlas needs no rewrite | 3 (World) | OR-442 |
+| One optional nested First Aims undertaking, recognizing independent progress | 5 | OR-443 |
+
+None waits on the settlement census or the city corpus.
+
 ## The scorecard
 
 `bun run quality` (scripts/quality/quality.ts), nightly in CI, about two minutes. The first reading (23 November,

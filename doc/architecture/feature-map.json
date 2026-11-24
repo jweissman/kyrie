@@ -214,6 +214,18 @@
        "rows": [
         "OR-345"
        ]
+      },
+      {
+       "id": "passage",
+       "title": "Passage arranged between cities",
+       "feature": "travel",
+       "words": [
+        "passage booked",
+        "relational pin"
+       ],
+       "rows": [
+        "OR-452"
+       ]
       }
      ]
     },
@@ -274,6 +286,19 @@
        ],
        "rows": [
         "OR-346"
+       ]
+      },
+      {
+       "id": "first-aims",
+       "title": "First Aims, nested and optional",
+       "feature": "undertakings",
+       "words": [
+        "First Aims",
+        "horizon"
+       ],
+       "rows": [
+        "OR-443",
+        "OR-457"
        ]
       }
      ]
@@ -479,6 +504,31 @@
        "rows": [
         "OR-351"
        ]
+      },
+      {
+       "id": "settlement-matrix",
+       "title": "Settlements by terrain and scale",
+       "feature": "world",
+       "words": [
+        "hamlet",
+        "metropolis",
+        "settlement scale"
+       ],
+       "rows": [
+        "OR-450"
+       ]
+      },
+      {
+       "id": "canon-cities",
+       "title": "Cities of the canon, seated by rule",
+       "feature": "world",
+       "words": [
+        "canonical city",
+        "seated"
+       ],
+       "rows": [
+        "OR-451"
+       ]
       }
      ]
     },
@@ -626,6 +676,18 @@
        "rows": [
         "OR-353"
        ]
+      },
+      {
+       "id": "wonder-declared",
+       "title": "Wonders declared, discovered and afforded",
+       "feature": "world",
+       "words": [
+        "Wonder"
+       ],
+       "rows": [
+        "OR-440",
+        "OR-455"
+       ]
       }
      ]
     },
@@ -652,6 +714,18 @@
         "dwarf",
         "halfling",
         "folk"
+       ]
+      },
+      {
+       "id": "biome-census",
+       "title": "A terrain's peoples, beasts, gems and materials",
+       "feature": "creation",
+       "words": [
+        "demonym",
+        "biome"
+       ],
+       "rows": [
+        "OR-453"
        ]
       }
      ]
@@ -808,7 +882,8 @@
         "setting out"
        ],
        "rows": [
-        "OR-359"
+        "OR-359",
+        "OR-441"
        ]
       }
      ]
@@ -936,6 +1011,19 @@
        "rows": [
         "OR-363"
        ]
+      },
+      {
+       "id": "visual-atlas",
+       "title": "Paintings by terrain, subject, season, weather and light",
+       "feature": "art",
+       "words": [
+        "visual atlas",
+        "asset matrix"
+       ],
+       "rows": [
+        "OR-442",
+        "OR-454"
+       ]
       }
      ]
     },
@@ -1043,7 +1131,10 @@
        "id": "testing",
        "title": "Testing instruments",
        "feature": "testing",
-       "default": true
+       "default": true,
+       "rows": [
+        "OR-456"
+       ]
       },
       {
        "id": "docs",
