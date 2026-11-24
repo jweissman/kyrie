@@ -49,8 +49,8 @@ describe("The Eel Bell", () => {
 
   it('Sount reads the charge by colour: unsorted pewter turns it white, and a kettle brings it back', async () => {
     const j = await gathered();
-    await j.play('Ask Aggie') .catch(() => {});
-    await j.play('To the staithe', 'Into the Two Weirs', 'Ask Aggie Pargill for her pewter').catch(() => {});
+    await j.play('Ask Aggie').catch(() => undefined);
+    await j.play('To the staithe', 'Into the Two Weirs', 'Ask Aggie Pargill for her pewter').catch(() => undefined);
     await j.play('To the staithe', 'To the church green');
     await j.play('Tip the unsorted pewter');
     expect(j.measure('temper', 'furnace')).toBe(29);
