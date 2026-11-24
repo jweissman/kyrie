@@ -51,7 +51,7 @@ export interface Act {
   // them ("Keep still, as the Wainscot does" had become "Talk to the Lady": Behind the Wainscot's F3).
   deed?: boolean;
   // A fight it begins (a challenge to single combat), weighed up before it is chosen, as an attack is.
-  reckoned?: { danger: Danger; text: string };
+  reckoned?: { danger: Danger; text: string; mortal?: boolean };
 }
 // underground: below the ground (a cellar, a crypt, a mine), where the town's walks and the map are not to hand; and
 // how many storeys down (see Depth).
@@ -105,7 +105,7 @@ export interface TargetRow {
   says?: string[];
   // For those the company could fight: how the most seasoned member reckons a fight would go, and, for one it could
   // lose, the help that can be had (FightHelp, CL-52).
-  reckoning?: { danger: Danger; text: string; help?: string };
+  reckoning?: { danger: Danger; text: string; help?: string; mortal?: boolean };
   // Someone who has joined the company: not here so much as with you, and to be talked to wherever you are.
   companion?: boolean;
   // The painting shown beside them: for what they do, not of them (see Likeness), and how it is credited.

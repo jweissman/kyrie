@@ -14,7 +14,8 @@ import type { Creature } from '../creature';
 import type { CombatEvent, Fighter, Moment } from '../model';
 
 export type Danger = 'slight' | 'fair' | 'hard' | 'grave' | 'deadly';
-export interface Reckoning { danger: Danger; text: string }
+// mortal: the one who plays fell in a fight played out (OR-322: a fight that can end a life asks before it is begun).
+export interface Reckoning { danger: Danger; text: string; mortal?: boolean }
 
 // Where a fight is fought, and, for one already joined, how it opened.
 type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
@@ -26,11 +27,12 @@ type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
 // company's blows that landed on the foes, and how many of them the foes mostly shrugged off, and what the foes are
 // hurt by, tell a fight that will be a grind before it is begun (PT-23).
 interface Trial { won: boolean; fell: string[]; hurt: number; held?: string; blows: number; blunted: number;
-  hurtBy: string[]; harmed?: boolean }
+  hurtBy: string[]; harmed?: boolean; lead: boolean }
 // worst: the most any fight won took; harmed: whether any left someone poisoned, or otherwise hurt past its end.
 // sure: whether the fights won bear out an easy win, at a confidence the reckoning can be acted on (FightOdds).
+// mortal: whether the one who plays (the first of the company) fell in any fight played, won or lost.
 interface Fight { odds: number; fallen: number; hurt: number; frail?: string; held?: string; blunted: number;
-  hurtBy: string[]; worst: number; harmed: boolean; sure: boolean }
+  hurtBy: string[]; worst: number; harmed: boolean; sure: boolean; mortal: boolean }
 export class DangerSense {
   static readonly trials = 6;
   // How a foe is kept from fighting back, by what keeps it so; anything else, from fighting back.
@@ -142,10 +144,13 @@ export class DangerSense {
     const foreseen = this.foreseen.get(this.lineup(ours, foes));
     if (foreseen) { return foreseen; }
     const moment = battle.opening;
-    const key = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
-      f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
-    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {} }),
-      ours, foes));
+    // And where it is fought: the place's laws go with the fighters (as their conditions), its element does not, and
+    // a fight joined in the water had been reckoned as if on dry land (the Numbered House's eels: OR-322).
+    const environment = battle.state.combatants.find(f => f.environment)?.environment;
+    const key = JSON.stringify(['joined', moment ?? '', ...environment ? [environment] : [], ...standing.map(f => [f.id,
+      f.hp, f.mana, f.level, f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
+    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {},
+      ...environment ? { environment } : {} }), ours, foes));
   }
   // Those still standing in a fight, each side, as the creatures they came into it as, less what they have spent.
   static fighters(battle: Battle): { ours: Creature[]; foes: Creature[] } {
@@ -198,7 +203,7 @@ export class DangerSense {
     return { odds: won.length / played.length,
       fallen: won.length ? won.reduce((n, t) => n + t.fell.length, 0) / won.length : ours.length,
       hurt: won.length ? DangerSense.worse(won.map(t => t.hurt)) : 1, ...frail ? { frail } : {},
-      worst: Math.max(0, ...won.map(t => t.hurt)), harmed: won.some(t => t.harmed),
+      worst: Math.max(0, ...won.map(t => t.hurt)), harmed: won.some(t => t.harmed), mortal: played.some(t => t.lead),
       sure: FightOdds.easy(won.length, played.length),
       ...held ? { held } : {}, ...this.bite(played) };
   }
@@ -250,9 +255,10 @@ export class DangerSense {
     // had been reckoned "more than you can take": a1's corn-store, 3 November).
     const end = battle.events.findLast(e => e.type === 'end'), routed = battle.state.outcome === 'escaped'
       && end?.type === 'end' && !!end.fled && end.fled.team !== 'fighters';
-    if (battle.state.outcome !== 'fighters' && !routed) { return { won: false, fell: [], hurt: 1, ...bite }; }
     const company = battle.state.combatants.filter(f => f.team === 'fighters');
-    return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id),
+    const lead = (company.find(f => f.id === ours[0]?.id)?.hp ?? 0) === 0;
+    if (battle.state.outcome !== 'fighters' && !routed) { return { won: false, fell: [], hurt: 1, lead, ...bite }; }
+    return { won: true, fell: company.filter(f => f.hp === 0).map(f => f.id), lead,
       harmed: company.some(f => f.statuses.some(c => ConditionSense.tone(c.id) === 'hurt')),
       hurt: 1 - company.reduce((sum, f) => sum + f.hp, 0) / ours.reduce((sum, c) => sum + c.state.hp, 0),
       ...this.held(battle.events, new Set(foes.map(f => f.id))), ...bite };
@@ -288,16 +294,19 @@ export class DangerSense {
     // Someone falls in a fight it would win: alone, at all (no one would get you up); with others beside you, in one
     // won fight in five or more, not once in two dozen (the second blind playtest, BL-08: every hob fight said "Ander
     // could fall", and every one was won unhurt).
-    const falls = fight.fallen > (ours.length === 1 ? 0 : DangerSense.falls);
+    // And the one who plays falling in any fight played makes it a hard one too, said of them, and asked before it is
+    // begun (OR-322): two fights in twelve with the robbers' captain at Holyking felled the warrior, and the company
+    // was told only that Carlin could fall.
+    const falls = fight.fallen > (ours.length === 1 ? 0 : DangerSense.falls) || fight.mortal;
     const danger: Danger = fight.odds < 0.25 ? 'deadly' : fight.odds < grave ? 'grave'
       : fight.odds < 0.9 || falls || (ours.length === 1 && fight.worst > 0.6) ? 'hard'
         : fight.hurt > 0.25 || fight.worst > 0.4 || fight.harmed || fight.fallen > 0 || !fight.sure ? 'fair' : 'slight';
     // The most seasoned says it; of one who would fall, someone else does.
-    const judge = [...ours].sort((a, b) => Number(a.id === fight.frail) - Number(b.id === fight.frail)
+    const judge = [...ours].sort((a, b) => this.fails(a, fight, ours) - this.fails(b, fight, ours)
       || b.base.level - a.base.level || b.state.experience - a.state.experience)[0]!;
     // Alone, the one who could fall is you, and no one would get you up (a lone warrior took on hobs reckoned only
     // "someone could fall", and died).
-    const frail = ours.length === 1 ? 'you' : ours.find(c => c.id === fight.frail)?.name;
+    const frail = ours.length === 1 || fight.mortal ? 'you' : ours.find(c => c.id === fight.frail)?.name;
     const said: Record<Danger, string> = {
       deadly: `${they} more than ${ours.length === 1 ? 'you' : 'the company'} can take`,
       grave: `a fight with ${them} could be lost`,
@@ -312,7 +321,13 @@ export class DangerSense {
     const told = said[danger] + (fight.held && (danger === 'slight' || danger === 'fair')
       ? `, so long as you keep ${one ? 'them' : them} ${this.keeping[fight.held] ?? 'from fighting back'}` : '');
     return { danger, text: (ours.length > 1 ? `${judge.name} reckons ${told}.`
-      : `${told.charAt(0).toUpperCase()}${told.slice(1)}.`) + this.grind(fight, them) };
+      : `${told.charAt(0).toUpperCase()}${told.slice(1)}.`) + this.grind(fight, them),
+    ...fight.mortal ? { mortal: true } : {} };
+  }
+  // Whether one is the one who could fall, and so not the one who says it: the one who plays, in a fight that
+  // could fell them.
+  private static fails(c: Creature, fight: Fight, ours: Creature[]): number {
+    return Number(c.id === fight.frail || (fight.mortal && c.id === ours[0]!.id));
   }
   // A fight in which most of what the company lands is shrugged off is a long one, whoever wins it, and says so
   // before it is begun, with what would serve better where the foe is the worse for something (PT-23).

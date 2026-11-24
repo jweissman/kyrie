@@ -2,6 +2,7 @@ import type { Campaign } from '../src/campaign/campaign';
 import type { Creature } from '../src/creature';
 import type { CombatEvent } from '../src/model';
 import type { Danger } from '../src/presentation/danger-sense';
+import { Marks } from '../src/ui/marks';
 import { Environment } from '../src/campaign/environment';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { NoviceCountry, type Band } from './novice-country';
@@ -18,6 +19,8 @@ import { NoviceMeeting, type Meeting } from './novice-meeting';
 // in behind a barred way.
 export interface Banded {
   band: string; name: string; where: string; minutes: number; members: number; said: Danger; trials: number;
+  // Whether the reckoning asks before it (Marks.asks), and whether its own fights felled the one who plays.
+  asks: boolean; mortal: boolean;
   won: number; routed: number; fled: number; beaten: number; fell: number; rounds: number[]; lost: number[];
   hit: number; leaderLived: number; meeting: Meeting; signed: boolean; heard: boolean; shut: boolean;
 }
@@ -64,10 +67,11 @@ export class FirstHourBands {
       prisoners: world.relates('takesPrisoners') && world.test(ModuleWriter.call('takesPrisoners', band.id)),
       place: Environment.encounter(world, party, company.map(c => c.id), band.id),
       ...reading.moment ? { moment: reading.moment } : {} };
+    const said = NoviceFights.reckoned(setup);
     const out: Banded = { band: band.id, name: band.name, where: band.where, minutes: band.minutes,
-      members: foes.length, said: NoviceFights.said(setup), trials, won: 0, routed: 0, fled: 0, beaten: 0, fell: 0,
-      rounds: [], lost: [], hit: 0, leaderLived: 0, meeting: reading.meeting, signed: reading.signed,
-      heard: reading.heard, shut: reading.shut };
+      members: foes.length, said: said.danger, asks: Marks.asks(said), mortal: !!said.mortal, trials, won: 0,
+      routed: 0, fled: 0, beaten: 0, fell: 0, rounds: [], lost: [], hit: 0, leaderLived: 0, meeting: reading.meeting,
+      signed: reading.signed, heard: reading.heard, shut: reading.shut };
     const leader = [...foes].sort((a, b) => b.base.maxHp - a.base.maxHp)[0]!.id;
     for (let t = 0; t < trials; t++) { this.trial(setup, { seed: `${setup.seed}:${t}`, policy }, leader, out); }
     return [out];

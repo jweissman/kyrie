@@ -51,17 +51,24 @@ export class Reckon {
     return this.of(each, this.median(Object.values(each)), ws.map(w => `${w.name} ${w.fights} in `
       + `${this.round(w.minutes / 60, 10)} h`).join(', '));
   }
-  // Of the bands in the first hour's reach that felled the one who plays in a trial, those the game asks before.
+  // Of the bands in the first hour's reach that can fell the one who plays, those the game asks before. Can kill is
+  // judged once, by the company's own reckoning (its fights felled the one who plays: Fair.mortal), the fights the game
+  // plays to decide what it says; the census's own twelve trials, seeded and fought apart, had found deaths the
+  // reckoning's fights had not, and so called a band deadly that the game, by its own fights, had no reason to ask of
+  // (OR-322). Those its trials alone found are said, not held.
   static fair(r: Readings): Reading {
-    const killing = r.countries.flatMap(c => c.fair.filter(f => f.fell > 0).map(f => ({ ...f, seed: c.seed })));
-    const unasked = killing.filter(f => !f.warned);
+    const all = r.countries.flatMap(c => c.fair.map(f => ({ ...f, seed: c.seed })));
+    const killing = all.filter(f => f.mortal), unasked = killing.filter(f => !f.warned);
+    const apart = all.filter(f => !f.mortal && f.fell > 0);
     return { value: killing.length ? this.pct(killing.length - unasked.length, killing.length) : null,
       each: this.each(r.countries, c => c.seed, c => {
-        const k = c.fair.filter(f => f.fell > 0);
+        const k = c.fair.filter(f => f.mortal);
         return this.pct(k.filter(f => f.warned).length, k.length);
       }),
       note: `${killing.length - unasked.length} of ${killing.length}; unasked: ${unasked.slice(0, 4)
-        .map(f => `${f.seed} ${f.band} (${f.said}, fell ${f.fell})`).join('; ')}` };
+        .map(f => `${f.seed} ${f.band} (${f.said})`).join('; ') || 'none'}; felled in the census's trials alone: `
+        + `${apart.length}${apart.length ? ` (${apart.slice(0, 3).map(f => `${f.seed} ${f.band}, ${f.said}, fell `
+        + `${f.fell}`).join('; ')})` : ''}` };
   }
   static economy(r: Readings): Reading {
     const each = this.each(r.countries, c => c.seed, c => c.economy.ratio);

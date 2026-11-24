@@ -50,7 +50,7 @@
   }
  },
  "ratchets": {
-  "fair": 58,
+  "fair": 100,
   "unwitnessed": 0,
   "variety": 6,
   "recurrence": 0,
