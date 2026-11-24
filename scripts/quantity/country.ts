@@ -8,6 +8,7 @@ import { FirstHourBands } from '../first-hour-bands';
 import { NoviceCountry, type Country } from '../novice-country';
 import { QuantityDungeon } from './dungeon';
 import { QuantityPurse } from './purse';
+import { QuantityPlaces } from './places';
 import { EconomyMeasure } from '../economy-measure';
 
 // A first country as a new life begun in its first town finds it (no stock opening: the town is where the measures
@@ -18,6 +19,8 @@ import { EconomyMeasure } from '../economy-measure';
 export interface Fair { band: string; fell: number; said: string; warned: boolean }
 export interface Read {
   seed: string; near: number; fair: Fair[];
+  // The combat places quests return a company to (QuantityPlaces.returned).
+  returned?: string[];
   economy: { day: number; kit: number; dearest: number; ratio: number; worth: number; stock: number; purse: number;
     missing: string[]; outing?: string; haul?: number; job?: number };
   reach: { things: string[]; cells: number };
@@ -44,7 +47,8 @@ export class QuantityCountry {
       said: b.said, warned: ['grave', 'deadly'].includes(b.said) }));
     const dungeon = this.dungeon(c, country);
     return { seed, near: country.bands.filter(b => b.minutes <= this.near).length, fair,
-      economy: this.economy(c, country), reach: this.reach(c, country), ...dungeon ? { dungeon } : {} };
+      economy: this.economy(c, country), reach: this.reach(c, country), ...dungeon ? { dungeon } : {},
+      returned: QuantityPlaces.returned(c, country) };
   }
   // What a day's work brings home (QuantityPurse: one outing and one job, in the country's own land) against a starter
   // kit (a light, three days' rations, a rope: the cheapest of each the first town sells) and the first town's dearest

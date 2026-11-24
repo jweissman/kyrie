@@ -34,6 +34,16 @@ bun run quantity -- --update          # write a ratchet that moved the right way
 bun run quantity -- --rebase          # write every ratchet as read (say why in the commit)
 ```
 
+## Measure 1, reworked (24 November)
+
+Measure 1 had been fights per game hour over a whole walk. The owner ruled on OR-321 that the key is "more dense
+combat in specific, easy-to-find locations which quests return you to periodically and which reward multiple
+expeditions", with roads carrying a little more danger. A walk's hours are now put to the ground they were spent on
+(scripts/quantity/places.ts): a combat place, a road, or a town. Fights at combat places are held as a band, and
+fights on roads are reported. Two floors are added: how many combat places quests send a company back to, and how
+many return expeditions still meet a fight and bring something home. A whole-walk rate had mixed a night camped, a
+day's drove along the roads and an hour in a barrow into one number, so it said nothing about where the fights are.
+
 ## Bands and ratchets
 
 Each measure is one of three kinds:
@@ -52,7 +62,10 @@ Each measure is one of three kinds:
 
 | # | Measure | Kind | Why |
 |---|---|---|---|
-| 1 | Fights met per game hour, on each walk | band 0.1–1.5 | Conflict should be met at least once in ten hours of play, and should not be the whole game (no more than one fight every forty minutes). |
+| 1 | Fights per game hour at combat places, on each walk | band 0.5–4 | Combat is dense in specific places (the owner, 24 November, OR-321): a combat place is inside a site, or under a town (its undertown and the deep site below, one place). Read over each walk's time there, on walks with half an hour or more there. |
+| 1 | Fights per game hour on the roads, on each walk | report | Roads with a little more danger: one band of footpads to a country, going up and down a stretch of its roads, met now and then on a leg and warning first (roving.kyrt's road group). Said, not held. |
+| 1 | Combat places quests return a company to, near the first town | band ≥ 2 | A combat place within four hours of the start, with three bands or more in it, that two of the country's aims or more send the company to. |
+| 1 | Expeditions back to a combat place that still meet a fight and reward | band ≥ 1 | Over every walk: an expedition (going into a combat place until coming out) to a place gone into before, which met a fight and brought something home (coin, or a valuable taken up). |
 | 1 | Bands within four hours of the start, per seed | band 5–40 | Enough to choose among in the first hours, but not a country of nothing but foes. |
 | 2 | Bands that can kill, asked before (%) | ratchet up | A band counts as able to kill if, in any of twelve seeded trials against the warrior and the first town's hire, the one who plays fell. It counts as asked if it is reckoned grave or deadly, because only those fights ask before they begin (Grave). The aim is 100%. |
 | 3 | A day's coin ÷ (starter kit + dearest ware) | band 0.5–3 | A day's coin is one outing and one job in the country's own land (scripts/quantity/purse.ts): the richest one level of a site, site or part of the country within six hours' going of the start, at the best price a buyer pays, and the best pay of one job near. The kit is a light, three days' rations and a rope. The dearest ware is the first town's most expensive ware that is not itself treasure. The band means neither starved nor flooded. (It had counted every valuable within reach as found and sold, with every job's pay, and the circus's isle as a walk: an upper bound no company comes near.) |

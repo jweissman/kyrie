@@ -1,8 +1,14 @@
 {
  "bands": {
-  "fights": {
-   "floor": 0.1,
-   "ceiling": 1.5
+  "places": {
+   "floor": 0.5,
+   "ceiling": 4
+  },
+  "returned": {
+   "floor": 2
+  },
+  "again": {
+   "floor": 1
   },
   "bands": {
    "floor": 5,

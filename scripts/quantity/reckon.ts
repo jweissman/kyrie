@@ -20,6 +20,30 @@ export class Reckon {
   static of(each: Record<string, number>, value = this.median(Object.values(each)), note = this.said(each)): Reading {
     return Object.keys(each).length ? { value, each, note } : { value: null, note: 'not read' };
   }
+  // Fights begun per game hour at combat places, on each walk that spent half an hour or more at one.
+  static places(r: Readings): Reading { return this.ground(r, 'place'); }
+  // And on the roads, on each walk that spent an hour or more on them.
+  static roads(r: Readings): Reading { return this.ground(r, 'road'); }
+  private static ground(r: Readings, g: 'place' | 'road'): Reading {
+    const ws = this.walks(r).filter(w => (w.grounds?.[g].minutes ?? 0) >= (g === 'place' ? 30 : 60));
+    const each = this.each(ws, w => w.name, w => this.round(w.grounds![g].fights / (w.grounds![g].minutes / 60)));
+    return this.of(each, this.median(Object.values(each)), ws.map(w => `${w.name} ${w.grounds![g].fights} in `
+      + `${this.round(w.grounds![g].minutes / 60, 10)} h`).join(', '));
+  }
+  // The combat places within four hours of each first town that two aims or more send a company to.
+  static returned(r: Readings): Reading {
+    const each = this.each(r.countries, c => c.seed, c => c.returned?.length ?? 0);
+    return this.of(each, Math.min(...Object.values(each)), r.countries.map(c => `${c.seed}: ${(c.returned ?? [])
+      .join(', ')}`).join('; '));
+  }
+  // Expeditions back to a combat place, the second or later, that still met a fight and brought something home, over
+  // every walk.
+  static again(r: Readings): Reading {
+    const ws = this.walks(r), again = ws.flatMap(w => (w.grounds?.expeditions ?? []).filter((x, i, all) =>
+      all.slice(0, i).some(y => y.place === x.place) && x.fights > 0 && x.reward).map(x => `${w.name}: ${x.place}`));
+    return ws.length ? { value: again.length, note: again.slice(0, 4).join('; ') || 'none' }
+      : { value: null, note: 'not read' };
+  }
   // Fights begun per game hour on each walk.
   static fights(r: Readings): Reading {
     const ws = this.walks(r);
