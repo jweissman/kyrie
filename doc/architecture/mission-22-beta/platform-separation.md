@@ -107,6 +107,47 @@ effects and reads, for every facet, which the Atlas's marks and the glance's lea
 the marks that contradict their acts (OR-302, OR-303). It sits in the player package, over the runtime's operators,
 and asks nothing of authors.
 
+## Kyr's interpreter, a thin package in the runtime's kernel (the owner, 24 November)
+
+`src/lang` imports nothing outside itself (only ohm-js, deem and Node's own), and it sits on no wrong-way edge.
+The owner: "it's interesting that Kyr is so pure; it suggests that more things should move into it, or that it should
+become deeper", and then, "maybe this is just a thin layer package, an *interpreter*, that the runtime can use as part
+of its kernel to evaluate Kyr code".
+
+What is pure today is the language's statics: parsing, compiling, lowering, the World and its solving. Its dynamics are
+in the runtime:
+- what a statement does (`src/effects.ts`: Assert, Set, Bring, Slay and the rest);
+- rules fired until nothing changes (`src/campaign/campaign-tick.ts`: prime, settle, the idle hold);
+- an act checked, applied and settled (the runtime's Outcome path).
+
+Those are where the runtime's setting edges meet the language.
+
+**The call: `kyr-interpreter`, a package of its own.** It is not kyr-lang made deep.
+- `kyr-lang` stays the statics: text to a module, a World, a query answered. It is a parser and compiler that tools,
+  lints and the browser's parse load without running anything.
+- `kyr-interpreter` is the dynamics: given a module, a World and an act, the next World and a trace of what fired and
+  why. It is pure functions over kyr-lang's types, and it depends on kyr-lang alone.
+- Whatever a setting must supply (a calling's capability, a creature's figures, a rules domain's dice) the interpreter
+  asks through ports it declares, as kyr-lang's `Vocabularies` port already asks a setting for its kinds.
+- `kyrie-runtime`'s kernel uses it. The runtime keeps the campaign, sessions, persistence, generation and installation,
+  and fills the ports.
+
+The trade-off: a fourth package and its ports, against a kyr-lang that stays small and loadable alone. The gains:
+- **A semantics with a contract.** The interpreter can be specified and tested construct by construct.
+- **Cheap, strong tests.** A conformance suite takes a Kyr fragment, a World and an act, and gives the next World and
+  its trace in milliseconds, with no setting and no campaign. That is OR-407's horizon for most of what specs now boot
+  a world to see. Contract tests at its ports, run against a fake setting (the allotment society is one already), are
+  the extension-boundary tests every setting must pass.
+- **The runtime lift made smaller.** Of the runtime's 65 setting edges, those inside the statement and rule paths become
+  port asks, and what is left is orchestration's.
+
+The order:
+- The interpreter is first a spike in place: effects and the settle loop behind declared ports, in `src/lang`'s
+  neighbour `src/interpreter`. It is measured by the setting edges it removes and by the conformance specs it makes
+  possible (about twenty constructs first).
+- The packages' physical move (stage 2 below, with the interpreter beside kyr-lang) waits for a quiet point between
+  batches. It re-points imports in nearly every file, and it should not land under two streams' open branches.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are
