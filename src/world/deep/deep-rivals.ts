@@ -81,7 +81,7 @@ export class DeepRivals {
     const q = this.q, { id, head, values } = r, out = this.fill(power.out, this.heard(r)), w = values.w!;
     return [`  Entity ${id}_out: fact ${q(out)}.`,
       `  Observe ${id}_out_told near ${values.keeper} as hearsay when stage(${id}) == 1 and not knows(party, ${id}_out)`
-        + ` ${q(out)} teaches ${id}_out.`,
+        + ` ${q(this.says(out, values.keeper!))} teaches ${id}_out.`,
       `  Topic ${id}_gone with ${head} ${q(`Ask {${head}} where ${this.fill(power.band, r)} have gone`)}`
         + ` when stage(${id}) >= 1 and not foiled(${id}) and not won(${id}) once {`,
       `    Says ${q(this.fill(power.gone, r))}. On discuss { Assert knows(actor, ${id}_out). Assert knows(actor, ${w}_named). }`,
@@ -106,7 +106,7 @@ export class DeepRivals {
         + gear.map(({ n }) => ` Retract at(${id}_gear${n}, ${packs}). Assert at(${id}_gear${n}, ${entry}).`).join('') + ' }',
       `  Observe ${id}_fallen at ${entry} when ${id}_broken() ${q(this.fill(power.fell, r))}.`,
       `  Observe ${id}_fate_heard near ${values.keeper} as hearsay when ${id}_broken() and not knows(party, ${id}_fate)`
-        + ` ${q(fate)} teaches ${id}_fate.`,
+        + ` ${q(this.says(fate, values.keeper!))} teaches ${id}_fate.`,
       `  Topic ${id}_fate_told with ${head} ${q(`Ask {${head}} what became of ${this.fill(power.band, r)}`)}`
         + ` when ${id}_broken() once {`,
       `    Says ${q(this.fill(power.fate, { ...r, price: r.raised }))}.`
@@ -122,10 +122,13 @@ export class DeepRivals {
         + ` Assert ${id}_beaten(). }`,
       `  Relation ${id}_beaten(). Entity ${id}_back: fact ${q(beaten)}.`,
       `  Observe ${id}_back_heard near ${values.keeper} as hearsay when ${id}_beaten() and not knows(party, ${id}_back)`
-        + ` ${q(beaten)} teaches ${id}_back.`,
+        + ` ${q(this.says(beaten, values.keeper!))} teaches ${id}_back.`,
       `  Rule ${id}_sold at ${seat.id}_green when keeps(${head}, ${heart}) and not won(${id}) says ${q(this.fill(power.sold, r))}`
         + ` { Assert won(${id}). Assert ${id}_bought(). }`];
   }
+  // News heard where the keeper keeps travellers is theirs to tell, in their voice, as the notes file it (OR-254: the
+  // talk of the diggers had been told by nobody, and noted as told by the innkeeper).
+  private static says(text: string, keeper: string): string { return `'${text.replace(/[.!]$/, '')},' says {${keeper}}.`; }
   // The settlement of the power's kind nearest the site, or else the settlement nearest it.
   private static seat(region: Region, site: Site, power: Power): Settlement {
     const land = RegionGeography.atlas(region).land;

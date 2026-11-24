@@ -116,7 +116,7 @@ export class KyrLint {
     lint.applicability(); lint.labels(); lint.items(); lint.prose(); lint.domain(); lint.hazards(); lint.placeholders();
     lint.roles();
     lint.anchors(); lint.targets(); lint.keeps(); lint.movers(); lint.endings(); lint.writeOnly(); lint.commitments();
-    lint.skies();
+    lint.skies(); lint.weathers();
     AuthorLint.run(lint);
     // An act that would put the company in another hex, which the engine never offers (TR-20).
     CrossingLint.run(lint);

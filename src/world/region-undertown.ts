@@ -145,8 +145,10 @@ export class RegionUndertown {
       // said, and where, so that the aim leads somewhere (the product-design review's PD-03: "a barrow, not yet made
       // out", and nothing to say the way was down through the town).
       `  Objective ${w}_way when knows(party, ${w}_story) and not ${w}_raised() and not knows(party, ${t}_u_vault_found)`
-        + ` toward ${t}_u_undercroft by ${t}_u_yard ${q(`The way down to {${w}_site} is under ${s.name}: below a sealed vault, found from {${t}_u_undercroft},`
-        + ` which {${t}_u_crypt} under {${t}_u_yard} goes down to.`)}.`,
+        + ` toward ${t}_u_undercroft by ${t}_u_yard ${q(`The way down to {${w}_site} is below a sealed vault, found from`
+        // Not "is under {town}" of a site named under it, nor a chain of clauses (OR-248: "The way down to the old
+        // workings under Gatesend is under Gatesend: below a sealed vault, …, which the crypt … goes down to").
+        + ` {${t}_u_undercroft}: go down to it by {${t}_u_crypt} under {${t}_u_yard}.`)}.`,
       // Past its keeper only: fallen, or sat down by the rite of the door (the undertown's vault), or from below.
       `  Passage ${t}_u_deeper "a narrow stair behind the keeper's chair" is stair between ${t}_u_vault and ${w}`
         + ` opening when not able(${t}_u_keeper) or tolerates(${t}_u_keeper, party) or at(party, ${w})`

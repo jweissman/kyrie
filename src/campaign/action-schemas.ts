@@ -18,7 +18,18 @@ export class ActionSchemas {
     for (const [id, name] of labels) {
       labels.set(id, name.replace(/\{([A-Za-z][A-Za-z0-9_-]*)\}/g, (whole, ref: string) => labels.get(ref) ?? whole));
     }
+    // Someone's pronouns, as they are first asserted (Pronouns she), for "{their merchant}" in a label (OR-253).
+    for (const c of module.initial) {
+      if (c.kind === 'assert' && c.call.name === 'pronouns') { labels.set(`pronouns ${c.call.args[0]}`, c.call.args[1]!); }
+    }
     return labels;
+  }
+  // A label's pronoun words ("round {their merchant} neck"), by the pronouns of whom they name.
+  private static pronouns(name: string, bindings: Record<string, string>, labels: Map<string, string>): string {
+    return name.replace(/\{([^{}]+)\}/g, (whole, ref: string) => {
+      const p = ObservationText.pronounOf(ref), id = p && (bindings[p.id] ?? p.id);
+      return p ? ObservationText.pronounWord(labels.get(`pronouns ${id}`), p.word) : whole;
+    });
   }
   static checkLabels(action: Operator, labels: Map<string, string>) {
     const shown = this.placeholders(action.name).filter(name => action.parameters?.some(p => p.name === name));
@@ -112,8 +123,10 @@ export class ActionSchemas {
     delete body.parameters;
     return { ...body, id: `${action.id}(${args.join(',')})`, schema: action.id, bindings,
       actor: bindings.actor, name: action.speaker || this.placeholders(action.name).length
-        || !this.named(action, bindings, labels) ? action.name.replace(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g,
-          (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name) : `${action.name} (${this.named(action, bindings, labels)})`,
+        || !this.named(action, bindings, labels) ? this.pronouns(action.name, bindings, labels).replace(
+          /\{([A-Za-z_][A-Za-z0-9_]*)\}/g,
+          (_, name: string) => labels.get(bindings[name] ?? name) ?? bindings[name] ?? name)
+        : `${action.name} (${this.named(action, bindings, labels)})`,
       requires: this.predicate(action.requires, bindings),
       ...(action.interrupt ? { interrupt: this.predicate(action.interrupt, bindings) } : {}),
       ...(action.meanwhile ? { meanwhile: action.meanwhile.map(c => this.call(c, bindings)) } : {}),

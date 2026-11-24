@@ -120,7 +120,7 @@ Module circus "Wapshott's Peregrine Circus" {
     On success { Assert hookTolerates(party). Assert tolerates(hook_claws, party). Assert hatchlingsHome(party). Assert at(hatchlings, hook_den). Retract youngAshore(party). }
     Result "You open the sack and set them down in the bare earth, and step back, and nobody moves. One of the young goes forward in short, stopped runs, and the biggest of the pack lowers her head to it, and makes a sound you could not have told from a purr. The pack closes round them. When it opens, you are no longer in it, and no one has looked at you since.".
   }
-  Observe hook_pack_soft at hook_den when hookTolerates(party) "The pack lies in the sun in its hollow with the young in the middle, and takes no notice of you at all.".
+  Observe hook_pack_soft at hook_den when hookTolerates(party) "The pack lies up in its hollow with the young in the middle, and takes no notice of you at all.".
   Action throw_meat(actor: group, site: place) "Throw the pack a ration of meat and back off" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, hook_den) and at(hook_claws, hook_den) and quantity(actor, rations) >= 2 and not tolerates(hook_claws, actor).
     Time 0.

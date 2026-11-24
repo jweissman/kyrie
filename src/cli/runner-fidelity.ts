@@ -1,4 +1,5 @@
 import type { PlaySession } from '../session/play-session';
+import { Companions } from '../presentation/companions';
 import type { Aspect, Glance, Promoted } from '../presentation/glance-types';
 
 // Whether each facet a glance draws is kept by what its act does (promise fidelity: the owner, 15 November). The act
@@ -39,7 +40,8 @@ export class RunnerFidelity {
         drawn.add(aspect);
         const session = await fork(), checked = this.checked(session, act, aspect);
         const changes = await this.done(session, act, aspect);
-        if (!changes.some(c => this.brings[aspect]!.test(c) || (aspect === 'exploration' && this.seen(c, act, session)))) {
+        if (!changes.some(c => this.brings[aspect]!.test(c) || (aspect === 'exploration' && this.seen(c, act, session)))
+          && !(aspect === 'companionship' && this.met(session))) {
           if (checked) { chance.push(`${act.label}: drawn ${aspect}, not on this roll`); continue; }
           broken.push(`${act.label}: drawn ${aspect}, brought none`);
           traces.push(`${act.why} ${act.command} ${JSON.stringify(act.inside ?? [])}\n${changes.join('  ')}`);
@@ -47,6 +49,13 @@ export class RunnerFidelity {
       }
     }
     return { drawn: [...drawn], broken, traces, chance };
+  }
+  // A way along which someone who might join is perceived (Perception: the Go mark's companion) keeps its promise by
+  // coming to where they stand, to be asked: it had been judged by a joining that only asking does (the weir's errand,
+  // walked back to the gate-yard where Gesk sits, OR-247).
+  private static met(session: PlaySession): boolean {
+    const c = session.campaign, here = c.world.one('at', c.playerActor ?? 'party');
+    return !!here && [...Companions.possible(c)].some(w => c.world.one('at', w) === here);
   }
   // Whether what the facet is for is a check (its action resolves by one), as against an act that does what it does.
   private static checked(session: PlaySession, act: Promoted, aspect: Aspect): boolean {

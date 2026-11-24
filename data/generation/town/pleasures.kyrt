@@ -63,11 +63,12 @@
   Rule {s}_pl_skittles_gone when state({s}_pl_skittles, felled) and not at(party, {s}_green) and not {s}_pl_skittles_left(party) { Assert {s}_pl_skittles_left(party). }
   Observe {s}_pl_skittles_after at {s}_green when {s}_pl_skittles_left(party) "Your mark is chalked on the skittles board now. One of the men raises a hand.".
 --- dog
-  // Playing with pets (#264), being with animals (#52): sitting with an old dog in the sun.
-  Thing {s}_pl_dog "the old dog in the sun" at {s}_green {
-    State lying "An old dog lies in the sun by the wall, grey at the muzzle. One eye opens as you pass, and closes.".
+  // Playing with pets (#264), being with animals (#52): sitting with an old dog by the wall. What the sky is doing is the
+  // green's weather line's to say, read from the sky (OR-250: "The sun is warm on the wall" in the rain).
+  Thing {s}_pl_dog "the old dog by the wall" at {s}_green {
+    State lying "An old dog lies stretched out by the wall, grey at the muzzle. One eye opens as you pass, and closes.".
     State sat "You sit down by the wall. The dog thinks about it, and then puts its chin on your boot.".
-    State asleep "You scratch behind its ears. It sighs, the whole length of it, and goes to sleep against your leg. The sun is warm on the wall.".
+    State asleep "You scratch behind its ears. It sighs, the whole length of it, and goes to sleep against your leg.".
     Change sit "Sit down by the old dog" from lying to sat.
     Change scratch "Scratch the old dog behind the ears" from sat to asleep.
   }

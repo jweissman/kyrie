@@ -260,7 +260,7 @@ Module drove "The held drove" {
   // Owain goes on with his day on the landing after Bran is out, as the hours go: once he has told it to the drovers,
   // a halter mended in the morning, asleep in the sun after noon, at the inn door at dusk listening.
   Observe owain_morning near owain of owain when at(owain, green) and freed(party) and greenTold(party) and hour(clock) < 12 "Owain sits on the edge of the trough, mending a halter with his teeth and a bit of twine.".
-  Observe owain_noon near owain of owain when at(owain, green) and freed(party) and greenTold(party) and hour(clock) >= 12 and hour(clock) < 18 "Owain is asleep against the pens' gate in the sun, his cloak over his face.".
+  Observe owain_noon near owain of owain when at(owain, green) and freed(party) and greenTold(party) and hour(clock) >= 12 and hour(clock) < 18 "Owain is asleep against the pens' gate, his cloak over his face.".
   Observe owain_dusk near owain of owain when at(owain, green) and freed(party) and greenTold(party) and hour(clock) >= 18 "Owain stands at the inn door with his hands in his pockets, listening to the noise inside.".
   // Back on the landing, someone who remembers: Owain, telling it to drovers off a boat, as it went. Seen while the
   // company is on the landing and gone once it leaves, so a walk passing through sees it and goes on.

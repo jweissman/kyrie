@@ -10,11 +10,12 @@ import { Aims } from '../web/reader/aims';
 import type { Screen } from '../src/ui/screen-types';
 import { ModuleWriter } from '../src/lang/module-writer';
 
-// Your own errand comes first among your aims, and an aim taken up is said when it is: the page's aim had wandered to
-// whatever was heard of last (the lone tower, then the cisterns) while the brothers' errand was under way, and the
-// errand's turn (the old writing copied) was told nowhere but the notes (play 7).
+// Your own errand comes first among your aims, and an aim that arises is said when it does: the page's aim had wandered
+// to whatever was heard of last (the lone tower, then the cisterns) while the brothers' errand was under way, and the
+// errand's turn (the old writing copied) was told nowhere but the notes (play 7). One heard of is an aim to take up,
+// by the player's choice, not taken for them (OR-248).
 describe('your aims', () => {
-  it('puts your own errand first, and says an aim when it is taken up', async () => {
+  it('puts your own errand first, and says an aim to take up when it arises', async () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
       { origin: 'order', party: [{ name: 'Aud', raceId: 'human', classId: 'ranger' }] });
     const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
@@ -22,9 +23,9 @@ describe('your aims', () => {
     const ask = PlayerView.choices(c).find(x => /opened graves/.test(x.choice.name))!;
     const event = await s.leg(ask.choice.id);
     const feedback = ActionFeedbackView.read(c, event, before);
-    expect(feedback.aims).toEqual([expect.stringMatching(/^Something is wrong at /)]);
+    expect([feedback.aims, feedback.offered]).toEqual([undefined, [expect.stringMatching(/^Something is wrong at /)]]);
     const leaf = Narrator.leaf(c, ScreenModel.build(c), { event, feedback, said: ask.choice.name, moved: false });
-    expect(leaf.exchange?.notes).toContainEqual(expect.stringMatching(/^Aim: Something is wrong at /));
+    expect(leaf.exchange?.notes).toContainEqual(expect.stringMatching(/^To take up: Something is wrong at /));
     // And where the tower is, now somewhere to set out for, is said, not left for the journeys to show (M17-42).
     expect(leaf.exchange?.notes)
       .toContainEqual(expect.stringMatching(/^Noted: [^:]+: somewhere to set out for now, /));

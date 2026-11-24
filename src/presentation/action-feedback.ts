@@ -1,3 +1,4 @@
+import { Undertakings } from './undertakings';
 import { Sentences } from './sentences';
 import { BandNames } from '../narrative/band-names';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
@@ -31,6 +32,8 @@ export interface ActionFeedback {
   // Aims taken up or come to by it: reading the makers' marks made the brothers' errand "You have copied the old
   // writing at Riwustagn. Ruven at Faennsīe should see it.", and only the notes said so (play 7).
   aims?: string[];
+  // Aims that arose and were not taken up: neither the company's own nor now followed (see Noted: OR-248).
+  offered?: string[];
   // Aims that take up one just gone, told as it stands now: a quarrel heard from its other side (play 9 was told "A new
   // aim" of the brood's when only what Odile said had been added to it).
   amended?: string[];
@@ -52,16 +55,25 @@ export class ActionFeedbackView {
   // An aim is new when it was not one before: the same aim told again with its count gone up (graves opened, five,
   // six, seven) is not "A new aim" (the cold evaluation); one that takes up an aim just gone, opening as it did, is
   // that aim as it stands now.
-  static aims(before: PlayerSnapshot, after: PlayerSnapshot): { aims: string[]; amended: string[];
-    taken: { id: string; text: string; now?: true }[] } {
+  // One that arose is taken where it is the company's own errand or is now followed (the next part of the one
+  // followed); any other is offered, to be taken up by the player's choice (OR-248), and is not among those taken.
+  static aims(before: PlayerSnapshot, after: PlayerSnapshot, own: ReadonlySet<string> = new Set()): {
+    aims: string[]; offered: string[]; amended: string[]; taken: { id: string; text: string; now?: true }[] } {
     const had = before.objectives ?? [], now = after.objectives ?? [];
     const gone = new Set(had.filter(b => !now.some(o => o.id === b.id)).map(b => this.opening(b.text)));
     const fresh = now.filter(o => !had.some(b => b.id === o.id));
-    const aims = fresh.filter(o => !gone.has(this.opening(o.text))).map(o => this.told(o));
+    const arisen = fresh.filter(o => !gone.has(this.opening(o.text)));
+    const taken = arisen.filter(o => own.has(o.id) || o.id === after.followed);
+    const aims = taken.map(o => this.told(o));
+    const offered = arisen.filter(o => !taken.includes(o)).map(o => this.told(o).text);
     const amended = [...fresh.filter(o => gone.has(this.opening(o.text))), ...this.resumed(before, after)]
       .map(o => this.told(o));
-    return { aims: aims.map(a => a.text), amended: amended.map(a => a.text),
+    return { aims: aims.map(a => a.text), offered, amended: amended.map(a => a.text),
       taken: [...aims, ...amended.map(a => ({ ...a, now: true as const }))] };
+  }
+  // The company's own errands, by id (see Undertakings.errand): what arises of them is taken, not offered.
+  static errands(campaign: Campaign): Set<string> {
+    return new Set((campaign.module.objectives ?? []).filter(o => Undertakings.errand(campaign, o)).map(o => o.id));
   }
   // A story begun by it: an aim taken up of a story none of whose aims was held before, told as the story's beginning
   // (the owner, 18 November, OR-74: onboarding to an adventure proper made plain, not a seventh aim among six).
@@ -342,8 +354,8 @@ export class ActionFeedbackView {
     const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
     const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
-    const { aims, amended } = ActionFeedbackView.aims(before, after);
-    const taken = ActionFeedbackView.begun(campaign, before, ActionFeedbackView.aims(before, after).taken);
+    const arose = ActionFeedbackView.aims(before, after, ActionFeedbackView.errands(campaign));
+    const { aims, offered, amended } = arose, taken = ActionFeedbackView.begun(campaign, before, arose.taken);
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
     const quiet = ActionFeedbackView.probes.includes(action.schema ?? '') && action.schema !== 'search' && !learned.length && !changed.length
@@ -379,6 +391,7 @@ export class ActionFeedbackView {
       rolls, ...this.ran(event, names), discoveries: learned.map(k => shown.get(k.id) ?? k.text),
       ...this.leads(campaign, learned, new Set(before.knowledge.map(k => k.id))),
       ...!response && battleResult ? { ended: true } : {}, ...aims.length ? { aims } : {},
+      ...offered.length ? { offered } : {},
       ...amended.length ? { amended } : {}, ...taken.length ? { taken } : {}, ...this.borne(campaign, before, after),
       // Not the world's words held back as told lately (see RuleWords).
       events: RuleWords.said(event).map(p => p.text),

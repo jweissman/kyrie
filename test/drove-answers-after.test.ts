@@ -53,7 +53,7 @@ describe('the held drove, answering after', () => {
         while (hour() < until) { await After.take(r, /^Wait an hour/); }
         return After.act(r, 'go(drove__pens_gate,region__s1_green)');
       };
-      expect(await back(12)).toContain('Owain is asleep against the pens\' gate in the sun');
+      expect(await back(12)).toContain('Owain is asleep against the pens\' gate, his cloak');
       expect(await back(18)).toContain('Owain stands at the inn door');
       // And the customs-man not again at the pens.
       expect(await After.act(r, 'go(drove__pens_gate,drove__pens)')).not.toContain('with a rope and a horse');

@@ -32,11 +32,39 @@ export class ObservationText {
       suffix: `${head.slice(call.length)}${forms.map(f => `|${f}`).join('')}` };
   }
   private static bare(reference: string): boolean { return /^\??[A-Za-z][A-Za-z0-9_-]*$/.test(reference.trim()); }
+  // Someone's pronoun, by their own (Pronouns she): "{their merchant}" is "her" of a herb-wife, "his" of a smith, and
+  // "their" of one with none, so that a line and the row beside it cannot disagree (OR-253: Gek was "her" in one line
+  // and "They turn it in the light" in the next). A verb after one does not agree, so it is a possessive or an object
+  // ("round {their merchant} neck"), or a subject whose verb does not change ("{They merchant} said").
+  private static readonly pronounRef = /^(they|them|their|They|Them|Their) (\??[A-Za-z][A-Za-z0-9_-]*)$/;
+  private static readonly forms: Record<string, Record<'they' | 'them' | 'their', string>> = {
+    pron_he: { they: 'he', them: 'him', their: 'his' }, pron_she: { they: 'she', them: 'her', their: 'her' },
+    pron_it: { they: 'it', them: 'it', their: 'its' } };
+  static pronoun(world: World, id: string, word: string): string {
+    return this.pronounWord(world.relates('pronouns') ? world.one('pronouns', id) : undefined, word);
+  }
+  // A pronoun word (they, them, their, capitalised or not) for someone's pronouns (pron_she), or as it is for none.
+  static pronounWord(pronouns: string | undefined, word: string): string {
+    const form = word.toLowerCase() as 'they' | 'them' | 'their', said = this.forms[pronouns ?? '']?.[form] ?? form;
+    return word[0] === word[0]!.toUpperCase() ? said[0]!.toUpperCase() + said.slice(1) : said;
+  }
+  // "{their merchant}": the word and whose it is, or nothing.
+  static pronounOf(reference: string): { word: string; id: string } | undefined {
+    const p = this.pronounRef.exec(reference.trim());
+    return p ? { word: p[1]!, id: p[2]! } : undefined;
+  }
+  private static pronouns(text: string, world: World, binding: Record<string, string>): string {
+    return text.replace(this.pattern, (whole, reference: string) => {
+      const p = this.pronounRef.exec(reference.trim());
+      return p ? this.pronoun(world, binding[p[2]!] ?? p[2]!, p[1]!) : whole;
+    });
+  }
   static variables(text: string): string[] {
     return [...text.matchAll(this.pattern)].map(m => m[1]!.trim()).filter(r => /^\?[A-Za-z][A-Za-z0-9_-]*$/.test(r));
   }
   static references(text: string): Call[] {
-    return [...text.matchAll(this.pattern)].filter(m => !this.bare(m[1]!)).map(match => {
+    return [...text.matchAll(this.pattern)].filter(m => !this.bare(m[1]!) && !this.pronounRef.test(m[1]!.trim()))
+      .map(match => {
       const { call, said } = this.parts(match[1]!);
       if (match[1]!.includes('|') && !said.forms) { throw new Error(`{${match[1]!.trim()}}: a count agrees by two forms`); }
       const value = ModuleParser.predicate(call);
@@ -45,12 +73,18 @@ export class ObservationText {
     });
   }
   static names(text: string): string[] {
-    return [...text.matchAll(this.pattern)].filter(m => this.bare(m[1]!)).map(m => m[1]!.trim()).filter(n => !n.startsWith('?'));
+    return [...text.matchAll(this.pattern)].map(m => this.pronounRef.exec(m[1]!.trim())?.[2] ?? m[1]!)
+      .filter(r => this.bare(r)).map(r => r.trim()).filter(n => !n.startsWith('?'));
   }
   static map(text: string, transform: (call: Call, said: Said, suffix: string) => string,
     name?: (id: string) => string): string {
     return text.replace(this.pattern, (_, reference: string) => {
       if (this.bare(reference)) { return name ? name(reference.trim()) : `{${reference.trim()}}`; }
+      const p = this.pronounRef.exec(reference.trim());
+      if (p) {
+        const inner = name ? name(p[2]!) : `{${p[2]}}`;
+        return /^\{.*\}$/.test(inner) ? `{${p[1]} ${inner.slice(1, -1)}}` : p[1]!;
+      }
       const { call, said, suffix } = this.parts(reference);
       return transform(ModuleParser.predicate(call) as Call, said, suffix);
     });
@@ -130,8 +164,8 @@ export class ObservationText {
   // A measure in it is read with what its rule bound ("{gold(?g)}" was read of nobody, and said 0: the architecture
   // review's A17), and in words where it says so: "I've lost one to them so far", not 1 (play 9).
   static render(text: string, world: World, capitalize = true, binding: Record<string, string> = {}): string {
-    const rendered = this.map(text, (call, said) => this.say(world.number(call, binding), said),
-      id => this.label(world, binding[id] ?? id, binding));
+    const rendered = this.map(this.pronouns(text, world, binding),
+      (call, said) => this.say(world.number(call, binding), said), id => this.label(world, binding[id] ?? id, binding));
     // A time said at the end of a sentence ends it once ("at 9:30 p.m.", not "p.m..").
     const told = rendered.replaceAll(KyrText.brace[0], '{').replaceAll(KyrText.brace[1], '}')
       .replace(/([ap]\.m\.)\./g, '$1');

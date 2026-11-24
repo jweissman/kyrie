@@ -109,6 +109,20 @@ export class CampaignLint {
       }
     }
   }
+  // Prose that tells the weather where the world has a sky that changes, without asking the sky (OR-250: "The sun is
+  // warm on the wall" on a rainy morning): the sky's own lines (Observe … as weather) say it, read from the sky.
+  weathers() {
+    const sky = this.module.entities.find(e => /(^|__)sky$/.test(e.id))?.id;
+    if (!sky) { return; }
+    const told = /\b(in the sun|the sun is|sunlight|sunshine|sunlit|in the rain|the rain is|raining|snowing)\b/i;
+    for (const o of this.module.observations ?? []) {
+      if (o.aspect === 'weather' || !told.test(o.text) || JSON.stringify(o.when).includes(`"${sky}"`)) { continue; }
+      // Near a thing or someone, where they are.
+      const room = o.place && (this.world.one('at', o.place) ?? o.place);
+      if (room && Narrator.shelter(this.session.campaign, room) !== 'outdoors') { continue; }
+      this.add('advice', 'weather', `${o.id} tells the weather without asking the sky: "${o.text.slice(0, 60)}"`);
+    }
+  }
   // Whether a condition asks where the company is (at(party, …)), or anything of the place itself.
   static asksWhere(p: unknown, company: string, place: string): boolean {
     if (!p || typeof p !== 'object') { return false; }

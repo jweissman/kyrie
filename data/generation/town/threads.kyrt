@@ -10,20 +10,20 @@
 // company has heard is kept in its Journal as hearsay.
 --- thread coin 1
   Entity {t}_th_coin: fact "A trader in {town} keeps a coin that is too bright for its age: a thin Imperial piece, the wheel with a wing on one face and a regnal year on the other that is higher than any list of reigns allows. Either it is a forgery, or the Empire went on striking coin after its records stop.".
-  Topic {t}_th_coin_ask with {t}_merchant "Ask {{t}_merchant} about the coin on the cord round their neck" when not knows(actor, {t}_th_coin) once {
-    Says "'This?' says {{t}_merchant}. 'A traveller left it for a night's lodging in the year of the hard winter. It is Imperial. The wheel with a wing; the Posts. I have shown it to two scholars. The first said it was a forgery because it is too bright. The second said it could not be, because whoever forged it knew a regnal year no forger would know.' They turn it in the light. 'It buys a loaf. I have never spent it.'".
+  Topic {t}_th_coin_ask with {t}_merchant "Ask {{t}_merchant} about the coin on the cord round {their {t}_merchant} neck" when not knows(actor, {t}_th_coin) once {
+    Says "'This?' says {{t}_merchant}. 'A traveller left it for a night's lodging in the year of the hard winter. It is Imperial. The wheel with a wing; the Posts. I have shown it to two scholars. The first said it was a forgery because it is too bright. The second said it could not be, because whoever forged it knew a regnal year no forger would know.' The coin turns in the light between {their {t}_merchant} fingers. 'It buys a loaf. I have never spent it.'".
     On discuss { Assert knows(actor, {t}_th_coin). Increase heard_threads(party) by 1. }
   }
 --- thread credential 1
   Entity {t}_th_credential: fact "A veteran's family in {town} keeps a bronze tablet in the Empire's script: a courier's credential, bidding every stage pass the bearer toll-free 'by the Office of the Road', issued from a Prefecture of the Further Shore that appears in no chronicle of this country.".
-  Topic {t}_th_credential_ask with {t}_traveller "Ask {{t}_traveller} about the bronze tablet in their pack" when not knows(actor, {t}_th_credential) once {
-    Says "{{t}_traveller} unwraps a bronze tablet the size of a hand from oiled cloth, and does not give it to you to hold. 'My grandmother's,' they say. 'She said her grandfather was a post-rider of the old road, and that he was given this to carry to a stage that was not there when he arrived. It says pass the bearer, toll-free, by the Office of the Road. It says the Prefecture of the Further Shore.' A shrug that does not quite come off. 'I have asked three clerks where that is. They were all very certain. They did not agree.'".
+  Topic {t}_th_credential_ask with {t}_traveller "Ask {{t}_traveller} about the bronze tablet in {their {t}_traveller} pack" when not knows(actor, {t}_th_credential) once {
+    Says "{{t}_traveller} unwraps a bronze tablet the size of a hand from oiled cloth, and does not give it to you to hold. 'My grandmother's,' says {{t}_traveller}. 'She said her grandfather was a post-rider of the old road, and that he was given this to carry to a stage that was not there when he arrived. It says pass the bearer, toll-free, by the Office of the Road. It says the Prefecture of the Further Shore.' A shrug that does not quite come off. 'I have asked three clerks where that is. They were all very certain. They did not agree.'".
     On discuss { Assert knows(actor, {t}_th_credential). Increase heard_threads(party) by 1. }
   }
 --- thread letters 1
   Entity {t}_th_letters: fact "A merchant's factor writes to {town} of a rising lord over the water who is being 'shown to the guilds as the one the roads are being kept for', and of salt that has fallen by a third in the cities that have taken his side. The letters say nothing plainer.".
-  Topic {t}_th_letters_ask with {t}_merchant "Ask {{t}_merchant} what their factor writes from the coast" when not knows(actor, {t}_th_letters) once {
-    Says "{{t}_merchant} gives you the one letter they are willing to share, and reads the underlined part aloud. 'There is a lord over the water, they say,' they read, 'being shown to the guilds as the one the roads are being kept for. I do not know what it means and I would not put it in a letter if I did. Salt is down a third where he is liked.' They fold it. 'A merchant learns to read what is not said. This is a letter about something large that does not wish to be a letter.'".
+  Topic {t}_th_letters_ask with {t}_merchant "Ask {{t}_merchant} what {their {t}_merchant} factor writes from the coast" when not knows(actor, {t}_th_letters) once {
+    Says "{{t}_merchant} gives you the one letter {they {t}_merchant} will share, and reads the underlined part aloud. 'There is a lord over the water, they say,' {{t}_merchant} reads, 'being shown to the guilds as the one the roads are being kept for. I do not know what it means and I would not put it in a letter if I did. Salt is down a third where he is liked.' They fold it. 'A merchant learns to read what is not said. This is a letter about something large that does not wish to be a letter.'".
     On discuss { Assert knows(actor, {t}_th_letters). Increase heard_threads(party) by 1. }
   }
 --- thread chronicles 1

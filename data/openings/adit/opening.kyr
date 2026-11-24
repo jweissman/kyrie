@@ -40,7 +40,12 @@ Module adit "Under the fall" {
   Person dai "Dai Probert" at gallery {
     Role "a charcoal-burner's boy from the ridge above {town}". Pronouns he. Peaceable. Manner grim.
   }
-  Observe dai_seen near dai of dai when not travelsWith(dai, party) and not benighted(party) "Dai Probert is crouched against the far wall with his knees up: a boy of twelve in a sacking hood, white to the lips. 'There's a beast in the wall,' he whispers. 'It went for me when I moved.'".
+  // What he is afraid of is said only while it holds (OR-249: "It went for me when I moved" after the badger was beaten
+  // before him).
+  Observe dai_seen near dai of dai when not travelsWith(dai, party) and not benighted(party) and able(badger)
+    and not routed(badger) "Dai Probert is crouched against the far wall with his knees up: a boy of twelve in a sacking hood, white to the lips. 'There's a beast in the wall,' he whispers. 'It went for me when I moved.'".
+  Observe dai_after near dai of dai when not travelsWith(dai, party) and not benighted(party)
+    and (routed(badger) or not able(badger)) "Dai Probert is still crouched against the far wall, a boy of twelve in a sacking hood, watching the hole the badger went into. 'Is it gone?' he whispers, and does not take his eyes off it.".
   Topic dai_help with dai "Tell Dai you will get him out" when not willing(dai, party) and not travelsWith(dai, party) once {
     Says "'There's the old drift,' Dai says. 'It comes out on the hill above the road. A prop is down across it. I tried to shift it on my own and I couldn't.' He gets up, keeping the wall at his back. 'I'll take one end, if you take the other.'".
     On discuss { Assert willing(dai, actor). }
