@@ -105,7 +105,11 @@ export class QuantityWalks {
   // Every aim held, kept once it is first held, with whoever it is about.
   private static hold(st: State, held: Objective[], events?: CampaignEvent[]) {
     const c = st.s.campaign, here = c.world.one('at', c.playerActor ?? 'party') ?? '';
-    const inTown = !!events && !!st.town && NoviceCountry.containing(c, here, 'settlement')?.id === st.town;
+    // The town itself, not the ground under it: an aim taken up below by coming on what it is about (the rats come up
+    // into the old working face, OR-413) is uncovered by going there, where the town's own rooms had held it as handed
+    // out, the combat place under the town being within it (QuantityPlaces.place).
+    const inTown = !!events && !!st.town && NoviceCountry.containing(c, here, 'settlement')?.id === st.town
+      && !QuantityPlaces.place(c, here);
     // Not the life's own errand, its origin's (the drove's, on iscoed), which is what it came for.
     const origin = st.s.transcript.drawn?.origin;
     for (const o of held.filter(x => !st.aims.has(x.id))) {

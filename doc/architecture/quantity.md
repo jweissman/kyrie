@@ -91,6 +91,14 @@ that meet a fight and bring something home, 0 → 1 (floor 1).
 Authored content no played world reaches is 33, not 32: batch 13 integrated the Weather Drove (weatherdrove), and no
 world yet reaches it. That is new content not yet reached, and the ratchet is written at 33 by hand for it.
 
+## Measure 8's first town, the town itself (24 November, OR-370)
+
+An aim taken up in the first town had included the ground under it, which is within the town (the undertown's
+rooms): the rats come up into the working face, met there, had been an aim handed out in the town. Under the town is
+the combat place (measure 1's), and an aim taken up there by coming on what it is about is uncovered by going
+there. Measure 8's first-town aims are now those taken up in the town above it. With thorn's bear job asked after
+only by one who has read the notice or seen the gate: 60% (3 of 5), the ratchet written at 60.
+
 ## Bands and ratchets
 
 Each measure is one of three kinds:
@@ -149,7 +157,7 @@ Each measure is one of three kinds:
 | Things worth doing near the first town | 9 / 8 / 11 | 9 / 8 / 11 | yes |
 | Aim kinds; aims met in every seed | 6; 0% | 6; 0% | yes |
 | Minutes per aim; ended by arriving alone | 12; 19% | 13; 20% | rebased: thorn's gold-follower now sees its aims through (the den, the vault), where it had shuttled |
-| First-town aims handed out | (new) | 63% (5 of 8) | ratchet written (OR-370) |
+| First-town aims handed out | (new) | 60% (3 of 5, the town above ground) | ratchet written at 60 (OR-370 open) |
 | The first dungeon: minutes, hexes | 102 / 151 / 192; 2 / 4 / 3 (a ruin out of any town) | 22 / 32 / 32; 0 / 0 / 0 (the deep site under the first town) | yes (OR-327, OR-328 closed: the measure) |
 | Its levels with a boss and a cache | (new) | 4 / 4 / 3 | yes |
 | Ready in the town; at the dungeon | 3 of 3; (new) | 3 of 3; 1 of 4 (gear only) | yes; reported |
