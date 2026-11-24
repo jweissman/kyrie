@@ -1,0 +1,6 @@
+# The old woman's riddle on Porthalen's green (OR-177's occasion, measured by the continuity census): stopped for,
+# looked at while it stands, and answered.
+{"act":"region__s1_pl_riddle_listen(party,region__s1_green)"}
+{"look":true}
+{"act":"region__s1_pl_riddle_river(party,region__s1_green)"}
+{"look":true}

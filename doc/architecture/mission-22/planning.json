@@ -59,6 +59,7 @@
    "OR-173",
    "OR-174",
    "OR-177",
+   "OR-212",
    "OR-178",
    "OR-179",
    "OR-181",
@@ -164,11 +165,6 @@
     "id": "OR-23",
     "owner": "lead",
     "accept": "from Play to the opening's first act in 1.5 s, with the world pre-rolled at the title; no checklist, no black frame"
-   },
-   {
-    "id": "OR-177",
-    "owner": "lead",
-    "accept": "the engaged frame owned by the engine and drawn as its own by every client; the census counts it and the parity check holds"
    },
    {
     "id": "CB-01",
