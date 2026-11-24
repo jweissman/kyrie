@@ -27,10 +27,7 @@ export class TalkWeight {
       && c.call.name.replace(/^.*__/, '') === 'willing' && c.call.args[0] === r.action.speaker));
     const telling = rows.filter(r => (r.action.success ?? []).some(c => c.kind === 'assert' && c.call.name === 'knows'
       && leads.has(c.call.args[1] ?? '')));
-    // What the company came for first: the question a lead sent it to ask (the notice's "ask Holgar for the key"),
-    // before what bears on an aim or tells of somewhere else; the talk is led with the first (OR-199: Holgar's had
-    // opened on the old kingdom, the rats job its fourth).
-    return new Set([...sought, ...bearing, ...[...joining, ...telling].map(r => r.choice.id)]);
+    return new Set([...bearing, ...[...joining, ...telling].map(r => r.choice.id), ...sought]);
   }
   // The questions that make an aim of a lead (see asked), by id: the talk leads with them (TalkFocus).
   static sought(campaign: Campaign, rows = PlayerView.choices(campaign).filter(r => r.action.speaker)): string[] {

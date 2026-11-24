@@ -17,14 +17,15 @@ describe('the runner holds what is said to someone under their talk', () => {
     const turn = said(await r.ask(JSON.stringify({ act: 'go(region__s1_inn_door,region__s1_taproom)' })));
     expect(turn.offer.rest.filter(o => /^Ask Kynes/.test(o.label))).toEqual([]);
     expect(turn.offer.rest.length).toBeLessThan(60);
-    // His talk is one row, the engine's own for him (MT-18), by what it does: his talk (talk_to, a greeting). His own
-    // had been lost behind the four (MT-15: the fifth led, Kynes's, offered nowhere).
-    const talk = turn.offer.rest.find(o => o.label === 'Talk to Kynes');
-    expect(talk && RunnerOffer.act(talk)).toBe('talk_to(region__s1_innkeeper)');
+    // His talk is one row, the engine's own for him (MT-18), by what it does: led with the question the notice sent the
+    // company to ask him, the old quarry (OR-199), else his talk (talk_to, a greeting). His own had been lost behind
+    // the four (MT-15: the fifth led, Kynes's, offered nowhere).
+    const talk = [...turn.offer.primary, ...turn.offer.rest].find(o => o.id === 'region__s1_innkeeper#talk');
+    expect(talk && RunnerOffer.act(talk)).toBe('region__s1_u_spiders_job_ask');
     // Talked to, he is told, not the taproom again, and what can be said to him leads, talk before trade ("Talk to
     // the factor" had told the green whole: cold play 4, CL-49).
     const his = said(await r.ask(JSON.stringify({ act: talk!.id })));
-    expect(his.scene.lines.join(' ')).toMatch(/^(Kynes:|Kynes looks up)/);
+    expect(his.scene.lines.join(' ')).toMatch(/Nobody goes in the old quarry now,’ says Kynes/);
     expect(his.scene.lines.join(' ')).not.toContain('the taproom of the Stone Horn');
     const labels = [...his.offer.primary, ...his.offer.rest].map(o => o.label);
     expect(labels).toContain('Ask Kynes about the drover the customs-men hold');

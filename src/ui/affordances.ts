@@ -165,9 +165,12 @@ export class Affordances {
     return open.find(c => c.own) ?? open[0];
   }
   // Someone is led for the question a lead sent the company to ask them (the notice's job: Holgar had been led for the
-  // old kingdom, OR-199), aim or none: a question put to someone, so only ever among a person's (TalkWeight.sought).
-  private static sent(fresh: Choice[], screen: Screen, r: Reading): Choice | undefined {
-    return fresh.find(c => screen.sought?.includes(c.command!) && !r.done.has(c.command!));
+  // old kingdom, OR-199): a question put to someone, so only ever among a person's (TalkWeight.sought). Not while the
+  // company follows an aim of its own: the gold walker on the Hall's errand, turned to Kynes, had been given the
+  // quarry's spiders job by her talk, and went in and out of the adit thirty times (press-key).
+  private static sent(f: Choice[], s: Screen, r: Reading): Choice | undefined {
+    return s.aims?.some(a => a.followed) ? undefined
+      : f.find(c => s.sought?.includes(c.command!) && !r.done.has(c.command!));
   }
   // Someone to talk to, or something to look at: one choice that opens what can be done; it is led with for anything
   // nested in it, said beside it (an answer owed, the aim, a bed for the night).
@@ -598,8 +601,7 @@ export class Affordances {
       ...at.leaves && Object.keys(at.leaves).length ? { leaves: at.leaves } : {},
       ...at.exit ? { exit: at.exit } : {}, kind: at.kind, whys, ...at.notes ? { notes: at.notes } : {},
       order: 0, marks: this.marksOf(c, command), ...c.minutes ? { minutes: c.minutes } : {},
-      ...this.risky(c) ? { risk: true } : {},
-      ...c.own ? { own: true } : {}, ...c.teaches ? { teaches: true } : {},
+      ...this.risky(c) ? { risk: true } : {}, ...c.own ? { own: true } : {}, ...c.teaches ? { teaches: true } : {},
       ...command && at.r.done.has(command) ? { known: true } : {},
       ...at.visited !== undefined ? { visited: at.visited } : {}, ...at.pointed ? { pointed: true } : {},
       ...c.disabled ? { barred: true } : {},
