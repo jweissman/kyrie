@@ -153,6 +153,14 @@ export class CampaignTick {
     // given in the first watch, it was told after whatever came first ("You take Tegwen's lease." on reading a notice,
     // cold play 5's CL-35).
     Consequences.hand(host, []);
+    this.prime(host.world, host.module.rules ?? []);
+  }
+  // Each rule asked once of the world as the game begins, its answer not acted on: what each reads is noted, and one
+  // that holds nowhere is stamped idle there (see instances), so that the first act's watches ask again only what that
+  // act has written. Unprimed, the first act asked every rule of the country afresh and paid for reading each one's
+  // condition (OR-145: 141 ms of the first act's watches into a1's first town, 31 once its rules had been asked).
+  private static prime(world: World, rules: readonly WorldRule[]) {
+    for (const rule of rules) { this.instances(rule, world); }
   }
   // The world's rules once more, as the company learns something by seeing, reading or hearing it (see
   // Perceptions.settle); since is the world before it was learned. A rule is asked again only if something it reads

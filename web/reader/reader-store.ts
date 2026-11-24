@@ -4,7 +4,10 @@ import { WorldVault } from './world-vault';
 
 // A kept game: its state, and the world it was played in when that is kept apart from it (see KeptGame).
 // vaulted: the world is kept in IndexedDB by this key (see WorldVault), to be fetched when the game is taken up.
-export interface SavedGame extends SaveSummary { text: string; world?: string; vaulted?: string }
+// slot: the world is kept in localStorage under this key, read only when the game is taken up (see worldOf): read
+// back whole at every keep in play, it had been eighteen megabytes decoded and a major collection on the page's
+// thread between an act's answer and its drawing (OR-145).
+export interface SavedGame extends SaveSummary { text: string; world?: string; vaulted?: string; slot?: string }
 // Which of two slots holds the kept state, and which the world it names (with that world's key).
 interface Pointer { stateSlot?: Slot; worldSlot?: Slot; worldKey?: string; world?: string; vaulted?: boolean }
 type Slot = 'a' | 'b';
@@ -59,8 +62,8 @@ export class ReaderStore {
       localStorage.setItem(this.about, JSON.stringify({ ...summary, stateSlot: state,
         ...worldSlot ? { worldSlot, worldKey } : {} }));
       this.release(state, worldSlot);
-      worldText ??= worldSlot ? localStorage.getItem(`${this.world}.${worldSlot}`) ?? undefined : undefined;
-      return { text, ...summary, ...worldText ? { world: worldText } : {} };
+      const kept = worldText ? { world: worldText } : worldSlot ? { slot: `${this.world}.${worldSlot}` } : {};
+      return { text, ...summary, ...kept };
     } catch { return undefined; }
   }
   // A state kept beside a world in the vault: the summary names the world by its key; any world kept in localStorage
@@ -84,6 +87,11 @@ export class ReaderStore {
       // Not even alone: the old world is put back, and the game stays as it was last kept.
       try { localStorage.setItem(key, text); } catch (still) { localStorage.setItem(`${this.world}.${old}`, was); throw still; }
     }
+  }
+  // The world a kept game is played in, where it is kept beside it in localStorage: read as the game is taken up.
+  static worldOf(saved: SavedGame): string | undefined {
+    if (saved.world || !saved.slot) { return saved.world; }
+    try { return localStorage.getItem(saved.slot) ?? undefined; } catch { return undefined; }
   }
   // Whether the world kept here is this one: a state is kept beside its own world, and no other.
   static holds(key: string): boolean {

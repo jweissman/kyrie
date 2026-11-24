@@ -6,8 +6,12 @@ type Part = Predicate | Value | Change;
 // reading of the world made from them can turn on. Two worlds of one line whose stamps agree on all of these give the
 // same reading (see World.version).
 export class Reads {
+  // A module's queries by name, made once a module (every rule's reads had made the map again: OR-145).
+  private static readonly byName = new WeakMap<Module, Map<string, Query>>();
   static names(module: Module, parts: readonly (Part | undefined)[]): string[] {
-    const queries = new Map(module.queries.map(q => [q.name, q])), names = new Set<string>();
+    let queries = this.byName.get(module);
+    if (!queries) { queries = new Map(module.queries.map(q => [q.name, q])); this.byName.set(module, queries); }
+    const names = new Set<string>();
     for (const part of parts) { if (part) { this.visit(part, queries, names); } }
     return [...names].sort();
   }

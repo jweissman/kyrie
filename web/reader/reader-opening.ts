@@ -6,7 +6,7 @@ import { CreationDefaults } from '../../src/creation/creation-defaults';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../../src/creation/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
 import { FirstChoice, type Beginning } from '../../src/creation/first-choice';
-import type { SavedGame } from './reader-store';
+import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldStage } from './stage/world-stage';
 import { Scenery } from '../../src/ui/scenery';
 import { Shell } from './shell';
@@ -350,7 +350,8 @@ export class ReaderOpening {
     if (!saved) { return; }
     // A world kept in the vault is fetched as the game is taken up (see WorldVault).
     void (async () => {
-      await this.resume(saved.text, saved.world ?? (saved.vaulted ? await WorldVault.get(saved.vaulted) : undefined),
+      const world = ReaderStore.worldOf(saved) ?? (saved.vaulted ? await WorldVault.get(saved.vaulted) : undefined);
+      await this.resume(saved.text, world,
         this.played.bind(this, saved));
     })();
   };

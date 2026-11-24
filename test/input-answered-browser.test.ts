@@ -139,27 +139,42 @@ class Answered {
   }
 }
 
+// Played as the page is played, served over http (the site on Pages: OR-145, the lead's call of 24 November), the
+// engine its own worker loading its own script. From file://, as the other browser specs open it, a worker may not be
+// started from a file, so the engine's eighteen megabytes are read into the page as a script, and the page had paid
+// for that text mid-play (a decoding of it and a major collection, 65-85 ms of the first act's drawing): that
+// harness's act is measured too, once, and logged apart as such (ANSWERED-FILE), not as the page's.
 describe.skipIf(!process.env.KYRIE_BROWSER)('every input answered at once', () => {
-  let site = '', browser: Browser;
+  let site = '', browser: Browser, server: ReturnType<typeof Bun.serve>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-answered-'));
     await SiteBuild.site(site, {});
+    server = Bun.serve({ port: 0, fetch: r => SiteBuild.serve(site, r) });
     browser = await MonoBrowser.launch();
   }, 300000);
-  afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
+  afterAll(async () => {
+    await browser?.close(); await server?.stop(true); await rm(site, { recursive: true, force: true });
+  });
+  // Where the page is opened: served (as it is played), or from its file (the harness's way, measured apart).
+  const opened = (file: boolean) => `${file ? `file://${site}/` : server.url}mono.html?world=a1`;
 
   // Each size played once, its measures kept for both the ordinary case and the journey's timing.
   const played = new Map<string, Awaited<ReturnType<typeof play>>>();
-  async function play(width: number, height: number, touch: boolean) {
+  // A life begun in a1's first town, the page idle.
+  async function begin(width: number, height: number, touch: boolean, file = false) {
     const context = await browser.newContext({ viewport: { width, height }, ...touch ? { hasTouch: true } : {} });
     await context.addInitScript(`(${Answered.script.toString()})()`);
     const page = await context.newPage(), errors: string[] = [];
     page.on('pageerror', e => errors.push(String(e)));
-    await page.goto(`file://${join(site, 'mono.html')}?world=a1`);
+    await page.goto(opened(file));
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await Answered.idle(page);
+    return { context, page, errors };
+  }
+  async function play(width: number, height: number, touch: boolean) {
+    const { context, page, errors } = await begin(width, height, touch);
     // An ordinary act: the way into the town.
     const act = await Answered.gesture(page, () => Answered.press(page, '[data-act^="exit:"]', touch));
     // A talk opened, and a reply in it (not its leave-taking).
@@ -216,4 +231,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('every input answered at once', () =
       expect(journey.sentAt !== undefined && journey.sentAt < Answered.budget).toBe(true);
       expect(journey.taken !== undefined && journey.taken < Answered.budget).toBe(true);
     }, 300000);
+  // The harness's way in, once: the act from file://, answered within the budget as any, its settling logged apart.
+  it('from its file at 1280x800: the act is answered at once, its settling logged as the harness\'s', async () => {
+    const { context, page, errors } = await begin(1280, 800, false, true);
+    const act = await Answered.gesture(page, () => Answered.press(page, '[data-act^="exit:"]', false));
+    console.log(`ANSWERED-FILE 1280x800 ${JSON.stringify({ act })}`);
+    await context.close();
+    expect(act.ms !== undefined && act.ms < Answered.budget).toBe(true);
+    expect(errors).toEqual([]);
+  }, 300000);
 });
