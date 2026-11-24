@@ -95,9 +95,13 @@ export class Affordances {
       ...scene.you.flatMap(c => this.yours(c, screen, { r, threat, lightless, threats }))]
       .map((c, order) => ({ ...c, order }));
   }
-  // Whoever warns the company off: what is done toward them comes first, before the way back.
+  // Whoever warns the company off: what is done toward them comes first, before the way back. And what the company
+  // is engaged in (a riddle put, a hand of cards) is answered first, as a question just put is (OR-177: stopped for the
+  // old woman's riddle, the drove aim's way had led the page's menu above her answers).
   private static warning(cands: Candidate[], s: SceneSubject, screen: Screen): Candidate[] {
-    return screen.warned?.id === s.id ? cands.map((c, i) => i ? c : { ...c, whys: ['warned', ...c.whys] }) : cands;
+    const why = screen.warned?.id === s.id ? 'warned' as const
+      : screen.engaged?.id === s.id ? 'answer' as const : undefined;
+    return why ? cands.map((c, i) => i ? c : { ...c, whys: [why, ...c.whys] }) : cands;
   }
   // Any of the place's own ways of ending a danger here, wherever it hangs (a cleric's rite of rest over the bone-heaps
   // hangs on the black candle; a scholar's reading of the ring on the raiser): its success changes the danger's

@@ -95,9 +95,10 @@ export class Glance {
   static readonly changes = ['change_thing', 'change_thing_paying', 'change_thing_spending'];
   // The host's part: the journey set out on and not yet come to the end of is gone on with first of what the aims ask
   // ("Go on to Gaudumport"), and the game taken up again opens as a return.
-  // Engaged (at: the frame it was made for), no journey is gone on with until the threat is answered (OR-163).
-  static held(glance: View, host: Host, at?: Pick<Screen, 'warned'>): View {
-    const { bound } = at && Engaged.threat(at) ? { bound: undefined } : HeldActs.of(host);
+  // Engaged (at: the frame it was made for), no journey is gone on with until the threat is answered (OR-163), or the
+  // occasion left (OR-177).
+  static held(glance: View, host: Host, at?: Pick<Screen, 'warned' | 'engaged'>): View {
+    const { bound } = at && Engaged.holds(at) ? { bound: undefined } : HeldActs.of(host);
     const acts = bound ? this.first(glance.acts, bound) : glance.acts;
     const offer = bound && glance.offer ? Offers.headed(glance.offer, bound) : undefined;
     return { ...glance, ...host.resumed ? { arrival: 'resume' as const } : {}, acts,

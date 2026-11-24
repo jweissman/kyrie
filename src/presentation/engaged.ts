@@ -22,6 +22,8 @@ export class Engaged {
   // The one wait offered: standing where the company is, and letting the threat come on.
   static readonly stand = 'Stand your ground';
   static threat(screen: Pick<Screen, 'warned'>): string | undefined { return screen.warned?.id; }
+  // Whether the frame is engaged at all, by a threat or an occasion (a riddle put, a hand of cards).
+  static holds(screen: Pick<Screen, 'warned' | 'engaged'>): boolean { return this.subjects(screen).length > 0; }
   // Who or what the frame is narrowed to: the threats warning the company off, or else what it is engaged in.
   static subjects(screen: Pick<Screen, 'warned' | 'engaged'>): string[] {
     const by = screen.warned?.id ? screen.warned : screen.engaged;

@@ -25,10 +25,12 @@ export class HeldActs {
   // An aim held and none followed, offered to be followed, as any act is (the owner, 15 November: one action grammar,
   // no stray buttons): the glance's own act, so that every client is offered it and does it the same way (the
   // session's `follow:<aim>`).
-  // None while the company is engaged: it resolves what is in front of it first (OR-163: Engaged).
-  static follow(screen: Pick<Screen, 'aims' | 'warned'>): Promoted | undefined {
+  // None while the company is engaged, by a threat or an occasion: it resolves what is in front of it first (OR-163:
+  // Engaged; OR-177: stopped for the old woman's riddle, the drove's aim to take up had led the page's menu, above
+  // her answers, where the engine's frame and the runner held only the riddle and the ways off).
+  static follow(screen: Pick<Screen, 'aims' | 'warned' | 'engaged'>): Promoted | undefined {
     const aims = screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
-    if (!pull || aims.some(a => a.followed) || Engaged.threat(screen)) { return undefined; }
+    if (!pull || aims.some(a => a.followed) || Engaged.holds(screen)) { return undefined; }
     const choice = `follow:${pull.id}`;
     // Said by the aim's own words, no prefix (OR-72: "Follow: Look along the road between Mistshaw" read as following a
     // road); what it is, a decision and not an act in the world, is its note.
