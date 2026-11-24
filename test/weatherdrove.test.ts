@@ -64,6 +64,13 @@ describe("The Weather Drove", () => {
     await j.play(...steps.arrive, ...steps.gun, '=day 4 06:30');
     expect(reached(j, 'the_cup')).toBe(true);
   }, 120000);
+  // Called and never turned, she wanders off by the fourth morning: an ending, not a stall (the friction's).
+  it('lets her wander if she is called and nobody turns her', async () => {
+    const j = await warm();
+    await j.play(...steps.call, '=day 4 06:30');
+    expect(j.holds('called', 'party')).toBe(true);
+    expect(reached(j, 'the_wandering')).toBe(true);
+  }, 300000);
   it('will not walk the Widow through Ysolde\'s smoke: the Gardens are closed while the fires burn', async () => {
     const j = await start();
     await j.play(...steps.arrive, ...steps.ridge, ...steps.camp, ...steps.back, 'Take your leave', '^To the glass hall', '^Out to the lemon terrace', ...steps.call.slice(1));

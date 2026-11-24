@@ -8741,6 +8741,83 @@
    "shows": "a waterfall dropping down a mossed cliff into a wide pool among boulders, ferns and a palm, spray in the light",
    "era": "late",
    "light": "sunlit"
+  },
+  "scene-desert-arch": {
+   "form": "landscape",
+   "shows": "a great arch of banded red rock over a desert of dunes and far ridges, clouds behind",
+   "era": "late",
+   "light": "golden afternoon",
+   "weather": "clear"
+  },
+  "scene-desert-basin": {
+   "form": "landscape",
+   "shows": "a wide pale basin of dry ground and scrub under a high sky, red cliffs on one side and a far oasis",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-camp": {
+   "form": "scene",
+   "shows": "a camp of patched tents among scrub, a smoking fire, pots and bundles, camels beyond in the dunes",
+   "era": "late",
+   "light": "golden afternoon",
+   "weather": "clear"
+  },
+  "scene-desert-caravanserai": {
+   "form": "scene",
+   "shows": "the courtyard of a caravanserai: arcades and a domed gate, a stone pool, a great tree, camels resting and jars in the shade",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-city-gate": {
+   "form": "landscape",
+   "shows": "a high gate in a city wall of yellow stone, banners either side, a domed tower beyond and a robed figure in the arch",
+   "era": "late",
+   "light": "golden afternoon",
+   "weather": "clear"
+  },
+  "scene-desert-city": {
+   "form": "landscape",
+   "shows": "a walled city with a dome and a minaret seen across a dry plain from under a dark crag",
+   "era": "late",
+   "light": "dusk",
+   "weather": "cloudy"
+  },
+  "scene-desert-mesa-night": {
+   "form": "landscape",
+   "shows": "mesas and eroded rock under a night sky thick with stars, the plain below in darkness",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-desert-mesa": {
+   "form": "landscape",
+   "shows": "a plain of mesas and eroded towers under a hazy sun, a wind-cut rock in the foreground",
+   "era": "late",
+   "light": "hazy sun",
+   "weather": "haze"
+  },
+  "scene-desert-oasis": {
+   "form": "landscape",
+   "shows": "an oasis of palms and reeds by a still pool under banded red hills, scrub and stones in front",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-ridge": {
+   "form": "landscape",
+   "shows": "a ridge of banded red and white rock falling to dunes and far ranges, clouds over",
+   "era": "late",
+   "light": "golden afternoon",
+   "weather": "clear"
+  },
+  "scene-desert-salt-flats": {
+   "form": "landscape",
+   "shows": "a white salt pan crazed in rings, stretching to a flat-topped mountain, a far line of travellers",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   }
  }
 }
