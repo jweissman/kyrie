@@ -8837,6 +8837,130 @@
    "era": "late",
    "light": "sunlit",
    "weather": "clear"
+  },
+  "scene-byre-night": {
+   "form": "interior",
+   "shows": "a byre at night under heavy beams, cattle at their manger in the straw, one lantern hung from a beam, a barred plank door in a stone wall",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-city-overlook": {
+   "form": "landscape",
+   "shows": "a great domed city of towers on a river with a many-arched bridge, seen from a wooded height by an old arch and a broken column, smoke rising, hills beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-granary-night": {
+   "form": "interior",
+   "shows": "a granary at night: sacks of grain, a ladder to a loft, a grain bin with a scoop, a sheaf and a barrel, one lantern on a post, an arched plank door",
+   "era": "late",
+   "light": "lamplit"
+  },
+  "scene-desert-campfire-night": {
+   "form": "landscape",
+   "shows": "a campfire by a lean-to tent under a broad tree at night, a full moon over mesas and a dry plain, a camel train far off",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-desert-campfire": {
+   "form": "landscape",
+   "shows": "a campfire by a lean-to tent under a broad tree, mesas over a dry plain, great clouds, a camel train far off",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-caravan": {
+   "form": "landscape",
+   "shows": "a camel train crossing a desert plain of dunes below banded mesas, rocks in front, great clouds",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-city-overview-2": {
+   "form": "landscape",
+   "shows": "a round walled city with a dome, a minaret and green gardens about a pool, seen far below from a rocky height on a path under a tree, the desert beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-garden": {
+   "form": "exterior",
+   "shows": "a walled garden of palms, flowers and pomegranates by a lily pool and a little fall, an arched pavilion hung with vines, a stone bench and a jar, red hills beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-gates": {
+   "form": "exterior",
+   "shows": "great stone gates one beyond another up steps to a columned temple in a city of stone walls",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-desert-house": {
+   "form": "exterior",
+   "shows": "an old mud-walled house with a timber porch and water jars on a slope above a white salt flat, a banded mesa beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-overlook": {
+   "form": "landscape",
+   "shows": "a cliff edge over a wide desert plain of scrub, mesas far off under great clouds",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-pool": {
+   "form": "exterior",
+   "shows": "a long still pool between palms and an arcaded court hung with vines, a little gatehouse at its far end, red hills beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-ruins-arch": {
+   "form": "landscape",
+   "shows": "a broken arch and a great seated stone figure among fallen blocks in the sand, dunes and far ridges",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-ruins-dusk": {
+   "form": "landscape",
+   "shows": "ruined colonnades, an arch and a temple front in the sand at dusk, fallen drums of columns, the desert beyond",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-desert-ruins": {
+   "form": "landscape",
+   "shows": "a ruined colonnade on steps at the edge of an open sand sea, fallen column drums, great clouds",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-scrub": {
+   "form": "landscape",
+   "shows": "dry scrubland with rocks and a lone tree, mesas over a desert plain, a camel train far off, great clouds",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-shrine": {
+   "form": "exterior",
+   "shows": "a small square stone shrine on steps in the sand with a red banner on a pole, a dark doorway with something within, mesas far off",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-sphinx": {
+   "form": "landscape",
+   "shows": "a great pyramid and a sphinx in the sand, ruined gateways and columns before them, a traveller leading a camel",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
   }
  }
 }
