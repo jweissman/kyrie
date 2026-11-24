@@ -29,6 +29,9 @@ export class RegionMarket {
   // The fine makes a master-at-arms has from the yard's smith to sell (see Canon.fine).
   static readonly blades = ['fine_longsword', 'fine_battleaxe', 'fine_shortsword', 'fine_spear', 'fine_scimitar',
     'fine_handaxe', 'fine_shortbow', 'fine_longbow', 'fine_morningstar', 'fine_greatsword', 'fine_dagger', 'fine_halberd'];
+  // The fine coats a master-at-arms may have on the rack: the dearest thing in a first town, worth saving for, at four
+  // times the plain coat's price (Canon's fine makes: a point more of armour).
+  static readonly coats = ['fine_scale', 'fine_lamellar', 'fine_chainmail', 'fine_banded', 'fine_splint'];
   static readonly spells = ['magic_missile', 'armor', 'blur', 'charm', 'firebolt', 'hex', 'spark', 'thunderclap',
     'ward', 'shrieking_missile', 'conjure_light', 'drench', 'acid_arrow'];
   static lines(region: Region, i: number): string[] {
@@ -62,8 +65,10 @@ export class RegionMarket {
     const taught = t.draw.shuffle(this.techniques).slice(0, 3), fee = 20 + Math.floor(t.draw.next() * 4) * 5;
     const likeness = CommunityWriter.likenessOf(region, { pronoun: t.pronoun, painting: 'fencing-master', id: who });
     const blades = t.draw.shuffle(this.blades).slice(0, 3);
-    const sells = blades.map(b => ` Sells ${b} for ${Canon.items[b]?.value ?? 40} coin from 1.`).join('');
-    const rack = blades.map(b => `a ${Canon.items[b]?.name ?? b}`);
+    // And one coat of the smith's best, drawn after the rest, so that nothing drawn before it moves (OR-323).
+    const coat = t.draw.pick(this.coats), wares = [...blades, coat];
+    const sells = wares.map(b => ` Sells ${b} for ${Canon.items[b]?.value ?? 40} coin from 1.`).join('');
+    const rack = [...blades.map(b => `a ${Canon.items[b]?.name ?? b}`), `a coat of ${Canon.items[coat]?.name ?? coat}`];
     const at = { s: s.id, inn: s.inn, folk: s.folk ?? region.ancestry, name: t.name, pronoun: t.pronoun,
       fee: String(fee), likeness, sells, sold: this.listed(rack), lessons: this.lessons(taught) };
     return [...this.section('yard', at), ...taught.map(a => `  Initially Assert teaches(${who}, ${a}).`),

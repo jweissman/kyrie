@@ -801,7 +801,7 @@
     "faithful": 722,
     "adapted": 425,
     "represented": 4,
-    "kyr": 618,
+    "kyr": 629,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -905,7 +905,7 @@
       "faithful": 241,
       "adapted": 84,
       "represented": 0,
-      "kyr": 105,
+      "kyr": 116,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 329,
+    "kyr": 330,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 31,
+      "kyr": 32,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -7159,6 +7159,83 @@
    "id": "item:robe_of_the_archmagi",
    "title": "Robe of the Archmagi",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_banded",
+   "title": "fine banded mail",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_chainmail",
+   "title": "fine chain mail",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_hide_armor",
+   "title": "fine hide armor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_leather",
+   "title": "fine leather armor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_plate",
+   "title": "fine plate mail",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_ring",
+   "title": "fine ring mail",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_scale",
+   "title": "fine scale mail",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_splint",
+   "title": "fine splint mail",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_studded",
+   "title": "fine studded leather armor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_lamellar",
+   "title": "fine lamellar armor",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/armour"
+  },
+  {
+   "id": "item:fine_bronze",
+   "title": "fine bronze armor",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/armour"
   },
@@ -16307,6 +16384,13 @@
   {
    "id": "campaign:quittance",
    "title": "Quittance",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:raingourd",
+   "title": "The Rain-Gourd",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

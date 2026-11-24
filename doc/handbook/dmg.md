@@ -2985,6 +2985,15 @@ The worlds that ship with the game.
 
 > Quittance burned to the ground ninety-four years ago and was rebuilt on credit, and now every house in it wears a plate over the door to say which Office of Assurance will put it out. The Offices need adjusters, because the Tables say the fires are falling, and the Receipt that renews the city's Founding Policy, hung on the Cinderwall every Reckoning, was the colour of milk last year. Reckoning is in nine days. You have a little money, and nothing that has been insured.
 
+### The Rain-Gourd
+
+*Kyr* · `campaign:raingourd`
+
+- Regions and sites: raingourd
+- Kits placed: —
+
+> On Lantana Cay it is the end of the dry, and the ship that brought you waits on a wind that comes with the rains. Up the hill above Palla an old woman has carried the rain-gourd to the falls every year for fifty years. This year her hip will not.
+
 ### Three Nights at Sallowfield
 
 *Kyr* · `campaign:sallowfield`

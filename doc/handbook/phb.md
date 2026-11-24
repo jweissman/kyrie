@@ -2625,6 +2625,17 @@ Each thing is carried by one companion. A weapon or armour works only for a call
 | Galvorn Mail | 5 | light | metal | Faithful |
 | Robe of Elvenkind | 1 | light | cloth | Faithful |
 | Robe of the Archmagi | 3 | light | cloth | Faithful |
+| fine banded mail | 7 | heavy | metal | Kyr |
+| fine chain mail | 6 | heavy | metal | Kyr |
+| fine hide armor | 2 | light | leather | Kyr |
+| fine leather armor | 3 | light | leather | Kyr |
+| fine plate mail | 8 | heavy | metal | Kyr |
+| fine ring mail | 4 | medium | metal | Kyr |
+| fine scale mail | 5 | medium | metal | Kyr |
+| fine splint mail | 7 | heavy | metal | Kyr |
+| fine studded leather armor | 4 | medium | leather | Kyr |
+| fine lamellar armor | 5 | medium | metal | Kyr |
+| fine bronze armor | 4 | medium | metal | Kyr |
 
 ### Gear, tools, consumables and treasure
 

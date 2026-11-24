@@ -16,7 +16,8 @@ import type { Country } from '../novice-country';
 //     sold at the best a buyer pays, and the best pay of one job near. It had been every valuable within six hours'
 //     going, found and sold, and every job's pay together: four levels of the deep site under the town, Deepwater,
 //     the king-barrow and the jobs of the whole town in one day, an upper bound no company comes near (OR-323).
-export interface Purse { day: number; outing: string; haul: number; job: number; worth: number; stock: number }
+export interface Purse { day: number; outing: string; haul: number; job: number; worth: number; listed: number;
+  stock: number }
 export class QuantityPurse {
   static read(c: Campaign, country: Country, far: Map<string, number>, reach: number): Purse {
     const w = c.world, byId = EntityIndex.of(c.module.entities).byId;
@@ -29,15 +30,17 @@ export class QuantityPurse {
       const at = w.one('at', i)!, kind = EconomyMeasure.kind(w, i);
       if ((far.get(at) ?? Infinity) > reach) { continue; }
       const outing = this.outing(byId, at);
-      hauls.set(outing, (hauls.get(outing) ?? 0) + Math.max(w.number(ModuleWriter.call('dealerPays', kind)),
-        best.get(kind) ?? 0));
+      hauls.set(outing, (hauls.get(outing) ?? 0) + this.fetches(c, best, kind));
     }
     const [outing, haul] = [...hauls].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0] ?? ['', 0];
     const job = this.job(c, far, reach);
-    const worth = lying.reduce((t, i) => t + w.number(ModuleWriter.call('worth', EconomyMeasure.kind(w, i))), 0);
+    // What lies, at what it fetches: the most a buyer pays for it (as the day's coin reads it), not its list worth,
+    // which is twice what a dealer pays and no money anyone spends (OR-324). Its list worth is said beside it.
+    const worth = lying.reduce((t, i) => t + this.fetches(c, best, EconomyMeasure.kind(w, i)), 0);
+    const listed = lying.reduce((t, i) => t + w.number(ModuleWriter.call('worth', EconomyMeasure.kind(w, i))), 0);
     const stock = w.related('forSale').map(r => r.args[0]!).filter(i => own(w.one('at', i) ?? ''))
       .reduce((t, i) => t + w.number(ModuleWriter.call('price', i)), 0);
-    return { day: haul + job, outing, haul, job, worth, stock };
+    return { day: haul + job, outing, haul, job, worth, listed, stock };
   }
   private static own(byId: ReturnType<typeof EntityIndex.of>['byId'], land: string | undefined, place: string): boolean {
     return !land || Spatial.ancestry(byId, place).some(e => e.id === land);
@@ -48,6 +51,10 @@ export class QuantityPurse {
     const up = Spatial.ancestry(byId, at);
     return (up.find(e => e.space?.kind === 'level') ?? up.find(e => e.space?.kind === 'site')
       ?? up.find(e => !!e.space && e.space.kind !== 'room') ?? up[0])?.id ?? at;
+  }
+  // What a kind fetches: the most a buyer pays for it, a dealer or one who wants it.
+  private static fetches(c: Campaign, best: Map<string, number>, kind: string): number {
+    return Math.max(c.world.number(ModuleWriter.call('dealerPays', kind)), best.get(kind) ?? 0);
   }
   // The most any buyer pays for a kind (pays(buyer, kind)).
   private static best(c: Campaign): Map<string, number> {
