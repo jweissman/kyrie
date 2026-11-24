@@ -25,6 +25,8 @@ interface Read {
   // try failed is done until the company is more than it was (the sea-gate's windlass, too stiff for a mage alone, had
   // dropped from the four for good though Gesk had been hired to put his back to it: cold play 5's 10, CL-33).
   failed: Map<string, Map<string, number>>; grown: number;
+  // And how many times, at the company's present strength: a fresh try is one (see missed).
+  tries: Map<string, number>;
 }
 export class CompanyRecall {
   private static readonly logs = new WeakMap<readonly CampaignEvent[], Read>();
@@ -45,7 +47,7 @@ export class CompanyRecall {
     if (!r || r.actor !== actor || log.length - 1 < r.read || (r.read > 0 && log[r.read - 1] !== r.last)) {
       r = { actor, read: 0, at: new Map(), visited: new Set(), seen: new Set(), texts: new Set(), talked: new Set(),
         done: new Map(), spoke: new Map(), acts: 0, stay: 0, idle: new Map(), failed: new Map(),
-        grown: 0 };
+        grown: 0, tries: new Map() };
       for (const c of campaign.module.initial) {
         if (c.kind === 'assert' && c.call.name === 'at') { r.at.set(c.call.args[0]!, c.call.args[1]!); }
       }
@@ -73,6 +75,8 @@ export class CompanyRecall {
     if (whom && here) { r.spoke.set(whom, here); }
     if (here && event.result === 'failure') {
       r.failed.set(here, (r.failed.get(here) ?? new Map()).set(event.action, r.grown));
+      const tried = CompanyRecall.tried(here, event.action, r.grown);
+      r.tries.set(tried, (r.tries.get(tried) ?? 0) + 1);
     } else if (here) { r.done.set(here, (r.done.get(here) ?? new Set()).add(event.action)); }
     if (CompanyRecall.grew(event)) { r.grown++; }
     for (const p of event.perceptions ?? []) { r.seen.add(p.id); r.texts.add(p.text); }
@@ -133,11 +137,20 @@ export class CompanyRecall {
   }
   // Whether it was only tried here, the last command included, and never came off: done, but a fresh try at the aim's
   // step is still its step (OR-241: failed at the sea-gate's windlass, "or a fresh try", it had gone from the four).
+  // One fresh try, at the company's present strength: tried twice and not come off, it is done until the company is
+  // more than it was, as any try failed is (the gold-follower had levered the lettered flag four hours over, its words
+  // "It was not made to be lifted", and never looked for the ring that opens it: test/porthalen-hall).
   missed(place: string, command: string): boolean {
     const last = this.lastly.from === place && !this.lastly.failed ? this.lastly.done : [];
     const done = [...this.r.done.get(place) ?? [], ...last];
-    return this.did(place, command) && !done.some(d => CompanyRecall.same(command, d));
+    if (!this.did(place, command) || done.some(d => CompanyRecall.same(command, d))) { return false; }
+    const at = this.lastly.grown, tried = [...this.r.tries].filter(([k]) => k.startsWith(`${place} ${at} `)
+      && CompanyRecall.same(command, k.slice(`${place} ${at} `.length))).reduce((n, [, t]) => n + t, 0);
+    const now = this.lastly.failed && this.lastly.from === place
+      && [...this.lastly.done].some(d => CompanyRecall.same(command, d)) ? 1 : 0;
+    return tried + now < 2;
   }
+  private static tried(place: string, action: string, grown: number): string { return `${place} ${grown} ${action}`; }
   // Whether a command as the page offers it is one done: the same, or the same act with the page's arguments among the
   // engine's, in order (the page leaves out those its label does not show, the company first): "work_keep(innkeeper)"
   // is "work_keep(party,innkeeper)". Without it nothing offered in that form had ever counted as done. So with a

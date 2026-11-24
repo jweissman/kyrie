@@ -47,6 +47,21 @@ describe('a try failed', () => {
     const c = t.glance.continuance;
     expect(c?.kind === 'step' && c.witness).toBe(heave(t)!.choice);
   });
+  // One fresh try, not every hour after (test/porthalen-hall: the gold-follower levered the lettered flag four hours
+  // over, "It was not made to be lifted", and never looked for the ring that opens it): failed twice as the company
+  // stands, the step is done until the company is more than it was, and then a fresh try is the step again.
+  it('at the aim\'s step, is led for one fresh try, and again once someone joins', async () => {
+    const t = await Tiny.start(yard, { seed: 'f5', party });
+    for (const n of [1, 2]) {
+      await t.perform('t__heave(party,t__yard)');
+      expect([n, t.campaign.history.at(-1)!.result]).toEqual([n, 'failure']);
+    }
+    t.follow('cart');
+    expect([led(t), gold(t)]).toEqual([false, false]);
+    await t.perform('t__hire_hew(party,t__yard)');
+    t.follow('cart');
+    expect([led(t), gold(t)]).toEqual([true, true]);
+  });
   it('at no aim\'s step, is not led with again, until someone joins to make it again', async () => {
     const t = await Tiny.start(yard, { seed: 'f5', party });
     expect(led(t)).toBe(true);
