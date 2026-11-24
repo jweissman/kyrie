@@ -54,5 +54,6 @@
 {"act":"go(gate__well_ladder,gate__well)"}
 {"act":"light_item(region__party_1__candle)"}
 {"act":"attack(gate__conger)"}
+{"act":"fight:through"}
 {"act":"search(gate__well)"}
 {"act":"take_item(gate__pawl,region__member_party_1)"}
