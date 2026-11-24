@@ -120,7 +120,7 @@ export class Campaign implements WatchHost {
       if (campaign) { await campaign.install(request, source, false); continue; }
       const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
         party: party?.length, canonless: manifest.canon === false }, source);
-      if (party) { CompanyChoices.apply(draft, party); }
+      if (party) { CompanyChoices.apply(draft, party, manifest.canon === false); }
       EngineDeclarations.declare(draft);
       const first = ModuleInstallations.prepare(canon, draft, 0, false);
       campaign = new Campaign(seed, first, undefined, CanonInstall.dated(manifest));

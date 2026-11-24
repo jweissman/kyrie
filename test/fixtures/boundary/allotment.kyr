@@ -1,0 +1,55 @@
+  // BX-01's separation proof (BRIEF §5D, §11.6; mission-22-beta/preparation-report.md, D.4): a contemporary civic
+  // scenario, not Westernesse's. Thornfield Allotment Society's annual meeting, a Tuesday evening in the hut: a motion
+  // to sell plot 14 to a developer, and a plot-holder who would keep it, who can talk the committee round, pay their
+  // subs and call the vote. Money, not gold; no callings; no fight; conversation and votes. Nothing here names
+  // Westernesse's catalog but what the platform will not run without, and each such thing is a finding (BX-01).
+  Place thornfield "Thornfield" is region.
+  Place allotments "Thornfield Allotments" is settlement within thornfield.
+  Place gates "the allotment gates" is room within allotments at 0, 0 outdoors.
+  Place plots "the plots" is room within allotments at 1, 0 outdoors.
+  Place hut "the society's hut" is room within allotments at 2, 0 indoors.
+  Passage lane "the cinder path" is path between gates and plots.
+  Passage hutdoor "the hut door" is door between plots and hut.
+  Company party "You" of 1 at gates.
+
+  Relation persuaded(group). Relation subsPaid(group). Relation motionDefeated(group). Relation motionCarried(group).
+  Measure votes(group).
+  Entity motion: fact "The committee will move to sell plot 14 to Hollins Homes at tonight's meeting.".
+  Entity petition: fact "Forty years of rhubarb: the old plot-holders signed against selling plot 14 in the spring.".
+  Initially Assert established(motion). Initially Assert knows(party, motion).
+  Initially Set quantity(party, gold) to 20.
+  Person chair "Pauline Okonjo" at hut { Role "the society's chair". Ancestry human. Peaceable. Pronouns she. }
+  Person treasurer "Derek Hales" at hut { Role "the society's treasurer". Ancestry human. Peaceable. Pronouns he. }
+  Person secretary "Joan Pryor" at hut { Role "the society's secretary". Ancestry human. Peaceable. Pronouns she. }
+  Person veteran "Stan Mullery" at plots { Role "a plot-holder of forty years". Ancestry human. Peaceable. Pronouns he. }
+
+  Objective keep when knows(party, motion) and not motionDefeated(party) and not motionCarried(party) toward hut "Keep plot 14 from being sold at tonight's meeting.".
+  Observe plot14 at plots when true "Plot 14 is the one with the leaning bean-poles and a bath full of rainwater, nobody's for a year.".
+
+  Topic petition_told with veteran "Ask Stan Mullery about plot 14" when not knows(actor, petition) once {
+    Says "'Signed it, the lot of us,' says Stan. 'Joan's got the sheet in her folder. Ask her.'".
+    On discuss { Assert knows(actor, petition). }
+  }
+  Topic subs_paid with treasurer "Pay Derek Hales your subs for the year, twelve pounds" when not subsPaid(actor) and quantity(actor, gold) >= 12 once {
+    Says "Derek writes you a receipt in the book. 'Paid-up members vote,' he says, not looking up.".
+    On discuss { Assert subsPaid(actor). Decrease quantity(actor, gold) by 12. }
+  }
+  Topic petition_read with secretary "Ask Joan Pryor to read the spring petition into the minutes" when knows(actor, petition) and not persuaded(secretary) once {
+    Says "Joan finds the sheet, and reads out forty names. Two of them are on the committee.".
+    On discuss { Assert persuaded(secretary). Increase votes(actor) by 2. }
+  }
+  Topic chair_won with chair "Tell Pauline Okonjo what the plot is worth to the old members" when knows(actor, petition) and not persuaded(chair) once {
+    Says "Pauline takes her glasses off. 'I'll put it to the room,' she says. 'Honestly, this time.'".
+    On discuss { Assert persuaded(chair). Increase votes(actor) by 1. }
+  }
+  Action call_vote(actor: group, site: place) "Ask the chair to put the motion to a vote" {
+    Requires able(actor) and at(actor, site) and at(actor, hut) and subsPaid(actor)
+      and not motionDefeated(actor) and not motionCarried(actor).
+    Time 1.
+    On success { Assert motionDefeated(actor). }
+    Result "Hands go up around the hut. The motion falls, five to four, and plot 14 stays a plot." when votes(actor) >= 3.
+    Result "The motion is put.".
+  }
+  Rule carried when motionDefeated(?a) and votes(?a) < 3 says "Not enough hands. The motion carries; plot 14 goes to Hollins Homes." {
+    Retract motionDefeated(?a). Assert motionCarried(?a). }
+  Goal false.

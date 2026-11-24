@@ -13,10 +13,13 @@ export class CompanyChoices {
   // Three dice: from 3 to 18.
   private static die(v?: number): boolean { return Number.isInteger(v) && v! >= 3 && v! <= 18; }
   // What of a companion cannot be played, said by name with what can (the Grand Tour's friction D1 and D2: refused,
-  // an author learned neither which ancestry nor which could be).
-  static refused(c: CreatureGenerationContext): string | undefined {
+  // an author learned neither which ancestry nor which could be). A campaign of a setting of its own (no canon) may
+  // make its company of any of the catalog's callings, one of no adventuring calling among them: a plot-holder at an
+  // allotment society's meeting is a commoner, not a warrior (BX-01's L1, its first half).
+  static refused(c: CreatureGenerationContext, own = false): string | undefined {
+    const callings = own ? Object.keys(Canon.classes) : Content.playableClasses;
     return this.one(c, 'ancestry', c.raceId!, Content.playableRaces)
-      ?? this.one(c, 'calling', Creation.classId(c.classId!), Content.playableClasses)
+      ?? this.one(c, 'calling', Creation.classId(c.classId!), callings)
       ?? (c.backgroundId ? this.one(c, 'background', c.backgroundId, Object.keys(Canon.backgrounds)) : undefined);
   }
   private static one(c: CreatureGenerationContext, what: string, id: string, ids: string[]): string | undefined {
@@ -31,7 +34,7 @@ export class CompanyChoices {
     return (x.startsWith(id.slice(0, 3)) ? 0 : 100) + [...id].filter((ch, i) => x[i] !== ch).length
       + Math.abs(id.length - x.length);
   }
-  static apply(draft: ModuleDraft, party: CreatureGenerationContext[]) {
+  static apply(draft: ModuleDraft, party: CreatureGenerationContext[], own = false) {
     const player = draft.instance.campaign!.actors.find(a => a.player)!;
     if (party.length !== player.members.length) { throw new Error(`Choose ${player.members.length} companions`); }
     if (new Set(party.map(c => c.name?.trim().toLowerCase())).size !== party.length) {
@@ -48,7 +51,7 @@ export class CompanyChoices {
       if (!context.name?.trim() || context.name.length > 40 || !context.raceId || !context.classId) {
         throw new Error('Choose a name, playable ancestry and class for every companion');
       }
-      const refused = CompanyChoices.refused(context);
+      const refused = CompanyChoices.refused(context, own);
       if (refused) { throw new Error(refused); }
       // An experienced company (a preset of old hands) may begin above first level, and with gear from the catalog.
       const level = context.level;

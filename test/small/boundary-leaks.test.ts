@@ -13,7 +13,9 @@ const own = () => Tiny.start(kyr, { own: true });
 const labels = (t: Tiny) => t.journey.choices().map(c => c.label);
 describe('the setting/framework boundary, as it leaks', () => {
   // L1: a company is made only of the catalog's ancestries and callings (Content.playableRaces, playableClasses);
-  // nor can a module declare a kind of person (a module's Kind is a kind of item, of the catalog's bases).
+  // nor can a module declare a kind of person (a module's Kind is a kind of item, of the catalog's bases). Half
+  // repaired: a campaign of its own may make its company of any of the catalog's callings, a commoner among them (the
+  // allotment society: test/small/boundary-allotment); a kind of person of its own, as here, it still may not.
   it.failing('lets a campaign of its own make a company of its own kinds of people', async () => {
     const t = await Tiny.start(kyr,
       { own: true, party: [{ name: 'Unit Seven', raceId: 'android', classId: 'engineer' }] });
