@@ -891,7 +891,7 @@
     On success { Decrease quantity(actor, gold) by 10. Assert tolerates({t}_u_keeper, actor). Retract warned({t}_u_keeper, actor). Retract assails({t}_u_keeper, actor). }
     Result "You lay the coins at its feet and say the words off the page. Its head follows the coins down. Then it sits, the way an old man sits.".
   }
-  Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) toward {t}_u_vault "Something keeps {{t}_u_vault} under the undercroft.".
+  Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) and not tolerates({t}_u_keeper, party) toward {t}_u_vault "Something keeps {{t}_u_vault} under the undercroft.".
 --- hand sellsword 1
   // Someone on the green who would come along (the owner, 19 November, AT-08: in the very first space, in general,
   // someone recruitable; the first choices, companions or alone). Its own draw (keyed), so no other draw moves.

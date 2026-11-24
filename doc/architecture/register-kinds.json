@@ -341,7 +341,12 @@
    "kind": "requirement",
    "was": "defect",
    "pri": "P2",
-   "why": "24 Nov, classified as filed: the ladder (OR-198) measured for other callings, a commissioned requirement found short; its failing part is OR-208's defect"
+   "why": "24 Nov, classified as filed: the ladder (OR-198) measured for other callings, a commissioned requirement found short; its failing part is OR-208's defect"  },
+  "OR-215": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, classified as filed: the brief's reasons to return (BRIEF §3.2), a commissioned requirement found short by measure"
   }
  },
  "blockedBy": {

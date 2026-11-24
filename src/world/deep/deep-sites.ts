@@ -76,10 +76,10 @@ export class DeepSites {
           + ` ${q(this.scene(r, buried))}.`,
         ...r.lit ? [] : [`  Initially Assert unlit(${r.id}).`]])]);
   }
-  // A room as it looks: in the open as it was made, or buried under a town, as its purpose says it then (a barrow's
-  // forecourt had faced "the sunrise" from under Brightbridge).
+  // A room as it looks: as it was made, or buried under a town, as its purpose says it then (a barrow's forecourt had
+  // faced "the sunrise" from under Brightbridge; a mine's mouth under Porthalen had opened "in the hillside").
   private static scene(r: DeepRoom, buried?: { purpose: DeepPurpose; town: string }): string {
-    const under = r.open && buried?.purpose.roles[r.role]?.buried?.[0];
+    const under = buried?.purpose.roles[r.role]?.buried?.[0];
     return under ? under.replaceAll('{town}', buried!.town) : r.scene;
   }
   // The ways the mechanisms do not write themselves: the mouth, the galleries, the ladders, the ore pass.
@@ -199,7 +199,20 @@ export class DeepSites {
       // Half its worth, as a dealer pays for any valuable: at its whole worth one trip down the mine had paid 600
       // coin against a 50-coin debt (SI-07, the sites commission's walks).
       ...ore ? [`  Initially Set pays(${values.merchant}, ${ore.kind}) to ${Math.max(1, Math.round(ore.worth / 2))}.`] : [],
+      ...this.brought(purpose, values),
       ...this.home(purpose, values)];
+  }
+  // The ore the company brought up and sold, answered by whoever bought it: what it is, and where the rest of it went,
+  // which is the way deeper and what the makers died for there (the story, and with it the aim). Said once the buyer
+  // keeps some, never before: a reason to go down again that grows from the first descent.
+  private static brought(purpose: DeepPurpose, values: Record<string, string>): string[] {
+    const q = this.q, w = values.w!, m = values.merchant!, said = purpose.hook.trade?.brought, ore = purpose.ore;
+    if (!said || !ore) { return []; }
+    const [ask, says] = [said.ask, said.says].map(t => t.replaceAll('{merchant}', `{${m}}`).replaceAll('{name}', values.name!));
+    return [`  Topic ${w}_brought with ${m} ${q(ask!)} when keeps(${m}, ?o) and itemKind(?o, ${ore.kind}) once {`,
+      `    Says ${q(says!)}.`,
+      `    On discuss { Assert knows(actor, ${w}_named).${purpose.objective.goal ? ` Assert knows(actor, ${w}_story).` : ''} }`,
+      '  }'];
   }
   private static lower(text: string): string { return text.charAt(0).toLowerCase() + text.slice(1); }
   // Where the innkeeper says it is: out in the country, or under the town ("It is out in under Lowmouth" was said).

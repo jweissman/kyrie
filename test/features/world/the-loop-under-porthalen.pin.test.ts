@@ -40,6 +40,17 @@ const careful = ['~To the old quarry pit', '~quarry adit', '~cut gallery', '~Att
   '~Attack the dead in the charnel passage', 'through', '~ossuary', '~Attack the man with the black candle', 'through',
   '~Collect a book of the dead', '~Down to the charnel passage', '~To the undercroft', '~Rest six hours',
   '~Press the three deep-cut letters', '~sealed vault'];
+// The workings' first stretch, and back up to Holgar's by the churchyard (its stone door shouldered open from below).
+const workings = ['~To the adit$', '~Search here', '~crossing', '~Look closely at the humming thing', '~To the old stope',
+  '~Search here', '~Collect a bronze tally-board', '~Collect a lump of star-iron', '~To a worked-out stope$',
+  '~Attack the goblin chief', 'through', '~Collect a lump of star-iron'];
+const homeward = ['~To the old stope', '~To the crossing', '~To the adit$', '~adit mouth', '~stair below the vault',
+  '~sealed vault', '~Up to the undercroft', '~charnel', '~ossuary', '~crypt', '~Set your shoulder', '~Up to the churchyard',
+  '~landing at Porthalen', "~To Holgar's salt-house"];
+// The second expedition: down by the churchyard, through the vault to the shaft head and the cage.
+const again = ['~To the landing at Porthalen', '~To the churchyard', '~crypt', '~ossuary', '~charnel', '~undercroft',
+  '~sealed vault', '~stair below the vault', '~adit mouth', '~To the adit$', '~crossing', '~To the old stope',
+  '~To the shaft head', '~Press the word .Coffin', '~Work the seized wheel free', '~Down to the shaft bottom'];
 class Walk {
   s!: Said;
   readonly log: string[] = [];
@@ -102,7 +113,8 @@ describe('the reference journey under Porthalen', () => {
     await walk.play(['~Attack the keeper of the vault', 'through']);
     expect(walk.s.end).toBe(true);
   }, 300000);
-  it('gone all three ways with care, grows to the second level, and the dead\'s book opens the way past the keeper',
+  it('gone all three ways with care, grows to the second level, the dead\'s book opens the way past the keeper, and what '
+    + 'is brought up out of the workings sends the company down again, another way and deeper',
     async () => {
       const walk = await Walk.begun();
       await walk.play([...established, ...careful]);
@@ -116,5 +128,25 @@ describe('the reference journey under Porthalen', () => {
       expect(walk.s.purse?.coin).toBe(coin - 10);
       expect(walk.holds('able', 'region__s1_u_keeper')).toBe(true);
       expect(walk.session.campaign.world.one('at', 'party')).toBe('region__s1_ud_adit_mouth');
+      // Still under the town at the workings' own mouth (OR-205's remainder: "a timbered mouth opens in the hillside").
+      expect(walk.s.scene.lines.join(' ')).not.toMatch(/hillside/);
+      // The vault's aim ends once the keeper lets the company by.
+      expect(walk.s.aims?.some(a => a.id === 'region__s1_u_vault_sought')).toBe(false);
+      // Into the workings' first stretch: star-iron found in the stope, the goblin chief met beyond it and fought.
+      await walk.play(workings);
+      expect(walk.fights).toBe(7);
+      // Out again by the churchyard, and Holgar buys the star-iron; only then does he say where the rest of it went:
+      // down the shaft, to the heart of the vein, the aim the town gives the company for having been down.
+      await walk.play(homeward);
+      expect(walk.row('where the rest of the star-iron went')).toBeUndefined();
+      await walk.play(['~Sell a lump of star-iron to Holgar']);
+      expect(walk.holds('knows', 'party', 'region__s1_ud_story')).toBe(false);
+      await walk.play(['~where the rest of the star-iron went']);
+      expect(walk.holds('knows', 'party', 'region__s1_ud_story')).toBe(true);
+      expect(walk.s.aims?.some(a => a.id === 'region__s1_ud_bring')).toBe(true);
+      // Down again another way, by the churchyard's stone door, past the keeper sitting, and further: the casket's
+      // riddle, the seized wheel freed, the cage let down to the shaft bottom, below where the first went.
+      await walk.play(again);
+      expect(walk.session.campaign.world.one('at', 'party')).toBe('region__s1_ud_haulage_shaft_bottom');
     }, 300000);
 });
