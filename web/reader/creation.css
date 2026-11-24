@@ -44,6 +44,8 @@
   margin: 0 -4px; padding: 0 4px; }
 .composed .consider { min-height: 3em; margin: 0; font: italic 400 17px/1.5 var(--told); color: var(--ivory); opacity: .88; }
 .composed .life { margin: 0; font: italic 400 18px/1.5 var(--told); color: var(--ivory); }
+/* How a choice is made, under the first step's rows: a note, neutral (OR-255). */
+.composed .composed-how { margin: 10px 0 0; font: var(--type-note); color: var(--dim); }
 @media (orientation: portrait) {
   .composed .composed-step { align-items: flex-end; padding-bottom: calc(var(--safe-b) + 24px); }
   .composed .composed-col { width: 100%; }

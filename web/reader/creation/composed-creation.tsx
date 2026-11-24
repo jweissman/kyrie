@@ -103,7 +103,8 @@ export class ComposedCreation {
       menu={<ComposedCreation.Options committed={app.state.waiting} offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
         {...step.many ? { picked: step.picked ?? [], learn: step.cards.at(-1)?.id } : {}}
         consider={row} choose={choose} list={step.present === 'list' || (sky && !!step.all)}
-        after={<><ComposedCreation.Own app={app} step={step} onward={onward} />{sky && entry}</>} />} />;
+        after={<><ComposedCreation.Own app={app} step={step} onward={onward} />{sky && entry}
+          {step.how && <p className="composed-how" role="note">{Typography.curl(step.how)}</p>}</>} />} />;
   }
   static readonly flare = 340;
   // The sky drawn up to the sign whose row the hand or the keys are on, and let go back to the whole wheel when no row
