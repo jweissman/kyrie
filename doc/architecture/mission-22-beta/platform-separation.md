@@ -141,6 +141,22 @@ The trade-off: a fourth package and its ports, against a kyr-lang that stays sma
 - **The runtime lift made smaller.** Of the runtime's 65 setting edges, those inside the statement and rule paths become
   port asks, and what is left is orchestration's.
 
+And (the owner, the same day): "levelling up the language has to be part of this". A thin interpreter shell around
+the parser that does only the minimum work needed would be good for testing, "and ideally it can be the same path that
+the actual engine uses (though it needs a 'warmed' interpreter, and maybe we can do this at game setup)". So:
+- **One path.** The engine evaluates Kyr through the interpreter, and the conformance specs drive the very same entry
+  point. There is never a test-only evaluator beside the engine's.
+- **A cold interpreter and a warm one.** Cold: a module and a World, nothing kept, for a fragment under test, paying
+  only for what it evaluates. Warm: the same interpreter with what a game's setup prepares once kept beside it. That
+  is the compiled module, the rule index (AX-10's which-rules-a-fact-can-wake, today rebuilt or scanned), the kept
+  readings and the settle loop's held rules (CampaignTick's `stays`). Warming is an explicit step at setup (install,
+  then warm), and its result is a value the runtime holds. Eager-equals-warm is then a property spec: the same act on
+  the same World gives the same next World and trace, cold or warm.
+- **Levelling the language up.** Constructs whose meaning lives in the runtime today come into the interpreter as
+  Kyr's own semantics: an act's legality, application and settling; Occasion, Promise and Route as first-class traced
+  objects (AGENTS.md's semantic tracing ruling); and the Wonder (OR-440). Each is a named construct with a
+  conformance spec, and the language reference states its meaning.
+
 The order:
 - The interpreter is first a spike in place: effects and the settle loop behind declared ports, in `src/lang`'s
   neighbour `src/interpreter`. It is measured by the setting edges it removes and by the conformance specs it makes
