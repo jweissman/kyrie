@@ -4,12 +4,14 @@ import { AutoPlayer } from '../../../src/autoplay/player';
 import { Draw } from '../../../src/autoplay/draw';
 import { Undertakings } from '../../../src/presentation/undertakings';
 import { PlayerView } from '../../../src/presentation/player-view';
+import { ScreenModel } from '../../../src/ui/screen-model';
 import { FirstQuarter } from '../../../scripts/first-quarter';
 
 // Under the town (doc/design/first-hour-beats.md, 15–35 minutes): fewer, stranger things below, and one sight of awe
 // at the bottom. The warrior walks by the gold from the corn-store's rats job down through the cellar, the runs, the
-// drain and the undercroft to the sealed vault; its keeper fought (the gold alone goes to and fro at its warning: a
-// player answers it), and on down the stair behind its chair, where the vast old hall under the town is told once.
+// drain and the undercroft to the sealed vault; its keeper fought (the page does not lead into a fight that could end
+// the one who plays: OR-412; a player answers it), and on down the stair behind its chair, where the vast old hall
+// under the town is told once.
 // At the fourth level, as a company is that comes down so far: alone at the first, the barrow ghoul kills her, and at
 // the third it is an even fight (BestiaryTool.won: 5 of 12), lost on this walk's dice once the buck rat was the SRD's
 // (srd-proving-cases.md case 64).
@@ -27,9 +29,11 @@ describe('under the town, by the gold', () => {
       const aims = Undertakings.held(c);
       if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, FirstQuarter.nearest(s, aims).id); }
       const sit = AutoplayRun.situation(s, step, true, 'undertaking');
-      // At the vault the keeper warns the company off: answered, as a player answers it, by a fight.
-      const keeper = c.world.one('at', 'party') === 'region__s1_u_vault'
-        ? PlayerView.choices(c).find(x => x.choice.id.startsWith('attack(region__s1_u_keeper')) : undefined;
+      // A fight met is answered, as a player at the fourth level answers it, by choosing it: the page leads into none
+      // that could end the one who plays (OR-412: the vault's keeper), and, the aim's own beyond one alone, says to
+      // take someone along rather than the way down (the ossuary's raiser).
+      const asked = ScreenModel.build(c).people.find(p => !!p.reckoning && !p.companion && !p.state);
+      const keeper = asked ? PlayerView.choices(c).find(x => x.choice.id.startsWith(`attack(${asked.id}`)) : undefined;
       // And before going down to it, a careful player rests in the undercroft, where nothing lives, to the full.
       const me = c.readout.creatures.find(x => c.tickState.current.partyIds.includes(x.id));
       const rest = c.world.one('at', 'party') === 'region__s1_u_undercroft' && me && me.state.hp < me.base.maxHp

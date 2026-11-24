@@ -5,6 +5,7 @@ import { AimRoute } from '../presentation/aim-route';
 import { Leaves } from './leaves';
 import type { Candidate, Kind } from './promotion';
 import { Marks } from './marks';
+import { ChoicePrice } from './choice-price';
 import { SceneModel, type Scene, type SceneSubject } from './scene';
 import type { ExitRow, Screen } from './screen-types';
 import type { World } from '../lang/world';
@@ -78,9 +79,9 @@ export class Affordances {
     // The way back is led only from a fight the company could lose, or a warning, or the dark: from every fight it had
     // been the second thing led with, and a player following the page went out of each site at its first foe (the
     // owner, 4 November: "it always guides you back out").
-    // A hard fight is one the company would likely win, so it is not one it could lose: grave and deadly are.
-    const losing = scene.subjects.filter(s => SceneModel.threat(s)).some(s => !['slight', 'fair', 'hard']
-      .includes(screen.people.find(p => p.id === s.id)?.reckoning?.danger ?? ''));
+    // A hard fight is one the company would likely win, so it is not one it could lose: grave and deadly are, and so
+    // is one that could fell the one who plays (Marks.asks; OR-412).
+    const losing = scene.subjects.some(s => SceneModel.threat(s) && this.asked(s, screen));
     // The way back is led from danger only: from the dark it had led straight back into the ossuary the company had
     // just left its raiser in, and the follower went to and fro between them a hundred and fifty times. In the dark,
     // light is led with (see Promotion's dark); with nothing to light, the way up or out, toward the light.
@@ -93,7 +94,13 @@ export class Affordances {
       ...[...scene.near, ...scene.far].flatMap(c => this.way(c, screen, { r, back, lightless })),
       ...this.around(screen, r), ...this.journeys(screen, r),
       ...scene.you.flatMap(c => this.yours(c, screen, { r, threat, lightless, threats }))]
-      .map((c, order) => ({ ...c, order }));
+      .map((c, order, all) => ({ ...this.unled(c, all), order }));
+  }
+  // Where the aim's fight would end the one who goes alone and someone to take along is led from here (Outmatched's
+  // help), the ways toward the fight lead no more, and stay plain rows (OR-412).
+  private static unled(c: Candidate, all: Candidate[]): Candidate {
+    return !['way', 'travel', 'step'].includes(c.kind) || c.whys.includes('help') || !all.some(x => x.whys.includes('help'))
+      ? c : { ...c, whys: c.whys.filter(w => !['named', 'toward', 'held', 'advance'].includes(w)) };
   }
   // Whoever warns the company off: what is done toward them comes first, before the way back. And what the company
   // is engaged in (a riddle put, a hand of cards) is answered first, as a question just put is (OR-177: stopped for the
@@ -101,7 +108,9 @@ export class Affordances {
   private static warning(cands: Candidate[], s: SceneSubject, screen: Screen): Candidate[] {
     const why = screen.warned?.id === s.id ? 'warned' as const
       : screen.engaged?.id === s.id ? 'answer' as const : undefined;
-    return why ? cands.map((c, i) => i ? c : { ...c, whys: [why, ...c.whys] }) : cands;
+    // Never onto a fight not led with (OR-412): one that could end the one who plays answers no warning.
+    return why ? cands.map((c, i) => i || (c.kind === 'attack' && !c.whys.length) ? c : { ...c, whys: [why, ...c.whys] })
+      : cands;
   }
   // Any of the place's own ways of ending a danger here, wherever it hangs (a cleric's rite of rest over the bone-heaps
   // hangs on the black candle; a scholar's reading of the ring on the raiser): its success changes the danger's
@@ -116,7 +125,7 @@ export class Affordances {
   private static subject(s: SceneSubject, screen: Screen, r: Reading): Candidate[] {
     if (s.kind === 'companion') { return []; }
     if (s.state) { return this.remains(s, r); }
-    if (SceneModel.threat(s)) { return this.threat(s, r); }
+    if (SceneModel.threat(s)) { return this.threat(s, r, this.asked(s, screen)); }
     // Talking to them, or looking at it, is one choice; what is done about them stands beside it (see Attending).
     const opener = s.choices.find(c => [`${s.id}#talk`, `${s.id}#look`].includes(c.id));
     if (opener) { return [...this.choice(s, opener, screen, r), ...this.deeds(s, opener, r)]; }
@@ -150,7 +159,13 @@ export class Affordances {
     return step ? [this.candidate(step, { subject: s.id, kind: 'act', whys: ['advance'], r })] : [];
   }
   // A danger: its gentlest act (one of its own first, then any that is neither a risk nor a blow), and the attack.
-  private static threat(s: SceneSubject, r: Reading): Candidate[] {
+  // A fight the page asks of (grave, deadly, or one that could fell the one who plays) is never led with: the lead
+  // goes to the way back, someone to take along, or rest, and the attack stays a plain row, asked (OR-412: thorn's
+  // gold-follower had been led into the vault's keeper and died at its first blow, the ask pressed through).
+  private static asked(s: SceneSubject, screen: Screen): boolean {
+    return Marks.asks(screen.people.find(p => p.id === s.id)?.reckoning ?? { danger: 'grave' });
+  }
+  private static threat(s: SceneSubject, r: Reading, asked: boolean): Candidate[] {
     const gentle = this.gentle(s.choices, r), attack = s.choices.find(c => this.kind(c, r) === 'attack');
     // At the place the aim followed is about, the gentle way past what holds it (a parley with the hobs at the gate
     // of the old place the debt is to be paid from) is the aim's next step: the gold had gone, and a company led only
@@ -161,7 +176,7 @@ export class Affordances {
     // A danger the aim followed is about (the old buck rat its nest is kept by) is gone at for the aim, red and gold:
     // the page had led past it, to the drain beyond, as "toward your aim" (round 7, both players).
     ...attack ? [this.candidate(attack, { subject: s.id, kind: 'attack', r,
-      whys: ['danger', ...r.named.has(s.id) ? ['named' as const] : [],
+      whys: asked ? [] : ['danger', ...r.named.has(s.id) ? ['named' as const] : [],
         ...r.advances?.has(this.command(attack) ?? '') ? ['advance' as const] : []], notes: { danger: s.danger ?? '' } })]
       : []];
   }
@@ -315,13 +330,13 @@ export class Affordances {
     // jobs, and never been told the traveller at the inn would come for a few coin).
     const hand = r.needs.alone && this.offered(leaves, r, ['recruit']);
     const sale = this.offered(leaves, r, ['sell_valuable']), lesson = this.offered(leaves, r, ['train_member', 'learn_spell']);
-    return [...bed ? [{ why: 'night' as const, note: `for the night: ${this.priced(bed)}`, choice: bed }] : [],
+    return [...bed ? [{ why: 'night' as const, note: `for the night: ${ChoicePrice.priced(bed)}`, choice: bed }] : [],
       // Before the aim: going on with nothing to see by is going on into the dark.
-      ...light ? [{ why: 'dark' as const, note: `a light: ${this.priced(light)}`, choice: light }] : [],
-      ...hand ? [{ why: 'companion' as const, note: `would join you${this.fee(hand)}`, choice: hand }] : [],
-      ...cure ? [{ why: 'hurt' as const, note: this.priced(cure), choice: cure }] : [],
-      ...sale ? [{ why: 'spoils' as const, note: this.priced(sale), choice: sale }] : [],
-      ...lesson ? [{ why: 'means' as const, choice: lesson, note: `a lesson in ${this.lesson(lesson)}` }] : []];
+      ...light ? [{ why: 'dark' as const, note: `a light: ${ChoicePrice.priced(light)}`, choice: light }] : [],
+      ...hand ? [{ why: 'companion' as const, note: `would join you${ChoicePrice.fee(hand)}`, choice: hand }] : [],
+      ...cure ? [{ why: 'hurt' as const, note: ChoicePrice.priced(cure), choice: cure }] : [],
+      ...sale ? [{ why: 'spoils' as const, note: ChoicePrice.priced(sale), choice: sale }] : [],
+      ...lesson ? [{ why: 'means' as const, choice: lesson, note: `a lesson in ${ChoicePrice.lesson(lesson)}` }] : []];
   }
   // Whether a place is, or holds, something the aim names, by the world's nesting (never by its id's spelling: the road
   // between Fearnmaere and Brockminster, region__s2_s5_way, had been "in" Fearnmaere, region__s2).
@@ -333,16 +348,6 @@ export class Affordances {
   private static held(r: Reading): string { return r.aim ? 'another aim' : 'an aim'; }
   private static offered(leaves: Choice[], r: Reading, schemas: string[]): Choice | undefined {
     return leaves.find(c => schemas.includes(r.schema.get(c.command!) ?? ''));
-  }
-  private static fee(c: Choice): string {
-    const fee = c.note?.split(' · ')[0];
-    return fee && /coin$/.test(fee) ? `, ${fee}` : '';
-  }
-  // Its price said after it, unless its own words say it already ("Ask Ebba for healing, 2 coin": CL-24).
-  private static lesson(c: Choice): string { return c.label.replace(/^Train (\S+ )?(in )?| — .+$/g, ''); }
-  private static priced(c: Choice): string {
-    const fee = c.note?.split(' · ')[0], said = !!fee && c.label.endsWith(fee);
-    return `${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}${fee && /coin$/.test(fee) && !said ? `, ${fee}` : ''}`;
   }
   // A way: the one the aim names, one toward it, the way back when there is something to get away from, a way about
   // the place not yet taken, the first thing to try on a way barred.

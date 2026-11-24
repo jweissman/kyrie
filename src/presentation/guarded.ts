@@ -17,9 +17,18 @@ export class Guarded {
       .filter(g => w.one('at', g) === place && w.test(ModuleWriter.call('able', g)));
     // Only where nothing but a fight answers it: one the author gave another answer (the man with the black candle,
     // talked round or his candle put out by the rite) is still the aim's way in, to be answered there (OR-163).
-    const keeper = keepers.find(g => !Guarded.answered(campaign, g) && DangerSense.beyond(campaign, g));
+    const keeper = keepers.find(g => !Guarded.answered(campaign, g) && DangerSense.beyond(campaign, g))
+      ?? Guarded.felling(campaign, place);
     // By its name alone ("the keeper of the vault"), not the role said after it.
     return keeper && (campaign.module.entities.find(e => e.id === keeper)?.name ?? keeper).split(', ')[0];
+  }
+  // Or any band met there whose fights would fell the one who plays as the company stands (OR-412): the page leads
+  // into none, and the aim's way back in to it had been led again at once, the weir route's buck rat to and fro.
+  private static felling(campaign: Campaign, place: string): string | undefined {
+    const w = campaign.world, party = campaign.playerActor;
+    return Object.keys(campaign.readout.inhabitants).find(g => g !== party && w.one('at', g) === place
+      && w.test(ModuleWriter.call('able', g)) && !(w.relates('peaceable') && w.test(ModuleWriter.call('peaceable', g)))
+      && !!DangerSense.reckon(campaign, g)?.mortal);
   }
   // Whether an act of the author's names it, in what it asks or does (as Engaged knows an act that answers a threat),
   // and the company knows what that act asks it to know: the keeper of the vault's rite of the door, read in the book

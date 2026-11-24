@@ -3138,6 +3138,15 @@ The worlds that ship with the game.
 
 > At the foot of the Brynach fells a bath-hall has stood cut in two by a brick wall for thirty-one winters, and the hot spring that heats both halves is going cold. Two women keep the two sides and have not spoken since the wall went up. In three days the spring will be gone, and on the second evening a man will come down the drove road and stop at the gate, and not knock.
 
+### The Weather Drove
+
+*Kyr* · `campaign:weatherdrove`
+
+- Regions and sites: weatherdrove
+- Kits placed: —
+
+> Wickering drinks for a year if the Widow rains on the Seven Gardens. She is a cloud the Shales have driven nine generations, and this autumn she came down off the mountains and went into a glasshouse.
+
 ### What Tessary Owes
 
 *Kyr* · `campaign:what-tessary-owes`

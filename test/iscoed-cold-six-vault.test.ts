@@ -26,7 +26,10 @@ describe('the sealed vault, after the sixth cold play', () => {
     }
   }, 240000);
   it('says the odds of the keeper and what would help, and does not lead with it', () => {
-    const attack = vault.offer.primary.find(o => RunnerOffer.act(o) === 'attack(region__s1_u_keeper)');
+    // Not among the four at all (OR-412: never led into), but there, asked, with what would help.
+    const attack = RunnerOffer.flat([...vault.offer.primary, ...vault.offer.rest])
+      .find(o => RunnerOffer.act(o) === 'attack(region__s1_u_keeper)');
+    expect(vault.offer.primary.some(o => RunnerOffer.act(o) === 'attack(region__s1_u_keeper)')).toBe(false);
     expect(attack?.aside).toMatch(/^Beyond you: It is more than you can take\. What would help: /);
     expect(attack?.aside).toContain('a companion (');
     expect(attack?.aside).toContain('the way back to the undercroft');

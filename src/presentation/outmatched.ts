@@ -20,8 +20,10 @@ export class Outmatched {
   // The first band the aim names, or that stands where it names, which the company reckons beyond it; none for a
   // company that is more than one already.
   static band(campaign: Campaign, o: Objective): string | undefined {
-    // Beyond it or not, by as few fights as settle it (DangerSense.beyond: OR-145 (b)).
-    return this.bands(campaign, o).find(id => DangerSense.beyond(campaign, id));
+    // Beyond it or not, by as few fights as settle it (DangerSense.beyond: OR-145 (b)); or one that could fell the one
+    // who goes alone, whose lead is then someone to take along, never the attack (OR-412).
+    return this.bands(campaign, o).find(id => DangerSense.beyond(campaign, id)
+      || !!DangerSense.reckon(campaign, id)?.mortal);
   }
   // The bands an aim names, or that stand where it names, that could be beyond a company going alone.
   private static bands(campaign: Campaign, o: Objective): string[] {
@@ -57,6 +59,11 @@ export class Outmatched {
     const who = o && this.band(campaign, o) ? this.help(campaign) : undefined;
     const at = who && campaign.world.one('at', who);
     return who && at ? { help: { who, at } } : {};
+  }
+  // Who to take along, and where, said as a need ("ask Arlen, at the taproom of the Laughing Flame, to go with you").
+  static asked(campaign: Campaign, who: string): string {
+    const w = campaign.world, at = w.one('at', who);
+    return `ask ${ObservationText.label(w, who)}${at ? `, at ${ObservationText.label(w, at)},` : ''} to go with you.`;
   }
   // Someone who could go with the company: of those who could join it, the first.
   static help(campaign: Campaign): string | undefined { return [...Companions.possible(campaign)][0]; }

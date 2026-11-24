@@ -57,7 +57,7 @@ export class Glance {
     // At the opening the four are the charge's (see Charge); the place's lenses and ways hold the rest as ever.
     const led = Charge.acts(cands, screen, Charge.stands(arrival, campaign));
     const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(led, s), cands: led,
-      s });
+      s, ...reading.help && cands.some(x => x.whys.includes('help')) ? { help: reading.help } : {} });
     const held = TalkWeight.heldFor(campaign, Undertakings.heldFor(campaign, screen, picked));
     const acts = Charge.once(LedWords.with(campaign, HeldActs.with(held, HeldActs.follow(screen))),
       Charge.stands(arrival, campaign) && Charge.of(screen).size > 0);

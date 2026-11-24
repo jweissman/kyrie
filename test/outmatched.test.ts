@@ -31,16 +31,18 @@ class Quarry {
   }
 }
 describe('a job beyond a company alone', () => {
-  it('is said so by whoever gives it, to a lone mage and not to a lone warrior', async () => {
+  it('is said so by whoever gives it, to a lone mage and to a lone warrior whom it could fell', async () => {
     const mage = await Quarry.asked('mage'), warrior = await Quarry.asked('warrior');
     for (const told of [mage, warrior]) { expect(told).toContain('You take the key to the quarry gate.'); }
     expect(mage).toContain('Eamon looks you over. ‘Not on your own, you won’t. Cyril at the taproom of the Lucky '
       + 'Phoenix is looking for work: take someone with you.’');
-    expect(warrior).not.toContain('Not on your own');
+    // And to a lone warrior too, since the reckoning's fights fell her (OR-412: what could end the one who plays is
+    // beyond one alone; it had been said only of what she would likely lose).
+    expect(warrior).toContain('Not on your own');
   }, 180000);
-  it('is led with by the help, while the aim followed leads into that fight, for the mage alone', async () => {
+  it('is led with by the help, while the aim followed leads into that fight, for one alone', async () => {
     const mage = await Quarry.led('mage'), warrior = await Quarry.led('warrior');
     expect(mage.some(x => x.startsWith('help:'))).toBe(true);
-    expect(warrior.some(x => x.startsWith('help:'))).toBe(false);
+    expect(warrior.some(x => x.startsWith('help:'))).toBe(true);
   }, 180000);
 });
