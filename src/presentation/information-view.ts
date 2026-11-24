@@ -50,8 +50,4 @@ export class InformationView {
     if (matches.length !== 1) { throw new Error('Unavailable information command'); }
     return matches[0]!.action.id;
   }
-  static execute(campaign: Campaign, command: string): InformationSnapshot {
-    campaign.execute(this.resolve(campaign, command));
-    return this.observe(campaign);
-  }
 }

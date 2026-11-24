@@ -324,6 +324,12 @@
    "was": "defect",
    "pri": "P1",
    "why": "24 Nov, classified as filed: the brief's reference journey (BRIEF §3.2) unmet past the vault, a commissioned requirement found short by measure, not a software failure"
+  },
+  "MT-31": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from MT-24: a design question about a journey's unit of work, not an observed failure"
   }
  },
  "blockedBy": {
