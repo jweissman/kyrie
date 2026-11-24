@@ -8816,6 +8816,27 @@
    "era": "late",
    "light": "sunlit",
    "weather": "clear"
+  },
+  "scene-desert-city-market": {
+   "form": "scene",
+   "shows": "a market square of a desert city under an arcade: awnings, fruit stalls and a stone fountain, a dome and a minaret beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-city-overview": {
+   "form": "landscape",
+   "shows": "a walled city of yellow stone seen from a high arched window, its domes and towers, the desert to the horizon",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-desert-mountain": {
+   "form": "landscape",
+   "shows": "a rocky mountainside looking out over range after range and a desert plain far below, clouds over",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   }
  }
 }
