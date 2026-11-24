@@ -117,7 +117,16 @@
    "OR-186",
    "OR-187",
    "OR-188",
-   "OR-189"
+   "OR-189",
+   "OR-300",
+   "OR-302",
+   "OR-303",
+   "OR-304",
+   "OR-305",
+   "OR-307",
+   "OR-308",
+   "OR-310",
+   "OR-311"
   ],
   "outside": {
    "OR-198": "sprint 3's town-and-dungeon loop, past the first hour's two routes: the vault under Porthalen is a second expedition's",
@@ -172,6 +181,26 @@
     "id": "OR-23",
     "owner": "lead",
     "accept": "from Play to the opening's first act in 1.5 s, with the world pre-rolled at the title; no checklist, no black frame"
+   },
+   {
+    "id": "OR-300",
+    "owner": "lead",
+    "accept": "the title offers Continue, New character and New world, the game Options and Return to title, headless and in the browser at both sizes; an unopenable kept game said"
+   },
+   {
+    "id": "OR-302",
+    "owner": "Game",
+    "accept": "no mark without its witness row in every drawer, page and focus it opens, over iscoed's two routes, in an invariant at every turn"
+   },
+   {
+    "id": "OR-304",
+    "owner": "World",
+    "accept": "every person who can join, be escorted or anchor an aim in two countries has a name or a declared mystery and a stated reason, at contact"
+   },
+   {
+    "id": "OR-311",
+    "owner": "World",
+    "accept": "from the first page of each origin the Atlas leads to the first dungeon within two hexes, and its loop is played whole by a cheap automated player"
    }
   ],
   "platform": [

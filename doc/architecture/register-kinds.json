@@ -396,6 +396,78 @@
    "was": "defect",
    "pri": "P1",
    "why": "24 Nov, filed and classified at once: BRIEF §4's target for an uninterrupted journey leg (under 5 ms), a commissioned requirement unmet and measured, not an observed failure of a claimed contract"
+  },
+  "OR-305": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-306": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-307": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-308": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-309": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-310": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-311": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-312": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a wanted future kept whole, not commissioned"
+  },
+  "OR-313": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a commissioned outcome not yet met, no observed failure of a claimed contract"
+  },
+  "OR-314": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a wanted future kept whole, not commissioned"
+  },
+  "OR-315": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a wanted future kept whole, not commissioned"
+  },
+  "OR-316": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a wanted future kept whole, not commissioned"
   }
  },
  "blockedBy": {
