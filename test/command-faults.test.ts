@@ -6,6 +6,9 @@ import { RuleWords } from '../src/narrative/rule-words';
 import { Telling } from '../src/narrative/telling';
 import { Undertakings } from '../src/presentation/undertakings';
 import { Digest } from '../src/session/digest';
+import { CampaignTick } from '../src/campaign/campaign-tick';
+import { Consequences } from '../src/campaign/consequences';
+import { Arrivals } from '../src/campaign/arrivals';
 
 // One command, one history (MT-24; BRIEF §5C; the architectural review's Finding C): a command commits exactly once or
 // fails without changing anything, whichever of its phases fails. Each phase after the world's own act (what comes of
@@ -26,11 +29,12 @@ const phases: Phase[] = [
 ];
 const restore: (() => void)[] = [];
 afterEach(() => { while (restore.length) { restore.pop()!(); } });
-// The phase made to fail the next time it is reached, and only then; whether it was reached, said after.
-const failOnce = ({ target, key }: Phase): { failed: boolean } => {
+// The phase made to fail once, the `after`-th time it is reached (0: the first); whether it was, said after.
+const failOnce = ({ target, key }: Phase, after = 0): { failed: boolean } => {
   const t = target as Record<string, (...a: unknown[]) => unknown>, was = t[key]!, seen = { failed: false };
+  let reached = 0;
   t[key] = function (this: unknown, ...a: unknown[]) {
-    if (!seen.failed) { seen.failed = true; throw new Error(`injected: ${key}`); }
+    if (!seen.failed && reached++ === after) { seen.failed = true; throw new Error(`injected: ${key}`); }
     return was.apply(this, a);
   };
   restore.push(() => { t[key] = was; });
@@ -51,6 +55,32 @@ describe('a command that fails at any phase changes nothing', () => {
       await s.leg(command);
       const plain = await PlaySession.start(ordinary, 'faults', source);
       await plain.perform(command);
+      expect(s.canonical()).toBe(plain.canonical());
+    }, 60000);
+  }
+});
+
+// And within the act itself: an hour's wait passes six watches, each committing the world as its rules fire; a fault
+// on the fourth, after three have committed, leaves nothing of any of them (the campaign's own checkpoint, restored on
+// any throw: Campaign.executeAsync).
+const within: Phase[] = [
+  { name: 'the townsfolk acting', target: CampaignTick, key: 'npcs' },
+  { name: 'the world\'s rules', target: CampaignTick, key: 'rules' },
+  { name: 'what the world turns on the company', target: Consequences, key: 'strike' },
+  { name: 'who arrives', target: Arrivals, key: 'tell' },
+];
+describe('a command that fails within its watches changes nothing', () => {
+  for (const phase of within) {
+    it(`when ${phase.name} fails on a later watch`, async () => {
+      const s = await PlaySession.start(ordinary, 'faults', source), before = s.canonical();
+      const seen = failOnce(phase, 3);
+      await expect(s.leg('wait_hour')).rejects.toThrow(/injected/);
+      expect(seen.failed).toBe(true);
+      expect(s.canonical()).toBe(before);
+      expect(s.receipts).toEqual([{ id: 'wait_hour', revision: 0, outcome: 'undone' }]);
+      await s.leg('wait_hour');
+      const plain = await PlaySession.start(ordinary, 'faults', source);
+      await plain.perform('wait_hour');
       expect(s.canonical()).toBe(plain.canonical());
     }, 60000);
   }
