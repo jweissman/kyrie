@@ -21,12 +21,13 @@ import { LensRows } from './lens-rows';
 // CL-34: "I don't see the questions"). Escape, or Leave it, goes back a level (see Explorer.key). Only where there are more than four does a pager
 // still turn them (the narrow exception: many things at hand, each one row).
 export class LensFocused {
-  static View({ app, draw, lens, lensed, acts }: { app: ReaderApp; draw: Draw; lens: Lens; lensed: Lensed;
-    acts: LensAct[] }) {
+  // room: its places of the four, less those the scene's kept rows take above it (Lensed.kept).
+  static View({ app, draw, lens, lensed, acts, room = GlanceStage.per }: { app: ReaderApp; draw: Draw; lens: Lens;
+    lensed: Lensed; acts: LensAct[]; room?: number }) {
     const [page, turn] = useState(0);
     const view = LensFocus.of(acts, app.state.focused ?? [], s => GlanceStage.named(app, s), LensRows.part(app, lens));
     // Paged, the row that turns the page is the fourth (never more than four in view).
-    const paged = Paging.of(view.rows, GlanceStage.per, page), rows = paged.shown;
+    const paged = Paging.of(view.rows, room, page), rows = paged.shown;
     const gilded = Guidance.shown(app);
     const focus = (key?: string) => app.setState({ focused: key ? [...view.focused, key] : view.focused.slice(0, -1) });
     return <div {...PageFrame.slot('menu')} className={`lens lens-${lens} lens-focus`} data-lens={lens}

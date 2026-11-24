@@ -116,8 +116,11 @@ export interface LensAct { choice: string; label: string; command?: string; subj
 // and what is seen of it (its state's words: the riddle cut across the speaking door).
 // aspects: what its four are, together, in the order every client ranks them: all its mark may show, so a mark never
 // says what none of the rows under it is (the owner, 17 November).
+// kept: what the resting scene led with that will not wait or carries the aim on, and that this lens does not draw (the
+// badger's Attack under Look, the windlass's fresh try under Talk): kept above it, as the four drew it, so that opening
+// a lens never puts it a lens away (OR-240). Its rows take places of the four; it is no part of the lens's mark.
 export interface Lensed { promoted: Promoted[]; rest: LensAct[]; leaves?: Record<string, LensAct[]>;
-  subjects?: Record<string, { name: string; seen?: string[] }>; aspects: Aspect[] }
+  subjects?: Record<string, { name: string; seen?: string[] }>; aspects: Aspect[]; kept?: Promoted[] }
 // A route the compass gives (see Compass): where it comes to, the ways in order, the time, the command that walks it
 // (travel:<place>, leg by leg; or the one way's own), and what bars it, if anything.
 export interface Route { to: string; name: string; ways: string[]; minutes: number; command?: string; barred?: string }

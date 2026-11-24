@@ -181,7 +181,7 @@ export class Promotion {
   // resting scene's are and from the same candidates, and the rest of its acts in the scene's order. Gold stays on the
   // glance's own next step (acts), wherever it falls: a lens never makes another act the aim's.
   static lenses(cands: Candidate[], scene: Scene, s: Situation, acts: Promoted[]): Record<Lens, Lensed> {
-    const at = { cands, scene, s, next: acts.find(a => a.continues)?.choice,
+    const at = { cands, scene, s, next: acts.find(a => a.continues)?.choice, led: acts,
       kinds: new Map(scene.subjects.map(x => [x.id, x.kind])),
       // The company's own acts, as the scene has them: not the place's own (a notice read, a word put to someone).
       company: new Set(scene.you.filter(c => !c.own).map(c => c.id)) };
@@ -189,7 +189,7 @@ export class Promotion {
       time: this.lensed('time', at) };
   }
   private static lensed(lens: Lens, at: { cands: Candidate[]; scene: Scene; s: Situation; next?: string;
-    kinds: Map<string, string>; company: Set<string> }): Lensed {
+    kinds: Map<string, string>; company: Set<string>; led: Promoted[] }): Lensed {
     const mine = at.cands.filter(c => this.lens(c, at) === lens && !c.barred);
     const ranked = mine.map(c => ({ c, whys: this.allowed(c, at.s) })).filter(x => x.whys.length)
       .map(x => ({ ...x, best: this.best(x.whys) }))
@@ -216,9 +216,24 @@ export class Promotion {
     const fill = all.filter(a => !a.disabled).slice(0, Math.max(0, this.all - promoted.length))
       .map(a => this.gilded(this.present(a, marks.get(a.choice) ?? []), at.next));
     const shown = new Set([...led, ...fill.map(a => a.choice)]);
-    const out = [...promoted, ...fill], rest = all.filter(a => !shown.has(a.choice));
+    const four = [...promoted, ...fill], others = all.filter(a => !shown.has(a.choice));
+    const opened = this.opened([...four, ...others], at.scene);
+    // What the scene led with that this lens does not draw and that will not wait, kept above it (OR-240): its places
+    // are the four's, and what of the lens's own it puts out of them goes first among the rest, drawn still.
+    const kept = this.kept(at.led, [...four, ...others, ...Object.values(opened.leaves ?? {}).flat()]);
+    const out = four.slice(0, this.all - kept.length), rest = [...four.slice(out.length), ...others];
     const aspects = [...Emphasis.precedence, ...Indicator.iconed].filter(a => out.some(p => p.aspects.includes(a)));
-    return { promoted: out, rest, ...this.opened([...out, ...rest], at.scene), aspects };
+    return { promoted: out, rest, ...opened, aspects, ...kept.length ? { kept } : {} };
+  }
+  // Of the acts the resting scene led with, those a lens keeps in sight where it draws them nowhere: what will not wait
+  // (a danger, the dark, an answer owed) and what carries the aim followed on (its gold, its step), two at most, as
+  // the four drew them. What is only worth doing here waits for the lens to be put away: kept too, the lens of whoever
+  // is here would have drawn the four again and none of them (the gatehouse's Talk, the boat's two ways and the ways
+  // out). A row drawn by its opener or its command is drawn.
+  private static kept(led: Promoted[], drawn: { choice: string; command?: string }[]): Promoted[] {
+    const ids = new Set(drawn.flatMap(a => [a.choice, ...a.command ? [a.command] : []]));
+    return led.filter(a => (a.continues || a.tier === 0 || this.continuing.includes(a.why)) && !ids.has(a.choice)
+      && !(a.command && ids.has(a.command)) && !(a.for && ids.has(a.for))).slice(0, 2);
   }
   // What is done at a thing on a way (a tripwire, a portcullis, a riddle door's words), not going by it: the things
   // lens's, with the thing as its subject, or the way where it names none (round 13's lens gap, the aesthetic line's
