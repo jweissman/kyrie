@@ -18,7 +18,10 @@ export class CompanyChapters {
     const entries = Object.entries(Canon.ancestries).map(([id, a]): Entry => ({
       id: `ancestry:${id}`, title: a.name, status: HandbookStatus.of(a), kind: a.playable ? 'playable ancestry' : 'not chosen by players',
       abilities: a.attributes, facts: [...PeopleFacts.of(id),
-        ['Callings', a.classes.map(c => Canon.classes[c]?.name ?? c).join(', ')],
+        // A people a player may be is said by the callings a player may take (OR-256: the commoner, no one's to
+        // choose, had stood among the birdfolk's callings in creation).
+        ['Callings', a.classes.filter(c => !a.playable || Canon.classes[c]?.playable).map(c => Canon.classes[c]?.name ?? c)
+          .join(', ')],
         ...a.traits.length ? [['Born with', a.traits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : [],
         ...a.forbiddenTraits?.length ? [['May not take', a.forbiddenTraits.map(t => Canon.traits[t]?.name ?? t).join(', ')] as [string, string]] : []],
       rules: a.traits.flatMap(t => HandbookText.trait(t)),

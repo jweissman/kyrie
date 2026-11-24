@@ -42,8 +42,9 @@ export class CreationEntries {
     });
   }
   // A calling: its hit die, its armour where it is any or none (else among the facts), and how it casts; its
-  // qualities, weapons, skills, gear and coin; what it knows from the start, each by what it does (Defend, every
-  // calling's, said once under them); and what it learns later.
+  // qualities, weapons, skills and gear; what it knows from the start, each by what it does (Defend, every calling's,
+  // said once under them); and what it learns later. Not the reference's gold, which no life is given: a bard's "Gold
+  // 25" was set out with as 13 coin, the life's own and the trade's (OR-257).
   static calling(c: Calling): CreationEntry | undefined {
     return CreationEntries.once(`class:${c.id}`, () => {
       const found = CreationEntries.reference(`class:${c.id}`), k = Canon.classes[c.id];
@@ -57,15 +58,23 @@ export class CreationEntries {
         facts: [['Qualities', CreationEntries.stats(c.qualities)], ...plain ? [] : CreationEntries.fact(found, 'Armour'),
           ...CreationEntries.fact(found, 'Weapons').map(([x, v]): [string, string] => [x, v === 'all' ? 'any' : v.replaceAll('_', ' ')]),
           ...CreationEntries.fact(found, 'Skills'),
-          ...CreationEntries.fact(found, 'Carries from the start').map(([, v]): [string, string] => ['Carries', v]),
-          ...CreationEntries.fact(found, 'Gold')],
+          ...CreationEntries.fact(found, 'Carries from the start').map(([, v]): [string, string] => ['Carries', v])],
         rules: [], ...knows.length ? { groups: [{ heading: 'Begins knowing', rows: knows.map(a => CreationEntries.ability(a)) }] }
           : {},
-        after: [k.abilities.includes('defend') ? 'And Defend, as every calling.' : '',
+        after: [k.abilities.includes('defend') ? 'And Defend, as every calling.' : '', CreationEntries.given(k),
           later.length ? `Later, by level: ${Words.listed(later)}.` : ''].filter(Boolean).join(' ') };
     });
   }
-  // A trade: what it adds to the qualities and its coin, as its line in play; what it brings and carries, and the
+  // Where a calling's first spells come from a way chosen next (a god's domain, a mage's art), so it is said: the
+  // cleric's card listed no prayer under "Prayers of the god they are sworn to" (OR-256, the first cold play's P25).
+  private static given(k: NonNullable<(typeof Canon.classes)[string]>): string {
+    const way = (k.specializations ?? []).map(t => Canon.traits[t]?.spellAccess).find(Boolean);
+    if (!way) { return ''; }
+    return way.tradition === 'divine' ? 'Its first prayers are its god\'s, chosen next.'
+      : 'More first spells come with its art, chosen next.';
+  }
+  // A trade: what it adds to the qualities and the coin it puts in the purse (a tenth of its gold pieces), as its line
+  // in play; what it brings and carries, and the
   // calling it is kept for.
   static trade(b: Catalog['backgrounds'][number]): CreationEntry {
     return CreationEntries.once(`background:${b.id}`, () => {
@@ -73,7 +82,7 @@ export class CreationEntries {
       const facts: [string, string][] = [...skills.length ? [['Brings', skills.join(', ')] as [string, string]] : [],
         ...b.gear.length ? [['Carries', Words.upper(b.gear.join(', '))] as [string, string]] : [],
         ...b.calling ? [['For', `${Canon.classes[b.calling]?.name ?? b.calling} only`] as [string, string]] : []];
-      return { play: [CreationEntries.stats(b.qualities), ...b.coin ? [`${b.coin} gold`] : []].filter(Boolean).join(' · '),
+      return { play: [CreationEntries.stats(b.qualities), ...b.coin ? [`${b.coin} coin`] : []].filter(Boolean).join(' · '),
         facts, rules: [] };
     })!;
   }

@@ -24,8 +24,11 @@ export class PlayTranscript {
     // "Bran: set down a sack of bell-teeth." is how an item leaves a hand; the action says how it went.
     // What the voice tables told of it (a greeting, someone joining) is the story's as it was the page's.
     const voiced = (event.voiced ?? []).filter(v => !Voice.apart(v.kind)).map(v => v.text);
-    const lines = [...ambush, ...(plain ? [] : [f.result]), ...voiced,
-      ...f.immediate.map(l => l.replace(/^You witness: /, '')).filter(l => !/^[^:]+: set down /.test(l)),
+    // How a fight ended is told after its blows, as the fight's page told it: the Story had "The fight is won." before
+    // the badger bled and fell (the first blind cold play's P90, OR-259).
+    const result = plain ? [] : [f.result], first = f.ended ? [] : result, last = f.ended ? result : [];
+    const lines = [...ambush, ...first, ...voiced,
+      ...f.immediate.map(l => l.replace(/^You witness: /, '')).filter(l => !/^[^:]+: set down /.test(l)), ...last,
       ...(c.moved ? [] : f.observations), ...f.events];
     const told = Narration.tidy([...new Set(lines.filter(Boolean))],
       fight ? event.combat.filter(e => e.type === 'action').length : 0);

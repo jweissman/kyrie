@@ -45,7 +45,8 @@ export class Creation {
       worth: Array.from({ length: 31 }, (_, score) => score ? Fighting.statMod(score) : 0),
       backgrounds: backgrounds.map(id => ({ id, name: Overlays.get(id).name, kind: Canon.backgrounds[id]?.kind ?? '',
         text: this.brings(id), qualities: { ...Canon.backgrounds[id]?.attributes ?? {} } as Record<string, number>,
-        coin: Canon.backgrounds[id]?.gold ?? 0,
+        // What the trade puts in the purse, in the purse's coin (OR-257): its gold pieces had been said (70 gold).
+        coin: Overlays.coins(Overlays.get(id)),
         gear: (Canon.backgrounds[id]?.gear ?? []).map(g => Canon.items[g]?.name.toLowerCase() ?? g),
         ...Canon.backgrounds[id]?.requiredClass ? { calling: Canon.backgrounds[id].requiredClass } : {},
         ...Canon.backgrounds[id]?.forms ? { forms: Canon.backgrounds[id].forms } : {} }))

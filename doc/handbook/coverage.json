@@ -798,8 +798,8 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 723,
-    "adapted": 424,
+    "faithful": 722,
+    "adapted": 425,
     "represented": 4,
     "kyr": 618,
     "unsupported": 66,
@@ -824,8 +824,8 @@
      "id": "callings",
      "title": "Callings",
      "counts": {
-      "faithful": 4,
-      "adapted": 24,
+      "faithful": 3,
+      "adapted": 25,
       "represented": 0,
       "kyr": 0,
       "unsupported": 0,
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 324,
+    "kyr": 329,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 289,
+      "kyr": 293,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 30,
+      "kyr": 31,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1299,7 +1299,7 @@
   {
    "id": "class:thief",
    "title": "Thief",
-   "status": "faithful",
+   "status": "adapted",
    "book": "phb",
    "section": "callings"
   },
@@ -14415,6 +14415,20 @@
    "section": "world-rules/rules-belongings"
   },
   {
+   "id": "rule:belongings.food",
+   "title": "food",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
+   "id": "rule:belongings.eat_item",
+   "title": "eat item",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-belongings"
+  },
+  {
    "id": "rule:belongings.light_item",
    "title": "light item",
    "status": "kyr",
@@ -14597,8 +14611,8 @@
    "section": "world-rules/rules-care"
   },
   {
-   "id": "rule:care.awake",
-   "title": "awake, fallen, slain, levelDrained, needsCare, canCast, treatable",
+   "id": "rule:care.fallen",
+   "title": "fallen, slain, levelDrained, needsCare, canCast, treatable",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-care"
@@ -14709,6 +14723,13 @@
    "section": "world-rules/rules-care"
   },
   {
+   "id": "rule:world_core.member",
+   "title": "member, item, itemkind, fact",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-core"
+  },
+  {
    "id": "rule:world_core.quarter",
    "title": "quarter, inQuarter, heartOf",
    "status": "kyr",
@@ -14738,7 +14759,7 @@
   },
   {
    "id": "rule:world_core.occasion",
-   "title": "occasion, matter, occasionBegun, occasionOver",
+   "title": "occasion, matter, situation, incident, occasionBegun, occasionOver",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-core"
@@ -15158,7 +15179,7 @@
   },
   {
    "id": "rule:dominion.alarmed",
-   "title": "alarmed, admits, hostile",
+   "title": "alarmed, admits",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-dominion"
@@ -15306,6 +15327,13 @@
   {
    "id": "rule:inhabitants.fears",
    "title": "fears, tribute",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.engaged_in",
+   "title": "engaged_in",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"
@@ -16195,6 +16223,13 @@
   {
    "id": "campaign:a-winter-in-carth",
    "title": "A Winter in Carth",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:eelbell",
+   "title": "The Eel Bell",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
