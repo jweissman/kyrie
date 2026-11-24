@@ -34,7 +34,7 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     const { journey: j, r } = await Store.start();
     let s = await Store.walk(r, r.said() as Said, /^To the market/, /^Read the notice/);
     expect(said(s)).toContain('Something at the grain in the old corn-store, nights, and the bread off the sill.');
-    s = await Store.walk(r, s, /herb-shop/, /^Ask Falkor about what is at the grain$/);
+    s = await Store.walk(r, s, /herb-shop/, /^(Ask Falkor|Talk to Falkor — ask) about what is at the grain$/);
     expect(said(s)).toMatch(/Two days, mind\. Then I lay poison under the grain myself/);
     const given = Store.fork(j);
     s = await Store.walk(r, s, /^To the market/, /^To the old corn-store/, /^Down to the corn-store cellar/,
