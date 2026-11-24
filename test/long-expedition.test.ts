@@ -9,7 +9,9 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // from the road into Gothgiba, the inn and the smith, out over the fell to the mine; the adit level's riddles, its
 // goblins, the glyph made safe, the air shaft found by its draft and climbed out of; home to sell what was carried
 // up, a night at the inn. Its record replays it to the same world, and a game saved halfway and taken up again ends
-// where the unbroken game ends. (Thoradin had fallen to the goblins and been raised at the shrine on the way home; on
+// where the unbroken game ends. (Half the star-iron lies in the mine since OR-323, 24 November: three lumps carried up
+// and sold, where there had been six.) (Thoradin had fallen to the goblins and been raised at the shrine on the way
+// home; on
 // the fights of 4fbff0a, foes choosing by kind and techniques resting, he comes through that fight standing.)
 class Expedition {
   static readonly steps = [
@@ -20,17 +22,16 @@ class Expedition {
     'Light.a.torch', 'Darkness', 'Take .* out of the stone casket for Wenna', 'gallery to the smithy', 'Collect',
     'gallery to the adit$', 'gallery to the crossing', 'Attack the goblins', 'Gather up the coins',
     'Collect a Delver', 'Look closely at the (?:arcane glyph|shimmering glyph)', "Hold the pole's end", 'to the old stope',
-    'Collect a lump of star-iron', 'Collect a lump of star-iron', 'Collect a lump of star-iron',
+    'Collect a lump of star-iron',
     'Search the old stope', 'Light a torch', 'Search the old stope', 'gap behind the rubble',
     'Unstrap the notebook', 'Gather up the coins', 'Collect a coil of rope', 'Collect a torch for Wenna',
     'gap behind the rubble to the old stope', 'drift to the shaft head', 'shirt',
     'Take .* out of the stone casket for Wenna', 'Touch the singing crystal', 'Collect a lump of star-iron',
     'Gather up the coins', 'drift to the ore pass', 'Light a torch', 'Collect a lump of star-iron',
-    'Collect a lump of star-iron', 'Pass a hand through the cold flame', 'drift to the shaft head',
+    'Pass a hand through the cold flame', 'drift to the shaft head',
     'drift to the old stope', 'gap behind the rubble to the air shaft', 'iron rungs', 'track to the foot',
     'to the foot of Barzelrehes by Gothgiba$', 'path up onto Barzelrehes to the bailey', "Ulfgar's door",
-    'Sell a lump of star-iron', 'Sell a lump of star-iron', 'Sell a lump of star-iron', 'Sell a lump of star-iron',
-    'Sell a lump of star-iron', 'Sell a lump of star-iron', "Sell a Delver's pay-token",
+    'Sell a lump of star-iron', 'Sell a lump of star-iron', 'Sell a lump of star-iron', "Sell a Delver's pay-token",
     "Sell a Delver's pay-token", "Sell a Delver's ring", "Ulfgar's door", 'door of the Wooden Wolf',
     'Take a bed and supper'];
   static async start() {

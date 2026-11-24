@@ -59,7 +59,9 @@ describe('the fellowship, played (m13: a guild whose hall sold its tally)', () =
     await say('Take \\w+.s summons');
     Placed.at(j, 'fellowship__hall_b');
     await say('Ask \\w+ who has the hall\'s tally');
-    await say('Ask \\w+ to stand the price of a tally');
+    // (A name two people have is told apart, "Edric the younger": m13's people were drawn again once the Weather
+    // Drove's province was placed in every world, OR-415.)
+    await say('Ask [\\w ]+? to stand the price of a tally');
     Placed.at(j, `region__${placed.bindings[buyer]}_green`);
     expect(await say('whether a split hazel tally')).toMatch(/hazel rod/);
     await say('Pay');

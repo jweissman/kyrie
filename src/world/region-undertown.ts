@@ -187,7 +187,10 @@ export class RegionUndertown {
     const key = `${RegionKey.of(region)}:${s.id}:below`, draw = new Draw(key), ancestry = s.folk ?? region.ancestry;
     const pronoun = draw.pick(['she', 'he']), given = folk.given as unknown as Record<string, Record<string, string[]>>;
     const name = Communities.distinct((given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!, ancestry,
-      { draw, taken: Communities.everyone(region), reserved: region.reserved });
+      // Apart from every name the country's people have, its stories' and the hand on the green's too (as OR-304's
+      // captive is): the one on the ledge had drawn a name a story's person or another of the town already had.
+      { draw, taken: new Set([...Communities.everyone(region), ...StoryPeople.country(region),
+        ...Object.values(this.hand(region, s.id))]), reserved: region.reserved });
     const calling = RegionRecruits.fighting(ancestry);
     const values = { w: at.w, site: at.site, name, he: pronoun, his: pronoun === 'she' ? 'her' : 'his',
       him: pronoun === 'she' ? 'her' : 'him', calling, fee: '6', town: s.name, folk: ancestry };

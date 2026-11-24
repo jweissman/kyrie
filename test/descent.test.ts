@@ -34,7 +34,9 @@ import type { CreatureStore } from '../src/creature-store';
 // are timed along it from its way room (OR-35), thorn's toll is kept on another road than the one to Merscstede, the
 // hours from its market being what they are, and the record pays no toll there.) (Since one flame is held at a time
 // (CL-38, 18 Nov: a torch lit puts out the lamp that burned beside it), wren's torch burns out at the ore bin and a
-// candle is lit there before the star-iron is collected.)
+// candle is lit there before the star-iron is collected.) (Half the star-iron lies in the mine since OR-323, 24
+// November: wren's record collects and sells the lumps there are, sixteen steps fewer, and the heart comes up as
+// before.)
 class Descent {
   static choices(seed: string): string[] {
     return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);

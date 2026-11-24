@@ -113,14 +113,15 @@ describe('kite at a glance', () => {
     expect(glance.life).toMatchObject({ subject: 'den__beasts', danger: true });
     // Kite's den is led (Deem's richer dens: a leader among the beasts), and a led den is not smoked out: its pack and
     // its leader are each met, a fight weighed for each.
-    expect(glance.acts.slice(0, 2).map(a => [a.why, a.subject ?? a.exit])).toEqual([['danger', 'den__beasts'],
-      ['danger', 'den__leader']]);
-    for (const attack of glance.acts.slice(0, 2)) {
-      // Won, if not unhurt: fair, or hard where the trials found a fall (a lone warrior's fall ends the game).
-      expect(attack.marks).toEqual([expect.objectContaining({ kind: 'fight' })]);
-      expect(['fair', 'hard']).toContain((attack.marks[0] as { danger: string }).danger);
-    }
-    expect(glance.acts.some(a => a.why === 'retreat')).toBe(false);
+    // The pack, whose reckoned fights felled the lone warrior, is not led into (OR-412): its leader is, and the way
+    // back is led as from a fight that could end her.
+    expect(glance.acts.slice(0, 2).map(a => [a.why, a.subject ?? a.exit])).toEqual([['danger', 'den__leader'],
+      ['retreat', 'exit:region__t2']]);
+    const attack = glance.acts[0]!;
+    // Won, if not unhurt: fair, or hard where the trials found a fall.
+    expect(attack.marks).toEqual([expect.objectContaining({ kind: 'fight' })]);
+    expect(['fair', 'hard']).toContain((attack.marks[0] as { danger: string }).danger);
+    expect(glance.acts.some(a => a.subject === 'den__beasts')).toBe(false);
     Kite.drawn(Kite.g, glance);
   });
   it('on the fells leads with their own act, and rows the compass', async () => {
