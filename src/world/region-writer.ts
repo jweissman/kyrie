@@ -8,6 +8,7 @@ import { RegionSites } from './region-sites'; import { RegionRumours } from './r
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionUndertown } from './region-undertown';
+import { FirstAims } from './first-aims';
 import { RegionOutskirts } from './region-outskirts';
 import { RegionPractitioners } from './region-practitioners';
 import { RegionPleasures } from './region-pleasures';
@@ -245,6 +246,12 @@ export class RegionWriter {
     const home = company && (region.settlements.find(s => s.id === t) ?? region.settlements[0]);
     return home && RegionUndertown.noticed(region, home) ? [`${home.id}_u_notice`] : [];
   }
+  // The workings under that town, which the First Aims recognise being gone into (FirstAims, OR-443).
+  private static workings(region: Region, company?: Company): string[] {
+    if (!company?.start) { return []; }
+    const home = FirstAims.home(region, company.start), { found, explored } = FirstAims.rooms(region, home);
+    return [...found, ...explored].map(r => `${home!.id}_u_${r}`);
+  }
   // Who comes into the country, and where: a region beyond the first has no company of its own.
   private static company(region: Region, company: Company | null): string[] {
     const q = JSON.stringify, lines: string[] = [];
@@ -330,6 +337,7 @@ export class RegionWriter {
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
     ...region.history ? ['history_successors'] : [],
     ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : [], ...this.notice(region, company),
+    ...this.workings(region, company),
     ...StockOpenings.ids(company?.start?.opening),
     ...practitioners.map(p => p.id)];
     // A site's land is the wild country it stands in, or its own stretch of open country.

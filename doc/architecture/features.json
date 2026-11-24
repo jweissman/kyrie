@@ -4,6 +4,7 @@
   "files": {
    "character/creation-and-checks": "creation",
    "choice/consequence": "consequence",
+   "choice/first-aims": "undertakings",
    "choice/payoff-followed": "undertakings",
    "choice/store-apprentice": "discovery",
    "choice/store-runaway": "discovery",
@@ -1268,6 +1269,9 @@
   "OR-446": "art",
   "OR-447": "art",
   "OR-467": "art",
+  "OR-443": "undertakings",
+  "OR-468": "undertakings",
+  "OR-469": "undertakings",
   "OR-340": "discovery",
   "OR-341": "scene",
   "OR-342": "talk",

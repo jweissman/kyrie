@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 178 pins (146 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 551 live rows, 447 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 553 live rows, 447 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -106,7 +106,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 32 defects · 1 asks
+- **Aims and the gold thread** · 16 pins · 32 defects · 3 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -124,7 +124,10 @@ page's colours and opportunities.)
   - ✓ is what bars the way to what the aim waits on, and then the place beyond
   - ✓ is the way its author says the aim is gone to by, until it is taken
   - requirement HP-02 P1: Horizons commissioned before they are imagined: the factor gives Icelake, the company's claim, the…
-- **Jobs, debts and payoffs** · 4 pins · 0 defects · 1 asks
+  - requirement OR-468 P2: The First Aims followed: a gold-follower's walk with the undertaking chosen, its guidance led to…
+  - direction OR-469 P3: The First Aims' other horizons (the direction's §9: find Dun Rìerdan, explore the southern…
+- **Jobs, debts and payoffs** · 5 pins · 0 defects · 1 asks
+  - ✓ recognises what the company did unprompted, offers the undertaking after, and rewards each part once
   - ✓ is led from the proof to the sale, paid, and on to the road west, by the gold alone
   - ✓ a1: what went into the river is for sale downstream, claimed, and carried home
   - ✓ ash: a load carried for the creditor's trade, and the purse brought back square

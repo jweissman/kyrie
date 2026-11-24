@@ -870,6 +870,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov: split from OR-446: a wanted refinement of how paintings are chosen, not a broken contract"
+  },
+  "OR-468": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, split from OR-443: a followed walk and its instrument, wanted; no claimed contract broken"
+  },
+  "OR-469": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-443: the larger horizons, gamma's"
   }
  },
  "blockedBy": {

@@ -6,6 +6,7 @@ import type { Placement } from './world-assembler';
 import { Origins } from './origins';
 import { StockOpenings } from './stock-openings';
 import { Career } from './career';
+import { FirstAims } from './first-aims';
 import { RegionRecruits } from './region-recruits';
 
 type Begun = NonNullable<ReturnType<typeof Origins.write>>;
@@ -14,8 +15,8 @@ interface At { seed: string; region: Region; placements: Placement[]; party: Cre
 
 // Where one life begins in a drawn world, as the assembler installs it (WorldAssembler.built): its origin's module; a
 // stock opening chosen at creation, begun in ahead of it (StockOpenings: none, unless chosen); the Rì's commission on
-// the notice of the town the life begins in (Career); and, for one who comes alone, who at the first inn would come
-// along (RegionRecruits.arrival, PT-11).
+// the notice of the town the life begins in (Career); the First Aims, an undertaking it may take up (FirstAims,
+// OR-443); and, for one who comes alone, who at the first inn would come along (RegionRecruits.arrival, PT-11).
 export class WorldStart {
   static async begun(base: BundleSource, origin: Parameters<typeof Origins.write>[0] | undefined,
     opening: string | undefined, at: At): Promise<Begun | undefined> {
@@ -25,8 +26,10 @@ export class WorldStart {
     const opened = stock && written && StockOpenings.write(stock, { region: at.region, start: written.start,
       root: at.root, files: at.files });
     const told = opened ? { ...written!, start: opened.start } : written;
-    at.modules.push(...opened ? [opened.request] : [], ...told ? [told.request] : [],
-      ...Career.first(at.seed, at.region, { root: at.root, files: at.files, start: told?.start }));
+    const career = Career.first(at.seed, at.region, { root: at.root, files: at.files, start: told?.start });
+    const home = FirstAims.home(at.region, told?.start), aims = told && FirstAims.write(at.region, home,
+      { root: at.root, files: at.files, career: career.length > 0 });
+    at.modules.push(...opened ? [opened.request] : [], ...told ? [told.request] : [], ...career, ...aims ? [aims] : []);
     if (!told || at.party.length === 1) { this.arrival(at.region, { size: at.party.length, contacts: at.contacts,
       start: told?.start.place }, at); }
     return told;
