@@ -83,6 +83,16 @@ export class Reckon {
     return { value: done.length ? this.pct(alone.length, done.length) : null, note: `${alone.length} of ${done.length}`
       + `${alone.length ? `: ${alone.slice(0, 3).map(a => a.key).join(', ')}` : ''}` };
   }
+  // Of the aims taken up in the first town on the gold-follower's walks, those handed out, not uncovered (%).
+  static handed(r: Readings): Reading {
+    const town = r.gold.flatMap(w => w.aims.filter(a => a.town).map(a => ({ ...a, seed: w.seed })));
+    const handed = town.filter(a => a.town === 'handed');
+    return { value: town.length ? this.pct(handed.length, town.length) : null,
+      each: this.each(r.gold, w => w.seed, w => this.pct(w.aims.filter(a => a.town === 'handed').length,
+        w.aims.filter(a => a.town).length)),
+      note: `${handed.length} of ${town.length}${handed.length ? `: ${handed.slice(0, 4).map(a => `${a.seed} ${a.key}`)
+        .join(', ')}` : ''}` };
+  }
   static minutes(r: Readings): Reading { return this.dungeon(r, d => d.minutes); }
   static hexes(r: Readings): Reading { return this.dungeon(r, d => d.hexes); }
   static ready(r: Readings): Reading {

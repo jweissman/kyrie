@@ -14,6 +14,8 @@ import { GoldenWalk } from '../../test/support/golden-walk';
 import { HonestPlayer } from '../../test/support/honest-player';
 import { BoredomCensus } from '../boredom-census';
 import { DifferenceCensus } from '../difference-census';
+import { NoviceCountry } from '../novice-country';
+import type { CampaignEvent } from '../../src/campaign/campaign';
 
 // A turn as the Atlas drew it: its rows' colours by tone (the runner's rows, each by the one indicator its aspects
 // make: Indicator), whether none was coloured, and the coloured rows the glance attests nothing for (Attest). A turn in
@@ -24,13 +26,18 @@ export interface Turned { tones: Record<string, number>; none: boolean; unwitnes
 export interface AimRead {
   id: string; key: string; kind: string; text: string; travelled: number; done: boolean; arrived: boolean;
   anchor?: string;
+  // Taken up in the first town, and whether by investigation (a question asked of someone, a search, a check) or
+  // handed out (a notice read, a word on arriving, a rule): the owner, 24 November, "initial quests folded behind
+  // investigation checks rather than just given out constantly". Unsaid for the aims held as the walk began.
+  town?: 'investigated' | 'handed';
 }
 // Someone who came to matter on the walk: one who joined the company, or someone an aim was about.
 export interface Mattered { id: string; name: string; why: 'joined' | 'anchor' }
 export interface Walked {
   name: string; seed: string; minutes: number; turns: Turned[]; fights: number; aims: AimRead[]; people: Mattered[];
 }
-interface State { s: PlaySession; w: Walked; aims: Map<string, AimRead>; from: number; start: Set<string> }
+interface State { s: PlaySession; w: Walked; aims: Map<string, AimRead>; from: number; start: Set<string>;
+  town?: string }
 
 // The walked runs scripts/quantity reads (see quantity.md): the warrior's golden walk (its kept lines through the
 // runner, as the quality gate plays it), and the gold-follower (HonestPlayer: the page's lead, every step) on each
@@ -61,7 +68,10 @@ export class QuantityWalks {
   }
   private static state(s: PlaySession, name: string, seed: string): State {
     const c = s.campaign, w: Walked = { name, seed, minutes: 0, turns: [], fights: 0, aims: [], people: [] };
-    return { s, w, aims: new Map(), from: c.history.length, start: new Set(c.readout.partyIds) };
+    const here = c.world.one('at', c.playerActor ?? 'party') ?? '';
+    const town = NoviceCountry.containing(c, here, 'settlement')?.id;
+    return { s, w, aims: new Map(), from: c.history.length, start: new Set(c.readout.partyIds),
+      ...town ? { town } : {} };
   }
   private static before(st: State) {
     const c = st.s.campaign, held = Undertakings.held(c);
@@ -78,17 +88,39 @@ export class QuantityWalks {
       const a = st.aims.get(id)!;
       if (!now.has(id) && !a.done) { a.done = true; a.arrived = arrivedOnly; }
     }
-    this.hold(st, held);
+    this.hold(st, held, events);
     st.w.turns.push(this.turned(r, said));
   }
   // Every aim held, kept once it is first held, with whoever it is about.
-  private static hold(st: State, held: Objective[]) {
-    const c = st.s.campaign;
+  private static hold(st: State, held: Objective[], events?: CampaignEvent[]) {
+    const c = st.s.campaign, here = c.world.one('at', c.playerActor ?? 'party') ?? '';
+    const inTown = !!events && !!st.town && NoviceCountry.containing(c, here, 'settlement')?.id === st.town;
+    // Not the life's own errand, its origin's (the drove's, on iscoed), which is what it came for.
+    const origin = st.s.transcript.drawn?.origin;
     for (const o of held.filter(x => !st.aims.has(x.id))) {
+      const own = Stakes.own(o) || (!!origin && o.id.startsWith(`${origin}__`));
       const anchor = Stakes.target(c, o).subject;
       st.aims.set(o.id, { id: o.id, key: DifferenceCensus.key(o.id), kind: this.kind(o.when), text: o.text,
-        travelled: 0, done: false, arrived: false, ...anchor ? { anchor } : {} });
+        travelled: 0, done: false, arrived: false, ...anchor ? { anchor } : {},
+        ...inTown && !own ? { town: this.investigated(c, events!) ? 'investigated' as const : 'handed' as const } : {} });
     }
+  }
+  static readonly looking = new Set(['search', 'look_closely', 'examine']);
+  // Whether the acts that gave an aim were investigation: a check, a search, a look closer, or a question asked of
+  // someone that only something learned first opens (a Topic that knows of something, or answers a question put). A
+  // question offered to anyone who walks in ("Ask Cyril about the old quarry") is the job handed out by its label.
+  private static investigated(c: PlaySession['campaign'], events: CampaignEvent[]): boolean {
+    return events.some(e => {
+      const op = c.operator(e.action);
+      return !!op && (!!op.resolve || this.looking.has(op.schema ?? '') || (!!op.speaker && (!!op.answers
+        || this.learned(op.requires))));
+    });
+  }
+  // Whether a condition asks that something be known (not that it is not).
+  private static learned(p: Predicate): boolean {
+    if ('name' in p) { return p.name === 'knows'; }
+    if (p.kind === 'and' || p.kind === 'or') { return this.learned(p.left) || this.learned(p.right); }
+    return false;
   }
   private static done(st: State): Walked {
     const c = st.s.campaign, w = st.w, events = c.history.slice(st.from);
