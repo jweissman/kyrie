@@ -23,9 +23,12 @@ export class ItemNames {
     if (/[^su']s$|s'$/.test(head) || this.uncounted.has(head)) { return phrase; }
     return `${/^[aeiou]/.test(phrase) ? 'an' : 'a'} ${phrase}`;
   }
-  // A name led by someone's own ("Tegwen's", "Bran's"), the rest of it not a heading's capitals.
+  // A name led by someone's own ("Tegwen's", "Bran's"), the rest of it not a heading's capitals; not by whoever uses
+  // such a thing, which is a kind ("Climber's harness", "Tinker's tools": a climber's harness was offered by its bare
+  // name in Pryor's store, and the walks that buy one found none).
   private static owned(name: string): boolean {
     const [first, ...rest] = name.split(' ');
-    return /^\p{Lu}[\p{L}-]*['’]s$/u.test(first ?? '') && rest.some(w => /^\p{Ll}/u.test(w));
+    return /^\p{Lu}[\p{L}-]*['’]s$/u.test(first ?? '') && rest.some(w => /^\p{Ll}/u.test(w))
+      && !/(er|or|man|men|ist|smith|wright)['’]s$/iu.test(first ?? '');
   }
 }

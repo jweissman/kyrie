@@ -3,7 +3,8 @@ import { RunnerOffer } from '../../src/cli/runner-offer';
 
 // An act found by its words as a player finds it: among what is offered, else under the talk of one of the people here
 // (turned to, taking no time, or talked to by their own row: the runner holds what is said to someone under their
-// talk, CL-07), or under an opener (TB-12), or among the journeys folded behind their lens (CL-33).
+// talk, CL-07), or under an opener (TB-12), or among the journeys or the pack's acts folded behind their lens (CL-33,
+// CL-67).
 export class RunnerFind {
   static async find(r: Runner, s: Said, label: RegExp): Promise<{ said: Said; o?: Offered }> {
     const all = (x: Said) => RunnerOffer.flat([...x.offer.primary, ...x.offer.rest]);
@@ -21,10 +22,14 @@ export class RunnerFind {
       const o = all(turned).find(x => label.test(x.label));
       if (o) { return { said: turned, o }; }
     }
-    // A journey folded out of the rest, through the journeys' lens (CL-33), as the turn still stands.
-    const lensed = await r.ask('{"lens":"journeys"}'), far = 'error' in lensed ? undefined : all(lensed)
-      .find(x => label.test(x.label));
-    return far ? { said: s, o: far } : { said: s };
+    // A journey folded out of the rest, through the journeys' lens (CL-33), or what is done with a thing carried,
+    // through the pack (CL-67), as the turn still stands.
+    for (const lens of ['journeys', 'pack']) {
+      const lensed = await r.ask(JSON.stringify({ lens })), far = 'error' in lensed ? undefined : all(lensed)
+        .find(x => label.test(x.label));
+      if (far) { return { said: s, o: far }; }
+    }
+    return { said: s };
   }
   private static async turn(r: Runner, whom: string): Promise<Said | { error: string }> {
     const talked = await r.ask(JSON.stringify({ act: `talk_to(${whom})` }));

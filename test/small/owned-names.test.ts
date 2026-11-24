@@ -16,6 +16,9 @@ describe('a thing named for its owner', () => {
   it('is said by its name, and a heading as a kind', () => {
     expect(["Tegwen's lease", "Bran's tally-stick", "Healer's Kit", "Thieves' Tools", 'Torch'].map(n => ItemNames.called(n)))
       .toEqual(["Tegwen's lease", "Bran's tally-stick", "a healer's kit", "thieves' tools", 'a torch']);
+    // Whoever uses a kind is no owner: Pryor's store sells a climber's harness (test/muster-played's walks).
+    expect(["Climber's harness", "Tinker's tools", "Fisherman's net"].map(n => ItemNames.called(n)))
+      .toEqual(["a climber's harness", "tinker's tools", "a fisherman's net"]);
   });
   it('is carried in the pack by that name', async () => {
     const t = await Tiny.start(weir);
