@@ -15,9 +15,11 @@ import type { MonoDriver } from './support/mono-driver';
 // A new life on Iscoed begins under the fall in the old adit (StockOpenings): out of it first, by a player's controls
 // as the rest is, a light made, past the badger's warning and under the fallen prop, and down to the green, where the
 // drove road's walk begins. The adit's own incidents are test/features/world/under-the-fall.pin's.
+// The prop is lifted from its own drawer, opened by its likeness (pressing the likeness alone had left it down, and
+// the drift's mouth beyond it pressed with the drawer open: the driver's fallback).
 const outOfTheAdit = async (d: MonoDriver) => {
-  for (const words of [/light a (torch|candle)/i, /^To the old gallery/, /fallen prop/, /^Up to the old drift/,
-    /^To the landing at Porthalen/]) {
+  for (const words of [/light a (torch|candle)/i, /^To the old gallery/, /^the fallen prop$/, /^Heave up alone/,
+    /^Up to the old drift/, /^To the landing at Porthalen/]) {
     const s = await d.inspect();
     const row = [...s.choices, ...s.sections.flatMap(x => x.choices)].find(c => words.test(c.label));
     expect([String(words), row?.id]).toEqual([String(words), expect.any(String)]);
