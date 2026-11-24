@@ -5,13 +5,15 @@
 // set out on (Itineraries.shown); the narrator's leaf and, within it, the glance; and how often what the company
 // perceives was worked out afresh (PlayerView.observe, not taken from what it kept). Then the medians, the worst act,
 // and the stages that cost most over the whole play.
-//   bun scripts/act-costs.ts runner <lines.txt> <world> <as> [acts]      a kept play by the runner
+//   bun scripts/act-costs.ts runner <lines.txt> <world> <as> [acts]      a kept play by the runner, each line as meant
+//                                                                       (AsMeant); the golden walk in its opening
 //   bun scripts/act-costs.ts page <lines.txt> <world> <as> [acts]        the same lines by the page's host
 //   bun scripts/act-costs.ts eogan [acts]                                a1's order cleric, the brothers' letter given
 //   [--json out.jsonl] writes each act's row
 //   [--fresh] keeps nothing from one world to the next (see WorldReads), to compare each act's answer against;
 //   FRAMES=out.jsonl writes each frame the page's host answered with (page)
 import { appendFileSync, readFileSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { Costs, type Stage, type Tally } from '../src/costs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -22,6 +24,8 @@ import { EngineHost } from '../web/engine/engine-host';
 import type { Message } from '../src/creation/protocol';
 import type { PlaySession } from '../src/session/play-session';
 import { BeforeRooms } from '../test/support/before-rooms';
+import { AsMeant } from '../test/support/as-meant';
+import { GoldenWalk } from '../test/support/golden-walk';
 import { WorldReads } from '../src/lang/world-reads';
 
 // cpu: the process's own time over the act (every thread's: the collector's and the compiler's too), less swayed than
@@ -86,7 +90,7 @@ export class ActCosts {
     await this.timed(0, '(arrive)', () => Promise.resolve(r.said().moment));
     for (const [i, line] of lines.entries()) {
       await this.timed(i + 1, line, async () => {
-        const s = await r.ask(line);
+        const s = await AsMeant.ask(r, line);
         this.said = Bun.hash(JSON.stringify(s)).toString(16);
         return 'error' in s ? 'refused' : s.moment;
       });
@@ -149,8 +153,12 @@ export class ActCosts {
       console.log('usage: bun scripts/act-costs.ts runner|page <lines.txt> <world> <as> [acts] | eogan [acts]');
       return 2;
     }
-    const lines = readFileSync(file, 'utf8').split('\n').filter(Boolean).slice(0, Number(n ?? 1000));
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', world, '--as', as]));
+    // A kept play's own lines, not its comments; begun as the golden walk is where it is the golden walk (in its
+    // country's stock opening: GoldenWalk.args), else as the play was begun.
+    const lines = readFileSync(file, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#'))
+      .slice(0, Number(n ?? 1000));
+    const begun = resolve(file) === resolve(GoldenWalk.file) ? GoldenWalk.args(as) : ['--world', world, '--as', as];
+    const { journey } = await PlayTool.start(PlayTool.parse(begun));
     await costs[mode](lines, BeforeRooms.set(journey.session));
     costs.summary();
     return 0;
