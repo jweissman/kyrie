@@ -60,7 +60,6 @@ const rows: Record<string, string[]> = {
   'web/reader/stage/at-hand.tsx': ['pick'],
   'web/reader/stage/attention.tsx': ['pick', 'lens-page'],
   'web/reader/stage/book-stage.tsx': ['again', 'new'],
-  'web/reader/stage/compass-stage.tsx': ['action', 'action'],
   'web/reader/stage/fight-moves.tsx': ['attack', 'panel', 'whom', 'move', 'more-moves', 'action'],
   'web/reader/stage/glance.tsx': ['choice', 'aim-map', 'choice', 'choice'],
   'web/reader/stage/lens-focused.tsx': ['defocus', 'lens-page', 'focus'],
