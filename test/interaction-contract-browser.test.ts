@@ -21,7 +21,10 @@ class Census {
     // map's places turned a page (More places…, OR-152), as a lens's are.
     'map-view', 'focus', 'defocus', 'more-places',
     // The page's own instruments, named (test/small/page-controls: OR-94's allowed set).
-    'lens-tile', 'likeness-still', 'way-row', 'ability', 'consider-item', 'change-companion', 'fight-log', 'dice']);
+    'lens-tile', 'likeness-still', 'way-row', 'ability', 'consider-item', 'change-companion', 'fight-log', 'dice',
+    // Leaving the game for how a new one begins (Begin a new life, in the notes), as Back to the title is: the page's
+    // own way out, nothing done in the game (the game left is kept until a new one begins: OR-160).
+    'anew']);
   // Independently implemented controls still standing, named so that no new one joins them; it may only shrink.
   static readonly known: string[] = [];
   static async controls(page: Page): Promise<{ controls: Control[]; observed: string[] }> {

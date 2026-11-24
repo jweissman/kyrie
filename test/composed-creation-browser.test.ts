@@ -116,11 +116,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('creation, composed', () => {
     const shown = await page.locator('.creation-entry [data-entry-row]').evaluateAll(es => es.map(e => e.getAttribute('data-entry-row')));
     expect(shown).toEqual(expect.arrayContaining(hand));
     expect(shown).not.toContain(gone);
-    // A click does not learn them; held, they are learned and the making goes on.
+    // One press learns them, and the making goes on (OR-169: nothing held; it had been held).
     await page.click('[data-option="learned"]');
-    await page.waitForTimeout(400);
-    expect(await Shape.at(page)).toBe('learn');
-    await Shape.held(page, '[data-option="learned"]');
+    await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'before',
+      null, { timeout: 8000 });
     expect(await Shape.at(page)).toBe('before');
     expect(errors).toEqual([]);
     await page.close();

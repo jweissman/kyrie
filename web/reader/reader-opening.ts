@@ -159,7 +159,11 @@ export class ReaderOpening {
     const on = (step === creation.at && step !== 'name' && !leads && !toggle) || (step === 'drawn' && creation.at === 'name')
       || step === 'onward';
     const at = step === 'back' ? creation.back ?? creation.at : on ? creation.on : creation.at;
-    this.app.setState({ creation: { ...creation, steps, at, ...why }, party: [now, ...s.party.slice(1)], ...why,
+    // Gone on, the way back is to the step it came from, at once: Escape pressed before the engine's answer had come
+    // went to the title, the step back not yet known (a press, not a hold, leaves no time for the answer: OR-169).
+    const back = on && at !== creation.at ? { back: creation.at } : {};
+    this.app.setState({ creation: { ...creation, steps, at, ...back, ...why }, party: [now, ...s.party.slice(1)],
+      ...why,
       ...leads ? { waiting: value } : {} });
   }
   // A name taken from the table, borne as the table's (see CreationChoice).

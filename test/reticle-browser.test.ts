@@ -76,18 +76,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
     expect([rowsOf.over, rowsOf.down]).toEqual([['act', rowsOf.before], ['press', rowsOf.before]]);
     await d.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 }); await d.settle(); await page.waitForTimeout(900);
-    // The scene: a row of the four, over and pressed, every row where it was; lit in its own mark's tone.
+    // The scene: a row of the four, over and pressed, every row where it was; lit in one neutral tone whatever its
+    // mark's, the colour its indicator's alone (the lead's ruling of 24 November: rows never tint in their tone).
     const row = '.glance .led .choice-row';
     const rows = await Hand.press(page, `${row} >> nth=0`, row);
     expect([rows.over, rows.down]).toEqual([['act', rows.before], ['press', rows.before]]);
-    const tones = await page.evaluate(sel => [...document.querySelectorAll<HTMLElement>(sel)].map(r => {
-      const mark = r.querySelector<HTMLElement>(':scope > .row-mark');
-      const tone = mark?.style.getPropertyValue('--prism').match(/tone-(\w+)/)?.[1];
-      return [tone ?? 'none', getComputedStyle(r).getPropertyValue('--row-tone').trim(),
-        tone ? getComputedStyle(document.documentElement).getPropertyValue(`--tone-${tone}`).trim() : 'rgb(236, 230, 217)'];
-    }), row);
+    const tones = await page.evaluate(sel => [...document.querySelectorAll<HTMLElement>(sel)]
+      .map(r => getComputedStyle(r).getPropertyValue('--row-tone').trim()), row);
     expect(tones.length).toBeGreaterThan(0);
-    expect(tones.filter(([, own, expected]) => own !== expected)).toEqual([]);
+    expect(tones.filter(own => own !== 'rgb(236, 230, 217)')).toEqual([]);
     // One click commits it.
     const told = (await d.inspect()).log.length;
     await page.locator(`${row}[data-act]:not([aria-expanded]):not([data-act^="follow:"])`).first().click(); await d.settle();

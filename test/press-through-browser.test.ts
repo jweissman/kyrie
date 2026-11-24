@@ -7,10 +7,12 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
-// A finger held on a row until it is done, then lifted, presses nothing on the page that came while it was down (M22's
-// second review, finding 1: on a phone the opening's last Continue, held, let go over the rail's hourglass of the first
-// scene, and play opened on the Wait lens). The click a touch makes on lifting comes after the browser's own pause,
-// later than the press guard had remembered where the press began.
+// A finger held on a row, then lifted, presses that row and nothing on the page that comes after it (M22's second
+// review, finding 1: on a phone the opening's last Continue, held, let go over the rail's hourglass of the first
+// scene, and play opened on the Wait lens). Nothing is held now (OR-169): the Continue is pressed as the finger lifts,
+// its click its own, and the page it brings is pressed by nothing (a press begun on one page and let go on another
+// is the press guard's to drop: PressGuard). The clicks that reach the page are the Continues' own, and play opens on
+// the place, no lens raised.
 class Finger {
   static async hold(page: Page, selector: string) {
     const b = (await page.locator(selector).first().boundingBox())!;
@@ -24,8 +26,8 @@ class Finger {
   static readonly heard = () => {
     const w = window as unknown as { __heard: string[] };
     w.__heard = [];
-    document.addEventListener('click', e => w.__heard.push((e.target as Element).closest('[aria-label], [data-action]')
-      ?.getAttribute('aria-label') ?? (e.target as Element).tagName), false);
+    document.addEventListener('click', e => w.__heard.push((e.target as Element).closest('[data-action]')
+      ?.getAttribute('data-action') ?? (e.target as Element).tagName), false);
   };
 }
 describe.skipIf(!process.env.KYRIE_BROWSER)('a held press, lifted on the next page', () => {
@@ -52,7 +54,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a held press, lifted on the next pa
       await Finger.hold(page, '.prologue-page .go-on');
     }
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
-    expect(await page.evaluate(() => (window as unknown as { __heard: string[] }).__heard)).toEqual([]);
+    await page.waitForTimeout(700);
+    const heard = await page.evaluate(() => (window as unknown as { __heard: string[] }).__heard);
+    expect(heard.length).toBeGreaterThan(0);
+    expect(heard.filter(a => a !== 'beat' && a !== 'go-on')).toEqual([]);
+    expect(await page.locator('.glance .lens, [data-lens]').count()).toBe(0);
     expect(errors).toEqual([]);
     await context.close();
   }, 300000);

@@ -1,4 +1,4 @@
-import type { MouseEvent, ReactNode } from 'react';
+import type { MouseEvent, PointerEvent, ReactNode } from 'react';
 import { Typography } from '../../../src/presentation/typography';
 import { PressGuard } from '../press-guard';
 import { ChoiceRow } from '../stage/choice-row';
@@ -26,11 +26,19 @@ export class ComposedRow {
       ...taken ? { 'data-taken': true } : {},
       'data-considered': lit || undefined, onMouseEnter: (e: MouseEvent<HTMLButtonElement>) => ComposedRow.hand(e.currentTarget)
         && onConsider(option.id), onFocus: () => onConsider(option.id),
+      // A finger has no hover: a touch going down considers the row as the hand's coming to it does (its sentence said,
+      // the sky drawn up to its sign), and lifted, it is chosen (the hold had done the considering: OR-169).
+      onPointerDown: ComposedRow.touched.bind(null, option.id, onConsider),
       ...PressGuard.once(() => onChoose(option.id)) };
     return <ChoiceRow.Button className={`composed-row${chosen || taken ? ' chosen' : ''}`} data={{ option: option.id }} own={own}
       plain={chosen || taken ? 'chosen' : 'neutral'}
       label={Typography.curl(option.name)} {...option.glyph ? { glyph: option.glyph } : {}}
       aside={Typography.curl(option.shut ?? option.aside ?? '')} extra={children} {...n !== undefined ? { number: n } : {}} />;
+  }
+  static touched(id: string, consider: (id: string) => void, e: PointerEvent<HTMLButtonElement>) {
+    if (e.pointerType !== 'touch') { return; }
+    e.currentTarget.focus({ preventScroll: true });
+    consider(id);
   }
   // The hand come to a choice that has moved since the page changed: the keys' focus goes with it, so that one choice
   // is lit, never the hand's and the keys' both (the owner, 16 November: two names lit at once on the name page).
