@@ -15,16 +15,18 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { Glob } from 'bun';
 import { PlanningInstruments } from './planning-instruments';
-import { RegisterTickets } from './register-tickets';
 
 type PinState = 'met' | 'missing' | 'unwritten';
 // A pin of a feature (test/features), or of an experience family (the experiential pins: AGENTS.md, the register's
 // §41), with its family.
 interface Pin { file: string; describe: string; name: string; state: PinState; feature: string; family?: string }
 interface Feature { id: string; name: string; paths: string[] }
-interface Aspect { n: string; name: string; about: string; features: string[] }
+interface Capability { id: string; title: string; feature: string; pins?: string[]; words?: string[]; default?: boolean;
+  about?: string }
+interface Section { name: string; about?: string; capabilities: Capability[] }
+interface Aspect { n: string; name: string; about: string; sections: Section[] }
 interface Family { n: number; name: string; about: string; specs: Record<string, string> }
-interface Atlas { aspects: Aspect[]; features: Feature[]; experience: Family[]; pins: { files: Record<string, string>;
+interface Atlas { features: Feature[]; experience: Family[]; pins: { files: Record<string, string>;
   describes: Record<string, string> } }
 interface Behaviour { describe: string; feature: string; family?: string; pins: Pin[]; words: Set<string> }
 type Placed = ReturnType<typeof PlanningInstruments.placed>[number];
@@ -33,6 +35,16 @@ export class FeatureMap {
   static readonly out = 'doc/architecture/feature-map.md';
   static read(): Atlas {
     return JSON.parse(readFileSync('doc/architecture/features.json', 'utf8')) as Atlas;
+  }
+  // The tree: aspects, their sections, each section's capabilities (doc/architecture/feature-map.json).
+  static tree(): Aspect[] {
+    return (JSON.parse(readFileSync('doc/architecture/feature-map.json', 'utf8')) as { aspects: Aspect[] }).aspects;
+  }
+  static capabilities(): Capability[] { return this.tree().flatMap(a => a.sections.flatMap(s => s.capabilities)); }
+  // The capability a row of the register is on: of its feature's, the first whose words it says, else the default.
+  static placed(row: { what: string; feature: string }, caps: Capability[]): Capability | undefined {
+    const of = caps.filter(c => c.feature === row.feature), text = row.what.toLowerCase();
+    return of.find(c => (c.words ?? []).some(w => text.includes(w))) ?? of.find(c => c.default);
   }
   // The architectural layers a feature's paths are in (AGENTS.md: Kyr the language; the runtime; the generic player;
   // the setting), read from where they are.
@@ -111,35 +123,47 @@ export class FeatureMap {
         pins: of, words: this.words(`${first.describe} ${of.map(p => p.name).join(' ')}`) };
     });
   }
-  // Everything composed: the tree, and the negative space (the owner: "flush out negative space in the design"),
-  // with the stories the pins imply that no row of the register has asked for.
+  // Everything composed, capability by capability, and the negative space (the owner: "flush out negative space in
+  // the design"): capabilities named and neither built nor asked for, those pinned that no row asks for (a request to
+  // file, under the capability's own title), those asked for that no pin proves, and the pins not yet met.
   static data() {
-    const atlas = this.read(), pins = this.pins(atlas), rows = PlanningInstruments.placed();
-    const all = RegisterTickets.rows(RegisterTickets.text()), behaviours = this.behaviours(pins);
-    const features = atlas.features.map(f => {
-      const live = rows.filter(r => r.feature === f.id), defects = live.filter(r => r.kind === 'defect');
-      return { id: f.id, name: f.name, layers: this.layers(f),
-        behaviours: behaviours.filter(b => b.feature === f.id).map(b => ({ describe: b.describe, family: b.family,
-          pins: b.pins.map(p => ({ name: p.name, state: p.state })) })),
-        defects: { live: defects.length, high: defects.filter(r => PlanningInstruments.high(r)).map(r => this.row(r)) },
-        asks: live.filter(r => r.kind !== 'defect').map(r => this.row(r)) };
-    });
-    const implied = behaviours.filter(b => !all.some(r => this.close(this.near(this.words(r.what), b.words))))
-      .map(b => ({ feature: b.feature, family: b.family,
-      story: this.story(b.describe), from: b.describe, acceptance: b.pins.map(p => `${this.mark(p.state)} ${p.name}`) }));
-    const requests = rows.filter(r => r.kind !== 'defect').map(r => ({ ...this.row(r), feature: r.feature,
-      near: this.nearest(r, pins)?.describe }));
-    return { aspects: atlas.aspects.map(a => ({ n: a.n, name: a.name, about: a.about,
-      features: a.features.map(id => features.find(f => f.id === id)!) })),
+    const atlas = this.read(), pins = this.pins(atlas), rows = PlanningInstruments.placed(), caps = this.capabilities();
+    const behaviours = this.behaviours(pins), byId = new Map(atlas.features.map(f => [f.id, f]));
+    const ctx = { rows, behaviours, byId, at: new Map(rows.map(r => [r.id, this.placed(r, caps)?.id])) };
+    const tree = this.tree().map(a => ({ n: a.n, name: a.name, about: a.about, sections: a.sections.map(s => ({
+      name: s.name, about: s.about, capabilities: s.capabilities.map(c => this.composed(c, ctx)) })) }));
+    const all = tree.flatMap(a => a.sections.flatMap(s => s.capabilities.map(c => ({ ...c, aspect: a.n,
+      section: s.name }))));
+    return { aspects: tree,
       families: atlas.experience.map(e => ({ n: e.n, name: e.name, about: e.about,
         specs: behaviours.filter(b => b.family === e.name).length })),
-      counts: { pins: pins.length, met: pins.filter(p => p.state === 'met').length,
+      counts: { capabilities: all.length, pins: pins.length, met: pins.filter(p => p.state === 'met').length,
         missing: pins.filter(p => p.state === 'missing').length, unwritten: pins.filter(p => p.state === 'unwritten').length,
         experience: pins.filter(p => p.family).length, rows: rows.length,
         defects: rows.filter(r => r.kind === 'defect').length },
-      negative: { unpinned: atlas.features.filter(f => !pins.some(p => p.feature === f.id)).map(f => f.id),
-        unanswered: requests.filter(r => !r.near), answered: requests.filter(r => r.near), implied,
+      negative: {
+        unbuilt: all.filter(c => !c.behaviours.length && !c.asks.length && !c.defects.live)
+          .map(c => ({ id: c.id, title: c.title,
+          section: c.section })),
+        unasked: all.filter(c => c.behaviours.length && !c.asks.length)
+          .map(c => ({ id: c.id, title: c.title, section: c.section,
+          acceptance: c.behaviours.flatMap(b => b.pins.map(p => `${this.mark(p.state)} ${p.name}`)) })),
+        unpinned: all.filter(c => !c.behaviours.length && c.asks.length)
+          .map(c => ({ id: c.id, title: c.title, section: c.section,
+          asks: c.asks })),
+        unplaced: behaviours.filter(b => !caps.some(c => (c.pins ?? []).includes(b.describe))).map(b => b.describe),
         open: pins.filter(p => p.state !== 'met').map(p => ({ ...p })) } };
+  }
+  // One capability composed: the pins it holds, and the live rows placed on it, by kind.
+  static composed(c: Capability, ctx: { rows: Placed[]; behaviours: Behaviour[]; byId: Map<string, Feature>;
+    at: Map<string, string | undefined> }) {
+    const live = ctx.rows.filter(r => ctx.at.get(r.id) === c.id), defects = live.filter(r => r.kind === 'defect');
+    const held = ctx.behaviours.filter(b => (c.pins ?? []).includes(b.describe)), f = ctx.byId.get(c.feature);
+    return { id: c.id, title: c.title, feature: c.feature, layers: f ? this.layers(f) : [],
+      behaviours: held.map(b => ({ describe: b.describe, family: b.family,
+        pins: b.pins.map(p => ({ name: p.name, state: p.state })) })),
+      defects: { live: defects.length, high: defects.filter(r => PlanningInstruments.high(r)).map(r => this.row(r)) },
+      asks: live.filter(r => r.kind !== 'defect').map(r => this.row(r)) };
   }
   static row(r: Placed) {
     return { id: r.id, pri: r.pri, kind: r.kind, slice: r.slice, what: this.short(r.what, 160) };
@@ -151,43 +175,41 @@ export class FeatureMap {
   }
   static page(): string {
     const d = this.data(), c = d.counts, out = ['# Feature map', '',
-      'Generated by `bun scripts/feature-map.ts --write` from doc/architecture/features.json (aspects, features, the',
-      'feature pins\' places and the experience families), test/features, the experience pins and the register. Do not',
-      'edit. (The Atlas is the design\'s own: the colours and opportunities of the page, doc/design/ATLAS.md.)', '',
-      `${d.aspects.length} aspects, ${d.aspects.flatMap(a => a.features).length} features; ${c.pins} pins (${c.met} met, `
-      + `${c.missing} missing, ${c.unwritten} unwritten; ${c.experience} of them experience pins, in ${d.families.length}`
-      + ` families); ${c.rows} live rows, ${c.defects} of them defects. ✓ met · ✗ missing · ○ unwritten.`, ''];
+      'Generated by `bun scripts/feature-map.ts --write` from doc/architecture/feature-map.json (the tree: aspects,',
+      'sections, capabilities), doc/architecture/features.json (each row\'s feature, the pins\' places, the experience',
+      'families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design\'s own: the',
+      'page\'s colours and opportunities.)', '',
+      `${d.aspects.length} aspects, ${c.capabilities} capabilities; ${c.pins} pins (${c.met} met, ${c.missing} missing, `
+      + `${c.unwritten} unwritten; ${c.experience} experience pins in ${d.families.length} families); ${c.rows} live `
+      + `rows, ${c.defects} of them defects. ✓ met · ✗ missing · ○ unwritten.`, ''];
     for (const a of d.aspects) {
       out.push(`## ${a.n}. ${a.name}: ${a.about}`, '');
-      for (const f of a.features) {
-        out.push(`### ${f.name} \`${f.id}\` · ${f.layers.join(', ')}`, '', `Pins: ${f.behaviours.flatMap(b => b.pins).length}`
-          + ` · defects: ${f.defects.live} live, ${f.defects.high.length} P0/P1`, '');
-        for (const b of f.behaviours) {
-          out.push(`- ${b.family ? `[${b.family}] ` : ''}${b.describe}`, ...b.pins.map(p => `  - ${this.mark(p.state)} ${p.name}`));
+      for (const s of a.sections) {
+        out.push(`### ${s.name}`, '');
+        for (const k of s.capabilities) {
+          out.push(`- **${k.title}** · ${k.behaviours.flatMap(b => b.pins).length} pins · ${k.defects.live} defects`
+            + ` · ${k.asks.length} asks`, ...k.behaviours.flatMap(b => b.pins.map(p => `  - ${this.mark(p.state)} ${p.name}`)),
+          ...k.asks.map(r => `  - ${r.kind} ${r.id} ${r.pri}: ${this.short(r.what, 100)}`));
         }
-        out.push(...f.defects.high.map(r => `- defect ${r.id} ${r.pri}: ${this.short(r.what)}`),
-          ...f.asks.map(r => `- ${r.kind} ${r.id} ${r.pri}: ${this.short(r.what)}`), '');
+        out.push('');
       }
     }
     const n = d.negative;
-    return [...out, '## Negative space', '', `### Features no pin holds (${n.unpinned.length})`, '',
-      ...n.unpinned.map(id => `- \`${id}\``), '',
-      `### Stories the pins imply, not yet asked for (${n.implied.length})`, '',
-      'Each a request to file, its acceptance the pins that already prove or want it.', '',
-      ...n.implied.flatMap(i => [`- **${i.story}** \`${i.feature}\`${i.family ? ` [${i.family}]` : ''}`,
-        ...i.acceptance.map(a => `  - ${a}`)]), '',
-      `### Requests no pin answers (${n.unanswered.length} of ${n.unanswered.length + n.answered.length})`, '',
-      ...n.unanswered.map(r => `- ${r.id} ${r.pri} ${r.kind} \`${r.feature}\`: ${this.short(r.what, 100)}`), '',
-      'Requests with a pin near them in words (a candidate to extend, never a claim that it is met):', '',
-      ...n.answered.map(r => `- ${r.id} \`${r.feature}\` → *${r.near}*`), '',
+    return [...out, '## Negative space', '',
+      `### Capabilities neither built nor asked for (${n.unbuilt.length})`, '', ...n.unbuilt.map(k => `- ${k.title} (${k.section})`), '',
+      `### Capabilities pinned that no request asks for (${n.unasked.length})`, '',
+      'Each a request to file under its title, its acceptance the pins that prove or want it.', '',
+      ...n.unasked.flatMap(k => [`- **${k.title}** (${k.section})`, ...k.acceptance.map(a => `  - ${a}`)]), '',
+      `### Capabilities asked for that no pin proves (${n.unpinned.length})`, '',
+      ...n.unpinned.map(k => `- **${k.title}** (${k.section}): ${k.asks.map(r => r.id).join(', ')}`), '',
       `### Pins not yet met (${n.open.length})`, '',
-      ...n.open.map(p => `- ${this.mark(p.state)} ${p.describe}: ${p.name} \`${p.feature}\``), ''].join('\n');
+      ...n.open.map(p => `- ${this.mark(p.state)} ${p.name} (${p.describe})`), ''].join('\n');
   }
-  // The features as a grouped list, by aspect, with their counts only.
+  // The capabilities as a grouped list, by aspect and section, with their counts only.
   static list(): string {
-    return this.data().aspects.flatMap(a => [`${a.n}. ${a.name}`, ...a.features.map(f =>
-      `  ${f.id.padEnd(14)} pins ${String(f.behaviours.flatMap(b => b.pins).length).padStart(3)} · defects `
-      + `${String(f.defects.live).padStart(3)} · asks ${f.asks.length}`)]).join('\n');
+    return this.data().aspects.flatMap(a => [`${a.n}. ${a.name}`, ...a.sections.flatMap(s => [`  ${s.name}`,
+      ...s.capabilities.map(k => `    ${k.title.slice(0, 44).padEnd(45)} pins ${String(k.behaviours.flatMap(b => b.pins)
+        .length).padStart(3)} · defects ${String(k.defects.live).padStart(3)} · asks ${k.asks.length}`)])]).join('\n');
   }
   static run(args: string[]): number {
     if (args.includes('--list')) { console.log(this.list()); return 0; }

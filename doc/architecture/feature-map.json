@@ -1,0 +1,974 @@
+{
+ "about": "The feature map's tree (the owner, 24 November: 'think a bit more encyclopedically about the sections'; names as feature titles, specific capabilities): aspects, their sections, each section's capabilities. A capability holds the pins named here, and the register's rows on its feature (features.json) whose words it lists, else its feature's default capability's. Read by scripts/feature-map.ts.",
+ "aspects": [
+  {
+   "n": "I",
+   "name": "Play",
+   "about": "what a player does",
+   "sections": [
+    {
+     "name": "Scenes and their acts",
+     "capabilities": [
+      {
+       "id": "scene-acts",
+       "title": "Acts offered in a scene",
+       "feature": "scene",
+       "default": true
+      },
+      {
+       "id": "looking",
+       "title": "Looking, searching and reading a place",
+       "feature": "discovery",
+       "pins": [
+        "a search",
+        "World › Locations that reward reading"
+       ],
+       "words": [
+        "search",
+        "look",
+        "examine",
+        "read"
+       ],
+       "default": true
+      },
+      {
+       "id": "mechanisms",
+       "title": "Puzzles and mechanisms",
+       "feature": "discovery",
+       "pins": [
+        "World › Environmental interaction and puzzles"
+       ],
+       "words": [
+        "puzzle",
+        "mechanism",
+        "lock",
+        "lever",
+        "riddle",
+        "door"
+       ]
+      },
+      {
+       "id": "investigation",
+       "title": "Troubles with more than one cause",
+       "feature": "discovery",
+       "pins": [
+        "Choice & Consequence › A trouble with more than one cause"
+       ],
+       "words": [
+        "cause",
+        "clue",
+        "investigat"
+       ]
+      },
+      {
+       "id": "pastimes",
+       "title": "Pastimes and pleasures",
+       "feature": "scene",
+       "pins": [
+        "a hand at the window table",
+        "a letter home",
+        "an evening at the Stone Horn",
+        "the fiddle over the settle",
+        "the fox's earth below the hill-path",
+        "the old woman's riddle",
+        "the point beyond the sea-wall",
+        "three pleasant things on Edderwick's green"
+       ],
+       "words": [
+        "pleasure",
+        "pastime",
+        "song",
+        "game",
+        "cards"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Conversation",
+     "capabilities": [
+      {
+       "id": "talk-focus",
+       "title": "Conversation held to its focus",
+       "feature": "talk",
+       "pins": [
+        "Interface › A conversation held to its focus",
+        "what is said, as attention holds it"
+       ],
+       "default": true
+      },
+      {
+       "id": "talk-checks",
+       "title": "Checks put in conversation",
+       "feature": "talk",
+       "pins": [
+        "Character › Stat checks woven into narrative moments"
+       ],
+       "words": [
+        "persuad",
+        "check",
+        "haggle",
+        "deceiv"
+       ]
+      },
+      {
+       "id": "news",
+       "title": "News and rumour",
+       "feature": "talk",
+       "words": [
+        "news",
+        "rumour",
+        "word of",
+        "hearsay"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Conflict",
+     "capabilities": [
+      {
+       "id": "engagements",
+       "title": "Engagements and warnings",
+       "feature": "fight",
+       "pins": [
+        "Conflict › An engagement answered",
+        "Conflict › Transparent stakes"
+       ],
+       "words": [
+        "warn",
+        "danger",
+        "engag",
+        "odds",
+        "reckon"
+       ]
+      },
+      {
+       "id": "fights",
+       "title": "Fights that cost",
+       "feature": "fight",
+       "pins": [
+        "Conflict › Fights that cost",
+        "Conflict › Combat with outcomes, costs and consequences"
+       ],
+       "default": true
+      },
+      {
+       "id": "spellcasting",
+       "title": "Spellcasting",
+       "feature": "spells",
+       "pins": [
+        "Conflict › Spells and abilities with mechanics and words"
+       ],
+       "default": true
+      }
+     ]
+    },
+    {
+     "name": "Travel",
+     "capabilities": [
+      {
+       "id": "journeys",
+       "title": "Journeys over known ways",
+       "feature": "travel",
+       "pins": [
+        "World › Non-linear traversal",
+        "the laboratory walked straight at its aim",
+        "the laboratory walked curious"
+       ],
+       "default": true
+      },
+      {
+       "id": "wayfinding",
+       "title": "Wayfinding and bearings",
+       "feature": "travel",
+       "pins": [
+        "World › Navigation aid",
+        "a way's bearing under the corn-store"
+       ],
+       "words": [
+        "bearing",
+        "map",
+        "wayfind",
+        "compass",
+        "lost"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Undertakings",
+     "capabilities": [
+      {
+       "id": "gold-thread",
+       "title": "Aims and the gold thread",
+       "feature": "undertakings",
+       "pins": [
+        "World › The gold never goes round",
+        "the aim followed and its next step",
+        "the act that matters, among the four and gold (CL-33)",
+        "World › An aim led from inside",
+        "World › An aim that comes true outside",
+        "World › The step toward another level",
+        "an aim left unmet",
+        "a barred way on, with a chandler down the lane"
+       ],
+       "words": [
+        "gold",
+        "aim",
+        "follow"
+       ],
+       "default": true
+      },
+      {
+       "id": "jobs",
+       "title": "Jobs, debts and payoffs",
+       "feature": "undertakings",
+       "pins": [
+        "Choice and consequence › A job followed through its payoff and on",
+        "the debt, as each country sets it"
+       ],
+       "words": [
+        "job",
+        "debt",
+        "notice",
+        "errand",
+        "reward",
+        "paid"
+       ]
+      },
+      {
+       "id": "notes",
+       "title": "Notes, journal and recap",
+       "feature": "undertakings",
+       "pins": [
+        "Interface › Journal and recap",
+        "Interface › The first day's load"
+       ],
+       "words": [
+        "notes",
+        "journal",
+        "recap",
+        "lead"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "The company",
+     "capabilities": [
+      {
+       "id": "companions",
+       "title": "Companions and hirelings",
+       "feature": "company",
+       "pins": [
+        "at the inn"
+       ],
+       "words": [
+        "companion",
+        "hire",
+        "recruit",
+        "join"
+       ],
+       "default": true
+      },
+      {
+       "id": "progression",
+       "title": "Levels and growth",
+       "feature": "company",
+       "pins": [
+        "Character › Skill and attribute progression"
+       ],
+       "words": [
+        "level",
+        "experience",
+        "train",
+        "advance"
+       ]
+      },
+      {
+       "id": "belongings",
+       "title": "Belongings with a history",
+       "feature": "company",
+       "pins": [
+        "Character › Inventory with textual presence"
+       ],
+       "words": [
+        "item",
+        "pack",
+        "carr",
+        "equip",
+        "inventory"
+       ]
+      },
+      {
+       "id": "lodging",
+       "title": "Lodging and rest",
+       "feature": "trade",
+       "pins": [
+        "a room of one's own at the inn"
+       ],
+       "words": [
+        "inn",
+        "room",
+        "rest",
+        "sleep",
+        "lodg"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Trade",
+     "capabilities": [
+      {
+       "id": "markets",
+       "title": "Markets and prices",
+       "feature": "trade",
+       "words": [
+        "buy",
+        "sell",
+        "price",
+        "store",
+        "shop",
+        "market"
+       ],
+       "default": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": "II",
+   "name": "World",
+   "about": "what there is to meet",
+   "sections": [
+    {
+     "name": "The land",
+     "capabilities": [
+      {
+       "id": "country",
+       "title": "Countries and regions",
+       "feature": "world",
+       "words": [
+        "region",
+        "country",
+        "hex",
+        "terrain",
+        "road",
+        "march",
+        "land"
+       ],
+       "default": true
+      },
+      {
+       "id": "weather",
+       "title": "Weather, sky and season",
+       "feature": "world",
+       "words": [
+        "weather",
+        "sky",
+        "season",
+        "rain",
+        "snow",
+        "night"
+       ]
+      },
+      {
+       "id": "planes",
+       "title": "The planes",
+       "feature": "planes",
+       "default": true
+      }
+     ]
+    },
+    {
+     "name": "Settlements",
+     "capabilities": [
+      {
+       "id": "towns",
+       "title": "Towns and their frames",
+       "feature": "world",
+       "pins": [
+        "the first town's frame"
+       ],
+       "words": [
+        "town",
+        "green",
+        "quarter",
+        "street",
+        "village"
+       ]
+      },
+      {
+       "id": "town-lives",
+       "title": "Townsfolk with lives",
+       "feature": "consequence",
+       "pins": [
+        "the first town's people, between visits"
+       ],
+       "words": [
+        "between visits",
+        "townsfolk",
+        "lives"
+       ]
+      },
+      {
+       "id": "goings-on",
+       "title": "A town's own goings-on",
+       "feature": "time",
+       "pins": [
+        "a town's own goings-on, moved on by the days"
+       ],
+       "words": [
+        "goings-on",
+        "afoot",
+        "market day",
+        "festival"
+       ]
+      },
+      {
+       "id": "threads",
+       "title": "Threads tying a town to its country",
+       "feature": "world",
+       "pins": [
+        "World › A town's threads tied to what the country holds"
+       ],
+       "words": [
+        "thread",
+        "tie"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Institutions",
+     "about": "the bodies people belong to, and what each lets a company do",
+     "capabilities": [
+      {
+       "id": "religion",
+       "title": "Religion and devotion",
+       "feature": "world",
+       "words": [
+        "church",
+        "chapel",
+        "temple",
+        "priest",
+        "god",
+        "devotion",
+        "belief",
+        "shrine",
+        "abbey",
+        "brothers",
+        "faith"
+       ]
+      },
+      {
+       "id": "learning",
+       "title": "Learning: colleges, libraries, scholars",
+       "feature": "world",
+       "words": [
+        "college",
+        "school",
+        "universit",
+        "library",
+        "scholar",
+        "books",
+        "collegium"
+       ]
+      },
+      {
+       "id": "guilds",
+       "title": "Guilds and crafts",
+       "feature": "world",
+       "pins": [
+        "the tinker kit, five occasions in Iscoed"
+       ],
+       "words": [
+        "guild",
+        "craft",
+        "apprentice",
+        "tinker",
+        "smith",
+        "making",
+        "mend"
+       ]
+      },
+      {
+       "id": "law",
+       "title": "Law, lordship and tolls",
+       "feature": "world",
+       "words": [
+        "reeve",
+        "court",
+        "law",
+        "toll",
+        "tithe",
+        "lord",
+        "tax",
+        "dominion",
+        "consistory",
+        "magistrate"
+       ]
+      },
+      {
+       "id": "companies",
+       "title": "Orders, troupes and companies",
+       "feature": "world",
+       "words": [
+        "order",
+        "players",
+        "circus",
+        "troupe",
+        "fellowship"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Places to explore",
+     "capabilities": [
+      {
+       "id": "dungeons",
+       "title": "Dungeons and sites",
+       "feature": "adventures",
+       "pins": [
+        "the reference journey under Porthalen",
+        "under the town, by the gold"
+       ],
+       "words": [
+        "dungeon",
+        "barrow",
+        "adit",
+        "crypt",
+        "undercroft",
+        "site",
+        "ruin",
+        "cave",
+        "level"
+       ],
+       "default": true
+      },
+      {
+       "id": "adventures",
+       "title": "Adventures and their endings",
+       "feature": "adventures",
+       "pins": [
+        "Choice & Consequence › Multiple endings",
+        "the rain-gourd at Palla"
+       ],
+       "words": [
+        "ending",
+        "adventure"
+       ]
+      },
+      {
+       "id": "wonders",
+       "title": "Wonders and traps",
+       "feature": "world",
+       "pins": [
+        "wonders and traps"
+       ],
+       "words": [
+        "wonder",
+        "marvel",
+        "trap",
+        "hazard"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Creatures and peoples",
+     "capabilities": [
+      {
+       "id": "creatures",
+       "title": "Creatures with lore",
+       "feature": "creatures",
+       "pins": [
+        "Conflict › Creatures with lore"
+       ],
+       "default": true
+      },
+      {
+       "id": "peoples",
+       "title": "Peoples and ancestries",
+       "feature": "creation",
+       "words": [
+        "ancestry",
+        "people",
+        "elf",
+        "dwarf",
+        "halfling",
+        "folk"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Lore and history",
+     "capabilities": [
+      {
+       "id": "lore",
+       "title": "Lore, history and the codex",
+       "feature": "discovery",
+       "pins": [
+        "Prose › Codex of world lore"
+       ],
+       "words": [
+        "lore",
+        "history",
+        "codex",
+        "legend",
+        "encyclop"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": "III",
+   "name": "Simulation",
+   "about": "the world going on of itself",
+   "sections": [
+    {
+     "name": "Consequence",
+     "capabilities": [
+      {
+       "id": "choices",
+       "title": "Choices that change what follows",
+       "feature": "consequence",
+       "pins": [
+        "Choice & Consequence › Branching at multiple scales",
+        "Choice & Consequence › Visible consequence tracking"
+       ],
+       "default": true
+      },
+      {
+       "id": "standing",
+       "title": "Reputation and standing",
+       "feature": "consequence",
+       "pins": [
+        "Choice & Consequence › Reputation and relationship"
+       ],
+       "words": [
+        "reputation",
+        "standing",
+        "grateful",
+        "favour"
+       ]
+      },
+      {
+       "id": "bonds",
+       "title": "Bonds kept and come back to",
+       "feature": "consequence",
+       "pins": [
+        "a bond made, left and come back to"
+       ],
+       "words": [
+        "bond",
+        "promise",
+        "return"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Time",
+     "capabilities": [
+      {
+       "id": "days",
+       "title": "Days, hours and waiting",
+       "feature": "time",
+       "pins": [
+        "a wait told only as it ends",
+        "the day's turn, told"
+       ],
+       "default": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": "IV",
+   "name": "Experience",
+   "about": "how it is met",
+   "sections": [
+    {
+     "name": "Beginning",
+     "capabilities": [
+      {
+       "id": "title",
+       "title": "The title and Play",
+       "feature": "opening",
+       "pins": [
+        "Interface › Play",
+        "Interface › No long presses on the way in"
+       ],
+       "words": [
+        "title",
+        "play",
+        "continue",
+        "new game"
+       ],
+       "default": true
+      },
+      {
+       "id": "creation",
+       "title": "Character creation",
+       "feature": "creation",
+       "pins": [
+        "Character › Creation with meaningful differentiation",
+        "three callings in the laboratory"
+       ],
+       "default": true
+      },
+      {
+       "id": "openings",
+       "title": "Openings",
+       "feature": "opening",
+       "pins": [
+        "a new life begun under the fall in the old adit",
+        "the first town's green, by the life begun"
+       ],
+       "words": [
+        "opening",
+        "adit",
+        "first page",
+        "setting out"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "The page",
+     "capabilities": [
+      {
+       "id": "atlas",
+       "title": "The Atlas: marks and their witnesses",
+       "feature": "atlas",
+       "pins": [
+        "Interface › A likeness and its drawer agree",
+        "a mark on the page",
+        "a facet drawn is a promise the act keeps",
+        "the golden route keeps its promises",
+        "the laboratory's promises"
+       ],
+       "default": true
+      },
+      {
+       "id": "teaching",
+       "title": "What an act would teach",
+       "feature": "atlas",
+       "pins": [
+        "Interface › What an act would teach",
+        "what someone would tell"
+       ],
+       "words": [
+        "teach",
+        "learn",
+        "blue"
+       ]
+      },
+      {
+       "id": "rows",
+       "title": "Rows, lenses and the frame",
+       "feature": "page-ui",
+       "pins": [
+        "every row a lens draws has words and a target",
+        "Interface › Choices with clear feedback"
+       ],
+       "default": true
+      },
+      {
+       "id": "typed",
+       "title": "Free-form input",
+       "feature": "page-ui",
+       "pins": [
+        "Choice & Consequence › Free-form input"
+       ],
+       "words": [
+        "typed",
+        "parser",
+        "free-form"
+       ]
+      },
+      {
+       "id": "access",
+       "title": "Accessibility and readability",
+       "feature": "page-ui",
+       "pins": [
+        "Interface › Accessibility and readability"
+       ],
+       "words": [
+        "accessib",
+        "contrast",
+        "motion",
+        "keyboard",
+        "touch",
+        "screen reader"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Words",
+     "capabilities": [
+      {
+       "id": "narration",
+       "title": "Narration",
+       "feature": "prose",
+       "pins": [
+        "Prose › Second-person, present-tense narration",
+        "Prose › Sensory and atmospheric description",
+        "Prose › Consistent world logic"
+       ],
+       "default": true
+      },
+      {
+       "id": "voices",
+       "title": "Voices and dialogue",
+       "feature": "prose",
+       "pins": [
+        "Prose › Character voice and dialogue"
+       ],
+       "words": [
+        "voice",
+        "dialogue",
+        "says"
+       ]
+      }
+     ]
+    },
+    {
+     "name": "Pictures",
+     "capabilities": [
+      {
+       "id": "paintings",
+       "title": "Paintings and portraits",
+       "feature": "art",
+       "pins": [
+        "the painting a scene shows"
+       ],
+       "default": true
+      }
+     ]
+    },
+    {
+     "name": "The terminal",
+     "capabilities": [
+      {
+       "id": "terminal",
+       "title": "Playing in the terminal",
+       "feature": "terminal",
+       "default": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": "V",
+   "name": "Language",
+   "about": "how it is written",
+   "sections": [
+    {
+     "name": "Kyr and Deem",
+     "capabilities": [
+      {
+       "id": "forms",
+       "title": "Authoring forms and their lint",
+       "feature": "authoring",
+       "default": true
+      },
+      {
+       "id": "generation",
+       "title": "Generation and tables",
+       "feature": "authoring",
+       "words": [
+        "deem",
+        "table",
+        "generat",
+        "procgen",
+        "seed"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "n": "VI",
+   "name": "Platform",
+   "about": "what it stands on",
+   "sections": [
+    {
+     "name": "Saves and start-up",
+     "capabilities": [
+      {
+       "id": "saves",
+       "title": "Saving and loading",
+       "feature": "persistence",
+       "pins": [
+        "Interface › Save and load"
+       ],
+       "default": true
+      },
+      {
+       "id": "startup",
+       "title": "Start-up and loading",
+       "feature": "startup",
+       "pins": [
+        "a journey"
+       ],
+       "default": true
+      }
+     ]
+    },
+    {
+     "name": "The engine",
+     "capabilities": [
+      {
+       "id": "incremental",
+       "title": "Incremental computation",
+       "feature": "architecture",
+       "pins": [
+        "a commit that changes nothing",
+        "a part comparing a variable",
+        "a rule held idle by its failing part"
+       ],
+       "words": [
+        "incremental",
+        "ms ",
+        "cost",
+        "perf",
+        "kept"
+       ]
+      },
+      {
+       "id": "layers",
+       "title": "Architecture and layers",
+       "feature": "architecture",
+       "default": true
+      },
+      {
+       "id": "testing",
+       "title": "Testing instruments",
+       "feature": "testing",
+       "default": true
+      },
+      {
+       "id": "docs",
+       "title": "Documentation and the register",
+       "feature": "docs",
+       "default": true
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
