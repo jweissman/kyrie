@@ -30,14 +30,14 @@
    "floor": 15,
    "ceiling": 180
   },
+  "levels": {
+   "floor": 2
+  },
   "hexes": {
    "ceiling": 2
   },
   "ready": {
    "floor": 3
-  },
-  "levels": {
-   "floor": 2
   }
  },
  "ratchets": {
@@ -45,8 +45,9 @@
   "unwitnessed": 0,
   "variety": 6,
   "recurrence": 0,
-  "errand": 12,
-  "nowhere": 19,
-  "stranded": 32
+  "errand": 13,
+  "nowhere": 20,
+  "stranded": 32,
+  "handed": 63
  }
 }
