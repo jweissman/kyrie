@@ -14,7 +14,17 @@ export class Charge {
   static readonly meeting = 'origin__meeting';
   // The opening is the game before anything is done in it: a page drawn without what was last done (serve's, a look)
   // is not one.
-  static opening(campaign: { history: readonly unknown[] }): boolean { return !campaign.history.length; }
+  // So is a game in which nothing has been done but turning to someone and from them: what the opening charged the
+  // company with survives a conversation opened and closed, until its act is done (OR-303: turned to Nest, the gold on
+  // "Ask Nest what is wrong with the sea-gate" had gone, nothing done that it promised).
+  static opening(campaign: { history: readonly { action: string }[] }): boolean {
+    return campaign.history.every(e => Charge.attention.test(e.action));
+  }
+  static readonly attention = /^(talk_to|take_leave)\(/;
+  // Whether a page is the opening's: its first, or one only turned to someone on since (see opening).
+  static stands(arrival: string, campaign: { history: readonly { action: string }[] }): boolean {
+    return (arrival === 'opening' || arrival === 'stay') && Charge.opening(campaign);
+  }
   // The installations the charge is: the origin's, and the first aim's, where the origin brings the company into a
   // situation of the world's own (the held drove); none where the first aim is the origin's or the country's (kite's
   // road home), nor where the opening is a meeting on the road (kite's carter), told as the opening's pages tell it.
@@ -42,7 +52,7 @@ export class Charge {
   // The opening's glance: the charge's paragraphs, told whole, not held to the glance's three sentences (the incident
   // had been cut to "Porthalen came at first light", the rest held), and no one else's doings; the rest of the place
   // held for a look, after what the budget holds. Undefined where all of it is the charge's.
-  static first(at: { campaign: { history: readonly unknown[] }; told?: unknown; screen: Screen },
+  static first(at: { campaign: { history: readonly { action: string }[] }; told?: unknown; screen: Screen },
     lines: { id: string; text: string }[], presence: string[],
     paragraphs: (lines: { id: string; text: string }[]) => { text: string }[]): Opening | undefined {
     if (at.told || !Charge.opening(at.campaign)) { return undefined; }
@@ -83,8 +93,8 @@ export class Charge {
     const ours = cands.filter(c => [c.choice, c.command, c.subject].some(id => Charge.holds(id, charge)));
     const way = ours.find(c => c.exit);
     return ours.length ? ours.filter(c => !c.exit || c === way)
-      .map(c => c.whys.length || !Charge.holds(c.subject, new Set([Charge.origin])) ? c
-        : { ...c, whys: ['named' as const] }) : cands;
+      .map(c => c.whys.some(w => w !== 'talking') || !Charge.holds(c.subject, new Set([Charge.origin])) ? c
+        : { ...c, whys: [...c.whys, 'named' as const] }) : cands;
   }
 }
 interface Opening { budget: Budgeted; later: string[] }

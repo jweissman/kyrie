@@ -648,6 +648,12 @@
    "was": "defect",
    "pri": "P1",
    "why": "24 Nov, split from OR-311 (the owner's playtests, doc/design/playtest-2026-11-24.md): the opening dungeon's invitation across drawn countries is a commissioned outcome not yet met there, no observed failure of a claimed contract"
+  },
+  "OR-292": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, split from OR-302 at its close: no place mark has been observed to contradict what is offered there; what remains is the invariant extended to places, a commissioned check, not a violation of a claimed contract"
   }
  },
  "blockedBy": {

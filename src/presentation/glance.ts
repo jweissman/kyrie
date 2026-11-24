@@ -55,12 +55,12 @@ export class Glance {
       down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
     const cands = Affordances.of(scene, screen, reading);
     // At the opening the four are the charge's (see Charge); the place's lenses and ways hold the rest as ever.
-    const led = Charge.acts(cands, screen, arrival === 'opening' && Charge.opening(campaign));
+    const led = Charge.acts(cands, screen, Charge.stands(arrival, campaign));
     const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(led, s), cands: led,
       s });
     const held = TalkWeight.heldFor(campaign, Undertakings.heldFor(campaign, screen, picked));
     const acts = Charge.once(LedWords.with(campaign, HeldActs.with(held, HeldActs.follow(screen))),
-      arrival === 'opening' && Charge.opening(campaign) && Charge.of(screen).size > 0);
+      Charge.stands(arrival, campaign) && Charge.of(screen).size > 0);
     const ways = Promotion.ways(cands, acts, s), out = Threshold.leaving(campaign, screen, reading.named);
     // The aim this place is about, if one is; said on coming somewhere new, at the opening and on resuming, and when
     // the aims have changed, not on every page (the owner, OWN-53: restrained, and only what is truly held).
