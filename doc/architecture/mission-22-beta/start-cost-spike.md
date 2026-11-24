@@ -58,8 +58,33 @@ So lazy materialisation has two levels:
 
 Level 1 first, behind a spec that a seeded journey lazy and eager is the same history, screen by screen.
 
+## Can a module be deferred whole? (measured)
+
+Not as they stand. The big untouched modules each keep a small part in the starting town: their invitation (a
+teller, a notice, a door). The rest of each is away at its site.
+
+| Module | Entities in the starting town | Of |
+|---|---|---|
+| the howe | 26 | 605 |
+| the arcology | 1 | 442 |
+| the factors | 3 | 154 |
+| each word kit | 2–7 | about 60 |
+
+Deferring a module whole would take its rumours and notices out of the first town. The design that follows is a split
+of each kit into two parts:
+
+- a **hook**: what it puts where the company starts (the teller, the notice, the way in), installed at the start;
+- a **body**: everything at its site, installed on approach by the same late install Frontier uses for a country
+  beyond a march (`campaign.install(request, source, false, true)`; test/small/lazy-neighbours already proves a
+  country so installed is the same country whichever way it is reached, and across a save).
+
+The hook's references into the body (a teller's words naming the site, an aim's place) must resolve before the body
+is installed. They are names and places, never live facts, which is the contract to check.
+
+## Next spike
 ## Next spike
 ## Next spike
 
-Level 1 for one kit kind (the word kits, or the dens): installed on approach, with the eager-equals-lazy spec on the golden
-walk and the gold-follower; then measure the start again.
+The hook and body split for one kit kind (the word kits: about 60 entities each, 2–7 of them in town), the body
+installed on approach, with an eager-equals-lazy spec on the golden walk and the gold-follower; then measure the
+start again.
