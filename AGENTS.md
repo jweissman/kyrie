@@ -31,16 +31,22 @@ this help the player forget the interface and become interested in what happens 
   - name the architecture row that blocks a defect (a blocked defect is still a defect).
 - **Burn down before adding surface.** Prefer work that closes a row, with its test and evidence.
 - **Adventure branches' friction** (`doc/adventures/<id>/friction.md`) is carried into the register: checked against
-  main, deduplicated, given priority and verification.
+  main, deduplicated, given priority and verification. Integrating a branch includes mending its simple dead ends
+  (talk whose words are all it does, a softlock) by something taught, given or changed that later play reads.
 - **Three streams:**
   - Game: the experience, owned by the lead;
   - World: content and creative growth, a continuous stream;
   - Instruments: Kyr, Deem, testing and foundations, the maturity track. The maturity track lands only what advances
     its own direction.
-- **The feature atlas** is M22's instrument project: a behavioural map of the product, read top-down and run like a
-  test.
-  - Aspects are numbered I, II, III…; features under each carry a layer tag, with their pins, defects and ambitions.
-  - It shows the negative space and catches defects recorded as features.
+- **The feature map** is M22's instrument project: a behavioural map of the product, read top-down and run like a
+  test. ("Atlas" means only the design Atlas: the page's colours and opportunities.)
+  - Its tree is doc/architecture/feature-map.json: aspects (I, II, III…), sections, and capabilities titled as
+    features. Each capability holds its feature and experience pins, its rows, and the layers its code is in.
+  - `bun scripts/feature-map.ts --write` generates doc/architecture/feature-map.md. Its negative space shows
+    capabilities neither built nor asked for, pinned with no request, or asked for with no pin. A request is filed
+    under its capability's title.
+  - Common blockers go in register-kinds.json's blockedBy. Prefer the maturity work that retires the most rows at
+    once.
 
 ## Architecture rulings
 
@@ -51,6 +57,10 @@ this help the player forget the interface and become interested in what happens 
 - **The page invents no controls.** It plays the engine's rows, the lenses and the book; nothing else. Riddles and
   the like are fixed in the engine, for every client.
 - **Marks derive from the rows their drawer shows** (one derivation per lens), never from a parallel list.
+- **Facets are inferred from what Kyr does, never declared by authors.** An act that gives the company something to
+  know, teaches an ability, opens a way somewhere unvisited or hands something over is that opportunity. A topic
+  leading toward such an act is someone with something to tell. Authors write acts and consequences, never
+  indicators.
 - **Trust contracts,** enforced mechanically, not by example:
   - a pip has a witness;
   - the gold stays continuous to its destination;
@@ -66,6 +76,12 @@ this help the player forget the interface and become interested in what happens 
 
   An import lint holds a counted baseline: no new violations. SRD/Orsino is an installable fantasy-rules domain,
   distinct from the kernel and from Imbar; remaining core→fantasy edges stay visible.
+- **Packages, the direction:** `kyr-lang`, `kyrie-runtime` and `kyrie-player`.
+  - TB-09's engine-owned questions are the player package's contract. `web` becomes part of it in time.
+  - Assembly speaks in medallion layers: bronze sources, a silver conformed module, gold facts and views. Each
+    boundary is a contract (OR-408).
+  - Extract repeated obligations, not repeated shapes, and enforce a boundary before moving a directory.
+  - The order is in doc/architecture/mission-22-beta/platform-separation.md. Packages never interrupt the streams.
 - **Standing rulings:**
   - Random draws are keyed by stable identity, not one sequential stream. Replays go by semantic id, and cold
     captures are immutable.
@@ -96,8 +112,14 @@ this help the player forget the interface and become interested in what happens 
 
   A higher-rung failure becomes the cheapest reliable lower-rung test. Cold-agent success is never reported as human
   acceptance. No gate waits on an unfamiliar human player.
+- **The world gate:** `bun run quantity` (scripts/quantity/) holds the world's numbers, its symmetry with quality,
+  as the guard against regression in baseline behaviour. Its measures are combat density and fairness, the economy,
+  Atlas density, reach, situation variety, errands, the first dungeon and stranded content. A band passes because
+  the world is right, never by widening it; fix the measure only where its reading is unsound, and say why.
 - **Pay only for the semantics under test.** Use a Kyr fragment with a minimal prelude, not a world, when a fragment
-  proves it. Flows are checked headlessly against page objects; browser journeys are few.
+  proves it. Flows are checked headlessly against page objects; browser journeys are few. A tiny rule's spec must
+  not pull in the universe: rule packages with declared dependencies and a fragment harness that takes a declared
+  horizon (OR-407, blocked by BX-02).
 - **Feature pins:** `test/features/<pillar>/<feature>.pin.test.ts`, each a narrow scenario proving one behaviour.
   The pillars are prose, choice and consequence, character, conflict, world and exploration, interface and
   persistence.
@@ -125,7 +147,15 @@ this help the player forget the interface and become interested in what happens 
 - **Colour grammar:**
   - one small left indicator per opportunity (a colour, or a restrained OKLab gradient);
   - the title modestly tinted;
-  - supporting text and surfaces neutral.
+  - supporting text and surfaces neutral; words never in a hue (test/small/colour-grammar);
+  - nothing flashes or blinks a colour, the map least of all (test/small/no-flash).
+- **The starting world** invites at once:
+  - The first dungeon is near the first town: in its hex, or within two. It is deep: at least two levels of serious
+    resistance, each with a boss and a treasure cache, a companion to recruit there, and gear to find near a secure
+    entry.
+  - The first town is simple. Its jobs are uncovered by investigation (a check, a search, asking the right person),
+    not handed out.
+  - Situations come from a varied repertoire, not shallow errands (OR-310, OR-311).
 - **The conversation page** (the speaker's painting large, the dialogue beside it) is the one page rated right; keep
   it. Conversation is moving toward one scrolling page, then engine-owned dialectic (OR-149, OR-165).
 - **Unfolding menus only in a fight.** Elsewhere rows are one flat level. Long lists appear only in a store.
@@ -149,6 +179,9 @@ this help the player forget the interface and become interested in what happens 
 - **Kyr: fewer, stronger concepts.** Canonical vocabulary only; legacy is deleted; `bin/kyrie lint` is the gate.
 - **Data layout** (data/README.md): catalog, rules, regions, sites, institutions, situations, campaigns, generation,
   sources. A campaign installs modules in order; ids are namespaced per installation.
+  The direction (the owner, 24 November): two top-level parts an author can latch onto, `settings/` (campaign-level
+  metadata and tables) and `scenarios/` (specific adventures and stories), with a small global part for rule modules
+  and catalogs. It is researched before anything moves (doc/architecture/mission-22-beta/data-layout.md).
 - **Orsino:**
   - `data/catalog/orsino/` is generated (`bun bin/orsino-registry.ts catalog`);
   - a hand entry may replace a generated one only by naming the same `source.orsino`;
