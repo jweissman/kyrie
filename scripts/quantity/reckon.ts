@@ -88,6 +88,11 @@ export class Reckon {
   static ready(r: Readings): Reading {
     return this.dungeon(r, d => Number(d.companion) + Number(d.light) + Number(d.provisions));
   }
+  static levels(r: Readings): Reading { return this.dungeon(r, d => d.levels); }
+  // At the dungeon itself: someone to hire there, and a light, provisions and gear found by searching near its way in.
+  static outfit(r: Readings): Reading {
+    return this.dungeon(r, d => [d.at.companion, d.at.light, d.at.provisions, d.at.gear].filter(Boolean).length);
+  }
   static bands(r: Readings): Reading { return this.of(this.each(r.countries, c => c.seed, c => c.near)); }
   static treasure(r: Readings): Reading {
     const each = this.each(r.countries, c => c.seed, c => this.round(c.economy.worth / Math.max(1, c.economy.stock)));

@@ -23,7 +23,8 @@ const country = (seed: string, o: Partial<Read> = {}): Read => ({ seed, near: 12
     { band: 'fox', fell: 0, said: 'slight', warned: false }],
   economy: { day: 60, kit: 10, dearest: 50, ratio: 1, worth: 200, stock: 100, purse: 6, missing: [] },
   reach: { things: ['site:the barrow', 'wonder:the stone', 'pleasure:the hens'], cells: 7 },
-  dungeon: { name: 'the barrow', minutes: 90, hexes: 1, companion: true, light: true, provisions: false }, ...o });
+  dungeon: { name: 'the barrow', minutes: 90, hexes: 1, levels: 2, companion: true, light: true, provisions: false,
+    at: { companion: false, light: true, provisions: false, gear: true } }, ...o });
 const fixed: Readings = { golden: walk('golden walk', 'iscoed', { fights: 0, minutes: 600 }),
   gold: [walk('gold a1', 'a1'), walk('gold b2', 'b2')], countries: [country('a1'), country('b2', { near: 50 })],
   stranded: { creatures: ['golem'], works: [], scenarios: ['x', 'y'] } };
@@ -45,6 +46,8 @@ describe('the quantity gate', () => {
     expect(read('recurrence').note).toBe('1 of 3: rats');
     expect(read('nowhere').value).toBe(50);
     expect(read('ready').value).toBe(2);
+    expect(read('levels').value).toBe(2);
+    expect(read('outfit').value).toBe(2);
     expect(read('stranded').value).toBe(3);
     expect(read('identity').value).toBe(50);
   });
