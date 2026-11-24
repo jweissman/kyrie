@@ -31,10 +31,12 @@ export class CompanyChapters {
     return { id: 'ancestries', title: 'Ancestries', intro: ['A companion\'s ancestry adds to their qualities, decides which '
       + 'callings are open to them, and gives the traits they are born with.'], entries };
   }
+  // A calling's facts say no gold: Orsino's is paid to no one, and a life's coin is its origin's and its trade's
+  // (OR-257, OR-270: the bard's "Gold 25" had stood here against a purse of 13 coin).
   static callings(): Section {
     const entries = Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id, c]): Entry => ({
       id: `class:${id}`, title: c.name, status: HandbookStatus.of(c), kind: c.spellcasting ? `calling; casts with ${c.spellcasting.attribute}` : 'calling',
-      facts: [['Hit die', `d${c.hitDie}`], ['Qualities', HandbookText.attributes(c.attributes)], ['Gold', `${c.gold}`],
+      facts: [['Hit die', `d${c.hitDie}`], ['Qualities', HandbookText.attributes(c.attributes)],
         ['Weapons', HandbookText.proficiency(c.proficiencies.weapons)], ['Armour', HandbookText.proficiency(c.proficiencies.armor)],
         ...c.startingGear?.length ? [['Carries from the start', c.startingGear.map(g => Canon.items[g]?.name ?? g).join(', ')] as [string, string]] : [],
         ...c.skills?.length ? [['Skills', c.skills.map(s => Canon.skills[s]?.name ?? s).join(', ')] as [string, string]] : [],
@@ -89,16 +91,17 @@ export class CompanyChapters {
         intro: [...meaning.life ? [meaning.life] : [], `Brings ${meaning.skills?.length ? meaning.skills.map(s => Canon.skills[s]?.name ?? s).join(' and ').toLowerCase() : 'no skill'}`
           + `${meaning.gear?.length ? `, carries ${meaning.gear.map(g => Canon.items[g]?.name ?? g).join(', ').toLowerCase()}` : ''}`
           + `${meaning.channel ? `, and knows someone who hears news ${CompanyChapters.heard[meaning.channel]}` : ''}.`],
-        table: { head: ['Background', 'Qualities', 'Gold', 'For', 'Brings', 'Status'],
+        // Its coin as the purse is paid it, a coin for every ten of Orsino's gold (Canon.coins, as Overlays.coins).
+        table: { head: ['Background', 'Qualities', 'Coin', 'For', 'Brings', 'Status'],
           rows: ids.map(id => { const b = Canon.backgrounds[id]!; return [b.name, HandbookText.attributes(b.attributes),
-            String(b.gold),
+            String(Canon.coins(b.gold)),
             b.requiredClass ? Canon.classes[b.requiredClass]?.name ?? b.requiredClass : 'anyone',
             [...(b.skills ?? []).map(s => Canon.skills[s]?.name ?? s), ...(b.gear ?? []).map(g => Canon.items[g]?.name ?? g)].join(', ') || '—',
             HandbookStatus.label(HandbookStatus.of(b))]; }),
           ids: ids.map(id => `background:${id}`), statuses: ids.map(id => HandbookStatus.of(Canon.backgrounds[id]!)) } };
     });
-    return { id: 'backgrounds', title: 'Backgrounds', intro: ['Where a companion comes from: Orsino\'s scores and gold for '
-      + 'each, and what the kind of background means in Kyr. A background marked "for" one calling is open only to it.'], sections };
+    return { id: 'backgrounds', title: 'Backgrounds', intro: ['Where a companion comes from: Orsino\'s scores for each, the coin '
+      + 'it puts in the purse (a tenth of Orsino\'s gold), and what the kind of background means in Kyr. A background marked "for" one calling is open only to it.'], sections };
   }
   // The twelve signs of Imbar's sky, each with its month, what is said of those born under it, and the gifts everyone
   // born under it has (OR-89, OR-117): creation sets this entry beside the sign considered.

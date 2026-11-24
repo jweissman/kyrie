@@ -184,6 +184,10 @@ export class Canon {
     { kyr: professions.professions as unknown as Record<string, KyrProfession>,
       forms: forms.forms as Record<string, Forms> });
   static readonly backgroundKinds = (backgrounds as unknown as BackgroundTables).backgroundKindMeaning.groups;
+  // Orsino prices adventuring in tens of gold pieces; Kyr's local economy prices a meal at two coins. A background's
+  // gold is paid in the purse at a coin for every ten (Overlays.coins), and the reference says it so (OR-270).
+  static readonly coinScale = 10;
+  static coins(gold: number): number { return Math.round(gold / this.coinScale); }
   // A body's record (a species', a device's), by its id or an old name for it (aliases.json: fire_elemental is
   // elemental/fire_element), or a kind composed of a base and what varies it (golem/glass): the base, called by the
   // variations' words, living where the base and they say, the variations made with it (the owner, 6 November: one

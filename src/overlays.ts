@@ -38,9 +38,9 @@ export class Overlays {
       .map(id => [id, this.get(id)]);
   }
   static gearId(creatureId: string, kind: string): string { return `${creatureId}__${kind}`; }
-  // Orsino prices adventuring in tens of gold pieces; Kyr's local economy prices a meal at two coins.
-  static readonly coinScale = 10;
-  static coins(o: Overlay): number { return Math.round(o.gold / this.coinScale); }
+  // A coin for every ten of Orsino's gold pieces (Canon.coins).
+  static readonly coinScale = Canon.coinScale;
+  static coins(o: Overlay): number { return Canon.coins(o.gold); }
   // Conflicts are errors: wrong role, a class requirement the character lacks, unknown gear.
   static validate(context: { classId?: string; backgroundId?: string; professionId?: string }, who: string) {
     for (const [field, role] of [['backgroundId', 'background'], ['professionId', 'profession']] as const) {
