@@ -51,7 +51,7 @@ export class NoviceFights {
     return tally;
   }
   static declined(n: number): Tally { return { ...this.empty(), trials: n, declined: n }; }
-  private static battle(setup: Setup, seed: string): Battle {
+  static battle(setup: Setup, seed: string): Battle {
     const store = new CreatureStore(structuredClone([...setup.company, ...setup.foes]));
     return Battle.encounter(store, [...setup.company.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...setup.foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))],
