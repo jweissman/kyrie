@@ -1,13 +1,14 @@
 {
  "ci": {
-  "slice": 67,
-  "breaches": 13
+  "slice": 65,
+  "breaches": 0
  },
  "local": {
-  "slice": 67,
-  "first": 7258,
+  "slice": 65,
+  "first": 4927,
   "turn": 121,
-  "breaches": 13,
-  "ci": 10.3
+  "breaches": 0,
+  "ci": 10.3,
+  "decision": 28
  }
 }
