@@ -125,6 +125,7 @@ Each measure is one of three kinds:
 | Measure | First reading | Now | Holds |
 |---|---|---|---|
 | Fights per game hour | 0.05 / 0.26 / 0.67 / 0.05 | 0.05 / 0.26 / 0.67 / 0.42 | no: the golden walk (OR-321) |
+| Return expeditions that meet a fight and bring something home | (new) | 0 | no: thorn's second trip dies at the vault's keeper, asked (OR-321) |
 | Bands near the start | 20 / 26 / 31 | 20 / 26 / 31 | yes |
 | Bands that can kill, asked before | 58% | 100% (43 of 43, judged once) | yes (OR-322 closed; the census's trials alone: 3, OR-410) |
 | A day's coin | 21–68× (every valuable within reach) | 1.71 / 2.19 / 1.18 (the great works' treasure, the ore, a fine coat for sale) | yes (OR-323 closed) |
