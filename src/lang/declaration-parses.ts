@@ -58,10 +58,21 @@ export class DeclarationParses {
         || read.sources.some((t, j) => t !== split.chunks[missing[j]!]!.text)) { return undefined; }
       const made = new Map(missing.map((i, j) => [i, read.fields[j]!]));
       for (const [i, f] of made) { this.remember(keys[i]!, structuredClone(f)); }
-      const fields = keys.map((k, i) => made.get(i) ?? structuredClone(this.kept.get(k) as Field));
+      const fields = keys.map((k, i) => this.placedAt(made.get(i) ?? structuredClone(this.kept.get(k) as Field), text,
+        split.chunks[i]!.at));
       return DeclaredValues.during(declared, () => ModuleMade.of({ id: read.id, name: read.name, fields,
         starts: split.chunks.map(c => c.at) }, (i, run) => this.at(text, split.chunks[i]!.at, run)));
     } catch { return undefined; }
+  }
+  // A Situation keeps where it was written as its declaration's start (SemanticRecords.span): split, that is where
+  // its part begins in the whole text, not in the text the part was read in (a world's region, which holds every
+  // first town's trouble, is read split; parsed whole for it, the start would lose what AX-04 won).
+  private static placedAt(field: Field, text: string, start: number): Field {
+    const f = field as { field?: string; value?: { span?: { line: number; column: number } } };
+    if (f.field !== 'situation' || !f.value?.span) { return field; }
+    const before = text.slice(0, start).split('\n');
+    f.value.span = { line: before.length, column: before.at(-1)!.length + 1 };
+    return field;
   }
   // An error in a declaration of a text split, said with the line and column it begins at in the text.
   private static at<T>(text: string, start: number, run: () => T): T {
