@@ -16,6 +16,6 @@
  },
  "hob_folk_captive": {
   "__no_id": true,
-  ">name": "=another(1d1000, defined('taken') ? #taken : nihil, 'human', 'he:shepherd_son')"
+  ">name": "=apart(another(1d1000, nihil, 'human', 'he:shepherd_son'), defined('taken') ? #taken : nihil, 'human', 'shepherd_son')"
  }
 }

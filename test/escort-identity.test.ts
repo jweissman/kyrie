@@ -3,6 +3,7 @@ import { PlayTool } from '../src/cli/play-tool';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ObservationText } from '../src/lang/observation-text';
 import { Spatial } from '../src/lang/spatial';
+import { AimWords } from '../src/presentation/aim-words';
 
 // Someone the company takes home is someone (OR-304; the owner's playtest of 23-24 November, "the boy. And just like
 // a level one commoner. Like, well, okay. I have no idea who that is. Who do I return him to?"). The hobs' captive,
@@ -19,6 +20,9 @@ describe('a person the company takes home', () => {
     const [member] = c.readout.inhabitants[boy.id]!, name = c.readout.creatures.find(k => k.id === member)!.name;
     expect(name).not.toMatch(/boy|shepherd/);
     expect(boy.name.split(', ')[0]).toBe(name);
+    // Apart from everyone already in the world: on Iscoed he had been Edric, as the lay brother at the cloister is.
+    expect(c.module.entities.filter(e => e.type === 'group' && e.id !== boy.id && e.name.split(', ')[0] === name)
+      .map(e => e.id)).toEqual([]);
     expect(ObservationText.label(w, boy.id)).toBe('the shepherd\'s boy');
     const loose = w.apply([{ kind: 'retract', call: ModuleWriter.call('state', boy.id, 'raidersFolk__penned') },
       { kind: 'assert', call: ModuleWriter.call('state', boy.id, 'raidersFolk__loose') }]);
@@ -29,6 +33,9 @@ describe('a person the company takes home', () => {
     expect(JSON.stringify(follows)).toContain('I\'m {raidersFolk__captive}, the shepherd\'s, from {');
     const aim = c.module.objectives!.find(o => o.id === 'raidersFolk__boy_home_aim')!;
     expect(aim.text).toMatch(/^\{raidersFolk__captive\}, the shepherd's son/);
+    // Said once who he is: the aim's own words, no aside of his role and his whereabouts put before them (kite: "Alfric
+    // Brook, a shepherd's son from Brockfield, taken off its farms by the hobs at the cave, the shepherd's son…").
+    expect(AimWords.render(loose, aim)).toMatch(new RegExp(`^${name}, the shepherd's son you untied in the hobs' pens`));
     // And whoever on the green of the first town would come along (the drover's lad of a drove life, the eel-boy of
     // the weir's) is someone too, named for the town (RegionUndertown.hand), as a creature and in the rows.
     const hands = c.module.entities.filter(e => /_u_hand$/.test(e.id));

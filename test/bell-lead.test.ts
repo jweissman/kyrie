@@ -35,7 +35,7 @@ describe('the bell the hobs took', () => {
       + 'the walls with their clappers torn out.');
     expect(Bell.aims(j).join(' ')).not.toContain('Hobs took a bell');
     await j.play('^Call to the hobs for a parley', '>raidersHold__pit', '^Wenna: light a torch', '^Untie the shepherd',
-      '^Ask the shepherd\'s boy about the hobs');
+      '^Ask [\\w ]+ about the hobs$');
     expect(j.taken.at(-1)!.told).toContain('They took the bell out of the frame at Brightbridge');
     expect(Bell.aims(j)).toContain('Hobs cannot abide a bell: rung in their hold at Joygate, one would send them '
       + 'running.');

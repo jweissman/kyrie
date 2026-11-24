@@ -106,7 +106,8 @@ export class ModuleBundle {
     return { ...manifest, modules: composed.modules, composition: composed };
   }
   // A story's context with the names of everyone already in the world among those its people are drawn apart from,
-  // where it draws them apart at all.
+  // where it draws them apart at all: by the context it is installed with, or its own (the hobs' captive, named for
+  // the world, had been Odo in ash, where a man of the country is: OR-304's draw).
   private static apart(context: BundleRequest['context'], people?: readonly Entity[]): BundleRequest['context'] {
     if (!context || !Array.isArray(context.taken) || !people?.length) { return context; }
     const named = people.filter(e => e.type === 'group').map(e => (e.name ?? '').split(', ')[0]!).filter(Boolean);
@@ -385,7 +386,8 @@ export class ModuleBundle {
     const { key, kept, mine, sources } = await this.reading(own, rules, { manifest, path, source });
     const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
-      { ...ModuleBundle.apart(request.context, options.people), now: options.elapsed ?? 0 }),
+      { ...ModuleBundle.apart({ ...manifest.generation?.context, ...request.context }, options.people),
+        now: options.elapsed ?? 0 }),
     imports: manifest.imports ?? [] };
     const combined = this.shared(rules);
     // The one kept is shared: of it, only what is changed here is copied (its company, sized; its entities, given the

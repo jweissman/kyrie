@@ -54,8 +54,11 @@ describe('the bell the hobs took, walked in from the bridge-foot', () => {
     await j.step('>raidersHold__pit');
     expect(j.offers('Ring the bell')).toBe(false);
     await j.step('^Untie the shepherd');
-    expect(Walk.told(j)).toContain('It\'s Brockfield.');
-    expect(Walk.aims(j)).toContain('The shepherd\'s boy you untied in the hobs\' pens wants taking home to Brockfield.');
+    // He says who he is and where home is, and the aim names him (OR-304: his name drawn for the world).
+    const boy = /'I'm ([\w ]+), the shepherd's, from Brockfield\./.exec(Walk.told(j))?.[1];
+    expect(boy).toBeDefined();
+    expect(Walk.aims(j))
+      .toContain(`${boy}, the shepherd's son you untied in the hobs' pens, wants taking home to Brockfield.`);
     expect(Walk.aims(j)).toContain('The bell the hobs took belongs back in its frame over the well at Brightbridge.');
     await j.play('^Ask \\w+ to come with you', '>raidersHold__mouth', '>w1');
 
@@ -70,6 +73,6 @@ describe('the bell the hobs took, walked in from the bridge-foot', () => {
 
     await Walk.setOut(j, 'region__s4_green');
     expect(j.page).toContain('mother sees him from a doorway and comes running');
-    expect(Walk.aims(j).join(' ')).not.toContain('shepherd\'s boy');
+    expect(Walk.aims(j).join(' ')).not.toContain('shepherd\'s son');
   }, 300000);
 });

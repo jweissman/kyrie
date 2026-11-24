@@ -95,6 +95,7 @@
   "experience": 600,
   "generation": {
     "type": "hob_folk",
+    "context": { "taken": [] },
     "templates": "templates.json"
   }
 }

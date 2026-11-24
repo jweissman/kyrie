@@ -26,7 +26,9 @@ export class AimWords {
   }
   // Those the aim names whom it should say who they are: someone (said with a he, a she or a they), never spoken
   // with, called by their own name, and in a town or a site the aim does not name; never where the name is a
-  // possessive ("Garth's flock"), which an aside would break, nor in a promise, which was made to their face.
+  // possessive ("Garth's flock"), which an aside would break, nor where the aim says who they are itself ("Alfric, the
+  // shepherd's son you untied in the hobs' pens": a second aside had been put before its own; "{priest}, who will
+  // show you the way" says only what they will do), nor in a promise, which was made to their face.
   static strangers(world: World, o: Objective): string[] {
     const company = world.related('company')[0]?.args[0];
     if (!company || !world.relates('acquainted') || !world.relates('pronouns') || this.promised(o)) { return []; }
@@ -39,7 +41,7 @@ export class AimWords {
       // A town the aim names is not where they are found in it (the owner's own session, 7 November: "Ask Ulric about
       // what has come up under the churchyard at Elmford" sent a player to the churchyard and the shrine by guess):
       // they are said by the room they keep there, unless the aim names a place of that town already.
-      return !/^['’]s\b/.test(o.text.slice(at + id.length + 2))
+      return !/^(['’]s\b|, (the|a|an) )/.test(o.text.slice(at + id.length + 2))
         && !(said.includes(ObservationText.label(world, town).toLowerCase()) && !this.room(world, byId, id, town))
         && !named.some(p => byId.get(p)?.space && Spatial.ancestry(byId, p).some(x => x.id === town));
     });
