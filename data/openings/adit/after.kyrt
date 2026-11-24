@@ -1,0 +1,11 @@
+# after: what a life's origin tells once it has come up out of the old adit (see src/world/stock-openings.ts).
+// A Kyr template, one section by the origin's id, written into that origin's module when the life began in the adit.
+// The origin's own first lines are told only in its first watches (watch(clock) < 1), which a life that came up out
+// of the adit has spent: what they told is told here instead, on first coming to where the origin begins; and what
+// the origin's life knows on beginning (its Initially Assert knows) it learns here, by what it is told. An origin with
+// no section here tells nothing in their place.
+--- drove
+  // Bran taken at the march-stone while you were under the hill: Owain tells it on the green, and so it is known.
+  Relation toldBran(group).
+  Event owain_tells at green when at(party, green) and not toldBran(party) "'Where were you?' Owain says, at your elbow before you are off the road. 'The customs-men were waiting at the march-stone with their staves. They counted, and they took Bran.' He points at the cobbles. 'He threw his tally-stick down for you.' Behind the customs-house the drove is bawling in the pens." then { Assert toldBran(party). }
+  Observe bran_held at green when toldBran(party) and not knows(party, held) "Bran ap Ifor is held in the customs-house." teaches held.

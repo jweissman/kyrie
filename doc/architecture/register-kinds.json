@@ -259,11 +259,23 @@
    "pri": "P1",
    "why": "20 Nov, filed from the owner's notes after the playtest and classified as filed (a row is a defect until named otherwise): not an observed failure"
   },
+  "OR-184": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "23 Nov, classified as filed (a row is a defect until named otherwise): the brief's stock opening (BRIEF §3.1), a commissioned requirement, not an observed failure"
+  },
   "OR-185": {
    "kind": "requirement",
    "was": "defect",
    "pri": "P1",
    "why": "23 Nov, filed as split from OR-169 and classified as filed: the owner's commissioned direction (no long presses) unmet in play; the holds work as designed, not an observed failure"
+  },
+  "OR-186": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "23 Nov, classified as filed (a row is a defect until named otherwise): the brief's stock opening, stage 2 (BRIEF §3.1), a commissioned requirement, not an observed failure"
   }
  },
  "blockedBy": {

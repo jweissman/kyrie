@@ -1,0 +1,8 @@
+{ "id": "adit", "title": "Under the fall", "source": "opening.kyr", "after": "after.kyrt",
+  "rooms": [
+    { "id": "fall", "name": "the fall in the old adit", "under": true, "unlit": true },
+    { "id": "gallery", "name": "the old gallery", "under": true, "unlit": true },
+    { "id": "mouth", "name": "the old drift's mouth above {town}" }
+  ],
+  "start": "fall",
+  "exit": { "from": "mouth", "way": "the drove road down into {town}", "minutes": 20 } }

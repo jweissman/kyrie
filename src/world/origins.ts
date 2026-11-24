@@ -19,6 +19,7 @@ import { AtlasOrigins } from './origin-atlas';
 import { RegionKey } from './region-key';
 import { DebtShapes } from './debt-shapes';
 import { OriginOpenings, type OriginOpening } from './origin-opening';
+import { StockOpenings, type StockOpening } from './stock-openings';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -96,8 +97,11 @@ export class Origins {
       roster: '', own: member.name, as }).you ?? member.name };
   }
   // The origin's module, written against this world, for the campaign to install after the region.
+  // opening: a stock opening the life begins in first, whose after-template says what the origin tells in place of its
+  // first watches' lines (see StockOpenings).
   static write(o: Loaded, at: { region: Region; placements: Placement[]; protagonist: string; root: string;
-    files: Record<string, string> }): { request: BundleRequest; start: Start; coin: number } | undefined {
+    files: Record<string, string>; opening?: StockOpening })
+    : { request: BundleRequest; start: Start; coin: number } | undefined {
     const bound = this.bind(o.manifest.binder, at.region, at.placements);
     if (!bound) { return undefined; }
     const values = { ...bound.values, protagonist: Origins.said(at.protagonist) };
@@ -111,8 +115,12 @@ export class Origins {
         ...names.filter(n => bound.imports[n]![1] !== 'relation').map(n => [n, { type: bound.imports[n]![1] }])]) });
     // The inn, wherever whoever was met on the road goes on to or the origin's aim sends the company, is the origin's
     // once, however many ask for it.
-    const lines = [...bound.imports.inn ? ['  Place inn "the inn" is room.'] : [], ...prologue?.lines ?? []];
-    const source = this.fill(o.source, values);
+    const more = at.opening ? StockOpenings.after(at.opening, o.manifest.id, values) : [];
+    const lines = [...bound.imports.inn ? ['  Place inn "the inn" is room.'] : [], ...prologue?.lines ?? [], ...more];
+    // A life begun elsewhere first knows nothing yet of what its origin begins knowing: it learns it as it is told
+    // (an opening's after-template teaches it), not under the fallen roof of the opening.
+    const filled = this.fill(o.source, values);
+    const source = more.length ? filled.replace(/Initially Assert knows\(party, \w+\)\.\s*/g, '') : filled;
     at.files[`${dir}/origin.kyr`] = lines.length ? source.replace(/\}\s*$/, `${lines.join('\n')}\n}\n`) : source;
     return { request: { id: 'origin', bundle: `${dir}/module.json`,
       imports: { party: 'region.party', ...Object.fromEntries(names.map(n => [n, bound.imports[n]![0]])) } },

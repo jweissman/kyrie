@@ -14,11 +14,11 @@ import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
 import { Provinces } from './provinces';
 import { StoryPeople } from './story-people';
-import { Career } from './career';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { ScenarioTowns } from './scenario-towns';
 import { Origins } from './origins';
+import { WorldStart } from './world-start';
 import type { KitEntry } from './compose/composition';
 import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
@@ -89,7 +89,7 @@ export class WorldAssembler {
     party?: CreatureGenerationContext[]; origin?: string; framework?: string | null;
     // Someone who died in this country before: where they lie, and how they died, which the country remembers.
     // And which standing scenarios it holds, by id (all, unless said): see Drawn.standing.
-    memorial?: Memorial; standing?: string[]; chain?: string;
+    memorial?: Memorial; standing?: string[]; chain?: string; opening?: string;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = this.region(seed, [0, 0], options.region), days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.further = Countries.further(region, seed); region.chain = options.chain;
@@ -117,13 +117,9 @@ export class WorldAssembler {
     const family = { own: party[0]!.name, ...origin?.manifest.binder === 'kin' ? { folk: party[0]!.raceId } : {} };
     this.spread(placements, { library: [...library, ...heralds, ...standing], base, region, contacts, context, files,
       root, modules, family });
-    const told = origin && Origins.write(origin, { region, placements, protagonist: party[0]!.name ?? 'you', root, files });
-    // The origin's module, and the Rì's commission on the notice of the town the company begins in (see Career).
-    modules.push(...told ? [told.request] : [], ...Career.first(seed, region, { root, files, start: told?.start }));
-    // One who comes alone is told who at the first inn would come along, whatever brought them (PT-11).
-    if (!told || party.length === 1) {
-      this.arrival(region, { size: party.length, contacts, start: told?.start.place }, { files, root, modules });
-    }
+    // Where the life begins: its origin, a stock opening chosen ahead of it, and what comes with them (WorldStart).
+    const told = await WorldStart.begun(base, origin, options.opening, { seed, region, placements, party, contacts,
+      root, files, modules });
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, region, options.framework);
     this.write(region, { files, root, placements, company: { size: party.length, contacts,
@@ -257,15 +253,6 @@ export class WorldAssembler {
     if (!spot) { return false; }
     Object.assign(site, spot);
     return true;
-  }
-  // Why the company came, written as a module of its own (see RegionRecruits.arrival).
-  private static arrival(region: Region, company: { size: number; contacts: Contact[]; start?: string },
-    at: { files: Record<string, string>; root: string; modules: BundleRequest[] }) {
-    const arrival = RegionRecruits.arrival(region, company);
-    if (!arrival) { return; }
-    at.files[`${at.root}/arrival/module.json`] = JSON.stringify(arrival.manifest);
-    at.files[`${at.root}/arrival/arrival.kyr`] = arrival.source;
-    at.modules.push({ id: 'arrival', bundle: `${at.root}/arrival/module.json`, imports: arrival.imports });
   }
   static readonly frontier = 'data/frameworks/frontier.json';
   // Writes the region, its module and its manifest. The framework's kits are composed against it as the campaign

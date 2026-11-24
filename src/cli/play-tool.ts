@@ -8,7 +8,8 @@
 // `play character` play an adventure to one of its scenes or people first, in a context its author named (see
 // PlayParts).
 //   bin/kyrie play <campaign.json | module.kyr> [--seed s] [--steps steps.json] [--probe "..."]... [step ...]
-//   bin/kyrie play --world <seed> [--origin debt [--chain salvage|carry|recover]] [--as elf/ranger/Aud] [step ...]
+//   bin/kyrie play --world <seed> [--origin debt [--chain salvage|carry|recover]] [--as elf/ranger/Aud]
+//     [--opening adit] [step ...]      (--opening: a stock opening begun in first, see StockOpenings)
 //   bin/kyrie play scene|character <id> --in <adventure> [--context <name>] [step ...]
 // --keep <name> keeps the play as a regression test (see Traces): the command it was, and where it came to.
 // --roll pass|fail has every check come out so, as a journey's roll() does (Quittance's friction 7, QTC-07).
@@ -36,7 +37,7 @@ export class PlayTool {
   static parse(args: string[]) {
     const flags = new Map<string, string[]>(), rest: string[] = [];
     for (let i = 0; i < args.length; i++) {
-      const a = args[i]!, flag = /^--(seed|steps|probe|world|origin|as|in|context|keep|roll|chain)$/.exec(a);
+      const a = args[i]!, flag = /^--(seed|steps|probe|world|origin|as|in|context|keep|roll|chain|opening)$/.exec(a);
       if (flag) { flags.set(flag[1]!, [...flags.get(flag[1]!) ?? [], args[++i] ?? '']); }
       else if (a === '--choices' || a === '--profile') { flags.set(a.slice(2), ['yes']); }
       else { rest.push(a); }
@@ -46,6 +47,7 @@ export class PlayTool {
       context: flags.get('context')?.[0] } : undefined;
     return { campaign: world || part ? undefined : rest[0], steps: world ? rest : rest.slice(part ? 2 : 1), world, part,
       origin: flags.get('origin')?.[0], as: flags.get('as')?.[0], chain: flags.get('chain')?.[0],
+      opening: flags.get('opening')?.[0],
       seed: flags.get('seed')?.[0] ?? 'journey', file: flags.get('steps')?.[0], probes: flags.get('probe') ?? [],
       choices: flags.has('choices'), keep: flags.get('keep')?.[0], profile: flags.has('profile'),
       roll: (['pass', 'fail'] as const).find(r => r === flags.get('roll')?.[0]) };
@@ -73,7 +75,7 @@ export class PlayTool {
     const one = { name, raceId, classId, rolled: Creation.rolled(o.world, classId),
       ...backgroundId ? { backgroundId } : {} };
     const drawn = { party: [made ?? one], origin: o.origin ?? await PlayTool.given(o.world, made ?? one),
-      ...o.chain ? { chain: o.chain } : {} };
+      ...o.chain ? { chain: o.chain } : {}, ...o.opening ? { opening: o.opening } : {} };
     const { session, world } = await DrawnWorld.drawn(o.world, drawn, NodeBundleSource.shared, watch);
     // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
     // nor begun by name: --as herbs on a1 had set out with "No aim is held".

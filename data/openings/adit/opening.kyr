@@ -1,0 +1,85 @@
+Module adit "Under the fall" {
+  Description "A life that begins in the dark: the roof of an old adit above {town} has come down behind you. Ahead are a frightened boy, a badger in its sett and a fallen prop across the way out.".
+  Entity party: group "You".
+  // The rooms are the region's (see StockOpenings: written as the town's way in is), bound here.
+  Place fall "The fall" is room. Place gallery "The gallery" is room. Place mouth "The drift's mouth" is room.
+
+  // Light: the fall is black until the company makes a light, and the way on is not walked blind.
+  Observe fall_dark at fall as felt when benighted(party) "Black. Grit is still pattering down behind you where the roof came in. At first light, a mile above {town}, you heard a boy calling from the old adit by the drove road. You went in after the sound without a light, and the props gave behind you. Water drips somewhere ahead. The air moves a little on your face.".
+  Observe fall_lit at fall when not benighted(party) "In the light the fall is a slope of broken shale and split timber, packed to the roof. The adit runs on ahead into the hill, low and wet.".
+  Observe voice at fall as sound when able(dai) and not travelsWith(dai, party) "From further in comes a boy's voice, cracked with fright: 'Who's there? Is it still coming down?'".
+  Passage adit_way "the adit" is passage between fall and gallery opening when not benighted(party) "It is black as a pocket. You cannot see where to put your feet.".
+  Hazard dark_knock "A knock in the dark" means "Deal (1d4) physical damage to ally unless dexterity save against (11).".
+  Action grope(actor: group, walker: member) "Feel along the wall in the dark; {walker} goes first" {
+    Description "No light: a hand on the wet wall, a foot feeling for the floor.".
+    Requires able(actor) and at(actor, fall) and benighted(actor) and memberOf(walker, actor) and awake(walker).
+    Time 5 minutes. Resolve expose(dark_knock, walker).
+    On success { Assert at(actor, gallery). }
+    Result "On hands and knees over the wet stone, a shin barked on a fallen prop, until the wall turns away under your hand.".
+  }
+
+  // Food: the bread you carried, dropped where the roof came in; found by a light, eaten when wanted.
+  Kind bait_kind "bait-bag" like ale worth 0 described "The heel of yesterday's loaf and a piece of hard white cheese, wrapped in a cloth." using "Heal (1d4) health to ally.".
+  Item bait "your bait-bag" is bait_kind at fall.
+  Observe bait_lies near bait of bait when at(bait, fall) "Your bait-bag lies where you dropped it, by a prop that held.".
+  Action eat_bait(actor: group, eater: member) "Eat the bread and cheese" {
+    Requires able(actor) and memberOf(eater, actor) and awake(eater) and ownedItem(bait, eater).
+    Time 5 minutes. Resolve consume(bait, eater, eater).
+    On success { Set nextMeal(actor) to watch(clock) + 144. Retract hungry(actor). }
+    Result "You eat it standing, in four bites. It steadies your hands, and it will keep you till evening.".
+  }
+
+  // Someone to help: Dai, who went in out of the rain to sleep and has not moved since the roof came down.
+  Person dai "Dai Probert" at gallery {
+    Role "a charcoal-burner's boy from the ridge above {town}". Pronouns he. Peaceable. Manner grim.
+  }
+  Observe dai_seen near dai of dai when not travelsWith(dai, party) and not benighted(party) "Dai Probert is crouched against the far wall with his knees up: a boy of twelve in a sacking hood, white to the lips. 'There's a beast in the wall,' he whispers. 'It went for me when I moved.'".
+  Topic dai_help with dai "Tell Dai you will get him out" when not willing(dai, party) and not travelsWith(dai, party) once {
+    Says "'There's the old drift,' Dai says. 'It comes out on the hill above the road. A prop is down across it. I tried to shift it on my own and I couldn't.' He gets up, keeping the wall at his back. 'I'll take one end, if you take the other.'".
+    On discuss { Assert willing(dai, actor). }
+  }
+  Event dai_parts at mouth when at(party, mouth) and travelsWith(dai, party) "Dai stands blinking in the rain. 'I'm away up to my father's clamps on the ridge,' he says. 'Ask for Probert's fire, if you're ever up there. There'll be a hot potato in it for you.' He goes off up the hill at a run." then {
+    Retract travelsWith(dai, party). Assert grateful(dai, party). Retract at(dai, mouth). }
+
+  // A fight: the badger whose sett the fall woke, standing its ground in the gallery.
+  Person badger "an old boar badger" at gallery {
+    Role "a grey boar badger, waked by the fall, whose sett runs back under the gallery wall". Species badger. Numbers 1. Level 4. Temperament territorial. Lair gallery.
+    Warns "Low by the far wall something chatters at you and stamps: a badger, by the rank smell of it, standing its ground.".
+    Comes "The badger comes at your legs, quick and low.".
+  }
+  Initially Set encounterXp(badger) to 25.
+  Observe gallery_dark at gallery as felt when benighted(party) "The wall turns away under your hand. The floor is wet. Close by, something breathes.".
+  Observe gallery_lit at gallery when not benighted(party) "The gallery is wider, cut square, its roof held on black props. An old sett runs back under the far wall, the earth at its mouth fresh-scraped.".
+
+  // The way out: a prop fallen across the old drift, lifted by two, or heaved by one at a cost.
+  Thing prop "the fallen prop" at gallery {
+    State down "A pit-prop has come down across the mouth of the old drift, one end wedged in the floor. Beyond it the dark is grey.".
+    State raised "The fallen prop is wedged up on a lump of shale. There is room to get by under it.".
+  }
+  Passage drift "the old drift" is passage between gallery and mouth opening when state(prop, raised) "A pit-prop lies across the old drift, its end wedged in the floor. It has to be lifted first.".
+  Hazard prop_strain "The weight of the prop" means "Deal (1d4) physical damage to ally unless strength save against (12).".
+  Action lift_together(actor: group, site: place) "Lift the fallen prop with Dai" {
+    Requires able(actor) and at(actor, site) and at(prop, site) and state(prop, down) and travelsWith(dai, actor).
+    Time 2 minutes.
+    On success { Assert state(prop, raised). }
+    Result "Dai takes one end and you the other. On three it comes up, and he kicks a lump of shale under it.".
+  }
+  Action heave_alone(actor: group, lifter: member, site: place) "Heave the fallen prop up alone; {lifter} takes the weight" {
+    Requires able(actor) and at(actor, site) and at(prop, site) and state(prop, down) and memberOf(lifter, actor)
+      and awake(lifter) and not benighted(actor) and not travelsWith(dai, actor).
+    Time 2 minutes. Resolve expose(prop_strain, lifter).
+    On success { Assert state(prop, raised). }
+    Result "A shoulder under the prop, a long breath, and it comes up a hand's breadth: enough to kick a lump of shale under it.".
+  }
+  // In the dark the prop is found by feel, and heaved blind: it costs more.
+  Hazard blind_strain "The prop's weight, in the dark" means "Deal (1d6) physical damage to ally unless strength save against (13).".
+  Action heave_blind(actor: group, lifter: member) "Feel along the fallen prop in the dark and heave; {lifter} takes the weight" {
+    Requires able(actor) and at(actor, gallery) and benighted(actor) and state(prop, down) and memberOf(lifter, actor)
+      and awake(lifter).
+    Time 5 minutes. Resolve expose(blind_strain, lifter).
+    On success { Assert state(prop, raised). }
+    Result "A barked knee finds the prop. A shoulder under it, blind, and it comes up; a lump of shale kicked under it by feel holds it there. Beyond it the dark is grey.".
+  }
+  Observe mouth_out at mouth when true "The old drift comes out in a bank of bracken above the drove road. Rain is coming in off the fen. Below, {town} sits on its water, all salt-houses and masts. The drove has gone on down without you.".
+  Goal false.
+}

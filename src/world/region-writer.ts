@@ -41,6 +41,7 @@ import { StoryPeople } from './story-people';
 import { RegionMeetings } from './region-meetings';
 import { ModuleCanon } from '../campaign/module-canon';
 import { StrategicAtlas } from './strategic-atlas';
+import { StockOpenings, type Opened } from './stock-openings';
 // A generated region (the Deem `region` generator's output, plus sites scenarios asked for) written as an ordinary
 // Kyr module: settlements as their founding made them (see SettlementWriter), roads between them, and a track out to
 // each site. Every
@@ -121,7 +122,9 @@ export interface Carrier { id: string; settlement: string; channel: 'tavern' | '
 // protagonist, where they begin (a room, or a way into a settlement written for them) and the coin they carry.
 export interface Company {
   size: number; contacts: Contact[]; coin?: number;
-  start?: { place: string; approach?: { settlement: string; name: string; way: string; now?: string } };
+  // opening: a stock opening the life begins in, ahead of where its origin begins (see StockOpenings).
+  start?: { place: string; approach?: { settlement: string; name: string; way: string; now?: string };
+    opening?: Opened };
 }
 export interface Contact {
   member: string; background: string; channel: Carrier['channel']; carrier: string; room: string; text: string;
@@ -252,6 +255,7 @@ export class RegionWriter {
         ...a.now ? [`  Observe ${a.settlement}_approach_life at ${a.settlement}_approach as ambience when not dark() ${q(a.now)}.`] : []);
     }
     // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
+    if (company.start?.opening) { lines.push(...StockOpenings.lines(company.start.opening)); }
     const home = RegionPractitioners.home(region, company);
     lines.push(...RegionUndertown.lines(region, home, company.size), ...RegionRoom.lines(region, home),
       ...RegionOutskirts.lines(region, home, company.size),
@@ -260,7 +264,7 @@ export class RegionWriter {
       // And something going on there that moves on by the days, with or without the company (see RegionAfoot).
       ...region.settlements.flatMap(t => RegionAfoot.lines(region, t)),
       ...RegionTies.lines(region), ...RegionThreads.lines(region));
-    lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start?.place ?? `${region.settlements[0]!.id}_green`}.`,
+    lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start ? StockOpenings.place(company.start) : `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');
     return lines;
   }
@@ -321,6 +325,7 @@ export class RegionWriter {
     ...(region.history?.makers ?? []).flatMap(m => [`history_${m.art}`, `history_${m.art}_fate`]),
     ...region.history ? ['history_successors'] : [],
     ...company?.start?.approach ? [`${company.start.approach.settlement}_approach`] : [], ...this.notice(region, company),
+    ...StockOpenings.ids(company?.start?.opening),
     ...practitioners.map(p => p.id)];
     // A site's land is the wild country it stands in, or its own stretch of open country.
     const lands = region.sites.map(w => [`${w.id}_land`, w.zone ?? `${w.id}_land`]);

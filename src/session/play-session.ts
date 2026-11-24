@@ -31,7 +31,9 @@ export interface Transcript {
 // something else, so that what stands in every country does not move under it (the register's AB-13, R88).
 export interface Drawn { party: CreatureGenerationContext[]; terrain?: string; origin?: string; memorial?: Memorial;
   // The debt's chain fixed (salvage, carry, recover: see DebtShapes), as an author fixes a dimension of a kit.
-  standing?: string[]; chain?: string }
+  standing?: string[]; chain?: string;
+  // A stock opening chosen at creation, begun in ahead of the origin (see StockOpenings): none where none was chosen.
+  opening?: string }
 // Chooses the next command for the player's side. Must return one of battle.legalCommands().
 export type CombatController = (battle: Battle) => Promise<Command>;
 export interface SessionCheckpoint { version: 1; transcript: Transcript; save: CampaignSave }
