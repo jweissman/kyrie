@@ -91,7 +91,11 @@ export class Offers {
         const reasonless = !c.whys.length && !waitsOnly && !(bare && type === 'wait') && !ways.includes(c.choice);
         if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again || idle || reasonless
           || held.has(c.command ?? '')) { continue; }
-        fill.push(this.candidate(c)); shown.add(c.choice); types.add(type);
+        // The ways of one choice side by side, or none of them (OR-242; see Alternatives).
+        const choice = this.together(c, byChoice);
+        if (!choice || led.length + fill.length + choice.length > this.four) { continue; }
+        for (const w of choice) { fill.push(this.candidate(w)); shown.add(w.choice); }
+        types.add(type);
       }
     }
     // What was led past the four is the rest's, not lost: the Guldríce agent's one question, led fifth on the landing
@@ -105,6 +109,11 @@ export class Offers {
     const ctx = { twice: this.twice([...primary, ...rest]), byChoice, at,
       ...screen && campaign ? { land: { screen, campaign } } : {} };
     return { primary: primary.map(o => this.told(o, ctx)), rest: rest.map(o => this.told(o, ctx)) };
+  }
+  // A candidate and the other ways of its choice, all to be had here; or it alone, of none (see Alternatives).
+  private static together(c: Candidate, byChoice: Map<string, Candidate>): Candidate[] | undefined {
+    const ways = c.together?.flatMap(id => byChoice.get(id) ?? []) ?? [c];
+    return ways.length === (c.together?.length ?? 1) ? ways : undefined;
   }
   // Two ways worded alike are told apart by which way each lies ("Take the way across country to the woods of
   // Greenwood, north-east"): a cold player had met three such ways out of one stretch of wild country and could not

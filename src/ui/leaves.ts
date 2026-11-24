@@ -3,7 +3,7 @@ import { Aspects } from '../presentation/aspects';
 import { Attending } from './attention';
 import type { Choice } from './choice-list';
 import type { Reading } from './affordances';
-import type { Candidate } from './promotion';
+import type { Candidate, Kind } from './promotion';
 import type { SceneSubject } from './scene';
 
 // The act within an opener that each of its reasons is for (Candidate.leaves; the opportunity architecture, AT-07
@@ -37,5 +37,27 @@ export class Leaves {
     const first = c.command ? undefined : Attending.all(c.children ?? [])
       .find(k => k.command && !k.disabled && !k.grave && !k.risk && !r.done.has(k.command))?.command;
     return first ? { leaves: Object.fromEntries(whys.filter(w => Aspects.by[w]).map(w => [w, first])) } : {};
+  }
+  // An opener's candidates (its own first), or, where the place's own act within it is one way of a choice (see
+  // Alternatives), the ways led side by side, a row each, in place of the opener led for one of them (OR-242); the
+  // opener keeps what else it is led for. At most three ways: more is not one choice to be seen at a glance.
+  static choice(cands: Candidate[], at: { s: SceneSubject; opener: Choice; r: Reading },
+    make: (c: Choice, at: { subject: string; kind: Kind; r: Reading; whys: Why[] }) => Candidate): Candidate[] {
+    const { s, opener, r } = at, [first, ...rest] = cands;
+    const leaves = Attending.all(opener.children ?? []).filter(c => c.command && !c.disabled);
+    const own = this.owned(leaves, r), others = own && r.alternatives?.get(own.command!);
+    const ways = own && others ? [own, ...leaves.filter(c => c !== own && others.includes(c.command!))] : [];
+    if (!first || ways.length < 2 || ways.length > 3) { return cands; }
+    const { leaves: had, ...opened } = first;
+    const within = Object.fromEntries(Object.entries(had ?? {}).filter(([w]) => w !== 'own'));
+    const kept: Candidate = { ...opened, whys: first.whys.filter(w => w !== 'own'),
+      ...Object.keys(within).length ? { leaves: within } : {} };
+    const together = ways.map(c => c.id);
+    return [kept, ...ways.map(c => ({ ...make(c, { subject: s.id, kind: 'act', r,
+      whys: ['own', ...this.about(c, r) ? ['about' as const] : []] }), together })), ...rest];
+  }
+  // Whether it is done to something the aim followed names (as Affordances reads it).
+  private static about(c: Choice, r: Reading): boolean {
+    return (r.args.get(c.command ?? '') ?? []).some(a => r.named.has(a));
   }
 }

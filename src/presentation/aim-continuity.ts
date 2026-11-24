@@ -97,10 +97,9 @@ export class AimContinuity {
     if (grave) {
       return { acts, continuance: { kind: 'led', witness: grave.choice, said: `${grave.label}: your aim's way, at a risk.` } };
     }
-    // The step just tried here and not come off: not led again for nothing (CompanyRecall: a try failed is done until
-    // the company grows, test/small/tried-again-grown), but never said to be nothing that bears on the aim (cold play
-    // 5's 10, CL-33: failed at the windlass, the frontier had said nothing here bore on the aim; the next try shut the
-    // gate). What stands is said as it is.
+    // The step just tried here and not come off, where nothing led it again (a fresh try at the aim's step is led, and
+    // gold: CompanyRecall.missed, OR-241): never said to be nothing that bears on the aim (cold play 5's 10, CL-33:
+    // failed at the windlass, the frontier had said nothing here bore on the aim; the next try shut the gate).
     const retry = this.retry(campaign, cands);
     if (retry) {
       return { acts, continuance: { kind: 'frontier', said: `${retry.label.split(' · ')[0]}: that try did not come off.`

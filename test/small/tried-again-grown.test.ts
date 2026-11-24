@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 
-// A try failed is done, and not led with again for nothing (never round a loop that advances nothing), until the
-// company is more than it was: the sea-gate's windlass, too stiff for a mage alone, had dropped from the four for good
-// though Gesk had been hired to put his back to it, and the aim it was the step of had nothing gold (cold play 5's 10,
-// CL-33).
+// A try at the aim's step that did not come off is still the aim's step: led, gold, after a wait as at once (OR-241:
+// the first blind cold play of the page failed at the sea-gate's windlass, the words said "or a fresh try", and after
+// an hour's wait the try was only under Look, though it was the aim's step and its odds had risen with the hire). Each
+// try is its own draw (RandomStreams.command), and each takes its hour. A try that is no aim's step, failed, is done,
+// and not led with again for nothing, until the company is more than it was (cold play 5's 10, CL-33: Gesk hired).
 const yard = `
   Place yard "the yard" is room at 0, 0 outdoors.
   Company party "You" of 1 at yard.
@@ -27,18 +28,34 @@ const yard = `
   Objective cart when not lifted(party) "The cart is in the ditch.".
   Goal false.`;
 const party = [{ name: 'Aud', raceId: 'human', classId: 'mage' }];
-const led = (t: Tiny) => t.glance.offer!.primary.some(o => /^t__heave\(/.test(o.command ?? o.for ?? ''));
+const heaving = (command?: string) => /^t__heave\(/.test(command ?? '');
+const heave = (t: Tiny) => t.glance.offer!.primary.find(o => heaving(o.command ?? o.for));
+const led = (t: Tiny) => !!heave(t);
+const gold = (t: Tiny) => t.gold.some(a => a.continues && heaving(a.command ?? a.for));
 describe('a try failed', () => {
-  it('is not led with again, until someone joins to make it again', async () => {
+  it('at the aim\'s step, stays led and gold, at once and after a wait', async () => {
     const t = await Tiny.start(yard, { seed: 'f5', party });
     t.follow('cart');
-    expect(led(t)).toBe(true);
+    expect([led(t), gold(t)]).toEqual([true, true]);
     await t.perform('t__heave(party,t__yard)');
     expect(t.campaign.history.at(-1)!.result).toBe('failure');
     t.follow('cart');
+    expect([led(t), gold(t)]).toEqual([true, true]);
+    await t.perform('wait_hour');
+    t.follow('cart');
+    expect([led(t), gold(t)]).toEqual([true, true]);
+    const c = t.glance.continuance;
+    expect(c?.kind === 'step' && c.witness).toBe(heave(t)!.choice);
+  });
+  it('at no aim\'s step, is not led with again, until someone joins to make it again', async () => {
+    const t = await Tiny.start(yard, { seed: 'f5', party });
+    expect(led(t)).toBe(true);
+    await t.perform('t__heave(party,t__yard)');
+    expect(t.campaign.history.at(-1)!.result).toBe('failure');
+    t.look();
     expect(led(t)).toBe(false);
     await t.perform('t__hire_hew(party,t__yard)');
-    t.follow('cart');
+    t.look();
     expect(led(t)).toBe(true);
   });
 });

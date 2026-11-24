@@ -21,6 +21,7 @@ import { Undertakings } from './undertakings';
 import { TalkWeight } from './talk-weight';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
 import { Perception } from './perception'; import { Companions } from './companions';
+import { Alternatives } from './alternatives';
 import { Outmatched } from './outmatched'; import { CompanyRecall } from './company-recall';
 import { Acquainted } from './acquainted'; import { DecisionFrame } from './decision-frame';
 import { Charge } from './charge';
@@ -187,8 +188,10 @@ export class Glance {
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
+    const alternatives = Alternatives.of(rows);
     const coin = AimAdvances.wants(campaign), holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,
+      ...alternatives.size ? { alternatives } : {},
       args, touches, authored, serves: Undertakings.serving(campaign, rows),
       speakers: new Set(rows.filter(r => r.action.speaker).map(r => r.choice.id)),
       willing: new Set(rows.filter(r => r.action.speaker && (r.action.success ?? []).some(c => c.kind === 'assert'
@@ -198,7 +201,7 @@ export class Glance {
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
       pointed: at.pointed, marvels: Affordances.marvels(campaign.world), ...Outmatched.reading(campaign, screen),
-      done: new Set(commands.filter(c => recall.did(here, c))), ...TalkingWith.of(campaign, at.told),
+      done: this.done(commands, { recall, here, advances }), ...TalkingWith.of(campaign, at.told),
       ...Acquainted.of(campaign, screen, recall), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
         hurt: new Set(screen.party.filter(m => m.hp < m.maxHp / 2).map(m => m.id)),
@@ -206,6 +209,13 @@ export class Glance {
         settled: screen.path.some(p => ['settlement', 'site'].includes(p.kind)),
         open: screen.exits.some(e => !!e.bearing), alone: screen.party.length === 1,
         ...this.bed(campaign, screen, schema), ...light } };
+  }
+  // What the company has done here: not the aim's step only tried and not come off, whose fresh try is still the step
+  // (OR-241; see CompanyRecall.missed).
+  private static done(commands: string[], at: { recall: CompanyRecall; here: string; advances: Set<string> }):
+    Set<string> {
+    const { recall, here, advances } = at;
+    return new Set(commands.filter(c => recall.did(here, c) && !(advances.has(c) && recall.missed(here, c))));
   }
   private static sells(campaign: Campaign, place: string, sellers: Set<string> | undefined): boolean {
     return !!sellers && [...sellers].some(p => campaign.world.one('at', p) === place);
