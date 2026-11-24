@@ -31,6 +31,36 @@ larger lever is SP-02's: content made lazily, as the company comes near it.
 That cuts the parse, the installs, the projection and the creatures together. It also helps a returning player, who
 pays the same today.
 
+## Other sources of slowness (the owner, 24 November: "parsing Kyr still takes just as long as installing")
+
+**Fixed: the start settled 37 times.** Each of a new life's installs settled the campaign, asking every rule of the
+country again: 37 settles, 33,931 rule asks, 607 ms. Now a game assembled settles once, when its last module is in:
+2 settles, 1,793 asks, 30 ms. The start's world, state and first page are the same on four seeds. Held by
+test/small/start-settles-once.
+
+**The parse (2.2 s), by part:**
+
+| Part | Time |
+|---|---|
+| ohm's matching | 1.37 s |
+| … of it, skipping spaces and comments | 0.62 s |
+| building the AST | 0.33 s |
+| the parse cache's deep clone of each module | 0.22 s |
+| the parse store's write | 0.13 s |
+
+The grammar's hot rules are already read as character ranges (KyrQuick, OR-121), so what is left is ohm's own
+overhead. The levers, in order of cost:
+
+1. Freeze the cached module instead of cloning it. The no-hidden-writes proof exists (test/frozen-modules): 0.2 s.
+2. Parse the independent modules in parallel workers. 56 modules over four cores: perhaps 2.2 → 0.7 s.
+3. A hand-written parser for Kyr. Typically several times faster than ohm, and test/small/kyr-quick's equivalence is
+   its oracle.
+4. Generate to the AST (AX-04). This removes the parse for generated text entirely.
+
+**The installs (1.8 s), without their parse:** the settles (above, now gone); populating (0.62 s); preparing, that is
+composing onto the shared rules (0.36 s, AX-03); the projection of creature facts (0.34 s); the entity index rebuilt
+as each install grows the list (0.13 s).
+
 ## Tried and dropped
 
 Holding a rule idle by its failing part only from its second asking, to spare the prime. The profile had attributed
