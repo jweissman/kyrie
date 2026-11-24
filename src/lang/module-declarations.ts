@@ -1,3 +1,4 @@
+import { Durings } from './during';
 import { Spatial } from './spatial';
 import type { DiscoveryDefinition } from './discovery';
 import type { Change, Module, NumberValue, Operator, Predicate, Query, Signature, WorldRule } from './module';
@@ -13,6 +14,7 @@ import { Routes, type RouteSpec } from './routes';
 import { Milestones, type MilestoneSpec } from './milestones';
 
 type Field = { field: string; value: unknown };
+type During = { when: Predicate; fields: Field[] };
 // Each declaration of a module, as the parser hands it over, joined to the module: a person, a passage, an item made
 // into the entities, facts, observations and rules it stands for; anything else kept as it is.
 export class ModuleDeclarations {
@@ -51,6 +53,21 @@ export class ModuleDeclarations {
     return s;
   }
   private static and(left: Predicate, right: Predicate): Predicate { return { kind: 'and', left, right }; }
+  // What is written within a During holds its condition as well as its own, ahead of it (see Durings): a rule's and
+  // an observation's when, an act's requires; a During within, both.
+  private static during({ when, fields }: During): Field[] {
+    return fields.flatMap(({ field, value }) => {
+      const v = value as Record<string, unknown>, id = String(v.id ?? 'a During');
+      switch (field) {
+        case 'rule': case 'observation':
+          return [{ field, value: { ...v, when: Durings.within(when, v.when as Predicate, id) } }];
+        case 'action': return [{ field, value: { ...v, requires: Durings.within(when, v.requires as Predicate, id) } }];
+        case 'during': return this.during({ when: Durings.within(when, (v as During).when, 'a During'),
+          fields: (v as During).fields });
+        default: throw new Error(`During holds rules, acts, observations and Durings, not ${field}`);
+      }
+    });
+  }
   // One declaration, joined to the module it is in.
   static declare(module: Module, { field, value }: Field,
     into: { information: DiscoveryDefinition[]; singleton: Set<string> }) {
@@ -68,6 +85,7 @@ export class ModuleDeclarations {
       case 'promise': Promises.lower(module, value as PromiseSpec); break;
       case 'occasion': Occasions.lower(module, value as OccasionSpec); break;
       case 'situation': Situations.lower(module, value as SituationSpec); break;
+      case 'during': for (const f of ModuleDeclarations.during(value as During)) { this.declare(module, f, into); } break;
       case 'route': Routes.lower(module, value as RouteSpec); break;
       case 'milestone': Milestones.lower(module, value as MilestoneSpec); break;
       case 'objective': (module.objectives ??= []).push(value as NonNullable<Module['objectives']>[number]); break;

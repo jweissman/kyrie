@@ -18,5 +18,5 @@ KyrQuick <: Kyr {
   // so the one that matches is the one it was, and fewer are tried and failed before it (AX-04).
   Declaration := Observation | Initial | Passage | Topic | Place | ItemDecl | Thing | WorldRule | Information | Entity
     | Person | Relation | Action | Kind | LocalKind | LocalSpecies | Measure | Query | Goal | Budget | Description
-    | Pursuit | Route | Exit | Event | Objective | Ending | Chapter | Promise | Occasion | Situation | Milestone | Company | HazardDecl
+    | Pursuit | Route | Exit | Event | Objective | Ending | Chapter | Promise | Occasion | Situation | During | Milestone | Company | HazardDecl
 }

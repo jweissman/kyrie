@@ -1,6 +1,6 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
-  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Route | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Chapter | Promise | Occasion | Situation | Milestone | Company | ItemDecl | HazardDecl
+  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Route | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Chapter | Promise | Occasion | Situation | During | Milestone | Company | ItemDecl | HazardDecl
   Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceDepth? PlaceAlias? "."
   PlaceShelter = "outdoors" | "indoors" | "underground" | "elsewhere"
   PlaceDepth = integer "down"
@@ -93,6 +93,9 @@ Kyr {
   MatterUntil = MatterCondition? "."
   MatterCondition = "until" Predicate
   OccasionCloses = "Closes" string "."
+  // What holds over every declaration within (a phase of an ordered sequence: a scene of a play) said once.
+  During = "During" Predicate DuringBody
+  DuringBody = "{" Declaration* "}"
   Situation = "Situation" SituationHead SituationBody
   SituationBody = "{" SituationParts "}"
   SituationParts = SituationIncident+ SituationTurn? SituationDone

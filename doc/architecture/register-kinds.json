@@ -366,6 +366,12 @@
    "pri": "P2",
    "why": "24 Nov, classified as filed: OR-222's remainder, commissioned"
   },
+  "OR-230": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, classified as filed: a form for effect-side bookkeeping (the Book of Faces' hearings), wanted, not an observed failure"
+  },
   "OR-224": {
    "kind": "direction",
    "was": "defect",

@@ -6,6 +6,7 @@ import { Chapters } from './chapters';
 import { Promises } from './promises';
 import { Occasions } from './occasions';
 import { Situations } from './situations';
+import { Durings } from './during';
 import { EndingOrder } from './ending-order';
 
 type Node = ohm.Node;
@@ -25,7 +26,7 @@ export class Endings {
   // one does (see Promises).
   static readonly actions = { Ending: Endings.parse, EndingTail: Endings.tail, EndingOver: Endings.over,
     EndingWhen: Endings.when, ...Chapters.actions, ...Promises.actions, ...Occasions.actions,
-    ...Situations.actions };
+    ...Situations.actions, ...Durings.actions };
   static parse(_ending: Node, id: Node, title: Node, tail: Node) {
     return { field: 'ending', value: { id: id.sourceString, title: Endings.ast(title) as string,
       ...Endings.ast(tail) as { over?: string[]; when: Predicate; text: string } } };
