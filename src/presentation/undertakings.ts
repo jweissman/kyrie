@@ -51,7 +51,12 @@ export class Undertakings {
   static follow(campaign: Campaign, id?: string) {
     const current = campaign.tickState.current;
     if (id && !this.held(campaign).some(o => o.id === id)) { throw new Error(`No aim ${id} is held`); }
-    if (id) { current.following = { id, chosen: true }; } else { delete current.following; }
+    // One chosen over another still held sets that one aside, to come back to (OR-179).
+    const was = current.following, held = new Set(this.held(campaign).map(o => o.id));
+    const aside = [...was?.aside ?? [], ...was?.chosen && was.id !== id && held.has(was.id) ? [was.id] : []]
+      .filter(a => a !== id);
+    if (!id) { delete current.following; return; }
+    current.following = { id, chosen: true, ...aside.length ? { aside } : {} };
   }
   // The aim followed, where a journey set out for is a place it names (or within one): only such a journey ends when
   // the aim changes. One of the player's own (a march-stone on the map) had been dropped on the road when the debt
@@ -241,9 +246,13 @@ export class Undertakings {
       const part = arisen.filter(o => this.part(o.id, followed));
       const lone = arisen.length === 1 && (this.errand(campaign, arisen[0]!)
         || this.story(arisen[0]!.id) === this.story(followed)) ? arisen[0] : undefined;
-      const next = part.length === 1 ? part[0] : lone;
-      // Followed on into its next part, as the player's own choice still.
-      if (next) { current.following = { id: next.id, chosen: true }; } else { delete current.following; }
+      const next = part.length === 1 ? part[0] : lone, aside = (kept?.aside ?? []).filter(a => now.has(a));
+      // Followed on into its next part, as the player's own choice still; or else back to the aim they last set aside
+      // for it, if it is held still (OR-179: the pans' cold boat fetched, the drove's sale Bran waited on, chosen
+      // before it, had been left followed by nobody); nothing else is followed for them.
+      const on = next?.id ?? aside.pop(), rest = aside.filter(a => a !== on);
+      if (!on) { delete current.following; return; }
+      current.following = { id: on, chosen: true, ...rest.length ? { aside: rest } : {} };
     }
   }
 }
