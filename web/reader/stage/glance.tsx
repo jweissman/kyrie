@@ -71,7 +71,7 @@ export class GlanceStage {
         {apart ? <GlanceStage.Rest app={app} glance={g} /> : <div className="told-col" data-region="told" {...PageFrame.slot('narrative')}>
           {s.pending ? <Told.Working pending={{ ...s.pending, stage: s.stage }} />
             : (stayed || struck) && <Told.Happened exchange={told!} said={stayed} ready={ready} app={app} />}
-          {g.came && <GlanceStage.Came app={app} came={g.came} />}
+          {g.came && <GlanceStage.Came app={app} came={g.came} {...g.legs ? { legs: g.legs } : {}} />}
           {screen.dark && !g.sight && <p className="dark-note">{Told.dark(screen)}</p>}
           {g.sight && <p className="sight" data-id={g.sight.id}><Told.Said text={g.sight.text} /></p>}
           <GlanceStage.Life app={app} glance={g} />
@@ -162,7 +162,7 @@ export class GlanceStage {
     return <div className="told-col" data-region="told" ref={col} {...PageFrame.slot('narrative')}>
       {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
       {struck && told && <Told.Happened exchange={told} ready={Moments.ready(screen)} app={app} />}
-      {g.came && <GlanceStage.Came app={app} came={g.came} />}
+      {g.came && <GlanceStage.Came app={app} came={g.came} {...g.legs ? { legs: g.legs } : {}} />}
       {screen.dark && <p className="dark-note">{Told.dark(screen)}</p>}
       {/* A danger before the place's telling: under it, its words had been below the fold (round 4, E 61). */}
       {g.life?.danger && <GlanceStage.Life app={app} glance={g} />}
@@ -498,15 +498,18 @@ export class GlanceStage {
     );
   }
   // How the company came, in a line; a journey's legs, each as it went, opened from it (they are under Look about too).
-  static Came({ app, came }: { app: ReaderApp; came: string }) {
-    const travel = app.state.frame!.travel, stopped = travel && !travel.arrived ? ' stopped' : '';
-    if (!travel || travel.legs.length < 2) { return <p className={`came${stopped}`}>{Typography.curl(came)}</p>; }
-    return (
-      <details className={`came${stopped}`} data-region="journey">
-        <summary data-action="journey">{Typography.curl(came)}</summary>
+  // The journey's line is told, as the place's lines are; its legs open from a quiet word under it, in the engine's
+  // words (Glance.legs), never from the line itself (OR-246: "By the sea-bank … : Day 1, 11:48 a.m." had been the
+  // disclosure, and read as a line of the log).
+  static Came({ app, came, legs }: { app: ReaderApp; came: string; legs?: string }) {
+    const travel = app.state.frame?.travel, stopped = travel && !travel.arrived ? ' stopped' : '';
+    const line = <p className={`came${stopped}`}>{Typography.curl(came)}</p>;
+    if (!travel || !legs) { return line; }
+    return <>{line}
+      <details className="came-legs" data-region="journey">
+        <summary data-action="journey">{Typography.curl(legs)}</summary>
         <Journey.View travel={travel} />
-      </details>
-    );
+      </details></>;
   }
   // A sign of life now: a danger, as what it is, what it is doing and how a fight would go (what can be done about it
   // is what the glance leads with, and every way of meeting it is under Look about); or someone's words or doings; or
