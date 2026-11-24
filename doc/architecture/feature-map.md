@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 169 pins (137 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 536 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 539 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -148,7 +148,7 @@ page's colours and opportunities.)
 - **Belongings with a history** · 1 pins · 0 defects · 1 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - requirement OR-307 P1: The character sheet simplified, as a folio (perhaps the Encyclopedia's parchment): the character,…
-- **Lodging and rest** · 4 pins · 2 defects · 0 asks
+- **Lodging and rest** · 4 pins · 3 defects · 0 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
@@ -156,7 +156,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 8 defects · 0 asks
+- **Markets and prices** · 0 pins · 9 defects · 0 asks
 
 ## II. World: what there is to meet
 
@@ -215,7 +215,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 4 pins · 20 defects · 4 asks
+- **Dungeons and sites** · 4 pins · 22 defects · 4 asks
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
@@ -223,7 +223,7 @@ page's colours and opportunities.)
   - requirement T24-27 P1: After two or three notice jobs, the next lead bent toward the region's own history (its works, its…
   - requirement OA-12 P1: The compact, tense expedition (the M21 brief's Phase 2, "restore the dramatic core"; the…
   - requirement HP-03 P1: One complete emotional expedition, in Gone under: image, preparation with a person, a companion's…
-  - requirement OR-311 P1: The opening dungeon not unmistakable: from the first town the Atlas leads reliably to one…
+  - requirement OR-280 P1: The opening dungeon unmistakable in drawn countries, not only Iscoed: from the first town of a…
 - **Adventures and their endings** · 4 pins · 3 defects · 1 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
   - ✓ lints clean
@@ -256,7 +256,7 @@ page's colours and opportunities.)
 
 ### Consequence
 
-- **Choices that change what follows** · 5 pins · 5 defects · 1 asks
+- **Choices that change what follows** · 5 pins · 4 defects · 1 asks
   - ✓ tells a choice's outcome in its own words, and the world and a save keep what came of it
   - ○ a spared enemy reappears later, as what being spared made of them
   - ○ a promise broken resurfaces in what someone says or will do
@@ -283,15 +283,16 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 5 pins · 10 defects · 2 asks
+- **The title and Play** · 5 pins · 10 defects · 3 asks
   - ✓ is the title's one way in: it continues a game kept and still going, and otherwise begins
   - ✓ then asks one thing: create a character, or enter the world as we are
   - ✓ takes up the terminal's kept game while it is going, and from one that cannot be opened begins, saying why
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
+  - requirement OR-290 P2: FM-01's remainder: record the way in frame by frame on the deployed build (remounts, opacity…
   - requirement OR-133 P1: Stories made plain on the page: the brief's Story/Incident block for an authored title and problem…
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
-- **Character creation** · 3 pins · 9 defects · 2 asks
+- **Character creation** · 3 pins · 8 defects · 2 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
   - ✓ each see acts the others do not
@@ -306,7 +307,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 4 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 15 defects · 4 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
@@ -322,7 +323,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 40 defects · 10 asks
+- **Rows, lenses and the frame** · 3 pins · 38 defects · 10 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
