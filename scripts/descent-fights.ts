@@ -40,6 +40,11 @@ export class DescentFights {
   // Out of the adit by its rows' words, as the page walk goes (test/page-walk-browser), the badger fought on the way.
   static readonly adit = ['?~light a (torch|candle)', '~To the old gallery', '~^Attack', 'through',
     '~Heave the fallen prop up alone', '~old drift', '~To the landing at Porthalen'];
+  // And as a careful life of few hit points goes: Dai asked along, and the prop lifted with him, not heaved alone (a
+  // mage heaving it alone after the badger's bout had died of it: OR-226).
+  static readonly aditWithDai = ['?~light a (torch|candle)', '~To the old gallery', '~^Attack', 'through',
+    '~tell Dai you will get him out', '?~(Ask|Take) Dai', '~Lift the fallen prop with Dai', '~old drift',
+    '~To the landing at Porthalen'];
   // The loop pin's route, by the words of its rows (see the pin for what each part is).
   static readonly established = ['~Read the notice on the well-post', "~To Holgar's salt-house",
     '~Ask Holgar about the rats in the corn-store', '~Buy a torch for', '~Buy one ration from Holgar',
@@ -64,12 +69,14 @@ export class DescentFights {
   // One calling down one route: the opening, then the steps; each fight as it was met. A step not offered ends it.
   static async walk(calling: string, route: readonly string[]): Promise<{ met: Met[]; stopped?: string }> {
     const as = this.callings[calling]!;
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as, '--opening',
-      StockOpenings.chosen('iscoed') ?? StockOpenings.none]));
+    // Each calling come down the drove road to Porthalen, the town the journey is under (a mage of the weir life comes
+    // out of the adit to Gatesend).
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as, '--origin', 'drove',
+      '--opening', StockOpenings.chosen('iscoed') ?? StockOpenings.none]));
     const s = journey.session, r = new Runner(s), met: Met[] = [];
     let said: Said = r.said('look'), aside: string | undefined, step = '', other: string[] = [];
     let known = FirstHourFights.said(s), tried: Tried | undefined;
-    const steps = [...this.adit, ...route];
+    const steps = [...calling === 'mage' ? this.aditWithDai : this.adit, ...route];
     let last = '';
     for (const step0 of steps) {
       // A step marked ? is taken where it is offered (a light already lit is not lit again).
