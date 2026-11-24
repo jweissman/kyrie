@@ -10,8 +10,10 @@ import { PlayerView } from '../src/presentation/player-view';
 // Under the ground, or in a site, the way the company came is kept in sight beside Go… (PR-08: five cold players in
 // three rounds could not find the way back or up, and walked out of a mine step by step through Go…).
 describe('the way back', () => {
+  // In kahitude, whose quarry has the spiders and the old cutting's roof (a1's has the she-bear since the pit's second
+  // cause).
   it('is in sight down in the quarry\'s workings, and not on the town\'s own ground', async () => {
-    const s = await DrawnWorld.start('a1', { origin: 'debt', party: [{ name: 'X', raceId: 'human', classId: 'warrior' }] },
+    const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'X', raceId: 'human', classId: 'warrior' }] },
       NodeBundleSource.shared);
     const c = s.campaign, id = (suf: string) => c.module.entities.find(e => e.id.endsWith(suf))!.id;
     const glance = () => Narrator.leaf(c, ScreenModel.build(c)).glance!;

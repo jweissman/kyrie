@@ -688,7 +688,7 @@
   // Their young go down with them, laid or put back; fought, they stay to be fought.
   Rule {t}_u_pickers_young_go when {t}_u_done({t}_u_pickers) and able({t}_u_pickers) and at({t}_u_pickers_young, {t}_u_charnel) { Retract at({t}_u_pickers_young, {t}_u_charnel). }
   Rule {t}_u_pickers_cleared when {t}_u_done({t}_u_pickers) and not {t}_u_done({t}_u_pickers_job) { Assert {t}_u_done({t}_u_pickers_job). }
-  Milestone {t}_u_pickers_laid "laid the bone-pickers under the churchyard to rest" worth 150 when {t}_u_done({t}_u_pickers).
+  Milestone {t}_u_pickers_laid "laid to rest what was eating the churchyard's old dead" worth 150 when {t}_u_done({t}_u_pickers).
   Objective {t}_u_pickers_job_aim when {t}_u_given({t}_u_pickers_job) and not {t}_u_done({t}_u_pickers_job) toward {t}_u_pickers by {t}_u_yard "Find what comes up out of {{t}_u_crypt} under {{t}_u_yard} at {town}, and lay it.".
   Topic {t}_u_pickers_job_paid with {t}_priest "Tell {{t}_priest} what was coming up out of the catacombs, and that it is laid" when {t}_u_done({t}_u_pickers_job) and not {t}_u_paid({t}_u_pickers_job) once {
     Says "{{t}_priest} hears it all with eyes shut, and is quiet a long while at the sexton's part. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'Job will dig for nothing this winter,' says {{t}_priest}. 'He offered.'".

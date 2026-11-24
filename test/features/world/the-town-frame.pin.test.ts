@@ -15,16 +15,15 @@ import { AsMeant } from '../../support/as-meant';
 // a she-bear denned with her cub, and the wolves that follow her; fought here, or smoked out, or let by. Iscoed's
 // first town keeps its own causes (data/imbar/atlas.json's fix), so the reference journey holds. bench-1's first town
 // draws the bone-pickers, bench-2's the bear.
-type Row = { id: string; label: string; opens?: Row[] };
+type Row = { id: string; label: string; aside?: string; opens?: Row[] };
 const flat = (rs: Row[]): Row[] => rs.flatMap(r => [r, ...flat(r.opens ?? [])]);
 const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
   ...Object.values(s.offer?.lenses ?? {}).flat()] as Row[]);
 class Walk {
   s!: Said;
   private constructor(readonly r: Runner, readonly session: Runner['session']) {}
-  static async begun(world: string): Promise<Walk> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', world, '--as', 'human/warrior/Wenna',
-      '--opening', 'none']));
+  static async begun(world: string, as = 'human/warrior/Wenna'): Promise<Walk> {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', world, '--as', as, '--opening', 'none']));
     const walk = new Walk(new Runner(journey.session), journey.session);
     walk.s = walk.r.said('look');
     return walk;
@@ -68,6 +67,37 @@ describe('the first town\'s frame', () => {
     expect(walk.holds('region__s1_u_done', 'region__s1_u_bear_job')).toBe(true);
     // Not the spiders' brood-chamber: the den, and nothing of web in the adit.
     expect(walk.s.scene.lines.join(' ')).not.toMatch(/web|brood/i);
+  }, 300000);
+  // The other ways, each by the offered rows and each changing the world: the rite said over the shelves (a cleric,
+  // its first try failing); the she-bear smoked out with a flask of oil bought at the chandlery (a thief, who would
+  // lose to her in a fight, and is told so); and let by, her cub read at the den's mouth (a ranger).
+  it('lays the bone-pickers by the rite of rest, said again where it fails', async () => {
+    const walk = await Walk.begun('bench-1', 'dwarf/cleric/Dori');
+    await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', 'about the bones in the churchyard',
+      '^To the market-place', '^To the churchyard', '^Down to the crypt', 'light a (torch|candle)', 'ossuary',
+      'rite of rest over the opened shelves', 'rite of rest over the opened shelves']);
+    expect(walk.holds('region__s1_u_done', 'region__s1_u_pickers')).toBe(true);
+    expect(walk.holds('at', 'region__s1_u_pickers', 'region__s1_u_ossuary')).toBe(false);
+  }, 300000);
+  const quarry = ['^To the landing', '^Read the notice', '^Into the Fierce Dragon', 'about the old quarry'];
+  const down = ['old quarry pit', '^Down to the quarry adit$', 'light a (torch|candle)', 'cut gallery|old cutting',
+    '^Attack the wol', 'through'];
+  it('smokes the she-bear out with oil, a thief warned that she is beyond them', async () => {
+    const walk = await Walk.begun('bench-2', 'human/thief/Ned');
+    await walk.play([...quarry, 'landing|Out', "To Mildred's chandlery", 'Buy a flask of lamp oil',
+      '^To the landing|Out to the landing', ...down, '^To the den']);
+    expect(rows(walk.s).find(x => /^Attack the she-bear/.test(x.label))?.aside).toMatch(/^Beyond you/);
+    await walk.play(['^To the cut gallery', 'Pour lamp oil on wet bracken']);
+    expect(walk.holds('region__s1_u_bear_gone')).toBe(true);
+    expect(walk.holds('at', 'region__s1_u_bear', 'region__s1_u_brood')).toBe(false);
+  }, 300000);
+  it('lets the she-bear by, her cub read by a ranger at the den\'s mouth', async () => {
+    const walk = await Walk.begun('bench-2', 'elf/ranger/Aud');
+    await walk.play([...quarry, 'landing|Out', ...down]);
+    expect(walk.holds('knows', 'party', 'region__s1_u_bear_cub')).toBe(true);
+    await walk.play(['^To the den', 'Stand aside from the crack']);
+    expect(walk.holds('region__s1_u_bear_gone')).toBe(true);
+    expect(walk.s.scene.lines.join(' ')).toMatch(/75 experience: let the she-bear take her cub away/);
   }, 300000);
   it('keeps Iscoed\'s first town as it was, and draws both causes of each among other towns', () => {
     const atlas = JSON.parse(readFileSync('data/imbar/atlas.json', 'utf8')) as

@@ -9,6 +9,8 @@ import { PlayTool } from '../src/cli/play-tool';
 describe('a calling\'s own way in the first town', () => {
   const start = (calling: string) => PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', `human/${calling}/Wat`]))
     .then(s => s.journey);
+  const spiders = (calling: string) => PlayTool.start(PlayTool.parse(['--world', 'kahitude', '--as',
+    `human/${calling}/Wat`])).then(s => s.journey);
   const crypt = ['To the landing at Lowmouth', 'To the shrine of Nodens', 'Ask Eogan about the noises',
     'To the landing at Lowmouth', 'To the churchyard', 'Down to the crypt', 'a candle: Light', 'To the ossuary'];
   it('lets a thief pick the corn-store, and a warrior wrench it, unasked', async () => {
@@ -34,10 +36,11 @@ describe('a calling\'s own way in the first town', () => {
     expect(mage.offers('Say the rite of rest')).toBe(false);
     expect(await mage.step('what his book left out')).toMatch(/out of Lowmouth before morning/);
   }, 120000);
+  // The spiders in kahitude's quarry (a1's has the she-bear since the pit's second cause).
   it('lets a ranger read in the web at the quarry what is laying at the back', async () => {
-    const adit = ['To the landing at Lowmouth', 'Into the Lucky Phoenix', 'Ask .* about the old quarry',
-      'To the landing at Lowmouth', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light'];
-    const ranger = await start('ranger'), warrior = await start('warrior');
+    const adit = ['To the landing at Thornhaven', 'Into the Stormy Horn', 'Ask .* about the old quarry',
+      'To the landing at Thornhaven', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light'];
+    const ranger = await spiders('ranger'), warrior = await spiders('warrior');
     for (const step of adit) { await ranger.step(step); await warrior.step(step); }
     expect(ranger.latest).toMatch(/[Ss]omething big at the back is laying/);
     expect(warrior.latest).not.toMatch(/[Ss]omething big at the back is laying/);
@@ -54,9 +57,13 @@ describe('a calling\'s own way in the first town', () => {
       await j.step(step);
     }
     expect([j.holds('able', 'region__s1_u_rats'), j.holds('region__s1_u_done', 'region__s1_u_rats_job')]).toEqual([false, true]);
-    for (const step of ['To the landing at Lowmouth', 'Into the Lucky Phoenix', 'Ask .* about the old quarry',
-      'To the landing at Lowmouth', 'To the old quarry pit', '^Down to the quarry adit$', '?a candle: Light',
-      'Throw an oil firebomb', 'Wait a while']) { await j.step(step); }
-    expect(j.holds('region__s1_u_done', 'region__s1_u_spiders_job')).toBe(true);
+    // And the spiders, in a quarry that has them.
+    const k = await spiders('mage');
+    for (const step of ['To the landing at Thornhaven', 'To Annis\'s chandlery', 'Buy › An oil firebomb',
+      'To the landing at Thornhaven', 'Into the Stormy Horn', 'Ask .* about the old quarry', 'To the landing at Thornhaven',
+      'To the old quarry pit', '^Down to the quarry adit$', '?a candle: Light', 'Throw an oil firebomb', 'Wait a while']) {
+      await k.step(step);
+    }
+    expect(k.holds('region__s1_u_done', 'region__s1_u_spiders_job')).toBe(true);
   }, 180000);
 });
