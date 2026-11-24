@@ -1,0 +1,21 @@
+{
+ "hob_folk": {
+  "__no_id": true,
+  "name": "Hobs",
+  "creatures": [],
+  "actors": {
+   "order": []
+  },
+  "initial": [],
+  "outcomes": [],
+  "casting": "=gen(hob_folk_casting)"
+ },
+ "hob_folk_casting": {
+  "__no_id": true,
+  "captive": "=gen(hob_folk_captive)"
+ },
+ "hob_folk_captive": {
+  "__no_id": true,
+  ">name": "=another(1d1000, defined('taken') ? #taken : nihil, 'human', 'he:shepherd_son')"
+ }
+}

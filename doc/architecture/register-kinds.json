@@ -642,6 +642,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, split from FM-01 at its close: the observed failure (the page faded out and back at a creation step) is mended and pinned; what remains is an audit recording asked for and weaknesses not yet named, a requirement, not a violation of a claimed contract"
+  },
+  "OR-280": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, split from OR-311 (the owner's playtests, doc/design/playtest-2026-11-24.md): the opening dungeon's invitation across drawn countries is a commissioned outcome not yet met there, no observed failure of a claimed contract"
   }
  },
  "blockedBy": {

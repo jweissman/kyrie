@@ -47,10 +47,15 @@ Module hob_folk "Hobs" {
     Objects "'Said don't touch nothing!' The Gaffer comes up off his fleeces with the mitre over one eye. 'Thieves! In my own hold! THIEVES!'".
   }
   Initially Assert serves(watchers, gaffer). Initially Assert serves(raiders, gaffer).
+  // Someone the company takes home is someone (OR-304: "the boy", a level-one commoner, and nobody to return him to):
+  // a shepherd's son of the settlement the hobs rob, his name drawn for this world (templates.json), apart from the
+  // names it has already. Penned, he is only a boy among the sheep; untied, he says who he is and where home is.
   Person captive "the shepherd's boy" at pens {
-    Role "a boy taken off the farms". Ancestry human. Calling commoner. Level 1. Peaceable.
+    Role "a shepherd's son from {steading}, taken off its farms by the hobs". Ancestry human. Calling commoner. Level 1.
+    Peaceable. Pronouns he.
+    Known as "the shepherd's boy" when state(captive, penned).
     State penned "A boy sits among the stolen sheep with his hands tied, trying not to cry.".
-    State loose "The shepherd's boy rubs his wrists and looks at the way out.".
+    State loose "{captive} rubs his wrists and looks at the way out.".
     Change untie "Untie the shepherd's boy" from penned to loose.
     Uses go. Plans 12 steps.
   }
@@ -101,7 +106,7 @@ Module hob_folk "Hobs" {
   Entity bell_dread: fact "Hobs cannot abide the sound of a bell: ring one where they are and they run.".
   Initially Assert established(bell_dread).
   // The bell was not his town's (06a4c31): he says whose it was, and what it is good for.
-  Topic boy_bells with captive "Ask the shepherd's boy about the hobs" when true once {
+  Topic boy_bells with captive "Ask {captive} about the hobs" when true once {
     Says "'They took the bell out of the frame at {parish},' the boy whispers, 'and then they wouldn't touch it. Burdock wrapped it in a sack with his eyes shut. They can't stand bells. Ring one where they can hear it and they run.'".
     On discuss { Assert knows(actor, bell_dread). Assert knows(actor, bell_taken). }
   }
@@ -109,20 +114,20 @@ Module hob_folk "Hobs" {
   Objective ring when knows(party, bell_dread) and able(gaffer) and not routed(gaffer) and not paid(gaffer)
     and not freed(captive) "Hobs cannot abide a bell: rung in their hold at {outside}, one would send them running.".
 
-  Topic boy_way with captive "Ask the shepherd's boy how the hobs come and go" when true once {
+  Topic boy_way with captive "Ask {captive} how the hobs come and go" when true once {
     Says "'There's a back way,' he says. 'I've seen them go out of it with sacks and come in without. I don't know where it comes out.'".
   }
   // He says where home is, and taking him there is asked of the company while he follows (the expedition diagnosis:
   // nothing named his town, and the hobs' experience was never reached).
   Rule boy_follows when state(captive, loose) and not acceptsEscort(captive, party)
-    says "The boy grabs your sleeve. 'Take me home? It's {steading}. Mam will be out of her mind.'" {
+    says "The boy grabs your sleeve. 'I'm {captive}, the shepherd's, from {steading}. Take me home? Mam will be out of her mind.'" {
     Assert acceptsEscort(captive, party).
   }
   Objective boy_home_aim when acceptsEscort(captive, party) and not freed(captive)
-    "The shepherd's boy you untied in the hobs' pens wants taking home to {steading}.".
+    "{captive}, the shepherd's son you untied in the hobs' pens, wants taking home to {steading}.".
   Initially Assert home(captive, town). Initially Set thanks(captive) to 8.
   Rule boy_home when cameHome(captive) and not freed(captive)
-    says "The boy's mother sees him from a doorway and comes running with her apron over her mouth." {
+    says "{captive}'s mother sees him from a doorway and comes running with her apron over her mouth." {
     Assert freed(captive).
   }
   Relation freed(group).

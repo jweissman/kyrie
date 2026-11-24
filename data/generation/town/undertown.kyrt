@@ -1044,8 +1044,9 @@
   Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) and not tolerates({t}_u_keeper, party) toward {t}_u_vault "Something keeps {{t}_u_vault} under the undercroft.".
 --- hand sellsword 1
   // Someone on the green who would come along (the owner, 19 November, AT-08: in the very first space, in general,
-  // someone recruitable; the first choices, companions or alone). Its own draw (keyed), so no other draw moves.
-  Person {t}_u_hand "the sellsword on the green" at {t}_green {
+  // someone recruitable; the first choices, companions or alone). Its own draw (keyed), so no other draw moves. Each
+  // is someone, named for the town ({handhe}, {handshe}: RegionUndertown.hand), not a description (OR-304).
+  Person {t}_u_hand "{handshe}" at {t}_green {
     Role "a sellsword between masters, sitting on the well-kerb with a notched blade across her knees". Ancestry human. Calling warrior. Level 1. Peaceable. Manner grim. Pronouns she.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the sellsword what work she is after" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
@@ -1053,7 +1054,7 @@
     On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 2. }
   }
 --- hand acolyte 1
-  Person {t}_u_hand "the runaway acolyte" at {t}_green {
+  Person {t}_u_hand "{handhe}" at {t}_green {
     Role "an acolyte run from a shrine two valleys over, still in his grey habit, counting the coppers in his palm". Ancestry human. Calling cleric. Level 1. Peaceable. Manner stoic. Pronouns he.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the acolyte where he is going" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
@@ -1061,7 +1062,7 @@
     On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 0. }
   }
 --- hand tinker 1
-  Person {t}_u_hand "the tinker's daughter" at {t}_green {
+  Person {t}_u_hand "{handshe}" at {t}_green {
     Role "a tinker's daughter left behind when the cart went on, picking a lock on a strongbox for the fun of it". Ancestry human. Calling thief. Level 1. Peaceable. Manner proud. Pronouns she.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the tinker's daughter why she was left behind" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
@@ -1073,7 +1074,7 @@
 // lad, a debtor's a bailiff's man owed by the same creditor, an heir to the weir an eel-boy, a salt-raker's a raker
 // laid off, a son come home his father's old carter's boy. Each would come along, as the others would.
 --- hand drover 3 if fromdrove
-  Person {t}_u_hand "the drover's lad" at {t}_green {
+  Person {t}_u_hand "{handhe}" at {t}_green {
     Role "a drover's lad from over the fells, his dog at his heel and no drove to follow". Ancestry human. Calling ranger. Level 1. Peaceable. Manner cheerful. Pronouns he.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the drover's lad where his drove went" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
@@ -1081,7 +1082,7 @@
     On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 1. }
   }
 --- hand bailiff 3 if fromdebt
-  Person {t}_u_hand "the bailiff's man" at {t}_green {
+  Person {t}_u_hand "{handhe}" at {t}_green {
     Role "a bailiff's man in a good coat gone thin, owed a month's wages by the same merchant you owe". Ancestry human. Calling warrior. Level 1. Peaceable. Manner acerbic. Pronouns he.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the bailiff's man what he is waiting for" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
@@ -1089,7 +1090,7 @@
     On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 2. }
   }
 --- hand eelboy 3 if fromweir
-  Person {t}_u_hand "the eel-boy" at {t}_green {
+  Person {t}_u_hand "{handhe}" at {t}_green {
     Role "an eel-boy with a trap on his back, who has never seen the sea-gate shut". Ancestry human. Calling thief. Level 1. Peaceable. Manner cheerful. Pronouns he.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the eel-boy what he wants" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
@@ -1097,7 +1098,7 @@
     On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 0. }
   }
 --- hand raker 3 if frompans
-  Person {t}_u_hand "the laid-off raker" at {t}_green {
+  Person {t}_u_hand "{handshe}" at {t}_green {
     Role "a salt-raker laid off when the fires went out, salt still in the creases of her hands". Ancestry human. Calling warrior. Level 1. Peaceable. Manner grim. Pronouns she.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the raker what she will do now" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {
@@ -1105,7 +1106,7 @@
     On discuss { Assert willing({t}_u_hand, actor). Set hire({t}_u_hand) to 2. }
   }
 --- hand carter 3 if fromkin
-  Person {t}_u_hand "the carter's boy" at {t}_green {
+  Person {t}_u_hand "{handhe}" at {t}_green {
     Role "the boy who used to hold your father's horse, grown now, and still looking down the road". Ancestry human. Calling ranger. Level 1. Peaceable. Manner stoic. Pronouns he.
   }
   Topic {t}_u_hand_ask with {t}_u_hand "Ask the carter's boy whether he saw the cart go" when not willing({t}_u_hand, actor) and not travelsWith({t}_u_hand, actor) once {

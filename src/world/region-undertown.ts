@@ -9,6 +9,8 @@ import { RegionMarket } from './region-market';
 import { StrategicAtlas } from './strategic-atlas';
 import type { Region, Settlement, Site } from './region-writer';
 import { RegionKey } from './region-key';
+import { FamilyNames } from './family-names';
+import { StoryPeople } from './story-people';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
 // (the owner, 1 November: "we shouldn't have to explore to start an adventuring loop"). What it is, the rooms, the
@@ -23,10 +25,23 @@ export class RegionUndertown {
     // many of the first foes a trouble sets, for the company that takes it (M19-87).
     const t = s.id, standing = { merchant: SettlementWriter.standing(region, s, 'merchant'),
       priest: SettlementWriter.standing(region, s, 'priest'), innkeeper: SettlementWriter.standing(region, s, 'innkeeper') };
-    const values = { ...this.values(t, s.name, company, standing), ratsbane: this.ratsbane(s) };
     const sections = KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${t}:undertown`, this.lives(region), fix);
+    const values = { ...this.values(t, s.name, company, standing), ratsbane: this.ratsbane(s),
+      ...sections.some(x => x.group === 'hand') ? this.hand(region, t) : {} };
     return [...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...this.catacombs(region, s),
       ...RegionMarket.home(region, s), ...this.notice(t, sections, values)];
+  }
+  // The name of whoever on the green would come along (OR-304: a joiner had been "the drover's lad" and nothing more),
+  // of the town's people and drawn by the town alone, apart from the names the country's people have: {handhe} or
+  // {handshe}, as the one drawn presents.
+  static hand(region: Region, t: string): Record<'handhe' | 'handshe', string> {
+    return this.named(`${RegionKey.of(region)}:${t}:hand`, StoryPeople.country(region));
+  }
+  // The names, drawn by a key alone (a laboratory's town has no country: scripts/laboratory.ts).
+  static named(key: string, taken: string[] = []): Record<'handhe' | 'handshe', string> {
+    const [he, she] = ['he', 'she'].map(as => FamilyNames.household({ key, people: 'human', roster: `${as}:hand`,
+      taken }).hand!);
+    return { handhe: he!, handshe: she! };
   }
   // How the company's life began, for the sections drawn only for one (who is on the green: "if fromdrove").
   static lives(region: Region): Record<string, string> { return region.origin ? { [`from${region.origin}`]: 'yes' } : {}; }

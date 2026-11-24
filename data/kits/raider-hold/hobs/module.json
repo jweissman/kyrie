@@ -92,5 +92,9 @@
     "roused": "gaffer",
     "bell_taken": "bell_taken"
   },
-  "experience": 600
+  "experience": 600,
+  "generation": {
+    "type": "hob_folk",
+    "templates": "templates.json"
+  }
 }

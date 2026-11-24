@@ -534,7 +534,7 @@ Module lab "The undercroft at Lowmouth" {
     Result "You lay the coins at its feet and say the words off the page. Its head follows the coins down. Then it sits, the way an old man sits.".
   }
   Objective low_u_vault_sought when knows(party, low_u_vault_found) and able(low_u_keeper) and not tolerates(low_u_keeper, party) toward low_u_vault "Something keeps {low_u_vault} under the undercroft.".
-  Person low_u_hand "the sellsword on the green" at low_green {
+  Person low_u_hand "Amice Thorne" at low_green {
     Role "a sellsword between masters, sitting on the well-kerb with a notched blade across her knees". Ancestry human. Calling warrior. Level 1. Peaceable. Manner grim. Pronouns she.
   }
   Topic low_u_hand_ask with low_u_hand "Ask the sellsword what work she is after" when not willing(low_u_hand, actor) and not travelsWith(low_u_hand, actor) once {

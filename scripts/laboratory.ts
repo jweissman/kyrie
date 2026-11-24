@@ -14,7 +14,8 @@ export class Laboratory {
   static text(company = 1): string {
     // Its merchant keeps no ratsbane (host.kyr), so promises none (RegionUndertown.ratsbane).
     const values = { ...RegionUndertown.values('low', 'Lowmouth', company,
-      { merchant: 'low_shop', priest: 'low_chapel', innkeeper: 'low_taproom' }), ratsbane: '' };
+      { merchant: 'low_shop', priest: 'low_chapel', innkeeper: 'low_taproom' }), ratsbane: '',
+    ...RegionUndertown.named('laboratory:low:hand') };
     // Its churchyard keeps the raised dead and its quarry the spiders, whose specs it holds (the yard's and the pit's
     // second causes are drawn elsewhere: test/features/world/the-town-frame.pin).
     const sections = KyrTemplates.choose(RegionUndertown.template, 'laboratory:low:undertown', {},
