@@ -75,6 +75,8 @@ html, body { overflow: hidden; }
 .title-menu { position: relative; width: min(360px, 100%); }
 .title-menu ul { list-style: none; margin: 0; padding: 0; }
 .title-menu ul { display: grid; gap: 6px; }
+/* A kept game that could not be opened, said plainly under the ways in (OR-300): words, neutral, never a row. */
+.title-menu .title-told { margin: 14px 0 0; font: 400 14px/1.5 var(--told); color: var(--dim); text-wrap: pretty; }
 /* The ways in are the game's own rows (ChoiceRow's grammar: a mark at the left, the words, a quiet line under them),
    centred under the name: a row's ground and edge at rest, so that each reads as a choice and not a link (IG-16). The
    one the hand or the keys are on is lit at once in the row's tint, its words full; pressed, deeper; nothing slides to

@@ -4,6 +4,7 @@ import { ReaderOptions, type Options } from './reader-options';
 import { TitlePage } from './title-page';
 import { Identity } from '../../src/presentation/identity';
 import { ChoiceRow } from './stage/choice-row';
+import { FirstChoice, type Paused } from '../../src/creation/first-choice';
 
 // Options, from the title: the size of the page's letters, whether the dice behind what happens are told ("Wenna
 // makes the persuasion check (d20 16 …)") or only what came of them, and a game saved elsewhere opened from its file;
@@ -14,6 +15,9 @@ import { ChoiceRow } from './stage/choice-row';
 // owner's playtest of 20 November: "Too many similar items; no icons on grouping… Why is the handbook here at all?
 // It seems chaotic"): seven rows of three kinds had been five alike, a save file and the handbooks, which are an
 // author's and not the game's (at handbook/index.html, as they were).
+// Opened from a game (the Book's Options, OR-300: "a pause menu that says options and then back to title screen"), the
+// same settings, and at its foot the engine's ways from a paused game (FirstChoice.paused): back to the game, or
+// Return to title, where the game stays kept and Continue takes it up.
 export class OptionsPage {
   static readonly settings: { key: keyof Options; label: string; glyph: string;
     values: { id: string; label: string; note: string }[] }[] = [
@@ -48,8 +52,11 @@ export class OptionsPage {
               own={{ 'data-nav': true }} onClick={OptionsPage.open} /></li></ul>
             <input type="file" id="load" accept="application/json" hidden onChange={TitlePage.load.bind(null, app)} />
           </section>
-          <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" glyph="back"
-            plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.back.bind(null, app)} /></li></ul>
+          {app.state.frame ? <ul className="rows back">{FirstChoice.paused().cards.map(card => <li key={card.id}>
+            <ChoiceRow.Button data={{ action: card.id }} label={card.name} glyph={card.id === 'back' ? 'back' : undefined}
+              plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.paused.bind(null, app, card.id)} /></li>)}</ul>
+            : <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" glyph="back"
+              plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.back.bind(null, app)} /></li></ul>}
           <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>
         </main>
       </div>
@@ -72,4 +79,8 @@ export class OptionsPage {
   // The file is chosen through the page's own hidden field, as a label had opened it.
   private static open() { document.getElementById('load')?.click(); }
   private static back(app: ReaderApp) { app.setState({ phase: 'title' }); }
+  // From a game paused: back into it as it stood, or to the title (the game kept, and Continue there).
+  static paused(app: ReaderApp, way: Paused) {
+    if (way === 'title') { app.opening.title(); } else { app.setState({ phase: 'play' }); }
+  }
 }

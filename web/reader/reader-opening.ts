@@ -5,7 +5,7 @@ import { CreationRules } from '../../src/creation/creation-rules';
 import { CreationDefaults } from '../../src/creation/creation-defaults';
 import { CreationFlow, type CreationChoice, type CreationStep, type CreationStepId } from '../../src/creation/creation-flow';
 import type { CreationState } from '../engine/engine-creation';
-import { FirstChoice, type Beginning } from '../../src/creation/first-choice';
+import { FirstChoice, type Beginning, type Way } from '../../src/creation/first-choice';
 import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldStage } from './stage/world-stage';
 import { Scenery } from '../../src/ui/scenery';
@@ -286,22 +286,20 @@ export class ReaderOpening {
   readonly title = () => {
     this.app.setState({ phase: 'title', frame: undefined, view: 'here', pending: undefined, error: '' });
   };
-  // From a game in play, how a new one begins (Begin a new life, in the notes): the game left is kept until the new one
-  // is begun, so that Escape back to the title and Play take it up again.
-  readonly leave = () => { this.title(); this.anew(); };
   readonly campaigns = () => { this.app.setState({ phase: 'campaigns', error: '' }); };
   // A new game: first, how it begins (FirstChoice, the engine's question: build a character, or set out now), asked at
   // once, the country it will begin in drawn meanwhile if it is not drawn already (see foresee).
-  readonly anew = () => {
+  // seed: the country it begins in, where the title names one (New character in the world kept here).
+  readonly anew = (seed?: string) => {
     this.app.setState({ phase: 'begin', memorial: undefined, error: '' });
-    if (!this.foreseen) { this.foresee(); }
+    if (!this.foreseen || (seed && seed !== this.foreseen)) { this.foresee(seed); }
   };
   // The seed a new game will use, named as the title shows, and its country drawn for it in the engine while the
   // title is up, with the start Set out now asks made ready behind it (OR-121, EngineForesight): never where a game is
   // kept, whose Continue must not wait on it, until New game is pressed.
   private foreseen?: string;
-  private foresee() {
-    const seed = this.foreseen = ReaderOpening.seed();
+  private foresee(asked?: string) {
+    const seed = this.foreseen = asked ?? ReaderOpening.seed();
     void this.app.engine.request({ kind: 'ahead', seed }).catch(() => undefined);
   }
   // How the new game begins, as chosen (see FirstChoice): a life built step by step in the country drawn for it, or
@@ -334,16 +332,21 @@ export class ReaderOpening {
     void this.pick('world', frame?.transcript.seed ?? ReaderOpening.seed());
   };
   static seed(): string { return FirstChoice.seed(); }
-  // The game kept here, as Play would take it up: none once it has failed to open in this page (see played).
+  // The game kept here, as the title offers it: refused once it has failed to open in this page or was remembered so
+  // (see played), and then said so on the title, never continued.
   kept(): SavedGame | undefined {
     const saved = this.app.savedGame;
-    return saved && saved.text !== this.unopened ? saved : undefined;
+    return saved && saved.text === this.unopened?.text ? { ...saved, refused: this.unopened.reason } : saved;
   }
-  private unopened?: string;
-  // Play, the title's one way in (FirstChoice.title, OR-160): the game kept here taken up while it is still going;
-  // else, or where it ended, how a new game begins.
-  readonly play = () => {
-    if (FirstChoice.title(this.kept()).chosen === 'continue') { this.carryOn(); } else { this.anew(); }
+  private unopened?: { text: string; reason: string };
+  // A way in from the title, by its id (FirstChoice.title, OR-300): the game kept here taken up; or how a new life
+  // begins, in the world kept here (New character) or in a new one, the kept world let go and its seed remembered (New
+  // world). The page draws the engine's rows and binds each to this, nothing else.
+  readonly way = (way: Way) => {
+    const kept = this.kept();
+    if (way === 'continue') { if (FirstChoice.continues(kept)) { this.carryOn(); } return; }
+    if (way === 'world' && kept?.seed) { ReaderStore.forget(kept.seed); }
+    this.anew(FirstChoice.seedFor(way, kept));
   };
   readonly carryOn = () => {
     const saved = this.kept();
@@ -355,12 +358,13 @@ export class ReaderOpening {
         this.played.bind(this, saved));
     })();
   };
-  // The kept game Play took up could not be opened (another edition kept it, or its world is gone): Play is never a way
-  // that goes nowhere, so a new game begins, why said in a line, and that game is not taken up again from this page.
+  // The kept game Continue took up could not be opened (another edition kept it, or its world is gone): the title
+  // again, Continue gone from it and why said plainly; remembered beside the game, so a reload says it too. It is never
+  // migrated (beta: no save-compatibility promise), and a new character or a new world is the player's to choose.
   private played(saved: SavedGame, error: unknown) {
-    this.unopened = saved.text;
-    this.app.setState({ leaving: false, approach: undefined });
-    this.anew();
-    this.app.setState({ error: FirstChoice.played(error instanceof Error ? error.message : String(error)).said });
+    const reason = error instanceof Error ? error.message : String(error);
+    this.unopened = { text: saved.text, reason };
+    ReaderStore.refuse(reason);
+    this.app.setState({ phase: 'title', leaving: false, approach: undefined, error: '' });
   }
 }

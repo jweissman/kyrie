@@ -64,7 +64,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       const { page } = await MonoBrowser.page(browser, size, { site, pointer: false, query: '' });
       await Title.ready(page);
       const bare = await Title.boxes(page);
-      // One way in, Play, with or without a game kept (OR-160: the title says only Play).
+      // With nothing kept, one way in: New character (OR-300).
       Title.check(bare, 1);
       // A game kept (begun by the address, as the other specs do), then the title again with nothing in the address.
       const base = page.url().split('?')[0]!;
@@ -78,12 +78,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       await page.waitForSelector('[data-action="continue"]', { timeout: 60000 });
       await Title.ready(page);
       const kept = await Title.boxes(page);
-      Title.check(kept, 1);
+      // A game kept: Continue, New character and New world, alike in width and place (OR-300).
+      Title.check(kept, 3);
+      expect(kept.texts.map(t => t.toLowerCase())).toEqual(['continue', 'new character', 'new world']);
       await page.screenshot({ path: `/var/tmp/kyrie/title/title-${size.width}.png` });
       // The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
       // November); the rows are the same width and place with or without a save.
       expect(kept.save).toBeUndefined();
-      expect(await page.getAttribute('[data-action="continue"]', 'aria-label')).toMatch(/^Play: continue, ./);
+      expect(await page.getAttribute('[data-action="continue"]', 'aria-label')).toMatch(/^Continue: ./);
       expect(Math.abs(kept.rows[0]!.width - bare.rows[0]!.width)).toBeLessThan(0.6);
       expect(Math.abs(kept.rows[0]!.x - bare.rows[0]!.x)).toBeLessThan(0.6);
     }, 400000);

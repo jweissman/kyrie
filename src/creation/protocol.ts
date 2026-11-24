@@ -176,7 +176,11 @@ export type Request =
 export interface Envelope { id: number; request: Request }
 // What a kept game says about itself on the title: the campaign, where the company is, when, and who.
 // ended: the game kept has come to its end (a death, or the campaign's close): the title's Play begins anew.
-export interface SaveSummary { title: string; where: string; when: string; company: string; ended?: boolean }
+// seed: the seed a drawn country was drawn from, by which New character begins in it again and New world lets it go
+// (FirstChoice.title); refused: why this build could not open it, once tried (said on the title, never tried again).
+export interface SaveSummary {
+  title: string; where: string; when: string; company: string; ended?: boolean; seed?: string; refused?: string;
+}
 export type Message =
   | { kind: 'reply'; id: number; value?: unknown; error?: string }
   | { kind: 'frame'; frame: Frame }

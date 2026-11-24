@@ -114,8 +114,28 @@ export class ReaderStore {
     localStorage.removeItem(this.key); localStorage.removeItem(this.world);
   }
   private static summaryOf(s: SaveSummary & Pointer): SaveSummary {
-    return { title: s.title, where: s.where, when: s.when, company: s.company, ...s.ended ? { ended: true } : {} };
+    return { title: s.title, where: s.where, when: s.when, company: s.company, ...s.ended ? { ended: true } : {},
+      ...s.seed ? { seed: s.seed } : {}, ...s.refused ? { refused: s.refused } : {} };
   }
+  // The kept game this build could not open, remembered beside it as refused, and why: the title says so and offers
+  // it no more (OR-300), until another game is kept in its place.
+  static refuse(reason: string) {
+    try {
+      const about = localStorage.getItem(this.about);
+      const was = about ? JSON.parse(about) as object : undefined;
+      if (was) { localStorage.setItem(this.about, JSON.stringify({ ...was, refused: reason })); }
+    } catch { /* storage may be refused */ }
+  }
+  // The seeds of the worlds let go from here (New world), the latest last: a world let go is kept by its seed alone.
+  static readonly letGo = 'kyrie.mono.worlds';
+  static forget(seed: string) {
+    try {
+      const was = JSON.parse(localStorage.getItem(this.letGo) ?? '[]') as string[];
+      const seeds = [...was.filter(s => s !== seed), seed].slice(-ReaderStore.seeds);
+      localStorage.setItem(this.letGo, JSON.stringify(seeds));
+    } catch { /* storage may be refused */ }
+  }
+  static readonly seeds = 20;
   static clear() {
     try {
       for (const k of [this.key, this.about, this.world, `${this.key}.a`, `${this.key}.b`, `${this.world}.a`,

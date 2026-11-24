@@ -36,11 +36,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Set out now in the page', () => {
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('says only Play; asks how the game begins, and we enter the world as we are within a second', async () => {
+  it('offers New character; asks how the game begins, and we enter the world as we are within a second', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '' });
     await page.waitForSelector('[data-action="begin"]', { state: 'visible', timeout: 60000 });
     expect(await page.$$eval('.title-menu [data-action]', els => els.map(e => [e.getAttribute('data-action'),
-      e.textContent?.trim()]))).toEqual([['begin', 'Play']]);
+      e.textContent?.trim()]))).toEqual([['begin', 'New character']]);
     // The title stood while the country was drawn behind it, and its start made ready.
     await page.evaluate(() => (window as unknown as { kyrieMono: { idle(): Promise<unknown> } }).kyrieMono.idle());
     await page.evaluate(() => document.querySelector<HTMLElement>('[data-action="begin"]')!.click());

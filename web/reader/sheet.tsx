@@ -69,16 +69,16 @@ export class Sheet {
           {aim && <Sheet.AimActs app={app} aim={aim} />}
           <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} plain="neutral"
             label="Download a save file" /></li>
-          <li><ChoiceRow.Button data={{ action: 'title' }} onClick={app.opening.title} plain="neutral"
-            label="Back to the title" /></li>
-          {/* Leaving this life for another (the owner, 23 November: a game easy to abandon back to the world): how a
-              new game begins, asked at once; this one is kept, and Play takes it up, until the new one is begun. */}
-          <li><ChoiceRow.Button data={{ action: 'anew' }} onClick={app.opening.leave} plain="neutral"
-            label="Begin a new life" /></li>
+          {/* The game paused (OR-300): Options, its settings and Return to title, where this game stays kept for
+              Continue and a new character or a new world begins over it. */}
+          <li><ChoiceRow.Button data={{ action: 'options' }} onClick={Sheet.options.bind(null, app)} plain="neutral"
+            label="Options" /></li>
         </ol>
       </article>
     );
   }
+  // Options over the game, paused: the sheet put away beneath it, and back to it as it stood.
+  static options(app: ReaderApp) { app.setState({ phase: 'options', view: 'here' }); }
   // Notes, each with how it is known (seen, heard and since seen, known before).
   static Facts({ list }: { list: Screen['knowledge'] }) {
     return <ul>{list.map(k => <li key={k.text}>{k.text}{k.how && <span className="how"> — {k.how}</span>}</li>)}</ul>;

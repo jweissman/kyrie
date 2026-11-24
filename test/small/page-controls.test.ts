@@ -54,9 +54,10 @@ const rows: Record<string, string[]> = {
   'web/reader/creation/composed-row.tsx': ['option'],
   'web/reader/map-menu.tsx': ['go-on', 'enter', 'set-out', 'action', 'more-places', 'put-away-map'],
   'web/reader/notices.tsx': ['download'],
-  'web/reader/options-page.tsx': ['option', 'load-file', 'back'],
-  // Leaving: a save file, back to the title, and a new life begun (the owner, 23 November: a game easy to abandon).
-  'web/reader/sheet.tsx': ['export', 'title', 'anew', 'follow', 'aim-map'],
+  // Options: its settings, a save file, and back; from a game paused, the engine's ways (FirstChoice.paused, OR-300).
+  'web/reader/options-page.tsx': ['option', 'load-file', 'back', 'action'],
+  // Leaving: a save file, and Options (the game paused, Return to title there: OR-300).
+  'web/reader/sheet.tsx': ['export', 'options', 'follow', 'aim-map'],
   'web/reader/stage/at-hand.tsx': ['pick'],
   'web/reader/stage/attention.tsx': ['pick', 'lens-page'],
   'web/reader/stage/book-stage.tsx': ['again', 'new'],
@@ -67,7 +68,7 @@ const rows: Record<string, string[]> = {
   'web/reader/stage/panorama.tsx': ['set-out'],
   'web/reader/stage/prologue-stage.tsx': ['answer', 'action'],
   'web/reader/stage/talk-stage.tsx': ['trade-back', 'more-talk', 'trade', 'unbought', 'unbought'],
-  // The title's one way in, Play, the engine's row by its id (FirstChoice.title, OR-160); Options at its foot.
+  // The title's ways in, the engine's rows by their ids (FirstChoice.title, OR-300); Options at its foot.
   'web/reader/title-page.tsx': ['action', 'options', 'campaign'],
 };
 class Source {

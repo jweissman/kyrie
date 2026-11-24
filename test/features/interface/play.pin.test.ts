@@ -15,44 +15,56 @@ import { PrologueStage } from '../../../web/reader/stage/prologue-stage';
 import { PressGuard } from '../../../web/reader/press-guard';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. The first minute's interface (the owner, 23
-// November; BRIEF §3.1): the title says only Play, which takes up a game still going or else asks one question, Create
-// a character or We enter the world as we are; and nothing on the way in is held (OR-160, OR-169).
-describe('Interface › Play', () => {
-  it('is the title\'s one way in: it continues a game kept and still going, and otherwise begins', () => {
-    expect(FirstChoice.title().cards.map(c => [c.id, c.name])).toEqual([['begin', 'Play']]);
-    const kept = FirstChoice.title({ where: 'The lane', when: 'Morning, the first day' });
-    expect(kept.cards.map(c => [c.id, c.name, c.said])).toEqual([['continue', 'Play',
-      'Play: continue, The lane · Morning, the first day']]);
-    // A game that has ended is not taken up again: Play begins anew over it.
-    expect(FirstChoice.title({ where: 'The lane', ended: true }).chosen).toBe('begin');
+// November; BRIEF §3.1; the playtests of 23-24 November, OR-300): the title's ways in, Continue a game still going,
+// New character and New world, each its own row; then one question, Create a character or a life at once; and
+// nothing on the way in is held (OR-169).
+describe('Interface › Ways in', () => {
+  it('offers New character alone with nothing kept; Continue, New character and New world over a kept game', () => {
+    expect(FirstChoice.title().cards.map(c => [c.id, c.name])).toEqual([['begin', 'New character']]);
+    const kept = FirstChoice.title({ where: 'The lane', when: 'Morning, the first day', seed: 'bakelo' });
+    expect(kept.cards.map(c => [c.id, c.name])).toEqual([['continue', 'Continue'], ['begin', 'New character'],
+      ['world', 'New world']]);
+    expect([kept.chosen, kept.cards[0]!.said]).toEqual(['continue', 'Continue: The lane · Morning, the first day']);
+    // New character begins in the kept country, by its seed; New world in one of its own.
+    expect(FirstChoice.seedFor('begin', { seed: 'bakelo' })).toBe('bakelo');
+    expect(FirstChoice.seedFor('world', { seed: 'bakelo' })).not.toBe('bakelo');
+    // A game that has ended is not taken up again; one refused is not offered, and why is said plainly.
+    expect(FirstChoice.title({ where: 'The lane', ended: true, seed: 'bakelo' }).chosen).toBe('begin');
+    const refused = FirstChoice.title({ seed: 'bakelo', refused: 'no such world' });
+    expect(refused.cards.map(c => c.id)).toEqual(['begin', 'world']);
+    expect(refused.told).toMatch(/^The game kept here cannot be opened by this edition.*\(no such world\)$/);
   });
-  it('then asks one thing: create a character, or enter the world as we are', () => {
-    expect(FirstChoice.step().cards.map(c => c.name)).toEqual(['Create a character', 'We enter the world as we are']);
+  it('then asks one thing: create a character, or a new life at once', () => {
+    expect(FirstChoice.step().cards.map(c => c.id)).toEqual(['build', 'set-out-now']);
   });
-  it('takes up the terminal\'s kept game while it is going, and from one that cannot be opened begins, saying why',
-    async () => {
-      const dir = await mkdtemp(join(tmpdir(), 'kyrie-play-pin-'));
-      try {
-        const t = await Tiny.start(`
-          Place lane "the lane" is room at 0, 0 outdoors.
-          Company party "You" of 1 at lane.`);
-        const store = TerminalSlots.store(join(dir, 'slots.json')), said: string[] = [];
-        expect(TerminalPlay.kept(l => said.push(l), store)).toBeUndefined();
-        store.write(CheckpointStore.autosave, t.session.checkpoint());
-        const kept = TerminalPlay.kept(l => said.push(l), store);
-        expect(FirstChoice.title(kept && { ended: !kept.campaign.running }).chosen).toBe('continue');
-        expect(kept?.campaign.world.one('at', 'party')).toBe('t__lane');
-        const broken = TerminalSlots.store(join(dir, 'broken.json'));
-        broken.write(CheckpointStore.autosave, { ...t.session.checkpoint(), save: {} } as never);
-        expect(TerminalPlay.kept(l => said.push(l), broken)).toBeUndefined();
-        expect(said).toEqual([expect.stringMatching(/^The game kept here could not be taken up, so a new one begins/)]);
-      } finally { await rm(dir, { recursive: true, force: true }); }
-    });
+  it('pauses a game with two ways: back to it, or Return to title', () => {
+    expect(FirstChoice.paused().cards.map(c => c.name)).toEqual(['Back to the game', 'Return to title']);
+  });
+  it('knows the terminal\'s kept game, and refuses one it cannot open', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'kyrie-play-pin-'));
+    try {
+      const t = await Tiny.start(`
+        Place lane "the lane" is room at 0, 0 outdoors.
+        Company party "You" of 1 at lane.`);
+      const store = TerminalSlots.store(join(dir, 'slots.json'));
+      expect(TerminalPlay.kept(store)).toEqual({});
+      store.write(CheckpointStore.autosave, t.session.checkpoint());
+      const { session, kept } = TerminalPlay.kept(store);
+      expect(FirstChoice.title(kept).chosen).toBe('continue');
+      expect(session?.campaign.world.one('at', 'party')).toBe('t__lane');
+      const broken = TerminalSlots.store(join(dir, 'broken.json'));
+      broken.write(CheckpointStore.autosave, { ...t.session.checkpoint(), save: {} } as never);
+      const refused = TerminalPlay.kept(broken);
+      expect(refused.session).toBeUndefined();
+      expect(FirstChoice.title(refused.kept).cards.map(c => c.id)).toEqual(['begin']);
+      expect(FirstChoice.title(refused.kept).told).toMatch(/^The game kept here cannot be opened/);
+    } finally { await rm(dir, { recursive: true, force: true }); }
+  });
 });
 describe('Interface › No long presses on the way in', () => {
   it('holds nothing on the title, how a game begins, creation\'s rows or the opening\'s Continue', () => {
     const app = (phase: string) => ({ state: { phase }, props: { query: new URLSearchParams() },
-      opening: { play: () => undefined, kept: () => undefined, beginAs: () => undefined } }) as never;
+      opening: { way: () => undefined, kept: () => undefined, beginAs: () => undefined } }) as never;
     const drawn = [renderToStaticMarkup(createElement(TitlePage.View, { app: app('title') })),
       renderToStaticMarkup(createElement(TitlePage.View, { app: app('begin') })),
       renderToStaticMarkup(createElement(ComposedRow.View, { option: { id: 'human', name: 'Human' },

@@ -2,22 +2,22 @@ import { afterEach, describe, expect, it, mock, spyOn } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { EngineHost } from '../web/engine/engine-host';
-import { FirstChoice } from '../src/creation/first-choice';
+import { FirstChoice, type Way } from '../src/creation/first-choice';
 import type { Request } from '../src/creation/protocol';
 import { ReaderOpening } from '../web/reader/reader-opening';
 import type { ReaderApp, AppState } from '../web/reader/reader-app';
 import { TitlePage } from '../web/reader/title-page';
 import { BeginMenu } from '../web/reader/begin-menu';
 import { Shell } from '../web/reader/shell';
-import type { SavedGame } from '../web/reader/reader-store';
+import { ReaderStore, type SavedGame } from '../web/reader/reader-store';
 
-// OR-120 and OR-160, as the page plays it, headless: the title, Play, how the game begins (the engine's question, two
-// rows), We enter the world as we are, and play. A page object over the reader's own opening (ReaderOpening) and its
+// OR-120, OR-160 and OR-300, as the page plays it, headless: the title's ways in, how the game begins (the engine's
+// question, two rows), a life at once, and play. A page object over the reader's own opening (ReaderOpening) and its
 // pages as they render, with the engine in process and asked as the worker is (each request and its answer passed as
-// a message would be): every press by the action id the page draws, never a row's place or its words. The title draws
-// Play alone; with no game kept, pressed, the two rows are drawn at once, the engine asked nothing (the country drawn
-// already, while the title showed); We enter the world as we are asks for that country and sets out rolled, and the
-// page is in play in the country drawn ahead. A kept game Play cannot open goes on to a new game, never nowhere.
+// a message would be): every press by the action id the page draws, never a row's place or its words. With no game
+// kept the title draws New character alone; pressed, the two rows are drawn at once, the engine asked nothing (the
+// country drawn already, while the title showed); a life at once asks for that country and sets out rolled, and the
+// page is in play in the country drawn ahead. A kept game this build cannot open is refused and said, never migrated.
 class Page {
   state = { phase: 'title', options: {}, campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0,
     open: [], member: '', stage: '', error: '' } as unknown as AppState;
@@ -43,10 +43,9 @@ class Page {
   // (BeginMenu.rows).
   press(id: string) {
     expect(this.actions()).toContain(id);
-    const title: Record<string, () => void> = { begin: this.opening.play, continue: this.opening.play };
     const row = this.state.phase === 'begin' ? BeginMenu.rows(this as unknown as ReaderApp).find(r => r.id === id)
       : undefined;
-    (row?.go ?? title[id]!)();
+    if (row) { row.go(); } else { this.opening.way(id as Way); }
   }
   async until(phase: AppState['phase'], error = '') {
     for (let i = 0; i < 1200 && this.state.phase !== phase; i++) { await new Promise(r => setTimeout(r, 50)); }
@@ -107,8 +106,11 @@ describe('a new game, set out on at once', () => {
     expect(aheads()).toEqual([first]);
     page.savedGame = { text: await page.engine.request({ kind: 'checkpoint' }) as string, title: 'Kyr', where: 'Here',
       when: 'Now', company: 'You' };
-    // Begin a new life: asked at once, a country drawn for it by a seed of its own.
-    page.opening.leave();
+    // Back to the title, and New character: asked at once, a country drawn for it by a seed of its own (the kept game
+    // names no seed of its own here).
+    page.opening.title();
+    expect(page.actions()).toEqual(['continue', 'begin']);
+    page.press('begin');
     expect(page.mode()).toBe('begin');
     expect(aheads()).toHaveLength(2);
     expect(aheads()[1]).not.toBe(first);
@@ -118,27 +120,50 @@ describe('a new game, set out on at once', () => {
     await page.until('play');
     expect(page.state.frame!.transcript.seed).toBe(first);
     // And a new life again: rolled afresh, not asked of the country let go as the game was opened.
-    page.opening.leave();
+    page.opening.title(); page.press('begin');
     expect(aheads()).toHaveLength(3);
     expect(new Set(aheads()).size).toBe(3);
     await page.host.idle();
   }, 180000);
-  it('goes on from a kept game Play cannot open to how a new game begins, and says why', async () => {
+  // OR-300: a kept game this build cannot open is tried once, refused, and said plainly on the title; Continue goes,
+  // and New character (in its country, by its seed) and New world remain. Nothing is migrated.
+  it('refuses a kept game it cannot open, says so on the title, and offers a new character or a new world', async () => {
+    const refused: string[] = [];
+    spyOn(ReaderStore, 'refuse').mockImplementation(r => { refused.push(r); });
     const page = new Page();
-    page.savedGame = { text: 'not a kept game', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud' };
+    page.savedGame = { text: 'not a kept game', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud',
+      seed: 'bakelo' };
     await page.opening.boot();
-    // Kept and still going: Play continues it, and nothing is drawn ahead for a new game meanwhile.
-    expect(page.actions()).toEqual(['continue']);
+    // Kept and still going: Continue first, and nothing is drawn ahead for a new game meanwhile.
+    expect(page.actions()).toEqual(['continue', 'begin', 'world']);
     expect(page.asked.some(r => r.kind === 'ahead')).toBe(false);
     page.press('continue');
-    // Not opened: how a new game begins, at once, why said in a line; and the country for it drawn meanwhile.
-    for (let i = 0; i < 400 && page.state.phase !== 'begin'; i++) { await new Promise(r => setTimeout(r, 25)); }
+    for (let i = 0; i < 400 && page.state.phase !== 'title'; i++) { await new Promise(r => setTimeout(r, 25)); }
+    // Not opened: the title again, Continue gone, why said in the engine's line, and remembered beside the game.
+    expect(page.mode()).toBe('title');
+    expect(page.actions()).toEqual(['begin', 'world']);
+    expect(page.html()).toContain('data-id="refused"');
+    expect(page.html()).toContain('cannot be opened by this edition');
+    expect(refused).toHaveLength(1);
+    expect(page.state.error).toBe('');
+    // New character: a new life in the kept game's country, by its seed.
+    page.press('begin');
     expect(page.mode()).toBe('begin');
-    expect(page.state.error).toStartWith('The game kept here could not be taken up, so a new one begins.');
-    expect(page.asked.some(r => r.kind === 'ahead')).toBe(true);
-    // Back at the title (Escape), Play no longer offers the game that would not open: it begins.
-    page.opening.title();
-    expect(page.actions()).toEqual(['begin']);
+    expect(page.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed)).toEqual(['bakelo']);
+    await page.host.idle();
+  }, 120000);
+  it('lets the kept world go for New world, its seed remembered, and draws a country of its own', async () => {
+    const forgot: string[] = [];
+    spyOn(ReaderStore, 'forget').mockImplementation(seed => { forgot.push(seed); });
+    const page = new Page();
+    page.savedGame = { text: 'kept', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud', seed: 'bakelo' };
+    await page.opening.boot();
+    page.press('world');
+    expect(page.mode()).toBe('begin');
+    expect(forgot).toEqual(['bakelo']);
+    const seeds = page.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed);
+    expect(seeds).toHaveLength(1);
+    expect(seeds[0]).not.toBe('bakelo');
     await page.host.idle();
   }, 120000);
   it('builds a character in the same country, by the other row', async () => {

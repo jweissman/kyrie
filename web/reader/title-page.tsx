@@ -13,15 +13,16 @@ import { FirstChoice } from '../../src/creation/first-choice';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
-type Way = 'continue' | 'begin' | 'encyclopedia' | 'options';
+type Way = 'continue' | 'begin' | 'world' | 'encyclopedia' | 'options';
 
 // The title, the first page of the game's own language (the owner, 14 November, TO-01..03: "a quiet, extremely
 // legible foreground over a deeper, more complex, subtly moving background"; the moving double box about the choices
 // had been where he bounced off). Once a session the studio's mark draws its seven towers on a horizon; its horizon
 // becomes the title's own as the sky comes up behind it (no black between), and the game's name is lit from its middle
-// letter outward. The one way in is Play (FirstChoice.title, the owner, 23 November), a row of the game's own (see
-// ChoiceRow), centred: lit at once by its mark at its left when the hand or the keys are on it, and nothing moves to
-// get there. Options and the encyclopedia stand quietly at the foot. Any key or touch skips straight to the way in.
+// letter outward. The ways in are the engine's (FirstChoice.title, OR-300): Continue where a kept game can be taken up,
+// New character and New world, each a row of the game's own (see ChoiceRow), centred: lit at once by its mark at its
+// left when the hand or the keys are on it, and nothing moves to get there; a kept game that could not be opened is
+// said under them in a plain line. Options and the encyclopedia stand quietly at the foot. Any key or touch skips straight to the way in.
 // One who asks for less motion is shown it at once. Nothing here says how a country is made; a save brought from
 // elsewhere is opened from Options, and the ways in for testing appear only when the address asks (?dev). The names
 // shown are the game's and the studio's (src/presentation/identity.ts).
@@ -49,16 +50,18 @@ export class TitlePage {
       header={s.phase === 'begin' ? undefined : <><TitlePage.Mark name={named.game} />
         <p className="horizon" aria-hidden="true"><i /></p>
         <p className="lede">Vol I: A History of Emprise</p></>}
-      // The title's one way in, the engine's (FirstChoice.title, OR-160): Play, which takes up the game kept here, or
-      // begins one; what it does is its id, and the game it continues is said to a pointer and a reader only, never as
-      // a line of its own (the owner, 17 November). Taken at a press, never held (OR-169).
+      // The title's ways in, the engine's (FirstChoice.title, OR-300), each by its id; what each does (the game it
+      // continues) said to a pointer and a reader only, never as a line of its own (the owner, 17 November). Taken at a
+      // press, never held (OR-169). Where the kept game could not be opened, the engine's plain line under them.
       menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={step.ask}>
         <ul>{step.cards.map(card => <li key={card.id}><ChoiceRow.Button className="way-in" data={{ action: card.id }}
-          label={card.name} plain="every" own={{ ...PressGuard.once(app.opening.play), ...item(card.id),
+          label={card.name} plain={card.id === step.chosen ? 'every' : 'neutral'}
+          own={{ ...PressGuard.once(app.opening.way.bind(null, card.id)), ...item(card.id),
             'aria-label': card.said }} /></li>)}</ul>
+        {step.told && <p className="title-told" data-id="refused" role="status">{step.told}</p>}
       </nav>}
       // Options and the encyclopedia are not ways into the game: they stand quietly at the title's foot, as the build's
-      // stamp does, reached by the keys after Play (the owner, 23 November: the title says only Play). The
+      // stamp does, reached by the keys after the ways in. The
       // encyclopedia's mark is the knowledge blue (OR-86), and it opens in a new tab (said to a reader, never written).
       rail={s.phase === 'begin' ? undefined : <nav className="title-foot" aria-label="Beside the game">
         <ChoiceRow.Button className="foot-way" data={{ action: 'options' }} label="Options" plain="neutral"
