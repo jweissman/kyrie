@@ -85,8 +85,12 @@ export class CreatureStore {
       && previousItems.get(i.id) !== i.definition))) { throw new Error('Cannot replace instantiated item identity'); }
     const itemIds = all.flatMap(c => (c.state.inventory ?? []).map(i => i.id));
     if (new Set(itemIds).size !== itemIds.length) { throw new Error('Item has multiple owners'); }
-    next.forEach(c => this.records.set(c.id, structuredClone(c)));
-    this.revision++;
+    // A record the commit leaves as it was stays where it lies, and so does the revision: a watch's lease of everyone
+    // under a lasting condition had written every record again, changed or not, and every group's facts were then
+    // projected again (CreatureFacts) for every watch of a journey (OR-145, M22-beta's journey leg).
+    const changed = next.filter(c => !Equality.deep(c, this.records.get(c.id)));
+    changed.forEach(c => this.records.set(c.id, structuredClone(c)));
+    if (changed.length) { this.revision++; }
   }
   private static kept(base: Creature['base'], options: { advancement?: boolean }) {
     if (!options.advancement) { return base; }
