@@ -1029,6 +1029,15 @@ Module ombra "The Book of Faces" {
   Rule bd_fate_stage_default when newsHour() and not bd_fate_stage(wet_stage) once
     says "Of the Wet Stage: It plays Master Dibble to a house that claps. The licence is renewed each quarter on the day, and nobody can remember whether anything was ever to be said in it." { Assert bd_fate_stage(wet_stage). }
 
+  // A keeper's tale used with leave is lent; used without, it is taken (the leave asked of Peck and of Rill).
+  Rule bd_fate_sluice_lent when newsHour() and bd_played(party) and bd_set(bd_t_sluice) and bd_leave(bd_t_sluice) once
+    says "Of the year of the Sluice: Absalom Peck heard it from the back of the house. He was a verse in it, as he had asked, and the water had a name. He went out before the last of it, with his cup." { }
+  Rule bd_fate_sluice_taken when newsHour() and bd_played(party) and bd_set(bd_t_sluice) and not bd_leave(bd_t_sluice) once
+    says "Of the year of the Sluice: nobody asked Absalom Peck for it. He heard it a week later from the Row, sung at a wedding. He put his cup down and did not take it up again that night." { }
+  Rule bd_fate_ferry_lent when newsHour() and bd_played(party) and bd_set(bd_t_ferry) and bd_leave(bd_t_ferry) once
+    says "Of Rill's boat: the Patience went into the Lampoon by her leave. She did not sink, and she was not funnier than she is. Rill came to see it once, in her gull-domino, and bailed through the second act from habit." { }
+  Rule bd_fate_ferry_taken when newsHour() and bd_played(party) and bd_set(bd_t_ferry) and not bd_leave(bd_t_ferry) once
+    says "Of Rill's boat: the Patience went into the Lampoon without her leave. Rill heard the house laugh at it from the landing. She has not carried a player since, at any fare." { }
   Rule bd_fate_lampoon_lie when newsHour() and bd_lies(party) >= 1 and bd_lacke_laughed(party) and not bd_fate_lampoon(party) once
     says "Of the Lampoon: The Warden of Locks was unseated by a joke that was not true. He was guilty of everything else; but it was not for that they laughed." { Assert bd_fate_lampoon(party). }
   Rule bd_fate_lampoon_urn when newsHour() and bd_urn_told(party) and not bd_fate_lampoon(party) once

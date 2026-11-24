@@ -119,7 +119,7 @@ Module lowwater "Low Water" {
   Action lay_diggers(actor: group, site: place) "Lay before the Council the names of the three diggers who drowned" {
     Requires able(actor) and at(actor, site) and at(actor, moot_hall) and giving(actor) and drowned(diggers) and not laid(ex_diggers).
     Time 1.
-    On success { Assert laid(ex_diggers). }
+    On success { Assert laid(ex_diggers). Increase credence(council) by 1. }
     Result "Hob Kettle. Annet Kettle. Jory Pale. At the back the Ward stands up, all of it, without a word, and stays standing until you have finished.".
   }
   Rule mag_speaks when begun(party) and present(mag) and at(mag, moot_hall) and not spoke(mag)
@@ -129,12 +129,15 @@ Module lowwater "Low Water" {
     says "From the back, Dov Vant: 'That's my sister,' loud enough for the whole Bowl. 'Those are her figures. You can believe them.' Isaura does not turn round. Her ears go red." {
     Assert spoke(dov). Increase credence(council) by 1. }
 
-  // Quill's answer, when a cause other than his Channel is named without the report to stop him.
+  // Quill's answer, when a cause other than his Channel is named without the report to stop him; told what his
+  // engineers wrote, at the rim, he has already conceded it to the Assessor, and says so.
   Relation answered(group).
-  Rule quill_answers when named(party) and not causeAccount(party) and not laid(ex_report) and not causeGuild(party) and not quillDeal(quill) and not answered(quill)
+  Rule quill_answers when named(party) and not causeAccount(party) and not laid(ex_report) and not conceded(quill) and not causeGuild(party) and not quillDeal(quill)
+    and not answered(quill)
     says "Harrow Quill rises, gracious, and asks the Council's leave, and has it. 'A machine under the Ward,' he says. 'Bronze men. A hymn that works sluices.' He lets it hang. 'I don't doubt the Assessor saw something down there. I only observe that my Channel is in the Office's register and their machine is in a story.' It is very well done. Half the hall laughs." {
     Assert answered(quill). Decrease credence(council) by 2. }
-  Rule quill_concedes when named(party) and not causeAccount(party) and laid(ex_report) and not answered(quill) and not quillDeal(quill)
+  Rule quill_concedes when named(party) and not causeAccount(party) and (laid(ex_report) or conceded(quill))
+    and not answered(quill) and not quillDeal(quill)
     says "Quill rises and, for once, does not wait for leave. 'The Assessor has my engineers' report,' he says. 'I should like it known I'd have published it myself in the end.' He considers. 'Probably. In the end.' He sits down to a laugh, which he has earned." {
     Assert answered(quill). }
   Rule quill_supports when named(party) and not causeAccount(party) and quillDeal(quill) and not answered(quill)

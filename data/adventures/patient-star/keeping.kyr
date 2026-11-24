@@ -129,7 +129,7 @@ Module season "The Patient Star" {
   Observe fall_scene_k at kept_fall when true "An autumn night out of a clear sky; a light coming down; the lake villages watching. Riding its wake, very small, visible only to someone looking for it, is a figure with a trowel." teaches delver_seen.
 
   // K3: the Quarried Reaches: blankness, a fog in which things have no reasons; Masons cutting at the edges.
-  Observe hollow_scene at quarry_edge when true "History stops here. Not darkness: blankness, a fog in which things have no reasons. A road goes into it and does not come out. At its edges, figures with trowels are cutting, and the cut edges are clean.".
+  Observe hollow_scene at quarry_edge when not cutStopped(quarry_edge) "History stops here. Not darkness: blankness, a fog in which things have no reasons. A road goes into it and does not come out. At its edges, figures with trowels are cutting, and the cut edges are clean.".
   Person cutters "a crew of Masons, cutting" at quarry_edge {
     Role "three Masons at the edge of the blank, cutting a season out of the plateau's last year". Ancestry human. Numbers 3. Peaceable.
   }
@@ -138,6 +138,7 @@ Module season "The Patient Star" {
     Says "They stop, because you asked, and look at you with honest puzzlement. 'It is the work,' says one. 'If we do not, another crew will.' But they put their trowels down, and that season stays where it is.".
     On discuss { Assert cutStopped(quarry_edge). }
   }
+  Observe hollow_stopped at quarry_edge when cutStopped(quarry_edge) "History stops here. Not darkness: blankness, a fog in which things have no reasons. At its edge three Masons sit with their trowels laid down, and the last cut is where they left it.".
   Person clea "Clea Keddle" at quarry_edge {
     Role "a Haldrish seer, lost, who walks here in her sleep". Ancestry human. Calling ranger. Peaceable. Pronouns she. Manner compassionate.
     Joins "'I know the way inward,' says Clea, 'better than anyone living. I have been lost in it for forty years.' She takes your sleeve like a child.".

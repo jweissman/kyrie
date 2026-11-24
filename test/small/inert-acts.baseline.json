@@ -1,8 +1,7 @@
 {
- "about": "The acts and topics of every authored adventure that change nothing anything else asks after (AU-56, test/small/inert-acts): none may be added; mend one and take it out. 17 acts, 1376 topics, 24 Nov.",
+ "about": "The acts and topics of every authored adventure that change nothing anything else asks after (AU-56, test/small/inert-acts): none may be added; mend one and take it out. 13 acts, 1368 topics, 24 Nov.",
  "works": {
   "a-winter-in-carth": [
-   "act self gaunt__testify_road",
    "topic words gaunt__annis_kept",
    "topic words gaunt__annis_morning",
    "topic words gaunt__assessor_hern",
@@ -216,7 +215,6 @@
    "topic words hume__polglaze_after"
   ],
   "hessel": [
-   "topic self hessel__ottery_promise",
    "topic words hessel__celia_mother",
    "topic words hessel__ede_regiment",
    "topic words hessel__fitch_door",
@@ -271,8 +269,6 @@
   "hold-one-season": [
    "act words season__count_numbers",
    "topic unread season__aske_balloon",
-   "topic unread season__coyle_named",
-   "topic unread season__cutters_stop",
    "topic words season__amaru_first",
    "topic words season__amaru_hour",
    "topic words season__amaru_hungry",
@@ -397,8 +393,6 @@
    "topic words corrow__wil_measuring"
   ],
   "low-water": [
-   "act self lowwater__lay_diggers",
-   "topic unread lowwater__quill_report",
    "topic words lowwater__abel_arch",
    "topic words lowwater__abel_deep",
    "topic words lowwater__abel_fountains",
@@ -597,7 +591,6 @@
   ],
   "parliament-of-books": [
    "topic self calamy__hask_accused",
-   "topic unread calamy__almanack_leave",
    "topic words calamy__abery_soul",
    "topic words calamy__absalom_why",
    "topic words calamy__almanack_buy",
@@ -805,7 +798,6 @@
   "skeel": [
    "act self skeel__listen_seals",
    "act words skeel__pet_admiral",
-   "topic unread skeel__nye_wants",
    "topic words skeel__ask_hender_dog",
    "topic words skeel__bartle_lead",
    "topic words skeel__confront_hender",
@@ -872,8 +864,6 @@
    "topic words tallow__wick_hobb"
   ],
   "the-book-of-faces": [
-   "act self ombra__bd_leave_peck",
-   "act self ombra__bd_leave_rill",
    "act self ombra__mg_engine",
    "act words ombra__rv_search_case",
    "topic self ombra__bd_orme_after_flop",
@@ -1245,8 +1235,6 @@
   "the-patient-star": [
    "act words season__count_numbers",
    "topic unread season__aske_balloon",
-   "topic unread season__coyle_named",
-   "topic unread season__cutters_stop",
    "topic words season__amaru_first",
    "topic words season__amaru_hour",
    "topic words season__amaru_hungry",

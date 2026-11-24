@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
-import { Ombra, home } from './support/ombra';
+import { Ombra, home, o as om } from './support/ombra';
+import { Journey } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
 import { AutoplayRun } from '../src/autoplay/run';
 import { AutoPlayer } from '../src/autoplay/player';
@@ -418,6 +419,36 @@ describe('The Wet Stage: the Lampoon', () => {
     expect(o.holds('bd_urn_told', 'party')).toBe(false);
     await o.play('=day 9 23:30');
     expect(o.page).toContain('Of the Lampoon: The Warden of Locks was unseated by a joke that was not true');
+  });
+});
+
+// A keeper's tale used with leave is lent, and used without it is taken (OR-232: the leave asked had changed nothing):
+// the account at the book's close says which. The tale is had, set down and played by hand; only the asking is played.
+describe('The Wet Stage: a keeper\'s leave', () => {
+  t('tells the Sluice and Rill\'s boat as lent where their keepers were asked, and as taken where not', async () => {
+    const told = async (asked: boolean) => {
+      const j = await Journey.start(campaign, 'leave', { party: Ombra.one('bard', undefined, 'human', 'Tamsin') });
+      for (const tale of ['bd_t_sluice', 'bd_t_ferry']) { j.assert(om('bd_has'), om(tale)); }
+      if (asked) {
+        j.put('party', om('hospice_hall'));
+        await j.play('Ask him for leave to sing the year of the Sluice');
+        j.put('party', om('drip_landing'));
+        j.roll('pass');
+        await j.play('Ask her if her boat may go into the Lampoon');
+        j.roll();
+      }
+      for (const tale of ['bd_t_sluice', 'bd_t_ferry']) { j.assert(om('bd_set'), om(tale)); }
+      j.assert(om('bd_played'), 'party');
+      await j.play('=day 9 23:30');
+      return j.taken.map(x => x.page).join('\n');
+    };
+    const taken = await told(false);
+    expect(taken).toContain('Of the year of the Sluice: nobody asked Absalom Peck for it');
+    expect(taken).toMatch(/Of Rill.s boat: the Patience went into the Lampoon without her leave/);
+    const lent = await told(true);
+    expect(lent).toContain('Of the year of the Sluice: Absalom Peck heard it from the back of the house');
+    expect(lent).toContain('the Patience went into the Lampoon by her leave');
+    expect(lent).not.toContain('nobody asked Absalom Peck');
   });
 });
 

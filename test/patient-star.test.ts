@@ -109,6 +109,25 @@ describe('The Patient Star', () => {
     expect(j.knows('breach_cut')).toBe(true);
   }, 180000);
 
+  // What the census of acts that change nothing found meant to matter (OR-233): the Masons asked to stop leave the
+  // hollow as it is, and it is seen so; Annet Sorrel, told who cut the Breach, goes to Ennick as she said, and is at
+  // Bren's door. The company is put where each is, and only the steps under proof are played.
+  it('S6b, the Masons stop cutting, and Annet Sorrel goes to look at Bren\'s door', async () => {
+    const j = await Journey.start();
+    j.j.put('party', 'season__quarry_edge');
+    expect(j.j.seen()).toMatch(/figures with trowels are cutting/);
+    await j.play('Ask the Masons to stop cutting', '?^Take your leave');
+    expect(j.j.seen()).toMatch(/three Masons sit with their trowels laid down/);
+    expect(j.j.seen()).not.toMatch(/are cutting/);
+    j.j.assert('knows', 'party', 'season__breach_cut');
+    j.j.put('party', 'season__widows');
+    await j.play('Tell Annet Sorrel who cut the Breach', '?^Take your leave');
+    expect(j.at('season__coyle')).toBe('season__widows');
+    await j.play('>season__holders_room');
+    expect(j.at('season__coyle')).toBe('season__holders_room');
+    expect(j.j.seen()).toMatch(/Annet Sorrel stands inside the holder.s door/);
+  }, 180000);
+
   it('S7, the fourth Dane: his name taken by touch below, spoken at his tomb, and the Weirs\' dispute is settled', async () => {
     const j = await Journey.start();
     await j.phase('quell_to_hour', 'hour', 'crown_and_reach');

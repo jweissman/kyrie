@@ -17,7 +17,10 @@ Module hessel "The Banns at Hessel" {
   Query otteryInHessel() means otteryHome(ottery) and not otteryGone(ottery) and not travelsWith(ottery, party).
   Initially Assert otteryHome(ottery).
   Query otteryLeaving() means secondDay() and hour(clock) >= 6 and hour(clock) < 8 and not otteryDecided(ottery).
-  Rule ottery_hospital when otteryInHessel() and not otteryLeaving() and not at(ottery, hospital) and not following(ottery, party) and not otteryOnRoad(ottery) and not otteryAway(ottery) { Assert at(ottery, hospital). }
+  // Not from the Beacon while he waits there undecided: unmet by eight he goes alone (ottery_alone), and had been taken
+  // back to the ward at eight instead, so that he was never struck off.
+  Rule ottery_hospital when otteryInHessel() and not otteryLeaving() and not at(ottery, hospital)
+    and (not at(ottery, beacon) or otteryDecided(ottery)) and not following(ottery, party) and not otteryOnRoad(ottery) and not otteryAway(ottery) { Assert at(ottery, hospital). }
   Relation otteryAway(group).
   Discovery ottery_summons "Dr Ottery is summoned before the College of Physicians at Orm at noon tomorrow, for practising without its licence. He needs a witness of good character to stand with him, and nobody in Hessel will be seen to. He sets out from the Beacon at seven.".
   Topic ottery_why with ottery "Ask Dr Ottery why he is packing" when dayN(hessel_town) <= 2 and not otteryDecided(ottery) once {
@@ -81,7 +84,10 @@ Module hessel "The Banns at Hessel" {
     Assert otteryWalkedAlone(ottery). Assert otteryDecided(ottery). Assert otteryStruck(ottery). Retract otteryHome(ottery). Assert at(ottery, limbo). }
   Rule ottery_back_alone when otteryWalkedAlone(ottery) and secondDay() and hour(clock) >= 19 and not otteryHome(ottery) { Assert otteryHome(ottery). }
   Rule ottery_back_late when otteryWalkedAlone(ottery) and dayN(hessel_town) >= 3 and not otteryHome(ottery) { Assert otteryHome(ottery). }
-  Observe ottery_struck_back at hospital when otteryStruck(ottery) and at(ottery, hospital) and not otteryOnRoad(ottery) "Dr Ottery is sitting on the end of a bed on the Hospital ward, struck off, unlicensed, with his bag unpacked again beside him, dressing an old woman's leg. 'They can strike me off the roll,' he says, without looking round. 'They can't strike me off the ward. Nobody else wants it.'".
+  // Promised a witness at seven and left to walk alone, he says so.
+  Observe ottery_struck_promised at hospital when otteryStruck(ottery) and at(ottery, hospital) and not otteryOnRoad(ottery) and witnessPromised(party) "Dr Ottery is sitting on the end of a bed on the Hospital ward, struck off, with his bag unpacked beside him. 'You said seven,' he says, without looking round. 'I waited until eight. It made no difference to the College. It made a difference to me.'".
+  Observe ottery_struck_back at hospital when otteryStruck(ottery) and at(ottery, hospital) and not otteryOnRoad(ottery)
+    and not witnessPromised(party) "Dr Ottery is sitting on the end of a bed on the Hospital ward, struck off, unlicensed, with his bag unpacked again beside him, dressing an old woman's leg. 'They can strike me off the roll,' he says, without looking round. 'They can't strike me off the ward. Nobody else wants it.'".
 
   // The stile: his first question.
   Relation askedStile(group). Relation saidTruth(group). Relation saidComfort(group). Relation saidDepends(group).
