@@ -354,6 +354,12 @@
    "pri": "P2",
    "why": "24 Nov, classified as filed: the corpus review's cheapest enrichment, commissioned; not an observed failure"
   },
+  "OR-222": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, classified as filed: the brief's settlement that responds (BRIEF §3.2), a commissioned requirement found short by measure"
+  },
   "OR-221": {
    "kind": "direction",
    "was": "defect",

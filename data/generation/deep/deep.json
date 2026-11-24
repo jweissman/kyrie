@@ -670,8 +670,9 @@
   "hook": {
     "topic": "the old workings",
     "trade": { "topic": "what the old workings are worth", "says": "turns a lump of something pale over in the light. 'Bring me star-iron and I will pay for it. Fifteen coin a lump, and no questions.'",
-      "brought": { "ask": "Ask {merchant} where the rest of the star-iron went", "says": "{merchant} weighs the lump in one hand, then the other. 'This is off the top of the vein. The Delvers had the best of it out before my grandmother was born.' The lump goes on the scale. 'They followed the rest down the shaft. The cage hangs there still. Their last gallery broke into the heart of the vein, the old men say, and into what lived in it. Nobody has been below the shaft since.'" } },
-    "home": "'The heart of the vein?' {keeper} turns it over in both hands, and it is heavier than it looks, and warm. 'My grandfather's grandfather went down for that and never came up. There is no paying for it. You eat here tonight, and sleep, and nobody takes your coin.'"
+      "brought": { "ask": "Ask {merchant} where the rest of the star-iron went", "says": "{merchant} weighs the lump in one hand, then the other. 'This is off the top of the vein. The Delvers had the best of it out before my grandmother was born.' The lump goes on the scale. 'They followed the rest down the shaft. The cage hangs there still. Their last gallery broke into the heart of the vein, the old men say, and into what lived in it. Nobody has been below the shaft since.'" },
+      "shown": "A lump of star-iron sits at the end of {merchant}'s counter, holding down a pile of bills where buyers can see it." },
+    "below": "'Down the cage?' says {keeper}, and stops wiping the counter. 'Below the first level. My grandfather's grandfather went down it and never came up.' A long look at your boots. 'You'll have something on the house, then. Nobody here believes you, mind.'", "home": "'The heart of the vein?' {keeper} turns it over in both hands, and it is heavier than it looks, and warm. 'My grandfather's grandfather went down for that and never came up. There is no paying for it. You eat here tonight, and sleep, and nobody takes your coin.'"
   },
   "ore": {
     "kind": "star_iron",

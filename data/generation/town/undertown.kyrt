@@ -580,6 +580,10 @@
   Rule {t}_u_dead_lie when state({t}_u_candle, snuffed) and at({t}_u_dead, {t}_u_ossuary) and able({t}_u_dead) says "With the candle out, the dead fold down into the bone-heaps like coats let fall, and are only bones again." { Retract at({t}_u_dead, {t}_u_ossuary). Assert {t}_u_done({t}_u_dead_job). }
   Rule {t}_u_dead_cleared when not able({t}_u_dead) and not {t}_u_done({t}_u_dead_job) { Assert {t}_u_done({t}_u_dead_job). }
   Rule {t}_u_raiser_ended when not able({t}_u_raiser) and not {t}_u_done({t}_u_raiser) { Assert {t}_u_done({t}_u_raiser). }
+  // The town answers it (sprint 3: a settlement that responds, the world remembering what happened): once the man
+  // with the black candle is gone, the three graves he opened are dug again and filled properly, and the churchyard
+  // shows it to whoever comes after.
+  Observe {t}_u_graves_mended at {t}_u_yard as fixture when {t}_u_done({t}_u_raiser) "The three graves by the wall have been dug again and filled properly, and turfed. A fresh stone stands at the head of each, with no name cut on it yet.".
   // Toward the dead themselves and whoever raised them (its own words: "and find out who raised them"), by the
   // churchyard: the crypt is where the priest said they came up, but they are in the
   // ossuary beyond it, and an aim that pointed at the crypt left a company that had been through the ossuary standing
@@ -688,6 +692,10 @@
   // Their young go down with them, laid or put back; fought, they stay to be fought.
   Rule {t}_u_pickers_young_go when {t}_u_done({t}_u_pickers) and able({t}_u_pickers) and at({t}_u_pickers_young, {t}_u_charnel) { Retract at({t}_u_pickers_young, {t}_u_charnel). }
   Rule {t}_u_pickers_cleared when {t}_u_done({t}_u_pickers) and not {t}_u_done({t}_u_pickers_job) { Assert {t}_u_done({t}_u_pickers_job). }
+  // The town answers it: the sexton found out is talked of at the inn, once; and he is seen mending what he spoiled.
+  Relation {t}_u_sexton_told().
+  Rule {t}_u_sexton_talk when {t}_u_done({t}_u_pickers) and knows(party, {t}_u_sexton_sold) and at(party, {innkeeperat}) and at({t}_innkeeper, {innkeeperat}) and not {t}_u_sexton_told() says "'Job Dunstall was in last night,' says {{t}_innkeeper}, low. 'Bought nobody a drink, for once. He says you found him out. He said it like a man let off a debt.'" { Assert {t}_u_sexton_told(). }
+  Observe {t}_u_sexton_mending near {t}_u_sexton as sign when {t}_u_done({t}_u_pickers) and knows(party, {t}_u_sexton_sold) "Job Dunstall is stitching the cut cloth of the old dead's shelves back together with a sail-needle. He does not look up.".
   Milestone {t}_u_pickers_laid "laid to rest what was eating the churchyard's old dead" worth 150 when {t}_u_done({t}_u_pickers).
   Objective {t}_u_pickers_job_aim when {t}_u_given({t}_u_pickers_job) and not {t}_u_done({t}_u_pickers_job) toward {t}_u_pickers by {t}_u_yard "Find what comes up out of {{t}_u_crypt} under {{t}_u_yard} at {town}, and lay it.".
   Topic {t}_u_pickers_job_paid with {t}_priest "Tell {{t}_priest} what was coming up out of the catacombs, and that it is laid" when {t}_u_done({t}_u_pickers_job) and not {t}_u_paid({t}_u_pickers_job) once {
@@ -775,6 +783,10 @@
     Result "The flask bursts against the web. The fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
   Rule {t}_u_spiders_cleared when not able({t}_u_spiders) and not {t}_u_done({t}_u_spiders_job) { Assert {t}_u_done({t}_u_spiders_job). }
+  // The town answers it: with the spiders gone the Hobb boy is let out again, and goes back to the quarry with a ferret.
+  Relation {t}_u_hobb_out().
+  Rule {t}_u_hobb_lets_out when {t}_u_done({t}_u_spiders_job) and not at(party, {innkeeperat}) and not {t}_u_hobb_out() { Assert {t}_u_hobb_out(). Retract at({t}_u_hobb, {innkeeperat}). Assert at({t}_u_hobb, {t}_u_pit). }
+  Observe {t}_u_hobb_ferreting near {t}_u_hobb as sign when {t}_u_hobb_out() "Dannel Hobb is at the foot of the pit with a ferret inside his coat. He goes into the adit as far as the daylight reaches, and comes out again, pleased with himself.".
   // Toward where the spiders are, the gallery past the adit: toward the adit, the gold had led back out of the
   // gallery with the spiders in it, "the way you came" (rounds 10 and 11, R and U).
   Objective {t}_u_spiders_job_aim when {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) toward {t}_u_gallery by {t}_u_pit "Burn the spiders out of {{t}_u_adit} under {{t}_u_pit} at {town}.".
@@ -854,6 +866,8 @@
     Otherwise "You move too quickly. She comes down off her hind legs at you.".
   }
   Rule {t}_u_bear_done when (not able({t}_u_bear) or {t}_u_bear_gone()) and not {t}_u_done({t}_u_bear_job) { Assert {t}_u_done({t}_u_bear_job). }
+  // The pit remembers which way she went.
+  Observe {t}_u_bear_tracks at {t}_u_pit as fixture when {t}_u_bear_gone() "Big prints go up the north face out of the pit, through the ivy, with small ones beside them.".
   Milestone {t}_u_den_ended "cleared the den out of the old quarry" worth 150 when not able({t}_u_bear) or {t}_u_bear_gone().
   // Let go alive with her cub, which the house did not ask: as the spiders' eggs burned, the job seen through as the
   // country would have it.
@@ -1006,6 +1020,10 @@
   Item {t}_u_vault_rings "a cord of old rings" is grave_rings at {t}_u_vault.
   Item {t}_u_vault_stone "a moonstone the size of a thumb" is moonstone at {t}_u_vault.
   Milestone {t}_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, {t}_u_vault).
+  // The town answers it: word that the company has been through the lettered flag gets up to the inn before it does,
+  // and the innkeeper says so, once.
+  Relation {t}_u_vault_talked().
+  Rule {t}_u_vault_talk when been(party, {t}_u_vault) and at(party, {innkeeperat}) and at({t}_innkeeper, {innkeeperat}) and not {t}_u_vault_talked() says "'They're saying you've been under the undercroft,' says {{t}_innkeeper}. 'Through a door in the floor. My grandfather said there was a door down there nobody opened, and nobody believed him either.'" { Assert {t}_u_vault_talked(). }
   // A way past the keeper that knowledge and a price open, not strength (the lead's call, OR-198): the raiser's book of
   // the dead, carried to the chair, has a page for a keeper set at a door; said with a gift laid at its feet, the
   // rite sits the keeper down, and it lets the giver by to the stair behind its chair (RegionUndertown: the stair is

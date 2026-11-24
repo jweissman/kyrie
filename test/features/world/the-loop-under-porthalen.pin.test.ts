@@ -81,6 +81,8 @@ class Walk {
       if (step === 'through') { this.fights++; }
     }
   }
+  // What was said at the last act, and the scene as it stands.
+  said(): string { return [...this.s.scene.lines, ...this.r.said('look').scene.lines].join(' ').replaceAll('’', "'"); }
   level(): number { return ScreenModel.build(this.session.campaign).party[0]!.level; }
 }
 describe('the reference journey under Porthalen', () => {
@@ -137,16 +139,33 @@ describe('the reference journey under Porthalen', () => {
       expect(walk.fights).toBe(7);
       // Out again by the churchyard, and Holgar buys the star-iron; only then does he say where the rest of it went:
       // down the shaft, to the heart of the vein, the aim the town gives the company for having been down.
-      await walk.play(homeward);
+      await walk.play(homeward.slice(0, homeward.indexOf('~Up to the churchyard') + 1));
+      // The town answers what the company did (sprint 3: a settlement that responds, the world remembering): the
+      // graves the man with the black candle opened are dug again and turfed.
+      expect(walk.said()).toMatch(/three graves by the wall have been dug again/);
+      await walk.play(homeward.slice(homeward.indexOf('~Up to the churchyard') + 1));
       expect(walk.row('where the rest of the star-iron went')).toBeUndefined();
       await walk.play(['~Sell a lump of star-iron to Holgar']);
       expect(walk.holds('knows', 'party', 'region__s1_ud_story')).toBe(false);
       await walk.play(['~where the rest of the star-iron went']);
       expect(walk.holds('knows', 'party', 'region__s1_ud_story')).toBe(true);
       expect(walk.s.aims?.some(a => a.id === 'region__s1_ud_bring')).toBe(true);
+      // The star-iron sold sits on Holgar's counter while he keeps it.
+      await walk.play(['~To the landing at Porthalen', "~To Holgar's salt-house"]);
+      expect(walk.said()).toMatch(/lump of star-iron sits at the end of Holgar's counter/);
+      // And word that the company went through the floor of the undercroft is at the inn before it is, once.
+      await walk.play(['~To the landing at Porthalen', '~^Into the Stone Horn']);
+      expect(walk.said()).toMatch(/They're saying you've been under the undercroft/);
       // Down again another way, by the churchyard's stone door, past the keeper sitting, and further: the casket's
       // riddle, the seized wheel freed, the cage let down to the shaft bottom, below where the first went.
       await walk.play(again);
       expect(walk.session.campaign.world.one('at', 'party')).toBe('region__s1_ud_haulage_shaft_bottom');
+      // Home from below the first level, the inn's keeper, who said nobody goes below it, hears that the company has.
+      await walk.play(['~Up to the shaft head|To the shaft head', '~Out to the churchyard', '~landing at Porthalen',
+        '~^Into the Stone Horn']);
+      expect(walk.said()).toMatch(/Down the cage\?.* says Kynes/);
+      expect(walk.holds('onTheHouse', 'region__s1_innkeeper', 'party')).toBe(true);
+      // And with the spiders gone, the Hobb boy is let out to the quarry again.
+      expect(walk.session.campaign.world.one('at', 'region__s1_u_hobb')).toBe('region__s1_u_pit');
     }, 300000);
 });

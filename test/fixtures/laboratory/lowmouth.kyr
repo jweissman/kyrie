@@ -294,6 +294,7 @@ Module lab "The undercroft at Lowmouth" {
   Rule low_u_dead_lie when state(low_u_candle, snuffed) and at(low_u_dead, low_u_ossuary) and able(low_u_dead) says "With the candle out, the dead fold down into the bone-heaps like coats let fall, and are only bones again." { Retract at(low_u_dead, low_u_ossuary). Assert low_u_done(low_u_dead_job). }
   Rule low_u_dead_cleared when not able(low_u_dead) and not low_u_done(low_u_dead_job) { Assert low_u_done(low_u_dead_job). }
   Rule low_u_raiser_ended when not able(low_u_raiser) and not low_u_done(low_u_raiser) { Assert low_u_done(low_u_raiser). }
+  Observe low_u_graves_mended at low_u_yard as fixture when low_u_done(low_u_raiser) "The three graves by the wall have been dug again and filled properly, and turfed. A fresh stone stands at the head of each, with no name cut on it yet.".
   Objective low_u_dead_job_aim when low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_u_dead, low_u_raiser by low_u_yard "Lay the dead in {low_u_crypt} under {low_u_yard} at Lowmouth, and find out who raised them.".
   Topic low_u_dead_job_paid with low_priest "Tell {low_priest} the dead under the churchyard are laid, and the man who raised them gone" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
     Says "{low_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {low_priest} says. 'The bottles are for after.'".
@@ -385,6 +386,9 @@ Module lab "The undercroft at Lowmouth" {
     Result "The flask bursts against the web. The fire runs up it into the dark of the cutting, faster than you would have thought. Something screams in a voice like wet wood in a grate. When it has burned out, nothing moves in there.".
   }
   Rule low_u_spiders_cleared when not able(low_u_spiders) and not low_u_done(low_u_spiders_job) { Assert low_u_done(low_u_spiders_job). }
+  Relation low_u_hobb_out().
+  Rule low_u_hobb_lets_out when low_u_done(low_u_spiders_job) and not at(party, low_taproom) and not low_u_hobb_out() { Assert low_u_hobb_out(). Retract at(low_u_hobb, low_taproom). Assert at(low_u_hobb, low_u_pit). }
+  Observe low_u_hobb_ferreting near low_u_hobb as sign when low_u_hobb_out() "Dannel Hobb is at the foot of the pit with a ferret inside his coat. He goes into the adit as far as the daylight reaches, and comes out again, pleased with himself.".
   Objective low_u_spiders_job_aim when low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) toward low_u_gallery by low_u_pit "Burn the spiders out of {low_u_adit} under {low_u_pit} at Lowmouth.".
   Objective low_u_spiders_job_eggs when low_u_done(low_u_spiders_job) and knows(party, low_u_spiders_eggs) and state(low_u_eggs, hanging) and able(low_u_mother) toward low_u_brood "Deal with the spiders' mother in {low_u_brood} behind the quarry's gallery, and burn her eggs, or the spiders will come again.".
   Objective low_u_spiders_job_burn when low_u_done(low_u_spiders_job) and knows(party, low_u_spiders_eggs) and state(low_u_eggs, hanging) and not able(low_u_mother) toward low_u_brood "Burn the spiders' eggs in {low_u_brood} behind the quarry's gallery, or the spiders will come again.".
@@ -516,6 +520,8 @@ Module lab "The undercroft at Lowmouth" {
   Item low_u_vault_rings "a cord of old rings" is grave_rings at low_u_vault.
   Item low_u_vault_stone "a moonstone the size of a thumb" is moonstone at low_u_vault.
   Milestone low_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, low_u_vault).
+  Relation low_u_vault_talked().
+  Rule low_u_vault_talk when been(party, low_u_vault) and at(party, low_taproom) and at(low_innkeeper, low_taproom) and not low_u_vault_talked() says "'They're saying you've been under the undercroft,' says {low_innkeeper}. 'Through a door in the floor. My grandfather said there was a door down there nobody opened, and nobody believed him either.'" { Assert low_u_vault_talked(). }
   Entity low_u_keeper_rite: fact "In the book of the dead is a rite for a keeper set at a door. Said with a gift laid at its feet, the keeper sits down and lets the giver by.".
   Action low_u_keeper_seated(actor: group, site: place) "Lay ten coin at the keeper's feet and say the rite of the door" {
     Description "The rite from the book of the dead. The keeper sits down and lets you by to the stair. The coin stays where it is laid.".

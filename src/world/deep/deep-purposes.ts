@@ -69,8 +69,10 @@ export interface DeepPurpose {
   // How it is told of at the inn, what the merchant buys, and what the innkeeper says when its heart comes home.
   // brought: what the one who buys its ore says once they have some of it from the company, and what they ask then
   // (the town answering what the company brought up, not a dispenser: sprint 3's reasons to return).
-  hook: { topic: string; trade?: { topic: string; says: string; brought?: { ask: string; says: string } };
-    home?: string };
+  // shown: the ore on the buyer's counter while he keeps it; below: the inn's keeper hearing the company has been below
+  // the first level, once (the town answering what the company did).
+  hook: { topic: string; trade?: { topic: string; says: string; brought?: { ask: string; says: string };
+    shown?: string }; home?: string; below?: string };
   levels: DeepLevelSpec[]; connectors: DeepConnector[]; roles: Record<string, DeepRole>;
   dwellers: { depth: number; groups: DeepGroup[] }[];
   // The habitats (data/catalog/habitats.json) whose creatures may also have come to live here: a room's dwellers are

@@ -124,7 +124,7 @@ export class RegionUndertown {
       kingdomup: k.name.toUpperCase(), kingdomkind: k.kind, fallen: k.fallen, fate: makers.fate, town: t,
       townname: s.name,
       keeper: `${t}_innkeeper`, priest: `${t}_priest`, merchant: `${t}_merchant`, holy: Foundings.holyPlace(region, s),
-      where: `under ${s.name}` };
+      where: `under ${s.name}`, keeperat: SettlementWriter.standing(region, s, 'innkeeper') };
     // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. It
     // lies within the town, under it, so that going down into it is going in, not a journey across the country.
     const q = JSON.stringify;

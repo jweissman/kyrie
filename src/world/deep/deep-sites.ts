@@ -49,7 +49,7 @@ export class DeepSites {
       ...DeepTime.lines(purpose, layout, content, key), ...DeepHistory.lines(layout, after, values),
       ...this.keeper(purpose, layout),
       ...this.bane(purpose, layout), ...this.raised(purpose, layout, values),
-      ...this.hooks(purpose, values, this.bane(purpose, layout).length > 0),
+      ...this.hooks(purpose, values, this.bane(purpose, layout).length > 0), ...this.answered(purpose, values, layout),
       ...DeepArgument.lines(layout, values, purpose),
       ...at.rivals === false ? [] : DeepRivals.lines(region, site, { layout, purpose, values }),
       ...this.land(purpose, layout)];
@@ -213,6 +213,21 @@ export class DeepSites {
       `    Says ${q(says!)}.`,
       `    On discuss { Assert knows(actor, ${w}_named).${purpose.objective.goal ? ` Assert knows(actor, ${w}_story).` : ''} }`,
       '  }'];
+  }
+  // The town answering what the company did below (sprint 3: a settlement that responds): the ore it sold, shown on
+  // the buyer's counter while he keeps it; and the keeper of the inn, who said nobody goes below the first level,
+  // hearing that the company has, once.
+  private static answered(purpose: DeepPurpose, values: Record<string, string>, layout: DeepLayout): string[] {
+    const q = this.q, w = values.w!, m = values.merchant!, k = values.keeper!, hook = purpose.hook, ore = purpose.ore;
+    const below = layout.levels[1]?.rooms[0]?.id, at = values.keeperat;
+    return [...hook.trade?.shown && ore ? [`  Observe ${w}_ore_shown near ${m} as sign when keeps(${m}, ?o) and `
+      + `itemKind(?o, ${ore.kind}) ${q(this.named(hook.trade.shown, m, k))}.`] : [],
+    ...hook.below && below && at ? [`  Relation ${w}_below_told().`, `  Rule ${w}_below_talk when been(party, ${below})`
+      + ` and at(party, ${at}) and at(${k}, ${at}) and not ${w}_below_told() says ${q(this.named(hook.below, m, k))}`
+      + ` { Assert ${w}_below_told(). Assert onTheHouse(${k}, party). }`] : []];
+  }
+  private static named(text: string, merchant: string, keeper: string): string {
+    return text.replaceAll('{merchant}', `{${merchant}}`).replaceAll('{keeper}', `{${keeper}}`);
   }
   private static lower(text: string): string { return text.charAt(0).toLowerCase() + text.slice(1); }
   // Where the innkeeper says it is: out in the country, or under the town ("It is out in under Lowmouth" was said).
