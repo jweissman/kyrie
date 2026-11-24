@@ -5,6 +5,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../lang/spatial';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { WorldMemo } from '../lang/world-memo';
+import { KeptParts } from './kept-parts';
 import { ChartModel } from './chart-model';
 import { LandModel } from './land-model';
 import { Overland } from './overland';
@@ -80,12 +81,15 @@ export class KnownWays {
     return legs ? [from, ...legs.map(l => l.to)] : [];
   }
   // The nearest way from a place to every place it reaches, each settled in order of its minutes: searched once for
-  // each state of the world and each kind of search, not once for every place asked of (the map's every area and mark
-  // had each run the whole search, two thirds of a waited hour's time: Mission 21's validation profile).
-  private static readonly trees = new WorldMemo<Tree>();
+  // each kind of search, not once for every place asked of (the map's every area and mark had each run the whole
+  // search, two thirds of a waited hour's time: Mission 21's validation profile).
+  // Kept from one world to the next while nothing the search read has been written and the company has been where it
+  // had been (KeptParts; what it reads of where it has been is its history's, not the world's): a screen after an act
+  // that moved no one had searched the whole country's ways again (AX-05: a quarter of the screen's time).
   static tree(campaign: Campaign, from: string, over: Over = {}): Tree {
-    const key = `${campaign.playerActor}:${campaign.history.length}:${from}:${this.key(over)}`;
-    return this.trees.of(campaign.world, key, () => this.search(campaign, from, over));
+    const actor = campaign.playerActor ?? '', been = [...VisitedPlaces.of(campaign, actor)].sort().join('\u0000');
+    return KeptParts.of(campaign.world, `ways:${actor}:${from}:${this.key(over)}`, been,
+      () => this.search(campaign, from, over));
   }
   private static key(o: Over): string {
     return [o.clear, o.roam, o.barred, o.able].map(Number).join('') + `|${o.area ?? ''}|${o.legs ?? ''}|`
