@@ -393,7 +393,7 @@ export class Affordances {
     // A way into the next hex is set out on from the map, as a journey there (see HexBoundary): led with, it is that
     // journey, never the way's own command, which the campaign refuses (the travel-contract review, 9 November).
     return [this.candidate(town ? { ...c, label: `Enter ${town}` } : c, { exit: exit.id, kind, whys, r, ...slip ? { subject: slip } : {}, ...exit.crosses && !tried ? { command: `travel:${dest}` } : {},
-      ...tried ? Leaves.tries(c, whys) : {},
+      ...tried ? Leaves.tries(c, whys, r) : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: this.held(r),
         help: 'someone who would go with you', ...r.sensed?.has(dest) ? { companion: r.sensed.get(dest)! } : {},
         deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',

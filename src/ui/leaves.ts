@@ -30,10 +30,12 @@ export class Leaves {
   // A look at a way barred is an opener of the tries at it: what it is led for (a way not taken, the first try) is had
   // by the first of them that can be done safely. Never a guess that cannot be undone or a risk: at Mistlake's speaking
   // door, its safe tries spent, the aim's way on had been laid on "Press the word “Shadow”", which lost its grave mark
-  // to the look's and was drawn as the aim's (test/speaking-door-business).
-  static tries(c: Choice, whys: Why[]): { leaves?: Candidate['leaves'] } {
+  // to the look's and was drawn as the aim's (test/speaking-door-business). Nor a try done already: at Redkeep's
+  // speaking door the gold had stayed on "Push and pull at it", pushed, and pushed again (the gold-follower's walk
+  // stopped there, 24 November): its safe tries spent, the look at it is the step and nothing inside it is gold.
+  static tries(c: Choice, whys: Why[], r: Pick<Reading, 'done'>): { leaves?: Candidate['leaves'] } {
     const first = c.command ? undefined : Attending.all(c.children ?? [])
-      .find(k => k.command && !k.disabled && !k.grave && !k.risk)?.command;
+      .find(k => k.command && !k.disabled && !k.grave && !k.risk && !r.done.has(k.command))?.command;
     return first ? { leaves: Object.fromEntries(whys.filter(w => Aspects.by[w]).map(w => [w, first])) } : {};
   }
 }
