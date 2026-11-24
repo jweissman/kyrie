@@ -17,9 +17,14 @@
    it, scrolling within itself, and the keys at the foot, under them and never over them. */
 .focus > .glance, .focus > .glance.sparse { flex: 1 1 auto; min-height: 0; max-width: none; margin: 0; overflow: hidden;
   display: flex; flex-direction: column; }
-.focus > .glance > .told-col { flex: none; max-height: 30%;
-  mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent); overflow-y: auto; overscroll-behavior: contain;
+/* Bounded, and brought to its end as it comes (Scrolled.useEnd): the bound and the fade are what came before the newest
+   telling, at its head, never the newest, which had been what they cut (OR-243). */
+.focus > .glance > .told-col { flex: none; max-height: max(30%, var(--newest, 0px)); overflow-y: auto; overscroll-behavior: contain;
   padding: 18px clamp(16px, 2vw, 24px) 6px; }
+.focus > .glance > .told-col[data-more] { mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent); }
+.focus > .glance > .told-col[data-above] { mask-image: linear-gradient(0deg, #000 calc(100% - 22px), transparent); }
+.focus > .glance > .told-col[data-above][data-more] {
+  mask-image: linear-gradient(180deg, transparent, #000 22px, #000 calc(100% - 22px), transparent); }
 .focus > .glance > .told-col > * { max-width: none; }
 .focus > .glance > .do-col { flex: 1 1 auto; min-height: 0; border: 0; background: none; box-shadow: none; max-height: none;
   display: flex; flex-direction: column; }
