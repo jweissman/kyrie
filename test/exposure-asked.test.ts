@@ -5,9 +5,9 @@ import type { Frame } from '../src/creation/protocol';
 import type { Choice } from '../src/ui/choice-list';
 
 // An act that exposes one of the company to a hazard is asked about before it is done, as any act that may hurt is
-// (CB-01's descent measure, OR-226: heaving the adit's fallen prop alone, its weight a hazard of 1d4 unless a strength save,
-// killed a mage of four hit points come out of the badger's bout at two, unasked and unwarned on the page; the acts
-// whose changes strike had been asked about, an exposure resolved by the act's own Resolve had not).
+// (CB-01's descent measure, OR-226: heaving the adit's fallen prop alone, its weight a hazard of 1d4 unless a
+// strength save, killed a mage of four hit points come out of the badger's bout at two, unasked and unwarned on the
+// page; the acts whose changes strike had been asked about, an exposure resolved by the act's own Resolve had not).
 const gallery = `
   Place gallery "the gallery" is room at 0, 0.
   Company party "You" of 1 at gallery.
