@@ -1,7 +1,6 @@
 {
   "about": "Specs held out of every gating lane (the owner, 23 November: 'aggressively quarantine flaky tests'; scripts/test-lane.ts). A quarantined spec runs only in the optional quarantine workflow (.github/workflows/quarantine.yml), after CI has passed on main and the deploy has begun; it never fails a run. Each entry says why it flakes and what the lower-order test that replaces it would be; a spec leaves quarantine by being rewritten lower, or by being made steady and passing there run after run.",
   "files": {
-    "test/act-budget.test.ts": { "since": "2026-11-23", "why": "a wall-clock median (500 ms on CI) that a loaded runner crosses: 512 ms on run 45270018815, a docs-only commit", "lower": "the turn-cost ratchet's stage counts (schemas re-grounded, legs walked), not milliseconds, on push; milliseconds nightly, reported not gated" },
-    "test/input-answered-browser.test.ts": { "since": "2026-11-23", "why": "OR-182: the held journey's card drawn late now and then, at both sizes (999, 981, 1028 ms against ~525)", "lower": "the hold's commit and the card's answer as a headless engine contract; the browser's timing kept as a measure, logged not gated" }
+    "test/act-budget.test.ts": { "since": "2026-11-23", "why": "a wall-clock median (500 ms on CI) that a loaded runner crosses: 512 ms on run 45270018815, a docs-only commit", "lower": "the turn-cost ratchet's stage counts (schemas re-grounded, legs walked), not milliseconds, on push; milliseconds nightly, reported not gated" }
   }
 }
