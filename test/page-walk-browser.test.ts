@@ -1,5 +1,6 @@
 /// <reference lib="dom" />
 import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
+import type { Page } from 'playwright-core';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -17,6 +18,13 @@ import type { MonoDriver } from './support/mono-driver';
 // drove road's walk begins. The adit's own incidents are test/features/world/under-the-fall.pin's.
 // The prop is lifted from its own drawer, opened by its likeness (pressing the likeness alone had left it down, and
 // the drift's mouth beyond it pressed with the drawer open: the driver's fallback).
+// In the dark of the fall no way on is open: the compass's mark is shut, and M brings up no empty lens (OR-211).
+const inTheDark = async (page: Page, d: MonoDriver) => {
+  expect(await page.locator('.scene-rail .opens-compass[disabled]').count()).toBe(1);
+  await page.keyboard.press('m');
+  expect(await page.locator('.glance .lens').count()).toBe(0);
+  expect((await d.inspect()).place?.id).toMatch(/adit_fall$/);
+};
 const outOfTheAdit = async (d: MonoDriver) => {
   for (const words of [/light a (torch|candle)/i, /^To the old gallery/, /^the fallen prop$/, /^Heave up alone/,
     /^Up to the old drift/, /^To the landing at Porthalen/]) {
@@ -42,6 +50,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     await page.waitForSelector('[data-mode="create"]', { timeout: 180000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"], [data-mode="prologue"]', { timeout: 180000 });
+    await inTheDark(page, d);
     await outOfTheAdit(d);
     const by: string[] = [];
     const act = async (id: string) => { by.push(`${id}: ${await d.act(id)}`); return d.inspect(); };

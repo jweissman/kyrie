@@ -94,12 +94,16 @@ export class SceneRail {
   static MapMark({ app, onMap }: { app: ReaderApp; onMap?: boolean }) {
     const local = onMap ? SceneRail.local(app) : undefined, lit = onMap ? undefined : SceneRail.map(app);
     const compass = !onMap && !!CompassStage.of(app), going = app.state.exploring === 'go';
+    // Shut as Go… is where no way on from here is open (in the dark of the adit's fall, OR-211: the places lens had come
+    // up with nothing in it to press).
+    const shut = compass && SceneRail.noWayOn(app);
     const mark = onMap ? { className: 'rail-mark pressed', 'data-action': 'back-to-place', 'aria-pressed': true,
       'aria-label': 'The map: back to where you are', 'data-tone': local?.tone, glyph: 'the_map',
       go: () => app.outdoor(false) }
       : compass ? { className: `rail-mark opens-compass${lit ? ' lit' : ''}`, 'data-action': 'compass', 'data-key': 'm',
-        'aria-label': 'The compass: the way out, and the ways in here', 'aria-pressed': going, glyph: 'the_compass',
-        go: () => Explorer.open(app, going ? undefined : 'go') }
+        'aria-label': shut ? 'The compass: no way on from here' : 'The compass: the way out, and the ways in here',
+        'aria-pressed': going, glyph: 'the_compass', disabled: shut,
+        go: () => { if (!shut) { Explorer.open(app, going ? undefined : 'go'); } } }
       : { className: `rail-mark${lit ? ' lit' : ''}`, 'data-action': 'mode', 'data-view': 'map', 'data-key': 'm',
         'aria-label': 'The map', glyph: 'the_map', go: () => app.show('map') };
     const { glyph, go, ...attrs } = mark;
@@ -124,6 +128,8 @@ export class SceneRail {
       {!shut && <Pip.View mark={lit} />}
     </button>;
   }
+  // No way on from here that can be taken: none, or every one refused (the gallery from the adit's fall, unlit).
+  static noWayOn(app: ReaderApp): boolean { return Wayfinder.ways(app).every(w => w.c.disabled); }
   // Go: shut with no way from here; lit for the aim's way (where the way is shown) or a way the place leads with; dim where
   // every way goes somewhere left with nothing done and nothing new since.
   static go(app: ReaderApp): Standing {

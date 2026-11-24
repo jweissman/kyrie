@@ -6,6 +6,7 @@ import { Raised } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
+import { SceneRail } from './stage/scene-rail';
 import { PressGuard } from './press-guard';
 import { DigitSettle } from './digit-settle';
 import type { Choice } from '../../src/ui/choice-list';
@@ -132,8 +133,9 @@ export class ReaderKeys {
     const app = this.app;
     if (key === 't' && app.state.frame?.combat) { app.auto(); return true; }
     // Inside an enclosed place, M is the compass, as its mark is (see SceneRail.Books).
+    // Nothing, where no way on is open (its mark shut: OR-211), never an empty lens.
     if (key === 'm' && CompassStage.of(app) && Stage.mode(app) === 'explore') {
-      Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go');
+      if (!SceneRail.noWayOn(app)) { Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go'); }
       return true;
     }
     if (ReaderKeys.views[key]) { app.show(ReaderKeys.views[key]); return true; }
