@@ -74,7 +74,7 @@ export class NoviceFights {
     else { tally.undecided++; }
     if ((battle.state.combatants.find(f => f.id === setup.lead)?.hp ?? 0) === 0) { tally.fell++; }
   }
-  private static next(battle: Battle, setup: Setup, policy: Policy): Command {
+  static next(battle: Battle, setup: Setup, policy: Policy): Command {
     const chosen = battle.chosen();
     if (policy === 'stand' || !battle.playerControls(battle.state.actor) || !this.backs(battle, setup)) {
       return chosen;

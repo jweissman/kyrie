@@ -18,8 +18,13 @@ import type { Band } from './novice-country';
 // after the first blows): Engagement.moment, as the game decides it.
 export type Meeting = 'at once' | 'warns' | 'lets be';
 // signed: one that lies in wait gives itself away to a company next door first (inhabitants.kyr's temper_betrayed),
-// so a company that reads the page is given its turn before it goes in.
-export interface Reading { meeting: Meeting; moment?: Moment; tolerated: boolean; signed: boolean; world: World }
+// so a company that reads the page is given its turn before it goes in. heard: it is told in a room a way leads from
+// to it, while it is there, to anyone (a savage band of the deep heard breathing next door: DeepSounds), so going in
+// is the company's choice. shut: every way to where it stands is barred by a thing in a state that blocks it (the
+// galleries' cold, walled up behind an iron door barred from this side), so it is met only once the company opens it.
+export interface Reading {
+  meeting: Meeting; moment?: Moment; tolerated: boolean; signed: boolean; heard: boolean; shut: boolean; world: World;
+}
 
 // The meeting read from the world's own rules, not from a table of temperaments: the company is put where the band
 // stands, with whatever its members bring (a hire's keen eyes spot an ambush: inhabitants.kyr's temper_spotted), and
@@ -33,7 +38,24 @@ export class NoviceMeeting {
       : this.holds(at, 'warned') || this.holds(at, 'halts') ? 'warns' : 'lets be';
     const moment = meeting === 'at once' ? Engagement.moment(campaign, band.id) : undefined;
     const signed = moment === 'sprung' && world.relates('sign') && world.related('sign', band.id).length > 0;
-    return { meeting, ...moment ? { moment } : {}, tolerated: this.holds(at, 'tolerates'), signed, world };
+    return { meeting, ...moment ? { moment } : {}, tolerated: this.holds(at, 'tolerates'), signed,
+      heard: this.heard(campaign, band), shut: this.shut(campaign, band), world };
+  }
+  static shut(campaign: Campaign, band: Band): boolean {
+    const w = campaign.world, ways = w.related('connects').filter(c => c.args[2] === band.place).map(c => c.args[0]!);
+    if (!ways.length || !w.relates('on') || !w.relates('blocksWhen')) { return false; }
+    const on = w.related('on'), blocks = w.related('blocksWhen');
+    return ways.every(way => on.some(r => r.args[1] === way && blocks.some(b => b.args[0] === r.args[0]
+      && w.test(ModuleWriter.call('state', r.args[0]!, b.args[1]!)))));
+  }
+  // Whether something is said of the band next door: an observation at a place a way leads to from where it stands,
+  // that asks after it and needs no capability of the company's to be noticed.
+  static heard(campaign: Campaign, band: Band): boolean {
+    const next = new Set(campaign.world.related('connects').flatMap(c => c.args[1] === band.place ? [c.args[2]!]
+      : c.args[2] === band.place ? [c.args[1]!] : []));
+    const named = `"${band.id}"`;
+    return (campaign.module.observations ?? []).some(o => next.has(o.place) && !o.by
+      && JSON.stringify(o.when).includes(named));
   }
   private static holds(at: { world: World; band: string; party: string }, name: string): boolean {
     return at.world.relates(name) && at.world.test(ModuleWriter.call(name, at.band, at.party));

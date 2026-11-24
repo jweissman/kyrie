@@ -28,11 +28,13 @@ export interface Country {
 // "first ruin", where 7 of 17 solo mages fell), and the big ruin the one with the most (PT-11's "big ruin").
 export class NoviceCountry {
   static readonly own = 'The country\'s own sites and wild';
-  static read(campaign: Campaign, seed: string): Country {
+  // towns: the bands under and about a town too (Gatesend's undertown, a few minutes from where the weir life begins),
+  // not only those out in its sites and wild.
+  static read(campaign: Campaign, seed: string, towns = false): Country {
     const world = campaign.world, party = campaign.playerActor!, start = world.one('at', party) ?? '';
     const town = this.containing(campaign, start, 'settlement')?.id;
     const far = this.distances(campaign, start);
-    const bands = Object.keys(campaign.readout.inhabitants).flatMap(g => this.band(campaign, g, far));
+    const bands = Object.keys(campaign.readout.inhabitants).flatMap(g => this.band(campaign, g, far, towns));
     const sites = this.sites(campaign, far, bands);
     const own = sites.filter(s => bands.some(b => b.site === s.id && b.installation === RegionWriter.id));
     const firstRuin = [...own].sort((a, b) => a.minutes - b.minutes || NoviceCountry.order(a.id, b.id))[0]?.id;
@@ -55,11 +57,12 @@ export class NoviceCountry {
   static named(campaign: Campaign, id: string): string {
     return (this.entities(campaign).get(id)?.name ?? id).split(', ')[0]!;
   }
-  private static band(campaign: Campaign, group: string, far: Map<string, number>): Band[] {
+  private static band(campaign: Campaign, group: string, far: Map<string, number>, towns: boolean): Band[] {
     const world = campaign.world, place = world.one('at', group);
     if (group === campaign.playerActor || !place || world.test(ModuleWriter.call('peaceable', group))) { return []; }
     const rows = Spatial.ancestry(this.entities(campaign), place), kinds = rows.map(e => e.space?.kind);
-    if (kinds.includes('settlement') || !(kinds.includes('site') || kinds.includes('wilderness'))) { return []; }
+    const out = kinds.includes('site') || kinds.includes('wilderness');
+    if (towns ? !out && !kinds.includes('settlement') : kinds.includes('settlement') || !out) { return []; }
     const creatures = campaign.readout.creatures;
     const members = (campaign.readout.inhabitants[group] ?? [])
       .filter(id => (creatures.find(c => c.id === id)?.state.hp ?? 0) > 0);

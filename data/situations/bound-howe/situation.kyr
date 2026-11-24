@@ -202,11 +202,17 @@ Module bound_howe "The Bound Howe" {
     Warns "The black water in the well-mouth shivers and folds, and a voice speaks out of it in a voice you know: your own, a little behind, saying the last thing you said. Then it laughs, in no voice at all.".
   }
   Initially Set encounterXp(mouth) to 500.
+  // The drowned lie under the water and stand up out of it (CB-31): as a zombie kind they had fallen on whoever came
+  // into the sump at once, the only band in a lone mage's first hour from Gatesend to give no turn and no sign, and
+  // their warning was never said. Lying in wait, keen eyes see them rise; their wet track up the drift gives them away
+  // to a lit company in the dig-camp.
   Person drowned "the drowned crew" at sump {
-    Role "robbers who drowned in the sump". Species zombie. Numbers 3. Level 3. Lair sump.
+    Role "robbers who drowned in the sump". Species zombie. Numbers 3. Level 3. Temperament ambush. Lair sump.
     Warns "The black water at the sump's edge moves where nothing is, and then three figures in rotted canvas and iron caps stand up out of it, streaming, and turn their faces to the light.".
   }
   Initially Set encounterXp(drowned) to 120.
+  Entity drowned_track: fact "Down the middle of the low drift its dry floor is dark with wet: the prints of three pairs of bare feet, come up from the sump streaming, turned at the dig-camp's edge, and gone back down to the water.".
+  Initially Assert sign(drowned, drowned_track).
   Person iron_caps "the iron-capped dead" at forecourt {
     Role "robbers the king's night left on the grass". Species zombie. Numbers 2. Level 2. Temperament ambush. Lair forecourt.
     Warns "Two figures that were lying face down in the grey grass get up without using their hands. They wear iron caps, and picks are still tied to their wrists.".

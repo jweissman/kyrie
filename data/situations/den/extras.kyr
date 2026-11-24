@@ -9,8 +9,13 @@ Module den "A den in the wild" {
   Entity m_none: fact "". Entity m_spring: fact "". Entity m_script: fact "". Entity m_moss: fact "".
 
   // The one the others follow. Deem puts it in the den or leaves it nowhere; where it is, smoke will not move the pack.
-  Person leader "the leader" at gone { Role "the one the rest follow". Creature terrain any. }
-  Observe leader_seen near leader when at(leader, den) and not dead(leader) "One of them stands apart from the rest, larger and stiller, and does not look at you so much as at what you carry. The others keep an eye on it before they move.".
+  // It waits at the back with the rest, as they do (CB-32): left to its kind's temper, a savage one (a banshee, the
+  // dead) had fallen on whoever came into the den at once, with no turn and nothing heard first, while the pack it
+  // leads held off; a lone thief came through s2's den alive seven times in ten.
+  Person leader "the leader" at gone {
+    Role "the one the rest follow". Creature terrain any.
+    State waiting "One of them stands apart from the rest, larger and stiller, and does not look at you so much as at what you carry. The others keep an eye on it before they move.".
+  }
 
   // What lies about: one thing the beasts or the outlaws dragged home, sometimes a better one.
   Item find_broken_dagger "a dagger snapped at the hilt" is broken_dagger at gone.
