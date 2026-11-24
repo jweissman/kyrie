@@ -702,6 +702,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from OR-380: the title recomposed so that its ways in stand in the frame's column at a desk's size, an outcome the owner commissions (OR-305) that waits on their artistic call; no claimed contract broken"
+  },
+  "OR-383": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-380: the fight's hand recomposed on a narrow screen so that its rows stand in the frame's column, a commissioned outcome (OR-305), no claimed contract broken"
+  },
+  "OR-384": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-380: a test instrument wanted (a walk that reaches an ending), not an observed failure"
   }
  },
  "blockedBy": {

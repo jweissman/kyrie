@@ -45,6 +45,18 @@ class Walk {
         && rows.every((r, i) => i === 0 || (Math.abs(r.left - rows[0]!.left) < 1 && r.top >= rows[i - 1]!.bottom - 1));
     });
   }
+  // How far the hand's first row stands from the frame's menu column mirrored to the left.
+  static async mirrored(page: Page): Promise<{ x: number; width: number }> {
+    return page.evaluate(() => {
+      const shell = getComputedStyle(document.querySelector('.shell')!), px = (v: string) => {
+        const probe = document.createElement('div'); probe.style.width = v; document.body.append(probe);
+        const w = probe.getBoundingClientRect().width; probe.remove(); return w;
+      };
+      const r = document.querySelector('.fight .hand-menu > button')!.getBoundingClientRect();
+      const x = px(shell.getPropertyValue('--menu-r')) + px(shell.getPropertyValue('--menu-inset'));
+      return { x: r.left - x, width: r.width - px(shell.getPropertyValue('--menu-rows')) };
+    });
+  }
   static moved(a: Record<string, Box>, b: Record<string, Box>): string[] {
     return Object.keys(a).filter(k => b[k] && a[k]!.some((v, i) => Math.abs(v - b[k]![i]!) > 1))
       .map(k => `${k}: ${a[k]!.join(',')} → ${b[k]!.join(',')}`);
@@ -112,6 +124,12 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a fight that holds still', () => {
       moved.push(...Walk.moved(Object.fromEntries(keys.map(k => [k, first[k]!])), b).map(m => `${state}: ${m}`));
     };
     expect(await Walk.column(page)).toBe(true);
+    // On a wide screen the hand's rows stand in the frame's menu column mirrored to the left (OR-380): in from the left
+    // edge as the scene's are from the right, at its width.
+    if (width > 900) {
+      const off = await Walk.mirrored(page);
+      expect([Math.abs(off.x) < 2, Math.abs(off.width) < 2]).toEqual([true, true]);
+    }
     // A kind opened (the category): its moves in place of the hand's, never a list beside it (ruling 2); and put away.
     await page.click('.fight .hand-menu [data-action="panel"] >> nth=0');
     expect([await page.locator('.fight .hand-menu [data-action="move"]').count() <= 4,

@@ -41,8 +41,9 @@ export class MenuPlacement {
       return { surface, side, band, box: { x, y, width: right - x, height: bottom - y } } as const;
     }, surface);
   }
-  // The pages a player meets, from the title to the Book: the title, how a life begins, a step of a life, the scene,
-  // its lenses, someone talked to, the map, the Book and the game's Options; each page's menu where it stands.
+  // The pages a player meets, from the title to the Book: the title, how a life begins, a step of a life, the opening,
+  // the scene, its lenses, someone talked to, the map, the Book and the game's Options; each page's menu where it
+  // stands.
   // shots: a folder each page is photographed into as it is measured, for whoever looks.
   static async walk(page: Page, site: string, shots?: string): Promise<Placed[]> {
     const found: Placed[] = [], d = new MonoDriver(page), at = async (s: string) => {
@@ -56,6 +57,14 @@ export class MenuPlacement {
     await at('begin');
     await page.goto(`file://${site}/mono.html?world=kite`); await page.waitForSelector('[data-mode="create"]');
     await at('creation');
+    // The opening, asked for as automation is otherwise spared it: its first beat, once its way on has appeared.
+    await page.goto(`file://${site}/mono.html?world=kite&opening`); await page.waitForSelector('[data-mode="create"]');
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="prologue"]', { timeout: 120000 });
+    await page.waitForSelector('[data-action="beat"]', { state: 'attached' }); await page.waitForTimeout(2000);
+    await at('opening');
+    // The game the opening began let go of, so that the next country is made afresh (a kept game is taken up).
+    await page.evaluate(() => localStorage.clear());
     await page.goto(`file://${site}/mono.html?world=a1`); await page.waitForSelector('[data-mode="create"]');
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 }); await d.settle();

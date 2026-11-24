@@ -21,8 +21,8 @@ in pixels at 1280×800 and 390×844, and the position is where the box stands on
 | The map | `map-menu.tsx` | 773–1131, on the card, bottom right | 60–330, foot | The card's rows; Put away the map |
 | The Book | `sheet.tsx` (ol.led keep) | 168–1112, across the foot | 48–342, foot | One row across the sheet's width |
 | Options | `options-page.tsx` | not a `[data-menu]` | not a `[data-menu]` | Settings rows and the paused game's two ways, in the opening's dark |
-| A fight | `fight-moves.tsx`, PageFrame kind fight | not reached by the walk | not reached by the walk | Unfolding moves; the told column at `--panel-w` |
-| The opening, the ending | `prologue-stage.tsx`, `book-stage.tsx` | not reached by the walk | not reached by the walk | Go on, and answers; the ending's two rows |
+| A fight | `fight-moves.tsx`, PageFrame kind fight | measured by test/fight-geometry-browser | the hand's own two columns | Unfolding moves; the told column at `--panel-w` |
+| The opening, the ending | `prologue-stage.tsx`, `book-stage.tsx` | the opening measured by the walk (`?opening`); the ending reached by none | as at 1280 | Go on, and answers; the ending's two rows |
 
 The menus stood in five columns at each size. The scene and a conversation were the same page in kind, yet stood
 29 px apart at 1280 and 18 px apart on a phone.
@@ -64,7 +64,8 @@ The trade-off:
 | First slice | the scene with its lenses, and a conversation: both take the column from the frame's tokens (`rest.css`, `talk.css`) | 4 / 4 |
 | OR-380, pages before play | how a life begins, a step of a life, and Options (now on the one page's frame, `PageFrame` kind `options`), each in the column by the frame's tokens; the title's ways in the safe zone's width on a phone | 4 / 3 |
 | OR-380, in play | the map's card (its width the column's and its padding the menu's inset, the board framing where you are clear of it), the Book's notes (its rows one over another in the column) | 2 / 1 |
-| OR-380 | the opening, the ending, a fight (on the left) | 2 (the title's, OR-382) / 1 |
+| OR-380, the rest | the opening (its words and its way on in the column, where the scene's telling stands next), the ending (its column by the tokens), a fight on a wide screen (the hand's column the menu column mirrored to the left) | 2 (the title's, OR-382) / 1 |
+| Left | the title at a desk's size (OR-382); a fight's hand on a narrow screen (OR-383); the ending measured by a walk that reaches one (OR-384) | |
 
 The spec's `held` is lowered as each page comes onto the frame, and is never raised.
 

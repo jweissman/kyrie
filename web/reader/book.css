@@ -33,7 +33,9 @@
   color: rgba(236, 230, 217, .78); }
 .ending-head .who { margin: 0; font: 300 clamp(40px, 5vw, 64px)/1.05 var(--do); color: var(--ivory); }
 .ending-head .what { margin: 14px 0 0; font: italic 400 19px/1.4 var(--told); color: rgba(236, 230, 217, .9); }
-.ending-col { position: absolute; left: 50%; right: 12%; top: max(72px, 9vh); display: grid; gap: 22px; padding-bottom: 60px; }
+/* What is told and the two rows in the frame's menu column (OR-380), as a step of a life and the scene stand. */
+.ending-col { position: absolute; left: auto; right: var(--menu-edge); width: var(--menu-rows); top: max(72px, 9vh); display: grid;
+  gap: 22px; padding-bottom: 60px; }
 .ending-told p { margin: 0 0 10px; font: 400 18px/1.55 var(--told); color: var(--ivory); }
 .ending-told p.how { font-size: 22px; line-height: 1.45; }
 .ending-did h2 { margin: 0 0 8px; font: 600 12px/1 var(--do); letter-spacing: var(--track-label); text-transform: uppercase;

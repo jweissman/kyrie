@@ -208,6 +208,15 @@
 @keyframes appear { from { opacity: 0; visibility: hidden; pointer-events: none; } }
 .prologue-page .credit { position: absolute; left: max(20px, env(safe-area-inset-left));
   bottom: max(14px, env(safe-area-inset-bottom)); z-index: 1; margin: 0; font: 400 11px/1.4 var(--do); color: var(--faint); }
+/* The opening's words and its way on in the frame's menu column (OR-380), where the scene's telling and its acts stand
+   on the page after it: the painting has the rest of the screen, and the words do not move when the place comes. */
+.prologue-page { justify-items: end; padding-left: 0; padding-right: var(--menu-edge); }
+.prologue-body { width: var(--menu-rows); text-align: left; }
+.prologue-page .met { align-items: flex-start; }
+.prologue-page .onward { align-items: stretch; }
+.prologue-page .answers { width: 100%; margin: 0; }
+:root .prologue-page .go-on.choice-row.choice-row { width: 100%; margin: 26px 0 0; }
+.prologue-page .first-aim { max-width: none; text-wrap: pretty; }
 @media (prefers-reduced-motion: reduce) { .prologue-page * { animation: none !important; } }
 
 /* ---- A place. Its head across the stage (the painting, dimming into the stage, with the name set on it), the telling
