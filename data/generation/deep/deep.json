@@ -677,20 +677,20 @@
   "ore": {
     "kind": "star_iron",
     "name": "a lump of star-iron",
-    "worth": 30,
+    "worth": 15,
     "weight": 2,
     "text": "Pale ore, heavier than it looks, that glitters faintly in the dark.",
     "roles": {
-      "stope": 3,
-      "chute_top": 2,
+      "stope": 1,
+      "chute_top": 1,
       "shaft_head": 1,
-      "shaft_bottom": 3,
-      "chute_foot": 3,
+      "shaft_bottom": 1,
+      "chute_foot": 1,
       "haulage": 1,
-      "sump_gallery": 2,
-      "lode": 8,
-      "deep_cut": 2,
-      "vault": 4
+      "sump_gallery": 1,
+      "lode": 4,
+      "deep_cut": 1,
+      "vault": 2
     }
   },
   "valuables": {

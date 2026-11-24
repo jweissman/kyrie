@@ -54,6 +54,20 @@ is the reckoning's own verdict, and the game asks wherever that verdict says the
 reading is unsound no longer, but it is close to a tautology: what it holds is that the asking rule is kept. What the
 census's trials alone see is reported in the note and filed as OR-410, so the gap between the two is not hidden.
 
+## Measures 3 and 4, and the world they read (24 November, OR-323, OR-324)
+
+The world was changed first. A great work's one treasure is 200 to 300 coin, not 500 to 800 (the `great` lists in
+data/generation/history/arts.json: a golden amulet, not a kraken's claw; a golden torc, not a titan's statue). The
+Delvers' mine has half the star-iron it had, at the fifteen coin a lump the merchant pays for it (deep.json's
+`ore`: 17 lumps at 15, not 36 at 30). And every master-at-arms has a coat of the smith's best on the rack beside the
+fine blades: fine scale, lamellar, chain, banded or splint, a point more armour at four times the plain coat's price
+(Canon's fine makes; 160 to 280 coin), the dear, useful thing in a first town that a company saves a few outings for.
+
+Measure 4 had then still read treasure at its list worth against wares at their price. List worth is twice what a
+dealer pays, and no coin anyone is given. What a find is worth spending is what it fetches, so it is now read at
+the most a buyer pays, as measure 3 reads a day's coin. Both are said: at what it fetches 1.78 / 2.11 / 1.49; at
+list worth 3.24 / 4.23 / 2.99, where it had been 5.05 / 6.47 / 4.06.
+
 ## Bands and ratchets
 
 Each measure is one of three kinds:
@@ -79,7 +93,7 @@ Each measure is one of three kinds:
 | 1 | Bands within four hours of the start, per seed | band 5–40 | Enough to choose among in the first hours, but not a country of nothing but foes. |
 | 2 | Bands that can kill, asked before (%) | ratchet up | Can kill is judged once, by the company's own reckoning: the one who plays fell in a fight it played out (DangerSense's `mortal`), against the warrior and the first town's hire. It counts as asked by the rule the page's mark reads (Marks.asks: grave, deadly, or mortal). The census's own twelve trials are said beside it, the bands they alone saw fell the one who plays (OR-410). The aim is 100%. |
 | 3 | A day's coin ÷ (starter kit + dearest ware) | band 0.5–3 | A day's coin is one outing and one job in the country's own land (scripts/quantity/purse.ts): the richest one level of a site, site or part of the country within six hours' going of the start, at the best price a buyer pays, and the best pay of one job near. The kit is a light, three days' rations and a rope. The dearest ware is the first town's most expensive ware that is not itself treasure. The band means neither starved nor flooded. (It had counted every valuable within reach as found and sold, with every job's pay, and the circus's isle as a walk: an upper bound no company comes near.) |
-| 4 | Treasure lying ÷ what the markets sell | band 0.5–3 | Over the country's own land, not a land of its own a story's voyage reaches (the circus's isle of Sarn). What can be found should be worth spending, and the markets should hold enough to spend it on. |
+| 4 | Treasure lying ÷ what the markets sell | band 0.5–3 | Over the country's own land, not a land of its own a story's voyage reaches (the circus's isle of Sarn), and at what it fetches: the most a buyer pays for each thing (a dealer pays half its list worth), as measure 3 reads a day's coin. Its list worth is said beside it. What can be found should be worth spending, and the markets should hold enough to spend it on. |
 | 5 | Atlas marks per turn | band 1–8 | The coloured rows of each turn outside a fight's own menu, counted by the one indicator their aspects make. The note splits them by tone. |
 | 5 | Turns with no mark (%) | band ≤ 25 | When a quarter of turns have nothing marked, the player is left without a lead. |
 | 5 | Marks without a witness | ratchet down | A coloured row that the glance attests nothing for, by its id, its command, its way or journey, or its opener. This is a trust contract, so the number must be 0. |
@@ -103,8 +117,8 @@ Each measure is one of three kinds:
 | Fights per game hour | 0.05 / 0.26 / 0.67 / 0.05 | 0.05 / 0.26 / 0.67 / 0.42 | no: the golden walk (OR-321) |
 | Bands near the start | 20 / 26 / 31 | 20 / 26 / 31 | yes |
 | Bands that can kill, asked before | 58% | 100% (43 of 43, judged once) | yes (OR-322 closed; the census's trials alone: 3, OR-410) |
-| A day's coin | 21–68× (every valuable within reach) | 3.4–4.9× (one outing, one job) | no (OR-323) |
-| Treasure against the markets | 6–13× (with the circus's isle) | 4.1–6.5× (the country's own land) | no (OR-324) |
+| A day's coin | 21–68× (every valuable within reach) | 1.71 / 2.19 / 1.18 (the great works' treasure, the ore, a fine coat for sale) | yes (OR-323 closed) |
+| Treasure against the markets | 6–13× (with the circus's isle) | 1.78 / 2.11 / 1.49 at what it fetches (3.24 / 4.23 / 2.99 listed) | yes (OR-324 closed) |
 | Marks per turn | 2.6 / 1.6 / 2.3 / 1.4 | 2.6 / 1.6 / 2.3 / 2.1 | yes |
 | Turns with no mark | 9 / 31 / 19 / 44% | 9 / 31 / 19 / 7% | no: iscoed's gold-follower (OR-325) |
 | Marks without a witness | 0 | 0 | yes |

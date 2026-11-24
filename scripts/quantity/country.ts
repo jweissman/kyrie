@@ -25,7 +25,8 @@ export interface Read {
   seed: string; near: number; fair: Fair[];
   // The combat places quests return a company to (QuantityPlaces.returned).
   returned?: string[];
-  economy: { day: number; kit: number; dearest: number; ratio: number; worth: number; stock: number; purse: number;
+  economy: { day: number; kit: number; dearest: number; ratio: number; worth: number; listed?: number; stock: number;
+    purse: number;
     missing: string[]; outing?: string; haul?: number; job?: number };
   reach: { things: string[]; cells: number };
   dungeon?: { name: string; minutes: number; hexes: number; levels: number; companion: boolean; light: boolean;
@@ -65,7 +66,8 @@ export class QuantityCountry {
     const kit = parts.reduce((t, [, p]) => t + (Number.isFinite(p) ? p : 0), 0);
     const dearest = Math.max(0, ...wares.filter(x => !w.test(ModuleWriter.call('valuable', x.kind))).map(x => x.price));
     return { day: purse.day, kit, dearest, ratio: this.round(purse.day / Math.max(1, kit + dearest)),
-      worth: purse.worth, stock: purse.stock, purse: w.number(ModuleWriter.call('quantity', c.playerActor!, 'gold')),
+      worth: purse.worth, listed: purse.listed, stock: purse.stock,
+      purse: w.number(ModuleWriter.call('quantity', c.playerActor!, 'gold')),
       missing: parts.filter(([, p]) => !Number.isFinite(p)).map(([k]) => k), outing: purse.outing, haul: purse.haul,
       job: purse.job };
   }

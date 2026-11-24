@@ -138,7 +138,8 @@ export class Reckon {
   static treasure(r: Readings): Reading {
     const each = this.each(r.countries, c => c.seed, c => this.round(c.economy.worth / Math.max(1, c.economy.stock)));
     return this.of(each, this.median(Object.values(each)), `${this.said(each)}; ${r.countries
-      .map(c => `${c.seed} ${c.economy.worth} lying, ${c.economy.stock} sold`).join(', ')}`);
+      .map(c => `${c.seed} ${c.economy.worth} lying at what it fetches (${c.economy.listed ?? '?'} listed), `
+        + `${c.economy.stock} sold`).join(', ')}`);
   }
   static blank(r: Readings): Reading {
     return this.of(this.each(this.walks(r), w => w.name, w => {

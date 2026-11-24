@@ -75,7 +75,18 @@ export class Canon {
         description: `${i.description} A smith's best make of it, of better steel and balanced to the hand: it bites `
           + 'a little deeper.', weapon: { ...i.weapon!, damage: `${i.weapon!.damage.replace(/\s/g, '')}+1` },
         source: { kyr: true, notes: `A fine make of ${id}, for the capability market's masters to sell (REV-04).` } }]);
-    return { ...items, ...Object.fromEntries(made) };
+    return { ...items, ...Object.fromEntries(made), ...Canon.fineArmour(items) };
+  }
+  // And of each worn coat of metal or leather: a point more of armour, four times the price, the dear thing a first
+  // town's master-at-arms has to sell (OR-323: a ware worth saving a few outings' coin for).
+  private static fineArmour(items: Record<string, ItemKind>): Record<string, ItemKind> {
+    return Object.fromEntries(Object.entries(items).filter(([id, i]) => i.category === 'armor' && i.slot === 'body'
+      && !!i.armor && ['metal', 'leather'].includes(i.armor.type) && !id.startsWith('fine_')
+      && (i.value ?? 0) > 0 && (i.value ?? 0) <= 100)
+      .map(([id, i]): [string, ItemKind] => [`fine_${id}`, { ...i, name: `fine ${i.name.toLowerCase()}`,
+        value: (i.value ?? 1) * 4, description: `${i.description} A smith's best make of it, closer-fitted and of `
+          + 'better stuff: it turns a blow a little more often.', armor: { ...i.armor!, ac: i.armor!.ac + 1 },
+        source: { kyr: true, notes: `A fine make of ${id}, for the capability market's masters to sell (OR-323).` } }]));
   }
   private static merge<T extends { source?: Source }>(family: string, generated: Record<string, unknown>,
     own: Record<string, unknown>): Record<string, T> {
