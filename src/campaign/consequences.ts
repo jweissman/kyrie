@@ -39,8 +39,11 @@ export class Consequences {
   // Whoever a rule or an act makes whole ("Restore ?g." in what it does) is whole again: every hit point, no
   // condition, risen if they had fallen or died; and the fact is forgotten. The Lull's law that hired harm heals at
   // sunset could not be written, nor a raising or a regeneration of a module's own (its F1, LUL-01).
+  // What a world holds of a relation the shared rules' care or belongings declare, none where it declares it not (a
+  // world of the kernel alone: BX-02).
+  private static held(world: TickHost['world'], name: string) { return world.relates(name) ? world.related(name) : []; }
   static restore(host: TickHost): boolean {
-    const whole = host.world.related('madeWhole');
+    const whole = Consequences.held(host.world, 'madeWhole');
     if (!whole.length) { return false; }
     const { definition, creatures } = host.tickState;
     const ids = [...new Set(whole.flatMap(r => definition.actors.find(a => a.id === r.args[0])?.members ?? []))];
@@ -57,7 +60,7 @@ export class Consequences {
   // point left, and slain for good, as one who dies of their wounds is; and the fact is forgotten. A Second killed in
   // the night could not be said to be dead, `dead` being the engine's (the Book of Faces' hill 8, BOF-25).
   static slay(host: TickHost): boolean {
-    const doomed = host.world.related('struckDead');
+    const doomed = Consequences.held(host.world, 'struckDead');
     if (!doomed.length) { return false; }
     const { definition, creatures } = host.tickState, slain = Canon.rules.combat.ids.slain;
     const ids = [...new Set(doomed.flatMap(r => definition.actors.find(a => a.id === r.args[0])?.members ?? []))];
@@ -78,7 +81,7 @@ export class Consequences {
   // the first of it who carries one, and is gone. Tessary's Nan had to set Davy's coat down to be taken, and Low
   // Water's pan took a weight-stone only by a container and a rule on what was put in it.
   static hand(host: TickHost, combat: CombatEvent[]): boolean {
-    const world = host.world, handed = world.related('handed'), spent = world.related('usesUp');
+    const world = host.world, handed = Consequences.held(world, 'handed'), spent = Consequences.held(world, 'usesUp');
     const counted = world.module.measures.some(m => m.name === 'gifts')
       ? world.measured('gifts').filter(m => m.value > 0) : [];
     if (!handed.length && !spent.length && !counted.length) { return false; }

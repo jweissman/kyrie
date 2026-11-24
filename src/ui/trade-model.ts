@@ -22,8 +22,8 @@ export class TradeModel {
     const present = new Set(world.relatedTo('at', here).map(r => r.args[0]!));
     if (!present.size) { return []; }
     const merchants = [...new Set([
-      ...world.related('sells').filter(r => present.has(r.args[0]!)).map(r => r.args[0]!),
-      ...world.related('soldBy').filter(r => present.has(r.args[1]!)).map(r => r.args[1]!),
+      ...(world.relates('sells') ? world.related('sells') : []).filter(r => present.has(r.args[0]!)).map(r => r.args[0]!),
+      ...(world.relates('soldBy') ? world.related('soldBy') : []).filter(r => present.has(r.args[1]!)).map(r => r.args[1]!),
       ...world.measured('pays').filter(m => m.value > 0 && present.has(m.call.args[0]!)).map(m => m.call.args[0]!),
     ])];
     return merchants.map(id => this.counter(world, id, names)).filter(c => c.sells.length || c.buys.length);

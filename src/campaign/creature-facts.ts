@@ -221,7 +221,7 @@ export class CreatureFacts {
     // Hurt, or under something that does not help them: a torch's light is no wound (Odo had bound "the hurt" of a
     // company with nothing wrong but a lit torch: M21's playability list, PL-09).
     const ailing = c.state.hp < c.base.maxHp || c.state.conditions.some(k => !ConditionSense.helps(k.id));
-    changes.push({ kind: ailing ? 'assert' : 'retract', call: ModuleWriter.call('needsCare', reference) });
+    if (has.has('needsCare')) { changes.push({ kind: ailing ? 'assert' : 'retract', call: ModuleWriter.call('needsCare', reference) }); }
     if (has.has('fallen')) { changes.push({ kind: c.state.hp === 0 ? 'assert' : 'retract', call: ModuleWriter.call('fallen', reference) }); }
     if (has.has('levelDrained')) {
       changes.push({ kind: LevelDrain.levels(c.state.conditions) ? 'assert' : 'retract',
@@ -236,7 +236,7 @@ export class CreatureFacts {
     if (has.has('ownedItem')) {
       const mine = (c.state.inventory ?? []).filter(i => scope.itemIds.has(i.id));
       changes.push(...this.set(scope, 'ownedItem', reference, mine.map(i => i.id)),
-        ...this.set(scope, 'wearing', reference, mine.filter(i => i.equipped).map(i => i.id)));
+        ...has.has('wearing') ? this.set(scope, 'wearing', reference, mine.filter(i => i.equipped).map(i => i.id)) : []);
     }
     // What a member could wield, for the company alone, which equips what it carries (belongings.kyr's equip_item, the
     // only reader): said of everyone, it had been three facts in four of a world (construction.md §6).
@@ -269,8 +269,9 @@ export class CreatureFacts {
     const usable = (company ? [...scope.field, ...scope.hostile] : scope.field)
       .filter(a => ready && known.has(a.id) && Spellcasting.affordable(c.state, a)
       && (a.spell?.level ?? a.level ?? 0) <= Fighting.maxSpellLevel(LevelDrain.level(c)));
-    changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id)),
-      ...this.set(scope, 'canCast', reference, usable.map(a => a.id)));
+    // Each only where the world declares it (care's: a world of the shared rules' kernel alone has neither, BX-02).
+    if (has.has('treatable')) { changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id))); }
+    if (has.has('canCast')) { changes.push(...this.set(scope, 'canCast', reference, usable.map(a => a.id))); }
     return changes;
   }
   // Each calling (or ancestry) by its class (or race), under every id an installation gave it.

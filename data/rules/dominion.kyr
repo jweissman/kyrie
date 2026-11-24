@@ -9,7 +9,7 @@ Module dominion "Who holds what, how a power stands toward a company, and how it
   Query keepsKind(g: group, k: itemkind) means keeps(g, ?i) and itemKind(?i, k).
   // How a power stands toward a company, kept by the power and obeyed by everyone who serves it: alarmed when
   // something has gone wrong in what it holds; admitting a company to come and go; or hostile to it on sight.
-  Relation alarmed(group). Relation admits(group, group). Relation hostile(group, group).
+  Relation alarmed(group). Relation admits(group, group).
   Rule admitted when admits(?power, ?company) and serves(?member, ?power) and not tolerates(?member, ?company)
     and not hostile(?power, ?company) { Assert tolerates(?member, ?company). }
   Rule turned when hostile(?power, ?company) and serves(?member, ?power) and tolerates(?member, ?company) {

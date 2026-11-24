@@ -1,12 +1,11 @@
 Module discovery_rules "Reliable discovery and trusted reports" {
-  Kind fact. Kind source.
+  Kind source.
   Relation established(fact).
   Relation reveals(source, fact).
   Relation intact(source).
   Relation noticeable(source).
   Relation destructible(source).
   Relation mayExamine(group, source).
-  Relation knows(group, fact).
   Relation assumesFalse(group, fact).
   Relation trusts(group, group).
   Relation learnedFrom(group, source, fact).

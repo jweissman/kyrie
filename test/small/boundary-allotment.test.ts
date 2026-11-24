@@ -11,7 +11,10 @@ import { PlaySession } from '../../src/session/play-session';
 // a player sees, its receipts kept, saved and taken up again to the same game; and without the petition read, the
 // motion carries.
 const kyr = readFileSync(join(import.meta.dir, '../fixtures/boundary/allotment.kyr'), 'utf8');
-const start = () => Tiny.start(kyr, { own: true, currency: 'pound', night: 'none',
+// On the shared rules' kernel alone (BX-02): places and ways, people and talk, and what is known; nothing of a fight's,
+// of care, belongings, trade or rule over places.
+const kernel = ['core', 'passages', 'people', 'discovery'];
+const start = () => Tiny.start(kyr, { own: true, currency: 'pound', night: 'none', rules: kernel,
   party: [{ name: 'Robin Ashe', raceId: 'human', classId: 'commoner', outfit: 'own' }] });
 const labels = (t: Tiny) => t.journey.choices().map(c => c.label);
 
@@ -24,6 +27,12 @@ describe('the allotment society, on the platform alone', () => {
     expect(t.campaign.readout.creatures.find(c => c.name === 'Robin Ashe')?.classId).toBe('commoner');
     expect(labels(t).filter(l => /torch|candle|pole|battleaxe|mail|attack|fight/i.test(l))).toEqual([]);
     expect(labels(t).filter(l => /dark|night/i.test(l))).toEqual([]);
+    // Nothing of care, belongings or rule over places installed under its talk. The kernel still declares the two acts
+    // of conflict (core's attack and assail, which the engine assumes: BX-02's remainder), never offered among people
+    // at peace (the labels above).
+    expect(t.campaign.module.actions.map(a => a.id).filter(id => /^(yield|take_item|eat|rest|buy|sell)/.test(id)))
+      .toEqual([]);
+    expect(t.campaign.module.actions.length).toBeLessThan(40);
   });
   it('is played by talk and a vote to its end, its receipts kept, saved and taken up again as it was', async () => {
     const t = await start();

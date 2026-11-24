@@ -1,6 +1,5 @@
 Module belongings "What the company carries" {
-  Kind item. Kind itemkind.
-  Relation itemKind(item, itemkind). Relation ownedItem(item, member). Relation wearing(item, member).
+  Relation wearing(item, member).
   Relation forSale(item). Relation soldBy(item, group) exclusive. Relation wearable(itemkind). Relation consumable(itemkind).
   // What could be used on a member to any end: a remedy for a hurt or an ill they have, a light while they carry none
   // burning, or a draught for what it does.
