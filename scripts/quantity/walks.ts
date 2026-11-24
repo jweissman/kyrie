@@ -160,13 +160,18 @@ export class QuantityWalks {
     const g = r.leaf?.glance, rows = RunnerOffer.flat([...said.offer.primary, ...said.offer.rest]);
     const fight = said.moment === 'fight' || rows.some(o => o.id.startsWith('fight:'));
     const tones: Record<string, number> = {}, unwitnessed: string[] = [];
+    // A row is marked by its indicator: a colour, or an icon with none (somewhere worth a look is drawn as an icon and
+    // no colour, the owner's ruling of 15 November, TP-03). Counted by colour alone, a turn whose one lead was a way
+    // further in had read as unmarked (OR-325: ten of iscoed's seventeen).
+    let iconed = false;
     for (const o of fight ? [] : rows) {
-      const tone = Indicator.of({ aspects: o.aspects as Aspect[] }).tone;
+      const shown = Indicator.of({ aspects: o.aspects as Aspect[] }), tone = shown.tone;
+      iconed ||= !tone && shown.icons.length > 0;
       if (!tone) { continue; }
       tones[tone] = (tones[tone] ?? 0) + 1;
       if (!this.keys(o).some(k => Attest.witness(g, k))) { unwitnessed.push(`${tone} ${o.label}`); }
     }
-    return { tones, none: !fight && !Object.keys(tones).length, unwitnessed, fight };
+    return { tones, none: !fight && !Object.keys(tones).length && !iconed, unwitnessed, fight };
   }
   // The ids a row's witness may stand under: its own, its command's, the choice it was made of (an exit's way, a
   // journey on the map), and the one it is inside.
