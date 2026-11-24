@@ -168,6 +168,15 @@ this help the player forget the interface and become interested in what happens 
     send the company back to periodically and which reward expedition after expedition.
 - **The conversation page** (the speaker's painting large, the dialogue beside it) is the one page rated right; keep
   it. Conversation is moving toward one scrolling page, then engine-owned dialectic (OR-149, OR-165).
+- **Nothing floats over text** (the owner, 24 November): the frame reserves the menu column and no content runs under
+  it. Transparency is used very sparingly, never where it makes words unreadable ("it just looks cheap").
+- **Themes are set globally:** a theme is an engine hint for a whole application of the page (the backstage, the
+  title), applied by the frame, never chosen page by page. The backstage is one folio, a parchment page framed on the
+  dark table, every page of it alike.
+- **The title has no hero wordmark:** negative space, the painting or the embers, and the product's identity small at
+  the hard right.
+- **Every change to the page is looked at:** it lands with a contact sheet at 1280 and 390 that its builder has looked
+  at page by page. Its contrast is held by the contact sheet's ratchet (scripts/contact-sheet-contrast.ts).
 - **Unfolding menus only in a fight.** Elsewhere rows are one flat level. Long lists appear only in a store.
 - **The map is an in-world instrument**, not an app. It opens for inspection while the character stays in the scene;
   "Put away the map" is an act; the hex crawl is playable by the action menu alone.
