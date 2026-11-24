@@ -330,6 +330,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from MT-24: a design question about a journey's unit of work, not an observed failure"
+  },
+  "OR-207": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed as split from OR-178 and classified as filed: a stated contract (indicator-appendix.md) not yet checked on the page, not an observed failure since the census holds"
   }
  },
  "blockedBy": {

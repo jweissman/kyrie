@@ -12,6 +12,9 @@ import { AsMeant } from '../test/support/as-meant';
 import { HonestPlayer } from '../test/support/honest-player';
 import { GoldenWalk } from '../test/support/golden-walk';
 import { DrawerTruth } from '../test/support/drawer-truth';
+import { Outcome } from '../src/ui/outcome';
+import { EntityIndex } from '../src/lang/entity-index';
+import { PlayerView } from '../src/presentation/player-view';
 
 // The three continuity invariants of the alpha acceptance record (mission-22/alpha-acceptance.md), counted over every
 // turn of the golden walks as shipped, before beta changes anything (mission-22-beta/preparation-report.md, Sprint 0).
@@ -37,8 +40,6 @@ export class ContinuityCensus {
   static lines(path: string): string[] {
     return readFileSync(path, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#'));
   }
-  // What the company knows, as a count: what asking a reply would add to it.
-  private static known(s: PlaySession): number { return ScreenModel.build(s.campaign).knowledge.length; }
   // Each act on someone or something here, their questions among them (a question is offered at the place; opening a
   // talk is the page's): blue by its witness, and whether doing it teaches (done, then undone).
   static opportunity(s: PlaySession, walk: string, turn: number): Breach[] {
@@ -58,19 +59,52 @@ export class ContinuityCensus {
   private static replies(sub: { choices?: Choice[] }): Choice[] {
     return Attending.all(sub.choices ?? []).filter((c: Choice) => c.command && !/^(buy|sell)_/.test(c.command));
   }
+  // Whether each act teaches, as its blue says (Attest.reply, of the Outcome: OR-206): tried and undone, by what the
+  // company knows after it beyond what an hour idle would have brought it (the town's dogs heard while the riddle was
+  // listened to are the hour's); and the Outcome's prediction against what was learned, where the act came off (an
+  // act with a check is read on its success: a failure teaching nothing is that contingency, not a breach).
   private static tried(s: PlaySession, replies: Choice[], at: At): Breach[] {
-    const g = Glanced.of(s).glance, out: Breach[] = [];
-    for (const c of replies.filter(x => !/^talk_to\(/.test(x.command ?? ''))) {
-      const blue = Attest.reply(g, c).some(w => w.aspects.includes('knowledge')), before = this.known(s);
-      try { s.campaign.execute(c.command!); } catch { continue; }
-      const taught = this.known(s) > before;
-      s.campaign.undo();
-      if (blue !== taught) {
+    const g = Glanced.of(s).glance, out: Breach[] = [], c = s.campaign, idle = this.idle(s);
+    for (const r of replies.filter(x => !/^talk_to\(/.test(x.command ?? ''))) {
+      const blue = Attest.reply(g, r).some(w => w.aspects.includes('knowledge')), before = this.facts(s);
+      const op = this.operator(s, r.command!), predicted = op ? Outcome.taught(c.module, c.world, op, 'party') : [];
+      let result: string;
+      try { result = c.execute(r.command!).result; } catch { continue; }
+      const learned = [...this.facts(s)].filter(f => !before.has(f) && !idle.has(f));
+      c.undo();
+      const taught = learned.length > 0, contingent = result === 'failure' && blue && predicted.length > 0;
+      if (blue !== taught && !contingent) {
         out.push({ walk: at.walk, turn: at.turn, invariant: 'opportunity',
-          what: `${blue ? 'blue, teaches nothing' : 'teaches, not blue'}: ${at.who}: ${c.label}` });
+          what: `${blue ? 'blue, teaches nothing' : 'teaches, not blue'}: ${at.who}: ${r.label}` });
+      }
+      const missed = learned.filter(f => !predicted.includes(f)), wrong = predicted.filter(f => !learned.includes(f));
+      if (result === 'success' && (missed.length || wrong.length)) {
+        out.push({ walk: at.walk, turn: at.turn, invariant: 'opportunity', what: `predicted is not observed: ${at.who}: `
+          + `${r.label}: predicted [${predicted.join(', ')}], learned [${learned.join(', ')}]` });
       }
     }
     return out;
+  }
+  // What the company knows by name now (the facts its notes could tell), and what an hour idle here would add to it.
+  private static facts(s: PlaySession): Set<string> {
+    const c = s.campaign, byId = EntityIndex.of(c.module.entities).byId;
+    return new Set(c.world.related('knows', c.playerActor ?? 'party').map(r => r.args[1]!).filter(f => !!byId.get(f)?.name));
+  }
+  private static idle(s: PlaySession): Set<string> {
+    const c = s.campaign, offered = c.offered();
+    const wait = offered.find(o => /^wait_hour\(/.test(o.id)) ?? offered.find(o => /^wait\(/.test(o.id));
+    if (!wait) { return new Set(); }
+    const before = this.facts(s);
+    try { c.execute(wait.id); } catch { return new Set(); }
+    const after = this.facts(s);
+    c.undo();
+    return new Set([...after].filter(f => !before.has(f)));
+  }
+  private static operator(s: PlaySession, command: string) {
+    try {
+      const id = PlayerView.resolve(s.campaign, command);
+      return s.campaign.offered().find(o => o.id === id);
+    } catch { return undefined; }
   }
   // The talk drawer's first page as the page draws it (web/reader/stage/talk-stage.tsx): TalkFocus over their replies,
   // led and marked by what the glance found in their opener, an answer owed and the salient three.

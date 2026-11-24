@@ -40,7 +40,7 @@ export class CompanyKnowledge {
     });
   }
   // What was learnt in play by an act that names no source of its own (no witnessing, no telling written for it): the
-  // company's own deed, when the act itself made it so (its record: see ChoiceGrouping.teaches); told, when the act
+  // company's own deed, when the act itself made it so (its record: see Outcome); told, when the act
   // was asking someone, by them; otherwise found by the company itself (the notice on the well-post read). It had been
   // filed as known before the company set out (NAR-12: notes knowing what nobody said), and a deed done for someone
   // as their telling ("the wagoner told you" that you got him out of the ditch: NP-03).

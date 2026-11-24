@@ -1,6 +1,6 @@
 import { NewsFold } from './news-fold';
-import type { Change, Module, Operator, Predicate } from '../lang/module';
-import { Teaching } from './teaching';
+import type { Module, Operator, Predicate } from '../lang/module';
+import { Outcome } from './outcome';
 import { PurchaseCompare } from './purchase-compare';
 import { PronounWords } from './pronoun-words';
 import type { World } from '../lang/world';
@@ -286,24 +286,15 @@ export class ChoiceGrouping {
     return { ...row.wanting ? { disabled: row.wanting } : { command: row.choice.id }, does,
       ...targets.length ? { targets } : {},
       ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {},
-      ...ChoiceGrouping.teaches(row.action.success ?? [], world)
-        || (module && Teaching.shows(module, row.action.success ?? [], row.action.bindings)) ? { teaches: true } : {} };
+      ...ChoiceGrouping.taught(row.action, module, world) ? { teaches: true } : {} };
   }
-  // Whether an act's success teaches the company something: it comes to know a fact the act does not itself make so.
-  // Knowing what it has just done is its record, not learning: the road's meetings (`Assert wayIn(cart_bargained).
-  // Assert knows(actor, cart_bargained)`) had drawn the wagoner's "Offer him a hand" and every answer to him blue, and
-  // nothing was learned (M21's playability investigation, PL-03).
-  // Who it was learned from, or heard of, or read in: the learning's own record (see WorldConstructs.learnt; reading
-  // a notice, `learnedFrom`, had stopped counting as learning when PL-03 began reading the record: PL-16).
-  static readonly learnt = new Set(['knows', 'toldBy', 'heard', 'learnedFrom', 'readIn']);
-  // Nor is what the company knows already (the aspect-truth spec, 19 November: a reeve's answer known before it was
-  // asked had been drawn blue, something to learn): only a fact not yet known to the one who would know it.
-  static teaches(success: readonly Change[], world?: World): boolean {
-    const made = new Set(success.filter(c => c.kind === 'assert' && !ChoiceGrouping.learnt.has(c.call.name))
-      .flatMap(c => c.call.args));
-    return success.some(c => c.kind === 'assert' && c.call.name === 'knows' && !made.has(c.call.args[1] ?? '')
-      && !world?.test(ModuleWriter.call('knows', ...c.call.args)));
+  // Whether an act teaches the company something: what it would know after it that it does not now (Outcome, the one
+  // reading of it: OR-206). Without the world to read it in (a choice shaped for a page drawn apart), none.
+  private static taught(action: Operator, module?: Module, world?: World): boolean {
+    return !!module && !!world && Outcome.taught(module, world, action, action.bindings?.actor ?? 'party').length > 0;
   }
+  // The learning's own record (see Outcome.learnt).
+  static readonly learnt = Outcome.learnt;
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
