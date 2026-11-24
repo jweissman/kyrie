@@ -61,7 +61,9 @@ describe('the golden route, after the fourth cold play', () => {
     const taken = told.at(-1)!;
     expect([taken.moment, taken.scene.lines[0]]).toEqual(['fight',
       "The crown comes up off the king's head, and his dry hands close on the air where it was. Then he is off the bier and coming for you."]);
-    expect(at('region__w8_barrow_back_stone')?.offer.rest.find(o => o.label === 'Out to Holyking')?.id)
+    // The way out a row of the engine's offer, the last of the four inside (OR-188), done in one act.
+    const back = at('region__w8_barrow_back_stone')?.offer;
+    expect([...back?.primary ?? [], ...back?.rest ?? []].find(o => o.label === 'Out to Holyking')?.id)
       .toBe('travel:region__w8');
   });
   // CL-47: the follow's look had said Owain's whole answer again, and the dog's greeting, after the act that said them;

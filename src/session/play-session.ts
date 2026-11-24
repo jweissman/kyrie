@@ -186,9 +186,12 @@ export class PlaySession {
         barked.push(...CombatTelling.barks(battle.events, battle.state));
       });
       open.reach('executed');
-      // What comes of the command after it (the country beyond drawn and installed), and what the company is told of
-      // it, are one with it and its step in the transcript: if either fails, the campaign is put back as it was before
-      // the command, and nothing of it is kept (Mission 15's independent audit, F3).
+      // Everything that comes of the command after the world's own act is one with it: what comes after (the country
+      // beyond drawn and installed), what the company is told of it, its undertakings, its step in the transcript and
+      // the words marked told. If any of them fails, the campaign is put back as it was before the command and its
+      // step taken out, and nothing of it is kept (Mission 15's independent audit, F3; MT-24, the architectural
+      // review's Finding C: after the telling, a failure had kept the world's change without its step).
+      const kept = this.steps.length;
       let voiced: Voiced[], words: ReturnType<typeof RuleWords.tell>;
       try {
         if (this.expander) { await this.expander.expand(this.campaign); }
@@ -196,12 +199,13 @@ export class PlaySession {
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
         words = RuleWords.tell(this.campaign, event);
         voiced = [...barked, ...words.told, ...Telling.tell(this.campaign, event)];
-      } catch (error) { this.campaign.undo(); throw error; }
-      open.reach('told');
-      Undertakings.after(this.campaign, aims);
-      open.reach('settled');
-      this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
-      if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); event.voiced = voiced; }
+        open.reach('told');
+        Undertakings.after(this.campaign, aims);
+        open.reach('settled');
+        this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
+        if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); }
+      } catch (error) { this.steps.length = kept; this.campaign.undo(); throw error; }
+      if (voiced.length || words.unsaid.length) { event.voiced = voiced; }
       if (words.unsaid.length) { event.unsaid = words.unsaid; }
       this.receipts.push(open.receipt(this.steps.length, event.result));
       return event;
