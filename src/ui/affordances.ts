@@ -182,9 +182,10 @@ export class Affordances {
   }
   private static gentle(choices: Choice[], r: Reading): Choice | undefined {
     // Never leaving a talk: led with, a danger talked to had been "Take your leave" and then talked to again, round and
-    // round (the owner, 9 November).
+    // round (the owner, 9 November). Nor the same question asked again, which changes nothing (OR-416: the man with the
+    // black candle asked who he is six times running).
     const open = choices.filter(c => this.command(c) && !c.disabled && !this.risky(c) && this.kind(c, r) !== 'attack'
-      && !Attending.leaving(c) && r.schema.get(this.command(c) ?? '') !== 'take_leave');
+      && !Attending.leaving(c) && r.schema.get(this.command(c) ?? '') !== 'take_leave' && !/_again$/.test(this.command(c)!));
     return open.find(c => c.own) ?? open[0];
   }
   // Someone is led for the question a lead sent the company to ask them (the notice's job: Holgar had been led for the

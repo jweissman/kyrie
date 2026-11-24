@@ -48,14 +48,12 @@ describe('Porthalen Hall, by the gold', () => {
       'region__s1_u_rats_job_ask'] });
     expect(q.steps.map(x => x.command)).toContain('region__s1_u_flag_pressed(party,region__s1_u_undercroft)');
     expect(fro(q)).toBeLessThanOrEqual(4);
-    const s = await AutoplayRun.start({ ...spec, origin: 'debt' }, AutoplayRun.empty()), c = s.campaign;
-    for (const a of ['region__s1_u_notice_read(party,region__s1_green)', 'go(region__s1_shop_door,region__s1_shop)',
-      'region__s1_u_rats_job_ask']) { await s.leg(a); }
-    const at = q.steps.findIndex(x => x.command === 'region__s1_u_raiser_who');
-    for (const x of q.steps.slice(0, at + 1)) { await s.leg(x.command); }
-    Undertakings.follow(c, 'region__s1_u_floor_sought');
-    const screen = ScreenModel.build(c), g = Narrator.leaf(c, screen).glance!;
-    expect(screen.place.name).toBe('the ossuary');
-    expect(g.acts.filter(a => a.continues).map(a => a.choice)).not.toContain('exit:region__s1_u_crypt');
+    // The ring is found now where the rats come up into the drain turned it over (OR-413, OR-414: the second trip's
+    // search, led), so the flag is pressed before the ossuary is come to, and the walk is never led on into the crypt
+    // for it.
+    const commands = q.steps.map(x => x.command), pressed = commands.indexOf('region__s1_u_flag_pressed(party,region__s1_u_undercroft)');
+    expect(commands.indexOf('search(region__s1_u_drain)')).toBeLessThan(pressed);
+    const ossuary = q.steps.findIndex(x => x.place === 'the ossuary');
+    expect(ossuary < 0 || ossuary > pressed).toBe(true);
   }, 600000);
 });
