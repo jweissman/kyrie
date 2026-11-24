@@ -9,10 +9,13 @@ describe('a forecast', () => {
     const forecasts = await ForecastTool.forecast('test/fixtures/ford-road/campaign.json', 'forecast',
       ['warrior', 'mage']);
     const of = (band: string) => forecasts.find(f => f.band === band)!;
-    // Beyond a novice mage; a novice warrior beats one about two times in five, and twelve fights reckoned of it can
-    // come out "hard" (M19-122: the reckoning's few trials, open).
-    expect(ForecastTool.beyond.has(of('world__owlbear').by.mage!)).toBe(true);
-    expect(['hard', ...ForecastTool.beyond] as string[]).toContain(of('world__owlbear').by.warrior!);
+    // A novice warrior beats one about two times in five, and twelve fights reckoned of it can come out "hard"
+    // (M19-122: the reckoning's few trials, open). A novice mage casts Spark at it (2d6, no attack roll, against its 13
+    // hit points) where a staff would likely miss, and is no longer beyond it (OR-208: she had swung the staff, and it
+    // was deadly); still never better than hard.
+    for (const by of ['warrior', 'mage'] as const) {
+      expect(['hard', ...ForecastTool.beyond] as string[]).toContain(of('world__owlbear').by[by]!);
+    }
     // An easy fight, if not always unhurt: "no match" only where no fight played went badly (Mission 20, round 6).
     expect(Object.values(of('world__brock').by).every(d => ['slight', 'fair'].includes(d!))).toBe(true);
     expect(of('world__owlbear').temperament).toBe('territorial');

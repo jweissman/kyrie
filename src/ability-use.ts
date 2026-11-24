@@ -258,6 +258,13 @@ export class AbilityUse {
     return true;
   }
   // The conditions a list of effects lays on itself, by their canonical ids.
+  // The same blow judged ahead (Tactics): the chance a d20 meets what it needs, and what a roll of the weapon comes to.
+  static odds(actor: Fighter, target: Fighter, rolled: number): { lands: number; harm: number } {
+    const attacker = Effects.combatant(actor);
+    const need = Fighting.attack(attacker, Effects.combatant(target), () => 10).need;
+    return { lands: Math.min(0.95, Math.max(0.05, (21 - need) / 20)),
+      harm: Fighting.weaponDamage(attacker, rolled, false).amount };
+  }
   static lays(effects: readonly Effect[]): ReadonlySet<string> {
     return new Set(effects.flatMap(e => e.kind === 'apply' ? [Canon.resolve('conditions', e.status)] : []));
   }
