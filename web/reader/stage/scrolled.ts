@@ -48,6 +48,45 @@ export class Scrolled {
   }
   private static mark(el: HTMLElement) {
     el.toggleAttribute('data-more', el.scrollTop + el.clientHeight < el.scrollHeight - 4);
+    el.toggleAttribute('data-above', el.scrollTop > 4);
+  }
+  // The newest of what a column tells, shown whole (OR-243, the lead's call): the column is never less tall than the
+  // last paragraph told (--newest, for the stage to hold it so); and where it holds more than it shows, it is kept at
+  // its end as it comes and as it settles, until the reader scrolls it, so that what was told last stands whole at its
+  // foot and what came before it is what is cut, at its head, faded (data-above), and scrolled back to. Nest's words
+  // of the weir and the six-day tide, last in the gate-yard's telling, had faded out mid-sentence under the rows at
+  // 1280 by 800. Not where what was just done is told in it: that is brought into view by its own beginning
+  // (useNewest).
+  static useEnd(at: RefObject<HTMLElement | null>, key: unknown) {
+    useEffect(() => {
+      const el = at.current;
+      if (!el) { return undefined; }
+      const state = { read: false };
+      const end = Scrolled.end.bind(Scrolled, el, state), reading = Scrolled.reading.bind(Scrolled, state);
+      end();
+      const seen = new ResizeObserver(end);
+      seen.observe(el);
+      for (const child of el.children) { seen.observe(child); }
+      for (const kind of Scrolled.reads) { el.addEventListener(kind, reading, { passive: true }); }
+      return Scrolled.unend.bind(Scrolled, el, seen, reading);
+    }, [at, key]);
+  }
+  // What the reader does to a column that says they are reading it where they please.
+  private static readonly reads = ['wheel', 'touchstart', 'keydown', 'pointerdown'] as const;
+  private static reading(state: { read: boolean }) { state.read = true; }
+  private static unend(el: HTMLElement, seen: ResizeObserver, reading: () => void) {
+    seen.disconnect();
+    for (const kind of Scrolled.reads) { el.removeEventListener(kind, reading); }
+  }
+  private static end(el: HTMLElement, state: { read: boolean }) {
+    const last = [...el.querySelectorAll('p')].filter(p => p.offsetParent !== null).at(-1);
+    const style = getComputedStyle(el);
+    const need = last ? last.offsetHeight + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) : 0;
+    el.style.setProperty('--newest', `${Math.ceil(need)}px`);
+    if (!state.read && el.scrollHeight > el.clientHeight + 1 && !el.querySelector('.happened')) {
+      el.scrollTop = el.scrollHeight;
+    }
+    Scrolled.mark(el);
   }
   // A column whose part must be seen whole (a fight's company, each face with its card): the foot of that part is
   // written on it (--held), for the stage to keep it at least so tall, so that what is under it gives way first and

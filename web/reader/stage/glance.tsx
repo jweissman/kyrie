@@ -157,6 +157,7 @@ export class GlanceStage {
     const struck = !!leaf.moved && !!told?.struck;
     const col = useRef<HTMLDivElement>(null);
     Scrolled.useCue(col, s.frame);
+    Scrolled.useEnd(col, s.frame);
     GlanceStage.useHeld(col, !!s.pending);
     return <div className="told-col" data-region="told" ref={col} {...PageFrame.slot('narrative')}>
       {s.pending && !s.exploring && <Told.Working pending={{ ...s.pending, stage: s.stage }} />}
