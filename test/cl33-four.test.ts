@@ -7,6 +7,7 @@ import type { Frame } from '../src/creation/protocol';
 import { ClientParity } from '../scripts/client-parity';
 import { AsMeant } from './support/as-meant';
 import { BeforeRooms } from './support/before-rooms';
+import { GoldenWalk } from './support/golden-walk';
 
 // CL-33, the act that matters marked among the four (cold play 5: "the offer is a wall where the act that matters is
 // unmarked"): at each turn of the golden route's first hour where the followed aim has a step here (the engine's own
@@ -16,7 +17,7 @@ import { BeforeRooms } from './support/before-rooms';
 // test/cl33-four-browser's.
 class Four {
   static async play(as: string, file: string, n: number): Promise<{ r: Runner; s: Said }> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args(as, file)));
     const r = new Runner(BeforeRooms.set(journey.session));
     let s = r.said();
     for (const line of readFileSync(file, 'utf8').split('\n').filter(Boolean).slice(0, n)) {
@@ -59,7 +60,7 @@ describe('the act that matters, among the four and gold (CL-33)', () => {
     expect(at.page?.continues).toBe(true);
   }, 240000);
   it('turned to Ianto at the staithe: poling his boat among what is had of him, first', async () => {
-    const { s } = await Four.play('human/warrior/Wenna', drove, 22);
+    const { s } = await Four.play('human/warrior/Wenna', drove, GoldenWalk.opened() + 22);
     expect(s.moment).toBe('inspect');
     expect(s.offer.primary[0]?.label).toMatch(/^Pole Ianto's fuel boat down the cut/);
     expect(s.offer.primary[0]?.aspects).toContain('undertaking');

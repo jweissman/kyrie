@@ -6,6 +6,7 @@ import { Doable, type Row } from '../presentation/doable';
 import { Typography } from '../presentation/typography';
 import { RunnerTalks } from './runner-talks';
 import type { Offered, Said } from './runner';
+import { ChoiceWords } from '../ui/choice-words';
 
 // Where the runner keeps a row of the rest: the page's lenses, the place's own first; then the company's gear, and
 // the journeys (twelve "Set out for…" had come before the place's things: cold play 5, CL-33).
@@ -84,7 +85,8 @@ export class RunnerOffer {
     const id = r.does;
     if (!id) { return undefined; }
     // One that is an opener's one act is called by that act's whole words ("Ask the apprentice about the old drain").
-    const own = entry ?? at.byDoes.get(id), label = r.only ? at.names.get(id) ?? r.label
+    const whole = at.names.get(id), own = entry ?? at.byDoes.get(id);
+    const label = r.only ? (whole && ChoiceWords.whole(whole)) ?? r.label
       : entry ? r.label : own?.label ?? at.names.get(id) ?? r.label;
     return { ...this.made(r.id, label, own, { does: id, minutes: r.minutes }),
       ...own || !opener ? {} : { type: opener.type } };

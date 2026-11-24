@@ -12,9 +12,9 @@ import { ModuleWriter } from '../../../src/lang/module-writer';
 // is among the first frame's few rows. A careless life (no light, Dai left where he sits) still gets out, hurt for it;
 // and either way the drove story begins on the green, Owain telling what was done while the life was under the hill.
 type Row = { id: string; label: string };
-const start = async () => {
-  const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna',
-    '--opening', 'adit']));
+const start = async (as = 'human/warrior/Wenna', ...more: string[]) => {
+  const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as, '--opening', 'adit',
+    ...more]));
   return { journey, r: new Runner(journey.session) };
 };
 const rows = (s: Said): Row[] => [...s.offer?.primary ?? [], ...s.offer?.rest ?? []] as Row[];
@@ -46,13 +46,14 @@ describe('a new life begun under the fall in the old adit', () => {
     const step = async (words: RegExp) => { acts++; s = await take(r, s, words); return s; };
     await step(/light a torch/i);
     expect(holds('benighted', 'party')).toBe(false);
-    await step(/^Collect your bait-bag/);
+    await step(/^Collect your bread and cheese/);
     expect(holds('ownedItem', 'adit__bait', 'region__member_party_1')).toBe(true);
     await step(/^To the old gallery/);
     acts++;
     s = await fight(r, s);
-    expect(holds('able', 'adit__badger')).toBe(false);
-    await step(/^Eat the bread and cheese/);
+    // By a light it is a bout: the badger, beaten, yields and keeps to its sett.
+    expect(holds('yielded', 'adit__badger', 'party')).toBe(true);
+    await step(/^Eat your bread and cheese/);
     expect(holds('ownedItem', 'adit__bait', 'region__member_party_1')).toBe(false);
     await step(/^Talk to Dai Probert/);
     expect(holds('willing', 'adit__dai', 'party')).toBe(true);
@@ -87,4 +88,41 @@ describe('a new life begun under the fall in the old adit', () => {
     s = await take(r, s, /^To the landing at Porthalen/);
     expect(s.scene.lines.join(' ')).toContain('They counted, and they took Bran');
   }, 120000);
+  // The badger by a light is a fair bout, beaten or beating, and no one dies of it: a mage of four hit points, knocked
+  // down, yields and gets up with one. Met in the dark it is a fight to the end, the company striking at sounds.
+  it('is a bout by a light, a fight to the end in the dark', async () => {
+    const { journey, r } = await start('elf/mage/Ilse'), w = () => journey.session.campaign.world;
+    let s = r.said('look');
+    s = await take(r, s, /light a candle/i);
+    s = await take(r, s, /^To the old gallery/);
+    expect(w().test(ModuleWriter.call('yields', 'adit__badger'))).toBe(true);
+    s = await fight(r, s);
+    expect(s.end).toBeUndefined();
+    expect(w().test(ModuleWriter.call('able', 'party'))).toBe(true);
+    const dark = await start('elf/mage/Ilse');
+    await take(dark.r, dark.r.said('look'), /^Feel along the wall in the dark/);
+    expect(dark.journey.session.campaign.world.test(ModuleWriter.call('yields', 'adit__badger'))).toBe(false);
+  }, 120000);
+  // The salt-pans and the aunt's weir begin as the drove does: what their first watches told is told on first coming
+  // to where they begin, and what the life starts out knowing is known only then.
+  it('tells the pans and the weir on coming down to them, and teaches what their lives begin knowing', async () => {
+    for (const [origin, town, there, facts] of [['pans', 's1', 'region__s1_shop', ['pans__cold', 'origin__wage']],
+      ['weir', 's4', 'region__s4_green', ['gate__failing', 'gate__tide']]] as const) {
+      const { journey, r } = await start('human/warrior/Wenna', '--origin', origin);
+      const w = () => journey.session.campaign.world;
+      const knows = (f: string) => w().test(ModuleWriter.call('knows', 'party', f));
+      expect([origin, facts.map(knows)]).toEqual([origin, facts.map(() => false)]);
+      let s = r.said('look');
+      for (const words of [/light a torch/i, /^To the old gallery/, /^Attack an old boar badger/]) {
+        s = await take(r, s, words);
+      }
+      s = await r.ask(JSON.stringify({ act: RunnerFight.through })) as Said;
+      for (const words of [/^Heave the fallen prop up alone/, /^Up to the old drift's mouth/]) {
+        s = await take(r, s, words);
+      }
+      s = await r.ask(JSON.stringify({ act: `exit:${there}` })) as Said;
+      expect([origin, w().one('at', 'party')]).toEqual([origin, there]);
+      expect([origin, town, facts.map(knows)]).toEqual([origin, town, facts.map(() => true)]);
+    }
+  }, 180000);
 });

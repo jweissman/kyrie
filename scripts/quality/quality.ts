@@ -25,6 +25,7 @@ import { Runner } from '../../src/cli/runner';
 import { AsMeant } from '../../test/support/as-meant';
 import { ContinuityCensus } from '../continuity-census';
 import { PlanningInstruments } from '../planning-instruments';
+import { GoldenWalk } from '../../test/support/golden-walk';
 
 type Measure = 'slice' | 'first' | 'turn' | 'decision' | 'breaches' | 'ci';
 interface Reading { value: number | null; note: string }
@@ -52,7 +53,7 @@ export class Quality {
   // One walk serves both: the start and first act timed, then every turn.
   static async played(): Promise<{ first: Reading; turn: Reading; decision: Reading }> {
     const lines = this.lines(), t0 = performance.now();
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const begun = performance.now() - t0, r = new Runner(journey.session), turns: number[] = [], decided: number[] = [];
     const legs: number[] = [];
     this.timing(journey.session.campaign);

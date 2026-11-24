@@ -3,6 +3,7 @@ import { Patience } from './patience'; import { Tending } from './tending'; impo
 import { Counted } from '../counted'; import { OutOf } from '../presentation/out-of';
 import { SpellSchools } from '../presentation/spell-schools';
 import type { Mark } from '../presentation/glance-types';
+import { ChoiceWords } from './choice-words';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
 // One thing the player can choose. A choice either performs its command when chosen or opens a short list of
@@ -280,10 +281,8 @@ export class ChoiceList {
     if (a.children?.length === 1) {
       // A list of one is no choice: "Take › for Bran" is "Take for Bran", "Buy › A ration" is "Buy a ration", and
       // "Lift it › Bran takes the weight" is "Lift it — Bran takes the weight".
-      const only = this.choice(a.children[0]!, id, tone), article = /^(A|An|The|Some) /.test(only.label);
-      const runs = /\b(on|for|to|with|by|at|from|into)$/i.test(a.label) || !/^[A-Z]/.test(only.label) || article;
-      const rest = article ? `${only.label.charAt(0).toLowerCase()}${only.label.slice(1)}` : only.label;
-      return { ...only, id, label: `${a.label}${runs ? ' ' : ' — '}${rest}` };
+      const only = this.choice(a.children[0]!, id, tone);
+      return { ...only, id, label: ChoiceWords.joined(a.label, only.label) };
     }
     if (a.children) {
       return { id, label: a.label, tone, children: a.children.map(c => this.choice(c, id, tone)),

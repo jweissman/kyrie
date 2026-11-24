@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'bun:test';
-import { readFileSync } from 'node:fs';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { PlayTool } from '../../../src/cli/play-tool';
@@ -11,6 +10,7 @@ import { MenuModel } from '../../../web/reader/menu-model';
 import { MapMenu } from '../../../web/reader/map-menu';
 import type { ReaderApp } from '../../../web/reader/reader-app';
 import { Glanced } from '../../support/glanced';
+import { GoldenWalk } from '../../support/golden-walk';
 
 // Conflict › An engagement answered (OR-163; the owner, 17 November and 20 November late): with a live threat, the
 // company may only respond to it: act on it, act on the place, flee, or stand its ground. No wait but standing, no
@@ -52,9 +52,9 @@ describe('Conflict › An engagement answered', () => {
     expect(after.rows.some(c => c.startsWith('wait_'))).toBe(true);
   }, 120000);
   it('at the drove\'s gate well, the conger warning: the same', async () => {
-    const lines = readFileSync('doc/architecture/mission-22/golden/warrior-walk.txt', 'utf8').split('\n')
-      .filter(l => l.trim() && !l.startsWith('#')).slice(0, 40);
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    // The walk up to its coming down the gate-well's ladder by night, where the conger warns.
+    const all = GoldenWalk.lines(), lines = all.slice(0, all.indexOf('{"act":"go(gate__well_ladder,gate__well)"}') + 1);
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session);
     for (const line of lines) { await r.ask(line); }
     Engagement.answer(journey.session, 'gate__conger');

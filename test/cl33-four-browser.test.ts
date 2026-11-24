@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { GoldenWalk } from './support/golden-walk';
 
 // CL-33 in the browser (the owner: "fine to close if the original wall-of-rows experience is demonstrably resolved in
 // the browser"): the turns test/cl33-four pins headlessly, on the page at a desk (1280) and on a phone (390): the act
@@ -16,16 +17,18 @@ import { MonoBrowser } from './support/mono-browser';
 class Turn {
   // The cold plays' own lines as the page's commands: an act by its command, an aim followed by its row (follow:),
   // a look nothing (the page is at rest on it).
-  static commands(file: string, n: number): string[] {
-    return readFileSync(file, 'utf8').split('\n').filter(Boolean).slice(0, n).flatMap(line => {
+  static commands(file: string, n: number, from = 0): string[] {
+    return readFileSync(file, 'utf8').split('\n').filter(Boolean).slice(from, from + n).flatMap(line => {
       const m = JSON.parse(line) as { act?: string; follow?: string };
       return m.follow ? [`follow:${m.follow}`] : m.act ? [m.act] : [];
     });
   }
+  // With no stock opening (asked "none"): the four are the drove's and the weir's, which the adit comes before; the
+  // adit's own turns are test/features/world/under-the-fall.pin's.
   static async begin(page: Page, origin: string, member: Record<string, string>) {
     await page.waitForFunction(() => 'kyrieMono' in window, null, { timeout: 120000 });
     await page.evaluate(`window.kyrieMono.begin(${JSON.stringify({ campaign: 'world', seed: 'iscoed', origin,
-      party: [member] })})`);
+      party: [member], opening: 'none' })})`);
     await page.waitForFunction('window.kyrieMono.inspect().mode === "explore"', null, { timeout: 180000 });
   }
   static async play(page: Page, commands: string[]) {
@@ -59,7 +62,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the act that matters, gold among th
     browser = await MonoBrowser.launch();
     turns.pawl = Turn.commands(weir, 9);
     turns.wind = Turn.commands(weir, 22);
-    turns.ianto = Turn.commands(drove, 21);
+    turns.ianto = Turn.commands(drove, 21, GoldenWalk.opened());
   }, 600000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
   for (const width of [1280, 390]) {

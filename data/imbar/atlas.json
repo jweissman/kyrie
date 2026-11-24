@@ -7,6 +7,7 @@
       "id": "iscoed",
       "cell": [0, 0],
       "name": "Iscoed",
+      "opening": "adit",
       "terrain": "marsh",
       "ancestry": "human",
       "domain": "nature",

@@ -204,7 +204,7 @@ export class Creation {
   // Where a company sets out: an authored campaign from the bundled files, or the generated region drawn again for
   // this company (its backgrounds place old friends in the region).
   async origin(campaign: string, seed: string, party: Member[],
-    at: { terrain?: string; origin?: string; memorial?: Memorial; chain?: string } = {}) {
+    at: { terrain?: string; origin?: string; memorial?: Memorial; chain?: string; opening?: string } = {}) {
     if (campaign !== Creation.generated) { return { path: campaign, source: Scenarios.source() }; }
     // Its own world, whatever else is being drawn meanwhile (a start made ready in advance, a new country).
     const world = await WorldAssembler.assemble(seed, Scenarios.source(), DrawnWorld.options({ party, ...at }));

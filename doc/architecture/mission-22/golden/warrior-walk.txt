@@ -1,3 +1,14 @@
+{"act":"light:region__party_1__torch"}
+{"act":"adit__bait#look"}
+{"act":"exit:region__s1_adit_gallery"}
+{"act":"adit__badger/0:Attack"}
+{"act":"fight:through"}
+{"act":"company/0:Eat your bread and cheese"}
+{"act":"adit__dai#talk"}
+{"act":"adit__dai#talk"}
+{"act":"adit__prop#look"}
+{"act":"exit:region__s1_adit_mouth"}
+{"act":"exit:region__s1_green"}
 {"act":"drove__owain_count_t"}
 {"follow":"drove__held_rhyne"}
 {"act":"take_item(origin__stick,region__member_party_1)"}
@@ -31,14 +42,14 @@
 {"act":"gate__reeve_gate"}
 {"follow":"gate__gate_aim"}
 {"act":"travel:region__s4"}
-{"act":"travel:region__e1"}
-{"act":"camp(region__e1)"}
+{"act":"company/0:Make camp for the night"}
 {"act":"travel:region__s4"}
 {"act":"go(gate__bank_path,gate__bank)"}
 {"act":"go(gate__gate_door,gate__gatehouse)"}
 {"act":"search(gate__gatehouse)"}
+{"act":"company/0:Wait until dark"}
 {"act":"go(gate__well_ladder,gate__well)"}
-{"act":"light_item(region__party_1__torch)"}
+{"act":"light_item(region__party_1__candle)"}
 {"act":"attack(gate__conger)"}
 {"act":"search(gate__well)"}
 {"act":"take_item(gate__pawl,region__member_party_1)"}

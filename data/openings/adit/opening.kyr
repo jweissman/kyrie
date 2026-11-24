@@ -18,16 +18,11 @@ Module adit "Under the fall" {
     Result "On hands and knees over the wet stone, a shin barked on a fallen prop, until the wall turns away under your hand.".
   }
 
-  // Food: the bread you carried, dropped where the roof came in; found by a light, eaten when wanted.
-  Kind bait_kind "bait-bag" like ale worth 0 described "The heel of yesterday's loaf and a piece of hard white cheese, wrapped in a cloth." using "Heal (1d4) health to ally.".
-  Item bait "your bait-bag" is bait_kind at fall.
-  Observe bait_lies near bait of bait when at(bait, fall) "Your bait-bag lies where you dropped it, by a prop that held.".
-  Action eat_bait(actor: group, eater: member) "Eat the bread and cheese" {
-    Requires able(actor) and memberOf(eater, actor) and awake(eater) and ownedItem(bait, eater).
-    Time 5 minutes. Resolve consume(bait, eater, eater).
-    On success { Set nextMeal(actor) to watch(clock) + 144. Retract hungry(actor). }
-    Result "You eat it standing, in four bites. It steadies your hands, and it will keep you till evening.".
-  }
+  // Food: the bread you carried, dropped where the roof came in; found by a light, eaten when wanted (eat_item).
+  Kind bait_kind "bread and cheese" like ale worth 0 described "The heel of yesterday's loaf and a piece of hard white cheese, wrapped in a cloth." using "Heal (1d4) health to ally.".
+  Initially Assert food(bait_kind).
+  Item bait "your bread and cheese" is bait_kind at fall.
+  Observe bait_lies near bait of bait when at(bait, fall) "Your bait-bag lies where you dropped it, by a prop that held, the bread and cheese still in it.".
 
   // Someone to help: Dai, who went in out of the rain to sleep and has not moved since the roof came down.
   Person dai "Dai Probert" at gallery {
@@ -46,8 +41,13 @@ Module adit "Under the fall" {
     Role "a grey boar badger, waked by the fall, whose sett runs back under the gallery wall". Species badger. Numbers 1. Level 4. Temperament territorial. Lair gallery.
     Warns "Low by the far wall something chatters at you and stamps: a badger, by the rank smell of it, standing its ground.".
     Comes "The badger comes at your legs, quick and low.".
+    Pleads "The badger backs into its sett, chattering, and does not come out again.".
   }
   Initially Set encounterXp(badger) to 25.
+  // Seen by a light, it is a bout: whoever goes down first is beaten, not killed, and the badger, beaten, keeps to its
+  // sett. Met in the dark it is a fight to the end, struck at by sound (the dark's own cost, Environment.dark).
+  Rule badger_seen when not benighted(party) and not yields(badger) { Assert yields(badger). }
+  Rule badger_unseen when benighted(party) and yields(badger) { Retract yields(badger). }
   Observe gallery_dark at gallery as felt when benighted(party) "The wall turns away under your hand. The floor is wet. Close by, something breathes.".
   Observe gallery_lit at gallery when not benighted(party) "The gallery is wider, cut square, its roof held on black props. An old sett runs back under the far wall, the earth at its mouth fresh-scraped.".
 
@@ -80,6 +80,6 @@ Module adit "Under the fall" {
     On success { Assert state(prop, raised). }
     Result "A barked knee finds the prop. A shoulder under it, blind, and it comes up; a lump of shale kicked under it by feel holds it there. Beyond it the dark is grey.".
   }
-  Observe mouth_out at mouth when true "The old drift comes out in a bank of bracken above the drove road. Rain is coming in off the fen. Below, {town} sits on its water, all salt-houses and masts. The drove has gone on down without you.".
+  Observe mouth_out at mouth when true "The old drift comes out in a bank of bracken above the drove road. Rain is coming in off the fen. Below, {town} sits on its water, all salt-houses and masts.".
   Goal false.
 }

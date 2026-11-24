@@ -1,6 +1,7 @@
 import { PlaySession } from '../../src/session/play-session';
 import { Creation } from './creation';
 import { ScreenModel } from '../../src/ui/screen-model';
+import { StockOpenings } from '../../src/world/stock-openings';
 import type { Message, Request } from '../../src/creation/protocol';
 
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
@@ -19,7 +20,7 @@ export class EngineStarts {
   constructor(private readonly creation: Creation, private readonly post: (message: Message) => void) {}
   static key(r: Starting): string {
     return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null,
-      r.chain ?? null]);
+      r.chain ?? null, r.opening ?? null]);
   }
   // A start made ready a moment after the life made was last changed (OR-08): the engine's own making (EngineCreation)
   // asks for it at each choice, for the start its set-out will ask, so that setting out finds it made or under way.
@@ -58,18 +59,24 @@ export class EngineStarts {
     void this.warm?.done.then(() => { if (this.foreseen === key) { this.prepare(r); } });
   }
   static readonly moment = 300;
+  // What a new life's world is drawn for: what was chosen, and the stock opening creation begins it in (the one asked
+  // for, none if "none", else its country's: StockOpenings.chosen), kept with it so that it is drawn again so.
+  static at(r: Starting): Parameters<Creation['origin']>[3] {
+    const opening = r.campaign === Creation.generated ? StockOpenings.chosen(r.seed, r.opening) : undefined;
+    return { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
+      ...r.memorial ? { memorial: r.memorial } : {}, ...r.chain ? { chain: r.chain } : {},
+      ...opening ? { opening } : {} };
+  }
   // What the country's texts are drawn by: not the life, but the country and the reason for coming.
   static country(r: Starting): string {
     return JSON.stringify([r.campaign, r.seed, r.terrain ?? null, r.origin ?? null, r.memorial ?? null,
-      r.chain ?? null]);
+      r.chain ?? null, r.opening ?? null]);
   }
   // A turn of the worker's loop first, so that the answer to what asked for it is sent before the reading begins.
   private async warmed(r: Starting): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 0));
     if (r.campaign !== Creation.generated) { return; }
-    const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
-      ...r.memorial ? { memorial: r.memorial } : {}, ...r.chain ? { chain: r.chain } : {} };
-    const drawn = this.creation.origin(r.campaign, r.seed, r.party, at);
+    const drawn = this.creation.origin(r.campaign, r.seed, r.party, EngineStarts.at(r));
     this.drawnFor = { key: EngineStarts.key(r), world: drawn };
     const world = await drawn;
     await Creation.warm(world.path, world.source);
@@ -133,8 +140,7 @@ export class EngineStarts {
   }
   private saying?: string;
   private async start(r: Starting, asked = false): Promise<PlaySession> {
-    const at = { ...r.terrain ? { terrain: r.terrain } : {}, ...r.origin ? { origin: r.origin } : {},
-      ...r.memorial ? { memorial: r.memorial } : {}, ...r.chain ? { chain: r.chain } : {} }, key = EngineStarts.key(r);
+    const at = EngineStarts.at(r), key = EngineStarts.key(r);
     if (asked) { this.said('Drawing the world'); }
     const began = performance.now();
     const origin = await this.origin(r, at);

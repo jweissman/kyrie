@@ -6,6 +6,7 @@ import { Doable } from '../src/presentation/doable';
 import { MapRows } from '../src/presentation/map-rows';
 import { ScreenModel } from '../src/ui/screen-model';
 import { MapMenu } from '../web/reader/map-menu';
+import { GoldenWalk } from './support/golden-walk';
 
 // The map's menu is the engine's journeys of the map (OR-152; MT-18): every place Doable sets out for from the map is
 // one row (MapRows), ranked by the engine, and each is reached by a row a page at a time (MapMenu.paged), where the
@@ -13,8 +14,8 @@ import { MapMenu } from '../web/reader/map-menu';
 describe('the map\'s rows', () => {
   it('are every journey the engine sets out on from the map, each reached a page at a time', async () => {
     const lines = readFileSync('doc/architecture/mission-22/golden/warrior-walk.txt', 'utf8').split('\n')
-      .filter(Boolean).slice(0, 11);
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+      .filter(Boolean).slice(0, GoldenWalk.opened() + 11);
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session);
     for (const line of lines) { await r.ask(line); }
     const screen = ScreenModel.build(r.session.campaign), g = r.leaf!.glance!;

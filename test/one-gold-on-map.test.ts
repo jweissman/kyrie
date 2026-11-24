@@ -8,6 +8,7 @@ import type { PlaySession } from '../src/session/play-session';
 import { ReaderApp, type AppState } from '../web/reader/reader-app';
 import { MapMenu } from '../web/reader/map-menu';
 import { Glanced } from './support/glanced';
+import { GoldenWalk } from './support/golden-walk';
 
 // One gold on the map's menu (the owner's playtest of 20 November, OR-161: "I was seeing gold both for a travel option
 // and put away the map"). Putting the map away had taken the scene's own gold (SceneRail.local) beside a journey of
@@ -30,7 +31,7 @@ describe('the map\'s menu', () => {
   it('draws at most one gold, at every turn of the warrior\'s walk', async () => {
     const lines = readFileSync('doc/architecture/mission-22/golden/warrior-walk.txt', 'utf8').split('\n')
       .filter(l => l.trim() && !l.startsWith('#'));
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session), over: string[] = [];
     let seen = 0;
     for (const [turn, line] of lines.entries()) {

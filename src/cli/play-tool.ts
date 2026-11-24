@@ -9,7 +9,8 @@
 // PlayParts).
 //   bin/kyrie play <campaign.json | module.kyr> [--seed s] [--steps steps.json] [--probe "..."]... [step ...]
 //   bin/kyrie play --world <seed> [--origin debt [--chain salvage|carry|recover]] [--as elf/ranger/Aud]
-//     [--opening adit] [step ...]      (--opening: a stock opening begun in first, see StockOpenings)
+//     [--opening adit|none] [step ...]  (a stock opening begun in first, see StockOpenings: a scripted life --as begins
+//     in none unless asked; one made by creation, in its country's own)
 //   bin/kyrie play scene|character <id> --in <adventure> [--context <name>] [step ...]
 // --keep <name> keeps the play as a regression test (see Traces): the command it was, and where it came to.
 // --roll pass|fail has every check come out so, as a journey's roll() does (Quittance's friction 7, QTC-07).
@@ -19,6 +20,7 @@ import type { Stopwatch } from '../stopwatch';
 import { Journey } from '../session/journey';
 import { SingleModule } from '../campaign/single-module';
 import { DrawnWorld } from '../world/drawn-world';
+import { StockOpenings } from '../world/stock-openings';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { WorldReport } from '../world/world-assembler';
@@ -74,8 +76,10 @@ export class PlayTool {
     // Who --as names is made as creation makes them: the world's rolls placed where the calling wants them (CL-08).
     const one = { name, raceId, classId, rolled: Creation.rolled(o.world, classId),
       ...backgroundId ? { backgroundId } : {} };
+    // A life made by creation begins in its country's opening; one scripted --as, only in one asked for by name.
+    const opening = made || o.opening ? StockOpenings.chosen(o.world, o.opening) : undefined;
     const drawn = { party: [made ?? one], origin: o.origin ?? await PlayTool.given(o.world, made ?? one),
-      ...o.chain ? { chain: o.chain } : {}, ...o.opening ? { opening: o.opening } : {} };
+      ...o.chain ? { chain: o.chain } : {}, ...opening ? { opening } : {} };
     const { session, world } = await DrawnWorld.drawn(o.world, drawn, NodeBundleSource.shared, watch);
     // An origin whose premise this world has not placed is not offered (creation leaves its card out: Origins.choices),
     // nor begun by name: --as herbs on a1 had set out with "No aim is held".

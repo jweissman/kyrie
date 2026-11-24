@@ -2,7 +2,9 @@ import { describe, expect, it } from 'bun:test';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayTool } from '../src/cli/play-tool';
 import { WorldAssembler } from '../src/world/world-assembler';
+import { StockOpenings } from '../src/world/stock-openings';
 import { Creation } from '../web/engine/creation';
+import { EngineStarts } from '../web/engine/engine-starts';
 
 // A stock opening is chosen at creation, never by the world (StockOpenings): a life, a kept play or a cold capture
 // that never chose one begins exactly as before. Drawn without it, Iscoed's warrior writes no opening, begins on the
@@ -34,4 +36,16 @@ describe('a life with no stock opening chosen', () => {
     expect(on.region).toContain(' at s1_adit_fall.');
     expect(on.region.split('\n').filter(l => l.includes('s1_adit_')).length).toBeGreaterThan(3);
   }, 120000);
+  // A new life is begun in its country's opening by creation (Iscoed's adit; none in a country that keeps none);
+  // asked "none", in none; a world drawn again takes only what it was drawn for, and a scripted life none unasked.
+  it('is a new life\'s choice: the country\'s by default, none on asking', () => {
+    const begin = { campaign: Creation.generated, seed: 'iscoed', party: [] };
+    expect(StockOpenings.chosen('iscoed')).toBe('adit');
+    expect(StockOpenings.chosen('a1')).toBeUndefined();
+    expect(StockOpenings.chosen('iscoed', 'none')).toBeUndefined();
+    expect(EngineStarts.at(begin)?.opening).toBe('adit');
+    expect(EngineStarts.at({ ...begin, opening: 'none' })?.opening).toBeUndefined();
+    expect(EngineStarts.at({ ...begin, seed: 'a1' })?.opening).toBeUndefined();
+    expect(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']).opening).toBeUndefined();
+  });
 });

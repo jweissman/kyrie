@@ -8,6 +8,7 @@ import { Scenery } from '../src/ui/scenery';
 import { SceneKinds } from '../src/ui/scene-kinds';
 import type { Screen } from '../src/ui/screen-types';
 import { AsMeant } from '../test/support/as-meant';
+import { GoldenWalk } from '../test/support/golden-walk';
 
 // Which places of a generated world have no painting, and under which sky (doc/design/paintings-needed.md): the company
 // put at each place in turn, its screen built as play builds it, and the scene asked for (Scenery.seen) on a fair day,
@@ -46,7 +47,7 @@ export class SceneCensus {
   // The scene at the start and after every line of the golden walk, judged against the sky it is seen under.
   // Each screen judged is handed to seen, for a caller that would ask it under other skies.
   static async walk(lines = this.lines(), seen?: (screen: Screen) => void): Promise<Turn[]> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session), c = journey.session.campaign;
     // The way in first, the plate a new life opens on (Scenery.approach), under the sky it opens in.
     const first = ScreenModel.build(c);

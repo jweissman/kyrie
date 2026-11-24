@@ -8,6 +8,7 @@ import type { PlaySession } from '../src/session/play-session';
 import { ReaderApp, type AppState } from '../web/reader/reader-app';
 import { Stage } from '../web/reader/stage/stage';
 import { Glanced } from './support/glanced';
+import { GoldenWalk } from './support/golden-walk';
 
 // The world map offered once (the owner's playtest of 20 November, P0: "I'm seeing three distinct 'open the world
 // map' action offers … it has me losing faith in what I'm seeing"). A journey the four lead with across the country
@@ -33,7 +34,7 @@ describe('the world map, offered', () => {
   it('once at most, at every turn of the warrior\'s walk', async () => {
     const lines = readFileSync('doc/architecture/mission-22/golden/warrior-walk.txt', 'utf8').split('\n')
       .filter(l => l.trim() && !l.startsWith('#'));
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session), over: string[] = [];
     for (const [turn, line] of lines.entries()) {
       if (maps(journey.session) > 1) { over.push(`${turn}: ${journey.session.campaign.world.one('at', 'party')}`); }

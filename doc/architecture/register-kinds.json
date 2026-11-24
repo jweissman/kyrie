@@ -312,6 +312,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, from The Eel Bell's friction: an adventure's own thin parts and its placement, wanted work, not an observed failure"
+  },
+  "OR-196": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, classified as filed: lifting the adit into a construct that is to come, for comparison; a direction, not an observed failure"
   }
  },
  "blockedBy": {

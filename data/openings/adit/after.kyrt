@@ -9,3 +9,17 @@
   Relation toldBran(group).
   Event owain_tells at green when at(party, green) and not toldBran(party) "'Where were you?' Owain says, at your elbow before you are off the road. 'The customs-men were waiting at the march-stone with their staves. They counted, and they took Bran.' He points at the cobbles. 'He threw his tally-stick down for you.' Behind the customs-house the drove is bawling in the pens." then { Assert toldBran(party). }
   Observe bran_held at green when toldBran(party) and not knows(party, held) "Bran ap Ifor is held in the customs-house." teaches held.
+--- pans
+  // The pans gone cold in the night while you were under the hill: the salter tells it at the salt-house door, and
+  // so the cold pans and the wage owed are known.
+  Relation toldCold(group).
+  Event salter_tells at shop when at(party, shop) and not toldCold(party) "{merchant} is at the salt-house door, looking up the river toward {fuelvillage}. 'Where were you? All night I fed the last hearth with barrel-staves. It was not enough: by dawn two of the three pans had a skin of salt on them like ice on a pond.' Without turning: 'The fuel boat is two days late. Three days cold and the brine goes off. Then the season is lost, and your wage with it.' Then, turning: 'I can't leave the pans. You can.'" then { Assert toldCold(party). }
+  Observe pans_cold at shop when toldCold(party) and not knows(party, cold) "The salt-pans are going cold, and the fuel boat from {fuelvillage} is two days late." teaches cold.
+  Observe wage_owed at shop when toldCold(party) and not knows(party, wage) "{merchant} owes you a week's wage, eighteen coin, which cannot be paid until the salt is sold." teaches wage.
+--- weir
+  // Your aunt's weir, and the gate above it that will not shut: Nest tells it on the hamlet's green, and so the failing
+  // gate and the tide to come are known.
+  Relation toldGate(group).
+  Event nest_tells at hamletgreen when at(party, hamletgreen) and not toldGate(party) "'You'll be Tegwen's,' says the woman at the next door, and looks you over. 'Nest. I kept her weir going since the burying. The traps want lifting every morning or the eels rot in them.' She nods up at the squat stone gatehouse where the river meets the sea-bank. From under it comes the sound of the sea, running in. 'The gate's not shut since the new moon. Spring tide's in six days. When the sea comes over, there's no weir, and no {hamlet} either.'" then { Assert toldGate(party). }
+  Observe gate_failing at hamletgreen when toldGate(party) and not knows(party, failing) "The sea-gate above {hamlet} has not shut since the new moon." teaches failing.
+  Observe tide_coming at hamletgreen when toldGate(party) and not knows(party, tide) "The spring tide comes in six days." teaches tide.

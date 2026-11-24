@@ -24,7 +24,12 @@ export class PlaceFacets {
     const exits = new Map(screen.exits.map(e => [e.id, e.destination.id])), whither = this.whither.bind(this, exits);
     const at = this.at.bind(this, within);
     // The aims' ways and journeys (Glance.aimed): the followed aim's gold (its following), another's worth going.
-    const following = new Set(glance?.following ?? []);
+    // Of the followed aim's steps, the one the engine says is next (its continuance) where it says one: weary in open
+    // fields on the night road to Gatesend, the way west across country and "Set out for Gatesend" had both been gold
+    // on the map (test/one-gold-on-map), as Promotion.gilded keeps the scene's gold on one step.
+    const c = glance?.continuance, next = c && 'witness' in c ? c.witness : undefined;
+    const following = new Set((glance?.following ?? []).filter(id => !next || id === next
+      || !(glance?.following ?? []).includes(next)));
     for (const id of glance?.aimed ?? []) {
       const to = whither(id);
       const w = following.has(id) ? Attest.only(Attest.witness(glance, id), 'undertaking')

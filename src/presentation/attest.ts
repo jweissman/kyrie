@@ -28,7 +28,8 @@ export interface Attested {
   readonly witnesses: readonly Witness[];
   readonly [issued]: true;
 }
-export type Projected = Partial<Pick<Glance, 'acts' | 'lenses' | 'likenesses' | 'sensed' | 'following' | 'aimed' | 'lead' | 'offer'>>;
+export type Projected = Partial<Pick<Glance, 'acts' | 'lenses' | 'likenesses' | 'sensed' | 'following' | 'aimed' | 'lead'
+  | 'offer' | 'continuance'>>;
 
 export class Attest {
   // Read once for each glance (a glance is drawn again whenever the world, what the company knows or the aim followed

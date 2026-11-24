@@ -19,6 +19,8 @@ import { RunnerOffer } from '../src/cli/runner-offer';
 import { Doable, type Row } from '../src/presentation/doable';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ClientParity } from './client-parity';
+import { GoldenWalk } from '../test/support/golden-walk';
+import { RunnerFight } from '../src/cli/runner-fight';
 
 export interface Walk { world: string; as: string; lines: string }
 interface EngineAct { words: string; id: string; under?: string; within?: string; map?: true; led?: true }
@@ -37,10 +39,12 @@ export class OfferParity {
     const out = new Set<string>();
     for (const w of walks) {
       const lines = readFileSync(join(this.root, w.lines), 'utf8').split('\n').filter(Boolean).slice(0, turns);
-      const { journey } = await PlayTool.start(PlayTool.parse(['--world', w.world, '--as', w.as]));
+      const { journey } = await PlayTool.start(PlayTool.parse(w.world === 'iscoed' ? GoldenWalk.args(w.as, w.lines) : ['--world', w.world, '--as', w.as]));
       const runner = new Runner(journey.session);
       this.turn(runner, runner.said(), out);
       for (const line of lines) {
+        // A walk's own "through" for a fight this has already played through by the runner's hand (below).
+        if (line.includes(RunnerFight.through)) { continue; }
         let said = await runner.ask(line);
         const before = new Set(out);
         // A fight a line brings on is played through by the runner's own hand (fight:auto), as the conger's spec plays

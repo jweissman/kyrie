@@ -142,12 +142,13 @@ export type Request =
   | { kind: 'set-out'; apart?: boolean; rolled?: boolean }
   | { kind: 'preview'; party: Member[]; generated: boolean }
   // apart: the page tells the opening apart, before the first place (see Prologue), and its frame says so.
+  // opening: the stock opening asked for ("none" for none); unsaid, a new life's country's own (StockOpenings.chosen).
   | { kind: 'begin'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
-    memorial?: Memorial; apart?: boolean; chain?: string }
+    memorial?: Memorial; apart?: boolean; chain?: string; opening?: string }
   // What Begin will be asked, as the page stands while the player reads it: made ready in advance, and taken up by a
   // Begin asking the same.
   | { kind: 'ready'; campaign: string; seed: string; party: Member[]; terrain?: string; origin?: string;
-    memorial?: Memorial; chain?: string }
+    memorial?: Memorial; chain?: string; opening?: string }
   // A kept game, with the world it was played in when that is kept apart from it (see KeptGame).
   // apart: as begin's, for a game kept before anything was done in it, which opens as it began.
   | { kind: 'resume'; saved: string; world?: string; apart?: boolean }

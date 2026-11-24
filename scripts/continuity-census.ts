@@ -11,6 +11,7 @@ import { TalkFocus } from '../src/ui/talk-focus';
 import { Glanced } from '../test/support/glanced';
 import { AsMeant } from '../test/support/as-meant';
 import { HonestPlayer } from '../test/support/honest-player';
+import { GoldenWalk } from '../test/support/golden-walk';
 
 // The three continuity invariants of the alpha acceptance record (mission-22/alpha-acceptance.md), counted over every
 // turn of the golden walks as shipped, before beta changes anything (mission-22-beta/preparation-report.md, Sprint 0).
@@ -96,7 +97,7 @@ export class ContinuityCensus {
     return { followed: aims.find(a => a.followed)?.id, held: aims.map(a => a.id) };
   }
   static async walk(w: Walk): Promise<{ breaches: Breach[]; turns: number; engaged: number }> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', w.as]));
+    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args(w.as, w.lines ?? GoldenWalk.file)));
     const s = journey.session, r = new Runner(s), breaches: Breach[] = [];
     const lines = w.lines ? this.lines(w.lines) : Array.from({ length: w.steps ?? 0 }, () => ''), honest = new HonestPlayer(s);
     let engaged = 0, played = 0, before = this.aims(s);

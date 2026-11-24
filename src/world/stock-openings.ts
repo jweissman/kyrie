@@ -2,6 +2,7 @@ import type { BundleSource } from '../campaign/bundle-source';
 import type { BundleRequest } from '../campaign/module-bundle';
 import type { Company, Region } from './region-writer';
 import { KyrTemplates } from './kyr-template';
+import { StrategicAtlas } from './strategic-atlas';
 
 // A stock opening (BRIEF §3.1; the owner, 23 November: two rooms, one person, one ration, one fight, a small hazard,
 // then the open world): a short situation a new life begins in, ahead of where its origin begins, chosen at creation
@@ -28,6 +29,15 @@ type Start = NonNullable<Company['start']>;
 
 export class StockOpenings {
   static readonly library = 'data/openings/library.json';
+  // What a new life is begun in: the opening asked for by name; none, asked "none"; else, the opening its country
+  // keeps for every new life there (the strategic atlas's, by the world's first country: Iscoed's adit). Creation
+  // asks this for a new life (EngineStarts); a world drawn again for a kept play takes what it was drawn for, and one
+  // that never chose an opening has none.
+  static readonly none = 'none';
+  static chosen(seed: string, asked?: string): string | undefined {
+    if (asked) { return asked === this.none ? undefined : asked; }
+    return StrategicAtlas.at(seed, 0, 0)?.opening;
+  }
   static async load(base: BundleSource, id: string): Promise<StockOpening> {
     const index = base.resolve(this.library);
     const list = JSON.parse(await base.read(index)) as { openings: string[] };
