@@ -41,7 +41,7 @@ Each is a register row (deferred to gamma), and each is in the feature map as a 
 | Row | Package | Contract (rung 1–2) | Proving set |
 |---|---|---|---|
 | OR-450 | **G0 + G1. Terrains and the settlement matrix.** The eight principal terrains as an ontology over the generator's terrains and covers; settlements with scale (hamlet, town, city, metropolis) apart from population, habitation (living, ruined, empty), mobility (fixed, migrating) and institutional complexity | A census over seeds: each world has a distinct settlement for each of six terrains × four scales (24), extending to 32; no two differ only by name (their institutions, materials, activities and painting differ). It reports each combination missing, and why | Three combinations drawn and different in play, one of them nonstandard (the mobile Encampment, the Necropolis or the Academy) |
-| OR-451 | **G2. Canonical cities.** Named anchors (Aline, Marith, Dun Rìerdan, Garzab, Ydgn/Andaeen, Miyan, St. Thera's Reach) as canon identities with geography, institutions, material culture and visual assets, seated by rule (seats.ts), never by coordinate | Same seed and compatible content give the same identities, placed where their geography allows; an anchor that cannot be placed is reported with its reason | Aline (coastal, near the start) seated beside Dun Rìerdan |
+| OR-451 | **G2. Canonical cities.** Named anchors (Aline, Marith, Dun Rìerdan, Garzab, Ydgn (Andayeen to Northerners), Miyan, St. Thera's Reach) as canon identities with geography, institutions, material culture and visual assets, seated by rule (seats.ts), never by coordinate | Same seed and compatible content give the same identities, placed where their geography allows; an anchor that cannot be placed is reported with its reason | Aline (coastal, near the start) seated beside Dun Rìerdan |
 | OR-452 | **G3. Relational pins.** A required relationship between places (passage, commodity, institution, history, dungeon, landmark) declared and assembled. A pin is a route through the ordinary travel, economy and rules, with its costs, time, hazards and permissions; teleportation only by the supported rules, never for a city merely known | The census finds each pin executable: a route exists and is priced. Traversal: a headless journey takes it | Aline → Dun Rìerdan: passage booked in Aline, sailed or ridden, paid for and risked |
 | OR-453 | **G4. The biome census.** The owner's terrain correspondences (adapted people, gem, demonym, animal, materials) as default data, each kind of fact with its own measure: demographic (a majority-adapted default with its justified exceptions), ecological (possible and discoverable), geological (grounded in deposits, production or trade), cultural (in names, heraldry, dress, ornament) | A census of distributions, absences and exceptions over seeds, each exception with its reason (a port, a capital, a diaspora, a conquest) | One terrain whole (coast, say): fishfolk, Sea-folk, the octopus, lapis, shell and pearl, met in its settlements, markets, words and paintings |
 | OR-454 | **G5. The visual atlas.** Assets indexed terrain → subject (overview, shelter, hamlet/town, city/metropolis, wilderness/pastoral, wonder) → canonical place or archetype → season → weather → light, filled selectively; a canonical place's variants keep its geography and buildings | A coverage report per terrain and subject, its holes named; each place's variants proved one place (bound by its identity, not by its words) | The coast's six subjects; one canonical place in two lights |
@@ -51,9 +51,16 @@ Each is a register row (deferred to gamma), and each is in the feature map as a 
 
 ## 3. Decisions that are the owner's
 
+Settled:
+
+- **The desert metropolis, the City of Immortals** (the owner, 24 November): *Ydgn* is a transliteration of its
+  Lizardfolk name; Northerners usually render it *Andayeen*. One identity, two names by who speaks: the lizardfolk's
+  own, and the North's (the direction's "Andaeen" is the North's, spelled Andayeen).
+
+Open:
+
 Asked before the content they govern is written, never settled by a transcription:
 
-- The desert metropolis's name: **Ydgn** or **Andaeen**, both kept as provisional design names until then.
 - The mountain city's name. The sketch seems to read *Dunwudelft*, but that is not established.
 - The woodlands' gem (jade is provisional).
 - The plains' and the woodlands' four-scale columns, which the sketch leaves open.

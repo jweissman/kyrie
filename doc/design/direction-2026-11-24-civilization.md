@@ -433,3 +433,8 @@ The first settlement and dungeon should reward curiosity rather than compliance 
 Beyond that local place, the world's terrain, civilizations, cities, materials, routes, histories, and extraordinary phenomena should have real and persistent existence.
 
 The purpose of these tables is neither to force every settlement into a stereotype nor to populate a checklist of scenery. It is to make Westernesse a recognizable, materially coherent universe whose generated worlds remain meaningfully different—and whose players can gradually discover how large it really is.
+
+---
+
+**Since, the owner (24 November):** "'Ydgn' is intended to be a transliteration of the Lizardfolk name, but Northerners
+usually render 'Andayeen'." The desert metropolis is one identity with two names by who speaks.

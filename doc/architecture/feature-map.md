@@ -205,7 +205,7 @@ page's colours and opportunities.)
 - **Settlements by terrain and scale** · 0 pins · 1 defects · 1 asks
   - direction OR-450 P2: The eight principal terrains and the settlement matrix (gamma G0 + G1): terrains as an ontology…
 - **Cities of the canon, seated by rule** · 0 pins · 0 defects · 1 asks
-  - direction OR-451 P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn/Andaeen…
+  - direction OR-451 P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the…
 
 ### Institutions
 
@@ -469,7 +469,7 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-455 (Wonders declared, discovered and afforded)
 - **OR-443** P1: First Aims, one optional nested undertaking (the direction's §9, beta proof): three levels expressible (a horizon, a regional undertaking, its situations);… · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-457 (First Aims, nested and optional)
-- **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn/Andaeen (the name the owner's), Miyan, St. Thera's Reach, each with… · blocks 1 (0 P0/P1) over 1 capabilities
+- **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the Lizardfolk name, rendered Andayeen by Northerners (the owner, 24… · blocks 1 (0 P0/P1) over 1 capabilities
   - OR-452 (Passage arranged between cities)
 
 ### Capabilities neither built nor asked for (0)
