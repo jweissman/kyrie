@@ -42,10 +42,11 @@ describe('the weir life\'s mage against every band of her first hour', () => {
     expect([drowned.meeting, drowned.said]).toEqual(['warns', 'deadly']);
   });
   it('wins what the reckoning calls fair or slight', () => {
-    // Fewer than there were: a fight whose reckoned fights felled her is at least hard now, and asked (OR-322), and
-    // at four hit points most of them can.
+    // Ten, where there had been more than ten: a fight whose reckoned fights felled her is at least hard now, and
+    // asked (OR-322), and at four hit points many can. Read 24 November: the rats under the corn-store and in the
+    // cellar, the bats twice, the blasting charge twice, a badger, two rabbits and a monkey.
     const easy = [...alone, ...hired].filter(b => b.said === 'fair' || b.said === 'slight');
-    expect(easy.length).toBeGreaterThan(0);
+    expect(easy.length).toBeGreaterThanOrEqual(10);
     expect(easy.filter(b => b.mortal)).toEqual([]);
     expect(easy.filter(b => b.won * 10 < b.trials * 8).map(b => b.name)).toEqual([]);
   });
