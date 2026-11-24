@@ -1,0 +1,252 @@
+Module weatherdrove "The Weather Drove" {
+  // ── What the company has done, and what has been learned ─────────────────────────────────────────────────────────
+
+  Relation dorcasWilling(group). Relation fidelisWilling(group). Relation warmWay(group). Relation walked(group). Relation called(group).
+  Relation dorcasTried(group). Relation fidelisTried(group). Relation ysoldeTried(group).
+  Relation saltCovered(group). Relation ysoldeDoused(group).
+  Relation turnedGardens(group). Relation turnedSea(group).
+
+  Discovery thea_was_shale "The grave on the lemon terrace is Thea Gillyflower's, born Shale: a Shale of the drove.".
+  Discovery letting_in_box "The music-box in the Gillyflower House plays eleven notes, and the cloud sings the last four back.".
+  Discovery widow_seen "The Widow lies in the glass hall among the lemon trees, raining softly and quite at home.".
+  Discovery widow_old "The Widow is old: her edge has gone white and thin, like hair. She has one great rain left in her, and then she will be a rag of mist.".
+  Discovery three_parts "The drove-call has three parts: the Calling, which makes a cloud look up; the Turning, which makes it follow; and the Letting, which tells it that it may rain.".
+  Discovery gun_line "The Professor's howitzer is laid on the Gillyflower House, and he is to fire it at the third dusk.".
+  Discovery smoke_known "Ysolde Skewes has lit brine-fires on the east ridge; a cloud will not walk through that smoke.".
+  Discovery letter_seen "There is a letter on the gallery desk, addressed to D.".
+  Discovery salt_at_risk "Forty tons of salt stand open on the pans, and rain would ruin the year's work of nineteen pan-hands.".
+
+  Kind wd_letter "letter of Thea's" is treasure worth 1 weighing 0 described "A single sheet, folded in three, in a looping hand. It begins: Dear D.".
+
+  // ── Wickering ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Person muckle "Hannibal Muckle" at cistern {
+    Role "reeve of Wickering". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A stout man in a good coat is standing at the cistern with his hand on the lid, as one stands by a sickbed. 'Reeve Muckle,' he says. 'Forgive me, I am counting the cup. Four days of water, if the children are told to sip. Are you with the Professor? You have the look of people who are with somebody.'".
+    Greets again "'Ah,' says Reeve Muckle, 'you again,' and then, hearing himself, 'which is a comfort, I mean.'".
+  }
+  Topic muckle_water with muckle "Ask the Reeve how long the water will last" when true once {
+    Says "'Four days at a sip,' says Muckle. 'The wells went salt in the spring, you understand, so it is the cistern or it is nothing. The Widow fills the cistern. She always has. The drove walks her over the Gardens, she rains herself out on the date-palms, the run-off comes down the town channel, and we drink for a year.' He pats the lid. 'It is a very old arrangement. Nobody has ever needed to think about it.'".
+  }
+  Topic muckle_drove with muckle "Ask the Reeve where the drove is" when true once {
+    Says "'On the common, with its wagons,' says Muckle. 'Mistress Shale will not move without the cloud, and the cloud, it seems, will not move without Mistress Shale, and neither of them will say so. The Widow is up on the ridge, in Gillyflower's glasshouse, and Gillyflower tells me she is taking the air.' He closes his eyes. 'In a roof. Taking the air.'".
+  }
+  Topic muckle_prof with muckle "Ask the Reeve about the Professor" when true once {
+    Says "'Eighty crowns,' says Muckle, quickly. 'Which I could not afford, and which I have paid. He has a gun. He has a duke. At the third dusk, when the pressure is propitious, he will fire at the sky and the sky will answer.' He looks at the sky. 'I feel I should be more confident in a man who says the pressure is propitious.'".
+  }
+  Topic muckle_fires with muckle "Tell the Reeve about the fires on the east ridge" when knows(actor, smoke_known) once {
+    Says "'The pans,' says Muckle at once. 'Skewes.' He rubs his face. 'She has done the sum, you see. She is not a wicked woman. If it rains, forty tons of salt go to brine, and nineteen families with it, and I cannot say she is wrong. I cannot say she is right either.' He looks at the cistern. 'I would be most grateful if somebody who is not the Reeve were to have a word.'".
+  }
+
+  Person bessie "Bessie Clatworthy" at taproom {
+    Role "landlady of the Dry Dog". Ancestry dwarf. Profession innkeeper. Peaceable. Pronouns she. Manner jovial.
+    Sells rations for 2 coin from 6.
+    Greets "A square woman is polishing a tankard that has not held anything for a month. 'Bed's two coin, a drink is a rumour, and the rumours are free,' says Bessie Clatworthy. 'Sit down. Everybody who is anybody has sat down here since the cloud went up the ridge, and nobody has said anything new.'".
+    Greets again "'Back,' says Bessie. 'Anything on the ridge?'".
+  }
+  Topic bessie_odds with bessie "Ask Bessie about the blackboard" when true once {
+    Says "'Odds on the day she comes down,' says Bessie. 'I do not make them; I only chalk them. Fours on the third evening, because of the Professor, and the Professor is the only man in the county I would bet against.' She rubs a name off with her thumb. 'Tamsin Pell had a sovereign on the Widow turning up of her own accord. I have had to take her off the board. It was upsetting the children.'".
+  }
+  Topic bessie_ridge with bessie "Ask Bessie what is said of the glasshouse" when true once {
+    Says "'He is a nice man,' says Bessie, 'and mad. Built it for his wife, eleven years back, and she died the same autumn, and he has kept lemons ever since for nobody. The Widow came in by the vents the first week of the drove. They say he winds a box in the evenings.' She stops polishing. 'My sister heard it, from the terrace. She said it was not the box that frightened her.'".
+  }
+  Topic bessie_shale with bessie "Ask Bessie about Dorcas Shale" when true once {
+    Says "'Drove-mistress. Nine generations of Shale have driven that cloud, and she is the last of them with the eye for it, and she has not been up the ridge in eleven years,' says Bessie. 'Nobody says why. There was a sister who married out. Nobody says that either.'".
+    On discuss { Assert knows(actor, thea_was_shale). }
+  }
+  Topic bessie_gun with bessie "Ask Bessie about the Professor's gun" when true once {
+    Says "'It is a howitzer,' says Bessie, 'and it points at the glasshouse. I am only the landlady. I am not the one who is meant to say what a line of chalk is for.'".
+    On discuss { Assert knows(actor, gun_line). }
+  }
+
+  Person maundy "Professor Augustin Maundy" at gun_ground {
+    Role "rainmaker, by testimonial of a duke". Ancestry halfling. Peaceable. Pronouns he. Manner jovial.
+    Greets "A small, round man in a frogged coat is polishing a brass gun with his cuff and talking to it. 'Professor Augustin Maundy,' he says, without stopping. 'Pneumatist, ballistician, and the only man between here and the coast to hold a testimonial from the Duke of Heppleton. Do not touch the barrels. They are for the atmosphere.'".
+    Greets again "'My colleague returns,' says the Professor, to the gun.".
+  }
+  Topic maundy_method with maundy "Ask the Professor how he makes rain" when true once {
+    Says "'One does not make rain,' says Maundy, wounded. 'One persuades the sky to a view. It is a matter of concussion. A grain of powder, a column of air, a very large noise at the right pressure, and the vapour, which is a nervous creature, takes the point.' He pats the muzzle. 'At the third dusk, the glass falls. At the third dusk the sky will receive its instruction.'".
+  }
+  Topic maundy_line with maundy "Tell the Professor what stands at the end of his chalk line" when knows(actor, gun_line) and state(gun, loaded) once {
+    Says "The Professor follows the chalk with his eyes, up the slope, to the light on the ridge. He follows it a second time. 'That,' he says, 'is a greenhouse.' He takes off his hat. 'I laid the piece on the cloud. The cloud is in the greenhouse. One is not accustomed to the cloud being inside anything.' He sits on a barrel. 'Forty panes by sixty. The concussion. Good God.' A pause. 'I shall lay it on the flats. I shall be extremely quiet about this.'".
+    On discuss { Assert state(gun, swung). }
+  }
+
+  Thing gun "the Professor's howitzer" at gun_ground {
+    Tries looking.
+    State loaded "The howitzer is laid on the ridge, and loaded; the Professor has tied a ribbon to the touch-hole for luck.".
+    State swung "The howitzer has been wheeled round to face the flats. The ribbon is still on the touch-hole.".
+    State spiked "The howitzer has a nail in its touch-hole and a ribbon over the nail.".
+    Change spike "Drive a nail into the howitzer's touch-hole" from loaded to spiked when not at(maundy, gun_ground) "The Professor is standing by it, talking.".
+    Change spike_swung "Drive a nail into the howitzer's touch-hole" from swung to spiked when not at(maundy, gun_ground) "The Professor is standing by it, talking.".
+  }
+  Rule maundy_dines when hour(clock) == 12 and at(maundy, gun_ground) { Assert at(maundy, taproom). }
+  Rule maundy_returns when hour(clock) == 14 and at(maundy, taproom) { Assert at(maundy, gun_ground). }
+
+  // ── The common ───────────────────────────────────────────────────────────────────────────────────────────────
+
+  Person dorcas "Dorcas Shale" at drove_camp {
+    Role "drove-mistress". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Greets "An old woman with one white eye is sitting on a wagon-tail with a net across her knees, mending it by feel. 'We go when she is out,' says Dorcas Shale, before you have asked. 'She is not out. Sit if you like. Do not offer to help with the nets, you will only be kind about them.'".
+    Greets again "'Well,' says Dorcas Shale, not looking up. 'Still here.'".
+  }
+  Person nettle "Nettle" at drove_camp {
+    Role "Dorcas Shale's granddaughter". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A girl of eleven is lying on her back under a wagon with a tin whistle on her chest. 'Gran says if you want the drove, you've missed it,' she says, upside down. 'I'm Nettle. It's not a cow, you know. You'd be surprised how many people think it's a cow.'".
+    Greets again "'Hello,' says Nettle, from under the wagon.".
+  }
+
+  Topic dorcas_widow with dorcas "Ask Dorcas about the Widow" when true once {
+    Says "'The Widow,' says Dorcas, and the needle stops. 'Nine furlongs of her, when she is whole. She walks down from the sea-mountains each autumn with the first cold, and you drive her, with smoke and nets and the call, by the old road to the Gardens, and she rains, and that is the year.' She picks up the stitch. 'A drove is a thing you do to the end. I have never said I was in a hurry to get to it.'".
+  }
+  Topic dorcas_late with dorcas "Ask Dorcas why the drove is late" when true once {
+    Says "'The drove is late,' says Dorcas, 'because the cloud is in a greenhouse, and a cloud in a greenhouse will not be driven. That is the whole of it.' She does not look up. 'I have said it. Do not ask again.'".
+  }
+  Topic dorcas_call with dorcas "Ask Dorcas about the drove-call" when true once {
+    Says "'Three parts,' says Dorcas, sourly, as one gives up a coin. 'The Calling: she looks up. The Turning: she comes after you. The Letting: she may rain. The child has the first and I have the second. Nobody has sung the third, in my hearing, in eleven years.' She holds the net up to the light. 'Do not ask me whose part it was.'".
+    On discuss { Assert knows(actor, three_parts). }
+  }
+  Topic dorcas_thea with dorcas "Ask Dorcas about the grave on the lemon terrace" when knows(actor, thea_was_shale) once {
+    Says "The needle goes through the net and does not come out. 'My sister,' says Dorcas Shale. 'Thea. She sang the Letting, and I did not, and she married a man who grew lemons in a desert, and I said if she went she would go without me.' She draws the thread through. 'She wrote for eleven years. I did not answer one. She is under a rain-gauge, I am told. She always did like to know how much was coming.'".
+  }
+  Topic dorcas_letter with dorcas "Give Dorcas the letter from the glasshouse" when holding(actor, wd_letter) once {
+    Says "She takes it. She does not need to unfold it; she turns it over, and runs her thumb down the fold. 'Dear D,' says Dorcas Shale. 'Nobody has called me that since I was nine.' She reads it standing, with the one good eye an inch from the paper. It is a long while. 'She asks me,' she says, 'to teach the Letting to a child, so that the Widow hears it from a living mouth when she is gone, and need not wait on a box.' Her mouth works. 'Eleven years. In his gallery. Addressed to a cow, he must have thought.' She folds it very small. 'Well. I shall have to go and be rude to him in person.'".
+    On discuss { Spend wd_letter from actor. Assert dorcasWilling(party). Assert warmWay(party). }
+  }
+  Action dorcas_persuade(actor: group, site: place) "Tell Dorcas the cloud sings back the Letting to a music-box, and ask her to come" {
+    Speaker dorcas.
+    Requires able(actor) and at(actor, site) and at(dorcas, site) and knows(actor, letting_in_box) and knows(actor, three_parts) and not dorcasWilling(party) and not dorcasTried(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert dorcasWilling(party). }
+    On failure { Assert dorcasTried(party). }
+    Result "Dorcas listens to the end, her face turned a little off. 'Eleven notes,' she says. 'And the last four back.' A long breath. 'That is the Letting. That is where it falls. He plays it right, then.' She puts the net down. 'I will come. I will not speak to him.'".
+    Otherwise "'I know what a cloud sounds like,' says Dorcas, 'and what a man sounds like who wants me up a ridge.' She does not unbend. 'No.' You will not be heard on this again, and it is not because she is unkind.".
+  }
+  Topic dorcas_old with dorcas "Ask Dorcas what she has not said about the Widow" when dorcasWilling(party) and not knows(actor, widow_old) once {
+    Says "Dorcas is quiet for a time. 'Her edge has gone white,' she says. 'Three years now. Like an old woman's hair. A cloud has one great rain in her last year, and then she is gone to mist, and nothing comes of her but the weather.' She turns the whistle in her hand. 'I have been late three years running, and it was not the road. If I walk her in, she rains out, and I have driven my last. You will have worked that out. I would be obliged if you had not said it to the child.'".
+    On discuss { Assert knows(actor, widow_old). }
+  }
+
+  Topic nettle_whistle with nettle "Ask Nettle to whistle the drove-call" when true once {
+    Says "Nettle sits up and puts the whistle to her lip. Three notes, rising, clear as water; and then she stops, with her head on one side, like a girl at a door she cannot open. 'That's the Calling,' she says. 'It makes her look up. Grandad taught me. There's more, Gran has some. But it's no good till somebody's got all of it.'".
+  }
+  Topic nettle_widow with nettle "Ask Nettle about the Widow" when true once {
+    Says "'I call her Mizzle,' says Nettle, 'but not where Gran can hear. She's not frightening. She sort of leans on you. When I was little she came down to the pen in the evenings and I put my hand up and it got wet and warm, like a dog's nose.' She considers. 'She's been in the glass a month. I can see her from the common, at night, with the lamps lit. It's the best thing I've ever seen, and nobody will take me.'".
+  }
+  Topic nettle_grandad with nettle "Ask Nettle who taught her the Calling" when true once {
+    Says "'Grandad. He went out in a storm for a straggler when I was seven and didn't come back.' She says it flatly, as a thing already lifted and put down. 'He said the call's in three bits so nobody can ever drive her by themselves. He said that was the point of it.'".
+  }
+
+  // ── The pen ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+  // ── The ridge ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Person fidelis "Fidelis Gillyflower" at gallery {
+    Role "lemon-grower". Ancestry human. Peaceable. Pronouns he. Manner compassionate.
+    Greets "A tall man in a soft old coat sits in a wicker chair by the glass wall with a brass music-box on the table beside him, not touching it. 'You are the first to come in,' says Fidelis Gillyflower. 'The Reeve stands on the terrace and shouts about the water. Come in. Mind the third tile; it sweats. I am sorry that it is raining.'".
+    Greets again "'Ah,' says Fidelis Gillyflower. 'Do sit. I have lemons.'".
+  }
+  Rule fidelis_dawn when hour(clock) == 6 and at(fidelis, gallery) and not walked(party) { Assert at(fidelis, terrace). }
+  Rule fidelis_in when hour(clock) == 8 and at(fidelis, terrace) and not walked(party) { Assert at(fidelis, gallery). }
+
+  Topic fidelis_cloud with fidelis "Ask Fidelis about the cloud in his glasshouse" when true once {
+    Says "'It is taking the air,' says Fidelis, and has the grace to look at his hands. 'No. It is not. I know exactly what it is, I have read the drovers' book, I have been told by the Reeve eleven times.' He looks at the vents. 'It came in the first week of the drove, out of the ridge fog, and went straight up to the lemon trees as though it had been sent for. I did not have the heart. It rains a quarter-inch at night. The trees have never been so well.'".
+  }
+  Topic fidelis_box with fidelis "Ask Fidelis about the music-box" when true once {
+    Says "'My wife's,' says Fidelis. 'Thea. A tune she hummed, and had made into a box by a clockmaker in the city, eleven notes, for our fifth anniversary. She said it was an old lullaby of her family's.' He lays one finger on the lid. 'I wind it at dusk. Do you hear, from the glass? I thought the first year it was the glass. It is not the glass.'".
+  }
+  Topic fidelis_thea with fidelis "Ask Fidelis about his wife" when knows(actor, thea_was_shale) once {
+    Says "'Thea,' says Fidelis. 'She came out of the Sere with a tin whistle and no luggage, and said she had left her family and would not say why. I thought a quarrel over an inheritance.' A pause. 'Shale. Is it? The grave says Shale, and I wrote it myself. I thought Shale was where she was from. I did not know it was anyone.'".
+  }
+  Topic fidelis_desk with fidelis "Ask Fidelis about the letter on the desk" when knows(actor, letter_seen) once {
+    Says "'She wrote it the week she died,' says Fidelis. 'It is addressed to D. I have asked everybody. There is no D at the Reeve's, or at the Dry Dog, or in the chandler's book.' He takes it from the desk and holds it out, a little blindly. 'I never opened it. You may, if you can find her. I have wondered for eleven years if D was a cow.'".
+    On discuss { Give wd_letter to actor. }
+  }
+  Topic fidelis_tell with fidelis "Tell Fidelis that D is Dorcas Shale, the drove-mistress and his wife's sister" when dorcasWilling(party) and warmWay(party) and not fidelisWilling(party) once {
+    Says "He does not move. 'Her sister,' says Fidelis. 'In the Sere, on the common, eleven years. A mile and a half.' He sits down in the wicker chair. 'And the box. The Letting. She sang it to me, and said it was a family lullaby. She never said it was for a cloud.' He puts both hands over his face, and takes them away. 'The vents are on a crank by the stove. Tell her that I will open them. Tell her I would have done it years ago, if anybody had said it would be asked of me.'".
+    On discuss { Assert fidelisWilling(party). }
+  }
+  Action fidelis_persuade(actor: group, site: place) "Ask Fidelis to open the roof-vents and let the Widow go" {
+    Speaker fidelis.
+    Requires able(actor) and at(actor, site) and at(fidelis, site) and knows(actor, widow_seen) and not fidelisWilling(party) and not fidelisTried(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert fidelisWilling(party). }
+    On failure { Assert fidelisTried(party). }
+    Result "Fidelis is quiet for a long time. 'She will not want to go,' he says. 'But I do not suppose that is for me to say any more.' He gets up. 'The crank is by the stove. I will do it at your word, and not before.'".
+    Otherwise "'No,' says Fidelis Gillyflower, gently, as to a child who has asked for the moon. 'You are right, and I am not going to. It is the only thing in the house that answers.'".
+  }
+  Rule vents_open when fidelisWilling(party) and state(vents, latched) says "Somewhere in the hall a crank turns, and then another. One by one the roof-vents swing open, and a thin dry light comes down through the trees." { Assert state(vents, open). }
+
+  Thing vents "the roof-vents" at hall {
+    State latched "The vents in the glass roof are latched, and the cloud hangs under them as under a lid.".
+    State open "The roof-vents stand open to the dry sky. The Widow has not gone, but she has turned her whole body toward them.".
+  }
+  Thing widow "the Widow" at hall {
+    Marvel.
+    Tries looking.
+    State lodged "The Widow hangs under the roof, grey and enormous, rubbing herself against the glass like a cow against a gate.".
+    State coming "The Widow has come down to the height of a hat above the lemon trees, and is looking at the door.".
+  }
+  Observe widow_looked near widow when tried(widow, looking) "Seen close, the Widow is thin at the rim: the grey has gone to white there, soft and fine, like an old woman's hair, and in the white there is no weight at all. She is vast, and warm, and very tired." teaches widow_old.
+  Observe widow_seen_obs at hall as sign when state(widow, lodged) "A fine rain falls among the trees, a quarter-inch a night, and the lemons have never looked so well." teaches widow_seen.
+
+  Thing glass "the glass roof" at hall {
+    State whole "The old glass holds the rain in.".
+    State shattered "The glass roof has come down in one note.".
+  }
+  Thing desk "the gallery desk" at gallery {
+    Tries looking.
+    State open "A writing-desk with the lid down, and on it a letter, unopened, addressed on the outside in a looping hand to D.".
+  }
+  Observe letter_obs at gallery as sign when not knows(party, letter_seen) "On the desk by the window lies a sealed letter, addressed in a looping hand to D." teaches letter_seen.
+
+  // ── The pans ─────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Person ysolde "Ysolde Skewes" at pan_house {
+    Role "keeper of the Skewes pans". Ancestry dwarf. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman built like a salt-barrel is standing at the open end of the shed with her arms folded, looking at the sky as one looks at a debtor. 'Skewes,' she says. 'The pans are mine and so is the salt. I am not selling it, I am not moving it, and if you have come to ask me to be reasonable you will find I have been very reasonable for forty years.'".
+    Greets again "'Skewes,' says Ysolde, a little less warmly, 'again.'".
+  }
+  Topic ysolde_pans with ysolde "Ask Ysolde about the pans" when true once {
+    Says "'Seawater up the channel, a foot deep in each pan, forty days of sun, and a year's salt in the white,' says Ysolde. 'Nineteen hands, nineteen households. We rake it into heaps at the end of the season to dry in the wind, and then we cart it to the coast.' She nods at the heaps. 'Open to the sky, because salt is no trouble to anyone. All it has ever been afraid of is rain.'".
+  }
+  Topic ysolde_fires with ysolde "Ask Ysolde about the fires on the east ridge" when knows(actor, smoke_known) once {
+    Says "'I light them,' says Ysolde, at once, flat. 'Brine and green juniper: a cloud will not walk through that smoke, any drover will tell you. If the Widow does not come down the Gardens road she does not come down on my heaps.' She does not look away. 'Forty tons. Nineteen households. Do not tell me about the cistern. I know about the cistern. I have a cup.'".
+  }
+  Topic ysolde_rain with ysolde "Ask Ysolde what rain would cost her" when knows(actor, smoke_known) and not knows(actor, salt_at_risk) once {
+    Says "'The heaps are forty tons of salt,' says Ysolde, 'and a night of rain on forty tons of salt is forty tons of brine in the road. I have tarred canvas for a third.' She turns her head. 'With every hand I have, and the whole of a day, we might cover them. We are covering them, a ridge at a time. We will not finish before the third dusk. If somebody had spare hands, I would have heard.'".
+    On discuss { Assert knows(actor, salt_at_risk). }
+  }
+  Action cover_heaps(actor: group) "Help the pan-hands tarp the salt heaps" {
+    Requires able(actor) and company(actor) and at(actor, heaps) and not saltCovered(party).
+    Time 3 hours.
+    On success { Assert saltCovered(party). }
+    Result "You haul canvas until your arms are not yours, and the nineteen of them take you for one of them without a word: tarred sheets over the ridges, rocks on the hems, ropes under. By the end the heaps are a row of black tents on a white plain. Ysolde Skewes walks the line once, kicking a rock here and there. 'Good enough,' she says, which from her is a sermon.".
+  }
+  Rule ysolde_douses when saltCovered(party) and state(fires, blazing) says "Along the flats, on the east ridge, the thread of yellow smoke thins and stops. Somebody has gone up with a bucket." { Assert state(fires, out). Assert ysoldeDoused(party). }
+  Action ysolde_persuade(actor: group, site: place) "Ask Ysolde to put out her fires" {
+    Speaker ysolde.
+    Requires able(actor) and at(actor, site) and at(ysolde, site) and knows(actor, smoke_known) and state(fires, blazing) and not ysoldeTried(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert state(fires, out). Assert ysoldeDoused(party). }
+    On failure { Assert ysoldeTried(party). }
+    Result "Ysolde Skewes looks at the sky for a long time. 'The cistern,' she says. 'And the heaps. And no fires.' She takes a breath through her nose. 'I will send a boy up with a bucket. If that heap is brine I will know where to send the bill.'".
+    Otherwise "'No,' says Ysolde, 'and that is all the answer you will get.'".
+  }
+  Thing fires "the brine-fires" at east_ridge {
+    Tries looking.
+    State blazing "Pots of brine and green juniper boil over fires in a ring of black stones, and a column of bitter smoke goes up.".
+    State out "The fires are out, and the pots lie cold in their ring of black stones.".
+    Change stamp "Kick over the pots and stamp out the brine-fires" from blazing to out.
+  }
+  Observe fires_sniff at east_ridge as sign when state(fires, blazing) "The smoke is brine and green juniper: a drover's smoke, but turned the wrong way, to keep something off." teaches smoke_known.
+  Observe fires_sniff_pen at pen as sign when state(fires, blazing) "Far off on the east ridge, a thin yellow smoke is blazing, and bends the wrong way." teaches smoke_known.
+  Rule fires_stamped when state(fires, out) and not ysoldeDoused(party) and not stampKnown(party) says "A pan-hand running up the east ridge with a bucket finds the pots over and the stones cold, and stands a moment looking down at the town." { Assert stampKnown(party). }
+  Relation stampKnown(group).
+  Milestone wd_ms_widow "found the Widow in the glass" worth 30 when knows(party, widow_seen).
+  Milestone wd_ms_old "learned the Widow is old" worth 60 when knows(party, widow_old).
+  Milestone wd_ms_letter "put Thea's letter in her sister's hand" worth 80 when dorcasWilling(party).
+  Milestone wd_ms_vents "had the roof-vents opened" worth 80 when fidelisWilling(party).
+  Milestone wd_ms_salt "covered the salt" worth 60 when saltCovered(party).
+  Milestone wd_ms_called "kept still while the Widow was called" worth 150 when called(party).
+}

@@ -1,0 +1,73 @@
+Module weatherdrove "The Weather Drove" {
+  Description "Wickering, a tin-roofed town on the lip of the Sere with four days of water, and the glasshouse on the ridge where the cloud the drovers drive each autumn has gone in and will not come out.".
+
+  // Wickering and its three outposts: the drove camp on the common, the Gillyflower House on the ridge, the pans on the flats.
+  Place country "the Sere country" is region within imbar.
+  Place wickering "Wickering" is settlement within country at 1, 1.
+  Place sere_road "the salt road" is wilderness within country at 1, 0.
+  Place common "Wickering common" is wilderness within country at 0, 1.
+  Place ridge "the Gillyflower ridge" is site within country at 2, 0.
+  Place flats "the Skewes pans" is site within country at 2, 2.
+
+  Place dry_dog_inn "the Dry Dog" is building within wickering.
+  Place glasshouse "the Gillyflower House" is building within ridge.
+
+  Place road "the salt road above Wickering" is room within sere_road at 0, 0 outdoors.
+  Place cistern "the cistern square" is room within wickering at 1, 1 outdoors.
+  Place taproom "the Dry Dog's taproom" is room within dry_dog_inn at 0, 0.
+  Place gun_ground "the gun-ground" is room within wickering at 2, 1 outdoors.
+  Place drove_camp "the drove camp" is room within common at 0, 0 outdoors.
+  Place pen "the empty pen" is room within common at 1, 0 outdoors.
+  Place terrace "the lemon terrace" is room within ridge at 0, 0 outdoors.
+  Place hall "the glass hall" is room within glasshouse at 0, 0.
+  Place gallery "the gallery" is room within glasshouse at 1, 0.
+  Place pan_house "the pan-house" is room within flats at 0, 0.
+  Place heaps "the salt heaps" is room within flats at 1, 0 outdoors.
+  Place east_ridge "the east ridge" is room within flats at 2, 0 outdoors.
+
+  Passage salt_road "the salt road" is road between road and cistern taking 20 minutes.
+  Passage dog_door "the Dry Dog's door" is door between cistern and taproom.
+  Passage gun_lane "the lane to the lower wall" is path between cistern and gun_ground taking 5 minutes.
+  Passage camp_track "the track to the common" is track between cistern and drove_camp taking 20 minutes.
+  Passage pen_path "the path to the pen" is path between drove_camp and pen taking 5 minutes.
+  Passage ridge_track "the ridge track" is track between cistern and terrace taking 30 minutes.
+  Passage glass_door "the glass door" is door between terrace and hall.
+  Passage gallery_arch "the gallery arch" is doorway between hall and gallery.
+  Passage flats_road "the road down to the pans" is road between cistern and pan_house taking 30 minutes.
+  Passage heap_yard "the pan-house yard" is path between pan_house and heaps taking 5 minutes.
+  Passage ridge_path "the path up the east ridge" is path between heaps and east_ridge taking 20 minutes.
+
+  Observe road_scene at road when true "The salt road comes in off the Sere between two walls of white stone, and ends in a town of tin. Every roof has a barrel under every downpipe, and every barrel has its lid off.".
+  Observe road_sky at road when true "The sky is the colour of the plain. Over the ridge to the north, though, one grey weight hangs low and does not move, like a cow at a gate.".
+
+  Observe cistern_scene at cistern when true "A stone cistern in a square of white dust, a tin cup on a chain, and a painted line down the inside of the cistern wall with a date beside each mark. The line has gone down eleven times.".
+  Observe cistern_cup at cistern as feature when true "Under the cup somebody has chalked, in a child's hand: DRINK IT SLOW.".
+  Observe cistern_ridge at cistern when true "From here the whole north ridge shows, and a long glasshouse on it that throws the morning at you in forty panes.".
+
+  Observe taproom_scene at taproom when true "A low room of barrels, none of them tapped. Over the bar a blackboard lists the days of the week with odds beside each, and a rubbed-out name, and the odds again.".
+  Observe taproom_board at taproom as feature when true "The odds for the third evening are four to one. For tonight they are not given, because it would be bad luck.".
+
+  Observe gun_scene at gun_ground when true "A flat of beaten clay under the lower wall, and on it a brass howitzer on a field carriage, polished like a trombone. Eleven barrels are stacked beside it, chalked FOR THE ATMOSPHERE.".
+  Observe gun_line at gun_ground as sign when true "A chalked line runs from the muzzle over the wall and up the slope. At the far end, on the ridge, forty panes of glass take the light." teaches gun_line.
+
+  Observe camp_scene at drove_camp when true "Seven wagons stand in a ring on the common, with their shafts down and their smoke-pots cold. A line of sacking dries on the nearest, and nobody is in a hurry about it.".
+  Observe camp_nets at drove_camp as feature when true "Hung between the wagons, row on row, are the drove's nets: fine as hair, black with soot, and stitched in a hand that has been mending the same threads for sixty years.".
+  Observe pen_scene at pen when true "A ring of iron stakes, forty paces across, with a rope of knotted hair strung between. The grass inside is greener than the common, and flattened in a great round hollow, as if something had lain here that weighed nothing at all.".
+  Observe pen_wind at pen as sign when state(fires, blazing) "The wind comes from the east, and tastes of tin and ash. Far off, on the line of the east ridge, a thread of yellow smoke goes up.".
+
+  Observe terrace_scene at terrace when true "Terraces of lemon trees climb the ridge in dry-stone steps, each one watered by a trench. At the top stands the Gillyflower House: a ship of iron and glass, fed by a boiler chimney, with its vents latched.".
+  Observe terrace_grave at terrace as feature when true "A small grave lies at the head of the first terrace, with a rain-gauge on a post at its foot. The stone says THEA GILLYFLOWER, BORN SHALE, and under it, in smaller letters: SHE SANG IT BETTER.".
+  Observe terrace_shale at terrace as sign when true "Shale. The drove-mistress at Wickering is a Shale." teaches thea_was_shale.
+  Observe terrace_smoke at terrace as sign when state(fires, blazing) "To the south-east, along the flats, a yellow thread of smoke goes straight up from the east ridge, and then leans away from the glasshouse." teaches smoke_known.
+
+  Observe hall_scene at hall when true "A warm room the length of a church, thick with the green smell of lemon-leaves, and forty trees under a roof of glass.".
+  Observe gallery_scene at gallery when true "A long room of books and wicker chairs, with the glass wall of the hall on one side and, on a table in the middle, a brass music-box the size of a bread-loaf.".
+  Observe gallery_box at gallery as sign when true "Wound, the box plays eleven notes, and stops. From the glass wall, a fraction late, a low voice gives back the last four." teaches letting_in_box.
+
+  Observe pan_scene at pan_house when true "A long shed of salt-grey boards smelling of brine and boiled iron, and open at the seaward end on the pans: white squares laid out to the horizon, every one dry.".
+  Observe heaps_scene at heaps when true "Forty tons of salt stand in long ridges under the sky, shovelled into the shape of a roof. Nineteen pan-hands in sacking are working along them with long rakes, bare-armed in the glare, and nobody speaks.".
+  Observe heaps_tarps at heaps as feature when not saltCovered(party) "A stack of tarred canvas lies rolled at the end of the nearest ridge, and it is quite plain that there is not nearly enough of it.".
+  Observe east_scene at east_ridge when true "A bare brow of white rock above the pans, with a ring of black stones on it and a pot of brine on a fire in the middle of each.".
+  Observe east_fires at east_ridge as sign when state(fires, blazing) "Bitter yellow smoke goes up from the pots in a thick column, and leans away to the west.".
+
+}
