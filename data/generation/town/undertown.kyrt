@@ -848,7 +848,9 @@
   Relation {t}_u_bear_gone().
   Entity {t}_u_bear_job: fact "Clear the den in the old quarry at {town}.".
   Entity {t}_u_bear_cub: fact "The she-bear in the old quarry has a cub with her. She will fight for it, and she would take it away if the way were left open.".
-  Topic {t}_u_bear_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when not {t}_u_given({t}_u_bear_job) and not {t}_u_done({t}_u_bear_job) once {
+  // Asked after only by one who has heard of it, on the notice on the well-post (the one plain lead to what is under
+  // the town), or has seen the clawed gate for themselves (OR-370: the first town's jobs uncovered, not handed out).
+  Topic {t}_u_bear_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when (knows(actor, {t}_u_notice) or been(actor, {t}_u_pit)) and not {t}_u_given({t}_u_bear_job) and not {t}_u_done({t}_u_bear_job) once {
     Says "'Something's denned in the old quarry,' says {{t}_innkeeper}. 'There's claw-marks on the gate the height of my head, and the wolves that follow it have got bold. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever clears it.'".
     On discuss { Assert knows(actor, {t}_u_bear_job). Assert {t}_u_given({t}_u_bear_job). Give quarry_key to actor. Assert keyholder(actor, {t}_u_adit_lock). }
   }
