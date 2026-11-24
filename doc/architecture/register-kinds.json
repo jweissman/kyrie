@@ -468,9 +468,197 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, filed from the owner's playtests (doc/design/playtest-2026-11-24.md): a wanted future kept whole, not commissioned"
+  },
+  "OR-340": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-341": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-342": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-343": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-344": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-345": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-346": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-347": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-348": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-349": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-350": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-351": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-352": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-353": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-354": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-355": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-356": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-357": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-358": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-359": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-360": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-361": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-362": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-363": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-364": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, filed from the feature map: a capability its pins prove or want, which no request had asked for"
+  },
+  "OR-365": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, filed from the feature map: a capability the map names, wanted, not commissioned"
+  },
+  "OR-366": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, filed from the feature map: a capability the map names, wanted, not commissioned"
   }
  },
  "blockedBy": {
-  "OR-144": "AX-04"
+  "OR-144": "AX-04",
+  "AR-05": "TB-09",
+  "TB-10": "TB-09",
+  "OR-149": "TB-09",
+  "R10-01": "TB-09",
+  "OR-181": "TB-09",
+  "PB-29": "TB-09",
+  "OR-71": "TB-09",
+  "CO-20": "TB-09",
+  "TR-21": "TB-09",
+  "CL-53": "TB-09",
+  "OR-140": "AP-03",
+  "CL-31": "AP-03",
+  "AP-07": "AP-03",
+  "OR-302": "AP-03",
+  "OR-303": "AP-03",
+  "BO-07": "AP-03",
+  "R11-02": "AP-03",
+  "BO-11": "AP-03",
+  "OR-137": "AX-04",
+  "OR-23": "AX-04",
+  "OR-127": "AX-04",
+  "OR-145": "AX-05",
+  "OR-182": "AX-05",
+  "CO-03": "OR-310",
+  "WD-12": "OR-310",
+  "BO-12": "OR-310"
  }
 }

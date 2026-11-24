@@ -15,6 +15,8 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { Glob } from 'bun';
 import { PlanningInstruments } from './planning-instruments';
+import { RegisterKinds } from './register-kinds';
+import { RegisterTickets } from './register-tickets';
 
 type PinState = 'met' | 'missing' | 'unwritten';
 // A pin of a feature (test/features), or of an experience family (the experiential pins: AGENTS.md, the register's
@@ -22,7 +24,7 @@ type PinState = 'met' | 'missing' | 'unwritten';
 interface Pin { file: string; describe: string; name: string; state: PinState; feature: string; family?: string }
 interface Feature { id: string; name: string; paths: string[] }
 interface Capability { id: string; title: string; feature: string; pins?: string[]; words?: string[]; default?: boolean;
-  about?: string }
+  about?: string; rows?: string[] }
 interface Section { name: string; about?: string; capabilities: Capability[] }
 interface Aspect { n: string; name: string; about: string; sections: Section[] }
 interface Family { n: number; name: string; about: string; specs: Record<string, string> }
@@ -43,6 +45,8 @@ export class FeatureMap {
   static capabilities(): Capability[] { return this.tree().flatMap(a => a.sections.flatMap(s => s.capabilities)); }
   // The capability a row of the register is on: of its feature's, the first whose words it says, else the default.
   static placed(row: { what: string; feature: string }, caps: Capability[]): Capability | undefined {
+    const named = caps.find(c => (c.rows ?? []).includes((row as { id?: string }).id ?? ''));
+    if (named) { return named; }
     const of = caps.filter(c => c.feature === row.feature), text = row.what.toLowerCase();
     return of.find(c => (c.words ?? []).some(w => text.includes(w))) ?? of.find(c => c.default);
   }
@@ -142,15 +146,16 @@ export class FeatureMap {
         experience: pins.filter(p => p.family).length, rows: rows.length,
         defects: rows.filter(r => r.kind === 'defect').length },
       negative: {
-        unbuilt: all.filter(c => !c.behaviours.length && !c.asks.length && !c.defects.live)
+        unbuilt: all.filter(c => !c.behaviours.length && !c.asks.length && !c.defects.live && !c.filed.length)
           .map(c => ({ id: c.id, title: c.title,
           section: c.section })),
-        unasked: all.filter(c => c.behaviours.length && !c.asks.length)
+        unasked: all.filter(c => c.behaviours.length && !c.asks.length && !c.filed.length)
           .map(c => ({ id: c.id, title: c.title, section: c.section,
           acceptance: c.behaviours.flatMap(b => b.pins.map(p => `${this.mark(p.state)} ${p.name}`)) })),
         unpinned: all.filter(c => !c.behaviours.length && c.asks.length)
           .map(c => ({ id: c.id, title: c.title, section: c.section,
           asks: c.asks })),
+        blockers: this.blockers(rows, ctx.at, caps),
         unplaced: behaviours.filter(b => !caps.some(c => (c.pins ?? []).includes(b.describe))).map(b => b.describe),
         open: pins.filter(p => p.state !== 'met').map(p => ({ ...p })) } };
   }
@@ -159,11 +164,26 @@ export class FeatureMap {
     at: Map<string, string | undefined> }) {
     const live = ctx.rows.filter(r => ctx.at.get(r.id) === c.id), defects = live.filter(r => r.kind === 'defect');
     const held = ctx.behaviours.filter(b => (c.pins ?? []).includes(b.describe)), f = ctx.byId.get(c.feature);
-    return { id: c.id, title: c.title, feature: c.feature, layers: f ? this.layers(f) : [],
+    return { id: c.id, title: c.title, feature: c.feature, layers: f ? this.layers(f) : [], filed: c.rows ?? [],
       behaviours: held.map(b => ({ describe: b.describe, family: b.family,
         pins: b.pins.map(p => ({ name: p.name, state: p.state })) })),
       defects: { live: defects.length, high: defects.filter(r => PlanningInstruments.high(r)).map(r => this.row(r)) },
       asks: live.filter(r => r.kind !== 'defect').map(r => this.row(r)) };
+  }
+  // What blocks many rows at once (register-kinds.json's blockedBy: the row a defect waits on), by how much it would
+  // retire: the rows it blocks, their P0/P1, and the capabilities they are spread over.
+  static blockers(rows: Placed[], at: Map<string, string | undefined>, caps: Capability[]) {
+    const by = RegisterKinds.read().blockedBy, live = new Map(rows.map(r => [r.id, r]));
+    const all = new Map(RegisterTickets.rows(RegisterTickets.text()).map(r => [r.id, r]));
+    const title = new Map(caps.map(c => [c.id, c.title]));
+    return [...new Set(Object.values(by))].map(b => {
+      const blocked = Object.entries(by).filter(([id, x]) => x === b && live.has(id)).map(([id]) => live.get(id)!);
+      const row = all.get(b);
+      return { id: b, pri: row?.pri ?? '', what: this.short(row?.what ?? '', 160),
+        blocked: blocked.map(r => ({ id: r.id, pri: r.pri, capability: title.get(at.get(r.id) ?? '') ?? '' })),
+        high: blocked.filter(r => PlanningInstruments.high(r)).length,
+        spans: [...new Set(blocked.map(r => title.get(at.get(r.id) ?? '') ?? ''))] };
+    }).filter(b => b.blocked.length).sort((a, b) => b.blocked.length - a.blocked.length);
   }
   static row(r: Placed) {
     return { id: r.id, pri: r.pri, kind: r.kind, slice: r.slice, what: this.short(r.what, 160) };
@@ -196,6 +216,10 @@ export class FeatureMap {
     }
     const n = d.negative;
     return [...out, '## Negative space', '',
+      `### Common blockers (${n.blockers.length})`, '',
+      'Rows that, done, would retire many at once (register-kinds.json\'s blockedBy), by how many they block.', '',
+      ...n.blockers.flatMap(b => [`- **${b.id}** ${b.pri}: ${b.what} · blocks ${b.blocked.length} (${b.high} P0/P1)`
+        + ` over ${b.spans.length} capabilities`, `  - ${b.blocked.map(r => `${r.id} (${r.capability})`).join(', ')}`]), '',
       `### Capabilities neither built nor asked for (${n.unbuilt.length})`, '', ...n.unbuilt.map(k => `- ${k.title} (${k.section})`), '',
       `### Capabilities pinned that no request asks for (${n.unasked.length})`, '',
       'Each a request to file under its title, its acceptance the pins that prove or want it.', '',

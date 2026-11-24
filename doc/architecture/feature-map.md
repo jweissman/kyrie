@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 169 pins (137 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 522 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 169 pins (137 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 536 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -19,9 +19,10 @@ page's colours and opportunities.)
   - requirement RI-02 P1: Look, Examine, Search and sustained Explore as distinct acts in the existing vocabulary; something…
   - requirement RI-03 P1: Two different characters (calling, background, knowledge) discovering somewhat different…
   - requirement RI-05 P1: Proved cheaply and seen: a small Kyr fixture and terminal walks for repeat exploration, persistent…
-- **Puzzles and mechanisms** · 2 pins · 1 defects · 0 asks
+- **Puzzles and mechanisms** · 2 pins · 1 defects · 1 asks
   - ✓ opens a way with a clue and a key found in another place: the key and its door, at the hour the slate tells
   - ○ a puzzle of reasoning other than a riddle, its solution read from the world
+  - requirement OR-340 P2: Puzzles and mechanisms: the capability as its pins hold it (opens a way with a clue and a key…
 - **Troubles with more than one cause** · 2 pins · 0 defects · 1 asks
   - ✓ finds no rat under the corn-store: a swept path first, then a night's watch and a word decide it
   - ✓ finds a child at the corn-store's grain: her prints first, then bread, not a blow, and where she is sent
@@ -61,16 +62,19 @@ page's colours and opportunities.)
   - ✓ keeps the stay order out of what can be said
   - ✓ puts a refused reply after the replies that can be taken
   - requirement OR-165 P1: Conversation owned by the engine, not a topic browser: people ask the company questions, create…
-- **Checks put in conversation** · 1 pins · 0 defects · 0 asks
+- **Checks put in conversation** · 1 pins · 0 defects · 1 asks
   - ✗ a question put in conversation is a check, its outcome said by the one asked
-- **News and rumour** · 0 pins · 0 defects · 0 asks
+  - requirement OR-342 P2: Checks put in conversation: the capability as its pins hold it (a question put in conversation is…
+- **News and rumour** · 0 pins · 0 defects · 1 asks
+  - direction OR-365 P3: News and rumour: people tell what they have heard of places and people far off, and the company…
 
 ### Conflict
 
-- **Engagements and warnings** · 3 pins · 7 defects · 0 asks
+- **Engagements and warnings** · 3 pins · 7 defects · 1 asks
   - ○ before a fight the company is told what is at risk, as it reckons it, in words
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
+  - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
 - **Fights that cost** · 5 pins · 28 defects · 1 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
@@ -86,7 +90,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 7 pins · 18 defects · 0 asks
+- **Journeys over known ways** · 7 pins · 18 defects · 1 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -94,9 +98,11 @@ page's colours and opportunities.)
   - ○ a Cartographers' guild pays for and honours what the company has mapped
   - ✓ tells the frontier from the retreat underground, and sees an aim through
   - ✓ never draws a way back as worth a look for another aim, and says which aim
-- **Wayfinding and bearings** · 2 pins · 10 defects · 0 asks
+  - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
+- **Wayfinding and bearings** · 2 pins · 10 defects · 1 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
+  - requirement OR-345 P2: Wayfinding and bearings: the capability as its pins hold it (a strategic map of countries above…
 
 ### Undertakings
 
@@ -124,9 +130,10 @@ page's colours and opportunities.)
   - ✓ ash: a load carried for the creditor's trade, and the purse brought back square
   - ✓ thorn: the salvage, sent to the inn to hear what is out in the country round
   - requirement OR-310 P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of…
-- **Notes, journal and recap** · 2 pins · 3 defects · 0 asks
+- **Notes, journal and recap** · 2 pins · 3 defects · 1 asks
   - ✓ holds the Notes to what still holds, the aims few, and far news to one question a person
   - ○ the notes hold the open threads and the decisions taken, and say what happened since a return
+  - requirement OR-346 P2: Notes, journal and recap: the capability as its pins hold it (holds the Notes to what still holds,…
 
 ### The company
 
@@ -135,8 +142,9 @@ page's colours and opportunities.)
   - ✓ lets a bard sing for the supper, for coin, once an evening
   - requirement OR-308 P1: The party roster takes about 40% of the backstage to choose among four: a compact floating…
   - direction PG-01 P3: Character standing as a progression framework (the owner, 19 November,…
-- **Levels and growth** · 1 pins · 0 defects · 0 asks
+- **Levels and growth** · 1 pins · 0 defects · 1 asks
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
+  - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
 - **Belongings with a history** · 1 pins · 0 defects · 1 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - requirement OR-307 P1: The character sheet simplified, as a folio (perhaps the Encyclopedia's parchment): the character,…
@@ -193,7 +201,8 @@ page's colours and opportunities.)
 ### Institutions
 
 - **Religion and devotion** · 0 pins · 2 defects · 0 asks
-- **Learning: colleges, libraries, scholars** · 0 pins · 0 defects · 0 asks
+- **Learning: colleges, libraries, scholars** · 0 pins · 0 defects · 1 asks
+  - direction OR-366 P3: Learning: colleges, libraries and scholars as institutions a company can use (study, a book to…
 - **Guilds and crafts** · 6 pins · 0 defects · 0 asks
   - ✓ Edderwick: a generated tinker, a child's bird, a pair of hands lent, and he goes on by evening
   - ✓ Edderwick: a fumbled try is a shared laugh, and the bird left unmended when he goes
@@ -239,21 +248,24 @@ page's colours and opportunities.)
 
 ### Lore and history
 
-- **Lore, history and the codex** · 1 pins · 1 defects · 0 asks
+- **Lore, history and the codex** · 1 pins · 1 defects · 1 asks
   - ○ a proper noun met in play is found in the in-game reference with what the company knows of it
+  - requirement OR-354 P2: Lore, history and the codex: the capability as its pins hold it (a proper noun met in play is…
 
 ## III. Simulation: the world going on of itself
 
 ### Consequence
 
-- **Choices that change what follows** · 5 pins · 5 defects · 0 asks
+- **Choices that change what follows** · 5 pins · 5 defects · 1 asks
   - ✓ tells a choice's outcome in its own words, and the world and a save keep what came of it
   - ○ a spared enemy reappears later, as what being spared made of them
   - ○ a promise broken resurfaces in what someone says or will do
   - ○ a dramatic choice (spare or kill) and a mundane one (which town first) each change what follows
   - ○ a fluff choice lets the character say what they think, and it is remembered
-- **Reputation and standing** · 1 pins · 0 defects · 0 asks
+  - requirement OR-355 P2: Choices that change what follows: the capability as its pins hold it (tells a choice's outcome in…
+- **Reputation and standing** · 1 pins · 0 defects · 1 asks
   - ○ a settlement's or a person's standing changes their greeting, their prices and what they ask
+  - requirement OR-356 P2: Reputation and standing: the capability as its pins hold it (a settlement's or a person's standing…
 - **Bonds kept and come back to** · 1 pins · 1 defects · 0 asks
   - ✓ holds, and is answered in what is offered
 
@@ -324,8 +336,9 @@ page's colours and opportunities.)
   - requirement OR-309 P2: One semantic presentation of the rules' things: an ability, a condition, a fight's figures and a…
   - direction OR-314 P3: Reusable instruments for focused things (the constellation filling the view, its twelve in a fixed…
   - requirement OR-125 P1: The action row, M22's central object, given the precision of a larger composition (the owner, 19…
-- **Free-form input** · 1 pins · 0 defects · 0 asks
+- **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
+  - requirement OR-361 P2: Free-form input: the capability as its pins hold it (an act typed in the player's own words,…
 - **Accessibility and readability** · 1 pins · 7 defects · 1 asks
   - ○ the text can be made larger and higher in contrast, and motion reduced, from the options
   - direction OR-315 P3: Rows partly beyond the safe area, a meaningful part (perhaps 20%) within it, for the paintings'…
@@ -339,8 +352,9 @@ page's colours and opportunities.)
   - requirement NP-20 P1: Each lint-advised rule in the other worlds read in play and anchored; the lint taught a vessel the…
   - requirement DN-03 P1: The first hour's prose made lighter, starting with the laboratory's undertown (62 of 263 heavy),…
   - requirement OR-75 P1: The wagoner's prose to be redone (the owner, 18 November)
-- **Voices and dialogue** · 1 pins · 0 defects · 0 asks
+- **Voices and dialogue** · 1 pins · 0 defects · 1 asks
   - ○ two people of different callings and peoples answer the same question in distinct registers
+  - requirement OR-362 P2: Voices and dialogue: the capability as its pins hold it (two people of different callings and…
 
 ### Pictures
 
@@ -398,126 +412,36 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Capabilities neither built nor asked for (2)
+### Common blockers (5)
 
-- News and rumour (Conversation)
-- Learning: colleges, libraries, scholars (Institutions)
+Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
-### Capabilities pinned that no request asks for (25)
+- **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 10 (10 P0/P1) over 6 capabilities
+  - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-181 (Fights that cost), PB-29 (Rows, lenses and the frame), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), CL-53 (Playing in the terminal)
+- **AP-03** P1: Facets from Kyr: no way to mark an act, thing or person uncanny, knowledge or payoff; violet never drawn; a sign has no aspect of its own; rare facets · blocks 8 (8 P0/P1) over 5 capabilities
+  - OR-140 (Rows, lenses and the frame), CL-31 (Dungeons and sites), AP-07 (The Atlas: marks and their witnesses), OR-302 (The Atlas: marks and their witnesses), OR-303 (The Atlas: marks and their witnesses), BO-07 (Conversation held to its focus), R11-02 (Conversation held to its focus), BO-11 (Days, hours and waiting)
+- **AX-04** P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST,… · blocks 4 (4 P0/P1) over 2 capabilities
+  - OR-144 (Start-up and loading), OR-137 (Start-up and loading), OR-23 (Openings), OR-127 (Start-up and loading)
+- **OR-310** P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of travel for trivial reasons to places with nothing worth… · blocks 3 (3 P0/P1) over 2 capabilities
+  - CO-03 (Countries and regions), WD-12 (Countries and regions), BO-12 (Markets and prices)
+- **AX-05** P1: The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey · **Partly (the lead, 15… · blocks 2 (2 P0/P1) over 2 capabilities
+  - OR-145 (Rows, lenses and the frame), OR-182 (Accessibility and readability)
+
+### Capabilities neither built nor asked for (0)
+
+
+### Capabilities pinned that no request asks for (0)
 
 Each a request to file under its title, its acceptance the pins that prove or want it.
 
-- **Puzzles and mechanisms** (Scenes and their acts)
-  - ✓ opens a way with a clue and a key found in another place: the key and its door, at the hour the slate tells
-  - ○ a puzzle of reasoning other than a riddle, its solution read from the world
-- **Pastimes and pleasures** (Scenes and their acts)
-  - ✓ is answered by the character's own people: the drover's and the weir's heir's differ
-  - ✓ is written for a penny, and its answer is under the stone a day later, read for nothing
-  - ✓ has someone invite the company to sit before it asks anything
-  - ✓ passes half an hour pleasantly in listening, the song itself in the telling
-  - ✓ lets the company join in, stand a round, and be thanked for it, and the room warms
-  - ✓ is remembered: Gwenllian knows the singer, and Hywel talks of his songs
-  - ✓ are each played through, and remembered on coming back
-  - ✓ is taken down, tuned, played badly then well, and its tune is whistled on the green after
-  - ✓ is watched at dusk, until the vixen and her cubs come out, and the path remembers
-  - ✓ is the whole frame once stopped for: its answers together, the ways off, and nothing else
-  - ✓ is drawn on the page as the runner offers it, her answers first
-  - ✓ is refused by walking off, and remembered
-  - ✓ is a walk of a morning, its birds and its view
-  - ✓ has a seal come up to look at whoever sits still, and nearer the next time
-  - ✓ is the stars by night, and the point remembered from the green
-  - ✓ is sat down to for a penny, is the whole frame while dealt, and ends in two tricks, told and kept
-  - ✓ is laid down for the penny, or walked out on and remembered
-  - ✓ may be cheated at, hand after hand, and a cheat caught is never dealt in again
-- **Checks put in conversation** (Conversation)
-  - ✗ a question put in conversation is a check, its outcome said by the one asked
-- **Engagements and warnings** (Conflict)
-  - ○ before a fight the company is told what is at risk, as it reckons it, in words
-  - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
-  - ✓ at the drove's gate well, the conger warning: the same
-- **Journeys over known ways** (Travel)
-  - ○ the land is revealed as a journey crosses it, hex by hex, not after it
-  - ○ exploring a region is an act of its own, rolled on the region's table of finds
-  - ○ crossing into a new hex draws from what that hex may hold
-  - ○ revealing a hex earns experience
-  - ○ a Cartographers' guild pays for and honours what the company has mapped
-  - ✓ tells the frontier from the retreat underground, and sees an aim through
-  - ✓ never draws a way back as worth a look for another aim, and says which aim
-- **Wayfinding and bearings** (Travel)
-  - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
-  - ✓ is said alike by the terminal and the page, by the way's own command
-- **Notes, journal and recap** (Undertakings)
-  - ✓ holds the Notes to what still holds, the aims few, and far news to one question a person
-  - ○ the notes hold the open threads and the decisions taken, and say what happened since a return
-- **Levels and growth** (The company)
-  - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
-- **Lodging and rest** (The company)
-  - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
-  - ✓ has the answer to a letter home sent up to the room's pillow
-  - ✓ keeps what is in the chest through a save and resume
-  - ✓ is let on the house's own terms: an inn's room in Porthalen, a guest-cell at Gatesend
-- **Townsfolk with lives** (Settlements)
-  - ✓ have moved on by the days, keep their hours, and greet the company by what it did with them
-- **A town's own goings-on** (Settlements)
-  - ✓ is seen at three stages on three returns to Wrackham, and remembers the word carried over the wall
-- **Threads tying a town to its country** (Settlements)
-  - ✓ names the hobs and Holyking in the word of the bell, and Holyking holds the hobs and the bell
-- **Guilds and crafts** (Institutions)
-  - ✓ Edderwick: a generated tinker, a child's bird, a pair of hands lent, and he goes on by evening
-  - ✓ Edderwick: a fumbled try is a shared laugh, and the bird left unmended when he goes
-  - ✓ Reedbridge: an apprentice's mistake seen and steadied, so that he mends it himself
-  - ✓ Reedbridge: or his mistress fetched, who mends it in a breath, and he does not look up after
-  - ✓ Porthalen and Wrackham: whoever lives there and mends things has the old pump apart, Hesper Lowe and Elfred alike
-  - ✓ Gatesend: a master short of a part; a torch spoiled trying, or her salvage searched, and a trade offered
-- **Wonders and traps** (Places to explore)
-  - ✓ draws only what Kyr can run, each met as it is written to be, and no trap that would kill outright
-  - ✓ keeps a wonder deep in the wild that gives what it has once, and tells the moment before the after
-  - ✓ tells of a wonder deep in the wild at the edge of its wild country, and puts its place on the map
-  - ✓ puts a wonder within a work past its inner way
-  - ✓ lets a trap be understood by looking closely, then sprung from a pole's length off, harming no one
-  - ✓ says what hurt whoever risks a trap: what it did, and the wound
-- **Lore, history and the codex** (Lore and history)
-  - ○ a proper noun met in play is found in the in-game reference with what the company knows of it
-- **Choices that change what follows** (Consequence)
-  - ✓ tells a choice's outcome in its own words, and the world and a save keep what came of it
-  - ○ a spared enemy reappears later, as what being spared made of them
-  - ○ a promise broken resurfaces in what someone says or will do
-  - ○ a dramatic choice (spare or kill) and a mundane one (which town first) each change what follows
-  - ○ a fluff choice lets the character say what they think, and it is remembered
-- **Reputation and standing** (Consequence)
-  - ○ a settlement's or a person's standing changes their greeting, their prices and what they ask
-- **Bonds kept and come back to** (Consequence)
-  - ✓ holds, and is answered in what is offered
-- **Days, hours and waiting** (Time)
-  - ✓ is not told the same morning twice, nor the same dusk twice running, out of doors
-  - ✓ is told once, as what the wait came to, not beside the old words
-  - ✓ goes on from what was told in a game kept and opened again, as the same game does
-  - ✓ under the ground has no sky
-  - ✓ leaves the world as the wait told hour by hour does, every hour, and tells the same
-  - ✓ narrates its last hour, and only the hours between are left untold
-- **Openings** (Beginning)
-  - ✓ has a drover's lad for the drover, and a bailiff's man for the debtor, each willing to come
-  - ✓ learns light, food, help and risk by doing, by the offered rows alone, and comes out to the drove story
-  - ✓ lets a careless life out, without a light and without Dai, at a cost
-  - ✓ is a bout by a light, a fight to the end in the dark
-  - ✓ tells the pans and the weir on coming down to them, and teaches what their lives begin knowing
-- **What an act would teach** (The page)
-  - ✓ is blue where the company would know something after it, and what it said is what is learned
-  - ✓ is typed by what it teaches, and drawn so among the replies
-- **Free-form input** (The page)
-  - ○ an act typed in the player's own words, outside the four, is understood or refused
-- **Voices and dialogue** (Words)
-  - ○ two people of different callings and peoples answer the same question in distinct registers
-- **Paintings and portraits** (Pictures)
-  - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
-- **Saving and loading** (Saves and start-up)
-  - ✓ keeps where the company stands, the hour and what it has done, across a save
 
-### Capabilities asked for that no pin proves (8)
+### Capabilities asked for that no pin proves (10)
 
+- **News and rumour** (Conversation): OR-365
 - **Countries and regions** (The land): OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, WD-02, WD-09, SS-01
 - **Weather, sky and season** (The land): IM-01
 - **The planes** (The land): GT-01, GT-03
+- **Learning: colleges, libraries, scholars** (Institutions): OR-366
 - **Peoples and ancestries** (Creatures and peoples): OR-316
 - **Playing in the terminal** (The terminal): TB-11
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
