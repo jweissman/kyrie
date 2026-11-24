@@ -109,7 +109,7 @@
 .act.grave:has(> .mark-one-way)::after { content: none; }
 .mark-tag:is(.mark-night, .mark-unlooked, .mark-heard) { color: var(--azure); }
 .ways .options > li.aimed .act.way > .n::after { content: 'your aim'; margin-left: 10px; font: 600 10px/1 var(--do);
-  letter-spacing: .16em; text-transform: uppercase; color: var(--gold); vertical-align: 2px; }
+  letter-spacing: .16em; text-transform: uppercase; color: var(--dim); vertical-align: 2px; }
 
 /* The map and yourself beside the book, each a quiet icon. */
 .corner-keys { position: absolute; z-index: 5; top: 14px; right: 16px; display: flex; gap: 8px; }

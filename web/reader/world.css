@@ -281,11 +281,11 @@
   .world-page.scale-scene .world-body { grid-template-rows: minmax(0, 1.3fr) minmax(0, 1fr); }
   .world-page.scale-scene .focus { overflow-y: auto; }
 }
-/* A journey stopped short: where, marked on the map over your mark (gold; red where what stopped it means harm), and
+/* A journey stopped short: where, marked on the map over your mark (ivory, since gold is the aim's; ember where what stopped it means harm), and
    whoever means harm drawn apart on the picture's right, ringed red (the owner, 4 November, night). */
 .world-page.interrupted .board-you::after, .world-page.threatened .board-you::after { content: '!'; position: absolute;
   left: calc(var(--you) - 8px); top: -10px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
-  font: 700 13px/1 var(--do); color: #14151a; background: var(--gold); animation: stopped-pulse 1.6s ease-in-out 3; }
+  font: 700 13px/1 var(--do); color: #14151a; background: var(--ivory); animation: stopped-pulse 1.6s ease-in-out 3; }
 .world-page.threatened .board-you::after { background: var(--ember, #c4552e); color: var(--ivory); }
 @keyframes stopped-pulse { 50% { transform: scale(1.35); } }
 @media (prefers-reduced-motion: reduce) { .world-page .board-you::after { animation: none; } }

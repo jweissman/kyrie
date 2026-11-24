@@ -2,8 +2,9 @@
    the company on the left and what it faces on the right, each a lit card with how much is left of them, what they are
    under, and for a foe at whom it means to strike first (in ember); between them what has just passed, the latest
    large and the blows before it quieter above; at the foot, whose turn it is and what they can do, as a hand of
-   cards. The acting fighter is ringed in gold; one struck flashes ember once and says what it took. Nothing moves
-   that is not news, and nothing moves at all for one who asks for less motion. ---- */
+   cards. The acting fighter is ringed in gold; one struck starts once, its colour unchanged (nothing flashes a colour,
+   OR-189), and says what it took. Nothing moves that is not news, and nothing moves at all for one who asks for less
+   motion. ---- */
 .fight { height: var(--frame-h); display: flex; flex-direction: column; padding: 0;
   background: radial-gradient(ellipse 80% 50% at 50% 40%, rgba(255, 107, 69, .05), transparent 70%); }
 .fight > .slot > .status { flex: none; display: flex; gap: 10px 18px; flex-wrap: wrap; align-items: center; margin: 0;
@@ -95,7 +96,7 @@
 .fight .fighter.acting .face { border-right-color: var(--edge); }
 .fight .fighter.down .face { filter: grayscale(1); }
 .fight .fighter.struck { animation: struck .7s var(--ease); }
-@keyframes struck { 0% { background: rgba(255, 107, 69, .3); transform: translateX(-3px); } 18% { transform: translateX(2px); }
+@keyframes struck { 0% { transform: translateX(-3px); } 18% { transform: translateX(2px); }
   36% { transform: none; } }
 /* Between the sides: what has just passed, the latest large. */
 .fight .beat { align-self: start; padding: 4px 0; }

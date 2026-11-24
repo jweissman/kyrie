@@ -225,11 +225,12 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, .7); }
 .board-sign svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
 .board-sign:not(.visited) { color: #d8cfbd; }
-/* A place found, or come to be known better, since the map was last open: its plate (a town, its name) pulses twice
-   in verdigris, the colour of what is learnt and found (gold is the aim's), as the country arrives, then is still. */
-.board-sign.found i, .board-town.found { animation: board-found 1.4s ease-out 1.1s 2; }
-@keyframes board-found { 0% { box-shadow: 0 0 0 0 rgba(95, 211, 182, .85); }
-  100% { box-shadow: 0 0 0 16px rgba(95, 211, 182, 0); } }
+/* A place found, or come to be known better, since the map was last open: a pale ring widens once from its plate (a
+   town, its name) as the country arrives, then is still. In ivory: nothing flashes a colour (OR-189), and the place's
+   own mark says what it is. */
+.board-sign.found i, .board-town.found { animation: board-found 1.4s ease-out 1.1s 1; }
+@keyframes board-found { 0% { box-shadow: 0 0 0 0 rgba(236, 230, 217, .7); }
+  100% { box-shadow: 0 0 0 16px rgba(236, 230, 217, 0); } }
 @media (prefers-reduced-motion: reduce) { .board-sign.found i, .board-town.found { animation: none; } }
 .board-sign[data-known="heard"] i, .board-sign[data-known="unknown"] i { border-style: dashed; background: rgba(11, 12, 15, .45); }
 .board-sign[data-known="heard"] i { width: 17px; height: 17px; margin: 0 5px; border-color: rgba(236, 230, 217, .6);
@@ -419,19 +420,6 @@
 .route-card .rc-route li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; color: var(--ivory); }
 .route-card .rc-span { color: var(--dim); white-space: nowrap; font-size: 13.5px; }
 .route-card .rc-formal { margin: 8px 0 0; font: italic 400 14px/1.45 var(--told); }
-.route-card .rc-acts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-.route-card .rc-acts .rc-go { all: unset; box-sizing: border-box; cursor: pointer; flex: 1 1 auto; min-width: 9rem;
-  padding: 13px 20px; text-align: center; font: 600 14px/1 var(--do); letter-spacing: .2em; text-transform: uppercase;
-  color: var(--deep); background: var(--accent); border: 1px solid var(--accent); }
-.route-card .rc-acts .rc-go::before { content: none; }
-.route-card .rc-acts .rc-go.aimed { background: var(--gold); border-color: var(--gold); }
-.route-card .rc-acts .rc-go:hover, .route-card .rc-acts .rc-go:focus-visible { filter: brightness(1.06); outline: 2px solid var(--ivory);
-  outline-offset: 2px; }
-.route-card .rc-acts .rc-near { all: unset; box-sizing: border-box; cursor: pointer; flex: 1 1 auto; display: flex;
-  justify-content: center; align-items: baseline; gap: 10px; padding: 12px 16px; font: 500 14px/1 var(--do);
-  color: var(--ivory); border: 1px solid var(--edge-strong); }
-.route-card .rc-acts .rc-near:hover, .route-card .rc-acts .rc-near:focus-visible { border-color: var(--accent-line);
-  background: var(--lift, rgba(255, 255, 255, .04)); }
 .route-card.over .rc-title { font-size: 22px; }
 @media (max-width: 599px) {
   .plan.route-card { padding: 16px 18px 16px; }
@@ -444,12 +432,3 @@
 .enter-card .rc-facts > div { display: contents; }
 .enter-card .rc-facts dt { font: 500 11px/1.9 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
 .enter-card .rc-facts dd { margin: 0; font: 400 15px/1.5 var(--do); color: var(--ivory); }
-/* The choice stays in reach while what is above it scrolls (a phone's panel is short). */
-.focus > .plan.route-card .rc-acts { position: sticky; bottom: -20px; margin: 20px -24px -20px; padding: 14px 24px 20px;
-  background: linear-gradient(rgba(14, 15, 19, 0), rgba(14, 15, 19, .96) 26%); }
-@media (max-width: 599px) {
-  .focus > .plan.route-card .rc-acts { bottom: -16px; margin: 14px -18px -16px; padding: 12px 18px 16px; flex-wrap: nowrap; }
-  .route-card .rc-acts .rc-go { min-width: 0; flex: 1 1 0; padding: 13px 10px; }
-  .route-card .rc-acts .rc-near { flex: 1 1 0; padding: 12px 10px; }
-  .route-card .rc-acts .rc-near .rc-span { display: none; }
-}

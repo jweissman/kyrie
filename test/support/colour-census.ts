@@ -5,8 +5,8 @@ import { join } from 'node:path';
 // indicators; words are neutral, and gold is seen only in an indicator (or the book's aim); nothing flashes a colour.
 // Three findings, each by file and selector: words set in gold (a rule whose `color` is gold, its selector not an
 // indicator's), grounds filled with gold (its background), and an animation whose frames set a hued colour (gold,
-// ember, verdigris, azure, violet, a tone; or an rgb or hex colour far from grey). Read by test/small/colour-grammar
-// against its baseline: none may be added, and those mended leave it.
+// ember, verdigris, azure, violet, a tone; or an rgb or hex colour far from grey). Read by test/small/colour-grammar,
+// which holds each at none (OR-189).
 export class ColourCensus {
   static readonly dir = join(import.meta.dir, '../../web/reader');
   // An indicator's selector: a row's mark, a pip, the rail's or a place's mark, a lit corner key, a way's glyph.

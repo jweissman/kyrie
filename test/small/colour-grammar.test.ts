@@ -5,22 +5,16 @@ import { ColourCensus } from '../support/colour-census';
 
 // Colour belongs to the atlas's indicators; words are neutral; gold is seen only in an indicator; nothing flashes a
 // colour (the owner, 24 November, OR-187). The page's style sheets read for words set in gold, grounds filled with
-// gold and animations of a hued colour, held to a baseline that can only shrink (OR-189 burns it down). And the two the
-// owner found: a row lit, pressed or taken tints its ground in neutral ink whatever its tone (a gold row had flashed
-// gold), and a reply the atlas marks shows its indicator, its words the ink of every reply (the aim's gold had been the
-// words' colour).
-const kept = JSON.parse(readFileSync(join(import.meta.dir, 'colour-grammar.baseline.json'), 'utf8')) as
-  Record<'goldWords' | 'goldGrounds' | 'flashes', string[]>;
+// gold and animations of a hued colour: none (OR-189 burnt the census's thirteen down; it holds them at zero). And the
+// two the owner found: a row lit, pressed or taken tints its ground in neutral ink whatever its tone (a gold row had
+// flashed gold), and a reply the atlas marks shows its indicator, its words the ink of every reply (the aim's gold had
+// been the words' colour).
 const css = (f: string) => ColourCensus.strip(readFileSync(join(ColourCensus.dir, f), 'utf8'));
 
 describe('the colour grammar', () => {
-  it.each(['goldWords', 'goldGrounds', 'flashes'] as const)('adds no %s', which => {
-    const now = { goldWords: ColourCensus.goldWords(), goldGrounds: ColourCensus.goldGrounds(),
-      flashes: ColourCensus.flashes() }[which];
-    expect(now.filter(x => !kept[which].includes(x))).toEqual([]);
-    // One mended leaves the baseline, so it cannot come back unseen.
-    expect(kept[which].filter(x => !now.includes(x))).toEqual([]);
-  });
+  it('sets no words in gold', () => { expect(ColourCensus.goldWords()).toEqual([]); });
+  it('fills no ground with gold', () => { expect(ColourCensus.goldGrounds()).toEqual([]); });
+  it('flashes no colour', () => { expect(ColourCensus.flashes()).toEqual([]); });
   it('lights a row in neutral ink, never its tone', () => {
     expect(css('menu.css')).not.toMatch(/choice-row[^{]*\{\s*--row-tone:\s*var\(--tone-/);
   });

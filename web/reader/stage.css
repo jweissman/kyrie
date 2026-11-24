@@ -324,16 +324,6 @@
 .act.journey .n { font: 500 15.5px/1.3 var(--do); }
 .act.journey .r { flex-basis: 100%; font: 400 12.5px/1.35 var(--do); color: var(--faint); }
 .act.journey { display: flex; width: 100%; flex-wrap: wrap; }
-/* Where you are going: held on every page until you come there. */
-.bound { padding: 14px 16px 16px; border: 1px solid var(--gold-line); background: linear-gradient(135deg, var(--gold-glow), transparent 70%); }
-.bound .label { color: var(--gold); margin-bottom: 4px; }
-.bound .whither { font: 300 24px/1.2 var(--do); margin: 0 0 6px; }
-.bound .next { font: 400 14px/1.5 var(--do); color: var(--dim); margin: 0 0 12px; }
-.bound .go { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
-.bound .act.go-on { background: var(--gold); color: var(--deep); border-color: var(--gold); font-weight: 600; }
-.bound .act.go-on::before { border-color: var(--deep); }
-.bound .act.go-on:hover { background: var(--gold-bright); }
-.bound .act.give-up { font-size: 13.5px; }
 /* In a busy place on an upright screen: the nearest few as tiles, every way a touch away on a sheet. */
 .on .nearest, .ways-all .sheet-head { display: none; }
 .nearest .tiles { list-style: none; margin: 0 0 10px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
@@ -347,11 +337,6 @@
   letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); }
 .all-ways:hover, .all-ways:focus-visible { border-color: var(--accent-line); outline: none; }
 .all-ways .count { font-variant-numeric: tabular-nums; color: var(--accent); letter-spacing: 0; }
-.sheet-head { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 0 10px; background: var(--surface); }
-.sheet-title { margin: 0; font: 500 12px/1.2 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
-.sheet-shut { all: unset; cursor: pointer; width: 44px; height: 44px; display: grid; place-items: center; }
-.sheet-shut svg { width: 20px; height: 20px; stroke: var(--ivory); stroke-width: 1.6; fill: none; }
 
 /* The foot: your aim on the left, yourself and what you can do of yourself on the right. */
 .place-foot { grid-area: foot; display: flex; align-items: center; gap: 12px 28px; flex-wrap: wrap;
@@ -359,9 +344,11 @@
   background: rgba(10, 11, 14, .5); }
 .aim { flex: 1 1 18rem; min-width: 0; margin: 0; display: flex; align-items: baseline; gap: 12px;
   font: italic 400 16px/1.4 var(--told); color: var(--ivory); }
-.aim .label { flex: none; margin: 0; color: var(--gold); }
-.aim .label::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 8px 1px 0; background: var(--gold);
+/* Its label's words neutral, as every label's; its diamond the indicator, gold for the aim followed (OR-189). */
+.aim .label { flex: none; margin: 0; color: var(--dim); }
+.aim .label::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 8px 1px 0; background: var(--dim);
   transform: rotate(45deg); }
+.aim.followed .label::before { background: var(--gold); }
 .you { margin: 0 0 0 auto; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 18px; }
 .you .me { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; font: 400 13.5px/1.4 var(--do); color: var(--dim); }
 .you .me > * + *::before { content: '·'; margin: 0 8px; color: var(--faint); }
@@ -547,12 +534,6 @@
   .throw { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who words" "track track"; }
   .throw .who { white-space: normal; }
 }
-/* An aim offered to follow (see Told.Follow): a quiet word beside it, not a gold badge, since gold is only for the aim
-   followed (the owner, 12 November: the button had been oversized and bold). */
-.follow-aim { margin-left: 10px; padding: 0 2px; font: 400 12px/1.5 var(--ui, inherit); letter-spacing: .04em;
-  color: var(--dim); background: none; border: 0; border-bottom: 1px solid var(--hair); cursor: pointer;
-  white-space: nowrap; }
-.follow-aim:hover, .follow-aim:focus-visible { color: var(--gold); border-bottom-color: var(--gold); outline: none; }
 /* What the glance leads with, on a road, above its ways on (see RoadStage). */
 .road-led { margin: 0 0 18px; }
 .road-led .aim { margin: 0 0 10px; }
