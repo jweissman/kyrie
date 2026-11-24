@@ -164,6 +164,26 @@ moves with it at stage 6. `web/reader`, the page, becomes the player package's r
 it nothing to decide: its frame, its stage and its instruments over the engine's questions. Until then it stays a
 client, because moving it before the protocol is all it draws would carry its interpretations into the package.
 
+## Assembly in medallion layers, and horizons for evaluation
+
+The owner, 24 November, framed world assembly as a data engineer would, filed as OR-408:
+
+| Layer | In Kyrie | The contract at its boundary |
+|---|---|---|
+| Bronze, raw sources | Kyr text, Deem tables and templates, catalog JSON, the generators' output | none read past it: a generator emits silver, not Kyr text parsed again (AX-04) |
+| Silver, conformed | the compiled, namespaced, linted module: declared relations, typed reads | the runtime reads only silver and gold, never the raw catalog (the setting port; Canon's 65 edges); a read of what is not declared fails (MT-25) |
+| Gold, facts and views | the world's facts, and what is derived from them: indexes, kept readings, the projection, the screen model, the quantity gate's and the feature map's analytics | the player reads only gold, and infers nothing from text (TB-09, AR-05; facets inferred from what Kyr does, AP-03) |
+
+The layers already exist. The defects sit where a boundary leaks, and the stages above close those leaks one at a time.
+
+The simpler and more pressing ask is horizons for evaluation, filed as OR-407: "just testing a tiny rule doesn't pull in the universe". Of 1,511 specs, 694 start a whole world or campaign and 274 work at a fragment. Even the fragment harness installs the canon and all fifteen shared rule packages (0.22 s warm, 0.53 s cold), because the shared rules read one another (BX-02). The remedy:
+
+- the rules as packages with declared dependencies;
+- the fragment harness taking a declared horizon, failing on a read beyond it;
+- a census of specs by horizon, held as a ratchet toward the cheapest.
+
+It needs no reorganisation of the data. It is BX-02 with a change to the harness, and it lowers CI's minutes, one of the quality gate's five numbers.
+
 ## What this buys
 
 - **Parity known, not hoped for.** A client cannot decide gameplay if its package gives it nothing to decide with.

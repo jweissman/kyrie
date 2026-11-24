@@ -672,6 +672,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, the Weather Drove admitted to the inert-acts census at its count: mending its word-only topics is wanted work, not an observed failure"
+  },
+  "OR-407": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, the owner's ask: specs pay only for what they test; a commissioned outcome unmet, measured"
+  },
+  "OR-408": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, the owner's framing of world assembly, kept whole as the platform note's vocabulary"
   }
  },
  "blockedBy": {
@@ -701,6 +713,7 @@
   "OR-182": "AX-05",
   "CO-03": "OR-310",
   "WD-12": "OR-310",
-  "BO-12": "OR-310"
+  "BO-12": "OR-310",
+  "OR-407": "BX-02"
  }
 }

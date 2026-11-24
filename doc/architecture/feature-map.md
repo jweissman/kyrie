@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 542 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 544 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -402,22 +402,24 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 5 defects · 1 asks
+- **Incremental computation** · 5 pins · 5 defects · 2 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
   - ✓ held by the clock where the clock is what fails, is asked as the hour moves
   - ✓ holds nothing idle by itself
   - requirement AX-10 P1: An uninterrupted journey leg in under 5 ms (BRIEF §4): every watch of a leg is simulated whole,…
+  - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
 - **Architecture and layers** · 0 pins · 30 defects · 2 asks
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 14 defects · 0 asks
+- **Testing instruments** · 0 pins · 14 defects · 1 asks
+  - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
 - **Documentation and the register** · 0 pins · 7 defects · 0 asks
 
 ## Negative space
 
-### Common blockers (5)
+### Common blockers (6)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -431,6 +433,8 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - CO-03 (Countries and regions), WD-12 (Countries and regions), BO-12 (Markets and prices)
 - **AX-05** P1: The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey · **Partly (the lead, 15… · blocks 2 (2 P0/P1) over 2 capabilities
   - OR-145 (Rows, lenses and the frame), OR-182 (Accessibility and readability)
+- **BX-02** P1: The shared rules cannot be taken in part: a world of its own must install the whole standard set (data/rules: core, passages, people, needs, services,… · blocks 1 (1 P0/P1) over 1 capabilities
+  - OR-407 (Testing instruments)
 
 ### Capabilities neither built nor asked for (0)
 
@@ -440,7 +444,7 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
 Each a request to file under its title, its acceptance the pins that prove or want it.
 
 
-### Capabilities asked for that no pin proves (10)
+### Capabilities asked for that no pin proves (11)
 
 - **News and rumour** (Conversation): OR-365
 - **Countries and regions** (The land): OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, WD-02, WD-09, SS-01
@@ -452,6 +456,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, KX-02, KX-04, AU-54, AU-58, AU-60
 - **Architecture and layers** (The engine): AX-07, MT-31
+- **Testing instruments** (The engine): OR-407
 
 ### Pins not yet met (32)
 
