@@ -173,7 +173,7 @@ export class Operators {
       if (!open.length) { break; }
       const atom = open.reduce((best, a) => this.score(a, names, bound) > this.score(best, names, bound) ? a : best);
       pending.splice(pending.indexOf(atom), 1);
-      rows = this.join(world, schema, atom, rows) ?? rows;
+      rows = this.closed(world, pending, this.join(world, schema, atom, rows) ?? rows, names);
     }
     // A parameter left open is enumerated over the entities of its type, in the module's order: over every entity, a
     // company's raise_quality had tested the whole world's for being a quality each step (performance-report.md §3).
@@ -199,6 +199,18 @@ export class Operators {
       open.forEach((name, i) => { const v = f[`?$${i}`]; if (v !== undefined) { out[name] = v; } });
       return out;
     });
+  }
+  // The rows that hold every required fact the joins so far have bound all of, each taken from what is pending (it
+  // must hold of any binding that is an act). Joined only while it had something left open, such a fact had been
+  // tested only with the whole precondition at the end: give's every thing carried by everyone here (2,148 candidates
+  // over the warrior's walk, none an act), for want of what the one given to wants (OR-183's legal actions).
+  private closed(world: World, pending: Call[], rows: Binding[], names: Set<string>): Binding[] {
+    if (!rows.length) { return rows; }
+    const bound = new Set(Object.keys(rows[0]!));
+    const shut = pending.filter(a => a.args.every(x => !names.has(x) || bound.has(x)));
+    if (!shut.length) { return rows; }
+    for (const a of shut) { pending.splice(pending.indexOf(a), 1); }
+    return rows.filter(b => shut.every(a => world.test(a, b)));
   }
   // The rows extended by what an atom proposes for its open parameters. A query that leaves one of them open in any
   // of what it proposes narrows nothing, and the rows are left as they were (undefined).
