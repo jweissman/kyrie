@@ -258,9 +258,12 @@ export class GlanceStage {
     // Its rows, as the rail's mark that opens it reads them (LensRows: the mark made of nothing it does not draw).
     // Never more than four (the owner, 16 November, in every context, lenses too): where its acts do not fit, the lens
     // is drawn by focus, a thing one row and its alike acts one row (the owner, 17 November: see LensFocused).
-    const { promoted, opened, flat, all, inside } = LensRows.of(app, lens, lensed, GlanceStage.choice);
-    if (LensRows.focused(app, { promoted, opened, flat, all, inside })) {
-      return <LensFocused.View app={app} draw={draw} lens={lens} lensed={lensed} acts={all} />;
+    const drawn = LensRows.of(app, lens, lensed, GlanceStage.choice), { promoted, opened, flat, inside, kept } = drawn;
+    // What the scene led with that will not wait, or carries the aim on, and the lens draws nowhere: kept above it, in
+    // its places of the four (Lensed.kept, OR-240: the badger's Attack had gone with Look, the windlass's try with Talk).
+    if (LensRows.focused(app, drawn)) {
+      return <>{kept.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={kept} />}
+        <LensFocused.View app={app} draw={draw} lens={lens} lensed={lensed} acts={drawn.all} room={GlanceStage.per - kept.length} /></>;
     }
     // What is seen of a thing the four are done to that the scene draws no one for (the riddle cut across the speaking
     // door: Lensed.subjects), said once above them, under its name.
@@ -275,7 +278,7 @@ export class GlanceStage {
     return <div {...PageFrame.slot('menu')} className={`lens lens-${lens}`} data-lens={lens}>
       {seen.map(x => <div key={x.id} className="lens-seen" data-subject={x.id}>
         {x.lines.map((p, i) => <p key={i} className="seen">{Typography.curl(p)}</p>)}</div>)}
-      <GlanceStage.Acts app={app} draw={draw} acts={promoted} />
+      <GlanceStage.Acts app={app} draw={draw} acts={[...kept, ...promoted]} />
       {/* Only the acts, each in words that stand alone: no heading among them (the owner, 15 November: text between
           the acts, a category marker, should never be in the list; "Talk to Wellby" under WELLBY). */}
       {opened.map(o => <ul key={o.choice} className="acts lens-opened" data-subject={o.subject ?? o.choice}>

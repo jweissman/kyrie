@@ -13,9 +13,10 @@ import { Doable } from '../../../src/presentation/doable';
 // made of nothing the lens does not draw (the owner, 18 November: Go… gold over a lens of "to the fellside" and "Open
 // the world map", neither gold; the mark had been made from the page's own list of ways, Wayfinder.ways, and the lens
 // drew the engine's).
+// kept: what the resting scene led with, kept above the lens (Lensed.kept), taking its places; never its mark's.
 export interface Drawn {
   promoted: Promoted[]; opened: Promoted[]; flat: LensAct[]; all: (Promoted | LensAct)[];
-  inside: (a: LensAct) => LensAct[];
+  inside: (a: LensAct) => LensAct[]; kept: Promoted[];
 }
 export type Named = (app: ReaderApp, id: string) => Choice | undefined;
 
@@ -32,7 +33,7 @@ export class LensRows {
       .map(a => LensRows.worded(app, a));
     const flat = LensRows.grouped(rest).flatMap(g => g.acts);
     const all = [...promoted, ...opened.flatMap(p => sel.inside(p)), ...flat];
-    return { promoted, opened, flat, all, inside: sel.inside.bind(sel) };
+    return { promoted, opened, flat, all, inside: sel.inside.bind(sel), kept: lensed.kept ?? [] };
   }
   // A look or a talk that holds one act is that act (Row.only), in its words, not the thing's or the person's name
   // (MT-18, the parity measure's page words: "Talk to Reeve Annis Talfryn" for asking her about the sea-gate).
@@ -43,7 +44,7 @@ export class LensRows {
   }
   // Whether the lens is drawn by focus (more than four, or something focused already: see LensFocused).
   static focused(app: ReaderApp, drawn: Drawn): boolean {
-    return drawn.all.length > LensRows.per || !!app.state.focused?.length;
+    return drawn.all.length + drawn.kept.length > LensRows.per || !!app.state.focused?.length;
   }
   // A lens's rest by what it is done to (LensAct.subject): a thing's or someone's acts together under their name.
   static grouped(rest: LensAct[]): { subject?: string; acts: LensAct[] }[] {
