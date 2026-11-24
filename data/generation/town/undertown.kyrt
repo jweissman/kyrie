@@ -131,6 +131,10 @@
   // rats on 3 November).
   Observe {t}_u_crypt_scene at {t}_u_crypt as fixture when true "A vaulted crypt under the churchyard, its shelves of coffins pushed askew. The dust on the floor is scuffed through in a dozen places by feet that dragged.".
   Observe {t}_u_ossuary_scene at {t}_u_ossuary as fixture when true "Bones are stacked to the roof in patient courses, with skulls in rows along the top like a frieze. There are gaps in the courses where some have lately been taken down.".
+  // The company's state noticed by the one who would see it (sprint 3: a settlement that responds): come into the inn
+  // hurt, the innkeeper says so, once, in the house's own terms.
+  Relation {t}_u_hurt_told().
+  Rule {t}_u_hurt_talk when memberOf(?m, party) and needsCare(?m) and at(party, {innkeeperat}) and at({t}_innkeeper, {innkeeperat}) and not {t}_u_hurt_told() says "'Sit,' says {{t}_innkeeper}, and pulls out a chair without being asked. 'Bleed on my floor and I'll charge you for the sand.'" { Assert {t}_u_hurt_told(). }
 --- store apprentice 1
   // Taken by the trapdoor (the variety study, mission-22/variety-study/report.md §5.1 and §8): the merchant's
   // apprentice lets a buyer's men up the drain by night, and the merchant blames rats. From the green it is the same

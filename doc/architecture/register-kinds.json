@@ -360,6 +360,12 @@
    "pri": "P1",
    "why": "24 Nov, classified as filed: the brief's settlement that responds (BRIEF §3.2), a commissioned requirement found short by measure"
   },
+  "OR-223": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, classified as filed: OR-222's remainder, commissioned"
+  },
   "OR-221": {
    "kind": "direction",
    "was": "defect",

@@ -109,10 +109,14 @@ export class RegionUndertown {
   // the deep sites' own generator from what they were for (data/generation/deep/barrow.json), with its keeper, its
   // dead, its treasure and its way out (the owner, 2 November: the catacombs beneath the church at least four levels
   // deep, more fights and treasure than can be carried out in one go).
-  private static catacombs(region: Region, s: Settlement): string[] {
-    // The barrow's purpose, or, where the country's own deep work is a barrow, the next of the deep purposes it is not.
+  // What the town is built over: the barrow's purpose, or, where the country's own deep work is a barrow, the next of
+  // the deep purposes it is not.
+  static art(region: Region): string {
     const taken = region.sites.find(x => x.work?.deep)?.work?.art;
-    const art = ['bone', ...DeepPurposes.order].find(a => a !== taken)!, purpose = DeepPurposes.of(art);
+    return ['bone', ...DeepPurposes.order].find(a => a !== taken)!;
+  }
+  private static catacombs(region: Region, s: Settlement): string[] {
+    const art = this.art(region), purpose = DeepPurposes.of(art), taken = region.sites.find(x => x.work?.deep);
     const history = region.history;
     if (!purpose || !history) { return []; }
     const t = s.id, w = `${t}_ud`, makers = history.makers.find(m => m.art === art) ?? history.makers[0]!;

@@ -111,6 +111,8 @@ Module lab "The undercroft at Lowmouth" {
   Initially Assert restful(low_u_store).
   Observe low_u_crypt_scene at low_u_crypt as fixture when true "A vaulted crypt under the churchyard, its shelves of coffins pushed askew. The dust on the floor is scuffed through in a dozen places by feet that dragged.".
   Observe low_u_ossuary_scene at low_u_ossuary as fixture when true "Bones are stacked to the roof in patient courses, with skulls in rows along the top like a frieze. There are gaps in the courses where some have lately been taken down.".
+  Relation low_u_hurt_told().
+  Rule low_u_hurt_talk when memberOf(?m, party) and needsCare(?m) and at(party, low_taproom) and at(low_innkeeper, low_taproom) and not low_u_hurt_told() says "'Sit,' says {low_innkeeper}, and pulls out a chair without being asked. 'Bleed on my floor and I'll charge you for the sand.'" { Assert low_u_hurt_told(). }
   Observe low_u_store_scene at low_u_store as fixture when true "Sacks are stacked to the rafters, and the place smells of mice. A sack of grain weighs down a trapdoor in the floor, and every wall is gnawed through at its foot.".
   Place low_u_warren "the rat-runs" is room within low at 0, 4 underground 1 down.
   Passage low_u_runs "a hole gnawed through the cellar wall" is crawl between low_u_cellar and low_u_warren.

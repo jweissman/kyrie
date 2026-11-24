@@ -147,8 +147,8 @@
   },
   "hook": {
     "topic": "the singing halls",
-    "trade": { "topic": "what is in the singing halls", "says": "holds up a little hollow stone and flicks it with a nail, and it rings. 'Bring me what the Singers left and I will pay what it is worth.'" },
-    "home": "'You went down past the stair and came back up, and with that.' {keeper} flicks the stone with a nail, and it gives no note at all. 'Nobody has done that in my time. You eat and sleep on the house tonight, and tell me how it was down there.'"
+    "trade": { "topic": "what is in the singing halls", "says": "holds up a little hollow stone and flicks it with a nail, and it rings. 'Bring me what the Singers left and I will pay what it is worth.'", "shown": "On {merchant}'s counter, on a cup of felt, stands what you brought up out of {name}. It rings faintly when the door bangs." },
+    "below": "'You went on past the porch?' says {keeper}. 'Into the singing?' A long look at you. 'They say you come out of there hearing it for a month. Eat on the house tonight, and tell me if you do.'", "home": "'You went down past the stair and came back up, and with that.' {keeper} flicks the stone with a nail, and it gives no note at all. 'Nobody has done that in my time. You eat and sleep on the house tonight, and tell me how it was down there.'"
   },
   "camp": {
     "later": "The same party camped here too, further down: the ring of stones again, smaller, and less left beside it than above, a blanket and an empty water-skin, as if they were travelling lighter by now.",

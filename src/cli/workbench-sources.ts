@@ -86,7 +86,8 @@ export class WorkbenchSources {
       ...s.came ? { came: s.came } : {}, told: RegionPeoples.told(s), inn: s.inn, innkeeper: this.person(r, s, 'innkeeper'),
       priest: this.person(r, s, 'priest'), merchant: this.person(r, s, 'merchant'),
       traveller: this.person(r, s, 'traveller'), calling: s.calling,
-      ...Object.fromEntries(troubles.map(x => [`undertown.${x.group}`, x.option])) };
+      ...Object.fromEntries(troubles.map(x => [`undertown.${x.group}`, x.option])),
+      ...home ? { 'undertown.deep': RegionUndertown.art(r) } : {} };
   }
   static person(r: Region, s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller'): string {
     return `${s[role]} (${s.people?.[role] ?? s.folk ?? r.ancestry}, ${s.pronouns?.[role] ?? '?'})`;

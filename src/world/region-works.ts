@@ -18,6 +18,7 @@ import { DeepSites } from './deep/deep-sites';
 import { WorkPlans } from './history/work-plans';
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
+import { SettlementWriter } from './settlement-writer';
 import { RegionRenewal } from './region-renewal';
 import { RegionStock } from './region-stock';
 import { RegionMarvels } from './region-marvels';
@@ -107,6 +108,7 @@ export class RegionWorks {
   private static tellers(region: Region, site: Site): Record<string, string> {
     const [town, next] = this.towns(region, site);
     return { town: town.id, townname: town.name, keeper: `${town.id}_innkeeper`, priest: `${town.id}_priest`,
+      keeperat: SettlementWriter.standing(region, town, 'innkeeper'),
       holy: Foundings.holyPlace(region, town),
       merchant: `${town.id}_merchant`, teller: `${next.id}_traveller`, nextname: next.name,
       where: RegionSites.where(RegionGeography.seats(region).find(s => s.site === site)!, region) };

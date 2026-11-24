@@ -148,8 +148,8 @@
   },
   "hook": {
     "topic": "the king-barrow",
-    "trade": { "topic": "what is buried in the king-barrow", "says": "weighs a bead of amber on a fingertip. 'Bring me what the old folk buried and I will pay what it is worth.'" },
-    "home": "'Out from under {name}?' {keeper} puts down the jug and looks a long while at the crown, and does not touch it. 'My grandmother said the king would keep it till the mound fell in. Tonight you eat and sleep on the house, and I will be telling this in the taproom for a year.'"
+    "trade": { "topic": "what is buried in the king-barrow", "says": "weighs a bead of amber on a fingertip. 'Bring me what the old folk buried and I will pay what it is worth.'", "shown": "What you sold {merchant} out of {name} is in the glass case by the door now, on black cloth. Its price is one nobody in the town will pay." },
+    "below": "'Past the first door?' says {keeper}. 'Into the halls of the old dead?' The cloth goes down on the counter. 'My mother would not walk over that ground after dark. You'll eat on the house tonight, and I'll not ask what you saw.'", "home": "'Out from under {name}?' {keeper} puts down the jug and looks a long while at the crown, and does not touch it. 'My grandmother said the king would keep it till the mound fell in. Tonight you eat and sleep on the house, and I will be telling this in the taproom for a year.'"
   },
   "camp": {
     "later": "The same party camped here too, further in: the ring of stones again, a smaller fire, and less left beside it than outside, a blanket and an empty water-skin, as if they were travelling lighter by now.",

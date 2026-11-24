@@ -163,8 +163,8 @@
   },
   "hook": {
     "topic": "the old cisterns",
-    "trade": { "topic": "what is down in the cisterns", "says": "turns a bronze key over in the light. 'Bring me what the Wardens left and I will pay what it is worth.'" },
-    "home": "'The Wardens' glass.' {keeper} holds it up to the window, and the whole room is in it, small and very clear. 'They say the Wardens saw the floods coming in that. Your beds are on the house tonight, and your supper, and I want to hear all of it.'"
+    "trade": { "topic": "what is down in the cisterns", "says": "turns a bronze key over in the light. 'Bring me what the Wardens left and I will pay what it is worth.'", "shown": "What you brought up out of {name} hangs behind {merchant}'s counter on a hook, still wet-looking, where buyers can see it." },
+    "below": "'Down past the gatehouse?' says {keeper}. 'Into the Wardens' galleries?' The jug stops halfway to the cup. 'Nobody's been dry down there in a hundred years. Sit by the fire, on the house, and dry out.'", "home": "'The Wardens' glass.' {keeper} holds it up to the window, and the whole room is in it, small and very clear. 'They say the Wardens saw the floods coming in that. Your beds are on the house tonight, and your supper, and I want to hear all of it.'"
   },
   "camp": {
     "later": "The same party camped here too, further down: the ring of stones again, on the one dry ledge, and less left beside it than above, a blanket and an empty water-skin, as if they were travelling lighter by now.",

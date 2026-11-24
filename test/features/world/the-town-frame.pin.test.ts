@@ -58,6 +58,14 @@ describe('the first town\'s frame', () => {
       expect(walk.session.campaign.world.one('at', 'party')).toBe('region__s1_u_undercroft');
       expect(walk.holds('at', 'region__s1_u_pickers_young', 'region__s1_u_charnel')).toBe(false);
     }, 300000);
+  it('talks at the inn of the sexton found out, once the bone-pickers are laid by what he gave back', async () => {
+    const walk = await Walk.begun('bench-1');
+    await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', 'about the bones in the churchyard',
+      '^To the market-place', '^To the churchyard', '^Down to the crypt', 'light a torch', 'ossuary', '^To the crypt',
+      'churchyard', 'who opened the old shelves', 'crypt', 'ossuary', '^Put the grave-goods back', '^To the crypt',
+      'churchyard', '^To the market-place', '^Into the Gentle Eagle']);
+    expect(walk.s.scene.lines.join(' ')).toMatch(/Job Dunstall was in last night,. says/);
+  }, 300000);
   it('in the quarry, the she-bear\'s den and her wolves, a real fight, and the house pays', async () => {
     const walk = await Walk.begun('bench-2');
     await walk.play(['^To the landing', '^Read the notice', '^Into the Fierce Dragon', 'about the old quarry', 'landing|Out',
@@ -90,6 +98,9 @@ describe('the first town\'s frame', () => {
     await walk.play(['^To the cut gallery', 'Pour lamp oil on wet bracken']);
     expect(walk.holds('region__s1_u_bear_gone')).toBe(true);
     expect(walk.holds('at', 'region__s1_u_bear', 'region__s1_u_brood')).toBe(false);
+    // The pit remembers which way she went.
+    await walk.play(['^To the quarry adit', 'old quarry pit']);
+    expect(walk.s.scene.lines.join(' ')).toMatch(/Big prints go up the north face out of the pit/);
   }, 300000);
   it('lets the she-bear by, her cub read by a ranger at the den\'s mouth', async () => {
     const walk = await Walk.begun('bench-2', 'elf/ranger/Aud');

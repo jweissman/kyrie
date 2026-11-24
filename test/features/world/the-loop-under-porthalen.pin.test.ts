@@ -92,7 +92,11 @@ describe('the reference journey under Porthalen', () => {
     // (OR-199); and so is Kynes, for the quarry, whose key opens its gate.
     await walk.play(established.slice(0, 2));
     expect(rows(walk.s).find(x => x.id === 'region__s1_merchant#talk')?.label).toMatch(/rats in the corn-store/);
-    await walk.play([...established.slice(2), ...churchyard]);
+    // Come into the inn hurt from the rats' nest, the company is seen to be (the town answering its state, once).
+    const inn = established.indexOf('~To the taproom of the Stone Horn') + 1;
+    await walk.play(established.slice(2, inn));
+    expect(walk.said()).toMatch(/Bleed on my floor and I'll charge you for the sand/);
+    await walk.play([...established.slice(inn), ...churchyard]);
     console.log(walk.log.join('\n'));
     // Established, prepared, the job done and paid; the bed taken; the salter a friend; the vault opened by its
     // letters.
