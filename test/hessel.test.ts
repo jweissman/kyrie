@@ -65,6 +65,25 @@ describe('The Banns at Hessel: the Rooms, and what lies under the town', () => {
     expect(g.page).toMatch(/he has to walk it, over the down, at first light/);
   }, 60000);
 
+  // A promise to be his witness, broken, is said when he is back on the ward (OR-233: the promise had changed nothing).
+  // What Ottery is summoned for is made known; the company is put where he is, and left to sleep through his leaving.
+  it('Dr Ottery, promised a witness at seven and left to walk alone, says so on the ward', async () => {
+    const struck = async (promised: boolean) => {
+      const g = await Hessel.start();
+      g.j.assert('knows', 'party', h('ottery_summons'));
+      g.j.put('party', h('hospital'));
+      if (promised) { await g.play('Tell Dr Ottery you will be at the Beacon at seven', '?^Take your leave'); }
+      await g.play('=day 2 20:00');
+      g.j.put('party', h('hospital'));
+      expect(g.holds('otteryStruck', 'ottery')).toBe(true);
+      return g.j.seen();
+    };
+    expect(await struck(false)).toMatch(/They can strike me off the roll/);
+    const told = await struck(true);
+    expect(told).toMatch(/You said seven/);
+    expect(told).not.toMatch(/They can strike me off the roll/);
+  }, 180000);
+
   it('a thief, found in Carth House at night, stops Sir Gervase\'s sword with the truth about the letter', async () => {
     const o = JSON.parse(readFileSync('test/fixtures/hessel/oldtown.json', 'utf8')) as Record<string, string[]>;
     const g = await Hessel.start(build('thief'), 'o1');

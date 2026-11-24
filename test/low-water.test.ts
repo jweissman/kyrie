@@ -212,6 +212,39 @@ describe('Low Water: the breach, the warrant and the Hearing', () => {
     await j.play('^To the head of the Stair', '^To the north road', 'Go up out of the Bowl');
     expect(j.holds('reached', L('census_kept'))).toBe(true);
   }, 300000);
+  // What the census of acts that change nothing found meant to matter (OR-232, OR-233): the names of the drowned weigh
+  // with the Council as every other thing laid before it does, and a Quill who has conceded his engineers' report to
+  // the Assessor at the rim says so at the Hearing instead of laughing the cause away. The Hearing is set going at the
+  // Moot Hall by hand, its facts made so, and only the steps under proof are played.
+  it('weighs the names of the drowned at the Hearing, and Quill, conceded at the rim, concedes there', async () => {
+    const atHearing = async (conceded: boolean) => {
+      const j = await Bowl.start('census');
+      if (conceded) {
+        j.assert('knows', 'party', L('engineers_report'));
+        j.put('party', L('quill_room'));
+        await j.play('Talk to Harrow', 'Tell Quill you know what his engineers wrote', 'Take your leave');
+        expect(j.holds(L('conceded'), L('quill'))).toBe(true);
+      }
+      j.put('party', L('moot_hall'));
+      for (const [name, of] of [['drowned', 'diggers'], ['hearingOpen', 'ammerlin'], ['begun', 'party']]) {
+        j.assert(name!, of === 'party' ? of : L(of!));
+      }
+      return j;
+    };
+    const j = await atHearing(false), before = j.measure(L('credence'), L('council'));
+    await j.play('Lay before the Council the names of the three diggers who drowned');
+    expect(j.measure(L('credence'), L('council'))).toBe(before + 1);
+    // A cause named: unconceded, Quill laughs it away (two of the Council's credence); conceded, he owns the report.
+    j.assert(L('named'), 'party');
+    await j.play('=+1');
+    expect(Bowl.said(j)).toContain('Half the hall laughs');
+    expect(j.measure(L('credence'), L('council'))).toBe(Math.max(0, before + 1 - 2));
+    const k = await atHearing(true), was = k.measure(L('credence'), L('council'));
+    k.assert(L('named'), 'party');
+    await k.play('=+1');
+    expect(Bowl.said(k)).toContain('The Assessor has my engineers');
+    expect(k.measure(L('credence'), L('council'))).toBe(was);
+  }, 120000);
 });
 
 // Someone with their own words of greeting is given no stock line on the next meeting: Tessary's corporal and its

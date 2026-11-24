@@ -131,6 +131,10 @@ Module season "The Patient Star" {
     On discuss { Assert accused(coyle, bren). }
   }
   Relation accused(group, group).
+  // She said she would go to Ennick herself and look at his door; she goes, once the company has gone from the Board.
+  Rule coyle_to_ennick when accused(coyle, bren) and at(coyle, widows) and not at(party, widows) {
+    Retract at(coyle, widows). Assert at(coyle, holders_room). }
+  Observe coyle_at_door at holders_room when at(coyle, holders_room) "Annet Sorrel stands inside the holder's door with her list of sixty-three names. Bren of Ennick has not asked her to sit, and she has not asked to.".
   Person lenna "Lenna Marsh" at plumb_tower {
     Role "Glass Office surveyor at the plumb station". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
     Greets "A woman in a leather apron is standing quite still with a plumb-line in one hand and a stub of chalk in the other, and does not take her eyes off the weight. 'Do not stamp,' she says, quietly. 'Do not breathe on it, if you can help it. In a minute you may tell me what you want.'".

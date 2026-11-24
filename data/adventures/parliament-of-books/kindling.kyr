@@ -70,7 +70,7 @@ Module calamy "A Parliament of Books" {
     Assert kindlingLit(ashpit). Assert kindlingCome(ashpit). Set litAt(ashpit) to watch(clock). }
   Measure litAt(place).
   // Spared, or thrown in: an hour after the lighting, Calamy does what it came to do.
-  Query spared() means rhuleAdvocate(rhule) or canonKindling(abery) or heardAtFire(party) or ((almanackKept(almanack) or almanackSawAsh(almanack)) and almanackPleads(almanack)) or almanackGone(almanack).
+  Query spared() means rhuleAdvocate(rhule) or canonKindling(abery) or heardAtFire(party) or ((almanackKept(almanack) or almanackSawAsh(almanack) or askedLeave(almanack)) and almanackPleads(almanack)) or almanackGone(almanack).
   Relation almanackPleads(group).
   Topic almanack_plead with almanack "Ask the Almanack to speak, from every nail and every hand, before the city throws it on the fire" when kindlingBegun(ashpit) and not kindlingDone(ashpit) and at(almanack, ashpit) and not almanackPleads(almanack) once {
     Says "The almanack in your pocket is silent for a long moment. Then it speaks, and so do all the others: three thousand small papery voices from three thousand hands and aprons and children's fists all over the Ashpit, all at once, quite quietly, so that the whole square has to stop to hear it. 'Good evening,' says the Almanack. 'I have been on your nails all year. I know your tides and your birthdays and who is ill. I have never asked you for anything.' A pause that the whole Ashpit holds. 'I am asking now. I don't want to go in the fire. I'd like to see the spring. I have the whole of it in me, and I'd like to see if I was right.'".

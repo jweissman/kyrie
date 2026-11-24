@@ -53,6 +53,22 @@ describe('Fair Weather', () => {
     expect(g.page).toMatch(/Well, Mattie/);
   }, 600000);
 
+  // What the boy wants is a reason Ewan takes (OR-233: asking it had changed nothing): a company Ewan does not yet
+  // trust (the boy found by the dog) may ask him to bring the boy to the Court once Nye has said he wants to see the
+  // man's face. The boy and what he saw are made known; the company is put where each is.
+  it('Ewan brings the boy to the Court because the boy wants to see the man\'s face', async () => {
+    const g = await Reach.start('data/campaigns/skeel.campaign.json', 's1');
+    for (const f of ['nye_known', 'nye_saw']) { g.j.assert('knows', 'party', k(f)); }
+    g.j.put('party', k('skerry_landing'));
+    expect(g.measure('ewanTrust', 'ewan')).toBe(0);
+    expect(g.j.offers('Ask Ewan Marrock to bring the boy to the Wreck Court')).toBe(false);
+    g.j.put('party', k('bothy'));
+    await g.play('Ask Nye Gallow what he wants', '?^Take your leave');
+    g.j.put('party', k('skerry_landing'));
+    await g.play('Ask Ewan Marrock to bring the boy to the Wreck Court', '?^Take your leave');
+    expect(g.holds('nyeComing', 'nye')).toBe(true);
+  }, 120000);
+
   it('The Godson, sent: the Reeve told to row out and tell Loveday himself, and refusing to say wreck', async () => {
     const g = await Reach.start('data/campaigns/skeel.campaign.json', 's1');
     await g.fixture('godson');

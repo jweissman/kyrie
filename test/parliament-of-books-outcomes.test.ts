@@ -87,4 +87,22 @@ describe('A Parliament of Books: what the Parliament comes to', () => {
     expect(Calamy.holds(j, 'colophonRenewed', 'ashpit')).toBe(true);
     expect(Calamy.said(j, j.taken.length - 1)).toContain('carrying something');
   }, 600000);
+  // Asked for its leave, the Almanack knows its own mind, and its plea at the fire is heard (OR-233: the asking had
+  // changed nothing). The two facts the asking needs are made so; the rest is played.
+  it('spares the almanacks for an Almanack asked its leave and pleading, and burns them for one only pleading', async () => {
+    const atFire = async (asked: boolean) => {
+      const j = await Calamy.start('leave');
+      for (const f of ['kindling_is_rite', 'almanack_mortal']) { j.assert('knows', 'party', C(f)); }
+      await Calamy.play(j, 'go:taproom', 'Talk to the Almanack');
+      if (asked) { await Calamy.play(j, 'Ask the almanack whether it would go into the Kindling fire'); }
+      await Calamy.play(j, 'Take your leave', 'go:bridge_north', 'Buy.*penny almanack', 'go:ashpit', '=1219',
+        'Ask the Almanack to speak');
+      await until(j, 1240);
+      return j;
+    };
+    const pleaded = await atFire(false);
+    expect(Calamy.holds(pleaded, 'almanackPleads', 'almanack')).toBe(true);
+    expect(Calamy.holds(pleaded, 'almanacksBurned', 'ashpit')).toBe(true);
+    expect(Calamy.holds(await atFire(true), 'almanacksSpared', 'ashpit')).toBe(true);
+  }, 300000);
 });

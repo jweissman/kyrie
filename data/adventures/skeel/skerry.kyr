@@ -78,7 +78,8 @@ Module skeel "Fair Weather" {
   Discovery matthew_named "The Constancy's mate was Matthew Ferrar, the owner's son; the ship was named for his sister Constance, and her figurehead is Constance as a child, holding a book. On the night of the wreck he told the master twice that the light was too high.".
   // To the Court. Ewan will bring him, if asked by someone he trusts; or he will come with the company.
   Relation nyeComing(group).
-  Topic ask_ewan_court with ewan "Ask Ewan Marrock to bring the boy to the Wreck Court at four o'clock" when knows(actor, nye_saw) and ewanTrusts() and not nyeComing(nye) once {
+  // Ewan brings the boy for a company he trusts, or because the boy wants to see the man's face (nye_wants).
+  Topic ask_ewan_court with ewan "Ask Ewan Marrock to bring the boy to the Wreck Court at four o'clock" when knows(actor, nye_saw) and (ewanTrusts() or nyeWantsFace(nye)) and not nyeComing(nye) once {
     Says "He thinks about it a long time, looking at the town. 'In my boat,' he says at last. 'On the flood, at the quay steps. I'll walk him up the Drang myself, and stand by him in the loft, with my club, and we'll see who in Skeel wants to put a hand on him.' He nearly smiles. 'Seven years I've not set foot in that town. It'll be worth it to see their faces.'".
     On discuss { Assert nyeComing(nye). }
   }

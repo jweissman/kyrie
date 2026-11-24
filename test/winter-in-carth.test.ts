@@ -29,8 +29,14 @@ describe('A Winter in Carth: the road, the farm, the city and the Consistory', (
   }, 180000);
 
   it('from above, for a bard: the byre fire, Annis at the gate, a clean tally, the masked Lady, two Determinations, and the Wood-reeve walks out for him', async () => {
-    const g = await Gaunt.start();
-    await g.fixture('above');
+    const g = await Gaunt.start(), above = steps('above'), road = above.findIndex(x => x.includes('what Hern said'));
+    await g.play(...above.slice(0, road));
+    // What Hern said on the road, told the Consistory, moves the Lady Penitentiary as Carth's testimony does (OR-231:
+    // it had changed nothing).
+    const reasons = g.measure('hawiseReasons', 'hawise');
+    await g.play(above[road]!);
+    expect(g.measure('hawiseReasons', 'hawise')).toBe(reasons + 1);
+    await g.play(...above.slice(road + 1));
     await g.until();
     // The letter of the vigil kept: a fire in the byre, the hearth cold for the hand.
     expect(g.holds('byreFire', 'carth_vigil')).toBe(true);

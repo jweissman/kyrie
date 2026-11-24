@@ -85,7 +85,7 @@ Module gaunt "A Winter in Carth" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, chapter_house) and sitting() and trialOpen(consistory) and not verdictGiven(consistory) and shriven()
       and askedSorry(actor) and not testifiedRoad(actor).
     Time 2.
-    On success { Assert testifiedRoad(actor). }
+    On success { Assert testifiedRoad(actor). Increase hawiseReasons(hawise) by 1. }
     Result "You tell them: the fell road, the old man barefoot in the snow asking whether one man can be sorry for another; the kneeling proxy at the stone, and the board, and what is owed the dead; the Drove Fork. The canons write. Hern listens with his head on one side, as if hearing a story about someone he once knew, and when you get to what you yourself answered he grins at you across the floor, and the Lady Penitentiary sees him do it.".
   }
   Action offer_to_bear(actor: group, site: place) "Stand, and offer to bear Ninian Hern's sentence yourself" {
