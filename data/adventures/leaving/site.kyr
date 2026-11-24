@@ -1,0 +1,46 @@
+Module leaving "The Leaving Supper" {
+  Description "Haddle Cross, a crossroads town with four days of grain and sixty soldiers who will leave when their captain has eaten a supper she thinks is right: a kitchen, a camp, a widow's garden, a mill and an eel-weir, and one day.".
+
+  Place country "the Haddle country" is region within imbar.
+  Place town "Haddle Cross" is settlement within country at 0, 0.
+  Place bell "the Bell and Barrow" is building within town.
+
+  Place road "the Pelham road" is room within town at 0, 0 outdoors.
+  Place square "the market square" is room within town at 1, 0 outdoors.
+  Place kitchen "the kitchen of the Bell and Barrow" is room within bell at 1, 1.
+  Place camp "the Company's camp on the glebe" is room within town at 2, 0 outdoors.
+  Place garden "Imke Salter's garden" is room within town at 1, 2 outdoors.
+  Place mill "Nettlefold's mill" is room within town at 0, 1 outdoors.
+  Place weir "the eel-weir" is room within town at 0, 2 outdoors.
+
+  Passage gate "the town gate" is road between road and square taking 10 minutes.
+  Passage kitchen_door "the kitchen door" is door between square and kitchen.
+  Passage glebe_way "the path to the glebe" is path between square and camp taking 5 minutes.
+  Passage wall_door "the door in the glebe wall" is door between square and garden taking 5 minutes.
+  Passage mill_way "the track to the mill" is track between square and mill taking 10 minutes.
+  Passage weir_way "the bank path to the weir" is path between mill and weir taking 10 minutes.
+
+  Thing long_table "the long table" at square {
+    State bare "Three trestles lean against the wall of the Bell and Barrow, waiting for the evening.".
+    State laid "Trestles stand end to end across the square under a cloth, with a chair at the head and sixty stools down the sides.".
+  }
+  Initially Assert state(long_table, bare).
+
+  Observe road_scene at road when true "The road from Pelham runs up to a gate in a low wall. Over the wall the smoke of sixty cooking fires goes straight up.".
+  Observe square_scene at square when true "A market square with its stalls shut. A well, a cross, and the back of every house turned to the glebe.".
+  Observe square_company at square as ambience when not state(long_table, laid) "Two soldiers carry a barrel across the square and a townsman stands aside for them, a little too early.".
+  Observe kitchen_scene at kitchen when true "A long hearth, a spit nobody has turned in a week, copper pans hung by size. Nine suppers' worth of scraped plates stand in a stack.".
+  Observe camp_scene at camp when true "Tents in rows on the glebe, a drum-head set on a barrel, boots drying on the guy-ropes. The Captain's tent has no flag and the best fire.".
+  Observe camp_drill at camp as ambience when true "A boy practises one roll on a drum, again and again, and a corporal tells him to give it a rest.".
+  Observe garden_scene at garden when true "A walled garden gone to seed. Sorrel stands waist-high among dead roses, and a thread of smoke comes from a chimney with no house under it but a lean-to.".
+  Observe mill_scene at mill when true "The wheel is stopped. Six army horses stand in the mill-floor with their heads together, chewing something that is not hay.".
+  Observe weir_scene at weir when true "A timber weir across the Haddle brook, and a smoke-house of black boards. Eels hang inside on rods, in rows, like a drawn curtain.".
+
+  Observe long_table_up at square as sign when state(long_table, laid) "The table is laid. The Company is filing in and sitting down by tens, in order, without being asked.".
+
+  Rule table_laid when within(party, town) and hour(clock) >= 17 and state(long_table, bare) says "Soldiers carry the trestles out of the Bell and Barrow's yard and set them end to end across the square. Someone lights lamps along the cloth. It is five in the evening, and it is the tenth supper." {
+    Assert state(long_table, laid).
+  }
+  Rule company_sits when hour(clock) >= 17 and at(gannick, camp) { Retract at(gannick, camp). Assert at(gannick, square). Retract at(ostrey, camp). Assert at(ostrey, square). }
+  Rule imke_walks when hour(clock) >= 17 and imkeComes(party) and not at(imke, square) { Retract at(imke, garden). Assert at(imke, square). }
+}

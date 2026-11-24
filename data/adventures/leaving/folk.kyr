@@ -1,0 +1,226 @@
+Module leaving "The Leaving Supper" {
+  Discovery skellet_pot "The Captain is looking for a pot she ate when she was nine, in Skellet, which is a lake now. She cannot name what was in it.".
+  Discovery ash_known "The Skellet pot was grey because it was cooked with a handful of hearth ash. People take the ash for a mistake.".
+  Discovery net_seen "The quartermaster has cut down Josiah Tuck's weir-net to line a wagon-bed.".
+  Discovery ladle_known "The woman who fed the Captain in Skellet had a ladle split down the handle.".
+
+  Relation josiahAsked(group). Relation natReplied(group). Relation eelGot(group). Relation swanHeld(group).
+  Relation imkeOpen(group). Relation imkeSkellet(group). Relation imkeLadle(group). Relation imkeVouches(group). Relation imkeComes(group). Relation imkeTasted(group).
+  Relation kitGot(group). Relation spurrellCaught(group). Relation saltBought(group).
+  Measure saltPrice().
+  Initially Set saltPrice() to (1d3) + 1.
+
+  // ── The reeve ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hurst "Reeve Godfrey Hurst" at square {
+    Role "reeve of Haddle Cross". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Greets "A broad man in a chain of office is walking the length of the square with his hands behind him, rehearsing. 'Ah,' says Reeve Hurst, 'a stranger, and with two hands. Walk with me. I have the answer, and nobody will listen to it.'".
+    Greets again "'Still here,' says Hurst, pleased. 'Good. Have you thought about the swan?'".
+  }
+  Topic hurst_swan with hurst "Ask the reeve about his answer" when true once {
+    Says "'A swan,' says Hurst, and spreads his hands the width of one. 'The lord's mere has forty. Soldiers are impressed by size, and she has had goose, and pie, and a boar the Wardens of Pelham lent us, and a pudding with a pig in it. A swan is a statement.' He lowers his voice. 'The cook says swan is not a supper. The cook is not the reeve.'".
+  }
+  Topic hurst_nine with hurst "Ask the reeve what the Captain has said to the nine suppers" when true once {
+    Says "'Nothing,' says Hurst. 'That is the difficulty. She eats. She says it is very good, and thanks the cook, and in the morning the Company has not marched.' He counts on his chain. 'Four days of grain. She will not be hurried, and the sergeant says she cannot be, because she does not know herself what she is waiting for. Which is what a reeve wants to hear in his own town.'".
+  }
+  Topic hurst_grain with hurst "Ask the reeve about the grain" when true once {
+    Says "'Four days,' says Hurst, quietly, 'and I tell the town five.' He looks at the Bell and Barrow's chimney. 'Dame Meggy will tell you the pot is yours. I should be glad if somebody would cook the thing, whatever it is, before Thursday.'".
+  }
+  Action persuade_hurst(actor: group, site: place) "Persuade the reeve to keep his swan off the table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(hurst, site) and not swanHeld(actor) and hour(clock) < 17.
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert swanHeld(actor). }
+    Result "'A swan is a statement,' you say, 'and she has had every statement there is.' Hurst thinks about this a long time. 'Then it is a swan for the Bell on Sunday,' he says, with real grief, 'and the town will eat it.'".
+    Otherwise "'The Captain,' says Hurst, 'does not know what is good for her. The reeve does.' He goes to see about a door to carry it on.".
+  }
+
+  // ── The sergeant ────────────────────────────────────────────────────────────────────────────────────────────────
+  Person ostrey "Sergeant Tamsin Ostrey" at camp {
+    Role "sergeant of the Gannick Company". Ancestry human. Calling warrior. Level 3. Peaceable. Pronouns she. Manner stoic.
+    Greets "A woman is mending a boot on the tailgate of a cart and does not stop. 'You are not the reeve's, and you are not a spy, because a spy would have worn better boots,' says Sergeant Ostrey. 'What do you want?'".
+    Greets again "'Back,' says Ostrey, to the boot.".
+  }
+  Topic ostrey_want with ostrey "Ask the sergeant what the Captain wants" when true once {
+    Says "'People think she is hungry,' says Ostrey. 'She is looking for a pot she ate when she was nine, in a country that is a lake now. Skellet.' She bites the thread. 'She cannot tell you what is in it. She can tell you what is not, and she does, with her face, and then we stay. Eleven towns.' A pause. 'I would like her to find it. I would like to sleep somewhere that stays put.'".
+    On discuss { Assert knows(actor, skellet_pot). }
+  }
+  Topic ostrey_taste_grain with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 2 and knows(party, skellet_pot) {
+    Says "Ostrey tastes, and holds it in her mouth like a coin she is testing. 'Floury,' she says. 'It was never floury. It was thin. You could count the grains.'".
+  }
+  Topic ostrey_taste_fish with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 1 and fishIn(party) == 2 and knows(party, skellet_pot) {
+    Says "'Sweet,' says Ostrey. 'The fish is fresh. It wants smoke. It wants to taste as if it had been somewhere and come back.'".
+  }
+  Topic ostrey_taste_green with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 1 and fishIn(party) == 1 and greenIn(party) == 2 and knows(party, skellet_pot) {
+    Says "'The green is bitter,' says Ostrey, and shuts one eye. 'It should make your cheeks go in. Sour, not bitter. Everything in it should have been a little afraid.'".
+  }
+  Topic ostrey_taste_salt with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 1 and fishIn(party) == 1 and greenIn(party) == 1 and saltIn(party) == 2 and knows(party, skellet_pot) {
+    Says "'Flat,' says Ostrey. 'There is no sea in it, and there was always a little sea. Grey salt, from the fens. The Company has some, God knows. Spurrell guards it like a sister.'".
+  }
+  Topic ostrey_taste_ash with ostrey "Let the sergeant taste the pot" when potReady(party) and goodness(party) == 4 and ashIn(party) == 0 and knows(party, skellet_pot) {
+    Says "Ostrey tastes, and tastes again, and puts the spoon down very carefully. 'Everything is right,' she says. 'And it is the wrong colour. It was grey. Yours is brown.' She looks at you. 'I do not know what makes a thing grey. Somebody does.'".
+  }
+  Topic ostrey_taste_right with ostrey "Let the sergeant taste the pot" when potReady(party) and goodness(party) == 5 and knows(party, skellet_pot) {
+    Says "Ostrey does not say anything. She sits down on the tailgate, with the spoon in her hand, and looks at the Captain's tent. 'Give me a minute,' she says. 'Do not talk.'".
+  }
+  Topic ostrey_salt with ostrey "Ask the sergeant where the fen-salt is kept" when knows(party, skellet_pot) and not saltBought(party) once {
+    Says "'Spurrell has the stores, and sells what he is not asked about,' says Ostrey. 'The grey comes in a barrel. It is the Captain's, so he will say it is not for sale, and then he will name a price.'".
+  }
+  Topic ostrey_after with ostrey "Ask the sergeant what she would do if the Captain stopped" when knows(party, skellet_pot) once {
+    Says "'Stop what? Walking?' Ostrey looks at the cart wheel. 'Sit down. Find out if I like bread. I am thirty-eight, and I have had eleven winters, and not one of them was mine.'".
+  }
+
+  // ── The captain ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person gannick "Captain Hester Gannick" at camp {
+    Role "captain of the Gannick Company, which was hired by no one". Ancestry human. Calling warrior. Level 5. Peaceable. Pronouns she. Manner stoic.
+    Greets "A tall woman in a coat that was a better coat once sits at the best fire with a bowl on her knee and an uneaten loaf beside her. She looks up. 'If you are the cook, I have not changed my mind about the swan,' says Captain Gannick, 'and I have not been told about the swan.'".
+    Greets again "'Well,' says the Captain.".
+  }
+  Topic gannick_want with gannick "Ask the Captain what she would like for supper" when true once {
+    Says "'Nothing the town can afford,' says the Captain, not unkindly. 'The town has been very good. I should like not to be here, and to have a reason for going.' She looks into the bowl. 'Cook what you like. I shall say it is very good, and I shall mean that it is.'".
+  }
+  Topic gannick_skellet with gannick "Ask the Captain about Skellet" when knows(party, skellet_pot) once {
+    Says "The Captain does not move. 'Who has been talking to boots?' she says. Then, after a time: 'There was a famine, and a lake came where the fen had been. I was nine. There was a woman who fed a field of us out of a kettle, in a camp, with a ladle that was split down the handle, so that it dripped on her wrist and she swore at it.' She looks at her hands. 'It was grey. It tasted like being fed by someone who was not afraid. I have eaten in a hundred kitchens and I cannot tell you what was in it.'".
+    On discuss { Assert knows(actor, ladle_known). }
+  }
+
+  // ── The boy ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person nat "Nat Tuck" at camp {
+    Role "drummer of the Gannick Company, fourteen". Ancestry human. Peaceable. Pronouns he. Manner cheerful.
+    Greets "A boy sits on a barrel with a drum between his knees, and plays one roll, and stops to see if you noticed. 'It is meant to be even,' says Nat Tuck. 'Mine goes uphill.'".
+    Greets again "'Again,' says Nat, and rolls the drum.".
+  }
+  Topic nat_message with nat "Give Nat his father's message" when josiahAsked(party) and not natReplied(party) once {
+    Says "'The weir wants me in October,' Nat repeats, and goes red to the ears. 'Is that all he said?' He turns the drumstick over. 'Tell Da the Captain feeds us well. Tell him I did not want to be fed. I wanted to be good at something.' He plays the long roll, nearly even. 'Tell him I am nearly even.'".
+    On discuss { Assert natReplied(actor). }
+  }
+  Topic nat_captain with nat "Ask Nat about the Captain" when true once {
+    Says "'She sits with her bowl,' says Nat, 'and the whole Company watches her face, and she knows it, and she tries to look as if she likes it, and she can't. She is the worst liar in the army.' He thinks. 'We love her.'".
+  }
+
+  // ── The quartermaster ───────────────────────────────────────────────────────────────────────────────────────────
+  Person spurrell "Quartermaster Corbin Spurrell" at camp {
+    Role "quartermaster of the Gannick Company". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A narrow man sits on an upturned cask beside a cart, with a tally-stick in each hand, writing on neither. 'Nothing is for sale,' says Quartermaster Spurrell. 'Prices on application.'".
+    Greets again "'You again,' says Spurrell. 'Prices on application.'".
+  }
+  Observe net_sign at camp as sign when not knows(party, net_seen) "Over the quartermaster's cart a long weir-net has been cut down to fit a wagon-bed. It is eel-mesh, tarred brown, with a T burned into the float.".
+  Action net_note(actor: group, site: place) "Look closer at the net on the quartermaster's cart" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, camp) and not knows(actor, net_seen).
+    Time 1 minute.
+    On success { Assert knows(actor, net_seen). }
+    Result "The T is not a maker's mark. A man burns his own letter into the floats of his own net, so that the other eel-men know it when it comes down the brook. This one has not come down the brook. It has been cut up, and lined with oilcloth, and a cask of salt sits in it.".
+  }
+  Action buy_salt(actor: group, site: place) "Buy a twist of the fen-salt from the quartermaster" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(spurrell, site) and not saltBought(actor) and quantity(actor, gold) >= saltPrice().
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by saltPrice(). Give lv_fensalt to actor. Assert saltBought(actor). }
+    Result "Spurrell looks round, names a price as if it hurt him, and takes it in coin. The salt comes in a screw of tarred paper, grey and damp, and smells of iron and low tide.".
+  }
+  Topic spurrell_net with spurrell "Mention the net on his cart" when knows(party, net_seen) and not saltBought(party) once {
+    Says "Spurrell does not look at the net. He looks at the tally-sticks. 'A lot of nets,' he says, 'look like a lot of nets.' You wait. He is a man who has been waited at before. 'The salt,' he says finally, 'is a twist of paper. The net is a net. I take it you will want them both and no conversation.' He digs in the cask. 'The Captain is not to hear of the cask.'".
+    On discuss { Give lv_fensalt to actor. Give lv_net to actor. Assert saltBought(actor). Assert spurrellCaught(actor). }
+  }
+
+  // ── The miller ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Person nettlefold "Millard Nettlefold" at mill {
+    Role "miller of Haddle Cross, with no work". Ancestry human. Peaceable. Pronouns he. Manner jovial.
+    Sells lv_barley for 2 coin from 3.
+    Greets "A big floury man is sitting on the stopped wheel's axle-tree, with a dog. 'Six horses of the Company's,' says Millard Nettlefold, 'in my mill, eating my hopper. I am told it is an honour.'".
+    Greets again "'The horses are still here,' says Nettlefold, 'and so am I.'".
+  }
+  Topic nettlefold_barley with nettlefold "Ask the miller what he has to sell" when true once {
+    Says "'Wheat the Company has eaten,' says Nettlefold. 'Rye the horses have. Barley is the poor man's grain, and nobody has eaten it since the harvest, and I have three sacks of it behind the hopper where a horse cannot reach.' He wipes his hands. 'Two coin a sack, and I would sell it for one to anybody who would not tell me what a good price is.'".
+  }
+  Topic nettlefold_skellet with nettlefold "Ask the miller about Skellet" when knows(party, skellet_pot) once {
+    Says "'Skellet people,' says Nettlefold. 'In my father's time they came up the Pelham road, a hundred or so, with pots on their backs, when the lake rose. They bought barley and nothing else, a whole winter. My father thought it was because they were poor. The old woman behind the glebe wall will tell you different, if she opens the door. She came with them.'".
+  }
+
+  // ── The eel-smoker ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person tuck "Josiah Tuck" at weir {
+    Role "eel-smoker at the weir". Ancestry human. Peaceable. Pronouns he. Manner acerbic.
+    Greets "A man in a leather apron is turning eels on a rod without looking at them. 'No,' says Josiah Tuck.".
+    Greets again "'Still no,' says Tuck, but he does not say to what.".
+  }
+  Topic tuck_eels with tuck "Ask Josiah for smoked eel" when not eelGot(party) once {
+    Says "'Three hundred on the rods,' says Tuck, 'and not one for the Company. They have had the net, and the dinner, and my son.' He turns an eel. 'Oh, you did not know about the son.'".
+  }
+  Topic tuck_son with tuck "Ask Josiah about his son" when true once {
+    Says "'Nat. Fourteen. He went to see the drum and stayed for the pay.' Tuck does not look up. 'The weir wants him in October. Tell him that, if you are going that way. Tell him nothing else.' He pulls an eel off the rod, looks at it, and hangs it back. 'I should not like him to think I am asking.'".
+    On discuss { Assert josiahAsked(actor). }
+  }
+  Topic tuck_reply with tuck "Tell Josiah what Nat said" when natReplied(party) and not eelGot(party) once {
+    Says "Tuck hears it all through, the drum, the roll, and nearly even. He puts down the rod. 'The long roll,' he says. 'I could never get my hands round that.' Then he takes down three eels from the best rod, black and gold, and wraps them in dock leaves. 'For the Captain's pot, I suppose. I would not give them to the Captain. I would give them to a pot.'".
+    On discuss { Give 3 lv_eel to actor. Assert eelGot(actor). }
+  }
+  Action net_back(actor: group, site: place) "Hand Josiah the net off the quartermaster's cart" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(tuck, site) and holding(actor, lv_net) and not eelGot(actor).
+    Time 5 minutes.
+    On success { Spend lv_net from actor. Give 3 lv_eel to actor. Assert eelGot(actor). }
+    Result "Tuck unrolls three yards of it, finds the burnt T, and rolls it up again without a word. 'They will have cut the rest,' he says at last. Then he takes three eels from the best rod and puts them in your hands, wrapped in dock. 'I will have one of my own again,' he says, 'and he will have a drum.'".
+  }
+
+  // ── The cook ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person meggy "Dame Meggy Peake" at kitchen {
+    Role "cook of the Bell and Barrow". Ancestry dwarf. Profession innkeeper. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A square woman sits on a stool in the middle of the kitchen with both hands in bowls of wet linen, running it like a ship. 'You are my hands,' says Dame Meggy Peake. 'Do not be clever with my pot. Ask me anything. I cannot hit you.'".
+    Greets again "'Pot's where you left it,' says Meggy.".
+  }
+  Topic meggy_hands with meggy "Ask Meggy about her hands" when true once {
+    Says "'Ninth supper. A pie. She pushed it away, politely, and I took the dish to throw it at the wall, and the dish was out of the oven.' Meggy looks at the linen. 'She sent a surgeon. I sent him back.'".
+  }
+  Topic meggy_advice with meggy "Ask Meggy what she has learned about the Captain" when true once {
+    Says "'A soldier does not want the best thing you can cook,' says Meggy. 'She wants the thing that was cooked at her, once, by somebody who had nothing. Which is no use to me, because I have never had nothing. I have had a larder.' She flexes a finger and regrets it. 'So I have given her a larder nine times.'".
+  }
+  Topic meggy_larder with meggy "Ask Meggy what the larder holds" when not kitGot(party) once {
+    Says "'Wheat flour, fresh trout from the brook, nettles from the yard, and a good white salt,' says Meggy. 'That is what I would cook for a bishop. Take it. It will not be what she wants, but it will tell you something, and you will want a pot to start on.' She nods at the pantry. 'Four things. Do not drop any.'".
+    On discuss { Give lv_flour to actor. Give lv_trout to actor. Give lv_nettle to actor. Give lv_whitesalt to actor. Assert kitGot(actor). }
+  }
+  Topic meggy_swan with meggy "Ask Meggy about the reeve's swan" when true once {
+    Says "'It is nine pounds of bone in a very handsome coat,' says Meggy. 'The reeve has asked me to cook it. I said I would roast it, and he is going to carry it round on a door.' She shuts her eyes. 'I shall be washing my hands of it.' She cannot, and opens them again.".
+  }
+
+  // ── The widow ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Person imke "Imke Salter" at garden {
+    Role "a widow of Haddle Cross, out of Skellet". Ancestry human. Peaceable. Pronouns she. Manner acerbic.
+    Greets "A very old woman sits on a step in the sorrel with a stick across her knees. 'I have no eggs,' says Imke Salter, 'no opinions, and no sons for the Company. Shut the door as you go.'".
+    Greets again "'I said, shut it,' says Imke, but she has not shut her eyes.".
+  }
+  Action sit_with_imke(actor: group, site: place) "Sit down on the step and say nothing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(imke, site) and not imkeOpen(actor).
+    Time 1 hours.
+    On success { Assert imkeOpen(actor). }
+    Result "You sit. A wren works along the wall. The old woman shells nothing into her lap for most of an hour, and looks at the sorrel, and at you, and does not speak. Then, in the way of someone who has made up her mind some while ago and been waiting for the clock, she says, 'Well. You sit properly. They never do.'".
+  }
+  Topic imke_sorrel with imke "Ask Imke about the sorrel" when imkeOpen(party) once {
+    Says "'Gone to seed,' says Imke. 'The leaf is the same. Take an armful. Nobody else wants it. They think it is a weed, which is the whole of their trouble, as a people.' She pushes a basket along the step with her stick. 'Sour, not bitter. If you cannot tell them apart, you are not ready to cook.'".
+    On discuss { Give 3 lv_sorrel to actor. }
+  }
+  Topic imke_from with imke "Ask Imke where she is from" when imkeOpen(party) once {
+    Says "'Skellet,' says Imke. 'It is a lake. They say there is a steeple under it, and there is not, because we took the bell.' She sets her stick across her knees. 'I was forty when it came. I came here with a kettle on my back. You do not forget the road a kettle walks.'".
+    On discuss { Assert imkeSkellet(actor). }
+  }
+  Topic imke_pot with imke "Tell Imke about the Captain and her pot" when imkeOpen(party) and imkeSkellet(party) and knows(party, skellet_pot) and not knows(party, ash_known) once {
+    Says "Imke is quiet so long that you think she has not heard. 'In the hungry year,' she says, 'I kept the ash-kitchen at the relief camp. Two hundred a day, out of one kettle. The camp's own was whatever the fen gave: a grain, a fish, a green, a salt, and I will not tell you which, because you will taste it wrong and learn more. Sorrel, from the dyke, is the one I will give.' A pause. 'And a handful of the hearth, stirred in at the end. It is the ash that makes it grey, and makes the barley split, and takes the bitter off the green. Nobody remembers that part. They think it is dirt.' She looks at you. 'Who is she?'".
+    On discuss { Assert knows(actor, ash_known). }
+  }
+  Topic imke_ladle with imke "Ask Imke about a ladle split down the handle" when imkeOpen(party) and knows(party, ladle_known) and not imkeLadle(party) once {
+    Says "Imke does not answer. She goes indoors, for a long time, and comes back with something wrapped in a tea-cloth. She does not unwrap it. 'That is the only thing I carried that was not a pot,' she says. 'It dripped on my wrist for forty years, in two countries.' She puts it in her lap. 'A girl used to stand at the back and lick it, after.'".
+    On discuss { Assert imkeLadle(actor). }
+  }
+  Action taste_imke(actor: group, site: place) "Bring Imke a bowl from the pot" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(imke, site) and potReady(actor) and imkeOpen(actor) and not imkeComes(actor).
+    Time 30 minutes.
+    On success { Assert imkeTasted(actor). }
+    Result "You carry the bowl round under a cloth, still hot. Imke takes it in both hands and smells before she tastes.".
+  }
+  Rule imke_right when within(party, town) and imkeTasted(party) and goodness(party) >= 5 says "She eats two spoonfuls, and puts the bowl down on the step, and says nothing. Her mouth goes straight and then not. 'That is mine,' says Imke Salter. 'Who taught you?' You say that nobody did. 'Then it is a miracle,' she says, 'or you asked a great many fools.'" {
+    Retract imkeTasted(party). Assert imkeVouches(party).
+  }
+  Rule imke_wrong when within(party, town) and imkeTasted(party) and goodness(party) < 5 says "Imke tastes once and gives the bowl back. 'It is a nice soup,' she says, 'and it is not mine. Ask the girl with the boot. She will tell you what it wants. She has eaten the other kind.'" {
+    Retract imkeTasted(party).
+  }
+  Topic imke_come with imke "Ask Imke to come to the Captain's table" when imkeVouches(party) and not imkeComes(party) once {
+    Says "'To a table of soldiers,' says Imke. 'In a market.' She turns the wrapped ladle over in her lap. 'There is a girl in this who has not licked a ladle in forty years. I suppose I had better see her.' She takes your arm, sticks and all. 'You will walk me across the square. I will not be seen to walk alone through them.'".
+    On discuss { Assert imkeComes(actor). }
+  }
+}

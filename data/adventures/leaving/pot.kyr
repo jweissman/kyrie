@@ -1,0 +1,108 @@
+Module leaving "The Leaving Supper" {
+  // The pot has four places and a fifth that has to be taught. A right thing is 1 in its place, a wrong one 2.
+  Measure grainIn(group). Measure fishIn(group). Measure greenIn(group). Measure saltIn(group). Measure ashIn(group). Measure goodness(group).
+  Relation potReady(group).
+
+  Kind lv_barley "a sack of barley" is gear worth 0 weighing 1 described "Pearl barley, grey-brown, from behind a hopper where horses could not reach.".
+  Kind lv_flour "a bag of white flour" is gear worth 0 weighing 1 described "Fine wheat flour, from the Bell and Barrow's larder.".
+  Kind lv_eel "a smoked eel" is gear worth 0 weighing 1 described "A black and gold eel, hard as a belt, with dock leaf still stuck to it.".
+  Kind lv_trout "a fresh trout" is gear worth 0 weighing 1 described "A brook trout, bright, still cold from the larder slab.".
+  Kind lv_sorrel "an armful of sorrel" is gear worth 0 weighing 1 described "Sorrel gone to seed. The leaves are still sour enough to make your eyes water.".
+  Kind lv_nettle "a fistful of nettles" is gear worth 0 weighing 1 described "Young nettles from the kitchen yard, in a cloth, so as not to be touched.".
+  Kind lv_fensalt "a twist of grey fen-salt" is gear worth 0 weighing 1 described "Damp grey salt in tarred paper. It smells of iron and low tide.".
+  Kind lv_whitesalt "a twist of white salt" is gear worth 0 weighing 1 described "Fine white table salt, in a twist.".
+  Kind lv_net "a cut-down weir-net" is gear worth 0 weighing 2 described "Tarred eel-mesh, a T burnt into the float, and three yards of it left.".
+
+  Thing pot "the pot" at kitchen is scenery {
+    State empty "A big iron pot hangs on the crane over a low fire, scoured and empty.".
+    State simmering "The pot sits at the back of the hearth, off the boil, thick and slow.".
+  }
+  Initially Assert state(pot, empty).
+
+  Observe pot_grain_1 at kitchen as sign when grainIn(party) == 1 "In the pot: barley.".
+  Observe pot_grain_2 at kitchen as sign when grainIn(party) == 2 "In the pot: white flour.".
+  Observe pot_fish_1 at kitchen as sign when fishIn(party) == 1 "In the pot: smoked eel.".
+  Observe pot_fish_2 at kitchen as sign when fishIn(party) == 2 "In the pot: fresh trout.".
+  Observe pot_green_1 at kitchen as sign when greenIn(party) == 1 "In the pot: sorrel.".
+  Observe pot_green_2 at kitchen as sign when greenIn(party) == 2 "In the pot: nettles.".
+  Observe pot_salt_1 at kitchen as sign when saltIn(party) == 1 "In the pot: grey fen-salt.".
+  Observe pot_salt_2 at kitchen as sign when saltIn(party) == 2 "In the pot: white salt.".
+  Observe pot_ash at kitchen as sign when ashIn(party) == 1 "In the pot: hearth ash.".
+
+  During not potReady(party) {
+    Action add_barley(actor: group, site: place) "Put the barley in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_barley) and grainIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set grainIn(actor) to 1. Increase goodness(actor) by 1. }
+      Result "The barley goes in with a sound like rain on a roof.".
+    }
+    Action add_flour(actor: group, site: place) "Put the white flour in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_flour) and grainIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set grainIn(actor) to 2. }
+      Result "You whisk the flour into the cold water, and it goes cloudy and smooth.".
+    }
+    Action add_eel(actor: group, site: place) "Put the smoked eel in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_eel) and fishIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set fishIn(actor) to 1. Increase goodness(actor) by 1. }
+      Result "You cut the eel into lengths with the heel of the knife. The kitchen smells of chimneys and autumn.".
+    }
+    Action add_trout(actor: group, site: place) "Put the fresh trout in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_trout) and fishIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set fishIn(actor) to 2. }
+      Result "The trout goes in whole, and looks up at you out of the water.".
+    }
+    Action add_sorrel(actor: group, site: place) "Put the sorrel in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_sorrel) and greenIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set greenIn(actor) to 1. Increase goodness(actor) by 1. }
+      Result "The sorrel wilts at once and goes the colour of a pond. A sharp, clean smell comes off the pot.".
+    }
+    Action add_nettle(actor: group, site: place) "Put the nettles in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_nettle) and greenIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set greenIn(actor) to 2. }
+      Result "The nettles lose their sting in the heat and go dark and soft. You are careful with the cloth.".
+    }
+    Action add_fensalt(actor: group, site: place) "Put the grey fen-salt in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_fensalt) and saltIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set saltIn(actor) to 1. Increase goodness(actor) by 1. }
+      Result "The grey salt dissolves slowly and leaves a taste of iron and the sea at the back of the steam.".
+    }
+    Action add_whitesalt(actor: group, site: place) "Put the white salt in the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and holding(actor, lv_whitesalt) and saltIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set saltIn(actor) to 2. }
+      Result "A pinch of white salt, and it is gone.".
+    }
+    Action add_ash(actor: group, site: place) "Stir a handful of hearth ash into the pot" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and knows(actor, ash_known) and ashIn(actor) == 0.
+      Time 5 minutes.
+      On success { Set ashIn(actor) to 1. Increase goodness(actor) by 1. }
+      Result "Meggy watches you take the ash from the hearth with her mouth open. 'It is a stew,' she says, 'not a penance.' But she does not stop you, and the pot goes slowly grey.".
+    }
+    Action cook(actor: group, site: place) "Set the pot at the back of the hearth to cook" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and grainIn(actor) > 0 and fishIn(actor) > 0 and greenIn(actor) > 0 and saltIn(actor) > 0.
+      Time 90 minutes.
+      On success { Assert potReady(actor). Assert state(pot, simmering). }
+      Result "Ninety minutes, and a long argument with Meggy about the fire. The pot comes through it thick and still.".
+    }
+    Action tip_out(actor: group, site: place) "Tip the pot out and scour it" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and (grainIn(actor) > 0 or fishIn(actor) > 0 or greenIn(actor) > 0 or saltIn(actor) > 0 or ashIn(actor) > 0).
+      Time 10 minutes.
+      On success { Set grainIn(actor) to 0. Set fishIn(actor) to 0. Set greenIn(actor) to 0. Set saltIn(actor) to 0. Set ashIn(actor) to 0. Set goodness(actor) to 0. }
+      Result "You scrape it out and scour the iron until it rings. What you had is a bucket for the yard pig.".
+    }
+  }
+  During potReady(party) {
+    Action throw_out(actor: group, site: place) "Throw out the pot and begin again" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and not served(actor).
+      Time 10 minutes.
+      On success { Retract potReady(actor). Assert state(pot, empty). Set grainIn(actor) to 0. Set fishIn(actor) to 0. Set greenIn(actor) to 0. Set saltIn(actor) to 0. Set ashIn(actor) to 0. Set goodness(actor) to 0. }
+      Result "Meggy says nothing, with great care, as you take the pot off the hearth and scour it.".
+    }
+  }
+}

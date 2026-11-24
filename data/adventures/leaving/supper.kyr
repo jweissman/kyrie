@@ -1,0 +1,72 @@
+Module leaving "The Leaving Supper" {
+  Relation served(group). Relation suppered(group). Relation boonDone(group).
+  Relation boonNat(group). Relation boonOstrey(group). Relation boonGrain(group). Relation boonNothing(group).
+  Kind lv_spoon "Captain Gannick's tin spoon" is treasure worth 3 weighing 0 described "A tin spoon worn narrow on one side. It has eaten a great deal, and not often with pleasure.".
+
+  Objective ob_supper when not served(party) toward meggy "Supper is at dusk, in the square. Dame Meggy has no hands, and the Captain has refused nine suppers.".
+
+  Observe waiting_square at square as sign when hour(clock) >= 17 and not served(party) "The Company sits down the long table in tens. At the head the Captain sits with her hands in her lap, looking at nothing. Sixty soldiers are not looking at you. Sergeant Ostrey is looking at you.".
+  Observe waiting_kitchen at kitchen as sign when hour(clock) >= 17 and not served(party) and potReady(party) "Meggy has had the pot covered for an hour. 'They are waiting,' she says. 'I can hear them not talking.'".
+
+  Action carry_out(actor: group, site: place) "Have the pot carried out to the long table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kitchen) and potReady(actor) and hour(clock) >= 17 and not served(actor).
+    Time 10 minutes.
+    On success { Assert served(actor). Retract at(actor, kitchen). Assert at(actor, square). }
+    Result "Two soldiers who volunteered carry the pot out between them on a pole. The Company goes quiet by tens, from the near end of the table to the far, as it comes.".
+  }
+  Rule swan_comes when within(party, town) and served(party) and not swanHeld(party) once says "Before the bowls are set down, the reeve's swan arrives on a door, borne by four men and a song about the mere. It is very large. The Captain looks at it as one looks at a relative. 'It is a very large bird,' she says. The bearers take it away again, and Hurst goes with it, saying something about carving." { }
+  Rule perfect when within(party, town) and served(party) and goodness(party) >= 5 once says "The Captain takes a spoon. She does not look at the bowl first, which is how Ostrey knows. The spoon goes in, and comes out, and goes in. Nobody on the square moves. When she puts it down her face has the look of a door in a house where somebody has just come home. 'Who,' she says, and does not finish. Then, to the cloth: 'Ask me a thing. I owe it.'" {
+    Increase quantity(party, gold) by 8.
+  }
+  Rule perfect_imke when within(party, town) and served(party) and goodness(party) >= 5 and imkeComes(party) once says "Imke Salter comes up the length of the table on your arm, between sixty soldiers, with something in a tea-cloth held against her chest. She stops by the Captain's chair. She unwraps it. A ladle, split down the handle, with a wire round the split. 'You,' says Captain Gannick, and puts her spoon down. 'You are the one with the ladle.' 'I had two hundred a day,' says Imke. 'I remember the ones who licked it.'" { }
+  Rule perfect_alone when within(party, town) and served(party) and goodness(party) >= 5 and not imkeComes(party) once says "'Who made it?' says the Captain. You tell her: an old woman behind the glebe wall, who is from Skellet. The Captain stands up so fast the chair goes over. Ostrey catches it, and keeps it, and does not give it back." { }
+  Rule near when within(party, town) and served(party) and goodness(party) >= 3 and goodness(party) < 5 once says "The Captain eats all of it, slowly, to the scrape, and says that it is very good, and thanks the cook. Behind her chair Ostrey shuts her eyes. It is how she has heard it eleven times." { }
+  Rule low when within(party, town) and served(party) and goodness(party) < 3 once says "The Captain tastes it twice, as a courtesy. 'No,' she says, kindly, and lays down the spoon. 'No. Thank you.' Somewhere down the table a soldier sighs, and tries to turn it into a cough." { }
+
+  // ── What the Captain will grant ─────────────────────────────────────────────────────────────────────────────────
+  Topic boon_nat with gannick "Ask the Captain to let Nat Tuck go home to the weir" when served(party) and goodness(party) >= 5 and not boonDone(party) {
+    Says "'The drummer?' The Captain turns, and finds him by the sound of him not drumming. 'He is nearly even,' she says. 'Tell his father that I have kept him very well fed, and that I could not make him a soldier. Go home, Nat.' At the end of the table a drum is put down very quietly.".
+    On discuss { Assert boonNat(actor). Assert boonDone(actor). }
+  }
+  Topic boon_ostrey with gannick "Ask the Captain to discharge Sergeant Ostrey" when served(party) and goodness(party) >= 5 and not boonDone(party) {
+    Says "The Captain does not turn round. 'Tamsin,' she says, 'have you been asking people to ask me things?' Ostrey, behind the chair, says nothing, with great intensity. 'Eleven winters,' says the Captain. 'You are discharged, with pay, and a reference that says you are the worst person I ever fed. Go and find out if you like bread.'".
+    On discuss { Assert boonOstrey(actor). Assert boonDone(actor). }
+  }
+  Topic boon_grain with gannick "Ask the Captain to pay for the grain the Company ate" when served(party) and goodness(party) >= 5 and not boonDone(party) {
+    Says "'Four days of it,' says the Captain, 'and the horses. The quartermaster will tell you the figure, and he will be wrong, so I will tell you.' She says it. It is exact, to the sack. 'Spurrell, pay the reeve. Out of the cask.' At the far end of the table, a narrow man stops pretending to write.".
+    On discuss { Assert boonGrain(actor). Assert boonDone(actor). }
+  }
+  Topic boon_nothing with gannick "Ask for nothing, and ask her what Skellet tasted like" when served(party) and goodness(party) >= 5 and not boonDone(party) {
+    Says "'Nothing,' says the Captain. 'You are the first.' She puts the tin spoon in your hand. It is worn narrow on one side, and warm. 'It tasted of being fed by someone who was not afraid,' she says. 'I have been trying to taste that for forty years, in the wrong places, in the mouths of people who were terrified of me. I had forgotten it was a thing a person did, not a thing a person cooked.'".
+    On discuss { Give lv_spoon to actor. Assert boonNothing(actor). Assert boonDone(actor). }
+  }
+
+  Action stay(actor: group, site: place) "Stay at the table until the lamps burn down" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, square) and served(actor) and not suppered(actor).
+    Time 2 hours.
+    On success { Assert suppered(actor). }
+    Result "The Company eats. The lamps are trimmed once, and then not. At some point Ostrey takes her boots off under the table, and nobody says a word about it.".
+  }
+
+  // ── What came of it ─────────────────────────────────────────────────────────────────────────────────────────────
+  Rule fate_nat when within(party, town) and suppered(party) and boonNat(party) once says "Nat Tuck walks home along the brook with his drum on his back, and is heard, by the weir, to be uphill." { }
+  Rule fate_nat_stays when within(party, town) and suppered(party) and goodness(party) >= 3 and not boonNat(party) and natReplied(party) once says "Nat Tuck marches with the Company at dawn, with his drum, nearly even. His father stands on the weir and does not wave, and Nat looks back four times." { }
+  Rule fate_ostrey when within(party, town) and suppered(party) and boonOstrey(party) once says "Tamsin Ostrey takes a room over the Bell and Barrow, and sleeps eleven hours, and wakes up afraid it is Tuesday." { }
+  Rule fate_grain when within(party, town) and suppered(party) and boonGrain(party) once says "Spurrell pays the reeve out of the cask, cursing to the sack. The granary is made up to the roof by Michaelmas." { }
+  Rule fate_swan when within(party, town) and suppered(party) and swanHeld(party) once says "The swan is eaten at the Bell on Sunday, by forty, and Hurst, who is not a fool, takes a drumstick out of the corner of the room and says it was the best thing he ever carried." { }
+  Rule fate_net when within(party, town) and suppered(party) and spurrellCaught(party) once says "Josiah Tuck finds a quarter of his net on the quartermaster's cart in the yard at dawn, left where it would be seen, and weighted with a coin." { }
+  Rule fate_nothing when within(party, town) and suppered(party) and boonNothing(party) once says "The tin spoon is the Captain's only one. She eats the rest of her life with a borrowed one, and is said to prefer it." { }
+  Rule fate_meggy when within(party, town) and suppered(party) and goodness(party) >= 5 once says "Dame Meggy Peake has the recipe for grey out of Imke's mouth by the end of the week, and sells it to the Bell at a penny a bowl. She says it is a penance. She makes it every Friday." { }
+
+  Ending skellet_grey "Skellet Grey" when suppered(party) and goodness(party) >= 5 and imkeComes(party) "At the end of the night the Company stands up, by tens, and goes to its tents. The Captain stays where she is. In the morning the glebe is empty, all but one tent, which stays pitched in a widow's garden among the sorrel until the first frost. Somebody has taken the split ladle out to the step, and somebody else is holding the bowl.".
+  Ending that_will_do "That Will Do" when suppered(party) and goodness(party) >= 5 and not imkeComes(party) "At dawn the Gannick Company marches, in order, without being asked. The Captain walks round by the glebe wall before she goes, and is in the garden some time. Nobody who was on the road will say what was said. She comes out with a jar of grey ash in her coat, and for the first time in eleven towns she says, 'That will do,' and the Company, who have waited a very long time for it, does not cheer.".
+  Ending near_enough "Near Enough" when suppered(party) and goodness(party) >= 3 and goodness(party) < 5 "She is very polite to the end of the week. On the eighth day she looks at the empty granary, and at the reeve, and gives the order to march, and says over her shoulder that the supper was good. It was good. It was not hers. Ostrey tells you at the gate: she leaves places that tried, and stays in places that did not, and nobody has ever known whether that is mercy.".
+  Ending the_swan "The Swan" when suppered(party) and goodness(party) < 3 "The Captain says it was very good, and in the morning the Company has not marched. It does not march in the second week. By the third Hurst has stopped telling the town five days. Someone has painted the word swan on the inn door, and underneath it, smaller: not enough.".
+  Ending no_supper "No Supper" when hour(clock) >= 22 and not served(party) "The lamps go down the long table by tens and nobody has brought anything. At ten the Captain gets up, says that she will see the granary herself, and walks across the square with the Company behind her. There is a great deal of noise. In the morning the reeve says the town has three days of grain, which is a lie, but a kind one.".
+
+  Milestone m_eel "was given the weir's eels, for a pot, by Josiah Tuck" worth 50 when eelGot(party).
+  Milestone m_sat "sat properly on Imke Salter's step" worth 50 when imkeOpen(party).
+  Milestone m_grey "learned what made the Skellet pot grey" worth 100 when knows(party, ash_known).
+  Milestone m_right "cooked the Skellet grey, to the grain" worth 150 when potReady(party) and goodness(party) >= 5.
+  Milestone m_served "put the pot in front of the Captain" worth 100 when served(party).
+}
