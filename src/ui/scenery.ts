@@ -47,8 +47,12 @@ export class Scenery {
   static readonly places: Record<string, string | string[]> = table.places;
   // That painting, where it fits the place as it now is: the camp in the lee had been its campfire by night at noon,
   // and the Arcology's sunlit terraces stood in the rain (BRIEF §3.4); where it does not, the kind's choice, or none.
+  // A stock opening's room is the opening's own, by its id within it (region__s1_adit_mouth is adit__mouth); and one
+  // place's paintings of its seasons are one family, the season's shown (OR-447: the valley below the adit's mouth).
   static authored(screen: Screen): string | undefined {
-    return [this.places[screen.place.id] ?? []].flat().find(own => Fits.fits(screen, own));
+    const id = screen.place.id, own = this.places[id] ?? this.places[id.replace(/^region__s\d+_([a-z]+)_(\w+)$/, '$1__$2')];
+    const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
+    return this.seasonal([own ?? []].flat(), season).find(p => Fits.fits(screen, p));
   }
   // Under a roof (a room of a building, anywhere within a level of a site not said to be open, or a room whose kind
   // is seen from within: a shop off the market-place), no country is painted: the Hall cellar at Merrow had opened on

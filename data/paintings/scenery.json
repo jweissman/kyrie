@@ -52,6 +52,7 @@
     "fellowship__hall_c": "scene-great-house",
     "fellowship__hall_d": "scene-great-house",
     "walk__moot_a": "scene-great-house",
+    "adit__mouth": ["scene-valley-spring", "scene-valley-summer", "scene-valley-autumn", "scene-valley"],
     "keep__hall": "scene-great-hall",
     "raingourd__headland": "scene-tropics",
     "raingourd__waterfront": ["scene-tropics-village", "scene-tropics-village-rain"],
