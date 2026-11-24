@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 544 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 172 pins (140 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 545 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -145,8 +145,9 @@ page's colours and opportunities.)
 - **Levels and growth** · 1 pins · 0 defects · 1 asks
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
-- **Belongings with a history** · 1 pins · 0 defects · 1 asks
+- **Belongings with a history** · 2 pins · 0 defects · 1 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
+  - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-307 P1: The character sheet simplified, as a folio (perhaps the Encyclopedia's parchment): the character,…
 - **Lodging and rest** · 4 pins · 3 defects · 0 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
@@ -285,16 +286,17 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 5 pins · 10 defects · 3 asks
-  - ✓ is the title's one way in: it continues a game kept and still going, and otherwise begins
-  - ✓ then asks one thing: create a character, or enter the world as we are
-  - ✓ takes up the terminal's kept game while it is going, and from one that cannot be opened begins, saying why
+- **The title and Play** · 6 pins · 9 defects · 3 asks
+  - ✓ offers New character alone with nothing kept; Continue, New character and New world over a kept game
+  - ✓ then asks one thing: create a character, or a new life at once
+  - ✓ pauses a game with two ways: back to it, or Return to title
+  - ✓ knows the terminal's kept game, and refuses one it cannot open
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
   - requirement OR-290 P2: FM-01's remainder: record the way in frame by frame on the deployed build (remounts, opacity…
   - requirement OR-133 P1: Stories made plain on the page: the brief's Story/Incident block for an authored title and problem…
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
-- **Character creation** · 3 pins · 8 defects · 2 asks
+- **Character creation** · 3 pins · 7 defects · 2 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
   - ✓ each see acts the others do not
@@ -326,7 +328,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 37 defects · 10 asks
+- **Rows, lenses and the frame** · 3 pins · 37 defects · 11 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -335,10 +337,11 @@ page's colours and opportunities.)
   - direction UI-22 P3: Choices and prose in one typographic voice; the pack's and the fight's tiles and the fight's…
   - requirement OR-139 P1: An Objective's authored short title in Kyr ("Find your father"), said where the aim is taken up in…
   - requirement OR-207 P2: Every mark on a row an attested indicator or a glyph whose meaning is stated…
-  - requirement OR-305 P1: One page frame owns the primary action menu: its place, layout and behaviour are the frame's for…
-  - requirement OR-306 P2: The backstage's tabs as one navigation instrument: a fixed hard top, cycled by left and right (and…
   - requirement OR-309 P2: One semantic presentation of the rules' things: an ability, a condition, a fight's figures and a…
   - direction OR-314 P3: Reusable instruments for focused things (the constellation filling the view, its twelve in a fixed…
+  - requirement OR-382 P3: The title's ways in off the frame's menu column at a desk's size: centred under the game's name…
+  - requirement OR-383 P3: A fight's hand off the frame's menu column on a narrow or upright screen: its rows 11–19rem wide…
+  - direction OR-385 P3: A game pad: the page reads no pad at all (no Gamepad API anywhere in web/reader), so the backstage…
   - requirement OR-125 P1: The action row, M22's central object, given the precision of a larger composition (the owner, 19…
 - **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
@@ -349,12 +352,13 @@ page's colours and opportunities.)
 
 ### Words
 
-- **Narration** · 3 pins · 28 defects · 3 asks
+- **Narration** · 3 pins · 28 defects · 4 asks
   - ○ the narration of an hour in a1 holds to "you", in the present, by a census of its sentences
   - ○ a place's first telling gives more than sight (sound, smell, touch or weather), within budget
   - ○ the words never contradict the state (a door told shut is shut, the weather told is so)
   - requirement NP-20 P1: Each lint-advised rule in the other worlds read in play and anchored; the lint taught a vessel the…
   - requirement DN-03 P1: The first hour's prose made lighter, starting with the laboratory's undertown (62 of 263 heavy),…
+  - requirement OR-293 P2: OR-301's remainder: 57 engine-offered labels over forty characters on the warrior's walk…
   - requirement OR-75 P1: The wagoner's prose to be redone (the owner, 18 November)
 - **Voices and dialogue** · 1 pins · 0 defects · 1 asks
   - ○ two people of different callings and peoples answer the same question in distinct registers
@@ -413,8 +417,9 @@ page's colours and opportunities.)
 - **Architecture and layers** · 0 pins · 30 defects · 2 asks
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 14 defects · 1 asks
+- **Testing instruments** · 0 pins · 14 defects · 2 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
+  - requirement OR-384 P3: The ending's menu placed by the frame's tokens (book.css: .ending-col) but measured by no spec: no…
 - **Documentation and the register** · 0 pins · 7 defects · 0 asks
 
 ## Negative space
@@ -456,7 +461,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, KX-02, KX-04, AU-54, AU-58, AU-60
 - **Architecture and layers** (The engine): AX-07, MT-31
-- **Testing instruments** (The engine): OR-407
+- **Testing instruments** (The engine): OR-407, OR-384
 
 ### Pins not yet met (32)
 

@@ -318,6 +318,7 @@
        "title": "Belongings with a history",
        "feature": "company",
        "pins": [
+        "a fallen companion's pack",
         "Character › Inventory with textual presence"
        ],
        "words": [
@@ -769,6 +770,7 @@
        "title": "The title and Play",
        "feature": "opening",
        "pins": [
+        "Interface › Ways in",
         "Interface › Play",
         "Interface › No long presses on the way in"
        ],
