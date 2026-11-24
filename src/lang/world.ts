@@ -10,7 +10,7 @@ interface Signatures {
   // Each measure, and the most it may be where it says (Measure … at most N).
   relations: Map<string, Signature>; measures: Map<string, number | undefined>; queries: Map<string, Module['queries'][number]>;
   source: [Signature[], Signature[], Module['queries']]; lengths: [number, number, number] }
-type Measure = { call: Call; value: number };
+type Measure = { call: Call; value: number }; type Measured = Exclude<Change, { kind: 'assert' | 'retract' }>;
 
 // An immutable view of world state. Facts and measures are kept by name, each name's by key, and `apply` forks a
 // world by sharing every name's map with it until it first writes that name: a change costs what it changes and the
@@ -328,40 +328,41 @@ export class World {
   // Whether two worlds are of one line, so that what each shares with the other is shared (see `differing`).
   sameLine(other: World): boolean { return this.lineage === other.lineage; }
   private change(change: Change, counts: Counts, displaced: Displaced) {
+    const key = World.key(change.call);
+    if (change.kind !== 'assert' && change.kind !== 'retract') { this.changeMeasure(change, key, counts); return; }
     this.memoSnapshot = undefined;
     this.stamps.set(change.call.name, ++World.writes);
-    const key = World.key(change.call);
-    if (change.kind === 'assert' || change.kind === 'retract') {
-      const relation = World.index(this.module).relations.get(change.call.name);
-      if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
-      const named = this.named(change.call.name);
-      RelationViews.forget(named);
-      if (named.delete(key)) { this.sum(key, -1); this.count--; displaced.removed(change.call, key); }
-      if (change.kind === 'assert' && relation.exclusive) {
-        for (const k of displaced.take(named, change.call)) { if (named.delete(k)) { this.sum(k, -1); this.count--; } }
-      }
-      if (change.kind === 'assert') {
-        const call = World.copy(change.call); named.set(key, call); this.sum(key, 1); this.count++;
-        displaced.added(call, key);
-      } else if (!named.size) { this.byName.delete(change.call.name); this.owned.delete(change.call.name); }
-      return;
+    const relation = World.index(this.module).relations.get(change.call.name);
+    if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
+    const named = this.named(change.call.name);
+    RelationViews.forget(named);
+    if (named.delete(key)) { this.sum(key, -1); this.count--; displaced.removed(change.call, key); }
+    if (change.kind === 'assert' && relation.exclusive) {
+      for (const k of displaced.take(named, change.call)) { if (named.delete(k)) { this.sum(k, -1); this.count--; } }
     }
+    if (change.kind === 'assert') {
+      const call = World.copy(change.call); named.set(key, call); this.sum(key, 1); this.count++;
+      displaced.added(call, key);
+    } else if (!named.size) { this.byName.delete(change.call.name); this.owned.delete(change.call.name); }
+  }
+  // A measure set, raised or lowered; set to what it is, nothing is written and the name keeps its stamp (the clock's
+  // hour, day, dark and untilLight, set every watch and mostly unchanged, had stirred every rule reading them: OR-183).
+  private changeMeasure(change: Measured, key: string, counts: Counts) {
     const amount = change.value.kind === 'number' || change.value.kind === 'deem' ? World.literal(change.value)
       : this.number(change.value);
     // A count is what the list does to it in all, stopped at nothing; a quantity set outright may be less (Counts).
     const value = Math.min(counts.next(key, change.kind, amount, () => this.number(change.call)),
       World.index(this.module).measures.get(change.call.name) ?? Number.MAX_SAFE_INTEGER);
-    if (!Number.isSafeInteger(value)) {
-      throw new Error(`Invalid quantity for ${World.format(change.call)}`);
-    }
-    const named = this.namedMeasures(change.call.name), held = named.get(key);
+    if (!Number.isSafeInteger(value)) { throw new Error(`Invalid quantity for ${World.format(change.call)}`); }
+    if ((this.measuresByName.get(change.call.name)?.get(key)?.value ?? 0) === value) { return; }
+    this.memoSnapshot = undefined;
+    this.stamps.set(change.call.name, ++World.writes);
+    const { name } = change.call, named = this.namedMeasures(name), held = named.get(key);
     RelationViews.forget(named);
     if (held) { named.delete(key); this.sum(`${key}=${held.value}`, -1); this.measureCount--; }
     if (value !== 0) {
       named.set(key, { call: World.copy(change.call), value }); this.sum(`${key}=${value}`, 1); this.measureCount++;
-    } else if (!named.size) {
-      this.measuresByName.delete(change.call.name); this.ownedMeasures.delete(change.call.name);
-    }
+    } else if (!named.size) { this.measuresByName.delete(name); this.ownedMeasures.delete(name); }
   }
   static literal(value: NumberValue): number {
     if (value.kind !== 'number') { throw new Error('Unresolved Deem expression'); }
