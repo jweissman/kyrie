@@ -29,7 +29,7 @@ interface Read {
 export class CompanyRecall {
   private static readonly logs = new WeakMap<readonly CampaignEvent[], Read>();
   private constructor(private readonly r: Read, private readonly lastly: { talked: Set<string>; done: Set<string>;
-    from?: string; came?: string; left?: string; acted?: boolean; grown: number }) {}
+    from?: string; came?: string; left?: string; acted?: boolean; grown: number; failed?: boolean }) {}
   // In an enclosed place (indoors, under the ground, in a building or a site: one rule with the compass, see
   // Itineraries.enclosed), the way the company came, open to it, for the page to keep in sight beside Go… (PR-08: five
   // cold players in three rounds could not find the way back or up, and walked out step by step through Go…; inside a
@@ -64,7 +64,7 @@ export class CompanyRecall {
     const came = moved ? from : r.came, left = moved && !r.stay ? from : undefined;
     return new CompanyRecall(r, { talked, done, ...from ? { from } : {}, ...came ? { came } : {},
       ...left ? { left } : {}, acted: !!last && !moved && CompanyRecall.news(last), grown: r.grown
-        + (last && this.grew(last) ? 1 : 0) });
+        + (last && this.grew(last) ? 1 : 0), ...last?.result === 'failure' ? { failed: true } : {} });
   }
   // One command: what it was done to, where, and what it showed; and where it left the company.
   private static take(campaign: Campaign, r: Read, event: CampaignEvent) {
@@ -130,6 +130,13 @@ export class CompanyRecall {
     const done = [...this.r.done.get(place) ?? [], ...this.lastly.from === place ? this.lastly.done : []];
     const failed = [...this.r.failed.get(place) ?? []].flatMap(([d, at]) => at === this.lastly.grown ? [d] : []);
     return [...done, ...failed].some(d => CompanyRecall.same(command, d));
+  }
+  // Whether it was only tried here, the last command included, and never came off: done, but a fresh try at the aim's
+  // step is still its step (OR-241: failed at the sea-gate's windlass, "or a fresh try", it had gone from the four).
+  missed(place: string, command: string): boolean {
+    const last = this.lastly.from === place && !this.lastly.failed ? this.lastly.done : [];
+    const done = [...this.r.done.get(place) ?? [], ...last];
+    return this.did(place, command) && !done.some(d => CompanyRecall.same(command, d));
   }
   // Whether a command as the page offers it is one done: the same, or the same act with the page's arguments among the
   // engine's, in order (the page leaves out those its label does not show, the company first): "work_keep(innkeeper)"

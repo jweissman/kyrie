@@ -33,6 +33,8 @@ export interface Candidate {
   barred?: boolean;
   // An opener with a focus (a riddle read on a door), the commands of its rows: read there, never led loose beside it.
   holds?: string[];
+  // The ways of one choice it is one of, by choice, itself among them (see Alternatives): led together or not at all.
+  together?: string[];
 }
 // Where the company stands: a danger here, someone warning it off, in the dark with no light, in a settlement or a
 // site (where a way not yet taken is worth leading with), in the open country (where the ways are the compass).
@@ -48,6 +50,9 @@ export interface Situation { threat: boolean; warned: boolean; dark: boolean; se
 // (a danger may take two and the way back), two ways, and one of the place's own acts. Pure and deterministic.
 // A candidate as it is weighed: every reason it is drawn by (all), those it may be led with for (whys), the best.
 interface Fit { c: Candidate; all: Why[]; whys: Why[]; best: Why }
+// What the four have taken so far: ways, the place's own acts, talks (plates), rows past one of a choice's ways
+// (extra), and places by subject.
+interface Taken { ways: number; own: number; plates: number; extra: number; by: Map<string, number> }
 
 export class Promotion {
   static readonly cap = 3;
@@ -94,12 +99,16 @@ export class Promotion {
   // Gefeohtgaet's door the hobs' two acts and the way back had filled them, the search under the door-stone the
   // dead man's map marks was only under `all`, and the gold went to the parley (M21's playability list, PL-19).
   private static fill(fit: Fit[], s: Situation, lone: boolean): Fit[] {
-    const picked: Fit[] = [], taken = { ways: 0, own: 0, plates: 0, by: new Map<string, number>() };
+    const picked: Fit[] = [], taken: Taken = { ways: 0, own: 0, plates: 0, extra: 0, by: new Map<string, number>() };
     let stepped = false;
     for (const x of fit) {
       if (picked.length >= this.all) { break; }
       const step = !stepped && x.whys.includes('advance');
-      if (x.c.kind !== 'talk' && picked.length - taken.plates >= this.cap && !step) { continue; }
+      // The ways of one choice are led side by side, or none of them: one place of the three, a row each (OR-242).
+      const ways = this.choice(x, fit, picked);
+      if (ways === null || (ways.length && !this.together(x, ways, picked, { taken, s, lone }))) { continue; }
+      if (ways.length) { continue; }
+      if (x.c.kind !== 'talk' && picked.length - taken.plates - taken.extra >= this.cap && !step) { continue; }
       // Not the one spoken to, whose talk leads while it is had: Owain's word and the hand on the green had held both
       // plates, and the reeve's questions stood in the rest while she was spoken to (cold play 4, CL-49; MT-15).
       if (x.c.kind === 'talk' && taken.plates >= 2 && x.best !== 'talking') { continue; }
@@ -113,6 +122,27 @@ export class Promotion {
       picked.push(x);
     }
     return picked;
+  }
+  // Of one of the ways of a choice, all of them, as eligible, in their order; none where it is no choice's (empty), and
+  // null where they are not all to be had here, or are led already.
+  private static choice(x: Fit, fit: Fit[], picked: Fit[]): Fit[] | null {
+    const ids = x.c.together;
+    if (!ids) { return []; }
+    if (picked.some(p => ids.includes(p.c.choice))) { return null; }
+    const ways = ids.map(id => fit.find(f => f.c.choice === id));
+    return ways.every(w => !!w) ? ways as Fit[] : null;
+  }
+  // The ways of a choice taken together, where there is room for them all: one place of the three (one subject's, one
+  // of the place's own) and a row each among the four.
+  private static together(x: Fit, ways: Fit[], picked: Fit[], at: { taken: Taken; s: Situation; lone: boolean }):
+    boolean {
+    const { taken } = at, subject = x.c.subject ?? x.c.choice;
+    if (picked.length + ways.length > this.all || picked.length - taken.plates - taken.extra >= this.cap
+      || !this.room(x, picked.map(p => p.c), at)) { return false; }
+    taken.by.set(subject, (taken.by.get(subject) ?? 0) + 1);
+    taken.own++; taken.extra += ways.length - 1;
+    picked.push(...ways);
+    return true;
   }
   // What the Atlas marks outweighs what it does not (the owner, 19 November, AT-11: "a matching opportunity beneath a
   // lens … should outweigh at least non-atlas-indicated items"): of what is here to be done (below the urgent, the aim
@@ -321,7 +351,7 @@ export class Promotion {
   // two are led with, and none of them an act: beside Bran's line to read, "To the taproom of the Stone Horn" had led
   // from the third turn on for no reason a player could see (cold plays 2 and 3, CL-25).
   private static room(x: { c: Candidate; best: Why }, picked: Pick<Candidate, 'choice' | 'exit'>[],
-    at: { taken: { ways: number; own: number; plates: number; by: Map<string, number> }; s: Situation; lone: boolean }):
+    at: { taken: Taken; s: Situation; lone: boolean }):
     boolean {
     const c = x.c, subject = c.subject ?? c.choice;
     if (picked.some(p => p.choice === c.choice)) { return false; }

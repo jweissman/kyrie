@@ -36,6 +36,7 @@ class Four {
     return { kind: c?.kind, witness, gold: g.acts.find(a => a.choice === witness)?.continues, page, runner };
   }
 }
+const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 const weir = 'doc/architecture/mission-22/cold/cold-5-lines.txt', drove = 'doc/architecture/mission-22/golden/warrior-walk.txt';
 describe('the act that matters, among the four and gold (CL-33)', () => {
   it('at the gate-well, the pawl found: taking it (cold play 5\'s 6)', async () => {
@@ -46,13 +47,18 @@ describe('the act that matters, among the four and gold (CL-33)', () => {
     expect(at.runner?.label).toMatch(/pawl/i);
     expect(at.runner?.aspects).toContain('undertaking');
   }, 180000);
+  // And after a try that did not come off, and a wait, the fresh try the words promise is still the step, gold among
+  // the four (OR-241: the first blind cold play of the page, P122 and P136-137: only under Look after an hour's wait).
   it('at the windlass with Gesk hired, the wind gold among the four (its 10); and after a try that did not come off,'
-    + ' said as that, not as nothing bearing on the aim', async () => {
+    + ' and a wait, still the step', async () => {
     const failed = await Four.play('elf/mage/Ilse/scholar', weir, 18);
     expect(failed.s.scene.lines.join(' ')).toContain('The drum will not come round');
-    const c = failed.r.leaf!.glance!.continuance!;
-    expect(c.kind === 'frontier' && c.said).toBe('Set the pawl in its socket and wind the sea-gate shut: that try did not'
-      + ' come off. Another may, or more hands.');
+    const tried = Four.read(failed.r, failed.s);
+    expect([tried.kind, tried.gold, tried.page?.continues]).toEqual(['step', true, true]);
+    expect(tried.runner?.label).toMatch(/^Set the pawl in its socket and wind the sea-gate shut/);
+    const waited = said(await failed.r.ask(JSON.stringify({ act: 'wait_hour' })));
+    const after = Four.read(failed.r, waited);
+    expect([after.kind, after.gold, after.page?.continues]).toEqual(['step', true, true]);
     const { r, s } = await Four.play('elf/mage/Ilse/scholar', weir, 22);
     const at = Four.read(r, s);
     expect([at.kind, at.gold]).toEqual(['step', true]);

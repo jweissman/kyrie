@@ -16,7 +16,8 @@ import type { World } from '../lang/world';
 export interface Reading {
   // The words of the aim followed (whether one is); the choices whose doing changes what it waits on, or leads to
   // where what it waits on is (see Glance.advances, AimLeads).
-  aim?: string; advances?: Set<string>; coin?: boolean;
+  // And for each act, the other ways of one choice with it (see Alternatives).
+  aim?: string; advances?: Set<string>; coin?: boolean; alternatives?: Map<string, string[]>;
   // Whether what it waits on is known to lie within the site here (see AimLeads.within): only then is a way further in
   // the aim's.
   within?: boolean;
@@ -32,8 +33,7 @@ export interface Reading {
   named: Set<string>; held: Set<string>; toward: Map<string, 'toward' | 'held'>;
   // In a site: the ways further into it not yet taken, by exit id; "~" before one back from a dead end toward the rest
   // of it (see Glance.inward).
-  inward: Set<string>;
-  back?: string; here: string;
+  inward: Set<string>; back?: string; here: string;
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
   // The marvels its author declares (`Marvel.`: marvel(thing)), by id.
@@ -119,13 +119,17 @@ export class Affordances {
     if (SceneModel.threat(s)) { return this.threat(s, r); }
     // Talking to them, or looking at it, is one choice; what is done about them stands beside it (see Attending).
     const opener = s.choices.find(c => [`${s.id}#talk`, `${s.id}#look`].includes(c.id));
-    if (opener) { return [...this.opened(s, opener, screen, r), ...this.deeds(s, opener, r)]; }
+    if (opener) { return [...this.choice(s, opener, screen, r), ...this.deeds(s, opener, r)]; }
     // An animal, or a creature of no danger: its first gentle act, for what is new about it.
     const gentle = this.gentle(s.choices, r);
     if (!gentle) { return []; }
     const whys: Why[] = [...r.signs.has(s.id) ? ['sign' as const] : [], ...r.life === s.id ? ['life' as const] : [],
       ...this.about([gentle], r) ? ['about' as const] : [], ...this.ownWhy([gentle], r)];
     return [this.candidate(gentle, { subject: s.id, kind: 'act', whys, r })];
+  }
+  // An opener, or the ways of a choice within it led in its place (see Alternatives).
+  private static choice(s: SceneSubject, opener: Choice, screen: Screen, r: Reading): Candidate[] {
+    return Leaves.choice(this.opened(s, opener, screen, r), { s, opener, r }, (c, at) => this.candidate(c, at));
   }
   // What is done about them beside the talk (letting Ifan's boat through the sea-gate, as he asks): each one of the
   // place's own acts, led with as such, never only under `all` (ST-03: their talk's replies had been read alone, and a
@@ -265,8 +269,7 @@ export class Affordances {
     return [this.candidate(opener, { ...base, whys: [...whys, ...needs.map(n => n.why)], leaves: within, notes: {
       ...answer ? { answer: answer.label } : {}, ...kin || named ? { kin: word?.startsWith('your ') ? word : 'your aim' } : {},
       ...held ? { held: word?.startsWith('your ') ? word : this.held(r) } : {}, companion: 'might come along',
-      ...Object.fromEntries(needs.map(n => [n.why, n.note])) },
-    ...answer?.command ? { command: answer.command } : {},
+      ...Object.fromEntries(needs.map(n => [n.why, n.note])) }, ...answer?.command ? { command: answer.command } : {},
     // Led for an aim that names them, what it is led for is the first new thing to ask them, not their first reply
     // (the priest led for his job had stood for his care of the wounded, the innkeeper for a bed); else what the
     // company needs of them.
@@ -450,8 +453,7 @@ export class Affordances {
       kind: 'travel' as const, order: 0, marks: d.minutes > 10 && Marks.journey(screen.elapsed, d.minutes) ? [Marks.dusk] : [],
       minutes: d.minutes, visited: visited.has(d.id),
       pointed: r.pointed.has(d.id), whys: [...(r.named.has(d.id) && !r.idle?.has(d.id)) || this.shop(r, d.id)
-        ? ['named' as const] : [],
-        ...r.toward.has(`travel:${d.id}`) ? [r.toward.get(`travel:${d.id}`)!] : [],
+        ? ['named' as const] : [], ...r.toward.has(`travel:${d.id}`) ? [r.toward.get(`travel:${d.id}`)!] : [],
         ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
       notes: { named: 'your aim', held: this.held(r), toward: 'toward your aim' } }));
   }
@@ -502,8 +504,7 @@ export class Affordances {
       // Not a rest with nothing to eat, which mends nothing ("you would get up no better"): a hungry company had been
       // led to lie down and get up again, over and over (the laboratory's lost turns).
       ...kind === 'rest' && n.hurt.size > 0 && !at.threat && r.schema.get(c.command ?? '') !== 'rest_unfed'
-        ? ['hurt' as const] : [],
-      ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
+        ? ['hurt' as const] : [], ...kind === 'search' && r.signs.has('') ? ['sign' as const] : [],
       // What the aim waits on, done by the company here (sitting up with the fevered child, a search where what it
       // waits on is hidden): its next step. A search is not the aim's for being made where the aim is: at Seolforfyrd
       // the debt's gold went to "Search", and "nothing is hidden here" (M21's playability list, PL-08).
