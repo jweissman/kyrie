@@ -17,7 +17,7 @@ export class ActionTime {
     if (action.minutes !== undefined) { return action.minutes; }
     const d = action.duration, walked = d?.kind === 'call' && d.name === 'travelTime';
     const pace = walked ? (this.laden(action, world) ? 2 : 1) * this.slowest(action, world) : 1;
-    if (walked && world.module.measures.some(m => m.name === 'travelMinutes')) {
+    if (walked && world.measures('travelMinutes')) {
       const minutes = world.number(ModuleWriter.call('travelMinutes', ...d.args));
       if (minutes > 0) { return Math.round(pace * minutes); }
     }
@@ -27,13 +27,12 @@ export class ActionTime {
   // (a step into a shop, one), else its watches, ten minutes each. The town's walks and the map had counted every step
   // as ten, and said twenty minutes to the place next door (round 7, the register's NM-09).
   static passage(world: World, passage: string): number {
-    const minutes = world.module.measures.some(m => m.name === 'travelMinutes')
-      ? world.number(ModuleWriter.call('travelMinutes', passage)) : 0;
+    const minutes = world.measures('travelMinutes') ? world.number(ModuleWriter.call('travelMinutes', passage)) : 0;
     return minutes > 0 ? minutes : 10 * Math.max(1, world.number(ModuleWriter.call('travelTime', passage)));
   }
   // How many times as long its slowest member takes (speed, in hundredths of their own; unset is their own).
   private static slowest(action: Operator, world: World): number {
-    if (!action.actor || !world.module.measures.some(m => m.name === 'speed')) { return 1; }
+    if (!action.actor || !world.measures('speed')) { return 1; }
     const speeds = world.relatedTo('memberOf', action.actor)
       .map(f => world.number(ModuleWriter.call('speed', f.args[0]!))).filter(s => s > 0);
     return speeds.length ? 100 / Math.min(...speeds) : 1;
