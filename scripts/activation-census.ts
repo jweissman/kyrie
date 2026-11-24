@@ -22,6 +22,7 @@ import type { PlaceRef } from '../src/ui/screen-types';
 import countries from '../data/adventures/countries.json';
 import scenery from '../data/paintings/scenery.json';
 import registry from '../data/paintings/registry.json';
+import sources from '../data/paintings/sources.json';
 import library from '../data/scenarios/library.json';
 import standing from '../data/scenarios/standing.json';
 import arts from '../data/generation/history/arts.json';
@@ -67,7 +68,8 @@ export class ActivationCensus {
   static paintings(worlds: World[], dormant: Ledger): string[] {
     const mapped = new Set<string>(), text = JSON.stringify({ ...scenery, about: '' });
     for (const m of text.matchAll(/"([a-z][a-z0-9-]*)"/g)) { mapped.add(m[1]!); }
-    const bg = this.list('assets/bg').filter(f => f.endsWith('.png')).map(f => f.slice(0, -4));
+    // The owner's paintings, wherever in assets/bg they are kept, each by the id it has for good (sources.json).
+    const bg = Object.keys(sources.sources).map(id => id.replace(/^scene-/, ''));
     const registered = registry.paintings as { id: string; concept: { kind: string } }[];
     const ids = new Set(registered.map(p => p.id));
     // An owner's painting is imported as scene-<name> (a bare name may be an old master's of the same word).
@@ -92,7 +94,7 @@ export class ActivationCensus {
       && kinds.includes(`"${m}"`));
     const known = dormant.paintings ?? {}, places = worlds.reduce((n, w) => n + w.places.length, 0);
     return ['## Paintings', '',
-      `Measured: authored (assets/bg PNGs: ${bg.length}) → imported to the registry (assets/portraits as scene-<name>) → `
+      `Measured: authored (assets/bg PNGs, by data/paintings/sources.json: ${bg.length}) → imported to the registry (assets/portraits as scene-<name>) → `
       + `mapped (data/paintings/scenery.json) → shown for some place of a sampled world (a kind that lists it, by the `
       + `place's own words; the sample is ${worlds.length} worlds, ${places} places).`, '',
       '| Stage | Count |', '|---|---:|', `| assets/bg paintings | ${bg.length} |`,
