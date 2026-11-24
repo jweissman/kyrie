@@ -373,10 +373,8 @@ export class Affordances {
       ...this.shop(r, dest) ? ['named' as const] : [],
       ...(r.named.has(dest) || r.occupied?.has(dest)) && !r.needs.dark?.has(dest)
         && !(r.named.has(r.here) && exit.visited && !r.occupied?.has(dest)) && !r.idle?.has(dest) ? ['named' as const] : [],
-      ...toward ? [toward] : [],
-      ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
-      ...this.inward(c, exit.id, r),
-      ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
+      ...toward ? [toward] : [], ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
+      ...this.inward(c, exit.id, r), ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
       ...exit.local && !exit.visited && !r.needs.night ? ['unvisited' as const] : [], ...first ? ['unlooked' as const] : [],
       // An author's own way through what bars it, open to this company (a thief's pick of the corn-store padlock had
       // been only under Every way: Mission 19).

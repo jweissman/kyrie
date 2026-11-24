@@ -42,6 +42,8 @@ export interface CampaignState {
   // The aim the player follows, by its id, and whether they chose it; and the aims they set aside for it, the latest
   // last, to be followed again when it is done (see Undertakings).
   following?: { id: string; chosen?: boolean; aside?: string[] };
+  // The aims set aside for one ended in the command under way, to be gone back to as it ends (see Undertakings).
+  resume?: string[];
 }
 export interface NpcDecision {
   actor: string; goal: string; action: string; plan: string[]; elapsed?: number; changes?: string[];

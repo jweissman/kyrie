@@ -34,6 +34,19 @@ export interface Traveller {
 // a fight, something dangerous where it arrives, a way that will not let it by, a hurt, nightfall, weariness or
 // hunger, or something staged where it comes; and when it has arrived.
 export class Travel {
+  // Whether an aim, were it followed now, has a step the page would lead with: not one the page would say is beyond
+  // the company where it stands (a keeper reckoned beyond it, a door it has nothing to open: the glance's frontier
+  // with its need). Read with the aim followed for the reading only, and put back as it was (see Undertakings.after).
+  static open(campaign: Campaign, id: string): boolean {
+    const current = campaign.tickState.current, kept = current.following;
+    current.following = { id, chosen: true };
+    try {
+      const stands = Narrator.leaf(campaign, ScreenModel.build(campaign)).glance?.continuance;
+      return !(stands?.kind === 'frontier' && !!stands.need);
+    } finally {
+      if (kept) { current.following = kept; } else { delete current.following; }
+    }
+  }
   // Makes the journey, leg by leg, and stops where something wants the player.
   // The way laid when it sets out is the way it goes, as the map drew it: laid again only where its legs run out short
   // of the place (toward one only heard of, to the edge of its country), and where what lies ahead is seen to be

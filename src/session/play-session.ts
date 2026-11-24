@@ -212,8 +212,10 @@ export class PlaySession {
     } catch (error) {
       this.receipts.push(open.receipt(this.steps.length, 'undone'));
       throw error;
-    } finally { this.busy = false; this.campaign.closeCommand(); }
+    } finally { this.busy = false; this.campaign.closeCommand(); this.resumed(); }
   }
+  // An aim set aside, gone back to where it has a step, read from the frame now the command has ended.
+  private resumed() { Undertakings.resume(this.campaign, aim => Travel.open(this.campaign, aim)); }
   // A fight's turn put to the player's controller: while it waits, the fight's page may be drawn (Campaign.fighting).
   private async asked(controller: CombatController, battle: Battle): Promise<Command> {
     this.campaign.fighting = true;

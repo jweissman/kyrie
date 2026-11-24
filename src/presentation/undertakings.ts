@@ -250,9 +250,22 @@ export class Undertakings {
       // Followed on into its next part, as the player's own choice still; or else back to the aim they last set aside
       // for it, if it is held still (OR-179: the pans' cold boat fetched, the drove's sale Bran waited on, chosen
       // before it, had been left followed by nobody); nothing else is followed for them.
-      const on = next?.id ?? aside.pop(), rest = aside.filter(a => a !== on);
-      if (!on) { delete current.following; return; }
-      current.following = { id: on, chosen: true, ...rest.length ? { aside: rest } : {} };
+      // Gone back to once the command has ended, where it has a step then (see resume).
+      if (!next) { delete current.following; if (aside.length) { current.resume = aside; } return; }
+      current.following = { id: next.id, chosen: true, ...aside.length ? { aside } : {} };
     }
+  }
+  // Back to the aim last set aside, once the command that ended the one chosen over it has ended, where that aim has a
+  // step now (open, read from the frame: see Travel.open); one the page would say is beyond the company is passed over
+  // (the first quarter hour's gold walks: the Hall's seal, set aside at the landing for the oak because it was beyond
+  // the company there, had been taken up again at once, and the walk led away from the Hall).
+  static resume(campaign: Campaign, open: (id: string) => boolean) {
+    const current = campaign.tickState.current, aside = current.resume;
+    if (!aside) { return; }
+    delete current.resume;
+    if (current.following) { return; }
+    const held = new Set(this.held(campaign).map(o => o.id)), back = aside.filter(a => held.has(a));
+    const on = [...back].reverse().find(a => open(a)), rest = back.filter(a => a !== on);
+    if (on) { current.following = { id: on, chosen: true, ...rest.length ? { aside: rest } : {} }; }
   }
 }

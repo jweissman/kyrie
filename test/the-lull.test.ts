@@ -205,9 +205,12 @@ describe('The Lull, by other hands', () => {
 
   // A company of the sixth level: three of the fourth beat the three wardens (warriors of the second) about three
   // fights in ten, before the tactics of 7 November and after them, and this spec's seed had been one of the three
-  // until those tactics changed its dice; three of the sixth about seven in ten, the spec's seed among them.
+  // until those tactics changed its dice; three of the sixth about seven in ten, the spec's seed among them. Since a
+  // spell is cast where it fells surer than a blow (OR-208: the company's caster finishes a warden with Heat Drain),
+  // they win 30 fights of 36 seeds (32 before), and the seed 'lull' is among the six lost: the spec plays s1, won both
+  // before and after.
   it('What Was Meant: a company that stands against the wardens on the bridge, and kills, and it holds', async () => {
-    const g = await Lull.start('test/fixtures/the-lull/strong.campaign.json');
+    const g = await Lull.start('test/fixtures/the-lull/strong.campaign.json', 's1');
     await g.fixture('meant');
     expect(g.holds('killedMeant', 'party')).toBe(true);
     expect(g.ending()).toEqual([k('what_was_meant')]);
