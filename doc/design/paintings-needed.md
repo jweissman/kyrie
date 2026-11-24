@@ -17,10 +17,10 @@ paintings, most of them the old masters, had no light recorded and stood in any 
 rules refuse what they contradict. So places that had a painting against the sky now have none: the counts rose, and
 each is a painting wanted, not a picture against the place.
 
-| World | Places | Blank in some sky | Painted against some sky | Was (morning, four skies) |
-|---|---|---|---|---|
-| Iscoed | 756 | **136** | **0** (509 before the tagging) | 50 blank |
-| a1 | 877 | **184** | **0** | 77 blank |
+| World | Places | Blank in some sky, 24 Nov (bound) | Blank, 23 Nov evening | Painted against some sky | Was (23 Nov morning, four skies) |
+|---|---|---|---|---|---|
+| Iscoed | 756 | **103** | 136 | **0** | 50 blank |
+| a1 | 877 | **123** | 184 | **0** | 77 blank |
 
 The warrior's golden walk (`bun scripts/scene-census.ts walk`) is held at no fault at every turn by
 test/features/world/the-sky-in-the-painting.pin. Porthalen rains through it and it ends at night.
@@ -54,46 +54,58 @@ words until they are filed (`temperate` is what no word sorts). Written by `bin/
 
 ## Scenes still needed
 
-In order of places filled (Iscoed and a1 together). Paint to the name given. Its light and weather are what the fit
-rules choose by.
+Measured, not kept by hand: each kind of place blank under some sky in Iscoed and a1, by the scene census, and for
+each, whether a painting already named for it would serve and only wants binding, or is held back, or is still to
+paint. The list of 23 November had gone stale as the owner painted (the barrow in rain, the great house, the byre and
+granary by lantern, the manor library at evening and night, the fairground in rain, the charcoal clamps in rain, a
+broken keep); those are bound now, and what is asked below is what no painting yet gives. Written again by:
 
-| Paint as | Light, weather | For (kind) | Places | Brief |
+    bun scripts/scene-census.ts iscoed iscoed.json && bun scripts/scene-census.ts a1 a1.json
+    bun scripts/scene-asks.ts iscoed.json a1.json --write
+
+A painting named for a kind but looked at and refused for it is kept in `scripts/scene-asks.ts` (refused), with why.
+
+<!-- scene-asks -->
+Measured 2026-11-24 over iscoed and a1.
+
+| Kind | Places blank | Under which sky (places) | Painted already? | For example |
 |---|---|---|---|---|
-| `scene-barrow-rain` | overcast, rain | barrow, hill-door: long mounds, grassed mounds, the king-howe, a door in a hillside | 18 + 4 | A grassed long mound with a stone door, in rain. |
-| `scene-great-house` | daylight | a named great house (home): the Numbered House, the upper House, a chapter-house, a moot-house | 11 | A tall old house of many windows by day, its door up a flight of steps. |
-| `scene-bailey-night` | night | bailey: a bailey, a ward, the outer ward | 10 | A castle bailey at night: a watch-fire, the gate lit, the keep a shape. |
-| `scene-dam-rain` | overcast, rain | dam: the dam, its crest and top, the mere | 9 | The dressed-stone dam in rain, water white through its gates. |
-| `scene-byre-lantern` | lamplit (no weather) | stable: the byre, the long stable, the stables | 8 | A byre at night by a lantern on a beam, cattle in their stalls, the door shut. |
-| `scene-manor-rooms-evening` | lamplit or dusk | manor's rooms: the library, the loggia, the walled garden, the muniment room | 8 | The manor's library by lamplight at evening; its walled garden at dusk. |
-| `scene-fairground-rain` | overcast, rain | fair: a showground, a circus's backyard, a long court | 8 | The fairground in rain, awnings dripping, the field mud. |
-| `scene-stones-mist`, `scene-stones-dusk` | fog; dusk | stones: the hill-path to the old stones, the dome, the old tree | 6 | The hill-path to the stones in mist; the dome at evening. |
-| `scene-granary-lantern` | lamplit | granary: a granary, the old corn-store | 5 | A granary by lantern: sacks, a ladder to the loft. Serves rain and dark alike. |
-| `scene-chandlery-evening` | lamplit | chandlery | 4 | A chandlery at evening, candles lit in the window, shutters half closed. |
-| `scene-charcoal-drizzle` | overcast, rain; dusk | charcoal: the clamps, the burners' clearings | 4 | Charcoal clamps smoking in drizzle; the clearing at dusk. |
-| `scene-cave-dark` | dim (no daylight) | cave as ground: a hollow, the far end of a hall | 3 | A cave's mouth from within at night or in rain, a trickle of water, no sky. |
-| `scene-sea-cliffs-rain` | overcast, rain | coast: sea-cliffs, their foot and top | 3 | Sea-cliffs in rain, surf grey. |
-| `scene-water-stair-night` | night | stair: the stair down the mere's side, a water-stair | 3 | Stone steps down into dark water by moonlight. |
-| `scene-mill-floor-lamp` | lamplit | mill (as a room) | 2 | A mill floor at evening: the stones still, a lamp on a beam, sacks. |
-| `scene-well-night` | night | well: the makers' well, the gate-well | 2 | A well-head at night by lantern. |
-| `scene-boat-sheds-rain-day` | overcast, rain | boat-sheds | 2 | The boat-sheds by day in rain (the one painted is at sunset). |
-| `scene-broken-sluice` | daylight | sluice, ruined | 2 | A broken sluice by day: the gate fallen, the stone cracked. |
-| `scene-broken-keep` | daylight | fort, ruined: a broken keep | 2 | A broken keep from inside by day: roofless, ivy, rubble. |
-
-One place each, any sky: a ship's great cabin, a stalled lift, a wright's yard in rain, an old lime-kiln, an inn's back
-garden, an old fulling-mill at evening, a preserve-house, kennels and mews.
-
-### Wanted by the sky census (23 November, evening)
-
-Kinds whose only paintings are of a fair day, now blank in the other skies (places in Iscoed + a1):
-
-| Paint as | Light, weather | For (kind) | Places | Brief |
-|---|---|---|---|---|
-| `scene-fields-rain`, `scene-fields-evening`, `scene-fields-night` | overcast, rain; dusk; night | fields: the home fields, open fields | 45 + 28 | Open fields under rain; the same at evening, a hedge dark against the sky; by moon. |
-| `scene-stones-rain`, `scene-stones-dusk`, `scene-stones-night` | overcast, rain; dusk; night | stones: old stones, march-stones | 10 + 8 | A standing stone on open ground in rain; at evening; by moon. |
-| `scene-town-gate-evening`, `scene-town-gate-night` | dusk; night, lamplit | fort, seen from without: the edge of a country (a town gate) | 13 + 39 | The town gate between its towers at evening, a lamp in the arch; by night. |
-| `scene-quarry-dusk` | dusk | mine, seen from without: the quarry pit, the robbers' hole | 5 | An old quarry pit at evening, a lantern at an adit. |
-| `scene-well-dusk` | dusk | well: the makers' well | 3 | A well-head in a yard at evening. |
-| `scene-lone-tower-dusk` | dusk | tower, seen from without | 2 | A lone tower against an evening sky. |
+| fields | 73 | rain by day (73), fair evening (73), fair night (73), rain by night (73) | paint | the home fields of Porthalen; the home fields; the home fields of Gatesend |
+| road | 43 | rain by day (43), fair evening (43), fair night (43), rain by night (43) | `scene-road-night` (held back for OR-182) | the road between Porthalen and Reedbridge; the road between Wrackham and Gatesend; the road through Ashwood |
+| stones | 18 | rain by day (18), fair evening (18), fair night (18), rain by night (18) | paint | the old stones at Wrackham; the crossing stones; the march-stone of Rìerdan |
+| home | 11 | fair day (2), rain by day (11) | paint | the upper House; The Numbered House; the chapter-house |
+| mine | 10 | fair evening (10), fair night (10), rain by night (10) | paint | the robbers' hole; the old quarry pit; the old workings under Porthalen |
+| dam | 9 | rain by day (9), rain by night (9) | paint | the mere; a dam of dressed stone across a valley; the top of the dam |
+| well | 4 | fair evening (4), fair night (4) | paint | the makers' well; the gate-well, under the gatehouse; the rim of the Great Void |
+| charcoal | 4 | fair evening (4), fair night (4) | paint | the charcoal clamps; the charcoal-burners' clearing; the charcoal-burners' clearing in Oakhurst |
+| abbey | 4 | fair evening (4), fair night (4), rain by night (4) | paint | the cloister; a roofless abbey |
+| hill-door | 4 | rain by day (4), rain by night (4) | paint | a square doorway in a hillside in Greenwood; a square doorway in a hillside in Ashwood; a square doorway in a hillside in Bearwood |
+| tower | 4 | fair evening (4), fair night (4) | paint | a lone tower; The tower |
+| manor | 4 | rain by day (4), fair evening (4), fair night (4), rain by night (4) | paint | the loggia; the walled garden |
+| stair | 3 | rain by night (3) | paint | the water-stair; the stair down the mere's side |
+| garden | 3 | rain by day (3), fair evening (3), fair night (3), rain by night (3) | paint | the Hanging Garden; the inn's back garden |
+| coast | 3 | rain by day (3), rain by night (3) | paint | the nesting cliffs; the foot of the nesting cliffs; the top of the cliffs |
+| boat-sheds | 2 | rain by day (2) | paint | the boat-sheds |
+| sluice | 2 | fair day (2) | paint | the broken sluice |
+| roof | 2 | rain by day (2), fair evening (2), fair night (2), rain by night (2) | paint | the fallen walls |
+| barrow | 2 | fair day (2), rain by day (2), rain by night (2) | paint | the forecourt |
+| ruin | 2 | fair evening (2), fair night (2) | paint | the carriage-arch |
+| larder | 2 | rain by night (2) | paint | Marjory Ashby's general store; Marjory Twelvetrees's general store |
+| lift | 2 | rain by day (2) | paint | the stalled lift |
+| overlook | 2 | fair day (2), rain by day (2), fair evening (2), fair night (2) | paint | the salvagers' lookout |
+| mill | 2 | fair evening (2), fair night (2), rain by night (2) | paint | the mill |
+| toll-house | 1 | rain by day (1), fair evening (1), fair night (1), rain by night (1) | paint | a toll-house by the water |
+| shop | 1 | rain by night (1) | paint | the smugglers' store, behind the chain |
+| woodwork | 1 | rain by day (1), fair evening (1), fair night (1), rain by night (1) | paint | the wright's yard |
+| huts | 1 | fair day (1), rain by day (1), rain by night (1) | paint | the eel-catcher's hut |
+| oast | 1 | rain by day (1), fair evening (1), fair night (1), rain by night (1) | paint | the old lime-kiln on the common |
+| fullery | 1 | fair evening (1), fair night (1), rain by night (1) | paint | the old fulling-mill |
+| gloriet | 1 | rain by day (1), fair evening (1), fair night (1), rain by night (1) | paint | the Preserve-house |
+| grave | 1 | rain by day (1) | paint | the bone-beds |
+| sea | 1 | fair day (1) | paint | the Sundial's deck |
+| cabin | 1 | fair day (1), rain by day (1), rain by night (1) | paint | the great cabin |
+| mews | 1 | rain by day (1), fair evening (1), fair night (1), rain by night (1) | paint | the kennels and mews |
+<!-- /scene-asks -->
 
 The roads' blanks (10 + 33 places in rain, at evening and at night) are the held-back road and lane paintings' (below):
 nothing new is wanted for them.
