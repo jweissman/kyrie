@@ -1,0 +1,169 @@
+> look
+> shot
+> press More
+> press Catfolk
+> press Back
+> key ArrowDown
+> look
+> press Birdfolk
+> press A woman
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> press The Lantern
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> press More
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> press More
+> key ArrowDown
+> key ArrowDown
+> press More
+> press More
+> press Bard
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> press The faith
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> key ArrowDown
+> press Inquisitor
+> shot
+> press Wren
+> press Set out into Iscoed
+> shot
+> press Your book
+> press Story
+> shot
+> press Character
+> press Pack
+> press tegwen
+> press A candle
+> press 1
+> press the fall in the old adit
+> press Wren: light a candle
+> shot
+> press Look
+> press Collect your bread
+> press Search
+> press Search here
+> press The compass
+> shot
+> press To the old gallery
+> shot
+> press Look
+> press Talk
+> press An old boar badger
+> press BADGER IN THE ENCYCLOPEDIA
+> shot
+> press Close
+> press Attack an old boar badger
+> shot
+> press Spells
+> press Back
+> press Shoot
+> press Go on
+> press Talk to Dai Probert
+> shot
+> press Tell Dai
+> press Ask Dai Probert to join
+> press Take your leave
+> press Talk: put away
+> press Lift the fallen prop
+> press Up to the old drift
+> shot
+> press Your book
+> press Story
+> press 1
+> press To the gate-yard
+> shot
+> press Read the notice
+> press Find out why the sea-gate
+> press Talk to the tinker
+> press Ask why she was left
+> press Ask the tinker
+> press Take your leave
+> press Sit down by the old dog
+> press Scratch
+> press Ask Gek what
+> press Ask what the old workings
+> press Something else
+> press Something else
+> press Something else
+> press Something else
+> press Something else
+> press Ask about the coin on the cord
+> press Something else
+> press Ask about the coin on the cord
+> press Take your leave
+> press To the sea-bank
+> shot
+> press To the Wardens
+> press Search here
+> press To the gate-well
+> press Search here
+> press Collect the sea-gate
+> press To the Wardens
+> press Look
+> press Your book
+> press Company
+> press 1
+> press Set the pawl
+> press the Wardens’ gatehouse
+> press Set the pawl
+> press How it fell
+> press Put the dice away
+> press To the guest-hall
+> press Talk to Gesk
+> press Ask whether he would come along
+> look
+> press Ask Gesk to join
+> press Take your leave
+> press To the Wardens
+> press Set the pawl
+> press How it fell
+> press Put the dice away
+> press Wait
+> press Wait an hour
+> press 8
+> press Look
+> press Set the pawl
+> shot
+> press Talk: who is here
+> press Talk to Ifan Rhys
+> press Ask Ifan who wanted
+> press Take your leave
+> press Talk: put away
+> press Look at Ifan
+> press Wind the gate up
+> press Your book
