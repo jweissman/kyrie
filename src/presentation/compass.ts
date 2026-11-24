@@ -31,17 +31,20 @@ export class Compass {
     return { enclosed: true, compass: { ...out ? { out } : {}, ...next ? { next } : {},
       exhausted: !screen.dark && !next && !left }, ...offer ? { offer } : {} };
   }
-  // The offer with the way out among it, where it is open and not offered already: the last of the four where they
-  // are fewer, else the first of the rest. A way out something bars offers nothing; what bars it is said (Threshold).
+  // The offer with the way out the last of the four, where it is open and not among them already: inside, the way out
+  // is always in sight (as the compass's own rows had made room for it beside the four), what it takes the place of
+  // the first of the rest; offered among the rest already, it is moved up, not offered twice. A way out something bars
+  // offers nothing; what bars it is said (Threshold).
   static offered(offer: Glance['offer'], out?: Route): Glance['offer'] {
     const command = out?.command;
     if (!offer || !out || !command || out.barred) { return offer; }
-    if ([...offer.primary, ...offer.rest].some(o => o.choice === command || o.command === command)) { return offer; }
-    const row: Offered = { choice: command, command, label: `Out to ${Typography.plain(out.name)}`, type: 'journey',
-      aspects: [], marks: [], ...out.minutes ? { minutes: out.minutes } : {} };
-    return offer.primary.length < Offers.four ? { primary: [...offer.primary, row], rest: offer.rest }
-      : { primary: offer.primary, rest: [row, ...offer.rest] };
+    if (offer.primary.some(o => this.is(o, command))) { return offer; }
+    const row: Offered = offer.rest.find(o => this.is(o, command)) ?? { choice: command, command, label: `Out to ${Typography.plain(out.name)}`,
+      type: 'journey', aspects: [], marks: [], ...out.minutes ? { minutes: out.minutes } : {} };
+    const kept = offer.primary.slice(0, Offers.four - 1), moved = offer.primary.slice(Offers.four - 1);
+    return { primary: [...kept, row], rest: [...moved, ...offer.rest.filter(o => !this.is(o, command))] };
   }
+  private static is(o: Offered, command: string): boolean { return o.choice === command || o.command === command; }
   // The nearest place not enclosed, by the known ways, and the route there; where none is open, by the ways something
   // bars too, and what bars the first of them (the crypt's stone door, locked, between the ossuary and the churchyard).
   private static out(campaign: Campaign, screen: Screen): Route | undefined {

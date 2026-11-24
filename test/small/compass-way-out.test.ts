@@ -5,8 +5,8 @@ import type { Route } from '../../src/presentation/glance-types';
 
 // The way out of an enclosed place is a row of the engine's own offer (OR-188; CN-02, CN-03), drawn as every row is:
 // the page had drawn it as a row of its own making beside the menu, an arrow where the indicator stands. Its words and
-// time the journey's own; no marks of its own, so its indicator is the quiet one; the last of the four where they are
-// fewer, else the first of the rest; never twice; and nothing offered where something bars it.
+// time the journey's own; no marks of its own, so its indicator is the quiet one; always the last of the four (where
+// they are full, what it displaces the first of the rest); never twice; and nothing offered where something bars it.
 const out: Route = { to: 'yard', name: 'the churchyard', ways: ['the stair', 'the crypt door'], minutes: 4,
   command: 'travel:yard' };
 const act = (choice: string): Offered => ({ choice, label: choice, type: 'other', aspects: [], marks: [] });
@@ -20,13 +20,16 @@ describe('the way out, in the engine offer', () => {
     expect(got.primary[2]).toEqual({ choice: 'travel:yard', command: 'travel:yard', label: 'Out to the churchyard',
       type: 'journey', aspects: [], marks: [], minutes: 4 });
   });
-  it('is the first of the rest where the four are full', () => {
+  it('takes the last of four that are full, what it displaces the first of the rest', () => {
     const got = Compass.offered(offer(4, [act('r0')]), out)!;
-    expect([got.primary.length, got.rest.map(o => o.choice)]).toEqual([4, ['travel:yard', 'r0']]);
+    expect([got.primary.map(o => o.choice), got.rest.map(o => o.choice)])
+      .toEqual([['a0', 'a1', 'a2', 'travel:yard'], ['a3', 'r0']]);
   });
   it('is never offered twice, nor where something bars it', () => {
-    const had = offer(1, [{ ...act('x'), command: 'travel:yard' }]);
-    expect(Compass.offered(had, out)).toBe(had);
+    const led = offer(1); led.primary.push({ ...act('x'), command: 'travel:yard' });
+    expect(Compass.offered(led, out)).toBe(led);
+    const rest = Compass.offered(offer(1, [{ ...act('x'), command: 'travel:yard' }]), out)!;
+    expect([rest.primary.map(o => o.choice), rest.rest]).toEqual([['a0', 'x'], []]);
     const plain = offer(1);
     expect(Compass.offered(plain, { ...out, command: undefined, barred: 'The crypt door is locked.' })).toBe(plain);
   });
