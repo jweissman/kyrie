@@ -12,7 +12,7 @@ export type Kind = 'band' | 'up' | 'down' | 'report';
 export interface Measure { id: string; label: string; kind: Kind; why: string; floor?: number; ceiling?: number;
   read: Reckoned }
 export type Reckoned = 'fights' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
-  | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit'
+  | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
   | 'stranded'
   | 'identity';
 
@@ -50,6 +50,9 @@ export class QuantityMeasures {
       why: 'hours of travel for trivial reasons (OR-310); may only fall', read: 'errand' },
     { id: 'nowhere', label: '8. Aims seen through by arriving alone (%)', kind: 'down',
       why: 'a fetch to a place with nothing to do there (OR-310); may only fall', read: 'nowhere' },
+    { id: 'handed', label: '8. First-town aims handed out, not uncovered (%)', kind: 'down',
+      why: 'a first town\'s jobs are found by looking and asking (a question of the right person, a search, a check), '
+        + 'not given out constantly (the owner, 24 November); may only fall', read: 'handed' },
     { id: 'dungeon', label: '9. Minutes from the first town to the first dungeon', kind: 'band', floor: 15, ceiling: 180,
       why: 'the opening dungeon (the nearest site of two levels or more, each with a boss and a cache) is near and '
         + 'unmistakable (OR-311): not the town itself, not a day off', read: 'minutes' },
