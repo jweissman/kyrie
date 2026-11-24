@@ -26,6 +26,25 @@ export class RowWords {
   }
   // Whether it says anything a player can read: a letter or a digit, not only spaces and marks.
   static said(node: ReactNode): boolean { return /[\p{L}\p{N}]/u.test(RowWords.of(node)); }
+  // A sign of its own in a row's words: an element that says no letters and is drawn only to be seen (hidden from a
+  // reader of the page) or is an icon, an arrow, a sign or a glyph. A row's one icon is its glyph, given as such (the
+  // owner, 24 November, OR-188: an arrow had stood in a row's words where its indicator should be).
+  static signed(node: ReactNode): boolean {
+    if (Array.isArray(node)) { return node.some(n => RowWords.signed(n as ReactNode)); }
+    if (!isValidElement(node)) { return false; }
+    const props = node.props as { className?: string; children?: ReactNode; 'aria-hidden'?: unknown };
+    const decor = props['aria-hidden'] === true || props['aria-hidden'] === 'true'
+      || (typeof props.className === 'string' && /\b[\w-]*(sign|arrow|icon|glyph)[\w-]*\b/.test(props.className));
+    if (decor && !RowWords.said(node)) { return true; }
+    return typeof node.type !== 'function' && RowWords.signed(props.children);
+  }
+  // Said (in play, the row still drawn) or refused (under test): a row's words carrying a sign of their own.
+  static unsigned(act: string, stage: string): void {
+    const said = `A row's words carried a sign of their own: ${act || '(no act)'}, at ${stage}`;
+    RowWords.refused.push({ act, stage });
+    if (RowWords.strict) { throw new Error(said); }
+    console.error(said);
+  }
   // Refused: not drawn, and said (the console's, and the specs': RowWords.refused), naming the act and the stage.
   static refuse(act: string, stage: string): null {
     const r = { act, stage };

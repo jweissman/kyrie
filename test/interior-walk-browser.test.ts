@@ -34,10 +34,14 @@ class Interior {
     await LensPages.seek(page, row);
     await d.click(row);
   }
-  // Inside: the compass where the map was, and in the column; no way across the country offered.
+  // Inside: the compass where the map was; the way out a row of the engine's offer like any other, its indicator at
+  // its left (OR-188: it had been a row of the page's own, an arrow where the indicator stands); nothing across the
+  // country offered.
+  out() { return this.page.locator('.glance .choice-row', { hasText: /^\s*Out to / }); }
   async inside() {
+    const out = this.out();
     return { compass: await this.count('.scene-rail .opens-compass'), map: await this.count('.scene-rail [data-view="map"]'),
-      rows: await this.count('.glance .compass-rows'), out: await this.count('.glance .compass-rows .compass-out') };
+      out: await out.count(), marked: await out.locator('> .row-mark').count() };
   }
   async told() { return (await this.d.inspect()).log.length; }
   async place() { return (await this.d.inspect()).place?.id; }
@@ -67,8 +71,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the interior walk, in the browser',
     await d.away();
     // In, under the corn-store: the compass, not the map.
     await w.to('region__s2_u_store'); await w.to('region__s2_u_cellar');
-    expect(await w.inside()).toEqual({ compass: 1, map: 0, rows: 1, out: 1 });
-    expect(await page.locator('.glance .compass-out').innerText()).toMatch(/^←\s*Out to /);
+    expect(await w.inside()).toEqual({ compass: 1, map: 0, out: 1, marked: 1 });
     await w.shot('02-in-the-cellar'); steps.push('in');
     await d.pick(c => /light|Light/.test(c.label), 'a light');
     // The lenses switched: each drawn in the column, and nothing done by turning one on (nothing told, still here).
@@ -85,13 +88,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the interior walk, in the browser',
     expect([await w.place(), await w.told()]).toEqual([at, told]);
     expect(turned.length).toBeGreaterThan(1);
     steps.push(`lenses ${turned.join(', ')}`);
-    // The compass's way on, where it gives one, else the warren by its way.
-    if (await w.count('.glance .compass-on')) {
-      const was = await w.place();
-      await d.click('.glance .compass-on');
-      expect(await w.place()).not.toBe(was);
-      steps.push('on by the compass');
-    }
+    // The warren by its way.
     if (await w.place() !== 'region__s2_u_warren') { await w.to('region__s2_u_warren'); }
     await w.shot('04-the-way-on');
     // A thing looked at, by the things lens: something told of it.
@@ -138,10 +135,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the interior walk, in the browser',
     if (picked.length > 1) { expect(new Set(picked).size).toBeGreaterThan(1); steps.push('target changed'); }
     // The place as it was after the fight: still inside, its compass and its lenses.
     expect(await w.place()).toBe('region__s2_u_warren');
-    expect(await w.inside()).toEqual({ compass: 1, map: 0, rows: 1, out: 1 });
+    expect(await w.inside()).toEqual({ compass: 1, map: 0, out: 1, marked: 1 });
     await w.shot('07-after-the-fight'); steps.push('after the fight');
-    // Out by the compass: walked, and the town again, where the map is back and no compass.
-    await d.click('.glance .compass-out');
+    // Out by the way out: walked, and the town again, where the map is back and no compass.
+    await d.click('.glance .choice-row:has-text("Out to") >> nth=0');
     expect((await w.inside()).compass).toBe(0);
     expect(await w.count('.scene-rail [data-view="map"]')).toBe(1);
     await w.shot('08-out-in-the-town'); steps.push('out');

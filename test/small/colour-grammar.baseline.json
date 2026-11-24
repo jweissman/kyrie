@@ -1,0 +1,22 @@
+{
+ "about": "Colour outside the atlas indicators, as test/support/colour-census reads the page (OR-187, OR-189): none may be added; mend one and take it out.",
+ "goldWords": [
+  "glance.css: .ways .options > li.aimed .act.way > .n::after",
+  "stage.css: .bound .label",
+  "stage.css: .sheet-title",
+  "stage.css: .aim .label",
+  "stage.css: .follow-aim:hover, .follow-aim:focus-visible"
+ ],
+ "goldGrounds": [
+  "book.css: .route-card .rc-acts .rc-go.aimed",
+  "frame.css: .motes i",
+  "stage.css: .bound",
+  "stage.css: .bound .act.go-on",
+  "stage.css: .bound .act.go-on:hover",
+  "world.css: .world-page.interrupted .board-you::after, .world-page.threatened .board-you::after"
+ ],
+ "flashes": [
+  "book.css: @keyframes board-found",
+  "fight.css: @keyframes struck"
+ ]
+}

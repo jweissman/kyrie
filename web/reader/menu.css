@@ -47,16 +47,12 @@
 }
 /* The hand that has not moved since the screen changed lights nothing (IG-18, see PressGuard): what it rests on was
    never pointed at. It lights again as soon as it moves or presses; the keys' highlight and a focused row keep theirs. */
-/* What the hand or the keys are on is lit in its own tone (IG-15): a tint of the row's colour, the atlas's one
-   (Indicator.of, the row's mark), ivory where it is nothing in particular, gold only for the followed step. Pressed,
-   deeper, at once. Never movement, never a box that changes size (IG-08). */
+/* What the hand or the keys are on, or what is pressed, is lit in the rows' own neutral ink, whatever the row is: the
+   colour is the indicator's alone (the owner, 24 November, OR-187: a gold row pressed had flashed gold across its
+   ground, the colour leaving its mark). Pressed, deeper, at once. Never movement, never a box that changes size
+   (IG-08). A fighter targeted is ringed in the fight's red: the ring is its mark (see fight.css). */
 :root { --tint-hover: 13%; --tint-press: 26%; --edge-hover: 42%; }
 :is(.choice-row, .way-in, .creation-go .option, .creation .card) { --row-tone: rgb(236, 230, 217); }
-.choice-row:has(> .row-mark[style*="tone-gold"]) { --row-tone: var(--tone-gold); }
-.choice-row:has(> .row-mark[style*="tone-red"]) { --row-tone: var(--tone-red); }
-.choice-row:has(> .row-mark[style*="tone-green"]) { --row-tone: var(--tone-green); }
-.choice-row:has(> .row-mark[style*="tone-blue"]) { --row-tone: var(--tone-blue); }
-.choice-row:has(> .row-mark[style*="tone-violet"]) { --row-tone: var(--tone-violet); }
 .fight .fighter.target { --row-tone: var(--tone-red); }
 
 /* ---- The one choice row (see ChoiceRow): the scene's acts, a place's things that can change the world, a
@@ -150,16 +146,6 @@
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0);
   white-space: nowrap; border: 0; }
 
-/* ---- The compass inside an enclosed place (see CompassStage; CN-02, CN-03): the way on and the way out as the
-   column's own quieter rows, an arrow or a chevron before the words and the route under them, in the rows' ink. No
-   colour of its own. ---- */
-:root .glance .openers > .compass-rows { display: flex; flex-direction: column; gap: 6px; flex-basis: 100%; }
-:root .glance .openers > .compass-rows > .choice-row.choice-row { min-height: 40px; align-self: stretch; width: 100%; }
-.compass-rows .compass-arrow { display: inline-block; width: 1.1em; margin-right: 4px; opacity: .72; font-weight: 400; }
-.compass-rows .route-line { letter-spacing: .02em; }
-.compass-rows .barred { display: block; font-style: italic; }
-.compass-rows .shut { opacity: .62; cursor: default; }
-.compass-done { font: var(--t-aside); font-style: italic; color: rgba(236, 230, 217, .62); }
 /* The map's menu is rows, not a numbered list (a stray "1." stood before Put away the map). */
 .map-menu { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .map-menu > li { list-style: none; }

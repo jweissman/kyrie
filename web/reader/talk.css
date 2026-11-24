@@ -208,11 +208,16 @@
 .talk .lines .line.you { font: italic 400 18px/1.55 var(--told); letter-spacing: 0; color: var(--dim); margin-top: 22px; }
 .talk .lines .line.you::before { display: none; }
 .talk .lines .line.speech, .talk .lines .line.telling { font: 400 20px/1.55 var(--told); color: var(--ivory); }
-.talk .replies .choice-row > .row-mark, .talk .replies .row-key, .talk .leave .row-key { display: none; }
+.talk .replies .row-key, .talk .leave .row-key { display: none; }
 .talk .replies .choice-row { background: transparent; border-color: transparent; min-height: 0; padding: 6px 0; }
+/* A reply the atlas marks (the aim's next word, what teaches) has its indicator at its left, as every row has; its
+   words stay the ink of every reply (the owner, 24 November, OR-187: the aim's gold had been the words' colour, and
+   blue nowhere). A reply marked for nothing in particular stays bare, as the page's prose. */
+:root .talk .replies .choice-row.choice-row > .row-mark { display: none; }
+:root .talk .replies li.marked > .choice-row.choice-row { padding-left: 18px; }
+:root .talk .replies li.marked > .choice-row.choice-row > .row-mark { display: block; left: 2px; top: 10px; bottom: 10px; }
 .talk .replies .row-label { font: 400 18px/1.45 var(--told); color: var(--ivory); }
 .talk .replies .choice-row:hover .row-label, .talk .replies .choice-row:focus-visible .row-label { color: var(--accent); }
-.talk .replies .aimed .row-label { color: var(--tone-gold); }
 .talk .replies .asked .row-label, .talk .leave .row-label { color: var(--dim); }
 .talk .answering { color: var(--dim); }
 .talk .replies.answers { border-left: 0; padding-left: 0; }

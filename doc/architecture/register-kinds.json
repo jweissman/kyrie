@@ -276,6 +276,24 @@
    "was": "defect",
    "pri": "P1",
    "why": "23 Nov, classified as filed (a row is a defect until named otherwise): the brief's stock opening, stage 2 (BRIEF §3.1), a commissioned requirement, not an observed failure"
+  },
+  "AU-54": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, the owner's idea: a wanted authoring tool, not an observed failure"
+  },
+  "AU-55": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, the owner's idea: a wanted language and lint capability (BRIEF §6), not an observed failure"
+  },
+  "AU-56": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, the owner's idea: a wanted census, ratchet and lint, not an observed failure"
   }
  },
  "blockedBy": {

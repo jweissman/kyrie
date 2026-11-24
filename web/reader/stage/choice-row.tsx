@@ -33,12 +33,14 @@ export class ChoiceRow {
   }
   private static nothing(): void { /* a shut row says why, and does nothing */ }
   // The inside, the same everywhere; the older classes kept beside the new so that what reads them still finds them.
+  // Every row has its indicator: its tone's, its plain kind's, or the neutral line (the owner, 24 November, OR-188: a
+  // row with none, an arrow at its left instead, had been drawn beside the menu).
   static Parts({ indicator, plain, label, aside, number, extra, glyph }: RowParts) {
-    const fill = indicator?.tone ? `var(--tone-${indicator.tone})` : plain ? ChoiceRow.plains[plain] : undefined;
+    const fill = indicator?.tone ? `var(--tone-${indicator.tone})` : ChoiceRow.plains[plain ?? 'neutral'];
     return <>
-      {fill && <i className={`prism-bar row-mark${!indicator?.tone && plain === 'neutral' ? ' neutral' : ''}`}
+      <i className={`prism-bar row-mark${!indicator?.tone && (plain ?? 'neutral') === 'neutral' ? ' neutral' : ''}`}
         style={{ '--prism': fill } as CSSProperties} data-witness={indicator?.witnesses.map(w => w.id).join(' ') || undefined}
-        {...indicator?.tone ? { role: 'img', 'aria-label': indicator.words } : { 'aria-hidden': true }} />}
+        {...indicator?.tone ? { role: 'img', 'aria-label': indicator.words } : { 'aria-hidden': true }} />
       {/* A companion is its icon alone, beside the words, wherever the row's indicator has one (TP-03). */}
       <span className="n row-label">{glyph && <Glyphs.View id={glyph} className="row-glyph" />}{label}
         {indicator?.companion && <Glyphs.View id="companion" className="led-icon" label="could join you" />}</span>
@@ -53,6 +55,7 @@ export class ChoiceRow {
     draw: Draw; className?: string; quiet?: boolean; number?: number; shown?: number }) {
     const drawn = number ?? shown;
     if (!RowWords.said(parts.label)) { return RowWords.refuse(choice.id, 'ChoiceRow.Act'); }
+    if (RowWords.signed(parts.label)) { RowWords.unsigned(choice.id, 'ChoiceRow.Act'); }
     return <Act.View choice={choice} draw={draw} quiet={quiet} number={number}
       className={`${ChoiceRow.cls}${className ? ` ${className}` : ''}`}>
       <ChoiceRow.Parts {...parts} glyph={parts.glyph ?? choice.emblem}
@@ -69,7 +72,9 @@ export class ChoiceRow {
     expanded?: boolean; act?: string; shut?: boolean; own?: ButtonHTMLAttributes<HTMLButtonElement> & Record<string, unknown>;
     ref?: Ref<HTMLButtonElement>;
     events?: Pick<ButtonHTMLAttributes<HTMLButtonElement>, 'onMouseEnter' | 'onMouseLeave' | 'onFocus'> }) {
-    if (!RowWords.said(parts.label)) { return RowWords.refuse(act ?? data.choice ?? data.action ?? '', 'ChoiceRow.Button'); }
+    const id = act ?? data.choice ?? data.action ?? '';
+    if (!RowWords.said(parts.label)) { return RowWords.refuse(id, 'ChoiceRow.Button'); }
+    if (RowWords.signed(parts.label)) { RowWords.unsigned(id, 'ChoiceRow.Button'); }
     return <button ref={ref} type="button" data-control="row" className={ChoiceRow.classes(className, shut)} {...ChoiceRow.data(data, act)}
       {...shut ? { 'aria-disabled': true } : {}}
       {...expanded !== undefined ? { 'aria-expanded': expanded } : {}} {...events} {...own}

@@ -5,6 +5,8 @@ import { KnownWays } from '../ui/known-ways';
 import type { Screen } from '../ui/screen-types';
 import type { WayInfo } from '../ui/passage-model';
 import type { Glance, Route } from './glance-types';
+import { Offers, type Offered } from './offer';
+import { Typography } from './typography';
 
 // Where the company can go next, and how it leaves, inside an enclosed place (a building, a site, under the ground, a
 // ship): the owner, 14 November (CN-02, CN-03). Inside a building the world map had opened, with a confusing Back and
@@ -14,16 +16,31 @@ import type { Glance, Route } from './glance-types';
 // exhausted: nothing known is left inside (no thing, person or way within that the glance leads with). What is not yet
 // explored is not proven empty: a way not yet taken is a place worth going.
 // A route is followed as the map's travel is (travel:<place>): leg by leg, through the world's own interruptions.
+// The way out is offered as any act is, a row of the engine's own offer (OR-188, the owner, 24 November: the page had
+// drawn it as a row of its own making, an arrow where the indicator stands, beside the menu and not of it).
 export class Compass {
-  static of(campaign: Campaign, screen: Screen, glance: Pick<Glance, 'lenses'>): Pick<Glance, 'enclosed' | 'compass'> {
+  static of(campaign: Campaign, screen: Screen, glance: Pick<Glance, 'lenses' | 'offer'>):
+    Pick<Glance, 'enclosed' | 'compass' | 'offer'> {
     const here = screen.place.id;
     if (!campaign.running || !Itineraries.enclosed(campaign, here)) { return {}; }
     const out = this.out(campaign, screen), next = this.next(campaign, screen, glance);
     // Something left is what the glance leads with for a reason, not a lens's own acts filling it (why 'present').
     const left = [...glance.lenses.things.promoted, ...glance.lenses.people.promoted].some(a => a.why !== 'present');
     // In the dark nothing is seen, and so nothing is known to be left or not: not exhausted.
+    const offer = this.offered(glance.offer, out);
     return { enclosed: true, compass: { ...out ? { out } : {}, ...next ? { next } : {},
-      exhausted: !screen.dark && !next && !left } };
+      exhausted: !screen.dark && !next && !left }, ...offer ? { offer } : {} };
+  }
+  // The offer with the way out among it, where it is open and not offered already: the last of the four where they
+  // are fewer, else the first of the rest. A way out something bars offers nothing; what bars it is said (Threshold).
+  static offered(offer: Glance['offer'], out?: Route): Glance['offer'] {
+    const command = out?.command;
+    if (!offer || !out || !command || out.barred) { return offer; }
+    if ([...offer.primary, ...offer.rest].some(o => o.choice === command || o.command === command)) { return offer; }
+    const row: Offered = { choice: command, command, label: `Out to ${Typography.plain(out.name)}`, type: 'journey',
+      aspects: [], marks: [], ...out.minutes ? { minutes: out.minutes } : {} };
+    return offer.primary.length < Offers.four ? { primary: [...offer.primary, row], rest: offer.rest }
+      : { primary: offer.primary, rest: [row, ...offer.rest] };
   }
   // The nearest place not enclosed, by the known ways, and the route there; where none is open, by the ways something
   // bars too, and what bars the first of them (the crypt's stone door, locked, between the ossuary and the churchyard).

@@ -106,7 +106,10 @@
    "OR-162",
    "OR-163",
    "OR-183",
-   "OR-186"
+   "OR-186",
+   "OR-187",
+   "OR-188",
+   "OR-189"
   ],
   "outside": {
    "GT-01": "the planes are met after the first hour (no plane is reached from Iscoed's starts)",

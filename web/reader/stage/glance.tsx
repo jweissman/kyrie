@@ -211,21 +211,16 @@ export class GlanceStage {
     const drawn = shown.map(a => GlanceStage.choice(app, a.choice));
     const yours = GlanceStage.yours(app, acts, [posted, search, ...drawn]);
     // In a site or underground, the way back stays in sight, quietly, beside Go… (see CompanyRecall.back); inside an
-    // enclosed place the compass stands there instead, the way out and the way on (see CompassStage).
+    // enclosed place the way out is a row of the engine's own offer instead (Compass, OR-188).
     const compass = CompassStage.of(app), back = compass ? undefined : GlanceStage.back(app, [only?.c, ...drawn]);
-    const led = shown.flatMap(a => [a.choice, a.command]);
     // The rows beside the acts are items of the one foreground of four (see Foreground).
-    const compassed = !!only && !!compass && [compass.out, compass.next].some(r => r && (r.name === only.name
-      || r.command === only.c.command || r.command === only.c.id));
-    const opened = !!only && !lens && !compassed && !(offer && drawn.some(d => d?.id === only.c.id));
-    const beside = (compass?.out ? 1 : 0) + (compass?.next && !led.includes(compass.next.command) ? 1 : 0) + (back ? 1 : 0)
-      + (opened ? 1 : 0);
+    const opened = !!only && !lens && !(offer && drawn.some(d => d?.id === only.c.id));
+    const beside = (back ? 1 : 0) + (opened ? 1 : 0);
     const fitted = Foreground.fit(shown, beside);
     return <>
       {lens ? <GlanceStage.Lens app={app} draw={draw} lens={lens} />
         : fitted.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={fitted} top={top} />}
       <p className="openers">
-        {compass && <CompassStage.View app={app} draw={draw} drawn={led} />}
         {back && <Act.View choice={back} draw={draw} quiet className="opener opens-back">
           {Typography.curl(`Back: ${back.label.charAt(0).toLowerCase()}${back.label.slice(1)}`)}</Act.View>}
         {/* What can change the world is drawn as a thing to do, a row with its line at the left, not a bare link (the

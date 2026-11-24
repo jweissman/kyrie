@@ -1,6 +1,5 @@
 import type { MouseEvent, ReactNode } from 'react';
 import { Typography } from '../../../src/presentation/typography';
-import { Glyphs } from './glyphs';
 import { PressGuard } from '../press-guard';
 import { ChoiceRow } from '../stage/choice-row';
 
@@ -30,8 +29,7 @@ export class ComposedRow {
       ...PressGuard.once(() => onChoose(option.id)) };
     return <ChoiceRow.Button className={`composed-row${chosen || taken ? ' chosen' : ''}`} data={{ option: option.id }} own={own}
       plain={chosen || taken ? 'chosen' : 'neutral'}
-      label={option.glyph ? <><Glyphs.View id={option.glyph} className="row-glyph" />{Typography.curl(option.name)}</>
-        : Typography.curl(option.name)}
+      label={Typography.curl(option.name)} {...option.glyph ? { glyph: option.glyph } : {}}
       aside={Typography.curl(option.shut ?? option.aside ?? '')} extra={children} {...n !== undefined ? { number: n } : {}} />;
   }
   // The hand come to a choice that has moved since the page changed: the keys' focus goes with it, so that one choice
