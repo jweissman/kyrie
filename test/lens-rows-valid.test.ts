@@ -165,8 +165,10 @@ describe('every row a lens draws has words and a target', () => {
     const places = renderToStaticMarkup(createElement(GlanceStage.Lens, { app: landing.app, draw: Act.draw(landing.app),
       lens: 'places' }));
     expect(Number(/data-pages="(\d+)"/.exec(places)?.[1] ?? 1)).toBeLessThanOrEqual(3);
-    // The paged lens's first row, the cursor on it, where AT-04's was blank: words, a way, and its place named.
-    const first = rows(places)[0]!, meant = landing.meant(unescape(first.act ?? ''));
+    // The paged lens's first row, the cursor on it, where AT-04's was blank: words, a way, and its place named. Its own
+    // first, after what the scene led with that it keeps above it (Lensed.kept: Bran's tally-stick, the aim's step).
+    const own = places.slice(places.indexOf('lens-rest'));
+    const first = rows(own)[0]!, meant = landing.meant(unescape(first.act ?? ''));
     expect(first.words).not.toBe('');
     expect(meant?.length).toBeGreaterThan(0);
     expect(says(first.spaced, meant!, landing.common())).toBe(true);

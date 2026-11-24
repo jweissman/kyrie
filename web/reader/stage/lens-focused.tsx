@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Lens, LensAct, Lensed } from '../../../src/presentation/glance-types';
+import type { Lens, LensAct, Lensed, Promoted } from '../../../src/presentation/glance-types';
 import type { ReaderApp } from '../reader-app';
 import { Typography } from '../../../src/presentation/typography';
 import type { Draw } from './act';
@@ -21,17 +21,22 @@ import { LensRows } from './lens-rows';
 // CL-34: "I don't see the questions"). Escape, or Leave it, goes back a level (see Explorer.key). Only where there are more than four does a pager
 // still turn them (the narrow exception: many things at hand, each one row).
 export class LensFocused {
-  // room: its places of the four, less those the scene's kept rows take above it (Lensed.kept).
-  static View({ app, draw, lens, lensed, acts, room = GlanceStage.per }: { app: ReaderApp; draw: Draw; lens: Lens;
-    lensed: Lensed; acts: LensAct[]; room?: number }) {
+  // kept: what the scene led with, kept above the lens (Lensed.kept), in its places of the four on its first page and
+  // on no other, so that the lens's own rows keep their pages (the drove landing's ways by quarter had gone from three
+  // pages to four under the tally-stick kept: test/lens-rows-valid).
+  static View({ app, draw, lens, lensed, acts, kept = [] }: { app: ReaderApp; draw: Draw; lens: Lens; lensed: Lensed;
+    acts: LensAct[]; kept?: Promoted[] }) {
     const [page, turn] = useState(0);
     const view = LensFocus.of(acts, app.state.focused ?? [], s => GlanceStage.named(app, s), LensRows.part(app, lens));
     // Paged, the row that turns the page is the fourth (never more than four in view).
-    const paged = Paging.of(view.rows, room, page), rows = paged.shown;
+    const paged = Paging.of(view.rows, GlanceStage.per, page, { lead: kept.length }), rows = paged.shown;
     const gilded = Guidance.shown(app);
     const focus = (key?: string) => app.setState({ focused: key ? [...view.focused, key] : view.focused.slice(0, -1) });
+    // Drawn within the lens, as its unfocused form draws them, so that the keys reach them as they reach its rows
+    // (Explorer.key: a kept row lit by the arrows had done nothing on Enter, the Slip's way onto the Strand under Wait…).
     return <div {...PageFrame.slot('menu')} className={`lens lens-${lens} lens-focus`} data-lens={lens}
       data-focus={view.focused.at(-1)}>
+      {paged.at === 0 && kept.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={kept} />}
       <LensFocused.Said app={app} lensed={lensed} acts={acts} focused={view.focused} />
       <ul className="acts lens-rest">{rows.map(r => <li key={LensFocus.unit(r) ? r.key : r.choice}
         {...LensFocus.unit(r) ? {} : { 'data-subject': r.subject }}>

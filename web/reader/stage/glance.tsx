@@ -263,8 +263,7 @@ export class GlanceStage {
     // What the scene led with that will not wait, or carries the aim on, and the lens draws nowhere: kept above it, in
     // its places of the four (Lensed.kept, OR-240: the badger's Attack had gone with Look, the windlass's try with Talk).
     if (LensRows.focused(app, drawn)) {
-      return <>{kept.length > 0 && <GlanceStage.Acts app={app} draw={draw} acts={kept} />}
-        <LensFocused.View app={app} draw={draw} lens={lens} lensed={lensed} acts={drawn.all} room={GlanceStage.per - kept.length} /></>;
+      return <LensFocused.View app={app} draw={draw} lens={lens} lensed={lensed} acts={drawn.all} kept={kept} />;
     }
     // What is seen of a thing the four are done to that the scene draws no one for (the riddle cut across the speaking
     // door: Lensed.subjects), said once above them, under its name.
