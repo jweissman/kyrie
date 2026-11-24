@@ -34,7 +34,8 @@ export class DeepSites {
     const after = [...purpose.after?.[values.kingdomkind!] ?? [], ...purpose.fallen?.[values.fallen!] ?? []];
     return [`  Measure deepWater(place). Measure deepPumped(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
       `  Place ${site.id}_site ${this.q(values.name!)} is site within ${values.land} at ${values.x}, ${values.y}.`,
-      `  Observe ${site.id}_outside at ${site.id} when true ${this.q(purpose.outside.replaceAll('{oldup}', values.oldup!))}`
+      `  Observe ${site.id}_outside at ${site.id} when true ${this.q((at.buried ? purpose.under ?? purpose.outside
+        : purpose.outside).replaceAll('{oldup}', values.oldup!))}`
         + ` teaches ${site.id}_named.`, ...this.marks(site.id, purpose, values),
       ...this.places(layout, at.buried ? { purpose, town: at.buried } : undefined), ...this.ways(layout, handled),
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,

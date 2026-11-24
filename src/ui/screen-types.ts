@@ -223,6 +223,9 @@ export interface Screen {
   paying?: string[];
   // What can be said now that the company has come to say or settle (see TalkWeight): the talk leads with it.
   weighty?: string[];
+  // The questions a lead sent the company to ask (the notice's "ask Holgar for the key"): whoever is to be asked is led
+  // for it (see TalkWeight.sought, Affordances).
+  sought?: string[];
   // Whom and what the company's aims and family name (people, places, ways): met and gone to first (see Stakes).
   aimed?: string[];
   // mealAt: the watch the next ration is eaten at (a day apart after it), for what a journey would cost of them.

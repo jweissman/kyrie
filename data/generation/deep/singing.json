@@ -161,6 +161,7 @@
     ]
   },
   "outside": "A cave opens in the hillside, its mouth as round as a sung O and as smooth as the inside of a shell, without a mark of chisel anywhere. Over it, cut in the old script: {oldup}.",
+  "under": "The stair ends at a round mouth in the rock, as smooth as the inside of a shell. No chisel made it. Over it, cut in the old script: {oldup}.",
   "finds": {
     "negligible": ["cloth_pouch", "candle", "chalk", "iron_figurine", "simple_ring", "broken_flute", "bell", "wooden_figurine"],
     "minor": ["bronze_bracelet", "jade_idol", "hand_mirror", "iron_torc", "rope", "bronze_statue"],

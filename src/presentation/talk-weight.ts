@@ -8,6 +8,7 @@ import type { World } from '../lang/world';
 import { AimAdvances } from './aim-advances';
 import { PlayerView } from './player-view';
 import { Undertakings } from './undertakings';
+import type { Promoted } from './glance-types';
 
 // What the company has come to say or to settle with someone, by what saying it does, never by its words: what bears
 // on an aim it holds (the rats' report to Bask, the debt paid to Tuck), asking someone to come along (willing), and
@@ -26,7 +27,10 @@ export class TalkWeight {
       && c.call.name.replace(/^.*__/, '') === 'willing' && c.call.args[0] === r.action.speaker));
     const telling = rows.filter(r => (r.action.success ?? []).some(c => c.kind === 'assert' && c.call.name === 'knows'
       && leads.has(c.call.args[1] ?? '')));
-    return new Set([...bearing, ...[...joining, ...telling].map(r => r.choice.id), ...sought]);
+    // What the company came for first: the question a lead sent it to ask (the notice's "ask Holgar for the key"),
+    // before what bears on an aim or tells of somewhere else; the talk is led with the first (OR-199: Holgar's had
+    // opened on the old kingdom, the rats job its fourth).
+    return new Set([...sought, ...bearing, ...[...joining, ...telling].map(r => r.choice.id)]);
   }
   // The questions that make an aim of a lead (see asked), by id: the talk leads with them (TalkFocus).
   static sought(campaign: Campaign, rows = PlayerView.choices(campaign).filter(r => r.action.speaker)): string[] {
@@ -47,16 +51,32 @@ export class TalkWeight {
     return asked.filter(r => this.begins(w, r.action.success ?? [], idle));
   }
   private static begins(w: World, success: Change[], idle: Objective[]): boolean {
-    // By what it does, not what it tells: taking on work (the merchant's job given), never hearing of a place, which a
-    // rumour's aim arises from (the old kingdom's hook, asked of the same merchant).
+    return !!this.begun(w, success, idle);
+  }
+  // The aim asking it would make. By what it does, not what it tells: taking on work (the merchant's job given), never
+  // hearing of a place, which a rumour's aim arises from (the old kingdom's hook, asked of the same merchant).
+  private static begun(w: World, success: Change[], idle: Objective[]): Objective | undefined {
     const changes = success.filter(c => (c.kind === 'assert' || c.kind === 'retract')
       && !ChoiceGrouping.learnt.has(c.call.name));
-    if (!changes.length) { return false; }
+    if (!changes.length) { return undefined; }
     const after = w.apply(changes);
-    return idle.some(o => after.test(o.when));
+    return idle.find(o => after.test(o.when));
   }
-  static shown(campaign: Campaign): { weighty?: string[] } {
-    const weighty = [...this.of(campaign)];
-    return weighty.length ? { weighty } : {};
+  // A talk led for the question a lead sent the company to ask (Affordances, OR-199) is held for the aim that asking
+  // would make, and says so, as one held for an aim already taken up does (Undertakings.heldFor).
+  static heldFor(campaign: Campaign, acts: Promoted[]): Promoted[] {
+    if (!acts.some(a => a.why === 'held' && !a.aim && a.for)) { return acts; }
+    const rows = PlayerView.choices(campaign).filter(r => r.action.speaker), w = campaign.world;
+    const idle = (campaign.module.objectives ?? []).filter(o => !w.test(o.when));
+    return acts.map(a => {
+      const row = a.why === 'held' && !a.aim ? rows.find(r => r.choice.id === a.for) : undefined;
+      const aim = row && this.begun(w, row.action.success ?? [], idle)?.id;
+      return aim ? { ...a, aim } : a;
+    });
+  }
+  static shown(campaign: Campaign): { weighty?: string[]; sought?: string[] } {
+    const rows = PlayerView.choices(campaign).filter(r => r.action.speaker), sought = this.sought(campaign, rows);
+    const weighty = [...this.of(campaign, rows, sought)];
+    return { ...weighty.length ? { weighty } : {}, ...sought.length ? { sought } : {} };
   }
 }

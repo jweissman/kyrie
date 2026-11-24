@@ -665,6 +665,7 @@
     ]
   },
   "outside": "Spoil heaps run down the hillside in grey fans the heather has never taken. Above them a timbered mouth opens into the hill. Cut into the beam in the old script, worn but whole: {oldup}.",
+  "under": "The stair ends at a timbered mouth cut square into the rock, older than the town's cellars above it. Cut into the beam in the old script, worn but whole: {oldup}.",
   "hook": {
     "topic": "the old workings",
     "trade": { "topic": "what the old workings are worth", "says": "turns a lump of something pale over in the light. 'Bring me star-iron and I will pay for it. Thirty coin a lump, and no questions.'" },

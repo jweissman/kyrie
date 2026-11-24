@@ -161,6 +161,7 @@
     ]
   },
   "outside": "The mound lies long on the land, grassed over, higher at its east end. At the high end a forecourt of standing stones curves in to the door, and on the lintel, cut in the old script: {oldup}.",
+  "under": "The stair ends at a door of dressed stone set in the rock, older than the town's cellars above it. On the lintel, cut in the old script: {oldup}.",
   "finds": {
     "negligible": ["broken_dagger", "cloth_pouch", "wooden_figurine", "iron_figurine", "candle", "chalk", "hand_mirror", "bell", "simple_ring"],
     "minor": ["bronze_bracelet", "iron_torc", "steel_torc", "broken_flute", "grave_rings", "bronze_statue", "cloak_pin", "iron_idol", "jade_idol"],

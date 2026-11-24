@@ -164,6 +164,11 @@ export class Affordances {
       && !Attending.leaving(c) && r.schema.get(this.command(c) ?? '') !== 'take_leave');
     return open.find(c => c.own) ?? open[0];
   }
+  // Someone is led for the question a lead sent the company to ask them (the notice's job: Holgar had been led for the
+  // old kingdom, OR-199), aim or none: a question put to someone, so only ever among a person's (TalkWeight.sought).
+  private static sent(fresh: Choice[], screen: Screen, r: Reading): Choice | undefined {
+    return fresh.find(c => screen.sought?.includes(c.command!) && !r.done.has(c.command!));
+  }
   // Someone to talk to, or something to look at: one choice that opens what can be done; it is led with for anything
   // nested in it, said beside it (an answer owed, the aim, a bed for the night).
   private static opened(s: SceneSubject, opener: Choice, screen: Screen, r: Reading): Candidate[] {
@@ -174,7 +179,7 @@ export class Affordances {
     // shop out a pole at a time (the gold walker, amendment 6). A sale the aim waits on is serving's (see advances).
     const fresh = leaves.filter(c => r.speakers.has(c.command!) && !/_again(\(|$)/.test(c.command!)
       && !/^(buy|sell)_/.test(r.schema.get(c.command!) ?? ''));
-    const talked = r.talked.has(s.id), person = s.kind === 'person';
+    const talked = r.talked.has(s.id), person = s.kind === 'person', sent = this.sent(fresh, screen, r);
     // Someone the aim followed names leads, and family while the company's own errand is followed; someone another aim
     // names, or family while a job is, after it (the owner, 4 November: a sister marked first while the rats job was).
     const errand = !screen.aims || !!screen.aims.find(a => a.followed)?.own;
@@ -195,11 +200,12 @@ export class Affordances {
       ? !talked || serving.length > 0 : !talked || fresh.some(c => !r.done.has(c.command!))));
     // Led for that aim, gilded as the aim's (the merchant the rats job sends the company to had been led as kin, and
     // not drawn in the aim's gold: the owner, 8 November).
-    const named = owed && r.named.has(s.id), answer = leaves.find(x => x.answer);
+    const named = owed && r.named.has(s.id), answer = leaves.find(x => x.answer), kin = owed && ours && !named;
     // Led for another aim only where saying something to them would teach the company something not yet asked: the
     // man with the black candle, talked to for it, had given nothing but his acquaintance (PF-03's laboratory walk).
-    const kin = owed && ours && !named, fresh_ = owed && !ours ? this.newest(leaves, r) : undefined, held = !!fresh_;
-    const feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
+    // Or for the question a lead sent them to ask (see sent).
+    const fresh_ = (owed && !ours ? this.newest(leaves, r) : undefined) ?? (named ? undefined : sent);
+    const held = !!fresh_, feature = screen.things.find(t => t.id === s.id)?.kind === 'feature';
     const looked = leaves.find(c => r.schema.get(c.command!) === 'look_closely' && !r.done.has(c.command!));
     // A treasure lying here is what the delve was for: taken up, led with (the vault's rings and moonstone had been
     // under Look about once its keeper fell: OWN-57's play).

@@ -18,6 +18,7 @@ import type { Act, Screen } from '../ui/screen-types';
 import { Engaged } from './engaged';
 import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
+import { TalkWeight } from './talk-weight';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
 import { Perception } from './perception'; import { Companions } from './companions';
 import { Outmatched } from './outmatched'; import { CompanyRecall } from './company-recall';
@@ -56,8 +57,9 @@ export class Glance {
     const led = Charge.acts(cands, screen, arrival === 'opening' && Charge.opening(campaign));
     const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(led, s), cands: led,
       s });
-    const acts = Charge.once(LedWords.with(campaign, HeldActs.with(Undertakings.heldFor(campaign, screen, picked),
-      HeldActs.follow(screen))), arrival === 'opening' && Charge.opening(campaign) && Charge.of(screen).size > 0);
+    const held = TalkWeight.heldFor(campaign, Undertakings.heldFor(campaign, screen, picked));
+    const acts = Charge.once(LedWords.with(campaign, HeldActs.with(held, HeldActs.follow(screen))),
+      arrival === 'opening' && Charge.opening(campaign) && Charge.of(screen).size > 0);
     const ways = Promotion.ways(cands, acts, s), out = Threshold.leaving(campaign, screen, reading.named);
     // The aim this place is about, if one is; said on coming somewhere new, at the opening and on resuming, and when
     // the aims have changed, not on every page (the owner, OWN-53: restrained, and only what is truly held).

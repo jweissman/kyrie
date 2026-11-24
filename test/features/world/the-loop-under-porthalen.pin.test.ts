@@ -21,7 +21,7 @@ type Row = { id: string; label: string; aside?: string; opens?: Row[] };
 const flat = (rs: Row[]): Row[] => rs.flatMap(r => [r, ...flat(r.opens ?? [])]);
 const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
   ...Object.values(s.offer?.lenses ?? {}).flat()] as Row[]);
-const established = ['~Read the notice on the well-post', "~To Holgar's salt-house", '~Ask Holgar about the old kingdom',
+const established = ['~Read the notice on the well-post', "~To Holgar's salt-house",
   '~Ask Holgar about the rats in the corn-store', '~Buy a torch for', '~Buy one ration from Holgar',
   '~To the old corn-store', '~Light a torch', '~Down to the corn-store cellar', '~To the rat-runs', '~Attack the rats',
   'through', '~Down to the nest', '~Attack the old buck rat', 'through', '~light a candle', '~Search here',
@@ -34,7 +34,7 @@ const churchyard = ['~To the churchyard', '~Set your shoulder to the stone door'
   '~Attack the dead in the charnel passage', 'through', '~To the undercroft', '~Rest six hours',
   '~Press the three deep-cut letters', '~sealed vault'];
 // The careful way: the quarry's spiders and their mother too, the dead from below, the raiser's book taken.
-const careful = ['~To the old quarry pit', '~Wrench the adit gate', '~quarry adit', '~cut gallery', '~Attack the spider',
+const careful = ['~To the old quarry pit', '~quarry adit', '~cut gallery', '~Attack the spider',
   'through', '~To the brood-chamber', "~Attack the spiders' mother", 'through', '~Search here', '~To the cut gallery',
   '~Down to the old working face', '~undercroft', '~Rest six hours', '~To the charnel passage',
   '~Attack the dead in the charnel passage', 'through', '~ossuary', '~Attack the man with the black candle', 'through',
@@ -75,7 +75,11 @@ class Walk {
 describe('the reference journey under Porthalen', () => {
   it('is walked by the offered rows alone, out and back twice, and the town answers', async () => {
     const walk = await Walk.begun();
-    await walk.play([...established, ...churchyard]);
+    // Holgar is turned to for the question the notice sent the company to ask, not his talk of the old kingdom
+    // (OR-199); and so is Kynes, for the quarry, whose key opens its gate.
+    await walk.play(established.slice(0, 2));
+    expect(rows(walk.s).find(x => x.id === 'region__s1_merchant#talk')?.label).toMatch(/rats in the corn-store/);
+    await walk.play([...established.slice(2), ...churchyard]);
     console.log(walk.log.join('\n'));
     // Established, prepared, the job done and paid; the bed taken; the salter a friend; the vault opened by its
     // letters.
@@ -105,7 +109,10 @@ describe('the reference journey under Porthalen', () => {
       expect(walk.level()).toBe(2);
       expect(walk.holds('knows', 'party', 'region__s1_u_keeper_rite')).toBe(true);
       const coin = walk.s.purse?.coin ?? 0;
-      await walk.play(["~Lay ten coin at the keeper's feet", '~Down to the stair below the vault', '~way in']);
+      await walk.play(["~Lay ten coin at the keeper's feet", '~Down to the stair below the vault']);
+      // Under the town, not out on a hillside (OR-205).
+      expect(walk.s.scene.lines.join(' ')).not.toMatch(/hillside/);
+      await walk.play(['~way in']);
       expect(walk.s.purse?.coin).toBe(coin - 10);
       expect(walk.holds('able', 'region__s1_u_keeper')).toBe(true);
       expect(walk.session.campaign.world.one('at', 'party')).toBe('region__s1_ud_adit_mouth');

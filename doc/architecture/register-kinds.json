@@ -336,6 +336,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, filed as split from OR-178 and classified as filed: a stated contract (indicator-appendix.md) not yet checked on the page, not an observed failure since the census holds"
+  },
+  "OR-210": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, classified as filed: the ladder (OR-198) measured for other callings, a commissioned requirement found short; its failing part is OR-208's defect"
   }
  },
  "blockedBy": {

@@ -637,6 +637,9 @@
   }
   Initially Set encounterXp({t}_u_mother) to 120.
   Milestone {t}_u_brood_ended "cleared the spiders' brood out of the quarry" worth 150 when not able({t}_u_mother).
+  // The job seen through, the eggs burned as the innkeeper asks (the ladder measured for a thief, OR-198's remainder: a
+  // thief and a hired hand came to the vault's door twenty-five short of the second level, the eggs left hanging).
+  Milestone {t}_u_eggs_burned "burned the spiders' eggs, so that the brood will not come again" worth 75 when state({t}_u_eggs, burnt).
   Person {t}_u_hobb "Dannel Hobb" at {innkeeperat} { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
   Entity {t}_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at {town}.".
   Entity {t}_u_spiders_eggs: fact "The spiders' mother has hung her eggs at the back of the old workings. Unless they are burned, the spiders will come again.".

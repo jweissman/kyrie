@@ -336,6 +336,7 @@ Module lab "The undercroft at Lowmouth" {
   }
   Initially Set encounterXp(low_u_mother) to 120.
   Milestone low_u_brood_ended "cleared the spiders' brood out of the quarry" worth 150 when not able(low_u_mother).
+  Milestone low_u_eggs_burned "burned the spiders' eggs, so that the brood will not come again" worth 75 when state(low_u_eggs, burnt).
   Person low_u_hobb "Dannel Hobb" at low_taproom { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
   Entity low_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at Lowmouth.".
   Entity low_u_spiders_eggs: fact "The spiders' mother has hung her eggs at the back of the old workings. Unless they are burned, the spiders will come again.".

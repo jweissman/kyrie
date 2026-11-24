@@ -112,6 +112,9 @@ export interface DeepPurpose {
   rest?: string[];
   // How it looks from outside, with its old name cut over the way in ({oldup}).
   outside: string;
+  // How its way in looks where it lies under a town (catacombs), come to down the stair below the vault: not the open
+  // hillside (OR-205).
+  under?: string;
   // The makers' own marks at the way in, which read tell their story (the country's history_<art>): a deep work, like
   // every other of their works, teaches who made it (RegionWorks), and the brothers' errand to one had waited on a
   // history no room of it told (M21's playability list, PL-24).

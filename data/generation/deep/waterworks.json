@@ -177,6 +177,7 @@
     ]
   },
   "outside": "A square doorway is cut in the hillside, with a stream-bed running down the hill from under its sill. On the lintel, cut in the old script: {oldup}.",
+  "under": "The stair ends at a square doorway cut in the rock, water running out from under its sill. On the lintel, cut in the old script: {oldup}.",
   "finds": {
     "negligible": ["cloth_pouch", "candle", "chalk", "iron_figurine", "simple_ring", "broken_dagger", "bell", "wooden_figurine"],
     "minor": ["bronze_bracelet", "steel_torc", "bronze_statue", "jade_idol", "hand_mirror", "iron_torc", "rope"],
