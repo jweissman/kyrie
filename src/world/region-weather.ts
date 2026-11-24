@@ -21,6 +21,8 @@ interface Tables {
 // only be risked; the weather is seen on the greens and the roads, and the season, as the calendar turns, on the
 // greens.
 export class RegionWeather {
+  // When a country's year begins, from which its weather and seasons turn (Calendar.begins: the setting's day).
+  static year(draw: { number(expression: string): number }): CalendarStart { return Calendar.begins(draw); }
   static get tables(): Tables { return GenerationSetting.tables as unknown as Tables; }
   // Out of every hundred mornings, how many the sky holds as it was.
   static readonly holds = 45;

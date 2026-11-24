@@ -1,4 +1,5 @@
 import type { BundleRequest } from '../campaign/module-bundle';
+import { RegionWeather } from './region-weather';
 import type { BundleSource } from '../campaign/bundle-source';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source';
 import { Expressions } from '../expressions';
@@ -43,7 +44,7 @@ export class Renewal {
     if (options.name && region.name !== options.name && RegionKey.of(region) !== options.name) { return undefined; }
     region.further = Countries.further(region, seed);
     const days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
-    region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
+    region.calendar = RegionWeather.year(days);
     const library = await WorldAssembler.library(base, 'data/scenarios/library.json');
     const heralds = await WorldAssembler.heralds(base, region, seed);
     const settled = WorldAssembler.settle(region, library,

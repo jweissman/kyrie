@@ -6,5 +6,6 @@
   { "name": "Harvest", "season": "autumn" }, { "name": "Leaffall", "season": "autumn" }, { "name": "Smoke", "season": "autumn" },
   { "name": "Frost", "season": "winter" }, { "name": "Deepwinter", "season": "winter" }, { "name": "Wolfmoon", "season": "winter" }],
  "weekdays": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
- "era": "year of the Sun and Moon"
+ "era": "year of the Sun and Moon",
+ "begins": { "month": 6, "day": 30, "about": "When a new life's year begins (the owner, 24 November: \"we could even start the game with the transition from summer to fall\"; OR-447): on the last day of summer, so that the year turns into autumn on its first night. The year itself is the world's own draw." }
 }

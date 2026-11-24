@@ -1,4 +1,5 @@
 import { Memorials } from './memorial'; import type { Memorial } from '../memorial';
+import { RegionWeather } from './region-weather';
 import type { DeemValue } from 'deem';
 import { Content, type CreatureGenerationContext } from '../content';
 import { RandomStreams } from '../random-streams'; import { Costs } from '../costs';
@@ -94,7 +95,7 @@ export class WorldAssembler {
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = this.region(seed, [0, 0], options.region), days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.further = Countries.further(region, seed); region.chain = options.chain;
-    region.calendar = { year: 1290 + days.number('1d40'), month: days.number('1d12'), day: days.number('1d30') };
+    region.calendar = RegionWeather.year(days);
     const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
     const heralds = await this.heralds(base, region, seed), standing = (await this.library(base, this.standing))
       .filter(e => (options.standing ?? StrategicAtlas.standing(region) ?? [e.manifest.id]).includes(e.manifest.id));

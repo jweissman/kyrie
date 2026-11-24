@@ -9,6 +9,14 @@ export interface CalendarStart { year: number; month: number; day: number }
 // counted from it, turning at midnight. Its names are the setting's, given it (SettingPort: Imbar's are
 // data/imbar/calendar.json).
 export class Calendar {
+  // When a new world's year begins: its year by the world's own draw, and the day the setting begins a life's year on
+  // (Imbar's: the last day of summer, so that the year turns into autumn on the first night; OR-447), else the drawn
+  // day. The draws are taken in their order either way, so that nothing drawn after them moves.
+  static begins(draw: { number(expression: string): number }): CalendarStart {
+    const year = 1290 + draw.number('1d40'), month = draw.number('1d12'), day = draw.number('1d30');
+    const set = SettingPort.reckoning.begins;
+    return set ? { year, month: set.month, day: set.day } : { year, month, day };
+  }
   static get months(): { name: string; season: string }[] { return SettingPort.reckoning.months; }
   static date(start: CalendarStart, tick: number): { year: number; month: number; day: number; name: string;
     season: string } {

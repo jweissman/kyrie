@@ -6,7 +6,9 @@
 // a part asked for before the setting has given it says so by name, at its first use (the browser boot gate: a module
 // of shared src never reads its environment as it loads).
 export interface SettingMonth { name: string; season: string }
-export interface SettingReckoning { months: SettingMonth[]; weekdays: string[]; era: string }
+// begins: the day a new life's year begins on, where the setting keeps one (else a day of the world's own draw).
+export interface SettingReckoning { months: SettingMonth[]; weekdays: string[]; era: string;
+  begins?: { month: number; day: number } }
 export interface SettingSign { id: string; name: string; month: string; line: string; gifts: string[];
   stars: number[][]; lines: number[][]; figure: string }
 export interface SettingSky { signs: SettingSign[] }
