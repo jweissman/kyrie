@@ -12,6 +12,7 @@ import { AsMeant } from '../test/support/as-meant';
 import { HonestPlayer } from '../test/support/honest-player';
 import { GoldenWalk } from '../test/support/golden-walk';
 import { DrawerTruth } from '../test/support/drawer-truth';
+import { TalkTruth } from '../test/support/talk-truth';
 import { Outcome } from '../src/ui/outcome';
 import { EntityIndex } from '../src/lang/entity-index';
 import { PlayerView } from '../src/presentation/player-view';
@@ -30,7 +31,9 @@ import type { Screen } from '../src/ui/screen-types';
 // - focus: in a frame engaged, by a threat or an occasion (a riddle, a hand of cards), and not yet fought, the runner
 //   offers nothing that does not answer it (no journey, no map, no aim taken up, no wait but standing one's ground
 //   before a threat), leaving stays possible (a way off, or standing one's ground), and the page's menu draws nothing
-//   the runner does not offer (OR-177). How the page lays them out is the browser's.
+//   the runner does not offer (OR-177). How the page lays them out is the browser's. And every turn, each talk drawer
+//   as the page renders it, every page of it: leaving drawn on each, nothing drawn not theirs, every topic within reach
+//   (TalkTruth, OR-212).
 //   bun scripts/continuity-census.ts [out.json]
 // lines: the walk's own lines; none, and the walk follows the page's lead (the gold) as HonestPlayer plays it.
 interface Walk { name: string; as: string; lines?: string; steps?: number }
@@ -137,6 +140,7 @@ export class ContinuityCensus {
         engaged++;
         breaches.push(...this.focus(s, asked ?? r.said(), screen, { walk: w.name, turn }));
       }
+      breaches.push(...this.talks(s, asked, { walk: w.name, turn }));
       // The followed aim done (gone from those held), others still held, and none followed now.
       const done = before.followed && !after.held.includes(before.followed);
       if (done && after.held.length && !after.followed) {
@@ -164,6 +168,13 @@ export class ContinuityCensus {
     out.push(...drawn.filter(c => !acts.has(c.command!) && !acts.has(c.id))
       .map(c => ({ ...at, what: `the page draws what the runner does not offer: ${c.label}` })));
     return out;
+  }
+  // Each talk drawer as the page draws it, every page of it, held to the focus contract (TalkTruth, OR-212); not
+  // while a fight is fought, whose frame is the fight's.
+  private static talks(s: PlaySession, asked: Said | { error: string } | undefined,
+    where: { walk: string; turn: number }): Breach[] {
+    if (asked && 'moment' in asked && asked.moment === 'fight') { return []; }
+    return TalkTruth.of(Glanced.of(s).frame()).map(what => ({ ...where, invariant: 'focus', what: `talk: ${what}` }));
   }
   private static flat(cs: Choice[]): Choice[] { return cs.flatMap(c => [c, ...this.flat(c.children ?? [])]); }
   private static count(breaches: Breach[], invariant: string): number {

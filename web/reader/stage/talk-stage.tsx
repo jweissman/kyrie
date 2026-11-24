@@ -40,7 +40,8 @@ export class TalkStage {
       : screen?.aims?.some(a => a.about?.includes(line.text))) { return 'Of your aim'; }
     return !screen || AimNear.near(screen, line.aim ? { id: line.aim } : line.text) ? 'A new aim' : 'Noted, further off';
   }
-  static View({ app, talk }: { app: ReaderApp; talk: Talk }) {
+  // at: the page of its topics it opens on (turned by More…; a census reads each page as the page draws it).
+  static View({ app, talk, at = 0 }: { app: ReaderApp; talk: Talk; at?: number }) {
     // The numbered replies seen as they are drawn, so that a digit pressed as they change is refused (DigitSettle).
     useLayoutEffect(() => { DigitSettle.seen(DigitSettle.drawn()); });
     const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
@@ -72,7 +73,7 @@ export class TalkStage {
     // Four acts in view (the owner's ruling 2): taking your leave always, and in the three rows before it any answer
     // owed, then what can be said and Trade, a page at a time; each row's key is its place, 1 to 4.
     const trades = wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0;
-    const [page, turn] = useState(0), room = 3 - focus.answers.length, a = focus.answers.length;
+    const [page, turn] = useState(at), room = 3 - focus.answers.length, a = focus.answers.length;
     const paged = Paging.of([...focus.salient, ...trades ? ['trade' as const] : [], ...focus.more], room, page);
     // No × beside the menu: taking your leave is its last row, and Escape (the owner, 16 November night: every
     // control of a page in its one menu or its rail).
