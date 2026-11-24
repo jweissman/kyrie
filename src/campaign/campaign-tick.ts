@@ -15,11 +15,14 @@ import { Reads } from '../lang/reads';
 import { EndingOrder } from '../lang/ending-order';
 import { Journey } from './journey';
 import { Consequences } from './consequences';
-import type { Call, Change, Module, Operator, WorldRule, WorldState } from '../lang/module';
+import type { Call, Change, Module, Operator, Predicate, WorldRule, WorldState } from '../lang/module';
 import type { CampaignDefinition } from './definition';
 import type { CreatureStore } from '../creature-store';
 
 export interface PendingAction { action: string; until: number }
+// What a rule found idle is held to (see CampaignTick.instances): all its condition reads; the names it is held idle
+// by, and their stamps where it was found so; the module it was found idle in.
+interface Idle { reads: string[]; held?: string[]; stamped?: number[]; module?: object }
 export interface TickHost {
   readonly world: World; readonly module: Module; readonly playerActor: string | undefined;
   readonly operators: Operators;
@@ -277,14 +280,45 @@ export class CampaignTick {
   // it is not asked again there (Mission 15's profile: every rule of every module asked again on every watch).
   // Held to the module it was found idle in: a world joined to more (an installation, a country drawn) has entities
   // its condition may range over that it had not (the review's A21).
-  private static readonly idle = new WeakMap<WorldRule, { reads: string[]; stamped?: number[]; module?: object }>();
+  // And held idle by less than all it reads, where it can be: a part of its condition that asks of no variable and
+  // does not hold keeps the whole from holding until something that part reads is written. Of those, the one read
+  // longest ago is kept to (a sale cried at the drove, waiting on the reeve being sent, is not asked again every
+  // watch because it also asks the hour: AX-10, most of a quiet watch's rules solved again for reading the clock).
+  // `reads` stays all the condition reads, for whoever asks what a rule turns on (yielding, stirred).
+  private static readonly idle = new WeakMap<WorldRule, Idle>();
   static instances(rule: WorldRule, world: World): [Change[], Record<string, string>][] {
     let idle = this.idle.get(rule);
     if (!idle) { idle = { reads: Reads.names(world.module, [rule.when]) }; this.idle.set(rule, idle); }
-    if (idle.module === world.module && world.agrees(idle.reads, idle.stamped)) { return []; }
+    if (idle.module === world.module && world.agrees(idle.held ?? idle.reads, idle.stamped)) { return []; }
     const found = this.found(rule, world);
-    idle.stamped = found.length ? undefined : world.stamped(idle.reads); idle.module = world.module;
+    idle.held = found.length ? undefined : this.stays(rule, world) ?? idle.reads;
+    idle.stamped = idle.held && world.stamped(idle.held); idle.module = world.module;
     return found;
+  }
+  // The names of the part of a rule's condition that keeps it from holding (see idle), read longest ago; none where
+  // no part asking of no variable fails alone.
+  private static stays(rule: WorldRule, world: World): string[] | undefined {
+    let best: { reads: string[]; at: number } | undefined;
+    for (const part of this.closed(rule)) {
+      if (world.test(part)) { continue; }
+      const reads = Reads.names(world.module, [part]), at = Math.max(0, ...reads.map(n => world.stamp(n)));
+      if (!best || at < best.at) { best = { reads, at }; }
+    }
+    return best?.reads;
+  }
+  // A condition's parts joined by and that name no variable anywhere in them (not even one compared: price(?ware) > 1,
+  // which World.variables does not see), each once a rule.
+  private static readonly conjoined = new WeakMap<WorldRule, Predicate[]>();
+  private static closed(rule: WorldRule): Predicate[] {
+    let parts = this.conjoined.get(rule);
+    if (!parts) {
+      parts = this.conjuncts(rule.when).filter(p => !JSON.stringify(p).includes('"?'));
+      this.conjoined.set(rule, parts);
+    }
+    return parts;
+  }
+  private static conjuncts(p: Predicate): Predicate[] {
+    return p.kind === 'and' ? [...this.conjuncts(p.left), ...this.conjuncts(p.right)] : [p];
   }
   private static found(rule: WorldRule, world: World): [Change[], Record<string, string>][] {
     if (!World.variables(rule.when)) { return world.test(rule.when) ? [[rule.effects, {}]] : []; }
