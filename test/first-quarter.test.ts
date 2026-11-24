@@ -14,10 +14,16 @@ describe('the first quarter hour, by the gold', () => {
     const places = q.steps.map(x => x.place);
     expect(places).toContain('the undercroft');
     expect(places).toContain('the sealed vault');
-    // The rats and their buck fought; the man with the black candle, warning the company off in the ossuary, answered
-    // by talking him round (an engagement answered: OR-163), where the aim's search there, led while he warned, had
-    // brought his dead down on the company for a third fight.
+    // The rats and their buck fought, and the rats come up into the drain behind them (OR-413). The man with the black
+    // candle, warning the company off in the ossuary, is answered by words, not fought (an engagement answered:
+    // OR-163): this walk took no job of the dead, so it cannot tell him the town knows; it asks who he is once, not
+    // again and again (OR-416), and talks him round. Since the keeper is not led into (OR-412), the walk comes to the
+    // ossuary by the charnel passage after the vault.
     expect(q.fights).toBeGreaterThanOrEqual(2);
-    expect(q.steps.map(x => x.command)).toContain('region__s1_u_raiser_talked(party,region__s1_u_ossuary)');
+    const commands = q.steps.map(x => x.command);
+    expect(commands.filter(x => x === 'region__s1_u_raiser_who')).toHaveLength(1);
+    expect(commands).not.toContain('region__s1_u_raiser_who_again');
+    expect(commands).toContain('talk_round(region__s1_u_raiser)');
+    expect(commands.filter(x => /^attack\(region__s1_u_(raiser|dead)/.test(x))).toEqual([]);
   }, 300000);
 });
