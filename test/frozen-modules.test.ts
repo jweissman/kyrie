@@ -8,7 +8,7 @@ import { join } from 'node:path';
 // nothing into them. In a process of its own (test/support/frozen-modules-play.ts).
 describe('the modules kept between campaigns, frozen', () => {
   it('are not written by a world begun from them, played, and another begun', async () => {
-    const run = Bun.spawn(['bun', join(import.meta.dir, '../support/frozen-modules-play.ts')],
+    const run = Bun.spawn(['bun', join(import.meta.dir, './support/frozen-modules-play.ts')],
       { stdout: 'pipe', stderr: 'pipe' });
     const [out, err] = [await new Response(run.stdout).text(), await new Response(run.stderr).text()];
     const code = await run.exited;

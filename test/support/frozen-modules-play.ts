@@ -9,7 +9,7 @@ import { PlaySession } from '../../src/session/play-session';
 import { Creation } from '../../web/engine/creation';
 
 // The shared rules and the compiled modules kept between campaigns, frozen whole once a world has made them, and the
-// world begun again (every module from what is kept) and played, then another begun (test/small/frozen-modules): each
+// world begun again (every module from what is kept) and played, then another begun (test/frozen-modules): each
 // write into what is kept a TypeError here. In a process of its own, as what is frozen stays frozen.
 function freeze<T>(value: T, seen = new Set<unknown>()): T {
   if (value && typeof value === 'object' && !seen.has(value)) {
