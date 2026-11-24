@@ -117,7 +117,7 @@ export class Campaign implements WatchHost {
     // Each module is checked as it is compiled; the joined whole, once, when the last is in.
     for (const [i, request] of manifest.modules.entries()) {
       await step?.(i, manifest.modules.length);
-      if (campaign) { await campaign.install(request, source, false); continue; }
+      if (campaign) { await campaign.install(request, source, false, i === manifest.modules.length - 1); continue; }
       const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
         party: party?.length, canonless: manifest.canon === false }, source);
       if (party) { CompanyChoices.apply(draft, party, manifest.canon === false); }
@@ -150,7 +150,9 @@ export class Campaign implements WatchHost {
     this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
     this.commit(world); this.current.deadline = next.budget;
     for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
-    CampaignTick.settle(this); this.updateOutcome();
+    // Settled unless joined unchecked and for its newcomers only, as a game assembled joins all but its last (a start
+    // had asked its country's every rule once for each of its 37 installs: 0.6 s; see assemble).
+    if (checked || everyone) { CampaignTick.settle(this); } this.updateOutcome();
   }
   private installBoundary() {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between commands'); }
