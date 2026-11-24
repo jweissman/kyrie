@@ -99,6 +99,19 @@ export class Scenery {
   }
   // What the scene shows: the country, or a room of its kind; in the dark the same room, which the page draws barely
   // seen (SceneSurface); or nothing, where nothing fits, and the page shows a dim ground in its place.
+  // One place's paintings at other lights, seasons or weather are one family (OR-446): a base and its suffix
+  // (harbor and harbor-rain, keep-tower and keep-tower-winter), named so by the painter. The page dissolves one into
+  // another of its family over a few seconds, where the sky turns over the place, and cuts to another place's.
+  static readonly variants: readonly string[] = ['dawn', 'dusk', 'night', 'spring', 'summer', 'autumn', 'winter',
+    'rain', 'fog', 'mist', 'snow', 'storm'];
+  static family(painting: string): string {
+    const m = /^(.+)-([a-z]+)$/.exec(painting);
+    return m && this.variants.includes(m[2]!) ? m[1]! : painting;
+  }
+  // Whether going from one painting to another, at one place, is a dissolve: two of one family, not the same one.
+  static dissolves(from: string | undefined, to: string | undefined): boolean {
+    return !!from && !!to && from !== to && this.family(from) === this.family(to);
+  }
   static seen(screen: Screen): string | undefined {
     const lit = screen.dark ? { ...screen, dark: false } : screen;
     return (screen.dark && !this.roofed(screen) ? this.of(screen) : undefined) ?? this.of(lit) ?? this.inside(lit);

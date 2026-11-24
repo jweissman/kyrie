@@ -852,6 +852,24 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, split from OR-441: the higher rungs of the ladder run over the opening, an instrument wanted"
+  },
+  "OR-446": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov: the owner's painting idea, a direction (the coordinator's batch); done here"
+  },
+  "OR-447": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov: the owner's painting idea, a direction; waits on paintings and a calendar start"
+  },
+  "OR-467": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov: split from OR-446: a wanted refinement of how paintings are chosen, not a broken contract"
   }
  },
  "blockedBy": {

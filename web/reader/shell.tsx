@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Scenery } from '../../src/ui/scenery';
 import { FictionalTime } from '../../src/campaign/fictional-time';
@@ -49,6 +49,7 @@ class Plates {
 export class Shell {
   static View({ app, children }: { app: ReaderApp; children: ReactNode }) {
     const s = app.state, wanted = Shell.plate(app), plate = Plates.useReady(wanted);
+    const was = Shell.useDissolve(plate, s.frame?.screen.place.id);
     const approaching = Shell.approaching(app);
     const creating = (s.phase === 'company' || (s.phase === 'loading' && !!s.leaving && !approaching))
       && !!s.setting?.generated;
@@ -62,12 +63,32 @@ export class Shell {
       <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
         onClickCapture={e => EncyclopediaOverlay.caught(app, e)}>
         <div className={`ambient${plate ? '' : ' unpainted'}`} aria-hidden="true" />
+        {was && <div key={was} className="ambient ambient-was" aria-hidden="true"
+          style={{ '--plate': `url(${Plates.url(was)})` } as CSSProperties} />}
         <div className="frame"><Flame.View app={app} />{children}</div>
         <EncyclopediaOverlay.View app={app} />
         {app.props.query.has('safe') && <div className="safe-zone" data-region="safe-zone" aria-hidden="true" />}
       </div>
     );
   }
+  // The painting going, where the place's painting turns to another of its family as the sky turns over it (OR-446:
+  // Scenery.dissolves, the engine's): drawn over the new one and dissolved away over a few seconds (shell's
+  // .ambient-was), never a cut and never a colour; another place's painting is cut to, as it always was.
+  static useDissolve(plate: string | undefined, place: string | undefined): string | undefined {
+    const last = useRef<{ plate?: string; place?: string }>({}), [was, setWas] = useState<string>();
+    useEffect(() => {
+      const before = last.current;
+      last.current = { plate, place };
+      // One who asks for less motion is shown the new one at once.
+      const still = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (still || before.place !== place || !Scenery.dissolves(before.plate, plate)) { return; }
+      setWas(before.plate);
+      const timer = setTimeout(() => setWas(undefined), Shell.dissolve);
+      return () => clearTimeout(timer);
+    }, [plate, place]);
+    return was;
+  }
+  static readonly dissolve = 4000;
   // What lies behind the stage: where the company is, as the place's own scenery would paint it; before a country is
   // entered, its land, while the life is chosen; on the title, none (see TitlePage.motes). Setting out from the choice
   // the page is dark while the world is drawn and its people placed, and the way in comes up as the last of it ends

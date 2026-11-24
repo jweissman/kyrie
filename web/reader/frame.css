@@ -13,6 +13,10 @@ html, body { overflow: hidden; }
 .ambient { position: absolute; inset: -48px; pointer-events: none; background: var(--plate) center / cover no-repeat;
   filter: var(--plate-far); transform: scale(1.04); transition: opacity 900ms var(--ease); }
 .ambient.unpainted { opacity: 0; transition: none; }
+/* One painting of a place dissolving into another of its family as the sky turns (OR-446: Scenery.dissolves): the
+   going painting over the coming one, its light let go over four seconds, nothing else moving and no colour drawn. */
+.ambient.ambient-was { animation: dissolve 4s linear both; }
+@keyframes dissolve { to { opacity: 0; } }
 /* In play a place's painting is cut to, never faded up: from a dark place, or one with no painting of its kind, the
    next had risen out of black over most of a second, where every other scene came at once (the owner, 19 November:
    "certain scenes flicker and then fade in slowly"). The title, creation and the way in keep their rising. */
