@@ -144,13 +144,10 @@ export class DangerSense {
     const foreseen = this.foreseen.get(this.lineup(ours, foes));
     if (foreseen) { return foreseen; }
     const moment = battle.opening;
-    // And where it is fought: the place's laws go with the fighters (as their conditions), its element does not, and
-    // a fight joined in the water had been reckoned as if on dry land (the Numbered House's eels: OR-322).
-    const environment = battle.state.combatants.find(f => f.environment)?.environment;
-    const key = JSON.stringify(['joined', moment ?? '', ...environment ? [environment] : [], ...standing.map(f => [f.id,
-      f.hp, f.mana, f.level, f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
-    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {},
-      ...environment ? { environment } : {} }), ours, foes));
+    const key = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
+      f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
+    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {} }),
+      ours, foes));
   }
   // Those still standing in a fight, each side, as the creatures they came into it as, less what they have spent.
   static fighters(battle: Battle): { ours: Creature[]; foes: Creature[] } {

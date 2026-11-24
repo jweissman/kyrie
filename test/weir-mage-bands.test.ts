@@ -42,8 +42,11 @@ describe('the weir life\'s mage against every band of her first hour', () => {
     expect([drowned.meeting, drowned.said]).toEqual(['warns', 'deadly']);
   });
   it('wins what the reckoning calls fair or slight', () => {
+    // Fewer than there were: a fight whose reckoned fights felled her is at least hard now, and asked (OR-322), and
+    // at four hit points most of them can.
     const easy = [...alone, ...hired].filter(b => b.said === 'fair' || b.said === 'slight');
-    expect(easy.length).toBeGreaterThan(10);
+    expect(easy.length).toBeGreaterThan(0);
+    expect(easy.filter(b => b.mortal)).toEqual([]);
     expect(easy.filter(b => b.won * 10 < b.trials * 8).map(b => b.name)).toEqual([]);
   });
   it('wins the undertown with Gesk that she loses alone, and is still beyond the howe\'s worst', () => {
