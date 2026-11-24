@@ -5,7 +5,7 @@ This is one path, in the order to take it. `bin/kyrie new` prints it after scaff
 
 | # | Command | Answers |
 |---|---|---|
-| 1 | `bin/kyrie names <Surname> <Place> …` | Is each name free? One world holds every adventure, so a surname or a place's name is one adventure's own. Ask before you write it. |
+| 1 | `bin/kyrie names <Surname> <Place> …` | Is each name free? One world holds every adventure, so a surname or a place's name is one adventure's own. Ask before you write it, or draw free ones with `bin/kyrie suggest names`. |
 | 2 | `bin/kyrie lint data/campaigns/<id>.campaign.json` | Does it load, and lint clean? An error fails it. A warning fails a campaign the game offers. |
 | 3 | `bin/kyrie play data/campaigns/<id>.campaign.json --choices` | Does it play as you meant, by your own hand? |
 | 4 | `bin/kyrie inspect --why fact <campaign> "<fact>"` | Why is something so, or not so? Use it when a step does not do what you expected. |

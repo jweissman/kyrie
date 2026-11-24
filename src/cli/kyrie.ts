@@ -38,6 +38,7 @@ import { Terminal } from './terminal';
 import { Frontier } from '../world/frontier';
 import { DrawnWorld } from '../world/drawn-world';
 import { AdventureNames } from './adventure-names';
+import { SuggestTool } from './suggest-tool';
 import { CheckpointStore } from '../session/checkpoint-store';
 import { Serve } from './serve';
 import { JourneyRead } from './journey-read';
@@ -57,6 +58,7 @@ export class KyrieCli {
     '           bin/kyrie campaign <campaign.json> [seed] | replay <transcript.json>',
     'Author:    bin/kyrie new <id> ["Title"] | new scene|item|chapter|character <id> --in <adventure> | new site <id>',
     '           bin/kyrie lint [campaign.json] [--world seed] [--errors] [--inventory] [--exports] | compile <module.kyr> | names <surname ...>',
+    '           bin/kyrie suggest names [--kind given|family|place] [--people p] [--like <adventure>] | suggest paintings',
     '           bin/kyrie preview <campaign.json> [--port 8080]',
     '           bin/kyrie world <seed> [--terrain forest|marsh|mountain|frost] [--json] | playtext <seed> [steps]',
     '           bin/kyrie play <campaign.json | module.kyr> [--seed s] [--steps steps.json] [--probe "fact args"|"#measure args"] [step ...]',
@@ -85,6 +87,7 @@ export class KyrieCli {
     switch (mode) {
       case 'lint': return KyrLint.main(rest);
       case 'names': return AdventureNames.main(rest);
+      case 'suggest': return SuggestTool.main(rest);
       case 'compile': return this.compile(path);
       case 'test': return this.test(rest);
       case 'preview': await Preview.main(rest); return 0;

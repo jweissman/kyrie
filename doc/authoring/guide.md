@@ -807,6 +807,33 @@ river rising.
 
 ## 9. Check it
 
+**Need a name, or a setting to paint?** `bin/kyrie suggest` gives ideas drawn from what the setting already has, and
+checked against what is taken:
+
+```
+$ bin/kyrie suggest names --people halfling --seed brandy -n 6
+Basie
+Taby
+Tabia
+Jasie
+Fent
+Wilie
+6 new given names (as halfling), none given by any adventure or the setting, nor part of one; seed brandy
+```
+
+Each name is drawn by a chain of letters that learnt from a people's names in the setting (`--people human`, `elf`,
+`dwarf`, `gnome`, `halfling`, `catfolk`, `birdfolk`; `--sex she|he|they`), or a family's (`--kind family`), or the
+adventures' places (`--kind place`), or one adventure's own manner (`--like quittance`). None is a name any adventure or
+the setting gives already, nor the beginning or a part of one, nor one that holds one. Of many drawn, the shorter and
+better-sounding come first: `--scores` shows each one's score. The same `--seed` draws the same names, and without one
+every run is new. `--order 3` keeps closer to the names learnt, `--order 1` wanders further. A thin table gives few
+names: the dwarves have ten family names, and get four new ones.
+
+`bin/kyrie suggest paintings [--terrain desert]` lists the paintings of places that nothing uses yet, by terrain and
+subject (city, town, shelter, wonder, wild), with their season, weather and light, and the subjects each terrain has no
+painting of at all. The terrain and subject are read from the words of what each painting shows, so take them as a
+first sorting, not a judgment. Use it to find a place worth writing that is already painted.
+
 Before naming things: `bin/kyrie names Pargeter Tench` says whether each surname is free or whose it is, and
 `bin/kyrie lint --inventory` lists every relation and measure the modules declare, with what the engine keeps (the
 clock, its records, what it reads off bodies, who holds what, what is known), which a module reads and never writes;

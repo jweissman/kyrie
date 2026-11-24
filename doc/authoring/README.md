@@ -23,6 +23,10 @@ open finding ([../architecture/findings/index.md](../history/findings/index.md) 
 
 **Before writing a flag by hand,** see [forms the engine already has](forms.md).
 
+**For ideas,** `bin/kyrie suggest names` draws new names in a people's manner or an adventure's, none of them taken by
+any adventure, and `bin/kyrie suggest paintings` lists the paintings of places that no place uses yet ([the
+guide, §9](guide.md#9-check-it)).
+
 **The reference behind the trail.** The [authoring guide](guide.md) is the full manual of the language: every
 construct, with the adventure friction that shaped it; its examples are played by `test/authoring-guide.test.ts`.
 [narrative.md](narrative.md) is how the page's words should read. [data/README.md](../../data/README.md) says where
