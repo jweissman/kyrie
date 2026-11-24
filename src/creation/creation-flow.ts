@@ -58,6 +58,8 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[]; present: CreationPresent;
   all?: boolean; write?: string; roll?: string; leads?: boolean; emblems?: boolean; many?: number; picked?: string[];
+  // How a choice is made, said once, at the first step: what comes to a row reads it, and a press chooses it (OR-255).
+  how?: string;
 }
 
 // Making the protagonist, one flow for every client. The engine says the steps in order, each with its question and
@@ -149,11 +151,16 @@ export class CreationFlow {
     const turning = step.id === 'sign' && from >= 0 ? ids.length - ((ids.indexOf(card.id) - from + ids.length) % ids.length) : 0;
     return (here ? 1e6 : 0) + suits + turning;
   }
+  // Coming to a row (the pointer over it, the arrow keys on it, a finger going down) tells of it beside the question;
+  // pressing it chooses it and goes on. Said nowhere, the first cold play's reader pressed Catfolk to read of it, and
+  // it was chosen (OR-255, P2, P4).
+  static readonly how = 'Come to one to read of it. A press chooses it; Back undoes the choice.';
   private unranked(): CreationStep[] {
     const c = this.catalog, m = this.member, people = c.ancestries.find(a => a.id === m.raceId);
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
     return [
-      { id: 'you', ask: 'Choose your ancestry', present: 'cards', chosen: m.raceId, cards: c.ancestries.map(a => ({ id: a.id,
+      { id: 'you', ask: 'Choose your ancestry', how: CreationFlow.how, present: 'cards', chosen: m.raceId,
+        cards: c.ancestries.map(a => ({ id: a.id,
         name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a),
         ...CreationFlow.has(CreationEntries.people(a)) })) },
       // How one presents, second, before anything named for who one is (the owner, 19 November: "you can be a male
