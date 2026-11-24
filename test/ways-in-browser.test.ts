@@ -11,6 +11,8 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
+// Options and the encyclopedia, the title's rows after its ways in (OR-382).
+const apart = ['options', 'encyclopedia'];
 const ways = (page: Page) => page.$$eval('.title-menu [data-action]', els => els.map(e => e.getAttribute('data-action')));
 describe.skipIf(!process.env.KYRIE_BROWSER)('the ways in, and back to the title from a game', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
@@ -21,7 +23,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the ways in, and back to the title 
       async () => {
         const { page, driver, errors } = await MonoBrowser.page(browser, size, { site, pointer: false, query: '' });
         await page.waitForSelector('.title-menu .way-in', { timeout: 120000 });
-        expect(await ways(page)).toEqual(['begin']);
+        expect(await ways(page)).toEqual(['begin', ...apart]);
         const base = page.url().split('?')[0]!;
         await page.goto(`${base}?world=a1`);
         await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
@@ -38,7 +40,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the ways in, and back to the title 
           .toEqual(['Back to the game', 'Return to title']);
         await page.click('.options-page .rows.back [data-action="title"]');
         await page.waitForSelector('[data-action="continue"]', { timeout: 10000 });
-        expect(await ways(page)).toEqual(['continue', 'begin', 'world']);
+        expect(await ways(page)).toEqual(['continue', 'begin', 'world', ...apart]);
         await page.click('[data-action="continue"]');
         await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
         await driver.settle();
@@ -52,10 +54,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the ways in, and back to the title 
         await page.waitForSelector('[data-action="continue"]', { timeout: 60000 });
         await page.click('[data-action="continue"]');
         await page.waitForSelector('[data-id="refused"]', { timeout: 60000 });
-        expect(await ways(page)).toEqual(['begin', 'world']);
+        expect(await ways(page)).toEqual(['begin', 'world', ...apart]);
         await page.reload();
         await page.waitForSelector('[data-id="refused"]', { timeout: 60000 });
-        expect(await ways(page)).toEqual(['begin', 'world']);
+        expect(await ways(page)).toEqual(['begin', 'world', ...apart]);
         const told = await page.locator('[data-id="refused"]').boundingBox();
         expect(told!.x).toBeGreaterThanOrEqual(0);
         expect(told!.x + told!.width).toBeLessThanOrEqual(size.width);

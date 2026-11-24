@@ -207,7 +207,8 @@ export class Probes {
     social: () => ({ status: found(/leaderboard|daily challenge|shared story/i, 'web', 'src/session') ? 'partial' : 'absent',
       evidence: 'a shared or social feature' }),
     textcontrols: () => {
-      const o = text('web/reader/options-page.tsx');
+      // The settings are the engine's Options page (OpeningPages, OR-382), drawn by the page's.
+      const o = text('web/reader/options-page.tsx') + text('src/creation/opening-pages.ts');
       const size = /key: 'size'/.test(o), theme = /contrast|theme/i.test(o), speed = /speed/i.test(o);
       return { status: size && theme && speed ? 'present' : size ? 'partial' : 'absent', evidence: `size ${size}, themes ${theme}, speed ${speed}` };
     },

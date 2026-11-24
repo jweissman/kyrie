@@ -7,10 +7,12 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
-// The title's foreground is geometrically exact (the owner, 15 November: one viewport-centred composition, buttons of
-// one width and alignment, concise labels, the saved game's description apart from the rows), measured in boxes,
-// with and without a saved game, on a desk, on an iPad both ways up and on a phone: its one way in, Play, the same
-// box either way (OR-160). Opt in with KYRIE_BROWSER=1.
+// The title's foreground is geometrically exact (the owner, 15 November: buttons of one width and alignment, concise
+// labels, the saved game's description apart from the rows), measured in boxes, with and without a saved game, on a
+// desk, on an iPad both ways up and on a phone: its rows the same box either way (OR-160). A page as any other
+// (OR-382, the owner's ruling of 24 November): on a wide screen its name at the left and its rows in the frame's
+// column at the right; upright or narrow, the name over the rows, both about the screen's middle line. Its rows are
+// the engine's: the ways in, then Options and the encyclopedia. Opt in with KYRIE_BROWSER=1.
 interface Box { x: number; y: number; width: number; height: number }
 class Title {
   static async boxes(page: Page): Promise<{ rows: Box[]; texts: string[]; mark: Box; menu: Box; save?: Box;
@@ -33,6 +35,7 @@ class Title {
     await page.keyboard.press('Shift'); await page.waitForTimeout(1500);
   }
   static check(t: Awaited<ReturnType<typeof Title.boxes>>, count: number) {
+    const wide = t.view.w >= 900 && t.view.w > t.view.h;
     expect(t.rows).toHaveLength(count);
     expect(t.whys).toBe(0);
     expect(t.texts.every(x => x.length <= 18)).toBe(true);
@@ -41,11 +44,13 @@ class Title {
       expect(Math.abs(r.x - first.x)).toBeLessThan(0.6);
       expect(Math.abs(r.width - first.width)).toBeLessThan(0.6);
       expect(Math.abs(r.height - first.height)).toBeLessThan(0.6);
-      expect(Math.abs(r.x + r.width / 2 - centre)).toBeLessThan(1);
+      if (!wide) { expect(Math.abs(r.x + r.width / 2 - centre)).toBeLessThan(1); }
     }
     const gaps = t.rows.slice(1).map((r, i) => r.y - (t.rows[i]!.y + t.rows[i]!.height));
     if (gaps.length) { expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(0.6); }
-    expect(Math.abs(t.mark.x + t.mark.width / 2 - centre)).toBeLessThan(1);
+    if (wide) { expect(first.x).toBeGreaterThan(t.mark.x + t.mark.width); } else {
+      expect(Math.abs(t.mark.x + t.mark.width / 2 - centre)).toBeLessThan(1);
+    }
     // The name and the ways in are one composition about the screen's middle.
     const top = t.mark.y, bottom = t.menu.y + t.menu.height;
     expect(Math.abs((top + bottom) / 2 - t.view.h / 2)).toBeLessThan(t.view.h * 0.12);
@@ -64,8 +69,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       const { page } = await MonoBrowser.page(browser, size, { site, pointer: false, query: '' });
       await Title.ready(page);
       const bare = await Title.boxes(page);
-      // With nothing kept, one way in: New character (OR-300).
-      Title.check(bare, 1);
+      // With nothing kept, one way in, New character (OR-300), then Options and the encyclopedia.
+      Title.check(bare, 3);
       // A game kept (begun by the address, as the other specs do), then the title again with nothing in the address.
       const base = page.url().split('?')[0]!;
       await page.goto(`${base}?world=a1`);
@@ -78,9 +83,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       await page.waitForSelector('[data-action="continue"]', { timeout: 60000 });
       await Title.ready(page);
       const kept = await Title.boxes(page);
-      // A game kept: Continue, New character and New world, alike in width and place (OR-300).
-      Title.check(kept, 3);
-      expect(kept.texts.map(t => t.toLowerCase())).toEqual(['continue', 'new character', 'new world']);
+      // A game kept: Continue, New character and New world, then Options and the encyclopedia, alike (OR-300).
+      Title.check(kept, 5);
+      expect(kept.texts.map(t => t.toLowerCase())).toEqual(['continue', 'new character', 'new world', 'options',
+        'the encyclopedia']);
       await page.screenshot({ path: `/var/tmp/kyrie/title/title-${size.width}.png` });
       // The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
       // November); the rows are the same width and place with or without a save.

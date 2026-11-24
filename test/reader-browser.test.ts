@@ -124,10 +124,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     // What is asked for opens over the right-hand page, and Esc closes it.
     await d.mode('c');
     expect(await page.locator('.sheet.view-company .character h2.who:visible').count()).toBe(1);
-    // The sheet at a glance (OWN-03, and the owner's 5 November: the qualities at the top): six qualities in a row,
-    // each its score; no hover text over them (the owner, 18 November, OR-79).
-    const strength = page.locator('.character .stat-row li').first();
-    expect(await page.locator('.character .stat-row li').count()).toBe(6);
+    // The sheet at a glance (OWN-03, and the owner's 5 November: the qualities at the top): six qualities, each by its
+    // name and its score, as the folio sets them (OR-307); no hover text over them (the owner, 18 November, OR-79).
+    const strength = page.locator('.character .values > div').first();
+    expect(await page.locator('.character .values > div').count()).toBe(6);
     expect(await strength.getAttribute('title')).toBeNull();
     // A caster's row shows the caster's sheet as it opens what they can do (it left the first member's showing).
     await d.pick(c => c.label === 'Dori', 'Dori');

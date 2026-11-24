@@ -65,7 +65,8 @@ The trade-off:
 | OR-380, pages before play | how a life begins, a step of a life, and Options (now on the one page's frame, `PageFrame` kind `options`), each in the column by the frame's tokens; the title's ways in the safe zone's width on a phone | 4 / 3 |
 | OR-380, in play | the map's card (its width the column's and its padding the menu's inset, the board framing where you are clear of it), the Book's notes (its rows one over another in the column) | 2 / 1 |
 | OR-380, the rest | the opening (its words and its way on in the column, where the scene's telling stands next), the ending (its column by the tokens), a fight on a wide screen (the hand's column the menu column mirrored to the left) | 2 (the title's, OR-382) / 1 |
-| Left | the title at a desk's size (OR-382); a fight's hand on a narrow screen (OR-383); the ending measured by a walk that reaches one (OR-384) | |
+| OR-382 | the title, conforming: its name at the left, its rows in the column | 1 / 1 |
+| Left | a fight's hand on a narrow screen (OR-383); the ending measured by a walk that reaches one (OR-384) | |
 
 The spec's `held` is lowered as each page comes onto the frame, and is never raised.
 
@@ -73,8 +74,8 @@ A page inside the stage places its rows by two more tokens on `.shell` (frame.cs
 the stage's right edge the rows end, and `--menu-rows`, how wide they are; a page centred on the screen places them
 by `--menu-x`, where they begin on the screen. On a narrow or upright screen the three give the safe zone's width.
 
-**The title at a desk's size (OR-382).** Its ways in stand centred under the game's name, the owner's composition
-for the title (14-17 November: the name lit from its middle, the ways in centred under it). Putting them in the
-frame's column means recomposing the title: the name at the left where a place's name stands and the ways in at the
-right, or the whole title in the column at the name's smaller size. That is the owner's call, not a placement, so the
-title keeps its own column on a wide screen; on a phone its ways in are the frame's already.
+**The title (OR-382).** The owner ruled on 24 November that every screen is the engine's page drawn in one simple
+frame with hints, the title included. The title, how a life begins and Options are now the engine's pages
+(`src/creation/opening-pages.ts`), and the title conforms fully: the game's name, its heading hint, stands at the left
+where a place's name stands, and its rows (the ways in, then Options and the encyclopedia) stand in the frame's column.
+There is no centre hint. The columns are one at every size.

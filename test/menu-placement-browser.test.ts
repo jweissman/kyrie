@@ -4,8 +4,8 @@
 // foot of a narrow one, and no page decides its own. Measured on every page a player meets from the title to the Book,
 // at a desk's size and a phone's: the columns the menus stand in, counted and held by a ratchet (five at each size
 // before the frame owned the column, 24 November); and the pages on the frame (how a life begins, its steps, the
-// opening, the scene, its lenses, a conversation, the map's card, the Book and Options; on a phone the title too)
-// standing in its one column. Opt in with KYRIE_BROWSER=1.
+// opening, the scene, its lenses, a conversation, the map's card, the Book, Options and the title) standing in its
+// one column. Opt in with KYRIE_BROWSER=1.
 import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -14,11 +14,11 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { MenuPlacement } from './support/menu-placement';
 
-// The columns allowed at each size: lowered as each page comes onto the frame (OR-380), never raised. At a desk's
-// size the title's ways in stand centred under its name, its own composition (OR-382); on a phone they are the frame's.
-const held: Record<number, number> = { 1280: 2, 390: 1 };
-const framed = ['begin', 'creation', 'opening', 'scene', 'lens:talk', 'lens:go', 'talk', 'map', 'book', 'options'];
-const framedAt: Record<number, string[]> = { 1280: framed, 390: ['title', ...framed] };
+// The columns allowed at each size: lowered as each page comes onto the frame (OR-380), never raised. The title is a
+// page as any other (OR-382, the owner's ruling of 24 November), its rows in the one column at every size.
+const held: Record<number, number> = { 1280: 1, 390: 1 };
+const framed = ['title', 'begin', 'creation', 'opening', 'scene', 'lens:talk', 'lens:go', 'talk', 'map', 'book', 'options'];
+const framedAt: Record<number, string[]> = { 1280: framed, 390: framed };
 describe.skipIf(!process.env.KYRIE_BROWSER)('the primary action menu, placed by the frame', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => { site = await mkdtemp(join(tmpdir(), 'kyrie-place-')); await SiteBuild.site(site, {}); browser = await MonoBrowser.launch(); }, 300000);
@@ -33,7 +33,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the primary action menu, placed by 
         console.log(JSON.stringify(placed.map(p => [p.surface, MenuPlacement.name(p),
           Object.values(p.box).map(Math.round)])));
         // Every page the walk reaches has its menu measured, and the frame's pages share one column.
-        expect(placed.map(p => p.surface)).toEqual(expect.arrayContaining(['title', ...framed]));
+        expect(placed.map(p => p.surface)).toEqual(expect.arrayContaining(framed));
         const shown = framedAt[size.width]!.filter(s => placed.some(p => p.surface === s));
         expect(columns.filter(c => shown.some(s => c.includes(s)))).toEqual([expect.arrayContaining(shown)]);
         // That column is the frame's: hard right on a wide screen, the safe zone's width on a phone.

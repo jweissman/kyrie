@@ -700,8 +700,8 @@
   "OR-382": {
    "kind": "requirement",
    "was": "defect",
-   "pri": "P3",
-   "why": "24 Nov, split from OR-380: the title recomposed so that its ways in stand in the frame's column at a desk's size, an outcome the owner commissions (OR-305) that waits on their artistic call; no claimed contract broken"
+   "pri": "P2",
+   "why": "24 Nov, split from OR-380; reworded on the owner's ruling of 24 November (the pages before play as the engine's, the title conforming): a commissioned outcome, no claimed contract broken"
   },
   "OR-383": {
    "kind": "requirement",
@@ -726,6 +726,24 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from OR-307: the owner's \"calculations on demand\" met for a pointer, wanted for touch and keys; a commissioned outcome, no claimed contract broken"
+  },
+  "OR-387": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, split from OR-382: the remaining screens made the engine's pages, a commissioned outcome"
+  },
+  "OR-388": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-382: the hint vocabulary's future uses, a wanted feature"
+  },
+  "OR-389": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-382: an instrument's reach (the runner at the title), not an observed failure"
   }
  },
  "blockedBy": {

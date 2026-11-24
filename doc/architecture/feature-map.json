@@ -771,6 +771,7 @@
        "feature": "opening",
        "pins": [
         "Interface › Ways in",
+        "Interface › Pages the engine draws",
         "Interface › Play",
         "Interface › No long presses on the way in"
        ],

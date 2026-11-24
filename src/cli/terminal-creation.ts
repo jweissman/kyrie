@@ -6,7 +6,8 @@ import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
 import { TerminalInput, type Asking, type Picking } from './terminal-input';
 import type { Menu, Row } from './terminal-picker';
-import type { FirstStep, TitleStep, Way } from '../creation/first-choice';
+import type { FirstStep } from '../creation/first-choice';
+import type { EnginePage } from '../creation/opening-pages';
 
 // A step as it is asked: creation's (CreationFlow), or how the game begins (FirstChoice).
 type Asked = Pick<CreationStep, 'ask' | 'cards' | 'chosen' | 'all' | 'many' | 'picked'>;
@@ -32,8 +33,12 @@ export class TerminalCreation {
     await host.handle({ kind: 'world', seed });
     return { rolled: true };
   }
-  // The title's ways in, asked as the page draws them (FirstChoice.title, OR-300): Continue, New character, New world.
-  async way(step: TitleStep): Promise<Way> { return (await this.card(step)).id as Way; }
+  // A page of the engine's (OpeningPages, OR-382), its rows asked as numbered lines, as the page draws them: the
+  // title's Continue, New character, New world, Options and the encyclopedia.
+  async row(page: EnginePage): Promise<string> {
+    return (await this.card({ ask: page.ask, chosen: page.chosen, all: true,
+      cards: page.rows.map(r => ({ id: r.id, name: r.label })) })).id;
+  }
   async choose(host: EngineHost, seed: string): Promise<{ state: CreationState; setting: Setting }> {
     const setting = await host.handle({ kind: 'world', seed }) as Setting;
     let state = await host.handle({ kind: 'creation' }) as CreationState;

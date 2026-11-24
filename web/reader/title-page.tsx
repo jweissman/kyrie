@@ -9,7 +9,7 @@ import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
 import { BeginMenu } from './begin-menu';
 import { PressGuard } from './press-guard';
-import { FirstChoice } from '../../src/creation/first-choice';
+import { OpeningPages, type PageRow } from '../../src/creation/opening-pages';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
@@ -19,10 +19,12 @@ type Way = 'continue' | 'begin' | 'world' | 'encyclopedia' | 'options';
 // legible foreground over a deeper, more complex, subtly moving background"; the moving double box about the choices
 // had been where he bounced off). Once a session the studio's mark draws its seven towers on a horizon; its horizon
 // becomes the title's own as the sky comes up behind it (no black between), and the game's name is lit from its middle
-// letter outward. The ways in are the engine's (FirstChoice.title, OR-300): Continue where a kept game can be taken up,
-// New character and New world, each a row of the game's own (see ChoiceRow), centred: lit at once by its mark at its
-// left when the hand or the keys are on it, and nothing moves to get there; a kept game that could not be opened is
-// said under them in a plain line. Options and the encyclopedia stand quietly at the foot. Any key or touch skips straight to the way in.
+// letter outward. The title is the engine's page (OpeningPages.title, OR-382), drawn in the one frame as any page is:
+// the game's name its heading, where a place's name stands, the embers its backdrop, and its rows in the frame's menu
+// column, the ways in (Continue where a kept game can be taken up, New character, New world: OR-300) then Options and
+// the encyclopedia, each a row of the game's own (see ChoiceRow), lit at once by its mark when the hand or the keys
+// are on it; a kept game that could not be opened is said under them in a plain line. Any key or touch skips
+// straight to the way in.
 // One who asks for less motion is shown it at once. Nothing here says how a country is made; a save brought from
 // elsewhere is opened from Options, and the ways in for testing appear only when the address asks (?dev). The names
 // shown are the game's and the studio's (src/presentation/identity.ts).
@@ -30,7 +32,8 @@ export class TitlePage {
   static View({ app }: { app: ReaderApp }) {
     const s = app.state, query = app.props.query, dev = query.has('dev');
     const named = Identity.named(query), [beat, skip] = TitlePage.useBeat(query.has('ident') || query.has('studio'));
-    const step = FirstChoice.title(app.opening.kept()), first: Way = step.chosen, [active, activate] = useState<Way>(first);
+    // The title is the engine's page (OpeningPages.title, OR-382): its rows, its heading and its backdrop.
+    const page = OpeningPages.title(app.opening.kept()), first = page.chosen as Way, [active, activate] = useState<Way>(first);
     // The way the hand or the keys are on, marked at once by the reticule, the one sign of focus; the sky is still.
     const item = (way: Way) => ({ 'data-nav': true, onMouseEnter: () => activate(way), onFocus: () => activate(way),
       'data-considered': active === way || undefined, 'aria-current': active === way || undefined, 'data-way': way });
@@ -43,37 +46,36 @@ export class TitlePage {
     return <PageFrame.View kind="title" className={`opening title-page beat-${beat}`}
       attrs={{ 'data-mode': s.phase === 'begin' ? 'begin' : 'title' }}
       body="title-main" hidden={beat === 'ident' || beat === 'dark'}
-      background={<>{beat !== 'ident' && <TitlePage.Motes />}
+      background={<>{beat !== 'ident' && page.hints.backdrop === 'embers' && <TitlePage.Motes />}
         {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
       // The name is the title page's alone: the question how a new game begins stands by itself over the embers, the
       // name neither kept above it nor moved as the menu below it changes (the owner's playtest, 20 November, OR-160).
-      header={s.phase === 'begin' ? undefined : <><TitlePage.Mark name={named.game} />
+      header={s.phase === 'begin' || page.hints.heading !== 'name' ? undefined : <><TitlePage.Mark name={named.game} />
         <p className="horizon" aria-hidden="true"><i /></p>
         <p className="lede">Vol I: A History of Emprise</p></>}
-      // The title's ways in, the engine's (FirstChoice.title, OR-300), each by its id; what each does (the game it
-      // continues) said to a pointer and a reader only, never as a line of its own (the owner, 17 November). Taken at a
-      // press, never held (OR-169). Where the kept game could not be opened, the engine's plain line under them.
-      menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={step.ask}>
-        <ul>{step.cards.map(card => <li key={card.id}><ChoiceRow.Button className="way-in" data={{ action: card.id }}
-          label={card.name} plain={card.id === step.chosen ? 'every' : 'neutral'}
-          own={{ ...PressGuard.once(app.opening.way.bind(null, card.id)), ...item(card.id),
-            'aria-label': card.said }} /></li>)}</ul>
-        {step.told && <p className="title-told" data-id="refused" role="status">{step.told}</p>}
+      // The title's rows, the engine's, each by its id; what each does (the game it continues) said to a reader only,
+      // never as a line of its own (the owner, 17 November). Taken at a press, never held (OR-169). Where the kept game
+      // could not be opened, the engine's plain line under them.
+      menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={page.ask}>
+        <ul>{page.rows.map(row => <li key={row.id}>{TitlePage.row(app, row, item)}</li>)}</ul>
+        {page.told && <p className="title-told" data-id="refused" role="status">{page.told}</p>}
       </nav>}
-      // Options and the encyclopedia are not ways into the game: they stand quietly at the title's foot, as the build's
-      // stamp does, reached by the keys after the ways in. The
-      // encyclopedia's mark is the knowledge blue (OR-86), and it opens in a new tab (said to a reader, never written).
-      rail={s.phase === 'begin' ? undefined : <nav className="title-foot" aria-label="Beside the game">
-        <ChoiceRow.Button className="foot-way" data={{ action: 'options' }} label="Options" plain="neutral"
-          own={{ ...item('options'), ...PressGuard.once(TitlePage.options.bind(null, app)) }} />
-        <ChoiceRow.Link className="foot-way" data={{ action: 'encyclopedia' }} href="encyclopedia/index.html"
-          label={<span aria-hidden="true">The encyclopedia</span>} plain="knowing"
-          own={{ target: '_blank', rel: 'noopener', 'aria-label': 'The encyclopedia, opens in a new tab',
-            ...item('encyclopedia') }} /></nav>}
       over={<>{dev && <TitlePage.Dev app={app} />}
         {beat === 'ident' && <TitlePage.Skip skip={skip} />}
         {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
         <Toast.View app={app} /></>} />;
+  }
+  // A row of the title's page as the engine gives it: the ways in, Options, and the encyclopedia, which opens apart
+  // (a link, said so to a reader); what each does said to a pointer and a reader only, never a line of its own.
+  static row(app: ReaderApp, row: PageRow, item: (way: Way) => Record<string, unknown>) {
+    const way = row.id as Way, own = { ...item(way), ...row.said ? { 'aria-label': row.said } : {} };
+    if (row.href) {
+      return <ChoiceRow.Link className="way-in" data={{ action: row.id }} href={row.href}
+        label={<span aria-hidden="true">{row.label}</span>} plain="knowing" own={{ target: '_blank', rel: 'noopener', ...own }} />;
+    }
+    const go = way === 'options' ? TitlePage.options.bind(null, app) : app.opening.way.bind(null, way as never);
+    return <ChoiceRow.Button className="way-in" data={{ action: row.id }} label={row.label}
+      plain={row.every ? 'every' : 'neutral'} own={{ ...PressGuard.once(go), ...own }} />;
   }
   static focus(way: Way) {
     if (!document.activeElement || document.activeElement === document.body) {

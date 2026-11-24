@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 172 pins (140 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 544 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 175 pins (143 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 546 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -140,7 +140,7 @@ page's colours and opportunities.)
 - **Companions and hirelings** · 2 pins · 5 defects · 2 asks
   - ✓ lets the company work for its keep, and then sleep on the house
   - ✓ lets a bard sing for the supper, for coin, once an evening
-  - requirement OR-386 P3: What a value adds is said on demand to a pointer only (the folio's title on a quality or a skill,…
+  - requirement OR-386 P3: The owner's "calculations on demand" (OR-307): the folio writes no modifier beside a value, and…
   - direction PG-01 P3: Character standing as a progression framework (the owner, 19 November,…
 - **Levels and growth** · 1 pins · 0 defects · 1 asks
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
@@ -285,7 +285,10 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 6 pins · 9 defects · 3 asks
+- **The title and Play** · 9 pins · 9 defects · 3 asks
+  - ✓ gives the title its rows and hints: the ways in, Options and the encyclopedia, over the embers, its name heading
+  - ✓ is drawn by the page as the engine gives it, no row of the page's own
+  - ✓ is asked in the terminal by the same rows, Options and the encyclopedia said to be the page's
   - ✓ offers New character alone with nothing kept; Continue, New character and New world over a kept game
   - ✓ then asks one thing: create a character, or a new life at once
   - ✓ pauses a game with two ways: back to it, or Return to title
@@ -327,7 +330,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 37 defects · 11 asks
+- **Rows, lenses and the frame** · 3 pins · 37 defects · 12 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -338,9 +341,10 @@ page's colours and opportunities.)
   - requirement OR-207 P2: Every mark on a row an attested indicator or a glyph whose meaning is stated…
   - requirement OR-309 P2: One semantic presentation of the rules' things: an ability, a condition, a fight's figures and a…
   - direction OR-314 P3: Reusable instruments for focused things (the constellation filling the view, its twelve in a fixed…
-  - requirement OR-382 P3: The title's ways in off the frame's menu column at a desk's size: centred under the game's name…
   - requirement OR-383 P3: A fight's hand off the frame's menu column on a narrow or upright screen: its rows 11–19rem wide…
   - direction OR-385 P3: A game pad: the page reads no pad at all (no Gamepad API anywhere in web/reader), so the backstage…
+  - requirement OR-387 P2: Screens not yet the engine's pages (OR-382's remainder): their rows are the engine's, but their…
+  - direction OR-388 P3: The hint vocabulary's later uses (OR-382's remainder): a page read through an instrument (the…
   - requirement OR-125 P1: The action row, M22's central object, given the precision of a larger composition (the owner, 19…
 - **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
@@ -416,9 +420,10 @@ page's colours and opportunities.)
 - **Architecture and layers** · 0 pins · 30 defects · 2 asks
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 14 defects · 2 asks
+- **Testing instruments** · 0 pins · 14 defects · 3 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
   - requirement OR-384 P3: The ending's menu placed by the frame's tokens (book.css: .ending-col) but measured by no spec: no…
+  - requirement OR-389 P3: The runner begins in a world past the title (bin/kyrie run --world …), so its agents never meet…
 - **Documentation and the register** · 0 pins · 7 defects · 0 asks
 
 ## Negative space
@@ -463,7 +468,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, KX-02, KX-04, AU-54, AU-58, AU-60
 - **Architecture and layers** (The engine): AX-07, MT-31
-- **Testing instruments** (The engine): OR-407, OR-384
+- **Testing instruments** (The engine): OR-407, OR-384, OR-389
 
 ### Pins not yet met (32)
 
