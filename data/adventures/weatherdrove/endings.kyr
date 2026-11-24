@@ -17,6 +17,7 @@ Module weatherdrove "The Weather Drove" {
 
   Topic gardens_smoke with dorcas "Ask Dorcas about the Gardens road" when called(party) and state(fires, blazing) once {
     Says "Dorcas lifts her face and sniffs, and her mouth thins. 'Brine,' she says. 'And juniper. On the east ridge, blazing the wrong way.' She does not turn. 'She will not walk through that. You can sing till you are dry. If the Gardens road is wanted, someone had better put it out, and quick, because I cannot hold her long over a house.'".
+    On discuss { Assert knows(actor, smoke_known). }
   }
   Topic turn_gardens with dorcas "Say: turn her to the Gardens" when called(party) and not state(fires, blazing) and not turnedSea(party) once {
     Says "'Left,' says Dorcas Shale, and her voice does not shake. 'To the Gardens, as she was always going to go.' She puts the whistle in her mouth and takes the Turning up from the bottom, and the Widow turns, slowly, with her whole weight, and begins down the ridge toward the town, trailing a thin white fringe across the lemon trees.".

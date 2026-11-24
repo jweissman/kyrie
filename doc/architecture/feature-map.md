@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 543 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 542 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -226,13 +226,12 @@ page's colours and opportunities.)
   - requirement HP-03 P1: One complete emotional expedition, in Gone under: image, preparation with a person, a companion's…
   - requirement OR-401 P3: The Weather Drove's east_fires, fires_sniff and letter_obs were never seen by reach (signs that…
   - requirement OR-280 P1: The opening dungeon unmistakable in drawn countries, not only Iscoed: from the first town of a…
-- **Adventures and their endings** · 4 pins · 3 defects · 2 asks
+- **Adventures and their endings** · 4 pins · 3 defects · 1 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
   - ✓ lints clean
   - ✓ is carried up for Oyelle, filled behind the falls with Tobi, and poured with her, and the rain comes
   - ✓ takes water from the goats' pool too, and the waterfront knows it
   - requirement AI-07 P1: Cold play on the branch: one of three blind players entered a new module; none played one to an…
-  - requirement OR-406 P3: The Weather Drove's nineteen topics whose words are all they do (Bessie's odds, Dorcas on Thea and…
 - **Wonders and traps** · 6 pins · 0 defects · 0 asks
   - ✓ draws only what Kyr can run, each met as it is written to be, and no trap that would kill outright
   - ✓ keeps a wonder deep in the wild that gives what it has once, and tells the moment before the after
