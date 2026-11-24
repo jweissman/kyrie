@@ -63,7 +63,8 @@ The trade-off:
 | Before, 24 November | none | 5 / 5 |
 | First slice | the scene with its lenses, and a conversation: both take the column from the frame's tokens (`rest.css`, `talk.css`) | 4 / 4 |
 | OR-380, pages before play | how a life begins, a step of a life, and Options (now on the one page's frame, `PageFrame` kind `options`), each in the column by the frame's tokens; the title's ways in the safe zone's width on a phone | 4 / 3 |
-| OR-380 | the map's card, the Book, the opening, the ending, a fight (on the left) | down to 2 (the title's, OR-382) / 1 |
+| OR-380, in play | the map's card (its width the column's and its padding the menu's inset, the board framing where you are clear of it), the Book's notes (its rows one over another in the column) | 2 / 1 |
+| OR-380 | the opening, the ending, a fight (on the left) | 2 (the title's, OR-382) / 1 |
 
 The spec's `held` is lowered as each page comes onto the frame, and is never raised.
 

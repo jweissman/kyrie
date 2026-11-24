@@ -148,16 +148,21 @@ export class BoardCamera {
     eye.position.set(target.x, 0.4, target.y).add(off); eye.updateMatrixWorld(true);
     return new Vector3(p.x, 0.4, p.y).project(eye);
   }
-  to(p: Vector2, far = this.distance): void {
+  to(p: Vector2, far = this.distance, now = this.still): void {
     const at = new Vector3(p.x, 0.4, p.y);
-    if (this.still) {
+    if (now) {
       const o = this.camera.position.clone().sub(this.controls.target).setLength(far);
       this.controls.target.copy(at); this.camera.position.copy(at).add(o);
       return;
     }
     this.glide = { from: this.controls.target.clone(), to: at, start: performance.now(), near: this.distance, far };
   }
-  back(): void { this.to(new Vector2(this.home.x, this.home.y - BoardCamera.AHEAD)); }
+  // Back to where you are, clear of the card beside it: the card stands in the frame's menu column (OR-380), over the
+  // middle of the board on a wide screen, and where you are had been drawn under it.
+  back(now = false): void {
+    this.to(this.clear(this.home, new Vector2(this.home.x, this.home.y - BoardCamera.AHEAD), this.distance,
+      this.covered()), this.distance, now || this.still);
+  }
   // The glide given up where it has got to.
   stop(): void { this.glide = undefined; }
   zoom(by: number): void {

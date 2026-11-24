@@ -309,8 +309,20 @@
 .shell.scene-full .world-page.scale-board .board-surface .field-tools { left: var(--safe-x); bottom: var(--safe-y); }
 .shell.scene-full .world-page.scale-board .focus { margin: var(--safe-y, 24px) var(--safe-x, 28px)
   calc(var(--safe-y, 24px) + 60px); }
+/* The map's card holds its rows in the frame's menu column (OR-380), as the scene does: the card the column's width
+   and the menu's inset its padding, so that its rows stand where the scene's stood a moment before; on a narrow screen
+   the rows the safe zone's width, the card's ground a little beyond them. */
+.shell.scene-full .world-page.scale-board { --card-pad: var(--menu-inset); }
+.shell.scene-full .world-page.scale-board .focus { width: calc(var(--menu-rows) + 2 * var(--card-pad)); }
+/* Less the card's own edge. */
+.shell.scene-full .world-page.scale-board :is(.hex-card, .enter-card, .route-card) {
+  padding-left: calc(var(--card-pad) - 1px); padding-right: calc(var(--card-pad) - 1px); }
+.shell.scene-full .world-page.scale-board .enter-card .enter-view { margin-left: calc(1px - var(--card-pad));
+  margin-right: calc(1px - var(--card-pad)); }
+.shell.scene-full .world-page.scale-board .focus > .plan .unchoose { right: calc(var(--card-pad) - 1px); }
 @media (max-width: 899px), (orientation: portrait) {
-  .shell.scene-full .world-page.scale-board .focus { width: min(34rem, calc(100% - 2 * var(--safe-x, 16px))); }
+  .shell.scene-full .world-page.scale-board .focus { width: calc(var(--menu-rows) + 2 * var(--card-pad));
+    margin-left: calc(var(--safe-l) - var(--card-pad)); margin-right: calc(var(--safe-r) - var(--card-pad)); }
   .shell.scene-full .world-page.scale-board .board-surface .field-tools { top: 150px; bottom: auto; left: auto;
     right: var(--safe-x, 16px); transform: none; }
 }

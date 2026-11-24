@@ -96,7 +96,9 @@ export class Board implements BoardApi {
       this.know(true);
       this.watch = new ResizeObserver(() => this.fit()); this.watch.observe(host);
       this.listen();
-      this.frame = requestAnimationFrame(t => this.tick(t)); performance.measure('board:made', { start: made });
+      // Where you are, framed clear of the card at once, once the page has laid it out.
+      this.frame = requestAnimationFrame(t => { this.view.back(true); this.tick(t); });
+      performance.measure('board:made', { start: made });
     } catch (e) {
       // A land the board cannot be made of: all it had begun let go at once (the view's controls, listening on the
       // whole page, among it), and what it had put on the page taken off, so that the flat map stands in its place
