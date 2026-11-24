@@ -27,8 +27,13 @@ export class RuleWords {
   }
   // The rules whose words teach something (an event that teaches: a wonder met), by id.
   static teaching(campaign: Campaign): Set<string> {
-    return new Set((campaign.module.rules ?? []).filter(r => r.teaches && r.say).map(r => r.id));
+    const module = campaign.module, kept = this.taught.get(module);
+    if (kept) { return kept; }
+    const made = new Set((module.rules ?? []).filter(r => r.teaches && r.say).map(r => r.id));
+    this.taught.set(module, made);
+    return made;
   }
+  private static readonly taught = new WeakMap<object, Set<string>>();
   // The world's words a command is told in: not those held back as heard lately.
   static said(event: CampaignEvent): NonNullable<CampaignEvent['perceptions']> {
     const unsaid = new Set(event.unsaid ?? []);
