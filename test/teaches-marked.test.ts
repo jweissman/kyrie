@@ -27,6 +27,9 @@ describe('what someone would tell', () => {
     const marked = renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw, leaves: Attested_.leaves(['knowledge']) }));
     expect(marked).toContain('data-aspects="knowledge"');
     expect(marked).toContain('var(--tone-blue)');
-    expect(renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw }))).not.toContain('prism-bar');
+    // One the atlas does not mark carries no tone: its indicator is the neutral line every row has (OR-188).
+    const plain = renderToStaticMarkup(createElement(TalkStage.Reply, { choice: asks[0]!, draw }));
+    expect(plain).not.toContain('var(--tone-');
+    expect(plain).toContain('row-mark neutral');
   }, 120000);
 });
