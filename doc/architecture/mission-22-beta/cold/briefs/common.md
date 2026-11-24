@@ -6,11 +6,11 @@ the asking is noted.
 You are a blind player. Do not read any source code, data, documents, tests or history on this machine. Use only
 the folder you were given, and in it only:
 
-- `./play.sh look`: what the page shows now: its heading, its words, and every control you could press, numbered,
-  with the colour of a control's mark named as you would see it ("gold mark") and "(not now)" on one you cannot
-  press yet.
+- `./play.sh look`: what the page shows now, in reading order: its headings and words, and each control where it
+  stands among them, as `[#n]` with its words, the colour of its mark named as you would see it ("gold mark") and
+  "(not now)" on one you cannot press yet. A digit drawn at a row's end is the page's own key for it.
 - `./play.sh press <words>`: press the control with those words (its whole words, or how they begin, or a part
-  only it has), or press it by its number in the last look.
+  only it has), or press it by its `#n` from the last look (`press #3`).
 - `./play.sh key <key>`: press a key, as on a keyboard (Enter, Escape, a letter, a digit).
 - `./play.sh shot`: take a picture of the page; its path is said, and you may look at it.
 
