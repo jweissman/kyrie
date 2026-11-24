@@ -7,6 +7,7 @@ import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
 import { SceneRail } from './stage/scene-rail';
+import { Act } from './stage/act';
 import { PressGuard } from './press-guard';
 import { DigitSettle } from './digit-settle';
 import type { Choice } from '../../src/ui/choice-list';
@@ -49,6 +50,13 @@ export class ReaderKeys {
     if (Stage.mapped(app) && /^(ArrowUp|ArrowDown|Enter| |[1-9])$/.test(key)) { return false; }
     // What is opened over a place at rest has the keys while it is up (see Explorer).
     if (s.exploring && Stage.mode(app) === 'explore' && Explorer.key(app, key)) { return true; }
+    // The backstage's tabs, one navigation instrument (OR-306): left and right go to the page before and after, round
+    // again at the ends, on every page of the Book alike.
+    if ((key === 'ArrowLeft' || key === 'ArrowRight') && Act.backstage.includes(s.view)) {
+      const at = Act.backstage.indexOf(s.view), n = Act.backstage.length;
+      app.show(Act.backstage[(at + (key === 'ArrowRight' ? 1 : -1) + n) % n]!);
+      return true;
+    }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       if (!menu.choices.length) { return false; }
       // At a place at rest, only what is drawn there: who is here, what will not wait, searching.

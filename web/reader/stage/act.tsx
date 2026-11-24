@@ -93,10 +93,13 @@ export class Act {
   // The books, which are read rather than lived: the character (from the start, whoever has joined), the notes,
   // what you carry and the story so far. Each says the key that opens it. The map is not one of them: it is its own,
   // opened from the scene's rail or by M (the owner, 11 November: the map had been in the book as well).
+  // The Book's pages in the order their tabs stand, which left and right go through (OR-306: ReaderKeys).
+  static readonly backstage: readonly View[] = ['company', 'journal', 'pack', 'story'];
   static Sheets({ app }: { app: ReaderApp }) {
     const many = (app.state.frame?.screen.party.length ?? 0) > 1;
-    const sheets: [View, string, string][] = [['company', many ? 'Company' : 'Character', 'c'], ['journal', 'Notes', 'j'],
-      ['pack', 'Pack', 'i'], ['story', 'Story', 'h']];
+    const named: Record<string, [string, string]> = { company: [many ? 'Company' : 'Character', 'c'],
+      journal: ['Notes', 'j'], pack: ['Pack', 'i'], story: ['Story', 'h'] };
+    const sheets = Act.backstage.map(view => [view, ...named[view]!] as [View, string, string]);
     return (
       <ul {...PageFrame.slot('rail')} className="sheets" aria-label="Books">{sheets.map(([view, label, key]) => <li key={view}><button type="button"
         className="sheet-key" data-action="mode" data-view={view} data-key={key}

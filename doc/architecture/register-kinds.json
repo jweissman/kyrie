@@ -714,6 +714,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from OR-380: a test instrument wanted (a walk that reaches an ending), not an observed failure"
+  },
+  "OR-385": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-306: a pad as an input is a new surface the page has never claimed; a future feature, not a defect"
   }
  },
  "blockedBy": {
