@@ -35,7 +35,7 @@
 .glance .changed { margin: 4px 0 18px; }
 /* What the last act opened that is not led with (REV-05): a line, like a note, the button where it is drawn. */
 .glance .opened-now { margin: -10px 0 18px; font-size: 15.5px; }
-.glance .opened-now .label { margin: 0 8px 0 0; color: var(--verdigris); }
+.glance .opened-now .label { margin: 0 8px 0 0; color: var(--dim); }
 .glance .aim { margin: 18px 0 0; font-size: 15.5px; color: var(--dim); }
 .glance .dark-note { margin: 0 0 16px; }
 
@@ -104,10 +104,11 @@
 /* What a choice risks, as a tag on it wherever it is drawn; a way with no coming back says that, not "cannot be
    undone". */
 .mark-tag { font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
-/* Red is combat (the owner, 15 November): a fight or a trap seen; every other risk is said in neutral words. */
-.mark-tag:is(.mark-fight, .mark-trap) { color: var(--ember); }
+/* A tag is words, and words are neutral (OR-291: colour belongs to the indicators, the owner's grammar of 24 November):
+   a fight or a trap is said plainer, in ivory; its colour is the row's mark's, never its words'. */
+.mark-tag:is(.mark-fight, .mark-trap) { color: var(--ivory); }
 .act.grave:has(> .mark-one-way)::after { content: none; }
-.mark-tag:is(.mark-night, .mark-unlooked, .mark-heard) { color: var(--azure); }
+.mark-tag:is(.mark-night, .mark-unlooked, .mark-heard) { color: var(--dim); }
 .ways .options > li.aimed .act.way > .n::after { content: 'your aim'; margin-left: 10px; font: 600 10px/1 var(--do);
   letter-spacing: .16em; text-transform: uppercase; color: var(--dim); vertical-align: 2px; }
 

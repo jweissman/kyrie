@@ -62,9 +62,9 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .act.risk:hover::before, .act.grave:hover::before, .act.risk.sel::before, .act.grave.sel::before { background: var(--ember);
   border-color: var(--ember); }
 .act.risk::after { content: 'a risk'; font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ember); }
+  color: var(--ivory); }
 .act.grave::after { content: 'cannot be undone'; font: 600 10.5px/1 var(--do); letter-spacing: .14em; text-transform: uppercase;
-  color: var(--ember); }
+  color: var(--ivory); }
 .act.opens::after { content: '›'; color: var(--dim); font-size: 18px; line-height: 1; }
 .act.opened { border-color: var(--edge-strong); }
 .act.opened::after { content: '‹'; color: var(--accent); font-size: 18px; line-height: 1; }
@@ -73,7 +73,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .acts.small .act { font-size: 15px; }
 .opened-list, .acts.unfolded { list-style: none; margin: 4px 0 10px; padding: 2px 0 2px 16px; border-left: 2px solid var(--hair); }
 .opened-list li { margin: 1px 0; }
-.danger { font: 500 11.5px/1.3 var(--do); letter-spacing: .12em; text-transform: uppercase; color: var(--red); }
+.danger { font: 500 11.5px/1.3 var(--do); letter-spacing: .12em; text-transform: uppercase; color: var(--ivory); }
 
 /* ---- The books: the character, notes, the story, what you carry, the map. A page of the same book as play. ---- */
 .book-page { max-width: 42rem; margin: 0 auto; padding: 32px 24px 96px; }
@@ -188,7 +188,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .campaign-sheet .card, .companions > .companion { padding: 14px 0; border-top: 1px solid var(--hair); }
 .campaign-sheet .card.recommended { box-shadow: inset 3px 0 0 var(--blue); padding-left: 14px; }
 .campaign-sheet .meta, .companion .practice, .companion .brings { font: 400 15px/1.45 var(--do); color: var(--grey); }
-.companion .warn, .together .lack { color: var(--red); font: 450 15px var(--do); }
+.companion .warn, .together .lack { color: var(--ivory); font: 450 15px var(--do); }
 .opening-head .back { all: unset; cursor: pointer; font: 500 11.5px var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); }
 .company-sheet .prose { max-width: 36em; }
 .presets button, .companion .change { all: unset; cursor: pointer; font: 450 15px var(--do); text-decoration: underline;
@@ -208,7 +208,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 /* Not the margins of a place's .here section, which the one whose page this is had taken. */
 .character .members > .act { margin: 0; }
 .character .members .act .r { font: 400 13.5px var(--do); color: var(--grey); margin-left: 7px; text-decoration: none; }
-.character .members .act.here .n { color: var(--blue); }
+.character .members .act.here .n { color: var(--dim); }
 .character .who { font: 400 clamp(38px, 5vw, 52px)/1.05 var(--told); margin: 0 0 6px; }
 .character .line-of { font: 400 16px/1.4 var(--do); color: var(--grey); margin: 0 0 18px; }
 .character .line-of .emblem { width: 20px; height: 20px; margin-right: 6px; vertical-align: -4px; fill: none;

@@ -84,7 +84,7 @@
 .world-page .surface .portraits .portrait.fallen .pn { color: var(--dim); text-decoration: line-through; }
 .world-page .surface .portraits .portrait .fell { font: 600 9px/1 var(--do); letter-spacing: .16em; text-transform: uppercase;
   color: var(--dim); }
-.world-page .surface .portraits .portrait.down .fell { color: var(--danger, #c0614f); }
+.world-page .surface .portraits .portrait.down .fell { color: var(--ivory); }
 /* One with something for the company now (thanks that pay, a payment owed: see Owed): a green seal on the shoulder of
    the likeness, whatever ring it has, never the gold of a lead nor the red of danger (the owner, 7 November). */
 .portraits .portrait { position: relative; }
@@ -159,7 +159,7 @@
 .wf-preview .wf-how { font: 500 12.5px/1.5 var(--do); letter-spacing: .08em; color: var(--dim); }
 .wf-preview .wf-been, .wf-preview .wf-keeps { font: italic 400 15px/1.45 var(--told); color: var(--dim); }
 .wf-preview .wf-holds { font: 400 16px/1.5 var(--told); color: var(--ivory); margin: 0 0 6px; }
-.wf-preview .wf-shut { font: 400 15px/1.45 var(--told); color: var(--ember, #c4552e); }
+.wf-preview .wf-shut { font: 400 15px/1.45 var(--told); color: var(--ivory); }
 .wf-preview .wf-risk { font: 400 14px/1.45 var(--told); color: var(--accent); }
 .wf-preview .act.wf-go { margin: 12px 0 0; align-self: flex-start; min-width: 11rem; justify-content: center; }
 .wf-preview .act.wf-go::before { display: none; }

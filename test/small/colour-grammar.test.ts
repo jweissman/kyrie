@@ -13,6 +13,9 @@ const css = (f: string) => ColourCensus.strip(readFileSync(join(ColourCensus.dir
 
 describe('the colour grammar', () => {
   it('sets no words in gold', () => { expect(ColourCensus.goldWords()).toEqual([]); });
+  // Nor in any other hue (OR-291): a tag, a kicker, a hurt are words; their colour, where they have one, is the row's
+  // indicator's.
+  it('sets no words in any hue', () => { expect(ColourCensus.huedWords()).toEqual([]); });
   it('fills no ground with gold', () => { expect(ColourCensus.goldGrounds()).toEqual([]); });
   it('flashes no colour', () => { expect(ColourCensus.flashes()).toEqual([]); });
   it('lights a row in neutral ink, never its tone', () => {

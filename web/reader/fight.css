@@ -10,11 +10,11 @@
 .fight > .slot > .status { flex: none; display: flex; gap: 10px 18px; flex-wrap: wrap; align-items: center; margin: 0;
   padding: var(--safe-t) var(--safe-r) 14px var(--safe-l); font: 500 11px var(--do);
   letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
-.fight > .slot > .status span:first-child { color: var(--ember); }
+.fight > .slot > .status span:first-child { color: var(--ivory); }
 /* How the fight stands now, in a word of its danger's colour (M19-78). */
 .fight > .slot > .status .standing { margin-left: auto; font-style: italic; color: var(--dim); text-transform: none;
   letter-spacing: 0; }
-.fight > .slot > .status .standing.grave, .fight > .slot > .status .standing.deadly { color: var(--ember); }
+.fight > .slot > .status .standing.grave, .fight > .slot > .status .standing.deadly { color: var(--ivory); }
 .fight > .slot > .status .standing.slight { color: var(--faint, var(--dim)); }
 /* On a phone the company's cards have the room: the danger line from a tablet up (on a phone the moment before a fight
    closes still says how it is reckoned). */
@@ -23,7 +23,7 @@
 .fight > .slot > .status span:first-child::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 10px;
   background: var(--ember); transform: rotate(45deg); box-shadow: 0 0 10px var(--ember); }
 .fight > .slot > .law { flex: none; margin: 10px var(--safe-r) 0 var(--safe-l); font: 400 14px/1.45 var(--do); color: var(--dim); }
-.fight > .slot > .law b { color: var(--violet); font-weight: 600; }
+.fight > .slot > .law b { color: var(--dim); font-weight: 600; }
 /* The sides take what the hand of acts leaves them, and never less than a fifth of the stage: every act is in view
    at a laptop's 1280 by 800 and a tablet's (the fresh playtest of 7 November: Defend, Flee and the firebomb had lain
    under the foot of the hand, with nothing to say so, under a band of empty field). But the company is seen whole, each
@@ -53,7 +53,7 @@
 .fight .fighter .n { display: flex; align-items: baseline; gap: 8px; font: 500 16px/1.25 var(--do); margin: 0 0 8px; }
 .fight .fighter .n b { font-weight: 500; flex: 1; min-width: 0; }
 .fight .fighter .of { font: 400 12.5px var(--do); color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.fight .fighter .took { font: 600 14px var(--do); color: var(--ember); animation: took 1.2s var(--ease) both; }
+.fight .fighter .took { font: 600 14px var(--do); color: var(--ivory); animation: took 1.2s var(--ease) both; }
 @keyframes took { from { opacity: 0; transform: translateY(-6px); } 20% { opacity: 1; transform: none; } }
 .fight .fighter .hp { display: block; height: 4px; background: rgba(236, 230, 217, .08); overflow: hidden; }
 .fight .fighter .hp i { display: block; height: 100%; background: var(--life); transition: width var(--settle) var(--ease); }
@@ -72,10 +72,10 @@
 .fight .fighter .tags .part { position: relative; min-width: 0; padding-left: 1.1em; }
 .fight .fighter .tags .sep { position: absolute; left: 0; width: 1.1em; text-align: center; }
 .fight .fighter .state { color: var(--ivory); }
-.fight .fighter .state:is(.badly-hurt, .near-death, .down, .dying) { color: var(--ember); }
+.fight .fighter .state:is(.badly-hurt, .near-death, .down, .dying) { color: var(--ivory); }
 .fight .fighter .intent { margin: 4px 0 0; font: 400 13px/1.4 var(--do); color: var(--dim); }
-.fight .fighter .intent .at { color: var(--ember); font-weight: 600; }
-.fight .fighter .defenses { margin: 2px 0 0; font: italic 400 13.5px/1.4 var(--told); color: var(--violet); }
+.fight .fighter .intent .at { color: var(--ivory); font-weight: 600; }
+.fight .fighter .defenses { margin: 2px 0 0; font: italic 400 13.5px/1.4 var(--told); color: var(--dim); }
 /* One of the company by their portrait as the card's left panel: about a quarter of the card and its whole height,
    no shorter than it is wide by a fifth where the stage has the height (a tablet's tall cards), the face kept in sight
    (each portrait is a square of face and shoulders, the face a little right of the middle and high: CompanyPortraits);
@@ -113,7 +113,7 @@
   color: var(--dim); outline: none; }
 .fight .beat .what .how > p { font: 400 12.5px/1.45 var(--do); color: var(--faint); margin: 2px 0 0; }
 .fight .beat .what.earlier { font-size: 15px; color: var(--faint); animation: none; }
-.fight .beat .after { font: 500 14.5px/1.5 var(--do); color: var(--verdigris); }
+.fight .beat .after { font: 500 14.5px/1.5 var(--do); color: var(--dim); }
 .fight .beat .quiet { color: var(--faint); font-style: italic; }
 .fight-log p { font-size: 15px; color: var(--dim); }
 /* Whose turn, and who follows. */
@@ -178,7 +178,7 @@
 /* After a fight: what it cost, and what is still to do (PD-13). */
 .fight .aftermath { margin: 14px 0 0; padding: 10px 0 0; border-top: 1px solid var(--edge); display: grid; gap: 6px;
   font: 400 14.5px/1.45 var(--do); color: var(--ivory); }
-.fight .aftermath .label { margin: 0 10px 0 0; display: inline; color: var(--verdigris); }
+.fight .aftermath .label { margin: 0 10px 0 0; display: inline; color: var(--dim); }
 /* Whom to strike, opened from a card: side by side as the hand's own cards are, not a column that runs under the foot
    of the hand (the owner, 8 November: the second and third rats were out of reach behind "The fight so far"). */
 .fight .moves .opened-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; padding-left: 0; border-left: 0; }
@@ -203,7 +203,7 @@
 /* ---- Mission 21, step 5: the fight's own composition. ---- */
 /* How it stands, told in the beat at the start (see FightStage.View), in its danger's colour only where it is grave. */
 .fight .beat .reckoning { font: italic 400 19px/1.5 var(--told); color: var(--ivory); }
-.fight .beat .reckoning:is(.grave, .deadly) { color: color-mix(in oklab, var(--ember) 45%, var(--ivory)); }
+.fight .beat .reckoning:is(.grave, .deadly) { color: var(--ivory); }
 /* On a phone a foe's name is said whole, over two lines if need be, its painting still the card's left panel (the
    owner, 30 October and 6 November): "The seco…" had been all of the second rat. */
 @media (max-width: 600px) {

@@ -43,7 +43,7 @@
 .presence p { color: var(--ivory); }
 .presence.quiet p { color: var(--dim); font-size: 16.5px; }
 .changed { margin: 22px 0; padding-left: 14px; border-left: 2px solid var(--violet); }
-.changed .label { color: var(--violet); }
+.changed .label { color: var(--dim); }
 .changed p { font-style: italic; }
 .recap { margin: 0 0 22px; padding: 12px 16px; background: var(--raised); border-left: 2px solid var(--accent-line); }
 .recap .last .at { color: var(--dim); font: 400 13px var(--do); margin-right: 6px; }
@@ -90,20 +90,20 @@
 :is(.happened, .lines) .seen-through .kicker { font: 500 11px var(--do); letter-spacing: .26em; text-transform: uppercase;
   color: var(--accent); margin: 0 0 10px; }
 :is(.happened, .lines) .seen-through .what { font: 300 30px/1.15 var(--do); margin: 0 0 12px; }
-:is(.happened, .lines) .seen-through .gain { font: 500 14px/1.45 var(--do); color: var(--verdigris); margin: 0; }
+:is(.happened, .lines) .seen-through .gain { font: 500 14px/1.45 var(--do); color: var(--dim); margin: 0; }
 :is(.happened, .lines) .seen-through .next { font: italic 400 15.5px/1.45 var(--told); color: var(--dim); margin: 6px 0 0; }
 :is(.happened, .lines) .levelled { border-color: rgba(180, 156, 255, .55);
   background: radial-gradient(ellipse at 50% 0%, rgba(180, 156, 255, .16), transparent 70%); }
-:is(.happened, .lines) .levelled .kicker { color: var(--violet); }
+:is(.happened, .lines) .levelled .kicker { color: var(--dim); }
 /* What can be seen from somewhere high: each way, what lies that way and how far, set out for. */
 .happened .panorama { margin: 16px 0 14px; padding: 14px 0 0; border-top: 1px solid var(--azure); }
-.happened .panorama .kicker { font: 500 11px var(--do); letter-spacing: .24em; text-transform: uppercase; color: var(--azure);
+.happened .panorama .kicker { font: 500 11px var(--do); letter-spacing: .24em; text-transform: uppercase; color: var(--dim);
   margin: 0 0 8px; }
 .panorama .compass { list-style: none; margin: 0; padding: 0; }
 .panorama .compass li { display: grid; grid-template-columns: 2.6em minmax(0, 1fr) auto auto; align-items: center;
   gap: 0 14px; padding: 9px 0; border-top: 1px solid var(--edge); }
 .panorama .compass li:first-child { border-top: 0; }
-.panorama .toward { font: 600 12px var(--do); letter-spacing: .1em; color: var(--azure); }
+.panorama .toward { font: 600 12px var(--do); letter-spacing: .1em; color: var(--dim); }
 .panorama .sight-name { display: block; font: 400 18px/1.3 var(--told); color: var(--ivory); }
 .panorama .looked { display: block; font: 400 13.5px/1.4 var(--do); color: var(--dim); margin-top: 2px; }
 .panorama .looked.beyond { font: italic 400 15.5px/1.4 var(--told); color: var(--ivory); }
@@ -198,7 +198,7 @@
 .prologue-page .how > summary:is(:hover, :focus-visible), .prologue-page .how[open] > summary { color: var(--dim); outline: none; }
 .prologue-page .how > p { margin: 2px 0 0; color: var(--dim); }
 .prologue-page .answers .choice-row > .n { flex: 1; }
-.prologue-page .notes { list-style: none; margin: 0 0 26px; padding: 0; font: var(--type-note); color: var(--verdigris); }
+.prologue-page .notes { list-style: none; margin: 0 0 26px; padding: 0; font: var(--type-note); color: var(--dim); }
 .prologue-page .notes li { margin: 2px 0; }
 /* The way on comes after the words, and cannot be touched before it is seen. Set after the buttons' own rules, and
    above them: their `all: unset` had undone it, and two Enters or two taps went past a beat unread (the opening's
@@ -246,7 +246,7 @@
    November: one indicator, no full coloured outlines; the warren's rats had been boxed in red). */
 /* Undressed, as the rows are (OR-05: a bordered card had sat over the painting): its red label is what says danger. */
 .threat { margin: 0 0 20px; padding: 0; border: 0; background: none; }
-.threat .label { color: var(--ember); }
+.threat .label { color: var(--ivory); }
 .threat .n { font: 500 18px/1.3 var(--do); margin: 0 0 4px; }
 .threat .n .r { font-weight: 400; color: var(--dim); font-size: 14.5px; }
 .threat .d { font-style: italic; }
@@ -296,7 +296,7 @@
 .act.chip .r, .chip .r { font: 400 13px var(--do); color: var(--dim); margin-left: 6px; }
 .act.chip .verb { font: 400 12.5px var(--do); color: var(--faint); margin-left: 4px; }
 .along .act.chip { border-color: rgba(239, 159, 174, .35); }
-.hurt { color: var(--ember); }
+.hurt { color: var(--ivory); }
 .opened-list, .acts.unfolded { list-style: none; margin: 6px 0 10px; padding: 2px 0 2px 14px; border-left: 1px solid var(--accent-line);
   display: grid; gap: 6px; }
 .acts.small .act { min-height: 38px; font-size: 14px; padding: 7px 12px 7px 30px; }
@@ -313,7 +313,7 @@
 .act.way .t { font: 400 13px var(--do); color: var(--dim); font-variant-numeric: tabular-nums; }
 .act.way .r { flex-basis: 100%; font: 400 12.5px/1.35 var(--do); color: var(--faint); }
 .act.way.also { min-height: 38px; font-size: 14px; margin: 0 0 0 16px; width: calc(100% - 16px); }
-.way-thing { font: 500 11px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--ember);
+.way-thing { font: 500 11px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--ivory);
   margin: 8px 0 4px 16px; }
 .way-by { font: 400 12.5px/1.3 var(--do); color: var(--faint); padding: 2px 0 0 4px; }
 .ways .options > li.aimed .act.way { border-color: var(--gold-line); box-shadow: inset 2px 0 0 var(--gold); }
@@ -358,7 +358,7 @@
 .you .yours { margin: 0; gap: 6px; }
 .you .yours .act { min-height: 38px; padding: 7px 12px 7px 28px; font-size: 13.5px; }
 .you .yours .act::before { left: 11px; width: 6px; height: 6px; margin-top: -3px; }
-.fallen { font: 400 14px/1.45 var(--do); color: var(--ember); margin: 0; flex-basis: 100%; }
+.fallen { font: 400 14px/1.45 var(--do); color: var(--ivory); margin: 0; flex-basis: 100%; }
 .fallen b { font-weight: 600; }
 /* The book in the corner: the one control over every page, quiet until wanted. */
 .corner { all: unset; box-sizing: border-box; cursor: pointer; position: absolute; z-index: 5; top: 14px; right: 16px;
@@ -377,7 +377,7 @@
 .services { margin: 22px 0 0; padding-top: 14px; border-top: 1px solid var(--edge); }
 .services ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .services li { display: grid; grid-template-columns: minmax(7rem, auto) minmax(0, 1fr); gap: 2px 12px; align-items: baseline; }
-.services .need { font: 600 10.5px/1.3 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--verdigris); }
+.services .need { font: 600 10.5px/1.3 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
 .services .who { font: 500 14px/1.35 var(--do); color: var(--ivory); }
 
 /* Across the open country: the six ways as the hexes about lie, two to a row. */
@@ -478,7 +478,7 @@
 .thing .uses .group + .group { margin-top: 20px; }
 .thing .uses .acts.column { display: grid; gap: 6px; }
 .thing .uses .acts.column .act { display: flex; width: 100%; }
-.thing .uses .group.risky .label { color: var(--ember); }
+.thing .uses .group.risky .label { color: var(--ivory); }
 .thing .uses .group.risky .act::before { border-color: var(--ember); }
 .thing .uses .lead { font: italic 400 16px/1.45 var(--told); color: var(--dim); margin: 0 0 8px; }
 .thing .uses .acts.parts { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -527,7 +527,7 @@
 .throw .die { position: absolute; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: var(--accent);
   transform: rotate(45deg); box-shadow: 0 0 10px var(--accent); animation: thrown 600ms var(--ease) both; }
 .throw.missed .die { background: var(--ember); box-shadow: 0 0 10px var(--ember); }
-.throw.missed .words { color: var(--ember); }
+.throw.missed .words { color: var(--ivory); }
 .throw.sure .track i.lit { background: rgba(239, 230, 209, .55); }
 @keyframes thrown { from { left: 0; opacity: 0; } 30% { opacity: 1; } }
 @media (max-width: 519px) {
@@ -548,7 +548,7 @@
 /* Its head the book's own (parchment and ink, CN-11), not the game's dark bar over a light page. */
 .enc-head { display: flex; align-items: center; gap: 18px; padding: 10px 18px; border-bottom: 3px double rgba(43, 36, 27, .24); }
 .enc-head .label { margin: 0; flex: 1 1 auto; color: #6E6150; }
-.enc-head .enc-apart { font: 400 13px var(--do); color: #7A2E1F; }
+.enc-head .enc-apart { font: 400 13px var(--do); color: #6E6150; }
 .enc-head .enc-close.option { color: #2B241B; border-color: rgba(43, 36, 27, .35); background: transparent; }
 .enc-page { flex: 1 1 auto; width: 100%; border: 0; }
 .story .story-search { display: flex; align-items: baseline; gap: 12px; margin: 0 0 18px; }

@@ -5,14 +5,15 @@ import { join } from 'node:path';
 // indicators; words are neutral, and gold is seen only in an indicator (or the book's aim); nothing flashes a colour.
 // Three findings, each by file and selector: words set in gold (a rule whose `color` is gold, its selector not an
 // indicator's), grounds filled with gold (its background), and an animation whose frames set a hued colour (gold,
-// ember, verdigris, azure, violet, a tone; or an rgb or hex colour far from grey). Read by test/small/colour-grammar,
-// which holds each at none (OR-189).
+// ember, verdigris, azure, violet, a tone; or an rgb or hex colour far from grey). And words set in any hue at all, not
+// gold alone (OR-291: the glance's tags had said a fight in ember and the night in azure, words, not indicators). Every
+// sheet of the page's, in its folders too. Read by test/small/colour-grammar, which holds each at none (OR-189).
 export class ColourCensus {
   static readonly dir = join(import.meta.dir, '../../web/reader');
   // An indicator's selector: a row's mark, a pip, the rail's or a place's mark, a lit corner key, a way's glyph.
   static readonly indicator = /row-mark|\bpip\b|pip-|rail-mark|place-mark|\.led\b|::before|glyph|\.dot\b|lamp|\.star\b/;
   static readonly gold = /--gold|--tone-gold|#F2BD4C/i;
-  static readonly hued = /--(gold|ember|verdigris|azure|violet|tone-|red\b|blue\b|yellow\b|river)/;
+  static readonly hued = /--(gold|ember|verdigris|azure|violet|tone-|red\b|blue\b|yellow\b|river|danger)/;
   static strip(css: string): string { return css.replace(/\/\*[\s\S]*?\*\//g, ''); }
   // Each innermost rule, as its selector and its declarations.
   static *rules(css: string): Generator<{ selector: string; body: string }> {
@@ -31,7 +32,9 @@ export class ColourCensus {
     }
     return false;
   }
-  static files(): string[] { return readdirSync(this.dir).filter(f => f.endsWith('.css')).sort(); }
+  static files(): string[] {
+    return readdirSync(this.dir, { recursive: true }).map(String).filter(f => f.endsWith('.css')).sort();
+  }
   // Words in gold: a rule setting `color` to gold, not an indicator's.
   static goldWords(): string[] {
     const out: string[] = [];
@@ -39,6 +42,19 @@ export class ColourCensus {
       for (const r of this.rules(readFileSync(join(this.dir, f), 'utf8'))) {
         const color = /(?:^|;)\s*color\s*:([^;]*)/.exec(r.body)?.[1] ?? '';
         if (this.gold.test(color) && !this.indicator.test(r.selector)) { out.push(`${f}: ${r.selector}`); }
+      }
+    }
+    return out;
+  }
+  // Words in any hue: a rule setting `color` to a hued colour, or an rgb or hex one far from grey, not an indicator's.
+  static huedWords(): string[] {
+    const out: string[] = [];
+    for (const f of this.files()) {
+      for (const r of this.rules(readFileSync(join(this.dir, f), 'utf8'))) {
+        const color = /(?:^|;)\s*color\s*:([^;]*)/.exec(r.body)?.[1] ?? '';
+        if ((this.hued.test(color) || this.greyless(color)) && !this.indicator.test(r.selector)) {
+          out.push(`${f}: ${r.selector}`);
+        }
       }
     }
     return out;
