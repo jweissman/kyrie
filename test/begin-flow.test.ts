@@ -92,6 +92,37 @@ describe('a new game, set out on at once', () => {
     expect([page.state.seed, page.state.frame?.transcript.seed]).toEqual([seed, seed]);
     expect(page.state.frame?.screen.place.name).toBeTruthy();
   }, 120000);
+  // The roll made while the title shows (AX-04, OR-23) never crosses a life: a new life begun from a game in play is
+  // rolled afresh, by a seed of its own; the kept game taken up again is its own country, never the roll; and a new
+  // life after that is rolled afresh again (the page had kept a seed the engine let go of as the game was opened).
+  it('rolls each new life afresh, and a game taken up again never meets the roll', async () => {
+    spyOn(Shell, 'had').mockResolvedValue(undefined);
+    const page = new Page();
+    await page.opening.boot();
+    const aheads = () => page.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed);
+    await page.host.idle();
+    page.press('begin'); page.press('set-out-now');
+    await page.until('play');
+    const first = page.state.frame!.transcript.seed;
+    expect(aheads()).toEqual([first]);
+    page.savedGame = { text: await page.engine.request({ kind: 'checkpoint' }) as string, title: 'Kyr', where: 'Here',
+      when: 'Now', company: 'You' };
+    // Begin a new life: asked at once, a country drawn for it by a seed of its own.
+    page.opening.leave();
+    expect(page.mode()).toBe('begin');
+    expect(aheads()).toHaveLength(2);
+    expect(aheads()[1]).not.toBe(first);
+    // Escape, and Play: the kept game, in its own country.
+    page.opening.title();
+    page.press('continue');
+    await page.until('play');
+    expect(page.state.frame!.transcript.seed).toBe(first);
+    // And a new life again: rolled afresh, not asked of the country let go as the game was opened.
+    page.opening.leave();
+    expect(aheads()).toHaveLength(3);
+    expect(new Set(aheads()).size).toBe(3);
+    await page.host.idle();
+  }, 180000);
   it('goes on from a kept game Play cannot open to how a new game begins, and says why', async () => {
     const page = new Page();
     page.savedGame = { text: 'not a kept game', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud' };

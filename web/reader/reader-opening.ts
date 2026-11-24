@@ -228,6 +228,9 @@ export class ReaderOpening {
   // A game kept before anything was done in it opens on its opening again, where the page tells it apart. One that
   // cannot be opened goes back to the title, or where Play took it up, on to a new game (see played).
   async resume(text: string, world?: string, otherwise: Otherwise = 'title') {
+    // The engine lets go of a country drawn ahead as a kept game is opened (EngineForesight.drop): the page forgets it
+    // too, so that a new game begun after it is rolled afresh, never asked of a country no longer drawn (AX-04).
+    this.foreseen = undefined;
     this.app.setState({ phase: 'loading', stage: 'Finding where you left off', error: '', leaving: false });
     await this.enter(this.app.engine.request<Frame>({ kind: 'resume', saved: text, ...world ? { world } : {},
       apart: this.apart() }), otherwise);
