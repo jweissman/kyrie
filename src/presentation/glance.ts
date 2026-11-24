@@ -114,7 +114,9 @@ export class Glance {
     const ways = all.filter(a => (a.exit || a.choice.startsWith('travel:')) && a.why !== 'retreat');
     return Promotion.continued(all.filter(a => !ways.slice(2).includes(a)).slice(0, Promotion.cap));
   }
-  // A journey just made, in one line: by where, and when it came there, or why it stopped.
+  // A journey just made, in one line: by where, and when it came there, or why it stopped; and its legs, where it had
+  // more than one, opened by a quiet word of their own.
+  static readonly legs = 'The way here…';
   static came(glance: View, travel: { to: string; arrived: boolean; stopped?: string;
     legs: { place: string; at: string }[] }): View {
     const last = travel.legs.at(-1); if (!last) { return glance; }
@@ -122,7 +124,7 @@ export class Glance {
     // The hour ends with its own stop ("1:32 p.m."), and is not given a second ("1:32 p.m..").
     const at = last.at.replace(/\.$/, ''), came = travel.arrived ? `${via.length ? `By ${via.join(' and ')}, to` : 'To'} ${travel.to}: ${at}.`
       : travel.stopped ?? `On the way to ${travel.to}: ${at}.`;
-    return { ...glance, came };
+    return { ...glance, came, ...travel.legs.length > 1 ? { legs: Glance.legs } : {} };
   }
   // The company's state, said only when something is wrong: who is low or down, and what holds anyone (asleep,
   // stunned), which had been said nowhere while lying as you are was all there was to do (the owner's trap, 11

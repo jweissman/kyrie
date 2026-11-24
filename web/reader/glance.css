@@ -16,11 +16,15 @@
   border-left: 1px solid var(--edge-strong); }
 /* A journey stopped says why where the eye goes first; a journey's legs open from its line. */
 .glance .came.stopped { font: 500 15px/1.5 var(--do); font-style: normal; color: var(--accent); border-left-color: var(--accent); }
-.glance details.came > summary { cursor: pointer; list-style: none; }
-.glance details.came > summary::-webkit-details-marker { display: none; }
-.glance details.came > summary::after { content: ' ›'; color: var(--faint, var(--dim)); }
-.glance details.came[open] > summary { margin-bottom: 10px; }
-.glance details.came .travelled { border-left: 0; padding-left: 0; margin-bottom: 4px; }
+/* The legs under it open from a quiet word of their own, neutral, as Said before… is (OR-246). */
+.glance .came-legs { margin: -8px 0 14px; padding-left: 14px; }
+.glance .came-legs > summary { cursor: pointer; list-style: none; width: max-content; font: var(--type-word);
+  letter-spacing: var(--track-word); text-transform: uppercase; color: var(--dim); }
+.glance .came-legs > summary::-webkit-details-marker { display: none; }
+.glance .came-legs > summary:hover, .glance .came-legs > summary:focus-visible,
+.glance .came-legs[open] > summary { color: var(--ivory); outline: none; }
+.glance .came-legs[open] > summary { margin-bottom: 10px; }
+.glance .came-legs .travelled { border-left: 0; padding-left: 0; margin-bottom: 4px; }
 .glance .sight { font: 400 20px/1.6 var(--told); color: var(--ivory); margin: 0 0 16px; text-wrap: pretty; }
 .glance.arrival-return .sight, .glance.arrival-resume .sight { font-size: 18.5px; }
 .glance .life { display: flex; align-items: flex-start; gap: 14px; margin: 0 0 18px; font: italic 400 17.5px/1.55 var(--told);

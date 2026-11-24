@@ -131,8 +131,11 @@ export interface Compass { out?: Route; next?: Route; exhausted: boolean }
 export interface Likeness { aspects: Aspect[]; continues?: true }
 export interface Glance {
   arrival: Arrival;
-  // Coming here after a journey: one line of it (the legs stay in Look about).
+  // Coming here after a journey: one line of it (the legs stay in Look about); and, where it went by more than one
+  // leg, the words of the control that opens them, a control of its own beside the line, which is told (OR-246: the
+  // line had been the disclosure, and read as a line of the log).
   came?: string;
+  legs?: string;
   // The place's own distinctive line, at most two sentences; none while staying.
   sight?: { id: string; text: string };
   // A sign of life now: a danger, whoever warns, a person's words or doings, the place's passing life.
