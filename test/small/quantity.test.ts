@@ -22,8 +22,9 @@ const walk = (name: string, seed: string, o: Partial<Walked> = {}): Walked => ({
     { place: 'cave', fights: 0, reward: true }, { place: 'cave', fights: 0, reward: true }] },
   ...o });
 const country = (seed: string, o: Partial<Read> = {}): Read => ({ seed, near: 12,
-  fair: [{ band: 'wolves', fell: 3, said: 'deadly', warned: true }, { band: 'rats', fell: 1, said: 'hard', warned: false },
-    { band: 'fox', fell: 0, said: 'slight', warned: false }],
+  fair: [{ band: 'wolves', fell: 3, said: 'deadly', warned: true, mortal: true },
+    { band: 'rats', fell: 1, said: 'hard', warned: false, mortal: true },
+    { band: 'fox', fell: 1, said: 'slight', warned: false, mortal: false }],
   economy: { day: 60, kit: 10, dearest: 50, ratio: 1, worth: 200, stock: 100, purse: 6, missing: [] },
   reach: { things: ['site:the barrow', 'wonder:the stone', 'pleasure:the hens'], cells: 7 },
   dungeon: { name: 'the barrow', minutes: 90, hexes: 1, levels: 2, companion: true, light: true, provisions: false,
@@ -42,8 +43,10 @@ describe('the quantity gate', () => {
     // Back to the barrow, a fight and a reward again, on each of three walks; back to the cave, no fight.
     expect(read('again').value).toBe(3);
     expect(read('bands').each).toEqual({ a1: 12, b2: 50 });
-    // Of the bands that felled the one who plays, those asked before: one of two in each seed.
+    // Of the bands whose reckoning felled the one who plays, those asked before: one of two in each seed; the fox,
+    // felled in the census's trials alone, is said, not held.
     expect(read('fair').value).toBe(50);
+    expect(read('fair').note).toContain('trials alone: 2');
     expect(read('treasure').value).toBe(2);
     // Marks per turn outside a fight's frame: three over two turns; one of them blank.
     expect(read('marks').each!['gold a1']).toBe(1.5);

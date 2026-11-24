@@ -16,7 +16,11 @@ import { EconomyMeasure } from '../economy-measure';
 // each is over its ways), FirstHourBands (the bands of the first hour's reach fought by the company and its hire, and
 // what the company's reckoning said before), EconomyMeasure (what lies and what is sold), and the land's hexes
 // (HexBoundary, LandModel). See doc/architecture/quantity.md for what each number is held to.
-export interface Fair { band: string; fell: number; said: string; warned: boolean }
+// A band of the first hour's reach: how often its census trials felled the one who plays (fell, of twelve), what the
+// company's reckoning said of it, whether that reckoning's own fights felled the one who plays (mortal: can kill,
+// judged once, by the fights the game plays to decide what it says), and whether the game asks before it (warned:
+// Marks.asks, the rule the page's mark reads).
+export interface Fair { band: string; fell: number; said: string; warned: boolean; mortal: boolean }
 export interface Read {
   seed: string; near: number; fair: Fair[];
   // The combat places quests return a company to (QuantityPlaces.returned).
@@ -44,7 +48,7 @@ export class QuantityCountry {
   static async read(seed: string): Promise<Read> {
     const c = await this.begin(seed), country = NoviceCountry.read(c, seed);
     const fair = FirstHourBands.bands(c, this.trials).map(b => ({ band: `${b.name} @${b.where}`, fell: b.fell,
-      said: b.said, warned: ['grave', 'deadly'].includes(b.said) }));
+      said: b.said, warned: b.asks, mortal: b.mortal }));
     const dungeon = this.dungeon(c, country);
     return { seed, near: country.bands.filter(b => b.minutes <= this.near).length, fair,
       economy: this.economy(c, country), reach: this.reach(c, country), ...dungeon ? { dungeon } : {},

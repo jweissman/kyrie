@@ -67,7 +67,7 @@ export class Marks {
     return marks;
   }
   // A fight it begins, as the company reckons it: an attack on someone it could fight, or a challenge taken up. It is
-  // asked again only when it could be lost.
+  // asked again only when it could be lost, or could fell the one who plays (asks).
   private static fight(c: Choice, s: Section, here: Here, act?: Act): Mark | undefined {
     const row = here.screen.people.find(p => p.id === s.id);
     const reckoning = act?.reckoned ?? (row?.reckoning && c.label === 'Attack' ? row.reckoning : undefined);
@@ -75,7 +75,12 @@ export class Marks {
     const help = 'help' in reckoning && reckoning.help ? [reckoning.help] : [];
     const said = [[ChoiceList.chances[reckoning.danger], reckoning.text].filter(Boolean).join(': '), ...help].join(' ');
     return { kind: 'fight', said,
-      danger: reckoning.danger, ...['grave', 'deadly'].includes(reckoning.danger) ? { ask: true } : {} };
+      danger: reckoning.danger, ...this.asks(reckoning) ? { ask: true } : {} };
+  }
+  // Whether a fight is asked before it is begun: one that could be lost, or one in which the one who plays fell in a
+  // fight the reckoning played out (DangerSense's mortal; OR-322). The quantity gate's census reads this one rule.
+  static asks(r: { danger: string; mortal?: boolean }): boolean {
+    return r.danger === 'grave' || r.danger === 'deadly' || !!r.mortal;
   }
   // A danger here: someone the company could fight who is not with it, nor down (as SceneModel.threat has it).
   static threat(this: void, row: TargetRow): boolean { return !!row.reckoning && !row.companion && !row.state; }

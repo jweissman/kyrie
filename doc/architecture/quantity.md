@@ -44,6 +44,16 @@ fights on roads are reported. Two floors are added: how many combat places quest
 many return expeditions still meet a fight and bring something home. A whole-walk rate had mixed a night camped, a
 day's drove along the roads and an hour in a barrow into one number, so it said nothing about where the fights are.
 
+## Measure 2, judged once (24 November, OR-322)
+
+Measure 2 had counted a band as able to kill when the one who plays fell in any of the census's twelve trials
+(FirstHourBands), and as asked when DangerSense reckoned it grave or deadly. The two are different fights: seeded
+apart, fought with different tactics, and the reckoning of a fight joined had dropped its element (the eels in the
+water). So the census called bands deadly that the game, by its own fights, had no reason to think so. Now can kill
+is the reckoning's own verdict, and the game asks wherever that verdict says the one who plays could fall. The
+reading is unsound no longer, but it is close to a tautology: what it holds is that the asking rule is kept. What the
+census's trials alone see is reported in the note and filed as OR-410, so the gap between the two is not hidden.
+
 ## Bands and ratchets
 
 Each measure is one of three kinds:
@@ -67,7 +77,7 @@ Each measure is one of three kinds:
 | 1 | Combat places quests return a company to, near the first town | band ≥ 2 | A combat place within four hours of the start, with three bands or more in it, that two of the country's aims or more send the company to. |
 | 1 | Expeditions back to a combat place that still meet a fight and reward | band ≥ 1 | Over every walk: an expedition (going into a combat place until coming out) to a place gone into before, which met a fight and brought something home (coin, or a valuable taken up). |
 | 1 | Bands within four hours of the start, per seed | band 5–40 | Enough to choose among in the first hours, but not a country of nothing but foes. |
-| 2 | Bands that can kill, asked before (%) | ratchet up | A band counts as able to kill if, in any of twelve seeded trials against the warrior and the first town's hire, the one who plays fell. It counts as asked if it is reckoned grave or deadly, because only those fights ask before they begin (Grave). The aim is 100%. |
+| 2 | Bands that can kill, asked before (%) | ratchet up | Can kill is judged once, by the company's own reckoning: the one who plays fell in a fight it played out (DangerSense's `mortal`), against the warrior and the first town's hire. It counts as asked by the rule the page's mark reads (Marks.asks: grave, deadly, or mortal). The census's own twelve trials are said beside it, the bands they alone saw fell the one who plays (OR-410). The aim is 100%. |
 | 3 | A day's coin ÷ (starter kit + dearest ware) | band 0.5–3 | A day's coin is one outing and one job in the country's own land (scripts/quantity/purse.ts): the richest one level of a site, site or part of the country within six hours' going of the start, at the best price a buyer pays, and the best pay of one job near. The kit is a light, three days' rations and a rope. The dearest ware is the first town's most expensive ware that is not itself treasure. The band means neither starved nor flooded. (It had counted every valuable within reach as found and sold, with every job's pay, and the circus's isle as a walk: an upper bound no company comes near.) |
 | 4 | Treasure lying ÷ what the markets sell | band 0.5–3 | Over the country's own land, not a land of its own a story's voyage reaches (the circus's isle of Sarn). What can be found should be worth spending, and the markets should hold enough to spend it on. |
 | 5 | Atlas marks per turn | band 1–8 | The coloured rows of each turn outside a fight's own menu, counted by the one indicator their aspects make. The note splits them by tone. |
@@ -92,7 +102,7 @@ Each measure is one of three kinds:
 |---|---|---|---|
 | Fights per game hour | 0.05 / 0.26 / 0.67 / 0.05 | 0.05 / 0.26 / 0.67 / 0.42 | no: the golden walk (OR-321) |
 | Bands near the start | 20 / 26 / 31 | 20 / 26 / 31 | yes |
-| Bands that can kill, asked before | 58% | 58% | ratchet yes; the aim is 100% (OR-322) |
+| Bands that can kill, asked before | 58% | 100% (43 of 43, judged once) | yes (OR-322 closed; the census's trials alone: 3, OR-410) |
 | A day's coin | 21–68× (every valuable within reach) | 3.4–4.9× (one outing, one job) | no (OR-323) |
 | Treasure against the markets | 6–13× (with the circus's isle) | 4.1–6.5× (the country's own land) | no (OR-324) |
 | Marks per turn | 2.6 / 1.6 / 2.3 / 1.4 | 2.6 / 1.6 / 2.3 / 2.1 | yes |

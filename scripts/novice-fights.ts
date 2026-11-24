@@ -2,7 +2,7 @@ import { Battle } from '../src/battle';
 import { CreatureStore } from '../src/creature-store';
 import type { Creature } from '../src/creature';
 import type { CombatEvent, Command, Moment } from '../src/model';
-import { DangerSense, type Danger } from '../src/presentation/danger-sense';
+import { DangerSense, type Danger, type Reckoning } from '../src/presentation/danger-sense';
 
 // One band against one company, set up as the game sets up the fight (Campaign.encounterBattle): the place's laws,
 // weariness and readiness (Environment.encounter), and the moment a fight that came at the company gives it.
@@ -44,7 +44,8 @@ export class NoviceFights {
   }
   // What the page says in the moment before a fight that came at the company closes (DangerSense.of, shown with the
   // fight's opening by CombatModel), as it says it when the company acts first.
-  static said(setup: Setup): Danger { return DangerSense.of(this.battle(setup, `${setup.seed}:said`)).danger; }
+  static said(setup: Setup): Danger { return this.reckoned(setup).danger; }
+  static reckoned(setup: Setup): Reckoning { return DangerSense.of(this.battle(setup, `${setup.seed}:said`)); }
   static trials(setup: Setup, policy: Policy, n: number): Tally {
     const tally = this.empty();
     for (let t = 0; t < n; t++) { this.fight(setup, policy, `${setup.seed}:${policy}:${t}`, tally); }

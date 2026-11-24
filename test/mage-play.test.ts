@@ -41,11 +41,13 @@ describe('a mage in the king-barrow', () => {
   it('is told who could fall in a fight the company would win, and by whom', async () => {
     // A warrior beside her: the barrow's dead are mummies, whom a blade bites only by half (their resistances, the
     // fresh playtest of 7 November), so with his sword the fight is one they would likely win and she could fall in
-    // (a thief's knife had made it that before; now, with a thief, it could be lost).
+    // (a thief's knife had made it that before; now, with a thief, it could be lost). She is the one who plays, so it
+    // is said to her as "you", and asked before it is begun (OR-322: Marks.asks).
     const s = await Barrow.start([Barrow.mage, { name: 'Tharash', raceId: 'human', classId: 'warrior' }], 'a1');
     GeneratedWorld.put(s, 'w4_end');
     const dead = ScreenModel.build(s.campaign).people.find(p => /barrow-dead/.test(p.name))!;
-    expect(dead.reckoning).toEqual({ danger: 'hard', text: 'Tharash reckons you would likely beat them, but Wenna could fall.' });
+    expect(dead.reckoning).toEqual({ danger: 'hard', text: 'Tharash reckons you would likely beat them, but you could fall.',
+      mortal: true });
   }, 60000);
   // Alone, the one who could fall is the one who plays, and no one would get them up: the laboratory's lone warrior
   // took on hobs reckoned only "someone could fall", and died.

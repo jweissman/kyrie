@@ -34,7 +34,8 @@ export class QuantityMeasures {
     { id: 'bands', label: '1. Bands within four hours of the start', kind: 'band', floor: 5, ceiling: 40,
       why: 'enough to choose among in the first hours; not a country of nothing but foes', read: 'bands' },
     { id: 'fair', label: '2. Bands that can kill, asked before (%)', kind: 'up',
-      why: 'a fight that can end a first-level life is asked before it is begun (Grave: grave or deadly); it should be '
+      why: 'a fight that can end a first-level life is asked before it is begun (Marks.asks: grave, deadly, or '
+        + 'its reckoning\'s fights felled the one who plays); it should be '
         + '100%, and may only rise', read: 'fair' },
     { id: 'economy', label: '3. A day\'s coin ÷ (starter kit + dearest ware)', kind: 'band', floor: 0.5, ceiling: 3,
       why: 'a day\'s work buys the kit and goes most of the way to the best thing in town, but not many times over: '
