@@ -174,7 +174,8 @@ export class Glance {
     // With an aim followed and the dark ahead, nothing to see by: whoever sells a light is the aim's way.
     const light = CompanyLight.of(campaign, screen), seller = screen.aims?.some(a => a.followed) ? light.sellers : null;
     const named = AimRoute.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
-      new Set([...this.named(campaign), ...seller ?? []]), this.addressed(campaign))));
+      new Set([...this.named(campaign), ...seller ?? [], ...this.saidHere(campaign, screen)]),
+      this.addressed(campaign))));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const spent = AimLeads.spent(campaign, screen, named), by = [...screen.around ?? [], ...screen.destinations ?? []];
@@ -302,6 +303,13 @@ export class Glance {
   private static addressed(campaign: Campaign): Set<string> {
     const def = Undertakings.followed(campaign);
     return def ? Stakes.addresses(campaign, def) : new Set();
+  }
+  // Where the company stands, where the words of the aim followed say it: "the den in the quarry adit under the old
+  // quarry pit", the adit reached, is the aim's place, and its ways on its way (down in thorn's adit nothing had led on
+  // to the den, and the gold had gone back up to the pit: OR-326).
+  private static saidHere(campaign: Campaign, screen: Screen): string[] {
+    const def = Undertakings.followed(campaign), here = screen.place.id;
+    return def && Stakes.said(campaign, def).has(here) ? [here] : [];
   }
   private static names(campaign: Campaign, def: Objective): Set<string> {
     let kept = this.namings.get(campaign.module);

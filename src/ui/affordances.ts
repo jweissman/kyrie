@@ -350,7 +350,9 @@ export class Affordances {
     const exit = screen.exits.find(e => c.id === e.id || c.id.startsWith(`${e.id}/`)), r = at.r;
     if (!exit) { return []; }
     const dest = exit.destination.id, tried = c.id !== exit.id && !!exit.blocked;
-    const first = tried && this.firstTry(c, exit);
+    // Back the way it came, in the dark with a light to hand and a way on not yet taken (thorn's adit: OR-326).
+    const first = tried && this.firstTry(c, exit), turned = dest === r.back && exit.visited && !!screen.dark
+      && !at.lightless && screen.exits.some(e => !e.visited && !e.blocked);
     // A way not yet taken from a place an aim names is the way on into what it is about (out of doors at the front of a
     // hold; the gnawed hole down from the corn-store cellar), but in a town not a door into the next house: at
     // Gothgiba's bailey, where the fevered child is, the gold had gone through every door on the green in turn, the
@@ -373,8 +375,9 @@ export class Affordances {
       // Unless whoever the aim is about still stands there: fled back up from the rats' run, the way down to them is
       // still the aim's (the laboratory's lost turns).
       // Never into the dark with nothing to see by: what the aim asks there cannot be done (see CompanyLight).
+      // Nor back the way it came where the light is next (turned).
       ...this.shop(r, dest) ? ['named' as const] : [],
-      ...(r.named.has(dest) || r.occupied?.has(dest)) && !r.needs.dark?.has(dest)
+      ...(r.named.has(dest) || r.occupied?.has(dest)) && !r.needs.dark?.has(dest) && !turned
         && !(r.named.has(r.here) && exit.visited && !r.occupied?.has(dest)) && !r.idle?.has(dest) ? ['named' as const] : [],
       ...toward ? [toward] : [], ...r.held.has(dest) && !r.idle?.has(dest) ? ['held' as const] : [],
       ...this.inward(c, exit.id, r), ...r.needs.night && dest === r.needs.bed ? ['night' as const] : [],
