@@ -27,8 +27,11 @@ export class RunnerOffer {
     : { offer: Said['offer']; under: Offered[]; journeys: Offered[] } {
     const rows = g ? Doable.of(g, screen) : [], at = this.at(g, rows, names);
     const primary = rows.filter(r => r.led).flatMap(r => this.row(r, at));
-    const lens = new Map<string, Lens>(), seen = new Set(primary.map(o => o.does ?? o.id));
-    const under = rows.filter(r => !r.led).flatMap(r => this.leaves(r).flatMap(k => {
+    const lens = new Map<string, Lens>(), seen = new Set(this.flat(primary).map(o => o.does ?? o.id));
+    // A row led with as the one thing it is led for (a talk drawn as its first question) holds more than that: its
+    // other rows are offered too, as the page's drawer holds them. Kynes's bed and supper, under a talk led as a
+    // question, had been offered nowhere, in the scene or in the talk (the reference journey's recovery, 24 Nov).
+    const under = rows.filter(r => !r.led || (r.for && r.opens)).flatMap(r => this.leaves(r).flatMap(k => {
       const o = this.one(k, at, k === r ? at.entries.get(r.id) : undefined, at.entries.get(r.id));
       if (!o || seen.has(o.does ?? o.id)) { return []; }
       seen.add(o.does ?? o.id);

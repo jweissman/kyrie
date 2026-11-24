@@ -318,6 +318,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, classified as filed: lifting the adit into a construct that is to come, for comparison; a direction, not an observed failure"
+  },
+  "OR-198": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, classified as filed: the brief's reference journey (BRIEF §3.2) unmet past the vault, a commissioned requirement found short by measure, not a software failure"
   }
  },
  "blockedBy": {
