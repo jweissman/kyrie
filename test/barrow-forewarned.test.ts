@@ -1,3 +1,4 @@
+import { RunnerFind } from './support/runner-find';
 import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
@@ -18,8 +19,9 @@ class Barrow {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     return { r: new Runner(journey.session), c: journey.session.campaign };
   }
+  // As a player finds it: offered, or under a talk, a lens or the pack (an equipping is the pack's: CL-67).
   static async take(r: Runner, label: RegExp): Promise<Said> {
-    const o = offered(r.said()).find(x => label.test(x.label));
+    const { o } = await RunnerFind.find(r, r.said() as Said, label);
     if (!o) { throw new Error(`not offered: ${label} (${offered(r.said()).map(x => x.label).join(' | ')})`); }
     return said(await r.ask(JSON.stringify({ act: o.id })));
   }
