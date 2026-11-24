@@ -61,6 +61,18 @@
    "path": "assets/bg/barrow-chamber.png",
    "sha1": "e1ad63f9eef3ae51cda81af06c56f595da85f0aa"
   },
+  "scene-barrow-entrance-fog": {
+   "path": "assets/bg/barrow-entrance-fog.png",
+   "sha1": "5ab8c82652ab95fcdcbfe3e34c29bf7b508248f8"
+  },
+  "scene-barrow-entrance-rain": {
+   "path": "assets/bg/barrow-entrance-rain.png",
+   "sha1": "0434e9c690ed93acd3d20b79db8b88dc252a6a96"
+  },
+  "scene-barrow-entrance": {
+   "path": "assets/bg/barrow-entrance.png",
+   "sha1": "e9cf96b1dbfbb253b5276d19c3d23e707289354a"
+  },
   "scene-barrow-forecourt": {
    "path": "assets/bg/barrow-forecourt.png",
    "sha1": "bc3edc1f791ce94db8c6631792f28e4cd7952495"
@@ -200,6 +212,10 @@
   "scene-chandelry": {
    "path": "assets/bg/chandelry.png",
    "sha1": "831cd56cbec82ea3f6b8a7b2782bfdd70904ccf3"
+  },
+  "scene-charcoal-clamps-rain": {
+   "path": "assets/bg/charcoal-clamps-rain.png",
+   "sha1": "640038548ff29ea14d587b0ec7b48d43e9e94278"
   },
   "scene-charcoal-clamps": {
    "path": "assets/bg/charcoal-clamps.png",
@@ -492,6 +508,10 @@
   "scene-great-hall": {
    "path": "assets/bg/great-hall.png",
    "sha1": "7da5b23ad752892cbe5013d4c628dc769df1298c"
+  },
+  "scene-great-house": {
+   "path": "assets/bg/great-house.png",
+   "sha1": "238eee8144f55d5d9af6a2b0366a0f25c9efaf94"
   },
   "scene-great-oak-dusk": {
    "path": "assets/bg/great-oak-dusk.png",
@@ -796,6 +816,14 @@
   "scene-manor-chamber": {
    "path": "assets/bg/manor-chamber.png",
    "sha1": "3539a64e970f728607216f76a630c50408b353ac"
+  },
+  "scene-manor-library-dusk": {
+   "path": "assets/bg/manor-library-dusk.png",
+   "sha1": "05fefa0984bdba2b5118d2fc17f128b5a53557cc"
+  },
+  "scene-manor-library-night": {
+   "path": "assets/bg/manor-library-night.png",
+   "sha1": "6ab5ceafe36f180637ff915ecdfe2dcb316dea49"
   },
   "scene-manor-night": {
    "path": "assets/bg/manor-night.png",
@@ -1466,6 +1494,11 @@
   "scene-woodland-fog": {
    "path": "assets/bg/terrain/woodland/fog.png",
    "sha1": "dd67c6687263c669d16c59f3f70fa7c65efd025a",
+   "terrain": "woodland"
+  },
+  "scene-woodland-house": {
+   "path": "assets/bg/terrain/woodland/house.png",
+   "sha1": "d2c201c9297c925f26ffb8781aa3f88513105955",
    "terrain": "woodland"
   },
   "scene-woodland-night": {

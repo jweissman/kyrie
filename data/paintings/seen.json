@@ -8961,6 +8961,60 @@
    "era": "late",
    "light": "daylight",
    "weather": "clear"
+  },
+  "scene-barrow-entrance": {
+   "form": "landscape",
+   "shows": "a green barrow mound with a stone-lintelled doorway in its side among heather and oaks, a path to it",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-barrow-entrance-fog": {
+   "form": "landscape",
+   "shows": "a green barrow mound with a stone-lintelled doorway in its side among oaks, all in fog",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-barrow-entrance-rain": {
+   "form": "landscape",
+   "shows": "a barrow mound with a stone-lintelled doorway on a wet moor under dark rain clouds, puddles on the path",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-charcoal-clamps-rain": {
+   "form": "landscape",
+   "shows": "charcoal clamps smoking in a wet woodland clearing, a felling stump with an axe, stacked cordwood under a lean-to, rain",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-great-house": {
+   "form": "exterior",
+   "shows": "a great stone house of three storeys with tall windows and twin chimneys, a double flight of steps to its door, a tree at the edge",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-manor-library-dusk": {
+   "form": "interior",
+   "shows": "a manor library of arched bays and tall shelves with a ladder, a lamp lit on a reading table with an open book, a window seat, the windows at dusk",
+   "era": "late",
+   "light": "dusk"
+  },
+  "scene-manor-library-night": {
+   "form": "interior",
+   "shows": "a manor library at night, one lamp on the reading table by an open book, shelves in shadow, a dark window",
+   "era": "late",
+   "light": "night"
+  },
+  "scene-woodland-house": {
+   "form": "landscape",
+   "shows": "a cottage under great oaks by a stream with a stone footbridge, smoke from its chimney, sheep grazing",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   }
  }
 }
