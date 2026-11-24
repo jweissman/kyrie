@@ -341,7 +341,8 @@
    "kind": "requirement",
    "was": "defect",
    "pri": "P2",
-   "why": "24 Nov, classified as filed: the ladder (OR-198) measured for other callings, a commissioned requirement found short; its failing part is OR-208's defect"  },
+   "why": "24 Nov, classified as filed: the ladder (OR-198) measured for other callings, a commissioned requirement found short; its failing part is OR-208's defect"
+  },
   "OR-215": {
    "kind": "requirement",
    "was": "defect",
@@ -389,6 +390,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, classified as filed: a second heath meeting, wanted and deferred; not an observed failure"
+  },
+  "AX-10": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, filed and classified at once: BRIEF §4's target for an uninterrupted journey leg (under 5 ms), a commissioned requirement unmet and measured, not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {
