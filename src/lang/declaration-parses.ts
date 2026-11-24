@@ -11,6 +11,7 @@
 import type { Module } from './module';
 import type { Declared } from './module-source';
 import { DeclaredValues } from './declared-values';
+import { DeclarationShapes } from './declaration-shapes';
 import { ModuleMade, type Field } from './module-made';
 import { Vocabularies } from './vocabulary';
 
@@ -53,10 +54,18 @@ export class DeclarationParses {
     try {
       const keys = split.chunks.map(c => `${Vocabularies.seen(c.text)}\u0000${c.text}`);
       const missing = keys.flatMap((k, i) => this.kept.has(k) ? [] : [i]);
-      const read = parts(`${split.head}\n${missing.map(i => split.chunks[i]!.text).join('\n')}\n}`);
-      if (!read || read.sources.length !== missing.length
-        || read.sources.some((t, j) => t !== split.chunks[missing[j]!]!.text)) { return undefined; }
-      const made = new Map(missing.map((i, j) => [i, read.fields[j]!]));
+      // Those not kept filled from their shapes, or matched together after the header (DeclarationShapes).
+      let header: Parts | undefined;
+      const found = DeclarationShapes.read(missing.map(i => split.chunks[i]!.text), texts => {
+        const read = parts(`${split.head}\n${texts.join('\n')}\n}`);
+        if (!read || read.sources.length !== texts.length || read.sources.some((t, j) => t !== texts[j])) {
+          return undefined;
+        }
+        header ??= read; return read.fields;
+      });
+      const read = header ?? parts(`${split.head}\n}`);
+      if (!found || !read) { return undefined; }
+      const made = new Map(missing.map((i, j) => [i, found[j]!]));
       for (const [i, f] of made) { this.remember(keys[i]!, structuredClone(f)); }
       const fields = keys.map((k, i) => this.placedAt(made.get(i) ?? structuredClone(this.kept.get(k) as Field), text,
         split.chunks[i]!.at));

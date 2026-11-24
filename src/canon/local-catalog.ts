@@ -110,8 +110,11 @@ export class LocalKinds {
   // second of a new country's start (the headless investigation, 11 November).
   static seen(text: string): string {
     const { own, words } = this.words(text);
-    return [...this.installed].filter(k => { const id = k.slice(k.indexOf(':') + 1); return !own.has(id) && words.has(id); })
-      .sort().join(' ');
+    // By whichever is fewer: a declaration's few words (a text read a declaration at a time, AX-04), or the kinds.
+    const named = words.size < this.installed.size
+      ? [...words].flatMap(w => own.has(w) ? [] : [`item:${w}`, `species:${w}`].filter(k => this.installed.has(k)))
+      : [...this.installed].filter(k => { const id = k.slice(k.indexOf(':') + 1); return !own.has(id) && words.has(id); });
+    return named.sort().join(' ');
   }
   // A text's words and the kinds it declares, gathered once: the same text is keyed many times as a world is read (its
   // parse, its bundle's, its reading ahead), a country's first file a third of a megabyte. The last few hundred kept.

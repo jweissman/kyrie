@@ -111,8 +111,35 @@ of each kit into two parts:
 The hook's references into the body (a teller's words naming the site, an aim's place) must resolve before the body
 is installed. They are names and places, never live facts, which is the contract to check.
 
-## Next spike
-## Next spike
+## The parse, by shape (24 November, later)
+
+A new seed's parse, with the disk store warm, is its own country: 57–70 texts, about 1.5 MB, all `Module region`,
+1.8–2.2 s (the starting country's first file alone 0.55 s). By top-level construct, Topic is 24% of it and Observe
+22%, spread across many writers, so writer-by-writer migration to values (generated-ir.md) is slow to pay. The
+declarations, with string literals and drawn ids (names with a digit) masked, are about 1 450 shapes a country, and a
+new seed repeats 94–98% of the shapes of one drawn before (69% within the first). With every identifier masked, 620
+shapes, but an identifier can steer lowering (kinds), so only drawn ids are masked.
+
+So `DeclarationShapes` (src/lang): a declaration not kept by its text is filled from its shape, where the shape is
+known; a shape met a second time is parsed and known where its filling is its first text's own field (an ability's
+program in a string is not, and is never filled). Known shapes are kept in the parse store as one entry. Also
+`LocalKinds.seen` walks the fewer of a text's words or the kinds installed (per declaration it had been 0.3 s).
+
+Measured on a loaded machine (two agents gating):
+
+| a new seed's parse | before | after |
+|---|---|---|
+| in a process that drew a world before | 1.14–1.51 s | 0.58–0.75 s |
+| in a fresh process, the store warm | 2.24–2.26 s | 0.81–0.91 s |
+| a cold process's first world (start) | 8.9–9.1 s | 8.8 s |
+
+Proved by test/small/declaration-shapes (two countries drawn, every text read a declaration at a time with nothing
+kept by its text is its whole parse; more than a thousand filled), test/small/declaration-parses, test/new-world-warm,
+test/generated-ir, test/cold-start, and identical start digests on iscoed, a1, thorn, kite and a fresh seed. What is
+left of the parse is the shapes still learnt on a seed (some 470 on a third), the literal keys' kinds (0.1 s), the
+module made (0.05 s) and the split. A browser's first visit learns within its first country; a pre-learnt shape set
+shipped with the build would give it the rest.
+
 ## Next spike
 
 The hook and body split for one kit kind (the word kits: about 60 entities each, 2–7 of them in town), the body
