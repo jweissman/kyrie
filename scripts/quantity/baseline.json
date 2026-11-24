@@ -1,0 +1,49 @@
+{
+ "bands": {
+  "fights": {
+   "floor": 0.1,
+   "ceiling": 1.5
+  },
+  "bands": {
+   "floor": 5,
+   "ceiling": 40
+  },
+  "economy": {
+   "floor": 0.5,
+   "ceiling": 3
+  },
+  "treasure": {
+   "floor": 0.5,
+   "ceiling": 3
+  },
+  "marks": {
+   "floor": 1,
+   "ceiling": 8
+  },
+  "blank": {
+   "ceiling": 25
+  },
+  "reach": {
+   "floor": 3
+  },
+  "dungeon": {
+   "floor": 15,
+   "ceiling": 180
+  },
+  "hexes": {
+   "ceiling": 2
+  },
+  "ready": {
+   "floor": 3
+  }
+ },
+ "ratchets": {
+  "fair": 58,
+  "unwitnessed": 0,
+  "variety": 6,
+  "recurrence": 0,
+  "errand": 12,
+  "nowhere": 19,
+  "stranded": 32
+ }
+}

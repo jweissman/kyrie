@@ -85,7 +85,7 @@ export class NoviceCountry {
       bands: bands.filter(b => b.site === id).length }));
   }
   // How long the quickest way from the start to every place takes, over every way of the country, known or not.
-  private static distances(campaign: Campaign, from: string): Map<string, number> {
+  static distances(campaign: Campaign, from: string): Map<string, number> {
     const next = new Map<string, { to: string; minutes: number }[]>();
     for (const c of campaign.world.related('connects')) {
       const [passage, a, b] = c.args;

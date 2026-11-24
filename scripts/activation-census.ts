@@ -34,7 +34,7 @@ interface World {
 interface Country { id: string; bundle?: string; province?: boolean; name: string; herald?: { scenario: string } }
 interface Row { k: string; reach: string[]; met: boolean }
 
-class Census {
+export class ActivationCensus {
   static readonly root = join(import.meta.dir, '..');
   static list(dir: string): string[] { return readdirSync(join(this.root, dir)); }
   static read(file: string): string { return readFileSync(join(this.root, file), 'utf8'); }
@@ -110,15 +110,7 @@ class Census {
   // ---- creatures
   static async creatures(seeds: string[], dormant: Ledger): Promise<string[]> {
     const met = await BestiaryReport.sample(seeds), kinds = Object.keys(Canon.species).sort();
-    const rows: Row[] = kinds.map(k => ({ k, reach: BestiaryReport.reach(k), met: met.has(k) }));
-    const generated = new Set(rows.filter(r => r.reach.some(x => ['den', 'open', 'deep'].includes(x))).map(r => r.k));
-    const unmet = rows.filter(r => !r.met);
-    const stranded = unmet.filter(r => !generated.has(r.k) && !r.reach.includes('authored')
-      && !r.reach.includes('summoned')).map(r => r.k);
-    const authoredOnly = unmet.filter(r => !generated.has(r.k) && r.reach.includes('authored')).map(r => r.k);
-    const summoned = unmet.filter(r => !generated.has(r.k) && !r.reach.includes('authored')
-      && r.reach.includes('summoned')).map(r => r.k);
-    const eligible = unmet.filter(r => generated.has(r.k)).map(r => r.k);
+    const { rows, stranded, authoredOnly, summoned, eligible } = this.stages(met);
     // A record that says itself that it lives only in the scene that made it is intentional dormancy by its author.
     const byRecord: Record<string, string> = {};
     for (const k of kinds) {
@@ -147,6 +139,51 @@ class Census {
       this.bullets('Summoned only', summoned, known),
       this.bullets('Eligible, not met in the sample', eligible, known)];
   }
+  // Each species by how far it gets: met in the sample (met), or else by a generation path, an authored scene, a
+  // summoning, or none at all (stranded).
+  static stages(met: { has(k: string): boolean }) {
+    const rows: Row[] = Object.keys(Canon.species).sort()
+      .map(k => ({ k, reach: BestiaryReport.reach(k), met: met.has(k) }));
+    const generated = new Set(rows.filter(r => r.reach.some(x => ['den', 'open', 'deep'].includes(x))).map(r => r.k));
+    const unmet = rows.filter(r => !r.met);
+    const stranded = unmet.filter(r => !generated.has(r.k) && !r.reach.includes('authored')
+      && !r.reach.includes('summoned')).map(r => r.k);
+    const authoredOnly = unmet.filter(r => !generated.has(r.k) && r.reach.includes('authored')).map(r => r.k);
+    const summoned = unmet.filter(r => !generated.has(r.k) && !r.reach.includes('authored')
+      && r.reach.includes('summoned')).map(r => r.k);
+    return { rows, stranded, authoredOnly, summoned, eligible: unmet.filter(r => generated.has(r.k)).map(r => r.k) };
+  }
+  // What no played world can reach, by kind (scripts/quantity's stranded content): species with no path at all; work
+  // plans no registry names; scenarios no list names; adventures that are no country; abilities nothing names.
+  static async stranded(seeds: string[]): Promise<Record<string, string[]>> {
+    const { stranded } = this.stages(await BestiaryReport.sample(seeds));
+    const works = this.list('data/generation/works').filter(f => f.endsWith('.kyrt')).map(f => f.replace(/\.kyrt$/, ''));
+    const registered = this.registered();
+    return { creatures: stranded, works: works.filter(f => !registered.has(f) && f !== 'riddle-door'),
+      scenarios: this.unlisted(), adventures: this.homeless(), abilities: this.unnamedAbilities() };
+  }
+  private static registered(): Set<string> {
+    return new Set([...this.read('src/world/region-works.ts').matchAll(/works\/([\w_-]+)\.kyrt/g)].map(m => m[1]!));
+  }
+  static unlisted(): string[] {
+    const files = this.list('data/scenarios').filter(f => f.endsWith('.scenario.json'));
+    const heralds = (countries.countries as Country[]).flatMap(c => c.herald ? [c.herald.scenario] : []);
+    const cities = this.read('data/scenarios/cities.json'), listed = new Set([...library.scenarios, ...standing.scenarios]);
+    return files.filter(f => !listed.has(f) && !heralds.includes(f) && !cities.includes(f))
+      .map(f => f.replace(/\.scenario\.json$/, ''));
+  }
+  static homeless(): string[] {
+    const bundles = countries.countries as Country[];
+    return this.list('data/adventures').filter(d => !d.endsWith('.json') && !bundles.some(c => c.bundle?.startsWith(`${d}/`)));
+  }
+  static unnamedAbilities(): string[] {
+    const known = (JSON.parse(this.read('data/catalog/abilities.json')) as { abilities: Record<string, unknown> }).abilities;
+    const skip = /catalog\/abilities\.json|sources\/orsino|catalog\/orsino/;
+    const corpus = ['data/catalog', 'data/generation', 'data/adventures', 'data/goings-on', 'data/rules', 'src']
+      .flatMap(d => this.files(d)).filter(f => !skip.test(f) && /\.(json|kyr|kyrt|ts)$/.test(f))
+      .map(f => this.read(f)).join('\n');
+    return Object.keys(known).filter(id => !new RegExp(`["' ]${id}["' .,)]`).test(corpus));
+  }
   private static homes(kinds: string[]): [string, string[]][] {
     const files = [...new Bun.Glob('data/{situations,adventures,goings-on}/**/*.{kyr,kyrt}').scanSync({ cwd: this.root })];
     const text = files.map(f => [f.split('/')[2]!, readFileSync(join(this.root, f), 'utf8')] as const);
@@ -158,8 +195,7 @@ class Census {
   // ---- works, items, scenarios, goings-on and situations
   static works(worlds: World[]): string[] {
     const files = this.list('data/generation/works').filter(f => f.endsWith('.kyrt')).map(f => f.replace(/\.kyrt$/, ''));
-    const imported = new Set([...this.read('src/world/region-works.ts').matchAll(/works\/([\w_-]+)\.kyrt/g)]
-      .map(m => m[1]!));
+    const imported = this.registered();
     const plans = new Set(worlds.flatMap(w => Object.keys(w.plans)));
     const rows = files.map(f => {
       const held = worlds.filter(w => w.plans[f]).length;
@@ -238,11 +274,7 @@ class Census {
   // ---- abilities and spells
   static abilities(): string[] {
     const known = (JSON.parse(this.read('data/catalog/abilities.json')) as { abilities: Record<string, unknown> }).abilities;
-    const skip = /catalog\/abilities\.json|sources\/orsino|catalog\/orsino/;
-    const corpus = ['data/catalog', 'data/generation', 'data/adventures', 'data/goings-on', 'data/rules', 'src']
-      .flatMap(d => this.files(d)).filter(f => !skip.test(f) && /\.(json|kyr|kyrt|ts)$/.test(f))
-      .map(f => this.read(f)).join('\n');
-    const named = Object.keys(known).filter(id => new RegExp(`["' ]${id}["' .,)]`).test(corpus));
+    const unnamed = new Set(this.unnamedAbilities()), named = Object.keys(known).filter(id => !unnamed.has(id));
     return ['## Abilities and spells (`data/catalog/abilities.json`)', '',
       'Measured: authored (a record) → named by a class, species, item, trait, adventure or rule anywhere outside the '
       + 'catalog file and the Orsino snapshot.', '',
@@ -269,4 +301,4 @@ class Census {
     return args.includes(name) ? args[args.indexOf(name) + 1] : undefined;
   }
 }
-await Census.main();
+if (import.meta.main) { await ActivationCensus.main(); }

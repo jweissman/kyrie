@@ -630,6 +630,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, filed from the feature map: a capability the map names, wanted, not commissioned"
+  },
+  "OR-320": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, the owner's commission (a quantity gate beside the quality gate): a commissioned instrument, closed by its commit"
   }
  },
  "blockedBy": {
