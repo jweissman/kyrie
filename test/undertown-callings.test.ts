@@ -11,7 +11,8 @@ describe('a calling\'s own way in the first town', () => {
     .then(s => s.journey);
   const spiders = (calling: string) => PlayTool.start(PlayTool.parse(['--world', 'kahitude', '--as',
     `human/${calling}/Wat`])).then(s => s.journey);
-  const crypt = ['To the landing at Lowmouth', 'To the shrine of Nodens', 'Ask Eogan about the noises',
+  // The notice on the well-post read first: a job is asked after only by one who has heard of it (OR-370).
+  const crypt = ['To the landing at Lowmouth', 'Read the notice on the well-post', 'To the shrine of Nodens', 'Ask Eogan about the noises',
     'To the landing at Lowmouth', 'To the churchyard', 'Down to the crypt', 'a candle: Light', 'To the ossuary'];
   it('lets a thief pick the corn-store, and a warrior wrench it, unasked', async () => {
     const thief = await start('thief');
@@ -38,7 +39,7 @@ describe('a calling\'s own way in the first town', () => {
   }, 120000);
   // The spiders in kahitude's quarry (a1's has the she-bear since the pit's second cause).
   it('lets a ranger read in the web at the quarry what is laying at the back', async () => {
-    const adit = ['To the landing at Thornhaven', 'Into the Stormy Horn', 'Ask .* about the old quarry',
+    const adit = ['To the landing at Thornhaven', 'Read the notice on the well-post', 'Into the Stormy Horn', 'Ask .* about the old quarry',
       'To the landing at Thornhaven', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light'];
     const ranger = await spiders('ranger'), warrior = await spiders('warrior');
     for (const step of adit) { await ranger.step(step); await warrior.step(step); }
@@ -50,7 +51,7 @@ describe('a calling\'s own way in the first town', () => {
   // was reckoned "deadly" against both).
   it('lets a lone mage do the rats and the spiders by what the chandler sells', async () => {
     const mage = await start('mage'), j = mage;
-    for (const step of ['To the landing at Lowmouth', 'To Ulf\'s chandlery', 'Buy › A twist of ratsbane', 'Buy › An oil firebomb',
+    for (const step of ['To the landing at Lowmouth', 'Read the notice on the well-post', 'To Ulf\'s chandlery', 'Buy › A twist of ratsbane', 'Buy › An oil firebomb',
       'To the landing at Lowmouth', 'To Mik\'s salt-house', 'Ask Mik about the rats', 'To the landing at Lowmouth',
       'To the old corn-store', 'Down to the corn-store cellar', 'a candle: Light', 'Lay ratsbane',
       'Up to the old corn-store', 'Wait until dark', 'Wait an hour', 'Wait an hour', 'Wait an hour']) {
@@ -59,7 +60,7 @@ describe('a calling\'s own way in the first town', () => {
     expect([j.holds('able', 'region__s1_u_rats'), j.holds('region__s1_u_done', 'region__s1_u_rats_job')]).toEqual([false, true]);
     // And the spiders, in a quarry that has them.
     const k = await spiders('mage');
-    for (const step of ['To the landing at Thornhaven', 'To Annis\'s chandlery', 'Buy › An oil firebomb',
+    for (const step of ['To the landing at Thornhaven', 'Read the notice on the well-post', 'To Annis\'s chandlery', 'Buy › An oil firebomb',
       'To the landing at Thornhaven', 'Into the Stormy Horn', 'Ask .* about the old quarry', 'To the landing at Thornhaven',
       'To the old quarry pit', '^Down to the quarry adit$', '?a candle: Light', 'Throw an oil firebomb', 'Wait a while']) {
       await k.step(step);

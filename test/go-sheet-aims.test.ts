@@ -4,9 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
-import { ModuleWriter } from '../src/lang/module-writer';
 import { Undertakings } from '../src/presentation/undertakings';
-import type { Change } from '../src/lang/module';
 import { MenuModel } from '../web/reader/menu-model';
 import { Act } from '../web/reader/stage/act';
 import { Wayfinder } from '../web/reader/stage/wayfinder';
@@ -47,10 +45,14 @@ describe('Go… and the places the aims name', () => {
     g = Glanced.of(await PlaySession.start(w.path, 'kite', w.source));
     // About the town first, as a newcomer would go, so that its ways are known: the market, the waterside, the edge.
     for (const p of ['s1_chandlery', 's1_reedbeds', 's1_fields', 's1_scriv']) { await g.to(`region__${p}`); }
-    // Then the priest's job taken: the crypt key, and the aim (kite's churchyard has the bone-pickers).
-    const c = g.s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
-    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__s1_u_pickers_job') },
-      { kind: 'assert', call: ModuleWriter.call('region__s1_u_given', 'region__s1_u_pickers_job') }]));
+    // Then the priest's job taken, as a player takes it: the churchyard seen for oneself, and the priest asked
+    // (OR-370: a job is asked after only by one who has heard of it, or seen its trouble); the crypt key, and the aim
+    // (kite's churchyard has the bone-pickers). Not by the notice here: read, its other jobs are leads to their
+    // givers, on the market-place, and this spec is of the one aim's ways.
+    await g.to('region__s1_u_yard');
+    await g.to(g.s.campaign.world.one('at', 'region__s1_priest')!);
+    await g.s.leg('region__s1_u_pickers_job_ask');
+    await g.to('region__s1_chandlery');
     // Followed, as the playtester followed it in the Notes.
     Undertakings.follow(g.s.campaign, 'region__s1_u_pickers_job_aim');
   }, 120000);
@@ -94,7 +96,8 @@ describe('Go… and a place an aim names, not followed', () => {
   it('lists the old quarry pit by its own name once its job is given', async () => {
     const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'wanderer',
       party: [{ name: 'Rangrim', raceId: 'dwarf', classId: 'warrior' }] }, NodeBundleSource.shared));
-    await j.play('>s1_taproom', 'about the old quarry');
+    // The notice read first: the job is asked after only by one who has heard of it (OR-370).
+    await j.play('>s1_green', 'Read the notice', '>s1_taproom', 'about the old quarry');
     expect(Page.at(Glanced.of(j.session)).ways().map(w => w.name)).toContain('the old quarry pit');
   }, 120000);
 });

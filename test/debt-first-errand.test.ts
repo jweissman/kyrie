@@ -84,7 +84,9 @@ describe('the hobs’ store, after a parley', () => {
   // only pick and wrench (both cold rounds; log E33).
   it('marks the corn-store way open to the holder of its key', async () => {
     const keyed = async (first: string) => {
-      const j = await debtor();
+      const j = await debtor(), at = j.session.campaign.world.one('at', 'party')!.replace(/^region__/, '');
+      // The notice read first, and back: the job is asked after only by one who has heard of it (OR-370).
+      await j.play('To the landing', 'Read the notice', `>${at}`);
       await j.play(first, 'To the landing');
       return Glanced.of(j.session).screen.exits.find(e => e.destination.name === 'the old corn-store');
     };

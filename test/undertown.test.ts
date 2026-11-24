@@ -73,8 +73,9 @@ describe('under the town the company begins in', () => {
     // The crypt's bats, which come down at a light, are another fight than this one's (19 November).
     const k = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('region__s1_u_came', 'region__s1_u_crypt_bats') }]));
-    await Town.take(s, /^Take the shrine porch/, /^Ask .* about the noises/, /^Take the shrine porch/,
-      /^Take the lych-gate/);
+    // The notice read first: a job is asked after only by one who has heard of it (OR-370).
+    await Town.take(s, /^Read the notice on the well-post/, /^Take the shrine porch/, /^Ask .* about the noises/,
+      /^Take the shrine porch/, /^Take the lych-gate/);
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__s1_u_dead_robbed'))).toBe(true);
     await Town.take(s, /^Take the stone stair/, /^Light a torch/, /^Take an arch stacked/);
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__s1_u_dead_raised'))).toBe(true);

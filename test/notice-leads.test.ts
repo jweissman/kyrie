@@ -18,9 +18,10 @@ describe('the notice on the well-post', () => {
       .toContainEqual(expect.stringMatching(/^A notice on the post by the well/));
     for (const step of ['To Mik\'s salt-house', 'Talk to Mik', 'Ask Mik about the rats']) { await j.step(step); }
     expect(held().filter(id => !before.includes(id))).toEqual(['region__s1_u_rats_job_aim']);
-    // Every job's giver is asked without the notice: no question waits on it.
+    // Every job's question waits on the notice, or on the trouble seen for oneself (OR-370: the first town's jobs
+    // uncovered, not handed out; it had been asked of its giver by anyone who walked in).
     const asks = j.campaign.module.actions.filter(a => /_u_\w+_job_ask$/.test(a.id));
     expect(asks.length).toBeGreaterThanOrEqual(3);
-    for (const a of asks) { expect(JSON.stringify(a)).not.toContain('_u_notice'); }
+    for (const a of asks) { expect(JSON.stringify(a.requires)).toContain('_u_notice'); }
   }, 120000);
 });

@@ -29,6 +29,9 @@ describe('the rats\' nest', () => {
         if (/cellar/.test(next)) { await choose(s, /^light_item\(/); }
       }
     };
+    // The notice read first: the job is asked after only by one who has heard of it (OR-370).
+    await walk('region__s1_green');
+    await choose(s, /_u_notice_read\(/);
     await walk(s.campaign.world.one('at', 'region__s1_merchant')!);
     await choose(s, /rats_job_ask/);
     await walk('region__s1_u_warren');

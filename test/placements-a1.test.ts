@@ -21,7 +21,8 @@ describe('the first fights of a1, as placed', () => {
   it('tells the spiders at the adit, before the gallery', async () => {
     const j = await PlayTool.start(PlayTool.parse(['--world', 'kahitude', '--as', 'human/warrior/Wat']))
       .then(s => s.journey);
-    for (const step of ['To the landing at Thornhaven', 'Into the Stormy Horn', 'Ask .* about the old quarry',
+    // The notice read first: a job is asked after only by one who has heard of it (OR-370).
+    for (const step of ['To the landing at Thornhaven', 'Read the notice', 'Into the Stormy Horn', 'Ask .* about the old quarry',
       'To the landing at Thornhaven', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light']) {
       await j.step(step);
     }
