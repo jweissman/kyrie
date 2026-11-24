@@ -180,9 +180,10 @@ export class ChoiceGrouping {
     // Said as what it is: with nothing to eat, a rest is no rest (it takes a minute, and says so; the architecture
     // review's H5 found it told and kept as six hours' rest).
     rest_unfed: { slot: 'camp', path: ['Try to rest, with nothing to eat'] },
-    // What one who lies senseless was carrying, under one choice: six of them had stood in a row on the page, offering
-    // to strip a fallen ranger of bow and mail (the cold evaluation).
-    take_from: { slot: 'camp', path: ['Take {cargo} from {carrier}', 'for {recipient}'] },
+    // What one who lies senseless was carrying is taken from the pack, under the thing in their keeping, beside what
+    // is given or set down there (CL-67's fold): fourteen "Take a candle from Elen for Bran" had stood among the
+    // waits, one for each thing and each who could take it (OR-381).
+    take_from: { slot: 'item', param: 'cargo', path: ['Take for', '{recipient}'] },
   };
   static group(rows: Row[], context: GroupingContext): Grouped {
     const out: Grouped = { exits: new Map(), targets: new Map(), items: new Map(), members: new Map(),

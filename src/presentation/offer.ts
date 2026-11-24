@@ -181,8 +181,8 @@ export class Offers {
   static readonly ranks: readonly ActType[] = ['talk', 'go', 'journey', 'search', 'act', 'study', 'fight', 'light',
     'care', 'wait', 'other'];
   private static rank(c: Candidate): number { return this.ranks.indexOf(this.types[c.kind]); }
-  private static readonly gear = new Set(['put_item', 'put_in', 'transfer_item', 'equip_item', 'douse_light',
-    'prepare_spell']);
+  private static readonly gear = new Set(['put_item', 'put_in', 'transfer_item', 'take_from', 'equip_item',
+    'douse_light', 'prepare_spell']);
   private static kind(schema: string | undefined): Kind {
     const s = schema ?? '';
     if (this.gear.has(s)) { return 'other'; }
