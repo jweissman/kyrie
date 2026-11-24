@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 538 live rows, 445 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 170 pins (138 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 542 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -215,7 +215,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 5 pins · 22 defects · 4 asks
+- **Dungeons and sites** · 5 pins · 22 defects · 5 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
@@ -224,6 +224,7 @@ page's colours and opportunities.)
   - requirement T24-27 P1: After two or three notice jobs, the next lead bent toward the region's own history (its works, its…
   - requirement OA-12 P1: The compact, tense expedition (the M21 brief's Phase 2, "restore the dramatic core"; the…
   - requirement HP-03 P1: One complete emotional expedition, in Gone under: image, preparation with a person, a companion's…
+  - requirement OR-401 P3: The Weather Drove's east_fires, fires_sniff and letter_obs were never seen by reach (signs that…
   - requirement OR-280 P1: The opening dungeon unmistakable in drawn countries, not only Iscoed: from the first town of a…
 - **Adventures and their endings** · 4 pins · 3 defects · 1 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
@@ -284,13 +285,12 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 5 pins · 10 defects · 4 asks
+- **The title and Play** · 5 pins · 10 defects · 3 asks
   - ✓ is the title's one way in: it continues a game kept and still going, and otherwise begins
   - ✓ then asks one thing: create a character, or enter the world as we are
   - ✓ takes up the terminal's kept game while it is going, and from one that cannot be opened begins, saying why
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
-  - requirement OR-290 P2: FM-01's remainder: record the way in frame by frame on the deployed build (remounts, opacity…
   - requirement OR-290 P2: FM-01's remainder: record the way in frame by frame on the deployed build (remounts, opacity…
   - requirement OR-133 P1: Stories made plain on the page: the brief's Story/Incident block for an authored title and problem…
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
@@ -349,7 +349,7 @@ page's colours and opportunities.)
 
 ### Words
 
-- **Narration** · 3 pins · 27 defects · 3 asks
+- **Narration** · 3 pins · 28 defects · 3 asks
   - ○ the narration of an hour in a1 holds to "you", in the present, by a census of its sentences
   - ○ a place's first telling gives more than sight (sound, smell, touch or weather), within budget
   - ○ the words never contradict the state (a door told shut is shut, the weather told is so)
@@ -374,14 +374,15 @@ page's colours and opportunities.)
 
 ### Kyr and Deem
 
-- **Authoring forms and their lint** · 0 pins · 40 defects · 5 asks
+- **Authoring forms and their lint** · 0 pins · 42 defects · 5 asks
   - direction OR-164 P2: A studio for human authors, live: in the first version, the engine-side player knows it is served…
   - direction OR-224 P3: A Situation that can be done without its core resolved is not found by the lint: the adit's Done…
   - direction OR-230 P3: The Book of Faces' confessional (cleric.kyr) repeats its bookkeeping in its effects, which a…
   - requirement ST-08 P1: The adventure-structure brief (the owner, 17 November; mission-22/adventure-structure-brief.md): a…
   - direction AU-57 P2: What an author of a craft could not say in Kyr (The Eel Bell, a bell cast, tuned and hung): no…
-- **Generation and tables** · 0 pins · 9 defects · 6 asks
+- **Generation and tables** · 0 pins · 9 defects · 7 asks
   - requirement OR-150 P2: Narration grounded in perception, questions as semantic objects, generative minimalism (the owner,…
+  - direction OR-405 P3: The Weather Drove's proposals for Kyr and Deem: a Chorus (several named people each giving a part,…
   - direction KX-02 P2: Deem's lookupUnique ignores the seed (node_modules/deem/src/Template.ts: no randomFunc passed, so…
   - direction KX-04 P2: Kyr expressivity, what the lodestar experiment recorded for later (split from KX-01, 20 November;…
   - direction AU-54 P3: `kyrie suggest`: settings suggested from the paintings no place or adventure uses. The painting…
@@ -449,7 +450,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Peoples and ancestries** (Creatures and peoples): OR-316
 - **Playing in the terminal** (The terminal): TB-11
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
-- **Generation and tables** (Kyr and Deem): OR-150, KX-02, KX-04, AU-54, AU-58, AU-60
+- **Generation and tables** (Kyr and Deem): OR-150, OR-405, KX-02, KX-04, AU-54, AU-58, AU-60
 - **Architecture and layers** (The engine): AX-07, MT-31
 
 ### Pins not yet met (32)
