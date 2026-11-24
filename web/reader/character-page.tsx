@@ -29,9 +29,7 @@ export class CharacterPage {
     const acts = sections.find(s => s.id === 'acts')?.choices ?? [];
     return (
       <article className="character" data-region="party" aria-label={`${m.name}: character`}>
-        {members.length > 0 && <nav className="members" aria-label="The company">
-          {members.map(c => <Act.View key={c.id} choice={c} draw={draw} className={`member${c.id === m.id ? ' here' : ''}`}>
-            <span className="n">{c.label}</span><span className="r">{c.note}</span></Act.View>)}</nav>}
+        {members.length > 0 && <CharacterPage.Roster members={members} party={screen.party} here={m.id} draw={draw} />}
         <header className={`head-of${m.portrait ? ' faced' : m.face ? ' faced pc' : ''}`}>
           {m.portrait ? <img className="sat" src={m.portrait.src} alt="" decoding="async"
             style={{ objectPosition: `50% ${m.portrait.focus}%` }} />
@@ -60,6 +58,21 @@ export class CharacterPage {
         </div>
       </article>
     );
+  }
+  // Who of the company the page is of, chosen by their faces (OR-308, the owner's playtests of 23-24 November: the
+  // roster had taken some 40% of the page to choose among four): a small row of portraits floating at the foot of the
+  // page's right side, the one shown ringed, each its name to a pointer and a reader; one with no portrait painted
+  // their initial. The choices are the menu's own (the members section), drawn by their faces.
+  static Roster({ members, party, here, draw }: { members: Choice[]; party: MemberRow[]; here: string; draw: Draw }) {
+    return <nav className="members roster" aria-label="The company">{members.map(c => {
+      const x = party.find(p => p.id === c.id), src = x?.portrait?.src ?? x?.face?.medium;
+      return <Act.View key={c.id} choice={c} draw={draw} variant="glyph" said={`${c.label}, ${c.note ?? ''}`}
+        className={`member${c.id === here ? ' here' : ''}`}>
+        {src ? <img src={src} alt="" decoding="async"
+          style={x?.portrait ? { objectPosition: `50% ${x.portrait.focus}%` } : undefined} />
+          : <span className="initial" aria-hidden="true">{c.label.charAt(0)}</span>}
+        <span className="n">{c.label}</span></Act.View>;
+    })}</nav>;
   }
   // A spell of a level the member has no slot for is still to come, and says so (the cold playtest read second- and
   // third-level spells beside a first-level mage's, and could not tell which could be cast).

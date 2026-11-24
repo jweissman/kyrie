@@ -207,11 +207,30 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
 /* ---- The character: who they are, how they stand, what they can do and could become. ---- */
-.character .members { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 4px 24px; margin: 0 0 22px; }
-/* Not the margins of a place's .here section, which the one whose page this is had taken. */
-.character .members > .act { margin: 0; }
-.character .members .act .r { font: 400 13.5px var(--do); color: var(--grey); margin-left: 7px; text-decoration: none; }
-.character .members .act.here .n { color: var(--dim); }
+/* The company by their faces, floating at the foot of the page's right side (OR-308): a portrait each, the one the page
+   is of ringed, the rest quieter; its name said under it only as the hand or the keys come to it. It takes no room of
+   the sheet's. */
+.character .members.roster { position: fixed; z-index: 5; right: var(--menu-r); bottom: var(--safe-b);
+  display: flex; gap: 10px; margin: 0; padding: 6px; border: 1px solid var(--edge); border-radius: 999px;
+  background: rgba(12, 13, 17, .72); backdrop-filter: blur(6px); }
+.character .members.roster > .act { all: unset; box-sizing: border-box; position: relative; cursor: pointer;
+  width: 52px; height: 52px; border-radius: 50%; overflow: visible; display: grid; place-items: center;
+  background: var(--raised); box-shadow: 0 0 0 1px var(--edge); opacity: .72; transition: opacity var(--quick); }
+.character .members.roster > .act::before, .character .members.roster > .act::after { display: none; }
+.character .members.roster > .act > img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.character .members.roster > .act > .initial { font: 300 22px/1 var(--do); color: var(--ivory); }
+.character .members.roster > .act > .n { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+  white-space: nowrap; font: 500 12px/1 var(--do); letter-spacing: .06em; color: var(--ivory); padding: 4px 8px;
+  border-radius: 4px; background: rgba(12, 13, 17, .86); opacity: 0; pointer-events: none; transition: opacity var(--quick); }
+.character .members.roster > .act:is(:hover, :focus-visible, .sel) { opacity: 1; outline: none; }
+.character .members.roster > .act:is(:hover, :focus-visible, .sel) > .n { opacity: 1; }
+.character .members.roster > .act.here { opacity: 1; box-shadow: 0 0 0 2px var(--ivory); }
+/* The sheet's foot clear of the roster over it, scrolled to its end. */
+.character:has(> .members.roster) { padding-bottom: 96px; }
+@media (max-width: 599px) {
+  .character .members.roster { gap: 6px; padding: 4px; }
+  .character .members.roster > .act { width: 40px; height: 40px; }
+}
 .character .who { font: 400 clamp(38px, 5vw, 52px)/1.05 var(--told); margin: 0 0 6px; }
 .character .line-of { font: 400 16px/1.4 var(--do); color: var(--grey); margin: 0 0 18px; }
 .character .line-of .emblem { width: 20px; height: 20px; margin-right: 6px; vertical-align: -4px; fill: none;
