@@ -5,6 +5,7 @@ import { ObservationText } from './observation-text';
 import { Chapters } from './chapters';
 import { Promises } from './promises';
 import { Occasions } from './occasions';
+import { Situations } from './situations';
 import { EndingOrder } from './ending-order';
 
 type Node = ohm.Node;
@@ -23,7 +24,8 @@ export class Endings {
   // A chapter is written as an ending is, and opens as an ending closes (see Chapters); a promise is kept or broken as
   // one does (see Promises).
   static readonly actions = { Ending: Endings.parse, EndingTail: Endings.tail, EndingOver: Endings.over,
-    EndingWhen: Endings.when, ...Chapters.actions, ...Promises.actions, ...Occasions.actions };
+    EndingWhen: Endings.when, ...Chapters.actions, ...Promises.actions, ...Occasions.actions,
+    ...Situations.actions };
   static parse(_ending: Node, id: Node, title: Node, tail: Node) {
     return { field: 'ending', value: { id: id.sourceString, title: Endings.ast(title) as string,
       ...Endings.ast(tail) as { over?: string[]; when: Predicate; text: string } } };

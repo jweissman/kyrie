@@ -366,6 +366,12 @@
    "pri": "P2",
    "why": "24 Nov, classified as filed: OR-222's remainder, commissioned"
   },
+  "OR-224": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, classified as filed: a further lint for the Situation form, wanted, not an observed failure"
+  },
   "OR-221": {
    "kind": "direction",
    "was": "defect",

@@ -6,7 +6,7 @@ import type { Provenance } from './module-source';
 // of 20 November, §3.1, Phase A; doc/architecture/mission-22/semantic-tracing.md). Made by the lowering itself, so the
 // two cannot disagree; read by the tools (inspect --why process, the compatibility snapshot), never by the runtime,
 // which runs the lowered rules as before. The compiler's output, never current truth: a save does not keep it.
-export type SemanticKind = 'route' | 'promise' | 'occasion';
+export type SemanticKind = 'route' | 'promise' | 'occasion' | 'situation';
 // Where it is written: the file (set as a module's files are joined), its line and column; or, generated, by whom.
 export interface Span { file?: string; line: number; column: number }
 // A state of the process, in the author's words, and the condition over the lowered facts that says it holds.

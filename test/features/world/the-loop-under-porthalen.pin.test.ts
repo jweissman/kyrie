@@ -4,6 +4,7 @@ import { Runner, type Said } from '../../../src/cli/runner';
 import { RunnerFight } from '../../../src/cli/runner-fight';
 import { ModuleWriter } from '../../../src/lang/module-writer';
 import { ScreenModel } from '../../../src/ui/screen-model';
+import { Situations } from '../../../src/lang/situations';
 import { AsMeant } from '../../support/as-meant';
 import { GoldenWalk } from '../../support/golden-walk';
 
@@ -88,6 +89,10 @@ class Walk {
 describe('the reference journey under Porthalen', () => {
   it('is walked by the offered rows alone, out and back twice, and the town answers', async () => {
     const walk = await Walk.begun();
+    // What the adit and Hesper's going missing are, as Situations (BRIEF §6): records of their own, the lint content.
+    const records = (walk.session.campaign.module.semantic ?? []).filter(r => r.kind === 'situation').map(r => r.id);
+    expect(records).toEqual(expect.arrayContaining(['situation:adit/under_the_fall', 'situation:region/s1_hesper_missing']));
+    expect(Situations.lint(walk.session.campaign.module)).toEqual([]);
     // Holgar is turned to for the question the notice sent the company to ask, not his talk of the old kingdom
     // (OR-199); and so is Kynes, for the quarry, whose key opens its gate.
     await walk.play(established.slice(0, 2));

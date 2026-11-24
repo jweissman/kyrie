@@ -9,14 +9,20 @@ import { LintSource } from './lint-source';
 // What an author would want to know of a campaign and is not told by its play (the Grand Tour's friction X06, X15 and
 // X17): a tame one's own greeting said on arrival, a first place with nothing said of it, a module that gives the
 // company nothing to grow by.
+import { Situations } from '../lang/situations';
+
 export class AuthorLint {
   // What a whole adventure, one with an ending, should have: a first place said, and something to grow by.
   static run(lint: CampaignLint) {
     this.greetings(lint); this.lowered(lint); this.walkers(lint); this.placesAt(lint); this.aliases(lint);
     this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
     this.nearWay(lint); this.unheard(lint); this.untied(lint); this.neverThere(lint); this.unpaid(lint);
-    this.everywhere(lint);
+    this.everywhere(lint); this.situations(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
+  }
+  // A Situation with no turn, no core, or an incident nothing can resolve (AU-55's first check, see Situations.lint).
+  static situations(lint: CampaignLint) {
+    for (const said of Situations.lint(lint.module)) { lint.add('warning', 'situation', said); }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
   // offered at all, and nobody says why (the Third Night's friction 1, Let One Remember's B2). A rule's count stops at

@@ -1,6 +1,18 @@
 Module adit "Under the fall" {
   Description "A life that begins in the dark: the roof of an old adit above {town} has come down behind you. Ahead are a frightened boy, a badger in its sett and a fallen prop across the way out.".
   Entity party: group "You".
+  // What it is, before how it works (BRIEF §6; AU-55): five incidents met under the fall, one of them its core, the
+  // turn where the way out opens, and done on the hill. Said here over the facts the declarations below keep; the lint
+  // holds it to having its turn and its core, and to each incident being one the play can resolve.
+  Situation under_the_fall "Under the fall" at fall {
+    Incident dark "the dark the roof left you in: a light made, or the wall felt along" of party resolved when not benighted(party) or been(party, gallery).
+    Incident bread "the bread and cheese dropped where the roof came in" of bait resolved when not at(bait, fall).
+    Incident boy "Dai Probert, afraid of the beast in the wall, to be got out" of dai resolved when travelsWith(dai, party) or grateful(dai, party).
+    Incident badger "an old boar badger standing its ground by its sett" of badger resolved when not able(badger) or routed(badger) or yielded(party, badger).
+    Core prop "the fallen prop across the old drift: the way out" of prop resolved when state(prop, raised).
+    Turn "the prop comes up, and beyond it the dark is grey" when state(prop, raised).
+    Done when at(party, mouth).
+  }
   // The rooms are the region's (see StockOpenings: written as the town's way in is), bound here.
   Place fall "The fall" is room. Place gallery "The gallery" is room. Place mouth "The drift's mouth" is room.
 
