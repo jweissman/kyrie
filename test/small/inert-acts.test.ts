@@ -43,5 +43,7 @@ describe('acts that change nothing that matters', () => {
       expect([work, is.filter(x => !was.includes(x))]).toEqual([work, []]);
       expect([work, was.filter(x => !is.includes(x))]).toEqual([work, []]);
     }
-  }, 30000);
+    // Every authored adventure read whole: about 30 s on CI's runners, where 30 s had timed it out twice (the landing
+    // gate, then main's run of 6f7b5a9a5), its answer the same.
+  }, 90000);
 });

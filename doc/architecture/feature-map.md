@@ -306,7 +306,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 5 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 4 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
@@ -314,14 +314,14 @@ page's colours and opportunities.)
   - ✓ are kept, every facet drawn on a thirty-turn walk
   - ✓ marked green as having something for you, leads its talk with the reply that pays, marked
   - ✓ tells one search for one place, with what is known of the place under it
-  - requirement AP-03 P1: Facets from Kyr: no way to mark an act, thing or person uncanny, knowledge or payoff; violet never…
   - requirement OR-313 P2: Latent and immediate opportunities told apart: what the company knows may be had, quieter…
   - direction AT-02 P2: The atlas study's smallest experiment (§7), after AT-01, behind one flag, off by default: an…
   - direction AT-09 P2: The Color Atlas as a semantic design instrument, and a theory of opportunity density (the owner,…
   - direction AT-10 P1: The opportunity architecture's M23 part (AT-07 split, 19 November;…
-- **What an act would teach** · 2 pins · 2 defects · 0 asks
+- **What an act would teach** · 2 pins · 2 defects · 1 asks
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
+  - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
 - **Rows, lenses and the frame** · 3 pins · 40 defects · 10 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
@@ -418,7 +418,7 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
 
 - **TB-09** P1: Workflows are the engine's: the sequence of questions, legal selections, what a choice settles, and the progression between activities have one… · blocks 10 (10 P0/P1) over 6 capabilities
   - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-181 (Fights that cost), PB-29 (Rows, lenses and the frame), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), CL-53 (Playing in the terminal)
-- **AP-03** P1: Facets from Kyr: no way to mark an act, thing or person uncanny, knowledge or payoff; violet never drawn; a sign has no aspect of its own; rare facets · blocks 8 (8 P0/P1) over 5 capabilities
+- **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (8 P0/P1) over 5 capabilities
   - OR-140 (Rows, lenses and the frame), CL-31 (Dungeons and sites), AP-07 (The Atlas: marks and their witnesses), OR-302 (The Atlas: marks and their witnesses), OR-303 (The Atlas: marks and their witnesses), BO-07 (Conversation held to its focus), R11-02 (Conversation held to its focus), BO-11 (Days, hours and waiting)
 - **AX-04** P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST,… · blocks 4 (4 P0/P1) over 2 capabilities
   - OR-144 (Start-up and loading), OR-137 (Start-up and loading), OR-23 (Openings), OR-127 (Start-up and loading)
