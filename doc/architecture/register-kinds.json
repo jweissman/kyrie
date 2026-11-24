@@ -666,6 +666,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, carried from the Weather Drove's friction: wanted, not commissioned"
+  },
+  "OR-406": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, the Weather Drove admitted to the inert-acts census at its count: mending its word-only topics is wanted work, not an observed failure"
   }
  },
  "blockedBy": {

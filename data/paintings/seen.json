@@ -8746,7 +8746,7 @@
    "form": "landscape",
    "shows": "a great arch of banded red rock over a desert of dunes and far ridges, clouds behind",
    "era": "late",
-   "light": "golden afternoon",
+   "light": "sunlit",
    "weather": "clear"
   },
   "scene-desert-basin": {
@@ -8760,7 +8760,7 @@
    "form": "scene",
    "shows": "a camp of patched tents among scrub, a smoking fire, pots and bundles, camels beyond in the dunes",
    "era": "late",
-   "light": "golden afternoon",
+   "light": "sunlit",
    "weather": "clear"
   },
   "scene-desert-caravanserai": {
@@ -8774,15 +8774,14 @@
    "form": "landscape",
    "shows": "a high gate in a city wall of yellow stone, banners either side, a domed tower beyond and a robed figure in the arch",
    "era": "late",
-   "light": "golden afternoon",
+   "light": "sunlit",
    "weather": "clear"
   },
   "scene-desert-city": {
    "form": "landscape",
    "shows": "a walled city with a dome and a minaret seen across a dry plain from under a dark crag",
    "era": "late",
-   "light": "dusk",
-   "weather": "cloudy"
+   "light": "dusk"
   },
   "scene-desert-mesa-night": {
    "form": "landscape",
@@ -8795,8 +8794,7 @@
    "form": "landscape",
    "shows": "a plain of mesas and eroded towers under a hazy sun, a wind-cut rock in the foreground",
    "era": "late",
-   "light": "hazy sun",
-   "weather": "haze"
+   "light": "daylight"
   },
   "scene-desert-oasis": {
    "form": "landscape",
@@ -8809,7 +8807,7 @@
    "form": "landscape",
    "shows": "a ridge of banded red and white rock falling to dunes and far ranges, clouds over",
    "era": "late",
-   "light": "golden afternoon",
+   "light": "sunlit",
    "weather": "clear"
   },
   "scene-desert-salt-flats": {

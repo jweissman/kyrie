@@ -1356,6 +1356,27 @@
    "topic words warmwall__pen_song",
    "topic words warmwall__pen_wheels"
   ],
+  "weatherdrove": [
+   "topic words weatherdrove__bessie_odds",
+   "topic words weatherdrove__bessie_ridge",
+   "topic words weatherdrove__dorcas_late",
+   "topic words weatherdrove__dorcas_thea",
+   "topic words weatherdrove__dorcas_widow",
+   "topic words weatherdrove__fidelis_box",
+   "topic words weatherdrove__fidelis_cloud",
+   "topic words weatherdrove__fidelis_thea",
+   "topic words weatherdrove__gardens_smoke",
+   "topic words weatherdrove__maundy_method",
+   "topic words weatherdrove__muckle_drove",
+   "topic words weatherdrove__muckle_fires",
+   "topic words weatherdrove__muckle_prof",
+   "topic words weatherdrove__muckle_water",
+   "topic words weatherdrove__nettle_grandad",
+   "topic words weatherdrove__nettle_whistle",
+   "topic words weatherdrove__nettle_widow",
+   "topic words weatherdrove__ysolde_fires",
+   "topic words weatherdrove__ysolde_pans"
+  ],
   "what-tessary-owes": [
    "topic self tessary__comptroller_bid",
    "topic unread tessary__durrance_elcock",
