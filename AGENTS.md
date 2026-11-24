@@ -156,6 +156,8 @@ this help the player forget the interface and become interested in what happens 
   - The first town is simple. Its jobs are uncovered by investigation (a check, a search, asking the right person),
     not handed out.
   - Situations come from a varied repertoire, not shallow errands (OR-310, OR-311).
+  - Danger is genuine. Roads carry a little. Fights are dense in specific, easy-to-find combat places, which quests
+    send the company back to periodically and which reward expedition after expedition.
 - **The conversation page** (the speaker's painting large, the dialogue beside it) is the one page rated right; keep
   it. Conversation is moving toward one scrolling page, then engine-owned dialectic (OR-149, OR-165).
 - **Unfolding menus only in a fight.** Elsewhere rows are one flat level. Long lists appear only in a store.
