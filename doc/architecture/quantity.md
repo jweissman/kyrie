@@ -55,8 +55,8 @@ Each measure is one of three kinds:
 | 1 | Fights met per game hour, on each walk | band 0.1–1.5 | Conflict should be met at least once in ten hours of play, and should not be the whole game (no more than one fight every forty minutes). |
 | 1 | Bands within four hours of the start, per seed | band 5–40 | Enough to choose among in the first hours, but not a country of nothing but foes. |
 | 2 | Bands that can kill, asked before (%) | ratchet up | A band counts as able to kill if, in any of twelve seeded trials against the warrior and the first town's hire, the one who plays fell. It counts as asked if it is reckoned grave or deadly, because only those fights ask before they begin (Grave). The aim is 100%. |
-| 3 | A day's coin ÷ (starter kit + dearest ware) | band 0.5–3 | A day's coin is the most a company can bring home within six hours' going of the start: valuables at the best price a buyer pays, plus the outright pay of the jobs in the parts of the country that near. A job's full, half and remaining pay count once. The kit is a light, three days' rations and a rope. The dearest ware is the first town's most expensive ware that is not itself treasure. The band means neither starved nor flooded. |
-| 4 | Treasure lying ÷ what the markets sell | band 0.5–3 | What can be found should be worth spending, and the markets should hold enough to spend it on. |
+| 3 | A day's coin ÷ (starter kit + dearest ware) | band 0.5–3 | A day's coin is one outing and one job in the country's own land (scripts/quantity/purse.ts): the richest one level of a site, site or part of the country within six hours' going of the start, at the best price a buyer pays, and the best pay of one job near. The kit is a light, three days' rations and a rope. The dearest ware is the first town's most expensive ware that is not itself treasure. The band means neither starved nor flooded. (It had counted every valuable within reach as found and sold, with every job's pay, and the circus's isle as a walk: an upper bound no company comes near.) |
+| 4 | Treasure lying ÷ what the markets sell | band 0.5–3 | Over the country's own land, not a land of its own a story's voyage reaches (the circus's isle of Sarn). What can be found should be worth spending, and the markets should hold enough to spend it on. |
 | 5 | Atlas marks per turn | band 1–8 | The coloured rows of each turn outside a fight's own menu, counted by the one indicator their aspects make. The note splits them by tone. |
 | 5 | Turns with no mark (%) | band ≤ 25 | When a quarter of turns have nothing marked, the player is left without a lead. |
 | 5 | Marks without a witness | ratchet down | A coloured row that the glance attests nothing for, by its id, its command, its way or journey, or its opener. This is a trust contract, so the number must be 0. |
@@ -65,51 +65,43 @@ Each measure is one of three kinds:
 | 7 | First-hour aims met in every seed (%) | ratchet down | The same aim template in every world is sameness (OR-310). |
 | 8 | Median minutes travelled per aim | ratchet down | The minutes of the moves made while an aim was followed, counted over the aims that were seen through (OR-310). |
 | 8 | Aims seen through by arriving alone (%) | ratchet down | An aim that ends when the company arrives, with nothing done there: a fetch to nowhere (OR-310). |
-| 9 | Minutes from the first town to the first dungeon | band 15–180 | The first dungeon is the nearest of the country's own sites with a band in it (NoviceCountry's first ruin). It should be near and unmistakable: not the town itself, and not a day away (OR-311). |
+| 8 | First-town aims handed out, not uncovered (%) | ratchet down | Of the aims the gold-follower takes up in its first town (not its life's own errand), those whose giving acts were no investigation: a check, a search, a look closer, or a question that only something learned first opens. A question offered to anyone who walks in is the job handed out by its label (the owner, 24 November; OR-370). |
+| 9 | Minutes from the first town to the first dungeon | band 15–180 | The first dungeon, as the owner defines it (OR-311), is the nearest site with two levels or more, each with a boss (its strongest band, led by one of the second level or above) and a cache (what lies in it, worth 25 coin or more to a dealer): scripts/quantity/dungeon.ts. It should be near and unmistakable: not the town itself, and not a day away. |
+| 9 | Levels of the first dungeon with a boss and a cache | band ≥ 2 | "At least two levels of serious resistance, each with a boss and a treasure cache" (the owner, 24 November). |
 | 9 | Hexes from the first town to the first dungeon | band ≤ 2 | In the town's hex or within two (OR-311). |
 | 9 | Companion, light and provisions in reach (of 3) | band ≥ 3 | A hire the company can pay for, a light and provisions, each to be had in the first town (OR-311). |
 | 10 | Authored content no played world reaches | ratchet down | From the activation census: species with no path to any world, work plans that are not registered, scenarios that no list names, adventures that are no country, and abilities that nothing names. |
 | — | Consequential people with a name (%) | report | Those who joined the company, and those an aim was about (OR-304, OR-281). |
 
-## Today's reading (24 November)
+## Today's reading (24 November, after OR-326)
 
-These held:
+| Measure | First reading | Now | Holds |
+|---|---|---|---|
+| Fights per game hour | 0.05 / 0.26 / 0.67 / 0.05 | 0.05 / 0.26 / 0.67 / 0.42 | no: the golden walk (OR-321) |
+| Bands near the start | 20 / 26 / 31 | 20 / 26 / 31 | yes |
+| Bands that can kill, asked before | 58% | 58% | ratchet yes; the aim is 100% (OR-322) |
+| A day's coin | 21–68× (every valuable within reach) | 3.4–4.9× (one outing, one job) | no (OR-323) |
+| Treasure against the markets | 6–13× (with the circus's isle) | 4.1–6.5× (the country's own land) | no (OR-324) |
+| Marks per turn | 2.6 / 1.6 / 2.3 / 1.4 | 2.6 / 1.6 / 2.3 / 2.1 | yes |
+| Turns with no mark | 9 / 31 / 19 / 44% | 9 / 31 / 19 / 7% | no: iscoed's gold-follower (OR-325) |
+| Marks without a witness | 0 | 0 | yes |
+| Things worth doing near the first town | 9 / 8 / 11 | 9 / 8 / 11 | yes |
+| Aim kinds; aims met in every seed | 6; 0% | 6; 0% | yes |
+| Minutes per aim; ended by arriving alone | 12; 19% | 13; 20% | rebased: thorn's gold-follower now sees its aims through (the den, the vault), where it had shuttled |
+| First-town aims handed out | (new) | 63% (5 of 8) | ratchet written (OR-370) |
+| The first dungeon: minutes, hexes | 102 / 151 / 192; 2 / 4 / 3 (a ruin out of any town) | 22 / 32 / 32; 0 / 0 / 0 (the deep site under the first town) | yes (OR-327, OR-328 closed: the measure) |
+| Its levels with a boss and a cache | (new) | 4 / 4 / 3 | yes |
+| Ready in the town; at the dungeon | 3 of 3; (new) | 3 of 3; 1 of 4 (gear only) | yes; reported |
+| Stranded content | 32 | 32 | yes |
 
-- bands near the start: 20, 26, 31;
-- marks per turn: 2.6, 1.6, 2.3, 1.4;
-- marks without a witness: 0;
-- things worth doing near the first town: 9, 8, 11;
-- companion, light and provisions in reach: 3, 3, 3;
-- identity: 7 of 7 named.
-
-These ratchets were written from today's numbers:
-
-- fairness: 58%;
-- variety: 6 kinds;
-- recurrence: 0%;
-- minutes travelled per aim: 12;
-- aims ended by arriving alone: 19%;
-- stranded content: 32.
-
-These did not hold, and each is filed as a defect:
-
-| Measure | Reading | Filed as |
-|---|---|---|
-| Fights per game hour | 0.05 on the golden walk and on thorn's gold-follower | OR-321 |
-| Fairness | 23 of 40 bands that can kill are asked before | OR-322 (ratchet, aim 100%) |
-| A day's coin | 21–68× | OR-323 |
-| Treasure against the market | 6–13× | OR-324 |
-| Turns with no mark | 31% and 44% on two gold-followers | OR-325 |
-| The first dungeon, minutes | 192 on thorn | OR-327 |
-| The first dungeon, hexes | 4 on a1, 3 on thorn | OR-328 |
-
-Behind OR-325 and part of OR-321 is the thorn gold-follower's shuttle (OR-326). The page's lead goes between the old
-quarry pit and each of the town's places in turn, about thirty times.
+OR-326 (the gold shuttling on thorn) is closed: down in the adit, dark, a torch to hand, the way back up no longer
+leads over lighting it, and the adit the aim's words name is the aim's place. Thorn's fights, blank turns and aims
+moved with it.
 
 ## What it does not read yet
 
-- The day's coin counts everything within reach as found and sold. It is the most there is to have, not what a
-  player is likely to earn.
+- The day's coin is the best one outing and one job within reach: the most a day can bring, not what a player is
+  likely to earn.
 - The golden walk follows no aim the way a player who chose one would. Its errand minutes are therefore small.
 - The aims' structural kinds come from their conditions alone. No situation is tagged with motive, obstacle or rival
   yet, which is what OR-310 asks for. When situations are tagged, the variety measure should read the tags.
