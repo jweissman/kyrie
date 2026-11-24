@@ -23,6 +23,8 @@ export class Noted {
   private static as(kind: NoteKind, xs: string[] = []): Note[] { return xs.map(text => ({ kind, text })); }
   static said(n: Note): string { return Noted.words[n.kind] ? `${Noted.words[n.kind]}: ${n.text}` : n.text; }
   static aim(n: Note): boolean { return n.kind === 'aim' || n.kind === 'amended'; }
+  // Drawn as an aim: one taken up or as it stands now, and one to take up (OR-248), whose own label says which.
+  static drawn(n: Note): boolean { return this.aim(n) || n.kind === 'offered'; }
   // Learned, or borne out: what the company knows now.
   static known(n: Note): boolean { return n.kind === 'learned' || n.kind === 'borne'; }
 }

@@ -109,7 +109,7 @@ describe('under the town the company begins in', () => {
     const k = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__s1_ud_story') }]));
     const screen = ScreenModel.build(c), way = screen.aims?.find(a => a.id === 'region__s1_ud_way');
-    expect(way?.text).toMatch(/^The way down to .+ is under Newmeet: below a sealed vault, found from the undercroft/);
+    expect(way?.text).toMatch(/^The way down to .+ under Newmeet is below a sealed vault, found from the undercroft/);
     expect(way?.places).toEqual(expect.arrayContaining(['region__s1_u_crypt', 'region__s1_u_yard']));
     expect(screen.objectives.join(' ')).toMatch(/up out of .+, from the king's bier|up out of /);
   }, 120000);

@@ -32,7 +32,8 @@ describe('the frame after an act, in kite', () => {
     expect(v.after).toMatchObject({ attempt: 'Take the road to the bridge-foot at Brightbridge',
       result: 'You arrive at the bridge-foot at Brightbridge.' });
     expect(v.after!.changed[0]).toBe('Now at the bridge-foot at Brightbridge');
-    expect(v.after!.changed).toContainEqual(expect.stringMatching(/^Aim: Hobs took a bell/));
+    // Come upon unasked, the hobs' bell is an aim to take up (OR-248), told as one.
+    expect(v.after!.changed).toContainEqual(expect.stringMatching(/^To take up: Hobs took a bell/));
     // The aim's gold way first (the owner, 18 November: a golden option first), before the brother.
     expect(v.after!.next).toEqual({ command: 'travel:region__s5_s2_way',
       label: 'To the bridge over the Redwater by Brightbridge', choice: 'exit:region__s5_s2_way', why: 'named' });

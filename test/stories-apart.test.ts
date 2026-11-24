@@ -48,7 +48,8 @@ describe('stories apart from the other aims', () => {
     const s = await DrawnWorld.start('iscoed', { origin: 'weir',
       party: [{ name: 'Aud', raceId: 'elf', classId: 'mage' }] }, NodeBundleSource.shared);
     await act(s, 'wait');
-    expect(Undertakings.held(s.campaign).map(o => o.id)).toEqual(['gate__gate_aim']);
+    // Of the stories of others, the sea-gate's alone; beside it the weir's own errand (OR-247).
+    expect(Undertakings.held(s.campaign).map(o => o.id)).toEqual(['gate__gate_aim', 'origin__weir_lift']);
   }, 180000);
   // Nor the drove's to a company that came for something else (S3-R6, HP-01's remainder; S3-0's mage, step 52: come
   // home to Porthalen from the sea-gate, the customs-house door seen across the green had given her the drove's two
