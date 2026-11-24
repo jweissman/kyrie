@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Leaving Supper",
+  "pitch": {
+    "heading": "The Leaving Supper",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "leaving",
+      "bundle": "../adventures/leaving/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

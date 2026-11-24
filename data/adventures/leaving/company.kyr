@@ -1,0 +1,4 @@
+Module leaving "The Leaving Supper" {
+  Company party "You" of 1 at road.
+  Initially Set quantity(party, gold) to 6. Initially Set quantity(party, rations) to 1.
+}

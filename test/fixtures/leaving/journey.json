@@ -1,0 +1,63 @@
+{
+  "arrive": [
+    "^To the market square"
+  ],
+  "gather": [
+    "To the Company's camp on the glebe",
+    "Ask the sergeant what the Captain wants",
+    "Ask the Captain about Skellet",
+    "Look closer at the net on the quartermaster's cart",
+    "Mention the net on his cart",
+    "To the market square",
+    "To Nettlefold's mill",
+    "Buy a sack of barley",
+    "To the eel-weir",
+    "Hand Josiah the net off the quartermaster's cart",
+    "To Nettlefold's mill",
+    "To the market square",
+    "To Imke Salter's garden",
+    "Sit down on the step and say nothing",
+    "Ask Imke about the sorrel",
+    "Ask Imke where she is from",
+    "Tell Imke about the Captain and her pot",
+    "Ask Imke about a ladle split down the handle"
+  ],
+  "cook": [
+    "To the market square",
+    "Into the Bell and Barrow",
+    "Put the barley in the pot",
+    "Put the smoked eel in the pot",
+    "Put the sorrel in the pot",
+    "Put the grey fen-salt in the pot",
+    "Stir a handful of hearth ash into the pot",
+    "Set the pot at the back of the hearth to cook"
+  ],
+  "cookNoAsh": [
+    "To the market square",
+    "Into the Bell and Barrow",
+    "Put the barley in the pot",
+    "Put the smoked eel in the pot",
+    "Put the sorrel in the pot",
+    "Put the grey fen-salt in the pot",
+    "Set the pot at the back of the hearth to cook"
+  ],
+  "kit": [
+    "Put the white flour in the pot",
+    "Put the fresh trout in the pot",
+    "Put the nettles in the pot",
+    "Put the white salt in the pot",
+    "Set the pot at the back of the hearth to cook"
+  ],
+  "imke": [
+    "To the market square",
+    "To Imke Salter's garden",
+    "Bring Imke a bowl from the pot",
+    "Ask Imke to come to the Captain's table"
+  ],
+  "serve": [
+    "To the market square",
+    "Into the Bell and Barrow",
+    "=17:00",
+    "Have the pot carried out to the long table"
+  ]
+}
