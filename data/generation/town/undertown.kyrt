@@ -368,6 +368,9 @@
     Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species rat. Variant midden. Numbers 1. Level 2. Temperament territorial. Lair {t}_u_nest.
   }
   Initially Set encounterXp({t}_u_buck) to 120.
+  // Each way down, gone all the way down, grows the one who went (the lead's call of 24 November, OR-198: a careful
+  // first life comes to the vault's door at its second level, not at its first, by the three ways and nothing else).
+  Milestone {t}_u_rats_ended "cleared the rats from under the corn-store, nest and all" worth 150 when {t}_u_nest_cleared({t}_u_rats_job).
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
   Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) once {
@@ -499,6 +502,7 @@
     Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
   }
   Initially Set encounterXp({t}_u_raiser) to 90.
+  Milestone {t}_u_dead_laid "laid the dead under the churchyard down again" worth 150 when {t}_u_done({t}_u_raiser) or not able({t}_u_raiser).
   // Spoken to, he has something to say of himself, not only dice to be rolled against him (cold play 6, CL-54's 15).
   Topic {t}_u_raiser_who with {t}_u_raiser "Ask the man with the black candle who he is" when able({t}_u_raiser) and at({t}_u_raiser, {t}_u_ossuary) once {
     Says "'A reader,' he says. 'I took a book out of a grave, and it says the dead will answer if they are asked properly.' The flame on the skull does not move. 'I have been asking. They have not said anything I wanted yet.'".
@@ -632,6 +636,7 @@
     Role "a spider the size of a pony, swollen and slow, crouched over the eggs at the back of the web". Species cave_spider. Variant brood_mother. Numbers 1. Level 2. Temperament defensive. Lair {t}_u_brood.
   }
   Initially Set encounterXp({t}_u_mother) to 120.
+  Milestone {t}_u_brood_ended "cleared the spiders' brood out of the quarry" worth 150 when not able({t}_u_mother).
   Person {t}_u_hobb "Dannel Hobb" at {innkeeperat} { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
   Entity {t}_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at {town}.".
   Entity {t}_u_spiders_eggs: fact "The spiders' mother has hung her eggs at the back of the old workings. Unless they are burned, the spiders will come again.".
@@ -869,6 +874,20 @@
   Item {t}_u_vault_rings "a cord of old rings" is grave_rings at {t}_u_vault.
   Item {t}_u_vault_stone "a moonstone the size of a thumb" is moonstone at {t}_u_vault.
   Milestone {t}_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, {t}_u_vault).
+  // A way past the keeper that knowledge and a price open, not strength (the lead's call, OR-198): the raiser's book of
+  // the dead, carried to the chair, has a page for a keeper set at a door; said with a gift laid at its feet, the
+  // rite sits the keeper down, and it lets the giver by to the stair behind its chair (RegionUndertown: the stair is
+  // shut past it to anyone it has not let by). Fought, it is as deadly as it was.
+  Entity {t}_u_keeper_rite: fact "In the book of the dead is a rite for a keeper set at a door. Said with a gift laid at its feet, the keeper sits down and lets the giver by.".
+  Observe {t}_u_keeper_page at {t}_u_vault as sign when holding(party, raiser_book) and able({t}_u_keeper) and not knows(party, {t}_u_keeper_rite) "The book of the dead falls open at a drawing of this chair. The raiser never marked the page. It is a rite for a keeper set at a door." teaches {t}_u_keeper_rite.
+  Action {t}_u_keeper_seated(actor: group, site: place) "Lay ten coin at the keeper's feet and say the rite of the door" {
+    Description "The rite from the book of the dead. The keeper sits down and lets you by to the stair. The coin stays where it is laid.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_vault) and able({t}_u_keeper)
+      and knows(actor, {t}_u_keeper_rite) and not tolerates({t}_u_keeper, actor) and quantity(actor, gold) >= 10 and not benighted(actor).
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 10. Assert tolerates({t}_u_keeper, actor). Retract warned({t}_u_keeper, actor). Retract assails({t}_u_keeper, actor). }
+    Result "You lay the coins at its feet and say the words off the page. Its head follows the coins down. Then it sits, the way an old man sits.".
+  }
   Objective {t}_u_vault_sought when knows(party, {t}_u_vault_found) and able({t}_u_keeper) toward {t}_u_vault "Something keeps {{t}_u_vault} under the undercroft.".
 --- hand sellsword 1
   // Someone on the green who would come along (the owner, 19 November, AT-08: in the very first space, in general,

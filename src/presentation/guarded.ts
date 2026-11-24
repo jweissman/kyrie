@@ -21,10 +21,24 @@ export class Guarded {
     // By its name alone ("the keeper of the vault"), not the role said after it.
     return keeper && (campaign.module.entities.find(e => e.id === keeper)?.name ?? keeper).split(', ')[0];
   }
-  // Whether an act of the author's names it, in what it asks or does (as Engaged knows an act that answers a threat).
+  // Whether an act of the author's names it, in what it asks or does (as Engaged knows an act that answers a threat),
+  // and the company knows what that act asks it to know: the keeper of the vault's rite of the door, read in the book
+  // of the dead, is no answer to one who has not read it (it had made the keeper answered for every company, and the
+  // way back in to it the aim's again: the gold walk to and fro between the vault and the undercroft).
   private static answered(campaign: Campaign, g: string): boolean {
     return [...campaign.schemaList, ...campaign.module.actions].some(o => JSON.stringify([o.requires, o.success,
-      o.failure]).includes(`"${g}"`));
+      o.failure]).includes(`"${g}"`) && Guarded.knowing(campaign, o.requires));
+  }
+  private static knowing(campaign: Campaign, requires: unknown): boolean {
+    const party = campaign.playerActor ?? 'party';
+    return Guarded.asked(requires).every(f => campaign.world.test(ModuleWriter.call('knows', party, f)));
+  }
+  // The facts a condition asks to be known, by name (not what it asks not to be known).
+  private static asked(p: unknown): string[] {
+    if (!p || typeof p !== 'object' || (p as { kind?: string }).kind === 'not') { return []; }
+    const n = p as { kind?: string; name?: string; args?: string[] };
+    const own = n.kind === 'call' && n.name === 'knows' && n.args?.[1] && !n.args[1].startsWith('?') ? [n.args[1]] : [];
+    return [...own, ...Object.values(p).flatMap(v => Guarded.asked(v))];
   }
   // Said as a need, of the way: "The stair under the lettered flag: the keeper of the vault is beyond it, and beyond
   // the company as it is; more hands, or more seasoning, first."

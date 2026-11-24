@@ -137,7 +137,10 @@ export class RegionUndertown {
       `  Objective ${w}_way when knows(party, ${w}_story) and not ${w}_raised() and not knows(party, ${t}_u_vault_found)`
         + ` toward ${t}_u_undercroft by ${t}_u_yard ${q(`The way down to {${w}_site} is under ${s.name}: below a sealed vault, found from {${t}_u_undercroft},`
         + ` which {${t}_u_crypt} under {${t}_u_yard} goes down to.`)}.`,
-      `  Passage ${t}_u_deeper "a narrow stair behind the keeper's chair" is stair between ${t}_u_vault and ${w}.`,
+      // Past its keeper only: fallen, or sat down by the rite of the door (the undertown's vault), or from below.
+      `  Passage ${t}_u_deeper "a narrow stair behind the keeper's chair" is stair between ${t}_u_vault and ${w}`
+        + ` opening when not able(${t}_u_keeper) or tolerates(${t}_u_keeper, party) or at(party, ${w})`
+        + ` ${q("The keeper of the vault stands between you and its chair, and the stair is behind the chair.")}.`,
       // The keeper fallen, what he kept is the way on down: said, with where it goes.
       `  Objective ${w}_below when not able(${t}_u_keeper) and not been(party, ${w})`
         + ` toward ${w} by ${t}_u_vault ${q(`Behind the keeper's chair in {${t}_u_vault} a narrow stair goes on down, into {${w}_site}.`)}.`,

@@ -130,6 +130,7 @@ Module lab "The undercroft at Lowmouth" {
     Role "a rat the size of a dog, grey at the muzzle, with a torn ear and the run of the drain". Species rat. Variant midden. Numbers 1. Level 2. Temperament territorial. Lair low_u_nest.
   }
   Initially Set encounterXp(low_u_buck) to 120.
+  Milestone low_u_rats_ended "cleared the rats from under the corn-store, nest and all" worth 150 when low_u_nest_cleared(low_u_rats_job).
   Entity low_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth.".
   Entity low_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
   Topic low_u_rats_job_ask with low_merchant "Ask {low_merchant} about the rats in the corn-store" when not low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) once {
@@ -234,6 +235,7 @@ Module lab "The undercroft at Lowmouth" {
     Warns "A man in a muddy coat stands up behind a burning black candle, among the bones. 'Go back up,' he says. 'This is not yours.'".
   }
   Initially Set encounterXp(low_u_raiser) to 90.
+  Milestone low_u_dead_laid "laid the dead under the churchyard down again" worth 150 when low_u_done(low_u_raiser) or not able(low_u_raiser).
   Topic low_u_raiser_who with low_u_raiser "Ask the man with the black candle who he is" when able(low_u_raiser) and at(low_u_raiser, low_u_ossuary) once {
     Says "'A reader,' he says. 'I took a book out of a grave, and it says the dead will answer if they are asked properly.' The flame on the skull does not move. 'I have been asking. They have not said anything I wanted yet.'".
   }
@@ -333,6 +335,7 @@ Module lab "The undercroft at Lowmouth" {
     Role "a spider the size of a pony, swollen and slow, crouched over the eggs at the back of the web". Species cave_spider. Variant brood_mother. Numbers 1. Level 2. Temperament defensive. Lair low_u_brood.
   }
   Initially Set encounterXp(low_u_mother) to 120.
+  Milestone low_u_brood_ended "cleared the spiders' brood out of the quarry" worth 150 when not able(low_u_mother).
   Person low_u_hobb "Dannel Hobb" at low_taproom { Role "a boy of ten with a white streak in his hair, kept indoors". Ancestry human. Peaceable. Pronouns he. }
   Entity low_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at Lowmouth.".
   Entity low_u_spiders_eggs: fact "The spiders' mother has hung her eggs at the back of the old workings. Unless they are burned, the spiders will come again.".
@@ -511,6 +514,16 @@ Module lab "The undercroft at Lowmouth" {
   Item low_u_vault_rings "a cord of old rings" is grave_rings at low_u_vault.
   Item low_u_vault_stone "a moonstone the size of a thumb" is moonstone at low_u_vault.
   Milestone low_u_vault_reached "found the sealed vault under the undercroft" worth 25 when been(party, low_u_vault).
+  Entity low_u_keeper_rite: fact "In the book of the dead is a rite for a keeper set at a door. Said with a gift laid at its feet, the keeper sits down and lets the giver by.".
+  Observe low_u_keeper_page at low_u_vault as sign when holding(party, raiser_book) and able(low_u_keeper) and not knows(party, low_u_keeper_rite) "The book of the dead falls open at a drawing of this chair. The raiser never marked the page. It is a rite for a keeper set at a door." teaches low_u_keeper_rite.
+  Action low_u_keeper_seated(actor: group, site: place) "Lay ten coin at the keeper's feet and say the rite of the door" {
+    Description "The rite from the book of the dead. The keeper sits down and lets you by to the stair. The coin stays where it is laid.".
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_vault) and able(low_u_keeper)
+      and knows(actor, low_u_keeper_rite) and not tolerates(low_u_keeper, actor) and quantity(actor, gold) >= 10 and not benighted(actor).
+    Time 3.
+    On success { Decrease quantity(actor, gold) by 10. Assert tolerates(low_u_keeper, actor). Retract warned(low_u_keeper, actor). Retract assails(low_u_keeper, actor). }
+    Result "You lay the coins at its feet and say the words off the page. Its head follows the coins down. Then it sits, the way an old man sits.".
+  }
   Objective low_u_vault_sought when knows(party, low_u_vault_found) and able(low_u_keeper) toward low_u_vault "Something keeps {low_u_vault} under the undercroft.".
   Person low_u_hand "the sellsword on the green" at low_green {
     Role "a sellsword between masters, sitting on the well-kerb with a notched blade across her knees". Ancestry human. Calling warrior. Level 1. Peaceable. Manner grim. Pronouns she.
