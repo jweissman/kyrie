@@ -45,7 +45,7 @@ Module walk "The Walk of the Milestones" {
     State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
     State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
     State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
-    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+    State end_fades "The notice has curled at the corners and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
   }
   Initially Assert state(notice_a, none).
   Thing shrine_door_a "the shrine door" at green_a {
@@ -99,7 +99,7 @@ Module walk "The Walk of the Milestones" {
     State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
     State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
     State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
-    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+    State end_fades "The notice has curled at the corners and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
   }
   Initially Assert state(notice_b, none).
   Thing shrine_door_b "the shrine door" at green_b {
@@ -153,7 +153,7 @@ Module walk "The Walk of the Milestones" {
     State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
     State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
     State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
-    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+    State end_fades "The notice has curled at the corners and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
   }
   Initially Assert state(notice_c, none).
   Thing shrine_door_c "the shrine door" at green_c {
@@ -207,7 +207,7 @@ Module walk "The Walk of the Milestones" {
     State end_schism "Two papers, side by side: the Bench's old notice with its corner curled, and a sheet in a different hand: THE STATION IS HELD BY THE BRETHREN. THE ROAD IS FREE TO THE FAITHFUL. THE BENCH IS NOT FAITHFUL. A clerk has been round and taken a copy.".
     State end_usurped "A paper in an unfamiliar hand, sealed with an unfamiliar seal: BY THE BAILIFF OF THE HUNDRED, ON THE ADVICE OF HIS PATRON. THE WALK IS KEPT. A STONE-PENNY IS ASKED OF EVERY WALKER. Somebody has scratched under it: AND WHO IS TO COUNT THE PENNIES?".
     State end_riot "The notice has been burnt off the post and the post scorched. A new one says, in the Bench's hand and in capitals: CURFEW AT DUSK. ALL STAVES TO THE BENCH. THE ROAD IS CLOSED TO ASSEMBLY UNTIL FURTHER NOTICE.".
-    State end_fades "The notice has curled in the rain and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
+    State end_fades "The notice has curled at the corners and nobody has taken it down. Under it, in no hand at all: the number, small, in pencil.".
   }
   Initially Assert state(notice_d, none).
   Thing shrine_door_d "the shrine door" at green_d {

@@ -102,12 +102,16 @@ export class ScenarioWord {
       at.lines.push(`  Entity ${local}: fact "Its name".`);
       at.imports[local] = `${at.placement.rid}.${site.id}_named`; at.declared.add(local);
     }
-    // Its name first, so that the verb agrees whatever it is seen as: "The fallen walls they speak of is called
-    // Fengate" had been said (the prose census, 17 November).
-    const said = `${site.name} is the name of the ${seen.replace(/^(an?|the) /i, '')} they speak of.`;
+    // Said by whoever tells it, in words that are theirs, so that the notes' "Dreg told you" is so (OR-254: "Black Howe
+    // is the name of the grassed mound … they speak of" was heard near the innkeeper, and filed as told by him, by a
+    // company that had not spoken to him). Its name last, so that no verb has to agree with what it is seen as ("The
+    // fallen walls they speak of is called Fengate": the prose census, 17 November).
+    // Once, by the first of them there: two in one room had both said it (Dreg, then Gesk).
     for (const [i, carrier] of at.tellers.entries()) {
+      const said = `{${carrier}} has a name for the ${seen.replace(/^(an?|the) /i, '')} you heard of: ${site.name}.`;
+      const first = at.tellers.slice(0, i).map(t => ` and not together(${t}, party)`).join('');
       at.lines.push(`  Observe ${fact}_names${i} near ${carrier} as hearsay when knows(party, ${fact})`
-        + ` and not knows(party, ${local}) ${q(said)} teaches ${local}.`);
+        + ` and not knows(party, ${local})${first} ${q(said)} teaches ${local}.`);
     }
   }
   // What people say of it says where it is, and the way there as the place's own way is told (RegionSites): the

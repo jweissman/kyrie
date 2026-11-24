@@ -463,7 +463,7 @@ export class Narrator {
     // What was learned is noted, unless it has just been said.
     const said = new Set(unique.map(l => l.text));
     // Nor what a new aim says again ("You know now: Clear the rats out of the cellar" over the aim to).
-    const aimed = [...feedback.aims ?? [], ...feedback.amended ?? []];
+    const aimed = [...feedback.aims ?? [], ...feedback.offered ?? [], ...feedback.amended ?? []];
     // Each note by its kind, for the page that sets each apart (AR-05: it had known them by their words).
     const noted = Noted.of({ ...feedback, resources: feedback.resources.map(r => this.resource(r)),
       learned: (spoken.length ? [] : feedback.discoveries.filter(d => !this.heard(d, said, aimed)))

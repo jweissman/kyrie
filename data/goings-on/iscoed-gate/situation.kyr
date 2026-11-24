@@ -46,11 +46,16 @@ Module gate "The last sea-gate" {
   Observe bank_scene at bank when not mended(party) and not flooded(party) "The sea-bank runs straight as a rule between the grey water and the green fen, a man's height above both. Where it meets the river stands a squat stone gatehouse, and from under it, even now at the ebb, the sea runs into the fen with a sound like a mill-race.".
   Observe bank_mended at bank when mended(party) "The sea-bank runs straight between the grey water and the green fen. Under the gatehouse the water lies still.".
   Observe bank_flooded at bank when flooded(party) "The fen behind the sea-bank is a sheet of grey water to the ridge, with the roofs of {hamlet} standing out of it and gulls on the ridge-trees.".
-  Observe gatehouse_scene at gatehouse when not mended(party) and (not at(conger, well) or not able(conger)) "Inside, a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through a slot in the floor. A ratchet ring of bronze is set round its axle, and beside it an empty socket. Over the door a wave inside a ring is cut in the lintel.".
+  Observe gatehouse_scene at gatehouse when not mended(party) and (not at(conger, well) or not able(conger)) "Inside, a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through a slot in the floor. A ratchet ring of bronze is set round its axle. Over the door a wave inside a ring is cut in the lintel.".
   // At night, the conger in the well below is heard from here, before anyone goes down (CP-18); killed, it is heard
   // no more (GR-04).
-  Observe gatehouse_night at gatehouse when not mended(party) and at(conger, well) and able(conger) "Something big is feeding in the gate-well: down the slot in the floor its water slaps and heaves, though the tide has not turned. Over it a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through the slot. A ratchet ring of bronze is set round its axle, and beside it an empty socket. Over the door a wave inside a ring is cut in the lintel.".
+  Observe gatehouse_night at gatehouse when not mended(party) and at(conger, well) and able(conger) "Something big is feeding in the gate-well: down the slot in the floor its water slaps and heaves, though the tide has not turned. Over it a windlass of black oak as thick as a man fills the room, its drum wound with chain that goes down through the slot. A ratchet ring of bronze is set round its axle. Over the door a wave inside a ring is cut in the lintel.".
   // The socket is empty only until the pawl is set in it (cold play 4, CL-47's 30: "an empty socket" after winding).
+  // And said as it is to a company holding the pawl, that has tried it (OR-252: "an empty socket" to one with the pawl
+  // in hand, twice tried).
+  Observe socket_empty at gatehouse when not mended(party) and not holding(party, pawl_kind) "Beside the ratchet ring is an empty socket, cut for something the shape of a tooth.".
+  Observe socket_held at gatehouse when not mended(party) and holding(party, pawl_kind) and not gateTried(party) "Beside the ratchet ring is the socket the pawl you carry was cut for, empty.".
+  Observe socket_tried at gatehouse when not mended(party) and holding(party, pawl_kind) and gateTried(party) "The pawl's socket beside the ratchet ring is still empty, its rim scraped bright where the pawl slipped out of it.".
   Observe gatehouse_wound at gatehouse when mended(party) "Inside, a windlass of black oak as thick as a man fills the room, its drum wound tight with chain that goes down through a slot in the floor. A ratchet ring of bronze is set round its axle, and the pawl stands in its socket against a tooth of it. Over the door a wave inside a ring is cut in the lintel.".
   Observe well_scene at well when true "The iron rungs end in silt. Water stands knee-deep, cold and moving, and the gate's great chain goes down past you into the dark to the sluice below.".
   // What comes up the chain at night (CP-18: the warrior's route met no danger in 34 turns, the gate-well only dark): a
@@ -283,14 +288,20 @@ Module gate "The last sea-gate" {
   // the sluice-cut since before the Wardens shut it, and who takes the reeve's gate for the Rì's toll by another name.
   Relation prowled(group). Relation cursed(group). Relation boatCome(group). Relation letThrough(group).
   Relation turnedBack(group). Relation ifanHeard(group). Relation ifanMet(group). Relation ifanAsked(group). Relation ifanSaid(group).
-  Person ifan "Ifan Rhys" at hamletgreen { Role "an eel-man of {hamlet}, mending a trap at his door". Pronouns he.
+  // Who he is where he is (OR-251: "mending a trap at his door" while he poled a boat under the gatehouse floor).
+  Person ifan "Ifan Rhys" at hamletgreen { Role "an eel-man of {hamlet}, mending a trap at his door" when not at(ifan, gatehouse).
+    Role "an eel-man of {hamlet}, at the pole of a flat-bottomed boat under the gatehouse floor" when at(ifan, gatehouse). Pronouns he.
     Peaceable. Manner acerbic. }
   Topic ifan_gate with ifan "Ask Ifan about the sea-gate" when not mended(party) and not flooded(party) once {
     Says "'Open a month,' says Ifan, and does not look up from the trap. 'The eels come up with the sea. Best run since my father's time.' He pulls a withy tight with his teeth. 'Not everyone wants it shut, whatever the reeve's paper says.'".
     On discuss { Assert ifanAsked(actor). }
   }
-  Topic ifan_claim with ifan "Ask Ifan who wanted the gate open" when knows(actor, cut) once {
+  Topic ifan_claim with ifan "Ask Ifan who wanted the gate open" when knows(actor, cut) and not at(ifan, gatehouse) and not ifanHeard(actor) once {
     Says "Ifan puts the trap down. 'The Wardens shut that cut on my grandfather, and the reeve keeps it shut for the Rì, and every sack that comes up it pays the Rì or the clerk at {town} or nobody.' He looks at the gatehouse. 'Shut it, and my children eat what the toll leaves. Leave it a tide, and they eat. You choose, since you're choosing.'".
+    On discuss { Assert ifanHeard(actor). }
+  }
+  Topic ifan_claim_boat with ifan "Ask Ifan who wanted the gate open" when knows(actor, cut) and at(ifan, gatehouse) and not ifanHeard(actor) once {
+    Says "Ifan leans on the pole and looks up at you through the slot. 'The Wardens shut that cut on my grandfather, and the reeve keeps it shut for the Rì, and every sack that comes up it pays the Rì or the clerk at {town} or nobody.' He looks at the gatehouse. 'Shut it, and my children eat what the toll leaves. Leave it a tide, and they eat. You choose, since you're choosing.'".
     On discuss { Assert ifanHeard(actor). }
   }
   // Ifan's clock, three beats before the tide (the critique's clock test: warning, deterioration, crisis).

@@ -66,5 +66,9 @@ Module origin "Your aunt's weir" {
   Topic nest_named with nest "Tell Nest about Ifan Rhys's boat" when named(actor) once {
     Says "Nest does not look up from the net. 'The reeve's men have chalked his boat,' she says. 'The whole lane knows who went to {town}.' A long pause. 'I'd have done the same, maybe. I'd not have done it from outside.'".
   }
+  // The life's own errand (OR-247: the lease was in the pack and never an aim, and the sea-gate's story took the life
+  // over): the weir is the company's, and kept by lifting its trap and selling what is in it, Nest's way.
+  Objective weir_lift when not lifted(party) and not sold(party) toward weir by hamletgreen "Lift the trap at Tegwen's eel-weir. It is below {hamlet}, and Nest says it wants lifting every morning.".
+  Objective weir_sell when lifted(party) and not sold(party) toward nest "Bring the creel of eels from Tegwen's weir to Nest, and sell it her: she takes them to {town}.".
   Goal false.
 }
