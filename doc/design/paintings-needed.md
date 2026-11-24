@@ -25,6 +25,32 @@ each is a painting wanted, not a picture against the place.
 The warrior's golden walk (`bun scripts/scene-census.ts walk`) is held at no fault at every turn by
 test/features/world/the-sky-in-the-painting.pin. Porthalen rains through it and it ends at night.
 
+## By terrain and subject (the owner's folders)
+
+The owner's own scene paintings counted by terrain and by subject (the direction of 24 November, §6: an overview, a
+shelter to rest in, a hamlet or town, a city, the wild, a wonder), resting scenes first: a **0** is a painting wanted.
+A painting kept in a terrain's folder (`assets/bg/terrain/<t>/`) is of that terrain; the rest are sorted by their
+words until they are filed (`temperate` is what no word sorts). Written by `bin/kyrie suggest paintings --write`;
+`bun scripts/bg-import.ts` first brings in what was added or moved.
+
+<!-- by-terrain -->
+| Terrain | Paintings | shelter | overview | town | city | wild | wonder | Wanted first |
+|---|---|---|---|---|---|---|---|---|
+| cave | 0 | **0** | **0** | **0** | **0** | **0** | **0** | shelter, overview, town, city, wild, wonder |
+| coast | 54 | 25 | 1 | 3 | 7 | 16 | 2 | — |
+| desert | 20 | 2 | 3 | **0** | 6 | 8 | 1 | town |
+| frost | 16 | 3 | 1 | 2 | 1 | 8 | 1 | — |
+| marsh | 4 | **0** | **0** | 1 | **0** | 3 | **0** | shelter, overview, city, wonder |
+| mountain | 29 | 11 | 1 | **0** | **0** | 12 | 5 | town, city |
+| plains | 12 | 4 | **0** | **0** | **0** | 8 | **0** | overview, town, city, wonder |
+| sky | 0 | **0** | **0** | **0** | **0** | **0** | **0** | shelter, overview, town, city, wild, wonder |
+| temperate | 163 | 91 | 4 | 16 | 14 | 33 | 5 | — |
+| tropics | 11 | 1 | **0** | 2 | **0** | 5 | 3 | overview, city |
+| valley | 47 | 12 | 3 | 8 | 6 | 13 | 5 | — |
+| waste | 10 | 3 | **0** | **0** | 1 | **0** | 6 | overview, town, wild |
+| woodland | 29 | 7 | 3 | 1 | 1 | 16 | 1 | — |
+<!-- /by-terrain -->
+
 ## Scenes still needed
 
 In order of places filled (Iscoed and a1 together). Paint to the name given. Its light and weather are what the fit

@@ -8,8 +8,10 @@ import { SuggestAdventures } from './suggest-adventures';
 //     New names in the manner of a people's (the setting's tables) or an adventure's own (--like), none of them given
 //     by any adventure or the setting already, nor a beginning or a part of one; the shortest and best-sounding of
 //     many drawn, best first (--scores says each one's); the same seed draws the same names.
-//   kyrie suggest paintings [--terrain desert]
-//     The paintings of places that nothing uses yet, by terrain and subject, and what each terrain has no painting of.
+//   kyrie suggest paintings [--terrain desert] | --needed | --write
+//     The paintings of places that nothing uses yet, by terrain and subject, and what each terrain has no painting of;
+//     --needed, the owner's scene paintings counted by terrain and subject, resting scenes first; --write puts that
+//     table in doc/design/paintings-needed.md.
 //   kyrie suggest adventure
 //     The adventures by the facet each holds most, read from their Kyr; the least written of first, and what the
 //     world's last quantity reading says beside them.
@@ -17,14 +19,14 @@ export class SuggestTool {
   static readonly usage = [
     'kyrie suggest names [--kind given|family|place] [--people human] [--sex she|he|they] [--like <adventure>]',
     '                    [-n 12] [--seed <words>] [--order 2] [--scores]',
-    'kyrie suggest paintings [--terrain <terrain>]',
+    'kyrie suggest paintings [--terrain <terrain>] | --needed | --write',
     'kyrie suggest adventure',
   ].join('\n');
   static main(args: string[]): number {
     const [what, ...rest] = args;
     if (what === 'names') { return this.names(rest); }
     if (what === 'adventure') { console.log(SuggestAdventures.report().join('\n')); return 0; }
-    if (what === 'paintings') { console.log(SuggestPaintings.report(this.option(rest, '--terrain')).join('\n')); return 0; }
+    if (what === 'paintings') { return this.paintings(rest); }
     console.log(this.usage);
     return what ? 1 : 0;
   }
@@ -44,6 +46,12 @@ export class SuggestTool {
       + 'adventures name places' : `as ${people} ${sex ?? ''}`.trim()}), none given by any adventure or the setting, nor part of one;`
       + ` seed ${seed}`);
     return names.length ? 0 : 1;
+  }
+  private static paintings(args: string[]): number {
+    if (args.includes('--write')) { SuggestPaintings.write(); console.log(`written: ${SuggestPaintings.list}`); return 0; }
+    const lines = args.includes('--needed') ? SuggestPaintings.needed() : SuggestPaintings.report(this.option(args, '--terrain'));
+    console.log(lines.join('\n'));
+    return 0;
   }
   private static option(args: string[], name: string): string | undefined {
     const i = args.indexOf(name);

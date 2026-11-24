@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 175 pins (143 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 557 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 175 pins (143 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 559 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -384,8 +384,10 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 5 defects · 0 asks
+- **Paintings and portraits** · 1 pins · 5 defects · 2 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
+  - direction OR-446 P3: One place's paintings as variants, changed by a slow dissolve (the owner, 24 November: "if we have…
+  - direction OR-447 P3: The game begun with a season turning (the owner, 24 November: "we could even start the game with…
 - **Paintings by terrain, subject, season, weather and light** · 0 pins · 0 defects · 2 asks
   - requirement OR-442 P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's…
   - direction OR-454 P3: The visual atlas (gamma G5): assets indexed terrain → subject → place or archetype → season →…

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { readFileSync } from 'node:fs';
 import { NameChain } from '../../src/cli/name-chain';
 import { SuggestNames } from '../../src/cli/suggest-names';
 import { SuggestPaintings } from '../../src/cli/suggest-paintings';
@@ -48,5 +49,14 @@ describe('kyrie suggest', () => {
     expect(shapes.length).toBeGreaterThan(30);
     expect(shapes.every(s => s.counts.wonder === 0)).toBe(true);
     expect(SuggestAdventures.report().join('\n')).toContain('a wonder-tranche: 0 of');
+  });
+  it('counts the owner\'s paintings by terrain and subject, the list of those wanted kept as it reads', () => {
+    const table = SuggestPaintings.needed();
+    expect(table[0]).toContain('| shelter | overview | town | city | wild | wonder |');
+    expect(table.some(r => r.startsWith('| sky | 0 |'))).toBe(true);
+    const text = readFileSync(SuggestPaintings.list, 'utf8');
+    const kept = text.slice(text.indexOf('<!-- by-terrain -->') + 19, text.indexOf('<!-- /by-terrain -->')).trim();
+    // Stale where the paintings changed and the list was not written again: `bin/kyrie suggest paintings --write`.
+    expect(kept).toBe(table.join('\n'));
   });
 });

@@ -816,6 +816,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov: the owner's civilizational direction for M22-gamma (a wanted future, not a defect; deferred to gamma's commission)"
+  },
+  "OR-446": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, the owner's idea for the paintings: a wanted future, not a defect"
+  },
+  "OR-447": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, the owner's idea for the paintings: a wanted future, not a defect"
   }
  },
  "blockedBy": {
