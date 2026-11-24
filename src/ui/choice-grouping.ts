@@ -16,9 +16,11 @@ import type { Names } from './known-names';
 import { Exposure } from './exposure';
 import { Carriers } from './carriers';
 import { ChoiceIds } from './choice-ids';
+import { ChoiceWords } from './choice-words';
+import { ChoiceTries } from './choice-tries';
 
 type Slot = 'exit' | 'target' | 'item' | 'member' | 'camp';
-interface Rule {
+export interface Rule {
   slot: Slot; param?: string; path: string[]; passage?: Passage; via?: string; risk?: boolean;
   also?: { param: string; path: string[] };
   // Whether doing it is going by the way (a walk, a journey), not something done at it.
@@ -33,6 +35,7 @@ interface Rule {
   // The binding who does it, said beside the choice rather than in it ("using the Abbess's Eye", by Elen).
   doer?: string;
 }
+export type Filling = { choice: string; b: Record<string, string>; context: GroupingContext };
 export interface Grouped {
   exits: Map<string, ExitActs>; targets: Map<string, Act[]>; items: Map<string, Act[]>;
   members: Map<string, Act[]>; camp: Act[]; unplaced: Act[];
@@ -117,7 +120,8 @@ export class ChoiceGrouping {
     train_member: { slot: 'target', param: 'mentor', path: ['Train', '{lesson}', '{student}'] },
     fulfill_commission: { slot: 'target', param: 'buyer', path: ['Deliver {cargo}'] },
     free_obstruction: { slot: 'target', param: 'companion', path: ['Free them: shift {device}'] },
-    tell: { slot: 'target', param: 'recipient', path: ['Tell', '{statement}'] },
+    // Said whole, as its action names it ("Tell Huw: …"): a "Tell" opener had held the statements as fragments (PB-29).
+    tell: { slot: 'target', param: 'recipient', path: ['{choice}'] },
     ask: { slot: 'target', param: 'informant', path: ['Ask about {topic}'] },
     talk_to: { slot: 'target', param: 'person', path: ['Talk to {person}'] },
     take_leave: { slot: 'target', param: 'person', path: ['Take your leave'] },
@@ -132,25 +136,14 @@ export class ChoiceGrouping {
     collect: { slot: 'target', param: 'store', path: ['Collect {goods}'] },
     put: { slot: 'target', param: 'store', path: ['Deposit {goods}'] },
     fulfill_job: { slot: 'target', param: 'store', path: ['Deliver {goods}'] },
-    learn_reward: { slot: 'target', param: 'gift', path: ['Accept', '{recipient}'] },
+    learn_reward: { slot: 'target', param: 'gift', path: ['Accept', 'for {recipient}'] },
     give: { slot: 'target', param: 'recipient', path: ['Give {gift}'] },
     give_valuable: { slot: 'target', param: 'recipient', path: ['Give {gift}'] },
     give_back: { slot: 'target', param: 'owner', path: ['Give {gift} back'] },
     take_out: { slot: 'target', param: 'find', path: ['Take {find} from {box}', 'for {recipient}'] },
     put_in: { slot: 'target', param: 'box', path: ['Put in', '{cargo}'] },
     search: { slot: 'camp', path: ['Search here'] },
-    look_closely: { slot: 'target', param: 'target', path: ['Examine', 'Look closely'], onWay: ['Look at {target}', 'Look closely'],
-      alone: 'Look closely at {target}' },
-    prod: { slot: 'target', param: 'target', path: ['Examine', 'Prod it with the pole'],
-      onWay: ['Look at {target}', 'Prod it with the pole'], alone: 'Prod {target} with the pole' },
-    pry: { slot: 'target', param: 'target', path: ['Examine', 'Pry at it with the bar'],
-      onWay: ['Look at {target}', 'Pry at it with the bar'], alone: 'Pry at {target} with the bar' },
-    burn: { slot: 'target', param: 'target', path: ['Examine', 'Hold a flame to it'],
-      onWay: ['Look at {target}', 'Hold a flame to it'], alone: 'Hold a flame to {target}' },
-    push: { slot: 'target', param: 'target', path: ['Examine', 'Push and pull at it'],
-      onWay: ['Look at {target}', 'Push and pull at it'], alone: 'Push and pull at {target}' },
-    listen: { slot: 'target', param: 'target', path: ['Examine', 'Listen at it'], onWay: ['Look at {target}', 'Listen at it'],
-      alone: 'Put an ear to {target}', aloneOnWay: 'Listen at {passage}' },
+    ...ChoiceTries.rules,
     // What it fetches is said before it is sold (the follow-up review sold a lamp and learned its price after).
     sell: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {sellfee} coin'] },
     sell_valuable: { slot: 'target', param: 'buyer', path: ['Sell {ware} — {worthfee} coin'] },
@@ -189,7 +182,7 @@ export class ChoiceGrouping {
     rest_unfed: { slot: 'camp', path: ['Try to rest, with nothing to eat'] },
     // What one who lies senseless was carrying, under one choice: six of them had stood in a row on the page, offering
     // to strip a fallen ranger of bow and mail (the cold evaluation).
-    take_from: { slot: 'camp', path: ['Take from {carrier}', '{cargo} for {recipient}'] },
+    take_from: { slot: 'camp', path: ['Take {cargo} from {carrier}', 'for {recipient}'] },
   };
   static group(rows: Row[], context: GroupingContext): Grouped {
     const out: Grouped = { exits: new Map(), targets: new Map(), items: new Map(), members: new Map(),
@@ -324,18 +317,16 @@ export class ChoiceGrouping {
     const rule = this.rules[schema];
     if (!rule) { this.fallback(out, row, context, leaf); return; }
     const told = rule.tells && b[rule.tells] ? context.tell?.(b[rule.tells]!) : undefined;
-    if (told) { leaf.about = told; }
+    Object.assign(leaf, told ? { about: told } : {});
     const data = { choice: choice.name, b, context };
     const path = rule.path.map(text => this.fill(text, data));
-    if (rule.path.at(-1)?.startsWith('for {recipient}') && b.recipient && context.hands?.has(`${schema}|${b.find}`)) {
-      if (context.hands.get(`${schema}|${b.find}`) !== b.recipient) { return; }
-      path.pop(); if (!context.solo) { leaf.by = [context.names.get(b.recipient) ?? b.recipient]; }
-    } else if (context.solo && rule.path.at(-1) === 'for {recipient}') { path.pop(); }
+    if (!Carriers.handed(rule.path.at(-1), `${schema}|${b.find}`, data, { path, leaf })) { return; }
     const doer = rule.doer && b[rule.doer];
     if (doer && !leaf.by && !context.solo) { leaf.by = [context.names.get(doer) ?? doer]; }
     if (rule.slot === 'exit' && path.length === 1 && b.way && context.several?.has(b.destination ?? '')) {
       path[0] = `${path[0]} by ${context.names.get(b.way) ?? b.way}`;
     }
+    if (!ChoiceWords.unfolds.has(schema)) { path.splice(0, path.length, ...this.whole(path)); }
     const subject = rule.param ? b[rule.param] : undefined;
     const risky = { ...leaf, ...(rule.risk ? { risk: true } : {}), ...this.alone(rule, subject, data) };
     const also = rule.also ? b[rule.also.param] : undefined;
@@ -352,6 +343,12 @@ export class ChoiceGrouping {
     else if (rule.slot === 'item' && subject) { this.insert(this.slot(out.items, subject), path, risky); }
     else if (rule.slot === 'member' && subject) { this.insert(this.slot(out.members, subject), path, risky); }
     else { this.insert(out.camp, path, risky); }
+  }
+  // A rule's path said as one row, in whole words, where it is no store's or the Book's (ChoiceWords.unfolds): "Take
+  // for Bran", "Put in a weight-stone", "Risk the pit — Bran goes first". Only a fight, a store and creation unfold
+  // (the owner's ruling of 20 November, PB-29): "Take", "Put in" and "Risk the pit" had opened on fragments of an act.
+  private static whole(path: string[]): string[] {
+    return path.length ? [path.reduce((said, part) => ChoiceWords.joined(said, part))] : path;
   }
   // What a try is called standing alone (see Rule.alone): at the way, where it stands on one and that is what it is
   // done at.
@@ -370,7 +367,8 @@ export class ChoiceGrouping {
       ?? this.named(row.action.requires).find(id => context.present.has(id));
     const subject = changed ?? Object.entries(row.action.bindings ?? {})
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.present.has(v))?.[1];
-    const path = row.choice.name.split('; ');
+    // Said whole ("Lift it — Bran takes the weight"): a name of parts had opened on its second (PB-29).
+    const path = [ChoiceWords.whole(row.choice.name)];
     // One about something on a way out (the words of a speaking door) is done to that thing, at that way: under it,
     // with what else can be done to it, and not said of the way as if it were going in ("Into Gaudumport — press the
     // word Lute" stood apart from the door it is pressed on, and the door's own acts did not show its words: the
@@ -379,7 +377,7 @@ export class ChoiceGrouping {
       .find(([k, v]) => k !== 'actor' && k !== 'site' && context.passageOf.has(v))?.[1];
     // Under whoever it is done to, named without them ("Make much of" under Moss); standing alone, by its own whole
     // name ("Make much of Moss"): three animals' rows in one offer had read "Make much of" three times (FM-07).
-    const whole = path.length === 1 && !leaf.alone ? { ...leaf, alone: row.choice.name } : leaf;
+    const whole = !leaf.alone ? { ...leaf, alone: path[0]! } : leaf;
     if (subject) { this.insert(this.slot(out.targets, subject), path, whole); }
     else if (onWay) {
       this.exit(out, context.passageOf.get(onWay)!, { acts: [], path: this.under(onWay, path, context), leaf });
@@ -404,7 +402,7 @@ export class ChoiceGrouping {
   }
   private static filled(text: string, data: { choice: string; b: Record<string, string>; context: GroupingContext }) {
     return text.replace(/\{(\w+)\}/g, (_, key: string) => key === 'choice' ? data.choice :
-      key === 'passage' ? data.context.names.get(data.context.passageOf.get(data.b.target ?? '') ?? '') ?? 'it' :
+      key === 'passage' ? this.passage(data) :
       key === 'price' ? String(data.context.prices.get(data.b.find ?? '') ?? 0) :
       key === 'fee' ? String(data.context.fees?.get(data.b.service ?? '') ?? 0) :
       key === 'goodsfee' ? String(data.context.fees?.get(`${data.b.seller}:${data.b.goods}`) ?? 0) :
@@ -415,6 +413,11 @@ export class ChoiceGrouping {
       key === 'versus' ? (data.context.world ? PurchaseCompare.versus(data.context.world, data.b.form ?? '',
         data.b.recipient ?? '', data.context.names) : '') :
         data.context.names.get(data.b[key] ?? key) ?? data.b[key] ?? key);
+  }
+  // The way a thing stands on, by its name (a door, not where it goes: "Listen at the hall" had been said of a door).
+  private static passage({ b, context }: Filling): string {
+    const on = context.world?.relates('on') ? context.world.one('on', b.target ?? '') : undefined;
+    return context.names.get(on ?? '') ?? context.names.get(context.passageOf.get(b.target ?? '') ?? '') ?? 'it';
   }
   private static slot(map: Map<string, Act[]>, id: string): Act[] {
     if (!map.has(id)) { map.set(id, []); }

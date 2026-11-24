@@ -1,7 +1,8 @@
 import { ModuleWriter } from '../lang/module-writer';
 import { Burden } from '../rules/burden';
 import type { World } from '../lang/world';
-import type { Row } from './choice-grouping';
+import type { Filling, Row } from './choice-grouping';
+import type { Act } from './screen-types';
 import type { Campaign } from '../campaign/campaign';
 
 // Who in the company takes something it picks up or buys, so that taking is one choice rather than a list of hands:
@@ -64,5 +65,15 @@ export class Carriers {
       if (to && (!hands.has(key) || recipient === to)) { hands.set(key, recipient!); }
     }
     return hands;
+  }
+  // Who takes what is picked up, by the last of its rule's path and its rule and thing: the one hand it is offered to
+  // (see hands), said beside it, not in it; none said where one has come alone. False where this is another hand's.
+  static handed(last: string | undefined, key: string, { b, context }: Filling,
+    at: { path: string[]; leaf: Partial<Act> }): boolean {
+    if (last?.startsWith('for {recipient}') && b.recipient && context.hands?.has(key)) {
+      if (context.hands.get(key) !== b.recipient) { return false; }
+      at.path.pop(); if (!context.solo) { at.leaf.by = [context.names.get(b.recipient) ?? b.recipient]; }
+    } else if (context.solo && last === 'for {recipient}') { at.path.pop(); }
+    return true;
   }
 }

@@ -9,6 +9,7 @@ import type { Change } from '../src/lang/module';
 import { MenuModel } from '../web/reader/menu-model';
 import { Act } from '../web/reader/stage/act';
 import { Wayfinder } from '../web/reader/stage/wayfinder';
+import { SceneSurface } from '../web/reader/stage/scene-surface';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';
 
@@ -40,12 +41,14 @@ describe('a way that asks who goes first', () => {
     await g.perform('wait');
     const page = new Page({ frame: g.frame(), view: 'here', open: [], cursor: 0, member: '' } as unknown as AppState);
     const way = Wayfinder.ways(page.app).find(x => x.name === 'the garrison strongroom')!;
-    const goings = Wayfinder.goings(way.c);
-    expect(goings.map(x => x.label)).toEqual(['Wenna goes first', 'Brand goes first']);
+    const goings = Wayfinder.goings(way, SceneSurface.choices(page.app));
+    // Each a row of the engine's own, said whole (PB-29), a button each.
+    const said = ['Wenna goes first', 'Brand goes first'].map(w => expect.stringMatching(new RegExp(`^To the garrison strongroom — risk .+ — ${w}$`)));
+    expect(goings.map(x => x.label)).toEqual(said);
     expect(goings.every(x => /^risk\(/.test(x.command ?? ''))).toBe(true);
     page.state = { ...page.state, hovered: way.c.id };
     const buttons = [...page.preview().matchAll(/<button[^>]*wf-go[^>]*>([^<]*)/g)].map(m => m[1]);
-    expect(buttons).toEqual(['Wenna goes first', 'Brand goes first']);
+    expect(buttons).toEqual(said);
     // Chosen once, the risk is said under it, to be chosen again.
     page.state = { ...page.state, confirming: goings[0]!.id };
     expect(Act.asks(goings[0]!)).toBeDefined();

@@ -4,6 +4,7 @@ import { Counted } from '../counted'; import { OutOf } from '../presentation/out
 import { SpellSchools } from '../presentation/spell-schools';
 import type { Mark } from '../presentation/glance-types';
 import { ChoiceWords } from './choice-words';
+import { ChoiceTries } from './choice-tries';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
 // One thing the player can choose. A choice either performs its command when chosen or opens a short list of
@@ -50,6 +51,8 @@ export class ChoiceList {
   static readonly glyphs: Record<string, string> = {
     walk: '→', enter: '⇥', leave: '⇤', level: '⇅', ascend: '↑', descend: '↓', travel: '⇢', cross_plane: '✶',
   };
+  // The tries anything might be given, by their words under the thing ("Look closely", "Listen at it").
+  static readonly trying = Object.values(ChoiceTries.rules).map(r => r.path[0]!);
   static explore(screen: Screen): Section[] {
     const merchants = screen.people.some(p => p.acts.some(a => a.label === 'Buy'));
     const things = screen.things.filter(t => !(merchants && t.acts.length && t.acts.every(a => a.label.startsWith('Buy from'))));
@@ -219,8 +222,10 @@ export class ChoiceList {
   // the way through first, as the page leads with it; a risk taken on something not yet looked at closely says so.
   // Play 9 risked a hidden switch whose answer, the cleric's insight, would have shown on a closer look (M17-56).
   private static tries(e: ExitRow, label: string, about: string): Choice[] {
-    const id = e.id, unlooked = this.unlooked(e.acts);
-    return e.acts.map(a => {
+    const unlooked = this.unlooked(e.acts);
+    const acts = e.acts.flatMap(a => ChoiceWords.laid(a, !!e.blocked) ? ChoiceWords.parts(a).map(k => ({ a: k, id: `${e.id}/${a.key}` }))
+      : [{ a, id: e.id }]);
+    return acts.map(({ a, id }) => {
       const c = this.choice(a, id, 'way');
       const how = this.moves(a) && !a.label.startsWith('Go by ') ? label : a.label.startsWith('Go by ') ? `${label}, ${a.label.slice(3)}`
         : `${label} — ${c.label.charAt(0).toLowerCase()}${c.label.slice(1)}`;
@@ -276,7 +281,7 @@ export class ChoiceList {
   // A list of acts as choices. "Talk" is transparent: its topics are things to say, so they stand as choices.
   static flatten(acts: Act[], prefix: string, tone: Tone): Choice[] {
     return acts.flatMap(a => a.label === 'Talk' && a.children ? this.flatten(a.children, `${prefix}/${a.key}`, tone)
-      : [this.choice(a, prefix, tone)]);
+      : ChoiceWords.laid(a) ? this.flatten(ChoiceWords.parts(a), `${prefix}/${a.key}`, tone) : [this.choice(a, prefix, tone)]);
   }
   static choice(a: Act, prefix: string, tone: Tone): Choice {
     const id = `${prefix}/${a.key}`;

@@ -49,7 +49,7 @@ describe('The Lull, wandered', () => {
         };
         try {
           for (let i = 0; i < steps && j.campaign.running; i++) {
-            const offered = j.choices().filter(c => !/Set down here|Give to ›|prepare spells|Make camp/.test(c.label));
+            const offered = j.choices().filter(c => !/Set down here|Give to |prepare spells|Make camp/.test(c.label));
             if (!offered.length) { break; }
             const resting = /Wait (an hour|until)|Lie down|Sit down by the Fold-stone/;
             const waits = offered.filter(c => resting.test(c.label));

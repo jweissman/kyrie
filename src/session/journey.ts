@@ -21,11 +21,13 @@ import type { TickHost } from '../campaign/campaign-tick';
 import { RegionIds } from '../region-ids';
 import { Itineraries } from '../ui/itinerary';
 
-// A choice the page offers, as an author names it in a step: its label ("Examine › Push and pull at it", "Pack › A
-// torch › Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left
-// eyelid: Examine › Push and pull at it"), so that two things' alike choices can be told apart by name.
+// A choice the page offers, as an author names it in a step: its label ("Push and pull at it", "Pack › A torch ›
+// Light", "a torch: Light"), and the same under the heading it is offered beneath ("the Sleeper's left eyelid: Push and
+// pull at it"), so that two things' alike choices can be told apart by name.
 // A choice that cannot be undone says so (grave): the page asks before it does it, and a journey says it was asked.
-export interface Offered { label: string; full: string; command: string; grave?: string }
+// A row laid out of a group since a step was written to it (PB-29) is found by the path it had there too (was: "Look at
+// the third tread › Prod it with the pole"), read from its id, whose keys are that path (as ChoiceIds.bare reads them).
+export interface Offered { label: string; full: string; command: string; grave?: string; was?: string }
 // One step taken: what was asked, the choice it took, what came back (told: the event's perceptions and response, the
 // action's Result and what rules said, as the module wrote them), and what the page told of it (page: the narrator's
 // lines, set as a book is, its quotes curled). JOURNEY_TRACE=1 prints each step as the page told it.
@@ -96,8 +98,8 @@ export class Journey {
   // with it.
   matches(pattern: string): Offered[] {
     const straight = Journey.straight(pattern), re = Journey.pattern(straight), all = this.choices();
-    for (const key of ['label', 'full'] as const) {
-      const found = all.filter(c => re.test(Journey.straight(c[key])));
+    for (const key of ['label', 'full', 'was'] as const) {
+      const found = all.filter(c => c[key] !== undefined && re.test(Journey.straight(c[key])));
       if (found.length) { return found; }
     }
     // The label as its action has it, without the notes the page adds after it (" · an even chance": WPC-20).
@@ -137,17 +139,23 @@ export class Journey {
   // A step written to a group's act ("Examine › Push") also finds that act offered alone ("Examine — Push and pull at
   // it"): a group left with one act is offered as itself (a thing's look is offered only where something answers it,
   // and Low Water's records, written when Examine held both, had stopped at the stones).
+  // And one written to a group laid out since (PB-29: "Put in › A weight-stone", "Take › for Bran") finds its row, said
+  // whole: run on ("Put in a weight-stone") or apart ("Risk foul air — Ama goes first").
   private static pattern(text: string): RegExp {
-    const either = text.replaceAll(' › ', ' [›—] ');
+    const either = text.replaceAll(' › ', ' (?:[›—] )?');
     try { return new RegExp(either, 'i'); } catch { return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'); }
   }
   private static plain(text: string): string { return text.replace(/[‐-―]/g, '-').toLowerCase(); }
   // And a step written to the wait's old opener ("Wait › A while") finds the flat row ("Wait a while"), so that what
   // was recorded before the waits were flat plays the same (PB-02).
+  // So does one written to the tries' old opener ("Examine › Push", "the casket: Examine"), each try a row of its own
+  // under the thing since ("Push and pull at it": PB-29).
   private static straight(text: string): string {
     return text.replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
-      .replace(/Wait › (A while|An hour|Until|And watch)/g, (_, w: string) => `Wait ${w.toLowerCase()}`);
+      .replace(/Wait › (A while|An hour|Until|And watch)/g, (_, w: string) => `Wait ${w.toLowerCase()}`)
+      .replace(/\bExamine [›—] /g, '').replace(/\bExamine$/, Journey.tries);
   }
+  private static readonly tries = `(?:${ChoiceList.trying.join('|')})`;
   // "register: Take" for "the register of names: Take": a thing called by part of its name, then what is done with it
   // (a step had to quote an item's whole name: Liberty of the Ice friction 19).
   private static named(pattern: string, all: Offered[]): Offered[] {
@@ -481,9 +489,11 @@ export class Journey {
     }
     throw Journey.unoffered(`Never got through /${pattern}/`);
   }
-  private static leaves(list: Choice[], trail = ''): { label: string; command: string; grave?: string }[] {
+  private static leaves(list: Choice[], trail = ''): Omit<Offered, 'full'>[] {
     return list.flatMap(c => c.children ? this.leaves(c.children, `${trail}${c.label} › `)
-      : c.command ? [{ label: trail + c.label, command: c.command, ...c.grave ? { grave: c.grave } : {} }] : []);
+      : c.command ? [{ label: trail + c.label, command: c.command, ...c.grave ? { grave: c.grave } : {},
+        ...c.id.split('/').length > 2 ? { was: c.id.replace(/(^|\/)\d+:/g, '$1').split('/').slice(1).join(' › ') } : {} }]
+        : []);
   }
   private static acts(acts: { label: string; command?: string; children?: { label: string; command?: string }[] }[],
     trail: string): { label: string; command: string }[] {

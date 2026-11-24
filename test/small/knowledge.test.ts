@@ -35,8 +35,9 @@ describe('what is known, passed on', () => {
     expect(tells(t)).toEqual([]);
     await t.play('Talk to Osric', 'Ask Osric about the ford', '?Take your leave');
     expect(knows(t, 'party', 't__ford_known')).toBe(true);
-    expect(tells(t)).toEqual(['Tell — Where the old ford is']);
-    await t.play('^Tell — Where the old ford is');
+    // Said whole, as the action names it (PB-29: a "Tell" opener had held the statements as fragments).
+    expect(tells(t)).toEqual(['Tell Cole: where the old ford is']);
+    await t.play('^Tell Cole: where the old ford is');
     expect(knows(t, 't__cole', 't__ford_known')).toBe(true);
     expect(knows(t, 't__drew', 't__ford_known')).toBe(false);
     expect(t.world.test(ModuleWriter.call('t__rowing', 't__cole'))).toBe(true);

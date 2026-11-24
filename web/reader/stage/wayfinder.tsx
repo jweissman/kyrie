@@ -113,7 +113,7 @@ export class Wayfinder {
   // A way touched: gone by, unless it is shut (its reason is said) or asks first who goes (each is a button beside it).
   static go(app: ReaderApp, w: Way) {
     Wayfinder.pick(app, w);
-    if (!w.c.disabled && Wayfinder.goings(w.c).length === 1) { app.choose(w.c); }
+    if (!w.c.disabled && Wayfinder.goings(w, SceneSurface.choices(app)).length === 1) { app.choose(w.c); }
   }
   // The way chosen, said: where it goes and how, how long, whether you have been, who keeps shop there, whether it is
   // shut and why, what it risks, your aim's if it is; and going.
@@ -121,7 +121,7 @@ export class Wayfinder {
     const screen = app.state.frame!.screen, c = w.c, to = Wayfinder.to(w);
     const how = [Wayfinder.how[w.whither] ?? '', w.exit?.way ? `by ${w.exit.way}` : '',
       (c.minutes ?? 0) > 5 ? Words.span(c.minutes!) : ''].filter(Boolean).join(' · ');
-    const keep = Wayfinder.keepers(screen, to);
+    const keep = Wayfinder.keepers(screen, to), goings = Wayfinder.goings(w, SceneSurface.choices(app));
     return (
       <aside className="wf-preview" aria-live="polite" data-way={c.id}>
         {w.aim && <p className={`wf-aim ${w.aim}`}>{w.aim === 'followed' ? 'Your aim' : 'Another aim'}</p>}
@@ -134,16 +134,22 @@ export class Wayfinder {
         {c.disabled && <p className="wf-shut">{Typography.curl(Words.upper(c.disabled))}</p>}
         {(c.marks ?? []).map(m => <p key={m.kind} className={`wf-risk${m.danger ? ` danger-${m.danger}` : ''}`}>
           {Typography.curl(Words.upper(m.said))}</p>)}
-        {[...Wayfinder.goings(c), ...Wayfinder.opens(app, w)].map(g => <Act.View key={g.id} choice={g} draw={draw} quiet
-          className="wf-go">{g === c ? Wayfinder.going(w) : Typography.curl(Words.upper(g.label))}</Act.View>)}
+        {[...goings, ...Wayfinder.opens(app, w)].map(g => <Act.View key={g.id} choice={g} draw={draw} quiet
+          className="wf-go">{g === c && goings.length === 1 ? Wayfinder.going(w) : Typography.curl(Words.upper(g.label))}
+        </Act.View>)}
       </aside>
     );
   }
   // How a way is gone by: by its own going; or, where it asks first who of the company goes first (the black water in
   // the drift to the garrison strongroom), by each of those, one button each. Its one Go had opened them out of sight,
   // and so did nothing (the fresh playtest of 7 November).
-  static goings(c: Choice): Choice[] {
-    return !c.command && !c.disabled && c.children?.length ? c.children : [c];
+  // Each of those is a row of the engine's own, said whole ("… — risk the black water — Wenna goes first": PB-29).
+  static goings(w: Pick<Way, 'c' | 'exit'>, all: readonly Choice[] = []): Choice[] {
+    const c = w.c, to = Wayfinder.to(w);
+    if (!c.command && !c.disabled && c.children?.length) { return c.children; }
+    const each = c.risk && c.does && !c.disabled
+      ? all.filter(k => k.does === c.does && k.command && !k.disabled && k.targets?.includes(to)) : [];
+    return each.length > 1 ? each : [c];
   }
   // A way shut that can be opened (a stone door's lock to set a shoulder to) is shown with what opens it: the crypt's way
   // up had been greyed in Go… with its opening only under Look… (Mission 20's fourth round, F 115–118).

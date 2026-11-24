@@ -21,10 +21,11 @@ class Switch {
 describe('a trap on the way', () => {
   it('says, risked, that it was not looked at closely, and offers the look beside it', async () => {
     const s = await Switch.start();
-    const [risk, look] = Switch.ways(s);
-    // Called by what is seen of it until it is known (CB-19's UNT-109: "the hidden switch" had named it unfound).
-    expect(look!.label).toBe('To the gallery — look at the carved wall');
-    expect(look!.children!.map(c => c.command)).toContain('look_closely(p__hall_snare)');
+    const ways = Switch.ways(s), risk = ways.find(c => c.risk);
+    // Called by what is seen of it until it is known (CB-19's UNT-109: "the hidden switch" had named it unfound); the
+    // look a row of its own beside the risk (PB-29), where a look at the wall had opened on it.
+    const look = ways.find(c => c.command === 'look_closely(p__hall_snare)');
+    expect(look?.label).toBe('To the gallery — look closely at the carved wall');
     expect(risk).toMatchObject({ label: 'To the gallery — risk the carved wall — Hild goes first',
       note: ChoiceList.unexamined, risk: true });
   }, 60000);

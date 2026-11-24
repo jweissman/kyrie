@@ -17,7 +17,9 @@ describe('a way barred', () => {
     expect([way!.id, way!.label, way!.disabled]).toEqual(['exit:bailey', 'Into the bailey', blocked]);
   });
   it('and then what can be tried on what bars it', () => {
-    expect(tries.map(c => [c.label, c.children?.map(k => k.label)])).toEqual([['Into the bailey — look at the portcullis',
-      ['Look closely', 'Push and pull at it']]]);
+    // Each a row of its own, in whole words (PB-29: only a fight, a store and creation unfold).
+    expect(tries.map(c => [c.label, c.command, c.children])).toEqual([
+      ['Into the bailey — look at the portcullis — Look closely', 'look_closely(portcullis)', undefined],
+      ['Into the bailey — look at the portcullis — Push and pull at it', 'push(portcullis)', undefined]]);
   });
 });

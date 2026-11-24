@@ -8,7 +8,6 @@ import { MenuModel } from '../web/reader/menu-model';
 import { AtHand } from '../web/reader/stage/at-hand';
 import { Act } from '../web/reader/stage/act';
 import { Explorer } from '../web/reader/stage/explorer';
-import { Folds } from '../web/reader/folds';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 
 // The page as Look… sees it: its state, changed as setState would, and its menu made from what is open.
@@ -26,8 +25,8 @@ class Page {
 // The fresh playtest of 7 November: under Look…, a rotted pack offered "Put in" and "Examine", and either, chosen, put
 // the pack's pane away for the first thing at hand's (a torch's), with none of its acts open, so that nothing seemed
 // to happen. A fold opened in a thing's pane opens there, and the pane stays the thing's.
-describe('a fold opened on a thing at hand', () => {
-  it('opens in the thing\'s own pane: what to put in a rotted pack, and how to examine it', async () => {
+describe('a thing at hand', () => {
+  it('offers its acts in its own pane, each a row: what to put in a rotted pack, and how to examine it', async () => {
     const g = await Glanced.country('a1'), room = 'region__w8_halls_well';
     const c = g.s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('unlit', room) },
@@ -37,10 +36,12 @@ describe('a fold opened on a thing at hand', () => {
     const pack = AtHand.of(page.app).find(h => h.name === 'a rotted pack')!;
     expect(AtHand.of(page.app)[0]!.name).not.toBe('a rotted pack');
     AtHand.pick(page.app, pack);
-    for (const [fold, shown] of [['Put in', 'A battleaxe'], ['Examine', 'Prod it with the pole']] as const) {
-      Folds.toggle(page.app, AtHand.of(page.app).find(h => h.id === pack.id)!.choices.find(k => k.label === fold)!);
-      const pane = page.pane();
-      expect([fold, /<h3>(.*?)<\/h3>/.exec(pane)?.[1], pane.includes(shown)]).toEqual([fold, 'A rotted pack', true]);
-    }
+    // Since only a fight, a store and creation unfold (PB-29), neither is a fold: each act is a row in the pack's own
+    // pane, in whole words, and the pane stays the pack's.
+    const acts = AtHand.of(page.app).find(h => h.id === pack.id)!.choices;
+    expect(acts.filter(k => k.children?.length)).toEqual([]);
+    const pane = page.pane();
+    expect([/<h3>(.*?)<\/h3>/.exec(pane)?.[1], pane.includes('Put in a battleaxe'), pane.includes('Prod it with the pole')])
+      .toEqual(['A rotted pack', true, true]);
   }, 60000);
 });

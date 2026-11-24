@@ -85,8 +85,9 @@ describe('the aim followed and its next step', () => {
     expect(t.glance.lead).toEqual({ aim: 't__writing', source: 'toward', next: ['t__porch'] });
     await t.play('To the porch of the hold');
     expect(t.glance.lead).toEqual({ aim: 't__writing', source: 'barred', next: ['t__slab'] });
-    // The runner says which of the four act on it (Said.led): heaving the slab, gold or not.
-    expect(new Runner(t.session).said().led).toEqual(['change_thing(t__slab_heave)']);
+    // The runner says which of the four act on it (Said.led): heaving the slab, gold or not, and the tries at it, each
+    // a row of its own since a look at it no longer opens on them (PB-29).
+    expect(new Runner(t.session).said().led).toEqual(['change_thing(t__slab_heave)', 'push(t__slab)', 'listen(t__slab)']);
     await t.perform('change_thing(t__slab_heave)');
     expect(t.glance.lead).toEqual({ aim: 't__writing', source: 'taught', next: ['t__hall'] });
   });

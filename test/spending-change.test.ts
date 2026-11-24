@@ -16,8 +16,9 @@ describe('a change consuming a thing of the adventure\'s own kind', () => {
     const s = await PlaySession.start(campaign, 'socket', NodeBundleSource.shared);
     await s.leg('take_item(world__idol,world__member_party_1)');
     const altar = ScreenModel.build(s.campaign).things.find(t => t.id === 'world__altar')!;
-    const set = altar.acts.find(a => a.label === 'Set the idol in the altar')!.children!.find(a => a.command)!;
-    expect([set.label, set.by]).toEqual(['using the Idol of Ash', ['Nell']]);
+    // One row, in whole words (PB-29), who carries it beside it.
+    const set = altar.acts.find(a => a.label === 'Set the idol in the altar using the Idol of Ash')!;
+    expect([set.command, set.by]).toEqual([expect.stringMatching(/^change_thing_spending\(/), ['Nell']]);
     await s.leg(set.command!);
     const holds = (name: string, ...args: string[]) => s.campaign.world.test(ModuleWriter.call(name, ...args));
     expect(holds('state', 'world__altar', 'world__filled')).toBe(true);
