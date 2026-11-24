@@ -1,0 +1,164 @@
+Module raingourd "The Rain-Gourd" {
+  // What it is, before how it works (BRIEF §6): at the end of the dry, Palla's rain-gourd goes up to the falls and
+  // comes down full to be poured on the rain-stone, and the rains come after. Oyelle Marre has carried it for fifty
+  // years, and this year her hip will not. Four incidents and its core, the stone; the turn is the first rain on it.
+  Situation the_dry "The end of the dry" at waterfront {
+    Incident gourd "Oyelle's rain-gourd on her door-post, to be carried up to the falls" of oyelle resolved when given(party).
+    Incident ledge "Tobi, who knows the ledge behind the falls and is not allowed on it" of tobi resolved when following(tobi, party) or firstWater(party) or pooled(party).
+    Incident water "the falls, where the gourd is to be filled as the water first comes over" of falls resolved when firstWater(party) or pooled(party).
+    Incident watcher "Oyelle, who has seen it poured fifty times and cannot walk down to see it now" of oyelle resolved when at(oyelle, waterfront) or state(sky, rain_sky).
+    Core stone "the rain-stone at the head of the slipway, dry since the spring" of stone resolved when state(stone, wet).
+    Turn "the first drops come down on the rain-stone" when state(sky, rain_sky).
+    Done when rainWatched(party).
+  }
+  Relation given(group). Relation firstWater(group). Relation pooled(group).
+  Relation hersPoured(group). Relation comesDown(group). Relation turtleTold(group). Relation askedWhich(group). Relation rainWatched(group). Relation goatSaid(group). Measure pouredAt(entity).
+
+  Kind gourd_kind "Oyelle's rain-gourd" is gear worth 0 weighing 1 described "A long-necked calabash scraped thin and polished by fifty years of hands, with a carved stopper on a cord. It is empty, and a seed rattles in it.".
+  Kind full_kind "Oyelle's rain-gourd, full" is gear worth 0 weighing 2 described "The calabash is heavy now, cold to hold in the heat, the stopper pushed in hard.".
+  Entity gourd_told: fact "At the end of the dry Palla's rain-gourd is filled at the falls, then poured out on the rain-stone.".
+
+  Thing stone "the rain-stone" at waterfront is scenery {
+    State dry "At the head of the slipway lies a flat black stone with a hollow worn in the middle, white with salt and dry as a bone.".
+    State wet "The rain-stone at the head of the slipway is black and wet, its hollow brimming.".
+  }
+  Initially Assert state(stone, dry).
+
+  // ── The dry ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  During state(sky, hot_sky) {
+    Observe heat_front at waterfront as ambience when not holding(party, full_kind) and state(stone, dry) "Nobody is out in the sun. Under the net-shed Sanne Tamsel mends a net with her feet in a bucket of seawater.".
+    Observe heat_hill at hilltop as ambience when true "The grass on the hill is brown, and the goat tied to the porch post has eaten all of it it can reach.".
+    Observe heat_valley at valley as ambience when true "The stream is down to a string of pools between hot stones.".
+    Observe gourd_post at hilltop as sign when not given(party) "On a nail in Oyelle's door-post hangs a long-necked gourd, polished dark, with a carved stopper on a cord.".
+    // What the waterfront knows of the gourd, once the company carries it.
+    Observe gourd_seen at waterfront as sign when holding(party, gourd_kind) "Sanne Tamsel sees the gourd in your hands and puts her net down. 'So she gave it you,' she says. 'Well. Go on, then. The falls are up the valley, past the end of the beach.'".
+    During holding(party, full_kind) {
+      Observe clouds_front at waterfront as sign when true "People have come out of the houses with nothing to do. They stand about the slipway looking at the rain-stone, and then at you.".
+      Observe clouds_valley at valley as ambience when true "Behind you, over the hills at the head of the valley, a single cloud has stood up out of nowhere, very white.".
+      Observe clouds_beach at beach as ambience when true "The bay has gone flat and the colour of pewter. Out at the anchorage the coaster's crew are looking at the hills.".
+    }
+    Rule rain_comes when state(stone, wet) and watch(clock) >= pouredAt(stone) + 3 and at(party, waterfront)
+      says "A shadow comes down off the hill and over the houses. Everyone on the waterfront looks up. The first drop hits the rain-stone, big as a coin; then one on the slipway, one on your hand. Then the rain comes all at once, straight down and warm, loud on the thatch, and a child somewhere starts to shriek with laughter." {
+      Assert state(sky, rain_sky).
+    }
+    Rule rain_away when state(stone, wet) and watch(clock) >= pouredAt(stone) + 3 and within(party, cay) and not at(party, waterfront)
+      says "A shadow comes down off the hills, and the first drops fall, big as coins. Then the rain comes all at once, straight down and warm." {
+      Assert state(sky, rain_sky).
+    }
+    Observe waiting_front at waterfront as sign when state(stone, wet) "Nobody goes back indoors. Sanne Tamsel has stood up with the net still over her knees, and the whole waterfront is watching the hill.".
+  }
+
+  // ── Oyelle ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person oyelle "Oyelle Marre" at hilltop {
+    Role "the oldest woman in Palla, who has carried the rain-gourd up to the falls at the end of every dry for fifty years". Pronouns she. Peaceable. Manner acerbic.
+    Greets "An old woman sits in the shade of her doorway with one leg out straight on a stool, shelling beans into her lap. 'You came up the goat-track in this heat,' she says. 'Then you are lost, or a fool. Sit. Either kind may sit.'".
+    Greets again "'Still here,' says Oyelle, and moves her stick so you can sit.".
+  }
+  Topic oyelle_gourd with oyelle "Ask Oyelle about the gourd on her door-post" when not knows(party, gourd_told) once {
+    Says "'The rain-gourd,' says Oyelle. 'At the end of the dry somebody takes it up the valley to the falls. They fill it where the water first comes over, bring it down, and pour it out on the rain-stone. Then the rains come.' She shells a bean. 'They would come anyway, you will tell me. They come after. Fifty years I have carried it, and they have come after it every time. This year it is my hip, and it is a long way.'".
+    On discuss { Assert knows(actor, gourd_told). }
+  }
+  Topic oyelle_carry with oyelle "Offer to carry the gourd up to the falls for Oyelle" when knows(party, gourd_told) and not given(party) once {
+    Says "Oyelle looks at you a long moment. Then she reaches up behind her without looking and lifts the gourd off its nail. 'Where the water first comes over,' she says. 'Not out of the pool, where every goat on the island has had its feet. There is a ledge behind the fall. Tobi knows it. He knows every hole on this island he was told to keep out of.' She puts the gourd in your hands. 'Bring it down full and pour it on the stone. Do not drink it.'".
+    On discuss { Give gourd_kind to actor. Assert given(actor). }
+  }
+  Topic oyelle_see with oyelle "Ask Oyelle whether she would come down to see it poured" when given(party) and not state(stone, wet) and not comesDown(party) once {
+    Says "'Down the goat-track? On this?' Oyelle slaps her leg. Then she looks at the bay a while. 'With one either side of me,' she says. 'Not one alone. I am not a sack of yams.'".
+    On discuss { Assert comesDown(actor). }
+  }
+  Action help_down(actor: group, site: place) "Help Oyelle down the goat-track, with Tobi on her other side" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hilltop) and at(oyelle, hilltop)
+      and comesDown(actor) and following(tobi, actor).
+    Time 30 minutes.
+    On success { Assert at(oyelle, waterfront). Assert at(tobi, waterfront). Assert at(actor, waterfront). }
+    Result "It takes the better part of half an hour. Oyelle swears at every stone on the track, and at Tobi, who is enjoying himself. At the bottom she sits down on an upturned boat by the slipway as if she had walked there every day of her life.".
+  }
+  Observe oyelle_waits near oyelle of oyelle when at(oyelle, waterfront) and state(stone, dry) "Oyelle sits on an upturned boat by the slipway with her stick across her knees, looking at the stone and not at anybody.".
+
+  // ── Tobi, who knows the ledge ───────────────────────────────────────────────────────────────────────────────────
+  Person tobi "Tobi" at cove {
+    Role "a boy of nine, all elbows, who dives the cove for shells and knows every rock on the island". Pronouns he. Peaceable. Manner cheerful.
+    Greets "A boy comes up in the middle of the cove with a shell in his teeth, sees you, and swims over to stand waist-deep. 'Are you off the ship? Did you see a turtle? There is one that comes in here. She is mine.'".
+  }
+  Topic tobi_ledge with tobi "Ask Tobi about the ledge behind the falls" when given(party) once {
+    Says "Tobi looks both ways along the empty cove, as if his grandmother might be behind a rock. 'You go in at the side where the fern is,' he says. 'It is slippy and loud, and you cannot hear anything. I can show you. I am not allowed.' He is already wading out. 'I will show you.'".
+    On discuss { Assert acceptsEscort(tobi, actor). }
+  }
+  Topic tobi_turtle with tobi "Ask Tobi about his turtle" when true once {
+    Says "'She is as big as a door,' says Tobi, 'and she is a hundred. She comes in on the high water and eats the weed off the rocks, and if you are very still she lets you put your hand on her shell.' He thinks. 'She has not come since the dry. She will come when it rains.'".
+    On discuss { Assert turtleTold(actor). }
+  }
+
+  // ── The falls ───────────────────────────────────────────────────────────────────────────────────────────────────
+  During holding(party, gourd_kind) {
+    Action fill_pool(actor: group, site: place) "Fill the gourd from the pool" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, pool).
+      Time 5 minutes.
+      On success { Spend gourd_kind from actor. Give full_kind to actor. Assert pooled(actor). }
+      Result "You kneel on the warm rock and hold the gourd under. It fills with a long gulp. A cloud of silt turns over where your hand was, and a goat on the far bank watches you do it.".
+    }
+    Action fill_behind(actor: group, site: place) "Edge in along the ledge behind the falling water, and fill the gourd where it first comes over" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, pool) and not following(tobi, actor).
+      Time 15 minutes.
+      Resolve check(actor, climbing, dc_fair).
+      On success { Spend gourd_kind from actor. Give full_kind to actor. Assert firstWater(actor). }
+      Result "Behind the fall the world is a white roar and a green dark. You go in sideways, cheek to the wet rock, until the water comes over the lip an arm's length above you, clean as glass. You hold the gourd up into it and it is torn half out of your hands, and full.".
+      Otherwise "Two steps in, the moss goes out from under you and you sit down hard in the shallows, the gourd held up out of the water like a lamp. Nothing is broken but your dignity.".
+    }
+    Action fill_ledge(actor: group, site: place) "Follow Tobi in along the ledge behind the falling water, and fill the gourd where it first comes over" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, pool) and following(tobi, actor).
+      Time 15 minutes.
+      On success { Spend gourd_kind from actor. Give full_kind to actor. Assert firstWater(actor). }
+      Result "Tobi goes in ahead of you without looking, his feet finding holds you cannot see. Behind the fall it is a white roar and a green dark. He stops, grinning, and points up: there the water comes over the lip an arm's length above you, clean as glass. You hold the gourd up into it, and it is torn half out of your hands, and full.".
+    }
+  }
+
+  // ── The pouring ─────────────────────────────────────────────────────────────────────────────────────────────────
+  During holding(party, full_kind) and state(stone, dry) {
+    Action pour(actor: group, site: place) "Pour the gourd out on the rain-stone" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, waterfront) and not at(oyelle, waterfront).
+      Time 5 minutes.
+      On success { Spend full_kind from actor. Assert state(stone, wet). Set pouredAt(stone) to watch(clock). }
+      Result "You pull the stopper and tip the gourd over the stone. The water runs out cold, fills the hollow and spills over, and for a moment the whole black face of the stone shines. Across the waterfront nobody says anything at all.".
+    }
+    Action pour_with(actor: group, site: place) "Hold the gourd for Oyelle while she pours it out on the rain-stone" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, waterfront) and at(oyelle, waterfront).
+      Time 5 minutes.
+      On success { Spend full_kind from actor. Assert state(stone, wet). Assert hersPoured(actor). Set pouredAt(stone) to watch(clock). }
+      Result "Oyelle gets up off the boat on her own, which nobody has seen her do in a month. She takes the gourd's neck and leaves its weight in your hands, and between you it goes over. The water fills the hollow and spills, and the stone shines. 'Fifty-one,' says Oyelle, and sits back down.".
+    }
+  }
+  Rule goat when pooled(party) and state(stone, wet) and watch(clock) > pouredAt(stone) and not goatSaid(party)
+    and at(party, waterfront)
+    says "Sanne Tamsel leans over the stone and sniffs. 'Goat,' she says, and says no more about it." {
+    Assert goatSaid(party).
+  }
+
+  // ── The rains ───────────────────────────────────────────────────────────────────────────────────────────────────
+  During state(sky, rain_sky) {
+    Observe rain_front at waterfront as ambience when true "Rain hammers on the thatch and runs off the eaves in ropes. Children are running up and down the slipway in it with their arms out.".
+    Observe rain_hill at hilltop as ambience when true "The rain comes across the bay toward the hill in a grey wall, and the goat has gone under the porch.".
+    Observe rain_cove at cove as ambience when not turtleTold(party) "Rain pocks the whole cove. Out in the middle a dark shape the size of a door comes up for air, and goes down again.".
+    Observe rain_turtle at cove as ambience when turtleTold(party) "Rain pocks the whole cove. Out in the middle a dark shape the size of a door comes up for air: Tobi's turtle, come in on the rain as he said she would. She looks at you with one old eye, and goes down again.".
+    Observe rain_which at waterfront as ambience when askedWhich(party) "Across the slipway Sanne Tamsel catches your eye through the rain, and lifts her shoulders, and lets them fall.".
+    Observe rain_beach at beach as ambience when true "The rain walks along the bay in grey curtains, and the sand has gone dark.".
+    Observe rain_valley at valley as ambience when true "The stream is talking again, brown and quick between the stones.".
+    Observe rain_ship at headland as ambience when true "Out at the anchorage the coaster's crew are on deck in the rain, shaking out her sails.".
+    Action watch_rain(actor: group, site: place) "Sit under the net-shed's eaves and watch the rain come down" {
+      Requires able(actor) and company(actor) and at(actor, site) and at(actor, waterfront) and not rainWatched(actor).
+      Time 1 hours.
+      On success { Assert rainWatched(actor). }
+      Result "Sanne Tamsel moves her bucket to make room. The rain comes down on Palla and the bay, steady as a held note. Somebody brings out a pot of something hot with fish in it, and bowls go round. Nobody talks much. The cane on the hills goes from brown to green while you watch.".
+    }
+  }
+  Person sanne "Sanne Tamsel" at waterfront {
+    Role "a net-mender of Palla, with opinions about the weather". Pronouns she. Peaceable. Manner stoic.
+  }
+  Topic sanne_rain with sanne "Ask Sanne whether the gourd brings the rain" when true once {
+    Says "'The rain comes at the end of the dry,' says Sanne, 'and the gourd goes up at the end of the dry. Which one is following which, I could not tell you.' She bites off a thread. 'Oyelle could. Do not ask her.'".
+    On discuss { Assert askedWhich(actor). }
+  }
+
+  Ending her_rain "Oyelle's Rain" when rainWatched(party) and hersPoured(party) and at(party, waterfront) "It rains for three days. On the second, the coaster sails on the new wind with you aboard. The last you see of Palla is the hill in the rain, and on the brow of it a small figure in a doorway. She does not wave, being Oyelle, but she has got herself up off the stool to stand there. The gourd is back on its nail. Next year, Tobi says, he is going to carry it, and nobody is going to stop him.".
+  Ending the_rain "The Rains" when rainWatched(party) and not hersPoured(party) and at(party, waterfront) "It rains for three days. On the second, the coaster sails on the new wind with you aboard. Somebody has carried the gourd back up the hill to its nail. Oyelle, they tell you on the jetty, heard the rain come down from her doorway, and said it was about time.".
+}

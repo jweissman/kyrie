@@ -8679,6 +8679,68 @@
    "era": "late",
    "light": "night",
    "weather": "clear"
+  },
+  "scene-tropics": {
+   "form": "landscape",
+   "shows": "a bay of green islands in clear water, seen from rocks under a palm, the sun over the sea",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-tropics-beach": {
+   "form": "landscape",
+   "shows": "a long pale beach under a great tree and a palm, small waves, a sail on the bay and hills beyond",
+   "era": "late",
+   "light": "golden afternoon",
+   "weather": "clear"
+  },
+  "scene-tropics-cove": {
+   "form": "landscape",
+   "shows": "a small cove of clear water closed in by grey rock, palms and flowers, the sun over the sea",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-tropics-hut": {
+   "form": "landscape",
+   "shows": "a thatched hut with a hammock on its porch under a great tree on a grassy hill above a bay, an island and a sail",
+   "era": "late",
+   "light": "soft afternoon",
+   "weather": "clear"
+  },
+  "scene-tropics-valley": {
+   "form": "landscape",
+   "shows": "a green valley of long grass and palms, a stream going down to a bay of islands, a great tree, red flowers",
+   "era": "late",
+   "light": "golden afternoon",
+   "weather": "clear"
+  },
+  "scene-tropics-village": {
+   "form": "landscape",
+   "shows": "a village of white thatched houses on a palm-lined bay, boats at wooden jetties, nets drying, the sun over the sea",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-tropics-village-rain": {
+   "form": "landscape",
+   "shows": "a village of thatched houses on a bay in heavy rain, smoke rising, palms, a boat on grey water, dark hills",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-tropics-path": {
+   "form": "landscape",
+   "shows": "a path winding through tall golden grass and cane toward green hills and a waterfall, a great tree, red flowers",
+   "era": "late",
+   "light": "afternoon",
+   "weather": "clear"
+  },
+  "scene-tropics-waterfall": {
+   "form": "landscape",
+   "shows": "a waterfall dropping down a mossed cliff into a wide pool among boulders, ferns and a palm, spray in the light",
+   "era": "late",
+   "light": "sunlit"
   }
  }
 }

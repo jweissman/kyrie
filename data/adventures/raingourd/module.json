@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "gourd.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ]
+}

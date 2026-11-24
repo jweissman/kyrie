@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "name": "The Rain-Gourd",
+  "pitch": {
+    "heading": "The Rain-Gourd",
+    "text": "On Lantana Cay it is the end of the dry, and the ship that brought you waits on a wind that comes with the rains. Up the hill above Palla an old woman has carried the rain-gourd to the falls every year for fifty years. This year her hip will not."
+  },
+  "modules": [
+    {
+      "id": "raingourd",
+      "bundle": "../adventures/raingourd/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "human",
+      "classId": "warrior"
+    }
+  ]
+}

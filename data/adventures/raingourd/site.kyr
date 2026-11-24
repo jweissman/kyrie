@@ -1,0 +1,47 @@
+Module raingourd "The Rain-Gourd" {
+  Description "Lantana Cay at the end of the dry: Palla on its bay, Oyelle Marre's house on the hill, the long beach, the cane valley and the falls at its head.".
+
+  Place cay "Lantana Cay" is region within imbar.
+  Place palla "Palla" is settlement within cay at 0, 0.
+  Place hill_land "the hill above Palla" is wilderness within cay at 0, 1.
+  Place shore_land "the long beach" is wilderness within cay at 1, 0.
+  Place valley_land "the cane valley" is wilderness within cay at 2, 0.
+
+  Place headland "the headland" is room within palla at 0, 0 outdoors.
+  Place waterfront "the waterfront at Palla" is room within palla at 1, 0 outdoors.
+  Place cove "the bathing cove" is room within palla at 2, 0 outdoors.
+  Place hilltop "Oyelle's door" is room within hill_land at 0, 0 outdoors.
+  Place beach "the long beach" is room within shore_land at 0, 0 outdoors.
+  Place valley "the cane valley" is room within valley_land at 0, 0 outdoors.
+  Place canepath "the path through the cane" is room within valley_land at 1, 0 outdoors.
+  Place pool "the pool under the falls" is room within valley_land at 2, 0 outdoors.
+
+  Passage head_way "the path down off the headland" is path between headland and waterfront taking 5 minutes.
+  Passage cove_way "the rocks round to the cove" is path between waterfront and cove taking 5 minutes.
+  Passage goat_track "the goat-track up the hill" is path between waterfront and hilltop taking 15 minutes.
+  Passage sand_way "along the sand" is path between waterfront and beach taking 15 minutes.
+  Passage stream_way "up the stream into the valley" is path between beach and valley taking 20 minutes.
+  Passage cane_way "the path into the cane" is path between valley and canepath taking 10 minutes.
+  Passage falls_way "the last of the path, to the falls" is path between canepath and pool taking 10 minutes.
+
+  // The sky is the island's own: the dry until the gourd is poured, then the rains (the page paints Palla by it).
+  Thing sky "the sky over Lantana" at waterfront is scenery {
+    State hot_sky "A white sky, hot and still. Nothing has fallen out of it since the spring.".
+    State rain_sky "Rain, warm and straight down, on everything.".
+  }
+  Initially Assert state(sky, hot_sky).
+
+  Observe headland_scene at headland when true "From the rocks under the palm the whole bay lies open: green islands standing in clear water, and the sun on the sea.".
+  Observe headland_ship at headland as sign when true "The coaster that brought you lies at anchor off the point with her sails furled. She is waiting on the wind, and the wind comes with the rains.".
+  Observe waterfront_scene at waterfront when true "White houses with thatched roofs stand along the shore on stilts and steps. Boats lie at the jetties, and nets hang drying between poles.".
+  Observe cove_scene at cove when true "A little bay closed in by grey rock, the water so clear that the stones on the bottom seem to float.".
+  Observe hilltop_scene at hilltop when true "A thatched house sits in the shade of a great tree on the brow of the hill, with a hammock slung on its porch and the whole bay below it.".
+  Observe beach_scene at beach when true "The beach runs a mile along the bay under the trees, pale and empty, the small waves coming in sideways.".
+  Observe valley_scene at valley when true "Long grass and a few palms on the floor of a green valley, with a stream going down through stones to the sea.".
+  Observe canepath_scene at canepath when true "A path of beaten earth winds through cane higher than your head toward the hills. Ahead, a white thread hangs down a cliff.".
+  Observe pool_scene at pool when true "The water comes down a cliff of mossed rock into a wide pool, with a noise you feel in your teeth and a cold breath of spray.".
+  Thing falls "the falls" at pool is scenery {
+    State running "The water comes over the lip of the cliff in one white rope. Behind it, at the side where the fern grows thickest, a dark ledge runs in under the fall.".
+  }
+  Initially Assert state(falls, running).
+}

@@ -1,0 +1,5 @@
+Module raingourd "The Rain-Gourd" {
+  Company party "You" of 1 at headland.
+  Initially Set quantity(party, gold) to 6. Initially Set quantity(party, rations) to 1.
+  Observe arrival at headland as fixture when watch(clock) < 1 "The coaster put you ashore on Lantana Cay at first light with the water-casks, to wait out the calm. Below the headland lies the village of Palla, white houses on its bay.".
+}

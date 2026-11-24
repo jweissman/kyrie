@@ -85,7 +85,7 @@ class Census {
         }
       }
     }
-    const authored = new Set(Object.values(scenery.places as Record<string, string>));
+    const authored = new Set(Object.values(scenery.places as Record<string, string | string[]>).flat());
     const byLand = JSON.stringify({ v: scenery.views, a: scenery.approaches, w: scenery.within, n: scenery.winter });
     const kinds = JSON.stringify(scenery.kinds);
     const never = [...mapped].filter(m => ids.has(m) && !showers.has(m) && !authored.has(m) && !byLand.includes(`"${m}"`)
