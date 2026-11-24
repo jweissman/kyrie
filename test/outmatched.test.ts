@@ -17,7 +17,10 @@ class Quarry {
     const r = new Runner(journey.session);
     Quarry.session = journey.session;
     let s = r.said() as Said;
-    for (const label of [/^To the landing at/, /^Into the Lucky Phoenix/, /^Ask Eamon about the old quarry$/]) {
+    // The notice on the well-post read on the way in: the quarry's job is asked after only by one who has heard of it
+    // (OR-370).
+    for (const label of [/^To the landing at/, /^Read the notice on the well-post$/, /^Into the Lucky Phoenix/,
+      /^Ask Eamon about the old quarry$/]) {
       s = await RunnerFind.act(r, s, label);
     }
     return s.scene.lines.join(' ');
