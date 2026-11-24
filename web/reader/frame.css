@@ -42,6 +42,18 @@ html, body { overflow: hidden; }
    same measure. On a narrow or upright screen the column is the screen within its safe zone, at the foot. A page on the
    frame places its menu by these and nothing of its own (test/menu-placement-browser measures it). */
 .shell { --menu-r: max(var(--safe-r), var(--safe-l)); --menu-w: min(34rem, 42vw); --menu-inset: clamp(18px, 2.2vw, 30px); }
+/* What a page inside the stage places its rows by (OR-380): how far in from the stage's right edge the rows end
+   (--menu-edge: the column's place on the screen less the stage's margin, which the title's whole-screen stage has none
+   of), and how wide they are (--menu-rows). On a narrow or upright screen, the safe zone's width. */
+.shell { --menu-edge: calc(var(--menu-r) + var(--menu-inset) - (100vw - var(--frame-w)) / 2);
+  --menu-rows: calc(var(--menu-w) - 2 * var(--menu-inset));
+  --menu-x: calc(100vw - var(--menu-r) - var(--menu-inset) - var(--menu-rows)); }
+@media (max-width: 899px), (orientation: portrait) {
+  .shell { --menu-edge: calc(var(--safe-r) - (100vw - var(--frame-w)) / 2);
+    --menu-rows: calc(100vw - var(--safe-l) - var(--safe-r)); --menu-x: var(--safe-l); }
+}
+/* And a page centred on the screen (the Book's) puts its rows there by --menu-x, where they begin on the screen:
+   margin-left: calc(50% - 50vw + var(--menu-x)). */
 /* A tablet keeps a narrower margin; a phone, none: its stage is the screen within its safe areas. */
 @media (max-width: 1279px) { .shell { --gx: clamp(20px, 4.5vw, 64px); --gy: clamp(14px, 3.4vh, 40px); } }
 @media (max-width: 1023px) { .shell { --gx: clamp(16px, 3.5vw, 36px); --gy: clamp(14px, 2.6vh, 32px); } }
@@ -351,3 +363,11 @@ html, body { overflow: hidden; }
   color: var(--dim); }
 .begin-menu .begin-line { margin: 14px 0 0; min-height: 3em; font: italic 400 16px/1.5 var(--told); color: var(--dim);
   text-wrap: balance; }
+/* The title's ways in, the safe zone's width on a narrow screen (OR-380); on a wide one they stay centred under the name,
+   the title's own composition (OR-382). How a life begins asks in the frame's column, where creation's rows then stand:
+   its question over its rows and its sentence under them, at the left of the column as every menu's words are. */
+@media (max-width: 899px), (orientation: portrait) { .title-menu { width: var(--menu-rows); } }
+.title-page[data-mode="begin"] { padding: 0; }
+.title-page[data-mode="begin"] .title-main { width: 100%; align-items: flex-end; padding-right: var(--menu-edge);
+  text-align: left; }
+.title-page[data-mode="begin"] .begin-menu { width: var(--menu-rows); }

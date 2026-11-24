@@ -696,6 +696,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, split from OR-305 at its close: the remaining pages brought onto the frame's menu column, a commissioned outcome held by a ratchet, no observed failure of a claimed contract"
+  },
+  "OR-382": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-380: the title recomposed so that its ways in stand in the frame's column at a desk's size, an outcome the owner commissions (OR-305) that waits on their artistic call; no claimed contract broken"
   }
  },
  "blockedBy": {

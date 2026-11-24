@@ -134,9 +134,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .shell.phase-options { --frame-w: 100vw; --frame-h: 100dvh; }
 .shell.phase-options .frame { background: transparent; border: 0; box-shadow: none; }
 .shell.phase-options .frame::after, .shell.phase-options .ambient { display: none; }
-.frame > .opening.options-page { display: grid; place-items: center; height: var(--frame-h); min-height: 0; max-width: none;
-  padding: var(--s6) var(--s4); overflow-y: auto; scrollbar-width: none; }
-.options-page > main { width: min(26rem, 100%); }
+/* Options in the frame's menu column (OR-380), its name over its rows, as the scene's telling stands over its acts. */
+.frame > .opening.options-page.options-page { display: grid; place-items: center end; height: var(--frame-h); min-height: 0; max-width: none;
+  padding: var(--s6) var(--menu-edge) var(--s6) 0; overflow-y: auto; scrollbar-width: none; }
+.frame > .opening.options-page.options-page > main { width: var(--menu-rows); margin: 0; }
 .options-page h1 { font: var(--t-title); letter-spacing: .2em; text-transform: uppercase; color: var(--ivory);
   margin: 0 0 var(--s5); }
 .options-page .option-set { margin: 0 0 var(--s4); }

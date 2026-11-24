@@ -4,6 +4,7 @@ import { ReaderOptions, type Options } from './reader-options';
 import { TitlePage } from './title-page';
 import { Identity } from '../../src/presentation/identity';
 import { ChoiceRow } from './stage/choice-row';
+import { PageFrame } from './page-frame';
 import { FirstChoice, type Paused } from '../../src/creation/first-choice';
 
 // Options, from the title: the size of the page's letters, whether the dice behind what happens are told ("Wenna
@@ -29,38 +30,36 @@ export class OptionsPage {
       { id: 'hidden', label: 'Not told', note: 'only what came of it' }] }];
   static View({ app }: { app: ReaderApp }) {
     const options = app.state.options, named = Identity.named(app.props.query);
-    return (
-      <div className="opening options-page" data-mode="options">
-        <main>
-          <p className="label">{Identity.spoken(named.game)}</p>
-          <h1>Options</h1>
-          <section className="option-set" aria-label="Reading">
-            <p className="label">Reading</p>
-            <ul className="rows">{OptionsPage.settings.map(setting => {
-              const now = OptionsPage.now(setting, options), next = OptionsPage.next(setting, now.id);
-              return <li key={setting.key}><ChoiceRow.Button data={{ action: 'option', key: setting.key, id: next }}
-                label={setting.label} glyph={setting.glyph} plain="neutral"
-                aside={[now.label, now.note].filter(Boolean).join(': ')}
-                own={{ 'data-nav': true, 'aria-label': `${setting.label}: ${now.label}` }}
-                onClick={OptionsPage.set.bind(null, app)} /></li>;
-            })}</ul>
-          </section>
-          <section className="option-set" aria-label="A saved game">
-            <p className="label">A saved game</p>
-            <ul className="rows"><li><ChoiceRow.Button data={{ action: 'load-file' }} label="Open a save file"
-              glyph="the_book" aside="Downloaded from this browser or another" plain="neutral"
-              own={{ 'data-nav': true }} onClick={OptionsPage.open} /></li></ul>
-            <input type="file" id="load" accept="application/json" hidden onChange={TitlePage.load.bind(null, app)} />
-          </section>
-          {app.state.frame ? <ul className="rows back">{FirstChoice.paused().cards.map(card => <li key={card.id}>
-            <ChoiceRow.Button data={{ action: card.id }} label={card.name} glyph={card.id === 'back' ? 'back' : undefined}
-              plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.paused.bind(null, app, card.id)} /></li>)}</ul>
-            : <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" glyph="back"
-              plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.back.bind(null, app)} /></li></ul>}
-          <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>
-        </main>
-      </div>
-    );
+    // On the one page's frame (OR-380): its name its header, its rows its menu, in the frame's menu column.
+    return <PageFrame.View kind="options" className="opening options-page" attrs={{ 'data-mode': 'options' }}
+      body="options-main"
+      header={<><p className="label">{Identity.spoken(named.game)}</p><h1>Options</h1></>}
+      menu={<>
+        <section className="option-set" aria-label="Reading">
+          <p className="label">Reading</p>
+          <ul className="rows">{OptionsPage.settings.map(setting => {
+            const now = OptionsPage.now(setting, options), next = OptionsPage.next(setting, now.id);
+            return <li key={setting.key}><ChoiceRow.Button data={{ action: 'option', key: setting.key, id: next }}
+              label={setting.label} glyph={setting.glyph} plain="neutral"
+              aside={[now.label, now.note].filter(Boolean).join(': ')}
+              own={{ 'data-nav': true, 'aria-label': `${setting.label}: ${now.label}` }}
+              onClick={OptionsPage.set.bind(null, app)} /></li>;
+          })}</ul>
+        </section>
+        <section className="option-set" aria-label="A saved game">
+          <p className="label">A saved game</p>
+          <ul className="rows"><li><ChoiceRow.Button data={{ action: 'load-file' }} label="Open a save file"
+            glyph="the_book" aside="Downloaded from this browser or another" plain="neutral"
+            own={{ 'data-nav': true }} onClick={OptionsPage.open} /></li></ul>
+          <input type="file" id="load" accept="application/json" hidden onChange={TitlePage.load.bind(null, app)} />
+        </section>
+        {app.state.frame ? <ul className="rows back">{FirstChoice.paused().cards.map(card => <li key={card.id}>
+          <ChoiceRow.Button data={{ action: card.id }} label={card.name} glyph={card.id === 'back' ? 'back' : undefined}
+            plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.paused.bind(null, app, card.id)} /></li>)}</ul>
+          : <ul className="rows back"><li><ChoiceRow.Button data={{ action: 'back' }} label="Back" glyph="back"
+            plain="neutral" own={{ 'data-nav': true }} onClick={OptionsPage.back.bind(null, app)} /></li></ul>}
+        <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>
+      </>} />;
   }
   // What a setting is now, and what taking its row makes it: the next of its values, round again after the last.
   static now(setting: (typeof OptionsPage.settings)[number], options: Options) {
