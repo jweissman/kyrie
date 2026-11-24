@@ -47,9 +47,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   transform: rotate(135deg); }
 .act.sel, .act:focus-visible { box-shadow: inset 2px 0 0 var(--ivory); }
 .act:active { background: var(--accent-glow); transform: translateY(1px); transition-duration: 40ms; }
-.act.fired { border-color: var(--accent); background: var(--accent-glow); }
-.act.fired::before { background: var(--accent); border-color: var(--accent); animation: fired .9s var(--ease) infinite; }
-@keyframes fired { 50% { box-shadow: 0 0 0 5px var(--accent-glow); } }
+/* A row pressed and its answer awaited: held as chosen, steadily, as a selected row is drawn (OR-145's committed
+   state), neither tinted nor pulsing (the owner, 24 November: nothing flashing or blinking an atlas colour). */
+.act.fired { border-color: var(--touch); box-shadow: inset 2px 0 0 var(--ivory); }
+.act.fired::before { background: var(--ivory); border-color: var(--ivory); transform: rotate(135deg); }
 .act[aria-disabled="true"], .act.shut { color: var(--faint); background: transparent; border-style: dashed; cursor: default; }
 .act.shut::before { border-color: var(--faint); background: none; transform: rotate(45deg); }
 .act.shut:hover { background: transparent; border-color: var(--edge-strong); }

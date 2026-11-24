@@ -80,7 +80,7 @@
   /* Light, not a box (M22: the bordered card had been cut through by the conversation's edge). */
   border: 0; background: radial-gradient(ellipse at 50% 0%, rgba(239, 230, 209, .14), transparent 70%);
   animation: moment .9s var(--ease) both; }
-@keyframes moment { from { opacity: 0; transform: scale(.98); box-shadow: 0 0 0 0 var(--accent-glow); } }
+@keyframes moment { from { opacity: 0; transform: scale(.98); } }
 /* A check's dice in a conversation: a quiet disclosure under what came of it, as a fight's How it fell (ruling 1). */
 .lines .how { margin: 4px 0 0; font: 400 12.5px/1.45 var(--do); color: var(--faint); }
 .lines .how > summary { cursor: pointer; list-style: none; }
