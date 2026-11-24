@@ -18,13 +18,16 @@ export class Charge {
   // The installations the charge is: the origin's, and the first aim's, where the origin brings the company into a
   // situation of the world's own (the held drove); none where the first aim is the origin's or the country's (kite's
   // road home), nor where the opening is a meeting on the road (kite's carter), told as the opening's pages tell it.
+  // The situation is the first aim's of the world's own, wherever it stands among the aims: with the weir life's own
+  // errand held first (OR-247), the sea-gate's aim was second, the charge was taken for none, and the first page led
+  // with the tinker's daughter and the notice in its place (OR-261).
   static of(screen: Screen): ReadonlySet<string> {
-    const first = screen.aims?.[0]?.id.split('__')[0];
+    const first = (screen.aims ?? []).filter(a => a.id.includes('__')).map(a => a.id.split('__')[0]!)
+      .find(x => ![Charge.origin, 'region'].includes(x));
     // An origin to tell it by (a campaign or a small world of one module has none), and no meeting on the road.
     const met = screen.observed.some(o => o.id === Charge.meeting)
       || !screen.observed.some(o => o.id.startsWith(`${Charge.origin}__`));
-    const situated = !met && !!first && first !== screen.aims?.[0]?.id && ![Charge.origin, 'region'].includes(first);
-    return new Set(situated ? [Charge.origin, first] : []);
+    return new Set(!met && first ? [Charge.origin, first] : []);
   }
   // Whether an observation, a thing, a person or an act (by any id it names) is the charge's.
   static holds(id: string | undefined, charge: ReadonlySet<string>): boolean {

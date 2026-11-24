@@ -102,10 +102,13 @@ describe('Gatesend, after the fifth cold play', () => {
     const look = said(await run.r.ask('{"look":true}'));
     expect(look.scene.lines.filter(l => /notice.*by the well/.test(l))).toHaveLength(1);
     expect(text(look)).toContain('nailed to the clerk’s own trestle, under the shire-reeve’s mark');
-    // The first turn leads with the company's own errand, the weir, to take up (OR-247), and the way to it; the well's
-    // notice is one row at most.
-    expect(run.s.offer.primary.slice(0, 2).map(o => o.label)).toEqual(['Lift the trap at Tegwen\'s eel-weir', 'To Tegwen\'s eel-weir']);
-    expect(notices(run.s).length).toBeLessThanOrEqual(1);
+    // The first turn leads with the company's own errand, the weir, to take up (OR-247), and the way to it; and with
+    // the sea-gate that will drown it, which Nest has just said (OR-261: the charge is the origin's and the gate's,
+    // attention to her words repaid); the well's notice is the next turn's.
+    const four = run.s.offer.primary.map(o => o.label);
+    expect(four[0]).toBe('Lift the trap at Tegwen\'s eel-weir');
+    expect(four).toEqual(expect.arrayContaining(['To Tegwen\'s eel-weir', 'Ask Nest what is wrong with the sea-gate']));
+    expect(notices(run.s)).toHaveLength(0);
     let s = run.s;
     for (const line of lines(5, 12)) { const x = await AsMeant.ask(run.r, line); if (!('error' in x)) { s = x; } }
     expect(notices(s).map(o => o.label)).toEqual(['Read the royal proclamation under the notices']);
