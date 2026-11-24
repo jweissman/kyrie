@@ -7,6 +7,7 @@ import { StockOpenings } from '../../src/world/stock-openings';
 import { EconomyMeasure } from '../economy-measure';
 import { FirstHourBands } from '../first-hour-bands';
 import { NoviceCountry, type Country } from '../novice-country';
+import { QuantityDungeon } from './dungeon';
 
 // A first country as a new life begun in its first town finds it (no stock opening: the town is where the measures
 // are taken from), read by the instruments that already read it: NoviceCountry (its bands, sites, hire, and how far
@@ -19,7 +20,8 @@ export interface Read {
   economy: { day: number; kit: number; dearest: number; ratio: number; worth: number; stock: number; purse: number;
     missing: string[] };
   reach: { things: string[]; cells: number };
-  dungeon?: { name: string; minutes: number; hexes: number; companion: boolean; light: boolean; provisions: boolean };
+  dungeon?: { name: string; minutes: number; hexes: number; levels: number; companion: boolean; light: boolean;
+    provisions: boolean; at: { companion: boolean; light: boolean; provisions: boolean; gear: boolean } };
 }
 export class QuantityCountry {
   // A day's reach: six hours' going from the start, there and back in a waking day.
@@ -90,16 +92,20 @@ export class QuantityCountry {
   private static what(id: string): string {
     return /wonder_/.test(id) ? 'wonder' : /_pl_/.test(id) ? 'pleasure' : 'occasion';
   }
-  // The first dungeon: the nearest of the country's own sites with a band in it (NoviceCountry's first ruin), how far
-  // over its ways and in hexes from the first town, and whether a companion can be hired in that town for what the
-  // company carries, and light and provisions bought there.
+  // The first dungeon as the owner defines it (24 November, OR-311): the nearest site with two levels or more, each
+  // with a boss and a cache (QuantityDungeon); how far its way in is, over the ways and in hexes, from the first town;
+  // whether a companion can be hired in that town for what the company carries, and a light and provisions bought
+  // there; and whether someone to hire stands at it, and a light, provisions and gear lie to be found by searching
+  // near its way in. (It had been the nearest site with a band out of any town in it: the deep site under the first
+  // town, whose bands are under the town, was never read, and the first dungeon read was a day off: OR-327, OR-328.)
   static dungeon(c: Campaign, country: Country): Read['dungeon'] {
-    const site = country.sites.find(s => s.id === country.firstRuin), home = country.town && this.cell(c, country.town);
+    const site = QuantityDungeon.first(c, country), home = country.town && this.cell(c, country.town);
     if (!site) { return undefined; }
-    const at = this.cell(c, site.id), wares = this.wares(c, country);
+    const at = this.cell(c, site.entry), wares = this.wares(c, country);
     return { name: site.name, minutes: site.minutes, hexes: home && at ? this.hexes(c, home, at) : Infinity,
-      companion: !!country.hire && country.hire.fee <= country.hire.gold,
-      light: wares.some(x => this.light.test(x.kind)), provisions: wares.some(x => this.provisions.test(x.kind)) };
+      levels: site.held, companion: !!country.hire && country.hire.fee <= country.hire.gold,
+      light: wares.some(x => this.light.test(x.kind)), provisions: wares.some(x => this.provisions.test(x.kind)),
+      at: { companion: site.companion, ...site.found } };
   }
   static cell(c: Campaign, id: string): { land: string; cell: number } | undefined {
     const hex = HexBoundary.hex(c.module, id), m = hex && /^(.*):(\d+)$/.exec(hex);

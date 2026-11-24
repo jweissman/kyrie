@@ -35,6 +35,9 @@
   },
   "ready": {
    "floor": 3
+  },
+  "levels": {
+   "floor": 2
   }
  },
  "ratchets": {
