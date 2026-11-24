@@ -71,12 +71,16 @@ export class Quality {
         note: `p90 ${Math.round(this.at(decisions, 0.9))} ms over ${decisions.length} acts, target 15; a journey's leg `
           + `${Math.round(this.at(legged, 0.5))} ms at the median over ${legged.length} journeys, target 5` } };
   }
-  // The engine's own act timed (each leg of a journey its own), apart from the legal actions, never worked out
-  // within it, so that the two add up without counting anything twice.
-  static timing(c: Campaign): void { c.executeAsync = this.execute.bind(this, c.executeAsync.bind(c)); }
+  // The engine's own act timed (each leg of a journey its own), and apart from it what the player may do worked out,
+  // never within it, so that the two add up without counting anything twice.
+  static timing(c: Campaign): void {
+    c.executeAsync = this.execute.bind(this, c.executeAsync.bind(c));
+    c.offered = this.offered.bind(this, c.offered.bind(c));
+  }
   private static execute(execute: Campaign['executeAsync'], ...a: Parameters<Campaign['executeAsync']>) {
     return Costs.timed('act', () => execute(...a));
   }
+  private static offered(offered: Campaign['offered']) { return Costs.time('legal', offered); }
   static sorted(xs: number[]): number[] { return [...xs].sort((a, b) => a - b); }
   static at(sorted: number[], q: number): number { return sorted[Math.floor(q * (sorted.length - 1))]!; }
   static async breaches(): Promise<Reading> {

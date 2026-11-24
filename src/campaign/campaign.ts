@@ -220,8 +220,7 @@ export class Campaign implements WatchHost {
   // The actions open to the player now, worked out once for this world: to read without copying. Never change them.
   offered(): readonly Operator[] {
     if (!this.running || this.executing) { return []; }
-    return Costs.time('legal', () => this.grounding.offered(this.world, this.definition?.actors.find(a => a.player),
-      this.operators));
+    return this.grounding.offered(this.world, this.definition?.actors.find(a => a.player), this.operators);
   }
   plan(moduleId?: string) { return CampaignPlan.plan(this, moduleId); }
   encounterBattle(actionId: string, assault = false): Battle {
