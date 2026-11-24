@@ -12,8 +12,7 @@ import { ChoiceRow } from '../stage/choice-row';
 // Ancestry and calling are rows too, their emblem beside the name (the owner, M19: icons beside ancestry and calling
 // names; M22's second review, OR-42: a grid of cards had been a second control with its own focus and hold).
 // What is chosen is chosen at a press, a tap, or the keys' Enter (the owner, 23 November, OR-169: no long presses; it
-// had been held, 16 November), and Back undoes it; the second click of a double press is not a second choice
-// (PressGuard.once): the page after it came under the hand; nor of a row that turns a page or rolls again.
+// had been held, 16 November), and Back undoes it; every press answered (PressGuard.once), however soon after the last.
 export interface Option { id: string; name: string; aside?: string; glyph?: string; shut?: string }
 export class ComposedRow {
   // The mark of the one chosen before (come back to): the entry's gold on its mark alone, its ground the row's own (a

@@ -155,19 +155,9 @@
     "accept": "Set out now to the first scene in under 3 s on the deployed page (blocked by AX-04)"
    },
    {
-    "id": "OR-160",
-    "owner": "lead",
-    "accept": "the title says only Play; Play continues a game or offers build or 'We enter the world as we are', in the first scene's form; browser-proved"
-   },
-   {
     "id": "OR-23",
     "owner": "lead",
     "accept": "from Play to the opening's first act in 1.5 s, with the world pre-rolled at the title; no checklist, no black frame"
-   },
-   {
-    "id": "OR-169",
-    "owner": "lead",
-    "accept": "no long presses in creation or the opening: one press commits, with the sign and the life shown before; at 390x844 by touch"
    },
    {
     "id": "OR-178",

@@ -77,6 +77,15 @@ class Stage {
         x: r.x + r.width / 2, y: r.y + r.height / 2 };
     });
   }
+  // Where the opening was when the finger went down, seen before the page's own listeners (which stop a press that
+  // skips): the dark between the mark and the title is 400 ms, and a tap meant for it can land as the title comes up.
+  static async pressedAt(page: Page) {
+    await page.addInitScript(() => window.addEventListener('pointerdown', () => {
+      (window as unknown as { pressedAt: string }).pressedAt = document.querySelector('.title-page')?.className
+        .replace(/^.*beat-/, '') ?? 'ident';
+    }, true));
+    await page.reload({ waitUntil: 'commit' });
+  }
   // Where the name's first and last letters fall, and the screen's width.
   static mark(page: Page) {
     return page.evaluate(() => {
@@ -141,9 +150,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     await page.close();
   }, 120000);
 
-  it('lets a tap that skips the mark do nothing else, and a hold on New game as it comes up begin', async () => {
+  it('lets a tap that skips the mark do nothing else, and a press on Play once it is coming up begin', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1024, height: 1366 },
       { site, pointer: true, query: '?ident' });
+    await Stage.pressedAt(page);
     const tapped: string[] = [];
     for (const [beat, how] of [['ident', 'tap'], ['dark', 'tap'], ['reveal', 'tap'], ['reveal', 'hold']] as const) {
       // Watched from the page's first frame, as a player sees it, not from its load: the mark is in the page.
@@ -155,11 +165,15 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       await (how === 'hold' ? Stage.held(page, begin) : page.touchscreen.tap(begin.x, begin.y));
       await page.waitForSelector('.beat-ready, [data-mode="begin"]', { timeout: 120000 });
       await page.waitForTimeout(600);
-      tapped.push(`${begin.beat === 'ready' ? 'too late' : 'opening'} ${how}: ${
+      tapped.push(`${await page.evaluate(() => (window as unknown as { pressedAt?: string }).pressedAt ?? 'none')} ${how}: ${
         await page.getAttribute('[data-mode]', 'data-mode')}`);
     }
-    // Before the ways are there, only the title; a tap on New game only arms it, held it begins (the owner, 16 Nov).
-    expect(tapped).toEqual(['opening tap: title', 'opening tap: title', 'opening tap: title', 'opening hold: begin']);
+    // A tap that skips the mark or the dark after it does only that: the title, Play not pressed (the click it would
+    // make is the skip's, TitlePage.swallow). Once Play is coming up, a press on it is Play, at once, tapped or held
+    // (the owner, 6 November: New game in one click; 23 November, OR-169: no long presses).
+    expect(tapped[0]).toBe('ident tap: title');
+    expect(tapped.filter(t => /^(ident|dark) /.test(t) !== t.endsWith(': title'))).toEqual([]);
+    expect(tapped.slice(2).map(t => t.replace(/^(reveal|ready) /, ''))).toEqual(['tap: begin', 'hold: begin']);
     // The keys skip the studio's mark by Escape alone (a stray key no more than a stray touch: the owner, 17 November).
     await page.reload(); await page.waitForSelector('.beat-ident', { timeout: 30000 });
     await page.keyboard.press('Escape');
@@ -231,8 +245,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
       // The circumstance named by the address (a tester's way in: the world gives it otherwise).
       await page.click('[data-action="start"]');
       await page.waitForSelector('[data-mode="prologue"]', { timeout: 120000 });
-      // Each page goes on only by its one held Continue (the owner, 16 November: some sign that input is wanted;
-      // nothing by itself, nor at a touch anywhere).
+      // Each page goes on only by its one Continue, at a press (the owner, 16 November: some sign that input is wanted;
+      // nothing by itself, nor at a touch anywhere else; 23 November, OR-169: no long presses, it had been held).
       const first = (await page.textContent('[data-id="beat"]'))!;
       expect(await page.locator('[data-action="book"], .place-foot, .on-pane, [data-action="choice"]').count()).toBe(0);
       expect((await Stage.bounds(page)).margin).toBe(0);
@@ -241,9 +255,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
         await page.waitForTimeout(touch ? 400 : 1500);
         await driver.click(`[data-action="${action}"]`);
       };
-      // Pressed, not held, it stays; and left a while, it stays.
+      // Left a while, it stays; touched on its words, away from the Continue, it stays; pressed at its Continue, on.
       await page.waitForSelector('[data-action="beat"]', { state: 'visible' });
-      await page.keyboard.press('Enter'); await page.waitForTimeout(touch ? 600 : 2500);
+      await page.waitForTimeout(touch ? 600 : 2500);
+      expect(await page.textContent('[data-id="beat"]')).toBe(first);
+      await page.click('[data-id="beat"]'); await page.waitForTimeout(touch ? 600 : 1500);
       expect(await page.textContent('[data-id="beat"]')).toBe(first);
       await on('beat');
       // The way in names the town the place is in.

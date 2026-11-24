@@ -46,12 +46,13 @@ export class PressGuard {
   }
   // A way in taken by one press, at once (the owner, 23 November, OR-169: no long presses on the way into the game:
   // the title's Play, how a game begins, creation's rows, the opening's Continue): a click, a tap, the keys' Enter or
-  // Space, or an assistive technology's activation. The second click of a double press is not a second choice: the
-  // page it would land on came under the hand between the two (a double click on Play would choose how to begin).
-  static once(go: () => void) {
-    return { onClick: PressGuard.first.bind(null, go) };
-  }
-  private static first(go: () => void, e: { detail: number }) { if (e.detail <= 1) { go(); } }
+  // Space, or an assistive technology's activation, each answered. Every press is its own, however soon after the last:
+  // a finger's second tap on the page just drawn, 100 ms after the first and where it fell, is counted by the browser
+  // as a double (detail 2) and had been dropped as one (test/set-out-now-browser's phone walk, on presenting); a double
+  // click goes on twice, as it would anywhere in play, and Back undoes it. A key held down is still taken once
+  // (repeated, above the page's keys).
+  static once(go: () => void) { return { onClick: PressGuard.taken.bind(null, go) }; }
+  private static taken(go: () => void) { go(); }
   // A key's repeat that would do something again: Enter, Space or a digit, held down.
   static repeated(e: KeyboardEvent): boolean { return e.repeat && /^(Enter| |[1-9])$/.test(e.key); }
 }

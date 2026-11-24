@@ -61,11 +61,11 @@ describe('Interface › No long presses on the way in', () => {
     expect(drawn.map(html => html.includes('data-action') || html.includes('data-option'))).toEqual([true, true, true, true]);
     expect(drawn.filter(html => /data-hold|Hold to/.test(html))).toEqual([]);
   });
-  it('takes a press at once, and a double press once', () => {
+  it('takes every press at once, a quick second tap on the page just drawn among them', () => {
     let taken = 0;
     const row = PressGuard.once(() => { taken++; });
-    // A click, a tap or the keys (detail 1, or 0 for the keys and an assistive technology), then a double's second.
-    row.onClick({ detail: 1 }); row.onClick({ detail: 0 }); row.onClick({ detail: 2 });
-    expect(taken).toBe(2);
+    // A click, the keys or an assistive technology (detail 0), and a tap the browser counts as a double's second.
+    row.onClick(); row.onClick(); row.onClick();
+    expect(taken).toBe(3);
   });
 });
