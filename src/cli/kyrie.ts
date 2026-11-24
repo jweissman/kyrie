@@ -42,6 +42,7 @@ import { CheckpointStore } from '../session/checkpoint-store';
 import { Serve } from './serve';
 import { JourneyRead } from './journey-read';
 import { ReviewTool } from './review-tool';
+import { DeemWorkbench } from './deem-workbench';
 
 export class KyrieCli {
   static readonly usage = [
@@ -71,6 +72,8 @@ export class KyrieCli {
     '           bin/kyrie forecast <campaign.json> [--callings warrior,mage] (each band against novices of each calling)',
     '           bin/kyrie transcripts <campaign.json> --out <dir> [--seed s] <steps.json>... (journeys as the page told them)',
     '           bin/kyrie prose <campaign.json>          (a campaign\'s own words, each under its id)',
+    '           bin/kyrie deem browse | sample <generator> <study> | show | compare | inspect | select | reject | replay',
+    '                (the Deem workbench: generated things drawn by seed, judged, the data revised, drawn again)',
     '           bin/kyrie voice show|moments|coverage|review|orsino | voice repeats <module dir> | handbook [--html <dir>]',
     'Check:     bin/kyrie verify <adventure> [--steps n] [--played "who, when"]  (before handing in: compiled, lint, names,',
     '                repeats, tests, traces, reach, and what no play reached; doc/authoring/checklist.md)',
@@ -106,6 +109,7 @@ export class KyrieCli {
       case 'run': return Runner.main(rest);
       case 'read': return JourneyRead.main(rest);
       case 'review': return ReviewTool.main(rest);
+      case 'deem': return DeemWorkbench.main(rest);
       case 'campaign': await Terminal.playCampaign(await Campaign.load(path, TerminalMode.rest(rest)[1] ?? 'campaign',
         NodeBundleSource.shared), TerminalMode.input(rest)); return 0;
       case 'replay': return this.replay(path);

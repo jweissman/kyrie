@@ -1,0 +1,1439 @@
+{
+ "generator": "settlement",
+ "seed": "bench",
+ "n": 50,
+ "given": {},
+ "drawn": "2026-11-24",
+ "samples": [
+  {
+   "n": 1,
+   "key": "bench-0/s1",
+   "group": "bench-0 Wetmoss",
+   "fields": {
+    "country": "Wetmoss (marsh, human)",
+    "name": "Snipeholm",
+    "size": "town",
+    "trade": "eels",
+    "merchantType": "salter",
+    "folk": "human",
+    "told": "Snipeholm is a town of human folk, living by eels.",
+    "inn": "the Dancing Unicorn",
+    "innkeeper": "Brom (human, she)",
+    "priest": "Wesley (human, she)",
+    "merchant": "Baldrus (human, he)",
+    "traveller": "Yoriel (human, he)",
+    "calling": "eel-catcher",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "tinker"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "snipe",
+    "affix": "holm"
+   }
+  },
+  {
+   "n": 2,
+   "key": "bench-0/s2",
+   "group": "bench-0 Wetmoss",
+   "fields": {
+    "country": "Wetmoss (marsh, human)",
+    "name": "Coldmoss",
+    "size": "village",
+    "trade": "salt",
+    "merchantType": "salter",
+    "folk": "human",
+    "told": "Coldmoss is a village of human folk, living by salt.",
+    "inn": "the Laughing Unicorn",
+    "innkeeper": "Jora (human, she)",
+    "priest": "Samwise (halfling, she)",
+    "merchant": "Cassian (human, she)",
+    "traveller": "Lirien (human, she)",
+    "calling": "scholar"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "cold",
+    "affix": "moss"
+   }
+  },
+  {
+   "n": 3,
+   "key": "bench-0/s3",
+   "group": "bench-0 Wetmoss",
+   "fields": {
+    "country": "Wetmoss (marsh, human)",
+    "name": "Wǽttún",
+    "meaning": "wet village",
+    "size": "village",
+    "trade": "slate",
+    "merchantType": "smith",
+    "folk": "halfling",
+    "came": "came up the river with the honey carts in their grandmothers' time, and never went home",
+    "told": "Wǽttún is a village of halflings, living by slate. The folk of Wǽttún came up the river with the honey carts in their grandmothers' time, and never went home.",
+    "inn": "the Black Chalice",
+    "innkeeper": "Roscoe (halfling, he)",
+    "priest": "Krex (lizardfolk, she)",
+    "merchant": "Alton (halfling, he)",
+    "traveller": "Jaskil (lizardfolk, she)",
+    "calling": "pilgrim"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "human",
+    "folk": "halfling",
+    "feature": "wet",
+    "affix": "village"
+   }
+  },
+  {
+   "n": 4,
+   "key": "bench-0/s4",
+   "group": "bench-0 Wetmoss",
+   "fields": {
+    "country": "Wetmoss (marsh, human)",
+    "name": "Reedthwaite",
+    "size": "hamlet",
+    "trade": "charcoal",
+    "merchantType": "chandler",
+    "folk": "halfling",
+    "came": "farm the bottom land, and feed half the region and are thanked by none of it",
+    "told": "Reedthwaite is a hamlet of halflings, living by charcoal. The folk of Reedthwaite farm the bottom land, and feed half the region and are thanked by none of it.",
+    "inn": "the Stormy Unicorn",
+    "innkeeper": "Finnan (halfling, she)",
+    "priest": "Perrin (halfling, he)",
+    "merchant": "Milo (halfling, he)",
+    "traveller": "Elinde (human, she)",
+    "calling": "minstrel"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "human",
+    "folk": "halfling",
+    "feature": "reed",
+    "affix": "thwaite"
+   }
+  },
+  {
+   "n": 5,
+   "key": "bench-0/s5",
+   "group": "bench-0 Wetmoss",
+   "fields": {
+    "country": "Wetmoss (marsh, human)",
+    "name": "Redcarr",
+    "size": "hamlet",
+    "trade": "reed",
+    "merchantType": "herbwife",
+    "folk": "lizardfolk",
+    "came": "trade eels and reed with the human folk folk and keep their own counsel",
+    "told": "Redcarr is a hamlet of lizardfolk, living by reed. The folk of Redcarr trade eels and reed with the human folk folk and keep their own counsel.",
+    "inn": "the Ancient Dragon",
+    "innkeeper": "Nek (lizardfolk, he)",
+    "priest": "Orakra (lizardfolk, she)",
+    "merchant": "Fazil (lizardfolk, he)",
+    "traveller": "Iaric (human, he)",
+    "calling": "pedlar"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "human",
+    "folk": "lizardfolk",
+    "feature": "red",
+    "affix": "carr"
+   }
+  },
+  {
+   "n": 6,
+   "key": "bench-1/s1",
+   "group": "bench-1 Mornloxor",
+   "fields": {
+    "country": "Mornloxor (marsh, elf)",
+    "name": "Dimostirion",
+    "meaning": "gloom hold",
+    "size": "town",
+    "trade": "eels",
+    "merchantType": "salter",
+    "folk": "elf",
+    "told": "Dimostirion is a town of elven folk, living by eels.",
+    "inn": "the Gentle Eagle",
+    "innkeeper": "Lia (elf, she)",
+    "priest": "Thamior (elf, he)",
+    "merchant": "Kelp (undine, she)",
+    "traveller": "Immeral (elf, he)",
+    "calling": "scholar",
+    "undertown.store": "apprentice",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "tinker"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "elf",
+    "feature": "gloom",
+    "affix": "hold"
+   }
+  },
+  {
+   "n": 7,
+   "key": "bench-1/s2",
+   "group": "bench-1 Mornloxor",
+   "fields": {
+    "country": "Mornloxor (marsh, elf)",
+    "name": "Loxorlôx",
+    "meaning": "fen mire",
+    "size": "village",
+    "trade": "charcoal",
+    "merchantType": "chandler",
+    "folk": "undine",
+    "came": "came up out of the water a long time ago, and go back to it to die",
+    "told": "Loxorlôx is a village of undines, living by charcoal. The folk of Loxorlôx came up out of the water a long time ago, and go back to it to die.",
+    "inn": "the Sleepy Stag",
+    "innkeeper": "Aqua (undine, she)",
+    "priest": "Pearl (undine, she)",
+    "merchant": "Lagoon (undine, he)",
+    "traveller": "Galinndan (elf, he)",
+    "calling": "minstrel"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "undine",
+    "feature": "fen",
+    "affix": "mire"
+   }
+  },
+  {
+   "n": 8,
+   "key": "bench-1/s3",
+   "group": "bench-1 Mornloxor",
+   "fields": {
+    "country": "Mornloxor (marsh, elf)",
+    "name": "Motarosto",
+    "meaning": "marsh borough",
+    "size": "village",
+    "trade": "reed",
+    "merchantType": "herbwife",
+    "folk": "elf",
+    "told": "Motarosto is a village of elven folk, living by reed.",
+    "inn": "the Velvet Mask",
+    "innkeeper": "Orym (elf, she)",
+    "priest": "Aelar (elf, he)",
+    "merchant": "Quarion (elf, he)",
+    "traveller": "Fazil (lizardfolk, she)",
+    "calling": "pilgrim"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "elf",
+    "feature": "marsh",
+    "affix": "borough"
+   }
+  },
+  {
+   "n": 9,
+   "key": "bench-1/s4",
+   "group": "bench-1 Mornloxor",
+   "fields": {
+    "country": "Mornloxor (marsh, elf)",
+    "name": "Linquëtîr",
+    "meaning": "wet view",
+    "size": "hamlet",
+    "trade": "eels",
+    "merchantType": "salter",
+    "folk": "lizardfolk",
+    "came": "trade eels and reed with the elven folk folk and keep their own counsel",
+    "told": "Linquëtîr is a hamlet of lizardfolk, living by eels. The folk of Linquëtîr trade eels and reed with the elven folk folk and keep their own counsel.",
+    "inn": "the Blue Boar",
+    "innkeeper": "Faz (lizardfolk, she)",
+    "priest": "Zik (lizardfolk, he)",
+    "merchant": "Drask (lizardfolk, she)",
+    "traveller": "Glimmer (undine, he)",
+    "calling": "soldier"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "lizardfolk",
+    "feature": "wet",
+    "affix": "view"
+   }
+  },
+  {
+   "n": 10,
+   "key": "bench-1/s5",
+   "group": "bench-1 Mornloxor",
+   "fields": {
+    "country": "Mornloxor (marsh, elf)",
+    "name": "Loewnal",
+    "meaning": "moss dale",
+    "size": "hamlet",
+    "trade": "eels",
+    "merchantType": "salter",
+    "folk": "undine",
+    "came": "came up out of the water a long time ago, and go back to it to die",
+    "told": "Loewnal is a hamlet of undines, living by eels. The folk of Loewnal came up out of the water a long time ago, and go back to it to die.",
+    "inn": "the Stone Boar",
+    "innkeeper": "Peren (elf, he)",
+    "priest": "Ocean (undine, he)",
+    "merchant": "Jewel (undine, she)",
+    "traveller": "Arannis (elf, he)",
+    "calling": "pedlar"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "undine",
+    "feature": "moss",
+    "affix": "dale"
+   }
+  },
+  {
+   "n": 11,
+   "key": "bench-2/s1",
+   "group": "bench-2 Bushwood",
+   "fields": {
+    "country": "Bushwood (forest, human)",
+    "name": "Whitebridge",
+    "size": "town",
+    "trade": "salt",
+    "merchantType": "salter",
+    "folk": "human",
+    "told": "Whitebridge is a town of human folk, living by salt.",
+    "inn": "the Fierce Dragon",
+    "innkeeper": "Sorgen (human, she)",
+    "priest": "Baeloth (elf, he)",
+    "merchant": "Roondar (gnome, she)",
+    "traveller": "Tervin (gnome, he)",
+    "calling": "soldier",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "acolyte"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "white",
+    "affix": "bridge"
+   }
+  },
+  {
+   "n": 12,
+   "key": "bench-2/s2",
+   "group": "bench-2 Bushwood",
+   "fields": {
+    "country": "Bushwood (forest, human)",
+    "name": "Alaftaure",
+    "meaning": "elm wood",
+    "size": "village",
+    "trade": "slate",
+    "merchantType": "smith",
+    "folk": "elf",
+    "came": "came down from older country when the trees there were cut, and have not forgiven it",
+    "told": "Alaftaure is a village of elven folk, living by slate. The folk of Alaftaure came down from older country when the trees there were cut, and have not forgiven it.",
+    "inn": "the Brave Banner",
+    "innkeeper": "Hadarai (elf, he)",
+    "priest": "Uriel (elf, she)",
+    "merchant": "Aelar (elf, he)",
+    "traveller": "Myriil (elf, she)",
+    "calling": "scholar"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "elf",
+    "feature": "elm",
+    "affix": "wood"
+   }
+  },
+  {
+   "n": 13,
+   "key": "bench-2/s3",
+   "group": "bench-2 Bushwood",
+   "fields": {
+    "country": "Bushwood (forest, human)",
+    "name": "Lothosta",
+    "meaning": "lily stead",
+    "size": "village",
+    "trade": "timber",
+    "merchantType": "woodwright",
+    "folk": "elf",
+    "came": "came down from older country when the trees there were cut, and have not forgiven it",
+    "told": "Lothosta is a village of elven folk, living by timber. The folk of Lothosta came down from older country when the trees there were cut, and have not forgiven it.",
+    "inn": "the Shadowy Stag",
+    "innkeeper": "Arannis (elf, he)",
+    "priest": "Thamior (elf, he)",
+    "merchant": "Quarion (elf, he)",
+    "traveller": "Keyleth (elf, she)",
+    "calling": "pilgrim"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "elf",
+    "feature": "lily",
+    "affix": "stead"
+   }
+  },
+  {
+   "n": 14,
+   "key": "bench-2/s4",
+   "group": "bench-2 Bushwood",
+   "fields": {
+    "country": "Bushwood (forest, human)",
+    "name": "Highley",
+    "size": "hamlet",
+    "trade": "reed",
+    "merchantType": "herbwife",
+    "folk": "human",
+    "told": "Highley is a hamlet of human folk, living by reed.",
+    "inn": "the Merry Mask",
+    "innkeeper": "Emric (human, he)",
+    "priest": "Tabor (human, she)",
+    "merchant": "Caelynn (elf, she)",
+    "traveller": "Orym (elf, she)",
+    "calling": "pedlar"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "high",
+    "affix": "ley"
+   }
+  },
+  {
+   "n": 15,
+   "key": "bench-2/s5",
+   "group": "bench-2 Bushwood",
+   "fields": {
+    "country": "Bushwood (forest, human)",
+    "name": "Deephaven",
+    "size": "hamlet",
+    "trade": "salt",
+    "merchantType": "salter",
+    "folk": "gnome",
+    "came": "came for the salt and the quiet, and have filled the quiet with clocks",
+    "told": "Deephaven is a hamlet of gnomes, living by salt. The folk of Deephaven came for the salt and the quiet, and have filled the quiet with clocks.",
+    "inn": "the Iron Axe",
+    "innkeeper": "Boddynock (gnome, he)",
+    "priest": "Nackle (gnome, he)",
+    "merchant": "Dimble (gnome, he)",
+    "traveller": "Orryn (gnome, he)",
+    "calling": "minstrel"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "gnome",
+    "feature": "deep",
+    "affix": "haven"
+   }
+  },
+  {
+   "n": 16,
+   "key": "bench-3/s1",
+   "group": "bench-3 Mountainfells",
+   "fields": {
+    "country": "Mountainfells (mountain, human)",
+    "name": "Rowancastle",
+    "size": "town",
+    "trade": "tin",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Rowancastle is a town of human folk, living by tin.",
+    "inn": "the Wooden Phoenix",
+    "innkeeper": "Beowulf (human, he)",
+    "priest": "Harbek (dwarf, he)",
+    "merchant": "Brakarn (half_orc, she)",
+    "traveller": "Shokarn (half_orc, he)",
+    "calling": "pilgrim",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "sellsword"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "rowan",
+    "affix": "castle"
+   }
+  },
+  {
+   "n": 17,
+   "key": "bench-3/s2",
+   "group": "bench-3 Mountainfells",
+   "fields": {
+    "country": "Mountainfells (mountain, human)",
+    "name": "Barazhatzik",
+    "meaning": "red hold",
+    "size": "village",
+    "trade": "peat",
+    "merchantType": "herbwife",
+    "folk": "dwarf",
+    "came": "came for the peat and built in stone, and stayed when the seam ran thin",
+    "told": "Barazhatzik is a village of dwarven folk, living by peat. The folk of Barazhatzik came for the peat and built in stone, and stayed when the seam ran thin.",
+    "inn": "the Hidden Pixie",
+    "innkeeper": "Brottor (dwarf, he)",
+    "priest": "Griffin (human, he)",
+    "merchant": "Lharash (half_orc, she)",
+    "traveller": "Eberk (dwarf, he)",
+    "calling": "minstrel"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "dwarf",
+    "feature": "red",
+    "affix": "hold"
+   }
+  },
+  {
+   "n": 18,
+   "key": "bench-3/s3",
+   "group": "bench-3 Mountainfells",
+   "fields": {
+    "country": "Mountainfells (mountain, human)",
+    "name": "Heatherfield",
+    "size": "village",
+    "trade": "iron",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Heatherfield is a village of human folk, living by iron.",
+    "inn": "the Brave Star",
+    "innkeeper": "Wesley (human, he)",
+    "priest": "Amrod (human, he)",
+    "merchant": "Francis (human, she)",
+    "traveller": "Mharash (half_orc, she)",
+    "calling": "mason"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "heather",
+    "affix": "field"
+   }
+  },
+  {
+   "n": 19,
+   "key": "bench-3/s4",
+   "group": "bench-3 Mountainfells",
+   "fields": {
+    "country": "Mountainfells (mountain, human)",
+    "name": "Highwater",
+    "size": "hamlet",
+    "trade": "charcoal",
+    "merchantType": "chandler",
+    "folk": "human",
+    "told": "Highwater is a hamlet of human folk, living by charcoal.",
+    "inn": "the Velvet Tankard",
+    "innkeeper": "Ion (human, she)",
+    "priest": "Jade (human, he)",
+    "merchant": "Zara (human, she)",
+    "traveller": "Gimgen (dwarf, he)",
+    "calling": "drover"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "high",
+    "affix": "water"
+   }
+  },
+  {
+   "n": 20,
+   "key": "bench-3/s5",
+   "group": "bench-3 Mountainfells",
+   "fields": {
+    "country": "Mountainfells (mountain, human)",
+    "name": "Ironholt",
+    "size": "hamlet",
+    "trade": "iron",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Ironholt is a hamlet of human folk, living by iron.",
+    "inn": "the Crystal Ship",
+    "innkeeper": "Zaron (human, she)",
+    "priest": "Aghavan (human, he)",
+    "merchant": "Fargrim (dwarf, he)",
+    "traveller": "Pharash (half_orc, he)",
+    "calling": "tinker"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "iron",
+    "affix": "holt"
+   }
+  },
+  {
+   "n": 21,
+   "key": "bench-4/s1",
+   "group": "bench-4 Bushweald",
+   "fields": {
+    "country": "Bushweald (forest, human)",
+    "name": "Wrenholt",
+    "size": "town",
+    "trade": "timber",
+    "merchantType": "woodwright",
+    "folk": "human",
+    "told": "Wrenholt is a town of human folk, living by timber.",
+    "inn": "the Icy Phoenix",
+    "innkeeper": "Velana (human, she)",
+    "priest": "Finnan (halfling, she)",
+    "merchant": "Zaron (human, he)",
+    "traveller": "Tolman (halfling, she)",
+    "calling": "charcoal-burner",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "acolyte"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "wren",
+    "affix": "holt"
+   }
+  },
+  {
+   "n": 22,
+   "key": "bench-4/s2",
+   "group": "bench-4 Bushweald",
+   "fields": {
+    "country": "Bushweald (forest, human)",
+    "name": "Birchford",
+    "size": "village",
+    "trade": "honey",
+    "merchantType": "herbwife",
+    "folk": "human",
+    "told": "Birchford is a village of human folk, living by honey.",
+    "inn": "the Bronze Dragon",
+    "innkeeper": "Bryce (human, he)",
+    "priest": "Aric (human, he)",
+    "merchant": "Hadarai (half_elf, he)",
+    "traveller": "Glen (human, he)",
+    "calling": "scholar"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "birch",
+    "affix": "ford"
+   }
+  },
+  {
+   "n": 23,
+   "key": "bench-4/s3",
+   "group": "bench-4 Bushweald",
+   "fields": {
+    "country": "Bushweald (forest, human)",
+    "name": "Crowthorpe",
+    "size": "village",
+    "trade": "reed",
+    "merchantType": "herbwife",
+    "folk": "human",
+    "told": "Crowthorpe is a village of human folk, living by reed.",
+    "inn": "the Fierce Wolf",
+    "innkeeper": "Yoriel (human, she)",
+    "priest": "Rudolf (human, she)",
+    "merchant": "Emrys (human, he)",
+    "traveller": "Ulric (human, he)",
+    "calling": "pedlar"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "crow",
+    "affix": "thorpe"
+   }
+  },
+  {
+   "n": 24,
+   "key": "bench-4/s4",
+   "group": "bench-4 Bushweald",
+   "fields": {
+    "country": "Bushweald (forest, human)",
+    "name": "Bordmaere",
+    "meaning": "birds mere",
+    "size": "hamlet",
+    "trade": "slate",
+    "merchantType": "smith",
+    "folk": "halfling",
+    "came": "came up the river with the honey carts in their grandmothers' time, and never went home",
+    "told": "Bordmaere is a hamlet of halflings, living by slate. The folk of Bordmaere came up the river with the honey carts in their grandmothers' time, and never went home.",
+    "inn": "the Silk Harp",
+    "innkeeper": "Roscoe (halfling, he)",
+    "priest": "Errich (halfling, she)",
+    "merchant": "Jessen (human, she)",
+    "traveller": "Erevan (half_elf, he)",
+    "calling": "pilgrim"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "halfling",
+    "feature": "birds",
+    "affix": "mere"
+   }
+  },
+  {
+   "n": 25,
+   "key": "bench-4/s5",
+   "group": "bench-4 Bushweald",
+   "fields": {
+    "country": "Bushweald (forest, human)",
+    "name": "Redshaw",
+    "size": "hamlet",
+    "trade": "reed",
+    "merchantType": "herbwife",
+    "folk": "human",
+    "told": "Redshaw is a hamlet of human folk, living by reed.",
+    "inn": "the Crying Tankard",
+    "innkeeper": "Wolf (human, he)",
+    "priest": "Lirion (human, she)",
+    "merchant": "Burke (human, she)",
+    "traveller": "Marissa (human, she)",
+    "calling": "soldier"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "red",
+    "affix": "shaw"
+   }
+  },
+  {
+   "n": 26,
+   "key": "bench-5/s1",
+   "group": "bench-5 Highmoor",
+   "fields": {
+    "country": "Highmoor (mountain, human)",
+    "name": "Blackbury",
+    "size": "town",
+    "trade": "peat",
+    "merchantType": "herbwife",
+    "folk": "human",
+    "told": "Blackbury is a town of human folk, living by peat.",
+    "inn": "the Iron Tree",
+    "innkeeper": "Dorian (human, she)",
+    "priest": "Bran (human, she)",
+    "merchant": "Irina (human, she)",
+    "traveller": "Hadrian (human, she)",
+    "calling": "pilgrim",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "sellsword"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "black",
+    "affix": "bury"
+   }
+  },
+  {
+   "n": 27,
+   "key": "bench-5/s2",
+   "group": "bench-5 Highmoor",
+   "fields": {
+    "country": "Highmoor (mountain, human)",
+    "name": "Hareley",
+    "size": "village",
+    "trade": "tin",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Hareley is a village of human folk, living by tin.",
+    "inn": "the Blue Sun",
+    "innkeeper": "Carlin (human, she)",
+    "priest": "Malachai (human, she)",
+    "merchant": "Violet (human, he)",
+    "traveller": "Ulara (human, she)",
+    "calling": "mason"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "hare",
+    "affix": "ley"
+   }
+  },
+  {
+   "n": 28,
+   "key": "bench-5/s3",
+   "group": "bench-5 Highmoor",
+   "fields": {
+    "country": "Highmoor (mountain, human)",
+    "name": "Coldmouth",
+    "size": "village",
+    "trade": "salt",
+    "merchantType": "salter",
+    "folk": "half_orc",
+    "came": "came as hired swords in a war nobody here remembers, and were paid in land",
+    "told": "Coldmouth is a village of half-orcs, living by salt. The folk of Coldmouth came as hired swords in a war nobody here remembers, and were paid in land.",
+    "inn": "the Wooden Rose",
+    "innkeeper": "Nharash (half_orc, she)",
+    "priest": "Bharash (half_orc, she)",
+    "merchant": "Tharash (half_orc, he)",
+    "traveller": "Alistair (human, she)",
+    "calling": "minstrel"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "half_orc",
+    "feature": "cold",
+    "affix": "mouth"
+   }
+  },
+  {
+   "n": 29,
+   "key": "bench-5/s4",
+   "group": "bench-5 Highmoor",
+   "fields": {
+    "country": "Highmoor (mountain, human)",
+    "name": "Khesefir",
+    "meaning": "silver town",
+    "size": "hamlet",
+    "trade": "charcoal",
+    "merchantType": "chandler",
+    "folk": "dwarf",
+    "came": "came for the charcoal and built in stone, and stayed when the seam ran thin",
+    "told": "Khesefir is a hamlet of dwarven folk, living by charcoal. The folk of Khesefir came for the charcoal and built in stone, and stayed when the seam ran thin.",
+    "inn": "the Bronze Star",
+    "innkeeper": "Kildrak (dwarf, he)",
+    "priest": "Adrik (dwarf, he)",
+    "merchant": "Taklinn (dwarf, she)",
+    "traveller": "Shokarn (half_orc, he)",
+    "calling": "scholar"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "dwarf",
+    "feature": "silver",
+    "affix": "town"
+   }
+  },
+  {
+   "n": 30,
+   "key": "bench-5/s5",
+   "group": "bench-5 Highmoor",
+   "fields": {
+    "country": "Highmoor (mountain, human)",
+    "name": "Birchford",
+    "size": "hamlet",
+    "trade": "slate",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Birchford is a hamlet of human folk, living by slate.",
+    "inn": "the Shadowy Pixie",
+    "innkeeper": "Yoriel (human, he)",
+    "priest": "Tulan (human, he)",
+    "merchant": "Aedan (human, she)",
+    "traveller": "Eberk (dwarf, he)",
+    "calling": "tinker"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "birch",
+    "affix": "ford"
+   }
+  },
+  {
+   "n": 31,
+   "key": "bench-6/s1",
+   "group": "bench-6 Blackcarr",
+   "fields": {
+    "country": "Blackcarr (marsh, elf)",
+    "name": "Mornlôx",
+    "meaning": "black mire",
+    "size": "town",
+    "trade": "eels",
+    "merchantType": "salter",
+    "folk": "elf",
+    "told": "Mornlôx is a town of elven folk, living by eels.",
+    "inn": "the Shadowy Axe",
+    "innkeeper": "Caelynn (elf, she)",
+    "priest": "Peren (elf, he)",
+    "merchant": "Wyn (elf, she)",
+    "traveller": "Wave (undine, he)",
+    "calling": "pedlar",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "sellsword"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "elf",
+    "feature": "black",
+    "affix": "mire"
+   }
+  },
+  {
+   "n": 32,
+   "key": "bench-6/s2",
+   "group": "bench-6 Blackcarr",
+   "fields": {
+    "country": "Blackcarr (marsh, elf)",
+    "name": "Linquëarosto",
+    "meaning": "wet borough",
+    "size": "village",
+    "trade": "charcoal",
+    "merchantType": "chandler",
+    "folk": "elf",
+    "told": "Linquëarosto is a village of elven folk, living by charcoal.",
+    "inn": "the Velvet Ram",
+    "innkeeper": "Dayereth (elf, she)",
+    "priest": "Lia (elf, she)",
+    "merchant": "Keyleth (elf, he)",
+    "traveller": "Jewel (undine, she)",
+    "calling": "eel-catcher"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "elf",
+    "feature": "wet",
+    "affix": "borough"
+   }
+  },
+  {
+   "n": 33,
+   "key": "bench-6/s3",
+   "group": "bench-6 Blackcarr",
+   "fields": {
+    "country": "Blackcarr (marsh, elf)",
+    "name": "Motostirion",
+    "meaning": "marsh hold",
+    "size": "village",
+    "trade": "reed",
+    "merchantType": "herbwife",
+    "folk": "elf",
+    "told": "Motostirion is a village of elven folk, living by reed.",
+    "inn": "the Stone Ship",
+    "innkeeper": "Jassin (elf, she)",
+    "priest": "Vek (lizardfolk, he)",
+    "merchant": "Erevan (elf, he)",
+    "traveller": "Siren (undine, he)",
+    "calling": "pilgrim"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "elf",
+    "feature": "marsh",
+    "affix": "hold"
+   }
+  },
+  {
+   "n": 34,
+   "key": "bench-6/s4",
+   "group": "bench-6 Blackcarr",
+   "fields": {
+    "country": "Blackcarr (marsh, elf)",
+    "name": "Dimnal",
+    "meaning": "gloom dale",
+    "size": "hamlet",
+    "trade": "salt",
+    "merchantType": "salter",
+    "folk": "elf",
+    "told": "Dimnal is a hamlet of elven folk, living by salt.",
+    "inn": "the Merry Griffin",
+    "innkeeper": "Arannis (elf, she)",
+    "priest": "Glimmer (undine, she)",
+    "merchant": "Aelar (elf, he)",
+    "traveller": "Hadarai (elf, she)",
+    "calling": "soldier"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "elf",
+    "feature": "gloom",
+    "affix": "dale"
+   }
+  },
+  {
+   "n": 35,
+   "key": "bench-6/s5",
+   "group": "bench-6 Blackcarr",
+   "fields": {
+    "country": "Blackcarr (marsh, elf)",
+    "name": "Loewostar",
+    "meaning": "moss town",
+    "size": "hamlet",
+    "trade": "slate",
+    "merchantType": "smith",
+    "folk": "lizardfolk",
+    "came": "trade eels and reed with the elven folk folk and keep their own counsel",
+    "told": "Loewostar is a hamlet of lizardfolk, living by slate. The folk of Loewostar trade eels and reed with the elven folk folk and keep their own counsel.",
+    "inn": "the Black Goblet",
+    "innkeeper": "Chaz (lizardfolk, he)",
+    "priest": "Orik (lizardfolk, he)",
+    "merchant": "Jax (lizardfolk, she)",
+    "traveller": "Zezil (lizardfolk, he)",
+    "calling": "scholar"
+   },
+   "context": {
+    "terrain": "marsh",
+    "ancestry": "elf",
+    "folk": "lizardfolk",
+    "feature": "moss",
+    "affix": "town"
+   }
+  },
+  {
+   "n": 36,
+   "key": "bench-7/s1",
+   "group": "bench-7 Karkatzeh",
+   "fields": {
+    "country": "Karkatzeh (mountain, dwarf)",
+    "name": "Barazgiba",
+    "meaning": "red hill",
+    "size": "town",
+    "trade": "salt",
+    "merchantType": "salter",
+    "folk": "dwarf",
+    "told": "Barazgiba is a town of dwarven folk, living by salt.",
+    "inn": "the Whispering Phoenix",
+    "innkeeper": "Adrik (dwarf, he)",
+    "priest": "Alston (gnome, he)",
+    "merchant": "Baern (dwarf, he)",
+    "traveller": "Feather (birdfolk, he)",
+    "calling": "tinker",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "sellsword"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "dwarf",
+    "folk": "dwarf",
+    "feature": "red",
+    "affix": "hill"
+   }
+  },
+  {
+   "n": 37,
+   "key": "bench-7/s2",
+   "group": "bench-7 Karkatzeh",
+   "fields": {
+    "country": "Karkatzeh (mountain, dwarf)",
+    "name": "Gebaglornof",
+    "meaning": "gold view",
+    "size": "village",
+    "trade": "peat",
+    "merchantType": "herbwife",
+    "folk": "dwarf",
+    "told": "Gebaglornof is a village of dwarven folk, living by peat.",
+    "inn": "the Lucky Unicorn",
+    "innkeeper": "Gimgen (dwarf, he)",
+    "priest": "Ulfgar (dwarf, she)",
+    "merchant": "Veit (dwarf, she)",
+    "traveller": "Traubon (dwarf, he)",
+    "calling": "mason"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "dwarf",
+    "folk": "dwarf",
+    "feature": "gold",
+    "affix": "view"
+   }
+  },
+  {
+   "n": 38,
+   "key": "bench-7/s3",
+   "group": "bench-7 Karkatzeh",
+   "fields": {
+    "country": "Karkatzeh (mountain, dwarf)",
+    "name": "Barzelmizela",
+    "meaning": "iron rock",
+    "size": "village",
+    "trade": "charcoal",
+    "merchantType": "chandler",
+    "folk": "dwarf",
+    "told": "Barzelmizela is a village of dwarven folk, living by charcoal.",
+    "inn": "the Ancient Shield",
+    "innkeeper": "Eberk (dwarf, he)",
+    "priest": "Maddie (birdfolk, she)",
+    "merchant": "Rangrim (dwarf, he)",
+    "traveller": "Plume (birdfolk, she)",
+    "calling": "drover"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "dwarf",
+    "folk": "dwarf",
+    "feature": "iron",
+    "affix": "rock"
+   }
+  },
+  {
+   "n": 39,
+   "key": "bench-7/s4",
+   "group": "bench-7 Karkatzeh",
+   "fields": {
+    "country": "Karkatzeh (mountain, dwarf)",
+    "name": "Harrehes",
+    "meaning": "mountain ridge",
+    "size": "hamlet",
+    "trade": "slate",
+    "merchantType": "smith",
+    "folk": "gnome",
+    "came": "came for the slate and the quiet, and have filled the quiet with clocks",
+    "told": "Harrehes is a hamlet of gnomes, living by slate. The folk of Harrehes came for the slate and the quiet, and have filled the quiet with clocks.",
+    "inn": "the White Phoenix",
+    "innkeeper": "Morgran (dwarf, he)",
+    "priest": "Warryn (gnome, he)",
+    "merchant": "Taklinn (dwarf, he)",
+    "traveller": "Orsik (dwarf, he)",
+    "calling": "scholar"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "dwarf",
+    "folk": "gnome",
+    "feature": "mountain",
+    "affix": "ridge"
+   }
+  },
+  {
+   "n": 40,
+   "key": "bench-7/s5",
+   "group": "bench-7 Karkatzeh",
+   "fields": {
+    "country": "Karkatzeh (mountain, dwarf)",
+    "name": "Peahavor",
+    "meaning": "tin pass",
+    "size": "hamlet",
+    "trade": "wool",
+    "merchantType": "chandler",
+    "folk": "dwarf",
+    "told": "Peahavor is a hamlet of dwarven folk, living by wool.",
+    "inn": "the Iron Banner",
+    "innkeeper": "Rurik (dwarf, he)",
+    "priest": "Thoradin (dwarf, she)",
+    "merchant": "Roondar (gnome, she)",
+    "traveller": "Dart (birdfolk, she)",
+    "calling": "pilgrim"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "dwarf",
+    "folk": "dwarf",
+    "feature": "tin",
+    "affix": "pass"
+   }
+  },
+  {
+   "n": 41,
+   "key": "bench-8/s1",
+   "group": "bench-8 Elmweald",
+   "fields": {
+    "country": "Elmweald (forest, human)",
+    "name": "Hazelcastle",
+    "size": "town",
+    "trade": "timber",
+    "merchantType": "woodwright",
+    "folk": "human",
+    "told": "Hazelcastle is a town of human folk, living by timber.",
+    "inn": "the Glass Rose",
+    "innkeeper": "Abelard (human, he)",
+    "priest": "Zachariah (human, she)",
+    "merchant": "Malachai (human, she)",
+    "traveller": "Aster (human, she)",
+    "calling": "soldier",
+    "undertown.store": "runaway",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "acolyte"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "hazel",
+    "affix": "castle"
+   }
+  },
+  {
+   "n": 42,
+   "key": "bench-8/s2",
+   "group": "bench-8 Elmweald",
+   "fields": {
+    "country": "Elmweald (forest, human)",
+    "name": "Ashvale",
+    "size": "village",
+    "trade": "iron",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Ashvale is a village of human folk, living by iron.",
+    "inn": "the Icy Unicorn",
+    "innkeeper": "Ziven (human, she)",
+    "priest": "Agnus (human, he)",
+    "merchant": "Samwise (halfling, she)",
+    "traveller": "Cillian (human, he)",
+    "calling": "pedlar"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "ash",
+    "affix": "vale"
+   }
+  },
+  {
+   "n": 43,
+   "key": "bench-8/s3",
+   "group": "bench-8 Elmweald",
+   "fields": {
+    "country": "Elmweald (forest, human)",
+    "name": "Birdstrand",
+    "size": "village",
+    "trade": "salt",
+    "merchantType": "salter",
+    "folk": "human",
+    "told": "Birdstrand is a village of human folk, living by salt.",
+    "inn": "the Glass Star",
+    "innkeeper": "Leif (human, he)",
+    "priest": "Dawn (human, he)",
+    "merchant": "Cameron (human, he)",
+    "traveller": "Lindal (halfling, he)",
+    "calling": "minstrel"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "bird",
+    "affix": "strand"
+   }
+  },
+  {
+   "n": 44,
+   "key": "bench-8/s4",
+   "group": "bench-8 Elmweald",
+   "fields": {
+    "country": "Elmweald (forest, human)",
+    "name": "Broadgreen",
+    "size": "hamlet",
+    "trade": "timber",
+    "merchantType": "woodwright",
+    "folk": "human",
+    "told": "Broadgreen is a hamlet of human folk, living by timber.",
+    "inn": "the Silver Moon",
+    "innkeeper": "Tan (human, she)",
+    "priest": "Cedric (human, he)",
+    "merchant": "Jade (human, he)",
+    "traveller": "Cade (halfling, he)",
+    "calling": "charcoal-burner"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "broad",
+    "affix": "green"
+   }
+  },
+  {
+   "n": 45,
+   "key": "bench-8/s5",
+   "group": "bench-8 Elmweald",
+   "fields": {
+    "country": "Elmweald (forest, human)",
+    "name": "Fernfen",
+    "size": "hamlet",
+    "trade": "reed",
+    "merchantType": "herbwife",
+    "folk": "half_elf",
+    "came": "are the children of the old woods and the new fields, at home in both and neither",
+    "told": "Fernfen is a hamlet of half-elves, living by reed. The folk of Fernfen are the children of the old woods and the new fields, at home in both and neither.",
+    "inn": "the Fiery Flame",
+    "innkeeper": "Aust (half_elf, he)",
+    "priest": "Carric (half_elf, he)",
+    "merchant": "Quarion (half_elf, he)",
+    "traveller": "Mindartis (half_elf, she)",
+    "calling": "scholar"
+   },
+   "context": {
+    "terrain": "forest",
+    "ancestry": "human",
+    "folk": "half_elf",
+    "feature": "fern",
+    "affix": "fen"
+   }
+  },
+  {
+   "n": 46,
+   "key": "bench-9/s1",
+   "group": "bench-9 Stoneedge",
+   "fields": {
+    "country": "Stoneedge (mountain, human)",
+    "name": "Blackcastle",
+    "size": "town",
+    "trade": "tin",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Blackcastle is a town of human folk, living by tin.",
+    "inn": "the Brave Rose",
+    "innkeeper": "Violet (human, he)",
+    "priest": "Mogan (human, she)",
+    "merchant": "Alaric (human, he)",
+    "traveller": "Adrik (dwarf, he)",
+    "calling": "scholar",
+    "undertown.store": "rats",
+    "undertown.yard": "dead",
+    "undertown.pit": "spiders",
+    "undertown.hand": "acolyte"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "black",
+    "affix": "castle"
+   }
+  },
+  {
+   "n": 47,
+   "key": "bench-9/s2",
+   "group": "bench-9 Stoneedge",
+   "fields": {
+    "country": "Stoneedge (mountain, human)",
+    "name": "Longvale",
+    "size": "village",
+    "trade": "iron",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Longvale is a village of human folk, living by iron.",
+    "inn": "the Sleepy Eagle",
+    "innkeeper": "Cadan (human, she)",
+    "priest": "Jocelyn (human, she)",
+    "merchant": "Aaron (human, he)",
+    "traveller": "Brottor (dwarf, he)",
+    "calling": "pilgrim"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "long",
+    "affix": "vale"
+   }
+  },
+  {
+   "n": 48,
+   "key": "bench-9/s3",
+   "group": "bench-9 Stoneedge",
+   "fields": {
+    "country": "Stoneedge (mountain, human)",
+    "name": "Eagleworth",
+    "size": "village",
+    "trade": "peat",
+    "merchantType": "herbwife",
+    "folk": "half_orc",
+    "came": "are the grandchildren of raiders who came over the pass and stayed to farm",
+    "told": "Eagleworth is a village of half-orcs, living by peat. The folk of Eagleworth are the grandchildren of raiders who came over the pass and stayed to farm.",
+    "inn": "the Black Ram",
+    "innkeeper": "Agarash (half_orc, she)",
+    "priest": "Uarin (human, she)",
+    "merchant": "Wynd (human, she)",
+    "traveller": "Brakarn (half_orc, she)",
+    "calling": "tinker"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "half_orc",
+    "feature": "eagle",
+    "affix": "worth"
+   }
+  },
+  {
+   "n": 49,
+   "key": "bench-9/s4",
+   "group": "bench-9 Stoneedge",
+   "fields": {
+    "country": "Stoneedge (mountain, human)",
+    "name": "Barzelir",
+    "meaning": "iron town",
+    "size": "hamlet",
+    "trade": "charcoal",
+    "merchantType": "chandler",
+    "folk": "dwarf",
+    "came": "came for the charcoal and built in stone, and stayed when the seam ran thin",
+    "told": "Barzelir is a hamlet of dwarven folk, living by charcoal. The folk of Barzelir came for the charcoal and built in stone, and stayed when the seam ran thin.",
+    "inn": "the Icy Falcon",
+    "innkeeper": "Thoradin (dwarf, he)",
+    "priest": "Ulfgar (dwarf, she)",
+    "merchant": "Taklinn (dwarf, he)",
+    "traveller": "Rangrim (dwarf, he)",
+    "calling": "minstrel"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "dwarf",
+    "feature": "iron",
+    "affix": "town"
+   }
+  },
+  {
+   "n": 50,
+   "key": "bench-9/s5",
+   "group": "bench-9 Stoneedge",
+   "fields": {
+    "country": "Stoneedge (mountain, human)",
+    "name": "Kestrelmeet",
+    "size": "hamlet",
+    "trade": "tin",
+    "merchantType": "smith",
+    "folk": "human",
+    "told": "Kestrelmeet is a hamlet of human folk, living by tin.",
+    "inn": "the Bronze Harp",
+    "innkeeper": "Jessen (human, she)",
+    "priest": "Elric (human, he)",
+    "merchant": "Glen (human, he)",
+    "traveller": "Barendd (dwarf, she)",
+    "calling": "drover"
+   },
+   "context": {
+    "terrain": "mountain",
+    "ancestry": "human",
+    "folk": "human",
+    "feature": "kestrel",
+    "affix": "meet"
+   }
+  }
+ ]
+}
