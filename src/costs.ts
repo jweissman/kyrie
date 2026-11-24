@@ -28,7 +28,10 @@ export type Stage =
   // (within the leaf), the ways set out on (Itineraries.shown, within the screen), and a command done (the engine's own
   // act, a fight's waits on its controller within it); and what the player may do worked out (Campaign.offered, timed
   // by scripts/quality): with the act, the decision the owner's budget is for (BRIEF.md §4: under 15 ms).
-  | 'observe' | 'glance' | 'itinerary' | 'act' | 'legal';
+  | 'observe' | 'glance' | 'itinerary' | 'act' | 'legal'
+  // Within the act, each watch's world rules asked and fired (CampaignTick.rules, timed by scripts/performance/map.ts):
+  // the share AX-10 would index.
+  | 'rules';
 export interface Cost { n: number; ms: number; bytes: number; ids: string[] }
 export type Tally = Partial<Record<Stage, Cost>>;
 export class Costs {

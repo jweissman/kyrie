@@ -49,7 +49,126 @@ reliable lower-rung test before it is fixed.** Human feedback already given is e
 Automated success never stands in for rung 5. Rung 5 is asked for only at a sprint's integration milestone, never to
 re-establish a known problem.
 
-## The order
+## The order: four gates (reconciled 24 November)
+
+**Why it changed.** The six sprints of 23 November scheduled as future phases contracts that closed in the first two
+days:
+- focus (OR-177), opportunity truth (OR-178) and undertaking continuity (OR-179);
+- the atomic command (MT-24) and the cheap Outcome (OR-206);
+- fights that cost (CB-01), Play (OR-160) and no long presses (OR-169).
+
+They stay protected by their specs, not scheduled. A planning review of 24 November proposed reframing what remains as
+four gates. The lead adopted it, corrected to the register, because it follows the measured bottlenecks and the
+owner's direction: the engine first, then the opening, the loop, and the platform's exit proofs. The six-sprint table
+is kept below as the record.
+
+The gates are an order of attention, not a calendar. A later gate's work goes ahead wherever an earlier gate does not
+block it (the opening was built before the engine path was fast). Every landing closes or materially advances one row,
+with its cheapest invariant and, where it applies, its cost before and after. No landing combines a risky cache change,
+a broad workflow migration and substantial authoring.
+
+### Gate one: a responsive engine path (the lead, maturity)
+
+Where it stands, 24 November:
+- The start: settle-once (0.5 s) and parse by declaration shape (a new seed's parse 2.25 → 0.85 s) have landed. A
+  new world starts in about 5–6 s headless.
+- The decision is about 25 ms against 15; a turn about 114 ms against 30; a journey leg about 81 ms against 5. An act in
+  the browser is 414–592 ms against 300 ms p95.
+
+**The performance map** (`bun run performance`, doc/architecture/performance-map.md) is the rebaseline, made an
+instrument: the golden walk's turns by kind and stage, the targets' distances, and its conclusions. Its first reading,
+24 November, reorders this gate:
+- In a turn that is no journey, the screen is 41% and the rules only 4%. The rule index (AX-10) does not help an
+  ordinary turn; the screen does.
+- A journey is the act 41% (the rules 15% of it), the screen 23% and what may be done 14%. That is AX-05's ground:
+  a leg builds no screen.
+- A quarter of an ordinary turn is told by no stage. A missing stage is found before it is guessed at.
+
+So, after the map:
+1. Name what no stage tells (the runner's matching, the session's receipt, perception settling).
+2. Build the screen once per revision, with routes only where shown (entering a place: ways set out 26 ms, what may
+   be done 16 ms).
+3. AX-05, then AX-10 within the leg.
+
+The order as first written:
+1. **Rebaseline the whole command path** by stage (resolution, application, settling, grounding, perception, routes,
+   screen, glance and narration, feedback, transfer, paint). Measure each class of command (ordinary, entering a
+   place, talk, fight, an uninterrupted and an interrupted leg) cold and warm, at p50/p90/p95 and the worst case.
+2. **AX-10, rules woken by what changed.** Each compiled rule records the relations and keyed facts that can wake
+   it, applying the world yields a typed change set, and only the rules it touches are asked, to a fixed point.
+   Unkeyed reads, negation, aggregates and anything undeclared fall back to asking everything. The cold evaluator is
+   the oracle: indexed equals full on every turn of the census walks, in world, events, fixed point and legal acts
+   after. This is the warm interpreter's first content (platform-separation.md: the index prepared at setup).
+3. **AX-05, a leg without the frame.** Ground only the passage command, evaluate the stop conditions after
+   settling, and give a leg receipt. Build the full frame only on arrival, interruption or a changed route. The
+   optimised and the existing journey must match in route, stop, threats, time, resources, narration and digest,
+   across the five reach cases and the interruptions.
+4. **One frame per revision, reused** by narrator, glance, host and transfer. Routes only when a destination or the
+   map needs them, and each cached value keyed by its revision and dependencies.
+5. **Transfer:** measure the 197 KB frame's serialising, posting and painting before any delta protocol. If one is
+   built, the client's reconstruction equals the full frame or fails visibly.
+
+Keyed grounding (picks rather than relation names) waits: its remaining worth is measured at 1–3 ms. If a
+performance change moves a route, a stop, an act, a mark or a consequence, it is reverted. The exit: decision under 15 ms (or a published
+remaining class), turn under 30 ms, leg under 5 ms, browser act under 300 ms p95, every equivalence green.
+
+### Gate two: the opening (Game)
+
+Where it stands:
+- Play and the title are engine pages (OR-160, OR-300, OR-382); nothing is held (OR-169).
+- The dark-to-revelation opening and the declared Wonder are built (OR-441, OR-440; game10-1124, landing). Its own
+  defects come first (OR-461 to OR-464), then the painting dissolve and the season's turn (OR-446, OR-447).
+- What remains is OR-23 and OR-144: a meaningful act within 1.5 s of Play from a world prepared at the title, keyed
+  by world, seed, versions and identity, an immutable capture forked on Play. Cold and warm, desk and phone, and the
+  deployed page.
+- The automated players are the careful, the impatient, the wanderer, and the follower and ignorer of the aim. The
+  acceptance is that they leave the opening without dead ends, false promises or lost state, not that they win.
+- Hardening: OpenCommand's phases move only forward (resolved → executed → expanded → told → settled → committed,
+  or undone from any), each with exactly one receipt.
+
+### Gate three: the settlement, the dungeon and the return (World and Game)
+
+Where it stands:
+- The first dungeon is two levels, each with its keeper and cache, a companion and gear by the entry (OR-311).
+- It restocks after the first job, and a second trip finds something (OR-321, landing).
+- The first town's jobs wait on the notice (OR-370, landing; three gates left).
+- The quantity gate holds the world's numbers.
+
+What remains, in order:
+1. **OR-370's last gates:** no aim handed out without investigation.
+2. **OR-443, the nested First Aims:** a horizon, a regional undertaking and its situations; progress recognized from
+   facts whether followed or not, and rewarded once.
+3. **OR-149 with OR-165:** one substantive conversation that changes later play (a route revealed, trust altered,
+   help given or withheld, a reaction to the dungeon), on one scrolling page.
+4. **TB-09, activity by activity as the loop meets it:** travel, talk, the fight's hand, the map's verbs, death and
+   ending as engine questions. Each has one conformance spec plus its integration.
+5. **OR-310:** a few strong situations, varied across seeds, judged by multi-seed cold play.
+6. **The paintings:** bound by setting metadata (OR-442), never a sky they contradict, the scene never replaced by
+   text.
+
+### Gate four: authoring leverage and the portable platform (maturity)
+
+1. **BX-02 and OR-407, declared rule packages and test horizons.** Each package declares what it owns and reads, is
+   validated alone, and the fragment harness takes an explicit horizon. Recurring defect tests move to the cheapest
+   honest one. This is also the interpreter's payoff: its cold path is the fragment horizon.
+2. **Campaigns in one process without process-global setting state:** Westernesse and the allotment society
+   alternating, unchanged by order.
+3. **One retained high-level Kyr process** (an Occasion, Promise or Route) that deletes hand-wired machinery and is
+   used by at least two consumers.
+4. **The minimum Deem review workflow:** browse, sample with a seed, compare, see where it came from, select, replay.
+5. **Physical package extraction** waits until the logical boundaries hold (the import ratchet falling, Canon behind
+   ports, TB-09 done), unless a move gives an immediate build, size or test dividend. kyr-lang may move earlier at a
+   quiet point between batches.
+
+### Fallbacks
+
+- A wake form that cannot prove equivalence keeps full settling.
+- A delta frame that risks stale controls gives way to full frames.
+- A Kyr construct that removes no machinery after two cases stays a semantic record, not grammar.
+- Varied openings that weaken the principal one: ship one excellent fixture first.
+- The 15 ms decision unmet after the measured fixes: publish what remains by class, never weaken the gate silently.
+
+### The six sprints of 23 November (the record)
 
 The brief's integration sequence (§10), as gates, not a calendar. The small-world loop comes before the full
 Outcome and situation work, and those contracts are worked on from the first wave wherever they block the loop.
@@ -106,7 +225,7 @@ None waits on the settlement census or the city corpus.
 local): slice P0/P1 defects 67; a new life to its first act 7.3 s headless (the start 6.5 s); the median turn 121 ms
 (p90 334); census breaches 13; main CI on a push 10.3 minutes. Each is held by a ratchet; lower it when it falls.
 
-## The first queue
+## The first queue (23 November; the live queue is planning.json's, reconciled 24 November to the gates)
 
 In doc/architecture/mission-22/planning.json (`bun scripts/planning-views.ts`).
 
