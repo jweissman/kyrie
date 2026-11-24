@@ -8,8 +8,8 @@ import { Sentences } from './sentences';
 // out which of those the act had opened; the frame says it.
 //   attempt  the act, in the words it was offered in;
 //   result   what came of it, in a sentence; failed when it did not succeed;
-//   changed  the company's state it changed: where it now is, coin and stores, aims taken up or changed, places it
-//            now knows the way to, what it learnt;
+//   changed  the company's state it changed: where it now is, coin and stores, aims taken up, offered or changed,
+//            places it now knows the way to, what it learnt;
 //   next     the act it made relevant: an answer to what was just asked; one with whoever an aim it gave names; a
 //            choice it opened, led with or not (asking Alfric what he means to do opens asking him along); on coming
 //            somewhere, what the place leads with. None when it made none: the frame does not invent one.
@@ -37,7 +37,7 @@ export class DecisionFrame {
   static changed(acted: Acted): string[] {
     const f = acted.feedback;
     return [...acted.moved ? [`Now at ${acted.place}`] : [], ...f.resources, ...(f.aims ?? []).map(a => `Aim: ${a}`),
-      ...(f.amended ?? []).map(a => `Aim now: ${a}`), ...f.leads ?? [],
+      ...(f.offered ?? []).map(a => `To take up: ${a}`), ...(f.amended ?? []).map(a => `Aim now: ${a}`), ...f.leads ?? [],
       ...acted.moved ? [] : f.discoveries.map(d => `Learnt: ${Sentences.first(d)}`)];
   }
   // The act it made relevant: what answers it first, then one with whoever a new aim names, then what it opened.

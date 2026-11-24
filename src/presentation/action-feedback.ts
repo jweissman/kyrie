@@ -58,7 +58,8 @@ export class ActionFeedbackView {
   // One that arose is taken where it is the company's own errand or is now followed (the next part of the one
   // followed); any other is offered, to be taken up by the player's choice (OR-248), and is not among those taken.
   static aims(before: PlayerSnapshot, after: PlayerSnapshot, own: ReadonlySet<string> = new Set()): {
-    aims: string[]; offered: string[]; amended: string[]; taken: { id: string; text: string; now?: true }[] } {
+    aims: string[]; offered: string[]; amended: string[]; taken: { id: string; text: string; now?: true }[];
+    arisen: { id: string }[] } {
     const had = before.objectives ?? [], now = after.objectives ?? [];
     const gone = new Set(had.filter(b => !now.some(o => o.id === b.id)).map(b => this.opening(b.text)));
     const fresh = now.filter(o => !had.some(b => b.id === o.id));
@@ -69,11 +70,23 @@ export class ActionFeedbackView {
     const amended = [...fresh.filter(o => gone.has(this.opening(o.text))), ...this.resumed(before, after)]
       .map(o => this.told(o));
     return { aims: aims.map(a => a.text), offered, amended: amended.map(a => a.text),
-      taken: [...aims, ...amended.map(a => ({ ...a, now: true as const }))] };
+      taken: [...aims, ...amended.map(a => ({ ...a, now: true as const }))], arisen };
   }
-  // The company's own errands, by id (see Undertakings.errand): what arises of them is taken, not offered.
-  static errands(campaign: Campaign): Set<string> {
-    return new Set((campaign.module.objectives ?? []).filter(o => Undertakings.errand(campaign, o)).map(o => o.id));
+  // The company's own errands, by id (see Undertakings.errand): what arises of them is taken, not offered. And, where
+  // the act answered a lead (its knowing let go by asking the one it named: the reeve asked about the sea-gate the
+  // well-post's notice told of), every aim that arose of it: that was asked for (HP-01: seen, a story is a lead with
+  // who to ask; asked, it begins). Gek, asked what the old workings are worth, answered no lead (OR-248).
+  static errands(campaign: Campaign, before?: PlayerSnapshot, after?: PlayerSnapshot): Set<string> {
+    const own = (campaign.module.objectives ?? []).filter(o => Undertakings.errand(campaign, o)).map(o => o.id);
+    return new Set([...own, ...before && after && this.answered(campaign, before, after)
+      ? (after.objectives ?? []).map(o => o.id) : []]);
+  }
+  // Whether an act let go of a lead the company knew (Undertakings.leads): it asked the one the lead names.
+  private static answered(campaign: Campaign, before: PlayerSnapshot, after: PlayerSnapshot): boolean {
+    const w = campaign.world;
+    if (!w.relates('askedOf')) { return false; }
+    const leads = new Set(w.related('askedOf').map(r => r.args[0]!)), now = new Set(after.knowledge.map(k => k.id));
+    return before.knowledge.some(k => leads.has(k.id) && !now.has(k.id));
   }
   // A story begun by it: an aim taken up of a story none of whose aims was held before, told as the story's beginning
   // (the owner, 18 November, OR-74: onboarding to an adventure proper made plain, not a seventh aim among six).
@@ -354,7 +367,7 @@ export class ActionFeedbackView {
     const unsaid = learned.filter(k => !spoken.has(k.id) && !shown.has(k.id));
     const changed = this.changed(campaign, event, { before, after, taught, known: new Set(learned.map(k => k.id)) });
     const old = new Set(before.choices.map(c => c.id)), now = new Set(after.choices.map(c => c.id));
-    const arose = ActionFeedbackView.aims(before, after, ActionFeedbackView.errands(campaign));
+    const arose = ActionFeedbackView.aims(before, after, ActionFeedbackView.errands(campaign, before, after));
     const { aims, offered, amended } = arose, taken = ActionFeedbackView.begun(campaign, before, arose.taken);
     const battleResult = ActionFeedbackView.ended(event, before, after);
     // A try or a search that turns up nothing says so, rather than leaving the player to wonder.
@@ -381,8 +394,9 @@ export class ActionFeedbackView {
         return (a?.amount ?? 0) === (b?.amount ?? 0) ? [] :
           [`${a?.name ?? b?.name}: ${a?.amount ?? 0} → ${b?.amount ?? 0}`];
       });
-    // An aim given whose fight is beyond a company alone is said so by whoever gave it (OR-64; see Outmatched).
-    const warned = Outmatched.warning(campaign, event, taken);
+    // An aim given whose fight is beyond a company alone is said so by whoever gave it (OR-64; see Outmatched), taken
+    // or offered to take up (OR-248): Eamon warns a lone mage of the quarry as he tells of it.
+    const warned = Outmatched.warning(campaign, event, [...taken, ...arose.arisen]);
     return { resources, attempt: this.attempt(campaign, event, before),
       result: FictionalTime.prose(warned ? `${result} ${warned}`.trim() : result),
       time: this.time(before, { elapsed: event.elapsed, minutes: after.minutes }),

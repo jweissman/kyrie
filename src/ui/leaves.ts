@@ -52,9 +52,13 @@ export class Leaves {
     const within = Object.fromEntries(Object.entries(had ?? {}).filter(([w]) => w !== 'own'));
     const kept: Candidate = { ...opened, whys: first.whys.filter(w => w !== 'own'),
       ...Object.keys(within).length ? { leaves: within } : {} };
+    // A choice the last act set before the company (Ifan's boat nosing up under the gate just shut) is what happens
+    // next, opened by it, before a way toward an aim held elsewhere: with the weir's errand held beside the gate's,
+    // two such ways had taken the places its two ways needed (OR-242 with OR-247).
     const together = ways.map(c => c.id);
     return [kept, ...ways.map(c => ({ ...make(c, { subject: s.id, kind: 'act', r,
-      whys: ['own', ...this.about(c, r) ? ['about' as const] : []] }), together })), ...rest];
+      whys: [...r.opened?.has(c.command!) ? ['opened' as const] : [], 'own',
+        ...this.about(c, r) ? ['about' as const] : []] }), together })), ...rest];
   }
   // Whether it is done to something the aim followed names (as Affordances reads it).
   private static about(c: Choice, r: Reading): boolean {

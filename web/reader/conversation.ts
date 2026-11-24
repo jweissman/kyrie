@@ -62,7 +62,7 @@ export class Conversation {
     return [...you, ...(exchange?.lines ?? []).map(l => l.kind === 'speech' && before.has(l.text)
       ? { kind: 'telling' as const, text: this.again } : { kind: l.kind, text: l.text, ...this.typed(l) }),
       ...(exchange?.noted ?? []).filter(n => (!aims.length || !Noted.aim(n)) && !aimed.has(n.text))
-        .map(n => ({ kind: Noted.known(n) ? 'learned' as const : Noted.aim(n) ? 'aim' as const : 'tally' as const,
+        .map(n => ({ kind: Noted.known(n) ? 'learned' as const : Noted.drawn(n) ? 'aim' as const : 'tally' as const,
           text: n.text, ...Noted.labels[n.kind] ? { label: Noted.labels[n.kind] } : {} })),
       ...aims.map(a => ({ kind: 'aim' as const, text: a.text, aim: a.id }))];
   }

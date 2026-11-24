@@ -19,7 +19,7 @@ export class News {
       label: a.begins ? `A story begins: ${a.begins}` : a.now ? 'The aim now' : 'A new aim' }));
     const notes: Item[] = (exchange.noted ?? []).filter(n => !Noted.aim(n) || !exchange.aims?.length)
       .map(n => ({ text: n.text, ...Noted.labels[n.kind] ? { label: Noted.labels[n.kind]! } : {},
-        ...Noted.aim(n) ? { aim: true as const } : {} }));
+        ...Noted.drawn(n) ? { aim: true as const } : {} }));
     return [...aims, ...notes].filter(i => !seen.has(i.text) && (seen.add(i.text), true));
   }
   // What the Book's mark carries while anything is unread: how many, in ivory, never a pip of the Atlas's tones. What
