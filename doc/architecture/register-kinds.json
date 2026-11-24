@@ -294,6 +294,24 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, the owner's idea: a wanted census, ratchet and lint, not an observed failure"
+  },
+  "AU-57": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, from The Eel Bell's friction: a wanted language capability, not an observed failure"
+  },
+  "AU-58": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, from The Eel Bell's friction: a wanted Deem table, not an observed failure"
+  },
+  "AU-60": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, from The Eel Bell's friction: an adventure's own thin parts and its placement, wanted work, not an observed failure"
   }
  },
  "blockedBy": {
