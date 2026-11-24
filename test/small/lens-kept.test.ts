@@ -8,6 +8,7 @@ import type { Lens } from '../../src/presentation/glance-types';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
+import { Paging } from '../../web/reader/paging';
 
 // A lens opened never puts a led act a lens away (OR-240: the first blind cold play of the page, P72-73 and P85-86:
 // the badger's Attack gone with Look, lifting the prop with Dai only once Talk was put away). What the resting scene
@@ -32,8 +33,12 @@ const drawn = (t: Tiny, state: Record<string, unknown>, lens: Lens) => {
   const app = { state: { frame, open: [], keyed: false, cursor: 0, ...state }, menu,
     props: { query: new URLSearchParams() }, choose: () => undefined, setState: () => undefined,
     hover: () => undefined } as unknown as ReaderApp;
+  // Within the lens, where the keys reach its rows (Explorer.key reads `.glance .lens [data-act]`): kept above a lens
+  // drawn by focus, a row lit by the arrows had done nothing on Enter (the Slip's way onto the Strand under Wait…,
+  // test/skeel-browser).
   const html = renderToStaticMarkup(createElement(GlanceStage.Lens, { app, draw: Act.draw(app), lens }));
-  return [...html.matchAll(/data-act="([^"]+)"/g)].map(m => m[1]!);
+  const within = html.slice(html.indexOf('data-lens='));
+  return { rows: [...within.matchAll(/data-act="([^"]+)"/g)].map(m => m[1]!), focused: html.includes('lens-focus') };
 };
 describe('a lens opened', () => {
   it('keeps what will not wait and the aim\'s step in sight above it', async () => {
@@ -42,13 +47,27 @@ describe('a lens opened', () => {
     const four = t.glance.offer!.primary;
     expect(four.find(o => o.continues)?.choice).toBe('t__prop#look');
     expect(four.map(o => o.choice)).toContain('t__badger/0:Attack');
+    const forms = new Set<boolean>();
     for (const [lens, state] of states) {
-      const rows = drawn(t, state, lens), lensed = t.glance.lenses![lens];
+      const { rows, focused } = drawn(t, state, lens), lensed = t.glance.lenses![lens];
+      forms.add(focused);
       expect([lens, rows.includes('t__badger/0:Attack'), rows.includes('t__prop/0:Lift the fallen prop')])
         .toEqual([lens, true, true]);
       // In the four's places, and no part of the lens's mark: Look is not red for the badger kept above it.
       expect((lensed.kept ?? []).length + lensed.promoted.length).toBeLessThanOrEqual(4);
       if (lens !== 'people') { expect(lensed.aspects).not.toContain('danger'); }
     }
+    // Both of a lens's forms, its rows and by focus.
+    expect([...forms].sort()).toEqual([false, true]);
+  });
+  // The kept take a lens's places on its first page only: on the others its own rows keep theirs, so that what pages
+  // keeps its pages (the drove landing's ways by quarter had gone from three pages to four: test/lens-rows-valid).
+  it('pages its own rows as it would without them, the kept on the first page only', () => {
+    const items = Array.from({ length: 8 }, (_, i) => i);
+    expect(Paging.of(items, 4, 0, { lead: 1 })).toEqual({ shown: [0, 1], at: 0, pages: 3 });
+    expect(Paging.of(items, 4, 1, { lead: 1 })).toEqual({ shown: [2, 3, 4], at: 1, pages: 3 });
+    expect(Paging.of(items, 4, 2, { lead: 1 })).toEqual({ shown: [5, 6, 7], at: 2, pages: 3 });
+    expect(Paging.of(items, 4, 0)).toEqual({ shown: [0, 1, 2], at: 0, pages: 3 });
+    expect(Paging.of([0, 1, 2], 4, 0, { lead: 1 })).toEqual({ shown: [0, 1, 2], at: 0, pages: 1 });
   });
 });
