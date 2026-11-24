@@ -143,5 +143,9 @@ Module pans "The cold pans" {
   Objective cold_down when afloat(party) and not carted(party) and not fuelled(party) and not spoiled(party) toward trader by shop "Bring Ianto's fuel boat down the cut to {trader}'s salt-house at {town}.".
   Objective cold_told when carted(party) and not fuelled(party) and not spoiled(party) toward trader by shop "Tell {trader} in the salt-house that the fuel boat is at the quay.".
   Rule word_old when fuelled(party) and not stale(cold) { Assert stale(cold). }
+  // The boat at the staithe is over once it has left it, and Ffion's want once the fuel has gone where it went
+  // (FH-25: the Notes had kept both after the pans were lit).
+  Rule boat_old when (afloat(party) or carted(party) or fuelled(party) or spoiled(party)) and not stale(boatman) { Assert stale(boatman). }
+  Rule ffion_old when (fuelled(party) or spoiled(party)) and not stale(ffion_need) { Assert stale(ffion_need). }
   Goal fuelled(party).
 }

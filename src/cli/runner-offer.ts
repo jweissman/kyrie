@@ -10,7 +10,7 @@ import { ChoiceWords } from '../ui/choice-words';
 
 // Where the runner keeps a row of the rest: the page's lenses, the place's own first; then the company's gear, and
 // the journeys (twelve "Set out for…" had come before the place's things: cold play 5, CL-33).
-export type Kept = Lens | 'gear' | 'journeys';
+export type Kept = Lens | 'gear' | 'journeys' | 'pack';
 interface At { names: Map<string, string>; entries: Map<string, Glanced>; byDoes: Map<string, Glanced> }
 type Glance = NonNullable<Leaf['glance']>;
 
@@ -23,8 +23,9 @@ export class RunnerOffer {
   // The offer, and every row it holds before the talks are folded (what can be asked for by its id).
   // journeys: every journey, those kept in the rest first; folded ones are under too (offered, as the page's map
   // offers them), and counted in the offer's more.
+  // pack: what is done with the things carried, held in the pack (Row.pack), out of the rest as the journeys are.
   static of(screen: Screen, g: Leaf['glance'], names: Map<string, string>, talking?: string)
-    : { offer: Said['offer']; under: Offered[]; journeys: Offered[] } {
+    : { offer: Said['offer']; under: Offered[]; journeys: Offered[]; pack: Offered[] } {
     const rows = g ? Doable.of(g, screen) : [], at = this.at(g, rows, names);
     const primary = rows.filter(r => r.led).flatMap(r => this.row(r, at));
     const lens = new Map<string, Lens>(), seen = new Set(this.flat(primary).map(o => o.does ?? o.id));
@@ -41,10 +42,13 @@ export class RunnerOffer {
     // The journeys are the engine's, those on the map folded out of the rest as it marks them (MT-18).
     const all = RunnerTalks.talks(screen, rows, under, talking);
     const mapped = new Set(Doable.flat(rows).flatMap(r => r.map && r.does ? [r.does] : []));
-    const folded = all.filter(o => mapped.has(o.does ?? '')), rest = all.filter(o => !folded.includes(o));
+    const packed = new Set(Doable.flat(rows).flatMap(r => r.pack && r.does ? [r.does] : []));
+    const folded = all.filter(o => mapped.has(o.does ?? '')), pack = all.filter(o => packed.has(o.does ?? ''));
+    const rest = all.filter(o => !folded.includes(o) && !pack.includes(o));
     const grouped = this.grouped(rows, rest, { lens, talking });
-    return { offer: { primary, ...grouped, ...folded.length ? { more: { journeys: folded.length } } : {} },
-      under: [...under, ...folded], journeys: [...grouped.lenses.journeys ?? [], ...folded] };
+    const more = { ...folded.length ? { journeys: folded.length } : {}, ...pack.length ? { pack: pack.length } : {} };
+    return { offer: { primary, ...grouped, ...Object.keys(more).length ? { more } : {} },
+      under: [...under, ...folded, ...pack], journeys: [...grouped.lenses.journeys ?? [], ...folded], pack };
   }
   // A lens's own acts, ranked as the scene's are, each as a row that can be done.
   static lensed(screen: Screen, g: Glance, names: Map<string, string>, lens: Lens): Said['offer'] {

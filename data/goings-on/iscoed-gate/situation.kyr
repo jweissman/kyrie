@@ -161,6 +161,11 @@ Module gate "The last sea-gate" {
   Objective gate_wind when holding(party, pawl_kind) and not mended(party) and not flooded(party) toward gatehouse "Take the pawl to the windlass at {hamlet}, and wind the sea-gate shut.".
   Objective gate_claim when mended(party) and not gateClaimed(party) toward reeve "Tell the reeve at {town} that the sea-gate shuts.".
   Rule word_old when mended(party) and not stale(failing) { Assert stale(failing). }
+  // And what was found of the fault is over with it, the pawl's lying in the silt once it is lifted, and the spring
+  // tide once it has come (FH-25: the Notes had kept all three after the gate was wound shut).
+  Rule fault_old when mended(party) and not stale(fault_found) { Assert stale(fault_found). }
+  Rule pawl_old when (holding(party, pawl_kind) or mended(party)) and not stale(pawl_found) { Assert stale(pawl_found). }
+  Rule tide_old when watch(clock) >= 864 and not stale(tide) { Assert stale(tide). }
   // What the company did, for those who live under the gate to answer (the weir's Nest: data/origins/weir), and the
   // hamlet itself, the first time the company comes down to it after (cold play 5's one change: nobody remarked it).
   Entity shut: fact "The sea-gate at {hamlet} shuts again: the company wound it shut before the spring tide.".

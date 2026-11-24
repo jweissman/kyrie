@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { ModuleWriter } from '../../src/lang/module-writer';
+import { ScreenModel } from '../../src/ui/screen-model';
 
 // What the company learns it may pass on, and what it passes on is known where it was said (data/rules/discovery.kyr:
 // tell): to one who trusts it, once, and never a fact gone stale; and a rule that reads what someone knows acts on it
@@ -26,6 +27,7 @@ const hythe = `
   Goal false.`;
 const knows = (t: Tiny, who: string, fact: string) => t.world.test(ModuleWriter.call('knows', who, fact));
 const tells = (t: Tiny) => t.journey.choices().map(c => c.label).filter(l => /^Tell /.test(l));
+const notes = (t: Tiny) => ScreenModel.build(t.campaign).knowledge.map(k => k.text);
 
 describe('what is known, passed on', () => {
   it('is learned, told to one who trusts the company, once, and acted on', async () => {
@@ -39,5 +41,14 @@ describe('what is known, passed on', () => {
     expect(knows(t, 't__drew', 't__ford_known')).toBe(false);
     expect(t.world.test(ModuleWriter.call('t__rowing', 't__cole'))).toBe(true);
     expect(tells(t)).toEqual([]);
+  });
+  // What is over is not in the Notes (FH-25): the flood, known and gone stale, is let go, as a mended gate's failing
+  // is; the ford, learned, is there.
+  it('leaves what is over out of the Notes', async () => {
+    const t = await Tiny.start(hythe);
+    expect(knows(t, 'party', 't__flood')).toBe(true);
+    expect(notes(t)).toEqual([]);
+    await t.play('Talk to Osric', 'Ask Osric about the ford', '?Take your leave');
+    expect(notes(t)).toEqual(['Where the old ford is']);
   });
 });

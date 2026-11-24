@@ -37,6 +37,10 @@ export interface Row {
   map?: true;
   // How long a journey the scene's offer left out takes (DoableJourneys), as its row says.
   minutes?: number;
+  // What is done with a thing the company carries (setting it down, giving it across, putting it in), held in the pack
+  // under that thing as the page draws it (ChoiceList.pack), not among the rest: a taproom's rest had stood with
+  // twenty-two such rows once Carlin joined (CL-67).
+  pack?: true;
   // Where a row led with across the country opens the map (DoableJourneys.mapped): it does view:map:<place>, and the
   // journey there is set out on from the map, by its own row.
   chart?: string;
@@ -119,8 +123,9 @@ export class Doable {
     const held = Object.entries(glance.lenses ?? {}).flatMap(([lens, l]) => Object.values(l.leaves ?? {}).flat()
       .filter(a => !had.has(a.choice) && !(a.command && had.has(a.command)) && parents.has(a.choice))
       .map(a => ({ ...a, lens: lens as Lens })));
-    const offered = this.holders([...listed.map(o => this.row(o.choice, o.label, { ...at, lens: lensOf.get(o.choice),
-      led: led.has(o.choice), command: o.command })), ...[...new Map(held.map(a => [a.choice, a])).values()]
+    const own = listed.map(o => this.inPack(this.row(o.choice, this.worded(o, commands), { ...at,
+      lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command }), o, at.packed));
+    const offered = this.holders([...own, ...[...new Map(held.map(a => [a.choice, a])).values()]
       .map(a => this.row(a.choice, a.label, { ...at, lens: a.lens, led: false, command: a.command })),
       ...this.ledFor(glance, at, had)], at);
     const out = glance.compass?.out, journeys = DoableJourneys.more(this.flat(offered), screen, out)
@@ -165,9 +170,25 @@ export class Doable {
   }
   // A telling of the lands beyond the scene has folded into its one question (NewsFold: the next not yet heard), which
   // the offer still lists by itself: the scene's one is the engine's row, not each (int-mat5's CI: the parity measure
-  // at Porthalen's taproom, the lands under Kynes's Talk now folded too).
+  // at Porthalen's taproom, the lands under Kynes's Talk now folded too). So with hearsay, a word asked of someone
+  // (ask(informant, topic)): the runner had offered Kynes's six one by one where the page asked him once for news
+  // (CL-67).
   private static folded(command: string, commands: Map<string, Choice>): boolean {
-    return /_beyond_told_/.test(command) && !commands.has(command);
+    return /_beyond_told_|^ask\(/.test(command) && !commands.has(command);
+  }
+  // A row of the company's gear held in the pack (Row.pack): what is done with a thing carried (set down, given across,
+  // put in, taken in hand), whose command the pack has under that thing; never one the four lead with, nor a spell
+  // prepared (gear to the offer, but a member's, not the pack's: CL-38's rows had gone with them).
+  private static readonly packing = /^(put_item|put_in|transfer_item|equip_item)\(/;
+  private static inPack(r: Row, o: { type: string }, packed?: Map<string, string>): Row {
+    return o.type === 'other' && !r.led && !!r.does && this.packing.test(r.does) && !!packed?.has(r.does)
+      ? { ...r, pack: true } : r;
+  }
+  // A row's words: the offer's, but one question standing for those it folds is said by the scene's words for it
+  // ("Ask Kynes for news"), never by the one it asks now (CL-67).
+  private static worded(o: { label: string; command?: string }, commands: Map<string, Choice>): string {
+    const fold = o.command ? commands.get(o.command) : undefined;
+    return fold?.folds ? fold.alone ?? fold.label : o.label;
   }
   // The same act for another of the company, where the scene offers it for the one it is (gather, take, buy "for
   // Carlin" beside "for Wenna"): the scene and the page offer the one, what is had then given in the pack, and the
