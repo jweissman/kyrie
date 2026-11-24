@@ -26,6 +26,9 @@ export interface Menu {
   // What the glance leads with, less talk with anyone here, who is talked to by their own plate (the owner, 4
   // November); and the talk it would have led with, so that plate is edged. The keys 1 to 3 are these, as numbered.
   leads?: Glance['acts']; leading?: Set<string>;
+  // The words of everything the glance offers, by its choice: a way into the country drawn as the map opened at where
+  // it goes is said in them, never as the world map's own row (OR-470).
+  said?: Map<string, string>;
   // Where each choice at a place is drawn besides the glance (see Glance): who and what is here and the place's own
   // acts under Look about, the ways under Every way, the company's own under More. It places them; it ranks nothing.
   sheets?: Sheets;
@@ -120,23 +123,26 @@ export class MenuModel {
     choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you, ...this.following(frame)], opened),
       glance && { ...glance, acts: leads },
       { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), destinations: going,
-    around: about, ...glance ? { sheets, leads, leading } : {},
+    around: about, ...glance ? { sheets, leads, leading, said: new Map([...glance.acts,
+      ...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(a => [a.choice, a.label])) } : {},
     ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
   }
   // The choice a lead of the glance is drawn as and done by: its own, or, for a way out into the country, going out
   // to it (the keys had counted a lead on the road as none, and every digit at Millholm's camp did nothing).
   static lead(menu: Menu, id: string): Choice | undefined {
-    return this.found(menu.choices, id, menu.overland ?? new Set(), menu.leads);
+    return this.found(menu.choices, id, menu.overland ?? new Set(), { leads: menu.leads, said: menu.said });
   }
   // A choice by its id; a way out into the country, in a town or a site, as the map opened at where it goes, in the
   // lead's own words: never the world map's row again beside the world map's own (the owner's playtest, 20 November,
   // P0: three "Open the world map" offered at once).
   private static found(choices: Choice[], id: string, overland: Set<string>,
-    leads?: { choice: string; label: string }[]): Choice | undefined {
+    { leads, said }: { leads?: { choice: string; label: string }[]; said?: Map<string, string> } = {})
+    : Choice | undefined {
     const own = choices.find(c => c.id === id);
     if (own || !overland.has(id)) { return own; }
-    const to = id.startsWith('travel:') ? id.slice('travel:'.length) : undefined, words = leads?.find(a => a.choice === id);
-    return { ...MenuModel.country, id, ...words ? { label: words.label } : {}, command: to ? `view:map:${to}` : 'view:map' };
+    const to = id.startsWith('travel:') ? id.slice('travel:'.length) : undefined;
+    const words = leads?.find(a => a.choice === id)?.label ?? said?.get(id);
+    return { ...MenuModel.country, id, ...words ? { label: words } : {}, command: to ? `view:map:${to}` : 'view:map' };
   }
   // A way that stays on the page: one within the hex the company is in (a room, a lane, a landmark, a site, the town
   // on this stretch of country, the parts of an authored province on the one hex of its way in). A way into another

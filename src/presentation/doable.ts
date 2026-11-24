@@ -151,18 +151,16 @@ export class Doable {
       if (holds!.length) { kept.holds = holds; } else { delete kept.holds; }
       return kept;
     });
-    const own = new Set(rows.filter(r => this.free(r) && !r.only && !r.does!.startsWith('travel:'))
-      .map(r => this.act(r.does!)));
-    const seen = new Set<string>();
-    return rows.filter(r => {
-      if (!this.free(r)) { return true; }
-      const k = this.act(r.does!);
-      if ((r.only || r.does!.startsWith('travel:')) && own.has(k)) { return false; }
-      if (seen.has(k)) { return false; }
-      seen.add(k);
-      return true;
-    });
+    // Of the rows doing one act, one is kept: the one the four lead with, else the act's own (not a talk or a journey
+    // that does it too), else the first.
+    const kept = new Map<string, Row>();
+    for (const r of rows.filter(x => this.free(x))) {
+      const k = this.act(r.does!), was = kept.get(k);
+      if (!was || this.rank(r) < this.rank(was)) { kept.set(k, r); }
+    }
+    return rows.filter(r => !this.free(r) || kept.get(this.act(r.does!)) === r);
   }
+  private static rank(r: Row): number { return (r.led ? 0 : 2) + (r.only || r.does!.startsWith('travel:') ? 1 : 0); }
   // What a row does, a journey by where it goes (as a step there does); and a row that stands by itself.
   private static act(does: string): string { return DoableJourneys.reached(does)[0] ?? does; }
   private static free(r: Row): boolean { return !!r.does && !r.within && !r.holds?.length; }

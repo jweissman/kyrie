@@ -25,6 +25,7 @@ import { Glance } from '../presentation/glance';
 import { Promotion } from '../ui/promotion';
 import { RunnerOffer, type Kept } from './runner-offer';
 import { Doable } from '../presentation/doable';
+import { DoableJourneys } from '../presentation/doable-journeys';
 import { RunnerTalks } from './runner-talks';
 import { RunnerEnding } from './runner-ending';
 import type { CampaignEvent } from '../campaign/campaign-types';
@@ -249,6 +250,10 @@ export class Runner {
     // The map opens at any place a journey goes from here (map:<place>), led with or not, as the page's map does.
     const at = /^map:(.+)$/.exec(asked.act)?.[1];
     if (at && offered.includes(`travel:${at}`)) { return this.lensed('journeys', `travel:${at}`); }
+    // A journey to where a way already goes is that way (one act, one row: Doable.once), asked for by either.
+    const way = !offered.includes(asked.act) && asked.act.startsWith('travel:')
+      ? all.find(x => x.does && DoableJourneys.reached(x.does)[0] === asked.act) : undefined;
+    if (way) { return this.ask(JSON.stringify({ act: way.id })); }
     if (!offered.includes(asked.act)) { return { error: `not offered: ${asked.act}${Runner.why(screen, asked.act)}` }; }
     // An opener taken opens: its rows offered, no time (the page draws them; the runner had done its first).
     if (row?.opens) { return this.opened(row, screen); }

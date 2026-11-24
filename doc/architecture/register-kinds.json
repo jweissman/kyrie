@@ -882,6 +882,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from OR-443: the larger horizons, gamma's"
+  },
+  "OR-471": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-447: paintings wanted, not a broken contract"
   }
  },
  "blockedBy": {
