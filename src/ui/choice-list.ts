@@ -14,6 +14,8 @@ export interface Choice {
   note?: string; about?: string; risk?: boolean; minutes?: number; disabled?: string; gutters?: string;
   // What it is called standing alone, out of its group (see Act.alone).
   alone?: string;
+  // One question standing for many it folds (see Act.folds).
+  folds?: true;
   // What kind of act it is, and what it is done to or with (see Act.does, Act.targets).
   does?: string; targets?: string[];
   // Whether doing it takes the company somewhere, or teaches it something (see Act.moves, Act.teaches).
@@ -308,7 +310,8 @@ export class ChoiceList {
       ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
       ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
-      ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}), ...SpellSchools.field(a.targets) };
+      ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}), ...(a.folds ? { folds: true } : {}),
+      ...SpellSchools.field(a.targets) };
   }
   // Nothing is held (the owner, 23 November, OR-185: "No long presses"; a night's rest, a camp and a journey had been,
   // 16 and 18 November): every act is done at one press, and what one spends is said on its row before it is chosen,

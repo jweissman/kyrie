@@ -16,6 +16,9 @@ export interface Act {
   gutters?: string;
   // What it is called standing alone, out of the group it is under ("Push and pull at the padlock", not "… at it").
   alone?: string;
+  // One question standing for many it folds (NewsFold: someone's news), drawn by its own words, never the act's it
+  // does now (CL-67).
+  folds?: true;
   // What kind of act it is (its action's schema: talk_to, take_lodging, look_closely…), whether or not it can be done
   // now: what the page goes by, never the command's or the label's words (the architecture review's P0).
   does?: string;

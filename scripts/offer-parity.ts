@@ -23,7 +23,7 @@ import { GoldenWalk } from '../test/support/golden-walk';
 import { RunnerFight } from '../src/cli/runner-fight';
 
 export interface Walk { world: string; as: string; lines: string }
-interface EngineAct { words: string; id: string; under?: string; within?: string; map?: true; led?: true }
+interface EngineAct { words: string; id: string; under?: string; within?: string; map?: true; pack?: true; led?: true }
 
 export class OfferParity {
   static readonly root = join(import.meta.dir, '..');
@@ -90,7 +90,14 @@ export class OfferParity {
       out.add(`map count: engine ${mapped.length}, runner ${said.offer.more?.journeys ?? 0}`);
     }
     for (const [act] of mapped) { if (drawn.has(act)) { out.add(`unfolded: ${act}`); } }
-    for (const [act, { words, id, under, within }] of engine.entries().filter(([, e]) => !e.map)) {
+    // And what the engine holds in the pack (Row.pack: setting down, giving across) is there, counted, not in the rest
+    // (CL-67).
+    const packed = [...engine].filter(([, e]) => e.pack);
+    if (packed.length !== (said.offer.more?.pack ?? 0)) {
+      out.add(`pack count: engine ${packed.length}, runner ${said.offer.more?.pack ?? 0}`);
+    }
+    for (const [act] of packed) { if (drawn.has(act)) { out.add(`unpacked: ${act}`); } }
+    for (const [act, { words, id, under, within }] of engine.entries().filter(([, e]) => !e.map && !e.pack)) {
       if (!drawn.has(act) && ![under, within].some(h => h && this.held(h, { drawn, ids, openers }, doing))) {
         out.add(`engine only: ${act}`); continue;
       }
@@ -125,6 +132,7 @@ export class OfferParity {
     for (const [act, e] of rows.flatMap(r => r.opens?.length ? [...this.engine(r.opens, under ?? r.id)]
       : r.for ?? r.does ? [[(r.for ?? r.does)!, { words: r.called ?? r.label, id: r.id,
         ...under ? { under } : {}, ...r.within ? { within: r.within } : {}, ...r.map ? { map: r.map } : {},
+        ...r.pack ? { pack: r.pack } : {},
         ...r.for ? { led: true as const } : {} }] as const] : [])) {
       if (!out.get(act)?.led) { out.set(act, e); }
     }

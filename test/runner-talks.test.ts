@@ -35,6 +35,16 @@ describe('the runner holds what is said to someone under their talk', () => {
     expect([asks.length > 2, trade.length > 0]).toEqual([true, true]);
     expect(Math.max(...asks)).toBeLessThan(Math.min(...trade));
     expect(his.offer.primary.filter(o => /^Ask Kynes/.test(o.label)).length).toBeGreaterThan(0);
+    // What he has heard of far places is one question, as the page asks it (CL-67): the word of the country and the
+    // lands beyond had stood as thirteen asks, each by name, in the runner's rows where the page asked him once.
+    const all = [...his.offer.primary, ...his.offer.rest];
+    expect(all.filter(o => /^ask\(|_beyond_told_/.test(RunnerOffer.act(o))).map(o => o.label))
+      .toEqual(['Ask Kynes for news']);
+    // And what is done with the things carried is in the pack, not the rest (CL-67): set down, given across.
+    expect(all.filter(o => /^(put_item|transfer_item)\(/.test(RunnerOffer.act(o)))).toEqual([]);
+    expect(his.offer.more?.pack).toBeGreaterThan(0);
+    const pack = said(await r.ask(JSON.stringify({ lens: 'pack' })));
+    expect([...pack.offer.primary, ...pack.offer.rest].some(o => /^Set down /.test(o.label))).toBe(true);
     // Asked something, the talk holds; gone elsewhere, it is folded again.
     const asked = said(await r.ask(JSON.stringify({ act: 'region__s1_keeper_debts' })));
     expect(asked.offer.rest.some(o => o.label === 'Ask Kynes about the drover the customs-men hold')).toBe(true);

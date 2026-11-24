@@ -7,7 +7,6 @@ import type { PlayerSnapshot } from './player-view';
 import { VisitedPlaces } from './visited-places';
 import { ChoiceGrouping } from '../ui/choice-grouping';
 import { QueryIndex } from '../lang/query-index';
-import { Undertakings } from './undertakings';
 
 // What the company knows, and how: seen with its own eyes, found in a source, read, or heard from someone; and when
 // it learned it.
@@ -15,9 +14,10 @@ export class CompanyKnowledge {
   static of(campaign: Campaign, actor: string, labels: Map<string, string>): PlayerSnapshot['knowledge'] {
     const world = campaign.world, learned = this.learned(campaign, actor), reached = this.reached(campaign, actor);
     // A fact with no words is a mark an author keeps (the brother knelt by the cart), not something to be told.
-    // Nor a lead spent (stale, with someone to ask of it: the notice whose jobs are all paid), let go from the Notes as
-    // the aims it gave are (FH-05; see Undertakings.leads).
-    const spent = Undertakings.spent(world);
+    // Nor what is over (stale: what was so and is no longer), let go from the Notes as the aims it gave are: a lead
+    // spent (the notice whose jobs are all paid: FH-05, see Undertakings.leads), and as much a mended gate's failing,
+    // a drover freed held, the salt-pans fuelled going cold (FH-25).
+    const spent = CompanyKnowledge.over(world);
     const known = EntityIndex.of(campaign.module.entities).ordered(world.related('knows', actor).map(r => r.args[1]!))
       .filter(e => e.name && !spent.has(e.id));
     return known.map(e => {
@@ -50,6 +50,10 @@ export class CompanyKnowledge {
     const did = (op?.success ?? []).some(c => c.kind === 'assert' && !ChoiceGrouping.learnt.has(c.call.name)
       && c.call.args.includes(fact));
     return did ? { source: 'did' } : speaker ? { source: 'heard', from: speaker } : { source: 'seen' };
+  }
+  // What is over: every fact the world marks stale (data/rules/discovery.kyr: stale), the spent leads among them.
+  static over(world: World): Set<string> {
+    return world.relates('stale') ? new Set(world.related('stale').map(r => r.args[0]!)) : new Set();
   }
   // When the company learned each thing it knows, from the log: read once, and then only what the log has added since
   // (a log cut back, by a command undone, is read again).

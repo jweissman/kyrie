@@ -49,7 +49,8 @@ export interface Said { turn: number; moment: 'arrive' | 'outcome' | 'inspect' |
   scene: { lines: string[]; prose: string[] };
   // lenses: the rest as the page keeps it (RunnerOffer: the place's own first, the gear and the journeys last), the
   // rest that, flat, in the same order.
-  // more: how many of a lens are folded out of the rest, there to be looked at through it ({"lens":"journeys"}: CL-33).
+  // more: how many of a lens are folded out of the rest, there to be looked at through it ({"lens":"journeys"}: CL-33;
+  // {"lens":"pack"}, what is done with the things carried: CL-67).
   offer: { primary: Offered[]; rest: Offered[]; lenses?: Partial<Record<Kept, Offered[]>>;
     more?: Partial<Record<Kept, number>> };
   aim?: string; aims?: Aim[]; need?: string[]; next?: Next;
@@ -77,7 +78,7 @@ export interface Aim { id: string; text: string; story?: string; followed?: true
 // What an agent may send: an act by its id, a lens to look through, the place looked at whole, every choice, or an aim
 // to follow (none, to follow none).
 // follow: an aim by its id, or by the number the scene says it by ("· follow 1": cold play 2, CL-11).
-export type Asked = { act: string } | { lens: Lens | 'journeys' } | { look: true } | { more: true }
+export type Asked = { act: string } | { lens: Lens | 'journeys' | 'pack' } | { look: true } | { more: true }
   | { follow: string | number | null };
 
 // A runner for agents playing blind (the owner, 14 November: TB-05): the terminal's own projection (the leaf, the
@@ -322,8 +323,13 @@ export class Runner {
   // lens as it ranks any surface of its own).
   // The journeys' lens is every journey, those the rest keeps first, as the page's map holds them (CL-33); opened at a
   // place (first: a row led with across the country, Row.chart), its journey first.
-  private lensed(lens: Lens | 'journeys', first?: string): Said | { error: string } {
+  private lensed(lens: Lens | 'journeys' | 'pack', first?: string): Said | { error: string } {
     const screen = this.standing.screen, g = this.glanced();
+    if (lens === 'pack') {
+      const all = this.offer(screen, g).pack;
+      return { turn: this.n, moment: 'inspect', scene: { lines: [], prose: [] },
+        offer: { primary: all.slice(0, 4), rest: all.slice(4) } };
+    }
     if (lens === 'journeys') {
       const every = this.offer(screen, g).journeys;
       const all = [...every.filter(o => o.does === first), ...every.filter(o => o.does !== first)];

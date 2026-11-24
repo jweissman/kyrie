@@ -74,8 +74,10 @@ export class RegionRecruits {
     const inn = Foundings.of(region, region.settlements.indexOf(town)).keeping !== 'none' ? 'taproom' : 'green';
     Object.assign(imports, { keeper: `region.${town.id}_innkeeper`, traveller: `region.${town.id}_traveller`,
       inn: `region.${town.id}_${inn}` });
+    // Once they have joined, it is over, and the Notes let it go (FH-25).
     return [...known, '  Place inn "The inn" is room.', '  Observe hiring at inn as feature when not willing(traveller, party)'
-      + ` and not travelsWith(traveller, party) ${q(this.table.hiring)}.`];
+      + ` and not travelsWith(traveller, party) ${q(this.table.hiring)}.`,
+    '  Rule hire_taken when travelsWith(traveller, party) and not stale(hire) { Assert stale(hire). }'];
   }
   static traveller(s: Settlement, i: number, region: Region, at = `${s.id}_taproom`): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;

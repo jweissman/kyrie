@@ -33,8 +33,7 @@ describe('what is said, as attention holds it', () => {
   // offered is the next unheard; the page no longer keeps its own memory of what was asked for it.
   it('asks of the lands beyond as one question, the next not yet heard', () => {
     const act = (x: string) => ({ label: `Ask the keeper about ${x}`, command: `gate_${x}_beyond_told_s2`, key: x });
-    const targets = new Map([['inn', [{ label: 'Ask about the well', command: 'ask(inn,word2)', does: 'ask' },
-      ...['crowns', 'saltgrave', 'glass'].map(act)]]]);
+    const targets = new Map([['inn', ['crowns', 'saltgrave', 'glass'].map(act)]]);
     NewsFold.of(targets as never, new Map());
     const news = targets.get('inn')!.filter(a => /beyond_told/.test(a.command ?? ''));
     expect(news.map(a => [a.command, a.label])).toEqual([['gate_crowns_beyond_told_s2', NewsFold.beyond]]);
@@ -42,6 +41,24 @@ describe('what is said, as attention holds it', () => {
     const after = new Map([['inn', ['saltgrave', 'glass'].map(act)]]);
     NewsFold.of(after as never, new Map());
     expect(after.get('inn')!.map(a => a.command)).toEqual(['gate_saltgrave_beyond_told_s2']);
+  });
+  // And what is heard of this country with it, as one question in all (CL-67: the word and the lands beyond had stood
+  // as two at the Stone Horn): the word first, then the lands beyond; but a land with a reason before either.
+  it('asks of the country\'s word and the lands beyond as one question for news', () => {
+    const act = (x: string) => ({ label: `Ask the keeper about ${x}`, command: `gate_${x}_beyond_told_s2`, key: x });
+    const inn = () => new Map([['inn', [{ label: 'Ask about the well', command: 'ask(inn,word2)', does: 'ask', key: 'w' },
+      ...['crowns', 'saltgrave', 'glass'].map(act)]]]);
+    const one = inn();
+    NewsFold.of(one as never, new Map([['inn', 'Hob']]));
+    expect(one.get('inn')!.map(a => [a.command, a.label, (a as { folds?: true }).folds]))
+      .toEqual([['ask(inn,word2)', 'Ask Hob for news', true]]);
+    const heard = new Map([['inn', ['crowns', 'saltgrave', 'glass'].map(act)]]);
+    NewsFold.of(heard as never, new Map([['inn', 'Hob']]));
+    expect(heard.get('inn')!.map(a => a.command)).toEqual(['gate_crowns_beyond_told_s2']);
+    const reason = inn();
+    NewsFold.of(reason as never, new Map([['inn', 'Hob']]), new Set(['gate_glass_notice']));
+    expect(reason.get('inn')!.map(a => [a.command, a.label])).toEqual([['gate_glass_beyond_told_s2',
+      'Ask the keeper about glass']]);
   });
   // First the land the company has reason to ask about (the owner's ruling, 20 November), a notice of it read: said in
   // its own words where it is the one, the next unheard after it.

@@ -27,7 +27,7 @@ export class NewsFold {
       const reasons = far.filter(a => NewsFold.reason(a.command!, known)), next = reasons[0] ?? far[0]!;
       const label = reasons.length === 1 ? next.label : this.beyond;
       acts.splice(0, acts.length, ...acts.filter(a => !far.includes(a)), { ...next, key: `${acts.length}:beyond`,
-        label, alone: reasons.length === 1 ? next.alone ?? next.label : this.beyond });
+        label, folds: true, alone: reasons.length === 1 ? next.alone ?? next.label : this.beyond });
     }
     for (const a of acts) { if (a.children) { NewsFold.lands(a.children, known); } }
   }
@@ -41,17 +41,31 @@ export class NewsFold {
     return world?.relates('knows') ? new Set(world.related('knows').filter(f => f.args[0] === 'party')
       .map(f => f.args[1]!)) : undefined;
   }
+  // The one telling of the lands beyond someone has left to give, wherever it stands among what is said to them (their
+  // Talk's own or at its top), and the list it stands in.
+  private static far(acts: Act[]): { act: Act; in: Act[] } | undefined {
+    const here = acts.find(a => /_beyond_told_/.test(a.command ?? '') && !a.children);
+    return here ? { act: here, in: acts }
+      : acts.flatMap(a => a.children ? [NewsFold.far(a.children)] : []).find(x => !!x);
+  }
   // known: what the company knows, for the lands it has reason to ask about first.
+  // What someone has heard of far places is one question in all (CL-67: at the Stone Horn the word of this country and
+  // the news of the lands beyond had stood as two, and the word as six where a client read the offer's rows): the word
+  // of this country first, a thing sampled from it, then the lands beyond; but a land the company has reason to ask
+  // about before either, in its own words.
   static of(targets: Map<string, Act[]>, names: { get(id: string): string | undefined }, known?: Set<string>) {
     for (const [who, acts] of targets) {
       NewsFold.lands(acts, known);
-      const asks = acts.filter(a => a.does === 'ask' && a.command && !a.children);
-      if (asks.length < this.most) { continue; }
-      const pick = asks[[...who].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % asks.length]!;
-      const label = `Ask ${(names.get(who) ?? who).split(', ')[0]} for news`;
+      const asks = acts.filter(a => a.does === 'ask' && a.command && !a.children), far = NewsFold.far(acts);
+      if (asks.length < this.most && !(asks.length && far)) { continue; }
+      const reason = !!far && NewsFold.reason(far.act.command!, known), own = reason && far.act.label !== this.beyond;
+      const pick = reason ? far.act : asks.length
+        ? asks[[...who].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % asks.length]! : far!.act;
+      const label = own ? far.act.label : `Ask ${(names.get(who) ?? who).split(', ')[0]} for news`;
+      if (far) { far.in.splice(far.in.indexOf(far.act), 1); }
       const kept = acts.filter(a => !asks.includes(a));
-      targets.set(who, [...kept, { ...pick, key: ChoiceIds.key(kept, label), label,
-        alone: label, about: 'They tell you what they have heard lately.' }]);
+      targets.set(who, [...kept, { ...pick, key: ChoiceIds.key(kept, label), label, folds: true,
+        alone: own ? far.act.alone ?? label : label, about: 'They tell you what they have heard lately.' }]);
     }
   }
 }
