@@ -6,7 +6,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
-import { ChoiceList } from '../src/ui/choice-list';
+import { ChoiceList, type Choice } from '../src/ui/choice-list';
 import { SceneModel } from '../src/ui/scene';
 import { Travel } from '../src/session/travel';
 import { Content } from '../src/content';
@@ -246,21 +246,24 @@ describe('one of the company who is down', () => {
     expect([her.state, her.note]).toEqual(['dead', 'a carter']);
   }, 60000);
   // What one who lies senseless carries had been put under one choice, not a row of them (the cold evaluation: six
-  // "Take … from Maud for Mindartis" stood on the page while she lay on the floor). Only a fight, a store and the Book
-  // unfold now (PB-29): each thing is a row of its own, whole, saying what is taken, from whom and for whom, and
-  // nothing of theirs is offered twice.
-  it('offers what they carry, a row for each thing, in whole words', async () => {
+  // "Take … from Maud for Mindartis" stood on the page while she lay on the floor). It is the pack's now, beside what
+  // is given or set down there (OR-381, CL-67's fold): under each thing in their keeping, a row for each who could take
+  // it, saying for whom, nothing of theirs offered twice; and the scene offers none of it.
+  it('offers what they carry in the pack, under each thing, a row for each who could take it', async () => {
     const s = await Played.start('Place yard "the yard" is room within field at 0, 0 outdoors. Company party "You" of 2 at yard.');
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures, bo = s.campaign.state.partyIds[1]!;
     const lease = store.acquire([bo]);
     try { lease.creatures[0]!.state.hp = 0; lease.commit(lease.creatures); } finally { lease.release(); }
     await s.leg('wait');
     const screen = ScreenModel.build(s.campaign), name = screen.party[1]!.name;
-    const taking = ChoiceList.explore(screen).flatMap(x => x.choices).filter(c => /^Take /.test(c.label));
+    const leaves = (cs: Choice[]): Choice[] => cs.flatMap(c => [c, ...leaves(c.children ?? [])]);
+    expect(leaves(ChoiceList.explore(screen).flatMap(x => x.choices)).filter(c => /^take_from\(/.test(c.command ?? '')))
+      .toEqual([]);
+    const theirs = ChoiceList.pack(screen).find(x => x.title === `${name} carries`)!;
+    const taking = leaves(theirs.choices).filter(c => /^take_from\(/.test(c.command ?? ''));
     expect(taking.length).toBeGreaterThan(1);
-    expect(taking.every(c => !c.children?.length && /^take_from\(/.test(c.command ?? ''))).toBe(true);
-    expect(taking.every(c => new RegExp(`^Take .+ from ${name} for ${screen.party[0]!.name}$`).test(c.label))).toBe(true);
-    expect(new Set(taking.map(c => c.label)).size).toBe(taking.length);
+    expect(taking.every(c => c.label === `Take for ${screen.party[0]!.name}`)).toBe(true);
+    expect(new Set(taking.map(c => c.command)).size).toBe(taking.length);
   }, 60000);
 });
 

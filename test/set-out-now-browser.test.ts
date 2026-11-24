@@ -40,7 +40,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Set out now in the page', () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '' });
     await page.waitForSelector('[data-action="begin"]', { state: 'visible', timeout: 60000 });
     expect(await page.$$eval('.title-menu [data-action]', els => els.map(e => [e.getAttribute('data-action'),
-      e.textContent?.trim()]))).toEqual([['begin', 'New character']]);
+      e.textContent?.trim()]))).toEqual([['begin', 'New character'], ['options', 'Options'],
+      ['encyclopedia', 'The encyclopedia']]);
     // The title stood while the country was drawn behind it, and its start made ready.
     await page.evaluate(() => (window as unknown as { kyrieMono: { idle(): Promise<unknown> } }).kyrieMono.idle());
     await page.evaluate(() => document.querySelector<HTMLElement>('[data-action="begin"]')!.click());

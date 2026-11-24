@@ -18,6 +18,8 @@ import { ReaderStore, type SavedGame } from '../web/reader/reader-store';
 // kept the title draws New character alone; pressed, the two rows are drawn at once, the engine asked nothing (the
 // country drawn already, while the title showed); a life at once asks for that country and sets out rolled, and the
 // page is in play in the country drawn ahead. A kept game this build cannot open is refused and said, never migrated.
+// The title's rows after its ways in: Options and the encyclopedia, the engine's too (OpeningPages.title, OR-382).
+const apart = ['options', 'encyclopedia'];
 class Page {
   state = { phase: 'title', options: {}, campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0,
     open: [], member: '', stage: '', error: '' } as unknown as AppState;
@@ -63,7 +65,7 @@ describe('a new game, set out on at once', () => {
     // The title: its ways in, and the country a new game will begin in asked for behind it, by its seed.
     expect(page.mode()).toBe('title');
     expect(page.html()).toContain('class="mark"');
-    expect(page.actions()).toEqual(['begin']);
+    expect(page.actions()).toEqual(['begin', ...apart]);
     const ahead = page.asked.find(r => r.kind === 'ahead');
     expect(ahead).toBeDefined();
     page.press('begin');
@@ -109,7 +111,7 @@ describe('a new game, set out on at once', () => {
     // Back to the title, and New character: asked at once, a country drawn for it by a seed of its own (the kept game
     // names no seed of its own here).
     page.opening.title();
-    expect(page.actions()).toEqual(['continue', 'begin']);
+    expect(page.actions()).toEqual(['continue', 'begin', ...apart]);
     page.press('begin');
     expect(page.mode()).toBe('begin');
     expect(aheads()).toHaveLength(2);
@@ -135,13 +137,13 @@ describe('a new game, set out on at once', () => {
       seed: 'bakelo' };
     await page.opening.boot();
     // Kept and still going: Continue first, and nothing is drawn ahead for a new game meanwhile.
-    expect(page.actions()).toEqual(['continue', 'begin', 'world']);
+    expect(page.actions()).toEqual(['continue', 'begin', 'world', ...apart]);
     expect(page.asked.some(r => r.kind === 'ahead')).toBe(false);
     page.press('continue');
     for (let i = 0; i < 400 && page.state.phase !== 'title'; i++) { await new Promise(r => setTimeout(r, 25)); }
     // Not opened: the title again, Continue gone, why said in the engine's line, and remembered beside the game.
     expect(page.mode()).toBe('title');
-    expect(page.actions()).toEqual(['begin', 'world']);
+    expect(page.actions()).toEqual(['begin', 'world', ...apart]);
     expect(page.html()).toContain('data-id="refused"');
     expect(page.html()).toContain('cannot be opened by this edition');
     expect(refused).toHaveLength(1);

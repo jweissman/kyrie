@@ -24,7 +24,10 @@ class Census {
     'lens-tile', 'likeness-still', 'way-row', 'ability', 'consider-item', 'change-companion', 'fight-log', 'dice',
     // Leaving the game for how a new one begins (Begin a new life, in the notes), as Back to the title is: the page's
     // own way out, nothing done in the game (the game left is kept until a new one begins: OR-160).
-    'anew']);
+    'anew',
+    // The game paused for its Options (OR-300): the engine's Options page opened over it (OpeningPages.options,
+    // OR-382), nothing done in the game, as Back to the title is.
+    'options']);
   // Independently implemented controls still standing, named so that no new one joins them; it may only shrink.
   static readonly known: string[] = [];
   static async controls(page: Page): Promise<{ controls: Control[]; observed: string[] }> {
