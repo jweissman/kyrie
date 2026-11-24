@@ -10,6 +10,7 @@ import { LintSource } from './lint-source';
 // X17): a tame one's own greeting said on arrival, a first place with nothing said of it, a module that gives the
 // company nothing to grow by.
 import { Situations } from '../lang/situations';
+import { Consequence } from '../lang/consequence';
 
 export class AuthorLint {
   // What a whole adventure, one with an ending, should have: a first place said, and something to grow by.
@@ -18,11 +19,24 @@ export class AuthorLint {
     this.goods(lint); this.unbound(lint); this.scenery(lint); this.untried(lint); this.latched(lint);
     this.nearWay(lint); this.unheard(lint); this.untied(lint); this.neverThere(lint); this.unpaid(lint);
     this.everywhere(lint); this.situations(lint);
+    this.inert(lint);
     if (lint.module.entities.some(e => e.type === 'ending')) { this.opening(lint); this.growth(lint); }
   }
   // A Situation with no turn, no core, or an incident nothing can resolve (AU-55's first check, see Situations.lint).
   static situations(lint: CampaignLint) {
     for (const said of Situations.lint(lint.module)) { lint.add('warning', 'situation', said); }
+  }
+  // An act that changes nothing anything asks after (AU-56, see Consequence): its words only, a fact nobody reads, or
+  // one only its own condition reads. Advice: a few set-pieces are the author's (sitting with the seals); the census's
+  // ratchet (test/small/inert-acts) counts them. Topics are counted there, not told here: what is said is their own.
+  static inert(lint: CampaignLint) {
+    const said = { words: 'does nothing but tell its words', unread: 'writes only what nothing asks after',
+      self: 'writes only what its own condition asks' };
+    for (const x of Consequence.census(lint.module).filter(a => !a.topic)) {
+      lint.add('advice', 'inert', `${LintSource.at(lint.path, x.id, 'Action')}Action ${x.id} ${said[x.why]}`
+        + `${x.writes.length ? ` (${x.writes.join(', ')})` : ''}: let a rule, an aim or a later act read what it does, `
+        + 'if it is not a set-piece');
+    }
   }
   // An act that lowers a measure, not a price, with nothing that asks how much there is: below nothing, it is not
   // offered at all, and nobody says why (the Third Night's friction 1, Let One Remember's B2). A rule's count stops at
