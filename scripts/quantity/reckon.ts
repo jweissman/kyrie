@@ -42,8 +42,8 @@ export class Reckon {
   static economy(r: Readings): Reading {
     const each = this.each(r.countries, c => c.seed, c => c.economy.ratio);
     return this.of(each, this.median(Object.values(each)), r.countries.map(c => `${c.seed} ${c.economy.day} coin `
-      + `against kit ${c.economy.kit} + ${c.economy.dearest}${c.economy.missing.length ? ` (no ${c.economy.missing
-        .join(', ')})` : ''}`).join(', '));
+      + `(${c.economy.outing ?? ''} ${c.economy.haul ?? ''}, a job ${c.economy.job ?? ''}) against kit ${c.economy.kit} + `
+      + `${c.economy.dearest}${c.economy.missing.length ? ` (no ${c.economy.missing.join(', ')})` : ''}`).join(', '));
   }
   // Rows coloured per turn outside a fight's frame, and by tone over every walk.
   static marks(r: Readings): Reading {

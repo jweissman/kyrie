@@ -4,10 +4,11 @@ import { HexBoundary } from '../../src/hex-boundary';
 import { ModuleWriter } from '../../src/lang/module-writer';
 import { LandModel } from '../../src/ui/land-model';
 import { StockOpenings } from '../../src/world/stock-openings';
-import { EconomyMeasure } from '../economy-measure';
 import { FirstHourBands } from '../first-hour-bands';
 import { NoviceCountry, type Country } from '../novice-country';
 import { QuantityDungeon } from './dungeon';
+import { QuantityPurse } from './purse';
+import { EconomyMeasure } from '../economy-measure';
 
 // A first country as a new life begun in its first town finds it (no stock opening: the town is where the measures
 // are taken from), read by the instruments that already read it: NoviceCountry (its bands, sites, hire, and how far
@@ -18,7 +19,7 @@ export interface Fair { band: string; fell: number; said: string; warned: boolea
 export interface Read {
   seed: string; near: number; fair: Fair[];
   economy: { day: number; kit: number; dearest: number; ratio: number; worth: number; stock: number; purse: number;
-    missing: string[] };
+    missing: string[]; outing?: string; haul?: number; job?: number };
   reach: { things: string[]; cells: number };
   dungeon?: { name: string; minutes: number; hexes: number; levels: number; companion: boolean; light: boolean;
     provisions: boolean; at: { companion: boolean; light: boolean; provisions: boolean; gear: boolean } };
@@ -45,19 +46,20 @@ export class QuantityCountry {
     return { seed, near: country.bands.filter(b => b.minutes <= this.near).length, fair,
       economy: this.economy(c, country), reach: this.reach(c, country), ...dungeon ? { dungeon } : {} };
   }
-  // What a day's work brings home (EconomyMeasure.within) against a starter kit (a light, three days' rations, a
-  // rope: the cheapest of each the first town sells) and the first town's dearest ware that is not itself treasure.
+  // What a day's work brings home (QuantityPurse: one outing and one job, in the country's own land) against a starter
+  // kit (a light, three days' rations, a rope: the cheapest of each the first town sells) and the first town's dearest
+  // ware that is not itself treasure; and what lies in the country against what its markets sell.
   static economy(c: Campaign, country: Country): Read['economy'] {
-    const w = c.world, far = NoviceCountry.distances(c, country.start), got = EconomyMeasure.within(c, far, this.day);
+    const w = c.world, purse = QuantityPurse.read(c, country, NoviceCountry.distances(c, country.start), this.day);
     const wares = this.wares(c, country);
     const parts: [string, number][] = [['light', this.cheapest(wares, this.light)],
       ['rations', 3 * this.cheapest(wares, this.provisions)], ['rope', this.cheapest(wares, this.rope)]];
     const kit = parts.reduce((t, [, p]) => t + (Number.isFinite(p) ? p : 0), 0);
     const dearest = Math.max(0, ...wares.filter(x => !w.test(ModuleWriter.call('valuable', x.kind))).map(x => x.price));
-    const whole = EconomyMeasure.read(country.seed, c), day = got.sold + got.paid;
-    return { day, kit, dearest, ratio: this.round(day / Math.max(1, kit + dearest)), worth: whole.worth,
-      stock: whole.stock, purse: w.number(ModuleWriter.call('quantity', c.playerActor!, 'gold')),
-      missing: parts.filter(([, p]) => !Number.isFinite(p)).map(([k]) => k) };
+    return { day: purse.day, kit, dearest, ratio: this.round(purse.day / Math.max(1, kit + dearest)),
+      worth: purse.worth, stock: purse.stock, purse: w.number(ModuleWriter.call('quantity', c.playerActor!, 'gold')),
+      missing: parts.filter(([, p]) => !Number.isFinite(p)).map(([k]) => k), outing: purse.outing, haul: purse.haul,
+      job: purse.job };
   }
   private static cheapest(wares: { kind: string; price: number }[], re: RegExp): number {
     return Math.min(...wares.filter(x => re.test(x.kind)).map(x => x.price));
