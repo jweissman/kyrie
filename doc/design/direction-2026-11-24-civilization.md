@@ -438,3 +438,8 @@ The purpose of these tables is neither to force every settlement into a stereoty
 
 **Since, the owner (24 November):** "'Ydgn' is intended to be a transliteration of the Lizardfolk name, but Northerners
 usually render 'Andayeen'." The desert metropolis is one identity with two names by who speaks.
+
+**And (24 November):** "I think jade is fine for the woodlands; I wasn't sure if they should have anything at all.
+Please use your own creative judgment on the rest of the terrain columns for now; and note we'll also want terrain not
+mentioned there (already: tundra, jungle etc)." The lead's columns for the plains and the woodlands are in the
+commission, §3.

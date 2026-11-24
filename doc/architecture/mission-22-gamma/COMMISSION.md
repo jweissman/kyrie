@@ -49,24 +49,56 @@ Each is a register row (deferred to gamma), and each is in the feature map as a 
 | OR-456 | **G7. Assembly, census and traversal.** Deem assembles the anchors, pins and matrix; one census runs all of the above over many seeds; automated and cold players reach, enter and use the principal settlements and pinned content with no developer shortcut (a random walk cannot prove a city exists, so census and traversal are both needed) | `bun run civilization` (or a quantity measure): deterministic, by seed, reporting what is missing or contradictory | The census at the proving sets' coverage; one cold-play journey to Aline |
 | OR-457 | **G8. First Aims across the continent.** The beta proof's nested aims (OR-443) extended to horizons that the pins make executable (find Dun Rìerdan, explore the southern continent, shape the wider world), available, followed and achieved apart | Every aim's achievement is a world fact, recognized however it came about, rewarded once | "Find Dun Rìerdan" achieved by two different routes |
 
-## 3. Decisions that are the owner's
+## 3. Decisions
 
-Settled:
+Settled by the owner (24 November):
 
-- **The desert metropolis, the City of Immortals** (the owner, 24 November): *Ydgn* is a transliteration of its
-  Lizardfolk name; Northerners usually render it *Andayeen*. One identity, two names by who speaks: the lizardfolk's
-  own, and the North's (the direction's "Andaeen" is the North's, spelled Andayeen).
+- **The desert metropolis, the City of Immortals:** *Ydgn* is a transliteration of its Lizardfolk name; Northerners
+  usually render it *Andayeen*. One identity, two names by who speaks: the lizardfolk's own, and the North's (the
+  direction's "Andaeen" is the North's, spelled Andayeen).
+- **The woodlands' gem is jade.** The owner had only wondered whether the woodlands should have one at all.
+- **The rest of the terrain columns are the lead's creative call for now** (below), and terrains beyond the eight are
+  wanted too: tundra, jungle and others.
 
-Open:
+The plains' and woodlands' columns, the lead's design, provisional until the owner changes them. Each name was checked
+free with `bin/kyrie names`, and two were drawn with `bin/kyrie suggest names` (Vallow in the catfolk's manner, Aelen
+in the elves'):
 
-Asked before the content they govern is written, never settled by a transcription:
+| Scale | Plains (catfolk; the Low; lion; diamond, rare; iron, bronze rare) | Woodlands (elf; the Wood; bear; jade; iron, petrified wood) |
+|---|---|---|
+| **Hamlet** | **The Stockade**: a herders' ring of thorn fences against the lions, its cattle penned at night | **The Coaling**: a charcoal-burners' clearing, its stacks smoking, its people half the year in the trees |
+| **Town** | **Fairstead**: a drovers' market town where the plains' roads cross, its fair the season's great gathering | **Bowerhold**: a town in the canopy, houses on the great boughs, ladders and lifts its streets |
+| **City** | **Vallow, the Granary City**: walled, its towers the granaries of the plains, its wealth the harvest, a city of tallies and silos | **Aelen, the City of Bridges**: living trees joined by rope and timber bridges over a river gorge |
+| **Metropolis** | **Iskarra, the Lion Throne**: a royal capital in rings of walls on the open plain, its kings once nomads, its court still moving with the seasons between palaces | **Thornwold, the Stone Wood**: a metropolis carved in a petrified forest, its towers the stone trunks, its streets the spaces between them |
+
+The design reasons:
+- Each column keeps the owner's distinctions. The Stockade and the Coaling are hamlets of a livelihood.
+- Bowerhold, like the sky's Academy, is a town of its form.
+- Iskarra's court moves, the plains' answer to the desert's mobile Encampment.
+- Thornwold is the woodlands' wonder-city, made of their characteristic material (petrified wood).
+
+**Terrains beyond the eight** (the owner: "we'll also want terrain not mentioned there: tundra, jungle and so on"):
+- The ontology is open, never closed at eight.
+- The generator already has some of these: frost, marsh and archipelago as region terrains, and the tropics, frost and
+  marsh as painting terrains (`bin/kyrie suggest paintings`).
+- G0's census reports each terrain the generator draws that the ontology does not name, and each the ontology names
+  that no country is drawn in.
+- **Tundra, jungle, marsh and archipelago** are the first to define. Each needs its adapted people, demonym, animal, gem
+  and materials. These are the lead's to propose when G0 begins, and the owner's to change.
+
+**The orcs.** The direction says the owner's conception of orcs, peoples historically formed by extensive admixture
+and transformation, deserves its own design treatment. It is never reduced to a mechanical racial essence. That bears
+on G4's majority-adapted-population rule:
+- The waste's adapted people are orcs.
+- So the census must treat their population as a history (who mixed, and when, and what changed them), not as a
+  single species to count to fifty percent.
+
+That design is the lead's to write within G4, and it is put to the owner as a draft.
+
+Still open, asked before the content it governs is written, never settled by a transcription:
 
 - The mountain city's name. The sketch seems to read *Dunwudelft*, but that is not established.
-- The woodlands' gem (jade is provisional).
-- The plains' and the woodlands' four-scale columns, which the sketch leaves open.
-- The orcs as peoples formed by admixture and transformation, a creative direction of its own, which is never reduced
-  to a mechanical racial essence.
-- The other mountain, waste, woodland and plains settlements' definitions.
+- The other mountain, waste and sky settlements' fuller definitions, written with their packages.
 
 ## 4. Acceptance
 
