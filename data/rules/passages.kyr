@@ -26,6 +26,19 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Relation strikes(hazard, entity).
   // A marvel, the uncanny, as its author declares it (`Marvel.`): a thing a company may meet and wonder at.
   Relation marvel(entity).
+  // A wonder (`Wonder …` on a thing, OR-440): the thing, and the fact of its discovery; whence it comes, how rare it is,
+  // and what it matters for, each a fact of its own, never one score.
+  Kind wonderorigin. Kind wonderrarity. Kind wonderworth.
+  Relation wonder(entity, fact). Relation wonderFrom(entity, wonderorigin). Relation wonderRarity(entity, wonderrarity).
+  Relation wonderFor(entity, wonderworth).
+  Entity from_natural: wonderorigin "natural". Entity from_historical: wonderorigin "historical".
+  Entity from_technological: wonderorigin "technological". Entity from_magical: wonderorigin "magical".
+  Entity from_planar: wonderorigin "planar". Entity from_unknown: wonderorigin "of no known origin".
+  Entity rarity_ordinary: wonderrarity "ordinary where it is". Entity rarity_rare: wonderrarity "rare".
+  Entity rarity_unique: wonderrarity "unique". Entity rarity_impossible: wonderrarity "seemingly impossible".
+  Entity for_aesthetic: wonderworth "beauty". Entity for_cultural: wonderworth "what a people make of it".
+  Entity for_material: wonderworth "what it is made of". Entity for_scientific: wonderworth "what it shows of the world".
+  Entity for_spiritual: wonderworth "the spirit". Entity for_dangerous: wonderworth "its danger".
   // What can be tried on a thing (looked over closely, prodded, pried at...), and what has been.
   Kind verb. Relation probeable(entity). Relation suits(entity, verb). Relation tried(entity, verb).
   // What a try or a search can find (LookAnswers, the engine's): a thing with states or contents, or one something

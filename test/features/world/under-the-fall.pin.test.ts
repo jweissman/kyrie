@@ -6,11 +6,14 @@ import { ModuleWriter } from '../../../src/lang/module-writer';
 
 // The stock opening (BRIEF §3.1; the owner, 23 November): a new life begun in the dark of an old adit above Porthalen,
 // the roof come down behind it, ahead of the drove road's own beginning (data/openings/adit, chosen at creation:
-// --opening adit). Two rooms, one person, one ration, one fight, one hazard, then the open world, each met by the rows
-// the frame offers alone (no act is named here that the frame did not offer), and each changing the world: a light
-// made, the bait-bag taken and eaten, the badger fought, Dai Probert asked along, the fallen prop lifted. Light a torch
-// is among the first frame's few rows. A careless life (no light, Dai left where he sits) still gets out, hurt for it;
-// and either way the drove story begins on the green, Owain telling what was done while the life was under the hill.
+// --opening adit). Its beats are the owner's successive revelations (the direction of 24 November, §7, OR-441):
+// darkness, with Light a torch among the first frame's few rows; light, which changes what can be seen and done (the
+// adit's way opens, the bread is seen, the badger is a bout and not a fight to the end); Dai Probert met and asked
+// along; the badger fought by the two of you, by the ordinary combat; the old bar its scrapings turned up, kept; the
+// seam of starstone, a wonder (OR-440), which held to the light keeps the drift lit; and the prop lifted, the way out.
+// Each is met by the rows the frame offers alone (no act is named here that the frame did not offer), and each changes
+// the world. A careless life (no light, Dai left where he sits) still gets out, hurt for it; and either way the drove
+// story begins on the green, Owain telling what was done while the life was under the hill.
 type Row = { id: string; label: string };
 const start = async (as = 'human/warrior/Wenna', ...more: string[]) => {
   const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as, '--opening', 'adit',
@@ -44,21 +47,38 @@ describe('a new life begun under the fall in the old adit', () => {
     expect(s.offer!.primary.slice(0, 3).map(x => x.label).join(' | ')).toMatch(/light a torch/);
     let acts = 0;
     const step = async (words: RegExp) => { acts++; s = await take(r, s, words); return s; };
+    // Darkness, then light: the way on opens, the bread is seen, and the badger will be a bout, not a fight to the end.
+    expect([rows(s).some(x => /^To the old gallery/.test(x.label)), holds('yields', 'adit__badger')]).toEqual([false, false]);
     await step(/light a torch/i);
     expect(holds('benighted', 'party')).toBe(false);
+    expect([rows(s).some(x => /^To the old gallery/.test(x.label)), holds('yields', 'adit__badger')]).toEqual([true, true]);
     await step(/^Collect your bread and cheese/);
     expect(holds('ownedItem', 'adit__bait', 'region__member_party_1')).toBe(true);
+    // A person: Dai, met by the light, asked along before the beast he is afraid of.
     await step(/^To the old gallery/);
-    acts++;
-    s = await fight(r, s);
-    // By a light it is a bout: the badger, beaten, yields and keeps to its sett.
-    expect(holds('yielded', 'adit__badger', 'party')).toBe(true);
-    await step(/^Eat your bread and cheese/);
-    expect(holds('ownedItem', 'adit__bait', 'region__member_party_1')).toBe(false);
     await step(/^Talk to Dai Probert/);
     expect(holds('willing', 'adit__dai', 'party')).toBe(true);
     await step(/^Ask Dai Probert to join/);
     expect(holds('travelsWith', 'adit__dai', 'party')).toBe(true);
+    const company = journey.session.campaign.state.partyIds.length;
+    expect(company).toBe(2);
+    // Danger: the badger stands between you and the prop until it is beaten, fought by the two of you.
+    await step(/^To the old drift/);
+    expect(rows(s).some(x => /fallen prop/.test(x.label))).toBe(false);
+    acts++;
+    s = await fight(r, s);
+    expect(holds('yielded', 'adit__badger', 'party')).toBe(true);
+    expect(s.scene.lines.join(' ')).toMatch(/Dai Probert/);
+    // What lasts: the old bar its scrapings turned up, kept.
+    expect(holds('knows', 'party', 'adit__sett_bared')).toBe(true);
+    await step(/^Collect an old miner's pinch-bar/);
+    expect(holds('ownedItem', 'adit__old_bar', 'region__member_party_1')).toBe(true);
+    await step(/^Eat your bread and cheese/);
+    expect(holds('ownedItem', 'adit__bait', 'region__member_party_1')).toBe(false);
+    // A wonder, met by the light and known from then on; held to the light, it keeps the drift lit of itself.
+    expect(holds('knows', 'party', 'adit__seam__wonder')).toBe(true);
+    await step(/^Hold your light to the seam/);
+    expect([holds('state', 'adit__seam', 'adit__kindled'), holds('unlit', 'region__s1_adit_drift')]).toEqual([true, false]);
     await step(/^Lift the fallen prop with Dai/);
     await step(/^Up to the old drift's mouth/);
     // Out in the open: Dai goes home grateful; the way down is the drove road into the town.
@@ -79,6 +99,7 @@ describe('a new life begun under the fall in the old adit', () => {
     let s = r.said('look');
     s = await take(r, s, /^Feel along the wall in the dark/);
     expect(w().one('at', 'party')).toBe('region__s1_adit_gallery');
+    s = await take(r, s, /^To the old drift/);
     s = await fight(r, s);
     s = await take(r, s, /^Feel along the fallen prop in the dark/);
     s = await take(r, s, /^Up to the old drift's mouth/);
@@ -95,6 +116,7 @@ describe('a new life begun under the fall in the old adit', () => {
     let s = r.said('look');
     s = await take(r, s, /light a candle/i);
     s = await take(r, s, /^To the old gallery/);
+    s = await take(r, s, /^To the old drift/);
     expect(w().test(ModuleWriter.call('yields', 'adit__badger'))).toBe(true);
     s = await fight(r, s);
     expect(s.end).toBeUndefined();
@@ -113,7 +135,8 @@ describe('a new life begun under the fall in the old adit', () => {
       const knows = (f: string) => w().test(ModuleWriter.call('knows', 'party', f));
       expect([origin, facts.map(knows)]).toEqual([origin, facts.map(() => false)]);
       let s = r.said('look');
-      for (const words of [/light a torch/i, /^To the old gallery/, /^Attack an old boar badger/]) {
+      const down = [/light a torch/i, /^To the old gallery/, /^To the old drift/, /^Attack an old boar badger/];
+      for (const words of down) {
         s = await take(r, s, words);
       }
       s = await r.ask(JSON.stringify({ act: RunnerFight.through })) as Said;

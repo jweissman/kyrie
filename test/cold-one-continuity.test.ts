@@ -18,10 +18,10 @@ describe('the first cold play\'s continuity', () => {
     const j = await life('adit');
     await j.play('a candle: Light');
     j.put('party', 'region__s4_adit_gallery');
-    expect(j.seen()).toMatch(/It went for me when I moved/);
+    expect(j.seen()).toMatch(/It went for me when I tried to get by/);
     j.assert('routed', 'adit__badger');
     expect(j.seen()).toMatch(/Is it gone\?/);
-    expect(j.seen()).not.toMatch(/It went for me when I moved/);
+    expect(j.seen()).not.toMatch(/It went for me when I tried to get by/);
   }, 120000);
   it('tells the weather only from the sky (OR-250)', async () => {
     for (const seed of ['iscoed', 'kahitude']) {

@@ -551,6 +551,20 @@ drawn violet, the atlas's wonder, and nothing else is (its id's spelling counts 
 look closely that an observation on `tried(thing, looking)` teaches by. Nothing else is blue but a question that
 teaches.
 
+A thing can be a wonder (`Wonder natural rare for aesthetic, scientific "…".`, OR-440): something remarkable that
+is there whether or not any errand leads to it. The declaration keeps three things apart. The thing is the Thing, with
+its states. Its discovery is a fact of its own: the company learns it by meeting the thing by a light, and the string
+is what it is told then, once. Its opportunity is the thing's own acts, its Changes or the ways it may be tried, done by
+the ordinary rules. A wonder that affords none is refused when the module is read, and so is a whence, a rarity or a
+worth that is no wonder's. Where it comes from (`natural`, `historical`,
+`technological`, `magical`, `planar` or `unknown`), how rare it is (`ordinary`, `rare`, `unique` or `impossible`) and
+what it matters for (`aesthetic`, `cultural`, `material`, `scientific`, `spiritual` or `dangerous`, one or more) are
+each a fact of their own (`wonderFrom`, `wonderRarity`, `wonderFor`), never one score. A wonder is a marvel too, so
+its acts are drawn violet. Its discovery is kept, though not carried in the Notes: the thing is told where it
+stands. Its effects are ordinary ones: the starstone in the adit, held to a light, keeps the drift
+lit by a rule that clears `unlit`. Ask a substantial adventure for one or two of them; never a quota of glowing
+objects.
+
 A thing can hold others (`Holds.`), and a state flagged `closed` keeps what it holds out of sight and reach. Items
 and things can start inside one (`in chest`), and anything can be `hidden until` a fact the company learns; a
 discovery can be `Found by searching` a place (optionally `with` a skill), and is then seen there from that time on.

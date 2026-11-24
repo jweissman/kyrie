@@ -840,6 +840,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, an adventure's friction: its pacing unproven, not a broken contract"
+  },
+  "OR-460": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-440: a place in the Book for the wonders met, a wanted outcome; nothing claimed is broken"
+  },
+  "OR-465": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, split from OR-441: the higher rungs of the ladder run over the opening, an instrument wanted"
   }
  },
  "blockedBy": {

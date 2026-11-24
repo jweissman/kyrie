@@ -25,7 +25,9 @@ export class ModuleNamespace {
   // new facts about every creature at every install (Mission 21, world/construction.md §2: T24-11's growth).
   static readonly canonical = ['ability', 'feat', 'capability', 'itemkind', 'good', 'clock', 'waykind', 'servicekind', 'element',
     'terrainkind', 'temperament', 'law', 'manner', 'pronoun', 'sizekind', 'craft',
-    'verb', 'circle', 'quality', 'difficulty', 'recipe', 'callingkind', 'ancestrykind'];
+    'verb', 'circle', 'quality', 'difficulty', 'recipe', 'callingkind', 'ancestrykind',
+    // A wonder's whence, rarity and worth (OR-440): the shared rules' own, one meaning wherever a wonder is declared.
+    'wonderorigin', 'wonderrarity', 'wonderworth'];
   private entities: Record<string, string>;
   private functions: Record<string, string>;
   private kinds: Record<string, string>;

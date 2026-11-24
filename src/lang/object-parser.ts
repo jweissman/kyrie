@@ -48,6 +48,7 @@ export class ObjectParser {
     else if (part.field === 'guards') { (spec.guards ??= []).push(part.value as string); }
     else if (part.field === 'holds') { spec.holds = true; }
     else if (part.field === 'marvel') { spec.marvel = true; }
+    else if (part.field === 'wonder') { spec.wonder = part.value as ThingSpec['wonder']; }
     else if (part.field === 'tries') { spec.tries = [...spec.tries ?? [], ...part.value as string[]]; }
     else if (part.field === 'roles') {
       const { role, when } = part.value as { role: string; when: Predicate };
@@ -62,6 +63,16 @@ export class ObjectParser {
   }
   static HoldsPart(_holds: Node, _dot: Node): Field { return { field: 'holds', value: true }; }
   static MarvelPart(_marvel: Node, _dot: Node): Field { return { field: 'marvel', value: true }; }
+  // WonderPart = "Wonder" WonderKind string ".": whence, how rare and what for (WonderKind), and what meeting it tells.
+  static WonderPart(_wonder: Node, kind: Node, text: Node, _dot: Node): Field {
+    return { field: 'wonder', value: { ...ModuleParser.ast(kind) as object, text: ModuleParser.ast(text) as string } };
+  }
+  static WonderKind(from: Node, rarity: Node, why: Node) {
+    return { from: from.sourceString, rarity: rarity.sourceString, for: ModuleParser.ast(why) as string[] };
+  }
+  static WonderFor(_for: Node, first: Node, _commas: Node, rest: Node): string[] {
+    return [first.sourceString, ...rest.children.map(c => c.sourceString)];
+  }
   // FoundBy = "Found" "by" "searching" ident FoundWith? string? "."
   static found(place: Node, skill: Node, text: Node): Field {
     return { field: 'found', value: { place: place.sourceString,

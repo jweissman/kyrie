@@ -40,10 +40,15 @@ Kyr {
             | kwIn ident -- in
             | "nowhere" -- nowhere
   ThingKind = "is" ident
-  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | MarvelPart | TriesPart | PersonKnown
+  ThingPart = StatePart | ChangePart | HurtsPart | GuardsPart | HoldsPart | MarvelPart | WonderPart | TriesPart | PersonKnown
   HoldsPart = "Holds" "."
   // A marvel of the place, the uncanny (a stone that hums, a door that speaks): violet, the atlas's wonder (AT-01).
   MarvelPart = "Marvel" "."
+  // A wonder (OR-440): the thing itself, apart from any quest; whence it comes, how rare it is, what it matters for,
+  // and what meeting it by a light tells, which is the company's discovery of it (Wonder natural rare for aesthetic "…").
+  WonderPart = "Wonder" WonderKind string "."
+  WonderKind = ident ident WonderFor
+  WonderFor = "for" ident ("," ident)*
   TriesPart = "Tries" ident ("," ident)* "."
   StatePart = "State" ident StateFlag* string "."
   StateFlag = "blocking" | "dangerous" | "closed"

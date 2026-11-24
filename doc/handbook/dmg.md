@@ -2036,11 +2036,11 @@ Told by the narrator when it comes (see Narrator.exchange), not said: it does no
 
 ### Passages, obstacles and the condition of things
 
-Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen, harmsWhen, hurtsWith, hurtsInto, revealedBy, needs, changeOf, changeFrom, changeTo, changeKnows, consumes, spends, hobbled, following, travelTime.
+Also kept, without comment: passageKind, connects, on, guards, state, blocksWhen, harmsWhen, hurtsWith, hurtsInto, revealedBy, wonder, wonderFrom, wonderRarity, wonderFor, needs, changeOf, changeFrom, changeTo, changeKnows, consumes, spends, hobbled, following, travelTime.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 8 | 38 | 2 | 25 | 0 | 6 |
+| 11 | 42 | 2 | 25 | 0 | 6 |
 
 #### scenery
 
@@ -2089,6 +2089,12 @@ A hazard that strikes a company: the world turns it on one of its members (a tra
 *Kyr · relation(entity)* · `rule:world_passages.marvel`
 
 A marvel, the uncanny, as its author declares it (`Marvel.`): a thing a company may meet and wonder at.
+
+#### wonderorigin, wonderrarity, wonderworth
+
+*Kyr · kind; kind; kind* · `rule:world_passages.wonderorigin`
+
+A wonder (`Wonder …` on a thing, OR-440): the thing, and the fact of its discovery; whence it comes, how rare it is, and what it matters for, each a fact of its own, never one score.
 
 #### verb, probeable, suits, tried
 
@@ -2985,6 +2991,15 @@ The worlds that ship with the game.
 
 > Quittance burned to the ground ninety-four years ago and was rebuilt on credit, and now every house in it wears a plate over the door to say which Office of Assurance will put it out. The Offices need adjusters, because the Tables say the fires are falling, and the Receipt that renews the city's Founding Policy, hung on the Cinderwall every Reckoning, was the colour of milk last year. Reckoning is in nine days. You have a little money, and nothing that has been insured.
 
+### The Rain-Gourd
+
+*Kyr* · `campaign:raingourd`
+
+- Regions and sites: raingourd
+- Kits placed: —
+
+> On Lantana Cay it is the end of the dry, and the ship that brought you waits on a wind that comes with the rains. Up the hill above Palla an old woman has carried the rain-gourd to the falls every year for fifty years. This year her hip will not.
+
 ### Three Nights at Sallowfield
 
 *Kyr* · `campaign:sallowfield`
@@ -3128,6 +3143,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > At the foot of the Brynach fells a bath-hall has stood cut in two by a brick wall for thirty-one winters, and the hot spring that heats both halves is going cold. Two women keep the two sides and have not spoken since the wall went up. In three days the spring will be gone, and on the second evening a man will come down the drove road and stop at the gate, and not knock.
+
+### The Weather Drove
+
+*Kyr* · `campaign:weatherdrove`
+
+- Regions and sites: weatherdrove
+- Kits placed: —
+
+> Wickering drinks for a year if the Widow rains on the Seven Gardens. She is a cloud the Shales have driven nine generations, and this autumn she came down off the mountains and went into a glasshouse.
 
 ### What Tessary Owes
 

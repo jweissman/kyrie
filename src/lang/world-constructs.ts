@@ -18,6 +18,8 @@ export interface ThingSpec {
   hidden?: string; holds?: boolean;
   // A marvel of the place, its author's word for the uncanny: drawn violet wherever it can be met (see Affordances).
   marvel?: boolean;
+  // A wonder (OR-440): whence it comes, how rare it is, what it matters for, and what meeting it by a light tells.
+  wonder?: { from: string; rarity: string; for: string[]; text: string };
   // Ways of trying it its author offers besides those its look suits (Tries pushing: a bell can be rung).
   tries?: string[];
   // What it is called while something holds, in place of its name (Known as "the carved wall" until a trap's
@@ -291,6 +293,46 @@ export class WorldConstructs {
         when: { kind: 'and', left: withheld, right: this.call('state', t.id, c.from) }, text: c.why });
     }
   }
+  // A wonder (OR-440, the owner's direction of 24 November, §8): the thing itself, kept apart from its discovery and
+  // its opportunity. The thing is the Thing, with its states, and a marvel (violet where it can be met). Whence it
+  // comes, how rare it is and what it matters for are facts of it, each its own, never one score (wonderFrom,
+  // wonderRarity, wonderFor). Its discovery is a fact of its own, known by whoever meets it by a light, once (what
+  // meeting it tells, an event that teaches it), and kept as any knowing is, the
+  // same on a return and in a replay. Its opportunity is its acts, its changes or the ways it may be tried, done by the
+  // ordinary rules: a wonder affords at least one. No quest leads to it, nor is needed.
+  static readonly wonders = {
+    from: ['natural', 'historical', 'technological', 'magical', 'planar', 'unknown'],
+    rarity: ['ordinary', 'rare', 'unique', 'impossible'],
+    for: ['aesthetic', 'cultural', 'material', 'scientific', 'spiritual', 'dangerous'] } as const;
+  private static wonder(module: Module, t: ThingSpec, w: NonNullable<ThingSpec['wonder']>) {
+    const { from, rarity } = this.wonders, worth = this.wonders.for as readonly string[];
+    if (!(from as readonly string[]).includes(w.from)) {
+      throw new Error(`Wonder ${t.id}: whence is one of ${from.join(', ')}`);
+    }
+    if (!(rarity as readonly string[]).includes(w.rarity)) {
+      throw new Error(`Wonder ${t.id}: how rare is one of ${rarity.join(', ')}`);
+    }
+    const unknown = w.for.find(x => !worth.includes(x));
+    if (unknown || new Set(w.for).size !== w.for.length) {
+      throw new Error(`Wonder ${t.id}: what it is for is among ${worth.join(', ')}, each once`);
+    }
+    if (!t.changes.length && !t.tries?.length) { throw new Error(`Wonder ${t.id} affords nothing: give it a Change or Tries`); }
+    if (t.site?.anchor !== 'at') { throw new Error(`Wonder ${t.id} stands at a place`); }
+    const met = `${t.id}__wonder`;
+    this.entity(module, met, 'fact', w.text);
+    this.assert(module, 'marvel', t.id);
+    this.assert(module, 'wonder', t.id, met);
+    // Each by the shared rules' own entity (data/rules/passages.kyr), the same in every installation.
+    this.assert(module, 'wonderFrom', t.id, `from_${w.from}`);
+    this.assert(module, 'wonderRarity', t.id, `rarity_${w.rarity}`);
+    for (const x of w.for) { this.assert(module, 'wonderFor', t.id, `for_${x}`); }
+    // Met where it stands by a light, as an event is (told once, whatever else was done: a torch lit there tells it),
+    // teaching the discovery; never again once known.
+    const party = 'party', lit: Predicate = { kind: 'not', value: this.call('benighted', party) };
+    const here: Predicate = { kind: 'and', left: this.call('at', party, t.site.id), right: lit };
+    this.event(module, { id: `${met}__met`, anchor: { kind: 'at', id: t.site.id }, text: w.text, effects: [],
+      when: { kind: 'and', left: here, right: { kind: 'not', value: this.call('knows', party, met) } }, teaches: met });
+  }
   static thing(module: Module, t: ThingSpec) {
     module.entities.push({ id: t.id, type: t.type, name: t.name, ...t.known ? { roles: t.known } : {} });
     // One nowhere is in no place until something puts it somewhere (M19-95).
@@ -301,6 +343,7 @@ export class WorldConstructs {
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
     if (t.marvel) { this.assert(module, 'marvel', t.id); }
+    if (t.wonder) { this.wonder(module, t, t.wonder); }
     // Anything a company can handle can be tried, in the ways that suit it; scenery only in the ways its author
     // offers (`Tries looking` had offered no way to look at the snow on a fell: Hessel's friction 20, HSL-19).
     const tries = t.type === 'group' ? [] : t.type === 'scenery' ? t.tries ?? [] : this.tries(t);

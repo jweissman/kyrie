@@ -2,6 +2,7 @@
   "rooms": [
     { "id": "fall", "name": "the fall in the old adit", "under": true, "unlit": true },
     { "id": "gallery", "name": "the old gallery", "under": true, "unlit": true },
+    { "id": "drift", "name": "the old drift", "under": true, "unlit": true },
     { "id": "mouth", "name": "the old drift's mouth above {town}" }
   ],
   "start": "fall",

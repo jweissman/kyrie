@@ -17,9 +17,12 @@ export class CompanyKnowledge {
     // Nor what is over (stale: what was so and is no longer), let go from the Notes as the aims it gave are: a lead
     // spent (the notice whose jobs are all paid: FH-05, see Undertakings.leads), and as much a mended gate's failing,
     // a drover freed held, the salt-pans fuelled going cold (FH-25).
+    // Nor a wonder met (OR-440): its discovery is known and kept, but the thing is told where it stands, not carried as
+    // a note (the first day's load, FH-25); the Book's own place for the wonders met is OR-460.
     const spent = CompanyKnowledge.over(world);
+    const wonders = new Set(world.relates('wonder') ? world.related('wonder').map(r => r.args[1]!) : []);
     const known = EntityIndex.of(campaign.module.entities).ordered(world.related('knows', actor).map(r => r.args[1]!))
-      .filter(e => e.name && !spent.has(e.id));
+      .filter(e => e.name && !spent.has(e.id) && !wonders.has(e.id));
     return known.map(e => {
       const told = world.related('toldBy', actor).find(r => r.args[2] === e.id);
       const found = world.related('learnedFrom', actor).find(r => r.args[2] === e.id);

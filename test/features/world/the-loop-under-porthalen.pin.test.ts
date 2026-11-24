@@ -48,9 +48,10 @@ const workings = ['~To the adit$', '~Search here', '~crossing', '~Look closely a
 const homeward = ['~To the old stope', '~To the crossing', '~To the adit$', '~adit mouth', '~stair below the vault',
   '~sealed vault', '~Up to the undercroft', '~charnel', '~ossuary', '~crypt', '~Set your shoulder', '~Up to the churchyard',
   '~landing at Porthalen', "~To Holgar's salt-house"];
-// The second expedition: down by the churchyard, through the vault to the shaft head and the cage.
+// The second expedition: down by the churchyard, through the vault to the shaft head and the cage. The workings' mouth
+// is named by the workings once the company has been through them (as the opening's longer beats left it, OR-441).
 const again = ['~To the landing at Porthalen', '~To the churchyard', '~crypt', '~ossuary', '~charnel', '~undercroft',
-  '~sealed vault', '~stair below the vault', '~adit mouth', '~To the adit$', '~crossing', '~To the old stope',
+  '~sealed vault', '~stair below the vault', '~adit mouth|old workings under Porthalen by the way in', '~To the adit$', '~crossing', '~To the old stope',
   '~To the shaft head', '~Press the word .Coffin', '~Work the seized wheel free', '~Down to the shaft bottom'];
 class Walk {
   s!: Said;
@@ -148,7 +149,12 @@ describe('the reference journey under Porthalen', () => {
       expect(walk.fights).toBe(7);
       // Out again by the churchyard, and Holgar buys the star-iron; only then does he say where the rest of it went:
       // down the shaft, to the heart of the vein, the aim the town gives the company for having been down.
-      await walk.play(homeward.slice(0, homeward.indexOf('~Up to the churchyard') + 1));
+      // The crypt's bats may come down as the slab is shifted, by the hour (the opening's beats, OR-441, take a few
+      // minutes more than they did): fought through where they do.
+      const up = homeward.indexOf('~Up to the churchyard');
+      await walk.play(homeward.slice(0, up));
+      if (walk.s.moment === 'fight') { await walk.play(['through']); }
+      await walk.play(homeward.slice(up, up + 1));
       // The town answers what the company did (sprint 3: a settlement that responds, the world remembering): the
       // graves the man with the black candle opened are dug again and turfed.
       expect(walk.said()).toMatch(/three graves by the wall have been dug again/);

@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 329,
+    "kyr": 332,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 293,
+      "kyr": 294,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 31,
+      "kyr": 33,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15675,6 +15675,13 @@
    "section": "world-rules/rules-passages"
   },
   {
+   "id": "rule:world_passages.wonderorigin",
+   "title": "wonderorigin, wonderrarity, wonderworth",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-passages"
+  },
+  {
    "id": "rule:world_passages.verb",
    "title": "verb, probeable, suits, tried",
    "status": "kyr",
@@ -16312,6 +16319,13 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:raingourd",
+   "title": "The Rain-Gourd",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:sallowfield",
    "title": "Three Nights at Sallowfield",
    "status": "kyr",
@@ -16419,6 +16433,13 @@
   {
    "id": "campaign:warmwall",
    "title": "The Warm Wall",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:weatherdrove",
+   "title": "The Weather Drove",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

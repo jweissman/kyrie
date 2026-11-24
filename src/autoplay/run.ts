@@ -30,6 +30,8 @@ export interface RunSpec {
   keep?: number; replay?: boolean; frontier?: boolean;
   // The debt's chain fixed, not drawn (see DebtShapes).
   chain?: string;
+  // A stock opening begun in ahead of the origin (the adit: StockOpenings), as creation begins one.
+  opening?: string;
 }
 export interface Failure { kind: string; message: string; step: number; move?: Move; stack?: string }
 export interface Metrics {
@@ -53,7 +55,8 @@ export interface RunResult {
 export class AutoplayRun {
   static async start(spec: RunSpec, metrics?: Metrics): Promise<PlaySession> {
     const w = await WorldAssembler.assemble(spec.seed, NodeBundleSource.shared,
-      { origin: spec.origin, party: [spec.protagonist], ...spec.chain ? { chain: spec.chain } : {} });
+      { origin: spec.origin, party: [spec.protagonist], ...spec.chain ? { chain: spec.chain } : {},
+        ...spec.opening ? { opening: spec.opening } : {} });
     const s = await PlaySession.start(w.path, spec.seed, w.source);
     if (spec.frontier !== false) {
       const widening = new Widening(new Frontier(spec.seed, NodeBundleSource.shared), metrics);

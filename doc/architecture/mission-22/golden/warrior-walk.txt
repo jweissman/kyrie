@@ -1,11 +1,14 @@
 {"act":"light:region__party_1__torch"}
 {"act":"adit__bait#look"}
 {"act":"exit:region__s1_adit_gallery"}
+{"act":"adit__dai#talk"}
+{"act":"adit__dai#talk"}
+{"act":"exit:region__s1_adit_drift"}
 {"act":"adit__badger/0:Attack"}
 {"act":"fight:through"}
+{"act":"adit__old_bar#look"}
 {"act":"company/0:Eat your bread and cheese"}
-{"act":"adit__dai#talk"}
-{"act":"adit__dai#talk"}
+{"act":"adit__seam#look"}
 {"act":"adit__prop#look"}
 {"act":"exit:region__s1_adit_mouth"}
 {"act":"exit:region__s1_green"}
