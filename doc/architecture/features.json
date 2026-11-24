@@ -39,7 +39,8 @@
    "world/threads-tied": "world",
    "world/town-afoot": "time",
    "world/under-the-fall": "opening",
-   "world/under-the-town": "adventures"
+   "world/under-the-town": "adventures",
+   "world/opening-dungeon": "adventures"
   },
   "describes": {
    "Character › Stat checks woven into narrative moments": "talk",

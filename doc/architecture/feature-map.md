@@ -215,7 +215,8 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 4 pins · 22 defects · 4 asks
+- **Dungeons and sites** · 5 pins · 22 defects · 4 asks
+  - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
