@@ -720,6 +720,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from OR-306: a pad as an input is a new surface the page has never claimed; a future feature, not a defect"
+  },
+  "OR-386": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, split from OR-307: the owner's \"calculations on demand\" met for a pointer, wanted for touch and keys; a commissioned outcome, no claimed contract broken"
   }
  },
  "blockedBy": {

@@ -1,7 +1,6 @@
 import type { SkillRow } from '../../src/presentation/character-sheet';
 import { useState } from 'react';
 import type { MemberRow, Screen } from '../../src/ui/screen-types';
-import { Glyphs } from './creation/glyphs';
 import type { Choice } from '../../src/ui/choice-list';
 import type { CharacterSheet, DevelopmentOption } from '../../src/presentation/character-sheet';
 import type { ReaderApp } from './reader-app';
@@ -35,8 +34,7 @@ export class CharacterPage {
             style={{ objectPosition: `50% ${m.portrait.focus}%` }} />
             : m.face && <img className="sat" src={m.face.medium} alt="" decoding="async" />}
           <h2 className="who">{Typography.curl(m.name)}</h2>
-          <p className="line-of">{m.emblems?.map(id => <Glyphs.View key={id} id={id} className="emblem" />)}
-            {Words.upper(Words.article(m.line))}, level {m.level}{m.background
+          <p className="line-of">{Words.upper(Words.article(m.line))}, level {m.level}{m.background
             ? `, once ${Words.article(m.background.toLowerCase())}` : ''}</p>
           <CharacterPage.Gauges member={m} />
           {m.sheet?.specialty && <CharacterPage.Specialty who={m.name} specialty={m.sheet.specialty} />}
@@ -156,13 +154,14 @@ export class CharacterPage {
         {m.fallen && <span className="hurt"> · {Typography.curl(m.fallen)}</span>}</p>
     );
   }
-  // The six qualities in a row, each its score and what it adds, its rules under the pointer.
+  // The six qualities in a row, each by its name and its score.
   static Qualities({ member: m }: { member: MemberRow }) {
     const sheet = m.sheet;
     if (!sheet) { return null; }
-    return <ul className="stat-row" aria-label="Qualities">{sheet.qualities.map(q => <li key={q.id}>
-      <span className="q">{q.name.slice(0, 3)}</span><b className="score">{q.score}</b>
-      <span className="mod">{CharacterPage.signed(Math.floor((q.score - 10) / 2))}</span></li>)}</ul>;
+    // As values, by their names (OR-307: no abbreviation, no box, no modifier beside every score). What a score adds
+    // is the reckoning's, asked for on demand (OR-386), never written beside each.
+    return <dl className="values" aria-label="Qualities">{sheet.qualities.map(q => <div key={q.id}>
+      <dt>{q.name}</dt><dd>{q.score}</dd></div>)}</dl>;
   }
   // How they fight and how they save, as the rules will read them.
   static Fighting({ member: m }: { member: MemberRow }) {
@@ -182,13 +181,12 @@ export class CharacterPage {
     </section>;
   }
   // What they can do and know: techniques and spells as names, one read at a time beneath them; what is prepared
-  // today; skills in a line, each with what it adds.
+  // today; skills in a line.
   static Can({ member: m, swaps, draw }: { member: MemberRow; swaps: Choice[]; draw: Draw }) {
     const [read, setRead] = useState<string>(), sheet = m.sheet, shown = m.abilities.find(a => a.id === read);
     return <section className="can"><h3>Can do</h3>
       <ul className="chips">{m.abilities.map(a => <li key={a.id}><button type="button" data-action="ability" aria-pressed={a.id === read}
-        onClick={() => setRead(a.id === read ? undefined : a.id)}>{a.emblem && <Glyphs.View id={a.emblem}
-          className="spell-glyph" />}{a.name}
+        onClick={() => setRead(a.id === read ? undefined : a.id)}>{a.name}
         {a.price && <small>{a.price}{CharacterPage.yet(m, a.price)}</small>}</button></li>)}</ul>
       {shown && <p className="read"><b>{shown.name}.</b> {Typography.curl(shown.text)}</p>}
       <CharacterPage.Prepared member={m} swaps={swaps} draw={draw} />
@@ -200,8 +198,7 @@ export class CharacterPage {
   static Skills({ heading, skills }: { heading: string; skills: SkillRow[] }) {
     if (!skills.length) { return null; }
     return <><h3>{heading}</h3><p className="skill-line">{skills.map((k, i) =>
-      <span key={k.id}>{i > 0 && ' · '}{k.name}
-        {k.check !== undefined && <small> {CharacterPage.signed(k.check)}</small>}</span>)}</p></>;
+      <span key={k.id}>{i > 0 && ' · '}{k.name}</span>)}</p></>;
   }
   // What they carry: what is in hand and worn first, then the rest, the same things together.
   static Carries({ member: m, screen }: { member: MemberRow; screen: Screen }) {
@@ -223,12 +220,11 @@ export class CharacterPage {
     return <section className="prepared"><h3>Prepared today</h3><ul>{m.spells!.map((x, i) => {
       const swap = swaps.find(c => c.label.startsWith(`In place of ${x.name} (`) && !offered.has(c));
       if (swap) { offered.add(swap); }
-      return <li key={`${x.name}${i}`}>{x.emblem && <Glyphs.View id={x.emblem} className="spell-glyph" />}<b>{x.name}</b><span className="from">{` level ${x.level}${x.ready ? '' : ', spent'}`}</span>
+      return <li key={`${x.name}${i}`}><b>{x.name}</b><span className="from">{` level ${x.level}${x.ready ? '' : ', spent'}`}</span>
         {(swap?.children ?? []).length > 0 && <div className="instead"><span className="label">Or prepare instead</span>
           <Act.List choices={swap!.children!} draw={draw} className="small swaps" /></div>}</li>;
     })}</ul></section>;
   }
-  static signed(n: number): string { return n >= 0 ? `+${n}` : `−${-n}`; }
   // What is carried, the same things together (three torches, not a torch three times), what is in use apart.
   static counted<T extends { name: string; equipped?: boolean }>(items: T[]): { item: T; count: number }[] {
     return Counted.together(items);

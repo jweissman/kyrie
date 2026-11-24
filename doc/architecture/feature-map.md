@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 172 pins (140 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 545 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 172 pins (140 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 544 live rows, 446 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -140,15 +140,14 @@ page's colours and opportunities.)
 - **Companions and hirelings** · 2 pins · 5 defects · 2 asks
   - ✓ lets the company work for its keep, and then sleep on the house
   - ✓ lets a bard sing for the supper, for coin, once an evening
-  - requirement OR-308 P1: The party roster takes about 40% of the backstage to choose among four: a compact floating…
+  - requirement OR-386 P3: What a value adds is said on demand to a pointer only (the folio's title on a quality or a skill,…
   - direction PG-01 P3: Character standing as a progression framework (the owner, 19 November,…
 - **Levels and growth** · 1 pins · 0 defects · 1 asks
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
-- **Belongings with a history** · 2 pins · 0 defects · 1 asks
+- **Belongings with a history** · 2 pins · 0 defects · 0 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
-  - requirement OR-307 P1: The character sheet simplified, as a folio (perhaps the Encyclopedia's parchment): the character,…
 - **Lodging and rest** · 4 pins · 3 defects · 0 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
@@ -444,10 +443,13 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
 ### Capabilities neither built nor asked for (0)
 
 
-### Capabilities pinned that no request asks for (0)
+### Capabilities pinned that no request asks for (1)
 
 Each a request to file under its title, its acceptance the pins that prove or want it.
 
+- **Belongings with a history** (The company)
+  - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
+  - ✓ is taken from in the pack, not the scene, for every client
 
 ### Capabilities asked for that no pin proves (11)
 

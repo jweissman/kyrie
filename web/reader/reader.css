@@ -414,3 +414,37 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   .character .head-of.pc { grid-template-columns: 80px minmax(0, 1fr); }
   .character .head-of.pc .sat { width: 80px; height: 80px; }
 }
+
+/* ---- The character as a folio (OR-307, the owner's playtests of 23-24 November: "a simple folio, perhaps the
+   Encyclopedia's parchment"): the sheet on the encyclopedia's paper in its ink, as the book it is; the qualities as
+   values by their names, what each adds not written beside it (OR-386); what they can do and know as words in a line,
+   not boxes; no unexplained signs. The page's tokens are the parchment's within it, so what it draws needs nothing of
+   its own; the roster floating over it keeps the game's dark. ---- */
+.book-page:has(.character) { --ivory: #2B241B; --ink: #2B241B; --grey: #5B4F3F; --dim: #5B4F3F; --faint: #6E6150;
+  --hair: rgba(43, 36, 27, .14); --edge: rgba(43, 36, 27, .24); --edge-strong: rgba(43, 36, 27, .4);
+  --accent-line: rgba(43, 36, 27, .3);
+  --choice-ground: rgba(43, 36, 27, .05); --choice-edge: rgba(43, 36, 27, .14);
+  --choice-ground-hot: rgba(43, 36, 27, .1); --choice-edge-hot: rgba(43, 36, 27, .32);
+  color: var(--ink); margin: 18px auto 32px; border: 1px solid rgba(43, 36, 27, .35);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+  background: radial-gradient(120% 90% at 50% 40%, rgba(255, 250, 236, .55), rgba(255, 250, 236, 0) 60%),
+    radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(92, 66, 32, .16) 100%),
+    repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #EFE6D2; }
+.character .members.roster { --ivory: #ECE6D9; --ink: #ECE6D9; --edge: rgba(236, 230, 217, .10); }
+.character .values { display: flex; flex-wrap: wrap; gap: 8px clamp(20px, 3vw, 40px); margin: 14px 0 6px; padding: 10px 0;
+  border-top: 3px double var(--edge); border-bottom: 1px solid var(--hair); }
+.character .values > div { display: flex; align-items: baseline; gap: 8px; }
+.character .values dt { font: 500 12px/1 var(--do); letter-spacing: .12em; text-transform: uppercase; color: var(--grey); }
+.character .values dd { margin: 0; font: 400 24px/1 var(--told); font-variant-numeric: tabular-nums; }
+.book-page .character h3 { color: var(--grey); }
+.character .can .chips { display: block; line-height: 1.9; }
+.character .can .chips > li { display: inline; }
+.character .can .chips li + li::before { content: '·'; margin: 0 8px; color: var(--faint); }
+.character .can .chips button { padding: 2px 0; border: 0; font: 400 15px/1.4 var(--told); text-decoration: underline;
+  text-decoration-color: var(--hair); text-underline-offset: 3px; }
+.character .can .chips button:hover, .character .can .chips button[aria-pressed="true"] { border: 0; color: var(--ink);
+  text-decoration-color: var(--ink); }
+.character .head-of { border-bottom-color: var(--edge); }
+.character .head-of.pc .sat, .character .head-of .sat { border: 1px solid var(--edge); }
+@media (max-width: 599px) { .book-page:has(.character) { margin: 8px 6px 24px; } }
+
