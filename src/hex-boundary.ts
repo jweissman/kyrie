@@ -15,7 +15,20 @@ export class HexBoundary {
   // A hex is the cell of the land a place stands at: its own, or else its site's, its settlement's or its wild
   // country's. A road runs over many cells and stands at none: going onto it or off it is a journey too. A place on no
   // land drawn (a ship's deck, a house between the worlds) is on no hex, and going to it crosses none.
+  // Read once for each place of a module: a module's places stand where they stand (each exit row of a new place had
+  // walked every ancestry again, twice for a crossing: OR-145).
+  private static readonly hexes = new WeakMap<Module, Map<string, string | undefined>>();
+  private static readonly cells = new WeakMap<Module, Map<string, number | undefined>>();
   static hex(module: Module, id: string): string | undefined {
+    return this.once(this.hexes, module, id, () => this.read(module, id));
+  }
+  private static once<T>(memo: WeakMap<Module, Map<string, T>>, module: Module, id: string, read: () => T): T {
+    let known = memo.get(module);
+    if (!known) { memo.set(module, known = new Map()); }
+    if (!known.has(id)) { known.set(id, read()); }
+    return known.get(id) as T;
+  }
+  private static read(module: Module, id: string): string | undefined {
     const byId = EntityIndex.of(module.entities).byId, line = Spatial.ancestry(byId, id);
     const land = line.findLast(e => e.space!.kind === 'region');
     const chart = land ? this.land(module, land.id) : undefined, cell = this.cell(module, id);
@@ -43,6 +56,9 @@ export class HexBoundary {
     return marked.has(wild.id);
   }
   static cell(module: Module, id: string): number | undefined {
+    return this.once(this.cells, module, id, () => this.celled(module, id));
+  }
+  private static celled(module: Module, id: string): number | undefined {
     const line = Spatial.ancestry(EntityIndex.of(module.entities).byId, id);
     const land = line.findLast(e => e.space!.kind === 'region');
     const chart = land ? this.land(module, land.id) : undefined;
