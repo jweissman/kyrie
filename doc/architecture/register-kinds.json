@@ -690,6 +690,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, split from OR-301 at its close: a label over forty characters breaks no claimed contract; their shortening is a commissioned outcome, held by a ratchet"
+  },
+  "OR-380": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, split from OR-305 at its close: the remaining pages brought onto the frame's menu column, a commissioned outcome held by a ratchet, no observed failure of a claimed contract"
   }
  },
  "blockedBy": {

@@ -6,7 +6,7 @@
 /* The telling has the column; the touches stay at its foot. */
 /* Never less tall than the last paragraph told, which is shown whole (Scrolled.useEnd: OR-243). */
 .world-page.scale-scene .focus > .glance > .told-col { flex: 1 1 auto; min-height: min(var(--newest, 0px), 46dvh); max-height: none;
-  padding: clamp(18px, 3vh, 28px) clamp(18px, 2.2vw, 30px) 8px; mask-image: none; }
+  padding: clamp(18px, 3vh, 28px) var(--menu-inset) 8px; mask-image: none; }
 /* More of the telling below than is in view: its foot fades, so that it is seen to go on (see Scrolled). Brought to
    its end so that what was told last is whole (OR-243), what came before it is cut at its head, and its head fades. */
 .world-page.scale-scene .focus > .glance > .told-col[data-more] {
@@ -21,7 +21,7 @@
 .world-page.scale-scene .focus > .glance > .do-col { flex: none; }
 .world-page.scale-scene .focus > .glance > .do-col:has(.lens-rest) { flex: 0 1 auto; min-height: 0; }
 .world-page.scale-scene .focus > .glance .do-list { min-height: 0; overflow-y: auto; overscroll-behavior: contain;
-  scrollbar-width: thin; padding: 4px clamp(18px, 2.2vw, 30px) clamp(14px, 2.4vh, 22px); }
+  scrollbar-width: thin; padding: 4px var(--menu-inset) clamp(14px, 2.4vh, 22px); }
 .setting { margin: 0; }
 @media (min-width: 900px) and (orientation: landscape) {
   .world-page.scale-scene .world-body { grid-template-columns: minmax(0, 1.6fr) minmax(22rem, 1fr); }
@@ -231,6 +231,9 @@
   .shell.scene-full .world-page.scale-scene .surface .portraits { right: 18px; }
   .shell.scene-full .world-page.scale-scene .world-body > .focus { top: auto; left: 0; right: 0; bottom: 0; width: auto;
     max-height: 52dvh; border-width: 1px 0 0; }
+  /* The frame's menu column at the foot: the screen within its safe zone (OR-305), which the sheet already keeps; the
+     telling over it in the same, neither inset again. */
+  .shell.scene-full .world-page.scale-scene .focus > .glance :is(.told-col, .do-list) { padding-left: 0; padding-right: 0; }
   /* Who is here, over the painting under the place's name, not under the sheet. */
   .shell.scene-full .world-page.scale-scene .surface .portraits { top: 150px; bottom: auto; }
 }
@@ -284,7 +287,7 @@
    screen's edges; one tiny rail of marks at the foot of its right side, apart from what is told). The margins are the
    safe zone's own (see foundations.css). ---- */
 .shell.scene-full { --safe-x: max(var(--safe-r), var(--safe-l)); --safe-y: max(var(--safe-t), var(--safe-b));
-  --panel-w: min(34rem, 42vw); }
+  --panel-w: var(--menu-w); }
 /* The safe zone drawn, for development and acceptance (?safe): a thin light line where it runs. */
 .safe-zone { position: fixed; inset: var(--safe-t) var(--safe-r) var(--safe-b) var(--safe-l); z-index: 2147483000;
   border: 1px solid rgba(214, 214, 214, .6); pointer-events: none; }

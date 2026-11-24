@@ -166,6 +166,9 @@
    the book, still as a reply grows (OR-49, M22's third review: the reply cut through by the divider at 44% with the
    foot of the page empty below the rows). */
 @media (min-width: 1024px) and (orientation: landscape) {
+  /* What is said and what can be said back in the frame's menu column (OR-305), not a column of the page's own. */
+  .talk .dialogue { padding-left: max(clamp(24px, 4vw, 56px), calc(100% - var(--menu-r) - var(--menu-w) + var(--menu-inset)));
+    padding-right: calc(var(--menu-r) + var(--menu-inset)); }
   .talk .dialogue .lines { flex: 1 1 auto; max-height: none; }
   .talk .dialogue .answer { flex: 0 0 auto; }
   .shell.scene-full .mode-talk .dialogue .answer > .leave { margin-bottom: 56px; }

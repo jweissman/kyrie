@@ -35,6 +35,13 @@ html, body { overflow: hidden; }
 :is(.shell.phase-title, .shell.phase-loading:has(.sky-page)) .frame { background: transparent; border: 0; box-shadow: none; }
 :is(.shell.phase-title, .shell.phase-loading:has(.sky-page)) .frame::after { display: none; }
 .shell.phase-title .ambient { display: none; }
+/* The primary action menu's column, the frame's and no page's (OR-305, the owner's cold play of 24 November: "the
+   global page template owns the primary action menu's placement, layout and behaviour"). On a wide screen it is hard
+   right: a column of --menu-w standing --menu-r in from the right edge, its rows inset by --menu-inset, under the page's
+   narrative in the same column (the conversation's place, the one page rated right); a fight may take the left in the
+   same measure. On a narrow or upright screen the column is the screen within its safe zone, at the foot. A page on the
+   frame places its menu by these and nothing of its own (test/menu-placement-browser measures it). */
+.shell { --menu-r: max(var(--safe-r), var(--safe-l)); --menu-w: min(34rem, 42vw); --menu-inset: clamp(18px, 2.2vw, 30px); }
 /* A tablet keeps a narrower margin; a phone, none: its stage is the screen within its safe areas. */
 @media (max-width: 1279px) { .shell { --gx: clamp(20px, 4.5vw, 64px); --gy: clamp(14px, 3.4vh, 40px); } }
 @media (max-width: 1023px) { .shell { --gx: clamp(16px, 3.5vw, 36px); --gy: clamp(14px, 2.6vh, 32px); } }
