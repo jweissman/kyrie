@@ -27,7 +27,8 @@ describe('the colour grammar', () => {
   it('marks a reply by its indicator, not by the colour of its words', () => {
     const talk = css('talk.css');
     expect(talk).toMatch(/li\.marked > \.choice-row\.choice-row > \.row-mark \{ display: block/);
-    expect([...ColourCensus.rules(talk)].filter(r => /replies/.test(r.selector) && /color:\s*var\(--(tone-|gold)/.test(r.body)))
-      .toEqual([]);
+    const gilt = [...ColourCensus.rules(talk)].filter(r => /replies/.test(r.selector)
+      && /color:\s*var\(--(tone-|gold)/.test(r.body));
+    expect(gilt).toEqual([]);
   });
 });

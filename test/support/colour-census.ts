@@ -4,9 +4,9 @@ import { join } from 'node:path';
 // The page's colour grammar read from its style sheets (the owner, 24 November, OR-187): colour belongs to the atlas's
 // indicators; words are neutral, and gold is seen only in an indicator (or the book's aim); nothing flashes a colour.
 // Three findings, each by file and selector: words set in gold (a rule whose `color` is gold, its selector not an
-// indicator's), grounds filled with gold (its background), and an animation whose frames set a hued colour (gold, ember, verdigris, azure, violet, a tone; or an
-// rgb or hex colour far from grey). Read by test/small/colour-grammar against its baseline: none may be added, and those
-// mended leave it.
+// indicator's), grounds filled with gold (its background), and an animation whose frames set a hued colour (gold,
+// ember, verdigris, azure, violet, a tone; or an rgb or hex colour far from grey). Read by test/small/colour-grammar
+// against its baseline: none may be added, and those mended leave it.
 export class ColourCensus {
   static readonly dir = join(import.meta.dir, '../../web/reader');
   // An indicator's selector: a row's mark, a pip, the rail's or a place's mark, a lit corner key, a way's glyph.
@@ -60,8 +60,8 @@ export class ColourCensus {
     for (const f of this.files()) {
       const css = this.strip(readFileSync(join(this.dir, f), 'utf8'));
       for (const m of css.matchAll(/@keyframes\s+([\w-]+)\s*\{((?:[^{}]*\{[^{}]*\})*[^{}]*)\}/g)) {
-        const colours = [...m[2]!.matchAll(/(?:color|background(?:-color)?|border(?:-color)?|box-shadow|fill|stroke)\s*:([^;}]*)/g)]
-          .map(x => x[1]!);
+        const set = /(?:color|background(?:-color)?|border(?:-color)?|box-shadow|fill|stroke)\s*:([^;}]*)/g;
+        const colours = [...m[2]!.matchAll(set)].map(x => x[1]!);
         if (colours.some(v => this.hued.test(v) || this.greyless(v))) { out.push(`${f}: @keyframes ${m[1]}`); }
       }
     }

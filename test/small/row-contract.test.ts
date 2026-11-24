@@ -6,8 +6,8 @@ import { RowWords } from '../../web/reader/stage/row-words';
 
 // The one choice row's construction (the owner, 24 November, OR-188: a row drawn beside the menu with no indicator,
 // an arrow standing at its left in its words): every row has its indicator, the neutral line where it is nothing in
-// particular; its words carry no sign of their own (an arrow, an icon, a glyph, anything drawn only to be seen), its one
-// icon given as its glyph. Under test such a row fails the spec that draws it; in play it is said in the console.
+// particular; its words carry no sign of their own (an arrow, an icon, a glyph, anything drawn only to be seen), its
+// one icon given as its glyph. Under test such a row fails the spec that draws it; in play it is said in the console.
 const button = (label: Parameters<typeof ChoiceRow.Button>[0]['label'], more: object = {}) =>
   renderToStaticMarkup(createElement(ChoiceRow.Button, { data: { action: 'a' }, label, ...more }));
 afterEach(() => { RowWords.strict = false; RowWords.refused.length = 0; });
