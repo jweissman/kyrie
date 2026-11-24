@@ -1,5 +1,6 @@
 import { SuggestNames, type NameAsk } from './suggest-names';
 import { SuggestPaintings } from './suggest-paintings';
+import { SuggestAdventures } from './suggest-adventures';
 
 // `kyrie suggest`: ideas for an author, drawn from what the setting already has and checked against what is taken.
 //   kyrie suggest names [--kind given|family|place] [--people human] [--sex she|he|they] [--like <adventure>]
@@ -9,15 +10,20 @@ import { SuggestPaintings } from './suggest-paintings';
 //     many drawn, best first (--scores says each one's); the same seed draws the same names.
 //   kyrie suggest paintings [--terrain desert]
 //     The paintings of places that nothing uses yet, by terrain and subject, and what each terrain has no painting of.
+//   kyrie suggest adventure
+//     The adventures by the facet each holds most, read from their Kyr; the least written of first, and what the
+//     world's last quantity reading says beside them.
 export class SuggestTool {
   static readonly usage = [
     'kyrie suggest names [--kind given|family|place] [--people human] [--sex she|he|they] [--like <adventure>]',
     '                    [-n 12] [--seed <words>] [--order 2] [--scores]',
     'kyrie suggest paintings [--terrain <terrain>]',
+    'kyrie suggest adventure',
   ].join('\n');
   static main(args: string[]): number {
     const [what, ...rest] = args;
     if (what === 'names') { return this.names(rest); }
+    if (what === 'adventure') { console.log(SuggestAdventures.report().join('\n')); return 0; }
     if (what === 'paintings') { console.log(SuggestPaintings.report(this.option(rest, '--terrain')).join('\n')); return 0; }
     console.log(this.usage);
     return what ? 1 : 0;

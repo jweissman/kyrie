@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { NameChain } from '../../src/cli/name-chain';
 import { SuggestNames } from '../../src/cli/suggest-names';
 import { SuggestPaintings } from '../../src/cli/suggest-paintings';
+import { SuggestAdventures } from '../../src/cli/suggest-adventures';
 
 // `kyrie suggest` (the owner, 24 November: authors roll up truly new names, duplicates of existing adventures
 // excluded, none a prefix or part of one, shorter and well-sounding first; AU-54: the paintings nothing uses, by
@@ -38,5 +39,14 @@ describe('kyrie suggest', () => {
     expect(desert.find(p => p.id === 'scene-desert-arch')).toMatchObject({ subject: 'wonder', used: false });
     expect(desert.find(p => p.id === 'scene-desert-oasis')?.used).toBe(true);
     expect(SuggestPaintings.report('desert')[0]).toMatch(/^desert: \d+ paintings, \d+ unused$/);
+  });
+  it('reads an adventure\'s shape from its Kyr, and suggests the least written of first', () => {
+    const counts = SuggestAdventures.count(['  Person wet "the Wet" at leak {', '    Species mud_elemental.',
+      '  }', '  Person ann "Ann" at hall {', '    Peaceable.', '  }', '  Discovery seen "x".', '  Topic t "y" {}'].join('\n'));
+    expect([counts.combat, counts.investigation, counts.talk, counts.wonder]).toEqual([1, 1, 1, 0]);
+    const shapes = SuggestAdventures.shapes();
+    expect(shapes.length).toBeGreaterThan(30);
+    expect(shapes.every(s => s.counts.wonder === 0)).toBe(true);
+    expect(SuggestAdventures.report().join('\n')).toContain('a wonder-tranche: 0 of');
   });
 });

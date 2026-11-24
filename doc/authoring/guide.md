@@ -834,6 +834,14 @@ subject (city, town, shelter, wonder, wild), with their season, weather and ligh
 painting of at all. The terrain and subject are read from the words of what each painting shows, so take them as a
 first sorting, not a judgment. Use it to find a place worth writing that is already painted.
 
+`bin/kyrie suggest adventure` says what kind of adventure the world has least of. Each adventure's shape is read from
+what its Kyr declares, never from a tag: the foes that come at a company, what is found out (Discovery, a check), what
+is talked over (Topic), what has states to work, what is sold, what endangers (Hazard), and what is a wonder. Each is
+weighed against the whole corpus's share, so that the talk every adventure has does not make each one a talk. It
+counts the adventures by the facet each holds most, and puts the least written of first (24 November: no wonder yet,
+one combat gauntlet in thirty-two). Beside that it says what the world's last `bun run quantity` reading found out of
+its band.
+
 Before naming things: `bin/kyrie names Pargeter Tench` says whether each surname is free or whose it is, and
 `bin/kyrie lint --inventory` lists every relation and measure the modules declare, with what the engine keeps (the
 clock, its records, what it reads off bodies, who holds what, what is known), which a module reads and never writes;

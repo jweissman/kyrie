@@ -11,8 +11,8 @@
 // Bands are written by hand in baseline.json, each with its reason in measures.ts. --update writes a ratchet where it
 // has moved the right way (or has no baseline yet), so the ratchet holds the gain; --rebase writes every ratchet as
 // read, for when a change is meant to move one the wrong way (say why in the commit).
-import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { ActivationCensus } from '../activation-census';
 import { QuantityCountry } from './country';
 import { QuantityMeasures, type Measure, type Reading, type Readings } from './measures';
@@ -86,6 +86,15 @@ export class Quantity {
         ? 'report' : `ratchet ${m.kind}`} | ${read.value ?? '—'}${read.each ? ` (${Object.values(read.each).join(' / ')})`
         : ''} | ${held} | ${ok ? 'yes' : '**no**'} | ${read.note.replace(/\|/g, '/')} |`)];
   }
+  // The reading kept where `kyrie suggest adventure` reads it (not in the tree: a cache, as the parse store is).
+  static readonly kept = join(import.meta.dir, '../../node_modules/.cache/kyrie-quantity/last.json');
+  static keep(rows: { m: Measure; read: Reading; ok: boolean }[]): void {
+    try {
+      mkdirSync(dirname(this.kept), { recursive: true });
+      writeFileSync(this.kept, JSON.stringify({ at: new Date().toISOString(), rows: rows.map(({ m, read, ok }) =>
+        ({ id: m.id, label: m.label, value: read.value, ok })) }));
+    } catch { /* A reading not kept is only not said. */ }
+  }
   static async run(args: string[]): Promise<number> {
     const groups = (this.option(args, 'only')?.split(',') ?? ['walks', 'countries', 'stranded']) as Group[];
     const seeds = this.option(args, 'seeds')?.split(',') ?? this.seeds;
@@ -96,6 +105,7 @@ export class Quantity {
     }).filter(x => x.read.value !== null || x.read.note !== 'not read');
     const out = this.table(rows);
     console.log(out.join('\n'));
+    this.keep(rows);
     if (process.env.GITHUB_STEP_SUMMARY) {
       appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Quantity\n\n${out.join('\n')}\n`);
     }
