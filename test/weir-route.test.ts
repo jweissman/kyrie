@@ -12,8 +12,9 @@ import { HonestPlayer } from './support/honest-player';
 // followed, the pawl found in the gate-well and the gate wound shut; then the road to Porthalen, as the page sets
 // out on it. What each fight was reckoned before it and what it cost are logged, so that a change moving them is seen.
 const hire = ['go(region__s4_inn_door,region__s4_taproom)', 'region__s4_traveller_brings',
-  'recruit(region__s4_traveller)', 'go(region__s4_inn_door,region__s4_green)', 'talk_to(origin__nest)',
-  'region__s4_u_rats_job_ask'];
+  'recruit(region__s4_traveller)', 'go(region__s4_inn_door,region__s4_green)',
+  // The notice on the well-post read first: a job is asked after only by one who has heard of it (OR-370).
+  'region__s4_u_notice_read(party,region__s4_green)', 'talk_to(origin__nest)', 'region__s4_u_rats_job_ask'];
 describe('the weir route', () => {
   it('is walked from the start: Gesk hired, the rats fought beside him and paid, the gate shut, Porthalen', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));

@@ -35,7 +35,8 @@ describe('the rats under the corn-store', () => {
   }, 60000);
   it('by craft: the key, ratsbane laid, the nest burned, paid whole and the ratsbane smelt', async () => {
     const j = await Lab.as('human/thief/Haze');
-    await j.play("Mik's salt-house", 'Ask Mik about the rats', 'ratsbane', 'oil firebomb');
+    // The notice read first: a job is asked after only by one who has heard of it (OR-370).
+    await j.play('Read the notice', "Mik's salt-house", 'Ask Mik about the rats', 'ratsbane', 'oil firebomb');
     await j.play('landing at Lowmouth', 'old corn-store', 'corn-store cellar', ': light a', 'Lay ratsbane');
     await j.play('Until dark', 'Wait');
     expect(Lab.holds(j, 'done', 'rats_job')).toBe(true);

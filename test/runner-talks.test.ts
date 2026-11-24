@@ -26,7 +26,9 @@ describe('the runner holds what is said to someone under their talk', () => {
     // the factor" had told the green whole: cold play 4, CL-49).
     const his = said(await r.ask(JSON.stringify({ act: talk!.id })));
     expect(his.scene.lines.join(' ')).toMatch(/Nobody goes in the old quarry now,’ says Kynes/);
-    expect(his.scene.lines.join(' ')).not.toContain('the taproom of the Stone Horn');
+    // (Kynes's word that a lone warrior should take someone, and who, names the taproom: OR-412. Not the room retold.)
+    expect(his.scene.lines.join(' ').replace(/Kynes looks you over\..*?take someone with you\.’/, ''))
+      .not.toContain('the taproom of the Stone Horn');
     const labels = [...his.offer.primary, ...his.offer.rest].map(o => o.label);
     expect(labels).toContain('Ask Kynes about the drover the customs-men hold');
     const ids = [...his.offer.primary, ...his.offer.rest].map(o => RunnerOffer.act(o));

@@ -12,7 +12,8 @@ describe('a favour done for Mik', () => {
     const { journey: j } = await PlayTool.start(PlayTool.parse([Laboratory.file, '--as', 'human/warrior/Brann']));
     const bond = () => VoiceContext.bond(j.campaign, 'lab__low_merchant', 'party');
     expect(bond()).toBe('stranger');
-    await j.play("Mik's salt-house", 'Ask Mik about the rats', 'landing at Lowmouth', 'old corn-store', 'corn-store cellar',
+    // The notice read first: a job is asked after only by one who has heard of it (OR-370).
+    await j.play('Read the notice', "Mik's salt-house", 'Ask Mik about the rats', 'landing at Lowmouth', 'old corn-store', 'corn-store cellar',
       ': light a', 'rat-runs', '^Attack', 'To the nest', '^Attack', 'rat-runs', 'corn-store cellar', 'old corn-store',
       'landing at Lowmouth', "Mik's salt-house", 'Tell Mik the rats under the corn-store are dead, nest and all');
     expect(bond()).toBe('friend');
