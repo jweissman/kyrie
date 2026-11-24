@@ -21,18 +21,6 @@
    "path": "assets/bg/alley.png",
    "sha1": "c09a9769f5ca9a293101ee41f951de521adc297a"
   },
-  "scene-alpine-overlook": {
-   "path": "assets/bg/alpine-overlook.png",
-   "sha1": "10a6180ebb2da8b9dc6c34046126462b897bbabe"
-  },
-  "scene-alpine-pond": {
-   "path": "assets/bg/alpine-pond.png",
-   "sha1": "762798184fccd7f1158ef70724e4f8eb1ba4d6e0"
-  },
-  "scene-alpine-tarn": {
-   "path": "assets/bg/alpine-tarn.png",
-   "sha1": "80b95acf6da9c7dabe1f89d9ae64ddc731c47a6a"
-  },
   "scene-ancient-tree": {
    "path": "assets/bg/ancient-tree.png",
    "sha1": "0b2f57130665fe1a30e918ab812d0a89f791adf1"
@@ -177,10 +165,6 @@
    "path": "assets/bg/cathedral.png",
    "sha1": "2246c3891ae086c0e75539b4f144c0a2c9154fea"
   },
-  "scene-cave-falls": {
-   "path": "assets/bg/cave-falls.png",
-   "sha1": "3402d78e8e9f25ac517ef1b1446c2677791353c5"
-  },
   "scene-cave-mouth-interior": {
    "path": "assets/bg/cave-mouth-interior.png",
    "sha1": "9a4de29fbf18f4a28406810cc93759012dd9fe12"
@@ -188,10 +172,6 @@
   "scene-cave-mouth": {
    "path": "assets/bg/cave-mouth.png",
    "sha1": "fbe555b92febc465c660ae5b6b91f25cd9ff2ac0"
-  },
-  "scene-cave": {
-   "path": "assets/bg/cave.png",
-   "sha1": "f3529bb9842c0d6efa70bbaafdc9bd289073c778"
   },
   "scene-celestial-map": {
    "path": "assets/bg/celestial-map.png",
@@ -229,21 +209,13 @@
    "path": "assets/bg/churchyard.png",
    "sha1": "454a85ac7665e64a4cddb69c70be4a1f691b9247"
   },
-  "scene-circus-fog": {
-   "path": "assets/bg/circus-fog.png",
-   "sha1": "d17ac959cb63a8e52ea0daecf08aae2ca8e81107"
-  },
-  "scene-circus-rain": {
-   "path": "assets/bg/circus-rain.png",
-   "sha1": "d41a9ef7e7b991cb8ba9f2cf2322cf1661852974"
-  },
-  "scene-circus": {
-   "path": "assets/bg/circus.png",
-   "sha1": "5c6f03c2bda527d484d86c2b66c6a403189ac7ee"
-  },
   "scene-cistern": {
    "path": "assets/bg/cistern.png",
    "sha1": "1053b0eaadc0f0392bd607200b5d1ba70afa7d0a"
+  },
+  "scene-ruins-citadel": {
+   "path": "assets/bg/citadel.png",
+   "sha1": "05b44637cde5b93b11b7c17cac425f2a84fc703d"
   },
   "scene-city-compound": {
    "path": "assets/bg/city-compound.png",
@@ -288,14 +260,6 @@
   "scene-clothier": {
    "path": "assets/bg/clothier.png",
    "sha1": "ae5af3d903dabf386becf8e92d8d900b5576e37c"
-  },
-  "scene-coast-house": {
-   "path": "assets/bg/coast-house.png",
-   "sha1": "7434b7bde77a28620cf0bcb0840a672b8b5029b8"
-  },
-  "scene-coast": {
-   "path": "assets/bg/coast.png",
-   "sha1": "438fa2ef55b5f840909d602433531983dbc149f8"
   },
   "scene-commandery": {
    "path": "assets/bg/commandery.png",
@@ -361,66 +325,6 @@
    "path": "assets/bg/dam.png",
    "sha1": "be8fd75957abd070013d78e5ef553e8bd80e8403"
   },
-  "scene-desert-arch": {
-   "path": "assets/bg/desert-arch.png",
-   "sha1": "6643462cef944ebb5d867510105438e546e73fc4"
-  },
-  "scene-desert-basin": {
-   "path": "assets/bg/desert-basin.png",
-   "sha1": "a171af6efddc166b4b17752f45da23556656e2a0"
-  },
-  "scene-desert-camp": {
-   "path": "assets/bg/desert-camp.png",
-   "sha1": "80f6b19df131dab3d1e92607190dea68e4743bbc"
-  },
-  "scene-desert-caravanserai": {
-   "path": "assets/bg/desert-caravanserai.png",
-   "sha1": "a863720459e8afa83920e689df1f67ed01ec334f"
-  },
-  "scene-desert-city-gate": {
-   "path": "assets/bg/desert-city-gate.png",
-   "sha1": "f90e13e3aa22a854f3033cbae2f9b84a0f08b0e6"
-  },
-  "scene-desert-city-market": {
-   "path": "assets/bg/desert-city-market.png",
-   "sha1": "87553813a290bdbc5736d02503370e4112874ca8"
-  },
-  "scene-desert-city-overview": {
-   "path": "assets/bg/desert-city-overview.png",
-   "sha1": "551d20af4df4dca2c2a67abd15f17719edeb9225"
-  },
-  "scene-desert-city": {
-   "path": "assets/bg/desert-city.png",
-   "sha1": "2d3e68fc8e5ff2cd0754aa0c82152b4584fccd34"
-  },
-  "scene-desert-mesa-night": {
-   "path": "assets/bg/desert-mesa-night.png",
-   "sha1": "2cc9c1ed20c55fbab9759d019c9dad5250d48397"
-  },
-  "scene-desert-mesa": {
-   "path": "assets/bg/desert-mesa.png",
-   "sha1": "0864cb86993ddcfd3cdea0c3c49d0540b4652990"
-  },
-  "scene-desert-mountain": {
-   "path": "assets/bg/desert-mountain.png",
-   "sha1": "009fd032d9bb34f3c3844779964a2615c7057daf"
-  },
-  "scene-desert-oasis": {
-   "path": "assets/bg/desert-oasis.png",
-   "sha1": "5072880beb4e79a95bcfed69c6c5fc439a88e399"
-  },
-  "scene-desert-ridge": {
-   "path": "assets/bg/desert-ridge.png",
-   "sha1": "374965907d341c30f8ddc6d77cbd742c7bd573d2"
-  },
-  "scene-desert-salt-flats": {
-   "path": "assets/bg/desert-salt-flats.png",
-   "sha1": "b8d503e98aacdd9a5a84d402273ba7645b960e2c"
-  },
-  "scene-desert": {
-   "path": "assets/bg/desert.png",
-   "sha1": "023db53514fde9d38b029ef3a3e05ec1f1430187"
-  },
   "scene-dovecote": {
    "path": "assets/bg/dovecote.png",
    "sha1": "ea96da952bbee096d4a08374c8b2e17210508649"
@@ -457,9 +361,9 @@
    "path": "assets/bg/estuary.png",
    "sha1": "63228aefabe696b89aa44b2054bf3c0dcf48035d"
   },
-  "scene-eyrie": {
-   "path": "assets/bg/eyrie.png",
-   "sha1": "0584d9c9404f89c082a5ffe3a9dffe5cfe33dcea"
+  "scene-circus-fog": {
+   "path": "assets/bg/fairground-fog.png",
+   "sha1": "d17ac959cb63a8e52ea0daecf08aae2ca8e81107"
   },
   "scene-fairground-menagerie-evening": {
    "path": "assets/bg/fairground-menagerie-evening.png",
@@ -469,13 +373,21 @@
    "path": "assets/bg/fairground-menagerie.png",
    "sha1": "678aa0a3e816f97842308b7194e93cba357073f2"
   },
+  "scene-circus-rain": {
+   "path": "assets/bg/fairground-rain.png",
+   "sha1": "d41a9ef7e7b991cb8ba9f2cf2322cf1661852974"
+  },
   "scene-fairground-night": {
-   "path": "assets/bg/fairground-night.png",
+   "path": "assets/bg/fairground-tent-night.png",
    "sha1": "3479caeac6628633934ae6b2893c3ee94f6f1025"
   },
   "scene-fairground": {
-   "path": "assets/bg/fairground.png",
+   "path": "assets/bg/fairground-tent.png",
    "sha1": "085c8a8a876aa055f9c26e241ad7e641e5103c6f"
+  },
+  "scene-circus": {
+   "path": "assets/bg/fairground.png",
+   "sha1": "5c6f03c2bda527d484d86c2b66c6a403189ac7ee"
   },
   "scene-falconry-mews": {
    "path": "assets/bg/falconry-mews.png",
@@ -617,30 +529,6 @@
    "path": "assets/bg/hamlet.png",
    "sha1": "b077f949f25ba09c33b257152c66b10bf06e2254"
   },
-  "scene-harbor-dawn": {
-   "path": "assets/bg/harbor-dawn.png",
-   "sha1": "0c351d9338c928f337af4cecaf3764e6d1f06b5d"
-  },
-  "scene-harbor-dusk": {
-   "path": "assets/bg/harbor-dusk.png",
-   "sha1": "c4e2a5b87bf493fab1287e3245f7aa0eb1d3c78e"
-  },
-  "scene-harbor-rain": {
-   "path": "assets/bg/harbor-rain.png",
-   "sha1": "412758a7d3bc6d77e957e6e18646d09385669ebb"
-  },
-  "scene-harbor-sluice": {
-   "path": "assets/bg/harbor-sluice.png",
-   "sha1": "a323497664e2d2b58cebd5c66bb2c39f1fd2eac1"
-  },
-  "scene-harbor-town": {
-   "path": "assets/bg/harbor-town.png",
-   "sha1": "a05034b65a6f256682ee0aa8469ba0f6fa274982"
-  },
-  "scene-harbor": {
-   "path": "assets/bg/harbor.png",
-   "sha1": "4ae9566660b9772e2bb1dd5790e7029df264712f"
-  },
   "scene-hearth": {
    "path": "assets/bg/hearth.png",
    "sha1": "e62735c8270e42bbff1391db6f75c6ecc13c024d"
@@ -777,14 +665,6 @@
    "path": "assets/bg/ironmongery.png",
    "sha1": "253af98c8ad796628501d7b14044b8358efc476e"
   },
-  "scene-jungle-falls": {
-   "path": "assets/bg/jungle-falls.png",
-   "sha1": "8f6302dcd83dcae5e3d5ad182d17d93e5e38b128"
-  },
-  "scene-jungle": {
-   "path": "assets/bg/jungle.png",
-   "sha1": "066d3054625c4b165aa15402b75c3f7ce873d71b"
-  },
   "scene-keep-bailey-dawn": {
    "path": "assets/bg/keep-bailey-dawn.png",
    "sha1": "151cf6bc60edef1ff9aeedf22565a9510f6f145c"
@@ -801,6 +681,14 @@
    "path": "assets/bg/keep-bailey.png",
    "sha1": "190c58c248273c0ccfa1a94e0fcdca6f5730e3e1"
   },
+  "scene-ruins-keep-dawn": {
+   "path": "assets/bg/keep-dawn.png",
+   "sha1": "b6a0dda62c7817db10fbf051d18726c32202adfc"
+  },
+  "scene-ruins-keep-fog": {
+   "path": "assets/bg/keep-fog.png",
+   "sha1": "b20c756fad75ebba215adc5c2eb17eef0c2dae9a"
+  },
   "scene-keep-gate": {
    "path": "assets/bg/keep-gate.png",
    "sha1": "d23403e09671f07c1fb8c568d07eee22b2a21e89"
@@ -808,6 +696,26 @@
   "scene-keep-gatehouse": {
    "path": "assets/bg/keep-gatehouse.png",
    "sha1": "a3bb8fa1937a2d4b361781a2f11a939273291d2f"
+  },
+  "scene-ruins-keep-overlook": {
+   "path": "assets/bg/keep-overlook.png",
+   "sha1": "084955eaee3721f912263aacab75740b3d122bab"
+  },
+  "scene-ruins-keep-rain": {
+   "path": "assets/bg/keep-rain.png",
+   "sha1": "2ee92e5da17b175f57c5f41f2e7bbf91751233dd"
+  },
+  "scene-ruins-keep-tower-rain": {
+   "path": "assets/bg/keep-tower-rain.png",
+   "sha1": "8f978d71573669587660a2701ce92eddb59c574e"
+  },
+  "scene-ruins-keep-tower-winter": {
+   "path": "assets/bg/keep-tower-winter.png",
+   "sha1": "cd2aa9a668ea7ff93eb6a47ba7363beb983b56c6"
+  },
+  "scene-ruins-keep-tower": {
+   "path": "assets/bg/keep-tower.png",
+   "sha1": "36e30999db9914aa002c7cdf9f2484b4a985cce9"
   },
   "scene-kitchen-evening": {
    "path": "assets/bg/kitchen-evening.png",
@@ -1057,108 +965,8 @@
    "path": "assets/bg/road.png",
    "sha1": "63ad58565a6ce8b3740eac7c541a214682ccdec0"
   },
-  "scene-rocky-waste": {
-   "path": "assets/bg/rocky-waste.png",
-   "sha1": "ca58bf2820ea7b46ff11cf4138d97c15326e37d0"
-  },
-  "scene-ruins-arcology": {
-   "path": "assets/bg/ruins-arcology.png",
-   "sha1": "d94015659009dfd79bfd3a58a369377b52d17a0d"
-  },
-  "scene-ruins-bridge": {
-   "path": "assets/bg/ruins-bridge.png",
-   "sha1": "bc6eedce8c9d00c326a4b6abaef58e2d8b783fe5"
-  },
-  "scene-ruins-cenotaph": {
-   "path": "assets/bg/ruins-cenotaph.png",
-   "sha1": "796fcbd171942d8437a50021b9a386328c90609e"
-  },
-  "scene-ruins-citadel": {
-   "path": "assets/bg/ruins-citadel.png",
-   "sha1": "05b44637cde5b93b11b7c17cac425f2a84fc703d"
-  },
-  "scene-ruins-elevator-base": {
-   "path": "assets/bg/ruins-elevator-base.png",
-   "sha1": "55e2520aabd3dce73242dac10439bbedf0434468"
-  },
-  "scene-ruins-elevator-station": {
-   "path": "assets/bg/ruins-elevator-station.png",
-   "sha1": "c2eef50ed3a56773be6f33b73477ce96ed7d138c"
-  },
-  "scene-ruins-elevator": {
-   "path": "assets/bg/ruins-elevator.png",
-   "sha1": "6e40805c91bb1627ff5fc0198ab719095aa7520d"
-  },
-  "scene-ruins-flooded": {
-   "path": "assets/bg/ruins-flooded.png",
-   "sha1": "a3c528aafb28685064dd29e4080d7936266963a2"
-  },
-  "scene-ruins-garden": {
-   "path": "assets/bg/ruins-garden.png",
-   "sha1": "cdbc73f2511b8aff30804a39c5e802cfe003a511"
-  },
-  "scene-ruins-gates": {
-   "path": "assets/bg/ruins-gates.png",
-   "sha1": "da1737e9a300bf4b25b01d5a7b3f015be1fc41fe"
-  },
-  "scene-ruins-hall": {
-   "path": "assets/bg/ruins-hall.png",
-   "sha1": "b4f531f3def668f0ce3cdf2a252068841bc77b13"
-  },
-  "scene-ruins-installation-bridge": {
-   "path": "assets/bg/ruins-installation-bridge.png",
-   "sha1": "0ef8f944f0d5accdd80dec2f58e6bfc5701a3142"
-  },
-  "scene-ruins-installation": {
-   "path": "assets/bg/ruins-installation.png",
-   "sha1": "80970c4351476b412c0a44d59e9692d548fd44c8"
-  },
-  "scene-ruins-keep-dawn": {
-   "path": "assets/bg/ruins-keep-dawn.png",
-   "sha1": "b6a0dda62c7817db10fbf051d18726c32202adfc"
-  },
-  "scene-ruins-keep-fog": {
-   "path": "assets/bg/ruins-keep-fog.png",
-   "sha1": "b20c756fad75ebba215adc5c2eb17eef0c2dae9a"
-  },
-  "scene-ruins-keep-overlook": {
-   "path": "assets/bg/ruins-keep-overlook.png",
-   "sha1": "084955eaee3721f912263aacab75740b3d122bab"
-  },
-  "scene-ruins-keep-rain": {
-   "path": "assets/bg/ruins-keep-rain.png",
-   "sha1": "2ee92e5da17b175f57c5f41f2e7bbf91751233dd"
-  },
-  "scene-ruins-keep-tower-fog": {
-   "path": "assets/bg/ruins-keep-tower-fog.png",
-   "sha1": "8f978d71573669587660a2701ce92eddb59c574e"
-  },
-  "scene-ruins-keep-tower-rain": {
-   "path": "assets/bg/ruins-keep-tower-rain.png",
-   "sha1": "8f978d71573669587660a2701ce92eddb59c574e"
-  },
-  "scene-ruins-keep-tower-winter": {
-   "path": "assets/bg/ruins-keep-tower-winter.png",
-   "sha1": "cd2aa9a668ea7ff93eb6a47ba7363beb983b56c6"
-  },
-  "scene-ruins-keep-tower": {
-   "path": "assets/bg/ruins-keep-tower.png",
-   "sha1": "36e30999db9914aa002c7cdf9f2484b4a985cce9"
-  },
-  "scene-ruins-starship": {
-   "path": "assets/bg/ruins-starship.png",
-   "sha1": "80e87c4003e29dfa200ce2f95d82db93b50810c6"
-  },
-  "scene-ruins-terrace": {
-   "path": "assets/bg/ruins-terrace.png",
-   "sha1": "40dd58d881de2ad013be33d52b8d0a3ef6c06dd1"
-  },
-  "scene-ruins-tribunal": {
-   "path": "assets/bg/ruins-tribunal.png",
-   "sha1": "b1da7d698d9fb70be3a7b46563638ac9ff97cf6a"
-  },
   "scene-ruins": {
-   "path": "assets/bg/ruins.png",
+   "path": "assets/bg/ruin.png",
    "sha1": "2c3285abbb646c89606b4e1094c80b18a526777d"
   },
   "scene-rustic-home": {
@@ -1196,18 +1004,6 @@
   "scene-scullery": {
    "path": "assets/bg/scullery.png",
    "sha1": "bc942f7d9581193ea9f8f590aae370e5313adb93"
-  },
-  "scene-sea-cliffs": {
-   "path": "assets/bg/sea-cliffs.png",
-   "sha1": "1ad1809d068e2f63265d3f9fa6f477f6fa2583ba"
-  },
-  "scene-seacoast-dusk": {
-   "path": "assets/bg/seacoast-dusk.png",
-   "sha1": "2aff24b4d8c0042881a2ae9f6f20d21679db5a89"
-  },
-  "scene-seacoast": {
-   "path": "assets/bg/seacoast.png",
-   "sha1": "d645d76d21f3f16c4aad4a1b54e1238de36f372e"
   },
   "scene-secret-passage": {
    "path": "assets/bg/secret-passage.png",
@@ -1296,6 +1092,416 @@
   "scene-temple": {
    "path": "assets/bg/temple.png",
    "sha1": "7e89997f83e4c53900a7cb67246021028459fb19"
+  },
+  "scene-cave-falls": {
+   "path": "assets/bg/terrain/cave/falls.png",
+   "sha1": "3402d78e8e9f25ac517ef1b1446c2677791353c5",
+   "terrain": "cave"
+  },
+  "scene-cave": {
+   "path": "assets/bg/terrain/cave/pool.png",
+   "sha1": "f3529bb9842c0d6efa70bbaafdc9bd289073c778",
+   "terrain": "cave"
+  },
+  "scene-seacoast-dusk": {
+   "path": "assets/bg/terrain/coast/cliffs-dusk.png",
+   "sha1": "2aff24b4d8c0042881a2ae9f6f20d21679db5a89",
+   "terrain": "coast"
+  },
+  "scene-seacoast": {
+   "path": "assets/bg/terrain/coast/cliffs.png",
+   "sha1": "d645d76d21f3f16c4aad4a1b54e1238de36f372e",
+   "terrain": "coast"
+  },
+  "scene-harbor-dawn": {
+   "path": "assets/bg/terrain/coast/harbor-dawn.png",
+   "sha1": "0c351d9338c928f337af4cecaf3764e6d1f06b5d",
+   "terrain": "coast"
+  },
+  "scene-harbor-dusk": {
+   "path": "assets/bg/terrain/coast/harbor-dusk.png",
+   "sha1": "c4e2a5b87bf493fab1287e3245f7aa0eb1d3c78e",
+   "terrain": "coast"
+  },
+  "scene-harbor": {
+   "path": "assets/bg/terrain/coast/harbor.png",
+   "sha1": "4ae9566660b9772e2bb1dd5790e7029df264712f",
+   "terrain": "coast"
+  },
+  "scene-coast-house": {
+   "path": "assets/bg/terrain/coast/house.png",
+   "sha1": "7434b7bde77a28620cf0bcb0840a672b8b5029b8",
+   "terrain": "coast"
+  },
+  "scene-sea-cliffs": {
+   "path": "assets/bg/terrain/coast/overview.png",
+   "sha1": "1ad1809d068e2f63265d3f9fa6f477f6fa2583ba",
+   "terrain": "coast"
+  },
+  "scene-harbor-rain": {
+   "path": "assets/bg/terrain/coast/rain.png",
+   "sha1": "412758a7d3bc6d77e957e6e18646d09385669ebb",
+   "terrain": "coast"
+  },
+  "scene-harbor-sluice": {
+   "path": "assets/bg/terrain/coast/sluice.png",
+   "sha1": "a323497664e2d2b58cebd5c66bb2c39f1fd2eac1",
+   "terrain": "coast"
+  },
+  "scene-harbor-town": {
+   "path": "assets/bg/terrain/coast/town.png",
+   "sha1": "a05034b65a6f256682ee0aa8469ba0f6fa274982",
+   "terrain": "coast"
+  },
+  "scene-coast": {
+   "path": "assets/bg/terrain/coast/wall.png",
+   "sha1": "438fa2ef55b5f840909d602433531983dbc149f8",
+   "terrain": "coast"
+  },
+  "scene-desert-arch": {
+   "path": "assets/bg/terrain/desert/arch.png",
+   "sha1": "6643462cef944ebb5d867510105438e546e73fc4",
+   "terrain": "desert"
+  },
+  "scene-desert-basin": {
+   "path": "assets/bg/terrain/desert/basin.png",
+   "sha1": "a171af6efddc166b4b17752f45da23556656e2a0",
+   "terrain": "desert"
+  },
+  "scene-desert-camp": {
+   "path": "assets/bg/terrain/desert/camp.png",
+   "sha1": "80f6b19df131dab3d1e92607190dea68e4743bbc",
+   "terrain": "desert"
+  },
+  "scene-desert-campfire-night": {
+   "path": "assets/bg/terrain/desert/campfire-night.png",
+   "sha1": "6fa26612c3e011a9e0fe4ee98eae6a512c1a9e35",
+   "terrain": "desert"
+  },
+  "scene-desert-campfire": {
+   "path": "assets/bg/terrain/desert/campfire.png",
+   "sha1": "b42f9d92b41597aa15b12102a40b98aa93d3ab71",
+   "terrain": "desert"
+  },
+  "scene-desert-caravan": {
+   "path": "assets/bg/terrain/desert/caravan.png",
+   "sha1": "319e01a6075e4c1ad0dcbdd8dc04f9c16b90a9f2",
+   "terrain": "desert"
+  },
+  "scene-desert-caravanserai": {
+   "path": "assets/bg/terrain/desert/caravanserai.png",
+   "sha1": "a863720459e8afa83920e689df1f67ed01ec334f",
+   "terrain": "desert"
+  },
+  "scene-desert-city-gate": {
+   "path": "assets/bg/terrain/desert/city-gate.png",
+   "sha1": "f90e13e3aa22a854f3033cbae2f9b84a0f08b0e6",
+   "terrain": "desert"
+  },
+  "scene-desert-city-market": {
+   "path": "assets/bg/terrain/desert/city-market.png",
+   "sha1": "87553813a290bdbc5736d02503370e4112874ca8",
+   "terrain": "desert"
+  },
+  "scene-desert-city-overview-2": {
+   "path": "assets/bg/terrain/desert/city-overview.png",
+   "sha1": "27ab4a9c6bc2453db0345aea21e45379abb791cb",
+   "terrain": "desert"
+  },
+  "scene-desert-city-overview": {
+   "path": "assets/bg/terrain/desert/city-tower-view.png",
+   "sha1": "551d20af4df4dca2c2a67abd15f17719edeb9225",
+   "terrain": "desert"
+  },
+  "scene-desert-city": {
+   "path": "assets/bg/terrain/desert/city.png",
+   "sha1": "2d3e68fc8e5ff2cd0754aa0c82152b4584fccd34",
+   "terrain": "desert"
+  },
+  "scene-desert": {
+   "path": "assets/bg/terrain/desert/dunes.png",
+   "sha1": "023db53514fde9d38b029ef3a3e05ec1f1430187",
+   "terrain": "desert"
+  },
+  "scene-desert-garden": {
+   "path": "assets/bg/terrain/desert/garden.png",
+   "sha1": "70735f146a40c0fcc90535badc0f52eaa5fe8b46",
+   "terrain": "desert"
+  },
+  "scene-desert-gates": {
+   "path": "assets/bg/terrain/desert/gates.png",
+   "sha1": "d1f6d1db282ba15582e323cad5500e318e4edba2",
+   "terrain": "desert"
+  },
+  "scene-desert-house": {
+   "path": "assets/bg/terrain/desert/house.png",
+   "sha1": "6e609a8e30ea4bb7f434cecb1ff2de08e5b1e8f6",
+   "terrain": "desert"
+  },
+  "scene-desert-mesa-night": {
+   "path": "assets/bg/terrain/desert/mesa-night.png",
+   "sha1": "2cc9c1ed20c55fbab9759d019c9dad5250d48397",
+   "terrain": "desert"
+  },
+  "scene-desert-mesa": {
+   "path": "assets/bg/terrain/desert/mesa.png",
+   "sha1": "0864cb86993ddcfd3cdea0c3c49d0540b4652990",
+   "terrain": "desert"
+  },
+  "scene-desert-mountain": {
+   "path": "assets/bg/terrain/desert/mountain.png",
+   "sha1": "009fd032d9bb34f3c3844779964a2615c7057daf",
+   "terrain": "desert"
+  },
+  "scene-desert-oasis": {
+   "path": "assets/bg/terrain/desert/oasis.png",
+   "sha1": "5072880beb4e79a95bcfed69c6c5fc439a88e399",
+   "terrain": "desert"
+  },
+  "scene-desert-overlook": {
+   "path": "assets/bg/terrain/desert/overlook.png",
+   "sha1": "199a5e97379fefcf42940e50714b83b4f5feb6ad",
+   "terrain": "desert"
+  },
+  "scene-desert-pool": {
+   "path": "assets/bg/terrain/desert/pool.png",
+   "sha1": "986b2fa89f2552e205e1f975b59189aca9a95a39",
+   "terrain": "desert"
+  },
+  "scene-desert-ridge": {
+   "path": "assets/bg/terrain/desert/ridge.png",
+   "sha1": "374965907d341c30f8ddc6d77cbd742c7bd573d2",
+   "terrain": "desert"
+  },
+  "scene-desert-ruins-arch": {
+   "path": "assets/bg/terrain/desert/ruins-arch.png",
+   "sha1": "8fb413c7c948fd17372cbbc6f0eada93a07033fc",
+   "terrain": "desert"
+  },
+  "scene-desert-ruins-dusk": {
+   "path": "assets/bg/terrain/desert/ruins-dusk.png",
+   "sha1": "8de448f628cb80fa3e372af124fe3e201a7d8830",
+   "terrain": "desert"
+  },
+  "scene-desert-ruins": {
+   "path": "assets/bg/terrain/desert/ruins.png",
+   "sha1": "520516067799c6572021d6a7fcfd49e1cda36cc5",
+   "terrain": "desert"
+  },
+  "scene-desert-salt-flats": {
+   "path": "assets/bg/terrain/desert/salt-flats.png",
+   "sha1": "b8d503e98aacdd9a5a84d402273ba7645b960e2c",
+   "terrain": "desert"
+  },
+  "scene-desert-scrub": {
+   "path": "assets/bg/terrain/desert/scrub.png",
+   "sha1": "3dc0cf36985588b6a3cb46be6e8a2b729abc1658",
+   "terrain": "desert"
+  },
+  "scene-desert-shrine": {
+   "path": "assets/bg/terrain/desert/shrine.png",
+   "sha1": "b68b8ae900f77e302673f558db0558cc5965beb3",
+   "terrain": "desert"
+  },
+  "scene-desert-sphinx": {
+   "path": "assets/bg/terrain/desert/sphinx.png",
+   "sha1": "329e6a07abe4285012d8fdd99b3bf25b4bf61be9",
+   "terrain": "desert"
+  },
+  "scene-jungle-falls": {
+   "path": "assets/bg/terrain/jungle/falls.png",
+   "sha1": "8f6302dcd83dcae5e3d5ad182d17d93e5e38b128",
+   "terrain": "jungle"
+  },
+  "scene-jungle": {
+   "path": "assets/bg/terrain/jungle/river.png",
+   "sha1": "066d3054625c4b165aa15402b75c3f7ce873d71b",
+   "terrain": "jungle"
+  },
+  "scene-eyrie": {
+   "path": "assets/bg/terrain/mountain/eyrie.png",
+   "sha1": "0584d9c9404f89c082a5ffe3a9dffe5cfe33dcea",
+   "terrain": "mountain"
+  },
+  "scene-alpine-overlook": {
+   "path": "assets/bg/terrain/mountain/overlook.png",
+   "sha1": "10a6180ebb2da8b9dc6c34046126462b897bbabe",
+   "terrain": "mountain"
+  },
+  "scene-alpine-pond": {
+   "path": "assets/bg/terrain/mountain/pond.png",
+   "sha1": "762798184fccd7f1158ef70724e4f8eb1ba4d6e0",
+   "terrain": "mountain"
+  },
+  "scene-alpine-tarn": {
+   "path": "assets/bg/terrain/mountain/tarn.png",
+   "sha1": "80b95acf6da9c7dabe1f89d9ae64ddc731c47a6a",
+   "terrain": "mountain"
+  },
+  "scene-valley-autumn": {
+   "path": "assets/bg/terrain/valley/autumn.png",
+   "sha1": "671d12368ae3409781c6e553f3586dd97ca260e4",
+   "terrain": "valley"
+  },
+  "scene-valley-night": {
+   "path": "assets/bg/terrain/valley/night.png",
+   "sha1": "db0322cbad3155e794bb0ccd1ba52f49232cbc6b",
+   "terrain": "valley"
+  },
+  "scene-valley": {
+   "path": "assets/bg/terrain/valley/path.png",
+   "sha1": "dba7c823f5ef72fb359885ed7626ada19cc0a0c7",
+   "terrain": "valley"
+  },
+  "scene-valley-river": {
+   "path": "assets/bg/terrain/valley/river.png",
+   "sha1": "4f55f0d1f4d626448eec1a4d62c7b4f459c165b5",
+   "terrain": "valley"
+  },
+  "scene-valley-spring": {
+   "path": "assets/bg/terrain/valley/spring.png",
+   "sha1": "70b089457f4d0cd030f778d1d35723376c22c543",
+   "terrain": "valley"
+  },
+  "scene-valley-summer": {
+   "path": "assets/bg/terrain/valley/summer.png",
+   "sha1": "e1fb3d792280fee00de41a34e5dbe5f8c6e680b7",
+   "terrain": "valley"
+  },
+  "scene-valley-winter": {
+   "path": "assets/bg/terrain/valley/winter.png",
+   "sha1": "be78d9c3652f479bf7545a4c81c5f48e793a3007",
+   "terrain": "valley"
+  },
+  "scene-ruins-arcology": {
+   "path": "assets/bg/terrain/waste/arcology.png",
+   "sha1": "d94015659009dfd79bfd3a58a369377b52d17a0d",
+   "terrain": "waste"
+  },
+  "scene-ruins-bridge": {
+   "path": "assets/bg/terrain/waste/bridge.png",
+   "sha1": "bc6eedce8c9d00c326a4b6abaef58e2d8b783fe5",
+   "terrain": "waste"
+  },
+  "scene-ruins-cenotaph": {
+   "path": "assets/bg/terrain/waste/cenotaph.png",
+   "sha1": "796fcbd171942d8437a50021b9a386328c90609e",
+   "terrain": "waste"
+  },
+  "scene-ruins-elevator-base": {
+   "path": "assets/bg/terrain/waste/elevator-base.png",
+   "sha1": "55e2520aabd3dce73242dac10439bbedf0434468",
+   "terrain": "waste"
+  },
+  "scene-ruins-elevator-station": {
+   "path": "assets/bg/terrain/waste/elevator-station.png",
+   "sha1": "c2eef50ed3a56773be6f33b73477ce96ed7d138c",
+   "terrain": "waste"
+  },
+  "scene-ruins-elevator": {
+   "path": "assets/bg/terrain/waste/elevator.png",
+   "sha1": "6e40805c91bb1627ff5fc0198ab719095aa7520d",
+   "terrain": "waste"
+  },
+  "scene-ruins-flooded": {
+   "path": "assets/bg/terrain/waste/flooded.png",
+   "sha1": "a3c528aafb28685064dd29e4080d7936266963a2",
+   "terrain": "waste"
+  },
+  "scene-ruins-garden": {
+   "path": "assets/bg/terrain/waste/garden.png",
+   "sha1": "cdbc73f2511b8aff30804a39c5e802cfe003a511",
+   "terrain": "waste"
+  },
+  "scene-ruins-gates": {
+   "path": "assets/bg/terrain/waste/gates.png",
+   "sha1": "da1737e9a300bf4b25b01d5a7b3f015be1fc41fe",
+   "terrain": "waste"
+  },
+  "scene-ruins-hall": {
+   "path": "assets/bg/terrain/waste/hall.png",
+   "sha1": "b4f531f3def668f0ce3cdf2a252068841bc77b13",
+   "terrain": "waste"
+  },
+  "scene-ruins-installation-bridge": {
+   "path": "assets/bg/terrain/waste/installation-bridge.png",
+   "sha1": "0ef8f944f0d5accdd80dec2f58e6bfc5701a3142",
+   "terrain": "waste"
+  },
+  "scene-ruins-installation": {
+   "path": "assets/bg/terrain/waste/installation.png",
+   "sha1": "80970c4351476b412c0a44d59e9692d548fd44c8",
+   "terrain": "waste"
+  },
+  "scene-rocky-waste": {
+   "path": "assets/bg/terrain/waste/rocky.png",
+   "sha1": "ca58bf2820ea7b46ff11cf4138d97c15326e37d0",
+   "terrain": "waste"
+  },
+  "scene-ruins-starship": {
+   "path": "assets/bg/terrain/waste/starship.png",
+   "sha1": "80e87c4003e29dfa200ce2f95d82db93b50810c6",
+   "terrain": "waste"
+  },
+  "scene-ruins-terrace": {
+   "path": "assets/bg/terrain/waste/terrace.png",
+   "sha1": "40dd58d881de2ad013be33d52b8d0a3ef6c06dd1",
+   "terrain": "waste"
+  },
+  "scene-ruins-tribunal": {
+   "path": "assets/bg/terrain/waste/tribunal.png",
+   "sha1": "b1da7d698d9fb70be3a7b46563638ac9ff97cf6a",
+   "terrain": "waste"
+  },
+  "scene-woodland-autumn": {
+   "path": "assets/bg/terrain/woodland/autumn.png",
+   "sha1": "d8923db910be8067ac918a7e7c67ea15b07e64b6",
+   "terrain": "woodland"
+  },
+  "scene-woodland-drought": {
+   "path": "assets/bg/terrain/woodland/drought.png",
+   "sha1": "8ff5990c8220b7558de51861cd76363975fe442d",
+   "terrain": "woodland"
+  },
+  "scene-woodland-fog": {
+   "path": "assets/bg/terrain/woodland/fog.png",
+   "sha1": "dd67c6687263c669d16c59f3f70fa7c65efd025a",
+   "terrain": "woodland"
+  },
+  "scene-woodland-night": {
+   "path": "assets/bg/terrain/woodland/night.png",
+   "sha1": "5e74cc40a92369c6437983fadae5c4df9f32e1f4",
+   "terrain": "woodland"
+  },
+  "scene-woodland-rain": {
+   "path": "assets/bg/terrain/woodland/rain.png",
+   "sha1": "71531d3302d983816347a152927210319c0283a9",
+   "terrain": "woodland"
+  },
+  "scene-woodland-shrine": {
+   "path": "assets/bg/terrain/woodland/shrine.png",
+   "sha1": "0795db3e8083777f4aafb4c1cceed780fae901d1",
+   "terrain": "woodland"
+  },
+  "scene-woodland-spring": {
+   "path": "assets/bg/terrain/woodland/spring.png",
+   "sha1": "e390967364abfbcdc135f832319e70e5d115c6e9",
+   "terrain": "woodland"
+  },
+  "scene-woodland-summer": {
+   "path": "assets/bg/terrain/woodland/summer.png",
+   "sha1": "cc9f1979db8e017b9ffde7c4e214ba00fca38f5d",
+   "terrain": "woodland"
+  },
+  "scene-woodland-sunset": {
+   "path": "assets/bg/terrain/woodland/sunset.png",
+   "sha1": "c76b90228f299417efcc674b7e571839a901d573",
+   "terrain": "woodland"
+  },
+  "scene-woodland-winter": {
+   "path": "assets/bg/terrain/woodland/winter.png",
+   "sha1": "dc29717ceef6ae80efbde8c7ace44a8d9d188d20",
+   "terrain": "woodland"
   },
   "scene-theatre-stone": {
    "path": "assets/bg/theatre-stone.png",
@@ -1445,34 +1651,6 @@
    "path": "assets/bg/underground-passage.png",
    "sha1": "4dba85b3311ed6b851acfe14d3965b96520a5366"
   },
-  "scene-valley-autumn": {
-   "path": "assets/bg/valley-autumn.png",
-   "sha1": "671d12368ae3409781c6e553f3586dd97ca260e4"
-  },
-  "scene-valley-night": {
-   "path": "assets/bg/valley-night.png",
-   "sha1": "db0322cbad3155e794bb0ccd1ba52f49232cbc6b"
-  },
-  "scene-valley-river": {
-   "path": "assets/bg/valley-river.png",
-   "sha1": "4f55f0d1f4d626448eec1a4d62c7b4f459c165b5"
-  },
-  "scene-valley-spring": {
-   "path": "assets/bg/valley-spring.png",
-   "sha1": "70b089457f4d0cd030f778d1d35723376c22c543"
-  },
-  "scene-valley-summer": {
-   "path": "assets/bg/valley-summer.png",
-   "sha1": "e1fb3d792280fee00de41a34e5dbe5f8c6e680b7"
-  },
-  "scene-valley-winter": {
-   "path": "assets/bg/valley-winter.png",
-   "sha1": "be78d9c3652f479bf7545a4c81c5f48e793a3007"
-  },
-  "scene-valley": {
-   "path": "assets/bg/valley.png",
-   "sha1": "dba7c823f5ef72fb359885ed7626ada19cc0a0c7"
-  },
   "scene-vault-sealed": {
    "path": "assets/bg/vault-sealed.png",
    "sha1": "63cbc62c9812c911b5808fe34b014e800d224260"
@@ -1552,46 +1730,6 @@
   "scene-wood-wright": {
    "path": "assets/bg/wood-wright.png",
    "sha1": "802be427762e8b2145e37c2bf4e5602155d159e0"
-  },
-  "scene-woodland-autumn": {
-   "path": "assets/bg/woodland-autumn.png",
-   "sha1": "d8923db910be8067ac918a7e7c67ea15b07e64b6"
-  },
-  "scene-woodland-drought": {
-   "path": "assets/bg/woodland-drought.png",
-   "sha1": "8ff5990c8220b7558de51861cd76363975fe442d"
-  },
-  "scene-woodland-fog": {
-   "path": "assets/bg/woodland-fog.png",
-   "sha1": "dd67c6687263c669d16c59f3f70fa7c65efd025a"
-  },
-  "scene-woodland-night": {
-   "path": "assets/bg/woodland-night.png",
-   "sha1": "5e74cc40a92369c6437983fadae5c4df9f32e1f4"
-  },
-  "scene-woodland-rain": {
-   "path": "assets/bg/woodland-rain.png",
-   "sha1": "71531d3302d983816347a152927210319c0283a9"
-  },
-  "scene-woodland-shrine": {
-   "path": "assets/bg/woodland-shrine.png",
-   "sha1": "0795db3e8083777f4aafb4c1cceed780fae901d1"
-  },
-  "scene-woodland-spring": {
-   "path": "assets/bg/woodland-spring.png",
-   "sha1": "e390967364abfbcdc135f832319e70e5d115c6e9"
-  },
-  "scene-woodland-summer": {
-   "path": "assets/bg/woodland-summer.png",
-   "sha1": "cc9f1979db8e017b9ffde7c4e214ba00fca38f5d"
-  },
-  "scene-woodland-sunset": {
-   "path": "assets/bg/woodland-sunset.png",
-   "sha1": "c76b90228f299417efcc674b7e571839a901d573"
-  },
-  "scene-woodland-winter": {
-   "path": "assets/bg/woodland-winter.png",
-   "sha1": "dc29717ceef6ae80efbde8c7ace44a8d9d188d20"
   }
  }
 }
