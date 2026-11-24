@@ -42,13 +42,13 @@ export class Scenery {
   // In winter, the way in through a country whose own paintings are all of leaf: a calm winter's open country instead
   // (M22's second review, OR-46: "snowy, Deepwinter" over a summer wood after an opening of sheep in leaf).
   static readonly winterOpen: string[] = table.winterOpen;
-  // An author's own painting for a place of theirs, kept before any kind's (data/paintings/scenery.json, places).
-  static readonly places: Record<string, string> = table.places;
+  // An author's own painting for a place of theirs, kept before any kind's (data/paintings/scenery.json, places); or
+  // several, the first that fits the place as it now is (Palla's waterfront in the sun of the dry, and in the rains).
+  static readonly places: Record<string, string | string[]> = table.places;
   // That painting, where it fits the place as it now is: the camp in the lee had been its campfire by night at noon,
   // and the Arcology's sunlit terraces stood in the rain (BRIEF §3.4); where it does not, the kind's choice, or none.
   static authored(screen: Screen): string | undefined {
-    const own = this.places[screen.place.id];
-    return own && Fits.fits(screen, own) ? own : undefined;
+    return [this.places[screen.place.id] ?? []].flat().find(own => Fits.fits(screen, own));
   }
   // Under a roof (a room of a building, anywhere within a level of a site not said to be open, or a room whose kind
   // is seen from within: a shop off the market-place), no country is painted: the Hall cellar at Merrow had opened on
