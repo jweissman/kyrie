@@ -15,7 +15,7 @@ class Talk {
   attention: ReturnType<typeof Conversation.turn> & object = Conversation.place;
   static async begin(): Promise<Talk> {
     const t = new Talk();
-    t.frame = await t.host.handle({ kind: 'begin', campaign: 'world', seed: 'iscoed', origin: 'drove',
+    t.frame = await t.host.handle({ kind: 'begin', campaign: 'world', seed: 'iscoed', origin: 'drove', opening: 'none',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] } as never) as Frame;
     return t;
   }

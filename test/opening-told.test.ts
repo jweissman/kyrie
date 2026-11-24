@@ -21,7 +21,7 @@ class Opened {
   static seed(origin: string): string { return AtlasOrigins.binders.includes(origin) ? 'iscoed' : 'kite'; }
   static async begin(origin: string, apart: boolean, host = new EngineHost(() => undefined)): Promise<Frame> {
     // The debt's chain is the salvage these cases walk (the inn's word, the place told of), not drawn (DebtShapes).
-    return await host.handle({ kind: 'begin', campaign: 'world', seed: this.seed(origin), party: this.party, origin,
+    return await host.handle({ kind: 'begin', campaign: 'world', opening: 'none', seed: this.seed(origin), party: this.party, origin,
       apart, ...origin === 'debt' ? { chain: 'salvage' } : {} }) as Frame;
   }
   // What the origin says in the first moment, as a page sets it.

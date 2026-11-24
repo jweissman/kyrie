@@ -27,7 +27,7 @@ describe('the opening while the world is made', () => {
     expect(page).toContain('Down the drove road');
     expect(page).not.toMatch(/Drawing the world|Placing its people|Telling where you are/);
     // The world made: its opening's pages are the same beats, in the same order, and the place leaves them out.
-    const frame = await host.handle({ kind: 'begin', campaign: 'world', seed: 'iscoed', origin: 'drove', apart: true,
+    const frame = await host.handle({ kind: 'begin', campaign: 'world', seed: 'iscoed', origin: 'drove', opening: 'none', apart: true,
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] } as never) as Frame;
     expect(frame.leaf.prologue?.beats).toEqual(opening!.beats.map(b => Typography.curl(b)));
     const place = [...frame.leaf.glanced?.situation ?? [], ...frame.leaf.glanced?.presence ?? []].join(' ');
