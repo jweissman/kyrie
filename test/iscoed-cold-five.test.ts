@@ -169,9 +169,13 @@ describe('the drove road, after the fourth cold play', () => {
   it('has Nest say what she spoke of, and the cook what the press key waits on', async () => {
     const { s, ask, journey } = await play('elf/mage/Ilse/scholar', []);
     expect(s.at).toBe('region__s4_green');
-    const nest = await ask('talk_to(origin__nest)');
+    // Turned to as the page turns to her (talk:): the opening leads with her first question in its gold now, so the
+    // bare talk_to is the lead's opener, not an act of its own (OR-201: her likeness gold, her drawer with it).
+    const nest = await ask('talk:origin__nest');
     const asks = labels(nest);
-    expect(asks).toContain('Ask Nest what is wrong with the sea-gate');
+    // Her first question led as the opening's (gold): said with the turning to her ("Talk to Nest — ask what is
+    // wrong with the sea-gate"), as the page says an unmet person's led question.
+    expect(asks.some(l => /^(Ask Nest|Talk to Nest — ask) what is wrong with the sea-gate$/.test(l))).toBe(true);
     expect(asks).toContain('Ask Nest about Tegwen\'s weir');
     expect(text(await ask('origin__nest_gate'))).toContain('like a door with no latch on it');
     const cook = journey.session.campaign.module.actions.find(a => a.id === 'region__s4_manor_cook_key_first');

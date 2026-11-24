@@ -7,18 +7,19 @@ import { SceneModel } from '../src/ui/scene';
 import { Attending } from '../src/ui/attention';
 import { ScreenModel } from '../src/ui/screen-model';
 import type { Choice } from '../src/ui/choice-list';
-import { TalkFocus } from '../src/ui/talk-focus';
 import { Glanced } from '../test/support/glanced';
 import { AsMeant } from '../test/support/as-meant';
 import { HonestPlayer } from '../test/support/honest-player';
 import { GoldenWalk } from '../test/support/golden-walk';
+import { DrawerTruth } from '../test/support/drawer-truth';
 
 // The three continuity invariants of the alpha acceptance record (mission-22/alpha-acceptance.md), counted over every
 // turn of the golden walks as shipped, before beta changes anything (mission-22-beta/preparation-report.md, Sprint 0).
 // A measure, not a gate: each breach is named with its turn, so that beta's Sprint 1 and 2 can be judged by the count.
 // - opportunity: a reply of someone here is blue (its witness says knowledge) exactly when asking it teaches: each
-//   reply asked, what the company knows compared, and the act undone (Campaign.undo); and no likeness is blue while
-//   none of its replies is.
+//   reply asked, what the company knows compared, and the act undone (Campaign.undo); and each person's likeness
+//   agrees with the talk drawer the page renders for them, both ways (DrawerTruth: it replaced two checks that read
+//   the drawer by a parallel list of its own, TalkFocus over the replies, which had been both stale and blind).
 // - undertaking: when the followed aim is done and others are still held, the next turn follows one of them.
 // - focus: only counted here (the frames engaged, by threat or occasion); what the page draws of them is the browser's.
 //   bun scripts/continuity-census.ts [out.json]
@@ -41,18 +42,13 @@ export class ContinuityCensus {
   // Each act on someone or something here, their questions among them (a question is offered at the place; opening a
   // talk is the page's): blue by its witness, and whether doing it teaches (done, then undone).
   static opportunity(s: PlaySession, walk: string, turn: number): Breach[] {
-    const out: Breach[] = [];
+    // And each person's likeness against the talk drawer the page renders for them, both ways (DrawerTruth, OR-201).
+    const out: Breach[] = DrawerTruth.of(Glanced.of(s).frame())
+      .map(what => ({ walk, turn, invariant: 'opportunity', what: `likeness and drawer disagree: ${what}` }));
     for (const sub of this.subjects(s)) {
       const replies = this.replies(sub);
       const at: At = { walk, turn, who: sub.name };
       out.push(...this.tried(s, replies, at));
-      const likeness = Glanced.of(s).glance.likenesses?.[sub.id];
-      if (likeness?.aspects.includes('knowledge') && !this.blueFirst(s, sub.id, replies)) {
-        out.push({ walk, turn, invariant: 'opportunity', what: `a blue likeness, no blue on the drawer's first page: ${sub.name}` });
-      }
-      if (likeness?.aspects.includes('knowledge') && !this.blueSomewhere(s, sub.id)) {
-        out.push({ walk, turn, invariant: 'opportunity', what: `a blue likeness with no blue reply: ${sub.name}` });
-      }
     }
     return out;
   }
@@ -78,20 +74,6 @@ export class ContinuityCensus {
   }
   // The talk drawer's first page as the page draws it (web/reader/stage/talk-stage.tsx): TalkFocus over their replies,
   // led and marked by what the glance found in their opener, an answer owed and the salient three.
-  private static blueFirst(s: PlaySession, id: string, replies: Choice[]): boolean {
-    const g = Glanced.of(s).glance, screen = ScreenModel.build(s.campaign), acts = g.acts.filter(a => a.subject === id);
-    const led = acts.find(a => a.for)?.for, marked = acts.flatMap(a => (a.inside ?? []).map(x => x.command));
-    const focus = TalkFocus.of(replies.filter(c => !/^talk_to\(/.test(c.command ?? '')), { ...led ? { led } : {}, marked,
-      asked: [], weighty: screen.weighty ?? [], paying: screen.paying ?? [] });
-    return [...focus.answers, ...focus.salient].some(c => Attest.reply(g, c, screen.paying).some(w => w.aspects.includes('knowledge')));
-  }
-  // Whether any reply of theirs is blue: the questions are among their choices at the place (opening a talk is the
-  // page's and the runner's, not an act of the campaign's, so a talk is not opened here).
-  private static blueSomewhere(s: PlaySession, id: string): boolean {
-    const sub = this.subjects(s).find(x => x.id === id), g = Glanced.of(s).glance;
-    return this.replies(sub ?? {}).some(c => Attest.reply(g, c).some(w => w.aspects.includes('knowledge')));
-  }
-
   private static aims(s: PlaySession): { followed?: string; held: string[] } {
     const aims = ScreenModel.build(s.campaign).aims ?? [];
     return { followed: aims.find(a => a.followed)?.id, held: aims.map(a => a.id) };

@@ -240,7 +240,7 @@ export class Affordances {
     const kept = (kin || named || held) && (asked?.command ?? fresh_?.command), take = spoils
       ? leaves.find(c => /^(take_item|take_out)\(/.test(c.command!))?.command : undefined;
     const within: Partial<Record<Why, string>> = { ...answer?.command ? { answer: answer.command } : {},
-      ...kept ? { named: kept, kin: kept, held: kept } : {}, ...moving[0] ? { advance: moving[0].command! } : {},
+      ...this.kept(kept, asked), ...moving[0] ? { advance: moving[0].command! } : {},
       ...take ? { spoils: take, ...!moving[0] ? { advance: take } : {} } : {},
       ...this.spoken({ learned, next }), ...joining ? { companion: joining.command! } : {},
       ...looked ? { unlooked: looked.command! } : {}, ...person ? this.owedFor(s, leaves, screen) : {},
@@ -538,6 +538,12 @@ export class Affordances {
   // Spoken to just now, what is next to ask them: what would teach, else anything not yet said to them.
   private static next(s: SceneSubject, r: Reading, learned: Choice | undefined, fresh: Choice[]): Choice | undefined {
     return s.kind === 'person' && r.talking === s.id ? learned ?? fresh.find(c => !r.done.has(c.command!)) : undefined;
+  }
+  // What an aim that names them, their kin or another held is led for within them; and where the opening's charge
+  // names them and nothing else leads with them (Charge.acts: the reason the company came, Nest at the sea-gate), the
+  // first thing not yet asked: the gold on their likeness had opened a drawer with nothing in it gold (OR-201).
+  private static kept(kept: string | false | undefined, asked: Choice | undefined): Partial<Record<Why, string>> {
+    return kept ? { named: kept, kin: kept, held: kept } : asked?.command ? { named: asked.command } : {};
   }
   // Something to learn of them is asked for: by greeting someone not yet met, by asking whoever is spoken to.
   private static spokenWhys(at: { learned?: Choice; next?: Choice; unmet: boolean }): Why[] {
