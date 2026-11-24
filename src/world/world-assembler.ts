@@ -19,7 +19,8 @@ import { SettlementWriter } from './settlement-writer';
 import { ScenarioTowns } from './scenario-towns';
 import { Origins } from './origins';
 import { WorldStart } from './world-start';
-import type { KitEntry } from './compose/composition';
+import { Composition, type KitEntry } from './compose/composition';
+import { RegionHeld } from './region-held';
 import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
 import { WorldGrid } from './world-grid'; import { StrategicAtlas } from './strategic-atlas';
@@ -89,7 +90,7 @@ export class WorldAssembler {
     party?: CreatureGenerationContext[]; origin?: string; framework?: string | null;
     // Someone who died in this country before: where they lie, and how they died, which the country remembers.
     // And which standing scenarios it holds, by id (all, unless said): see Drawn.standing.
-    memorial?: Memorial; standing?: string[]; chain?: string; opening?: string;
+    memorial?: Memorial; standing?: string[]; chain?: string; opening?: string; placed?: false;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
     const region = this.region(seed, [0, 0], options.region), days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
     region.further = Countries.further(region, seed); region.chain = options.chain;
@@ -122,17 +123,26 @@ export class WorldAssembler {
       root, files, modules });
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, region, options.framework);
-    this.write(region, { files, root, placements, company: { size: party.length, contacts,
-      ...told ? { start: told.start, coin: told.coin } : {} } });
-    if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }
+    const company = { size: party.length, contacts, ...told ? { start: told.start, coin: told.coin } : {} };
+    this.write(region, { files, root, placements, company });
     const kits = framework.map(k => ({ ...k, optional: true }));
+    // What the inn's count says of the places the kits make their own, written once they are placed (FH-24); not for
+    // a world drawn only to read its setting (placed: false, as creation draws one).
+    const written = new OverlayBundleSource(base, files);
+    const held = options.placed === false ? { told: {} }
+      : await RegionHeld.of(region, [...modules, ...kits], { seed, path, source: written });
+    region.told = held.told;
+    if (Object.keys(region.told).length) { this.write(region, { files, root, placements, company }); }
+    if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       calendar: region.calendar,
       pitch: { heading: `A company in ${region.name}`, text: `${region.name} is ${RegionWriter.terrain(region.terrain)} `
         + `country, home to ${RegionWriter.peoples(region)}, who keep the faith of ${region.deity}. Nobody hires a `
         + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '
         + 'Choose three companions.' } });
-    return { path, source: new OverlayBundleSource(base, files), report: { seed, region, context, placements, contacts,
+    const source = new OverlayBundleSource(base, files);
+    if ('composed' in held && held.composed) { Composition.keep(source, path, seed, held.composed); }
+    return { path, source, report: { seed, region, context, placements, contacts,
       eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
   }
   // The country beyond a border, drawn the first time a company goes there (see Frontier): a region of its own where

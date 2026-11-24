@@ -101,7 +101,8 @@ export class ModuleBundle {
     const entries = manifest.modules.map(m => Composition.isKit(m) ? { ...m, kit: source.resolve(m.kit, path) }
       : { ...m, bundle: source.resolve(m.bundle, path) });
     if (!entries.some(e => Composition.isKit(e))) { return { ...manifest, modules: entries as BundleRequest[] }; }
-    const composed = await Costs.timed('kits', () => Composition.expand(entries, { seed, source }));
+    const composed = Composition.take(source, path, seed)
+      ?? await Costs.timed('kits', () => Composition.expand(entries, { seed, source }));
     return { ...manifest, modules: composed.modules, composition: composed };
   }
   // A story's context with the names of everyone already in the world among those its people are drawn apart from,

@@ -164,7 +164,7 @@ export class Creation {
     Promise<Setting> {
     const world = await WorldAssembler.assemble(seed, Scenarios.source(),
       { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {}, ...at.origin ? { origin: at.origin } : {},
-        ...at.memorial ? { memorial: at.memorial } : {} });
+        ...at.memorial ? { memorial: at.memorial } : {}, placed: false });
     const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
     const title = campaign.name, region = world.report.region;
     const origins = Origins.choices(await Origins.load(Scenarios.source()), region, world.report.placements);

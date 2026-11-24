@@ -85,6 +85,10 @@
   "claims": [
     "approach"
   ],
+  "told": [
+    { "when": { "folk": "hobs" }, "says": "where hobs have made their hold" },
+    { "when": { "folk": "outlaws" }, "says": "where outlaws under a knight with no lands keep their hold" }
+  ],
   "tables": "tables.json",
   "modules": [
     {

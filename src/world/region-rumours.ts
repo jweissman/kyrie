@@ -8,7 +8,8 @@ import type { Region } from './region-writer';
 // go to (the owner's own session, 7 November: "It seems galling I can't find anything or start quests or just find a
 // dungeon and fight things"): a country's sites were heard of only by asking after each by a name nobody had said,
 // and the map of a company come into it held one cave not made out. One question at the inn now tells the nearest
-// few, and they are on the map, heard of, with the way to each; what lies in them is for the company to find.
+// few, and they are on the map, heard of, with the way to each; what lies in them is for the company to find, unless
+// it is known to all: a place a kit's band has made its own is told as theirs (region.told: FH-24).
 export class RegionRumours {
   static readonly most = 3;
   static lines(region: Region): string[] {
@@ -19,7 +20,9 @@ export class RegionRumours {
       const told = [`  Entity ${town.id}_country_told: fact ${q(`What is out in the country round ${town.name}`)}.`];
       if (!near.length) { return told; }
       const keeper = `${town.id}_innkeeper`;
-      const named = near.map(s => `${s.site.name}: ${RegionSites.look(s.site, region)} in ${RegionSites.where(s, region)}`);
+      const held = region.told ?? {};
+      const named = near.map(s => `${s.site.name}: ${RegionSites.look(s.site, region)} in ${RegionSites.where(s, region)}`
+        + (held[s.site.id] ? `, ${held[s.site.id]}` : ''));
       return [...told, `  Topic ${town.id}_country_asked with ${keeper} ${q(`Ask {${keeper}} what is out in the country round`)}`
         + ' when true once {',
       `    Says ${q(`{${keeper}} counts them off on a hand. '${named.join('. ')}. Nobody goes to them that has any sense,'`
@@ -35,6 +38,11 @@ export class RegionRumours {
   static told(region: Region): Seat[] {
     return RegionGeography.seats(region)
       .filter(s => !s.site.work?.great && !s.site.work?.deep && !s.site.work?.imperial);
+  }
+  // Every site some town's count tells of.
+  static counted(region: Region): Set<string> {
+    const seats = RegionRumours.told(region);
+    return new Set(region.settlements.flatMap(town => RegionRumours.nearest(region, town, seats).map(s => s.site.id)));
   }
   // The sites nearest a town, by the land between.
   static nearest(region: Region, town: Region['settlements'][number], seats: Seat[]): Seat[] {

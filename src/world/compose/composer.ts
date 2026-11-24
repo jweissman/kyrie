@@ -18,6 +18,8 @@ export interface Placement {
   entities: Record<string, string>; modules: BundleRequest[];
   // The links of an expedition its kit declines, with why (KitManifest.declines).
   declines?: Record<string, string>;
+  // What an innkeeper's count of the old places says of the place it claims (KitManifest.told).
+  told?: { place: string; says: string };
 }
 
 // Places kits into a world being assembled. For each request: bind the slots to committed places, let Deem propose
@@ -54,8 +56,11 @@ export class Composer {
       .map(m => this.request(m, { kit, request, bindings: named, choices }));
     modules.push(...this.hooks(kit, { id: request.id, bindings: named, choices }));
     for (const m of modules) { this.trace.add({ step, kind: 'module', id: m.id, bundle: m.bundle }); }
+    const says = kit.manifest.told?.find(t => Composer.chosen(t.when, choices))?.says;
+    const place = named[kit.manifest.claims?.[0] ?? ''];
     return { kit: kit.manifest.id, id: request.id, bindings: named, choices, entities, modules,
-      ...kit.manifest.declines ? { declines: kit.manifest.declines } : {} };
+      ...kit.manifest.declines ? { declines: kit.manifest.declines } : {},
+      ...says && place ? { told: { place, says } } : {} };
   }
   // Deem's proposal for each dimension in turn. A proposal that implies more (a chapel the hobs robbed) is accepted
   // only if what it implies can be bound now; those bindings join the placement's.

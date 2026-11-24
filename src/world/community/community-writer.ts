@@ -76,6 +76,9 @@ export class CommunityWriter {
   // They work for their living: a painting of their work whose sitter is of the gentry (the herbalist is a lady at
   // her cabinet) is not theirs, and one of a middling or working sitter is (the follow-up review saw richly dressed
   // sitters given working roles).
+  // Paintings hung afresh: a country written again (its inn's count after the kits are placed: WorldAssembler.held)
+  // hangs what it hung the first time, not what was left over from it.
+  static afresh(region: Region): void { this.portraits.delete(region); }
   static likenessOf(region: Region, who: { pronoun: string; painting: string; id: string }): string {
     const portraits = this.portraits.get(region) ?? this.portraits.set(region, new Portraits(region.held)).get(region)!;
     const station = Likeness.stations[who.painting];

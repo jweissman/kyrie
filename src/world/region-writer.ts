@@ -31,6 +31,7 @@ import type { CalendarStart } from '../campaign/calendar';
 import { RegionGrowth } from './region-growth';
 import { RegionMarvels } from './region-marvels';
 import { SettlementWriter } from './settlement-writer';
+import { CommunityWriter } from './community/community-writer';
 import { RegionTraffic } from './region-traffic';
 import { RegionTracts } from './region-tracts';
 import { RegionAnimals } from './region-animals';
@@ -113,6 +114,9 @@ export interface Region extends Naming {
   origin?: string | undefined;
   // The debt's chain where it is fixed, not drawn (see DebtShapes).
   chain?: string | undefined;
+  // What an inn's count of the old places says of a site a kit's placement has made its own, by the site's id
+  // (Placement.told; see WorldAssembler.held).
+  told?: Record<string, string>;
 }
 // The region's people who pass news on, by the channel they carry it through.
 export interface Carrier { id: string; settlement: string; channel: 'tavern' | 'temple' | 'market' | 'road' }
@@ -164,6 +168,7 @@ export class RegionWriter {
   // own, was placed in a file before its kind's; in the browser, with no kinds left over from another start, Begin
   // failed on it).
   static files(region: Region, company: Company | null, taken: Record<string, string> = {}): Record<string, string> {
+    CommunityWriter.afresh(region);
     const head = `Module ${this.id} ${JSON.stringify(region.name)} {`, parts: string[][] = [[]];
     const body = this.body(region, taken), own = body.filter(l => RegionWriter.ownKind.test(l));
     // A file ends only where a statement does: a rule whose words come on the line after its condition had been cut

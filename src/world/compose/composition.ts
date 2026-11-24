@@ -30,6 +30,21 @@ export class Composition {
   static readonly vocabularyPath = 'data/assembly/vocabulary.kyr';
   private static vocabularies = new WeakMap<BundleSource, Promise<Module>>();
   static isKit(entry: ManifestEntry): entry is KitEntry { return 'kit' in entry; }
+  // A composition made already for a campaign's manifest, as a world's assembler makes it to write the inn's count
+  // after the kits are placed (WorldAssembler.held), kept for the campaign that loads it from the same source, path
+  // and seed: the same entries against the same country as written, but for the count, which the ledger does not read.
+  // Taken once: a second campaign from the same world composes its own (campaign isolation).
+  private static readonly made = new WeakMap<BundleSource, Map<string, Composed>>();
+  static keep(source: BundleSource, path: string, seed: string, composed: Composed): void {
+    const kept = this.made.get(source) ?? new Map<string, Composed>();
+    kept.set(`${path}\u0000${seed}`, composed);
+    this.made.set(source, kept);
+  }
+  static take(source: BundleSource, path: string, seed: string): Composed | undefined {
+    const kept = this.made.get(source), key = `${path}\u0000${seed}`, composed = kept?.get(key);
+    kept?.delete(key);
+    return composed;
+  }
   static vocabulary(source: BundleSource): Promise<Module> {
     let cached = this.vocabularies.get(source);
     if (!cached) {

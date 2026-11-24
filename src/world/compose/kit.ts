@@ -20,6 +20,10 @@ export interface KitModule {
 // the slot of the settlement whose people know it; `when` as a module's. Who keeps the inn there and in the settlement
 // nearest it tell it, and knowing it leads to the place the placement claims (see KitWord).
 export interface KitHook { fact: string; topic: string; heard: string; when?: Record<string, string> }
+// What whoever keeps an inn says of the place a placement claims, when they count off the old places round their
+// town (RegionRumours): words said after its look and where it stands ("where hobs have made their hold"), `when` as
+// a module's. An inn had named the hobs' own hold as an old place nobody with sense goes to, and no more (FH-24).
+export interface KitTold { says: string; when?: Record<string, string> }
 export interface KitManifest {
   version: 1; id: string; name: string; about: string;
   slots: Record<string, SlotSpec>;
@@ -30,6 +34,7 @@ export interface KitManifest {
   claims?: string[];
   modules: KitModule[];
   hooks?: KitHook[];
+  told?: KitTold[];
   tables?: string;
   // The links of an expedition (see ExpeditionContract) the place it claims does not make, each with why: a toll
   // levied on a road has nothing to carry out of it. A link declined is not asked of it; one neither made nor
@@ -46,8 +51,8 @@ export class Kits {
     }
     const tables = manifest.tables ? JSON.parse(await source.read(source.resolve(manifest.tables, path))) as
       Record<string, DeemValue> : {};
-    if (manifest.hooks?.length && !manifest.claims?.length) {
-      throw new Error(`Kit ${manifest.id} has hooks, which lead to the place it claims, and claims none`);
+    if ((manifest.hooks?.length || manifest.told?.length) && !manifest.claims?.length) {
+      throw new Error(`Kit ${manifest.id} has hooks or words, which are of the place it claims, and claims none`);
     }
     for (const [dimension, spec] of Object.entries(manifest.proposals ?? {})) {
       if (!tables[spec.table]) { throw new Error(`Kit ${manifest.id} proposes ${dimension} from a missing table ${spec.table}`); }
