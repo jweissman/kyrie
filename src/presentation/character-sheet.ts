@@ -99,7 +99,13 @@ export class CharacterSheets {
   private static born(c: Creature): Pick<CharacterSheet, 'born'> {
     const sign = SettingPort.sky.signs.find(s => s.id === c.sign);
     return sign ? { born: { sign: sign.name.replace(/^the /, 'The '), gifts: SkyGifts.of(c.sign)
-      .map(g => `${Canon.traits[g]?.name ?? g}: ${HandbookText.trait(g).join(' ')}`) } } : {};
+      .map(g => this.gift(g)) } } : {};
+  }
+  // A gift by name and what it does, the name said once: a gift whose one perk is called as it is ("Lamplit eye:
+  // +2 to searching") already begins with it (OR-258).
+  private static gift(id: string): string {
+    const name = Canon.traits[id]?.name ?? id, said = HandbookText.trait(id).join(' ');
+    return said.startsWith(`${name}: `) ? said : `${name}: ${said}`;
   }
   // What a specialist is, by its school or domain: a cleric of the death domain prays curses and drains, which the
   // Bushweald play met under nothing but the calling's "Prayers that heal and protect".

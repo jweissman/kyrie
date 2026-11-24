@@ -52,6 +52,17 @@ describe('the gifts of the sky', () => {
       'Wary: +2 against what can be dodged. Skilled in woodcraft.'] });
   });
 
+  it('are each named once on the sheet, a gift whose perk bears its name too (OR-258, "Lamplit eye: Lamplit eye:")', () => {
+    for (const s of sky.signs) {
+      const made = new Content(`sky-gifts-${s.id}`).createCreature('pc', { raceId: 'human', classId: 'warrior', sign: s.id });
+      for (const line of CharacterSheets.sheet(made).born!.gifts) { expect(line).not.toMatch(/^([^:]+): \1:/); }
+    }
+    const lantern = new Content('sky-gifts-lantern').createCreature('pc', { raceId: 'human', classId: 'warrior',
+      sign: sky.signs.find(s => s.gifts.includes('star_lamplit'))!.id });
+    expect(CharacterSheets.sheet(lantern).born!.gifts).toContain(
+      'Lamplit eye: +2 to searching, their torches, candles and lanterns burn an hour longer.');
+  });
+
   it('are all held by one kept from when a gift was chosen, on coming back', () => {
     const made = new Content('sky-gifts-kept').createCreature('pc', { raceId: 'human', classId: 'warrior', sign: 'sign_fox' });
     made.traits = made.traits!.filter(t => t !== 'star_sly');

@@ -88,11 +88,11 @@ What one person hears is carried to another (the Liberty of the Ice's 5: a lie t
 
 ### What the company carries
 
-Also kept, without comment: itemKind, ownedItem, wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, valuable, recovered, weighed, objection, pays, price.
+Also kept, without comment: wearing, forSale, soldBy, wearable, consumable, canTrain, teaches, proficient, wants, valuable, recovered, weighed, objection, pays, price.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 3 | 32 | 12 | 2 | 9 | 22 |
+| 1 | 31 | 12 | 2 | 9 | 23 |
 
 #### relieves
 
@@ -356,9 +356,27 @@ What reading a kind of thing teaches (Kind … is document teaching bill_read): 
 - Takes: 10 minutes
 - Costs: 1
 
-> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form); not (lightsUp(form)); not (fuel(form)); relieves(recipient, form)
+> Needs: able(actor); memberOf(carrier, actor); memberOf(recipient, actor); awake(carrier); awake(recipient); ownedItem(dose, carrier); itemKind(dose, form); consumable(form); not (lightsUp(form)); not (fuel(form)); not (food(form)); relieves(recipient, form)
 
 > Then: nothing changes
+
+#### food
+
+*Kyr · relation(itemkind)* · `rule:belongings.food`
+
+Food (a kind its author says is eaten: bread and cheese carried from home) is eaten by whoever carries it, hurt or not, and is the company's meal: one act for it, not a "Use … on" beside an "Eat" (the adit's bait-bag had both).
+
+#### eat item
+
+*Kyr · action (group, item, itemkind, member)* · `rule:belongings.eat_item`
+
+- Shown as: Eat {dose}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); memberOf(eater, actor); awake(eater); ownedItem(dose, eater); itemKind(dose, form); food(form)
+
+> Then: Set nextMeal(actor) to (watch(clock) + 144). Retract hungry(actor).
 
 #### light item
 
@@ -632,11 +650,11 @@ A seventh-level working of the arcane that carries the whole company to another 
 
 ### Rest, mending and lessons
 
-Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpen, memberOf, fieldUsable, restful, offeredAt, giftEffect, rewardFor, claimed.
+Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpen, fieldUsable, restful, offeredAt, giftEffect, rewardFor, claimed.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 7 | 24 | 2 | 0 | 2 | 10 |
+| 6 | 22 | 2 | 0 | 2 | 10 |
 
 #### restsOn
 
@@ -662,9 +680,9 @@ How much a work that reads its reader back (a Manual) raises a quality, outside 
 
 One of the player's company who is not the one who plays: a fellow, a recruit, a hireling (kept by the engine). An authored line given to whoever of the company qualifies binds a companion by it, never a slot of a ready-made party: Rule … when memberOf(?m, party) and companion(?m) and awake(?m) and brings(?m, lore) says "{?m} …".
 
-#### awake, fallen, slain, levelDrained, needsCare, canCast, treatable
+#### fallen, slain, levelDrained, needsCare, canCast, treatable
 
-*Kyr · relation(member); relation(member); relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.awake`
+*Kyr · relation(member); relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.fallen`
 
 One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
 
@@ -846,11 +864,17 @@ Six hours and a ration, somewhere safe; and there is no ration left.
 
 ### Bodies, places, time and the shared catalog
 
-Also kept, without comment: matterOpen, matterDone, at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, pronouns, matterSince, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
+Also kept, without comment: memberOf, awake, itemKind, ownedItem, knows, hostile, matterOpen, matterDone, at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, pronouns, matterSince, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 22 | 53 | 18 | 5 | 5 | 9 |
+| 28 | 59 | 18 | 5 | 5 | 9 |
+
+#### member, item, itemkind, fact
+
+*Kyr · kind; kind; kind; kind* · `rule:world_core.member`
+
+What every world's people, things and knowledge are, declared here so that each package of the shared rules reads only what it declares and the kernel (BX-02): a member of a company, awake or not; a thing, its kind and whose it is; a fact and who knows it; and who is hostile to whom. The rules about them stay where they were (care, belongings, discovery, dominion); a world of talk and votes need not install a fight's to say who is angry.
 
 #### quarter, inQuarter, heartOf
 
@@ -876,9 +900,9 @@ A chapter of a module's story, opened once (see Chapter).
 
 A promise the company makes (see Promise): made, then kept or broken.
 
-#### occasion, matter, occasionBegun, occasionOver
+#### occasion, matter, situation, incident, occasionBegun, occasionOver
 
-*Kyr · kind; kind; relation(occasion); relation(occasion)* · `rule:world_core.occasion`
+*Kyr · kind; kind; kind; kind; relation(occasion); relation(occasion)* · `rule:world_core.occasion`
 
 An occasion and its matters, taken up in order (see Occasion): begun, a matter open since a watch, done, over.
 
@@ -1266,11 +1290,11 @@ An observance can be kept again the next day.
 
 ### Reliable discovery and trusted reports
 
-Also kept, without comment: established, reveals, intact, noticeable, destructible, mayExamine, knows, assumesFalse, trusts, learnedFrom, toldBy, publicPlace, testimony, witnessed, searched.
+Also kept, without comment: established, reveals, intact, noticeable, destructible, mayExamine, assumesFalse, trusts, learnedFrom, toldBy, publicPlace, testimony, witnessed, searched.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 2 | 22 | 0 | 0 | 0 | 5 |
+| 1 | 21 | 0 | 0 | 0 | 5 |
 
 #### readIn
 
@@ -1388,7 +1412,7 @@ Also kept, without comment: holds, keeps, covets, bywayFrom, bywayTo, knowsWay, 
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 16 | 3 | 1 | 4 | 2 |
+| 1 | 15 | 3 | 1 | 4 | 2 |
 
 #### takesPrisoners, captured
 
@@ -1396,9 +1420,9 @@ Also kept, without comment: holds, keeps, covets, bywayFrom, bywayTo, knowsWay, 
 
 Those who take prisoners rather than kill (the lord's riders, a reeve's men), and whom they have taken: what happens to a company beaten by them is theirs to say (see Mercy).
 
-#### alarmed, admits, hostile
+#### alarmed, admits
 
-*Kyr · relation(group); relation(group, group); relation(group, group)* · `rule:dominion.alarmed`
+*Kyr · relation(group); relation(group, group)* · `rule:dominion.alarmed`
 
 How a power stands toward a company, kept by the power and obeyed by everyone who serves it: alarmed when something has gone wrong in what it holds; admitting a company to come and go; or hostile to it on sight.
 
@@ -1524,7 +1548,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 26 | 2 | 1 | 21 | 5 |
+| 1 | 27 | 2 | 1 | 21 | 5 |
 
 #### temperament
 
@@ -1579,6 +1603,12 @@ What someone says to a company that comes back, in their own words (Greets again
 *Kyr · relation(group, capability); measure(group)* · `rule:inhabitants.fears`
 
 What drives it off (sunlight, flame), and the price a proud one names.
+
+#### engaged_in
+
+*Kyr · relation(group, entity)* · `rule:inhabitants.engaged_in`
+
+What a company has entered into that is not a threat (a hand of cards, a riddle, a performance): asserted as it begins and retracted as it ends; while it stands the frame offers only its own moves and the ways out (Engaged).
 
 #### patience
 
@@ -2846,6 +2876,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > The march road brings you up out of the snow-fields to a stone cross where the fell road begins: north over Carth Fell, and down across the white Levels to Gaunt, the walled city of the Minster, three days before the Fast. On the step of the Cross a barefoot old man is mending a sandal he does not need, and beside him a beadle sits with his frozen foot in his hat.
+
+### The Eel Bell
+
+*Kyr* · `campaign:eelbell`
+
+- Regions and sites: eelbell
+- Kits placed: —
+
+> Quillet's tide-bell cracked two winters ago, and seven boats did not come home. In three days the silver eels run on the spring tide, and every boat in the fen will be out in the dark. A deaf founder has a pit, a furnace and no one to hear her bell. Cast it, tune it, hang it, and find someone to ring it.
 
 ### Gosse's Company
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow, type CreationStep } from '../../src/creation/creation-flow';
 import type { Setting } from '../../src/creation/protocol';
+import { Content } from '../../src/content';
 
 // What creation sets beside a choice says what it is in play, from the catalog (OR-99, the owner, 18 November: "most
 // of the instruments next to the menu in character creation seem impoverished"): a people's qualities as a stat line
@@ -48,7 +49,46 @@ describe('the entry beside a choice', () => {
     flow.choose('calling', 'warrior');
     flow.choose('before', 'arms');
     const trade = card(flow.steps(), 'trade', 'champion');
-    expect(trade.play).toBe('Str +3 · Dex +2 · Con +3 · Wis +1 · Cha +2 · 50 gold');
+    expect(trade.play).toBe('Str +3 · Dex +2 · Con +3 · Wis +1 · Cha +2 · 5 coin');
     expect(trade.facts).toEqual([['Brings', 'Brawn, Intimidation'], ['For', 'Warrior only']]);
+  });
+
+  // Creation's lists promised what was not there (OR-256, the first blind cold play's P19-28): Commoner among the
+  // birdfolk's callings, and none offered; a thief's Deactivate Device "(not playable)"; a cleric listing no prayer.
+  it('promises only what a life can be and do', () => {
+    const catalog = Creation.catalog();
+    for (const a of catalog.ancestries) {
+      const flow = new CreationFlow({ ...setting, names: { ...names, [a.id]: names.human } }, catalog);
+      const said = card(flow.steps(), 'you', a.id).facts.find(([k]) => k === 'Callings')?.[1].split(', ') ?? [];
+      const offered = a.callings.map(c => catalog.callings.find(x => x.id === c)!.name);
+      expect([a.id, said.sort()]).toEqual([a.id, offered.sort()]);
+      flow.choose('you', a.id);
+      for (const c of a.callings) {
+        const entry = card(flow.steps(), 'calling', c), rows = (entry.groups ?? []).flatMap(g => g.rows);
+        expect([c, rows.filter(r => /not playable/.test(r.name)).map(r => r.name)]).toEqual([c, []]);
+        if (catalog.callings.find(x => x.id === c)!.casts && !rows.some(r => r.emblem)) {
+          expect([c, entry.after]).toEqual([c, expect.stringMatching(/first (prayers|spells)[^.]*chosen next/)]);
+        }
+      }
+    }
+    const flow = new CreationFlow(setting, Creation.catalog());
+    expect(card(flow.steps(), 'calling', 'cleric').after).toContain('Its first prayers are its god\'s, chosen next.');
+  });
+
+  // The purse at setting out (OR-257, the first blind cold play's P56) had 13 coin, where creation had said the bard's
+  // "Gold 25" and the inquisitor's "70 gold": the calling's gold is given to no one, and a trade's is paid as coin.
+  it('says only the coin a life is given, as the purse counts it', () => {
+    const catalog = Creation.catalog(), flow = new CreationFlow(setting, catalog);
+    for (const c of catalog.callings) {
+      expect([c.id, card(flow.steps(), 'calling', c.id).facts.map(([k]) => k)]).not.toContainEqual([c.id,
+        expect.arrayContaining(['Gold'])]);
+    }
+    for (const b of catalog.backgrounds) {
+      const made = new Content(`purse-${b.id}`).createCreature('pc', { raceId: 'human', classId: b.calling ?? 'warrior',
+        backgroundId: b.id });
+      expect([b.id, made.state.gold]).toEqual([b.id, b.coin]);
+    }
+    const inquisitor = catalog.backgrounds.find(b => b.id === 'inquisitor')!;
+    expect(inquisitor.coin).toBe(7);
   });
 });

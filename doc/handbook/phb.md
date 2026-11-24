@@ -16,7 +16,7 @@ A companion's ancestry adds to their qualities, decides which callings are open 
 - Folk of: forest country, marsh country, mountain country, frost country and desert country
 - Tongue: Common; Westron in what the old kingdom named
 - Names: Agnes, Alys, Annis, Alfric, Aldred, Ambrose, Ash, Wren, Robin
-- Callings: Warrior, Mage, Thief, Cleric, Bard, Ranger, Monk, Commoner
+- Callings: Warrior, Mage, Thief, Cleric, Bard, Ranger, Monk
 - Born with: Humanoid Traits, Fast Learner, Jack of All Trades
 
 +1 against charms, +1 against fear.
@@ -39,7 +39,7 @@ Jack of All Trades: +1 to searching.
 - Folk of: forest country and marsh country
 - Tongue: Quenya
 - Names: Adrie, Birel, Caelynn, Aelar, Beiro, Carric, Ara, Lia, Rolen
-- Callings: Warrior, Thief, Ranger, Bard, Mage, Commoner
+- Callings: Warrior, Thief, Ranger, Bard, Mage
 - Born with: Humanoid Traits, Graceful, Keen Senses
 - May not take: Necromancy Specialist
 
@@ -65,7 +65,7 @@ Keen Senses: +4 to searching.
 - Folk of: mountain country, frost country and desert country
 - Tongue: Khuzdul
 - Names: Brannoc, Dagny, Eldis, Adrik, Baern, Brottor, Flint, Cobble, Tarn
-- Callings: Warrior, Cleric, Commoner
+- Callings: Warrior, Cleric
 - Born with: Humanoid Traits, Stout Constitution, Enduring
 
 +1 against charms, +1 against fear.
@@ -233,7 +233,7 @@ Jack of All Trades: +1 to searching.
 - Ages: Grown at fifteen; old at sixty.
 - Lives among others in: forest country and desert country
 - Names: Ember, Haze, Luna, Ash, Cinder, Dusk, Ginger, Jinx, Misty
-- Callings: Warrior, Thief, Ranger, Bard, Mage, Cleric, Monk, Commoner
+- Callings: Warrior, Thief, Ranger, Bard, Mage, Cleric, Monk
 - Born with: Humanoid Traits, Graceful, Not How I Remember It
 
 +1 against charms, +1 against fear.
@@ -301,7 +301,7 @@ Keen Senses: +4 to searching.
 - Ages: Grown at ten; old at forty.
 - Lives among others in: mountain country and frost country
 - Names: Aquila, Iris, Kestrel, Orion, Soren, Quill, Plume, Swift, Piper
-- Callings: Warrior, Thief, Ranger, Bard, Mage, Cleric, Monk, Commoner
+- Callings: Warrior, Thief, Ranger, Bard, Mage, Cleric, Monk
 - Born with: Humanoid Traits, Graceful, Inquisitive Mind
 
 +1 against charms, +1 against fear.
@@ -411,7 +411,7 @@ Begins knowing Light.
 
 ### Thief
 
-*Faithful · calling* · `class:thief`
+*Adapted · calling* · `class:thief`
 
 - Hit die: d6
 - Qualities: −1 strength, +2 dexterity, +1 constitution, +1 intelligence, −1 wisdom, +1 charisma
@@ -436,11 +436,11 @@ Begins knowing Backstab.
 
 Begins knowing Dirty Trick.
 
-Begins knowing Deactivate Device (not playable).
-
 > Thieves are stealthy and cunning, adept at sneaking, lockpicking, and dealing precise strikes.
 
 > A thief learns from another thief, in a city's alleys or a market's crowd: locks, pockets, how to walk unseen. Not every thief steals. The same hands open a sealed door for a reeve as for a burglar.
+
+*Adapted: Orsino chassis: hit die, attribute modifiers, gold, class abilities (with defend as the core ability and melee or ranged from the weapon), starting weapon and armour tables, proficiencies, specialization choices and spell slots. Kyr adds the trapwork, lockwork skill for its deterministic world actions; Orsino's Deactivate Device, which Kyr cannot play (its disabled status), is left out, trapwork doing what it does in the world (OR-256).*
 
 ### Cleric
 
