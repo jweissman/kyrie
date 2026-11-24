@@ -88,8 +88,10 @@ in that room, so a second trip has something the page leads to. Thorn's gold-fol
 den, is paid, comes down again, fights the rats at the old working face, and searches up six coin: expeditions back
 that meet a fight and bring something home, 0 → 1 (floor 1).
 
-Authored content no played world reaches is 33, not 32: batch 13 integrated the Weather Drove (weatherdrove), and no
-world yet reaches it. That is new content not yet reached, and the ratchet is written at 33 by hand for it.
+Authored content no played world reaches had read 33: batch 13 integrated the Weather Drove (weatherdrove) with no
+country placing it. Raising the ratchet to hold it was a band widened, and is undone: the Weather Drove is now a
+province of the first country, its way in toward the Great Desert to the south (OR-415), and the measure reads 32
+again, the ratchet back at 32.
 
 ## Measure 8's first town, the town itself (24 November, OR-370)
 

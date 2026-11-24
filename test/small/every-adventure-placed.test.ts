@@ -6,7 +6,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 // adventures' folders to that list, and six went unplaced as they were integrated (the owner, 24 November: "shouldn't
 // all adventures be available in a single country now?"). Those not yet placed are named here, the list only to
 // shrink: each placed is taken off it, and a new adventure is never added to it (OR-420).
-const unplaced = ['eelbell', 'hexworth', 'leaving', 'raingourd', 'warmwall', 'weatherdrove'];
+const unplaced = ['eelbell', 'hexworth', 'leaving', 'raingourd', 'warmwall'];
 describe('every adventure', () => {
   const listed = new Set((JSON.parse(readFileSync('data/adventures/countries.json', 'utf8')) as {
     countries: { bundle: string }[] }).countries.map(c => c.bundle.split('/')[0]!));

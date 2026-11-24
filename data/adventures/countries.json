@@ -850,6 +850,33 @@
      }
     }
    }
+  },
+  {
+   "id": "weatherdrove",
+   "province": true,
+   "bundle": "weatherdrove/placed.json",
+   "entry": "road",
+   "marker": "muckle",
+   "side": "south",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "heath",
+    "fell"
+   ],
+   "name": "the Sere country",
+   "topic": "the Weather Drove at Wickering, where a cloud is driven like cattle",
+   "terrain": "desert",
+   "rumour": "'South, toward the edge of the sand,' says {keeper}, 'there's a salt town called Wickering where they drive the weather. A drover brings a cloud in over the pans every year, and this year it has not come.'",
+   "heard": "South of here, toward the sand, lies Wickering in the Sere country: a salt town that waits every year on a cloud driven in like cattle, and this year it has not come.",
+   "skyline": "a white salt town under a sky with one cloud in it",
+   "far": "a salt town waits on a cloud that a drover drives in like cattle, and this year it is late"
   }
  ]
 }
