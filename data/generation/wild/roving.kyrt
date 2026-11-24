@@ -67,3 +67,17 @@
     Assert at({r}, ?p). Assert roved({r}).
   }
 >> danger
+--- road footpads
+  // On a long road, now and then, footpads (the owner, 24 November: "I'm fine with roads having a little more danger;
+  // the world is starved for genuine danger as it is"). One such band to a country, going up and down a stretch of its
+  // roads; met by day, once, on the die of a leg there, as a rover is. They warn first: walked on past, they let you
+  // go; stood up to, or turned on, they fight.
+  Person {r} "two footpads" at {home} {
+    Role "two hard-faced men with cudgels, who live off the road between the farms". Ancestry {folk}. Numbers 2. Level 1. Temperament territorial. Lair {home}.
+    Warns "Two men with cudgels step out of the hedge ahead and stand in the road. 'Far enough,' says one. 'Turn about, or come on and see.'".
+  }
+  Initially Set encounterXp({r}) to 50.
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 12 and able({r})
+    says "Ahead on the road two men are sitting on a field gate with cudgels across their knees, watching you come." {
+    Assert at({r}, ?p). Assert roved({r}).
+  }

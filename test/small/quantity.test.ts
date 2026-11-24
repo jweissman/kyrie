@@ -17,6 +17,9 @@ const walk = (name: string, seed: string, o: Partial<Walked> = {}): Walked => ({
   aims: [{ id: `${seed}_a`, key: 'rats', kind: 'kill', text: '', travelled: 30, done: true, arrived: false },
     { id: `${seed}_b`, key: `${seed}_b`, kind: 'fetch', text: '', travelled: 90, done: true, arrived: true }],
   people: [{ id: 'boy', name: 'the boy', why: 'joined' }, { id: 'kynes', name: 'Kynes, innkeeper', why: 'anchor' }],
+  grounds: { place: { minutes: 120, fights: 2 }, road: { minutes: 30, fights: 0 }, expeditions: [
+    { place: 'barrow', fights: 1, reward: true }, { place: 'barrow', fights: 1, reward: true },
+    { place: 'cave', fights: 0, reward: true }, { place: 'cave', fights: 0, reward: true }] },
   ...o });
 const country = (seed: string, o: Partial<Read> = {}): Read => ({ seed, near: 12,
   fair: [{ band: 'wolves', fell: 3, said: 'deadly', warned: true }, { band: 'rats', fell: 1, said: 'hard', warned: false },
@@ -24,14 +27,20 @@ const country = (seed: string, o: Partial<Read> = {}): Read => ({ seed, near: 12
   economy: { day: 60, kit: 10, dearest: 50, ratio: 1, worth: 200, stock: 100, purse: 6, missing: [] },
   reach: { things: ['site:the barrow', 'wonder:the stone', 'pleasure:the hens'], cells: 7 },
   dungeon: { name: 'the barrow', minutes: 90, hexes: 1, levels: 2, companion: true, light: true, provisions: false,
-    at: { companion: false, light: true, provisions: false, gear: true } }, ...o });
+    at: { companion: false, light: true, provisions: false, gear: true } }, returned: ['barrow', 'cave'], ...o });
 const fixed: Readings = { golden: walk('golden walk', 'iscoed', { fights: 0, minutes: 600 }),
   gold: [walk('gold a1', 'a1'), walk('gold b2', 'b2')], countries: [country('a1'), country('b2', { near: 50 })],
   stranded: { creatures: ['golem'], works: [], scenarios: ['x', 'y'] } };
 const read = (id: string) => Reckon[QuantityMeasures.all.find(m => m.id === id)!.read](fixed);
 describe('the quantity gate', () => {
   it('works each measure out of one fixed reading', () => {
-    expect(read('fights').each).toEqual({ 'golden walk': 0, 'gold a1': 0.5, 'gold b2': 0.5 });
+    expect(Reckon.fights(fixed).each).toEqual({ 'golden walk': 0, 'gold a1': 0.5, 'gold b2': 0.5 });
+    // At combat places two fights in two hours; on the roads, half an hour on each is too little to read.
+    expect(read('places').each).toEqual({ 'golden walk': 1, 'gold a1': 1, 'gold b2': 1 });
+    expect(read('roads').value).toBeNull();
+    expect(read('returned').value).toBe(2);
+    // Back to the barrow, a fight and a reward again, on each of three walks; back to the cave, no fight.
+    expect(read('again').value).toBe(3);
     expect(read('bands').each).toEqual({ a1: 12, b2: 50 });
     // Of the bands that felled the one who plays, those asked before: one of two in each seed.
     expect(read('fair').value).toBe(50);

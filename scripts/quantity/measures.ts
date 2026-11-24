@@ -11,7 +11,7 @@ export type Kind = 'band' | 'up' | 'down' | 'report';
 // read: the Reckon method that works it out.
 export interface Measure { id: string; label: string; kind: Kind; why: string; floor?: number; ceiling?: number;
   read: Reckoned }
-export type Reckoned = 'fights' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
+export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
   | 'stranded'
   | 'identity';
@@ -20,9 +20,17 @@ export type Reckoned = 'fights' | 'bands' | 'fair' | 'economy' | 'treasure' | 'm
 // floor and ceiling here are its first; baseline.json holds them after.
 export class QuantityMeasures {
   static readonly all: Measure[] = [
-    { id: 'fights', label: '1. Fights met per game hour, walked', kind: 'band', floor: 0.1, ceiling: 1.5,
-      why: 'at least one fight in ten hours of play, and no more than one every forty minutes: conflict is met, and '
-        + 'is not the whole of the game', read: 'fights' },
+    { id: 'places', label: '1. Fights per game hour at combat places, walked', kind: 'band', floor: 0.5, ceiling: 4,
+      why: 'combat dense in specific places: in a site or under a town, a fight at least every two hours and not '
+        + 'more than one every quarter hour (the owner, 24 November, OR-321)', read: 'places' },
+    { id: 'roads', label: '1. Fights per game hour on the roads, walked', kind: 'report',
+      why: 'roads with a little more danger (the owner, 24 November): said, not held, a modest chance', read: 'roads' },
+    { id: 'returned', label: '1. Combat places quests return a company to, near the first town', kind: 'band', floor: 2,
+      why: 'two or three easy-to-find places where fights are dense, which two aims or more send the company to, '
+        + 'the first dungeon among them (OR-321)', read: 'returned' },
+    { id: 'again', label: '1. Expeditions back to a combat place that still meet a fight and reward, walked',
+      kind: 'band', floor: 1, why: 'places that reward multiple expeditions, not only the first (OR-321)',
+      read: 'again' },
     { id: 'bands', label: '1. Bands within four hours of the start', kind: 'band', floor: 5, ceiling: 40,
       why: 'enough to choose among in the first hours; not a country of nothing but foes', read: 'bands' },
     { id: 'fair', label: '2. Bands that can kill, asked before (%)', kind: 'up',

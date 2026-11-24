@@ -15,6 +15,8 @@ import { HonestPlayer } from '../../test/support/honest-player';
 import { BoredomCensus } from '../boredom-census';
 import { DifferenceCensus } from '../difference-census';
 import { NoviceCountry } from '../novice-country';
+import { QuantityPlaces, type Grounds } from './places';
+import { ModuleWriter } from '../../src/lang/module-writer';
 import type { CampaignEvent } from '../../src/campaign/campaign';
 
 // A turn as the Atlas drew it: its rows' colours by tone (the runner's rows, each by the one indicator its aspects
@@ -35,6 +37,8 @@ export interface AimRead {
 export interface Mattered { id: string; name: string; why: 'joined' | 'anchor' }
 export interface Walked {
   name: string; seed: string; minutes: number; turns: Turned[]; fights: number; aims: AimRead[]; people: Mattered[];
+  // Its time and fights at combat places and on the roads, and its expeditions (QuantityPlaces).
+  grounds?: Grounds;
 }
 interface State { s: PlaySession; w: Walked; aims: Map<string, AimRead>; from: number; start: Set<string>;
   town?: string }
@@ -67,7 +71,8 @@ export class QuantityWalks {
     return this.done(st);
   }
   private static state(s: PlaySession, name: string, seed: string): State {
-    const c = s.campaign, w: Walked = { name, seed, minutes: 0, turns: [], fights: 0, aims: [], people: [] };
+    const c = s.campaign, w: Walked = { name, seed, minutes: 0, turns: [], fights: 0, aims: [], people: [],
+      grounds: QuantityPlaces.empty() };
     const here = c.world.one('at', c.playerActor ?? 'party') ?? '';
     const town = NoviceCountry.containing(c, here, 'settlement')?.id;
     return { s, w, aims: new Map(), from: c.history.length, start: new Set(c.readout.partyIds),
@@ -77,7 +82,7 @@ export class QuantityWalks {
     const c = st.s.campaign, held = Undertakings.held(c);
     this.hold(st, held);
     return { at: BoredomCensus.here(st.s), minute: BoredomCensus.minutes(st.s), history: c.history.length,
-      held: new Set(held.map(o => o.id)), followed: Undertakings.followed(c, held)?.id };
+      held: new Set(held.map(o => o.id)), followed: Undertakings.followed(c, held)?.id, gold: this.coin(st) };
   }
   private static after(st: State, b: ReturnType<typeof QuantityWalks.before>, r: Runner, said: Said) {
     const c = st.s.campaign, moved = BoredomCensus.here(st.s) !== b.at, took = BoredomCensus.minutes(st.s) - b.minute;
@@ -89,7 +94,13 @@ export class QuantityWalks {
       if (!now.has(id) && !a.done) { a.done = true; a.arrived = arrivedOnly; }
     }
     this.hold(st, held, events);
+    QuantityPlaces.turn(c, st.w.grounds!, { from: b.at, to: BoredomCensus.here(st.s), minutes: took, events,
+      gold: this.coin(st) - b.gold });
     st.w.turns.push(this.turned(r, said));
+  }
+  private static coin(st: State): number {
+    const c = st.s.campaign;
+    return c.world.number(ModuleWriter.call('quantity', c.playerActor ?? 'party', 'gold'));
   }
   // Every aim held, kept once it is first held, with whoever it is about.
   private static hold(st: State, held: Objective[], events?: CampaignEvent[]) {

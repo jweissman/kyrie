@@ -32,7 +32,22 @@ export class RegionRovers {
     if (!homes.length) { return []; }
     const once = this.template.sections.filter(s => s.group === 'country').flatMap(s => s.lines);
     return [...once, ...homes.flatMap(home => this.write(region, home, cells.filter(c =>
-      Terrain.distance(land, home, c) <= this.range), away))];
+      Terrain.distance(land, home, c) <= this.range), away)), ...this.road(region, land)];
+  }
+  // One band besides that goes up and down a stretch of the country's roads, away from its towns (roving.kyrt's road
+  // group): drawn apart from the rest, so that every other rover is as it was.
+  private static road(region: Region, land: Land): string[] {
+    const towns = region.settlements.flatMap(s => s.cell === undefined ? [] : [s.cell]);
+    const road = [...new Set(RegionGeography.roads(region).flatMap(r => r.route.cells))]
+      .filter(c => towns.every(t => Terrain.distance(land, t, c) >= 2));
+    const section = this.template.sections.find(s => s.group === 'road');
+    if (!road.length || !section) { return []; }
+    const home = Draw.ranked(`${RegionKey.of(region)}:rovers:road`, road)[0]!;
+    const town = region.settlements.filter(s => s.cell !== undefined)
+      .sort((a, b) => Terrain.distance(land, a.cell!, home) - Terrain.distance(land, b.cell!, home))[0];
+    const values = { r: `wr${home}r`, home: RegionTracts.id(home), folk: region.ancestry, town: town?.name ?? region.name };
+    const ranges = road.filter(c => Terrain.distance(land, home, c) <= this.range);
+    return [...KyrTemplates.fill(section.lines, values), ...ranges.map(c => `  Initially Assert roams(${values.r}, ${RegionTracts.id(c)}).`)];
   }
   // Two stretches or more from any road or town (busy).
   private static away(land: Land, busy: number[], c: number): boolean {
