@@ -161,7 +161,8 @@ describe('in the dark', () => {
       [{ name: 'Osric', raceId: 'human', classId: 'mage' }]);
     const screen = ScreenModel.build(s.campaign);
     expect(screen.dark).toBe(true);
-    const cast = ChoiceList.all(ChoiceList.explore(screen)).find(c => c.label === 'Osric: cast Light')!;
+    // Said as one row in whole words, whom it is cast on with it (PB-29).
+    const cast = ChoiceList.all(ChoiceList.explore(screen)).find(c => c.label === 'Osric: cast Light on Osric')!;
     expect(cast.command).toMatch(/^field_spell\(.*conjure_light/);
     await s.leg(cast.command!);
     expect(ScreenModel.build(s.campaign).dark).toBe(false);
@@ -244,9 +245,11 @@ describe('one of the company who is down', () => {
     const her = SceneModel.build(ScreenModel.build(s.campaign)).subjects.find(x => x.name === 'Mira')!;
     expect([her.state, her.note]).toEqual(['dead', 'a carter']);
   }, 60000);
-  // What one who lies senseless carries is under one choice, not a row of them (the cold evaluation: six "Take … from
-  // Maud for Mindartis" stood on the page while she lay on the floor).
-  it('offers what they carry under one choice', async () => {
+  // What one who lies senseless carries had been put under one choice, not a row of them (the cold evaluation: six
+  // "Take … from Maud for Mindartis" stood on the page while she lay on the floor). Only a fight, a store and the Book
+  // unfold now (PB-29): each thing is a row of its own, whole, saying what is taken, from whom and for whom, and
+  // nothing of theirs is offered twice.
+  it('offers what they carry, a row for each thing, in whole words', async () => {
     const s = await Played.start('Place yard "the yard" is room within field at 0, 0 outdoors. Company party "You" of 2 at yard.');
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures, bo = s.campaign.state.partyIds[1]!;
     const lease = store.acquire([bo]);
@@ -254,8 +257,10 @@ describe('one of the company who is down', () => {
     await s.leg('wait');
     const screen = ScreenModel.build(s.campaign), name = screen.party[1]!.name;
     const taking = ChoiceList.explore(screen).flatMap(x => x.choices).filter(c => /^Take /.test(c.label));
-    expect(taking.map(c => c.label)).toEqual([`Take from ${name}`]);
-    expect(taking[0]!.children!.length).toBeGreaterThan(1);
+    expect(taking.length).toBeGreaterThan(1);
+    expect(taking.every(c => !c.children?.length && /^take_from\(/.test(c.command ?? ''))).toBe(true);
+    expect(taking.every(c => new RegExp(`^Take .+ from ${name} for ${screen.party[0]!.name}$`).test(c.label))).toBe(true);
+    expect(new Set(taking.map(c => c.label)).size).toBe(taking.length);
   }, 60000);
 });
 

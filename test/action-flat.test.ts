@@ -35,6 +35,7 @@ describe('the foreground, flat', () => {
     const { s } = await Town.at('region__s1_green');
     const store = ScreenModel.build(s.campaign).exits.find(e => e.destination.id === 'region__s1_u_store')!;
     const tries = store.acts.find(a => a.label === 'Look at the corn-store padlock')!.children!;
-    expect(tries.map(t => t.alone)).toEqual(['Push and pull at the corn-store padlock', 'Listen at the old corn-store']);
+    // The door is named for the passage it is on, not for where it goes (PB-29).
+    expect(tries.map(t => t.alone)).toEqual(['Push and pull at the corn-store padlock', 'Listen at the corn-store door']);
   }, 120000);
 });

@@ -7,7 +7,7 @@ import { Glanced } from './support/glanced';
 // The same place, two companies (amendment 6's addendum: different characters see different possibilities in the same
 // world): its facts are one, and what each perceives of it, and what each is led to, is its own. An elf's eye
 // catches smoke going up inside the broken keep's walls (a sign noticed by perception); a human ranger walks up
-// unseeing. At the king-barrow a mage reads the bound-marks on the seal-stone, where a ranger is led only to look.
+// unseeing. At the king-barrow a mage reads the bound-marks on the seal-stone, where a ranger is led only to try it.
 class Two {
   static async at(suffix: string, raceId: string, classId: string) {
     const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'X', raceId, classId }] },
@@ -27,7 +27,8 @@ describe('one place, two pairs of eyes', () => {
     const [r, m] = [await Two.at('_trodden', 'human', 'ranger'), await Two.at('_trodden', 'elf', 'mage')];
     expect(m.leads.join(' | ')).toMatch(/bound-marks on the seal-stone \[exploration,knowledge\]/);
     expect(r.leads.join(' | ')).not.toMatch(/bound-marks/);
-    // A look that teaches nothing is exploration, not knowledge (AT-01: blue only for what teaches).
-    expect(r.leads.join(' | ')).toMatch(/look at the seal-stone \[exploration\]/);
+    // A try that teaches nothing is exploration, not knowledge (AT-01: blue only for what teaches): the first of the
+    // stone's tries, a row of its own since PB-29.
+    expect(r.leads.join(' | ')).toMatch(/Push and pull at the seal-stone \[exploration\]/);
   }, 240000);
 });

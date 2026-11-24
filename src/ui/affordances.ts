@@ -443,8 +443,11 @@ export class Affordances {
   }
   // Where a light is to be had, with an aim followed, the dark ahead and nothing to see by (see CompanyLight).
   private static shop(r: Reading, place: string): boolean { return !!r.aim && !!r.needs.shops?.has(place); }
+  // The first try on a way barred: its first act, or, where that act's tries are laid out as rows of their own (PB-29),
+  // the first of them (the barrow's seal-stone, pushed and pulled, had been led as no try at all).
   private static firstTry(c: Choice, exit: ExitRow): boolean {
-    return c.id === `${exit.id}/${exit.acts[0]?.key ?? ''}`;
+    const [first] = exit.acts, id = `${exit.id}/${first?.key ?? ''}`;
+    return c.id === id || (!!first?.children?.length && c.id === `${id}/${first.children[0]!.key}`);
   }
   // The other places of the town, walked to directly.
   private static around(screen: Screen, r: Reading): Candidate[] {

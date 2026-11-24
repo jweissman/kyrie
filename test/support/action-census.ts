@@ -19,6 +19,8 @@ export class ActionCensus {
     ['.aim-card .aim-pick', 'an aim considered, which the Notes\' one menu acts on (a presentation gesture, as a cell chosen '
       + 'on the map is)'],
     ['.fight .status .quiet-word', 'the fight so far, a disclosure (ruling 1)'],
+    ['.sky-out', "the sky's way back to the twelve from a sign drawn up, shown only while one is (OR-89, the owner's: a "
+      + 'gesture of the instrument, as Escape and a touch on the open sky are; page-controls names it)'],
   ];
   // Every pressable thing in view on the page as it is now, outside the menu, the rail and what is allowed.
   static stray(page: Page, surface: string): Promise<Pressable[]> {
