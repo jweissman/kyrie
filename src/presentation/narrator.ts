@@ -16,8 +16,8 @@ import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
 import { Succession } from './succession'; import { Readings } from './readings';
 import { Compass } from './compass'; import { Noted, type Note } from './noted';
-import { Likenesses } from './likenesses';
-import { LensSubjects } from './lens-subjects';
+import { Likenesses } from './likenesses'; import { LensSubjects } from './lens-subjects';
+import { ToldOnce } from './told-once';
 import { Glance } from './glance'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
 import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
 import { TaughtSigns } from './taught-signs'; import { Charge } from './charge';
@@ -159,7 +159,8 @@ export class Narrator {
     // And, as an aim followed is seen through, what pulls next (see Succession, PL-06).
     const glance = Costs.time('glance', () => Glance.of(campaign, screen, told,
       { kept, known, changed: fresh, opened: !!opening }));
-    const whole = { ...glance, ...Succession.next(campaign, screen, told), ...Compass.of(campaign, screen, glance) };
+    const whole = { ...ToldOnce.changed(glance, leaf), ...Succession.next(campaign, screen, told),
+      ...Compass.of(campaign, screen, glance) };
     return { ...Introduced.said(leaf, glance, screen), instruments: Instruments.of(campaign, screen),
       glance: Likenesses.with(LensSubjects.with(campaign, screen, whole), screen) };
   }
@@ -443,8 +444,7 @@ export class Narrator {
       ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [], ...done,
       ...first ? [] : opened,
       ...spoken.map(text => ({ text, kind: 'speech' as const })),
-      ...changing || fight ? [] : events,
-      ...voiced,
+      ...changing || fight ? [] : events, ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: feedback.lapsed?.includes(text)
         ? 'event' as const : fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...outcome,
