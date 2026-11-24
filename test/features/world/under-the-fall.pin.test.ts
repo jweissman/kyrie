@@ -65,12 +65,15 @@ describe('a new life begun under the fall in the old adit', () => {
     // Danger: the badger stands between you and the prop until it is beaten, fought by the two of you.
     await step(/^To the old drift/);
     expect(rows(s).some(x => /fallen prop/.test(x.label))).toBe(false);
+    // The wonder met is told in its own words on arriving, in the terminal as on the page (OR-463).
+    expect(s.scene.lines.join(' ')).toMatch(/Your light sinks into it as into still water/);
     acts++;
     s = await fight(r, s);
     expect(holds('yielded', 'adit__badger', 'party')).toBe(true);
     expect(s.scene.lines.join(' ')).toMatch(/Dai Probert/);
-    // What lasts: the old bar its scrapings turned up, kept.
+    // What lasts: the old bar its scrapings turned up, led with among the four (OR-461), and kept.
     expect(holds('knows', 'party', 'adit__sett_bared')).toBe(true);
+    expect(s.offer!.primary.some(x => /^Collect an old miner's pinch-bar/.test(x.label))).toBe(true);
     await step(/^Collect an old miner's pinch-bar/);
     expect(holds('ownedItem', 'adit__old_bar', 'region__member_party_1')).toBe(true);
     await step(/^Eat your bread and cheese/);

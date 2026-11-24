@@ -25,6 +25,10 @@ export class RuleWords {
     }
     return { told, unsaid };
   }
+  // The rules whose words teach something (an event that teaches: a wonder met), by id.
+  static teaching(campaign: Campaign): Set<string> {
+    return new Set((campaign.module.rules ?? []).filter(r => r.teaches && r.say).map(r => r.id));
+  }
   // The world's words a command is told in: not those held back as heard lately.
   static said(event: CampaignEvent): NonNullable<CampaignEvent['perceptions']> {
     const unsaid = new Set(event.unsaid ?? []);

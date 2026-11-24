@@ -125,9 +125,9 @@ export class Doable {
       .map(a => ({ ...a, lens: lens as Lens })));
     const own = listed.map(o => this.inPack(this.row(o.choice, this.worded(o, commands), { ...at,
       lens: lensOf.get(o.choice), led: led.has(o.choice), command: o.command }), o, at.packed));
-    const offered = this.holders([...own, ...[...new Map(held.map(a => [a.choice, a])).values()]
+    const offered = this.once(this.holders([...own, ...[...new Map(held.map(a => [a.choice, a])).values()]
       .map(a => this.row(a.choice, a.label, { ...at, lens: a.lens, led: false, command: a.command })),
-      ...this.ledFor(glance, at, had)], at);
+      ...this.ledFor(glance, at, had)], at));
     const out = glance.compass?.out, journeys = DoableJourneys.more(this.flat(offered), screen, out)
       .map(j => ({ ...this.row(j.command, j.label, { ...at, command: j.command }), minutes: j.minutes }));
     // Engaged, only what answers the threat (OR-163: Engaged).
@@ -136,6 +136,36 @@ export class Doable {
     this.kept.set(glance, read);
     return read;
   }
+  // One act, one row, for every client (OR-462, OR-464): a second row doing what another does is not offered, whether a
+  // talk whose one act it is ("Ask Dai Probert to stay here" under his talk and by itself), or a journey to where a way
+  // already goes (Out to the old drift's mouth beside Up to it). The row kept is the act's own, a way's step before a
+  // journey there; a row held within another, or holding others, is its holder's and stays.
+  private static once(all: Row[]): Row[] {
+    // A talk whose one act is the act it holds is that act: the act is not offered again within it.
+    const only = new Map(all.filter(r => r.only && r.does && r.holds?.length).map(r => [r.id, r.does!]));
+    const dropped = new Set(all.filter(r => r.within && only.get(r.within) === r.does).map(r => r.id));
+    const rows = all.filter(r => !dropped.has(r.id)).map(r => {
+      const holds = r.holds?.filter(h => !dropped.has(h));
+      if (!r.holds || holds!.length === r.holds.length) { return r; }
+      const kept = { ...r };
+      if (holds!.length) { kept.holds = holds; } else { delete kept.holds; }
+      return kept;
+    });
+    const own = new Set(rows.filter(r => this.free(r) && !r.only && !r.does!.startsWith('travel:'))
+      .map(r => this.act(r.does!)));
+    const seen = new Set<string>();
+    return rows.filter(r => {
+      if (!this.free(r)) { return true; }
+      const k = this.act(r.does!);
+      if ((r.only || r.does!.startsWith('travel:')) && own.has(k)) { return false; }
+      if (seen.has(k)) { return false; }
+      seen.add(k);
+      return true;
+    });
+  }
+  // What a row does, a journey by where it goes (as a step there does); and a row that stands by itself.
+  private static act(does: string): string { return DoableJourneys.reached(does)[0] ?? does; }
+  private static free(r: Row): boolean { return !!r.does && !r.within && !r.holds?.length; }
   // What a talk is led for that is no row of its own (an act done with them: Ianto's boat, poled down the cut), a row
   // within their talk, so that turned to them it is among what is had of them: the aim's step had been gold on "Talk to
   // Ianto" and then, turned to him, nowhere among what was said to him (CL-33, the golden route's fuel boat).

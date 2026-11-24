@@ -82,6 +82,8 @@ Module adit "Under the fall" {
   Entity sett_bared: fact "".
   Event sett_opens at drift when clear(party) and not knows(party, sett_bared) "Where the badger stood, its scrapings have turned up something long and red with rust: an old miner's pinch-bar, its point still true." teaches sett_bared.
   Item old_bar "an old miner's pinch-bar" is crowbar at drift hidden until sett_bared.
+  // A sign of it, new until seen, so that what the fight turned up is led with among the four (OR-461).
+  Observe bar_lies near old_bar of old_bar as sign when at(old_bar, drift) "The old pinch-bar lies in the badger's scrapings, red with rust, its point still true.".
 
   // Discovery: in the drift wall, bared by the badger's digging, a seam of starstone that takes in light and gives it
   // back slowly, further into the hill than can be followed (OR-440): no one's errand leads to it, and held to a light

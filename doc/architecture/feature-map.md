@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 178 pins (146 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 552 live rows, 450 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 178 pins (146 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 549 live rows, 447 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -137,7 +137,7 @@ page's colours and opportunities.)
 
 ### The company
 
-- **Companions and hirelings** · 2 pins · 6 defects · 2 asks
+- **Companions and hirelings** · 2 pins · 5 defects · 2 asks
   - ✓ lets the company work for its keep, and then sleep on the house
   - ✓ lets a bard sing for the supper, for coin, once an evening
   - requirement OR-386 P3: The owner's "calculations on demand" (OR-307): the folio writes no modifier beside a value, and…
@@ -334,7 +334,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 39 defects · 12 asks
+- **Rows, lenses and the frame** · 3 pins · 38 defects · 12 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -359,7 +359,7 @@ page's colours and opportunities.)
 
 ### Words
 
-- **Narration** · 3 pins · 29 defects · 4 asks
+- **Narration** · 3 pins · 28 defects · 4 asks
   - ○ the narration of an hour in a1 holds to "you", in the present, by a census of its sentences
   - ○ a place's first telling gives more than sight (sound, smell, touch or weather), within budget
   - ○ the words never contradict the state (a door told shut is shut, the weather told is so)

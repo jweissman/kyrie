@@ -1,6 +1,6 @@
 import { Sentences } from './sentences';
 import { FightSeen } from './fight-seen';
-import { Costs } from '../costs';
+import { Costs } from '../costs'; import { RuleWords } from '../narrative/rule-words';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { SecondPerson } from './second-person';
 import type { Entity, Observation, Shelter } from '../lang/module';
@@ -487,10 +487,12 @@ export class Narrator {
   }
   // What the act brought to light that its author marked as a revelation (a body found, who drowned the miller): told
   // as one, set apart from what else happened, not in the run of it (NAR-14).
+  // So with an event that teaches (a wonder met, OR-440 and OR-463): what it teaches is a clue, never held back behind
+  // the arrival's three sentences, in the terminal as on the page.
   private static revealed(campaign: Campaign, event: CampaignEvent): Set<string> {
-    const defs = this.defs(campaign);
-    return new Set((event.perceptions ?? []).filter(p => this.def(defs, p.id)?.aspect === 'revelation')
-      .map(p => this.plain(FictionalTime.prose(p.text))));
+    const defs = this.defs(campaign), teaching = RuleWords.teaching(campaign);
+    return new Set((event.perceptions ?? []).filter(p => this.def(defs, p.id)?.aspect === 'revelation'
+      || (p.kind === 'event' && teaching.has(p.id.split('@')[0]!))).map(p => this.plain(FictionalTime.prose(p.text))));
   }
   // A line as words, whatever its quotes were curled to.
   private static plain(text: string): string { return text.replace(/[‘’]/g, '\'').replace(/[“”]/g, '"').trim(); }

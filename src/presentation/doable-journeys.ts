@@ -82,7 +82,7 @@ export class DoableJourneys {
       : (r.does?.startsWith('travel:') && !JourneyFold.keeps(kept, r.does)) || (to && crossing.has(to)) ? { ...r, map: true }
         : r;
   }
-  private static reached(does: string): string[] {
+  static reached(does: string): string[] {
     const to = /^go\([^,]+,([^)]+)\)$/.exec(does)?.[1];
     return to ? [`travel:${to}`] : [];
   }
