@@ -2734,7 +2734,7 @@ Haggling (the owner, 15 November: a skill check for a better price). A company m
 
 *Kyr · action (group, group, good, place)* · `rule:world_services.haggle`
 
-- Shown as: Haggle with {seller} over the price of {goods}
+- Shown as: Haggle with {seller} for {goods}
 - Takes: 10 minutes
 - Costs: 1
 
@@ -2754,7 +2754,7 @@ The same for a ware that is a thing on a shelf (an item for sale), which is how 
 
 *Kyr · action (group, item, group, place)* · `rule:world_services.haggle_item`
 
-- Shown as: Haggle with {merchant} over the price of {find}
+- Shown as: Haggle with {merchant} for {find}
 - Takes: 10 minutes
 - Costs: 1
 

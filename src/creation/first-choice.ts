@@ -3,11 +3,11 @@ import type { CreationCard, CreationPresent } from './creation-flow';
 // How a game is come to, the first things asked of it, each the engine's question and rows for every client: the page
 // draws them as the title's rows, the terminal as its numbered lines (its `adventure` with no world named).
 //
-// How a new game begins (OR-120; renamed by the owner, 23 November): a life made step by step (CreationFlow), or "We
-// enter the world as we are", one drawn whole and able from the flow's own defaults and set out with at once
-// (EngineCreation.rolled). It is asked before any country is drawn, so it needs none: the page shows it at once while
-// the world it will begin in is drawn behind the title, and the life it would roll made ready there (the seam for
-// AX-04's pre-rolled world: ReaderOpening.foresee asks EngineForesight.ahead at the title's load).
+// How a new game begins (OR-120; OR-301): a life made step by step (CreationFlow), or "A new life, at once" (the
+// owner's "We enter the world as we are" its line), one drawn whole and able from the flow's own defaults and set out
+// with at once (EngineCreation.rolled). It is asked before any country is drawn, so it needs none: the page shows it
+// at once while the world it will begin in is drawn behind the title, and the life it would roll made ready there
+// (the seam for AX-04's pre-rolled world: ReaderOpening.foresee asks EngineForesight.ahead at the title's load).
 export type Beginning = 'build' | 'set-out-now';
 export interface FirstStep {
   id: 'begin'; ask: string; present: CreationPresent; all: true; chosen: Beginning;
@@ -35,8 +35,9 @@ export class FirstChoice {
     return { id: 'begin', ask: 'How will you begin?', present: 'rows', all: true, chosen: 'build', cards: [
       { id: 'build', name: 'Create a character', line: 'Choose who you are, step by step.',
         say: 'Your people, your calling, the stars you were born under and what you did before.' },
-      { id: 'set-out-now', name: 'We enter the world as we are', line: 'A whole life, able and ready, at once.',
-        say: 'A life of this country, whole as the world would make it, set out with at once.' },
+      // Its label short and literal (OR-301: the owner, 24 November, "far too long"); the literary words its line's.
+      { id: 'set-out-now', name: 'A new life, at once', line: 'We enter the world as we are: whole, able and ready.',
+        say: 'We enter the world as we are: a life of this country, whole as the world would make it.' },
     ] };
   }
   // The title's rows: Continue where the kept game is going and not refused; New character always; New world where a

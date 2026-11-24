@@ -7,7 +7,7 @@ import { Journey } from '../../src/session/journey';
 describe('haggling over a price', () => {
   it('is offered once for each ware, and the ware is then bought, at what the argument left it', async () => {
     const j = await Journey.start('test/fixtures/probes/trade/probe.campaign.json');
-    const haggles = () => j.choices().filter(c => /^Haggle with Teodor Halm over the price of a torch/.test(c.label));
+    const haggles = () => j.choices().filter(c => /^Haggle with Teodor Halm for a torch/.test(c.label));
     const before = haggles().length;
     expect(before).toBeGreaterThan(0);
     expect(haggles()[0]!.label).toMatch(/one try/);

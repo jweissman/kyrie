@@ -684,6 +684,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, the owner's framing of world assembly, kept whole as the platform note's vocabulary"
+  },
+  "OR-293": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, split from OR-301 at its close: a label over forty characters breaks no claimed contract; their shortening is a commissioned outcome, held by a ratchet"
   }
  },
  "blockedBy": {

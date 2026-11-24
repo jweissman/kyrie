@@ -102,7 +102,7 @@ Module world_services "Lodging, goods and camping" {
   // seller once: a good argument takes a coin off it; a poor one, and the seller asks a coin more and will hear no more
   // of it. Never below one coin, and never of a ware the seller has not (the price is the seller's own, as thanks is).
   Relation haggled(group, good).
-  Action haggle(actor: group, seller: group, goods: good, site: place) "Haggle with {seller} over the price of {goods}" {
+  Action haggle(actor: group, seller: group, goods: good, site: place) "Haggle with {seller} for {goods}" {
     Description "Argue for a better price, and be heard or not.".
     Requires able(actor) and able(seller) and distinct(actor, seller) and at(actor, site) and at(seller, site)
       and not refusesService(seller, actor) and sells(seller, goods) and quantity(seller, goods) >= 1
@@ -116,7 +116,7 @@ Module world_services "Lodging, goods and camping" {
   }
   // The same for a ware that is a thing on a shelf (an item for sale), which is how most of what is sold is sold.
   Relation haggledItem(item).
-  Action haggle_item(actor: group, find: item, merchant: group, site: place) "Haggle with {merchant} over the price of {find}" {
+  Action haggle_item(actor: group, find: item, merchant: group, site: place) "Haggle with {merchant} for {find}" {
     Description "Argue for a better price, and be heard or not.".
     Requires able(actor) and at(actor, site) and at(find, site) and forSale(find) and soldBy(find, merchant)
       and able(merchant) and not refusesService(merchant, actor) and at(merchant, site) and distinct(actor, merchant)

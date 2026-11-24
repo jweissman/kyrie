@@ -6,7 +6,7 @@ import { Typography } from '../../src/presentation/typography';
 import { FirstChoice, type Beginning } from '../../src/creation/first-choice';
 
 // How a new game begins (OR-120), asked where the title's Play stood, over the same dark: the engine's question and
-// its two rows (FirstChoice), Create a character and We enter the world as we are, drawn as Play is drawn (ChoiceRow:
+// its two rows (FirstChoice), Create a character and A new life, at once, drawn as Play is drawn (ChoiceRow:
 // a mark at the left and the words, one line each), taken at a press, never held (OR-169), and reached by the keys at
 // once, the first lit. What the row the hand or the keys are on means is said under them in a sentence, never
 // as a second line of the row (the owner, 15 November: no row with a subheader). Escape goes back to the title.

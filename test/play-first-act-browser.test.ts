@@ -10,7 +10,7 @@ import { MonoBrowser } from './support/mono-browser';
 // Play to the first meaningful action, measured in the built page (OR-23, AX-04; BRIEF §3.1 and §4: "first meaningful
 // action within 1.5 seconds of Play", "Play → ready game with prepared world under 1 second", "measured and reported,
 // not asserted from a hopeful animation"). A player who knows what they want: Play pressed the moment it shows, then
-// We enter the world as we are the moment it is asked, so that the time is the game's, not the player's reading. From
+// A new life, at once the moment it is asked, so that the time is the game's, not the player's reading. From
 // the press of Play to the first frame of play drawn with its acts (a place's rows, or the opening's first page and its
 // Continue), measured in the page by its own clock; and apart, the question's answer (Play to the two rows drawn) and
 // the second press to that first frame. Two conditions: cold, Play pressed as soon as the title shows, the world and

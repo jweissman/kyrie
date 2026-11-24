@@ -7,8 +7,8 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
 // OR-120, OR-121, OR-160 in the built page, on CI: the title's one way in is Play, which with no game kept asks how
-// the game begins in two rows (Create a character, We enter the world as we are), by their action ids, each its words
-// and no icon; We enter the world as we are, pressed once the title has stood long enough for the worker to draw the
+// the game begins in two rows (Create a character, A new life, at once), by their action ids, each its words
+// and no icon; A new life, at once, pressed once the title has stood long enough for the worker to draw the
 // country and make its start ready (kyrieMono.idle), is in the world within a second: from the press to the first
 // frame of play drawn, measured in the page itself. The headless budget and determinism are test/set-out-now's; this
 // is the page's own wait (the worker's message, React's drawing) on top of it. And OR-169 by a finger on a phone: Play,
@@ -47,7 +47,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Set out now in the page', () => {
     await page.waitForSelector('[data-mode="begin"]', { timeout: 2000 });
     const rows = await page.$$eval('.begin-menu [data-action]', els => els.map(e => [e.getAttribute('data-action'),
       e.textContent?.trim(), e.querySelector('svg') ? 'icon' : '']));
-    expect(rows).toEqual([['build', 'Create a character', ''], ['set-out-now', 'We enter the world as we are', '']]);
+    expect(rows).toEqual([['build', 'Create a character', ''], ['set-out-now', 'A new life, at once', '']]);
     const ms = await page.evaluate(() => new Promise<number>(done => {
       const began = performance.now();
       const seen = () => document.querySelector('.stage[data-mode="explore"], .stage[data-mode="prologue"]');
