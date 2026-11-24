@@ -42,6 +42,7 @@
    "world/town-afoot": "time",
    "world/under-the-fall": "opening",
    "world/under-the-town": "adventures",
+   "world/the-ledge-below-the-vault": "adventures",
    "world/opening-dungeon": "adventures"
   },
   "describes": {

@@ -1,0 +1,34 @@
+# below: the stair below the vault under the first town, the way into the deep site under it, made ready to go on from.
+// A Kyr template (see src/world/kyr-template.ts), written for the stair below the vault (see
+// src/world/region-undertown.ts): the secure way in to the first dungeon, past the vault's keeper. What an earlier
+// party left on the ledge for its next time down (a light and food, found by searching), and someone who came down
+// and will not go on alone, to be taken on for a fee (the owner, 24 November, OR-311: "ideally a companion at the
+// dungeon, and searchable gear near the secure entry"). {w} is the stair's id; {site} the deep site's name; {name} the
+// one who waits there, {he}, {his}, {him}; {calling} their class; {fee} their hire. Change what is said or left here;
+// nothing in the engine needs to change.
+--- left
+  // An earlier party's cache on the ledge, under a slab: a lantern with oil in it, food, a rope.
+  Discovery {w}_ledge_cache "Under a loose slab at the back of the ledge, an earlier party's cache." {
+    Found by searching {w} "A slab at the back of the ledge rocks under your hand. Under it lies a bundle in oilcloth, left by a party that meant to come back.".
+  }
+  Item {w}_left_lantern "a hooded lantern, oil still in it" is lantern at {w} hidden until {w}_ledge_cache.
+  Kind {w}_bread "bread and cheese" like ale worth 0 described "Hard bread and a wedge of cheese in oilcloth: a day's food below." using "Heal (1d4) health to ally.".
+  Initially Assert food({w}_bread).
+  Item {w}_left_food "a packet of hard bread and cheese in oilcloth" is {w}_bread at {w} hidden until {w}_ledge_cache.
+  Item {w}_left_rope "a coil of rope, dry" is rope at {w} hidden until {w}_ledge_cache.
+--- waiting delver 2
+  // One who came down by the stair for what is below, and lost their nerve on the ledge alone.
+  Person {w}_waiting "{name}" at {w} { Role "a digger's child of {town}, come down for the old ore". Ancestry {folk}. Calling {calling}. Peaceable. Pronouns {he}. }
+  Initially Set hire({w}_waiting) to {fee}.
+  Topic {w}_waiting_ask with {w}_waiting "Ask {name} whether {he} would come down with you" when true once {
+    Says "'I got this far alone,' says {name}. 'Not further. Take me down with you: {fee} coin.'".
+    On discuss { Assert willing({w}_waiting, actor). }
+  }
+--- waiting mourner 1
+  // One who came down after someone who went below and did not come up.
+  Person {w}_waiting "{name}" at {w} { Role "come down after a brother who went below". Ancestry {folk}. Calling {calling}. Peaceable. Pronouns {he}. }
+  Initially Set hire({w}_waiting) to {fee}.
+  Topic {w}_waiting_ask with {w}_waiting "Ask {name} whether {he} would come down with you" when true once {
+    Says "'My brother went down at the turn of the year,' says {name}. 'I have sat on this ledge three nights. I will come for {fee} coin. If we find him, we bring him up.'".
+    On discuss { Assert willing({w}_waiting, actor). }
+  }

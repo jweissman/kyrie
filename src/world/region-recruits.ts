@@ -79,6 +79,12 @@ export class RegionRecruits {
       + ` and not travelsWith(traveller, party) ${q(this.table.hiring)}.`,
     '  Rule hire_taken when travelsWith(traveller, party) and not stale(hire) { Assert stale(hire). }'];
   }
+  // A calling one of a people can take for going down into the dark: the first of these their people allow.
+  static fighting(ancestry: string): string {
+    const allowed = Canon.ancestries[ancestry]?.classes ?? [];
+    return ['warrior', 'ranger', 'thief', 'cleric'].find(c => allowed.includes(c))
+      ?? allowed.find(c => Canon.classes[c]?.adventuring !== false) ?? 'warrior';
+  }
   static traveller(s: Settlement, i: number, region: Region, at = `${s.id}_taproom`): string[] {
     const q = JSON.stringify, id = `${s.id}_traveller`, ancestry = s.people?.traveller ?? s.folk ?? region.ancestry;
     const allowed = Canon.ancestries[ancestry]?.classes ?? ['commoner'];
