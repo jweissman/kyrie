@@ -64,8 +64,9 @@ export class QuantityMeasures {
     { id: 'ready', label: '9. Companion, light and provisions in reach of it (of 3)', kind: 'band', floor: 3,
       why: 'notice, prepare, recruit, explore (OR-311): each to be had in the first town', read: 'ready' },
     { id: 'outfit', label: '9. At the first dungeon: a companion, and light, provisions, gear found near its way in (of 4)',
-      kind: 'report', why: 'ideally (the owner, 24 November: OR-311): a companion at the dungeon, and searchable gear '
-        + 'near the secure entry; said, not yet held', read: 'outfit' },
+      kind: 'band', floor: 4, why: 'a companion at the dungeon, and searchable gear near the secure entry (the owner, '
+        + '24 November: OR-311): someone to take on, and a light, food and gear found by searching, by its way in',
+      read: 'outfit' },
     { id: 'stranded', label: '10. Authored content no played world reaches', kind: 'down',
       why: 'content that never reaches a player is cost without return; may only fall', read: 'stranded' },
     { id: 'identity', label: 'Consequential people with a name (%)', kind: 'report',

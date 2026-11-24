@@ -11,6 +11,11 @@ import type { Region, Settlement, Site } from './region-writer';
 import { RegionKey } from './region-key';
 import { FamilyNames } from './family-names';
 import { StoryPeople } from './story-people';
+import below from '../../data/generation/town/below.kyrt' with { type: 'text' };
+import folk from '../../data/generation/scenes/folk.json';
+import { RegionRecruits } from './region-recruits';
+import { Draw } from './land/draw';
+import { Communities } from './community/community';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
 // (the owner, 1 November: "we shouldn't have to explore to start an adventuring loop"). What it is, the rooms, the
@@ -173,6 +178,19 @@ export class RegionUndertown {
         + ` toward ${w} by ${t}_u_vault ${q(`Behind the keeper's chair in {${t}_u_vault} a narrow stair goes on down, into {${w}_site}.`)}.`,
       // The measures every deep site declares are the country's already when it has one of its own.
       ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name })
-        .filter(l => !(taken && /^\s*Measure deepWater/.test(l)))];
+        .filter(l => !(taken && /^\s*Measure deepWater/.test(l))), ...this.below(region, s, { w, site: site.name })];
+  }
+  static readonly ledge = KyrTemplates.parse(below);
+  // The stair below the vault made ready to go on from (data/generation/town/below.kyrt): what an earlier party left
+  // on its ledge, and someone waiting there who would come down for a fee (OR-311).
+  private static below(region: Region, s: Settlement, at: { w: string; site: string }): string[] {
+    const key = `${RegionKey.of(region)}:${s.id}:below`, draw = new Draw(key), ancestry = s.folk ?? region.ancestry;
+    const pronoun = draw.pick(['she', 'he']), given = folk.given as unknown as Record<string, Record<string, string[]>>;
+    const name = Communities.distinct((given[ancestry] ?? given.human!)[pronoun] ?? given.human!.she!, ancestry,
+      { draw, taken: Communities.everyone(region), reserved: region.reserved });
+    const calling = RegionRecruits.fighting(ancestry);
+    const values = { w: at.w, site: at.site, name, he: pronoun, his: pronoun === 'she' ? 'her' : 'his',
+      him: pronoun === 'she' ? 'her' : 'him', calling, fee: '6', town: s.name, folk: ancestry };
+    return KyrTemplates.choose(this.ledge, key).flatMap(x => KyrTemplates.fill(x.lines, values));
   }
 }

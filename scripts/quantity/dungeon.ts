@@ -45,7 +45,7 @@ export class QuantityDungeon {
     const entry = reached[0]?.id ?? site, minutes = reached[0] ? far.get(entry)! : Infinity;
     return { id: site, name: at.name.split(', ')[0]!, minutes, entry, levels,
       held: levels.filter(l => l.bossLevel >= this.boss && l.cache >= this.cache).length,
-      companion: this.companion(c, site, inside), found: this.found(c, entry) };
+      companion: this.companion(c, entry), found: this.found(c, entry) };
   }
   private static inside(byId: ReturnType<typeof EntityIndex.of>['byId'], id: string, of: string): boolean {
     return Spatial.ancestry(byId, id).some(e => e.id === of);
@@ -67,21 +67,26 @@ export class QuantityDungeon {
       EconomyMeasure.kind(w, i)))), 0);
     return { id: level, ...bands[0] ? { boss: bands[0].id } : {}, bossLevel: bands[0]?.level ?? 0, cache };
   }
-  // Someone with a hire who stands at the site, or at its way in.
-  private static companion(c: Campaign, site: string, inside: (id: string, of: string) => boolean): boolean {
-    const w = c.world;
+  // Someone with a hire who stands at the dungeon's way in, or within reach of it (the ledge above its first level).
+  private static companion(c: Campaign, entry: string): boolean {
+    const w = c.world, near = NoviceCountry.distances(c, entry);
     return w.measured('hire').some(m => {
       const at = m.call.args[0] && w.one('at', m.call.args[0]);
-      return !!at && inside(at, site);
+      return !!at && (near.get(at) ?? Infinity) <= this.near;
     });
   }
   // What lies hidden to be found by searching (revealedBy) within reach of the way in: a light, provisions, gear
   // (arms, armour, tools, gear).
+  private static holds(c: Campaign, name: string, kind: string): boolean {
+    return c.world.relates(name) && c.world.test(ModuleWriter.call(name, kind));
+  }
   private static found(c: Campaign, entry: string): Dungeon['found'] {
     const w = c.world, near = NoviceCountry.distances(c, entry);
     const kinds = w.related('revealedBy').map(r => r.args[0]!).filter(i => (near.get(w.one('at', i) ?? '') ?? Infinity)
       <= this.near).map(i => EconomyMeasure.kind(w, i));
-    return { light: kinds.some(k => this.light.test(k)), provisions: kinds.some(k => this.provisions.test(k)), gear: kinds.some(k => ['weapon', 'armor', 'tool',
-      'gear', 'equipment'].includes(Canon.items[k]?.category ?? '') && !this.light.test(k)) };
+    return { light: kinds.some(k => this.light.test(k) || this.holds(c, 'lightsUp', k)),
+      provisions: kinds.some(k => this.provisions.test(k) || this.holds(c, 'food', k)),
+      gear: kinds.some(k => ['weapon', 'armor', 'tool', 'gear', 'equipment'].includes(Canon.items[k]?.category ?? '')
+        && !this.light.test(k)) };
   }
 }

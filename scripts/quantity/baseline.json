@@ -38,6 +38,9 @@
   },
   "ready": {
    "floor": 3
+  },
+  "outfit": {
+   "floor": 4
   }
  },
  "ratchets": {
