@@ -1,0 +1,66 @@
+{
+ "arrive": [
+  "^To the cistern square"
+ ],
+ "ridge": [
+  "^To the lemon terrace",
+  "^Into the Gillyflower House",
+  "Look closely",
+  "^To the gallery",
+  "Talk to Fidelis",
+  "Ask Fidelis about the cloud",
+  "Ask Fidelis about the music-box",
+  "Ask Fidelis about the letter on the desk",
+  "Take your leave"
+ ],
+ "camp": [
+  "^To the glass hall",
+  "^Out to the lemon terrace",
+  "^To the cistern square",
+  "^To the drove camp",
+  "Talk to Dorcas",
+  "Ask Dorcas about the Widow",
+  "Ask Dorcas about the drove-call",
+  "Give Dorcas the letter"
+ ],
+ "back": [
+  "^To the cistern square",
+  "^To the lemon terrace",
+  "^Into the Gillyflower House",
+  "^To the gallery",
+  "Talk to Fidelis",
+  "Tell Fidelis that D is Dorcas"
+ ],
+ "salt": [
+  "Take your leave",
+  "^To the glass hall",
+  "^Out to the lemon terrace",
+  "^To the cistern square",
+  "^To the pan-house",
+  "^To the salt heaps",
+  "Help the pan-hands tarp"
+ ],
+ "call": [
+  "^To the pan-house",
+  "^To the cistern square",
+  "^To the drove camp",
+  "Walk Dorcas and Nettle up",
+  "Stand at the back",
+  "Talk to Dorcas"
+ ],
+ "old": [
+  "Ask Dorcas what she has not said"
+ ],
+ "gardens": [
+  "Say: turn her to the Gardens"
+ ],
+ "sea": [
+  "Say: turn her to the sea"
+ ],
+ "gun": [
+  "?^To the cistern square",
+  "^To the gun-ground",
+  "Talk to Professor",
+  "Tell the Professor what stands"
+ ]
+}

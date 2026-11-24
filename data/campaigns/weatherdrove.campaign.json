@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Weather Drove",
+  "pitch": {
+    "heading": "The Weather Drove",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "weatherdrove",
+      "bundle": "../adventures/weatherdrove/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

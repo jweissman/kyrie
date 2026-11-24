@@ -1,0 +1,80 @@
+Module weatherdrove "The Weather Drove" {
+  // ── The walk up, and the call ────────────────────────────────────────────────────────────────────────────────────
+
+  Action walk_up(actor: group, site: place) "Walk Dorcas and Nettle up to the Gillyflower House" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(dorcas, site) and at(nettle, site) and dorcasWilling(party) and fidelisWilling(party) and not walked(party).
+    Time 50 minutes.
+    On success { Assert at(dorcas, terrace). Assert at(nettle, terrace). Assert at(fidelis, terrace). Assert at(actor, terrace). Assert walked(party). }
+    Result "Dorcas Shale walks the ridge track with her stick and does not take your arm, and Nettle goes ahead and comes back, ahead and back, like a dog. At the top of the terraces a tall man in an old coat is waiting by a grave with a brass box held in both hands. Nobody says anything for a while. Then Dorcas says, to the gauge: 'You are letting it fill.' 'I empty it every morning,' says Fidelis. 'She would have wanted to know.' It is as near to a greeting as either of them can come.".
+  }
+
+  Action keep_still(actor: group, site: place) "Stand at the back, and keep still, while they call her" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(dorcas, site) and at(nettle, site) and at(fidelis, site) and state(vents, open) and not called(party).
+    Time 20 minutes.
+    On success { Assert called(party). Assert state(widow, coming). }
+    Result "Nettle begins. Three notes, rising, from the tin whistle; and in the glass hall behind the lemon trees something grey lifts its head. Dorcas takes the second part, low and rough, one hand on the stake of the gauge, a tune like a road turning a corner. The Widow stirs and leans toward the vents. Fidelis winds the box, and sets it on the grave, and opens the lid. Eleven notes fall in the dry air, and the last four come back from the cloud a fraction late, and Dorcas Shale, who has not sung in eleven years, opens her mouth and sings them with it. It is not good singing. It is exactly right. The Widow comes out through the vents like breath leaving a glass, and hangs over the terrace, enormous, low enough to touch, and waits to be told where.".
+  }
+
+  Topic gardens_smoke with dorcas "Ask Dorcas about the Gardens road" when called(party) and state(fires, blazing) once {
+    Says "Dorcas lifts her face and sniffs, and her mouth thins. 'Brine,' she says. 'And juniper. On the east ridge, blazing the wrong way.' She does not turn. 'She will not walk through that. You can sing till you are dry. If the Gardens road is wanted, someone had better put it out, and quick, because I cannot hold her long over a house.'".
+  }
+  Topic turn_gardens with dorcas "Say: turn her to the Gardens" when called(party) and not state(fires, blazing) and not turnedSea(party) once {
+    Says "'Left,' says Dorcas Shale, and her voice does not shake. 'To the Gardens, as she was always going to go.' She puts the whistle in her mouth and takes the Turning up from the bottom, and the Widow turns, slowly, with her whole weight, and begins down the ridge toward the town, trailing a thin white fringe across the lemon trees.".
+    On discuss { Assert turnedGardens(party). }
+  }
+  Topic turn_sea with dorcas "Say: turn her to the sea" when called(party) and (knows(actor, widow_old) or state(fires, blazing)) and not turnedGardens(party) once {
+    Says "'Right,' says Dorcas, after a moment. 'Over the water.' She puts the whistle in her mouth, and Nettle, beside her, puts hers to her lip a breath behind. The Widow turns a long way round, as a cow goes at the end of a day, and goes out over the pans toward the shining line of the sea.".
+    On discuss { Assert turnedSea(party). }
+  }
+
+  // ── The gun ──────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Rule gun_fires within country when day(clock) == 3 and hour(clock) >= 18 and state(gun, loaded) and not called(party)
+    says "At the third dusk, on the clay under the lower wall, the Professor lays a match to the touch-hole and covers his ears. The note comes up the slope like a door slammed in the world. For a moment there is nothing at all. Then, along the ridge, forty panes by sixty go out in a single sound, a long glittering bell, and something vast and white goes up through the roof and begins to scream." {
+    Assert state(glass, shattered).
+  }
+  Rule gun_salute within country when day(clock) == 3 and hour(clock) >= 18 and state(gun, swung) and not salute(party)
+    says "At dusk, out over the empty flats, the Professor fires his howitzer into the sunset. It is the loudest sound in the history of the Sere, and entirely harmless, and a flock of avocets goes up from the pans and circles twice." { Assert salute(party). }
+  Relation salute(group).
+
+  // ── The last of it ───────────────────────────────────────────────────────────────────────────────────────────
+
+  Query turnOver() means turnedGardens(party) or turnedSea(party).
+
+  Relation fatedYsolde(group). Relation fatedMaundy(group). Relation fatedPair(group). Relation fated(group).
+
+  Rule fate_ysolde_covered when turnOver() and not fatedYsolde(party) and saltCovered(party) and turnedGardens(party)
+    says "Ysolde Skewes stands in her doorway all night in the downpour, watching forty tons of salt under black canvas shed the water down the pans, and does not go in. In the morning the heaps are dry at the heart. She sells to the Reeve at a fair price, which has never happened before, and pays for the round at the Dry Dog, which has never happened either." { Assert fatedYsolde(party). }
+  Rule fate_ysolde_doused when turnOver() and not fatedYsolde(party) and ysoldeDoused(party) and turnedGardens(party)
+    says "Ysolde Skewes loses a third of her salt to the rain, and counts it, and does not forgive you, exactly. In the winter she sends a sack to the Reeve with a note that says only: for the cistern. She does not say which." { Assert fatedYsolde(party). }
+  Rule fate_ysolde_stamped when turnOver() and not fatedYsolde(party) and state(fires, out) and not ysoldeDoused(party)
+    says "A pan-hand saw whose boots were on the east ridge. Ysolde Skewes says nothing to you, and nothing to the Reeve, and in the first week of autumn there is a sack of salt on the step of every house in Wickering and none on yours, which she will go on not noticing for some years." { Assert fatedYsolde(party). }
+  Rule fate_ysolde_sea when turnOver() and not fatedYsolde(party) and turnedSea(party)
+    says "Ysolde Skewes rakes her heaps in the sun and sells forty tons of dry salt at a winter's price, to a town that has nothing to wash it with. She is the only person in Wickering who cannot account for how bad she feels about it." { Assert fatedYsolde(party). }
+  Rule fate_ysolde_plain when turnOver() and not fatedYsolde(party)
+    says "Ysolde Skewes loses half her heaps to a night of rain and goes on raking the other half, because it is what there is to do." { Assert fatedYsolde(party). }
+
+  Rule fate_maundy_credit when turnOver() and fatedYsolde(party) and not fatedMaundy(party) and state(gun, swung) and turnedGardens(party)
+    says "Professor Augustin Maundy has the Reeve's countersign on his testimonial by nine in the morning. 'The sky,' he tells the cistern-side crowd, 'received its instruction.' He believes it entirely. He is, by some accounting, the only person in Wickering who is quite sure he knows what happened." { Assert fatedMaundy(party). }
+  Rule fate_maundy_spiked when turnOver() and fatedYsolde(party) and not fatedMaundy(party) and state(gun, spiked)
+    says "Professor Augustin Maundy cannot fire. He weeps a little over the touch-hole, and then pronounces the failure to have been atmospheric, and is gone on the coast road before noon with his gun, his eleven barrels and the Reeve's eighty crowns." { Assert fatedMaundy(party). }
+  Rule fate_maundy_plain when turnOver() and fatedYsolde(party) and not fatedMaundy(party)
+    says "Professor Augustin Maundy fires his howitzer into the empty sunset, and takes the credit, and is paid, and is last seen on the coast road still writing the speech." { Assert fatedMaundy(party). }
+
+  Rule fate_pair_warm when turnOver() and fatedMaundy(party) and not fatedPair(party) and warmWay(party) and turnedGardens(party)
+    says "On the terrace in the morning, under the rain-gauge, which is full, Dorcas Shale and Fidelis Gillyflower are discovered to disagree about lemons. Dorcas holds that they are too sour for a drove. Fidelis holds that they are the only fruit that survives being rained on. They are, by the best accounts, at it still." { Assert fatedPair(party). }
+  Rule fate_pair_sea when turnOver() and fatedMaundy(party) and not fatedPair(party) and turnedSea(party)
+    says "Fidelis Gillyflower walks Dorcas Shale the last mile to the shore, with a lamp, and does not speak, and in the water-light she hums the Letting to the line of the horizon, wrong in two places. He corrects her. She lets him." { Assert fatedPair(party). }
+  Rule fate_pair_plain when turnOver() and fatedMaundy(party) and not fatedPair(party)
+    says "Dorcas Shale and Fidelis Gillyflower do not speak again, except once, in the Dry Dog, over a disputed chair. Nettle is at the lemon terrace every Sunday afterwards, for the grave, and for something to practise the whistle at." { Assert fatedPair(party). }
+  Rule fate_all when turnOver() and fatedPair(party) and not fated(party) { Assert fated(party). }
+
+  Chapter c_cistern "The Dry Cistern" when day(clock) == 1 "Four days of water, a cloud that will not come down, and a drove that will not move without it.".
+  Chapter c_ridge "The Glass" when day(clock) == 2 and hour(clock) >= 6 "By the second morning the cup at the cistern is on a shorter chain, and the children have been told to sip.".
+  Chapter c_dusk "The Third Dusk" when day(clock) == 3 and hour(clock) >= 12 "The Professor has chalked a time on the barrel, and it is the third dusk.".
+
+  Ending the_whole_rain "The Whole Rain" when fated(party) and turnedGardens(party) "The Widow comes down on Wickering at nine, a grey wall falling the way a curtain falls, and for six hours it does nothing but rain. Nobody sleeps. The children stand in the square with their mouths open. Water comes off every tin roof into every barrel, runs down the town channel to the Gardens, and the cistern fills to the painted line and over it. By morning she is thin as a veil, and by noon she is a rag of white on the ridge, and then a small bright cloud, the size of a hat, is following a girl of eleven down the street. 'She's called Drizzle,' says Nettle. 'Don't tell Gran.'".
+  Ending over_the_water "Over the Water" when fated(party) and turnedSea(party) "The Widow goes out over the pans and the sea whole, nine furlongs of her, with the sun coming through her edge, and the whole town stands on the lower wall and watches her go. She does not rain. She goes out among the islands, and the drovers say she is still seen in the autumns, very far off, walking, and nobody drives her. The Reeve organises carts. It is a long dry month, and then the wells come sweet again, as wells do, once the right people stop being afraid. Nettle sits on the common with the whistle and, for the first time, plays the third part, from memory, with a mistake in it.".
+  Ending cloudburst "The Cloudburst" when state(glass, shattered) "She comes down on the town at once, all of her, as a cow comes down a stair. The lower street is a river by midnight, the pans are a lake, the Dry Dog's cellar is a pond, and the Gardens, on the far side, are not touched at all. In the morning the cistern is full to the brim and everything else is under water, and Wickering is as damp and furious as it has ever been. On the ridge, Fidelis Gillyflower sits in the wreck of the glass with a brass box in his lap. It is still, somehow, going, and the cloud is gone, and nothing answers.".
+  Ending the_cup "The Cup" when day(clock) >= 4 and hour(clock) >= 6 and not called(party) "Nobody does anything in time. The Widow, cold at the vents, thins in the dry air and is gone by the fourth morning, as a cloud goes that has stopped being asked. Wickering has a cup of water, and everyone is extremely gracious about it. By spring a third of the town has gone down the salt road, and the drove, which is not a drove without something to drive, has gone with it. In the glasshouse the lemons are failing, one at a time, in a light that is only light.".
+}

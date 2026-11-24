@@ -1,0 +1,18 @@
+Module weatherdrove "The Weather Drove" {
+  Description "What each of the company makes of Wickering by what they are: the ranger in the empty pen, the cleric at the grave, the bard at the glass wall.".
+
+  Relation heardPen(group). Relation heardGrave(group). Relation heardGlass(group).
+
+  Rule voice_pen at pen when memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and not heardPen(party)
+    says "{?m} kneels in the hollow and lays a palm flat on the grass. 'Dry,' {?m} says. 'Nothing has lain here in weeks, but it was nine furlongs wide, and it came to this exact spot every evening, and somebody put a hand up to it.' A small handprint has dried into the clay at the edge, quite low down, a child's." {
+    Assert heardPen(party).
+  }
+  Rule voice_grave at terrace when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and not heardGrave(party)
+    says "{?m} reads the stone twice. 'Whoever cut this had two minds,' {?m} says quietly. 'The name is a husband's. The last line is not. Somebody who loved her sang better than she thought, and said so in the one place it would be kept.' {?m} looks along the terraces. 'Look who has been planted around her. They are all lemons from her side of the world.'" {
+    Assert heardGrave(party).
+  }
+  Rule voice_glass at gallery when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and not heardGlass(party)
+    says "{?m} waits for the box to run down, and then hums the last four notes alone, and the cloud answers {?m} too, lower, a fraction late. 'It is not an echo,' {?m} says slowly. 'An echo is the same note. That is a phrase that was taught, and it is waiting for the next one: eleven notes make a third, not a tune. Somewhere there are two other thirds.'" {
+    Assert heardGlass(party).
+  }
+}
