@@ -42,7 +42,13 @@ export class RegionUndertown {
       // And what the merchant says of them: "a whole nest" had been two rats of one hit point (cold play 5, CL-37).
       nestof: company > 1 ? 'a whole nest of them' : 'a couple of them at the least',
       // Nor one spider called the spiders (review A's "the spiders in the old workings lies dead").
-      spiders: company > 1 ? 'the spiders' : 'the spider', webbed: company > 1
+      spiders: company > 1 ? 'the spiders' : 'the spider',
+      // Nor one bone-picker called the bone-pickers (the yard's second cause).
+      wolves: company > 1 ? 'the wolves' : 'the wolf', wolfrole: company > 1 ? 'lean wolves that follow'
+        : 'a lean wolf that follows',
+      pickers: company > 1 ? 'the bone-pickers' : 'the bone-picker', picker: company > 1
+        ? 'grey things from below the charnel stairs that eat' : 'a grey thing from below the charnel stairs that eats',
+      webbed: company > 1
         ? 'cave spiders the size of dogs, that have' : 'a cave spider the size of a dog, that has',
       merchantat: standing.merchant, priestat: standing.priest, innkeeperat: standing.innkeeper };
   }

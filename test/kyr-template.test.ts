@@ -20,7 +20,7 @@ describe('a Kyr template', () => {
   it('is what the undertown is written from', () => {
     expect(RegionUndertown.template.id).toBe('undertown');
     expect(RegionUndertown.template.sections.filter(s => s.said.length).map(s => s.option)).toEqual(['apprentice', 'runaway', 'rats',
-      'dead', 'spiders']);
+      'dead', 'pickers', 'spiders', 'bear']);
   });
   // What the merchant says of the rats is what is under the corn-store: "a whole nest of them" had been two rats of one
   // hit point for a lone company (cold play 5, CL-37).

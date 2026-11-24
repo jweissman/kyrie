@@ -56,7 +56,10 @@ defect list. No broken contract was observed; one promise not kept is named at t
      become a kit.
 4. **The generated goings-on are thinner than the authored corpus around them** (§5).
    - Every first town's undertown has the churchyard's dead and the quarry's spiders (50 of 50).
-   - The pilgrim's trouble is always the tree (50 of 50).
+     (Since 24 November each has a second cause, the sexton's bone-pickers and the quarry's she-bear, drawn about half
+     the time; Iscoed's first town keeps its own. The heath is left for a later slice.)
+   - (Corrected, 24 November: the pilgrim's trouble is two options, the road where the country has a posting-house and
+     the tree where it has none. The sample was drawn with no station, so every draw was the tree.)
    - A heath's meeting is always yarrow (50 of 50).
    - The provinces vary a great deal; the town that frames them hardly varies.
 
@@ -143,13 +146,13 @@ The towns' goings-on, fifty seeds each (`bin/kyrie deem sample kyrt:<file> … -
 | --- | --- |
 | town/undertown.kyrt | store: rats 43, runaway 4, apprentice 3 · yard: dead 50 · pit: spiders 50 · hand: acolyte 20, tinker 16, sellsword 14 |
 | town/afoot.kyrt | afoot: cow 17, feud 14, wedding 12, and one other |
-| town/troubles.kyrt | pilgrim: tree 50 · thief: Hesper 26, traveller 24 · animals: tune 26, vixen 24 |
+| town/troubles.kyrt | pilgrim: tree 50 with no station given (the road where there is one) · thief: Hesper 26, traveller 24 · animals: tune 26, vixen 24 |
 | wild/meetings.kyrt | heath: yarrow 50 · fell: shepherd 35, wolf 15 · fen: eeler 27, lights 23 · wood: four · meadow: two · any: three |
 
 - **The authored provinces vary enormously and the frame does not.**
   - **The undertown is every first town's dungeon, and two of its three ways down never vary.**
   - **The cheapest enrichment in the whole corpus** is a second option for each one-option group. That means the yard,
-    the pit, the pilgrim and the heath. Each is an afternoon's authoring in a template already written, and it changes
+    the pit and the heath (not the pilgrim: see §1). Each is an afternoon's authoring in a template already written, and it changes
     every first hour.
 - **Two of the best fifth are kits for exactly these groups.**
   - A craft trial (§3) is an afoot.

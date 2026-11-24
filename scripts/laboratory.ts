@@ -15,7 +15,10 @@ export class Laboratory {
     // Its merchant keeps no ratsbane (host.kyr), so promises none (RegionUndertown.ratsbane).
     const values = { ...RegionUndertown.values('low', 'Lowmouth', company,
       { merchant: 'low_shop', priest: 'low_chapel', innkeeper: 'low_taproom' }), ratsbane: '' };
-    const sections = KyrTemplates.choose(RegionUndertown.template, 'laboratory:low:undertown');
+    // Its churchyard keeps the raised dead and its quarry the spiders, whose specs it holds (the yard's and the pit's
+    // second causes are drawn elsewhere: test/features/world/the-town-frame.pin).
+    const sections = KyrTemplates.choose(RegionUndertown.template, 'laboratory:low:undertown', {},
+      { yard: 'dead', pit: 'spiders' });
     const host = readFileSync(join(this.dir, 'host.kyr'), 'utf8').split('\n').filter(l => !l.startsWith('//'));
     return ['// Written by scripts/laboratory.ts from test/fixtures/laboratory/host.kyr and',
       '// data/generation/town/undertown.kyrt: edit those, not this.',

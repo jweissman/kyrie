@@ -347,6 +347,18 @@
    "was": "defect",
    "pri": "P1",
    "why": "24 Nov, classified as filed: the brief's reasons to return (BRIEF §3.2), a commissioned requirement found short by measure"
+  },
+  "OR-220": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, classified as filed: the corpus review's cheapest enrichment, commissioned; not an observed failure"
+  },
+  "OR-221": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, classified as filed: a second heath meeting, wanted and deferred; not an observed failure"
   }
  },
  "blockedBy": {

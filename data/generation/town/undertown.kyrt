@@ -122,8 +122,6 @@
   Place {t}_u_gallery "the cut gallery" is room within {t} at 2, 4 underground 1 down.
   Passage {t}_u_gallery_way "the old cutting" is passage between {t}_u_adit and {t}_u_gallery.
   // Behind the gallery, where the boy saw the big one: the spiders' mother and her eggs.
-  Place {t}_u_brood "the brood-chamber" is room within {t} at 3, 4 underground 1 down.
-  Passage {t}_u_brood_way "a crack at the back of the gallery, hung with web" is crawl between {t}_u_gallery and {t}_u_brood.
   Initially Assert unlit({t}_u_cellar). Initially Assert unlit({t}_u_warren). Initially Assert unlit({t}_u_crypt).
   Initially Assert unlit({t}_u_ossuary). Initially Assert unlit({t}_u_adit). Initially Assert unlit({t}_u_gallery).
   Initially Assert unlit({t}_u_nest).
@@ -133,8 +131,6 @@
   // rats on 3 November).
   Observe {t}_u_crypt_scene at {t}_u_crypt as fixture when true "A vaulted crypt under the churchyard, its shelves of coffins pushed askew. The dust on the floor is scuffed through in a dozen places by feet that dragged.".
   Observe {t}_u_ossuary_scene at {t}_u_ossuary as fixture when true "Bones are stacked to the roof in patient courses, with skulls in rows along the top like a frieze. There are gaps in the courses where some have lately been taken down.".
-  Observe {t}_u_adit_scene at {t}_u_adit as fixture when true "The old quarry's adit runs straight into the hill, its walls bitten by picks. Grey threads of web cross it at the height of a face.".
-  Observe {t}_u_gallery_scene at {t}_u_gallery as fixture when true "A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The roof is thick with web, and the web is thick with husks.".
 --- store apprentice 1
   // Taken by the trapdoor (the variety study, mission-22/variety-study/report.md §5.1 and §8): the merchant's
   // apprentice lets a buyer's men up the drain by night, and the merchant blames rats. From the green it is the same
@@ -620,7 +616,94 @@
     Says "{{t}_innkeeper} turns the token over. 'That's my back-stair token. The man in the back room has it. He has been here a fortnight and pays in old coin. He goes out after dark. He comes in before light with grave-dirt on his boots.'".
     On discuss { Assert knows(actor, {t}_u_dead_lodger). }
   }
+  // The raiser's first tries, left to stand in the charnel passage behind the bone-heaps (each cause of the yard's
+  // trouble has its own there).
+  Person {t}_u_shamblers "the dead in the charnel passage" at {t}_u_charnel {
+    Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers {pair}. Level 1. Temperament territorial. Lair {t}_u_charnel.
+  }
+  Initially Set encounterXp({t}_u_shamblers) to 90.
+  // And the raiser's first tries go on with what they were last told to do.
+  Observe {t}_u_shamblers_folding near {t}_u_shamblers as sign when able({t}_u_shamblers) "The dead in the passage are folding the brown cloth from the empty shelves. They do it slowly, and over again.".
+  // The raiser's first tries are his candle's too: with it out they go down where they stand, and the job is not paid
+  // over dead still standing in the charnel passage (cold play 3, CL-20; the variety study's §10).
+  Rule {t}_u_charnel_lie when state({t}_u_candle, snuffed) and at({t}_u_shamblers, {t}_u_charnel) and able({t}_u_shamblers) says "In the charnel passage behind the bone-heaps, the dead fall down too." { Retract at({t}_u_shamblers, {t}_u_charnel). }
+  // The raiser's book of the dead, carried to the vault's chair, has a page for its keeper (see the vault).
+  Observe {t}_u_keeper_page at {t}_u_vault as sign when holding(party, raiser_book) and able({t}_u_keeper) and not knows(party, {t}_u_keeper_rite) "The book of the dead falls open at a drawing of this chair. The raiser never marked the page. It is a rite for a keeper set at a door." teaches {t}_u_keeper_rite.
+--- yard pickers 1
+  // The yard's second cause (the corpus review's custodian's situation: a commons, its keeper, a thing taken and to be
+  // put back): no one raised anything. The sexton has been lifting what the old dead were buried with off the ossuary's
+  // shelves and selling it by weight, and the bone-pickers that live below the charnel stairs have come up after the
+  // smell of the opened shelves. They are laid by a fight, by the rite of rest, or by putting back what was taken.
+  Observe {t}_u_yard_scene at {t}_u_yard as fixture when true "Old stones lean in the grass. In the corner by the wall, a low stone door goes into the ground. Bones lie on the path to it, gnawed clean.".
+  Entity {t}_u_pickers_seen: fact "Things have been coming up out of the catacombs at night and dragging the old dead's bones about the churchyard.".
+  Entity {t}_u_pickers_why: fact "The oldest shelves in the ossuary have been opened and stripped of what the dead were buried with. What lives below came up after the smell.".
+  Entity {t}_u_sexton_sold: fact "The sexton has been selling the old dead's grave-goods by weight: bronze, lead and a little silver.".
+  Observe {t}_u_yard_bones at {t}_u_yard as sign when not knows(party, {t}_u_pickers_seen) "The marks on the bones by the stone door are teeth, and not a dog's. They were dragged up the crypt stair to be gnawed." teaches {t}_u_pickers_seen.
+  Observe {t}_u_ossuary_stripped at {t}_u_ossuary as sign when not knows(party, {t}_u_pickers_why) "The oldest shelves have been opened. The cloth is cut, and the dead's grave-goods are gone from it." teaches {t}_u_pickers_why.
+  // Wary, not hungry for the living: they watch from the bone-heaps, so that the rite or the goods can be brought to
+  // them; fought, they fight.
+  Person {t}_u_pickers "{pickers} of the ossuary" at {t}_u_ossuary {
+    Role "{picker} what the dead were buried in". Species ghoul. Numbers {brood}. Level 1. Temperament wary. Lair {t}_u_ossuary.
+    Warns "At the opened shelves the eating stops, and does not start again while your light is on it.".
+  }
+  Initially Set encounterXp({t}_u_pickers) to 75.
+  Person {t}_u_pickers_young "the young bone-pickers" at {t}_u_charnel {
+    Role "the bone-pickers' young, left among the shelves of the charnel passage". Species ghoul. Numbers {pair}. Level 1. Temperament territorial. Lair {t}_u_charnel.
+  }
+  Initially Set encounterXp({t}_u_pickers_young) to 90.
+  Person {t}_u_sexton "Job Dunstall" at {t}_u_yard {
+    Role "the sexton, a long man with a spade, who keeps the churchyard and the keys of the bone-house". Ancestry human. Level 1. Peaceable. Manner stoic. Pronouns he.
+  }
+  Kind grave_goods "a sack of grave-goods" is treasure worth 8 weighing 4 described "Bronze pins, lead plates and a few silver rings, wrapped in the cloth they were cut from.".
+  Kind sexton_book "the sexton's book" is document described "The book of the bone-house, kept by every sexton in turn. It says who lies on which shelf, with the old rites for the place. The oldest pages are in another hand.".
+  Entity {t}_u_pickers_job: fact "Find what is coming up out of the catacombs under the churchyard at {town}, and lay it.".
+  Topic {t}_u_pickers_job_ask with {t}_priest "Ask {{t}_priest} about the bones in the churchyard" when not {t}_u_given({t}_u_pickers_job) and not {t}_u_done({t}_u_pickers_job) once {
+    Says "{{t}_priest} looks at the floor. 'Every morning there are bones on the path, gnawed. Something comes up from the catacombs. Job Dunstall says it is foxes.' The crypt key is unhooked from a belt. 'It is not foxes. Fifteen coin, and the shrine's thanks.'".
+    On discuss { Assert knows(actor, {t}_u_pickers_job). Assert {t}_u_given({t}_u_pickers_job). Give crypt_key to actor. Assert keyholder(actor, {t}_u_crypt_lock). }
+  }
+  // The sexton, asked once the stripped shelves are seen, says what he did, and gives up what he has not yet sold, and
+  // the bone-house book.
+  Topic {t}_u_sexton_asked with {t}_u_sexton "Ask Job Dunstall who opened the old shelves in the ossuary" when knows(actor, {t}_u_pickers_why) and not knows(actor, {t}_u_sexton_sold) once {
+    Says "The sexton leans on his spade a long time. 'The dead don't want it,' he says at last. 'That's what I told myself. Bronze by the pound, lead by the hundredweight.' He brings a sack out of the tool-shed and puts it down at your feet, and a book on top of it. 'What's left. And the book. It has the old words in it, for the bone-house. I never read them.'".
+    On discuss { Assert knows(actor, {t}_u_sexton_sold). Give grave_goods to actor. Give sexton_book to actor. }
+  }
+  Topic {t}_u_sexton_who with {t}_u_sexton "Ask Job Dunstall about the bones on the path" when not knows(actor, {t}_u_pickers_why) once {
+    Says "'Foxes,' says the sexton, and goes on digging.".
+  }
+  Action {t}_u_goods_returned(actor: group, site: place) "Put the grave-goods back on the old dead's shelves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and holding(actor, grave_goods) and able({t}_u_pickers) and not {t}_u_done({t}_u_pickers).
+    Time 2.
+    On success { Spend grave_goods from actor. Retract at({t}_u_pickers, {t}_u_ossuary). Assert {t}_u_done({t}_u_pickers). }
+    Result "You lay the pins and plates back in the cut cloth, shelf by shelf. You put each as near as you can to where it lay. Nothing comes at you while you do it. When the last is down, what was eating there goes back down the charnel stairs, and does not come up.".
+  }
+  Action {t}_u_pickers_rested(actor: group, site: place) "Say the rite of rest over the opened shelves" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_ossuary) and able({t}_u_pickers) and not {t}_u_done({t}_u_pickers) and capable(actor, rites).
+    Time 1.
+    Resolve check(actor, rites, dc_fair).
+    On success { Retract at({t}_u_pickers, {t}_u_ossuary). Assert {t}_u_done({t}_u_pickers). }
+    Result "You say the words for the dead over the opened shelves, slowly. The eating stops. What was at the shelves goes back down the charnel stairs.".
+    Otherwise "The words come, but the eating at the shelves goes on.".
+  }
+  Rule {t}_u_pickers_fell when not able({t}_u_pickers) and not {t}_u_done({t}_u_pickers) { Assert {t}_u_done({t}_u_pickers). }
+  // Their young go down with them, laid or put back; fought, they stay to be fought.
+  Rule {t}_u_pickers_young_go when {t}_u_done({t}_u_pickers) and able({t}_u_pickers) and at({t}_u_pickers_young, {t}_u_charnel) { Retract at({t}_u_pickers_young, {t}_u_charnel). }
+  Rule {t}_u_pickers_cleared when {t}_u_done({t}_u_pickers) and not {t}_u_done({t}_u_pickers_job) { Assert {t}_u_done({t}_u_pickers_job). }
+  Milestone {t}_u_pickers_laid "laid the bone-pickers under the churchyard to rest" worth 150 when {t}_u_done({t}_u_pickers).
+  Objective {t}_u_pickers_job_aim when {t}_u_given({t}_u_pickers_job) and not {t}_u_done({t}_u_pickers_job) toward {t}_u_pickers by {t}_u_yard "Find what comes up out of {{t}_u_crypt} under {{t}_u_yard} at {town}, and lay it.".
+  Topic {t}_u_pickers_job_paid with {t}_priest "Tell {{t}_priest} what was coming up out of the catacombs, and that it is laid" when {t}_u_done({t}_u_pickers_job) and not {t}_u_paid({t}_u_pickers_job) once {
+    Says "{{t}_priest} hears it all with eyes shut, and is quiet a long while at the sexton's part. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'Job will dig for nothing this winter,' says {{t}_priest}. 'He offered.'".
+    On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert {t}_u_paid({t}_u_pickers_job). Retract knows(actor, {t}_u_pickers_job). }
+  }
+  Objective {t}_u_pickers_job_owed when {t}_u_done({t}_u_pickers_job) and not {t}_u_paid({t}_u_pickers_job) toward {t}_priest "Tell {{t}_priest} at {{priestat}} what came up out of the catacombs. Fifteen coin are yours, and what the shrine can give.".
+>> 'BONES on the churchyard path every morning, gnawed. Fifteen coin, and the shrine's thanks. Ask {{t}_priest} at {{priestat}}.'
+  Rule {t}_u_pickers_onward when ({t}_u_paid({t}_u_pickers_job) or ({t}_u_done({t}_u_pickers_job) and not {t}_u_given({t}_u_pickers_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_ossuary). }
+  // The bone-house book, carried to the vault's chair, has the old words for its keeper too (see the vault).
+  Observe {t}_u_keeper_page at {t}_u_vault as sign when holding(party, sexton_book) and able({t}_u_keeper) and not knows(party, {t}_u_keeper_rite) "The sexton's book falls open at its oldest page. It has a drawing of this chair, with the words for a keeper set at a door." teaches {t}_u_keeper_rite.
 --- pit spiders
+  Place {t}_u_brood "the brood-chamber" is room within {t} at 3, 4 underground 1 down.
+  Observe {t}_u_adit_scene at {t}_u_adit as fixture when true "The old quarry's adit runs straight into the hill, its walls bitten by picks. Grey threads of web cross it at the height of a face.".
+  Observe {t}_u_gallery_scene at {t}_u_gallery as fixture when true "A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The roof is thick with web, and the web is thick with husks.".
+  Passage {t}_u_brood_way "a crack at the back of the gallery, hung with web" is crawl between {t}_u_gallery and {t}_u_brood.
   // The spiders: the quarry's gate is the inn's, given with the job; the Hobb boy who went in after his ferret saw the
   // mother at the back and dropped his father's knife; the spiders dead and their egg-sacs burned, the inn pays in what
   // a company going on needs, and the knife given back is the Hobbs' to repay.
@@ -727,6 +810,62 @@
     Change shore "Shore up the cracked roof with the quarrymen's old timbers" from loose to shored needing brawn.
   }
   Hazard {t}_u_cutting_fall "Stone falling from the cutting's roof" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+--- pit bear 1
+  Place {t}_u_brood "the den" is room within {t} at 3, 4 underground 1 down.
+  Observe {t}_u_adit_scene at {t}_u_adit as fixture when true "The old quarry's adit runs straight into the hill, its walls bitten by picks. A path is worn down the middle of the floor by heavy feet.".
+  // The pit's second cause: a she-bear has denned for the winter in the back of the old workings with her cub, and
+  // the wolves that follow her for her leavings hold the gallery. She can be fought; smoked out with oil and wet
+  // bracken at the crack; or, by one who knows wild things, talked past, and left to take her cub over the hill.
+  Observe {t}_u_pit_scene at {t}_u_pit as fixture when true "A bowl of grey stone cut out of the hill long ago, ivy over its faces. At the bottom a square adit goes back into the rock behind a barred gate. Claw-marks score the gate's bars at the height of a man's chest.".
+  Observe {t}_u_gallery_scene at {t}_u_gallery as fixture when true "A gallery cut square out of the rock, wider than it is high, where the stone was taken out in blocks. The floor is trodden to dust, and there are bones in the corners.".
+  Passage {t}_u_brood_way "a crack at the back of the gallery, smelling of animal" is crawl between {t}_u_gallery and {t}_u_brood.
+  Observe {t}_u_den_scene at {t}_u_brood as fixture when true "A low cave at the back of the workings, bedded deep with bracken dragged in from the hill. It is warm, and it stinks.".
+  Person {t}_u_dogs "{wolves} in the old workings" at {t}_u_gallery {
+    Role "{wolfrole} the bear for what she leaves". Species wolf. Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_gallery.
+  }
+  Initially Set encounterXp({t}_u_dogs) to 60.
+  Person {t}_u_bear "the she-bear" at {t}_u_brood {
+    Role "a brown she-bear with a cub at her back, denned in the old workings for the winter". Species bear. Numbers 1. Level 2. Temperament defensive. Lair {t}_u_brood.
+    Warns "The she-bear comes up out of the bracken onto her hind legs. Behind her a cub squalls.".
+  }
+  Initially Set encounterXp({t}_u_bear) to 120.
+  Relation {t}_u_bear_gone().
+  Entity {t}_u_bear_job: fact "Clear the den in the old quarry at {town}.".
+  Entity {t}_u_bear_cub: fact "The she-bear in the old quarry has a cub with her. She will fight for it, and she would take it away if the way were left open.".
+  Topic {t}_u_bear_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when not {t}_u_given({t}_u_bear_job) and not {t}_u_done({t}_u_bear_job) once {
+    Says "'Something's denned in the old quarry,' says {{t}_innkeeper}. 'There's claw-marks on the gate the height of my head, and the wolves that follow it have got bold. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever clears it.'".
+    On discuss { Assert knows(actor, {t}_u_bear_job). Assert {t}_u_given({t}_u_bear_job). Give quarry_key to actor. Assert keyholder(actor, {t}_u_adit_lock). }
+  }
+  // A ranger's way: one who reads wild country reads the den's mouth, and knows she has a cub.
+  Observe {t}_u_den_read at {t}_u_gallery as sign when capable(party, woodcraft) and not knows(party, {t}_u_bear_cub) "At the crack the bracken is dragged in, not out. There are two sizes of print in the dust, a great one and a small one that runs." teaches {t}_u_bear_cub.
+  Action {t}_u_bear_smoked(actor: group, site: place) "Pour lamp oil on wet bracken at the crack and set it smoking" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_gallery) and holding(actor, lamp_oil) and able({t}_u_bear) and not {t}_u_bear_gone().
+    Time 1.
+    On success { Spend lamp_oil from actor. Assert {t}_u_bear_gone(). Retract at({t}_u_bear, {t}_u_brood). }
+    Result "The bracken catches and smokes thick and yellow. The draught takes the smoke in through the crack. A long while nothing happens. Then there is a cough like a man's. She comes out past you at a run with the cub at her heels, away up the adit into the light.".
+  }
+  Action {t}_u_bear_let_by(actor: group, site: place) "Stand aside from the crack, slowly, and let the she-bear take her cub out" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_brood) and able({t}_u_bear) and not {t}_u_bear_gone() and knows(actor, {t}_u_bear_cub) and capable(actor, woodcraft).
+    Time 1.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Assert {t}_u_bear_gone(). Retract at({t}_u_bear, {t}_u_brood). }
+    On failure { Assert assails({t}_u_bear, actor). }
+    Result "You go back against the wall, eyes down, and leave the way to the crack clear. She watches you a long time. Then she drops to all fours. She goes past close enough to touch, the cub pressed to her flank, and out.".
+    Otherwise "You move too quickly. She comes down off her hind legs at you.".
+  }
+  Rule {t}_u_bear_done when (not able({t}_u_bear) or {t}_u_bear_gone()) and not {t}_u_done({t}_u_bear_job) { Assert {t}_u_done({t}_u_bear_job). }
+  Milestone {t}_u_den_ended "cleared the den out of the old quarry" worth 150 when not able({t}_u_bear) or {t}_u_bear_gone().
+  // Let go alive with her cub, which the house did not ask: as the spiders' eggs burned, the job seen through as the
+  // country would have it.
+  Milestone {t}_u_bear_spared "let the she-bear take her cub away over the hill" worth 75 when {t}_u_bear_gone().
+  Objective {t}_u_bear_job_aim when {t}_u_given({t}_u_bear_job) and not {t}_u_done({t}_u_bear_job) toward {t}_u_brood by {t}_u_pit "Clear the den in {{t}_u_adit} under {{t}_u_pit} at {town}.".
+  Topic {t}_u_bear_job_paid with {t}_innkeeper "Tell {{t}_innkeeper} the old quarry is clear" when {t}_u_done({t}_u_bear_job) and not {t}_u_paid({t}_u_bear_job) once {
+    Says "{{t}_innkeeper} counts out 12 coin, and sets a coil of good rope beside it. 'A bear,' says {{t}_innkeeper}. 'In the quarry. My father always said there'd been one once.' The rope is from the gate. 'We'll not want it now.'".
+    On discuss { Increase quantity(actor, gold) by 12. Give rope to actor. Assert {t}_u_paid({t}_u_bear_job). Retract knows(actor, {t}_u_bear_job). }
+  }
+  Objective {t}_u_bear_job_owed when {t}_u_done({t}_u_bear_job) and not {t}_u_paid({t}_u_bear_job) toward {t}_innkeeper "Tell {{t}_innkeeper} at {{innkeeperat}} that the old quarry is clear. Twelve coin are yours, with a rope.".
+>> 'CLAW-MARKS on the old quarry's gate. Twelve coin from the house to whoever clears it. Ask {{t}_innkeeper} at {{innkeeperat}} for the key.'
+  Rule {t}_u_bear_onward when ({t}_u_paid({t}_u_bear_job) or ({t}_u_done({t}_u_bear_job) and not {t}_u_given({t}_u_bear_job))) and not {t}_u_done({t}_u_onward) { Assert {t}_u_done({t}_u_onward). Assert {t}_u_onward_by({t}_u_gallery). }
 --- below
   Place {t}_u_drain "the old drain" is room within {t} at 0, 5 underground 2 down.
   Passage {t}_u_drain_way "a culvert going down" is crawl between {t}_u_warren and {t}_u_drain.
@@ -748,23 +887,13 @@
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
   // Each way down is more than the room its job ends in (the owner, 8 November: a dungeon is more than one or two
-  // rooms): behind the bone-heaps a charnel passage where the raiser's first tries were left to stand, and off the
-  // gallery the old working face the spiders came up from, a beetles' nest now.
+  // rooms): behind the bone-heaps a charnel passage (who is left standing in it is the yard's cause's to say), and off
+  // the gallery the old working face, a beetles' nest now.
   Place {t}_u_charnel "the charnel passage" is room within {t} at 1, 4 underground 2 down.
   Passage {t}_u_charnel_arch "a low arch behind the bone-heaps" is passage between {t}_u_ossuary and {t}_u_charnel.
   Passage {t}_u_ossuary_steps "steps down behind the bone-heaps" is steps between {t}_u_charnel and {t}_u_undercroft.
   Initially Assert unlit({t}_u_charnel).
   Observe {t}_u_charnel_scene at {t}_u_charnel as fixture when true "A long low passage lined with shelves of the older dead, wrapped in cloth gone brown. Some of the shelves are empty, and the cloth on the floor under them is torn.".
-  Person {t}_u_shamblers "the dead in the charnel passage" at {t}_u_charnel {
-    Role "the raiser's first tries, stood up off the shelves and left where they stood". Species zombie. Numbers {pair}. Level 1. Temperament territorial. Lair {t}_u_charnel.
-  }
-  Initially Set encounterXp({t}_u_shamblers) to 90.
-  // And the raiser's first tries go on with what they were last told to do.
-  Observe {t}_u_shamblers_folding near {t}_u_shamblers as sign when able({t}_u_shamblers) "The dead in the passage are folding the brown cloth from the empty shelves. They do it slowly, and over again.".
-
-  // The raiser's first tries are his candle's too: with it out they go down where they stand, and the job is not paid
-  // over dead still standing in the charnel passage (cold play 3, CL-20; the variety study's §10).
-  Rule {t}_u_charnel_lie when state({t}_u_candle, snuffed) and at({t}_u_shamblers, {t}_u_charnel) and able({t}_u_shamblers) says "In the charnel passage behind the bone-heaps, the dead fall down too." { Retract at({t}_u_shamblers, {t}_u_charnel). }
   Discovery {t}_u_charnel_goods "On the last shelf, under a fall of cloth, lies what the old dead were buried with. Nobody has been down to take it." {
     Found by searching {t}_u_charnel "Under the cloth on the last shelf, something hard and cold.".
   }
@@ -882,7 +1011,6 @@
   // rite sits the keeper down, and it lets the giver by to the stair behind its chair (RegionUndertown: the stair is
   // shut past it to anyone it has not let by). Fought, it is as deadly as it was.
   Entity {t}_u_keeper_rite: fact "In the book of the dead is a rite for a keeper set at a door. Said with a gift laid at its feet, the keeper sits down and lets the giver by.".
-  Observe {t}_u_keeper_page at {t}_u_vault as sign when holding(party, raiser_book) and able({t}_u_keeper) and not knows(party, {t}_u_keeper_rite) "The book of the dead falls open at a drawing of this chair. The raiser never marked the page. It is a rite for a keeper set at a door." teaches {t}_u_keeper_rite.
   Action {t}_u_keeper_seated(actor: group, site: place) "Lay ten coin at the keeper's feet and say the rite of the door" {
     Description "The rite from the book of the dead. The keeper sits down and lets you by to the stair. The coin stays where it is laid.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, {t}_u_vault) and able({t}_u_keeper)

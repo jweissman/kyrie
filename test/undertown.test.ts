@@ -68,7 +68,8 @@ describe('under the town the company begins in', () => {
   it('has the dead raised by someone, found out by the opened graves and the chalk, and laid by the candle', async () => {
     // (A warrior and a cleric: since a foe brought to nothing stays down (CO-05), the dice fall otherwise, and a lone
     // first-level warrior falls to the dead that turn on the living once their raiser is down.)
-    const s = await Town.start(true), c = s.campaign;
+    // In a town whose churchyard draws the raised dead (kite's draws the bone-pickers since the yard's second cause).
+    const s = await Town.start(true, 'hawk'), c = s.campaign;
     // The crypt's bats, which come down at a light, are another fight than this one's (19 November).
     const k = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     k.commit(k.world.apply([{ kind: 'assert', call: ModuleWriter.call('region__s1_u_came', 'region__s1_u_crypt_bats') }]));
@@ -81,10 +82,10 @@ describe('under the town the company begins in', () => {
     await Town.take(s, /^Attack the man with the black candle/);
     await Town.take(s, /^Pinch out the black candle/);
     const aims = ScreenModel.build(c).objectives.join(' ');
-    expect(aims).toMatch(/Tell Carmine at .* that the dead are laid, and the man who raised them gone/);
+    expect(aims).toMatch(/Tell \w+ at .* that the dead are laid, and the man who raised them gone/);
     await Town.take(s, /^Take an arch stacked/, /^Take the stone stair/, /^Take the lych-gate/,
       /^Take the shrine porch/);
-    expect(await Town.take(s, /^Tell Carmine the dead under the churchyard are laid, and the man who raised them gone/))
+    expect(await Town.take(s, /^Tell \w+ the dead under the churchyard are laid, and the man who raised them gone/))
       .toContain('a charm of ashwood');
     const kit = c.readout.creatures[0]!.state.inventory!.map(i => i.definition);
     expect([kit.includes('ashwood_charm'), kit.filter(k => k === 'minor_healing_potion').length]).toEqual([true, 2]);

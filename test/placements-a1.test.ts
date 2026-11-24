@@ -4,7 +4,7 @@ import { PlayTool } from '../src/cli/play-tool';
 // The PL-07 placements in a1 (the lead's decisions of 13 November, doc/architecture/mission-21/rules/placements.md):
 // no work's den holds a single of a kind that dens two or more; the vault under the first town is kept by the barrow
 // ghoul alone, not Orsino's ghoul, and the ossuary's brood is Orsino's still; and the spiders of the old workings are
-// told at the adit, before the gallery, to anyone with a light.
+// told at the adit, before the gallery, to anyone with a light (in a quarry that has them).
 describe('the first fights of a1, as placed', () => {
   const start = () => PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wat'])).then(s => s.journey);
   it('places the barrow ghoul in the vault alone, Orsino\'s in the ossuary, and every den at least a pair', async () => {
@@ -17,10 +17,12 @@ describe('the first fights of a1, as placed', () => {
     expect(dens.length).toBeGreaterThan(3);
     for (const den of dens) { expect([den, of(den.replace(/^region__/, '')).length >= 2]).toEqual([den, true]); }
   }, 120000);
+  // In kahitude, whose quarry has the spiders (a1's has the she-bear since the pit's second cause).
   it('tells the spiders at the adit, before the gallery', async () => {
-    const j = await start();
-    for (const step of ['To the landing at Lowmouth', 'Into the Lucky Phoenix', 'Ask .* about the old quarry',
-      'To the landing at Lowmouth', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light']) {
+    const j = await PlayTool.start(PlayTool.parse(['--world', 'kahitude', '--as', 'human/warrior/Wat']))
+      .then(s => s.journey);
+    for (const step of ['To the landing at Thornhaven', 'Into the Stormy Horn', 'Ask .* about the old quarry',
+      'To the landing at Thornhaven', 'To the old quarry pit', '^Down to the quarry adit$', 'a candle: Light']) {
       await j.step(step);
     }
     expect(j.latest).toMatch(/Things hang in the web across the cutting ahead/);

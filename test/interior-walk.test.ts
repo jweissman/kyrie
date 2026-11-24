@@ -20,11 +20,13 @@ type Fight = { state: { combatants: { id: string; team: string; hp: number }[] }
 const lenses: Lens[] = ['things', 'people', 'places', 'time'];
 class Walk {
   static async start(): Promise<Glanced> {
-    const s = await DrawnWorld.start('a1', { origin: 'kin', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior',
+    // The wanderer's town, a1's first, whose churchyard has the raised dead (the kin's has the bone-pickers since the
+    // yard's second cause).
+    const s = await DrawnWorld.start('a1', { origin: 'wanderer', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior',
       level: 4 }, { name: 'Odo', raceId: 'human', classId: 'cleric', level: 4 }] }, NodeBundleSource.shared);
-    GeneratedWorld.put(s, 's2_u_yard');
+    GeneratedWorld.put(s, 's1_u_yard');
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
-    const lock = 'region__s2_u_crypt_lock';
+    const lock = 'region__s1_u_crypt_lock';
     c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('state', lock, 'locked') },
       { kind: 'assert', call: ModuleWriter.call('state', lock, 'open') }]));
     return Glanced.of(s);
@@ -45,11 +47,11 @@ class Walk {
 describe('the interior walk', () => {
   it('goes in, looks about by lens, follows the compass in and out, talks, fights, and comes back to the town', async () => {
     const g = await Walk.start(), c = g.campaign;
-    await g.to('region__s2_u_crypt');
+    await g.to('region__s1_u_crypt');
     expect(g.glance.enclosed).toBe(true);
     // In the dark nothing is known to be left: not exhausted; the way out is known and walkable.
     expect(g.glance.compass!.exhausted).toBe(false);
-    expect(g.glance.compass!.out).toMatchObject({ to: 'region__s2_u_yard', command: 'travel:region__s2_u_yard' });
+    expect(g.glance.compass!.out).toMatchObject({ to: 'region__s1_u_yard', command: 'travel:region__s1_u_yard' });
     await g.choose(/^light_item/);
     // The lenses: each one's acts are the scene's own; switching takes no time and does nothing.
     const before = { world: c.world, elapsed: c.readout.elapsed, done: c.history.length }, acts = Walk.acts(g);
@@ -63,19 +65,19 @@ describe('the interior walk', () => {
     expect([...g.glance.lenses.time.promoted, ...g.glance.lenses.time.rest].map(a => a.command)).toContain('wait');
     // The compass's next: the ossuary, not yet been to; taken by its own way.
     const next = g.glance.compass!.next!;
-    expect(next.to).toBe('region__s2_u_ossuary');
+    expect(next.to).toBe('region__s1_u_ossuary');
     await g.perform(next.command!);
-    expect(g.screen.place.id).toBe('region__s2_u_ossuary');
+    expect(g.screen.place.id).toBe('region__s1_u_ossuary');
     // A thing looked at, by the things lens.
     const things = g.glance.lenses.things.promoted;
-    expect(things.map(a => a.subject)).toContain('region__s2_u_candle');
+    expect(things.map(a => a.subject)).toContain('region__s1_u_candle');
     // Someone talked to.
-    await g.perform('talk_to(region__s2_u_raiser)');
-    const talk = Attending.talk(SceneModel.build(g.screen), 'region__s2_u_raiser');
+    await g.perform('talk_to(region__s1_u_raiser)');
+    const talk = Attending.talk(SceneModel.build(g.screen), 'region__s1_u_raiser');
     expect(talk?.replies.map(r => r.label)).toContainEqual(expect.stringMatching(/black candle/));
     // The dead fought, the target changed from one turn to the next.
     const targets: string[] = [];
-    const fought = await g.s.leg('attack(region__s2_u_dead)', async (battle: unknown) => {
+    const fought = await g.s.leg('attack(region__s1_u_dead)', async (battle: unknown) => {
       const b = battle as Fight, standing = new Set(b.state.combatants.filter(f => f.team !== 'fighters' && f.hp > 0)
         .map(f => f.id));
       const legal = b.legalCommands(), at = legal.filter(x => x.target && standing.has(x.target));
@@ -87,14 +89,14 @@ describe('the interior walk', () => {
     expect(new Set(targets.filter(Boolean)).size).toBeGreaterThan(1);
     // The place as it was: still the ossuary, enclosed, its lenses and its compass, the way out walkable.
     Walk.look(g);
-    expect([g.screen.place.id, g.glance.enclosed]).toEqual(['region__s2_u_ossuary', true]);
+    expect([g.screen.place.id, g.glance.enclosed]).toEqual(['region__s1_u_ossuary', true]);
     expect(g.glance.lenses.things.promoted.length + g.glance.lenses.things.rest.length).toBeGreaterThan(0);
     const out = g.glance.compass!.out!;
-    expect([out.to, out.ways.length]).toEqual(['region__s2_u_yard', 2]);
+    expect([out.to, out.ways.length]).toEqual(['region__s1_u_yard', 2]);
     // Out by the compass, walked: time passes, and the churchyard is outside.
     const clock = () => ({ watches: c.readout.elapsed, minutes: c.readout.minutes ?? 0 }), was = clock();
     await g.perform(out.command!);
-    expect(g.screen.place.id).toBe('region__s2_u_yard');
+    expect(g.screen.place.id).toBe('region__s1_u_yard');
     expect(g.glance.enclosed).toBeUndefined();
     expect(clock()).not.toEqual(was);
     // And the town again, where the country is offered once more.

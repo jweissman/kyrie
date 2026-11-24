@@ -47,12 +47,12 @@ describe('Go… and the places the aims name', () => {
     g = Glanced.of(await PlaySession.start(w.path, 'kite', w.source));
     // About the town first, as a newcomer would go, so that its ways are known: the market, the waterside, the edge.
     for (const p of ['s1_chandlery', 's1_reedbeds', 's1_fields', 's1_scriv']) { await g.to(`region__${p}`); }
-    // Then the priest's job taken: the crypt key, and the aim.
+    // Then the priest's job taken: the crypt key, and the aim (kite's churchyard has the bone-pickers).
     const c = g.s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
-    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__s1_u_dead_job') },
-      { kind: 'assert', call: ModuleWriter.call('region__s1_u_given', 'region__s1_u_dead_job') }]));
+    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__s1_u_pickers_job') },
+      { kind: 'assert', call: ModuleWriter.call('region__s1_u_given', 'region__s1_u_pickers_job') }]));
     // Followed, as the playtester followed it in the Notes.
-    Undertakings.follow(g.s.campaign, 'region__s1_u_dead_job_aim');
+    Undertakings.follow(g.s.campaign, 'region__s1_u_pickers_job_aim');
   }, 120000);
 
   it('from the shrine, lists the churchyard itself and chooses it, not a first leg toward it', async () => {
