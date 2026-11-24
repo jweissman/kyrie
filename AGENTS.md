@@ -56,6 +56,10 @@ this help the player forget the interface and become interested in what happens 
   machine of its own.
 - **The page invents no controls.** It plays the engine's rows, the lenses and the book; nothing else. Riddles and
   the like are fixed in the engine, for every client.
+- **Every screen is an engine page.** The title, the beginning of a life, creation and Options included: the engine
+  says what is asked and gives hints (a background such as the title's embers, an instrument such as the stars for
+  astronomy, a placement), and the page draws them in one fixed, simple frame. The title may differ only by its hints;
+  a fully unified frame, the title conforming too, is welcome (the owner, 24 November; OR-382).
 - **Marks derive from the rows their drawer shows** (one derivation per lens), never from a parallel list.
 - **Facets are inferred from what Kyr does, never declared by authors.** An act that gives the company something to
   know, teaches an ability, opens a way somewhere unvisited or hands something over is that opportunity. A topic
