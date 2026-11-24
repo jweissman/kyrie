@@ -898,9 +898,9 @@
   // notice, the drain, the undercroft and the vault under it never led to (the first quarter hour's census, 19
   // November; the owner: "a random chain of quests that don't circle back"). By the room that job ended in, whose ways
   // down are then the aim's (AimRoute.onward): toward a place never seen, nothing in the town had been gold.
-  Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and {t}_u_onward_by({t}_u_warren) toward {t}_u_undercroft by {t}_u_warren "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
-  Objective {t}_u_onward_sought_yard when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and {t}_u_onward_by({t}_u_ossuary) toward {t}_u_undercroft by {t}_u_ossuary "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
-  Objective {t}_u_onward_sought_pit when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and {t}_u_onward_by({t}_u_gallery) toward {t}_u_undercroft by {t}_u_gallery "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
+  Objective {t}_u_onward_sought when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and not {t}_u_restock_held() and {t}_u_onward_by({t}_u_warren) toward {t}_u_undercroft by {t}_u_warren "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
+  Objective {t}_u_onward_sought_yard when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and not {t}_u_restock_held() and {t}_u_onward_by({t}_u_ossuary) toward {t}_u_undercroft by {t}_u_ossuary "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
+  Objective {t}_u_onward_sought_pit when {t}_u_done({t}_u_onward) and not been(party, {t}_u_undercroft) and not {t}_u_restock_held() and {t}_u_onward_by({t}_u_gallery) toward {t}_u_undercroft by {t}_u_gallery "The old ways under {town} go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {{t}_u_undercroft}.".
   Objective {t}_u_floor_sought when knows(party, {t}_u_flag_seen) and not knows(party, {t}_u_vault_found) toward {t}_u_undercroft "Something is under the floor of {{t}_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place {t}_u_undercroft "the undercroft" is room within {t} at 1, 5 underground 2 down.
   Passage {t}_u_drain_mouth "the mouth of the drain" is passage between {t}_u_drain and {t}_u_undercroft.
@@ -972,6 +972,54 @@
     Change prop "Prop the trapdoor open above and let the air down the culvert" from foul to clear needing brawn.
   }
   Hazard {t}_u_drain_foul "The foul air of the culvert" means "Deal (1d4) poison damage to ally unless constitution save against (11).".
+  // The ways do not stay empty (OR-413; the creative director's call on OR-321: a place quests send the company back
+  // to restocks, and a second trip finds something worth going for). With the first job under the town done and the
+  // company come up into the town, rats
+  // come up out of the deep work into the room the old ways go on by from that job's way, after what it left: a pack
+  // and the old one that leads them, there the next time the company comes down. And they have turned over what lay
+  // hidden in that room, so that it shows: the drain's purse, the charnel's grave-goods, the quarryman's bag, a sign
+  // the page leads a search to. Fixed ids, no draw: nothing drawn before them moves.
+  Relation {t}_u_restocked().
+  // While the company is up in the town: what comes in comes in behind it, never under its eyes on the same trip.
+  Rule {t}_u_restocks when {t}_u_done({t}_u_onward) and not {t}_u_restocked() and (at(party, {t}_green) or at(party, {innkeeperat}) or at(party, {merchantat}) or at(party, {priestat})) { Assert {t}_u_restocked(). }
+  Rule {t}_u_restock_drain_in when {t}_u_restocked() and {t}_u_onward_by({t}_u_warren) and not {t}_u_came({t}_u_drain_rats) { Assert {t}_u_came({t}_u_drain_rats). Assert at({t}_u_drain_rats, {t}_u_drain). Assert at({t}_u_drain_lead, {t}_u_drain). }
+  Rule {t}_u_restock_charnel_in when {t}_u_restocked() and {t}_u_onward_by({t}_u_ossuary) and not {t}_u_came({t}_u_charnel_rats) { Assert {t}_u_came({t}_u_charnel_rats). Assert at({t}_u_charnel_rats, {t}_u_charnel). Assert at({t}_u_charnel_lead, {t}_u_charnel). }
+  Rule {t}_u_restock_face_in when {t}_u_restocked() and {t}_u_onward_by({t}_u_gallery) and not {t}_u_came({t}_u_face_rats) { Assert {t}_u_came({t}_u_face_rats). Assert at({t}_u_face_rats, {t}_u_face). Assert at({t}_u_face_lead, {t}_u_face). }
+  Person {t}_u_drain_rats "the rats come up into the drain" nowhere {
+    Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_drain.
+  }
+  Person {t}_u_drain_lead "the old rat that leads them" nowhere {
+    Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair {t}_u_drain.
+  }
+  Person {t}_u_charnel_rats "the rats come up into the charnel passage" nowhere {
+    Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_charnel.
+  }
+  Person {t}_u_charnel_lead "the old rat that leads them" nowhere {
+    Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair {t}_u_charnel.
+  }
+  Person {t}_u_face_rats "the rats come up into the working face" nowhere {
+    Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_face.
+  }
+  Person {t}_u_face_lead "the old rat that leads them" nowhere {
+    Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair {t}_u_face.
+  }
+  // Come on them, they are the next thing to do down here: an aim of what is seen, not of what anyone says.
+  Relation {t}_u_restock_seen().
+  // And what they turned up is brought home: the coins they had scattered, picked up as it is found (with whatever
+  // else lay there, to be taken or left).
+  Rule {t}_u_drain_coins when {t}_u_restocked() and {t}_u_onward_by({t}_u_warren) and knows(party, {t}_u_drain_cache_found) and at(party, {t}_u_drain) and not {t}_u_drain_rats_paid() says "Coins the rats had scattered out of the silt lie about the drain's floor. You pick up six." { Assert {t}_u_drain_rats_paid(). Increase quantity(party, gold) by 6. }
+  Rule {t}_u_charnel_coins when {t}_u_restocked() and {t}_u_onward_by({t}_u_ossuary) and knows(party, {t}_u_charnel_goods) and at(party, {t}_u_charnel) and not {t}_u_charnel_rats_paid() says "Grave-coins the rats had dragged off the shelf lie in the dust. You pick up six." { Assert {t}_u_charnel_rats_paid(). Increase quantity(party, gold) by 6. }
+  Rule {t}_u_face_coins when {t}_u_restocked() and {t}_u_onward_by({t}_u_gallery) and knows(party, {t}_u_face_tools) and at(party, {t}_u_face) and not {t}_u_face_rats_paid() says "The rats had chewed the bag through, and its coins are scattered on the spoil. You pick up six." { Assert {t}_u_face_rats_paid(). Increase quantity(party, gold) by 6. }
+  Relation {t}_u_drain_rats_paid(). Relation {t}_u_charnel_rats_paid(). Relation {t}_u_face_rats_paid().
+  // While they are there, met, the old ways' way on waits on them: they stand in it.
+  Query {t}_u_restock_held() means {t}_u_restock_seen() and (({t}_u_onward_by({t}_u_warren) and ((able({t}_u_drain_rats) and at({t}_u_drain_rats, {t}_u_drain)) or (able({t}_u_drain_lead) and at({t}_u_drain_lead, {t}_u_drain)) or not knows(party, {t}_u_drain_cache_found))) or ({t}_u_onward_by({t}_u_ossuary) and ((able({t}_u_charnel_rats) and at({t}_u_charnel_rats, {t}_u_charnel)) or (able({t}_u_charnel_lead) and at({t}_u_charnel_lead, {t}_u_charnel)) or not knows(party, {t}_u_charnel_goods))) or ({t}_u_onward_by({t}_u_gallery) and ((able({t}_u_face_rats) and at({t}_u_face_rats, {t}_u_face)) or (able({t}_u_face_lead) and at({t}_u_face_lead, {t}_u_face)) or not knows(party, {t}_u_face_tools)))).
+  Rule {t}_u_restock_met when {t}_u_restocked() and not {t}_u_restock_seen() and ((at(party, {t}_u_drain) and {t}_u_onward_by({t}_u_warren)) or (at(party, {t}_u_charnel) and {t}_u_onward_by({t}_u_ossuary)) or (at(party, {t}_u_face) and {t}_u_onward_by({t}_u_gallery))) { Assert {t}_u_restock_seen(). }
+  Objective {t}_u_restock_drain when {t}_u_restock_seen() and {t}_u_onward_by({t}_u_warren) and ((able({t}_u_drain_rats) and at({t}_u_drain_rats, {t}_u_drain)) or (able({t}_u_drain_lead) and at({t}_u_drain_lead, {t}_u_drain)) or not knows(party, {t}_u_drain_cache_found)) toward {t}_u_drain "Rats have come up into {{t}_u_drain} after what the first trouble left, and have been turning over what lay hidden there. Clear them out, and see what they have turned up.".
+  Objective {t}_u_restock_charnel when {t}_u_restock_seen() and {t}_u_onward_by({t}_u_ossuary) and ((able({t}_u_charnel_rats) and at({t}_u_charnel_rats, {t}_u_charnel)) or (able({t}_u_charnel_lead) and at({t}_u_charnel_lead, {t}_u_charnel)) or not knows(party, {t}_u_charnel_goods)) toward {t}_u_charnel "Rats have come up into {{t}_u_charnel} after what the first trouble left, and have been turning over what lay hidden there. Clear them out, and see what they have turned up.".
+  Objective {t}_u_restock_face when {t}_u_restock_seen() and {t}_u_onward_by({t}_u_gallery) and ((able({t}_u_face_rats) and at({t}_u_face_rats, {t}_u_face)) or (able({t}_u_face_lead) and at({t}_u_face_lead, {t}_u_face)) or not knows(party, {t}_u_face_tools)) toward {t}_u_face "Rats have come up into {{t}_u_face} after what the first trouble left, and have been turning over what lay hidden there. Clear them out, and see what they have turned up.".
+  Observe {t}_u_drain_turned at {t}_u_drain as sign when {t}_u_restocked() and {t}_u_onward_by({t}_u_warren) and not knows(party, {t}_u_drain_cache_found) "The rats have been at the silt where the water slows. Something in it catches the light.".
+  Observe {t}_u_charnel_turned at {t}_u_charnel as sign when {t}_u_restocked() and {t}_u_onward_by({t}_u_ossuary) and not knows(party, {t}_u_charnel_goods) "The rats have pulled the cloth half off the last shelf. Under it something hard and cold shows.".
+  Observe {t}_u_face_turned at {t}_u_face as sign when {t}_u_restocked() and {t}_u_onward_by({t}_u_gallery) and not knows(party, {t}_u_face_tools) "The rats have dragged a leather bag half out from under the rotten ladder.".
 --- vault
   // The lettered flag is a lock with no keyhole (the owner, 8 November: a dungeon has at least one puzzle). Its ring of
   // letters is the makers' own, and the same ring is cut, smaller, in each of the three ways down to it, over the

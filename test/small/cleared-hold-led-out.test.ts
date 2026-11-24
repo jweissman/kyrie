@@ -47,6 +47,9 @@ describe('a hold cleared from within', () => {
       await t.perform(way!.command!);
     }
     expect([t.where(), walked]).toEqual(['t__mouth', ['To a dry side-cave', 'To the smoky cavern', 'To the cave mouth']]);
-    expect(t.glance.acts.map(a => a.command)).toContain('attack(t__watchers)');
+    // At the gate the keepers are faced: talked round, the fight not led, for it could fell a lone warrior (OR-412: the
+    // page never leads into a fight that can end the life of the one who plays; the attack is a plain row, asked).
+    expect(t.glance.acts.map(a => a.command)).toContain('talk_round(t__watchers)');
+    expect(t.glance.acts.map(a => a.command)).not.toContain('attack(t__watchers)');
   });
 });

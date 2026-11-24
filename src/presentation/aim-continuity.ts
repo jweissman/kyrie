@@ -13,6 +13,7 @@ import { AimLeading, type AimLead } from './aim-lead';
 import type { Promoted } from './glance-types';
 import { KnownWays } from '../ui/known-ways';
 import { AimAdvances } from './aim-advances';
+import { Outmatched } from './outmatched';
 import { Guarded } from './guarded';
 import { Shut } from './shut';
 import { Unread } from './unread';
@@ -32,13 +33,18 @@ import { AimMeans } from './aim-means';
 export type Continuance = { kind: 'step' | 'gilded' | 'led'; witness: string; said?: string }
   | { kind: 'frontier'; said: string; need?: true };
 
+// What was led with, what could be, and, where the aim's fight would end the one who goes alone, who to take along.
+type Led = { acts: Promoted[]; cands: Candidate[]; s: Situation; help?: { who: string; at: string } };
+
 export class AimContinuity {
   static readonly grave = ['grave', 'fight', 'trap', 'one-way'];
   static readonly dark = 'Your aim\'s way goes into the dark, and you have nothing to see by.';
-  static of(campaign: Campaign, screen: Screen, at: { acts: Promoted[]; cands: Candidate[]; s: Situation }):
-    { acts: Promoted[]; continuance?: Continuance } {
+  static of(campaign: Campaign, screen: Screen, at: Led): { acts: Promoted[]; continuance?: Continuance } {
     const { acts, cands } = at, lead = AimLeading.of(campaign, screen);
     if (!Undertakings.followed(campaign) || !lead) { return { acts }; }
+    // Where the aim's fight would end the one who goes alone (Outmatched's help), the aim's way is no step: someone to
+    // take along is led, and said (OR-412: thorn's lone warrior had been led down to the she-bear and the keeper).
+    if (at.help) { return this.helped(campaign, acts, at.help.who); }
     // A way gold by the glance's reading is the step only where it goes on the lead's way, when it goes back to a
     // place already been to (AT-14: from the back-stone the gold had led back to the chamber the lead had come from,
     // and the two pointed at each other) or where another way offered here does go on it (AT-15: from the chamber,
@@ -54,8 +60,9 @@ export class AimContinuity {
     // The way back in to a keeper met there, that the company reckons beyond it: no step of the aim's, and said (see
     // Guarded; the vault's stair had been gold and back again forty times on the first quarter hour's walk).
     const guard = back && Guarded.beyond(campaign, back.destination.id);
+    // Nor led at all, plain: the page leads into no fight that could end the one who plays (OR-412).
     if (gold && back && guard) {
-      return { acts: acts.map(a => a === gold ? this.plain(a) : a),
+      return { acts: acts.filter(a => a !== gold),
         continuance: { kind: 'frontier', said: Guarded.said(back.way ?? back.name, guard), need: true } };
     }
     // What shuts the company out of the aim's place, met and with nothing to open it, or a keeper beyond the company
@@ -112,6 +119,11 @@ export class AimContinuity {
     return { acts, continuance: { kind: 'frontier', said: this.frontier(campaign, lead, tried) } };
   }
   // Where the aim's place is shut to the company from here (Shut): not where the bar itself is the step, or the means.
+  private static helped(campaign: Campaign, acts: Promoted[], who: string):
+    { acts: Promoted[]; continuance: Continuance } {
+    return { acts: acts.map(a => a.continues ? this.plain(a) : a), continuance: { kind: 'frontier', need: true,
+      said: `Your aim's fight is beyond you alone: ${Outmatched.asked(campaign, who)}` } };
+  }
   private static shut(campaign: Campaign, screen: Screen, lead: AimLead): string | undefined {
     if (['barred', 'means', 'placed', 'route'].includes(lead.source) || !lead.next[0]) { return undefined; }
     const byId = EntityIndex.of(campaign.module.entities).byId, next = lead.next[0];

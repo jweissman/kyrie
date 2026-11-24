@@ -78,6 +78,19 @@ are real, and have one cause: in a site whose rooms have all been seen, with no 
 roll was read and its hounds and wolves fought), the page leads back through rooms already seen, which promise
 nothing (PB-24), and nothing is marked. That is OR-411.
 
+## Return expeditions, built (24 November, OR-321 closed: OR-412 to OR-414)
+
+The creative director's three calls. The page never leads into a fight that could end the life of the one who plays
+(grave, deadly, or one whose reckoned fights felled them): the way back is led, or someone to take along, and the
+attack stays a plain row, asked. The places under the first town restock: with the first job done and the company
+come up, rats come up into the room the old ways go on by, the next aim there. And they turn over what lay hidden
+in that room, so a second trip has something the page leads to. Thorn's gold-follower now hires Arlen, clears the
+den, is paid, comes down again, fights the rats at the old working face, and searches up six coin: expeditions back
+that meet a fight and bring something home, 0 → 1 (floor 1).
+
+Authored content no played world reaches is 33, not 32: batch 13 integrated the Weather Drove (weatherdrove), and no
+world yet reaches it. That is new content not yet reached, and the ratchet is written at 33 by hand for it.
+
 ## Bands and ratchets
 
 Each measure is one of three kinds:
@@ -125,7 +138,7 @@ Each measure is one of three kinds:
 | Measure | First reading | Now | Holds |
 |---|---|---|---|
 | Fights per game hour | 0.05 / 0.26 / 0.67 / 0.05 | 0.05 / 0.26 / 0.67 / 0.42 | no: the golden walk (OR-321) |
-| Return expeditions that meet a fight and bring something home | (new) | 0 | no: thorn's second trip dies at the vault's keeper, asked (OR-321) |
+| Return expeditions that meet a fight and bring something home | (new) | 1 (thorn: the rats come up into the working face, six coin) | yes (OR-321 closed) |
 | Bands near the start | 20 / 26 / 31 | 20 / 26 / 31 | yes |
 | Bands that can kill, asked before | 58% | 100% (43 of 43, judged once) | yes (OR-322 closed; the census's trials alone: 3, OR-410) |
 | A day's coin | 21–68× (every valuable within reach) | 1.71 / 2.19 / 1.18 (the great works' treasure, the ore, a fine coat for sale) | yes (OR-323 closed) |

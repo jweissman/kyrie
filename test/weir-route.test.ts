@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../src/cli/play-tool';
+import { RunnerFight } from '../src/cli/runner-fight';
 import { Runner } from '../src/cli/runner';
 import { DangerSense } from '../src/presentation/danger-sense';
 import { HonestPlayer } from './support/honest-player';
@@ -21,13 +22,26 @@ describe('the weir route', () => {
     expect(c.readout.partyIds).toHaveLength(2);
     const reckoned = ['region__s4_u_rats', 'region__s4_u_buck'].map(id => DangerSense.reckon(c, id)?.danger);
     expect(await r.ask(JSON.stringify({ follow: 'region__s4_u_rats_job_aim' }))).not.toHaveProperty('error');
-    const p = new HonestPlayer(s), done = (act: string) => c.history.some(h => JSON.stringify(h).includes(act));
+    let p = new HonestPlayer(s);
+    const done = (act: string) => c.history.some(h => JSON.stringify(h).includes(act));
     const hp = () => p.glanced.screen.party.map(m => `${m.name} ${m.hp}`);
-    const paid = await p.until(() => done('rats_job_paid'), 80);
+    let paid = await p.until(() => done('rats_job_paid'), 80);
+    if (!paid) {
+      // The old buck, reckoned to fell Ilse as the rats left her (OR-412), is not led into: the need says so, and the
+      // player answers it as one would, by choosing the fight, asked.
+      expect(p.glanced.glance.need?.join(' ')).toMatch(/the old buck rat is beyond it/);
+      if (c.world.one('at', 'party') !== 'region__s4_u_nest') {
+        expect(await r.ask(JSON.stringify({ act: 'go(region__s4_u_nest_way,region__s4_u_nest)' }))).not.toHaveProperty('error');
+      }
+      const fought = await r.ask(JSON.stringify({ act: 'attack(region__s4_u_buck)' }));
+      if (!('error' in fought) && fought.moment === 'fight') { await r.ask(JSON.stringify({ act: RunnerFight.through })); }
+      p = new HonestPlayer(s);
+      paid = await p.until(() => done('rats_job_paid'), 80);
+    }
     console.log(`weir route: rats ${reckoned.join(', ')}; after the job ${hp().join(', ')}`);
     expect(paid).toBe(true);
     // Both fights fought, the company two strong through them.
-    expect(p.log.filter(l => /\[danger\] Attack the (rats|old buck)/.test(l))).toHaveLength(2);
+    expect(c.history.filter(h => /^attack\(party,region__s4_u_(rats|buck)\b/.test(h.action)).length).toBe(2);
     expect(hp()).toHaveLength(2);
     expect(await r.ask(JSON.stringify({ follow: 'gate__gate_aim' }))).not.toHaveProperty('error');
     const shut = () => c.world.related('knows').some(k => k.args[0] === 'party' && k.args[1] === 'gate__shut');

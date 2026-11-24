@@ -422,9 +422,9 @@ Module lab "The undercroft at Lowmouth" {
   Place low_u_drain "the old drain" is room within low at 0, 5 underground 2 down.
   Passage low_u_drain_way "a culvert going down" is crawl between low_u_warren and low_u_drain.
   Entity low_u_onward: fact "".
-  Objective low_u_onward_sought when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and low_u_onward_by(low_u_warren) toward low_u_undercroft by low_u_warren "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
-  Objective low_u_onward_sought_yard when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and low_u_onward_by(low_u_ossuary) toward low_u_undercroft by low_u_ossuary "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
-  Objective low_u_onward_sought_pit when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and low_u_onward_by(low_u_gallery) toward low_u_undercroft by low_u_gallery "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
+  Objective low_u_onward_sought when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and not low_u_restock_held() and low_u_onward_by(low_u_warren) toward low_u_undercroft by low_u_warren "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
+  Objective low_u_onward_sought_yard when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and not low_u_restock_held() and low_u_onward_by(low_u_ossuary) toward low_u_undercroft by low_u_ossuary "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
+  Objective low_u_onward_sought_pit when low_u_done(low_u_onward) and not been(party, low_u_undercroft) and not low_u_restock_held() and low_u_onward_by(low_u_gallery) toward low_u_undercroft by low_u_gallery "The old ways under Lowmouth go on past the corn-store's cellar. The rat-runs lead into an old drain. Steps go down behind the ossuary's bone-heaps, and a breach opens in the quarry gallery's floor. They meet below, in {low_u_undercroft}.".
   Objective low_u_floor_sought when knows(party, low_u_flag_seen) and not knows(party, low_u_vault_found) toward low_u_undercroft "Something is under the floor of {low_u_undercroft}: one flag cut with letters does not sit level. The same ring may be cut somewhere in the ways down to it.".
   Place low_u_undercroft "the undercroft" is room within low at 1, 5 underground 2 down.
   Passage low_u_drain_mouth "the mouth of the drain" is passage between low_u_drain and low_u_undercroft.
@@ -482,6 +482,42 @@ Module lab "The undercroft at Lowmouth" {
     Change prop "Prop the trapdoor open above and let the air down the culvert" from foul to clear needing brawn.
   }
   Hazard low_u_drain_foul "The foul air of the culvert" means "Deal (1d4) poison damage to ally unless constitution save against (11).".
+  Relation low_u_restocked().
+  Rule low_u_restocks when low_u_done(low_u_onward) and not low_u_restocked() and (at(party, low_green) or at(party, low_taproom) or at(party, low_shop) or at(party, low_chapel)) { Assert low_u_restocked(). }
+  Rule low_u_restock_drain_in when low_u_restocked() and low_u_onward_by(low_u_warren) and not low_u_came(low_u_drain_rats) { Assert low_u_came(low_u_drain_rats). Assert at(low_u_drain_rats, low_u_drain). Assert at(low_u_drain_lead, low_u_drain). }
+  Rule low_u_restock_charnel_in when low_u_restocked() and low_u_onward_by(low_u_ossuary) and not low_u_came(low_u_charnel_rats) { Assert low_u_came(low_u_charnel_rats). Assert at(low_u_charnel_rats, low_u_charnel). Assert at(low_u_charnel_lead, low_u_charnel). }
+  Rule low_u_restock_face_in when low_u_restocked() and low_u_onward_by(low_u_gallery) and not low_u_came(low_u_face_rats) { Assert low_u_came(low_u_face_rats). Assert at(low_u_face_rats, low_u_face). Assert at(low_u_face_lead, low_u_face). }
+  Person low_u_drain_rats "the rats come up into the drain" nowhere {
+    Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_drain.
+  }
+  Person low_u_drain_lead "the old rat that leads them" nowhere {
+    Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair low_u_drain.
+  }
+  Person low_u_charnel_rats "the rats come up into the charnel passage" nowhere {
+    Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_charnel.
+  }
+  Person low_u_charnel_lead "the old rat that leads them" nowhere {
+    Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair low_u_charnel.
+  }
+  Person low_u_face_rats "the rats come up into the working face" nowhere {
+    Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_face.
+  }
+  Person low_u_face_lead "the old rat that leads them" nowhere {
+    Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair low_u_face.
+  }
+  Relation low_u_restock_seen().
+  Rule low_u_drain_coins when low_u_restocked() and low_u_onward_by(low_u_warren) and knows(party, low_u_drain_cache_found) and at(party, low_u_drain) and not low_u_drain_rats_paid() says "Coins the rats had scattered out of the silt lie about the drain's floor. You pick up six." { Assert low_u_drain_rats_paid(). Increase quantity(party, gold) by 6. }
+  Rule low_u_charnel_coins when low_u_restocked() and low_u_onward_by(low_u_ossuary) and knows(party, low_u_charnel_goods) and at(party, low_u_charnel) and not low_u_charnel_rats_paid() says "Grave-coins the rats had dragged off the shelf lie in the dust. You pick up six." { Assert low_u_charnel_rats_paid(). Increase quantity(party, gold) by 6. }
+  Rule low_u_face_coins when low_u_restocked() and low_u_onward_by(low_u_gallery) and knows(party, low_u_face_tools) and at(party, low_u_face) and not low_u_face_rats_paid() says "The rats had chewed the bag through, and its coins are scattered on the spoil. You pick up six." { Assert low_u_face_rats_paid(). Increase quantity(party, gold) by 6. }
+  Relation low_u_drain_rats_paid(). Relation low_u_charnel_rats_paid(). Relation low_u_face_rats_paid().
+  Query low_u_restock_held() means low_u_restock_seen() and ((low_u_onward_by(low_u_warren) and ((able(low_u_drain_rats) and at(low_u_drain_rats, low_u_drain)) or (able(low_u_drain_lead) and at(low_u_drain_lead, low_u_drain)) or not knows(party, low_u_drain_cache_found))) or (low_u_onward_by(low_u_ossuary) and ((able(low_u_charnel_rats) and at(low_u_charnel_rats, low_u_charnel)) or (able(low_u_charnel_lead) and at(low_u_charnel_lead, low_u_charnel)) or not knows(party, low_u_charnel_goods))) or (low_u_onward_by(low_u_gallery) and ((able(low_u_face_rats) and at(low_u_face_rats, low_u_face)) or (able(low_u_face_lead) and at(low_u_face_lead, low_u_face)) or not knows(party, low_u_face_tools)))).
+  Rule low_u_restock_met when low_u_restocked() and not low_u_restock_seen() and ((at(party, low_u_drain) and low_u_onward_by(low_u_warren)) or (at(party, low_u_charnel) and low_u_onward_by(low_u_ossuary)) or (at(party, low_u_face) and low_u_onward_by(low_u_gallery))) { Assert low_u_restock_seen(). }
+  Objective low_u_restock_drain when low_u_restock_seen() and low_u_onward_by(low_u_warren) and ((able(low_u_drain_rats) and at(low_u_drain_rats, low_u_drain)) or (able(low_u_drain_lead) and at(low_u_drain_lead, low_u_drain)) or not knows(party, low_u_drain_cache_found)) toward low_u_drain "Rats have come up into {low_u_drain} after what the first trouble left, and have been turning over what lay hidden there. Clear them out, and see what they have turned up.".
+  Objective low_u_restock_charnel when low_u_restock_seen() and low_u_onward_by(low_u_ossuary) and ((able(low_u_charnel_rats) and at(low_u_charnel_rats, low_u_charnel)) or (able(low_u_charnel_lead) and at(low_u_charnel_lead, low_u_charnel)) or not knows(party, low_u_charnel_goods)) toward low_u_charnel "Rats have come up into {low_u_charnel} after what the first trouble left, and have been turning over what lay hidden there. Clear them out, and see what they have turned up.".
+  Objective low_u_restock_face when low_u_restock_seen() and low_u_onward_by(low_u_gallery) and ((able(low_u_face_rats) and at(low_u_face_rats, low_u_face)) or (able(low_u_face_lead) and at(low_u_face_lead, low_u_face)) or not knows(party, low_u_face_tools)) toward low_u_face "Rats have come up into {low_u_face} after what the first trouble left, and have been turning over what lay hidden there. Clear them out, and see what they have turned up.".
+  Observe low_u_drain_turned at low_u_drain as sign when low_u_restocked() and low_u_onward_by(low_u_warren) and not knows(party, low_u_drain_cache_found) "The rats have been at the silt where the water slows. Something in it catches the light.".
+  Observe low_u_charnel_turned at low_u_charnel as sign when low_u_restocked() and low_u_onward_by(low_u_ossuary) and not knows(party, low_u_charnel_goods) "The rats have pulled the cloth half off the last shelf. Under it something hard and cold shows.".
+  Observe low_u_face_turned at low_u_face as sign when low_u_restocked() and low_u_onward_by(low_u_gallery) and not knows(party, low_u_face_tools) "The rats have dragged a leather bag half out from under the rotten ladder.".
   Entity low_u_vault_found: fact "The lettered flag in the undercroft floor lifts: under it, a stair going down into the dark.".
   Discovery low_u_letters "A ring of letters is cut small over the oldest stone of the old work. Three of them are cut deeper than the rest, worn smooth by thumbs, as if pressed." {
     Found by searching low_u_ossuary "Over the oldest niche, behind the bone-heaps, a ring of letters cut small, three of them deeper than the rest.".
