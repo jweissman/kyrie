@@ -15,7 +15,6 @@ import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
 import { PressGuard } from './press-guard';
-import { Hold } from './instrument/hold';
 import { Tone } from './instrument/tone';
 import { ReaderOpening } from './reader-opening';
 import { Timings } from './timings';
@@ -153,7 +152,6 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     // (they share one frame).
     PressGuard.attach(() => this.state.told && this.state.prologue !== undefined ? `opening:${this.state.prologue}`
       : this.state.frame ?? this.state.phase);
-    Hold.attach();
     ReaderOptions.apply(this.state.options);
     this.booted = this.opening.boot();
   }
@@ -247,14 +245,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
-  // held: chosen by a hold (see Hold), which is the asking: it is done at once.
   // An aim chosen to follow, by the action the observation offers for it (Screen.aims[].follow), done as any act is;
   // resolves when it is done.
   async take(command: string): Promise<void> {
     if (this.state.pending) { return; }
     await this.perform({ id: command, label: 'Follow this', tone: 'company', command }, 'Follow this');
   }
-  readonly choose = (choice: Choice, held = false) => {
+  readonly choose = (choice: Choice) => {
     const { frame, pending } = this.state;
     if (pending || choice.disabled || !frame) { return; }
     if (frame.combat?.outcome) { this.onward(); return; }
@@ -269,10 +266,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (book) { this.show(book[1] as View, book[2]); return; }
     // Nothing that cannot be undone is done by a slip: it is said first, and done when chosen again.
     // So is a fight the company could lose, as it reckons it (see Marks).
-    if (!held && Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
+    if (Act.asks(choice) && this.state.confirming !== choice.id) { this.setState({ confirming: choice.id }); return; }
     const said = MenuModel.said(this.menu, choice);
     Timings.chosen(said);
-    if (!Hold.holds(choice)) { Tone.play('commit'); }
+    Tone.play('commit');
     // The fight's pace (ChoiceList.pace): its own requests.
     if (choice.command === 'fight:auto') { this.auto(); return; }
     if (choice.command === 'fight:through') { this.through(); return; }

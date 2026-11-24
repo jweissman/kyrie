@@ -65,10 +65,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the pointer is the reticle', () => 
     expect([title.over, title.down]).toEqual([['act', title.before], ['press', title.before]]);
     expect(await page.evaluate(() => getComputedStyle(document.querySelector('.way-in')!).getPropertyValue('--reticule')))
       .toBe('');
-    await MonoDriver.hold(page, '[data-action="begin"]');
+    await MonoDriver.enter(page, '[data-action="begin"]');
     // New game asks first how the game begins (OR-120): a character built, step by step.
     await page.waitForSelector('[data-mode="begin"]', { timeout: 30000 });
-    await MonoDriver.hold(page, '[data-action="build"]');
+    await MonoDriver.enter(page, '[data-action="build"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 }); await page.waitForTimeout(700);
     // Creation: a row, over and pressed, every row where it was.
     const option = '.composed-rows [data-option]:not(:disabled)';

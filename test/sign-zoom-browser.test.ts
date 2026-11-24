@@ -16,7 +16,7 @@ const toSign = async (page: Page) => {
   await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
   for (let i = 0; i < 8 && await page.getAttribute('.creation', 'data-page') !== 'sign'; i++) {
     const where = await page.getAttribute('.creation', 'data-page');
-    await MonoDriver.hold(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
+    await MonoDriver.enter(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
     await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, where, { timeout: 5000 });
   }
   expect(await page.getAttribute('.creation', 'data-page')).toBe('sign');
@@ -86,7 +86,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the sky drawn up to a sign', () => 
     await settled(page, '');
     expect(await page.getAttribute('.creation', 'data-page')).toBe('sign');
     // The sign taken, every gift of it is the life's, and the page goes on to the calling (OR-117: no gift asked).
-    await MonoDriver.hold(page, '.composed-rows [data-option] >> nth=4');
+    await MonoDriver.enter(page, '.composed-rows [data-option] >> nth=4');
     await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'calling');
     expect(await page.locator('h1.ask').textContent()).toBe('Choose your calling');
     expect(errors).toEqual([]);

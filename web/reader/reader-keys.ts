@@ -7,7 +7,6 @@ import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
 import { PressGuard } from './press-guard';
-import { Hold } from './instrument/hold';
 import { DigitSettle } from './digit-settle';
 import type { Choice } from '../../src/ui/choice-list';
 
@@ -70,9 +69,8 @@ export class ReaderKeys {
         return true;
       }
       const chosen = menu.choices[s.cursor];
-      if (chosen && Hold.key(app, chosen, key)) { return true; }
       if (chosen && ReaderKeys.opener(chosen.id)) { ReaderKeys.opener(chosen.id)!.click(); return true; }
-      return chosen ? this.commit(chosen, key) : false;
+      return chosen ? this.commit(chosen) : false;
     }
     if (/^[1-9]$/.test(key) && Stage.mode(app) === 'talk') {
       // In a conversation, the reply that number is beside as the rows stand when the key goes down, and only once
@@ -82,7 +80,7 @@ export class ReaderKeys {
       const at = id ? menu.choices.findIndex(c => c.id === id) : -1;
       if (at < 0) { return false; }
       app.setState({ cursor: at });
-      return this.commit(menu.choices[at]!, key);
+      return this.commit(menu.choices[at]!);
     }
     if (/^[1-9]$/.test(key)) {
       // What is drawn with that key on it, first: the glance numbers what it leads with by their places among
@@ -95,22 +93,20 @@ export class ReaderKeys {
         if (row) { row.click(); return true; }
       }
       if (drawn && ReaderKeys.opener(drawn)) { ReaderKeys.opener(drawn)!.click(); return true; }
-      if (shown >= 0) { app.setState({ cursor: shown }); return this.commit(menu.choices[shown]!, key); }
+      if (shown >= 0) { app.setState({ cursor: shown }); return this.commit(menu.choices[shown]!); }
       // At a place, what the glance leads with (1 to 3), never something under a sheet and out of sight.
       const led = Stage.mode(app) === 'explore' ? Raised.led(app) : undefined;
       if (led !== undefined && Number(key) > led) { return false; }
       const chosen = menu.choices[Number(key) - 1];
-      if (chosen) { app.setState({ cursor: Number(key) - 1 }); this.commit(chosen, key); }
+      if (chosen) { app.setState({ cursor: Number(key) - 1 }); this.commit(chosen); }
       return !!chosen;
     }
     if (key === 'Escape' || key === 'Backspace') { app.back(); return true; }
     return this.letter(key.toLowerCase());
   }
-  // A choice the keys take, by the one path a row is taken by (OR-128): held on its own button where it is held (a
-  // digit or Enter as long as the hand would hold), else its own button pressed, which does what a tap on it does;
-  // only a choice drawn by no button of its own is chosen directly.
-  private commit(c: Choice, key: string): boolean {
-    if (Hold.key(this.app, c, key)) { return true; }
+  // A choice the keys take, by the one path a row is taken by (OR-128): its own button pressed, which does what a tap
+  // on it does (nothing is held: OR-185); only a choice drawn by no button of its own is chosen directly.
+  private commit(c: Choice): boolean {
     const row = document.querySelector<HTMLElement>(`[data-choice="${CSS.escape(c.id)}"]`), keyed = this.app.state.keyed;
     if (!row) { this.app.choose(c); return true; }
     // As a tap on it, which lets the keys' highlight go: the keys keep it.

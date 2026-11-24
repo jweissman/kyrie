@@ -2,8 +2,7 @@
 import type { Page } from 'playwright-core';
 import { LensPages } from './lens-pages';
 
-export interface ChoiceShape { id: string; label: string; command?: string; children?: number; disabled?: string;
-  hold?: 'sustained' }
+export interface ChoiceShape { id: string; label: string; command?: string; children?: number; disabled?: string }
 export interface MonoInspection {
   mode: string; place?: { id: string; name: string }; path?: { kind: string; name: string }[];
   sections: { id: string; title: string; choices: ChoiceShape[] }[];
@@ -31,35 +30,16 @@ export class MonoDriver {
     return this.page.evaluate(() =>
       (window as unknown as { kyrieMono: { inspect(): MonoInspection } }).kyrieMono.inspect());
   }
-  // A choice that is held (a card, a way in, a night's rest) is held as a player holds it: the key down as long as
-  // it takes.
-  // Let go once the page says the hold is done (its mark gone from the root), not after a fixed while: on a loaded
-  // runner the key's press is taken late, and a key let go at 700 ms had ended a hold not yet full (nightly, 19 Nov).
-  static async hold(page: Page, selector: string) {
+  // A control taken by the keys as a player at a keyboard takes it: focused, and Enter pressed once (nothing is held,
+  // OR-185; this had held the key down while the page's ring filled).
+  static async enter(page: Page, selector: string) {
     await page.locator(selector).first().focus();
-    await page.keyboard.down('Enter'); await page.waitForTimeout(700);
-    await page.waitForFunction(() => !('holding' in document.documentElement.dataset), null, { timeout: 5000 })
-      .catch(MonoDriver.none);
-    await page.keyboard.up('Enter');
+    await page.keyboard.press('Enter');
   }
-  private static none(): void { /* the hold not seen to end: let go as before */ }
-  // A control pressed as a player would: held by the hand where it is held (a journey set out on, OR-111), else
-  // clicked.
-  static async press(page: Page, selector: string) {
-    const at = page.locator(selector).first();
-    if (await at.getAttribute('data-hold') === null) { await page.click(selector); return; }
-    await at.hover(); await page.mouse.down(); await page.waitForTimeout(700); await page.mouse.up();
-  }
+  private static none(): void { /* nothing to put away */ }
+  // A control pressed as a player would: clicked, once (a journey had been held, OR-111, until OR-185).
+  static async press(page: Page, selector: string) { await page.click(selector); }
   async key(key: string) { this.presses++; await this.page.keyboard.press(key); await this.settle(); }
-  // Enter held on the keys' highlight, as long as the hold takes (see hold).
-  private async heldKey() {
-    this.presses++;
-    await this.page.keyboard.down('Enter'); await this.page.waitForTimeout(700);
-    await this.page.waitForFunction(() => !('holding' in document.documentElement.dataset), null, { timeout: 5000 })
-      .catch(MonoDriver.none);
-    await this.page.keyboard.up('Enter');
-    await this.settle();
-  }
   async settle() {
     await this.page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
       .kyrieMono.inspect().pending, null, { timeout: 60000 });
@@ -75,11 +55,7 @@ export class MonoDriver {
     // Composed creation pages its rows and cards four at a time (More…, round): turned until the choice is in view.
     for (let p = 0; p < 6 && !await this.page.locator(selector).count()
       && await this.page.locator('[data-option="more"]').count(); p++) { await this.page.click('[data-option="more"]'); }
-    // An act that is held (a night's rest, a camp) is held as a player holds it: the key down for as long as it takes.
-    const held = await this.page.locator(selector).first().getAttribute('data-hold').catch(() => null);
-    if (held !== null) {
-      await MonoDriver.hold(this.page, selector);
-    } else if (this.pointer) {
+    if (this.pointer) {
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
       await this.still();
       await this.page.tap(selector);
@@ -340,11 +316,8 @@ export class MonoDriver {
     }
     for (let i = 0; i <= state.choices.length && (await this.inspect()).selected !== id; i++) { await this.key('ArrowDown'); }
     if ((await this.inspect()).selected !== id) { return false; }
-    // A row that is held (a journey set out on, a night's rest: Hold.holds) is held by the key, as a player holds it:
-    // Enter pressed and let go at once begins a hold and ends it, and nothing is done (cold play 9's "To the
-    // customs-house", T8–T9 and T75: the same screen again, GR-24).
-    const c = state.choices[index]!;
-    if (c.hold === 'sustained' || c.command?.startsWith('travel:')) { await this.heldKey(); } else { await this.key('Enter'); }
+    // Enter, once, whatever the act (a journey and a night's rest had been held: OR-185).
+    await this.key('Enter');
     return true;
   }
   // A choice about a subject (its id, or the id without the installation prefix), by the start of its label; then

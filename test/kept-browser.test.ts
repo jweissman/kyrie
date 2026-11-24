@@ -28,7 +28,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a game kept in the browser', () => 
     expect(storage.local.every(([, n]) => (n as number) < 400000)).toBe(true);
     await page.reload();
     await page.waitForSelector('[data-action="continue"]', { timeout: 60000 });
-    await MonoDriver.hold(page, '[data-action="continue"]');
+    await MonoDriver.enter(page, '[data-action="continue"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await driver.settle();
     const after = (await driver.inspect()).place?.id;

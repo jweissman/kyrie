@@ -141,15 +141,15 @@ export class ActionCensus {
       const step = await page.getAttribute('.creation', 'data-page');
       await at(`creation:${step}`);
       if (step === 'go') { break; }
-      await MonoDriver.hold(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
+      await MonoDriver.enter(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, step);
     }
-    await MonoDriver.hold(page, '[data-option="set-out"]');
+    await MonoDriver.enter(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="prologue"], [data-mode="explore"]', { timeout: 120000 });
     for (let i = 0; i < 6 && await page.locator('[data-mode="prologue"]').count(); i++) {
       await page.waitForTimeout(2400); await at(`opening:${await page.getAttribute('.prologue-page', 'data-beat')}`);
       if (await page.locator('[data-action="answer"]').count()) { await page.keyboard.press('1'); continue; }
-      if (await page.locator('.prologue-page .go-on').count()) { await MonoDriver.hold(page, '.prologue-page .go-on'); }
+      if (await page.locator('.prologue-page .go-on').count()) { await MonoDriver.enter(page, '.prologue-page .go-on'); }
     }
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 }); await d.settle(); await d.enter();
     await at('scene');

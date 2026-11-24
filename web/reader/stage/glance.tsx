@@ -322,9 +322,12 @@ export class GlanceStage {
   static LensRow({ app, draw, act: a, lens }: { app: ReaderApp; draw: Draw; act: LensAct; lens: Lens }) {
     const c = GlanceStage.choice(app, a.choice);
     const mark = ChoiceRow.mark(Fold.mark(LensRows.leaves(app, lens, a.choice, GlanceStage.choice), Guidance.shown(app)));
-    // What it risks said on it, as the four say theirs (a way with no coming back).
+    // What it risks said on it, as the four say theirs (a way with no coming back); and in the time lens what it spends,
+    // the engine's note (a camp "until morning", a rest until the hour it ends), said before it is chosen, at one press
+    // (OR-185: nothing held; the hold had been the only sign of its cost).
     const [going, how] = Words.going(a.label);
-    const risks = [how ?? '', ...(c?.marks ?? []).map(m => Words.upper(m.said))].filter(Boolean).join(' · ');
+    const spends = lens === 'time' && c?.note && !going.toLowerCase().includes(c.note.toLowerCase()) ? c.note : '';
+    const risks = [how ?? '', spends, ...(c?.marks ?? []).map(m => Words.upper(m.said))].filter(Boolean).join(' · ');
     if (c && draw.index.has(c.id)) {
       // What it opens (the words that can be said at a door) opened beneath it, as under the four.
       return <><ChoiceRow.Act choice={c} draw={draw} label={Typography.curl(going)} {...mark}

@@ -56,7 +56,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
         // The opening's pages wait on a held Continue; a question on its numbers (GRAMMAR: the input contract).
         if (await page.locator('[data-action="answer"]').count()) { await page.keyboard.press('1'); continue; }
         if (await page.locator('.prologue-page .go-on').count()) {
-          await MonoDriver.hold(page, '.prologue-page .go-on').catch(() => undefined);
+          await MonoDriver.enter(page, '.prologue-page .go-on').catch(() => undefined);
         }
         continue;
       }

@@ -29,15 +29,16 @@ describe('the signs both clients draw', () => {
     expect(Object.values(Signs.places).every(one)).toBe(true);
   });
   it('are kept in one table, and no client keeps its own', () => {
-    const copies = [/'⊘'/, /Up: '↑'/, /'no way back'/, /'hold to do it'/, /, that way`/, /'cannot be undone'/];
+    const copies = [/'⊘'/, /Up: '↑'/, /'no way back'/, /, that way`/, /'cannot be undone'/];
     const kept = [...files('web/reader'), ...files('src/cli')]
       .filter(f => copies.some(c => c.test(readFileSync(f, 'utf8'))));
     expect(kept).toEqual([]);
   });
   it('are each drawn by the terminal, in colour and said without it', () => {
-    const row = { tags: [Signs.marks['one-way']], hold: true as const, sensed: 'danger' as const };
+    // Nothing is held (OR-185): no row carries a sign of holding.
+    const row = { tags: [Signs.marks['one-way']], sensed: 'danger' as const };
     const plain = TerminalColour.choice(1, 'Search the cellar', row, 'none');
-    expect(plain).toBe(`1. Search the cellar ${Signs.hold.sign} · no way back · danger, that way`);
+    expect(plain).toBe('1. Search the cellar · no way back · danger, that way');
     // What is only to be gained that way is its colour, not said (the owner's headless review: no editorial words).
     expect(TerminalColour.choice(1, 'Down the stair', { sensed: 'payoff' }, 'none')).toBe('1. Down the stair');
     // Perceived and not here, its tone faint: the green pip, dimmed.

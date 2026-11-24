@@ -21,7 +21,7 @@ class Still {
   static async to(page: Page, step: string) {
     for (let i = 0; i < 12 && await page.getAttribute('.creation', 'data-page') !== step; i++) {
       const was = await page.getAttribute('.creation', 'data-page');
-      await MonoDriver.hold(page, '.composed-rows [data-option]:not(:disabled) >> nth=0');
+      await MonoDriver.enter(page, '.composed-rows [data-option]:not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
         { timeout: 5000 });
     }
@@ -74,7 +74,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the names page', () => {
     await Still.toPresenting(page);
     // Presenting as a man deals his names: the page shows them once, never the hand drawn before it first.
     await Still.hands(page);
-    await MonoDriver.hold(page, '[data-option="he"]');
+    await MonoDriver.enter(page, '[data-option="he"]');
     await Still.to(page, 'name');
     await page.waitForTimeout(600);
     const hands = await page.evaluate(() => (window as unknown as { hands: string[] }).hands);

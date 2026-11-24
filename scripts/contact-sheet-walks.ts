@@ -74,7 +74,7 @@ export class SheetWalks {
     }
     await cam.step('ready', 'Creation: the life made, ready to set out', () => page.waitForSelector('[data-option="set-out"]'));
     await cam.step('opening', 'The first place, as the life just made', async () => {
-      await MonoDriver.hold(page, '[data-option="set-out"]');
+      await MonoDriver.enter(page, '[data-option="set-out"]');
       await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     });
     await page.close();
@@ -90,7 +90,7 @@ export class SheetWalks {
         && await page.locator('[data-option="more"]').count(); n++) { await page.click('[data-option="more"]'); }
       if (await page.locator('[data-option="mage"]').count()) { pick = '[data-option="mage"]'; }
     }
-    await MonoDriver.hold(page, pick);
+    await MonoDriver.enter(page, pick);
     await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, where,
       { timeout: 8000 });
   }

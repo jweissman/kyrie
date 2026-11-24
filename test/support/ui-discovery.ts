@@ -42,20 +42,20 @@ class Discovery {
     const title = Date.now() - t0;
     await page.waitForTimeout(3500);
     const cls0 = await Discovery.cls(page), h0 = Date.now();
-    await MonoDriver.hold(page, '[data-action="begin"]');
+    await MonoDriver.enter(page, '[data-action="begin"]');
     // New game asks first how the game begins (OR-120): a character built, step by step.
-    await page.waitForSelector('[data-mode="begin"]'); await MonoDriver.hold(page, '[data-action="build"]');
+    await page.waitForSelector('[data-mode="begin"]'); await MonoDriver.enter(page, '[data-action="build"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     const toCreate = Date.now() - h0 - 800, steps: number[] = [];
     for (let i = 0; i < 14 && await page.getAttribute('.creation', 'data-page') !== 'go'; i++) {
       const was = await page.getAttribute('.creation', 'data-page'), s0 = Date.now();
-      await MonoDriver.hold(page, first);
+      await MonoDriver.enter(page, first);
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
         { timeout: 60000 });
       steps.push(Date.now() - s0 - 800);
     }
     const clsCreate = await Discovery.cls(page), g0 = Date.now();
-    await MonoDriver.hold(page, '[data-option="set-out"]');
+    await MonoDriver.enter(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 240000 });
     const toPlay = Date.now() - g0 - 800;
     await page.waitForTimeout(1500);
@@ -167,8 +167,8 @@ class Discovery {
     await page.waitForSelector('[data-action="begin"]', { state: 'visible' }); await page.waitForTimeout(3500);
     const out: Record<string, Record<string, Look>> = {};
     out['title way-in (held)'] = await Discovery.states(page, '[data-action="begin"]', true);
-    await MonoDriver.hold(page, '[data-action="begin"]'); await page.waitForSelector('[data-mode="begin"]');
-    await MonoDriver.hold(page, '[data-action="build"]'); await page.waitForSelector('[data-mode="create"]');
+    await MonoDriver.enter(page, '[data-action="begin"]'); await page.waitForSelector('[data-mode="begin"]');
+    await MonoDriver.enter(page, '[data-action="build"]'); await page.waitForSelector('[data-mode="create"]');
     let rows = false, cards = false;
     for (let i = 0; i < 14 && !(rows && cards); i++) {
       await page.waitForTimeout(900);
@@ -179,12 +179,12 @@ class Discovery {
         out['creation row (held)'] = await Discovery.states(page, '.composed-row[data-hold]', true); rows = true;
       }
       if (await page.getAttribute('.creation', 'data-page') === 'go') { break; }
-      await MonoDriver.hold(page, first);
+      await MonoDriver.enter(page, first);
     }
     for (let i = 0; i < 14 && await page.getAttribute('.creation', 'data-page') !== 'go'; i++) {
-      await MonoDriver.hold(page, first); await page.waitForTimeout(900);
+      await MonoDriver.enter(page, first); await page.waitForTimeout(900);
     }
-    await MonoDriver.hold(page, '[data-option="set-out"]');
+    await MonoDriver.enter(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 240000 }); await page.waitForTimeout(1500);
     out['scene choice row (not pressed)'] = await Discovery.states(page, '.glance .choice-row', false, false);
     out['scene rail mark (not pressed)'] = await Discovery.states(page, '.rail-mark.opens-look', false, false);

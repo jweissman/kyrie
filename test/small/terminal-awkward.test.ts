@@ -35,9 +35,9 @@ describe('the indicator grammar (TP-02)', () => {
     expect(Indicator.of({ aspects: ['companionship', 'exploration', 'knowledge'] }).aspect).toBe('knowledge');
     // Somewhere worth a look and a companion are icons, no colour (the owner, 15 November: five colours only).
     expect(Indicator.of({ aspects: ['companionship', 'exploration'] }).aspect).toBeUndefined();
-    const many = Indicator.of({ aspects: ['wonder', 'payoff', 'knowledge', 'danger'], crosses: true, hold: true });
+    const many = Indicator.of({ aspects: ['wonder', 'payoff', 'knowledge', 'danger'], crosses: true });
     expect([many.aspect, many.icons.map(i => i.said), many.detail])
-      .toEqual(['danger', ['to gain', 'to learn'], ['uncanny', Signs.crossing.said, Signs.hold.said]]);
+      .toEqual(['danger', ['to gain', 'to learn'], ['uncanny', Signs.crossing.said]]);
   });
   // TP-03, decided by a1's camp: the brother's "Ask Osbert what he means to do" was worth a look and a companion before
   // the aim was followed, a companion alone after it, and had turned from silver to rose with nothing about him

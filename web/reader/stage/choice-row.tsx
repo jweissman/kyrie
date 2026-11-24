@@ -63,7 +63,7 @@ export class ChoiceRow {
   // or turns attention (a fight's Abilities, a lens).
   // events: what the row tells its page as the hand comes to it (a fight says what a move does, in its own place).
   // own: the rest of what the row's page gives it (whether it is held to be done, considered, the one chosen before:
-  // Hold.bind's handlers, data-considered, aria-current), spread as given; onClick is then its own or none.
+  // data-considered, aria-current), spread as given; onClick is then its own or none.
   static Button({ className, data, onClick, expanded, act, events, shut, own, ref, ...parts }: RowParts & {
     className?: string; data: Record<string, string | undefined>; onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
     expanded?: boolean; act?: string; shut?: boolean; own?: ButtonHTMLAttributes<HTMLButtonElement> & Record<string, unknown>;

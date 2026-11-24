@@ -9,7 +9,7 @@ import { HexSteps } from '../web/reader/board/hex-steps';
 import { MonoBrowser } from './support/mono-browser';
 
 // The map at a journey's end, in a real browser (OR-91's rest; OR-162's other half), at a laptop's size and a
-// phone's: a journey set out on from the map (a1's first town, a place further off viewed and its Travel to held),
+// phone's: a journey set out on from the map (a1's first town, a place further off viewed and its Travel to pressed),
 // walked hex by hex with what it comes to know lit as the company reaches it, not all at the end; and then the board
 // updated in place, not made again: what it draws, read back from it (Board.drawing), is what a board made for the
 // same land would draw (BoardModel.drawn), its labels with it; no part of laying the land again holding the page as
@@ -78,15 +78,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map at a journey\'s end', () =>
       await page.keyboard.press('m');
       const far = page.locator('[data-action="map-view"][data-choice^="travel:"]:not(:has-text("Enter "))').first();
       await far.click();
-      const held = '[data-hold="sustained"][data-act^="travel:"]';
+      const held = '[data-action="set-out"][data-act^="travel:"]';
       await page.waitForSelector(held, { timeout: 30000 });
       await page.waitForFunction(() => (window as unknown as { kyrieMono: { boardNow(): unknown } }).kyrieMono
         .boardNow(), null, { timeout: 60000 });
       const began = await page.evaluate(() => performance.now());
       await Walk.start(page);
-      const b = (await page.locator(held).first().boundingBox())!;
-      await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2); await page.mouse.down();
-      await page.waitForTimeout(800); await page.mouse.up();
+      // Travel to, pressed once (nothing is held: OR-185).
+      await page.locator(held).first().click();
       await page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
         .kyrieMono.inspect().pending, null, { timeout: 60000 });
       const back = await page.evaluate(() => (window as unknown as { kyrieMono: { board(): Promise<unknown> } })

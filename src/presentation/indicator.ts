@@ -15,9 +15,9 @@ export interface Indicated { aspect?: Aspect; tone?: Tone; icons: Icon[]; detail
 export type Condition = 'present' | 'afar' | 'heard' | 'idle' | 'spent';
 export interface Standing { afar?: boolean; heard?: boolean; idle?: boolean; spent?: boolean; fresh?: boolean }
 // What an act carries, as the engine typed it: its aspects (gilded where it is the followed aim's next step), whether
-// it goes over into the next stretch of country, whether it is done by holding, and what is perceived off along it
-// (Glance.sensed: a way's, never an act's).
-export interface Carrying { aspects?: readonly Aspect[]; gilded?: boolean; crosses?: boolean; hold?: boolean;
+// it goes over into the next stretch of country, and what is perceived off along it (Glance.sensed: a way's, never an
+// act's).
+export interface Carrying { aspects?: readonly Aspect[]; gilded?: boolean; crosses?: boolean;
   sensed?: { aspect: Aspect; far: number } }
 
 // The indicator grammar every client draws by (the owner, 14 November: TP-02). The left-edge pip had broken down where
@@ -26,7 +26,6 @@ export interface Carrying { aspects?: readonly Aspect[]; gilded?: boolean; cross
 // alone: a client with none draws the colour's own sign in its place.
 export class Indicator {
   static readonly icons = 2;
-  static readonly hold: Icon = { sign: Signs.hold.sign, plain: '=', said: Signs.hold.said };
   // The aspects drawn as icons, never a colour.
   static readonly iconed: readonly Aspect[] = ['companionship', 'exploration'];
   // A companion is always its icon, the first of them, and never the colour (TP-03). What is perceived off along a way
@@ -39,7 +38,7 @@ export class Indicator {
     // A companion, and somewhere worth a look, are icons and no colour (TP-03; the owner, 15 November).
     const iconed = this.iconed.filter(a => drawn.includes(a)).map(a => this.icon(a));
     const besides: Icon[] = [...iconed, ...off,
-      ...rest.map(a => this.icon(a)), ...c.crosses ? [Signs.crossing] : [], ...c.hold ? [this.hold] : []];
+      ...rest.map(a => this.icon(a)), ...c.crosses ? [Signs.crossing] : []];
     return { ...first ? { aspect: first, tone: Emphasis.tones[first]! } : {}, icons: besides.slice(0, this.icons),
       detail: besides.slice(this.icons).map(i => i.said) };
   }

@@ -18,18 +18,18 @@
    light changes. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row > .row-mark {
   transform: none; opacity: .72; transition: opacity var(--row-out) var(--ease); }
-/* Under the hand: nothing (the owner, 18 November: restraint; a long press says itself at once, and a row's colour is
-   never replaced as the hand passes over it). */
+/* Under the hand: nothing (the owner, 18 November: restraint; a row's colour is never replaced as the hand passes over
+   it). */
 /* Where the keys are, or what is considered. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(.sel, :focus-visible, [data-considered]):not(.shut, [disabled], [aria-disabled="true"]) {
   background-color: color-mix(in oklab, var(--row-tone) var(--row-lit), transparent); color: #fff; transition: none; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active, [data-holding], [data-taken]) > .row-mark {
+  .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active, [data-taken]) > .row-mark {
   opacity: 1; transition: none; }
-/* Pressed, held, taken: deeper, at once. */
+/* Pressed, taken: deeper, at once. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  .choice-row.choice-row:is(:active, [data-holding], [data-taken]):not(.shut, [disabled], [aria-disabled="true"]) {
+  .choice-row.choice-row:is(:active, [data-taken]):not(.shut, [disabled], [aria-disabled="true"]) {
   background-color: color-mix(in oklab, var(--row-tone) var(--row-press), transparent); color: #fff; transition: none; }
 :root .stage[aria-busy] :is(.choice-row, .act-glyph):not([data-taken]) {
   opacity: .42; pointer-events: none; transition: opacity var(--row-out) var(--ease) 80ms; }
@@ -55,30 +55,6 @@
 :is(.wf-row, .rail-mark)[data-condition="idle"]:is(:hover, :focus-visible) { opacity: var(--cond-idle-lit); }
 :root .talk .replies [data-condition="spent"] .choice-row.choice-row { color: var(--dim); }
 
-/* A held row says it is being held by its ground filling from its mark across, in its tone, for as long as the hold
-   lasts, with the cursor's ring (a finger's too, drawn round it: Reticle): the press itself says whether the choice is
-   a hold, and how far it has got (the owner, 16 November: a press could not be told from a hold begun). The fill is
-   solid with a bright leading edge over the row's lit ground, so where it has got to is plain and the act is done when
-   it reaches the far end, not before (the owner, 17 November: a fill fading toward its edge over the pressed ground
-   had looked done early). Let go early, it drains. Nothing else marks a held row. */
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
-  .choice-row.choice-row[data-hold]:is([data-holding], [data-held], [data-let-go]) {
-  background-color: color-mix(in oklab, var(--row-tone, var(--ivory)) var(--row-lit), transparent);
-  background-image: linear-gradient(color-mix(in oklab, var(--row-tone, var(--ivory)) 34%, transparent),
-    color-mix(in oklab, var(--row-tone, var(--ivory)) 34%, transparent)),
-    linear-gradient(color-mix(in oklab, var(--row-tone, var(--ivory)) 80%, white),
-    color-mix(in oklab, var(--row-tone, var(--ivory)) 80%, white));
-  background-repeat: no-repeat; background-size: var(--hold-p) 100%, 2px 100%; background-position: 0 0, var(--hold-p) 0; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] {
-  animation: ix-fill var(--hold-ms, 520ms) linear forwards; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-held] {
-  --hold-p: 100%; }
-:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-let-go] {
-  animation: ix-drain 240ms var(--ease) forwards; }
-@media (prefers-reduced-motion: reduce) {
-  :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row.choice-row[data-hold][data-holding] {
-    animation-timing-function: steps(4, end); }
-}
 /* An emblem beside a row's words (a people's, a calling's, a school's, a spell's school: OR-92), small, in ink: the
    row's own colour, never a tone. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row > .row-label > .row-glyph {

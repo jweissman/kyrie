@@ -55,7 +55,6 @@ export class TerminalColour {
   // An act's indicator, as the shared grammar has it.
   static indicated(signed: Signed & { aspects?: readonly Aspect[] }): Indicated {
     return Indicator.of({ aspects: signed.aspects ?? [], gilded: true, ...signed.crosses ? { crosses: true } : {},
-      ...signed.hold ? { hold: true } : {},
       ...signed.sensed ? { sensed: { aspect: signed.sensed, far: signed.far ?? 1 } } : {} });
   }
   // The one cell at an act's left edge: its colour's pip; without colour, its colour's sign; perceived along a way and
@@ -82,8 +81,7 @@ export class TerminalColour {
       ...Indicator.tells(signed.sensed) ? [Signs.sensed(signed.sensed!, signed.far)] : [],
       ...signed.idle && depth === 'none' ? [Signs.idle] : []].map(t => ` · ${t}`).join('');
     if (depth === 'none') {
-      const held = `${label}${signed.hold ? ` ${Signs.hold.sign}` : ''}`;
-      return `${n}. ${held}${after}${words.length ? `  [${words.join(', ')}]` : ''}`;
+      return `${n}. ${label}${after}${words.length ? `  [${words.join(', ')}]` : ''}`;
     }
     const ind = this.indicated(signed), icons = ind.icons.map(i => ` ${i.sign}`).join('');
     const line = `${n}. ${label}${icons}${after}`;

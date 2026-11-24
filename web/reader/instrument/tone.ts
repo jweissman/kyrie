@@ -1,13 +1,12 @@
 // One low tone on a commitment (IG-06), only where the address asks (?sound=1) while M22 tries it: a soft wooden
 // knock rather than a beep, as a piece is set down on a board. Made, not recorded: a falling sine and a quieter
-// partial an octave and a fifth above, through a low pass, gone in a fifth of a second. A held act's is a little lower
-// and longer. Silent otherwise, and wherever the page cannot sound.
-export type Knock = 'commit' | 'held';
+// partial an octave and a fifth above, through a low pass, gone in a fifth of a second. Silent otherwise, and wherever
+// the page cannot sound.
+export type Knock = 'commit';
 export class Tone {
   private static context?: AudioContext;
   static readonly shapes: Record<Knock, { from: number; to: number; ms: number; gain: number }> = {
     commit: { from: 196, to: 132, ms: 170, gain: 0.16 },
-    held: { from: 164, to: 98, ms: 260, gain: 0.18 },
   };
   // How many have sounded (for the repetition test: kyrieMono.inspect is the engine's; this is the page's own).
   static count = 0;

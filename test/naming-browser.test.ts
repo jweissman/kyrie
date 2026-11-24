@@ -29,7 +29,7 @@ class Naming {
   static async on(page: Page, step: string) {
     for (let i = 0; i < 10 && await Naming.at(page) !== step; i++) {
       const was = await Naming.at(page);
-      await MonoDriver.hold(page, '.composed-rows [data-option]:not(:disabled) >> nth=0');
+      await MonoDriver.enter(page, '.composed-rows [data-option]:not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
         { timeout: 5000 });
     }
@@ -47,7 +47,7 @@ class Naming {
   }
   // Presenting as one, and the hand of names that comes of it.
   static async as(page: Page, id: string): Promise<string[]> {
-    await MonoDriver.hold(page, `[data-option="${id}"]`);
+    await MonoDriver.enter(page, `[data-option="${id}"]`);
     await Naming.on(page, 'name');
     await page.waitForTimeout(300);
     return Naming.names(page);
@@ -95,11 +95,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
     // count had found none, CI, 19 Nov).
     const chosen = String(await (await page.waitForFunction(() =>
       document.querySelectorAll('.composed-list [data-option]')[1]?.getAttribute('data-option') || false)).jsonValue());
-    await MonoDriver.hold(page, `.composed-list [data-option="${chosen}"]`);
+    await MonoDriver.enter(page, `.composed-list [data-option="${chosen}"]`);
     await Naming.to(page, 'go');
     expect(await page.textContent('.composed .ask')).toBe(chosen);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await MonoDriver.hold(page, '[data-option="set-out"]');
+    await MonoDriver.enter(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await d.mode('c');
     // Called, where the world places them in a family, as it is (PA-03: Bartle of the Sedges).

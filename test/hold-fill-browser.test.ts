@@ -7,15 +7,14 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
-// A finger's hold (the owner, 17 November): on a phone the reticle is drawn round the finger, and the row's fill is
-// where the hold has got to, so the act is done only when the fill reaches the far end. And a row's mark is one height
-// in every state, at rest, under the hand and pressed.
+// A finger on a row (the owner, 17 November, then 23 November, OR-185: no long presses): nothing is held, so no ring
+// is drawn round the finger and no fill crosses the row while it is down; the row is chosen as the finger lifts, as
+// any tap is. And a row's mark is one height in every state, at rest, under the hand and pressed.
 class Fill {
-  // How the held row and the reticle stand, a fraction of the way through the hold.
+  // How the touched row stands while the finger is down.
   static readonly look = (sel: string) => {
-    const row = document.querySelector<HTMLElement>(sel)!, ring = document.querySelector('.ix-reticle');
-    const s = getComputedStyle(row);
-    return { ring: ring?.className ?? '', p: parseFloat(s.getPropertyValue('--hold-p')), image: s.backgroundImage,
+    const row = document.querySelector<HTMLElement>(sel)!, s = getComputedStyle(row);
+    return { ring: document.querySelectorAll('.ix-reticle').length, image: s.backgroundImage,
       head: document.querySelector('[data-slot="header"]')?.textContent ?? '' };
   };
   static async down(page: Page, sel: string) {
@@ -31,7 +30,7 @@ class Fill {
   }
 }
 
-describe.skipIf(!process.env.KYRIE_BROWSER)('a finger holding a row', () => {
+describe.skipIf(!process.env.KYRIE_BROWSER)('a finger on a row', () => {
   let site = '', browser: Awaited<ReturnType<typeof MonoBrowser.launch>>;
   beforeAll(async () => {
     site = await mkdtemp(join(tmpdir(), 'kyrie-fill-'));
@@ -40,26 +39,19 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a finger holding a row', () => {
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('is ringed round the finger, and done only when the fill is full', async () => {
+  it('draws no ring and no fill while it is down, and chooses the row as it lifts', async () => {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
     const page = await context.newPage(), errors: string[] = [];
     page.on('pageerror', e => errors.push(String(e)));
     await page.goto(`file://${join(site, 'mono.html')}?world=a1`);
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
-    // A row of the first step, which a hold chooses and goes on from.
-    const sel = '[data-menu] .choice-row[data-hold]';
+    // A row of the first step, which a tap chooses and goes on from.
+    const sel = '[data-menu] .choice-row[data-option]';
     await page.waitForSelector(sel); await page.waitForTimeout(600);
     const before = await page.evaluate(Fill.look, sel), cdp = await Fill.down(page, sel);
-    await page.waitForTimeout(260);
+    await page.waitForTimeout(400);
     const mid = await page.evaluate(Fill.look, sel);
-    // Half way: the ring is the finger's and filling, the row's fill drawn and part way, nothing done yet.
-    expect(mid.ring).toContain('finger');
-    expect(mid.ring).toContain('holding');
-    expect(mid.image).toContain('gradient');
-    expect(mid.p).toBeGreaterThan(20);
-    expect(mid.p).toBeLessThan(85);
-    expect(mid.head).toBe(before.head);
-    await page.waitForTimeout(500);
+    expect([mid.ring, mid.image.includes('gradient'), mid.head]).toEqual([0, false, before.head]);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     await page.waitForTimeout(600);
     expect((await page.evaluate(Fill.look, sel)).head).not.toBe(before.head);

@@ -44,7 +44,7 @@ export class Notices {
     );
   }
   // What a row's mark says, from the one table every row is drawn by (Emphasis), said once where it is asked for
-  // (M22's reviews, OR-31 and OR-52: the gold, blue and grey bars unexplained, and the hold never named).
+  // (M22's reviews, OR-31 and OR-52: the gold, blue and grey bars unexplained).
   static Marks() {
     const tones = Emphasis.precedence.flatMap(a => Emphasis.tones[a] ? [[a, Emphasis.tones[a]!] as const] : []);
     return <dl className="marks" aria-label="The marks">
@@ -52,7 +52,6 @@ export class Notices {
         </dt><dd>{Emphasis.words[a]}</dd></div>)}
       <div><dt><Glyphs.View id="companion" className="mark-icon" /></dt><dd>{Emphasis.words.companionship}</dd></div>
       <div><dt><i className="mark-swatch neutral" /></dt><dd>nothing in particular</dd></div>
-      <div><dt><i className="mark-swatch hold" /></dt><dd>held until it fills: a night, a camp, setting out</dd></div>
     </dl>;
   }
 }

@@ -16,7 +16,7 @@ import type { Screen } from '../ui/screen-types';
 // into its words).
 // far: how many places off along the way what is sensed lies.
 // bearing: a way's bearing in a site said in a word (Signs.bearing: "unexplored", "back").
-export interface Signed { tags?: string[]; hold?: true; sensed?: Aspect; far?: number; idle?: true; crosses?: true;
+export interface Signed { tags?: string[]; sensed?: Aspect; far?: number; idle?: true; crosses?: true;
   asks?: string; shown?: string; note?: string; bearing?: string }
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
@@ -38,7 +38,7 @@ export class TerminalSigns {
     const off = this.glance?.sensed?.find(x => x.to === to), sensed = off?.aspect;
     const tags = (c?.marks ?? []).map(m => Signs.marks[m.kind]);
     const said = c && Grave.asks(c), asks = said && Grave.asked(said, !!c.grave);
-    return { ...tags.length ? { tags } : {}, ...c?.hold ? { hold: true as const } : {},
+    return { ...tags.length ? { tags } : {},
       ...sensed ? { sensed, far: off.far } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
       ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
       ...c && (c.alone || this.whole.has(id)) ? { shown: c.alone || c.label } : {},

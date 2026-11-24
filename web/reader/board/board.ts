@@ -359,6 +359,9 @@ export class Board implements BoardApi {
   }
   private listen(): void {
     const el = this.renderer.domElement, names = this.labels.layer, signal = this.listening.signal;
+    // A press on the page beside the board (a row, Travel to): see pressing.
+    window.addEventListener('pointerdown', this.beside.bind(this), { capture: true, signal });
+    window.addEventListener('keydown', this.beside.bind(this), { capture: true, signal });
     el.addEventListener('pointerdown', e => this.presses.down(e), { signal });
     el.addEventListener('pointerup', e => this.tapped(e), { signal });
     el.addEventListener('pointercancel', e => this.presses.cancel(e), { signal });
@@ -397,9 +400,16 @@ export class Board implements BoardApi {
     if (document.visibilityState !== 'visible' || !this.renderer.getContext().isContextLost()) { return; }
     this.lost = setTimeout(() => this.hooks.lost?.(), 2000);
   }
-  // A hold under way, or a command the page waits on (the stage busy).
-  private static busy(): boolean { return Board.holding() || !!document.querySelector('.stage[aria-busy="true"]'); }
-  private static holding(): boolean { return 'holding' in document.documentElement.dataset; }
+  // A press just made beside the board, not yet answered, or a command the page waits on (the stage busy).
+  private waiting(): boolean { return this.pressing() || !!document.querySelector('.stage[aria-busy="true"]'); }
+  // A press on the page's rows, a moment long: nothing is drawn meanwhile, so that its click is taken at once rather
+  // than behind a drawing (a fifth of a second without a GPU): a hold had paused the board while it lasted (OR-91),
+  // and nothing is held now (OR-185: a journey's Travel to, tapped on a phone, answered 244 ms after the finger, two
+  // drift frames behind it). By then the stage is busy with the command, which pauses the drift as before.
+  private pressed = -Infinity;
+  private beside(e: Event): void { if (!this.host.contains(e.target as Node)) { this.pressed = performance.now(); } }
+  private pressing(): boolean { return performance.now() - this.pressed < Board.press; }
+  static readonly press = 300;
   private tick(now: number): void {
     const t = this.began === undefined ? 0 : Math.max(0, now - this.began) / 1000;
     if (this.view.step(now) || this.labels.step(now)) { this.dirty = true; }
@@ -412,10 +422,11 @@ export class Board implements BoardApi {
     // The air's drift is drawn only while the page waits on nothing: a drawing can hold the page's one thread for a
     // fifth of a second where it is drawn without a GPU, and a hold's timer and the answer to a command waited behind
     // it (OR-91: a hold done 0.36 s late, every drift frame a long task on CI's headless Chromium).
-    // So too what the camera's move or the labels ask while a hold is under way: drawn once it is done (OR-91: a hold
-    // begun as a place viewed was flown to waited behind each frame of the flight). A command waited on still draws
-    // what moves: a journey's walk is drawn while the page waits on its end.
-    const holding = Board.holding(), drifting = !this.still && now - this.active < Board.settles && !Board.busy();
+    // So too what the camera's move or the labels ask in the moment a press is made: drawn once it is answered (OR-91:
+    // a hold begun as a place viewed was flown to had waited behind each frame of the flight). A command waited on
+    // still draws what moves: a journey's walk is drawn while the page waits on its end.
+    const holding = this.pressing();
+    const drifting = !this.still && now - this.active < Board.settles && !this.waiting();
     if ((this.dirty && !holding) || (drifting && now - this.drawn > 120)) {
       // Each drawing measured, by why (see test/input-answered-browser's TRACE).
       const at = performance.now(), why = this.dirty ? this.renderer.shadowMap.needsUpdate ? 'board:shaded'

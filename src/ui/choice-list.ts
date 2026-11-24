@@ -30,10 +30,6 @@ export interface Choice {
   own?: boolean; deed?: boolean;
   // What it risks, said on it before it is chosen (see Marks).
   marks?: Mark[];
-  // Done by holding rather than a touch: an act that spends hours and cannot be taken back (a night's rest, a camp), by
-  // its action, never its words (see ChoiceList.sustained; the owner, 16 November). Searching, waiting, looking are
-  // touches.
-  hold?: 'sustained';
   // The emblem drawn beside its words: a spell's school or domain (see SpellSchools), an icon in ink, never a tone.
   emblem?: string;
 }
@@ -313,14 +309,13 @@ export class ChoiceList {
       ...(a.does ? { does: a.does } : {}), ...(a.targets ? { targets: a.targets } : {}),
       ...(a.moves ? { moves: true } : {}), ...(a.teaches ? { teaches: true } : {}),
       ...(a.grave ? { grave: a.grave } : {}), ...(a.answer ? { answer: true } : {}), ...(a.own ? { own: true } : {}),
-      ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}),
-      ...ChoiceList.sustained(a.does, a.command) ? { hold: 'sustained' as const } : {}, ...SpellSchools.field(a.targets) };
+      ...(a.deed ? { deed: true } : {}), ...(a.alone ? { alone: a.alone } : {}), ...SpellSchools.field(a.targets) };
   }
-  // An act of hours and commitment, by its action (resting, camping), or a journey set out on, by its command (the
-  // owner's play of 18 November, OR-111: "You should definitely have to long-press commit to travel somewhere"). A
-  // presentation of the act (it is held, not touched), never game time.
-  static readonly sustaining: ReadonlySet<string> = new Set(['rest', 'rest_unfed', 'camp']);
-  static sustained(does?: string, command?: string): boolean { return ChoiceList.sustaining.has(does ?? '') || ChoiceList.journey(command); }
+  // Nothing is held (the owner, 23 November, OR-185: "No long presses"; a night's rest, a camp and a journey had been,
+  // 16 and 18 November): every act is done at one press, and what one spends is said on its row before it is chosen,
+  // by the engine for every client: a rest or a camp "until morning" or the hour it ends, a way or a journey how long
+  // it takes (its note, above; the journey's card), and whether it ends after dark (Marks). What cannot be undone asks
+  // once (Grave), as it always has.
   static journey(command?: string): boolean { return !!command?.startsWith('travel:'); }
   // The pack: each companion's things, and what each can do with them.
   static pack(screen: Screen): Section[] {

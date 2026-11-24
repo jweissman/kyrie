@@ -50,7 +50,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a tap commits', () => {
     expect(await page.locator(act).count()).toBeGreaterThan(0);
     await Tapping.once(page, act, touch); await d.settle();
     expect(await Tapping.told(d)).toBeGreaterThan(told);
-    expect(await page.locator('[data-hold], .hold-ring, .hold-edge').count()).toBe(0);
+    expect(await page.locator('[data-hold], .ix-reticle').count()).toBe(0);
     // And by its key, once, where the keys are.
     if (!touch) {
       const now = await Tapping.told(d), again = await Tapping.sustained(page, d);

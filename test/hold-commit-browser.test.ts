@@ -22,7 +22,7 @@ class Holding {
   static async to(page: Page, step: string) {
     for (let i = 0; i < 14 && await Holding.at(page) !== step; i++) {
       const was = await Holding.at(page);
-      await MonoDriver.hold(page, '.composed-rows [data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
+      await MonoDriver.enter(page, '.composed-rows [data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, was,
         { timeout: 8000 });
     }

@@ -31,7 +31,7 @@ class Shape {
   }
   static async held(page: import('playwright-core').Page, selector: string) {
     const where = await Shape.at(page);
-    await MonoDriver.hold(page, selector);
+    await MonoDriver.enter(page, selector);
     await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, where, { timeout: 5000 });
   }
   // The spells' rows: which are taken, which shut, and whether each stands whole in the window.
@@ -67,14 +67,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('creation, composed', () => {
       // been squashed together, no mark, the aside run into the words, and no spec saw it).
       for (const r of await Shape.rows(page)) { expect(r).toMatchObject({ tall: true, marked: true, apart: true }); }
       expect(await page.locator('button:has-text("Details"), button:has-text("Continue")').count()).toBe(0);
-      await MonoDriver.hold(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
+      await MonoDriver.enter(page, '[data-option]:not([data-option="more"]):not(:disabled) >> nth=0');
       await page.waitForFunction(p => document.querySelector('.creation')?.getAttribute('data-page') !== p, where, { timeout: 5000 });
     }
     expect(seen.length).toBeGreaterThan(4);
     expect(seen.length).toBeLessThanOrEqual(10);
     expect(Math.max(...most)).toBeLessThanOrEqual(4);
     expect(await page.locator('button:has-text("Details")').count()).toBe(0);
-    await MonoDriver.hold(page, '[data-option="set-out"]');
+    await MonoDriver.enter(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 90000 });
     expect(errors).toEqual([]);
     await page.close();

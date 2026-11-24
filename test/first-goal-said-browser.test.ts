@@ -30,7 +30,7 @@ class Opening {
         onward ||= await aim.innerText().catch(() => '');
         const on = page.locator('.prologue-page .go-on');
         // Each page goes on by its held Continue (the owner, 16 November).
-        if (await on.count()) { await MonoDriver.hold(page, '.prologue-page .go-on'); }
+        if (await on.count()) { await MonoDriver.enter(page, '.prologue-page .go-on'); }
       }
       await page.waitForTimeout(700);
     }

@@ -6,10 +6,8 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 
-// "Hold" said on one row at a time (the owner, 18 November, OR-87), and never where nothing is held: creation's rows
-// are taken at a press since OR-169 (the owner, 23 November: no long presses), so a short tap on one goes on at once
-// and no row says Hold. The hint's one-at-a-time rule is Hold's own (Hold.hint lets the last go first), left to the
-// engine's held acts in play (test/hold-browser).
+// "Hold" said on one row at a time (the owner, 18 November, OR-87), and now on none: nothing is held anywhere (OR-169,
+// OR-185: no long presses), so a short tap on a row of creation goes on at once and no row says Hold.
 const hinted = (page: Page) => page.evaluate(() =>
   [...document.querySelectorAll('[data-hint]')].map(e => e.getAttribute('data-option') ?? e.tagName));
 const tap = async (page: Page, n: number) => {

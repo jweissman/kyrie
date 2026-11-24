@@ -7,7 +7,6 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../../../src/presentation/words';
 import { Signs } from '../../../src/presentation/signs';
 import { Grave } from '../../../src/presentation/grave';
-import { Hold } from '../instrument/hold';
 import { RowWords } from './row-words';
 import { PageFrame } from '../page-frame';
 
@@ -33,9 +32,7 @@ export class Act {
     draw: Draw; className?: string; children?: ReactNode; marked?: boolean; quiet?: boolean; number?: number;
     variant?: 'row' | 'glyph'; said?: string }) {
     const i = draw.index.get(c.id) ?? -1, s = draw.app.state, selected = !!s.keyed && i === s.cursor;
-    // Every act commits at a tap or its key, a sustained one too (the owner's play of the live build, IG-07: a hold had
-    // done nothing at a click and showed a tenth of a second of its mark on release). A cost felt in the hand is for
-    // later, built once (M22).
+    // Every act commits at a tap or its key (IG-07; OR-185: nothing held), what it spends said on its row beforehand.
     const opens = !!c.children && !/#(talk|look)$/.test(c.id), asks = Act.asks(c);
     const classes = ['act', variant === 'row' ? 'choice-row' : 'act-glyph', className ?? '', selected ? 'sel' : '',
       c.risk ? 'risk' : '', c.grave ? 'grave' : '', c.disabled ? 'shut' : '',
@@ -44,8 +41,8 @@ export class Act {
     // One aside to a row, never two half-said (M22's baseline: "the way yo… · The rats … wil…"): a risk or what cannot
     // be undone says so in place of the plain note.
     const warned = !!c.about && (c.risk || c.grave) && !children && !quiet;
-    // The act taken, drawn so while the engine answers; a sustained act held (see Hold).
-    const taken = s.pending?.taken === c.id || undefined, held = Hold.holds(c) ? Hold.props(draw.app, c) : {};
+    // The act taken, drawn so while the engine answers.
+    const taken = s.pending?.taken === c.id || undefined;
     // Words a player can read, or the row is not drawn (RowWords; the owner, 20 November, P0): a row's own, else its
     // choice's whole words; a glyph (a likeness, the fight's reticle on its card) the words of the act it is the face
     // of, or what it is said to be.
@@ -58,8 +55,7 @@ export class Act {
         data-number={number}
         aria-current={selected || undefined} aria-disabled={c.disabled ? true : undefined}
         aria-expanded={opens ? draw.open.has(c.id) : undefined} data-taken={taken} aria-label={said}
-        onClick={i >= 0 ? Act.click.bind(null, draw.app) : Act.direct.bind(null, draw.app, c)}
-        {...held}>
+        onClick={i >= 0 ? Act.click.bind(null, draw.app) : Act.direct.bind(null, draw.app, c)}>
         {children ?? <><span className="row-label">{Typography.curl(words)}</span>{c.note
           && !warned && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>
@@ -112,10 +108,8 @@ export class Act {
   // since it was drawn (AT-07 I3: navigation by identity).
   private static click(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) {
     const id = e.currentTarget.dataset.choice, i = app.menu.choices.findIndex(c => c.id === id), choice = app.menu.choices[i];
-    if (choice) { app.setState({ cursor: i, keyed: false }); app.choose(choice, e.currentTarget.dataset.held !== undefined); }
+    if (choice) { app.setState({ cursor: i, keyed: false }); app.choose(choice); }
   }
-  private static direct(app: ReaderApp, c: Choice, e: MouseEvent<HTMLButtonElement>) {
-    app.choose(c, e.currentTarget.dataset.held !== undefined);
-  }
+  private static direct(app: ReaderApp, c: Choice) { app.choose(c); }
   private static open(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) { app.show(e.currentTarget.dataset.view as View); }
 }

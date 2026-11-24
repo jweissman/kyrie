@@ -209,17 +209,17 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
   it('begins a life with who you are, not why you came, with no likeness of you, and goes back and on as the engine keeps it', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, query: '' });
     const at = () => page.getAttribute('.creation', 'data-page');
-    await MonoDriver.hold(page, '[data-action="begin"]');
+    await MonoDriver.enter(page, '[data-action="begin"]');
     // New game asks first how the game begins (OR-120): a character built, step by step.
     await page.waitForSelector('[data-mode="begin"]', { timeout: 30000 });
-    await MonoDriver.hold(page, '[data-action="build"]');
+    await MonoDriver.enter(page, '[data-action="build"]');
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     expect(await page.textContent('.ask')).not.toMatch(/^Why have you come/);
     expect(await at()).toBe('you');
     // A people held is chosen and the page goes on; Escape goes back to it, its choice still marked (PA-04: where the
     // making stands is the engine's).
     // On to how one presents, asked second (CR-03).
-    await MonoDriver.hold(page, '[data-option="human"]');
+    await MonoDriver.enter(page, '[data-option="human"]');
     await page.waitForFunction(() => document.querySelector('.creation')?.getAttribute('data-page') === 'presenting');
     // The life chosen so far gathers in the corner as its emblems; the likeness only once the name is asked.
     expect(await page.locator('.signature svg').count()).toBeGreaterThan(0);
