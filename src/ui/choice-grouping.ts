@@ -254,8 +254,11 @@ export class ChoiceGrouping {
   // other act on the same thing, alike, so that the asking gives nothing away (of a riddle's words, only the wrong ones
   // strike): nothing that may hurt is done unasked (the owner's play, 31 October, where a word pressed on a speaking
   // door killed the company).
+  // So too an act that exposes one of the company to a hazard (Resolve expose): heaving the adit's fallen prop alone
+  // had killed a mage of four hit points, unasked and unwarned (CB-01's descent measure).
   static hurts(action: Operator): boolean {
-    return [...action.success, ...action.failure].some(c => JSON.stringify(c).includes('"name":"strikes"'));
+    return action.resolve?.name === 'expose'
+      || [...action.success, ...action.failure].some(c => JSON.stringify(c).includes('"name":"strikes"'));
   }
   private static struck(rows: Row[]): Set<string> {
     return new Set(rows.filter(r => !this.rules[r.action.schema ?? r.action.id] && this.hurts(r.action)).flatMap(r =>
