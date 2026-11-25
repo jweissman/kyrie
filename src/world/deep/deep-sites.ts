@@ -186,10 +186,16 @@ export class DeepSites {
   private static hooks(purpose: DeepPurpose, values: Record<string, string>, baned: boolean): string[] {
     const q = this.q, w = values.w!, trade = purpose.hook.trade, ore = purpose.ore;
     const [first, second] = purpose.rumours.map(t => t.replaceAll('{name}', values.name!));
-    const saying = baned && purpose.bane ? ` My grandmother used to say it: ${DeepSites.lower(purpose.bane.fact)}` : '';
+    // The saying is asked after, by one who has heard of the place: the bane's aim is uncovered by asking further, not
+    // handed to anyone who asks about the place (OR-370; the quantity gate's first-town aims handed out, iscoed's
+    // barrow and the undertown's both given with the innkeeper's first answer).
+    const saying = baned && purpose.bane ? [
+      `  Topic ${w}_saying with ${values.keeper} ${q(`Ask {${values.keeper}} what the old folk say of ${values.name}`)} when knows(actor, ${w}_named) and not knows(actor, ${w}_bane) once {`,
+      `    Says ${q(`{${values.keeper}} lowers {their ${values.keeper}} voice. 'My grandmother used to say it: ${DeepSites.lower(purpose.bane.fact)}'`)}.`,
+      `    On discuss { Assert knows(actor, ${w}_bane). }`, '  }'] : [];
     return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when not knows(actor, ${w}_named) once {`,
-      `    Says ${q(`${first} {${values.keeper}} wipes the counter. '${this.lies(values.where!)} Go in daylight, and take more light than you think.${saying}'`)}.`,
-      `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found).${saying ? ` Assert knows(actor, ${w}_bane).` : ''} }`, '  }',
+      `    Says ${q(`${first} {${values.keeper}} wipes the counter. '${this.lies(values.where!)} Go in daylight, and take more light than you think.'`)}.`,
+      `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }', ...saying,
       ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when true once {`,
         `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
         // What he names, the map names too (he says Lapisrecs; the mound had stayed "a great long mound with a door of

@@ -24,7 +24,7 @@ class Walk {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const w = new Walk(new Runner(journey.session));
     await w.act('go(region__s1_inn_door,region__s1_taproom)');
-    if (warned) { await w.act('region__w8_rumour'); }
+    if (warned) { await w.act('region__w8_rumour'); await w.act('region__w8_saying'); }
     for (const id of ['region__s1_traveller_brings', 'recruit(region__s1_traveller)', 'go(region__s1_inn_door,region__s1_green)',
       'go(region__s1_shop_door,region__s1_shop)', 'region__w8_rumour2', 'go(region__s1_shop_door,region__s1_green)',
       'travel:region__w8']) { await w.act(id); }

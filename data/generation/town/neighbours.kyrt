@@ -286,12 +286,16 @@
   Objective {t}_death_aim when knows(party, {t}_death_bruise) and not knows(party, {t}_death_oak_fact) and not {t}_death_told(party) toward {t}_innkeeper "Find out where Joss Hatherly was the night he drowned. He had walked a long way on wet ground.".
   Objective {t}_death_oak_aim when knows(party, {t}_death_oak_fact) and not {t}_death_told(party) toward {t}_reeve "Tell the reeve what Joss Hatherly's tablet says of the oak cut behind the Hall's chain.".
   Entity {t}_death_bruise: fact "Joss Hatherly, a wood-warden's scaler, was found drowned at the landing with a bruise over one ear and silt in his boots: he had walked from further up the river than the landing.".
+  // The tablet is the innkeeper's to hand over, to one who has heard of the dead man or seen him: the oak's aim is
+  // uncovered by asking, not lying open behind the bar for anyone (OR-370: the quantity gate's first-town aims handed
+  // out, Porthalen's read off the bar by a company that knew nothing of a death).
   Thing {t}_tally "a wax tablet in a wooden case" at {t}_taproom {
     State shut "A wax tablet in a wooden case lies behind the bar where the innkeeper put it, its wax scratched with strokes in rows, marks beside them in the wardens' hand.".
-    State read "Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle: the same on every row. The merchant's trade-mark, as the sheds know it.".
-    Change read "Read the strokes on the wax tablet" from shut to read.
   }
-  Observe {t}_tally_learned at {t}_taproom of {t}_tally as reading when state({t}_tally, read) "The dead man kept the count of oak cut behind the Hall's chain, and who bought it." teaches {t}_death_oak_fact.
+  Topic {t}_keeper_tablet with {t}_innkeeper "Ask {{t}_innkeeper} to let you see the dead man's tablet" when knows(party, {t}_death_sober) or knows(party, {t}_death_bruise) once {
+    Says "{{t}_innkeeper} sets the wax tablet on the bar. Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle, the same on every row: the merchant's trade-mark, as the sheds know it.".
+    On discuss { Assert knows(actor, {t}_death_oak_fact). }
+  }
   Entity {t}_death_oak_fact: fact "Joss Hatherly's wax tablet records oak felled by night in the road-wood and sold under the merchant's pierced-circle mark: somebody was cutting behind the chain, and selling.".
   Topic {t}_keeper_last with {t}_innkeeper "Ask {{t}_innkeeper} about the dead man's last night" when true once {
     Says "'Hatherly drank two ales and paid for neither,' says {{t}_innkeeper}, 'and put his tablet down on the bar and said he would be back for it before the dawn bell. He had a look on him like a man who has done sums and not liked the answer.' A pause. 'He was sober. Whatever else they say, he was sober.'".

@@ -73,7 +73,8 @@ describe('the first town’s neighbours', () => {
     await j.play('Look under the cloth');
     expect(Placed.holds(j, 'knows', 'party', r('s1_death_bruise'))).toBe(true);
     Placed.at(j, r('s1_taproom'));
-    await j.play('Read the strokes on the wax tablet');
+    // The tablet is asked for, by one who has seen the dead man (OR-370).
+    await j.play("to let you see the dead man's tablet");
     expect(Placed.holds(j, 'knows', 'party', r('s1_death_oak_fact'))).toBe(true);
     Placed.at(j, r('s1_green'));
     await j.play('Tell Aldous Fenn what the dead man');

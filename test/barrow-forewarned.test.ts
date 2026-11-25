@@ -42,7 +42,11 @@ describe('the king-barrow, asked about before setting out', () => {
     const { r, c } = await Barrow.begin();
     await Barrow.take(r, /^Into the Stone Horn/);
     expect(Barrow.aims(r)).not.toContain(jar);
-    const told = said(await r.ask(JSON.stringify({ act: 'region__w8_rumour' }))).scene.lines.join(' ');
+    // The saying asked after, by one the innkeeper has told of the barrow (OR-370: the bane's aim is uncovered by asking
+    // further, not given with the first answer).
+    said(await r.ask(JSON.stringify({ act: 'region__w8_rumour' })));
+    expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__w8_bane'))).toBe(false);
+    const told = said(await r.ask(JSON.stringify({ act: 'region__w8_saying' }))).scene.lines.join(' ');
     expect(told).toContain('cannot abide the light of day');
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__w8_bane'))).toBe(true);
     expect(Barrow.aims(r)).toContain(jar);
@@ -51,6 +55,7 @@ describe('the king-barrow, asked about before setting out', () => {
     const { r, c } = await Barrow.begin();
     await Barrow.take(r, /^Into the Stone Horn/);
     said(await r.ask(JSON.stringify({ act: 'region__w8_rumour' })));
+    said(await r.ask(JSON.stringify({ act: 'region__w8_saying' })));
     Barrow.enter(c, 'region__w8_halls_embalmers');
     said(await r.ask(JSON.stringify({ look: true })));
     await Barrow.take(r, /^Collect a jar of noonlight/);
