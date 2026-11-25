@@ -20,20 +20,23 @@ const fro = (q: Quarter) => q.steps.map(x => x.place)
 const spec = { seed: 'iscoed', origin: 'kin', policy: 'gold' as const, steps: 1,
   protagonist: { name: 'Wenna', raceId: 'human', classId: 'warrior' } };
 describe('Porthalen Hall, by the gold', () => {
+  // The way in is the mage's: a warrior is told at the landing, the receipt read, that the grant wants lore she has
+  // not got, and the ways toward a place shut to the company are not led (OR-411: never its ways, which go on toward
+  // what is shut). The fight the warrior's walk had met was the Hall cellar's rats, come to by the dead man's tablet,
+  // read off the bar; it is the innkeeper's to hand over now (OR-370), and the rats are the press key's chain
+  // (test/press-key).
   it('goes on into the Hall to the press-door, and is told it is shut, not walked to and fro', async () => {
-    const q = await FirstQuarter.walk('iscoed', 'kin', 'warrior', 40);
+    const q = await FirstQuarter.walk('iscoed', 'kin', 'mage', 14);
     const places = q.steps.map(x => x.place);
     expect(places).toContain('the library');
     expect(q.steps.map(x => x.command)).toContain('push(region__s1_manor_press)');
     expect(fro(q)).toBeLessThanOrEqual(3);
-    expect(q.fights).toBeGreaterThanOrEqual(1);
-    // Walked again to the press-door and back to the forecourt: the aim's place is shut, said as a need, and nothing
-    // gold.
+    // Walked to the press-door and back to the forecourt: the aim's place is shut, said as a need, and nothing gold.
     const s = await AutoplayRun.start(spec, AutoplayRun.empty()), c = s.campaign;
-    const upto = q.steps.findIndex(x => x.command === 'push(region__s1_manor_press)');
-    for (const x of q.steps.slice(0, upto + 1)) { await s.leg(x.command); }
-    for (const back of ['go(region__s1_manor_libdoor,region__s1_manor_hall)',
-      'go(region__s1_manor_door,region__s1_manor_front)']) { await s.leg(back); }
+    for (const x of ['change_thing(region__s1_receipt_a_read)', 'go(region__s1_manor_avenue,region__s1_manor_front)',
+      'go(region__s1_manor_door,region__s1_manor_hall)', 'go(region__s1_manor_libdoor,region__s1_manor_library)',
+      'push(region__s1_manor_press)', 'go(region__s1_manor_libdoor,region__s1_manor_hall)',
+      'go(region__s1_manor_door,region__s1_manor_front)']) { await s.leg(x); }
     Undertakings.follow(c, 'region__s1_rooke_aim_seal');
     const screen = ScreenModel.build(c), g = Narrator.leaf(c, screen).glance!;
     expect(screen.place.name).toBe('the forecourt of Porthalen Hall');

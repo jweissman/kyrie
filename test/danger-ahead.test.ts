@@ -8,12 +8,14 @@ import { DangerAhead } from '../web/engine/danger-ahead';
 // The danger of what an act here could lead to, reckoned while the player reads (OR-145 (b)): at a1's Lucky Phoenix,
 // where asking Eamon about the king-barrow gives an aim whose giver warns of its band, the band is reckoned a fight
 // a turn of the loop once the answer before is given, so that the ask reads its verdict kept; an input that comes
-// meanwhile stops it, between two fights.
+// meanwhile stops it, between two fights. The king-barrow is asked after once Eamon has said what the matter
+// is (OR-423).
 describe('the danger ahead', () => {
   it('is reckoned while the player reads, a fight at a time, and stops for an input', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wenna']));
     const s = journey.session;
-    for (const re of [/^Take the causeway/, /^Take the door of the Lucky Phoenix/]) {
+    for (const re of [/^Take the causeway/, /^Take the door of the Lucky Phoenix/,
+    /^Ask Eamon what the matter is/]) {
       await s.leg(PlayerView.choices(s.campaign).find(c => re.test(c.choice.name))!.choice.id);
     }
     const bands = Outmatched.ahead(s.campaign);

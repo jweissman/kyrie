@@ -15,11 +15,12 @@ describe('the aim followed leads', () => {
       return g.perform(row.choice.id);
     };
     // The rats are under the town the company comes to first, its brother's.
-    // The notice read first: a job is asked after only by one who has heard of it (OR-370).
+    // The notice read first: a job is asked after only by one who has heard of it (OR-370); read, it has told the
+    // company what the matter is with each who gives a job on it (OR-423), so the salter is asked about the rats
+    // at once.
     await g.to('region__s2_green');
     await take(/^Read the notice/);
     await g.to('region__s2_shop');
-    await take(/^Ask .* what the matter is/);
     await take(/^Ask .* about the rats/);
     Undertakings.follow(c, 'region__s2_u_rats_job_aim');
     const glance = await g.to('region__s2_green');

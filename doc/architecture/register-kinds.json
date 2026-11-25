@@ -1200,6 +1200,12 @@
    "was": "defect",
    "pri": "P1",
    "why": "25 Nov, split from WD-12: the owner's reference-game direction asks a first town smaller than the one generated; a commissioned requirement unmet, not an observed violation"
+  },
+  "OR-650": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: a lead wanted where the shut contract claims none yet (Shut.found waits on a place been)"
   }
  },
  "blockedBy": {

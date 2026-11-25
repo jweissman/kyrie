@@ -9,9 +9,15 @@ import { FirstQuarter } from '../scripts/first-quarter';
 // The rats are beyond the mage and the hand together, so the page leads first to someone to take along (OR-417, the
 // owner's call on OR-411: help to be had leads): Carlin is hired in the taproom, and the chain goes on; four steps
 // more than it took before, when the gold had led the two of them straight down to the rats.
+// The cook is known only to a company that has been in her kitchen (Shut.found: never anywhere not yet been, AR-21).
+// The walk had come to it by the dead man's tablet, read off the bar; since the tablet is the innkeeper's to hand over
+// to one who has heard of the death (OR-370), the walk looks into the Hall's kitchen first, as a player looking round
+// the Hall does (OR-650: a shut place with nothing found leads nowhere in the site).
 describe('the old press key, by the gold', () => {
   it('is fetched by its chain, the rats, the cook, the key, and opens the press-door to the grant', async () => {
-    const q = await FirstQuarter.walk('iscoed', 'kin', 'mage', 56);
+    const q = await FirstQuarter.walk('iscoed', 'kin', 'mage', { steps: 56, asked: ['talk_to(region__s1_u_hand)',
+      'region__s1_u_hand_ask', 'recruit(region__s1_u_hand)', 'change_thing(region__s1_receipt_a_read)',
+      'go(region__s1_manor_avenue,region__s1_manor_front)', 'go(region__s1_manor_kdoor,region__s1_manor_kitchen)'] });
     const done = q.steps.map(x => x.command), at = (c: string) => done.indexOf(c);
     const chain = ['attack(region__s1_manor_rats)', 'region__s1_manor_cook_ratsdone', 'region__s1_manor_cook_key',
       'take_item(region__s1_manor_key,region__member_party_1)', 'change_thing(region__s1_manor_press_key)',
