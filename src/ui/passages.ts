@@ -183,15 +183,16 @@ export class Passages {
       ...(k.way ? { way: k.way } : {}), ...(k.hazard ? { hazard: k.hazard, ...k.harm ? { harm: k.harm } : {} } : {}),
       ...several ? { several } : {},
       ...k.oneWay ? { oneWay: true } : {}, ...k.unmarked && !visited.has(k.destination) ? { unmarked: true } : {},
-      ...k.keyed ? { keyed: true } : {}, ...this.lurking(here, k.destination) ? { lurks: true } : {},
+      ...k.keyed ? { keyed: true } : {},
+      ...Passages.lurking(this.world, this.actor, here, k.destination) ? { lurks: true } : {},
       visited: visited.has(k.destination), acts };
   }
   // Whether what lies in wait where a way leads shows at its mouth to the company: something there that lurks
-  // (lurks(band, place): the ambush's sign, DeepSounds), and light here to see the sign by; never in the dark.
-  private lurking(here: string, there: string): boolean {
-    const w = this.world;
+  // (lurks(band, place): the ambush's sign, DeepSounds), and light here to see the sign by; never in the dark. A
+  // journey reads the same, and stops at such a way's mouth (Travel).
+  static lurking(w: World, actor: string, here: string, there: string): boolean {
     if (!w.relates('lurks')) { return false; }
-    const dark = QueryIndex.of(w.module, 'benighted') ? w.test(ModuleWriter.call('benighted', this.actor))
+    const dark = QueryIndex.of(w.module, 'benighted') ? w.test(ModuleWriter.call('benighted', actor))
       : w.test(ModuleWriter.call('unlit', here));
     return !dark && w.related('lurks').some(r => r.args[1] === there && w.one('at', r.args[0]!) === there
       && w.test(ModuleWriter.call('able', r.args[0]!)));

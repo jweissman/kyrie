@@ -6,6 +6,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { PlayerFrame } from '../presentation/player-frame';
 import { Itineraries, type Leg } from '../ui/itinerary';
 import { PassageModel } from '../ui/passage-model';
+import { Passages } from '../ui/passages';
 import { Overland } from '../ui/overland';
 import { ScreenModel } from '../ui/screen-model';
 import { Narrator } from '../presentation/narrator';
@@ -94,6 +95,12 @@ export class Travel {
     if (!choice) { return this.barred(t.campaign, leg); }
     // A way that goes one way only is the player's to take, asked about, not the journey's (PT-17).
     if (this.oneWay(t.campaign, leg)) { return `There is no coming back by ${leg.way}`; }
+    // So is a way whose mouth shows that something lies in wait in there, as the page marks it (Passages.lurking): the
+    // careful walks had died on a deep site's second level by a journey walked past the sign into an ambush (SI-01).
+    // The ambush is kept: the way taken by hand still leads into it.
+    if (Passages.lurking(t.campaign.world, t.campaign.playerActor!, leg.from, leg.to)) {
+      return `Something lies in wait beyond ${leg.way}`;
+    }
     const before = this.condition(t.campaign);
     // The leg is the journey's: it may cross into the next hex, as no command of the page's may (Campaign.bounded).
     const event = await t.campaign.crossing.travelling(leg.to, () => t.perform(choice.choice.id, choice.choice.name));
