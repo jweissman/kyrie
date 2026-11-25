@@ -69,5 +69,16 @@ Module goingbank "The Going Bank" {
   Discovery cord_known "Sabra Yarrow has kept a knotted cord forty years: one knot for each pace the Plait came out long on the west side. The knots run ten, twelve, fifty.".
   Discovery drum_known "Meggan Lorrimer's drum-stone answers: the bank, struck, answers back, and the answer says how it feels.".
   Discovery sea_known "The thing under Ketter is going to the sea, as it has before, every ninety years or so.".
+  Discovery handline_known "A hand-line laid along the guide-rope would let anybody cross the gap, and Sabra Yarrow sells rope.".
+  Discovery wedding_known "Tamsy Hendry and Fell Anstey are to be married on the Join at dusk on the third day, with both villages on the Plait.".
+  Discovery kite_known "Bettony's kite flies east on the west wind at dusk, from five till eight. It lifts one at a time, and never the old.".
+  Discovery bettony_lost "Bettony Halloway built her kite after her husband went into the Grudge, where no rope was long enough to reach him.".
+  Discovery pins_known "Varnish crosses to the Ketter shelf at noon on the second day, and drives his nine pins at the hour of the wedding.".
+  Discovery varnish_son "Magne Varnish has a boy of six at the Lip.".
+  Discovery fell_afraid "Fell Anstey is afraid of the Join: of saying his vows in the middle of nothing.".
+  Discovery wet_said "Osbel Hendry blames the wet for Ketter's flat bell. The well rope is longer every spring, and the big terrace runs downhill the wrong way.".
+  Discovery osbel_asks "Osbel Hendry will not hear that the ground is going east until he is told what it is going to.".
+  Discovery meggan_present "Meggan Lorrimer has not seen the sea, and means to be present when the hill comes to it.".
+  Discovery ketter_choice "Ketter will leave its hill or keep it, as the company tells Osbel Hendry.".
   Discovery boards_seen "In the loft the newest knot-board has a gap in it, and the boards before it show each spring's gap a little wider.".
 }

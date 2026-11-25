@@ -45,7 +45,7 @@ Module goingbank "The Going Bank" {
   // ── The kite ───────────────────────────────────────────────────────────────────────────────────────────────────
 
   Action kite_east(actor: group, site: place) "Fly the Gape in Halloway's kite, west to east" {
-    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kite_barn) and at(bettony, kite_barn) and onScale(party) and hour(clock) >= 17 and hour(clock) < 20 and not state(walkway, parted).
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kite_barn) and at(bettony, kite_barn) and onScale(party) and knows(actor, kite_known) and hour(clock) >= 17 and hour(clock) < 20 and not state(walkway, parted).
     Resolve check(actor, climbing, dc_fair).
     Time 30 minutes.
     On success { Assert at(actor, landing). }

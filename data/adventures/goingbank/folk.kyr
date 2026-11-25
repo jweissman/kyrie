@@ -10,9 +10,11 @@ Module goingbank "The Going Bank" {
   }
   Topic pipit_line with pipit "Ask Pipit how she crosses" when true once {
     Says "'Lower rope under the ball of the foot, upper rope in the palm, and look at me, not at the water.' She does it six steps out to show you and comes back. 'It only goes wrong if you look. Mother Yarrow sells rope. If you laid a hand-line along it it'd go right for anybody.'".
+    On discuss { Assert knows(actor, handline_known). }
   }
   Topic pipit_knot with pipit "Ask Pipit about the wedding" when true once {
     Says "'Tamsy and Fell, on the Join, at dusk the third day, with both villages on the Plait.' She holds up a green cord. 'I carry the knot-cord. If the Plait's not done, we do it on the poles. It's been done on the poles. Once. Nobody likes to say when.'".
+    On discuss { Assert knows(actor, wedding_known). }
   }
 
   Person sabra "Sabra Yarrow" at loft {
@@ -23,6 +25,7 @@ Module goingbank "The Going Bank" {
   }
   Topic sabra_short with sabra "Ask Sabra why the Plait came out short" when true once {
     Says "'Frost,' says Sabra. 'The lip heaves. It heaved the year my mother plaited, and the year hers did.' The splice goes on. 'The Lip will not like the toll closed. Lay a hand-line and be quick about it, if you mean to cross.'".
+    On discuss { Assert knows(actor, handline_known). }
   }
   Topic sabra_boards with sabra "Ask Sabra about the knot-boards" when true once {
     Says "'Every spring's Knotting, since my grandmother's grandmother.' She jerks her chin at the walls. 'A knot for the crew that tied it. The gap is where the Plait didn't reach, and we filled it with a plank. It's only wood.' You look. The gaps are small near the old boards and wide near the new.".
@@ -49,9 +52,11 @@ Module goingbank "The Going Bank" {
   }
   Topic bettony_wind with bettony "Ask Bettony when the kite flies" when true once {
     Says "'West wind at dusk, five till eight. Takes you east. East wind at dawn, five till eight. Takes you west. Between, there is nothing, and I don't fly in nothing.' She taps the wall. 'It lifts one at a time. It won't lift the old, nor a child who can't be told to hold still. If you're after emptying a village, you want a different plan.'".
+    On discuss { Assert knows(actor, kite_known). }
   }
   Topic bettony_husband with bettony "Ask Bettony why she built it" when true once {
     Says "'My husband went in the Grudge.' She does not stop chalking. 'Could not get to him, could not get down to him, the rope was not long enough. So I thought, well, up, then.' She steps back from the wall and looks at it. 'Eleven times over. I look down every one. He is not there.'".
+    On discuss { Assert knows(actor, bettony_lost). }
   }
   Action weigh(actor: group, site: place) "Be weighed on Bettony's hay-scale" {
     Requires able(actor) and at(actor, site) and at(bettony, site) and not onScale(party).
@@ -66,11 +71,13 @@ Module goingbank "The Going Bank" {
   }
   Topic varnish_work with varnish "Ask Varnish what is in the crate" when true once {
     Says "'Nine pins, forged to a pattern, each as long as a man. Sunk in the Ketter shelf at the cliff's edge and chained back to the Lip, so the span cannot drift.' He is patient and pleased. 'I begin on the east shelf tomorrow at noon, and drive the nine at the hour of the wedding, because that is when the council wants it seen done.'".
+    On discuss { Assert knows(actor, pins_known). }
   }
   Topic varnish_boy with varnish "Ask Varnish about himself" when true once {
     Says "'I have a boy of six at the Lip. Never ill a day.' He puts the pin down, carefully. 'I am not paid to like the work. I am paid to see that it holds.'".
+    On discuss { Assert knows(actor, varnish_son). }
   }
-  Topic varnish_look with varnish "Ask Varnish to come and look at the river wall" when bankGoing() and not pinsDown(party) and at(varnish, taproom) once {
+  Topic varnish_look with varnish "Ask Varnish to come and look at the river wall" when bankGoing() and knows(actor, pins_known) and not pinsDown(party) and at(varnish, taproom) once {
     Says "He looks at you, and at the pin. 'You think my geometry is wrong,' he says. 'Show me.' He puts on his coat. 'I will be at the ladder.'".
     On discuss { Assert at(varnish, seam). }
   }
@@ -96,20 +103,23 @@ Module goingbank "The Going Bank" {
   }
   Topic fell_afraid with fell "Ask Fell what he is afraid of" when true once {
     Says "'The Join.' He puts the bread down. 'Standing in the middle of nothing and saying I will, while a hundred people on a grass rope all say it with me. If it were a floor I'd not mind.' He tries a smile. 'She's not afraid. She was born over there. She says the whole of Ketter is a bit of a lean, and you get used to it.'".
+    On discuss { Assert knows(actor, fell_afraid). }
   }
 
   // ── Ketter ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
   Person osbel "Osbel Hendry" at green {
     Role "reeve of Ketter". Ancestry human. Peaceable. Pronouns he. Manner stoic.
-    Greets "A man in his shirt is measuring a barley terrace with a rod and does not like the number. 'Rudd,' he says. 'Reeve. You've come for the wedding or the toll, and I'll not charge you for the first.'".
-    Greets again "'Rudd,' he says, with the rod, to the terrace.".
+    Greets "A man in his shirt is measuring a barley terrace with a rod and does not like the number. 'Hendry,' he says. 'Reeve. You've come for the wedding or the toll, and I'll not charge you for the first.'".
+    Greets again "'Hendry,' he says, with the rod, to the terrace.".
   }
   Topic osbel_bell with osbel "Ask Osbel about the church bell" when true once {
     Says "'The wet gets in the frame.' He lets the rod droop. 'The well rope is longer every spring, as well. And the big terrace runs downhill the wrong way now, which a terrace has no business doing.' He picks the rod up. 'It is the wet.'".
+    On discuss { Assert knows(actor, wet_said). }
   }
   Topic osbel_bank with osbel "Tell Osbel the ground is going east" when bankGoing() and not knows(actor, walker_known) and not reeveTold(party) once {
     Says "He is angry, for as long as it takes to say a word he does not say. 'Going where?' he says. 'It is a hill. My grandfather ploughed it.' He looks at the cairns. He looks for a long time. 'Come back,' he says, 'when you can tell me what it is going to.'".
+    On discuss { Assert knows(actor, osbel_asks). }
   }
   Topic osbel_walker with osbel "Tell Osbel what breathes under Ketter" when knows(actor, walker_known) and not reeveTold(party) once {
     Says "'Say it again,' says Osbel, and you do. He puts down the rod. He walks to the church gate, without speaking, and stands at it, and begins to count the village aloud, by name, house by house, who can walk and who must be carried, the way a man counts sheep he is afraid to lose. Some of the names are children's. At sixty-one he stops. 'Right,' he says. 'Now tell me what you want of me.'".
@@ -117,6 +127,7 @@ Module goingbank "The Going Bank" {
   }
   Topic osbel_choice with osbel "Ask Osbel what Ketter will do" when reeveTold(party) once {
     Says "'Ketter is a hundred and forty people and one church and a good deal of barley,' says Osbel. 'It can leave its hill, or it can keep it. Which would you have me tell them?'".
+    On discuss { Assert knows(actor, ketter_choice). }
   }
   Topic say_ride with osbel "Say Ketter should keep its hill, and ride it to the sea" answering osbel_choice when knows(actor, sea_known) {
     Says "He is quiet. 'Ride it,' he says. 'Ride it. Like a boat.' Something in his face is tried on, and it fits. 'The hay will go. The wells will shift. We will lose the bell.' He turns to the green. 'I will say it from the church step. Tell Meggan.'".
@@ -142,6 +153,7 @@ Module goingbank "The Going Bank" {
   }
   Topic meggan_sea with meggan "Ask Meggan if she has ever seen the sea" when knows(actor, sea_known) once {
     Says "'I have not seen anything for sixty years,' says Meggan. 'But I should like to be present.'".
+    On discuss { Assert knows(actor, meggan_present). }
   }
 
   Person tamsy "Tamsy Hendry" nowhere {

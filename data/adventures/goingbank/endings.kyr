@@ -26,7 +26,7 @@ Module goingbank "The Going Bank" {
   Rule fate_sabra_silent when dawnCame(party) and fatedWed(party) and not fatedSabra(party)
     says "Sabra Yarrow keeps the knotted cord in her apron. She is seen to put her hand on it, and not to take it out." { Assert fatedSabra(party). }
 
-  Rule fate_meggan when fatedSabra(party) and ketterRides(party) and not state(pin_iron, staked) and not fatedMeggan(party)
+  Rule fate_meggan when fatedSabra(party) and ketterRides(party) and knows(party, meggan_present) and not state(pin_iron, staked) and not fatedMeggan(party)
     says "On the high ground Meggan Lorrimer is carried to the drum-stone in a chair, because she has declared she will be present." { Assert fatedMeggan(party). }
   Relation fatedMeggan(group).
 

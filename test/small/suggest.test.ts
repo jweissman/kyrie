@@ -47,8 +47,9 @@ describe('kyrie suggest', () => {
     expect([counts.combat, counts.investigation, counts.talk, counts.wonder]).toEqual([1, 1, 1, 0]);
     const shapes = SuggestAdventures.shapes();
     expect(shapes.length).toBeGreaterThan(30);
-    // A Wonder is declared by few, and none holds enough of them for a wonder-tranche (Windfall's orchard the first).
-    expect(shapes.filter(s => s.counts.wonder > 0).map(s => s.id)).toEqual(['windfall']);
+    // A Wonder is declared by few, and none holds enough of them for a wonder-tranche (Windfall's orchard and the
+    // Going Bank's breathing wall the first).
+    expect(shapes.filter(s => s.counts.wonder > 0).map(s => s.id)).toEqual(['goingbank', 'windfall']);
     expect(SuggestAdventures.report().join('\n')).toContain('a wonder-tranche: 0 of');
   });
   it('counts the owner\'s paintings by terrain and subject, the list of those wanted kept as it reads', () => {

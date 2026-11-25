@@ -1278,6 +1278,24 @@
    "was": "defect",
    "pri": "P3",
    "why": "25 Nov, an adventure's friction: proposals for Kyr, Deem and the journey tool, a wanted future"
+  },
+  "OR-672": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: its thin parts unproven, not a broken contract (its two defects mended at integration)"
+  },
+  "OR-673": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: proposals for Kyr, Deem and the author's tools, a wanted future"
+  },
+  "OR-674": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: a label that could say more, the act itself honest"
   }
  },
  "blockedBy": {

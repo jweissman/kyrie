@@ -5,12 +5,11 @@ import steps from './fixtures/goingbank/journey.json';
 
 // The Going Bank, played by the labels a player sees: the Plait, the east bank that is going, and the three days
 // before the Plait parts. Each test is one way the three days can go.
+const campaign = 'data/campaigns/goingbank.campaign.json';
+const start = async () => Journey.start(campaign, "goingbank");
+const reached = (j: Journey, ending: string) => j.holds('reached', 'goingbank__' + ending);
+const known = (j: Journey, fact: string) => j.holds('knows', 'party', 'goingbank__' + fact);
 describe("The Going Bank", () => {
-  const campaign = 'data/campaigns/goingbank.campaign.json';
-  const start = async () => Journey.start(campaign, "goingbank");
-  const reached = (j: Journey, ending: string) => j.holds('reached', 'goingbank__' + ending);
-  const known = (j: Journey, fact: string) => j.holds('knows', 'party', 'goingbank__' + fact);
-
   it('lints clean', async () => {
     expect((await KyrLint.campaign(campaign)).filter(f => f.level === 'error')).toEqual([]);
   }, 60000);
@@ -59,7 +58,8 @@ describe("The Going Bank", () => {
   it('goes by the honest road to the harbour: the wall, the drum, the reeve, the vows', async () => {
     const j = await start();
     j.roll('pass');
-    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, ...steps.cross, ...steps.meggan, '=day 1 17:30', ...steps.strike);
+    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, ...steps.cross, ...steps.meggan,
+      '=day 1 17:30', ...steps.strike);
     expect(j.holds('answered', 'party')).toBe(true);
     await j.play('Take your leave', '^To Ketter green', ...steps.reeve, ...steps.ride);
     expect(j.holds('ketterRides', 'party')).toBe(true);
@@ -88,7 +88,7 @@ describe("The Going Bank", () => {
 
   it('flies the Gape in the kite at dusk, once weighed', async () => {
     const j = await start();
-    await j.play(...steps.arrive, '^To Halloway', 'Talk to Bettony');
+    await j.play(...steps.arrive, '^To Halloway', 'Talk to Bettony', 'Ask Bettony when the kite flies');
     await j.play('Take your leave', 'Be weighed');
     j.roll('pass');
     await j.play('=day 1 17:30', 'Fly the Gape');
@@ -98,16 +98,19 @@ describe("The Going Bank", () => {
   it('rides without having answered the hill, and it is a hard going', async () => {
     const j = await start();
     j.roll('pass');
-    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, ...steps.cross, ...steps.meggan, 'Take your leave', '^To Ketter green', ...steps.reeve, ...steps.ride, '=day 4 06:00');
+    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, ...steps.cross, ...steps.meggan,
+      'Take your leave', '^To Ketter green', ...steps.reeve, ...steps.ride, '=day 4 06:00');
     expect(reached(j, 'hard_ride')).toBe(true);
   }, 300000);
 
   it('lays a hand-line on the second day, and Ketter crosses by it', async () => {
     const j = await start();
     j.roll('pass');
-    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, '=day 2 07:00', '^To the west stub', '^To the Join', 'Rig a hand-line');
+    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, '=day 2 07:00',
+      '^To the west stub', '^To the Join', 'Rig a hand-line');
     expect(j.holds('state', 'goingbank__walkway', 'goingbank__roped')).toBe(true);
-    await j.play('^To the east stub', '^To Ketter landing', '^To Ketter green', ...steps.reeve, ...steps.crossing, '=day 4 06:00');
+    await j.play('^To the east stub', '^To Ketter landing', '^To Ketter green', ...steps.reeve, ...steps.crossing,
+      '=day 4 06:00');
     expect(reached(j, 'across_gap')).toBe(true);
     expect(j.page).toContain('cuts the Plait, clean');
   }, 300000);
@@ -115,14 +118,17 @@ describe("The Going Bank", () => {
   it('sends Ketter across a bare guide-rope, and the old are left on the bank', async () => {
     const j = await start();
     j.roll('pass');
-    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, '=day 2 07:00', '^To the west stub', '^To the Join', '^To the east stub', '^To Ketter landing', '^To Ketter green', ...steps.reeve, ...steps.crossing, '=day 4 06:00');
+    await j.play(...steps.arrive, ...steps.cord, ...steps.breath, ...steps.varnish, '=day 2 07:00',
+      '^To the west stub', '^To the Join', '^To the east stub', '^To Ketter landing', '^To Ketter green',
+      ...steps.reeve, ...steps.crossing, '=day 4 06:00');
     expect(reached(j, 'half_bank')).toBe(true);
   }, 300000);
 
   it('tells both banks at the Knotting, with the wall in hand', async () => {
     const j = await start();
     j.roll('pass');
-    await j.play(...steps.arrive, ...steps.breath, ...steps.varnish, '=day 3 18:00', '^To the west stub', '^To the Join', 'Say to both banks what you know');
+    await j.play(...steps.arrive, ...steps.breath, ...steps.varnish, '=day 3 18:00', '^To the west stub',
+      '^To the Join', 'Say to both banks what you know');
     expect(j.holds('truthPublic', 'party')).toBe(true);
     expect(j.holds('reeveTold', 'party')).toBe(true);
     expect(j.latest).toContain('We will count');
@@ -131,7 +137,8 @@ describe("The Going Bank", () => {
   it('is not believed at the Knotting when the word will not come off', async () => {
     const j = await start();
     j.roll('fail');
-    await j.play(...steps.arrive, ...steps.breath, ...steps.varnish, '=day 3 18:00', '^To the west stub', '^To the Join', 'Say to both banks what you know');
+    await j.play(...steps.arrive, ...steps.breath, ...steps.varnish, '=day 3 18:00', '^To the west stub',
+      '^To the Join', 'Say to both banks what you know');
     expect(j.holds('truthPublic', 'party')).toBe(false);
     expect(j.latest).toContain('The wet');
   }, 240000);
@@ -139,7 +146,8 @@ describe("The Going Bank", () => {
   it('can drag the pins out of the shelf before dawn, and the bank only lurches', async () => {
     const j = await start();
     j.roll('pass');
-    await j.play(...steps.arrive, '^To Halloway', 'Buy a crowbar', '^To the windlass', ...steps.cross, '=day 3 18:30', '^To Ketter landing');
+    await j.play(...steps.arrive, '^To Halloway', 'Buy a crowbar', '^To the windlass', ...steps.cross,
+      '=day 3 18:30', '^To Ketter landing');
     expect(j.holds('state', 'goingbank__pin_iron', 'goingbank__staked')).toBe(true);
     await j.play('Wrench the pins out of the shelf');
     expect(j.latest).toContain('lurches');
@@ -151,9 +159,39 @@ describe("The Going Bank", () => {
   it('talks Varnish out of it on the east shelf, with what the wall showed', async () => {
     const j = await start();
     j.roll('pass');
-    await j.play(...steps.arrive, ...steps.breath, '=day 2 13:00', ...steps.cross.slice(0, 4), 'Talk to Magne', 'Tell Varnish what you saw');
+    await j.play(...steps.arrive, ...steps.breath, '=day 2 13:00', ...steps.cross.slice(0, 4), 'Talk to Magne',
+      'Tell Varnish what you saw');
     expect(j.holds('pinsDown', 'party')).toBe(true);
     await j.play('=day 4 06:00');
     expect(reached(j, 'iron_in_shoulder')).toBe(false);
   }, 240000);
+});
+
+// Integration's mends (25 November): talk whose words were all it did now teaches what it tells, and later play
+// reads it. Bettony's word on the winds is what her kite waits on; Varnish's plan for the pins is what the company
+// needs before it asks him to the wall; the reeve says his own name.
+describe("The Going Bank's talk, mended", () => {
+  it('flies the kite only once Bettony has said when it flies', async () => {
+    const j = await start();
+    await j.play(...steps.arrive, '^To Halloway', 'Talk to Bettony', 'Take your leave', 'Be weighed', '=day 1 17:30');
+    expect(j.offers('Fly the Gape')).toBe(false);
+    await j.play('Talk to Bettony', 'Ask Bettony when the kite flies', 'Take your leave');
+    expect(j.offers('Fly the Gape')).toBe(true);
+  }, 120000);
+
+  it('asks Varnish to the wall only once he has said what the pins are for', async () => {
+    const j = await start();
+    await j.play(...steps.arrive, ...steps.breath, '^Into the Long Pull', 'Talk to Magne');
+    expect(j.offers('Ask Varnish to come')).toBe(false);
+    await j.play('Ask Varnish what is in the crate');
+    expect(known(j, 'pins_known')).toBe(true);
+    expect(j.offers('Ask Varnish to come')).toBe(true);
+  }, 120000);
+
+  it('is greeted by the reeve of Ketter by his own name', async () => {
+    const j = await start();
+    await j.play(...steps.arrive, ...steps.cross, 'Talk to Osbel');
+    expect(j.page).toContain('Hendry');
+    expect(j.page).not.toContain('Rudd');
+  }, 120000);
 });

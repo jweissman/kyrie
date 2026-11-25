@@ -1042,6 +1042,33 @@
    "heard": "East on the Saltings lies Hythe, forty houses on the last dry ground before the sea. The Wardens' orchard behind it walks a step a night toward the churchyard.",
    "skyline": "a squat grey church over flat salt fen, beside an orchard in rows too even for an accident",
    "far": "an orchard on the salt fen walks a step a night toward a churchyard"
+  },
+  {
+   "id": "goingbank",
+   "province": true,
+   "bundle": "goingbank/placed.json",
+   "entry": "road",
+   "marker": "varnish",
+   "side": "north",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "fell",
+    "heath"
+   ],
+   "name": "the Gape country",
+   "topic": "the Gape at Tarrow Lip, whose grass-rope bridge comes out short",
+   "terrain": "hills",
+   "rumour": "'North, at Tarrow Lip,' says {keeper}, 'there's a gorge they call the Gape, with a bridge of plaited grass across it to Ketter on the far side. This spring it came out nine paces short, and there's a wedding to be held in the middle of it.'",
+   "heard": "North at Tarrow Lip a bridge of plaited grass crosses the Gape to Ketter. This spring it came out nine paces short of the far bank.",
+   "skyline": "a long green hill beyond a gorge, and a thread of bridge that stops short of it",
+   "far": "a grass-rope bridge over a gorge came out short of the far bank this spring"
   }
  ]
 }

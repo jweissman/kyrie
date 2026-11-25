@@ -2,6 +2,10 @@
   "version": 1,
   "source": [
     "site.kyr",
+    "folk.kyr",
+    "gape.kyr",
+    "voices.kyr",
+    "endings.kyr",
     "placed.kyr"
   ],
   "rules": [

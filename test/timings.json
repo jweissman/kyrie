@@ -1466,6 +1466,8 @@
     "test/golden-told.test.ts": 59241,
     "test/gosses-company-leads.test.ts": 5819,
     "test/windfall.test.ts": 20210,
-    "test/windfall-placed.test.ts": 60000
+    "test/windfall-placed.test.ts": 13140,
+    "test/goingbank.test.ts": 15480,
+    "test/goingbank-placed.test.ts": 15550
   }
 }
