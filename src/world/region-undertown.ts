@@ -18,6 +18,7 @@ import { Draw } from './land/draw';
 import { Communities } from './community/community';
 import { ReferenceSettlement } from './reference-settlement';
 import { RegionWoods } from './region-woods';
+import { WoodsCounsel } from './deep/woods-counsel';
 import { RegionWeather } from './region-weather';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
@@ -170,12 +171,15 @@ export class RegionUndertown {
       where: ReferenceSettlement.is(region, s) ? `under the old woods above ${s.name}` : `under ${s.name}`, keeperat: SettlementWriter.standing(region, s, 'innkeeper') };
     // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. It
     // lies within the town, under it, so that going down into it is going in, not a journey across the country.
+    const deep = DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name, wooded })
+      .filter(l => !(taken && /^\s*Measure deepWater/.test(l)));
     return [...wooded ? RegionWoods.lines(s, { w, site: site.name, old,
       ...region.calendar ? { sky: RegionWeather.kinds(region, region.calendar) } : {} })
       : this.vaulted(s, { w, site: site.name }),
       // The measures every deep site declares are the country's already when it has one of its own.
-      ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name, wooded })
-        .filter(l => !(taken && /^\s*Measure deepWater/.test(l))),
+      ...deep,
+      // What the shrine-keeper can say of each depth below the first, once the company has been above it.
+      ...wooded ? WoodsCounsel.lines({ t, w, priest: `${t}_priest` }, deep, x => DeepSites.defenses(x)) : [],
       ...this.below(region, s, { w, site: site.name })];
   }
   // The way down from the vault under the town, past its keeper (the undertown's own: see catacombs).

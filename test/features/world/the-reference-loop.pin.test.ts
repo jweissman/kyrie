@@ -38,8 +38,8 @@ describe('World › The reference loop', () => {
     const to = (place: string) => say(`exit:${P(place)}`);
     const act = async (words: string) => {
       const found = rows(s).find(x => new RegExp(words, 'i').test(x.label));
-      expect([words, found?.label]).toEqual([words, expect.any(String)]);
-      await say(found!.id);
+      if (!found) { throw new Error(`${words} at ${at()} not among ways ${rows(s).filter(x => /^(exit|travel)/.test(x.id)).map(x => x.id).join(' ')}; ${rows(s).map(x => x.label).join(' | ')}`); }
+      await say(found.id);
     };
     const maybe = async (words: string) => {
       const found = rows(s).find(x => new RegExp(words, 'i').test(x.label));
@@ -93,6 +93,14 @@ describe('World › The reference loop', () => {
     const before = coin();
     await to('green'); await to('taproom'); await act(`^Talk to ${dealer}`); await act('^Sell .*woundwort');
     expect(coin()).toBeGreaterThan(before);
+    // The second trip prepared for: the shrine-keeper, asked what lies past the first level, says what the second
+    // wants (bones turn a blade; the wrapped dead burn: WoodsCounsel, from what lives there), and the store sells it.
+    const priest = c.module.entities.find(e => e.id === P('priest'))!.name.split(', ')[0]!;
+    const heart = c.module.entities.find(e => e.id === P('green'))!.name;
+    await to('green'); await to('shrine'); await act(`^Talk to ${priest}`); await act('what lies past the passage-grave');
+    expect(s.scene.lines.join(' ')).toMatch(/a club[^]*Take fire/);
+    await to('green'); await to('shop'); await act('^Buy a club'); await act('^Buy an oil firebomb');
+    await maybe('^Buy a torch');
     // A night in the town, and down again: the ways found are still known, the bats lie dead where they fell, and
     // something from deeper has moved into the room they held (DeepTime: one band a level, the first dawn after the
     // company has gone off it).
@@ -102,5 +110,36 @@ describe('World › The reference loop', () => {
     await act('^Light a torch'); await to('ud'); await down();
     expect(s.scene.lines.join(' ')).toMatch(/whoever lives here came after you went/);
     expect(rows(s).some(x => /^Attack /.test(x.label))).toBe(true);
+    // Past the newcomers, and down: the second level, deeper than the first trip, and its bone hounds met.
+    // The portal stone across the stair down: its jammed counterweight levered free.
+    await act('^Attack '); await lit(); await act('^Lever the jammed counterweight'); await lit(); await act('^Down to');
+    await lit();
+    expect(at()).toMatch(new RegExp(`^${P('ud_halls')}_`));
+    await maybe('^Attack '); await lit();
+    // Out, rested, and asked again: what lies past the second level.
+    await act(`^Out to ${heart}`); await to('shrine'); await act('^Take a pallet|^Rest six hours');
+    await act(`^Talk to ${priest}`); await act('what lies past the halls');
+    expect(s.scene.lines.join(' ')).toMatch(/Take fire/);
+    // The third trip: through the halls to the king's door, and down into the third level.
+    await to('green'); await to('shop'); await maybe('^Buy a torch'); await maybe('^Buy an oil firebomb');
+    await to('green'); await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');
+    // The way opened on the second trip stays open: no counterweight to lever again.
+    await act('^Light a torch'); await to('ud'); await down(); await lit();
+    expect(rows(s).some(x => /^Lever the jammed counterweight/.test(x.label))).toBe(false);
+    await act('^Down to'); await lit();
+    await maybe('^Attack '); await lit();
+    for (const room of ['ud_halls_bone_hall', 'ud_halls_gallery', 'ud_halls_kings_door']) {
+      const way = rows(s).find(x => x.id === `exit:${P(room)}` || x.id === `exit:${P(room)}/0:Go`);
+      // A way refused while something here still bars it is fought for first (the halls' dead come at you).
+      const went = way && await r.ask(JSON.stringify({ act: way.id }));
+      if (went && 'error' in went) { await maybe('^Attack '); await to(room); } else if (went) { s = went as Said; }
+      for (let i = 0; i < 40 && s.moment === 'fight' && !s.end; i++) {
+        s = await r.ask(JSON.stringify({ act: RunnerFight.through })) as Said;
+      }
+      await lit(); await maybe('^Attack '); await lit();
+    }
+    // The king's door sealed with a stone, broken; and down.
+    if (!await maybe('^Down to')) { await act('Break the seal-stone'); await lit(); await maybe('^Down to'); }
+    expect(at()).toMatch(new RegExp(`^${P('ud_grave')}_`));
   }, 600000);
 });

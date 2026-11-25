@@ -1,3 +1,4 @@
+import type { Defense } from './woods-counsel';
 import { Canon } from '../../canon/canon';
 import { ItemNames } from '../../lang/item-names';
 import { DeepLayouts, type DeepLayout, type DeepLink, type DeepRoom } from './deep-layout';
@@ -22,6 +23,10 @@ import { RegionKey } from '../region-key';
 // place in its level's run, and at the bottom the keeper and what the makers died for. It is placed, named, told of
 // and found as the makers' other works are (Histories, RegionSites); the rumours of it are its own.
 export class DeepSites {
+  // A kind of creature's defenses, as the catalog has them, or none for a kind it does not know (WoodsCounsel).
+  static defenses(species: string): Defense[] {
+    try { return (Canon.creature(species) as { defenses?: Defense[] }).defenses ?? []; } catch { return []; }
+  }
   static readonly q = JSON.stringify;
   // rivals: whether another company races this one to it (a country's own deep work); not the catacombs under the
   // town the company begins in, which a country's one rival expedition does not go down (see RegionUndertown).

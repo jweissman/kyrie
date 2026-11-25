@@ -53,6 +53,17 @@ describe('the reference game\'s settlement', () => {
     expect(deep).toContain('the old dead under the beeches');
     expect(deep.match(/under Oakhythe|the town was built|smelling of the town|town's cellars/g)).toBeNull();
   });
+  it('has its shrine-keeper say what each depth below the first wants, once the company has been above it (OR-644)', () => {
+    const { t, text } = written('s0');
+    const counsel = text.slice(text.indexOf(`Topic ${t}_ud_counsel_2`), text.indexOf(`Topic ${t}_ud_counsel_3`) + 400);
+    // s0's halls of the dead keep bone hounds at the stair's foot and a mummy; under the halls lies the king, a mummy.
+    expect(counsel).toContain('Topic s1_ud_counsel_2 with s1_priest "Ask {s1_priest} what lies past the passage-grave"'
+      + ' when been(party, ?p) and deepLevelOf(?p, s1_ud_barrow)');
+    expect(counsel).toMatch(/counsel_2[^]*a club[^]*Take fire/);
+    expect(counsel).toMatch(/counsel_3[^]*Take fire/);
+    expect(counsel).not.toMatch(/counsel_3[^]*a club/);
+    expect(text).toMatch(new RegExp(`Person ${t}_merchant .*Sells oil_firebomb .*Sells club `));
+  });
   it('leaves a first town of another terrain as it was', () => {
     const { t, text } = written('iscoed');
     expect(text).toContain(`${t}_u_notice`);
