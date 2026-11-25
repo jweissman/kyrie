@@ -112,7 +112,10 @@ export class Doable {
     // Not a talk with someone who has nothing to be said to them but goodbye, in the rest: they are there, not someone
     // to talk to (Attending.place, the owner, 9 November), where the offer had still offered it and the runner drawn
     // it ("Talk to Dannel Hobb" at the taproom, and the page had not: the parity measure's page engine only, MT-18).
-    const mute = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.choices.length).map(x => `talk_to(${x.id})`));
+    // Nor a bare talk with a danger, met by its own acts as the page draws a threat (the road's footpads, OR-321, at
+    // the golden walk's camp: the page had drawn no talk with them, the parity measure's page engine only).
+    const mute = new Set(scene.subjects.filter(x => x.kind === 'person' && (!x.choices.length || SceneModel.threat(x)))
+      .map(x => `talk_to(${x.id})`));
     const listed = [...glance.offer?.primary ?? [], ...(glance.offer?.rest ?? [])
       .filter(o => !mute.has(o.command ?? o.choice) && !this.another(o.command ?? o.choice, screen, commands)
         && !this.folded(o.command ?? o.choice, commands))];

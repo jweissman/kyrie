@@ -30,8 +30,11 @@ export class MarkTruth {
       const turned = Glanced.of(PlaySession.fromSave(structuredClone(session.campaign.save())));
       await turned.perform(talk.command);
       const after = this.pages(turned.frame(), sub.id);
-      if (!after.some(p => p.rows.has(tone))) { out.push(`${said}, turned to: drawn ${this.said(after)}`); }
-      if (tone !== 'gold') { continue; }
+      // Unless a danger here warned the company off in the moment it took to turn to them: the warning leads, and what
+      // else is here recedes (the road's footpads at the golden walk's camp, OR-321, and the pedlar there, turn 45).
+      const warned = !frame.screen.warned && !!turned.screen.warned;
+      if (!warned && !after.some(p => p.rows.has(tone))) { out.push(`${said}, turned to: drawn ${this.said(after)}`); }
+      if (warned || tone !== 'gold') { continue; }
       const promised = turned.glance.acts.find(a => a.subject === sub.id && a.continues)?.inside?.[0]?.command;
       if (!promised) { out.push(`${said}, turned to: no act is the gold's`); continue; }
       await turned.perform(promised);
