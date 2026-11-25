@@ -22,4 +22,11 @@ describe('the push lane', () => {
     const all = new Set([...new Glob('test/**/*.test.ts').scanSync('.')]);
     expect(canary.specs.map(s => s.file).filter(f => !all.has(f))).toEqual([]);
   });
+  it('keeps the world canary within its budget (about two minutes on six workers)', () => {
+    const canary = JSON.parse(readFileSync('test/canary.json', 'utf8')) as { specs: { file: string }[];
+      budget: { cpuSeconds: number; fileSeconds: number } };
+    const times = canary.specs.map(s => kept[s.file] ?? 0);
+    expect(times.reduce((a, b) => a + b, 0) / 1000).toBeLessThanOrEqual(canary.budget.cpuSeconds);
+    expect(canary.specs.filter(s => (kept[s.file] ?? 0) / 1000 > canary.budget.fileSeconds).map(s => s.file)).toEqual([]);
+  });
 });

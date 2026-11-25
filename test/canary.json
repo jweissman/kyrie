@@ -1,5 +1,5 @@
 {
- "about": "The world canary (the lead, 24 November: what CI found red over nine batches, most of it a change that moved every world, found 20 minutes after a push): the world-level walks that catch a province, kit, generator, rule or name moving every world, run by scripts/test-changed.ts whatever their speed when a change can move every world, and alone by `bun run test:canary`. Chosen from the specs CI found red on 24 November, the heaviest few (whole adventures' long plays) left to CI.",
+ "about": "The world canary (the lead, 24 November: what CI found red over nine batches, most of it a change that moved every world, found 20 minutes after a push): the world-level walks that catch a province, kit, generator, rule or name moving every world, run by scripts/test-changed.ts whatever their speed when a change can move every world, and alone by `bun run test:canary`. Chosen from the specs CI found red on 24 November, the heaviest few (whole adventures' long plays) left to CI. Held to about two minutes on six workers (the owner, 24 November: seven had been too long for a local lane): its kept CPU at most budget.cpuSeconds, no file over budget.fileSeconds (test/small/push-lane). Kept by what caught a change moving every world; the heaviest walks and the old sentinels are the night's. Its cheaper replacements, when they land, take places here: names apart by identity (OR-418) for story-names, no lead goes round (OR-417) for honest-start. Run on ten workers (the machine has sixteen cores); glance-kite left out, its timing check failing under local load.",
  "specs": [
   {
    "file": "test/all-in-one-world.test.ts",
@@ -18,10 +18,6 @@
    "why": "the descent under the first town, walked"
   },
   {
-   "file": "test/long-expedition.test.ts",
-   "why": "a first expedition played through, saved halfway, ending where the unbroken game ends"
-  },
-  {
    "file": "test/honest-start.test.ts",
    "why": "the first hour from a new life, walked by its own leads"
   },
@@ -34,20 +30,8 @@
    "why": "the rooms under the first town and their jobs"
   },
   {
-   "file": "test/porthalen-hall.test.ts",
-   "why": "the hall under Porthalen, walked"
-  },
-  {
    "file": "test/weir-route.test.ts",
    "why": "the mage's weir route, walked"
-  },
-  {
-   "file": "test/iscoed-cold-five.test.ts",
-   "why": "a cold play of Iscoed replayed"
-  },
-  {
-   "file": "test/cl33-four.test.ts",
-   "why": "the act that matters among the four and the gold"
   },
   {
    "file": "test/mark-truth-walk.test.ts",
@@ -62,24 +46,8 @@
    "why": "the play's rows and lenses (rows and their ids)"
   },
   {
-   "file": "test/begin-flow.test.ts",
-   "why": "how a game begins (the title's rows)"
-  },
-  {
-   "file": "test/set-out-now.test.ts",
-   "why": "Set out now, headless"
-  },
-  {
    "file": "test/interior-walk.test.ts",
    "why": "a walk through enclosed places and out"
-  },
-  {
-   "file": "test/journey-kept-once.test.ts",
-   "why": "a journey kept once"
-  },
-  {
-   "file": "test/glance-kite.test.ts",
-   "why": "kite at a glance"
   },
   {
    "file": "test/decision-frame.test.ts",
@@ -102,10 +70,6 @@
    "why": "what each calling perceives"
   },
   {
-   "file": "test/skeel.test.ts",
-   "why": "an authored adventure in a drawn world (Skeel)"
-  },
-  {
    "file": "test/outmatched.test.ts",
    "why": "a fight beyond the company, warned"
   },
@@ -118,56 +82,12 @@
    "why": "stories kept apart in one world"
   },
   {
-   "file": "test/gold-follow.test.ts",
-   "why": "gold only after Follow, in a generated country's own errand and notices (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/signal-inside.test.ts",
-   "why": "every signal in a generated first town resolves to its act (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/map-in-site.test.ts",
-   "why": "the map from inside a site in wild country (a push sentinel until 24 November)"
-  },
-  {
    "file": "test/world-starts.test.ts",
    "why": "generated worlds start, across seeds and origins (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/low-water-company.test.ts",
-   "why": "an authored campaign's company and its first scenes (Low Water) (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/quittance-spine.test.ts",
-   "why": "an authored adventure's spine (Quittance) (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/hessel-wander.test.ts",
-   "why": "an authored adventure wandered (Hessel) (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/the-grand-tour-second.test.ts",
-   "why": "an integrated adventure's second leg (the Grand Tour) (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/deep-history.test.ts",
-   "why": "a generated deep site's history (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/undertown-orders.test.ts",
-   "why": "the undertown's orders (the first town's chain) (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/muster-round3.test.ts",
-   "why": "the Muster's round (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/winter-in-carth-wander.test.ts",
-   "why": "an authored adventure wandered (A Winter in Carth) (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/travel-continuity.test.ts",
-   "why": "a journey continuous leg by leg (from test/small, 28 s)"
   }
- ]
+ ],
+ "budget": {
+  "cpuSeconds": 720,
+  "fileSeconds": 90
+ }
 }

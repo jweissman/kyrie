@@ -18,7 +18,9 @@ class ChangedSpecs {
   static run(args: string[]): number {
     const since = args.find(a => !a.startsWith('--')) ?? 'HEAD', all = args.includes('--all');
     const workers = /^--workers=(\d+)$/.exec(args.find(a => a.startsWith('--workers=')) ?? '')?.[1] ?? '6';
-    if (args.includes('--canary')) { return this.test(this.canary(), workers); }
+    // The canary alone on ten workers unless told otherwise (the machine has sixteen cores).
+    const told = args.some(a => a.startsWith('--workers='));
+    if (args.includes('--canary')) { return this.test(this.canary(), told ? workers : '10'); }
     const changed = this.changed(since), specs = [...new Glob('test/**/*.test.ts').scanSync('.')].sort();
     const kept = (JSON.parse(readFileSync('test/timings.json', 'utf8')) as { files: Record<string, number> }).files;
     const code = new Set(changed.filter(f => /\.(ts|tsx)$/.test(f)));
