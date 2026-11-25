@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { RegionWoods } from '../../src/world/region-woods';
 import type { Settlement } from '../../src/world/region-writer';
+import { ModuleWriter } from '../../src/lang/module-writer';
 
 // The old woods go on without the company (register OR-641; the owner's direction of 25 November, §3: "repeatable,
 // with conditions that depend on the weather"), by the world's own clock and not by drawing again: woundwort picked on
@@ -19,8 +20,6 @@ const woods = (sky: string) => [
   ...RegionWoods.lines({ id: 'n', name: 'Newmeet' } as Settlement,
     { w: 'n_ud', site: 'the old dead', old: 'the Barrow-Kin', sky: ['fair', sky] }),
 ].join('\n');
-// A fact as the world holds it.
-const call = (name: string, ...args: string[]) => ({ kind: 'call' as const, name, args });
 const days = async (t: Tiny, n: number) => {
   for (let i = 0; i < n; i++) { await t.play('?Wait until dark', '?Wait until first light'); }
 };
@@ -39,11 +38,11 @@ describe('the old woods', () => {
       Initially Assert knows(party, n_wood_door). Initially Assert knows(party, n_wood_stones_known).\nGoal false.`,
     { party: [{ name: 'Ama', raceId: 'human', classId: 'mage' } as never] });
     await t.play('>t__n_wood_ride');
-    const tracks = () => t.world.test(call('knows', 'party', 't__n_wood_tracks'));
+    const tracks = () => t.world.test(ModuleWriter.call('knows', 'party', 't__n_wood_tracks'));
     expect([tracks(), t.world.one('at', 't__n_wood_windfall_ring')]).toEqual([false, 't__elsewhere']);
     t.campaign.commitWorld(t.world.apply([
-      { kind: 'retract', call: call('state', 't__sky', 't__weather_fair') },
-      { kind: 'assert', call: call('state', 't__sky', 't__weather_rainy') }]));
+      { kind: 'retract', call: ModuleWriter.call('state', 't__sky', 't__weather_fair') },
+      { kind: 'assert', call: ModuleWriter.call('state', 't__sky', 't__weather_rainy') }]));
     await t.play('>t__n_wood_burners', '>t__n_wood_ride');
     expect(tracks()).toBe(true);
     expect(t.world.one('at', 't__n_wood_windfall_ring')).toBe('t__n_wood_ride');
