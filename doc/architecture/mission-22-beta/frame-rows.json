@@ -30,9 +30,7 @@
   "src/presentation/led-words.ts": 1,
   "src/presentation/offer.ts": 1,
   "src/presentation/succession.ts": 2,
-  "src/presentation/talk-weight.ts": 4,
   "src/session/play-session.ts": 1,
-  "src/session/travel.ts": 2,
-  "src/ui/withheld.ts": 1
+  "src/session/travel.ts": 2
  }
 }

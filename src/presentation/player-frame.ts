@@ -1,6 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Operator } from '../campaign/planner';
-import type { World } from '../lang/world';
 import { PlayerView } from './player-view';
 
 // A row as the frame holds it, and the frame's rows: read by every consumer, changed by none (each is frozen).
@@ -21,7 +20,7 @@ export type FrameRows = readonly FrameRow[];
 export class PlayerFrame {
   private static readonly kept = new WeakMap<Campaign, PlayerFrame>();
   private readonly readings = new Map<string, unknown>();
-  private constructor(readonly campaign: Campaign, readonly world: World, readonly offered: readonly Operator[],
+  private constructor(readonly campaign: Campaign, readonly world: Campaign['world'], readonly offered: readonly Operator[],
     readonly rows: FrameRows) {}
   // The frame of the campaign as it is now: the one kept while its revision holds, else built.
   static of(campaign: Campaign): PlayerFrame {

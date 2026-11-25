@@ -6,7 +6,7 @@ import { ObservationText } from '../lang/observation-text';
 import { ChoiceGrouping } from '../ui/choice-grouping';
 import type { World } from '../lang/world';
 import { AimAdvances } from './aim-advances';
-import { PlayerView } from './player-view';
+import { PlayerFrame, type FrameRows } from './player-frame';
 import { Undertakings } from './undertakings';
 import type { Promoted } from './glance-types';
 
@@ -16,7 +16,7 @@ import type { Promoted } from './glance-types';
 // their labels ("Tell …", "Pay …", "… would come along?", "… what is out in the country round"): M21's playability
 // list, PL-15.
 export class TalkWeight {
-  static of(campaign: Campaign, rows = PlayerView.choices(campaign).filter(r => r.action.speaker),
+  static of(campaign: Campaign, rows: FrameRows = PlayerFrame.of(campaign).spoken,
     sought = this.sought(campaign, rows)): Set<string> {
     if (!rows.length) { return new Set(); }
     const w = campaign.world, actor = campaign.playerActor ?? 'party';
@@ -30,13 +30,13 @@ export class TalkWeight {
     return new Set([...bearing, ...[...joining, ...telling].map(r => r.choice.id), ...sought]);
   }
   // The questions that make an aim of a lead (see asked), by id: the talk leads with them (TalkFocus).
-  static sought(campaign: Campaign, rows = PlayerView.choices(campaign).filter(r => r.action.speaker)): string[] {
+  static sought(campaign: Campaign, rows: FrameRows = PlayerFrame.of(campaign).spoken): string[] {
     return rows.length ? this.asked(campaign, rows, campaign.playerActor ?? 'party').map(r => r.choice.id) : [];
   }
   // A question that makes an aim of a lead: put to someone a thing the company knows names ("Ask Holgar at the
   // salt-house for the key", on the notice), and by its doing giving an aim the company does not hold. The notice's
   // jobs are leads, not aims (HP-01), and asking their giver is what the company came for (CL-25).
-  private static asked(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>, actor: string) {
+  private static asked(campaign: Campaign, rows: FrameRows, actor: string) {
     const w = campaign.world, named = new Set<string>(), byId = EntityIndex.of(campaign.module.entities).byId;
     for (const r of w.related('knows', actor)) {
       const text = byId.get(r.args[1]!)?.name ?? '';
@@ -63,7 +63,7 @@ export class TalkWeight {
   // would make, and says so, as one held for an aim already taken up does (Undertakings.heldFor).
   static heldFor(campaign: Campaign, acts: Promoted[]): Promoted[] {
     if (!acts.some(a => a.why === 'held' && !a.aim && a.for)) { return acts; }
-    const rows = PlayerView.choices(campaign).filter(r => r.action.speaker), w = campaign.world;
+    const rows = PlayerFrame.of(campaign).spoken, w = campaign.world;
     const idle = (campaign.module.objectives ?? []).filter(o => !w.test(o.when));
     return acts.map(a => {
       const row = a.why === 'held' && !a.aim ? rows.find(r => r.choice.id === a.for) : undefined;
@@ -71,8 +71,8 @@ export class TalkWeight {
       return aim ? { ...a, aim } : a;
     });
   }
-  static shown(campaign: Campaign): { weighty?: string[]; sought?: string[] } {
-    const rows = PlayerView.choices(campaign).filter(r => r.action.speaker), sought = this.sought(campaign, rows);
+  static shown(campaign: Campaign, frame = PlayerFrame.of(campaign)): { weighty?: string[]; sought?: string[] } {
+    const rows = frame.spoken, sought = this.sought(campaign, rows);
     const weighty = [...this.of(campaign, rows, sought)];
     return { ...weighty.length ? { weighty } : {}, ...sought.length ? { sought } : {} };
   }

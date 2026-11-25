@@ -3,8 +3,7 @@ import { Band } from './band'; import { Costs } from '../costs';
 import { CreaturePortraits } from '../paintings/creature-portraits'; import { ItemPlates } from '../paintings/item-plates';
 import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } from './encyclopedia-entry';
 import { CharacterSheets } from '../presentation/character-sheet'; import { Itineraries } from './itinerary';
-import type { World } from '../lang/world';
-import { EntityIndex } from '../lang/entity-index';
+import type { World } from '../lang/world'; import { EntityIndex } from '../lang/entity-index';
 import { ItemNames } from '../lang/item-names'; import { Passages } from './passages';
 import { KnownNames } from './known-names'; import { Engaged } from '../presentation/engaged';
 import { MechanicsText } from '../presentation/mechanics-text';
@@ -18,7 +17,7 @@ import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time'; import { CanonInstall } from '../campaign/canon-install';
 import { Calendar } from '../campaign/calendar';
-import { PlayerView, type PlayerSnapshot } from '../presentation/player-view';
+import { PlayerView, type PlayerSnapshot } from '../presentation/player-view'; import { PlayerFrame } from '../presentation/player-frame';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
 import { Withheld } from './withheld'; import { LightLeft } from './light-left';
@@ -47,15 +46,17 @@ export class ScreenModel {
   // Only between commands: one open (MT-24, command-receipt.md) is half done, its world not yet the game's; a client
   // that must draw meanwhile draws the last frame it was given. A fight of it waiting on the player is drawn where it
   // is fought (the page's fight, the company perhaps just come there): that frame is the fight's.
-  static build(c: Campaign): Screen { return c.command && !c.fighting ? this.refused(c) : this.time(c); }
-  private static time(c: Campaign): Screen { return Costs.time('screen', () => c.within(() => ScreenModel.built(c))); }
+  // Its rows are the player's frame's (PlayerFrame): those the leaf and the glance read too.
+  static build(c: Campaign, f?: PlayerFrame): Screen {
+    return c.command && !c.fighting ? this.refused(c) : Costs.time('screen', () => c.within(() => this.built(c, f)));
+  }
   private static refused(c: Campaign): never { throw new Error(`Frame only between commands (${c.command} is under way)`); }
-  private static built(campaign: Campaign): Screen {
+  private static built(campaign: Campaign, frame = PlayerFrame.of(campaign)): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
     const names = new KnownNames(campaign), prices = this.prices(world), module = campaign.module;
     const present = new Set(view.present.map(p => p.id));
     const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign);
-    const grouped = ChoiceGrouping.group(Withheld.rows(campaign), { present, names, prices, passageOf, fees,
+    const grouped = ChoiceGrouping.group(Withheld.rows(campaign, frame.rows), { present, names, prices, passageOf, fees,
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), module,
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
@@ -94,7 +95,7 @@ export class ScreenModel {
       formations: this.formations(campaign),
       trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
       ...Undertakings.shown(campaign, view.objectives ?? [], here), ...Owed.shown(campaign),
-      ...TalkWeight.shown(campaign), ...stakes.size ? { aimed: [...stakes] } : {},
+      ...TalkWeight.shown(campaign, frame), ...stakes.size ? { aimed: [...stakes] } : {},
       ...charted, expedition: this.expedition(world, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),

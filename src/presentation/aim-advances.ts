@@ -2,7 +2,6 @@ import { Carriers } from '../ui/carriers';
 import type { Campaign } from '../campaign/campaign';
 import type { Call, Module, Objective, Operator, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
-import type { PlayerView } from './player-view';
 import { Undertakings } from './undertakings';
 import { AimLeads } from './aim-leads';
 
@@ -15,7 +14,7 @@ export class AimAdvances {
   // country round, not by everything that teaches the company anything (a bed at the inn, its talk overheard, had
   // been drawn as the debt's); a rule's own unknowns (?i) stand for anything.
   // (Of another aim held, where one is given: what the talk sets apart as weighty, see TalkWeight.)
-  static of(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>,
+  static of(campaign: Campaign, rows: readonly { choice: { id: string }; action: Operator }[],
     def = Undertakings.followed(campaign)): Set<string> {
     if (!def) { return new Set(); }
     // Not what the world holds already (more herbs for a mother keeping feverwort, led as the aim's: round 7, L 25).

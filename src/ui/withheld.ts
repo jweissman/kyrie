@@ -3,15 +3,15 @@ import type { Row } from './choice-grouping';
 import { SkillReading, type Wanting } from '../presentation/skill-reading';
 import { CoinReading } from '../presentation/coin-reading';
 import { RefusalReading } from '../presentation/refusal-reading';
-import { PlayerView } from '../presentation/player-view';
 
 // The choices, with who makes each skilled one possible; and what the company could do, and why not now: a skill or
 // a thing nobody in it has (SkillReading), the coin (CoinReading), someone's will to serve it (RefusalReading), each
 // drawn as a choice it cannot yet take, with why.
 export class Withheld {
-  static rows(campaign: Campaign): Row[] {
+  // rows: the player's frame's (PlayerFrame), which the screen reads.
+  static rows(campaign: Campaign, rows: readonly Row[]): Row[] {
     const reading = SkillReading.read(campaign);
-    return [...PlayerView.choices(campaign).map(r => ({ ...r,
+    return [...rows.map(r => ({ ...r, choice: { ...r.choice },
       ...(reading.uses.has(r.action.id) ? { by: reading.uses.get(r.action.id)! } : {}) })),
     ...reading.wanting.map(w => ({ choice: { ...w.choice, time: w.choice.time ?? 1 }, action: w.action,
       wanting: this.wanting(w) })),

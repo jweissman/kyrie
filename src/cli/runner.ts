@@ -207,7 +207,7 @@ export class Runner {
     const world = this.campaign.world;
     if (this.now?.world !== world) {
       const frame = PlayerFrame.of(this.campaign);
-      this.now = { world, frame, screen: ScreenModel.build(this.campaign) };
+      this.now = { world, frame, screen: ScreenModel.build(this.campaign, frame) };
     }
     return this.now;
   }

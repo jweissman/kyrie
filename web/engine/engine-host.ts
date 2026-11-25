@@ -339,7 +339,7 @@ export class EngineHost {
   // A frame once a command is done, with the game to keep in this browser sent after it.
   private settled(): Frame {
     const started = performance.now();
-    this.screen = ScreenModel.build(this.session!.campaign);
+    this.screen = ScreenModel.build(this.session!.campaign, PlayerFrame.of(this.session!.campaign));
     const built = performance.now(), frame = this.frame(), told = performance.now();
     this.fought = undefined;
     frame.timing = { engine: Math.round(this.spent), screen: Math.round(built - started),

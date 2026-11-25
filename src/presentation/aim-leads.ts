@@ -7,7 +7,7 @@ import { Stakes } from '../ui/stakes';
 import { Itineraries } from '../ui/itinerary';
 import { AimAdvances } from './aim-advances';
 import { AimMeans } from './aim-means';
-import type { PlayerView } from './player-view';
+import type { FrameRows } from './player-frame';
 import { Undertakings } from './undertakings';
 import type { Screen } from '../ui/screen-types';
 import { AimLeading } from './aim-lead';
@@ -19,11 +19,11 @@ import { AimLeading } from './aim-lead';
 // where nothing could be done without herbs, beside "Ask Harbek where willow grows".
 export class AimLeads {
   // What brings the aim followed about here (see AimAdvances), and its leads.
-  static advances(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
+  static advances(campaign: Campaign, rows: FrameRows): Set<string> {
     return new Set([...AimAdvances.of(campaign, rows), ...this.of(campaign, rows), ...this.opening(campaign, rows)]);
   }
   // The acts that open the aim's place where it is shut to the company (AimMeans.opening: OR-172).
-  private static opening(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): string[] {
+  private static opening(campaign: Campaign, rows: FrameRows): string[] {
     const def = Undertakings.followed(campaign), here = campaign.world.one('at', campaign.playerActor ?? 'party');
     if (!def || !here) { return []; }
     const acts = AimMeans.opening(campaign, here, def, Stakes.named(campaign, def));
@@ -31,7 +31,7 @@ export class AimLeads {
   }
   // The acts that tell where a place the aim names lies, or where what it waits on someone keeping (the herbs or
   // willow bark the child's mother wants) grows to be gathered: their facts lead there (leadsTo), not yet known.
-  static of(campaign: Campaign, rows: ReturnType<typeof PlayerView.choices>): Set<string> {
+  static of(campaign: Campaign, rows: FrameRows): Set<string> {
     const def = Undertakings.followed(campaign), w = campaign.world;
     if (!def || !w.relates('leadsTo')) { return new Set(); }
     const places = new Set([...Stakes.named(campaign, def), ...this.supplies(campaign, def)]);
@@ -165,6 +165,6 @@ export class AimLeads {
       { kind: 'assert', call: ModuleWriter.call('at', actor, place) }]);
     const rows = campaign.operators.applicable(moved, actor, this.could(campaign, def))
       .map((action: Operator) => ({ action, choice: { id: action.id } }));
-    return AimAdvances.of(campaign, rows as unknown as ReturnType<typeof PlayerView.choices>).size > 0;
+    return AimAdvances.of(campaign, rows).size > 0;
   }
 }
