@@ -9,6 +9,7 @@
 //   bun scripts/test-changed.ts [since=HEAD] [--workers=6] [--all] [--list]
 //   bun scripts/test-changed.ts --canary        the world canary alone (test/canary.json; `bun run test:canary`)
 import { Glob } from 'bun';
+import { TestWorkers } from './test-workers';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
 
@@ -43,7 +44,9 @@ class ChangedSpecs {
   }
   static test(specs: string[], workers: string): number {
     // As test:small times its specs (twenty seconds): the default five had failed test/small's own under load.
-    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', '--timeout=20000', ...specs.map(s => `./${s}`)],
+    const held = TestWorkers.allowed(Number(workers));
+    if (held < Number(workers)) { console.log(`${held} of ${workers} workers: the memory available now holds no more`); }
+    return Bun.spawnSync(['bun', 'test', `--parallel=${held}`, '--no-isolate', '--timeout=20000', ...specs.map(s => `./${s}`)],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
   }
   // What can move every world: its generators and assembly, the shared rules, the kits and tables every country is
