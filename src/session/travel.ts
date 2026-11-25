@@ -82,9 +82,9 @@ export class Travel {
     if (!choice) { return this.barred(t.campaign, leg); }
     // A way that goes one way only is the player's to take, asked about, not the journey's (PT-17).
     if (this.oneWay(t.campaign, leg)) { return `There is no coming back by ${leg.way}`; }
-    // So is a way whose mouth shows that something lies in wait in there, as the page marks it (Passages.lurking): the
-    // careful walks had died on a deep site's second level by a journey walked past the sign into an ambush (SI-01).
-    // The ambush is kept: the way taken by hand still leads into it.
+    // So is a way whose mouth shows that something lies in wait in there, as the page marks it (PassageModel.lurking):
+    // the careful walks had died on a deep site's second level by a journey walked past the sign into an ambush
+    // (SI-01). The ambush is kept: the way taken by hand still leads into it.
     if (this.lurks(t.campaign, leg)) {
       return `Something lies in wait beyond ${leg.way}`;
     }
@@ -186,12 +186,10 @@ export class Travel {
   private static gist(said: string): string {
     return /^['‘](.+?)[,.!?]?['’](?:\s|$)/.exec(said)?.[1] ?? /^[^.!?]*/.exec(said)![0];
   }
-  // Whether the way a leg takes is marked as the page marks it, something lying in wait where it leads (ExitRow lurks):
-  // read only where something lurks there at all.
+  // Whether the way a leg takes is marked as the page marks it, something lying in wait where it leads (ExitRow lurks,
+  // by the same reading: PassageModel.lurking), read from the world, never from a page built for it.
   private static lurks(campaign: Campaign, leg: Leg): boolean {
-    const w = campaign.world;
-    return w.relates('lurks') && w.related('lurks').some(r => r.args[1] === leg.to)
-      && ScreenModel.build(campaign).exits.some(e => e.destination.id === leg.to && e.lurks);
+    return PassageModel.lurking(campaign.world, campaign.playerActor!, leg.from, leg.to);
   }
   // Whether a leg's way goes one way only.
   private static oneWay(campaign: Campaign, leg: Leg): boolean {

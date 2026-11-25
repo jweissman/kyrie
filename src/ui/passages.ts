@@ -8,8 +8,6 @@ import { ModuleCanon } from '../campaign/module-canon';
 import { Depth } from './depth';
 import { EntityIndex } from '../lang/entity-index';
 import { HexBoundary } from '../hex-boundary';
-import { ModuleWriter } from '../lang/module-writer';
-import { QueryIndex } from '../lang/query-index';
 
 export interface ExitActs { acts: Act[]; passage?: Passage; via?: string }
 interface Known {
@@ -184,18 +182,8 @@ export class Passages {
       ...several ? { several } : {},
       ...k.oneWay ? { oneWay: true } : {}, ...k.unmarked && !visited.has(k.destination) ? { unmarked: true } : {},
       ...k.keyed ? { keyed: true } : {},
-      ...Passages.lurking(this.world, this.actor, here, k.destination) ? { lurks: true } : {},
+      ...PassageModel.lurking(this.world, this.actor, here, k.destination) ? { lurks: true } : {},
       visited: visited.has(k.destination), acts };
-  }
-  // Whether what lies in wait where a way leads shows at its mouth to the company: something there that lurks
-  // (lurks(band, place): the ambush's sign, DeepSounds), and light here to see the sign by; never in the dark. A
-  // journey reads the mark, and stops at such a way's mouth (Travel).
-  static lurking(w: World, actor: string, here: string, there: string): boolean {
-    if (!w.relates('lurks')) { return false; }
-    const dark = QueryIndex.of(w.module, 'benighted') ? w.test(ModuleWriter.call('benighted', actor))
-      : w.test(ModuleWriter.call('unlit', here));
-    return !dark && w.related('lurks').some(r => r.args[1] === there && w.one('at', r.args[0]!) === there
-      && w.test(ModuleWriter.call('able', r.args[0]!)));
   }
   // Whether a way goes from the hex of the country the company stands in to another (see HexBoundary): the map's to
   // take, and only the map's. A planar threshold is the map's too, on the page: it is no way about the place.

@@ -10,7 +10,9 @@ import { Glob } from 'bun';
 // entry, loaded first by it, met the language's inner cycle (module-parser and its parsers) half-made (OR-542).
 // 1252 → 1251 on 25 November: test/small/idle-held and kept-holds-no-world read the language through its entry, but
 // for its parser, loaded first (OR-542).
-const kept = 1251;
+// 1251 → 1250 on 25 November: what lies in wait at a way's mouth moved into PassageModel.lurking, read there by the
+// page's ways and the journey alike, and Passages' imports for it gone.
+const kept = 1250;
 class Deep {
   static count(): number {
     const roots = ['src/**/*.ts', 'web/**/*.{ts,tsx}', 'scripts/**/*.ts', 'test/**/*.ts', 'bin/**/*.ts'];

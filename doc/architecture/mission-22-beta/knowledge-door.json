@@ -300,11 +300,11 @@
    "rules": 1
   },
   "src/ui/passage-model.ts": {
-   "facts": 11,
+   "facts": 17,
    "rules": 3
   },
   "src/ui/passages.ts": {
-   "facts": 9
+   "facts": 3
   },
   "src/ui/patience.ts": {
    "world": 1,
