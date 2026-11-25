@@ -1,4 +1,4 @@
-import { Canon } from '../canon/canon';
+import { Conditions } from '../ports/conditions';
 import { CombatProjection } from '../combat-projection';
 import { Content } from '../content';
 import type { CreatureStore } from '../creature-store';
@@ -20,7 +20,7 @@ export class PlaneLaws {
   // The laws where the company stands that do something by the watch, as catalog conditions.
   static ticking(world: World, player: string | undefined): string[] {
     if (!player || !world.relates('law')) { return []; }
-    return Environment.laws(world, player).filter(id => (Canon.conditions[id]?.modifiers.onTurnEnd ?? []).length);
+    return Environment.laws(world, player).filter(id => (Conditions.exact(id)?.modifiers.onTurnEnd ?? []).length);
   }
   // One watch under them: each of the company still up feels each law once. Whether anything changed.
   static watch(store: CreatureStore, events: CombatEvent[],

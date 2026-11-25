@@ -1,4 +1,5 @@
 import { Amounts } from './amounts';
+import { Conditions } from '../ports/conditions';
 import { Canon } from '../canon/canon';
 import { Fighting } from './fighting';
 import { Spellcasting } from './spellcasting';
@@ -20,7 +21,7 @@ interface Drained extends Partial<Record<Attribute, number>> {
 // down, not unlearned: what it knows, and its experience, are as they were, and come back whole when it is lifted.
 export class LevelDrain {
   static get id(): string { return Canon.rules.combat.ids.drained; }
-  static drains(id: string): boolean { return !!Canon.conditions[Canon.resolve('conditions', id)]?.drains; }
+  static drains(id: string): boolean { return !!Conditions.of(id)?.drains; }
   // The levels taken, of what it holds.
   static levels(conditions: readonly ConditionInstance[]): number {
     return conditions.filter(c => this.drains(c.id)).reduce((n, c) => n + c.remaining, 0);

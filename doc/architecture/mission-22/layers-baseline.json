@@ -1,7 +1,7 @@
 {
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "runtime -> setting": 65,
+  "runtime -> setting": 63,
   "player -> setting": 76,
   "setting -> player": 13
  },
@@ -28,7 +28,6 @@
   "src/campaign/module-bundle.ts -> src/world/compose/composition",
   "src/campaign/module-installations.ts -> src/canon/local-catalog",
   "src/campaign/party-capabilities.ts -> src/canon/canon",
-  "src/campaign/plane-laws.ts -> src/canon/canon",
   "src/combat-projection.ts -> src/canon/canon",
   "src/content.ts -> src/canon/canon",
   "src/content.ts -> src/canon/canon-runtime",
@@ -111,7 +110,6 @@
   "src/rules/fixed-stat-block.ts -> src/canon/canon",
   "src/rules/flight.ts -> src/canon/canon",
   "src/rules/formations.ts -> src/canon/canon",
-  "src/rules/harm.ts -> src/canon/canon",
   "src/rules/level-drain.ts -> src/canon/canon",
   "src/rules/perks.ts -> src/canon/canon",
   "src/rules/perks.ts -> src/canon/canon-runtime",

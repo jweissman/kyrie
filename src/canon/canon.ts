@@ -1,4 +1,5 @@
 import abilities from '../../data/catalog/abilities.json';
+import { Conditions } from '../ports/conditions';
 import aliases from '../../data/catalog/aliases.json';
 import ancestries from '../../data/catalog/ancestries.json';
 import backgrounds from '../../data/catalog/backgrounds.json';
@@ -276,8 +277,13 @@ export class Canon {
   static isDevice(id: string): boolean { return Object.hasOwn(this.devices, id); }
   // One of the dead or a spirit who is a he or a she (pron_she), not an it: someone, if they keep the peace (a drowned
   // girl, a captain kneeling in his chapel), where a peaceable beast is an animal.
+  // A condition by its id or any name it is known by, and by its id alone: the rules' port (src/ports/conditions.ts).
+  static conditionOf(id: string): Condition | undefined { return this.conditions[this.resolve('conditions', id)]; }
+  static conditionExact(id: string): Condition | undefined { return this.conditions[id]; }
   static soul(id: string, pronoun?: string): boolean {
     return this.isSpecies(id) && ['monster', 'spirit'].includes(this.creature(id).kind ?? '')
       && !!pronoun && pronoun !== 'pron_it';
   }
 }
+// The fantasy rules' conditions, the runtime's to ask of through its port (src/ports/conditions.ts).
+Conditions.install({ condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon) });

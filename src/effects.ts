@@ -1,4 +1,4 @@
-import { Flight } from './rules/flight';
+import { Flight } from './rules/flight'; import { Conditions } from './ports/conditions';
 import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
@@ -144,7 +144,7 @@ export class Effects {
     }
     if (effect.kind === 'apply') { Effects.status(effect.status); }
     // Removing a status Kyr cannot execute is harmless: nothing can hold it.
-    if (effect.kind === 'remove' && !effect.pattern && !Canon.conditions[Canon.resolve('conditions', effect.status)]) {
+    if (effect.kind === 'remove' && !effect.pattern && !Conditions.of(effect.status)) {
       throw new Error(`Unknown status ${effect.status}`);
     }
     if (effect.kind === 'apply' && effect.clock !== undefined

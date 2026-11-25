@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Conditions } from '../ports/conditions';
 import { ItemCatalog } from '../item-catalog';
 import type { Creature } from '../creature';
 import { Overlays } from '../overlays';
@@ -25,7 +26,7 @@ export class PartyCapabilities {
     if (!this.up(c)) { return this.unheld(id, c); }
     return this.trained(id, c) || (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id)
       || (c.state.inventory ?? []).some(i => this.lends(i, id))
-      || c.state.conditions.some(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes(id))
+      || c.state.conditions.some(s => Conditions.of(s.id)?.grants?.includes(id))
       || (id === this.keen && Searching.finds(c, at));
   }
   // The thing a companion carries that helps them at a skill's checks: an ordinary thing whose use it is, for anyone
@@ -47,7 +48,7 @@ export class PartyCapabilities {
       || (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id)) ?? alive.find(c => this.aid(id, c));
     if (specialist) { return [specialist]; }
     // A condition can bring a capability while it lasts: whoever holds the lit torch brings light.
-    const holder = alive.find(c => c.state.conditions.some(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes(id)));
+    const holder = alive.find(c => c.state.conditions.some(s => Conditions.of(s.id)?.grants?.includes(id)));
     const hung = holder ? undefined : creatures.find(c => this.unheld(id, c));
     return holder ? [holder] : hung ? [hung] : [];
   }
@@ -81,7 +82,7 @@ export class PartyCapabilities {
   // A condition that brings what it grants though its holder has fallen (a conjured light).
   private static unheld(id: string, c: Creature): boolean {
     return c.state.conditions.some(s => {
-      const condition = Canon.conditions[Canon.resolve('conditions', s.id)];
+      const condition = Conditions.of(s.id);
       return !!condition?.unheld && !!condition.grants?.includes(id);
     });
   }

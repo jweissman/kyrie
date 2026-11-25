@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Conditions } from '../ports/conditions';
 import { ItemCatalog } from '../item-catalog';
 import { Creation } from '../rules/creation';
 import { AbilityUse } from '../ability-use';
@@ -143,7 +144,7 @@ export class Items {
     try {
       const creature = lease.creatures[0]!;
       creature.state.conditions = creature.state.conditions
-        .filter(s => !Canon.conditions[Canon.resolve('conditions', s.id)]?.grants?.includes('light'));
+        .filter(s => !Conditions.of(s.id)?.grants?.includes('light'));
       lease.commit(lease.creatures);
       return [];
     } finally { lease.release(); }

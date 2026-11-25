@@ -1,4 +1,5 @@
 import { Reactions } from './reactions';
+import { Conditions } from './ports/conditions';
 import { CompoundEffects } from './compound-effects';
 import { Spellcasting } from './rules/spellcasting';
 import { Effects, type EffectContext } from './effects';
@@ -157,7 +158,7 @@ export class AbilityUse {
     if (!actor || !ability.effects.some(e => e.target === 'enemy')) { return targetId; }
     const target = context.fighters.find(f => f.id === targetId);
     if (!target || target.team === actor.team) { return targetId; }
-    const guard = target.statuses.filter(s => Canon.conditions[Canon.resolve('conditions', s.id)]?.guard && s.by)
+    const guard = target.statuses.filter(s => Conditions.of(s.id)?.guard && s.by)
       .map(s => context.fighters.find(f => f.id === s.by))
       .find(g => g && g.id !== target.id && g.hp > 0 && g.team === target.team
         && !g.statuses.some(s => Effects.skips(s.id)));
