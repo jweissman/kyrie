@@ -26,8 +26,8 @@ export class CampaignAssembly {
       const first = ModuleInstallations.prepare(canon, draft, 0, false);
       campaign = new Campaign(seed, first, undefined, CanonInstall.dated(manifest));
     }
-    // Settled when the last is in: everyone's facts projected (each install projected only its newcomers'), and the
-    // joined whole checked.
+    // Settled when the last is in: everyone's facts projected once (as the last is taken in, before its rules settle;
+    // here again only what settling changed), and the joined whole checked.
     campaign!.refreshProjection(); ModuleInstallations.check(campaign!.module, campaign!.world);
     CanonInstall.named(campaign!, manifest); return campaign!;
   }

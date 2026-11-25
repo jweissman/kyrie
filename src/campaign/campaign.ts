@@ -118,8 +118,8 @@ export class Campaign implements WatchHost {
     return copy;
   }
 
-  // checked: the joined whole checked now; everyone: every actor's creature facts projected again, not only the
-  // newcomers' (by default, when the whole is checked).
+  // checked: the joined whole checked now; everyone: every actor's creature facts projected now (by default, when the
+  // whole is checked), else nobody's until the campaign next projects them.
   install(request: BundleRequest, source: BundleSource, checked = true, everyone = checked): Promise<void> {
     return Installed.during(this.installation, async () => {
       this.installBoundary();
@@ -139,10 +139,13 @@ export class Campaign implements WatchHost {
       EngineDeclarations.declare(draft);
       const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
         budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
-      const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, everyone);
+      const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current);
       this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
       this.commit(world); this.current.deadline = next.budget;
       for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
+      // Everyone's facts projected, by the campaign's own projection (so that what it asks next is only what changed);
+      // or, joined unchecked for a game being assembled, nobody's yet: everyone's once the last is in.
+      if (everyone) { this.refresh(); }
       // Settled unless joined unchecked and for its newcomers only, as a game assembled joins all but its last (a start
       // had asked its country's every rule once for each of its 37 installs: 0.6 s; see assemble).
       if (checked || everyone) { CampaignTick.settle(this); } this.updateOutcome();

@@ -34,22 +34,19 @@ export class ModuleInstallations {
     }
     return out;
   }
-  // The people a new installation brings, made and placed in the store, with the facts about them projected into
-  // its world: everyone's as they stand now, after any have joined the company or left it (see Membership). Every
-  // goal they pursue is checked against that world before it is accepted.
-  // everyone: whether everyone's facts are projected again, or only the newcomers' (while a campaign is assembled
-  // from many modules at once, when everyone's are projected once at the end).
+  // The people a new installation brings, made and placed in the store, the gold the world gives them taken in, and
+  // every goal they pursue checked against the joined world before it is accepted. Their facts (and everyone's, after
+  // any have joined the company or left it: see Membership) are the campaign's to project, once, through its own
+  // projection, when it next asks (Campaign.install): a world assembled from forty modules had projected each one's
+  // newcomers as it came in, then everyone twice over at the end (0.5 s of a new life's start).
   static populate(next: CampaignInstance & { live?: World }, creatures: CreatureStore,
-    current: Parameters<typeof Membership.live>[1], everyone = true) {
+    current: Parameters<typeof Membership.live>[1]) {
     const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
-    const live = Membership.live(next.campaign!.actors, current).actors;
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
     const added = next.campaign!.creatures.filter(c => !held.has(c.id));
     const store = creatures.with(added.map(entry => this.creature(entry)));
-    const joined = next.live ?? new World(next.module, next.world);
-    CreatureFacts.initialize(joined, actors, store);
-    const projected = everyone ? live : live.filter(a => !had.has(a.id));
-    const world = CreatureFacts.project(joined, projected, store);
+    const world = next.live ?? new World(next.module, next.world);
+    CreatureFacts.initialize(world, actors, store);
     Progression.outcomes(world, next.campaign!);
     for (const actor of next.campaign!.actors) {
       for (const goal of actor.goals) {
