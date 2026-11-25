@@ -86,11 +86,11 @@ class Stage {
     }, true));
     await page.reload({ waitUntil: 'commit' });
   }
-  // Where the name's first and last letters fall, and the screen's width.
+  // Where the name falls, and the screen's width.
   static mark(page: Page) {
     return page.evaluate(() => {
-      const letters = Array.from(document.querySelectorAll('.mark span')).map(e => e.getBoundingClientRect());
-      return { left: Math.round(letters[0]!.left), right: Math.round(letters.at(-1)!.right), width: innerWidth };
+      const r = document.querySelector('.title-menu .mark')!.getBoundingClientRect();
+      return { left: Math.round(r.left), right: Math.round(r.right), width: innerWidth };
     });
   }
   // The keys alone, as a player at a keyboard finds the title: New game is lit, so Enter held begins, whether the title
@@ -193,7 +193,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the opening and the choice of a lif
     expect(await page.textContent('.ident .studio')).toBe('FREEHAVEN');
     await page.touchscreen.tap(30, 30);
     await page.waitForSelector('.ident', { state: 'detached', timeout: 5000 });
-    expect([await page.textContent('.mark'), await page.title()]).toEqual(['SEVEN\u00a0LAMPS', 'Seven Lamps']);
+    expect([await page.textContent('.title-menu .mark'), await page.title()]).toEqual(['SEVEN LAMPS', 'Seven Lamps']);
     const mark = await Stage.mark(page);
     expect(mark.left >= 0 && mark.right <= mark.width).toBe(true);
     await page.emulateMedia({ reducedMotion: 'reduce' });

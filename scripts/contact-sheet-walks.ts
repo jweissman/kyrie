@@ -10,8 +10,9 @@ export interface SheetRun { browser: Browser; site: string; out: string; size: {
   shots: SheetShot[]; misses: SheetMiss[]; reduced?: boolean }
 
 // The walks before play (see scripts/contact-sheets.ts): the title and its ways in, how a new game begins, the
-// options and the handbooks they lead to, the encyclopedia; and a life built step by step in a1, a mage so that the
-// first spells' page is among them, every page of the making pictured before it is chosen.
+// options (the handbooks are no longer theirs, OR-143: the books walk pictures them, OR-509); the encyclopedia; and a
+// life built step by step in a1, a mage so that the first spells' page is among them, every page of the making
+// pictured before it is chosen.
 export class SheetWalks {
   static label(run: SheetRun): string { return `${run.size.width}x${run.size.height}${run.reduced ? '-reduced' : ''}`; }
   static camera(run: SheetRun, page: Page, walk: string, driver?: MonoDriver): SheetCamera {
@@ -32,10 +33,6 @@ export class SheetWalks {
       await page.keyboard.press('Escape');
       await page.click('[data-action="options"]');
       await page.waitForSelector('[data-mode="options"]');
-    });
-    await cam.step('handbooks', 'The handbooks, from the options', async () => {
-      await page.click('[data-action="handbooks"]');
-      await page.waitForSelector('.cards .card');
     });
     await page.close();
   }

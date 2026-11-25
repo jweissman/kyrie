@@ -6,6 +6,7 @@
 // could not be reached is said in index.html and shots.json, with a picture of where the page stood; it fails no
 // one. CI keeps it as the contact-sheets workflow's artifact (doc/architecture/verification.md).
 //   bun scripts/contact-sheets.ts [--out dir] [--sizes 390x844,820x1180] [--motion full|reduce|both]
+//     [--walks title,make,hour,books] (some of the walks only, for a page change's own sheet: OR-508)
 // Needs a Playwright Chromium (KYRIE_CHROMIUM may name it) and, on this machine, LD_LIBRARY_PATH for NSS.
 import { mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -29,6 +30,8 @@ export class ContactSheets {
     // --motion full (the default), reduce, or both: each size walked again as for one who asks for less motion.
     const motion = ContactSheets.option(args, 'motion', 'full'), passes = motion === 'both' ? [false, true]
       : [motion === 'reduce'];
+    const asked = ContactSheets.option(args, 'walks', ContactSheets.walks.map(([w]) => w).join(',')).split(',');
+    const walks = ContactSheets.walks.filter(([w]) => asked.includes(w));
     const sizes = ContactSheets.option(args, 'sizes', '390x844,820x1180').split(',')
       .flatMap(s => passes.map(r => (r ? `${s}-reduced` : s)));
     await rm(out, { recursive: true, force: true });
@@ -42,7 +45,7 @@ export class ContactSheets {
         const [width, height] = size.split('x').map(n => parseInt(n, 10)) as [number, number];
         const run: SheetRun = { browser, site, out, size: { width, height }, shots, misses,
           ...size.endsWith('-reduced') ? { reduced: true } : {} };
-        for (const [walk, go] of ContactSheets.walks) {
+        for (const [walk, go] of walks) {
           await go(run).catch((e: unknown) => {
             misses.push({ size, walk, step: '(the walk)', why: String(e).split('\n')[0]!.slice(0, 240) });
           });

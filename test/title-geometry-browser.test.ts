@@ -10,8 +10,8 @@ import { MonoBrowser } from './support/mono-browser';
 // The title's foreground is geometrically exact (the owner, 15 November: buttons of one width and alignment, concise
 // labels, the saved game's description apart from the rows), measured in boxes, with and without a saved game, on a
 // desk, on an iPad both ways up and on a phone: its rows the same box either way (OR-160). A page as any other
-// (OR-382, the owner's ruling of 24 November): on a wide screen its name at the left and its rows in the frame's
-// column at the right; upright or narrow, the name over the rows, both about the screen's middle line. Its rows are
+// (OR-382, the owner's ruling of 24 November): its name small over its rows (OR-501: no hero), in the frame's column at
+// the right on a wide screen, centred upright or narrow, about the screen's middle line. Its rows are
 // the engine's: the ways in, then Options and the encyclopedia. Opt in with KYRIE_BROWSER=1.
 interface Box { x: number; y: number; width: number; height: number }
 class Title {
@@ -48,9 +48,11 @@ class Title {
     }
     const gaps = t.rows.slice(1).map((r, i) => r.y - (t.rows[i]!.y + t.rows[i]!.height));
     if (gaps.length) { expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(0.6); }
-    if (wide) { expect(first.x).toBeGreaterThan(t.mark.x + t.mark.width); } else {
-      expect(Math.abs(t.mark.x + t.mark.width / 2 - centre)).toBeLessThan(1);
-    }
+    // The name small, over the rows and at their left edge; on a wide screen at the hard right of it.
+    expect(t.mark.height).toBeLessThan(24);
+    expect(t.mark.y + t.mark.height).toBeLessThanOrEqual(first.y);
+    expect(Math.abs(t.mark.x - first.x)).toBeLessThan(0.6);
+    if (wide) { expect(first.x).toBeGreaterThan(t.view.w / 2); }
     // The name and the ways in are one composition about the screen's middle.
     const top = t.mark.y, bottom = t.menu.y + t.menu.height;
     expect(Math.abs((top + bottom) / 2 - t.view.h / 2)).toBeLessThan(t.view.h * 0.12);

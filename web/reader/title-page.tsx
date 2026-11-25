@@ -17,11 +17,9 @@ type Way = 'continue' | 'begin' | 'world' | 'encyclopedia' | 'options';
 
 // The title, the first page of the game's own language (the owner, 14 November, TO-01..03: "a quiet, extremely
 // legible foreground over a deeper, more complex, subtly moving background"; the moving double box about the choices
-// had been where he bounced off). Once a session the studio's mark draws its seven towers on a horizon; its horizon
-// becomes the title's own as the sky comes up behind it (no black between), and the game's name is lit from its middle
-// letter outward. The title is the engine's page (OpeningPages.title, OR-382), drawn in the one frame as any page is:
-// the game's name its heading, where a place's name stands, the embers its backdrop, and its rows in the frame's menu
-// column, the ways in (Continue where a kept game can be taken up, New character, New world: OR-300) then Options and
+// had been where he bounced off). Once a session the studio's mark draws its seven towers; the title comes up out of
+// it with no black between. The title is the engine's page (OpeningPages.title, OR-382), drawn in the one frame as any
+// page is: the embers its backdrop, and in the frame's menu column the game's name, small (OR-501), over its rows, the ways in (Continue where a kept game can be taken up, New character, New world: OR-300) then Options and
 // the encyclopedia, each a row of the game's own (see ChoiceRow), lit at once by its mark when the hand or the keys
 // are on it; a kept game that could not be opened is said under them in a plain line. Any key or touch skips
 // straight to the way in.
@@ -48,15 +46,11 @@ export class TitlePage {
       body="title-main" hidden={beat === 'ident' || beat === 'dark'}
       background={<>{beat !== 'ident' && page.hints.backdrop === 'embers' && <TitlePage.Motes />}
         {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
-      // The name is the title page's alone: the question how a new game begins stands by itself over the embers, the
-      // name neither kept above it nor moved as the menu below it changes (the owner's playtest, 20 November, OR-160).
-      header={s.phase === 'begin' || page.hints.heading !== 'name' ? undefined : <><TitlePage.Mark name={named.game} />
-        <p className="horizon" aria-hidden="true"><i /></p>
-        <p className="lede">Vol I: A History of Emprise</p></>}
-      // The title's rows, the engine's, each by its id; what each does (the game it continues) said to a reader only,
-      // never as a line of its own (the owner, 17 November). Taken at a press, never held (OR-169). Where the kept game
-      // could not be opened, the engine's plain line under them.
+      // No hero (OR-501, the owner, 24 November: "it doesn't need a huge 'Westernesse'"): the game's name, the page's
+      // heading, small in the frame's own type at the head of the ways in, at the hard right; the embers keep the
+      // space. How a new game begins asks in its place (BeginMenu), the name not kept over it.
       menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={page.ask}>
+        {page.hints.heading === 'name' && <h1 className="mark" aria-label={Identity.spoken(named.game)}>{named.game}</h1>}
         <ul>{page.rows.map(row => <li key={row.id}>{TitlePage.row(app, row, item)}</li>)}</ul>
         {page.told && <p className="title-told" data-id="refused" role="status">{page.told}</p>}
       </nav>}
@@ -82,20 +76,6 @@ export class TitlePage {
       document.querySelector<HTMLElement>(`[data-way="${way}"]`)?.focus({ preventScroll: true });
     }
   }
-  // The game's name, a letter at a time from the middle outward (the towers rose so), each out of a blur and a glow;
-  // sized by its letters, so that whichever name is asked for (?name=) keeps to one line on a phone. A space between
-  // words is set wider than the tracking between letters (a third of an em more), so that two words read as two.
-  static Mark({ name }: { name: string }) {
-    const letters = [...name], mid = (letters.length - 1) / 2;
-    return (
-      <h1 className="mark" aria-label={Identity.spoken(name)}
-        style={{ '--letters': letters.length } as CSSProperties}>
-        {letters.map((c, i) => <span key={i} className={c === ' ' ? 'gap' : undefined}
-          style={{ animationDelay: `${TitlePage.lit + Math.round(Math.abs(i - mid) * TitlePage.spread)}ms` }}>
-          {c === ' ' ? '\u00a0' : c}</span>)}
-      </h1>
-    );
-  }
   // Sparks going up slowly through the dark over the country, as off a fire out of sight below the title: a few, each
   // its own way across and its own pace, the same every time (no chance in it), gone for one who asks for less motion.
   // Back as they were before look-7 (IG-14, the owner: the title was much better with them; quiet never meant still):
@@ -109,11 +89,7 @@ export class TitlePage {
     );
   }
   static readonly motes = 34;
-  // When the name's middle letter begins to be lit, after the black; and how long the whole title takes to come up.
-  static readonly lit = 120;
-  // Between one letter's light and the next out from the middle: close enough that the name comes up as a word, never
-  // one blurred letter alone in the dark (M22's second review, OR-44: "a loose R"; it had been 130 ms).
-  static readonly spread = 70;
+  // How long the title takes to come up.
   static readonly reveal = 3200;
   // Where the opening has got to: the ident once a session (and when the address asks, ?ident or ?studio=), then
   // black, then the title coming up; skipped by any key or touch, and never shown to one who asks for less motion or
