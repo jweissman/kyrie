@@ -148,6 +148,7 @@ Module lab "The undercroft at Lowmouth" {
     On discuss { Assert knows(actor, low_u_rats_job). Assert low_u_given(low_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, low_u_store_lock). }
   }
   Observe low_u_rats_run_seen at low_u_warren as sign when not knows(party, low_u_rats_source) "The rats have worn a path in the dirt along the back wall of the runs. It goes down through the old brickwork, toward the smell of the drain." teaches low_u_rats_source.
+  Observe low_u_rats_run_heard at low_u_warren as sound when benighted(party) and not knows(party, low_u_rats_source) "In the dark you hear the rats scrabble along the back wall of the runs. The sound goes down through the old brickwork, toward the smell of the drain." teaches low_u_rats_source.
   Observe low_u_nest_scene at low_u_nest as fixture when true "A dry shelf above the drain water, heaped with chewed sacking, straw and grain-husks over bones. The stink is enough to make the eyes run.".
   Action low_u_nest_burned(actor: group, site: place) "Throw an oil firebomb into the nest" {
     Requires able(actor) and company(actor) and at(actor, site) and (at(actor, low_u_warren) or at(actor, low_u_drain)) and holding(actor, oil_firebomb) and able(low_u_buck).
@@ -473,7 +474,7 @@ Module lab "The undercroft at Lowmouth" {
   }
   Initially Set encounterXp(low_u_crawler) to 60.
   Entity low_u_drain_warm: fact "The old drain's centipede lies up by the bakehouse flue, where the stone is warm. It does not stir for one who keeps to the cold side.".
-  Topic low_u_drain_asked with low_innkeeper "Ask {low_innkeeper} about the old drain under Lowmouth" when toldMatter(low_innkeeper, actor) and not knows(actor, low_u_drain_warm) once {
+  Topic low_u_drain_asked with low_innkeeper "Ask {low_innkeeper} about the old drain under Lowmouth" when (toldMatter(low_innkeeper, actor) or been(actor, low_u_drain)) and not knows(actor, low_u_drain_warm) once {
     Says "'The old drain?' says {low_innkeeper}. 'There's a long thing down there, all legs. It lies up by the bakehouse flue, where the stone is warm. Keep to the cold side and it won't stir.'".
     On discuss { Assert knows(actor, low_u_drain_warm). }
   }

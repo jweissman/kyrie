@@ -47,7 +47,7 @@ Module pans "The cold pans" {
   Observe ianto_says at staithe as sign when not fuelled(party) and not knows(party, boatman) "'Broke it on the windlass, loading her,' Ianto calls up to you, and lifts the strapped arm. 'She's full. I can't pole her down one-handed, and nobody here will take her through the cut.'" teaches boatman.
   Person ianto "Ianto" at staithe { Role "the fuel boatman of {fuelvillage}, with a broken arm". Pronouns he. Peaceable. Manner grim. }
 
-  Topic trader_cold with trader "Ask {trader} why the pans are cold" when toldMatter(trader, actor) and not fuelled(party) and not spoiled(party) once {
+  Topic trader_cold with trader "Ask {trader} why the pans are cold" when (toldMatter(trader, actor) or knows(actor, chimney) or knows(actor, cold)) and not fuelled(party) and not spoiled(party) once {
     Says "{trader} wipes salt off both hands. 'No fuel. The boat from {fuelvillage} is two days late and there's not a stick to be had in {town}: the ridge wood is the reeve's and the peat is wet. Three days cold and the brine's spoiled, and the season with it.' A look at your arms. 'If you've a back, I'll pay for it. Get me fuel and there's work here after.'".
     On discuss { Assert asked(actor). Assert knows(actor, cold). Retract knows(actor, chimney). }
   }

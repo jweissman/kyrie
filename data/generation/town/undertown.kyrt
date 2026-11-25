@@ -378,6 +378,10 @@
     On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). }
   }
   Observe {t}_u_rats_run_seen at {t}_u_warren as sign when not knows(party, {t}_u_rats_source) "The rats have worn a path in the dirt along the back wall of the runs. It goes down through the old brickwork, toward the smell of the drain." teaches {t}_u_rats_source.
+  // Heard where it cannot be seen: a company whose light gave out on the long way round through the catacombs had come
+  // up into the runs in the dark, killed the rats there, and been led to and fro for where they got in, the path in the
+  // dirt unseen (OR-423's seed c3).
+  Observe {t}_u_rats_run_heard at {t}_u_warren as sound when benighted(party) and not knows(party, {t}_u_rats_source) "In the dark you hear the rats scrabble along the back wall of the runs. The sound goes down through the old brickwork, toward the smell of the drain." teaches {t}_u_rats_source.
   Observe {t}_u_nest_scene at {t}_u_nest as fixture when true "A dry shelf above the drain water, heaped with chewed sacking, straw and grain-husks over bones. The stink is enough to make the eyes run.".
   // Nothing done to the nest from far off: the buck rat is too old for bait, but not for fire.
   Action {t}_u_nest_burned(actor: group, site: place) "Throw an oil firebomb into the nest" {
@@ -951,7 +955,7 @@
   // What is known above opens a better way below (M21's FF-02): asked about the old drain, the innkeeper tells where
   // its centipede lies up; known, the company keeps to the cold side, and it does not stir.
   Entity {t}_u_drain_warm: fact "The old drain's centipede lies up by the bakehouse flue, where the stone is warm. It does not stir for one who keeps to the cold side.".
-  Topic {t}_u_drain_asked with {t}_innkeeper "Ask {{t}_innkeeper} about the old drain under {town}" when toldMatter({t}_innkeeper, actor) and not knows(actor, {t}_u_drain_warm) once {
+  Topic {t}_u_drain_asked with {t}_innkeeper "Ask {{t}_innkeeper} about the old drain under {town}" when (toldMatter({t}_innkeeper, actor) or been(actor, {t}_u_drain)) and not knows(actor, {t}_u_drain_warm) once {
     Says "'The old drain?' says {{t}_innkeeper}. 'There's a long thing down there, all legs. It lies up by the bakehouse flue, where the stone is warm. Keep to the cold side and it won't stir.'".
     On discuss { Assert knows(actor, {t}_u_drain_warm). }
   }

@@ -297,7 +297,7 @@
     On discuss { Assert knows(actor, {t}_death_oak_fact). }
   }
   Entity {t}_death_oak_fact: fact "Joss Hatherly's wax tablet records oak felled by night in the road-wood and sold under the merchant's pierced-circle mark: somebody was cutting behind the chain, and selling.".
-  Topic {t}_keeper_last with {t}_innkeeper "Ask {{t}_innkeeper} about the dead man's last night" when toldMatter({t}_innkeeper, actor) once {
+  Topic {t}_keeper_last with {t}_innkeeper "Ask {{t}_innkeeper} about the dead man's last night" when toldMatter({t}_innkeeper, actor) or knows(actor, {t}_death_bruise) once {
     Says "'Hatherly drank two ales and paid for neither,' says {{t}_innkeeper}, 'and put his tablet down on the bar and said he would be back for it before the dawn bell. He had a look on him like a man who has done sums and not liked the answer.' A pause. 'He was sober. Whatever else they say, he was sober.'".
     On discuss { Assert knows(actor, {t}_death_sober). }
   }
