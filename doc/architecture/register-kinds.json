@@ -960,6 +960,168 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, the owner's ask: a capability wanted, not a broken contract"
+  },
+  "AX-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a beta performance target (BRIEF §4: targets, not claims already met), measured by the scorecard, not a violated contract"
+  },
+  "AX-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a beta performance target (BRIEF §4: targets, not claims already met), measured by the scorecard, not a violated contract"
+  },
+  "OR-137": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a beta performance target (BRIEF §4: targets, not claims already met), measured by the scorecard, not a violated contract"
+  },
+  "OR-144": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a beta performance target (BRIEF §4: targets, not claims already met), measured by the scorecard, not a violated contract"
+  },
+  "OR-183": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a beta performance target (BRIEF §4: targets, not claims already met), measured by the scorecard, not a violated contract"
+  },
+  "NM-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "US-15": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "DN-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "OR-173": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "OR-149": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "OR-123": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "ST-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "OR-281": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "CP-19": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "WD-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): wanted for the slice's acceptance and not yet built, not an observed violation of a claimed contract"
+  },
+  "AP-18": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): an instrument or spec wanted, not an observed violation of a claimed contract"
+  },
+  "US-09": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): an instrument or spec wanted, not an observed violation of a claimed contract"
+  },
+  "SP-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): an instrument or spec wanted, not an observed violation of a claimed contract"
+  },
+  "TO-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): an instrument or spec wanted, not an observed violation of a claimed contract"
+  },
+  "CO-20": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): an instrument or spec wanted, not an observed violation of a claimed contract"
+  },
+  "HP-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): an instrument or spec wanted, not an observed violation of a claimed contract"
+  },
+  "OR-140": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a census's want (more of something good), not an observed violation of a claimed contract"
+  },
+  "BO-11": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a census's want (more of something good), not an observed violation of a claimed contract"
+  },
+  "BO-12": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a census's want (more of something good), not an observed violation of a claimed contract"
+  },
+  "BO-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a census's want (more of something good), not an observed violation of a claimed contract"
+  },
+  "BO-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a census's want (more of something good), not an observed violation of a claimed contract"
+  },
+  "TO-03": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the slice triage (the owner: true defects split from features): a designed passage wanted, a direction"
   }
  },
  "blockedBy": {

@@ -1,10 +1,10 @@
 {
  "ci": {
-  "slice": 65,
+  "slice": 29,
   "breaches": 0
  },
  "local": {
-  "slice": 65,
+  "slice": 29,
   "first": 4927,
   "turn": 121,
   "breaches": 0,
