@@ -1,5 +1,5 @@
 import { PlaySession, type TranscriptStep } from '../session/play-session';
-import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { Travel } from '../session/travel';
 import { AutoplayRun, type RunSpec, type Failure } from './run';
 import { Invariants } from './invariants';
@@ -44,7 +44,7 @@ export class Shrinker {
     try {
       for (const step of steps) {
         if (!s.campaign.running) { break; }
-        if (!PlayerView.choices(s.campaign).some(c => c.choice.id === step.command)) { continue; }
+        if (!PlayerFrame.of(s.campaign).rows.some(c => c.choice.id === step.command)) { continue; }
         await s.leg(step.command, new Following(step.combat ?? []).next);
       }
       if (last && s.campaign.running) { await this.move(s, last); }
@@ -55,6 +55,6 @@ export class Shrinker {
   private static async move(s: PlaySession, move: Move) {
     if (move.kind === 'travel') {
       await Travel.go({ campaign: s.campaign, perform: this.performing.bind(this, s) }, move.to);
-    } else if (PlayerView.choices(s.campaign).some(c => c.choice.id === move.id)) { await s.leg(move.id); }
+    } else if (PlayerFrame.of(s.campaign).rows.some(c => c.choice.id === move.id)) { await s.leg(move.id); }
   }
 }

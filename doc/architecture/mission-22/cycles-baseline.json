@@ -521,7 +521,7 @@
   "src/session/travel.ts -> src/narrative/rule-words",
   "src/session/travel.ts -> src/presentation/action-feedback",
   "src/session/travel.ts -> src/presentation/narrator",
-  "src/session/travel.ts -> src/presentation/player-view",
+  "src/session/travel.ts -> src/presentation/player-frame",
   "src/session/travel.ts -> src/ui/itinerary",
   "src/session/travel.ts -> src/ui/overland",
   "src/session/travel.ts -> src/ui/passage-model",

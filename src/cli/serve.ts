@@ -8,6 +8,7 @@ import { LandCrossing } from '../ui/land-crossing';
 import { Narrator, type Told } from '../presentation/narrator';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { EntityCard } from '../presentation/entity-card';
 import { Doable, type Row } from '../presentation/doable';
 import type { Promoted } from '../presentation/glance-types';
@@ -49,7 +50,7 @@ export class Serve {
       // Each said in the engine's words (MT-18: one wording, Doable's); only those the engine offers a row doing, where
       // it offers any (MT-18: serve had offered the world's every choice, a talk with someone who has nothing to say
       // and a gather "for Carlin" beside "for Wenna", which Doable leaves out).
-      choices: [...PlayerView.choices(c).filter(r => !rows.length || words.has(r.choice.id) || led.has(r.choice.id))
+      choices: [...PlayerFrame.of(c).rows.filter(r => !rows.length || words.has(r.choice.id) || led.has(r.choice.id))
         .map(r => ({
         id: r.choice.id, label: words.get(r.choice.id) ?? r.choice.name })),
         ...(glance?.acts ?? []).filter(a => a.command?.startsWith('follow:')).map(a => ({ id: a.command!, label: a.label })),

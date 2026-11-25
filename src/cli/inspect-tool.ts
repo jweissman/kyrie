@@ -10,7 +10,7 @@ import { WhyTool } from './why-tool';
 import { ActionSchemas } from '../campaign/action-schemas';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
-import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame, type FrameRows } from '../presentation/player-frame';
 import type { Campaign } from '../campaign/campaign';
 import type { Operator, Predicate, Query, Value } from '../lang/module';
 
@@ -42,7 +42,7 @@ export class InspectTool {
   // when none is, the bindings nearest to being offered of any of them (by the name they would have, if that is
   // what the pattern names), and which of their conditions fail.
   static report(campaign: Campaign, pattern: string): string[] {
-    const re = new RegExp(pattern, 'i'), page = PlayerView.choices(campaign), labels = ActionSchemas.labels(campaign.module);
+    const re = new RegExp(pattern, 'i'), page = PlayerFrame.of(campaign).rows, labels = ActionSchemas.labels(campaign.module);
     const schemas = new Map(campaign.module.actions.map(x => [x.id, x]));
     const open = campaign.offered().filter(a => re.test(a.name) || this.named(schemas.get(a.schema ?? a.id) ?? a, re));
     if (open.length) { return open.map(a => this.shown(page, a)); }
@@ -61,7 +61,7 @@ export class InspectTool {
   private static named(schema: Operator, re: RegExp): boolean { return re.test(schema.id) || re.test(schema.name); }
   // An action on offer, and how the page shows it: as a choice of its own, as one with another alike, or not at all
   // (something it is done to is not seen).
-  private static shown(page: ReturnType<typeof PlayerView.choices>, a: Operator): string {
+  private static shown(page: FrameRows, a: Operator): string {
     const own = page.find(c => c.action.id === a.id), alike = page.find(c => c.action.schema === a.schema
       && c.choice.name === a.name);
     const how = own ? `on the page as "${own.choice.name}"` : alike ? `on the page as one with "${alike.choice.name}"`

@@ -3,7 +3,7 @@ import type { Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { World } from '../lang/world';
 import { Discovery } from '../lang/discovery';
-import { PlayerView } from './player-view';
+import { PlayerFrame } from './player-frame';
 import { ObservationText } from '../lang/observation-text';
 
 export interface InformationChoice { id: string; name: string; time: number }
@@ -23,7 +23,7 @@ export class InformationView {
   }
   // The choices as the page offers them: what the company sees, named as it would name them.
   private static choices(campaign: Campaign): { public: InformationChoice; action: Operator }[] {
-    return PlayerView.choices(campaign)
+    return PlayerFrame.of(campaign).rows
       .map(({ choice, action }) => ({ public: { id: choice.id, name: choice.name, time: choice.time }, action }));
   }
   static observe(campaign: Campaign): InformationSnapshot {

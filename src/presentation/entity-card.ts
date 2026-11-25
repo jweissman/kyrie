@@ -3,6 +3,7 @@ import type { Entity } from '../lang/module';
 import { ObservationText } from '../lang/observation-text';
 import { World } from '../lang/world';
 import { PlayerView } from './player-view';
+import { PlayerFrame } from './player-frame';
 import { ScreenModel } from '../ui/screen-model';
 import { SceneModel } from '../ui/scene';
 import { Narrator } from './narrator';
@@ -85,7 +86,7 @@ export class EntityCard {
   private static acts(campaign: Campaign, screen: ReturnType<typeof ScreenModel.build>, id: string,
     author: boolean): CardAct[] {
     const led = Narrator.leaf(campaign, screen).glance?.acts ?? [];
-    return PlayerView.choices(campaign)
+    return PlayerFrame.of(campaign).rows
       .filter(r => Object.entries(r.action.bindings ?? {}).some(([k, v]) => v === id && !['actor', 'site'].includes(k)))
       .map(r => {
         const lead = led.find(a => a.command === r.choice.id || a.for === r.choice.id);

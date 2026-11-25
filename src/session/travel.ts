@@ -3,7 +3,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time';
 import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
-import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { Itineraries, type Leg } from '../ui/itinerary';
 import { PassageModel } from '../ui/passage-model';
 import { Overland } from '../ui/overland';
@@ -86,7 +86,7 @@ export class Travel {
   }
   // One leg, as the page would take it: why the journey stops there, if it does.
   private static async step(t: Traveller, leg: Leg, done: Journeyed): Promise<string | undefined> {
-    const offered = PlayerView.choices(t.campaign);
+    const offered = PlayerFrame.of(t.campaign).rows;
     const choice = offered.find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
     // A company held where it lies (asleep, stunned) goes nowhere until it can: the map had set out from beside a
     // trap and come back to where the company lay, saying that the way would not let it by (the owner, 11 November).
@@ -162,7 +162,7 @@ export class Travel {
   // journey as "There is danger here", nothing to be done but go on (the owner's trust contracts, G).
   private static danger(campaign: Campaign): boolean {
     const world = campaign.world, company = campaign.playerActor!, tolerates = world.relates('tolerates');
-    return PlayerView.choices(campaign).filter(c => /^attack\(/.test(c.choice.id))
+    return PlayerFrame.of(campaign).rows.filter(c => /^attack\(/.test(c.choice.id))
       .map(c => c.action.bindings?.opponent ?? '').some(g => !(tolerates && world.test(ModuleWriter.call('tolerates', g, company))) && !this.lets(world, g));
   }
   private static lets(world: Campaign['world'], group: string): boolean {

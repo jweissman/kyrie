@@ -6,6 +6,7 @@ import { WorldAssembler } from '../world/world-assembler';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { ScreenModel } from '../ui/screen-model';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { Narrator, type Leaf } from '../presentation/narrator';
@@ -59,7 +60,7 @@ export class Playtext {
       `Seed \`${seed}\`, origin \`${origin}\`, calling \`${classId}\`. Written by \`bin/kyrie playtext\`.`, '',
       ...this.page(Narrator.leaf(s.campaign, first), first.place.name, first.clock, args.includes('--glance'))];
     for (let i = 0; i < Number(steps); i++) {
-      const choices = PlayerView.choices(s.campaign).filter(c => !this.skip.test(c.choice.id))
+      const choices = PlayerFrame.of(s.campaign).rows.filter(c => !this.skip.test(c.choice.id))
         .flatMap(c => this.favoured.test(c.choice.id) ? [c, c, c] : [c]);
       if (!choices.length) { out.push('*There is nothing left to do.*'); break; }
       const c = choices[rng.number(`1d${choices.length}`) - 1]!, before = PlayerView.observe(s.campaign);

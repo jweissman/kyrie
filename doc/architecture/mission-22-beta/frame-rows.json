@@ -13,19 +13,6 @@
   "scripts/scale-costs.ts": 2,
   "scripts/sim-bench.ts": 2,
   "scripts/travel-census.ts": 1,
-  "src/autoplay/invariants.ts": 1,
-  "src/autoplay/run.ts": 1,
-  "src/autoplay/shrink.ts": 2,
-  "src/autoplay/tour.ts": 1,
-  "src/cli/inspect-tool.ts": 1,
-  "src/cli/playtext.ts": 1,
-  "src/cli/review-frame.ts": 1,
-  "src/cli/serve.ts": 1,
-  "src/cli/terminal.ts": 2,
-  "src/presentation/entity-card.ts": 1,
-  "src/presentation/information-view.ts": 1,
-  "src/presentation/offer.ts": 1,
-  "src/session/play-session.ts": 1,
-  "src/session/travel.ts": 2
+  "src/session/play-session.ts": 1
  }
 }

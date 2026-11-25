@@ -9,7 +9,7 @@ import type { ExchangeLine, Leaf } from '../presentation/narrator';
 import type { Promoted } from '../presentation/glance-types';
 import type { Screen } from '../ui/screen-types';
 import type { Offered, Said } from './runner';
-import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { ReviewProvenance, type Unit } from './review-provenance';
 import type { Maker, ReviewChoice, ReviewFrame as Frame, SourceRef, ToldLine } from './review-types';
 
@@ -83,7 +83,7 @@ export class ReviewFrame {
   }
   // The world's choices as they stand, by id (what the company could be offered anywhere it is drawn).
   static allowed(campaign: Campaign): Set<string> {
-    return new Set(PlayerView.choices(campaign).map(r => r.choice.id));
+    return new Set(PlayerFrame.of(campaign).rows.map(r => r.choice.id));
   }
   // The offer in the order the turn gave it: what pulls next, the four (and which of them the aim leads by), the rest.
   private offer(said: Said, leaf?: Leaf): ReviewChoice[] {

@@ -3,7 +3,7 @@ import { WorldAssembler } from '../world/world-assembler';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { PlaySession, type SessionCheckpoint, type TranscriptStep } from '../session/play-session';
 import { Frontier } from '../world/frontier';
-import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { Itineraries } from '../ui/itinerary';
 import { Travel } from '../session/travel';
@@ -110,7 +110,7 @@ export class AutoplayRun {
   }
   static situation(s: PlaySession, step: number, led = false, prefer?: Aspect): Situation {
     const c = s.campaign, engaged = this.engaged(s);
-    const offered = PlayerView.choices(c).filter(x => !engaged || engaged.has(x.choice.id))
+    const offered = PlayerFrame.of(c).rows.filter(x => !engaged || engaged.has(x.choice.id))
       .map(x => ({ id: x.choice.id, name: x.choice.name }));
     return { offered, destinations: engaged ? []
       : Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),

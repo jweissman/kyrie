@@ -23,6 +23,7 @@ import { Tactics } from '../tactics'; import { Foregone } from '../ui/foregone';
 import { CombatTelling } from '../ui/combat-telling';
 import { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { ScreenModel } from '../ui/screen-model';
 import { Narrator, type Told } from '../presentation/narrator';
 import { ActionFeedbackView } from '../presentation/action-feedback';
@@ -117,7 +118,7 @@ export class Terminal {
     // Each choice's minutes, as the page says them (ActionTime.minutes), not its ticks: "Bury him · 1 min" had taken
     // two hours, a way into the next stretch of country listed in minutes took ninety (cold review A, 12 November).
     const world = session.campaign.world;
-    const minutes = new Map(PlayerView.choices(session.campaign)
+    const minutes = new Map(PlayerFrame.of(session.campaign).rows
       .map(r => [r.choice.id, ActionTime.minutes(r.action, world)]));
     const all: (ReturnType<typeof PlayerView.observe>['choices'][number] & { journey?: Journeyed })[] = PlayerView
       .observe(session.campaign).choices.map(c => ({ ...c, time: minutes.get(c.id) ?? c.time * 10 }));
@@ -385,7 +386,7 @@ export class Terminal {
     turn.opened = choice.opens ? choice : undefined;
     if (choice.opens) { return true; }
     const before = PlayerView.observe(session.campaign);
-    const does = PlayerView.choices(session.campaign).find(r => r.choice.id === choice.id)?.action.schema;
+    const does = PlayerFrame.of(session.campaign).rows.find(r => r.choice.id === choice.id)?.action.schema;
     try {
       const began = performance.now();
       // A foregone fight is one act, fought through by the company's tactics unless it turns, as the page's host

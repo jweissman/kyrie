@@ -1,6 +1,6 @@
 import { CreatureSchema } from '../creature';
 import { PlaySession } from '../session/play-session';
-import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import type { CampaignEvent } from '../campaign/campaign';
 
 export interface Violation { kind: 'creature' | 'softlock' | 'roundtrip' | 'party' | 'silent' | 'time'; message: string }
@@ -22,7 +22,7 @@ export class Invariants {
   }
   static offered(s: PlaySession): Violation[] {
     const c = s.campaign;
-    return c.running && !PlayerView.choices(c).length
+    return c.running && !PlayerFrame.of(c).rows.length
       ? [{ kind: 'softlock', message: `nothing offered at ${c.world.one('at', c.playerActor!)}` }] : [];
   }
   // A company with someone standing is not told it has fallen, and one with no one standing does not go on.

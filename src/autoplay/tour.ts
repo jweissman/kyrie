@@ -1,6 +1,7 @@
 import type { PlaySession } from '../session/play-session';
 import type { CampaignEvent } from '../campaign/campaign';
 import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { DangerSense } from '../presentation/danger-sense';
 import { Travel } from '../session/travel';
 import { Countries, type Country } from '../world/countries';
@@ -190,7 +191,7 @@ export class Tour {
     const c = this.s.campaign, ids = c.readout.partyIds;
     return c.readout.creatures.some(x => ids.includes(x.id) && x.state.hp < x.base.maxHp);
   }
-  private offered(): string[] { return PlayerView.choices(this.s.campaign).map(x => x.choice.id); }
+  private offered(): string[] { return PlayerFrame.of(this.s.campaign).rows.map(x => x.choice.id); }
   private async perform(command: string): Promise<CampaignEvent> {
     this.commands++;
     const event = await this.s.leg(command);

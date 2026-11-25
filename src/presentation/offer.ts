@@ -3,7 +3,7 @@ import { Promotion, type Candidate, type Kind } from '../ui/promotion';
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
 import { Patience } from '../ui/patience';
-import { PlayerView } from './player-view';
+import { PlayerFrame } from './player-frame';
 import { Aspects } from './aspects';
 import type { Aspect, Mark, Promoted } from './glance-types';
 
@@ -168,7 +168,7 @@ export class Offers {
     // Warned off as the page marks it (Marks.warned): whatever spends the last of their patience, a moment's take
     // among it (cold play 3, CL-12: "Collect a moonstone", unmarked in the four, brought the vault's keeper on).
     const toward = warned && new RegExp(`[(,]${warned.id}[,)]`);
-    return PlayerView.choices(campaign).filter(r => !had.has(r.choice.id))
+    return PlayerFrame.of(campaign).rows.filter(r => !had.has(r.choice.id))
       .map((r, i) => ({ choice: r.choice.id, command: r.choice.id, label: r.choice.name,
         kind: this.kind(r.action.schema), whys: [], order: cands.length + i,
         marks: [...r.action.grave ? [{ kind: 'grave' as const, said: r.action.grave, ask: true }] : [],
