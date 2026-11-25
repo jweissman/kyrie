@@ -42,7 +42,7 @@
   "within": {
     "indoors": ["scene-indoors-plain", "scene-rustic-room", "scene-hearth"],
     "underground": [],
-    "underground:site": ["dissolution", "meditation", "perdition"]
+    "underground:site": ["dissolution", "meditation", "perdition", "scene-underground-passage", "scene-undercroft-dark"]
   },
   "places": {
     "house_upper": "scene-great-house",

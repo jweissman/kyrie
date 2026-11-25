@@ -2,6 +2,7 @@ import table from '../../data/paintings/scenery.json';
 import type { Screen } from './screen-types';
 import { SceneKinds, type Named } from './scene-kinds';
 import { Fits } from './fits';
+import { Commissioned } from './commissioned';
 
 // A painting of country of the kind the company has come into, for the page to open a chapter with: a settlement by
 // its river or its frost, or a village's lane and fields; wild country by the land it is (a river's vale, a lake, a
@@ -13,24 +14,28 @@ import { Fits } from './fits';
 // boats drawn up (a fen salt-house had opened on sheep in a wooded lane: play 13).
 export class Scenery {
   // Which painting for which kind of place: the author's, in data/paintings/scenery.json.
-  static readonly views: Record<string, string[]> = table.views;
-  static readonly within: Record<string, string[]> = table.within;
+  // Only the owner's commissioned paintings, never an old master (Commissioned: the owner, 25 November).
+  static readonly views: Record<string, string[]> = Commissioned.lists(table.views);
+  static readonly within: Record<string, string[]> = Commissioned.lists(table.within);
   // A country by its terrain alone, as it is seen before it is entered (the page that asks who comes to it).
   static country(terrain: string | undefined, key: string): string | undefined {
-    const views = this.views[terrain ?? ''] ?? this.views.wild!;
-    return views[this.hash(key) % views.length];
+    const views = Commissioned.first(this.views[terrain ?? ''], this.views.wild);
+    return views.length ? views[this.hash(key) % views.length] : undefined;
   }
   // The way into a town, as a new game's opening paints it (OWN-17): by the land its arrival is told in (the approach
   // lines of data/origins/tables.json, by terrain, the road out from under the trees where a terrain has none of its
   // own), never a sight the words deny (a frost town's way in, told by its snow-fences, turf roofs and peat, had opened
   // on boats drawn up in a pale bay: the opening's critique). The country the life was chosen over, where it is one of
   // these, so that the painting behind the choice sharpens into the way in.
-  static readonly approaches: Record<string, string[]> = table.approaches;
+  static readonly approaches: Record<string, string[]> = Commissioned.lists(table.approaches);
   static approach(screen: Screen, country?: string): string | undefined {
     const terrain = screen.region?.terrain?.replace(/^.*__/, '') ?? '';
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
-    const own = this.approaches[terrain] ?? this.approaches.forest!;
-    const all = season === 'winter' && !own.some(v => this.winter.has(v)) ? this.winterOpen : this.seasonal(own, season);
+    // Where the approaches of its land are only old masters, the land's own country (Commissioned).
+    const own = Commissioned.first(this.approaches[terrain] ?? this.approaches.forest, this.views[terrain],
+      this.views.wild);
+    const all = season === 'winter' && !own.some(v => this.winter.has(v)) && this.winterOpen.length ? this.winterOpen
+      : this.seasonal(own, season);
     // Never against the sky it opens under (BRIEF §3.4): a sunlit way in had been free to open a storm; none, if none.
     const views = all.filter(v => Fits.fits(screen, v));
     return country && views.includes(country) ? country : views[this.hash(screen.place.id) % views.length];
@@ -41,10 +46,10 @@ export class Scenery {
   static readonly winter = new Set(table.winter);
   // In winter, the way in through a country whose own paintings are all of leaf: a calm winter's open country instead
   // (M22's second review, OR-46: "snowy, Deepwinter" over a summer wood after an opening of sheep in leaf).
-  static readonly winterOpen: string[] = table.winterOpen;
+  static readonly winterOpen: string[] = Commissioned.only(table.winterOpen);
   // An author's own painting for a place of theirs, kept before any kind's (data/paintings/scenery.json, places); or
   // several, the first that fits the place as it now is (Palla's waterfront in the sun of the dry, and in the rains).
-  static readonly places: Record<string, string | string[]> = table.places;
+  static readonly places: Record<string, string | string[]> = Commissioned.places(table.places);
   // That painting, where it fits the place as it now is: the camp in the lee had been its campfire by night at noon,
   // and the Arcology's sunlit terraces stood in the rain (BRIEF §3.4); where it does not, the kind's choice, or none.
   // A stock opening's room is the opening's own, by its id within it (region__s1_adit_mouth is adit__mouth); and one
@@ -62,7 +67,7 @@ export class Scenery {
     const own = this.authored(screen);
     if (roofed && !own) { return undefined; }
     // A town by night is a town's night, its windows lit, not the wild's moon over dark country.
-    const night = this.views[`night:${this.where(screen)}`] ?? this.views.night ?? [];
+    const night = Commissioned.first(this.views[`night:${this.where(screen)}`], this.views.night);
     if (screen.dark) { return this.pick(this.seasonal(night, season), screen.place.id, screen); }
     if (own) { return own; }
     const where = this.where(screen), named = SceneKinds.of(screen);
@@ -77,7 +82,8 @@ export class Scenery {
     if (sited?.length) { return this.pick(this.seasonal(sited, season), screen.place.id, screen); }
     const area = screen.region?.areas.find(a => a.here);
     const form = area?.form?.replace(/^land_/, ''), terrain = screen.region?.terrain?.replace(/^.*__/, '');
-    const keys = where === 'site' ? ['site']
+    // A site whose own paintings were only old masters is painted by its land (Commissioned).
+    const keys = where === 'site' ? ['site', terrain, 'wild'].filter((k): k is string => !!k)
       : [form && `${where}:${form}`, terrain && where === 'settlement' && `settlement:${terrain}`,
         where === 'wild' ? terrain : undefined, where].filter((k): k is string => !!k);
     const views = keys.map(k => this.seasonal(this.views[k] ?? [], season)).find(v => v.length);
@@ -96,8 +102,11 @@ export class Scenery {
     // A room's paintings keep to the season as the country's do (a tower's top in frost had stood for a summer room).
     const season = /; (\w+)$/.exec(screen.date?.long ?? '')?.[1];
     const known = named && SceneKinds.views(named, at);
-    if (known) { return this.varied(this.seasonal(known, season), screen, named!); }
     const site = screen.path.some(p => p.kind === 'site');
+    const kind = known && this.varied(this.seasonal(known, season), screen, named!);
+    // Deep in a site, a kind whose commissioned rooms do not fit the place (a scrivener's window four levels down) is
+    // the site's vaults and passages, as one of no kind is (the old masters had fitted: Commissioned).
+    if (known && (kind || !(at.underground && site))) { return kind; }
     const views = at.underground ? this.within[site ? 'underground:site' : 'underground'] : this.within.indoors;
     return this.pick(views ?? [], screen.place.id, screen);
   }

@@ -1,5 +1,6 @@
 import table from '../../data/paintings/scenery.json';
 import type { PlaceRef, Screen } from './screen-types';
+import { Commissioned } from './commissioned';
 
 // What kind of place a scene is, for its painting: a taproom, a crypt, a market, a road (data/paintings/scenery.json,
 // kinds). Every room under a roof had been one of four interiors and every site one of four paintings, whatever it
@@ -16,12 +17,15 @@ import type { PlaceRef, Screen } from './screen-types';
 export interface SceneKind {
   kind: string; words: string[]; ground?: string[]; room?: string[]; plain?: boolean; owner?: boolean;
   parts?: Record<string, string[]>;
+  // Its ground was painted only by old masters (Commissioned): not painted from the open by its kind, but by what it
+  // lies in (its site, its land).
+  unpainted?: boolean;
 }
 // A kind, the word of the place's own that named it (none where it is its level's or site's), and the part of it the
 // place is, where the kind paints that part its own way.
 export interface Named { kind: SceneKind; word?: string; part?: string }
 export class SceneKinds {
-  static readonly kinds = table.kinds as SceneKind[];
+  static readonly kinds = (table.kinds as SceneKind[]).map(k => SceneKinds.commissioned(k));
   static readonly generic = new Set<string>(table.generic);
   // The kind a place is, by its own words (and which word said it), or by those of what it lies within, the nearest
   // first; its own where that is shown there at all (fits: "the crossing" deep in a mine is no ford, but the mine's).
@@ -97,6 +101,16 @@ export class SceneKinds {
   static painted(kind: SceneKind, at: { roofed: boolean; underground: boolean }): string[] | undefined {
     const within = kind.room ?? (kind.plain ? [] : undefined);
     if (at.underground) { return within; }
+    if (kind.unpainted) { return at.roofed ? within : undefined; }
     return at.roofed ? within ?? kind.ground : kind.ground ?? within;
+  }
+  // A kind as the commissioned paintings show it: its old masters taken out of its ground, rooms and parts; a list
+  // that held only old masters is no list, and a ground so emptied is said (unpainted), so that the place gives way.
+  private static commissioned(k: SceneKind): SceneKind {
+    const parts = k.parts && Object.fromEntries(Object.entries(k.parts).map(([p, l]) => [p, Commissioned.kept(l)])
+      .filter(([, l]) => l)) as Record<string, string[]>;
+    const lost = !!k.ground?.length && !Commissioned.only(k.ground).length;
+    return { ...k, ground: Commissioned.kept(k.ground), room: Commissioned.kept(k.room), ...parts ? { parts } : {},
+      ...lost ? { unpainted: true } : {} };
   }
 }

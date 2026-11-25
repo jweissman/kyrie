@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 182 pins (150 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 578 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 182 pins (150 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 579 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -425,12 +425,13 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 5 defects · 4 asks
+- **Paintings and portraits** · 1 pins · 5 defects · 5 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
   - direction OR-471 P3: A valley in rain: the valley's family (scene-valley, -spring, -summer, -autumn, -night) has no…
   - direction OR-523 P3: The page's small copies of the paintings (web/reader/paintings, some 1 250 files) are generated…
   - direction OR-543 P3: A lookbook (the owner, 25 November): `bin/kyrie lookbook` writes a design manual beside the…
+  - direction OR-676 P2: The commission list: kinds of place with no commissioned painting, now painted by what they lie in…
 - **Paintings by terrain, subject, season, weather and light** · 0 pins · 0 defects · 2 asks
   - requirement OR-442 P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's…
   - direction OR-454 P3: The visual atlas (gamma G5): assets indexed terrain → subject → place or archetype → season →…

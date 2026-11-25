@@ -27,8 +27,10 @@ describe('the country a chapter opens on', () => {
   it('is painted in winter only in winter', () => {
     expect(Scenery.winter.has(Scenery.of(screen('the 23rd of Midsummer, in the 1st year of the Sun and Moon; summer'))!))
       .toBe(false);
-    // A cold country's town in summer is its own summer, not a leafy fair.
-    expect(['trapper', 'idyll']).toContain(Scenery.of(screen('the 30th of Haysel, in the 1st year of the Sun and Moon; summer'))!);
+    // A cold country's town in summer had been its own summer (two old masters); with the old masters kept for
+    // portraits and the tarot (the owner, 25 November), no commissioned painting is of one: a town's commissioned view.
+    const summer = Scenery.of(screen('the 30th of Haysel, in the 1st year of the Sun and Moon; summer'))!;
+    expect([summer, Scenery.winter.has(summer)]).toEqual([expect.stringMatching(/^scene-/), false]);
     expect(Scenery.winter.has(Scenery.of(screen('the 3rd of Deepwinter, in the 1st year of the Sun and Moon; winter'))!))
       .toBe(true);
   });

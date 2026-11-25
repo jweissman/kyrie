@@ -1236,6 +1236,18 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, split from OR-611: the reference town's smallness is commissioned; country-level generators placing their people there is the remainder of that requirement"
+  },
+  "OR-675": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the owner's ruling: a rule for the paintings, commissioned and met"
+  },
+  "OR-676": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: a commission list for the owner's paintings, a wanted future"
   }
  },
  "blockedBy": {

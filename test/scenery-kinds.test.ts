@@ -52,7 +52,7 @@ describe('the painting of a place', () => {
   it('agrees with the season on the way in', () => {
     const road: PlaceRef = { id: 'region__w1_road', name: 'the road into Pardaael', kind: 'wild' };
     const on = (long: string) => ({ ...Scene.of(road, []), date: { short: '', long } }) as Screen;
-    expect(Scenery.winterOpen).toContain(Scenery.approach(on('the 12th of Deepwinter; winter'))!);
+    expect(Scenery.winter.has(Scenery.approach(on('the 12th of Deepwinter; winter'))!)).toBe(true);
     expect(Scenery.winter.has(Scenery.approach(on('the 25th of Haysel; summer'))!)).toBe(false);
   });
   it('is of a town\'s rooms by what each is, never a vault of a church or a library', () => {
@@ -61,8 +61,8 @@ describe('the painting of a place', () => {
     expect(['scene-inn-town', 'scene-inn-village', 'scene-inn-hamlet']).toContain(taproom!);
     expect(['scene-inn-town', 'scene-inn-village', 'scene-inn-hamlet']).toContain(Scene.seen(Scene.room('region__s3_taproom', 'Milo\'s alehouse'))!);
     expect(['scene-apothecary', 'scene-alchemist-still']).toContain(Scene.seen(Scene.room('region__s1_shop', 'Falkor\'s herb-shop'))!);
-    expect(['scene-counting-house', 'silver', 'cup']).toContain(Scene.seen(Scene.room('region__s1_jewelry', 'Joan\'s jewel-shop'))!);
-    expect(Scene.seen(Scene.room('region__s1_scriv', 'the scrivener\'s'))).toBe('breviary');
+    expect(['scene-counting-house', 'scene-cache']).toContain(Scene.seen(Scene.room('region__s1_jewelry', 'Joan\'s jewel-shop'))!);
+    expect(Scene.seen(Scene.room('region__s1_scriv', 'the scrivener\'s'))).toBe('scene-scriveners');
     expect(['scene-stable', 'scene-town-stable', 'scene-byre']).toContain(Scene.seen(Scene.room('region__s2_byre', 'the byre'))!);
     // A forge: the owner's smithy with no smith in it (7 November); before it, a dim ground.
     expect(['scene-forge', 'scene-ironmongery']).toContain(Scene.seen(Scene.room('region__s3_forge', 'the smithy'))!);
@@ -78,11 +78,11 @@ describe('the painting of a place', () => {
     const gate = Scene.room('circus__rest_gate', 'the gatehouse of the King\'s Rest');
     const road = Scene.room('region__s1_s4_way', 'the road between Newmeet and Brockfield');
     expect(['scene-bridge', 'bridge', 'arcadia']).toContain(Scene.seen(foot)!);
-    expect(['castle', 'redoubt']).toContain(Scene.seen(gate)!);
-    expect(['road', 'arcadia', 'scene-road', 'scene-road-night', 'scene-country-lane', 'scene-country-lane-dawn',
+    expect(Scene.seen(gate)).toMatch(/^scene-castle/);
+    expect(['scene-valley-road', 'scene-road', 'scene-road-night', 'scene-country-lane', 'scene-country-lane-dawn',
       'scene-country-lane-dusk', 'scene-country-lane-night']).toContain(Scene.seen(road, [])!);
     const camp = Scene.room('region__s5_green', 'the camp at Windscar');
-    expect(['herd', 'chapel', 'arcadia']).toContain(Scene.seen(camp)!);
+    expect(Scene.seen(camp)).toBe('scene-village-square');
     // No lane of sheep for the road, the bridge-foot or the forge; no wood for a market; no mountains for a gate.
     expect(Scene.seen(road, [])).not.toBe('herd');
     const market = Scene.seen(Scene.room('region__s1_green', 'the market-place'));
@@ -104,7 +104,7 @@ describe('the painting of a place', () => {
     const vault = Scene.seen(Scene.room('region__s2_u_vault', 'the sealed vault', under));
     for (const v of [crypt, ossuary, vault]) { expect(dead).toContain(v!); }
     expect(new Set([crypt, ossuary, vault]).size).toBe(3);
-    expect(['vanity', 'death', 'breviary']).toContain(Scene.seen(Scene.room('x__study', 'the necromancer\'s study'))!);
+    expect(Scene.seen(Scene.room('x__study', 'the necromancer\'s study'))).toBe('scene-necromanteion');
   });
   it('is of a site by its kind, and varies from room to room of a barrow', () => {
     const site: PlaceRef = { id: 'region__s1_ud_site', name: 'the old dead under Newmeet', kind: 'site' };
@@ -126,11 +126,11 @@ describe('the painting of a place', () => {
     expect(Scenery.seen(marked)).toBe('scene-barrow-chamber');
     const wild: PlaceRef = { id: 'region__z1', name: 'Birchwood', kind: 'wilderness' };
     const tower: PlaceRef = { id: 'tower__tower', name: 'The tower', kind: 'site' };
-    expect(['tower', 'redoubt', 'bolt']).toContain(Scenery.seen(Scene.of(tower, [wild]))!);
+    expect(Scenery.seen(Scene.of(tower, [wild]))).toBe('scene-lone-tower');
     const inside: PlaceRef = { id: 'tower__inside', name: 'Inside the tower', kind: 'level' };
-    expect(Scene.seen(Scene.room('tower__hall', 'the tower hall'), [wild, tower, inside])).toBe('meditation');
+    expect(Scene.seen(Scene.room('tower__hall', 'the tower hall'), [wild, tower, inside])).toBe('scene-broken-keep-tower');
     const roof = Scene.room('tower__roof', 'the tower roof');
-    expect(['tower', 'redoubt']).toContain(Scene.seen(roof, [wild, tower, inside])!);
+    expect(Scene.seen(roof, [wild, tower, inside])).toBe('scene-tower-roof');
     // A room named for what it would be in the open ("the crossing") deep in a mine is of the mine, not a ford.
     const mine: PlaceRef = { id: 'region__s2_ud_adit', name: 'the adit level', kind: 'level' };
     const crossing = Scene.room('region__s2_ud_adit_crossing', 'the crossing', under);
@@ -159,8 +159,11 @@ describe('the painting of a place', () => {
       .toContain(Scene.seen(Scene.room('region__w7_counting', 'the counting-room'))!);
     expect(Scene.seen(Scene.room('region__w7_store', 'the warehouse'))).toBe('scene-warehouse');
   });
-  it('keeps the painting an author chose for a place of theirs', () => {
-    expect(Scenery.places.infinite_library_threshold).toBe('library');
-    expect(Scene.seen(Scene.room('infinite_library_threshold', 'the threshold of the Library'), [])).toBe('library');
+  // An author's choice of an old master gives way to the kind's commissioned painting (the owner, 25 November).
+  it('keeps the painting an author chose for a place of theirs, where it is commissioned', () => {
+    expect(Scenery.places.fellowship__hall_a).toBe('scene-great-house');
+    expect(Scene.seen(Scene.room('fellowship__hall_a', 'the hall'), [])).toBe('scene-great-house');
+    expect(Scenery.places.infinite_library_threshold).toBeUndefined();
+    expect(Scene.seen(Scene.room('infinite_library_threshold', 'the threshold of the Library'), [])).toMatch(/^scene-/);
   });
 });
