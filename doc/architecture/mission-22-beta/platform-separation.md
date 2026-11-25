@@ -438,6 +438,45 @@ semantic boundary.
 9. Declared test horizons.
 10. Packages moved last.
 
+**The immediate queue** (the same reviewer's action list, relayed by the owner the same day). It makes steps 1–3
+concrete:
+1. **Finish the attribution of a turn.**
+   - Time resolution, execution, narration, aims, digest, receipts, transcript, frame and the runner's overhead,
+     until less than a tenth of a turn is unexplained.
+   - Remeasure the same golden walk before choosing what comes next.
+2. **No page built for a journey leg.**
+   - One shared reading answers whether an arrival needs the player's attention. It is taken from the authoritative
+     rows, the projection and the event consequences, and both Travel and Glance use it.
+   - Comparison tests keep every existing stop.
+   - Done when an uninterrupted leg builds no screen and no narration leaf.
+3. **Strategic routes on demand.**
+   - Every scene keeps its immediate exits.
+   - The followed aim's route is computed only when guidance needs it.
+   - The whole list of destinations is computed only when the map opens.
+   - Done when an ordinary turn away from the map works out no itinerary at all.
+4. **Finish PlayerFrame's migration.**
+   - Its rows go into perception, the screen, the glance, narration, travel and the clients.
+   - Product paths stop calling `PlayerView.choices` on their own.
+   - Done when each campaign revision has one immutable row set, with page and terminal output unchanged.
+   - PlayerFrame is not widened beyond rows without a typed player revision (step 1 above).
+5. **Remeasure:**
+   - read the medians and tails of a decision, an ordinary turn, a journey leg and a world's start;
+   - the largest cost then measured chooses the next work.
+6. **Incremental computation only where it is still needed.**
+   - The dominant remaining computation gets explicit dependencies and a fresh oracle.
+   - Its cached output must equal the fresh output, and stay isolated between campaigns.
+   - Perception, legal grounding or rule wake-ups are the likely candidates, but the new profile decides.
+7. **Broad restructuring waits:**
+   - no package extraction, general interpreter, wholesale Canon migration or fact-key rewrite yet;
+   - packages move only once both clients use the logical boundaries and wrong-way access has nearly gone.
+
+**Every landing in the queue:**
+- improves one measured latency;
+- deletes one redundant derivation or full computation;
+- adds a behavioural equivalence test;
+- lowers a structural count;
+- lands on its own before the next slice begins.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are

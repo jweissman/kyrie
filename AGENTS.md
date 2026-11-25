@@ -139,9 +139,8 @@ this help the player forget the interface and become interested in what happens 
 - **Fun Fridays:** a few charming, fully playable experience pins (pleasant activities, played through the ordinary
   interface), not many lifeless ones.
 - **No test over ten seconds on the push suite** (the owner, 24 November). The push lane (test/lanes.json) takes each
-  file under ten kept seconds and test/small. Anything slower runs nightly, and the world-level walks run before
-  landing as the world canary (test/canary.json, which `bun run test:changed` adds whenever a change can move every
-  world). A slow spec is made cheaper or moves out; test/small holds no file over ten seconds.
+  file under ten kept seconds and test/small. Anything slower runs nightly or in CI's suite, and the world-level walks are CI's world canary
+  (test/canary.json). A slow spec is made cheaper or moves out; test/small holds no file over ten seconds.
 - **Flaky specs are quarantined** (test/quarantine.json, with why and the lower-order replacement). They stay out of
   every gating lane and run only in the optional post-CI quarantine workflow.
 
@@ -241,8 +240,9 @@ this help the player forget the interface and become interested in what happens 
 - **Gates:** a gate is the runner's exit status, read in its own call before committing; never a grep for "N fail".
   Guard spec paths (`test -n "$f" &&`): a bare `bun test` is the whole suite. Check a spec name is free before writing
   one. Never read `process.env` at module load in shared src.
-- **Inner loop:** `bun run check:fast` (~30 s), then `bun run test:changed`. Heavy runs (full suite, browser, tours)
-  go to CI. Use `gh run watch --interval 60`, one at a time.
+- **Inner loop:** `bun run check:fast` (~30 s), `bun run test:small` and the specs being fixed. **No long tests on
+  this machine** (the owner, 25 November): the changed specs, the canary, the world gate, the full suite, browser runs
+  and tours are CI's load. Land small and often; a red main is mended or reverted at once. Use `gh run watch --interval 60`, one at a time.
 - **Machine load:** three agents besides the lead, one each for Game, World and Maturity, running as often as the
   machine allows (the owner, 25 November). WSL has 19 GB: every heavy run (a suite, a world walk, the world gate) goes
   through `/var/tmp/kyrie/tools/heavy.sh`, which takes the machine's lock and holds it under a memory ceiling, so a
