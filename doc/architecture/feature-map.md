@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 568 live rows, 449 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 569 live rows, 450 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -100,7 +100,7 @@ page's colours and opportunities.)
   - ✓ tells the frontier from the retreat underground, and sees an aim through
   - ✓ never draws a way back as worth a look for another aim, and says which aim
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
-- **Wayfinding and bearings** · 2 pins · 10 defects · 2 asks
+- **Wayfinding and bearings** · 2 pins · 11 defects · 2 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement OR-345 P2: Wayfinding and bearings: the capability as its pins hold it (a strategic map of countries above…

@@ -4,7 +4,7 @@ import { TerminalBooks } from './terminal-books';
 import { TerminalWidth } from './terminal-width';
 import { TerminalSlots } from './terminal-slots';
 import { CheckpointStore } from '../session/checkpoint-store';
-import { JourneyFold } from '../presentation/journey-fold';
+import { TravelQuestion, type Asked } from '../presentation/travel-question';
 import { TerminalMenus, type Journeyed } from './terminal-menus';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
@@ -29,7 +29,6 @@ import { ActionFeedbackView } from '../presentation/action-feedback';
 import type { Screen } from '../ui/screen-types';
 import { SceneModel } from '../ui/scene';
 import { Attending } from '../ui/attention';
-import { LandCrossing } from '../ui/land-crossing';
 import type { Choice } from '../ui/choice-list';
 import type { Aspect, Glance, Lens, Promoted, Successor } from '../presentation/glance-types';
 import type { ActType } from '../presentation/offer';
@@ -113,7 +112,7 @@ export class Terminal {
     return { screen, leaf };
   }
   private static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
-    at: { talking?: Talking; lens?: Lens; opened?: Listed } = {}): Offered {
+    at: { talking?: Talking; lens?: Lens; opened?: Listed; travel?: Asked } = {}): Offered {
     const { talking, lens } = at;
     // Each choice's minutes, as the page says them (ActionTime.minutes), not its ticks: "Bury him · 1 min" had taken
     // two hours, a way into the next stretch of country listed in minutes took ninety (cold review A, 12 November).
@@ -122,27 +121,12 @@ export class Terminal {
       .map(r => [r.choice.id, ActionTime.minutes(r.action, world)]));
     const all: (ReturnType<typeof PlayerView.observe>['choices'][number] & { journey?: Journeyed })[] = PlayerView
       .observe(session.campaign).choices.map(c => ({ ...c, time: minutes.get(c.id) ?? c.time * 10 }));
-    const kinds = [['known', screen.destinations], ['town', screen.around], ['roads', screen.roads]] as const;
-    for (const [journey, ds] of kinds) {
-      for (const d of (ds ?? []).filter(x => !all.some(c => c.id === `travel:${x.id}`))) {
-        all.push({ id: `travel:${d.id}`, name: `Set out for ${d.name}`, time: d.minutes, encounter: false,
-          category: 'travel', targets: [d.id], journey });
-      }
-    }
-    // And across the country to a place the map shows, as the engine allows it (LandCrossing), as the page's map does.
-    for (const x of LandCrossing.offers(screen).filter(o => !all.some(c => c.id === o.command))) {
-      all.push({ id: x.command, name: `Go across country to ${x.name}`, time: 0, encounter: false, category: 'travel',
-        targets: [x.id], journey: 'across' });
-    }
-    // A way into the next stretch of country led with is set out on as a journey there (travel:, see HexBoundary),
-    // as the page's map does: the gold "To the road between Mistshaw and Millholm" had been dropped from the
-    // terminal's foreground, which knew no such id (M21's playability investigation).
-    const next = glance?.next?.command ? [{ command: glance.next.command, label: glance.next.label ?? '' }] : [];
-    for (const a of [...glance?.acts ?? [], ...next]) {
-      if (a.command?.startsWith('travel:') && !all.some(c => c.id === a.command)) {
-        all.push({ id: a.command, name: a.label, time: 0, encounter: false, category: 'travel',
-          targets: [a.command.slice('travel:'.length)], journey: 'onward' });
-      }
+    // Where the company may set out for, as the engine asks it for every client (TravelQuestion, TB-09): the terminal
+    // plans none of its own. It had made travel: rows of the screen's destinations, the town's places and the roads,
+    // crossings of LandCrossing's and the glance's onward ways; the engine's rows are the page's map's.
+    for (const t of (at.travel?.rows ?? []).filter(r => !all.some(c => c.id === r.command))) {
+      all.push({ id: t.command, name: t.label, time: t.minutes, encounter: false, category: 'travel',
+        targets: [t.place], journey: t.kind });
     }
     // An aim to follow is an act of the glance like any other, done by the session's own command (HeldActs.follow).
     for (const a of glance?.acts ?? []) {
@@ -264,7 +248,7 @@ export class Terminal {
       if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
       const { screen, leaf } = turn.current;
       const offered = this.foreground(session, leaf.glance, screen,
-        { talking: turn.talking, lens: turn.lens, opened: turn.opened });
+        { talking: turn.talking, lens: turn.lens, opened: turn.opened, travel: leaf.travel });
       if (turn.talking && !offered.talk) { turn.talking = undefined; }
       this.next(leaf.glance?.next, screen, { all: offered.all, human });
       const answer = human ? await this.picked(input, offered, { turn, session })
@@ -305,7 +289,7 @@ export class Terminal {
     : Promise<Listed | string | null> {
     if (!turn.spaced) { console.log(''); turn.spaced = true; }
     if (offered.says) { TerminalDoable.heading(offered).forEach(l => console.log(l)); }
-    const folded = this.folded(offered.all, turn.current);
+    const folded = this.folded(offered.all);
     const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
       all: offered.rest ? [...offered.first, ...offered.rest] : offered.all.filter(c => !folded.has(c.id)),
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
@@ -325,15 +309,14 @@ export class Terminal {
     TerminalBooks.map(session, false);
     const ways = TerminalMenus.grouped(offered.all.filter(c => c.journey));
     if (!ways.length) { console.log('No journey is known from here.'); return 'here'; }
-    const picked = await input.pick({ title: 'Where to?', rows: ways, back: 'here' });
+    const picked = await input.pick({ title: TravelQuestion.asked, rows: ways, back: 'here' });
     if (!picked) { return null; }
     return 'command' in picked ? 'here' : offered.all.find(c => c.id === picked.choice) ?? 'here';
   }
   // The journeys folded out of the whole list, there through journeys and the map, as the page's map keeps them
-  // (CL-33).
-  private static folded(all: Listed[], at: Turn['current']): Set<string> {
-    return at ? JourneyFold.folded(all.filter(c => c.journey && c.journey !== 'onward'), at.screen,
-      at.leaf.glance?.compass?.out) : new Set();
+  // (CL-33): every one the engine asks of the map, but those the glance leads with.
+  private static folded(all: Listed[]): Set<string> {
+    return new Set(all.filter(c => c.journey && c.journey !== 'onward').map(c => c.id));
   }
   // Whom the company is speaking with, by the name the screen gives them.
   private static whom(screen: Screen | undefined, id: string): string | undefined {
@@ -367,7 +350,7 @@ export class Terminal {
       return true;
     }
     if (answer === 'all' || answer === 'more' || answer === 'journeys') {
-      const folded = this.folded(all, turn.current), every = answer === 'journeys';
+      const folded = this.folded(all), every = answer === 'journeys';
       console.log(every ? '\nJourneys' : '\nAll legal interactions');
       this.choices(all.filter(c => every ? c.journey : !folded.has(c.id)));
       if (folded.size && !every) { console.log(`(+${folded.size} more journeys: journeys)`); }

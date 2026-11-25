@@ -21,7 +21,7 @@ import { ToldOnce } from './told-once';
 import { Glance } from './glance'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
 import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
 import { TaughtSigns } from './taught-signs'; import { Charge } from './charge';
-import type { Glance as GlanceView } from './glance-types';
+import type { Glance as GlanceView } from './glance-types'; import { TravelQuestion, type Asked } from './travel-question';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
@@ -58,7 +58,7 @@ export interface Leaf {
   // A new game's opening, told apart before the first place where the page asks it to be (see Prologue).
   prologue?: Opened;
   // The place at a glance: what the page leads with, decided here (see Glance).
-  glance?: GlanceView;
+  glance?: GlanceView; travel?: Asked; // Where the company may set out for from here (TravelQuestion, TB-09).
 }
 // One command, as the host keeps it until the next: what happened, what the company saw of it, the words it was
 // chosen in, and whether it brought the company somewhere else.
@@ -77,7 +77,9 @@ export class Narrator {
   // The composer's naming of a place for a kit's word (see KitWord.requests): it teaches, and says nothing.
   static readonly naming = /Name__named(@|$)/;
   // opening: what an opening told before the first place (see Prologue), which the place leaves out.
-  static leaf(...a: Parameters<typeof Narrator.leafed>): Leaf { return Costs.time('leaf', () => Narrator.leafed(...a)); }
+  static leaf(...a: Parameters<typeof Narrator.leafed>): Leaf {
+    return Costs.time('leaf', () => TravelQuestion.on(Narrator.leafed(...a), a[1]));
+  }
   private static leafed(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
     const seenBefore = this.seenBefore(campaign), turned = this.skyTurned(told?.event);
@@ -442,16 +444,14 @@ export class Narrator {
     const lines: ExchangeLine[] = [
       ...first ? opened : [], ...(feedback.way ?? []).map(text => ({ text, kind: 'event' as const })),
       ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [], ...done,
-      ...first ? [] : opened,
-      ...spoken.map(text => ({ text, kind: 'speech' as const })),
+      ...first ? [] : opened, ...spoken.map(text => ({ text, kind: 'speech' as const })),
       ...changing || fight ? [] : events, ...voiced,
       ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: feedback.lapsed?.includes(text)
         ? 'event' as const : fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...outcome,
       // What a fight set off is told after the blows that set it off: the Banns at Hessel read a man on his knees
       // saying "You'll live" before the blow that felled the footpad (its friction 3).
-      ...fight && !changing ? events : [],
-      ...waiting ? [] : seen,
+      ...fight && !changing ? events : [], ...waiting ? [] : seen,
       // Weariness come on is told after the rest, not in the middle of a scene (A Winter in Carth's friction 14).
       ...event.changes.includes(`+ weary(${campaign.playerActor})`)
         ? [{ text: Narrator.weary(campaign.readout.partyIds.length === 1), kind: 'event' as const }] : [],
