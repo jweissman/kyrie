@@ -8,6 +8,11 @@ inhabiting, then make it possible to build a thousand more.**
 The beta execution plan continues: performance, authoritative actions, situation continuity, platform separation, Kyr's
 maturity. This is a bounded flagship within it, not a restart.
 
+**The weighting, the owner's later word the same day:** M22-beta focuses largely on architectural concerns, with a
+minor track for playability: fixing bugs, restructuring the world to be simpler, and one deep location easily reached.
+The reference game is that minor track's target. The economy's tabletop work, the microscope and the rest of this note
+are where it leads, not beta's main work.
+
 ## 1. One permanent reference game
 
 A brutally constrained Westernesse scenario, kept playable continuously, and made more interesting over time rather than
