@@ -89,7 +89,7 @@
    to any trade" at 3.0:1 on creation's considered row). */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
   .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active, [data-taken]) > .row-aside { color: var(--ivory); }
-:root .rail-mark > .unread { color: var(--ivory); background: rgba(10, 11, 14, .94); box-shadow: none; }
+:root .rail-mark > .unread { background: var(--ivory); box-shadow: 0 0 0 2px rgba(10, 11, 14, .94); }
 /* Words over a painting stand on a scrim: a soft feathered darkening behind the words' region, never a panel, the
    painting still the scene's (the second design opinion, 24 November). A fight's telling and its hand. */
 :root .fight :is(.beat, .hand) { background: radial-gradient(farthest-side at 50% 45%, rgba(8, 9, 12, .8),

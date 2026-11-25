@@ -42,10 +42,10 @@
 .recall { color: var(--dim); font-size: 16.5px; }
 .presence p { color: var(--ivory); }
 .presence.quiet p { color: var(--dim); font-size: 16.5px; }
-.changed { margin: 22px 0; padding-left: 14px; border-left: 2px solid var(--violet); }
+.changed { margin: 22px 0; }
 .changed .label { color: var(--dim); }
 .changed p { font-style: italic; }
-.recap { margin: 0 0 22px; padding: 12px 16px; background: var(--raised); border-left: 2px solid var(--accent-line); }
+.recap { margin: 0 0 22px; padding: 12px 16px; background: var(--raised); }
 .recap .last .at { color: var(--dim); font: 400 13px var(--do); margin-right: 6px; }
 .journey p, .travelled p { font-style: italic; color: var(--dim); }
 /* What has just happened, in its own words, under what the company did. */
@@ -57,7 +57,8 @@
 .happened .change { font-style: italic; }
 .happened .opening { font-size: 19px; }
 /* A revelation (NAR-14): what an author marked as deserving the page to itself, set apart from the run of it. */
-.happened .revelation, .lines .line.revelation { margin: 20px 0; padding: 4px 0 4px 18px; border-left: 2px solid var(--accent);
+/* Set apart by its size and its italic alone: text is text, no bar beside it (OR-513). */
+.happened .revelation, .lines .line.revelation { margin: 20px 0; padding: 4px 0;
   font-size: 19px; font-style: italic; }
 .happened .fight { font: 400 15.5px/1.45 var(--do); color: var(--dim); }
 .happened.tone-fail p { color: var(--dim); }
@@ -92,11 +93,9 @@
 :is(.happened, .lines) .seen-through .what { font: 300 30px/1.15 var(--do); margin: 0 0 12px; }
 :is(.happened, .lines) .seen-through .gain { font: 500 14px/1.45 var(--do); color: var(--dim); margin: 0; }
 :is(.happened, .lines) .seen-through .next { font: italic 400 15.5px/1.45 var(--told); color: var(--dim); margin: 6px 0 0; }
-:is(.happened, .lines) .levelled { border-color: rgba(180, 156, 255, .55);
-  background: radial-gradient(ellipse at 50% 0%, rgba(180, 156, 255, .16), transparent 70%); }
 :is(.happened, .lines) .levelled .kicker { color: var(--dim); }
 /* What can be seen from somewhere high: each way, what lies that way and how far, set out for. */
-.happened .panorama { margin: 16px 0 14px; padding: 14px 0 0; border-top: 1px solid var(--azure); }
+.happened .panorama { margin: 16px 0 14px; padding: 14px 0 0; border-top: 1px solid var(--edge-strong); }
 .happened .panorama .kicker { font: 500 11px var(--do); letter-spacing: .24em; text-transform: uppercase; color: var(--dim);
   margin: 0 0 8px; }
 .panorama .compass { list-style: none; margin: 0; padding: 0; }
@@ -353,11 +352,10 @@
   background: rgba(10, 11, 14, .5); }
 .aim { flex: 1 1 18rem; min-width: 0; margin: 0; display: flex; align-items: baseline; gap: 12px;
   font: italic 400 16px/1.4 var(--told); color: var(--ivory); }
-/* Its label's words neutral, as every label's; its diamond the indicator, gold for the aim followed (OR-189). */
+/* Its label's words neutral, as every label's, and its diamond: told, not an act, so no Atlas gold (OR-513). */
 .aim .label { flex: none; margin: 0; color: var(--dim); }
 .aim .label::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 8px 1px 0; background: var(--dim);
   transform: rotate(45deg); }
-.aim.followed .label::before { background: var(--gold); }
 .you { margin: 0 0 0 auto; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 18px; }
 .you .me { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; font: 400 13.5px/1.4 var(--do); color: var(--dim); }
 .you .me > * + *::before { content: '·'; margin: 0 8px; color: var(--faint); }

@@ -15,7 +15,7 @@
 .glance .came { font: italic 400 15.5px/1.5 var(--told); color: #DDD6CB; margin: 0 0 14px; padding-left: 14px;
   border-left: 1px solid var(--edge-strong); }
 /* A journey stopped says why where the eye goes first; a journey's legs open from its line. */
-.glance .came.stopped { font: 500 15px/1.5 var(--do); font-style: normal; color: var(--accent); border-left-color: var(--accent); }
+.glance .came.stopped { font: 500 15px/1.5 var(--do); font-style: normal; color: var(--accent); }
 /* The legs under it open from a quiet word of their own, neutral, as Said before… is (OR-246). */
 .glance .came-legs { margin: -8px 0 14px; padding-left: 14px; }
 .glance .came-legs > summary { cursor: pointer; list-style: none; width: max-content; font: var(--type-word);

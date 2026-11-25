@@ -44,14 +44,13 @@
 .lines .line.speech { font-size: 20.5px; line-height: 1.55; }
 .lines .line.telling, .lines .line.change { color: var(--ivory); }
 .lines .line.event, .lines .line.tally { font: 400 14.5px/1.45 var(--do); color: var(--dim); }
-/* Things learned: their tone in the left edge alone, the label and the words neutral (the owner, 11 November). */
-.lines .line.learned { border-left: 2px solid var(--azure); padding: 4px 0 4px 12px; font: 400 15px/1.45 var(--do); }
+/* Things learned: plain words under a neutral label, no Atlas tone beside them; what is learnt is the Book's note,
+   its pip on the Book's mark (the owner, 25 November, OR-513). */
+.lines .line.learned { padding: 4px 0; font: 400 15px/1.45 var(--do); }
 .lines .line.learned b { display: block; font: 500 10.5px var(--do); letter-spacing: .2em; text-transform: uppercase;
   color: var(--dim); margin-bottom: 2px; }
 /* The next of things learned together goes on in the same block, under the one label. */
 .lines .line.learned.more { margin-top: -.8em; padding-top: 2px; }
-/* A new aim, not yet followed, is a lead worth exploring: silver, not the followed aim's gold (amendment 6, C). */
-.lines .line.learned.aim { border-left-color: #D7DBE4; }
 /* What can be chosen gives way and scrolls within itself, fading at its foot when there is more; the leave stays. */
 .dialogue .answer { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden;
   border-top: 1px solid var(--edge-strong); padding: 14px 0 18px; }
@@ -61,7 +60,7 @@
 .replies { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 /* What the aim followed asks of them, in the aim's gold (see TalkStage.Reply). */
 /* Green, as the likeness marked as having something for you: what pays you to say (see Owed). */
-.replies.answers { border-left: 2px solid var(--accent); padding-left: 12px; margin: 0 0 14px; }
+.replies.answers { margin: 0 0 14px; }
 .answering { font: 500 11px/1.3 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
 /* Taking your leave is always there to be done, so it is drawn whole and quieter, never dashed: a dashed edge is what
    cannot be done (reader.css), and a jeweller's "Take your leave", the only thing to do there, had read as shut (the

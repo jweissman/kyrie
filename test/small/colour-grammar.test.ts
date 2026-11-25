@@ -17,6 +17,10 @@ describe('the colour grammar', () => {
   // indicator's.
   it('sets no words in any hue', () => { expect(ColourCensus.huedWords()).toEqual([]); });
   it('fills no ground with gold', () => { expect(ColourCensus.goldGrounds()).toEqual([]); });
+  // The Atlas's indicators and colours on the menu's action rows alone (the owner, 25 November, OR-513: "text should
+  // just be text"): no hued colour nor bar at the left of words in narration, feedback, the notes, the glance's told
+  // lines, a conversation's words or the Book. Its twenty-one found burnt down to none, held there.
+  it('draws no indicator nor Atlas colour off the action rows', () => { expect(ColourCensus.offRow()).toEqual([]); });
   it('flashes no colour', () => { expect(ColourCensus.flashes()).toEqual([]); });
   it('lights a row in neutral ink, never its tone', () => {
     expect(css('menu.css')).not.toMatch(/choice-row[^{]*\{\s*--row-tone:\s*var\(--tone-/);

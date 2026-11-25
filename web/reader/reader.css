@@ -87,15 +87,13 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .sheet .back { margin: 0 0 26px; }
 .story h3 { margin-top: 34px; }
 .story .you { font: 400 14px/1.4 var(--do); color: var(--grey); margin: 14px 0 4px; }
-.journal li.learned, .story .learned { border-left: 4px solid var(--yellow); padding-left: 10px; list-style: none; margin-left: -1.1em; }
+.journal li.learned, .story .learned { list-style: none; }
 /* The notes as a game's book, not a document: aims and what is known as cards, no bullets (the owner's report). */
 .journal ul { list-style: none; padding: 0; }
 .journal .aims .aim-card { margin: 0 0 6px; padding: 10px 14px; border: 1px solid var(--hair);
   background: var(--paper); font: 400 16px/1.45 var(--told); }
-.journal .aims .aim-card { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 14px;
-  border-left: 3px solid var(--hair); }
-/* Gold only for the aim followed: the first card had been gold whether or not it was followed (round 8, M). */
-.journal .aims .aim-card.followed { border-left-color: var(--gold); }
+.journal .aims .aim-card { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 14px; }
+/* No edge of Atlas gold for the aim followed: the Notes are text, the followed aim the first and larger (OR-513). */
 /* The aim the menu acts on: considered by the hand or the keys, lit as a considered row is (row.css), nothing moving. */
 .journal .aims .aim-pick { all: unset; flex: 1 1 auto; min-width: 0; cursor: pointer; }
 .journal .aims .aim-card.aim-card[data-considered] { background: color-mix(in oklab, var(--ivory) var(--tint-hover), transparent);
@@ -240,7 +238,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .character .progress, .character .standing { font: 400 15.5px/1.5 var(--do); color: var(--grey); }
 .character .standing { color: var(--ink); }
 .character h3 { font: 500 11.5px/1.2 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--grey); margin: 30px 0 10px; }
-.character .development { margin: 22px 0 8px; padding: 14px 0 6px 18px; border-left: 4px solid var(--yellow); }
+.character .development { margin: 22px 0 8px; padding: 14px 0 6px; }
 .character .development h3 { margin-top: 0; color: var(--ink); }
 .character .development .how { font: 400 14.5px/1.45 var(--do); color: var(--grey); max-width: 34em; }
 .character .options { list-style: none; padding: 0; margin: 4px 0 16px; }

@@ -73,8 +73,7 @@
 .chosen-place .at-way .label { margin: 4px 0 8px; }
 .chosen-place .at-way .acts.column { display: grid; gap: 6px; }
 .chosen-place .at-way .acts.column .act { display: flex; width: 100%; }
-.chosen-place .shut { margin: 0; padding: 10px 14px; border-left: 2px solid rgba(255, 107, 69, .55);
-  font: 400 15px/1.45 var(--told); color: var(--ivory); background: rgba(255, 107, 69, .06); }
+.chosen-place .shut { margin: 0; padding: 10px 0; font: 400 15px/1.45 var(--told); color: var(--ivory); }
 .chosen-place .at-way .acts.column { list-style: none; margin: 0; padding: 0; }
 .chosen-place .at-way .act .note { flex-basis: 100%; font-size: 12.5px; color: var(--dim); }
 

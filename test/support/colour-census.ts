@@ -83,4 +83,33 @@ export class ColourCensus {
     }
     return out;
   }
+  // The Atlas's indicators and colours are for the menu's action rows alone (the owner's playtest, 25 November, OR-513:
+  // "text should just be text"): a rule that draws a hued colour (a tone, gold, an rgb or hex colour far from grey) in
+  // any colour of its own (its words, ground, border, shadow, fill or stroke), or a left border in any colour not
+  // neutral, whose selector is not an action row's nor an instrument's. The rows: a choice row and its mark, the
+  // glance's acts and tiles, a way, a plate, a chip, an opener, a lens's corner key. The instruments, which draw what
+  // they show and are no Atlas: the map and its board, a fight's field and its cards, the observatory of creation, the
+  // light and the hour, a gauge's bar, the journey's strip, the dice, the studio's mark, a field's focus, creation's
+  // recommended card. Narration, feedback, the notes, the glance's told lines, a conversation's words and the Book
+  // are text: none.
+  static readonly rows = new RegExp(['choice-row', 'row-mark', '\\.act\\b', 'way-tile', '\\.option\\b', '\\.opener\\b',
+    '\\.corner\\b', 'rail-mark', '\\bpip\\b', 'wf-row', 'ah-row', '\\.unfolded', 'opened-list'].join('|'));
+  static readonly instruments = new RegExp(['field-land', 'atlas-key', '\\.board', '\\.fight', '\\.obs', '\\.flame',
+    '\\.when\\.light', '\\.gauge', '\\.strip', '\\.throw', '\\.ident', '\\.fields', '\\.campaign-sheet',
+    '\\.world-page\\.threatened', 'face(?:\\.whole| img\\.whole)', 'data-backstage', '\\.sheet-key'].join('|'));
+  static offRow(): string[] {
+    const out: string[] = [];
+    for (const f of this.files()) {
+      for (const r of this.rules(readFileSync(join(this.dir, f), 'utf8'))) {
+        if (this.rows.test(r.selector) || this.instruments.test(r.selector)) { continue; }
+        const decls = [...r.body.matchAll(/(?:^|;)\s*([\w-]+)\s*:([^;]*)/g)].map(m => [m[1]!, m[2]!] as const);
+        const hued = decls.some(([p, v]) => /color|background|border|shadow|fill|stroke|outline/.test(p)
+          && (this.hued.test(v) || this.greyless(v)));
+        // A bar at the left of words, of any colour (a panel's hairline edge, 1px, is no bar).
+        const left = decls.some(([p, v]) => /^border-left$/.test(p) && /\b([2-9]|\d{2,})px/.test(v));
+        if (hued || left) { out.push(`${f}: ${r.selector}`); }
+      }
+    }
+    return out;
+  }
 }

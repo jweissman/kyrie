@@ -10,7 +10,7 @@ import { Noted } from '../../src/presentation/noted';
 // taken up or let be, else blue for what is known now); the Book's notes open on them, and read, they are cleared.
 export interface Item { text: string; label?: string; aim?: true }
 export class News {
-  // What a frame's telling adds: its new aims, then what it says is known now, each once.
+  // What a frame's telling adds: its new aims, then what it says is known now, then a level gained, each once.
   static of(frame: Frame, had: readonly Item[] = []): Item[] {
     const exchange = frame.leaf.exchange;
     if (!exchange) { return []; }
@@ -20,15 +20,20 @@ export class News {
     const notes: Item[] = (exchange.noted ?? []).filter(n => !Noted.aim(n) || !exchange.aims?.length)
       .map(n => ({ text: n.text, ...Noted.labels[n.kind] ? { label: Noted.labels[n.kind]! } : {},
         ...Noted.drawn(n) ? { aim: true as const } : {} }));
-    return [...aims, ...notes].filter(i => !seen.has(i.text) && (seen.add(i.text), true));
+    // A level gained, which the telling had marked in the Atlas's violet: a note in the Book now (OR-513).
+    const levels: Item[] = exchange.lines.flatMap(l => l.levelled ? [{ label: 'A level gained',
+      text: `${l.levelled.who}, level ${l.levelled.level}: ${l.levelled.hp} more hit points, and a development to spend.` }]
+      : []);
+    return [...aims, ...notes, ...levels].filter(i => !seen.has(i.text) && (seen.add(i.text), true));
   }
-  // What the Book's mark carries while anything is unread: how many, in ivory, never a pip of the Atlas's tones. What
-  // is written down is no opportunity to act (the owner's trust contracts, 18 November, D: the Book's blue or violet
-  // pip had read as a promise like the lenses' beside it).
+  // What the Book's mark carries while anything is unread: a pip in ivory, or none; never a count, never a pip of the
+  // Atlas's tones (the owner, 25 November, OR-513: "just a pip or not, no counter"). What is written down is no
+  // opportunity to act (the owner's trust contracts, 18 November, D: the Book's blue or violet pip had read as a
+  // promise like the lenses' beside it).
   static Pip({ app }: { app: ReaderApp }) {
     const news = app.state.news ?? [];
     if (!news.length) { return null; }
-    return <span className="unread" role="img" aria-label={`${news.length} new in your book`}>{news.length}</span>;
+    return <span className="unread" role="img" aria-label="Something new in your book" />;
   }
   // At the head of the Book's notes: what came since it was last read.
   static Read({ items }: { items: readonly Item[] }) {

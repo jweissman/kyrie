@@ -408,7 +408,7 @@
 .route-card .rc-facts > div { display: contents; }
 .route-card .rc-facts dt { font: 500 11px/1.9 var(--do); letter-spacing: .16em; text-transform: uppercase; color: var(--faint); }
 .route-card .rc-facts dd { margin: 0; font: 400 15px/1.5 var(--do); color: var(--ivory); }
-.route-card .rc-warn { margin: 12px 0 0; padding-left: 10px; border-left: 2px solid var(--edge-strong); font: 400 14px/1.45 var(--do);
+.route-card .rc-warn { margin: 12px 0 0; font: 400 14px/1.45 var(--do);
   color: var(--ivory); }
 .route-card .rc-how { margin: 14px 0 0; font: 400 14.5px/1.5 var(--do); color: var(--dim); }
 .route-card .rc-route { margin: 14px 0 0; font: 400 14px/1.5 var(--do); color: var(--dim); }
