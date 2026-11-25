@@ -1,5 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
-import { ModuleWriter, type Call, type Operator } from '../lang/index';
+import type { Call, Operator } from '../lang/module';
+import { ModuleWriter } from '../lang/module-writer';
 import { Outcome } from './outcome';
 import { PlayerView, type PlayerSnapshot } from './player-view';
 
