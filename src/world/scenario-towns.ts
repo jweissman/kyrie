@@ -4,7 +4,6 @@ import { RegionGeography } from './region-geography';
 import { RegionGrowth } from './region-growth';
 import { RegionWriter, type Region, type Settlement } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
-import { ReferenceSettlement } from './reference-settlement';
 import type { ScenarioManifest } from './world-assembler';
 
 // Which settlement a scenario set in one is placed in: one that has the rooms its modules name (not every settlement
@@ -32,9 +31,7 @@ export class ScenarioTowns {
       throw new Error(`Unknown settlement need '${need}': it is one of ${this.forms.map(f => f === 'toward:' ? `${f}side`
         : f.endsWith(':') ? `${f}role` : f).join(', ')}`);
     }
-    // Nothing is set in the reference game's town, while another can hold it (see ReferenceSettlement).
-    const fit = region.settlements.filter(t => !ReferenceSettlement.is(region, t)
-      && at.parts.every(p => SettlementWriter.rooms(region, t)[p]));
+    const fit = region.settlements.filter(t => at.parts.every(p => SettlementWriter.rooms(region, t)[p]));
     // The town a side's road leaves from (toward:west): where what lies that way is told of, and set out for.
     if (need.startsWith('toward:')) {
       const border = (RegionGeography.atlas(region).borders ?? []).find(b => b.side === need.slice(7));

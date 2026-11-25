@@ -1447,7 +1447,6 @@
     "test/features/world/threads-tied.pin.test.ts": 9055,
     "test/features/world/town-afoot.pin.test.ts": 32730,
     "test/features/world/under-the-fall.pin.test.ts": 59214,
-    "test/features/world/the-reference-loop.pin.test.ts": 13010,
     "test/features/world/under-the-town.pin.test.ts": 20931,
     "test/fell-owlbear.test.ts": 404,
     "test/fiction-lint.test.ts": 8,

@@ -27,7 +27,7 @@ export class RegionSights {
     const clear = hazy.map(k => ` and not state(sky, weather_${k})`).join('');
     const highs = [...atlas.zones.flatMap(zone => RegionZones.landmarks(region, zone).filter(l => l.view).map(l => ({
       at: l.id, cell: l.cell, kind: l.kind, besides: RegionZones.rooms(region, zone) }))),
-    ...region.settlements.filter(t => SettlementWriter.towered(t, region) && SettlementWriter.rooms(region, t).shrine)
+    ...region.settlements.filter(t => SettlementWriter.towered(t) && SettlementWriter.rooms(region, t).shrine)
       .map(t => ({ at: `${t.id}_shrine`, cell: t.cell!, kind: 'tower', besides: [t.id] })),
     // A founding's own height (a fortress's gate-tower): climbed, it sees as a shrine's tower does.
     ...region.settlements.flatMap((t, i) => {

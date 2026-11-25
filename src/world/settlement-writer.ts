@@ -14,7 +14,6 @@ import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
 import { GeneralStores } from './general-stores';
 import { TownMatters } from './town-matters';
-import { ReferenceSettlement } from './reference-settlement';
 import type { Region, Settlement } from './region-writer';
 import forms from '../../data/catalog/forms.json';
 
@@ -41,7 +40,7 @@ export class SettlementWriter {
   // An Observe of the town, declared as a value (ModuleSource: AX-04, generated-ir.md's first step), its Kyr beside it
   // for inspection: what the parser would make of the line, made here, never parsed. when: one of the few conditions
   // a town's scenes are told under, as their Kyr.
-  static observe(id: string, place: string, o: { aspect: 'fixture' | 'ambience' | 'sign'; when: string;
+  private static observe(id: string, place: string, o: { aspect: 'fixture' | 'ambience' | 'sign'; when: string;
     text: string; teaches?: string }): string {
     const { aspect, when, text, teaches } = o;
     const kyr = `  Observe ${id} at ${place} as ${aspect} when ${when} ${this.q(text)}${teaches ? ` teaches ${teaches}` : ''}.`;
@@ -59,7 +58,6 @@ export class SettlementWriter {
   }
   // What the settlement has besides its heart.
   static rooms(region: Region, s: Settlement): { taproom: boolean; shrine: boolean; shop: boolean } {
-    if (ReferenceSettlement.is(region, s)) { return ReferenceSettlement.rooms(); }
     const f = Foundings.of(region, region.settlements.indexOf(s));
     return { taproom: f.keeping !== 'none', shrine: Foundings.holyPlace(region, s) === `${s.id}_shrine`,
       shop: f.selling === 'shop' };
@@ -71,8 +69,6 @@ export class SettlementWriter {
     return has[room] ? `${s.id}_${room}` : `${s.id}_green`;
   }
   static lines(s: Settlement, i: number, region: Region): string[] {
-    // The reference game's settlement: three working places, and nothing besides (see ReferenceSettlement).
-    if (ReferenceSettlement.is(region, s)) { return ReferenceSettlement.lines(s, i, region); }
     const q = this.q, [x, y] = RegionGeography.town(region, i), cult = RegionFaith.cults(region)[i]!;
     const f = Foundings.of(region, i), has = this.rooms(region, s);
     return [
@@ -135,9 +131,7 @@ export class SettlementWriter {
   }
   // A town's shrine has a tower: climbed, it shows what can be seen from it (see RegionSights), and climbed again on
   // another day, what the haze hid; once the company has gone from it, it is a tower to climb again.
-  static towered(s: Settlement, region?: Region): boolean {
-    return s.size === 'town' && !(region && ReferenceSettlement.is(region, s));
-  }
+  static towered(s: Settlement): boolean { return s.size === 'town'; }
   private static tower(s: Settlement, t: { name: string; unseen: string; seen: string; change: string } | undefined,
     words: Record<string, string>): string[] {
     if (!t || !this.towered(s)) { return []; }
@@ -208,7 +202,7 @@ export class SettlementWriter {
     return role === 'innkeeper' && f.keeping === 'guesthouse' ? 'he' : role === 'priest' && f.holy === 'chapel' ? 'he'
       : role === 'merchant' && s.merchantType === 'herbwife' ? 'she' : s.pronouns?.[role];
   }
-  static pronoun(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant', f: Founding): string {
+  private static pronoun(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant', f: Founding): string {
     const said = this.said(s, role, f);
     return said ? ` Pronouns ${said}.` : '';
   }
@@ -227,7 +221,7 @@ export class SettlementWriter {
       this.said(s, 'priest', f));
   }
   // A townsperson's people, as a Person says it.
-  static of(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller', region: Region): string {
+  private static of(s: Settlement, role: 'innkeeper' | 'priest' | 'merchant' | 'traveller', region: Region): string {
     return `Ancestry ${s.people?.[role] ?? s.folk ?? region.ancestry}.`;
   }
   // What a place of its size can spare: plenty in a town, a little in a hamlet, dearer.

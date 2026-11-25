@@ -1,7 +1,6 @@
 import { Communities } from './community/community';
 import { RegionOutskirts } from './region-outskirts';
 import type { Company, Region } from './region-writer';
-import { ReferenceSettlement } from './reference-settlement';
 
 // Who in a country practises a craft, and the settlement each lives in, for the assembler's ledger (practises,
 // dwells: data/assembly/vocabulary.kyr): every settlement's folk whose work is a craft's (an occupation's `craft`:
@@ -11,11 +10,10 @@ import { ReferenceSettlement } from './reference-settlement';
 export class RegionPractitioners {
   static of(region: Region, company?: Company):
     { id: string; craft: string; at: string; written?: boolean }[] {
-    // The reference game's town has no roster of its own people, nor outskirts (see ReferenceSettlement).
-    const folk = ReferenceSettlement.others(region).flatMap(s => Communities.plan(region, s).residents
+    const folk = region.settlements.flatMap(s => Communities.plan(region, s).residents
       .flatMap(r => r.work.craft ? [{ id: r.id, craft: r.work.craft, at: s.id }] : []));
     const home = company && this.home(region, company);
-    const own = home && !ReferenceSettlement.is(region, home)
+    const own = home
       ? RegionOutskirts.practitioners(region, home).map(p => ({ ...p, at: home.id, written: true })) : [];
     return [...folk, ...own];
   }

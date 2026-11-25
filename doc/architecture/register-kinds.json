@@ -1200,24 +1200,6 @@
    "was": "defect",
    "pri": "P1",
    "why": "25 Nov, split from WD-12: the owner's reference-game direction asks a first town smaller than the one generated; a commissioned requirement unmet, not an observed violation"
-  },
-  "OR-640": {
-   "kind": "requirement",
-   "was": "defect",
-   "pri": "P2",
-   "why": "25 Nov, split from OR-611: one terrain done thoroughly first, as the owner's direction asks (§6); a second is the commissioned next, not an observed violation"
-  },
-  "OR-641": {
-   "kind": "requirement",
-   "was": "defect",
-   "pri": "P2",
-   "why": "25 Nov, split from OR-611: the woods' weather and renewal are what the direction asks next (§3), not a contract the woods claim and break"
-  },
-  "OR-642": {
-   "kind": "requirement",
-   "was": "defect",
-   "pri": "P2",
-   "why": "25 Nov, split from OR-611: the reference town's smallness is commissioned; country-level generators placing their people there is the remainder of that requirement"
   }
  },
  "blockedBy": {
