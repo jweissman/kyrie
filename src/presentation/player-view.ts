@@ -110,10 +110,12 @@ export class PlayerView {
   // The choices are worked out once for each list of actions on offer; each caller gets its own rows.
   private static readonly listed = new WeakMap<readonly Operator[], ReturnType<typeof PlayerView.list>>();
   static choices(campaign: Campaign): ReturnType<typeof PlayerView.list> {
-    const offered = campaign.offered();
-    let rows = this.listed.get(offered);
-    if (!rows) { rows = this.list(campaign, offered); this.listed.set(offered, rows); }
-    return rows.map(row => ({ ...row, choice: { ...row.choice } }));
+    return Costs.time('rows asked', () => {
+      const offered = campaign.offered();
+      let rows = this.listed.get(offered);
+      if (!rows) { rows = Costs.time('rows', () => this.list(campaign, offered)); this.listed.set(offered, rows); }
+      return rows.map(row => ({ ...row, choice: { ...row.choice } }));
+    });
   }
   // Actions as the page offers them: what the company sees, named as it would name them, worded, alike ones as one
   // (also what the company could do with more coin: CoinReading).

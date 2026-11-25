@@ -29,6 +29,9 @@ export type Stage =
   // act, a fight's waits on its controller within it); and what the player may do worked out (Campaign.offered, timed
   // by scripts/quality): with the act, the decision the owner's budget is for (BRIEF.md §4: under 15 ms).
   | 'observe' | 'glance' | 'itinerary' | 'act' | 'legal'
+  // The player's rows asked for (PlayerView.choices: each ask copies them) and worked out afresh (a new list on offer):
+  // one frame per player revision asks once (platform-separation.md, the trust thread).
+  | 'rows asked' | 'rows'
   // Within the act, each watch's world rules asked and fired (CampaignTick.rules, timed by scripts/performance/map.ts):
   // the share AX-10 would index.
   | 'rules'

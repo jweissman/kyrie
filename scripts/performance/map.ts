@@ -21,7 +21,7 @@ import { AsMeant } from '../../test/support/as-meant';
 import { GoldenWalk } from '../../test/support/golden-walk';
 
 export type Kind = 'ordinary' | 'place' | 'talk' | 'fight' | 'journey';
-export interface Turn { line: string; kind: Kind; ms: number; legs: number; stages: Tally }
+export interface Turn { line: string; kind: Kind; ms: number; cpu: number; legs: number; stages: Tally }
 interface Target { label: string; target: number; now: number | null; unit: string; note: string }
 
 export class PerformanceMap {
@@ -35,7 +35,8 @@ export class PerformanceMap {
     ['glance', 'the glance (within what is told)'], ['observe', 'what the company perceives'],
     ['resolve', 'the command resolved, the aims held read'], ['expand', 'the country beyond drawn'],
     ['tell', 'what the company is told of it'], ['aims', 'undertakings settled and resumed'],
-    ['digest', 'the step\'s digest']];
+    ['digest', 'the step\'s digest'],
+    ['rows asked', 'the player\'s rows asked for (copied, each ask)'], ['rows', 'the rows worked out (within asked)']];
   // The stages a turn's time is made of at the top: the rest of its time is told as unattributed.
   static readonly top: Stage[] = ['act', 'legal', 'screen', 'leaf', 'resolve', 'expand', 'tell', 'aims', 'digest'];
   // A turn's kind, by the act its line asks for (the walk's lines are the runner's own: {"act": id}) and its legs.
@@ -58,10 +59,11 @@ export class PerformanceMap {
     this.rules();
     const r = new Runner(journey.session), turns: Turn[] = [];
     for (const line of lines) {
-      const at = Costs.mark(), t = performance.now();
+      const at = Costs.mark(), t = performance.now(), u = process.cpuUsage();
       await AsMeant.ask(r, line);
       const ms = performance.now() - t, stages = Costs.since(at), legs = stages.act?.n ?? 0;
-      turns.push({ line, kind: this.kind(line, legs), ms, legs, stages });
+      const used = process.cpuUsage(u), cpu = (used.user + used.system) / 1000;
+      turns.push({ line, kind: this.kind(line, legs), ms, cpu, legs, stages });
     }
     return { start, turns };
   }
@@ -111,7 +113,8 @@ export class PerformanceMap {
           t.now === null ? '—' : `**${(t.now / t.target).toFixed(1)}×**`, t.note])]), '',
       'Not read here: an act settled in the browser (under 300 ms p95, OR-145: test/input-answered-browser) and Play to '
       + 'the first act (1.5 s, OR-23: test/play-first-act-browser), the browser specs\' own measures.', '',
-      ...this.classes(turns), ...this.where(turns), ...this.started(start), ...this.conclusions(targets, turns)];
+      ...this.classes(turns), ...this.frames(turns), ...this.where(turns), ...this.started(start),
+      ...this.conclusions(targets, turns)];
     return out;
   }
   static classes(turns: Turn[]): string[] {
@@ -122,6 +125,21 @@ export class PerformanceMap {
         this.ms(ms.length ? Math.max(...ms) : NaN)];
     }).filter(r => r[1] !== '0');
     return ['## Turns by kind (ms)', '', ...this.table([['Kind', 'Turns', 'p50', 'p90', 'p95', 'Worst'], ...rows]), ''];
+  }
+  // The process's CPU by kind of turn (a loaded machine stretches wall time more than CPU), and how many frames each
+  // turn built: screens, leaves, and the player's rows asked for and worked out (the trust thread: one frame per
+  // player revision). Medians, then the walk's totals.
+  static readonly counted: [Stage, string][] = [['screen', 'screens'], ['leaf', 'leaves'],
+    ['rows asked', 'rows asked'], ['rows', 'rows worked out']];
+  static frames(turns: Turn[]): string[] {
+    const kinds: Kind[] = ['ordinary', 'place', 'talk', 'fight', 'journey'];
+    const rows = kinds.map(k => turns.filter(t => t.kind === k)).filter(ts => ts.length)
+      .map(ts => [ts[0]!.kind, this.ms(this.at(ts.map(t => t.cpu), 0.5)),
+        ...this.counted.map(([s]) => String(this.at(ts.map(t => t.stages[s]?.n ?? 0), 0.5)))]);
+    const total = ['all (the walk\'s total)', this.ms(turns.reduce((a, t) => a + t.cpu, 0)),
+      ...this.counted.map(([s]) => String(turns.reduce((a, t) => a + (t.stages[s]?.n ?? 0), 0)))];
+    return ['## Process CPU and frames per turn (medians)', '',
+      ...this.table([['Kind', 'CPU ms', ...this.counted.map(([, l]) => l)], ...rows, total]), ''];
   }
   // Each stage's median per turn that crossed it, by kind of turn; and what no stage tells.
   static where(turns: Turn[]): string[] {
