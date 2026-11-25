@@ -70,6 +70,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       await driver.talk(); await p.check('talk-lens');
       await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
       await p.check('talk');
+      // The job is asked after once told what the matter is (OR-423, OR-370).
+      await driver.pick(c => /what the matter is/.test(c.label), 'what the matter is');
       await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
       await driver.away();
       // The job taken up, followed from the notes (a list of what is held); the place's own offer is the scene's.

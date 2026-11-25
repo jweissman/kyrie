@@ -61,6 +61,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a journey through the world, laid o
     await driver.talk();
     await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
     await driver.settle();
+    // The job is asked after once told what the matter is (OR-423, OR-370).
+    await driver.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
     await driver.away();
     // Into the corn-store and down: a picture of a dim room, the depth said, the way up among the ways.

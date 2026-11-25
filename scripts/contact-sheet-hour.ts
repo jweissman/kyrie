@@ -51,6 +51,7 @@ export class SheetHour {
     await cam.step('talk-lens', 'Talk: the likenesses of who is here', () => d.talk());
     await cam.step('talk', 'A conversation: Bask the salter', () =>
       page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait'));
+    await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await cam.step('talk-reply', 'A conversation: her answer about the rats', () =>
       d.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats'));
     await cam.step('store', "A stall's goods: trading with Bask", async () => {

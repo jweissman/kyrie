@@ -66,6 +66,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the interior walk, in the browser',
     await w.to('region__s2_green');
     await d.talk();
     await d.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
+    // The job is asked after once told what the matter is (OR-423, OR-370).
+    await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await d.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
     await w.shot('01-talked'); steps.push('talked');
     await d.away();

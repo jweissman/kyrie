@@ -26,6 +26,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('an answer that brings an aim', () =
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await driver.go('s2_green'); await driver.talk();
     await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait'); await driver.settle();
+    // The job is asked after once told what the matter is (OR-423, OR-370).
+    await driver.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await driver.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
     await page.waitForTimeout(400);
     const seen = await page.evaluate(() => {

@@ -49,7 +49,8 @@ class Title {
     const gaps = t.rows.slice(1).map((r, i) => r.y - (t.rows[i]!.y + t.rows[i]!.height));
     if (gaps.length) { expect(Math.max(...gaps) - Math.min(...gaps)).toBeLessThan(0.6); }
     // The name small, over the rows and at their left edge; on a wide screen at the hard right of it.
-    expect(t.mark.height).toBeLessThan(24);
+    // The tower glyph beside the name (OR-529) stands a little taller than its letters: 24 px, still small.
+    expect(t.mark.height).toBeLessThanOrEqual(26);
     expect(t.mark.y + t.mark.height).toBeLessThanOrEqual(first.y);
     expect(Math.abs(t.mark.x - first.x)).toBeLessThan(0.6);
     if (wide) { expect(first.x).toBeGreaterThan(t.view.w / 2); }

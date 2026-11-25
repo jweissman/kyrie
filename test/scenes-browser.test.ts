@@ -83,6 +83,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the scenes', () => {
     // A conversation: the salter.
     await d.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
     faults.push(...await s.held('dialogue')); await s.shot('dialogue');
+    // The job is asked after once told what the matter is (OR-423, OR-370).
+    await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await d.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
     faults.push(...await s.held('dialogue')); await s.shot('dialogue', 'answered');
     await d.away();

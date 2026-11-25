@@ -88,6 +88,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the rows of a menu', () => {
     await d.talk();
     await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
     uneven.push(...await Rows.uneven(page, 'a conversation'));
+    // The job is asked after once told what the matter is (OR-423, OR-370).
+    await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await d.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats');
     uneven.push(...await Rows.uneven(page, 'a reply'));
     await d.away();
