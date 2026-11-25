@@ -42,8 +42,8 @@ describe('the king-barrow, asked about before setting out', () => {
     const { r, c } = await Barrow.begin();
     await Barrow.take(r, /^Into the Stone Horn/);
     expect(Barrow.aims(r)).not.toContain(jar);
-    // The saying asked after, by one the innkeeper has told of the barrow (OR-370: the bane's aim is uncovered by asking
-    // further, not given with the first answer).
+    // The saying asked after, by one the innkeeper has told of the barrow (OR-370: the bane's aim is uncovered by
+    // asking further, not given with the first answer).
     said(await r.ask(JSON.stringify({ act: 'region__w8_rumour' })));
     expect(c.world.test(ModuleWriter.call('knows', 'party', 'region__w8_bane'))).toBe(false);
     const told = said(await r.ask(JSON.stringify({ act: 'region__w8_saying' }))).scene.lines.join(' ');
