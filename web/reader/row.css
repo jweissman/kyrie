@@ -59,3 +59,18 @@
    row's own colour, never a tone. */
 :root :is(.shell, .world-page, .talk, .fight, .field-map, .composed) .choice-row > .row-label > .row-glyph {
   width: 20px; height: 20px; margin: 0 10px -4px 0; fill: none; stroke: currentColor; stroke-width: 1.5; opacity: .85; }
+
+/* ---- Portraits are true circles (OR-504, the owner's playtest of 24 November), wherever a face is drawn small: a
+   square box, round, its picture covering it (a beast's whole figure contained on its parchment within the circle).
+   The large paintings of one spoken to or looked at are paintings, not portraits, and keep their frame.
+   test/portrait-geometry-browser measures every one square. ---- */
+:root :is(.plate .face, .portraits .portrait .face, .fight .fighter .face, .character .head-of .sat, .lens-face,
+  .signature .face, .roster > .act) { aspect-ratio: 1; height: auto; border-radius: 50%; overflow: hidden; }
+:root :is(.plate .face, .portraits .portrait .face, .fight .fighter .face, .lens-face, .signature .face, .roster > .act)
+  > img:not(.whole), :root .character .head-of .sat { object-fit: cover; }
+:root .plates > li.lead .plate .face { width: 64px; }
+:root .fight .fighter .face { top: 8px; left: 8px; bottom: auto; width: calc(var(--panel) - 16px);
+  border: 1px solid var(--edge); }
+:root .fight .fighter .face.whole img { object-fit: contain; padding: 8%; box-sizing: border-box; }
+@media (max-width: 560px) { :root .fight .fighter .face { top: 6px; left: 5px; width: calc(var(--panel) - 10px); } }
+:root[data-look] .fight .foes .fighter .face { left: calc(50% - 26px); right: auto; top: 6px; width: 52px; }
