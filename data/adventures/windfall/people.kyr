@@ -1,0 +1,113 @@
+Module windfall "Windfall" {
+  // ── Tamsin Soames, the last grafter ────────────────────────────────────────────────────────────────────────────────
+  Person tamsin "Tamsin Soames" at orchard {
+    Role "the Wardens' last grafter". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A very old woman sits on the step of a hut that stands on skids, paring a pear with a knife the size of her hand. A goat with a bell is tied to the hut. 'You'll want to be gone before dark,' she says, without looking up. 'It's rude to watch them go.'".
+    Greets again "'Still here,' says Tamsin Soames, to the pear.".
+    Farewell "'Mind the furrows,' says Tamsin. 'They're deeper than they look.'".
+  }
+  Topic tamsin_walk with tamsin "Ask Tamsin why the orchard walks" when true once {
+    Says "'Salt,' says Tamsin. 'It's got up the roots from the Gault since the gate failed. A tree that tastes salt goes to sweet ground, and these have been told nothing else for two hundred years.' She turns the pear. 'They are not clever. They are very, very loyal to their own mouths.'".
+    On discuss { Assert knows(actor, salt_known). }
+  }
+  Topic tamsin_stop with tamsin "Ask Tamsin how the walking could be stopped" when knows(actor, salt_known) once {
+    Says "'Wash the roots. The Wardens kept a mere behind the sea-gate, fresh rain held back by a wheel. Open the sluice and the water comes down through the dike, and the salt goes out of the ground.' She weighs the knife. 'I would, if I had the legs. The Gault does not take old women. It took a husband.'".
+    On discuss { Assert knows(actor, gate_known). }
+  }
+  Topic tamsin_bar with tamsin "Ask Tamsin for the Warden's bar" when knows(actor, gate_known) once {
+    Says "She goes into the hut, and for a while there is the sound of a chest. She comes out with a bar of black iron. 'The wheel has not been turned in nine years,' she says. 'Use the groove. My hands were in it before yours.'".
+    On discuss { Give wf_bar to actor. }
+  }
+  Topic tamsin_husband with tamsin "Ask Tamsin about her husband" when knows(actor, gate_known) once {
+    Says "'Wystan. He went down to turn the wheel in the drought, nine years back, because the pears were thin and he wanted to see. He stayed to watch the water run, and the tide came over the causeway behind him.' She does not stop paring. 'He was a long time out of the Gault. I am not asking anyone to cross it. I want that understood.'".
+  }
+  Topic tamsin_pear with tamsin "Ask Tamsin about the pear in the churchyard" when knows(actor, pear_seen) once {
+    Says "She stops paring. 'Nance Maddern's. I cut it for her forty years ago from the Mother Tree, there, the old Warden's pippin with the split trunk. Nance wanted a bit of the orchard over her when she went. She was a woman who planned.' She looks toward Hythe. 'It is a Mother's child, that pear. The orchard has smelled it since the wind turned. They are not only walking away from the salt.'".
+    On discuss { Assert knows(actor, kin_known). Assert knows(actor, nance_known). }
+  }
+  Topic tamsin_graft with tamsin "Ask Tamsin what would settle the orchard if the pear cannot" when knows(actor, kin_known) once {
+    Says "'Give them what they want. Take a scion of the pear and graft it back on the Mother. A tree that has its child in it does not need to go and find it.' She looks, for the first time, at you. 'It needs the sexton's leave, and it needs hands that do not shake. Mine do.'".
+    On discuss { }
+  }
+  Topic tamsin_prunings with tamsin "Ask Tamsin what becomes of the orchard's prunings" when knows(actor, cords_known) once {
+    Says "'Burned in the lane, the first year. Thirty cords of it, sweet apple-wood. Then the Wardens got tired of the smell.' She taps her knife on the step. 'Nobody has had them since. If a woman wanted thirty cords every winter, for as long as the orchard stood, I would see she had them. It would be a pleasure to be pruning again.'".
+    On discuss { Assert knows(actor, prunings_known). }
+  }
+
+  // ── Ellery Maddern, the sexton ─────────────────────────────────────────────────────────────────────────────────────
+  Person ellery "Ellery Maddern" at yard {
+    Role "the sexton". Ancestry human. Pronouns he. Manner compassionate. Peaceable.
+    Greets "A man in his sixties is kneeling at the east wall with a ball of cloth strips, tying a pear tree to a stake. He does not get up. 'It will not stand,' he says. 'I tie it in the evening, and in the morning it is leaning again.'".
+    Greets again "'It is leaning again,' says Ellery, with a slow shake of the head.".
+  }
+  Topic ellery_pear with ellery "Ask Ellery about the pear" when knows(actor, pear_seen) once {
+    Says "'Nance's,' he says. 'She planted it the spring before she died, from a cutting, in a pot first. She said she would not be pushed under anything she hadn't chosen.' He pats the trunk the way one pats a horse. 'She was not easy. I do not mean to be unkind. It is only that she is under it, and it will not stand.'".
+  }
+  Topic ellery_ties with ellery "Ask Ellery why the pear will not stand" when knows(actor, pear_seen) once {
+    Says "'It leans to the field. All year it has, but this month more.' He looks over the wall at the long grey stripe of ground beyond. 'I have been staking it in my own wife's apron. Now you tell me what that is.'".
+  }
+  Topic ellery_tell with ellery "Tell Ellery that the orchard is coming for the pear" when knows(actor, kin_known) and knows(actor, nance_known) and not elleryTold(party) once {
+    Says "He sits back on his heels. He does not say anything for a good while. 'I thought it was coming for the graves,' he says. 'I thought I should lie across the gate.' He looks at the pear as at a person who has been talking about him in the next room. 'It wants her. Or it wants what she planted. I don't know which I mind more.'".
+    On discuss { Assert elleryTold(party). }
+  }
+  Topic ellery_refuses with ellery "Ask Ellery for a cutting from Nance's pear" when not elleryTold(party) and not grafted(party) {
+    Says "'No,' says Ellery, quite gently. 'I'll not cut her.' He picks up the next strip of cloth. 'Ask me when you can tell me why.'".
+  }
+  Topic ellery_scion with ellery "Ask Ellery for a cutting from Nance's pear" when elleryTold(party) and not grafted(party) and not scionGiven(party) once {
+    Says "He takes a long time. Then he gets up, and takes a knife from his belt, and cuts a bough of the pear on the slant, quickly, as one pulls a tooth. He seals it with wax from his pocket and wraps it in a strip of her apron. 'Nobody else touches it,' he says. 'And I will come and see it done.'".
+    On discuss { Give wf_scion to actor. Assert scionGiven(party). }
+  }
+
+  // ── Bryony Gorse, the charcoal-burner ──────────────────────────────────────────────────────────────────────────────
+  Person bryony "Bryony Gorse" at taproom {
+    Role "a charcoal-burner of the ridge". Ancestry human. Pronouns she. Manner grim. Peaceable.
+    Greets "A broad woman in a coat the colour of a chimney has a mug in front of her and three grubby children asleep on the settle beside her. 'I am not going to fell your orchard,' she says. 'I am going to buy it. I would like it said first.'".
+    Greets again "'Well?' says Bryony Gorse.".
+  }
+  Topic bryony_cords with bryony "Ask Bryony what the orchard is worth to her" when true once {
+    Says "'Three hundred trees, seasoned by a hundred winters. Call it nine hundred cords. The pans at Porthalen have been cold since Michaelmas, and every cord of this country that is not wet is going to the Rì's reeve at a price I could weep at.' She looks at the children. 'I am not a wicked woman. I have counted the wood.'".
+    On discuss { Assert knows(actor, cords_known). Assert askedCords(party). }
+  }
+  Topic bryony_offer with bryony "Offer Bryony the orchard's prunings, thirty cords a winter" when knows(actor, prunings_known) and askedCords(party) and not burning(party) once {
+    Says "She is silent for as long as it takes the fire to settle. 'Sweet apple. Every winter.' She rubs her face with both hands. 'I would sooner have a thing that comes back than a thing that is done. Tell the grafter she has a burner at her door in the pruning month, and I will take the axes to the ridge tonight.'".
+    On discuss { Assert bryonyEased(party). }
+  }
+
+  // ── Odile Harrowby, the bailiff ────────────────────────────────────────────────────────────────────────────────────
+  Person harrowby "Odile Harrowby" at taproom {
+    Role "the Reeve's bailiff". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A woman in a good grey riding-coat sits very straight at the next table, with a glass of water and a writ face-down beside it. 'Bailiff Harrowby,' she says. 'From Porthalen. You will have heard what I am here for. I would be glad if you had not.'".
+    Greets again "'Bailiff Harrowby,' she says, and turns the writ over, and turns it back.".
+  }
+  Topic harrowby_writ with harrowby "Ask Harrowby what the writ says" when true once {
+    Says "'That the orchard at Hythe is to be felled and the wood taken to the pans at Porthalen, which have been cold since Michaelmas. A thousand people live by the salt.' She smooths the paper. 'I have leave to wait until the third night. I would be very glad to be given a reason in the meantime that I could put in my report.'".
+    On discuss { Assert knows(actor, writ_known). }
+  }
+  Topic harrowby_reason with harrowby "Tell Harrowby that the orchard is the dike" when knows(actor, dike_known) and not burning(party) once {
+    Says "She takes a long time to answer. 'The pans lie behind it.' She does not say it as a question. 'The Reeve's own pans. If it goes, the fen goes, and the sea comes in to them as it came in to nobody's memory.' She picks up the writ, and does not tear it. 'I shall write that the wood is a bank, and that the Reeve may not burn his own sea-wall. He will not like it. I shall write it very clearly.'".
+    On discuss { Assert reprieved(party). }
+  }
+
+  // ── The Lunts ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person hobin "Hobin Lunt" at commons {
+    Role "the alehouse keeper's son". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "A boy of nine on the rim of the pump looks at you with the stern attention of an official. 'I have named the first rank,' he says. 'There's a hundred and twelve. Ask me one.'".
+    Greets again "'That's Gammer Pelt,' says Hobin, pointing at nothing. 'She's a pear.'".
+  }
+  Topic hobin_gault with hobin "Ask Hobin about the Gault" when true once {
+    Says "'You're not to go,' says Hobin. 'There's a place by the third stake that looks like stone and isn't. Where the stones are broken. You keep to the left side where the moss is.' He thinks. 'Or you could not go. I haven't.'".
+    On discuss { Assert knows(actor, firm_way_known). }
+  }
+  Topic hobin_trail with hobin "Ask Hobin how a person might lead the orchard" when true once {
+    Says "'You can't lead it. But it likes the smell of a ripe one, if you roll it. I rolled a hundred and it came to the hedge.' He lowers his voice. 'It likes best the ones that have been trodden on. I don't know why.'".
+    On discuss { Assert knows(actor, trail_known). }
+  }
+  Person verity "Verity Lunt" at taproom {
+    Role "keeper of the Spare Bucket". Profession innkeeper. Ancestry human. Pronouns she. Peaceable.
+    Sells rations for 2 coin from 4.
+    Greets "'A bed is a bed and a meal is a meal,' says the woman at the hatch. 'Keep your voice down about the orchard. Half the room has a relative in it.'".
+  }
+  Topic verity_orchard with verity "Ask Verity what the orchard was like when she was a girl" when true once {
+    Says "'In April you couldn't hear yourself for the bees.' Her face does something complicated. 'The sea never got to us. We thought it was the weather. The Wardens used to walk the rows at blossom with a lantern each, singing. They've all gone, bar Tamsin, and Tamsin's no singer.'".
+  }
+}

@@ -1,0 +1,64 @@
+Module windfall "Windfall" {
+  Description "Hythe: forty houses and an alehouse on the last dry ground of the Saltings, and the Wardens' orchard that has begun to walk toward its churchyard.".
+
+  // The fen country's last dry ground. The orchard stands in the Ash Field behind Hythe, the Gault lies to the south, and at the
+  // end of the causeway the old sea-gate holds a mere's worth of fresh water behind a wheel nobody has turned in nine years.
+  Place country "the Saltings" is region within imbar.
+  Place bank "the sea-bank" is wilderness within country at 0, 0.
+  Place hythe "Hythe" is settlement within country at 0, 1.
+  Place ash_field "the Ash Field" is wilderness within country at 1, 1.
+  Place gault "the Gault" is wilderness within country at 0, 2.
+  Place seagate "the old sea-gate" is site within country at 0, 3.
+
+  Place spare_bucket "the Spare Bucket" is building within hythe.
+  Place kirk "St Aldith's" is site within hythe.
+
+  Place road "the sea-bank road" is room within bank at 0, 0.
+  Place commons "Hythe commons" is room within hythe at 1, 1 outdoors.
+  Place taproom "the Spare Bucket's taproom" is room within spare_bucket at 0, 0.
+  Place yard "the churchyard" is room within kirk at 2, 1 outdoors.
+  Place lane "the sunk lane" is room within ash_field at 0, 0.
+  Place orchard "the Wardens' Orchard" is room within ash_field at 1, 0.
+  Place landing "the sea-gate landing" is room within seagate at 0, 0 outdoors.
+  Place sluice_house "the sluice-house" is room within seagate at 1, 0.
+
+  Passage coming_in "the last of the sea-bank road" is road between road and commons taking 20 minutes.
+  Passage bucket_door "the Spare Bucket's door" is door between commons and taproom.
+  Passage lych "the lych-gate" is gate between commons and yard.
+  Passage lane_way "the sunk lane" is path between commons and lane taking 10 minutes.
+  Passage walk_way "into the orchard" is path between lane and orchard taking 10 minutes.
+  Passage stile "the stile in the churchyard's east wall" is steps between yard and orchard taking 10 minutes.
+  Passage causeway "the Gault causeway" is causeway between commons and landing taking 1 hour
+    opening when ebb() "The Gault is under water as far as you can see, and the causeway with it. A line of stakes stands out of the flood where the road goes down.".
+  Passage house_door "the sluice-house door" is door between landing and sluice_house.
+
+  Query ebb() means (hour(clock) >= 5 and hour(clock) < 10) or (hour(clock) >= 17 and hour(clock) < 22).
+
+  // ── The road ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe road_apples at road when true "Apples lie in the road, hundreds of them, wet and unbruised, in a drift that goes on past the bend. Across a hedge a goat with a bell on regards you over the top of it, which it has eaten.".
+  Observe road_sign at road when true "A hand-painted sign on a post: THE ORCHARD IS NOT HERE. Another hand has nailed it up again on a different post, one that is nearer the village.".
+  Observe road_dark at road when dark() "From the fields south of the road comes a sound like a very large crowd taking off its boots.".
+
+  // ── Hythe ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe commons_scene at commons when true "A commons of cropped grass with a pump, forty low houses and a squat church of grey stone. Every door has a bucket by it and every bucket has an apple in it.".
+  Observe commons_wind at commons when true "The wind off the Gault smells of salt and, under the salt, of cider.".
+  Observe taproom_scene at taproom when true "A long low room of settles and sawdust, a fire the size of a calf, and a hatch to the kitchen through which a boy's head appears at intervals. The spare bucket hangs by the door, as it has hung for a hundred years, in case of fire. It is full of apples.".
+  Observe yard_scene at yard when true "A churchyard of leaning slates behind a wall of grey flint. The grass is cut by a man who has the time. Under the east wall stands one pear tree, in leaf, in the wrong month.".
+  Observe pear_leans at yard when true "The pear leans toward the field beyond the wall, tied upright with strips of faded blue-check cloth. Some of the ties have slipped. The pear is winning, an inch at a time." teaches pear_seen.
+  Observe lane_scene at lane when true "A lane sunk between hedged banks, deep enough that the hedges meet overhead. Windfalls lie along the bottom of it like cobbles.".
+  Observe seagate_scene at landing when true "The landing is a pier of black stone with the Gault on three sides of it. The sea-gate stands at its end: two leaves of oak the height of a barn, with moss on the seaward side and, on the landward, a green stain that goes straight down.".
+  Observe sluice_scene at sluice_house when true "A stone house built round the head of the sluice, a gallery of gears and a wheel as high as a door. The walls are scratched with lines, one a winter, climbing and then falling, for two hundred years.".
+  Observe marks_seen at sluice_house when true "Beside the lines in a Warden's tidy hand: THE ORCHARD IS THE BANK. WHEN THE GATE FAILS THE ORCHARD WALKS. WHEN THE ORCHARD WALKS THE BANK IS GONE. Whoever cut them knew the fen behind the orchard, the salt-pans of Porthalen on it, would go under with it." teaches dike_known.
+
+  Discovery pear_seen "In Hythe's churchyard a pear tree grows against the east wall, and it leans toward the orchard.".
+  Discovery dike_known "The orchard is the sea-bank: its roots are the dike, and where it walks the fen behind it is left to the sea.".
+  Discovery salt_known "Salt has got into the orchard's roots through the failed sea-gate, and the trees are walking away from it.".
+  Discovery gate_known "A sluice at the old sea-gate holds fresh water behind the Wardens' wheel, and opening it would wash the roots clean.".
+  Discovery kin_known "The pear in Hythe's churchyard is a cutting of the orchard's Mother Tree, and the orchard is walking to it as much as from the salt.".
+  Discovery nance_known "The pear in the churchyard grows over Nance Maddern, the sexton's wife, who planted it from a cutting Tamsin Soames gave her forty years ago.".
+  Discovery cords_known "Bryony Gorse has counted the cords in the orchard: the Porthalen pans have been cold since Michaelmas, and her children are cold with them.".
+  Discovery prunings_known "A grafter's pruning of an orchard this size is thirty cords a winter, and nobody has ever burned it.".
+  Discovery trail_known "The trees follow the smell of ripe fruit, the way a goat follows a bucket.".
+  Discovery firm_way_known "Across the Gault the causeway is sound, but where its stones are broken the quick mud takes a heavy boot; a boy knows where to step.".
+  Discovery writ_known "Odile Harrowby carries the Reeve's writ to fell the orchard for the pans at Porthalen, and will not begin before the third night.".
+}

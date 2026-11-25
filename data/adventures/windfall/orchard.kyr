@@ -1,0 +1,64 @@
+Module windfall "Windfall" {
+  Relation halted(group). Relation flushed(group). Relation grafted(group). Relation trailed(group). Relation burning(group).
+  Relation reprieved(group). Relation bryonyEased(group). Relation sawWalk(group). Relation elleryTold(group).
+  Relation askedCords(group). Relation sackFilled(group).
+  Measure walked().
+
+  Kind wf_bar "a Warden's bar" like crowbar described "A bar of black iron, the length of an arm, with a Warden's wave stamped in the head and a groove worn in the middle by two hundred years of one grip.".
+  Kind wf_scion "a scion of Nance's pear" is treasure worth 1 weighing 1 described "A pencil of pear-wood cut on the slant, the cut sealed with beeswax, wrapped in a strip of blue-check cloth.".
+  Kind wf_sack "a sack of windfalls" is treasure worth 1 weighing 2 described "A grain-sack full of bruised ripe apples. It smells like a cider-press at noon.".
+
+  // ── The orchard ────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The orchard takes a step each night toward the churchyard: stage 0 in the Ash Field, 1 at the head of the field, 2 in the
+  // lane, 3 at the churchyard wall (or 4, on the commons, when the way has been trailed with windfalls).
+  Query stands() means halted(party) or reprieved(party) or bryonyEased(party).
+
+  Rule walk_1 when day(clock) == 2 and hour(clock) >= 4 and walked() == 0 and not halted(party) and not burning(party) { Set walked() to 1. }
+  Rule walk_2 when day(clock) == 3 and hour(clock) >= 4 and walked() == 1 and not halted(party) and not burning(party) { Set walked() to 2. }
+  Rule walk_3 when day(clock) == 4 and hour(clock) >= 4 and walked() == 2 and not halted(party) and not burning(party) and not trailed(party) { Set walked() to 3. }
+  Rule walk_4 when day(clock) == 4 and hour(clock) >= 4 and walked() == 2 and not halted(party) and not burning(party) and trailed(party) { Set walked() to 4. }
+  Rule halt_flush when flushed(party) and not halted(party) and not burning(party) { Assert halted(party). }
+  Rule halt_graft when grafted(party) and not halted(party) and not burning(party) { Assert halted(party). }
+
+  Thing trees "the orchard" at orchard {
+    Wonder natural unique for aesthetic, spiritual "Three hundred trees stand in rows too even for an accident, apples and pears grafted together branch to branch, and all of them are very slightly leaning the same way. Between the rows the ground is torn in long smooth furrows, the width of a boot, where roots have drawn out of it and gone on.".
+    State standing "The orchard stands in its rows, apple and pear, and nothing moves.".
+    Tries listening.
+  }
+  Observe trees_listened near trees when tried(trees, listening) "You put your ear to a trunk. Inside it is the sound a pipe makes when water is going through, and under that a slow tick, like a clock in another room, and under that, very faintly, the sound of a great many people not quite saying a word." teaches salt_known.
+
+  Observe mother_seen at orchard when true "In the middle rank stands an old pippin with a split trunk, bound with iron hoops gone to lace. Every other tree in the Walk leans a hair toward it, or from it." teaches mother_known.
+  Discovery mother_known "The orchard's Mother Tree is the split-trunked pippin in the middle of the Walk.".
+  Observe orchard_0 at orchard when walked() == 0 and not burning(party) "The orchard fills the Ash Field edge to edge. Behind it the ground is bare in long furrows. Ahead of it there is only grass.".
+  Observe orchard_1 at orchard when walked() == 1 and not burning(party) "The orchard has moved since you were last here. The front rank stands where there was grass yesterday, and the old ground behind lies open, the furrows still dark and wet.".
+  Observe orchard_2 at orchard when walked() == 2 and not burning(party) "The orchard stands at the head of the sunk lane, its front rank nosing between the hedge-banks like cattle at a gate.".
+  Observe orchard_3 at orchard when walked() == 3 and not burning(party) "The orchard has come up against the churchyard's east wall, and stopped there with its roots in the flint. It leans over the stones to the pear.".
+  Observe orchard_4 at orchard when walked() == 4 and not burning(party) "The Ash Field is empty and torn from end to end. Where the orchard stood, a smell of apples hangs in the air like a name.".
+  Observe orchard_still at orchard when halted(party) and not burning(party) "It has stopped. The furrows beside it have already begun to fill with the first of the autumn grass.".
+  Observe orchard_fire at orchard when burning(party) "Axes, and a line of men and women working through the rows by lantern, and a long smoke going up. The first trunks are down. The apples have not yet fallen from them.".
+
+  Observe lane_stage2 at lane when walked() >= 2 and not halted(party) "The lane is full of orchard. You edge between the trunks, and the hedges are being pushed out on either side by the weight of branches.".
+  Observe yard_stage3 at yard when walked() >= 3 and not burning(party) and not halted(party) "Over the east wall, so close that the apples knock the flint, the orchard stands in a ring about the pear.".
+  Observe commons_stage4 at commons when walked() == 4 and not burning(party) "Along every side of the commons, among the houses, the orchard stands. Pears lean over the pump. Verity has a tree in her kitchen garden that was not there at noon.".
+  Observe road_fire at road when burning(party) "Over the roofs of Hythe the sky is red along the Ash Field, and the wind brings down ash the size of petals.".
+  Observe commons_fire at commons when burning(party) "Hythe stands in its doors in the red light, and nobody says anything. A child holds an apple out in her hand, not eating it.".
+
+  Rule sees_walk when at(party, orchard) and dark() and not sawWalk(party) and not burning(party) and not halted(party) and walked() < 3 once
+    says "The first sound is like a held breath let out. Then roots draw out of the ground along every row, with a noise like a crowd taking off its boots, and the whole orchard leans, and steps, and settles. A hundred yards of it, and then another. Leaves brush your sleeve as it passes you. At the hedge, very quietly, a boy is telling them their names." {
+    Assert sawWalk(party).
+  }
+  Rule sees_walk_stands when at(party, orchard) and dark() and not sawWalk(party) and halted(party) and not burning(party) once
+    says "In the dark the orchard does not move. The trunks lean a little, all one way. Somewhere in the rows a branch lets go of an apple, and then another, and they fall for a long time." {
+    Assert sawWalk(party).
+  }
+
+  // ── The Reeve's bailiff, and the fire ───────────────────────────────────────────────────────────────────────────────
+  Rule burn_begins when day(clock) == 3 and hour(clock) >= 20 and not stands() and not burning(party) { Assert burning(party). }
+
+  // ── The vigil ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  // The fourth night, for a company that keeps it in the churchyard: the orchard comes over the wall.
+  Rule vigil_told when at(party, yard) and walked() == 3 and day(clock) == 4 and hour(clock) < 7 and not halted(party) and not burning(party) and not elleryTold(party) once
+    says "Toward dawn the first branches come over the wall. Ellery Maddern is on his feet with his arms spread across the gate, and he is shouting, and then he is not, because nothing is being broken. The roots come in through the flint without moving a stone. They go round the graves, and under them, and between. 'It is not coming for them,' he says, slowly, to nobody. 'Is it?'" { }
+  Rule vigil_told_kind when at(party, yard) and walked() == 3 and day(clock) == 4 and hour(clock) < 7 and not halted(party) and not burning(party) and elleryTold(party) once
+    says "Toward dawn the first branches come over the wall. Ellery Maddern has brought a chair and a lantern and sits by the pear with his hands in his lap. The roots go round the graves, and under them, and between, and not one stone shifts. 'Evening, Nance,' he says. It is the only thing he says all night." { }
+}

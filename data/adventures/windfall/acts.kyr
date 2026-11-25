@@ -1,0 +1,47 @@
+Module windfall "Windfall" {
+  Relation scionGiven(group).
+
+  // ── The graft ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Action graft_scion(actor: group) "Graft Nance's scion onto the Mother Tree" {
+    Requires able(actor) and company(actor) and at(actor, orchard) and at(tamsin, orchard) and holding(actor, wf_scion) and not grafted(party) and not burning(party).
+    Time 60 minutes.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Spend wf_scion from actor. Assert grafted(party). Assert at(ellery, orchard). }
+    Result "Tamsin holds the Mother's split trunk open with her thumbs, and you set the scion in the cleft, cut to cut, as she tells you, and bind it with the strip of apron. Ellery Maddern has come over the stile without anyone seeing him. He puts the wax on himself. Under your hands the bark of the Mother Tree gives a little, the way a sleeper does. Behind you, row on row, the orchard lets out its breath and does not take another.".
+    Otherwise "The wood splits across the grain. 'Slower,' says Tamsin, not unkindly. 'The cambium is the thickness of a tear. Again.'".
+  }
+
+  // ── The sluice ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Hazard quick_mud "The quick mud of the Gault" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Thing mud "the broken stones of the causeway" on causeway {
+    State soft dangerous "Where the causeway's stones have broken, the Gault has come up between them, grey and glossy, like the skin on cold milk.".
+    State marked "The broken place is marked with three hazel wands, left of the moss, where a boy has said the ground holds.".
+    Hurts with quick_mud when soft then soft.
+  }
+  Rule mud_marked when knows(party, firm_way_known) and state(mud, soft) { Assert state(mud, marked). }
+
+  Thing wheel "the Wardens' wheel" at sluice_house {
+    State held "The wheel stands as it has stood for nine years, with a green beard of weed on its rim. Behind it a stone channel is dry. Beyond the wall is the sound of a great weight of water, held.".
+    State open "The wheel is round, and the sluice is open. Out of the channel a clear rope of fresh water goes down toward the Gault, loud and cold.".
+    Change heave "Heave the Wardens' wheel round" from held to open needing wf_bar when not burning(party) "The orchard is already down.".
+  }
+  Rule gate_opens when state(wheel, open) and not flushed(party) { Assert flushed(party). }
+  Observe sluice_open at sluice_house when state(wheel, open) "The water goes by you in the channel as clear as glass. In an hour it will be at the dike roots, a mere's worth of rain, washing the salt before it.".
+
+  // ── The windfalls ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Action gather_windfalls(actor: group) "Fill a sack with windfalls from the road" {
+    Requires able(actor) and company(actor) and at(actor, road) and not sackFilled(party).
+    Time 30 minutes.
+    On success { Give wf_sack to actor. Assert sackFilled(party). }
+    Result "You fill a grain-sack with the best of the road's apples, the ripe ones that someone has already trodden on. The goat watches every one go in.".
+  }
+  Action lay_trail(actor: group) "Roll windfalls down the sunk lane toward the commons" {
+    Requires able(actor) and company(actor) and at(actor, lane) and holding(actor, wf_sack) and knows(actor, trail_known) and walked() < 3 and not trailed(party) and not burning(party).
+    Time 60 minutes.
+    On success { Spend wf_sack from actor. Assert trailed(party). }
+    Result "You go backward up the lane with the sack, rolling the apples one by one from the orchard to the commons, and Hobin comes after with a stick, flattening each with his heel as the best of them go. By the end the lane smells like a pie on a windowsill.".
+  }
+
+  // ── The Reeve's axes ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe burners_gather at commons when day(clock) == 3 and hour(clock) >= 14 and not stands() and not burning(party) "Bryony's burners are sharpening on the pump step, three of them, with the children handing the whetstone. Nobody looks up when you pass.".
+}
