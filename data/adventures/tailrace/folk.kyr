@@ -1,0 +1,212 @@
+Module tailrace "The Calf in the Tail-Race" {
+  Relation hornLent(group). Relation boilNow(group). Relation maricJoined(group).
+  Discovery hay_known "Agnel will not draw the sill until Hobin Ulkin has been told the sea is coming over his meadow.".
+  Discovery shut_known "The last time the Rì's boilers took a calf at Tolt, its mother lay on the bar until the herring left. Tolt has no herring for fourteen years.".
+
+  // ── Agnel Thord, miller ─────────────────────────────────────────────────────────────────────────────────────────
+  Person agnel "Agnel Thord" at yard {
+    Role "the miller". Ancestry human. Pronouns she. Manner jovial. Peaceable.
+    Greets "A woman white to the elbows stands with her arms folded in front of a stopped wheel, in the way of someone who has been standing like this for eleven days. 'If you have come to look at the whale,' says Agnel Thord, 'the view is free and the steps are on the left. If you have come to help, the steps are also on the left.'".
+    Greets again "'Back,' says Agnel. 'Still stopped.'".
+    Farewell "'Mind the flour,' says Agnel. 'It gets into the argument.'".
+  }
+  Topic agnel_mill with agnel "Ask Agnel about the mill" when true once {
+    Says "'The sea comes in over the sill, fills the pond, and goes out through me,' says Agnel. 'Thirty-one years. Oats by day. By night the same wheel turns the press, and the press does rape, and rape is lamp-oil. Forty gallons a week, when it turns.' She looks at the wheel as at a dog that has stopped eating. 'The Ladle has been burning tallow for eleven days. It is not the same. Nobody says so. Everybody is thinking it.'".
+    On discuss { Assert knows(actor, press_known). }
+  }
+  Topic agnel_calf with agnel "Ask Agnel how the calf got in the race" when true once {
+    Says "'The spring tide before last came over the sill higher than I ever saw it, and it went out again through me, and it took him with it,' says Agnel. 'I came down in the morning and the wheel had stopped and there was a whale where my flume was. I said some things.' She considers. 'He did not mind. The tide that brought him is the tide that will lift him, and the biggest of the year is on the third night. The logs would have to be out when it tops, and not before, or I lose the pond for nothing. And the water goes over Hobin Ulkin's hay.'".
+    On discuss { Assert knows(actor, sill_known). }
+  }
+  Topic agnel_gauger with agnel "Ask Agnel who is coming for the calf" when true once {
+    Says "'The reeve's gauger. A boy came over the hill with a letter on the ninth day.' She does not quite laugh. 'A great fish in the Rì's water is the Rì's. Boiled for the lamps at Dun Rìerdan, three barrels to a calf, at dawn on the third day, before it turns. He is bringing his own copper. I will say this for the Rì: nobody was ever sent to us with their own copper before.'".
+    On discuss { Assert knows(actor, law_known). }
+  }
+  Topic agnel_pledge with agnel "Ask Agnel whether the press could fill the gauger's measure" when knows(party, press_known) and knows(party, law_known) once {
+    Says "Agnel does a sum on her apron, in flour. 'A hundred gallons. Three weeks of pressing, if I never sleep, and I do not. Put it to him.' She wipes the sum off. 'If that wheel turns I will press for the Rì every night until the lamps are full, and keg it at the hard, and sign it. In flour, if I must.'".
+    On discuss { Assert pressPledged(actor). }
+  }
+  Topic agnel_mallet_no with agnel "Ask Agnel for the drawing-mallet" when knows(party, sill_known) and not ulkinWarned(party) {
+    Says "'Do you know what is on the other side of the pond-wall?' says Agnel. 'Hay. A hundred and four geese. The man they belong to has not been told that the sea is coming. I will not put a mallet in the hand of anyone who has not told him.'".
+    On discuss { Assert knows(actor, hay_known). }
+  }
+  Topic agnel_mallet with agnel "Ask Agnel for the drawing-mallet" when ulkinWarned(party) once {
+    Says "She takes the mallet down from its nail, and does not hand it over at once. 'The face is dished,' says Agnel. 'That is thirty-one years of putting the sea back. You will be taking it out.' She puts it into your arms. 'Do not hit your thumb. It will be a long night, and I should like to be told.'".
+    On discuss { Give tr_mallet to actor. }
+  }
+
+  // ── Mabet, who keeps the press and the calf ─────────────────────────────────────────────────────────────────────
+  Person mabet "Mabet" at tailrace {
+    Role "Agnel's apprentice". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A girl of about nine sits on the calf's flipper with a turnip in her lap, reading aloud from a list in a grown-up hand. She does not look up. 'Wait,' she says. 'Cabbage. Cabbage is the hard one.'".
+    Greets again "'Leek,' says Mabet, not looking up. 'He likes leek.'".
+  }
+  Topic mabet_name with mabet "Ask Mabet what the calf is called" when true once {
+    Says "'Parsnip,' says Mabet. 'He has heard all the other vegetables. Aunt Agnel says he is a whale and not a vegetable. I say the two are not exclusive.' She turns the page over. 'He does not mind being called it. I have watched his eye.'".
+  }
+  Topic mabet_feed with mabet "Ask Mabet what Parsnip eats" when true once {
+    Says "'Herring. A string at a time. He will take a bucket of cold down his back, too, if you do it slowly, and he likes it better than the herring but will not say so.' She looks at the calf's ribs. 'He is off his food. Three good meals before the tide, or he will not have it in him to swim. I have told him. He is very poor at being told.'".
+    On discuss { Assert knows(actor, feed_known). }
+  }
+  Topic mabet_dam with mabet "Ask Mabet about the noise at night" when true once {
+    Says "'That is his mother,' says Mabet. 'She is out past the bar. She calls and he answers, and then the wall hums, and then Aunt Agnel says a word. I have asked him not to answer, in case someone hears. He is very poor at being told.'".
+    On discuss { Assert knows(actor, dam_known). }
+  }
+  Topic mabet_asks with mabet "Speak to Mabet about the boilers" when knows(party, law_known) once {
+    Says "Mabet shuts the list on her finger. 'Are you the boiling kind,' she says, 'or the other kind?'".
+  }
+  Topic mabet_out with mabet "Say you have come to get him out" answering mabet_asks when true {
+    Says "'Good,' says Mabet. She looks you up and down as she might a sack of oats. 'You are not much, but you are the right shape.'".
+    On discuss { Assert mabetAsked(actor). Assert mabetTrusts(actor). }
+  }
+  Topic mabet_unsure with mabet "Say you have not decided" answering mabet_asks when true {
+    Says "'That is honest,' says Mabet. 'Feed him, then. And decide.'".
+    On discuss { Assert mabetAsked(actor). Set feedBar(actor) to 1. }
+  }
+  Topic mabet_cynic with mabet "Say the boilers will have him whatever you do" answering mabet_asks when true {
+    Says "'That is not an answer,' says Mabet. 'That is the weather.' She opens the list again. 'You may stand over there until you have fed him three times. Then we will see what sort of weather you are.'".
+    On discuss { Assert mabetAsked(actor). Set feedBar(actor) to 3. }
+  }
+  Rule mabet_thaws heard within shore when mabetAsked(party) and not mabetTrusts(party) and fed(calf) >= feedBar(party) and state(calf, wedged)
+    says "Mabet watches you throw the last of it, and says nothing for as long as it takes the calf to swallow. 'All right,' she says. 'Yes.'" { Assert mabetTrusts(party). }
+  Topic mabet_scar with mabet "Ask Mabet about the mark on his side" when knows(party, scar_known) once {
+    Says "'That is from the thing in March,' says Mabet. 'He came in the race with it in him, and I said I would have it out, and Aunt Agnel said I would bring the roof down. But he lets me touch it.' She holds up her hands. They are very small. 'I cannot pull. You could pull. I would hold his head.'".
+  }
+
+  // ── Waric Holle, the gauger: he arrives at noon on the second day ───────────────────────────────────────────────
+  Person waric "Waric Holle" nowhere {
+    Role "the Rì's oil-gauger". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Arrives at taproom when watch(clock) >= 168.
+    Arrives "A thin man in a damp grey coat comes into the Ladle with a cough and a folding pair of scales, and behind him, in the road, four men are unhitching a copper the size of a church font from a cart.".
+    Greets "'Holle,' he says, setting the scales on the table one pan at a time, as other men lay out cards. 'Oil-gauger to the Rì's southern march. Warrant, seal, and a cold. You will forgive the cold.'".
+    Greets again "'Yes?' says Waric Holle, and blows his nose.".
+    Farewell "'I am in no hurry,' says Waric. 'That is the trouble. I have a date.'".
+  }
+  Person boilers "four boilers of the Rì's oil-gauge" nowhere {
+    Role "the Rì's boilers". Ancestry human. Numbers 4. Peaceable.
+    Arrives at hard when watch(clock) >= 168.
+  }
+  Topic waric_errand with waric "Ask Waric why he has come" when true once {
+    Says "'A great fish cast up in the Rì's water is the Rì's,' says Waric. 'Boiled for the lamps at the towers, at dawn on the third day from the report, before it turns. The report was nine days ago. I am late. A calf of that size is three barrels.' He turns a pan over. 'I do not make the law. I measure what it comes to.'".
+    On discuss { Assert knows(actor, law_known). }
+  }
+  Topic waric_towers with waric "Ask Waric about the lamps" when knows(party, law_known) once {
+    Says "'I trimmed wicks in the lower tower of Dun Rìerdan for nine years,' says Waric. 'I can tell you what a tower costs to keep lit. Every lamp in it is a small decision somebody made not to go dark.' He does not look up. 'The whalers stopped coming up the coast, and the price of oil went up, and a lamp that is not lit is a night nobody reads. I do not enjoy this. I should like it to be somebody else's calf.'".
+    On discuss { Assert knows(actor, lampboy_known). }
+  }
+  Topic waric_dam with waric "Ask Waric about the old whale off the bar" when knows(party, dam_known) once {
+    Says "'My licence says nothing of a mother,' says Waric. 'Three hundred barrels, and nobody has ever taken one that size from a loch. I know of a man who tried at Gannet Reach. He is not a gauger now. He is a story, which is a way of being a smaller man.' He taps the scales. 'I will not go near her. You may tell the man on the bar-head so, if he asks.'".
+  }
+  Topic waric_oil_early with waric "Offer Waric the mill's rape-oil in the calf's place" when pressPledged(party) and not knows(party, lampboy_known) {
+    Says "'A different oil,' says Waric. 'In a different year. The law is in the fish.' He folds the scales. 'You do not know what a lamp is for. Neither does Agnel Thord, who sells it by the gallon. Come back when one of you does.'".
+  }
+  Topic waric_oil with waric "Offer Waric the mill's rape-oil in the calf's place" when pressPledged(party) and knows(party, lampboy_known) and not stayed(party) once {
+    Says "Waric is quiet for long enough that the fire settles. 'A lamp does not care what it is fed,' he says at last. 'I was nine years finding that out.' He unfolds the scales again, and weighs nothing in them. 'I will hold the knives until the tide has turned. If on the morning after, the wheel is not turning, I will boil what is in the race, and it will not be rape.'".
+    On discuss { Assert stayed(actor). Assert oilDeal(actor). }
+  }
+  Topic waric_pay with waric "Pay Waric thirty coin for a delay" when knows(party, law_known) and quantity(actor, gold) >= 30 and not stayed(party) once {
+    Says "'There is a tariff for it,' says Waric, with distaste. 'Delay, sundry, thirty.' He counts it twice, without pleasure, and writes in a small book. 'Until the tide has turned. Not an hour longer. I wish you had asked me a question instead.'".
+    On discuss { Decrease quantity(actor, gold) by 30. Assert stayed(actor). }
+  }
+  Topic waric_begin with waric "Tell Waric he may begin" when knows(party, law_known) and state(calf, wedged) once {
+    Grave "The calf will be boiled. It cannot be undone, and the mother will not forget it.".
+    Says "Waric looks at you for a moment as if he had hoped for another answer. 'The finder's fifth is yours,' he says, and goes out to the men and the copper.".
+    On discuss { Assert boilNow(actor). }
+  }
+  Action hide_knives(actor: group, site: place) "Slip the boilers' knives into the loch" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(boilers, site) and not stayed(party) and not waricWary(party).
+    Resolve check(actor, stealth, dc_hard).
+    On success { Assert knivesHidden(party). Assert stayed(party). }
+    On failure { Assert waricWary(party). }
+    Result "The boilers are at the cart arguing about a kettle. You are quite quick; the loch is quite deep; it will take them a day to find the knives, and a day to forgive each other.".
+    Otherwise "A boiler looks up as the second knife goes in, and says nothing, and says it very clearly.".
+  }
+
+  // ── Maric Selle on the bar-head ────────────────────────────────────────────────────────────────────────────────
+  Person maric "Maric Selle" at bar_head {
+    Role "a whaleman gone ashore". Ancestry human. Pronouns he. Manner grim. Peaceable.
+    Greets "A man in a sealskin coat sits on a capstan stone with a ram's horn across his knees and a harpoon laid beside him like a sleeping dog. He does not turn. 'Not too close,' says Maric Selle. 'She hears feet.'".
+    Greets again "'Dusk,' says Maric, to the bar. 'Soon.'".
+    Farewell "'Go quiet,' says Maric. 'She is listening.'".
+  }
+  Topic maric_ask with maric "Ask Maric what he is waiting for" when true once {
+    Says "'Her,' says Maric. 'Eleven nights she has lain past the bar. When she comes over for the calf she will come slow, in the shallows, and there is no turning in that water. Sixty barrels, near enough. I forged this myself.' He turns the point to the light. 'I should like you not to stand there.'".
+    On discuss { Assert knows(actor, plan_known). Assert knows(actor, dam_known). }
+  }
+  Topic maric_horn with maric "Ask Maric about the horn" when true once {
+    Says "'My brother made it, out of a ram he had when he was a boy,' says Maric. 'It is not her note. It is near enough that she thinks it is the calf with a cold. I blow at dusk, and she answers, and I know where she is.'".
+    On discuss { Assert knows(actor, horn_known). }
+  }
+  Topic maric_intent with maric "Ask Maric about the Good Intent" when knows(party, plan_known) once {
+    Says "'Last March, off the bar, after cod,' says Maric. 'She came up under us. Joss was at the rail.' His hands do not move on the horn. 'I have turned it a year. She had the calf on the far side of us, and we were between. I know that. Do not tell me that. I know it.'".
+    On discuss { Assert knows(actor, intent_known). }
+  }
+  Topic maric_join with maric "Tell Maric you will stand with him on the head" when knows(party, plan_known) and not maricYields(party) and not maricJoined(party) once {
+    Grave "Sixty barrels of oil, and the end of the Dam. She will not be asked again.".
+    Says "Maric looks at you for the first time. 'Dusk on the third night,' he says. 'The tide tops, she comes in for the calf, and the shallows hold her. You will want a second iron. There is one in the boat.' He does not smile; it is not that kind of arrangement. 'I will not forget it.'".
+    On discuss { Assert maricJoined(actor). }
+  }
+  Action reason_maric(actor: group, site: place) "Tell Maric she was only coming for her calf" {
+    Speaker maric.
+    Requires able(actor) and at(actor, site) and at(maric, site) and knows(actor, intent_known) and not maricYields(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert maricYields(party). }
+    Result "Maric is silent a long time. 'I know,' he says. 'I knew. I wanted it to be a thing with a name that I could hit.' He lays the harpoon down on the shingle, and does not look at it. 'Go on, then. Ask me for the horn.'".
+    Otherwise "'No,' says Maric, and does not say it loudly, which is worse.".
+  }
+  Topic maric_splinter with maric "Show Maric the splinter from the calf's flank" when holding(actor, tr_splinter) and knows(party, intent_known) and not maricYields(party) once {
+    Says "He holds it for a long time. 'That is oak,' says Maric. 'That is Joss's rail. I put that nail in myself, on a Thursday.' He turns it over. 'A year. The calf has been carrying it about for us.' He sets the harpoon on the shingle, and the sound is very small. 'I will not strike her. Ask me for the horn.'".
+    On discuss { Assert maricYields(actor). Assert splinterShown(actor). }
+  }
+  Topic maric_lend with maric "Ask Maric for the horn" when maricYields(party) and not hornLent(party) and not maricCalls(party) once {
+    Says "'Do not blow it like a man calling a dog,' says Maric, putting it in your hands. 'She will know. Blow it as if you were sorry, and were also coming.' He does not watch you take it.".
+    On discuss { Give tr_horn to actor. Assert hornLent(actor). }
+  }
+  Topic maric_calls with maric "Ask Maric to sound the horn himself" when maricYields(party) and not hornLent(party) and not maricCalls(party) once {
+    Says "'It is mine to blow,' says Maric. 'She is owed it from me, and not from you.' He takes up the horn and looks into it. 'I will be on the head when the tide tops. Send for me if the calf comes up.'".
+    On discuss { Assert maricCalls(actor). }
+  }
+
+  // ── Hobin Ulkin of the salt-meadow ──────────────────────────────────────────────────────────────────────────────
+  Person ulkin "Hobin Ulkin" at meadow {
+    Role "who keeps the salt-meadow". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Greets "An old man in a coat of many pockets is counting geese aloud, losing count, and starting again with great good humour. 'A hundred and four,' says Hobin Ulkin. 'A hundred and two. You have upset them.'".
+    Greets again "'A hundred and three,' says Ulkin, with satisfaction.".
+  }
+  Topic ulkin_sea with ulkin "Ask Ulkin about the sea" when true once {
+    Says "'It is polite,' says Ulkin. 'People think not, because it comes in all the same. But it knocks. Every tide it comes to the dyke and knocks, and if you do not answer it goes round by the back.'".
+  }
+  Topic ulkin_light with ulkin "Ask Ulkin about the loch at night" when true once {
+    Says "'It burns,' says Ulkin, 'when it is dark enough and you put something in it. Since I was six. Put your hand in when nobody is looking at you. It is shy.'".
+    On discuss { Assert knows(actor, cold_known). }
+  }
+  Topic ulkin_dam with ulkin "Ask Ulkin about the old whale" when true once {
+    Says "'She came in my father's time, when there was a calf, and the Rì's men boiled it on the hard,' says Ulkin. 'She lay on the bar till the herring left. Fourteen years, no herring. They say she did it on purpose. I say she is a whale. It comes to the same.'".
+    On discuss { Assert knows(actor, shut_known). Assert knows(actor, dam_known). }
+  }
+  Topic ulkin_hay with ulkin "Tell Ulkin the sea may come over his meadow" when knows(party, sill_known) once {
+    Says "'Over the hay?' says Ulkin. 'Well. It was always going to, one night.' He looks round at the haycocks, as at guests. 'How high? Not above the geese. Tell Agnel I will have the cocks up the bank by the third night, if somebody has two hands to spare.'".
+    On discuss { Assert ulkinWarned(actor). }
+  }
+  Action carry_hay(actor: group, site: place) "Carry Ulkin's hay up the bank" {
+    Speaker ulkin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ulkin, site) and ulkinWarned(party) and not hayMoved(party).
+    Time 12.
+    On success { Assert hayMoved(party). Give 3 tr_herring to actor. }
+    Result "For two hours you carry hay in armfuls up the bank, and Ulkin carries it back down to see if it likes the other place. When the meadow is bare he pays you in smoked herring, three strings, from three different pockets.".
+  }
+
+  // ── Marne Fousk of the Ladle ────────────────────────────────────────────────────────────────────────────────────
+  Person marne "Marne Fousk" at taproom {
+    Role "who keeps the Ladle". Ancestry human. Profession innkeeper. Pronouns she. Manner jovial. Peaceable.
+    Sells rations for 2 coin from 6.
+    Sells tr_herring for 1 coin from 8.
+    Offers lodging "a bed over the kitchen, warm from the oven below" for 2 coin.
+    Greets "'Sit,' says Marne Fousk, who is already pouring. 'You have the look of someone who has come about the whale. Everyone has. We are doing a very good trade in people who have come about the whale.'".
+    Greets again "'More?' says Marne.".
+  }
+  Topic marne_town with marne "Ask Marne about Tolt" when true once {
+    Says "'Herring when there is herring, geese always, and a wheel,' says Marne. 'We have not had a boat out in eleven days, because the whale is on everybody's mind and nobody likes to row past it. The herring-money is the only money we have. I am selling it to you at a loss.' She is not. 'Maric Selle rows out at dusk, if you want to see the other half of the trouble. Mind his harpoon.'".
+    On discuss { Assert knows(actor, dam_known). }
+  }
+}

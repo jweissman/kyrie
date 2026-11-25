@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Calf in the Tail-Race",
+  "pitch": {
+    "heading": "The Calf in the Tail-Race",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "tailrace",
+      "bundle": "../adventures/tailrace/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "arrive": [
+    "To the hard"
+  ],
+  "agnel": [
+    "To Thord's mill-yard",
+    "Ask Agnel about the mill",
+    "Ask Agnel how the calf",
+    "Ask Agnel who is coming",
+    "Ask Agnel whether the press"
+  ],
+  "mabet": [
+    "To the tail-race",
+    "Ask Mabet what Parsnip eats",
+    "Ask Mabet about the noise",
+    "Speak to Mabet about the boilers",
+    "Say you have come to get him out",
+    "Look closely",
+    "Ask Mabet about the mark",
+    "Draw the splinter"
+  ],
+  "buy": [
+    "To Thord's mill-yard",
+    "To the hard",
+    "Into the Ladle",
+    "Buy › A string of herring",
+    "Buy › A string of herring",
+    "Buy › A string of herring",
+    "Out to the hard",
+    "To Thord's mill-yard",
+    "To the tail-race"
+  ],
+  "feed": [
+    "Throw the calf a string of herring",
+    "Throw the calf a string of herring",
+    "Throw the calf a string of herring"
+  ],
+  "ulkin": [
+    "To the weir-sill",
+    "To Ulkin's salt-meadow",
+    "Ask Ulkin about the loch at night",
+    "Tell Ulkin the sea may come",
+    "Carry Ulkin's hay"
+  ],
+  "toBar": [
+    "To the weir-sill",
+    "To the tail-race",
+    "To Thord's mill-yard",
+    "To the hard",
+    "To the bar-head"
+  ],
+  "maricAsk": [
+    "Ask Maric what he is waiting for",
+    "Ask Maric about the Good Intent"
+  ],
+  "maricYield": [
+    "Show Maric the splinter",
+    "Ask Maric for the horn"
+  ],
+  "maricCalls": [
+    "Show Maric the splinter",
+    "Ask Maric to sound the horn himself"
+  ],
+  "waric": [
+    "To the hard",
+    "Into the Ladle",
+    "=until gaugerOn()",
+    "Ask Waric why he has come",
+    "Ask Waric about the lamps",
+    "Offer Waric the mill's rape-oil"
+  ],
+  "mallet": [
+    "Out to the hard",
+    "To Thord's mill-yard",
+    "Ask Agnel for the drawing-mallet"
+  ],
+  "draw": [
+    "=until tideOn()",
+    "To the tail-race",
+    "To the weir-sill",
+    "Draw the stop-logs"
+  ],
+  "toBarFromSill": [
+    "To the tail-race",
+    "To Thord's mill-yard",
+    "To the hard",
+    "To the bar-head"
+  ],
+  "horn": [
+    "Sound Maric's horn"
+  ],
+  "toBarFromYard": [
+    "To the hard",
+    "To the bar-head"
+  ]
+}
