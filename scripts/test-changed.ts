@@ -42,7 +42,8 @@ class ChangedSpecs {
     return this.test(run, workers);
   }
   static test(specs: string[], workers: string): number {
-    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', ...specs.map(s => `./${s}`)],
+    // As test:small times its specs (twenty seconds): the default five had failed test/small's own under load.
+    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', '--timeout=20000', ...specs.map(s => `./${s}`)],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
   }
   // What can move every world: its generators and assembly, the shared rules, the kits and tables every country is
