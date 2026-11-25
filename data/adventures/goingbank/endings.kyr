@@ -1,0 +1,39 @@
+Module goingbank "The Going Bank" {
+  // ── First light on the fourth day ──────────────────────────────────────────────────────────────────────────────
+
+  Chapter c_gap "Nine Paces" when day(clock) == 1 "The Plait is nine paces short. Everyone has a word for it, and the word is frost.".
+  Chapter c_line "The Line" when day(clock) == 2 "Thirty paces now, and a rope. Pipit still crosses it with a pail.".
+  Chapter c_knotting "The Knotting" when day(clock) == 3 and hour(clock) >= 18 "Dusk on the third day. The wedding has been waiting on the Join since spring.".
+
+  Relation fatedVarnish(group). Relation fatedWed(group). Relation fatedSabra(group).
+
+  Rule fate_iron when dawnCame(party) and state(pin_iron, staked) and not fatedSabra(party) { Assert fatedVarnish(party). Assert fatedWed(party). Assert fatedSabra(party). }
+
+  Rule fate_varnish_turned when dawnCame(party) and not state(pin_iron, staked) and not fatedVarnish(party) and not state(pin_iron, pulled) and pinsDown(party)
+    says "Varnish does not drive his pins. He is seen on the east bank at first light, on his knees at the edge of the shelf with a measuring rod, and he is there at noon. His report to the Collegium of Measures is called Concerning a Hill, and runs to two pages, and ends with a request for a new instrument." { Assert fatedVarnish(party). }
+  Rule fate_varnish_pulled when dawnCame(party) and not state(pin_iron, staked) and not fatedVarnish(party) and state(pin_iron, pulled)
+    says "Varnish stands on the shelf with his hammer and watches the pins go out, and does not stop anyone. Afterwards he asks, quite politely, to be shown the wall." { Assert fatedVarnish(party). }
+  Rule fate_varnish_gone when dawnCame(party) and not state(pin_iron, staked) and not fatedVarnish(party)
+    says "Varnish sits on his crate at the Ketter post all night, and does not strike a pin." { Assert fatedVarnish(party). }
+
+  Rule fate_wed_yes when dawnCame(party) and fatedVarnish(party) and not fatedWed(party) and wed(party)
+    says "On the Ketter side Tamsy Hendry, who is married, has tied the last knot of the green cord to a post of the Plait with her own hand. It goes to the sea with the bank." { Assert fatedWed(party). }
+  Rule fate_wed_no when dawnCame(party) and fatedVarnish(party) and not fatedWed(party)
+    says "The green cord hangs on the toll-board, untied. Pipit has not had the heart to take it down." { Assert fatedWed(party). }
+
+  Rule fate_sabra_told when dawnCame(party) and fatedWed(party) and not fatedSabra(party) and sabraTold(party)
+    says "Sabra Yarrow takes the knotted cord from her apron at the edge and ties a new knot, long and loose, the first in forty years that does not mean a loss." { Assert fatedSabra(party). }
+  Rule fate_sabra_silent when dawnCame(party) and fatedWed(party) and not fatedSabra(party)
+    says "Sabra Yarrow keeps the knotted cord in her apron. She is seen to put her hand on it, and not to take it out." { Assert fatedSabra(party). }
+
+  Rule fate_meggan when fatedSabra(party) and ketterRides(party) and not state(pin_iron, staked) and not fatedMeggan(party)
+    says "On the high ground Meggan Lorrimer is carried to the drum-stone in a chair, because she has declared she will be present." { Assert fatedMeggan(party). }
+  Relation fatedMeggan(group).
+
+  Ending harbour "The Harbour at Ketter" when dawnCame(party) and fatedSabra(party) and ketterRides(party) and answered(party) and not state(pin_iron, staked) "Ketter rides. The hill, told it has passengers, goes slowly: a field a day, then a pace an hour, and the cheeses stop rolling, and the well rope stops growing. Six weeks later the east bank touches salt water at a place called Wend Strand and lies down in the shallows with a sigh that can be heard in the next valley. Meggan Lorrimer is carried to the edge and puts one foot in the sea, and says, 'There,' and nothing else. Tarrow Lip, whose nine paces have become nine miles, sends them rope. Fell Anstey walks over in the end, boots round his neck, to a village that now has a harbour.".
+  Ending hard_ride "A Hard Going" when dawnCame(party) and fatedSabra(party) and ketterRides(party) and not answered(party) and not state(pin_iron, staked) "Ketter rides, and nobody has told the hill. It goes fast and does not look where it sets its feet. The well goes, then the barn, then the church bell with a long note like a laugh. A third of the village is carried west on the line in the first week. The rest ride it to the sea, and arrive, and many of them are changed by it. Meggan, in the chair, says it is the best week of her life, and nobody can tell her it is not.".
+  Ending across_gap "Across the Gap" when dawnCame(party) and fatedSabra(party) and ketterCrosses(party) and lineRoped(party) and not state(pin_iron, staked) "Ketter crosses, by the line and the hand-rope, old Moll in a sling and the Pettifers' twins one to each of two grown sons, and the cows last, and nobody speaks. At first light Sabra Yarrow cuts the Plait, clean, with a knife she has had since her mother. The east bank walks away alone toward the sea, with its church and its leaning graves. At night, for a week, the bell is heard at the Lip, going away, until it is only a sound the wind might make.".
+  Ending iron_in_shoulder "Iron in the Shoulder" when dawnCame(party) and fatedSabra(party) and state(pin_iron, staked) "The pins were driven, and the bank, pinned, does not stop. It tears. The Ketter well goes dry in a week, and the church floor opens along the nave. It takes eight days to carry the village out on foot, over a Plait that is no longer there, by the long road round the head of the Gape. The Lip's toll is worth nothing now: there is nothing to cross to. Varnish is not seen again, and his crate stands in the taproom, empty.".
+  Ending half_bank "Half the Bank" when dawnCame(party) and fatedSabra(party) and ketterCrosses(party) and not lineRoped(party) and not state(pin_iron, staked) "Ketter crosses, but the line was never roped, and the guide-rope will carry only those who can walk it. The young go, and the strong, hand over hand in the dark. At first light the Plait parts, with Old Moll and the Pettifers' twins and a hundred cows still on the east side, and the east bank walks away toward the sea with its people at the window. Sabra Yarrow does not cut the Plait. She stands at the lip with her cord until she can no longer see the church.".
+  Ending neither_bank "Neither Bank" when dawnCame(party) and fatedSabra(party) and not ketterRides(party) and not ketterCrosses(party) and not state(pin_iron, staked) "Nobody has decided by dawn. The Plait parts under the wind, and the east bank goes without anybody's leave. At the Lip they stand along the edge and watch the village shrink: Tamsy at an upstairs window, a lamp, a church leaning, a cheese rolling gently east.".
+}

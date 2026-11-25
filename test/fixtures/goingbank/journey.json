@@ -1,0 +1,59 @@
+{
+  "arrive": [
+    "^To the windlass"
+  ],
+  "cord": [
+    "^Into the plaiters",
+    "Talk to Sabra",
+    "Ask Sabra about the knot",
+    "Tell Sabra that the boards",
+    "Take your leave",
+    "^Out to the windlass"
+  ],
+  "breath": [
+    "^To the ledge",
+    "the east wall: Look closely",
+    "^To the windlass"
+  ],
+  "varnish": [
+    "^Into the Long Pull",
+    "Talk to Magne",
+    "Ask Varnish to come",
+    "^Out to the windlass",
+    "^To the ledge",
+    "Hold the lamp for Varnish",
+    "^To the windlass"
+  ],
+  "cross": [
+    "^To the west stub",
+    "^To the Join",
+    "^To the east stub",
+    "^To Ketter landing",
+    "^To Ketter green"
+  ],
+  "reeve": [
+    "Talk to Osbel",
+    "Tell Osbel what breathes",
+    "Ask Osbel what Ketter will do"
+  ],
+  "ride": [
+    "Say Ketter should keep its hill"
+  ],
+  "crossing": [
+    "Say Ketter should cross"
+  ],
+  "meggan": [
+    "^To the drum-stone",
+    "Talk to Meggan",
+    "Ask Meggan what the drum is for",
+    "Ask Meggan what is going somewhere"
+  ],
+  "strike": [
+    "Strike the stone"
+  ],
+  "toJoin": [
+    "^To Ketter landing",
+    "^To the east stub",
+    "^To the Join"
+  ]
+}
