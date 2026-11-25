@@ -828,6 +828,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, the owner's idea for the paintings: a wanted future, not a defect"
+  },
+  "OR-421": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, an adventure's friction: proposals for Kyr and Deem, a wanted future"
+  },
+  "OR-422": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, an adventure's friction: its pacing unproven, not a broken contract"
   }
  },
  "blockedBy": {

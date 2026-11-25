@@ -1,5 +1,24 @@
 Module leaving "The Leaving Supper" {
   Discovery skellet_pot "The Captain is looking for a pot she ate when she was nine, in Skellet, which is a lake now. She cannot name what was in it.".
+  Discovery imke_ladle_kept "Imke carried one thing out of Skellet that was not a pot: a ladle split down the handle.".
+  Discovery captain_wants_reason "The Captain does not want a fine supper: she wants a reason to go.".
+  Discovery grain_four_days "Haddle Cross has four days of grain, and the reeve tells the town it has five.".
+  Discovery nine_suppers "The Captain has praised nine suppers and marched after none of them.".
+  Discovery reeve_swan "The reeve means to serve the Captain one of the lord's swans.".
+  Discovery cooked_at_her "A soldier wants the thing that was cooked at her once, by somebody who had nothing.".
+  Discovery meggy_burned "Dame Meggy burned her hands on the ninth supper's dish.".
+  Discovery captain_cannot_pretend "The Captain cannot pretend to like a supper, and the Company watches her face.".
+  Discovery barley_at_mill "The miller keeps three sacks of barley behind the hopper, where no horse can reach.".
+  Discovery skellet_barley "The Skellet people bought barley and nothing else, the winter the lake rose.".
+  Discovery ostrey_winters "Sergeant Ostrey has had eleven winters with the Company, and not one of them was hers.".
+  Discovery salt_with_spurrell "The Captain's grey fen-salt is in Spurrell's barrel, and he will name a price for it.".
+  Discovery pot_grey "The pot was grey, never brown: something in it made it grey.".
+  Discovery pot_smoke "The fish in the pot wants smoke, as if it had been somewhere and come back.".
+  Discovery pot_thin "The pot was never floury: it was thin, and you could count the grains.".
+  Discovery pot_sour "The green in the pot should be sour, not bitter.".
+  Discovery pot_sea "The pot always had a little sea in it: grey salt, from the fens.".
+  Discovery pot_right "Sergeant Ostrey tasted the pot and sat down, and could not speak: it is right.".
+  Discovery tuck_son "Josiah Tuck's son went with the Company, and their net.".
   Discovery ash_known "The Skellet pot was grey because it was cooked with a handful of hearth ash. People take the ash for a mistake.".
   Discovery net_seen "The quartermaster has cut down Josiah Tuck's weir-net to line a wagon-bed.".
   Discovery ladle_known "The woman who fed the Captain in Skellet had a ladle split down the handle.".
@@ -18,12 +37,15 @@ Module leaving "The Leaving Supper" {
   }
   Topic hurst_swan with hurst "Ask the reeve about his answer" when true once {
     Says "'A swan,' says Hurst, and spreads his hands the width of one. 'The lord's mere has forty. Soldiers are impressed by size, and she has had goose, and pie, and a boar the Wardens of Pelham lent us, and a pudding with a pig in it. A swan is a statement.' He lowers his voice. 'The cook says swan is not a supper. The cook is not the reeve.'".
+    On discuss { Assert knows(actor, reeve_swan). }
   }
   Topic hurst_nine with hurst "Ask the reeve what the Captain has said to the nine suppers" when true once {
     Says "'Nothing,' says Hurst. 'That is the difficulty. She eats. She says it is very good, and thanks the cook, and in the morning the Company has not marched.' He counts on his chain. 'Four days of grain. She will not be hurried, and the sergeant says she cannot be, because she does not know herself what she is waiting for. Which is what a reeve wants to hear in his own town.'".
+    On discuss { Assert knows(actor, nine_suppers). }
   }
   Topic hurst_grain with hurst "Ask the reeve about the grain" when true once {
     Says "'Four days,' says Hurst, quietly, 'and I tell the town five.' He looks at the Bell and Barrow's chimney. 'Dame Meggy will tell you the pot is yours. I should be glad if somebody would cook the thing, whatever it is, before Thursday.'".
+    On discuss { Assert knows(actor, grain_four_days). }
   }
   Action persuade_hurst(actor: group, site: place) "Persuade the reeve to keep his swan off the table" {
     Requires able(actor) and company(actor) and at(actor, site) and at(hurst, site) and not swanHeld(actor) and hour(clock) < 17.
@@ -46,27 +68,35 @@ Module leaving "The Leaving Supper" {
   }
   Topic ostrey_taste_grain with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 2 and knows(party, skellet_pot) {
     Says "Ostrey tastes, and holds it in her mouth like a coin she is testing. 'Floury,' she says. 'It was never floury. It was thin. You could count the grains.'".
+    On discuss { Assert knows(actor, pot_thin). }
   }
   Topic ostrey_taste_fish with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 1 and fishIn(party) == 2 and knows(party, skellet_pot) {
     Says "'Sweet,' says Ostrey. 'The fish is fresh. It wants smoke. It wants to taste as if it had been somewhere and come back.'".
+    On discuss { Assert knows(actor, pot_smoke). }
   }
   Topic ostrey_taste_green with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 1 and fishIn(party) == 1 and greenIn(party) == 2 and knows(party, skellet_pot) {
     Says "'The green is bitter,' says Ostrey, and shuts one eye. 'It should make your cheeks go in. Sour, not bitter. Everything in it should have been a little afraid.'".
+    On discuss { Assert knows(actor, pot_sour). }
   }
   Topic ostrey_taste_salt with ostrey "Let the sergeant taste the pot" when potReady(party) and grainIn(party) == 1 and fishIn(party) == 1 and greenIn(party) == 1 and saltIn(party) == 2 and knows(party, skellet_pot) {
     Says "'Flat,' says Ostrey. 'There is no sea in it, and there was always a little sea. Grey salt, from the fens. The Company has some, God knows. Spurrell guards it like a sister.'".
+    On discuss { Assert knows(actor, pot_sea). }
   }
   Topic ostrey_taste_ash with ostrey "Let the sergeant taste the pot" when potReady(party) and goodness(party) == 4 and ashIn(party) == 0 and knows(party, skellet_pot) {
     Says "Ostrey tastes, and tastes again, and puts the spoon down very carefully. 'Everything is right,' she says. 'And it is the wrong colour. It was grey. Yours is brown.' She looks at you. 'I do not know what makes a thing grey. Somebody does.'".
+    On discuss { Assert knows(actor, pot_grey). }
   }
   Topic ostrey_taste_right with ostrey "Let the sergeant taste the pot" when potReady(party) and goodness(party) == 5 and knows(party, skellet_pot) {
     Says "Ostrey does not say anything. She sits down on the tailgate, with the spoon in her hand, and looks at the Captain's tent. 'Give me a minute,' she says. 'Do not talk.'".
+    On discuss { Assert knows(actor, pot_right). }
   }
   Topic ostrey_salt with ostrey "Ask the sergeant where the fen-salt is kept" when knows(party, skellet_pot) and not saltBought(party) once {
     Says "'Spurrell has the stores, and sells what he is not asked about,' says Ostrey. 'The grey comes in a barrel. It is the Captain's, so he will say it is not for sale, and then he will name a price.'".
+    On discuss { Assert knows(actor, salt_with_spurrell). }
   }
   Topic ostrey_after with ostrey "Ask the sergeant what she would do if the Captain stopped" when knows(party, skellet_pot) once {
     Says "'Stop what? Walking?' Ostrey looks at the cart wheel. 'Sit down. Find out if I like bread. I am thirty-eight, and I have had eleven winters, and not one of them was mine.'".
+    On discuss { Assert knows(actor, ostrey_winters). }
   }
 
   // ── The captain ─────────────────────────────────────────────────────────────────────────────────────────────────
@@ -77,6 +107,7 @@ Module leaving "The Leaving Supper" {
   }
   Topic gannick_want with gannick "Ask the Captain what she would like for supper" when true once {
     Says "'Nothing the town can afford,' says the Captain, not unkindly. 'The town has been very good. I should like not to be here, and to have a reason for going.' She looks into the bowl. 'Cook what you like. I shall say it is very good, and I shall mean that it is.'".
+    On discuss { Assert knows(actor, captain_wants_reason). }
   }
   Topic gannick_skellet with gannick "Ask the Captain about Skellet" when knows(party, skellet_pot) once {
     Says "The Captain does not move. 'Who has been talking to boots?' she says. Then, after a time: 'There was a famine, and a lake came where the fen had been. I was nine. There was a woman who fed a field of us out of a kettle, in a camp, with a ladle that was split down the handle, so that it dripped on her wrist and she swore at it.' She looks at her hands. 'It was grey. It tasted like being fed by someone who was not afraid. I have eaten in a hundred kitchens and I cannot tell you what was in it.'".
@@ -95,6 +126,7 @@ Module leaving "The Leaving Supper" {
   }
   Topic nat_captain with nat "Ask Nat about the Captain" when true once {
     Says "'She sits with her bowl,' says Nat, 'and the whole Company watches her face, and she knows it, and she tries to look as if she likes it, and she can't. She is the worst liar in the army.' He thinks. 'We love her.'".
+    On discuss { Assert knows(actor, captain_cannot_pretend). }
   }
 
   // ── The quartermaster ───────────────────────────────────────────────────────────────────────────────────────────
@@ -130,9 +162,11 @@ Module leaving "The Leaving Supper" {
   }
   Topic nettlefold_barley with nettlefold "Ask the miller what he has to sell" when true once {
     Says "'Wheat the Company has eaten,' says Nettlefold. 'Rye the horses have. Barley is the poor man's grain, and nobody has eaten it since the harvest, and I have three sacks of it behind the hopper where a horse cannot reach.' He wipes his hands. 'Two coin a sack, and I would sell it for one to anybody who would not tell me what a good price is.'".
+    On discuss { Assert knows(actor, barley_at_mill). }
   }
   Topic nettlefold_skellet with nettlefold "Ask the miller about Skellet" when knows(party, skellet_pot) once {
     Says "'Skellet people,' says Nettlefold. 'In my father's time they came up the Pelham road, a hundred or so, with pots on their backs, when the lake rose. They bought barley and nothing else, a whole winter. My father thought it was because they were poor. The old woman behind the glebe wall will tell you different, if she opens the door. She came with them.'".
+    On discuss { Assert knows(actor, skellet_barley). }
   }
 
   // ── The eel-smoker ──────────────────────────────────────────────────────────────────────────────────────────────
@@ -143,6 +177,7 @@ Module leaving "The Leaving Supper" {
   }
   Topic tuck_eels with tuck "Ask Josiah for smoked eel" when not eelGot(party) once {
     Says "'Three hundred on the rods,' says Tuck, 'and not one for the Company. They have had the net, and the dinner, and my son.' He turns an eel. 'Oh, you did not know about the son.'".
+    On discuss { Assert knows(actor, tuck_son). }
   }
   Topic tuck_son with tuck "Ask Josiah about his son" when true once {
     Says "'Nat. Fourteen. He went to see the drum and stayed for the pay.' Tuck does not look up. 'The weir wants him in October. Tell him that, if you are going that way. Tell him nothing else.' He pulls an eel off the rod, looks at it, and hangs it back. 'I should not like him to think I am asking.'".
@@ -167,9 +202,11 @@ Module leaving "The Leaving Supper" {
   }
   Topic meggy_hands with meggy "Ask Meggy about her hands" when true once {
     Says "'Ninth supper. A pie. She pushed it away, politely, and I took the dish to throw it at the wall, and the dish was out of the oven.' Meggy looks at the linen. 'She sent a surgeon. I sent him back.'".
+    On discuss { Assert knows(actor, meggy_burned). }
   }
   Topic meggy_advice with meggy "Ask Meggy what she has learned about the Captain" when true once {
     Says "'A soldier does not want the best thing you can cook,' says Meggy. 'She wants the thing that was cooked at her, once, by somebody who had nothing. Which is no use to me, because I have never had nothing. I have had a larder.' She flexes a finger and regrets it. 'So I have given her a larder nine times.'".
+    On discuss { Assert knows(actor, cooked_at_her). }
   }
   Topic meggy_larder with meggy "Ask Meggy what the larder holds" when not kitGot(party) once {
     Says "'Wheat flour, fresh trout from the brook, nettles from the yard, and a good white salt,' says Meggy. 'That is what I would cook for a bishop. Take it. It will not be what she wants, but it will tell you something, and you will want a pot to start on.' She nods at the pantry. 'Four things. Do not drop any.'".
@@ -177,6 +214,7 @@ Module leaving "The Leaving Supper" {
   }
   Topic meggy_swan with meggy "Ask Meggy about the reeve's swan" when true once {
     Says "'It is nine pounds of bone in a very handsome coat,' says Meggy. 'The reeve has asked me to cook it. I said I would roast it, and he is going to carry it round on a door.' She shuts her eyes. 'I shall be washing my hands of it.' She cannot, and opens them again.".
+    On discuss { Assert knows(actor, reeve_swan). }
   }
 
   // ── The widow ───────────────────────────────────────────────────────────────────────────────────────────────────
@@ -205,7 +243,7 @@ Module leaving "The Leaving Supper" {
   }
   Topic imke_ladle with imke "Ask Imke about a ladle split down the handle" when imkeOpen(party) and knows(party, ladle_known) and not imkeLadle(party) once {
     Says "Imke does not answer. She goes indoors, for a long time, and comes back with something wrapped in a tea-cloth. She does not unwrap it. 'That is the only thing I carried that was not a pot,' she says. 'It dripped on my wrist for forty years, in two countries.' She puts it in her lap. 'A girl used to stand at the back and lick it, after.'".
-    On discuss { Assert imkeLadle(actor). }
+    On discuss { Assert imkeLadle(actor). Assert knows(actor, imke_ladle_kept). }
   }
   Action taste_imke(actor: group, site: place) "Bring Imke a bowl from the pot" {
     Requires able(actor) and company(actor) and at(actor, site) and at(imke, site) and potReady(actor) and imkeOpen(actor) and not imkeComes(actor).
