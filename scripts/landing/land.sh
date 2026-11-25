@@ -35,7 +35,11 @@ for i in $(seq 1 40); do
     echo "PUSHED $h"; sleep 25
     id=$(gh run list --branch main --limit 6 --json databaseId,headSha,name,event \
       -q ".[] | select(.name==\"CI\" and .event==\"push\" and (.headSha|startswith(\"$h\"))) | .databaseId" | head -1)
-    gh run watch "$id" --interval 60 --exit-status > /dev/null 2>&1 && echo "CI GREEN $h" || echo "CI RED $h"
+    green=0; gh run watch "$id" --interval 60 --exit-status > /dev/null 2>&1 && green=1
+    [ "$green" = 1 ] && echo "CI GREEN $h" || echo "CI RED $h"
+    # The owner's checkout is fast-forwarded only to a green main: a red one is mended or reverted first (25 November:
+    # a red main had been brought into the owner's checkout).
+    if [ "$green" != 1 ] && [ -n "${KYRIE_LAND_FF:-}" ]; then echo "FF HELD (main is red)"; exit 1; fi
     if [ -n "${KYRIE_LAND_FF:-}" ]; then
       git -C "$KYRIE_LAND_FF" fetch -q
       # A file the owner wrote and left untracked that main now carries byte for byte (checked in from their checkout)
