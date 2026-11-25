@@ -48,7 +48,7 @@ export class AimContinuity {
     if (!Undertakings.followed(campaign) || !lead) { return { acts }; }
     // Where the aim's fight would end the one who goes alone (Outmatched's help), the aim's way is no step: someone to
     // take along is led, and said (OR-412: thorn's lone warrior had been led down to the she-bear and the keeper).
-    const early = this.early(campaign, at);
+    const early = this.early(campaign, at) ?? this.lightward(campaign, screen, at);
     if (early) { return early; }
     // A way gold by the glance's reading is the step only where it goes on the lead's way, when it goes back to a
     // place already been to (AT-14: from the back-stone the gold had led back to the chamber the lead had come from,
@@ -146,6 +146,19 @@ export class AimContinuity {
   private static besides(campaign: Campaign, at: Pick<Led, 'acts' | 'cands' | 'out'>): Promoted[] {
     const own = at.acts.filter(a => !a.continues && a.why !== 'way' && !Promotion.continuing.includes(a.why));
     return own.length ? own : this.townward(campaign, at);
+  }
+  // In the dark with nothing to see by and nothing to light, no way on into the dark is the aim's step: the way toward
+  // the nearest light is (OR-590: on c3 the aim's gold had gone on from room to room under the town, the candle out).
+  private static lightward(campaign: Campaign, screen: Screen, at: Led):
+    { acts: Promoted[]; continuance: Continuance } | undefined {
+    const lit = !at.cands.some(c => c.kind === 'light') && CompanyLight.of(campaign, screen,
+      to => KnownWays.first(campaign, screen.place.id, to, { able: true })).lit;
+    const way = lit && at.cands.find(c => c.whys.includes('retreat') && !!c.exit
+      && screen.exits.some(e => e.id === c.exit && e.destination.id === lit));
+    if (!way) { return undefined; }
+    const rest = at.acts.filter(a => a.choice !== way.choice && !a.continues);
+    return { acts: Promotion.continued([Promotion.gild(way), ...rest].slice(0, Promotion.all)),
+      continuance: { kind: 'gilded', witness: way.choice } };
   }
   // Help to be had leads first (Outmatched); else, set aside while a keeper met bars its way (AimAside): no step,
   // and the need says why.

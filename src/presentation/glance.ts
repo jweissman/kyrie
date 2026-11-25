@@ -11,8 +11,7 @@ import { Affordances, type Reading } from '../ui/affordances';
 import { Knowing } from './knowing';
 import { Attending } from '../ui/attention';
 import { Itineraries } from '../ui/itinerary'; import { Headings } from '../ui/headings';
-import { KnownWays } from '../ui/known-ways';
-import { LandModel } from '../ui/land-model';
+import { KnownWays } from '../ui/known-ways'; import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
 import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
@@ -184,7 +183,8 @@ export class Glance {
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
     // With an aim followed and the dark ahead, nothing to see by: whoever sells a light is the aim's way.
-    const light = CompanyLight.of(campaign, screen), seller = screen.aims?.some(a => a.followed) ? light.sellers : null;
+    const light = CompanyLight.of(campaign, screen, to => KnownWays.first(campaign, here, to, { able: true }));
+    const seller = screen.aims?.some(a => a.followed) ? light.sellers : null;
     const named = AimRoute.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
       new Set([...this.named(campaign), ...seller ?? [], ...this.saidHere(campaign, screen)]),
       this.addressed(campaign))));

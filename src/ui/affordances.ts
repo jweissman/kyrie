@@ -67,6 +67,8 @@ export interface Reading {
     unlit?: Set<string>;
     // With nothing to see by, the ways from here into somewhere unlit, and who sells a light (see CompanyLight).
     dark?: Set<string>; sellers?: Set<string>; shops?: Set<string>;
+    // In the dark with nothing to see by, the next place on the known way toward the nearest light (see CompanyLight).
+    lit?: string;
     // Whether the company is one alone, for whom someone who would join is help.
     alone?: boolean };
 }
@@ -372,7 +374,8 @@ export class Affordances {
         : r.held.has(r.here) ? 'held' as const : undefined);
     const toward = r.needs.dark?.has(dest) ? undefined : r.toward.get(exit.id) ?? (on || undefined);
     // A way about the place not yet taken is worth taking by day; at night, the way to a bed.
-    const up = at.lightless && ['ascend', 'leave'].includes(exit.transition ?? '');
+    // In the dark with nothing to light, the way toward the nearest light, else up or out (OR-590).
+    const up = at.lightless && (r.needs.lit ? dest === r.needs.lit : ['ascend', 'leave'].includes(exit.transition ?? ''));
     const whys: Why[] = [...(at.back && dest === r.back || up) && !c.disabled ? ['retreat' as const] : [],
       // Not back to a place the aim names that the company has been, from another it names: down in the cellar under
       // the corn-store the rats are in, the stair up had led as "your aim".
