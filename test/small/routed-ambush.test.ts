@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
-import { ModuleWriter } from '../../src/lang/module-writer';
+import { ModuleWriter } from '../../src/lang/index';
 import { Travel } from '../../src/session/travel';
 import { DeepSounds } from '../../src/world/deep/deep-sounds';
 import type { DeepLayout } from '../../src/world/deep/deep-layout';

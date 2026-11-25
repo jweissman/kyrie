@@ -30,9 +30,6 @@
     },
     "keeper": {
       "type": "group"
-    },
-    "west": {
-      "type": "place"
     }
   },
   "exports": {

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
-import { ModuleWriter } from '../src/lang/module-writer';
+import { ModuleWriter } from '../src/lang/index';
 
 // Iscoed's reasons to travel (mission-22/world/slice.md, step 5), each carried by someone with a reason of their own:
 // the reeve's quarter-tally north up the salt road to the Exchange in Dun Rìerdan's Tower of the Scales, and Bran's

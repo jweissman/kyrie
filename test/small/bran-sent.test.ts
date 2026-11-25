@@ -3,7 +3,7 @@ import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../../src/campaign/overlay-bundle-source';
 import { PlaySession } from '../../src/session/play-session';
 import { Journey } from '../../src/session/journey';
-import { ModuleWriter } from '../../src/lang/module-writer';
+import { ModuleWriter } from '../../src/lang/index';
 import { WorldAssembler, type Placement } from '../../src/world/world-assembler';
 import { PlayerFrame } from '../../src/presentation/player-frame';
 import hall from '../../data/scenarios/brynach-hall.scenario.json';

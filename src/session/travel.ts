@@ -6,7 +6,6 @@ import { EntityIndex } from '../lang/entity-index';
 import { PlayerFrame } from '../presentation/player-frame';
 import { Itineraries, type Leg } from '../ui/itinerary';
 import { PassageModel } from '../ui/passage-model';
-import { Passages } from '../ui/passages';
 import { Overland } from '../ui/overland';
 import { ScreenModel } from '../ui/screen-model';
 import { Narrator } from '../presentation/narrator';
@@ -98,7 +97,7 @@ export class Travel {
     // So is a way whose mouth shows that something lies in wait in there, as the page marks it (Passages.lurking): the
     // careful walks had died on a deep site's second level by a journey walked past the sign into an ambush (SI-01).
     // The ambush is kept: the way taken by hand still leads into it.
-    if (Passages.lurking(t.campaign.world, t.campaign.playerActor!, leg.from, leg.to)) {
+    if (this.lurks(t.campaign, leg)) {
       return `Something lies in wait beyond ${leg.way}`;
     }
     const before = this.condition(t.campaign);
@@ -196,6 +195,13 @@ export class Travel {
   // What was said, as the stop says it: the words spoken where it begins with them, else its first sentence.
   private static gist(said: string): string {
     return /^['‘](.+?)[,.!?]?['’](?:\s|$)/.exec(said)?.[1] ?? /^[^.!?]*/.exec(said)![0];
+  }
+  // Whether the way a leg takes is marked as the page marks it, something lying in wait where it leads (ExitRow lurks):
+  // read only where something lurks there at all.
+  private static lurks(campaign: Campaign, leg: Leg): boolean {
+    const w = campaign.world;
+    return w.relates('lurks') && w.related('lurks').some(r => r.args[1] === leg.to)
+      && ScreenModel.build(campaign).exits.some(e => e.destination.id === leg.to && e.lurks);
   }
   // Whether a leg's way goes one way only.
   private static oneWay(campaign: Campaign, leg: Leg): boolean {

@@ -189,7 +189,7 @@ export class Passages {
   }
   // Whether what lies in wait where a way leads shows at its mouth to the company: something there that lurks
   // (lurks(band, place): the ambush's sign, DeepSounds), and light here to see the sign by; never in the dark. A
-  // journey reads the same, and stops at such a way's mouth (Travel).
+  // journey reads the mark, and stops at such a way's mouth (Travel).
   static lurking(w: World, actor: string, here: string, there: string): boolean {
     if (!w.relates('lurks')) { return false; }
     const dark = QueryIndex.of(w.module, 'benighted') ? w.test(ModuleWriter.call('benighted', actor))

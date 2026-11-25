@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 417 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 574 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -167,11 +167,12 @@ page's colours and opportunities.)
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
-- **Lodging and rest** · 4 pins · 2 defects · 0 asks
+- **Lodging and rest** · 4 pins · 2 defects · 1 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
   - ✓ is let on the house's own terms: an inn's room in Porthalen, a guest-cell at Gatesend
+  - direction OR-610 P2: A domain-tier buyer, and something to buy between the field and the domain: a deep site's prize…
 
 ### Trade
 
@@ -183,7 +184,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 13 defects · 11 asks
+- **Countries and regions** · 0 pins · 12 defects · 11 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…
@@ -242,7 +243,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 6 pins · 19 defects · 7 asks
+- **Dungeons and sites** · 6 pins · 18 defects · 7 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
@@ -509,10 +510,10 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-140 (Rows, lenses and the frame), CL-31 (Dungeons and sites), AP-07 (The Atlas: marks and their witnesses), BO-07 (Conversation held to its focus), R11-02 (Conversation held to its focus), BO-11 (Days, hours and waiting)
 - **AX-04** P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST,… · blocks 4 (4 P0/P1) over 2 capabilities
   - OR-144 (Start-up and loading), OR-137 (Start-up and loading), OR-23 (Openings), OR-127 (Start-up and loading)
-- **OR-310** P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of travel for trivial reasons to places with nothing worth… · blocks 3 (3 P0/P1) over 2 capabilities
-  - CO-03 (Countries and regions), WD-12 (Countries and regions), BO-12 (Markets and prices)
 - **AX-05** P1: The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey · **Partly (the lead, 15… · blocks 2 (2 P0/P1) over 2 capabilities
   - OR-145 (Rows, lenses and the frame), OR-182 (Accessibility and readability)
+- **OR-310** P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of travel for trivial reasons to places with nothing worth… · blocks 2 (2 P0/P1) over 2 capabilities
+  - CO-03 (Countries and regions), BO-12 (Markets and prices)
 - **BX-02** P1: The shared rules cannot be taken in part: a world of its own must install the whole standard set (data/rules: core, passages, people, needs, services,… · blocks 1 (1 P0/P1) over 1 capabilities
   - OR-407 (Testing instruments)
 - **OR-442** P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's terrain, subject (overview, shelter, hamlet/town,… · blocks 1 (0 P0/P1) over 1 capabilities

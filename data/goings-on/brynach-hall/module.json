@@ -22,9 +22,6 @@
     },
     "green": {
       "type": "place"
-    },
-    "sent": {
-      "type": "fact"
     }
   },
   "exports": {
