@@ -10,9 +10,10 @@ import { Costs } from '../src/costs';
 // the oracle). The brief's rule: no performance shortcut may break simulation truth. The same journeys, set out on
 // from the same world, come to the same frames (the route, each leg as the page tells it, the stop and why, the place,
 // the threats and marks, the time, the purse, the narration and the story) and the same game (its digest), and with
-// fewer screens built. Played on through arrivals and every kind of stop the wren's road meets: a bar across the way,
-// word said on the road, danger where it comes, night, weariness, a fair staged, the company set upon on the
-// way, and the journey held gone on with after each stop.
+// fewer screens built. Played on through arrivals and every kind of stop kite's roads meet in a dozen journeys: pikes
+// let down across the road, danger where it comes, night, and the company set upon on the way, and the journey held
+// gone on with after each stop. (Wren's fifteen had met a bar, danger and the set-upon; in today's world it
+// meets the first two only in some twenty-five, and the set-upon not in forty-five.)
 class Both {
   static async begin(whole: boolean): Promise<{ host: EngineHost; frame: Frame }> {
     // A fight on the way is the page's to choose in: pressed through by the company's own tactics, as the page can.
@@ -20,7 +21,7 @@ class Both {
       if (m.kind === 'frame' && m.frame.combat) { setTimeout(() => void host.handle({ kind: 'fight', through: true }), 0); }
     });
     host.wholeLegs = whole;
-    const frame = await host.handle({ kind: 'begin', campaign: 'world', seed: 'wren', origin: 'wanderer',
+    const frame = await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] }) as Frame;
     return { host, frame };
   }
@@ -58,8 +59,8 @@ describe('a journey told leg by leg from its receipts', () => {
       legs += a.travel!.legs.length;
     }
     // Each kind of stop met (so that the equality is not of arrivals alone), and legs told without their frames.
-    expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'The bar stays down', 'There is danger here',
-      'Night has come on', 'You are weary', 'You were set upon on the way']));
+    expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'Pikes come down across the road',
+      'There is danger here', 'Night has come on', 'You were set upon on the way']));
     expect(held).toBeGreaterThan(0);
     expect(legs).toBeGreaterThan(30);
     expect(screens.told).toBeLessThan(screens.whole - legs / 2);

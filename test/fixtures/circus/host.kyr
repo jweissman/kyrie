@@ -35,6 +35,22 @@ Module host "Three towns on a circuit" {
   Person a_merchant "Josh Tull" at a_green { Role "chandler". Peaceable. Pronouns he. Sells rations for 2 coin from 6. }
   Person b_merchant "Hetty Crane" at b_green { Role "chandler". Peaceable. Pronouns she. Sells rations for 2 coin from 6. }
   Person c_merchant "Amos Roe" at c_green { Role "chandler". Peaceable. Pronouns he. Sells rations for 2 coin from 6. }
+  // What the matter is, as a generated town's people are asked it (TownMatters, OR-423): the circus's talk waits on it.
+  Topic a_keeper_matter with a_keeper "Ask Martha Lowe what the matter is in Ashby Lowe" when not toldMatter(a_keeper, actor) once {
+    Says "'Fair week,' says Martha Lowe. 'Ask me anything.'". On discuss { Assert toldMatter(a_keeper, actor). }
+  }
+  Topic b_keeper_matter with b_keeper "Ask Will Pargeter what the matter is in Burl" when not toldMatter(b_keeper, actor) once {
+    Says "'Nothing yet,' says Will Pargeter. 'Ask.'". On discuss { Assert toldMatter(b_keeper, actor). }
+  }
+  Topic c_keeper_matter with c_keeper "Ask Sukey Bell what the matter is in Cotter's Cross" when not toldMatter(c_keeper, actor) once {
+    Says "'Ask away,' says Sukey Bell.". On discuss { Assert toldMatter(c_keeper, actor). }
+  }
+  Topic a_priest_matter with a_priest "Ask Brother Ansel what the matter is in Ashby Lowe" when not toldMatter(a_priest, actor) once {
+    Says "'Ask, and I will tell you,' says Brother Ansel.". On discuss { Assert toldMatter(a_priest, actor). }
+  }
+  Topic a_merchant_matter with a_merchant "Ask Josh Tull what the matter is in Ashby Lowe" when not toldMatter(a_merchant, actor) once {
+    Says "'Trade,' says Josh Tull. 'Ask.'". On discuss { Assert toldMatter(a_merchant, actor). }
+  }
   Observe a_scene at a_green when true "A green with a pump.".
   Observe b_scene at b_green when true "A green with a pond.".
   Observe c_scene at c_green when true "A green round an old cross.".

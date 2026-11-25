@@ -20,6 +20,9 @@ export class AimAside {
     const lead = AimLeading.of(campaign, screen), next = lead?.next[0], party = campaign.playerActor;
     const o = Undertakings.followed(campaign);
     if (help || !party || !next || !o) { return undefined; }
+    // What the aim waits on to be found or learned here is not beyond the keeper (Neblalac's hall: the pillar's marks
+    // to read, and the aim had been set aside for the hounds past the water-stair, nothing gold: test/gold-thread).
+    if (['hidden', 'taught'].includes(lead!.source) && next === screen.place.id) { return undefined; }
     const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world, outsides = SiteOutsides.of(w, byId);
     // The site the aim goes into, or whose outside it goes to (Windtower's door, the way into its guard-floor); or
     // that it names, from further off (OR-417: from Brockminster the son had been led out toward Windtower again, its
