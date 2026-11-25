@@ -912,6 +912,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, the coordinator's call on the owner's second design opinion: a direction, after the rows"
+  },
+  "OR-424": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the owner's ask: a capability wanted, not a broken contract"
   }
  },
  "blockedBy": {

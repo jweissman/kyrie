@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 567 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 569 live rows, 449 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -49,7 +49,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 5 defects · 1 asks
+- **Conversation held to its focus** · 11 pins · 5 defects · 2 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -62,10 +62,11 @@ page's colours and opportunities.)
   - ✓ keeps the stay order out of what can be said
   - ✓ puts a refused reply after the replies that can be taken
   - requirement OR-165 P1: Conversation owned by the engine, not a topic browser: people ask the company questions, create…
+  - requirement OR-424 P2: Reflection: a bounded act (gathering one's thoughts, study, a long rest) by which evidence the…
 - **Checks put in conversation** · 1 pins · 0 defects · 1 asks
   - ✗ a question put in conversation is a check, its outcome said by the one asked
   - requirement OR-342 P2: Checks put in conversation: the capability as its pins hold it (a question put in conversation is…
-- **News and rumour** · 0 pins · 0 defects · 1 asks
+- **News and rumour** · 0 pins · 1 defects · 1 asks
   - direction OR-365 P3: News and rumour: people tell what they have heard of places and people far off, and the company…
 
 ### Conflict
