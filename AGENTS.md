@@ -167,6 +167,14 @@ this help the player forget the interface and become interested in what happens 
   - the title modestly tinted;
   - supporting text and surfaces neutral; words never in a hue (test/small/colour-grammar);
   - nothing flashes or blinks a colour, the map least of all (test/small/no-flash).
+- **The reference game is the flagship** (the owner, 25 November; doc/design/direction-2026-11-25-reference-game.md):
+  one tiny settlement (two real traders and a shrine), the old woods beside it (several independent points of interest
+  a hex), and one persistent, progressively deeper dungeon, deterministic and lazily realised, the world still living
+  where unvisited. It is kept playable and made richer, never replaced; new capabilities prove themselves through it.
+  Its question: would a player willingly make a fifth expedition? Until yes, no more world content. The five-colour
+  resource economy is a hypothesis to prove on a tabletop first, not a replacement for the Atlas's meanings. The same
+  place reveals more as the character learns (knowledge belongs to characters, truth to the world). Failures are
+  classed mechanical, design or editorial, each fixed at its own level; progress is reported as experience too.
 - **The starting world** invites at once:
   - The first dungeon is near the first town: in its hex, or within two. It is deep: at least two levels of serious
     resistance, each with a boss and a treasure cache, a companion to recruit there, and gear to find near a secure
