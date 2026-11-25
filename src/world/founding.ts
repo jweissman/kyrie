@@ -6,6 +6,7 @@ import type { Region, Settlement } from './region-writer';
 import { Features, type Feature } from './features';
 import tables from '../../data/generation/scenes/foundings.json';
 import { RegionKey } from './region-key';
+import { ReferenceSettlement } from './reference-settlement';
 
 export type Kind = 'crossing' | 'harbour' | 'fishing' | 'workings' | 'yard' | 'farm' | 'monastery' | 'fortress'
   | 'ancient' | 'migration' | 'market';
@@ -50,6 +51,7 @@ export class Foundings {
   static of(region: Region, i: number): Founding { return this.all(region)[i]!; }
   // Where a settlement keeps its god: its shrine, or its heart when all it has is a cross by the way.
   static holyPlace(region: Region, s: Settlement): string {
+    if (ReferenceSettlement.is(region, s)) { return `${s.id}_shrine`; }
     return this.of(region, region.settlements.indexOf(s)).holy !== 'wayside' ? `${s.id}_shrine` : `${s.id}_green`;
   }
   static all(region: Region): Founding[] {
