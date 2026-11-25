@@ -1036,6 +1036,7 @@
     "test/interior-walk-browser.test.ts": 556,
     "test/interior-walk.test.ts": 15971,
     "test/journey-kept-once.test.ts": 35334,
+    "test/journey-receipt.test.ts": 69430,
     "test/scenes-browser.test.ts": 696,
     "test/silent-lord-alone.test.ts": 62241,
     "test/action-system.test.ts": 1136,

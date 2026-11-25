@@ -1,4 +1,5 @@
 import { Sentences } from './sentences';
+import type { Campaign } from '../campaign/campaign';
 // The protagonist's own acts, told to them: one who has come alone is "you", and "Ilse pays Dain, and takes a torch."
 // is "You pay Dain, and take a torch." (the shared rules tell what a member does by their name, as a company's member
 // is told; Mission 17's fresh play heard its protagonist bought for in the third person). Only a sentence that begins
@@ -22,6 +23,11 @@ export class SecondPerson {
     'break', 'smash', 'force', 'pry', 'unlock', 'lock', 'bar', 'unbar', 'kindle', 'burn', 'douse', 'quench', 'cook',
     'share', 'sing', 'play', 'dance', 'laugh', 'smile', 'nod', 'shrug', 'sigh', 'wave', 'point', 'beckon', 'whisper',
     'shout', 'speak', 'say', 'write', 'copy', 'sign', 'seal', 'mark', 'note', 'map', 'track', 'scout', 'stalk']);
+  // The name of one who has come alone, whose own acts are told to them; none for a company.
+  static alone(campaign: Campaign): string | undefined {
+    const ids = campaign.readout.partyIds;
+    return ids.length === 1 ? campaign.readout.creatures.find(c => c.id === ids[0])?.name : undefined;
+  }
   static turn(text: string, name: string): string {
     if (!name) { return text; }
     return Sentences.split(text).map(s => this.sentence(s, name)).join(' ');

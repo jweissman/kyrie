@@ -22,9 +22,9 @@ import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
 import { Scenarios } from '../scenarios';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { PlayTranscript } from './transcript';
-import type { Entry, Frame, Leaf, Message, Request, SaveSummary } from '../../src/creation/protocol';
+import type { Entry, Frame, Leaf, Message, Request } from '../../src/creation/protocol';
 import { SaveCodec } from './save-codec';
-import { KeptGame, type Keyed, type KeptState, type Whole, type WorldPart } from './kept-game';
+import { KeptGame, type Keyed } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
 import { SceneBudget } from '../../src/presentation/scene-budget';
 import { Prologue } from '../../src/presentation/prologue';
@@ -33,15 +33,15 @@ import { Obituary } from '../../src/narrative/obituary';
 import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary';
-import { ObservationText } from '../../src/lang/observation-text';
-import { Spatial } from '../../src/lang/spatial';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { Likenesses } from '../../src/presentation/likenesses';
 import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead';
+import { BoundJourney } from './bound-journey'; import { LegTold, type LegPassed } from './leg-told';
 
-// A journey as it goes: each leg as it was told, and the frame the last one left.
-interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame }
+// A journey as it goes: each leg as it was told, and the frame the last one left, if it left one. passed: where the
+// last leg was told by its receipt, the host as it was before it (see passed), for the frame built where it ends.
+interface Trail { legs: NonNullable<Frame['travel']>['legs']; last?: Frame; passed?: { country?: string; recap: boolean } }
 
 // The engine's side of play. It holds the one PlaySession, carries out what the player chose, and answers with a
 // frame: everything the page draws. A fight pauses on each of the company's turns until the page sends a choice.
@@ -143,25 +143,14 @@ export class EngineHost {
   // A game kept in this browser is its state and the world it names, kept apart (see KeptGame).
   private async resume(text: string, { world, apart }: { world?: string; apart?: boolean } = {}): Promise<Frame> {
     const game = this.abandon(); this.foresight.drop();
-    const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
-    const unpacked = world ? await SaveCodec.unpack(world) : undefined;
-    const part = unpacked ? JSON.parse(unpacked) as WorldPart : undefined;
-    // A state is opened only with the world it was kept against (the architecture review's A3: an old world, kept
-    // beside a state of a newer one, opened unchecked and played on without the country the company stood in).
-    if ('version' in parsed && parsed.version === 2 && unpacked && KeptGame.key(unpacked) !== parsed.world) {
-      throw new Error('The world this game was kept with is not the one kept beside it in this browser. The game can '
-        + 'be opened from a save file, or a new one begun from the title page.');
-    }
+    const { parsed, part } = await KeptGame.opened(text, world);
     if (game !== this.game) { throw new Error('Another game was begun meanwhile.'); }
     const saved = KeptGame.join(parsed, part), kept = 'version' in parsed && parsed.version === 2;
     // Parsed here for this alone, it is handed over; one this very build kept (state and world) is not checked again.
     // One kept by another build is checked as it is opened, and if it cannot be, the player is told why.
     const trusted = kept && parsed.build === BuildStamp.current;
     try { this.session = PlaySession.resume(saved.checkpoint, { owned: true, trusted }); } catch (error) {
-      if (trusted) { throw error; }
-      const made = 'build' in parsed && parsed.build ? ` (edition ${parsed.build})` : '';
-      throw new Error(`This game was kept by an earlier edition of Kyr${made}, and this one cannot open it (${
-        error instanceof Error ? error.message : String(error)}). A new game can be begun from the title page.`);
+      throw trusted ? error : KeptGame.unopened(parsed, error);
     }
     // The world it came with is kept already: known by the same key, and by the module the campaign now holds.
     const live = this.session.checkpoint(true).save;
@@ -189,7 +178,7 @@ export class EngineHost {
     return way ? { said: way.label, move: true, named: false } : { said: '', move: false, named: true };
   }
   private async perform(command: string, context = this.said(command)): Promise<Frame> {
-    const session = this.session, game = this.game;
+    const session = this.session;
     if (!session) { throw new Error('No game is under way'); }
     // An aim chosen to follow is the session's command like any other, no event of the world, but told in a line: the
     // first act of play had told nothing, the rows only reshuffling and one turning gold (M22's second review, OR-41).
@@ -202,6 +191,12 @@ export class EngineHost {
       return event.response ? { ...frame, leaf: { ...frame.leaf, ...g ? { glanced: SceneBudget.held(g) } : {},
         exchange: { lines: [{ kind: 'telling', text: event.response }], notes: [], tone: 'act' } } } : frame;
     }
+    await this.act(command, context);
+    return this.settled();
+  }
+  // The command done and kept as told, its frame not yet built: what the company perceives after it.
+  private async act(command: string, context: { said: string; move: boolean; named: boolean }) {
+    const session = this.session!, game = this.game;
     const campaign = session.campaign, before = PlayerView.observe(campaign), started = performance.now();
     // Pressing on is for the fight it was pressed in: carried on, the next two fights at the hobs' hold, their chief's
     // among them, were fought out with no page at all (Mission 20's fourth round, F 144, 147).
@@ -219,10 +214,10 @@ export class EngineHost {
       const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
       const told = this.fought ? EngineHost.unfought(feedback, this.begun()) : feedback;
       this.told = { event, feedback: told, said, moved };
+      return after;
     } finally {
       if (game === this.game) { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
     }
-    return this.settled();
   }
   // One command at a time in a game: another, while one is under way, is refused, and leaves that one as it was (a
   // fight waiting on the player went unanswerable, and every later command was refused: the review's A2).
@@ -267,8 +262,9 @@ export class EngineHost {
     // Kept once it ends, not after every leg (each a whole game written out: AX-05, a journey of four legs had kept
     // the game five times).
     this.travelling = true;
+    // Its frame built where it ends, before what it was bound for is let go, as the last leg's had been.
     const done = await Travel.go({ campaign: session.campaign, perform: this.leg.bind(this, trail) }, destination)
-      .finally(() => { this.travelling = false; this.saving(); });
+      .then(d => { this.ended(trail); return d; }).finally(() => { this.travelling = false; this.saving(); });
     const plan = Itineraries.plan(session.campaign, destination);
     // Come there, or with no way on known from where it stopped, nothing is held: the page had said "Go on to …
     // (0 minutes)" after a set-out that found no way, and going on only said so again (the navigation review).
@@ -283,13 +279,37 @@ export class EngineHost {
     const glance = frame.leaf.glance && Glance.came(frame.leaf.glance, travel);
     return { ...frame, ...glance ? { leaf: { ...frame.leaf, glance } } : {}, travel };
   }
-  // One leg of a journey, done as the page does a way chosen, and kept as it was told.
+  // One leg of a journey, done as the page does a way chosen, and kept as it was told: by its receipt (LegTold), where
+  // it tells all the page tells of it; else by its frame, built whole. wholeLegs: every leg by its frame, as before
+  // the receipt (AX-05), the oracle the receipt is held equal to (test/journey-receipt).
+  wholeLegs = false;
   private async leg(trail: Trail, command: string, said: string): Promise<CampaignEvent> {
-    const last = await this.perform(command, { said, move: true, named: false });
-    trail.last = last;
-    trail.legs.push({ place: last.screen.place.name, id: last.screen.place.id, at: last.screen.clock,
-      journey: last.leaf.journey ?? [], lines: (last.leaf.exchange?.lines ?? []).map(l => l.text) });
+    const view = await this.act(command, { said, move: true, named: false });
+    const passed = this.wholeLegs ? undefined : LegTold.of(this.session!.campaign, this.told!, view);
+    if (passed) { this.passed(trail, passed); } else { this.framed(trail, this.settled()); }
     return this.session!.campaign.history.at(-1)!;
+  }
+  private framed(trail: Trail, last: Frame, at = trail.legs.length) {
+    trail.last = last; trail.passed = undefined;
+    trail.legs[at] = { place: last.screen.place.name, id: last.screen.place.id, at: last.screen.clock,
+      journey: last.leaf.journey ?? [], lines: (last.leaf.exchange?.lines ?? []).map(l => l.text) };
+  }
+  // A leg told by its receipt leaves the host as its frame would have (see leaf): the country it came into, the told
+  // marked, a recap let go; and the journey held let go where its aim is no longer followed (see journeying). What it
+  // was before is kept, for the frame built where the journey ends.
+  private passed(trail: Trail, { country, ...told }: LegPassed) {
+    trail.passed = { ...this.country ? { country: this.country } : {}, recap: this.resumed };
+    trail.last = undefined; trail.legs.push(told);
+    this.screen = undefined; this.country = country; this.crossed = true; this.resumed = false;
+    if (this.bound && this.session!.campaign.running && !BoundJourney.held(this.session!.campaign, this.bound,
+      this.boundFor)) { this.bound = undefined; }
+  }
+  // Where the journey ends, after a leg told by its receipt: that leg's frame, built as it would have been then.
+  private ended(trail: Trail) {
+    const passed = trail.passed;
+    if (!passed) { return; }
+    this.country = passed.country; this.resumed = passed.recap;
+    this.framed(trail, this.settled(), trail.legs.length - 1);
   }
   // A fight held on its own page is not told again at the place it was fought in (see ActionFeedbackView.fought).
   // A fought act told after its fight: what the fight opened on is not told again (GR-05).
@@ -367,7 +387,8 @@ export class EngineHost {
         ...this.bound ? { bound: this.bound } : {} });
       // The world goes with the state until the page says it has kept it (see acknowledged).
       const fresh = world.kept || world.sent ? undefined : { key: world.key, text: await SaveCodec.pack(world.text!) };
-      this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: this.summary(), key: world.key,
+      this.post({ kind: 'saved', save: await SaveCodec.pack(save), summary: KeptGame.summary(this.session.campaign,
+        this.screen?.place.name ?? '', this.frontier && this.session.seed), key: world.key,
         ...fresh ? { world: fresh } : {} });
       if (fresh) { world.sent = true; }
     } catch (error) {
@@ -403,12 +424,6 @@ export class EngineHost {
     if (this.world && KeptGame.still(this.world, checkpoint)) { return this.world; }
     this.world = { ...KeptGame.keyed(checkpoint), kept: false };
     return this.world;
-  }
-  private summary(): SaveSummary {
-    const campaign = this.session!.campaign, place = this.screen?.place.name ?? '', seed = this.frontier && this.session!.seed;
-    return { title: campaign.module.name.split(': ')[0]!, where: place.charAt(0).toUpperCase() + place.slice(1),
-      when: FictionalTime.at(campaign.readout.elapsed), company: campaign.fighters.map(m => m.name).filter(Boolean)
-        .join(', '), ...campaign.running ? {} : { ended: true }, ...seed ? { seed } : {} };
   }
   // The page's telling: the narrator's, with a heading when the game opens and when the company comes into a country
   // it was not in before.
@@ -481,19 +496,8 @@ export class EngineHost {
   private journeying(): Pick<Frame, 'bound'> {
     const campaign = this.session!.campaign, id = this.bound;
     if (!id || !campaign.running) { return {}; }
-    if (this.boundFor !== undefined && Undertakings.followed(campaign)?.id !== this.boundFor) {
-      this.bound = undefined; return {};
-    }
-    const at = campaign.world.one('at', campaign.playerActor ?? 'party');
-    const entities = new Map(campaign.module.entities.map(e => [e.id, e]));
-    if (at && Spatial.ancestry(entities, at).some(e => e.id === id)) { this.bound = undefined; return {}; }
-    const plan = Itineraries.plan(campaign, id);
-    // No way on from here (gone off the way by another), and there is nothing to go on with.
-    if (!plan) { this.bound = undefined; return {}; }
-    // Each leg by where it comes, as the company knows the place (the card had said "to region__z1_heart": play 11),
-    // as the page tells a journey's legs (see Itineraries.told).
-    const legs = Itineraries.told(plan.legs, to => ObservationText.label(campaign.world, to));
-    const toward = plan.toward ? { toward: plan.toward } : {};
-    return { bound: { id, name: plan.name, minutes: plan.minutes, legs, ...toward } };
+    const held = BoundJourney.of(campaign, id, this.boundFor);
+    if (!held) { this.bound = undefined; }
+    return held ?? {};
   }
 }

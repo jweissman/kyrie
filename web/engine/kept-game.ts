@@ -1,9 +1,12 @@
 import type { SessionCheckpoint } from '../../src/session/play-session';
 import type { CampaignSave } from '../../src/campaign/campaign-types';
 import type { Call, WorldState } from '../../src/lang/module';
-import type { Entry } from '../../src/creation/protocol';
+import type { Entry, SaveSummary } from '../../src/creation/protocol';
+import type { Campaign } from '../../src/campaign/campaign';
+import { FictionalTime } from '../../src/campaign/fictional-time';
 import type { World } from '../../src/lang/world';
 import { BuildStamp } from '../../src/session/build-stamp';
+import { SaveCodec } from './save-codec';
 
 // A game as the browser keeps it. What the company has done and where it stands changes with every command and is
 // kept after each; the world it does it in (the compiled module, the campaign's definition, and every fact as it stood
@@ -120,6 +123,32 @@ export class KeptGame {
     const removed: number[] = [];
     for (let n = 0; n < (world.part.base?.length ?? 0); n++) { if (!kept.has(n)) { removed.push(n); } }
     return { removed, tail, measures: facts.measures, names: [...new Set(facts.relations.map(r => r.name))] };
+  }
+  // A game kept in this browser (packed), or a save file, unpacked, with the world kept beside it. A state is opened
+  // only with the world it was kept against (the architecture review's A3: an old world, kept beside a state of a
+  // newer one, opened unchecked and played on without the country the company stood in).
+  static async opened(text: string, world?: string): Promise<{ parsed: KeptState | Whole | SessionCheckpoint;
+    part?: WorldPart; }> {
+    const parsed = JSON.parse(await SaveCodec.unpack(text)) as KeptState | Whole | SessionCheckpoint;
+    const unpacked = world ? await SaveCodec.unpack(world) : undefined;
+    const part = unpacked ? JSON.parse(unpacked) as WorldPart : undefined;
+    if ('version' in parsed && parsed.version === 2 && unpacked && KeptGame.key(unpacked) !== parsed.world) {
+      throw new Error('The world this game was kept with is not the one kept beside it in this browser. The game can '
+        + 'be opened from a save file, or a new one begun from the title page.');
+    }
+    return { parsed, ...part ? { part } : {} };
+  }
+  // Why a game kept by another build cannot be opened by this one, said to the player.
+  static unopened(parsed: KeptState | Whole | SessionCheckpoint, error: unknown): Error {
+    const made = 'build' in parsed && parsed.build ? ` (edition ${parsed.build})` : '';
+    return new Error(`This game was kept by an earlier edition of Kyr${made}, and this one cannot open it (${
+      error instanceof Error ? error.message : String(error)}). A new game can be begun from the title page.`);
+  }
+  // What the page lists a kept game by: its title, where and when the company is, who it is, and its seed.
+  static summary(campaign: Campaign, place: string, seed?: string): SaveSummary {
+    return { title: campaign.module.name.split(': ')[0]!, where: place.charAt(0).toUpperCase() + place.slice(1),
+      when: FictionalTime.at(campaign.readout.elapsed), company: campaign.fighters.map(m => m.name).filter(Boolean)
+        .join(', '), ...campaign.running ? {} : { ended: true }, ...seed ? { seed } : {} };
   }
   // A kept state and its world, put back together; or a save that was whole already.
   static join(parsed: KeptState | Whole | SessionCheckpoint, world?: WorldPart): Whole {

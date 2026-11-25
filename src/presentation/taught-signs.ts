@@ -13,7 +13,7 @@ import { SceneBudget } from './scene-budget';
 // down on the landing made aims of the salt-pans going cold and the sea-gate's notice, neither said (cold play 4,
 // CL-45). The sign is said, in its own words, as part of what came of the act.
 export class TaughtSigns {
-  static of(campaign: Campaign, screen: Screen, told: Told | undefined, defs: Map<string, Observation>): string[] {
+  static of(campaign: Campaign, screen: Pick<Screen, 'place'>, told: Told | undefined, defs: Map<string, Observation>): string[] {
     // Not in a conversation: what the place shows is not said over what someone is saying (OR-149); it is said once
     // the conversation is over, with the next thing done here (the signs seen while Owain was asked).
     if (!told || told.moved || Spoken.talking(campaign.operator(told.event.action))) { return []; }

@@ -1,6 +1,18 @@
+import type { ExchangeLine } from './narrator';
+
 // Turning the lines a command produced into what a player reads: sentences start with a capital, one fight is told
 // by its turning points rather than every blow, and what everyone gained is said once.
 export class Narration {
+  // Tidied lines keep the kind of the line they were made from ("Wenna takes 7 slashing damage (8 HP left)" is
+  // the event it was); one made of several (two who each gain experience) is an event.
+  static tidied(lines: ExchangeLine[], fight: boolean): ExchangeLine[] {
+    const made = lines.map(l => ({ l, text: this.tidy([l.text])[0] }));
+    // Only the blows are condensed: what a rule said as the fight ended (a captor's, a band's plea) had been taken for
+    // a blow and dropped (Gosse's Company's GOS-13: the company thrown in the river, and never told so).
+    const kept = new Set(made.filter(m => m.l.kind !== 'fight').map(m => m.text!));
+    return this.tidy(lines.map(l => l.text), fight ? lines.length : 0, kept)
+      .map(text => ({ ...made.find(m => m.text === text)?.l ?? { kind: 'event' as const }, text }));
+  }
   // Hurt on the way in (a trap's blade), what happened comes before the place, whose telling says what it left (play
   // 9 read "The hidden switch has gone off, and is spent." before "A scything blade swings through the air.").
   static readonly harm = /\btakes? \d+ [a-z]+ damage\b/;

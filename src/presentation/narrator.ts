@@ -81,33 +81,9 @@ export class Narrator {
     return Costs.time('leaf', () => a[0].within(() => TravelQuestion.on(Narrator.leafed(...a), a[1])));
   }
   private static leafed(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
-    const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
-    const seenBefore = this.seenBefore(campaign), turned = this.skyTurned(told?.event);
-    const known = [...seenBefore].some(id => Narrator.def(defs, id)?.place === screen.place.id);
-    // The sky is told when the company comes out under it (from indoors, or at the start), or when it turns; walking on
-    // from one place to the next under the same sky, it is not told again.
-    const under = !told || (told.moved && this.cameOut(campaign, told.event));
-    // Why a way is shut is told the first time it is seen shut; after, the way says it (A Winter in Carth's friction
-    // 12: the gaol's hours were told each time the company came into the Close).
-    // A thing come to as a rule there changes it is told after the rule's words, as what came of them, not with the
-    // place or with what is here before them: the Lull's chair was told ravelled before the Watching that ravelled it
-    // (its friction 11, LUL-08).
-    const altered = told?.moved ? screen.observed.filter(o => this.altered(this.def(defs, o.id), told.event)) : [];
-    const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known,
-      arrived: under, turned, here: screen.place.id, seen: seenBefore.has(o.id) })
-      && !(/__shut$/.test(o.id) && seenBefore.has(o.id)) && !altered.includes(o)), opening);
+    const { defs, shelter, known, kept, exchange } = this.came(campaign, screen, told, opening);
     // What has changed since the company was last here is told under that, not twice.
-    const changed = known && told?.moved ? screen.fresh : [], exchange = told && this.exchange(campaign, told);
-    // What the last command did to the place (a trap sprung, a wonder gone quiet) is told as what happened, not again
-    // in the place's telling under it. What looking closely, prodding or listening found is the answer to it, and told
-    // as that; anything else newly seen in a place come to is told with the place.
-    const probing = told && ActionFeedbackView.probes.includes(campaign.operator(told.event.action)?.schema ?? '');
-    // Staying, the place is only recalled (its first sentence), so what the command made seen in it (the Mower come up
-    // onto the crest, a room a torch shows) is told as what happened.
-    if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
-      || !kept.some(k => Narration.sentence(k.text) === l.text)); }
-    exchange?.lines.push(...altered.map(o => ({ text: Narration.sentence(FictionalTime.prose(o.text)), kind: 'change' as const })));
-    if (exchange) { TaughtSigns.tell(exchange.lines, TaughtSigns.of(campaign, screen, told, defs)); }
+    const changed = known && told?.moved ? screen.fresh : [];
     const echoed = new Set((exchange?.lines ?? []).map(l => l.text));
     // Nor is what it told again by another name, now that what it taught names it (a doorway seen from a tower, known
     // then for the ruin it is).
@@ -165,6 +141,42 @@ export class Narrator {
       ...Compass.of(campaign, screen, glance) };
     return { ...Introduced.said(leaf, glance, screen), instruments: Instruments.of(campaign, screen),
       glance: Likenesses.with(LensSubjects.with(campaign, screen, whole), screen) };
+  }
+  // What came of a command and what the place come to says, as the leaf's telling begins: read by the leaf, and by a
+  // journey's leg passed, told by what came of it alone (see passed).
+  private static came(campaign: Campaign, screen: Pick<Screen, 'place' | 'observed'>, told?: Told, opening?: Opening) {
+    const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
+    const seenBefore = this.seenBefore(campaign), turned = this.skyTurned(told?.event);
+    const known = [...seenBefore].some(id => Narrator.def(defs, id)?.place === screen.place.id);
+    // The sky is told when the company comes out under it (from indoors, or at the start), or when it turns; walking on
+    // from one place to the next under the same sky, it is not told again.
+    const under = !told || (told.moved && this.cameOut(campaign, told.event));
+    // Why a way is shut is told the first time it is seen shut; after, the way says it (A Winter in Carth's friction
+    // 12: the gaol's hours were told each time the company came into the Close).
+    // A thing come to as a rule there changes it is told after the rule's words, as what came of them, not with the
+    // place or with what is here before them: the Lull's chair was told ravelled before the Watching that ravelled it
+    // (its friction 11, LUL-08).
+    const altered = told?.moved ? screen.observed.filter(o => this.altered(this.def(defs, o.id), told.event)) : [];
+    const kept = this.unsaid(screen.observed.filter(o => this.tells(this.def(defs, o.id), { shelter, known,
+      arrived: under, turned, here: screen.place.id, seen: seenBefore.has(o.id) })
+      && !(/__shut$/.test(o.id) && seenBefore.has(o.id)) && !altered.includes(o)), opening);
+    const exchange = told && this.exchange(campaign, told);
+    // What the last command did to the place (a trap sprung, a wonder gone quiet) is told as what happened, not again
+    // in the place's telling under it. What looking closely, prodding or listening found is the answer to it, and told
+    // as that; anything else newly seen in a place come to is told with the place.
+    const probing = told && ActionFeedbackView.probes.includes(campaign.operator(told.event.action)?.schema ?? '');
+    // Staying, the place is only recalled (its first sentence), so what the command made seen in it (the Mower come up
+    // onto the crest, a room a torch shows) is told as what happened.
+    if (exchange && !probing && told.moved) { exchange.lines = exchange.lines.filter(l => l.kind !== 'change'
+      || !kept.some(k => Narration.sentence(k.text) === l.text)); }
+    exchange?.lines.push(...altered.map(o => ({ text: Narration.sentence(FictionalTime.prose(o.text)), kind: 'change' as const })));
+    if (exchange) { TaughtSigns.tell(exchange.lines, TaughtSigns.of(campaign, screen, told, defs)); }
+    return { defs, shelter, known, kept, exchange };
+  }
+  // A journey's leg passed, as the page tells it under the leg (Frame.travel's legs' lines): what came of it there, as
+  // the leaf's exchange says it, read without the place's screen (see LegTold, which says when a screen is wanted).
+  static passed(campaign: Campaign, screen: Pick<Screen, 'place' | 'observed'>, told: Told): string[] {
+    return (this.came(campaign, screen, told).exchange?.lines ?? []).map(l => Typography.curl(l.text));
   }
   // Whether what is seen is a thing's state that the command itself set.
   private static altered(def: Observation | undefined, event: CampaignEvent): boolean {
@@ -472,11 +484,11 @@ export class Narrator {
     // A fight that fell on the company is not an activity it began (its action is the attack it was drawn into: "You
     // begin to attack the wheel-keeper" was told of a company that walked into the wheel-room and fled).
     const operator = campaign.operator(event.action), act = operator?.schema;
-    const begun = event.cut && !event.prelude && operator?.name, me = this.alone(campaign);
+    const begun = event.cut && !event.prelude && operator?.name, me = SecondPerson.alone(campaign);
     const revealed = this.revealed(campaign, event);
     // Condensed only where the one who plays had a turn in it, and so saw it blow by blow: paralysed by the first blow
     // of the keeper of the vault, Wenna never moved, and was told only the last of four rounds (cold play 6, CL-51).
-    const turned = this.tidy(unique, fight && FightSeen.acted(campaign, event)).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
+    const turned = Narration.tidied(unique, fight && FightSeen.acted(campaign, event)).map(l => me && ['telling', 'event', 'change'].includes(l.kind)
       ? { ...l, text: SecondPerson.turn(l.text, me) } : l)
       .map(l => revealed.has(this.plain(l.text)) ? { ...l, kind: 'revelation' as const } : l);
     const out = LineMoments.typed(Spoken.by(turned, campaign, operator));
@@ -500,21 +512,6 @@ export class Narrator {
   // first light"), and what broke it off follows. "You wait until first light" was told at night, the wait cut short
   // by the storm.
   static begun(name: string): string { return `Begin to ${name.charAt(0).toLowerCase()}${name.slice(1)}`; }
-  // Tidied lines keep the kind of the line they were made from ("Wenna takes 7 slashing damage (8 HP left)" is
-  // the event it was); one made of several (two who each gain experience) is an event.
-  private static tidy(lines: ExchangeLine[], fight: boolean): ExchangeLine[] {
-    const made = lines.map(l => ({ l, text: Narration.tidy([l.text])[0] }));
-    // Only the blows are condensed: what a rule said as the fight ended (a captor's, a band's plea) had been taken for
-    // a blow and dropped (Gosse's Company's GOS-13: the company thrown in the river, and never told so).
-    const kept = new Set(made.filter(m => m.l.kind !== 'fight').map(m => m.text!));
-    return Narration.tidy(lines.map(l => l.text), fight ? lines.length : 0, kept)
-      .map(text => ({ ...made.find(m => m.text === text)?.l ?? { kind: 'event' as const }, text }));
-  }
-  // The name of one who has come alone, whose own acts are told to them (see SecondPerson); none for a company.
-  private static alone(campaign: Campaign): string | undefined {
-    const ids = campaign.readout.partyIds;
-    return ids.length === 1 ? campaign.readout.creatures.find(c => c.id === ids[0])?.name : undefined;
-  }
   private static nameOf(campaign: Campaign, id: string): string {
     return this.short(campaign.module.entities.find(e => e.id === id)?.name ?? id);
   }
