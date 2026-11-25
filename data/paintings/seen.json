@@ -9015,6 +9015,41 @@
    "era": "late",
    "light": "sunlit",
    "weather": "clear"
+  },
+  "scene-woodland-campfire": {
+   "form": "landscape",
+   "shows": "a camp under a great oak in a wood: a lean-to of canvas with a lantern, a pot on a tripod over a fire, a blanket and a bedroll",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-woodland-campfire-night": {
+   "form": "landscape",
+   "shows": "the same camp under the oak at night: the fire bright under the pot on its tripod, the lantern lit in the lean-to",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-woodland-clearing-dawn": {
+   "form": "landscape",
+   "shows": "a woodland clearing at dawn under an old oak, mist lying in the grass, foxgloves, a mossy stone",
+   "era": "late",
+   "light": "dawn",
+   "weather": "fog"
+  },
+  "scene-woodland-clearing-dusk": {
+   "form": "landscape",
+   "shows": "the same clearing under the old oak at dusk, a red sky through the trees, fireflies over the grass",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-woodland-clearing-night": {
+   "form": "landscape",
+   "shows": "the same clearing under the old oak by moonlight, fireflies, the wood dark around it",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
   }
  }
 }

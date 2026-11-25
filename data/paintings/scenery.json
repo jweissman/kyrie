@@ -256,7 +256,7 @@
     {"kind": "crystallarium", "words": ["crystallarium", "crystal", "crystals", "geode"], "room": ["scene-crystallarium", "scene-glowing-crystal"]},
     {"kind": "shambles", "words": ["shambles", "butchery", "butcher", "butchers", "slaughterhouse"], "ground": ["scene-city-shambles"]},
     {"kind": "gaming-hall", "words": ["gaming", "gaming-hall", "dice-house", "card-room", "gambling"], "room": ["scene-gaming-hall"]},
-    {"kind": "grove", "words": ["grove", "groves", "glade", "stone-ring"], "ground": ["scene-enchanted-grove"]},
+    {"kind": "grove", "words": ["grove", "groves", "glade", "stone-ring"], "ground": ["scene-enchanted-grove", "scene-woodland-clearing-dawn", "scene-woodland-clearing-dusk", "scene-woodland-clearing-night"]},
     {"kind": "veil", "words": ["veil", "curtain-of-light", "shimmer"], "ground": ["scene-shimmering-veil"]},
     {"kind": "pool", "words": ["pool", "pools", "tarn"], "ground": ["scene-glowing-pool"]},
     {"kind": "eyrie", "words": ["eyrie", "aerie", "roost"], "ground": ["scene-eyrie"]},

@@ -49,7 +49,7 @@ words until they are filed (`temperate` is what no word sorts). Written by `bin/
 | tropics | 9 | 1 | **0** | 2 | **0** | 4 | 2 | overview, city |
 | valley | 46 (7 filed) | 7 | 3 | 8 | 5 | 18 | 5 | — |
 | waste | 19 (16 filed) | 7 | 1 | **0** | 2 | 1 | 8 | town |
-| woodland | 33 (11 filed) | 7 | 4 | 1 | 1 | 19 | 1 | — |
+| woodland | 38 (16 filed) | 9 | 4 | 1 | 1 | 22 | 1 | — |
 <!-- /by-terrain -->
 
 ## Scenes still needed

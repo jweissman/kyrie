@@ -1486,6 +1486,31 @@
    "sha1": "d8923db910be8067ac918a7e7c67ea15b07e64b6",
    "terrain": "woodland"
   },
+  "scene-woodland-campfire-night": {
+   "path": "assets/bg/terrain/woodland/campfire-night.png",
+   "sha1": "fb1573351923ddc77f407857fe17795332134ddc",
+   "terrain": "woodland"
+  },
+  "scene-woodland-campfire": {
+   "path": "assets/bg/terrain/woodland/campfire.png",
+   "sha1": "909956e46f4a8f52cbb86aff2e96b85c77dde7cf",
+   "terrain": "woodland"
+  },
+  "scene-woodland-clearing-dawn": {
+   "path": "assets/bg/terrain/woodland/clearing-dawn.png",
+   "sha1": "ebfb3bc2a163f1ef321f63c16d6102a0eaa924c6",
+   "terrain": "woodland"
+  },
+  "scene-woodland-clearing-dusk": {
+   "path": "assets/bg/terrain/woodland/clearing-dusk.png",
+   "sha1": "cdb2d7ad66d9e184975bbfb8978699c0f7d2c5c8",
+   "terrain": "woodland"
+  },
+  "scene-woodland-clearing-night": {
+   "path": "assets/bg/terrain/woodland/clearing-night.png",
+   "sha1": "ab4ea0484c17af297a9cddbbff6d94250e48d67d",
+   "terrain": "woodland"
+  },
   "scene-woodland-drought": {
    "path": "assets/bg/terrain/woodland/drought.png",
    "sha1": "8ff5990c8220b7558de51861cd76363975fe442d",
