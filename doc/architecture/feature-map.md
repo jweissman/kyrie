@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 569 live rows, 450 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 450 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -262,8 +262,9 @@ page's colours and opportunities.)
 
 ### Creatures and peoples
 
-- **Creatures with lore** · 1 pins · 2 defects · 1 asks
+- **Creatures with lore** · 1 pins · 2 defects · 2 asks
   - ○ a creature met has an entry with its habits, its weakness and its place in the world
+  - direction OR-526 P3: SRD proving case 66, the spiders' mother as the SRD Large monstrous spider, deferred at alpha's…
   - direction SR-02 P2: The SRD creature migration by proof slices (rules/proof-slices.md; srd-fidelity.md's creatures,…
 - **Peoples and ancestries** · 0 pins · 3 defects · 1 asks
   - direction OR-316 P3: Ancestry told as a people: an entry's demographic, social, cultural and physical information, not…
@@ -336,7 +337,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 5 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 6 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
@@ -346,6 +347,7 @@ page's colours and opportunities.)
   - ✓ tells one search for one place, with what is known of the place under it
   - requirement OR-292 P2: OR-302's remainder: a place's mark on the Atlas (the map's place facets, a way's tile) held…
   - requirement OR-313 P2: Latent and immediate opportunities told apart: what the company knows may be had, quieter…
+  - requirement OR-524 P1: Knowledge integrity's negative test, carried as a beta commitment at alpha's close…
   - direction AT-02 P2: The atlas study's smallest experiment (§7), after AT-01, behind one flag, off by default: an…
   - direction AT-09 P2: The Color Atlas as a semantic design instrument, and a theory of opportunity density (the owner,…
   - direction AT-10 P1: The opportunity architecture's M23 part (AT-07 split, 19 November;…
@@ -392,10 +394,11 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 5 defects · 2 asks
+- **Paintings and portraits** · 1 pins · 5 defects · 3 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
   - direction OR-471 P3: A valley in rain: the valley's family (scene-valley, -spring, -summer, -autumn, -night) has no…
+  - direction OR-523 P3: The page's small copies of the paintings (web/reader/paintings, some 1 250 files) are generated…
 - **Paintings by terrain, subject, season, weather and light** · 0 pins · 0 defects · 2 asks
   - requirement OR-442 P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's…
   - direction OR-454 P3: The visual atlas (gamma G5): assets indexed terrain → subject → place or archetype → season →…
@@ -409,10 +412,11 @@ page's colours and opportunities.)
 
 ### Kyr and Deem
 
-- **Authoring forms and their lint** · 0 pins · 42 defects · 5 asks
+- **Authoring forms and their lint** · 0 pins · 42 defects · 6 asks
   - direction OR-164 P2: A studio for human authors, live: in the first version, the engine-side player knows it is served…
   - direction OR-224 P3: A Situation that can be done without its core resolved is not found by the lint: the adit's Done…
   - direction OR-230 P3: The Book of Faces' confessional (cleric.kyr) repeats its bookkeeping in its effects, which a…
+  - direction OR-522 P3: data/ has nineteen top-level folders, read by literal paths; for beta an inventory of each…
   - requirement ST-08 P1: The adventure-structure brief (the owner, 17 November; mission-22/adventure-structure-brief.md): a…
   - direction AU-57 P2: What an author of a craft could not say in Kyr (The Eel Bell, a bell cast, tuned and hung): no…
 - **Generation and tables** · 0 pins · 9 defects · 7 asks
@@ -428,8 +432,9 @@ page's colours and opportunities.)
 
 ### Saves and start-up
 
-- **Saving and loading** · 1 pins · 8 defects · 0 asks
+- **Saving and loading** · 1 pins · 8 defects · 1 asks
   - ✓ keeps where the company stands, the hour and what it has done, across a save
+  - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
 - **Start-up and loading** · 1 pins · 14 defects · 2 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
@@ -437,7 +442,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 5 defects · 2 asks
+- **Incremental computation** · 5 pins · 5 defects · 3 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
@@ -445,8 +450,10 @@ page's colours and opportunities.)
   - ✓ holds nothing idle by itself
   - requirement AX-10 P1: An uninterrupted journey leg in under 5 ms (BRIEF §4): every watch of a leg is simulated whole,…
   - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
-- **Architecture and layers** · 0 pins · 30 defects · 2 asks
+  - requirement OR-521 P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a…
+- **Architecture and layers** · 0 pins · 30 defects · 3 asks
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
+  - requirement OR-520 P2: The runtime's ports live process-wide (Conditions, Abilities, Traits, Callings: a static install,…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
 - **Testing instruments** · 0 pins · 14 defects · 6 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
@@ -504,9 +511,9 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **A terrain's peoples, beasts, gems and materials** (Creatures and peoples): OR-453
 - **Paintings by terrain, subject, season, weather and light** (Pictures): OR-442, OR-454
 - **Playing in the terminal** (The terminal): TB-11
-- **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
+- **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, OR-522, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, OR-421, KX-02, KX-04, AU-58, AU-60
-- **Architecture and layers** (The engine): AX-07, MT-31
+- **Architecture and layers** (The engine): AX-07, OR-520, MT-31
 - **Testing instruments** (The engine): OR-407, OR-456, OR-384, OR-389, OR-465, OR-508
 
 ### Pins not yet met (32)

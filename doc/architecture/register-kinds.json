@@ -937,6 +937,24 @@
    "pri": "P3",
    "why": "25 Nov: build output kept out of the source tree"
   },
+  "OR-524": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the retro: a beta exit condition (BRIEF §11.2) dropped between alpha and beta"
+  },
+  "OR-525": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the retro: a beta exit condition (BRIEF §11.2) dropped between alpha and beta"
+  },
+  "OR-526": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the retro: a rules slice handed on and not taken up"
+  },
   "OR-424": {
    "kind": "requirement",
    "was": "defect",
