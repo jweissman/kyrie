@@ -9,6 +9,7 @@ import { Canon } from '../canon/canon';
 import folk from '../../data/generation/scenes/folk.json';
 import table from '../../data/generation/scenes/general-stores.json';
 import { RegionKey } from './region-key';
+import { ReferenceSettlement } from './reference-settlement';
 
 type Size = 'town' | 'market';
 interface Store {
@@ -90,7 +91,9 @@ export class GeneralStores {
     }));
   }
   static lines(region: Region, taken: Set<string>): string[] {
-    return this.keepers(region, taken).flatMap(k => this.store(region, k));
+    // None in the reference game's town, whose store is its first trader's (see ReferenceSettlement).
+    return this.keepers(region, taken).filter(k => !ReferenceSettlement.is(region, k.s))
+      .flatMap(k => this.store(region, k));
   }
   private static store(region: Region, at: ReturnType<typeof GeneralStores.keepers>[number]): string[] {
     const q = JSON.stringify, k = this.table.kinds[at.kind]!, s = at.s, id = `${s.id}_${at.kind}`, keeper = `${id}_keeper`;

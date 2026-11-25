@@ -16,6 +16,9 @@ import folk from '../../data/generation/scenes/folk.json';
 import { RegionRecruits } from './region-recruits';
 import { Draw } from './land/draw';
 import { Communities } from './community/community';
+import { ReferenceSettlement } from './reference-settlement';
+import { RegionWoods } from './region-woods';
+import { RegionWeather } from './region-weather';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
 // (the owner, 1 November: "we shouldn't have to explore to start an adventuring loop"). What it is, the rooms, the
@@ -26,6 +29,9 @@ export class RegionUndertown {
   static readonly template = KyrTemplates.parse(text);
   // fix: an option fixed for a group (see KyrTemplates.choose), by default the country's own (StrategicAtlas.fix).
   static lines(region: Region, s: Settlement, company = 3, fix = StrategicAtlas.fix(region, 'undertown')): string[] {
+    // The reference game's town has no troubles under it, nor a notice of them: its old woods, and under them the deep
+    // place, found there (see RegionWoods).
+    if (ReferenceSettlement.is(region, s)) { return this.catacombs(region, s); }
     // Where each who pays is to be found (their own room, or the green), for the aim that says what is owed; and how
     // many of the first foes a trouble sets, for the company that takes it (M19-87).
     const t = s.id, standing = { merchant: SettlementWriter.standing(region, s, 'merchant'),
@@ -88,7 +94,7 @@ export class RegionUndertown {
   private static bane(stock: [string, number, number][]): boolean { return stock.some(([what]) => what === 'ratsbane'); }
   // Whether the town has a notice of its troubles on the green (see notice): one of its troubles says itself there.
   static noticed(region: Region, s: Settlement): boolean {
-    return KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`, this.lives(region), StrategicAtlas.fix(region, 'undertown'))
+    return !ReferenceSettlement.is(region, s) && KyrTemplates.choose(this.template, `${RegionKey.of(region)}:${s.id}:undertown`, this.lives(region), StrategicAtlas.fix(region, 'undertown'))
       .some(x => x.said.length > 0);
   }
   // The notice on the green that gathers what each trouble chosen says of itself; read, a lead in the Notes, and each
@@ -153,16 +159,28 @@ export class RegionUndertown {
     const t = s.id, w = `${t}_ud`, makers = history.makers.find(m => m.art === art) ?? history.makers[0]!;
     const old = makers.self.name ?? makers.epithet, k = history.successors;
     // Called and kinded as what it is: the Delvers' mine under a town had been "the old dead", a barrow (SI-02).
-    const name = (purpose.plan.buried ?? 'the old dead under {town}').replace('{town}', s.name);
+    const wooded = ReferenceSettlement.is(region, s);
+    const name = (wooded ? purpose.plan.wooded ?? 'the old dead under the old woods'
+      : purpose.plan.buried ?? 'the old dead under {town}').replace('{town}', s.name);
     const site: Site = { id: w, kind: purpose.plan.kind, name, hours: 0 };
     const values = { w, name: site.name, old, oldup: old.toUpperCase(), land: t, x: '1', y: '8', kingdom: k.name,
       kingdomup: k.name.toUpperCase(), kingdomkind: k.kind, fallen: k.fallen, fate: makers.fate, town: t,
       townname: s.name,
       keeper: `${t}_innkeeper`, priest: `${t}_priest`, merchant: `${t}_merchant`, holy: Foundings.holyPlace(region, s),
-      where: `under ${s.name}`, keeperat: SettlementWriter.standing(region, s, 'innkeeper') };
+      where: ReferenceSettlement.is(region, s) ? `under the old woods above ${s.name}` : `under ${s.name}`, keeperat: SettlementWriter.standing(region, s, 'innkeeper') };
     // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. It
     // lies within the town, under it, so that going down into it is going in, not a journey across the country.
-    const q = JSON.stringify;
+    return [...wooded ? RegionWoods.lines(s, { w, site: site.name, old,
+      ...region.calendar ? { sky: RegionWeather.kinds(region, region.calendar) } : {} })
+      : this.vaulted(s, { w, site: site.name }),
+      // The measures every deep site declares are the country's already when it has one of its own.
+      ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name, wooded })
+        .filter(l => !(taken && /^\s*Measure deepWater/.test(l))),
+      ...this.below(region, s, { w, site: site.name })];
+  }
+  // The way down from the vault under the town, past its keeper (the undertown's own: see catacombs).
+  private static vaulted(s: Settlement, at: { w: string; site: string }): string[] {
+    const q = JSON.stringify, t = s.id, w = at.w, site = { name: at.site };
     return [`  Entity ${w}_named: fact ${q(`Below the vault under ${s.name} a stair goes on down, into ${site.name}.`)}.`,
       `  Entity ${w}_found: fact ${q(`The way down into ${site.name} is behind the keeper's chair in the vault.`)}.`,
       `  Place ${w} "the stair below the vault" is room within ${t} at 1, 7 underground 4 down.`,
@@ -187,9 +205,7 @@ export class RegionUndertown {
       // The keeper fallen, what he kept is the way on down: said, with where it goes.
       `  Objective ${w}_below when not able(${t}_u_keeper) and not been(party, ${w})`
         + ` toward ${w} by ${t}_u_vault ${q(`Behind the keeper's chair in {${t}_u_vault} a narrow stair goes on down, into {${w}_site}.`)}.`,
-      // The measures every deep site declares are the country's already when it has one of its own.
-      ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name })
-        .filter(l => !(taken && /^\s*Measure deepWater/.test(l))), ...this.below(region, s, { w, site: site.name })];
+    ];
   }
   static readonly ledge = KyrTemplates.parse(below);
   // The stair below the vault made ready to go on from (data/generation/town/below.kyrt): what an earlier party left

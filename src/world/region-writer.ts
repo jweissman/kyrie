@@ -8,6 +8,7 @@ import { RegionSites } from './region-sites'; import { RegionRumours } from './r
 import { RegionWeather } from './region-weather';
 import { RegionRoads } from './region-roads';
 import { RegionUndertown } from './region-undertown';
+import { ReferenceSettlement } from './reference-settlement';
 import { FirstAims } from './first-aims';
 import { RegionOutskirts } from './region-outskirts';
 import { RegionPractitioners } from './region-practitioners';
@@ -113,6 +114,8 @@ export interface Region extends Naming {
   letter?: { from: string; news: string };
   // How the protagonist's life began (an origin's id), where one did (see RegionLetters.give).
   origin?: string | undefined;
+  // The world's seed it was drawn in (see WorldAssembler.region).
+  world?: string;
   // The debt's chain where it is fixed, not drawn (see DebtShapes).
   chain?: string | undefined;
   // What an inn's count of the old places says of a site a kit's placement has made its own, by the site's id
@@ -269,12 +272,15 @@ export class RegionWriter {
     // Under the town the company begins in, an adventure a step from its door (see RegionUndertown).
     if (company.start?.opening) { lines.push(...StockOpenings.lines(company.start.opening)); }
     const home = RegionPractitioners.home(region, company);
-    lines.push(...RegionUndertown.lines(region, home, company.size), ...RegionRoom.lines(region, home),
-      ...RegionOutskirts.lines(region, home, company.size),
+    // The reference game's town has none of the rest: no room of one's own, no Hall nor hill above it, no pastimes
+    // and nothing afoot on its heart (see ReferenceSettlement).
+    lines.push(...RegionUndertown.lines(region, home, company.size),
+      ...ReferenceSettlement.is(region, home) ? []
+        : [...RegionRoom.lines(region, home), ...RegionOutskirts.lines(region, home, company.size)],
       // A few pleasant things to do on every settlement's green (see RegionPleasures).
-      ...region.settlements.flatMap(t => RegionPleasures.lines(region, t, home.id)),
+      ...ReferenceSettlement.others(region).flatMap(t => RegionPleasures.lines(region, t, home.id)),
       // And something going on there that moves on by the days, with or without the company (see RegionAfoot).
-      ...region.settlements.flatMap(t => RegionAfoot.lines(region, t)),
+      ...ReferenceSettlement.others(region).flatMap(t => RegionAfoot.lines(region, t)),
       ...RegionTies.lines(region), ...RegionThreads.lines(region));
     lines.push(`  Company party ${q(company.size > 1 ? 'Your company' : 'You')} of ${company.size} at ${company.start ? StockOpenings.place(company.start) : `${region.settlements[0]!.id}_green`}.`,
       `  Initially Set quantity(party, gold) to ${company.coin ?? 12}. Initially Set quantity(party, rations) to 2.`, '  Goal false.');

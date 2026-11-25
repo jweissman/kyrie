@@ -1,0 +1,61 @@
+import { describe, expect, it } from 'bun:test';
+import { WorldAssembler } from '../../src/world/world-assembler';
+import { RegionWriter } from '../../src/world/region-writer';
+import { ReferenceSettlement } from '../../src/world/reference-settlement';
+
+// The reference game's settlement (the owner, 25 November: doc/design/direction-2026-11-25-reference-game.md §2;
+// register OR-611). The first town of a forest country, the terrain the first country draws most often (16 of 40
+// seeds; marsh 11, mountain 7, frost 6), but for the worlds the specs walk by name (kite, kahitude), works three ways
+// and has nothing else: Trader 1 sells provisions and gear and buys what comes back, Trader 2 sells what the country
+// gives and buys what the woods give, and the shrine rests, heals and keeps the altar. Kite's Newmeet, written as
+// before, has a chandlery, a general store, shops, a Hall, a hill of old stones, a roster of townsfolk and a notice of
+// troubles under the town. The old woods lie beside it, and the deep place under them is reached from the fallen
+// stones, found by searching. A country of another terrain keeps its first town as it was (Iscoed's Porthalen, a
+// marsh's). The country's text only, no world.
+const written = (seed: string) => {
+  const region = WorldAssembler.region(seed, [0, 0]), t = region.settlements[0]!.id;
+  const text = RegionWriter.source(region, { size: 1, contacts: [] });
+  return { region, t, text, people: [...text.matchAll(new RegExp(`^\\s*Person (${t}_\\w+) `, 'gm'))].map(m => m[1]!) };
+};
+describe('the reference game\'s settlement', () => {
+  it('is the first town of a forest country, and only of one', () => {
+    const s0 = WorldAssembler.region('s0', [0, 0]), iscoed = WorldAssembler.region('iscoed', [0, 0]);
+    expect([s0.terrain, ReferenceSettlement.of(s0)?.name, iscoed.terrain, ReferenceSettlement.of(iscoed)])
+      .toEqual(['forest', 'Oakhythe', 'marsh', undefined]);
+    expect(ReferenceSettlement.is({ ...s0, at: [0, 1] } as typeof s0, s0.settlements[0]!)).toBe(false);
+    // A forest world the specs walk by name keeps the first town they were written against (OR-645).
+    const kite = WorldAssembler.region('kite', [0, 0]);
+    expect([kite.terrain, ReferenceSettlement.of(kite)]).toEqual(['forest', undefined]);
+  });
+  it('has two traders and a shrine-keeper, someone who would come along, and its old woods', () => {
+    const { t, text, people } = written('s0');
+    // (Its road's travellers are the road's, s1_s4_way_t: not the town's.)
+    const own = people.filter(p => !new RegExp(`^${t}_(wood_|ud|s\\d+_way)`).test(p));
+    expect(own.sort()).toEqual([`${t}_innkeeper`, `${t}_merchant`, `${t}_priest`, `${t}_traveller`]);
+    const places = [...text.matchAll(new RegExp(`^\\s*Place (${t}_\\w+) .* is room within ${t} `, 'gm'))].map(m => m[1]!);
+    expect(places.sort()).toEqual([`${t}_green`, `${t}_shop`, `${t}_shrine`, `${t}_taproom`, `${t}_ud`].sort());
+    // No chandlery, general store, Hall or hill, notice of troubles, nor a room of one's own.
+    expect(text).not.toMatch(new RegExp(`${t}_(chandlery|general|manor|stones_top|u_notice|room)\\b`));
+    // Trader 1 sells provisions, light and arms, and buys valuables; Trader 2 buys what is gathered.
+    const person = (id: string) => new RegExp(`^\\s*Person ${id} [^\\n]*`, 'm').exec(text)![0];
+    expect(person(`${t}_merchant`)).toMatch(/Sells rations .* Sells torch .* Sells spear /);
+    expect(text).toContain(`Initially Assert buysValuables(${t}_merchant).`);
+    expect(person(`${t}_innkeeper`)).toMatch(/Buys herbs for \d+ coin/);
+    expect(person(`${t}_priest`)).toMatch(/Offers lodging .* Offers healing /);
+    expect(text).toContain(`Initially Assert restful(${t}_shrine).`);
+    // The woods are entered from the heart; the way down is found at the fallen stones.
+    expect(text).toContain(`is path between ${t}_green and ${t}_wood_edge`);
+    expect(text).toMatch(new RegExp(`Passage ${t}_wood_down .* between ${t}_wood_stones and ${t}_ud hidden until ${t}_wood_door`));
+  });
+  it('says of the deep place under the woods only what is so there: no town over it (OR-643)', () => {
+    const { t, text } = written('s0');
+    const deep = text.split('\n').filter(l => new RegExp(`\\b${t}_ud`).test(l)).join('\n');
+    expect(deep).toContain('the old dead under the beeches');
+    expect(deep.match(/under Oakhythe|the town was built|smelling of the town|town's cellars/g)).toBeNull();
+  });
+  it('leaves a first town of another terrain as it was', () => {
+    const { t, text } = written('iscoed');
+    expect(text).toContain(`${t}_u_notice`);
+    expect(text).not.toContain(`${t}_wood_edge`);
+  });
+});

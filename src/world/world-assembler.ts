@@ -171,7 +171,7 @@ export class WorldAssembler {
     const region = { ...StrategicAtlas.named(PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken),
       RandomStreams.key(own, 'world')))), at, beyond: WorldGrid.beyond(seed, at) };
     // Every country knows what authored country lies beyond it, where one does.
-    return { ...region, beyond: Countries.beyond(region, seed, first ?? region.terrain) };
+    return { ...region, world: seed, beyond: Countries.beyond(region, seed, first ?? region.terrain) };
   }
   // The scenarios a region is given: adventures in the wild places first, then what is going on in the
   // settlements; none placed elsewhere in the world already.

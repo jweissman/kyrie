@@ -1212,6 +1212,30 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov: the inner loop's and CI's speed, a platform requirement, not a violated contract"
+  },
+  "OR-640": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, split from OR-611: one terrain done thoroughly first, as the owner's direction asks (§6); a second is the commissioned next, not an observed violation"
+  },
+  "OR-641": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, split from OR-611: the woods' weather and renewal are what the direction asks next (§3), not a contract the woods claim and break"
+  },
+  "OR-645": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the lead on main's red CI: specs written against the generated first town keep it by name until brought across; a migration owed, not a violation"
+  },
+  "OR-642": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, split from OR-611: the reference town's smallness is commissioned; country-level generators placing their people there is the remainder of that requirement"
   }
  },
  "blockedBy": {

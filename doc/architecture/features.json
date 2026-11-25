@@ -45,7 +45,8 @@
    "world/a-wonder": "world",
    "world/under-the-town": "adventures",
    "world/the-ledge-below-the-vault": "adventures",
-   "world/opening-dungeon": "adventures"
+   "world/opening-dungeon": "adventures",
+   "world/the-reference-loop": "adventures"
   },
   "describes": {
    "Character › Stat checks woven into narrative moments": "talk",
@@ -1304,6 +1305,11 @@
   "OR-611": "world",
   "OR-650": "undertakings",
   "OR-660": "testing",
+  "OR-640": "world",
+  "OR-641": "world",
+  "OR-642": "world",
+  "OR-643": "world",
+  "OR-645": "world",
   "OR-520": "architecture",
   "OR-521": "architecture",
   "OR-522": "authoring",

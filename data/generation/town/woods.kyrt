@@ -1,0 +1,82 @@
+# woods: the old woods beside the reference game's settlement (the owner, 25 November: doc/design/direction-2026-11-25-reference-game.md §3; register OR-611), entered at once from the heart of the town.
+// A Kyr template (see src/world/kyr-template.ts), written for the reference settlement only (ReferenceSettlement).
+// {t} is the town's id, {town} its name, {w} the deep place under the woods and {site} its name, {old} the first
+// makers as the folk call them, {dealer} the one in the town who buys what the woods give and hears what is seen in
+// them; {!wet} and {!windy} are the country's wet and windy weathers as its sky has them. Several places of their own in the woods, none on the way to another but the stones: two known from the
+// first (the old ride and the burners' clearing), one found by its tracks (the wallow), one by asking or searching
+// (the fallen stones), and under the stones a way down, found by searching them. Every way in the woods takes time,
+// and the woods are dark at night; there is a beast in them that will fight for its ground. Nothing here is an errand.
+--- base
+  Place {t}_wood "the old woods above {town}" is site within {t} at 0, 4.
+  Place {t}_wood_edge "the edge of the old woods" is room within {t}_wood at 1, 2 outdoors.
+  Place {t}_wood_ride "the old ride" is room within {t}_wood at 1, 1 outdoors.
+  Place {t}_wood_burners "the charcoal-burners' clearing" is room within {t}_wood at 2, 1 outdoors.
+  Place {t}_wood_wallow "the boar's wallow" is room within {t}_wood at 0, 1 outdoors.
+  Place {t}_wood_stones "the fallen stones under the beeches" is room within {t}_wood at 1, 0 outdoors.
+  Passage {t}_wood_path "the path up into the old woods" is path between {t}_green and {t}_wood_edge taking 15 minutes.
+  Passage {t}_wood_into "the old ride under the trees" is path between {t}_wood_edge and {t}_wood_ride taking 30 minutes.
+  Passage {t}_wood_burnway "the burners' track" is path between {t}_wood_ride and {t}_wood_burners taking 20 minutes.
+  Passage {t}_wood_runs "the boar-runs through the holly" is path between {t}_wood_ride and {t}_wood_wallow taking 30 minutes hidden until {t}_wood_tracks.
+  Passage {t}_wood_beeches "the deer-path up under the beeches" is path between {t}_wood_burners and {t}_wood_stones taking 30 minutes hidden until {t}_wood_stones_known.
+  Passage {t}_wood_down "the dark slot between the fallen stones" is stair between {t}_wood_stones and {w} hidden until {t}_wood_door.
+  Observe {t}_wood_edge_scene at {t}_wood_edge as fixture when not dark() "Oak and holly come down to the last field of {town}, and the field wall stops at them. A track goes in under the trees, wide enough once for a cart and now for one walker.".
+  Observe {t}_wood_edge_dark at {t}_wood_edge as fixture when dark() "The trees are a black wall above the field. Nothing of the track under them can be seen without a light.".
+  Observe {t}_wood_ride_scene at {t}_wood_ride as fixture when not dark() "The old ride runs straight between the oaks, grassed over, with holly closing in on both sides. Old stumps along it were cut long ago, and the wood has grown back over them.".
+  Observe {t}_wood_ride_dark at {t}_wood_ride as fixture when dark() "Under the trees the dark is complete. A heavy beast moves off through the holly, unhurried.".
+  Observe {t}_wood_ride_mist at {t}_wood_ride as ambience when hour(clock) >= 5 and hour(clock) < 7 "Mist lies in the ride at the height of your knees. Three deer stand in it and watch you. Then they are gone.".
+  Observe {t}_wood_ride_tracks at {t}_wood_ride as sign noticed by woodcraft when not knows(party, {t}_wood_tracks) "Where the ride is wet, cloven feet bigger than a pig's have churned the ground. A run goes off through the holly at the height of your hip. Its edges are rubbed with mud and bristle." teaches {t}_wood_tracks.
+  Entity {t}_wood_tracks: fact "A boar's runs go off the old ride through the holly, to wherever it wallows.".
+  Observe {t}_wood_burners_scene at {t}_wood_burners as fixture when true "A round clearing, black underfoot, with the rings of old charcoal-hearths in it and a hut of turf at the edge. Nobody has burned here for years. The hut's door hangs by one hinge.".
+  Observe {t}_wood_wallow_scene at {t}_wood_wallow as fixture when true "A sunk place among alders, all mud, the trees round it rubbed bare and caked to the height of your chest. It smells of rank animal.".
+  Observe {t}_wood_stones_scene at {t}_wood_stones as fixture when true "Under the beeches the ground rises to a long mound. Great stones lie fallen along it, grey and green with moss. They were set up in a row once, by {old}. Between two of them the earth has fallen in.".
+  Observe {t}_wood_stones_marks at {t}_wood_stones as sign noticed by lore when not knows(party, {t}_wood_door) "On the inner face of one fallen stone is a mark cut in the way of {old}: a door, drawn shut. Where the earth has fallen in beside it, the dark goes down further than it should." teaches {t}_wood_door.
+  Discovery {t}_wood_door "Between two of the fallen stones a slot goes down into the dark, with steps in it." {
+    Found by searching {t}_wood_stones "You pull the ferns away from where the earth has fallen in. It has fallen in onto steps of dressed stone. They go down between the two fallen stones into the dark. Cold air comes up them.".
+  }
+  // The burners' hut: what they left, and why they left (the way to the stones, found by searching here, or asked).
+  Item {t}_wood_lamp "a burner's old lamp" is lantern at {t}_wood_burners hidden until {t}_wood_stones_known.
+  Discovery {t}_wood_stones_known "A deer-path goes up out of the burners' clearing to the old stones under the beeches." {
+    Found by searching {t}_wood_burners "Under the turf bench in the hut is a lamp with oil still in it. Scratched into the bench above it are a row of standing stones and a mark like a shut door. A deer-path goes up out of the clearing toward the beeches, the way the mark points.".
+  }
+  Item {t}_wood_herbs "a stand of woundwort" is herbs at {t}_wood_ride hidden until {t}_wood_wort.
+  Discovery {t}_wood_wort "Woundwort grows along the ride where the sun gets in." {
+    Found by searching {t}_wood_ride "In a gap where an oak came down, the light gets in, and woundwort stands thick in it. You pick what you can carry.".
+  }
+  // The beast of the woods: it fights for its wallow, and it is there again a season later.
+  Person {t}_wood_boar "the old boar of the woods" at {t}_wood_wallow {
+    Role "a boar the size of a pony, grey on the back, one tusk broken off short". Species boar. Numbers 1. Level 2. Temperament territorial. Lair {t}_wood_wallow.
+    Warns "The boar comes up out of the mud all at once. It stands and blows. It does not mean to go anywhere.".
+  }
+  Initially Set encounterXp({t}_wood_boar) to 100.
+  // Asked, the one who buys what the woods give asks back, and tells what they know of the woods.
+  Topic {t}_wood_asked with {dealer} "Ask {{dealer}} about the old woods" when true once {
+    Says "'Have you been into the old woods?' says {{dealer}}, and looks at your boots. 'Go up by the field path, and keep to the old ride. Bring back woundwort, there's a price for it here. Keep away from the holly where the ground is churned, there's a boar that has had two dogs this year. And past the burners' clearing, up under the beeches, are the old stones. Nobody goes there. The burners went, and didn't burn there again.'".
+    On discuss { Assert knows(actor, {t}_wood_stones_known). }
+  }
+  // The woods go on without the company (OR-641), by the world's own clock: woundwort grows back on the ride a few
+  // days after it is picked, twice, and not in winter; some nights after the old boar is killed a young one takes its
+  // wallow; rain shows the boar's runs to anyone; and once the company has been down under the stones, the next wind
+  // brings an oak down across the ride, with something in its roots.
+  Measure {t}_wood_regrow(place). Relation {t}_wood_picked(place). Measure {t}_wood_boarless(place).
+  Initially Set {t}_wood_boarless({t}_wood) to 5.
+  Item {t}_wood_herbs2 "woundwort grown back" is herbs at elsewhere.
+  Item {t}_wood_herbs3 "woundwort grown back" is herbs at elsewhere.
+  Rule {t}_wood_bare when not at({t}_wood_herbs, {t}_wood_ride) and not at({t}_wood_herbs2, {t}_wood_ride) and not at({t}_wood_herbs3, {t}_wood_ride) and knows(party, {t}_wood_wort) and not {t}_wood_picked({t}_wood) and (at({t}_wood_herbs2, elsewhere) or at({t}_wood_herbs3, elsewhere)) { Assert {t}_wood_picked({t}_wood). Set {t}_wood_regrow({t}_wood) to 3. }
+  Rule {t}_wood_growing when {t}_wood_picked({t}_wood) and untilLight(clock) == 1 and {t}_wood_regrow({t}_wood) > 0 { Decrease {t}_wood_regrow({t}_wood) by 1. }
+  Rule {t}_wood_grown when {t}_wood_picked({t}_wood) and {t}_wood_regrow({t}_wood) == 0 and season(clock) != 4 and at({t}_wood_herbs2, elsewhere) { Retract {t}_wood_picked({t}_wood). Retract at({t}_wood_herbs2, elsewhere). Assert at({t}_wood_herbs2, {t}_wood_ride). }
+  Rule {t}_wood_grown3 when {t}_wood_picked({t}_wood) and {t}_wood_regrow({t}_wood) == 0 and season(clock) != 4 and not at({t}_wood_herbs2, elsewhere) and at({t}_wood_herbs3, elsewhere) { Retract {t}_wood_picked({t}_wood). Retract at({t}_wood_herbs3, elsewhere). Assert at({t}_wood_herbs3, {t}_wood_ride). }
+  Observe {t}_wood_regrown at {t}_wood_ride as sign when at({t}_wood_herbs2, {t}_wood_ride) or at({t}_wood_herbs3, {t}_wood_ride) "Where you picked the woundwort, it has come up again in the gap where the oak came down.".
+  Person {t}_wood_young "a young boar" at elsewhere {
+    Role "a young boar, black-bristled, that has taken the old one's wallow". Species boar. Numbers 1. Level 1. Temperament territorial. Lair {t}_wood_wallow.
+  }
+  Initially Set encounterXp({t}_wood_young) to 50.
+  Rule {t}_wood_boar_days when not able({t}_wood_boar) and untilLight(clock) == 1 and {t}_wood_boarless({t}_wood) > 0 { Decrease {t}_wood_boarless({t}_wood) by 1. }
+  Rule {t}_wood_boar_back when not able({t}_wood_boar) and {t}_wood_boarless({t}_wood) == 0 and at({t}_wood_young, elsewhere) and not at(party, {t}_wood_wallow) { Retract at({t}_wood_young, elsewhere). Assert at({t}_wood_young, {t}_wood_wallow). }
+  Observe {t}_wood_young_sign at {t}_wood_ride as sign when at({t}_wood_young, {t}_wood_wallow) and able({t}_wood_young) "The runs through the holly are churned fresh. A new boar has taken the old one's wallow.".
+  Topic {t}_wood_young_news with {dealer} "Ask {{dealer}} what is in the old woods now" when at({t}_wood_young, {t}_wood_wallow) and able({t}_wood_young) once {
+    Says "'There's a young boar in the old one's wallow,' says {{dealer}}. 'Black as a coal, and no more sense than the last. Woundwort's come back on the ride, too, if you're going up.'".
+  }
+  Observe {t}_wood_ride_rain at {t}_wood_ride as sign when {!wet} and not knows(party, {t}_wood_tracks) "The rain has turned the ride to mud. The boar's runs show plain in it, going off through the holly." teaches {t}_wood_tracks.
+  Item {t}_wood_windfall_ring "a ring of green bronze from the oak's roots" is grave_rings at elsewhere.
+  Rule {t}_wood_windfall when been(party, {w}) and {!windy} and at({t}_wood_windfall_ring, elsewhere) and not at(party, {t}_wood_ride) { Retract at({t}_wood_windfall_ring, elsewhere). Assert at({t}_wood_windfall_ring, {t}_wood_ride). }
+  Observe {t}_wood_windfall_seen at {t}_wood_ride as fixture when at({t}_wood_windfall_ring, {t}_wood_ride) "An oak has come down across the ride in the wind. Its roots stand up taller than you, and the torn earth under them is full of old stones.".
