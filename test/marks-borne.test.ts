@@ -53,7 +53,11 @@ class Page {
     const html = renderToStaticMarkup(createElement(GlanceStage.Lens,
       { app: this.app, draw: Act.draw(this.app), lens }));
     this.state = was;
-    const tones = [...html.matchAll(/--prism:var\(--tone-(\w+)\)/g)].map(m => m[1]!);
+    // What the resting scene led with, kept above the lens in its places (Lensed.kept, OR-240), bears its own mark
+    // from the scene's four, and never the touch's (LensRows): the drove pens' way, gold, kept over Look….
+    const kept = (this.state.frame?.leaf.glance?.lenses?.[lens]?.kept ?? []).map(k => `data-choice="${k.choice}"`);
+    const drawn = html.split('<li').filter(li => !kept.some(k => li.includes(k))).join('<li');
+    const tones = [...drawn.matchAll(/--prism:var\(--tone-(\w+)\)/g)].map(m => m[1]!);
     return { tone: Emphasis.precedence.map(a => Emphasis.tones[a]).find(t => tones.includes(t!)),
       companion: /could join you/.test(html),
       units: [...html.matchAll(/data-action="focus" data-choice="([^"]+)"/g)].map(m => m[1]!) };

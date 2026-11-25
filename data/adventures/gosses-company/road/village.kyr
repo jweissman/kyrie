@@ -42,6 +42,20 @@ Module wending "Wending Cross" {
     Says "'West,' says Mistress Thackeray, 'over the march, a day, is Pentrice, where the Ise falls into the Arle. A grand minster town, where they license every word said on a stage and fine you a crown a line for the rest.' She jerks her head at the green. 'That lot on the green are going there for their Trial of the Wheel: three companies, three nights, and a house for ever to the best. If they ever get their wagon off my post.'".
     On discuss { Assert knows(actor, west_told). }
   }
+  // What is the matter here, as a generated town's three are asked it (TownMatters, OR-423): told it, the company may
+  // ask each of them about the town's particular troubles (the players on the green among them).
+  Topic thackeray_matter with thackeray "Ask Mistress Thackeray what the matter is in Wending Cross" when not toldMatter(thackeray, actor) once {
+    Says "'Matter?' says Mistress Thackeray. 'A wagon chained to my post since Tuesday, a bear on my green and nine players drinking on tick. Ask me.'".
+    On discuss { Assert toldMatter(thackeray, actor). }
+  }
+  Topic ivy_matter with ivy "Ask Mother Ivy what the matter is in Wending Cross" when not toldMatter(ivy, actor) once {
+    Says "Mother Ivy goes on shelling. 'Nothing that a little patience will not mend,' she says. 'The players on the green would tell you otherwise. Sit, if you want to hear it.'".
+    On discuss { Assert toldMatter(ivy, actor). }
+  }
+  Topic cobbet_matter with cobbet "Ask Cobbet what the matter is in Wending Cross" when not toldMatter(cobbet, actor) once {
+    Says "'Players,' says Cobbet, as another man might say rats. 'They want candles on credit. Ask what you like, so long as you are buying.'".
+    On discuss { Assert toldMatter(cobbet, actor). }
+  }
   Discovery west_told "West over the march, a day's walk, lies Pentrice, where the Trial of the Wheel is played: three companies of players for three nights, and a house to the best.".
   Initially Assert leadsTo(west_told, road_out).
   Company party "You" of 1 to 3 at cross_green.

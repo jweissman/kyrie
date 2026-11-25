@@ -43,7 +43,9 @@ describe('the golden route, after the sixth cold play', () => {
     expect(at[9]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('drove__clerk_short_t');
     expect(text(18)).toBe('Owain turns to you.');
     expect(aims(24)).toContain('Find out where Joss Hatherly was the night he drowned.');
-    expect(at[30]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('region__s1_u_raiser_who');
+    // The man with the black candle's question is among the four as the ossuary is come into, while his warning stands
+    // (the engaged frame: no talk to him first), so the play's own talk_to (line 31) is no longer offered.
+    expect(at[29]!.offer.primary.map(o => RunnerOffer.act(o))).toContain('region__s1_u_raiser_who');
     expect(text(34)).toContain('the warding line is left out');
     expect(aims(38)).not.toContain('lettered');
     expect(aims(38)).not.toContain('Something is under the floor');

@@ -56,10 +56,10 @@ describe('a game kept in the browser', () => {
     const s = await PlaySession.start(w.path, 'kite', w.source), first = KeptGame.keyed(s.checkpoint(true));
     // To the merchant, and the corn-store's job asked of him, whichever cause the town drew (rats, runaway or
     // apprentice: each job's ask gives its key): by the topic's id, not its words.
-    // The notice read first: a job is asked after only by one who has heard of it (OR-370).
+    // The notice read first: a job is asked after only by one who has heard of it (OR-370); read, it has told the
+    // company what the matter is with the merchant (OR-423).
     await s.leg('region__s1_u_notice_read(party,region__s1_green)');
     await s.leg(PlayerView.choices(s.campaign).find(x => /^Take Falkor's door/.test(x.choice.name))!.choice.id);
-    await s.leg('region__s1_merchant_matter');
     await s.leg(PlayerView.choices(s.campaign).find(x => /^region__s1_u_(rats|runaway|apprentice)_job_ask$/
       .test(x.choice.id))!.choice.id);
     const checkpoint = s.checkpoint(true);
