@@ -1218,6 +1218,11 @@
    "sha1": "f3690e464ab5a48757c3703d10e6e24defac1a78",
    "terrain": "coast"
   },
+  "scene-coast-ruins": {
+   "path": "assets/bg/terrain/coast/ruins.png",
+   "sha1": "eae7fb809584fdbaa81c49b1a2bc65e48611c282",
+   "terrain": "coast"
+  },
   "scene-coast-shrine": {
    "path": "assets/bg/terrain/coast/shrine.png",
    "sha1": "222bb98324884f69ebfe9aad80985620a581a865",

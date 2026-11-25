@@ -37,7 +37,7 @@ words until they are filed (`temperate` is what no word sorts). Written by `bin/
 | Terrain | Paintings | shelter | overview | town | city | wild | wonder | Wanted first |
 |---|---|---|---|---|---|---|---|---|
 | cave | 2 (2 filed) | 1 | **0** | **0** | **0** | **0** | 1 | overview, town, city, wild |
-| coast | 65 (23 filed) | 27 | **0** | 4 | 6 | 22 | 6 | overview |
+| coast | 66 (24 filed) | 27 | **0** | 4 | 6 | 22 | 7 | overview |
 | desert | 35 (30 filed) | 4 | 5 | **0** | 10 | 11 | 5 | town |
 | frost | 12 | 3 | **0** | 2 | 1 | 5 | 1 | overview |
 | jungle | 2 (2 filed) | **0** | **0** | **0** | **0** | 1 | 1 | shelter, overview, town, city |

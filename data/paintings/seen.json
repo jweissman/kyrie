@@ -9162,6 +9162,13 @@
    "era": "late",
    "light": "sunlit",
    "weather": "clear"
+  },
+  "scene-coast-ruins": {
+   "form": "landscape",
+   "shows": "a drowned ruin in a clear bay: arches hung with flowers, fallen columns and a mosaic floor under the water, falls off far cliffs, the sun setting over the sea",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
   }
  }
 }
