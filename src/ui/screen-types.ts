@@ -216,9 +216,10 @@ export interface Screen {
   // about: what is known of the place an aim is about, from the place's own aim folded into it (see Undertakings).
   // follow: the action that follows it, where it is not followed (the command the glance and the Notes offer).
   // story: the adventure it is part of (see Stories); none, one of the miscellaneous aims beside the stories.
+  // parts: what it is made of, each done or not (see AimParts).
   aims?: { id: string; text: string; followed?: true; follow?: string; chosen?: true; own?: true; places?: string[];
     who?: string[]; story?: { id: string; title: string };
-    about?: string[] }[];
+    about?: string[]; parts?: { text: string; done: boolean }[] }[];
   // The leads, apart from the aims (US-07): what the company knows of work to be had and who to ask of it (a notice, a
   // cold chimney), not held until the one named is asked (see Undertakings.leads).
   leads?: { id: string; text: string; ask: string[] }[];

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 569 live rows, 449 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 568 live rows, 449 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -110,7 +110,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 32 defects · 3 asks
+- **Aims and the gold thread** · 16 pins · 32 defects · 2 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -128,9 +128,9 @@ page's colours and opportunities.)
   - ✓ is what bars the way to what the aim waits on, and then the place beyond
   - ✓ is the way its author says the aim is gone to by, until it is taken
   - requirement HP-02 P1: Horizons commissioned before they are imagined: the factor gives Icelake, the company's claim, the…
-  - requirement OR-468 P2: The First Aims followed: a gold-follower's walk with the undertaking chosen, its guidance led to…
   - direction OR-469 P3: The First Aims' other horizons (the direction's §9: find Dun Rìerdan, explore the southern…
-- **Jobs, debts and payoffs** · 5 pins · 0 defects · 1 asks
+- **Jobs, debts and payoffs** · 6 pins · 0 defects · 1 asks
+  - ✓ leads to each part in turn under the gold, focus held, the Notes saying which parts are done
   - ✓ recognises what the company did unprompted, offers the undertaking after, and rewards each part once
   - ✓ is led from the proof to the sale, paid, and on to the road west, by the gold alone
   - ✓ a1: what went into the river is for sale downstream, claimed, and carried home
@@ -353,7 +353,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 38 defects · 12 asks
+- **Rows, lenses and the frame** · 3 pins · 37 defects · 12 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -372,7 +372,7 @@ page's colours and opportunities.)
 - **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
   - requirement OR-361 P2: Free-form input: the capability as its pins hold it (an act typed in the player's own words,…
-- **Accessibility and readability** · 1 pins · 7 defects · 1 asks
+- **Accessibility and readability** · 1 pins · 8 defects · 1 asks
   - ○ the text can be made larger and higher in contrast, and motion reduced, from the options
   - direction OR-315 P3: Rows partly beyond the safe area, a meaningful part (perhaps 20%) within it, for the paintings'…
 

@@ -73,6 +73,8 @@ export class Career {
     return [...here ? [this.lair(region, dragon, at)] : [], this.warden(region, at)]
       .filter((r): r is BundleRequest => !!r);
   }
+  // Where the proclamation is posted in a town: its green, under the town's notices (the First Aims lead there).
+  static posted(town: string): string { return `${town}_green`; }
   // The commission, in the first world: read on the notice of the town the company begins in, once the town's own
   // notice is (never the first word on it), and an aim from then on.
   static posting(region: Region, dragon: Dragon, at: { root: string; files: Files; home: string }): BundleRequest
@@ -103,7 +105,8 @@ export class Career {
       ...this.aims(d, price, ways), '  Goal false.', '}', ''].join('\n'),
     { ...this.roles(['green', 'notice', ...Object.keys(ways)], { green: 'place', hunt: 'place', city: 'place' }),
       exports: { commission: 'commission', slain: 'slain', knighted: 'knighted', paid: 'paid' } });
-    return { id: this.id, bundle: `${dir}/module.json`, imports: { party: 'region.party', green: `region.${home.id}_green`,
+    return { id: this.id, bundle: `${dir}/module.json`, imports: { party: 'region.party',
+      green: `region.${this.posted(home.id)}`,
       notice: `region.${home.id}_u_notice`,
       ...Object.fromEntries(Object.entries(ways).map(([n, w]) => [n, `region.${w}`])) } };
   }

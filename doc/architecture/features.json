@@ -4,7 +4,7 @@
   "files": {
    "character/creation-and-checks": "creation",
    "choice/consequence": "consequence",
-   "choice/first-aims": "undertakings",
+   "choice/first-aims": "undertakings", "choice/first-aims-followed": "undertakings",
    "choice/payoff-followed": "undertakings",
    "choice/store-apprentice": "discovery",
    "choice/store-runaway": "discovery",

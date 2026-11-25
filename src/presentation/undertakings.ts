@@ -10,6 +10,7 @@ import { ObservationText } from '../lang/observation-text';
 import { AimWords } from './aim-words'; import { SiteOutsides } from './site-outsides';
 import type { Promoted } from './glance-types';
 import { Stories } from './stories';
+import { AimParts } from './aim-parts';
 
 // The aim the player follows (the owner's "a clearer currently selected quest"; Mission 19, journal and intentions):
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
@@ -105,10 +106,15 @@ export class Undertakings {
         ...o.id === followed && chosen ? { chosen: true as const } : {},
         ...def && Stakes.own(def) ? { own: true as const } : {},
         ...def ? { places: this.places(campaign, def) } : {}, ...def && this.who(campaign, def).length
-          ? { who: this.who(campaign, def) } : {} }));
+          ? { who: this.who(campaign, def) } : {}, ...this.parts(campaign, def) }));
     const folded = this.folded(campaign, ordered), leads = this.leads(campaign);
     return { objectives: folded.map(o => o.text), ...folded.length ? { aims: folded } : {},
       ...leads.length ? { leads } : {} };
+  }
+  // Which parts of it are done, where it is made of parts (AimParts: the Notes tell them under it, OR-468).
+  private static parts(campaign: Campaign, def: Objective | undefined) {
+    const parts = def ? AimParts.of(campaign, def, t => ObservationText.render(t, campaign.world)) : [];
+    return parts.length ? { parts } : {};
   }
   // The leads spent: stale, nothing left to ask of them (every job on the notice paid).
   static spent(w: Campaign['world']): Set<string> {

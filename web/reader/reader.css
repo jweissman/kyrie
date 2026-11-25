@@ -105,6 +105,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .book-page:has(.journal) { max-width: 62rem; }
 .journal .aims-more h3 { margin-top: 22px; }
 /* What is known of the place an aim is about, under it, as part of it (see Undertakings.folded). */
+.journal .aims .aim-card .aim-part { display: block; margin-top: 2px; font: 400 14px/1.45 var(--told); color: var(--dim); }
 .journal .aims .aim-card .aim-about { display: block; margin-top: 4px; font: italic 400 14.5px/1.45 var(--told); color: var(--dim); }
 .journal .aims.rest .aim-card { padding: 7px 12px; font-size: 15px; border-left-color: var(--hair); background: none; }
 .journal .notes-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0 32px; }

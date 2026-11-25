@@ -121,7 +121,7 @@ export class ContinuityCensus {
   }
   // The talk drawer's first page as the page draws it (web/reader/stage/talk-stage.tsx): TalkFocus over their replies,
   // led and marked by what the glance found in their opener, an answer owed and the salient three.
-  private static aims(s: PlaySession): { followed?: string; held: string[] } {
+  static aims(s: PlaySession): { followed?: string; held: string[] } {
     const aims = ScreenModel.build(s.campaign).aims ?? [];
     return { followed: aims.find(a => a.followed)?.id, held: aims.map(a => a.id) };
   }
@@ -141,15 +141,17 @@ export class ContinuityCensus {
         breaches.push(...this.focus(s, asked ?? r.said(), screen, { walk: w.name, turn }));
       }
       breaches.push(...this.talks(s, asked, { walk: w.name, turn }));
-      // The followed aim done (gone from those held), others still held, and none followed now.
-      const done = before.followed && !after.held.includes(before.followed);
-      if (done && after.held.length && !after.followed) {
-        breaches.push({ walk: w.name, turn, invariant: 'undertaking', what: `"${before.followed}" done; `
-          + `${after.held.length} still held, none followed` });
-      }
+      breaches.push(...this.undertaking(before, after, { walk: w.name, turn }));
       before = after;
     }
     return { breaches, turns: played, engaged };
+  }
+  // The followed aim done (gone from those held), others still held, and none followed now.
+  static undertaking(before: { followed?: string }, after: { followed?: string; held: string[] },
+    where: { walk: string; turn: number }): Breach[] {
+    const done = before.followed && !after.held.includes(before.followed);
+    return done && after.held.length && !after.followed ? [{ ...where, invariant: 'undertaking',
+      what: `"${before.followed}" done; ${after.held.length} still held, none followed` }] : [];
   }
   // The frame engaged, as the runner offered it to the walk's line and the page's menu draws it (see focus above); a
   // fight once begun is its own frame, the fight's, and not read here.

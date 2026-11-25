@@ -1,6 +1,8 @@
 import type { BundleRequest } from '../campaign/module-bundle';
 import type { Region, Settlement } from './region-writer';
 import { RegionUndertown } from './region-undertown';
+import { SettlementWriter } from './settlement-writer';
+import { Career } from './career';
 
 type Files = Record<string, string>;
 
@@ -42,7 +44,8 @@ export class FirstAims {
     const first = ['dungeon_found', 'help_gained', ...at.career ? ['far_learnt'] : []];
     const any = first.flatMap((a, i) => first.slice(i + 1).map(b => `(achieved(${a}) and achieved(${b}))`)).join(' or ');
     const source = [`Module first_aims "First aims" {`, '  Entity party: group "You".',
-      ...rooms.map(r => `  Place ${r} "the workings" is room.`),
+      ...rooms.map(r => `  Place ${r} "the workings" is room.`), '  Place company "where travellers sit" is room.',
+      ...at.career ? ['  Place posted "the green" is room.'] : [],
       ...at.career ? ['  Entity far: fact "The Rì\'s commission".'] : [],
       `  Milestone dungeon_found ${q(`found the old workings under ${home.name} and went down into them`)} worth 25 `
         + `when ${this.been(found)}.`,
@@ -53,21 +56,42 @@ export class FirstAims {
         + 'knows(party, far).'] : [],
       `  Milestone oriented ${q(`found your feet in ${region.name}`)} worth 100 when `
         + `${parts.map(p => `achieved(${p})`).join(' and ')}.`,
-      // The undertaking; honest about where it leads: the town's way down.
-      `  Objective orient when (${any}) and not achieved(oriented) toward ${found[0]} `
-        + `${q(`Find your feet in ${region.name}: go down into the workings under ${home.name}, find someone who will `
-        + `go with you${at.career ? ', and learn where Dun Rìerdan lies' : ''}.`)}.`,
+      ...this.aims({ any, region, home, found: found[0]!, career: at.career }),
       `  Event oriented_told when achieved(oriented) ${q(`You have found your feet in ${region.name}: its workings, `
         + 'a friend on the road, and the way the world goes on beyond it.')}.`,
       '  Goal false.', '}', ''].join('\n');
     at.files[`${dir}/module.json`] = JSON.stringify({ version: 1, source: `${this.id}.kyr`, rules: ['world'],
-      globals: ['party'], imports: ['party', ...rooms, ...at.career ? ['far'] : []],
-      roles: Object.fromEntries([['party', { type: 'group' }], ...rooms.map(r => [r, { type: 'place' }]),
+      globals: ['party'], imports: ['party', ...rooms, 'company', ...at.career ? ['far', 'posted'] : []],
+      roles: Object.fromEntries([['party', { type: 'group' }], ...[...rooms, 'company', ...at.career ? ['posted'] : []]
+        .map(r => [r, { type: 'place' }]),
         ...at.career ? [['far', { type: 'fact' }]] : []]) });
     at.files[`${dir}/${this.id}.kyr`] = source;
     return { id: this.id, bundle: `${dir}/module.json`, chapter: true, imports: { party: 'region.party',
-      ...Object.fromEntries(rooms.map(r => [r, `region.${home.id}_u_${r}`])),
+      ...Object.fromEntries(rooms.map(r => [r, `region.${home.id}_u_${r}`])), ...this.places(region, home, at.career),
       ...at.career ? { far: 'career.commission' } : {} } };
+  }
+  // The undertaking in its parts, one aim at a time, each honest about where it leads (OR-468): the town's way down,
+  // until the workings are explored to their second level; then, where no one goes with the company yet, where
+  // travellers sit; then, where Dun Rìerdan is not yet learnt of, the green, where the Rì's proclamation is posted
+  // under the town's notices. Each is of the one story (aims__), so the one followed goes on into the next as it
+  // arises (Undertakings.after); each is held only while the whole is not achieved, which is what the Notes read its
+  // parts from (AimParts).
+  private static aims(at: { any: string; region: Region; home: Settlement; found: string; career: boolean }): string[] {
+    const q = JSON.stringify, open = `(${at.any}) and not achieved(oriented)`, place = at.region.name;
+    const far = at.career ? ', and learn where Dun Rìerdan lies' : '';
+    return [`  Objective orient when ${open} and not achieved(dungeon_explored) toward ${at.found} `
+        + `${q(`Find your feet in ${place}: go down into the workings under ${at.home.name}, find someone who will `
+        + `go with you${far}.`)}.`,
+      `  Objective help when ${open} and achieved(dungeon_explored) and not achieved(help_gained) toward company `
+        + `${q(`Find your feet in ${place}: find someone who will go with you${far}.`)}.`,
+      ...at.career ? [`  Objective far when ${open} and achieved(dungeon_explored) and achieved(help_gained) and not `
+        + `achieved(far_learnt) toward posted ${q(`Find your feet in ${place}: learn where Dun Rìerdan lies, from the `
+        + `Rì's proclamation under the notices in ${at.home.name}.`)}.`] : []];
+  }
+  // Where those parts lead, as the town has them: where its travellers sit, and where the proclamation is posted.
+  private static places(region: Region, home: Settlement, career: boolean): Record<string, string> {
+    const sits = SettlementWriter.rooms(region, home).taproom ? `${home.id}_taproom` : `${home.id}_green`;
+    return { company: `region.${sits}`, ...career ? { posted: `region.${Career.posted(home.id)}` } : {} };
   }
   // Having been in any of these rooms.
   private static been(rooms: string[]): string { return rooms.map(n => `been(party, ${n})`).join(' or '); }

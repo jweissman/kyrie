@@ -140,7 +140,14 @@ export class Sheet {
     return <li className={`aim-card${held?.followed ? ' followed' : ''}`} data-considered={picked || undefined}>
       <button type="button" className="aim-pick" data-action="consider-aim" aria-pressed={picked} onClick={() => pick(key)}
         onMouseEnter={() => pick(key)} onFocus={() => pick(key)}>{Typography.curl(aim.text)}
-        {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}</button></li>;
+        {about.map(t => <small key={t} className="aim-about">{Typography.curl(t)}</small>)}
+        {(held?.parts ?? []).map(p => <small key={p.text} className="aim-part" data-done={p.done || undefined}>
+          {Typography.curl(Sheet.part(p))}</small>)}</button></li>;
+  }
+  // A part of the aim, said done in words, never by colour alone (OR-468).
+  static part(p: { text: string; done: boolean }): string {
+    const said = p.text.charAt(0).toUpperCase() + p.text.slice(1);
+    return p.done ? `${said}: done.` : `${said}.`;
   }
   private static held(app: ReaderApp, aim: Held) {
     return aim.id === undefined ? undefined : app.state.frame?.screen.aims?.find(a => a.id === aim.id);
