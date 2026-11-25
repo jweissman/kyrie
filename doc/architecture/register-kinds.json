@@ -1308,6 +1308,1308 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov: the rest of the immediate queue's step 3, wanted, not a contract broken"
+  },
+  "CB-20": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CB-25": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CB-26": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "NM-14": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "AP-14": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "NP-08": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "NP-11": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "NP-12": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "UI-16": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "UI-17": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "US-12": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "US-13": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "US-14": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "WM-06": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "WM-08": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CP-06": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CP-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CP-09": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CP-11": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CP-12": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CP-16": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CP-17": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "AU-13": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "AU-14": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "OPR-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "R10-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "OB-04": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "MT-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "MT-08": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "SN-05": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "TS-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "TS-02": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "TS-03": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CR-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "CR-02": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "PA-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "PA-09": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "PA-10": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "PA-11": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "OB-18": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "OB-19": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred as an M23 candidate that is a new system or construct: a wanted future, not an observed violation of a claimed contract"
+  },
+  "AU-30": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): deferred on the ruling that talk takes no time by design: a design choice kept, not a violated contract"
+  },
+  "OR-85": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AU-12": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AU-29": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AU-34": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AU-41": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "ST-09": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "TB-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WB-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WB-02": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WB-03": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WB-04": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WB-05": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WB-06": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "SN-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "SN-02": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "SN-03": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "SN-04": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "OR-70": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AP-16": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "CP-08": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WD-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "WD-03": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AB-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AB-11": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AB-12": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AB-08": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "TO-05": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "NM-16": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AU-44": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AU-53": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a direction, a creative or design study or a thread by its own words (no claimed contract it violates)"
+  },
+  "AU-04": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-10": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-11": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-23": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-24": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-25": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-31": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-33": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-39": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-40": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-42": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-45": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-51": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AU-03": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "ST-05": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "OB-07": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "OB-11": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "CB-29": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "PB-21b": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "PA-05": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "PA-08": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "OB-20": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "WD-04": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "WD-14": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "WD-16": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AB-06": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "RI-04": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "FF-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "US-11": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "WM-05": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "NM-10": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AR-10": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "PR-06": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "NM-06": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "TR-22": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AP-04": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "AP-05": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "OB-10": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "FH-19": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "TR-03": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a Kyr form or engine capability wanted (an author's friction, a failing pin's want or a design want), not commissioned: not an observed violation of a claimed contract"
+  },
+  "PR-01": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): the standing ruling (AGENTS.md): there is no save-compatibility promise yet, so a migration path is a future policy, not a violated contract"
+  },
+  "FH-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "CB-28": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "NM-17": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "NM-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "AP-12": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "UI-19": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "US-16": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "CP-10": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "AU-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "PR-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-09": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-10": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-11": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-13": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TC-14": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "DC-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "DC-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "DC-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "DC-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "DC-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "R10-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "T24-25": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TM-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TM-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TB-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TB-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "TB-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "OA-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "LC-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "OB-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "OB-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "OR-129": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "OR-180": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "OR-213": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "FM-09": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "PP-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): an instrument, spec or document wanted, not an observed violation of a claimed contract"
+  },
+  "AR-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-09": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-11": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-12": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-16": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-18": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AR-19": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AX-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "OR-66": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "BX-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "BX-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "MT-16": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "MT-26": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "MT-28": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "MT-29": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "OA-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a maturity stage or architecture risk named by the platform reviews (R-series, Findings, Stage 0-4, the boundary brief), a platform requirement, not an observed violation of a player-facing contract"
+  },
+  "AX-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "AX-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "SP-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "SP-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "T24-11": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "LC-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "LC-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "OR-170": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "OR-136": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "MT-27": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "PR-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a performance or size target (BRIEF §4's kind: a cost to bring down, measured by the scorecard), not a violated contract"
+  },
+  "OP-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "OPR-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "OR-10": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "OR-135": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "WB-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "IG-20": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "OR-118": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "OR-124": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "OR-138": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a decision or an ask owed by the owner (a ruling to make, a feel to judge, an owner's request), not an observed violation"
+  },
+  "OR-84": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "ST-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "ST-07": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "PV-01": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "PV-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "PV-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "PV-04": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "PV-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "CP-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "AI-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "AT-08": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "FF-03": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "OA-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "OA-09": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "OA-10": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "OA-11": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "CB-23": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "PA-06": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "UI-10": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "DN-02": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "PP-05": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
   }
  },
  "blockedBy": {
@@ -1340,6 +2642,29 @@
   "BO-12": "OR-310",
   "OR-407": "BX-02",
   "OR-454": "OR-442",
-  "OR-452": "OR-451"
+  "OR-452": "OR-451",
+  "OR-515": "TB-09",
+  "OR-141": "TB-09",
+  "GR-25": "TB-09",
+  "OB-21": "TB-09",
+  "AR-20": "TB-09",
+  "OR-162": "TB-09",
+  "OR-113": "TB-09",
+  "AR-15": "AX-05",
+  "OA-06": "AX-05",
+  "PL-04": "AX-05",
+  "OR-532": "OR-521",
+  "TB-12": "OR-521",
+  "GR-09": "OR-521",
+  "OR-219": "OR-521",
+  "OR-541": "AR-13",
+  "OA-14": "OR-442",
+  "CP-04": "OR-442",
+  "OR-46": "OR-442",
+  "WD-17": "OR-310",
+  "US-04": "OR-310",
+  "PL-31": "AP-03",
+  "AP-11": "AP-03",
+  "AR-02": "OR-531"
  }
 }
