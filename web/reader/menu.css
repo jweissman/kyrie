@@ -117,8 +117,19 @@
 :root .talk .dialogue .leave .choice-row.choice-row { color: var(--dim); }
 :root .talk .dialogue .choosing:not(:has(button)) + .leave .choice-row.choice-row { color: var(--ivory); }
 
-/* ---- How pages lay rows out: in a column, a few pixels apart. ---- */
-:root .glance .led, :root .glance .openers, :root .talk .replies { gap: 6px; }
+/* ---- How pages lay rows out: in a column, one spacing apart in every menu (OR-505: --row-gap, the one distance
+   between one row and the next; a group's heading stands between groups, never a gap of a list's own).
+   test/row-spacing-browser measures it. ---- */
+:root { --row-gap: 6px; }
+:root :is(.glance .led, .glance .openers, .talk .replies, .talk .dialogue .answer > .leave, ol.led, .options-page .rows,
+  .title-menu ul, .journal .keep, .world-page .focus .led, .world-page.scale-scene .glance .led, .fight .hand-menu,
+  .plates) { gap: var(--row-gap); }
+:root .talk .dialogue .answer > .leave { display: grid; margin-top: var(--row-gap); }
+:root .talk .dialogue .answer > .choosing { padding-bottom: 0; mask-image: none; }
+:root .options-page .rows.back { margin-top: var(--row-gap); }
+:root .options-page .option-set:last-of-type { margin-bottom: 0; }
+:root .talk .leave > .more-talk, :root .journal .keep > li { margin: 0; }
+:root :is(.composed .composed-list, .composed .composed-rows) { gap: var(--row-gap); }
 :root .world-page.scale-scene .glance .openers > .choice-row { align-self: stretch; }
 
 
