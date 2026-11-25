@@ -139,7 +139,7 @@ export class ModuleBundle {
       catch (error) { throw Diagnostics.parse(error, file.path); }
       if (this.parses.size > 400) { this.parses.clear(); }
       this.parses.set(key, module);
-    } else { LocalKinds.install(module.catalog); }
+    } else { LocalKinds.read(module.catalog); }
     return structuredClone(module);
   }
   // The shared rules a module is read with, joined once for each set of them and kept: every module of a world is read
@@ -153,7 +153,7 @@ export class ModuleBundle {
       merged = this.merge(files.map(f => this.parsed(f)));
       if (this.rulesets.size > 8) { this.rulesets.clear(); }
       this.rulesets.set(key, merged);
-    } else { LocalKinds.install(merged.catalog); }
+    } else { LocalKinds.read(merged.catalog); }
     return merged;
   }
   // And what a generator declared for it as values, where it did (the same text with other values is another module).
@@ -274,9 +274,9 @@ export class ModuleBundle {
     for (const [i, file] of [...situations, ...rules].entries()) {
       const text = await source.read(file), own = i < situations.length, declared = values[i]?.declared ?? [];
       const module = LocalKinds.aside(() => {
-        for (const catalog of catalogs) { LocalKinds.install(catalog); }
+        for (const catalog of catalogs) { LocalKinds.read(catalog); }
         const parsed = this.ahead(text, own, declared);
-        LocalKinds.install(parsed?.catalog);
+        LocalKinds.read(parsed?.catalog);
         if (own) { read.push({ text, kinds: LocalKinds.fingerprint(), declared }); }
         return parsed;
       });
@@ -285,7 +285,7 @@ export class ModuleBundle {
     }
     // Those of its own read before all its kinds were known, read again among them, as its loading will (see `own`).
     LocalKinds.aside(() => {
-      for (const catalog of catalogs) { LocalKinds.install(catalog); }
+      for (const catalog of catalogs) { LocalKinds.read(catalog); }
       const all = LocalKinds.fingerprint();
       for (const r of read.filter(x => x.kinds !== all)) { this.ahead(r.text, true, r.declared); }
     });
@@ -317,7 +317,7 @@ export class ModuleBundle {
         catch { /* said when it is loaded */ }
         await new Promise(resolve => setTimeout(resolve, 0));
       }
-      LocalKinds.install(this.parses.get(key)?.catalog);
+      LocalKinds.read(this.parses.get(key)?.catalog);
       if (own) { read.push({ text, kinds: LocalKinds.fingerprint(), declared }); }
     }
     // Its own read before all its kinds were known, read again among them, as its loading will (see `own`).
@@ -355,13 +355,14 @@ export class ModuleBundle {
       .map(name => source.resolve(`data/rules/${name}.kyr`)) };
   }
   // people: who is in the world already, whose names a story's generated people are drawn apart from as the country's
-  // folk's are (two stories in b2 each gave one of their people Rurik).
+  // folk's are (two stories in b2 each gave one of their people Rurik). kinds: the campaign's own, any of which the
+  // module gives to something else being, in it, its installation's own (see ModuleNamespace.renamed).
   static load(...a: Parameters<typeof ModuleBundle.loading>): Promise<ModuleDraft> {
     return Costs.timed('install', () => ModuleBundle.loading(...a), { id: a[0].id });
   }
   private static async loading(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
-    canonless?: boolean;
+    canonless?: boolean; kinds?: Module['catalog'];
     // Read on its own, its imports unbound (what its exports are: ExportRoles), never to be played.
     unbound?: boolean;
   }, source: BundleSource): Promise<ModuleDraft> {
@@ -400,7 +401,7 @@ export class ModuleBundle {
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
     const bound = given.length ? { ...manifest, globals: [...manifest.globals ?? [], ...given] } : manifest;
     // A module read before (and kept parsed) puts its own kinds back for the campaign being assembled.
-    LocalKinds.install(combined.catalog); LocalKinds.install(composed.catalog);
+    LocalKinds.read(combined.catalog); LocalKinds.read(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
       const instance = ModuleAssembly.compose(composed, combined, generated, seed);
@@ -409,7 +410,8 @@ export class ModuleBundle {
       imports = this.imports(options.unbound ? { ...bound, optional: bound.imports } : bound, request,
         options.installed, instance.module);
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
-        imports, globals: bound.globals ?? [], exports: ModuleExports.locals(manifest.exports) }).draft();
+        imports, globals: bound.globals ?? [], exports: ModuleExports.locals(manifest.exports), kinds: options.kinds })
+        .draft();
       if (!options.unbound) { ModuleBundle.exported(request.id, manifest, draft); }
     } catch (error) {
       throw Diagnostics.explain(error, files.slice(0, situationPaths.length), files.slice(situationPaths.length));

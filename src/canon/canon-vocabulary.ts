@@ -15,7 +15,7 @@ export class CanonVocabulary implements Vocabulary {
   species(module: string, spec: LocalSpeciesSpec): NonNullable<LocalCatalog['species']>[string] {
     return LocalKinds.species(module, spec);
   }
-  install(catalog: KindsMade | undefined): void { LocalKinds.install(catalog); }
+  install(catalog: KindsMade | undefined): void { LocalKinds.read(catalog); }
   seen(text: string): string { return LocalKinds.seen(text); }
   ability(id: string): { name: string; unsupported?: Record<string, string> } | undefined {
     return Canon.abilities[id];

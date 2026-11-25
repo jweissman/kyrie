@@ -124,7 +124,11 @@ export class Campaign implements WatchHost {
       if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
       await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
       const { seed, elapsed, canonless } = this.current, draft = await ModuleBundle.load(request, { seed, elapsed,
-        installed: this.definition.installations, people: this.compiled.entities, canonless }, source);
+        installed: this.definition.installations, people: this.compiled.entities, canonless,
+        kinds: this.compiled.catalog }, source).catch((error: unknown) => {
+        // What was read before it failed gave back the campaign's own kinds (see LocalKinds.read).
+        LocalKinds.activate(this.module.catalog, this); throw error;
+      });
       // The catalogs are the process's, and whatever ran while the module was read (another game saving, or reading a
       // country ahead) may have put its own kinds in them: this campaign's go back, and the module's own with them,
       // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).

@@ -44,7 +44,7 @@ export class CompiledModules {
     if (!kept?.module) { return undefined; }
     if (!known) { this.remember(key, kept); }
     Costs.note('compiled kept', 0, { bytes: key.length });
-    LocalKinds.install(kept.module.catalog);
+    LocalKinds.read(kept.module.catalog);
     return shared ? kept : structuredClone(kept);
   }
   static set(key: string, compiled: Compiled) {

@@ -17,6 +17,8 @@ export interface ModuleDraft {
 }
 export interface ModuleBindings {
   id: string; seed: string; imports: Record<string, string>; globals: string[]; exports: Record<string, string>;
+  // The kinds of the campaign it is installed into (see ModuleNamespace.renamed).
+  kinds?: Module['catalog'];
 }
 export class ModuleNamespace {
   // Catalog-backed entity types: the same id means the same thing in every installation. The callings and peoples
@@ -43,6 +45,23 @@ export class ModuleNamespace {
       ...instance.module.queries].map(f => [f.name, bindings.imports[f.name]
         ?? (shared.includes(f.name) ? f.name : scope + f.name)]));
     this.kinds = Object.fromEntries(instance.module.kinds.map(k => [k, rules.kinds.includes(k) ? k : scope + k]));
+    for (const id of this.renamed()) { this.entities[id] = scope + id; }
+  }
+  // A kind of item of the module's own keeps its name, as the same id means the same thing in every installation,
+  // unless another module of the campaign has given that name to something else: then it is the installation's own,
+  // under its name, as its places are (OR-540: the debt's purse_kind, a purse for the creditor, and the Lull's,
+  // Haskett's wages). The first installed keeps the name; every act and fact of this one names its own.
+  private renamed(): string[] {
+    const own = this.instance.module.catalog?.items ?? {}, taken = this.bindings.kinds?.items ?? {};
+    const bare = ModuleNamespace.bare;
+    return Object.keys(own).filter(id => taken[id] && bare(taken[id]) !== bare(own[id]!));
+  }
+  // What a kind is, whoever declared it (as LocalKinds compares them).
+  private static bare(kind: object): string { return JSON.stringify({ ...kind, source: undefined }); }
+  private catalog(catalog: Module['catalog']): Pick<Module, 'catalog'> {
+    if (!catalog?.items) { return catalog ? { catalog } : {}; }
+    const items = Object.fromEntries(Object.entries(catalog.items).map(([id, k]) => [this.entities[id] ?? id, k]));
+    return { catalog: { ...catalog, items } };
   }
   private call(call: Call, bound: string[] = []): Call {
     return { ...call, name: this.functions[call.name] ?? call.name,
@@ -110,7 +129,7 @@ export class ModuleNamespace {
       actions: a.actions.map(id => this.rules.actions.some(a => a.id === id) ? id : `${this.bindings.id}__${id}`),
       goals: a.goals.map(g => ({ ...g, when: this.predicate(g.when), target: this.predicate(g.target),
         ...(g.urgent ? { urgent: { ...g.urgent, when: this.predicate(g.urgent.when) } } : {}) })) }));
-    const module: Module = { ...original, id: this.bindings.id,
+    const module: Module = { ...original, id: this.bindings.id, ...this.catalog(original.catalog),
       ...original.seen ? { seen: Object.fromEntries(Object.entries(original.seen)
         .map(([id, p]) => [this.entities[id] ?? id, this.predicate(p, ['?viewer'])])) } : {},
       kinds: original.kinds.map(k => this.kinds[k]!),

@@ -71,12 +71,20 @@ export class LocalKinds {
   // A module's own kinds, joined to the catalogs. The same module may declare a kind again (it is read again, or
   // edited); another may declare the same kind only the same way.
   // Given the setting's own (a spec's kind) or what a module kept of them.
-  static install(made: LocalCatalog | KindsMade | undefined) {
+  static install(made: LocalCatalog | KindsMade | undefined) { this.join(made, false); }
+  // A module's own kinds as it is read: a kind of item another module of the campaign has given its name to something
+  // else is the reading's own while it is read, and becomes its installation's own, under the installation's name
+  // (ModuleNamespace), when it is installed (OR-540: the debt's purse_kind and the Lull's, in kite). The campaign's
+  // own come back when it installs what was read (reclaim), or when what was read ahead is put aside.
+  static read(made: LocalCatalog | KindsMade | undefined) { this.join(made, true); }
+  private static join(made: LocalCatalog | KindsMade | undefined, reading: boolean) {
     const catalog = this.made(made);
     for (const [id, item] of Object.entries(catalog?.items ?? {})) {
       // Checked before it is recorded as a module's: a kind refused (`Kind dagger`) is not one to take out later, with
       // the catalog's own dagger (Mission 15's independent audit, F1).
-      this.same('kind of item', id, Canon.items[id], item);
+      if (!reading || !this.local(id) || !this.differs(Canon.items[id]!, item)) {
+        this.same('kind of item', id, Canon.items[id], item);
+      } else { this.shadow(id); }
       this.installed.add(`item:${id}`);
       (Canon.items as Record<string, ItemKind>)[id] = item;
       (ItemCatalog.definitions as Record<string, unknown>)[id] = { name: item.name, description: item.description,
@@ -137,12 +145,28 @@ export class LocalKinds {
   // Something read ahead of its use (the country beyond a march, parsed while the player reads): the kinds it joins to
   // the catalogs as it is read are taken out again afterwards, so the campaign in play keeps only its own. They join
   // again when what was read is installed (see ModuleBundle.parsed).
+  // A kind of the campaign's that what was read gave its name to something else is the campaign's again.
   static aside<T>(read: () => T): T {
-    const before = new Set(this.installed);
+    const before = new Set(this.installed), shadowed = new Map<string, [ItemKind, unknown]>();
+    this.asides.push(shadowed);
     try { return read(); } finally {
+      this.asides.pop();
       for (const key of [...this.installed]) { if (!before.has(key)) { this.remove(key); this.installed.delete(key); } }
+      for (const [id, [item, definition]] of shadowed) {
+        (Canon.items as Record<string, ItemKind>)[id] = item;
+        (ItemCatalog.definitions as Record<string, unknown>)[id] = definition;
+      }
     }
   }
+  // The kinds of item each reading ahead under way has shadowed, as they were, to be put back when it is put aside.
+  private static readonly asides: Map<string, [ItemKind, unknown]>[] = [];
+  private static shadow(id: string) {
+    const kept = this.asides.at(-1);
+    const definitions = ItemCatalog.definitions as Record<string, unknown>;
+    if (kept && !kept.has(id)) { kept.set(id, [Canon.items[id]!, definitions[id]]); }
+  }
+  // Whether two modules' kinds of one name are two kinds: what each is, whoever declared it.
+  static differs(a: object, b: object): boolean { return this.bare(a) !== this.bare(b); }
   private static remove(key: string) {
     const [family, id] = key.split(':') as [string, string];
     if (family === 'item') {
@@ -161,9 +185,10 @@ export class LocalKinds {
   static claim(owner: object, catalog: KindsMade | undefined) {
     if (owner !== this.owner) { this.activate(catalog, owner); }
   }
-  // And with a module being installed into it, whose kinds are not yet the campaign's own (see Campaign.install).
+  // And with a module being installed into it, whose kinds are not yet the campaign's own (see Campaign.install): the
+  // campaign's own put back whole, since what was read may have shadowed one of them (see read).
   static reclaim(owner: object, catalog: KindsMade | undefined, installing: KindsMade | undefined) {
-    this.claim(owner, catalog); this.install(installing);
+    this.activate(catalog, owner); this.install(installing);
   }
   // Two modules' own kinds together, when modules are joined.
   static merge(...catalogs: (KindsMade | undefined)[]): { catalog?: LocalCatalog } {
@@ -197,5 +222,5 @@ export class LocalKinds {
     return catalog as LocalCatalog | undefined;
   }
   private static by(x: Declared): string { return (x.source as { notes?: string } | undefined)?.notes ?? ''; }
-  private static bare(x: Declared): string { return JSON.stringify({ ...x, source: undefined }); }
+  private static bare(x: object): string { return JSON.stringify({ ...x, source: undefined }); }
 }

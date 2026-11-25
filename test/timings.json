@@ -351,6 +351,7 @@
     "test/kings-players-2.test.ts": 44230,
     "test/kings-players-acts.test.ts": 186117,
     "test/kings-players.test.ts": 112387,
+    "test/kite-lull-kinds.test.ts": 12620,
     "test/known-as-labels.test.ts": 1116,
     "test/known-as.test.ts": 781,
     "test/kyr-escapes.test.ts": 648,
