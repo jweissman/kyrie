@@ -9246,6 +9246,216 @@
    "era": "late",
    "light": "overcast",
    "weather": "rain"
+  },
+  "scene-jungle-campfire-night": {
+   "form": "landscape",
+   "shows": "a camp under a great jungle tree at night: a canvas awning on poles, a bedroll and a chest beneath it, a fire burning beside an iron pot on a rock, smoke rising into the dark leaves",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-jungle-campfire": {
+   "form": "landscape",
+   "shows": "the same jungle camp by day: the canvas awning, bedroll and chest under the great tree, the fire burned low and smoking beside the pot, sunbeams through the canopy",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-jungle-clearing": {
+   "form": "landscape",
+   "shows": "a grassy clearing in the jungle, sunbeams falling through hanging vines, a great tree with red flowers at its foot",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-jungle-dawn": {
+   "form": "landscape",
+   "shows": "a stream running over rocks through jungle at sunrise, ferns and red flowers on the bank, mist over forested hills beyond",
+   "era": "late",
+   "light": "dawn",
+   "weather": "clear"
+  },
+  "scene-jungle-house": {
+   "form": "exterior",
+   "shows": "a small plastered house with a thatched roof and a porch in the jungle, a clay pot by the steps, a dirt path in front, vines hanging from a great tree",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-jungle-lagoon": {
+   "form": "landscape",
+   "shows": "a still dark pool in the jungle under a great tree hung with vines, a small waterfall over rocks at its far side",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-jungle-market": {
+   "form": "exterior",
+   "shows": "a market under the jungle trees: thatched and awninged stalls along a dirt way, people among them, baskets and clay jars, a great tree in front",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-jungle-night": {
+   "form": "landscape",
+   "shows": "a jungle valley by moonlight: a tall waterfall into a pool, a path past a great tree with red flowers, the full moon over the hills",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-jungle-overview-fog": {
+   "form": "landscape",
+   "shows": "a jungle seen from above under a great tree hung with vines, fog filling the valley and only the tallest crowns standing out of it, a pale sun",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-jungle-overview-rain": {
+   "form": "landscape",
+   "shows": "the same view over the jungle in rain, grey curtains of it across the canopy, a break of light in the clouds",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-jungle-overview": {
+   "form": "landscape",
+   "shows": "the same view over a wide jungle from under a great tree, the canopy rolling away to the horizon, mist in the low places, a glowing evening sky",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-valley-academy": {
+   "form": "exterior",
+   "shows": "a stone college in a valley: an arcade covered in vines, a domed tower and a bell tower, steps up to an arched door, a gravel walk with a bench and lavender beds",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-valley-arch": {
+   "form": "landscape",
+   "shows": "a lone ruined stone arch overgrown with ivy on a grassy rise, a dirt track running through it, green hills beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-bridge": {
+   "form": "landscape",
+   "shows": "an old single-arched stone bridge over a shallow rocky stream, a dirt path down to it, green hills and woods beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-campfire-night": {
+   "form": "landscape",
+   "shows": "a campfire by a lake at the foot of waterfalls at night, a bedroll and a tin cup beside it, the full moon and stars above",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-valley-campfire": {
+   "form": "landscape",
+   "shows": "the same campfire by the lake below the waterfalls at evening, a bedroll and a tin cup on the shore, pink clouds over the hills",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-valley-clearing": {
+   "form": "landscape",
+   "shows": "a grassy clearing at the edge of a wood, a faint path through it, wildflowers and butterflies, hills beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-falls": {
+   "form": "landscape",
+   "shows": "a waterfall dropping in several streams over mossy rocks into a still pool, boulders in front, trees above",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-fields": {
+   "form": "landscape",
+   "shows": "ripe wheat and a field of tall corn in a wide valley, a dirt path along a low stone wall, trees and a river in the distance",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-garden": {
+   "form": "exterior",
+   "shows": "a formal garden: a rose-covered arch over a stone path, a round fountain with water lilies, lavender and hydrangeas, a wisteria pergola and steps up, cypress trees beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-valley-hamlet-night": {
+   "form": "landscape",
+   "shows": "a hamlet of stone houses with a small bell tower at night, lit windows and a chimney smoking, haystacks and a fence in the fields before it, the moon over the hills",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-valley-hamlet": {
+   "form": "landscape",
+   "shows": "the same hamlet of stone houses with a small bell tower by day, smoke from a chimney, haystacks in the fields, a track winding up to it, a river beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-lake": {
+   "form": "landscape",
+   "shows": "a long clear lake below green mountains with snow on the highest peak, the slopes reflected in the water, a grassy shore with rocks",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-valley-memorial": {
+   "form": "landscape",
+   "shows": "a stone statue of a knight kneeling with his sword on a tall plinth, ivy on it, low ruined walls round it, a valley beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-orchard": {
+   "form": "landscape",
+   "shows": "an orchard of apple trees in grass, a stone statue of a woman on a pedestal beside steps and an urn, a low wall and hills beyond",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-overlook": {
+   "form": "landscape",
+   "shows": "a view from a rocky height over a winding lake with wooded islands, the sun setting red behind the hills",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-valley-pond": {
+   "form": "landscape",
+   "shows": "a small still pond with lily pads among reeds and boulders, bushes in flower, green hills behind",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-road": {
+   "form": "landscape",
+   "shows": "a paved road crossing a river on a stone bridge of three arches, then winding on into green hills",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-valley-ruins": {
+   "form": "landscape",
+   "shows": "the ruins of a stone temple overgrown with ivy: columns and an arched portico, broken walls with empty windows, worn steps among the grass",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-valley-shrine": {
+   "form": "landscape",
+   "shows": "a small stone wayside shrine overgrown with ivy and white flowers, a carved figure in its niche with a lamp and a crystal, mossy boulders and bluebells round it, a valley beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   }
  }
 }

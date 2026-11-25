@@ -1422,9 +1422,64 @@
    "sha1": "329e6a07abe4285012d8fdd99b3bf25b4bf61be9",
    "terrain": "desert"
   },
+  "scene-jungle-campfire-night": {
+   "path": "assets/bg/terrain/jungle/campfire-night.png",
+   "sha1": "37c1e7c6623b50f9a0f73e56e11b5af3e7f083d4",
+   "terrain": "jungle"
+  },
+  "scene-jungle-campfire": {
+   "path": "assets/bg/terrain/jungle/campfire.png",
+   "sha1": "629193dcfbcf9fdaa1bffbb12cdc6b2b76407c75",
+   "terrain": "jungle"
+  },
+  "scene-jungle-clearing": {
+   "path": "assets/bg/terrain/jungle/clearing.png",
+   "sha1": "b6c99796a2b301b6ace59b38c129a1e38a3db6dc",
+   "terrain": "jungle"
+  },
+  "scene-jungle-dawn": {
+   "path": "assets/bg/terrain/jungle/dawn.png",
+   "sha1": "df25f106ad81638d87b731abad12fcfb6d92e834",
+   "terrain": "jungle"
+  },
   "scene-jungle-falls": {
    "path": "assets/bg/terrain/jungle/falls.png",
    "sha1": "8f6302dcd83dcae5e3d5ad182d17d93e5e38b128",
+   "terrain": "jungle"
+  },
+  "scene-jungle-house": {
+   "path": "assets/bg/terrain/jungle/house.png",
+   "sha1": "6eef99f43eda958a8f0d721571e293fd4dc92052",
+   "terrain": "jungle"
+  },
+  "scene-jungle-lagoon": {
+   "path": "assets/bg/terrain/jungle/lagoon.png",
+   "sha1": "211f2ffb8788367b778a1f2ee8cf36a6775c4009",
+   "terrain": "jungle"
+  },
+  "scene-jungle-market": {
+   "path": "assets/bg/terrain/jungle/market.png",
+   "sha1": "9ef30c823b4bbbb5182c90555902a43576e460e3",
+   "terrain": "jungle"
+  },
+  "scene-jungle-night": {
+   "path": "assets/bg/terrain/jungle/night.png",
+   "sha1": "26d1ecbcf2088ae6968b4d1abb4e44ddb81f862c",
+   "terrain": "jungle"
+  },
+  "scene-jungle-overview-fog": {
+   "path": "assets/bg/terrain/jungle/overview-fog.png",
+   "sha1": "57db3b54acb01ff3ba0ac6f3ac02d6b64a9975bf",
+   "terrain": "jungle"
+  },
+  "scene-jungle-overview-rain": {
+   "path": "assets/bg/terrain/jungle/overview-rain.png",
+   "sha1": "bf1474c28f8da63be34c27788f3b4ea8c3ebdb11",
+   "terrain": "jungle"
+  },
+  "scene-jungle-overview": {
+   "path": "assets/bg/terrain/jungle/overview.png",
+   "sha1": "e5e3d6f1a5074c8f7a7ab34ea15256be8fb0ad7f",
    "terrain": "jungle"
   },
   "scene-jungle": {
@@ -1467,9 +1522,19 @@
    "sha1": "c109df5df332e312dcd6d90b86d1650ea7ee06d0",
    "terrain": "sky"
   },
+  "scene-valley-academy": {
+   "path": "assets/bg/terrain/valley/academy.png",
+   "sha1": "e8ebbf494010907fa10ffdcd4a3e601fd24ab8ea",
+   "terrain": "valley"
+  },
   "scene-valley-approach": {
    "path": "assets/bg/terrain/valley/approach.png",
    "sha1": "3f30492a87209f782517611fa34c99541bdf1d1b",
+   "terrain": "valley"
+  },
+  "scene-valley-arch": {
+   "path": "assets/bg/terrain/valley/arch.png",
+   "sha1": "ef776f9cdc871d01914920a09d9cbab52ce3df5b",
    "terrain": "valley"
   },
   "scene-valley-autumn": {
@@ -1477,9 +1542,64 @@
    "sha1": "671d12368ae3409781c6e553f3586dd97ca260e4",
    "terrain": "valley"
   },
+  "scene-valley-bridge": {
+   "path": "assets/bg/terrain/valley/bridge.png",
+   "sha1": "594bc1461fa1eec282c4af6fbc2525f4aac9dfcf",
+   "terrain": "valley"
+  },
+  "scene-valley-campfire-night": {
+   "path": "assets/bg/terrain/valley/campfire-night.png",
+   "sha1": "47c5100f29a79f83887303237f943483d6f1cf3e",
+   "terrain": "valley"
+  },
+  "scene-valley-campfire": {
+   "path": "assets/bg/terrain/valley/campfire.png",
+   "sha1": "dfa5c9254d3b510380364fda971c86fcac306117",
+   "terrain": "valley"
+  },
+  "scene-valley-clearing": {
+   "path": "assets/bg/terrain/valley/clearing.png",
+   "sha1": "142d5b605197c5431d1f878fea81311d86e37548",
+   "terrain": "valley"
+  },
+  "scene-valley-falls": {
+   "path": "assets/bg/terrain/valley/falls.png",
+   "sha1": "38bbd4408bff4873460cf513306772df02ccd16c",
+   "terrain": "valley"
+  },
+  "scene-valley-fields": {
+   "path": "assets/bg/terrain/valley/fields.png",
+   "sha1": "1e57e2ab391c7a4610a4f276a46e6fe65946daff",
+   "terrain": "valley"
+  },
+  "scene-valley-garden": {
+   "path": "assets/bg/terrain/valley/garden.png",
+   "sha1": "9e1197c68a793da21f8443de9c28396a22decd30",
+   "terrain": "valley"
+  },
+  "scene-valley-hamlet-night": {
+   "path": "assets/bg/terrain/valley/hamlet-night.png",
+   "sha1": "ada12c7000b9add3ebdfec6aae4f3b4cca72c473",
+   "terrain": "valley"
+  },
+  "scene-valley-hamlet": {
+   "path": "assets/bg/terrain/valley/hamlet.png",
+   "sha1": "df151347c60da40a4112d2d0455b9308cc4a8d9d",
+   "terrain": "valley"
+  },
   "scene-valley-house": {
    "path": "assets/bg/terrain/valley/house.png",
    "sha1": "ea0f6ef61887bad00a042e4abaf505b93f4473ab",
+   "terrain": "valley"
+  },
+  "scene-valley-lake": {
+   "path": "assets/bg/terrain/valley/lake.png",
+   "sha1": "87ebc05d3e82d1ff6e21a13138b01b347b1aab46",
+   "terrain": "valley"
+  },
+  "scene-valley-memorial": {
+   "path": "assets/bg/terrain/valley/memorial.png",
+   "sha1": "6ccd89b285db85eb92d5f9979ec255a13e94886e",
    "terrain": "valley"
   },
   "scene-valley-night": {
@@ -1487,14 +1607,44 @@
    "sha1": "db0322cbad3155e794bb0ccd1ba52f49232cbc6b",
    "terrain": "valley"
   },
+  "scene-valley-orchard": {
+   "path": "assets/bg/terrain/valley/orchard.png",
+   "sha1": "d5cbc6c1d93523db9f5229a6d8ca66f36b373c1f",
+   "terrain": "valley"
+  },
+  "scene-valley-overlook": {
+   "path": "assets/bg/terrain/valley/overlook.png",
+   "sha1": "850099d4568ba025fabdf5c9b5b34fdf2bd96e8f",
+   "terrain": "valley"
+  },
   "scene-valley": {
    "path": "assets/bg/terrain/valley/path.png",
    "sha1": "dba7c823f5ef72fb359885ed7626ada19cc0a0c7",
    "terrain": "valley"
   },
+  "scene-valley-pond": {
+   "path": "assets/bg/terrain/valley/pond.png",
+   "sha1": "93eee3fa4cc3ddd825d03d5ee6c716244c66c49a",
+   "terrain": "valley"
+  },
   "scene-valley-river": {
    "path": "assets/bg/terrain/valley/river.png",
    "sha1": "4f55f0d1f4d626448eec1a4d62c7b4f459c165b5",
+   "terrain": "valley"
+  },
+  "scene-valley-road": {
+   "path": "assets/bg/terrain/valley/road.png",
+   "sha1": "bd29fa7630ad70510aaaec763c4869bb5721636d",
+   "terrain": "valley"
+  },
+  "scene-valley-ruins": {
+   "path": "assets/bg/terrain/valley/ruins.png",
+   "sha1": "c51b56c3deab816956f1fd3c3d1c7e8cecce85fd",
+   "terrain": "valley"
+  },
+  "scene-valley-shrine": {
+   "path": "assets/bg/terrain/valley/shrine.png",
+   "sha1": "7513df7f0d95f4989ae87718880ae95e6acccd36",
    "terrain": "valley"
   },
   "scene-valley-spring": {

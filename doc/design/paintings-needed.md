@@ -40,14 +40,14 @@ words until they are filed (`temperate` is what no word sorts). Written by `bin/
 | coast | 72 (29 filed) | 28 | **0** | 5 | 6 | 26 | 7 | overview |
 | desert | 35 (30 filed) | 4 | 5 | **0** | 10 | 11 | 5 | town |
 | frost | 12 | 3 | **0** | 2 | 1 | 5 | 1 | overview |
-| jungle | 2 (2 filed) | **0** | **0** | **0** | **0** | 1 | 1 | shelter, overview, town, city |
+| jungle | 13 (13 filed) | 2 | 3 | **0** | 1 | 4 | 3 | town |
 | marsh | 4 | **0** | **0** | 1 | **0** | 3 | **0** | shelter, overview, city, wonder |
 | mountain | 21 (4 filed) | 10 | 1 | **0** | **0** | 8 | 2 | town, city |
 | plains | 13 | 4 | **0** | **0** | **0** | 9 | **0** | overview, town, city, wonder |
 | sky | 3 (3 filed) | **0** | 1 | **0** | 2 | **0** | **0** | shelter, town, wild, wonder |
 | temperate | 169 | 94 | 4 | 16 | 14 | 36 | 5 | — |
 | tropics | 9 | 1 | **0** | 2 | **0** | 4 | 2 | overview, city |
-| valley | 51 (12 filed) | 7 | 3 | 8 | 6 | 22 | 5 | — |
+| valley | 70 (31 filed) | 9 | 4 | 10 | 6 | 27 | 14 | — |
 | waste | 19 (16 filed) | 7 | 1 | **0** | 2 | 1 | 8 | town |
 | woodland | 41 (19 filed) | 9 | 5 | 1 | 1 | 23 | 2 | — |
 <!-- /by-terrain -->
