@@ -9071,6 +9071,76 @@
    "era": "late",
    "light": "sunlit",
    "weather": "clear"
+  },
+  "scene-coast-arch": {
+   "form": "landscape",
+   "shows": "a tiled stone arch with steps above a sandy shore at low tide, islands and hills across the water",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-coast-beach": {
+   "form": "landscape",
+   "shows": "a beach in dune grass under a pine at low tide, sand-bars and islands across the bay",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-coast-bridge": {
+   "form": "landscape",
+   "shows": "a wooden footbridge over a narrow sea gorge, a path down to it under a pine, the sun setting over the sea",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast-camp": {
+   "form": "landscape",
+   "shows": "a canvas lean-to and a dead fire among driftwood on a stony shore below headlands, under a heavy evening sky",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast-falls": {
+   "form": "landscape",
+   "shows": "waterfalls pouring off sea cliffs onto rocks and surf, the sun low over the sea",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast-garden": {
+   "form": "exterior",
+   "shows": "a terraced garden above the sea with an arched doorway, steps, a stone bench and urns of flowers, the sun setting over the bay",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast-garden-night": {
+   "form": "exterior",
+   "shows": "the same terraced garden above the sea by moonlight, a lamp lit in the arched doorway",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-coast-hamlet": {
+   "form": "landscape",
+   "shows": "a fishing hamlet of low houses by a jetty on a bay, nets on a fence in the dune grass, islands and hills across the water",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-coast-ocean": {
+   "form": "landscape",
+   "shows": "open ocean, long waves breaking under a golden evening sky, far islands on the horizon",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast-shrine": {
+   "form": "exterior",
+   "shows": "a small stone shrine with a candle lit in its niche on a cliff path above the sea, steps up to it, the sun setting",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
   }
  }
 }
