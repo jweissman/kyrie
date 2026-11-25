@@ -1122,6 +1122,12 @@
    "was": "defect",
    "pri": "P1",
    "why": "25 Nov, the slice triage (the owner: true defects split from features): a designed passage wanted, a direction"
+  },
+  "OR-527": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the trust thread: a structural boundary whose absence lets promises break, held by its census and noninterference cases"
   }
  },
  "blockedBy": {

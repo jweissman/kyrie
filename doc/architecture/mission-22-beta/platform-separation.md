@@ -316,6 +316,87 @@ The order:
 
 Beta's exit is behavioural: fast, trustworthy play through one loop, and a second domain shown to share the lifecycle.
 
+## The trust thread (the lead and the analyst's fourth note, 25 November)
+
+**The cause.** Recurrent trust defects share a structural cause: player-facing meaning is derived more than once, from
+different inputs or at different times. Its instances:
+- an Atlas mark derived apart from its row;
+- the page reading meaning back out of labels (AR-05);
+- the page and the terminal planning journeys themselves (OR-514, OR-515, TR-21);
+- the glance and the rows grounding acts each on its own;
+- a screen kept past the state it was built from;
+- the player layer reading the world as it is, not as the company knows it (OR-423).
+
+Each repair made where a promise broke leaves the second derivation alive. So each repair from now on deletes the
+redundant derivation that allowed the defect, not only the symptom, and a defect's analysis names that derivation.
+
+**The thread.** For each player revision, the engine and player boundary computes legal rows once. A designated
+projector derives, from the authoritative state, what the company may know and perceive. The screen, the glance, the
+Atlas, the narrator and every client consume the resulting semantic frame without reading or grounding the world
+again. Activities stay engine-owned questions (TB-09).
+
+1. **A player revision is more than the world's.** A talk opened or paged, a lens, the map put away, an aim taken up,
+   a fight's actor or hand, a question advanced, a command pending or committed: each changes the frame with the world
+   unchanged.
+   - The revision is the world's, the session's and the question's, under one installation.
+   - The same revision always gives the same frame, and anything that can change the frame advances it.
+2. **The frame is built in one direction:** runtime legality → the epistemic projection → the rows and the question →
+   the scene and screen → narration and render hints → the immutable frame.
+   - Each stage receives what the stages before it made, and none reaches back into the campaign.
+   - Consumers read the finished frame, and none calls `PlayerView.choices` again.
+   - It is done when one row computation happens per player revision, each row has one identity, label, set of facets
+     and command, and a second request for a revision recomputes nothing and equals a fresh build.
+3. **The knowledge boundary has one door (OR-527).** Only the projector reads authoritative world facts.
+   - **What the projection distinguishes:** what is perceived now, what was perceived and is remembered, what was
+     learnt, what is inferred or uncertain, and what is mechanically available without being narratively known.
+   - **Legality stays the runtime's,** since a hidden fact may rightly refuse an act. Rows join authoritative legality
+     with wording and facets the projection warrants, and execution checks the command again against the world.
+   - **Proved by noninterference:** two worlds differing only in a fact the company neither knows nor perceives give
+     identical projections and frames; once it is learnt or seen, the frames may differ. Cases: a hidden person, an
+     undiscovered way, an unknown property of an item, an unseen enemy, an unheard fact of talk, a secret condition of
+     an undertaking, a concealed danger.
+   - **Moved feature by feature:** knowledge and the Atlas's marks first; then who and what is in view, ways and
+     destinations, talk, danger and fights, undertakings' guidance, the character and the pack; then the rest by the
+     census.
+4. **Three authorities, linked and checked, never conflated:**
+
+| Consumer | Its authority | The receipt's part |
+|---|---|---|
+| The Atlas and facets | the prospective Outcome: what an offered row may do | checks the prediction after |
+| Undertakings | the durable world and semantic state: what is true now, followed or not, after a restore | explains the progress |
+| Notes and history | the durable narration the player saw | carries or refers to it |
+| Replay | the commands, versions and keyed draws | compares what came of them |
+| Diagnostics and performance | the receipt and its trace | the explanation itself |
+
+**The order** (the analyst's, adopted, around the review of the same day):
+1. the campaign-scoped installed context (OR-520);
+2. the turn's unattributed time named, a journey leg without a full frame, routes only when asked (OR-521);
+3. one row set and one semantic frame per player revision, moved in order: the runner, the engine host, the screen,
+   the glance, the narrator, the clients, with parity at each step;
+4. the knowledge boundary, incrementally (OR-527);
+5. TB-09, activity by activity (travel done; talk, the fight, the map and endings), each reading the one projection and
+   rows;
+6. typed receipts enriched once the frame is stable: the revisions before and after, what changed, what it cost, what
+   was learnt, the trace, the narration, the next question;
+7. further Canon groups, as the supported loop asks for them.
+
+Frame consolidation should cut turn cost, but the map does not show it alone closes the gaps (4.7 times an ordinary
+turn's target, 14 times a leg's), so it comes after the cheaper named costs.
+
+**The ratchets,** structural causes as against outcomes:
+- **World reads outside the projector:** from the player, presentation, page and terminal into the campaign's world,
+  the creature store, or the module's rules read to reconstruct a hidden meaning. Exceptions only in a checked manifest
+  (the projector, diagnostic tools, tests), with the exported APIs through which authoritative state crosses. The
+  count may only fall.
+- **Independent row derivations:** `PlayerView.choices` outside the frame builder, grounding from presentation or a
+  client, rows a client makes, scans adding facets, labels, grouping or destinations outside the row builder. Zero on
+  product paths.
+- **Frames per revision:** full frames built, sections built, row computations and reuses, by reason. One full frame
+  per player revision; none for an uninterrupted journey leg.
+- **Noninterference:** the hidden-fact cases holding, and the known leaks counted.
+- **One source per claim:** each visible mark, focus, destination and undertaking step records its authority
+  (prospective, projected, durable, committed); a claim with two live derivations fails.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are
