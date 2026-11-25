@@ -6,6 +6,7 @@ import { Rolls } from '../../src/rules/rolls';
 import { Content } from '../../src/content';
 import { Overlays } from '../../src/overlays';
 import { CompanyPreview } from '../../src/presentation/company-preview';
+import { WorldDrawings } from '../../src/world/world-drawings';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { DrawnWorld } from '../../src/world/drawn-world';
 import type { BundleSource } from '../../src/campaign/bundle-source';
@@ -160,14 +161,13 @@ export class Creation {
     return structuredClone((companies.find(c => c.id === id) ?? companies[0]!).members);
   }
   // A region drawn from a seed, with adventures set in it; kept so the company can set out into it.
-  async generate(seed: string, terrain?: string, party?: Member[], at: { origin?: string; memorial?: Memorial } = {}):
-    Promise<Setting> {
-    const world = await WorldAssembler.assemble(seed, Scenarios.source(),
-      { ...terrain ? { region: { terrain } } : {}, ...party ? { party } : {}, ...at.origin ? { origin: at.origin } : {},
-        ...at.memorial ? { memorial: at.memorial } : {}, placed: false });
-    const campaign = JSON.parse(await world.source.read(world.path)) as CampaignManifest;
-    const title = campaign.name, region = world.report.region;
-    const origins = Origins.choices(await Origins.load(Scenarios.source()), region, world.report.placements);
+  async generate(seed: string, terrain?: string, source: BundleSource = Scenarios.source()): Promise<Setting> {
+    // Only the country as drawn, its scenarios placed: what creation says of it needs nothing written for a company
+    // (its modules, its start), which the start draws once it is known who comes (the country drawn once: see
+    // WorldDrawings).
+    const { region, placements } = await WorldDrawings.of(seed, source, terrain ? { region: { terrain } } : {});
+    const title = region.name;
+    const origins = Origins.choices(await Origins.load(source), region, placements);
     const names = ProtagonistNames.drawn(region, seed);
     return { title, generated: true, origins, terrain: region.terrain, names,
       pitch: { heading: `Who comes to ${title}?`, text: `${title} is ${Creation.country(region.terrain)} country. `

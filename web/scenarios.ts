@@ -80,5 +80,9 @@ export class Scenarios {
       note: 'In the western hills there is a house twelve times the size of a house, shut three hundred years, and six hundred people of your own size have lived in its walls all that time, having come in by the letterbox. Four days ago the giantess who owns it came home to die. Her companion has put up a notice in the village on the doorstep: WANTED, A RATCATCHER.',
       detail: 'A village on a doorstep, a house that is a country, a doll\'s house that is a court, and ten days before she dies' },
   ];
-  static source(): MemoryBundleSource { return new MemoryBundleSource(Scenarios.files); }
+  // One for the page's whole life, as the terminal's is (NodeBundleSource.shared): what is kept of what was read from
+  // it (a country's drawing, its parses) is kept for it, and a new one for each ask had kept nothing between creation's
+  // look at a country and the start into it.
+  private static shared?: MemoryBundleSource;
+  static source(): MemoryBundleSource { return Scenarios.shared ??= new MemoryBundleSource(Scenarios.files); }
 }

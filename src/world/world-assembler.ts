@@ -13,7 +13,6 @@ import { RegionEcology } from './region-ecology';
 import { RegionGeography } from './region-geography';
 import { RegionRecruits } from './region-recruits';
 import { Countries } from './countries';
-import { Provinces } from './provinces';
 import { StoryPeople } from './story-people';
 import { RegionWriter, type Carrier, type Company, type Contact, type Region, type Site } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
@@ -28,6 +27,7 @@ import { WorldGrid } from './world-grid'; import { StrategicAtlas } from './stra
 import { ScenarioWord } from './scenario-word';
 import { Livelihoods } from './livelihoods';
 import { RegionWorks } from './region-works';
+import { WorldDrawings } from './world-drawings';
 
 // A scenario a generated region may include: where it belongs, the places it needs, its modules and bindings, the
 // way in that stays hidden until someone hears of it (or looks where it starts), and what people say about it.
@@ -91,21 +91,12 @@ export class WorldAssembler {
     party?: CreatureGenerationContext[]; origin?: string; framework?: string | null;
     // Someone who died in this country before: where they lie, and how they died, which the country remembers.
     // And which standing scenarios it holds, by id (all, unless said): see Drawn.standing.
-    memorial?: Memorial; standing?: string[]; chain?: string; opening?: string; placed?: false;
+    memorial?: Memorial; standing?: string[]; chain?: string; opening?: string;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
-    const region = this.region(seed, [0, 0], options.region), days = new Expressions(RandomStreams.key(seed, 'world', 'calendar'));
-    region.further = Countries.further(region, seed); region.chain = options.chain;
-    region.calendar = RegionWeather.year(days);
-    const library = await this.library(base, options.library ?? 'data/scenarios/library.json');
-    const heralds = await this.heralds(base, region, seed), standing = (await this.library(base, this.standing))
-      .filter(e => (options.standing ?? StrategicAtlas.standing(region) ?? [e.manifest.id]).includes(e.manifest.id));
-    const { context, eligibility, placements } = this.settle(region, library, { seed, rid: RegionWriter.id, heralds,
-      standing, ...StrategicAtlas.settling(region, options) });
-    // The country's provinces: its authored adventures that are parts of it, each with a way in on its land (a
-    // harbour's at the head of a firth from the sea, let in then).
-    region.provinces = await Provinces.regions(Provinces.flood(region, Provinces.situate(region)), base);
-    // Its old places called by their Common meaning, their old names to be learned (see OldPlaces).
-    region.sites = PlaceNames.called(region);
+    // The country as drawn for this seed and ask, its own copy (drawn once: see WorldDrawings).
+    const { region, context, eligibility, placements, library, heralds, standing } =
+      await WorldDrawings.of(seed, base, options);
+    region.calendar = RegionWeather.year(new Expressions(RandomStreams.key(seed, 'world', 'calendar')));
     // One protagonist, with an origin in this world; or a company, each with an old acquaintance somewhere in it.
     const origin = options.origin ? (await Origins.load(base)).find(o => o.manifest.id === options.origin) : undefined;
     const party = origin ? [Origins.protagonist(origin.manifest, (options.party ?? this.fixture)[0]!,
@@ -127,11 +118,9 @@ export class WorldAssembler {
     const company = { size: party.length, contacts, ...told ? { start: told.start, coin: told.coin } : {} };
     this.write(region, { files, root, placements, company });
     const kits = framework.map(k => ({ ...k, optional: true }));
-    // What the inn's count says of the places the kits make their own, written once they are placed (FH-24); not for
-    // a world drawn only to read its setting (placed: false, as creation draws one).
+    // What the inn's count says of the places the kits make their own, written once they are placed (FH-24).
     const written = new OverlayBundleSource(base, files);
-    const held = options.placed === false ? { told: {} }
-      : await RegionHeld.of(region, [...modules, ...kits], { seed, path, source: written });
+    const held = await RegionHeld.of(region, [...modules, ...kits], { seed, path, source: written });
     region.told = held.told;
     if (Object.keys(region.told).length) { this.write(region, { files, root, placements, company }); }
     if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }

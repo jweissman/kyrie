@@ -91,11 +91,12 @@ export class PlayTool {
   // Where the world gives a life to begin, by the engine's own creation flow: the country drawn as the page draws it,
   // the past named in --as chosen as its kind, and the circumstance it asks for (see CreationFlow.circumstance).
   static async given(seed: string, member: CreatureGenerationContext): Promise<string | undefined> {
-    const setting = await new Creation().generate(seed), catalog = Creation.catalog();
+    const setting = await new Creation().generate(seed, undefined, NodeBundleSource.shared);
     // The terminal's own starting point where the world has it, as its tools and recorded walks assume (the wanderer);
     // a world without one (iscoed: the drove, the pans, the weir) gives its own. That the page and the terminal can
     // begin differently on one seed stays open (audit thread 10, AR-23).
     if (setting.origins?.some(o => o.id === 'wanderer')) { return 'wanderer'; }
+    const catalog = Creation.catalog();
     const you = { ...setting.party[0]!, raceId: member.raceId, classId: member.classId, name: member.name } as Member;
     const flow = new CreationFlow(setting, catalog, you);
     const kind = catalog.backgrounds.find(b => b.id === member.backgroundId)?.kind;
