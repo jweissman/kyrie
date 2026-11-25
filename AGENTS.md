@@ -196,7 +196,11 @@ this help the player forget the interface and become interested in what happens 
   at page by page. Its contrast is held by the contact sheet's ratchet (scripts/contact-sheet-contrast.ts).
 - **Unfolding menus only in a fight.** Elsewhere rows are one flat level. Long lists appear only in a store.
 - **The map is an in-world instrument**, not an app. It opens for inspection while the character stays in the scene;
-  "Put away the map" is an act; the hex crawl is playable by the action menu alone.
+  "Put away the map" is an act. **Ways to another hex appear only on the map** (the owner, 25 November, overruling
+  "the hex crawl is playable by the action menu alone": one act had carried them across several hexes from a town
+  without the map ever opened). The scene's menu offers only the ways within its hex; crossing hexes begins by opening
+  the map, and an aim whose way leaves the hex leads, in gold, to the map. Destinations and itineraries are worked out
+  only while the map is open (the immediate queue's step 3).
 - **Focus, activity and engagement are distinct,** set by the engine through the act that begins them. Prove one
   excellent focused activity before many.
 - **Casting is causally legible:** a calling grants named capabilities; an authored act invokes them, at a stated
