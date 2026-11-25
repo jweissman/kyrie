@@ -279,7 +279,7 @@
     {"kind": "path", "words": ["path", "hill-path", "footpath", "avenue"]},
     {"kind": "dome", "words": ["dome", "rotunda", "cenotaph"]},
     {"kind": "shop", "words": ["shop", "store"], "room": ["scene-town-merchant", "scene-store-evening", "scene-store-night"]},
-    {"kind": "coast", "words": ["coast", "coasts", "cliff", "cliffs", "clifftop", "headland", "lighthouse", "light-house"], "ground": ["scene-coast-house", "scene-lighthouse", "scene-sea-cliffs", "scene-seacoast", "scene-seacoast-dusk"]},
+    {"kind": "coast", "words": ["coast", "coasts", "cliff", "cliffs", "clifftop", "headland", "lighthouse", "light-house"], "ground": ["scene-coast-house", "scene-lighthouse", "scene-sea-cliffs", "scene-seacoast", "scene-seacoast-dusk", "scene-coast-rain", "scene-coast-fog"]},
     {"kind": "sea-bank", "words": ["sea-bank", "seabank", "sea-wall", "seawall", "dyke", "dike"], "ground": ["scene-coast"]},
     {"kind": "sluice", "words": ["sluice", "sluices", "sluice-house", "floodgate", "sea-gate"], "ground": ["scene-harbor-sluice", "scene-sluice", "scene-sluice-night"]},
     {"kind": "dam", "words": ["dam", "mere"], "ground": ["scene-drowned-village", "scene-dam", "scene-dam-night"]},

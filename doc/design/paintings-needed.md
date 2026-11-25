@@ -37,14 +37,14 @@ words until they are filed (`temperate` is what no word sorts). Written by `bin/
 | Terrain | Paintings | shelter | overview | town | city | wild | wonder | Wanted first |
 |---|---|---|---|---|---|---|---|---|
 | cave | 2 (2 filed) | 1 | **0** | **0** | **0** | **0** | 1 | overview, town, city, wild |
-| coast | 63 (21 filed) | 27 | **0** | 4 | 6 | 20 | 6 | overview |
+| coast | 65 (23 filed) | 27 | **0** | 4 | 6 | 22 | 6 | overview |
 | desert | 35 (30 filed) | 4 | 5 | **0** | 10 | 11 | 5 | town |
 | frost | 12 | 3 | **0** | 2 | 1 | 5 | 1 | overview |
 | jungle | 2 (2 filed) | **0** | **0** | **0** | **0** | 1 | 1 | shelter, overview, town, city |
 | marsh | 4 | **0** | **0** | 1 | **0** | 3 | **0** | shelter, overview, city, wonder |
 | mountain | 21 (4 filed) | 10 | 1 | **0** | **0** | 8 | 2 | town, city |
 | plains | 13 | 4 | **0** | **0** | **0** | 9 | **0** | overview, town, city, wonder |
-| sky | 2 (2 filed) | **0** | 1 | **0** | 1 | **0** | **0** | shelter, town, wild, wonder |
+| sky | 3 (3 filed) | **0** | 1 | **0** | 2 | **0** | **0** | shelter, town, wild, wonder |
 | temperate | 169 | 94 | 4 | 16 | 14 | 36 | 5 | — |
 | tropics | 9 | 1 | **0** | 2 | **0** | 4 | 2 | overview, city |
 | valley | 46 (7 filed) | 7 | 3 | 8 | 5 | 18 | 5 | — |

@@ -1158,6 +1158,11 @@
    "sha1": "1eb8b36575d72f456b0dd2d2d3bf1f15593ef1aa",
    "terrain": "coast"
   },
+  "scene-coast-fog": {
+   "path": "assets/bg/terrain/coast/fog.png",
+   "sha1": "7449f8bfee8a247cb5d3260ee0e663a92ac11779",
+   "terrain": "coast"
+  },
   "scene-coast-garden-night": {
    "path": "assets/bg/terrain/coast/garden-night.png",
    "sha1": "be90b4688b0276fb927bbb3e41dc52c5f2ea17f6",
@@ -1183,6 +1188,11 @@
    "sha1": "c4e2a5b87bf493fab1287e3245f7aa0eb1d3c78e",
    "terrain": "coast"
   },
+  "scene-harbor-rain": {
+   "path": "assets/bg/terrain/coast/harbor-rain.png",
+   "sha1": "412758a7d3bc6d77e957e6e18646d09385669ebb",
+   "terrain": "coast"
+  },
   "scene-harbor": {
    "path": "assets/bg/terrain/coast/harbor.png",
    "sha1": "4ae9566660b9772e2bb1dd5790e7029df264712f",
@@ -1203,9 +1213,9 @@
    "sha1": "1ad1809d068e2f63265d3f9fa6f477f6fa2583ba",
    "terrain": "coast"
   },
-  "scene-harbor-rain": {
+  "scene-coast-rain": {
    "path": "assets/bg/terrain/coast/rain.png",
-   "sha1": "412758a7d3bc6d77e957e6e18646d09385669ebb",
+   "sha1": "f3690e464ab5a48757c3703d10e6e24defac1a78",
    "terrain": "coast"
   },
   "scene-coast-shrine": {
@@ -1411,6 +1421,11 @@
   "scene-floating-city": {
    "path": "assets/bg/terrain/sky/city.png",
    "sha1": "1035e203d86d67f06b16413e7d85d087e99ed351",
+   "terrain": "sky"
+  },
+  "scene-sky-garden": {
+   "path": "assets/bg/terrain/sky/garden.png",
+   "sha1": "4af20682a64ab487856df8aee6e0f01cdcd279b1",
    "terrain": "sky"
   },
   "scene-floating-isle-overlook": {

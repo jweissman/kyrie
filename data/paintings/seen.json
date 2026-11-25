@@ -9141,6 +9141,27 @@
    "era": "late",
    "light": "dusk",
    "weather": "clear"
+  },
+  "scene-coast-fog": {
+   "form": "landscape",
+   "shows": "sea cliffs running away into fog above a grey sea and stacks of rock, wildflowers on the cliff-top in front",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-coast-rain": {
+   "form": "landscape",
+   "shows": "the same sea cliffs in driving rain, surf breaking white on the stacks, a dark sky with a gleam of light far out",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-sky-garden": {
+   "form": "exterior",
+   "shows": "a garden of columns and a glass dome on an isle floating above the clouds, flowers and a pool, other floating isles with towers beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   }
  }
 }
