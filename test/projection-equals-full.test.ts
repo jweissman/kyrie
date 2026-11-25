@@ -1,16 +1,16 @@
 import { describe, expect, it } from 'bun:test';
-import { PlaySession } from '../../src/session/play-session';
-import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
-import { World } from '../../src/lang/world';
-import { KeptReading } from '../../src/lang/kept-reading';
-import { WorldMemo } from '../../src/lang/world-memo';
-import { ModuleWriter } from '../../src/lang/module-writer';
-import { Nearby } from '../../src/campaign/nearby';
-import { LocalObservations } from '../../src/campaign/local-observations';
-import { Tiny } from '../support/tiny';
-import { Twins } from '../support/twins';
-import { KeptParts } from '../../src/ui/kept-parts';
-import { Openings } from '../../src/presentation/openings';
+import { PlaySession } from '../src/session/play-session';
+import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { World } from '../src/lang/world';
+import { KeptReading } from '../src/lang/kept-reading';
+import { WorldMemo } from '../src/lang/world-memo';
+import { ModuleWriter } from '../src/lang/module-writer';
+import { Nearby } from '../src/campaign/nearby';
+import { LocalObservations } from '../src/campaign/local-observations';
+import { Tiny } from './support/tiny';
+import { Twins } from './support/twins';
+import { KeptParts } from '../src/ui/kept-parts';
+import { Openings } from '../src/presentation/openings';
 
 // What is kept from one world to the next (OR-91: the offered actions, the ways, what is told, each kept while nothing
 // it read has been written) must agree exactly with working it out afresh. Two sessions of one game are played act by

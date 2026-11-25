@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'bun:test';
-import { PlayTool } from '../../src/cli/play-tool';
-import { Travel } from '../../src/session/travel';
-import { Itineraries, type Leg } from '../../src/ui/itinerary';
-import { ScreenModel } from '../../src/ui/screen-model';
-import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
-import { TravelCensus } from '../../scripts/travel-census';
+import { PlayTool } from '../src/cli/play-tool';
+import { Travel } from '../src/session/travel';
+import { Itineraries, type Leg } from '../src/ui/itinerary';
+import { ScreenModel } from '../src/ui/screen-model';
+import { PlaySession, type SessionCheckpoint } from '../src/session/play-session';
+import { TravelCensus } from '../scripts/travel-census';
 
 // Travel continuity (the owner's trust contracts, 18 November, E and G): a journey is a sequence of real steps. Each
 // leg travelled moves the company from where it was to where the leg goes, spends the leg's time, has the company know

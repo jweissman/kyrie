@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'bun:test';
-import { PlayTool } from '../../src/cli/play-tool';
-import { Travel } from '../../src/session/travel';
-import { BoardField } from '../../web/reader/board-field';
-import { BoardModel } from '../../web/reader/board/board-model';
-import { Glanced } from '../support/glanced';
+import { PlayTool } from '../src/cli/play-tool';
+import { Travel } from '../src/session/travel';
+import { BoardField } from '../web/reader/board-field';
+import { BoardModel } from '../web/reader/board/board-model';
+import { Glanced } from './support/glanced';
 
 // The map updated in place at a journey's end, not made again (OR-91's rest: a board made again whole held the page
 // 1.3-1.6 s without a GPU). Each of a1's first journeys, the land the board is given before and after: the same

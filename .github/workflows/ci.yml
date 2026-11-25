@@ -99,7 +99,7 @@ jobs:
   # The whole suite, nightly and on demand: in ten shards, balanced by the time each spec file took when the timings
   # were last kept (test/timings.json). Five shards had come to their thirty minutes by 3 November, six to their
   # forty-five by 10 November (a shard cancelled in every run seen, its specs never seen to pass).
-  # On a push the push lane (test/lanes.json: every file under thirty kept seconds, all of test/small, the sentinels),
+  # On a push the push lane (test/lanes.json: every file under ten kept seconds, all of test/small, the untimed),
   # the gate a deploy waits on; nightly and on demand the whole suite (the owner, 15 November: the whole on every push
   # had brought each run back to twenty and thirty minutes; the 267 slow files, nine tenths of the suite's time, go to
   # the night, and the night is kept green). Sixteen shards, balanced by the files' kept times.

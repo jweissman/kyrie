@@ -114,7 +114,7 @@ remaining P0 among these, but its size is M for one row.
 ## 4. Track steps to close or split now
 
 - **Step 1: close (MT-01).** Its rule-2 invariants pass (see §1, V).
-  - The riddle is an engine focus on all three clients: test/small/riddle-focus, 5 pass.
+  - The riddle is an engine focus on all three clients: test/riddle-focus, 5 pass.
   - The page's folds go through Doable (ad68847e1).
   - OR-94's buttons are pinned by name and kind.
   - Its leftovers already have rows of their own and should not keep MT-01 live:

@@ -5,7 +5,7 @@ import { Runner, type Said } from '../src/cli/runner';
 import { Twins } from './support/twins';
 
 // What is kept from one world to the next agrees with working it out afresh, in a drawn country (OR-91): the heavier
-// rung of test/small/projection-equals-full, whose small world holds the same in a fraction of a second. Two countries
+// rung of test/projection-equals-full, whose small world holds the same in a fraction of a second. Two countries
 // are begun for each case, one of them reading everything afresh, so these run in the suite and by test:changed, not
 // in test:small (the owner, 24 November: tests made cheaper, the inner loop faster).
 describe('what is kept agrees with working it out afresh, in a drawn country', () => {

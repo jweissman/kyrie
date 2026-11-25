@@ -138,6 +138,10 @@ this help the player forget the interface and become interested in what happens 
   They are cheap walk-based floors, not scores.
 - **Fun Fridays:** a few charming, fully playable experience pins (pleasant activities, played through the ordinary
   interface), not many lifeless ones.
+- **No test over ten seconds on the push suite** (the owner, 24 November). The push lane (test/lanes.json) takes each
+  file under ten kept seconds and test/small. Anything slower runs nightly, and the world-level walks run before
+  landing as the world canary (test/canary.json, which `bun run test:changed` adds whenever a change can move every
+  world). A slow spec is made cheaper or moves out; test/small holds no file over ten seconds.
 - **Flaky specs are quarantined** (test/quarantine.json, with why and the lower-order replacement). They stay out of
   every gating lane and run only in the optional post-CI quarantine workflow.
 

@@ -116,6 +116,58 @@
   {
    "file": "test/stories-apart.test.ts",
    "why": "stories kept apart in one world"
+  },
+  {
+   "file": "test/gold-follow.test.ts",
+   "why": "gold only after Follow, in a generated country's own errand and notices (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/signal-inside.test.ts",
+   "why": "every signal in a generated first town resolves to its act (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/map-in-site.test.ts",
+   "why": "the map from inside a site in wild country (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/world-starts.test.ts",
+   "why": "generated worlds start, across seeds and origins (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/low-water-company.test.ts",
+   "why": "an authored campaign's company and its first scenes (Low Water) (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/quittance-spine.test.ts",
+   "why": "an authored adventure's spine (Quittance) (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/hessel-wander.test.ts",
+   "why": "an authored adventure wandered (Hessel) (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/the-grand-tour-second.test.ts",
+   "why": "an integrated adventure's second leg (the Grand Tour) (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/deep-history.test.ts",
+   "why": "a generated deep site's history (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/undertown-orders.test.ts",
+   "why": "the undertown's orders (the first town's chain) (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/muster-round3.test.ts",
+   "why": "the Muster's round (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/winter-in-carth-wander.test.ts",
+   "why": "an authored adventure wandered (A Winter in Carth) (a push sentinel until 24 November)"
+  },
+  {
+   "file": "test/travel-continuity.test.ts",
+   "why": "a journey continuous leg by leg (from test/small, 28 s)"
   }
  ]
 }

@@ -1,7 +1,7 @@
 {
  "about": "Closed rows whose cited evidence does not hold, or whose parts are unanswered (MT-17, MT-19, scripts/closure-lint.ts), kept so that none is added; each mended is taken off.",
  "kinds": {
-  "missing": 3,
+  "missing": 2,
   "unanswered": 406,
   "size": 6,
   "ambiguous": 1,
@@ -163,7 +163,6 @@
   "CL-20 unanswered: clause \"the lodger's clue comes after the raiser is dealt with (cold…\"",
   "CL-21 unanswered: clause \"An act refused with no reason: talk_to the boy in the taproo…\"",
   "CL-29 unanswered: clause \"cold play 2 confused them (variety study §10)\"",
-  "CL-34 missing: test/riddle-focus",
   "CL-34 unanswered: ref (15)",
   "CL-34 unanswered: ref (28)",
   "CL-34 unanswered: ref (31)",

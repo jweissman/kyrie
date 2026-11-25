@@ -1,23 +1,10 @@
 {
-  "about": "The suite's lanes (Mission 21, Phase 0; scripts/test-lane.ts). On every push: each spec file under push.under ms by test/timings.json, every file in test/small/, any spec not yet timed, and the sentinels below. Nightly and on demand: everything, with the long descents and the browser specs. A sentinel is a whole-world or whole-adventure spec kept on every push for what only it proves, each with why; keep the list short (its time is the push lane's).",
-  "push": {
-    "under": 30000,
-    "sentinels": {
-      "test/gold-follow.test.ts": "gold only after Follow, in a generated country's own errand and notices",
-      "test/signal-inside.test.ts": "every signal in a generated first town resolves to its act",
-      "test/map-in-site.test.ts": "the map from inside a site in wild country",
-      "test/world-starts.test.ts": "generated worlds start, across seeds and origins",
-      "test/low-water-company.test.ts": "an authored campaign's company and its first scenes (Low Water)",
-      "test/quittance-spine.test.ts": "an authored adventure's spine (Quittance)",
-      "test/hessel-wander.test.ts": "an authored adventure wandered (Hessel)",
-      "test/the-grand-tour-second.test.ts": "an integrated adventure's second leg (the Grand Tour)",
-      "test/deep-history.test.ts": "a generated deep site's history",
-      "test/undertown-orders.test.ts": "the undertown's orders (the first town's chain)",
-      "test/muster-round3.test.ts": "the Muster's round",
-      "test/winter-in-carth-wander.test.ts": "an authored adventure wandered (A Winter in Carth)"
-    },
-    "away": {
-      "test/discovery-scale.test.ts": "A measure of how a time grows with the world: on a loaded CI runner it fails one run in a few (16 November: red on f7c1d0d0 and before, best of three already), and every red push run keeps Pages from deploying. Nightly and on demand, where its trend is read."
-    }
+ "about": "The suite's lanes (Mission 21, Phase 0; scripts/test-lane.ts). On every push: each spec file under push.under ms (ten seconds: the owner, 24 November, \"I don't think any test that takes more than 10s to run belongs on core CI\") by test/timings.json, every file in test/small/, any spec not yet timed, and the sentinels below. Nightly and on demand: everything, with the long descents and the browser specs. A sentinel is a whole-world or whole-adventure spec kept on every push for what only it proves, each with why; keep the list short (its time is the push lane's). Since 24 November the push lane has no sentinels: each took 13 to 37 s; they are the world canary's (test/canary.json), run before landing by test:changed, and the night's.",
+ "push": {
+  "under": 10000,
+  "sentinels": {},
+  "away": {
+   "test/discovery-scale.test.ts": "A measure of how a time grows with the world: on a loaded CI runner it fails one run in a few (16 November: red on f7c1d0d0 and before, best of three already), and every red push run keeps Pages from deploying. Nightly and on demand, where its trend is read."
   }
+ }
 }

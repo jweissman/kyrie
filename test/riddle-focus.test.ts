@@ -1,20 +1,20 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { PlayTool } from '../../src/cli/play-tool';
-import { Runner, type Offered, type Said } from '../../src/cli/runner';
-import { TerminalDoable } from '../../src/cli/terminal-doable';
-import { ModuleWriter } from '../../src/lang/module-writer';
-import { RegionRiddles } from '../../src/world/region-riddles';
-import type { PlaySession } from '../../src/session/play-session';
-import { MenuModel } from '../../web/reader/menu-model';
-import { GlanceStage } from '../../web/reader/stage/glance';
-import type { ReaderApp } from '../../web/reader/reader-app';
-import { LensRows } from '../../web/reader/stage/lens-rows';
-import { LensFocus } from '../../web/reader/stage/lens-focus';
-import { LensFocused } from '../../web/reader/stage/lens-focused';
-import type { Draw } from '../../web/reader/stage/act';
-import { Glanced } from '../support/glanced';
+import { PlayTool } from '../src/cli/play-tool';
+import { Runner, type Offered, type Said } from '../src/cli/runner';
+import { TerminalDoable } from '../src/cli/terminal-doable';
+import { ModuleWriter } from '../src/lang/module-writer';
+import { RegionRiddles } from '../src/world/region-riddles';
+import type { PlaySession } from '../src/session/play-session';
+import { MenuModel } from '../web/reader/menu-model';
+import { GlanceStage } from '../web/reader/stage/glance';
+import type { ReaderApp } from '../web/reader/reader-app';
+import { LensRows } from '../web/reader/stage/lens-rows';
+import { LensFocus } from '../web/reader/stage/lens-focus';
+import { LensFocused } from '../web/reader/stage/lens-focused';
+import type { Draw } from '../web/reader/stage/act';
+import { Glanced } from './support/glanced';
 
 // The speaking door, focused (the owner, 18 November, P0, CL-34): "I don't see the questions; I only see two answers
 // and 'Look at the speaking door' … it won't let me select it, it seems to be warning me (the text is cut off)". The

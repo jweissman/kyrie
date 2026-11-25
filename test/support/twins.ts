@@ -11,7 +11,7 @@ import { Nearby } from '../../src/campaign/nearby';
 import { LocalObservations } from '../../src/campaign/local-observations';
 
 // Two sessions of one game played alike, one keeping what it may from world to world and the other nothing (see
-// test/small/projection-equals-full and test/projection-equals-drawn).
+// test/projection-equals-full and test/projection-equals-drawn).
 type Read = <T>(read: () => T) => { value: T; reads?: string[] };
 export class Twins {
   // A world of one relation, and a reading of what one party first knows.
