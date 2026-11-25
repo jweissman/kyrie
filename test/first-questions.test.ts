@@ -13,7 +13,9 @@ import { Attending } from '../src/ui/attention';
 // upstairs), in the engine, for every client (toldMatter, the discovery rules').
 // The world canary's (test/canary.json): a world is drawn for each seed, and a generator, kit or goings-on that moves
 // every world can move this.
-const ratchet: Record<string, number> = { iscoed: 64, a1: 57, bavokelu: 68 };
+// Each one more on 25 November for batch 16's companion by the first dungeon's entry (OR-311: "Ask whether she would
+// come down with you", data/generation/town/below.kyrt), a question about someone met, not something unheard of.
+const ratchet: Record<string, number> = { iscoed: 65, a1: 58, bavokelu: 69 };
 const most = 4;
 // Each seed's world drawn once (a census puts the company here and there in it, and asks nothing).
 const lives = new Map<string, ReturnType<typeof FirstQuestions.life>>();
