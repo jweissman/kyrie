@@ -210,7 +210,7 @@ def main():
     sheets = {}
     for p in manifest['portraits']:
         if p['source'] not in sheets:
-            image = Image.open(os.path.join(ROOT, 'assets', SHEETS.get(SET, SET), p['source'])).convert('RGB')
+            image = pc.sheet(os.path.join(ROOT, 'assets', SHEETS.get(SET, SET), p['source']))
             sheets[p['source']] = (image, None if SET in PLATES else pc.openings(image.load(), *image.size))
         image, cells = sheets[p['source']]
         if SET in GRID:

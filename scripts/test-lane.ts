@@ -2,8 +2,10 @@
 // The spec files of a lane of the suite (test/lanes.json), one to a line, for CI's shards to run: `push`, what every
 // push runs (the files under its budget by their kept times, test/small, the specs not yet timed, the sentinels), or
 // `rest`, everything else; `all`, the full suite, which CI runs nightly and on demand; `browser`, the browser specs;
+// `images`, the specs that read the image bytes in assets/ (named *-images.test.ts), which CI's images job alone runs,
+// on a full checkout, every other job and a builder's worktree being without assets/ (tools/worktree.sh);
 // `quarantine`, the specs held out of all of them (test/quarantine.json), run only by the optional quarantine workflow.
-//   bun scripts/test-lane.ts push|rest|all|browser|quarantine [--sum]
+//   bun scripts/test-lane.ts push|rest|all|browser|images|quarantine [--sum]
 import { Glob } from 'bun';
 import { readFileSync } from 'node:fs';
 
@@ -19,11 +21,12 @@ class TestLane {
     const every = [...new Glob('test/**/*.test.ts').scanSync('.')].sort();
     const gone = held.filter(s => !every.includes(s));
     if (gone.length) { console.error(`test/quarantine.json names specs that are not there: ${gone.join(' ')}`); return 1; }
-    if (lane === 'quarantine' || lane === 'browser') {
-      return this.print(lane === 'quarantine' ? held : every.filter(s => this.browser(s) && !held.includes(s)), lane,
-        kept, args);
+    if (lane === 'quarantine') { return this.print(held, lane, kept, args); }
+    if (lane === 'browser' || lane === 'images') {
+      const own = lane === 'browser' ? this.browser : this.images;
+      return this.print(every.filter(s => own(s) && !held.includes(s)), lane, kept, args);
     }
-    const specs = every.filter(s => !this.browser(s) && !held.includes(s));
+    const specs = every.filter(s => !this.browser(s) && !this.images(s) && !held.includes(s));
     const missing = Object.keys(lanes.push.sentinels).filter(s => !specs.includes(s));
     if (missing.length) { console.error(`test/lanes.json names specs that are not there: ${missing.join(' ')}`); return 1; }
     const pushed = specs.filter(s => this.pushed(s, kept, lanes));
@@ -31,6 +34,8 @@ class TestLane {
     return this.print(chosen, lane, kept, args);
   }
   private static browser(spec: string): boolean { return /-browser\.test\.ts$/.test(spec); }
+  // The paintings' and sheets' own bytes (KYRIE_IMAGES), on the one job that checks assets/ out.
+  private static images(spec: string): boolean { return /-images\.test\.ts$/.test(spec); }
   private static print(chosen: string[], lane: string, kept: Record<string, number>, args: string[]): number {
     if (args.includes('--sum')) {
       const minutes = chosen.reduce((n, s) => n + (kept[s] ?? 0), 0) / 60000;

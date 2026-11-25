@@ -15,7 +15,7 @@ The heads in these paintings fill their frames, the crown often at the frame's t
 half way down it, so that as much as the painting has over the head is kept, and where the arches are in the way it is
 made smaller before it is moved down (moved down, it had cut the crowns of elves and birdfolk; the owner, 7 November).
 """
-import json, os
+import json, os, sys
 from collections import deque
 from PIL import Image
 
@@ -110,12 +110,19 @@ def at(box, face, crop):
     return [round((x0 + face[0] * (x1 - x0) - crop[0]) / side, 2), round((y0 + face[1] * (y1 - y0) - crop[1]) / side, 2)]
 
 
+def sheet(path):
+    """A sheet's pixels, or a plain word where assets/ is not checked out."""
+    if not os.path.exists(path):
+        sys.exit(f"{os.path.relpath(path, ROOT)}: the sheets are not checked out here (a builder's worktree has no assets/): make a full one, FULL=1 /var/tmp/kyrie/tools/worktree.sh")
+    return Image.open(path).convert('RGB')
+
+
 def main():
     manifest = json.load(open(MANIFEST))
     sheets = {}
     for p in manifest['portraits']:
         if p['source'] not in sheets:
-            image = Image.open(os.path.join(ROOT, 'assets/pcs', p['source'])).convert('RGB')
+            image = sheet(os.path.join(ROOT, 'assets/pcs', p['source']))
             sheets[p['source']] = (image, openings(image.load(), *image.size))
         image, cells = sheets[p['source']]
         box = cells[tuple(p['cell'])]

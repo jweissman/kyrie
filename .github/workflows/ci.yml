@@ -29,7 +29,14 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          # Without assets/ (the owner's paintings and sheets, 1.7 GB of the tip): the page is built from web/reader's
+          # copies, and the specs that read the images are the images job's alone (test/lanes.json).
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
@@ -53,7 +60,12 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
@@ -69,6 +81,26 @@ jobs:
       - run: bun run test:honest
       # The rules on small worlds (test/small, Mission 21's fast loop): seconds, and the first to say a rule broke.
       - run: bun run test:small
+  # The specs that read the images themselves (the images lane, *-images.test.ts: the paintings in assets/bg against
+  # data/paintings/sources.json, the company's sheets in assets/pcs against their cuts), on the one checkout that has
+  # assets/. Every other job, and a builder's worktree (tools/worktree.sh), is without it (the owner, 25 November).
+  images:
+    name: the images
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: { path: kyrie }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: |
+          files=$(bun scripts/test-lane.ts images | tr '\n' ' ')
+          test -n "$files" || { echo "the images lane is empty"; exit 1; }
+          bun test --reporter=junit --reporter-outfile=junit.xml $files
+        env: { KYRIE_IMAGES: "1" }
+      - if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "The images" --none-skipped
   # On every push, the page itself: loaded in Chromium, a character made, and a conversation sat at the foot of the
   # page (frame-browser's 820 × 1180). The push lane has no browser in it, and on 13 November a bare process.env had
   # stopped the game loading at all, which only the reference hour (evidence, not a gate) saw.
@@ -79,7 +111,12 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
@@ -121,7 +158,12 @@ jobs:
         shard: ${{ fromJSON(github.event_name == 'push' && '[1,2,3,4,5,6,7,8]' || '[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]') }}
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - id: orsino
         run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
@@ -156,7 +198,12 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
@@ -182,7 +229,12 @@ jobs:
     permissions: { contents: read, actions: read }
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
@@ -198,7 +250,12 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
@@ -221,7 +278,12 @@ jobs:
     strategy: { fail-fast: false, matrix: { shard: [1, 2, 3] } }
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile
@@ -247,7 +309,12 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie }
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile

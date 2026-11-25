@@ -235,8 +235,13 @@ this help the player forget the interface and become interested in what happens 
 - **The owner's checkout** is theirs: no stash, reset, edits or git in it beyond a fast-forward after landing. Their
   uncommitted edits (lint limits, deem.run.json) are requirements. Content they leave untracked (docs, paintings in
   assets/bg) is checked in byte for byte from a worktree. Never `git stash`; compare with a worktree or `git show`.
-- **Worktrees:** under /var/tmp/kyrie, dated names, `test ! -e "$P" && git worktree add …`. Run git as `git -C
-  <path>` and chain with `&&`, never `;`.
+- **Worktrees:** under /var/tmp/kyrie, dated names, made by `/var/tmp/kyrie/tools/worktree.sh <name> <base> [<new
+  branch>]`: a sparse checkout without assets/ (the owner's 1.7 GB of images), set for that worktree alone, then `bun
+  install` (3.5 s against 30 s whole, install included, 25 November). `FULL=1` makes a full one, for painting work.
+  Run git as `git -C <path>` and chain with `&&`, never `;`.
+- **Image specs run in CI:** a spec that reads the bytes in assets/ is named `*-images.test.ts` (the images lane,
+  skipped without KYRIE_IMAGES) and runs in CI's images job, the one full checkout; every other job checks out
+  without assets/. In a full worktree: `KYRIE_IMAGES=1 bun test $(bun scripts/test-lane.ts images)`.
 - **Landing:** `scripts/landing/land.sh <sha>` (an explicit sha, never HEAD) rebases, gates, pushes, watches CI and
   fast-forwards the owner. It changes the sha, so never wait on the old id. Batch landings: each push cancels main's
   CI, and Pages deploys only from a green run. Run `bun run test:small` before landing prose. `scripts/landing/full.sh`

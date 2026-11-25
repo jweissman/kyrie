@@ -5,7 +5,7 @@
 // concept it was filed under; and a small copy for the game (web/reader/paintings).
 //   bun scripts/paintings.ts [dir]     writes data/paintings/registry.json, the copies, and doc/paintings/registry.md
 import { createHash } from 'node:crypto';
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { PaintingMetadata, type Painting, type Seen } from '../src/paintings/painting-metadata';
 import seen from '../data/paintings/seen.json';
@@ -15,6 +15,7 @@ import { Credits } from '../src/paintings/credits';
 class PaintingsTool {
   static readonly root = resolve(import.meta.dir, '..');
   static async run(dir: string) {
+    if (!existsSync(dir)) { throw new Error(`${dir}: not checked out here (a builder's worktree has no assets/): make a full one, FULL=1 /var/tmp/kyrie/tools/worktree.sh`); }
     const files = readdirSync(dir).filter(f => /\.jpe?g$/i.test(f)).sort();
     const out = resolve(this.root, 'web/reader/paintings'), large = join(out, 'large');
     mkdirSync(large, { recursive: true });

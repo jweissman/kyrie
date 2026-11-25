@@ -1,6 +1,4 @@
 import { describe, expect, it } from 'bun:test';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
 import { RegisterTickets } from '../../scripts/register-tickets';
 
 // The register is read as tickets and its rows placed on features (the owner, 15 November: register items as specific
@@ -28,8 +26,13 @@ describe('the register as tickets', () => {
     const targets = [...Object.values(map.byPrefix), ...Object.values(map.rows), ...map.byText.map(([, f]) => f)];
     expect(targets.filter(f => !known.has(f))).toEqual([]);
   });
+  // Files the repository holds, not the disk: a builder's worktree has no assets/ (tools/worktree.sh), and a path
+  // there is the feature's all the same. A directory is held when a file under it is.
   it('holds every feature to files that exist', () => {
-    const gone = map.features.flatMap(f => f.paths.filter(p => !existsSync(join(root, p))).map(p => `${f.id}: ${p}`));
+    const files = Bun.spawnSync(['git', 'ls-files', '-z'], { cwd: root }).stdout.toString().split('\0').filter(Boolean);
+    const held = new Set(files.flatMap(f => f.split('/').map((_, i, parts) => parts.slice(0, i + 1).join('/'))));
+    expect(held.size).toBeGreaterThan(1000);
+    const gone = map.features.flatMap(f => f.paths.filter(p => !held.has(p.replace(/\/+$/, ''))).map(p => `${f.id}: ${p}`));
     expect(gone).toEqual([]);
   });
   it('says what a changed file could touch, and what is live there', () => {

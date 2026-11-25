@@ -78,6 +78,7 @@ export class BgImport {
     writeFileSync(this.copy(id), await (width > 1448 ? image.resize(1448) : image).jpeg({ quality: 88 }).bytes());
   }
   static async main(args: string[]): Promise<number> {
+    if (!existsSync(this.bg)) { console.error(`assets/bg is not checked out here (a builder's worktree has no assets/): make a full one, FULL=1 /var/tmp/kyrie/tools/worktree.sh`); return 1; }
     const { sources, fresh, gone } = this.match(this.read());
     const copyless = Object.keys(sources).filter(id => !existsSync(this.copy(id)));
     // A painting new to sources.json with its copy already made is adopted as it is; one painted over is copied again.

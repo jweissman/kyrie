@@ -1206,6 +1206,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov: a lead wanted where the shut contract claims none yet (Shut.found waits on a place been)"
+  },
+  "OR-660": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: the inner loop's and CI's speed, a platform requirement, not a violated contract"
   }
  },
  "blockedBy": {

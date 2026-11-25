@@ -18,7 +18,15 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
-        with: { path: kyrie, ref: "${{ github.event.workflow_run.head_sha || github.sha }}" }
+        with:
+          path: kyrie
+          ref: "${{ github.event.workflow_run.head_sha || github.sha }}"
+          # Without assets/ (the owner's paintings and sheets, 1.7 GB of the tip): the page is built from web/reader's
+          # copies, and the specs that read the images are the images job's alone (test/lanes.json).
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
       - uses: oven-sh/setup-bun@v2
         with: { bun-version: 1.4.3 }
       - run: bun install --frozen-lockfile

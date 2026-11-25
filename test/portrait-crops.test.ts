@@ -8,11 +8,6 @@ import { CompanyPortraits } from '../src/paintings/company-portraits';
 // the top of a head cut on the map: the cut had set the face high and moved the square down off the crowns of elves
 // and birdfolk where the frame's arches were in the way, and the map drew it in half as close again.
 class Sizes {
-  // A PNG's width and height, from its header.
-  static png(path: string): [number, number] {
-    const b = readFileSync(path);
-    return [b.readUInt32BE(16), b.readUInt32BE(20)];
-  }
   // A WebP's width and height, lossy, lossless or extended.
   static webp(path: string): [number, number] {
     const b = readFileSync(path), kind = b.toString('ascii', 12, 16);
@@ -27,13 +22,11 @@ class Sizes {
 
 describe('the cut of the company\'s portraits', () => {
   const all = CompanyPortraits.all;
-  it('cuts each a square within its sheet, and writes its copies at the sizes the page shows', () => {
-    const sheets = new Map<string, [number, number]>();
+  // Within its sheet: test/portrait-sheets-images, which reads the sheets in assets/pcs (CI's images job).
+  it('cuts each a square, and writes its copies at the sizes the page shows', () => {
     for (const p of all) {
-      const [w, h] = sheets.get(p.source) ?? Sizes.png(`assets/pcs/${p.source}`);
-      sheets.set(p.source, [w, h]);
       const [x0, y0, x1, y1] = p.crop as [number, number, number, number];
-      expect([p.id, x1 - x0 === y1 - y0, x0 >= 0 && y0 >= 0 && x1 <= w && y1 <= h]).toEqual([p.id, true, true]);
+      expect([p.id, x1 - x0 === y1 - y0, x0 >= 0 && y0 >= 0]).toEqual([p.id, true, true]);
       expect([p.id, Sizes.webp(`web/reader/${p.file}`), Sizes.webp(`web/reader/${p.medium}`)])
         .toEqual([p.id, [160, 160], [320, 320]]);
     }

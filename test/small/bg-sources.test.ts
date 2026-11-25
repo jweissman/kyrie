@@ -4,7 +4,8 @@ import { BgImport } from '../../scripts/bg-import';
 // The owner's scene paintings kept in folders (the owner, 24 November: one for each terrain), each keeping the id it
 // has for good: sources.json says every painting in assets/bg by its file and digest, so that one moved or renamed is
 // followed by its bytes, and one kept under terrain/<t>/ is of that terrain. Where this fails, a painting was added,
-// moved or painted over: `bun scripts/bg-import.ts` brings it in.
+// moved or painted over: `bun scripts/bg-import.ts` brings it in. The paintings on disk are read by
+// test/bg-sources-images (CI's images job: a builder's worktree has no assets/); these are made-up inputs.
 describe('the owner\'s scene paintings, by their sources', () => {
   it('names each painting by its folder and name, its terrain by its folder', () => {
     expect(BgImport.id('assets/bg/terrain/desert/sphinx.png')).toBe('scene-desert-sphinx');
@@ -30,9 +31,5 @@ describe('the owner\'s scene paintings, by their sources', () => {
         terrain: 'desert' });
       expect(fresh).toEqual(['scene-desert-sphinx']);
     } finally { BgImport.pngs = pngs; BgImport.sha1 = digest; }
-  });
-  it('knows every painting in assets/bg as it is', () => {
-    const { fresh, gone } = BgImport.match(BgImport.read());
-    expect({ fresh, gone }).toEqual({ fresh: [], gone: [] });
   });
 });
