@@ -12,7 +12,8 @@
     "town",
     "green",
     "taproom",
-    "keeper"
+    "keeper",
+    "west"
   ],
   "roles": {
     "party": {
@@ -29,6 +30,9 @@
     },
     "keeper": {
       "type": "group"
+    },
+    "west": {
+      "type": "place"
     }
   },
   "exports": {
@@ -76,5 +80,8 @@
       "entity": "reeve_ruled",
       "role": "outcome"
     }
-  }
+  },
+  "optional": [
+    "west"
+  ]
 }

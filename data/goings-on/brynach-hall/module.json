@@ -10,7 +10,8 @@
   "imports": [
     "party",
     "town",
-    "green"
+    "green",
+    "sent"
   ],
   "roles": {
     "party": {
@@ -21,11 +22,17 @@
     },
     "green": {
       "type": "place"
+    },
+    "sent": {
+      "type": "fact"
     }
   },
   "exports": {
     "pasture": "pasture",
     "guide": "guide"
   },
-  "unclocked": "the hall keeps its doors open to every drove, whenever it comes"
+  "unclocked": "the hall keeps its doors open to every drove, whenever it comes",
+  "optional": [
+    "sent"
+  ]
 }

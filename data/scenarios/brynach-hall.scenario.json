@@ -17,7 +17,8 @@
       "imports": {
         "party": "@party",
         "town": "@town",
-        "green": "@town.green"
+        "green": "@town.green",
+        "sent": "^drove.road_west"
       }
     }
   ],

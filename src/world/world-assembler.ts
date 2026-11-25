@@ -412,9 +412,13 @@ export class WorldAssembler {
     return w?.near === town ? -1 : w?.hours ?? Infinity;
   }
   private static install(m: string, n: number): string { return `${m.replace(/[^A-Za-z0-9]/g, '')}${n > 1 ? n : ''}`; }
-  // A scenario reference: @party, @region, @role, @role.part (a settlement's green, a site's track or the country it
-  // stands in…), @history.makers / .fate / .successors (the country's own history, to be found), module.export.
+  // A scenario reference: @party, @region, @region.part (the country's own place: edge_west), @role, @role.part (a
+  // settlement's green, a site's track…), @history.makers / .fate / .successors, module.export, and ^module.export: a
+  // module of the world's first country, read beyond it (the drovers' hall hears Bran sent the company: ST-11); where
+  // there is none, it binds nothing, and the import is optional.
   static ref(value: string, placement: Placement, region?: Region): string {
+    const [owner, named] = value.slice(1).split('.') as [string, string];
+    if (value.startsWith('^')) { return `${this.prefix(RegionWriter.id)}${this.install(owner, 1)}.${named}`; }
     if (value.includes(':')) {
       const [role, rest] = value.split(':') as [string, string], [module, name] = rest.split('.') as [string, string];
       const other = placement.linked?.[role];
@@ -427,7 +431,7 @@ export class WorldAssembler {
     }
     const [role, part] = value.slice(1).split('.') as [string, string | undefined];
     if (role === 'party') { return `${RegionWriter.id}.party`; }
-    if (role === 'region') { return `${placement.rid}.region`; }
+    if (role === 'region') { return `${placement.rid}.${part ?? 'region'}`; }
     if (role === 'history') { return `${placement.rid}.${RegionWorks.history(part, region)}`; }
     const bound = placement.bindings[role];
     if (!bound) { throw new Error(`Scenario reference ${value} names no bound place`); }

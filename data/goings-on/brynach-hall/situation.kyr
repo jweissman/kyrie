@@ -15,7 +15,12 @@ Module hall "The drovers' hall at the pass" {
     Says "'Droves that lost beasts on the high pasture,' says Marged. 'Not to wolves. Wolves don't burn the grass.' She does not look up at the beam. 'The lord pays for a sword. Nobody has collected.'".
     On discuss { Assert hallWarned(actor). Assert knows(actor, pasture). }
   }
-  Topic bran_sent with marged "Tell Marged that Bran ap Ifor sent you" when not welcomed(actor) once {
+  // Bran's word, as his drove taught it at Porthalen (the iscoed drove's road_west, imported from the world's first
+  // country): only a company he sent can say he sent it (ST-11: Marged's line had been offered to anyone). A world
+  // with no held drove binds nothing here, and nobody is sent.
+  Entity sent: fact "Bran ap Ifor, the Brynach lead-drover, sent the company up the pass to the drovers' hall.".
+  Objective hall_aim when knows(party, sent) and not welcomed(party) toward hall "Find the drovers' hall at the pass, and tell Marged that Bran ap Ifor sent you.".
+  Topic bran_sent with marged "Tell Marged that Bran ap Ifor sent you" when knows(actor, sent) and not welcomed(actor) once {
     Says "Marged looks at you a long time. 'Bran's alive, then, and out of the Rì's lock-up,' she says. 'Thirty-six head?' And when you say it, she nods. 'You'll eat here, and sleep here, and my Dai will take you over the tops when you want to see what's on them. Bran doesn't send people.'".
     On discuss { Assert welcomed(actor). Assert knows(actor, guide). }
   }

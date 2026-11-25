@@ -19,7 +19,8 @@
         "town": "@town",
         "green": "@town.green",
         "taproom": "@town.taproom",
-        "keeper": "@town.innkeeper"
+        "keeper": "@town.innkeeper",
+        "west": "@region.edge_west"
       }
     }
   ],

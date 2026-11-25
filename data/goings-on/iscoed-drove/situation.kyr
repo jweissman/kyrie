@@ -4,6 +4,7 @@ Module drove "The held drove" {
   Place town "The town" is settlement.
   Place green "The green" is room.
   Place taproom "The taproom" is room.
+  Place west "the march-stone on the drove road west" is room.
   Entity keeper: group "The innkeeper".
   Relation offstage(entity).
   Relation freed(group). Relation sent(group). Relation watered(group). Relation fined(group). Relation turned(group). Relation thanked(group). Relation counted(group).
@@ -245,6 +246,10 @@ Module drove "The held drove" {
   // His "come up the pass" an aim the company can take (ST-10: road_west had been taught and read by no objective,
   // the onward hook leading nowhere, cold play 6): the way west asked of him, once the drove is sold or he is paid out.
   Objective west_aim when knows(party, road_west) and freed(party) and (sold(party) or fined(party)) and not westAsked(party) toward bran "Ask Bran about the work up the pass in Brynach: the lord there pays for a sword.".
+  // Bran's word leads to the road itself (ST-11: his answer had led past the march to nothing): known, it puts the
+  // march-stone west on the company's map as where the drove road goes, where the country beyond is drawn, whose
+  // drovers' hall at the pass hears that Bran sent the company (brynach-hall, reading road_west) and takes it on.
+  Initially Assert leadsTo(road_west, west).
   Rule owain_goes when freed(party) and at(owain, pens) { Assert at(owain, green). }
   // The customs-man who went out to the Rhyne and looked (show_drowned): back at the pens, getting the four out of the
   // water, once, while the company is there (the drove-response audit's still-open, CL-32).

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
+import { ModuleWriter } from '../src/lang/module-writer';
 
 // Iscoed's reasons to travel (mission-22/world/slice.md, step 5), each carried by someone with a reason of their own:
 // the reeve's quarter-tally north up the salt road to the Exchange in Dun Rìerdan's Tower of the Scales, and Bran's
@@ -31,7 +32,9 @@ describe('the roads out of Iscoed', () => {
     expect([/the fen dry/.test(j.latest), /a clerk turned out/.test(j.latest)]).toEqual([true, false]);
   }, 240000);
   it('takes Bran\'s word west to the drovers\' hall at the pass, where the high pasture is spoken of', async () => {
-    const j = await Road.begin();
+    const j = await Road.begin(), c = j.campaign;
+    // Bran's word, as freeing him teaches it (the drove's road_west): only a company he sent can say so (ST-11).
+    c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'drove__road_west') }]));
     await Road.reach(j, 'Brynach', 'Caer Brynach');
     await j.play('To the drovers\' hall', 'Ask Marged what the flame marks on the beam are',
       'Tell Marged that Bran ap Ifor sent you');
