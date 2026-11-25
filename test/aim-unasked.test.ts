@@ -15,7 +15,9 @@ const start = async (seed: string) => Journey.of(await DrawnWorld.start(seed, { 
   party: [{ name: 'Wren', raceId: 'human', classId: 'bard' }] }, NodeBundleSource.shared));
 describe('an aim given unasked', () => {
   it('is offered by an answer, to take up, and not taken', async () => {
-    const j = await start('iscoed'), c = j.find('Ask Gek what the old workings are worth')!;
+    const j = await start('iscoed');
+    await j.play('Ask Gek what the matter is');
+    const c = j.find('Ask Gek what the old workings are worth')!;
     const before = PlayerView.observe(j.campaign), event = await j.session.leg(c.command);
     const feedback = ActionFeedbackView.read(j.campaign, event, before);
     expect([feedback.aims, feedback.taken]).toEqual([undefined, undefined]);

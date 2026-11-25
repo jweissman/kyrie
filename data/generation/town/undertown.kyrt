@@ -162,7 +162,7 @@
   Relation {t}_u_apprentice_caught(entity). Relation {t}_u_apprentice_exposed(entity).
   Relation {t}_u_apprentice_kept(entity). Relation {t}_u_apprentice_fled(entity).
   Measure {t}_u_store_given_at(group). Measure {t}_u_thanked_at(group).
-  Topic {t}_u_apprentice_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when (knows(actor, {t}_u_notice) or been(actor, {t}_u_store)) and not {t}_u_given({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) once {
+  Topic {t}_u_apprentice_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when (toldMatter({t}_merchant, actor) or knows(actor, {t}_u_notice) or been(actor, {t}_u_store)) and not {t}_u_given({t}_u_apprentice_job) and not {t}_u_done({t}_u_apprentice_job) once {
     Says "'Rats,' says {{t}_merchant}. 'A sack a night, near enough, and never a hole gnawed in one of them. Clever rats.' A key comes off a nail behind the counter. At the shelves the apprentice stops what he is doing, and starts again. 'There's a trapdoor in the floor. Find where they get in and stop it. Ten coin, and a lantern besides.'".
     On discuss { Assert knows(actor, {t}_u_apprentice_job). Assert {t}_u_given({t}_u_apprentice_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). Set {t}_u_store_given_at({t}_merchant) to watch(clock). }
   }
@@ -373,7 +373,7 @@
   Milestone {t}_u_rats_ended "cleared the rats from under the corn-store, nest and all" worth 150 when {t}_u_nest_cleared({t}_u_rats_job).
   Entity {t}_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at {town}.".
   Entity {t}_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
-  Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when (knows(actor, {t}_u_notice) or been(actor, {t}_u_store)) and not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) once {
+  Topic {t}_u_rats_job_ask with {t}_merchant "Ask {{t}_merchant} about the rats in the corn-store" when (toldMatter({t}_merchant, actor) or knows(actor, {t}_u_notice) or been(actor, {t}_u_store)) and not {t}_u_given({t}_u_rats_job) and not {t}_u_done({t}_u_rats_job) once {
     Says "'They've got into the old corn-store from underneath,' says {{t}_merchant}. 'Rats, {nestof}, and bold with it. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.'{ratsbane}".
     On discuss { Assert knows(actor, {t}_u_rats_job). Assert {t}_u_given({t}_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, {t}_u_store_lock). }
   }
@@ -518,7 +518,7 @@
   Entity {t}_u_dead_job: fact "Lay the dead in the crypt under the churchyard at {town}.".
   // Not once the job is done: a warrior who forced the crypt door and laid the dead had still been offered the job,
   // and the key, after the pay (the owner, 7 November). So for each job asked of.
-  Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when (knows(actor, {t}_u_notice) or been(actor, {t}_u_yard)) and not {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) once {
+  Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when (toldMatter({t}_priest, actor) or knows(actor, {t}_u_notice) or been(actor, {t}_u_yard)) and not {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) once {
     Says "{{t}_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
     On discuss { Assert knows(actor, {t}_u_dead_job). Assert {t}_u_given({t}_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, {t}_u_crypt_lock). }
   }
@@ -741,7 +741,7 @@
   Kind hobb_knife "a bone-handled knife" like dagger worth 2 weighing 1 described "A working man's knife with a bone handle, H burned into it.".
   // With the key, a remedy for the bite: a cave spider's venom stays in the blood after the fight, and a lone first
   // company bitten once had died of it at full health (the builder's descent of 8 November).
-  Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when (knows(actor, {t}_u_notice) or been(actor, {t}_u_pit)) and not {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) once {
+  Topic {t}_u_spiders_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when (toldMatter({t}_innkeeper, actor) or knows(actor, {t}_u_notice) or been(actor, {t}_u_pit)) and not {t}_u_given({t}_u_spiders_job) and not {t}_u_done({t}_u_spiders_job) once {
     Says "'Nobody goes in the old quarry now,' says {{t}_innkeeper}. 'There's webs across the adit thick as sailcloth. The Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.' A stoppered phial follows it, the cork waxed. 'Hobb's mother made that, for the bite. Drink it the moment one has you, not after.'".
     On discuss { Assert knows(actor, {t}_u_spiders_job). Assert {t}_u_given({t}_u_spiders_job). Give quarry_key to actor. Give antidote to actor. Assert keyholder(actor, {t}_u_adit_lock). }
   }
@@ -850,7 +850,7 @@
   Entity {t}_u_bear_cub: fact "The she-bear in the old quarry has a cub with her. She will fight for it, and she would take it away if the way were left open.".
   // Asked after only by one who has heard of it, on the notice on the well-post (the one plain lead to what is under
   // the town), or has seen the clawed gate for themselves (OR-370: the first town's jobs uncovered, not handed out).
-  Topic {t}_u_bear_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when (knows(actor, {t}_u_notice) or been(actor, {t}_u_pit)) and not {t}_u_given({t}_u_bear_job) and not {t}_u_done({t}_u_bear_job) once {
+  Topic {t}_u_bear_job_ask with {t}_innkeeper "Ask {{t}_innkeeper} about the old quarry" when (toldMatter({t}_innkeeper, actor) or knows(actor, {t}_u_notice) or been(actor, {t}_u_pit)) and not {t}_u_given({t}_u_bear_job) and not {t}_u_done({t}_u_bear_job) once {
     Says "'Something's denned in the old quarry,' says {{t}_innkeeper}. 'There's claw-marks on the gate the height of my head, and the wolves that follow it have got bold. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever clears it.'".
     On discuss { Assert knows(actor, {t}_u_bear_job). Assert {t}_u_given({t}_u_bear_job). Give quarry_key to actor. Assert keyholder(actor, {t}_u_adit_lock). }
   }
@@ -951,7 +951,7 @@
   // What is known above opens a better way below (M21's FF-02): asked about the old drain, the innkeeper tells where
   // its centipede lies up; known, the company keeps to the cold side, and it does not stir.
   Entity {t}_u_drain_warm: fact "The old drain's centipede lies up by the bakehouse flue, where the stone is warm. It does not stir for one who keeps to the cold side.".
-  Topic {t}_u_drain_asked with {t}_innkeeper "Ask {{t}_innkeeper} about the old drain under {town}" when not knows(actor, {t}_u_drain_warm) once {
+  Topic {t}_u_drain_asked with {t}_innkeeper "Ask {{t}_innkeeper} about the old drain under {town}" when toldMatter({t}_innkeeper, actor) and not knows(actor, {t}_u_drain_warm) once {
     Says "'The old drain?' says {{t}_innkeeper}. 'There's a long thing down there, all legs. It lies up by the bakehouse flue, where the stone is warm. Keep to the cold side and it won't stir.'".
     On discuss { Assert knows(actor, {t}_u_drain_warm). }
   }

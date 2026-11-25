@@ -22,7 +22,8 @@ class Shrine {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'wren', w.source);
     await this.walk(s, [/^Take the road to the bailey/, /^Take the door of the Wooden Wolf/,
-      /^Ask Fargrim about the old workings$/, /^Take the door of the Wooden Wolf/, /^Take the shrine porch in Gothgiba/,
+      /^Ask Fargrim what the matter is/, /^Ask Fargrim about the old workings$/, /^Take the door of the Wooden Wolf/,
+      /^Take the shrine porch in Gothgiba/,
       /^Ask Baern about the walled stair/]);
     // A company that has not heard the innkeeper's grandmother's saying (S2-4: asked about the workings, Fargrim
     // tells what the thing below cannot bear): what the priest is argued with is all it knows of the bane.

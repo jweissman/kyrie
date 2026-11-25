@@ -113,7 +113,7 @@
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }
 --- hook seal 1
-  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old kingdom" when not knows(actor, {w}_named) once {
+  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old kingdom" when toldMatter({merchant}, actor) and not knows(actor, {w}_named) once {
     Says "'The kingdom of {kingdom} had a keep at {name}, in {where},' says {{merchant}}. 'Anything with their seal on it sells, to the right people. Bring me what you find there, and I will pay you better than its weight.'".
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }

@@ -27,6 +27,18 @@ Module lab "The undercroft at Lowmouth" {
   Company party "You" of 1 at low_green.
   Initially Set quantity(party, gold) to 6.
   Goal false.
+  Topic low_innkeeper_matter with low_innkeeper "Ask {low_innkeeper} what the matter is in Lowmouth" when not toldMatter(low_innkeeper, actor) once {
+    Says "'Where do I start?' says {low_innkeeper}, leaning on the counter. 'Who owes the house, who lodges upstairs, and what is under the town that nobody goes near now. Ask me.'".
+    On discuss { Assert toldMatter(low_innkeeper, actor). }
+  }
+  Topic low_merchant_matter with low_merchant "Ask {low_merchant} what the matter is in Lowmouth" when not toldMatter(low_merchant, actor) once {
+    Says "'Trade is poor,' says {low_merchant}. 'Folk would rather talk about the old places out in the country than buy. There is trouble under the town too, if you have the stomach for it.'".
+    On discuss { Assert toldMatter(low_merchant, actor). }
+  }
+  Topic low_priest_matter with low_priest "Ask {low_priest} what the matter is in Lowmouth" when not toldMatter(low_priest, actor) once {
+    Says "'The dead do not all lie quiet here,' says {low_priest}, 'and the living bring me their quarrels. Ask, and I will tell you what I can.'".
+    On discuss { Assert toldMatter(low_priest, actor). }
+  }
   Relation low_u_paid(entity). Relation low_u_done(entity). Relation low_u_given(entity).
   Relation low_u_onward_by(entity).
   Relation low_u_came(entity).
@@ -131,7 +143,7 @@ Module lab "The undercroft at Lowmouth" {
   Milestone low_u_rats_ended "cleared the rats from under the corn-store, nest and all" worth 150 when low_u_nest_cleared(low_u_rats_job).
   Entity low_u_rats_job: fact "Clear the rats out of the corn-store cellar, under the old corn-store at Lowmouth.".
   Entity low_u_rats_source: fact "The rats come up into the cellar by a run of their own from their nest below, over the old drain.".
-  Topic low_u_rats_job_ask with low_merchant "Ask {low_merchant} about the rats in the corn-store" when (knows(actor, low_u_notice) or been(actor, low_u_store)) and not low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) once {
+  Topic low_u_rats_job_ask with low_merchant "Ask {low_merchant} about the rats in the corn-store" when (toldMatter(low_merchant, actor) or knows(actor, low_u_notice) or been(actor, low_u_store)) and not low_u_given(low_u_rats_job) and not low_u_done(low_u_rats_job) once {
     Says "'They've got into the old corn-store from underneath,' says {low_merchant}. 'Rats, a couple of them at the least, and bold with it. I've lost a third of the grain.' A key comes off a nail behind the counter. 'There's a trapdoor in the floor. Kill them, and find where they're getting in, or they'll be back by harvest. Ten coin, and I'll see you right for a lantern besides.'".
     On discuss { Assert knows(actor, low_u_rats_job). Assert low_u_given(low_u_rats_job). Give corn_store_key to actor. Assert keyholder(actor, low_u_store_lock). }
   }
@@ -244,7 +256,7 @@ Module lab "The undercroft at Lowmouth" {
     Change pinch "Pinch out the black candle" from alight to snuffed when not at(low_u_raiser, low_u_ossuary) or not able(low_u_raiser) "The man with the black candle stands over it, and the dead are his while it burns.".
   }
   Entity low_u_dead_job: fact "Lay the dead in the crypt under the churchyard at Lowmouth.".
-  Topic low_u_dead_job_ask with low_priest "Ask {low_priest} about the noises under the churchyard" when (knows(actor, low_u_notice) or been(actor, low_u_yard)) and not low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) once {
+  Topic low_u_dead_job_ask with low_priest "Ask {low_priest} about the noises under the churchyard" when (toldMatter(low_priest, actor) or knows(actor, low_u_notice) or been(actor, low_u_yard)) and not low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) once {
     Says "{low_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
     On discuss { Assert knows(actor, low_u_dead_job). Assert low_u_given(low_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, low_u_crypt_lock). }
   }
@@ -351,7 +363,7 @@ Module lab "The undercroft at Lowmouth" {
   Entity low_u_spiders_job: fact "Burn the spiders out of the quarry adit under the old quarry pit at Lowmouth.".
   Entity low_u_spiders_eggs: fact "The spiders' mother has hung her eggs at the back of the old workings. Unless they are burned, the spiders will come again.".
   Kind hobb_knife "a bone-handled knife" like dagger worth 2 weighing 1 described "A working man's knife with a bone handle, H burned into it.".
-  Topic low_u_spiders_job_ask with low_innkeeper "Ask {low_innkeeper} about the old quarry" when (knows(actor, low_u_notice) or been(actor, low_u_pit)) and not low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) once {
+  Topic low_u_spiders_job_ask with low_innkeeper "Ask {low_innkeeper} about the old quarry" when (toldMatter(low_innkeeper, actor) or knows(actor, low_u_notice) or been(actor, low_u_pit)) and not low_u_given(low_u_spiders_job) and not low_u_done(low_u_spiders_job) once {
     Says "'Nobody goes in the old quarry now,' says {low_innkeeper}. 'There's webs across the adit thick as sailcloth. The Hobb boy went in after a ferret and came out white. We put a gate on it.' A small key, put down on the counter. 'Twelve coin from the house to whoever burns them out, and a pot of the salve the firemen use. Talk to the boy first. He saw more than he says.' A stoppered phial follows it, the cork waxed. 'Hobb's mother made that, for the bite. Drink it the moment one has you, not after.'".
     On discuss { Assert knows(actor, low_u_spiders_job). Assert low_u_given(low_u_spiders_job). Give quarry_key to actor. Give antidote to actor. Assert keyholder(actor, low_u_adit_lock). }
   }
@@ -461,7 +473,7 @@ Module lab "The undercroft at Lowmouth" {
   }
   Initially Set encounterXp(low_u_crawler) to 60.
   Entity low_u_drain_warm: fact "The old drain's centipede lies up by the bakehouse flue, where the stone is warm. It does not stir for one who keeps to the cold side.".
-  Topic low_u_drain_asked with low_innkeeper "Ask {low_innkeeper} about the old drain under Lowmouth" when not knows(actor, low_u_drain_warm) once {
+  Topic low_u_drain_asked with low_innkeeper "Ask {low_innkeeper} about the old drain under Lowmouth" when toldMatter(low_innkeeper, actor) and not knows(actor, low_u_drain_warm) once {
     Says "'The old drain?' says {low_innkeeper}. 'There's a long thing down there, all legs. It lies up by the bakehouse flue, where the stone is warm. Keep to the cold side and it won't stir.'".
     On discuss { Assert knows(actor, low_u_drain_warm). }
   }
@@ -583,7 +595,7 @@ Module lab "The undercroft at Lowmouth" {
   Action low_u_notice_read(actor: group, site: place) "Read the notice on the well-post" {
     Requires able(actor) and at(actor, site) and at(actor, low_green) and not knows(actor, low_u_notice) and (able(low_u_rats) or able(low_u_dead) or able(low_u_spiders)) and not stale(low_u_notice).
     Time 1.
-    On success { Assert knows(actor, low_u_notice). }
+    On success { Assert knows(actor, low_u_notice). Assert toldMatter(low_merchant, actor). Assert toldMatter(low_priest, actor). Assert toldMatter(low_innkeeper, actor). }
     Result "A notice on the post by the well, in three hands. 'RATS in the old corn-store, a nest of them. Ten coin, and a lantern. Ask {low_merchant} at {low_shop} for the key.' 'Whoever will go down into the catacombs under the churchyard, where something has come up: fifteen coin, and the shrine's thanks. Ask {low_priest} at {low_chapel}.' 'SPIDERS in the old quarry. Twelve coin from the house. Ask {low_innkeeper} at {low_taproom} for the gate key.'".
   }
   Initially Assert askedOf(low_u_notice, low_merchant).

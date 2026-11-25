@@ -19,6 +19,7 @@ describe('the aim followed leads', () => {
     await g.to('region__s2_green');
     await take(/^Read the notice/);
     await g.to('region__s2_shop');
+    await take(/^Ask .* what the matter is/);
     await take(/^Ask .* about the rats/);
     Undertakings.follow(c, 'region__s2_u_rats_job_aim');
     const glance = await g.to('region__s2_green');

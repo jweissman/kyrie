@@ -193,10 +193,10 @@ export class DeepSites {
       `  Topic ${w}_saying with ${values.keeper} ${q(`Ask {${values.keeper}} what the old folk say of ${values.name}`)} when knows(actor, ${w}_named) and not knows(actor, ${w}_bane) once {`,
       `    Says ${q(`{${values.keeper}} lowers {their ${values.keeper}} voice. 'My grandmother used to say it: ${DeepSites.lower(purpose.bane.fact)}'`)}.`,
       `    On discuss { Assert knows(actor, ${w}_bane). }`, '  }'] : [];
-    return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when not knows(actor, ${w}_named) once {`,
+    return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when toldMatter(${values.keeper}, actor) and not knows(actor, ${w}_named) once {`,
       `    Says ${q(`${first} {${values.keeper}} wipes the counter. '${this.lies(values.where!)} Go in daylight, and take more light than you think.'`)}.`,
       `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }', ...saying,
-      ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when true once {`,
+      ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when toldMatter(${values.merchant}, actor) once {`,
         `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
         // What he names, the map names too (he says Lapisrecs; the mound had stayed "a great long mound with a door of
         // stone", and a cold player went to another: Mission 20's third round, D 104), though not the way there.

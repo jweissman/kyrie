@@ -22,7 +22,7 @@ describe('a settlement and its nearest place', () => {
     const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt',
       party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared));
     Placed.at(j, 'region__s1_shrine');
-    await j.play('about the bread that is carried out of');
+    await j.play('what the matter is', 'about the bread that is carried out of');
     expect(Placed.holds(j, 'knows', 'party', `region__${site}_named`)).toBe(true);
     Placed.at(j, `region__${site}`);
     await j.play('Build the cairn up again');
