@@ -16,10 +16,6 @@ Module discovery_rules "Reliable discovery and trusted reports" {
   // Known by reading it (a tally, a tablet): the writing's own account, as good as whoever wrote it.
   Relation readIn(group, fact).
   Relation searched(group, place).
-  // Someone has told the company what the matter is where they are (asked "what is the matter?"): only then does it
-  // know enough to ask them about the town's particular troubles, its old places and its people (the owner, OR-423: a
-  // new life had been offered some seventeen questions about things it had never heard of).
-  Relation toldMatter(group, group).
   // A place where a story is being told (a cart gone off the road, a man under it), and the story: nothing else that
   // could be taken for part of it happens there by chance (a carrier's wheel in the ditch).
   Relation staged(place, fact).

@@ -8,7 +8,7 @@ import { PlayTool } from '../../src/cli/play-tool';
 class Lab {
   static async walk(asked: boolean) {
     const { journey: j } = await PlayTool.start(PlayTool.parse([Laboratory.file, '--as', 'human/warrior/Brann']));
-    if (asked) { await j.play('taproom of the Lucky Phoenix', 'what the matter is', 'about the old drain', 'landing at Lowmouth'); }
+    if (asked) { await j.play('taproom of the Lucky Phoenix', 'about the old drain', 'landing at Lowmouth'); }
     await j.play('wrench the padlock', 'old corn-store', 'corn-store cellar', ': light a', 'rat-runs', '^Attack',
       'old drain');
     const fights = () => j.campaign.history.filter(e => e.combat.some(c => c.type === 'end')).length, before = fights();

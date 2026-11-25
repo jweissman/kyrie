@@ -34,7 +34,7 @@
     Seen when not {t}_tie_lost(party).
     Greets "A very old woman has been set in a chair in the lee of the door with a blanket to her chin and a rosary of dried peas. 'Is it lit?' she says, not to you. 'It is lit, Mam,' somebody says from inside. 'Then I may sit,' she says.".
   }
-  Topic {t}_tie_ask with {t}_innkeeper "Ask {{t}_innkeeper} why the lamp is kept in the window" when toldMatter({t}_innkeeper, actor) and not knows(actor, {site}_named) once {
+  Topic {t}_tie_ask with {t}_innkeeper "Ask {{t}_innkeeper} why the lamp is kept in the window" when not knows(actor, {site}_named) once {
     Says "'For a lad who went out to {sitename}, in {where},' says {{t}_innkeeper}. 'My brother. For a bet, or a girl, or to be somebody. He did not come back, and Mam kept his bed.' A pause you could set a cup on. 'She will not see the week out. Two days, the herb-wife says, and I have not said so to her. She asks me every morning if the lamp is lit. If I could put one thing in her hands from out there, whatever it was. That is all I have. It is not much to ask a stranger.'".
     On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). Assert {t}_tie_asked(party). }
   }
@@ -75,7 +75,7 @@
     Seen when not {t}_tie_gone(party) or {t}_tie_back(party).
     Greets "A young man in a coat cut for a better year leans on the well-curb, watching the road. 'My father's measure,' he says, before you have asked. 'Given, not lent. There is nothing in writing, naturally. There never is, with a gift.'".
   }
-  Topic {t}_tie_ask with {t}_merchant "Ask {{t}_merchant} what they have lent that was not returned" when toldMatter({t}_merchant, actor) and not knows(actor, {site}_named) once {
+  Topic {t}_tie_ask with {t}_merchant "Ask {{t}_merchant} what they have lent that was not returned" when not knows(actor, {site}_named) once {
     Says "'A measure,' says {{t}_merchant}. 'Brass-bound. Eight years since. I lent it to a surveyor, or a man who said so, who wanted to value what lay at {sitename}, in {where}. It is not the brass; it is that every weight I sell is matched to it. I have been selling the town short by a thimble ever since and nobody has said.' A dry breath. 'His son is in the street now saying it was a gift, and going to fetch it. Gifts are not struck with my mark. Whoever has it by the market, I am told, may set the weights. I should like it to be me.'".
     On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). Assert {t}_tie_asked(party). }
   }
@@ -130,7 +130,7 @@
     Role "fourteen, seen on the hill the morning after the herd crossed it". Ancestry human. Peaceable. Manner acerbic. Pronouns he.
     Greets "A boy of fourteen or so sits on the well-curb with his bundle between his feet, done with arguing. 'I was after the cattle,' he says. 'Nobody asks what I was after.'".
   }
-  Topic {t}_tie_ask with {t}_priest "Ask {{t}_priest} about the bread that is carried out of {town}" when toldMatter({t}_priest, actor) and not knows(actor, {site}_named) once {
+  Topic {t}_tie_ask with {t}_priest "Ask {{t}_priest} about the bread that is carried out of {town}" when not knows(actor, {site}_named) once {
     Says "'Every spring,' says {{t}_priest}, 'the children of {town} walk out to {sitename}, in {where}, with a heel of bread each, and leave it on a heap of stones. Nobody remembers why. I have never forbidden it. It has been kicked over, and I cannot go. And you must understand that the town does not take that lightly. It is the one thing we do that is not for ourselves. They will find someone to have done it, if it is not mended by the second night, and there is a drover's boy about who was seen on that hill. I should be sorry for it. But I cannot hold them to nothing.'".
     On discuss { Assert knows(actor, {site}_named). Assert knows(actor, {site}_found). Assert {t}_tie_asked(party). }
   }

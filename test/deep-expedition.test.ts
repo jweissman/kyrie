@@ -36,8 +36,7 @@ class Delve {
     const leaf = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign));
     return [...(leaf.exchange?.lines ?? []).map(l => l.text), ...leaf.situation, ...leaf.presence].join(' ');
   }
-  static readonly inn = [/^Take the road to the bailey/, /^Take the door of the Wooden Wolf/,
-    /^Ask Fargrim what the matter is/];
+  static readonly inn = [/^Take the road to the bailey/, /^Take the door of the Wooden Wolf/];
   static readonly road = [/^Take the door of the Wooden Wolf/, /^Take the path up onto Barzelrehes to the foot/,
     /^Take .+ to the foot of Barzelrehes by Muzgkom$/, /^Take the track to Goldhold$/,
     /^Take the way in to the adit mouth/, /^Take the passage to the adit$/];

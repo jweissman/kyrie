@@ -59,7 +59,6 @@ describe('a game kept in the browser', () => {
     // The notice read first: a job is asked after only by one who has heard of it (OR-370).
     await s.leg('region__s1_u_notice_read(party,region__s1_green)');
     await s.leg(PlayerView.choices(s.campaign).find(x => /^Take Falkor's door/.test(x.choice.name))!.choice.id);
-    await s.leg('region__s1_merchant_matter');
     await s.leg(PlayerView.choices(s.campaign).find(x => /^region__s1_u_(rats|runaway|apprentice)_job_ask$/
       .test(x.choice.id))!.choice.id);
     const checkpoint = s.checkpoint(true);

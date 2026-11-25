@@ -28,7 +28,7 @@
   }
 --- thread chronicles 1
   Entity {t}_th_chronicles: fact "The shrine in {town} holds two chronicles of the kingdom of {kingdom} that disagree on how it began: one says the last Imperial prefect of the district crowned its first king with his own hand; the other, older, says no such prefect existed, and that the story was added by monks who wanted a pedigree.".
-  Topic {t}_th_chronicles_ask with {t}_priest "Ask {{t}_priest} why there are two chronicles of the kingdom" when toldMatter({t}_priest, actor) and not knows(actor, {t}_th_chronicles) once {
+  Topic {t}_th_chronicles_ask with {t}_priest "Ask {{t}_priest} why there are two chronicles of the kingdom" when not knows(actor, {t}_th_chronicles) once {
     Says "'There are two,' says {{t}_priest}, 'because the shrine was once the only place that kept anything. The old one says {kingdom} was founded by a captain on the ruins of a war, and says nothing of the Empire at all. The newer one says the Empire's last prefect crowned him, with his own hand, and gave him the seal of the road. I keep both. I do not read the newer one aloud. It is a good story, and I should not like to be the priest who knew it was false, or the priest who knew it was true.'".
     On discuss { Assert knows(actor, {t}_th_chronicles). Increase heard_threads(party) by 1. }
   }

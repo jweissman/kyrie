@@ -84,10 +84,6 @@
   {
    "file": "test/world-starts.test.ts",
    "why": "generated worlds start, across seeds and origins (a push sentinel until 24 November)"
-  },
-  {
-   "file": "test/first-questions.test.ts",
-   "why": "what the first people met offer before anything is learnt, by seed (OR-423): a generator, kit or goings-on that gives a townsperson a question about what the company has not heard of"
   }
  ],
  "budget": {

@@ -98,7 +98,7 @@ describe("Gosse's Company: the requiem", () => {
   it('the shipped bard, alone, walked from Wending Cross: no office to say, but the couplet can be sung, to a smaller end', async () => {
     const j = await Journey.start('data/campaigns/gosses-company.campaign.json', 'g1');
     await j.play('Ask Gosse what has happened', 'Ask Hepzibah about Lem', 'Ask Pudding about the bear', 'Into the chapel',
-      'Ask Mother Ivy what the matter is', 'Ask Mother Ivy about the players', 'To the green at Wending', 'To the old lime-kiln', 'Ask Lem why he took the hat',
+      'Ask Mother Ivy about the players', 'To the green at Wending', 'To the old lime-kiln', 'Ask Lem why he took the hat',
       'Pay Lem his four months', 'To the green at Wending', "Absalom Gosse.*Give the players' hat",
       'Ask Gosse what he will do now', 'Tell Gosse you will take service', 'To the west road out',
       'To the West Road above Pentrice', 'To the Westgate', 'To the Chepe', 'To Guildhall Square', 'To the Minster Close',

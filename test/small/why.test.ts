@@ -112,7 +112,7 @@ describe('kyrie inspect --why', () => {
     expect(WhyWriter.of('  Person s1_merchant "Mik" at s1_shop { Role "salter". Ancestry lizardfolk. Peaceable.'))
       .toEqual([expect.stringMatching(/^src\/world\/settlement-writer\.ts:\d+$/)]);
     expect(WhyWriter.of('Topic s1_u_rats_job_ask with s1_merchant "Ask {s1_merchant} about the rats in the corn-store"'
-      + ' when (toldMatter(s1_merchant, actor) or knows(actor, s1_u_notice) or been(actor, s1_u_store)) and not s1_u_given(s1_u_rats_job)'
+      + ' when (knows(actor, s1_u_notice) or been(actor, s1_u_store)) and not s1_u_given(s1_u_rats_job)'
       + ' and not s1_u_done(s1_u_rats_job) once {'))
       .toEqual([expect.stringMatching(/^data\/generation\/town\/undertown\.kyrt:\d+$/)]);
   });

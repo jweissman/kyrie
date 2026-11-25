@@ -23,8 +23,6 @@ describe('a den in the wild, heard of', () => {
     const taproom = s.campaign.world.one('at', `region__${carrier(world, den)}_innkeeper`)!.replace(/^region__/, '');
     const asked = async () => { GeneratedWorld.put(s, taproom); await s.leg('wait');
       return PlayerView.choices(s.campaign).map(c => c.choice.id).filter(x => x.startsWith(`region__${den}_asked`)); };
-    // Asked what the matter is first, as a stranger asks (OR-423).
-    GeneratedWorld.put(s, taproom); await s.leg(`region__${carrier(world, den)}_innkeeper_matter`);
     expect(await asked()).toEqual([`region__${den}_asked`]);
     await s.leg(`region__${den}_asked`);
     expect(await asked()).toEqual([`region__${den}_asked_again`]);

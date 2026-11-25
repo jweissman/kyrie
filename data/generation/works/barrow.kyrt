@@ -102,7 +102,7 @@
 --- present quiet 2
   Observe {w}_quiet at {w}_passage when true "It is very quiet. Your breath is the loudest thing.".
 --- hook gold 2
-  Topic {w}_hook with {keeper} "Ask {{keeper}} about the old mounds" when toldMatter({keeper}, actor) and not knows(actor, {w}_named) once {
+  Topic {w}_hook with {keeper} "Ask {{keeper}} about the old mounds" when not knows(actor, {w}_named) once {
     Says "'The howe at {name}, out in {where},' says {{keeper}}. 'Raised over a king, folk say, with his horse and his gold. They also say the dead in it sit up if you take so much as a pebble, so nobody has.'".
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }

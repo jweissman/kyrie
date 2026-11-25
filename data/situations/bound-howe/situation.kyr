@@ -612,7 +612,7 @@ Module bound_howe "The Bound Howe" {
   }
   Measure torcs_given(group).
   Rule levy_by_lesser when torcs_given(clerk) >= 3 and not levy_met(party) { Assert levy_met(party). }
-  Topic priest_kin with priest "Ask {priest} about the howe on the ridge" when toldMatter(priest, actor) once {
+  Topic priest_kin with priest "Ask {priest} about the howe on the ridge" when true once {
     Says "'The Barrow-Kin,' says {priest}, 'said that the dead keep the bounds, and I have heard worse theology from bishops. I do not like to hear that the shire-reeve's people are digging at a king's door. I like less that they have not told the shrine. If the dead do walk, I shall hear it first, because they will come to the churchyard to see whether it is still kept.'".
     On discuss { Assert knows(actor, priest_told). }
   }

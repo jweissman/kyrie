@@ -36,9 +36,6 @@ describe('a place the company has not learned the name of', () => {
     for (const room of rooms) {
       GeneratedWorld.put(s, room);
       await s.leg('wait');
-      // Asked what the matter is first, as a stranger asks (OR-423).
-      const matters = PlayerView.choices(s.campaign).filter(c => /_matter$/.test(c.choice.id));
-      for (const m of matters) { await s.leg(m.choice.id); }
       if (PlayerView.choices(s.campaign).some(c => c.choice.id === 'region__w1_hook')) { break; }
     }
     expect(ObservationText.label(s.campaign.world, 'region__w1')).toBe(seen);

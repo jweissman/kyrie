@@ -112,7 +112,7 @@ Module drove "The held drove" {
   Topic owain_bran with owain "Ask Owain about Bran" when not freed(party) and not sent(party) once {
     Says "'He knew they'd be waiting,' says {owain}. 'He threw the stick to you, not to them.'".
   }
-  Topic keeper_drove with keeper "Ask {keeper} about the drover the customs-men hold" when toldMatter(keeper, actor) and not freed(party) once {
+  Topic keeper_drove with keeper "Ask {keeper} about the drover the customs-men hold" when not freed(party) once {
     Says "{keeper} lowers their voice. 'Third drove this year Mardle has found four short. The reeve takes his word: he keeps the Rì's book, and she has the sea-gate to think of. Nobody here will cross him. Nobody here sells cattle.'".
   }
   // Mardle shows the line himself (clerk_count_t), so what can fail is seeing what is wrong with it, not reading it

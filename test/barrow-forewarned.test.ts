@@ -7,9 +7,8 @@ import type { Change } from '../src/lang/module';
 import type { Campaign } from '../src/campaign/campaign';
 
 // One preparation that changes the descent (Sprint 2, S2-4; mission-22/beat-map.md: the warrior's preparation changed
-// nothing): asked in the taproom before setting out (what the matter is, and then the barrow: OR-423), the
-// innkeeper's grandmother's saying names what the barrow's king cannot abide, which only the embalmers' words far down
-// had said, so the company knows to look for the jar of day.
+// nothing): asked in the taproom before setting out, the innkeeper's grandmother's saying names what the barrow's king
+// cannot abide, which only the embalmers' words far down had said, so the company knows to look for the jar of day.
 // Known, it is an aim toward the embalmers' room until the jar is carried; carried, the king goes back from it into the
 // deep grave and the crown is had with no fight. Not asked, nothing leads to the jar, and the king rises to fight.
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
@@ -42,7 +41,6 @@ describe('the king-barrow, asked about before setting out', () => {
   it('is told what its king cannot abide, and the company knows it', async () => {
     const { r, c } = await Barrow.begin();
     await Barrow.take(r, /^Into the Stone Horn/);
-    await Barrow.take(r, /what the matter is/);
     expect(Barrow.aims(r)).not.toContain(jar);
     // The saying asked after, by one the innkeeper has told of the barrow (OR-370: the bane's aim is uncovered by
     // asking further, not given with the first answer).
@@ -56,7 +54,6 @@ describe('the king-barrow, asked about before setting out', () => {
   it('leads to the jar below, and with it carried the king gives the crown up without a fight', async () => {
     const { r, c } = await Barrow.begin();
     await Barrow.take(r, /^Into the Stone Horn/);
-    await Barrow.take(r, /what the matter is/);
     said(await r.ask(JSON.stringify({ act: 'region__w8_rumour' })));
     said(await r.ask(JSON.stringify({ act: 'region__w8_saying' })));
     Barrow.enter(c, 'region__w8_halls_embalmers');

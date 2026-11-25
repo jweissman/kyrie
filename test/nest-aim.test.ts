@@ -33,7 +33,6 @@ describe('the rats\' nest', () => {
     await walk('region__s1_green');
     await choose(s, /_u_notice_read\(/);
     await walk(s.campaign.world.one('at', 'region__s1_merchant')!);
-    await choose(s, /merchant_matter/);
     await choose(s, /rats_job_ask/);
     await walk('region__s1_u_warren');
     await s.perform('attack(region__s1_u_rats)');

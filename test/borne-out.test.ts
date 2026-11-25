@@ -44,9 +44,6 @@ class Told {
     for (let tries = 0; tries < 30; tries++) {
       GeneratedWorld.put(s, s.campaign.world.one('at', at.keeper)!.replace(/^region__/, ''));
       await this.perform(host, 'wait');
-      // Asked what the matter is first, as a stranger asks (OR-423).
-      const matter = PlayerView.choices(s.campaign).find(c => c.choice.id === `${at.keeper}_matter`);
-      if (matter) { await this.perform(host, matter.choice.id); }
       const ask = PlayerView.choices(s.campaign).find(c => c.choice.id.includes(`${at.site}_asked`));
       if (ask) { return (await this.perform(host, ask.choice.id)).leaf.exchange?.notes ?? []; }
     }

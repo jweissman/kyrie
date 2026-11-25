@@ -75,7 +75,7 @@ describe('the three forms of a tie', () => {
 
   it('kin: brought in time the mother holds the pouch, and is told the tracks if a ranger read them (thorn)', async () => {
     const s = await found('thorn', 'kin'), j = await start('thorn');
-    await j.play(`>${at(j, s.t, 'innkeeper')}`, '?what the matter is', '?why the lamp is kept', `>${s.t}_green`);
+    await j.play(`>${at(j, s.t, 'innkeeper')}`, '?why the lamp is kept', `>${s.t}_green`);
     expect(offered(j)).toMatch(/old woman/);
     await j.play(`>${s.site}`, 'pouch: Take');
     await j.play(`>${s.t}_green`, 'Put the pouch in the old woman');
@@ -83,7 +83,7 @@ describe('the three forms of a tie', () => {
     expect(holds(j, 'tie_lost', s.t)).toBe(false);
     expect(holds(j, 'tie_nan_first', s.t)).toBe(true);
     const r = await start('thorn', ranger);
-    await r.play(`>${at(r, s.t, 'innkeeper')}`, '?what the matter is', '?why the lamp is kept', `>${s.site}`);
+    await r.play(`>${at(r, s.t, 'innkeeper')}`, '?why the lamp is kept', `>${s.site}`);
     expect(r.page).toMatch(/heel-prints/);
     await r.play(`>${s.t}_green`, 'rose and walked away');
     expect(holds(r, 'tie_hope', s.t)).toBe(true);
@@ -91,14 +91,14 @@ describe('the three forms of a tie', () => {
 
   it('debt: the rival may beat the company to it, and the measure is bought back (ember)', async () => {
     const s = await found('ember', 'debt'), j = await start('ember');
-    await j.play(`>${at(j, s.t, 'merchant')}`, '?what the matter is', '?what they have lent', `>${s.t}_green`);
+    await j.play(`>${at(j, s.t, 'merchant')}`, '?what they have lent', `>${s.t}_green`);
     expect(offered(j)).toMatch(/surveyor's son/);
     await j.play(`>${s.site}`, 'measure: Take');
     await j.play(`>${at(j, s.t, 'merchant')}`, 'Give .* back the measure from');
     expect(holds(j, 'tie_done', s.t)).toBe(true);
     expect(holds(j, 'tie_gone', s.t)).toBe(false);
     const late = await start('ember');
-    await late.play(`>${at(late, s.t, 'merchant')}`, '?what the matter is', '?what they have lent', '=day 2 9:00');
+    await late.play(`>${at(late, s.t, 'merchant')}`, '?what they have lent', '=day 2 9:00');
     expect(holds(late, 'tie_back', s.t)).toBe(true);
     expect(Placed.holds(late, 'at', `region__${s.t}_tie_token`, `region__${s.site}`)).toBe(false);
     await late.play(`>${s.site}`);

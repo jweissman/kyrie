@@ -7,8 +7,6 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { KyrTemplates } from '../src/world/kyr-template';
 import { RegionUndertown } from '../src/world/region-undertown';
-import { TownMatters } from '../src/world/town-matters';
-import type { Settlement } from '../src/world/region-writer';
 
 export class Laboratory {
   static readonly dir = join(import.meta.dir, '../test/fixtures/laboratory');
@@ -26,8 +24,6 @@ export class Laboratory {
     return ['// Written by scripts/laboratory.ts from test/fixtures/laboratory/host.kyr and',
       '// data/generation/town/undertown.kyrt: edit those, not this.',
       'Module lab "The undercroft at Lowmouth" {', ...host.filter(l => l.trim()),
-      // What the matter is, asked of its keeper, merchant and priest, as the town's own are (see TownMatters).
-      ...TownMatters.lines({ id: 'low', name: 'Lowmouth' } as Settlement),
       ...sections.flatMap(x => KyrTemplates.fill(x.lines, values)), ...RegionUndertown.notice('low', sections, values),
       '}', ''].join('\n');
   }
