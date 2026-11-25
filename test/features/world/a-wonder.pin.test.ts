@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
-import { ModuleWriter } from '../../../src/lang/module-writer';
+import { ModuleWriter } from '../../../src/lang';
 import { PlaySession } from '../../../src/session/play-session';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. World › A wonder (OR-440; the owner's direction of

@@ -3,7 +3,7 @@ import { PlayTool } from '../../../src/cli/play-tool';
 import { Runner, type Said } from '../../../src/cli/runner';
 import { RunnerFight } from '../../../src/cli/runner-fight';
 import { ScreenModel } from '../../../src/ui/screen-model';
-import { Milestones } from '../../../src/lang/milestones';
+import { Milestones } from '../../../src/lang';
 import { Undertakings } from '../../../src/presentation/undertakings';
 import { AsMeant } from '../../support/as-meant';
 import { GoldenWalk } from '../../support/golden-walk';

@@ -9,7 +9,7 @@ import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
-import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang/module-compiler';
+import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang';
 import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';

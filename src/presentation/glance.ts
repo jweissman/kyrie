@@ -5,7 +5,7 @@ import { LedWords } from './led-words';
 export type { Host };
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
 import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-leads';
-import { Spatial } from '../lang/spatial'; import { ModuleWriter } from '../lang/module-writer';
+import { Spatial } from '../lang/spatial'; import { ModuleWriter } from '../lang';
 import { EntityIndex } from '../lang/entity-index';
 import { Affordances, type Reading } from '../ui/affordances';
 import { Attending } from '../ui/attention';
