@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 580 live rows, 422 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 577 live rows, 419 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -115,7 +115,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 31 defects · 5 asks
+- **Aims and the gold thread** · 16 pins · 30 defects · 5 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -356,7 +356,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 12 defects · 8 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 10 defects · 8 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
