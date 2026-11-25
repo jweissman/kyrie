@@ -31,7 +31,11 @@ export type Stage =
   | 'observe' | 'glance' | 'itinerary' | 'act' | 'legal'
   // Within the act, each watch's world rules asked and fired (CampaignTick.rules, timed by scripts/performance/map.ts):
   // the share AX-10 would index.
-  | 'rules';
+  | 'rules'
+  // A command's own work in the session, outside the act (OR-521, what no stage had told): the command resolved and the
+  // held aims read, the country beyond expanded, what the company is told, the undertakings settled and resumed, and
+  // the step's digest.
+  | 'resolve' | 'expand' | 'tell' | 'aims' | 'digest';
 export interface Cost { n: number; ms: number; bytes: number; ids: string[] }
 export type Tally = Partial<Record<Stage, Cost>>;
 export class Costs {

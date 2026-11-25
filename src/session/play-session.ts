@@ -161,11 +161,7 @@ export class PlaySession {
       this.receipts.push(this.last.receipt(this.steps.length, followed.result));
       return followed;
     }
-    const id = PlayerView.resolve(this.campaign, command);
-    // The step of the aim to follow, done, takes the aim up first (one row, one act: HeldLead, OR-466).
-    const takes = HeldLead.taken(this.campaign, command);
-    if (takes) { this.follow(takes); }
-    const aims = Undertakings.held(this.campaign).map(o => o.id);
+    const { id, aims } = Costs.time('resolve', () => this.resolving(command));
     // Open from resolved to committed: no save, no frame meanwhile.
     this.busy = true; this.campaign.command = id;
     const open = this.last = new OpenCommand(command);
@@ -197,15 +193,18 @@ export class PlaySession {
       const kept = this.steps.length;
       let voiced: Voiced[], words: ReturnType<typeof RuleWords.tell>;
       try {
-        if (this.expander) { await this.expander.expand(this.campaign); }
+        if (this.expander) { await Costs.timed('expand', () => this.expander!.expand(this.campaign)); }
         open.reach('expanded');
         // What the company is told of it, in the voice tables' words, kept with the command so it is not said again.
-        words = RuleWords.tell(this.campaign, event);
-        voiced = [...barked, ...words.told, ...Telling.tell(this.campaign, event)];
+        ({ words, voiced } = Costs.time('tell', () => {
+          const words = RuleWords.tell(this.campaign, event);
+          return { words, voiced: [...barked, ...words.told, ...Telling.tell(this.campaign, event)] };
+        }));
         open.reach('told');
-        Undertakings.after(this.campaign, aims);
+        Costs.time('aims', () => Undertakings.after(this.campaign, aims));
         open.reach('settled');
-        this.steps.push({ command, ...combat.length ? { combat } : {}, digest: Digest.of(this.campaign) });
+        const digest = Costs.time('digest', () => Digest.of(this.campaign));
+        this.steps.push({ command, ...combat.length ? { combat } : {}, digest });
         if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); }
       } catch (error) { this.steps.length = kept; this.campaign.undo(); throw error; }
       if (voiced.length || words.unsaid.length) { event.voiced = voiced; }
@@ -217,8 +216,15 @@ export class PlaySession {
       throw error;
     } finally { this.busy = false; this.campaign.closeCommand(); this.resumed(); }
   }
+  // The command's action, and the aims held before it; the step of the aim to follow, done, takes the aim up first
+  // (one row, one act: HeldLead, OR-466).
+  private resolving(command: string): { id: string; aims: string[] } {
+    const id = PlayerView.resolve(this.campaign, command), takes = HeldLead.taken(this.campaign, command);
+    if (takes) { this.follow(takes); }
+    return { id, aims: Undertakings.held(this.campaign).map(o => o.id) };
+  }
   // An aim set aside, gone back to where it has a step, read from the frame now the command has ended.
-  private resumed() { Undertakings.resume(this.campaign, aim => Travel.open(this.campaign, aim)); }
+  private resumed() { Costs.time('aims', () => Undertakings.resume(this.campaign, aim => Travel.open(this.campaign, aim))); }
   // A fight's turn put to the player's controller: while it waits, the fight's page may be drawn (Campaign.fighting).
   private async asked(controller: CombatController, battle: Battle): Promise<Command> {
     this.campaign.fighting = true;

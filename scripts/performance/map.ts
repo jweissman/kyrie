@@ -32,9 +32,12 @@ export class PerformanceMap {
   static readonly shown: [Stage, string][] = [['act', 'the act (its watches and rules within)'],
     ['rules', 'rules asked and fired (within the act)'], ['legal', 'what may be done, worked out'],
     ['screen', 'the screen built'], ['itinerary', 'ways set out (within the screen)'], ['leaf', 'what is told'],
-    ['glance', 'the glance (within what is told)'], ['observe', 'what the company perceives']];
+    ['glance', 'the glance (within what is told)'], ['observe', 'what the company perceives'],
+    ['resolve', 'the command resolved, the aims held read'], ['expand', 'the country beyond drawn'],
+    ['tell', 'what the company is told of it'], ['aims', 'undertakings settled and resumed'],
+    ['digest', 'the step\'s digest']];
   // The stages a turn's time is made of at the top: the rest of its time is told as unattributed.
-  static readonly top: Stage[] = ['act', 'legal', 'screen', 'leaf'];
+  static readonly top: Stage[] = ['act', 'legal', 'screen', 'leaf', 'resolve', 'expand', 'tell', 'aims', 'digest'];
   // A turn's kind, by the act its line asks for (the walk's lines are the runner's own: {"act": id}) and its legs.
   static kind(line: string, legs: number): Kind {
     const act = /"act":\s*"([^"]*)"/.exec(line)?.[1] ?? '';
