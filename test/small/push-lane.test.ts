@@ -27,6 +27,7 @@ describe('the push lane', () => {
       budget: { cpuSeconds: number; fileSeconds: number } };
     const times = canary.specs.map(s => kept[s.file] ?? 0);
     expect(times.reduce((a, b) => a + b, 0) / 1000).toBeLessThanOrEqual(canary.budget.cpuSeconds);
-    expect(canary.specs.filter(s => (kept[s.file] ?? 0) / 1000 > canary.budget.fileSeconds).map(s => s.file)).toEqual([]);
+    const over = canary.specs.filter(s => (kept[s.file] ?? 0) / 1000 > canary.budget.fileSeconds);
+    expect(over.map(s => s.file)).toEqual([]);
   });
 });

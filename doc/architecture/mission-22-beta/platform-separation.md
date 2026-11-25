@@ -164,6 +164,64 @@ The order:
 - The packages' physical move (stage 2 below, with the interpreter beside kyr-lang) waits for a quiet point between
   batches. It re-points imports in nearly every file, and it should not land under two streams' open branches.
 
+## The root blocker: an implicit installed domain (an external analysis, 24 November, adopted)
+
+The owner shared an analyst's reading of the extraction path. The lead adopts it: it names what a folder move cannot
+answer. The runtime and the player do not receive their domain; they reach for it. `Canon` and the global catalogs act
+as an ambient service locator for callings, ancestries, abilities, conditions, items, calendars, vocabulary and
+presentation, so the generic runtime's contract is defined, unstated, by Westernesse's fantasy domain. Extracting now
+would either keep that coupling under aliases or publish a huge, unstable API. The second blocker is an incomplete
+player protocol (TB-09): a kyrie-player extracted now would institutionalise the clients' heuristics.
+
+**What changes in the plan:**
+- **Classify before replacing.** Every direct Canon read is classified by its intended owner before any is moved:
+  - parsing and type declarations: kyr-lang's vocabulary;
+  - applying Kyr effects: an interpreter capability port;
+  - generic campaign lifecycle: kyrie-runtime;
+  - fantasy mechanics, and the creation rules: the fantasy-rules domain;
+  - Westernesse's names and defaults: the setting;
+  - labels, paintings and voice: a setting presentation provider;
+  - package selection: the composition root.
+
+  Then one category at a time, each with a shrinking edge ratchet. Replacing `Canon.x` with `context.canon.x`
+  everywhere would keep the problem under another name.
+- **Small ports owned by the lower layer.** The runtime declares what it needs (a condition's definition, an ability,
+  a calendar's reckoning, an entity's name). The fantasy rules implement them; Westernesse installs the fantasy rules
+  and its own content; another setting installs others or omits what is optional. Never one grab-bag
+  `InstalledDomain`.
+- **Campaign-scoped installed context, proved by coexistence.** `LocalKinds.activate/reset/reclaim` (correctness by
+  whichever campaign installed last) gives way to an immutable installed context compiled with each campaign, passed
+  where needed, its ids namespaced by installation. The proof is Westernesse and the allotment society alternating
+  commands in one process with nothing changed by the order, a stronger proof than two settings in separate tests.
+- **One public lifecycle:** install → create or resume → frame → submit → receipt and frame → checkpoint. Every
+  composition root (terminal, worker, tests, scripts) goes through it.
+- **Presentation in three parts:** the semantic frame (kyrie-player); the setting's presentation resources, resolving
+  stable references (paintings, voice, terms); and the renderer (the reference web UI). Neither the player nor the
+  renderer searches the setting's folders or reads weather from a file's name.
+- **Typed identities at package boundaries**, parsed once where they cross. No universal id rewrite.
+- **Text as protocol** ("Noted:", "Aim:", "too dear") replaced by typed fields as each activity migrates, the count
+  held as a ratchet.
+- **Creation is an installed capability:** the lifecycle needs a playable actor, not a fantasy character sheet.
+
+**The sequence:**
+1. Logical boundaries enforced before anything moves: wrong-way imports ratcheted by intended package; client-side
+   workflow decisions and text inference counted and ratcheted; public entry points in place; no new deep imports
+   across intended boundaries.
+2. kyr-lang extracted: the parse store behind an adapter, stable exports, imports re-pointed. Package mechanics proved
+   on the cleanest unit; no runtime execution added to make it feel substantial.
+3. The interpreter seam in place (`src/interpreter`): evaluation in and out with a causal trace, one existing path
+   routed through it, cold equal to warm, capability ports owned by it.
+4. The fantasy-rules domain separated: Canon's consumers classified and moved behind installed capabilities, rule
+   packages' dependencies declared (BX-02), the allotment society installing only its kernel, both domains running
+   together. The decisive stage.
+5. kyrie-player stabilised: frame, question, command, receipt and checkpoint, migrated activity by activity as the
+   town–dungeon loop needs it (opening and place, travel, then talk, fight, map, creation, ending).
+6. Runtime and player moved physically, only when the runtime's setting edges are near zero, the player's setting
+   reads go through resources, clients use the protocol, coexistence passes and the declared-horizon tests exist.
+
+Saves stay as they are for beta (no compatibility promise). Separating installation identity, generator inputs,
+mutable state and durable history from reconstructible compiled artifacts is later work, not a prerequisite.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are
