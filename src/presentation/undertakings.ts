@@ -38,9 +38,16 @@ export class Undertakings {
     return Stakes.own(o) || !this.originated(campaign);
   }
   // Whether the company came into the country by an origin, a life chosen at the start (its parts are origin__'s).
+  // Kept by the module it was read of: asked for each aim several times a turn, it had scanned the whole module each
+  // time (an eighth of a golden-walk turn, the performance map's profile of 24 November), and a module is not changed
+  // only by what play adds (an item found, a recipe), never an origin's part, which are there from the install.
+  private static readonly origins = new WeakMap<object, boolean>();
   private static originated(campaign: Campaign): boolean {
-    const m = campaign.module;
-    return [...m.objectives ?? [], ...m.observations ?? [], ...m.entities].some(x => /^origin__/.test(x.id));
+    const m = campaign.module, known = this.origins.get(m);
+    if (known !== undefined) { return known; }
+    const is = [...m.objectives ?? [], ...m.observations ?? [], ...m.entities].some(x => /^origin__/.test(x.id));
+    this.origins.set(m, is);
+    return is;
   }
   // Whether the player chose it (in the notes), not the game for them.
   static chosen(campaign: Campaign): boolean {

@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, uti
   from 'node:fs';
 import { join, resolve } from 'node:path';
 import { deserialize, serialize } from 'node:v8';
-import type { Module } from './module';
+import type { Module } from '../lang/module';
 
 // Parsed Kyr kept on disk between processes (Mission 18's measure of the test suite: a session's start was nine to
 // eleven seconds, most of it parsing the same shared rules and adventures in every one of a suite's isolated workers).
@@ -15,7 +15,8 @@ export class ParseStore {
   private constructor(private readonly dir: string, private readonly version: string) {}
   // And what a module's own files are compiled by, kept beside their parses (see CompiledModules).
   static readonly sources = ['src/lang', 'src/information', 'src/canon', 'data/catalog',
-    'src/campaign/module-bundle.ts', 'src/campaign/module-shadow.ts', 'src/campaign/compiled-modules.ts'];
+    'src/campaign/module-bundle.ts', 'src/campaign/module-shadow.ts', 'src/campaign/compiled-modules.ts',
+    'src/campaign/parse-store.ts'];
   static open(root = process.cwd()): ParseStore | undefined {
     if (process.env.KYRIE_PARSE_STORE === '0' || !existsSync(join(root, 'src/lang/Kyr.ohm'))) { return undefined; }
     const hash = createHash('sha1');
