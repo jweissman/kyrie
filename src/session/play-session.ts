@@ -225,7 +225,7 @@ export class PlaySession {
     return { id, aims: Undertakings.held(this.campaign).map(o => o.id) };
   }
   // An aim set aside, gone back to where it has a step, read from the frame now the command has ended.
-  private resumed() { Costs.time('aims', () => Undertakings.resume(this.campaign, aim => Travel.open(this.campaign, aim))); }
+  private resumed() { Costs.time('aims', () => Undertakings.resume(this.campaign)); }
   // A fight's turn put to the player's controller: while it waits, the fight's page may be drawn (Campaign.fighting).
   private async asked(controller: CombatController, battle: Battle): Promise<Command> {
     this.campaign.fighting = true;

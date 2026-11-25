@@ -11,6 +11,8 @@ import { AimWords } from './aim-words'; import { SiteOutsides } from './site-out
 import type { Promoted } from './glance-types';
 import { Stories } from './stories';
 import { AimParts } from './aim-parts';
+import { ScreenModel } from '../ui/screen-model';
+import { Narrator } from './narrator';
 
 // The aim the player follows (the owner's "a clearer currently selected quest"; Mission 19, journal and intentions):
 // one of the aims the company holds, by its id, kept with the game in its save, and the one every page's "your aim"
@@ -277,10 +279,10 @@ export class Undertakings {
     }
   }
   // Back to the aim last set aside, once the command that ended the one chosen over it has ended, where that aim has a
-  // step now (open, read from the frame: see Travel.open); one the page would say is beyond the company is passed over
+  // step now (open, read from the frame: see open); one the page would say is beyond the company is passed over
   // (the first quarter hour's gold walks: the Hall's seal, set aside at the landing for the oak because it was beyond
   // the company there, had been taken up again at once, and the walk led away from the Hall).
-  static resume(campaign: Campaign, open: (id: string) => boolean) {
+  static resume(campaign: Campaign, open = Undertakings.open.bind(Undertakings, campaign)) {
     const current = campaign.tickState.current, aside = current.resume;
     if (!aside) { return; }
     delete current.resume;
@@ -288,5 +290,19 @@ export class Undertakings {
     const held = new Set(this.held(campaign).map(o => o.id)), back = aside.filter(a => held.has(a));
     const on = [...back].reverse().find(a => open(a)), rest = back.filter(a => a !== on);
     if (on) { current.following = { id: on, chosen: true, ...rest.length ? { aside: rest } : {} }; }
+  }
+  // Whether an aim, were it followed now, has a step the page would lead with: not one the page would say is beyond the
+  // company where it stands (a keeper reckoned beyond it, a door it has nothing to open: the glance's frontier with its
+  // need). Read with the aim followed for the reading only, and put back as it was (see resume). It reads the page, as
+  // the page would lead; it was Travel's (Travel.open), and a journey now builds no page (ArrivalAttention).
+  static open(campaign: Campaign, id: string): boolean {
+    const current = campaign.tickState.current, kept = current.following;
+    current.following = { id, chosen: true };
+    try {
+      const stands = Narrator.leaf(campaign, ScreenModel.build(campaign)).glance?.continuance;
+      return !(stands?.kind === 'frontier' && !!stands.need);
+    } finally {
+      if (kept) { current.following = kept; } else { delete current.following; }
+    }
   }
 }

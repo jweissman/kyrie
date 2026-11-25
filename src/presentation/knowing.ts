@@ -3,6 +3,8 @@ import type { Call, Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { Outcome } from './outcome';
 import { PlayerView, type PlayerSnapshot } from './player-view';
+import { ObservationText } from '../lang/observation-text';
+import type { World } from '../lang/world';
 
 // The knowledge boundary's one door (OR-527; platform-separation.md, the trust thread, point 3, adopted by the owner on
 // 25 November): what the company knows and perceives, derived from the authoritative state here and nowhere else in
@@ -72,4 +74,36 @@ export class Knowing {
     return Outcome.foreseen(this.world, action, this);
   }
   teaches(action: Operator): boolean { return this.taught(action).length > 0; }
+  // Whether one who could be fought here lets the company be, as it shows (tolerates the company): no threat to it.
+  // Read of the world as it stands, without working out what is perceived (so a leg's reading costs no perception).
+  static tolerates(campaign: Campaign, group: string): boolean {
+    const w = campaign.world, actor = campaign.playerActor ?? 'party';
+    return w.relates('tolerates') && w.test(ModuleWriter.call('tolerates', group, actor));
+  }
+  // Whether one here warns the company off (warned: data/rules/inhabitants.kyr; how long they wait is Patience's).
+  static warns(campaign: Campaign, group: string): boolean {
+    const w = campaign.world, actor = campaign.playerActor ?? 'party';
+    return w.relates('warned') && w.test(ModuleWriter.call('warned', group, actor));
+  }
+  // Whether a thing lying here is spoils to the company: of a valuable kind, and no one else's.
+  static spoils(campaign: Campaign, item: string): boolean {
+    const w = campaign.world;
+    return Knowing.valuable(w, item) && !Knowing.theirs(w, item, campaign.playerActor ?? 'party');
+  }
+  // Whether something is a treasure (its kind valuable, by the catalog: see Overlays.declareWorth). An engine reading,
+  // read through this door by the screen too (ui/treasure).
+  static valuable(w: World, id: string): boolean {
+    const kind = w.module.relations.some(r => r.name === 'valuable') ? w.one('itemKind', id) : undefined;
+    return !!kind && w.test(ModuleWriter.call('valuable', kind));
+  }
+  // Whose a thing is, when it is someone's other than the company's: theirs, not spoils to be led to (the page led with
+  // the hobs' rings in their own store after "Don't touch nothing", and brought the raiders down on a lone newcomer:
+  // register M19-233).
+  // Not once they have been routed from it: the Gaffer gone out of the back way from the bell, his chest is plunder.
+  static theirs(w: World, id: string, company: string): string | undefined {
+    const owner = w.relates('owns') ? w.related('owns').find(r => r.args[1] === id && r.args[0] !== company)?.args[0]
+      : undefined;
+    const routed = !!owner && w.relates('routed') && w.test(ModuleWriter.call('routed', owner));
+    return owner && !routed ? ObservationText.label(w, owner) : undefined;
+  }
 }

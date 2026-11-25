@@ -1,0 +1,80 @@
+Module arrivals "A track of places, each with one thing to meet on coming to it" {
+  Place start "the start of the track" is room.
+  Place quiet "a quiet bend" is room.
+  Place meadow "a meadow" is room.
+  Place copse "a copse" is room.
+  Place rats "a rat-run" is room.
+  Place eased "a warm drain" is room.
+  Place perch "a sellsword's stone" is room.
+  Place cache "a fallen pack" is room.
+  Place stone "a humming stone" is room.
+  Place runs "a fox's earth" is room.
+  Place well "a well" is room.
+  Passage p1 "the track to the bend" is path between start and quiet.
+  Passage p2 "the track to the meadow" is path between quiet and meadow.
+  Passage p3 "the track to the copse" is path between meadow and copse.
+  Passage p4 "the track to the rat-run" is path between copse and rats.
+  Passage p5 "the track to the drain" is path between rats and eased.
+  Passage p6 "the track to the stone" is path between eased and perch.
+  Passage p7 "the track to the pack" is path between perch and cache.
+  Passage p8 "the track to the humming stone" is path between cache and stone.
+  Passage p9 "the track to the earth" is path between stone and runs.
+  Passage p10 "the track to the well" is path between runs and well.
+  Place gate "a toll-gate" is room.
+  Passage p11 "the track to the gate" is path between well and gate.
+  Company party "You" of 1 at start.
+  Person dai "Dai" at start { Role "a drover's boy". Peaceable. Pronouns he. }
+  Initially Assert travelsWith(dai, party).
+  Person ratpack "rats" at rats {
+    Role "rats, fat and bold". Species rat. Variant runt. Numbers 2. Level 1. Temperament territorial. Lair rats.
+  }
+  Topic hush with ratpack "Hush the rats" when true { Says "The rats hush.". }
+  Person crawler "a great centipede" at eased {
+    Role "a centipede as long as a man". Species centipede. Variant long. Numbers 1. Level 2. Temperament territorial. Lair eased.
+  }
+  Initially Assert tolerates(crawler, party).
+  Person hand "Amice Thorne" at perch { Role "a sellsword". Peaceable. Pronouns she. }
+  Initially Assert willing(hand, party).
+  Initially Set hire(hand) to 2.
+  Initially Set quantity(party, gold) to 5.
+  Item crown "an old crown" is ancient_crown at cache.
+  Thing widow "a humming stone" at stone {
+    Marvel.
+    State still "The stone stands still.".
+    State ringing "The stone rings.".
+    Change strike "Strike the stone" from still to ringing.
+  }
+  Person wife "the fox-wife" at runs { Role "a woman who keeps foxes". Peaceable. Pronouns she. }
+  Topic foxes with wife "Ask the fox-wife about her foxes" when true { Says "'They keep to the bank,' she says.". }
+  Person keeper "the well-keeper" at well { Role "a keeper of the well". Peaceable. Pronouns he. }
+  Entity wellword: fact "Where the water comes from".
+  Topic source with keeper "Ask the keeper where the water comes from" when not knows(actor, wellword) {
+    Says "'From under the hill,' says the keeper.".
+    On discuss { Assert knows(actor, wellword). }
+  }
+  Objective water when not knows(party, wellword) toward keeper "Ask the well-keeper where the water comes from.".
+  Event at_quiet at quiet when at(party, quiet) "A wind comes over the bend.".
+  Event dai_grass near dai when at(party, meadow) "'Good grass,' says Dai.".
+  Event at_copse at copse when at(party, copse) "Rooks go up out of the copse.".
+  Relation returning(group).
+  Event quiet_again at quiet when at(party, quiet) and returning(party) "The wind has dropped.".
+  Event copse_again at copse when at(party, copse) and returning(party) "A rook calls from the copse.".
+  Event at_rats at rats when at(party, rats) "Something squeaks in the run.".
+  Event at_eased at eased when at(party, eased) "The drain is warm underfoot.".
+  Event at_hire at perch when at(party, perch) "A woman sits on the stone, a sword across her knees.".
+  Event at_cache at cache when at(party, cache) "A pack lies fallen by the track.".
+  Event at_stone at stone when at(party, stone) "The stone hums.".
+  Event at_runs at runs when at(party, runs) "The earth smells of fox.".
+  Observe runs_sign at runs as sign when true "Runs worn to bare earth go in under the bank.".
+  Event at_well at well when at(party, well) "A bucket creaks on its rope.".
+  Person wardress "the wardress" at gate { Role "a keeper of the gate". Peaceable. Pronouns she. }
+  Event at_gate at gate when at(party, gate) "The wardress looks up from her stool.".
+  Topic riddle with wardress "Ask the wardress what she keeps the gate for" when true once {
+    Says "'For whoever can tell me what has roots that nobody sees,' she says.".
+  }
+  Topic mountain with wardress "Answer: a mountain" answering riddle when true {
+    Says "'So it has,' says the wardress.".
+  }
+  Event gate_back at gate when at(party, gate) and returning(party) "The wardress is waiting for your answer.".
+  Goal false.
+}

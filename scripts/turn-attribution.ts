@@ -23,6 +23,7 @@ import { RuleWords } from '../src/narrative/rule-words';
 import { Telling } from '../src/narrative/telling';
 import { Glance } from '../src/presentation/glance';
 import { Itineraries } from '../src/ui/itinerary';
+import { Travel } from '../src/session/travel';
 
 type Part = string;
 interface Frame { part: Part; began: number; within: number }
@@ -33,6 +34,11 @@ export class TurnAttribution {
   private static self = new Map<Part, number>();
   // How often each part was entered, over the walk.
   static readonly calls = new Map<Part, number>();
+  // A part's whole time, the parts within it included (a journey's leg, start to end).
+  static readonly whole = new Map<Part, number>();
+  // The parts' own times and calls within a journey's legs.
+  static readonly onLeg = new Map<Part, number>();
+  static readonly legCalls = new Map<Part, number>();
   // A part's own time, less the parts within it.
   static enter(part: Part): Frame {
     this.calls.set(part, (this.calls.get(part) ?? 0) + 1);
@@ -44,6 +50,11 @@ export class TurnAttribution {
     const took = this.clock() - f.began;
     this.stack.pop();
     this.self.set(f.part, (this.self.get(f.part) ?? 0) + took - f.within);
+    this.whole.set(f.part, (this.whole.get(f.part) ?? 0) + took);
+    if (f.part === 'leg' || this.stack.some(o => o.part === 'leg')) {
+      this.onLeg.set(f.part, (this.onLeg.get(f.part) ?? 0) + took - f.within);
+      this.legCalls.set(f.part, (this.legCalls.get(f.part) ?? 0) + 1);
+    }
     const outer = this.stack.at(-1);
     if (outer) { outer.within += took; }
   }
@@ -89,6 +100,7 @@ export class TurnAttribution {
     this.wrap(Itineraries, 'shown', 'itinerary');
     this.wrap(Narrator, 'leaf', 'leaf');
     this.wrap(Glance, 'of', 'glance');
+    this.wrap(Travel, 'step', 'leg'); this.wrap(Travel, 'interrupted', 'stop');
   }
   // The walk played, each turn timed whole (a turn: the line asked of the runner, as the gate asks it).
   static async walk(): Promise<{ turns: number; total: number; parts: Map<Part, number> }> {
@@ -110,7 +122,8 @@ export class TurnAttribution {
     const { turns, total, parts } = await this.walk();
     const rows = [...parts].sort((a, b) => b[1] - a[1]);
     if (args.includes('--json')) {
-      console.log(JSON.stringify({ turns, total, parts: Object.fromEntries(rows) }));
+      console.log(JSON.stringify({ turns, total, parts: Object.fromEntries(rows), calls: Object.fromEntries(this.calls),
+        legs: this.legs() }));
       return 0;
     }
     console.log(`${turns} turns, ${Math.round(total / turns)} ms a turn`);
@@ -119,7 +132,19 @@ export class TurnAttribution {
       console.log(`${part.padEnd(10)} ${(ms / turns).toFixed(1).padStart(7)} ms a turn  ${(100 * ms / total).toFixed(1)}%`
         + `  ${n} a turn`);
     }
+    const legs = this.legs();
+    console.log(`journey legs: ${legs.n}, ${legs.ms.toFixed(1)} ms a leg whole, ${legs.stop.toFixed(1)} ms of it deciding whether to stop`);
+    for (const [part, { ms, calls }] of Object.entries(legs.parts)) {
+      console.log(`  ${part.padEnd(10)} ${ms.toFixed(1).padStart(7)} ms a leg  ${calls.toFixed(1)} a leg`);
+    }
     return 0;
+  }
+  // A journey's legs: how many, and what each took whole.
+  static legs(): { n: number; ms: number; stop: number; parts: Record<Part, { ms: number; calls: number }> } {
+    const n = this.calls.get('leg') ?? 0;
+    const parts = Object.fromEntries([...this.onLeg].sort((a, b) => b[1] - a[1])
+      .map(([p, ms]) => [p, { ms: n ? ms / n : 0, calls: n ? (this.legCalls.get(p) ?? 0) / n : 0 }]));
+    return { n, ms: n ? (this.whole.get('leg') ?? 0) / n : 0, stop: n ? (this.whole.get('stop') ?? 0) / n : 0, parts };
   }
 }
 

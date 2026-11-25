@@ -7,9 +7,8 @@ import { PlayerFrame } from '../presentation/player-frame';
 import { Itineraries, type Leg } from '../ui/itinerary';
 import { PassageModel } from '../ui/passage-model';
 import { Overland } from '../ui/overland';
-import { ScreenModel } from '../ui/screen-model';
-import { Narrator } from '../presentation/narrator';
 import { RuleWords } from '../narrative/rule-words';
+import { ArrivalAttention, type Attention, type AttentionReason } from '../presentation/arrival-attention';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 
 // A journey made: each leg as it was done (its command and what came of it), and why it stopped where it did.
@@ -22,6 +21,8 @@ export interface Journeyed {
 }
 // at: where on the way the world's words were said, for a telling of a leg passed (GR-07).
 export interface Brought { text: string; own?: true; at?: string }
+// How the company stands before a leg and after it: its hurts, and whether it is weary, hungry or out at night.
+export interface Condition { hp: number; weary: boolean; hungry: boolean; dark: boolean }
 // What a journey does to the campaign: one ordinary command at a time, as the page would do it.
 export interface Traveller {
   campaign: Campaign; perform(command: string, said: string): Promise<CampaignEvent>;
@@ -34,19 +35,6 @@ export interface Traveller {
 // a fight, something dangerous where it arrives, a way that will not let it by, a hurt, nightfall, weariness or
 // hunger, or something staged where it comes; and when it has arrived.
 export class Travel {
-  // Whether an aim, were it followed now, has a step the page would lead with: not one the page would say is beyond
-  // the company where it stands (a keeper reckoned beyond it, a door it has nothing to open: the glance's frontier
-  // with its need). Read with the aim followed for the reading only, and put back as it was (see Undertakings.after).
-  static open(campaign: Campaign, id: string): boolean {
-    const current = campaign.tickState.current, kept = current.following;
-    current.following = { id, chosen: true };
-    try {
-      const stands = Narrator.leaf(campaign, ScreenModel.build(campaign)).glance?.continuance;
-      return !(stands?.kind === 'frontier' && !!stands.need);
-    } finally {
-      if (kept) { current.following = kept; } else { delete current.following; }
-    }
-  }
   // Makes the journey, leg by leg, and stops where something wants the player.
   // The way laid when it sets out is the way it goes, as the map drew it: laid again only where its legs run out short
   // of the place (toward one only heard of, to the edge of its country), and where what lies ahead is seen to be
@@ -147,7 +135,7 @@ export class Travel {
     return !!here && Itineraries.within(new Map(campaign.module.entities.map(e => [e.id, e])), here, destination);
   }
   // How the company stands before a leg: its hurts, and whether it is weary, hungry or out at night.
-  private static condition(campaign: Campaign): { hp: number; weary: boolean; hungry: boolean; dark: boolean } {
+  static condition(campaign: Campaign): Condition {
     const actor = campaign.playerActor!, world = campaign.world, ids = campaign.readout.partyIds;
     return { hp: campaign.readout.creatures.filter(c => ids.includes(c.id)).reduce((s, c) => s + c.state.hp, 0),
       weary: world.relates('weary') && world.test(ModuleWriter.call('weary', actor)),
@@ -166,10 +154,12 @@ export class Travel {
   // with, or one only to slip away from it (temper_wary, temper_tame): the country's animals "let the company be"
   // (data/generation/wild/animals.kyrt), and a monkey, a fox, a hedgehog, a curlew and an otter had each stopped a
   // journey as "There is danger here", nothing to be done but go on (the owner's trust contracts, G).
-  private static danger(campaign: Campaign): boolean {
-    const world = campaign.world, company = campaign.playerActor!, tolerates = world.relates('tolerates');
-    return PlayerFrame.of(campaign).rows.filter(c => /^attack\(/.test(c.choice.id))
-      .map(c => c.action.bindings?.opponent ?? '').some(g => !(tolerates && world.test(ModuleWriter.call('tolerates', g, company))) && !this.lets(world, g));
+  private static groups(campaign: Campaign): string[] {
+    return PlayerFrame.of(campaign).rows.filter(c => /^attack\(/.test(c.choice.id)).map(c => c.action.bindings?.opponent ?? '');
+  }
+  private static hostile(campaign: Campaign, g: string): boolean {
+    const world = campaign.world, tolerates = world.relates('tolerates');
+    return !(tolerates && world.test(ModuleWriter.call('tolerates', g, campaign.playerActor!))) && !this.lets(world, g);
   }
   private static lets(world: Campaign['world'], group: string): boolean {
     return world.relates('lair') && world.related('lair', group).length > 0 && world.relates('temperament')
@@ -208,46 +198,63 @@ export class Travel {
     return campaign.world.relates('connects')
       && !campaign.world.test(ModuleWriter.call('connects', leg.passage, leg.to, leg.from));
   }
-  // Why a journey stops after a leg, if it does: in the words the page will show under where it stopped.
-  // What is said or going on where a leg comes stops it only where it asks something of the player (see weighty);
-  // else it is kept as passed on the leg, told with it, and the journey goes on (the owner's trust contracts, G: a
-  // pedlar's wave and a hayward's word had stopped journeys every few legs, nothing to be done but go on).
-  private static interrupted(campaign: Campaign, event: CampaignEvent, before: ReturnType<typeof Travel.condition>,
+  // Why a journey stops after a leg, if it does: in the words the page will show under where it stopped; and what came
+  // on the leg and asked nothing, kept as passed on it and told with it.
+  private static interrupted(campaign: Campaign, event: CampaignEvent, before: Condition,
     { leg, made }: { leg: Leg; made: Journeyed['legs'][number] }): string | undefined {
+    const attention = this.attention(campaign, event, before, leg);
+    if (attention.passed) { made.passed = attention.passed; }
+    return attention.requiresDecision ? attention.stop : undefined;
+  }
+  // The engine's account of attention where a leg comes (see ArrivalAttention): why the player is needed there, if
+  // they are, read from the leg's event, the company's condition and the frame's rows, never from a page built for it.
+  // What is said or going on where a leg comes stops it only where something there asks of the player
+  // (ArrivalAttention.asks); else it is passed, and the journey goes on (the owner's trust contracts, G: a pedlar's
+  // wave and a hayward's word had stopped journeys every few legs, nothing to be done but go on). Until 25 November a
+  // leg with something said built the whole screen and the narrator's leaf to ask its glance (Travel.weighty).
+  static attention(campaign: Campaign, event: CampaignEvent, before: Condition, leg: Pick<Leg, 'to' | 'way'>): Attention {
     const now = this.condition(campaign), here = campaign.world.one('at', campaign.playerActor!);
     // Set upon is a fight fought, not anything in the fight's log (a light going out stopped a journey for nothing).
-    if (event.prelude || event.combat.some(e => e.type === 'end')) { return 'You were set upon on the way'; }
-    if (event.result === 'failure' || here !== leg.to) { return `You did not get by ${leg.way}`; }
-    if (now.hp < before.hp) { return 'Someone was hurt on the way'; }
-    // Something said to the company where it comes, by what is going on there: a toll asked at a bar across the road
-    // (mere's newcomer walked on past it, and so ran the lord's toll, having been told only "There is danger here").
-    // A word from whoever goes with the company (a fellow's remark on coming to a fold) does not stop it: play 11's
-    // journey stopped at a shieling for "'Summer huts,' says Taklinn", and said so as "Summer huts,’ says Taklinn".
-    // Not what the world says that was held back as told lately (see RuleWords).
-    const said = RuleWords.said(event).find(p => !this.aside(campaign, p.id))?.text;
-    const staged = campaign.world.relates('staged') && campaign.world.related('staged').some(r => r.args[0] === here)
-      && this.fresh(campaign, event);
-    const why = said ? this.gist(said) || 'Something is said to you here' : staged ? 'Something is going on here' : undefined;
-    if (why && this.weighty(campaign)) { return why; }
-    if (this.danger(campaign)) { return 'There is danger here'; }
-    if (why) { made.passed = why; }
-    if (now.dark && !before.dark) { return 'Night has come on'; }
-    if (now.weary && !before.weary) { return 'You are weary'; }
-    if (now.hungry && !before.hungry) { return 'You are hungry'; }
+    if (event.prelude || event.combat.some(e => e.type === 'end')) { return this.stops('set-upon', 'You were set upon on the way'); }
+    if (event.result === 'failure' || here !== leg.to) { return this.stops('barred', `You did not get by ${leg.way}`); }
+    if (now.hp < before.hp) { return this.stops('hurt', 'Someone was hurt on the way'); }
+    const heard = this.heard(campaign, event, here), asks = heard.why ? ArrivalAttention.asks(campaign) : [];
+    const groups = this.groups(campaign), hostile = groups.some(g => this.hostile(campaign, g));
+    const reasons: AttentionReason[] = [...heard.reasons, ...asks,
+      ...hostile ? ['hostile' as const] : groups.length ? ['tolerated' as const] : []];
+    if (heard.why && asks.length) { return { requiresDecision: true, reasons, stop: heard.why }; }
+    if (hostile) { return { requiresDecision: true, reasons, stop: 'There is danger here' }; }
+    const passed = heard.why ? { passed: heard.why } : {}, after = this.after(now, before);
+    return after ? { requiresDecision: true, reasons: [...reasons, after.reason], stop: after.stop, ...passed }
+      : { requiresDecision: false, reasons, ...passed };
+  }
+  private static stops(reason: AttentionReason, stop: string): Attention {
+    return { requiresDecision: true, reasons: [reason], stop };
+  }
+  // Night, weariness or hunger come on with the leg.
+  private static after(now: Condition, before: Condition): { reason: AttentionReason; stop: string } | undefined {
+    if (now.dark && !before.dark) { return { reason: 'dark', stop: 'Night has come on' }; }
+    if (now.weary && !before.weary) { return { reason: 'weary', stop: 'You are weary' }; }
+    if (now.hungry && !before.hungry) { return { reason: 'hungry', stop: 'You are hungry' }; }
     return undefined;
   }
-  // Whether where a leg has come asks anything of the player, as the glance reckons what is here (Aspects): an act
-  // that is no way, journey, wait or fight (a fight is danger's), for an aim, a gain, a danger, a marvel or someone's
-  // company; or something seen here worth looking into (a sign, a thing not yet looked at), an answer waited on, a
-  // warning. A word to be had of someone passing, or the life of a place, is not: the journey tells it and goes on.
-  private static readonly material = new Set(['undertaking', 'payoff', 'danger', 'wonder', 'companionship']);
-  private static readonly noticed = new Set(['sign', 'unlooked', 'answer', 'warned']);
-  static weighty(campaign: Campaign): boolean {
-    const glance = Narrator.leaf(campaign, ScreenModel.build(campaign)).glance;
-    if (!glance) { return true; }
-    const acts = [...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []]
-      .filter(o => !['go', 'journey', 'wait', 'fight'].includes(o.type));
-    return acts.some(o => o.aspects.some(a => this.material.has(a)))
-      || glance.acts.some(a => this.noticed.has(a.why) && !a.exit);
+  // Something said to the company where it comes, by what is going on there: a toll asked at a bar across the road
+  // (mere's newcomer walked on past it, and so ran the lord's toll, having been told only "There is danger here").
+  // A word from whoever goes with the company (a fellow's remark on coming to a fold) does not stop it: play 11's
+  // journey stopped at a shieling for "'Summer huts,' says Taklinn", and said so as "Summer huts,’ says Taklinn".
+  // Not what the world says that was held back as told lately (see RuleWords).
+  private static heard(campaign: Campaign, event: CampaignEvent, here: string | undefined):
+    { why?: string; reasons: AttentionReason[] } {
+    const all = RuleWords.said(event), said = all.find(p => !this.aside(campaign, p.id))?.text;
+    const at = campaign.world.relates('staged') && campaign.world.related('staged').some(r => r.args[0] === here);
+    const staged = at && this.fresh(campaign, event);
+    const reasons: AttentionReason[] = [...said ? ['said' as const] : [],
+      ...all.some(p => this.aside(campaign, p.id)) ? ['aside' as const] : [],
+      ...staged ? ['staged' as const] : at ? ['seen' as const] : []];
+    const why = said ? this.gist(said) || 'Something is said to you here'
+      : staged ? 'Something is going on here' : undefined;
+    return { ...why ? { why } : {}, reasons };
   }
+  // Whether where a leg has come asks anything of the player (ArrivalAttention.asks).
+  static weighty(campaign: Campaign): boolean { return ArrivalAttention.asks(campaign).length > 0; }
 }

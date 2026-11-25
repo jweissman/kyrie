@@ -29,7 +29,7 @@ import { Charge } from './charge';
 import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
 import { PlayerFrame } from './player-frame'; import { TalkingWith } from './talking-with';
-import type { Told } from './narrator';
+import type { Told } from './narrator'; import { ArrivalAttention } from './arrival-attention';
 
 // What the narrator hands the glance: the lines it tells of the place now, whether the company has been here before,
 // and what has changed since it was.
@@ -44,7 +44,7 @@ export class Glance {
   // What each aim names, a site's every room among them, read once for a module.
   private static readonly namings = new WeakMap<Module, Map<string, Set<string>>>();
   static of(campaign: Campaign, screen: Screen, told: Told | undefined, telling: Telling): View {
-    const recall = CompanyRecall.of(campaign), here = screen.place.id;
+    const recall = CompanyRecall.of(campaign), here = screen.place.id, asks = ArrivalAttention.asks(campaign);
     const arrival: Arrival = !told ? 'opening' : !told.moved ? 'stay'
       : recall.been(here) || telling.known ? 'return' : 'first';
     const lines = GlanceLines.of(campaign, screen, { ...telling, arrival, recall, changes: told?.event.changes }),
@@ -90,7 +90,7 @@ export class Glance {
     // The first page says the company's own errand as its first goal, once, followed or not (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
     LedAgain.led(campaign, acts, cands);
-    return { arrival, ...GlanceLines.said(lines), acts, ways,
+    return { arrival, ...asks.length ? { asks } : {}, ...GlanceLines.said(lines), acts, ways,
       offer: Offers.scene(acts, ways, cands, { campaign, out, screen }),
       ...this.aimed(campaign, screen, reading, continuance), ...Threshold.leads(campaign, screen, reading.named),
       ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),

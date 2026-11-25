@@ -349,10 +349,6 @@
   "src/ui/trade-model.ts": {
    "facts": 24
   },
-  "src/ui/treasure.ts": {
-   "facts": 6,
-   "rules": 1
-  },
   "src/ui/waylaid.ts": {
    "facts": 1,
    "rules": 1

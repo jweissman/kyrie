@@ -1,3 +1,4 @@
+import type { AttentionReason } from './arrival-attention';
 import type { AfterAct } from './decision-frame';
 import type { Continuance } from './aim-continuity';
 import type { AimLead } from './aim-lead';
@@ -133,6 +134,9 @@ export interface Compass { out?: Route; next?: Route; exhausted: boolean }
 export interface Likeness { aspects: Aspect[]; continues?: true }
 export interface Glance {
   arrival: Arrival;
+  // What here asks of the player, if anything (the engine's one account of attention: ArrivalAttention.asks), as a
+  // journey's leg reads it to stop there.
+  asks?: AttentionReason[];
   // Coming here after a journey: one line of it (the legs stay in Look about); and, where it went by more than one
   // leg, the words of the control that opens them, a control of its own beside the line, which is told (OR-246: the
   // line had been the disclosure, and read as a line of the log).
