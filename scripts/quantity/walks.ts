@@ -124,9 +124,13 @@ export class QuantityWalks {
   // Whether the acts that gave an aim were investigation: a check, a search, a look closer, or a question asked of
   // someone that only something learned first opens (a Topic that knows of something, or answers a question put). A
   // question offered to anyone who walks in ("Ask Cyril about the old quarry") is the job handed out by its label.
+  // Or an act that read something closely, its author's reading of it perceived (Observe … as reading): looking under
+  // the cloth at the drowned man in the shrine, his bruise read, is the body examined, not the job handed out.
   private static investigated(c: PlaySession['campaign'], events: CampaignEvent[]): boolean {
+    const readings = new Set((c.module.observations ?? []).filter(o => o.aspect === 'reading').map(o => o.id));
     return events.some(e => {
       const op = c.operator(e.action);
+      if (e.perceptions?.some(p => readings.has(p.id.split('@')[0]!))) { return true; }
       return !!op && (!!op.resolve || this.looking.has(op.schema ?? '') || (!!op.speaker && (!!op.answers
         || this.learned(op.requires))));
     });

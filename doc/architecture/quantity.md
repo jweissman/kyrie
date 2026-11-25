@@ -93,6 +93,21 @@ country placing it. Raising the ratchet to hold it was a band widened, and is un
 province of the first country, its way in toward the Great Desert to the south (OR-415), and the measure reads 32
 again, the ratchet back at 32.
 
+## Measure 5's last blank turns, the way up (25 November, OR-411 closed)
+
+Thorn's gold-follower had crept back to 26% unmarked, against a ceiling of 25, nearly all of it under the first
+town after the dead were laid. The priest was to be told, and the way toward the churchyard went by the crypt's stair
+up, barred and dark, so the page led into the crypt to listen at it, and back, nine times. With the vault's keeper
+beyond the company, the ways toward the vault led on, plain, to and fro. The band was not moved; the lead was. A way
+toward an aim goes by the ways the company can take where there are any. Where the aim's place is shut, or its keeper
+set aside, nothing of the aim's leads. Where only the bare ways are left, the way toward the town's ground leads as
+the way out ('out', its icon; plain where it is a retreat). Thorn's walk now goes up, is paid at the shrine, takes on
+a sellsword, fights the keeper and goes on below: 0% unmarked, iscoed 8%, a1 16%.
+
+Going up, the walk takes up more of the first town's aims, and one reading of measure 8 was unsound: looking under
+the cloth at the drowned man in the shrine, his bruise read, had counted as the job handed out. An act whose author's
+reading was perceived (`Observe … as reading`) is investigation now. Measure 8 reads 36%, its ratchet 38.
+
 ## Measure 8's first town, the town itself (24 November, OR-370)
 
 An aim taken up in the first town had included the ground under it, which is within the town (the undertown's
@@ -154,7 +169,7 @@ Each measure is one of three kinds:
 | A day's coin | 21–68× (every valuable within reach) | 1.71 / 2.19 / 1.18 (the great works' treasure, the ore, a fine coat for sale) | yes (OR-323 closed) |
 | Treasure against the markets | 6–13× (with the circus's isle) | 1.78 / 2.11 / 1.49 at what it fetches (3.24 / 4.23 / 2.99 listed) | yes (OR-324 closed) |
 | Marks per turn | 2.6 / 1.6 / 2.3 / 1.4 | 2.6 / 1.6 / 2.3 / 2.1 | yes |
-| Turns with no mark | 9 / 31 / 19 / 44% | 0 / 13 / 8 / 4% (an icon is a mark) | yes (OR-325 closed; the seven left, OR-411) |
+| Turns with no mark | 9 / 31 / 19 / 44% | 0 / 8 / 16 / 0% (an icon is a mark; the way up led) | yes (OR-325, OR-411 closed) |
 | Marks without a witness | 0 | 0 | yes |
 | Things worth doing near the first town | 9 / 8 / 11 | 9 / 8 / 11 | yes |
 | Aim kinds; aims met in every seed | 6; 0% | 6; 0% | yes |

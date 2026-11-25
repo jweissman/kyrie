@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 450 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 564 live rows, 445 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -49,7 +49,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 5 defects · 2 asks
+- **Conversation held to its focus** · 11 pins · 5 defects · 1 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -62,11 +62,10 @@ page's colours and opportunities.)
   - ✓ keeps the stay order out of what can be said
   - ✓ puts a refused reply after the replies that can be taken
   - requirement OR-165 P1: Conversation owned by the engine, not a topic browser: people ask the company questions, create…
-  - requirement OR-424 P2: Reflection: a bounded act (gathering one's thoughts, study, a long rest) by which evidence the…
 - **Checks put in conversation** · 1 pins · 0 defects · 1 asks
   - ✗ a question put in conversation is a check, its outcome said by the one asked
   - requirement OR-342 P2: Checks put in conversation: the capability as its pins hold it (a question put in conversation is…
-- **News and rumour** · 0 pins · 1 defects · 1 asks
+- **News and rumour** · 0 pins · 0 defects · 1 asks
   - direction OR-365 P3: News and rumour: people tell what they have heard of places and people far off, and the company…
 
 ### Conflict
@@ -76,7 +75,7 @@ page's colours and opportunities.)
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 28 defects · 1 asks
+- **Fights that cost** · 5 pins · 27 defects · 1 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -100,7 +99,7 @@ page's colours and opportunities.)
   - ✓ tells the frontier from the retreat underground, and sees an aim through
   - ✓ never draws a way back as worth a look for another aim, and says which aim
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
-- **Wayfinding and bearings** · 2 pins · 11 defects · 2 asks
+- **Wayfinding and bearings** · 2 pins · 10 defects · 2 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement OR-345 P2: Wayfinding and bearings: the capability as its pins hold it (a strategic map of countries above…
@@ -110,7 +109,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 32 defects · 2 asks
+- **Aims and the gold thread** · 16 pins · 32 defects · 3 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -128,9 +127,9 @@ page's colours and opportunities.)
   - ✓ is what bars the way to what the aim waits on, and then the place beyond
   - ✓ is the way its author says the aim is gone to by, until it is taken
   - requirement HP-02 P1: Horizons commissioned before they are imagined: the factor gives Icelake, the company's claim, the…
+  - requirement OR-468 P2: The First Aims followed: a gold-follower's walk with the undertaking chosen, its guidance led to…
   - direction OR-469 P3: The First Aims' other horizons (the direction's §9: find Dun Rìerdan, explore the southern…
-- **Jobs, debts and payoffs** · 6 pins · 0 defects · 1 asks
-  - ✓ leads to each part in turn under the gold, focus held, the Notes saying which parts are done
+- **Jobs, debts and payoffs** · 5 pins · 0 defects · 1 asks
   - ✓ recognises what the company did unprompted, offers the undertaking after, and rewards each part once
   - ✓ is led from the proof to the sale, paid, and on to the road west, by the gold alone
   - ✓ a1: what went into the river is for sale downstream, claimed, and carried home
@@ -158,7 +157,7 @@ page's colours and opportunities.)
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
-- **Lodging and rest** · 4 pins · 3 defects · 0 asks
+- **Lodging and rest** · 4 pins · 2 defects · 0 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
@@ -166,13 +165,13 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 9 defects · 0 asks
+- **Markets and prices** · 0 pins · 8 defects · 0 asks
 
 ## II. World: what there is to meet
 
 ### The land
 
-- **Countries and regions** · 0 pins · 14 defects · 11 asks
+- **Countries and regions** · 0 pins · 15 defects · 11 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…
@@ -192,7 +191,7 @@ page's colours and opportunities.)
 
 ### Settlements
 
-- **Towns and their frames** · 7 pins · 0 defects · 1 asks
+- **Towns and their frames** · 7 pins · 1 defects · 1 asks
   - ✓ under the churchyard, the sexton's selling and the bone-pickers, laid by putting back what was taken
   - ✓ talks at the inn of the sexton found out, once the bone-pickers are laid by what he gave back
   - ✓ in the quarry, the she-bear's den and her wolves, a real fight, and the house pays
@@ -229,8 +228,9 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 5 pins · 22 defects · 6 asks
+- **Dungeons and sites** · 6 pins · 20 defects · 6 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
+  - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
@@ -262,9 +262,8 @@ page's colours and opportunities.)
 
 ### Creatures and peoples
 
-- **Creatures with lore** · 1 pins · 2 defects · 2 asks
+- **Creatures with lore** · 1 pins · 2 defects · 1 asks
   - ○ a creature met has an entry with its habits, its weakness and its place in the world
-  - direction OR-526 P3: SRD proving case 66, the spiders' mother as the SRD Large monstrous spider, deferred at alpha's…
   - direction SR-02 P2: The SRD creature migration by proof slices (rules/proof-slices.md; srd-fidelity.md's creatures,…
 - **Peoples and ancestries** · 0 pins · 3 defects · 1 asks
   - direction OR-316 P3: Ancestry told as a people: an entry's demographic, social, cultural and physical information, not…
@@ -337,7 +336,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 6 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 5 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
@@ -347,7 +346,6 @@ page's colours and opportunities.)
   - ✓ tells one search for one place, with what is known of the place under it
   - requirement OR-292 P2: OR-302's remainder: a place's mark on the Atlas (the map's place facets, a way's tile) held…
   - requirement OR-313 P2: Latent and immediate opportunities told apart: what the company knows may be had, quieter…
-  - requirement OR-524 P1: Knowledge integrity's negative test, carried as a beta commitment at alpha's close…
   - direction AT-02 P2: The atlas study's smallest experiment (§7), after AT-01, behind one flag, off by default: an…
   - direction AT-09 P2: The Color Atlas as a semantic design instrument, and a theory of opportunity density (the owner,…
   - direction AT-10 P1: The opportunity architecture's M23 part (AT-07 split, 19 November;…
@@ -355,7 +353,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 37 defects · 12 asks
+- **Rows, lenses and the frame** · 3 pins · 38 defects · 12 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -374,7 +372,7 @@ page's colours and opportunities.)
 - **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
   - requirement OR-361 P2: Free-form input: the capability as its pins hold it (an act typed in the player's own words,…
-- **Accessibility and readability** · 1 pins · 8 defects · 1 asks
+- **Accessibility and readability** · 1 pins · 7 defects · 1 asks
   - ○ the text can be made larger and higher in contrast, and motion reduced, from the options
   - direction OR-315 P3: Rows partly beyond the safe area, a meaningful part (perhaps 20%) within it, for the paintings'…
 
@@ -394,11 +392,10 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 5 defects · 3 asks
+- **Paintings and portraits** · 1 pins · 5 defects · 2 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
   - direction OR-471 P3: A valley in rain: the valley's family (scene-valley, -spring, -summer, -autumn, -night) has no…
-  - direction OR-523 P3: The page's small copies of the paintings (web/reader/paintings, some 1 250 files) are generated…
 - **Paintings by terrain, subject, season, weather and light** · 0 pins · 0 defects · 2 asks
   - requirement OR-442 P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's…
   - direction OR-454 P3: The visual atlas (gamma G5): assets indexed terrain → subject → place or archetype → season →…
@@ -412,11 +409,10 @@ page's colours and opportunities.)
 
 ### Kyr and Deem
 
-- **Authoring forms and their lint** · 0 pins · 42 defects · 6 asks
+- **Authoring forms and their lint** · 0 pins · 42 defects · 5 asks
   - direction OR-164 P2: A studio for human authors, live: in the first version, the engine-side player knows it is served…
   - direction OR-224 P3: A Situation that can be done without its core resolved is not found by the lint: the adit's Done…
   - direction OR-230 P3: The Book of Faces' confessional (cleric.kyr) repeats its bookkeeping in its effects, which a…
-  - direction OR-522 P3: data/ has nineteen top-level folders, read by literal paths; for beta an inventory of each…
   - requirement ST-08 P1: The adventure-structure brief (the owner, 17 November; mission-22/adventure-structure-brief.md): a…
   - direction AU-57 P2: What an author of a craft could not say in Kyr (The Eel Bell, a bell cast, tuned and hung): no…
 - **Generation and tables** · 0 pins · 9 defects · 7 asks
@@ -432,9 +428,8 @@ page's colours and opportunities.)
 
 ### Saves and start-up
 
-- **Saving and loading** · 1 pins · 8 defects · 1 asks
+- **Saving and loading** · 1 pins · 8 defects · 0 asks
   - ✓ keeps where the company stands, the hour and what it has done, across a save
-  - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
 - **Start-up and loading** · 1 pins · 14 defects · 2 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
@@ -442,7 +437,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 5 defects · 3 asks
+- **Incremental computation** · 5 pins · 5 defects · 2 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
@@ -450,10 +445,8 @@ page's colours and opportunities.)
   - ✓ holds nothing idle by itself
   - requirement AX-10 P1: An uninterrupted journey leg in under 5 ms (BRIEF §4): every watch of a leg is simulated whole,…
   - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
-  - requirement OR-521 P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a…
-- **Architecture and layers** · 0 pins · 30 defects · 3 asks
+- **Architecture and layers** · 0 pins · 30 defects · 2 asks
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
-  - requirement OR-520 P2: The runtime's ports live process-wide (Conditions, Abilities, Traits, Callings: a static install,…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
 - **Testing instruments** · 0 pins · 14 defects · 6 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
@@ -511,9 +504,9 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **A terrain's peoples, beasts, gems and materials** (Creatures and peoples): OR-453
 - **Paintings by terrain, subject, season, weather and light** (Pictures): OR-442, OR-454
 - **Playing in the terminal** (The terminal): TB-11
-- **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, OR-522, ST-08, AU-57
+- **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, OR-421, KX-02, KX-04, AU-58, AU-60
-- **Architecture and layers** (The engine): AX-07, OR-520, MT-31
+- **Architecture and layers** (The engine): AX-07, MT-31
 - **Testing instruments** (The engine): OR-407, OR-456, OR-384, OR-389, OR-465, OR-508
 
 ### Pins not yet met (32)

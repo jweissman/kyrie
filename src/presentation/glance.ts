@@ -58,21 +58,21 @@ export class Glance {
     const cands = LedAgain.hold(campaign, here, Affordances.of(scene, screen, reading));
     // At the opening the four are the charge's (see Charge); the place's lenses and ways hold the rest as ever.
     const helped = !!reading.help && cands.some(x => x.whys.includes('help'));
-    const aside = AimAside.of(campaign, screen, helped);
+    const aside = AimAside.of(campaign, screen, helped), out = Threshold.leaving(campaign, screen, reading.named);
     const led = Charge.acts(aside ? cands.map(c => AimAside.strip(c, screen, aside.room)) : cands, screen,
       Charge.stands(arrival, campaign));
     // What is held is no step of the aim's either: never gilded back in (OR-417).
     const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(led, s),
       cands: led.filter(c => !c.held), s, ...helped ? { help: reading.help } : {},
-      ...aside ? { aside: aside.said } : {} });
+      ...aside ? { aside: aside.said } : {}, ...out ? { out } : {} });
     // Nothing led at all, everything here gone round (OR-417): the way toward the town, where the next true lead is.
     const on = picked.length ? picked
-      : AimContinuity.townward(campaign, { acts: picked, cands: led.filter(c => !c.held), aim: false });
+      : AimContinuity.townward(campaign, { acts: picked, cands: led.filter(c => !c.held), ...out ? { out } : {} });
     const held = TalkWeight.heldFor(campaign, Undertakings.heldFor(campaign, screen, on));
     const folded = HeldLead.fold(campaign, { acts: held, cands: led }, HeldActs.follow(screen));
     const acts = Charge.once(LedWords.with(campaign, HeldActs.with(folded.acts, folded.pull)),
       Charge.stands(arrival, campaign) && Charge.of(screen).size > 0);
-    const ways = Promotion.ways(cands, acts, s), out = Threshold.leaving(campaign, screen, reading.named);
+    const ways = Promotion.ways(cands, acts, s);
     // The aim this place is about, if one is; said on coming somewhere new, at the opening and on resuming, and when
     // the aims have changed, not on every page (the owner, OWN-53: restrained, and only what is truly held).
     const turned = !!told?.feedback.aims?.length || !!told?.feedback.amended?.length;
@@ -368,7 +368,9 @@ export class Glance {
       .slice(0, 2);
     for (const [id, why] of places) {
       const near = !!area && Spatial.ancestry(byId, id).some(e => e.id === area);
-      const first = this.leading(campaign, { here, id, byId, ...near ? { area } : {} });
+      // By a way the company can take now, if any (OR-411: not toward the crypt's stair, barred and dark, and back).
+      const over = { here, id, byId, ...near ? { area } : {} };
+      const first = this.leading(campaign, { ...over, able: true }) ?? this.leading(campaign, over);
       // No known way to it, but a way from here into the site it is in: that (the far end of a hold not yet walked,
       // through its door just opened). Within the site already, a way on into it not yet taken, never one back: in
       // Porthalen Hall, toward the muniment room no known way reached, the forecourt had led to the great hall and the

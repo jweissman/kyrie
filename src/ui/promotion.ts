@@ -326,6 +326,8 @@ export class Promotion {
   // all, and the way up was only under Go… (round 7, both players).
   // A way led plain, for no reason but that it is the way on (see AimContinuity.townward).
   static wayOn(c: Candidate): Promoted { return this.promoted(c, 'way', ['way']); }
+  // The way out toward where the next true lead is, said as that (see AimContinuity.townward; OR-411).
+  static wayOut(c: Candidate): Promoted { return this.promoted(c, 'out', ['out']); }
   private static bare(cands: Candidate[]): Promoted[] {
     return cands.filter(c => !c.barred && !c.held && (c.kind === 'way' || c.kind === 'travel'))
       .sort((a, b) => this.placed(a) - this.placed(b) || a.order - b.order).slice(0, 2)

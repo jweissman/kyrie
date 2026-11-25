@@ -11,6 +11,7 @@ import { Stakes } from '../ui/stakes';
 import { CompanyLight } from './company-light';
 import { AimLeading, type AimLead } from './aim-lead';
 import type { Promoted } from './glance-types';
+import type { Entity } from '../lang/index';
 import { KnownWays } from '../ui/known-ways';
 import { AimAdvances } from './aim-advances';
 import { Outmatched } from './outmatched';
@@ -34,7 +35,9 @@ export type Continuance = { kind: 'step' | 'gilded' | 'led'; witness: string; sa
   | { kind: 'frontier'; said: string; need?: true };
 
 // What was led with, what could be, and, where the aim's fight would end the one who goes alone, who to take along.
-type Led = { acts: Promoted[]; cands: Candidate[]; s: Situation; help?: { who: string; at: string }; aside?: string };
+// out: the ways out of what the aim is about (Threshold.leaving), each a retreat.
+type Led = { acts: Promoted[]; cands: Candidate[]; s: Situation; help?: { who: string; at: string }; aside?: string;
+  out?: Set<string> };
 
 export class AimContinuity {
   static readonly grave = ['grave', 'fight', 'trap', 'one-way'];
@@ -72,8 +75,7 @@ export class AimContinuity {
     // at the aim's place itself, from further off than the way in: no step either (see Shut; OR-171).
     const shut = this.shut(campaign, screen, lead);
     if (shut) {
-      return { acts: acts.map(a => a.continues ? this.plain(a) : a),
-        continuance: { kind: 'frontier', said: shut, need: true } };
+      return { acts: this.besides(campaign, { acts, cands }), continuance: { kind: 'frontier', said: shut, need: true } };
     }
     // Where what the aim waits on lies here to be found or learned (AimLeading.lies), no way out is its step: in the
     // ossuary, the lettered flag's ring to be found there, the way on into the crypt had been gold, and in the crypt
@@ -119,7 +121,10 @@ export class AimContinuity {
     // letters are read): never "nothing here opens it".
     const tried = PlayerView.choices(campaign).some(r => Object.entries(r.action.bindings ?? {})
       .some(([k, v]) => k !== 'actor' && lead.next.includes(v)));
-    return { acts, continuance: { kind: 'frontier', said: this.frontier(campaign, lead, tried) } };
+    // With nothing led here but the bare ways on, the way out toward the town (OR-411: in the ossuary, the crypt's
+    // stair up barred and dark, the gold had gone to the crypt and back nine times, nothing marked).
+    const bare = acts.length > 0 && acts.every(a => a.why === 'way'), said = this.frontier(campaign, lead, tried);
+    return { acts: bare ? this.townward(campaign, at) : acts, continuance: { kind: 'frontier', said } };
   }
   // Where the aim's place is shut to the company from here (Shut): not where the bar itself is the step, or the means.
   // The four without the way into a keeper beyond the company; where that leaves nothing, the way back the company came
@@ -133,28 +138,48 @@ export class AimContinuity {
     const home = cands.find(c => c.exit && visited.has(c.exit) && ['way', 'travel'].includes(c.kind));
     return home ? [this.plain(Promotion.gild(home))] : [this.plain(gold)];
   }
+  // What leads besides the aim, where its place is shut to the company: never its ways, which go on toward what is
+  // shut (thorn's walk, the vault's keeper beyond the company: the way toward the vault had led on, plain, the
+  // undercroft and the charnel passage to and fro, nothing marked: OR-411). With nothing else, the way out toward the
+  // town, where the next lead is.
+  private static besides(campaign: Campaign, at: Pick<Led, 'acts' | 'cands' | 'out'>): Promoted[] {
+    const own = at.acts.filter(a => !a.continues && a.why !== 'way' && !Promotion.continuing.includes(a.why));
+    return own.length ? own : this.townward(campaign, at);
+  }
   // Help to be had leads first (Outmatched); else, set aside while a keeper met bars its way (AimAside): no step,
   // and the need says why.
   private static early(campaign: Campaign, at: Led): { acts: Promoted[]; continuance: Continuance } | undefined {
     if (at.help) { return this.helped(campaign, at.acts, at.help.who); }
     if (!at.aside) { return undefined; }
-    // What leads for its own sake stays; with nothing but the bare ways on, the way toward the nearest town leads
-    // plain, where the notice or the next true lead is (the coordinator's call on OR-411: not to and fro outside).
-    const own = at.acts.filter(a => a.why !== 'way');
-    return { acts: own.length ? own.map(a => a.continues ? this.plain(a) : a) : this.townward(campaign, at),
-      continuance: { kind: 'frontier', said: at.aside, need: true } };
+    // What leads for its own sake stays; with nothing but the bare ways on, the way toward the nearest town, where the
+    // notice or the next true lead is (the coordinator's call on OR-411: not to and fro outside; see besides).
+    return { acts: this.besides(campaign, at), continuance: { kind: 'frontier', said: at.aside, need: true } };
   }
-  // The way toward the first town (else the nearest), led plain; or what was led, where there is none. Also where
-  // nothing at all is led (see Glance): the next true lead, not nothing (OR-417).
-  static townward(campaign: Campaign, at: Pick<Led, 'acts' | 'cands'> & { aim?: false }): Promoted[] {
+  // The way toward the first town (else the nearest); or what was led, where there is none. Also where nothing at all
+  // is led (see Glance): the next true lead, not nothing (OR-417). Its ground, not the workings under it: from the
+  // ossuary, under the town and so within it, the nearest of the town had been the charnel passage next door. Led as
+  // the way out (OR-411): somewhere true to go, where the notice, the pay owed or the next lead is, and said so by its
+  // icon; plain, on thorn's walk the way back up had been one of the fifteen turns with nothing marked.
+  static townward(campaign: Campaign, at: Pick<Led, 'acts' | 'cands' | 'out'>): Promoted[] {
+    // Never a retreat drawn as worth a look (test/small/frontier): the way out of what the aim is about is led plain.
+    const way = this.homeward(campaign, at.cands);
+    const back = !!way && (way.whys.includes('retreat') || !!at.out?.has(way.exit ?? ''));
+    return way ? [back ? Promotion.wayOn(way) : Promotion.wayOut(way)] : at.acts;
+  }
+  private static homeward(campaign: Campaign, cands: Candidate[]): Candidate | undefined {
     const byId = EntityIndex.of(campaign.module.entities).byId, here = campaign.world.one('at', campaign.playerActor!);
     // The first town, where the notice on the well-post is, before any other (else the nearest).
     const post = campaign.module.entities.find(e => /_u_notice_post$/.test(e.id))?.id;
-    const home = post && Spatial.ancestry(byId, campaign.world.one('at', post) ?? '').find(e => e.space?.kind === 'settlement')?.id;
-    const first = here ? KnownWays.first(campaign, here, id => Spatial.ancestry(byId, id)
+    const home = post
+      && Spatial.ancestry(byId, campaign.world.one('at', post) ?? '').find(e => e.space?.kind === 'settlement')?.id;
+    const first = here ? KnownWays.first(campaign, here, id => this.above(byId, id) && Spatial.ancestry(byId, id)
       .some(e => home ? e.id === home : e.space?.kind === 'settlement'), { able: true }) : undefined;
-    const way = first && at.cands.find(c => !!c.exit && c.exit.endsWith(first));
-    return way ? [this.plain(at.aim === false ? Promotion.wayOn(way) : Promotion.gild(way))] : at.acts;
+    return first ? cands.find(c => !!c.exit && c.exit.endsWith(first)) : undefined;
+  }
+  // A place on the ground, not under it.
+  private static above(byId: Map<string, Entity>, id: string): boolean {
+    const space = byId.get(id)?.space;
+    return space?.shelter !== 'underground' && !space?.depth;
   }
   private static helped(campaign: Campaign, acts: Promoted[], who: string):
     { acts: Promoted[]; continuance: Continuance } {
