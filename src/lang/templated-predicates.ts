@@ -26,7 +26,7 @@ export class TemplatedPredicates {
     const text = travelling
       ? `able(actor) and distinct(actor, ${s}) and at(actor, site) and ${along}`
       : `able(actor) and distinct(actor, ${s}) and at(actor, site)`
-        + ` and ((able(${s}) and not asleep(${s}) and at(${s}, site)) or (${along}))`;
+        + ` and ((able(${s}) and not asleep(${s}) and at(${s}, site) and not unseen(${s}, actor)) or (${along}))`;
     return TemplatedPredicates.of(text, who, parse);
   }
   private static given(value: unknown, id: string): unknown {

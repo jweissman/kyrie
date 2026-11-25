@@ -943,6 +943,12 @@
    "pri": "P1",
    "why": "25 Nov, the retro: a beta exit condition (BRIEF §11.2) dropped between alpha and beta"
   },
+  "OR-532": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov: OR-524's remainder, the same beta exit condition (BRIEF §11.2) over walks"
+  },
   "OR-525": {
    "kind": "requirement",
    "was": "defect",

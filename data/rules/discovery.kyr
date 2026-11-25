@@ -65,7 +65,7 @@ Module discovery_rules "Reliable discovery and trusted reports" {
     Result "{informant} tells you what they have heard about {topic}.".
     Description "They tell you what they know of it.".
     Requires able(actor) and able(informant) and distinct(actor, informant)
-      and at(actor, site) and at(informant, site) and testimony(informant, topic)
+      and at(actor, site) and at(informant, site) and not unseen(informant, actor) and testimony(informant, topic)
       and reveals(topic, statement) and noticeable(topic)
       and knows(informant, statement) and established(statement) and not stale(statement)
       and not knows(actor, statement).

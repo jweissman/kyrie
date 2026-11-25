@@ -92,10 +92,11 @@ Module world_passages "Passages, obstacles and the condition of things" {
   Query together(a: group, b: group) means at(a, ?p) and at(b, ?p).
   Query shut(c: entity) means state(c, ?s) and closesWhen(c, ?s).
   // A thing hidden until something is known is not there, for a company that does not know it; nor is a thing on a way
-  // the company does not know of.
+  // the company does not know of; nor is someone unseen by it (OR-524: someone hidden where the company stood had been
+  // listed among those there, and could be talked to).
   Query onHiddenWay(x: entity, a: group) means on(x, ?w) and not visibleTo(?w, a).
   Query noticed(x: entity, a: group) means (not revealedBy(x, ?f) or (revealedBy(x, ?f) and knows(a, ?f)))
-    and not onHiddenWay(x, a).
+    and not onHiddenWay(x, a) and not unseen(x, a).
   Query reaches(a: group, t: entity) means noticed(t, a) and ((at(a, ?p) and at(t, ?p))
     or (at(a, ?q) and on(t, ?w) and connects(?w, ?q, ?r))
     or (at(a, ?q) and guards(t, ?w) and connects(?w, ?q, ?r) and at(t, ?r))

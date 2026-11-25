@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 332,
+    "kyr": 334,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 294,
+      "kyr": 295,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 33,
+      "kyr": 34,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15094,6 +15094,13 @@
    "section": "world-rules/rules-discovery"
   },
   {
+   "id": "rule:discovery_rules.toldMatter",
+   "title": "toldMatter",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-discovery"
+  },
+  {
    "id": "rule:discovery_rules.staged",
    "title": "staged",
    "status": "kyr",
@@ -16279,6 +16286,13 @@
   {
    "id": "campaign:hollins",
    "title": "Behind the Wainscot",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:leaving",
+   "title": "The Leaving Supper",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

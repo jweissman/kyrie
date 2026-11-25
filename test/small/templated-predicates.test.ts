@@ -4,12 +4,14 @@ import { TemplatedPredicates } from '../../src/lang/templated-predicates';
 
 // OR-121: who a topic is put to is parsed once with a stand-in, and the speaker put in its place. What comes back is
 // what parsing the text with the speaker written in gives, for an id of any shape an ident takes (a hyphen, a digit,
-// a word the language says otherwise), and a topic's own requirement is the same either way.
+// a word the language says otherwise), and a topic's own requirement is the same either way. One unseen by the company
+// is put nothing (OR-524).
 describe('A templated predicate', () => {
   const s = TemplatedPredicates.stand;
   const along = (who: string) => `travelsWith(${who}, actor) and not (joinedAs(?m, ${who}) and not awake(?m))`;
   const reach = (who: string) => `able(actor) and distinct(actor, ${who}) and at(actor, site)`
-    + ` and ((able(${who}) and not asleep(${who}) and at(${who}, site)) or (${along(who)}))`;
+    + ` and ((able(${who}) and not asleep(${who}) and at(${who}, site) and not unseen(${who}, actor))`
+    + ` or (${along(who)}))`;
   it('is the parse of its text with the id written in', () => {
     for (const who of ['wren', 's5_traveller', 'old-hob', 'z9', 'and', 'true', 'site']) {
       expect(TemplatedPredicates.of(reach(s), who, ModuleParser.predicate)).toEqual(ModuleParser.predicate(reach(who)));

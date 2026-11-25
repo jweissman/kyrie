@@ -93,7 +93,8 @@ Module world_people "Company and intention" {
   Action talk_to(actor: group, person: group, site: place) "Talk to {person}" {
     Description "Go over and speak to them.".
     Requires able(actor) and company(actor) and at(actor, site) and at(person, site) and talks(person) and able(person)
-      and not asleep(person) and not hostile(person, actor) and not addressed(person, actor) and distinct(actor, person).
+      and not asleep(person) and not hostile(person, actor) and not addressed(person, actor) and distinct(actor, person)
+      and not unseen(person, actor).
     Time 0.
     On success { Assert addressed(person, actor). Assert acquainted(person, actor). }
   }

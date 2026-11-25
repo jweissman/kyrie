@@ -1294,13 +1294,19 @@ Also kept, without comment: established, reveals, intact, noticeable, destructib
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 21 | 0 | 0 | 0 | 5 |
+| 1 | 22 | 0 | 0 | 0 | 5 |
 
 #### readIn
 
 *Kyr · relation(group, fact)* · `rule:discovery_rules.readIn`
 
 Known by reading it (a tally, a tablet): the writing's own account, as good as whoever wrote it.
+
+#### toldMatter
+
+*Kyr · relation(group, group)* · `rule:discovery_rules.toldMatter`
+
+Someone has told the company what the matter is where they are (asked "what is the matter?"): only then does it know enough to ask them about the town's particular troubles, its old places and its people (the owner, OR-423: a new life had been offered some seventeen questions about things it had never heard of).
 
 #### staged
 
@@ -1368,7 +1374,7 @@ What a source tells is read in it (a notice, a ledger, notches cut in stone), an
 
 They tell you what they know of it.
 
-> Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (stale(statement)); not (knows(actor, statement))
+> Needs: able(actor); able(informant); distinct(actor, informant); at(actor, site); at(informant, site); not (unseen(informant, actor)); testimony(informant, topic); reveals(topic, statement); noticeable(topic); knows(informant, statement); established(statement); not (stale(statement)); not (knows(actor, statement))
 
 > Then: Assert knows(actor, statement). Retract assumesFalse(actor, statement). Assert toldBy(actor, informant, statement).
 
@@ -2160,7 +2166,7 @@ Something that can bar a way or shut something in, in a state where it does neit
 
 *Kyr · query(x: entity, a: group)* · `rule:world_passages.onHiddenWay`
 
-A thing hidden until something is known is not there, for a company that does not know it; nor is a thing on a way the company does not know of.
+A thing hidden until something is known is not there, for a company that does not know it; nor is a thing on a way the company does not know of; nor is someone unseen by it (OR-524: someone hidden where the company stood had been listed among those there, and could be talked to).
 
 #### go
 
@@ -2440,7 +2446,7 @@ Whoever the company has spoken with, for good: someone called a stranger's name 
 
 Go over and speak to them.
 
-> Needs: able(actor); company(actor); at(actor, site); at(person, site); talks(person); able(person); not (asleep(person)); not (hostile(person, actor)); not (addressed(person, actor)); distinct(actor, person)
+> Needs: able(actor); company(actor); at(actor, site); at(person, site); talks(person); able(person); not (asleep(person)); not (hostile(person, actor)); not (addressed(person, actor)); distinct(actor, person); not (unseen(person, actor))
 
 > Then: Assert addressed(person, actor). Assert acquainted(person, actor).
 
@@ -2945,6 +2951,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > In the western hills there is a house twelve times the size of a house, shut three hundred years; people of your own size have lived in its walls all that time, having come in by the letterbox. Four days ago the giantess who owns it came home to die. Her companion has put up a notice in the village on the doorstep: WANTED, A RATCATCHER.
+
+### The Leaving Supper
+
+*Kyr* · `campaign:leaving`
+
+- Regions and sites: leaving
+- Kits placed: —
+
+> What is asked, and why it matters.
 
 ### The Road the Star Came Down
 
