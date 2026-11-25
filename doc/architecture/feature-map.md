@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 421 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 575 live rows, 421 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -183,7 +183,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 15 defects · 11 asks
+- **Countries and regions** · 0 pins · 14 defects · 11 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…
@@ -355,7 +355,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 12 defects · 7 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 7 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
@@ -370,11 +370,10 @@ page's colours and opportunities.)
   - direction AT-02 P2: The atlas study's smallest experiment (§7), after AT-01, behind one flag, off by default: an…
   - direction AT-09 P2: The Color Atlas as a semantic design instrument, and a theory of opportunity density (the owner,…
   - direction AT-10 P1: The opportunity architecture's M23 part (AT-07 split, 19 November;…
-- **What an act would teach** · 2 pins · 2 defects · 2 asks
+- **What an act would teach** · 2 pins · 2 defects · 1 asks
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-  - requirement OR-527 P1: The player knowledge boundary: outside one designated projector, the player, presentation and…
 - **Rows, lenses and the frame** · 3 pins · 35 defects · 15 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
