@@ -1,7 +1,6 @@
-import type { Campaign } from '../campaign/campaign';
+import type { PlayerFrame } from '../presentation/player-frame';
 import type { Screen } from '../ui/screen-types';
 import type { AimLead } from '../presentation/aim-lead';
-import { PlayerView } from '../presentation/player-view';
 import { EntityIndex } from '../lang/entity-index';
 import { Itineraries } from '../ui/itinerary';
 import type { Offered } from './runner';
@@ -14,13 +13,13 @@ export class RunnerLed {
   // gilt: the glance's acts drawn toward the aim (facet aimed): what the page leads with in gold is led here too, where
   // the step is the place the company stands in or a way out toward it (GR-03: the reeve's talk at the landing, the
   // way out of the Wardens' gatehouse, gold on the page and not led in the runner's account).
-  static of(campaign: Campaign, screen: Screen, primary: Offered[],
+  static of(frame: PlayerFrame, screen: Screen, primary: Offered[],
     { lead, gilt = [] }: { lead: AimLead | undefined; gilt?: readonly string[] }): string[] {
     if (!lead?.next.length) { return []; }
-    const w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
+    const campaign = frame.campaign, w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
     // The step itself, and where it stands (someone or something at a place).
     const step = new Set([...lead.next, ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
-    const bound = new Map(PlayerView.choices(campaign).map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
+    const bound = new Map(frame.rows.map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
       .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
     const ways = new Map(screen.exits.flatMap(e => e.acts.flatMap(a => a.command && a.moves
       ? [[a.command, e.destination.id] as const] : [])));

@@ -20,8 +20,6 @@
   "src/cli/inspect-tool.ts": 1,
   "src/cli/playtext.ts": 1,
   "src/cli/review-frame.ts": 1,
-  "src/cli/runner-led.ts": 1,
-  "src/cli/runner.ts": 1,
   "src/cli/serve.ts": 1,
   "src/cli/terminal.ts": 2,
   "src/presentation/aim-continuity.ts": 2,

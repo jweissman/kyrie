@@ -1,6 +1,7 @@
 import { appendFile } from 'node:fs/promises';
 import type { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
+import { PlayerFrame } from '../presentation/player-frame';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import type { Continuance } from '../presentation/aim-continuity';
 import { Narrator, type Exchange, type Leaf, type Told } from '../presentation/narrator';
@@ -102,7 +103,8 @@ export class Runner {
   // The turn as it stands, built once until anything is done: its screen, its glance and its choices' words (OR-91:
   // the screen had been built up to five times a turn, most of an act's time). Kept while the world it was built of
   // is the world (a world changed is a new one: an act, or a change made from outside, as a spec's coin).
-  private now?: { world: object; screen: Screen; glance?: { of: Leaf['glance'] }; names?: Map<string, string> };
+  // Its rows are the frame's, read by the screen, the glance and the runner's own account alike (see PlayerFrame).
+  private now?: { world: object; frame: PlayerFrame; screen: Screen; glance?: { of: Leaf['glance'] } };
   // The narrator's leaf the last turn said was told from, for a review of the journey (src/cli/journey-review.ts).
   private leafed?: Leaf;
   get leaf(): Leaf | undefined { return this.leafed; }
@@ -132,7 +134,7 @@ export class Runner {
     const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
     const { offer } = c.running ? this.offer(screen, g) : { offer: RunnerEnding.offer(this.session) };
-    const led = RunnerLed.of(c, screen, offer.primary, { lead: g?.lead, gilt: (g?.acts ?? [])
+    const led = RunnerLed.of(now.frame, screen, offer.primary, { lead: g?.lead, gilt: (g?.acts ?? [])
       .filter(a => a.facets?.includes('aimed') && Promotion.continuing.includes(a.why)).map(a => a.choice) });
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},
@@ -199,11 +201,14 @@ export class Runner {
   }
   // Every choice's words, by its id.
   private names(): Map<string, string> {
-    return this.standing.names ??= new Map(PlayerView.choices(this.campaign).map(r => [r.choice.id, r.choice.name]));
+    return this.standing.frame.names;
   }
   private get standing(): NonNullable<Runner['now']> {
     const world = this.campaign.world;
-    if (this.now?.world !== world) { this.now = { world, screen: ScreenModel.build(this.campaign) }; }
+    if (this.now?.world !== world) {
+      const frame = PlayerFrame.of(this.campaign);
+      this.now = { world, frame, screen: ScreenModel.build(this.campaign) };
+    }
     return this.now;
   }
   private glanced(): Leaf['glance'] {
@@ -366,7 +371,7 @@ export class Runner {
   private opened(opener: Offered, screen: Screen): Said {
     const rows = opener.opens ?? [], g = this.glanced(), says = opener.says ? [Typography.plain(opener.says)] : [];
     const four = opener.says ? rows.length : 4, primary = rows.slice(0, four);
-    const led = opener.says ? RunnerLed.of(this.campaign, screen, primary, { lead: g?.lead }) : [];
+    const led = opener.says ? RunnerLed.of(this.standing.frame, screen, primary, { lead: g?.lead }) : [];
     return { turn: this.n, moment: 'inspect', scene: { lines: [`${opener.label}:`, ...says], prose: says },
       at: screen.place.id, offer: { primary, rest: rows.slice(four) }, ...led.length ? { led } : {},
       ...Runner.aims(screen), ...g?.continuance ? { going: Runner.going(g.continuance) } : {} };
