@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 577 live rows, 422 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 578 live rows, 424 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -183,7 +183,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 15 defects · 11 asks
+- **Countries and regions** · 0 pins · 14 defects · 11 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…
@@ -355,7 +355,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 12 defects · 7 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 7 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
@@ -370,11 +370,10 @@ page's colours and opportunities.)
   - direction AT-02 P2: The atlas study's smallest experiment (§7), after AT-01, behind one flag, off by default: an…
   - direction AT-09 P2: The Color Atlas as a semantic design instrument, and a theory of opportunity density (the owner,…
   - direction AT-10 P1: The opportunity architecture's M23 part (AT-07 split, 19 November;…
-- **What an act would teach** · 2 pins · 2 defects · 2 asks
+- **What an act would teach** · 2 pins · 2 defects · 1 asks
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-  - requirement OR-527 P1: The player knowledge boundary: outside one designated projector, the player, presentation and…
 - **Rows, lenses and the frame** · 3 pins · 35 defects · 15 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
@@ -403,7 +402,7 @@ page's colours and opportunities.)
 
 ### Words
 
-- **Narration** · 3 pins · 27 defects · 5 asks
+- **Narration** · 3 pins · 28 defects · 5 asks
   - ○ the narration of an hour in a1 holds to "you", in the present, by a census of its sentences
   - ○ a place's first telling gives more than sight (sound, smell, touch or weather), within budget
   - ○ the words never contradict the state (a door told shut is shut, the weather told is so)
@@ -481,7 +480,7 @@ page's colours and opportunities.)
   - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
   - requirement OR-521 P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a…
   - requirement OR-531 P2: What is still installed for the whole process after OR-520 (test/small/process-wide): SettingPort…
-- **Architecture and layers** · 0 pins · 29 defects · 3 asks
+- **Architecture and layers** · 0 pins · 30 defects · 3 asks
   - requirement AX-04 P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the…
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
