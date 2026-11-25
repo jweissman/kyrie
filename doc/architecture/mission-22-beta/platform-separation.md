@@ -222,6 +222,49 @@ player protocol (TB-09): a kyrie-player extracted now would institutionalise the
 Saves stay as they are for beta (no compatibility promise). Separating installation identity, generator inputs,
 mutable state and durable history from reconstructible compiled artifacts is later work, not a prerequisite.
 
+## Avoiding the ninety-day regret (the analyst's second note, 24 November)
+
+The regret to avoid is not that the folders moved late, but that behaviour kept being added before dependencies,
+identities and execution boundaries were explicit, so that every change rediscovered what the system relied on. The
+lead adopts three investments, in this order of value, and five working rules.
+
+**Three investments:**
+1. **One public lifecycle and a semantic player frame.** install → create or resume → frame → submit → receipt and
+   frame → checkpoint. Existing behaviour is placed behind it without rewriting. The browser's worker, the terminal,
+   the allotment proof and one test fixture consume it. No new product entry point is added; lower-level APIs stay
+   for focused tests.
+2. **A campaign-scoped installed context instead of ambient Canon and global catalog state.** Small ports owned by
+   the layer that needs them, assembled at the composition root. Start with what already uses a port (the calendar
+   and the sky), then one coherent group (conditions or abilities). The alternating Westernesse and allotment test
+   is its proof. No new process-global catalog reads from today (held by the canon-reads ratchet).
+3. **One shared change set and dependency vocabulary, with declared test horizons.**
+   - A command yields a typed change set (relations, keyed facts, reorders, the module).
+   - Every memoised computation states what it depends on (a key, a relation, the module, everything) and can say
+     why it was recomputed or reused.
+   - The performance map (doc/architecture/performance-map.md) says where it pays first: the screen (41% of a turn),
+     then journey legs and the rules' wake-ups (AX-05, AX-10). It is used there before anywhere else.
+   - Tests declare their horizon: a bare Kyr fragment, the places-and-people kernel, the allotment society, a tiny
+     fantasy encounter, the opening, the full Iscoed loop.
+
+Receipts grow typed, compactly: what changed materially, what was spent, what was learnt, which authored processes
+fired, the narration shown, the situation after. The Atlas, undertakings, replay, Deem's inspection and bug reports
+then read one causal record, not each its own reconstruction.
+
+**Five working rules for platform work:**
+- **A layer header before building.** Authored in, executed by, projected by, rendered by, persisted as. A feature
+  that cannot fill it in coherently is not ready to build.
+- **A second consumer before a generalisation.** A port has Westernesse and a second or fake domain; a construct
+  serves two authored cases; a player question renders in page and terminal; a cache has its cold oracle.
+- **Deletion as completion.** Every architectural slice names what it deletes (Canon reads, a client's regex
+  inference, duplicated workflow state, private control facts, full-world test setup, redundant screen builds) and
+  counts it. A new layer whose old readers stay authoritative is not progress.
+- **The game gets better each time.** Every platform batch shows at least one of: lower latency, fewer continuity
+  breaches, a smaller fixture horizon, behaviour in a second domain, clearer authored source, or a client heuristic
+  removed.
+- **Architecture as executable counts.** Ratchets for runtime→setting and player→setting imports, client gameplay
+  decisions, text and regex inference, process-global setting access (canon-reads), tests by horizon, full frames
+  built per command, rules examined per settlement, and product execution paths.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are
