@@ -66,7 +66,8 @@ export class KeptGame {
     const save = checkpoint.save, { world: facts, ...state } = save.state;
     return { version: 2, world: world.key, build: BuildStamp.current, log, checkpoint: { ...checkpoint, save: {
       version: save.version,
-      ...save.actionFormat ? { actionFormat: save.actionFormat } : {}, state, creatures: save.creatures,
+      ...save.actionFormat ? { actionFormat: save.actionFormat } : {}, ...save.schemas ? { schemas: save.schemas } : {},
+      state, creatures: save.creatures,
       events: save.events, encounter: save.encounter, observations: save.observations,
       facts: live ? this.differLive(live, facts.measures, world) : this.differ(facts, world) } } };
   }

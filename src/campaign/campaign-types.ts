@@ -52,6 +52,8 @@ export interface NpcDecision {
 }
 export interface CampaignSave {
   actionFormat?: 'schemas';
+  // Where the definition's schemas are the module's actions, and written once, there (see SavedSchemas).
+  schemas?: 'actions';
   version: 1; module: Module; definition?: CampaignDefinition; state: Omit<CampaignState, 'party' | 'creatures'>;
   creatures: Creature[]; events: CampaignEvent[]; encounter: number;
   observations: Record<string, number>;

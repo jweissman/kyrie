@@ -31,6 +31,7 @@ export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEv
 import type { CampaignState, CampaignSave, CampaignEvent, Dated, Restored } from './campaign-types';
 import { Crossing, type ExecutionContext } from './crossing';
 import { SemanticRecords } from '../lang/semantic-record';
+import { SavedSchemas } from './saved-schemas';
 export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -53,7 +54,8 @@ export class Campaign implements WatchHost {
     const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
       // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
-      LocalKinds.activate(saved.module.catalog, this); this.compiled = saved.module; this.definition = saved.definition;
+      LocalKinds.activate(saved.module.catalog, this); this.compiled = saved.module;
+      this.definition = SavedSchemas.read(saved);
       this.current = saved.state; this.creatures = new CreatureStore(saved.creatures);
       this.log = saved.events; this.encounter = saved.encounter;
       this.observations = saved.observations;
@@ -168,8 +170,9 @@ export class Campaign implements WatchHost {
     this.keepFacts();
     // Written out at once (live), the creatures are given as they are: a copy of every one is what a kept copy needs.
     // Its declarations as written are the compiler's, read again from source, never kept (MT-30: SemanticRecords).
+    // Its schemas are its module's actions, written once (SavedSchemas: MT-27).
     const save = { version: 1 as const, actionFormat: 'schemas' as const, module: SemanticRecords.unwritten(this.module),
-      definition: this.definition, state: this.current,
+      ...SavedSchemas.of(this.definition, this.module), state: this.current,
       creatures: live ? this.creatures.live as Creature[] : this.creatures.snapshot, events: this.log,
       encounter: this.encounter, observations: this.observations };
     return live ? save : structuredClone(save);
