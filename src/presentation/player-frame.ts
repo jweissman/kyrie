@@ -26,7 +26,8 @@ export class PlayerFrame {
   static of(campaign: Campaign): PlayerFrame {
     const offered = campaign.offered(), kept = this.kept.get(campaign);
     if (kept && kept.world === campaign.world && kept.offered === offered) { return kept; }
-    const rows = Object.freeze(PlayerView.choices(campaign).map(r => Object.freeze({ ...r,
+    // Worked out under the campaign's own rules (its installation, OR-520).
+    const rows = Object.freeze(campaign.within(() => PlayerView.choices(campaign)).map(r => Object.freeze({ ...r,
       choice: Object.freeze(r.choice) })));
     const frame = new PlayerFrame(campaign, campaign.world, offered, rows);
     this.kept.set(campaign, frame);
