@@ -33,7 +33,7 @@ export class BookStage {
             onClick={() => toCountry(true)}>The country</button>}
         </header>
         <div className="book" {...PageFrame.slot('narrative')}>
-          <div className="book-page">
+          <div className={map ? 'book-page map-page' : 'book-page'}>
             {!map ? <Sheet.View app={app} /> : plan
               ? <PlanView.View screen={frame.screen} /> : <MapView.View app={app} screen={frame.screen} />}
           </div>

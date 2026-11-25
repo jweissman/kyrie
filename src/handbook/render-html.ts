@@ -1,6 +1,7 @@
 import { HandbookStatus, Statuses, type Book, type Entry, type Section, type Status, type Table } from './model';
 import type { Coverage, Placed } from './handbooks';
 import { HandbookStyle } from './style';
+import { Folio } from './folio';
 import { CapabilityAudit, type Audit } from './audit';
 import { Identity } from '../presentation/identity';
 import { StatBlock } from './stat-block';
@@ -23,10 +24,10 @@ export class HandbookHtml {
     const nav = [['index', 'Handbooks'], ...this.books.map(b => [b.id, b.title])].map(([id, t]) =>
       `<a href="${id}.html"${id === current ? ' aria-current="page"' : ''}>${HandbookHtml.esc(t!)}</a>`).join('');
     return `<!doctype html>\n<html lang="en"><head><meta charset="utf-8">`
-      + '<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#110f0c">'
+      + `<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${Folio.ink.table}">`
       + `<title>${HandbookHtml.esc(title)} · ${Identity.spoken()}</title><style>${HandbookStyle.css}</style></head><body>`
-      + `<header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
-      + `<nav class="books">${nav}</nav></header>${body}`
+      + `<div class="folio"><header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
+      + `<nav class="books">${nav}</nav></header>${body}</div>`
       + `<script>${HandbookStyle.script}</script></body></html>\n`;
   }
   book(b: Book): string {

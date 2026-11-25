@@ -30,8 +30,10 @@ export class Stage {
     const s = app.state, menu = app.menu, mode = Stage.mode(app);
     return (
       <div className={`stage mode-${mode}`} data-mode={Stage.inspected(app, mode)} aria-busy={s.pending ? true : undefined}>
-        {/* In the scene first, the map and the book are on its rail (see SceneRail). */}
-        {['talk', 'examine'].includes(mode) && <SceneRail.Books app={app} alone />}
+        {/* In the scene first, the map and the book are on its rail (see SceneRail). Not in a conversation: it recedes
+            (OR-149), and the rail had stood over its words, faded over the reply on a phone and over the wares
+            (OR-503: nothing floats over text); M and C still open them. */}
+        {mode === 'examine' && <SceneRail.Books app={app} alone />}
         <div className="intentions" data-region="choices">
           {mode === 'prologue' && <PrologueStage.View app={app} />}
           {mode === 'fallen' && <BookStage.Ending app={app} />}

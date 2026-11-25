@@ -2,6 +2,7 @@ import type { Entry, Section, Table } from './model';
 import type { Chapter, Encyclopedia } from './encyclopedia';
 import { HandbookHtml } from './render-html';
 import { Identity } from '../presentation/identity';
+import { Folio } from './folio';
 import { Emblems } from '../presentation/emblems';
 import { SpellSchools } from '../presentation/spell-schools';
 import { StatBlock } from './stat-block';
@@ -23,10 +24,10 @@ export class EncyclopediaHtml {
     const nav = this.book.chapters.map(c => `<a href="${c.id}.html"${c.id === current ? ' aria-current="page"' : ''}>`
       + `${EncyclopediaHtml.esc(c.title)}</a>`).join('');
     return '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">'
-      + '<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#EFE6D2">'
-      + `<title>${EncyclopediaHtml.esc(title)}</title><style>${EncyclopediaHtml.css}</style></head><body>`
-      + `<header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
-      + `<a class="home" href="index.html">The Encyclopedia</a><nav>${nav}</nav></header>${body}`
+      + `<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="${Folio.ink.table}">`
+      + `<title>${EncyclopediaHtml.esc(title)}</title><style>${EncyclopediaHtml.css}${Folio.css}</style></head><body>`
+      + `<div class="folio"><header class="bar"><a class="brand" href="../index.html">${Identity.spoken()}</a>`
+      + `<a class="home" href="index.html">The Encyclopedia</a><nav>${nav}</nav></header>${body}</div>`
       + `<script>${EncyclopediaHtml.script}</script></body></html>\n`;
   }
   // The title page: what the book is, its chapters, and a search over everything in it.
@@ -113,13 +114,7 @@ export class EncyclopediaHtml {
   --rule: rgba(43,36,27,.24); --hair: rgba(43,36,27,.12); --link: #7A2E1F; --sepia: #6B4A2B;
   --read: 'Newsreader', Georgia, serif; --do: 'Jost', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif; }
 * { box-sizing: border-box; }
-html { background: var(--paper-deep); }
-body { margin: 0; color: var(--ink); font: 18px/1.6 var(--read); min-height: 100vh;
-  background:
-    radial-gradient(120% 90% at 50% 40%, rgba(255,250,236,.55), rgba(255,250,236,0) 60%),
-    radial-gradient(140% 120% at 50% 50%, rgba(0,0,0,0) 62%, rgba(92,66,32,.16) 100%),
-    repeating-linear-gradient(0deg, rgba(92,66,32,.025) 0 1px, rgba(0,0,0,0) 1px 3px),
-    var(--paper); }
+body { margin: 0; color: var(--ink); font: 18px/1.6 var(--read); }
 a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; text-decoration-thickness: 1px;
   text-underline-offset: 3px; }
 /* The running head: the book's name and its chapters in small capitals, a double rule beneath. */
@@ -181,6 +176,12 @@ h3 { font: 600 19px/1.3 var(--read); margin: 0 0 4px; } h4 { font: 500 13px/1.3 
 ${StatBlock.css('var(--link)')}
 .entry .text { font-style: italic; margin: 8px 0; } .entry dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px;
   margin: 8px 0; font: 14px/1.5 var(--do); } .entry dt { color: var(--dim); } .entry dd { margin: 0; }
+/* Set as a book is set (the owner's second design opinion, 24 November): paragraphs indented, not gapped, ragged
+   right; a drop cap where a chapter or an entry begins, nowhere else. */
+p { text-align: left; hyphens: manual; }
+.text + .text, .lede + .lede, .intro + .intro, .rules p + p { margin-top: 0; text-indent: 1.4em; }
+.entry .text:first-of-type::first-letter, #book > .lede:first-of-type::first-letter { float: left; margin: .06em .08em 0 0;
+  font: 400 3.1em/.82 var(--read); font-style: normal; color: var(--sepia); }
 .rules { margin-top: 10px; padding-top: 8px; border-top: 1px dotted var(--rule); font-size: 16px; } .rules p { margin: 4px 0; }
 .see { font-size: 15px; margin: 10px 0 0; } .see .label { margin-right: 8px; }
 .scroll { overflow-x: auto; } table { border-collapse: collapse; font: 14px/1.45 var(--do); margin: 8px 0 18px;

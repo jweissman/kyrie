@@ -138,19 +138,10 @@
 .trading .label { margin: 14px 0 8px; color: var(--accent); display: flex; justify-content: space-between; gap: 12px; }
 .trading .label:first-child { margin-top: 0; }
 .trading .label .purse { color: var(--dim); }
-/* On a narrow screen the rail of the map and the book stands at the foot right (see SceneRail.Books): the way to
-   leave stands clear above it, never under it (the owner, 11 November: the safe zone). */
-/* On a phone the rail stands at the top right, over the sitter's band, so that the reply has the room under the leave
-   (OR-67: the rail had kept 64 px clear at the foot, and the reply stopped mid-sentence). */
+/* On a phone the reply has the room under the leave (OR-67), the rail receded in a conversation (OR-503). */
 @media (max-width: 600px) {
-  .shell.scene-full .mode-talk .scene-rail { top: var(--safe-t); bottom: auto; }
-  /* The sitter's name and lines clear of it, however long the name. */
-  .shell.scene-full .mode-talk .sitter .cap { right: calc(var(--safe-r) + 100px); }
   /* And the reply takes whatever the rows leave, down to the foot. */
   .shell.scene-full .mode-talk .talk .dialogue .lines { flex: 1 1 auto; }
-}
-@media (min-width: 601px) and (max-width: 899px), (min-width: 601px) and (orientation: portrait) {
-  .shell.scene-full .mode-talk .dialogue .answer > .leave { margin-bottom: 64px; }
 }
 
 /* ---- Mission 21, step 5: the conversation at its edges. ---- */
@@ -171,7 +162,6 @@
     padding-right: calc(var(--menu-r) + var(--menu-inset)); }
   .talk .dialogue .lines { flex: 1 1 auto; max-height: none; }
   .talk .dialogue .answer { flex: 0 0 auto; }
-  .shell.scene-full .mode-talk .dialogue .answer > .leave { margin-bottom: 56px; }
 }
 /* Unpainted, a page in type: the name large, the people's emblem large and faint behind it (the owner, 5 and 7
    November), not an outline floating in an empty column. */
@@ -224,9 +214,8 @@
 .talk .replies .asked .row-label, .talk .leave .row-label { color: var(--dim); }
 .talk .answering { color: var(--dim); }
 .talk .replies.answers { border-left: 0; padding-left: 0; }
-.mode-talk .scene-rail, .mode-talk .corner { opacity: .16; transition: opacity .5s var(--ease); }
-.mode-talk .scene-rail:hover, .mode-talk .scene-rail:focus-within, .mode-talk .corner:hover,
-.mode-talk .corner:focus-visible { opacity: 1; }
+.mode-talk .corner { opacity: .16; transition: opacity .5s var(--ease); }
+.mode-talk .corner:hover, .mode-talk .corner:focus-visible { opacity: 1; }
 /* Upright, the likeness above and the conversation under it are one page, scrolled as one. */
 @media (max-width: 1023px), (orientation: portrait) {
   .talk { overflow-y: auto; grid-template-rows: auto auto; }

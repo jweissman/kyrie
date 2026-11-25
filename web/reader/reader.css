@@ -111,13 +111,12 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .journal .notes-columns li, .journal .done li { margin: 0 0 6px; padding: 8px 12px; border: 1px solid var(--hair);
   background: var(--paper); font: 400 15px/1.45 var(--told); }
 .journal .done li { color: var(--grey); background: none; }
-/* The Notes' one menu stays in view at the foot of the page however long the notes run: it acts on the aim considered
-   above it. Its rows one over another in the frame's menu column (OR-380), not across the sheet: the page is centred on
-   the screen, so the column's place on the screen is its own less half the screen and half the page. */
-.journal .keep { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin-top: 30px;
-  width: var(--menu-rows); margin-left: calc(50% - 50vw + var(--menu-x)); box-sizing: border-box;
-  list-style: none; position: sticky; bottom: 0; z-index: 2;
-  padding: 12px 0; background: linear-gradient(to bottom, transparent, var(--deep, #0a0b0e) 22%); }
+/* The Notes' one menu at the foot of the folio, on its paper, in the menu column's measure at its right edge: it acts
+   on the aim considered above it. It had stood over the notes, sticky at the screen's foot on a gradient (OR-503:
+   nothing floats over text). */
+.journal .keep { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; margin: 30px 0 0 auto;
+  width: min(var(--menu-rows), 100%); box-sizing: border-box; list-style: none; padding: 12px 0 0;
+  border-top: 1px solid var(--hair); }
 
 /* The head of a book's page: where, and which book. */
 .where { display: flex; flex-wrap: wrap; gap: 4px 0; margin: 0 0 18px; padding-bottom: 10px; border-bottom: 1px solid var(--hair);
@@ -415,21 +414,29 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   .character .head-of.pc .sat { width: 80px; height: 80px; }
 }
 
-/* ---- The character as a folio (OR-307, the owner's playtests of 23-24 November: "a simple folio, perhaps the
-   Encyclopedia's parchment"): the sheet on the encyclopedia's paper in its ink, as the book it is; the qualities as
-   values by their names, what each adds not written beside it (OR-386); what they can do and know as words in a line,
-   not boxes; no unexplained signs. The page's tokens are the parchment's within it, so what it draws needs nothing of
-   its own; the roster floating over it keeps the game's dark. ---- */
-.book-page:has(.character) { --ivory: #2B241B; --ink: #2B241B; --grey: #5B4F3F; --dim: #5B4F3F; --faint: #6E6150;
+/* ---- The backstage as one folio (OR-502; OR-307 had made the character's alone, the owner's playtests of 23-24
+   November: "a simple folio, perhaps the Encyclopedia's parchment"): every page of the book (the company, the notes,
+   the pack, the story) on the Encyclopedia's paper in its ink, one folio of one size laid on the dark table with a
+   margin of the dark about it, as the shell's engine hint says (data-backstage: Folio.theme); the map is no page of it.
+   The page's tokens are the parchment's within it, so what it draws needs nothing of its own; the roster floating
+   over the character keeps the game's dark. ---- */
+.shell[data-backstage="folio"] .book-frame > .book { padding: clamp(10px, 2.4vw, 28px) clamp(10px, 3vw, 40px) clamp(16px, 3vw, 40px); }
+.shell[data-backstage="folio"] .book-page:not(.map-page) { max-width: 76rem; margin: 0 auto;
+  padding: clamp(22px, 3vw, 40px) clamp(18px, 3.4vw, 48px) 72px;
+  --ivory: #2B241B; --ink: #2B241B; --grey: #5B4F3F; --dim: #5B4F3F; --faint: #6E6150; --accent: #2B241B;
   --hair: rgba(43, 36, 27, .14); --edge: rgba(43, 36, 27, .24); --edge-strong: rgba(43, 36, 27, .4);
-  --accent-line: rgba(43, 36, 27, .3);
+  --accent-line: rgba(43, 36, 27, .3); --surface: #EFE6D2; --raised: #E4D8BE; --lift: #D8CDB6;
+  --paper: rgba(255, 250, 236, .4); --wash: #E4D8BE; --deep: #E4D8BE;
   --choice-ground: rgba(43, 36, 27, .05); --choice-edge: rgba(43, 36, 27, .14);
   --choice-ground-hot: rgba(43, 36, 27, .1); --choice-edge-hot: rgba(43, 36, 27, .32);
-  color: var(--ink); margin: 18px auto 32px; border: 1px solid rgba(43, 36, 27, .35);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, .55);
+  color: var(--ink); border: 1px solid rgba(43, 36, 27, .35); box-shadow: 0 0 0 1px rgba(0, 0, 0, .5), 0 24px 70px rgba(0, 0, 0, .55);
+  color-scheme: light;
   background: radial-gradient(120% 90% at 50% 40%, rgba(255, 250, 236, .55), rgba(255, 250, 236, 0) 60%),
     radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(92, 66, 32, .16) 100%),
     repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #EFE6D2; }
+.shell[data-backstage="folio"] .book-page:not(.map-page) :is(h1, h2, h3, p, li, span, b, dt, dd) { text-shadow: none; }
+/* Set as a book is: paragraphs indented, not gapped, and ragged right. */
+.shell[data-backstage="folio"] .book-page:not(.map-page) p { text-align: left; }
 .character .members.roster { --ivory: #ECE6D9; --ink: #ECE6D9; --edge: rgba(236, 230, 217, .10); }
 .character .values { display: flex; flex-wrap: wrap; gap: 8px clamp(20px, 3vw, 40px); margin: 14px 0 6px; padding: 10px 0;
   border-top: 3px double var(--edge); border-bottom: 1px solid var(--hair); }
@@ -446,5 +453,4 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   text-decoration-color: var(--ink); }
 .character .head-of { border-bottom-color: var(--edge); }
 .character .head-of.pc .sat, .character .head-of .sat { border: 1px solid var(--edge); }
-@media (max-width: 599px) { .book-page:has(.character) { margin: 8px 6px 24px; } }
 

@@ -6,6 +6,7 @@ import { Stage } from './stage/stage';
 import { Flame } from './stage/flame';
 import { EncyclopediaOverlay } from './encyclopedia-overlay';
 import { Guidance } from './guidance';
+import { Folio } from '../../src/handbook/folio';
 import type { Frame } from '../../src/creation/protocol';
 
 // The lantern: a dark ground with the country's painting far behind it, dim and out of focus and tinted by the hour,
@@ -60,7 +61,7 @@ export class Shell {
       + `${Stage.overworld(app) ? ' overworld' : ''} scene-full`
       + `${Guidance.shown(app) ? '' : ' guide-quiet'}`;
     return (
-      <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style}
+      <div className={`shell phase-${s.phase} hour-${Shell.hour(app)}${apart}`} style={style} data-backstage={Folio.theme}
         onClickCapture={e => EncyclopediaOverlay.caught(app, e)}>
         <div className={`ambient${plate ? '' : ' unpainted'}`} aria-hidden="true" />
         {was && <div key={was} className="ambient ambient-was" aria-hidden="true"

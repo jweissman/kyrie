@@ -378,7 +378,13 @@
   /* Seven marks inside a phone's zone. */
   .scene-rail .rail-mark { width: 36px; height: 36px; }
   .shell.scene-full .world-page.scale-scene .surface :is(.portraits, .lens-strip) { top: calc(var(--safe-t) + 96px);
-    bottom: auto; left: var(--safe-x); right: var(--safe-x); }
+    bottom: auto; left: var(--safe-x); right: var(--safe-x); }  /* A crowd in two rows at most, small faces and their names said to a reader (OR-503: four rows of named faces had
+     stood over the telling and the rows under it). */
+  .shell.scene-full .world-page.scale-scene .surface .portraits.crowd > li { flex: 0 0 34px; min-width: 34px; }
+  .shell.scene-full .world-page.scale-scene .surface .portraits.crowd .portrait .face { width: 34px; }
+  .shell.scene-full .world-page.scale-scene .surface .portraits.crowd .portrait .pn { position: absolute; width: 1px;
+    height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .shell.scene-full .world-page.scale-scene .surface .portraits.crowd .portrait > .pip-icon { left: -4px; }
 }
 /* Nothing of the place's own to touch, in the scene first: no empty row, and no rule over it. */
 .shell.scene-full .openers:empty { display: none; }

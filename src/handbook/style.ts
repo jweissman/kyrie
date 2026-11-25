@@ -1,30 +1,33 @@
 import { StatBlock } from './stat-block';
+import { Folio } from './folio';
 
 // The handbooks' look: the game's own inks and faces (a book face for what is read, a terminal face for what is
-// operated), set as a reference to be searched rather than a frame to be played in.
+// operated), set as a reference to be searched rather than a frame to be played in; on the backstage's one theme
+// (OR-502: Folio), a parchment folio on the dark table, every ink on it measured against its paper.
 export class HandbookStyle {
   static readonly css = `
-:root { --bg: #110f0c; --sheet: #16130f; --sheet-2: #1c1914; --well: #0c0b09; --rule: #2a251e; --rule-2: #3b352b;
-  --ink: #ede5d3; --ink-2: #cfc6b2; --dim: #9d9481; --faint: #6c6456; --amber: #e9b45c; --teal: #86c6b3; --rose: #e2806c;
-  --gold: #e8c87f; --violet: #aaa3e3; --green: #a3d283; --blue: #8fb3ee;
+:root { --sheet: rgba(43, 36, 27, .035); --sheet-2: rgba(43, 36, 27, .07); --well: rgba(43, 36, 27, .05);
+  --rule: rgba(43, 36, 27, .16); --rule-2: rgba(43, 36, 27, .3);
+  --ink: ${Folio.ink.ink}; --ink-2: #3A3126; --dim: ${Folio.ink.dim}; --faint: ${Folio.ink.faint}; --amber: ${Folio.ink.link};
+  --teal: #1D5A4E; --rose: #8A2E20; --gold: ${Folio.ink.sepia}; --violet: #4F428C; --green: #36602A; --blue: #2B4F86;
   --prose: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Charter, "Source Serif 4", Georgia, serif;
   --mono: "JetBrains Mono", "IBM Plex Mono", "Cascadia Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  color-scheme: dark; }
+  color-scheme: light; }
 * { box-sizing: border-box; }
 ${StatBlock.css('var(--rose)')}
 html { font-size: clamp(14px, 0.32vw + 10.4px, 17px); scroll-padding-top: 4rem; }
-body { margin: 0; background: var(--bg); color: var(--ink); font: 400 0.92rem/1.5 var(--mono); -webkit-font-smoothing: antialiased; }
+body { margin: 0; color: var(--ink); font: 400 0.92rem/1.5 var(--mono); -webkit-font-smoothing: antialiased; }
 a { color: var(--amber); text-decoration: none; } a:hover { text-decoration: underline; }
 h1, h2, h3, h4 { font-family: var(--prose); font-weight: 600; margin: 0; }
 .bar { position: sticky; top: 0; z-index: 3; display: flex; align-items: baseline; gap: 2ch; padding: 0.6rem 1rem;
-  background: var(--well); border-bottom: 1px solid var(--rule); overflow-x: auto; white-space: nowrap; }
+  background: ${Folio.ink.paper}; border-bottom: 1px solid var(--rule); overflow-x: auto; white-space: nowrap; }
 .brand { color: var(--amber); text-transform: uppercase; letter-spacing: 0.24em; font-weight: 600; }
 .books { display: flex; gap: 0.4ch; }
 .books a { color: var(--dim); padding: 0.2em 1ch; border: 1px solid transparent; border-radius: 3px; font-size: 0.85rem; }
 .books a[aria-current] { color: var(--ink); border-color: var(--rule-2); background: var(--sheet); }
 .layout { display: grid; grid-template-columns: 19rem minmax(0, 1fr); }
 .toc { position: sticky; top: 2.9rem; align-self: start; max-height: calc(100vh - 2.9rem); overflow-y: auto; padding: 1rem;
-  border-right: 1px solid var(--rule); background: var(--sheet); font-size: 0.82rem; }
+  border-right: 1px solid var(--rule); font-size: 0.82rem; }
 .toc input[type=search] { width: 100%; padding: 0.5em 0.8ch; background: var(--well); color: var(--ink);
   border: 1px solid var(--rule-2); border-radius: 3px; font: inherit; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.7rem 0; }
@@ -76,6 +79,9 @@ tr:target td { background: var(--sheet-2); }
 .family .count { color: var(--dim); font-size: 0.78rem; }
 .family dl { display: grid; grid-template-columns: 16rem minmax(0, 1fr); gap: 0.35rem 2ch; margin: 0.7rem 0 0.3rem; }
 .family dt { color: var(--dim); } .family dd { margin: 0; font: 0.98rem/1.5 var(--prose); color: var(--ink-2); }
+.lede + .lede, .intro + .intro { margin-top: -0.8rem; text-indent: 1.4em; }
+p { text-align: left; }
+${Folio.css}
 @media (max-width: 900px) {
   .layout { grid-template-columns: minmax(0, 1fr); }
   .toc { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--rule); }
