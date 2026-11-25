@@ -39,7 +39,8 @@ export class TravelCensus {
     if (/going on here/.test(why)) { return 'discovery'; }
     return /said to you|^[A-Z‘'"]/.test(why) ? 'incident' : 'background';
   }
-  static screen(c: Campaign): Screen { return ScreenModel.build(c); }
+  // The map's screen: charted (Itineraries.charted), every place it draws planned.
+  static screen(c: Campaign): Screen { return Itineraries.charted(c, ScreenModel.build(c)); }
   // The journeys of six to eight hexes the map would lay from here, by the engine's own plans (destinations, roads,
   // the places around), nearest that length first; failing any so far, the farthest.
   static far(c: Campaign, n: number): { id: string; name: string; hexes: number }[] {

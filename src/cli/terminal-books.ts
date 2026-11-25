@@ -1,5 +1,6 @@
 import { ScreenModel } from '../ui/screen-model';
 import { LandCrossing } from '../ui/land-crossing';
+import { Itineraries } from '../ui/itinerary';
 import type { PlaySession } from '../session/play-session';
 import { Typography } from '../presentation/typography';
 
@@ -14,7 +15,7 @@ export class TerminalBooks {
     if (!journeys) { return; }
     const destinations = [...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []];
     if (destinations.length) { console.log(`Journeys: ${destinations.map(d => d.name).join(' · ')}`); }
-    const across = LandCrossing.offers(screen);
+    const across = LandCrossing.offers(Itineraries.charted(session.campaign, screen));
     if (across.length) { console.log(`Across country: ${across.map(x => x.name).join(' · ')}`); }
   }
   static dossier(session: PlaySession) {

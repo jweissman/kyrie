@@ -5,6 +5,7 @@ import { PlayerView } from '../../../src/presentation/player-view';
 import { Undertakings } from '../../../src/presentation/undertakings';
 import { Narrator } from '../../../src/presentation/narrator';
 import { ScreenModel } from '../../../src/ui/screen-model';
+import { Itineraries } from '../../../src/ui/itinerary';
 import { Doable } from '../../../src/presentation/doable';
 import { MapRows } from '../../../src/presentation/map-rows';
 import { HexBoundary } from '../../../src/hex-boundary';
@@ -22,7 +23,7 @@ describe('a way to another hex', () => {
     const c = s.campaign;
     await s.leg(PlayerView.choices(c).find(x => /the brothers' letter/.test(x.choice.name))!.choice.id);
     Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);
-    const screen = ScreenModel.build(c), glance = Narrator.leaf(c, screen).glance!;
+    const screen = Itineraries.charted(c, ScreenModel.build(c)), glance = Narrator.leaf(c, screen).glance!;
     const here = c.world.one('at', c.playerActor!)!, rows = Doable.flat(Doable.of(glance, screen));
     const stops = new Map([...screen.destinations ?? [], ...screen.around ?? [], ...screen.roads ?? []]
       .map(d => [d.id, d.stops ?? [d.id]]));

@@ -5,6 +5,8 @@ import type { Frame } from '../src/creation/protocol';
 import { PlaySession, type SessionCheckpoint } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Itineraries } from '../src/ui/itinerary';
+import { TravelQuestion } from '../src/presentation/travel-question';
 import { Narrator, type Told } from '../src/presentation/narrator';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Terminal } from '../src/cli/terminal';
@@ -31,8 +33,9 @@ const leafAfter = async (s: PlaySession, command: string) => {
   const before = PlayerView.observe(s.campaign), event = await s.leg(command);
   const told: Told = { event, feedback: ActionFeedbackView.read(s.campaign, event, before), said: name,
     moved: before.location?.id !== PlayerView.observe(s.campaign).location?.id };
-  const screen = ScreenModel.build(s.campaign);
-  return { screen, leaf: Narrator.leaf(s.campaign, screen, told) };
+  // Charted and asked the map's question, as Terminal.scene asks it.
+  const screen = ScreenModel.build(s.campaign), charted = Itineraries.charted(s.campaign, screen);
+  return { screen, leaf: TravelQuestion.on(Narrator.leaf(s.campaign, screen, told), charted, s.campaign) };
 };
 const asked = (travel?: Frame['leaf']['travel']) => travel && { question: travel.question,
   rows: travel.rows.map(r => [r.command, r.place, r.kind]) };

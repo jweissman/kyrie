@@ -10,6 +10,7 @@ import { Narrator, type Leaf } from '../../src/presentation/narrator';
 import type { Glance } from '../../src/presentation/glance-types';
 import { Undertakings } from '../../src/presentation/undertakings';
 import { ScreenModel } from '../../src/ui/screen-model';
+import { Itineraries } from '../../src/ui/itinerary';
 import { Costs, type Tally } from '../../src/costs';
 import type { Screen } from '../../src/ui/screen-types';
 
@@ -60,13 +61,14 @@ export class Tiny {
   async perform(command: string): Promise<this> {
     const c = this.campaign, before = PlayerView.observe(c), event = await this.session.leg(command);
     const moved = before.location?.id !== c.world.one('at', c.playerActor ?? 'party');
-    this.screen = ScreenModel.build(c);
+    // Charted, as the page's frame is (Itineraries.charted): the page draws the map from it.
+    this.screen = Itineraries.charted(c, ScreenModel.build(c));
     this.leaf = Narrator.leaf(c, this.screen, { event, feedback: ActionFeedbackView.read(c, event, before),
       said: command, moved });
     return this;
   }
   look(): this {
-    this.screen = ScreenModel.build(this.campaign);
+    this.screen = Itineraries.charted(this.campaign, ScreenModel.build(this.campaign));
     this.leaf = Narrator.leaf(this.campaign, this.screen);
     return this;
   }

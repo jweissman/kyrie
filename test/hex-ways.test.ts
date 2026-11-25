@@ -5,6 +5,7 @@ import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change, Entity } from '../src/lang/module';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Itineraries } from '../src/ui/itinerary';
 import { Spatial } from '../src/lang/spatial';
 import { MenuModel } from '../web/reader/menu-model';
 import { Glanced } from './support/glanced';
@@ -39,7 +40,7 @@ describe('a way to another hex is the map’s alone', () => {
         held.commit(held.world.apply([
           { kind: 'retract', call: ModuleWriter.call('at', 'party', held.world.one('at', 'party')) },
           { kind: 'assert', call: ModuleWriter.call('at', 'party', p) }]));
-        g.screen = ScreenModel.build(c);
+        g.screen = Itineraries.charted(c, ScreenModel.build(c));
         const m = MenuModel.build(g.frame(), 'here', []), here = cell(p);
         const offered = [...m.choices, ...m.scene?.near ?? [], ...m.scene?.far ?? [], ...m.around ?? []]
           .filter(ch => !m.overland?.has(ch.id));

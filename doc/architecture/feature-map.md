@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 183 pins (151 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 588 live rows, 416 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 183 pins (151 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 589 live rows, 416 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -499,10 +499,11 @@ page's colours and opportunities.)
   - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
   - requirement OR-521 P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a…
   - requirement OR-531 P2: What is still installed for the whole process after OR-520 (test/small/process-wide): SettingPort…
-- **Architecture and layers** · 0 pins · 30 defects · 4 asks
+- **Architecture and layers** · 0 pins · 30 defects · 5 asks
   - requirement AX-04 P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the…
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
   - requirement OR-545 P2: Command state still in four places after OpenCommand's transitions were enforced (25 November):…
+  - requirement OR-633 P2: What is left of routes on demand (step 3): an ordinary turn still lays a journey to every…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
 - **Testing instruments** · 0 pins · 14 defects · 6 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
@@ -563,7 +564,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Playing in the terminal** (The terminal): TB-11
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, OR-522, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, OR-421, OR-671, OR-673, KX-02, KX-04, AU-58, AU-60
-- **Architecture and layers** (The engine): AX-04, AX-07, OR-545, MT-31
+- **Architecture and layers** (The engine): AX-04, AX-07, OR-545, OR-633, MT-31
 - **Testing instruments** (The engine): OR-407, OR-456, OR-384, OR-389, OR-465, OR-508
 
 ### Pins not yet met (32)

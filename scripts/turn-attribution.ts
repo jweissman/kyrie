@@ -97,7 +97,9 @@ export class TurnAttribution {
     this.wrap(PlayerView, 'choices', 'rows');
     this.wrap(PlayerView, 'observe', 'observe');
     this.wrap(ScreenModel, 'build', 'screen');
-    this.wrap(Itineraries, 'shown', 'itinerary');
+    this.wrap(Itineraries, 'shown', 'itinerary'); this.wrap(Itineraries, 'charted', 'itinerary');
+    // Each journey planned (its calls a turn: what routes on demand lowers).
+    this.wrap(Itineraries, 'plan', 'plan');
     this.wrap(Narrator, 'leaf', 'leaf');
     this.wrap(Glance, 'of', 'glance');
     this.wrap(Travel, 'step', 'leg'); this.wrap(Travel, 'interrupted', 'stop');

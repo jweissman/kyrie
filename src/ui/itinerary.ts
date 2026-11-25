@@ -188,38 +188,70 @@ export class Itineraries {
   // Where the company could set out for, and the towns its roads go to besides, each leg named as the page names its
   // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them. And the
   // other places of the town it is in, further than a step.
-  // And every other place the map draws (see mapped).
+  // Not every other place the map draws: that is the map's alone, worked out where the map is asked for (see charted).
   // Kept from one world to the next while nothing they read has been written, and the company has been where it had
   // been, follows the aim it followed and has the region drawn as it was (see KeptParts).
   static shown(campaign: Campaign, names: Map<string, Entity>, region?: RegionChart) {
-    return Costs.time('itinerary', () => {
-      const world = campaign.world, actor = campaign.playerActor;
-      if (!actor || names !== ObservationText.presented(world)) { return this.showing(campaign, names, region); }
-      const following = campaign.tickState.current.following;
-      const from = [campaign.running, following?.id, following?.chosen, KeptParts.token(region),
-        ...VisitedPlaces.of(campaign, actor)].join('\u0000');
-      return KeptParts.of(world, `itineraries:${actor}`, from,
-        () => this.showing(campaign, ObservationText.presented(world), region));
-    });
+    return Costs.time('itinerary', () => this.kept(campaign, { names, region, key: 'itineraries' },
+      this.showing.bind(this, campaign)));
   }
-  private static showing(campaign: Campaign, names: Map<string, Entity>,
-    region?: RegionChart): Pick<Screen, 'destinations' | 'roads' | 'around' | 'mapped'> {
-    if (!campaign.running) { return { destinations: [], roads: [], around: [], mapped: [] }; }
+  // What the map alone draws besides (mapped), for a screen the map is asked of: every other place on the company's
+  // land it knows a way to, a plan to each. Worked out only here, where a client asks for the map (the page's frame,
+  // the terminal's travel question, serve's crossings), never for an ordinary turn's scene, which reads none of it:
+  // a screen had planned to every area and mark of the country on every turn, the map open or not (platform-
+  // separation.md's immediate queue, step 3: routes on demand). The screen is as it was, with its mapped.
+  static charted(campaign: Campaign, screen: Screen): Screen {
+    if (screen.mapped) { return screen; }
+    const kept = this.charts.get(screen);
+    if (kept) { return kept; }
+    const listed = this.listed(screen), chart = this.charting.bind(this, campaign, { region: screen.region, listed });
+    // Kept as the journeys are, and while they are the same (what the map lists besides is what they leave out).
+    const at = { region: screen.region, key: 'mapped', also: [...listed].join('\u0000') };
+    const mapped = Costs.time('itinerary', () => campaign.within(() => this.kept(campaign, at, chart)));
+    const out = { ...screen, mapped };
+    this.charts.set(screen, out);
+    return out;
+  }
+  private static readonly charts = new WeakMap<Screen, Screen>();
+  private static charting(campaign: Campaign, on: { region?: RegionChart; listed: Set<string> },
+    names: Map<string, Entity>): NonNullable<Screen['mapped']> {
+    if (!campaign.running || this.standing(campaign).inside) { return []; }
+    return this.mapped(campaign, on.region, on.listed).map(d => this.named(d, names));
+  }
+  private static listed(screen: Screen): Set<string> {
+    return new Set([...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? []].map(d => d.id));
+  }
+  // A part kept from one world to the next (see shown), worded by the names the page is given; or worked out afresh
+  // by other names (names: those asked for, the world's presented where none are).
+  private static kept<T>(campaign: Campaign, at: { names?: Map<string, Entity>; region?: RegionChart; key: string;
+    also?: string }, read: (names: Map<string, Entity>) => T): T {
+    const world = campaign.world, actor = campaign.playerActor, { region, key } = at;
+    const presented = ObservationText.presented(world), names = at.names ?? presented;
+    if (!actor || names !== presented) { return read(names); }
+    const following = campaign.tickState.current.following;
+    const from = [campaign.running, following?.id, following?.chosen, KeptParts.token(region),
+      ...VisitedPlaces.of(campaign, actor), at.also ?? ''].join('\u0000');
+    return KeptParts.of(world, `${key}:${actor}`, from, () => read(ObservationText.presented(world)));
+  }
+  private static showing(campaign: Campaign, names: Map<string, Entity>): Pick<Screen, 'destinations' | 'roads' | 'around'> {
+    if (!campaign.running) { return { destinations: [], roads: [], around: [] }; }
     // From an enclosed place, nothing overland: the way out is walked first (CN-02; see Compass). Inside a building
     // the world map had opened, and set out across the country past the site's own ways.
     // But a house of a town, on the ground, is left by its door: a journey from it goes out of doors first, its way out
     // the first leg (OR-151: at Porthalen's customs-house the map drew the country and set out for none of it).
-    const at = campaign.world.one('at', campaign.playerActor!) ?? '';
-    const inside = this.enclosed(campaign, at) && !this.house(campaign, at);
+    const { at, inside } = this.standing(campaign);
     const leads = inside ? [] : this.destinations(campaign), roads = inside ? [] : this.roads(campaign, leads);
     const around = this.around(campaign);
-    const listed = new Set([...leads, ...roads, ...around].map(d => d.id));
     // Each says whether its way leaves the hex (Passages.leaves), which makes it the map's (DoableJourneys.mapped).
     const leaving = { module: campaign.module, from: at };
     return { destinations: leads.map(d => Passages.leaving(leaving, this.scaled(campaign, d, names))),
       roads: roads.map(d => Passages.leaving(leaving, this.named(d, names))),
-      around: around.map(d => Passages.leaving(leaving, this.named(d, names))),
-      mapped: inside ? [] : this.mapped(campaign, region, listed).map(d => this.named(d, names)) };
+      around: around.map(d => Passages.leaving(leaving, this.named(d, names))) };
+  }
+  // Where the company stands, and whether inside somewhere enclosed that is no house of a town (see showing).
+  private static standing(campaign: Campaign): { at: string; inside: boolean } {
+    const at = campaign.world.one('at', campaign.playerActor!) ?? '';
+    return { at, inside: this.enclosed(campaign, at) && !this.house(campaign, at) };
   }
   // Whether a place is enclosed: indoors or under the ground, or within a building or a site (a keep, a ship, a
   // dungeon). The country is not crossed from one; the way out is.

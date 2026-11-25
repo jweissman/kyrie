@@ -5,6 +5,7 @@ import { Runner } from '../src/cli/runner';
 import { Doable } from '../src/presentation/doable';
 import { MapRows } from '../src/presentation/map-rows';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Itineraries } from '../src/ui/itinerary';
 import { MapMenu } from '../web/reader/map-menu';
 import { GoldenWalk } from './support/golden-walk';
 
@@ -18,7 +19,7 @@ describe('the map\'s rows', () => {
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session);
     for (const line of lines) { await r.ask(line); }
-    const screen = ScreenModel.build(r.session.campaign), g = r.leaf!.glance!;
+    const screen = Itineraries.charted(r.session.campaign, ScreenModel.build(r.session.campaign)), g = r.leaf!.glance!;
     expect(screen.place.id).toBe('region__s1_green');
     const rows = MapRows.of(g, screen), mapped = new Set(Doable.flat(Doable.of(g, screen))
       .filter(x => x.map).flatMap(x => MapRows.place(x.does) ?? []));
@@ -41,7 +42,7 @@ describe('the map\'s rows', () => {
     for (const go of ['travel:region__s2_green', 'travel:region__t90', 'travel:region__t89']) { await journey.session.leg(go); }
     const r = new Runner(journey.session);
     r.said();
-    const rows = MapRows.of(r.leaf!.glance!, ScreenModel.build(r.session.campaign));
+    const c = r.session.campaign, rows = MapRows.of(r.leaf!.glance!, Itineraries.charted(c, ScreenModel.build(c)));
     expect([rows[0]?.row.label, rows[0]?.close]).toEqual(['Enter Millholm', true]);
     const first = rows.findIndex(x => x.row.does?.startsWith('travel:')), step = rows.findIndex(x => x.row.does?.startsWith('go(')
       && !x.close);

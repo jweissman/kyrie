@@ -5,6 +5,7 @@ import { DrawnWorld } from '../world/drawn-world';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { ScreenModel } from '../ui/screen-model';
 import { LandCrossing } from '../ui/land-crossing';
+import { Itineraries } from '../ui/itinerary';
 import { Narrator, type Told } from '../presentation/narrator';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import { PlayerView } from '../presentation/player-view';
@@ -56,7 +57,7 @@ export class Serve {
         ...(glance?.acts ?? []).filter(a => a.command?.startsWith('follow:')).map(a => ({ id: a.command!, label: a.label })),
         ...Serve.journeys(rows)],
       // What the map may set out for across the country, as the page and the terminal offer it (LandCrossing).
-      across: LandCrossing.offers(screen) };
+      across: LandCrossing.offers(Itineraries.charted(c, screen)) };
   }
   private static led(r: Row, acts: Promoted[]) {
     const a = acts.find(x => x.choice === r.id || x.choice === `travel:${r.chart}`);

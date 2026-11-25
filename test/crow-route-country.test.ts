@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Itineraries } from '../src/ui/itinerary';
 import { JourneyCourse } from '../web/reader/journey-course';
 
 // Every way the map lays from a generated country's first town, against the straight way there over the hexes (the
@@ -14,7 +15,8 @@ describe('the ways laid from a country\'s first town', () => {
   it.each(['a1', 'c3'])('in %s, go no further than half as far again as the straight way', async seed => {
     const s = await DrawnWorld.start(seed, { origin: 'debt', party: [{ name: 'Aud', raceId: 'human', classId: 'ranger' }] },
       NodeBundleSource.shared);
-    const screen = ScreenModel.build(s.campaign), land = screen.region!.land!, here = land.here!;
+    const screen = Itineraries.charted(s.campaign, ScreenModel.build(s.campaign)),
+      land = screen.region!.land!, here = land.here!;
     const far = (a: number, b: number) => Hexes.apart(land.width, a, b);
     const long = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.mapped ?? []].flatMap(d => {
       const cells = JourneyCourse.planned(screen, d.id) ?? [], straight = far(here, cells.at(-1) ?? here);

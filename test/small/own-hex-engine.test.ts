@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { LandCrossing } from '../../src/ui/land-crossing';
+import { Itineraries } from '../../src/ui/itinerary';
 import { Serve } from '../../src/cli/serve';
 import { MapView } from '../../web/reader/map-view';
 
@@ -31,10 +32,11 @@ const chart = { width: 3, height: 1, cover: '...', rivers: [], roads: {}, parts:
 describe('the map\'s way across the country', () => {
   it('is the engine\'s, never to a place in the company\'s own hex, and the same for every client', async () => {
     const t = await Tiny.start(fen, { chart });
-    const offers = LandCrossing.offers(t.screen);
+    // The map's screen, charted as the page's frame is (Itineraries.charted).
+    const screen = Itineraries.charted(t.campaign, t.screen), offers = LandCrossing.offers(screen);
     expect(offers.map(o => o.id)).toEqual(['t__barrow']);
-    expect(MapView.way(t.screen, 't__circus').go).toBeUndefined();
-    for (const o of offers) { expect(MapView.way(t.screen, o.id).go?.command).toBe(o.command); }
+    expect(MapView.way(screen, 't__circus').go).toBeUndefined();
+    for (const o of offers) { expect(MapView.way(screen, o.id).go?.command).toBe(o.command); }
     const serve = new Serve();
     await serve.handle({ op: 'resume', checkpoint: t.session.checkpoint() });
     expect((serve.view() as { across: unknown }).across).toEqual(offers);

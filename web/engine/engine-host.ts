@@ -32,7 +32,7 @@ import { FightBegun } from '../../src/presentation/fight-begun';
 import { Obituary } from '../../src/narrative/obituary';
 import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
-import { Itineraries } from '../../src/ui/itinerary';
+import { Itineraries } from '../../src/ui/itinerary'; import { TravelQuestion } from '../../src/presentation/travel-question';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { Likenesses } from '../../src/presentation/likenesses';
@@ -434,7 +434,7 @@ export class EngineHost {
     // nor why the company came, nor how it came in; the story begins with it, once.
     const chapter = Prologue.title(campaign, screen);
     const prologue = opening && this.apart ? Prologue.of(campaign, screen, chapter) : undefined;
-    const leaf = Narrator.leaf(campaign, screen, this.told, prologue?.opening);
+    const leaf = TravelQuestion.on(Narrator.leaf(campaign, screen, this.told, prologue?.opening), screen, campaign);
     // A fight held on its own page is told there, not again over the place; one foregone, fought through as one act
     // with no page, is told nowhere else (OP-03).
     if (this.fought && leaf.exchange?.tone === 'fight') { leaf.exchange = { ...leaf.exchange, held: true }; }
@@ -457,7 +457,8 @@ export class EngineHost {
   }
   private frame(): Frame {
     const session = this.session!, campaign = session.campaign;
-    this.screen ??= ScreenModel.build(campaign);
+    // The page draws the map from its frame: charted (Itineraries.charted), its leaf asked the map's question (leaf).
+    this.screen = Itineraries.charted(campaign, this.screen ?? ScreenModel.build(campaign));
     // A generated world is named on the page for the region the company is in, as it goes on past the first.
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
     // In a fight, the company's own by their portraits, as on their pages.

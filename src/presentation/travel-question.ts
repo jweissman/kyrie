@@ -1,6 +1,7 @@
 // Layer: the generic player (presentation). Knows no setting; reads the glance and the screen the engine made, never a
 // client's state. TB-09's first activity: travel as an engine question.
 import type { Screen } from '../ui/screen-types';
+import type { Campaign } from '../campaign/campaign';
 import type { Glance } from './glance-types';
 import { MapRows } from './map-rows';
 
@@ -16,9 +17,14 @@ export interface TravelRow { id: string; label: string; command: string; place: 
 export interface Asked { question: string; rows: TravelRow[] }
 export class TravelQuestion {
   static readonly asked = 'Where to?';
-  // The leaf with its travel question, where it has a glance.
-  static on<L extends { glance?: Glance }>(leaf: L, screen: Screen): L & { travel?: Asked } {
-    return leaf.glance ? { ...leaf, travel: this.of(leaf.glance, screen) } : leaf;
+  // The leaf with its travel question, where it has a glance: asked of a screen charted (Itineraries.charted, the
+  // map's places planned), by a client that draws the map; within the campaign's installation, where one is given.
+  static on<L extends { glance?: Glance }>(leaf: L, screen: Screen, campaign?: Pick<Campaign, 'within'>):
+    L & { travel?: Asked } {
+    const g = leaf.glance;
+    if (!g) { return leaf; }
+    const of = this.of.bind(this, g, screen);
+    return { ...leaf, travel: campaign ? campaign.within(of) : of() };
   }
   static of(glance: Glance, screen: Screen): Asked {
     const led = new Set([...glance.acts.map(a => a.command), glance.next?.command].filter(c => c !== undefined));

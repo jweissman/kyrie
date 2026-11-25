@@ -1302,6 +1302,12 @@
    "was": "defect",
    "pri": "P1",
    "why": "25 Nov: the owner's ruling, a new contract for what the scene offers"
+  },
+  "OR-633": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: the rest of the immediate queue's step 3, wanted, not a contract broken"
   }
  },
  "blockedBy": {

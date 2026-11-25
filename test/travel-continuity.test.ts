@@ -73,7 +73,8 @@ describe('a journey travelled', () => {
   // country), it is ten hexes off, past the census's six to eight.
   it('goes on past what asks nothing of the player, and tells it with the leg', async () => {
     const s = await Walked.start(), c = s.campaign;
-    const screen = ScreenModel.build(c), stone = [...screen.destinations ?? [], ...screen.roads ?? [],
+    const screen = Itineraries.charted(c, ScreenModel.build(c)),
+      stone = [...screen.destinations ?? [], ...screen.roads ?? [],
       ...screen.mapped ?? []].find(d => /Cloudreach/.test(d.name))!;
     const done = await Travel.go({ campaign: c, perform: (command: string) => s.perform(command) }, stone.id);
     const met = done.legs.find(l => /pedlar/.test(l.passed ?? ''));

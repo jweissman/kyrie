@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../src/cli/play-tool';
 import { Undertakings } from '../src/presentation/undertakings';
 import { ScreenModel } from '../src/ui/screen-model';
+import { Itineraries } from '../src/ui/itinerary';
 import { Narrator } from '../src/presentation/narrator';
 import { Stakes } from '../src/ui/stakes';
 import { EntityIndex } from '../src/lang/entity-index';
@@ -28,7 +29,8 @@ describe('the first page of every origin on a1', () => {
       const named = [...aim.toward ?? [], t.actionAt, t.subject].filter((x): x is string => !!x)
         .map(id => byId.get(id)?.space ? id : c.world.one('at', id) ?? id);
       const reach = new Set(named.flatMap(id => Spatial.ancestry(byId, id).map(e => e.id)));
-      const screen = ScreenModel.build(c), here = new Set(Spatial.ancestry(byId, screen.place.id).map(e => e.id));
+      const screen = Itineraries.charted(c, ScreenModel.build(c)),
+        here = new Set(Spatial.ancestry(byId, screen.place.id).map(e => e.id));
       const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [],
         ...screen.mapped ?? []];
       const routed = plans.some(p => reach.has(p.id)) || named.some(id => here.has(id))

@@ -7,6 +7,7 @@ import { Narrator, type Leaf, type Told } from '../../src/presentation/narrator'
 import { Glance } from '../../src/presentation/glance';
 import type { Glance as View } from '../../src/presentation/glance-types';
 import { ScreenModel } from '../../src/ui/screen-model';
+import { Itineraries } from '../../src/ui/itinerary';
 import type { Screen } from '../../src/ui/screen-types';
 import { SceneModel } from '../../src/ui/scene';
 import { Attending } from '../../src/ui/attention';
@@ -69,7 +70,9 @@ export class Glanced {
   }
   // The page's frame, as the host sends it, and what it offers to choose among where the company stands.
   frame(): Frame {
-    return { title: '', screen: this.screen, entries: [], leaf: this.leaf, opening: [], chronicle: [],
+    // Charted, as the host charts the page's frame (Itineraries.charted).
+    return { title: '', screen: Itineraries.charted(this.s.campaign, this.screen), entries: [], leaf: this.leaf,
+      opening: [], chronicle: [],
       transcript: { steps: [] } as unknown as Frame['transcript'] };
   }
   // What the page draws to choose among; in a town or a site its ways out into the country among them, drawn as

@@ -5,6 +5,7 @@ import { TerminalWidth } from './terminal-width';
 import { TerminalSlots } from './terminal-slots';
 import { CheckpointStore } from '../session/checkpoint-store';
 import { TravelQuestion, type Asked } from '../presentation/travel-question';
+import { Itineraries } from '../ui/itinerary';
 import { TerminalMenus, type Journeyed } from './terminal-menus';
 import { TerminalScene } from './terminal-scene';
 import { TerminalColour } from './terminal-colour';
@@ -96,7 +97,9 @@ export class Terminal {
   private static scene(session: PlaySession, turn: Turn, whole = false) {
     const began = performance.now();
     const c = session.campaign, screen = ScreenModel.build(c), scene = turn.scene ??= new TerminalScene();
-    const leaf = scene.leaf(c, screen, turn.told);
+    // The terminal lists the map's journeys among its choices, so it asks the map's question (TravelQuestion) of the
+    // screen charted (Itineraries.charted), as the page's frame does.
+    const leaf = TravelQuestion.on(scene.leaf(c, screen, turn.told), Itineraries.charted(c, screen), c);
     // Following an aim or letting it go changes what is led with, not where the company is (attended).
     const turned = whole ? 'look' : turn.attended ? 'act' : !turn.told || turn.told.moved ? 'arrive' : 'act';
     turn.attended = false;

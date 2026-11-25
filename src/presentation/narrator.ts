@@ -21,7 +21,7 @@ import { ToldOnce } from './told-once';
 import { Glance } from './glance'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
 import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
 import { TaughtSigns } from './taught-signs'; import { Charge } from './charge';
-import type { Glance as GlanceView } from './glance-types'; import { TravelQuestion, type Asked } from './travel-question';
+import type { Glance as GlanceView } from './glance-types'; import type { Asked } from './travel-question';
 
 // One line of what came of a command: someone's words, the telling of what happened, an event that broke in, a
 // change to the place, or a fight's turning point.
@@ -58,7 +58,9 @@ export interface Leaf {
   // A new game's opening, told apart before the first place where the page asks it to be (see Prologue).
   prologue?: Opened;
   // The place at a glance: what the page leads with, decided here (see Glance).
-  glance?: GlanceView; travel?: Asked; // Where the company may set out for from here (TravelQuestion, TB-09).
+  // Where the company may set out for from here (TravelQuestion, TB-09): the map's question, asked by a client that
+  // draws the map (the page's frame, the terminal), never of an ordinary turn's leaf.
+  glance?: GlanceView; travel?: Asked;
 }
 // One command, as the host keeps it until the next: what happened, what the company saw of it, the words it was
 // chosen in, and whether it brought the company somewhere else.
@@ -78,7 +80,7 @@ export class Narrator {
   static readonly naming = /Name__named(@|$)/;
   // opening: what an opening told before the first place (see Prologue), which the place leaves out.
   static leaf(...a: Parameters<typeof Narrator.leafed>): Leaf {
-    return Costs.time('leaf', () => a[0].within(() => TravelQuestion.on(Narrator.leafed(...a), a[1])));
+    return Costs.time('leaf', () => a[0].within(() => Narrator.leafed(...a)));
   }
   private static leafed(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const { defs, shelter, known, kept, exchange } = this.came(campaign, screen, told, opening);

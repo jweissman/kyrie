@@ -22,7 +22,7 @@ describe('a journey over a country', () => {
   // Every way that does (the way to Coldley went by them until OR-35 laid it straight across the country; the ways
   // into the wild country itself still do).
   it('crosses wild country by its landmarks, each at its own hex, in the order it comes to them', async () => {
-    const s = await start('marrowby'), screen = ScreenModel.build(s.campaign), marks = screen.region!.land!.marks;
+    const s = await start('marrowby'), screen = Itineraries.charted(s.campaign, ScreenModel.build(s.campaign)), marks = screen.region!.land!.marks;
     const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.mapped ?? []]
       .map(d => Itineraries.plan(s.campaign, d.id)!.legs.map(l => l.to));
     const by = plans.map(stops => stops.flatMap(to => marks.filter(m => m.id === to && /__z\d+_/.test(m.id))
