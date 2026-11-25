@@ -39,7 +39,9 @@ describe('the kinds a campaign declares for itself', () => {
     expect(Canon.items.dagger).toBeDefined();
     expect(ItemCatalog.definitions.dagger).toBeDefined();
   });
-  it('cannot be given two meanings by two modules, whatever they are called', async () => {
+  // Two modules of one campaign naming a kind each their own way keep both meanings apart: the later one's kind takes
+  // its installation's name (ModuleNamespace.renamed, OR-540), never a meaning shared or one refused.
+  it('keeps two meanings of one kind\'s name apart, the later module\'s under its own installation\'s name', async () => {
     const files: Record<string, string> = {};
     for (const [dir, value] of [['catalog-a', 2], ['catalog-b', 99]] as const) {
       files[`isolation/${dir}/site.kyr`] = `Module shared "Same module label" { Place field "Field" is wilderness.
@@ -52,8 +54,11 @@ describe('the kinds a campaign declares for itself', () => {
       { id: 'a', bundle: 'catalog-a/module.json' }, { id: 'b', bundle: 'catalog-b/module.json' }],
     party: [{ name: 'A', raceId: 'human', classId: 'warrior' }] });
     const overlay = new OverlayBundleSource(source, files);
-    await expect(PlaySession.start(overlay.resolve('isolation/two.campaign.json'), 'two', overlay)).rejects
-      .toThrow(/isolation_coin is declared differently by two modules/);
+    const two = await PlaySession.start(overlay.resolve('isolation/two.campaign.json'), 'two', overlay);
+    const worths = Object.entries(Canon.items).filter(([id]) => id.endsWith('isolation_coin'))
+      .map(([id, kind]) => [id === 'isolation_coin', kind.value]);
+    expect(two.campaign.running).toBe(true);
+    expect(worths.sort()).toEqual([[false, 99], [true, 2]]);
     LocalKinds.reset();
   });
 });
