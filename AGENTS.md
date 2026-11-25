@@ -152,6 +152,10 @@ this help the player forget the interface and become interested in what happens 
   first-hour ratchets in test/small hold this.
 - **The resting scene:** the painting dominates. Add a short description, small floating portraits of those present,
   and a discreet Go… / Explore… control. A painting is never replaced by text.
+- **Atlas indicators belong to menu action rows alone** (the owner, 25 November). No left-border indicator, Atlas
+  colour or coloured mini-toast on narration, notes or any other text: text is just text, and the narration is plain.
+  The Atlas colours strictly mean an opportunity in the current scene. What a mark had said elsewhere becomes a note in
+  the journal, which is quiet: a pip or none, never a counter.
 - **Colour grammar:**
   - one small left indicator per opportunity (a colour, or a restrained OKLab gradient);
   - the title modestly tinted;
