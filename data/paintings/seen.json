@@ -9169,6 +9169,83 @@
    "era": "late",
    "light": "dusk",
    "weather": "clear"
+  },
+  "scene-ship": {
+   "form": "interior",
+   "shows": "the deck of an old sailing ship at sea: the mainmast hung with rope and blocks, a capstan, a grated hatch and a trapdoor with an iron ring, barrels and coiled lines, steps up to the quarterdeck, open sea beyond the rail",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-coast-cliffs-foot": {
+   "form": "landscape",
+   "shows": "the foot of tall sea cliffs at low tide: rocks heavy with weed, tide pools with a starfish, thrift on the ledges, mist off the cliffs and sea stacks far along the shore in low golden light",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-coast-fields": {
+   "form": "landscape",
+   "shows": "pasture behind a dry-stone wall above a bay, a stone farmhouse under an oak, sheep and cypresses, a white town on the shore far off in the evening light",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast-road": {
+   "form": "landscape",
+   "shows": "a road along the coast behind a low stone wall, high above the sea, a farmhouse among cypresses on the hill, the sun low behind clouds over the water",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-coast-road-rain": {
+   "form": "landscape",
+   "shows": "the same coast road at night in rain, the road wet and shining, a lit window on the hill, the moon breaking through clouds over a rough sea",
+   "era": "late",
+   "light": "night, moonlit",
+   "weather": "rain"
+  },
+  "scene-coast-road-night": {
+   "form": "landscape",
+   "shows": "the same coast road on a still night, a lit window on the hill, the moon's path on a calm sea",
+   "era": "late",
+   "light": "night, moonlit",
+   "weather": "clear"
+  },
+  "scene-valley-approach": {
+   "form": "landscape",
+   "shows": "the way into a green valley under an oak, a slow river among trees, cypresses and a walled hill town on the far slope, clouds lit by a low sun",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-valley-house": {
+   "form": "landscape",
+   "shows": "a farm track through ripe wheat to a stone farmhouse among cypresses and olives, wooded hills beyond under summer cloud",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-valley-stones": {
+   "form": "landscape",
+   "shows": "a circle of standing stones on a grassy rise above a river valley, a path through it, an oak in the foreground, a bright summer sky",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-valley-stones-fog": {
+   "form": "landscape",
+   "shows": "the same standing stones close, lichened and leaning, a ring of them in the long grass, fog on the hills behind",
+   "era": "late",
+   "light": "overcast",
+   "weather": "fog"
+  },
+  "scene-valley-stones-rain": {
+   "form": "landscape",
+   "shows": "the same standing stones in rain, the grass sodden and pooled, a grey sky low over the hills",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
   }
  }
 }

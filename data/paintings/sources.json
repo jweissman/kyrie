@@ -1041,6 +1041,10 @@
    "path": "assets/bg/ship-deck.png",
    "sha1": "9de2505d5d2f489041498c015ff0da5ed9cee4f9"
   },
+  "scene-ship": {
+   "path": "assets/bg/ship.png",
+   "sha1": "36d6e35762ee659c855dbccb0723ed6bfbeff736"
+  },
   "scene-shipwright": {
    "path": "assets/bg/shipwright.png",
    "sha1": "c4774710c36c45a4e518efeef79a91528de15399"
@@ -1148,6 +1152,11 @@
    "sha1": "2aff24b4d8c0042881a2ae9f6f20d21679db5a89",
    "terrain": "coast"
   },
+  "scene-coast-cliffs-foot": {
+   "path": "assets/bg/terrain/coast/cliffs-foot.png",
+   "sha1": "1c353067081740128b4e12f63744ab1f6c17b2ec",
+   "terrain": "coast"
+  },
   "scene-seacoast": {
    "path": "assets/bg/terrain/coast/cliffs.png",
    "sha1": "d645d76d21f3f16c4aad4a1b54e1238de36f372e",
@@ -1156,6 +1165,11 @@
   "scene-coast-falls": {
    "path": "assets/bg/terrain/coast/falls.png",
    "sha1": "1eb8b36575d72f456b0dd2d2d3bf1f15593ef1aa",
+   "terrain": "coast"
+  },
+  "scene-coast-fields": {
+   "path": "assets/bg/terrain/coast/fields.png",
+   "sha1": "bc4819bb7286bf35255c4b485f490391f32782c0",
    "terrain": "coast"
   },
   "scene-coast-fog": {
@@ -1216,6 +1230,21 @@
   "scene-coast-rain": {
    "path": "assets/bg/terrain/coast/rain.png",
    "sha1": "f3690e464ab5a48757c3703d10e6e24defac1a78",
+   "terrain": "coast"
+  },
+  "scene-coast-road-night": {
+   "path": "assets/bg/terrain/coast/road-night.png",
+   "sha1": "1b34cc15d724cf662722c3dca1d1a57aa5c6974d",
+   "terrain": "coast"
+  },
+  "scene-coast-road-rain": {
+   "path": "assets/bg/terrain/coast/road-rain.png",
+   "sha1": "e9cca3fa6af0b75e556b755b28e7faae1bc978a4",
+   "terrain": "coast"
+  },
+  "scene-coast-road": {
+   "path": "assets/bg/terrain/coast/road.png",
+   "sha1": "6ac8a19fa4a5e5138a77add9ba2a9696e389f439",
    "terrain": "coast"
   },
   "scene-coast-ruins": {
@@ -1438,9 +1467,19 @@
    "sha1": "c109df5df332e312dcd6d90b86d1650ea7ee06d0",
    "terrain": "sky"
   },
+  "scene-valley-approach": {
+   "path": "assets/bg/terrain/valley/approach.png",
+   "sha1": "3f30492a87209f782517611fa34c99541bdf1d1b",
+   "terrain": "valley"
+  },
   "scene-valley-autumn": {
    "path": "assets/bg/terrain/valley/autumn.png",
    "sha1": "671d12368ae3409781c6e553f3586dd97ca260e4",
+   "terrain": "valley"
+  },
+  "scene-valley-house": {
+   "path": "assets/bg/terrain/valley/house.png",
+   "sha1": "ea0f6ef61887bad00a042e4abaf505b93f4473ab",
    "terrain": "valley"
   },
   "scene-valley-night": {
@@ -1461,6 +1500,21 @@
   "scene-valley-spring": {
    "path": "assets/bg/terrain/valley/spring.png",
    "sha1": "70b089457f4d0cd030f778d1d35723376c22c543",
+   "terrain": "valley"
+  },
+  "scene-valley-stones-fog": {
+   "path": "assets/bg/terrain/valley/stones-fog.png",
+   "sha1": "02eabb026a579b55318bb6fe84597d74785cb54e",
+   "terrain": "valley"
+  },
+  "scene-valley-stones-rain": {
+   "path": "assets/bg/terrain/valley/stones-rain.png",
+   "sha1": "650bc7d5502a9f0a1e1dd21aa2dea8d6e2e89817",
+   "terrain": "valley"
+  },
+  "scene-valley-stones": {
+   "path": "assets/bg/terrain/valley/stones.png",
+   "sha1": "11795cd6dfe4689dcb02e0f757a12fdf4b112f8d",
    "terrain": "valley"
   },
   "scene-valley-summer": {
