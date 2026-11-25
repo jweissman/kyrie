@@ -1,5 +1,4 @@
-import { Flight } from './rules/flight'; import { Conditions } from './ports/conditions';
-import { Traits } from './ports/traits';
+import { Flight } from './rules/flight'; import { Conditions } from './ports/conditions'; import { Traits } from './ports/traits';
 import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
