@@ -102,7 +102,7 @@ export class RegionSites {
     const q = JSON.stringify, { site, town } = seat, id = site.id, keeper = `${town.id}_innkeeper`;
     const says = `    Says ${q(`'${site.name},' says {${keeper}}.${this.gloss(site)} '${this.saying(region, site)}'${tells
       ? ` And {${keeper}} tells you how to find it in ${where}.` : ''}`)}.`;
-    return [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when not knows(actor, ${id}_named) once only {`,
+    return [`  Topic ${id}_asked with ${keeper} ${q(`Ask {${keeper}} about {${id}}`)} when toldMatter(${keeper}, actor) and not knows(actor, ${id}_named) once only {`,
       says, `    On discuss { Assert knows(actor, ${id}_named).${tells ? ` Assert knows(actor, ${id}_found).` : ''} }`, '  }',
       `  Topic ${id}_asked_again with ${keeper} ${q(`Ask {${keeper}} again about {${id}}`)} when said_${id}_asked() and not been(party, ${id}) {`,
       says, '  }'];

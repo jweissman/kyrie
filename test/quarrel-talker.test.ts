@@ -14,7 +14,7 @@ describe('the boundary stones', () => {
       party: [{ name: 'Wynn', raceId: 'human', classId: 'bard' }] }, NodeBundleSource.shared));
     const aim = Glanced.of(j.session).screen.aims?.find(a => /boundary stones/.test(a.text));
     expect(aim?.text).toMatch(/inn's back garden/);
-    await j.play('>region__s1_shrine', 'about the stones');
+    await j.play('>region__s1_shrine', 'what the matter is', 'about the stones');
     // What is known is of the priest by name, not "the priest" of a shrine kept by a priestess (OR-30).
     const knows = Glanced.of(j.session).screen.knowledge.map(k => k.text).find(t => /boundary stones stood/.test(t));
     expect(knows).toMatch(/ knows where the boundary stones stood, and will not say it to .+'s face/);

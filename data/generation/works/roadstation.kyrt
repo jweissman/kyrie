@@ -309,7 +309,7 @@
 --- successors forgotten 1
   Observe {w}_forgot_seen at {w}_yard when true "No one has used the stage since the Posts left. A fig tree is growing out of the well-head. The cobbles are almost all moss.".
 --- hook road 2
-  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old paved road" when not knows(actor, {w}_named) once {
+  Topic {w}_hook with {merchant} "Ask {{merchant}} about the old paved road" when toldMatter({merchant}, actor) and not knows(actor, {w}_named) once {
     Says "'There's a stretch of the old road out in {where},' says {{merchant}}. 'Paved, like nothing you've seen, and straight. A stage-house at the end of it with the roof still on half. My grandfather said nobody ever got the door of the office open, and there was a lamp in the window on certain nights. I would pay well for the road's own paper, if it was there.'".
     On discuss { Assert knows(actor, {w}_named). Assert knows(actor, {w}_found). }
   }

@@ -194,6 +194,7 @@ describe('the boundary stones', () => {
     const { w, s } = await Town.start('ash'), town = w.report.placements.find(p => p.scenario === 'quarrel')!.bindings.town!;
     GeneratedWorld.put(s, `${town}_taproom`);
     await s.leg('wait');
+    await Town.act(s, /what the matter is/);
     expect(Town.said(await Town.act(s, /about the stones$/))).toContain('A stride of my garden');
     await Town.act(s, /back door of the inn/);
     expect(Town.said(await Town.act(s, /^Search/))).toContain('The stones were moved');
@@ -212,6 +213,7 @@ describe('the boundary stones', () => {
     await s.leg('wait');
     // Offered first, when the stones are asked about; then taken.
     expect(PlayerView.choices(s.campaign).some(c => /five coin and say nothing$/.test(c.choice.name))).toBe(false);
+    await Town.act(s, /what the matter is/);
     await Town.act(s, /about the stones$/);
     await Town.act(s, /five coin and say nothing$/);
     GeneratedWorld.put(s, `${town}_taproom`);

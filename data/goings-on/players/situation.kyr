@@ -48,15 +48,15 @@ Module players "The players on the green" {
   Observe green_players_gone at green when gone(gosse) "There are wheel-ruts in the dust of {green}, and a ring of flattened ground where a bear lay.".
 
   // The town's own people on the players.
-  Topic keeper_players with keeper "Ask {keeper} about the players stuck here" when stuck(gosse) and not gone(gosse) once {
+  Topic keeper_players with keeper "Ask {keeper} about the players stuck here" when toldMatter(keeper, actor) and stuck(gosse) and not gone(gosse) once {
     Says "'Four nights' bed and board for seven and a bear,' says {keeper}, 'and the bear eats for three. Eight coin. They had it, too, in the hat, Tuesday night: the whole town went to see them. And then their man who leads the bear went off with the hat.' {keeper} folds the cloth. 'I don't doubt the old man means to pay. He means a great many things. The wagon stays chained till someone does.'".
     On discuss { Assert knows(actor, lem_gone). }
   }
-  Topic priest_players with priest "Ask {priest} about the players" when not gone(gosse) once {
+  Topic priest_players with priest "Ask {priest} about the players" when toldMatter(priest, actor) and not gone(gosse) once {
     Says "{priest} smiles, and then tries not to. 'They played the Shepherd's Revenge here on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure whether I should have minded.' Then, more soberly: 'The man who went off with the hat was Lem Coyle, who leads their bear. He was not a bad man at the shrine. I saw him go out along the common toward the old lime-kiln, with the hat under his coat like a hen.'".
     On discuss { Assert knows(actor, lem_where). Assert knows(actor, lem_gone). }
   }
-  Topic trader_players with trader "Ask {trader} about the players" when not gone(gosse) once {
+  Topic trader_players with trader "Ask {trader} about the players" when toldMatter(trader, actor) and not gone(gosse) once {
     Says "'They owe me for candles and a pot of honey,' says {trader}, 'and I would give them the candles again for the bear's dance alone. Lem Coyle bought a bottle off me Tuesday with a coin out of the hat. Said it was his wages.' {trader} shrugs. 'Maybe it was.'".
     On discuss { Assert knows(actor, lem_gone). }
   }
@@ -130,7 +130,7 @@ Module players "The players on the green" {
   Action pay_reckoning(actor: group, site: place) "Pay {keeper} the players' reckoning, eight coin" {
     Speaker keeper. Time 2 minutes.
     Requires able(actor) and company(actor) and at(actor, site) and at(keeper, site) and stuck(gosse) and not gone(gosse)
-      and quantity(actor, gold) >= 8.
+      and quantity(actor, gold) >= 8 and (knows(actor, on_green) or toldMatter(keeper, actor)).
     On success { Decrease quantity(actor, gold) by 8. Increase quantity(keeper, gold) by 8. Assert knows(actor, freed). Assert reckoned(gosse). Retract stuck(gosse).
       Assert state(wagon, free). }
     Result "{keeper} counts the coins twice, as if they might be a trick of the players', and goes out to unlock the chain. Out on {green}, Gosse stands up very slowly from the tail-board and takes off his hat to you.".

@@ -14,9 +14,10 @@ const r = (id: string) => `region__${id}`;
 describe('the first town’s neighbours', () => {
   it('speak of one another: the generated people have lives that touch the new ones', async () => {
     const j = await start();
-    await j.play('>s1_taproom', 'about the scholar upstairs');
+    // Asked what the matter is, the innkeeper and the priest can be asked of their town's people (OR-423).
+    await j.play('>s1_taproom', 'what the matter is', 'about the scholar upstairs');
     expect(j.offers('Ask Isaure Venn what she is reading')).toBe(true);
-    await j.play('>s1_shrine');
+    await j.play('>s1_shrine', 'what the matter is');
     expect(j.offers('about the acolyte')).toBe(true);
   }, 120000);
 

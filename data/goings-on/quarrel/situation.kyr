@@ -21,10 +21,10 @@ Module quarrel "The boundary stones" {
     Found by searching garden "Under the grass along the hedge, your heel finds the old holes: square, stone-sided, a stride outside the new row. The stones were moved.".
   }
 
-  Topic keeper_stones with keeper "Ask {keeper} about the stones" when not restored(trader) once {
+  Topic keeper_stones with keeper "Ask {keeper} about the stones" when toldMatter(keeper, actor) and not restored(trader) once {
     Says "'Moved in the night,' says {keeper}, wiping the same cup. 'A stride of my garden, and the well with it. Ask the priest. Ask anyone. Nobody will say it to {trader}.'".
   }
-  Topic trader_stones with trader "Ask {trader} about the stones" when not restored(trader) and not bought(actor) once {
+  Topic trader_stones with trader "Ask {trader} about the stones" when toldMatter(trader, actor) and not restored(trader) and not bought(actor) once {
     Says "'{keeper} drinks and dreams,' says {trader}. 'Those stones are where my father set them.' Then, lower: 'If anyone asks, you saw nothing. Five coin for your trouble.'".
     On discuss { Assert offered(actor). }
   }
@@ -37,7 +37,7 @@ Module quarrel "The boundary stones" {
     Says "{trader} goes red, then white. 'All right,' {trader} says. 'All right. I will set them back, and pay for the cabbages.'".
     On discuss { Assert restored(trader). }
   }
-  Topic priest_stones with priest "Ask {priest} about the stones" when not restored(trader) once {
+  Topic priest_stones with priest "Ask {priest} about the stones" when toldMatter(priest, actor) and not restored(trader) once {
     Says "'They were moved in the spring,' says {priest}. 'I married {keeper}'s parents in that garden; I know where the stones stood. But {trader} gives the most at the shrine, and I have a roof to mend.'".
     On discuss { Assert knows(actor, priest_knows). }
   }

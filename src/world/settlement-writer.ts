@@ -13,6 +13,7 @@ import { Herbals } from './herbals';
 import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
 import { GeneralStores } from './general-stores';
+import { TownMatters } from './town-matters';
 import type { Region, Settlement } from './region-writer';
 import forms from '../../data/catalog/forms.json';
 
@@ -84,6 +85,7 @@ export class SettlementWriter {
       this.keeper(s, f, region),
       this.priest(s, f, region),
       this.merchant(s, f, region),
+      ...TownMatters.lines(s),
       ...RegionRecruits.traveller(s, i, region, has.taproom ? `${s.id}_taproom` : `${s.id}_green`),
       this.observe(`${s.id}_day`, `${s.id}_green`, { aspect: 'fixture', when: 'not dark()',
         text: SettlementScenes.green(region, i, cult.name), teaches: `${s.id}_why` }),

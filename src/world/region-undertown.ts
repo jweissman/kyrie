@@ -95,6 +95,7 @@ export class RegionUndertown {
   // job an aim only when the one who gives it is asked (HP-01).
   static notice(t: string, sections: KyrSection[], values: Record<string, string>): string[] {
     const troubles = sections.filter(x => x.said.length), notice = `${t}_u_notice`, q = JSON.stringify;
+    const givers = this.givers(t, troubles);
     const open = troubles.map(x => `able(${t}_u_${x.option})`).join(' or ');
     const said = KyrTemplates.fill([`A notice on the post by the well, in ${troubles.length === 3 ? 'three' : 'several'}`
       + ` hands. ${troubles.flatMap(x => x.said).join(' ')}`], values)[0]!;
@@ -110,20 +111,28 @@ export class RegionUndertown {
         `  Action ${notice}_read(actor: group, site: place) "Read the notice on the well-post" {`,
         `    Requires able(actor) and at(actor, site) and at(actor, ${t}_green) and not knows(actor, ${notice})`
           + ` and (${open}) and not stale(${notice}).`,
-        '    Time 1.', `    On success { Assert knows(actor, ${notice}). }`, `    Result ${q(said)}.`, '  }',
-        ...this.spent(t, troubles)] : []];
+        // Read, it has told the company what the matter is with each who gives a job on it: their troubles can be
+        // asked of them (OR-423), as if they had said it themselves.
+        '    Time 1.', `    On success { Assert knows(actor, ${notice}).${givers.map(g => ` Assert toldMatter(${g}, actor).`)
+          .join('')} }`, `    Result ${q(said)}.`, '  }',
+        ...this.spent(t, troubles, givers)] : []];
   }
-  // Who each job on the notice is asked of (its giver, the one its _job_ask topic is with), and the notice spent
-  // (stale) once every job on it is paid, a lead let go from the Notes: it had stayed among them after (FH-05).
-  private static spent(t: string, troubles: KyrSection[]): string[] {
-    const notice = `${t}_u_notice`, givers = new Set<string>();
+  // Who each job on the notice is asked of: its giver, the one its _job_ask topic is with.
+  private static givers(t: string, troubles: KyrSection[]): string[] {
+    const givers = new Set<string>();
     for (const x of troubles) {
       const ask = new RegExp(`Topic \\{t\\}_u_${x.option}_job_ask with \\{t\\}(_\\w+)`);
       const by = x.lines.map(l => ask.exec(l)?.[1]).find(Boolean);
       if (by) { givers.add(`${t}${by}`); }
     }
+    return [...givers];
+  }
+  // The notice a lead asked of its givers, and spent (stale) once every job on it is paid, a lead let go from the
+  // Notes: it had stayed among them after (FH-05).
+  private static spent(t: string, troubles: KyrSection[], givers: string[]): string[] {
+    const notice = `${t}_u_notice`;
     const paid = troubles.map(x => `${t}_u_paid(${t}_u_${x.option}_job)`).join(' and ');
-    return [...[...givers].map(g => `  Initially Assert askedOf(${notice}, ${g}).`),
+    return [...givers.map(g => `  Initially Assert askedOf(${notice}, ${g}).`),
       `  Rule ${notice}_spent when ${paid} and not stale(${notice}) { Assert stale(${notice}). }`];
   }
   // Under the vault, behind its keeper's chair, a stair down into what the town was built over: the barrow of the
