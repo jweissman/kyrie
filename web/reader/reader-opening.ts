@@ -290,24 +290,34 @@ export class ReaderOpening {
   // A new game: first, how it begins (FirstChoice, the engine's question: build a character, or set out now), asked at
   // once, the country it will begin in drawn meanwhile if it is not drawn already (see foresee).
   // seed: the country it begins in, where the title names one (New character in the world kept here).
-  readonly anew = (seed?: string) => {
+  // fresh: a new world asked for (New world), never the one already drawn ahead.
+  readonly anew = (seed?: string, fresh = false) => {
     this.app.setState({ phase: 'begin', memorial: undefined, error: '' });
-    if (!this.foreseen || (seed && seed !== this.foreseen)) { this.foresee(seed); }
+    if (fresh || !this.foreseen || (seed && seed !== this.foreseen)) { this.foresee(seed); }
   };
   // The seed a new game will use, named as the title shows, and its country drawn for it in the engine while the
   // title is up, with the start Set out now asks made ready behind it (OR-121, EngineForesight): never where a game is
   // kept, whose Continue must not wait on it, until New game is pressed.
   private foreseen?: string;
   private foresee(asked?: string) {
-    const seed = this.foreseen = asked ?? ReaderOpening.seed();
-    void this.app.engine.request({ kind: 'ahead', seed }).catch(() => undefined);
+    this.foreseen = asked;
+    void (async () => {
+      const seed = asked ?? await this.fresh();
+      this.foreseen = seed;
+      await this.app.engine.request({ kind: 'ahead', seed });
+    })().catch(() => undefined);
   }
+  // A new life's seed, the engine's (FreshSeeds): a world whose first town is the reference game's.
+  private fresh(): Promise<string> { return this.app.engine.request<string>({ kind: 'seed' }); }
   // How the new game begins, as chosen (see FirstChoice): a life built step by step in the country drawn for it, or
   // set out at once.
   beginAs(how: Beginning) {
-    const seed = this.foreseen ?? ReaderOpening.seed();
+    const foreseen = this.foreseen;
     this.foreseen = undefined;
-    void (how === 'set-out-now' ? this.now(seed) : this.pick('world', seed));
+    void (async () => {
+      const seed = foreseen ?? await this.fresh();
+      await (how === 'set-out-now' ? this.now(seed) : this.pick('world', seed));
+    })();
   }
   // Set out now (OR-120): the country the title drew, and a life drawn whole from creation's own defaults, set out with
   // at once; the way in is not waited on, the opening coming up with its painting.
@@ -324,14 +334,16 @@ export class ReaderOpening {
     await this.enter(app.engine.request<Frame>({ kind: 'set-out', rolled: true, apart: this.apart() }), 'title', true);
   }
   // Another country, from creation: drawn from a seed of its own, which the save keeps.
-  readonly another = () => { this.app.setState({ memorial: undefined }); void this.pick('world', ReaderOpening.seed()); };
+  readonly another = () => {
+    this.app.setState({ memorial: undefined });
+    void this.fresh().then(seed => this.pick('world', seed));
+  };
   // The same country again, as someone else, after a death in it: it remembers who died, and where.
   readonly again = () => {
     const frame = this.app.state.frame, memorial = frame?.ending?.memorial;
     this.app.setState({ ...memorial ? { memorial } : {} });
-    void this.pick('world', frame?.transcript.seed ?? ReaderOpening.seed());
+    void (async () => this.pick('world', frame?.transcript.seed ?? await this.fresh()))();
   };
-  static seed(): string { return FirstChoice.seed(); }
   // The game kept here, as the title offers it: refused once it has failed to open in this page or was remembered so
   // (see played), and then said so on the title, never continued.
   kept(): SavedGame | undefined {
@@ -346,7 +358,7 @@ export class ReaderOpening {
     const kept = this.kept();
     if (way === 'continue') { if (FirstChoice.continues(kept)) { this.carryOn(); } return; }
     if (way === 'world' && kept?.seed) { ReaderStore.forget(kept.seed); }
-    this.anew(FirstChoice.seedFor(way, kept));
+    this.anew(FirstChoice.seedFor(way, kept), way === 'world');
   };
   readonly carryOn = () => {
     const saved = this.kept();

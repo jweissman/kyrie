@@ -91,8 +91,7 @@ export class EngineHost {
     switch (request.kind) {
       case 'catalog': return Creation.catalog();
       case 'setting': return this.creation.setting(request.campaign);
-      case 'world': return this.foresight.drawn(request.seed, request.terrain);
-      case 'ahead': this.foresight.ahead(request.seed); return null;
+      case 'world': case 'ahead': case 'seed': return this.foresight.asked(request);
       case 'beginning': return FirstChoice.step();
       case 'idle': await this.idle(); return null;
       case 'creation': return request.step ? this.chosen(request.step, request.value ?? '') : this.made.state();

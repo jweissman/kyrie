@@ -1,7 +1,9 @@
 import { Creation } from './creation';
 import type { EngineCreation } from './engine-creation';
 import type { EngineStarts } from './engine-starts';
-import type { Setting } from '../../src/creation/protocol';
+import type { Request, Setting } from '../../src/creation/protocol';
+import { FreshSeeds } from '../../src/world/fresh-seeds';
+import { FirstChoice } from '../../src/creation/first-choice';
 
 // The country a new game will begin in, drawn before it is asked for (the owner, 19 November, OR-121: "the default
 // world and a starting character prepared or restored before the title appears; the title immediate"). The page names
@@ -15,6 +17,13 @@ export class EngineForesight {
   private drawing?: { seed: string; terrain?: string; setting: Promise<Setting>; foreseen?: boolean };
   constructor(private readonly creation: Creation, private readonly made: EngineCreation,
     private readonly starts: EngineStarts) {}
+  // What the title asks of the country a new game begins in: a new life's seed (FreshSeeds: one whose first town is the
+  // reference game's), its country drawn ahead, or drawn.
+  asked(request: Extract<Request, { kind: 'world' | 'ahead' | 'seed' }>): Promise<Setting> | string | null {
+    if (request.kind === 'seed') { return FreshSeeds.seed(FirstChoice.seed); }
+    if (request.kind === 'ahead') { this.ahead(request.seed); return null; }
+    return this.drawn(request.seed, request.terrain);
+  }
   // A country drawn for a life to be made for, and its texts read while the player reads the first page: the one drawn
   // ahead for the same seed, where there is one, its start made ready kept for Set out now until a choice is made (a
   // life made otherwise gives it up at its first choice: EngineStarts.readying). A country asked for again before an

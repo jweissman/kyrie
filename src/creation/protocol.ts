@@ -128,6 +128,9 @@ export type Request =
   | { kind: 'catalog' }
   | { kind: 'setting'; campaign: string }
   | { kind: 'world'; seed: string; terrain?: string }
+  // The seed a new life's world is drawn from where none is named: the engine's, so that every client's new life
+  // begins where the setting says a new life begins (FreshSeeds: the reference game's first town).
+  | { kind: 'seed' }
   // The country a new game will begin in, by the seed it will use, drawn while the title shows, and the start Set out
   // now asks made ready behind it (see EngineForesight); a world asked for by the same seed is that one.
   | { kind: 'ahead'; seed: string }

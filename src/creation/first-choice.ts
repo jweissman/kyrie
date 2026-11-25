@@ -57,10 +57,11 @@ export class FirstChoice {
       ...kept?.refused ? { told: FirstChoice.refusal(kept.refused) } : {} };
   }
   static continues(kept?: Kept): kept is Kept { return !!kept && !kept.ended && !kept.refused; }
-  // The seed a way in begins its new life in: the kept world's for New character, where one is kept; a new one for New
-  // world; none named for New character with no world kept (the client's country drawn ahead is the new one).
+  // The seed a way in begins its new life in: the kept world's for New character, where one is kept; none named for
+  // New world, or for New character with no world kept: a new one, which the engine draws (the setting's FreshSeeds,
+  // asked as { kind: 'seed' }), so that a new life begins where the setting says new lives begin.
   static seedFor(way: Exclude<Way, 'continue'>, kept?: Kept): string | undefined {
-    return way === 'world' ? FirstChoice.seed() : kept?.seed;
+    return way === 'world' ? undefined : kept?.seed;
   }
   // A kept game this build could not open, said plainly on the title and in the terminal.
   static refusal(reason: string): string {
@@ -72,7 +73,8 @@ export class FirstChoice {
     return { id: 'options', ask: 'Options', chosen: 'back', cards: [
       { id: 'back', name: 'Back to the game' }, { id: 'title', name: 'Return to title' }] };
   }
-  // The seed a new game's country is drawn from, at random, as the title names it (page and terminal alike).
+  // A seed at random, as the title names one (page and terminal alike); a new life's is drawn by the engine from these
+  // (FreshSeeds), never used as it comes.
   static seed(): string {
     const bytes = new Uint8Array(4);
     crypto.getRandomValues(bytes);

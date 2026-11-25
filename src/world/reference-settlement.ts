@@ -7,6 +7,7 @@ import { Herbals } from './herbals';
 import { Foundings } from './founding';
 import { TownMatters } from './town-matters';
 import { RegionGeography } from './region-geography';
+import { StrategicAtlas } from './strategic-atlas';
 import { Communities } from './community/community';
 import type { Region, Settlement } from './region-writer';
 
@@ -21,16 +22,11 @@ import type { Region, Settlement } from './region-writer';
 // cheaply"): the forest, the terrain the first country draws most often. A second terrain is one more entry here.
 export class ReferenceSettlement {
   static readonly terrains = new Set(['forest']);
-  // The worlds the repository's specs and the world gate walk by name, whose first towns they were written against
-  // (the lead, 25 November: main's CI red in 13 walks of kite's and kahitude's first towns when the reference town came
-  // in): they keep the generated first town until their walks are brought across (register OR-645). A new life's world
-  // is never one of them (FreshSeeds).
-  static readonly kept = new Set(['iscoed', 'a1', 'b2', 'kite', 'thorn', 'kahitude', 'porthalen', 'wren', 'bench-1', 'bench-2']);
   // Whether a settlement is the reference game's: the first town of the first country of a world, of a terrain done.
   static is(region: Region, s: Settlement): boolean {
     const at = (region as Region & { at?: [number, number] }).at;
     return !!at && at[0] === 0 && at[1] === 0 && region.settlements[0] === s && this.terrains.has(region.terrain)
-      && !this.kept.has(region.world ?? '');
+      && !StrategicAtlas.keepsFirstTown(region.world);
   }
   // The country's settlements but the reference game's.
   static others(region: Region): Settlement[] { return region.settlements.filter(s => !this.is(region, s)); }

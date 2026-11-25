@@ -29,6 +29,9 @@ export interface AtlasCountry {
 export class StrategicAtlas {
   static readonly worlds: string[] = atlas.worlds;
   static readonly countries = atlas.countries as unknown as AtlasCountry[];
+  // The worlds whose first town is drawn as before the reference game's settlement (the atlas's kept, as its data
+  // says why): whether a world keeps it.
+  static keepsFirstTown(seed: string | undefined): boolean { return !!seed && (atlas.kept as string[]).includes(seed); }
   // The atlas's country at a cell of a world, if the world is one of the atlas's.
   static at(seed: string, x: number, y: number): AtlasCountry | undefined {
     if (!this.worlds.includes(seed)) { return undefined; }

@@ -11,6 +11,7 @@ import { TerminalCreation } from './terminal-creation';
 import { TerminalMode } from './terminal-mode';
 import { TerminalSlots } from './terminal-slots';
 import { Terminal } from './terminal';
+import { FreshSeeds } from '../world/fresh-seeds';
 
 // The terminal's title (bin/kyrie adventure with no world named): the engine's title page (OpeningPages.title,
 // OR-382), its rows asked as numbered lines where there is more than one way in. Continue takes up the game kept in the
@@ -30,7 +31,7 @@ export class TerminalPlay {
     const host = new EngineHost(() => undefined);
     let rolled = false;
     try {
-      ({ rolled } = await creation.begin(host, FirstChoice.seedFor(way === 'world' ? 'world' : 'begin', kept) ?? FirstChoice.seed()));
+      ({ rolled } = await creation.begin(host, FirstChoice.seedFor(way === 'world' ? 'world' : 'begin', kept) ?? FreshSeeds.seed(FirstChoice.seed)));
     } catch (error) {
       if (error instanceof Error && error.message === TerminalCreation.left) { input.close(); return 0; }
       throw error;
