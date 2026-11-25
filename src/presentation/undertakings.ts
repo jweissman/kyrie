@@ -24,9 +24,15 @@ import { AimParts } from './aim-parts';
 // same story's next part (asking Bask for the key, then going down for the rats): never a rumour that happened to
 // arise as it ended.
 export class Undertakings {
+  // Worked out once for a world and its aims (asked some thirty times a turn on the golden walk, by the screen, the
+  // glance and the talk alike): each asker gets its own list.
+  private static readonly holding = new WeakMap<object, { of: readonly Objective[]; held: Objective[] }>();
   static held(campaign: Campaign): Objective[] {
-    const w = campaign.world;
-    return (campaign.module.objectives ?? []).filter(o => w.test(o.when));
+    const w = campaign.world, of = campaign.module.objectives ?? [], kept = this.holding.get(w);
+    if (kept?.of === of) { return [...kept.held]; }
+    const held = of.filter(o => w.test(o.when));
+    this.holding.set(w, { of, held });
+    return [...held];
   }
   // Only what the player chose to follow (the owner, 12 November: gold only after Follow this; with none followed, no
   // gold at all). The company's own errand is no longer followed for them: it is held, and offered to be followed.
