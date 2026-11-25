@@ -39,7 +39,10 @@ export class LedAgain {
   // reason its candidate had.
   static led(campaign: Campaign, acts: readonly Promoted[], cands: readonly Candidate[]) {
     const log = campaign.history, by = this.leads.get(log) ?? this.leads.set(log, new Map()).get(log)!;
-    const whys = new Map(cands.map(c => [c.choice, c.whys]));
+    // Every candidate's reasons for one choice: a keeper's warning is answered by an act that is a candidate of its own
+    // too (OR-482: the word to the man with the black candle, led for the danger and for the warning, kept only one).
+    const whys = new Map<string, Why[]>();
+    for (const c of cands) { whys.set(c.choice, [...whys.get(c.choice) ?? [], ...c.whys]); }
     by.set(log.length, new Map(acts.flatMap(a => [a.for, a.command].filter((c): c is string => !!c)
       .map(c => [c, new Set([a.why, ...whys.get(a.choice) ?? []])] as const))));
   }
@@ -63,7 +66,7 @@ export class LedAgain {
   }
   // How much of the story has happened: the commands that changed something.
   get mark(): number { return this.r.mark; }
-  // Whether this was led and done here twice, and came off, with nothing happened since, and no reason to lead it
+  // Whether this was led and done here twice, come off or not, with nothing happened since, and no reason to lead it
   // now that it was not led for then.
   again(place: string, command: string, whys: readonly Why[]): boolean {
     return [...this.r.done.get(place) ?? []].some(([led, d]) => d.mark === this.r.mark && d.times >= 2
@@ -104,7 +107,9 @@ export class LedAgain {
     const as = led.find(([c]) => CompanyRecall.same(c, event.action))
       ?? (who ? led.find(([c]) => c === `talk_to(${who})`) : undefined)
       ?? (moved ? led.find(([c]) => c === `travel:${to}`) ?? led.find(([c]) => c.startsWith('travel:')) : undefined);
-    if (!here || !as || event.result === 'failure') { return; }
+    // A try that failed is done as one that came off: led again with nothing changed, it would only fail again (OR-482:
+    // "Tell the man with the black candle the town knows what he has done", failed, led a second and a third time).
+    if (!here || !as) { return; }
     const done = r.done.get(here) ?? r.done.set(here, new Map()).get(here)!, was = done.get(as[0]);
     const again = was?.mark === r.mark, whys = new Set([...again ? was.whys : [], ...as[1]]);
     done.set(as[0], { mark: r.mark, times: again ? was.times + 1 : 1, whys });
