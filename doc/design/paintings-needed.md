@@ -163,7 +163,7 @@ binding, below.
 
 ## Beyond the census: adventures, creatures and plates
 
-Asks the census cannot see, carried from the oldest list (doc/paintings/commission-list.md, 12 November) and not
+Asks the census cannot see, carried from the oldest list (doc/history/paintings/commission-list.md, 12 November) and not
 re-measured since:
 
 - **Authored adventures' own places**, now painted by a kind or an old master:

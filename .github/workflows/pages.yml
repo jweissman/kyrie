@@ -21,7 +21,7 @@ jobs:
       - run: bun install --frozen-lockfile && bun test test/play-session.test.ts test/save-codec.test.ts test/frontier.test.ts && bun run web:build
         working-directory: kyrie
       - uses: actions/upload-pages-artifact@v3
-        with: { path: kyrie/site }
+        with: { path: kyrie/out/site }
   deploy:
     needs: build
     runs-on: ubuntu-latest

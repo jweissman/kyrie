@@ -10,7 +10,7 @@ export class HandbookTool {
     const handbooks = new Handbooks(this.root);
     await HandbookPublisher.markdown(handbooks, resolve(this.root, 'doc/handbook'));
     const at = args.indexOf('--html');
-    if (at >= 0) { await HandbookPublisher.html(handbooks, resolve(args[at + 1] ?? 'site/handbook')); }
+    if (at >= 0) { await HandbookPublisher.html(handbooks, resolve(args[at + 1] ?? 'out/site/handbook')); }
     const coverage = handbooks.coverage();
     console.log(`${coverage.entries.length} entries; ${coverage.problems.length} problems`);
     return 0;

@@ -265,6 +265,57 @@ then read one causal record, not each its own reconstruction.
   decisions, text and regex inference, process-global setting access (canon-reads), tests by horizon, full frames
   built per command, rules examined per settlement, and product execution paths.
 
+## The installed context before more ports, and performance by the map (a third review, 25 November)
+
+A third review, shared by the owner and adopted by the lead, answered three questions the lead put: the order of the
+ports, the first performance investment, and what beta finishes. It changes the order below in two places.
+
+**The ports' lifetime before their number.**
+- The conditions port proved the shape: a small capability the runtime declares, the canon and a fake domain each
+  answering it, Canon reads falling, no cycle closed. Abilities, traits and callings followed it.
+- Those four are the last process-wide ports. Each further one would be a "current domain" chosen by the last install,
+  rework when it is scoped, and progress in the Canon count without isolation proved.
+- **Next:** a minimal campaign-scoped installed context, immutable, owned by the installation, built at the
+  composition roots (the worker, the terminal, the tools and test fixtures alike). The four ports move onto it and
+  their static install is deleted. A missing capability fails plainly.
+- **Its proof:** a Westernesse campaign and a made-up domain's alternate in one process with no reset between turns,
+  each compared with a run where the other never existed: the legal commands, the answers, the frame, the receipts,
+  the draws and the save's digest equal. The globals it exposes (LocalKinds, SettingPort, Vocabularies, caches keyed
+  without the installation) are taken one by one. Parse-time vocabulary may want a parsing context of its own.
+- A ratchet holds process-wide domain installs to fall.
+- **Then the canon by groups:** abilities, traits, skills and callings as one rules-domain slice (separate ports where
+  their consumers differ, proved together: a fantasy character, a civic actor with no calling, an ability used, a
+  trait in a check); then what the runtime asks of a body, an ancestry and a species; then creatures; then items,
+  materials and the economy (currency an installed capability; the allotment's pounds its second consumer). The last
+  two may go on into gamma where they block neither the supported loop nor the two domains' proof.
+
+**Performance by the map, cheapest named cost first.** A general change set for the screen is not the first step:
+- an ordinary turn's unattributed 36 ms is larger than its whole 30 ms target;
+- journey legs are the furthest from theirs (some 14 times).
+
+The order:
+1. Name the unattributed time: the session's coordination, the transcript and digest, checkpoints, copies, the
+   runner's reading, receipts, undertakings settled. Under a tenth of a turn left unnamed.
+2. A journey leg without a full frame: the passage's own grounding and what can interrupt it; the frame built on
+   arrival or interruption.
+3. Itineraries only when asked: the map open, destinations drawn, a journey planned.
+4. One set of rows per frame revision, passed to the screen, the leaf and the glance, equal to today's in commands,
+   labels, order, bindings, focus, facets and destination; one frame per revision, counted.
+5. Caches for scans whose inputs are the module or the installation (as `originated`'s took 12%).
+6. Measure again. Then the shared change set (investment 3 above), first for whatever is still dear, as named
+   sections each with its fresh-computation oracle.
+
+**What beta finishes:**
+
+| Work | Beta | Gamma |
+|---|---|---|
+| `kyr-lang` | the public entry and the language's purity enforced; the physical move optional, at a quiet point | the move, if not done |
+| The player protocol | complete for every activity of the supported loop, riding with the game's own work | the wider product |
+| Medallion assembly | two paths end to end and enforced: the opening and the allotment society | the whole repository |
+| `data/` | an inventory of its readers, logical identities and provenance; nothing moved that no beta contract needs | `settings/` and `scenarios/` |
+
+Beta's exit is behavioural: fast, trustworthy play through one loop, and a second domain shown to share the lifecycle.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are

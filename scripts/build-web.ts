@@ -3,7 +3,7 @@
 import { resolve } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 
-const out = resolve(SiteBuild.root, process.env.KYRIE_SITE_DIR ?? 'site');
+const out = resolve(SiteBuild.root, process.env.KYRIE_SITE_DIR ?? 'out/site');
 const size = await SiteBuild.site(out);
 console.log(`Built ${out} (${(size / 1024).toFixed(0)} KiB of scripts and maps)`);
 if (process.argv.includes('--serve')) {

@@ -3,6 +3,7 @@ node_modules
 
 # output
 out
+# the old places of out/site and out/kyrie, kept ignored where a checkout still has them
 /site
 dist
 *.tgz

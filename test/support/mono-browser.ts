@@ -16,7 +16,7 @@ export class MonoBrowser {
       ...(options.reduced ? { reducedMotion: 'reduce' as const } : {}) });
     const errors: string[] = [];
     page.on('pageerror', e => errors.push(e.message));
-    await page.goto(`file://${join(options.site ?? resolve(import.meta.dir, '../../site'), 'mono.html')}${options.query}`);
+    await page.goto(`file://${join(options.site ?? resolve(import.meta.dir, '../../out/site'), 'mono.html')}${options.query}`);
     await page.evaluate(() => { try { localStorage.clear(); } catch { /* file:// may refuse storage */ } });
     await page.reload();
     return { page, errors, driver: new MonoDriver(page, options.pointer) };

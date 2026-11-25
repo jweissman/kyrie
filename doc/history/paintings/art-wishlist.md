@@ -3,7 +3,7 @@
 > **History.** Superseded by [doc/design/paintings-needed.md](../../design/paintings-needed.md), the one current list.
 
 Measured on main (827040ca8), not remembered. It follows the 12 November list in
-[doc/paintings/commission-list.md](../../paintings/commission-list.md). That list is still good for wild country, the
+[doc/history/paintings/commission-list.md](commission-list.md). That list is still good for wild country, the
 circus, Sarn and the Numbered House, and is not repeated here. This one ranks what the **first hour** meets.
 
 ## How it was measured

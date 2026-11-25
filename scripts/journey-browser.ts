@@ -41,7 +41,7 @@ class JourneyBrowser {
       const cdp = await page.context().newCDPSession(page);
       await cdp.send('Emulation.setCPUThrottlingRate', { rate: Number(option('throttle', '1')) });
       const journey = new JourneyBrowser(page, cdp), every = Number(option('every', '25'));
-      await page.goto(`file://${resolve(import.meta.dir, '../site/mono.html')}`);
+      await page.goto(`file://${resolve(import.meta.dir, '../out/site/mono.html')}`);
       await page.evaluate(() => { try { localStorage.clear(); } catch { /* file:// may refuse storage */ } });
       await page.reload();
       await page.waitForFunction(() => 'kyrieMono' in window);

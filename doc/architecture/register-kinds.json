@@ -913,6 +913,30 @@
    "pri": "P3",
    "why": "24 Nov, the coordinator's call on the owner's second design opinion: a direction, after the rows"
   },
+  "OR-520": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the third review: the installed domain's lifetime, before more ports"
+  },
+  "OR-521": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the third review: beta's performance targets, by the map's named costs"
+  },
+  "OR-522": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov: the owner's settings/scenarios direction; the physical move is gamma's"
+  },
+  "OR-523": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov: build output kept out of the source tree"
+  },
   "OR-424": {
    "kind": "requirement",
    "was": "defect",

@@ -48,7 +48,7 @@ export class JourneyScene {
     const browser = await MonoBrowser.launch();
     try {
       const { page, errors } = await MonoBrowser.page(browser, { width: Number(flag('--width', '1440')),
-        height: Number(flag('--height', '900')) }, { site: resolve(flag('--site', 'site')), query: '' });
+        height: Number(flag('--height', '900')) }, { site: resolve(flag('--site', 'out/site')), query: '' });
       const scene = await this.show(page, readFileSync(file, 'utf8')), shot = flag('--shot', '');
       if (shot) { await page.screenshot({ path: shot }); console.log(`picture: ${shot}`); }
       writeFileSync(file.replace(/\.json$/, '.shown.txt'), scene.after);

@@ -51,7 +51,7 @@
     "lint:fix": "eslint . --fix",
     "check": "bun run lint && bun run typecheck && bun run test",
     "check:fast": "bun run typecheck:fast && bun run lint:fast && bun run test:quick",
-    "build": "bun build --compile ./src/cli/kyrie.ts --outfile dist/kyrie",
+    "build": "bun build --compile ./src/cli/kyrie.ts --outfile out/kyrie",
     "web:build": "bun run scripts/build-web.ts",
     "web:dev": "bun run scripts/build-web.ts --serve"
   },

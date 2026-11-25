@@ -3,7 +3,7 @@
 //
 //   LD_LIBRARY_PATH=… bun scripts/play-server.ts [--port 7359] [--out <capture dir>] [--size 1280x900]
 //
-//   /goto?q=<query>     open site/index.html<query> with fresh storage     /reload        reload, keeping storage
+//   /goto?q=<query>     open out/site/index.html<query> with fresh storage     /reload        reload, keeping storage
 //   /key?k=a,Enter       press keys in order                               /text?t=Label  click the first matching text
 //   /click?s=<selector>  click an element                                  /eval?js=…     evaluate (or POST the script)
 //   /size?w=&h=          resize the viewport                                /x             the page's text
@@ -15,7 +15,7 @@ import { resolve } from 'node:path';
 
 class PlayServer {
   static readonly args = process.argv.slice(2);
-  static readonly site = resolve(import.meta.dir, '../site/index.html');
+  static readonly site = resolve(import.meta.dir, '../out/site/index.html');
   static readonly errors: string[] = [];
   static page: Page;
   static out = '';

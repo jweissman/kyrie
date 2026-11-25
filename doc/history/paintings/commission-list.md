@@ -1,6 +1,6 @@
 # Paintings to commission
 
-> **History (23 November).** The current list is [doc/design/paintings-needed.md](../design/paintings-needed.md),
+> **History (23 November).** The current list is [doc/design/paintings-needed.md](../../design/paintings-needed.md),
 > measured against the corpus as it now stands; this list's scene asks are mostly filled or superseded, and its
 > adventure, creature and plate asks are carried there.
 

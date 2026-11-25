@@ -2,7 +2,7 @@
 // Builds the composition prototypes of Priority III (AESTHETICS §7): plays the wren record through the page's own
 // engine, as journey-profile does, keeps the frames of the six moments' beats, and bundles three ways of composing
 // them beside those frames, as a static page that works from file://. `--serve` previews it.
-//   bun scripts/compositions.ts [--serve]          (writes site/compositions, or $KYRIE_SITE_DIR)
+//   bun scripts/compositions.ts [--serve]          (writes out/site/compositions, or $KYRIE_SITE_DIR)
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { EngineHost } from '../web/engine/engine-host';
@@ -79,7 +79,7 @@ export class CompositionBuild {
 
 if (import.meta.main) {
   process.chdir(CompositionBuild.root);
-  const out = await CompositionBuild.build(resolve(CompositionBuild.root, process.env.KYRIE_SITE_DIR ?? 'site',
+  const out = await CompositionBuild.build(resolve(CompositionBuild.root, process.env.KYRIE_SITE_DIR ?? 'out/site',
     'compositions'));
   console.log(`Built ${out}`);
   if (process.argv.includes('--serve')) {

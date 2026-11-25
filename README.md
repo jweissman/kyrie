@@ -30,8 +30,8 @@ experience for what you resolve), JRPG party combat without a battle grid, and O
 
 ```sh
 bun install            # Deem and the languages package, pinned by commit (doc/architecture/verification.md)
-bun run web:build      # writes site/; nothing else is needed
-open site/mono.html    # or serve site/ anywhere; the whole game runs in the page
+bun run web:build      # writes out/site/; nothing else is needed
+open out/site/mono.html  # or serve out/site/ anywhere; the whole game runs in the page
 ```
 
 The title page names the country you are in and offers to go on, or to begin again. Beginning, you choose why you
