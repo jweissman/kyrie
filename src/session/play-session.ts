@@ -45,7 +45,8 @@ export type { Receipt } from './open-command';
 // commands are resolved through PlayerView, executed by Campaign, and combat steps through Battle.
 export class PlaySession {
   private steps: TranscriptStep[];
-  private busy = false;
+  // A command open: resolved and not yet ended (OpenCommand's own phase, the one account of it).
+  private get busy(): boolean { return !!this.last && !this.last.ended; }
   // One for each command performed in this session (not kept in a save: a resumed game's revision is its steps).
   readonly receipts: Receipt[] = [];
   // The last command, by its phases (MT-24: OpenCommand), for whoever asks how far it went.
@@ -163,7 +164,7 @@ export class PlaySession {
     }
     const { id, aims } = Costs.time('resolve', () => this.resolving(command));
     // Open from resolved to committed: no save, no frame meanwhile.
-    this.busy = true; this.campaign.command = id;
+    this.campaign.command = id;
     const open = this.last = new OpenCommand(command);
     const combat: Command[] = [], barked: Voiced[] = [];
     try {
@@ -214,7 +215,7 @@ export class PlaySession {
     } catch (error) {
       this.receipts.push(open.receipt(this.steps.length, 'undone'));
       throw error;
-    } finally { this.busy = false; this.campaign.closeCommand(); this.resumed(); }
+    } finally { this.campaign.closeCommand(); this.resumed(); }
   }
   // The command's action, and the aims held before it; the step of the aim to follow, done, takes the aim up first
   // (one row, one act: HeldLead, OR-466).

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 578 live rows, 424 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 580 live rows, 422 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -203,7 +203,7 @@ page's colours and opportunities.)
 
 ### Settlements
 
-- **Towns and their frames** · 7 pins · 1 defects · 1 asks
+- **Towns and their frames** · 7 pins · 0 defects · 2 asks
   - ✓ under the churchyard, the sexton's selling and the bone-pickers, laid by putting back what was taken
   - ✓ talks at the inn of the sexton found out, once the bone-pickers are laid by what he gave back
   - ✓ in the quarry, the she-bear's den and her wolves, a real fight, and the house pays
@@ -211,6 +211,7 @@ page's colours and opportunities.)
   - ✓ smokes the she-bear out with oil, a thief warned that she is beyond them
   - ✓ lets the she-bear by, her cub read by a ranger at the den's mouth
   - ✓ keeps Iscoed's first town as it was, and draws both causes of each among other towns
+  - requirement OR-370 P1: The first town's jobs handed out, not uncovered: the owner, 24 November, "initial quests folded…
   - direction MT-22 P3: An office nobody holds, and institutions beyond one office (split from MT-10): a town with no…
 - **Townsfolk with lives** · 1 pins · 0 defects · 0 asks
   - ✓ have moved on by the days, keep their hours, and greet the company by what it did with them
@@ -355,7 +356,7 @@ page's colours and opportunities.)
 
 ### The page
 
-- **The Atlas: marks and their witnesses** · 7 pins · 13 defects · 7 asks
+- **The Atlas: marks and their witnesses** · 7 pins · 12 defects · 8 asks
   - ✓ draws blue on a likeness exactly where its drawer has a blue question
   - ✓ where ${kind} lies on the green
   - ✓ is broken where an act is drawn for what it does not bring
@@ -367,6 +368,7 @@ page's colours and opportunities.)
   - requirement OR-292 P2: OR-302's remainder: a place's mark on the Atlas (the map's place facets, a way's tile) held…
   - requirement OR-313 P2: Latent and immediate opportunities told apart: what the company knows may be had, quieter…
   - requirement OR-534 P1: Knowledge integrity across walks (split from OR-524, 25 Nov): the noninterference cases are…
+  - requirement OR-560 P1: The knowledge boundary's remaining moves (split from OR-527, 25 Nov): the player layer still reads…
   - direction AT-02 P2: The atlas study's smallest experiment (§7), after AT-01, behind one flag, off by default: an…
   - direction AT-09 P2: The Color Atlas as a semantic design instrument, and a theory of opportunity density (the owner,…
   - direction AT-10 P1: The opportunity architecture's M23 part (AT-07 split, 19 November;…
@@ -417,11 +419,12 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 5 defects · 3 asks
+- **Paintings and portraits** · 1 pins · 5 defects · 4 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
   - direction OR-471 P3: A valley in rain: the valley's family (scene-valley, -spring, -summer, -autumn, -night) has no…
   - direction OR-523 P3: The page's small copies of the paintings (web/reader/paintings, some 1 250 files) are generated…
+  - direction OR-543 P3: A lookbook (the owner, 25 November): `bin/kyrie lookbook` writes a design manual beside the…
 - **Paintings by terrain, subject, season, weather and light** · 0 pins · 0 defects · 2 asks
   - requirement OR-442 P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's…
   - direction OR-454 P3: The visual atlas (gamma G5): assets indexed terrain → subject → place or archetype → season →…
@@ -480,9 +483,10 @@ page's colours and opportunities.)
   - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
   - requirement OR-521 P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a…
   - requirement OR-531 P2: What is still installed for the whole process after OR-520 (test/small/process-wide): SettingPort…
-- **Architecture and layers** · 0 pins · 30 defects · 3 asks
+- **Architecture and layers** · 0 pins · 30 defects · 4 asks
   - requirement AX-04 P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the…
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
+  - requirement OR-545 P2: Command state still in four places after OpenCommand's transitions were enforced (25 November):…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
 - **Testing instruments** · 0 pins · 14 defects · 6 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
@@ -543,7 +547,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Playing in the terminal** (The terminal): TB-11
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, OR-522, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, OR-421, KX-02, KX-04, AU-58, AU-60
-- **Architecture and layers** (The engine): AX-04, AX-07, MT-31
+- **Architecture and layers** (The engine): AX-04, AX-07, OR-545, MT-31
 - **Testing instruments** (The engine): OR-407, OR-456, OR-384, OR-389, OR-465, OR-508
 
 ### Pins not yet met (32)

@@ -1176,6 +1176,18 @@
    "was": "defect",
    "pri": "P1",
    "why": "25 Nov: the knowledge boundary's remaining moves, split from OR-527, a requirement as it was"
+  },
+  "OR-543": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov: the owner's request, a design and audit instrument, not a defect"
+  },
+  "OR-545": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: the fifth review's step 4, its remainder"
   }
  },
  "blockedBy": {

@@ -397,6 +397,47 @@ turn's target, 14 times a leg's), so it comes after the cheaper named costs.
 - **One source per claim:** each visible mark, focus, destination and undertaking step records its authority
   (prospective, projected, durable, committed); a claim with two live derivations fails.
 
+## Seams or authorities? (the fifth review, 25 November, read from the code)
+
+An external review shared by the owner read the code rather than the plans. Its question: which new seams are genuine
+authorities, and which are caches wrapped around the old omniscient design? The lead adopts its findings and order.
+
+**What it found:**
+- **PlayerFrame caches rows, nothing more.** It is keyed by the world and the offered list, and holds no question,
+  session, narration or hints. Expanded without a complete revision, it would gather invalidations by hand.
+- **The knowledge door is declarative.** ScreenModel still takes the campaign and hands it to dozens of helpers, and
+  Knowing is worked out lazily during presentation, not finished before it. A falling census is not enough: the APIs
+  must stop accepting `Campaign`.
+- **Isolation is half done.** The runtime's capabilities are scoped; parse-time vocabulary and local kinds are still
+  ambient. Campaign.install restores the catalogs after an await, a race recovered rather than removed (OR-540's
+  `LocalKinds.read/aside` added to that state).
+- **A leg without a frame needs an engine-owned account of attention.** Travel's stop rules read screen output
+  (`Travel.weighty`); a fast leg without that account would become a second definition of "the player is needed".
+- **OpenCommand recorded its phases without enforcing them,** and command state was split across `PlaySession.busy`
+  and `Campaign.command`, `executing` and `fighting`.
+- **ScreenModel is the monolith to decompose,** by authority rather than by section: projection, opportunity,
+  situation, resources, then a pure composition over those four that cannot read the campaign. Packaging it as it
+  stands would only package the coupling.
+
+**The order, adopted.** Trust and performance are one project here: the journey's cost is exposing the missing
+semantic boundary.
+1. A complete player revision: the world, the offers, the question, the session and the installation.
+2. An engine-owned settled situation: rows, the reasons attention is needed (a new threat, an answer owed, a
+   discovery, a changed undertaking, a crisis, a route invalidated, arrival), any interruption, what was newly
+   perceived.
+3. AX-05 through it: a leg continues where nothing needs attention, and the screen renders the same value.
+4. OpenCommand's transitions enforced, command state one lifecycle (begun 25 November: the phases enforced, the
+   session's busy derived from it; the campaign's own flags remain, OR-545).
+5. A compilation context: vocabulary and local kinds passed into parsing and compilation and their cache keys,
+   `LocalKinds.activate/reset/reclaim/aside` gone from production loading. Proved with module loading interleaved
+   between campaigns.
+6. The knowledge door as a capability boundary, slice by slice, each removing direct reads from downstream APIs:
+   ways and destinations first, since they serve travel's speed and hidden ways' correctness together.
+7. ScreenModel pure over the projected inputs: the true prerequisite of `kyrie-player`.
+8. TB-09, activity by activity, each consuming the one situation and question.
+9. Declared test horizons.
+10. Packages moved last.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are
