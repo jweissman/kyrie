@@ -65,8 +65,10 @@ export class Cycles {
     return false;
   }
   // Imported for its values: from, when wanted, or for what loading it does; never `import type` nor `export type`.
-  private static readonly importing = new RegExp([`^(?:import|export)\\s+(?!type\\b)[^'"]*?from\\s+['"](\\.[^'"]+)['"]`,
-    `import\\(\\s*['"](\\.[^'"]+)['"]`, `^import\\s+['"](\\.[^'"]+)['"]`].join('|'), 'gm');
+  // At a line's start, or after another import on the same line.
+  private static readonly importing = new RegExp([
+    `(?:^|;[ \\t]*)(?:import|export)\\s+(?!type\\b)[^'"]*?from\\s+['"](\\.[^'"]+)['"]`,
+    `import\\(\\s*['"](\\.[^'"]+)['"]`, `(?:^|;[ \\t]*)import\\s+['"](\\.[^'"]+)['"]`].join('|'), 'gm');
   private static specs(text: string): string[] {
     return [...text.matchAll(this.importing)].map(m => (m[1] ?? m[2] ?? m[3])!);
   }

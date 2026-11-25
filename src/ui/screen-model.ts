@@ -48,7 +48,7 @@ export class ScreenModel {
   // that must draw meanwhile draws the last frame it was given. A fight of it waiting on the player is drawn where it
   // is fought (the page's fight, the company perhaps just come there): that frame is the fight's.
   static build(c: Campaign): Screen { return c.command && !c.fighting ? this.refused(c) : this.time(c); }
-  private static time(c: Campaign): Screen { return Costs.time('screen', () => ScreenModel.built(c)); }
+  private static time(c: Campaign): Screen { return Costs.time('screen', () => c.within(() => ScreenModel.built(c))); }
   private static refused(c: Campaign): never { throw new Error(`Frame only between commands (${c.command} is under way)`); }
   private static built(campaign: Campaign): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);

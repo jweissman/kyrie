@@ -1,29 +1,31 @@
 import { describe, expect, it } from 'bun:test';
-import { Canon } from '../../src/canon/canon';
+import { Canon, FantasyRules } from '../../src/canon/canon';
 import { Conditions } from '../../src/ports/conditions';
+import { Installed, type InstalledDomain } from '../../src/ports/installed';
 import { LevelDrain } from '../../src/rules/level-drain';
 import type { Condition } from '../../src/rules/catalog-schema';
 
 // The runtime asks its rules' conditions through a port a setting installs (platform-separation.md: small ports the
-// lower layer owns, each with a second consumer): a made-up domain, not the fantasy canon's, answers the runtime's
-// rules alike.
-// The canon installs its own again after.
+// lower layer owns, each with a second consumer): a made-up installation, not the fantasy canon's, answers the
+// runtime's rules alike, within its own scope (src/ports/installed.ts, OR-520), and nothing installed is replaced.
 const drain: Condition = { name: 'the grey sleep', description: 'A made-up drain.', lifetime: 'persistent',
   modifiers: {}, drains: true } as Condition;
+const grey: InstalledDomain = { id: 'grey', conditions: {
+  condition: (id: string) => id === 'grey' || id === 'grey sleep' ? drain : undefined,
+  exact: (id: string) => id === 'grey' ? drain : undefined } };
 describe('the conditions port', () => {
-  it('answers the runtime from whichever domain is installed', () => {
-    try {
-      Conditions.install({ condition: id => id === 'grey' || id === 'grey sleep' ? drain : undefined,
-        exact: id => id === 'grey' ? drain : undefined });
-      expect([LevelDrain.drains('grey'), LevelDrain.drains('grey sleep'), LevelDrain.drains('energy_drain')])
-        .toEqual([true, true, false]);
-      expect(Conditions.exact('grey sleep')).toBeUndefined();
-    } finally {
-      Conditions.install({ condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon) });
-    }
+  it('answers the runtime from the installation in scope', () => {
+    expect(Installed.within(grey, () => [LevelDrain.drains('grey'), LevelDrain.drains('grey sleep'),
+      LevelDrain.drains('energy_drain'), Conditions.exact('grey sleep')])).toEqual([true, true, false, undefined]);
+    expect(LevelDrain.drains('grey')).toBe(false);
   });
-  it('is the fantasy canon\'s where the canon is loaded', () => {
+  it('is the fantasy canon\'s where the canon is loaded, and is not installed over', () => {
     const any = Object.keys(Canon.conditions)[0]!;
     expect(Conditions.exact(any)).toBe(Canon.conditions[any]);
+    expect(Installed.rootId).toBe(FantasyRules.id);
+    expect(() => Installed.base(grey)).toThrow(/cannot replace/);
+  });
+  it('says so of an installation that brings no conditions', () => {
+    expect(() => Installed.within({ id: 'bare' }, () => Conditions.of('poisoned'))).toThrow(/bare installs no conditions/);
   });
 });

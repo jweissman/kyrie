@@ -1146,6 +1146,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov: the owner's direction for the embers; continuity between the title and creation (TO-03)"
+  },
+  "OR-531": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: the installed context's remainder, ratcheted"
   }
  },
  "blockedBy": {

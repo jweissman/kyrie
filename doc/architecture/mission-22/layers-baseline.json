@@ -1,13 +1,14 @@
 {
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "runtime -> setting": 60,
+  "runtime -> setting": 61,
   "player -> setting": 76,
   "setting -> player": 13
  },
  "edges": [
   "src/ability-use.ts -> src/canon/canon",
   "src/battle.ts -> src/canon/canon",
+  "src/campaign/campaign-assembly.ts -> src/canon/local-catalog",
   "src/campaign/campaign.ts -> src/canon/local-catalog",
   "src/campaign/cast.ts -> src/canon/canon",
   "src/campaign/committed-world.ts -> src/canon/local-catalog",

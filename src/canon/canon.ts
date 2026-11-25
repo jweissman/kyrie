@@ -1,6 +1,5 @@
 import abilities from '../../data/catalog/abilities.json';
-import { Conditions } from '../ports/conditions'; import { Abilities } from '../ports/abilities';
-import { Traits } from '../ports/traits'; import { Callings } from '../ports/callings';
+import { Installed, type InstalledDomain } from '../ports/installed';
 import aliases from '../../data/catalog/aliases.json';
 import ancestries from '../../data/catalog/ancestries.json';
 import backgrounds from '../../data/catalog/backgrounds.json';
@@ -305,8 +304,13 @@ export class Canon {
       && !!pronoun && pronoun !== 'pron_it';
   }
 }
-// The fantasy rules' conditions, the runtime's to ask of through its port (src/ports/conditions.ts).
-Conditions.install({ condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon) });
-Abilities.install({ ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) });
-Traits.install({ one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) });
-Callings.install({ one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) });
+// The fantasy rules as the runtime asks of them (src/ports/installed.ts): their conditions, abilities, traits and
+// callings, one installation; named the composition root's where they load, and a campaign's unless it brings its own.
+export const FantasyRules: InstalledDomain = Object.freeze({
+  id: 'fantasy-rules',
+  conditions: { condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon) },
+  abilities: { ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) },
+  traits: { one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) },
+  callings: { one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) },
+});
+Installed.base(FantasyRules);

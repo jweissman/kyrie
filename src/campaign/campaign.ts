@@ -1,8 +1,9 @@
-import { RandomStreams } from '../random-streams';
+import { RandomStreams } from '../random-streams'; import { Installed, type InstalledDomain } from '../ports/installed';
+import { CampaignAssembly } from './campaign-assembly';
 import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath'; import { FieldUse } from './field-use'; import { PlaneLaws } from './plane-laws';
 import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
-import { CompanyChoices } from './company-choices'; import { FieldResolver } from './field-resolver';
+import { FieldResolver } from './field-resolver';
 import { Perceptions } from './perceptions'; import { Costs } from '../costs';
 import { ModuleBundle, type BundleRequest } from './module-bundle';
 import type { BundleSource } from './bundle-source';
@@ -42,6 +43,9 @@ export class Campaign implements WatchHost {
   // without its step). Set and closed by the session (PlaySession.perform); see closeCommand. fighting: a fight of it
   // waits on the player, whose page is drawn where the fight is (the one frame made mid-command: ScreenModel.build).
   private observations: Record<string, number> = {}; private executing = false; command?: string; fighting = false;
+  // The rules it is played under (OR-520): the installation in scope when it was made or restored; it acts within them.
+  readonly installation: InstalledDomain = Installed.current();
+  within<T>(run: () => T): T { return Installed.within(this.installation, run); }
   // A campaign is a composition of installed modules (see Campaign.load): the instance it is made from is its own,
   // made for it and kept by no one else. restore() resumes a save: copied unless it is handed over (owned), and its
   // module checked unless it is a game this engine kept itself (trusted).
@@ -86,8 +90,9 @@ export class Campaign implements WatchHost {
   static load(...a: Parameters<typeof Campaign.loaded>) { return Costs.timed('campaign', () => this.loaded(...a)); }
   static loaded(path: string, seed: string, source: BundleSource, party?: CreatureGenerationContext[] | Assembly) {
     const at: Assembly = Array.isArray(party) ? { party } : party ?? {};
-    return this.loads.take(source, JSON.stringify([path, seed, at.party ?? null]),
-      () => this.assemble(path, seed, source, { ...at, party: at.party && structuredClone(at.party) }), l => l.fork());
+    return this.loads.take(source, JSON.stringify([path, seed, at.party ?? null, Installed.current().id]),
+      () => CampaignAssembly.assemble(path, seed, source, { ...at, party: at.party && structuredClone(at.party) }),
+      l => l.fork());
   }
   private static arrays<T extends object>(o: T): T {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
@@ -105,55 +110,37 @@ export class Campaign implements WatchHost {
     const creatures = new CreatureStore(this.creatures.snapshot), committed = new CommittedWorld();
     Object.assign(copy, { compiled, definition: this.definition && arrays(this.definition), current, creatures,
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
-      executing: false, committed, grounding: new CampaignGrounding(), projection: this.projection
+      executing: false, installation: Installed.current(), committed, grounding: new CampaignGrounding(),
+      projection: this.projection
         .forked(world, this.creatures, { world: committed.share(current, compiled, world), store: creatures }) });
     return copy;
   }
-  private static async assemble(path: string, seed: string, source: BundleSource, at: Assembly): Promise<Campaign> {
-    LocalKinds.reset(); const manifest = await ModuleBundle.campaign(path, source, seed);
-    const party = at.party ?? manifest.party, step = at.step;
-    // The canon first, so that what it names is there before any module names it (see CanonInstall).
-    const canon = await CanonInstall.first(seed, source, manifest); let campaign: Campaign | undefined;
-    // Each module is checked as it is compiled; the joined whole, once, when the last is in.
-    for (const [i, request] of manifest.modules.entries()) {
-      await step?.(i, manifest.modules.length);
-      if (campaign) { await campaign.install(request, source, false, i === manifest.modules.length - 1); continue; }
-      const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
-        party: party?.length, canonless: manifest.canon === false }, source);
-      if (party) { CompanyChoices.apply(draft, party, manifest.canon === false); }
-      EngineDeclarations.declare(draft);
-      const first = ModuleInstallations.prepare(canon, draft, 0, false);
-      campaign = new Campaign(seed, first, undefined, CanonInstall.dated(manifest));
-    }
-    // Settled when the last is in: everyone's facts projected (each install projected only its newcomers'), and the
-    // joined whole checked.
-    campaign!.refresh(); ModuleInstallations.check(campaign!.module, campaign!.world);
-    CanonInstall.named(campaign!, manifest); return campaign!;
-  }
+
   // checked: the joined whole checked now; everyone: every actor's creature facts projected again, not only the
   // newcomers' (by default, when the whole is checked).
-  async install(request: BundleRequest, source: BundleSource, checked = true, everyone = checked): Promise<void> {
-    this.installBoundary();
-    if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
-    await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
-    const { seed, elapsed, canonless } = this.current, draft = await ModuleBundle.load(request, { seed, elapsed,
-      installed: this.definition.installations, people: this.compiled.entities, canonless }, source);
-    // The catalogs are the process's, and whatever ran while the module was read (another game saving, or reading a
-    // country ahead) may have put its own kinds in them: this campaign's go back, and the module's own with them,
-    // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).
-    this.installBoundary(); LocalKinds.reclaim(this, this.module.catalog, draft.instance.module.catalog);
-    if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
-    EngineDeclarations.declare(draft);
-    const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
-      budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
-    const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, everyone);
-    this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
-    this.commit(world); this.current.deadline = next.budget;
-    for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
-    // Settled unless joined unchecked and for its newcomers only, as a game assembled joins all but its last (a start
-    // had asked its country's every rule once for each of its 37 installs: 0.6 s; see assemble).
-    if (checked || everyone) { CampaignTick.settle(this); } this.updateOutcome();
-  }
+  install(request: BundleRequest, source: BundleSource, checked = true, everyone = checked): Promise<void> {
+    return Installed.during(this.installation, async () => {
+      this.installBoundary();
+      if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
+      await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
+      const { seed, elapsed, canonless } = this.current, draft = await ModuleBundle.load(request, { seed, elapsed,
+        installed: this.definition.installations, people: this.compiled.entities, canonless }, source);
+      // The catalogs are the process's, and whatever ran while the module was read (another game saving, or reading a
+      // country ahead) may have put its own kinds in them: this campaign's go back, and the module's own with them,
+      // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).
+      this.installBoundary(); LocalKinds.reclaim(this, this.module.catalog, draft.instance.module.catalog);
+      if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
+      EngineDeclarations.declare(draft);
+      const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
+        budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
+      const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, everyone);
+      this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
+      this.commit(world); this.current.deadline = next.budget;
+      for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
+      // Settled unless joined unchecked and for its newcomers only, as a game assembled joins all but its last (a start
+      // had asked its country's every rule once for each of its 37 installs: 0.6 s; see assemble).
+      if (checked || everyone) { CampaignTick.settle(this); } this.updateOutcome();
+  }); }
   private installBoundary() {
     if (this.executing || this.creatures.hasActiveLeases) { throw new Error('Install only between commands'); }
   }
@@ -222,7 +209,8 @@ export class Campaign implements WatchHost {
   // The actions open to the player now, worked out once for this world: to read without copying. Never change them.
   offered(): readonly Operator[] {
     if (!this.running || this.executing) { return []; }
-    return this.grounding.offered(this.world, this.definition?.actors.find(a => a.player), this.operators);
+    return Installed.within(this.installation,
+      () => this.grounding.offered(this.world, this.definition?.actors.find(a => a.player), this.operators));
   }
   plan(moduleId?: string) { return CampaignPlan.plan(this, moduleId); }
   encounterBattle(actionId: string, assault = false): Battle {
@@ -245,31 +233,33 @@ export class Campaign implements WatchHost {
     return action;
   }
   execute(id: string, play: (battle: Battle) => void = Campaign.autofight, via: ExecutionContext = {}): CampaignEvent {
-    const action = this.action(id, via), checkpoint = this.begun = this.checkpoint();
-    this.executing = true; let battle: Battle | undefined;
-    try {
-      battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
-      if (battle) { play(battle); }
-      const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
-      if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
-      battle = this.encounterBattle(assault.id, true); play(battle);
-      const fight = this.complete(assault, this.checkpoint(), battle);
-      return Engagement.after(this, event, fight, assault.bindings!.opponent!);
-    } catch (error) { this.rollback(battle, checkpoint); throw error; } finally { this.executing = false; }
-  }
-  async executeAsync(id: string, play: (battle: Battle) => Promise<void>, via: ExecutionContext = {}) {
-    const action = this.action(id, via), checkpoint = this.begun = this.checkpoint();
-    this.executing = true; let battle: Battle | undefined;
-    try {
-      battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
-      if (battle) { await play(battle); }
-      const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
-      if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
-      battle = this.encounterBattle(assault.id, true); await play(battle);
-      const fight = this.complete(assault, this.checkpoint(), battle);
-      return Engagement.after(this, event, fight, assault.bindings!.opponent!);
-    } catch (error) { this.rollback(battle, checkpoint); throw error; } finally { this.executing = false; }
-  }
+    return Installed.within(this.installation, () => {
+      const action = this.action(id, via), checkpoint = this.begun = this.checkpoint();
+      this.executing = true; let battle: Battle | undefined;
+      try {
+        battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
+        if (battle) { play(battle); }
+        const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
+        if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
+        battle = this.encounterBattle(assault.id, true); play(battle);
+        const fight = this.complete(assault, this.checkpoint(), battle);
+        return Engagement.after(this, event, fight, assault.bindings!.opponent!);
+      } catch (error) { this.rollback(battle, checkpoint); throw error; } finally { this.executing = false; }
+  }); }
+  executeAsync(id: string, play: (battle: Battle) => Promise<void>, via: ExecutionContext = {}) {
+    return Installed.during(this.installation, async () => {
+      const action = this.action(id, via), checkpoint = this.begun = this.checkpoint();
+      this.executing = true; let battle: Battle | undefined;
+      try {
+        battle = action.resolve?.name === 'combat' ? this.encounterBattle(id) : undefined;
+        if (battle) { await play(battle); }
+        const event = this.complete(action, checkpoint, battle), assault = Engagement.assault(this);
+        if (!assault) { return structuredClone(this.log.at(-1) ?? event); }
+        battle = this.encounterBattle(assault.id, true); await play(battle);
+        const fight = this.complete(assault, this.checkpoint(), battle);
+        return Engagement.after(this, event, fight, assault.bindings!.opponent!);
+      } catch (error) { this.rollback(battle, checkpoint); throw error; } finally { this.executing = false; }
+  }); }
   // Made when first asked for: a campaign forked or restored is made without its fields (see fork).
   private crossed?: Crossing;
   get crossing(): Crossing { return this.crossed ??= new Crossing(); }
@@ -400,22 +390,21 @@ export class Campaign implements WatchHost {
   get tickState() { return { definition: { ...this.definition!, actors: this.live }, creatures: this.creatures,
     current: this.current }; }
   applyAction(action: Operator, success = true) { this.apply(action, success); }
-  refreshProjection() { this.refresh(); }
-  recordObservations() { this.observe(); }
+  refreshProjection() { this.refresh(); } recordObservations() { this.observe(); }
   commitWorld(world: World) { this.commit(world); }
   amend(event: CampaignEvent) { this.log[this.log.length - 1] = structuredClone(event); }
-  advanceWatch(combat: CombatEvent[], asleep = false) {
-    const elapsed = ++this.current.elapsed;
-    const scene = { world: this.world, actors: this.live, player: this.playerActor, asleep, seed: this.current.seed };
-    const lawful = !!this.definition && PlaneLaws.watch(this.creatures, combat, { ...scene, elapsed });
-    if (FieldUse.advance(this.creatures, elapsed, combat, scene) || lawful) { this.refresh(); }
-    if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current))); }
-  }
-  settleWatch(combat: CombatEvent[]) {
-    this.commit(Progression.check(this.world, this.definition!, this.current.elapsed));
-    this.resolutions(combat, false);
-    this.observe();
-  }
+  advanceWatch(combat: CombatEvent[], asleep = false) { return Installed.within(this.installation, () => {
+      const elapsed = ++this.current.elapsed;
+      const scene = { world: this.world, actors: this.live, player: this.playerActor, asleep, seed: this.current.seed };
+      const lawful = !!this.definition && PlaneLaws.watch(this.creatures, combat, { ...scene, elapsed });
+      if (FieldUse.advance(this.creatures, elapsed, combat, scene) || lawful) { this.refresh(); }
+      if (this.definition) { this.commit(this.world.apply(CampaignTick.clock(this.world, this.current))); }
+  }); }
+  settleWatch(combat: CombatEvent[]) { return Installed.within(this.installation, () => {
+      this.commit(Progression.check(this.world, this.definition!, this.current.elapsed));
+      this.resolutions(combat, false);
+      this.observe();
+  }); }
   private apply(action: Operator, success: boolean) {
     const before = this.world, after = Crossing.kept(this, action, before,
       Journey.along(before, before.apply(success ? action.success : action.failure), this.playerActor));

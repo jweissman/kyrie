@@ -78,7 +78,7 @@ export class Narrator {
   static readonly naming = /Name__named(@|$)/;
   // opening: what an opening told before the first place (see Prologue), which the place leaves out.
   static leaf(...a: Parameters<typeof Narrator.leafed>): Leaf {
-    return Costs.time('leaf', () => TravelQuestion.on(Narrator.leafed(...a), a[1]));
+    return Costs.time('leaf', () => a[0].within(() => TravelQuestion.on(Narrator.leafed(...a), a[1])));
   }
   private static leafed(campaign: Campaign, screen: Screen, told?: Told, opening?: Opening): Leaf {
     const defs = this.defs(campaign), shelter = this.shelter(campaign, screen.place.id);
