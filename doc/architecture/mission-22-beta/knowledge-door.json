@@ -5,7 +5,7 @@
   "src/presentation/player-view.ts": "the projector's perception: what is perceived now (PlayerView.observe, present, the rows' warrant)",
   "src/presentation/company-knowledge.ts": "the projector's record of what was learnt, and how (CompanyKnowledge.of)",
   "src/presentation/company-map.ts": "the projector's memory of places: perceived before and remembered (CompanyMap.of)",
-  "src/ui/outcome.ts": "the projector's prospective reading: what an offered act would teach (Outcome.foreseen, asked through Knowing; Outcome.taught, the whole world's, for the diagnostic tools)",
+  "src/presentation/outcome.ts": "the projector's prospective reading: what an offered act would teach (Outcome.foreseen, asked through Knowing; Outcome.taught, the whole world's, for the diagnostic tools)",
   "src/presentation/player-frame.ts": "the player revision's key: the world compared by identity, never read",
   "src/cli/runner-fidelity.ts": "diagnostic: promise fidelity, an act tried in a copy of the world; nothing of it is shown",
   "web/engine/kept-game.ts": "persistence: the save writes the whole world, which is never shown"
@@ -16,7 +16,8 @@
   "PlayerView.chronicle(campaign): what has happened, as the company has it",
   "PlayerFrame.of(campaign): the rows, legal by the runtime and worded and warranted by the projection",
   "CompanyKnowledge.of(campaign, actor, labels): what was learnt",
-  "CompanyMap.of(campaign, actor, travel): the places remembered and the ways known"
+  "CompanyMap.of(campaign, actor, travel): the places remembered and the ways known",
+  "PlayerFrame.knowing: the revision's projection, as the frame's consumers read it"
  ],
  "counts": {
   "src/cli/play-tool.ts": {

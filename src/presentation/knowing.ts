@@ -1,7 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
-import type { Call, Operator } from '../lang/module';
-import { ModuleWriter } from '../lang/module-writer';
-import { Outcome } from '../ui/outcome';
+import { ModuleWriter, type Call, type Operator } from '../lang/index';
+import { Outcome } from './outcome';
 import { PlayerView, type PlayerSnapshot } from './player-view';
 
 // The knowledge boundary's one door (OR-527; platform-separation.md, the trust thread, point 3, adopted by the owner on
@@ -19,8 +18,8 @@ import { PlayerView, type PlayerSnapshot } from './player-view';
 // wording and facets. A second projection for a revision is the one kept.
 export class Knowing {
   private static readonly kept = new WeakMap<Campaign, Knowing>();
-  private readonly sights: { inView?: ReadonlySet<string>; present?: ReadonlySet<string>; visited?: ReadonlySet<string>;
-    marvels?: ReadonlySet<string> } = {};
+  private readonly sights: { inView?: ReadonlySet<string>; present?: ReadonlySet<string>;
+    visited?: ReadonlySet<string> } = {};
   private constructor(readonly campaign: Campaign, readonly world: Campaign['world'],
     readonly perceived: PlayerSnapshot) {}
   static of(campaign: Campaign): Knowing {
@@ -39,10 +38,11 @@ export class Knowing {
   }
   // Whoever and whatever is in view where the company stands (PlayerView.present), by id: someone there unseen is not.
   get present(): ReadonlySet<string> { return this.sights.present ??= new Set(this.perceived.present.map(e => e.id)); }
-  // The marvels in view (`Marvel.`: marvel(thing)), by id: the Atlas's uncanny, of what the company sees.
-  get marvels(): ReadonlySet<string> {
-    return this.sights.marvels ??= new Set(this.world.relates('marvel') ? this.world.related('marvel')
-      .map(m => m.args[0]!).filter(id => this.inView.has(id)) : []);
+  // The marvels among what is in view (`Marvel.`: marvel(thing)), by id: the Atlas's uncanny, of what the company sees
+  // (the screen's people and things, for the glance, which has them without asking the perception again).
+  static marvels(campaign: Campaign, inView: Iterable<string>): ReadonlySet<string> {
+    const w = campaign.world;
+    return new Set(w.relates('marvel') ? [...inView].filter(id => w.test(ModuleWriter.call('marvel', id))) : []);
   }
   // Perceived now, by id: the place and the places it is within, those in view there, the company, its members and
   // what they carry.

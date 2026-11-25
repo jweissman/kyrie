@@ -206,7 +206,7 @@ export class Glance {
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
-    const alternatives = Alternatives.of(rows);
+    const alternatives = Alternatives.of(rows), seen = [...screen.people, ...screen.things].map(t => t.id);
     const coin = AimAdvances.wants(campaign), holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,
       ...alternatives.size ? { alternatives } : {},
@@ -218,7 +218,7 @@ export class Glance {
       sensed: Perception.notes(campaign, at.sensed), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
-      pointed: at.pointed, marvels: Knowing.of(campaign).marvels, ...AimAside.reading(campaign, screen),
+      pointed: at.pointed, marvels: Knowing.marvels(campaign, seen), ...AimAside.reading(campaign, screen),
       done: this.done(commands, { recall, here, advances }), ...TalkingWith.of(campaign, at.told),
       ...Acquainted.of(campaign, screen, recall), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,

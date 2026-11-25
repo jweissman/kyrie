@@ -13,7 +13,7 @@ import { HonestPlayer } from '../test/support/honest-player';
 import { GoldenWalk } from '../test/support/golden-walk';
 import { DrawerTruth } from '../test/support/drawer-truth';
 import { TalkTruth } from '../test/support/talk-truth';
-import { Outcome } from '../src/ui/outcome';
+import { Outcome } from '../src/presentation/outcome';
 import { EntityIndex } from '../src/lang/entity-index';
 import { PlayerView } from '../src/presentation/player-view';
 import { RunnerOffer } from '../src/cli/runner-offer';

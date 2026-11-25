@@ -3,7 +3,7 @@ import type { Change, Objective } from '../lang/module';
 import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
-import { Outcome } from '../ui/outcome';
+import { Outcome } from './outcome';
 import type { World } from '../lang/world';
 import { AimAdvances } from './aim-advances';
 import { PlayerFrame, type FrameRows } from './player-frame';

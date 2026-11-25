@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Operator } from '../campaign/planner';
 import { PlayerView } from './player-view';
+import { Knowing } from './knowing';
 
 // A row as the frame holds it, and the frame's rows: read by every consumer, changed by none (each is frozen).
 export type FrameRow = ReturnType<typeof PlayerView.choices>[number];
@@ -33,6 +34,9 @@ export class PlayerFrame {
     this.kept.set(campaign, frame);
     return frame;
   }
+  // What the company knows and perceives in this revision (the projection the rows are worded and marked by: the
+  // knowledge boundary's door, OR-527), for the consumers that read the frame.
+  get knowing(): Knowing { return Knowing.of(this.campaign); }
   // The rows of someone to be spoken to (a talk's).
   get spoken(): FrameRows { return this.reading('spoken', () => this.rows.filter(r => r.action.speaker)); }
   // The row a command names, if offered (the first, as a search of the rows finds it).

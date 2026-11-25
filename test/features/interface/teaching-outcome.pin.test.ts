@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
-import { Outcome } from '../../../src/ui/outcome';
+import { Outcome } from '../../../src/presentation/outcome';
 import { SceneModel } from '../../../src/ui/scene';
 import { Attending } from '../../../src/ui/attention';
 

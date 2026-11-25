@@ -5,7 +5,7 @@ import type { World } from '../lang/world';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { PlayerSnapshot } from './player-view';
 import { VisitedPlaces } from './visited-places';
-import { Outcome } from '../ui/outcome';
+import { Outcome } from './outcome';
 import { QueryIndex } from '../lang/query-index';
 
 // What the company knows, and how: seen with its own eyes, found in a source, read, or heard from someone; and when

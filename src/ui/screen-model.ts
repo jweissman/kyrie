@@ -20,7 +20,7 @@ import { Calendar } from '../campaign/calendar';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view'; import { PlayerFrame } from '../presentation/player-frame';
 import type { Campaign } from '../campaign/campaign';
 import type { Entity } from '../lang/module';
-import { Withheld } from './withheld'; import { LightLeft } from './light-left'; import { Knowing } from '../presentation/knowing';
+import { Withheld } from './withheld'; import { LightLeft } from './light-left';
 import { CompanyRecall } from '../presentation/company-recall';
 import { DangerSense } from '../presentation/danger-sense';
 import { FightHelp } from '../presentation/fight-help';
@@ -53,7 +53,7 @@ export class ScreenModel {
   private static refused(c: Campaign): never { throw new Error(`Frame only between commands (${c.command} is under way)`); }
   private static built(campaign: Campaign, frame = PlayerFrame.of(campaign)): Screen {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
-    const names = new KnownNames(campaign), prices = this.prices(world), knowing = Knowing.of(campaign);
+    const names = new KnownNames(campaign), prices = this.prices(world), knowing = frame.knowing;
     const present = new Set(view.present.map(p => p.id)), teaches = knowing.teaches.bind(knowing);
     const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign);
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign, frame.rows), { present, names, prices, passageOf, fees,
