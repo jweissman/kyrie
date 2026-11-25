@@ -24,17 +24,33 @@ export class AimAside {
     // The site the aim goes into, or whose outside it goes to (Windtower's door, the way into its guard-floor); or
     // that it names, from further off (OR-417: from Brockminster the son had been led out toward Windtower again, its
     // lookouts beyond him, and back, round and round).
-    const sites = new Set([next, ...Undertakings.names(campaign, o)].flatMap(id => {
+    const names = Undertakings.names(campaign, o), sites = new Set<string>(), rooms = new Set<string>();
+    for (const id of [next, ...names]) {
       const to = byId.get(id)?.space ? id : w.one('at', id);
       const site = to && (SiteOutsides.siteOf(byId, to) ?? outsides.get(to));
-      return site ? [site] : [];
-    }));
-    if (!sites.size) { return undefined; }
+      if (site) { sites.add(site); } else if (to && byId.get(to)?.space?.kind === 'room') { rooms.add(to); }
+    }
     for (const e of campaign.module.entities) {
       const site = e.space && SiteOutsides.siteOf(byId, e.id);
       if (!site || !sites.has(site) || !w.test(ModuleWriter.call('been', party, e.id))) { continue; }
       const keeper = Guarded.beyond(campaign, e.id);
       if (keeper) { return { said: `Your aim waits: ${Guarded.said(e.name, keeper)}`, room: e.id }; }
+    }
+    return this.room(campaign, rooms, names);
+  }
+  // Or a room in no site that the aim goes to, where a keeper met bars it (OR-481: the weir route, the conger in the
+  // gate-well under Gatesend's gatehouse beyond Ilse at 4 hp, and the sea-gate's aim had led back to the gatehouse from
+  // the weir, the gate-yard and the sea-bank, round four times). Never a keeper the aim is itself about, whose fight is
+  // the aim's own (the old buck rat of the nest the rats' job sends the company to clear: Outmatched, Threshold).
+  private static room(campaign: Campaign, rooms: Set<string>, names: Set<string>):
+    { said: string; room: string } | undefined {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    for (const room of rooms) {
+      const keeper = Guarded.keeper(campaign, room);
+      if (keeper && !names.has(keeper)) {
+        return { said: `Your aim waits: ${Guarded.said(byId.get(room)?.name ?? room, Guarded.named(campaign, keeper))}`,
+          room };
+      }
     }
     return undefined;
   }

@@ -11,16 +11,23 @@ import { DangerSense } from './danger-sense';
 export class Guarded {
   // The keeper beyond a way, by name, where the company has been there, it warns, and it is beyond the company.
   static beyond(campaign: Campaign, place: string): string | undefined {
+    const keeper = Guarded.keeper(campaign, place);
+    return keeper && Guarded.named(campaign, keeper);
+  }
+  // The keeper itself, by id (see beyond).
+  static keeper(campaign: Campaign, place: string): string | undefined {
     const w = campaign.world, party = campaign.playerActor;
     if (!party || !w.test(ModuleWriter.call('been', party, place))) { return undefined; }
     const keepers = [...new Set(w.related('warning').map(r => r.args[0]!))]
       .filter(g => w.one('at', g) === place && w.test(ModuleWriter.call('able', g)));
     // Only where nothing but a fight answers it: one the author gave another answer (the man with the black candle,
     // talked round or his candle put out by the rite) is still the aim's way in, to be answered there (OR-163).
-    const keeper = keepers.find(g => !Guarded.answered(campaign, g) && DangerSense.beyond(campaign, g))
+    return keepers.find(g => !Guarded.answered(campaign, g) && DangerSense.beyond(campaign, g))
       ?? Guarded.felling(campaign, place);
-    // By its name alone ("the keeper of the vault"), not the role said after it.
-    return keeper && (campaign.module.entities.find(e => e.id === keeper)?.name ?? keeper).split(', ')[0];
+  }
+  // By its name alone ("the keeper of the vault"), not the role said after it.
+  static named(campaign: Campaign, keeper: string): string {
+    return (campaign.module.entities.find(e => e.id === keeper)?.name ?? keeper).split(', ')[0]!;
   }
   // Or any band met there whose fights would fell the one who plays as the company stands (OR-412): the page leads
   // into none, and the aim's way back in to it had been led again at once, the weir route's buck rat to and fro.
