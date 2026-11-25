@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 580 live rows, 423 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 419 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -78,7 +78,7 @@ page's colours and opportunities.)
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 27 defects · 2 asks
+- **Fights that cost** · 5 pins · 26 defects · 2 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -167,7 +167,7 @@ page's colours and opportunities.)
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
-- **Lodging and rest** · 4 pins · 3 defects · 0 asks
+- **Lodging and rest** · 4 pins · 2 defects · 0 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
@@ -175,7 +175,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 7 defects · 2 asks
+- **Markets and prices** · 0 pins · 6 defects · 2 asks
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
 
@@ -203,7 +203,7 @@ page's colours and opportunities.)
 
 ### Settlements
 
-- **Towns and their frames** · 7 pins · 0 defects · 1 asks
+- **Towns and their frames** · 7 pins · 1 defects · 1 asks
   - ✓ under the churchyard, the sexton's selling and the bone-pickers, laid by putting back what was taken
   - ✓ talks at the inn of the sexton found out, once the bone-pickers are laid by what he gave back
   - ✓ in the quarry, the she-bear's den and her wolves, a real fight, and the house pays
@@ -241,8 +241,9 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 5 pins · 21 defects · 7 asks
+- **Dungeons and sites** · 6 pins · 19 defects · 7 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
+  - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
@@ -412,7 +413,7 @@ page's colours and opportunities.)
   - requirement DN-08 P1: A fight's resolution in three beats (the decisive turn, the cost, the consequential discovery),…
   - requirement DN-03 P1: The first hour's prose made lighter, starting with the laboratory's undertown (62 of 263 heavy),…
   - requirement OR-293 P2: OR-301's remainder: 57 engine-offered labels over forty characters on the warrior's walk…
-  - requirement OR-75 P1: The wagoner's prose to be redone (the owner, 18 November)
+  - requirement OR-75 P1 · **25 Nov, the owner's reading: not yet** ("I'm still being bounced off the ui/experience/content with multiple issues every time I play"); held open, read again when play stops bouncing: The wagoner's prose to be redone (the owner, 18 November)
 - **Voices and dialogue** · 1 pins · 0 defects · 1 asks
   - ○ two people of different callings and peoples answer the same question in distinct registers
   - requirement OR-362 P2: Voices and dialogue: the capability as its pins hold it (two people of different callings and…
