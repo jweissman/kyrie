@@ -1,6 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
-import { EntityIndex } from '../lang/entity-index';
-import { ModuleWriter } from '../lang/module-writer';
+import { EntityIndex } from '../lang/index';
+import { ModuleWriter } from '../lang/index';
 import type { Screen } from '../ui/screen-types';
 import type { Candidate } from '../ui/promotion';
 import { AimLeading } from './aim-lead';

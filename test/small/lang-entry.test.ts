@@ -6,7 +6,7 @@ import { Glob } from 'bun';
 // there, so that the language's own files can move behind it into a package of their own. The deep imports into
 // src/lang/ that stood on 24 November are counted here and only fall; each moved to the entry lowers the count, written
 // back here. The parse store, node's file system, is the runtime's adapter, not the language's surface.
-const kept = 1255;
+const kept = 1253;
 class Deep {
   static count(): number {
     const roots = ['src/**/*.ts', 'web/**/*.{ts,tsx}', 'scripts/**/*.ts', 'test/**/*.ts', 'bin/**/*.ts'];

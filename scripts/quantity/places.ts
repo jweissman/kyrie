@@ -1,8 +1,8 @@
 import type { Campaign } from '../../src/campaign/campaign';
 import type { CampaignEvent } from '../../src/campaign/campaign';
-import { EntityIndex } from '../../src/lang/entity-index';
-import { ModuleWriter } from '../../src/lang/module-writer';
-import { Spatial } from '../../src/lang/spatial';
+import { EntityIndex } from '../../src/lang/index';
+import { ModuleWriter } from '../../src/lang/index';
+import { Spatial } from '../../src/lang/index';
 import { NoviceCountry, type Country } from '../novice-country';
 
 // Measure 1 as the owner rules it (24 November, OR-321): "more dense combat in specific, easy-to-find locations which

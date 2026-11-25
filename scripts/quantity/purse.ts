@@ -1,8 +1,8 @@
 import type { Campaign } from '../../src/campaign/campaign';
-import type { Change } from '../../src/lang/module';
-import { EntityIndex } from '../../src/lang/entity-index';
-import { ModuleWriter } from '../../src/lang/module-writer';
-import { Spatial } from '../../src/lang/spatial';
+import type { Change } from '../../src/lang/index';
+import { EntityIndex } from '../../src/lang/index';
+import { ModuleWriter } from '../../src/lang/index';
+import { Spatial } from '../../src/lang/index';
 import { EconomyMeasure } from '../economy-measure';
 import type { Country } from '../novice-country';
 

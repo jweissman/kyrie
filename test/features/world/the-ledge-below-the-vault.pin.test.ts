@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../../../src/cli/play-tool';
 import { Runner, type Said } from '../../../src/cli/runner';
-import { ModuleWriter } from '../../../src/lang/module-writer';
+import { ModuleWriter } from '../../../src/lang/index';
 import { StockOpenings } from '../../../src/world/stock-openings';
 import { AsMeant } from '../../support/as-meant';
 import { GeneratedWorld } from '../../support/generated';

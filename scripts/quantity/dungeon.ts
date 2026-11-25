@@ -1,8 +1,8 @@
 import type { Campaign } from '../../src/campaign/campaign';
 import { Canon } from '../../src/canon/canon';
-import { EntityIndex } from '../../src/lang/entity-index';
-import { ModuleWriter } from '../../src/lang/module-writer';
-import { Spatial } from '../../src/lang/spatial';
+import { EntityIndex } from '../../src/lang/index';
+import { ModuleWriter } from '../../src/lang/index';
+import { Spatial } from '../../src/lang/index';
 import { EconomyMeasure } from '../economy-measure';
 import { NoviceCountry, type Country } from '../novice-country';
 

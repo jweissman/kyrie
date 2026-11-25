@@ -16,7 +16,7 @@ import { BoredomCensus } from '../boredom-census';
 import { DifferenceCensus } from '../difference-census';
 import { NoviceCountry } from '../novice-country';
 import { QuantityPlaces, type Grounds } from './places';
-import { ModuleWriter } from '../../src/lang/module-writer';
+import { ModuleWriter } from '../../src/lang/index';
 import type { CampaignEvent } from '../../src/campaign/campaign';
 
 // A turn as the Atlas drew it: its rows' colours by tone (the runner's rows, each by the one indicator its aspects
