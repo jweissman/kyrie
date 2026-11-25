@@ -100,6 +100,12 @@ export class PlaySession {
   static fromSave(save: CampaignSave, scenario = 'imported'): PlaySession {
     return new PlaySession(Campaign.restore(save), { scenario, seed: save.state.seed, steps: [], complete: false });
   }
+  // A copy of the game to play on beside it (a what-if: the page's lens turned to someone, an act tried), its history
+  // its own; as a checkpoint resumed would be, without the round trip (see Campaign.copy).
+  copy(): PlaySession {
+    if (this.busy) { throw new Error('Copy only between campaign commands'); }
+    return new PlaySession(this.campaign.copy(), this.transcript);
+  }
   get transcript(): Transcript {
     return { version: 1, ...(this.party ? { party: structuredClone(this.party) } : {}), scenario: this.scenario,
       seed: this.seed, ...(this.drawn ? { drawn: structuredClone(this.drawn) } : {}),

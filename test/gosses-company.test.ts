@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { KyrLint } from '../src/cli/kyr-lint';
-import { Journey } from '../src/session/journey';
+import { Journey, type Taken } from '../src/session/journey';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { WorldAssembler } from '../src/world/world-assembler';
@@ -28,19 +28,47 @@ class Gosse {
   // The short wait, however it is worded: Stand your ground while someone warns the company off (OR-163: Engaged).
   static readonly stay = '^(Wait a while|Stand your ground)$';
   static async start(campaign = city, seed = 'g1') { return new Gosse(await Journey.start(campaign, seed)); }
+  // The steps of a walk played once in the file and kept every `every` steps (the game's checkpoint and what the page
+  // told on the way), each case going on from a copy of the longest kept prefix of its own steps, resumed as a kept
+  // game is opened (that a resumed game goes on to the same end as one never kept is a case below). The cases had each
+  // played the same week from the Westgate road again: the Book's walk four times, the Liberty's green and road five.
+  private static readonly every = 25;
+  private static readonly kept = new Map<string, { checkpoint: string; taken: Taken[] }>();
+  static async walk(all: string[], campaign = city, seed = 'g1'): Promise<Gosse> {
+    const key = (n: number) => `${campaign}|${seed}|${all.slice(0, n).join('\u0001')}`;
+    let at = this.kept.has(key(all.length)) ? all.length : all.length - all.length % this.every;
+    while (at > 0 && !this.kept.has(key(at))) { at -= this.every; }
+    const g = at ? this.copy(this.kept.get(key(at))!) : await this.start(campaign, seed);
+    g.walked = at;
+    while (at < all.length) {
+      at = Math.min(all.length, at - at % this.every + this.every);
+      await g.play(...all.slice(g.walked, at));
+      g.walked = at;
+      if ((at % this.every === 0 || at === all.length) && !this.kept.has(key(at))) {
+        this.kept.set(key(at), { checkpoint: JSON.stringify(g.j.session.checkpoint()), taken: [...g.j.taken] });
+      }
+    }
+    return g;
+  }
+  private static copy(kept: { checkpoint: string; taken: Taken[] }): Gosse {
+    const j = Journey.of(PlaySession.resume(JSON.parse(kept.checkpoint)));
+    j.taken.push(...kept.taken);
+    return new Gosse(j);
+  }
+  private walked = 0;
   constructor(readonly j: Journey) {}
   async play(...labels: string[]) { await this.j.play(...labels); return this; }
   // The fixtures end at the verdict; the Pentrice ending waits on the herald from Dun Rierdan
   // (test/kings-players.test.ts plays
   // that by label: the writ, or a refusal). Here the herald is sent away, as a company that has had enough of masters
   // would.
-  async fixture(name: string) {
-    await this.play(...steps(name));
-    if (this.holds('verdictRead', 'pentrice') && !this.holds('heraldGone', 'pentrice') && !this.holds('summoned', 'pentrice')) {
-      this.stage(['heraldGone', 'pentrice']);
-      await this.play('Wait an hour');
+  static async fixture(name: string, campaign = city, seed = 'g1') {
+    const g = await Gosse.walk(steps(name), campaign, seed);
+    if (g.holds('verdictRead', 'pentrice') && !g.holds('heraldGone', 'pentrice') && !g.holds('summoned', 'pentrice')) {
+      g.stage(['heraldGone', 'pentrice']);
+      await g.play('Wait an hour');
     }
-    return this;
+    return g;
   }
   holds(name: string, ...args: string[]) { return this.j.holds(p(name), ...args.map(a => a === 'party' ? a : p(a))); }
   state(thing: string, value: string) { return this.j.holds('state', p(thing), p(value)); }
@@ -75,8 +103,7 @@ describe("Gosse's Company", () => {
   }, 60000);
 
   it('left alone: Dorcas goes to the wardrobe, Swale plays a Ghost he does not understand, the play falls flat, and the company breaks', async () => {
-    const g = await Gosse.start();
-    await g.fixture('alone');
+    const g = await Gosse.fixture('alone');
     // Nobody told Swale what his lines mean, so he does not walk out; he plays them, and leaves after.
     expect(g.holds('swaleGone', 'swale')).toBe(false);
     expect(g.holds('dorcasGone', 'dorcas')).toBe(true);
@@ -91,8 +118,7 @@ describe("Gosse's Company", () => {
   }, 120000);
 
   it('the Book: a bard licenses the Ghost through the Office, and a licensed play wins Clay, Gammage and the Canon', async () => {
-    const g = await Gosse.start();
-    await g.fixture('book');
+    const g = await Gosse.fixture('book');
     expect(g.state('book', 'copy_licensed')).toBe(true);
     expect(g.holds('ghostRestored', 'pentrice')).toBe(true);
     expect(g.holds('reconciled', 'swale')).toBe(true);
@@ -107,8 +133,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it('the Liberty: a soldier who signed on at Wending Cross plays the Ghost whole in the Soke, and Carrow votes for it', async () => {
-    const g = await Gosse.start(build('warrior'), 'w1');
-    await g.fixture('liberty');
+    const g = await Gosse.fixture('liberty', build('warrior'), 'w1');
     expect(g.knows('players__joined') || g.j.holds('knows', 'party', 'players__joined')).toBe(true);
     expect(g.holds('libertyChosen', 'pentrice')).toBe(true);
     expect(g.state('book', 'copy_fair')).toBe(true);
@@ -122,8 +147,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it('the Liberty: the same soldier, who never gave Clay back his Dido, is famous, fined and two voices short', async () => {
-    const g = await Gosse.start(build('warrior'), 'w1');
-    await g.fixture('famous');
+    const g = await Gosse.fixture('famous', build('warrior'), 'w1');
     expect(g.state('book', 'copy_fair')).toBe(true);
     expect(g.voters()).toEqual(['gammage', 'callow']);
     expect(g.holds('patentWon', 'pentrice')).toBe(false);
@@ -132,8 +156,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it('the empty wing: nobody stands between Hepzibah and the Office, and Gosse turns to ask a wing with nobody in it', async () => {
-    const g = await Gosse.start(build('warrior'), 'w1');
-    await g.fixture('empty-wing');
+    const g = await Gosse.fixture('empty-wing', build('warrior'), 'w1');
     expect(g.holds('hepzibahTaken', 'pentrice')).toBe(true);
     expect(g.holds('emptyWing', 'gosse')).toBe(true);
     expect(g.holds('proposed', 'gosse')).toBe(false);
@@ -144,8 +167,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it("the Author's Bow: the Master of Plain Speech comes up on the stage, and the tallymen break their sticks", async () => {
-    const g = await Gosse.start();
-    await g.fixture('bow');
+    const g = await Gosse.fixture('bow');
     expect(g.holds('clemBowed', 'clemency')).toBe(true);
     expect(g.measure('fines', 'pentrice')).toBe(0);
     expect(g.measure('votes', 'pentrice')).toBe(4);
@@ -154,9 +176,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it("rewards: whoever stood on the boards as Tapwell is given Gosse's crown of paste, with their name in the band", async () => {
-    const g = await Gosse.start();
-    const all = steps('bow');
-    await g.play(...all.slice(0, -1));
+    const g = await Gosse.walk(steps('bow').slice(0, -1));
     expect(g.holds('verdictRead', 'pentrice')).toBe(true);
     await g.play('Ask Gosse what he means to do with his crown', "Take Gosse's crown of paste");
     expect(g.j.holds('carries', 'party', p('crown'))).toBe(true);
@@ -165,8 +185,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it('the Patent Refused: whoever knocked the wedge from under the Siege, Gosse gives the house back', async () => {
-    const g = await Gosse.start();
-    await g.fixture('refused');
+    const g = await Gosse.fixture('refused');
     expect(g.holds('siegeFell', 'fallow')).toBe(true);
     expect(g.holds('gosseAshamed', 'gosse')).toBe(true);
     expect(g.measure('votes', 'pentrice')).toBeGreaterThanOrEqual(3);
@@ -176,8 +195,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it('the Road Again: a licensed play, half rehearsed, is well liked and nothing more', async () => {
-    const g = await Gosse.start();
-    await g.fixture('road');
+    const g = await Gosse.fixture('road');
     expect(g.state('book', 'copy_licensed')).toBe(true);
     expect(g.measure('votes', 'pentrice')).toBeLessThan(3);
     expect(g.measure('temper', 'pentrice')).toBeGreaterThanOrEqual(7);
@@ -185,8 +203,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it('the Pension: told to take Fallow\'s offer, Gosse signs, and the Trial goes on without him', async () => {
-    const g = await Gosse.start();
-    await g.fixture('pension');
+    const g = await Gosse.fixture('pension');
     expect(g.holds('pensionTaken', 'gosse')).toBe(true);
     expect(g.j.offers('Rehearse the first act')).toBe(false);
     g.stage(['heraldGone', 'pentrice']); // the herald from Dun Rierdan is sent away (see the King's Players spec)
@@ -196,8 +213,7 @@ describe("Gosse's Company", () => {
   }, 240000);
 
   it('the Fair Copy Burned: the pirate quarto goes to Fallow, the Office seizes the book, and Galt is played instead', async () => {
-    const g = await Gosse.start();
-    await g.fixture('burned');
+    const g = await Gosse.fixture('burned');
     expect(g.holds('quartoPrinted', 'pentrice')).toBe(true);
     expect(g.state('book', 'copy_burned')).toBe(true);
     expect(g.holds('galtPlay', 'pentrice')).toBe(true);
@@ -208,8 +224,7 @@ describe("Gosse's Company", () => {
 
 describe("Gosse's Company: the stranger on the grey bench", () => {
   it('a stranger signs on as a tallyman, lets the angel off, and lays the stick down on the night', async () => {
-    const g = await Gosse.start();
-    await g.fixture('tallyman');
+    const g = await Gosse.fixture('tallyman');
     expect(g.holds('inCompany', 'party')).toBe(false);
     expect(g.holds('tallyLet', 'party')).toBe(true);
     expect(g.holds('stickStill', 'party')).toBe(true);
@@ -231,16 +246,15 @@ describe("Gosse's Company: the stranger on the grey bench", () => {
 
 describe("Gosse's Company: the small stories of the week", () => {
   it('Patience gets loose in the Gullet, is fetched home with honey, and Pudding is not the one who led her', async () => {
-    const g = await Gosse.start(build('warrior'), 'w1');
-    await g.play(...phase('liberty', 'green'), ...phase('liberty', 'road'), ...phase('liberty', 'bear').slice(0, 2));
+    const g = await Gosse.walk([...phase('liberty', 'green'), ...phase('liberty', 'road'), ...phase('liberty', 'bear').slice(0, 2)],
+      build('warrior'), 'w1');
     expect(g.holds('bearLoose', 'the_bear')).toBe(true);
     await g.play(...phase('liberty', 'bear').slice(2));
     expect(g.holds('bearHome', 'the_bear')).toBe(true);
   }, 240000);
 
   it("the siege-tower's wedge: mended, Fallow is in the company's debt and does not hire the heckler", async () => {
-    const g = await Gosse.start();
-    await g.fixture('book');
+    const g = await Gosse.fixture('book');
     expect(g.holds('siegeHeld', 'fallow')).toBe(true);
     expect(g.holds('fallowGrateful', 'fallow')).toBe(true);
     expect(g.holds('garlickHired', 'garlick')).toBe(false);
@@ -270,8 +284,7 @@ describe("Gosse's Company: who plays it", () => {
   }, 120000);
 
   it('a soldier with no charm is not offered the player\'s word, and has to do it with the old notice instead', async () => {
-    const g = await Gosse.start(build('warrior'), 'w1');
-    await g.play(...phase('liberty', 'green'), ...phase('liberty', 'road'));
+    const g = await Gosse.walk([...phase('liberty', 'green'), ...phase('liberty', 'road')], build('warrior'), 'w1');
     expect(g.j.offers('Tell Dorcas, as one player to another')).toBe(false);
     await g.play(...phase('liberty', 'bear'));
     expect(g.holds('plays', 'dorcas', 'part_widow')).toBe(true);
@@ -308,11 +321,11 @@ describe("Gosse's Company: who plays it", () => {
 
 describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
   it('kept mid-week and opened again, the world goes on to the same end as one never kept', async () => {
-    const whole = await Gosse.start(city, 'g1');
-    const all = steps('book');
+    // The whole played straight from the start, never kept (the other cases' walks go on from kept copies).
+    const all = steps('book'), whole = await Gosse.start(city, 'g1');
     await whole.play(...all);
-    const split = await Gosse.start(city, 'g1'), at = all.indexOf(phase('book', 'day3')[0]!, all.indexOf(phase('book', 'home2')[0]!));
-    await split.play(...all.slice(0, at));
+    const at = all.indexOf(phase('book', 'day3')[0]!, all.indexOf(phase('book', 'home2')[0]!));
+    const split = await Gosse.walk(all.slice(0, at));
     const back = PlaySession.resume(JSON.parse(JSON.stringify(split.j.session.checkpoint())));
     const resumed = new Gosse(Journey.of(back));
     await resumed.play(...all.slice(at));
@@ -357,9 +370,7 @@ describe("Gosse's Company: saving, replaying, and the world it lies in", () => {
 
 describe("Gosse's Company: what the page shows", () => {
   it('the night is offered as it happens, and what is said in a scene is shown only while the scene is on', async () => {
-    const g = await Gosse.start();
-    const all = steps('book');
-    await g.play(...all.slice(0, all.indexOf('Take your place in the right-hand wing') + 1));
+    const all = steps('book'), g = await Gosse.walk(all.slice(0, all.indexOf('Take your place in the right-hand wing') + 1));
     const scene = () => PlayerView.observe(g.j.campaign).observations.map(o => o.text).join(' ');
     expect(scene()).not.toMatch(/Bell Gudgeon/);
     expect(g.holds('stand', 'party', 'post_wing') || g.holds('inWing', 'party')).toBe(true);
@@ -368,8 +379,7 @@ describe("Gosse's Company: what the page shows", () => {
 
 describe("Gosse's Company: the Bench's supper", () => {
   it('asked by the Master, a company sits at Urania Orde\'s table, says its true things, keeps her secret, and brings Carrow round', async () => {
-    const g = await Gosse.start();
-    await g.fixture('supper');
+    const g = await Gosse.fixture('supper');
     expect(g.holds('guest', 'party')).toBe(true);
     expect(g.page).toMatch(/nobody votes until they have eaten/);
     expect(g.page).toMatch(/Aulus Fenne/);
@@ -389,8 +399,7 @@ describe("Gosse's Company: the Bench's supper", () => {
 describe("Gosse's Company: the dogs and the weir", () => {
   const penned = ['Into the bear-garden', 'Pick the padlock on Patience'];
   it('picked under Bowle\'s nose, the pen lets his mastiffs out; a company that runs with the bear gets away with her', async () => {
-    const g = await Gosse.start(build('thief'), 't1');
-    await g.play(...phase('book', 'arrive'));
+    const g = await Gosse.walk(phase('book', 'arrive'), build('thief'), 't1');
     g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
     await g.play(...penned);
     expect(g.page).toMatch(/draws the bolt/);
@@ -401,8 +410,7 @@ describe("Gosse's Company: the dogs and the weir", () => {
     expect(g.at('mastiffs')).toBe(p('kennels'));
   }, 240000);
   it('beaten by the mastiffs, a company comes round in Soke Lane, bitten, and Patience is in her pen again', async () => {
-    const g = await Gosse.start(build('thief'), 't1');
-    await g.play(...phase('book', 'arrive'));
+    const g = await Gosse.walk(phase('book', 'arrive'), build('thief'), 't1');
     g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
     // Staying while the mastiffs warn is standing one's ground (OR-163: Engaged), and then waiting, the fight over.
     await g.play(...penned, Gosse.stay, Gosse.stay, Gosse.stay);
@@ -412,8 +420,7 @@ describe("Gosse's Company: the dogs and the weir", () => {
     expect(g.state('bear_pen_gate', 'penned')).toBe(true);
   }, 240000);
   it('by night the dogs run the ring and warn before they come, and someone who knows dogs can hush them', async () => {
-    const g = await Gosse.start(build('thief'), 't1');
-    await g.play(...phase('book', 'arrive'));
+    const g = await Gosse.walk(phase('book', 'arrive'), build('thief'), 't1');
     g.stage(['at', 'party', 'soke_lane'], ['at', 'the_bear', 'bear_pen'], ['bearTaken', 'the_bear']);
     await g.play('=92', 'Into the bear-garden');
     expect(g.page).toMatch(/waits for the word/);
@@ -423,8 +430,7 @@ describe("Gosse's Company: the dogs and the weir", () => {
   }, 240000);
   it('on the weir stones at night Nan Scullard asks two crowns; the Gullet\'s name, the coin, or a beating in the Arle', async () => {
     const at = async () => {
-      const g = await Gosse.start();
-      await g.play(...phase('book', 'arrive'));
+      const g = await Gosse.walk(phase('book', 'arrive'));
       g.stage(['at', 'party', 'water_stairs'], ['knows', 'party', 'weir_known'], ['gulletSent', 'party']);
       await g.play('=78', 'To the weir stones');
       return g;

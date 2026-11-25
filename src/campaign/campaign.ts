@@ -164,6 +164,12 @@ export class Campaign implements WatchHost {
     return this.current.partyIds.some(id => this.creatures.peek(id).state.hp > 0) && (this.persistent
       || this.current.outcome === 'active') && !Endings.reached(this.world, this.installations);
   }
+  // A copy to play on beside this one, between commands: what a save restored would be, without writing the game out
+  // and reading it back (a fork: a kept game's round trip had taken a third of a second, its module checked again).
+  copy(): Campaign {
+    if (this.executing || this.command || this.creatures.hasActiveLeases) { throw new Error('Copy only between campaign commands'); }
+    return this.fork();
+  }
   // A save holds schemas (operators are grounded on demand); a copy, unless written out at once (live: not to be kept).
   save(_compact = false, live = false): CampaignSave {
     if (this.executing || this.command || this.creatures.hasActiveLeases) { throw new Error('Save only between campaign commands'); }

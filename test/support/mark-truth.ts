@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import type { Frame } from '../../src/creation/protocol';
 import { Indicator } from '../../src/presentation/indicator';
 import { SceneModel } from '../../src/ui/scene';
-import { PlaySession } from '../../src/session/play-session';
+import type { PlaySession } from '../../src/session/play-session';
 import { MenuModel } from '../../web/reader/menu-model';
 import { TalkStage } from '../../web/reader/stage/talk-stage';
 import { DrawerTruth } from './drawer-truth';
@@ -27,7 +27,9 @@ export class MarkTruth {
       if (!tone || !talk?.command) { continue; }
       const said = `${turn}: ${sub.name}, ${tone}`;
       out.push(...this.paged(frame, sub.id, tone).map(b => `${said}, ${b}`));
-      const turned = Glanced.of(PlaySession.fromSave(structuredClone(session.campaign.save())));
+      // A copy to turn on (PlaySession.copy): saved, copied twice more and read back, it had been 0.8 s a person a
+      // turn.
+      const turned = Glanced.of(session.copy());
       await turned.perform(talk.command);
       const after = this.pages(turned.frame(), sub.id);
       // Unless a danger here warned the company off in the moment it took to turn to them: the warning leads, and what
