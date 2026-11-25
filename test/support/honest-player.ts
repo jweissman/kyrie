@@ -5,6 +5,8 @@ import { Attending } from '../../src/ui/attention';
 import { TalkFocus } from '../../web/reader/talk-focus';
 import { Glanced } from './glanced';
 import { MenuModel } from '../../web/reader/menu-model';
+import { LedAgain } from '../../src/presentation/led-again';
+import { PlayerView } from '../../src/presentation/player-view';
 
 // A player who knows nothing but what the page shows (the reviews of 9 November: no teleport, no private ids, no
 // knowledge given): each step is what the page leads with; at someone, the reply it draws in the aim's gold, or else
@@ -22,9 +24,12 @@ export class HonestPlayer {
   async step(): Promise<boolean> {
     const g = this.g, lead = g.glance.acts[0], here = this.s.campaign.world.one('at', 'party') ?? '';
     const opened = lead && !lead.command ? this.opened(lead.choice) : undefined;
-    const key = `${here}|${lead?.command}|${lead?.for}|${opened ?? ''}`;
+    // The same lead at the same place a third time, nothing having happened between (LedAgain's mark): the page has
+    // led round, a softlock (OR-417), and a failure, never a quiet stop. Once round is allowed (see LedAgain).
+    const key = `${here}|${lead?.command}|${lead?.for}|${opened ?? ''}|${LedAgain.of(this.s.campaign).mark}`;
     this.log.push(`@${here} [${lead?.why}] ${lead?.label ?? '(nothing led)'}`);
-    if (!lead || (this.seen.get(key) ?? 0) > 1) { return false; }
+    if (!lead) { return false; }
+    if ((this.seen.get(key) ?? 0) >= 2) { throw new Error(`The page led round (OR-417): ${this.log.slice(-12).join(' / ')}`); }
     this.seen.set(key, (this.seen.get(key) ?? 0) + 1);
     const person = lead.subject && g.screen.people.find(p => p.id === lead.subject);
     if (person && !lead.command?.startsWith('travel:')) {
@@ -32,7 +37,11 @@ export class HonestPlayer {
       const replies = Attending.all(sub?.choices ?? []).filter(c => c.command && !/^(buy|sell)_/.test(c.command));
       // A sale led for the aim is in Trade, drawn in the aim's gold: opened, and the sale made (see TalkStage.ToTrade).
       if (lead.for && /^sell_/.test(lead.for)) { this.log.push(`  trades: ${lead.for}`); await g.perform(lead.for); return true; }
-      const gold = replies.filter(c => c.command === lead.for);
+      // An act on them led for itself (an ask past a danger, an arm-wrestle), as it is led; a talk, for what it is led
+      // for: never another of their rows in its place (the man with the black candle had been talked to, and left).
+      const want = lead.for ?? (lead.command && !/^talk_to\(/.test(lead.command) ? lead.command : undefined);
+      const gold = replies.filter(c => c.command === want);
+      if (want && !gold.length && want === lead.command) { this.log.push(`  does: ${lead.label}`); await g.perform(want); return true; }
       const shown = TalkFocus.of(replies, { ...lead.for ? { led: lead.for } : {}, asked: [],
         weighty: g.screen.weighty ?? [] }).salient;
       const pick = gold[0] ?? shown[0];
@@ -43,7 +52,8 @@ export class HonestPlayer {
       const done = await Travel.go({ campaign: this.s.campaign, perform: (c: string) => this.s.leg(c) },
         lead.command.slice('travel:'.length));
       this.log.push(`  journey: ${done.arrived ? 'arrived' : done.stopped}`);
-      await g.perform('wait');
+      // A moment's pause to be told of where it stopped; none where none is to be had (a fight met on the way).
+      if (PlayerView.choices(this.s.campaign).some(r => r.choice.id === 'wait')) { await g.perform('wait'); } else { g.look(); }
     } else if (opened) {
       // A look the page opens, led with (a riddle read, CL-34): the act within it in the aim's gold, else its rows as
       // the page shows them, the next not yet tried: a player who knows nothing guesses, in order.

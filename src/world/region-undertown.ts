@@ -102,7 +102,9 @@ export class RegionUndertown {
         // The notice is a thing on the green, found among what is there to look at, not a line of the green's own
         // description (the owner, 7 November: the place had read as a list of objects).
         `  Thing ${notice}_post "the notice on the well-post" at ${t}_green { }`,
-        `  Observe ${notice}_up near ${notice}_post of ${notice}_post when (${open}) and not knows(party, ${notice})`
+        // A sign while unread: the first dungeon's invitation, led as soon as no held aim leads (the coordinator's
+        // call, 24 November, on OR-370 and the owner's "unmistakable" first dungeon).
+        `  Observe ${notice}_up near ${notice}_post of ${notice}_post as sign when (${open}) and not knows(party, ${notice})`
           + ` and not stale(${notice})`
           + ` ${q('A notice is nailed to the post by the well, written over in several hands.')}.`,
         `  Action ${notice}_read(actor: group, site: place) "Read the notice on the well-post" {`,

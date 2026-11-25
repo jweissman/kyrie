@@ -419,7 +419,7 @@ export class Affordances {
       ...tried ? Leaves.tries(c, whys, r) : {},
       notes: { retreat: dest === r.back ? 'the way you came' : 'up, toward the light', named: 'your aim', toward: 'toward your aim', held: this.held(r),
         help: 'someone who would go with you', ...r.sensed?.has(dest) ? { companion: r.sensed.get(dest)! } : {},
-        deeper: 'further in', onward: r.inward.has(`^${exit.id}`) ? 'back out' : 'toward the rest of it',
+        deeper: 'further in', onward: 'toward the rest of it', out: 'back out',
         night: 'a bed for the night', unlooked: exit.blocked ?? '' }, visited: exit.visited,
       pointed: r.pointed.has(dest) })];
   }
@@ -448,7 +448,7 @@ export class Affordances {
   // end toward the rest of it, after what the room has to do (see Glance.inward).
   private static inward(c: Choice, exit: string, r: Reading): Why[] {
     if (c.id !== exit || c.risk) { return []; }
-    return r.inward.has(exit) ? ['deeper'] : r.inward.has(`~${exit}`) || r.inward.has(`^${exit}`) ? ['onward'] : [];
+    return r.inward.has(exit) ? ['deeper'] : r.inward.has(`~${exit}`) ? ['onward'] : r.inward.has(`^${exit}`) ? ['out'] : [];
   }
   // Where a light is to be had, with an aim followed, the dark ahead and nothing to see by (see CompanyLight).
   private static shop(r: Reading, place: string): boolean { return !!r.aim && !!r.needs.shops?.has(place); }
@@ -466,8 +466,9 @@ export class Affordances {
       minutes: d.minutes, visited: visited.has(d.id),
       pointed: r.pointed.has(d.id), whys: [...(r.named.has(d.id) && !r.idle?.has(d.id)) || this.shop(r, d.id)
         ? ['named' as const] : [], ...r.toward.has(`travel:${d.id}`) ? [r.toward.get(`travel:${d.id}`)!] : [],
-        ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const]],
-      notes: { named: 'your aim', held: this.held(r), toward: 'toward your aim' } }));
+        ...r.held.has(d.id) && !r.idle?.has(d.id) ? ['held' as const] : [], ...visited.has(d.id) ? [] : ['unvisited' as const],
+        // And to whoever would go along, across the town (OR-417).
+        ...r.help?.at === d.id ? ['help' as const] : []], notes: { named: 'your aim', held: this.held(r), toward: 'toward your aim', help: 'someone who would go with you' } }));
   }
   // A journey to where the aim shown is, further than the ways from here, by the way the company knows (as far as it
   // is known), unless it goes only as far as here: a far aim had been set out for from the map alone (the owner, 31

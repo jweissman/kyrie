@@ -77,6 +77,8 @@ export class Undertakings {
     const within = Spatial.ancestry(byId, destination).map(e => e.id);
     return def && this.places(campaign, def).some(p => within.includes(p)) ? followed.id : undefined;
   }
+  // What an aim names: its places, people and things (Stakes.named).
+  static names(campaign: Campaign, o: Objective): Set<string> { return Stakes.named(campaign, o); }
   // The aims as the page shows them: the one followed first, then as they bear on where the company stands (see
   // Stakes.here); in words, and by id.
 // The places of the aims held, and of the one followed: what a list of journeys leads with (TP-06: the a1 camp had

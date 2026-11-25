@@ -48,6 +48,12 @@ export class Glanced {
     this.leaf = Narrator.leaf(c, this.screen, this.told);
     return this.glance;
   }
+  // The page drawn again where the company now stands, with nothing done (a journey made leg by leg, outside it).
+  look(): View {
+    this.screen = ScreenModel.build(this.s.campaign); this.told = undefined;
+    this.leaf = Narrator.leaf(this.s.campaign, this.screen);
+    return this.glance;
+  }
   // The command whose id matches.
   async choose(pattern: RegExp): Promise<View> {
     const row = PlayerView.choices(this.s.campaign).find(r => pattern.test(r.choice.id));

@@ -29,6 +29,8 @@ export type Why =
   | 'help'
   // In a site, a way further into it not yet taken: whatever aim is followed, a site is gone into, not out of.
   | 'deeper' | 'onward'
+  // Out of a site gone through, toward the nearest place outside it: somewhere true to go, marked (OR-411).
+  | 'out'
   // What the company needs: food, mending, a bed for the night, a camp.
   | 'hungry' | 'hurt' | 'night' | 'exposed'
   // The place: whoever is the life of it, one of its own acts, a sign not seen before, someone with something to ask,

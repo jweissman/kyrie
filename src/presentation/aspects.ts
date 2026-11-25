@@ -22,6 +22,9 @@ export class Aspects {
     // followed. Not whoever is the life of the place: being someone here is no opportunity, and a person is drawn by
     // their likeness, neutral, unless there is something to be had of them (the owner, 14 November: CN-07).
     unvisited: 'exploration', deeper: 'exploration', onward: 'exploration', own: 'exploration', held: 'exploration',
+    // And the way out of a site gone through: no discovery, but somewhere true to go, said by its icon (OR-411: a site
+    // whose rooms were all seen had led back through them unmarked, seven turns of iscoed's walk at Redkeep).
+    out: 'exploration',
   };
   // whys: best first (see Promotion). A fight or a trap the company can see is a danger whatever it is led for, and so
   // is a way with something heard in there (Marks: a band that can be drawn out): the company has perceived it, so the

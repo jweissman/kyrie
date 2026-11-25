@@ -93,7 +93,7 @@ export class CompanyRecall {
     if (here && there && there !== here) { r.came = here; }
   }
   // Whom a command spoke with: talking to them, asking them something, or one of the things written to be asked them.
-  private static whom(campaign: Campaign, action: string): string | undefined {
+  static whom(campaign: Campaign, action: string): string | undefined {
     const op = campaign.operator(action), b = op?.bindings ?? {};
     if (op?.speaker) { return op.speaker; }
     return op?.schema === 'talk_to' ? b.person : op?.schema === 'ask' ? b.informant : undefined;

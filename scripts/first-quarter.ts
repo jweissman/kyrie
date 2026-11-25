@@ -53,6 +53,10 @@ export class FirstQuarter {
     console.log(this.table(rows));
     return 0;
   }
+  // A command led, as a move: a journey about the town by its place.
+  private static move(command: string): Move {
+    return command.startsWith('travel:') ? { kind: 'travel', to: command.slice('travel:'.length) } : { kind: 'command', id: command };
+  }
   static minutes(s: PlaySession): number {
     return s.campaign.readout.elapsed * 10 + (s.campaign.readout.minutes ?? 0);
   }
@@ -75,9 +79,12 @@ export class FirstQuarter {
       // the vault, reckoned deadly): a player reads that and follows another.
       const aims = Undertakings.held(c), was = out.slice(-4).map(x => x.place);
       const fro = was.length === 4 && was[0] === was[2] && was[1] === was[3] && was[0] !== was[1];
-      const stands = Narrator.leaf(c, ScreenModel.build(c)).glance?.continuance;
+      const glance = Narrator.leaf(c, ScreenModel.build(c)).glance, stands = glance?.continuance;
       const between = stands?.kind === 'frontier' && !!stands.need;
-      const next = fro || between ? aims.find(o => o.id !== Undertakings.followed(c, aims)?.id) : undefined;
+      // Unless the need names someone to take along, and the page leads to them: a player reads that, and goes to ask
+      // (OR-417: the Hall cellar's rats beyond a mage and the hand, Carlin in the taproom).
+      const help = between ? glance?.acts.find(a => a.why === 'help') : undefined;
+      const next = !help && (fro || between) ? aims.find(o => o.id !== Undertakings.followed(c, aims)?.id) : undefined;
       if (next) { Undertakings.follow(c, next.id); }
       else if (aims.length && !Undertakings.followed(c, aims)) { Undertakings.follow(c, this.nearest(s, aims).id); }
       // Nor, the need said, does a player take the way it says is beyond them while nothing else is led (its four still
@@ -85,7 +92,8 @@ export class FirstQuarter {
       // Nor, the aim's place shut to it (Shut: the press-door locked, nothing to open it), a way or a walk back to it.
       const led = AutoplayRun.situation(s, step, true, 'undertaking'), sit = between ? { ...led, led: (led.led ?? [])
         .filter(id => !this.beyond(s, id) && !(/^(go\(|travel:)/.test(id) && this.went(s, id))) } : led;
-      const move = this.rest(s, sit.offered) ?? player.next(sit);
+      const asked = help && (help.for ?? help.command);
+      const move = this.rest(s, sit.offered) ?? (asked ? this.move(asked) : player.next(sit));
       if (!move) { break; }
       const fights = metrics.fights;
       try { await AutoplayRun.apply(s, move, player, metrics); } catch { break; }

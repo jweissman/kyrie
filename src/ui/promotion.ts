@@ -25,6 +25,9 @@ export interface Candidate {
   // Where it is drawn among the rest (the authored order: people in the module's order, ways in the headings').
   order: number; marks: Mark[];
   minutes?: number; risk?: boolean; own?: boolean;
+  // Never led, not even bare: a way into a keeper beyond the company, met there, its aim set aside (AimAside); an act
+  // done here with nothing happened since (LedAgain, OR-417).
+  held?: true;
   // Doing it teaches the company something (Choice.teaches): the place's own such act (a notice read) is drawn blue.
   teaches?: boolean;
   // Done before, nothing new about it; a way to somewhere been; a way the lines told now name.
@@ -70,7 +73,7 @@ export class Promotion {
     // Whoever is spoken to leads after one who would come along, a payment, what was won (CL-49).
     talking: [3, -1.5], asked: [3, 3],
     unlooked: [3, 4], wonder: [3, 0],
-    onward: [3, 5], entry: [3, -4],
+    onward: [3, 5], out: [3, 5], entry: [3, -4],
     unvisited: [4, 0], way: [4, 1], present: [4, 2],
   };
   static pick(cands: Candidate[], s: Situation): Promoted[] {
@@ -78,7 +81,7 @@ export class Promotion {
     // look (the scene's four keep what is here: the notice, the dog's sign); a town entered from its country keeps it.
     // But a way led with for another reason still bears whoever is perceived along it (the owner, 19 November: a way
     // led with in Explore, a companion there, and no companion on its row): all, the reasons it is drawn by.
-    const eligible = cands.filter(c => !c.barred).map(c => ({ c, all: this.allowed(c, s) }))
+    const eligible = cands.filter(c => !c.barred && !c.held).map(c => ({ c, all: this.allowed(c, s) }))
       .map(x => ({ ...x, whys: x.all.filter(w => w !== 'companion' || !this.way(x.c) || x.c.whys.includes('entry')) }))
       .filter(x => x.whys.length).map(x => ({ ...x, best: this.best(x.whys) }));
     // A risk of the place's own (skittles) is led with only when there is nothing else.
@@ -321,8 +324,10 @@ export class Promotion {
   // Where nothing is led with, the ways on, two at most, by the order the quiet row keeps (the way the aim goes, a way
   // the lines name, one not yet taken, then the rest): a gallery with nothing more to do in it had shown nothing at
   // all, and the way up was only under Go… (round 7, both players).
+  // A way led plain, for no reason but that it is the way on (see AimContinuity.townward).
+  static wayOn(c: Candidate): Promoted { return this.promoted(c, 'way', ['way']); }
   private static bare(cands: Candidate[]): Promoted[] {
-    return cands.filter(c => !c.barred && (c.kind === 'way' || c.kind === 'travel'))
+    return cands.filter(c => !c.barred && !c.held && (c.kind === 'way' || c.kind === 'travel'))
       .sort((a, b) => this.placed(a) - this.placed(b) || a.order - b.order).slice(0, 2)
       .map(c => this.promoted(c, 'way', ['way']));
   }

@@ -20,9 +20,10 @@ import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
 import { TalkWeight } from './talk-weight';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
+import { AimAside } from './aim-aside'; import { LedAgain } from './led-again';
 import { Perception } from './perception'; import { Companions } from './companions';
 import { Alternatives } from './alternatives';
-import { Outmatched } from './outmatched'; import { CompanyRecall } from './company-recall';
+import { CompanyRecall } from './company-recall';
 import { Acquainted } from './acquainted'; import { DecisionFrame } from './decision-frame';
 import { Charge } from './charge';
 import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides';
@@ -53,12 +54,21 @@ export class Glance {
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
       down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
-    const cands = Affordances.of(scene, screen, reading);
+    // What was done here with nothing happened since is held: never led again (OR-417, see LedAgain).
+    const cands = LedAgain.hold(campaign, here, Affordances.of(scene, screen, reading));
     // At the opening the four are the charge's (see Charge); the place's lenses and ways hold the rest as ever.
-    const led = Charge.acts(cands, screen, Charge.stands(arrival, campaign));
-    const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(led, s), cands: led,
-      s, ...reading.help && cands.some(x => x.whys.includes('help')) ? { help: reading.help } : {} });
-    const held = TalkWeight.heldFor(campaign, Undertakings.heldFor(campaign, screen, picked));
+    const helped = !!reading.help && cands.some(x => x.whys.includes('help'));
+    const aside = AimAside.of(campaign, screen, helped);
+    const led = Charge.acts(aside ? cands.map(c => AimAside.strip(c, screen, aside.room)) : cands, screen,
+      Charge.stands(arrival, campaign));
+    // What is held is no step of the aim's either: never gilded back in (OR-417).
+    const { acts: picked, continuance } = AimContinuity.of(campaign, screen, { acts: Promotion.pick(led, s),
+      cands: led.filter(c => !c.held), s, ...helped ? { help: reading.help } : {},
+      ...aside ? { aside: aside.said } : {} });
+    // Nothing led at all, everything here gone round (OR-417): the way toward the town, where the next true lead is.
+    const on = picked.length ? picked
+      : AimContinuity.townward(campaign, { acts: picked, cands: led.filter(c => !c.held), aim: false });
+    const held = TalkWeight.heldFor(campaign, Undertakings.heldFor(campaign, screen, on));
     const folded = HeldLead.fold(campaign, { acts: held, cands: led }, HeldActs.follow(screen));
     const acts = Charge.once(LedWords.with(campaign, HeldActs.with(folded.acts, folded.pull)),
       Charge.stands(arrival, campaign) && Charge.of(screen).size > 0);
@@ -79,6 +89,7 @@ export class Glance {
       after = told && this.after(campaign, told, { screen, acts, scene });
     // The first page says the company's own errand as its first goal, once, followed or not (round 13, PL-30).
     const goal = arrival === 'opening' ? screen.aims?.find(a => a.own)?.text : undefined;
+    LedAgain.led(campaign, acts, cands);
     return { arrival, ...GlanceLines.said(lines), acts, ways,
       offer: Offers.scene(acts, ways, cands, { campaign, out, screen }),
       ...this.aimed(campaign, screen, reading, continuance), ...Threshold.leads(campaign, screen, reading.named),
@@ -188,7 +199,10 @@ export class Glance {
       // Nor where a light is to be had, with the dark ahead and nothing to see by (see CompanyLight).
       .filter(id => (recall.idle(id) && !named.has(id)
         && !this.sells(campaign, id, seller ?? undefined)) || spent.has(id)));
-    const back = recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id;
+    // The way back from a danger: out of the site the company is in, toward the nearest place outside it, where there
+    // is one; else the way it came (OR-411: back the way it came had led a son at Windtower down into its dead end).
+    const back = this.outOf(campaign, screen)
+      ?? (recall.came && screen.exits.find(e => e.destination.id === recall.came)?.destination.id);
     const commands = this.commands(screen);
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
@@ -204,7 +218,7 @@ export class Glance {
       sensed: Perception.notes(campaign, at.sensed), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
-      pointed: at.pointed, marvels: Affordances.marvels(campaign.world), ...Outmatched.reading(campaign, screen),
+      pointed: at.pointed, marvels: Affordances.marvels(campaign.world), ...AimAside.reading(campaign, screen),
       done: this.done(commands, { recall, here, advances }), ...TalkingWith.of(campaign, at.told),
       ...Acquainted.of(campaign, screen, recall), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
@@ -453,6 +467,13 @@ export class Glance {
     const first = KnownWays.first(campaign, here, id => this.siteOf(at.byId, id) !== at.site, { able: true });
     const exit = first && screen.exits.find(e => e.destination.id === first && !e.blocked);
     return new Set(exit ? [`^${exit.id}`] : []);
+  }
+  // The first place on the way out of the site the company is in, by a way open now; none outside a site.
+  private static outOf(campaign: Campaign, screen: Screen): string | undefined {
+    const byId = EntityIndex.of(campaign.module.entities).byId, site = this.siteOf(byId, screen.place.id);
+    if (!site) { return undefined; }
+    const first = KnownWays.first(campaign, screen.place.id, id => this.siteOf(byId, id) !== site, { able: true });
+    return first && screen.exits.some(e => e.destination.id === first && !e.blocked) ? first : undefined;
   }
   private static siteOf(byId: Map<string, Entity>, id: string): string | undefined {
     return SiteOutsides.siteOf(byId, id);
