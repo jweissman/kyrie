@@ -176,7 +176,6 @@
   "src/presentation/narrator.ts": {
    "world": 2,
    "facts": 5,
-   "creatures": 1,
    "rules": 3
   },
   "src/presentation/openings.ts": {
@@ -205,6 +204,9 @@
   "src/presentation/refusal-reading.ts": {
    "world": 1,
    "facts": 2
+  },
+  "src/presentation/second-person.ts": {
+   "creatures": 1
   },
   "src/presentation/shut.ts": {
    "world": 4,
@@ -355,9 +357,15 @@
    "facts": 1,
    "rules": 1
   },
-  "web/engine/engine-host.ts": {
-   "world": 4,
+  "web/engine/bound-journey.ts": {
+   "world": 2,
    "facts": 1
+  },
+  "web/engine/engine-host.ts": {
+   "world": 2
+  },
+  "web/engine/leg-told.ts": {
+   "world": 2
   }
  }
 }
