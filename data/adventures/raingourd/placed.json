@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "gourd.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "cay",
+    "road": "headland"
+  },
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}

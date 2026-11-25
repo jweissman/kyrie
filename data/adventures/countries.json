@@ -877,6 +877,143 @@
    "heard": "South of here, toward the sand, lies Wickering in the Sere country: a salt town that waits every year on a cloud driven in like cattle, and this year it has not come.",
    "skyline": "a white salt town under a sky with one cloud in it",
    "far": "a salt town waits on a cloud that a drover drives in like cattle, and this year it is late"
+  },
+  {
+   "id": "eelbell",
+   "province": true,
+   "shore": true,
+   "bundle": "eelbell/placed.json",
+   "entry": "road",
+   "marker": "sount",
+   "side": "east",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "fen",
+    "meadow"
+   ],
+   "name": "the Quillet washes",
+   "topic": "Quillet on the washes, whose church tower has no bell",
+   "terrain": "marsh",
+   "rumour": "'East, along the sea-bank,' says {keeper}, 'there's an eel town called Quillet on the washes, where the sea stands higher than the fields. Their church tower has no bell in it, and the bell-founder they have sent for has no metal to cast another.'",
+   "heard": "East along the sea-bank lies Quillet on the washes, an eel town under a sea higher than its fields. Its church tower has no bell, and its bell-founder no metal.",
+   "skyline": "a church tower with no bell over flat shining washes, and the sea above them",
+   "far": "an eel town under a sea higher than its fields has a bell-founder and no bell"
+  },
+  {
+   "id": "hexworth",
+   "province": true,
+   "bundle": "hexworth/placed.json",
+   "entry": "road",
+   "marker": "gundred",
+   "side": "north",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "heath",
+    "fen"
+   ],
+   "name": "the Hexworth country",
+   "topic": "Hexworth on the Sour Edge, whose bell has cracked",
+   "terrain": "hills",
+   "rumour": "'North, on the lip of the Sour Edge,' says {keeper}, 'there's a town called Hexworth that rings a bell at dusk to bring the peat-cutters in off the moor. They say it cracked this week with nobody near it. The last haul comes in with the fog.'",
+   "heard": "North, on the lip of the Sour Edge, Hexworth rings its bell at dusk to bring the peat-cutters home off the moor. The bell has cracked.",
+   "skyline": "a bare timber bell-frame over low roofs at the edge of a brown moor",
+   "far": "a town at the edge of a moor that swallows carts has cracked the bell it rings the cutters home by"
+  },
+  {
+   "id": "warmwall",
+   "province": true,
+   "bundle": "warmwall/placed.json",
+   "entry": "road",
+   "marker": "maud",
+   "side": "west",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "fell",
+    "heath"
+   ],
+   "name": "the Seethe country",
+   "topic": "the bath-house at Seethe, with a wall through its middle",
+   "terrain": "mountain",
+   "rumour": "'West, up on the fell,' says {keeper}, 'the drove road ends in steam, at a place called Seethe. There's a bath-house there on a hot spring, one long roof with a brick wall through the middle of it and a door at each end, the Hot Side's and the Cold Side's.'",
+   "heard": "West, up on the fell, the drove road ends at Seethe: a bath-house on a hot spring, one long roof with a brick wall through it and a door to each side.",
+   "skyline": "a long roof smoking at both ends, high on a black-walled fell",
+   "far": "a bath-house on a hot spring is one roof with a wall through the middle of it"
+  },
+  {
+   "id": "leaving",
+   "province": true,
+   "bundle": "leaving/placed.json",
+   "entry": "road",
+   "marker": "meggy",
+   "side": "south",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "meadow",
+    "wood"
+   ],
+   "name": "the Haddle country",
+   "topic": "Haddle Cross, where sixty soldiers wait on a supper",
+   "terrain": "hills",
+   "rumour": "'South, at Haddle Cross,' says {keeper}, 'there's a company of sixty soldiers camped on the glebe that will not march until their captain has eaten a supper she thinks right. She has praised nine and marched after none, and the town is down to four days of grain.'",
+   "heard": "South, at Haddle Cross, sixty soldiers camped on the glebe will not march until their captain has eaten a supper she thinks right. She has praised nine and marched after none.",
+   "skyline": "the smoke of sixty cooking fires going straight up over a low wall",
+   "far": "soldiers camped on a town will march when their captain has eaten the right supper, and nine were not"
+  },
+  {
+   "id": "raingourd",
+   "province": true,
+   "shore": true,
+   "bundle": "raingourd/placed.json",
+   "entry": "road",
+   "marker": "oyelle",
+   "side": "east",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "meadow",
+    "heath"
+   ],
+   "name": "Lantana Cay",
+   "topic": "Palla on Lantana Cay, waiting on the rains",
+   "terrain": "hills",
+   "rumour": "'Out past the point, where the coasters put in,' says {keeper}, 'there's a village called Palla, white houses on stilts round a bay. At the end of the dry they carry a gourd up to the falls and pour it out on a stone, and then it rains. This year the gourd has not gone up.'",
+   "heard": "Out past the point lies Palla on Lantana Cay, a village on stilts round a bay. At the end of the dry its gourd goes up to the falls to bring the rains, and this year it has not gone.",
+   "skyline": "white houses on stilts round a green bay, and a coaster at anchor off the point",
+   "far": "a village on stilts waits on its rains, and the gourd that brings them has not gone up to the falls"
   }
  ]
 }

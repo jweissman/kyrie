@@ -32,7 +32,7 @@ Module raingourd "The Rain-Gourd" {
   Initially Assert state(sky, hot_sky).
 
   Observe headland_scene at headland when true "From the rocks under the palm the whole bay lies open: green islands standing in clear water, and the sun on the sea.".
-  Observe headland_ship at headland as sign when true "The coaster that brought you lies at anchor off the point with her sails furled. She is waiting on the wind, and the wind comes with the rains.".
+  Observe headland_ship at headland as sign when true "A coaster lies at anchor off the point with her sails furled. She is waiting on the wind, and the wind comes with the rains.".
   Observe waterfront_scene at waterfront when true "White houses with thatched roofs stand along the shore on stilts and steps. Boats lie at the jetties, and nets hang drying between poles.".
   Observe cove_scene at cove when true "A little bay closed in by grey rock, the water so clear that the stones on the bottom seem to float.".
   Observe hilltop_scene at hilltop when true "A thatched house sits in the shade of a great tree on the brow of the hill, with a hammock slung on its porch and the whole bay below it.".

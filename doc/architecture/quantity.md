@@ -108,6 +108,13 @@ Going up, the walk takes up more of the first town's aims, and one reading of me
 the cloth at the drowned man in the shrine, his bruise read, had counted as the job handed out. An act whose author's
 reading was perceived (`Observe … as reading`) is investigation now. Measure 8 reads 36%, its ratchet 38.
 
+## Measure 10, every adventure placed (25 November, OR-420 closed)
+
+The last five adventures no world reached (the Eel Bell, A Voice for Hexworth, the Warm Wall, the Leaving Supper and
+the Rain-Gourd) are provinces of the first country, placed after the others so that no way in placed before them
+moves. Authored content no played world reaches 33 → 28; adventures 0. The ratchets that fell with OR-411 were written
+down with it: errands 13 → 11, nowhere 19 → 17, handed out 38 → 36.
+
 ## Measure 8's first town, the town itself (24 November, OR-370)
 
 An aim taken up in the first town had included the ground under it, which is within the town (the undertown's
@@ -178,7 +185,7 @@ Each measure is one of three kinds:
 | The first dungeon: minutes, hexes | 102 / 151 / 192; 2 / 4 / 3 (a ruin out of any town) | 22 / 32 / 32; 0 / 0 / 0 (the deep site under the first town) | yes (OR-327, OR-328 closed: the measure) |
 | Its levels with a boss and a cache | (new) | 4 / 4 / 3 | yes |
 | Ready in the town; at the dungeon | 3 of 3; (new) | 3 of 3; 1 of 4 (gear only) | yes; reported |
-| Stranded content | 32 | 32 | yes |
+| Stranded content | 32 | 28 (every adventure placed: OR-420) | yes |
 
 OR-326 (the gold shuttling on thorn) is closed: down in the adit, dark, a torch to hand, the way back up no longer
 leads over lighting it, and the adit the aim's words name is the aim's place. Thorn's fights, blank turns and aims

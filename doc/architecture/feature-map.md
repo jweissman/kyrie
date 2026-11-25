@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 564 live rows, 445 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 563 live rows, 444 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -171,7 +171,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 15 defects · 11 asks
+- **Countries and regions** · 0 pins · 14 defects · 11 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…
