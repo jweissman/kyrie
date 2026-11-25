@@ -1266,6 +1266,18 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, the owner's playtest: unconfirmed; a defect of travel's leg-by-leg contract only if it was one act"
+  },
+  "OR-670": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: its pacing and its thin parts unproven, not a broken contract"
+  },
+  "OR-671": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: proposals for Kyr, Deem and the journey tool, a wanted future"
   }
  },
  "blockedBy": {

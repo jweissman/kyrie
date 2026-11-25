@@ -71,7 +71,7 @@ export class SuggestAdventures {
     if (none.length) { lines.push(`  ${'(none)'.padEnd(13)} ${String(none.length).padStart(2)}  ${none.map(s => s.id).join(', ')}`); }
     lines.push('', 'Least written of, first:');
     for (const f of ranked.slice(0, 3)) {
-      const why = f === 'wonder' && !by.get(f)!.length ? ' (no adventure declares a Wonder yet: Kyr cannot until OR-440)' : '';
+      const why = f === 'wonder' && !shapes.some(s => s.counts.wonder) ? ' (no adventure declares a Wonder yet)' : '';
       lines.push(`  ${this.focus[f]}: ${by.get(f)!.length} of ${shapes.length}${why}`);
     }
     return [...lines, '', ...this.worldLines()];

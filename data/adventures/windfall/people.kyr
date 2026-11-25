@@ -20,6 +20,7 @@ Module windfall "Windfall" {
   }
   Topic tamsin_husband with tamsin "Ask Tamsin about her husband" when knows(actor, gate_known) once {
     Says "'Wystan. He went down to turn the wheel in the drought, nine years back, because the pears were thin and he wanted to see. He stayed to watch the water run, and the tide came over the causeway behind him.' She does not stop paring. 'He was a long time out of the Gault. I am not asking anyone to cross it. I want that understood.'".
+    On discuss { Assert knows(actor, tide_known). }
   }
   Topic tamsin_pear with tamsin "Ask Tamsin about the pear in the churchyard" when knows(actor, pear_seen) once {
     Says "She stops paring. 'Nance Maddern's. I cut it for her forty years ago from the Mother Tree, there, the old Warden's pippin with the split trunk. Nance wanted a bit of the orchard over her when she went. She was a woman who planned.' She looks toward Hythe. 'It is a Mother's child, that pear. The orchard has smelled it since the wind turned. They are not only walking away from the salt.'".
@@ -27,7 +28,7 @@ Module windfall "Windfall" {
   }
   Topic tamsin_graft with tamsin "Ask Tamsin what would settle the orchard if the pear cannot" when knows(actor, kin_known) once {
     Says "'Give them what they want. Take a scion of the pear and graft it back on the Mother. A tree that has its child in it does not need to go and find it.' She looks, for the first time, at you. 'It needs the sexton's leave, and it needs hands that do not shake. Mine do.'".
-    On discuss { }
+    On discuss { Assert knows(actor, graft_known). }
   }
   Topic tamsin_prunings with tamsin "Ask Tamsin what becomes of the orchard's prunings" when knows(actor, cords_known) once {
     Says "'Burned in the lane, the first year. Thirty cords of it, sweet apple-wood. Then the Wardens got tired of the smell.' She taps her knife on the step. 'Nobody has had them since. If a woman wanted thirty cords every winter, for as long as the orchard stood, I would see she had them. It would be a pleasure to be pruning again.'".
@@ -42,9 +43,11 @@ Module windfall "Windfall" {
   }
   Topic ellery_pear with ellery "Ask Ellery about the pear" when knows(actor, pear_seen) once {
     Says "'Nance's,' he says. 'She planted it the spring before she died, from a cutting, in a pot first. She said she would not be pushed under anything she hadn't chosen.' He pats the trunk the way one pats a horse. 'She was not easy. I do not mean to be unkind. It is only that she is under it, and it will not stand.'".
+    On discuss { Assert knows(actor, nance_known). }
   }
   Topic ellery_ties with ellery "Ask Ellery why the pear will not stand" when knows(actor, pear_seen) once {
     Says "'It leans to the field. All year it has, but this month more.' He looks over the wall at the long grey stripe of ground beyond. 'I have been staking it in my own wife's apron. Now you tell me what that is.'".
+    On discuss { Assert knows(actor, apron_ties). }
   }
   Topic ellery_tell with ellery "Tell Ellery that the orchard is coming for the pear" when knows(actor, kin_known) and knows(actor, nance_known) and not elleryTold(party) once {
     Says "He sits back on his heels. He does not say anything for a good while. 'I thought it was coming for the graves,' he says. 'I thought I should lie across the gate.' He looks at the pear as at a person who has been talking about him in the next room. 'It wants her. Or it wants what she planted. I don't know which I mind more.'".
@@ -52,6 +55,7 @@ Module windfall "Windfall" {
   }
   Topic ellery_refuses with ellery "Ask Ellery for a cutting from Nance's pear" when not elleryTold(party) and not grafted(party) {
     Says "'No,' says Ellery, quite gently. 'I'll not cut her.' He picks up the next strip of cloth. 'Ask me when you can tell me why.'".
+    On discuss { Assert knows(actor, ellery_why). }
   }
   Topic ellery_scion with ellery "Ask Ellery for a cutting from Nance's pear" when elleryTold(party) and not grafted(party) and not scionGiven(party) once {
     Says "He takes a long time. Then he gets up, and takes a knife from his belt, and cuts a bough of the pear on the slant, quickly, as one pulls a tooth. He seals it with wax from his pocket and wraps it in a strip of her apron. 'Nobody else touches it,' he says. 'And I will come and see it done.'".
@@ -109,5 +113,6 @@ Module windfall "Windfall" {
   }
   Topic verity_orchard with verity "Ask Verity what the orchard was like when she was a girl" when true once {
     Says "'In April you couldn't hear yourself for the bees.' Her face does something complicated. 'The sea never got to us. We thought it was the weather. The Wardens used to walk the rows at blossom with a lantern each, singing. They've all gone, bar Tamsin, and Tamsin's no singer.'".
+    On discuss { Assert knows(actor, wardens_sang). }
   }
 }

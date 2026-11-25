@@ -3,7 +3,8 @@ import { Journey } from '../src/session/journey';
 import { KyrLint } from '../src/cli/kyr-lint';
 import steps from './fixtures/windfall/journey.json';
 
-// Windfall, played by the labels a player sees: an orchard that walks toward a churchyard over three nights, and the ways it can be stopped.
+// Windfall, played by the labels a player sees: an orchard that walks toward a churchyard over three nights, and the
+// ways it can be stopped.
 describe("Windfall", () => {
   const campaign = 'data/campaigns/windfall.campaign.json';
   const start = async () => Journey.start(campaign, "windfall");
@@ -56,6 +57,28 @@ describe("Windfall", () => {
     expect(reached(j, 'graft_only')).toBe(true);
     expect(j.page).toContain('same morning as the Mother Tree');
   }, 120000);
+
+  // Integration's mends (25 November): talk whose words were all it did now teaches what it tells, and later play
+  // reads it. Tamsin's way to settle the orchard is what the graft needs; her husband lost to the tide is in mind at
+  // the sluice; Ellery's word on the pear is what is told back to him. Listening at the orchard tells the salt.
+  it('grafts only once Tamsin has said how, and keeps her husband in mind at the sluice', async () => {
+    const j = await start();
+    const orchard = steps.orchard.slice(0, -1);
+    await j.play(...steps.arrive, '=day 1 09:00', ...steps.gault, ...steps.yard, ...orchard, ...steps.tell);
+    expect(j.holds('knows', 'party', wf('nance_known'))).toBe(true);
+    await j.play("^To the Wardens' Orchard");
+    expect(j.offers("Graft Nance's scion")).toBe(false);
+    await j.play('Talk to Tamsin', 'Ask Tamsin what would settle');
+    expect(j.offers("Graft Nance's scion")).toBe(true);
+    await j.play(...steps.gate);
+    expect(j.page).toContain('Wystan Soames watched the water run');
+  }, 120000);
+
+  it('tells the salt in the roots to an ear at a trunk', async () => {
+    const j = await start();
+    await j.play(...steps.arrive, ...steps.yard, "^To the Wardens' Orchard", 'Listen at it');
+    expect(j.holds('knows', 'party', wf('salt_known'))).toBe(true);
+  }, 60000);
 
   it('crosses the Gault at the ebb and opens the sluice: salt out of the roots', async () => {
     const j = await start();

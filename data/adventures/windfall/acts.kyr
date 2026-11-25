@@ -3,7 +3,7 @@ Module windfall "Windfall" {
 
   // ── The graft ──────────────────────────────────────────────────────────────────────────────────────────────────────
   Action graft_scion(actor: group) "Graft Nance's scion onto the Mother Tree" {
-    Requires able(actor) and company(actor) and at(actor, orchard) and at(tamsin, orchard) and holding(actor, wf_scion) and not grafted(party) and not burning(party).
+    Requires able(actor) and company(actor) and at(actor, orchard) and at(tamsin, orchard) and knows(actor, graft_known) and holding(actor, wf_scion) and not grafted(party) and not burning(party).
     Time 60 minutes.
     Resolve check(actor, woodcraft, dc_fair).
     On success { Spend wf_scion from actor. Assert grafted(party). Assert at(ellery, orchard). }
@@ -25,6 +25,7 @@ Module windfall "Windfall" {
     State open "The wheel is round, and the sluice is open. Out of the channel a clear rope of fresh water goes down toward the Gault, loud and cold.".
     Change heave "Heave the Wardens' wheel round" from held to open needing wf_bar when not burning(party) "The orchard is already down.".
   }
+  Observe tide_watched at sluice_house when knows(party, tide_known) "You keep one eye on the line of stakes across the Gault while you work. Wystan Soames watched the water run, and not the tide.".
   Rule gate_opens when state(wheel, open) and not flushed(party) { Assert flushed(party). }
   Observe sluice_open at sluice_house when state(wheel, open) "The water goes by you in the channel as clear as glass. In an hour it will be at the dike roots, a mere's worth of rain, washing the salt before it.".
 

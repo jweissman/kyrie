@@ -55,7 +55,12 @@ Module windfall "Windfall" {
   Discovery salt_known "Salt has got into the orchard's roots through the failed sea-gate, and the trees are walking away from it.".
   Discovery gate_known "A sluice at the old sea-gate holds fresh water behind the Wardens' wheel, and opening it would wash the roots clean.".
   Discovery kin_known "The pear in Hythe's churchyard is a cutting of the orchard's Mother Tree, and the orchard is walking to it as much as from the salt.".
-  Discovery nance_known "The pear in the churchyard grows over Nance Maddern, the sexton's wife, who planted it from a cutting Tamsin Soames gave her forty years ago.".
+  Discovery nance_known "The pear in the churchyard grows over Nance Maddern, the sexton's wife, who planted it from a cutting the spring before she died.".
+  Discovery graft_known "A scion of Nance's pear grafted back onto the Mother Tree would settle the orchard: a tree with its child in it need not go and find it. It wants the sexton's leave.".
+  Discovery tide_known "The tide comes back over the Gault causeway behind anyone who stays at the sluice past the ebb: it took Tamsin's husband, Wystan, nine years ago.".
+  Discovery ellery_why "Ellery Maddern will not cut Nance's pear for a stranger, only for one who can tell him why it is wanted.".
+  Discovery apron_ties "Ellery stakes Nance's pear with strips of her own apron, and every morning it leans to the field again.".
+  Discovery wardens_sang "In Verity's girlhood the Wardens walked the rows at blossom with a lantern each, singing, and the sea never reached Hythe.".
   Discovery cords_known "Bryony Gorse has counted the cords in the orchard: the Porthalen pans have been cold since Michaelmas, and her children are cold with them.".
   Discovery prunings_known "A grafter's pruning of an orchard this size is thirty cords a winter, and nobody has ever burned it.".
   Discovery trail_known "The trees follow the smell of ripe fruit, the way a goat follows a bucket.".

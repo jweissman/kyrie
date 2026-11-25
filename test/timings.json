@@ -1464,6 +1464,8 @@
     "test/golden-promises.test.ts": 41630,
     "test/golden-road-home.test.ts": 54099,
     "test/golden-told.test.ts": 59241,
-    "test/gosses-company-leads.test.ts": 5819
+    "test/gosses-company-leads.test.ts": 5819,
+    "test/windfall.test.ts": 20210,
+    "test/windfall-placed.test.ts": 60000
   }
 }
