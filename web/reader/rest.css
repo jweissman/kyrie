@@ -358,8 +358,13 @@
     /* A scrim, not a box (the owner, 16 November): the painting stays present and darkens toward its foot, edge to edge,
        while what is told and chosen stays inside the safe margins and clear above the rail (11 November). */
     box-sizing: border-box; padding: 32px var(--safe-x) calc(var(--safe-b) + 64px); border: 0; box-shadow: none;
-    backdrop-filter: none; background: linear-gradient(to top, rgba(10, 11, 14, .94) 0, rgba(10, 11, 14, .9) 62%,
-      rgba(10, 11, 14, .55) 84%, rgba(10, 11, 14, 0) 100%); }
+    backdrop-filter: none; background: linear-gradient(to top, rgba(10, 11, 14, .94) 0, rgba(10, 11, 14, .9) 70%,
+      rgba(10, 11, 14, .72) 88%, rgba(10, 11, 14, 0) 100%); }
+  /* And a scrim under the place's name, its hour and the purse at the top of the painting (OR-506: 1.7:1 on a bright
+     sky), feathered out well above the middle. */
+  .shell.scene-full .world-page.scale-scene .world-body > .surface::after { content: ''; position: absolute; inset: 0;
+    pointer-events: none; z-index: 2; background: linear-gradient(180deg, rgba(8, 9, 12, .82) 0,
+      rgba(8, 9, 12, .66) calc(var(--safe-t) + 80px), rgba(8, 9, 12, 0) calc(var(--safe-t) + 170px)); }
   /* Inside the safe zone, with room for a pip standing off its marks (14px had put it past the zone on an upright
      iPad: the five-size walk, 11 November). */
   .scene-rail { bottom: calc(var(--safe-b) + 4px); }
@@ -452,7 +457,10 @@
     border: 0; background: none; backdrop-filter: none; box-shadow: none; }
   .shell.scene-full .world-page.scale-scene .world-body > .surface::after {
     content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
-    background: linear-gradient(270deg, rgba(8, 9, 12, .86) 0%, rgba(8, 9, 12, .62) 30%, rgba(8, 9, 12, 0) 58%); }
+    /* The scrim under the words at the right, and one under the place's name and its hour at the top left (OR-506:
+       the hour had stood at 2.8:1 on a bright sky, the telling at 2.3:1 where the shade thinned out). */
+    background: radial-gradient(ellipse 46% 30% at 16% 12%, rgba(8, 9, 12, .78), rgba(8, 9, 12, 0) 100%),
+      linear-gradient(270deg, rgba(8, 9, 12, .9) 0%, rgba(8, 9, 12, .82) 36%, rgba(8, 9, 12, .5) 50%, rgba(8, 9, 12, 0) 64%); }
   .world-page.scale-scene .focus .told-col p,
   .world-page.scale-scene .focus .glance p { text-shadow: 0 1px 3px rgba(0, 0, 0, .85); }
 }

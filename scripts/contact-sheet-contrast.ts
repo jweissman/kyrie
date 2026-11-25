@@ -57,7 +57,7 @@ export class SheetContrast {
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   }
   // In the page: every visible line of text, by its text node's own line boxes (Range.getClientRects), within the
-  // window; its colour with its alpha and its ancestors' opacity; whether it is large.
+  // window and what clips it; its colour with its alpha and its ancestors' opacity; whether it is large.
   // (A property, not a method: Playwright sends a function's own source to the page, and a method's is no expression.)
   private static readonly lines = (): Drawn[] => {
     const out: Drawn[] = [], walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -74,9 +74,19 @@ export class SheetContrast {
       const range = document.createRange(); range.selectNodeContents(n);
       const where = `${el.tagName.toLowerCase()}${el.className && typeof el.className === 'string'
         ? `.${el.className.trim().split(/\s+/).slice(0, 2).join('.')}` : ''}`;
+      // Only what is seen of it: within the window and within every box that clips it (a book's page scrolled past
+      // the foot of the stage had been measured against the dark below the stage, OR-506).
+      let [cl, ct, cr, cb] = [0, 0, innerWidth, innerHeight];
+      for (let e = el.parentElement; e; e = e.parentElement) {
+        const s = getComputedStyle(e);
+        if (s.overflowX !== 'visible' || s.overflowY !== 'visible') {
+          const b = e.getBoundingClientRect();
+          [cl, ct, cr, cb] = [Math.max(cl, b.left), Math.max(ct, b.top), Math.min(cr, b.right), Math.min(cb, b.bottom)];
+        }
+      }
       for (const r of range.getClientRects()) {
-        const x = Math.max(0, r.left), y = Math.max(0, r.top), w = Math.min(innerWidth, r.right) - x;
-        const h = Math.min(innerHeight, r.bottom) - y;
+        const x = Math.max(cl, r.left), y = Math.max(ct, r.top), w = Math.min(cr, r.right) - x;
+        const h = Math.min(cb, r.bottom) - y;
         if (w < 2 || h < 2) { continue; }
         out.push({ text: text.slice(0, 60), where, rect: [x, y, w, h], rgba: [m[0]!, m[1]!, m[2]!, alpha],
           large: size >= 24 || (bold && size >= 18.66) });

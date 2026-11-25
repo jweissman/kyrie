@@ -6,7 +6,8 @@
 // could not be reached is said in index.html and shots.json, with a picture of where the page stood; it fails no
 // one. CI keeps it as the contact-sheets workflow's artifact (doc/architecture/verification.md).
 //   bun scripts/contact-sheets.ts [--out dir] [--sizes 390x844,820x1180] [--motion full|reduce|both]
-//     [--walks title,make,hour,books] (some of the walks only, for a page change's own sheet: OR-508)
+//     [--walks title,make,hour,books] (some of the walks only, for a page change's own sheet: OR-508) [--update]
+// A whole run holds the lines below AA to a ratchet that may only fall (OR-506: SheetRatchet).
 // Needs a Playwright Chromium (KYRIE_CHROMIUM may name it) and, on this machine, LD_LIBRARY_PATH for NSS.
 import { mkdir, mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -16,6 +17,7 @@ import { MonoBrowser } from '../test/support/mono-browser';
 import type { SheetMiss, SheetShot } from './contact-sheet-camera';
 import { SheetCompose } from './contact-sheet-compose';
 import { SheetHour } from './contact-sheet-hour';
+import { SheetRatchet } from './contact-sheet-ratchet';
 import { SheetWalks, type SheetRun } from './contact-sheet-walks';
 
 export class ContactSheets {
@@ -60,7 +62,10 @@ export class ContactSheets {
     }
     console.log(`${shots.length} pictures, ${misses.length} not reached: ${join(out, 'index.html')}`);
     for (const m of misses) { console.log(`  not reached ${m.size} ${m.walk}/${m.step}: ${m.why}`); }
-    return shots.length ? 0 : 1;
+    const failing = shots.reduce((n, s) => n + (s.contrast?.failing ?? 0), 0);
+    const held = SheetRatchet.hold(sizes.join(','), failing, { whole: walks.length === ContactSheets.walks.length
+      && motion === 'full' && !misses.length, update: args.includes('--update') });
+    return shots.length && held ? 0 : 1;
   }
   static commit(): string {
     const git = Bun.spawnSync(['git', 'rev-parse', '--short', 'HEAD']);

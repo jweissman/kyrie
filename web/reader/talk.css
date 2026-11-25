@@ -223,3 +223,6 @@
   .talk:has(.sitter.unpainted) .sitter { height: auto; }
   .talk .dialogue { max-height: none; overflow: visible; }
 }
+/* The conversation's words on the dark, never on the place's painting showing through beneath them (OR-506: on a phone
+   the reply's rows had stood over the street at 2.3:1). */
+.talk { background: var(--ground); }

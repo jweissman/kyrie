@@ -33,7 +33,10 @@
   --safe-b: max(10vh, calc(env(safe-area-inset-bottom) + 8px)); --safe-l: max(10vw, calc(env(safe-area-inset-left) + 8px));
   /* Ground and surfaces, darkest to lightest: the room, the stage, a raised control, one lifted under the hand. */
   --ground: #0A0B0E; --surface: #121318; --raised: #191B21; --lift: #22252D; --deep: #07080A;
-  --ivory: #ECE6D9; --dim: #A59F94; --faint: #6E6A62; --edge: rgba(236, 230, 217, .10); --edge-strong: rgba(236, 230, 217, .24);
+  /* The inks (OR-506: every text at least 4.5:1 on the ground; the second design opinion, 24 November: the body a warm
+     off-white against halation, not white): the body; the meta text (a purse, an hour, a row's aside, a label), one
+     token; the faintest, still a text's. */
+  --ivory: #E8E0D5; --dim: #A59F94; --faint: #8F897E; --text-meta: var(--dim); --edge: rgba(236, 230, 217, .10); --edge-strong: rgba(236, 230, 217, .24);
   /* Gold is where attention is: your choice, your aim, your turn, the way on. */
   --gold: #F2BD4C; --gold-glow: rgba(242, 189, 76, .16); --gold-line: rgba(242, 189, 76, .55);
   /* The neutral accent: what is chosen, focused, pressed or set apart, which is not the aim (amendment 6, C: gold is

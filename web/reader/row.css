@@ -74,3 +74,19 @@
 :root .fight .fighter .face.whole img { object-fit: contain; padding: 8%; box-sizing: border-box; }
 @media (max-width: 560px) { :root .fight .fighter .face { top: 6px; left: 5px; width: calc(var(--panel) - 10px); } }
 :root[data-look] .fight .foes .fighter .face { left: calc(50% - 26px); right: auto; top: 6px; width: 52px; }
+
+/* ---- Contrast (OR-506): no text faded below its ink. A row that cannot be done now says so in words (its why) and
+   is drawn in the meta ink, its mark faint, never the whole row at half its light; a key's figure, a log's earlier
+   lines, a colophon and a card's labels in the meta ink; the Book's count a light numeral on the dark. ---- */
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) { opacity: 1; color: var(--text-meta); }
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  .choice-row.choice-row:is(.shut, [disabled], [aria-disabled="true"]) > .row-mark { opacity: .3; }
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-key { opacity: 1; color: var(--text-meta); }
+:root .fight .beat .what.earlier, :root .fight .beat .what .how > :is(summary, p) { color: var(--text-meta); }
+:root .options-page .colophon, :root .route-card .rc-facts dt { color: var(--text-meta); }
+:root .rail-mark > .unread { color: var(--ivory); background: rgba(10, 11, 14, .94); box-shadow: none; }
+/* Words over a painting stand on a scrim: a soft feathered darkening behind the words' region, never a panel, the
+   painting still the scene's (the second design opinion, 24 November). A fight's telling and its hand. */
+:root .fight :is(.beat, .hand) { background: radial-gradient(farthest-side at 50% 45%, rgba(8, 9, 12, .8),
+  rgba(8, 9, 12, .62) 60%, rgba(8, 9, 12, 0) 100%); }
