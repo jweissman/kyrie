@@ -1,0 +1,73 @@
+Module goingbank "The Going Bank" {
+  Description "The Gape: a gorge four hundred paces across, a grass-rope bridge, a village on each lip, and an east bank that is not standing still.".
+
+  Place country "the Gape country" is region within imbar.
+  Place lip "Tarrow Lip" is settlement within country at 0, 0.
+  Place span "the Plait" is site within country at 1, 0.
+  Place ketter "Ketter" is settlement within country at 2, 0.
+  Place wall "the west wall of the Gape" is site within country at 1, 1.
+  Place loft_bld "the plaiters' loft" is building within lip.
+  Place inn "the Long Pull" is building within lip.
+
+  Place road "the road up to Tarrow Lip" is room within lip at 0, 0 outdoors.
+  Place lip_end "the windlass and toll-board" is room within lip at 1, 0 outdoors.
+  Place kite_barn "Halloway's barn" is room within lip at 1, 1 outdoors.
+  Place loft "the plaiters' loft" is room within loft_bld at 0, 0.
+  Place taproom "the Long Pull's taproom" is room within inn at 0, 0.
+  Place seam "the ledge above the Grudge" is room within wall at 0, 0.
+  Place plait_west "the west stub of the Plait" is room within span at 0, 0 outdoors.
+  Place join "the Join" is room within span at 1, 0 outdoors.
+  Place plait_east "the east stub of the Plait" is room within span at 2, 0 outdoors.
+  Place landing "Ketter landing" is room within ketter at 0, 0 outdoors.
+  Place green "Ketter green" is room within ketter at 1, 0 outdoors.
+  Place drum_ridge "the drum-stone" is room within ketter at 1, 1 outdoors.
+  Place churchyard "the leaning church" is room within ketter at 2, 0 outdoors.
+
+  Passage lip_road "the last of the road" is road between road and lip_end taking 10 minutes.
+  Passage loft_door "the loft door" is door between lip_end and loft.
+  Passage inn_door "the Long Pull's door" is door between lip_end and taproom.
+  Passage barn_path "the path to the barn" is path between lip_end and kite_barn taking 3 minutes.
+  Passage wall_ladder "the ladder down the wall" is ladder between lip_end and seam taking 5 minutes.
+  Passage toll_gate "the toll-gate" is gate between lip_end and plait_west.
+  Passage span_west "the planks to the Join" is bridge between plait_west and join taking 5 minutes.
+  Passage span_east "the span beyond the Join" is bridge between join and plait_east taking 5 minutes.
+  Passage east_gate "Ketter's post" is gate between plait_east and landing.
+  Passage green_path "the lane to the green" is path between landing and green taking 3 minutes.
+  Passage ridge_path "the path up to the drum-stone" is path between green and drum_ridge taking 10 minutes.
+  Passage church_path "the churchyard path" is path between green and churchyard taking 3 minutes.
+
+  Observe road_scene at road when true "The road comes up through gorse to a windlass on the lip of the sky. The far side of the Gape is a long green hill with a village on it, and between you and the hill there is only wind.".
+  Observe lip_scene at lip_end when true "A windlass, a toll-board, and a bridge of woven grass that goes out over the Gape and stops. Pipit sits on the toll-board with her feet on the Plait. Down the road's last bend the loft smells of green rope.".
+  Observe lip_gap at lip_end when not dark() "Across the Gape the Plait comes in from the east and stops too. Between the two ends the gap is the width of a house. The Grudge is a brown thread at the bottom.".
+  Observe barn_scene at kite_barn when true "A barn with its roof taken off. In the rafters hangs a kite of sailcloth and bean-poles as wide as a cart, with a harness under it. A hay-scale stands in the doorway, and the wall beside it is chalked with names and weights.".
+  Observe loft_scene at loft when true "A long room that smells of green grass and goat. Knot-boards cover the walls, one for each spring's Knotting, and each knot is different. The newest board has a gap in it the width of a hand.".
+  Observe taproom_scene at taproom when true "A low room with a settle and a crate of iron pins by the fire. A wedding supper is being argued over at the long table.".
+  Observe seam_scene at seam when true "A ledge in the west wall, and the brown Grudge below. Across the river the east wall is not rock. It is grey-brown and ribbed, and lichen grows on it in rounds, as it does on a hide.".
+  Observe plait_west_scene at plait_west when true "The Plait ends here in frayed grass, swaying. A line of lashed poles runs on out over the Gape, and a guide-rope on posts beside it.".
+  Observe join_scene at join when true "The middle of the Gape, on poles lashed end to end. The wind plays the rope like a string. Both villages are small from here, and neither seems to be moving.".
+  Observe plait_east_scene at plait_east when true "The east stub of the Plait, frayed to the same grass. Behind you the lashed walk dwindles over the drop to the Lip.".
+  Observe landing_scene at landing when true "A post, a water trough, and a lane up to the green. The trough is full on its east side only.".
+  Observe green_scene at green when true "A village green at a slight angle. The sundial gives the wrong hour. A cheese, put down by a cheesewife to cool, rolls gently to the east, and she goes after it without remark.".
+  Observe ridge_scene at drum_ridge when true "A bare knoll above Ketter, and on it one hollow grey stone the size of a bed, with a bone drumstick lying across it. Past the knoll the ground ends in sky, a long way east.".
+  Observe church_scene at churchyard when true "A little church leaning politely toward the sea. Its bell hangs a half-tone flat. Its graves lean the same way, in rows, like a congregation.".
+
+  Thing cairns "the line of cairns" at green {
+    Tries looking.
+    State standing "A line of old cairns crosses the green, one to a generation. The oldest stands at the cliff's edge. The newest is by the well.".
+  }
+  Observe cairns_looked near cairns when tried(cairns, looking) "Each cairn was set on the line from the church door to the first bridge-post. Each is now a little east of it, and the oldest is a hundred paces east, on the brink of the Gape. The line was not moved. The ground under it was." teaches cairns_known.
+  Discovery cairns_known "The cairns that were set on one line from church to bridge are each a little further east, the oldest a hundred paces. The ground is going east, not the cairns.".
+
+  Thing hide "the east wall" at seam {
+    Tries looking.
+    State grey "The east wall of the Gape is ribbed grey-brown, and wet at the foot.".
+    Wonder natural unique for aesthetic, scientific, dangerous "Held to a lamp, the east wall is a hide. It rises, slowly, the height of a house, and falls, and a drop of warm water comes off the overhang. It is breathing.".
+  }
+  Observe hide_looked near hide when tried(hide, looking) "You hold the lamp up to the east wall. The ribs rise, slowly, the height of a house, and fall. Warm water drips from the overhang. The wall shifts one thumb's width, left to right, in the time it takes to say a prayer." teaches walker_known.
+  Discovery walker_known "The east bank is the back of a living thing. It breathes, and it is going somewhere.".
+  Discovery bank_going "The east bank is going east, a little further every year. The Plait comes out short because the ground is leaving it.".
+  Discovery cord_known "Sabra Yarrow has kept a knotted cord forty years: one knot for each pace the Plait came out long on the west side. The knots run ten, twelve, fifty.".
+  Discovery drum_known "Meggan Lorrimer's drum-stone answers: the bank, struck, answers back, and the answer says how it feels.".
+  Discovery sea_known "The thing under Ketter is going to the sea, as it has before, every ninety years or so.".
+  Discovery boards_seen "In the loft the newest knot-board has a gap in it, and the boards before it show each spring's gap a little wider.".
+}

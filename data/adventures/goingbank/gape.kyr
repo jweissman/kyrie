@@ -1,0 +1,105 @@
+Module goingbank "The Going Bank" {
+  // ── The three days ─────────────────────────────────────────────────────────────────────────────────────────────
+  // Day 1: the gap is nine paces. Day 2 dawn: thirty, the poles are gone and only the guide-line remains. Day 3 at
+  // dusk the Knotting, on the poles that are not there. Day 4 at first light the Plait parts.
+
+  Relation onScale(group). Relation pinsDown(group). Relation reeveTold(group). Relation ketterRides(group). Relation ketterCrosses(group).
+  Relation sabraTold(group). Relation answered(group). Relation truthPublic(group). Relation gathered(group). Relation dawnCame(group).
+  Relation wed(group). Relation heardRanger(group). Relation heardThief(group). Relation heardBard(group). Relation heardCleric(group).
+  Relation lineRoped(group).
+  Query bankGoing() means knows(party, cord_known) or knows(party, cairns_known) or knows(party, walker_known).
+
+
+  Hazard gb_fall "the guide-line, underfoot" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+
+  Thing walkway "the walk across the gap" on span_east {
+    State planks "Lashed poles carry the walk across the gap, a hand's breadth between them, with the guide-rope beside.".
+    State line dangerous "The poles are gone. A single rope runs across the gap at foot height, and a second at the hip, and the wind sings in both.".
+    State roped "A hand-line has been laid along the guide-rope, knotted every pace. Even a child could cross it, slowly.".
+    State parted blocking "The Plait is parted. The east stub swings loose over the drop, and the east bank is a long way off.".
+    Change rig "Rig a hand-line along the guide-rope" from line to roped needing rope.
+    Hurts with gb_fall when line then line.
+  }
+  Rule line_roped when state(walkway, roped) { Assert lineRoped(party). }
+  Rule poles_go when day(clock) >= 2 and hour(clock) >= 6 and state(walkway, planks)
+    says "In the night the wind has taken the poles. Nine paces were a plank walk. Thirty are a rope." { Assert state(walkway, line). }
+  Rule plait_parts when day(clock) >= 4 and hour(clock) >= 6 and not state(walkway, parted)
+    says "At first light the Plait parts, not with a snap but with a long sigh, strand after strand, like a plait being undone by a patient hand. Then the east bank is a little further off than anyone had measured." { Assert state(walkway, parted). Assert dawnCame(party). }
+
+  // ── Varnish's pins ─────────────────────────────────────────────────────────────────────────────────────────────
+
+  Thing pin_iron "Varnish's nine iron pins" nowhere {
+    Tries looking.
+    State unset "Nine iron pins lie bundled by the shelf's edge, each as long as a man.".
+    State staked "Nine iron pins stand in the Ketter shelf at the cliff's edge, chained back across the Gape. The chains hum.".
+    State pulled "Nine iron pins lie scattered in the grass, drawn and bent.".
+    Change pull "Wrench the pins out of the shelf" from staked to pulled needing crowbar or brawn.
+  }
+  Rule varnish_crosses when day(clock) >= 2 and hour(clock) >= 12 and at(varnish, taproom) and not at(varnish, landing)
+    says "Varnish takes his crate over the line at noon, with a boy of the Lip carrying the other end. By the time you see them they are small, and then they are on the Ketter shelf." { Assert at(varnish, landing). Assert at(pin_iron, landing). }
+  Rule pins_driven when day(clock) >= 3 and hour(clock) >= 18 and state(pin_iron, unset) and not pinsDown(party) and at(pin_iron, landing)
+    says "At the hour of the wedding, on the east shelf, a hammer begins. Nine times it strikes the first pin. Under all of Ketter something draws a long breath, and does not let it out." { Assert state(pin_iron, staked). }
+  Rule pins_pulled when state(pin_iron, pulled) and not pinsDown(party)
+    says "As the last pin comes out the bank lurches, once, the width of a hand, and every roof in Ketter shifts on its beams. Then it goes on, as if nothing had been done to it." { Assert pinsDown(party). }
+
+  // ── The kite ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Action kite_east(actor: group, site: place) "Fly the Gape in Halloway's kite, west to east" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, kite_barn) and at(bettony, kite_barn) and onScale(party) and hour(clock) >= 17 and hour(clock) < 20 and not state(walkway, parted).
+    Resolve check(actor, climbing, dc_fair).
+    Time 30 minutes.
+    On success { Assert at(actor, landing). }
+    Result "Bettony runs you down the barn path and off the lip. For one long breath there is nothing under you but the Grudge. Then the west wind takes the cloth, and the Gape is a brown scar going by, and you are coming down on a lane in Ketter with your boots full of wind. A child watches you land. 'Lip folk,' says the child, with interest.".
+    Otherwise "The kite dips. You come down hard on the east stub of the Plait, in a tangle of cloth, and hold on. Bettony shouts something across the Gape that is probably advice.".
+    On failure { Assert at(actor, plait_east). }
+  }
+
+  // ── The drum ───────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Action strike_stone(actor: group, site: place) "Strike the stone as Meggan taught you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drum_ridge) and at(meggan, drum_ridge) and knows(actor, drum_known) and hour(clock) >= 17 and hour(clock) < 21 and not answered(party).
+    Resolve check(actor, performance, dc_fair).
+    Time 20 minutes.
+    On success { Assert answered(party). }
+    Result "The bone is light in your hand. You strike, and strike again, slower, the way you would speak to something very large and half asleep. The hill thinks about it. Then it answers, through your boots, from a long way under, a single low note that rolls east. 'There,' says Meggan, with her face lifted. 'It heard you. It has not been told for ninety years, and it heard you.'".
+    Otherwise "A flat knock, and the hill says nothing. 'Again tomorrow,' says Meggan. 'Slower. It is not a door.'".
+  }
+
+  // ── The Knotting ───────────────────────────────────────────────────────────────────────────────────────────────
+
+  Rule knotting_gathers when day(clock) == 3 and hour(clock) >= 18 and not gathered(party)
+    says "At dusk both villages come out along the Plait, the Lip from the west, Ketter from the east, and meet at the end of what each has. Between them are thirty paces of wind and a single rope. A girl with a green cord runs out along it with her arms spread, and the people on both banks sing." {
+    Assert gathered(party). Assert at(tamsy, join). Assert at(fell, join). Assert at(osbel, join). Assert at(sabra, join). Assert at(pipit, join).
+  }
+  Observe knotting_scene at join when gathered(party) and not dawnCame(party) "A hundred people on the span in their best, and the rest on the banks. Tamsy Hendry stands at the middle with Fell Anstey. Sabra Yarrow holds one end of the green cord and Osbel Hendry the other. Every voice on the Plait is singing a little off the note, as it does when the song is the only floor.".
+
+  Action speak_proved(actor: group, site: place) "Say to both banks what you know, with the proof in your hand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, join) and gathered(party) and not truthPublic(party) and (knows(actor, walker_known) or (knows(actor, cord_known) and knows(actor, cairns_known))).
+    Resolve check(actor, persuasion, dc_fair).
+    Time 10 minutes.
+    On success { Assert truthPublic(party). Assert reeveTold(party). }
+    Result "You say it, at the middle of the Gape, to both villages at once. The singing stops, verse by verse, from the middle outward. Someone laughs, once. Then Sabra Yarrow takes her cord out of her apron and holds it up, and nobody laughs. Osbel Hendry puts the green cord into his daughter's hand and walks, without hurry, toward the Ketter end, and says over his shoulder: 'We will count.'".
+    Otherwise "You say it, and the Plait shifts underfoot and everybody looks at their feet and says it is the wind. 'The wet,' someone says on the Ketter side, and the singing begins again, a little too fast.".
+  }
+  Action speak_bare(actor: group, site: place) "Say to both banks that the east bank is going" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, join) and gathered(party) and not truthPublic(party) and bankGoing() and not knows(actor, walker_known) and not (knows(actor, cord_known) and knows(actor, cairns_known)).
+    Resolve check(actor, persuasion, dc_hard).
+    Time 10 minutes.
+    On success { Assert truthPublic(party). Assert reeveTold(party). }
+    Result "You say it, with nothing in your hands but your word. For a moment the Plait is quiet. Then Osbel Hendry, at the Ketter end, says: 'My terrace runs downhill.' It is enough. He turns to count.".
+    Otherwise "You say it. They are kind. They are also being married, and the wind is up, and they thank you and begin the second verse.".
+  }
+  Action witness_vows(actor: group, site: place) "Stand witness for Tamsy and Fell on the Join" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, join) and gathered(party) and at(tamsy, join) and at(fell, join) and not wed(party) and not dawnCame(party).
+    Time 10 minutes.
+    On success { Assert wed(party). }
+    Result "'I take you,' says Fell, and his voice goes up, and he starts again. 'I take you, on the span, wherever the span goes.' 'I take you,' says Tamsy, 'on the span, and wherever Ketter is.' Pipit ties the green cord round their wrists, a knot Sabra has not taught her. On both banks, a long way off, a hundred people are saying it too. You are asked to say that you saw.".
+  }
+
+  Milestone gb_ms_going "found the east bank is going" worth 40 when bankGoing().
+  Milestone gb_ms_breath "saw the east bank breathe" worth 60 when knows(party, walker_known).
+  Milestone gb_ms_varnish "kept the pins out of the shoulder" worth 80 when pinsDown(party).
+  Milestone gb_ms_answer "answered the hill" worth 80 when answered(party).
+  Milestone gb_ms_wed "witnessed a wedding on the Join" worth 50 when wed(party).
+  Milestone gb_ms_reeve "told Ketter the truth" worth 70 when reeveTold(party).
+}

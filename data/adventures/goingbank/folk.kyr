@@ -1,0 +1,152 @@
+Module goingbank "The Going Bank" {
+  // ── Tarrow Lip ─────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Kind gb_cord "Sabra's knotted cord" is treasure worth 1 weighing 1 described "A cord of green grass-twine, knotted along its length at uneven intervals, worn dark where a thumb has run it for forty years.".
+
+  Person pipit "Pipit Anstey" at lip_end {
+    Role "the Lip's ropewalker". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A girl of ten sits on the toll-board with her bare feet on the Plait, eating a pear. 'You'll want the other side,' she says. 'Everyone does. It's nine paces short. Don't tell Mother Yarrow I said nine, she says eight.'".
+    Greets again "'Still here,' says Pipit, with her mouth full. 'So's the gap.'".
+  }
+  Topic pipit_line with pipit "Ask Pipit how she crosses" when true once {
+    Says "'Lower rope under the ball of the foot, upper rope in the palm, and look at me, not at the water.' She does it six steps out to show you and comes back. 'It only goes wrong if you look. Mother Yarrow sells rope. If you laid a hand-line along it it'd go right for anybody.'".
+  }
+  Topic pipit_knot with pipit "Ask Pipit about the wedding" when true once {
+    Says "'Tamsy and Fell, on the Join, at dusk the third day, with both villages on the Plait.' She holds up a green cord. 'I carry the knot-cord. If the Plait's not done, we do it on the poles. It's been done on the poles. Once. Nobody likes to say when.'".
+  }
+
+  Person sabra "Sabra Yarrow" at loft {
+    Role "the Master Plaiter of Tarrow Lip". Ancestry human. Peaceable. Pronouns she. Manner stoic.
+    Sells rope for 2 coin from 3.
+    Greets "A woman with hands like roots sits splicing grass-rope without looking at it. 'Ask what you want to ask,' says Sabra Yarrow. 'I'll answer what I've a mind to. Rope's two coin the fathom, and it's the best in the north.'".
+    Greets again "'Back,' says Sabra Yarrow, and does not look up from the splice.".
+  }
+  Topic sabra_short with sabra "Ask Sabra why the Plait came out short" when true once {
+    Says "'Frost,' says Sabra. 'The lip heaves. It heaved the year my mother plaited, and the year hers did.' The splice goes on. 'The Lip will not like the toll closed. Lay a hand-line and be quick about it, if you mean to cross.'".
+  }
+  Topic sabra_boards with sabra "Ask Sabra about the knot-boards" when true once {
+    Says "'Every spring's Knotting, since my grandmother's grandmother.' She jerks her chin at the walls. 'A knot for the crew that tied it. The gap is where the Plait didn't reach, and we filled it with a plank. It's only wood.' You look. The gaps are small near the old boards and wide near the new.".
+    On discuss { Assert knows(actor, boards_seen). }
+  }
+  Action sabra_cord_ask(actor: group, site: place) "Tell Sabra that the boards show the Plait coming out shorter every year" {
+    Speaker sabra.
+    Requires able(actor) and at(actor, site) and at(sabra, site) and knows(actor, boards_seen) and not knows(actor, cord_known).
+    Resolve check(actor, insight, dc_hard).
+    On success { Assert knows(actor, cord_known). Give gb_cord to actor. }
+    Result "Sabra stops splicing. She puts her hand into her apron and takes out a cord of green twine, knotted all along, and lays it on the bench. 'Forty-one springs,' she says. 'One knot to a pace. I have never known what to do with it.'".
+    Otherwise "Sabra looks at you a long moment, and goes back to the splice. 'Boards are boards,' she says.".
+  }
+  Topic sabra_walker with sabra "Tell Sabra what breathes in the east wall" when knows(actor, walker_known) and not sabraTold(party) once {
+    Says "She puts down the splice. It is the first time. 'Forty-one springs I have kept that cord,' says Sabra. 'My mother kept one. I thought I was keeping a mourning. I was keeping a count of its steps.' She gets up, goes to the rope bench, and cuts three fathoms from the best coil. 'Take it. Lay your line. And if Ketter wants to cross, I will cut the Plait myself, clean, at dawn, so it does not go ragged.'".
+    On discuss { Assert sabraTold(party). Give rope to actor. }
+  }
+
+  Person bettony "Bettony Halloway" at kite_barn {
+    Role "kite-flier". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Sells crowbar for 3 coin from 2.
+    Greets "A broad woman in a leather coat is chalking a number on the barn wall. 'Halloway,' she says. 'I fly people over the Gape, a silver piece a time. I'm not saying it won't kill you. I'm saying I'll tell you which way. Get on the scale.'".
+    Greets again "'Back,' says Bettony. 'Still the same weight, I hope. It ruins the lift.'".
+  }
+  Topic bettony_wind with bettony "Ask Bettony when the kite flies" when true once {
+    Says "'West wind at dusk, five till eight. Takes you east. East wind at dawn, five till eight. Takes you west. Between, there is nothing, and I don't fly in nothing.' She taps the wall. 'It lifts one at a time. It won't lift the old, nor a child who can't be told to hold still. If you're after emptying a village, you want a different plan.'".
+  }
+  Topic bettony_husband with bettony "Ask Bettony why she built it" when true once {
+    Says "'My husband went in the Grudge.' She does not stop chalking. 'Could not get to him, could not get down to him, the rope was not long enough. So I thought, well, up, then.' She steps back from the wall and looks at it. 'Eleven times over. I look down every one. He is not there.'".
+  }
+  Action weigh(actor: group, site: place) "Be weighed on Bettony's hay-scale" {
+    Requires able(actor) and at(actor, site) and at(bettony, site) and not onScale(party).
+    On success { Assert onScale(party). }
+    Result "Bettony reads the scale, says nothing, and chalks it on the wall under a column of other people's. 'Good,' she says. 'Light enough to live, heavy enough to land.'".
+  }
+
+  Person varnish "Magne Varnish" at taproom {
+    Role "pinwright of the Collegium of Measures". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A tidy man in a canvas coat sits by a crate and is polishing an iron pin the length of his arm. 'Varnish,' he says. 'Pinwright. The Lip's council has hired me to hold the east bank where it is.' He holds the pin to the fire and sights down it. 'It is a bridge-abutment problem. I have solved this one before, in the Tamrin hills. It held.'".
+    Greets again "'Varnish,' he says, polishing.".
+  }
+  Topic varnish_work with varnish "Ask Varnish what is in the crate" when true once {
+    Says "'Nine pins, forged to a pattern, each as long as a man. Sunk in the Ketter shelf at the cliff's edge and chained back to the Lip, so the span cannot drift.' He is patient and pleased. 'I begin on the east shelf tomorrow at noon, and drive the nine at the hour of the wedding, because that is when the council wants it seen done.'".
+  }
+  Topic varnish_boy with varnish "Ask Varnish about himself" when true once {
+    Says "'I have a boy of six at the Lip. Never ill a day.' He puts the pin down, carefully. 'I am not paid to like the work. I am paid to see that it holds.'".
+  }
+  Topic varnish_look with varnish "Ask Varnish to come and look at the river wall" when bankGoing() and not pinsDown(party) and at(varnish, taproom) once {
+    Says "He looks at you, and at the pin. 'You think my geometry is wrong,' he says. 'Show me.' He puts on his coat. 'I will be at the ladder.'".
+    On discuss { Assert at(varnish, seam). }
+  }
+  Action hold_lamp(actor: group, site: place) "Hold the lamp for Varnish while he looks at the wall" {
+    Requires able(actor) and at(actor, site) and at(varnish, site) and at(actor, seam) and not pinsDown(party).
+    Time 20 minutes.
+    On success { Assert pinsDown(party). Assert knows(actor, walker_known). Assert at(varnish, taproom). }
+    Result "Varnish holds the lamp up, and says nothing for a long time. The wall rises, the height of a house, and falls. He puts out his hand, palm flat, and takes it away again. 'That is not an abutment,' he says. He goes up the ladder without the lamp, and is heard setting the crate in the taproom corner, and not opening it.".
+  }
+  Action varnish_east(actor: group, site: place) "Tell Varnish what you saw in the Seam, and ask him not to drive the pins" {
+    Speaker varnish.
+    Requires able(actor) and at(actor, site) and at(varnish, site) and at(actor, landing) and knows(actor, walker_known) and not pinsDown(party).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert pinsDown(party). }
+    Result "Varnish listens with his hands behind him. 'I will want to see it,' he says. 'I will not be able to see it. It is under a church.' He looks at the shelf. 'The council did not hire me to hurt anything.' He sits down on the crate and does not get up.".
+    Otherwise "Varnish shakes his head, not unkindly. 'A man with a pin does not argue with a man with a feeling,' he says.".
+  }
+
+  Person fell "Fell Anstey" at taproom {
+    Role "the groom". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A young man in a borrowed collar is tearing a bread roll into smaller and smaller pieces. His mother watches him do it. 'We're to be married on the Join,' says Fell Anstey, 'third dusk. With the Plait singing. Do you sing?'".
+    Greets again "'Do you sing?' says Fell, hopefully.".
+  }
+  Topic fell_afraid with fell "Ask Fell what he is afraid of" when true once {
+    Says "'The Join.' He puts the bread down. 'Standing in the middle of nothing and saying I will, while a hundred people on a grass rope all say it with me. If it were a floor I'd not mind.' He tries a smile. 'She's not afraid. She was born over there. She says the whole of Ketter is a bit of a lean, and you get used to it.'".
+  }
+
+  // ── Ketter ─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  Person osbel "Osbel Hendry" at green {
+    Role "reeve of Ketter". Ancestry human. Peaceable. Pronouns he. Manner stoic.
+    Greets "A man in his shirt is measuring a barley terrace with a rod and does not like the number. 'Rudd,' he says. 'Reeve. You've come for the wedding or the toll, and I'll not charge you for the first.'".
+    Greets again "'Rudd,' he says, with the rod, to the terrace.".
+  }
+  Topic osbel_bell with osbel "Ask Osbel about the church bell" when true once {
+    Says "'The wet gets in the frame.' He lets the rod droop. 'The well rope is longer every spring, as well. And the big terrace runs downhill the wrong way now, which a terrace has no business doing.' He picks the rod up. 'It is the wet.'".
+  }
+  Topic osbel_bank with osbel "Tell Osbel the ground is going east" when bankGoing() and not knows(actor, walker_known) and not reeveTold(party) once {
+    Says "He is angry, for as long as it takes to say a word he does not say. 'Going where?' he says. 'It is a hill. My grandfather ploughed it.' He looks at the cairns. He looks for a long time. 'Come back,' he says, 'when you can tell me what it is going to.'".
+  }
+  Topic osbel_walker with osbel "Tell Osbel what breathes under Ketter" when knows(actor, walker_known) and not reeveTold(party) once {
+    Says "'Say it again,' says Osbel, and you do. He puts down the rod. He walks to the church gate, without speaking, and stands at it, and begins to count the village aloud, by name, house by house, who can walk and who must be carried, the way a man counts sheep he is afraid to lose. Some of the names are children's. At sixty-one he stops. 'Right,' he says. 'Now tell me what you want of me.'".
+    On discuss { Assert reeveTold(party). }
+  }
+  Topic osbel_choice with osbel "Ask Osbel what Ketter will do" when reeveTold(party) once {
+    Says "'Ketter is a hundred and forty people and one church and a good deal of barley,' says Osbel. 'It can leave its hill, or it can keep it. Which would you have me tell them?'".
+  }
+  Topic say_ride with osbel "Say Ketter should keep its hill, and ride it to the sea" answering osbel_choice when knows(actor, sea_known) {
+    Says "He is quiet. 'Ride it,' he says. 'Ride it. Like a boat.' Something in his face is tried on, and it fits. 'The hay will go. The wells will shift. We will lose the bell.' He turns to the green. 'I will say it from the church step. Tell Meggan.'".
+    On discuss { Assert ketterRides(party). }
+  }
+  Topic say_cross with osbel "Say Ketter should cross to the Lip while it can" answering osbel_choice when true {
+    Says "'Cross.' He nods slowly. 'There is a line, there is a rope, there is a kite for the lucky.' He looks at the span. 'There will be old Moll, and the Pettifers' twins, and nobody will want to leave the cows.' He sets his jaw. 'I will say it from the church step. We will start at dusk.'".
+    On discuss { Assert ketterCrosses(party). }
+  }
+
+  Person meggan "Meggan Lorrimer" at drum_ridge {
+    Role "drummer of Ketter". Ancestry human. Peaceable. Pronouns she. Manner jovial.
+    Greets "An old woman with milk-white eyes sits at a hollow stone with a bone drumstick across her knee, facing east. 'Who's that,' she says. 'Don't say. I'll tell by the boots.' She sniffs. 'Lip boots. Sit. You've come at a bad hour for the village and a good one for me.'".
+    Greets again "'You,' says Meggan, to the right boots.".
+  }
+  Topic meggan_drum with meggan "Ask Meggan what the drum is for" when true once {
+    Says "'My grandmother taught me. You strike it at dawn, at dusk. The hill answers.' She taps the stone, once, with a knuckle, and a long note comes up through your boots from somewhere too far down to be rock. 'It has a mood, you can tell by the answer. This one is not cross. It is going somewhere.'".
+    On discuss { Assert knows(actor, drum_known). }
+  }
+  Topic meggan_going with meggan "Ask Meggan what is going somewhere" when knows(actor, drum_known) once {
+    Says "'The hill.' She says it as one says a neighbour. 'It is about ninety years since it last went, and my grandmother's grandmother kept the song for it. It goes to the sea. It has always gone to the sea, and then it lies down in the shallows and sleeps ninety years, and the people on it have a harbour.' She turns her face east. 'Nobody ever told it it had passengers. It might go slower.'".
+    On discuss { Assert knows(actor, walker_known). Assert knows(actor, sea_known). }
+  }
+  Topic meggan_sea with meggan "Ask Meggan if she has ever seen the sea" when knows(actor, sea_known) once {
+    Says "'I have not seen anything for sixty years,' says Meggan. 'But I should like to be present.'".
+  }
+
+  Person tamsy "Tamsy Hendry" nowhere {
+    Role "the bride". Ancestry human. Peaceable. Pronouns she. Manner cheerful.
+    Greets "A tall girl in a dress that has been taken in twice stands on the poles with her hands full of grass. 'Tamsy,' she says. 'I will not be a minute. Don't tell Father I'm barefoot. I want to feel which way it's going.'".
+    Greets again "'Barefoot,' says Tamsy. 'It leans. I knew it leaned.'".
+  }
+}

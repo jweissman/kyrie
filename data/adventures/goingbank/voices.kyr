@@ -1,0 +1,20 @@
+Module goingbank "The Going Bank" {
+  Description "What each of the company makes of the Gape by what they are: the ranger on the green, the thief in the loft, the bard on the ridge, the cleric among the graves.".
+
+  Rule voice_ranger at green when at(party, green) and memberOf(?m, party) and hasCalling(?m, calling_ranger) and awake(?m) and not heardRanger(party)
+    says "{?m} crouches by the well and sights back along the line of cairns to the church door. 'These were laid on a line,' {?m} says. 'They are not on it. Nobody has moved a stone of them. The ground under has gone east, by the length of a field in a hundred years.'" teaches cairns_known {
+    Assert heardRanger(party). 
+  }
+  Rule voice_thief at loft when at(party, loft) and memberOf(?m, party) and hasCalling(?m, calling_thief) and awake(?m) and at(sabra, loft) and not heardThief(party)
+    says "{?m} watches the splicing hand and the apron pocket beside it, the way a pocket is watched that is touched every time a question is asked. 'There is a cord in there with forty knots in it,' {?m} says, low. 'She puts a hand on it when you say frost.' Later, when she is at the bench, it is a small thing to lift it, read it by the window, and put it back." teaches cord_known {
+    Assert heardThief(party). 
+  }
+  Rule voice_bard at drum_ridge when memberOf(?m, party) and hasCalling(?m, calling_bard) and awake(?m) and at(party, drum_ridge) and not heardBard(party)
+    says "{?m} hums a low note, and the stone hums it back, a long breath later, a little flat. 'That is not an echo,' {?m} says. 'An echo is the same note. That is an answer.'" teaches drum_known {
+    Assert heardBard(party). 
+  }
+  Rule voice_cleric at churchyard when memberOf(?m, party) and hasCalling(?m, calling_cleric) and awake(?m) and at(party, churchyard) and not heardCleric(party)
+    says "{?m} walks the rows slowly, reading the lean of the stones. 'The oldest graves are on the Lip side, and the newest at the sea side,' {?m} says. 'The sexton has reset the markers three times. See the old holes. Nobody here has said why, and they have been burying toward the east for three hundred years, as if toward a place that kept moving.'" teaches cairns_known {
+    Assert heardCleric(party). 
+  }
+}
