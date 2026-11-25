@@ -1,0 +1,23 @@
+Module windfall "Windfall" {
+  Query dawn4() means day(clock) >= 5 or (day(clock) == 4 and hour(clock) >= 7).
+
+  Milestone wf_ms_walk "watched the orchard walk" worth 40 when sawWalk(party).
+  Milestone wf_ms_kin "learned what the orchard is walking toward" worth 60 when knows(party, kin_known).
+  Milestone wf_ms_dike "learned the orchard is the sea-bank" worth 60 when knows(party, dike_known).
+  Milestone wf_ms_graft "grafted Nance's pear onto the Mother Tree" worth 150 when grafted(party).
+  Milestone wf_ms_gate "opened the Wardens' sluice" worth 150 when flushed(party).
+  Milestone wf_ms_peace "kept the axes off the orchard" worth 100 when reprieved(party) or bryonyEased(party).
+
+  Ending burned "The Burning" when dawn4() and burning(party)
+    "By the fourth morning the Ash Field is a black floor with stumps standing in it in rows, and a smell over Hythe of apple-wood burning that does not leave the cloth for a year. The pans at Porthalen are lit before Christmas. Tamsin Soames sits on the step of her hut with a pear she has not cut, and the goat leans on her. In the new year the first spring tide comes over the old dike without being asked, and the Gault comes up to the foot of Hythe's green. Ellery Maddern ties the pear to its stake. It stands, now, quite straight.".
+  Ending both_banks "Both Banks" when dawn4() and grafted(party) and flushed(party)
+    "The wheel is turned and the Mother has her child. The orchard stands where the night left it, and by the first week of April has leaned all one way, toward the pear, in the manner of a congregation. The fresh water goes down through the dike for a week. The roots drink it. Verity Lunt hangs the spare bucket again in the taproom, and fills it, for the first time in a generation, with water. Ellery Maddern is seen to sit under Nance's pear and the Mother Tree's shadow at once, at the wall, at an hour when the two of them throw one shade, and Tamsin Soames sits beside him, saying nothing at all in a very satisfied way.".
+  Ending graft_only "Nance's Pear" when dawn4() and grafted(party) and not flushed(party)
+    "The orchard stands where the graft found it and does not move again. Every trunk in the front rank leans toward the wall of St Aldith's, as a congregation leans toward the one voice it came to hear. The salt is in the roots still. Tamsin Soames says three winters, four if it is mild, and spends them pruning, and teaching Hobin Lunt which end of a knife is which. In the spring the pear in the churchyard blossoms on the same morning as the Mother Tree, and Ellery Maddern, who has stopped tying it, stands between them for a long time.".
+  Ending salt_out "Salt Out of the Roots" when dawn4() and flushed(party) and not grafted(party)
+    "The mere runs for six days. By the seventh the water at the dike's foot is sweet, and the orchard's roots have taken hold of the lane as if it were an old bed. It does not walk again. It does lean: every morning a little more toward the churchyard, and every evening Ellery Maddern comes out with a strip of cloth and ties the pear back, and every morning the knot is slack. Tamsin says the orchard will arrive at the wall in about ten years, and that she means to see it, and that Ellery should keep his tie-strips.".
+  Ending green "The Green" when dawn4() and walked() == 4 and stands()
+    "On the fourth morning Hythe wakes with an orchard on its green. Pears lean over the pump. Apples are in the buckets at every door, and not a dry sound anywhere in the ground, because every root is wrapped round a house-foundation. Verity Lunt cooks for the whole village at one long table under the Mother's second cousin. The orchard is the dike no longer, and the Gault comes in over the old line at the next spring tide, and the folk of Hythe are very sorry about it, and very well fed. Hobin Lunt has named a tree for you.".
+  Ending midwinter "Midwinter Blossom" when dawn4() and walked() == 3 and stands()
+    "On the fourth night the orchard walks through St Aldith's churchyard and does not touch a stone. Ellery Maddern has sat on the wall all night, and he says afterward that there was not a sound but the leaves. On the fifth morning every grave has a branch of the orchard growing quietly between the slates, and the pear at the east wall stands straight for the first time in years, in the middle of the ring. Nobody in Hythe is sure whether it is a catastrophe. The vicar has written to the bishop. The bishop has not yet written back.".
+}

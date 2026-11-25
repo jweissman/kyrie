@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "orchard.kyr",
+    "people.kyr",
+    "acts.kyr",
+    "endings.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "country",
+    "road": "road"
+  },
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}

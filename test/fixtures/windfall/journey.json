@@ -1,0 +1,99 @@
+{
+  "arrive": [
+    "^To Hythe commons"
+  ],
+  "gault": [
+    "Talk to Hobin",
+    "Ask Hobin about the Gault",
+    "Ask Hobin how a person might lead"
+  ],
+  "yard": [
+    "^Into St Aldith's",
+    "Talk to Ellery",
+    "Ask Ellery about the pear",
+    "Ask Ellery why the pear will not stand"
+  ],
+  "orchard": [
+    "^To the Wardens' Orchard",
+    "Talk to Tamsin",
+    "Ask Tamsin why the orchard walks",
+    "Ask Tamsin how the walking could be stopped",
+    "Ask Tamsin for the Warden's bar",
+    "Ask Tamsin about her husband",
+    "Ask Tamsin about the pear in the churchyard",
+    "Ask Tamsin what would settle"
+  ],
+  "tell": [
+    "^To the churchyard",
+    "Talk to Ellery",
+    "Tell Ellery that the orchard",
+    "Ask Ellery for a cutting"
+  ],
+  "graft": [
+    "^To the Wardens' Orchard",
+    "?Graft Nance's scion",
+    "?Graft Nance's scion",
+    "?Graft Nance's scion",
+    "?Graft Nance's scion",
+    "?Graft Nance's scion",
+    "?Graft Nance's scion"
+  ],
+  "gate": [
+    "=day 1 17:00",
+    "?To the sunk lane",
+    "?(To|Out to) Hythe commons",
+    "?(To|Out to) Hythe commons",
+    "^To the sea-gate landing",
+    "^To the sluice-house",
+    "Heave the Wardens' wheel",
+    "=+1"
+  ],
+  "pans": [
+    "^Into the Spare Bucket",
+    "Talk to Bryony",
+    "Ask Bryony what the orchard is worth"
+  ],
+  "prunings": [
+    "^(To|Out to) Hythe commons",
+    "^To the sunk lane",
+    "^To the Wardens' Orchard",
+    "Talk to Tamsin",
+    "Ask Tamsin what becomes of the orchard's prunings"
+  ],
+  "offer": [
+    "?To the sunk lane",
+    "?(To|Out to) Hythe commons",
+    "?(To|Out to) Hythe commons",
+    "^Into the Spare Bucket",
+    "Talk to Bryony",
+    "Offer Bryony the orchard's prunings"
+  ],
+  "trail": [
+    "^(To|Out to) Hythe commons",
+    "^To the sea-bank road",
+    "Fill a sack with windfalls",
+    "^To Hythe commons",
+    "^To the sunk lane",
+    "Roll windfalls down the sunk lane"
+  ],
+  "marks": [
+    "=day 1 17:00",
+    "^To the sea-gate landing",
+    "^To the sluice-house"
+  ],
+  "reason": [
+    "?(To|Out to) the sea-gate landing",
+    "^To Hythe commons",
+    "^Into the Spare Bucket",
+    "Talk to Odile",
+    "Tell Harrowby that the orchard is the dike"
+  ],
+  "vigil": [
+    "^(To|Out to) Hythe commons",
+    "^Into St Aldith's"
+  ],
+  "yardtell": [
+    "Talk to Ellery",
+    "Ask Ellery about the pear"
+  ]
+}
