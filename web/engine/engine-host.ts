@@ -1,7 +1,7 @@
 import { Portraits } from '../../src/ui/portraits';
 import { CompanyPortraits } from '../../src/paintings/company-portraits';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
-import { PlayerView } from '../../src/presentation/player-view';
+import { PlayerView } from '../../src/presentation/player-view'; import { PlayerFrame } from '../../src/presentation/player-frame';
 import { ActionFeedbackView, type ActionFeedback } from '../../src/presentation/action-feedback';
 import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Undertakings } from '../../src/presentation/undertakings';
@@ -207,7 +207,7 @@ export class EngineHost {
     // among them, were fought out with no page at all (Mission 20's fourth round, F 144, 147).
     // A foregone fight (easily won) is one act: begun pressing, fought through unless it turns (see Foregone).
     this.fought = undefined; this.began = campaign.history.length; this.pressing = Foregone.is(this.screen, command);
-    this.doing = PlayerView.choices(campaign).find(r => r.choice.id === command)?.choice.name;
+    this.doing = PlayerFrame.of(campaign).row(command)?.choice.name;
     try {
       const event = await session.perform(command, this.controlling(game));
       if (game !== this.game) { throw new Error('That game is no longer under way.'); }

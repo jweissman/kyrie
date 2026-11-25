@@ -33,7 +33,6 @@
   "src/presentation/talk-weight.ts": 4,
   "src/session/play-session.ts": 1,
   "src/session/travel.ts": 2,
-  "src/ui/withheld.ts": 1,
-  "web/engine/engine-host.ts": 1
+  "src/ui/withheld.ts": 1
  }
 }
