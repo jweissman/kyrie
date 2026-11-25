@@ -5,7 +5,7 @@ import { defineConfig } from 'eslint/config';
 import noComments from 'eslint-plugin-no-comments';
 
 export default defineConfig([
-  { ignores: ['site/**', 'coverage/**', 'node_modules/**', 'doc/**'] },
+  { ignores: ['out/**', 'site/**', 'coverage/**', 'node_modules/**', 'doc/**'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

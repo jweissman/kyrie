@@ -28,5 +28,5 @@
   },
   // doc/ holds playtests' scripts and audits' evidence as they were run, not code kept to the tree's standard; lint
   // passes over it too (eslint.config.mts).
-  "exclude": ["web", "site", "node_modules", "doc"]
+  "exclude": ["web", "out", "site", "node_modules", "doc"]
 }
