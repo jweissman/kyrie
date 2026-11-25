@@ -1,0 +1,363 @@
+{
+ "about": "Reads of the authoritative world from the player layer outside the projector, by file and kind (scripts/knowledge-door.ts); each may only fall (test/small/knowledge-door).",
+ "manifest": {
+  "src/presentation/player-view.ts": "the projector's perception: what is perceived now (PlayerView.observe, present, the rows' warrant)",
+  "src/presentation/company-knowledge.ts": "the projector's record of what was learnt, and how (CompanyKnowledge.of)",
+  "src/presentation/company-map.ts": "the projector's memory of places: perceived before and remembered (CompanyMap.of)",
+  "src/ui/outcome.ts": "the projector's prospective reading: what an offered act would teach (Outcome.taught)",
+  "src/presentation/player-frame.ts": "the player revision's key: the world compared by identity, never read",
+  "src/cli/runner-fidelity.ts": "diagnostic: promise fidelity, an act tried in a copy of the world; nothing of it is shown",
+  "web/engine/kept-game.ts": "persistence: the save writes the whole world, which is never shown"
+ },
+ "crossing": [
+  "PlayerView.observe(campaign): what is perceived now (the snapshot)",
+  "PlayerView.chronicle(campaign): what has happened, as the company has it",
+  "PlayerFrame.of(campaign): the rows, legal by the runtime and worded and warranted by the projection",
+  "CompanyKnowledge.of(campaign, actor, labels): what was learnt",
+  "CompanyMap.of(campaign, actor, travel): the places remembered and the ways known"
+ ],
+ "counts": {
+  "src/cli/play-tool.ts": {
+   "world": 1,
+   "facts": 1
+  },
+  "src/cli/playtext.ts": {
+   "world": 1,
+   "facts": 1
+  },
+  "src/cli/runner-amid.ts": {
+   "world": 1,
+   "facts": 1
+  },
+  "src/cli/runner-led.ts": {
+   "world": 1,
+   "facts": 1
+  },
+  "src/cli/runner-payoff.ts": {
+   "world": 1,
+   "facts": 1
+  },
+  "src/cli/runner.ts": {
+   "world": 2,
+   "facts": 1
+  },
+  "src/presentation/acquainted.ts": {
+   "world": 1,
+   "facts": 2
+  },
+  "src/presentation/action-feedback.ts": {
+   "world": 6,
+   "facts": 7,
+   "rules": 4
+  },
+  "src/presentation/aim-advances.ts": {
+   "world": 5,
+   "facts": 11,
+   "rules": 7
+  },
+  "src/presentation/aim-aside.ts": {
+   "world": 2,
+   "facts": 3
+  },
+  "src/presentation/aim-continuity.ts": {
+   "world": 6,
+   "facts": 7
+  },
+  "src/presentation/aim-lead.ts": {
+   "world": 7,
+   "facts": 11,
+   "rules": 1
+  },
+  "src/presentation/aim-leads.ts": {
+   "world": 10,
+   "facts": 30
+  },
+  "src/presentation/aim-means.ts": {
+   "world": 4,
+   "facts": 4
+  },
+  "src/presentation/aim-parts.ts": {
+   "world": 1,
+   "facts": 2,
+   "rules": 1
+  },
+  "src/presentation/aim-placed.ts": {
+   "world": 2,
+   "facts": 3,
+   "rules": 1
+  },
+  "src/presentation/aim-route.ts": {
+   "world": 3,
+   "facts": 3
+  },
+  "src/presentation/aim-words.ts": {
+   "facts": 8
+  },
+  "src/presentation/character-sheet.ts": {
+   "world": 2,
+   "facts": 4,
+   "creatures": 2
+  },
+  "src/presentation/choice-wording.ts": {
+   "world": 6,
+   "facts": 5,
+   "creatures": 2,
+   "rules": 1
+  },
+  "src/presentation/chronicle.ts": {
+   "world": 1,
+   "rules": 1
+  },
+  "src/presentation/coin-reading.ts": {
+   "world": 1,
+   "facts": 3
+  },
+  "src/presentation/companions.ts": {
+   "world": 1,
+   "facts": 6
+  },
+  "src/presentation/company-light.ts": {
+   "world": 2,
+   "facts": 16
+  },
+  "src/presentation/compass.ts": {
+   "world": 2
+  },
+  "src/presentation/danger-sense.ts": {
+   "world": 3,
+   "facts": 2,
+   "creatures": 1
+  },
+  "src/presentation/entity-card.ts": {
+   "world": 2,
+   "facts": 7
+  },
+  "src/presentation/fight-help.ts": {
+   "world": 2,
+   "facts": 3
+  },
+  "src/presentation/fought.ts": {
+   "creatures": 1
+  },
+  "src/presentation/glance-lines.ts": {
+   "world": 1,
+   "facts": 3,
+   "rules": 2
+  },
+  "src/presentation/glance.ts": {
+   "world": 9,
+   "facts": 13
+  },
+  "src/presentation/guarded.ts": {
+   "world": 3,
+   "facts": 9
+  },
+  "src/presentation/information-view.ts": {
+   "world": 1,
+   "facts": 1
+  },
+  "src/presentation/instruments.ts": {
+   "creatures": 2
+  },
+  "src/presentation/led-again.ts": {
+   "world": 1,
+   "facts": 1
+  },
+  "src/presentation/lens-subjects.ts": {
+   "world": 1
+  },
+  "src/presentation/means.ts": {
+   "world": 2,
+   "facts": 5
+  },
+  "src/presentation/narrator.ts": {
+   "world": 2,
+   "facts": 5,
+   "creatures": 1,
+   "rules": 3
+  },
+  "src/presentation/openings.ts": {
+   "world": 3,
+   "facts": 11
+  },
+  "src/presentation/outmatched.ts": {
+   "world": 4,
+   "facts": 9
+  },
+  "src/presentation/perception.ts": {
+   "world": 6,
+   "facts": 5
+  },
+  "src/presentation/prologue.ts": {
+   "rules": 2
+  },
+  "src/presentation/prospects.ts": {
+   "world": 2,
+   "facts": 7,
+   "rules": 1
+  },
+  "src/presentation/readings.ts": {
+   "rules": 1
+  },
+  "src/presentation/refusal-reading.ts": {
+   "world": 1,
+   "facts": 2
+  },
+  "src/presentation/shut.ts": {
+   "world": 4,
+   "facts": 23
+  },
+  "src/presentation/site-outsides.ts": {
+   "facts": 2
+  },
+  "src/presentation/skill-reading.ts": {
+   "world": 4,
+   "facts": 7
+  },
+  "src/presentation/skill-sources.ts": {
+   "world": 1,
+   "facts": 4
+  },
+  "src/presentation/spoken.ts": {
+   "world": 2
+  },
+  "src/presentation/succession.ts": {
+   "world": 5,
+   "facts": 17
+  },
+  "src/presentation/talk-weight.ts": {
+   "world": 3,
+   "facts": 7
+  },
+  "src/presentation/threshold.ts": {
+   "world": 2,
+   "facts": 2
+  },
+  "src/presentation/undertakings.ts": {
+   "world": 7,
+   "facts": 14
+  },
+  "src/presentation/unread.ts": {
+   "world": 1,
+   "facts": 6,
+   "rules": 1
+  },
+  "src/presentation/visited-places.ts": {
+   "world": 1,
+   "facts": 2
+  },
+  "src/presentation/waits.ts": {
+   "world": 2,
+   "facts": 3
+  },
+  "src/ui/affordances.ts": {
+   "facts": 2
+  },
+  "src/ui/carriers.ts": {
+   "facts": 10,
+   "creatures": 1
+  },
+  "src/ui/chart-model.ts": {
+   "facts": 33,
+   "rules": 2
+  },
+  "src/ui/choice-grouping.ts": {
+   "world": 10,
+   "facts": 2
+  },
+  "src/ui/depth.ts": {
+   "facts": 2
+  },
+  "src/ui/engagement.ts": {
+   "world": 1,
+   "facts": 2
+  },
+  "src/ui/exposure.ts": {
+   "facts": 4
+  },
+  "src/ui/itinerary.ts": {
+   "world": 15,
+   "facts": 18
+  },
+  "src/ui/known-names.ts": {
+   "world": 1,
+   "creatures": 1
+  },
+  "src/ui/known-ways.ts": {
+   "world": 4
+  },
+  "src/ui/news-fold.ts": {
+   "facts": 1
+  },
+  "src/ui/overland.ts": {
+   "world": 5
+  },
+  "src/ui/owed.ts": {
+   "world": 1,
+   "facts": 1,
+   "rules": 1
+  },
+  "src/ui/passage-model.ts": {
+   "facts": 11,
+   "rules": 3
+  },
+  "src/ui/passages.ts": {
+   "facts": 9
+  },
+  "src/ui/patience.ts": {
+   "world": 1,
+   "facts": 15
+  },
+  "src/ui/portraits.ts": {
+   "world": 1,
+   "facts": 2
+  },
+  "src/ui/pronoun-words.ts": {
+   "facts": 2
+  },
+  "src/ui/purchase-compare.ts": {
+   "facts": 4
+  },
+  "src/ui/quarters.ts": {
+   "facts": 5
+  },
+  "src/ui/scene.ts": {
+   "facts": 1
+  },
+  "src/ui/screen-model.ts": {
+   "world": 7,
+   "facts": 26,
+   "creatures": 3,
+   "rules": 7
+  },
+  "src/ui/services.ts": {
+   "world": 2,
+   "facts": 3
+  },
+  "src/ui/skies.ts": {
+   "facts": 2
+  },
+  "src/ui/stakes.ts": {
+   "world": 2,
+   "facts": 4
+  },
+  "src/ui/town-plan.ts": {
+   "facts": 2
+  },
+  "src/ui/trade-model.ts": {
+   "facts": 24
+  },
+  "src/ui/treasure.ts": {
+   "facts": 6,
+   "rules": 1
+  },
+  "src/ui/waylaid.ts": {
+   "facts": 1,
+   "rules": 1
+  },
+  "web/engine/engine-host.ts": {
+   "world": 4,
+   "facts": 1
+  }
+ }
+}
