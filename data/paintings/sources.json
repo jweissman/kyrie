@@ -1526,9 +1526,24 @@
    "sha1": "d2c201c9297c925f26ffb8781aa3f88513105955",
    "terrain": "woodland"
   },
+  "scene-woodland-lagoon": {
+   "path": "assets/bg/terrain/woodland/lagoon.png",
+   "sha1": "b44419ef3dde2aaa579f4d6428aa56aaa9e1e86a",
+   "terrain": "woodland"
+  },
+  "scene-woodland-memorial": {
+   "path": "assets/bg/terrain/woodland/memorial.png",
+   "sha1": "57bae58f0eebbebb7c2c9930217c1d25727ac5fc",
+   "terrain": "woodland"
+  },
   "scene-woodland-night": {
    "path": "assets/bg/terrain/woodland/night.png",
    "sha1": "5e74cc40a92369c6437983fadae5c4df9f32e1f4",
+   "terrain": "woodland"
+  },
+  "scene-woodland-overview": {
+   "path": "assets/bg/terrain/woodland/overview.png",
+   "sha1": "d313dade41397072c9d12482fc7106ab29888cfc",
    "terrain": "woodland"
   },
   "scene-woodland-rain": {

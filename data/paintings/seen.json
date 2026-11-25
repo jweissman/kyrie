@@ -9050,6 +9050,27 @@
    "era": "late",
    "light": "night",
    "weather": "clear"
+  },
+  "scene-woodland-lagoon": {
+   "form": "landscape",
+   "shows": "a still pool under waterfalls falling over mossy rocks, a great tree leaning over it, hills beyond",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
+  },
+  "scene-woodland-memorial": {
+   "form": "landscape",
+   "shows": "a little stone wayside shrine in a wood, a carved figure in its niche and a candle lit before it, a mossy path and an old oak",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-woodland-overview": {
+   "form": "landscape",
+   "shows": "a wooded valley seen from a hillside under an oak, forest rolling away to far hills, mist in the hollows",
+   "era": "late",
+   "light": "sunlit",
+   "weather": "clear"
   }
  }
 }
