@@ -1164,6 +1164,18 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov: OR-530's remainder, the owner's direction that the embers become the birth-sign sky (TO-03)"
+  },
+  "OR-370": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov: filed by batch 16 as a requirement (the owner's direction of 24 Nov, jobs uncovered by investigation), its kind not recorded then"
+  },
+  "OR-560": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov: the knowledge boundary's remaining moves, split from OR-527, a requirement as it was"
   }
  },
  "blockedBy": {
