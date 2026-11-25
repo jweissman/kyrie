@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 180 pins (148 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 423 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 419 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -78,7 +78,7 @@ page's colours and opportunities.)
   - ✓ in a1's corn-store runs, the rats warning: only the answers to them, and the map put away
   - ✓ at the drove's gate well, the conger warning: the same
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 27 defects · 2 asks
+- **Fights that cost** · 5 pins · 26 defects · 2 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -167,7 +167,7 @@ page's colours and opportunities.)
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
-- **Lodging and rest** · 4 pins · 3 defects · 0 asks
+- **Lodging and rest** · 4 pins · 2 defects · 0 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
@@ -175,7 +175,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 7 defects · 2 asks
+- **Markets and prices** · 0 pins · 6 defects · 2 asks
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
 
@@ -203,7 +203,7 @@ page's colours and opportunities.)
 
 ### Settlements
 
-- **Towns and their frames** · 7 pins · 0 defects · 1 asks
+- **Towns and their frames** · 7 pins · 1 defects · 1 asks
   - ✓ under the churchyard, the sexton's selling and the bone-pickers, laid by putting back what was taken
   - ✓ talks at the inn of the sexton found out, once the bone-pickers are laid by what he gave back
   - ✓ in the quarry, the she-bear's den and her wolves, a real fight, and the house pays
@@ -241,8 +241,9 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 5 pins · 21 defects · 7 asks
+- **Dungeons and sites** · 6 pins · 19 defects · 7 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
+  - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
@@ -369,11 +370,12 @@ page's colours and opportunities.)
   - direction AT-02 P2: The atlas study's smallest experiment (§7), after AT-01, behind one flag, off by default: an…
   - direction AT-09 P2: The Color Atlas as a semantic design instrument, and a theory of opportunity density (the owner,…
   - direction AT-10 P1: The opportunity architecture's M23 part (AT-07 split, 19 November;…
-- **What an act would teach** · 2 pins · 2 defects · 1 asks
+- **What an act would teach** · 2 pins · 2 defects · 2 asks
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 35 defects · 14 asks
+  - requirement OR-527 P1: The player knowledge boundary: outside one designated projector, the player, presentation and…
+- **Rows, lenses and the frame** · 3 pins · 35 defects · 17 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -390,6 +392,9 @@ page's colours and opportunities.)
   - direction OR-385 P3: A game pad: the page reads no pad at all (no Gamepad API anywhere in web/reader), so the backstage…
   - requirement OR-387 P2: Screens not yet the engine's pages (OR-382's remainder): their rows are the engine's, but their…
   - direction OR-388 P3: The hint vocabulary's later uses (OR-382's remainder): a page read through an instrument (the…
+  - requirement OR-528 P2: The studio stab's colours: the seven towers drawn whole in bright pink and pastel tones…
+  - requirement OR-529 P2: The title's identity: Westernesse kept as a tiny eyebrow at the hard right, with a small glyph…
+  - requirement OR-530 P2: The title's embers as a visual treatment are not there yet (the owner, 25 November): perhaps…
   - requirement OR-125 P1: The action row, M22's central object, given the precision of a larger composition (the owner, 19…
 - **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
