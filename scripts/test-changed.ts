@@ -44,9 +44,12 @@ class ChangedSpecs {
   }
   static test(specs: string[], workers: string): number {
     // As test:small times its specs (twenty seconds): the default five had failed test/small's own under load.
-    const held = TestWorkers.allowed(Number(workers));
+    // Each spec file in a world of its own (25 November): a shared worker had kept every walk each file left behind
+    // and grown to 3–4 GB; isolated, a worker holds about one file's walk at a time (1.5 GB at most measured), at some
+    // tenth more time, so more workers fit the memory.
+    const held = TestWorkers.allowed(Number(workers), TestWorkers.isolatedGb);
     if (held < Number(workers)) { console.log(`${held} of ${workers} workers: the memory available now holds no more`); }
-    return Bun.spawnSync(['bun', 'test', `--parallel=${held}`, '--no-isolate', '--timeout=20000', ...specs.map(s => `./${s}`)],
+    return Bun.spawnSync(['bun', 'test', `--parallel=${held}`, '--timeout=20000', ...specs.map(s => `./${s}`)],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
   }
   // What can move every world: its generators and assembly, the shared rules, the kits and tables every country is

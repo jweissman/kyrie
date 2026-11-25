@@ -7,9 +7,11 @@ import { existsSync, readFileSync } from 'node:fs';
 // below one.
 export class TestWorkers {
   static readonly perWorkerGb = 4;
-  static allowed(asked: number): number {
+  // A worker that runs each spec file isolated (scripts/test-changed.ts) holds one file's walk at a time.
+  static readonly isolatedGb = 2;
+  static allowed(asked: number, perWorker = this.perWorkerGb): number {
     const gb = this.availableGb();
-    return gb === undefined ? asked : Math.max(1, Math.min(asked, Math.floor(gb / this.perWorkerGb)));
+    return gb === undefined ? asked : Math.max(1, Math.min(asked, Math.floor(gb / perWorker)));
   }
   // MemAvailable, where Linux says it, and no more than the memory ceiling the run is held under (a cgroup's
   // memory.max: /var/tmp/kyrie/tools/heavy.sh runs heavy suites in one).

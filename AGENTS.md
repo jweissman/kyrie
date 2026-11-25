@@ -235,8 +235,11 @@ this help the player forget the interface and become interested in what happens 
   one. Never read `process.env` at module load in shared src.
 - **Inner loop:** `bun run check:fast` (~30 s), then `bun run test:changed`. Heavy runs (full suite, browser, tours)
   go to CI. Use `gh run watch --interval 60`, one at a time.
-- **Machine load:** one heavy job at a time; no edits in a tree while its suite runs; no poll loops; never `pkill -f`
-  a pattern that is in the command itself; at most two agents besides the lead.
+- **Machine load:** three agents besides the lead, one each for Game, World and Maturity, running as often as the
+  machine allows (the owner, 25 November). WSL has 19 GB: every heavy run (a suite, a world walk, the world gate) goes
+  through `/var/tmp/kyrie/tools/heavy.sh`, which takes the machine's lock and holds it under a memory ceiling, so a
+  runaway is killed rather than WSL (it hung twice on 25 November). No edits in a tree while its suite runs; no poll
+  loops; never `pkill -f` a pattern that is in the command itself. A worktree is removed once its branch lands.
 - **Autonomy:** decide ordinary design calls, and report each as a trade-off and a call. Never end a turn waiting on
   the owner. Ask only for direction-level or artistic choices. One app on main, in small verified increments.
 - **Lint limits are the owner's** (eslint.config.mts): split functions and files to meet them; never loosen them.
