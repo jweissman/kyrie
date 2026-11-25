@@ -82,7 +82,13 @@ html, body { overflow: hidden; }
 /* The game's name, the title's heading, small in the frame's own type at the head of the ways in (OR-501: no hero
    wordmark; the embers keep the space). */
 .title-menu .mark { margin: 0 0 14px; text-align: left; font: 500 12px/1.4 var(--do); letter-spacing: .24em; text-transform: uppercase;
-  color: var(--dim); }
+  color: var(--dim); display: flex; align-items: flex-end; gap: 9px; }
+/* The studio's emblem beside it, the tallest tower and its star (Ident.Glyph, OR-529): in the name's own ink, small. */
+.title-menu .mark-glyph { width: 11px; height: 22px; flex: none; margin-bottom: 2px; overflow: visible; }
+.title-menu .mark-glyph line { stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.title-menu .mark-glyph :is(path, circle) { fill: currentColor; }
+/* What the game is, a line under its name in the told voice, quiet (OR-529): words, never a wordmark. */
+.title-menu .title-line { margin: -6px 0 18px; font: italic 400 14px/1.5 var(--told); color: var(--dim); text-align: left; }
 .title-menu { position: relative; width: min(360px, 100%); }
 .title-menu ul { list-style: none; margin: 0; padding: 0; }
 .title-menu ul { display: grid; gap: 6px; }
@@ -112,9 +118,14 @@ html, body { overflow: hidden; }
    only in an indicator (OR-189). */
 :is(.title-page, .sky-page) { --deep-top: #07080b; --deep-low: #141016; }
 .motes { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+/* Tilted cool, toward the observatory's blue-white (OR-530): still within grey's own range, sparks and not a hue. */
 .motes i { position: absolute; left: var(--x); bottom: -12px; width: var(--s); height: var(--s); border-radius: 50%;
-  background: var(--ivory); box-shadow: 0 0 8px rgba(236, 230, 217, .45); opacity: 0;
+  background: rgb(212, 224, 248); box-shadow: 0 0 8px rgba(200, 214, 238, .5); opacity: 0;
   animation: mote var(--t) linear var(--d) infinite; }
+/* Carried into the choosing of a life, the sparks go out over its first moments as its painting comes up (TitlePage.
+   Motes, settle): the passage from the title into creation one, not a cut (TO-03, OR-530). Once, by their opacity. */
+.motes.settling { animation: settle 2.4s .2s var(--ease) both; }
+@keyframes settle { to { opacity: 0; } }
 @keyframes mote { 0% { opacity: 0; transform: translate(0, 0); } 12% { opacity: .55; }
   70% { opacity: .3; } 100% { opacity: 0; transform: translate(4vw, -78vh); } }
 .beat-reveal .motes { animation: fade-in 3s 1s var(--ease) both; }
@@ -138,7 +149,7 @@ html, body { overflow: hidden; }
 /* The studio's mark goes out to the title with no black between them, the sky behind faded in place (IG-12: no wipe). */
 .beat-reveal .build { animation: fade-in 1.2s 2.2s var(--ease) both; }
 .shell:has(.beat-reveal) .ambient { animation: fade-in .5s ease both; }
-.beat-reveal .title-menu .mark { animation: rise 1s .9s var(--ease) both; }
+.beat-reveal .title-menu :is(.mark, .title-line) { animation: rise 1s .9s var(--ease) both; }
 .beat-reveal .title-menu li { animation: rise .8s var(--ease) both; }
 .beat-reveal .title-menu li:nth-child(1) { animation-delay: 1.55s; }
 .beat-reveal .title-menu li:nth-child(2) { animation-delay: 1.67s; }
@@ -159,18 +170,20 @@ html, body { overflow: hidden; }
 .ident line { stroke-linecap: round; }
 .ident .ground { stroke: var(--gold-line); stroke-width: 1; animation: draw-out .8s var(--ease) both; }
 @keyframes draw-out { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0 0 0 0); } }
-.ident .tower { stroke: var(--ivory); stroke-width: 2.4; stroke-dasharray: 90; stroke-dashoffset: 90;
-  animation: tower .8s var(--ease) forwards, tower-lit .5s ease-out forwards; }
+/* The towers are stone, drawn in the neutral ink and never coloured (OR-528): only their lights are. */
+.ident .tower { stroke: rgba(236, 230, 217, .78); stroke-width: 2.4; stroke-dasharray: 90; stroke-dashoffset: 90;
+  animation: tower .8s var(--ease) forwards; }
 @keyframes tower { to { stroke-dashoffset: 0; } }
-/* Each tower lit in its own colour, once, steadily (OR-507): its stroke turns to its hue and a soft light of it gathers;
-   nothing brightens and falls back. */
-@keyframes tower-lit { to { stroke: var(--hue); filter: drop-shadow(0 0 5px var(--hue)); } }
 .ident .spire { stroke: var(--ivory); stroke-width: 1; stroke-dasharray: 8; stroke-dashoffset: 8; opacity: .9;
   animation: tower .45s var(--ease) forwards; }
-.ident .lamp { fill: var(--hue); opacity: 0; filter: drop-shadow(0 0 3px var(--hue)); animation: lamp .6s ease-out forwards; }
-@keyframes lamp { to { opacity: .92; } }
+/* Each light in its Atlas tone, lit once by its opacity alone and held steady (OR-528, OR-507): a small soft glow of
+   its own colour, never a bloom, and nothing brightens and falls back. */
+.ident .light-gold { --hue: var(--tone-gold); } .ident .light-green { --hue: var(--tone-green); }
+.ident .light-blue { --hue: var(--tone-blue); } .ident .light-violet { --hue: var(--tone-violet); }
+.ident .lamp { fill: var(--hue); opacity: 0; filter: drop-shadow(0 0 2px var(--hue)); animation: lamp .6s ease-out forwards; }
+@keyframes lamp { to { opacity: .86; } }
 .ident .lamp.seventh { animation-duration: .8s; }
-.ident .star { fill: var(--ivory); filter: drop-shadow(0 0 6px var(--hue, var(--ivory))); opacity: 0;
+.ident .star { fill: var(--hue); filter: drop-shadow(0 0 3px var(--hue)); opacity: 0;
   animation: lamp .8s ease-out forwards; }
 .ident .studio { margin: 0; font: 300 clamp(11px, 1.15vw, 15px)/1 var(--do); letter-spacing: .5em; padding-left: .5em;
   color: var(--ivory); white-space: nowrap; opacity: 0; animation: studio 1.1s var(--ease) forwards; }
@@ -179,6 +192,8 @@ html, body { overflow: hidden; }
 @keyframes ident-out { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .title-page *, .sky-page *, .ident, .shell .ambient { animation: none !important; }
   .motes { display: none; }
+  /* From the title's dark into the choosing of a life, a plain crossfade of its painting, nothing moving (OR-530). */
+  .shell.phase-company.creating .ambient.ambient:not(.unpainted) { animation: fade-in .6s ease both !important; }
   .title-page * { transition: none !important; } }
 
 /* ---- Creation: the cards and almost nothing else (OWN-14). The whole screen, as the title is: dark, the country's

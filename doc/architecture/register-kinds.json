@@ -1158,6 +1158,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov: the installed context's remainder, ratcheted"
+  },
+  "OR-535": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: OR-530's remainder, the owner's direction that the embers become the birth-sign sky (TO-03)"
   }
  },
  "blockedBy": {

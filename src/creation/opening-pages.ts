@@ -1,4 +1,5 @@
 import { FirstChoice, type Kept } from './first-choice';
+import { Identity } from '../presentation/identity';
 
 // The pages before play as the engine's (the owner's ruling on OR-382, 24 November: "every screen in the app is just
 // the engine telling the presentation layer what to do within a fixed, simple layout with different hints"): the
@@ -26,6 +27,8 @@ export interface EnginePage {
   id: PageId; ask: string; chosen: string; rows: PageRow[]; hints: PageHints;
   // A line said under the rows, plainly, never a row (a kept game this build could not open).
   told?: string;
+  // A line set under the page's heading, small: the title's, what the game is (Identity.line, OR-529).
+  line?: string;
 }
 // How the page is read (the settings Options sets): the size of its letters, and whether the dice are told.
 export interface Settings { size: 'smaller' | 'usual' | 'larger'; rolls: 'shown' | 'hidden' }
@@ -34,10 +37,11 @@ type Setting = { key: keyof Settings; label: string; glyph: string; values: Valu
 
 export class OpeningPages {
   // The title: the ways in (FirstChoice.title), then Options and the encyclopedia, which are no ways into the game
-  // but are the title's rows all the same; the game's name its heading, the embers behind it.
+  // but are the title's rows all the same; the game's name its heading and its line under it, the embers behind it.
   static title(kept?: Kept): EnginePage {
     const step = FirstChoice.title(kept);
     return { id: 'title', ask: step.ask, chosen: step.chosen, hints: { backdrop: 'embers', heading: 'name' },
+      line: Identity.line,
       rows: [...step.cards.map(c => ({ id: c.id, label: c.name, said: c.said, ...c.id === 'begin' ? { every: true as const } : {} })),
         { id: 'options', label: 'Options' },
         { id: 'encyclopedia', label: 'The encyclopedia', said: 'The encyclopedia, opens apart',

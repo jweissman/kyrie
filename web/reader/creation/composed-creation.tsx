@@ -14,6 +14,7 @@ type Frame = Pick<PageParts, 'className' | 'attrs' | 'rail' | 'over'>;
 import { ComposedOptions, type Offer } from './composed-options';
 import { Observatory } from './observatory';
 import { Signature } from './signature';
+import { TitlePage } from '../title-page';
 
 // Creation as one composition in the game's own grammar (the owner, 15 November): every step
 // is the engine's (CreationFlow: its question, its options in its order, which is chosen), and every step is answered
@@ -101,7 +102,7 @@ export class ComposedCreation {
     const entry = <ComposedCreation.Entry card={step.cards.find(c => c.id === lit)} />;
     return <PageFrame.View kind="creation" {...frame} body="composed-step"
       column="composed-col"
-      background={sky && <><Observatory.View signs={app.state.catalog!.signs} focus={lit}
+      background={!sky ? <TitlePage.Motes settle /> : <><Observatory.View signs={app.state.catalog!.signs} focus={lit}
         chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} zoom={zoom} onOut={out} />
         {zoom && <ChoiceRow.Button className="sky-out" data={{ action: 'whole-sky' }} label="All twelve"
           plain="neutral" onClick={out} />}</>}

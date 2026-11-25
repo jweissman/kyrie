@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { OpeningPages } from '../../../src/creation/opening-pages';
+import { Identity } from '../../../src/presentation/identity';
 import { TerminalCreation } from '../../../src/cli/terminal-creation';
 import { TerminalPlay } from '../../../src/cli/terminal-play';
 import { TitlePage } from '../../../web/reader/title-page';
@@ -26,6 +27,11 @@ describe('Interface › Pages the engine draws', () => {
     const page = OpeningPages.title(kept);
     expect(page.rows.map(r => r.id)).toEqual(['continue', 'begin', 'world', 'options', 'encyclopedia']);
     expect(page.hints).toEqual({ backdrop: 'embers', heading: 'name' });
+    // Its line under the name, the engine's words (OR-529), drawn under the heading with the studio's emblem beside it.
+    expect(page.line).toBe(Identity.line);
+    const drawn = renderToStaticMarkup(createElement(TitlePage.View, { app: app('title') }));
+    expect(drawn).toContain(`<p class="title-line">${Identity.line}</p>`);
+    expect(drawn).toMatch(/<h1 class="mark"[^>]*><svg class="mark-glyph"/);
     expect(OpeningPages.begin().rows.map(r => r.id)).toEqual(['build', 'set-out-now']);
   });
   it('is drawn by the page as the engine gives it, no row of the page\'s own', () => {

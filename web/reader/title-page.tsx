@@ -1,4 +1,4 @@
-import { useEffect, useState, type ChangeEvent, type CSSProperties, type MouseEvent } from 'react';
+import { useEffect, useState, type AnimationEvent, type ChangeEvent, type CSSProperties, type MouseEvent } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Identity } from '../../src/presentation/identity';
@@ -47,10 +47,12 @@ export class TitlePage {
       background={<>{beat !== 'ident' && page.hints.backdrop === 'embers' && <TitlePage.Motes />}
         {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
       // No hero (OR-501, the owner, 24 November: "it doesn't need a huge 'Westernesse'"): the game's name, the page's
-      // heading, small in the frame's own type at the head of the ways in, at the hard right; the embers keep the
-      // space. How a new game begins asks in its place (BeginMenu), the name not kept over it.
+      // heading, small in the frame's own type at the head of the ways in, at the hard right, the studio's emblem
+      // beside it and the page's line under it (OR-529); the embers keep the space. How a new game begins asks in its place (BeginMenu), the name not kept over it.
       menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={page.ask}>
-        {page.hints.heading === 'name' && <h1 className="mark" aria-label={Identity.spoken(named.game)}>{named.game}</h1>}
+        {page.hints.heading === 'name' && <h1 className="mark" aria-label={Identity.spoken(named.game)}>
+          <Ident.Glyph studio={named.studio} /><span>{named.game}</span></h1>}
+        {page.line && <p className="title-line">{page.line}</p>}
         <ul>{page.rows.map(row => <li key={row.id}>{TitlePage.row(app, row, item)}</li>)}</ul>
         {page.told && <p className="title-told" data-id="refused" role="status">{page.told}</p>}
       </nav>}
@@ -79,16 +81,34 @@ export class TitlePage {
   // Sparks going up slowly through the dark over the country, as off a fire out of sight below the title: a few, each
   // its own way across and its own pace, the same every time (no chance in it), gone for one who asks for less motion.
   // Back as they were before look-7 (IG-14, the owner: the title was much better with them; quiet never meant still):
-  // their own slow drift, answering nothing the hand does.
-  static Motes() {
+  // their own slow drift, answering nothing the hand does. Cooled toward the night's blue-white, the first step of their
+  // becoming the sky (OR-530). One passage, never begun again: each mote is where the page's one clock has it, so that
+  // the title, how a life begins, the country being drawn and the first page of the choosing, each drawing them anew,
+  // carry the same sparks on where they were (TO-03). settle: creation's, the sparks going out as its painting comes
+  // up, once, then gone.
+  // Once gone they stay gone until the title draws them again (Back from the sky does not bring them up anew).
+  static Motes({ settle }: { settle?: boolean }) {
+    const [since] = useState(TitlePage.since), [, go] = useState(false);
+    if (!settle) { TitlePage.settled = false; } else if (TitlePage.settled) { return null; }
+    const out = (e: AnimationEvent<HTMLDivElement>) => {
+      if (e.target === e.currentTarget) { TitlePage.settled = true; go(true); }
+    };
     return (
-      <div className="motes" aria-hidden="true">
+      <div className={`motes${settle ? ' settling' : ''}`} aria-hidden="true" onAnimationEnd={settle ? out : undefined}>
         {Array.from({ length: TitlePage.motes }, (_, i) => <i key={i} style={{ '--x': `${(i * 37 + 11) % 100}%`,
-          '--d': `${-((i * 7919) % 23)}s`, '--t': `${16 + (i * 13) % 11}s`, '--s': `${2 + (i % 3)}px` } as CSSProperties} />)}
+          '--d': `${-((i * 7919) % 23) - since}s`, '--t': `${16 + (i * 13) % 11}s`, '--s': `${2 + (i % 3)}px` } as CSSProperties} />)}
       </div>
     );
   }
   static readonly motes = 34;
+  // The motes' one clock: seconds since they were first drawn in this page's life.
+  static since(): number {
+    const now = typeof performance === 'undefined' ? 0 : performance.now();
+    TitlePage.lit ??= now;
+    return Math.round(now - TitlePage.lit) / 1000;
+  }
+  private static lit: number | undefined;
+  private static settled = false;
   // How long the title takes to come up.
   static readonly reveal = 3200;
   // Where the opening has got to: the ident once a session (and when the address asks, ?ident or ?studio=), then

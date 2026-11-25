@@ -1,12 +1,15 @@
 // The names the player is shown, each kept here and nowhere else. The game's: its mark on the title (and that mark read
-// aloud as a word), the browser's tab, the head of Options, the encyclopedia's way back to the game, and what a file
-// that is no save of it is told. The studio's: set beneath its mark, the seven towers, before the title. Neither is
-// settled, so the address may ask for another to compare: ?name=Lanthorn on the title, ?studio=freehaven in the mark
-// (and any other words, ?studio=Ivory%20Gate). The repository, its packages, the command line, the code and the data
-// keep "kyrie" whatever the game comes to be called.
+// aloud as a word) and the line under it, the browser's tab, the head of Options, the encyclopedia's way back to the
+// game, and what a file that is no save of it is told. The studio's: set beneath its mark, the seven towers, before
+// the title. Neither is settled, so the address may ask for another to compare: ?name=Lanthorn on the title,
+// ?studio=freehaven in the mark (and any other words, ?studio=Ivory%20Gate). The repository, its packages, the command
+// line, the code and the data keep "kyrie" whatever the game comes to be called.
 export class Identity {
   // The game's name as its mark sets it: in capitals, a space between words.
   static readonly game = 'WESTERNESSE';
+  // The line set with the game's name on the title, small, under it: what the game is (the owner, 25 November, OR-529:
+  // "some real text there again: 'A History of Emprise' or similar").
+  static readonly line = 'A History of Emprise';
   // The studio's: the seven towers' mark lights a lamp on each lesser tower, and the seventh light is the star.
   static readonly studio = 'SEVENTH STAR';
   // The studio's names on the owner's list, and the namer's, by the word an address asks for them by.
