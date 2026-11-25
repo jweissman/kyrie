@@ -17,6 +17,7 @@ import { Costs } from '../costs';
 import { WorldMemo } from '../lang/world-memo';
 import { KeptParts } from './kept-parts';
 import { KnownWays, type Leg, type Tree } from './known-ways';
+import { Passages } from './passages';
 
 export type { Leg } from './known-ways';
 // The way to a known place over ways the company knows: the place asked for, the room the way comes to, its legs in
@@ -213,8 +214,11 @@ export class Itineraries {
     const leads = inside ? [] : this.destinations(campaign), roads = inside ? [] : this.roads(campaign, leads);
     const around = this.around(campaign);
     const listed = new Set([...leads, ...roads, ...around].map(d => d.id));
-    return { destinations: leads.map(d => this.scaled(campaign, d, names)), roads: roads.map(d => this.named(d, names)),
-      around: around.map(d => this.named(d, names)),
+    // Each says whether its way leaves the hex (Passages.leaves), which makes it the map's (DoableJourneys.mapped).
+    const leaving = { module: campaign.module, from: at };
+    return { destinations: leads.map(d => Passages.leaving(leaving, this.scaled(campaign, d, names))),
+      roads: roads.map(d => Passages.leaving(leaving, this.named(d, names))),
+      around: around.map(d => Passages.leaving(leaving, this.named(d, names))),
       mapped: inside ? [] : this.mapped(campaign, region, listed).map(d => this.named(d, names)) };
   }
   // Whether a place is enclosed: indoors or under the ground, or within a building or a site (a keep, a ship, a

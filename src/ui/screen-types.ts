@@ -247,7 +247,9 @@ export interface Screen {
   // A site's scale, as its tellers would put it (see SiteScale).
   // stops: the places each leg comes to, by id, for the map to draw the way as it will be gone (see JourneyCourse).
   destinations?: { id: string; name: string; minutes: number; toward?: string; scale?: string;
-    legs: { way: string; to: string; minutes: number }[]; stops?: string[] }[];
+    legs: { way: string; to: string; minutes: number }[]; stops?: string[];
+    // Its way leaves the hex the company is in (Passages.leaves): a journey of the map's, never the scene's.
+    crosses?: true }[];
   // The towns the known roads go to besides, which the map and the notes can set out for (not the place's own leads).
   roads?: NonNullable<Screen['destinations']>;
   // The other places of the town the company is in, further than a step (by its square), to walk to directly.

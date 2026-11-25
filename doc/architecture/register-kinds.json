@@ -1296,6 +1296,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "25 Nov, an adventure's friction: a label that could say more, the act itself honest"
+  },
+  "OR-651": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov: the owner's ruling, a new contract for what the scene offers"
   }
  },
  "blockedBy": {

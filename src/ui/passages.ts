@@ -1,5 +1,5 @@
 import { Spatial } from '../lang/spatial';
-import type { Entity } from '../lang/module';
+import type { Entity, Module } from '../lang/module';
 import type { World } from '../lang/world';
 import type { SpatialScene } from '../presentation/player-view';
 import type { Act, ExitRow, Passage, PlaceRef, Transition } from './screen-types';
@@ -20,6 +20,18 @@ interface Known {
 // way is unavailable. Route-based modules expose their passages through ordinary world relations.
 export class Passages {
   constructor(private entities: Map<string, Entity>, private world: World, private actor: string) {}
+  // Whether a journey set out on from here leaves the hex on its way: any place its legs come to stands in another hex
+  // (HexBoundary), its end or a stop between. A walk about a town, or a site's way out, whose route runs over the
+  // open country is a crossing like any other, and is the map's (the owner, 25 November: ways to another hex appear
+  // only on the map; one act in a new life's first town had carried the company more than one hex).
+  static leaves(module: Module, from: string, stops: readonly string[]): boolean {
+    const here = HexBoundary.hex(module, from);
+    return !!here && stops.some(id => { const at = HexBoundary.hex(module, id); return !!at && at !== here; });
+  }
+  // A destination marked so, where its way leaves the hex (Destination.crosses).
+  static leaving<D extends { stops?: string[] }>(at: { module: Module; from: string }, d: D): D & { crosses?: true } {
+    return Passages.leaves(at.module, at.from, d.stops ?? []) ? { ...d, crosses: true as const } : d;
+  }
   private relations(name: string) { return this.world.related(name); }
   place(id: string): PlaceRef {
     const e = this.entities.get(id);

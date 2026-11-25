@@ -27,6 +27,21 @@ describe('a journey across the country', () => {
       ['travel:reedbridge', 'travel:reedbridge', null, true],
       ['travel:ford', 'travel:ford', null, true],
       ['view:map', 'view:map', null, null]]);
+    // Said as what it does, gold as the aim's step (the owner, 25 November: ways to another hex appear only on the
+    // map); the journey it opens the map on keeps its own words there.
+    expect(rows.filter(r => r.chart).map(r => [r.label, r.called])).toEqual([['Open the map', 'Open the map'],
+      ['Open the map', 'Open the map']]);
+    expect(rows.find(r => r.id === 'travel:reedbridge')?.label).toBe('travel:reedbridge');
+  });
+  // A walk about the town whose way runs out over the open country (Destination.crosses, Passages.leaves) is the map's
+  // too, led or not (the owner's new life, 25 November: one act in the first town had carried the company more than
+  // a hex).
+  it('about the town, by a way that leaves the hex, is on the map; led with, opens it', () => {
+    const away = { ...screen, around: [{ ...place('shrine', 5), crosses: true }] } as unknown as Screen;
+    expect(DoableJourneys.mapped([row('travel:shrine', 'travel:shrine')], away).map(r => [r.id, r.map ?? null]))
+      .toEqual([['travel:shrine', true], ['view:map', null]]);
+    expect(DoableJourneys.mapped([row('travel:shrine', 'travel:shrine', true)], away).map(r => [r.id, r.does]))
+      .toEqual([['map:shrine', 'view:map:shrine'], ['travel:shrine', 'travel:shrine'], ['view:map', 'view:map']]);
   });
   it('to where an aim names, is on the map, not in the rest', () => {
     const rows = DoableJourneys.mapped([row('travel:gatesend', 'travel:gatesend'),

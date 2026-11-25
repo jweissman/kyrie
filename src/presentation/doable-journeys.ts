@@ -11,6 +11,7 @@ interface Journey { command: string; label: string; minutes: number }
 // themselves from the screen (the parity measure: 31 journeys the two had drawn apart). Which of them are on the map
 // rather than in the rest is said here too (map), by JourneyFold, which the runner alone had read.
 export class DoableJourneys {
+  static readonly open = 'Open the map';
   // The journeys the scene's offer leaves out, by command, words and time: none to where a way from here already goes
   // (CL-07: the same place offered twice, as a way and as a journey); inside a site, the way out as the compass gives
   // it (Compass.out), the whole route in one act (cold play 4, CL-44).
@@ -32,18 +33,20 @@ export class DoableJourneys {
   // ruling, 20 November, on the parity measure's page pressed: the page had opened the map, the runner set out).
   static mapped(rows: Row[], screen: Screen, out?: Route): Row[] {
     const fold = JourneyFold.kept(screen, out), drawn = !!screen.region?.land?.tracts;
-    const about = new Set([...(screen.around ?? []).map(d => d.id), ...out?.command ? [out.command] : [],
-      ...out?.to ? [out.to] : []]);
+    // Not a walk whose way leaves the hex (Destination.crosses): that is the map's, as any crossing is.
+    const about = new Set([...(screen.around ?? []).filter(d => !d.crosses).map(d => d.id),
+      ...out?.command ? [out.command] : [], ...out?.to ? [out.to] : []]);
     const kept = drawn ? new Set([...fold].filter(id => about.has(id))) : fold;
     // A way walked into another hex (onto the road out, into the wood's heart) is the map's too, as the page has it
     // (MenuModel.stays, Passages.crosses): offered by its command, it had stood in the rest (the parity measure).
     const crossing = new Set(drawn ? screen.exits.filter(e => e.crosses).map(e => e.destination.id) : []);
     const marked = rows.map(r => r.led ? (drawn ? this.charted(r, about, screen) : r) : this.mark(r, kept, crossing));
     const going = new Set(marked.flatMap(r => r.does ? [r.does] : []));
-    // The journey a charted row opens the map on, there to be set out on, where no row of the rest does it.
-    const set = marked.flatMap(r => r.chart && !going.has(`travel:${r.chart}`)
-      ? [{ id: `travel:${r.chart}`, label: r.label, does: `travel:${r.chart}`, witnesses: r.witnesses, map: true as const,
-        ...r.minutes ? { minutes: r.minutes } : {} }] : []);
+    // The journey a charted row opens the map on, there to be set out on, where no row of the rest does it: in the
+    // journey's own words, which the map says.
+    const set = marked.flatMap((r, i) => r.chart && !going.has(`travel:${r.chart}`)
+      ? [{ id: `travel:${r.chart}`, label: rows[i]!.called ?? rows[i]!.label, does: `travel:${r.chart}`,
+        witnesses: r.witnesses, map: true as const, ...r.minutes ? { minutes: r.minutes } : {} }] : []);
     // And the map itself, where any journey is set out on from it, but underground (MenuModel.country, the page's
     // own row till now: the parity measure's page only, MT-18), the runner's journeys and serve's map alike.
     const all = [...marked, ...set], map = drawn && !screen.place.underground && all.some(r => r.map || r.chart);
@@ -60,12 +63,17 @@ export class DoableJourneys {
     const exit = screen.exits.find(e => e.id === r.id);
     const crosses = exit ? !!exit.crosses : !!to && this.crosses(screen, to);
     if (!to || about.has(to) || about.has(r.does!) || !crosses) { return r; }
-    return { ...r, id: this.id(r.id), does: `view:map:${to}`, chart: to };
+    // Said as what it does: the way leaves the hex, so the step is opening the map, gold as the aim's step is (the
+    // owner, 25 November: ways to another hex appear only on the map; one act had carried a company from a town
+    // across several hexes without the map opened).
+    return { ...r, id: this.id(r.id), does: `view:map:${to}`, chart: to, label: DoableJourneys.open,
+      called: DoableJourneys.open };
   }
   // Whether a journey leaves the hex the company is in: not one into a town a way from here walks into without
   // crossing (Millholm's corn-store from Millholm's own stretch of country, by its gate), nor to a place of the
   // country's own hex; every other journey across a country drawn in hexes does.
   private static crosses(screen: Screen, to: string): boolean {
+    if (JourneyFold.every(screen).some(d => d.id === to && d.crosses)) { return true; }
     const land = screen.region?.land, towns = Object.keys(land?.towns ?? {}), at = this.town(towns, to);
     if (at && screen.exits.some(e => !e.crosses && this.town(towns, e.destination.id) === at)) { return false; }
     const tract = land?.tracts && to.startsWith(land.tracts) ? Number(to.slice(land.tracts.length)) : undefined;

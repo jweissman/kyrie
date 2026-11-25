@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 182 pins (150 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 587 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 183 pins (151 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 588 live rows, 416 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -95,17 +95,18 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 7 pins · 17 defects · 2 asks
+- **Journeys over known ways** · 8 pins · 17 defects · 2 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
   - ○ revealing a hex earns experience
   - ○ a Cartographers' guild pays for and honours what the company has mapped
+  - ✓ is on the map alone, its aim leading there in gold, and the map sets out on it
   - ✓ tells the frontier from the retreat underground, and sees an aim through
   - ✓ never draws a way back as worth a look for another aim, and says which aim
   - requirement NM-01 P1: No road junctions: a road out goes into a town and back out (16–23 ways a seed, at most 2 hexes);…
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
-- **Wayfinding and bearings** · 2 pins · 10 defects · 4 asks
+- **Wayfinding and bearings** · 2 pins · 11 defects · 4 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement CO-20 P1: The map menu's verbs by cell asserted by no spec: View for a place not in view, Travel to the one…

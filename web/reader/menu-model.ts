@@ -152,7 +152,8 @@ export class MenuModel {
   // act it offers (Crossing, TR-20): here it only says which of its rows are the map's.
   private static stays(c: Choice, screen: Frame['screen']): boolean {
     // A journey set out on (travel:) stays only where it is a walk about the town the company is in.
-    if (c.id.startsWith('travel:')) { return (screen.around ?? []).some(d => `travel:${d.id}` === c.id); }
+    // Not one whose way leaves the hex (Destination.crosses, the engine's: the owner, 25 November).
+    if (c.id.startsWith('travel:')) { return (screen.around ?? []).some(d => `travel:${d.id}` === c.id && !d.crosses); }
     const exit = screen.exits.find(e => e.id === c.id || c.id.startsWith(`${e.id}/`));
     return !exit || !exit.crosses;
   }

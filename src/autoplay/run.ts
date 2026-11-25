@@ -108,9 +108,14 @@ export class AutoplayRun {
   private static leaves(choices: Choice[]): Choice[] {
     return choices.flatMap(c => c.children ? this.leaves(c.children) : [c]);
   }
+  // The acts that go somewhere by a way (which may be into another hex: PlaySession.crosses).
+  private static readonly moving = /^(go|walk|climb|cross|slip_past|passage|risk_passage|cleared_passage|escort)\(/;
   static situation(s: PlaySession, step: number, led = false, prefer?: Aspect): Situation {
     const c = s.campaign, engaged = this.engaged(s);
-    const offered = PlayerFrame.of(c).rows.filter(x => !engaged || engaged.has(x.choice.id))
+    // Never a way walked into another hex: that is set out on from the map, among the destinations (the owner, 25
+    // November: ways to another hex appear only on the map), as the scene's rows leave it (DoableJourneys.mapped).
+    const offered = PlayerFrame.of(c).rows.filter(x => (!engaged || engaged.has(x.choice.id))
+      && !(AutoplayRun.moving.test(x.choice.id) && s.crosses(x.choice.id)))
       .map(x => ({ id: x.choice.id, name: x.choice.name }));
     return { offered, destinations: engaged ? []
       : Itineraries.destinations(c).map(d => ({ id: d.id, name: d.name })),
@@ -130,6 +135,11 @@ export class AutoplayRun {
   // What the page leads with where the company stands, best first, by command (see Glance); for a walker that
   // prefers an aspect (silver: what is worth exploring; gold: the aim followed), what has it first, the page's order
   // kept otherwise (amendment 6, H).
+  // A way led with into another hex is set out on from the map, as the page charts it (DoableJourneys.mapped).
+  private static charted(s: PlaySession, command: string): string {
+    const to = AutoplayRun.moving.test(command) ? s.crosses(command) : undefined;
+    return to ? `travel:${to}` : command;
+  }
   private static led(s: PlaySession, prefer?: Aspect): string[] {
     const screen = ScreenModel.build(s.campaign), glance = Narrator.leaf(s.campaign, screen).glance;
     const acts = [...glance?.acts ?? []]
@@ -145,7 +155,7 @@ export class AutoplayRun {
     return [...acts.flatMap(a => a.choice.endsWith('#talk')
       ? [...a.for ? [a.for] : [], ...a.command?.startsWith('ask(') ? [a.command] : [],
         ...[Doable.one(glance!, screen, a.choice, a.command).does ?? []].flat()]
-      : a.command ? [a.command] : []), ...added];
+      : a.command ? [this.charted(s, a.command)] : []), ...added];
   }
   // Whether a led act is what a walker prefers: the gold walker goes by the one the glance marks as carrying the aim
   // on (Promoted.continues); the silver by what is worth exploring.
