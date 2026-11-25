@@ -140,7 +140,10 @@ export class Doable {
   // talk whose one act it is ("Ask Dai Probert to stay here" under his talk and by itself), or a journey to where a way
   // already goes (Out to the old drift's mouth beside Up to it). The row kept is the act's own, a way's step before a
   // journey there; a row held within another, or holding others, is its holder's and stays.
-  private static once(all: Row[]): Row[] {
+  private static once(drawn: Row[]): Row[] {
+    // A row within a talk is there once, held by the lens and led for by the talk alike (Ask Owain how many head came
+    // down, twice under his talk: OR-466).
+    const all = drawn.filter((r, i) => !r.within || drawn.findIndex(x => x.id === r.id && x.within === r.within) === i);
     // A talk whose one act is the act it holds is that act: the act is not offered again within it.
     const only = new Map(all.filter(r => r.only && r.does && r.holds?.length).map(r => [r.id, r.does!]));
     const dropped = new Set(all.filter(r => r.within && only.get(r.within) === r.does).map(r => r.id));

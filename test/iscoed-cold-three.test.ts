@@ -33,6 +33,8 @@ describe('the drove road, after the third cold play', () => {
       'drove__clerk_count_t']) { s = said(await r.ask(JSON.stringify({ act }))); }
     const primary = s!.offer.primary.map(o => RunnerOffer.act(o));
     expect(primary).toContain('drove__read_book(party,drove__customs)');
-    expect(primary.filter(id => id.startsWith('travel:'))).toEqual([]);
+    // Asking Owain took up the aim and followed it on to the Black Rhyne behind the pens (one row, one act: OR-466), so
+    // the way back to the pens is the aim's; nothing else is led with for being untaken.
+    expect(primary.filter(id => id.startsWith('travel:') && id !== 'travel:drove__pens')).toEqual([]);
   }, 180000);
 });

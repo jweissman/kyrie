@@ -29,7 +29,8 @@ describe('Choice and consequence › A job followed through its payoff and on', 
       if (was && !after.some(a => a.id === was) && after.length && !now) { breaches.push(`${was} done, none on`); }
       before = after;
     }
-    expect(followed).toEqual(['drove__held_aim', 'drove__held_rhyne', 'drove__held_proof', 'drove__sales_aim',
+    // The first, asking Owain, is taken up and done in the one act (OR-466): followed on from it to the Rhyne.
+    expect(followed).toEqual(['drove__held_rhyne', 'drove__held_proof', 'drove__sales_aim',
       'drove__west_aim']);
     expect(paid).toBe(4);
     expect(told).toContain('For the four you found');

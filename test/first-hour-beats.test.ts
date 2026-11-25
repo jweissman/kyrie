@@ -29,8 +29,11 @@ describe('the drove road\'s first turn', () => {
     expect(Road.text(first)).toContain('They counted, and they took Bran.');
     expect(Road.text(first)).toContain('tally-stick');
     expect(Road.text(first)).not.toMatch(Road.town);
+    // Owain's talk is the aim's own row, in its words, and asking him takes the aim up: no row to follow it beside it
+    // (one row, one act: OR-466).
     expect(first.offer.primary.map(o => o.id).toSorted()).toEqual(['drove__owain#talk', 'exit:drove__customs',
-      'follow:drove__held_aim', 'origin__stick#look']);
+      'origin__stick#look', 'region__w8_head#talk']);
+    expect(first.offer.primary.find(o => o.id === 'drove__owain#talk')?.label).toBe('Ask Owain how many head came down');
     // The page's own telling of the place (its setting) is the charge's too; the rest of the green is held for a look.
     const glanced = Narrator.leaf(c, ScreenModel.build(c)).glanced!;
     expect([...glanced.situation, ...glanced.presence].join(' ')).not.toMatch(Road.town);

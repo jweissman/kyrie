@@ -16,7 +16,7 @@ import type { Memorial } from '../memorial';
 import { Crossing } from '../campaign/crossing';
 import { Travel, type Journeyed } from './travel';
 import { HexBoundary } from '../hex-boundary';
-import { Undertakings } from '../presentation/undertakings';
+import { Undertakings } from '../presentation/undertakings'; import { HeldLead } from '../presentation/held-lead';
 import { Digest } from './digest';
 
 // digest: what the game was after it (see Digest).
@@ -162,6 +162,9 @@ export class PlaySession {
       return followed;
     }
     const id = PlayerView.resolve(this.campaign, command);
+    // The step of the aim to follow, done, takes the aim up first (one row, one act: HeldLead, OR-466).
+    const takes = HeldLead.taken(this.campaign, command);
+    if (takes) { this.follow(takes); }
     const aims = Undertakings.held(this.campaign).map(o => o.id);
     // Open from resolved to committed: no save, no frame meanwhile.
     this.busy = true; this.campaign.command = id;

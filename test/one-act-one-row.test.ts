@@ -34,4 +34,22 @@ describe('one act, one row', () => {
     }
     expect(twice).toEqual([]);
   }, 180000);
+  // Nor one act's words twice (OR-466): on the green, "Ask Owain how many head came down" had been both the aim to
+  // follow and the question in Owain's talk. The aim's step offered here is its one row, in its words, and taking it
+  // asks him and takes up the aim, the next part followed on from it.
+  it("draws the aim to follow and its step offered here as one row, which takes the aim up", async () => {
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--origin', 'drove', '--opening',
+      'none']));
+    const r = new Runner(journey.session), s = r.said();
+    const rows = RunnerOffer.flat([...s.offer.primary, ...s.offer.rest]);
+    const asked = rows.filter(o => o.label === 'Ask Owain how many head came down');
+    expect(asked.map(o => [o.id, o.does])).toEqual([['drove__owain#talk', 'drove__owain_count_t']]);
+    expect(rows.some(o => o.id.startsWith('follow:drove__held_aim'))).toBe(false);
+    const drawn = Doable.of(r.leaf!.glance!, ScreenModel.build(journey.session.campaign));
+    const labels = drawn.filter(x => !x.within).map(x => x.label), ids = drawn.map(x => x.id);
+    expect(labels.filter((l, i) => labels.indexOf(l) !== i)).toEqual([]);
+    expect(ids.filter((l, i) => ids.indexOf(l) !== i)).toEqual([]);
+    const after = await r.ask('{"act":"drove__owain#talk"}') as Said;
+    expect(after.aims?.find(a => a.followed)?.id).toBe('drove__held_rhyne');
+  }, 120000);
 });

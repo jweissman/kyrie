@@ -22,6 +22,8 @@ export class HeldActs {
     const at = acts.findIndex(a => a.tier > 0), i = at < 0 ? acts.length : at;
     return pull ? [...acts.slice(0, i), pull, ...acts.slice(i)] : acts;
   }
+  // Which aim is offered to be followed: the company's own errand, else the first held (as the Notes list them).
+  static pull<A extends { own?: true }>(aims: A[]): A | undefined { return aims.find(a => a.own) ?? aims[0]; }
   // An aim held and none followed, offered to be followed, as any act is (the owner, 15 November: one action grammar,
   // no stray buttons): the glance's own act, so that every client is offered it and does it the same way (the
   // session's `follow:<aim>`).
@@ -29,7 +31,7 @@ export class HeldActs {
   // Engaged; OR-177: stopped for the old woman's riddle, the drove's aim to take up had led the page's menu, above
   // her answers, where the engine's frame and the runner held only the riddle and the ways off).
   static follow(screen: Pick<Screen, 'aims' | 'warned' | 'engaged'>): Promoted | undefined {
-    const aims = screen.aims ?? [], pull = aims.find(a => a.own) ?? aims[0];
+    const aims = screen.aims ?? [], pull = this.pull(aims);
     if (!pull || aims.some(a => a.followed) || Engaged.holds(screen)) { return undefined; }
     const choice = `follow:${pull.id}`;
     // Said by the aim's own words, no prefix (OR-72: "Follow: Look along the road between Mistshaw" read as following a
