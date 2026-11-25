@@ -4,6 +4,7 @@
   "walks": ["the passage", "the way through", "the low way"],
   "plan": {
     "buried": "the old dead under {town}",
+    "wooded": "the old dead under the beeches",
     "id": "deep_barrow",
     "kind": "barrow",
     "seen": "a great long mound with a door of stone",
@@ -52,11 +53,11 @@
     { "kind": "crawl", "from": ["halls", "ossuary"], "to": ["grave", "treasury"], "minutes": 8, "names": ["the robbers' tunnel"] }
   ],
   "roles": {
-    "mouth": { "lit": true, "open": true, "names": ["the forecourt"], "buried": ["A court of standing stones in the dark under {town}, curving in to a low door under a lintel of one stone. Whoever set them meant them to face the sunrise; the town was built over them, and down here they face nothing."], "scenes": ["A forecourt of standing stones faces the sunrise, curving in to the mound's high end. Between the two tallest is the door, a low black square under a lintel of one stone."] },
+    "mouth": { "lit": true, "open": true, "names": ["the forecourt"], "wooded": ["A court of standing stones in the dark under the old woods, curving in to a low door under a lintel of one stone. Whoever set them meant them to face the sunrise. The woods have grown over the mound since, and down here they face nothing."], "buried": ["A court of standing stones in the dark under {town}, curving in to a low door under a lintel of one stone. Whoever set them meant them to face the sunrise; the town was built over them, and down here they face nothing."], "scenes": ["A forecourt of standing stones faces the sunrise, curving in to the mound's high end. Between the two tallest is the door, a low black square under a lintel of one stone."] },
     "passage": { "names": ["the long passage"], "scenes": ["A passage of upright slabs runs into the mound, roofed with stones laid across, so low you go bent. The slabs are cut with spirals and with lines that might be roads."] },
     "chamber": { "names": ["the cross-chamber"], "scenes": ["The passage opens into a chamber shaped like a cross. Its roof rises in courses, each stone set a little further in, until one stone closes it. Basins of stone stand in the arms, with ash in them."] },
     "recess": { "names": ["a side recess", "the north recess", "the south recess"], "scenes": ["A recess off the chamber holds a stone basin. The burned bones of the first-laid are heaped in it, a bead or two among them.", "In this recess the slabs are carved closer than anywhere else. Every one bears the same sign, a ring with a dot at its centre."], "finds": [{ "cue": "a bead or two among them", "found": "Among the burned bones in the basin, a string of amber beads, the cord gone to nothing and the beads still in their order.", "valuable": "amber_beads" }] },
-    "vent": { "lit": true, "names": ["the light-box"], "buried": ["A slot in the stones over the door, a shaft of slabs going up into the dark under {town}. Once it let the sun down the passage on one morning of the year; now only a draught comes down it, smelling of the town. It is wide enough for a body to squeeze through."], "scenes": ["Over the door is a slot, a box of slabs open to the sky at one end. On one morning of the year the sun comes through it down the whole passage. It is wide enough for a body to squeeze through."] },
+    "vent": { "lit": true, "names": ["the light-box"], "wooded": ["A slot in the stones over the door, a shaft of slabs going up into the roots of the beeches. Once it let the sun down the passage on one morning of the year. Now only a draught comes down it, smelling of leaf-mould. It is wide enough for a body to squeeze through."], "buried": ["A slot in the stones over the door, a shaft of slabs going up into the dark under {town}. Once it let the sun down the passage on one morning of the year; now only a draught comes down it, smelling of the town. It is wide enough for a body to squeeze through."], "scenes": ["Over the door is a slot, a box of slabs open to the sky at one end. On one morning of the year the sun comes through it down the whole passage. It is wide enough for a body to squeeze through."] },
     "robbers": { "names": ["the robbers' camp"], "scenes": ["Robbers have camped under the overhang of the forecourt: a hearth of three stones, a bundle of picks, a sack with the bottom cut out."] },
     "back_stone": { "names": ["the back-stone"], "scenes": ["The chamber's far arm ends in a single tall stone, smooth and uncarved. Where it does not quite meet the wall, a draught comes up from below. A portal stone hangs in a slot in the rock beside it."] },
     "stair_foot": { "names": ["the foot of the stair"], "scenes": ["The stair comes down into a low hall cut in the chalk under the mound. Its white walls are grey with old lamp-smoke. Niches run away along both walls in rows."] },
@@ -161,6 +162,7 @@
     ]
   },
   "outside": "The mound lies long on the land, grassed over, higher at its east end. At the high end a forecourt of standing stones curves in to the door, and on the lintel, cut in the old script: {oldup}.",
+  "wooded": "The stair ends at a door of dressed stone set in the rock, older than the woods above it. On the lintel, cut in the old script: {oldup}.",
   "under": "The stair ends at a door of dressed stone set in the rock, older than the town's cellars above it. On the lintel, cut in the old script: {oldup}.",
   "finds": {
     "negligible": ["broken_dagger", "cloth_pouch", "wooden_figurine", "iron_figurine", "candle", "chalk", "hand_mirror", "bell", "simple_ring"],

@@ -18,6 +18,7 @@ import { Draw } from './land/draw';
 import { Communities } from './community/community';
 import { ReferenceSettlement } from './reference-settlement';
 import { RegionWoods } from './region-woods';
+import { RegionWeather } from './region-weather';
 
 // What lies under the town the company begins in: an adventure a step from its door, with no journey to make first
 // (the owner, 1 November: "we shouldn't have to explore to start an adventuring loop"). What it is, the rooms, the
@@ -158,7 +159,9 @@ export class RegionUndertown {
     const t = s.id, w = `${t}_ud`, makers = history.makers.find(m => m.art === art) ?? history.makers[0]!;
     const old = makers.self.name ?? makers.epithet, k = history.successors;
     // Called and kinded as what it is: the Delvers' mine under a town had been "the old dead", a barrow (SI-02).
-    const name = (purpose.plan.buried ?? 'the old dead under {town}').replace('{town}', s.name);
+    const wooded = ReferenceSettlement.is(region, s);
+    const name = (wooded ? purpose.plan.wooded ?? 'the old dead under the old woods'
+      : purpose.plan.buried ?? 'the old dead under {town}').replace('{town}', s.name);
     const site: Site = { id: w, kind: purpose.plan.kind, name, hours: 0 };
     const values = { w, name: site.name, old, oldup: old.toUpperCase(), land: t, x: '1', y: '8', kingdom: k.name,
       kingdomup: k.name.toUpperCase(), kingdomkind: k.kind, fallen: k.fallen, fate: makers.fate, town: t,
@@ -167,13 +170,12 @@ export class RegionUndertown {
       where: ReferenceSettlement.is(region, s) ? `under the old woods above ${s.name}` : `under ${s.name}`, keeperat: SettlementWriter.standing(region, s, 'innkeeper') };
     // What a site placed in the country has from being placed (see RegionSites): that it is named, and found. It
     // lies within the town, under it, so that going down into it is going in, not a journey across the country.
-    const wooded = ReferenceSettlement.is(region, s);
-    return [...wooded ? RegionWoods.lines(s, { w, site: site.name, old }) : this.vaulted(s, { w, site: site.name }),
+    return [...wooded ? RegionWoods.lines(s, { w, site: site.name, old,
+      ...region.calendar ? { sky: RegionWeather.kinds(region, region.calendar) } : {} })
+      : this.vaulted(s, { w, site: site.name }),
       // The measures every deep site declares are the country's already when it has one of its own.
-      ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name })
-        .filter(l => !(taken && /^\s*Measure deepWater/.test(l)))
-        // Under the woods there are no cellars above it.
-        .map(l => wooded ? l.replace("older than the town's cellars above it", 'older than the woods above it') : l),
+      ...DeepSites.lines(region, site, { purpose, values, rivals: false, buried: s.name, wooded })
+        .filter(l => !(taken && /^\s*Measure deepWater/.test(l))),
       ...this.below(region, s, { w, site: site.name })];
   }
   // The way down from the vault under the town, past its keeper (the undertown's own: see catacombs).

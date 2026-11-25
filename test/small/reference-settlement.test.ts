@@ -43,6 +43,12 @@ describe('the reference game\'s settlement', () => {
     expect(text).toContain(`is path between ${t}_green and ${t}_wood_edge`);
     expect(text).toMatch(new RegExp(`Passage ${t}_wood_down .* between ${t}_wood_stones and ${t}_ud hidden until ${t}_wood_door`));
   });
+  it('says of the deep place under the woods only what is so there: no town over it (OR-643)', () => {
+    const { t, text } = written('kite');
+    const deep = text.split('\n').filter(l => new RegExp(`\\b${t}_ud`).test(l)).join('\n');
+    expect(deep).toContain('the old dead under the beeches');
+    expect(deep.match(/under Newmeet|the town was built|smelling of the town|town's cellars/g)).toBeNull();
+  });
   it('leaves a first town of another terrain as it was', () => {
     const { t, text } = written('iscoed');
     expect(text).toContain(`${t}_u_notice`);
