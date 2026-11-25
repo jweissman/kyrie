@@ -821,13 +821,13 @@
    "kind": "direction",
    "was": "defect",
    "pri": "P3",
-   "why": "24 Nov, the owner's idea for the paintings: a wanted future, not a defect"
+   "why": "24 Nov: the owner's painting idea, a direction (the coordinator's batch); done here"
   },
   "OR-447": {
    "kind": "direction",
    "was": "defect",
    "pri": "P3",
-   "why": "24 Nov, the owner's idea for the paintings: a wanted future, not a defect"
+   "why": "24 Nov: the owner's painting idea, a direction; waits on paintings and a calendar start"
   },
   "OR-421": {
    "kind": "direction",
@@ -852,18 +852,6 @@
    "was": "defect",
    "pri": "P2",
    "why": "24 Nov, split from OR-441: the higher rungs of the ladder run over the opening, an instrument wanted"
-  },
-  "OR-446": {
-   "kind": "direction",
-   "was": "defect",
-   "pri": "P3",
-   "why": "24 Nov: the owner's painting idea, a direction (the coordinator's batch); done here"
-  },
-  "OR-447": {
-   "kind": "direction",
-   "was": "defect",
-   "pri": "P3",
-   "why": "24 Nov: the owner's painting idea, a direction; waits on paintings and a calendar start"
   },
   "OR-467": {
    "kind": "direction",
@@ -956,8 +944,6 @@
   "BO-12": "OR-310",
   "OR-407": "BX-02",
   "OR-454": "OR-442",
-  "OR-455": "OR-440",
-  "OR-457": "OR-443",
   "OR-452": "OR-451"
  }
 }

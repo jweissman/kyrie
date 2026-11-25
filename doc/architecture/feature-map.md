@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 558 live rows, 447 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 567 live rows, 448 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -104,6 +104,8 @@ page's colours and opportunities.)
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement OR-345 P2: Wayfinding and bearings: the capability as its pins hold it (a strategic map of countries above…
   - direction OR-510 P3: The map as the character's own parchment: ink paths, small drawn marks for kinds of place, unknown…
+- **Passage arranged between cities** · 0 pins · 0 defects · 1 asks
+  - direction OR-452 P2: Relational pins (gamma G3): a required relationship between places declared and assembled,…
 
 ### Undertakings
 
@@ -138,6 +140,8 @@ page's colours and opportunities.)
   - ✓ holds the Notes to what still holds, the aims few, and far news to one question a person
   - ○ the notes hold the open threads and the decisions taken, and say what happened since a return
   - requirement OR-346 P2: Notes, journal and recap: the capability as its pins hold it (holds the Notes to what still holds,…
+- **First Aims, nested and optional** · 0 pins · 0 defects · 1 asks
+  - direction OR-457 P3: First Aims across the continent (gamma G8): the nested aims (OR-443) extended to horizons the pins…
 
 ### The company
 
@@ -167,7 +171,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 13 defects · 11 asks
+- **Countries and regions** · 0 pins · 14 defects · 11 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…
@@ -202,10 +206,14 @@ page's colours and opportunities.)
   - ✓ is seen at three stages on three returns to Wrackham, and remembers the word carried over the wall
 - **Threads tying a town to its country** · 1 pins · 1 defects · 0 asks
   - ✓ names the hobs and Holyking in the word of the bell, and Holyking holds the hobs and the bell
+- **Settlements by terrain and scale** · 0 pins · 1 defects · 1 asks
+  - direction OR-450 P2: The eight principal terrains and the settlement matrix (gamma G0 + G1): terrains as an ontology…
+- **Cities of the canon, seated by rule** · 0 pins · 0 defects · 1 asks
+  - direction OR-451 P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the…
 
 ### Institutions
 
-- **Religion and devotion** · 0 pins · 2 defects · 0 asks
+- **Religion and devotion** · 0 pins · 1 defects · 0 asks
 - **Learning: colleges, libraries, scholars** · 0 pins · 0 defects · 1 asks
   - direction OR-366 P3: Learning: colleges, libraries and scholars as institutions a company can use (study, a book to…
 - **Guilds and crafts** · 6 pins · 0 defects · 0 asks
@@ -220,7 +228,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 5 pins · 22 defects · 5 asks
+- **Dungeons and sites** · 5 pins · 22 defects · 6 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
@@ -230,6 +238,7 @@ page's colours and opportunities.)
   - requirement OA-12 P1: The compact, tense expedition (the M21 brief's Phase 2, "restore the dramatic core"; the…
   - requirement HP-03 P1: One complete emotional expedition, in Gone under: image, preparation with a person, a companion's…
   - requirement OR-401 P3: The Weather Drove's east_fires, fires_sniff and letter_obs were never seen by reach (signs that…
+  - requirement OR-422 P3: The Leaving Supper's pacing: the first right pot may come too easily (8:00 to 17:00 with a perfect…
   - requirement OR-280 P1: The opening dungeon unmistakable in drawn countries, not only Iscoed: from the first town of a…
 - **Adventures and their endings** · 4 pins · 3 defects · 1 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
@@ -247,6 +256,8 @@ page's colours and opportunities.)
   - ✓ puts a wonder within a work past its inner way
   - ✓ lets a trap be understood by looking closely, then sprung from a pole's length off, harming no one
   - ✓ says what hurt whoever risks a trap: what it did, and the wound
+- **Wonders declared, discovered and afforded** · 0 pins · 0 defects · 1 asks
+  - direction OR-455 P3: Wonders contributed by every substantial adventure and by the generated settings (gamma G6): one…
 
 ### Creatures and peoples
 
@@ -255,6 +266,8 @@ page's colours and opportunities.)
   - direction SR-02 P2: The SRD creature migration by proof slices (rules/proof-slices.md; srd-fidelity.md's creatures,…
 - **Peoples and ancestries** · 0 pins · 3 defects · 1 asks
   - direction OR-316 P3: Ancestry told as a people: an entry's demographic, social, cultural and physical information, not…
+- **A terrain's peoples, beasts, gems and materials** · 0 pins · 0 defects · 1 asks
+  - direction OR-453 P2: The biome census (gamma G4): the owner's terrain correspondences (adapted people, gem, demonym,…
 
 ### Lore and history
 
@@ -358,10 +371,9 @@ page's colours and opportunities.)
 - **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
   - requirement OR-361 P2: Free-form input: the capability as its pins hold it (an act typed in the player's own words,…
-- **Accessibility and readability** · 1 pins · 7 defects · 2 asks
+- **Accessibility and readability** · 1 pins · 7 defects · 1 asks
   - ○ the text can be made larger and higher in contrast, and motion reduced, from the options
   - direction OR-315 P3: Rows partly beyond the safe area, a meaningful part (perhaps 20%) within it, for the paintings'…
-  - requirement OR-506 P1: Contrast: scripts/contact-sheet-contrast.ts reports 210 lines below WCAG AA on 47 of 82 screens.…
 
 ### Words
 
@@ -383,6 +395,9 @@ page's colours and opportunities.)
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
   - direction OR-471 P3: A valley in rain: the valley's family (scene-valley, -spring, -summer, -autumn, -night) has no…
+- **Paintings by terrain, subject, season, weather and light** · 0 pins · 0 defects · 2 asks
+  - requirement OR-442 P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's…
+  - direction OR-454 P3: The visual atlas (gamma G5): assets indexed terrain → subject → place or archetype → season →…
 
 ### The terminal
 
@@ -402,9 +417,9 @@ page's colours and opportunities.)
 - **Generation and tables** · 0 pins · 9 defects · 7 asks
   - requirement OR-150 P2: Narration grounded in perception, questions as semantic objects, generative minimalism (the owner,…
   - direction OR-405 P3: The Weather Drove's proposals for Kyr and Deem: a Chorus (several named people each giving a part,…
+  - direction OR-421 P3: The Leaving Supper's Kyr and Deem proposals (doc/adventures/leaving/friction.md), with the Weather…
   - direction KX-02 P2: Deem's lookupUnique ignores the seed (node_modules/deem/src/Template.ts: no randomFunc passed, so…
   - direction KX-04 P2: Kyr expressivity, what the lodestar experiment recorded for later (split from KX-01, 20 November;…
-  - direction AU-54 P3: `kyrie suggest`: settings suggested from the paintings no place or adventure uses. The painting…
   - direction AU-58 P3: A Deem table of sounds and voices (hums, strikes, the words for pitch) so that craft prose is not…
   - direction AU-60 P3: The Eel Bell's own thin parts, as its author lists them, and its place in the world: it plays…
 
@@ -414,10 +429,9 @@ page's colours and opportunities.)
 
 - **Saving and loading** · 1 pins · 8 defects · 0 asks
   - ✓ keeps where the company stands, the hour and what it has done, across a save
-- **Start-up and loading** · 1 pins · 14 defects · 3 asks
+- **Start-up and loading** · 1 pins · 14 defects · 2 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
-  - requirement OR-507 P2: The studio stab: the seven towers lit one by one in different colours, steady and never flashing,…
   - requirement OR-126 P1: The first fifteen seconds as four clicks in about 4 s: new game, accept the world, generate a…
 
 ### The engine
@@ -433,8 +447,9 @@ page's colours and opportunities.)
 - **Architecture and layers** · 0 pins · 30 defects · 2 asks
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 14 defects · 5 asks
+- **Testing instruments** · 0 pins · 14 defects · 6 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
+  - direction OR-456 P2: Civilization assembled, censused and traversed (gamma G7): Deem assembling anchors, pins and the…
   - requirement OR-384 P3: The ending's menu placed by the frame's tokens (book.css: .ending-col) but measured by no spec: no…
   - requirement OR-389 P3: The runner begins in a world past the title (bin/kyrie run --world …), so its agents never meet…
   - requirement OR-465 P2: The opening's comprehension and pace not yet measured by the ladder's higher rungs: blind…
@@ -443,7 +458,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (6)
+### Common blockers (8)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -459,6 +474,10 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-145 (Rows, lenses and the frame), OR-182 (Accessibility and readability)
 - **BX-02** P1: The shared rules cannot be taken in part: a world of its own must install the whole standard set (data/rules: core, passages, people, needs, services,… · blocks 1 (1 P0/P1) over 1 capabilities
   - OR-407 (Testing instruments)
+- **OR-442** P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's terrain, subject (overview, shelter, hamlet/town,… · blocks 1 (0 P0/P1) over 1 capabilities
+  - OR-454 (Paintings by terrain, subject, season, weather and light)
+- **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the Lizardfolk name, rendered Andayeen by Northerners (the owner, 24… · blocks 1 (0 P0/P1) over 1 capabilities
+  - OR-452 (Passage arranged between cities)
 
 ### Capabilities neither built nor asked for (0)
 
@@ -468,19 +487,26 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
 Each a request to file under its title, its acceptance the pins that prove or want it.
 
 
-### Capabilities asked for that no pin proves (11)
+### Capabilities asked for that no pin proves (18)
 
 - **News and rumour** (Conversation): OR-365
+- **Passage arranged between cities** (Travel): OR-452
+- **First Aims, nested and optional** (Undertakings): OR-457
 - **Countries and regions** (The land): OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, WD-02, WD-09, SS-01
 - **Weather, sky and season** (The land): IM-01
 - **The planes** (The land): GT-01, GT-03
+- **Settlements by terrain and scale** (Settlements): OR-450
+- **Cities of the canon, seated by rule** (Settlements): OR-451
 - **Learning: colleges, libraries, scholars** (Institutions): OR-366
+- **Wonders declared, discovered and afforded** (Places to explore): OR-455
 - **Peoples and ancestries** (Creatures and peoples): OR-316
+- **A terrain's peoples, beasts, gems and materials** (Creatures and peoples): OR-453
+- **Paintings by terrain, subject, season, weather and light** (Pictures): OR-442, OR-454
 - **Playing in the terminal** (The terminal): TB-11
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
-- **Generation and tables** (Kyr and Deem): OR-150, OR-405, KX-02, KX-04, AU-54, AU-58, AU-60
+- **Generation and tables** (Kyr and Deem): OR-150, OR-405, OR-421, KX-02, KX-04, AU-58, AU-60
 - **Architecture and layers** (The engine): AX-07, MT-31
-- **Testing instruments** (The engine): OR-407, OR-384, OR-389, OR-465, OR-508
+- **Testing instruments** (The engine): OR-407, OR-456, OR-384, OR-389, OR-465, OR-508
 
 ### Pins not yet met (32)
 
