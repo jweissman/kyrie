@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Runner } from '../../src/cli/runner';
+import { EntityCard } from '../../src/presentation/entity-card';
 
 // Knowledge integrity's negative test (OR-524, the opening move of the knowledge boundary): two worlds that differ
 // only in something the company neither knows nor perceives give the same player frame, the screen and the leaf as
@@ -31,6 +32,9 @@ describe('two worlds the company cannot tell apart', () => {
     const [a, b] = await pair(yard + mag, yard);
     expect(frame(a)).toBe(frame(b));
     expect(frame(a)).not.toMatch(/Mag|Hob|carter|cutpurse/);
+    // Nor does a card asked of someone unseen place them here (EntityCard, by Knowing.present: it had read where they
+    // stood in the world, and so said Hob was here).
+    expect(EntityCard.of(a.campaign, 't__hob')?.here).toBe(false);
     await a.play('shed'); await b.play('shed');
     expect(frame(a)).toContain('Mag Tolley');
     expect(frame(a)).not.toBe(frame(b));

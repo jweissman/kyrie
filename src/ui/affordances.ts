@@ -8,7 +8,6 @@ import { Marks } from './marks';
 import { ChoicePrice } from './choice-price';
 import { SceneModel, type Scene, type SceneSubject } from './scene';
 import type { ExitRow, Screen } from './screen-types';
-import type { World } from '../lang/world';
 
 // What the glance reads the page's choices with, besides the screen: each command's action as the rules declare it
 // (its kind, what it is done to, whether it is written to be asked of someone), what the company's aims name, the way
@@ -37,8 +36,8 @@ export interface Reading {
   inward: Set<string>; back?: string; here: string;
   // A sign perceived here and not seen before, by whom or what it is of ('' for the place's own).
   signs: Map<string, string>;
-  // The marvels its author declares (`Marvel.`: marvel(thing)), by id.
-  marvels?: Set<string>;
+  // The marvels in view its author declares (`Marvel.`: marvel(thing)), by id (Knowing.marvels).
+  marvels?: ReadonlySet<string>;
   life?: string; pointed: Set<string>; done: Set<string>; talked: Set<string>;
   // Whom the company has met, or has by name (see Acquainted): anyone else is led as talking to them (Doable.called).
   known?: Set<string>;
@@ -433,10 +432,6 @@ export class Affordances {
   private static wonder(id: string, at: { person: boolean; leaves: Choice[]; r: Reading }): Why[] {
     const meets = at.leaves.some(c => c.command && !c.disabled && !/^look_closely/.test(c.command));
     return !at.person && meets && !!at.r.marvels?.has(id) ? ['wonder'] : [];
-  }
-  // The marvels the world's authors declare (`Marvel.`), by id.
-  static marvels(world: World): Set<string> {
-    return new Set(world.relates('marvel') ? world.related('marvel').map(m => m.args[0]!) : []);
   }
   // The town a way goes into, by name, where the company is not in it already; new, until it has been.
   private static entered(screen: Screen, dest: string): string | undefined {

@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import { Knowing } from './knowing';
 import type { Screen } from '../ui/screen-types';
 import type { Candidate, Situation } from '../ui/promotion';
 import { Promotion } from '../ui/promotion';
@@ -167,7 +168,7 @@ export class AimContinuity {
     return way ? [back ? Promotion.wayOn(way) : Promotion.wayOut(way)] : at.acts;
   }
   private static homeward(campaign: Campaign, cands: Candidate[]): Candidate | undefined {
-    const byId = EntityIndex.of(campaign.module.entities).byId, here = campaign.world.one('at', campaign.playerActor!);
+    const byId = EntityIndex.of(campaign.module.entities).byId, here = Knowing.here(campaign);
     // The first town, where the notice on the well-post is, before any other (else the nearest).
     const post = campaign.module.entities.find(e => /_u_notice_post$/.test(e.id))?.id;
     const home = post

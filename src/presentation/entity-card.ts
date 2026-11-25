@@ -4,6 +4,7 @@ import { ObservationText } from '../lang/observation-text';
 import { World } from '../lang/world';
 import { PlayerView } from './player-view';
 import { PlayerFrame } from './player-frame';
+import { Knowing } from './knowing';
 import { ScreenModel } from '../ui/screen-model';
 import { SceneModel } from '../ui/scene';
 import { Narrator } from './narrator';
@@ -41,9 +42,10 @@ export class EntityCard {
   static of(campaign: Campaign, id: string, mode: 'player' | 'author' = 'player'): Card | undefined {
     const world = campaign.world, entity = campaign.module.entities.find(e => e.id === id);
     if (!entity) { return undefined; }
-    const company = campaign.playerActor ?? 'party', here = world.one('at', company);
+    const company = campaign.playerActor ?? 'party';
     const screen = ScreenModel.build(campaign), subject = SceneModel.build(screen).subjects.find(s => s.id === id);
-    const present = !!subject || (!!here && world.one('at', id) === here);
+    // Here, as the company sees it (Knowing.present): someone there unseen is not (the knowledge boundary, OR-527).
+    const present = !!subject || Knowing.of(campaign).present.has(id);
     const author = mode === 'author';
     return { id, type: entity.type, mode, name: author ? entity.name : this.named(world, entity), here: present,
       ...subject?.says?.length ? { seen: [...subject.says] } : {},

@@ -1,4 +1,5 @@
 import { ModuleWriter } from '../lang/module-writer';
+import { Knowing } from './knowing';
 import { ObservationText } from '../lang/observation-text';
 import { Checks, type Odds } from '../rules/checks';
 import { Harm } from '../rules/harm';
@@ -16,7 +17,7 @@ export class ChoiceWording {
     unlikely: 'unlikely', beyond: 'beyond you' };
   // Where the company stands, as it knows the place.
   static here(campaign: Campaign): string | undefined {
-    const world = campaign.world, at = world.one('at', campaign.playerActor ?? '');
+    const world = campaign.world, at = Knowing.here(campaign);
     const place = at && world.module.entities.find(e => e.id === at);
     return place ? ObservationText.known(world, place) : undefined;
   }

@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import { Knowing } from './knowing';
 import type { Entity, Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
@@ -24,7 +25,7 @@ export class AimLeads {
   }
   // The acts that open the aim's place where it is shut to the company (AimMeans.opening: OR-172).
   private static opening(campaign: Campaign, rows: FrameRows): string[] {
-    const def = Undertakings.followed(campaign), here = campaign.world.one('at', campaign.playerActor ?? 'party');
+    const def = Undertakings.followed(campaign), here = Knowing.here(campaign);
     if (!def || !here) { return []; }
     const acts = AimMeans.opening(campaign, here, def, Stakes.named(campaign, def));
     return rows.filter(r => acts.has(r.action.schema ?? r.action.id)).map(r => r.choice.id);

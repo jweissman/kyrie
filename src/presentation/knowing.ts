@@ -19,7 +19,8 @@ import { PlayerView, type PlayerSnapshot } from './player-view';
 // wording and facets. A second projection for a revision is the one kept.
 export class Knowing {
   private static readonly kept = new WeakMap<Campaign, Knowing>();
-  private readonly sights: { inView?: ReadonlySet<string>; visited?: ReadonlySet<string> } = {};
+  private readonly sights: { inView?: ReadonlySet<string>; present?: ReadonlySet<string>; visited?: ReadonlySet<string>;
+    marvels?: ReadonlySet<string> } = {};
   private constructor(readonly campaign: Campaign, readonly world: Campaign['world'],
     readonly perceived: PlayerSnapshot) {}
   static of(campaign: Campaign): Knowing {
@@ -30,6 +31,19 @@ export class Knowing {
     return now;
   }
   get actor(): string { return this.perceived.actor; }
+  // Where the company stands (the place itself, whatever kind of place): asked of the campaign as well, by what works
+  // its own rows out (which the projection of the revision is built from) and by any reader of where it is.
+  get here(): string | undefined { return Knowing.here(this.campaign); }
+  static here(campaign: Campaign): string | undefined {
+    return campaign.playerActor ? campaign.world.one('at', campaign.playerActor) : undefined;
+  }
+  // Whoever and whatever is in view where the company stands (PlayerView.present), by id: someone there unseen is not.
+  get present(): ReadonlySet<string> { return this.sights.present ??= new Set(this.perceived.present.map(e => e.id)); }
+  // The marvels in view (`Marvel.`: marvel(thing)), by id: the Atlas's uncanny, of what the company sees.
+  get marvels(): ReadonlySet<string> {
+    return this.sights.marvels ??= new Set(this.world.relates('marvel') ? this.world.related('marvel')
+      .map(m => m.args[0]!).filter(id => this.inView.has(id)) : []);
+  }
   // Perceived now, by id: the place and the places it is within, those in view there, the company, its members and
   // what they carry.
   get inView(): ReadonlySet<string> {

@@ -8,6 +8,7 @@ import { AimAdvances } from './aim-advances'; import { AimLeads } from './aim-le
 import { Spatial } from '../lang/spatial'; import { ModuleWriter } from '../lang';
 import { EntityIndex } from '../lang/entity-index';
 import { Affordances, type Reading } from '../ui/affordances';
+import { Knowing } from './knowing';
 import { Attending } from '../ui/attention';
 import { Itineraries } from '../ui/itinerary'; import { Headings } from '../ui/headings';
 import { KnownWays } from '../ui/known-ways';
@@ -217,7 +218,7 @@ export class Glance {
       sensed: Perception.notes(campaign, at.sensed), opened: new Set(at.told?.feedback.opened),
       ...this.ways(campaign, screen, { named, held, idle }),
       ...back ? { back } : {}, here, signs: this.signs(campaign, screen, recall), ...at.life ? { life: at.life } : {},
-      pointed: at.pointed, marvels: Affordances.marvels(campaign.world), ...AimAside.reading(campaign, screen),
+      pointed: at.pointed, marvels: Knowing.of(campaign).marvels, ...AimAside.reading(campaign, screen),
       done: this.done(commands, { recall, here, advances }), ...TalkingWith.of(campaign, at.told),
       ...Acquainted.of(campaign, screen, recall), idle,
       needs: { hungry: screen.expedition.hungry, rations: screen.purse.rations, weary: !!screen.expedition.weary,
