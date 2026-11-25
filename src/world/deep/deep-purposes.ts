@@ -13,8 +13,6 @@ export interface DeepRole {
   names: string[]; scenes: string[]; lit?: boolean; open?: boolean; hears?: DeepHearing;
   // How an open room looks where the work lies buried under a town ({town}), not in the open (see RegionUndertown).
   buried?: string[];
-  // How it looks where the work lies under the old woods (RegionWoods): as made, unless it says otherwise.
-  wooded?: string[];
   // What a scene promises (a bead or two among the bones), found by searching a room drawn with that scene: its cue
   // in the scene, what searching finds, and the site's valuable it is.
   finds?: DeepFind[];
@@ -63,9 +61,7 @@ export interface MechanismWords {
 export interface DeepPurpose {
   // plan.buried: what the town calls it where it lies under a town ({town}): the catacombs are not always a barrow.
   art: string; plan: { id: string; kind: string; seen: string; names: string[]; ground: string[]; danger: number;
-    buried?: string;
-    // plan.wooded: what it is called where it lies under the old woods beside the reference town (RegionWoods).
-    wooded?: string };
+    buried?: string };
   mechanisms: MechanismWords;
   // What a way between two rooms of a level is called (a gallery, a drift in a mine).
   walks?: string[];
@@ -124,8 +120,6 @@ export interface DeepPurpose {
   // How its way in looks where it lies under a town (catacombs), come to down the stair below the vault: not the open
   // hillside (OR-205).
   under?: string;
-  // The way in as found from the old woods, where it lies under them (RegionWoods): its outside, else.
-  wooded?: string;
   // The makers' own marks at the way in, which read tell their story (the country's history_<art>): a deep work, like
   // every other of their works, teaches who made it (RegionWorks), and the brothers' errand to one had waited on a
   // history no room of it told (M21's playability list, PL-24).

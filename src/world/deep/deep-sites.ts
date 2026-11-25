@@ -26,8 +26,7 @@ export class DeepSites {
   // rivals: whether another company races this one to it (a country's own deep work); not the catacombs under the
   // town the company begins in, which a country's one rival expedition does not go down (see RegionUndertown).
   static lines(region: Region, site: Site,
-    at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean; buried?: string; wooded?: boolean }):
-    string[] {
+    at: { purpose: DeepPurpose; values: Record<string, string>; rivals?: boolean; buried?: string }): string[] {
     const { purpose, values } = at, key = `${RegionKey.of(region)}:${site.id}:deep`;
     const layout = DeepLayouts.make(purpose, site.id, key), content = DeepPacing.plan(purpose, layout, key);
     const handled = this.handled(layout), order = DeepOrder.lines(layout, content, { purpose, key });
@@ -35,11 +34,10 @@ export class DeepSites {
     const after = [...purpose.after?.[values.kingdomkind!] ?? [], ...purpose.fallen?.[values.fallen!] ?? []];
     return [`  Measure deepWater(place). Measure deepPumped(place).`, ...this.kinds(purpose, DeepHistory.kinds(after)),
       `  Place ${site.id}_site ${this.q(values.name!)} is site within ${values.land} at ${values.x}, ${values.y}.`,
-      `  Observe ${site.id}_outside at ${site.id} when true ${this.q((at.wooded ? purpose.wooded ?? purpose.outside
-        : at.buried ? purpose.under ?? purpose.outside : purpose.outside).replaceAll('{oldup}', values.oldup!))}`
+      `  Observe ${site.id}_outside at ${site.id} when true ${this.q((at.buried ? purpose.under ?? purpose.outside
+        : purpose.outside).replaceAll('{oldup}', values.oldup!))}`
         + ` teaches ${site.id}_named.`, ...this.marks(site.id, purpose, values),
-      ...this.places(layout, at.buried ? { purpose, town: at.buried, wooded: !!at.wooded } : undefined),
-      ...this.ways(layout, handled),
+      ...this.places(layout, at.buried ? { purpose, town: at.buried } : undefined), ...this.ways(layout, handled),
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
       // The earlier party's first camp is found first, from the top; those further down are the same party's again.
@@ -69,8 +67,7 @@ export class DeepSites {
   // galleries told themselves "outdoors", from the wild country the workings are in). A drowned level's rooms look as
   // they do once the water is down, and only then: the foot of a flooded stair had said "a floor of grey silt, ridged
   // where the water went out of it" under the black water, and a company took it for drained (the cold review's P0).
-  private static places(layout: DeepLayout,
-    buried?: { purpose: DeepPurpose; town: string; wooded?: boolean }): string[] {
+  private static places(layout: DeepLayout, buried?: { purpose: DeepPurpose; town: string }): string[] {
     const q = this.q, site = layout.site;
     return layout.levels.flatMap(level => [`  Place ${level.id} ${q(level.name)} is level within ${site}_site.`,
       ...level.rooms.flatMap(r => [`  Place ${r.id} ${q(r.name)} is room within ${level.id} at ${r.x}, ${r.y}`
@@ -81,10 +78,8 @@ export class DeepSites {
   }
   // A room as it looks: as it was made, or buried under a town, as its purpose says it then (a barrow's forecourt had
   // faced "the sunrise" from under Brightbridge; a mine's mouth under Porthalen had opened "in the hillside").
-  private static scene(r: DeepRoom, buried?: { purpose: DeepPurpose; town: string; wooded?: boolean }): string {
-    // Under the old woods there is no town above it: its own words for that, or as it was made (OR-643).
-    const role = buried?.purpose.roles[r.role];
-    const under = buried?.wooded ? role?.wooded?.[0] ?? (role?.buried ? r.scene : undefined) : role?.buried?.[0];
+  private static scene(r: DeepRoom, buried?: { purpose: DeepPurpose; town: string }): string {
+    const under = buried?.purpose.roles[r.role]?.buried?.[0];
     return under ? under.replaceAll('{town}', buried!.town) : r.scene;
   }
   // The ways the mechanisms do not write themselves: the mouth, the galleries, the ladders, the ore pass.

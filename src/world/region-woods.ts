@@ -10,10 +10,9 @@ import type { Settlement } from './region-writer';
 // author's, in data/generation/town/woods.kyrt; this fills in the town, the deep place and its makers.
 export class RegionWoods {
   static readonly template = KyrTemplates.parse(text);
-  static lines(s: Settlement, at: { w: string; site: string; old: string; sky?: string[] }): string[] {
+  static lines(s: Settlement, at: { w: string; site: string; old: string }): string[] {
     const q = JSON.stringify, t = s.id, w = at.w;
-    const values = { t, town: s.name, w, site: at.site, old: at.old, dealer: `${t}_innkeeper`,
-      wet: this.weather(at.sky, ['rainy', 'stormy']), windy: this.weather(at.sky, ['windy', 'stormy', 'rainy']) };
+    const values = { t, town: s.name, w, site: at.site, old: at.old, dealer: `${t}_innkeeper` };
     return [...this.template.sections.flatMap(x => KyrTemplates.fill(x.lines, values)),
       // What a site placed in the country has from being placed (see RegionSites): that it is named, and found.
       `  Entity ${w}_named: fact ${q(`Under the fallen stones in the old woods above ${s.name} a stair goes down, into ${at.site}.`)}.`,
@@ -23,11 +22,5 @@ export class RegionWoods {
       // The one sight of awe, the first time the company comes out on the stair, with nothing to fight there.
       `  Relation ${w}_beheld(group).`,
       `  Rule ${w}_awe heard at ${w} when at(party, ${w}) and not ${w}_beheld(party) says ${q(`The steps come out on a ledge, and your light goes out into nothing. Below you is a hall that could hold the whole of ${s.name}, its pillars going down further than the light does, and far down water lies still. Nobody in ${s.name} knows it is here.`)} { Assert ${w}_beheld(party). }`];
-  }
-  // A condition on the weathers named that the country's sky has (RegionWeather.kinds), or one that never holds where
-  // it has none of them (a country with no calendar has no sky).
-  static weather(sky: string[] | undefined, kinds: string[]): string {
-    const had = kinds.filter(k => sky?.includes(k));
-    return had.length ? `(${had.map(k => `state(sky, weather_${k})`).join(' or ')})` : 'false';
   }
 }

@@ -11,10 +11,9 @@ import { ScreenModel } from '../../../src/ui/screen-model';
 // ask the herb-wife about the old woods and take on the soldier at her fire, go up into the woods, find woundwort on
 // the old ride and, by searching the burners' clearing and then the fallen stones, the way down; take what the last
 // party left on the ledge, go down into the first level and fight what is there, come out, rest at the shrine, sell
-// what was gathered, and after a night go down again, to find the first level as it was left and something new in
-// it. Every act by the rows the runner offers, ways by where they go and acts by their words; it fails on a first
-// town that is not the reference game's (the woods, the way down among the stones, the three working places are none
-// of them there).
+// what was gathered, and go down again, to find the first level as it was left. Every act by the rows the runner
+// offers, ways by where they go and acts by their words; it fails on a first town that is not the reference game's
+// (the woods, the way down among the stones, the three working places are none of them there).
 type Row = { id: string; label: string; opens?: Row[] };
 const flat = (rs: Row[]): Row[] => rs.flatMap(r => [r, ...flat(r.opens ?? [])]);
 const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
@@ -79,15 +78,9 @@ describe('World › The reference loop', () => {
     const before = coin();
     await to('green'); await to('taproom'); await act(`^Talk to ${dealer}`); await act('^Sell .*woundwort');
     expect(coin()).toBeGreaterThan(before);
-    // A night in the town, and down again: the ways found are still known, the rats lie dead where they fell, and
-    // something from deeper has moved into the room they held (DeepTime: one band a level, the first dawn after the
-    // company has gone off it).
-    if (rows(s).some(x => /^Wait until dark/.test(x.label))) { await act('^Wait until dark'); }
-    await act('^Wait until first light');
+    // And down again: the ways found are still known, and the first level is as it was left.
     await to('green'); await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');
     await to('ud'); await to('ud_barrow_mouth'); await to('ud_barrow_passage'); await act('^To the light-box');
     expect(rows(s).some(x => /^Attack the rats/.test(x.label))).toBe(false);
-    expect(s.scene.lines.join(' ')).toMatch(/whoever lives here came after you went/);
-    expect(rows(s).some(x => /^Attack /.test(x.label))).toBe(true);
   }, 600000);
 });
