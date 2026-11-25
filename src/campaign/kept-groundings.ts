@@ -8,7 +8,8 @@ type Grounding = Kept<Operator[]> & { module: Module };
 // grounding read and the schemas that read each name (with its stamp in that world), those that read everything, and
 // what they ground to, each and in order.
 interface Line {
-  world: World; module: Module; schemas: readonly Operator[]; out: Operator[]; values: Map<string, Operator[]>;
+  // line: the world line they were asked in (World.stamped), never the world itself (see Kept).
+  line: number[]; module: Module; schemas: readonly Operator[]; out: Operator[]; values: Map<string, Operator[]>;
   by: Map<string, Set<string>>; names: Map<string, readonly string[]>; stamps: Map<string, number>;
   unkept: Set<string>;
 }
@@ -54,17 +55,17 @@ export class KeptGroundings {
     }
     if (changed) { line.out = schemas.flatMap(s => line.values.get(s.id) ?? []); }
     for (const name of line.by.keys()) { line.stamps.set(name, world.stamp(name)); }
-    line.world = world;
+    line.line = world.stamped([]);
     a.line = line;
     return line.out;
   }
   private static line(world: World, schemas: readonly Operator[]): Line {
-    return { world, module: world.module, schemas, out: [], values: new Map(), by: new Map(), names: new Map(),
-      stamps: new Map(), unkept: new Set() };
+    return { line: world.stamped([]), module: world.module, schemas, out: [], values: new Map(), by: new Map(),
+      names: new Map(), stamps: new Map(), unkept: new Set() };
   }
   // Whether the schemas are those last grounded, in a world of the same line and module.
   private same(line: Line, world: World, schemas: readonly Operator[]): boolean {
-    return line.module === world.module && line.world.sameLine(world) && line.schemas.length === schemas.length
+    return line.module === world.module && world.agrees([], line.line) && line.schemas.length === schemas.length
       && line.schemas.every((s, i) => s === schemas[i]);
   }
   // The schemas that read a name written since the world they were last asked in, and those that read everything.

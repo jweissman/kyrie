@@ -1,10 +1,13 @@
 import type { World } from './world';
 import { WorldReads, type Picks } from './world-reads';
 
-// A reading of the world kept with what it read (see WorldReads): the names, their stamps in the world it was last
-// held in, and what of each name it picked.
-export interface Kept<T> { value: T; reads: string[]; stamped: number[]; picks?: Picks; world: World }
 type Held = ReturnType<World['held']>;
+// A reading of the world kept with what it read (see WorldReads): the names, their stamps (and the line) of the world
+// it was last held in, what of each name it picked, and what that world held of each name picked (was), to tell what
+// has been written of it since. Never the world itself: a reading kept from an early world (two thousand groundings,
+// most never asked again) had held every world it was made in, and each world the versions of every fact list it had
+// written, some 1.5 MB a step of a walk (25 November: 63 worlds held at step 100 of iscoed).
+export interface Kept<T> { value: T; reads: string[]; stamped: number[]; picks?: Picks; was?: Map<string, Held> }
 
 // Whether a reading kept from an earlier world of the line still holds in this one: none of the names it read has
 // been written since (World.agrees), or those written were read only in part and nothing written of them is among what
@@ -16,35 +19,45 @@ export class KeptReading {
   static read<T>(world: World, read: () => T): { value: T; kept?: Kept<T> } {
     const { value, reads, picks } = WorldReads.of(read);
     if (!reads) { return { value }; }
-    return { value, kept: { value, reads, stamped: world.stamped(reads), world, ...picks ? { picks } : {} } };
+    const was = picks && { picks, was: this.held(world, picks) };
+    return { value, kept: { value, reads, stamped: world.stamped(reads), ...was } };
   }
   static holds<T>(world: World, kept: Kept<T>): boolean {
     if (!world.agrees(kept.reads, kept.stamped)) {
-      if (!kept.picks || !world.sameLine(kept.world)) { return false; }
+      if (!kept.picks || !kept.was || !world.agrees([], kept.stamped)) { return false; }
       const moved = kept.reads.filter((name, i) => world.stamp(name) !== kept.stamped[i + 1]);
-      if (moved.some(name => !kept.picks!.has(name) || this.touched(kept.world, world, name, kept.picks!.get(name)!))) {
+      const picks = kept.picks, was = kept.was;
+      if (moved.some(name => !picks.has(name) || this.touched(was.get(name)!, world, name, picks.get(name)!))) {
         return false;
       }
-      kept.stamped = world.stamped(kept.reads); kept.world = world;
+      kept.stamped = world.stamped(kept.reads); kept.was = this.held(world, kept.picks);
     }
     WorldReads.note(kept.reads, kept.picks);
     return true;
   }
-  // Whether anything written of a name between two worlds is among what was picked of it.
-  private static touched(was: World, is: World, name: string, picked: ReadonlySet<string>): boolean {
+  // What a world holds of each name picked: its fact list and its values, shared with the world (never copied).
+  private static held(world: World, picks: Picks): Map<string, Held> {
+    return new Map([...picks.keys()].map(name => [name, world.held(name)]));
+  }
+  // Whether anything written of a name since what was held of it is among what was picked of it.
+  private static touched(was: Held, is: World, name: string, picked: ReadonlySet<string>): boolean {
     const changed = this.changed(was, is, name);
     return changed === 'all' || changed.some(key => picked.has(key));
   }
-  // What of a name differs between two worlds, as the picks it would touch; or all of it, where a fact was moved.
-  // Worked out once for two worlds and a name, however many readings ask.
-  private static readonly diffs = new WeakMap<World, WeakMap<World, Map<string, string[] | 'all'>>>();
-  private static changed(was: World, is: World, name: string): string[] | 'all' {
-    const from = this.diffs.get(is) ?? new WeakMap<World, Map<string, string[] | 'all'>>();
-    this.diffs.set(is, from);
-    const named = from.get(was) ?? new Map<string, string[] | 'all'>();
-    from.set(was, named);
-    let changed = named.get(name);
-    if (!changed) { changed = this.differ(was.held(name), is.held(name)); named.set(name, changed); }
+  // What of a name differs between what was held of it and a world, as the picks it would touch; or all of it, where a
+  // fact was moved. Worked out once for a world, a name and what was held of it (its fact list and its values, by
+  // identity), however many readings ask.
+  private static readonly diffs = new WeakMap<World, Map<string, WeakMap<object, WeakMap<object, string[] | 'all'>>>>();
+  private static readonly none = {};
+  private static changed(was: Held, is: World, name: string): string[] | 'all' {
+    const named = this.diffs.get(is) ?? new Map<string, WeakMap<object, WeakMap<object, string[] | 'all'>>>();
+    this.diffs.set(is, named);
+    const facts = named.get(name) ?? new WeakMap<object, WeakMap<object, string[] | 'all'>>();
+    named.set(name, facts);
+    const values = facts.get(was[0] ?? this.none) ?? new WeakMap<object, string[] | 'all'>();
+    facts.set(was[0] ?? this.none, values);
+    let changed = values.get(was[1] ?? this.none);
+    if (!changed) { changed = this.differ(was, is.held(name)); values.set(was[1] ?? this.none, changed); }
     return changed;
   }
   private static differ([wasFacts, wasValues]: Held, [isFacts, isValues]: Held): string[] | 'all' {

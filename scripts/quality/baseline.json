@@ -1,7 +1,8 @@
 {
  "ci": {
   "slice": 32,
-  "breaches": 0
+  "breaches": 0,
+  "heap": 921
  },
  "local": {
   "slice": 32,
@@ -9,6 +10,7 @@
   "turn": 121,
   "breaches": 0,
   "ci": 10.3,
-  "decision": 28
+  "decision": 28,
+  "heap": 921
  }
 }

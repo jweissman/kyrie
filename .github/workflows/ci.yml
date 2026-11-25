@@ -172,7 +172,7 @@ jobs:
         env: { KYRIE_LONG: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
-  # The experience gate, nightly and on demand (scripts/quality): five numbers held by ratchets. About two minutes;
+  # The experience gate, nightly and on demand (scripts/quality): its numbers held by ratchets. About two minutes;
   # its table is the run's summary. Times have no CI baseline until a night's readings are written into it.
   quality:
     name: quality (five numbers)

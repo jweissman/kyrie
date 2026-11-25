@@ -8,7 +8,9 @@ import { Glob } from 'bun';
 // back here. The parse store, node's file system, is the runtime's adapter, not the language's surface.
 // 1250 → 1252 on 25 November: the knowledge projector imports ModuleWriter and Kyr's types directly, because Kyr's own
 // entry, loaded first by it, met the language's inner cycle (module-parser and its parsers) half-made (OR-542).
-const kept = 1252;
+// 1252 → 1251 on 25 November: test/small/idle-held and kept-holds-no-world read the language through its entry, but
+// for its parser, loaded first (OR-542).
+const kept = 1251;
 class Deep {
   static count(): number {
     const roots = ['src/**/*.ts', 'web/**/*.{ts,tsx}', 'scripts/**/*.ts', 'test/**/*.ts', 'bin/**/*.ts'];

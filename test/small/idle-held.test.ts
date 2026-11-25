@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
+// The parser first: Kyr's entry, loaded first, meets the language's inner cycle half-made (OR-542).
 import { ModuleParser } from '../../src/lang/module-parser';
-import { ModuleWriter } from '../../src/lang/module-writer';
-import { World } from '../../src/lang/world';
+import { ModuleWriter, World } from '../../src/lang/index';
 import { CampaignTick } from '../../src/campaign/campaign-tick';
 
 // A rule found idle is held idle by the part of its condition that keeps it from holding, where a part asking of no
