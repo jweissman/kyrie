@@ -15,7 +15,8 @@ import { LandModel } from '../ui/land-model';
 import { Promotion, type Situation } from '../ui/promotion';
 import { SceneModel, type Scene } from '../ui/scene';
 import type { Act, Screen } from '../ui/screen-types';
-import { Engaged } from './engaged'; import { Stakes } from '../ui/stakes';
+import { Engaged } from './engaged';
+import { Stakes } from '../ui/stakes';
 import { Undertakings } from './undertakings';
 import { TalkWeight } from './talk-weight';
 import { AimRoute } from './aim-route'; import { AimLeading } from './aim-lead'; import { AimContinuity } from './aim-continuity';
@@ -453,8 +454,7 @@ export class Glance {
     const rooms = [...new Set([...graph.values()].flat().map(w => w.to))]
       .filter(id => !visited.has(id) && this.siteOf(at.byId, id) === at.site);
     for (const id of rooms) {
-      const first = this.leading(campaign,
-        { here: screen.place.id, id, byId: at.byId, area: at.site, able: true });
+      const first = this.leading(campaign, { here: screen.place.id, id, byId: at.byId, area: at.site, able: true });
       const exit = first && screen.exits.find(e => e.destination.id === first && !e.blocked);
       if (exit) { return new Set([`~${exit.id}`]); }
     }
