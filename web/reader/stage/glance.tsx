@@ -1,7 +1,6 @@
 import { Foreground } from '../../../src/presentation/foreground';
 import { AimSaid } from '../../../src/presentation/aim-said';
 import { useLayoutEffect, useRef, type ReactNode, type RefObject } from 'react';
-import { Glyphs } from '../creation/glyphs';
 import type { Glance, Lens, LensAct, Promoted } from '../../../src/presentation/glance-types';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { SceneSubject } from '../../../src/ui/scene';
@@ -443,15 +442,6 @@ export class GlanceStage {
     const name = Words.short(x.name);
     return label.toLowerCase().includes(Words.bare(name).toLowerCase()) ? undefined : Words.upper(name);
   }
-  // What a choice's own glyphs say apart from its colour: going over into the next stretch of country (not a walk about
-  // the town), whatever else it is (the owner, 11 November); someone who could join you is its indicator's (ChoiceRow).
-  static Icons({ app, c }: { app: ReaderApp; c: Choice }) {
-    const screen = app.state.frame!.screen, walk = (screen.around ?? []).some(d => `travel:${d.id}` === c.id);
-    const crosses = (c.id.startsWith('travel:') && !walk) || !!screen.exits.find(e => e.id === c.id)?.crosses;
-    return <>
-      {crosses && <Glyphs.View id="journey" className="led-icon" label="into the next stretch of country" />}
-    </>;
-  }
   // What a place at rest draws that can be chosen: whoever is here, on the picture, and what is pressing.
   static atRest(app: ReaderApp): Set<string> {
     const g = app.state.frame?.leaf.glance, subjects = app.menu.scene?.subjects ?? [];
@@ -619,7 +609,7 @@ export class GlanceStage {
             className={`led-act${c.id === top ? ' first' : ''}${tone ? ` tone-${tone}` : ''}`
               + `${a.afar ? ' afar' : ''}`}
             {...parts}
-            label={<>{Typography.curl(label)}<GlanceStage.Icons app={app} c={c} /></>}
+            label={Typography.curl(label)}
             aside={note && GlanceStage.aside(note)}
             extra={a.marks.map(m => <span key={m.kind} className={`led-mark mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>{Typography.curl(Words.upper(m.said))}</span>)} />}
           <PlaceStage.Opened choice={c} draw={draw} />

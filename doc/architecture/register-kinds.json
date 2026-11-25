@@ -888,6 +888,42 @@
    "was": "defect",
    "pri": "P3",
    "why": "24 Nov, split from OR-447: paintings wanted, not a broken contract"
+  },
+  "OR-506": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, the coordinator's call: a contrast ratchet and the worst fixed, an outstanding requirement of the page"
+  },
+  "OR-507": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov, the coordinator's call: the studio stab as wanted, not a broken contract"
+  },
+  "OR-508": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "24 Nov, the coordinator's call: a standing rule of process"
+  },
+  "OR-509": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "24 Nov: an instrument's step not reached, the contact sheets' own"
+  },
+  "OR-510": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, the coordinator's call on the owner's second design opinion: a direction, after the rows"
+  },
+  "OR-511": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "24 Nov, the coordinator's call on the owner's second design opinion: a direction, after the rows"
   }
  },
  "blockedBy": {

@@ -54,7 +54,7 @@ export class TerminalColour {
   private static level(v: number): number { return v < 48 ? 0 : v < 115 ? 1 : Math.min(5, Math.floor((v - 35) / 40)); }
   // An act's indicator, as the shared grammar has it.
   static indicated(signed: Signed & { aspects?: readonly Aspect[] }): Indicated {
-    return Indicator.of({ aspects: signed.aspects ?? [], gilded: true, ...signed.crosses ? { crosses: true } : {},
+    return Indicator.of({ aspects: signed.aspects ?? [], gilded: true,
       ...signed.sensed ? { sensed: { aspect: signed.sensed, far: signed.far ?? 1 } } : {} });
   }
   // The one cell at an act's left edge: its colour's pip; without colour, its colour's sign; perceived along a way and

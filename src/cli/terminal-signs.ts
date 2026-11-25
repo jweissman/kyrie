@@ -10,13 +10,12 @@ import type { Screen } from '../ui/screen-types';
 // and a way with no coming back or a search that is held had read like any other (the owner, 14 November: the
 // terminal a fallback for every text-adjacent treatment, from one shared game definition).
 // tags: each mark's words, all of them, since the terminal has no line beneath to say what cannot be undone.
-// crosses: it goes over into the next stretch of country, as the page's journey glyph says (not a walk about a town).
 // asks: what it says when chosen once, a grave act asking before it is done (Grave, the page's own rule).
 // shown, note: the choice's words and its note as the page draws them (ChoiceList: a price said beside the act, not run
 // into its words).
 // far: how many places off along the way what is sensed lies.
 // bearing: a way's bearing in a site said in a word (Signs.bearing: "unexplored", "back").
-export interface Signed { tags?: string[]; sensed?: Aspect; far?: number; idle?: true; crosses?: true;
+export interface Signed { tags?: string[]; sensed?: Aspect; far?: number; idle?: true;
   asks?: string; shown?: string; note?: string; bearing?: string }
 export class TerminalSigns {
   private readonly choices: Map<string, Choice>;
@@ -40,15 +39,9 @@ export class TerminalSigns {
     const said = c && Grave.asks(c), asks = said && Grave.asked(said, !!c.grave);
     return { ...tags.length ? { tags } : {},
       ...sensed ? { sensed, far: off.far } : {}, ...this.idle.has(to) ? { idle: true as const } : {},
-      ...this.crosses(id) ? { crosses: true as const } : {}, ...asks ? { asks } : {},
+      ...asks ? { asks } : {},
       ...c && (c.alone || this.whole.has(id)) ? { shown: c.alone || c.label } : {},
       ...c?.note ? { note: c.note } : {}, ...this.bearing(id) };
-  }
-  // As the page reads it (GlanceStage.Icons): a journey set out on that is not a walk about the town, or a way
-  // marked so.
-  private crosses(id: string): boolean {
-    const walk = (this.screen.around ?? []).some(d => `travel:${d.id}` === id);
-    return (id.startsWith('travel:') && !walk) || !!this.screen.exits.find(e => e.id === id)?.crosses;
   }
   // Where a choice goes: its way's destination, or the place it sets out for.
   private static to(screen: Screen, id: string): string {

@@ -138,7 +138,6 @@
 /* A way's own marks (see Wayfinder.Marks): going over into the next stretch of country, in one quiet glyph; and what is
    sensed off along it, a soft pip and a neutral word (faint is not dim). */
 .wf-marks { display: inline-flex; align-items: center; gap: 8px; }
-.wf-mark.journey { width: 15px; height: 15px; fill: none; stroke: var(--dim); stroke-width: 1.6; }
 .wf-mark.sensed { display: inline-flex; align-items: center; gap: 5px; color: var(--dim); font: italic 400 12.5px/1.2 var(--told); }
 
 .wf-mark.sensed .wf-glyph { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }

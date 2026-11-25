@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 63 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 553 live rows, 447 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 63 capabilities; 179 pins (147 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 564 live rows, 452 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -99,10 +99,11 @@ page's colours and opportunities.)
   - ✓ tells the frontier from the retreat underground, and sees an aim through
   - ✓ never draws a way back as worth a look for another aim, and says which aim
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
-- **Wayfinding and bearings** · 2 pins · 10 defects · 1 asks
+- **Wayfinding and bearings** · 2 pins · 10 defects · 2 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement OR-345 P2: Wayfinding and bearings: the capability as its pins hold it (a strategic map of countries above…
+  - direction OR-510 P3: The map as the character's own parchment: ink paths, small drawn marks for kinds of place, unknown…
 
 ### Undertakings
 
@@ -305,12 +306,13 @@ page's colours and opportunities.)
   - requirement OR-290 P2: FM-01's remainder: record the way in frame by frame on the deployed build (remounts, opacity…
   - requirement OR-133 P1: Stories made plain on the page: the brief's Story/Incident block for an authored title and problem…
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
-- **Character creation** · 3 pins · 7 defects · 2 asks
+- **Character creation** · 3 pins · 7 defects · 3 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
   - ✓ each see acts the others do not
   - requirement OR-153 P1: Perk selection as the last stage of character creation: the owner, "I do think adding perk…
   - direction OR-154 P3: A tarot's major arcana chosen in creation, perhaps only where a perk unlocks it: the old masters'…
+  - direction OR-511 P3: Creation's choices given weight: the painting shifting with the choice, portraits as framed cameos
 - **Openings** · 5 pins · 3 defects · 0 asks
   - ✓ has a drover's lad for the drover, and a bailiff's man for the debtor, each willing to come
   - ✓ learns light, food, help and risk by doing, by the offered rows alone, and comes out to the drove story
@@ -337,7 +339,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 38 defects · 12 asks
+- **Rows, lenses and the frame** · 3 pins · 41 defects · 12 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -356,9 +358,10 @@ page's colours and opportunities.)
 - **Free-form input** · 1 pins · 0 defects · 1 asks
   - ○ an act typed in the player's own words, outside the four, is understood or refused
   - requirement OR-361 P2: Free-form input: the capability as its pins hold it (an act typed in the player's own words,…
-- **Accessibility and readability** · 1 pins · 7 defects · 1 asks
+- **Accessibility and readability** · 1 pins · 8 defects · 2 asks
   - ○ the text can be made larger and higher in contrast, and motion reduced, from the options
   - direction OR-315 P3: Rows partly beyond the safe area, a meaningful part (perhaps 20%) within it, for the paintings'…
+  - requirement OR-506 P1: Contrast: scripts/contact-sheet-contrast.ts reports 210 lines below WCAG AA on 47 of 82 screens.…
 
 ### Words
 
@@ -411,9 +414,10 @@ page's colours and opportunities.)
 
 - **Saving and loading** · 1 pins · 8 defects · 0 asks
   - ✓ keeps where the company stands, the hour and what it has done, across a save
-- **Start-up and loading** · 1 pins · 14 defects · 2 asks
+- **Start-up and loading** · 1 pins · 15 defects · 3 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
+  - requirement OR-507 P2: The studio stab: the seven towers lit one by one in different colours, steady and never flashing,…
   - requirement OR-126 P1: The first fifteen seconds as four clicks in about 4 s: new game, accept the world, generate a…
 
 ### The engine
@@ -429,11 +433,13 @@ page's colours and opportunities.)
 - **Architecture and layers** · 0 pins · 30 defects · 2 asks
   - direction AX-07 P1: Exploring changes what is drawn (a cell drawn first, or after its neighbour, differs): global…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 14 defects · 4 asks
+- **Testing instruments** · 0 pins · 14 defects · 6 asks
   - requirement OR-407 P1: Clear horizons for evaluation (the owner, 24 November: "just testing a tiny rule doesn't pull in…
   - requirement OR-384 P3: The ending's menu placed by the frame's tokens (book.css: .ending-col) but measured by no spec: no…
   - requirement OR-389 P3: The runner begins in a world past the title (bin/kyrie run --world …), so its agents never meet…
   - requirement OR-465 P2: The opening's comprehension and pace not yet measured by the ladder's higher rungs: blind…
+  - requirement OR-508 P1: Standing rule: every page change lands with a contact sheet at 1280 and 390 that its builder has…
+  - requirement OR-509 P2: The contact-sheet run's title/handbooks step times out at both sizes (the click not reached): a…
 - **Documentation and the register** · 0 pins · 7 defects · 0 asks
 
 ## Negative space
@@ -475,7 +481,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Authoring forms and their lint** (Kyr and Deem): OR-164, OR-224, OR-230, ST-08, AU-57
 - **Generation and tables** (Kyr and Deem): OR-150, OR-405, KX-02, KX-04, AU-54, AU-58, AU-60
 - **Architecture and layers** (The engine): AX-07, MT-31
-- **Testing instruments** (The engine): OR-407, OR-384, OR-389, OR-465
+- **Testing instruments** (The engine): OR-407, OR-384, OR-389, OR-465, OR-508, OR-509
 
 ### Pins not yet met (32)
 

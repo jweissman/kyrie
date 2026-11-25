@@ -130,7 +130,14 @@
    "OR-308",
    "OR-310",
    "OR-311",
-   "OR-281"
+   "OR-281",
+   "OR-500",
+   "OR-501",
+   "OR-502",
+   "OR-503",
+   "OR-504",
+   "OR-505",
+   "OR-506"
   ],
   "outside": {
    "OR-420": "the adventures as provinces of the first country: the world beyond the first hour, not the supported slice's routes",
@@ -161,7 +168,8 @@
    "BX-02": "platform: the shared rules as separable packages (the separation proof); no first-hour play meets it",
    "OR-326": "seen on thorn's generated country (the gold-follower from its first town); the slice is Iscoed's two routes",
    "OR-280": "drawn countries beyond Iscoed: the supported first hour is Iscoed's, whose opening dungeon OR-311 pins",
-   "OR-407": "the platform's: the cost of the specs, not of the first hour a player meets"
+   "OR-407": "the platform's: the cost of the specs, not of the first hour a player meets",
+   "OR-508": "a standing rule of process (every page change with a contact sheet looked at), not a defect a player meets"
   }
  },
  "active": {

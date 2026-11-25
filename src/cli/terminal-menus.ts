@@ -70,8 +70,7 @@ export class TerminalMenus {
     const note = [...c.told ?? [], ...priced, ...signed.tags ?? [],
       ...Indicator.tells(signed.sensed) ? [Signs.sensed(signed.sensed!, signed.far)] : [],
       ...signed.idle ? [Signs.idle] : []];
-    const about = [
-      ...signed.crosses ? [Signs.crossing.said] : []];
+    const about: string[] = [];
     const icon = Signs.acts[c.journey ? 'journey' : c.type ?? 'other'];
     return { id: c.id, label: Typography.plain(signed.shown ?? c.name), aspects: c.aspects ?? [], signed, icon,
       ...words.length ? { kinds: words.join(', ') } : {},

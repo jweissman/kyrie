@@ -7,7 +7,6 @@ import { Words } from '../../../src/presentation/words';
 import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { SceneSurface } from './scene-surface';
-import { Glyphs } from '../creation/glyphs';
 import type { Tone } from '../../../src/presentation/emphasis';
 import { Pip } from './pip';
 import { Guidance } from '../guidance';
@@ -88,26 +87,23 @@ export class Wayfinder {
       {(w.c.minutes ?? 0) > 5 && <span className="t">{Words.span(w.c.minutes!)}</span>}
     </button>;
   }
-  // What a way's own marks say apart from its colour (the owner, 11 November: a grammar of icons and intensity): one
-  // glyph for going over into the next stretch of country, whatever else the way is; and, faint, what the company
-  // perceives along it (see Perception), never a thing to be done from here. Faint is not dim: dim is a way with
+  // What a way's own marks say apart from its colour (the owner, 11 November: a grammar of icons and intensity): faint,
+  // what the company perceives along it (see Perception), never a thing to be done from here. Going over into the next
+  // stretch of country is no glyph (OR-500: the owner read it as an anchor and would have it gone); the way's words
+  // say where it goes. Faint is not dim: dim is a way with
   // nothing new for now, faint something sensed off along it.
   static Marks({ app, way: w }: { app: ReaderApp; way: Way }) {
     const to = Wayfinder.to(w), sensed = Wayfinder.sensed(app, w);
-    // A walk about the town is a journey in the engine's words, and no going over into other country.
-    const walk = (app.state.frame?.screen.around ?? []).some(d => d.id === to);
-    const crosses = !!w.exit?.crosses || (w.c.id.startsWith('travel:') && !w.exit && !walk);
     const said = sensed && (sensed.far === 1 ? 'someone who might join you' : 'perhaps someone, farther on');
     // Someone who would join, by the act the place leads with by this way (not perceived: offered).
     const borne = Fold.mark(Wayfinder.bears(app, w).leaves, false), joins = !sensed && !!borne?.companion;
     const perceived = Fold.mark([Fold.step(w.c.id, [Attest.sensed(app.state.frame?.leaf.glance, to)])], false);
-    if (!crosses && !sensed && !joins) { return <span className="wf-marks" />; }
+    if (!sensed && !joins) { return <span className="wf-marks" />; }
     return <span className="wf-marks">
       {sensed && <span className="wf-mark sensed">
         <Pip.View mark={perceived} /><span className="said sr-only">{said}</span></span>}
       {joins && <span className="wf-mark joins"><Pip.View mark={borne} /><span className="said sr-only">
         someone who might join you</span></span>}
-      {crosses && <Glyphs.View id="journey" className="wf-mark journey" label="into the next stretch of country" />}
     </span>;
   }
   // A way touched: gone by, unless it is shut (its reason is said) or asks first who goes (each is a button beside it).

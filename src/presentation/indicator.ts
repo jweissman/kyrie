@@ -14,10 +14,10 @@ export interface Indicated { aspect?: Aspect; tone?: Tone; icons: Icon[]; detail
 // nothing new to give for now (idle: Glance.idle); a question put already (spent). Novelty is apart, and only adds.
 export type Condition = 'present' | 'afar' | 'heard' | 'idle' | 'spent';
 export interface Standing { afar?: boolean; heard?: boolean; idle?: boolean; spent?: boolean; fresh?: boolean }
-// What an act carries, as the engine typed it: its aspects (gilded where it is the followed aim's next step), whether
-// it goes over into the next stretch of country, and what is perceived off along it (Glance.sensed: a way's, never an
-// act's).
-export interface Carrying { aspects?: readonly Aspect[]; gilded?: boolean; crosses?: boolean;
+// What an act carries, as the engine typed it: its aspects (gilded where it is the followed aim's next step), and what
+// is perceived off along it (Glance.sensed: a way's, never an act's). Going over into the next stretch of country is
+// no sign of its own (OR-500: the page's glyph for it, read as an anchor, is gone from every client).
+export interface Carrying { aspects?: readonly Aspect[]; gilded?: boolean;
   sensed?: { aspect: Aspect; far: number } }
 
 // The indicator grammar every client draws by (the owner, 14 November: TP-02). The left-edge pip had broken down where
@@ -38,7 +38,7 @@ export class Indicator {
     // A companion, and somewhere worth a look, are icons and no colour (TP-03; the owner, 15 November).
     const iconed = this.iconed.filter(a => drawn.includes(a)).map(a => this.icon(a));
     const besides: Icon[] = [...iconed, ...off,
-      ...rest.map(a => this.icon(a)), ...c.crosses ? [Signs.crossing] : []];
+      ...rest.map(a => this.icon(a))];
     return { ...first ? { aspect: first, tone: Emphasis.tones[first]! } : {}, icons: besides.slice(0, this.icons),
       detail: besides.slice(this.icons).map(i => i.said) };
   }
