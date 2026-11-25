@@ -32,6 +32,8 @@
 .setting .presence p { margin: 0 0 .6em; font: 400 14.5px/1.55 var(--told); color: var(--dim); }
 .told-col .life { font-size: 15px; }
 .told-col .first-goal { margin: .2em 0 .8em; font: 400 15.5px/1.5 var(--told); color: var(--ivory); }
+/* Its kicker kept apart by its size and its capitals, not by fading over the painting (OR-506: 3.0:1). */
+.told-col .first-goal .label { color: #DDD6CB; }
 .told-col .first-goal .label { display: block; margin-bottom: 2px; font: 500 11px/1.4 var(--do); letter-spacing: .2em;
   text-transform: uppercase; color: var(--dim); }
 .told-col .next-pull { margin: .6em 0 .8em; font: 400 15px/1.5 var(--told); color: var(--ivory); }

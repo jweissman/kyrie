@@ -88,6 +88,10 @@ export class SheetContrast {
         const x = Math.max(cl, r.left), y = Math.max(ct, r.top), w = Math.min(cr, r.right) - x;
         const h = Math.min(cb, r.bottom) - y;
         if (w < 2 || h < 2) { continue; }
+        // Nor what lies under another box drawn over it (a map's label under the journey's card): where the line
+        // takes a pointer, whatever is topmost at its middle is it or its own; a line that takes none cannot be told.
+        const top = st.pointerEvents === 'none' ? null : document.elementFromPoint(x + w / 2, y + h / 2);
+        if (top && !el.contains(top) && !top.contains(el)) { continue; }
         out.push({ text: text.slice(0, 60), where, rect: [x, y, w, h], rgba: [m[0]!, m[1]!, m[2]!, alpha],
           large: size >= 24 || (bold && size >= 18.66) });
       }

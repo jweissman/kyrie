@@ -38,6 +38,10 @@
   padding: calc(var(--safe-t) + 32px) var(--safe-r) var(--safe-b) var(--safe-l); }
 .composed .composed-col { position: relative; z-index: 1; width: min(460px, 100%); display: flex; flex-direction: column;
   gap: var(--s4); max-height: 100%; }
+/* Words over a painting stand on a scrim (OR-506): a soft feathered darkening behind the question and its rows, never a
+   panel, the painting still creation's (the asides had stood at 3.0:1 on a bright sky). */
+.composed .composed-col::before { content: ''; position: absolute; inset: -56px -72px; z-index: -1; pointer-events: none;
+  background: radial-gradient(farthest-side, rgba(8, 9, 12, .72), rgba(8, 9, 12, .56) 62%, rgba(8, 9, 12, 0) 100%); }
 .composed .ask { margin: 0; text-align: left; font: 400 clamp(28px, 3vw, 40px)/1.15 var(--told); font-style: italic;
   color: var(--ivory); }
 .composed .composed-rows { display: flex; flex-direction: column; gap: 4px; overflow-y: auto; overscroll-behavior: contain;

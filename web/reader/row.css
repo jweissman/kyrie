@@ -85,6 +85,10 @@
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-key { opacity: 1; color: var(--text-meta); }
 :root .fight .beat .what.earlier, :root .fight .beat .what .how > :is(summary, p) { color: var(--text-meta); }
 :root .options-page .colophon, :root .route-card .rc-facts dt { color: var(--text-meta); }
+/* A row lit or considered stands on a lighter ground: its aside in ink, not dim, so it is not lost on it (OR-506: "Quick
+   to any trade" at 3.0:1 on creation's considered row). */
+:root :is(.shell, .world-page, .talk, .fight, .field-map, .composed)
+  .choice-row.choice-row:is(.sel, :focus-visible, [data-considered], :active, [data-taken]) > .row-aside { color: var(--ivory); }
 :root .rail-mark > .unread { color: var(--ivory); background: rgba(10, 11, 14, .94); box-shadow: none; }
 /* Words over a painting stand on a scrim: a soft feathered darkening behind the words' region, never a panel, the
    painting still the scene's (the second design opinion, 24 November). A fight's telling and its hand. */

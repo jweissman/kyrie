@@ -12,7 +12,7 @@
 .glance-page > .scene { padding: clamp(20px, 3.6vh, 36px) clamp(18px, 4vw, 48px) 0; scrollbar-gutter: stable both-edges; }
 .scene-page.glance-page > .scene .measure { max-width: 40rem; margin: 0 auto; }
 
-.glance .came { font: italic 400 15.5px/1.5 var(--told); color: var(--dim); margin: 0 0 14px; padding-left: 14px;
+.glance .came { font: italic 400 15.5px/1.5 var(--told); color: #DDD6CB; margin: 0 0 14px; padding-left: 14px;
   border-left: 1px solid var(--edge-strong); }
 /* A journey stopped says why where the eye goes first; a journey's legs open from its line. */
 .glance .came.stopped { font: 500 15px/1.5 var(--do); font-style: normal; color: var(--accent); border-left-color: var(--accent); }

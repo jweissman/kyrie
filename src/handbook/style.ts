@@ -54,7 +54,7 @@ main h1 { font-size: 2.4rem; font-variant-caps: small-caps; letter-spacing: 0.01
 .entry dt { color: var(--dim); } .entry dd { margin: 0; color: var(--ink-2); }
 .rule { margin: 0.3rem 0; color: var(--ink); } .desc { font: italic 400 1rem/1.5 var(--prose); color: var(--ink-2); margin: 0.3rem 0; }
 .note { color: var(--teal); font-size: 0.82rem; margin: 0.25rem 0; } .note.bad { color: var(--rose); } .refs { color: var(--dim); font-size: 0.82rem; margin: 0.3rem 0 0; }
-.eid { display: block; color: var(--faint); font-size: 0.72rem; margin-top: 0.3rem; }
+.eid { display: block; color: var(--dim); font-size: 0.72rem; margin-top: 0.3rem; }
 .badge { font-size: 0.7rem; padding: 0.05em 0.8ch; border-radius: 999px; border: 1px solid currentColor; }
 .s-faithful { color: var(--green); } .s-adapted { color: var(--teal); } .s-represented { color: var(--blue); }
 .s-kyr { color: var(--gold); } .s-unsupported { color: var(--rose); } .s-unreachable { color: var(--violet); }
