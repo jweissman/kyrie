@@ -293,7 +293,7 @@
     State shut "A wax tablet in a wooden case lies behind the bar where the innkeeper put it, its wax scratched with strokes in rows, marks beside them in the wardens' hand.".
   }
   Topic {t}_keeper_tablet with {t}_innkeeper "Ask {{t}_innkeeper} to let you see the dead man's tablet" when knows(party, {t}_death_sober) or knows(party, {t}_death_bruise) once {
-    Says "{{t}_innkeeper} sets the wax tablet on the bar. Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle, the same on every row: the merchant's trade-mark, as the sheds know it.".
+    Says "{{t}_innkeeper} sets the wax tablet on the bar. Rows of notches: so many oaks, by girth, felled in the road-wood and carried by night to a buyer. At the head of each row is one mark, a pierced circle: the same on every row. The merchant's trade-mark, as the sheds know it.".
     On discuss { Assert knows(actor, {t}_death_oak_fact). }
   }
   Entity {t}_death_oak_fact: fact "Joss Hatherly's wax tablet records oak felled by night in the road-wood and sold under the merchant's pierced-circle mark: somebody was cutting behind the chain, and selling.".
