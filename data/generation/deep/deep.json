@@ -639,6 +639,7 @@
   "objective": {
     "item": "the heart of the vein",
     "kind": "star_iron_heart",
+    "worth": 300,
     "text": "The Delvers went down after the star-iron until their last gallery broke into the heart of the vein, and what lived in it. Whoever brings up the heart has what the Delvers died for.",
     "goal": "Bring the heart of the vein up out of {name}, from below the Delvers' last gallery.",
     "raised": "In the daylight the heart of the vein, up out of {name} at last, is heavier than it was in the dark, and it has stopped humming."

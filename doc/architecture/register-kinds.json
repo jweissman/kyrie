@@ -1188,6 +1188,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov: the fifth review's step 4, its remainder"
+  },
+  "OR-610": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, split from SI-07: a wanted tier of the economy (what a company saves for), not an observed violation of a claimed contract; the economy's bound is the world gate's measure 3"
   }
  },
  "blockedBy": {

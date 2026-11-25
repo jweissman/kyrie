@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 577 live rows, 419 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 576 live rows, 417 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -175,7 +175,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 6 defects · 2 asks
+- **Markets and prices** · 0 pins · 5 defects · 2 asks
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
 
@@ -183,7 +183,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 14 defects · 11 asks
+- **Countries and regions** · 0 pins · 13 defects · 11 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…

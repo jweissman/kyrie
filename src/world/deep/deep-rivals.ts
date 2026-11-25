@@ -31,17 +31,26 @@ export class DeepRivals {
   // The second morning (six o'clock of the second day, from eight on the first), and two days a stage.
   static readonly first = 132;
   static readonly pace = 288;
+  // What a prize that says no worth of its own is worth, as its Kind is written (DeepSites.kinds).
+  static readonly worth = 400;
   static lines(region: Region, site: Site,
     at: { layout: DeepLayout; purpose: DeepPurpose; values: Record<string, string> }): string[] {
     const { layout, purpose, values } = at, power = this.table[values.kingdomkind!];
     if (!power) { return []; }
     const bottom = layout.levels.at(-1)!.rooms, room = (bottom.find(r => r.role === 'heart') ?? bottom.at(-1)!).id;
-    const price = this.round((purpose.objective.worth ?? 2000) * power.share);
+    const price = this.price(purpose, power);
     const r: Rivals = { id: `${site.id}_rivals`, head: `${site.id}_head`, seat: this.seat(region, site, power),
       keeper: `${layout.site}_keeper`, heart: `${layout.site}_heart`, room, kind: purpose.objective.kind, price,
       raised: this.round(price * 1.5), values, prize: purpose.objective.item };
     return [...this.head(r, power, purpose), ...this.delving(r, power, layout),
       ...this.end(r, power, { layout, raises: !!(purpose.objective.goal && purpose.objective.raised) })];
+  }
+  // What the head pays for the prize: its share of the prize's worth as the site's Kind has it (DeepSites.kinds). A
+  // default of 2000 here, where the Kind's was 400, had the Delvers' heart, which said no worth, bought for 2500
+  // against a dealer's 200: one outing ten times the first town's dearest ware (SI-07: b2 and c3's day's coin 10.3
+  // and 13.5, against the world gate's band of 0.5 to 3).
+  static price(purpose: DeepPurpose, power: Pick<Power, 'share'>): number {
+    return this.round((purpose.objective.worth ?? DeepRivals.worth) * power.share);
   }
   // The head, at the settlement's heart, with the coin to pay for the prize: what they want, and an advance. Called by
   // their office, of their kingdom where that tells them apart: "the factor" of a company stood on Porthalen's green
