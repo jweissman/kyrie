@@ -6,12 +6,16 @@ import { Identity } from '../../src/presentation/identity';
 // lamp is lit on each lesser tower, the outermost pair first, closing in; the seventh light, over the tallest, is the
 // star (or, for a studio named for its lamps, a seventh lamp); the studio's name comes up beneath the horizon with the
 // seventh light, so that the whole of it is held a while together; and all of it goes out to black. Any key or touch
-// ends it (TitlePage.useBeat).
+// ends it (TitlePage.useBeat). Risen, the towers are lit one by one from the left, each in a colour of its own, steady,
+// never a flash, all seven within two seconds of the first frame (OR-507, the coordinator's call of 24 November). It is
+// no Atlas: the colours mean nothing. One who asks for less motion is never shown it (TitlePage.first, SiteBuild.early).
 export class Ident {
   static readonly towers = [0.46, 0.66, 0.82, 1, 0.78, 0.6, 0.42];
+  // Each tower's colour, left to right: ember, amber, moss, teal, azure, violet, rose; none an indicator's.
+  static readonly hues = ['#E9785A', '#E3B04E', '#9DBF6A', '#5FB8A8', '#79A6E8', '#A894E8', '#E08AA8'];
   // When each part begins, in milliseconds from the first frame, and how long the whole mark lasts before it is gone.
   static readonly at = { ground: 100, tower: 300, rise: 85, spire: 520, lamp: 1080, kindle: 140, star: 1540,
-    name: 1500 };
+    name: 1500, lit: 820, each: 160 };
   // Held a little over a second once whole (the owner, 16 November: startup had seemed to take forever; it was 3.7 s).
   static readonly length = 2800;
   // How tall a tower's spire stands over its lamp, in the mark's units; the tallest's reaches up to the star's point.
@@ -27,8 +31,10 @@ export class Ident {
           {Ident.towers.map((h, i) => {
             const x = gap * (i + 1), top = base - h * 78, off = Math.abs(i - mid), rose = at.tower + off * at.rise;
             const lit = off > 0 || seventh === 'lamp', from = lit ? top - 2.6 : top;
-            return <g key={i}>
-              <line className="tower" x1={x} x2={x} y1={base} y2={top} style={delay(rose)} />
+            const hue = { '--hue': Ident.hues[i] } as CSSProperties;
+            return <g key={i} style={hue}>
+              <line className="tower" x1={x} x2={x} y1={base} y2={top}
+                style={{ animationDelay: `${rose}ms, ${at.lit + i * at.each}ms` }} />
               <line className="spire" x1={x} x2={x} y1={from} y2={from - Ident.spire - (off > 0 ? 0 : 1)}
                 style={delay(rose + at.spire)} />
               {lit && <circle className={off > 0 ? 'lamp' : 'lamp seventh'} cx={x} cy={top} r={off > 0 ? 1.9 : 2.3}

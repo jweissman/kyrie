@@ -160,18 +160,18 @@ html, body { overflow: hidden; }
 .ident .ground { stroke: var(--gold-line); stroke-width: 1; animation: draw-out .8s var(--ease) both; }
 @keyframes draw-out { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0 0 0 0); } }
 .ident .tower { stroke: var(--ivory); stroke-width: 2.4; stroke-dasharray: 90; stroke-dashoffset: 90;
-  filter: drop-shadow(0 0 6px rgba(242, 189, 76, .7)); animation: tower .8s var(--ease) forwards; }
+  animation: tower .8s var(--ease) forwards, tower-lit .5s ease-out forwards; }
 @keyframes tower { to { stroke-dashoffset: 0; } }
+/* Each tower lit in its own colour, once, steadily (OR-507): its stroke turns to its hue and a soft light of it gathers;
+   nothing brightens and falls back. */
+@keyframes tower-lit { to { stroke: var(--hue); filter: drop-shadow(0 0 5px var(--hue)); } }
 .ident .spire { stroke: var(--ivory); stroke-width: 1; stroke-dasharray: 8; stroke-dashoffset: 8; opacity: .9;
-  filter: drop-shadow(0 0 4px rgba(242, 189, 76, .6)); animation: tower .45s var(--ease) forwards; }
-.ident .lamp { fill: var(--gold); opacity: 0; transform-box: fill-box; transform-origin: center;
-  filter: drop-shadow(0 0 3px var(--gold)); animation: lamp .6s var(--ease) forwards; }
-@keyframes lamp { 0% { opacity: 0; transform: scale(.2); } 55% { opacity: 1; transform: scale(1.6); }
-  100% { opacity: .92; transform: scale(1); } }
-.ident .lamp.seventh { animation-duration: .8s; filter: drop-shadow(0 0 6px var(--gold)); }
-.ident .star { fill: var(--gold); filter: drop-shadow(0 0 8px var(--gold)); opacity: 0; transform-box: fill-box;
-  transform-origin: center; animation: star .8s var(--ease) forwards; }
-@keyframes star { from { opacity: 0; transform: scale(.2) rotate(-45deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
+  animation: tower .45s var(--ease) forwards; }
+.ident .lamp { fill: var(--hue); opacity: 0; filter: drop-shadow(0 0 3px var(--hue)); animation: lamp .6s ease-out forwards; }
+@keyframes lamp { to { opacity: .92; } }
+.ident .lamp.seventh { animation-duration: .8s; }
+.ident .star { fill: var(--ivory); filter: drop-shadow(0 0 6px var(--hue, var(--ivory))); opacity: 0;
+  animation: lamp .8s ease-out forwards; }
 .ident .studio { margin: 0; font: 300 clamp(11px, 1.15vw, 15px)/1 var(--do); letter-spacing: .5em; padding-left: .5em;
   color: var(--ivory); white-space: nowrap; opacity: 0; animation: studio 1.1s var(--ease) forwards; }
 @keyframes studio { from { opacity: 0; letter-spacing: .72em; padding-left: .72em; filter: blur(3px); }
