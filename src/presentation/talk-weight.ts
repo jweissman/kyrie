@@ -3,7 +3,7 @@ import type { Change, Objective } from '../lang/module';
 import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
-import { ChoiceGrouping } from '../ui/choice-grouping';
+import { Outcome } from '../ui/outcome';
 import type { World } from '../lang/world';
 import { AimAdvances } from './aim-advances';
 import { PlayerFrame, type FrameRows } from './player-frame';
@@ -54,7 +54,7 @@ export class TalkWeight {
   // hearing of a place, which a rumour's aim arises from (the old kingdom's hook, asked of the same merchant).
   private static begun(w: World, success: Change[], idle: Objective[]): Objective | undefined {
     const changes = success.filter(c => (c.kind === 'assert' || c.kind === 'retract')
-      && !ChoiceGrouping.learnt.has(c.call.name));
+      && !Outcome.learnt.has(c.call.name));
     if (!changes.length) { return undefined; }
     const after = w.apply(changes);
     return idle.find(o => after.test(o.when));

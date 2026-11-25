@@ -22,26 +22,42 @@ export class Outcome {
   private static readonly waiting = new WeakMap<Module, Map<string, Teacher[]>>();
   // The facts the act would teach the actor, in the order the world's teaching gives them; none where nothing would.
   static taught(module: Module, world: World, action: Operator, actor: string): readonly string[] {
+    return this.read(module, world, action, { actor, foresees: this.everything });
+  }
+  // As the company could foresee it (Knowing.taught, the knowledge boundary's door: OR-527): a teaching woken by the
+  // act counts only where everything else its condition reads is the company's to tell (Knowing.foresees). Lifting a
+  // chest's lid had been "to learn" where a letter lay inside it unseen, and plain where none did, so that the row
+  // told what the chest held (test/small/knowledge-noninterference).
+  static foreseen(world: World, action: Operator, company: Foreseeing): readonly string[] {
+    return this.read(world.module, world, action, company);
+  }
+  // What the world holds, foreseen whole: the authoritative prediction, which the diagnostic tools check after.
+  private static readonly everything = () => true;
+  private static read(module: Module, world: World, action: Operator, company: Foreseeing): readonly string[] {
     const memo = this.kept.get(world) ?? new Map<string, readonly string[]>();
     this.kept.set(world, memo);
-    const key = `${actor}|${action.id}`, had = memo.get(key);
+    const actor = action.bindings?.actor ?? company.actor;
+    const key = `${actor}|${action.id}|${company.foresees === this.everything ? 'all' : 'foreseen'}`;
+    const had = memo.get(key);
     if (had) { return had; }
     // Only what the company would be told it knows: a fact with words (one without is a mark an author keeps, the
     // brother knelt by the cart: CompanyKnowledge).
     const byId = EntityIndex.of(module.entities).byId;
-    const out = this.read(module, world, action.success ?? [], actor).filter(f => !!byId.get(f)?.name);
+    const out = this.teaching(world, action.success ?? [], actor, company).filter(f => !!byId.get(f)?.name);
     memo.set(key, out);
     return out;
   }
-  private static read(module: Module, world: World, success: readonly Change[], actor: string): readonly string[] {
+  private static teaching(world: World, success: readonly Change[], actor: string, company: Foreseeing):
+    readonly string[] {
     const made = new Set(success.filter(c => c.kind === 'assert' && !this.learnt.has(c.call.name)).flatMap(c => c.call.args));
     const told = success.flatMap(c => c.kind === 'assert' && c.call.name === 'knows' && c.call.args[0] === actor
       && !made.has(c.call.args[1] ?? '') && !this.known(world, actor, c.call.args[1] ?? '') ? [c.call.args[1]!] : []);
-    const teachers = this.woken(module, success, actor);
+    const { teachers, keys } = this.woken(world.module, success, actor);
     if (!teachers.length) { return told; }
     let after: World;
     try { after = world.apply([...success]); } catch { return told; }
     const shown = teachers.filter(t => !this.known(world, actor, t.fact) && (!t.place || after.test(ModuleWriter.call('at', actor, t.place)))
+      && this.calls(t.when).every(c => keys.has(this.key(c)) || company.foresees(c))
       && after.test(t.when) && !world.test(t.when)).map(t => t.fact);
     return [...new Set([...told, ...shown])];
   }
@@ -57,11 +73,12 @@ export class Outcome {
   // Not by where the company would then stand: a way taken is read for what it says it teaches, not for what arriving
   // shows, which is the place's, met there (the way's own colour is the route's: the cost study's moves, the most of a
   // turn's acts and two thirds of this reading's time when they were read so).
-  private static woken(module: Module, success: readonly Change[], actor: string): Teacher[] {
+  private static woken(module: Module, success: readonly Change[], actor: string):
+    { teachers: Teacher[]; keys: Set<string> } {
     const index = this.index(module), moved = `at(${actor})`;
     const keys = new Set(success.flatMap(c => c.kind === 'assert' || c.kind === 'retract' ? [this.key(c.call)] : [])
       .filter(k => k !== moved));
-    return [...new Set([...keys].flatMap(n => index.get(n) ?? []))];
+    return { teachers: [...new Set([...keys].flatMap(n => index.get(n) ?? []))], keys };
   }
   private static index(module: Module): Map<string, Teacher[]> {
     const had = this.waiting.get(module);
@@ -88,3 +105,5 @@ export class Outcome {
   private static variable(p: Predicate): boolean { return World.variables(p); }
 }
 interface Teacher { when: Predicate; fact: string; place?: string }
+// Who would learn, and what of a condition it could tell (see Knowing).
+export interface Foreseeing { actor: string; foresees(call: Call): boolean }

@@ -5,7 +5,7 @@ import type { World } from '../lang/world';
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import type { PlayerSnapshot } from './player-view';
 import { VisitedPlaces } from './visited-places';
-import { ChoiceGrouping } from '../ui/choice-grouping';
+import { Outcome } from '../ui/outcome';
 import { QueryIndex } from '../lang/query-index';
 
 // What the company knows, and how: seen with its own eyes, found in a source, read, or heard from someone; and when
@@ -50,7 +50,7 @@ export class CompanyKnowledge {
   private static own(campaign: Campaign, action: string, fact: string)
     : { source: 'did' | 'heard' | 'seen'; from?: string } {
     const op = campaign.operator(action), speaker = op?.speaker ?? op?.bindings?.informant;
-    const did = (op?.success ?? []).some(c => c.kind === 'assert' && !ChoiceGrouping.learnt.has(c.call.name)
+    const did = (op?.success ?? []).some(c => c.kind === 'assert' && !Outcome.learnt.has(c.call.name)
       && c.call.args.includes(fact));
     return did ? { source: 'did' } : speaker ? { source: 'heard', from: speaker } : { source: 'seen' };
   }

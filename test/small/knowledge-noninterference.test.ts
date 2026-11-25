@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
+import { Runner } from '../../src/cli/runner';
 
 // Knowledge integrity's negative test (OR-524, the opening move of the knowledge boundary): two worlds that differ
 // only in something the company neither knows nor perceives give the same player frame, the screen and the leaf as
@@ -12,8 +13,9 @@ const yard = `
   Passage door "the shed door" is path between yard and shed.
   Company party "You" of 1 at yard.
   Goal false.`;
-// The frame as drawn: what any client is given to draw, with nothing of the order it was built in.
-const frame = (t: Tiny) => JSON.stringify([t.look().screen, t.leaf]);
+// The frame as drawn: what any client is given to draw, the page's screen and leaf and the terminal's turn, with
+// nothing of the order it was built in.
+const frame = (t: Tiny) => JSON.stringify([t.look().screen, t.leaf, new Runner(t.session).said('arrive')]);
 const pair = (a: string, b: string) => Promise.all([Tiny.start(a, { party }), Tiny.start(b, { party })]);
 
 describe('two worlds the company cannot tell apart', () => {
@@ -65,6 +67,29 @@ describe('two worlds the company cannot tell apart', () => {
     expect(frame(a)).not.toMatch(/mounting-block|bay is lame/);
     for (const t of [a, b]) { await t.perform(t.campaign.offered().find(x => /stable key/.test(x.name))!.id); }
     expect(frame(a)).toContain('mounting-block');
+    expect(frame(a)).not.toBe(frame(b));
+  });
+  // The Atlas's knowledge mark, read through the knowledge boundary's door (OR-527, Knowing.teaches): lifting the lid
+  // had been drawn "to learn" where a letter lay in the shut chest and plain where none did, so the row told what the
+  // chest held; a teaching that turns on what the company cannot see is no lesson it can foresee.
+  it('an Atlas mark: what the chest holds, which only lifting its lid would show', async () => {
+    const chest = (holds: boolean) => `
+      Thing chest "an oak chest" at yard {
+        State shut "An oak chest stands by the wall, its lid down.".
+        State open "The oak chest stands open.".
+        Change open "Lift the lid of the oak chest" from shut to open.
+      }
+      Initially Assert closesWhen(chest, shut).
+      Thing letter "a folded letter" nowhere { State folded "A letter, folded small.". }
+      Entity letter_told: fact "Someone left a letter in the oak chest.".
+      Observe letter_seen at yard of chest as sign when state(chest, open) and inside(letter, chest)
+        "A folded letter lies in the bottom of the chest." teaches letter_told.
+      ${holds ? 'Initially Assert inside(letter, chest).' : ''}`;
+    const [a, b] = await pair(yard + chest(true), yard + chest(false));
+    expect(frame(a)).toBe(frame(b));
+    expect(frame(a)).not.toMatch(/folded letter/);
+    for (const t of [a, b]) { await t.perform(t.campaign.offered().find(x => /oak chest/.test(x.name))!.id); }
+    expect(frame(a)).toContain('folded letter');
     expect(frame(a)).not.toBe(frame(b));
   });
 });

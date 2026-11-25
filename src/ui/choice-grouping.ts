@@ -1,6 +1,5 @@
 import { NewsFold } from './news-fold';
-import type { Module, Operator, Predicate } from '../lang/module';
-import { Outcome } from './outcome';
+import type { Operator, Predicate } from '../lang/module';
 import { PurchaseCompare } from './purchase-compare';
 import { PronounWords } from './pronoun-words';
 import type { World } from '../lang/world';
@@ -65,8 +64,9 @@ export interface GroupingContext {
   struck?: Set<string>;
   // What someone of the company has on or in hand, by the item's id: sold, it is asked about first.
   worn?: Set<string>;
-  // The module, by which an act's success is read for what it shows that teaches (see Teaching).
-  module?: Module;
+  // Whether an act would teach the company something it could foresee (Knowing.teaches: the knowledge boundary's
+  // door, OR-527): what it would know after it that it does not now.
+  teaches?: (action: Operator) => boolean;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -276,28 +276,21 @@ export class ChoiceGrouping {
     return { until: time[0] === today ? time[1]! : `${time[1]!} tomorrow` };
   }
   // The act itself: its command, or why it cannot be done now; and what kind of act it is, either way.
-  private static withheld(row: Row, module?: Module, world?: World) {
+  private static withheld(row: Row, teaches?: (action: Operator) => boolean) {
     const does = row.action.schema ?? row.action.id;
     const targets = Object.entries(row.action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => v);
     return { ...row.wanting ? { disabled: row.wanting } : { command: row.choice.id }, does,
       ...targets.length ? { targets } : {},
       ...row.action.movement || ChoiceGrouping.rules[does]?.moves ? { moves: true } : {},
-      ...ChoiceGrouping.taught(row.action, module, world) ? { teaches: true } : {} };
+      ...teaches?.(row.action) ? { teaches: true } : {} };
   }
-  // Whether an act teaches the company something: what it would know after it that it does not now (Outcome, the one
-  // reading of it: OR-206). Without the world to read it in (a choice shaped for a page drawn apart), none.
-  private static taught(action: Operator, module?: Module, world?: World): boolean {
-    return !!module && !!world && Outcome.taught(module, world, action, action.bindings?.actor ?? 'party').length > 0;
-  }
-  // The learning's own record (see Outcome.learnt).
-  static readonly learnt = Outcome.learnt;
   private static place(out: Grouped, row: Row, context: GroupingContext) {
     const { choice, action } = row;
     const bound = Object.entries(action.bindings ?? {}).filter(([k]) => !['actor', 'site'].includes(k))
       .map(([, v]) => context.names.get(v) ?? '').filter(Boolean);
     const minutes = context.world ? ActionTime.minutes(action, context.world) : choice.time * 10;
-    const leaf = { ...ChoiceGrouping.withheld(row, context.module, context.world), minutes,
+    const leaf = { ...ChoiceGrouping.withheld(row, context.teaches), minutes,
       ...ChoiceGrouping.until(action, minutes, context.world),
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
