@@ -1,4 +1,6 @@
 import { Canon } from '../canon/canon';
+import { Traits } from '../ports/traits';
+import { Callings } from '../ports/callings';
 import type { Trait } from './catalog-schema';
 
 // A member as a formation counts it: what it is and what it does.
@@ -12,7 +14,7 @@ export interface FormationNear { id: string; trait: Trait; missing: string[]; sp
 // company is formed and kept, as Orsino keeps it.
 export class Formations {
   static all(): [string, Trait][] {
-    return Object.entries(Canon.traits).filter(([, t]) => t.category === 'party' && t.requires?.company);
+    return Object.entries(Traits.table()).filter(([, t]) => t.category === 'party' && t.requires?.company);
   }
   static recognize(members: FormationMember[]): string[] {
     return this.all().filter(([, t]) => this.missing(t, members).length === 0).map(([id]) => id);
@@ -37,12 +39,12 @@ export class Formations {
   // Where a fighter stands in its side's formation in a fight: in the rear, if it fights from there (with a missile,
   // or by a calling that stands back: a mage), else in front, hand to hand (see Positions).
   static rear(f: { classId?: string; equipment?: { weapon?: { missile?: boolean } } }): boolean {
-    return !!f.equipment?.weapon?.missile || (!!f.classId && Canon.classes[f.classId]?.rank === 'rear');
+    return !!f.equipment?.weapon?.missile || (!!f.classId && Callings.of(f.classId)?.rank === 'rear');
   }
   // A formation a player's company could ever make: every class or ancestry it names can be chosen.
   static possible(trait: Trait): boolean {
     const company = trait.requires!.company!;
-    return company.classes ? company.classes.every(c => Canon.classes[c]?.playable)
+    return company.classes ? company.classes.every(c => Callings.of(c)?.playable)
       : (company.ancestries ?? []).every(a => Canon.ancestries[a]?.playable);
   }
 }

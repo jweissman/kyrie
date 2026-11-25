@@ -1,7 +1,7 @@
 {
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "runtime -> setting": 62,
+  "runtime -> setting": 60,
   "player -> setting": 76,
   "setting -> player": 13
  },
@@ -40,7 +40,6 @@
   "src/creation/creation-entries.ts -> src/handbook/text",
   "src/creation/creation-flow.ts -> src/handbook/phb-company",
   "src/creation/first-spells.ts -> src/canon/canon",
-  "src/creature-store.ts -> src/canon/canon",
   "src/creature-variants.ts -> data/catalog/orsino/variants.json",
   "src/creature-variants.ts -> data/catalog/variations.json",
   "src/creature-variants.ts -> src/canon/canon",
@@ -113,7 +112,6 @@
   "src/rules/level-drain.ts -> src/canon/canon",
   "src/rules/perks.ts -> src/canon/canon",
   "src/rules/perks.ts -> src/canon/canon-runtime",
-  "src/rules/sky-gifts.ts -> src/canon/canon",
   "src/summoning.ts -> src/canon/canon",
   "src/tactics.ts -> src/canon/canon",
   "src/targeting.ts -> src/canon/canon",

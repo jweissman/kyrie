@@ -1,14 +1,14 @@
 {
  "about": "Direct Canon reads outside the setting, by layer and member (scripts/canon-reads.ts); each may only fall (test/small/canon-reads).",
  "counts": {
-  "runtime traits": 40,
-  "runtime classes": 36,
   "runtime creature": 32,
   "runtime items": 32,
   "runtime rules": 28,
   "runtime isBody": 25,
+  "runtime traits": 25,
   "runtime resolve": 21,
   "player resolve": 17,
+  "runtime classes": 16,
   "player items": 14,
   "runtime ancestries": 13,
   "runtime abilities": 13,

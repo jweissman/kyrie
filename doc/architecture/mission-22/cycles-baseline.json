@@ -1,7 +1,7 @@
 {
  "about": "Value imports within a cycle between folders (MT-29, scripts/cycles.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "src -> src/canon": 21,
+  "src -> src/canon": 20,
   "src -> src/rules": 47,
   "src/campaign -> src": 52,
   "src/campaign -> src/canon": 16,
@@ -39,7 +39,7 @@
   "src/registry -> src": 6,
   "src/registry -> src/rules": 2,
   "src/registry -> src/world": 2,
-  "src/rules -> src/canon": 15,
+  "src/rules -> src/canon": 14,
   "src/rules -> src/campaign": 2,
   "src/rules -> src": 26,
   "src/session -> src/presentation": 11,
@@ -197,7 +197,6 @@
   "src/content.ts -> src/rules/fighting",
   "src/content.ts -> src/rules/sky-gifts",
   "src/content.ts -> src/rules/spellcasting",
-  "src/creature-store.ts -> src/canon/canon",
   "src/creature-store.ts -> src/rules/creation",
   "src/creature-store.ts -> src/rules/sky-gifts",
   "src/creature-store.ts -> src/rules/spellcasting",
@@ -468,7 +467,6 @@
   "src/rules/positions.ts -> src/content",
   "src/rules/positions.ts -> src/targeting",
   "src/rules/shaking-off.ts -> src/effects",
-  "src/rules/sky-gifts.ts -> src/canon/canon",
   "src/rules/sky-gifts.ts -> src/setting-port",
   "src/rules/spell-resistance.ts -> src/effects",
   "src/rules/spell-resistance.ts -> src/kind-defenses",

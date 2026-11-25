@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Traits } from '../ports/traits';
 import { CanonRuntime } from '../canon/canon-runtime';
 import type { Bonuses, Perk, Triggers } from './catalog-schema';
 
@@ -8,7 +9,7 @@ export interface PerkContext { environment?: string; weapon?: { weight?: string;
 // they give beyond modifiers: triggers (on a kill, on a level) and standing bonuses (longer statuses, more gold).
 export class Perks {
   static of(traits: string[] | undefined, at: PerkContext = {}): Perk[] {
-    return [...new Set(traits ?? [])].flatMap(id => Canon.traits[Canon.resolve('traits', id)]?.perks ?? [])
+    return [...new Set(traits ?? [])].flatMap(id => Traits.of(Canon.resolve('traits', id))?.perks ?? [])
       .filter(p => !(p.environment || p.weapon) || CanonRuntime.holds(p, at));
   }
   // A bonus summed over the perks that hold; a multiplier is the largest one (one source of more gold, not several).

@@ -1,4 +1,5 @@
 import { Content, type CreatureGenerationContext } from '../content';
+import { Callings } from '../ports/callings';
 import { SettingPort } from '../setting-port';
 import { Likeness } from '../paintings/likeness';
 import { Creation } from '../rules/creation';
@@ -17,7 +18,7 @@ export class CompanyChoices {
   // make its company of any of the catalog's callings, one of no adventuring calling among them: a plot-holder at an
   // allotment society's meeting is a commoner, not a warrior (BX-01's L1, its first half).
   static refused(c: CreatureGenerationContext, own = false): string | undefined {
-    const callings = own ? Object.keys(Canon.classes) : Content.playableClasses;
+    const callings = own ? Object.keys(Callings.table()) : Content.playableClasses;
     return this.one(c, 'ancestry', c.raceId!, Content.playableRaces)
       ?? this.one(c, 'calling', Creation.classId(c.classId!), callings)
       ?? (c.backgroundId ? this.one(c, 'background', c.backgroundId, Object.keys(Canon.backgrounds)) : undefined);

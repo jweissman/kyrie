@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Callings } from '../ports/callings';
 import { Abilities } from '../ports/abilities';
 import type { Attribute, CharacterClass, Proficiencies } from './catalog-schema';
 import { Fighting } from './fighting';
@@ -17,7 +18,7 @@ export class Creation {
   static readonly picks: Record<number, number> = { 1: 3, 2: 2, 3: 1 };
   static a(word: string): string { return `${/^[aeiou]/i.test(word) ? 'an' : 'a'} ${word}`; }
   static classOf(id: string | undefined): CharacterClass | undefined {
-    return id ? Canon.classes[Canon.resolve('classes', id)] : undefined;
+    return id ? Callings.of(Canon.resolve('classes', id)) : undefined;
   }
   static classId(id: string): string { return Canon.resolve('classes', id); }
   // What a calling brings at the levels after `from` up to `to`: the techniques it learns and the traits it takes.

@@ -1,4 +1,5 @@
 import type { Recovery } from '../rules/daily-uses';
+import { Traits } from '../ports/traits';
 import { Tended } from '../rules/tended';
 import { Advancement } from '../rules/advancement';
 import { LevelDrain } from '../rules/level-drain';
@@ -162,7 +163,7 @@ export class FieldUse {
       // A skill taken up is said by the command's own result ("Tamsin takes up Climbing."), not again as a gain.
       if (name === 'school') { return []; }
       const what = name === 'improve' ? `${choice.charAt(0).toUpperCase()}${choice.slice(1)} is now ${c.base[choice as Attribute]}`
-        : name === 'feat' ? `${Canon.traits[choice]?.name ?? choice} taken up`
+        : name === 'feat' ? `${Traits.of(choice)?.name ?? choice} taken up`
           : `${Content.abilities.find(a => a.id === choice)?.name ?? choice} learned`;
       return [{ type: 'gain', turn: 0, actor: member, target: member, detail: what }];
     } finally { lease.release(); }

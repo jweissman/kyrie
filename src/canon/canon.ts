@@ -1,5 +1,6 @@
 import abilities from '../../data/catalog/abilities.json';
 import { Conditions } from '../ports/conditions'; import { Abilities } from '../ports/abilities';
+import { Traits } from '../ports/traits'; import { Callings } from '../ports/callings';
 import aliases from '../../data/catalog/aliases.json';
 import ancestries from '../../data/catalog/ancestries.json';
 import backgrounds from '../../data/catalog/backgrounds.json';
@@ -283,6 +284,11 @@ export class Canon {
   // An ability by its id, and all of them: the rules' port (src/ports/abilities.ts).
   static abilityOf(id: string): Ability | undefined { return this.abilities[id]; }
   static allAbilities(): [string, Ability][] { return Object.entries(this.abilities); }
+  // A trait, a calling, by its id, and each table: the rules' ports (src/ports/traits.ts, src/ports/callings.ts).
+  static traitOf(id: string): Trait | undefined { return this.traits[id]; }
+  static traitTable(): Readonly<Record<string, Trait>> { return this.traits; }
+  static callingOf(id: string): CharacterClass | undefined { return this.classes[id]; }
+  static callingTable(): Readonly<Record<string, CharacterClass>> { return this.classes; }
   static soul(id: string, pronoun?: string): boolean {
     return this.isSpecies(id) && ['monster', 'spirit'].includes(this.creature(id).kind ?? '')
       && !!pronoun && pronoun !== 'pron_it';
@@ -291,3 +297,5 @@ export class Canon {
 // The fantasy rules' conditions, the runtime's to ask of through its port (src/ports/conditions.ts).
 Conditions.install({ condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon) });
 Abilities.install({ ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) });
+Traits.install({ one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) });
+Callings.install({ one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) });

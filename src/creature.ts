@@ -1,4 +1,5 @@
 import { SettingPort } from './setting-port';
+import { Callings } from './ports/callings';
 import { ItemCatalog } from './item-catalog';
 import { Canon } from './canon/canon';
 import { DailyUses, type Daily } from './rules/daily-uses';
@@ -95,7 +96,7 @@ export class CreatureSchema {
     }
     CreatureSchema.marks(creature);
     if (Canon.isBody(creature.raceId) ? creature.classId !== undefined
-      : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Canon.classes[creature.classId]) {
+      : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Callings.of(creature.classId)) {
       throw new Error(`${creature.id}: a person has an ancestry and a class; a species creature has no class`);
     }
     const values = [creature.base.level, creature.base.maxHp, creature.base.maxMana, creature.base.speed,

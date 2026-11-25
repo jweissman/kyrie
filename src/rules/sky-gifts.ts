@@ -1,5 +1,5 @@
 import { SettingPort } from '../setting-port';
-import { Canon } from '../canon/canon';
+import { Traits } from '../ports/traits';
 
 // What the sky one is born under gives (the owner, 18 November, OR-89: "there should probably be perk selection
 // happening when you select a star-sign"; OR-117: "Don't make people choose between the perk options for the birth
@@ -11,7 +11,7 @@ export class SkyGifts {
   // One kept before every gift of a sign was given (a game saved holding the one gift chosen) holds them all on coming
   // back: what is missing of its sign's gifts is added to its traits. Nothing else is changed.
   static borne<T extends { sign?: string; traits?: string[] }>(creature: T): T {
-    const gifts = SkyGifts.of(creature.sign).filter(g => Canon.traits[g]?.category === 'sign');
+    const gifts = SkyGifts.of(creature.sign).filter(g => Traits.of(g)?.category === 'sign');
     if (!gifts.length || gifts.every(g => creature.traits?.includes(g))) { return creature; }
     creature.traits = [...new Set([...creature.traits ?? [], ...gifts])];
     return creature;

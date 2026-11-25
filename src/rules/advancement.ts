@@ -1,4 +1,6 @@
 import { Canon } from '../canon/canon';
+import { Traits } from '../ports/traits';
+import { Callings } from '../ports/callings';
 import { Abilities } from '../ports/abilities';
 import { Expressions } from '../expressions';
 import { Fighting } from './fighting';
@@ -38,7 +40,7 @@ export class Advancement {
     const events: CombatEvent[] = [];
     while (creature.state.experience >= this.threshold(creature.base.level + 1)) {
       const level = ++creature.base.level;
-      const die = Canon.classes[creature.classId ?? '']?.hitDie ?? 6;
+      const die = Callings.of(creature.classId ?? '')?.hitDie ?? 6;
       const roll = new Expressions(RandomStreams.key(seed, 'advance', creature.id, level)).number(`1d${die}`);
       // Perks for levelling (a war band's battle hardening) add to what the die gives.
       const gained = Math.max(1, roll + Fighting.statMod(creature.base.constitution))
@@ -74,7 +76,7 @@ export class Advancement {
     const features = Creation.features(classId, level, level + 1);
     const [now, then] = [level, level + 1].map(l => Spellcasting.table(classId, l, {}).length);
     return [...features.abilities.map(a => Abilities.of(a)?.name ?? a),
-      ...features.traits.map(t => Canon.traits[t]?.name ?? t), ...then! > now! ? [`spells of level ${then}`] : []];
+      ...features.traits.map(t => Traits.of(t)?.name ?? t), ...then! > now! ? [`spells of level ${then}`] : []];
   }
   // The calling's features for a level just reached: techniques learned, calling traits taken.
   static features(creature: Creature, level: number): CombatEvent[] {
@@ -83,11 +85,11 @@ export class Advancement {
     creature.base.abilities = [...creature.base.abilities, ...learned];
     const taken = due.traits.filter(t => !(creature.traits ?? []).includes(t));
     creature.traits = [...creature.traits ?? [], ...taken];
-    return [...learned.map(a => Abilities.of(a)!.name), ...taken.map(t => Canon.traits[t]!.name)].map(detail =>
+    return [...learned.map(a => Abilities.of(a)!.name), ...taken.map(t => Traits.of(t)!.name)].map(detail =>
       ({ type: 'learn' as const, turn: 0, actor: creature.id, target: creature.id, detail }));
   }
   static specialist(creature: Creature) {
-    return (creature.traits ?? []).map(id => Canon.traits[id]).find(t => t?.spellAccess);
+    return (creature.traits ?? []).map(id => Traits.of(id)).find(t => t?.spellAccess);
   }
   // The spells a caster with a spell to learn may choose: those of its tradition it can cast at its level and does
   // not know. (Orsino offers its school or domain; Kyr opens the tradition, as the first picks do when a school has
@@ -109,24 +111,24 @@ export class Advancement {
   }
   static offered(creature: Creature): string[] {
     const held = creature.traits ?? [];
-    return Object.entries(Canon.traits).filter(([id, t]) => t.category === 'feat' && !t.unsupported
+    return Object.entries(Traits.table()).filter(([id, t]) => t.category === 'feat' && !t.unsupported
       && t.requires?.class === creature.classId && (t.requires?.level ?? 1) <= creature.base.level && !held.includes(id)
-      && !(t.excludes ?? []).some(x => held.includes(x)) && !held.some(h => Canon.traits[h]?.excludes?.includes(id)))
+      && !(t.excludes ?? []).some(x => held.includes(x)) && !held.some(h => Traits.of(h)?.excludes?.includes(id)))
       .map(([id]) => id);
   }
   // Takes a feat: the trait, and the abilities it grants.
   static feat(creature: Creature, id: string) {
     if (!this.feats(creature).includes(id)) { throw new Error(`${creature.id} cannot take ${id}`); }
     creature.traits = [...creature.traits ?? [], id];
-    creature.base.abilities = [...new Set([...creature.base.abilities, ...(Canon.traits[id]!.grants?.abilities ?? [])
+    creature.base.abilities = [...new Set([...creature.base.abilities, ...(Traits.of(id)!.grants?.abilities ?? [])
       .filter(a => Creation.executable(a))])];
     creature.state.advances!.feats!--;
   }
-  // The skills a member could take up with a development: those their calling teaches (Canon.classes' `learns`)
+  // The skills a member could take up with a development: those their calling teaches (Callings.table()' `learns`)
   // that they do not already bring, by background, calling, gear or study.
   static teachable(creature: Creature): string[] {
     if (!creature.state.advances?.qualities || creature.state.hp === 0) { return []; }
-    return (Canon.classes[creature.classId ?? '']?.learns ?? []).filter(id => !PartyCapabilities.brings(id, creature));
+    return (Callings.of(creature.classId ?? '')?.learns ?? []).filter(id => !PartyCapabilities.brings(id, creature));
   }
   // Takes up a skill with a development: from then on the member brings it, as one trained in it.
   static school(creature: Creature, skill: string) {

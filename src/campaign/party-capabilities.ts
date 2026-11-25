@@ -1,4 +1,6 @@
 import { Canon } from '../canon/canon';
+import { Traits } from '../ports/traits';
+import { Callings } from '../ports/callings';
 import { Conditions } from '../ports/conditions';
 import { ItemCatalog } from '../item-catalog';
 import type { Creature } from '../creature';
@@ -24,7 +26,7 @@ export class PartyCapabilities {
   // ordinary thing in their hands (the owner, 7 November: tools enable tasks; they don't grant expertise).
   static skilled(id: string, c: Creature, at: PerkContext = {}): boolean {
     if (!this.up(c)) { return this.unheld(id, c); }
-    return this.trained(id, c) || (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id)
+    return this.trained(id, c) || (Callings.of(c.classId ?? '')?.skills ?? []).includes(id)
       || (c.state.inventory ?? []).some(i => this.lends(i, id))
       || c.state.conditions.some(s => Conditions.of(s.id)?.grants?.includes(id))
       || (id === this.keen && Searching.finds(c, at));
@@ -45,7 +47,7 @@ export class PartyCapabilities {
     const trained = alive.find(c => this.trained(id, c));
     if (trained) { return [trained]; }
     const specialist = alive.find(c => (c.state.inventory ?? []).some(i => this.lends(i, id))
-      || (Canon.classes[c.classId ?? '']?.skills ?? []).includes(id)) ?? alive.find(c => this.aid(id, c));
+      || (Callings.of(c.classId ?? '')?.skills ?? []).includes(id)) ?? alive.find(c => this.aid(id, c));
     if (specialist) { return [specialist]; }
     // A condition can bring a capability while it lasts: whoever holds the lit torch brings light.
     const holder = alive.find(c => c.state.conditions.some(s => Conditions.of(s.id)?.grants?.includes(id)));
@@ -77,7 +79,7 @@ export class PartyCapabilities {
     return Overlays.skills(c).includes(id) || (c.state.skills ?? []).includes(id) || this.gifted(id, c);
   }
   static gifted(id: string, c: Pick<Creature, 'traits'>): boolean {
-    return (c.traits ?? []).some(t => Canon.traits[Canon.resolve('traits', t)]?.skills?.includes(id));
+    return (c.traits ?? []).some(t => Traits.of(Canon.resolve('traits', t))?.skills?.includes(id));
   }
   // A condition that brings what it grants though its holder has fallen (a conjured light).
   private static unheld(id: string, c: Creature): boolean {

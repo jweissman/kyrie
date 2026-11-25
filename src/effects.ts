@@ -1,4 +1,5 @@
 import { Flight } from './rules/flight'; import { Conditions } from './ports/conditions';
+import { Traits } from './ports/traits';
 import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
@@ -296,7 +297,7 @@ export class Effects {
   static turnEnd(actor: Fighter, context: EffectContext) {
     for (const s of actor.statuses.filter(c => !c.clock)) { Effects.periodic(actor, s.id, s.source, context); }
     for (const t of actor.traits ?? []) {
-      Effects.periodicOf(actor, Canon.traits[t]?.modifiers?.onTurnEnd ?? [], t, context);
+      Effects.periodicOf(actor, Traits.of(t)?.modifiers?.onTurnEnd ?? [], t, context);
     }
     // And of what it wears: a ring of regeneration's mending (the item audit's G5: summed, and never run).
     Effects.periodicOf(actor, actor.equipment?.modifiers?.onTurnEnd ?? [], 'equipment', context);

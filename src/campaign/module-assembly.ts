@@ -1,6 +1,7 @@
 import { LocalKinds } from '../canon/local-catalog';
 import { Spatial } from '../lang/spatial';
 import { Canon } from '../canon/canon';
+import { Traits } from '../ports/traits';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { ItemCatalog } from '../item-catalog';
 import { FieldUse } from './field-use';
@@ -301,7 +302,7 @@ export class ModuleAssembly {
       }
     }
     if (module.kinds.includes('feat')) {
-      for (const [id, t] of Object.entries(Canon.traits).filter(([, t]) => t.category === 'feat')) {
+      for (const [id, t] of Object.entries(Traits.table()).filter(([, t]) => t.category === 'feat')) {
         if (!module.entities.some(e => e.id === id)) { module.entities.push({ id, type: 'feat', name: t.name }); }
       }
     }

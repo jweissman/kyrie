@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Callings } from '../ports/callings';
 import { CanonRuntime } from '../canon/canon-runtime';
 import { CastingLevel } from './casting-level';
 import type { Attribute } from './catalog-schema';
@@ -18,6 +19,6 @@ export class ActorValues {
       castingScore: actor[this.castsWith(actor.classId)], bonusSpellDC };
   }
   static castsWith(classId: string | undefined): Attribute {
-    return (classId ? Canon.classes[Canon.resolve('classes', classId)]?.spellcasting?.attribute : undefined) ?? 'charisma';
+    return (classId ? Callings.of(Canon.resolve('classes', classId))?.spellcasting?.attribute : undefined) ?? 'charisma';
   }
 }

@@ -1,4 +1,5 @@
 import { Amounts } from './amounts';
+import { Callings } from '../ports/callings';
 import { Conditions } from '../ports/conditions';
 import { Canon } from '../canon/canon';
 import { Fighting } from './fighting';
@@ -33,7 +34,7 @@ export class LevelDrain {
   // The hit points a level gives it, on the average: its calling's die (half and one) with its Constitution, or its
   // kind's growth a level; never less than one.
   static perLevel(f: Pick<Drained, 'raceId' | 'classId' | 'constitution'>): number {
-    const die = f.classId ? Canon.classes[f.classId]?.hitDie : undefined;
+    const die = f.classId ? Callings.of(f.classId)?.hitDie : undefined;
     const st = Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics : undefined;
     // A fixed stat block loses a Hit Die's worth, on the average (a d12's six).
     const sides = st?.hitDice ? Amounts.dice(st.hitDice)[0]?.sides : undefined;

@@ -1,5 +1,5 @@
 import { Creation } from './rules/creation';
-import { Canon } from './canon/canon';
+import { Traits } from './ports/traits';
 import { Spellcasting } from './rules/spellcasting';
 import { CreatureSchema, type Creature } from './creature';
 import { CreatureLease } from './creature-lease';
@@ -106,10 +106,10 @@ export class CreatureStore {
     const taken = (next.traits ?? []).filter(t => !(previous.traits ?? []).includes(t) && !features.traits.includes(t));
     const feats = (previous.state.advances?.feats ?? 0) - (next.state.advances?.feats ?? 0);
     const granted = new Set([...previous.base.abilities, ...features.abilities,
-      ...taken.flatMap(t => Canon.traits[t]?.grants?.abilities ?? [])]);
+      ...taken.flatMap(t => Traits.of(t)?.grants?.abilities ?? [])]);
     return raised.every(n => n >= 0) && raised.reduce((a, b) => a + b, 0) <= Math.max(0, points) + endowed
       && (previous.traits ?? []).every(t => next.traits?.includes(t)) && taken.length <= Math.max(0, feats)
-      && taken.every(t => Canon.traits[t]?.category === 'feat')
+      && taken.every(t => Traits.of(t)?.category === 'feat')
       && previous.base.abilities.every(a => next.base.abilities.includes(a))
       && next.base.abilities.every(a => granted.has(a));
   }

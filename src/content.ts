@@ -1,4 +1,5 @@
 import { Spellcasting } from './rules/spellcasting';
+import { Callings } from './ports/callings';
 import './canon/canon-vocabulary';
 import { Costs } from './costs';
 import { buildSetting, Generator, Template } from 'deem';
@@ -60,12 +61,12 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
 };
 export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
-  static readonly classes: Record<string, { name: string; playable?: boolean }> = { ...Canon.classes };
+  static readonly classes: Record<string, { name: string; playable?: boolean }> = { ...Callings.table() };
   // A people or a kind of creature by its id, as the catalogs have it now (an adventure's own species among them).
   static race(id: string): { name: string; classes?: string[]; playable?: boolean } | undefined {
     return Canon.ancestries[id] ?? (Canon.isBody(id) ? Canon.creature(id) : undefined);
   }
-  static readonly playableClasses = Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id]) => id);
+  static readonly playableClasses = Object.entries(Callings.table()).filter(([, c]) => c.playable).map(([id]) => id);
   static readonly playableRaces = Object.entries(Canon.ancestries).filter(([, a]) => a.playable).map(([id]) => id);
   static readonly statuses = CanonRuntime.conditions();
   static readonly rules = rules;
@@ -172,7 +173,7 @@ export class Content {
     if (species && context.classId !== undefined) { throw new Error(`${id}: ${Creation.a(raceId)} is a species and takes no class`); }
     const ancestry = Canon.ancestries[raceId];
     const classId = species ? undefined : Creation.classId(context.classId
-      ?? stream('class').pick(ancestry!.classes.filter(c => Canon.classes[c]?.adventuring !== false)));
+      ?? stream('class').pick(ancestry!.classes.filter(c => Callings.of(c)?.adventuring !== false)));
     if (ancestry && !ancestry.classes.includes(classId!)) { throw new Error(`${id}: ${Creation.a(raceId)} cannot be ${Creation.a(classId!)}`); }
     const kind = ancestry?.nameGroup ?? (Object.hasOwn(tables.forename.groups, raceId) ? raceId : 'hero');
     const generated = { ...stream('attributes').generate('attributes'),
@@ -182,7 +183,7 @@ export class Content {
     // Dice placed at creation are already placed where the calling wants them (Rolls.suited): its bonus is not added
     // on top as well. Counted twice, with the people's and the trade's, a first-level warrior had come to strength 19
     // and constitution 16, and every fight of the first hour was a walkover (Mission 20's combat diagnostic).
-    const placed = context.rolled && classId ? Canon.classes[classId]?.attributes ?? {} : {};
+    const placed = context.rolled && classId ? Callings.of(classId)?.attributes ?? {} : {};
     const scores = Object.fromEntries(CreatureSchema.attributes.map(key => [key, Math.max(1,
       (chassis.fixed?.[key] ?? context.rolled?.[key] ?? Content.score(generated, key))
         + (chassis.attributes[key] ?? 0) - ((placed as Partial<Record<Attribute, number>>)[key] ?? 0))]));
