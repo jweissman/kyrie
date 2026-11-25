@@ -7,7 +7,7 @@ import { Spatial } from '../lang/spatial';
 import { Itineraries } from '../ui/itinerary';
 import type { Screen } from '../ui/screen-types';
 import type { Successor } from './glance-types';
-import { PlayerView } from './player-view';
+import { PlayerView } from './player-view'; import { PlayerFrame } from './player-frame';
 import { Sentences } from './sentences';
 import type { Told } from './narrator';
 import { Undertakings } from './undertakings';
@@ -39,7 +39,7 @@ export class Succession {
   // asks for standing where it would be done: done there, it is offered as the place to take it; lying here, the
   // taking of it.
   private static consequence(campaign: Campaign, screen: Screen, only?: string): Successor | undefined {
-    const w = campaign.world, actor = campaign.playerActor ?? 'party', rows = PlayerView.choices(campaign);
+    const w = campaign.world, actor = campaign.playerActor ?? 'party', rows = PlayerFrame.of(campaign).rows;
     const byId = EntityIndex.of(campaign.module.entities).byId;
     const taking = new Map(rows.filter(r => this.takes.includes(r.action.schema ?? ''))
       .map(r => [r.action.bindings?.find ?? '', r] as const));
@@ -138,7 +138,7 @@ export class Succession {
     const w = campaign.world, been = this.been(screen);
     const leads = new Set(w.related('leadsTo').filter(l => !been.has(l.args[1]!)).map(l => l.args[0]!));
     const known = new Set(PlayerView.observe(campaign).knowledge.map(k => k.id));
-    const row = leads.size ? PlayerView.choices(campaign).find(r => r.action.success.some(c => c.kind === 'assert'
+    const row = leads.size ? PlayerFrame.of(campaign).rows.find(r => r.action.success.some(c => c.kind === 'assert'
       && c.call.name === 'knows' && leads.has(c.call.args[1]!) && !known.has(c.call.args[1]!))) : undefined;
     return row && { kind: 'lead', text: row.choice.name, command: row.choice.id, label: row.choice.name };
   }

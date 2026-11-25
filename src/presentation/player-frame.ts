@@ -43,6 +43,14 @@ export class PlayerFrame {
   get names(): Map<string, string> {
     return this.reading('names', () => new Map(this.rows.map(r => [r.choice.id, r.choice.name])));
   }
+  // What each row is done to, by its id: the ids its bindings name, but for the roles skipped (who does it, and the
+  // site it is done at, unless where the site is what is to be acted on). One reading for the glance, the aim's
+  // continuity and the runner's led rows, which had each worked it out.
+  bound(skip: readonly string[] = PlayerFrame.doer): Map<string, string[]> {
+    return this.reading(`bound but ${skip.join(',')}`, () => new Map(this.rows.map(r => [r.choice.id,
+      Object.entries(r.action.bindings ?? {}).filter(([k]) => !skip.includes(k)).map(([, v]) => v)])));
+  }
+  static readonly doer: readonly string[] = ['actor', 'site'];
   // What a consumer derives from the rows, worked out once for this revision: its name says what it is and whose.
   reading<T>(name: string, derive: () => T): T {
     if (!this.readings.has(name)) { this.readings.set(name, derive()); }

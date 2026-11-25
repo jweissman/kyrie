@@ -3,7 +3,7 @@ import { AimAdvances } from './aim-advances';
 import type { Promoted } from './glance-types';
 import type { Candidate } from '../ui/promotion';
 import { HeldActs } from './held-acts';
-import { PlayerView } from './player-view';
+import { PlayerView } from './player-view'; import { PlayerFrame } from './player-frame';
 import { Undertakings } from './undertakings';
 import { AimSaid } from './aim-said';
 
@@ -19,7 +19,7 @@ export class HeldLead {
   static of(campaign: Campaign, aim: string, said: string): string | undefined {
     const held = Undertakings.held(campaign), def = held.find(o => o.id === aim);
     if (!def || Undertakings.followed(campaign, held)) { return undefined; }
-    const rows = PlayerView.choices(campaign), moving = AimAdvances.of(campaign, rows, def);
+    const rows = PlayerFrame.of(campaign).rows, moving = AimAdvances.of(campaign, rows, def);
     const lead = rows.find(r => moving.has(r.choice.id));
     return lead && lead.choice.name === said ? lead.choice.id : undefined;
   }
@@ -28,7 +28,7 @@ export class HeldLead {
   static taken(campaign: Campaign, command: string): string | undefined {
     const held = Undertakings.held(campaign);
     if (Undertakings.followed(campaign, held)) { return undefined; }
-    const rows = PlayerView.choices(campaign);
+    const rows = PlayerFrame.of(campaign).rows;
     if (!held.some(o => AimAdvances.of(campaign, rows, o).has(command))) { return undefined; }
     const view = PlayerView.observe(campaign);
     const pull = HeldActs.pull(Undertakings.shown(campaign, view.objectives ?? [], view.location?.id ?? '').aims ?? []);
@@ -41,7 +41,7 @@ export class HeldLead {
     { acts: Promoted[]; pull?: Promoted } {
     const lead = pull?.aim && HeldLead.of(campaign, pull.aim, pull.label);
     if (!pull || !lead) { return { acts: at.acts, pull }; }
-    const speaker = PlayerView.choices(campaign).find(r => r.choice.id === lead)?.action.speaker;
+    const speaker = PlayerFrame.of(campaign).row(lead)?.action.speaker;
     const i = at.acts.findIndex(a => this.steps(a, lead, speaker));
     const act = at.acts[i] ?? at.cands.find(c => !c.barred && this.steps(c, lead, speaker));
     if (!act) { return { acts: at.acts, pull }; }

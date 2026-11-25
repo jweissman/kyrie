@@ -2,7 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
 import type { Candidate, Situation } from '../ui/promotion';
 import { Promotion } from '../ui/promotion';
-import { PlayerView } from './player-view';
+import { PlayerFrame } from './player-frame';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../lang/spatial';
 import { Itineraries } from '../ui/itinerary';
@@ -119,7 +119,7 @@ export class AimContinuity {
     }
     // Something can be done to the bar, but none of it is the step yet (the speaking door's words, a guess until its
     // letters are read): never "nothing here opens it".
-    const tried = PlayerView.choices(campaign).some(r => Object.entries(r.action.bindings ?? {})
+    const tried = PlayerFrame.of(campaign).rows.some(r => Object.entries(r.action.bindings ?? {})
       .some(([k, v]) => k !== 'actor' && lead.next.includes(v)));
     // With nothing led here but the bare ways on, the way out toward the town (OR-411: in the ossuary, the crypt's
     // stair up barred and dark, the gold had gone to the crypt and back nine times, nothing marked).
@@ -269,8 +269,7 @@ export class AimContinuity {
       ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
     // Where the step is what bars the way, an act whose site is the bar acts on it too (the speaking door's words).
     const skip = lead.source === 'barred' ? ['actor'] : ['actor', 'site'];
-    const bound = new Map(PlayerView.choices(campaign).map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
-      .filter(([k]) => !skip.includes(k)).map(([, v]) => v)]));
+    const bound = PlayerFrame.of(campaign).bound(skip);
     const ways = new Map(screen.exits.map(e => [e.id, e.destination.id]));
     // A way is on the step too where it is the first of the known way there (CL-65: from the barrow's halls the way
     // out to the daylight is two rooms long, and only a way straight to the step had counted).

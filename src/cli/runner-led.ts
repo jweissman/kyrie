@@ -19,8 +19,7 @@ export class RunnerLed {
     const campaign = frame.campaign, w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
     // The step itself, and where it stands (someone or something at a place).
     const step = new Set([...lead.next, ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
-    const bound = new Map(frame.rows.map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
-      .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
+    const bound = frame.bound();
     const ways = new Map(screen.exits.flatMap(e => e.acts.flatMap(a => a.command && a.moves
       ? [[a.command, e.destination.id] as const] : [])));
     return primary.filter(o => {

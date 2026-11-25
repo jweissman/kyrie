@@ -28,7 +28,7 @@ import { Acquainted } from './acquainted'; import { DecisionFrame } from './deci
 import { Charge } from './charge';
 import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
-import { PlayerView } from './player-view'; import { TalkingWith } from './talking-with';
+import { PlayerFrame } from './player-frame'; import { TalkingWith } from './talking-with';
 import type { Told } from './narrator';
 
 // What the narrator hands the glance: the lines it tells of the place now, whether the company has been here before,
@@ -99,7 +99,7 @@ export class Glance {
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
   private static after(campaign: Campaign, told: Told, at: { screen: Screen; acts: Promoted[]; scene: Scene }) {
-    const choices = PlayerView.choices(campaign).map(r => ({ command: r.choice.id, label: r.choice.name,
+    const choices = PlayerFrame.of(campaign).rows.map(r => ({ command: r.choice.id, label: r.choice.name,
       ...r.action.schema ? { schema: r.action.schema } : {} }));
     return DecisionFrame.after({ feedback: told.feedback, moved: told.moved, failed: told.event.result === 'failure',
       place: at.screen.place.name }, at.acts, { names: new Map(at.scene.subjects.map(x => [x.id, x.name])), choices });
@@ -177,10 +177,9 @@ export class Glance {
   }
   private static reading(campaign: Campaign, screen: Screen,
     at: { recall: CompanyRecall; life?: string; pointed: Set<string>; sensed: Sensed[]; told?: Told }): Reading {
-    const here = screen.place.id, recall = at.recall, rows = PlayerView.choices(campaign);
+    const here = screen.place.id, recall = at.recall, frame = PlayerFrame.of(campaign), rows = frame.rows;
     const schema = new Map(rows.map(r => [r.choice.id, r.action.searchPlace ? 'search' : r.action.schema ?? r.action.id]));
-    const args = new Map(rows.map(r => [r.choice.id, Object.entries(r.action.bindings ?? {})
-      .filter(([k]) => !['actor', 'site'].includes(k)).map(([, v]) => v)]));
+    const args = frame.bound();
     const touches = new Map(rows.map(r => [r.choice.id,
       new Set((r.action.success ?? []).flatMap(c => c.call?.args ?? []))]));
     // With an aim followed and the dark ahead, nothing to see by: whoever sells a light is the aim's way.

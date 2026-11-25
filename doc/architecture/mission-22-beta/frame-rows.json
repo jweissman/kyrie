@@ -22,14 +22,9 @@
   "src/cli/review-frame.ts": 1,
   "src/cli/serve.ts": 1,
   "src/cli/terminal.ts": 2,
-  "src/presentation/aim-continuity.ts": 2,
   "src/presentation/entity-card.ts": 1,
-  "src/presentation/glance.ts": 2,
-  "src/presentation/held-lead.ts": 3,
   "src/presentation/information-view.ts": 1,
-  "src/presentation/led-words.ts": 1,
   "src/presentation/offer.ts": 1,
-  "src/presentation/succession.ts": 2,
   "src/session/play-session.ts": 1,
   "src/session/travel.ts": 2
  }

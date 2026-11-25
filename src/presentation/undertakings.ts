@@ -183,7 +183,7 @@ export class Undertakings {
   // The choices that would teach the company something an aim held and not followed waits on, or where it lies (a
   // fact that leads to one of its places): only for those is someone it names led as worth a look. Taklinn, whom the
   // spiders job names, had been led nineteen turns running for the next rumour of the lands beyond (b2's walk).
-  static serving(campaign: Campaign, rows: { choice: { id: string }; action: Operator }[]): Set<string> {
+  static serving(campaign: Campaign, rows: readonly { choice: { id: string }; action: Operator }[]): Set<string> {
     const w = campaign.world, followed = this.followed(campaign)?.id;
     const aims = this.held(campaign).filter(o => o.id !== followed);
     if (!aims.length) { return new Set(); }
