@@ -1128,6 +1128,24 @@
    "was": "defect",
    "pri": "P1",
    "why": "25 Nov, the trust thread: a structural boundary whose absence lets promises break, held by its census and noninterference cases"
+  },
+  "OR-528": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: the owner's direction for the stab, a requirement of TO-03's passage"
+  },
+  "OR-529": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: the owner's direction for the title"
+  },
+  "OR-530": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: the owner's direction for the embers; continuity between the title and creation (TO-03)"
   }
  },
  "blockedBy": {
