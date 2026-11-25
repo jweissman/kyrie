@@ -144,7 +144,7 @@ Most wanted first. Each without anyone in the foreground, wide (landscape), and 
 Below, the full list as it was drawn up on 7 November.
 
 For the owner, 7 November 2026. The scene behind a place is chosen by `src/ui/scenery.ts` and
-`src/ui/scene-kinds.ts` from [data/paintings/scenery.json](../../data/paintings/scenery.json). Until the evening of 7
+`src/ui/scene-kinds.ts` from [data/paintings/scenery.json](../../../data/paintings/scenery.json). Until the evening of 7
 November it knew only a settlement by its terrain, wild country by its land, any site, the night, and four interiors
 for every room under a roof (`meditation`, `well`, `library`, `dissolution`): a taproom had shown as a vaulted
 library, a spider nest as a cathedral porch, a tower as a log cabin (`idyll`), the rat-runs as a palm grotto, a crypt
@@ -178,7 +178,7 @@ This list is top-down: every kind of place the generators and the authored adven
 with a one-line brief for its painting. Each says what covers it today:
 
 - **covered**: a painting in the corpus shows it, and the scene uses it for this kind;
-- **in corpus**: a fitting painting exists (named, from [seen.json](../../data/paintings/seen.json)) but the scene
+- **in corpus**: a fitting painting exists (named, from [seen.json](../../../data/paintings/seen.json)) but the scene
   does not choose it for this kind, or it has a figure in it who could be taken for someone met;
 - **poor**: what is shown today contradicts the place;
 - **missing**: nothing fits.
