@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 574 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 181 pins (149 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 575 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -184,7 +184,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 12 defects · 11 asks
+- **Countries and regions** · 0 pins · 12 defects · 12 asks
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
   - requirement OR-157 P2: Lesser and greater (superb) versions of spells, items and creatures, the SRD's tradition, as one…
@@ -193,6 +193,7 @@ page's colours and opportunities.)
   - direction OR-221 P3: The heath's meeting is one option in fifty draws (yarrow), and the wild meetings have no fix by…
   - direction OR-234 P3: In every drawn country the innkeepers' "Tell her you have been to …" (src/world/region-borders.ts…
   - direction OR-312 P2: Several places and entrances within one hex, and eventually joined below or between: no code to…
+  - requirement OR-611 P1: The first town as the reference game's settlement (the owner, 25 November:…
   - requirement WD-02 P1: The first country is composed by accretion: its own seed's land, then 27 authored provinces and 13…
   - requirement WD-09 P1: A country inherits one word from above, its terrain: nothing says what polity, livelihoods, roads,…
   - direction SS-01 P3: One world, many positions, a living conflict (the owner, 19 November,…
@@ -535,7 +536,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
 - **Markets and prices** (Trade): BO-12, WD-07
-- **Countries and regions** (The land): OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, WD-02, WD-09, SS-01
+- **Countries and regions** (The land): OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-611, WD-02, WD-09, SS-01
 - **Weather, sky and season** (The land): IM-01
 - **The planes** (The land): GT-01, GT-03
 - **Settlements by terrain and scale** (Settlements): OR-450

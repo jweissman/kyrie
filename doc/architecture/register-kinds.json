@@ -1194,6 +1194,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, split from SI-07: a wanted tier of the economy (what a company saves for), not an observed violation of a claimed contract; the economy's bound is the world gate's measure 3"
+  },
+  "OR-611": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, split from WD-12: the owner's reference-game direction asks a first town smaller than the one generated; a commissioned requirement unmet, not an observed violation"
   }
  },
  "blockedBy": {
