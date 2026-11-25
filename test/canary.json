@@ -1,0 +1,121 @@
+{
+ "about": "The world canary (the lead, 24 November: what CI found red over nine batches, most of it a change that moved every world, found 20 minutes after a push): the world-level walks that catch a province, kit, generator, rule or name moving every world, run by scripts/test-changed.ts whatever their speed when a change can move every world, and alone by `bun run test:canary`. Chosen from the specs CI found red on 24 November, the heaviest few (whole adventures' long plays) left to CI.",
+ "specs": [
+  {
+   "file": "test/all-in-one-world.test.ts",
+   "why": "every adventure placed in one world (a province or kit moving the others)"
+  },
+  {
+   "file": "test/story-names.test.ts",
+   "why": "names apart across a world (a new province or kit drawing a clashing name)"
+  },
+  {
+   "file": "test/adventure-library.test.ts",
+   "why": "every adventure a province of the first country, its way in clear"
+  },
+  {
+   "file": "test/descent.test.ts",
+   "why": "the descent under the first town, walked"
+  },
+  {
+   "file": "test/long-expedition.test.ts",
+   "why": "a first expedition played through, saved halfway, ending where the unbroken game ends"
+  },
+  {
+   "file": "test/honest-start.test.ts",
+   "why": "the first hour from a new life, walked by its own leads"
+  },
+  {
+   "file": "test/first-quarter.test.ts",
+   "why": "the first quarter-hour's aims and leads"
+  },
+  {
+   "file": "test/undertown.test.ts",
+   "why": "the rooms under the first town and their jobs"
+  },
+  {
+   "file": "test/porthalen-hall.test.ts",
+   "why": "the hall under Porthalen, walked"
+  },
+  {
+   "file": "test/weir-route.test.ts",
+   "why": "the mage's weir route, walked"
+  },
+  {
+   "file": "test/iscoed-cold-five.test.ts",
+   "why": "a cold play of Iscoed replayed"
+  },
+  {
+   "file": "test/cl33-four.test.ts",
+   "why": "the act that matters among the four and the gold"
+  },
+  {
+   "file": "test/mark-truth-walk.test.ts",
+   "why": "every mark true over the golden walk"
+  },
+  {
+   "file": "test/traces.test.ts",
+   "why": "the kept traces replayed to their digests"
+  },
+  {
+   "file": "test/play-structure.test.ts",
+   "why": "the play's rows and lenses (rows and their ids)"
+  },
+  {
+   "file": "test/begin-flow.test.ts",
+   "why": "how a game begins (the title's rows)"
+  },
+  {
+   "file": "test/set-out-now.test.ts",
+   "why": "Set out now, headless"
+  },
+  {
+   "file": "test/interior-walk.test.ts",
+   "why": "a walk through enclosed places and out"
+  },
+  {
+   "file": "test/journey-kept-once.test.ts",
+   "why": "a journey kept once"
+  },
+  {
+   "file": "test/glance-kite.test.ts",
+   "why": "kite at a glance"
+  },
+  {
+   "file": "test/decision-frame.test.ts",
+   "why": "the decision frame's aims and reasons"
+  },
+  {
+   "file": "test/bell-walk.test.ts",
+   "why": "the bell the hobs took, walked"
+  },
+  {
+   "file": "test/bell-lead.test.ts",
+   "why": "the bell's lead"
+  },
+  {
+   "file": "test/action-flat.test.ts",
+   "why": "rows one level deep outside a fight"
+  },
+  {
+   "file": "test/perceived-differently.test.ts",
+   "why": "what each calling perceives"
+  },
+  {
+   "file": "test/skeel.test.ts",
+   "why": "an authored adventure in a drawn world (Skeel)"
+  },
+  {
+   "file": "test/outmatched.test.ts",
+   "why": "a fight beyond the company, warned"
+  },
+  {
+   "file": "test/barrow-forewarned.test.ts",
+   "why": "the barrow forewarned"
+  },
+  {
+   "file": "test/stories-apart.test.ts",
+   "why": "stories kept apart in one world"
+  }
+ ]
+}

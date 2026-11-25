@@ -37,6 +37,7 @@
     "test:honest": "bun test test/honest-start.test.ts",
     "test:timings": "bun test --parallel --timings=test/timings.json --update-timings",
     "test:changed": "bun scripts/test-changed.ts",
+    "test:canary": "bun scripts/test-changed.ts --canary",
     "quality": "bun scripts/quality/quality.ts",
     "performance": "bun scripts/performance/map.ts --write",
     "quantity": "bun scripts/quantity/quantity.ts",

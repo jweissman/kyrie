@@ -4,8 +4,10 @@
 // quick ones (test/small, and the specs under two seconds by test/timings.json), on six workers. What it reaches and
 // leaves to CI is said, with its kept CI time: nearly every source file is reached by nearly every spec (the median
 // by 99 % of the suite: Mission 21's fast-loop.md), so "every spec it reaches" had been the whole suite here.
-// With --all, every spec it reaches, however slow (one heavy job at a time).
+// With --all, every spec it reaches, however slow (one heavy job at a time). A change that can move every world (its
+// generators, the shared rules, kits, tables, countries, the language) runs the world canary too, whatever its speed.
 //   bun scripts/test-changed.ts [since=HEAD] [--workers=6] [--all] [--list]
+//   bun scripts/test-changed.ts --canary        the world canary alone (test/canary.json; `bun run test:canary`)
 import { Glob } from 'bun';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, relative, resolve } from 'node:path';
@@ -16,22 +18,38 @@ class ChangedSpecs {
   static run(args: string[]): number {
     const since = args.find(a => !a.startsWith('--')) ?? 'HEAD', all = args.includes('--all');
     const workers = /^--workers=(\d+)$/.exec(args.find(a => a.startsWith('--workers=')) ?? '')?.[1] ?? '6';
+    if (args.includes('--canary')) { return this.test(this.canary(), workers); }
     const changed = this.changed(since), specs = [...new Glob('test/**/*.test.ts').scanSync('.')].sort();
     const kept = (JSON.parse(readFileSync('test/timings.json', 'utf8')) as { files: Record<string, number> }).files;
     const code = new Set(changed.filter(f => /\.(ts|tsx)$/.test(f)));
     const reached = specs.filter(s => code.has(s) || [...this.reach(s)].some(f => code.has(f)));
     const touched = [...new Set([...reached, ...this.named(changed, specs)])];
-    const run = all ? touched : touched.filter(s => this.quick(s, kept)), left = touched.filter(s => !run.includes(s));
+    // A change that can move every world runs the world canary whatever its speed (test/canary.json).
+    const canary = this.moves(changed) ? this.canary() : [];
+    const run = [...new Set([...(all ? touched : touched.filter(s => this.quick(s, kept))), ...canary])];
+    const left = touched.filter(s => !run.includes(s));
     const minutes = left.reduce((n, s) => n + (kept[s] ?? 0), 0) / 60000;
     console.log(`changed since ${since}: ${changed.length} files; ${touched.length} specs reach them, ${run.length} run here`
       + (left.length ? `; ${left.length} left to CI (${minutes.toFixed(0)} kept CI-minutes; --all runs them)` : ''));
+    if (canary.length) { console.log(`it can move every world: the world canary's ${canary.length} specs run too`); }
     if (changed.some(f => /^data\/rules\//.test(f))) {
       console.log('the shared rules changed: what they move is CI\'s to find');
     }
     if (args.includes('--list')) { for (const s of run) { console.log(`  ${s}`); } return 0; }
     if (!run.length) { return 0; }
-    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', ...run.map(s => `./${s}`)],
+    return this.test(run, workers);
+  }
+  static test(specs: string[], workers: string): number {
+    return Bun.spawnSync(['bun', 'test', `--parallel=${workers}`, '--no-isolate', ...specs.map(s => `./${s}`)],
       { stdout: 'inherit', stderr: 'inherit' }).exitCode ?? 1;
+  }
+  // What can move every world: its generators and assembly, the shared rules, the kits and tables every country is
+  // drawn from, the countries and provinces, the setting's data, the language.
+  static readonly moving = new RegExp('^(src/(world|lang|campaign)/|data/(rules|generation|kits|imbar|catalog|campaigns'
+    + '|origins)/|data/adventures/(countries\\.json|[^/]+/placed\\.json))');
+  static moves(changed: string[]): boolean { return changed.some(f => this.moving.test(f)); }
+  static canary(): string[] {
+    return (JSON.parse(readFileSync('test/canary.json', 'utf8')) as { specs: { file: string }[] }).specs.map(s => s.file);
   }
   // As the quick suite has them: the small worlds, and the specs under two seconds when the timings were kept.
   private static quick(spec: string, kept: Record<string, number>): boolean {
