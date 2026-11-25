@@ -35,14 +35,11 @@ export class FirstQuestions {
     return out;
   }
   // Everyone peaceable at a place (its id in full), the company put there and nothing done, and what can be said to
-  // each; the world as it was after.
+  // each.
   static at(s: PlaySession, place: string): Asked[] {
-    const c = s.campaign, before = c.world;
+    const c = s.campaign;
     Journey.of(s).put('party', place);
     const scene = SceneModel.build(ScreenModel.build(c));
-    // The world put back after: the company was never there, and has been nowhere it was put (OR-370 opens a job to
-    // one who has been to its place, and the census had walked the company through the pit on its way to the taproom).
-    c.commitWorld(before); c.refreshProjection();
     return scene.subjects.filter(x => x.kind === 'person' && !x.danger).map(subject => {
       const said = TalkFocus.simple(Attending.talk(scene, subject.id)?.replies ?? [])
         .filter(q => !TalkFocus.services.has(q.does ?? '') && !this.trade.test(q.does ?? ''));
