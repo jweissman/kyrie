@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { CompanyLight } from '../../src/presentation/company-light';
 import { Tiny } from '../support/tiny';
 
 // A lantern sold with nothing to burn in it says so (CL-62, S3-0: one bought at Mabel's before the gate-well was never
@@ -14,8 +15,9 @@ const shop = `
   Company party "You" of 1 at shop.
   Goal false.`;
 class Lantern {
-  static async bought(): Promise<Tiny> {
-    const t = await Tiny.start(shop);
+  // Or by one in her own clothes, no kit: no torch or candle in her pack, as in Ilse's on the weir route.
+  static async bought(mage = false): Promise<Tiny> {
+    const t = await Tiny.start(shop, mage ? { party: [{ name: 'Ilse', raceId: 'elf', classId: 'mage', outfit: 'own' }] } : {});
     t.journey.coin(20);
     return t.look();
   }
@@ -40,5 +42,14 @@ describe('a lantern bought', () => {
     await t.perform('go(t__stair,t__cellar)');
     expect(t.screen.expedition.light).not.toContain('no oil');
     expect(t.journey.choices().some(c => /^Fill a lantern/.test(c.label))).toBe(true);
+  });
+  // With the lantern and its oil in the pack, the company has a light to hand, as with a torch: the dark ahead sends
+  // it to no one to buy one (the weir route: Ilse led up from the gate-well to the guest-hall for a light, and back).
+  it('with its oil, is a light to hand: nothing sends the company to buy one', async () => {
+    const t = await Lantern.bought(true);
+    await t.play('Buy › A lantern');
+    expect(CompanyLight.of(t.campaign, t.screen).unlit).toBeDefined();
+    await t.play('Buy › A flask of lamp oil');
+    expect(CompanyLight.of(t.campaign, t.screen)).toEqual({});
   });
 });

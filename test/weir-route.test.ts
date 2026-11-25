@@ -45,6 +45,9 @@ describe('the weir route', () => {
     expect(c.history.filter(h => /^attack\(party,region__s4_u_(rats|buck)\b/.test(h.action)).length).toBe(2);
     expect(hp()).toHaveLength(2);
     expect(await r.ask(JSON.stringify({ follow: 'gate__gate_aim' }))).not.toHaveProperty('error');
+    // The page looked at again, the aim followed: the player's last page was drawn before it, and had led with the
+    // weir's aim to take up (no aim followed then), which the player took, in the sea-gate's place.
+    p = new HonestPlayer(s);
     const shut = () => c.world.related('knows').some(k => k.args[0] === 'party' && k.args[1] === 'gate__shut');
     const at = () => c.world.one('at', 'party') ?? '';
     expect(await p.until(() => shut() && /^region__s1_/.test(at()), 60)).toBe(true);

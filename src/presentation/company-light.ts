@@ -14,7 +14,8 @@ export class CompanyLight {
     const lights = new Set(w.related('lightsUp').map(r => r.args[0]!));
     const members = w.related('memberOf').filter(r => r.args[1] === party).map(r => r.args[0]!);
     const lit = members.some(m => w.relates('brings') && w.test(ModuleWriter.call('brings', m, 'light')))
-      || w.related('ownedItem').some(r => members.includes(r.args[1]!) && lights.has(w.one('itemKind', r.args[0]!) ?? ''));
+      || w.related('ownedItem').some(r => members.includes(r.args[1]!) && lights.has(w.one('itemKind', r.args[0]!) ?? ''))
+      || this.lamp(campaign, members);
     if (lit) { return {}; }
     // Only from somewhere lit: in the dark already, the way out is through it (fled to the undercroft with the candle
     // gone, the way up toward Mik had not been gold: the laboratory's lost turns).
@@ -28,5 +29,18 @@ export class CompanyLight {
     // And where they stand, for the ways and the walks about the town to lead there (Affordances).
     const shops = new Set([...sellers ?? []].flatMap(p => w.one('at', p) ?? []));
     return { unlit: lights, ...dark.size ? { dark } : {}, ...sellers?.size ? { sellers, shops } : {} };
+  }
+  // Whether one of the company carries a lantern and a flask of what it burns: a light to hand, as a torch is (the weir
+  // route: Ilse's conjured light spent, a lantern and two flasks of oil in her pack, the gate-well's dark had led her
+  // up to the guest-hall for a light to buy, and back, round, by the gatehouse).
+  private static lamp(campaign: Campaign, members: string[]): boolean {
+    const w = campaign.world;
+    if (!w.relates('burns')) { return false; }
+    const kinds = new Map<string, Set<string>>();
+    for (const r of w.related('ownedItem')) {
+      const kind = members.includes(r.args[1]!) && w.one('itemKind', r.args[0]!);
+      if (kind) { (kinds.get(r.args[1]!) ?? kinds.set(r.args[1]!, new Set()).get(r.args[1]!)!).add(kind); }
+    }
+    return w.related('burns').some(b => [...kinds.values()].some(k => k.has(b.args[0]!) && k.has(b.args[1]!)));
   }
 }
