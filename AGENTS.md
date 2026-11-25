@@ -250,4 +250,14 @@ this help the player forget the interface and become interested in what happens 
   loops; never `pkill -f` a pattern that is in the command itself. A worktree is removed once its branch lands.
 - **Autonomy:** decide ordinary design calls, and report each as a trade-off and a call. Never end a turn waiting on
   the owner. Ask only for direction-level or artistic choices. One app on main, in small verified increments.
+- **Cloud builders** (GitHub Copilot's coding agent; the owner, 25 November): isolated research and bounded tasks, in
+  the environment of .github/workflows/copilot-setup-steps.yml (CI's Bun, parse store, Chromium and Orsino; no
+  assets/). The machine rules above (the owner's checkout, /var/tmp/kyrie, heavy.sh, land.sh) are this machine's, not
+  theirs. A cloud builder:
+  - works on its own branch and opens a pull request, which the lead lands; it never pushes to main;
+  - runs `bun run check:fast`, `bun run test:small` and the specs it touches; CI runs the rest on the pull request;
+  - files register rows from **OR-700 up**, and checks for duplicate ids;
+  - writes research as a document under doc/ (findings, evidence, a recommendation) and prototypes behind a spec,
+    with nothing wired into the product unless the task says so;
+  - reports what it measured and what it could not check.
 - **Lint limits are the owner's** (eslint.config.mts): split functions and files to meet them; never loosen them.

@@ -1,0 +1,55 @@
+# The environment of a cloud builder (GitHub Copilot's coding agent): the job must be named copilot-setup-steps.
+# The same Bun, locked dependencies, parse store, Chromium and pinned Orsino as CI, so a cloud builder's checks read
+# as CI's do (the owner, 25 November: isolated research and bounded tasks handed to cloud builders). Without assets/
+# (the owner's 1.7 GB of paintings), as CI's other jobs: the specs that read image bytes are CI's images lane.
+# Its rules are AGENTS.md's "Cloud builders".
+name: Copilot Setup Steps
+on:
+  workflow_dispatch:
+  push:
+    paths: [.github/workflows/copilot-setup-steps.yml]
+  pull_request:
+    paths: [.github/workflows/copilot-setup-steps.yml]
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - name: Install locked dependencies
+        run: |
+          test "$(bun --version)" = 1.4.3
+          bun install --frozen-lockfile
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('src/lang/**', 'src/canon/**', 'src/rules/catalog-schema.ts', 'src/rules/background-catalog.ts', 'data/catalog/**') }}-${{ hashFiles('data/**/*.kyr', 'data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('src/lang/**', 'src/canon/**', 'src/rules/catalog-schema.ts', 'src/rules/background-catalog.ts', 'data/catalog/**') }}-
+      - name: Install Chromium and its system dependencies
+        run: bunx playwright-core install --with-deps chromium
+      # Beside the checkout, as CI and the owner's machine have it (data/sources/orsino/registry.json pins it).
+      - name: Check out the pinned Orsino sources
+        run: |
+          revision=$(jq -er '.source.revision' data/sources/orsino/registry.json)
+          test ! -e ../orsino
+          git clone --no-checkout --filter=blob:none https://github.com/jweissman/orsino.git ../orsino
+          git -C ../orsino checkout --detach "$revision"
+          test "$(git -C ../orsino rev-parse HEAD)" = "$revision"
+      - name: Verify types and a minimal engine start
+        run: |
+          bun run typecheck
+          bun --eval 'import { OrsinoCorpus } from "./src/cli/orsino-corpus"; OrsinoCorpus.load("../orsino");'
+          test -f test/small/tiny-costs.test.ts
+          bun test test/small/tiny-costs.test.ts --timeout 20000
+      - name: Verify Chromium
+        run: |
+          bun --eval 'import { chromium } from "playwright-core"; const browser = await chromium.launch({ headless: true }); await browser.close();'
