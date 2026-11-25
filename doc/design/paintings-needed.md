@@ -202,8 +202,9 @@ Blank or wrong because of how a place or person is bound, not for want of a pain
 - **City scenes for small towns:** the corpus has a city market, a city harbour, a city street and a palazzo courtyard
   (`scene-city-*`). They are placed nowhere, because no kind tells a city from a town; a lane or market in a small
   town must not draw them (test/scenery-kinds).
-- **Rooms and weather:** a room painted with rain at its door is refused on fair days. Whether a room's painting
-  should answer the weather outside is the owner's to decide; until then, paint rooms with no weather.
+- **Rooms and weather** (the owner's ruling, 25 November; AGENTS.md): a room's painting follows the weather where its
+  outside is seen, and holds in any weather where it is not. Ask for a weather variant only where the outside shows;
+  without one, the weather-free painting stands. Prefer rooms whose outside is not seen.
 
 ## How to paint and bind
 

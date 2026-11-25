@@ -152,6 +152,12 @@ this help the player forget the interface and become interested in what happens 
   first-hour ratchets in test/small hold this.
 - **The resting scene:** the painting dominates. Add a short description, small floating portraits of those present,
   and a discreet Go… / Explore… control. A painting is never replaced by text.
+- **Paintings answer the weather, without multiplying asks** (the owner, 25 November). A room's painting follows the
+  weather outside where its outside is seen (a door, a window); where none is seen, it holds in any weather. A
+  weather variant is asked for only where the outside shows, and a missing one falls back to the weather-free
+  painting, never to a contradicting one. Weather and conditions are modelled for what they do in play, not for the
+  number of paintings they demand; beyond paintings, instruments and other kinds of experience carry variety, after
+  combat and conversation.
 - **Atlas indicators belong to menu action rows alone** (the owner, 25 November). No left-border indicator, Atlas
   colour or coloured mini-toast on narration, notes or any other text: text is just text, and the narration is plain.
   The Atlas colours strictly mean an opportunity in the current scene. What a mark had said elsewhere becomes a note in
