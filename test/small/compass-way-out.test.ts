@@ -38,4 +38,10 @@ describe('the way out, in the engine offer', () => {
     const plain = offer(1);
     expect(Compass.offered(plain, { ...out, command: undefined, barred: 'The crypt door is locked.' })).toBe(plain);
   });
+  // At the old drift's end, "Up to the old drift's mouth" among the four, the page had drawn "Out to the old drift's
+  // mouth" beside it: one place, two rows (offer-parity, 25 November).
+  it('is not offered beside a way among the four that goes there already', () => {
+    const up = offer(1); up.primary.push({ ...act('exit:yard'), command: 'go(stair,yard)' });
+    expect(Compass.offered(up, out)).toBe(up);
+  });
 });

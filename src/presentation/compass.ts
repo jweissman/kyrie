@@ -7,6 +7,7 @@ import type { WayInfo } from '../ui/passage-model';
 import type { Glance, Route } from './glance-types';
 import { Offers, type Offered } from './offer';
 import { Typography } from './typography';
+import { DoableJourneys } from './doable-journeys';
 
 // Where the company can go next, and how it leaves, inside an enclosed place (a building, a site, under the ground, a
 // ship): the owner, 14 November (CN-02, CN-03). Inside a building the world map had opened, with a confusing Back and
@@ -39,7 +40,9 @@ export class Compass {
   static offered(offer: Glance['offer'], out?: Route, displace = true): Glance['offer'] {
     const command = out?.command;
     if (!offer || !out || !command || out.barred) { return offer; }
-    if (offer.primary.some(o => this.is(o, command))) { return offer; }
+    // A way among the four that goes there already is the way out (Up to the old drift's mouth): no journey there
+    // beside it (Out to the old drift's mouth, which the page drew as a second of the four: OR-462's one act, one row).
+    if (offer.primary.some(o => this.is(o, command) || this.reaches(o, command))) { return offer; }
     if (!displace && offer.primary.length >= Offers.four) { return offer; }
     const row: Offered = offer.rest.find(o => this.is(o, command)) ?? { choice: command, command, label: `Out to ${Typography.plain(out.name)}`,
       type: 'journey', aspects: [], marks: [], ...out.minutes ? { minutes: out.minutes } : {} };
@@ -47,6 +50,9 @@ export class Compass {
     return { primary: [...kept, row], rest: [...moved, ...offer.rest.filter(o => !this.is(o, command))] };
   }
   private static is(o: Offered, command: string): boolean { return o.choice === command || o.command === command; }
+  private static reaches(o: Offered, command: string): boolean {
+    return DoableJourneys.reached(o.command ?? '').includes(command);
+  }
   // The nearest place not enclosed, by the known ways, and the route there; where none is open, by the ways something
   // bars too, and what bars the first of them (the crypt's stone door, locked, between the ossuary and the churchyard).
   private static out(campaign: Campaign, screen: Screen): Route | undefined {

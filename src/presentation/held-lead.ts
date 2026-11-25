@@ -48,7 +48,10 @@ export class HeldLead {
     const taken: Promoted = { ...pull, choice: act.choice, ...act.command ? { command: act.command } : {},
       ...act.subject ? { subject: act.subject } : {}, ...act.unmet ? { unmet: true as const } : {},
       ...'inside' in act && act.inside ? { inside: act.inside } : {}, marks: act.marks,
-      ...act.command === lead ? {} : { for: lead } };
+      // A talk that is the step keeps its own words, the question it is led for what it is called (Doable.row), as
+      // any talk led for a question is: drawn in the aim's words it had been "Ask Owain how many head came down" in
+      // the engine's rows and "Talk to your cousin" on his likeness and in the lens (offer-parity, 25 November).
+      ...act.command === lead ? {} : { for: lead, label: act.label } };
     return { acts: i < 0 ? at.acts : [...at.acts.slice(0, i), ...at.acts.slice(i + 1)], pull: taken };
   }
   private static steps(x: Stepping, lead: string, speaker?: string): boolean {
