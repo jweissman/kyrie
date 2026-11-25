@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 182 pins (150 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 579 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 182 pins (150 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 582 live rows, 415 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -104,12 +104,13 @@ page's colours and opportunities.)
   - ✓ never draws a way back as worth a look for another aim, and says which aim
   - requirement NM-01 P1: No road junctions: a road out goes into a town and back out (16–23 ways a seed, at most 2 hexes);…
   - requirement OR-344 P2: Journeys over known ways: the capability as its pins hold it (the land is revealed as a journey…
-- **Wayfinding and bearings** · 2 pins · 10 defects · 3 asks
+- **Wayfinding and bearings** · 2 pins · 10 defects · 4 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement CO-20 P1: The map menu's verbs by cell asserted by no spec: View for a place not in view, Travel to the one…
   - requirement OR-345 P2: Wayfinding and bearings: the capability as its pins hold it (a strategic map of countries above…
   - direction OR-510 P3: The map as the character's own parchment: ink paths, small drawn marks for kinds of place, unknown…
+  - requirement OR-679 P2: Several hexes crossed without the map (the owner's playtest, 25 November: "I'm pretty sure I was…
 - **Passage arranged between cities** · 0 pins · 0 defects · 1 asks
   - direction OR-452 P2: Relational pins (gamma G3): a required relationship between places declared and assembled,…
 
@@ -177,7 +178,8 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 5 defects · 2 asks
+- **Markets and prices** · 0 pins · 5 defects · 3 asks
+  - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
 
@@ -331,7 +333,7 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 9 pins · 7 defects · 5 asks
+- **The title and Play** · 9 pins · 7 defects · 6 asks
   - ✓ gives the title its rows and hints: the ways in, Options and the encyclopedia, over the embers, its name heading
   - ✓ is drawn by the page as the engine gives it, no row of the page's own
   - ✓ is asked in the terminal by the same rows, Options and the encyclopedia said to be the page's
@@ -344,6 +346,7 @@ page's colours and opportunities.)
   - direction TO-03 P1: The studio stab, the title and creation as one designed passage: a few composed seconds of…
   - requirement TO-06 P1: Evaluated as one experience at desktop and tablet, by keyboard, touch and reduced motion, with the…
   - requirement OR-290 P2: FM-01's remainder: record the way in frame by frame on the deployed build (remounts, opacity…
+  - requirement OR-677 P1: Every new life in the reference game (the owner's playtest, 25 November): play still feels chaotic…
   - requirement OR-133 P1: Stories made plain on the page: the brief's Story/Incident block for an authored title and problem…
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
 - **Character creation** · 3 pins · 7 defects · 3 asks
@@ -540,7 +543,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **News and rumour** (Conversation): OR-365
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
-- **Markets and prices** (Trade): BO-12, WD-07
+- **Markets and prices** (Trade): OR-678, BO-12, WD-07
 - **Countries and regions** (The land): OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, WD-02, WD-09, SS-01
 - **Weather, sky and season** (The land): IM-01
 - **The planes** (The land): GT-01, GT-03
