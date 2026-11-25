@@ -48,7 +48,7 @@ class ChangedSpecs {
   }
   // What can move every world: its generators and assembly, the shared rules, the kits and tables every country is
   // drawn from, the countries and provinces, the setting's data, the language.
-  static readonly moving = new RegExp('^(src/(world|lang|campaign)/|data/(rules|generation|kits|imbar|catalog|campaigns'
+  static readonly moving = new RegExp('^(src/(world|lang|campaign|rules|canon|ports)/|data/(rules|generation|kits|imbar|catalog|campaigns'
     + '|origins)/|data/adventures/(countries\\.json|[^/]+/placed\\.json))');
   static moves(changed: string[]): boolean { return changed.some(f => this.moving.test(f)); }
   static canary(): string[] {

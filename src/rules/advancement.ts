@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Abilities } from '../ports/abilities';
 import { Expressions } from '../expressions';
 import { Fighting } from './fighting';
 import { Spellcasting } from './spellcasting';
@@ -72,7 +73,7 @@ export class Advancement {
     if (level >= this.table.thresholds.length + 1) { return []; }
     const features = Creation.features(classId, level, level + 1);
     const [now, then] = [level, level + 1].map(l => Spellcasting.table(classId, l, {}).length);
-    return [...features.abilities.map(a => Canon.abilities[a]?.name ?? a),
+    return [...features.abilities.map(a => Abilities.of(a)?.name ?? a),
       ...features.traits.map(t => Canon.traits[t]?.name ?? t), ...then! > now! ? [`spells of level ${then}`] : []];
   }
   // The calling's features for a level just reached: techniques learned, calling traits taken.
@@ -82,7 +83,7 @@ export class Advancement {
     creature.base.abilities = [...creature.base.abilities, ...learned];
     const taken = due.traits.filter(t => !(creature.traits ?? []).includes(t));
     creature.traits = [...creature.traits ?? [], ...taken];
-    return [...learned.map(a => Canon.abilities[a]!.name), ...taken.map(t => Canon.traits[t]!.name)].map(detail =>
+    return [...learned.map(a => Abilities.of(a)!.name), ...taken.map(t => Canon.traits[t]!.name)].map(detail =>
       ({ type: 'learn' as const, turn: 0, actor: creature.id, target: creature.id, detail }));
   }
   static specialist(creature: Creature) {

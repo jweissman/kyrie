@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Abilities } from '../ports/abilities';
 import type { Attribute, CharacterClass, Proficiencies } from './catalog-schema';
 import { Fighting } from './fighting';
 import { Amounts } from './amounts';
@@ -78,10 +79,10 @@ export class Creation {
     return s.base + 2 + level + (s.multiplier ?? 0) * mod;
   }
   // What can be learned, prepared or granted: a playable ability (see CanonRuntime.playable).
-  static executable(id: string): boolean { return !!Canon.abilities[id] && CanonRuntime.playable(id); }
+  static executable(id: string): boolean { return !!Abilities.of(id) && CanonRuntime.playable(id); }
   // The spells of a tradition at one level that Kyr can execute, optionally within a school or domain.
   static spellbook(tradition: string, level: number, restriction?: string): string[] {
-    return Object.entries(Canon.abilities).filter(([id, a]) => a.spell?.tradition === tradition
+    return Abilities.all().filter(([id, a]) => a.spell?.tradition === tradition
       && a.spell.level === level
       && this.executable(id) && (!restriction || a.spell.school === restriction || a.spell.domain === restriction))
       .map(([id]) => id).sort();

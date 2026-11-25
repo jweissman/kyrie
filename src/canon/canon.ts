@@ -1,5 +1,5 @@
 import abilities from '../../data/catalog/abilities.json';
-import { Conditions } from '../ports/conditions';
+import { Conditions } from '../ports/conditions'; import { Abilities } from '../ports/abilities';
 import aliases from '../../data/catalog/aliases.json';
 import ancestries from '../../data/catalog/ancestries.json';
 import backgrounds from '../../data/catalog/backgrounds.json';
@@ -280,6 +280,9 @@ export class Canon {
   // A condition by its id or any name it is known by, and by its id alone: the rules' port (src/ports/conditions.ts).
   static conditionOf(id: string): Condition | undefined { return this.conditions[this.resolve('conditions', id)]; }
   static conditionExact(id: string): Condition | undefined { return this.conditions[id]; }
+  // An ability by its id, and all of them: the rules' port (src/ports/abilities.ts).
+  static abilityOf(id: string): Ability | undefined { return this.abilities[id]; }
+  static allAbilities(): [string, Ability][] { return Object.entries(this.abilities); }
   static soul(id: string, pronoun?: string): boolean {
     return this.isSpecies(id) && ['monster', 'spirit'].includes(this.creature(id).kind ?? '')
       && !!pronoun && pronoun !== 'pron_it';
@@ -287,3 +290,4 @@ export class Canon {
 }
 // The fantasy rules' conditions, the runtime's to ask of through its port (src/ports/conditions.ts).
 Conditions.install({ condition: Canon.conditionOf.bind(Canon), exact: Canon.conditionExact.bind(Canon) });
+Abilities.install({ ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) });

@@ -1,4 +1,5 @@
 import { Canon } from '../canon/canon';
+import { Abilities } from '../ports/abilities';
 
 // What a creature has used today of what it can do only so often a day: its kind's own spells cast (cast), and each
 // ability used that names its uses a day (used, by the ability). Kept on the creature beyond a fight; a night's rest
@@ -44,9 +45,9 @@ export class DailyUses {
     const used = daily.used ?? {}, day = DailyUses.dayBack(daily, recovery);
     let restoredDaily = false;
     for (const id of Object.keys(used).sort()) {
-      if (!DailyUses.recharged(Canon.abilities[id]?.recharges, recovery, day)) { continue; }
+      if (!DailyUses.recharged(Abilities.of(id)?.recharges, recovery, day)) { continue; }
       const n = Math.min(count - back, used[id]!);
-      if (n > 0 && Canon.abilities[id]?.recharges === 'day') { restoredDaily = true; }
+      if (n > 0 && Abilities.of(id)?.recharges === 'day') { restoredDaily = true; }
       back += n; used[id] = used[id]! - n;
       if (used[id] <= 0) { delete used[id]; }
     }

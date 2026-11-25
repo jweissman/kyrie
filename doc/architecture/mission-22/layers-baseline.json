@@ -1,7 +1,7 @@
 {
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "runtime -> setting": 63,
+  "runtime -> setting": 62,
   "player -> setting": 76,
   "setting -> player": 13
  },
@@ -114,7 +114,6 @@
   "src/rules/perks.ts -> src/canon/canon",
   "src/rules/perks.ts -> src/canon/canon-runtime",
   "src/rules/sky-gifts.ts -> src/canon/canon",
-  "src/rules/spell-selection.ts -> src/canon/canon",
   "src/summoning.ts -> src/canon/canon",
   "src/tactics.ts -> src/canon/canon",
   "src/targeting.ts -> src/canon/canon",

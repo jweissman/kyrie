@@ -1,4 +1,4 @@
-import { Canon } from '../canon/canon';
+import { Abilities } from '../ports/abilities';
 import type { Trait } from './catalog-schema';
 import { Creation } from './creation';
 import { Spellcasting } from './spellcasting';
@@ -88,7 +88,7 @@ export class SpellSelection {
     if (new Set(chosen).size !== chosen.length) { throw new Error(`${who}: a spell is chosen twice`); }
     for (const id of chosen) {
       if (!plan.levels.some(l => l.open.includes(id))) {
-        const a = Canon.abilities[id];
+        const a = Abilities.of(id);
         throw new Error(`${who}: ${id} is not a spell this specialist can choose`
           + `${a?.unsupported ? ' (Kyr cannot execute it)' : ''}`);
       }
