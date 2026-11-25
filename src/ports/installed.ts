@@ -7,7 +7,6 @@ import type { TraitsDomain } from './traits';
 // the third review): small capabilities, each owned by the layer that asks, held together by one installation. Never a
 // current domain chosen by whichever was installed last. A campaign owns its installation and runs its operations
 // within it; code with no campaign in scope (a spec's helper, a tool) asks of the one the composition root names, once.
-// Two installations' operations interleaving across an await is refused rather than answered from the wrong one.
 export interface InstalledDomain {
   readonly id: string;
   readonly conditions?: ConditionDomain;
@@ -15,10 +14,18 @@ export interface InstalledDomain {
   readonly traits?: TraitsDomain;
   readonly callings?: CallingsDomain;
 }
+// What carries an installation along an asynchronous operation, through its awaits, apart from any other under way at
+// once (Node's and Bun's AsyncLocalStorage, given by their composition roots: src/cli/installed-carried.ts). The page's
+// worker plays one campaign and has none: there a scope is a stack, and two installations interleaving are refused.
+export interface Carrier {
+  run<T>(store: InstalledDomain, run: () => T): T;
+  getStore(): InstalledDomain | undefined;
+}
 export class Installed {
   private static root?: InstalledDomain;
+  private static carrier?: Carrier;
   private static readonly scope: InstalledDomain[] = [];
-  // How many asynchronous operations are under way within each installation, by its id.
+  // How many asynchronous operations are under way within each installation, by its id (where nothing carries them).
   private static readonly awaiting = new Map<string, number>();
   // The composition root's installation, named once; named again otherwise, it is refused.
   static base(domain: InstalledDomain): void {
@@ -28,19 +35,24 @@ export class Installed {
     this.root = domain;
   }
   static get rootId(): string | undefined { return this.root?.id; }
+  // What carries an installation through awaits, given once by a composition root that has one.
+  static carriedBy(carrier: Carrier): void { this.carrier ??= carrier; }
   // The installation in scope, else the composition root's.
   static current(): InstalledDomain {
-    const domain = this.scope.at(-1) ?? this.root;
+    const domain = (this.carrier ? this.carrier.getStore() : this.scope.at(-1)) ?? this.root;
     if (!domain) { throw new Error('Nothing installed: a setting installs its rules at the composition root'); }
     return domain;
   }
   // Runs within an installation: synchronously, the scope left as it was however it ends.
   static within<T>(domain: InstalledDomain, run: () => T): T {
+    if (this.carrier) { return this.carrier.run(domain, run); }
     this.scope.push(domain);
     try { return run(); } finally { this.scope.pop(); }
   }
-  // Runs an asynchronous operation within an installation. While it awaits, nothing of another installation may run.
+  // Runs an asynchronous operation within an installation. Carried, it is its own through every await; where nothing
+  // carries it, nothing of another installation may run while it awaits.
   static async during<T>(domain: InstalledDomain, run: () => Promise<T>): Promise<T> {
+    if (this.carrier) { return this.carrier.run(domain, run); }
     const other = [...this.awaiting].find(([id, n]) => n > 0 && id !== domain.id);
     if (other) { throw new Error(`${domain.id} entered while ${other[0]} is under way: two installations interleaved`); }
     this.awaiting.set(domain.id, (this.awaiting.get(domain.id) ?? 0) + 1);

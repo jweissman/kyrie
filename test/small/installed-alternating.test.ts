@@ -8,7 +8,7 @@ import type { Condition } from '../../src/rules/catalog-schema';
 // Two campaigns under two installations, in one process, alternating with nothing reset between their turns (the
 // installed context, OR-520; platform-separation.md, the third review): each campaign's acts and frames ask only its
 // own installation; each plays as it plays alone; a condition only one installation defines is that campaign's alone;
-// and two installations' operations interleaving across an await are refused, not answered from the wrong one.
+// and two installations' operations under way at once each ask their own through their awaits.
 const shop = `
   Place shop "the shop" is room at 0, 0.
   Company party "You" of 1 at shop.
@@ -66,12 +66,15 @@ describe('two installations in one process', () => {
     expect([ta.campaign.within(() => LevelDrain.drains('grey')), tb.campaign.within(() => LevelDrain.drains('grey'))])
       .toEqual([false, true]);
   }, 30000);
-  it('refuses two installations\' operations interleaved', async () => {
+  it('carries each through its awaits, two under way at once', async () => {
     const a = Asked.domain('a'), b = Asked.domain('b');
     let open: () => void = () => undefined;
-    const held = Installed.during(a, () => new Promise<void>(done => { open = done; }));
-    await expect(Installed.during(b, async () => 1)).rejects.toThrow(/two installations interleaved/);
-    open(); await held;
-    expect(await Installed.during(b, async () => 1)).toBe(1);
+    const gate = new Promise<void>(done => { open = done; });
+    const seen = (d: InstalledDomain) => Installed.during(d, async () => {
+      const before = Installed.current().id; await gate; return [before, Installed.current().id];
+    });
+    const both = Promise.all([seen(a), seen(b)]);
+    open();
+    expect(await both).toEqual([['a', 'a'], ['b', 'b']]);
   });
 });
