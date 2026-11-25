@@ -18,18 +18,12 @@
 /* The purse, quiet under where and when (CL-66). */
 .stage-purse { margin: 2px 0 0; font: 500 11.5px/1.5 var(--do); letter-spacing: .06em; color: var(--dim); }
 .when::before { content: ''; flex: none; width: 20px; height: 2px; margin-right: -2px; background: var(--faint); }
-.when.light-morning::before { background: #F6CD8C; box-shadow: 0 0 8px #F6CD8C; }
-.when.light-afternoon::before { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
-.when.light-evening::before { background: linear-gradient(90deg, var(--ember), var(--violet)); }
-.when.light-night::before { background: var(--azure); opacity: .7; }
-/* The place's own mark in place of the hour's (see PlaceMark): its kind in a small glyph, and beneath it a short accent
-   in the tone of what can be done here, quiet; running through several tones where several meet; dim with nothing new. */
+/* The place's own mark in place of the hour's (see PlaceMark): its kind said in words, and a short neutral dash, dim
+   with nothing new. Neither dash takes a tone: the Atlas's colours are the menu's action rows' alone (OR-513). */
 .when.marked::before { content: none; }
 .place-mark { display: inline-grid; justify-items: center; gap: 3px; margin-right: 2px; }
 .place-mark .pm-glyph { width: 16px; height: 16px; fill: none; stroke: var(--ivory); stroke-width: 1.5; opacity: .85; }
-.place-mark .pm-accent { display: block; width: 18px; height: 2px; border-radius: 1px; background: var(--pm);
-  opacity: .7; }
-.place-mark.prism .pm-accent { opacity: .9; background-size: 200% 100%; }
+.place-mark .pm-accent { display: block; width: 18px; height: 2px; border-radius: 1px; background: var(--faint); }
 .place-mark.dim { opacity: var(--cond-idle); }
 /* A heading is no promise: gold is the followed aim's alone, and its next step (the owner, 17 November: the Colour
    Atlas's contract; "Coming home" and "Your first goal" had been drawn in the aim's gold). */

@@ -21,6 +21,11 @@ describe('the colour grammar', () => {
   // just be text"): no hued colour nor bar at the left of words in narration, feedback, the notes, the glance's told
   // lines, a conversation's words or the Book. Its twenty-one found burnt down to none, held there.
   it('draws no indicator nor Atlas colour off the action rows', () => { expect(ColourCensus.offRow()).toEqual([]); });
+  // A colour set at run time through a custom property inline in a component counts as a colour (the place's mark's
+  // dash had taken the place's tone through '--pm'): the reader finds the ones set, a row's and a pip's among them.
+  it('reads the colours components set inline', () => {
+    expect([...ColourCensus.inline()]).toEqual(expect.arrayContaining(['prism', 'pip', 'wf-tone']));
+  });
   it('flashes no colour', () => { expect(ColourCensus.flashes()).toEqual([]); });
   it('lights a row in neutral ink, never its tone', () => {
     expect(css('menu.css')).not.toMatch(/choice-row[^{]*\{\s*--row-tone:\s*var\(--tone-/);

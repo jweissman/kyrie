@@ -50,7 +50,7 @@ describe('the design system, held by the stylesheets', () => {
     'frame.css .ident .ground', 'frame.css .ident .lamp', 'frame.css .ident .lamp.seventh', 'frame.css .ident .star',
     'reader.css .fields input:focus, .fields select:focus', 'reader.css .campaign-sheet .card.recommended',
     'reader.css .character .members .act.here .n', 'reader.css .character .gauge .bar i.mana',
-    'stage.css .when.light-afternoon::before', 'stage.css .prologue-page .on i',
+    'stage.css .prologue-page .on i',
   ]);
   it('paints gold only where the aim is', () => {
     const gold = Sheets.golds(rules), uses = (body: string) => body.split(';').some(d => !/^\s*--/.test(d)

@@ -95,16 +95,37 @@ export class ColourCensus {
   static readonly rows = new RegExp(['choice-row', 'row-mark', '\\.act\\b', 'way-tile', '\\.option\\b', '\\.opener\\b',
     '\\.corner\\b', 'rail-mark', '\\bpip\\b', 'wf-row', 'ah-row', '\\.unfolded', 'opened-list'].join('|'));
   static readonly instruments = new RegExp(['field-land', 'atlas-key', '\\.board', '\\.fight', '\\.obs', '\\.flame',
-    '\\.when\\.light', '\\.gauge', '\\.strip', '\\.throw', '\\.ident', '\\.fields', '\\.campaign-sheet',
+    '\\.gauge', '\\.strip', '\\.throw', '\\.ident', '\\.fields', '\\.campaign-sheet',
     '\\.world-page\\.threatened', 'face(?:\\.whole| img\\.whole)', 'data-backstage', '\\.sheet-key'].join('|'));
+  // The custom properties the page's components set inline (a style object's '--x', or setProperty('--x')) whose
+  // value may be a colour: a tone chosen at run time that no style sheet shows (the place's mark had drawn its dash in
+  // the tone of the place's chief opportunity through '--pm'). A value that is a picture, a length, an angle, a share
+  // or a time is none.
+  static inline(): Set<string> {
+    const out = new Set<string>(), dir = this.dir;
+    const sources = readdirSync(dir, { recursive: true }).map(String).filter(f => /\.tsx?$/.test(f));
+    for (const f of sources) {
+      const src = readFileSync(join(dir, f), 'utf8');
+      const value = '(`[^`]*`|[^,}]+)';
+      const set = [...src.matchAll(new RegExp(`'--([\\w-]+)'\\s*:\\s*${value}`, 'g')),
+        ...src.matchAll(new RegExp(`setProperty\\('--([\\w-]+)',\\s*${value}`, 'g'))];
+      for (const [, name, value] of set) {
+        if (!/url\(|(?:px|%|deg|s)`/.test(value!)) { out.add(name!); }
+      }
+    }
+    return out;
+  }
   static offRow(): string[] {
-    const out: string[] = [];
+    const out: string[] = [], inline = [...this.inline()];
+    const runtime = (v: string) => inline.some(n => new RegExp(`var\\(--${n}[,)\\s]`).test(v));
     for (const f of this.files()) {
       for (const r of this.rules(readFileSync(join(this.dir, f), 'utf8'))) {
-        if (this.rows.test(r.selector) || this.instruments.test(r.selector)) { continue; }
+        // A keyframe's frame is no element's (an animation's colours are flashes' to find).
+        const frame = /^(from|to|[\d.%, ]+)$/.test(r.selector);
+        if (frame || this.rows.test(r.selector) || this.instruments.test(r.selector)) { continue; }
         const decls = [...r.body.matchAll(/(?:^|;)\s*([\w-]+)\s*:([^;]*)/g)].map(m => [m[1]!, m[2]!] as const);
         const hued = decls.some(([p, v]) => /color|background|border|shadow|fill|stroke|outline/.test(p)
-          && (this.hued.test(v) || this.greyless(v)));
+          && (this.hued.test(v) || this.greyless(v) || runtime(v)));
         // A bar at the left of words, of any colour (a panel's hairline edge, 1px, is no bar).
         const left = decls.some(([p, v]) => /^border-left$/.test(p) && /\b([2-9]|\d{2,})px/.test(v));
         if (hued || left) { out.push(`${f}: ${r.selector}`); }

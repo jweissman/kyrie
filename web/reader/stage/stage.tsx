@@ -94,8 +94,8 @@ export class Stage {
     return [Words.upper(part), Words.sky(part, s.weather), s.date?.short ?? ''].filter(Boolean);
   }
   // Where and when, said once and quietly under the heading of what is before you: "Bretheltaure, Galadhtaure ·
-  // Morning, fair, 24 Wolfmoon". Its mark is the light of the hour: the morning's, the afternoon's, the evening's, or
-  // none at night.
+  // Morning, fair, 24 Wolfmoon". Its mark is a short neutral dash, whatever the hour: no Atlas tone off the action
+  // rows (OR-513).
   // With the app, the place's own mark leads it, in place of the hour's (see PlaceMark).
   static When({ frame, extra, app }: { frame: Frame; extra?: string; app?: ReaderApp }) {
     // From the nearest to the widest, none said twice (the market-place of a town says the town).

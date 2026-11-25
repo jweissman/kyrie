@@ -1,4 +1,3 @@
-import type { CSSProperties } from 'react';
 import type { ReaderApp } from '../reader-app';
 import { Emblems } from '../../../src/presentation/emblems';
 import { SceneKinds } from '../../../src/ui/scene-kinds';
@@ -9,11 +8,10 @@ import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { PlaceStage } from './place-stage';
 
-// The place's mark at the head of its scene (the owner, 11 November): a short accent in the tone of what the company
-// knows it can do here now, gathered from what the glance
-// leads with (each aspect as it is drawn, the aim's only where the way is shown). Most places have one, or none, and
-// it stays quiet; where several kinds of thing meet it runs through their tones (OKLab), and where the place has
-// nothing new it is dim. Nothing is gathered that the company does not know, or cannot do or look into from here.
+// The place's mark at the head of its scene (the owner, 11 November): a short neutral dash before the place's line.
+// It takes no Atlas tone (the owner, 25 November, OR-513: the Atlas's colours belong to the menu's action rows alone;
+// a heading is text). What the company knows it can do here, gathered from what the glance leads with, is said in its
+// words for a reader, and where the place has nothing new the dash is dim.
 // Its kind (family: a glyph of emblems' places) is said in its words, and drawn only in the flows that open from the
 // scene: a glyph in the title would compete with the pips (the owner, 11 November).
 export class PlaceMark {
@@ -23,11 +21,9 @@ export class PlaceMark {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, family = PlaceMark.family(app), facets = PlaceMark.facets(app);
     const idle = frame.leaf.glance?.idle?.includes(frame.screen.place.id);
-    // One colour, as every indicator is (see Pip): what it is chiefly, by the one precedence; never through several.
-    const fill = Pip.fill(facets), said = [PlaceMark.words[family], facets?.words].filter(Boolean).join(', ');
+    const said = [PlaceMark.words[family], facets?.words].filter(Boolean).join(', ');
     return <span className={`place-mark${idle ? ' dim' : ''}`} aria-label={said} data-condition={Pip.condition({ idle })}
-      role="img" style={{ '--pm': fill ?? 'var(--faint)' } as CSSProperties}>
-      <i className="pm-accent" aria-hidden="true" /></span>;
+      role="img"><i className="pm-accent" aria-hidden="true" /></span>;
   }
   // The kind of place: its scene's kind's family, else what the place is.
   static family(app: ReaderApp): string {
