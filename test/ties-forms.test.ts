@@ -1,120 +1,145 @@
-import { ModuleWriter } from '../src/lang/module-writer';
 import { describe, expect, it } from 'bun:test';
-import { NodeBundleSource } from '../src/campaign/node-bundle-source';
+import { ModuleWriter } from '../src/lang/module-writer';
+import { KyrTemplates } from '../src/world/kyr-template';
+import { RegionTies } from '../src/world/region-ties';
 import type { Journey } from '../src/session/journey';
 import { Kept } from './support/kept';
-import { Placed } from './support/placed';
-import { WorldAssembler } from '../src/world/world-assembler';
+import { TieAlone, type TieForm } from './support/tie-alone';
 
 // The three shapes of a tie (data/generation/town/ties.kyrt) differ in dramatic form, not in text: kin runs on a clock
 // (a day it is too late), debt has a rival who also goes, custom is a standing obligation the town enforces on someone
-// if it is ignored. Each spec drives the public labels the page offers; where it walks, it walks by `>room` (the
-// journey's own path-finding, not a teleport). Nothing is given as a fact or placed.
+// if it is ignored. Each form is played alone (TieAlone: the template's base and the one shape, filled for one town
+// and its site on a host of a few lines), by the labels the page offers, the company asking what the matter is first
+// (OR-423); it had drawn six countries for it, four to six minutes. One short walk stays on a drawn country: the kin
+// wait at thorn, its asker found where the country put them.
 const warrior = [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }];
 const ranger = [{ name: 'Wren', raceId: 'human', classId: 'ranger' }];
-// Each seed's country is drawn once in the file for each company, and resumed for each case after (see Kept.drawn), and
-// its source read once (LC-04: the cases drew thorn, ember and kahitude three times each, and read each source again).
-const start = async (seed: string, party = warrior) => (await Kept.drawn(seed, { origin: 'debt', party })).journey;
-const sources = new Map<string, Promise<string>>();
-const sourceOf = (seed: string) => {
-  if (!sources.has(seed)) { sources.set(seed, WorldAssembler.assemble(seed, NodeBundleSource.shared, {})
-    .then(w => [...(w.source as unknown as { files: Map<string, string> }).files.values()].join('\n'))); }
-  return sources.get(seed)!;
-};
-const siteOf = (text: string, t: string) => new RegExp(`${t}_tie_(?:token|cairn)[^\\n]* at (w\\d+)`).exec(text)?.[1];
-const shapes = async (seed: string) => {
-  const text = await sourceOf(seed);
-  return [...text.matchAll(/(?:Person|Thing) (s\d+)_tie_(nan|heir|cairn)/g)].map(m => ({ t: m[1]!,
-    form: ({ nan: 'kin', heir: 'debt', cairn: 'custom' } as Record<string, string>)[m[2]!]!, site: siteOf(text, m[1]!) }));
-};
-const asks = { kin: ['innkeeper', 'why the lamp is kept'], debt: ['merchant', 'what they have lent'],
-  custom: ['priest', 'about the bread'] } as const;
-// Where the asker stands, as the world has it now.
-const at = (j: Journey, t: string, role: string) => j.campaign.world.one('at', `region__${t}_${role}`);
-const found = async (seed: string, form: string, nth = 0) => (await shapes(seed)).filter(x => x.form === form)[nth]!;
-const holds = (j: Journey, rel: string, t: string) => Placed.holds(j, `region__${t}_${rel}`, 'party');
+const asks = { kin: ['s1_taproom', 'Mag Hollin', 'why the lamp is kept'], debt: ['s1_green', 'Wat Cotter', 'what they have lent'],
+  custom: ['s1_shrine', 'Father Ned', 'about the bread'] } as const;
+const holds = (j: Journey, rel: string) => j.holds(`s1_${rel}`, 'party');
 const offered = (j: Journey) => j.choices().map(c => c.full).join(' | ');
+// The asker's question, after what the matter is in the town: neither may be passed over.
+const ask = async (j: Journey, form: TieForm) => {
+  const [room, who, question] = asks[form];
+  j.put('party', room);
+  await j.play(`Ask ${who} what the matter is`, question);
+  expect(holds(j, 'tie_asked')).toBe(true);
+};
+const start = async (form: TieForm, party = warrior) => (await TieAlone.start(form, party)).journey;
 
 describe('the three forms of a tie', () => {
-  it('draws each form in more than one seed, each with its own third party', async () => {
-    const drawn: Record<string, string[]> = { kin: [], debt: [], custom: [] };
-    for (const seed of ['thorn', 'e1', 'a1', 'ember', 'kahitude']) {
-      for (const x of await shapes(seed)) { drawn[x.form]!.push(`${seed}:${x.t}`); }
+  it('draws each form over a country\'s towns, each with a third party of its own beside the asker', () => {
+    const drawn: Record<string, number> = { kin: 0, debt: 0, custom: 0 };
+    for (let i = 0; i < 40; i++) {
+      const shape = KyrTemplates.choose(RegionTies.template, `country${i % 5}:s${i}:tie`, TieAlone.values)
+        .find(s => s.group === 'shape')!;
+      drawn[shape.option]!++;
     }
-    for (const form of Object.keys(drawn)) { expect(drawn[form]!.length).toBeGreaterThanOrEqual(3); }
-  }, 300000);
+    for (const form of Object.keys(drawn)) { expect(drawn[form]!).toBeGreaterThanOrEqual(6); }
+    for (const [form, third] of [['kin', 'nan'], ['debt', 'heir'], ['custom', 'boy']] as const) {
+      const lines = RegionTies.template.sections.find(s => s.option === form)!.lines.join('\n');
+      expect(lines).toMatch(new RegExp(`Person \\{t\\}_tie_${third} .* at \\{t\\}_green`));
+      expect([...lines.matchAll(/Person \{t\}_tie_(\w+)/g)].map(m => m[1])).toEqual([third]);
+    }
+  });
 
-  // The wait: a company that asks and then does nothing finds the town changed, in each form, in three seeds each.
-  for (const [form, seed, wait, seen] of [
-    ['kin', 'thorn', 160, /cloth is tied round the lamp/], ['kin', 'e1', 160, /cloth is tied round the lamp/],
-    ['kin', 'marrow', 160, /cloth is tied round the lamp/],
-    ['debt', 'thorn', 320, /stall (is|stays) shuttered|weighed against the other measure/], ['debt', 'ember', 320, /stall is shuttered|weighed against the other measure/],
-    ['debt', 'e1', 320, /stall (is|stays) shuttered|weighed against the other measure/],
-    ['custom', 'kahitude', 230, /loaf tied to his wrist|bell at the shrine is rung/], ['custom', 'a1', 230, /loaf tied to his wrist|bell at the shrine is rung/],
-    ['custom', 'ember', 230, /loaf tied to his wrist|bell at the shrine is rung/]] as const) {
-    it(`${form}: if nothing is done the town changes (${seed})`, async () => {
-      const s = await found(seed, form), [role, ask] = asks[form], j = await start(seed);
-      // (Walking through a town can already teach the place's name, in which case the ask is not offered: it is `?`.)
-      await j.play(`>${at(j, s.t, role)}`, `?${ask}`);
-      // What the way there stirred up is not the tie's: a toll run past on a road the standing scenarios now cross had
-      // the lord's riders take the company in the middle of the wait.
-      const c = j.campaign;
-      c.commitWorld(c.world.apply(c.world.related('hostile').filter(r => r.args[1] === c.playerActor)
-        .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('hostile', ...r.args) }))));
-      expect(holds(j, 'tie_lost', s.t)).toBe(false);
+  // The wait: a company that asks and then does nothing finds the town changed, in each form.
+  for (const [form, wait, seen] of [['kin', 160, /cloth is tied round the lamp/],
+    ['debt', 320, /stall (is|stays) shuttered|weighed against the other measure/],
+    ['custom', 230, /loaf tied to his wrist|bell at the shrine is rung/]] as const) {
+    it(`${form}: if nothing is done the town changes`, async () => {
+      const j = await start(form);
+      await ask(j, form);
+      expect(holds(j, 'tie_lost')).toBe(false);
       // Told only as the wait ends (==): what the town shows is read on the green after it, and in what the wait told.
       const told = await j.play(`==+${wait}`);
-      expect(holds(j, 'tie_lost', s.t)).toBe(true);
-      expect(holds(j, 'tie_done', s.t)).toBe(false);
-      await j.play(`?>${s.t}_green`);
-      expect(told + j.page).toMatch(seen);
-      // The tie's mother, not the riddle-teller a town's pleasures may seat on the green.
-      if (form === 'kin') { expect(offered(j)).not.toMatch(/old woman(?!'s riddle)/); }
-    }, 900000);
+      expect(holds(j, 'tie_lost')).toBe(true);
+      expect(holds(j, 'tie_done')).toBe(false);
+      j.put('party', 's1_green');
+      expect(told + j.seen()).toMatch(seen);
+      if (form === 'kin') { expect(offered(j)).not.toMatch(/old woman/); }
+    });
   }
 
-  it('kin: brought in time the mother holds the pouch, and is told the tracks if a ranger read them (thorn)', async () => {
-    const s = await found('thorn', 'kin'), j = await start('thorn');
-    await j.play(`>${at(j, s.t, 'innkeeper')}`, '?what the matter is', '?why the lamp is kept', `>${s.t}_green`);
+  it('kin: brought in time the mother holds the pouch, and is told the tracks if a ranger read them', async () => {
+    const j = await start('kin');
+    await ask(j, 'kin');
+    j.put('party', 's1_green');
     expect(offered(j)).toMatch(/old woman/);
-    await j.play(`>${s.site}`, 'pouch: Take');
-    await j.play(`>${s.t}_green`, 'Put the pouch in the old woman');
-    expect(holds(j, 'tie_done', s.t)).toBe(true);
-    expect(holds(j, 'tie_lost', s.t)).toBe(false);
-    expect(holds(j, 'tie_nan_first', s.t)).toBe(true);
-    const r = await start('thorn', ranger);
-    await r.play(`>${at(r, s.t, 'innkeeper')}`, '?what the matter is', '?why the lamp is kept', `>${s.site}`);
+    j.put('party', 'w1');
+    await j.play('pouch: Take');
+    j.put('party', 's1_green');
+    await j.play('Put the pouch in the old woman');
+    expect(holds(j, 'tie_done')).toBe(true);
+    expect(holds(j, 'tie_lost')).toBe(false);
+    expect(holds(j, 'tie_nan_first')).toBe(true);
+    const r = await start('kin', ranger);
+    await ask(r, 'kin');
+    // Walked to, as a ranger comes to it: what the tracks say is read on arrival, and known after.
+    r.put('party', 's1_green');
+    await r.play('>w1');
     expect(r.page).toMatch(/heel-prints/);
-    await r.play(`>${s.t}_green`, 'rose and walked away');
-    expect(holds(r, 'tie_hope', s.t)).toBe(true);
-  }, 900000);
+    await r.play('>s1_green', 'rose and walked away');
+    expect(holds(r, 'tie_hope')).toBe(true);
+  });
 
-  it('debt: the rival may beat the company to it, and the measure is bought back (ember)', async () => {
-    const s = await found('ember', 'debt'), j = await start('ember');
-    await j.play(`>${at(j, s.t, 'merchant')}`, '?what the matter is', '?what they have lent', `>${s.t}_green`);
+  it('debt: the rival may beat the company to it, and the measure is bought back', async () => {
+    const j = await start('debt');
+    await ask(j, 'debt');
     expect(offered(j)).toMatch(/surveyor's son/);
-    await j.play(`>${s.site}`, 'measure: Take');
-    await j.play(`>${at(j, s.t, 'merchant')}`, 'Give .* back the measure from');
-    expect(holds(j, 'tie_done', s.t)).toBe(true);
-    expect(holds(j, 'tie_gone', s.t)).toBe(false);
-    const late = await start('ember');
-    await late.play(`>${at(late, s.t, 'merchant')}`, '?what the matter is', '?what they have lent', '=day 2 9:00');
-    expect(holds(late, 'tie_back', s.t)).toBe(true);
-    expect(Placed.holds(late, 'at', `region__${s.t}_tie_token`, `region__${s.site}`)).toBe(false);
-    await late.play(`>${s.site}`);
-    expect(late.page).toMatch(/turned over/);
-    await late.play(`>${s.t}_green`, 'Buy the measure from the surveyor', `>${at(late, s.t, 'merchant')}`, 'Give .* back the measure');
-    expect(holds(late, 'tie_done', s.t)).toBe(true);
-  }, 900000);
+    j.put('party', 'w1');
+    await j.play('measure: Take');
+    j.put('party', 's1_green');
+    await j.play('Give Wat Cotter back the measure from');
+    expect(holds(j, 'tie_done')).toBe(true);
+    expect(holds(j, 'tie_gone')).toBe(false);
+    const late = await start('debt');
+    late.coin(30);
+    await ask(late, 'debt');
+    await late.play('=day 2 9:00');
+    expect(holds(late, 'tie_back')).toBe(true);
+    expect(late.campaign.world.test(ModuleWriter.call('at', 't__s1_tie_token', 't__w1'))).toBe(false);
+    late.put('party', 'w1');
+    expect(late.seen()).toMatch(/turned over/);
+    late.put('party', 's1_green');
+    await late.play('Buy the measure from the surveyor', 'Give Wat Cotter back the measure');
+    expect(holds(late, 'tie_done')).toBe(true);
+  });
 
-  it('custom: mending the cairn lets the blamed boy go, after the town has found him (kahitude)', async () => {
-    const s = await found('kahitude', 'custom'), j = await start('kahitude');
-    await j.play(`>${at(j, s.t, 'priest')}`, '?about the bread', '=+230', `>${s.t}_green`);
-    expect(j.page).toMatch(/loaf tied to his wrist/);
-    await j.play(`>${s.site}`, 'Build the cairn up again', `>${at(j, s.t, 'priest')}`, 'the cairn at');
-    expect(holds(j, 'tie_done', s.t)).toBe(true);
-    expect(holds(j, 'tie_lost', s.t)).toBe(true);
-    await j.play(`>${s.t}_green`);
-    expect(j.page).toMatch(/clay-bird/);
-  }, 900000);
+  it('custom: mending the cairn lets the blamed boy go, after the town has found him', async () => {
+    const j = await start('custom');
+    await ask(j, 'custom');
+    await j.play('=+230');
+    j.put('party', 's1_green');
+    expect(j.seen()).toMatch(/loaf tied to his wrist/);
+    j.put('party', 'w1');
+    await j.play('Build the cairn up again');
+    j.put('party', 's1_shrine');
+    await j.play('the cairn at');
+    expect(holds(j, 'tie_done')).toBe(true);
+    expect(holds(j, 'tie_lost')).toBe(true);
+    j.put('party', 's1_green');
+    expect(j.seen()).toMatch(/clay-bird/);
+  });
+});
+
+// The one walk on a drawn country: thorn's kin tie, its innkeeper found where the country put them, and the town
+// changed on its green when the company has asked and done nothing (the form's clock, as a generated town keeps it).
+describe('a tie in a drawn country', () => {
+  it('kin: if nothing is done the town changes (thorn)', async () => {
+    const j = (await Kept.drawn('thorn', { origin: 'debt', party: warrior })).journey;
+    const nan = j.campaign.world.module.entities.find(e => /^region__s\d+_tie_nan$/.test(e.id))!.id;
+    const t = /^region__(s\d+)_tie_nan$/.exec(nan)![1]!;
+    await j.play(`>${j.campaign.world.one('at', `region__${t}_innkeeper`)}`, '?what the matter is', 'why the lamp is kept');
+    expect(j.holds(`region__${t}_tie_asked`, 'party')).toBe(true);
+    // What the way there stirred up is not the tie's: a toll run past on a road had the lord's riders take the company
+    // in the middle of the wait.
+    const c = j.campaign;
+    c.commitWorld(c.world.apply(c.world.related('hostile').filter(r => r.args[1] === c.playerActor)
+      .map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('hostile', ...r.args) }))));
+    const told = await j.play('==+160');
+    expect(j.holds(`region__${t}_tie_lost`, 'party')).toBe(true);
+    await j.play(`?>${t}_green`);
+    expect(told + j.page).toMatch(/cloth is tied round the lamp/);
+  }, 120000);
 });

@@ -53,8 +53,9 @@ describe('the man in the lift cage, and the shrine’s lamp-chain', () => {
     const { p } = await House.world('kahitude');
     const town = p!.bindings.town!, site = p!.bindings.works!;
     const j = await House.at('cage', 'kahitude', 'warrior');
-    await j.play('Ask Wulfstan how he came');
-    await j.play('Ask Wulfstan about the brass in his pack');
+    // The salvager is named as his folk's names are drawn (PA-03 moved the drawn names): asked by what he is asked.
+    await j.play('how he came to be in the cage');
+    await j.play('about the brass in his pack');
     expect(House.is(j, 'knows', 'party', 'chain_seen')).toBe(true);
     await j.play('chain: Take', 'the shrine’s lamp-chain: Take').catch(() => undefined);
     await House.set(j, 'state', 'cage_gear', 'running');

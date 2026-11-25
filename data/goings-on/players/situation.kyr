@@ -47,23 +47,25 @@ Module players "The players on the green" {
   Observe green_players_free at green when reckoned(gosse) and not gone(gosse) "Gosse is walking slowly round the wagon with his hands behind his back, inspecting its wheels as if he had just bought it.".
   Observe green_players_gone at green when gone(gosse) "There are wheel-ruts in the dust of {green}, and a ring of flattened ground where a bear lay.".
 
-  // The town's own people on the players.
-  Topic keeper_players with keeper "Ask {keeper} about the players stuck here" when toldMatter(keeper, actor) and stuck(gosse) and not gone(gosse) once {
+  // The town's own people on the players: once told what the matter is in the town, or told the players' trouble by
+  // Gosse himself (testimony, OR-423: the company that has heard it from him had been made to ask each of them what
+  // the matter is before it could ask about the players it had just met, or pay their reckoning).
+  Topic keeper_players with keeper "Ask {keeper} about the players stuck here" when (toldMatter(keeper, actor) or knows(actor, on_green)) and stuck(gosse) and not gone(gosse) once {
     Says "'Four nights' bed and board for seven and a bear,' says {keeper}, 'and the bear eats for three. Eight coin. They had it, too, in the hat, Tuesday night: the whole town went to see them. And then their man who leads the bear went off with the hat.' {keeper} folds the cloth. 'I don't doubt the old man means to pay. He means a great many things. The wagon stays chained till someone does.'".
     On discuss { Assert knows(actor, lem_gone). }
   }
-  Topic priest_players with priest "Ask {priest} about the players" when toldMatter(priest, actor) and not gone(gosse) once {
+  Topic priest_players with priest "Ask {priest} about the players" when (toldMatter(priest, actor) or knows(actor, on_green)) and not gone(gosse) once {
     Says "{priest} smiles, and then tries not to. 'They played the Shepherd's Revenge here on Tuesday, and the clown sat in my place at the front and gave a sermon, and I am still not sure whether I should have minded.' Then, more soberly: 'The man who went off with the hat was Lem Coyle, who leads their bear. He was not a bad man at the shrine. I saw him go out along the common toward the old lime-kiln, with the hat under his coat like a hen.'".
     On discuss { Assert knows(actor, lem_where). Assert knows(actor, lem_gone). }
   }
-  Topic trader_players with trader "Ask {trader} about the players" when toldMatter(trader, actor) and not gone(gosse) once {
+  Topic trader_players with trader "Ask {trader} about the players" when (toldMatter(trader, actor) or knows(actor, on_green)) and not gone(gosse) once {
     Says "'They owe me for candles and a pot of honey,' says {trader}, 'and I would give them the candles again for the bear's dance alone. Lem Coyle bought a bottle off me Tuesday with a coin out of the hat. Said it was his wages.' {trader} shrugs. 'Maybe it was.'".
     On discuss { Assert knows(actor, lem_gone). }
   }
 
   Topic gosse_trouble with gosse "Ask Gosse what has happened" when stuck(gosse) and not gone(gosse) once {
     Says "'A small reverse,' says Gosse. 'A tragedy in the classical sense: brought about by a flaw in the hero, who failed to pay his chain-man for four months.' He spreads his hands. 'Lem has gone off with the hat, and the hat had the reckoning in it, and our host has chained the wagon, and this week the Trial of the Wheel opens at Pentrice over the march and we must be there or die in a ditch.' He looks at you sidelong. 'I do not ask for money. I never ask for money. I mention that it exists.'".
-    On discuss { Assert knows(actor, lem_gone). }
+    On discuss { Assert knows(actor, lem_gone). Assert knows(actor, on_green). }
   }
   Topic hepzibah_lem with hepzibah "Ask Hepzibah about Lem" when stuck(gosse) and not gone(gosse)
     and (knows(party, lem_gone) or knows(party, lem_where)) once {

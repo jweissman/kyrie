@@ -819,7 +819,7 @@
     "test/thrume-depth.test.ts": 15886,
     "test/thrume.test.ts": 32288,
     "test/tie-order.test.ts": 273,
-    "test/ties-forms.test.ts": 228076,
+    "test/ties-forms.test.ts": 13700,
     "test/ties.test.ts": 24796,
     "test/time-value.test.ts": 934,
     "test/timings-from-ci.test.ts": 21,
