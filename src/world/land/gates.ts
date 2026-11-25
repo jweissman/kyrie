@@ -39,16 +39,26 @@ export class Gates {
       const clear = [...at.seats.map(s => s.cell), ...at.taken];
       for (const cell of this.cells(land, w.side, { covers, shore, keep }, clear)) {
         const firth = shore ? this.firth(land, cell, w.side, keep) : undefined;
-        for (const { i } of order) {
-          const from = at.seats[i]!.cell, route = Roads.route(land, from, cell, at.built).cells;
-          // Its road does not run where the firth will be.
-          if (route.length && !firth?.some(c => route.includes(c))) {
-            const { cells } = Roads.begun(at.seats, i, route);
-            return { id: w.id, side: w.side, seat: i, cell, road: Roads.road(land, cells[0]!, cell, cells),
-              ...firth?.length ? { firth } : {} };
-          }
-        }
+        const to = { w, cell, firth, order }, gate = this.road(land, at, to, false) ?? this.road(land, at, to, true);
+        if (gate) { return gate; }
       }
+    }
+    return undefined;
+  }
+  // The road to a way in from the nearest town that can reach it, by the shortest way; from the first town (the seats'
+  // first, where a company begins) only where no other town's road can reach it (first). The first town is simple
+  // (the owner's ruling): its landing had been the provinces' crossroads, 45 ways on and 27 of them into provinces at
+  // Porthalen (WD-12), 16 of 33 provinces' roads leaving thorn's Misthythe. The way in stands where it stood.
+  private static road(land: Land, at: Around, { w, cell, firth, order }: { w: Wanted; cell: number;
+    firth?: number[]; order: { i: number }[] }, first: boolean): Gate | undefined {
+    for (const { i } of order) {
+      const from = at.seats[i]!.cell, route = Roads.route(land, from, cell, at.built).cells;
+      // Its road does not run where the firth will be.
+      if (!route.length || firth?.some(c => route.includes(c))) { continue; }
+      const begun = Roads.begun(at.seats, i, route);
+      if (!first && at.seats.length > 1 && begun.seat === 0) { continue; }
+      return { id: w.id, side: w.side, seat: i, cell, road: Roads.road(land, begun.cells[0]!, cell, begun.cells),
+        ...firth?.length ? { firth } : {} };
     }
     return undefined;
   }
