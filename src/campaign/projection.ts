@@ -83,7 +83,9 @@ export class Projection {
       : kept.environment;
     if (keep) { this.inputs.set(actor.id, { actor, members, environment }); }
     return at.all || !kept || kept.environment !== environment || Projection.replaced(kept.members, members)
-      || at.touched.has(actor.id) || actor.members.some(id => at.touched.has(at.references.get(id) ?? id));
+      || at.touched.has(actor.id) || actor.members.some(id => at.touched.has(at.references.get(id) ?? id))
+      // The player's company come somewhere new may have earned a surface there (a library: see Earned).
+      || (!!actor.player && at.moved.has(actor.id));
   }
   // The actors last read whole, and by whom each is named (itself, its members, or who stands for them).
   private scanned: readonly CampaignActor[] = [];

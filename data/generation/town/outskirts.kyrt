@@ -17,6 +17,8 @@
   Passage {t}_manor_door "the Hall's front door" is door between {t}_manor_front and {t}_manor_hall.
   Passage {t}_manor_arches "the arches into the loggia" is arch between {t}_manor_hall and {t}_manor_loggia.
   Passage {t}_manor_libdoor "the library door" is door between {t}_manor_hall and {t}_manor_library.
+  // Books kept to be read: stood in, the company has the encyclopedia (core.kyr's library; compactification, OR-1243).
+  Initially Assert library({t}_manor_library).
   Passage {t}_manor_steps "the steps down into the garden" is steps between {t}_manor_loggia and {t}_manor_garden.
   Passage {t}_manor_gate "a door in the garden wall" is door between {t}_manor_garden and {t}_manor_front.
   Observe {t}_manor_front_scene at {t}_manor_front when true "A house of the grey stone of the hill, long and gabled, its windows set in rows, smoke going up from three chimneys. The forecourt is raked gravel round a mounting-block. The steward keeps all this, and keeps it well.".
