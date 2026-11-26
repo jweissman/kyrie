@@ -76,9 +76,10 @@ export class TalkStage {
     // No × beside the menu: taking your leave is its last row, and Escape (the owner, 16 November night: every
     // control of a page in its one menu or its rail).
     return (
-      <PageFrame.View kind="talk" className="talk" body="dialogue" apart
-        header={<TalkStage.Sitter app={app} name={name!} role={role.join(' · ')}>
-          <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Sitter>}
+      <PageFrame.View kind="talk" className="talk" body="dialogue"
+        background={<TalkStage.Sitter app={app} />}
+        header={<TalkStage.Speaker app={app} name={name!} role={role.join(' · ')}>
+          <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Speaker>}
         narrative={<TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />}
         menu={<div className="answer">
             <div className="choosing">
@@ -146,7 +147,13 @@ export class TalkStage {
   // a minstrel read as "a different landscape each time instead of a face": the cold evaluation).
   // A painting that cannot be had (images refused, or the page offline) leaves the page in type, as one that does not
   // fit: the Bushweald play without images found a black slab, a broken picture and its painter's credit.
-  static Sitter({ app, name, role, children }: { app: ReaderApp; name: string; role: string; children?: ReactNode }) {
+  // Nothing is set over the painting (OR-1088, OR-1092, the owner, 26 November: the page had borrowed its composition
+  // from the portraits, its name set large over them, and broke without one, and over a light-ground portrait): the
+  // painting has its column to itself, its edges darkened into the room, and the painter's credit at its darkened
+  // foot. Unpainted, the column holds a plate, as a book's are (the people's emblem, or anyone's, inked in a ruled
+  // frame of a portrait's proportion), so that the page composes the same with or without a likeness: never a hole,
+  // never a name alone (the owner, 5 and 7 November).
+  static Sitter({ app }: { app: ReaderApp }) {
     const given = app.menu.talk!.subject.portrait, [failed, fail] = useState<string>();
     const portrait = given && given.large !== failed ? given : undefined;
     return (
@@ -155,12 +162,24 @@ export class TalkStage {
           style={{ objectPosition: `50% ${portrait.focus}%` }} />}
         {/* Credited where the painter is known; nothing said where not ("Painter unrecorded" read as a defect). */}
         {portrait?.credit && <p className="credit">{portrait.credit}</p>}
-        {/* Unpainted, their people's emblem stands large and faint behind their name (the owner, 5 November), or
-            anyone's where their people have none drawn: never a name alone (7 November). */}
-        {!portrait && <Glyphs.View id={Glyphs.met(app.menu.talk!.subject)} className="sitter-emblem" />}
-        <div className="cap"><h1 className="n">{Typography.curl(name)}</h1>{role && <p className="r">{Typography.curl(role)}</p>}
-          {children}</div>
+        {!portrait && <figure className="plate" aria-hidden="true">
+          <Glyphs.View id={Glyphs.met(app.menu.talk!.subject)} className="sitter-emblem" /></figure>}
       </div>
+    );
+  }
+  // Who is spoken with, heading the exchange in its own column at the frame's one heading scale (OR-1088: a large,
+  // faint name in a void above had been cut off from what was said): their name, what they are, and where and when; on
+  // a narrow screen with no painting, their emblem small beside the name, the plate's.
+  static Speaker({ app, name, role, children }: { app: ReaderApp; name: string; role: string; children?: ReactNode }) {
+    return (
+      <header className="speaker">
+        {!app.menu.talk!.subject.portrait && <Glyphs.View id={Glyphs.met(app.menu.talk!.subject)} className="seal" />}
+        <div className="said-of">
+          {role && <p className="r">{Typography.curl(role)}</p>}
+          <h1 className="n">{Typography.curl(name)}</h1>
+          {children}
+        </div>
+      </header>
     );
   }
   // What has passed between you, newest last and kept in view; when the newest is longer than there is room for, from

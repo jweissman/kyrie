@@ -4,25 +4,38 @@
    them, the page is theirs in type. ---- */
 .talk { display: grid; grid-template-columns: minmax(300px, 44%) minmax(0, 1fr); height: var(--frame-h); overflow: hidden;
   position: relative; }
+/* The likeness's column: the painting to itself, nothing set over it but its painter's credit at its foot. Its edges
+   darkened into the room, so that a portrait on a light ground (107 of the 434: OR-1095) reads as a painting hung in a
+   dark room, not a lit slab beside the talk; one on a dark ground is hardly touched. */
 .sitter { position: relative; height: var(--frame-h); overflow: hidden; background: var(--deep); }
-.sitter-emblem { position: absolute; left: 50%; top: 42%; width: min(58%, 340px); height: auto; aspect-ratio: 1;
-  transform: translate(-50%, -50%); fill: none; stroke: var(--accent-line); stroke-width: 1.2; stroke-linecap: round;
-  stroke-linejoin: round; opacity: .35; }
 .sitter img { display: block; width: 100%; height: 100%; object-fit: cover; animation: settle-in 1s var(--ease) both; }
 .sitter::after { content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, transparent 50%, rgba(7, 8, 10, .82) 100%), linear-gradient(270deg, rgba(18, 19, 24, .5), transparent 22%); }
-.sitter .credit { position: absolute; top: 14px; left: 18px; z-index: 1; margin: 0; font: 400 11px var(--do);
-  color: rgba(236, 230, 217, .7); text-shadow: 0 1px 3px rgba(0, 0, 0, .7); }
-.sitter .cap { position: absolute; z-index: 1; left: var(--safe-l); bottom: var(--safe-b); right: 20px;
-  color: var(--ivory); text-shadow: 0 2px 18px rgba(0, 0, 0, .7); }
-.sitter .cap .n { font: 300 clamp(44px, 5.2vw, 72px)/1 var(--do); letter-spacing: .02em; margin: 0 0 8px; }
-.sitter .cap .r { font: 500 12px var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin: 0; }
-.sitter .cap .when { margin: 14px 0 0; }
-.sitter.unpainted { background: radial-gradient(ellipse at 30% 100%, rgba(239, 230, 209, .08), transparent 60%), var(--raised);
-  border-right: 1px solid var(--edge); display: flex; align-items: flex-end; }
+  background: radial-gradient(ellipse 90% 80% at 50% 38%, transparent 48%, rgba(7, 8, 10, .62) 100%),
+    linear-gradient(180deg, transparent 72%, rgba(7, 8, 10, .78) 100%),
+    linear-gradient(270deg, rgba(18, 19, 24, .6), transparent 18%); }
+.sitter .credit { position: absolute; left: var(--safe-l); bottom: 18px; z-index: 1; margin: 0; font: 400 11.5px var(--do);
+  color: rgba(236, 230, 217, .78); }
+/* Unpainted: a plate in the painting's place, as the books' are: the emblem inked in a ruled frame of a portrait's
+   proportion, on the room's ground, a little light falling on it. */
+.sitter.unpainted { display: grid; place-items: center; border-right: 1px solid var(--edge);
+  background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(239, 230, 209, .07), transparent 70%), var(--surface); }
 .sitter.unpainted::after { display: none; }
-.sitter.unpainted .cap { position: static; padding: 0 clamp(24px, 4vw, 56px) clamp(30px, 8vh, 80px); }
-.sitter.unpainted .cap .n { font-size: clamp(46px, 6vw, 80px); }
+.sitter .plate { margin: 0; width: min(62%, 300px); aspect-ratio: 3 / 4; display: grid; place-items: center;
+  border: 1px solid var(--edge-strong); outline: 1px solid var(--edge); outline-offset: 6px;
+  background: radial-gradient(ellipse at 50% 45%, rgba(239, 230, 209, .06), transparent 70%), var(--raised); }
+.sitter-emblem { width: 52%; height: auto; aspect-ratio: 1; fill: none; stroke: var(--accent-line); stroke-width: 1.2;
+  stroke-linecap: round; stroke-linejoin: round; opacity: .8; }
+/* Who is spoken with, heading what is said: the frame's one heading scale, what they are as a kicker over it, where
+   and when under it (OR-1088). */
+.speaker { display: flex; align-items: flex-start; gap: var(--s4); margin: 0 0 var(--s5); }
+.speaker .said-of { min-width: 0; }
+.speaker .n { margin: 0; font: var(--type-heading); letter-spacing: .01em; color: var(--ivory); }
+.speaker .r { margin: 0 0 6px; font: var(--type-kicker); letter-spacing: var(--track-kicker); text-transform: uppercase;
+  color: var(--dim); }
+.speaker .when { margin: 8px 0 0; }
+.speaker .seal { display: none; flex: none; width: 52px; height: 52px; padding: 10px; box-sizing: border-box;
+  border: 1px solid var(--edge-strong); border-radius: 50%; fill: none; stroke: var(--accent-line); stroke-width: 1.4;
+  stroke-linecap: round; stroke-linejoin: round; }
 
 .dialogue { height: var(--frame-h); display: flex; flex-direction: column; max-width: 50rem;
   padding: var(--safe-t) var(--safe-r) var(--safe-b) clamp(24px, 4vw, 56px); }
@@ -104,17 +117,21 @@
    conversation sits under it at the foot, as tall as what is in it (M17-44). */
 @media (max-width: 1023px), (orientation: portrait) {
   .talk { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(24%, 1fr) auto; }
-  .talk:has(.sitter.unpainted) { grid-template-rows: auto minmax(0, 1fr); }
   .sitter { height: auto; min-height: 0; }
   .talk .dialogue { height: auto; max-height: calc(var(--frame-h) * .76); min-height: 0; overflow: hidden; }
-  .talk:has(.sitter.unpainted) .dialogue { max-height: none; }
   .talk .dialogue .lines { max-height: calc(var(--frame-h) * .4); padding-right: 0; }
-  /* Inside the safe zone, and without the stand-in emblem, which a short band drew through the name and its lines (the
-     contact sheet, 12 November). */
-  .sitter.unpainted .cap { padding: var(--safe-t) var(--safe-r) 22px var(--safe-l); }
-  .sitter.unpainted .sitter-emblem { display: none; }
-  .sitter.unpainted .cap .n { font-size: clamp(40px, 9vw, 72px); }
-  .dialogue { width: 100%; max-width: 46rem; margin: 0 auto; padding: 16px var(--safe-r) var(--safe-b) var(--safe-l); }
+  .sitter .credit { left: var(--safe-l); bottom: 10px; }
+  /* Unpainted, no band at all: the conversation is the page, its emblem small beside the speaker's name. */
+  .talk:has(.sitter.unpainted) { grid-template-rows: minmax(0, 1fr); }
+  .talk .sitter.unpainted { display: none; }
+  .talk:has(.sitter.unpainted) .dialogue { max-height: none; padding-top: var(--safe-t); }
+  .talk:has(.sitter.unpainted) .speaker .seal { display: block; }
+  .dialogue { width: 100%; max-width: 46rem; margin: 0 auto; padding: 20px var(--safe-r) var(--safe-b) var(--safe-l); }
+}
+/* On a phone the emblem stands over the speaker's words, not beside them: the column is too narrow for both. */
+@media (max-width: 600px) {
+  .speaker { flex-direction: column; gap: var(--s3); }
+  .speaker .seal { width: 40px; height: 40px; padding: 8px; }
 }
 /* What else could be said, a touch away under the few things that are salient; trading apart from it. */
 .more-talk { margin: 10px 0 0; }
@@ -162,29 +179,13 @@
   .talk .dialogue .lines { flex: 1 1 auto; max-height: none; }
   .talk .dialogue .answer { flex: 0 0 auto; }
 }
-/* Unpainted, a page in type: the name large, the people's emblem large and faint behind it (the owner, 5 and 7
-   November), not an outline floating in an empty column. */
-.sitter.unpainted { justify-content: flex-start; }
-.sitter.unpainted .sitter-emblem { top: auto; bottom: clamp(30px, 8vh, 80px); left: clamp(8px, 2vw, 28px); width: min(78%, 300px);
-  transform: none; opacity: .16; }
-.shell.scene-full .sitter.unpainted { background: linear-gradient(180deg, rgba(10, 11, 14, .55), rgba(10, 11, 14, .92)); }
 /* The numbers a fold holds, beside its word (see TalkStage.span). */
 .more-talk > summary .fold-keys { margin-left: 10px; font: var(--t-key); letter-spacing: 0; color: var(--dim); }
-/* Portrait, the sitter's name, part and place are clear of the close (M22's review: the × had stood on the place's
-   name on a phone). */
-@media (max-width: 1023px), (orientation: portrait) { .sitter .cap { right: calc(var(--safe-r) + 48px); } }
 
 /* A long counter (the one narrow exception to the four: the owner, 17 November): its rows a list that scrolls in the
    menu's place, four and half the next in view, so it is seen that there is more, never paged. */
 .talk .trading .trade-list.scrolls { max-height: calc(var(--choice-h) * 4 + var(--choice-h) / 2); overflow-y: auto;
   overscroll-behavior: contain; scrollbar-width: thin; }
-/* On a phone the sitter's words stand in the band's flow, so that the band grows with them: a long name wrapping
-   beside the rail had been cut by the top edge (OR-48, M22's third review: "Thoradin" cut). */
-@media (max-width: 600px) {
-  .talk .sitter:not(.unpainted) { display: flex; flex-direction: column; justify-content: flex-end; }
-  .talk .sitter:not(.unpainted) .cap { position: relative; left: auto; right: auto; bottom: auto;
-    padding: var(--safe-t) calc(var(--safe-r) + 100px) 18px var(--safe-l); }
-}
 
 /* ---- OR-149 (the owner's playtest, 20 November, night): a conversation is talking to someone. One page that scrolls
    as one: what was said, newest last, and what you might say under it, in one flow; no box of its own that scrolls,

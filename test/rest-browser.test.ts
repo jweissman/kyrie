@@ -58,7 +58,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at rest, and the pack', () 
     // Owed, by the likeness's one pip, which says so (see Pip).
     expect(await Rest.count(page, `${carter}.owed .pip[aria-label*="to gain"]`)).toBe(1);
     await d.click(`${carter} .portrait`);
-    expect(await page.locator('.sitter .n').innerText()).toBe('The wagoner');
+    expect(await page.locator('.talk .speaker .n').innerText()).toBe('The wagoner');
     expect(await page.locator('.dialogue .leave .act').evaluate(e => getComputedStyle(e).borderTopStyle)).toBe('solid');
     await d.click(".replies .act >> text=/Hear the wagoner['’]s thanks/");
     await d.away();
