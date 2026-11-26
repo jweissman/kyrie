@@ -886,15 +886,18 @@ its Strength and saved by its scores and level. Now, by the breed alone (data/ca
 
 **Update, 26 November:** the bite is at +2 for 1d6+1 and both secondary claws at +0 for 1d3; their paralysis riders
 remain. Kyr's critical policy remains an adaptation. The census now compares each strike's hit chance and
-noncritical weapon damage.
+noncritical weapon damage. After this correction, `bin/kyrie bestiary challenge ghoul/barrow` reads 1 at both
+first and fifth rank, not 2 and 3: a first-level warrior wins 6 of 12 against one and 1 of 12 against two.
+The wild boar retains the one-level separation in `test/srd-challenge`: a first-level warrior wins 2 of 12 and a
+second-level warrior 9 of 12.
 **Omitted:** ghoul fever (a disease by days the engine has no clock for: its play identity stays unassessed),
 turn resistance, elves' immunity. The census grades it S✓ R✓ I–; with the rat, two of 71 creatures now pass in
 resolution, and one of a1's 88 placed groups is SRD-faithful (1 % of the six countries' meetings).
 
 **What it moves:** the vault alone, in all eight worlds; no other installed group holds it (it is `unplaced`). The
-following challenge and encounter measurements predate the strike update and need to be repeated in CI. The
-challenge table measures it again: 2 at its first level, 3 at its fifth (it had been 4 and 5), a second-level
-warrior's match; test/srd-challenge follows. The vault, its keeper as placed (level 2, 13 hit points), 40 seeds:
+following encounter measurements predate the strike update and need to be repeated in CI. Before that update the
+challenge table read 2 at its first level, 3 at its fifth (it had been 4 and 5); the new measurement is above. The
+vault, its keeper as placed (level 2, 13 hit points), 40 seeds:
 
 | Company | Level 1, before | Level 1, after | Level 2, before | Level 2, after |
 |---|---|---|---|---|
