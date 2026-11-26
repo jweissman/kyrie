@@ -8,6 +8,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Itineraries } from '../src/ui/itinerary';
 import { MapMenu } from '../web/reader/map-menu';
 import { GoldenWalk } from './support/golden-walk';
+import { Heard } from './support/heard';
 
 // The map's menu is the engine's journeys of the map (OR-152; MT-18): every place Doable sets out for from the map is
 // one row (MapRows), ranked by the engine, and each is reached by a row a page at a time (MapMenu.paged), where the
@@ -18,6 +19,8 @@ describe('the map\'s rows', () => {
       .filter(Boolean).slice(0, GoldenWalk.opened() + 11);
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session);
+    // Told of the country's towns, Reedbridge among them: the map draws what the company knows (OR-810).
+    Heard.towns(journey.session.campaign);
     for (const line of lines) { await r.ask(line); }
     const screen = Itineraries.charted(r.session.campaign, ScreenModel.build(r.session.campaign)), g = r.leaf!.glance!;
     expect(screen.place.id).toBe('region__s1_green');

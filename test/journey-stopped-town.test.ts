@@ -6,6 +6,7 @@ import { WorldStage } from '../web/reader/stage/world-stage';
 import type { Frame } from '../src/creation/protocol';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';
+import { Heard } from './support/heard';
 
 // The page as the map's card sees it.
 class Page {
@@ -19,7 +20,10 @@ class Page {
 // journey stopped at a town says why, as one stopped in open country does, and is gone on with from the card.
 describe('a journey stopped at a town on the way', () => {
   it('says why on the town\'s card, and goes on from there', async () => {
-    const g = await Glanced.country('kite'), screen = g.frame().screen;
+    // Told of the country's towns, one to be bound for: the map draws what the company knows (OR-810).
+    const kin = await Glanced.country('kite');
+    Heard.towns(kin.campaign);
+    const g = Glanced.of(kin.s), screen = g.frame().screen;
     const town = screen.region!.areas.find(a => a.kind === 'settlement' && a.here)!;
     const far = [...screen.destinations ?? [], ...screen.roads ?? []].find(d => /^region__s\d+$/.test(d.id)
       && d.id !== town.id)!;

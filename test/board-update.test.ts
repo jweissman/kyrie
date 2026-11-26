@@ -4,6 +4,7 @@ import { Travel } from '../src/session/travel';
 import { BoardField } from '../web/reader/board-field';
 import { BoardModel } from '../web/reader/board/board-model';
 import { Glanced } from './support/glanced';
+import { Heard } from './support/heard';
 
 // The map updated in place at a journey's end, not made again (OR-91's rest: a board made again whole held the page
 // 1.3-1.6 s without a GPU). Each of a1's first journeys, the land the board is given before and after: the same
@@ -14,6 +15,8 @@ import { Glanced } from './support/glanced';
 describe('the map at a journey\'s end', () => {
   it('is updated in place, and draws what a board made again would', async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1']));
+    // Told of the country's towns, to go to one after another: the map draws what the company knows (OR-810).
+    Heard.towns(journey.campaign);
     const land = () => BoardField.land(Glanced.of(journey.session).frame().screen.region!);
     // The country's own towns, gone to one after another (a gate tells of the next country's towns at it: see below).
     const ways = BoardField.land(Glanced.of(journey.session).frame().screen.region!).marks

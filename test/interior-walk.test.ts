@@ -10,6 +10,7 @@ import { Attending } from '../src/ui/attention';
 import type { Lens } from '../src/presentation/glance-types';
 import { Glanced } from './support/glanced';
 import { GeneratedWorld } from './support/generated';
+import { Heard } from './support/heard';
 
 // The interior walk, headless (the owner, 14 November: CN-08, the fast half of the acceptance; the aesthetic line walks
 // it in the browser). In a1's undertown at Millholm: down the churchyard's stair into the crypt, a light, the lenses
@@ -26,6 +27,9 @@ class Walk {
     const s = await DrawnWorld.start('a1', { origin: 'wanderer', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior',
       level: 4 }, { name: 'Odo', raceId: 'human', classId: 'cleric', level: 4 }] }, NodeBundleSource.shared);
     GeneratedWorld.put(s, 's1_u_yard');
+    // Put in the churchyard, never on the green or the road in: told of the country's towns, that the map has a country
+    // to offer at the walk's end, since it draws what the company knows (OR-810).
+    Heard.towns(s.campaign);
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     const lock = 'region__s1_u_crypt_lock';
     c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('state', lock, 'locked') },

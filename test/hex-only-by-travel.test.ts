@@ -1,4 +1,5 @@
 import { Charted } from './support/charted';
+import { Heard } from './support/heard';
 import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -43,8 +44,12 @@ class Walk {
     return out;
   }
   // On by the engine's own travel to the first place known the way to, and looked at again there.
+  // Told of the country's towns first: the map draws what the company knows, and a fresh life knows no further than
+  // the ways from where it stands (OR-810).
   static async onward(j: Journey): Promise<string[]> {
-    const c = j.session.campaign, screen = Charted.screen(c);
+    const c = j.session.campaign;
+    Heard.towns(c);
+    const screen = Charted.screen(c);
     const d = [...screen.destinations ?? [], ...screen.roads ?? []][0];
     expect(d).toBeDefined();
     await Travel.go({ campaign: c, perform: (x: string) => j.session.perform(x) }, d!.id);
