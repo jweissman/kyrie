@@ -264,7 +264,9 @@ export class Journey {
   screen(): Screen {
     const world = this.campaign.world, log = this.campaign.history, b = this.built;
     if (b && b.world === world && b.length === log.length && b.last === log.at(-1)) { return b.screen; }
-    const screen = ScreenModel.build(this.campaign);
+    // Charted (the map's journeys laid, Itineraries.charted): a journey is played as the page plays it, its map at
+    // hand, where an ordinary turn's screen lays only the aim's journey (routes on demand, OR-633).
+    const screen = Itineraries.charted(this.campaign, ScreenModel.build(this.campaign));
     this.built = { world, length: log.length, last: log.at(-1), screen };
     return screen;
   }

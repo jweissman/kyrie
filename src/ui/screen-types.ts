@@ -250,6 +250,10 @@ export interface Screen {
     legs: { way: string; to: string; minutes: number }[]; stops?: string[];
     // Its way leaves the hex the company is in (Passages.leaves): a journey of the map's, never the scene's.
     crosses?: true }[];
+  // In a country drawn in hexes, the map sets out from here (the company out of doors, or in a house of a town): its
+  // journeys are worked out as it opens (Itineraries.charted), the scene having only the aim's, and its row is offered
+  // whether or not any journey is yet laid (DoableJourneys.mapped).
+  overland?: true;
   // The towns the known roads go to besides, which the map and the notes can set out for (not the place's own leads).
   roads?: NonNullable<Screen['destinations']>;
   // The other places of the town the company is in, further than a step (by its square), to walk to directly.

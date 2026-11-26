@@ -1,9 +1,9 @@
+import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
-import { ScreenModel } from '../src/ui/screen-model';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { CreatureStore } from '../src/creature-store';
 import type { World } from '../src/lang/world';
@@ -49,7 +49,8 @@ describe('an origin\'s ending', () => {
     // And the notes have it from the merchant, as said, not as known before the company set out (NAR-12).
     const note = PlayerView.observe(s.campaign).knowledge.find(k => k.id === `region__${keep.id}_named`)!;
     expect([note.source, note.from]).toEqual(['heard', 'Mik, salter']);
-    const screen = ScreenModel.build(s.campaign);
+    // Set out for from the map, whose journeys are laid as it opens (Itineraries.charted).
+    const screen = Charted.screen(s.campaign);
     expect(screen.objectives).toContainEqual(expect.stringContaining(keep.name));
     expect(screen.destinations?.map(d => d.name)).toContain(keep.name);
   }, 120000);

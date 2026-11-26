@@ -46,7 +46,9 @@ export class RunnerOffer {
     const folded = all.filter(o => mapped.has(o.does ?? '')), pack = all.filter(o => packed.has(o.does ?? ''));
     const rest = all.filter(o => !folded.includes(o) && !pack.includes(o));
     const grouped = this.grouped(rows, rest, { lens, talking });
-    const more = { ...folded.length ? { journeys: folded.length } : {}, ...pack.length ? { pack: pack.length } : {} };
+    // The map's journeys are not counted: its row says no number (the owner, 25 November: "Why is the map sending
+    // you a notification?"), and an ordinary turn lays none but the aim's (Itineraries.charted). The pack's are.
+    const more = pack.length ? { pack: pack.length } : {};
     return { offer: { primary, ...grouped, ...Object.keys(more).length ? { more } : {} },
       under: [...under, ...folded, ...pack], journeys: [...grouped.lenses.journeys ?? [], ...folded], pack };
   }

@@ -1,3 +1,4 @@
+import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -7,7 +8,6 @@ import { Itineraries } from '../src/ui/itinerary';
 import { Countries } from '../src/world/countries';
 import { Travel } from '../src/session/travel';
 import { GeneratedWorld } from './support/generated';
-import { ScreenModel } from '../src/ui/screen-model';
 import { Hours } from '../web/reader/hours';
 
 // The way into adventure (Mission 16's Gate B): the first country's towns tell of the authored country beyond it,
@@ -92,7 +92,7 @@ describe('the way into Merrowdale', () => {
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'wren', w.source);
     await GeneratedWorld.travel(s, 'w1');
-    const legs = (ScreenModel.build(s.campaign).destinations ?? []).flatMap(d => d.legs.map(l => l.way));
+    const legs = (Charted.screen(s.campaign).destinations ?? []).flatMap(d => d.legs.map(l => l.way));
     expect([legs.length > 0, legs.some(l => l.includes('{'))]).toEqual([true, false]);
     // The site's own track, where a journey home goes by it, by its name (most now go straight across the country).
     const track = Itineraries.graph(s.campaign).get('region__w1')?.find(w => w.passage.endsWith('w1_track'));

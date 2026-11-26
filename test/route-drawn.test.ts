@@ -1,3 +1,4 @@
+import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -5,7 +6,6 @@ import { Journey } from '../src/session/journey';
 import { JourneyCourse } from '../web/reader/journey-course';
 import { Glanced } from './support/glanced';
 import { Travel } from '../src/session/travel';
-import { ScreenModel } from '../src/ui/screen-model';
 import { Itineraries } from '../src/ui/itinerary';
 import type { Frame } from '../src/creation/protocol';
 import { AutoplayRun } from '../src/autoplay/run';
@@ -18,7 +18,7 @@ describe('a way drawn on the map', () => {
     const j = Journey.of(await DrawnWorld.start('kahitude', { origin: 'debt',
       party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior' }] }, NodeBundleSource.shared));
     await j.play('Tell Tuck');
-    const screen = Glanced.of(j.session).screen, region = screen.region!, plan = screen.destinations?.find(d =>
+    const screen = Glanced.of(j.session).frame().screen, region = screen.region!, plan = screen.destinations?.find(d =>
       (d.stops?.length ?? 0) > 2) ?? screen.roads?.find(d => (d.stops?.length ?? 0) > 2);
     expect(plan).toBeDefined();
     const course = JourneyCourse.planned(screen, plan!.id)!;
@@ -38,7 +38,7 @@ describe('a way drawn on the map', () => {
   it('goes along a road from where it is joined, never back over it', async () => {
     const s = await AutoplayRun.start({ seed: 'a1', origin: 'debt', policy: 'gold', steps: 1,
       protagonist: { name: 'Wenna', raceId: 'human', classId: 'warrior' } });
-    const screen = ScreenModel.build(s.campaign), course = JourneyCourse.planned(screen, 'region__w9')!;
+    const screen = Charted.screen(s.campaign), course = JourneyCourse.planned(screen, 'region__w9')!;
     // Off the road at 109 and along the tower's track a hex at a time to it at 118 (OR-162: it had jumped the nine).
     const off = course.indexOf(109);
     expect([course[off - 1], course.at(-1)]).toEqual([129, 118]);
@@ -50,12 +50,12 @@ describe('a way drawn on the map', () => {
   it('is the way the journey goes, leg by leg and hex by hex, or says why it stopped short', async () => {
     const start = () => DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
       classId: 'warrior' }] }, NodeBundleSource.shared);
-    const first = ScreenModel.build((await start()).campaign);
+    const first = Charted.screen((await start()).campaign);
     const plans = [...first.destinations ?? [], ...first.roads ?? []].filter(d => (d.stops?.length ?? 0) >= 2)
       .slice(0, 6);
     let arrived = 0;
     for (const d of plans) {
-      const s = await start(), before = { screen: ScreenModel.build(s.campaign) } as Frame;
+      const s = await start(), before = { screen: Charted.screen(s.campaign) } as Frame;
       const made = await Travel.go({ campaign: s.campaign, perform: c => s.perform(c) }, d.id);
       const went = made.legs.map(l => /,([^,)]+)\)$/.exec(l.command)?.[1] ?? l.command);
       if (!made.arrived) {
@@ -65,7 +65,7 @@ describe('a way drawn on the map', () => {
       }
       arrived++;
       expect(went).toEqual(d.stops!);
-      const after = { screen: ScreenModel.build(s.campaign), travel: { legs: went.map(id => ({ id })) } } as
+      const after = { screen: Charted.screen(s.campaign), travel: { legs: went.map(id => ({ id })) } } as
         unknown as Frame;
       expect(JourneyCourse.of(before, after)).toEqual(JourneyCourse.planned(before.screen, d.id));
     }
@@ -77,14 +77,14 @@ describe('a way drawn on the map', () => {
   it('lays a hex chosen by the plan the journey goes by, and walks it a hex at a time', async () => {
     const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
       classId: 'warrior' }] }, NodeBundleSource.shared);
-    const before = { screen: ScreenModel.build(s.campaign) } as Frame, land = before.screen.region!.land!;
+    const before = { screen: Charted.screen(s.campaign) } as Frame, land = before.screen.region!.land!;
     const north = land.here! - land.width, to = land.goes![north]!;
     const laid = JourneyCourse.along(before.screen, Itineraries.plan(s.campaign, to)!.legs.map(l => l.to));
     expect(laid).toEqual([land.here!, north]);
     const made = await Travel.go({ campaign: s.campaign, perform: c => s.perform(c) }, to);
     expect(made.arrived).toBe(true);
     const went = made.legs.map(l => ({ id: /,([^,)]+)\)$/.exec(l.command)?.[1] }));
-    const after = { screen: ScreenModel.build(s.campaign), travel: { legs: went } } as unknown as Frame;
+    const after = { screen: Charted.screen(s.campaign), travel: { legs: went } } as unknown as Frame;
     expect(JourneyCourse.of(before, after)).toEqual(laid);
   }, 120000);
 });

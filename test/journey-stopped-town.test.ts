@@ -19,7 +19,7 @@ class Page {
 // journey stopped at a town says why, as one stopped in open country does, and is gone on with from the card.
 describe('a journey stopped at a town on the way', () => {
   it('says why on the town\'s card, and goes on from there', async () => {
-    const g = await Glanced.country('kite'), screen = g.screen;
+    const g = await Glanced.country('kite'), screen = g.frame().screen;
     const town = screen.region!.areas.find(a => a.kind === 'settlement' && a.here)!;
     const far = [...screen.destinations ?? [], ...screen.roads ?? []].find(d => /^region__s\d+$/.test(d.id)
       && d.id !== town.id)!;

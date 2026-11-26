@@ -1303,6 +1303,12 @@
    "pri": "P1",
    "why": "25 Nov: the owner's ruling, a new contract for what the scene offers"
   },
+  "OR-634": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov: OR-633's remainder, the page asking for the map as it raises it; wanted, not a contract broken"
+  },
   "OR-633": {
    "kind": "requirement",
    "was": "defect",

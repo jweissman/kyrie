@@ -222,8 +222,9 @@ export class MenuModel {
     const shown = [...all.slice(0, this.near), ...named ? [named] : []], rest = all.length - shown.length;
     return [...shown.map(d => ({ ...this.journey(d), note: [d.scale, this.by(d), Hours.dark(screen.elapsed, d.minutes)]
       .filter(Boolean).join(' · ') })), ...this.roads(screen, bound, this.near - shown.length),
-      ...rest > 0 ? [{ id: 'view:map', label: rest === 1 ? 'One other place you know, on the map'
-        : `${Words.upper(Words.many(rest, 'other place'))} you know, on the map`, tone: 'way' as const, command: 'view:map' }] : []];
+      // The map's row says no number of places (the owner, 25 November: "Why is the map sending you a notification?").
+      ...rest > 0 ? [{ id: 'view:map', label: rest === 1 ? 'Another place you know, on the map'
+        : 'Other places you know, on the map', tone: 'way' as const, command: 'view:map' }] : []];
   }
   // Where nothing much has been told of yet (a first town), the nearest of the towns the roads go to and the
   // march-stones at their ends, as many as make up the few: the first town had offered nowhere to set out for, though

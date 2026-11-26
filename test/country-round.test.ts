@@ -1,9 +1,9 @@
+import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
-import { ScreenModel } from '../src/ui/screen-model';
 import { GeneratedWorld } from './support/generated';
 
 // What is out in the country round a town, asked at its inn (the owner's own session, 7 November: "It seems galling I
@@ -11,7 +11,7 @@ import { GeneratedWorld } from './support/generated';
 // cave not made out, and a country's eleven sites were heard of only by asking after each by a name nobody had said.
 class Country {
   static marks(s: PlaySession) {
-    const land = ScreenModel.build(s.campaign).region?.land as { marks: { name: string; state: string }[] } | undefined;
+    const land = Charted.screen(s.campaign).region?.land as { marks: { name: string; state: string }[] } | undefined;
     return (land?.marks ?? []).filter(m => m.state !== 'unknown');
   }
 }
@@ -36,7 +36,7 @@ describe('what is out in the country round', () => {
       // And there is a way to set out on toward one, out of doors in the town (the journeys the map offers).
       GeneratedWorld.put(s, 's1_green');
       await s.leg('wait');
-      const dests = (ScreenModel.build(s.campaign).destinations ?? []).map(d => d.name);
+      const dests = (Charted.screen(s.campaign).destinations ?? []).map(d => d.name);
       expect(heard.some(m => dests.some(d => d.includes(m.name)))).toBe(true);
     }
   }, 300000);

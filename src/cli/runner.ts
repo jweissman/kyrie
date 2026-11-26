@@ -27,6 +27,7 @@ import { Promotion } from '../ui/promotion';
 import { RunnerOffer, type Kept } from './runner-offer';
 import { Doable } from '../presentation/doable';
 import { DoableJourneys } from '../presentation/doable-journeys';
+import { Itineraries } from '../ui/itinerary';
 import { RunnerTalks } from './runner-talks';
 import { RunnerEnding } from './runner-ending';
 import type { CampaignEvent } from '../campaign/campaign-types';
@@ -104,7 +105,10 @@ export class Runner {
   // the screen had been built up to five times a turn, most of an act's time). Kept while the world it was built of
   // is the world (a world changed is a new one: an act, or a change made from outside, as a spec's coin).
   // Its rows are the frame's, read by the screen, the glance and the runner's own account alike (see PlayerFrame).
-  private now?: { world: object; frame: PlayerFrame; screen: Screen; glance?: { of: Leaf['glance'] } };
+  // charted: the same turn with the map's journeys laid, worked out only where the map is asked for (its journeys
+  // looked through, or one of them set out on): an ordinary turn's lays only the aim's (Itineraries.charted).
+  private now?: { world: object; frame: PlayerFrame; screen: Screen; glance?: { of: Leaf['glance'] };
+    charted?: { screen: Screen; glance: Leaf['glance'] } };
   // The narrator's leaf the last turn said was told from, for a review of the journey (src/cli/journey-review.ts).
   private leafed?: Leaf;
   get leaf(): Leaf | undefined { return this.leafed; }
@@ -144,6 +148,11 @@ export class Runner {
       ...g?.next ? { next: Runner.next(g.next) } : {},
       ...RunnerAmid.of(c, screen) ? { amid: true as const } : {}, ...this.instruments(screen, turned),
       ...Runner.promised(screen), ...c.running ? {} : Runner.ended(c) };
+  }
+  // Whether the scene itself offers a row doing an act, or by its id (a journey the aim's, laid for the scene).
+  private lays(act: string): boolean {
+    const { offer: o, under } = this.offer(this.standing.screen, this.glanced());
+    return RunnerOffer.flat([...o.primary, ...o.rest, ...under]).some(x => x.id === act || x.does === act);
   }
   private static aims(screen: Screen): Pick<Said, 'aims'> {
     return screen.aims?.length ? { aims: screen.aims.map(a => ({ id: a.id, text: Typography.plain(a.text),
@@ -211,6 +220,13 @@ export class Runner {
     }
     return this.now;
   }
+  // The turn as the map has it: its screen charted, glanced at as the page's map is (see now).
+  private chart(): NonNullable<NonNullable<Runner['now']>['charted']> {
+    const now = this.standing;
+    if (now.charted) { return now.charted; }
+    const screen = Itineraries.charted(this.campaign, now.screen);
+    return now.charted = { screen, glance: Narrator.leaf(this.campaign, screen, this.told).glance };
+  }
   private glanced(): Leaf['glance'] {
     const now = this.standing;
     return (now.glance ??= { of: Narrator.leaf(this.campaign, now.screen, this.told).glance }).of;
@@ -235,7 +251,10 @@ export class Runner {
       return this.fight.choose(asked.act) ? this.went()
         : { error: `not offered in the fight: ${asked.act}${this.fight.whose(asked.act)}` };
     }
-    const screen = this.standing.screen, g = this.glanced(), { offer: o, under } = this.offer(screen, g);
+    // A journey asked for that the scene does not lay is the map's: asked of the turn charted (see chart).
+    const mapped = /^(travel|map):/.test(asked.act) && !this.lays(asked.act) ? this.chart() : undefined;
+    const screen = mapped?.screen ?? this.standing.screen, g = mapped?.glance ?? this.glanced();
+    const { offer: o, under } = this.offer(screen, g);
     // What pulls next is offered too, by its own act.
     // And what is under each person's talk, offered as it is on the page (see RunnerTalks), and under an opener.
     const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
@@ -341,7 +360,7 @@ export class Runner {
         offer: { primary: all.slice(0, 4), rest: all.slice(4) } };
     }
     if (lens === 'journeys') {
-      const every = this.offer(screen, g).journeys;
+      const map = this.chart(), every = this.offer(map.screen, map.glance).journeys;
       const all = [...every.filter(o => o.does === first), ...every.filter(o => o.does !== first)];
       return { turn: this.n, moment: 'inspect', scene: { lines: [], prose: [] },
         offer: { primary: all.slice(0, 4), rest: all.slice(4) } };

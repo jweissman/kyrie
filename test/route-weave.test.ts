@@ -1,8 +1,8 @@
+import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { JourneyCourse } from '../web/reader/journey-course';
-import { ScreenModel } from '../src/ui/screen-model';
 import { Itineraries } from '../src/ui/itinerary';
 
 // The way a journey goes over a country is the way it would go, not a weave (the owner, 11 November: routes on the
@@ -16,13 +16,13 @@ describe('a journey over a country', () => {
   it('keeps to the road along it, not in and out of the wood beside it', async () => {
     const s = await start('kahitude'), plan = Itineraries.plan(s.campaign, 'region__s4')!;
     expect(plan.legs.map(l => l.to).filter(to => /__z\d+_/.test(to))).toEqual([]);
-    const laid = JourneyCourse.along(ScreenModel.build(s.campaign), plan.legs.map(l => l.to))!;
+    const laid = JourneyCourse.along(Charted.screen(s.campaign), plan.legs.map(l => l.to))!;
     expect(laid.length).toBe(new Set(laid).size);
   }, 120000);
   // Every way that does (the way to Coldley went by them until OR-35 laid it straight across the country; the ways
   // into the wild country itself still do).
   it('crosses wild country by its landmarks, each at its own hex, in the order it comes to them', async () => {
-    const s = await start('marrowby'), screen = Itineraries.charted(s.campaign, ScreenModel.build(s.campaign)), marks = screen.region!.land!.marks;
+    const s = await start('marrowby'), screen = Charted.screen(s.campaign), marks = screen.region!.land!.marks;
     const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.mapped ?? []]
       .map(d => Itineraries.plan(s.campaign, d.id)!.legs.map(l => l.to));
     const by = plans.map(stops => stops.flatMap(to => marks.filter(m => m.id === to && /__z\d+_/.test(m.id))
@@ -38,7 +38,7 @@ describe('a journey over a country', () => {
   // the first, the way to Strewnfield from wren's first town went out to the next town and back through its own hex.
   // What is left is a spur: into the town a road out begins at, and out again, a hex or two.
   it('never comes back through the town it set out from, nor doubles back further than a spur', async () => {
-    const s = await start('wren'), screen = ScreenModel.build(s.campaign);
+    const s = await start('wren'), screen = Charted.screen(s.campaign);
     const plans = [...screen.destinations ?? [], ...screen.roads ?? []];
     expect(plans.length).toBeGreaterThan(5);
     for (const d of plans) {

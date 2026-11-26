@@ -23,7 +23,14 @@ export type { Leg } from './known-ways';
 // The way to a known place over ways the company knows: the place asked for, the room the way comes to, its legs in
 // order, and the time they take together; or, where the way there is not known, toward it, as far as the wild country
 // it is said to lie in (`toward` names it).
-export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; minutes: number; toward?: string }
+// beyond: a way known to it that leaves the hex the company is in, its legs not laid: all an ordinary turn's scene
+// needs of the aim's journey across the country, which the map lays when it opens (see aimed).
+export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; minutes: number; toward?: string;
+  beyond?: true }
+
+type Destination = NonNullable<Screen['destinations']>[number];
+// Which places a list of journeys keeps (only), and how each is laid (lay: a plan, where none is said).
+interface Laying { only?: (id: string) => boolean; lay?: (id: string) => Itinerary | undefined }
 
 // The way to somewhere known, over the ways the company knows: those it has walked from, been told of, the country's
 // roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways).
@@ -104,7 +111,7 @@ export class Itineraries {
     for (const area of Spatial.ancestry(entities, destination).slice(1).filter(e => e.space?.kind === 'wilderness')) {
       if (!here || this.within(entities, here, area.id)) { return undefined; }
       const p = this.route(campaign, area.id, true) ?? this.route(campaign, area.id);
-      const name = ObservationText.label(campaign.world, destination);
+      const name = this.label(campaign, destination);
       if (p) { return { ...p, id: destination, name, toward: p.name }; }
     }
     return undefined;
@@ -118,9 +125,11 @@ export class Itineraries {
     const at = KnownWays.firstWithin(tree, entities, destination);
     if (!at) { return undefined; }
     const so = tree.best.get(at)!;
-    return { id: destination, to: at, name: ObservationText.label(world, destination), legs: so.legs,
+    return { id: destination, to: at, name: this.label(campaign, destination), legs: so.legs,
       minutes: so.minutes };
   }
+  // A place by the words the company knows it by.
+  private static label(campaign: Campaign, id: string): string { return ObservationText.label(campaign.world, id); }
   // The nearest way from here to every place the company can reach (see KnownWays.tree).
   private static tree(campaign: Campaign, here: string, clear: boolean, roam: boolean): Tree {
     return KnownWays.tree(campaign, here, { clear, roam });
@@ -140,7 +149,8 @@ export class Itineraries {
   // The places worth setting out for that the company knows the way to and that are more than a step away: the
   // settlements and sites it has been to or been told of, and the edges of the country where a road goes on. These
   // are the leads a place offers to set out for; the towns the known roads go to besides are `roads`.
-  static destinations(campaign: Campaign): Itinerary[] {
+  // Only those `on.only` keeps, each laid by `on.lay` (a plan, unless said otherwise: see aimed).
+  static destinations(campaign: Campaign, on: Laying = {}): Itinerary[] {
     const actor = campaign.playerActor!, world = campaign.world, entities = campaign.module.entities;
     const told = world.relates('leadsTo') ? world.related('leadsTo')
       .filter(r => world.test(ModuleWriter.call('knows', actor, r.args[0]!))).map(r => r.args[1]!) : [];
@@ -153,9 +163,10 @@ export class Itineraries {
     // raiders' hold a widow looks toward, a path's walk into the wood it stands in).
     // Nor is the place the company is inside (Sanhtusrecs, offered from its own long passage: the cold evaluation).
     const ways = world.related('connects');
-    const plans = [...known].filter(id => id !== area?.id && !this.inside(byId, { here, id, ways, entities })
-      && (told.includes(id) || this.worth(byId.get(id))))
-      .flatMap(id => { const p = this.plan(campaign, id); return p && (p.legs.length > 1 || p.toward) ? [p] : []; });
+    const lay = on.lay ?? this.plan.bind(this, campaign);
+    const plans = [...known].filter(id => id !== area?.id && (!on.only || on.only(id))
+      && !this.inside(byId, { here, id, ways, entities }) && (told.includes(id) || this.worth(byId.get(id))))
+      .flatMap(id => { const p = lay(id); return p && (p.legs.length > 1 || p.toward || p.beyond) ? [p] : []; });
     const toward = { ...Undertakings.aimed(campaign), told, visited };
     plans.sort((a, b) => this.rank(byId, toward, a.id) - this.rank(byId, toward, b.id) || a.minutes - b.minutes);
     // A door someone told of and the ruin gone into behind it are one place, not two: the ruin, whose way goes by its
@@ -169,14 +180,15 @@ export class Itineraries {
   // map had said "You know no way there yet" of a town at the end of a road it drew; and it went across country to the
   // hex beside a march-stone, so the country beyond was never drawn: the navigation review). One a single road away
   // too: the map and the notes set out by it. Not leads (but see MenuModel.destinations).
-  static roads(campaign: Campaign, leads: Itinerary[]): Itinerary[] {
+  static roads(campaign: Campaign, leads: Itinerary[], on: Laying = {}): Itinerary[] {
     const byId = this.byId(campaign), here = campaign.world.one('at', campaign.playerActor!);
     const area = here ? this.area(byId, here)?.id : undefined, listed = new Set(leads.map(d => d.id));
     const ends = new Set([...this.graph(campaign).values()].flat()
       .map(w => this.outward(w.to) ? w.to : this.area(byId, w.to)?.id)
       .filter((id): id is string => !!id && id !== area && id !== here && !listed.has(id)
-        && (this.outward(id) || byId.get(id)?.space?.kind === 'settlement')));
-    return [...ends].flatMap(id => { const p = this.plan(campaign, id); return p?.legs.length ? [p] : []; })
+        && (this.outward(id) || byId.get(id)?.space?.kind === 'settlement') && (!on.only || on.only(id))));
+    const lay = on.lay ?? this.plan.bind(this, campaign);
+    return [...ends].flatMap(id => { const p = lay(id); return p?.legs.length || p?.beyond ? [p!] : []; })
       .sort((a, b) => a.minutes - b.minutes);
   }
   // A march-stone, where a road goes on into the country beyond, or the way into one of the country's provinces. No
@@ -188,38 +200,57 @@ export class Itineraries {
   // Where the company could set out for, and the towns its roads go to besides, each leg named as the page names its
   // way and place (the Bushweald play read "By the track to {region__w13}"): what the page is given of them. And the
   // other places of the town it is in, further than a step.
-  // Not every other place the map draws: that is the map's alone, worked out where the map is asked for (see charted).
+  // In a country drawn in hexes, only the aim's journey: the rest, and every other place the map draws, are the
+  // map's alone, worked out where the map is asked for (see charted).
   // Kept from one world to the next while nothing they read has been written, and the company has been where it had
   // been, follows the aim it followed and has the region drawn as it was (see KeptParts).
   static shown(campaign: Campaign, names: Map<string, Entity>, region?: RegionChart) {
     return Costs.time('itinerary', () => this.kept(campaign, { names, region, key: 'itineraries' },
-      this.showing.bind(this, campaign)));
+      this.showing.bind(this, campaign, region)));
   }
-  // What the map alone draws besides (mapped), for a screen the map is asked of: every other place on the company's
-  // land it knows a way to, a plan to each. Worked out only here, where a client asks for the map (the page's frame,
-  // the terminal's travel question, serve's crossings), never for an ordinary turn's scene, which reads none of it:
-  // a screen had planned to every area and mark of the country on every turn, the map open or not (platform-
-  // separation.md's immediate queue, step 3: routes on demand). The screen is as it was, with its mapped.
+  // What the map alone sets out for and draws besides, for a screen the map is asked of: in a country drawn in hexes,
+  // every lead and road the company knows a way to (destinations, roads), a plan to each, where the scene had only the
+  // aim's (see aimed); and every other place on its land it knows a way to (mapped). Worked out only here, where a
+  // client asks for the map (the page as it raises it, the terminal's travel question, serve's crossings, the
+  // runner's journeys), never for an ordinary turn's scene, which reads none of it: a screen had planned to every lead,
+  // road, area and mark of the country on every turn, the map open or not (platform-separation.md's immediate queue,
+  // step 3: routes on demand). The screen is as it was, with these.
   static charted(campaign: Campaign, screen: Screen): Screen {
     if (screen.mapped) { return screen; }
     const kept = this.charts.get(screen);
     if (kept) { return kept; }
-    const listed = this.listed(screen), chart = this.charting.bind(this, campaign, { region: screen.region, listed });
-    // Kept as the journeys are, and while they are the same (what the map lists besides is what they leave out).
-    const at = { region: screen.region, key: 'mapped', also: [...listed].join('\u0000') };
-    const mapped = Costs.time('itinerary', () => campaign.within(() => this.kept(campaign, at, chart)));
-    const out = { ...screen, mapped };
+    const chart = this.charting.bind(this, campaign, screen);
+    const at = { region: screen.region, key: 'charted', also: (screen.around ?? []).map(d => d.id).join('\u0000') };
+    const out = { ...screen, ...Costs.time('itinerary', () => campaign.within(() => this.kept(campaign, at, chart))) };
     this.charts.set(screen, out);
     return out;
   }
   private static readonly charts = new WeakMap<Screen, Screen>();
-  private static charting(campaign: Campaign, on: { region?: RegionChart; listed: Set<string> },
-    names: Map<string, Entity>): NonNullable<Screen['mapped']> {
-    if (!campaign.running || this.standing(campaign).inside) { return []; }
-    return this.mapped(campaign, on.region, on.listed).map(d => this.named(d, names));
+  private static charting(campaign: Campaign, screen: Screen, names: Map<string, Entity>):
+    Pick<Screen, 'destinations' | 'roads' | 'mapped'> {
+    const { at, inside } = this.standing(campaign);
+    if (!campaign.running || inside) { return { mapped: [] }; }
+    // Undrawn, the scene's journeys are all of them already (see showing).
+    const all = this.drawn(screen.region) ? this.lists(campaign, { at, names, leads: this.destinations(campaign) })
+      : { destinations: screen.destinations ?? [], roads: screen.roads ?? [] };
+    const listed = new Set([...all.destinations, ...all.roads, ...screen.around ?? []].map(d => d.id));
+    return { ...all, mapped: this.mapped(campaign, screen.region, listed).map(d => this.named(d, names)) };
   }
-  private static listed(screen: Screen): Set<string> {
-    return new Set([...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? []].map(d => d.id));
+  // A country drawn in hexes, whose journeys across it are the map's (the owner, 25 November).
+  private static drawn(region?: RegionChart): boolean { return !!region?.land?.tracts; }
+  // The leads and the roads as a screen gives them, each saying whether its way leaves the hex (Passages.leaves),
+  // which makes it the map's (DoableJourneys.mapped).
+  private static lists(campaign: Campaign, on: { at: string; names: Map<string, Entity>; leads: Itinerary[];
+    roads?: Itinerary[] }): Pick<Screen, 'destinations' | 'roads'> & { destinations: Destination[]; roads: Destination[] } {
+    const { at, names, leads } = on, leaving = { module: campaign.module, from: at };
+    const roads = on.roads ?? this.roads(campaign, leads);
+    return { destinations: leads.map(d => this.marked(leaving, d, this.scaled(campaign, d, names))),
+      roads: roads.map(d => this.marked(leaving, d, this.named(d, names))) };
+  }
+  // A journey whose legs are not laid (beyond) leaves the hex: the scene knew only that.
+  private static marked(leaving: { module: Campaign['module']; from: string }, d: Itinerary, shown: Destination):
+    Destination {
+    return d.beyond ? { ...shown, crosses: true as const } : Passages.leaving(leaving, shown);
   }
   // A part kept from one world to the next (see shown), worded by the names the page is given; or worked out afresh
   // by other names (names: those asked for, the world's presented where none are).
@@ -233,20 +264,53 @@ export class Itineraries {
       ...VisitedPlaces.of(campaign, actor), at.also ?? ''].join('\u0000');
     return KeptParts.of(world, `${key}:${actor}`, from, () => read(ObservationText.presented(world)));
   }
-  private static showing(campaign: Campaign, names: Map<string, Entity>): Pick<Screen, 'destinations' | 'roads' | 'around'> {
+  // The scene's journeys: the walks about the town, and, in a country not drawn in hexes, every lead and road; in one
+  // drawn, only the journey of the aim followed, the rest the map's (see charted). Of that one, where its way leaves
+  // the hex, only that it does (see aimed): the scene leads to the map with it, and the map lays it.
+  private static showing(campaign: Campaign, region: RegionChart | undefined, names: Map<string, Entity>):
+    Pick<Screen, 'destinations' | 'roads' | 'around' | 'overland'> {
     if (!campaign.running) { return { destinations: [], roads: [], around: [] }; }
     // From an enclosed place, nothing overland: the way out is walked first (CN-02; see Compass). Inside a building
     // the world map had opened, and set out across the country past the site's own ways.
     // But a house of a town, on the ground, is left by its door: a journey from it goes out of doors first, its way out
     // the first leg (OR-151: at Porthalen's customs-house the map drew the country and set out for none of it).
-    const { at, inside } = this.standing(campaign);
-    const leads = inside ? [] : this.destinations(campaign), roads = inside ? [] : this.roads(campaign, leads);
-    const around = this.around(campaign);
-    // Each says whether its way leaves the hex (Passages.leaves), which makes it the map's (DoableJourneys.mapped).
+    const { at, inside } = this.standing(campaign), around = this.around(campaign);
     const leaving = { module: campaign.module, from: at };
-    return { destinations: leads.map(d => Passages.leaving(leaving, this.scaled(campaign, d, names))),
-      roads: roads.map(d => Passages.leaving(leaving, this.named(d, names))),
-      around: around.map(d => Passages.leaving(leaving, this.named(d, names))) };
+    const aim = this.drawn(region) && !inside ? this.aimed(campaign, at) : undefined;
+    const leads = inside ? [] : aim ? this.destinations(campaign, aim) : this.destinations(campaign);
+    const lists = inside ? { destinations: [], roads: [] }
+      : this.lists(campaign, { at, names, leads, ...aim ? { roads: this.roads(campaign, leads, aim) } : {} });
+    return { ...lists, around: around.map(d => Passages.leaving(leaving, this.named(d, names))),
+      ...aim ? { overland: true as const } : {} };
+  }
+  // The journey of the aim followed alone (to a place it names, or a town or site one lies within): planned where its
+  // way stays in the hex, and where it leaves (the place in another hex), only known to be had, its legs not laid,
+  // nor any other journey (platform-separation.md's immediate queue, step 3: the followed aim's route only when
+  // guidance needs it). None where no aim is followed. Not to where a way from here goes already: that way is the
+  // aim's step, as it was.
+  private static aimed(campaign: Campaign, at: string): Laying {
+    const followed = Undertakings.aimed(campaign).followed, byId = this.byId(campaign);
+    const ways = new Set((this.graph(campaign).get(at) ?? []).map(w => w.to));
+    return { only: this.aimsAt.bind(this, { byId, ways, followed }), lay: this.layAimed.bind(this, campaign, at) };
+  }
+  private static aimsAt(on: { byId: Map<string, Entity>; ways: Set<string>; followed: string[] }, id: string): boolean {
+    return !on.ways.has(id) && on.followed.some(p => this.within(on.byId, p, id));
+  }
+  private static layAimed(campaign: Campaign, at: string, id: string): Itinerary | undefined {
+    return Passages.leaves(campaign.module, at, [id]) ? this.reaching(campaign, at, id) : this.plan(campaign, id);
+  }
+  // A journey to a place in another hex, as far as the scene needs it: that a way the company knows goes there or
+  // toward it, as a plan would find (see plan), its legs not laid.
+  private static reaching(campaign: Campaign, here: string, destination: string): Itinerary | undefined {
+    if (!here || here === destination) { return undefined; }
+    // Across the open country toward a place it may strike out for (see roams), a way there is had: the country is
+    // crossed as the company reckons it. Else by the ways it knows, the search roams already reads (see reach): no
+    // other search of the country's ways is made for it (the open country's had been, a third of the turn's routes).
+    const known = this.roams(campaign, destination)
+      || !!KnownWays.firstWithin(this.tree(campaign, here, false, false), this.byId(campaign), destination);
+    const name = this.label(campaign, destination);
+    return known || this.toward(campaign, destination)
+      ? { id: destination, to: destination, name, legs: [], minutes: 0, beyond: true } : undefined;
   }
   // Where the company stands, and whether inside somewhere enclosed that is no house of a town (see showing).
   private static standing(campaign: Campaign): { at: string; inside: boolean } {
@@ -289,7 +353,9 @@ export class Itineraries {
     return campaign.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && e.id !== here
       && e.space.shelter !== 'underground' && Spatial.ancestry(byId, e.id).some(a => a.id === town.id)
       && this.entrance(campaign, byId, e.id))
-      .flatMap(r => { const p = this.route(campaign, r.id, true); return p && p.legs.length > 1 ? [p] : []; })
+      // By the town's own ways, the open country not searched for them: a walk about a town had searched every way of
+      // the country across its open land (roams, the town's rooms having been), most of an ordinary turn's routes.
+      .flatMap(r => { const p = this.route(campaign, r.id, true, false); return p && p.legs.length > 1 ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
   }
   // Of a site standing in the town (the Hall), only the way into it: its inner rooms are gone to from within it (the

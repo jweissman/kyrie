@@ -58,7 +58,9 @@ interface Read { tree: Map<string, Choice>; parents?: Map<string, string>; acts:
 interface Kept { rows: Row[]; at: Omit<Read, 'lens' | 'led' | 'command'>; lensOf: Map<string, Lens> }
 
 export class Doable {
-  private static readonly kept = new WeakMap<object, Kept>();
+  // By the glance and the screen it is read with: one glance is read with a screen charted (the map's journeys laid)
+  // and the same screen as an ordinary turn's (only the aim's), whose rows differ by the map's journeys.
+  private static readonly kept = new WeakMap<object, WeakMap<Screen, Kept>>();
   // The offer's rows, the four first: from the glance and the screen it was drawn for.
   static of(glance: Offered, screen: Screen): Row[] { return this.read(glance, screen).rows; }
   // Any choice of the scene as a row, offered or not (an act the glance leads with that the offer leaves out, an act a
@@ -96,7 +98,7 @@ export class Doable {
   // Every row, an opener's within it after it.
   static flat(rows: readonly Row[]): Row[] { return rows.flatMap(r => [r, ...this.flat(r.opens ?? [])]); }
   private static read(glance: Offered, screen: Screen): Kept {
-    const kept = this.kept.get(glance);
+    const kept = this.kept.get(glance)?.get(screen);
     if (kept) { return kept; }
     const built = SceneModel.build(screen), scene = Attending.place(built), tree = new Map<string, Choice>();
     const parents = new Map<string, string>();
@@ -136,7 +138,9 @@ export class Doable {
     // Engaged, only what answers the threat (OR-163: Engaged).
     const rows = Engaged.rows(DoableJourneys.mapped([...offered, ...journeys], screen, out), screen);
     const read = { rows, at, lensOf };
-    this.kept.set(glance, read);
+    const by = this.kept.get(glance) ?? new WeakMap<Screen, Kept>();
+    by.set(screen, read);
+    this.kept.set(glance, by);
     return read;
   }
   // One act, one row, for every client (OR-462, OR-464): a second row doing what another does is not offered, whether a

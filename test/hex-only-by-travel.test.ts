@@ -1,3 +1,4 @@
+import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -6,7 +7,6 @@ import { PlayerView } from '../src/presentation/player-view';
 import { HexBoundary } from '../src/hex-boundary';
 import { Crossing } from '../src/campaign/crossing';
 import { CrossingRefused } from '../src/campaign/crossing-refused';
-import { ScreenModel } from '../src/ui/screen-model';
 import { Travel } from '../src/session/travel';
 import type { Campaign } from '../src/campaign/campaign';
 
@@ -44,7 +44,7 @@ class Walk {
   }
   // On by the engine's own travel to the first place known the way to, and looked at again there.
   static async onward(j: Journey): Promise<string[]> {
-    const c = j.session.campaign, screen = ScreenModel.build(c);
+    const c = j.session.campaign, screen = Charted.screen(c);
     const d = [...screen.destinations ?? [], ...screen.roads ?? []][0];
     expect(d).toBeDefined();
     await Travel.go({ campaign: c, perform: (x: string) => j.session.perform(x) }, d!.id);

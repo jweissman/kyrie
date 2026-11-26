@@ -83,12 +83,10 @@ export class OfferParity {
     // An act held under an opener (a person's asks under their talk) is offered where the opener is, by the engine's
     // own id: opened, it shows them, as the page's drawer does.
     const openers = new Set(offered.filter(o => o.opens?.length).map(o => o.id));
-    // A journey the engine puts on the map is offered there (the runner's folded journeys, counted in more), never in
-    // the rest.
+    // A journey the engine puts on the map is offered there (the runner's folded journeys), never in the rest; and
+    // uncounted, the map's row saying no number (the owner, 25 November: "Why is the map sending you a notification?").
     const mapped = [...engine].filter(([, e]) => e.map);
-    if (mapped.length !== (said.offer.more?.journeys ?? 0)) {
-      out.add(`map count: engine ${mapped.length}, runner ${said.offer.more?.journeys ?? 0}`);
-    }
+    if (said.offer.more?.journeys !== undefined) { out.add(`map count: runner ${said.offer.more.journeys}`); }
     for (const [act] of mapped) { if (drawn.has(act)) { out.add(`unfolded: ${act}`); } }
     // And what the engine holds in the pack (Row.pack: setting down, giving across) is there, counted, not in the rest
     // (CL-67).

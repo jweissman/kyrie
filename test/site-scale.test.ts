@@ -1,10 +1,10 @@
+import { Charted } from './support/charted';
 import { describe, expect, it } from 'bun:test';
 import { SiteScale } from '../src/ui/site-scale';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { ScreenModel } from '../src/ui/screen-model';
 import type { Entity } from '../src/lang/module';
 import { Spatial } from '../src/lang/spatial';
 
@@ -51,7 +51,7 @@ describe('a site set out for', () => {
     const held = c as unknown as { world: { apply(c: unknown[]): unknown }; commit(x: unknown): void };
     held.commit(held.world.apply(['region__w1_named', 'region__w8_named'].map(fact =>
       ({ kind: 'assert', call: ModuleWriter.call('knows', 'party', fact) }))));
-    const going = ScreenModel.build(c).destinations ?? [];
+    const going = Charted.screen(c).destinations ?? [];
     expect(['region__w1', 'region__w8'].map(id => going.find(d => d.id === id)?.scale))
       .toEqual(['a small place', 'goes down a long way']);
   }, 120000);
@@ -71,7 +71,7 @@ describe('a site set out for', () => {
     await s.leg('go(tower__chapel_arch,tower__chapel)');
     put('region__s1_green');
     await s.leg('wait');
-    const going = ScreenModel.build(c).destinations ?? [];
+    const going = Charted.screen(c).destinations ?? [];
     expect(going.find(d => d.id === 'region__w9')?.scale).toBe('level upon level');
     expect(going.map(d => d.id)).not.toContain('tower__tower');
   }, 120000);
@@ -84,12 +84,12 @@ describe('a site set out for', () => {
     const held = c as unknown as { world: { apply(c: unknown[]): unknown; one(r: string, a: string): string };
       commit(x: unknown): void };
     held.commit(held.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__w8_named') }]));
-    expect((ScreenModel.build(c).destinations ?? []).map(d => d.id)).toContain('region__w8');
+    expect((Charted.screen(c).destinations ?? []).map(d => d.id)).toContain('region__w8');
     const byId = new Map(c.module.entities.map(e => [e.id, e]));
     const within = c.module.entities.find(e => e.space?.kind === 'room' && Spatial.ancestry(byId, e.id)
       .some(a => a.id === 'region__w8_site'))!;
     held.commit(held.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', held.world.one('at', 'party')) },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', within.id) }]));
-    expect((ScreenModel.build(c).destinations ?? []).map(d => d.id)).not.toContain('region__w8');
+    expect((Charted.screen(c).destinations ?? []).map(d => d.id)).not.toContain('region__w8');
   }, 120000);
 });

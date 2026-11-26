@@ -46,10 +46,14 @@ export class DoableJourneys {
     // journey's own words, which the map says.
     const set = marked.flatMap((r, i) => r.chart && !going.has(`travel:${r.chart}`)
       ? [{ id: `travel:${r.chart}`, label: rows[i]!.called ?? rows[i]!.label, does: `travel:${r.chart}`,
-        witnesses: r.witnesses, map: true as const, ...r.minutes ? { minutes: r.minutes } : {} }] : []);
+        witnesses: r.witnesses, map: true as const, ...rows[i]!.minutes ? { minutes: rows[i]!.minutes } : {} }] : []);
     // And the map itself, where any journey is set out on from it, but underground (MenuModel.country, the page's
     // own row till now: the parity measure's page only, MT-18), the runner's journeys and serve's map alike.
-    const all = [...marked, ...set], map = drawn && !screen.place.underground && all.some(r => r.map || r.chart);
+    // Where the map sets out from here, it is offered whatever is yet laid (Screen.overland): the scene lays only the
+    // aim's journey, the rest the map's as it opens (routes on demand). Its row says no number of journeys: a count on
+    // the map's row was a notification (the owner, 25 November: "Why is the map sending you a notification?").
+    const all = [...marked, ...set], map = drawn && !screen.place.underground
+      && (!!screen.overland || all.some(r => r.map || r.chart));
     return map ? [...all, { id: 'view:map', label: 'Open the world map', does: 'view:map', witnesses: [] }] : all;
   }
   // A row the four lead with across the country, as opening the map at where it goes: by the map's own id where its
@@ -66,7 +70,10 @@ export class DoableJourneys {
     // Said as what it does: the way leaves the hex, so the step is opening the map, gold as the aim's step is (the
     // owner, 25 November: ways to another hex appear only on the map; one act had carried a company from a town
     // across several hexes without the map opened).
-    return { ...r, id: this.id(r.id), does: `view:map:${to}`, chart: to, label: DoableJourneys.open,
+    // Opening the map takes no time: the journey's minutes are its own row's, set out on from the map.
+    const opening = { ...r };
+    delete opening.minutes;
+    return { ...opening, id: this.id(r.id), does: `view:map:${to}`, chart: to, label: DoableJourneys.open,
       called: DoableJourneys.open };
   }
   // Whether a journey leaves the hex the company is in: not one into a town a way from here walks into without

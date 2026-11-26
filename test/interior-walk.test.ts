@@ -1,9 +1,10 @@
+import { Charted } from './support/charted';
+import { Doable } from '../src/presentation/doable';
 import { describe, expect, it } from 'bun:test';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Narrator } from '../src/presentation/narrator';
-import { ScreenModel } from '../src/ui/screen-model';
 import { SceneModel } from '../src/ui/scene';
 import { Attending } from '../src/ui/attention';
 import type { Lens } from '../src/presentation/glance-types';
@@ -39,7 +40,7 @@ class Walk {
   }
   // After something done outside the glance's own telling (a fight), the place drawn again.
   static look(g: Glanced) {
-    g.screen = ScreenModel.build(g.campaign);
+    g.screen = Charted.screen(g.campaign);
     g.leaf = Narrator.leaf(g.campaign, g.screen);
   }
 }
@@ -99,7 +100,9 @@ describe('the interior walk', () => {
     expect(g.screen.place.id).toBe('region__s1_u_yard');
     expect(g.glance.enclosed).toBeUndefined();
     expect(clock()).not.toEqual(was);
-    // And the town again, where the country is offered once more.
-    expect([...g.screen.destinations ?? [], ...g.screen.roads ?? []].length).toBeGreaterThan(0);
+    // And the town again, where the country is offered once more: by the map, whose journeys it lays as it opens.
+    const map = g.frame().screen;
+    expect(Doable.of(g.glance, g.screen).some(r => r.id === 'view:map')).toBe(true);
+    expect([...map.destinations ?? [], ...map.roads ?? []].length).toBeGreaterThan(0);
   }, 120000);
 });
