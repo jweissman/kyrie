@@ -2,6 +2,9 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { KnowledgeDoor } from '../../scripts/knowledge-door';
 import type { Screen } from '../../src/ui/screen-types';
+import { WorldAssembler } from '../../src/world/world-assembler';
+import { RegionRoads } from '../../src/world/region-roads';
+import { RegionGeography } from '../../src/world/region-geography';
 
 // The map draws the character's knowledge, not the world's truth (OR-741's first slice, ways and destinations; the
 // owner's playtest, 25 November: "The world map is still quite chaotic; things were unfolding that were nowhere near
@@ -65,6 +68,28 @@ describe('a fresh life\'s map', () => {
     expect(region.areas.map(a => a.id).sort()).toEqual(['t__ashby', 't__calder', 't__hythe']);
     expect(region.edges.map(e => [e.from, e.to].sort().join('–')).sort()).toEqual(['t__ashby–t__calder',
       't__ashby–t__hythe']);
+  });
+});
+
+// A road is named by what is known of it: a road named for the towns at its ends is seen by its way and its ground
+// until the company stands on it and reads its milestone ("To the road between Mistshaw and Millholm" had named, from
+// Millholm, a town nobody had told of: the lead's review of OR-810). Iscoed's and a1's roads, as Kyr.
+describe('a road between two towns', () => {
+  it('is seen by its way and ground, naming neither town, until its milestone is read', () => {
+    const seen = /^the (east-west|north-south|north-east|north-west) road over the \w+$/;
+    let roads = 0;
+    for (const seed of ['iscoed', 'a1']) {
+      const region = WorldAssembler.region(seed, [0, 0]), kyr = RegionRoads.lines(region).join('\n');
+      for (const r of RegionGeography.roads(region).filter(x => !x.form)) {
+        const room = new RegExp(`Place ${r.way} "[^"]*" is room within ${r.land} at 1, 1 seen as "([^"]*)" until ${r.way}_named\\.`)
+          .exec(kyr);
+        expect([r.way, room?.[1]]).toEqual([r.way, expect.stringMatching(seen)]);
+        expect(kyr).toContain(`Observe ${r.way}_named_stone at ${r.way} as reading`);
+        expect(kyr).toContain(`Initially Assert leadsTo(${r.way}_named, ${r.to.id}).`);
+        roads++;
+      }
+    }
+    expect(roads).toBeGreaterThan(3);
   });
 });
 
