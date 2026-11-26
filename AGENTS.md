@@ -250,7 +250,7 @@ this help the player forget the interface and become interested in what happens 
   metadata and tables) and `scenarios/` (specific adventures and stories), with a small global part for rule modules
   and catalogs. It is researched before anything moves (doc/architecture/mission-22-beta/data-layout.md).
 - **Orsino:**
-  - `data/catalog/orsino/` is generated (`bun bin/orsino-registry.ts catalog`);
+  - `data/catalog/orsino/` is generated (`bin/kyrie orsino catalog`);
   - a hand entry may replace a generated one only by naming the same `source.orsino`;
   - the coverage report is generated (`report`) and a spec fails when it is stale.
 - **Handbooks** (PHB, DMG, MM) are generated audit instruments. Run `bin/kyrie handbook` after catalog or rule edits.
@@ -269,7 +269,9 @@ this help the player forget the interface and become interested in what happens 
   without assets/. In a full worktree: `KYRIE_IMAGES=1 bun test $(bun scripts/test-lane.ts images)`.
 - **Landing:** `scripts/landing/land.sh <sha>` (an explicit sha, never HEAD) rebases, gates, pushes, watches CI and
   fast-forwards the owner. It changes the sha, so never wait on the old id. Batch landings: each push cancels main's
-  CI, and Pages deploys only from a green run. Run `bun run test:small` before landing prose. `scripts/landing/full.sh`
+  CI, and Pages deploys only from a green run. Whatever builders have ready is stacked as atomic commits, gated once
+  and pushed once (the owner, 26 November); on red, the failing spec or a bisect names the commit, which is reverted
+  alone. Run `bun run test:small` before landing prose. `scripts/landing/full.sh`
   runs the whole suite first.
 - **Gates:** a gate is the runner's exit status, read in its own call before committing; never a grep for "N fail".
   Guard spec paths (`test -n "$f" &&`): a bare `bun test` is the whole suite. Check a spec name is free before writing
@@ -277,8 +279,9 @@ this help the player forget the interface and become interested in what happens 
 - **Inner loop:** `bun run check:fast` (~30 s), `bun run test:small` and the specs being fixed. **No long tests on
   this machine** (the owner, 25 November): the changed specs, the canary, the world gate, the full suite, browser runs
   and tours are CI's load. Land small and often; a red main is mended or reverted at once. Use `gh run watch --interval 60`, one at a time.
-- **Machine load:** three agents besides the lead, one each for Game, World and Maturity, running as often as the
-  machine allows (the owner, 25 November). WSL has 19 GB: every heavy run (a suite, a world walk, the world gate) goes
+- **Machine load:** at most two subagents at once, cold-play agents included (the owner, 26 November, superseding
+  three besides the lead). The first slot goes to the critical path (the frame tree); the other rotates among World,
+  Game and cold play. WSL has 19 GB: every heavy run (a suite, a world walk, the world gate) goes
   through `/var/tmp/kyrie/tools/heavy.sh`, which takes the machine's lock and holds it under a memory ceiling, so a
   runaway is killed rather than WSL (it hung twice on 25 November). No edits in a tree while its suite runs; no poll
   loops; never `pkill -f` a pattern that is in the command itself. A worktree is removed once its branch lands.
