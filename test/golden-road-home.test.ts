@@ -13,11 +13,13 @@ import { AsMeant } from './support/as-meant';
 // account of it (GR-03). Each turn as the recording has it, by its step.
 class Route {
   // after: where the world now asks more of the run than it did, the acts it asks, played after the recording's line
-  // (by its number, from one), as the run's player would have played them.
-  static async played(as: string, file: string, upto: number, after: Record<number, string[]> = {}):
+  // (by its number, from one), as the run's player would have played them. instead: where the protagonist now sets
+  // out otherwise than the run's did, the act the run's player would have played in place of the recording's line.
+  static async played(as: string, file: string, upto: number,
+    { after = {}, instead = {} }: { after?: Record<number, string[]>; instead?: Record<number, string> } = {}):
     Promise<{ at: Said[]; c: Campaign }> {
     const lines = readFileSync(`doc/architecture/mission-22/s3-0/${file}`, 'utf8').split('\n').filter(Boolean)
-      .slice(0, upto).flatMap((line, i) => [line, ...after[i + 1] ?? []]);
+      .slice(0, upto).flatMap((line, i) => [instead[i + 1] ?? line, ...after[i + 1] ?? []]);
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
     const r = new Runner(journey.session), at: Said[] = [];
     for (const line of lines) {
@@ -61,7 +63,7 @@ describe('the road home, on the warrior\'s route', () => {
   // had (the same line again), and comes to the bridge weary as before.
   beforeAll(async () => {
     ({ at } = await Route.played('human/warrior/Wenna', 'warrior-lines.txt', 52,
-      { 50: [JSON.stringify({ act: 'travel:region__s1' })] }));
+      { after: { 50: [JSON.stringify({ act: 'travel:region__s1' })] } }));
   }, 180000);
   it('leads out of the Wardens\' gatehouse toward the reeve, and to her at the landing', () => {
     // Step 48, the claim followed in the gatehouse: the way out to the sea-bank, gold on the page, is led.
@@ -89,7 +91,15 @@ describe('the road home, on the warrior\'s route', () => {
 });
 describe('the road home, on the mage\'s route', () => {
   let at: Said[] = [], c: Campaign;
-  beforeAll(async () => { ({ at, c } = await Route.played('elf/mage/Ilse/scholar', 'mage-lines.txt', 51)); }, 180000);
+  // Ilse is a diviner, her first-level spells drawn by her own seed, each spell ranked by its own hash
+  // (SpellSelection.ranked). Her one pick of divination was Second Sight until Comprehend Languages came into the
+  // catalog (b40e30950, OR-1099), the other spell of the school, which wins that draw; every other spell she knows is
+  // as it was. Her step 33 prepares Siphon Life in place of her divination, which is Comprehend Languages now.
+  const prepared = 'prepare_spell(region__member_party_1,siphon_life,comprehend_languages,circle_1)';
+  beforeAll(async () => {
+    ({ at, c } = await Route.played('elf/mage/Ilse/scholar', 'mage-lines.txt', 51,
+      { instead: { 33: JSON.stringify({ act: prepared }) } }));
+  }, 180000);
   it('says why the journey home stopped short', () => {
     expect([at[49]!.at, at[49]!.scene.lines]).toEqual(['region__s5_s2_way',
       expect.arrayContaining(['Night has come on'])]);
