@@ -118,7 +118,8 @@ describe('a way across country, told as it goes', () => {
     const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply(s.campaign.world.related('tolls')
       .map(r => ({ kind: 'retract', call: { kind: 'call', name: 'tolls', args: r.args } }))));
-    const out = await go(/^Take the road to the road between/);
+    // A road between two towns is seen by its way and ground until its milestone is read (OR-810).
+    const out = await go(/^Take the road to the (road between|[\w-]+ road over)/);
     const kinds = (out.voiced ?? []).map(v => v.kind);
     expect(kinds).toContain('journey-depart');
     expect(kinds).toContain('journey-land');
