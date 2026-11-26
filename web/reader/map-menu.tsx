@@ -54,6 +54,11 @@ export class MapMenu {
     return <li><ChoiceRow.Button className={`led-act put-away${held ? ' held' : ''}`} data={{ action: 'put-away-map' }}
       onClick={put} {...tone} label={held ? 'Something is here: put away the map' : 'Put away the map'} /></li>;
   }
+  // A place named within a sentence: its own name as it is, an article leading it lowered ("Travel to the way into
+  // Tolleth", not "Travel to The way into Tolleth"; the card's title begins with a capital as a heading does).
+  static within(name: string): string {
+    return Words.upper(name).replace(/^(The|A|An) /, m => m.toLowerCase());
+  }
   // What a place viewed from the map's rows is chosen as: the place itself, so that the card plays the engine's row for
   // it (MapView.way); the board rings where it stands (MapView.shown). Chosen as the hex it stands in, the card had
   // set out for that hex (OR-840).
@@ -125,7 +130,7 @@ export class MapMenu {
         {go && <li><ChoiceRow.Button className={`led-act rc-go${aimed ? ' aimed' : ''}`}
           data={{ action: 'set-out', choice: go.id }} act={go.id} onClick={() => app.choose(go)}
           {...go ? MapMenu.gold(app, screen, go.id) : { plain: 'neutral' as const }}
-          label={Typography.curl(`Travel to ${Words.upper(named ?? go.label)}`)}
+          label={Typography.curl(`Travel to ${MapMenu.within(named ?? go.label)}`)}
           aside={way?.d || way?.minutes ? `${aimed ? 'your aim · ' : ''}${Words.span(way.d?.minutes ?? way.minutes!)}`
             : 'across the country'} /></li>}
         {/* Each in the engine's words (MapRows), or, a place chosen on the map, viewing another (a gesture). */}
@@ -134,7 +139,7 @@ export class MapMenu {
           {...view && !r.close ? {} : { act: r.c.command }}
           onClick={() => (view && !r.close ? view(MapMenu.viewed(r)) : app.choose(r.c))}
           {...MapMenu.marked(r.leaves, gilded)}
-          label={<>{Typography.curl(view && !r.close ? `View ${Words.upper(r.name)}` : r.c.label)}{PlaceFacets.aspects(r.leaves)
+          label={<>{Typography.curl(view && !r.close ? `View ${MapMenu.within(r.name)}` : r.c.label)}{PlaceFacets.aspects(r.leaves)
             .includes('companionship') && <Glyphs.View id="companion" className="led-icon" label="someone who might join you" />}</>}
           {...r.minutes ? { aside: Words.span(r.minutes) } : {}} /></li>)}
         {/* The rest a page at a time, every place reached by keys (OR-152). */}
