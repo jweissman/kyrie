@@ -654,7 +654,7 @@ Also kept, without comment: swappable, improvable, learnable, skillOpen, featOpe
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 6 | 22 | 2 | 0 | 2 | 10 |
+| 6 | 21 | 2 | 0 | 2 | 10 |
 
 #### restsOn
 
@@ -680,9 +680,9 @@ How much a work that reads its reader back (a Manual) raises a quality, outside 
 
 One of the player's company who is not the one who plays: a fellow, a recruit, a hireling (kept by the engine). An authored line given to whoever of the company qualifies binds a companion by it, never a slot of a ready-made party: Rule … when memberOf(?m, party) and companion(?m) and awake(?m) and brings(?m, lore) says "{?m} …".
 
-#### fallen, slain, levelDrained, needsCare, canCast, treatable
+#### fallen, levelDrained, needsCare, canCast, treatable
 
-*Kyr · relation(member); relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.fallen`
+*Kyr · relation(member); relation(member); relation(member); relation(member, ability); relation(member, ability)* · `rule:care.fallen`
 
 One who falls lies senseless (fallen) until a rest, when they come round or die where they fell (slain).
 
@@ -864,11 +864,11 @@ Six hours and a ration, somewhere safe; and there is no ration left.
 
 ### Bodies, places, time and the shared catalog
 
-Also kept, without comment: memberOf, awake, itemKind, ownedItem, knows, hostile, matterOpen, matterDone, at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, pronouns, matterSince, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
+Also kept, without comment: memberOf, awake, slain, itemKind, ownedItem, knows, hostile, matterOpen, matterDone, at, able, dead, distinct, closed, indoors, settled, peaceable, routed, dark, witnessedAttack, refusesService, capable, brings, serves, unlit, company, pronouns, matterSince, quantity, watch, encounterXp, untilLight, untilMorning, untilDark, untilTurn.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 28 | 59 | 18 | 5 | 5 | 9 |
+| 28 | 60 | 18 | 5 | 5 | 9 |
 
 #### member, item, itemkind, fact
 
@@ -1966,7 +1966,7 @@ A recipe nobody has worked out yet is `undiscovered`: it cannot be made until th
 
 Steeped, boiled down and strained, the two are one dose that does what both would, and more: a mender's work, and it can spoil.
 
-> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (undiscovered(mk_recipe))) or (knowsRecipe(actor, mk_recipe); remedy(mk_recipe); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (undiscovered(mk_recipe))) or (knowsRecipe(actor, mk_recipe); remedy(mk_recipe); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind); distinct(mk_first, mk_second)
 
 > Then: Assert usesUp(actor, mk_first_kind). Assert usesUp(actor, mk_second_kind). Assert handed(mk_made, actor).
 
@@ -1980,7 +1980,7 @@ Steeped, boiled down and strained, the two are one dose that does what both woul
 
 Plain work, quickly done.
 
-> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (undiscovered(mk_recipe))) or (knowsRecipe(actor, mk_recipe); not (remedy(mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); not (undiscovered(mk_recipe))) or (knowsRecipe(actor, mk_recipe); not (remedy(mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); makes(mk_recipe, mk_made); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind); distinct(mk_first, mk_second)
 
 > Then: Assert usesUp(actor, mk_first_kind). Assert usesUp(actor, mk_second_kind). Assert handed(mk_made, actor).
 
@@ -1994,7 +1994,7 @@ Plain work, quickly done.
 
 Two things steeped, ground or bound together to see what they do: the way, if there is one, is learned.
 
-> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); undiscovered(mk_recipe); not (knowsRecipe(actor, mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind)
+> Needs: able(actor); memberOf(mk_maker, actor); awake(mk_maker); not (benighted(actor)); undiscovered(mk_recipe); not (knowsRecipe(actor, mk_recipe)); takes(mk_recipe, mk_first_kind); takesWith(mk_recipe, mk_second_kind); ownedItem(mk_first, mk_maker); itemKind(mk_first, mk_first_kind); ownedItem(mk_second, mk_maker); itemKind(mk_second, mk_second_kind); distinct(mk_first, mk_second)
 
 > Then: Assert knowsRecipe(actor, mk_recipe).
 
@@ -2264,7 +2264,7 @@ Also kept, without comment: acceptsEscort, dismissed, thanks.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 24 | 3 | 0 | 5 | 8 |
+| 0 | 25 | 3 | 1 | 5 | 8 |
 
 #### freedBy, home, cameHome, grateful
 
@@ -2356,6 +2356,12 @@ They come with you from now on: they fight beside you, and what they can do, you
 
 > Then: Decrease quantity(actor, gold) by hire(recruit). Retract willing(recruit, actor). Retract at(recruit, site). Assert travelsWith(recruit, actor).
 
+#### lostRetainer
+
+*Kyr · query(r: group)* · `rule:world_people.lostRetainer`
+
+The one order there is, given to whoever has joined the company: stay here (they wait where they are, and are theirs again, no longer the company's members: Membership.depart), and come on (they are the company's again, with no hire to pay twice). What they do meanwhile is their own. One who joined and is dead is given no order (OR-684: "Ask Ellyjobell to stay here" after she died and was buried).
+
 #### hold here
 
 *Kyr · action (group, group, place)* · `rule:world_people.hold_here`
@@ -2364,11 +2370,9 @@ They come with you from now on: they fight beside you, and what they can do, you
 - Takes: 10 minutes
 - Costs: 1
 
-The one order there is, given to whoever has joined the company: stay here (they wait where they are, and are theirs again, no longer the company's members: Membership.depart), and come on (they are the company's again, with no hire to pay twice). What they do meanwhile is their own.
-
 They stay where they are, and wait for you.
 
-> Needs: able(actor); company(actor); at(actor, site); travelsWith(retainer, actor); distinct(actor, retainer)
+> Needs: able(actor); company(actor); at(actor, site); travelsWith(retainer, actor); distinct(actor, retainer); not (lostRetainer(retainer))
 
 > Then: Retract travelsWith(retainer, actor). Assert waitsHere(retainer, actor).
 
@@ -2461,6 +2465,12 @@ Go over and speak to them.
 > Needs: able(actor); at(actor, site); addressed(person, actor)
 
 > Then: Retract addressed(person, actor).
+
+#### asks
+
+*Kyr · relation(person: group, company: group)* · `rule:world_people.asks`
+
+Someone who has put a question to the company that it has not yet answered (src/campaign/put-questions.ts): a question put once, that is answered (Topic … answering), asks it until an answer is given. A word said to them that reads it (an Action with their Speaker that Requires asks(them, actor)) answers it too, however it goes.
 
 #### conversation_ends
 
@@ -3050,6 +3060,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > A causeway dries for three hours at noon and a lighthouse stands at the end of it. You are going to cross, because the road you are on goes that way, and because you were told you could be back by two. Choose three companions, and decide what you carry.
+
+### The Calf in the Tail-Race
+
+*Kyr* · `campaign:tailrace`
+
+- Regions and sites: tailrace
+- Kits placed: —
+
+> A whale calf is wedged in the tail-race of Tolt's tide-mill, and the Rì's gauger is coming with a copper to boil it. The year's spring tide tops on the third night, and its mother is waiting past the bar.
 
 ### Tallow Deep
 

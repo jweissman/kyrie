@@ -5,7 +5,7 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 61 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 46 pass in structure
+**Spells with an SRD counterpart (119 of 286 catalog spells): 49 pass in structure
 (level, school), 37 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
 target, duration), 36 proved in play identity.** Creatures with one (79):
 8 in structure (Hit
@@ -18,7 +18,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 9 | armour 10 | attacks 27 | hit 13 | defences 5 | specials 2 | saves 8 | of 79 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 57 | school 84 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
+| spells, field exact or converted | level 60 | school 84 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
 
 ## Creatures, most met first
 
@@ -134,11 +134,11 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | control_undead | control-undead | S✗ R✗ I– | ✗ 6 → 7 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ · → yes | ✗ all → several | ✗ 3 rounds → long |
 | create_darkness | darkness | S✗ R✗ I– | ✓ | ✗ · → evocation | – | – | ✗ dexterity negates → · | ✗ 18 → · | ✓ | – | ✗ all → one | ✗ 3 rounds → long |
 | cure | cure-light-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
-| cure_critical | cure-critical-wounds | S✗ R✓ I✓ | ✗ 6 → 4 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure_critical | cure-critical-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
 | cure_disease | remove-disease | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 42) | ≈ harmless: none is made (srd-proving-cases.md, case 42) | ✓ | – | ✓ | ✓ |
 | cure_minor | cure-minor-wounds | S✓ R✗ I– | ✓ | ✓ | ✗ 1/1/1/1 → · | – | ✗ · → wisdom half | ✗ · → 13 | ✓ | – | ✓ | ✓ |
-| cure_moderate | cure-moderate-wounds | S✗ R✓ I✓ | ✗ 3 → 2 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
-| cure_serious | cure-serious-wounds | S✗ R✓ I✓ | ✗ 4 → 3 | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure_moderate | cure-moderate-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure_serious | cure-serious-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
 | curse | bestow-curse | S✗ R✗ I– | ✗ 0 → 3 | ✗ · → necromancy | – | – | ✓ | ✗ 15 → 16 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
 | dancing_lights | dancing-lights | S✗ R✗ I– | ✓ | ✗ illusion → evocation | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | – | ✗ all → burst | ✗ 3 rounds → long |
 | daylight | daylight | S✗ R✗ I– | ✗ 4 → 3 | ✗ · → evocation | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ wisdom half → · | ✗ 15 → · | ✗ none → melee touch | – | ✗ all → one | ✗ instant → long |
