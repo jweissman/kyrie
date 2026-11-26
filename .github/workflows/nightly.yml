@@ -1,0 +1,270 @@
+# The night's acceptance funnel (the owner, 26 November: "nightly could transform into something more like an
+# acceptable funnel: run quality/quantity, any ratchets or other playgates, do several simulated runs of tests with
+# different strategies, measure values from that again and make sure things look right"). ci.yml keeps what a push
+# must pass, quickly; this keeps what takes long or measures rather than checks, in four stages, each read in the
+# funnel's summary and the README's nightly badge:
+#   1. the whole suite, sixteen shards (the push lane and the slow files besides);
+#   2. the gates: the experience gate (scripts/quality: its ratchets and the performance measures), the world gate
+#      (scripts/quantity), the Kyr lint over every campaign and three drawn worlds;
+#   3. simulated play: the autoplay laboratory's players of every temper over generated worlds, invariants at every
+#      step (scripts/autoplay.ts), and the experiential matrix's three players over the calling × ancestry grid
+#      (scripts/matrix-walk.ts); evidence until a night has seen them green, then gates;
+#   4. through the page: the long descents, the browser specs and the reference hour (its pictures kept).
+# Every job runs every night (none waits on another), so a red one never hides what the others would have said.
+name: Nightly
+on:
+  schedule: [{ cron: '0 8 * * *' }]
+  workflow_dispatch:
+permissions: { contents: read }
+concurrency: { group: "nightly-${{ github.ref }}", cancel-in-progress: true }
+defaults:
+  run: { working-directory: kyrie }
+jobs:
+  # 1. The whole suite: sixteen shards balanced by the files' kept times (test/timings.json).
+  suite:
+    name: "1 · suite ${{ matrix.shard }}/16"
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix: { shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - id: orsino
+        run: echo "revision=$(jq -r .source.revision data/sources/orsino/registry.json)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with: { repository: jweissman/orsino, ref: "${{ steps.orsino.outputs.revision }}", path: orsino }
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store across runs, as ci.yml keeps it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - name: Run tests
+        run: |
+          # Quarantined specs (test/quarantine.json) are in neither lane; quarantine.yml runs them, optionally.
+          files=$(bun scripts/test-lane.ts all | tr '\n' ' ')
+          test -n "$files" || { echo "the whole lane is empty"; exit 1; }
+          bun test --parallel --timeout=30000 --shard=${{ matrix.shard }}/16 --timings=test/timings.json --reporter=junit --reporter-outfile=junit.xml $files
+      - name: Test summary
+        if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "Suite, shard ${{ matrix.shard }} of 16"
+      # Kept, so that the files' times can be read back into test/timings.json (scripts/timings-from-ci.ts).
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: "junit-shard-${{ matrix.shard }}", path: kyrie/junit.xml, retention-days: 14, if-no-files-found: ignore }
+  # 2. The experience gate (scripts/quality): its numbers held by ratchets, the performance ones among them (the start
+  # to the first frame, the turn, the decision and the journey leg, by median and p95, from one replay of the golden
+  # walk). Its table is the job's summary, and its readings a line of the log that `bun run quality --update
+  # --from=<run id>` writes into the ci baseline.
+  quality:
+    name: "2 · quality (the experience gate)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions: { contents: read, actions: read }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      - run: bun run quality
+        env: { GH_TOKEN: "${{ github.token }}" }
+  # The world gate (scripts/quantity): combat density and fairness, the economy, Atlas density, reach, situations,
+  # errands, the first dungeon and stranded content, each in its band or under its ratchet (AGENTS.md: a band passes
+  # because the world is right, never by widening it). Run only on a builder's machine until 26 November.
+  quantity:
+    name: "2 · quantity (the world gate)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store across runs, as ci.yml keeps it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - run: bun run quantity
+  # The Kyr lint: every campaign held to errors and recommended content to warnings too; the drawn worlds a1, iscoed
+  # and kite held to errors, their warnings told in the log.
+  kyr-lint:
+    name: "2 · kyr lint, campaigns and drawn worlds"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store across runs, as ci.yml keeps it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - run: bin/kyrie lint
+      - if: always()
+        run: bin/kyrie lint --world a1 --world iscoed --world kite
+  # 3. Simulated play: players of every temper through the game's own offered commands and journeys, every step held
+  # to what play must keep true; a failure is written with what makes it again. Evidence until a night has seen it
+  # green (continue-on-error), then a gate.
+  play:
+    name: "3 · simulated players (autoplay and the matrix)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store across runs, as ci.yml keeps it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - name: The autoplay laboratory
+        run: bun scripts/autoplay.ts --seeds a1,kite,wren --policies mixed,fight --steps 150 --out ${{ runner.temp }}/autoplay
+      - name: The experiential matrix
+        if: always()
+        run: bun scripts/matrix-walk.ts --seed a1 --steps 60
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: autoplay, path: "${{ runner.temp }}/autoplay", if-no-files-found: ignore }
+  # 4. Through the page and the long walks.
+  long:
+    name: "4 · long descents"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store across runs, as ci.yml keeps it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - run: bun test test/descent.test.ts test/all-in-one-world.test.ts --reporter=junit --reporter-outfile=junit.xml
+        env: { KYRIE_LONG: "1" }
+      - if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
+  # Three shards since 19 November: each of two had come to thirty minutes, the second cut off at its limit.
+  browser:
+    name: "4 · browser specs ${{ matrix.shard }}/3"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3] } }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store across runs, as ci.yml keeps it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - run: bunx playwright-core install --with-deps chromium
+      - run: bun test --shard=${{ matrix.shard }}/3 $(bun scripts/test-lane.ts browser) --reporter=junit --reporter-outfile=junit.xml
+        env: { KYRIE_BROWSER: "1" }
+      - if: always()
+        run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 3" --none-skipped
+  # The reference first hour played through the page by its leads alone, a picture of every step kept as the run's
+  # artifact (test/reference-hour.test.ts): evidence of where the page stops leading, read by a person, not a gate.
+  tour:
+    name: "4 · reference hour, through the page"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: kyrie
+          sparse-checkout: |
+            /*
+            !/assets/
+          sparse-checkout-cone-mode: false
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version: 1.4.3 }
+      - run: bun install --frozen-lockfile
+      # The parse store across runs, as ci.yml keeps it.
+      - uses: actions/cache@v4
+        with:
+          path: kyrie/node_modules/.cache/kyrie-parse
+          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
+          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
+      - run: bunx playwright-core install --with-deps chromium
+      - run: bun test test/reference-hour.test.ts
+        env: { KYRIE_TOUR: "1", KYRIE_SHOTS: "${{ runner.temp }}/tour" }
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with: { name: reference-hour, path: "${{ runner.temp }}/tour" }
+  # The funnel's reading: every stage's result in one table, the night red where a gate is (simulated play and the
+  # reference hour are evidence, told but not counted, until they are promoted).
+  funnel:
+    name: the funnel
+    if: always()
+    needs: [suite, quality, quantity, kyr-lint, play, long, browser, tour]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults: { run: { working-directory: . } }
+    steps:
+      - name: Read the stages
+        env: { NEEDS: "${{ toJSON(needs) }}" }
+        run: |
+          echo "$NEEDS" | jq -r '"| Stage | Job | Result |", "|---|---|---|", (to_entries[] | "| \(if .key == "suite" then "1" elif (.key | IN("quality","quantity","kyr-lint")) then "2" elif .key == "play" then "3 (evidence)" elif .key == "tour" then "4 (evidence)" else "4" end) | \(.key) | \(.value.result) |")' >> "$GITHUB_STEP_SUMMARY"
+          bad=$(echo "$NEEDS" | jq -r 'to_entries[] | select((.key | IN("play","tour")) | not) | select(.value.result != "success") | .key')
+          test -z "$bad" || { echo "red at: $bad"; exit 1; }

@@ -68,15 +68,24 @@ assert, and writes the counts the migration is measured by to `doc/architecture/
   JUnit report, and `scripts/test-summary.ts` puts the counts and every skipped or failed spec in the run's summary.
   Orsino is checked out beside Kyrie at the revision `data/sources/orsino/registry.json` names, so the registry spec
   runs rather than skips.
-- **reference hour, through the page**: evidence, not a gate (it may fail without failing the run).
 
 **What CI is doing now:** `bun scripts/ci-status.ts` lists each unfinished run's jobs (queued, running, done) and its
 age. A run queued past twenty minutes is waiting on the account's jobs at once, not hung; a job running past
 twenty-five is flagged. A push runs eight shards (the push lane), the whole suite sixteen.
 
-**Nightly on main (08:00 UTC), and on any branch on demand** (`gh workflow run CI --ref <branch>`):
-- **long descents**: `KYRIE_LONG=1`; any skip fails the job.
-- **browser specs 1/2 and 2/2**: every `*-browser` spec; any skip fails the job.
+**Nightly on main (08:00 UTC), and on any branch on demand** (`gh workflow run nightly.yml --ref <branch>`), the
+acceptance funnel (`.github/workflows/nightly.yml`, the owner, 26 November), every job every night, read together in
+its last job's summary and the README's nightly badge:
+1. **the whole suite**, sixteen shards (the push lane and the slow files besides);
+2. **the gates**: the experience gate (`bun run quality`, its ratchets and the performance measures), the world gate
+   (`bun run quantity`, run on a builder's machine only until then), the Kyr lint over every campaign and three drawn
+   worlds;
+3. **simulated play**: the autoplay laboratory (`scripts/autoplay.ts`, players of every temper, invariants at every
+   step) and the experiential matrix (`scripts/matrix-walk.ts`): evidence until a night has seen them green;
+4. **through the page**: the long descents (`KYRIE_LONG=1`), the browser specs in three shards (any skip fails the
+   job) and the reference hour (evidence).
+
+`gh workflow run CI --ref <branch>` still runs CI's own jobs on demand, its suite then the whole lane.
 
 `.github/workflows/pages.yml` publishes the page only after CI has passed on a push to `main`: the whole suite is the
 gate a deploy waits on. Work in flight is proven on its own `ci/<line>-<n>` branch before it reaches `main`. A change

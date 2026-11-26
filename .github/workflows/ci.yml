@@ -1,9 +1,10 @@
-# Kyrie's checks. On every push and pull request: lint and types, the player contracts and small worlds, the page
-# booted in Chromium, and the whole suite in sixteen balanced shards, the gate a deploy waits on (pages.yml). Nightly
-# and on demand besides: the long descents, the Kyr lint, the browser specs and the reference hour. Every skipped
-# spec is listed in the run's summary, and a failing spec turns its job red. Deem and the languages package are pinned
-# in package.json (github:owner/name#commit) and installed by bun from the lockfile, so a clean clone needs no sibling
-# checkouts.
+# Kyrie's checks on every push and pull request (and on demand): lint and types, the player contracts and small
+# worlds, the images, the page booted in Chromium, and the suite in balanced shards, the gate a deploy waits on
+# (pages.yml). What is slow or measures rather than checks runs at night in nightly.yml, the acceptance funnel: the
+# whole suite, the experience and world gates, the Kyr lint, simulated players, the long descents, the browser specs
+# and the reference hour. Every skipped spec is listed in the run's summary, and a failing spec turns its job red. Deem
+# and the languages package are pinned in package.json (github:owner/name#commit) and installed by bun from the
+# lockfile, so a clean clone needs no sibling checkouts.
 # Orsino, whose registry one spec regenerates byte for byte, is checked out beside Kyrie at the revision the registry
 # names. See doc/architecture/verification.md and mission-21/validation-plan.md.
 name: CI
@@ -16,9 +17,8 @@ on:
     paths-ignore: ['assets/bg/**']
   pull_request:
   workflow_dispatch:
-  schedule: [{ cron: '0 8 * * *' }]
 permissions: { contents: read }
-# By event too: a push must not cancel the night's whole suite.
+# By event too: a push must not cancel a run asked for by hand.
 concurrency: { group: "ci-${{ github.ref }}-${{ github.event_name }}", cancel-in-progress: true }
 defaults:
   run: { working-directory: kyrie }
@@ -133,11 +133,11 @@ jobs:
         env: { KYRIE_BROWSER: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "The page boots"
-  # The whole suite, nightly and on demand: in ten shards, balanced by the time each spec file took when the timings
+  # The suite: in ten shards, balanced by the time each spec file took when the timings
   # were last kept (test/timings.json). Five shards had come to their thirty minutes by 3 November, six to their
   # forty-five by 10 November (a shard cancelled in every run seen, its specs never seen to pass).
   # On a push the push lane (test/lanes.json: every file under ten kept seconds, all of test/small, the untimed),
-  # the gate a deploy waits on; nightly and on demand the whole suite (the owner, 15 November: the whole on every push
+  # the gate a deploy waits on; on demand here, and nightly in nightly.yml, the whole suite (the owner, 15 November: the whole on every push
   # had brought each run back to twenty and thirty minutes; the 267 slow files, nine tenths of the suite's time, go to
   # the night, and the night is kept green). Sixteen shards, balanced by the files' kept times.
   suite:
@@ -193,148 +193,3 @@ jobs:
       - if: always()
         uses: actions/upload-artifact@v4
         with: { name: "junit-shard-${{ matrix.shard }}", path: kyrie/junit.xml, retention-days: 14, if-no-files-found: ignore }
-  long:
-    name: long descents
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: kyrie
-          sparse-checkout: |
-            /*
-            !/assets/
-          sparse-checkout-cone-mode: false
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: 1.4.3 }
-      - run: bun install --frozen-lockfile
-      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
-      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
-      # by the language's own sources and the data; an older store of the same language is restored and grows.
-      - uses: actions/cache@v4
-        with:
-          path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
-      - run: bun test test/descent.test.ts test/all-in-one-world.test.ts --reporter=junit --reporter-outfile=junit.xml
-        env: { KYRIE_LONG: "1" }
-      - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
-  # The experience gate, nightly and on demand (scripts/quality): its numbers held by ratchets, the performance ones
-  # among them (the start to the first frame, the turn, the decision and the journey leg, by median and p95, all from
-  # the one replay of the golden walk it already made: no minutes added). About four minutes; its table is the run's
-  # summary, and its readings a line of the log that `bun run quality --update --from=<run id>` writes into the ci
-  # baseline: a time with no ci baseline holds until a run's readings are taken into it, and a number that falls is
-  # taken in to lower it.
-  quality:
-    name: quality (the experience gate)
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions: { contents: read, actions: read }
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: kyrie
-          sparse-checkout: |
-            /*
-            !/assets/
-          sparse-checkout-cone-mode: false
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: 1.4.3 }
-      - run: bun install --frozen-lockfile
-      - run: bun run quality
-        env: { GH_TOKEN: "${{ github.token }}" }
-  # The Kyr lint, nightly and on demand, not on the push lane (about a minute for every campaign, 19 s a drawn world):
-  # every campaign held to errors and recommended content to warnings too (clean since 19 November, mt-7); the drawn
-  # worlds a1, iscoed and kite held to errors, their warnings told in the log (MT-02: 44 left, each registered).
-  kyr-lint:
-    name: kyr lint, campaigns and drawn worlds
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: kyrie
-          sparse-checkout: |
-            /*
-            !/assets/
-          sparse-checkout-cone-mode: false
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: 1.4.3 }
-      - run: bun install --frozen-lockfile
-      # The parse store (ParseStore: parsed Kyr kept between processes) across runs, as the other jobs keep it.
-      - uses: actions/cache@v4
-        with:
-          path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
-      - run: bin/kyrie lint
-      - if: always()
-        run: bin/kyrie lint --world a1 --world iscoed --world kite
-  # Two shards since the place's new grammar (6 November): the whole had passed in thirty minutes and then outgrew them.
-  # Three since 19 November: each of two had come to thirty minutes, the second cut off at its limit.
-  browser:
-    name: browser specs ${{ matrix.shard }}/3
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy: { fail-fast: false, matrix: { shard: [1, 2, 3] } }
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: kyrie
-          sparse-checkout: |
-            /*
-            !/assets/
-          sparse-checkout-cone-mode: false
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: 1.4.3 }
-      - run: bun install --frozen-lockfile
-      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
-      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
-      # by the language's own sources and the data; an older store of the same language is restored and grows.
-      - uses: actions/cache@v4
-        with:
-          path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
-      - run: bunx playwright-core install --with-deps chromium
-      - run: bun test --shard=${{ matrix.shard }}/3 $(bun scripts/test-lane.ts browser) --reporter=junit --reporter-outfile=junit.xml
-        env: { KYRIE_BROWSER: "1" }
-      - if: always()
-        run: bun scripts/test-summary.ts junit.xml --title "Browser specs, shard ${{ matrix.shard }} of 3" --none-skipped
-  # The reference first hour played through the page by its leads alone, a picture of every step kept as the run's
-  # artifact (test/reference-hour.test.ts): evidence of where the page stops leading, read by a person, not a gate.
-  tour:
-    name: reference hour, through the page
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    continue-on-error: true
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: kyrie
-          sparse-checkout: |
-            /*
-            !/assets/
-          sparse-checkout-cone-mode: false
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version: 1.4.3 }
-      - run: bun install --frozen-lockfile
-      # The parse store (ParseStore: parsed Kyr kept between processes) across runs: cold, the library's 635 files take
-      # ~30 s to parse against ~3 s warm, in every worker of every job (engine-names took 65 s on a push runner). Kept
-      # by the language's own sources and the data; an older store of the same language is restored and grows.
-      - uses: actions/cache@v4
-        with:
-          path: kyrie/node_modules/.cache/kyrie-parse
-          key: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-${{ hashFiles('kyrie/data/**/*.kyr', 'kyrie/data/**/*.kyrt') }}
-          restore-keys: kyrie-parse-${{ hashFiles('kyrie/src/lang/**', 'kyrie/src/canon/**', 'kyrie/src/rules/catalog-schema.ts', 'kyrie/src/rules/background-catalog.ts', 'kyrie/data/catalog/**') }}-
-      - run: bunx playwright-core install --with-deps chromium
-      - run: bun test test/reference-hour.test.ts
-        env: { KYRIE_TOUR: "1", KYRIE_SHOTS: "${{ runner.temp }}/tour" }
-      - if: always()
-        uses: actions/upload-artifact@v4
-        with: { name: reference-hour, path: "${{ runner.temp }}/tour" }
