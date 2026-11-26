@@ -36,17 +36,15 @@ export class CompanyLight {
       ...toward ? { lit: toward } : {} };
   }
   private static unlit(w: Campaign['world'], place: string): boolean { return w.test(ModuleWriter.call('unlit', place)); }
-  // Whether one of the company carries a lantern and a flask of what it burns: a light to hand, as a torch is (the weir
-  // route: Ilse's conjured light spent, a lantern and two flasks of oil in her pack, the gate-well's dark had led her
-  // up to the guest-hall for a light to buy, and back, round, by the gatehouse).
+  // Whether the company carries a lantern and a flask of what it burns, whoever of it has each (OR-685: light_lamp
+  // fills one's lantern from another's flask): a light to hand, as a torch is (the weir route: Ilse's conjured light
+  // spent, a lantern and two flasks of oil in her pack, the gate-well's dark had led her up to the guest-hall for a
+  // light to buy, and back, round, by the gatehouse).
   private static lamp(campaign: Campaign, members: string[]): boolean {
     const w = campaign.world;
     if (!w.relates('burns')) { return false; }
-    const kinds = new Map<string, Set<string>>();
-    for (const r of w.related('ownedItem')) {
-      const kind = members.includes(r.args[1]!) && w.one('itemKind', r.args[0]!);
-      if (kind) { (kinds.get(r.args[1]!) ?? kinds.set(r.args[1]!, new Set()).get(r.args[1]!)!).add(kind); }
-    }
-    return w.related('burns').some(b => [...kinds.values()].some(k => k.has(b.args[0]!) && k.has(b.args[1]!)));
+    const kinds = new Set(w.related('ownedItem').filter(r => members.includes(r.args[1]!))
+      .flatMap(r => w.one('itemKind', r.args[0]!) ?? []));
+    return w.related('burns').some(b => kinds.has(b.args[0]!) && kinds.has(b.args[1]!));
   }
 }

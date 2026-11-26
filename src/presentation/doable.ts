@@ -72,8 +72,14 @@ export class Doable {
   }
   private static rowOf(glance: Offered, screen: Screen, id: string, as: { command?: string; label?: string }): Row {
     const { at, lensOf } = this.read(glance, screen), lens = lensOf.get(id);
-    return this.row(id, at.tree.get(id)?.label ?? as.label ?? id,
+    // Else the lens's own words for it: a journey the map holds, drawn in the places lens, had been labelled by its
+    // id ("travel:region__s1_wood_edge": OR-689, cold play 1).
+    return this.row(id, at.tree.get(id)?.label ?? as.label ?? this.lensWords(glance, id) ?? id,
       { ...at, ...lens ? { lens } : {}, command: as.command });
+  }
+  private static lensWords(glance: Offered, id: string): string | undefined {
+    const acts = Object.values(glance.lenses ?? {}).flatMap(l => [...l.promoted, ...l.rest]);
+    return acts.find(a => a.choice === id)?.label;
   }
   // A row the page's menu holds no choice for (a talk it draws by a likeness, a lens's act inside an opener not
   // opened), as a choice to be drawn and taken: made of the row made here (made: worded, doing what is offered), never

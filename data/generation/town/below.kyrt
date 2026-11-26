@@ -12,6 +12,8 @@
     Found by searching {w} "A slab at the back of the ledge rocks under your hand. Under it lies a bundle in oilcloth, left by a party that meant to come back.".
   }
   Item {w}_left_lantern "a hooded lantern, oil still in it" is lantern at {w} hidden until {w}_ledge_cache.
+  // The oil said to be in it is there to burn (OR-685: "oil still in it", and none to light it with).
+  Item {w}_left_oil "the lantern's oil, in a stoppered flask" is lamp_oil at {w} hidden until {w}_ledge_cache.
   Kind {w}_bread "bread and cheese" like ale worth 0 described "Hard bread and a wedge of cheese in oilcloth: a day's food below." using "Heal (1d4) health to ally.".
   Initially Assert food({w}_bread).
   Item {w}_left_food "a packet of hard bread and cheese in oilcloth" is {w}_bread at {w} hidden until {w}_ledge_cache.

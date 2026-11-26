@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 598 live rows, 210 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 594 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -87,7 +87,7 @@ page's colours and opportunities.)
   - requirement OA-05 P2: Review T1, a departure reckoning: before setting out, route and terrain, duration and arrival…
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 21 defects · 11 asks
+- **Fights that cost** · 5 pins · 20 defects · 11 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -112,7 +112,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 8 defects · 12 asks
+- **Journeys over known ways** · 8 pins · 7 defects · 12 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -211,7 +211,7 @@ page's colours and opportunities.)
 - **Levels and growth** · 1 pins · 0 defects · 1 asks
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
-- **Belongings with a history** · 2 pins · 2 defects · 1 asks
+- **Belongings with a history** · 2 pins · 1 defects · 1 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
@@ -418,7 +418,7 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 9 pins · 3 defects · 11 asks
+- **The title and Play** · 9 pins · 2 defects · 11 asks
   - ✓ gives the title its rows and hints: the ways in, Options and the encyclopedia, over the embers, its name heading
   - ✓ is drawn by the page as the engine gives it, no row of the page's own
   - ✓ is asked in the terminal by the same rows, Options and the encyclopedia said to be the page's

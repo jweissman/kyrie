@@ -408,15 +408,15 @@ What is left of it is spent: a torch put out is done with, and a lantern's oil g
 
 #### light lamp
 
-*Kyr · action (group, item, itemkind, item, itemkind, member)* · `rule:belongings.light_lamp`
+*Kyr · action (group, item, itemkind, item, itemkind, member, member)* · `rule:belongings.light_lamp`
 
 - Shown as: Fill {vessel} from {dose} and light it
 - Takes: 10 minutes
 - Costs: 1
 
-A lantern is filled and lit: the flask of oil is spent, and burns in it as long as the flask says.
+A lantern is filled and lit: the flask of oil is spent, and burns in it as long as the flask says. The flask may be in another's pack (holder): a lantern bought went to one of the company and its oil to another, and it was never offered to be lit, the dearest thing bought wasted (OR-685, cold plays 1, 3 and 4).
 
-> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(vessel, carrier); itemKind(vessel, shape); burns(shape, form); ownedItem(dose, carrier); itemKind(dose, form); relieves(carrier, form)
+> Needs: able(actor); memberOf(carrier, actor); awake(carrier); ownedItem(vessel, carrier); itemKind(vessel, shape); burns(shape, form); memberOf(holder, actor); awake(holder); ownedItem(dose, holder); itemKind(dose, form); relieves(carrier, form)
 
 > Then: nothing changes
 
@@ -2654,7 +2654,7 @@ A room of one's own at an inn, kept by the week (the first-hour beat sheet's che
 
 *Kyr · measure(group)* · `rule:world_services.singsAgain`
 
-Work at an inn: an evening's fetching and carrying for whoever keeps it, for the night's bed and supper on the house; and for one who can hold a room (a bard, or anyone with a tongue for it), a song for the supper, and what the room throws: there had been no work at the inn, and no performance for a bard (the play-structure investigation's PT-14). The watch from which one who has sung can sing again: the next evening.
+Work at an inn: an evening's fetching and carrying for whoever keeps it, for the night's bed and supper on the house; and for one who can hold a room (a bard, or anyone with a tongue for it), a song for the supper, and what the room throws: there had been no work at the inn, and no performance for a bard (the play-structure investigation's PT-14). Both are the host's, for the bed they let: a bed given for nothing beside it (the order's errand's bed in the back, at a shrine that lets a pallet) is no second bargain, and had made each one twice, under the same words (cold play 1 and 4, 25 November: test/small/two-beds). The watch from which one who has sung can sing again: the next evening.
 
 #### work keep
 
@@ -2664,7 +2664,7 @@ Work at an inn: an evening's fetching and carrying for whoever keeps it, for the
 - Takes: 180 minutes
 - Costs: 1
 
-> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); not (onTheHouse(host, actor)); offers(host, service); serviceOf(service, lodging)
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); not (onTheHouse(host, actor)); offers(host, service); serviceOf(service, lodging); fee(service) > 0
 
 > Then: Assert onTheHouse(host, actor).
 
@@ -2676,7 +2676,7 @@ Work at an inn: an evening's fetching and carrying for whoever keeps it, for the
 - Takes: 60 minutes
 - Costs: 1
 
-> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); capable(actor, performance); watch(clock) >= singsAgain(actor)
+> Needs: able(actor); able(host); distinct(actor, host); at(actor, site); at(host, site); not (refusesService(host, actor)); offers(host, service); serviceOf(service, lodging); fee(service) > 0; capable(actor, performance); watch(clock) >= singsAgain(actor)
 
 > Then: Set singsAgain(actor) to (watch(clock) + 72). Increase quantity(actor, gold) by 5.
 
@@ -2897,6 +2897,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Quillet's tide-bell cracked two winters ago, and seven boats did not come home. In three days the silver eels run on the spring tide, and every boat in the fen will be out in the dark. A deaf founder has a pit, a furnace and no one to hear her bell. Cast it, tune it, hang it, and find someone to ring it.
+
+### The Going Bank
+
+*Kyr* · `campaign:goingbank`
+
+- Regions and sites: goingbank
+- Kits placed: —
+
+> The east bank of the Gape is walking to the sea, with Ketter on it. Three days are left before the grass-rope bridge parts, and a wedding is to be held on it at the third dusk.
 
 ### Gosse's Company
 
@@ -3176,6 +3185,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > The legions of Tessary have come home from eleven years' war, and some of them are walking into the sea. An eel-wife of the Withies has pinned a notice at the Landgate: her son set his boots together on the Watersteps a fortnight ago and walked into the water, and she will give her savings to whoever can tell her where he went. You have come down the marsh road with a little coin and no particular plans.
+
+### Windfall
+
+*Kyr* · `campaign:windfall`
+
+- Regions and sites: windfall
+- Kits placed: —
+
+> The Wardens' orchard on the Saltings has begun to walk inland toward Hythe's churchyard. The Reeve's axes come on the third night.
 
 ### The Wrong Boat
 

@@ -35,6 +35,8 @@
   }
   // The burners' hut: what they left, and why they left (the way to the stones, found by searching here, or asked).
   Item {t}_wood_lamp "a burner's old lamp" is lantern at {t}_wood_burners hidden until {t}_wood_stones_known.
+  // The oil the finding says is in it is there to burn (OR-685).
+  Item {t}_wood_oil "the burner's lamp-oil, in a stoppered flask" is lamp_oil at {t}_wood_burners hidden until {t}_wood_stones_known.
   Discovery {t}_wood_stones_known "A deer-path goes up out of the burners' clearing to the old stones under the beeches." {
     Found by searching {t}_wood_burners "Under the turf bench in the hut is a lamp with oil still in it. Scratched into the bench above it are a row of standing stones and a mark like a shut door. A deer-path goes up out of the clearing toward the beeches, the way the mark points.".
   }

@@ -43,6 +43,27 @@ describe('a lantern bought', () => {
     expect(t.screen.expedition.light).not.toContain('no oil');
     expect(t.journey.choices().some(c => /^Fill a lantern/.test(c.label))).toBe(true);
   });
+  // The lantern in one pack and its oil in another (OR-685, cold plays 1, 3 and 4: the buy rows had handed the lantern
+  // to Hugh and the oil to Orryn, and it was never offered to be lit): it is filled from the other's flask and lit.
+  it('in one pack, its oil in another\'s, is filled from it and lit', async () => {
+    const t = await Tiny.start(shop.replace('of 1 at shop', 'of 2 at shop'), { party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' },
+      { name: 'Bek', raceId: 'dwarf', classId: 'cleric' }] });
+    t.journey.coin(20); t.look();
+    await t.play('Buy › A flask of lamp oil', 'Buy › A lantern');
+    const owner = (kind: string) => t.world.related('ownedItem').find(r => t.world.one('itemKind', r.args[0]!) === kind)?.args[1];
+    const oil = t.world.related('ownedItem').find(r => t.world.one('itemKind', r.args[0]!) === 'lamp_oil')!.args[0]!;
+    const other = owner('lantern') === 't__member_party_1' ? 't__member_party_2' : 't__member_party_1';
+    if (owner('lamp_oil') !== other) { await t.perform(`transfer_item(${oil},${other})`); }
+    expect([owner('lantern'), owner('lamp_oil')]).not.toContain(undefined);
+    expect(owner('lantern')).not.toBe(owner('lamp_oil'));
+    await t.perform('go(t__stair,t__cellar)');
+    expect(t.screen.expedition.light).not.toContain('no oil');
+    const fill = t.journey.choices().find(c => /^Fill a lantern\b/.test(c.label));
+    expect(fill).toBeDefined();
+    await t.perform(fill!.command);
+    expect(owner('lamp_oil')).toBeUndefined();
+    expect(t.screen.expedition.light).toContain('lantern');
+  });
   // With the lantern and its oil in the pack, the company has a light to hand, as with a torch: the dark ahead sends
   // it to no one to buy one (the weir route: Ilse led up from the gate-well to the guest-hall for a light, and back).
   it('with its oil, is a light to hand: nothing sends the company to buy one', async () => {
