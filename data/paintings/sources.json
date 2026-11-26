@@ -1117,14 +1117,54 @@
    "path": "assets/bg/temple.png",
    "sha1": "7e89997f83e4c53900a7cb67246021028459fb19"
   },
+  "scene-cave-bridge": {
+   "path": "assets/bg/terrain/cave/bridge.png",
+   "sha1": "17c5298adcc5d585129b227ccab983e326d28e4c",
+   "terrain": "cave"
+  },
+  "scene-cave-camp": {
+   "path": "assets/bg/terrain/cave/camp.png",
+   "sha1": "8f9ebeb2b4373d916a06202950e1b004f414c6bf",
+   "terrain": "cave"
+  },
   "scene-cave-falls": {
    "path": "assets/bg/terrain/cave/falls.png",
    "sha1": "3402d78e8e9f25ac517ef1b1446c2677791353c5",
    "terrain": "cave"
   },
+  "scene-cave-garden": {
+   "path": "assets/bg/terrain/cave/garden.png",
+   "sha1": "a46c891211a361ee0d1274553cc29e2a80bf32f9",
+   "terrain": "cave"
+  },
+  "scene-cave-lake": {
+   "path": "assets/bg/terrain/cave/lake.png",
+   "sha1": "7548c4898bb238da8a537568d7240e7967e72024",
+   "terrain": "cave"
+  },
+  "scene-cave-overview": {
+   "path": "assets/bg/terrain/cave/overview.png",
+   "sha1": "14ad4a813b015430d89925f107ff26847690a6b6",
+   "terrain": "cave"
+  },
   "scene-cave": {
    "path": "assets/bg/terrain/cave/pool.png",
    "sha1": "f3529bb9842c0d6efa70bbaafdc9bd289073c778",
+   "terrain": "cave"
+  },
+  "scene-cave-sea": {
+   "path": "assets/bg/terrain/cave/sea.png",
+   "sha1": "c326339324c017484b4c0c5aaa42015191fce518",
+   "terrain": "cave"
+  },
+  "scene-cave-shrine": {
+   "path": "assets/bg/terrain/cave/shrine.png",
+   "sha1": "aabf356ee601f33f6ad47bfb6ed4c83b770066af",
+   "terrain": "cave"
+  },
+  "scene-cave-throne": {
+   "path": "assets/bg/terrain/cave/throne.png",
+   "sha1": "49be1cab231d49d16b914f53b0e28c6befc97388",
    "terrain": "cave"
   },
   "scene-coast-arch": {
@@ -1507,6 +1547,11 @@
    "sha1": "80b95acf6da9c7dabe1f89d9ae64ddc731c47a6a",
    "terrain": "mountain"
   },
+  "scene-sky-academy": {
+   "path": "assets/bg/terrain/sky/academy.png",
+   "sha1": "922c35b8edd01ea24ea137e020570afc29239709",
+   "terrain": "sky"
+  },
   "scene-floating-city": {
    "path": "assets/bg/terrain/sky/city.png",
    "sha1": "1035e203d86d67f06b16413e7d85d087e99ed351",
@@ -1521,6 +1566,106 @@
    "path": "assets/bg/terrain/sky/overview.png",
    "sha1": "c109df5df332e312dcd6d90b86d1650ea7ee06d0",
    "terrain": "sky"
+  },
+  "scene-sky-temple": {
+   "path": "assets/bg/terrain/sky/temple.png",
+   "sha1": "0c617fef1e8b3a751d97c0c97868104f70dfd821",
+   "terrain": "sky"
+  },
+  "scene-tundra-approach": {
+   "path": "assets/bg/terrain/tundra/approach.png",
+   "sha1": "e72a606f4ded6859b438ed1b9f6245c003a3184f",
+   "terrain": "tundra"
+  },
+  "scene-tundra-arch": {
+   "path": "assets/bg/terrain/tundra/arch.png",
+   "sha1": "ff3147bfb484c3cbc0085b8695a836ceffd95ec4",
+   "terrain": "tundra"
+  },
+  "scene-tundra-bridge": {
+   "path": "assets/bg/terrain/tundra/bridge.png",
+   "sha1": "21e3cd5604eeadb73ba9e764a66bf4aa60cc7d4b",
+   "terrain": "tundra"
+  },
+  "scene-tundra-campfire-night": {
+   "path": "assets/bg/terrain/tundra/campfire-night.png",
+   "sha1": "70ca4438cb189a7b04217e736e06cad0b7ab56aa",
+   "terrain": "tundra"
+  },
+  "scene-tundra-campfire": {
+   "path": "assets/bg/terrain/tundra/campfire.png",
+   "sha1": "4f09d7c809ab4cdcd14c245e4e42be8564c49646",
+   "terrain": "tundra"
+  },
+  "scene-tundra-day": {
+   "path": "assets/bg/terrain/tundra/day.png",
+   "sha1": "7f2316f61d7aca6eedfd4aae50ec29de223ed59a",
+   "terrain": "tundra"
+  },
+  "scene-tundra-hot-spring": {
+   "path": "assets/bg/terrain/tundra/hot-spring.png",
+   "sha1": "928509dff63956104a8ba9c362e692e895277f3a",
+   "terrain": "tundra"
+  },
+  "scene-tundra-house": {
+   "path": "assets/bg/terrain/tundra/house.png",
+   "sha1": "84facf4c8434494730637dc437a9e74243a0a4a0",
+   "terrain": "tundra"
+  },
+  "scene-tundra-market": {
+   "path": "assets/bg/terrain/tundra/market.png",
+   "sha1": "366c085e9d59f0398fc68e78ab0be68a9b4d0fc7",
+   "terrain": "tundra"
+  },
+  "scene-tundra-overlook": {
+   "path": "assets/bg/terrain/tundra/overlook.png",
+   "sha1": "a841484f1c363b22b18670eb0fe4065ef8e7aae1",
+   "terrain": "tundra"
+  },
+  "scene-tundra-rain": {
+   "path": "assets/bg/terrain/tundra/rain.png",
+   "sha1": "9dfc99ff4597f2d766e55ef74c80510d2dbcc843",
+   "terrain": "tundra"
+  },
+  "scene-tundra-river": {
+   "path": "assets/bg/terrain/tundra/river.png",
+   "sha1": "a70766800e9ef6fea30a578cdafcdef7f51d7c4b",
+   "terrain": "tundra"
+  },
+  "scene-tundra-road": {
+   "path": "assets/bg/terrain/tundra/road.png",
+   "sha1": "0c9ef5b8b0b95e166d5c200ca7375249df495efa",
+   "terrain": "tundra"
+  },
+  "scene-tundra-ruins": {
+   "path": "assets/bg/terrain/tundra/ruins.png",
+   "sha1": "8312f798c7cdbee28a79e878f32873941d3aac17",
+   "terrain": "tundra"
+  },
+  "scene-tundra-shrine": {
+   "path": "assets/bg/terrain/tundra/shrine.png",
+   "sha1": "427361713d1a11d68b51e69fe0076893ae7e5c73",
+   "terrain": "tundra"
+  },
+  "scene-tundra-tarn": {
+   "path": "assets/bg/terrain/tundra/tarn.png",
+   "sha1": "5d0e950db66cc8e84ad60b2fed689f2e769324a0",
+   "terrain": "tundra"
+  },
+  "scene-tundra-temple": {
+   "path": "assets/bg/terrain/tundra/temple.png",
+   "sha1": "a340bd4515c365d991aead027f865cd9a8924b8f",
+   "terrain": "tundra"
+  },
+  "scene-tundra-wilds": {
+   "path": "assets/bg/terrain/tundra/wilds.png",
+   "sha1": "bfabcec8d2264c4835e2d9da666e7899e9c8357f",
+   "terrain": "tundra"
+  },
+  "scene-tundra-winter": {
+   "path": "assets/bg/terrain/tundra/winter.png",
+   "sha1": "cfb55c2bdc690f7f9818e0e48bffa4c52049a183",
+   "terrain": "tundra"
   },
   "scene-valley-academy": {
    "path": "assets/bg/terrain/valley/academy.png",

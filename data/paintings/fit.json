@@ -19,6 +19,8 @@
     { "id": "a holy thing in the open", "place": "\\b(shrine|holy)\\b",
       "told": "^(a|an) (long stone|slab|figure|spring|well-head|standing stone|pillar|wall painted|painted wall|bronze box|niche)\\b",
       "forbids": "church|spire|abbey|cathedral|temple|columns" },
+    { "id": "a cavern's depths only under the ground", "underground": false,
+      "forbids": "\\b(great|vast) cavern\\b|\\bcavern (roof|wall)\\b|\\bunderground\\b" },
     { "id": "under the ground", "underground": true,
       "forbids": "hillside|\\bsky\\b|\\bfield\\b|meadow|sunlit|sunny|stars|mountains|courtyard|parkland|\\bdaylight\\b|\\bwindows?\\b|\\bmoon" }
   ]

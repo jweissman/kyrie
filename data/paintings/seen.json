@@ -9456,6 +9456,214 @@
    "era": "late",
    "light": "sunlit",
    "weather": "clear"
+  },
+  "scene-cave-bridge": {
+   "form": "landscape",
+   "shows": "an old stone bridge of one arch over a deep chasm in a great cavern, a path along a ledge to it, stalactites overhead, light falling from an opening far above",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-cave-camp": {
+   "form": "landscape",
+   "shows": "a campfire burning under a rock overhang in a vast cavern, a rolled bedroll beside it, a waterfall dropping into mist beyond, light from openings high above",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-cave-garden": {
+   "form": "landscape",
+   "shows": "a garden in a great cavern under a shaft of light: a pool with water-lilies, a small fall over mossy rocks, flowering shrubs and a tree, steps up to a pillared archway hung with wisteria, a stone basin",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-cave-lake": {
+   "form": "landscape",
+   "shows": "a still green lake in a great cavern, shafts of light from above, stalactites, the lit arches of further caverns across the water, a rocky shore in front",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-cave-overview": {
+   "form": "landscape",
+   "shows": "a vast cavern seen from a high ledge: terraces and chasms falling away, stalactites, lit hollows and a river winding through the depths, a shaft of light from far above",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-cave-sea": {
+   "form": "landscape",
+   "shows": "a wide dark water under a cavern roof hung with stalactites, an underground sea running out of sight, a shaft of light at one side, a rocky shore in front",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-cave-shrine": {
+   "form": "landscape",
+   "shows": "a shrine cut into a cavern wall on a ledge: a stone altar with a burning bowl and offerings, carved standing slabs behind it, a chasm and a waterfall beyond",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-cave-throne": {
+   "form": "landscape",
+   "shows": "a throne in a great cavern: a tall stone seat on a dais with steps, braziers burning at either side, red hangings on the rock, still water before it, stalactites above",
+   "era": "late",
+   "light": "dim"
+  },
+  "scene-sky-academy": {
+   "form": "exterior",
+   "shows": "a domed college with a bell tower and arcades of lit windows on an isle floating above the clouds, an armillary sphere on a terrace, steps, a dusting of snow, another floating isle beyond",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-sky-temple": {
+   "form": "landscape",
+   "shows": "an open temple of columns on an isle floating above the clouds, great stones hanging in the air over a stone block, wet paving dusted with snow, other floating isles beyond",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-tundra-approach": {
+   "form": "landscape",
+   "shows": "wide tundra under heavy cloud at sunset: snow-dusted heath and boulders in front, a broad plain running to snowy mountains",
+   "era": "late",
+   "light": "dusk",
+   "weather": "clear"
+  },
+  "scene-tundra-arch": {
+   "form": "landscape",
+   "shows": "a great ruined stone arch in snow beside a frozen river, a fortified town on a hill beyond, a snowy plain, the low sun through cloud",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-bridge": {
+   "form": "landscape",
+   "shows": "an old stone bridge of one arch over a half-frozen river, snowy banks and a bare tree, wooded hills beyond, the low sun behind cloud",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-campfire-night": {
+   "form": "landscape",
+   "shows": "the same camp on the tundra at night: the fire burning under the bare tree, the pack and cup beside it, the river pale in the dark, green northern lights over the mountains",
+   "era": "late",
+   "light": "night",
+   "weather": "clear"
+  },
+  "scene-tundra-campfire": {
+   "form": "landscape",
+   "shows": "a campfire under a great bare tree on the snowy tundra, a rolled bedroll and a pack, a tin cup on a stump, a river winding toward snowy mountains under a blue sky with clouds",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-tundra-day": {
+   "form": "landscape",
+   "shows": "open tundra of brown heath and patches of snow, pools and a stream, a bare bush, a few deer far off, snowy mountains, a pale sun through heavy cloud",
+   "era": "late",
+   "light": "overcast",
+   "weather": "clear"
+  },
+  "scene-tundra-hot-spring": {
+   "form": "landscape",
+   "shows": "a steaming hot spring among snow-covered boulders on the tundra, low snowy hills beyond, the setting sun through grey cloud",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-house": {
+   "form": "exterior",
+   "shows": "a snow-house of cut blocks with a low entrance tunnel on a wide snowfield, dry shrubs in front, a pale sun among clouds",
+   "era": "late",
+   "light": "daylight",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-market": {
+   "form": "exterior",
+   "shows": "a market street in a snowy town of timber and stone at dusk: stalls of hung fish and baskets, barrels and crates, smoke from the chimneys, lit windows, a church tower beyond, slush in the street",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-overlook": {
+   "form": "landscape",
+   "shows": "a ruined arch on a rocky snow-covered ridge above a wide snowy plain, the low gold sun breaking through cloud",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-rain": {
+   "form": "landscape",
+   "shows": "the same tundra in rain: grey curtains of it over the heath and the pools, the mountains half hidden, a few deer far off",
+   "era": "late",
+   "light": "overcast",
+   "weather": "rain"
+  },
+  "scene-tundra-river": {
+   "form": "landscape",
+   "shows": "a frozen river through snowy woods, pines and bare trees on the banks, the low sun through cloud, hills beyond",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-road": {
+   "form": "landscape",
+   "shows": "a rough road winding down through a rocky upland patched with snow toward a wide snowy plain, crags at the left, cloud breaking over it",
+   "era": "late",
+   "light": "daylight",
+   "weather": "clear"
+  },
+  "scene-tundra-ruins": {
+   "form": "landscape",
+   "shows": "the ruins of a great church on a snowfield: pointed arches and a traceried window, broken walls and fallen columns, steps, the low sun through dark cloud",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-shrine": {
+   "form": "landscape",
+   "shows": "a small stone shrine on a snowy rise, a carved figure in its niche and a candle burning before it, steps up to it, snowy hills beyond",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-tarn": {
+   "form": "landscape",
+   "shows": "a still tarn among snowy hummocks on the tundra, the low sun shining in it, snowy hills beyond under cloud",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-temple": {
+   "form": "exterior",
+   "shows": "a snowy town square before a columned temple at the top of broad steps, a well-head, stalls of barrels and baskets, lit windows, a bare tree",
+   "era": "late",
+   "light": "dusk",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-wilds": {
+   "form": "landscape",
+   "shows": "a snow-covered valley with dark pines and bare trees, a half-frozen stream, a pale sun in cloud, a snowy peak beyond",
+   "era": "late",
+   "light": "overcast",
+   "season": "winter",
+   "weather": "clear"
+  },
+  "scene-tundra-winter": {
+   "form": "landscape",
+   "shows": "the same tundra under snow: the heath white with frost, the pools frozen, blowing snow, a pale sun through a white sky, a few deer far off",
+   "era": "late",
+   "light": "overcast",
+   "season": "winter",
+   "weather": "snow"
   }
  }
 }
