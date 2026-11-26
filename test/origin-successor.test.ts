@@ -37,7 +37,7 @@ describe('an origin\'s ending', () => {
   it('square with the merchant, points on to the makers\' work nearest the town', async () => {
     const { w, s } = await Ended.start('debt');
     await Ended.purse(s, 60);
-    const paid = await Ended.take(s, /^Pay .* what you owe$/);
+    const paid = await Ended.take(s, /^Pay .* what you owe( · \d+ coins?)?$/);
     // The nearest work but the one the inn tells of first, where the debt has sent the company already (Mission 20:
     // paid, Tuck had pointed back to the place just come back from).
     const said = /If you want work, and have the stomach for it: (.+?), out in /.exec(paid.response ?? '')?.[1];

@@ -44,14 +44,16 @@ describe('the homecoming', () => {
     Home.set(s, [{ kind: 'assert', call: ModuleWriter.call('region__w8_raised') }]);
     expect(await Home.take(s, told)).toContain('on the house');
     expect(Home.names(s).some(n => told.test(n))).toBe(false);
+    // A row's words without what it takes from the purse, said on it since OR-694 ("· 3 coin").
+    const plain = () => Home.names(s).map(n => n.replace(/ · \d+ coins?$/, ''));
     const gold = Home.gold(s), free = Home.names(s).filter(n => n.endsWith(', on the house'));
     expect(free.length).toBeGreaterThan(0);
-    expect(Home.names(s)).not.toContain(free[0]!.replace(/, on the house$/, ''));
+    expect(plain()).not.toContain(free[0]!.replace(/, on the house$/, ''));
     expect(await Home.take(s, new RegExp(`^${free[0]!.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`)))
       .toContain('nobody will take your coin');
     expect(Home.gold(s)).toBe(gold);
     expect(Home.names(s).some(n => n.endsWith(', on the house'))).toBe(false);
-    expect(Home.names(s)).toContain(free[0]!.replace(/, on the house$/, ''));
+    expect(plain()).toContain(free[0]!.replace(/, on the house$/, ''));
   }, 90000);
   it('is what everyone on the roads is saying, once it is up', async () => {
     const s = await Home.start();

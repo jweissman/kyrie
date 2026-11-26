@@ -240,7 +240,7 @@ describe('an origin', () => {
   it('is seen through when the debt is paid, and is worth experience', async () => {
     const s = await Opening.start('debt');
     await Opening.purse(s, 60);
-    expect(Opening.seen(await Opening.take(s, /^Pay .* what you owe$/))).toEqual(['experience: what is owed, seen through']);
+    expect(Opening.seen(await Opening.take(s, /^Pay .* what you owe( · \d+ coins?)?$/))).toEqual(['experience: what is owed, seen through']);
   }, 60000);
 });
 // The brothers' errand, seen through only by the copying at the work itself (the cold playtest, CO-01).
