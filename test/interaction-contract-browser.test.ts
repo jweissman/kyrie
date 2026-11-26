@@ -27,7 +27,10 @@ class Census {
     'anew',
     // The game paused for its Options (OR-300): the engine's Options page opened over it (OpeningPages.options,
     // OR-382), nothing done in the game, as Back to the title is.
-    'options']);
+    'options',
+    // The folded lenses' diamond (OR-1084): it takes the lenses up or folds them, as a lens's mark opens one; nothing
+    // done in the game.
+    'lenses']);
   // Independently implemented controls still standing, named so that no new one joins them; it may only shrink.
   static readonly known: string[] = [];
   static async controls(page: Page): Promise<{ controls: Control[]; observed: string[] }> {

@@ -164,7 +164,9 @@
      known, and its line had pushed the third of three under the hand (test/reader-browser at 390 by 844). */
   .fight .ours .fighter .part[data-part="line"] { display: none; }
   .fight .ours .fighter .tags { margin-top: 4px; }
-  .fight .beat { grid-row: 1; padding: 0 0 12px; }
+  /* The cards first, what just passed under them (a round's blows told above had pushed the company out of view on a
+     phone: test/reader-browser at 390 by 844, OR-974). */
+  .fight .beat { grid-row: 2; padding: 12px 0 0; }
   .fight .beat .what.earlier { display: none; }
   .fight .fighter { padding: 10px 11px; }
   .fight > .slot > .sides { min-height: max(calc(var(--frame-h) * .2), min(var(--held, 0px), calc(var(--frame-h) * .36))); }
