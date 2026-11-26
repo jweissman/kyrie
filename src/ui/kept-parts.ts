@@ -18,7 +18,10 @@ type Part = Kept<unknown> & { from: string; shape: string; asked?: ReadonlyMap<s
 export class KeptParts {
   private static readonly by = new WeakMap<Module, Map<string, Part>>();
   static readonly lately = 64;
+  // Off, every part is worked out afresh at every ask, as if none were kept (the screen's oracle: test/screen-oracle).
+  static keeping = true;
   static of<T>(world: World, key: string, from: string, read: () => T): T {
+    if (!this.keeping) { return read(); }
     const kept = this.by.get(world.module) ?? new Map<string, Part>();
     this.by.set(world.module, kept);
     const was = kept.get(key), shape = this.shape(world.module);
@@ -36,6 +39,7 @@ export class KeptParts {
   }
   // A part worded by the names the company knows things by: kept while each name it asked is still what it was.
   static named<T>(world: World, key: string, at: { from: string; names: Names }, read: (names: Names) => T): T {
+    if (!this.keeping) { return read(at.names); }
     const { from, names } = at, kept = this.by.get(world.module) ?? new Map<string, Part>();
     this.by.set(world.module, kept);
     const was = kept.get(key), shape = this.shape(world.module);

@@ -66,7 +66,10 @@ export class CharacterSheets {
     if (!c) { return {}; }
     const named = new Set(campaign.module.entities.filter(e => e.type === 'capability').map(e => e.id));
     const asleep = !!at.ref && world.relates('awake') && !world.test(ModuleWriter.call('awake', at.ref));
-    const development = this.development(c, { ...at, opens: Openings.of(campaign), named,
+    // What a skill would open is asked only of a member with a development to make (OR-861): every member's sheet on
+    // every page had read it, most with none to make.
+    const developing = !!c.state.advances?.qualities && c.state.hp > 0;
+    const development = this.development(c, { ...at, ...developing ? { opens: Openings.of(campaign) } : {}, named,
       why: asleep ? `Not while ${c.name} sleeps` : 'Not just now' });
     return { sheet: this.sheet(c), ...development ? { development } : {} };
   }

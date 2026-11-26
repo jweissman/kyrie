@@ -2712,6 +2712,18 @@
    "was": "defect",
    "pri": "P1",
    "why": "26 Nov, split from OR-740 at its closing: the remainder of an architecture step (the fifth review's step 1), a structural requirement, not an observed violation"
+  },
+  "OR-860": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "26 Nov, filed and classified at once: a measured share of the screen toward beta's 30 ms turn, not an observed failure of a claimed contract"
+  },
+  "OR-861": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "26 Nov, filed and classified at once: a measured share of the screen toward beta's 30 ms turn, not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {

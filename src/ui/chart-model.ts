@@ -44,8 +44,10 @@ export class ChartModel {
     // Read once for a state of the world, whoever asks: the routes (Itineraries.graph) and the plan (build) had each
     // read them for every page (Mission 21's validation profile).
     // What they read is noted wherever they are asked again (see WorldMemo).
-    const key = `${this.actor}|${roam}|${[...visited].sort().join(',')}`;
-    return ChartModel.read.of(this.world, key, () => this.read(visited, roam));
+    // Read in the order of the key, whoever asks first: read in the asker's order, the chart drew the ways and the
+    // stubs beyond them in the order of whoever had asked first in that world (OR-862).
+    const sorted = [...visited].sort(), key = `${this.actor}|${roam}|${sorted.join(',')}`;
+    return ChartModel.read.of(this.world, key, () => this.read(new Set(sorted), roam));
   }
   private static readonly read = new WorldMemo<WayInfo[]>();
   private read(visited: Set<string>, roam: boolean): WayInfo[] {
@@ -352,14 +354,18 @@ export class ChartModel {
         id => { named.add(id); return ''; });
     }
     const sites = new Set([...named].flatMap(id => this.siteOf(id) ?? []));
-    const outsides = w.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const)
+    // No site named, no way out of one to find: every way of the world had been gone through for none (OR-860).
+    const outsides = !sites.size ? [] : w.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const)
       .flatMap(([a, b]) => sites.has(this.siteOf(a) ?? '') && !this.siteOf(b) ? [b] : []);
     // The site an aim names is on the map, heard of (never its rooms: the way in is for the company to find): "Bring
     // the crown out of Nocsrecs" had named a barrow the map did not show (the owner's evidence sessions, 7 November).
     return [...new Set([...[...named].filter(id => this.entities.get(id)?.space && !this.siteOf(id)), ...sites,
       ...outsides])];
   }
+  // The site a place is in, worked out once a chart for each place (a way's two ends, every way of the world).
   private siteOf(id: string): string | undefined {
-    return Spatial.ancestry(this.entities, id).find(e => e.space?.kind === 'site')?.id;
+    if (!this.sites.has(id)) { this.sites.set(id, Spatial.ancestry(this.entities, id).find(e => e.space?.kind === 'site')?.id); }
+    return this.sites.get(id);
   }
+  private readonly sites = new Map<string, string | undefined>();
 }
