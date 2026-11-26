@@ -48,8 +48,6 @@ export class NewsFold {
     return here ? { act: here, in: acts }
       : acts.flatMap(a => a.children ? [NewsFold.far(a.children)] : []).find(x => !!x);
   }
-  // Word of a placed story, spread to the towns about it (ScenarioWord, KitWord: ask(informant, word…)).
-  static hearsay(command: string): boolean { return /^ask\([^,]+,word\w*__/.test(command); }
   // known: what the company knows, for the lands it has reason to ask about first.
   // What someone has heard of far places is one question in all (CL-67: at the Stone Horn the word of this country and
   // the news of the lands beyond had stood as two, and the word as six where a client read the offer's rows): the word
@@ -58,12 +56,8 @@ export class NewsFold {
   static of(targets: Map<string, Act[]>, names: { get(id: string): string | undefined }, known?: Set<string>) {
     for (const [who, acts] of targets) {
       NewsFold.lands(acts, known);
-      const all = acts.filter(a => a.does === 'ask' && a.command && !a.children), far = NewsFold.far(acts);
-      // Hearsay is asked for as news, however little of it someone has: its matter, by name, is what the company has
-      // not yet heard of (the owner's playtest, 25 November: the first town's character "knows too much", asking a
-      // priest at once about "the silk from the sink at a cave in the hillside west of Oakhythe").
-      const asks = all.length >= this.most || (all.length && far) ? all : all.filter(a => NewsFold.hearsay(a.command!));
-      if (!asks.length) { continue; }
+      const asks = acts.filter(a => a.does === 'ask' && a.command && !a.children), far = NewsFold.far(acts);
+      if (asks.length < this.most && !(asks.length && far)) { continue; }
       const reason = !!far && NewsFold.reason(far.act.command!, known), own = reason && far.act.label !== this.beyond;
       const pick = reason ? far.act : asks.length
         ? asks[[...who].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % asks.length]! : far!.act;

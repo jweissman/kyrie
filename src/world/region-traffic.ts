@@ -14,7 +14,6 @@ import type { Region, Settlement } from './region-writer';
 import tables from '../../data/generation/scenes/traffic.json';
 import folk from '../../data/generation/scenes/folk.json';
 import { RegionKey } from './region-key';
-import { ReferenceSettlement } from './reference-settlement';
 
 interface Trouble { kind: string; seen: string; act: string; about: string; done: string; freed: string;
   reward: number }
@@ -62,19 +61,13 @@ export class RegionTraffic {
     return { id: `${road.way}_t`, name, pronoun, kind: this.kinds[key]!, road, draw };
   }
   private static person(region: Region, t: Traveller): string[] {
-    const q = JSON.stringify, k = t.kind, from = t.road.from, rest = this.inn(region, from, t.road.way);
+    const q = JSON.stringify, k = t.kind, from = t.road.from, rest = SettlementWriter.standing(region, from, 'innkeeper');
     const likeness = CommunityWriter.likenessOf(region, { pronoun: t.pronoun, painting: k.painting, id: t.id });
     const sells = (k.sells ?? []).map(([what, fee, n]) => ` Sells ${what} for ${fee} coin from ${n}.`).join('');
     return [`  Person ${t.id} ${q(t.name)} at ${rest} { Role ${q(k.role)}. Ancestry ${from.folk ?? region.ancestry}.`
       + ` Background ${k.background}.${likeness} Peaceable. Pronouns ${t.pronoun}.`
       + ` Manner ${t.draw.pick(['cheerful', 'grim', 'stoic', 'jovial', 'acerbic', 'compassionate'])}.${sells} }`,
     `  Initially Assert journeysTo(${t.id}, ${t.road.to.id}_green).`];
-  }
-  // Where a traveller spends the night at a road's end: where travellers are kept there, but in the reference game's
-  // settlement, which keeps no roster of strangers (the owner's playtest, 25 November: the first town "overrun"; its
-  // inn had two of the road's travellers beside its own two): there they camp by the road and turn back in the morning.
-  private static inn(region: Region, s: Settlement, way: string): string {
-    return ReferenceSettlement.is(region, s) ? way : SettlementWriter.standing(region, s, 'innkeeper');
   }
   // The day's round: out on the road from nine to three, then into the end it was going to, and the next day back.
   private static rounds(region: Region, t: Traveller): string[] {
@@ -83,7 +76,7 @@ export class RegionTraffic {
     return [`  Rule ${t.id}_out when hour(clock) >= 9 and hour(clock) < 15 and not at(${t.id}, ${way}) and ${free} { Assert at(${t.id}, ${way}). }`,
       ...ends.flatMap(([to, back], i) => [
         `  Rule ${t.id}_in${i} when (hour(clock) >= 15 or hour(clock) < 9) and at(${t.id}, ${way}) and journeysTo(${t.id}, ${to.id}_green)`
-          + ` and ${free} { Assert at(${t.id}, ${this.inn(region, to, way)}). Retract journeysTo(${t.id}, ${to.id}_green).`
+          + ` and ${free} { Assert at(${t.id}, ${SettlementWriter.standing(region, to, 'innkeeper')}). Retract journeysTo(${t.id}, ${to.id}_green).`
           + ` Assert journeysTo(${t.id}, ${back.id}_green). }`,
         `  Observe ${t.id}_road${i} near ${t.id} of ${t.id} when at(${t.id}, ${way}) and journeysTo(${t.id}, ${to.id}_green)`
           + ` and not inTrouble(${t.id}) ${q(this.say(t, t.draw.pick(t.kind.road), { to: to.name }))}.`]),
