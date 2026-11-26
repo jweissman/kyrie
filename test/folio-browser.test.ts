@@ -29,7 +29,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the character as a folio', () => {
         const ink = getComputedStyle(document.querySelector('.character .who')!).color.match(/\d+/g)!.map(Number);
         const values = [...document.querySelectorAll('.character .values > div')].map(v => ({
           name: v.querySelector('dt')!.textContent!, score: v.querySelector('dd')!.textContent! }));
-        return { light: (r! + g! + b!) / 3 > 200, dark: ink.slice(0, 3).reduce((a, x) => a + x, 0) / 3 < 80, values,
+        // A light paper still, though toned to an aged vellum (OR-1090: its mean channel 191, from 220).
+        return { light: (r! + g! + b!) / 3 > 180, dark: ink.slice(0, 3).reduce((a, x) => a + x, 0) / 3 < 80, values,
           boxes: document.querySelectorAll('.character .stat-row, .character .mod').length,
           signs: document.querySelectorAll('.character .line-of svg, .character .spell-glyph').length,
           skillSigns: [...document.querySelectorAll('.character .skill-line')].some(l => /[+−-]\d/.test(l.textContent ?? '')) };

@@ -3,13 +3,14 @@ import { Folio } from './folio';
 
 // The handbooks' look: the game's own inks and faces (a book face for what is read, a terminal face for what is
 // operated), set as a reference to be searched rather than a frame to be played in; on the backstage's one theme
-// (OR-502: Folio), a parchment folio on the dark table, every ink on it measured against its paper.
+// (OR-502: Folio), a parchment folio on the dark table, every ink on it measured against its paper (the vellum of
+// OR-1090: each above 5:1 on the paper and on its deeper ground).
 export class HandbookStyle {
   static readonly css = `
 :root { --sheet: rgba(43, 36, 27, .035); --sheet-2: rgba(43, 36, 27, .07); --well: rgba(43, 36, 27, .05);
   --rule: rgba(43, 36, 27, .16); --rule-2: rgba(43, 36, 27, .3);
-  --ink: ${Folio.ink.ink}; --ink-2: #3A3126; --dim: ${Folio.ink.dim}; --faint: ${Folio.ink.faint}; --amber: ${Folio.ink.link};
-  --teal: #1D5A4E; --rose: #8A2E20; --gold: ${Folio.ink.sepia}; --violet: #4F428C; --green: #36602A; --blue: #2B4F86;
+  --ink: ${Folio.ink.ink}; --ink-2: #2F271E; --dim: ${Folio.ink.dim}; --faint: ${Folio.ink.faint}; --amber: ${Folio.ink.link};
+  --teal: #154338; --rose: #76221A; --gold: ${Folio.ink.sepia}; --violet: #3E3373; --green: #284A1F; --blue: #203C68;
   --prose: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Charter, "Source Serif 4", Georgia, serif;
   --mono: "JetBrains Mono", "IBM Plex Mono", "Cascadia Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   color-scheme: light; }

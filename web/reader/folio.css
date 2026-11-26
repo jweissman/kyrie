@@ -26,18 +26,22 @@
 /* The paper: one size on every page (it fills the leaf, and grows only with what is written), the Encyclopedia's. */
 :root [data-theme="folio"] .folio-sheet.folio-sheet { flex: 1 0 auto; box-sizing: border-box; width: 100%;
   max-width: none; margin: 0; padding: clamp(22px, 3vw, 40px) var(--folio-x) 56px;
-  --ivory: #2B241B; --ink: #2B241B; --grey: #54493A; --dim: #54493A; --faint: #5E5242; --accent: #2B241B;
-  --text-meta: #54493A; --row-neutral: rgba(43, 36, 27, .32);
-  --hair: rgba(43, 36, 27, .14); --edge: rgba(43, 36, 27, .24); --edge-strong: rgba(43, 36, 27, .4);
-  --accent-line: rgba(43, 36, 27, .3); --surface: #E3D8C1; --raised: #D7CBB1; --lift: #CBBFA6;
-  --paper: rgba(255, 250, 236, .22); --wash: #D7CBB1; --deep: #D7CBB1;
-  --choice-ground: rgba(43, 36, 27, .05); --choice-edge: rgba(43, 36, 27, .14);
-  --choice-ground-hot: rgba(43, 36, 27, .1); --choice-edge-hot: rgba(43, 36, 27, .32);
-  color: var(--ink); border: 1px solid rgba(43, 36, 27, .35); box-shadow: 0 0 0 1px rgba(0, 0, 0, .5), 0 24px 70px rgba(0, 0, 0, .55);
+  --ivory: #2A2119; --ink: #2A2119; --grey: #4A3F31; --dim: #4A3F31; --faint: #51453A; --accent: #2A2119;
+  --text-meta: #4A3F31; --row-neutral: rgba(42, 33, 25, .34);
+  --hair: rgba(42, 33, 25, .15); --edge: rgba(42, 33, 25, .26); --edge-strong: rgba(42, 33, 25, .42);
+  --accent-line: rgba(42, 33, 25, .32); --surface: #D3C5A6; --raised: #C6B795; --lift: #BBAB88;
+  --paper: rgba(255, 246, 222, .18); --wash: #C6B795; --deep: #C6B795;
+  --choice-ground: rgba(42, 33, 25, .05); --choice-edge: rgba(42, 33, 25, .15);
+  --choice-ground-hot: rgba(42, 33, 25, .1); --choice-edge-hot: rgba(42, 33, 25, .34);
+  color: var(--ink); border: 1px solid rgba(42, 33, 25, .4); box-shadow: 0 0 0 1px rgba(0, 0, 0, .5), 0 24px 70px rgba(0, 0, 0, .55);
   color-scheme: light;
-  background: radial-gradient(120% 90% at 50% 40%, rgba(255, 250, 236, .18), rgba(255, 250, 236, 0) 60%),
-    radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(92, 66, 32, .16) 100%),
-    repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #E3D8C1; }
+  /* Aged vellum (Folio.paper, OR-1090, OR-1118): a fine grain drawn by the browser, the binding's shadow at the left,
+     a soft light toward the middle, the edges and corners darkened with age, the laid lines very faint. */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .27 0 0 0 0 .14 0 0 0 .14 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    linear-gradient(90deg, rgba(58, 40, 18, .26), rgba(58, 40, 18, .08) 18px, rgba(58, 40, 18, 0) 42px),
+    radial-gradient(110% 85% at 52% 42%, rgba(255, 246, 222, .14), rgba(255, 246, 222, 0) 58%),
+    radial-gradient(150% 125% at 50% 50%, rgba(0, 0, 0, 0) 55%, rgba(78, 54, 24, .26) 100%),
+    repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #D3C5A6; }
 [data-theme="folio"] .folio-sheet :is(h1, h2, h3, p, li, span, b, dt, dd) { text-shadow: none; }
 /* Set as a book is: ragged right. */
 [data-theme="folio"] .folio-sheet p { text-align: left; }
@@ -63,3 +67,10 @@
 [data-theme="folio"].options-page .colophon { margin: var(--s6) 0 0; padding: 0; font: italic 400 14px/1.4 var(--told);
   color: var(--dim); }
 [data-theme="folio"].options-page .colophon .build { font: 400 12px/1.4 var(--do); font-style: normal; }
+
+/* Into the Book from the dark world, a quiet ease (OR-1119, the second review: the cut from a dark scene to the lit
+   leaf was "a flashlight in the eyes"): the table is there at once, and the leaf comes up on it over 220 ms, from
+   nothing and a few pixels low; no flash, no page turning, and none at all for one who asks for less motion. */
+@keyframes leaf-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+[data-theme="folio"] .folio-leaf { animation: leaf-up 220ms var(--ease) both; }
+@media (prefers-reduced-motion: reduce) { [data-theme="folio"] .folio-leaf { animation: none; } }
