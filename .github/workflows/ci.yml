@@ -219,10 +219,14 @@ jobs:
         env: { KYRIE_LONG: "1" }
       - if: always()
         run: bun scripts/test-summary.ts junit.xml --title "Long descents" --none-skipped
-  # The experience gate, nightly and on demand (scripts/quality): its numbers held by ratchets. About two minutes;
-  # its table is the run's summary. Times have no CI baseline until a night's readings are written into it.
+  # The experience gate, nightly and on demand (scripts/quality): its numbers held by ratchets, the performance ones
+  # among them (the start to the first frame, the turn, the decision and the journey leg, by median and p95, all from
+  # the one replay of the golden walk it already made: no minutes added). About four minutes; its table is the run's
+  # summary, and its readings a line of the log that `bun run quality --update --from=<run id>` writes into the ci
+  # baseline: a time with no ci baseline holds until a run's readings are taken into it, and a number that falls is
+  # taken in to lower it.
   quality:
-    name: quality (five numbers)
+    name: quality (the experience gate)
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 20

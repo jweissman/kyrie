@@ -15,7 +15,7 @@ import { join } from 'node:path';
 import { Costs, type Stage, type Tally } from '../../src/costs';
 import { PlayTool } from '../../src/cli/play-tool';
 import { Runner } from '../../src/cli/runner';
-import { Quality } from '../quality/quality';
+import { WalkTimings } from '../quality/walk-timings';
 import { CampaignTick } from '../../src/campaign/campaign-tick';
 import { AsMeant } from '../../test/support/as-meant';
 import { GoldenWalk } from '../../test/support/golden-walk';
@@ -55,7 +55,7 @@ export class PerformanceMap {
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const start = { ms: performance.now() - t0, stages: Costs.since(mark) };
     // The engine's act and what may be done after it, timed apart, as the quality gate times them.
-    Quality.timing(journey.session.campaign);
+    WalkTimings.timing(journey.session.campaign);
     this.rules();
     const r = new Runner(journey.session), turns: Turn[] = [];
     for (const line of lines) {

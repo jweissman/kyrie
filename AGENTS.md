@@ -103,10 +103,18 @@ this help the player forget the interface and become interested in what happens 
 
 ## Testing
 
-- **The experience gate:** `bun run quality` (scripts/quality/) reads its numbers nightly and holds each by a
-  ratchet in scripts/quality/baseline.json: the slice's P0/P1 defects, a new life to its first act, the median turn
-  and decision, the heap a turn keeps, the continuity census's breaches, and main's CI minutes. Lower a baseline with `--update` when a number falls. A
-  week's work should move at least one.
+- **The experience gate:** `bun run quality` (scripts/quality/) reads its numbers nightly in CI and holds each by a
+  ratchet in scripts/quality/baseline.json, kept apart for CI and a local machine: the slice's P0/P1 defects, the
+  heap a turn keeps, the continuity census's breaches, main's CI minutes, and the performance measures, from one
+  replay of the golden walk (scripts/quality/walk-timings.ts):
+  - a new life to its first frame, and to its first act;
+  - the median turn; a turn that sets out on no journey, median and p95;
+  - a decision (the act and the legal actions after it), median and p95;
+  - a journey leg whole, median and p95.
+
+  A median may pass its baseline by half again; the start, a leg's median and a p95 by more (Quality.slack, each
+  justified from repeated runs). Lower a baseline with `--update` when a number falls (`--update --from=<run id>` for
+  CI's, from a night's log); never widen a band to pass. A week's work should move at least one.
 - **The acceptance ladder,** cheapest first:
   1. setting-independent contracts;
   2. seeded headless journeys, with invariants at every turn;

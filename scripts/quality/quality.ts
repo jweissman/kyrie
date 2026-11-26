@@ -1,49 +1,59 @@
 #!/usr/bin/env bun
-// The experience gate (the owner, 23 November): six numbers, read every night, each held by a ratchet so that a week
-// of work can be judged by whether it moved one. None of them is the experience; each is the cheapest honest reading of
-// a part of it, and human acceptance stays apart (BRIEF.md §2).
+// The experience gate (the owner, 23 November): its numbers read every night, each held by a ratchet so that a week of
+// work can be judged by whether it moved one. None of them is the experience; each is the cheapest honest reading of a
+// part of it, and human acceptance stays apart (BRIEF.md §2).
 //   slice:     the supported slice's live P0/P1 defects (scripts/planning-instruments.ts)
-//   first:     a new life started and its first act answered, headless, in ms (the browser's Play-to-act is the
-//              page's to measure; this is the engine's share of it)
-//   turn:      the median turn of the warrior's golden walk through the runner, headless, in ms
-//   decision:  the median decision on that walk: the engine's act and what the company may do after it worked out
-//              (src/costs.ts: act and legal), over the turns of one act; the owner's budget is 15 ms (BRIEF.md §4).
-//              A journey's turns, an act a leg, are said beside it by the leg (their budget is 5 ms)
+//   the walk's times, headless, in ms, from one replay of the warrior's golden walk (scripts/quality/walk-timings.ts):
+//     start      a new life begun and its first frame told; first, its first act answered besides (the browser's
+//                Play-to-act is the page's to measure; this is the engine's share of it)
+//     turn       the median turn; still and still95, a turn that sets out on no journey, median and p95 (budget 30)
+//     decision   the engine's act and the legal actions after it, median, and decision95 its p95 (budget 15)
+//     leg        one leg of a journey whole, median, and leg95 its p95 (budget 5: BRIEF.md §4)
 //   heap:      what a turn of that walk keeps, in KB: the heap after its last turn less the heap after its first, each
 //              after a full collection, over the turns between (25 November: a walk had kept 1.5 MB a step, readings
 //              kept with the worlds they were made in; test/small/kept-holds-no-world)
 //   breaches:  the continuity census's opportunity and undertaking breaches over its three walks
 //   ci:        main's last successful CI run on a push, wall-clock minutes (from GitHub; skipped without gh)
 // Each is compared with scripts/quality/baseline.json, kept apart for CI and for a local machine (times differ): a
-// count may not rise, a time (or the heap kept) may not pass its baseline by more than half again (runners vary).
+// count may not rise; a time (or the heap kept) may not pass its baseline by more than its slack (Quality.slack: half
+// again for a median, more for a p95, which one slow turn moves; runners vary).
 // --update writes what was measured as the new baseline; lower it when a number falls, so the ratchet holds the gain.
-//   bun scripts/quality/quality.ts [--update] [--only slice,turn,…]
-import { heapStats } from 'bun:jsc';
+// --from=<run id> with --update takes the readings a CI run printed (its quality job's log) into the ci baseline, so
+// that a night on the runner lowers the runner's ratchet as a local run lowers the local one.
+//   bun scripts/quality/quality.ts [--update [--from=<run id>]] [--only=slice,turn,…]
 import { execSync } from 'node:child_process';
 import { appendFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { Campaign } from '../../src/campaign/campaign';
-import { Costs } from '../../src/costs';
-import { PlayTool } from '../../src/cli/play-tool';
-import { Runner } from '../../src/cli/runner';
-import { AsMeant } from '../../test/support/as-meant';
 import { ContinuityCensus } from '../continuity-census';
 import { PlanningInstruments } from '../planning-instruments';
-import { GoldenWalk } from '../../test/support/golden-walk';
+import { type Reading, type Walked, WalkTimings } from './walk-timings';
 
-type Measure = 'slice' | 'first' | 'turn' | 'decision' | 'heap' | 'breaches' | 'ci';
-interface Reading { value: number | null; note: string }
+type Measure = 'slice' | Walked | 'breaches' | 'ci';
 type Baseline = Record<'ci' | 'local', Partial<Record<Measure, number>>>;
 
 export class Quality {
   static readonly file = join(import.meta.dir, 'baseline.json');
-  static readonly walk = 'doc/architecture/mission-22/golden/warrior-walk.txt';
-  // Times may drift this far over their baseline before the gate fails; counts may not rise at all.
-  static readonly slack = 1.5;
-  static readonly timed = new Set<Measure>(['first', 'turn', 'decision', 'heap', 'ci']);
+  // Times may drift this far over their baseline before the gate fails; counts may not rise at all. Half again for a
+  // median (five local runs at load 5 spread 1.14 to 1.22 a median; five CI nights 1.38 the turn, 1.55 the decision
+  // across a day's commits). More where the readings spread more: the start, cold on every runner (five CI runs
+  // 1.58, a cold local one twice a warm); the leg's median, of about seventeen legs of two kinds (1.76 locally); and a
+  // p95, one of the walk's three slowest turns, acts or legs, which one pause moves (1.27 to 1.38 locally, CI's p90s
+  // 1.52 and 1.58).
+  static readonly slack: Partial<Record<Measure, number>> = { start: 1.75, leg: 2, still95: 2, decision95: 2,
+    leg95: 2 };
+  static readonly slackOf = 1.5;
+  static readonly walked: Walked[] = ['start', 'first', 'turn', 'still', 'still95', 'decision', 'decision95', 'leg',
+    'leg95', 'heap'];
+  static readonly timed = new Set<Measure>([...this.walked, 'ci']);
+  // What a run prints its readings after, for --from to find in its log.
+  static readonly said = 'quality readings: ';
   static readonly labels: Record<Measure, string> = { slice: 'Supported slice P0/P1 defects',
-    first: 'New life to first act answered (headless ms)', turn: 'Median turn, warrior walk (headless ms)',
-    decision: 'Median decision, act and legal actions (headless ms)', heap: 'Heap kept a turn, warrior walk (KB)',
+    start: 'New life to first frame (headless ms)', first: 'New life to first act answered (headless ms)',
+    turn: 'Median turn, warrior walk (headless ms)', still: 'Median turn setting out on no journey (headless ms)',
+    still95: 'p95 turn setting out on no journey (headless ms)',
+    decision: 'Median decision, act and legal actions (headless ms)',
+    decision95: 'p95 decision, act and legal actions (headless ms)', leg: 'Median journey leg (headless ms)',
+    leg95: 'p95 journey leg (headless ms)', heap: 'Heap kept a turn, warrior walk (KB)',
     breaches: 'Continuity census breaches', ci: 'Main CI on a push (minutes)' };
 
   static slice(): Reading {
@@ -51,50 +61,6 @@ export class Quality {
       && PlanningInstruments.high(r));
     return { value: rows.length, note: `of ${PlanningInstruments.placed().filter(r => r.slice).length} live in the slice` };
   }
-  static lines(): string[] {
-    return readFileSync(this.walk, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#'));
-  }
-  // One walk serves both: the start and first act timed, then every turn.
-  static async played(): Promise<{ first: Reading; turn: Reading; decision: Reading; heap: Reading }> {
-    const lines = this.lines(), t0 = performance.now();
-    const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
-    const begun = performance.now() - t0, r = new Runner(journey.session), turns: number[] = [], decided: number[] = [];
-    const legs: number[] = [], held: number[] = [];
-    this.timing(journey.session.campaign);
-    for (const line of lines) {
-      const t = performance.now(), mark = Costs.mark();
-      await AsMeant.ask(r, line);
-      turns.push(performance.now() - t);
-      const { act, legal } = Costs.since(mark);
-      const ms = (act?.ms ?? 0) + (legal?.ms ?? 0);
-      if (act?.n === 1) { decided.push(ms); } else if (act) { legs.push(ms / act.n); }
-      if (turns.length === 1) { held.push(this.heap()); }
-    }
-    held.push(this.heap());
-    const sorted = this.sorted(turns), decisions = this.sorted(decided), legged = this.sorted(legs);
-    return { first: { value: Math.round(begun + turns[0]!), note: `the start ${Math.round(begun)} ms, the first line ${Math.round(turns[0]!)}` },
-      turn: { value: Math.round(this.at(sorted, 0.5)), note: `p90 ${Math.round(this.at(sorted, 0.9))} ms over ${turns.length} turns` },
-      decision: { value: Math.round(this.at(decisions, 0.5)),
-        note: `p90 ${Math.round(this.at(decisions, 0.9))} ms over ${decisions.length} acts, target 15; a journey's leg `
-          + `${Math.round(this.at(legged, 0.5))} ms at the median over ${legged.length} journeys, target 5` },
-      heap: { value: Math.round((held[1]! - held[0]!) / 1024 / Math.max(1, turns.length - 1)),
-        note: `${Math.round(held[0]! / 1048576)} → ${Math.round(held[1]! / 1048576)} MB over ${turns.length - 1} turns, `
-          + `rss ${Math.round(process.memoryUsage().rss / 1048576)} MB` } };
-  }
-  // The heap after a full collection, in bytes.
-  static heap(): number { Bun.gc(true); return heapStats().heapSize; }
-  // The engine's own act timed (each leg of a journey its own), and apart from it what the player may do worked out,
-  // never within it, so that the two add up without counting anything twice.
-  static timing(c: Campaign): void {
-    c.executeAsync = this.execute.bind(this, c.executeAsync.bind(c));
-    c.offered = this.offered.bind(this, c.offered.bind(c));
-  }
-  private static execute(execute: Campaign['executeAsync'], ...a: Parameters<Campaign['executeAsync']>) {
-    return Costs.timed('act', () => execute(...a));
-  }
-  private static offered(offered: Campaign['offered']) { return Costs.time('legal', offered); }
-  static sorted(xs: number[]): number[] { return [...xs].sort((a, b) => a - b); }
-  static at(sorted: number[], q: number): number { return sorted[Math.floor(q * (sorted.length - 1))]!; }
   static async breaches(): Promise<Reading> {
     const counts: string[] = [];
     let total = 0;
@@ -115,36 +81,64 @@ export class Quality {
       return { value: Math.round(minutes * 10) / 10, note: `run ${run.databaseId}` };
     } catch { return { value: null, note: 'gh unavailable' }; }
   }
-  // Whether a reading holds against its baseline: a count may not rise; a time may not pass it by the slack.
+  // Whether a reading holds against its baseline: a count may not rise; a time may not pass it by its slack.
   static holds(m: Measure, value: number | null, base: number | undefined): boolean {
     if (value === null || base === undefined) { return true; }
-    return this.timed.has(m) ? value <= base * this.slack : value <= base;
+    return this.timed.has(m) ? value <= base * (this.slack[m] ?? this.slackOf) : value <= base;
   }
   static want(only: Measure[] | undefined, m: Measure): boolean { return !only || only.includes(m); }
-  static async run(args: string[]): Promise<number> {
-    const only = args.find(a => a.startsWith('--only='))?.slice(7).split(',') as Measure[] | undefined;
-    const env = process.env.CI ? 'ci' : 'local';
+  static async read(only: Measure[] | undefined): Promise<Partial<Record<Measure, Reading>>> {
     const read: Partial<Record<Measure, Reading>> = {};
     if (this.want(only, 'slice')) { read.slice = this.slice(); }
-    if (['first', 'turn', 'decision', 'heap'].some(m => this.want(only, m as Measure))) { Object.assign(read, await this.played()); }
+    if (this.walked.some(m => this.want(only, m))) {
+      const walked = await WalkTimings.played();
+      for (const m of this.walked.filter(w => this.want(only, w))) { read[m] = walked[m]; }
+    }
     if (this.want(only, 'breaches')) { read.breaches = await this.breaches(); }
     if (this.want(only, 'ci')) { read.ci = this.ci(); }
-    const baseline: Baseline = existsSync(this.file) ? JSON.parse(readFileSync(this.file, 'utf8')) as Baseline
-      : { ci: {}, local: {} };
+    return read;
+  }
+  // The readings a CI run printed (see said), from its quality job's log.
+  static ran(run: string): Partial<Record<Measure, Reading>> {
+    const log = execSync(`gh run view ${Number(run)} --log`, { stdio: ['ignore', 'pipe', 'ignore'],
+      maxBuffer: 1 << 28 }).toString();
+    const line = log.split('\n').find(l => l.includes(this.said));
+    if (!line) { throw new Error(`run ${run} printed no quality readings`); }
+    const values = JSON.parse(line.slice(line.indexOf(this.said) + this.said.length)) as
+      Partial<Record<Measure, number>>;
+    return Object.fromEntries(Object.entries(values).map(([m, v]) => [m, { value: v, note: `run ${run}` }]));
+  }
+  static table(read: Partial<Record<Measure, Reading>>, base: Partial<Record<Measure, number>>): { rows: string[];
+    failed: number } {
     const rows = ['| Measure | Now | Baseline | Holds | Note |', '|---|---|---|---|---|'];
     let failed = 0;
     for (const [m, r] of Object.entries(read) as [Measure, Reading][]) {
-      const base = baseline[env][m], ok = this.holds(m, r.value, base);
+      const ok = this.holds(m, r.value, base[m]);
       if (!ok) { failed++; }
-      rows.push(`| ${this.labels[m]} | ${r.value ?? '—'} | ${base ?? '—'} | ${ok ? 'yes' : '**no**'} | ${r.note} |`);
-      if (args.includes('--update') && r.value !== null) { baseline[env][m] = r.value; }
+      rows.push(`| ${this.labels[m]} | ${r.value ?? '—'} | ${base[m] ?? '—'} | ${ok ? 'yes' : '**no**'} | ${r.note} |`);
     }
+    return { rows, failed };
+  }
+  static async run(args: string[]): Promise<number> {
+    const only = args.find(a => a.startsWith('--only='))?.slice(7).split(',') as Measure[] | undefined;
+    const from = args.find(a => a.startsWith('--from='))?.slice(7), update = args.includes('--update');
+    const env = process.env.CI || from ? 'ci' : 'local';
+    const read = from ? this.ran(from) : await this.read(only);
+    const baseline: Baseline = existsSync(this.file) ? JSON.parse(readFileSync(this.file, 'utf8')) as Baseline
+      : { ci: {}, local: {} };
+    const { rows, failed } = this.table(read, baseline[env]);
     console.log(rows.join('\n'));
+    console.log(`${this.said}${JSON.stringify(Object.fromEntries(Object.entries(read).map(([m, r]) => [m, r.value])))}`);
     if (process.env.GITHUB_STEP_SUMMARY) {
       appendFileSync(process.env.GITHUB_STEP_SUMMARY, `## Quality (${env})\n\n${rows.join('\n')}\n`);
     }
-    if (args.includes('--update')) { writeFileSync(this.file, `${JSON.stringify(baseline, null, 1)}\n`); }
-    return failed && !args.includes('--update') ? 1 : 0;
+    if (update) {
+      for (const [m, r] of Object.entries(read) as [Measure, Reading][]) {
+        if (r.value !== null) { baseline[env][m] = r.value; }
+      }
+      writeFileSync(this.file, `${JSON.stringify(baseline, null, 1)}\n`);
+    }
+    return failed && !update ? 1 : 0;
   }
 }
 
