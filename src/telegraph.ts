@@ -1,5 +1,4 @@
 import type { Battle } from './battle';
-import { ItemCatalog } from './item-catalog';
 import type { Fighter } from './model';
 import { SettingPort, type SettingTelegraphs } from './setting-port';
 
@@ -64,7 +63,7 @@ export class Telegraph {
       return { line: Telegraph.book.natural[weapon?.id ?? 'fist'] ?? Telegraph.book.natural.fist
         ?? '{Who} goes for {whom}.', source: 'natural' };
     }
-    const kind = ItemCatalog.get(weapon.id).weapon?.kind ?? '', held = Telegraph.book.held;
+    const kind = weapon.kind ?? '', held = Telegraph.book.held;
     const line = held[`${kind}-${weapon.type}`] ?? held[kind] ?? held[weapon.missile ? 'missile' : 'melee']
       ?? '{Who} comes at {whom} with {a weapon}.';
     return { line, source: 'held' };
