@@ -66,7 +66,8 @@ describe('the first cold play\'s continuity', () => {
     const j = await life();
     j.assert('knows', 'party', 'howe__ridge_told');
     await j.play('>region__s4_taproom');
-    expect(j.latest).toMatch(/Dreg has a name for the grassed mound/);
+    // The mound is told apart by its side of the country and its land, not by a town (OR-812).
+    expect(j.latest).toMatch(/Dreg has a name for the (?:[a-z-]+ern )?grassed mound\b[^.:]* you heard of: Black Howe/);
     const howe = PlayerView.observe(j.campaign).knowledge.find(k => k.id === 'region__w13_named');
     expect([howe?.source, howe?.from?.split(',')[0]]).toEqual(['heard', 'Dreg']);
   }, 120000);

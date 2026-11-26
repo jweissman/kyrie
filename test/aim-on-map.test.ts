@@ -13,7 +13,8 @@ describe('a place an aim names', () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'kin',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'kite', w.source), screen = ScreenModel.build(s.campaign);
-    const said = /^Look along (the bridge.+?) for your father/;
+    // The bridge told apart from its likes by its side of the country, not by a town (OR-810, OR-940).
+    const said = /^Look along (the (?:[a-z-]+ern )?bridge.+?) for your father/;
     const bridge = said.exec((screen.aims ?? []).find(a => said.test(a.text))!.text)![1]!;
     const marks = (screen.region?.land as { marks: { name: string; state: string; cell?: number }[] }).marks;
     expect(marks.find(m => m.name === bridge)).toMatchObject({ state: 'heard' });
