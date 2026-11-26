@@ -66,6 +66,9 @@ describe('World › The reference loop', () => {
     // whatever she is first asked; the way out of the store leaves the talk.
     const keeper = c.module.entities.find(e => e.id === P('merchant'))!.name.split(', ')[0]!;
     const store = async () => { await to('shop'); await act(`^(Talk to|Ask) ${keeper}`); };
+    // Someone's talk is opened by its row, the bare talk or the question it is led with, titled short (OR-802:
+    // "Finnan: what is out in the country round"), which asks it and stays in the talk.
+    const talk = (who: string) => act(`^(Talk to ${who}\\b|${who}: )`);
     // The settlement: three working places off its heart, and the woods.
     await to('green');
     expect(['shop', 'taproom', 'shrine', 'wood_edge'].every(p => rows(s).some(x => x.id === `exit:${P(p)}`))).toBe(true);
@@ -75,9 +78,9 @@ describe('World › The reference loop', () => {
     expect(coin()).toBe(purse - 3);
     // Trader 2: the woods asked about, and someone at the fire taken on.
     await to('green'); await to('taproom');
-    await act(`^Talk to ${dealer}`); await act('about the old woods');
+    await talk(dealer); await act('about the old woods');
     expect(s.scene.lines.join(' ')).toMatch(/Have you been into the old woods\?/);
-    await act('^Talk to .*come along'); await act('to join the company');
+    await act('^(Talk to .*come along|.*: whether .* would come along)'); await act('to join the company');
     expect(c.readout.partyIds.length).toBe(2);
     // The woods: woundwort on the ride, the way to the stones from the burners' clearing, the way down at the stones.
     await to('green'); await to('wood_edge'); await to('wood_ride');
@@ -100,13 +103,13 @@ describe('World › The reference loop', () => {
     expect(ScreenModel.build(c).party.every(m => m.hp === m.maxHp)).toBe(true);
     // What the woods gave is sold where the woods' things are bought.
     const before = coin();
-    await to('green'); await to('taproom'); await act(`^Talk to ${dealer}`); await act('^Sell .*woundwort');
+    await to('green'); await to('taproom'); await talk(dealer); await act('^Sell .*woundwort');
     expect(coin()).toBeGreaterThan(before);
     // The second trip prepared for: the shrine-keeper, asked what lies past the first level, says what the second
     // wants (bones turn a blade; the wrapped dead burn: WoodsCounsel, from what lives there), and the store sells it.
     const priest = c.module.entities.find(e => e.id === P('priest'))!.name.split(', ')[0]!;
     const heart = c.module.entities.find(e => e.id === P('green'))!.name;
-    await to('green'); await to('shrine'); await act(`^Talk to ${priest}`); await act('what lies past the passage-grave');
+    await to('green'); await to('shrine'); await talk(priest); await act('what lies past the passage-grave');
     expect(s.scene.lines.join(' ')).toMatch(/a club[^]*Take fire/);
     await to('green'); await store(); await act('^Buy a club'); await act('^Buy an oil firebomb');
     // And a coil of rope, for the way down (the club and the bomb spent the purse: a spare axe sold for it).
@@ -132,7 +135,7 @@ describe('World › The reference loop', () => {
     await act('^Climb the dead-shaft and leave a rope');
     // Out, rested, and asked again: what lies past the second level.
     await act(`^Out to ${heart}`); await to('shrine'); await act('^Take a pallet|^Rest six hours');
-    await act(`^Talk to ${priest}`); await act('what lies past the halls');
+    await talk(priest); await act('what lies past the halls');
     expect(s.scene.lines.join(' ')).toMatch(/Take fire/);
     // The third trip: through the halls to the king's door, and down into the third level.
     await to('green'); await store(); await maybe('^Buy a torch'); await maybe('^Buy an oil firebomb');

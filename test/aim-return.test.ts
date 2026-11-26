@@ -23,7 +23,12 @@ class Walked {
   async follow(text: RegExp) {
     this.said = await this.r.ask(JSON.stringify({ follow: this.said.aims!.find(a => text.test(a.text))!.id })) as Said;
   }
-  gold() { return this.said.offer.primary.filter(o => o.aspects.includes('undertaking')).map(o => o.label); }
+  // The gold among every row offered: a way out of a building toward the aim stands last of the rest (OR-800, Leaving),
+  // led wherever it stands (OR-930).
+  gold() {
+    return [...this.said.offer.primary, ...this.said.offer.rest].filter(o => o.aspects.includes('undertaking'))
+      .map(o => o.label);
+  }
 }
 describe('an aim left unmet', () => {
   it('leads out of a shop over a landing passed twice doing nothing there', async () => {
