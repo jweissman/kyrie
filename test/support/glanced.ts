@@ -13,7 +13,8 @@ import { SceneModel } from '../../src/ui/scene';
 import { Attending } from '../../src/ui/attention';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { Journey } from '../../src/session/journey';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
+import { MenuTree } from '../../src/frame/menu-tree';
 import type { Frame } from '../../src/creation/protocol';
 import { Undertakings } from '../../src/presentation/undertakings';
 
@@ -71,9 +72,8 @@ export class Glanced {
   // The page's frame, as the host sends it, and what it offers to choose among where the company stands.
   frame(): Frame {
     // Charted, as the host charts the page's frame (Itineraries.charted).
-    return { title: '', screen: Itineraries.charted(this.s.campaign, this.screen), entries: [], leaf: this.leaf,
-      opening: [], chronicle: [],
-      transcript: { steps: [] } as unknown as Frame['transcript'] };
+    return MenuTree.framed({ title: '', screen: Itineraries.charted(this.s.campaign, this.screen), entries: [],
+      leaf: this.leaf, opening: [], chronicle: [], transcript: { steps: [] } as unknown as Frame['transcript'] });
   }
   // What the page draws to choose among; in a town or a site its ways out into the country among them, drawn as
   // going out to the country (see MenuModel.place).

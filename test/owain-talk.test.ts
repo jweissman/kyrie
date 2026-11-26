@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Conversation, type TalkLine } from '../web/reader/conversation';
 import type { Choice } from '../src/ui/choice-list';
 import type { Frame } from '../src/creation/protocol';

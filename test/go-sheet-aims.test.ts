@@ -5,7 +5,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { Undertakings } from '../src/presentation/undertakings';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Act } from '../web/reader/stage/act';
 import { Wayfinder } from '../web/reader/stage/wayfinder';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';

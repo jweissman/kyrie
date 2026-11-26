@@ -1,18 +1,20 @@
-import { ChoiceList, type Choice, type Section } from '../../src/ui/choice-list';
-import { TalkFocus } from './talk-focus';
-import { Guidance } from './guidance';
-import { ChoiceTree } from '../../src/ui/choice-tree';
-import { SceneModel, type Scene } from '../../src/ui/scene';
-import { Attending, type Attention, type Examined, type Talk } from '../../src/ui/attention';
-import type { Frame } from '../../src/creation/protocol';
-import type { Glance } from '../../src/presentation/glance-types';
-import type { Travel } from './reader-app';
-import { Words } from '../../src/presentation/words';
-import { Doable } from '../../src/presentation/doable';
+import { ChoiceList, type Choice, type Section } from '../ui/choice-list';
+import { TalkFocus } from '../ui/talk-focus';
+import { ChoiceTree } from '../ui/choice-tree';
+import { SceneModel, type Scene } from '../ui/scene';
+import { Attending, type Attention, type Examined, type Talk } from '../ui/attention';
+import type { Frame } from '../creation/protocol';
+import type { Glance, Promoted } from '../presentation/glance-types';
+import { Words } from '../presentation/words';
+import { Doable } from '../presentation/doable';
 import { Hours } from './hours';
 import { Wares } from './wares';
-import { Leaving } from '../../src/presentation/leaving';
+import { Leaving } from '../presentation/leaving';
+import { MenuTree } from './menu-tree';
 
+// A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
+// held on the screen for its own sake.
+export interface Travel { from: string; to: string; way: string; minutes: number }
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
 // one thing looked at; in a fight, the acting companion's options; or the company's or the pack's. Every choice in
@@ -42,10 +44,11 @@ export class MenuModel {
     const { attention, member } = at;
     if (!frame) { return { sections: [], choices: [] }; }
     const opened = new Set(open);
+    // The resting scene is the frame's own (MenuTree): drawn with the folds open that the player opened.
     if (!frame.combat && !['pack', 'company'].includes(view)) {
-      const scene = SceneModel.build(frame.screen);
-      return this.attending(scene, opened, { attention, asked: at.asked, heard: at.heard, trading: at.trading }, frame)
-        ?? this.place(Attending.place(scene), opened, frame);
+      const attended = attention && attention.kind !== 'place' ? this.attending(SceneModel.build(frame.screen), opened,
+        { attention, asked: at.asked, heard: at.heard, trading: at.trading }, frame) : undefined;
+      return attended ?? MenuTree.opened(frame.menu, opened);
     }
     const sections = frame.combat ? ChoiceList.combat(frame.combat)
       : view === 'pack' ? ChoiceList.pack(frame.screen) : this.character(frame.screen, member);
@@ -83,7 +86,9 @@ export class MenuModel {
   // Nothing is folded: the ways about the place and the roads out are each a choice, and of the places further off the
   // nearest few are journeys to set out on, the rest on the map (the owner's interim report: folded trees of roads and
   // destinations were the graph laid bare, a town square's thirty peers the reason they had been folded: PT-09).
-  private static place(found: Scene, opened: Set<string>, frame: Frame): Menu {
+  // Worked out for the frame alone (MenuTree.of), every opener open; and, with the folds a player opened, the oracle
+  // the frame's menu is held equal to (test/menu-tree).
+  static resting(found: Scene, opened: Set<string>, frame: Omit<Frame, 'menu'>): Menu {
     const screen = frame.screen, inside = MenuModel.inside(screen);
     const kept = { ...found, you: found.you.map(c => /^advance:/.test(c.id) ? this.developing(c, screen)
       : /^prepare:/.test(c.id) ? this.preparing(c, screen) : c) };
@@ -101,10 +106,9 @@ export class MenuModel {
     // Whoever there is to talk to for something is led with among the rest, as well as being on the picture (the owner,
     // 12 November: a taproom had led with two things, and the several with something for the company were only their
     // likenesses). Where the aim's next step stands among them is settled here, once, so that the page and the keys
-    // agree (see Guidance.placed): the keys had followed the glance's order while the page drew another.
+    // agree (see MenuModel.placed): the keys had followed the glance's order while the page drew another.
     const shown = glance?.acts ?? [];
-    const leads = Guidance.placed(shown, shown.filter(a => a.tier === 0).length,
-      `${screen.place.id}:${screen.aims?.find(a => a.followed)?.id ?? ''}`);
+    const leads = MenuModel.placed(shown);
     const talked = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.danger)
       .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
     const leading = new Set(shown.filter(a => talked.has(a.choice)).map(a => a.choice));
@@ -127,6 +131,13 @@ export class MenuModel {
     around: about, ...glance ? { sheets, leads, leading, said: new Map([...glance.acts,
       ...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(a => [a.choice, a.label])) } : {},
     ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
+  }
+  // The continuation first, ahead of what will not wait (the owner, 18 November: "If a golden option exists, it should
+  // be first"; it had been set among the rest by a hash of the place, so that the first button was not always the right
+  // one). The engine orders it so (Promotion.continued); kept here for the page's order and the keys' to agree.
+  static placed(acts: Promoted[]): Promoted[] {
+    const next = acts.find(a => a.continues);
+    return next ? [next, ...acts.filter(a => a !== next)] : acts;
   }
   // What leaves last, by the engine's one rule (Leaving).
   private static leaving(choices: Choice[], screen: Frame['screen']): Choice[] {
@@ -200,7 +211,7 @@ export class MenuModel {
   // Something in a way and what can be done about it are drawn under the way, open, and are among the choices (they
   // had been a fold: play 7): a choice of a way's own that holds choices of its own, the first of them too (a way
   // barred by a portcullis drew "Push and pull at it" under it, and a touch on it found nothing: play 9).
-  private static inWay(c: Choice): boolean { return /^exit:[^/]+\/\d+:/.test(c.id) && !!c.children; }
+  static inWay(c: Choice): boolean { return /^exit:[^/]+\/\d+:/.test(c.id) && !!c.children; }
   // The other places of the town further than a step, each walked to directly by the known way: "To the taproom of
   // the Fierce Goblet, by the landing".
   static around(screen: Frame['screen']): Choice[] {
@@ -251,7 +262,7 @@ export class MenuModel {
   // giving it up.
   static readonly unbind = 'unbind';
   // An aim held and none followed, offered to be followed as any act is (the glance leads with it: Glance.held).
-  static following(frame: Frame): Choice[] {
+  static following(frame: Omit<Frame, 'menu'>): Choice[] {
     const pull = frame.leaf.glance?.acts.find(a => a.choice.startsWith('follow:'));
     return pull ? [{ id: pull.choice, label: pull.label, tone: 'company', command: pull.choice }] : [];
   }

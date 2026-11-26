@@ -7,7 +7,7 @@ import { Journey } from '../src/session/journey';
 import { Attending } from '../src/ui/attention';
 import { SceneModel } from '../src/ui/scene';
 import type { Lens } from '../src/presentation/glance-types';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Act } from '../web/reader/stage/act';
 import { GlanceStage } from '../web/reader/stage/glance';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';

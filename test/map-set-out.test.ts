@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { FictionalTime } from '../src/campaign/fictional-time';
-import { Hours } from '../web/reader/hours';
+import { Hours } from '../src/frame/hours';
 import { MapCard } from './support/map-card';
 import { Countries } from '../src/world/countries';
 import { MapPlay } from './support/map-play';

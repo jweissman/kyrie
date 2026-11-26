@@ -1095,6 +1095,7 @@
     "test/cl33-four.test.ts": 56301,
     "test/client-parity-fight.test.ts": 92809,
     "test/groundings-incremental.test.ts": 89170,
+    "test/menu-tree.test.ts": 55210,
     "test/hall-answers.test.ts": 61325,
     "test/hesper-pump.test.ts": 14386,
     "test/hex-only-by-travel.test.ts": 37127,

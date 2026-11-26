@@ -1,7 +1,7 @@
 import type { Successor } from '../../../src/presentation/glance-types';
 import { Typography } from '../../../src/presentation/typography';
 import type { ReaderApp } from '../reader-app';
-import { MenuModel } from '../menu-model';
+import { MenuModel } from '../../../src/frame/menu-model';
 import { Words } from '../../../src/presentation/words';
 import { ChoiceRow } from './choice-row';
 

@@ -8,7 +8,7 @@ import type { ReaderApp } from '../reader-app';
 import { Attending } from '../../../src/ui/attention';
 import { Doable, type Row } from '../../../src/presentation/doable';
 import { Typography } from '../../../src/presentation/typography';
-import { MenuModel } from '../menu-model';
+import { MenuModel } from '../../../src/frame/menu-model';
 import { Aims } from '../aims';
 import { Words } from '../../../src/presentation/words';
 import { Emphasis } from '../../../src/presentation/emphasis';
@@ -349,9 +349,7 @@ export class GlanceStage {
   // A row's mark: the indicator of the glance's witness for the choice it is (Attest), else the neutral line.
   // An opener among them by the fold of its rows (Fold), never its own reasons.
   static marked(app: ReaderApp, choice: string, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
-    const g = app.state.frame?.leaf.glance;
-    return ChoiceRow.mark(Fold.mark(Fold.of(g, GlanceStage.choice(app, choice), choice, true),
-      gilded && Guidance.shown(app)));
+    return ChoiceRow.mark(Fold.mark(app.state.frame?.menu.marks.led[choice] ?? [], gilded && Guidance.shown(app)));
   }
   static yours(app: ReaderApp, acts: Promoted[], drawn: (Choice | undefined)[]): Choice | undefined {
     const lead = acts.find(a => a.tier > 0 && !a.exit && !a.choice.startsWith('travel:') && !a.subject);

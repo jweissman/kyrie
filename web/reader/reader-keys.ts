@@ -1,5 +1,5 @@
 import type { ReaderApp } from './reader-app';
-import type { View } from './menu-model';
+import type { View } from '../../src/frame/menu-model';
 import { Stage } from './stage/stage';
 import { PrologueStage } from './stage/prologue-stage';
 import { Raised } from './stage/raised';

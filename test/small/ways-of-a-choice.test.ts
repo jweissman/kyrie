@@ -1,9 +1,10 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import type { Frame } from '../../src/creation/protocol';
 import type { ReaderApp } from '../../web/reader/reader-app';
+import { MenuTree } from '../../src/frame/menu-tree';
 
 // The ways of one choice are led side by side, or not at all (OR-242: the first blind cold play of the page, P142-144:
 // after Ifan Rhys was spoken to, the four led his boat for "wind the gate up" alone, and "keep it shut" was under the
@@ -35,7 +36,7 @@ const together = (does: string[]) => {
   return at.length === 0 || (at.length === 2 && at[1] === at[0]! + 1);
 };
 const drawn = (t: Tiny) => {
-  const frame = { screen: t.screen, leaf: t.leaf } as unknown as Frame, menu = MenuModel.build(frame, 'here', []);
+  const frame = MenuTree.framed({ screen: t.screen, leaf: t.leaf } as unknown as Frame), menu = MenuModel.build(frame, 'here', []);
   const app = { state: { frame, open: [], keyed: false, cursor: 0 }, menu, props: { query: new URLSearchParams() },
     choose: () => undefined } as unknown as ReaderApp;
   return GlanceStage.offered(app)!.map(a => a.choice);

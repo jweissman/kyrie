@@ -12,6 +12,9 @@ import { PlaceMark } from '../../web/reader/stage/place-mark';
 import { SceneRail } from '../../web/reader/stage/scene-rail';
 import { WorldStage } from '../../web/reader/stage/world-stage';
 import { Attested_ } from '../support/attested';
+import type { Frame } from '../../src/creation/protocol';
+import type { Menu } from '../../src/frame/menu-model';
+import { MenuTree } from '../../src/frame/menu-tree';
 
 // The page draws every indicator by the one grammar every client reads (TP-02, the owner, 14 November): one colour, an
 // act's chief aspect by the one precedence (the aim's gold, then red, green, blue, violet, silver), never a gradient
@@ -31,11 +34,16 @@ const expected = (c: typeof cases[number]) => {
   return { tone: tone ? `var(--tone-${tone})` : undefined, companion: kin({ aspects: c.aspects, gilded: c.gilded }) };
 };
 const ask: Choice = { id: 'wat#talk/0', label: 'Ask about the well', tone: 'person', command: 'ask(wat, well)' };
-const app = (acts: Promoted[], likenesses = {}) => ({ state: { keyed: false, cursor: 0, open: [], frame: {
-  leaf: { glance: { acts, likenesses } },
-  screen: { exits: [], party: [], path: [], place: { id: 'yard', kind: 'place', name: 'The yard' } } } },
-menu: { choices: [ask], scene: { subjects: [] } }, props: { query: new URLSearchParams() },
-choose: () => undefined } as unknown as ReaderApp);
+// The frame's marks are the engine's (MenuTree), over the same glance and menu.
+const marked = <F extends Pick<Frame, 'leaf' | 'screen'>>(frame: F, menu: Menu) => ({ ...frame,
+  menu: { marks: MenuTree.marks(frame, menu) } });
+const app = (acts: Promoted[], likenesses = {}) => {
+  const menu = { choices: [ask], scene: { subjects: [] } } as unknown as Menu;
+  const frame = marked({ leaf: { glance: { acts, likenesses } }, screen: { exits: [], party: [], path: [],
+    place: { id: 'yard', kind: 'place', name: 'The yard' } } } as unknown as Frame, menu);
+  return { state: { keyed: false, cursor: 0, open: [], frame }, menu, props: { query: new URLSearchParams() },
+    choose: () => undefined } as unknown as ReaderApp;
+};
 const led = (c: typeof cases[number]): Promoted => ({ choice: ask.id, label: ask.label, why: 'named', facets: ['here'],
   tier: 1, aspects: c.aspects, marks: [], ...c.gilded ? { continues: true as const } : {} });
 // The one colour a rendered indicator is drawn in, by its custom property; and whether a companion's icon is beside it.

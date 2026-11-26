@@ -9,7 +9,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Moments } from '../web/reader/stage/moments';
 import { Panorama } from '../web/reader/stage/panorama';
 import { LineMoments } from '../src/presentation/line-moments';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 
 // Leaving a town simply to explore (the owner's correction of Mission 18: exploration as one of the game's central
 // pleasures). b2's Ramavor stands in woods under the fells: out into the country about it, up onto the fells by the

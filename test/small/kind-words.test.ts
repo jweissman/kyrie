@@ -8,6 +8,9 @@ import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import { Pip } from '../../web/reader/stage/pip';
 import { Attested_ } from '../support/attested';
+import type { Frame } from '../../src/creation/protocol';
+import type { Menu } from '../../src/frame/menu-model';
+import { MenuTree } from '../../src/frame/menu-tree';
 
 // What kind of thing a choice is ("to learn", "to gain", "worth a look", "an aim") is its mark's to say, and the words
 // are for a reader of the page alone (the blind playtest of 13 November, BP-08): the row's visible words are the act's
@@ -16,8 +19,10 @@ const ask: Choice = { id: 'wat#talk/0', label: 'Ask about the well', tone: 'pers
 const led = (note: string): Promoted => ({ choice: ask.id, label: ask.label, note, why: 'named', facets: ['here'], tier: 1,
   aspects: ['knowledge'], marks: [] });
 const render = (note: string) => {
-  const frame = { leaf: { glance: { acts: [] } }, screen: { exits: [], party: [] } };
-  const app = { state: { keyed: false, cursor: 0, open: [], frame }, menu: { choices: [ask], scene: { subjects: [] } },
+  const menu = { choices: [ask], scene: { subjects: [] } } as unknown as Menu;
+  const bare = { leaf: { glance: { acts: [] } }, screen: { exits: [], party: [] } } as unknown as Frame;
+  const frame = { ...bare, menu: { marks: MenuTree.marks(bare, menu) } };
+  const app = { state: { keyed: false, cursor: 0, open: [], frame }, menu,
     props: { query: new URLSearchParams() }, choose: () => undefined } as unknown as ReaderApp;
   return renderToStaticMarkup(createElement(GlanceStage.Acts, { app, draw: Act.draw(app), acts: [led(note)] }));
 };

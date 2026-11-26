@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { Choice } from '../src/ui/choice-list';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Act } from '../web/reader/stage/act';
 import { GlanceStage } from '../web/reader/stage/glance';
 import { Wayfinder, type Way } from '../web/reader/stage/wayfinder';

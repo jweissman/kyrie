@@ -6,7 +6,7 @@ import { Runner } from '../../../src/cli/runner';
 import type { PlaySession } from '../../../src/session/play-session';
 import { Doable } from '../../../src/presentation/doable';
 import { Engaged } from '../../../src/presentation/engaged';
-import { MenuModel } from '../../../web/reader/menu-model';
+import { MenuModel } from '../../../src/frame/menu-model';
 import { MapMenu } from '../../../web/reader/map-menu';
 import type { ReaderApp } from '../../../web/reader/reader-app';
 import { Glanced } from '../../support/glanced';

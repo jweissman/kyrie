@@ -7,7 +7,7 @@ import type { Change, Entity } from '../src/lang/module';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Itineraries } from '../src/ui/itinerary';
 import { Spatial } from '../src/lang/spatial';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Glanced } from './support/glanced';
 import { Travel } from '../src/session/travel';
 

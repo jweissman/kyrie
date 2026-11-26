@@ -1,6 +1,6 @@
-import type { Choice } from '../../src/ui/choice-list';
-import type { Counter } from '../../src/ui/trade-model';
-import { Attending } from '../../src/ui/attention';
+import type { Choice } from '../ui/choice-list';
+import type { Counter } from '../ui/trade-model';
+import { Attending } from '../ui/attention';
 
 // What someone has for sale, each thing with the choice that buys it: a seller's wares had been a run-on line above
 // what could be said, and buying a list opened inside the replies (the owner's interim report; play 7). A thing with

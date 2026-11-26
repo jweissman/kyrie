@@ -4,7 +4,6 @@ import { SceneKinds } from '../../../src/ui/scene-kinds';
 import { Pip } from './pip';
 import type { Attested } from '../../../src/presentation/attest';
 import { Fold } from '../../../src/presentation/fold';
-import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { PlaceStage } from './place-stage';
 
@@ -34,8 +33,9 @@ export class PlaceMark {
     return { settlement: 'town', site: 'ruin', wild: 'wild' }[PlaceStage.kind(screen)];
   }
   // What the company knows it can do here, by kind, each once, in the order led.
-  // The fold of what the place leads with (Fold.led): each act by its leaves, an opener by its rows.
+  // The fold of what the place leads with: each act by its leaves, an opener by its rows, as the frame holds them
+  // (MenuTree's marks).
   static facets(app: ReaderApp): Attested | undefined {
-    return Fold.mark(Fold.led(app.state.frame?.leaf.glance, GlanceStage.choice.bind(null, app)), Guidance.shown(app));
+    return Fold.mark(app.state.frame?.menu.marks.place ?? [], Guidance.shown(app));
   }
 }

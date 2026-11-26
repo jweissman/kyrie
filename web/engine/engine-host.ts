@@ -35,7 +35,7 @@ import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary'; import { TravelQuestion } from '../../src/presentation/travel-question';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { Oracle, type OracleAct } from '../../src/presentation/oracle';
-import { ChoiceList } from '../../src/ui/choice-list';
+import { ChoiceList } from '../../src/ui/choice-list'; import { MenuTree } from '../../src/frame/menu-tree';
 import { Likenesses } from '../../src/presentation/likenesses';
 import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead';
 import { BoundJourney } from './bound-journey'; import { LegTold, type LegPassed } from './leg-told';
@@ -279,7 +279,8 @@ export class EngineHost {
     const travel = { to, arrived: done.arrived, legs, ...done.stopped ? { stopped: done.stopped } : {} };
     // The journey is one line of the glance where it ends; its legs stay with the place's full telling.
     const glance = frame.leaf.glance && Glance.came(frame.leaf.glance, travel);
-    return { ...frame, ...glance ? { leaf: { ...frame.leaf, glance } } : {}, travel };
+    // Its menu worked out again over the glance as it now is.
+    return glance ? MenuTree.framed({ ...frame, leaf: { ...frame.leaf, glance }, travel }) : { ...frame, travel };
   }
   // One leg of a journey, done as the page does a way chosen, and kept as it was told: by its receipt (LegTold), where
   // it tells all the page tells of it; else by its frame, built whole. wholeLegs: every leg by its frame, as before
@@ -479,8 +480,8 @@ export class EngineHost {
       leaf.glance = Likenesses.with(Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
         ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }, this.screen), this.screen);
     }
-    return { title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen, entries: this.log.slice(-120),
-      leaf,
+    return MenuTree.framed({ title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen,
+      entries: this.log.slice(-120), leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
       // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
       ...this.turn ? { combat: { ...CombatModel.build(this.turn.battle, BandNames.of(campaign), faces, said),
@@ -493,7 +494,7 @@ export class EngineHost {
       ...this.screen.running ? {} : { ending: Obituary.ending(campaign) },
       chronicle: PlayerView.chronicle(campaign)
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
-      ...going, transcript: session.transcript };
+      ...going, transcript: session.transcript });
   }
   // The journey held, as the page shows it: where to, the way on from here leg by leg and how long; or, come to it
   // (by whatever way), none.

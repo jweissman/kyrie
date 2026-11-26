@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Hours } from '../web/reader/hours';
+import { Hours } from '../src/frame/hours';
 
 // A journey says before it is begun that it would end after dark, or go on through the night (PT-31: a journey arrived
 // at night, though the way had been told with "go in daylight").

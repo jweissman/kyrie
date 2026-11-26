@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Promotion } from '../src/ui/promotion';
-import { Guidance } from '../web/reader/guidance';
+import { MenuModel } from '../src/frame/menu-model';
 import { Emphasis } from '../src/presentation/emphasis';
 import type { Promoted } from '../src/presentation/glance-types';
 
@@ -19,13 +19,12 @@ describe('the aim\'s continuation', () => {
   });
   // The owner, 18 November: "If a golden option exists, it should be first" (it had stood among the rest where the
   // place put it, after what will not wait).
-  it('stands first, ahead of what will not wait, in every place', () => {
+  // It no longer reads the place at all: what had set it among the rest by a hash of the place is gone.
+  it('stands first, ahead of what will not wait, wherever it is', () => {
     const acts = Promotion.continued([act('urgent', [], 0), act('x', ['undertaking']), act('y', ['knowledge']),
       act('z', ['exploration'])]);
-    const places = ['crypt', 'yard', 'green', 'quay', 'mill', 'well'].map(k => Guidance.placed(acts, 1, k));
-    expect(places.every(p => p[0]!.choice === 'x' && p[0]!.continues && p[1]!.choice === 'urgent' && p.length === 4))
-      .toBe(true);
-    expect(Guidance.placed(acts, 1, 'crypt')).toEqual(Guidance.placed(acts, 1, 'crypt'));
+    const p = MenuModel.placed(acts);
+    expect(p[0]!.choice === 'x' && p[0]!.continues && p[1]!.choice === 'urgent' && p.length === 4).toBe(true);
   });
   it('is drawn in gold only where the way is shown, and otherwise as what else it is', () => {
     expect(Emphasis.of(['undertaking', 'exploration'], true).tone).toBe('gold');

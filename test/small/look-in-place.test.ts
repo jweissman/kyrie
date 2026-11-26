@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import type { Promoted } from '../../src/presentation/glance-types';
 import { Doable } from '../../src/presentation/doable';
 import type { AppState, ReaderApp } from '../../web/reader/reader-app';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import { Tiny } from '../support/tiny';

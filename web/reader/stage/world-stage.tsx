@@ -275,7 +275,7 @@ export class WorldStage {
     if (!entry) { return null; }
     const { a, c } = entry, gilded = !!a.continues && Guidance.shown(app);
     return <Act.View choice={c} draw={Act.draw(app)} quiet variant="glyph" className="enter entrance">
-      <Pip.View mark={Fold.mark(Fold.of(app.state.frame?.leaf.glance, c, a.choice, true), gilded)} />
+      <Pip.View mark={Fold.mark(app.state.frame?.menu.marks.led[a.choice] ?? [], gilded)} />
       {Typography.curl(a.label)}</Act.View>;
   }
   // Why the journey stopped here, and what going on from here risks: the way on's own marks (a band that will not let

@@ -6,7 +6,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Act } from '../web/reader/stage/act';
 import { Wayfinder } from '../web/reader/stage/wayfinder';
 import { SceneSurface } from '../web/reader/stage/scene-surface';

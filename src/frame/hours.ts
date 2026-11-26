@@ -1,4 +1,4 @@
-import { FictionalTime } from '../../src/campaign/fictional-time';
+import { FictionalTime } from '../campaign/fictional-time';
 
 // The day's hours as the world keeps them (FictionalTime.night): the first morning begins at eight, and it is dark
 // from nine in the evening to six (a journey had kept night from eight: the navigation review).

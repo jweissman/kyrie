@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { Frame, Message } from '../src/creation/protocol';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 
 // The glance as the host carries it to the page (OWN-18, OWN-19): on every frame's leaf; a journey set out on and not
 // yet come to the end of is gone on with first of what the aim asks ("Go on to …"), by the very choice the page draws

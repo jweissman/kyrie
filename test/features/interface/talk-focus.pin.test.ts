@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
 import { TalkTruth } from '../../support/talk-truth';
 import type { Frame } from '../../../src/creation/protocol';
+import { MenuTree } from '../../../src/frame/menu-tree';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. Interface › A conversation held to its focus
 // (OR-212, the focus contract of OR-177 for talk; BRIEF §5B): a tinker on a green with seven things to be asked, a
@@ -29,8 +30,8 @@ const green = `
 describe('Interface › A conversation held to its focus', () => {
   it('draws her topics alone, every one within reach over its pages, and her leave-taking on each', async () => {
     const t = await Tiny.start(green);
-    const frame = { title: '', screen: t.screen, entries: [], leaf: t.leaf, opening: [], chronicle: [],
-      transcript: { steps: [] } } as unknown as Frame;
+    const frame = MenuTree.framed({ title: '', screen: t.screen, entries: [], leaf: t.leaf, opening: [], chronicle: [],
+      transcript: { steps: [] } } as unknown as Frame);
     const pages = TalkTruth.pages(frame, 't__tinker')!;
     expect(pages.length).toBeGreaterThan(1);
     expect(pages.every(p => p.some(a => a.endsWith('#leave')))).toBe(true);

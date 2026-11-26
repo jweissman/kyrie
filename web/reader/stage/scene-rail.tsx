@@ -11,7 +11,7 @@ import { GlanceStage } from './glance';
 import { Guidance } from '../guidance';
 import { Signs } from '../../../src/presentation/signs';
 import { Pip } from './pip';
-import { Attest, type Attested } from '../../../src/presentation/attest';
+import type { Attested } from '../../../src/presentation/attest';
 import { Fold, type Leaf } from '../../../src/presentation/fold';
 import { LensRows } from './lens-rows';
 import { Look } from '../look';
@@ -180,13 +180,11 @@ export class SceneRail {
   // the journeys the map itself is for), never inferred apart from it (the owner's trust contracts, 18 November, C:
   // "Put away the map" had been blank beside a place with something to do).
   static local(app: ReaderApp): Attested | undefined {
-    return Fold.mark(Fold.led(app.state.frame?.leaf?.glance, GlanceStage.choice.bind(null, app), true), Guidance.shown(app));
+    return Fold.mark(app.state.frame?.menu.marks.local ?? [], Guidance.shown(app));
   }
   // The map's mark: the aim's gold where a journey across the country is its next step (that journey its one leaf).
   static map(app: ReaderApp): Attested | undefined {
-    const g = app.state.frame?.leaf.glance, around = app.state.frame?.screen.around ?? [];
-    const next = g?.acts.find(a => a.continues && a.choice.startsWith('travel:') && !around.some(d => `travel:${d.id}` === a.choice));
-    const mark = next && Fold.mark([Fold.step(next.choice, [Attest.witness(g, next.choice)])], Guidance.shown(app));
+    const mark = Fold.mark(app.state.frame?.menu.marks.map ?? [], Guidance.shown(app));
     return mark?.tone === 'gold' ? mark : undefined;
   }
   static mapLit(app: ReaderApp): boolean { return !!SceneRail.map(app); }

@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
 import { Glanced } from './support/glanced';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Routes } from '../src/ui/route';
 import type { Frame } from '../src/creation/protocol';
 

@@ -4,7 +4,7 @@ import { Narrator } from '../../src/presentation/narrator';
 import { SceneModel } from '../../src/ui/scene';
 import { Attending } from '../../src/ui/attention';
 import type { Choice } from '../../src/ui/choice-list';
-import { TalkFocus } from '../../web/reader/talk-focus';
+import { TalkFocus } from '../../src/ui/talk-focus';
 import { Emphasis } from '../../src/presentation/emphasis';
 
 // What someone's likeness is drawn for is found again inside: a person drawn blue has a question to ask drawn blue and

@@ -12,7 +12,7 @@ import { BoardField } from './board-field';
 import type { Courses, Dress } from './board/board-types';
 import { PlaceFacets } from '../../src/presentation/place-facets';
 import { Fold } from '../../src/presentation/fold';
-import { MenuModel } from './menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { Notices } from './notices';
 import { Typography } from '../../src/presentation/typography';
 import { FictionalTime } from '../../src/campaign/fictional-time';

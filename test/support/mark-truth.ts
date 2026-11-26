@@ -4,7 +4,7 @@ import type { Frame } from '../../src/creation/protocol';
 import { Indicator } from '../../src/presentation/indicator';
 import { SceneModel } from '../../src/ui/scene';
 import type { PlaySession } from '../../src/session/play-session';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { TalkStage } from '../../web/reader/stage/talk-stage';
 import { DrawerTruth } from './drawer-truth';
 import { Glanced } from './glanced';

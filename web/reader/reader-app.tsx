@@ -5,7 +5,7 @@ import type { Choice } from '../../src/ui/choice-list';
 import type { Catalog, CompanyView, Entry, Frame, Leaf, Member, Message, Setting } from '../../src/creation/protocol';
 import { EngineClient } from './engine-client';
 import { JourneyCourse } from './journey-course';
-import { MenuModel, type Menu, type View } from './menu-model';
+import { MenuModel, type Menu, type Travel, type View } from '../../src/frame/menu-model';
 import { WorldStage } from './stage/world-stage';
 import { Explorer, type Part } from './stage/explorer';
 import { Conversation, type TalkLine } from './conversation';
@@ -35,9 +35,6 @@ import { Folds } from './folds';
 // begin: how a new game begins, asked over the title (see FirstChoice); closed: the game put away by Quit
 // (OpeningPages.closed).
 export type Phase = 'title' | 'begin' | 'closed' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
-// A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
-// held on the screen for its own sake.
-export interface Travel { from: string; to: string; way: string; minutes: number }
 // Where the company last chose in a fight: how many exchanges had been told, and how each fighter then stood, so the
 // page can show what happened since and what each blow took; and how the company stood as it began, for what the fight
 // cost it (see FightStage.Aftermath).

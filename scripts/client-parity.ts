@@ -4,13 +4,14 @@ import { Doable, type Row } from '../src/presentation/doable';
 import type { Lens, Promoted, LensAct } from '../src/presentation/glance-types';
 import type { Choice } from '../src/ui/choice-list';
 import { ScreenModel } from '../src/ui/screen-model';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { GlanceStage } from '../web/reader/stage/glance';
 import { LensRows } from '../web/reader/stage/lens-rows';
 import { PlaceStage } from '../web/reader/stage/place-stage';
 import { MapMenu } from '../web/reader/map-menu';
 import type { ReaderApp } from '../web/reader/reader-app';
 import type { Frame } from '../src/creation/protocol';
+import { MenuTree } from '../src/frame/menu-tree';
 
 // The other clients at the runner's turns (MT-18, after the runner's own: scripts/offer-parity.ts): what the page
 // draws, built headlessly as the page builds it (its menu, MenuModel; the four, GlanceStage; each lens's rows,
@@ -53,8 +54,8 @@ export class ClientParity {
   static turn(runner: Runner, out: Set<string>) {
     const leaf = runner.leaf, glance = leaf?.glance;
     if (!leaf || !glance) { return; }
-    const frame = { title: '', screen: ScreenModel.build(runner.session.campaign), entries: [], leaf,
-      opening: [], chronicle: [], transcript: { steps: [] } } as unknown as Frame;
+    const frame = MenuTree.framed({ title: '', screen: ScreenModel.build(runner.session.campaign), entries: [], leaf,
+      opening: [], chronicle: [], transcript: { steps: [] } } as unknown as Frame);
     const rows = Doable.of(glance, frame.screen);
     this.page(frame, rows, out);
     this.serve(runner, rows, out);

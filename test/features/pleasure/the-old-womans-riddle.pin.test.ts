@@ -6,7 +6,7 @@ import { GeneratedWorld } from '../../support/generated';
 import { RunnerFind } from '../../support/runner-find';
 import { RunnerOffer } from '../../../src/cli/runner-offer';
 import { Glanced } from '../../support/glanced';
-import { MenuModel } from '../../../web/reader/menu-model';
+import { MenuModel } from '../../../src/frame/menu-model';
 import type { Choice } from '../../../src/ui/choice-list';
 
 // The old woman's riddle on Porthalen's green as an engagement (the owner's playtest, 21 November: "listening to an

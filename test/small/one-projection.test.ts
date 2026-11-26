@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Atlas, type Kind, type Where } from '../support/atlas';
 import { Glanced } from '../support/glanced';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { TerminalDoable } from '../../src/cli/terminal-doable';

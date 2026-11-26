@@ -1,5 +1,5 @@
 import type { Choice } from '../../src/ui/choice-list';
-import { MenuModel } from './menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import type { ReaderApp } from './reader-app';
 
 // A choice that opens others (Put in, Examine, what to buy, a member's row): what it opens shown beneath it, or put

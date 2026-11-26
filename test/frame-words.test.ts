@@ -9,7 +9,7 @@ import { Worded, type Unworded } from '../src/presentation/worded';
 import type { Attention } from '../src/ui/attention';
 import type { Choice } from '../src/ui/choice-list';
 import { ReaderApp, type AppState } from '../web/reader/reader-app';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Stage } from '../web/reader/stage/stage';
 import { ChoiceRow } from '../web/reader/stage/choice-row';
 import { RowWords } from '../web/reader/stage/row-words';

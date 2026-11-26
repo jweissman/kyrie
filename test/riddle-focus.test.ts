@@ -7,7 +7,7 @@ import { TerminalDoable } from '../src/cli/terminal-doable';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { RegionRiddles } from '../src/world/region-riddles';
 import type { PlaySession } from '../src/session/play-session';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { GlanceStage } from '../web/reader/stage/glance';
 import type { ReaderApp } from '../web/reader/reader-app';
 import { LensRows } from '../web/reader/stage/lens-rows';

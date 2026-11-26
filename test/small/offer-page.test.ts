@@ -3,11 +3,12 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Tiny } from '../support/tiny';
 import { TerminalDoable } from '../../src/cli/terminal-doable';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import type { Frame } from '../../src/creation/protocol';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
+import { MenuTree } from '../../src/frame/menu-tree';
 
 // The page's four are the engine's four (the owner, 14 November: TB-02, "four promoted, everywhere", and the terminal
 // and the page agreeing on which four): the scene at rest draws the glance's offer as its numbered rows, one to four,
@@ -34,7 +35,7 @@ const yard = `
 
 describe('the page\'s four', () => {
   it('are the engine\'s offer, the terminal\'s four, drawn as the numbered rows', async () => {
-    const t = await Tiny.start(yard), frame = { screen: t.screen, leaf: t.leaf } as unknown as Frame;
+    const t = await Tiny.start(yard), frame = MenuTree.framed({ screen: t.screen, leaf: t.leaf } as unknown as Frame);
     const menu = MenuModel.build(frame, 'here', []);
     const app = { state: { frame, open: [], keyed: false, cursor: 0 }, menu, props: { query: new URLSearchParams() },
       choose: () => undefined } as unknown as ReaderApp;

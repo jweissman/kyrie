@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import type { Frame } from '../../src/creation/protocol';
 import { SceneModel } from '../../src/ui/scene';
 import { Attending } from '../../src/ui/attention';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { TalkStage } from '../../web/reader/stage/talk-stage';
 
 // A conversation held to the focus contract (OR-212; BRIEF §5B: the census extended to the rendered talk drawer, its

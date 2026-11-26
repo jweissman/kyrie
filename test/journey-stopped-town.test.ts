@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { WorldStage } from '../web/reader/stage/world-stage';
 import type { Frame } from '../src/creation/protocol';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';
 import { Heard } from './support/heard';
+import { MenuTree } from '../src/frame/menu-tree';
 
 // The page as the map's card sees it.
 class Page {
@@ -27,16 +28,17 @@ describe('a journey stopped at a town on the way', () => {
     const town = screen.region!.areas.find(a => a.kind === 'settlement' && a.here)!;
     const far = [...screen.destinations ?? [], ...screen.roads ?? []].find(d => /^region__s\d+$/.test(d.id)
       && d.id !== town.id)!;
-    const frame: Frame = { ...g.frame(),
+    const frame: Frame = MenuTree.framed({ ...g.frame(),
       travel: { to: far.name, arrived: false, stopped: 'Something is going on here', legs: [] },
-      bound: { id: far.id, name: far.name, minutes: far.minutes, legs: far.legs } } as Frame;
+      bound: { id: far.id, name: far.name, minutes: far.minutes, legs: far.legs } });
     const page = new Page({ frame, view: 'here', open: [], cursor: 0, member: '' } as unknown as AppState);
     const card = renderToStaticMarkup(createElement(WorldStage.Town, { app: page.app, screen, town }));
     expect(card).toContain('You are at');
     expect(card).toContain(`On the way to ${far.name}: Something is going on here.`);
     expect(card).toContain(`Go on to ${far.name}`);
     // Come there, it says nothing of a journey.
-    page.state = { ...page.state, frame: { ...frame, travel: { ...frame.travel!, arrived: true }, bound: undefined } };
+    page.state = { ...page.state, frame: MenuTree.framed({ ...frame, travel: { ...frame.travel!, arrived: true },
+      bound: undefined }) };
     expect(renderToStaticMarkup(createElement(WorldStage.Town, { app: page.app, screen, town })))
       .not.toContain('On the way to');
   }, 120000);

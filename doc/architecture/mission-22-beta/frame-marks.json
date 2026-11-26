@@ -8,13 +8,9 @@
   "web/reader/map-menu.tsx": 2,
   "web/reader/stage/at-hand.tsx": 2,
   "web/reader/stage/attention.tsx": 1,
-  "web/reader/stage/glance.tsx": 1,
   "web/reader/stage/lens-rows.ts": 1,
-  "web/reader/stage/place-mark.tsx": 1,
   "web/reader/stage/place-stage.tsx": 3,
-  "web/reader/stage/scene-rail.tsx": 3,
   "web/reader/stage/talk-stage.tsx": 3,
-  "web/reader/stage/wayfinder.tsx": 7,
-  "web/reader/stage/world-stage.tsx": 1
+  "web/reader/stage/wayfinder.tsx": 7
  }
 }

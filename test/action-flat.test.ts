@@ -3,7 +3,7 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ScreenModel } from '../src/ui/screen-model';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { GlanceStage } from '../web/reader/stage/glance';
 import type { ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';

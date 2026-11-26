@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Attending } from '../src/ui/attention';
 import { SceneModel } from '../src/ui/scene';
-import { TalkFocus } from '../web/reader/talk-focus';
+import { TalkFocus } from '../src/ui/talk-focus';
 import { Glanced } from './support/glanced';
 
 // A mark keeps its promise (the owner's play of 10 November): a likeness marked green as having something for the

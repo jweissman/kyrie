@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Tiny } from '../support/tiny';
 import { Glanced } from '../support/glanced';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { Act } from '../../web/reader/stage/act';
 import { PlaceStage } from '../../web/reader/stage/place-stage';
 import { GlanceStage } from '../../web/reader/stage/glance';

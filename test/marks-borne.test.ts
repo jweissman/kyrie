@@ -5,7 +5,7 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Emphasis } from '../src/presentation/emphasis';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Act } from '../web/reader/stage/act';
 import { AtHand } from '../web/reader/stage/at-hand';
 import { SceneRail } from '../web/reader/stage/scene-rail';

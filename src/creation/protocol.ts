@@ -3,6 +3,7 @@ import type { Transcript } from '../session/play-session';
 import type { CombatScreen, Screen } from '../ui/screen-types';
 import type { Exchange, Leaf } from '../presentation/narrator';
 import type { Memorial } from '../memorial';
+import type { MenuNode } from '../frame/menu-tree';
 export type { Exchange, Leaf };
 
 // What passes between the page and the engine. The engine (Kyrie, in a worker) is the only authority on what
@@ -101,6 +102,8 @@ export interface Frame {
   title: string; screen: Screen; entries: Entry[];
   // What the page tells now: the present situation and the immediate exchange, chosen by the narrator.
   leaf: Leaf;
+  // The resting scene's menu and the marks drawn of it, worked out by the engine (MenuTree): read, never built again.
+  menu: MenuNode;
   combat?: CombatScreen;
   // How a fight began, as it was seen: the moment that started it.
   opening: string[];

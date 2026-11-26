@@ -8,6 +8,7 @@ import { ClientParity } from '../scripts/client-parity';
 import { AsMeant } from './support/as-meant';
 import { BeforeRooms } from './support/before-rooms';
 import { GoldenWalk } from './support/golden-walk';
+import { MenuTree } from '../src/frame/menu-tree';
 
 // CL-33, the act that matters marked among the four (cold play 5: "the offer is a wall where the act that matters is
 // unmarked"): at each turn of the golden route's first hour where the followed aim has a step here (the engine's own
@@ -29,8 +30,8 @@ class Four {
   // The step the engine says, and where each client draws it.
   static read(r: Runner, s: Said) {
     const g = r.leaf!.glance!, c = g.continuance, witness = c && 'witness' in c ? c.witness : undefined;
-    const frame = { title: '', screen: ScreenModel.build(r.session.campaign), entries: [], leaf: r.leaf, opening: [],
-      chronicle: [], transcript: { steps: [] } } as unknown as Frame;
+    const frame = MenuTree.framed({ title: '', screen: ScreenModel.build(r.session.campaign), entries: [], leaf: r.leaf!, opening: [],
+      chronicle: [], transcript: { steps: [] } } as unknown as Frame);
     const page = ClientParity.drawn(frame).four.find(a => a.choice === witness);
     const runner = s.offer.primary.find(o => o.id === witness);
     return { kind: c?.kind, witness, gold: g.acts.find(a => a.choice === witness)?.continues, page, runner };

@@ -2,13 +2,14 @@ import { describe, expect, it } from 'bun:test';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Tiny } from '../support/tiny';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import type { Frame } from '../../src/creation/protocol';
 import type { Lens } from '../../src/presentation/glance-types';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import { Paging } from '../../web/reader/paging';
+import { MenuTree } from '../../src/frame/menu-tree';
 
 // A lens opened never puts a led act a lens away (OR-240: the first blind cold play of the page, P72-73 and P85-86:
 // the badger's Attack gone with Look, lifting the prop with Dai only once Talk was put away). What the resting scene
@@ -29,7 +30,7 @@ const adit = `
 const states: [Lens, Record<string, unknown>][] = [['things', { exploring: 'look' }], ['people', { talking: true }],
   ['places', { exploring: 'go' }], ['time', { exploring: 'wait' }]];
 const drawn = (t: Tiny, state: Record<string, unknown>, lens: Lens) => {
-  const frame = { screen: t.screen, leaf: t.leaf } as unknown as Frame, menu = MenuModel.build(frame, 'here', []);
+  const frame = MenuTree.framed({ screen: t.screen, leaf: t.leaf } as unknown as Frame), menu = MenuModel.build(frame, 'here', []);
   const app = { state: { frame, open: [], keyed: false, cursor: 0, ...state }, menu,
     props: { query: new URLSearchParams() }, choose: () => undefined, setState: () => undefined,
     hover: () => undefined } as unknown as ReaderApp;

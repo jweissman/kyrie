@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { ModuleWriter } from '../src/lang/module-writer';
 import type { Change } from '../src/lang/module';
 import { Glanced } from './support/glanced';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { AtHand } from '../web/reader/stage/at-hand';
 import { Act } from '../web/reader/stage/act';
 import { Explorer } from '../web/reader/stage/explorer';

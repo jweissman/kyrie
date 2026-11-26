@@ -4,7 +4,7 @@ import type { Frame } from '../../src/creation/protocol';
 import { Emphasis } from '../../src/presentation/emphasis';
 import { Indicator } from '../../src/presentation/indicator';
 import { SceneModel } from '../../src/ui/scene';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { TalkStage } from '../../web/reader/stage/talk-stage';
 
 // A person's likeness against the drawer the page draws for them (OR-201, OR-178; AGENTS.md: marks derive from the

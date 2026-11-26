@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { TalkFocus } from '../web/reader/talk-focus';
+import { TalkFocus } from '../src/ui/talk-focus';
 import type { Choice } from '../src/ui/choice-list';
 
 // Trading, what the company carries that the trader would buy comes first, before the wares and the other services

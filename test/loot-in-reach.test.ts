@@ -7,7 +7,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { PlayerView } from '../src/presentation/player-view';
 import type { Change } from '../src/lang/module';
 import { Glanced } from './support/glanced';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { AtHand } from '../web/reader/stage/at-hand';
 import type { ReaderApp } from '../web/reader/reader-app';
 

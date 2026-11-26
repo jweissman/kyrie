@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
 import { DrawerTruth } from '../../support/drawer-truth';
 import type { Frame } from '../../../src/creation/protocol';
+import { MenuTree } from '../../../src/frame/menu-tree';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. Interface › A likeness and its drawer agree (OR-201,
 // OR-178): six people on a green, each with something to tell the company, more than the glance leads with; the talk
@@ -23,8 +24,8 @@ const green = `
 describe('Interface › A likeness and its drawer agree', () => {
   it('draws blue on a likeness exactly where its drawer has a blue question', async () => {
     const t = await Tiny.start(green);
-    const frame = { title: '', screen: t.screen, entries: [], leaf: t.leaf, opening: [], chronicle: [],
-      transcript: { steps: [] } } as unknown as Frame;
+    const frame = MenuTree.framed({ title: '', screen: t.screen, entries: [], leaf: t.leaf, opening: [], chronicle: [],
+      transcript: { steps: [] } } as unknown as Frame);
     // Each of the six teaches; the glance leads with fewer than six of them.
     expect(t.glance.acts.filter(a => a.subject).length).toBeLessThan(6);
     expect(DrawerTruth.of(frame)).toEqual([]);

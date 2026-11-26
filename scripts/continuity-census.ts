@@ -17,7 +17,7 @@ import { Outcome } from '../src/presentation/outcome';
 import { EntityIndex } from '../src/lang/entity-index';
 import { PlayerView } from '../src/presentation/player-view';
 import { RunnerOffer } from '../src/cli/runner-offer';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import type { Screen } from '../src/ui/screen-types';
 
 // The three continuity invariants of the alpha acceptance record (mission-22/alpha-acceptance.md), counted over every

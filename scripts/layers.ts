@@ -27,10 +27,11 @@ export class Layers {
     if (/^src\/(world|canon|paintings|handbook|registry)\//.test(path)
       || path.startsWith('data/') || path === 'src/generation-setting.ts') { return 'setting'; }
     if (/^src\/(campaign|rules)\//.test(path) || /^src\/[^/]+$/.test(path)) { return 'runtime'; }
+    // The frame's menu and its marks, worked out once a frame for every client (src/frame, OR-1071), are the player's.
     // Creation is the player's (MT-16, S5): the making of a life as a flow of questions (CreationFlow and its entries,
     // spells, defaults, rules and cards, the first choice) and the protocol the engine and the page speak, moved out
     // of web/engine so that the terminal (src/cli) and the page import one model, which imports no client.
-    if (/^src\/(session|presentation|ui|narrative|creation)\//.test(path)) { return 'player'; }
+    if (/^src\/(session|presentation|ui|frame|narrative|creation)\//.test(path)) { return 'player'; }
     // Autoplay is a client: a robot that drives the player as someone at the page would, over a world it draws,
     // imported only by the clients (src/cli/reach-tool.ts), and no player imports it (MT-16). And web/engine is the
     // browser's composition root (MT-16, S5): the worker and its host, which wire a campaign or a drawn country, the

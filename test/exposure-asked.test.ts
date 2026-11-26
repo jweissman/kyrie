@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from './support/tiny';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import type { Frame } from '../src/creation/protocol';
 import type { Choice } from '../src/ui/choice-list';
+import { MenuTree } from '../src/frame/menu-tree';
 
 // An act that exposes one of the company to a hazard is asked about before it is done, as any act that may hurt is
 // (CB-01's descent measure, OR-226: heaving the adit's fallen prop alone, its weight a hazard of 1d4 unless a
@@ -27,8 +28,8 @@ const flat = (cs: Choice[]): Choice[] => cs.flatMap(c => [c, ...flat(c.children 
 describe('an act that exposes one of the company to a hazard', () => {
   it('is drawn as a risk and asked about before it is done; an act that hurts no one is not', async () => {
     const t = await Tiny.start(gallery);
-    const frame = { title: '', screen: t.screen, entries: [], leaf: t.leaf, opening: [], chronicle: [],
-      transcript: { steps: [] } } as unknown as Frame;
+    const frame = MenuTree.framed({ title: '', screen: t.screen, entries: [], leaf: t.leaf, opening: [], chronicle: [],
+      transcript: { steps: [] } } as unknown as Frame);
     const drawn = flat(MenuModel.build(frame, 'here', []).choices).filter(c => c.command);
     const heave = drawn.find(c => /heave/.test(c.command!))!, look = drawn.find(c => /look_about/.test(c.command!))!;
     expect(heave.risk).toBe(true);

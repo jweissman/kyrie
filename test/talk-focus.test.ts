@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import type { Choice } from '../src/ui/choice-list';
-import { TalkFocus } from '../web/reader/talk-focus';
+import { TalkFocus } from '../src/ui/talk-focus';
 import { NewsFold } from '../src/ui/news-fold';
 
 // A conversation as attention holds it (the owner, 5 November: an innkeeper had stood with twenty-five things to talk

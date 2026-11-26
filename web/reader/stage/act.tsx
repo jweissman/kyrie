@@ -2,7 +2,7 @@ import type { MouseEvent, ReactNode } from 'react';
 import type { Choice } from '../../../src/ui/choice-list';
 import type { Mark } from '../../../src/presentation/glance-types';
 import type { ReaderApp } from '../reader-app';
-import type { View } from '../menu-model';
+import type { View } from '../../../src/frame/menu-model';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../../../src/presentation/words';
 import { Signs } from '../../../src/presentation/signs';

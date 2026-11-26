@@ -4,7 +4,7 @@ import { Attest } from '../../src/presentation/attest';
 import { Doable } from '../../src/presentation/doable';
 import { Fold } from '../../src/presentation/fold';
 import { TerminalDoable } from '../../src/cli/terminal-doable';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import type { AppState, ReaderApp } from '../../web/reader/reader-app';
 import { Glanced } from '../support/glanced';

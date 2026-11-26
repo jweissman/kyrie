@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Wares } from '../web/reader/wares';
+import { Wares } from '../src/frame/wares';
 import type { Choice } from '../src/ui/choice-list';
 
 // A seller's wares, each with what buys it, and what else there is to say: the wares had been a run-on line, and

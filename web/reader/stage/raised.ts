@@ -1,4 +1,4 @@
-import { MenuModel, type Menu } from '../menu-model';
+import { MenuModel, type Menu } from '../../../src/frame/menu-model';
 import type { ReaderApp } from '../reader-app';
 
 // What a place keeps a deliberate touch away (OWN-18, OWN-19), each a sheet raised over its glance and put away again

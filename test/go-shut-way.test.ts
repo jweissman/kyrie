@@ -3,7 +3,7 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { MenuModel } from '../web/reader/menu-model';
+import { MenuModel } from '../src/frame/menu-model';
 import { Wayfinder } from '../web/reader/stage/wayfinder';
 import type { AppState, ReaderApp } from '../web/reader/reader-app';
 import { Glanced } from './support/glanced';

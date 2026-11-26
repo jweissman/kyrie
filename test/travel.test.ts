@@ -8,7 +8,7 @@ import { Itineraries } from '../src/ui/itinerary';
 import { Countries } from '../src/world/countries';
 import { Travel } from '../src/session/travel';
 import { GeneratedWorld } from './support/generated';
-import { Hours } from '../web/reader/hours';
+import { Hours } from '../src/frame/hours';
 
 // The way into adventure (Mission 16's Gate B): the first country's towns tell of the authored country beyond it,
 // the notice is up where travellers are kept, and once it is known the way there is known too, over the country's

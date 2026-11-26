@@ -335,7 +335,7 @@
    "name": "Time, rest, camp and survival",
    "paths": [
     "src/campaign/campaign-tick.ts",
-    "web/reader/hours.ts"
+    "src/frame/hours.ts"
    ],
    "specs": [
     "rest",

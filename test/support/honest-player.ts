@@ -2,9 +2,9 @@ import type { PlaySession } from '../../src/session/play-session';
 import { Travel } from '../../src/session/travel';
 import { SceneModel } from '../../src/ui/scene';
 import { Attending } from '../../src/ui/attention';
-import { TalkFocus } from '../../web/reader/talk-focus';
+import { TalkFocus } from '../../src/ui/talk-focus';
 import { Glanced } from './glanced';
-import { MenuModel } from '../../web/reader/menu-model';
+import { MenuModel } from '../../src/frame/menu-model';
 import { LedAgain } from '../../src/presentation/led-again';
 import { PlayerView } from '../../src/presentation/player-view';
 
