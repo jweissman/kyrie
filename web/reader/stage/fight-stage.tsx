@@ -163,11 +163,13 @@ export class FightStage {
     return (
       <li className={`fighter${marks.join('')}`} data-fighter={f.id}>
         {(!foe || f.face) && <FightStage.Face fighter={f} />}
+        {/* How hurt, on the name's own line at its right (OR-1133: read at a glance, before the card is read). */}
         <p className="n"><b>{Typography.curl(Words.upper(f.name))}</b>
           {took > 0 && !foe && <span className="took" key={`${f.hp}`}>−{took}</span>}
-          {!foe && <span className="of">{f.hp} of {f.maxHp}</span>}</p>
+          <span className={`hurt ${hurt.replace(' ', '-')}`} data-region="hurt">{hurt}</span></p>
         <span className="hp" aria-hidden="true"><i style={{ width: `${band}%` }} /></span>
-        <p className="tags"><span className="parts">{FightStage.parts(f, hurt).map(([key, part]) =>
+        {!foe && <p className="of">{f.hp} of {f.maxHp}</p>}
+        <p className="tags"><span className="parts">{FightStage.parts(f).map(([key, part]) =>
           <span key={key} className="part" data-part={key}>
             <span className="sep" aria-hidden="true"> · </span>{part}</span>)}</span></p>
         {/* A foe's intent keeps its line when it has none (after it has acted, or fallen): the card had shrunk under the
@@ -194,11 +196,11 @@ export class FightStage {
     if (dark) { return 100; }
     return ({ unhurt: 100, hurt: 75, 'badly hurt': 45, 'near death': 15 } as Record<string, number>)[Words.hurt(f.hp, f.maxHp)] ?? 100;
   }
-  // What they are and are under, each part whole (see fight.css): "elf ranger", "badly hurt", "prone, frightened".
-  static parts(f: CombatantRow, hurt: string): [string, ReactNode][] {
+  // What they are and are under, each part whole (see fight.css): "elf ranger", "prone, frightened".
+  static parts(f: CombatantRow): [string, ReactNode][] {
     const [statuses, boons] = [f.statuses, f.boons ?? []].map(all => (f.down ? '' : [...new Set(all)].join(', ')));
-    return ([['line', f.line], ['state', <span className={`state ${hurt.replace(' ', '-')}`}>{hurt}</span>],
-      ['statuses', statuses], ['boons', boons]] as [string, ReactNode][]).filter(([, p]) => p);
+    // How hurt is said on the name's line (see Card), never twice.
+    return ([['line', f.line], ['statuses', statuses], ['boons', boons]] as [string, ReactNode][]).filter(([, p]) => p);
   }
   // One of the company by their portrait (see CompanyPortraits), the card's left panel, the whole height of it, the
   // name, the bar and what they are under to its right (the owner, 2026-10-30: not a little square), held about where

@@ -46,7 +46,6 @@
 .fight .foes .fighter { border-color: rgba(255, 107, 69, .28); background: linear-gradient(270deg, rgba(255, 107, 69, .06), transparent 70%), var(--raised); }
 /* Whose turn it is: the card's own edge lit, and a soft glow; no second ring round it (the owner, 12 November: "weird
    borders around combatants"). */
-.fight .fighter.acting { border-color: var(--accent-line); box-shadow: 0 0 22px rgba(239, 230, 209, .12); }
 /* Down: the name struck through and its words dimmed, the face grey; never the card made see-through (OR-115). */
 .fight .fighter.down :is(.n, .tags, .of) { color: var(--dim); }
 .fight .fighter.down .n b { text-decoration: line-through; text-decoration-color: var(--ember); }
@@ -298,4 +297,41 @@
   .fight > .slot > .turn { padding-right: var(--menu-edge); }
   .fight .turn .now { order: 2; flex: 0 0 var(--menu-rows); }
   .fight .turn .order { order: 1; margin: 0 auto 0 0; }
+  /* Over the rows it is theirs to choose from, with or without the order beside it (alone, it had stood at the left). */
+  .fight .turn .now { margin-left: auto; }
 }
+
+/* ---- A fight's state at a glance (OR-1133, the third design review: "combat UIs should communicate game state in
+   under two seconds"): who is hurt and how badly, whose turn it is, and what they can do, each read from the frame
+   before anything is read closely. Within the colour grammar (no new hue: the bars keep their green and ember, words
+   stay neutral) and no glass: every card opaque, the hierarchy by weight, size and edge.
+   - How hurt: the word ("unhurt", "badly hurt") on the name's own line at its right, in the card's ink and weight
+     (unhurt quieter), and the bar under it thicker, ruled in quarters, so that the bars alone say how each stands;
+   - whose turn: the acting card edged in the neutral accent and labelled "Acting" over its edge, no glow;
+   - what they can do: the hand under "Hamo Holt's turn", the column's width on a phone, as every menu is. ---- */
+.fight .foes .fighter { background: var(--raised); border-color: rgba(255, 107, 69, .34); }
+.fight .fighter .n .hurt { flex: none; font: 600 13px/1.2 var(--do); color: var(--ivory); white-space: nowrap; }
+.fight .fighter .n .hurt.unhurt { font-weight: 500; color: var(--dim); }
+.fight .fighter p.of { margin: 5px 0 0; font: 400 12.5px/1.3 var(--do); color: var(--dim); }
+.fight .fighter .hp { position: relative; height: 7px; border-radius: 1px; background: rgba(236, 230, 217, .1); }
+.fight .fighter .hp::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--raised) calc(25% - 1px) 25%); }
+.fight .fighter.acting { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.fight .fighter.acting::before { content: 'Acting'; position: absolute; top: -8px; right: 10px; z-index: 3; padding: 0 6px;
+  font: 600 10px/16px var(--do); letter-spacing: .18em; text-transform: uppercase; color: var(--deep);
+  background: var(--accent); }
+.fight .fighter.down { background: var(--surface); }
+.fight .turn .now { color: var(--ivory); }
+@media (max-width: 600px) {
+  /* On a phone the hand is the column's width, as every menu is; what an act opens (whom to choose) under it. */
+  .fight .hand { grid-template-columns: minmax(0, 1fr); row-gap: var(--s2); }
+  .fight .hand-detail { contain: none; }
+  .fight .hand-detail:not(:has(.aiming, .whom)) { display: none; }
+  :root .fight .hand-menu .choice-row.choice-row { padding: 0 14px 0 22px; font: var(--t-choice); }
+  .fight .fighter .n .hurt { font-size: 12.5px; }
+}
+/* Whom to strike, read at a glance (OR-1133's cold reading, 26 November): each foe's chance at the card's foot, never
+   over its name or how hurt it is; on a phone, aiming, the target rows take the hand's place in view (they had fallen
+   below the fold under the hand). */
+.fight .fighter .chance { top: auto; bottom: 6px; }
+@media (max-width: 600px) { .fight.aiming .hand > .hand-menu { display: none; } }
