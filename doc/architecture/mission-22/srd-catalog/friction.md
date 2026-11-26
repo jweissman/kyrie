@@ -176,6 +176,32 @@ The smallest useful end-to-end slice needs all of these, not just another condit
 
 ## Pass of 26 November
 
+### Same-night quantity comparison
+
+The Nightly comparison on 26 November used main `534cd4a` and this branch at `544b399`. Measures 1–4 match:
+fights per hour at combat places 1.45/1.45, bands that can kill 100%/100%, coin ratio 1.71/1.71 and treasure
+ratio 1.74/1.74. Measure 7 (first-hour aims met) is 3% on main and 0% on the branch. Measure 8a (aims seen
+through by arriving alone) is 21%/22%, red on both; measure 8b (first-town aims handed out) is 12%/13%, both
+within the 14% limit. Measure 10 (unreachable authored content) is 27/17; the branch's baseline is 17. These
+are same-night values, not a claim that every quantity measure passes.
+
+### Cold replay blocker: Wren Tower
+
+Main `534cd4a` passes `wren-tower-climbed`; branch head `12700c03` (the same world inputs as `544b399`) fails
+the immutable cold capture at replay step 1.
+The capture expects `35088.5084.1e8iprh.1w9fhn3.1.1hcrhf7`; the branch produces
+`35096.5084.188tlzj.1ozli87.1.1hcrhf7`. The world-fact count is eight higher and the creature digest also differs.
+The branch adds the `dog/drove` body and other content changes, but their causal contribution to this digest has not
+been isolated. Do not redigest or rewrite the cold capture to make the branch green.
+
+`src/session/digest.ts` includes the whole world key and every creature's health, level and experience, including
+unvisited entities. This is the known persistence/replay blocker PR-02, not a newly filed row. CI run `45903499759`
+confirmed the earlier fixes in suites 13 and 14; the Wren trace still fails in suite 15, alongside
+`test/the-lull-placed.test.ts` and `test/toll-talk.test.ts`, which also failed on main. Suites 1, 5 and 6 likewise
+failed on both main and this branch. Until cold captures
+can be replayed against the content revision that produced them, or the trace contract can compare only state it
+intends to prove without hiding meaningful changes, this branch is not ready for hand-off.
+
 The source lists in `data/sources/srd35/` contain 605 spell records and 440 creature stat blocks. This pass compared
 every source key with `concordance.json` and the merged catalog at main `1bd39d8`, then examined the variant families
 and the old `srd-7` and `srd-draw` branches. This is a **mapping inventory**, not a manual proof of every spell or
