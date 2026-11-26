@@ -3,7 +3,6 @@ import type { Choice } from '../../../src/ui/choice-list';
 import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../../../src/presentation/words';
 import type { Note } from '../../../src/presentation/noted';
-import { ChoiceRow } from './choice-row';
 
 export interface Sight {
   bearing: string; distance: string; place: string; seen: string; by?: string; way?: string; beyond?: string;
@@ -50,32 +49,21 @@ export class Panorama {
     return notes.filter(n => n.kind !== 'learned'
       || !sights.some(s => s.place !== s.seen && this.plain(n.text) === this.plain(`${s.place}: ${s.seen}`)));
   }
-  // Each way, as a row of the compass: where to set out for it, when it is somewhere the company could set out for.
-  static View({ sights, going = [], choose, onMap }: { sights: Sight[]; going?: Going[]; choose?: (c: Choice) => void;
-    onMap?: boolean }) {
+  // The view told once, in words (the owner, 26 November, OR-1250: a climb had yielded a row for each place seen and
+  // "View on map" rows): each way round the compass in one line of prose, a place known for what it is by its name,
+  // and no row of its own, nor any to set out or to look at the map; taking out the map stays an act of its own.
+  static View({ sights }: { sights: Sight[]; going?: Going[]; choose?: (c: Choice) => void; onMap?: boolean }) {
     return (
       <div className="panorama" role="group" aria-label="What can be seen from here" data-id="panorama">
         <p className="kicker">What can be seen from here</p>
-        <ol className="compass">{sights.map((s, i) => {
-          const d = going.find(x => Panorama.same(x.name, s.place));
-          return <li key={i} data-bearing={s.bearing}>
-            <span className="toward">{Panorama.short[s.bearing]}</span>
-            <span className="sighted"><span className="sight-name">{Typography.curl(Words.upper(s.place))}</span>
-              {s.place !== s.seen && <span className="looked">{Typography.curl(`${Words.upper(s.seen)}. ${s.by ?? ''}`
-                .trim())}</span>}
-              {s.way && <span className="looked">{Typography.curl(s.way)}</span>}
-              {s.beyond && <span className="looked beyond">{Typography.curl(s.beyond)}</span>}</span>
-            {/* How far it looks, and how long the ways known take to it, said apart: "a long way off · about 2 hours"
-                beside "some way off · about 5 hours" read as a contradiction (the cold evaluation). */}
-            <span className="off">{s.distance}{d?.journey.minutes ? ` · ${Words.span(d.journey.minutes)} by the ways you know`
-              : ''}</span>
-            {d && choose && <ChoiceRow.Button className="set-out" data={{ action: 'set-out', id: d.id }}
-              {...onMap ? {} : { act: d.journey.id }} label={onMap ? 'On the map' : 'Set out'} plain="neutral"
-              onClick={() => choose(d.journey)} />}
-          </li>;
-        })}</ol>
+        <p className="view">{Typography.curl(Panorama.said(sights))}</p>
       </div>
     );
+  }
+  // The sights in one telling: "To the north, not far off, the edge of the wood; to the west, some way off, Fearnglaed."
+  static said(sights: Sight[]): string {
+    const parts = sights.map(s => `to the ${s.bearing}, ${s.distance}, ${s.place}${s.place !== s.seen ? ` (${s.seen})` : ''}`);
+    return parts.length ? `${Words.upper(parts.join('; '))}.` : '';
   }
   private static same(a: string, b: string): boolean { return this.plain(a) === this.plain(b); }
   private static plain(t: string): string { return t.toLowerCase().replace(/[‘’]/g, '\''); }

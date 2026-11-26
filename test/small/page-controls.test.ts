@@ -69,7 +69,6 @@ const rows: Record<string, string[]> = {
   'web/reader/stage/glance.tsx': ['choice', 'aim-map', 'choice', 'choice'],
   'web/reader/stage/lens-focused.tsx': ['defocus', 'lens-page', 'focus'],
   'web/reader/stage/next-pull.tsx': ['next'],
-  'web/reader/stage/panorama.tsx': ['set-out'],
   'web/reader/stage/prologue-stage.tsx': ['answer', 'action'],
   'web/reader/stage/talk-stage.tsx': ['trade-back', 'more-talk', 'trade', 'unbought', 'unbought'],
   // The title's rows, the engine's by their ids (OpeningPages.title, OR-382): the ways in, Options and Quit (OR-1072).

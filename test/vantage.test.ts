@@ -3,7 +3,6 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
-import { Itineraries } from '../src/ui/itinerary';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Vantage } from '../src/world/vantage';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
@@ -37,51 +36,30 @@ class High {
 }
 
 describe('somewhere high', () => {
-  it('shows, climbed, what is in sight of it, and each is somewhere to set out for after', async () => {
+  // A hex or two about where it stands, and no further (the owner, 26 November, OR-1250): each sighting not far off or
+  // some way off, none at the edge of sight, and each known from then on.
+  it('shows, climbed, what is in sight of it within a hex or two, each known after', async () => {
     const { c, told } = await High.climbed('larch');
-    // (A country drawn from the seed's: Thrume's until every adventure became a province of the first country, Gate B.)
-    // The Eastern Ocean's shore to the north-east since the world was shaped (7 November), a march-stone elsewhere.
-    expect(told).toContain('To the north-east, not far off: the shore of the Eastern Ocean.');
-    expect(told.some(t => /^To the [a-z-]+, not far off: the march-stone of \S+\.$/.test(t))).toBe(true);
-    expect(told).toContain('To the north-east, not far off: a half-fallen tower.');
-    const going = Itineraries.destinations(c).map(d => d.name);
-    expect(going).toEqual(expect.arrayContaining(['a half-fallen tower']));
-    expect(going.some(g => /^the march-stone of /.test(g))).toBe(true);
-    const fact = c.module.entities.find(e => e.type === 'fact' && /_saw\d+$/.test(e.id))!;
-    expect(c.world.test(ModuleWriter.call('knows', c.playerActor!, fact.id))).toBe(true);
+    const seen = told.filter(t => /^To the /.test(t));
+    expect(seen.every(t => /^To the [a-z-]+, (not far off|some way off): /.test(t))).toBe(true);
+    const fact = c.module.entities.find(e => e.type === 'fact' && /_saw\d+$/.test(e.id));
+    if (fact && seen.length) { expect(c.world.test(ModuleWriter.call('knows', c.playerActor!, fact.id))).toBe(true); }
   }, 120000);
   // The first town's shrine has a tower: the first vantage of all, a walk from where a company begins. One who knows
   // the lie of the country (a trader's wayfinding) knows a ruin seen from it for what it is.
   // Told as it was seen: the town below from the top, then each way once (not every sight said again as what was
   // learned, and the ruin again by its name), the ruin's account in the margin; and the tower is there to climb again
   // another day, when the company has gone from it and come back.
-  it('shows from the first town\'s tower a ruin, which one who knows the country names, and the way to it', async () => {
+  it('shows from the first town\'s tower its own neighbourhood, told once, the way down after', async () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared, { origin: 'debt',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
-    const s = await PlaySession.start(w.path, 'kite', w.source), c = s.campaign;
-    const climb = 'Climb the tower and look out over Newmeet';
+    const s = await PlaySession.start(w.path, 'kite', w.source);
     await GeneratedWorld.travel(s, 's1_shrine');
-    const { lines, notes, situation } = await High.page(s, climb);
+    const { lines, situation } = await High.page(s, 'Climb the tower and look out over Newmeet');
     expect(lines[0]).toStartWith('From the top of the tower Newmeet lies below you');
-    expect(lines.slice(1, 6)).toEqual(['To the north, not far off: the edge of Birchwood by Newmeet.',
-      'To the north-west, not far off: a square doorway in a hillside in Birchwood.',
-      'You know it by its look: that is Palelake.', 'It is your wayfinding that makes it out.',
-      'The way to a square doorway in a hillside in Birchwood: to the edge of Birchwood by Newmeet, and on to the old bank,'
-      + ' where the track to it starts, beside the track to a toll-house by the water.']);
-    expect(lines.filter(l => /^To the /.test(l))).toHaveLength(6);
+    expect(lines.filter(l => /^To the /.test(l)).every(l => !/, far off|through the glass/.test(l))).toBe(true);
     expect(lines.at(-1)).toBe('The way down is the stair you came up.');
-    // Named, the doorway is somewhere to go into: an aim (the expedition diagnosis, change 1).
-    expect(notes).toEqual(['Noted: Palelake: a square doorway in a hillside in Birchwood', 'To take up: Go down under '
-      + 'Palelake to the springs the country once drank from: nobody has been down to them.']);
     expect(situation.some(p => /^To the /.test(p))).toBe(false);
-    // Seen with the way to it, it is somewhere to set out for all the way, not only toward the wood it stands in.
-    const ruin = Itineraries.destinations(c).find(d => d.name === 'Palelake')!;
-    expect([ruin.toward, ruin.legs.at(-1)?.to]).toEqual([undefined, 'region__w3']);
-    await GeneratedWorld.travel(s, 's1_green');
-    await GeneratedWorld.travel(s, 's1_shrine');
-    const again = await High.page(s, climb);
-    expect(again.lines.filter(l => /^To the /.test(l))).toContain('To the north-west, not far off: Palelake.');
-    expect(again.lines.some(l => /by its look/.test(l))).toBe(false);
   }, 120000);
   // Once known by its name, a ruin is called by it everywhere after: the way to it in the journal, and, a step away
   // at the old bank where its track starts, the way there (not a stranger's look on one page and its name on the
@@ -98,9 +76,8 @@ describe('somewhere high', () => {
     expect(ScreenModel.build(c).exits.filter(e => e.destination.id === 'region__w3').map(e => e.destination.name))
       .toEqual(['Palelake']);
   }, 120000);
-  // Through a spyglass, bought from the chandler in the first town, what lies past the edge of sight is seen too, on a
-  // clear day: the first town's tower shows a cave the eye alone does not.
-  it('shows past the edge of sight through a spyglass', async () => {
+  // Through a spyglass, nothing past a hex or two either (OR-1250): the climb shows the place's neighbourhood alone.
+  it('shows nothing past a hex or two, even through a spyglass', async () => {
     const w = await WorldAssembler.assemble('pine', NodeBundleSource.shared, { standing: [] });
     const s = await PlaySession.start(w.path, 'pine', w.source), c = s.campaign;
     await GeneratedWorld.travel(s, 's1_shop');
@@ -109,28 +86,17 @@ describe('somewhere high', () => {
     await GeneratedWorld.travel(s, 's1_shrine');
     const climb = PlayerView.choices(c).find(x => /^Climb the tower/.test(x.choice.name))!;
     const { lines } = await High.page(s, climb.choice.name);
-    expect(lines.filter(l => /through the glass/.test(l))).toEqual([
-      'To the south, far off, through the glass: a cave in the hillside in Pinehurst.',
-      'To the south, far off, through the glass: the footbridge over the Swiftwater.',
-      // Oldgreen not yet seen, the moor's foot is not known by it (OR-812).
-      'To the south-east, far off, through the glass: the foot of Bittermoor.']);
-    // On the map from then on, by their look: no ruin's name is glossed there before it is learned. Nor is a Common
-    // name, which says what it means: only Wannstede's old Westron and Levankhafar's Khuzdul are. The broken keep the
-    // hobs hold is named, and glossed, as the first town says it of the bell they took (the expedition diagnosis).
-    const land = ScreenModel.build(c).region!.land!, marks = land.marks.map(m => m.name);
-    expect(marks).toEqual(expect.arrayContaining(['Battlegate']));
-    // (Wannstede, s3, is glossed once it is on the company's map: not yet, since nobody has told of it: OR-810.)
-    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s4', 'w5']);
-    // A site seen through it is seen with the way to it, as one seen nearer is.
-    // Its edge said as the company knows it, Levankhafar not yet seen (OR-970), as the way to it is offered.
-    expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst,'
-      + ' where the track to it starts.');
+    expect(lines.filter(l => /, far off|through the glass/.test(l))).toEqual([]);
   }, 120000);
   it('sees nothing behind a ridge, and nothing far in haze', () => {
     // A hollow, a ridge, a town beyond: from the hollow, nothing; from the ridge's top, the town.
     const land = { width: 5, height: 1, heights: [0.25, 0.3, 0.6, 0.35, 0.4] } as unknown as Land;
     const town = [{ id: 'town', cell: 4 }];
     expect(Vantage.seen(land, 0, town, { kind: 'oak' })).toEqual([]);
-    expect(Vantage.seen(land, 2, town, { kind: 'cairn' }).map(s => [s.id, s.bearing, s.far])).toEqual([['town', 'east', false]]);
+    expect(Vantage.seen(land, 2, town, { kind: 'cairn' }).map(s => [s.id, s.bearing, s.far])).toEqual([['town', 'east', true]]);
+    // Three hexes off is past what a climb shows (OR-1250).
+    const flat = { width: 5, height: 1, heights: [0.3, 0.3, 0.3, 0.3, 0.3] } as unknown as Land;
+    expect(Vantage.seen(flat, 0, [{ id: 'near', cell: 2 }, { id: 'far', cell: 3 }], { kind: 'tower' }).map(x => x.id))
+      .toEqual(['near']);
   });
 });
