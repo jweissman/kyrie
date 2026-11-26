@@ -52,7 +52,8 @@
    "world/the-start-is-the-dungeon": "adventures",
    "world/the-way-down": "adventures",
    "choice/asked-in-turn": "talk",
-   "world/the-herb-wife-asks": "talk"
+   "world/the-herb-wife-asks": "talk",
+   "interface/oracle": "testing"
   },
   "describes": {
    "Character › Stat checks woven into narrative moments": "talk",

@@ -6,6 +6,7 @@ import { Stage } from './stage/stage';
 import { Flame } from './stage/flame';
 import { EncyclopediaOverlay } from './encyclopedia-overlay';
 import { Guidance } from './guidance';
+import { OracleMark } from './oracle-mark';
 import type { Frame } from '../../src/creation/protocol';
 
 // The lantern: a dark ground with the country's painting far behind it, dim and out of focus and tinted by the hour,
@@ -74,6 +75,7 @@ export class Shell {
           style={{ '--plate': `url(${Plates.url(was)})` } as CSSProperties} />}
         <div className="frame"><Flame.View app={app} />{children}</div>
         <EncyclopediaOverlay.View app={app} />
+        <OracleMark.View app={app} />
         {app.props.query.has('safe') && <div className="safe-zone" data-region="safe-zone" aria-hidden="true" />}
       </div>
     );

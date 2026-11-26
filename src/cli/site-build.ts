@@ -37,12 +37,14 @@ export class SiteBuild {
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/engine/engine-worker.ts')], target: 'browser',
       format: 'iife', minify, plugins: [{ name: 'single-ohm', setup: SiteBuild.singleOhm },
         ...files ? [{ name: 'fixtures', setup: SiteBuild.fixtures.bind(SiteBuild, files) }] : []],
-      define: { 'process.env.NODE_ENV': '"production"', KYRIE_BUILD: JSON.stringify(BuildStamp.placeholder) } });
+      define: { 'process.env.NODE_ENV': '"production"', KYRIE_BUILD: JSON.stringify(BuildStamp.placeholder),
+        KYRIE_ENGINE_COMMIT: JSON.stringify(BuildStamp.committed) } });
     if (!result.success) { throw new AggregateError(result.logs, 'Engine build failed'); }
     // The build is known by the engine it built: code and data hashed together, and written in where it is asked.
+    // The commit is written in after (BuildStamp.commit): the stamp is the engine's, not the commit's.
     const text = await result.outputs[0]!.text();
     const stamp = new Bun.CryptoHasher('sha256').update(text).digest('hex').slice(0, 16);
-    return text.replaceAll(BuildStamp.placeholder, stamp);
+    return text.replaceAll(BuildStamp.placeholder, stamp).replaceAll(BuildStamp.committed, SiteBuild.commit());
   }
   static fixtures(files: Record<string, string>, build: PluginBuilder) {
     build.onLoad({ filter: /bundles\.generated\.json$/ }, () => ({ contents: JSON.stringify(files), loader: 'json' }));
@@ -52,7 +54,8 @@ export class SiteBuild {
     await writeFile(join(out, 'engine.js'), engine);
     const result = await Bun.build({ entrypoints: [join(this.root, 'web/reader/reader-main.tsx')], target: 'browser',
       format: 'iife', outdir: out, naming: 'mono.js', minify, sourcemap: minify ? 'linked' : 'none',
-      define: { 'process.env.NODE_ENV': '"production"', KYRIE_COMMIT: JSON.stringify(SiteBuild.commit()) } });
+      define: { 'process.env.NODE_ENV': '"production"', KYRIE_COMMIT: JSON.stringify(SiteBuild.commit()),
+        KYRIE_DEV: JSON.stringify(!minify) } });
     if (!result.success) { throw new AggregateError(result.logs, 'Reader build failed'); }
     const board = await Bun.build({ entrypoints: [join(this.root, 'web/reader/board/board-main.ts')], target: 'browser',
       format: 'iife', outdir: out, naming: 'board.js', minify });

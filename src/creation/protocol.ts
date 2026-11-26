@@ -176,7 +176,9 @@ export type Request =
   // The receipts of the commands done in the game in play (MT-24), for automation (OR-91's evidence).
   | { kind: 'receipts' }
   // Whether the page kept the world it was sent (see the saved message): until it says so, the world is sent again.
-  | { kind: 'kept'; key: string; ok: boolean };
+  | { kind: 'kept'; key: string; ok: boolean }
+  // What a developer needs to reproduce what is seen (the oracle, OR-1151): an OracleReport.
+  | { kind: 'about' };
 export interface Envelope { id: number; request: Request }
 // What a kept game says about itself on the title: the campaign, where the company is, when, and who.
 // ended: the game kept has come to its end (a death, or the campaign's close): the title's Play begins anew.

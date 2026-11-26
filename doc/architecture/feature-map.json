@@ -1173,6 +1173,14 @@
        ]
       },
       {
+       "id": "oracle",
+       "title": "The oracle: what is seen, for a developer",
+       "feature": "testing",
+       "pins": [
+        "Interface › The oracle"
+       ]
+      },
+      {
        "id": "docs",
        "title": "Documentation and the register",
        "feature": "docs",

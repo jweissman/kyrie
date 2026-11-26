@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 197 pins (165 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 659 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 199 pins (167 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 659 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -773,6 +773,9 @@ page's colours and opportunities.)
   - requirement OR-1098 P2: Slice 0: the censuses: a spec printing every catalog ability as an effect sentence and parsing it…
   - requirement OR-761 P3: The world gate's distances count ways the company cannot yet take: NoviceCountry.distances…
   - requirement MT-29 P2: The review's Stage 0 guardrails, together (Finding L): a dependency-cycle baseline beside the…
+- **The oracle: what is seen, for a developer** · 2 pins · 0 defects · 0 asks
+  - ✓ is the engine's report: the seed, the commit, the place and the last act's command and timings
+  - ✓ is offered by the page only in a dev build, on this machine, or under ?oracle
 - **Documentation and the register** · 0 pins · 0 defects · 7 asks
   - requirement DC-03 P3: R10: a drift review at each closure; a current-invariants appendix; doc freshness checks
   - requirement DC-05 P3: Fixed rows never re-proved after redesigns (PT-09, PRE-03, PT-42, NAV-12, M17's UI rows)
@@ -820,10 +823,13 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
 ### Capabilities neither built nor asked for (0)
 
 
-### Capabilities pinned that no request asks for (0)
+### Capabilities pinned that no request asks for (1)
 
 Each a request to file under its title, its acceptance the pins that prove or want it.
 
+- **The oracle: what is seen, for a developer** (The engine)
+  - ✓ is the engine's report: the seed, the commit, the place and the last act's command and timings
+  - ✓ is offered by the page only in a dev build, on this machine, or under ?oracle
 
 ### Capabilities asked for that no pin proves (24)
 

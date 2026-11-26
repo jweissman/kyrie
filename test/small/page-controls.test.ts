@@ -7,7 +7,7 @@ import { Glob } from 'bun';
 // should be strictly forbidden"). A "Back out to the map" of the page's own stood beside the engine's "Open the world
 // map". Every <button the page still writes is named here by its kind (its data-control, else its data-action), file
 // by file, with why it is allowed: a new kind of button fails, and so does one burnt and left listed (OR-94).
-type Why = 'row' | 'lens' | 'map' | 'book' | 'before play' | 'notice' | 'unreached';
+type Why = 'row' | 'lens' | 'map' | 'book' | 'before play' | 'notice' | 'unreached' | 'developer';
 const why: Record<Why, string> = {
   row: 'the one row: an engine choice (Act.View) or a row of the menu (ChoiceRow.Button), its kinds pinned below',
   lens: 'a lens\'s instrument: its mark on the rail, a tile of its strip, a likeness of who is here',
@@ -16,6 +16,7 @@ const why: Record<Why, string> = {
     + 'an entry, the fight\'s log, the dice)',
   'before play': 'the title, the choice of a campaign and of a company, creation\'s rail: no engine of play yet',
   notice: 'an error said, put away',
+  developer: 'the oracle (OR-1151): a developer\'s, drawn in a dev build or under ?oracle alone, never in a player\'s game',
   unreached: 'drawn by no page since the panel over a place went (Wayfinder.View, rendered only by specs: AT-07 I6)',
 };
 const allowed: Record<string, [string, Why][]> = {
@@ -38,6 +39,7 @@ const allowed: Record<string, [string, Why][]> = {
   'web/reader/stage/fight-stage.tsx': [['fight-log', 'book']],
   'web/reader/stage/told.tsx': [['dice', 'book']],
   'web/reader/toast.tsx': [['dismiss', 'notice']],
+  'web/reader/oracle-mark.tsx': [['oracle', 'developer'], ['oracle-copy', 'developer']],
   'web/reader/title-page.tsx': [['skip', 'before play']],
   'web/reader/campaign-page.tsx': [['back-to-title', 'before play'], ['campaign', 'before play']],
   'web/reader/company-page.tsx': [['back-to-campaigns', 'before play'], ['preset', 'before play'],
@@ -118,10 +120,11 @@ describe('the page\'s own controls', () => {
       .map(([f, ks]) => [f, ks.map(([k]) => k)]))));
     expect(Object.values(allowed).flat().filter(([, w]) => !why[w])).toEqual([]);
   });
-  // 36 with the folded lenses' diamond (OR-1084, the owner's), a lens's instrument.
-  it('count no more than they did: 70 in 28 files on 18 November, 53 on the 19th, 35 on the 25th, 36 now', async () => {
+  // 36 with the folded lenses' diamond (OR-1084, the owner's), a lens's instrument; 38 with the oracle's two (OR-1151),
+  // a developer's, which no player's game draws.
+  it('count no more than they did: 70 in 28 files on 18 November, 53 on the 19th, 35 on the 25th, 38 now', async () => {
     const drawn = await Source.scan(src => Source.tags(src, '<button').map(t => Source.button(t)));
-    expect(Object.values(drawn).flat().length).toBe(36);
+    expect(Object.values(drawn).flat().length).toBe(38);
   });
   it('make rows of the one row of no kind not named', async () => {
     const drawn = await Source.scan(src => Source.tags(src, '<ChoiceRow.Button').map(t => Source.row(t)));

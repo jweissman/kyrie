@@ -34,6 +34,7 @@ import { BandNames } from '../../src/narrative/band-names';
 import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary'; import { TravelQuestion } from '../../src/presentation/travel-question';
 import { BuildStamp } from '../../src/session/build-stamp';
+import { Oracle, type OracleAct } from '../../src/presentation/oracle';
 import { ChoiceList } from '../../src/ui/choice-list';
 import { Likenesses } from '../../src/presentation/likenesses';
 import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead';
@@ -53,13 +54,11 @@ export class EngineHost {
   // doing: the act under way, by its label (see begun).
   private opening: string[] = []; private doing?: string;
   // How long the story was when the command under way began: what was told before it did not start its fight.
-  private began = 0;
-  private screen?: Screen;
+  private began = 0; private screen?: Screen;
   // The last command, as the narrator tells it until the next; and the country the company was last in, so that
-  // coming into another is marked.
-  private told?: Told;
-  private country?: string;
-  private crossed = false;
+  // coming into another is marked. last: the last act and its timings, for the oracle (OR-1151).
+  private told?: Told; private last?: OracleAct;
+  private country?: string; private crossed = false;
   // Whether the page tells the game's opening apart, before the first place (see Prologue).
   private apart = false;
   // Whether the next page is the first of a game taken up again: it opens on what the company was about.
@@ -87,6 +86,9 @@ export class EngineHost {
   get played(): PlaySession | undefined { return this.session; }
   warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
   async handle(request: Request): Promise<unknown> {
+    // What a developer needs to reproduce what the player sees (the oracle, OR-1151): asked, it changes nothing, not
+    // even the danger reckoned ahead is let go for it.
+    if (request.kind === 'about') { return Oracle.of(BuildStamp.about, this.session, this.screen, this.last); }
     this.danger.stop();
     switch (request.kind) {
       case 'catalog': return Creation.catalog();
@@ -213,6 +215,7 @@ export class EngineHost {
       const said = context.named || context.said.includes(' › ') ? feedback.attempt : context.said;
       const told = this.fought ? EngineHost.unfought(feedback, this.begun()) : feedback;
       this.told = { event, feedback: told, said, moved };
+      this.last = { label: said || this.doing || command, command };
       return after;
     } finally {
       if (game === this.game) { this.turn = undefined; this.opening = []; this.spent = performance.now() - started; }
@@ -232,7 +235,7 @@ export class EngineHost {
   private abandon(): number {
     const turn = this.turn;
     this.turn = undefined; this.fought = undefined; this.busy = undefined; this.working = Promise.resolve();
-    this.bound = undefined;
+    this.bound = undefined; this.last = undefined;
     if (turn) { turn.resolve(Tactics.choose(turn.battle.state, turn.battle.plain(turn.battle.legalCommands()))); }
     return ++this.game;
   }
@@ -362,8 +365,8 @@ export class EngineHost {
     this.fought = undefined;
     frame.timing = { engine: Math.round(this.spent), screen: Math.round(built - started),
       narrative: Math.round(told - built), ...this.starts.phases };
-    this.starts.phases = {};
-    this.spent = 0;
+    this.last = Oracle.timed(this.last, frame.timing);
+    this.starts.phases = {}; this.spent = 0;
     if (!this.travelling) { this.saving(); }
     return frame;
   }

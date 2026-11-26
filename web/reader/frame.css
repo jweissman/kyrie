@@ -363,3 +363,20 @@ html, body { overflow: hidden; }
     text-align: left; }
   .title-page[data-mode="title"] .title-menu { width: var(--menu-rows); }
 }
+/* The oracle (OR-1151): a developer's, in a dev build or with ?oracle alone. A small neutral ring in the corner the
+   frame leaves (its margin, bottom left), never over the stage's words; pressed, what is seen as plain text in an
+   opaque panel above it, with one Copy. On a phone, where the stage has no margin, the ring stands in the stage's
+   bottom-left corner, under the menu's column. No colour of the Atlas's: it is no opportunity. */
+.oracle { position: fixed; left: max(4px, calc(var(--gx) / 2 - 7px)); bottom: max(4px, calc(var(--gy) / 2 - 7px));
+  z-index: 60; font: var(--type-note); color: var(--dim); }
+.oracle-mark { display: block; width: 14px; height: 14px; padding: 0; border-radius: 50%; cursor: pointer;
+  border: 1px solid var(--edge-strong); background: radial-gradient(circle at 35% 35%, var(--lift), var(--deep)); }
+.oracle-mark:hover, .oracle-mark:focus-visible, .oracle-mark[aria-expanded="true"] { border-color: var(--dim); outline: none; }
+.oracle-panel { position: absolute; left: 0; bottom: 22px; width: min(30rem, calc(100vw - 16px)); max-height: 70dvh;
+  overflow: auto; padding: 12px 14px; background: var(--raised); border: 1px solid var(--edge-strong);
+  box-shadow: var(--shadow-lift); }
+.oracle-panel pre { margin: 0 0 10px; white-space: pre-wrap; word-break: break-word; color: var(--ivory);
+  font: 400 12.5px/1.5 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace; }
+.oracle-copy { font: var(--type-control); letter-spacing: var(--track-control); text-transform: uppercase;
+  color: var(--ivory); background: var(--lift); border: 1px solid var(--edge-strong); padding: 6px 12px; cursor: pointer; }
+.oracle-copy:hover, .oracle-copy:focus-visible { border-color: var(--dim); outline: none; }

@@ -35,6 +35,8 @@ import { Attending } from '../ui/attention';
 import type { Choice } from '../ui/choice-list';
 import type { Aspect, Glance, Lens, Promoted, Successor } from '../presentation/glance-types';
 import type { ActType } from '../presentation/offer';
+import { Oracle, type OracleAct } from '../presentation/oracle';
+import { BuildStamp } from '../session/build-stamp';
 
 const quitPlay = 'The player left the encounter.';
 // A choice as the terminal lists it, and what the page draws on it in words.
@@ -54,6 +56,8 @@ interface Talking { id: string; inside: Promoted['inside'] }
 interface Turn {
   told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking;
   scene?: TerminalScene; helped?: boolean; attended?: boolean; profile?: { world?: number }; lens?: Lens;
+  // The last act and how long the engine took over it, for the oracle (OR-1151).
+  last?: OracleAct;
   // An opener taken: its rows listed, until anything is done (TerminalDoable).
   opened?: Listed;
   // The row the human mode's focus was on, kept while nothing is done (a lens, the map), let go once something is.
@@ -69,7 +73,7 @@ interface Turn {
 // PlayerView decides what is legal, ScreenModel/Narrator what the player knows, and PlaySession performs every act.
 export class Terminal {
   static readonly commands = 'Commands: a number · things · people · places · time · here · all · look · map · character'
-    + ' · aims · follow <n> · journeys · save [path] · q';
+    + ' · aims · follow <n> · journeys · save [path] · oracle · q';
   static readonly lenses = new Set(['things', 'people', 'places', 'time', 'here']);
   // A fight's turn, as TerminalFight takes it (typed, or picked in the human mode).
   static command(state: BattleState, legal: Command[], input: Asking, onward?: () => void): Promise<Command | null> {
@@ -344,6 +348,8 @@ export class Terminal {
       return true;
     }
     if (answer === 'map') { TerminalBooks.map(session); return true; }
+    // What a developer needs to reproduce what is seen, as the page's oracle says it (the engine's report, OR-1151).
+    if (answer === 'oracle') { console.log(Terminal.oracle(session, turn)); return true; }
     if (answer === 'character' || answer === 'dossier') { TerminalBooks.dossier(session); turn.spaced = false; return true; }
     if (answer === 'aims' && TerminalInput.picks(input)) {
       return this.aside(session, await this.aim(session, input), all, { turn, input });
@@ -417,6 +423,7 @@ export class Terminal {
         return command;
       });
       if (turn.profile) { turn.profile.world = performance.now() - began; }
+      turn.last = { label: choice.name, command: choice.id, timing: { engine: Math.round(performance.now() - began) } };
       if (choice.id.startsWith('travel:')) { TerminalBooks.legs(session); }
       const after = PlayerView.observe(session.campaign);
       const feedback = ActionFeedbackView.read(session.campaign, event, before);
@@ -432,6 +439,13 @@ export class Terminal {
       console.log(`! ${error instanceof Error ? error.message : String(error)}`);
     }
     return true;
+  }
+  // The oracle's report (Oracle.of, as the page's host answers { kind: 'about' }), the commit the checkout's.
+  static oracle(session: PlaySession, turn: { current?: { screen: Screen }; last?: OracleAct }): string {
+    const git = Bun.spawnSync(['git', 'rev-parse', '--short=8', 'HEAD']);
+    const commit = BuildStamp.commit !== 'dev' || !git.success ? BuildStamp.commit : git.stdout.toString().trim();
+    const screen = turn.current?.screen ?? ScreenModel.build(session.campaign);
+    return Oracle.text(Oracle.of({ commit, stamp: BuildStamp.current }, session, screen, turn.last));
   }
   // Compatibility for the legacy `campaign` command; new play uses a session checkpoint end to end.
   static playCampaign(campaign: Campaign, input?: Asking) {
