@@ -26,7 +26,7 @@ const told = async (seed: string): Promise<Journey> => {
   await j.play('Ask .* about the crier');
   return j;
 };
-const facts = { house: 'arcology__rumour', howe: 'howe__ridge_told', keep: 'keep__levy_called' };
+const facts = { house: 'arcology__rumour', howe: 'howe__ridge_told', keep: 'keep__lord_unseen' };
 const known = (j: Journey) => Object.fromEntries(Object.entries(facts).map(([k, f]) => [k, Placed.holds(j, 'knows', 'party', f)]));
 
 describe('the three deep modules are found from the first town', () => {

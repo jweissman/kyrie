@@ -12,7 +12,7 @@ import { MapPlay } from './support/map-play';
 // eleven who want different things, and a feast with a clock. Every spec plays by the page's own labels; the places a
 // spec is put in (Placed.at) are named where it is, to skip the walk and never a mechanism.
 const k = (id: string) => `keep__${id}`;
-const start = async (calling = 'warrior', seed = 'kahitude') => Journey.of(await DrawnWorld.start(seed, { origin: 'debt',
+const start = async (calling = 'warrior', seed = 'kahitude', origin = 'debt') => Journey.of(await DrawnWorld.start(seed, { origin,
   party: [{ name: 'Mira', raceId: 'human', classId: calling }] }, NodeBundleSource.shared));
 const holds = (j: Journey, relation: string, ...args: string[]) => Placed.holds(j, `keep__${relation}`, ...args);
 const knows = (j: Journey, fact: string) => Placed.holds(j, 'knows', 'party', k(fact));
@@ -52,8 +52,9 @@ describe('the silent lord: where it stands in the world', () => {
   it('is noticed on the first town’s green, uncovered by asking the keeper, and walked to from the map', async () => {
     const id = (await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {})).report.placements
       .find(x => x.scenario === 'silent-lord')!.bindings.keep!;
-    const j = await start();
-    await j.play('==day 2 09:00', '>s1_green');
+    const j = await start('warrior', 'kahitude', 'wanderer');
+    await j.play('To the landing', 'Read the notice on the well-post', 'Into .*', 'Out .*',
+      '==day 2 09:00', '>s1_green');
     expect(knows(j, 'levy_called')).toBe(true);
     expect(knows(j, 'lord_unseen')).toBe(false);
     expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === k('keep_rumoured'))).toBe(false);
@@ -62,6 +63,7 @@ describe('the silent lord: where it stands in the world', () => {
     expect(knows(j, 'levy_called')).toBe(true);
     expect(knows(j, 'lord_unseen')).toBe(true);
     expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === k('keep_rumoured'))).toBe(true);
+    await j.play('Out to the landing');
     const done = await MapPlay.reach(j, `region__${id}`);
     expect(done.arrived).toBe(true);
     // Come to it after dark, its gate is shut and the porter asked at the wicket: the morning opens it (the journey
