@@ -15,7 +15,7 @@ import { RegionKey } from './region-key';
 // the rest, and nothing came to a company between them). A few rovers, one for about every forty stretches and never
 // more than six, each drawn from data/generation/wild/roving.kyrt, each starting in a stretch of its own and ranging
 // over those within a few hexes of it; one comes to the stretch the company is in, by day, on the watch's die, once
-// (see the template). A danger ranges only away from the roads and the towns.
+// (see the template). A danger ranges only away from the roads and the towns; the night's band, only in the dark.
 export class RegionRovers {
   static readonly template = KyrTemplates.parse(text);
   static readonly most = 6;
@@ -32,7 +32,7 @@ export class RegionRovers {
     if (!homes.length) { return []; }
     const once = this.template.sections.filter(s => s.group === 'country').flatMap(s => s.lines);
     return [...once, ...homes.flatMap(home => this.write(region, home, cells.filter(c =>
-      Terrain.distance(land, home, c) <= this.range), away)), ...this.road(region, land)];
+      Terrain.distance(land, home, c) <= this.range), away)), ...this.road(region, land), ...this.night(region, land)];
   }
   // One band besides that goes up and down a stretch of the country's roads, away from its towns (roving.kyrt's road
   // group): drawn apart from the rest, so that every other rover is as it was.
@@ -48,6 +48,21 @@ export class RegionRovers {
     const values = { r: `wr${home}r`, home: RegionTracts.id(home), folk: region.ancestry, town: town?.name ?? region.name };
     const ranges = road.filter(c => Terrain.distance(land, home, c) <= this.range);
     return [...KyrTemplates.fill(section.lines, values), ...ranges.map(c => `  Initially Assert roams(${values.r}, ${RegionTracts.id(c)}).`)];
+  }
+  // One band besides that goes about by night (roving.kyrt's night group: a pack, or the hungry dead), over a stretch
+  // of the country away from its towns, roads and all: met only in the dark, once (the owner, 26 November: danger at
+  // night, a little). Drawn apart from the rest, so that every other rover is as it was.
+  private static night(region: Region, land: Land): string[] {
+    const towns = region.settlements.flatMap(s => s.cell === undefined ? [] : [s.cell]);
+    const open = RegionTracts.cells(region).filter(c => towns.every(t => Terrain.distance(land, t, c) >= 2));
+    const options = this.template.sections.filter(s => s.group === 'night');
+    if (!open.length || !options.length) { return []; }
+    const key = `${RegionKey.of(region)}:rovers:night`, home = Draw.ranked(key, open)[0]!;
+    const section = new Draw(key).weighted(options.map(o => [o, o.weight] as const));
+    const values = { r: `wr${home}n`, home: RegionTracts.id(home) };
+    const ranges = open.filter(c => Terrain.distance(land, home, c) <= this.range);
+    return [...KyrTemplates.fill(section.lines, values),
+      ...ranges.map(c => `  Initially Assert roams(${values.r}, ${RegionTracts.id(c)}).`)];
   }
   // Two stretches or more from any road or town (busy).
   private static away(land: Land, busy: number[], c: number): boolean {

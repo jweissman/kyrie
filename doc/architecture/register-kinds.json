@@ -3061,6 +3061,12 @@
    "pri": "P3",
    "why": "the owner's direction of 26 November, kept whole, not commissioned"
   },
+  "OR-1236": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "26 Nov: the owner's sketch (gnolls near the first town), unmet for want of a catalog entry; not an observed failure of a claimed contract"
+  },
   "OR-1233": {
    "kind": "requirement",
    "was": "defect",
