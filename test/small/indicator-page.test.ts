@@ -36,7 +36,7 @@ const expected = (c: typeof cases[number]) => {
 const ask: Choice = { id: 'wat#talk/0', label: 'Ask about the well', tone: 'person', command: 'ask(wat, well)' };
 // The frame's marks are the engine's (MenuTree), over the same glance and menu.
 const marked = <F extends Pick<Frame, 'leaf' | 'screen'>>(frame: F, menu: Menu) => ({ ...frame,
-  menu: { marks: MenuTree.marks(frame, menu) } });
+  menu: { marks: MenuTree.marks(frame, menu, menu.scene) } });
 const app = (acts: Promoted[], likenesses = {}) => {
   const menu = { choices: [ask], scene: { subjects: [], near: [], far: [], you: [] } } as unknown as Menu;
   const frame = marked({ leaf: { glance: { acts, likenesses } }, screen: { exits: [], party: [], path: [],

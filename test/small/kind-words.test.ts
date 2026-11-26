@@ -21,7 +21,7 @@ const led = (note: string): Promoted => ({ choice: ask.id, label: ask.label, not
 const render = (note: string) => {
   const menu = { choices: [ask], scene: { subjects: [], near: [], far: [], you: [] } } as unknown as Menu;
   const bare = { leaf: { glance: { acts: [] } }, screen: { exits: [], party: [] } } as unknown as Frame;
-  const frame = { ...bare, menu: { marks: MenuTree.marks(bare, menu) } };
+  const frame = { ...bare, menu: { marks: MenuTree.marks(bare, menu, menu.scene) } };
   const app = { state: { keyed: false, cursor: 0, open: [], frame }, menu,
     props: { query: new URLSearchParams() }, choose: () => undefined } as unknown as ReaderApp;
   return renderToStaticMarkup(createElement(GlanceStage.Acts, { app, draw: Act.draw(app), acts: [led(note)] }));

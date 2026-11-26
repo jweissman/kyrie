@@ -4,6 +4,8 @@ import type { Screen } from '../../src/ui/screen-types';
 import type { Choice } from '../../src/ui/choice-list';
 import type { ReaderApp } from '../../web/reader/reader-app';
 import { RouteCard } from '../../web/reader/route-card';
+import { MenuTree } from '../../src/frame/menu-tree';
+import type { Frame } from '../../src/creation/protocol';
 
 type Element = ReactElement<{ children?: unknown; 'data-action'?: string; onClick?: (e?: object) => void;
   className?: string }>;
@@ -15,7 +17,9 @@ export class MapCard {
   }
   private static read(screen: Screen, chosen: string): { text: string; legs: number; command?: string } {
     let command: string | undefined;
-    const app = { choose: (c: Choice) => { command = c.command; }, state: { frame: { title: '' } } } as unknown as ReaderApp;
+    // The frame the card is drawn over, as the host sends it: with its menu and marks (MenuTree), over this screen.
+    const frame = MenuTree.framed({ title: '', screen, leaf: {} } as unknown as Frame);
+    const app = { choose: (c: Choice) => { command = c.command; }, state: { frame } } as unknown as ReaderApp;
     const card = RouteCard.View({ app, screen, chosen }) as Element, all = MapCard.all(card);
     // Activated as an assistive technology does, which a held row (a journey, OR-111) takes at once: no hand holds it.
     const activate = { detail: 0, preventDefault: MapCard.none, stopPropagation: MapCard.none };

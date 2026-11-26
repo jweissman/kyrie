@@ -19,9 +19,7 @@ import { Paging } from '../paging';
 import { AimNear } from '../aim-near';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
-import { Attest, type Witness } from '../../../src/presentation/attest';
 import { Fold, type Leaf } from '../../../src/presentation/fold';
-import { Attending } from '../../../src/ui/attention';
 import { ChoiceRow } from './choice-row';
 import { PageFrame } from '../page-frame';
 import type { Promoted } from '../../../src/presentation/glance-types';
@@ -67,8 +65,8 @@ export class TalkStage {
     // kept after it is spent; see Attest.reply).
     const gilded = Guidance.shown(app);
     const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
-    const g = frame.leaf.glance;
-    const drawn = (c: Choice): Witness[] => spent(c) ? [] : Attest.reply(g, c, frame.screen.paying);
+    // Each reply's leaves are the frame's (MenuTree's marks); one asked already bears nothing now.
+    const drawn = TalkStage.drawn.bind(null, frame.menu.marks.replies, s.asked);
 
     // Four acts in view (the owner's ruling 2): taking your leave always, and in the three rows before it any answer
     // owed, then what can be said and Trade, a page at a time; each row's key is its place, 1 to 4.
@@ -92,12 +90,12 @@ export class TalkStage {
                     Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
                 {focus.answers.length > 0 && <><p className="answering">Your answer</p>
                   <ol className="replies answers" aria-label="Your answer">{focus.answers.map((c, i) => <TalkStage.Reply
-                    key={c.id} choice={c} draw={draw} number={i + 1} leaves={TalkStage.leaves(c, drawn)} gilded={gilded} />)}</ol></>}
+                    key={c.id} choice={c} draw={draw} number={i + 1} leaves={drawn(c)} gilded={gilded} />)}</ol></>}
                 {/* Trade in the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home
                     with what would fetch coin: Mission 20). */}
                 <TalkStage.Topics draw={draw} name={name!} paged={paged} first={a + 1} spent={spent} opened={focus.opened}
                   gilded={gilded} drawn={drawn} paying={frame.screen.paying} trade={<TalkStage.ToTrade app={app}
-                    leaves={focus.services.flatMap(x => TalkStage.leaves(x, drawn))} gilded={gilded} />} />
+                    leaves={focus.services.flatMap(x => drawn(x))} gilded={gilded} />} />
               </>}
             </div>
             {/* The way out, always in view at the foot (round 5: under the fade at a long counter, half there): Back
@@ -113,17 +111,16 @@ export class TalkStage {
               {!s.trading && paged.pages > 1 && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
                 onClick={() => turn(paged.at + 1)} {...ChoiceRow.mark(Fold.mark([...focus.salient, ...trades
                   ? ['trade' as const] : [], ...focus.more].filter(x => !paged.shown.includes(x))
-                  .flatMap(x => x === 'trade' ? focus.services : [x]).flatMap(x => TalkStage.leaves(x, drawn)), gilded))}
+                  .flatMap(x => x === 'trade' ? focus.services : [x]).flatMap(x => drawn(x)), gilded))}
                 label={[...focus.salient, ...focus.more].every(spent) ? 'Ask again…' : 'Something else…'}
                 aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
             </ol>
           </div>} />
     );
   }
-  // What a reply bears, as leaves of a fold (Fold): itself, or what it opens.
-  static leaves(c: Choice, drawn: (c: Choice) => Witness[]): Leaf[] {
-    return c.children?.length && !c.command ? Attending.all(c.children).filter(k => !k.children?.length)
-      .map(k => Fold.leaf(k, drawn(k))) : [Fold.leaf(c, drawn(c))];
+  // What a reply bears, as leaves of a fold (Fold): itself, or what it opens, as the frame holds them.
+  private static drawn(replies: Record<string, Leaf[]>, asked: string[], c: Choice): Leaf[] {
+    return (replies[c.id] ?? []).filter(l => !asked.includes(l.id));
   }
   // An act as it was led with, but for the aim's gold, which is the aim's next step as it is now.
   static ungilded(a: Promoted): Promoted {
@@ -307,13 +304,13 @@ export class TalkStage {
   // row that turns the page (no act) is under the leave.
   static Topics({ draw, name, paged, first, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
     name: string; paged: ReturnType<typeof Paging.of<Choice | 'trade'>>; first: number;
-    spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Witness[];
+    spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Leaf[];
     paying?: string[]; trade: ReactNode }) {
     return <>
       <ol className="replies" aria-label={`What you might say to ${name}`}>
         {paged.shown.map((c, i) => c === 'trade' ? <li key="trade" className="to-trade">{trade}</li>
           : <TalkStage.Reply key={c.id} choice={c} draw={draw} number={first + i} asked={spent(c)} fresh={opened.has(c.id)}
-            leaves={TalkStage.leaves(c, drawn)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
+            leaves={drawn(c)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
     </>;
   }
   static Reply({ choice: c, draw, number, asked, fresh, leaves, gilded = true, pays }: { choice: Choice; draw: Draw;

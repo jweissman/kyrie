@@ -40,7 +40,8 @@ export class MenuOracle {
         out.push(`${at}: the mark of ${a.choice} differs`);
       }
     }
-    return [...out, ...this.rows(frame, tree.marks, menu), ...this.lensed(frame, tree.marks, menu)];
+    return [...out, ...this.rows(frame, tree.marks, menu), ...this.lensed(frame, tree.marks, menu),
+      ...this.replies(frame, tree.marks)];
   }
   // Each row of the scene as Look… and a thing's pane had marked it (AtHand.leaves: the aim's gold only where it
   // carries the aim on), and as a row inside an opener had (PlaceStage.Within).
@@ -52,6 +53,20 @@ export class MenuOracle {
       if (!this.same(marks.rows[c.id], Fold.of(g, c, c.id, carries(c)))) { out.push(`the row ${c.id} differs`); }
       const within = c.children?.length && !c.command ? Fold.of(g, c, c.id, true) : [Fold.leaf(c, Attest.within(g, c))];
       if (!this.same(marks.within[c.id], within)) { out.push(`the row ${c.id} within differs`); }
+    }
+    return out;
+  }
+  // Each reply to someone here as the talk drawer had marked it (TalkStage.leaves over Attest.reply), nothing asked.
+  private static replies(frame: Frame, marks: MenuMarks): string[] {
+    const g = frame.leaf.glance, paying = frame.screen.paying ?? [], out: string[] = [];
+    const drawn = (c: Choice) => /_again(\(|$)/.test(c.command ?? '') ? [] : Attest.reply(g, c, paying);
+    for (const s of SceneModel.build(frame.screen).subjects.filter(x => x.kind === 'person' || x.kind === 'companion')) {
+      const talk = Attending.talk(SceneModel.build(frame.screen), s.id);
+      for (const c of talk?.replies ?? []) {
+        const was = c.children?.length && !c.command ? Attending.all(c.children).filter(k => !k.children?.length)
+          .map(k => Fold.leaf(k, drawn(k))) : [Fold.leaf(c, drawn(c))];
+        if (!this.same(marks.replies[c.id], was)) { out.push(`the reply ${c.id} differs`); }
+      }
     }
     return out;
   }

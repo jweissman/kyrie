@@ -25,10 +25,13 @@ export interface MenuNode {
 // journey across the country, the map's gold; led: each act led with (the glance's, a lens's, the offer's), by id;
 // rows: each row of the scene as its own drawer marks it (Look… and a thing's pane: the aim's gold only on the act that
 // carries it on); within: each as a row inside an opener marks it (by its own witnesses, an opener by its rows);
-// lensed: each lens's rows, by id (the lens, the rail's mark over it, a tile, a row gathered by focus).
+// lensed: each lens's rows, by id (the lens, the rail's mark over it, a tile, a row gathered by focus); replies: each
+// thing to say to someone here, as the talk drawer marks it (itself, or what it opens), a reply asked again bearing
+// nothing (the page lets go of those the player has asked: TalkStage).
 export interface MenuMarks {
   place: Leaf[]; local: Leaf[]; map: Leaf[]; led: Record<string, Leaf[]>; rows: Record<string, Leaf[]>;
   within: Record<string, Leaf[]>; lensed: Partial<Record<Lens, Record<string, Leaf[]>>>;
+  replies: Record<string, Leaf[]>;
 }
 
 export class MenuTree {
@@ -37,7 +40,7 @@ export class MenuTree {
     return { ...frame, menu: this.of(frame) };
   }
   static of(frame: Omit<Frame, 'menu'>): MenuNode {
-    const found = Attending.place(SceneModel.build(frame.screen));
+    const raw = SceneModel.build(frame.screen), found = Attending.place(raw);
     const tops = [...found.subjects.flatMap(s => s.choices), ...found.near, ...found.far, ...found.you];
     const openers = new Set(Attending.all(tops).filter(c => c.children?.length).map(c => c.id));
     const full = MenuModel.resting(found, openers, frame);
@@ -46,7 +49,7 @@ export class MenuTree {
       ...full.overland ? { overland: [...full.overland] } : {}, ...full.leads ? { leads: full.leads } : {},
       ...full.leading ? { leading: [...full.leading] } : {}, ...full.said ? { said: [...full.said] } : {},
       ...full.sheets ? { sheets: full.sheets } : {} };
-    return { ...node, marks: this.marks(frame, this.opened(node, [])) };
+    return { ...node, marks: this.marks(frame, this.opened(node, []), raw) };
   }
   // The menu as drawn with the folds the player has open: every row whose openers are all open.
   static opened(node: Omit<MenuNode, 'marks'>, open: Iterable<string>): Menu {
@@ -79,7 +82,7 @@ export class MenuTree {
     }
   }
   // The marks of a menu drawn over the frame's glance (a spec's hand-made frame and menu read them too).
-  static marks(frame: Pick<Frame, 'leaf' | 'screen'>, menu: Menu): MenuMarks {
+  static marks(frame: Pick<Frame, 'leaf' | 'screen'>, menu: Menu, raw?: Scene): MenuMarks {
     const g = frame.leaf.glance, chosen = MenuModel.lead.bind(MenuModel, menu);
     const around = frame.screen.around ?? [];
     const next = g?.acts.find(a => a.continues && a.choice.startsWith('travel:')
@@ -89,7 +92,20 @@ export class MenuTree {
     return { place: Fold.led(g, chosen), local: Fold.led(g, chosen, true),
       map: next ? [Fold.step(next.choice, [Attest.witness(g, next.choice)])] : [],
       led: Object.fromEntries([...ids].map(id => [id, Fold.of(g, chosen(id), id, true)])),
-      ...this.rows(g, menu, chosen), lensed: this.lensed(g, chosen) };
+      ...this.rows(g, menu, chosen), lensed: this.lensed(g, chosen),
+      replies: this.replies(g, raw ?? SceneModel.build(frame.screen), frame.screen.paying ?? []) };
+  }
+  private static replies(g: Projected | undefined, scene: Scene, paying: readonly string[]): Record<string, Leaf[]> {
+    const out: Record<string, Leaf[]> = {};
+    for (const c of Attending.all(scene.subjects.flatMap(s => s.choices))) {
+      out[c.id] ??= c.children?.length && !c.command ? Attending.all(c.children).filter(k => !k.children?.length)
+        .map(k => this.reply(g, k, paying)) : [this.reply(g, c, paying)];
+    }
+    return out;
+  }
+  // What a reply bears: what the glance found in it, what it teaches and what pays; asked again, nothing.
+  private static reply(g: Projected | undefined, k: Choice, paying: readonly string[]): Leaf {
+    return Fold.leaf(k, /_again(\(|$)/.test(k.command ?? '') ? [] : Attest.reply(g, k, paying));
   }
   private static rows(g: Projected | undefined, menu: Menu, chosen: Chosen): Pick<MenuMarks, 'rows' | 'within'> {
     const scene = menu.scene, rows: Record<string, Leaf[]> = {}, within: Record<string, Leaf[]> = {};
