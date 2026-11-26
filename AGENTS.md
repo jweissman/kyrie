@@ -201,7 +201,7 @@ this help the player forget the interface and become interested in what happens 
 - **The title has no hero wordmark:** negative space, the painting or the embers, and the product's identity small at
   the hard right.
 - **Every change to the page is looked at:** it lands with a contact sheet at 1280 and 390 that its builder has looked
-  at page by page. Its contrast is held by the contact sheet's ratchet (scripts/contact-sheet-contrast.ts).
+  at page by page. The contrast ratchet applies to complete full-motion walks without misses (scripts/contact-sheet-ratchet.ts).
 - **Unfolding menus only in a fight.** Elsewhere rows are one flat level. Long lists appear only in a store.
 - **The map is an in-world instrument**, not an app. It opens for inspection while the character stays in the scene;
   "Put away the map" is an act. **Ways to another hex appear only on the map** (the owner, 25 November, overruling
