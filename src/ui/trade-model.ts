@@ -1,5 +1,6 @@
 import type { World } from '../lang/world';
 import type { Names } from './known-names';
+import type { Screen } from './screen-types';
 
 // One merchant's side of the counter, as the world has it: what they sell (goods by the measure, and things laid
 // out for sale), at what price and how many are left, what kinds of thing they buy and for how much, and their coin.
@@ -27,6 +28,13 @@ export class TradeModel {
       ...world.measured('pays').filter(m => m.value > 0 && present.has(m.call.args[0]!)).map(m => m.call.args[0]!),
     ])];
     return merchants.map(id => this.counter(world, id, names)).filter(c => c.sells.length || c.buys.length);
+  }
+  // The wares on a trader's counter, whose buying (and haggling) is the trader's, under Trade: not things of the place
+  // each to be bought by itself (the owner's playtest, 25 November: the first town's menu overrun with its wares).
+  static laid(screen: Pick<Screen, 'people' | 'things'>): Set<string> {
+    if (!screen.people.some(p => p.acts.some(a => a.label === 'Buy'))) { return new Set(); }
+    return new Set(screen.things.filter(t => t.acts.length && t.acts.every(a => a.label.startsWith('Buy from')))
+      .map(t => t.id));
   }
   private static counter(world: World, id: string, names: Names): Counter {
     const goods = world.related('sells', id).map(r => r.args[1]!)

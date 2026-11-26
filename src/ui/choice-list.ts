@@ -5,6 +5,7 @@ import { SpellSchools } from '../presentation/spell-schools';
 import type { Mark } from '../presentation/glance-types';
 import { ChoiceWords } from './choice-words';
 import { ChoiceTries } from './choice-tries';
+import { TradeModel } from './trade-model';
 
 export type Tone = 'way' | 'person' | 'creature' | 'thing' | 'company' | 'item' | 'member' | 'ability' | 'spell';
 // One thing the player can choose. A choice either performs its command when chosen or opens a short list of
@@ -54,8 +55,7 @@ export class ChoiceList {
   // The tries anything might be given, by their words under the thing ("Look closely", "Listen at it").
   static readonly trying = Object.values(ChoiceTries.rules).map(r => r.path[0]!);
   static explore(screen: Screen): Section[] {
-    const merchants = screen.people.some(p => p.acts.some(a => a.label === 'Buy'));
-    const things = screen.things.filter(t => !(merchants && t.acts.length && t.acts.every(a => a.label.startsWith('Buy from'))));
+    const counter = TradeModel.laid(screen), things = screen.things.filter(t => !counter.has(t.id));
     return Marks.on(screen, this.waited(screen, [
       ...[...screen.people, ...things].map(t => this.subject(t, screen.fresh)),
       ...(screen.exits.length ? [this.ways(screen.exits)] : []),

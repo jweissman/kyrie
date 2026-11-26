@@ -1,16 +1,20 @@
 import type { Act, Screen } from '../ui/screen-types';
 import { TalkFocus } from '../ui/talk-focus';
+import { TradeModel } from '../ui/trade-model';
 import type { Offered } from './runner';
 import { Doable, type Row } from '../presentation/doable';
 
 // What can be said to each of the people here, as the engine holds it (MT-18, mt18-grouping.md): a row within a
 // person's talk (Doable's within) is drawn when the company turns to them, by their talk (talk_to, the engine's own
 // row for them, bearing the fold of what it holds); never grouped by rules of the runner's own. The one the company is
-// talking with (see Runner.with) has theirs first, talk before trade. A ware on a thing's shelf stays the thing's.
+// talking with (see Runner.with) has theirs first, talk before trade. A ware on a thing's shelf
+// stays the thing's, but for a trader's counter (TradeModel.laid).
 export class RunnerTalks {
   static talks(screen: Screen, rows: readonly Row[], rest: Offered[], talking?: string): Offered[] {
     const whose = this.whose(rows), paid = this.services(screen);
-    const shelved = new Set(screen.things.flatMap(t => this.flat(t.acts)).flatMap(a => a.command ? [a.command] : []));
+    const counter = TradeModel.laid(screen);
+    const shelved = new Set(screen.things.filter(t => !counter.has(t.id)).flatMap(t => this.flat(t.acts))
+      .flatMap(a => a.command ? [a.command] : []));
     const theirs = rest.filter(o => talking && whose.get(this.act(o)) === talking);
     const loose = rest.filter(o => !theirs.includes(o) && (!whose.has(this.act(o)) || shelved.has(this.act(o))));
     return [...theirs.filter(o => !paid.has(this.act(o))), ...theirs.filter(o => paid.has(this.act(o))), ...loose,

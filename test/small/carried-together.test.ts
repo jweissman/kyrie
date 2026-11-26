@@ -30,7 +30,8 @@ describe('what is bought', () => {
     expect(lamp).toBe('t__member_party_2');
     const oil = t.journey.choices().find(c => /^buy_item\(t__mabel_lamp_oil_\d+,/.test(c.command))!;
     expect(oil.command.endsWith(`,${lamp})`)).toBe(true);
-    const said = await new Runner(t.session).ask(JSON.stringify({ look: true }));
+    // Bought within Mabel's talk, under her trade (the owner's playtest, 25 November: not rows of the place).
+    const said = await new Runner(t.session).ask(JSON.stringify({ act: 't__mabel#talk' }));
     if ('error' in said) { throw new Error(said.error); }
     const buys = flat([...said.offer.primary, ...said.offer.rest]).filter(o => /^buy_item\(/.test(o.does ?? ''));
     expect(buys.length).toBeGreaterThan(0);

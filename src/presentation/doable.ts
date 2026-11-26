@@ -7,6 +7,7 @@ import type { Aspect, Glance, Lens, Promoted } from './glance-types';
 import { Fold } from './fold';
 import { DoableJourneys } from './doable-journeys';
 import { Engaged } from './engaged';
+import { Leaving } from './leaving';
 
 // One resolution from the engine's offer to rows that can be done (mission-22/doable-design.md, TB-12): what each
 // offered choice is, what taking it does, and what it opens, read once from the scene the page draws its menu from
@@ -146,12 +147,19 @@ export class Doable {
     const out = glance.compass?.out, journeys = DoableJourneys.more(this.flat(offered), screen, out)
       .map(j => ({ ...this.row(j.command, j.label, { ...at, command: j.command }), minutes: j.minutes }));
     // Engaged, only what answers the threat (OR-163: Engaged).
-    const rows = Engaged.rows(DoableJourneys.mapped([...offered, ...journeys], screen, out), screen);
+    // What leaves (taking leave, going out) last, within whatever holds it (Leaving: the owner's playtest, 25 Nov).
+    const ways = Leaving.ways(screen);
+    const rows = this.leaving(Engaged.rows(DoableJourneys.mapped([...offered, ...journeys], screen, out), screen),
+      ways);
     const read = { rows, at, lensOf };
     const by = this.kept.get(glance) ?? new WeakMap<Screen, Kept>();
     by.set(screen, read);
     this.kept.set(glance, by);
     return read;
+  }
+  private static leaving(rows: Row[], ways: Set<string>): Row[] {
+    return Leaving.last(rows, r => Leaving.is(r, ways))
+      .map(r => r.opens ? { ...r, opens: this.leaving(r.opens, ways) } : r);
   }
   // One act, one row, for every client (OR-462, OR-464): a second row doing what another does is not offered, whether a
   // talk whose one act it is ("Ask Dai Probert to stay here" under his talk and by itself), or a journey to where a way

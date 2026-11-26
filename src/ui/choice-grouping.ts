@@ -116,6 +116,9 @@ export class ChoiceGrouping {
     buy: { slot: 'target', param: 'merchant', path: ['Buy', '{goods} — 2 coin'] },
     buy_item: { slot: 'target', param: 'merchant', path: ['Buy', '{find} — {price} coin', 'for {recipient}{versus}'],
       also: { param: 'find', path: ['Buy from {merchant} — {price} coin', 'for {recipient}'] } },
+    // Haggling is the trade's, held by the trader beside what they sell, never a row of the place for each ware (the
+    // owner's playtest, 25 November: "haggle with Helga for the price of x" three times in the first town's menu).
+    haggle_item: { slot: 'target', param: 'merchant', path: ['{choice}'] },
     approach_wildlife: { slot: 'target', param: 'animal', path: ['Approach calmly ({skill})'] },
     request_passage: { slot: 'target', param: 'keeper', path: ['Invoke {identity}'] },
     request_custody: { slot: 'target', param: 'keeper', path: ['Present the writ and register'] },

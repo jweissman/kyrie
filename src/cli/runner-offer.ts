@@ -7,6 +7,7 @@ import { Typography } from '../presentation/typography';
 import { RunnerTalks } from './runner-talks';
 import type { Offered, Said } from './runner';
 import { ChoiceWords } from '../ui/choice-words';
+import { Leaving } from '../presentation/leaving';
 
 // Where the runner keeps a row of the rest: the page's lenses, the place's own first; then the company's gear, and
 // the journeys (twelve "Set out for…" had come before the place's things: cold play 5, CL-33).
@@ -49,7 +50,11 @@ export class RunnerOffer {
     // The map's journeys are not counted: its row says no number (the owner, 25 November: "Why is the map sending
     // you a notification?"), and an ordinary turn lays none but the aim's (Itineraries.charted). The pack's are.
     const more = pack.length ? { pack: pack.length } : {};
-    return { offer: { primary, ...grouped, ...Object.keys(more).length ? { more } : {} },
+    // What leaves last of all (Leaving: the engine's one rule): a way out the four led with is the rest's last.
+    const ways = Leaving.ways(screen);
+    return { offer: { primary: primary.filter(o => !Leaving.is(o, ways)), ...grouped,
+      rest: Leaving.last([...grouped.rest, ...primary.filter(o => Leaving.is(o, ways))], o => Leaving.is(o, ways)),
+      ...Object.keys(more).length ? { more } : {} },
       under: [...under, ...folded, ...pack], journeys: [...grouped.lenses.journeys ?? [], ...folded], pack };
   }
   // A lens's own acts, ranked as the scene's are, each as a row that can be done.

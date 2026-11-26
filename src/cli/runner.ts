@@ -29,6 +29,7 @@ import { Doable } from '../presentation/doable';
 import { DoableJourneys } from '../presentation/doable-journeys';
 import { Itineraries } from '../ui/itinerary';
 import { RunnerTalks } from './runner-talks';
+import { Leaving } from '../presentation/leaving';
 import { RunnerEnding } from './runner-ending';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Obituary } from '../narrative/obituary';
@@ -383,8 +384,11 @@ export class Runner {
     // What the engine holds within their talk, the act it was led for among it (CL-33: Ianto's boat, gold on "Talk to
     // Ianto", had not been among what was had of him once turned to).
     const all = [...said.offer.primary, ...said.offer.rest];
-    const primary = all.filter(o => whose.get(o.does ?? o.id) === who).slice(0, 4);
-    const rest = all.filter(o => !primary.includes(o));
+    // Taking leave of them the last of what is had of them (Leaving: their four were cut before it had been reached).
+    const ways = Leaving.ways(screen), theirs = all.filter(o => whose.get(o.does ?? o.id) === who);
+    const go = theirs.filter(o => Leaving.is(o, ways)).slice(0, 1);
+    const primary = [...theirs.filter(o => !Leaving.is(o, ways)).slice(0, 4 - go.length), ...go];
+    const rest = Leaving.last(all.filter(o => !primary.includes(o)), o => Leaving.is(o, ways));
     return { ...said, moment: 'inspect', scene: { lines, prose: seen },
       offer: primary.length ? { ...said.offer, primary, rest } : said.offer };
   }

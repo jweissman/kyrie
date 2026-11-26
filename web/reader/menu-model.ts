@@ -11,6 +11,7 @@ import { Words } from '../../src/presentation/words';
 import { Doable } from '../../src/presentation/doable';
 import { Hours } from './hours';
 import { Wares } from './wares';
+import { Leaving } from '../../src/presentation/leaving';
 
 export type View = 'here' | 'company' | 'pack' | 'journal' | 'map' | 'story';
 // What can be chosen now: the scene (who and what is here, the ways, yourself), or a conversation with one of them, or
@@ -114,18 +115,23 @@ export class MenuModel {
       : !screen.place.underground && (overland.length || (inside && journeys.length))) ? MenuModel.country : undefined;
     const about = [...this.around(screen), ...country ? [country] : []];
     const subjects = scene.subjects.flatMap(s => s.choices);
-    const ways = [...scene.near, ...about, ...scene.far, ...going];
+    const ways = this.leaving([...scene.near, ...about, ...scene.far, ...going], screen);
     const own = scene.you.filter(SceneModel.own), yours = scene.you.filter(c => !SceneModel.own(c));
     const sheets = { look: this.ids([...subjects, ...own], opened), ways: this.ids(ways, opened),
       more: this.ids(yours, opened) };
     return { scene, sections: [...this.sections(scene), ...going.length
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
-    choices: this.led(this.unfolded([...subjects, ...ways, ...scene.you, ...this.following(frame)], opened),
-      glance && { ...glance, acts: leads },
-      { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), destinations: going,
+    choices: this.leaving(this.led(this.unfolded([...subjects, ...ways, ...scene.you, ...this.following(frame)],
+      opened), glance && { ...glance, acts: leads },
+    { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), screen), destinations: going,
     around: about, ...glance ? { sheets, leads, leading, said: new Map([...glance.acts,
       ...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(a => [a.choice, a.label])) } : {},
     ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };
+  }
+  // What leaves last, by the engine's one rule (Leaving).
+  private static leaving(choices: Choice[], screen: Frame['screen']): Choice[] {
+    const ways = Leaving.ways(screen);
+    return Leaving.last(choices, c => Leaving.is(c, ways));
   }
   // The choice a lead of the glance is drawn as and done by: its own, or, for a way out into the country, going out
   // to it (the keys had counted a lead on the road as none, and every digit at Millholm's camp did nothing).
@@ -265,8 +271,8 @@ export class MenuModel {
   // kind, and turning away. The scene is kept whole, so what is said is said to them by name.
   // In the order the page draws them (see TalkFocus): an answer owed, the few salient things to say, the rest to say,
   // what has been said; or, trading, what the company can sell, the wares that can be had, the services, the rest of
-  // the wares; taking leave last of all, unless everything has been said, when it leads (the page led with "Ask again
-  // about the road your father took" for as long as a player went on pressing what it led with: the owner, 31 October).
+  // the wares; taking leave last of all, always (Leaving: the owner's playtest, 25 November; it had led once
+  // everything was said).
   private static attending(scene: Scene, opened: Set<string>, { attention, asked = [], heard, trading }: {
     attention?: Attention; asked?: string[]; heard?: string[]; trading?: boolean }, frame?: Frame): Menu | undefined {
     if (attention?.kind === 'person') {
@@ -276,12 +282,12 @@ export class MenuModel {
       const focus = TalkFocus.of(sold?.rest ?? [], { ...led ? { led } : {}, ...heard ? { heard } : {}, asked,
         weighty: frame?.screen.weighty ?? [], paying: frame?.screen.paying ?? [] });
       const buys = (sold?.wares ?? []).flatMap(w => w.buy ? [w.buy] : []), can = buys.filter(b => !b.disabled);
-      const said = [...focus.answers, ...focus.salient, ...focus.more], spent = said.every(c => asked.includes(c.id));
+      const said = [...focus.answers, ...focus.salient, ...focus.more];
       // Trading, what the company has to sell comes first, as the page draws it (see TalkFocus.parted).
       const { sales, rest } = TalkFocus.parted(focus.services);
       const choices = talk && (trading ? [...sales, ...can, ...rest, ...buys.filter(b => b.disabled)]
         .flatMap(c => this.ware(c, opened)).concat(talk.leave)
-        : [...spent ? [talk.leave] : [], ...said.flatMap(c => this.unfold(c, opened)), ...spent ? [] : [talk.leave]]);
+        : [...said.flatMap(c => this.unfold(c, opened)), talk.leave]);
       return talk && { scene, talk, choices: choices!, sections: [{ id: talk.subject.id, title: talk.subject.name,
         tone: 'person', glyph: '☺', choices: choices! }] };
     }
