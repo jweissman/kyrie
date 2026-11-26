@@ -83,7 +83,7 @@ export class RegionTracts {
   private static stretch(region: Region, c: number, at: { parent: string; cells: Set<number> }): string[] {
     const land = RegionGeography.atlas(region).land, q = JSON.stringify, id = this.id(c);
     return [`  Place ${id} ${q(this.name(region, c))} is room within ${at.parent} at ${c % land.width}, `
-      + `${Math.floor(c / land.width)} outdoors${this.unnamed(region, c)}.`, `  Initially Assert tract(${id}).`,
+      + `${Math.floor(c / land.width)} outdoors.`, `  Initially Assert tract(${id}).`,
     TractValues.seen(`${id}_scene`, id, { aspect: 'fixture', text: this.told(region, c) }),
     ...this.neighbours(c, land.width, land.height).filter(m => m > c && at.cells.has(m)).map(n => TractValues.way(
       `tw${c}_${n}`, 'the way across country', [id, this.id(n)], this.minutes(region, c, n)))];
@@ -194,22 +194,12 @@ export class RegionTracts {
     const [x, y] = this.xy(cell, W), [nx, ny] = this.xy(near.cell, W);
     return `${lie.name} ${Vantage.bearing(x - nx, y - ny)} of ${near.name}`;
   }
-  // A stretch named for where it lies from a town is seen by its land alone until the company has seen that town
-  // (its green by day teaches why the place is there, <town>_why): "the woods south-east of Windscar" had named, at
-  // Newmeet, a town nobody had told of (OR-812; the roads between towns likewise, RegionRoads.unnamed).
-  static unnamed(region: Region, cell: number): string {
-    const atlas = RegionGeography.atlas(region), near = this.nearest(region, cell);
-    if (region.settlements.some(s => s.cell === cell) || atlas.zones.some(z => z.parts.some(p => p.includes(cell)))
-      || !near || near.distance > 5) { return ''; }
-    return ` seen as ${JSON.stringify(this.lie(atlas.land.cover[cell]!).name)} until ${near.id}_why`;
-  }
   private static xy(c: number, W: number): Pt { return [c % W, Math.floor(c / W)]; }
-  private static nearest(region: Region, cell: number):
-    { id: string; name: string; cell: number; distance: number } | undefined {
+  private static nearest(region: Region, cell: number): { name: string; cell: number; distance: number } | undefined {
     const W = RegionGeography.atlas(region).land.width, [x, y] = this.xy(cell, W);
     return region.settlements.filter(s => s.cell !== undefined).map(s => {
       const [sx, sy] = this.xy(s.cell!, W);
-      return { id: s.id, name: s.name, cell: s.cell!, distance: Math.hypot(x - sx, y - sy) };
+      return { name: s.name, cell: s.cell!, distance: Math.hypot(x - sx, y - sy) };
     }).sort((a, b) => a.distance - b.distance)[0];
   }
   // How a stretch is told: its land, the river through it, the road across it, the land rising about it, a town close.
@@ -227,8 +217,7 @@ export class RegionTracts {
       out.push(t.rises.replace('{side}', Vantage.bearing(hx - x, hy - y)));
     }
     const near = this.nearest(region, cell);
-    // Heard and smelt, not named: the company may not know the town yet (OR-812).
-    if (near && near.distance > 0 && near.distance <= 1.5) { out.push(t.town); }
+    if (near && near.distance > 0 && near.distance <= 1.5) { out.push(t.town.replace('{near}', near.name)); }
     return out.join(' ');
   }
   // Where each stretch is on the land, for the chart.

@@ -18,7 +18,7 @@
   "road": "A road crosses it, the only straight thing in sight.",
   "rises": "To the {side} the land rises.",
   "falls": "To the {side} the land falls away.",
-  "town": "A town is close by: you can hear it, and smell its smoke.",
+  "town": "{near} is close by: you can hear it, and smell its smoke.",
   "survey": "You stand a while on the highest ground to hand and look out over the country, learning the lie of it: where the land rises and falls, where the water runs, what stands on it.",
   "surveyHaze": "You look out over the country, but the weather has closed in: the nearer land is plain enough, and nothing past it.",
   "surveyFar": "You stand on the highest ground to hand, and look out over the country, slowly, with the eye of someone who has had to find their way before."
