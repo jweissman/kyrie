@@ -11,14 +11,17 @@ import type { MonoDriver } from './support/mono-driver';
 // playtest of 21 November: her answers had been mixed with unrelated world actions). Stopped for, the menu the page
 // draws is her riddle: her three answers first, then only the ways off the green, and nothing of the drove's aim to
 // take up ("Ask Owain how many head came down" had led it); answered, the green is the green again. Out of the adit
-// first, as the page walk goes (test/page-walk-browser), by the rows a player sees.
+// first, as the page walk goes (test/page-walk-browser), by the rows a player sees: the badger in the old drift
+// fought by the page's own fight, as it stands between the company and the fallen prop (under-the-fall.pin, since
+// OR-461 to OR-464).
 const outOfTheAdit = async (d: MonoDriver) => {
-  for (const words of [/light a (torch|candle)/i, /^To the old gallery/, /^the fallen prop$/, /^Heave up alone/,
-    /^Up to the old drift/, /^To the landing at Porthalen/]) {
+  for (const words of [/light a (torch|candle)/i, /^To the old gallery/, /^To the old drift$/, /^Attack$/,
+    /^the fallen prop$/, /^Heave up alone/, /^Up to the old drift/, /^To the landing at Porthalen/]) {
     const s = await d.inspect();
     const row = [...s.choices, ...s.sections.flatMap(x => x.choices)].find(c => words.test(c.label));
     expect([String(words), row?.id]).toEqual([String(words), expect.any(String)]);
     await d.act(row!.id);
+    if (String(words) === String(/^Attack$/)) { await d.fight(); }
   }
   expect((await d.inspect()).place?.id).toBe('region__s1_green');
 };
