@@ -1418,7 +1418,15 @@
   "OR-280": "adventures",
   "OR-281": "company",
   "OR-291": "page-ui",
-  "OR-292": "atlas"
+  "OR-292": "atlas",
+  "OR-740": "architecture",
+  "OR-741": "atlas",
+  "OR-742": "architecture",
+  "OR-743": "prose",
+  "OR-744": "architecture",
+  "OR-745": "testing",
+  "OR-746": "architecture",
+  "OR-747": "terminal"
  },
  "aspects": [
   {

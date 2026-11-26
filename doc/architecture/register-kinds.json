@@ -2610,6 +2610,42 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md): a commissioned obligation unmet (an owner's commission, a proving case, a review's recommendation), not an observed software failure"
+  },
+  "OR-740": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md §5): an architecture step (the fifth review's step 1) wanted before PlayerFrame widens, a structural requirement, not an observed violation"
+  },
+  "OR-741": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md §5): an architecture step (the fifth review's step 6), filed so that the knowledge defects (cause M) can be blocked on it"
+  },
+  "OR-742": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md §5): an architecture step (the fifth review's step 7), the prerequisite of kyrie-player; it retires no registered defect directly"
+  },
+  "OR-743": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the defects-by-cause reading (doc/architecture/defects-by-cause-2026-11-25.md §5): a new architecture step (told from facts), filed so that the said-vs-held defects (cause D) can be blocked on it"
+  },
+  "OR-744": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, split from MT-25: a maturity stage (generated typed vocabulary), MT-25's second half as it was asked; not an observed violation"
+  },
+  "OR-747": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, split from CL-53: a wanted feature of the ending's question (the reading: \"a wanted feature\"); the death that left nothing to do is mended"
   }
  },
  "blockedBy": {
@@ -2665,6 +2701,22 @@
   "US-04": "OR-310",
   "PL-31": "AP-03",
   "AP-11": "AP-03",
-  "AR-02": "OR-531"
+  "AR-02": "OR-531",
+  "OR-533": "OR-741",
+  "AP-13": "OR-741",
+  "R7-04": "OR-741",
+  "NM-07": "OR-741",
+  "NP-19": "OR-743",
+  "NP-18": "OR-743",
+  "PL-29": "OR-743",
+  "T24-09": "OR-743",
+  "OR-195": "OR-743",
+  "GR-23": "OR-743",
+  "CO-19": "OR-743",
+  "CP-15": "OR-743",
+  "GR-21": "OR-743",
+  "CL-50": "OR-743",
+  "OR-747": "TB-09",
+  "GR-24": "OR-745"
  }
 }
