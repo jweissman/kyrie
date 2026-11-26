@@ -66,6 +66,20 @@ export class Operators {
     if (!only) { return this.legal(world, actor, schemas); }
     return schemas.flatMap(s => this.groundings.of(world, s, actor, this.schemaOps.bind(this, world, s, actor)));
   }
+  // The one operator of this id, if it is among what applicable(world, actor) would ground: its own schema alone
+  // grounded at its own binding (OR-725: an act had grounded every schema of the world to find the one it was asked).
+  one(world: World, id: string, actor?: string): Operator | undefined {
+    const op = this.get(id), schema = op && this.schemas.get(op.schema ?? op.id);
+    if (!op || !schema) { return undefined; }
+    if (!schema.parameters?.length) {
+      return actor === undefined && world.test(schema.requires) && world.admits(schema.success) ? schema : undefined;
+    }
+    const binding = op.bindings ?? {};
+    if (actor !== undefined && (binding.actor !== actor || !ActionSchemas.mayAct(schema, actor, this.actors)
+      || !PresenceGate.open(world, schema, actor))) { return undefined; }
+    return this.bindings(world, schema, binding).some(b => world.test(schema.requires, b))
+      && world.admits(op.success) ? op : undefined;
+  }
   private legal(world: World, actor: string | undefined, schemas: readonly Operator[]): Operator[] {
     const ground = this.grounding.bind(this, world, actor);
     if (actor === undefined) { return this.groundings.all(world, actor, schemas, { ground }); }

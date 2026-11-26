@@ -225,10 +225,11 @@ export class Campaign implements WatchHost {
   operator(id: string): Operator | undefined { return this.operators.get(id); }
   available(): Operator[] { return structuredClone(this.offered()) as Operator[]; }
   // The actions open to the player now, worked out once for this world: to read without copying. Never change them.
-  offered(): readonly Operator[] {
-    if (!this.running || this.executing) { return []; }
-    return Installed.within(this.installation,
-      () => this.grounding.offered(this.world, this.definition?.actors.find(a => a.player), this.operators));
+  offered(): readonly Operator[] { return this.asked(o => o.offered(this.world, this.player, this.operators)) ?? []; }
+  private get player() { return this.definition?.actors.find(a => a.player); }
+  // Asked of the grounding only while the campaign runs and no command is under way.
+  private asked<T>(ask: (g: CampaignGrounding) => T): T | undefined {
+    return this.running && !this.executing ? Installed.within(this.installation, () => ask(this.grounding)) : undefined;
   }
   plan(moduleId?: string) { return CampaignPlan.plan(this, moduleId); }
   encounterBattle(actionId: string, assault = false): Battle {
@@ -245,7 +246,8 @@ export class Campaign implements WatchHost {
 
   // The offered action of that id, if it may be done as it is asked (a way into another hex, only on a journey).
   private action(id: string, via: ExecutionContext): Operator {
-    const action = structuredClone(this.offered().find(candidate => candidate.id === id));
+    // Its own schema alone grounded, not every action of the world (OR-725).
+    const action = structuredClone(this.asked(g => g.one(this.world, this.player, this.operators, id)));
     if (!action) { throw Crossing.withheld(this, id) ?? new Error(`Unavailable campaign action: ${id}`); }
     this.crossing.bound(this, action, via);
     return action;
