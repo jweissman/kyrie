@@ -27,7 +27,7 @@ let session: PlaySession, runner: Runner, arrived: Said, question: string, answe
 const words = (os: Offered[]) => os.filter(o => /^Press the word/.test(o.label));
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 beforeAll(async () => {
-  session = (await PlayTool.start(PlayTool.parse(['--world', 'a1', '--origin', 'order', '--as', 'human/warrior/Wenna'])))
+  session = (await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--origin', 'order', '--as', 'human/warrior/Wenna'])))
     .journey.session;
   runner = new Runner(session);
   let s = runner.said();
