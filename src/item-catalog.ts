@@ -144,7 +144,7 @@ export class ItemCatalog {
     const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : [],
       ...passes && !w.tags?.includes(passes) ? [passes] : []];
     return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
-      ...w.weight ? { weight: w.weight } : {},
+      ...w.weight ? { weight: w.weight } : {}, ...w.kind ? { kind: w.kind } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
       ...w.natural ? { natural: true } : {}, ...tags.length ? { tags } : {} };
   }

@@ -58,7 +58,7 @@ describe('telegraphs', () => {
   });
   it("draw on the company with a bow, and kindle in a caster's hands", () => {
     const archer = new Content('a').character('ranger', 'a', 'goblins', 'human');
-    archer.equipment = { ...archer.equipment, weapon: ItemCatalog.weapon('longbow') };
+    archer.equipment = { ...archer.equipment, weapon: ItemCatalog.canon.weapon('longbow') };
     expect(Telegraph.of(archer, repertoire.get('ranged')!, hero(), called).line)
       .toMatch(/^The .* nocks an arrow and draws on Wenna\.$/);
     const mage = new Content('m').character('mage', 'm', 'goblins', 'human');

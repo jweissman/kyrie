@@ -5,8 +5,9 @@ import { Defenses, type Defense, type Mitigated } from './defenses';
 
 export interface WeaponProfile {
   id: string; name: string; damage: string; type: string; missile?: boolean; intercept?: boolean; natural?: boolean;
-  // Light, medium or heavy: what a perk for a kind of weapon (a knight's heavy hand) reads.
-  weight?: string;
+  // Light, medium or heavy: what a perk for a kind of weapon (a knight's heavy hand) reads; and what kind of weapon it
+  // is (a bow, a blade), as a fight tells its blow coming (see Telegraph).
+  weight?: string; kind?: string;
   // A lesser blow of a kind's routine (a dragon's claws beside its bite): its own dice, without the strength behind
   // the kind's own weapon, as the old games give a dragon's claws a die and its bite the weight.
   lesser?: boolean;
