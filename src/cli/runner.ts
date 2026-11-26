@@ -140,7 +140,7 @@ export class Runner {
     const lines = this.scene.lines(screen, leaf, turned, turned === 'act' && !!this.with).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
     const { offer } = c.running ? this.offer(screen, g) : { offer: RunnerEnding.offer(this.session) };
-    const led = RunnerLed.of(now.frame, screen, offer.primary, { lead: g?.lead, gilt: (g?.acts ?? [])
+    const led = RunnerLed.of(now.frame, screen, offer.primary, { lead: g?.lead, rest: offer.rest, gilt: (g?.acts ?? [])
       .filter(a => a.facets?.includes('aimed') && Promotion.continuing.includes(a.why)).map(a => a.choice) });
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
       scene: { lines, prose: this.scene.told.at(-1)?.lines ?? [] }, offer, ...led.length ? { led } : {},

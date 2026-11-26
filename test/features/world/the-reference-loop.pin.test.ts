@@ -62,12 +62,16 @@ describe('World › The reference loop', () => {
       await to('ud_barrow_chamber'); await lit(); await to('ud_barrow_back_stone'); await lit();
     };
     const dealer = c.module.entities.find(e => e.id === P('innkeeper'))!.name.split(', ')[0]!;
+    // The store's wares are bought within its keeper's talk (OR-801: a trader's wares are the trader's), opened by
+    // whatever she is first asked; the way out of the store leaves the talk.
+    const keeper = c.module.entities.find(e => e.id === P('merchant'))!.name.split(', ')[0]!;
+    const store = async () => { await to('shop'); await act(`^(Talk to|Ask) ${keeper}`); };
     // The settlement: three working places off its heart, and the woods.
     await to('green');
     expect(['shop', 'taproom', 'shrine', 'wood_edge'].every(p => rows(s).some(x => x.id === `exit:${P(p)}`))).toBe(true);
     // Trader 1: a light and a ration, paid for.
     const purse = coin();
-    await to('shop'); await act('^Buy a torch'); await act('^Buy one ration');
+    await store(); await act('^Buy a torch'); await act('^Buy one ration');
     expect(coin()).toBe(purse - 3);
     // Trader 2: the woods asked about, and someone at the fire taken on.
     await to('green'); await to('taproom');
@@ -104,7 +108,7 @@ describe('World › The reference loop', () => {
     const heart = c.module.entities.find(e => e.id === P('green'))!.name;
     await to('green'); await to('shrine'); await act(`^Talk to ${priest}`); await act('what lies past the passage-grave');
     expect(s.scene.lines.join(' ')).toMatch(/a club[^]*Take fire/);
-    await to('green'); await to('shop'); await act('^Buy a club'); await act('^Buy an oil firebomb');
+    await to('green'); await store(); await act('^Buy a club'); await act('^Buy an oil firebomb');
     // And a coil of rope, for the way down (the club and the bomb spent the purse: a spare axe sold for it).
     await maybe('^Buy a torch'); await maybe('^Sell a battleaxe'); await act('^Buy .*rope');
     // A night in the town, and down again: the ways found are still known, the bats lie dead where they fell, and
@@ -131,7 +135,7 @@ describe('World › The reference loop', () => {
     await act(`^Talk to ${priest}`); await act('what lies past the halls');
     expect(s.scene.lines.join(' ')).toMatch(/Take fire/);
     // The third trip: through the halls to the king's door, and down into the third level.
-    await to('green'); await to('shop'); await maybe('^Buy a torch'); await maybe('^Buy an oil firebomb');
+    await to('green'); await store(); await maybe('^Buy a torch'); await maybe('^Buy an oil firebomb');
     await maybe('^Sell scale mail'); await act('^Buy .*rope');
     await to('green'); await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');
     // The third trip begins at the depth reached: from the way in, down the rope to the halls in one act, where the

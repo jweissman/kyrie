@@ -3,6 +3,7 @@ import type { Screen } from '../ui/screen-types';
 import type { AimLead } from '../presentation/aim-lead';
 import { EntityIndex } from '../lang/entity-index';
 import { Itineraries } from '../ui/itinerary';
+import { Leaving } from '../presentation/leaving';
 import type { Offered } from './runner';
 
 // Which of the four act on the aim followed's next step (US-07's AimLead): done to or with what the step names, or
@@ -13,9 +14,14 @@ export class RunnerLed {
   // gilt: the glance's acts drawn toward the aim (facet aimed): what the page leads with in gold is led here too, where
   // the step is the place the company stands in or a way out toward it (GR-03: the reeve's talk at the landing, the
   // way out of the Wardens' gatehouse, gold on the page and not led in the runner's account).
-  static of(frame: PlayerFrame, screen: Screen, primary: Offered[],
-    { lead, gilt = [] }: { lead: AimLead | undefined; gilt?: readonly string[] }): string[] {
+  // rest: the offer's rest, whose ways out are the four's that leave, put last (OR-800, Leaving): a way out toward the
+  // aim is led there as it was among the four (OR-930: the way out of the Wardens' gatehouse, gold on the page, had
+  // been led nowhere once it stood last).
+  static of(frame: PlayerFrame, screen: Screen, four: Offered[],
+    { lead, gilt = [], rest = [] }: { lead: AimLead | undefined; gilt?: readonly string[]; rest?: Offered[] })
+    : string[] {
     if (!lead?.next.length) { return []; }
+    const ways0 = Leaving.ways(screen), primary = [...four, ...rest.filter(o => Leaving.is(o, ways0))];
     const campaign = frame.campaign, w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
     // The step itself, and where it stands (someone or something at a place).
     const step = new Set([...lead.next, ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
