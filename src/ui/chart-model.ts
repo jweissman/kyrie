@@ -4,12 +4,12 @@ import { EntityIndex } from '../lang/entity-index';
 import { WaysInto } from './ways-into';
 import { WorldMemo } from '../lang/world-memo';
 import { KeptParts } from './kept-parts';
+import { ModuleWriter } from '../lang/module-writer';
 import { ActionTime } from '../campaign/action-time';
 import { ObservationText } from '../lang/observation-text';
 import type { Entity, LandChart } from '../lang/module';
 import type { World } from '../lang/world';
 import { PassageModel, type WayInfo } from './passage-model';
-import { KnownCountry } from './known-country';
 import { LandModel, type Surveys } from './land-model';
 import type { Chart, RegionChart } from './screen-types';
 
@@ -20,8 +20,6 @@ export class ChartModel {
   static readonly areaKinds = ['settlement', 'wilderness', 'site'];
   static readonly regional = ['way_road', 'way_path', 'way_track', 'way_causeway', 'way_bridge', 'way_ford', 'way_ferry'];
   constructor(private world: World, private actor: string, private entities: Map<string, Entity>) {}
-  // What the company knows of the country, through the knowledge door (OR-741): never read of the world here.
-  private get country(): KnownCountry { return KnownCountry.of(this.world, this.actor); }
   area(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).find(e => ChartModel.areaKinds.includes(e.space!.kind));
   }
@@ -56,7 +54,7 @@ export class ChartModel {
     const model = new PassageModel(this.world, this.actor, this.entities);
     const seen = [...[...visited].flatMap(from => model.ways(from)), ...this.toldWays(model, visited),
       ...this.kind(model, ChartModel.roads), ...this.across(model, visited, roam)];
-    if (!this.country.wayfinding) { return seen; }
+    if (!this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return seen; }
     return [...seen, ...this.kind(model, ChartModel.regional)];
   }
   // The ways told: a track hidden until its way is known, once someone has told it; the ways a fact tells, landmark
@@ -68,8 +66,8 @@ export class ChartModel {
   private toldWays(model: PassageModel, visited: Set<string>): WayInfo[] {
     const w = this.world;
     const passages = new Set([...this.directions(),
-      ...this.country.told.flatMap(place => Spatial
-        .ancestry(this.entities, place).filter(e => e.id === place || e.space?.kind === 'wilderness')
+      ...w.related('leadsTo').filter(r => this.knows(r.args[0]!)).flatMap(r => Spatial
+        .ancestry(this.entities, r.args[1]!).filter(e => e.id === r.args[1] || e.space?.kind === 'wilderness')
         .flatMap(e => this.into(e.id)))]);
     return w.related('connects').filter(c => passages.has(c.args[0]!)
       && (visited.has(c.args[1]!) || this.entities.get(c.args[1]!)?.space?.shelter !== 'underground'))
@@ -111,6 +109,7 @@ export class ChartModel {
     return [...new Set(out.map(c => c.args[1]!))].flatMap(from => model.ways(from)
       .filter(x => passages.has(x.passage) && tracts.has(x.to)));
   }
+  private knows(fact: string): boolean { return this.world.test(ModuleWriter.call('knows', this.actor, fact)); }
   // The ways into a place from outside it.
   private into(place: string): readonly string[] {
     return WaysInto.of(this.world.related('connects'), EntityIndex.of(this.world.module.entities).byId, place);
@@ -234,10 +233,19 @@ export class ChartModel {
   private overland(w: WayInfo): boolean { return this.world.one('passageKind', w.passage) === 'way_overland'; }
   // What the company has looked out over (see LandModel.explored).
   surveys(): Surveys {
-    const c = this.country;
-    return { surveyed: c.looked('surveyed'), well: c.looked('surveyedWell'), dim: c.looked('surveyedDim') };
+    return { surveyed: this.looked('surveyed'), well: this.looked('surveyedWell'), dim: this.looked('surveyedDim') };
   }
-  private told(passage: string): boolean { return this.country.toldOf(passage); }
+  // The places the company stands in a country's relation to, in every country (each its own, named for its module:
+  // region__surveyed, x1y0__surveyed). Only the first country's had been read, so the land looked out over in a
+  // country over the march was never known (the owner, OWN-43).
+  private looked(end: string): string[] {
+    return this.world.module.relations.filter(r => r.name.endsWith(`__${end}`))
+      .flatMap(r => this.world.related(r.name, this.actor).map(x => x.args[1]!));
+  }
+  private told(passage: string): boolean {
+    return this.world.related('revealedBy').some(r => r.args[0] === passage
+      && this.world.test(ModuleWriter.call('knows', this.actor, r.args[1]!)));
+  }
   private trail(edges: Map<string, RegionChart['edges'][number]>, w: WayInfo, land: LandModel) {
     const key = [w.from, w.to].sort().join('|'), course = land.course(w.from, w.to);
     if (course && !edges.has(key)) {
@@ -263,10 +271,9 @@ export class ChartModel {
     const land = chart ? new LandModel(chart, this.entities, this.joined()) : undefined;
     for (const v of [...visited].filter(v => this.regionOf(v) === home)) { this.mark(areas, v, visited, here); }
     // What the company has been told of (a site named to it, leadsTo) is on its map too, before it has been there.
-    const told = this.leads().filter(p => this.regionOf(p) === home), routes = this.routes();
+    const told = this.leads().filter(p => this.regionOf(p) === home);
     for (const t of told) { this.mark(areas, t, visited, here); }
-    const drawn = this.drawn(ways, visited, routes);
-    for (const w of drawn.filter(x => this.charted(x, home))) {
+    for (const w of ways.filter(x => this.charted(x, home))) {
       const a = this.mark(areas, w.from, visited, here), b = this.mark(areas, w.to, visited, here);
       // A trail within a stretch of wild country is drawn on the land too, from landmark to landmark, once the company
       // has walked from either end of it or been told it (not merely for knowing the country's roads).
@@ -290,17 +297,8 @@ export class ChartModel {
     const terrain = home ? this.form(home, 'terrain').form : undefined;
     return areas.size > 1 || (chart && areas.size) ? { region: { areas: [...areas.values()], edges: [...edges.values()],
       within: Object.fromEntries(this.within), ...terrain ? { terrain } : {},
-      ...land ? { land: this.glossed(land.land({ visited, told, sighted: this.sighted(), routes,
-        surveys: this.surveys() }, drawn, place, [...areas.values()])) } : {} } } : {};
-  }
-  // The ways the map draws, of those the company knows (see ways): each it has stood at either end of, and each whose
-  // course it was told or knows as from a map (see routes). The country's roads, which a journey may follow, are not
-  // therefore drawn whole, nor the towns at their ends named, until the company comes to them or learns of them (the
-  // owner's playtest, 25 November: "things were unfolding that were nowhere near where I was, and I hadn't explored
-  // yet"; OR-741). Where the company has been everywhere, or knows the country as from a map, every way is drawn.
-  private drawn(ways: WayInfo[], visited: Set<string>, routes: readonly string[]): WayInfo[] {
-    const told = new Set(routes);
-    return ways.filter(w => visited.has(w.from) || visited.has(w.to) || told.has(w.passage));
+      ...land ? { land: this.glossed(land.land({ visited, told, sighted: this.sighted(), routes: this.routes(),
+        surveys: this.surveys() }, ways, place, [...areas.values()])) } : {} } } : {};
   }
   // The places each is joined to by a way, for where a place with no cell of its own stands (see LandModel.stands).
   private joined(): Map<string, string[]> {
@@ -319,25 +317,42 @@ export class ChartModel {
   }
   // The places it has seen with its own eyes, from afar: from high ground, or looking out over the open country (a
   // sign perceived teaches its fact as witnessed), not only been told of (see LandModel.land).
-  private sighted(): string[] { return [...this.country.sighted]; }
+  private sighted(): string[] {
+    const w = this.world;
+    return w.relates('leadsTo') && w.relates('witnessed') ? w.related('leadsTo')
+      .filter(r => w.test(ModuleWriter.call('witnessed', this.actor, r.args[0]!))).map(r => r.args[1]!) : [];
+  }
   // The ways whose course the company knows, not only that they are there: a track's secret told it, the directions a
   // fact gives landmark by landmark, and with wayfinding every road and path of the country, as from a map. Not the
   // ways into a place merely heard of, which a journey toward it may take (see toldWays), nor the country's roads,
   // which its folk would direct anyone along (see LandModel.land).
   private routes(): string[] {
     const w = this.world, told = this.directions();
-    if (!this.country.wayfinding) { return told; }
+    if (!w.test(ModuleWriter.call('capable', this.actor, 'wayfinding'))) { return told; }
     return [...told, ...w.related('passageKind').filter(r => ChartModel.regional.includes(r.args[1]!))
       .map(r => r.args[0]!)];
   }
   // The ways told: a track hidden until its way is known, once someone has told it; and the ways a fact tells,
   // landmark by landmark (leadsVia).
-  private directions(): string[] { return [...this.country.directions]; }
+  private directions(): string[] {
+    const w = this.world;
+    return [...w.related('revealedBy').filter(r => this.knows(r.args[1]!)).map(r => r.args[0]!),
+      ...w.related('leadsVia').filter(r => this.knows(r.args[0]!)).map(r => r.args[1]!)];
+  }
   // The places facts the company knows lead to; and the places its aims name, a site by its outside (an aim to bring
   // the crown out from under Lapistumul had left the barrow on the map as "a barrow, not yet made out": Mission 19).
-  private leads(): string[] { return [...this.country.told, ...this.aimed()]; }
+  private leads(): string[] {
+    const w = this.world;
+    return [...w.relates('leadsTo') ? w.related('leadsTo')
+      .filter(r => w.test(ModuleWriter.call('knows', this.actor, r.args[0]!))).map(r => r.args[1]!) : [],
+    ...this.aimed()];
+  }
   private aimed(): string[] {
-    const w = this.world, named = this.country.aimed();
+    const w = this.world, named = new Set<string>();
+    for (const o of (w.module.objectives ?? []).filter(x => w.test(x.when))) {
+      ObservationText.map(o.text, call => { call.args.forEach(a => named.add(a)); return ''; },
+        id => { named.add(id); return ''; });
+    }
     const sites = new Set([...named].flatMap(id => this.siteOf(id) ?? []));
     // No site named, no way out of one to find: every way of the world had been gone through for none (OR-860).
     const outsides = !sites.size ? [] : w.related('connects').flatMap(r => [[r.args[1]!, r.args[2]!], [r.args[2]!, r.args[1]!]] as const)
