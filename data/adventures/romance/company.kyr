@@ -1,0 +1,4 @@
+Module romance "The Rose of Orlane" {
+  Company party "You" of 3 at rose_road.
+  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 4.
+}

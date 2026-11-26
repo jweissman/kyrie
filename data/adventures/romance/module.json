@@ -1,0 +1,1 @@
+{"version":1,"source":["valley.kyr","abbey.kyr","dragon.kyr","endings.kyr","company.kyr"],"rules":["world"],"globals":["party"],"canon":["imbar"],"exports":{"party":"party","region":"summermark","road":"rose_road"}}
