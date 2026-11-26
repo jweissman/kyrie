@@ -9606,6 +9606,13 @@
    "section": "magic/spells-arcane/spells-arcane-1"
   },
   {
+   "id": "ability:weakness",
+   "title": "Ray of Enfeeblement",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-1"
+  },
+  {
    "id": "ability:second_sight",
    "title": "Second Sight",
    "status": "faithful",
@@ -9748,13 +9755,6 @@
   {
    "id": "ability:prismatic_spray",
    "title": "Prismatic Spray",
-   "status": "adapted",
-   "book": "phb",
-   "section": "magic/spells-arcane/spells-arcane-2"
-  },
-  {
-   "id": "ability:weakness",
-   "title": "Ray of Enfeeblement",
    "status": "adapted",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-2"

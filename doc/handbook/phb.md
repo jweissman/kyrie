@@ -6527,6 +6527,16 @@ One ally is mage-armored for 20 turns. Mage-Armored: an unseen armour of force: 
 
 *Adapted: The SRD's Magic Missile (doc/architecture/mission-21/rules/magic-missile.md): first level, a missile at the first casting level and one more for every two past it, to five at the ninth (by #castingLevel), each 1d4+1 force dealt on its own, no roll and no save. Converted: every missile goes to the one foe chosen, passing to the next foe standing as it falls (the SRD lets the caster split them). Omitted: Shield, which Westernesse has not yet. Before, Orsino's 1d4 + floor(#level/3) at a count of distinct foes drawn at random. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43).*
 
+##### Ray of Enfeeblement
+
+*Adapted · level 1 arcane spell, necromancy* · `ability:weakness`
+
+One enemy is enfeebled by 1d6 + min(5, half the caster level) for 10 turns at the first casting level, 100 turns at the tenth (only if a ranged touch attack lands, worn armour not counting). Enfeebled: sapped by a ray: weaker by as much as the ray took. An arcane spell of the first level. Takes a first-level slot.
+
+> A ray from your hand saps one foe it strikes: 1d6 off its Strength, and a point more for every two levels you have, to five more, for a minute for every level.
+
+*Adapted: The SRD's Ray of Enfeeblement (doc/architecture/mission-22/srd-proving-cases.md, case 58): first-level arcane necromancy; one foe a ranged touch lands on (Touch), no save, spell resistance answering it, 1d6 off its Strength and a point each two casting levels, to +5 at the tenth (an amount its caster throws: ConditionAmount, the enfeebled condition), a minute a casting level (Lasting). Its first-level place moves it from second-level necromancer picks. Before, Orsino's Weakness: second level; Strength two less and two less harm a blow for three rounds, a Fortitude save against 14 + the caster's level.*
+
 ##### Second Sight
 
 *Faithful · level 1 arcane spell, divination* · `ability:second_sight`
@@ -6712,16 +6722,6 @@ On 7 + round((level / 2)) different enemies, drawn at random, each the next of t
 > A dazzling array of multicolored beams springs from your hand.
 
 *Adapted: Orsino reads the count "=7 + round(#level / 2)" with parseInt, finds no number and touches no one; Kyr evaluates it as written.*
-
-##### Ray of Enfeeblement
-
-*Adapted · level 2 arcane spell, necromancy* · `ability:weakness`
-
-One enemy is enfeebled by 1d6 + min(5, half the caster level) for 10 turns at the first casting level, 100 turns at the tenth (only if a ranged touch attack lands, worn armour not counting). Enfeebled: sapped by a ray: weaker by as much as the ray took. An arcane spell of the second level. Takes a second-level slot.
-
-> A ray from your hand saps one foe it strikes: 1d6 off its Strength, and a point more for every two levels you have, to five more, for a minute for every level.
-
-*Adapted: The SRD's Ray of Enfeeblement (doc/architecture/mission-22/srd-proving-cases.md, case 58) by its resolution: one foe a ranged touch lands on (Touch), no save, spell resistance answering it, 1d6 off its Strength and a point each two casting levels, to +5 at the tenth (an amount its caster throws: ConditionAmount, the enfeebled condition), a minute a casting level (Lasting). Kept: Orsino's second level (the SRD's first would move the necromancers' draws). Before, Orsino's Weakness: Strength two less and two less harm a blow for three rounds, a Fortitude save against 14 + the caster's level.*
 
 ##### Slow
 

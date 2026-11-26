@@ -5,7 +5,7 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 61 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (119 of 286 catalog spells): 45 pass in structure
+**Spells with an SRD counterpart (119 of 286 catalog spells): 46 pass in structure
 (level, school), 37 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
 target, duration), 36 proved in play identity.** Creatures with one (79):
 8 in structure (Hit
@@ -18,7 +18,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 9 | armour 10 | attacks 27 | hit 13 | defences 5 | specials 2 | saves 8 | of 79 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 56 | school 84 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
+| spells, field exact or converted | level 57 | school 84 | dice 14 | type 13 | save 38 | dc 26 | attack 110 | resist 19 | target 76 | duration 58 | of 119 |
 
 ## Creatures, most met first
 
@@ -228,5 +228,5 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | terror | cause-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ three rounds for whoever fails, one for whoever saves: the SRD's 1d4, its mean rounded up, for Kyr's durations are not rolled (srd-proving-cases.md, case 20) |
 | time_stop | time-stop | S✗ RU I– | ✗ 8 → 9 | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 1 rounds → long |
 | true_sight | true-seeing | S✗ R✗ I– | ✗ 4 → 6 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 19 | ✓ | – | ✓ | ✗ 3 rounds → long |
-| weakness | ray-of-enfeeblement | S✗ R✓ I✓ | ✗ 2 → 1 | ✓ | – | – | – | – | ✓ | ✓ | ✓ | ✓ |
+| weakness | ray-of-enfeeblement | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | ✓ | ✓ | ✓ |
 | weird | weird | S✓ RU I– | ✓ | ✓ | ✗ · → 10.5/10.5/10.5/10.5 | – | – | ✗ · → 22 | ✓ | ✗ · → yes | ✗ · → several | ✓ |
