@@ -36,7 +36,8 @@ import type { CreatureStore } from '../src/creature-store';
 // (CL-38, 18 Nov: a torch lit puts out the lamp that burned beside it), wren's torch burns out at the ore bin and a
 // candle is lit there before the star-iron is collected.) (Half the star-iron lies in the mine since OR-323, 24
 // November: wren's record collects and sells the lumps there are, sixteen steps fewer, and the heart comes up as
-// before.)
+// before.) (Since OR-423, 25 November, a town's particular rumours are told only to a company that has asked what the
+// matter is there: each record asks its innkeeper first, and the merchant before what he is asked of the deep site.)
 class Descent {
   static choices(seed: string): string[] {
     return readFileSync(new URL(`./fixtures/descent/${seed}.choices`, import.meta.url), 'utf8').split('\n').filter(Boolean);
