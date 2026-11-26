@@ -5,6 +5,7 @@ import { CreationPerks } from '../../src/creation/creation-perks';
 import type { Setting } from '../../src/creation/protocol';
 import { Content } from '../../src/content';
 import { Traits } from '../../src/ports/traits';
+import { ItemCatalog } from '../../src/item-catalog';
 
 // A perk, the last thing chosen of who one is (the owner, 26 November: "perk selection at startup is very important
 // for character differentiation"; OR-153): one of each of the Atlas's five families, held as a trait, so that what it
@@ -32,7 +33,8 @@ describe('a perk chosen at creation', () => {
     const flow = new CreationFlow(setting, Creation.catalog());
     flow.choose('perk', 'haggler');
     expect(flow.member.perk).toBe('haggler');
-    const creature = new Content('perk').createCreature('perk-haggler', { ...flow.member, raceId: 'human', classId: 'warrior' });
+    const creature = new Content('perk').createCreature(ItemCatalog.canon, 'perk-haggler',
+      { ...flow.member, raceId: 'human', classId: 'warrior' });
     expect(creature.traits).toContain('haggler');
     expect(Traits.of('haggler')?.skills).toContain('persuasion');
   });
