@@ -112,15 +112,13 @@ describe('somewhere high', () => {
     expect(lines.filter(l => /through the glass/.test(l))).toEqual([
       'To the south, far off, through the glass: a cave in the hillside in Pinehurst.',
       'To the south, far off, through the glass: the footbridge over the Swiftwater.',
-      // Oldgreen not yet seen, the moor's foot is not known by it (OR-812).
-      'To the south-east, far off, through the glass: the foot of Bittermoor.']);
+      'To the south-east, far off, through the glass: the foot of Bittermoor by Oldgreen.']);
     // On the map from then on, by their look: no ruin's name is glossed there before it is learned. Nor is a Common
     // name, which says what it means: only Wannstede's old Westron and Levankhafar's Khuzdul are. The broken keep the
     // hobs hold is named, and glossed, as the first town says it of the bell they took (the expedition diagnosis).
     const land = ScreenModel.build(c).region!.land!, marks = land.marks.map(m => m.name);
     expect(marks).toEqual(expect.arrayContaining(['Battlegate']));
-    // (Wannstede, s3, is glossed once it is on the company's map: not yet, since nobody has told of it: OR-810.)
-    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s4', 'w5']);
+    expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s3', 's4', 'w5']);
     // A site seen through it is seen with the way to it, as one seen nearer is.
     expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst by Levankhafar,'
       + ' where the track to it starts.');
