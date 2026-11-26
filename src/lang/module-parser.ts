@@ -10,7 +10,7 @@ import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
-import { Vocabularies } from './vocabulary'; import { DeclarationParses, type Parts } from './declaration-parses';
+import { Vocabularies, type ReadAmong } from './vocabulary'; import { DeclarationParses, type Parts } from './declaration-parses';
 import { ModuleMade } from './module-made'; import { Routes } from './routes'; import { ActionParts } from './action-parts';
 import { TemplatedPredicates } from './templated-predicates';
 import { ObjectiveParser } from './objective-parser';
@@ -87,9 +87,8 @@ export class ModuleParser {
     ...PersonParser.actions, ...Routes.actions,
   }).addOperation<unknown>('parts', { Module: ModuleParser.Parts });
   // A text parsed before comes back as it was, and declares its own kinds again, as its parse did: a start meanwhile
-  // may have put other kinds in their place, and the files read after it place things of these kinds.
-  // Kept by the text and the kinds it was read among: one read while another campaign's kinds were in the catalogs
-  // (Kind figurine like dreg_ox) is not taken for one read without them (the review's H7).
+  // may have put other kinds in their place, and the files read after it place things of these kinds. Kept by the
+  // text and what it read of the kinds it was read among (the review's H7; 26 November's review, §1).
   // declared: what a generator declared for the text as values, each declared where its line was (ModuleSource,
   // AX-04), and kept with the text (the same text with other values is another module).
   static parse(text: string, declared: readonly Declared[] = []): Module {
@@ -97,15 +96,15 @@ export class ModuleParser {
     const known = ParseCache.get(key), began = performance.now();
     if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
     // Its declarations parsed before taken as they were, the rest matched (DeclarationParses), else the text whole.
-    const split = ModuleParser.chunked(text, declared), matched = performance.now();
-    const module = split ?? ModuleParser.whole(text, declared);
-    const lowered = performance.now();
+    const split = Vocabularies.reading(() => ModuleParser.chunked(text, declared)), matched = performance.now();
+    const reading = split.value ? split as ReadAmong<Module>
+      : Vocabularies.reading(() => ModuleParser.whole(text, declared)), lowered = performance.now();
     // Each part told apart (the review of generated parsing, §4), the bytes the text's own in UTF-8.
     const bytes = ParseCache.costs ? new TextEncoder().encode(text).byteLength : text.length;
     ParseCache.costs?.note('parse match', matched - began, { bytes });
     ParseCache.costs?.note('parse lower', lowered - matched, { bytes });
-    ParseCache.set(key, module, lowered - began, bytes);
-    return module;
+    ParseCache.set(key, reading, lowered - began, bytes);
+    return reading.value;
   }
   static whole(text: string, declared: readonly Declared[] = []): Module {
     const match = ModuleParser.grammar.match(text);

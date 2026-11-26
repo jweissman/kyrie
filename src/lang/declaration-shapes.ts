@@ -17,11 +17,11 @@ export class DeclarationShapes {
   private static readonly mark = /qz(\d+)zq/g;
   // A string, or a name with a digit in it that is a whole name of Kyr's (letters, digits, "_" and "-").
   private static readonly filled = /"([^"\\\n\r]*)"|(?<![\w-])([A-Za-z][\w-]*\d[\w-]*)(?![\w-])/g;
-  // Each shape's field, by its vocabulary and text; 'text' for one whose filling is not its text's parse, and how many
+  // Each shape's field, by its text; 'text' for one whose filling is not its text's parse, and how many
   // times one has been met that is not parsed yet.
   static readonly known = new Map<string, Known>();
   static readonly most = 30000;
-  private static readonly key = '\u0001declaration shapes';
+  private static readonly key = '\u0001declaration shapes 2';
   // How many declarations have been filled, not parsed (what test/small/declaration-shapes reads).
   static fills = 0;
   private static loaded = false;
@@ -63,11 +63,14 @@ export class DeclarationShapes {
   // parsed beside them, each known where its first text's filling is that text's own field.
   static read(texts: readonly string[], parse: (texts: string[]) => Field[] | undefined): Field[] | undefined {
     this.load();
-    const shapes = texts.map(t => this.of(t)), keys = shapes.map(s => s && `${Vocabularies.seen(s.text)}\u0000${s.text}`);
+    const shapes = texts.map(t => this.of(t)), keys = shapes.map(s => s?.text);
     const out: (Field | undefined)[] = texts.map((_t, i) => this.filling(keys[i], shapes[i]));
-    const plain = texts.flatMap((_t, i) => out[i] ? [] : [i]), read = parse(plain.map(i => texts[i]!));
+    const plain = texts.flatMap((_t, i) => out[i] ? [] : [i]);
+    const reading = Vocabularies.reading(() => parse(plain.map(i => texts[i]!))), read = reading.value;
     if (!read) { return undefined; }
     plain.forEach((i, j) => { out[i] = read[j]; });
+    // A shape is a lowering of its text alone: one that asked of the kinds installed is learnt by none.
+    if (reading.reads.length) { return out as Field[]; }
     const learning = this.learning(plain.map(i => keys[i]));
     const learnt = learning.map(j => plain[j]!), shaped = this.shaped(learnt.map(i => shapes[i]!.text), parse);
     learnt.forEach((i, j) => {

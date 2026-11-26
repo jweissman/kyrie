@@ -1,7 +1,7 @@
 {
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "runtime -> setting": 61,
+  "runtime -> setting": 60,
   "player -> setting": 76,
   "setting -> player": 13
  },
@@ -14,7 +14,6 @@
   "src/campaign/committed-world.ts -> src/canon/local-catalog",
   "src/campaign/company-choices.ts -> src/canon/canon",
   "src/campaign/company-choices.ts -> src/paintings/likeness",
-  "src/campaign/compiled-modules.ts -> src/canon/local-catalog",
   "src/campaign/consequences.ts -> src/canon/canon",
   "src/campaign/creature-facts.ts -> src/canon/canon",
   "src/campaign/creature-facts.ts -> src/canon/condition-sense",

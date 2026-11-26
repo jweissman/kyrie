@@ -8,10 +8,13 @@ import { Vocabularies } from './vocabulary';
 // kept parse as it was read ahead had been 0.4 s of a start (OR-144's profile; ModuleParser.parse copies each one it
 // gives, for callers that change it). Proved unwritten frozen (test/small/frozen-modules).
 export class KeptParses {
-  // What a parse is kept by: the vocabulary and kinds it was read among, its text, and what was declared for it as
-  // values (ModuleSource), as ModuleParser.parse keeps it.
+  // What a text's parses are kept by: the vocabulary, the text, and what was declared for it as values
+  // (ModuleSource), as ModuleParser.parse keeps them; each parse by what it read of the kinds (see ParseCache), its
+  // format the version's.
+  static readonly version = 2;
   static key(text: string, declared: readonly Declared[] = []): string {
-    return `${Vocabularies.seen(text)}\u0000${text}${declared.length ? `\u0000${JSON.stringify(declared)}` : ''}`;
+    return `\u0002${this.version}:${Vocabularies.id}\u0000${text}${declared.length
+      ? `\u0000${JSON.stringify(declared)}` : ''}`;
   }
   // The kept parse, or the text parsed (ModuleParser.parse keeps a copy of its own).
   static of(text: string, declared: readonly Declared[], parse: (t: string, d: readonly Declared[]) => Module): Module {

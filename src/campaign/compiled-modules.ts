@@ -1,24 +1,25 @@
 import { Costs } from '../costs';
-import { LocalKinds } from '../canon/local-catalog';
 import { ParseCache } from '../lang/parse-cache';
 import { TextHash } from '../lang/text-hash';
-import { Vocabularies } from '../lang/vocabulary';
-import type { Module } from '../lang/module';
+import { Vocabularies, type ReadAmong, type KindReads } from '../lang/vocabulary';
 
 // A module's own files compiled: read each among the kinds its files declare, joined, and its names that the shared
 // rules name too made its own (see ModuleBundle.loading). What that comes to depends on nothing but the texts, the
-// shared rules it is read beside, and the kinds already in the catalogs that its texts name; so it is kept by those,
+// shared rules it is read beside, and what reading them asked of the kinds already in the catalogs (each name with
+// what it stood for then: Vocabularies.reading); so it is kept by those,
 // in the process and wherever the process keeps its parses (ParseCache.store: on disk, or the browser's IndexedDB),
 // and a module installed again (the same adventure in another world, a country's site read again) is not read,
 // joined and shadowed again file by file (compile-once-plan.md step 1).
 // Kept never changed: each taking is its own copy, which installing it changes (its company sized, the canon given).
+// The language's module, as its parse cache gives it.
+type Module = NonNullable<ReturnType<typeof ParseCache.get>>;
 export interface Compiled {
   module: Module;
   // The id its first file declares (its seed is drawn by it), and what lint says of its shadowed names.
   id: string; told: string[];
 }
 export class CompiledModules {
-  private static readonly kept = new Map<string, Compiled>();
+  private static readonly kept = new Map<string, ReadAmong<Compiled>[]>();
   private static readonly editions = new Map<string, string>();
   // The shared rules' edition: their texts, hashed once for each set of them.
   static edition(rules: readonly string[]): string {
@@ -30,30 +31,32 @@ export class CompiledModules {
     }
     return edition;
   }
-  // Taken before the module's own files would be read: the kinds its texts name are those in the catalogs as its
-  // first file would have been read among them (the kinds its files declare are its texts' own).
+  // Taken before the module's own files would be read: its texts and the rules' edition; each compiled reading of
+  // them kept by what it read (get).
   static key(edition: string, texts: readonly string[]): string {
-    const all = texts.join('\u0001');
-    return `\u0003compiled\u0000${edition}\u0000${Vocabularies.seen(all)}\u0000${all}`;
+    return `\u0004compiled\u0000${Vocabularies.id}\u0000${edition}\u0000${texts.join('\u0001')}`;
   }
   // The module compiled before, its own kinds put back in the catalogs as reading it would have put them: a copy, or,
   // shared, the one kept, for a caller that writes nothing of it (ModuleBundle.loading, which copies only what it
   // changes: the company's size, the canon's entities given it; test/small/frozen-modules: AX-04).
   static get(key: string, shared = false): Compiled | undefined {
-    const known = this.kept.get(key), kept = known ?? ParseCache.store?.get(key) as unknown as Compiled | undefined;
+    const known = this.kept.get(key), stored = known ? undefined : ParseCache.store?.get(key) as unknown;
+    const variants = known ?? (Array.isArray(stored) ? stored as ReadAmong<Compiled>[] : undefined);
+    if (variants && !known) { this.remember(key, variants); }
+    const kept = Vocabularies.kept(variants)?.value;
     if (!kept?.module) { return undefined; }
-    if (!known) { this.remember(key, kept); }
     Costs.note('compiled kept', 0, { bytes: key.length });
-    LocalKinds.read(kept.module.catalog);
+    Vocabularies.install(kept.module.catalog);
     return shared ? kept : structuredClone(kept);
   }
-  static set(key: string, compiled: Compiled) {
-    const copy = structuredClone(compiled);
-    this.remember(key, copy);
-    ParseCache.store?.set(key, copy as unknown as Module);
+  static set(key: string, compiled: Compiled, reads: KindReads) {
+    const variants = Vocabularies.keep(this.kept.get(key), { value: structuredClone(compiled), reads });
+    this.remember(key, variants);
+    ParseCache.store?.set(key, variants as unknown as Module);
   }
-  private static remember(key: string, compiled: Compiled) {
+  private static remember(key: string, variants: ReadAmong<Compiled>[]) {
+    this.kept.delete(key);
     if (this.kept.size >= 64) { this.kept.delete(this.kept.keys().next().value!); }
-    this.kept.set(key, compiled);
+    this.kept.set(key, variants);
   }
 }

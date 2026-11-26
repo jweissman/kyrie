@@ -107,35 +107,20 @@ export class LocalKinds {
   static local(id: string): boolean { return this.installed.has(`item:${id}`); }
   // Which kinds modules have put in the catalogs now: what a reading of a module could have turned on.
   static fingerprint(): string { return [...this.installed].sort().join(' '); }
-  // The kinds installed that a text could name: those whose id is one of its words (an identifier anywhere in it, in
-  // its quoted words too). What a text is parsed into depends on no others, so a parse kept by these alone is good
-  // wherever they stand as they do (a new country's own kinds had made every adventure's parse that country's alone:
-  // M19-49). Its words are gathered once: every installed kind looked for through the whole text (text.includes) had
-  // been a third of a second of a country's start, every key of every parse (OR-144); an id met only inside a longer
-  // word ("iron" in star_iron) is no word the parser reads as that kind.
-  // Not those it declares itself: its own parse installed them, and the same text read again (a generated country's
-  // first file, read for its places and then for play) had missed the cache and been parsed twice, three quarters of a
-  // second of a new country's start (the headless investigation, 11 November).
-  static seen(text: string): string {
-    const { own, words } = this.words(text);
-    // By whichever is fewer: a declaration's few words (a text read a declaration at a time, AX-04), or the kinds.
-    const named = words.size < this.installed.size
-      ? [...words].flatMap(w => own.has(w) ? [] : [`item:${w}`, `species:${w}`].filter(k => this.installed.has(k)))
-      : [...this.installed].filter(k => { const id = k.slice(k.indexOf(':') + 1); return !own.has(id) && words.has(id); });
-    return named.sort().join(' ');
+  // What a name stands for now (see Vocabulary.signature): a module's kind, what it is; '' for no kind; none for the
+  // catalog's own, which no module may give another meaning (see same). A parse is kept by what it asked of these,
+  // not by the names its text holds (a kind's name alone had kept a parse made of another campaign's kind of that
+  // name: the compilation-context review, 26 November).
+  static signature(name: string): string | undefined {
+    const item = this.installed.has(`item:${name}`), species = this.installed.has(`species:${name}`);
+    if (!item && !species) { return Canon.items[name] || Canon.species[name] || Canon.isBody(name) ? undefined : ''; }
+    return `${item ? this.signed(Canon.items[name]!) : ''}\u0000${species ? this.signed(Canon.species[name]!) : ''}`;
   }
-  // A text's words and the kinds it declares, gathered once: the same text is keyed many times as a world is read (its
-  // parse, its bundle's, its reading ahead), a country's first file a third of a megabyte. The last few hundred kept.
-  private static readonly worded = new Map<string, { own: Set<string>; words: Set<string> }>();
-  private static words(text: string): { own: Set<string>; words: Set<string> } {
-    let w = this.worded.get(text);
-    if (!w) {
-      w = { own: new Set([...text.matchAll(/^\s*(?:Kind|Species) ([A-Za-z_][\w]*) "/gm)].map(m => m[1]!)),
-        words: new Set(text.match(/[A-Za-z_]\w*/g)) };
-      if (this.worded.size >= 400) { this.worded.delete(this.worded.keys().next().value!); }
-      this.worded.set(text, w);
-    }
-    return w;
+  private static readonly signatures = new WeakMap<object, string>();
+  private static signed(kind: object): string {
+    let s = this.signatures.get(kind);
+    if (s === undefined) { s = this.bare(kind); this.signatures.set(kind, s); }
+    return s;
   }
   // Takes every module's own kinds back out of the catalogs: a new campaign begins with the catalogs as they are.
   static reset() {

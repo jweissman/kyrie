@@ -1,8 +1,9 @@
 // Each declaration of a module's text, parsed once (AX-04: a new world's start re-parsed 1.4 s of Kyr its generators
 // had just written, half of it declarations written the same in a world drawn before: a site's actions and passages,
 // whose ids go by the town's place in the country, not by the seed). A declaration's parse is its own: what the
-// lowering of one gives depends on its text and the kinds it names among those installed (Vocabularies.seen), never
-// on where it stands or what else the module says (a module's own kinds are declared after: CatalogParser.declare),
+// lowering of one gives depends on its text alone, asking nothing of the kinds installed (the module made of its fields
+// does: ModuleMade; a lowering that asks is kept by nothing here: see module), never on where it stands or what else
+// the module says (a module's own kinds are declared after: CatalogParser.declare),
 // but for the three that keep where they were written (Route, Promise, Occasion: SemanticRecords.span), whose text is
 // parsed whole. A text is split at its declarations by a scan that knows strings, comments and braces; the split is
 // taken only where the grammar bears it out, each part read as exactly one declaration (ModuleParser.chunked), else
@@ -21,7 +22,7 @@ export interface Parts { id: string; name: string; fields: Field[]; sources: str
 export class DeclarationParses {
   // Declarations that keep where they were written: their text is parsed whole.
   private static readonly placed = /^(Route|Promise|Occasion)\b/;
-  // The last few thousand declarations' fields, by their vocabulary and text (the declarations of a country's towns,
+  // The last few thousand declarations' fields, by their text (the declarations of a country's towns,
   // sites and roads, a world or two of them).
   static readonly kept = new Map<string, Field>();
   static readonly most = 40000;
@@ -52,21 +53,23 @@ export class DeclarationParses {
     const split = this.split(text);
     if (!split) { return undefined; }
     try {
-      const keys = split.chunks.map(c => `${Vocabularies.seen(c.text)}\u0000${c.text}`);
+      const keys = split.chunks.map(c => c.text);
       const missing = keys.flatMap((k, i) => this.kept.has(k) ? [] : [i]);
       // Those not kept filled from their shapes, or matched together after the header (DeclarationShapes).
       let header: Parts | undefined;
-      const found = DeclarationShapes.read(missing.map(i => split.chunks[i]!.text), texts => {
-        const read = parts(`${split.head}\n${texts.join('\n')}\n}`);
-        if (!read || read.sources.length !== texts.length || read.sources.some((t, j) => t !== texts[j])) {
-          return undefined;
-        }
-        header ??= read; return read.fields;
-      });
+      const reading = Vocabularies.reading(() => DeclarationShapes.read(missing.map(i => split.chunks[i]!.text),
+        texts => {
+          const read = parts(`${split.head}\n${texts.join('\n')}\n}`);
+          if (!read || read.sources.length !== texts.length || read.sources.some((t, j) => t !== texts[j])) {
+            return undefined;
+          }
+          header ??= read; return read.fields;
+        })), found = reading.value;
       const read = header ?? parts(`${split.head}\n}`);
       if (!found || !read) { return undefined; }
       const made = new Map(missing.map((i, j) => [i, found[j]!]));
-      for (const [i, f] of made) { this.remember(keys[i]!, structuredClone(f)); }
+      // A lowering that asked of the kinds is not kept by its text.
+      if (!reading.reads.length) { for (const [i, f] of made) { this.remember(keys[i]!, structuredClone(f)); } }
       const fields = keys.map((k, i) => this.placedAt(made.get(i) ?? structuredClone(this.kept.get(k) as Field), text,
         split.chunks[i]!.at));
       return DeclaredValues.during(declared, () => ModuleMade.of({ id: read.id, name: read.name, fields,
