@@ -364,7 +364,7 @@ export class ChoiceList {
     if (c.outcome) { return [{ id: 'onward', title: '', tone: 'way', glyph: '→', choices: [this.onward] }]; }
     if (!c.ours) { return []; }
     const titles: Record<string, string> = { strike: 'Strike', abilities: 'Abilities', spells: 'Spells',
-      carried: 'What you carry', other: 'Defend, wait or withdraw' };
+      carried: 'What you carry', words: 'Words', other: 'Defend, wait or withdraw' };
     return Object.entries(titles).map(([id, title]): Section => {
       const list = c.abilities.filter(a => this.kind(a) === id)
         .sort((a, b) => (a.spell?.level ?? 0) - (b.spell?.level ?? 0)
@@ -404,22 +404,21 @@ export class ChoiceList {
         note: `${rest.length} more`, children: rest.map(a => this.ability(a, c)) }];
   }
   private static readonly last = ['defend', 'wait', 'flee'];
+  private static readonly kinds: Record<string, string> = { melee: 'strike', ranged: 'strike', demand: 'words',
+    defend: 'other', wait: 'other', flee: 'other' };
   private static readonly onward: Choice = { id: 'onward', label: 'Go on', tone: 'way' };
   private static kind(a: CombatScreen['abilities'][number]): string {
-    if (['melee', 'ranged'].includes(a.id)) { return 'strike'; }
-    if (this.last.includes(a.id)) { return 'other'; }
-    return a.carried !== undefined ? 'carried' : a.spell ? 'spells' : 'abilities';
+    return ChoiceList.kinds[a.id] ?? (a.carried !== undefined ? 'carried' : a.spell ? 'spells' : 'abilities');
   }
   private static ability(a: CombatScreen['abilities'][number], c: CombatScreen): Choice {
     const tone: Tone = a.spell ? 'spell' : 'ability';
     // A levelled spell says how many castings are ready; a cantrip, that it is free.
     const cost = a.spell && a.spell.level > 0 ? `${a.spell.ready} ready` : a.carried === 1 ? 'the last'
       : a.carried ? `${a.carried} carried` : a.price;
-    // Withdrawing is the whole company's: it ends the fight for everyone, and says how likely it is to come off (sure
-    // in the moment a fight that came at the company begins). An ability on oneself needs no note of whom it is on;
-    // what a technique does besides a blow, and when it can be used again, is said (see MechanicsText.gist).
-    const scope = a.id === 'flee' ? `${a.odds === undefined ? '' : a.odds >= 1 ? 'sure, now · '
-      : `${this.odds(a.odds)} · `}ends the fight for all` : a.targets.length ? ''
+    // Withdrawing ends the fight for all, a call to yield (Parley) if they yield, each said with how likely (sure, now,
+    // as a fight comes at the company); what a technique does besides a blow, and when again (MechanicsText.gist).
+    const ends = ({ flee: 'ends the fight for all', demand: 'ends the fight if they yield' } as Record<string, string>)[a.id];
+    const scope = ends ? `${a.odds === undefined ? '' : a.odds >= 1 ? 'sure, now · ' : `${this.odds(a.odds)} · `}${ends}` : a.targets.length ? ''
       : ({ party: 'the whole company', allies: 'every ally', enemies: 'every foe', all: 'everyone' } as Record<string, string>)[a.scope] ?? '';
     const note = [cost, a.gist, scope].filter(Boolean).join(' · ');
     const base = { id: `ability:${a.id}`, label: a.name, tone, about: a.text, ...(note ? { note } : {}),

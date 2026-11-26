@@ -94,7 +94,7 @@ export class RunnerFight {
     const hand = CombatChoices.actions(b.legalCommands(), b.repertoire)
       .sort((x, y) => Number(!['melee', 'ranged'].includes(x.ability.id)) - Number(!['melee', 'ranged'].includes(y.ability.id)))
       .flatMap(c => c.commands.map(m => ({ id: `fight:${m.ability}:${m.target}`, type: 'fight' as const, marks: [],
-        aspects: c.ability.id === 'flee' ? [] : ['danger'],
+        aspects: ['flee', 'demand'].includes(c.ability.id) ? [] : ['danger'],
         label: RunnerFight.called(b, c.ability, m.target, c.requiresTarget) })));
     const actor = RunnerFight.name(b, state.actor);
     // Pressed on to its end only where it is as good as won, as the page offers it (ChoiceList.decided; cold play 7,
@@ -108,7 +108,8 @@ export class RunnerFight {
   // The four led with in a fight, as the page's hand leads: the weapon's blow, the way out, this turn, the rest of it.
   offer(): { primary: FightChoice[]; rest: FightChoice[] } {
     const all = this.choices(), flee = all.find(c => /^fight:flee:/.test(c.id));
-    const primary = [all[0], flee, all.at(-2), all.at(-1)].filter((c, i, list): c is FightChoice => !!c
+    const words = all.find(c => /^fight:demand:/.test(c.id));
+    const primary = [all[0], words, flee, all.at(-2), all.at(-1)].filter((c, i, list): c is FightChoice => !!c
       && list.indexOf(c) === i);
     return { primary, rest: all.filter(c => !primary.includes(c)) };
   }

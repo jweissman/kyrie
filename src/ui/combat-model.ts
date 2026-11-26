@@ -52,6 +52,7 @@ export class CombatModel {
           ready: actor ? Spellcasting.casts(actor, c.ability) : 0 } } : {}),
         targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [],
         ...c.ability.effects.some(e => e.kind === 'flee') ? { odds: battle.flight() } : {},
+        ...c.ability.id === 'demand' && actor ? { odds: battle.parley() } : {},
         ...actor?.stock?.[c.ability.id] ? { carried: actor.stock[c.ability.id]!.length } : {} })),
       ...ours && !state.outcome ? this.unavailable(battle, actor!) : {},
       ...battle.opening && !state.outcome ? { moment: battle.opening, reckoned: DangerSense.of(battle).text } : {},

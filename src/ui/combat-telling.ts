@@ -152,6 +152,7 @@ export class CombatTelling {
     const ability = carried ? ItemNames.called(carried)
       : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return [`${actor} waits.`]; }
+    if (c.ability === 'demand') { return [`${actor} calls on them to throw down their arms.`]; }
     const target = c.target && c.target !== c.actor ? ` on ${this.name(c.target)}` : '';
     // A blow that brings its target down is told with what it was dealt too, its falling said after (the owner, 18
     // November); a number is what the die gave it, not the little left to take (BP-02).
@@ -227,6 +228,9 @@ export class CombatTelling {
           : `${this.name(e.target)} is hurt, for ${CombatTelling.blow(e)}.`;
       case 'heal': return e.amount ? `${this.name(e.target)} recovers ${e.amount}.` : undefined;
       case 'save': return this.saved(e);
+      // A call to yield, heard (see Parley): what came of it, its dice in how it fell.
+      case 'check': if (e.skill !== 'intimidation') { return CombatPresenter.format(e, this.state); }
+        return e.success ? 'They waver, and throw down their arms.' : 'They are not ready to give in.';
       case 'status': return this.condition(e.target, e.detail);
       case 'death': return `${this.name(e.actor)} falls.`;
       case 'defend': return `${this.name(e.actor)} stands on guard.`;

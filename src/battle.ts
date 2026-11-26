@@ -7,7 +7,7 @@ import { Content } from './content'; import { Expressions } from './expressions'
 import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting'; import { Fighting } from './rules/fighting';
 import { Morale } from './rules/morale'; import { ShakingOff } from './rules/shaking-off';
-import { Tactics } from './tactics';
+import { Tactics } from './tactics'; import { Parley } from './parley'; import { BattleRoll } from './battle-roll';
 import { Quarry } from './quarry'; import { Positions } from './rules/positions'; import { HitDicePool } from './rules/hit-dice-pool';
 import { ItemCatalog } from './item-catalog'; import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
@@ -44,8 +44,8 @@ export class Battle {
   private readonly upright: Set<string>;
   // And what was said in the fights before this one, so that it is not said again in it (see Barks).
   private broke = false; private barked: string[] = [];
-  // The ability lists found sound, by their length then (see validate).
-  private static readonly sound = new WeakMap<ArenaAbility[], number>();
+  // How often the company has called on the other side to yield, and been refused (see Parley).
+  private refused = 0;
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
     this.moment = scenario.moment; this.rehearsed = !!scenario.rehearsed;
@@ -53,11 +53,13 @@ export class Battle {
     this.terms = scenario.terms ?? {}; this.upright = new Set(this.fighters.filter(f => f.hp > 0).map(f => f.id));
     // The catalog's abilities are never changed, so a fight over them reads them as they are; others are copied. What
     // the company carries to use up is fought with as abilities of this fight's own (see ItemCatalog.stock).
-    const base = scenario.abilities === Content.abilities ? Content.abilities : structuredClone(scenario.abilities);
+    // And words, which every fight has, as it has waiting (see Parley).
+    const base = Parley.worded(scenario.abilities === Content.abilities ? Content.abilities
+      : structuredClone(scenario.abilities));
     const carried = [...new Set(this.fighters.flatMap(f => Object.keys(f.stock ?? {})))]
       .filter(id => !base.some(a => a.id === id)).map(id => structuredClone(ItemCatalog.used(id)!));
     this.abilities = carried.length ? [...base, ...carried] : base;
-    try { this.validate(); } catch (error) { this.lease?.release(); throw error; }
+    try { BattleRoll.validate(this.fighters, this.abilities); } catch (error) { this.lease?.release(); throw error; }
     if (!this.lease) {
       const store = new CreatureStore(this.fighters.map(f => {
         const creature = CombatProjection.creature(f);
@@ -130,29 +132,6 @@ export class Battle {
   close() {
     if (!this.outcome) { this.finish('escaped', 'retreat'); this.commit(); }
   }
-  private validate() {
-    const ids = new Set(this.fighters.map(f => f.id));
-    if (ids.size !== this.fighters.length || !ids.size) { throw new Error('Combatants need unique IDs'); }
-    const abilityIds = this.abilities.map(a => a.id), known = new Set(abilityIds);
-    if (known.size !== abilityIds.length) { throw new Error('Abilities need unique IDs'); }
-    for (const f of this.fighters) {
-      if (![f.hp, f.maxHp, f.speed, f.strength, f.mana, f.maxMana].every(n => Number.isSafeInteger(n) && n >= 0)
-        || f.maxHp < 1 || f.hp > f.maxHp || f.mana > f.maxMana || !['fighters', 'goblins'].includes(f.team)
-        || f.abilities.some(id => !known.has(id))) { throw new Error(`Invalid combatant ${f.id}`); }
-      f.statuses.forEach(s => Effects.status(s.id));
-    }
-    // The catalog's abilities, never changed, are found sound once, not again for every fight (a forecast's trials
-    // are a dozen fights: OR-114); a fight's own (what the company carries to use up) are looked at every time.
-    if (Battle.sound.get(this.abilities) === this.abilities.length) { return; }
-    for (const ability of this.abilities) {
-      if (!ability.effects.length && ability.id !== 'wait') { throw new Error(`Empty ability ${ability.id}`); }
-      for (const n of [ability.cost ?? 0, ability.cooldown ?? 0]) {
-        if (!Number.isSafeInteger(n) || n < 0) { throw new Error('Invalid ability cost/cooldown'); }
-      }
-      ability.effects.forEach(effect => Effects.validate(effect, abilityIds));
-    }
-    if (this.abilities === Content.abilities) { Battle.sound.set(this.abilities, this.abilities.length); }
-  }
   get state(): BattleState { return this.read(structuredClone(this.fighters)); }
   // The fight as it stands, uncopied, to be read only (tactics choosing, here and in DangerSense's rehearsals): a copy
   // for every choice had been a fifth of a reckoning (OR-145 (b): a1's "Ask Eamon about the king-barrow", 1.2 s).
@@ -175,7 +154,7 @@ export class Battle {
   usable(actor: Fighter): ArenaAbility[] {
     // Orsino's pcTurn also offers every player-side combatant Wait and Flee.
     const known = [...actor.abilities, actor.equipment?.weapon?.missile ? 'ranged' : 'melee',
-      ...actor.team === 'fighters' ? ['wait', 'flee'] : []];
+      ...actor.team === 'fighters' ? ['wait', 'flee', ...Parley.heard(this.fighters, this.departed.length, !!this.terms.yields) ? [Parley.id] : []] : []];
     const m = Effects.modifiers(actor);
     const usable = this.abilities.filter(a => known.includes(a.id) && Spellcasting.affordable(actor, a)
       && !(actor.cooldowns[a.id] ?? 0)
@@ -188,6 +167,8 @@ export class Battle {
     const compel = actor.statuses.map(s => Effects.status(s.id).compel).find(c => c && usable.some(a => a.id === c));
     return compel ? usable.filter(a => a.id === compel) : usable;
   }
+  // The chance a call to yield is made by whoever acts now.
+  parley(): number { return Parley.odds(this.actor(), this.fighters, this.refused); }
   legalCommands(): Command[] {
     if (this.outcome) { return []; }
     if (this.impulse?.actor === this.actor().id) { return [{ ...this.impulse }]; }
@@ -283,6 +264,7 @@ export class Battle {
       return this.settled(start);
     }
     delete actor.windup;
+    if (ability.id === Parley.id) { this.demand(actor, command); return this.settled(start); }
     const context = this.context(actor);
     if (actor.abilitySources?.[ability.id]) { context.source = actor.abilitySources[ability.id]; }
     AttackRoutine.strike(actor, ability.id, this.history, () => { AbilityUse.perform(ability, command.target,
@@ -304,6 +286,15 @@ export class Battle {
     if (!this.outcome) { this.endTurn(actor); }
     if (!this.outcome) { this.advance(); }
     return this.settled(start);
+  }
+  // A call to yield: the one acting makes it, and if it is made the other side throws down its arms (see Parley).
+  private demand(actor: Fighter, command: Command) {
+    const check = Parley.made(actor, this.fighters, { refused: this.refused, turn: this.turn,
+      die: Fighting.d20(() => this.expressions.number('1d20'), Effects.modifiers(actor)) });
+    this.history.push({ type: 'action', turn: this.turn, command: { ...command } }, check);
+    if (check.success) { this.finish('fighters', 'yielded'); return; }
+    this.refused++; this.endTurn(actor);
+    if (!this.outcome) { this.advance(); }
   }
   // A step done: who it hurt and by whom (see Quarry), what it made of the intents declared, the fight kept, and what
   // happened in it.

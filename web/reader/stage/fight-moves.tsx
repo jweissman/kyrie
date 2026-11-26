@@ -31,19 +31,23 @@ export class FightMoves {
     }
     const attack = strike[0], shown = FightMoves.section(sections, strike, panel);
     const pace = sections.find(s => s.id === 'pace')?.choices ?? [];
+    // Words (a call to yield: ChoiceList's words), a row of the hand's own beside the blow, never in a kind.
+    const words = sections.find(s => s.id === 'words')?.choices ?? [];
     const take = (c: Choice) => FightMoves.take(app, c, aim, open);
     const note = (c: Choice) => ({ onMouseEnter: () => hover(c), onFocus: () => hover(c), onMouseLeave: () => hover(undefined) });
     const kinds = FightMoves.kinds.filter(([id]) => FightMoves.section(sections, strike, id)?.choices.length);
     const said = <p className="hand-note">{under?.note ? Typography.curl(`${Words.shown(under.label)}: ${under.note}`) : ''}</p>;
     if (shown) {
       return <div className="hand opened"><FightMoves.Kind key={shown.id} section={shown} take={take} note={note}
-        close={() => open()} room={(attack ? 1 : 0) + kinds.length + pace.length} said={said} /></div>;
+        close={() => open()} room={(attack ? 1 : 0) + words.length + kinds.length + pace.length} said={said} /></div>;
     }
     return <div className={`hand${aiming ? ' aiming' : ''}`}>
       <div className="hand-menu" role="toolbar" aria-label="What you can do">
         {attack && <ChoiceRow.Button className={`move main${aiming?.choice.id === attack.id ? ' opened' : ''}`}
           data={{ action: 'attack', choice: attack.id }} act={attack.id} onClick={() => take(attack)} plain="blow"
           label={FightMoves.attack(attack)} />}
+        {words.map(c => <ChoiceRow.Button key={c.id} className="move" data={{ action: 'words', choice: c.id }} act={c.id}
+          onClick={() => take(c)} events={note(c)} label={Typography.curl(Words.shown(c.label))} />)}
         {kinds.map(([id, label]) =>
           <ChoiceRow.Button key={id} className="move kind" data={{ action: 'panel', panel: id }}
             onClick={() => { aim(); open(id); }} label={label} />)}

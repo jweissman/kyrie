@@ -66,7 +66,9 @@ export class Tactics {
     const actor = state.combatants.find(f => f.id === command.actor)!;
     const target = state.combatants.find(f => f.id === command.target)!;
     // A thing carried to use up is scored as what using it does (see ItemCatalog.use).
-    const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability)!;
+    // Words (Parley) are no blow, and score nothing.
+    const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability);
+    if (!ability) { return 0; }
     const area = Positions.area(ability);
     const caught = area ? Positions.caught(actor, command.target, area, state.combatants) : undefined;
     const ours = caught?.filter(f => f.team === actor.team) ?? [], friends = ours.length;
@@ -156,7 +158,9 @@ export class Tactics {
     // A device does what it was made to do whenever it can (a bomb's fuse, a ward's silence), as Orsino's do; it has
     // no judgement to weigh a blow against it.
     const powers = Canon.isDevice(actor.raceId) ? all.filter(c => !['melee', 'ranged', 'wait'].includes(c.ability)) : [];
-    const legal = powers.length ? powers : all;
+    // Words are the player's to try, never the tactics' (see Parley): a turn left to them is fought.
+    const fought = all.filter(c => c.ability !== 'demand');
+    const legal = powers.length ? powers : fought.length ? fought : all;
     // Running is the last of what it might do, never a blow's equal (a pike with no bite of its own beside its jaws had
     // fled the company it was holding level with, its flee written before them).
     const order = [...actor.abilities.filter(a => a !== 'flee'), 'melee', 'ranged', 'flee'];

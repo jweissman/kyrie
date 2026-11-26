@@ -148,7 +148,7 @@ export class CombatPresenter {
       case 'react': return `${actor} answers ${target}.`;
       case 'travel': return `${actor} travels to ${event.detail}.`;
       // In the page's words, not the engine's ("Your company withdraws from the encounter": play 7).
-      case 'end': return event.outcome === 'fighters' ? 'The fight is won.' :
+      case 'end': return event.outcome === 'fighters' ? event.reason === 'yielded' ? 'They yield.' : 'The fight is won.' :
         event.outcome === 'goblins' ? event.reason === 'yielded' ? 'You are beaten, and yield.' : 'The fight is lost.' :
           event.outcome !== 'escaped' ? 'The fight ends with neither side the better.'
             : event.fled?.team === 'goblins'
