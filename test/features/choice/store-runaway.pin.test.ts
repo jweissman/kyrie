@@ -62,7 +62,7 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     // The bounty is asked by its short title, or, too long for one, by Falkor's plain talk, which asks it whole
     // (OR-802).
     h = await Store.walk(handed.r, h, /herb-shop/,
-      /^(Ask Falkor for the ten coin|Falkor: for the ten coin|Talk to Falkor$)/);
+      /^(Ask Falkor for the ten coin|Falkor: the ten coin|Talk to Falkor$)/);
     expect(handed.journey.holds('region__s1_u_paid', job)).toBe(true);
     expect([j, handed.journey].map(x => x.campaign.events.some(e => e.combat.some(c => c.type === 'attack'))))
       .toEqual([false, false]);

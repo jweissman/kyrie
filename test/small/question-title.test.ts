@@ -18,6 +18,9 @@ describe('a question led with', () => {
         'Ask Hester Lyle whether she has had a letter', 'Talk to Hester Lyle'],
       ['Ask Hask to put his orders in writing before he carries them out', 'Talk to Hask',
         'Ask Hask to put his orders in writing before he carries them out', 'Talk to Hask'],
+      // Asked for something: the matter without its "for" (Caw's bounty in the corn-store).
+      ['Talk to Caw — ask for the ten coin for the corn-store', 'Talk to Caw',
+        'Ask Caw for the ten coin for the corn-store', 'Caw: the ten coin for the corn-store'],
       // Asked by what they are, in the talk to whom it names (the castellan, the drover's lad).
       ['Talk to Ffion Wyn — ask the castellan about the king-barrow', 'Talk to Ffion Wyn',
         'Ask the castellan about the king-barrow', 'Ffion Wyn: the king-barrow'],

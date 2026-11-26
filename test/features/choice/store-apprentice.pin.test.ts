@@ -59,7 +59,7 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     let m = await Store.walk(marched.r, marched.r.said() as Said, /^Take the apprentice up to Caw/);
     // The bounty is asked by its short title, or, too long for one, by Caw's plain talk, which asks it whole (OR-802).
     m = await Store.walk(marched.r, m, /^Up to the old corn-store/, /chandlery/,
-      /^(Ask Caw for the ten coin|Caw: for the ten coin|Talk to Caw$)/);
+      /^(Ask Caw for the ten coin|Caw: the ten coin|Talk to Caw$)/);
     expect(said(m)).toMatch(/I.d sooner it had been rats/);
     expect([marched.journey.holds('region__s1_u_apprentice_exposed', job),
       marched.journey.holds('at', 'region__s1_u_apprentice', 'region__s1_shop')]).toEqual([true, false]);
