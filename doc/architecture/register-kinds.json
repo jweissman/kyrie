@@ -2797,12 +2797,6 @@
    "pri": "P1",
    "why": "the owner's ruling of 26 November on the starting area: a committed requirement, unmet"
   },
-  "OR-1076": {
-   "kind": "direction",
-   "was": "defect",
-   "pri": "P3",
-   "why": "the lead's call under the reference-game ruling of 25 November: held world content, waiting on the reference game's question; not a failure"
-  },
   "OR-1077": {
    "kind": "direction",
    "was": "defect",
@@ -2826,6 +2820,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "the owner's direction of 26 November on combat, kept whole, not yet commissioned"
+  },
+  "OR-1083": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November (composition by contrast), kept whole, not yet commissioned"
   }
  },
  "blockedBy": {

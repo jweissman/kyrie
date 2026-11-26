@@ -33,6 +33,10 @@ this help the player forget the interface and become interested in what happens 
 - **Adventure branches' friction** (`doc/adventures/<id>/friction.md`) is carried into the register: checked against
   main, deduplicated, given priority and verification. Integrating a branch includes mending its simple dead ends
   (talk whose words are all it does, a softlock) by something taught, given or changed that later play reads.
+- **Adventure material is integrated continuously, never left to rot** (the owner, 26 November). Each branch is a
+  small book-level investment: study it whole, welcome it, and file what its author needed and the engine lacked.
+  Westernesse is maximalist; place material away from the start, to be discovered. Prune by decomposing a story into
+  reusable situations and kits, not by deleting it.
 - **Three streams:**
   - Game: the experience, owned by the lead;
   - World: content and creative growth, a continuous stream;
@@ -173,7 +177,10 @@ this help the player forget the interface and become interested in what happens 
   - one small left indicator per opportunity (a colour, or a restrained OKLab gradient);
   - the title modestly tinted;
   - supporting text and surfaces neutral; words never in a hue (test/small/colour-grammar);
-  - nothing flashes or blinks a colour, the map least of all (test/small/no-flash).
+  - nothing flashes or blinks a colour, the map least of all (test/small/no-flash);
+  - one exception, the folded lenses' diamond in the resting scene (the owner, 26 November; OR-1084): it is filled,
+    through its shape, with the colours of the opportunities the folded lenses hold, in place of pips, and it is
+    still.
 - **The reference game is the flagship** (the owner, 25 November; doc/design/direction-2026-11-25-reference-game.md):
   one tiny settlement (two real traders and a shrine), the old woods beside it (several independent points of interest
   a hex), and one persistent, progressively deeper dungeon, deterministic and lazily realised, the world still living
@@ -182,7 +189,17 @@ this help the player forget the interface and become interested in what happens 
   resource economy is a hypothesis to prove on a tabletop first, not a replacement for the Atlas's meanings. The same
   place reveals more as the character learns (knowledge belongs to characters, truth to the world). Failures are
   classed mechanical, design or editorial, each fixed at its own level; progress is reported as experience too.
-- **The starting world** invites at once:
+- **Composition by contrast** (the owner, 26 November; doc/design/direction-2026-11-26-composition.md): what should
+  be felt starts low, so that its rise is noticed.
+  - Sparse, so that what matters feels relevant.
+  - Terse, so that a long passage stands out.
+  - Poor at the start, so that the economy matters.
+  - A feat or perk is chosen at every level.
+  - Few quests: the first town is thin and mundane, so that a hook stands out when it is uncovered.
+  - A specific question about the world is offered only on grounds the character has: something seen, read or heard,
+    a deduction, a check.
+- **The starting world** is almost nothing but a combat windmill and a few traders (the owner, 26 November): the
+  First Town and the Big Dungeon, and little else near them.
   - The first dungeon is near the first town: in its hex, or within two. It is deep: at least two levels of serious
     resistance, each with a boss and a treasure cache, a companion to recruit there, and gear to find near a secure
     entry.

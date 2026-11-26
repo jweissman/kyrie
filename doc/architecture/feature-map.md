@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 192 pins (160 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 607 live rows, 205 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 192 pins (160 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 610 live rows, 208 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -53,7 +53,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 2 defects · 4 asks
+- **Conversation held to its focus** · 11 pins · 3 defects · 4 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -237,7 +237,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 6 asks
+- **Markets and prices** · 0 pins · 3 defects · 6 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -352,7 +352,7 @@ page's colours and opportunities.)
   - requirement ST-03 P1: The last sea-gate: the saboteur's interest acting inside the six-day window (obstruction, blame, a…
   - requirement ST-06 P2: The critique's rebuild set (fever on the green, the cold pans, the boundary stones, the stranger…
   - requirement ST-07 P3: The critique's hierarchy edits: the Bound Howe given one governing question; the Silent Lord's…
-- **Adventures and their endings** · 4 pins · 0 defects · 7 asks
+- **Adventures and their endings** · 4 pins · 0 defects · 6 asks
   - ○ an adventure reaches different endings by different deeds, each told as its own
   - ✓ lints clean
   - ✓ is carried up for Oyelle, filled behind the falls with Tobi, and poured with her, and the rain comes
@@ -362,7 +362,6 @@ page's colours and opportunities.)
   - requirement AI-07 P1: Cold play on the branch: one of three blind players entered a new module; none played one to an…
   - requirement OR-670 P3: Windfall's thin parts (doc/adventures/windfall/friction.md): every ending waits for seven on the…
   - requirement OR-780 P3: The Calf in the Tail-Race's thin parts (doc/adventures/tailrace/friction.md): the Dam is a sound…
-  - direction OR-1076 P3: Four adventure branches held, not integrated (adventure/wet-drusilla, over-exall, windfall,…
   - direction WB-06 P3: The report's premise laboratories and its six-work portfolio (a city, a romance, a wilderness…
 - **Wonders and traps** · 9 pins · 0 defects · 0 asks
   - ✓ is the thing, whence it comes, how rare and what for, each a fact of its own
@@ -454,7 +453,7 @@ page's colours and opportunities.)
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
   - direction WD-14 P3: A module cannot begin the company in a place of its own: the company is declared in the region's…
   - requirement AT-08 P2: The first choices present in the first quarter hour (the owner's thought, 19 November): help…
-- **Character creation** · 3 pins · 4 defects · 6 asks
+- **Character creation** · 3 pins · 4 defects · 7 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
   - ✓ each see acts the others do not
@@ -462,6 +461,7 @@ page's colours and opportunities.)
   - requirement OR-153 P1: Perk selection as the last stage of character creation: the owner, "I do think adding perk…
   - direction OR-154 P3: A tarot's major arcana chosen in creation, perhaps only where a perk unlocks it: the old masters'…
   - direction OR-511 P3: Creation's choices given weight: the painting shifting with the choice, portraits as framed cameos
+  - direction OR-1083 P2: A feat or perk chosen at every level (the owner: "you want to know feats and perks are chosen at…
   - requirement OR-118 P2: One unusual gift per sign, a global effect and not a stat bump (the owner's play, 18 November)
   - requirement OR-136 P2: Set out now's first wording: under 100 ms from the click to the first scene; 80-150 ms measured…
 - **Openings** · 5 pins · 1 defects · 2 asks
@@ -501,7 +501,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 23 defects · 30 asks
+- **Rows, lenses and the frame** · 3 pins · 24 defects · 30 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
