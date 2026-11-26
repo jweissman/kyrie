@@ -31,8 +31,8 @@ export class Gauntlet {
     return this.fought(this.encounter(bout, seed));
   }
   // Creatures as they stand in a world (copied: the store copies what it is given), one side against the other.
-  static between(ours: readonly Creature[], foes: readonly Creature[], seed: string): Battle {
-    return Battle.encounter(new CreatureStore(ItemCatalog.canon, [...ours, ...foes]), [
+  static between(catalog: ItemCatalog, ours: readonly Creature[], foes: readonly Creature[], seed: string): Battle {
+    return Battle.encounter(new CreatureStore(catalog, [...ours, ...foes]), [
       ...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed });
   }

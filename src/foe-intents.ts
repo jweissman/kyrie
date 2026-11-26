@@ -2,6 +2,7 @@ import type { Battle } from './battle';
 import type { Fighter } from './model';
 import { PressOn } from './press-on';
 import { Telegraph } from './telegraph';
+import type { ItemCatalog } from './item-catalog';
 
 type ArenaAbility = Battle['repertoire'][number];
 
@@ -29,13 +30,13 @@ export class FoeIntents {
         plain.set(target.id, [...plain.get(target.id) ?? [], foe]); continue;
       }
       const line = foe.windup ? Telegraph.gathered(foe, ability, target, name)
-        : FoeIntents.one(foe, ability, target, name);
+        : FoeIntents.one(foe, ability, target, { catalog: battle.catalog, name });
       out.push(felled ? `${line} That could bring ${whom} down.` : line);
     }
     for (const [id, foes] of plain) {
       const target = state.combatants.find(f => f.id === id)!, whom = name(target), [one] = foes;
       const ability = battle.repertoire.find(a => a.id === state.intents?.[one!.id]?.ability)!;
-      const line = foes.length === 1 ? FoeIntents.one(one!, ability, target, name)
+      const line = foes.length === 1 ? FoeIntents.one(one!, ability, target, { catalog: battle.catalog, name })
         : Telegraph.together(foes, target, { who: FoeIntents.joined(foes.map(name)), whom });
       const together = foes.length > 1 && (threat.get(id)?.harm ?? 0) >= target.hp;
       out.push(together ? `${line} Together they could bring ${whom} down.` : line);
@@ -43,8 +44,8 @@ export class FoeIntents {
     return out;
   }
   private static one(foe: Readonly<Fighter>, ability: ArenaAbility, target: Readonly<Fighter>,
-    name: (f: { id: string; name: string }) => string): string {
-    return Telegraph.of(foe, ability, target, name).line;
+    at: { catalog: ItemCatalog; name: (f: { id: string; name: string }) => string }): string {
+    return Telegraph.of(at.catalog, foe, ability, { target, called: at.name }).line;
   }
   private static joined(names: string[]): string {
     return names.length < 2 ? names[0] ?? '' : `${names.slice(0, -1).join(', ')} and ${names.at(-1)!}`;

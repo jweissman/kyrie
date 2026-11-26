@@ -18,7 +18,8 @@ describe('a game whose modules are read while another game begins', () => {
         return text;
       } };
     const s = await PlaySession.start(w.path, 'kite', source);
-    expect(s.campaign.readout.creatures.some(c => c.id === 'players__the_bear_person')).toBe(true);
-    expect(s.campaign.catalog.isSpecies('players__dancing_bear')).toBe(true);
+    const bear = s.campaign.readout.creatures.find(c => c.id === 'players__the_bear_person');
+    expect(bear).toBeDefined();
+    expect(s.campaign.catalog.localSpecies(bear!.raceId)?.name).toBe('an old dancing bear');
   }, 180000);
 });

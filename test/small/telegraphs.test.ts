@@ -6,6 +6,8 @@ import { FoeIntents } from '../../src/foe-intents';
 import { ItemCatalog } from '../../src/item-catalog';
 import type { Fighter } from '../../src/model';
 import { Telegraph } from '../../src/telegraph';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
+import { ModuleParser } from '../../src/lang';
 
 // What a foe means to do looks like what it is (Telegraph, data/catalog/telegraphs.json): wolves circle to flank, an
 // archer draws, a caster's hands kindle. Only the she-bear's maul had said so (its windup); every other intent read
@@ -46,7 +48,7 @@ describe('telegraphs', () => {
     for (const foe of foes()) {
       for (const id of held(foe)) {
         const target = repertoire.get(id)!.effects.every(e => e.target === 'self') ? foe : hero();
-        const { line, source } = Telegraph.of(foe, repertoire.get(id)!, target, called);
+        const { line, source } = Telegraph.of(ItemCatalog.canon, foe, repertoire.get(id)!, { target, called });
         if (source === 'generic') { generic.push(`${foe.raceId}/${id}: ${line}`); }
         expect(line).not.toMatch(/\{|\}|undefined/);
       }
@@ -59,11 +61,19 @@ describe('telegraphs', () => {
   it("draw on the company with a bow, and kindle in a caster's hands", () => {
     const archer = new Content('a').character('ranger', 'a', 'goblins', 'human');
     archer.equipment = { ...archer.equipment, weapon: ItemCatalog.canon.weapon('longbow') };
-    expect(Telegraph.of(archer, repertoire.get('ranged')!, hero(), called).line)
+    expect(Telegraph.of(ItemCatalog.canon, archer, repertoire.get('ranged')!, { target: hero(), called }).line)
       .toMatch(/^The .* nocks an arrow and draws on Wenna\.$/);
     const mage = new Content('m').character('mage', 'm', 'goblins', 'human');
-    expect(Telegraph.of(mage, repertoire.get('burning_hands')!, hero(), called).line)
+    expect(Telegraph.of(ItemCatalog.canon, mage, repertoire.get('burning_hands')!, { target: hero(), called }).line)
       .toMatch(/^The .*'s hands kindle with fire: burning hands at Wenna\.$/);
+  });
+  it('uses the campaign kind for a locally declared bow', () => {
+    const text = 'Module bows "Bows" { Kind local_bow "a bow" like longbow. }';
+    const catalog = ItemCatalog.of(ModuleParser.parseWithin(CanonVocabulary.context(), text).catalog);
+    const archer = new Content('a').character('ranger', 'a', 'goblins', 'human');
+    archer.equipment = { ...archer.equipment, weapon: catalog.weapon('local_bow') };
+    expect(Telegraph.of(catalog, archer, repertoire.get('ranged')!, { target: hero(), called }).line)
+      .toMatch(/nocks an arrow and draws on Wenna/);
   });
   it('wind a blow up as the body does: a bear rears, a titan raises its fists', () => {
     const maul = repertoire.get('maul')!;

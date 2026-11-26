@@ -124,14 +124,20 @@ export class CatalogContext {
   // The campaign's own kinds, by id.
   get local(): readonly string[] { return Object.keys(this.own); }
   localSpecies(id: string): Species | undefined { return this.species[CanonRuntime.resolve('species', id)]; }
-  isSpecies(id: string): boolean { return Object.hasOwn(this.species, CanonRuntime.resolve('species', id)) || Canon.isSpecies(id); }
-  isBody(id: string): boolean { return Object.hasOwn(this.species, CanonRuntime.resolve('species', id)) || Canon.isBody(id); }
+  isSpecies(id: string): boolean {
+    const [base, ...variations] = CanonRuntime.resolve('species', id).split('/');
+    return !!base && Object.hasOwn(this.species, base) && variations.every(v => CanonRuntime.isVariation(v))
+      || Canon.isSpecies(id);
+  }
+  isBody(id: string): boolean { return this.isSpecies(id) || Canon.isBody(id); }
   creature(id: string, seen: string[] = []): Species {
     const named = CanonRuntime.resolve('species', id);
     const cached = this.resolvedSpecies.get(named);
     if (cached) { return cached; }
     if (named.includes('/')) {
-      const made = CatalogContext.frozen(Canon.creature(named));
+      const [base, ...variations] = named.split('/');
+      const made = CatalogContext.frozen(Object.hasOwn(this.species, base!)
+        ? CanonRuntime.vary(base!, this.creature(base!), variations) : Canon.creature(named));
       this.resolvedSpecies.set(named, made);
       return made;
     }
@@ -150,10 +156,7 @@ export class CatalogContext {
   }
   temperament(id: string): string | undefined {
     if (!this.isSpecies(id)) { return undefined; }
-    const named = CanonRuntime.resolve('species', id), own = this.species[named];
-    if (!own) { return Canon.temperament(id); }
-    const species = this.creature(id);
-    return species.temperament ?? (own.variantOf ? Canon.temperament(own.variantOf) : undefined);
+    return CanonRuntime.temperament(this.creature(id));
   }
   private bodyStats(species: Species): BodyStatistics {
     let stats = this.bodyStatistics.get(species);
@@ -234,7 +237,7 @@ export class CatalogContext {
     const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : [],
       ...passes && !w.tags?.includes(passes) ? [passes] : []];
     return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
-      ...w.weight ? { weight: w.weight } : {}, ...w.kind ? { kind: w.kind } : {},
+      ...w.weight ? { weight: w.weight } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
       ...w.natural ? { natural: true } : {}, ...tags.length ? { tags } : {} };
   }

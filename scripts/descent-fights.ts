@@ -116,7 +116,7 @@ export class DescentFights {
     const foes = creatures.filter(k => k.id.startsWith(`${subject}_person`) && k.state.hp > 0);
     const company = ids.map(id => creatures.find(k => k.id === id)).filter(k => !!k).map(k => structuredClone(k));
     if (!foes.length || !company.length) { return undefined; }
-    const setup: Setup = { seed: `descent:${subject}`, company, foes, lead: company[0]!.id, prisoners: false,
+    const setup: Setup = { seed: `descent:${subject}`, catalog: c.catalog, company, foes, lead: company[0]!.id, prisoners: false,
       place: Environment.encounter(c.world, party, ids, subject) };
     const out = { trials, won: 0, fell: 0, rounds: [] as number[], lost: [] as number[], hit: 0 };
     for (let t = 0; t < trials; t++) {

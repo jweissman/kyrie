@@ -3,6 +3,8 @@ import { Voice } from './voice';
 import { VoiceContext } from './voice-context';
 import { Editor } from './editor';
 
+type BarkFighter = Pick<Fighter, 'id' | 'name'> & Partial<Pick<Fighter, 'team' | 'classId' | 'maxHp' | 'equipment'>>;
+
 // What a fighter says or does at a turning point of a fight: a blow that tells, a kill, a fall, a flight (Orsino's
 // barks, and Kyr's own, in data/voice/combat.json). Said seldom: at most one an exchange, only at a turning point, now
 // and then rather than every time, and never the same line twice in one fight. A companion speaks in their manner; a
@@ -18,7 +20,7 @@ export class Barks {
   private readonly used: Set<string>;
   // said: the words each fighter is spoken of in, where known; else they ("swears under their breath" of a dwarf
   // woman: round 9, P). before: the lines said in the fights before this one, oldest first (see Barks.before).
-  constructor(private readonly fighters: Fighter[], private readonly seed: string,
+  constructor(private readonly fighters: readonly BarkFighter[], private readonly seed: string,
     private readonly said?: ReadonlyMap<string, string>, before: readonly string[] = []) {
     this.used = Editor.recency([...before]);
   }
@@ -74,10 +76,10 @@ export class Barks {
   }
   private team(id: string): string | undefined { return this.fighters.find(f => f.id === id)?.team; }
   // Who a fighter is, as the barks know them: their side, their manner, and for a foe, what it is.
-  private context(f: Fighter): Record<string, string> {
+  private context(f: BarkFighter): Record<string, string> {
     const side = f.team === 'fighters' ? 'company' : 'foe';
     const role = Barks.roles.find(r => f.name.toLowerCase().includes(r) || f.classId === r);
-    const kind = f.equipment.body ? f.equipment.body.kind ?? 'creature' : 'person';
+    const kind = f.equipment?.body ? f.equipment.body.kind ?? 'creature' : 'person';
     return { side, kind, manner: VoiceContext.manners[this.hash(f.id) % VoiceContext.manners.length]!,
       ...role ? { role } : {} };
   }

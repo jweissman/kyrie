@@ -63,7 +63,7 @@ export class FirstHourBands {
     const foes = band.members.map(id => creatures.find(c => c.id === id)).filter((c): c is Creature => !!c);
     const reading = NoviceMeeting.read(campaign, band, company);
     if (reading.tolerated || !foes.length) { return []; }
-    const setup: Setup = { seed: `route:${band.id}`, company, foes, lead: company[0]!.id,
+    const setup: Setup = { seed: `route:${band.id}`, catalog: campaign.catalog, company, foes, lead: company[0]!.id,
       prisoners: world.relates('takesPrisoners') && world.test(ModuleWriter.call('takesPrisoners', band.id)),
       place: Environment.encounter(world, party, company.map(c => c.id), band.id),
       ...reading.moment ? { moment: reading.moment } : {} };

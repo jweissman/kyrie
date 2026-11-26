@@ -3,7 +3,6 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Frontier } from '../src/world/frontier';
 import { GeneratedWorld } from './support/generated';
-import { Canon } from '../src/canon/canon';
 
 // OR-540 in the world it was found in: kite's life begun in debt is carried (DebtShapes' carry: a purse for the
 // creditor, purse_kind), and the Lull, reached by its gate, declares a purse_kind of its own (Haskett's wages). Its
@@ -23,8 +22,8 @@ describe('the Lull reached from a life begun in debt', () => {
   it('installs beside the debt\'s purse in kite, and again in wren after it', async () => {
     const kite = await lull('kite');
     expect(purses(kite)).toEqual(['plull__purse_kind', 'purse_kind']);
-    expect(kite.campaign.within(() => Canon.items.plull__purse_kind?.value)).toBe(30);
-    expect(kite.campaign.within(() => Canon.items.purse_kind?.value)).toBe(0);
+    expect(kite.campaign.catalog.definition('plull__purse_kind')?.value).toBe(30);
+    expect(kite.campaign.catalog.definition('purse_kind')?.value).toBe(0);
     const wren = await lull('wren');
     expect(wren.campaign.installed).toContain('plull');
   }, 300000);

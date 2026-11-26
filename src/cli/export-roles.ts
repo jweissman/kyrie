@@ -42,7 +42,7 @@ export class ExportRoles {
     const kinds = await this.kinds(), vocabulary = CanonVocabulary.context();
     vocabulary.install(kinds);
     try {
-      return await ModuleBundle.load({ id, bundle: module }, { seed: 'exports', unbound: true, vocabulary },
+      return await ModuleBundle.load({ id, bundle: module }, { seed: 'exports', unbound: true, kinds, vocabulary },
         NodeBundleSource.shared);
     } catch (e) {
       return { error: (e instanceof Error ? e.message : String(e)).split('\n')[0]! };

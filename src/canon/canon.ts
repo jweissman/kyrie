@@ -209,7 +209,10 @@ export class Canon {
   // with the variant's declared fields laid over it. Cycles are errors.
   static creature(id: string, seen: string[] = []): Species {
     const named = this.resolve('species', id);
-    if (named.includes('/')) { return this.composed(named); }
+    if (named.includes('/')) {
+      const [base, ...ids] = named.split('/');
+      return this.vary(base!, this.creature(base!), ids);
+    }
     // Every body the one chassis makes, a creature's (with a module's own kinds, installed as it loads) or a
     // device's: the contract they share (qualities, hit points, a natural strike, powers, nature).
     const own = this.species[named] ?? this.devices[named];
@@ -223,7 +226,10 @@ export class Canon {
   // its own (a hare, a moth) has none, and lets the company be.
   static temperament(id: string): string | undefined {
     if (!this.isSpecies(id)) { return undefined; }
-    const s = this.creature(id), byType = monsters.temperaments as Record<string, string>;
+    return this.speciesTemperament(this.creature(id));
+  }
+  static speciesTemperament(s: Species): string | undefined {
+    const byType = monsters.temperaments as Record<string, string>;
     return s.temperament ?? (s.kind === 'monster' ? byType[s.type ?? ''] : undefined);
   }
   static isAncestry(id: string): boolean { return Object.hasOwn(this.ancestries, id); }
@@ -236,9 +242,9 @@ export class Canon {
   }
   static readonly variations = variations.variations as unknown as Record<string, Overlay>;
   // A base and its variations as one kind (see creature).
-  private static composed(id: string): Species {
-    const [base, ...ids] = id.split('/'), b = this.creature(base!), over = ids.map(v => this.variations[v]);
-    if (over.some(v => !v)) { throw new Error(`Unknown species ${id}`); }
+  static vary(base: string, b: Species, ids: string[]): Species {
+    const over = ids.map(v => this.variations[v]);
+    if (over.some(v => !v)) { throw new Error(`Unknown species ${[base, ...ids].join('/')}`); }
     const words = over.map(v => v!.word).filter(Boolean).join(' '), name = b.name.toLowerCase();
     const habitats = [...new Set([...b.habitats ?? [], ...over.flatMap(v => v!.habitats ?? [])])];
     const abundance = over.map(v => v!.abundance).find(a => a !== undefined) ?? b.abundance;
@@ -246,7 +252,7 @@ export class Canon {
     // it makes the kind another (the skeletal are undead).
     const temper = over.map(v => v!.temperament).find(Boolean), type = over.map(v => v!.type).find(Boolean);
     const said = over.map(v => v!.says).join(', and ');
-    return { ...b, ...Canon.stated(b, over as Overlay[]), name: words ? `${words.charAt(0).toUpperCase()}${words.slice(1)} ${name}` : b.name, variantOf: base!,
+    return { ...b, ...Canon.stated(b, over as Overlay[]), name: words ? `${words.charAt(0).toUpperCase()}${words.slice(1)} ${name}` : b.name, variantOf: base,
       variations: [...b.variations ?? [], ...ids], ...habitats.length ? { habitats } : {},
       ...abundance !== undefined ? { abundance } : {},
       ...temper && (!b.temperament || b.temperament === 'wary') ? { temperament: temper } : {},

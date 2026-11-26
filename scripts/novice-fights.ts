@@ -1,4 +1,4 @@
-import { ItemCatalog } from '../src/item-catalog';
+import type { ItemCatalog } from '../src/item-catalog';
 import { Battle } from '../src/battle';
 import { CreatureStore } from '../src/creature-store';
 import type { Creature } from '../src/creature';
@@ -8,7 +8,8 @@ import { DangerSense, type Danger, type Reckoning } from '../src/presentation/da
 // One band against one company, set up as the game sets up the fight (Campaign.encounterBattle): the place's laws,
 // weariness and readiness (Environment.encounter), and the moment a fight that came at the company gives it.
 export interface Setup {
-  seed: string; company: Creature[]; foes: Creature[]; lead: string; prisoners: boolean; moment?: Moment;
+  seed: string; catalog: ItemCatalog; company: Creature[]; foes: Creature[]; lead: string; prisoners: boolean;
+  moment?: Moment;
   place: { environment?: string; laws: string[]; weary?: string[]; ready?: string[] };
 }
 // What came of a band's trials: won (the band beaten or driven off), escaped (the company got away), died (beaten
@@ -54,7 +55,7 @@ export class NoviceFights {
   }
   static declined(n: number): Tally { return { ...this.empty(), trials: n, declined: n }; }
   static battle(setup: Setup, seed: string): Battle {
-    const store = new CreatureStore(ItemCatalog.canon, structuredClone([...setup.company, ...setup.foes]));
+    const store = new CreatureStore(setup.catalog, structuredClone([...setup.company, ...setup.foes]));
     return Battle.encounter(store, [...setup.company.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...setup.foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))],
     { seed, maxTurns: this.maxTurns, ...setup.place, ...setup.moment ? { moment: setup.moment } : {} });

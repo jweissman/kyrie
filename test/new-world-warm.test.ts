@@ -32,18 +32,37 @@ describe('a new world, warm', () => {
     const tag = `warm${Date.now() % 1000000}`;
     await Warm.start('a1');
     await Warm.start(`${tag}-x`);
+    const contexts = new Map<string, Parameters<typeof ModuleParser.chunkedWithin>[0]>(), get = ParseCache.get;
+    const looked = spyOn(ParseCache, 'get').mockImplementation((context, key) => {
+      const found = get.call(ParseCache, context, key);
+      if (!found) { contexts.set(key, context.fork()); }
+      return found;
+    });
     const kept = spyOn(ParseCache, 'set');
     const run = await Warm.start(`${tag}-y`);
-    const texts = kept.mock.calls.map(([, key]) => key.slice(key.indexOf('\u0000') + 1));
+    const texts = kept.mock.calls.map(([, key]) => {
+      const [, text, declared] = key.split('\u0000');
+      const context = contexts.get(key);
+      if (!context || text === undefined) { throw new Error('No context captured for a new parse'); }
+      return { context, text,
+        declared: declared ? JSON.parse(declared) as Parameters<typeof ModuleParser.chunkedWithin>[2] : [] };
+    });
     kept.mockRestore();
+    looked.mockRestore();
     console.log(`  a new world, warm: A ${run.a} ms, B ${run.b} ms, parse ${run.parse} ms of ${run.texts} new texts`);
     expect(run.texts).toBeGreaterThan(10);
     expect(run.a).toBeLessThan(Warm.budget.a);
     expect(run.b).toBeLessThan(Warm.budget.b);
     // Its new texts, each parsed a declaration at a time where it splits so, are what their whole parse makes.
-    const differ = texts.filter(t => { const split = ModuleParser.chunked(t);
-      return split && JSON.stringify(split) !== JSON.stringify(ModuleParser.whole(t)); });
+    const differ = texts.filter(({ context, text, declared }) => {
+      const split = ModuleParser.chunkedWithin(context.fork(), text, declared);
+      if (!split) { return false; }
+      const whole = ModuleParser.wholeWithin(context.fork(), text, declared);
+      return JSON.stringify(split) !== JSON.stringify(whole);
+    });
     expect(differ.length).toBe(0);
-    expect(texts.filter(t => ModuleParser.chunked(t)).length).toBeGreaterThan(texts.length / 2);
+    const splitCount = texts.filter(({ context, text, declared }) =>
+      ModuleParser.chunkedWithin(context.fork(), text, declared)).length;
+    expect(splitCount).toBeGreaterThan(texts.length / 2);
   }, 240000);
 });

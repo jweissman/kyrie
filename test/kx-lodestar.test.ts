@@ -5,7 +5,6 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { KyrLint } from '../src/cli/kyr-lint';
-import { Canon } from '../src/canon/canon';
 import type { BundleSource } from '../src/campaign/bundle-source';
 
 // The kx-1 authorability experiment (KX-01, doc/architecture/reviews/kyr-authorability-2026-11-19.md), its boundary
@@ -53,9 +52,9 @@ describe('kx-lodestar: a kind of thing of its own, generated, placed, used and r
   it('is read without error, and is a kind of the catalog while its campaign is played', async () => {
     const findings = await KyrLint.campaign(campaign, new NodeBundleSource());
     expect(findings.filter(f => f.level === 'error')).toEqual([]);
-    await Lodestar.start('a');
-    expect(Canon.items.lodestar_chip).toMatchObject({ category: 'gear', value: 6, name: 'a lodestar chip' });
-    expect(Canon.items.lodestar_chip?.source?.notes).toContain('lodestar');
+    const session = await Lodestar.start('a'), chip = session.campaign.catalog.definition('lodestar_chip');
+    expect(chip).toMatchObject({ category: 'gear', value: 6, name: 'a lodestar chip' });
+    expect(chip?.source?.notes).toContain('lodestar');
   }, 120000);
 
   it('lays three distinct chips by Deem, by the seed and the same again for the same seed', async () => {

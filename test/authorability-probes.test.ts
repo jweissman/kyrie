@@ -5,7 +5,6 @@ import { ModuleWriter } from '../src/lang/module-writer';
 import { Environment } from '../src/campaign/environment';
 import { ScreenModel } from '../src/ui/screen-model';
 import { ChoiceList, type Choice } from '../src/ui/choice-list';
-import { Canon } from '../src/canon/canon';
 import { KyrLint } from '../src/cli/kyr-lint';
 
 // What an independent author met writing The House That Grows (doc/adventures/house-that-grows/ledger.md, on the
@@ -40,9 +39,9 @@ class Probe {
 describe('Authorability probes', () => {
   it('K1: an adventure declares a kind of thing of its own, with its worth and weight', async () => {
     expect((await Probe.lint('local-kind/probe.campaign.json')).filter(f => f.level === 'error')).toEqual([]);
-    const s = await Probe.start('local-kind/probe.campaign.json');
-    expect(Canon.items.dreg_ox?.value).toBe(2);
-    expect([Canon.items.day_jar?.slot, Canon.items.day_jar?.grants?.skill]).toEqual(['book', 'sunlight']);
+    const s = await Probe.start('local-kind/probe.campaign.json'), jar = s.campaign.catalog.definition('day_jar');
+    expect(s.campaign.catalog.definition('dreg_ox')?.value).toBe(2);
+    expect([jar?.slot, jar?.grants?.skill]).toEqual(['book', 'sunlight']);
     expect(Probe.measure(s, 'mass', 'dreg_ox')).toBe(1);
     expect(ScreenModel.build(s.campaign).things.some(t => /little ox of dreg/.test(t.name))).toBe(true);
   }, 60000);
