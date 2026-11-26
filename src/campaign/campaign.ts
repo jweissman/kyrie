@@ -10,7 +10,8 @@ import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
-import { ModuleCompiler } from '../lang'; import { Shelter } from './shelter';
+import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler } from '../lang';
+import { Shelter } from './shelter';
 import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
@@ -388,7 +389,7 @@ export class Campaign implements WatchHost {
   // What an activity that can be interrupted brings (a search, its finds) comes, like a rest's recovery, when it has
   // run its course and was not interrupted, not before it is known whether it happened (see settle).
   private shelter(action: Operator, combat: CombatEvent[], success: boolean): boolean {
-    const name = action.resolve?.name, safe = Shelter.safe(this.world, action);
+    const safe = Shelter.safe(action, (r, s) => this.world.test(ModuleWriter.call(r, s))), name = action.resolve?.name;
     const due = safe && (Shelter.rest(action) || (success && !!action.interrupt && !!name && name !== 'combat'));
     if (due) { combat.push(...this.field(action)); this.refresh(); }
     return safe;
