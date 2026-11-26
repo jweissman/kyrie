@@ -459,7 +459,24 @@ errors: the long centipede's bite was 1d6 instead of 1d6-1, and the cellar rat's
 (minimum one). Both now carry signed damage through the fixed-strike path, with focused tests. The centipede is in
 the first town's drain; the cellar rat remains unplaced. The changed centipede encounter needs a fresh CI balance
 measurement. With the corrected variants, seven of 79 mapped creatures pass the stricter resolution fields; these
-grades still do not prove criticals, attack modes, senses or special qualities.
+were the counts before the drover's dog above. The grades still do not prove criticals, attack modes, senses or
+special qualities.
+
+**Every changed fixed-strike body and its authored placement:**
+
+| Body | Strike now represented | Placement and encounter |
+|---|---|---|
+| `ghoul/barrow` | Bite +2/+1; each claw +0/+0 (the old shared +2 no longer applies to claws). | Keeper of the vault in `data/generation/town/undertown.kyrt`, alone in each first town. |
+| `owlbear/fell` | Each claw +9/+5; bite +4/+2. | Tallow's scrub encounter and a1's arcology foot, both warned of and avoidable. |
+| `centipede/long` | Bite +2/-1 (`1d6-1`). | The warned, solitary old-drain encounter in each first town. |
+| `dog/drove` | Bite +2/+1. | The peaceable grey dog in `data/goings-on/drover/situation.kyr`; this is not a hostile encounter. |
+| `rat/cellar` | Bite +4/-4 (`1d3-4`, minimum 1). | Unplaced, so it changes no encounter. The placed corn-store buck is `rat/midden`, a different body, and was not changed by this strike audit. |
+
+**Balance acceptance still pending:** no same-seed thorn gold-follower walk has been captured on main and this branch,
+so the fight that ends main's walk and the branch's corresponding fight are unknown. Measures 8b and 1–4 have not been
+compared either. The required world/quantity run belongs in CI, but the available CI workflow does not run quantity;
+no band or baseline was changed to conceal the missing result.
+
 The character-sheet damage text now shows a signed fixed bonus and its minimum; its engine output is tested, but the
 required 1280/390 contact sheet has not been made or visually reviewed. Do not land that page change without it.
 
