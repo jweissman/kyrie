@@ -801,7 +801,7 @@
     "faithful": 723,
     "adapted": 425,
     "represented": 4,
-    "kyr": 635,
+    "kyr": 636,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -905,7 +905,7 @@
       "faithful": 242,
       "adapted": 84,
       "represented": 0,
-      "kyr": 118,
+      "kyr": 119,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -8342,6 +8342,13 @@
    "id": "item:scroll_of_fireball",
    "title": "Scroll of Fireball",
    "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:scroll_of_protection_from_evil",
+   "title": "Scroll of Protection from Evil",
+   "status": "kyr",
    "book": "phb",
    "section": "equipment/gear"
   },

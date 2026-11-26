@@ -4456,6 +4456,18 @@ Used: Fireball, at no cost.
 
 > A magical scroll that allows the caster to unleash a fiery explosion at a target location.
 
+#### Scroll of Protection from Evil
+
+*Kyr · consumable* · `item:scroll_of_protection_from_evil`
+
+- Worth: 25
+
+Used: Protection from Evil, at no cost.
+
+> A prayer written in a careful hand, to ward one creature against hostile magic and blows.
+
+*Adapted: A first-level divine scroll at caster level 1 (25 gp). It casts Kyr's Protection from Evil, whose documented adaptation wards against every foe and lasts ten rounds per casting level.*
+
 #### Wand of Cure Minor Wounds
 
 *Faithful · consumable* · `item:wand_of_cure_minor_wounds`
