@@ -9,6 +9,7 @@ import type { After } from './countries';
 import { SettlementWriter } from './settlement-writer';
 import { Provinces } from './provinces';
 import { RegionKey } from './region-key';
+import { ReferenceSettlement } from './reference-settlement';
 
 // The roads out of a region: from the settlement nearest each side, an old road to the edge of the region, marked
 // as the kingdom after the makers marked its bounds, or as the land itself is marked (a cairn on a pass, a beacon on
@@ -130,7 +131,10 @@ export class RegionBorders {
     const noticed = [...Object.values(region.beyond ?? {}), ...provinces].filter(n => n?.notice)
       .map(n => n!.name).sort();
     const first = noticed[RegionBorders.hash(RegionKey.of(region)) % Math.max(1, noticed.length)];
-    return beyond.name === first ? region.settlements : region.settlements.slice(1);
+    // Never in the reference game's settlement, which holds no list of errands (the owner's playtest, 25 November:
+    // "Read the Watch's notice from Ombra" led in the first town's inn, an errand in another country).
+    const towns = beyond.name === first ? region.settlements : region.settlements.slice(1);
+    return towns.filter(s => !ReferenceSettlement.is(region, s));
   }
   private static hash(text: string): number {
     let h = 2166136261;
