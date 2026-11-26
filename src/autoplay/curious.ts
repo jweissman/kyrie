@@ -13,8 +13,12 @@ export interface Reach {
   crowd: Map<string, number>; idle: number; steps: number;
   // The watch the company first met someone, and first had something to ask.
   firstMet?: string; firstAsked?: string;
-  // Why play stopped: the book closed, the steps ran out, or a choice could not be taken (and what it said).
+  // Why play stopped: the book closed, the steps ran out, nothing was left to do, or an error.
   ended?: string;
+  // An exception thrown by the engine as a choice it offered was taken, with the step and the choice: never how a
+  // walk ended, but a failure of whatever walked it (OR-723: a TypeError in the first watch's rules had read as an
+  // adventure that "ended" at its first step, its one topic never offered, and nothing failed).
+  error?: string;
   // What closed the book before its end, each time (a way that ends it unwarned, a fight that could not be won).
   closed: string[];
 }
@@ -48,7 +52,9 @@ export class Curious {
       if (!pick) { this.reach.ended = 'nothing to do'; break; }
       this.reach.steps++;
       try { await this.j.perform(pick.command, pick.label, pick.grave); } catch (e) {
-        this.reach.ended = `${pick.label}: ${(e as Error).message.slice(0, 160)}`; break;
+        const error = e instanceof Error ? `${e.name}: ${e.message}` : String(e);
+        this.reach.error = `step ${this.reach.steps}, ${pick.label}: ${error}`;
+        this.reach.ended = `error: ${this.reach.error}`; break;
       }
     }
     if (!this.reach.ended && !this.j.campaign.running) {

@@ -38,7 +38,8 @@ export class ReachTool {
     const avoid = new Set<string>();
     let j = await Journey.start(campaign, seed), curious = new Curious(j, avoid);
     const reach = await curious.play(steps), happened = new Happened().add(j);
-    for (let tries = 0; tries < 3 && curious.closer && !/^(wait|rest|sleep)/.test(curious.closer); tries++) {
+    for (let tries = 0; tries < 3 && !reach.error && curious.closer && !/^(wait|rest|sleep)/.test(curious.closer);
+      tries++) {
       avoid.add(curious.closer); reach.ended = undefined;
       j = await Journey.start(campaign, seed); curious = new Curious(j, avoid, reach);
       await curious.play(steps);
@@ -56,7 +57,7 @@ export class ReachTool {
       `topics ${this.ratio(r.topicsOffered, w.topics)}`, `acts ${this.ratio(r.actsOffered, w.acts)}`,
       `seen ${this.ratio(r.observed, w.observations)}`, `mute ${[...r.mute].filter(m => !r.spoken.has(m)).length}`,
       `sellers ${r.trade.size} wares ${wares.size}`, `idle ${r.idle}/${r.steps}`, r.closed.length ? `closed ${r.closed.length}x` : '',
-      r.ended === 'steps' ? '' : `(${r.ended?.slice(0, 60)})`].join('  ');
+      r.error ? `ERROR ${r.error}` : r.ended === 'steps' ? '' : `(${r.ended?.slice(0, 60)})`].join('  ');
   }
   // Who traded, each with what they sold (or only bought).
   private static traders(m: Map<string, string[]>): string {
@@ -64,6 +65,7 @@ export class ReachTool {
   }
   static detail(r: Reach, w: Written, print: (line: string) => void) {
     const short = this.short.bind(this), missing = this.missing.bind(this);
+    if (r.error) { print(`  ERROR: ${r.error}`); }
     print(`  ended: ${r.ended}`);
     for (const c of r.closed) { print(`  closed the book: ${c}`); }
     print(`  first met someone ${r.firstMet ?? 'never'}; first had something to ask ${r.firstAsked ?? 'never'}`);
@@ -83,16 +85,18 @@ export class ReachTool {
     if (!all && !campaign) { print(this.usage); return 1; }
     const campaigns = all ? (await readdir('data/campaigns')).filter(f => f.endsWith('.campaign.json'))
       .map(f => `data/campaigns/${f}`) : [campaign!];
+    let failed = 0;
     for (const c of campaigns) {
       try {
         const { reach, written, happened } = await this.run(c, seed, steps);
+        if (reach.error) { failed++; }
         print(this.line(c.replace(/^.*\/|\.campaign\.json$/g, ''), reach, written));
         if (!all || args.includes('--detail')) {
           this.detail(reach, written, print);
           for (const line of happened.lines()) { print(`  ${line}`); }
         }
-      } catch (e) { print(`! ${c}: ${(e as Error).message}`); }
+      } catch (e) { failed++; print(`! ${c}: ${(e as Error).message}`); }
     }
-    return 0;
+    return failed ? 1 : 0;
   }
 }

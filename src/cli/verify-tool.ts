@@ -165,8 +165,11 @@ export class VerifyTool {
     const by = ended.length ? `ended by ${ended.join(', ')}` : `ended: ${reach.ended ?? 'steps'}`;
     const others = never.endings.length ? `; ${never.endings.length} other ending${never.endings.length > 1 ? 's' : ''}`
       + ' want journeys of their own (reach is greedy: it takes the first way that ends it)' : '';
+    // An exception the engine threw is the walk failed, said first and failing verify; never how it ended.
+    if (reach.error) { print(`reach: ERROR, the walk failed at ${reach.error}`); }
     print(`reach: in ${reach.steps} steps of a curious player, ${said}; ${by}${others}`);
-    return { ran: { check: 'reach', held: true, said: `${said}; ${by}` }, unreached };
+    return { ran: { check: 'reach', held: !reach.error, said: reach.error ? `ERROR at ${reach.error}` : `${said}; ${by}` },
+      unreached };
   }
   // The four kinds of evidence, each as it is; then what no play answered; and whether it holds.
   private static summary(adventure: string, at: { ran: Ran[]; unreached?: Unreached; played?: string },

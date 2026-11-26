@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 594 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 595 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -663,7 +663,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 1 defects · 8 asks
+- **Incremental computation** · 5 pins · 1 defects · 9 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
@@ -676,6 +676,7 @@ page's colours and opportunities.)
   - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
   - requirement OR-521 P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a…
   - requirement OR-531 P2: What is still installed for the whole process after OR-520 (test/small/process-wide): SettingPort…
+  - requirement OR-720 P2: Projection.refresh, a candidate for the act's cost (AX-10): each actor's facts projected again…
   - direction MT-08 P3: Step 8 (D): qualitative placement constraints realized deterministically, coordinates kept where…
 - **Architecture and layers** · 0 pins · 8 defects · 26 asks
   - requirement AR-01 P2: R1: campaign orchestration in one class; explicit command phases; lifecycle assertions around…

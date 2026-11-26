@@ -20,9 +20,14 @@ export class RuleWakes {
   private readonly lines = new Map<number, Map<string, Map<number, Set<WorldRule>>>>();
   private readonly held = new Map<WorldRule, Held>();
   // A rule found idle on these names, at these stamps (World.stamped: the line first).
+  // One that reads nothing (an Ending when false) is idle for good: held, and filed under no name, so no line is kept
+  // for it alone (a line left empty by every other rule freed had been deleted under it, and freeing it then threw:
+  // the author's path's Wellspring, its first step's rules stopped by 'byName.size').
   hold(rule: WorldRule, names: readonly string[], stamped: readonly number[]) {
     this.free(rule);
     const line = stamped[0]!, held = { line, names, stamps: stamped.slice(1) };
+    this.held.set(rule, held);
+    if (!names.length) { return; }
     let byName = this.lines.get(line);
     if (!byName) { byName = new Map(); this.lines.set(line, byName); }
     for (const [i, name] of names.entries()) {
@@ -31,13 +36,13 @@ export class RuleWakes {
       const stamp = held.stamps[i]!, rules = byStamp.get(stamp);
       if (rules) { rules.add(rule); } else { byStamp.set(stamp, new Set([rule])); }
     }
-    this.held.set(rule, held);
   }
   // A rule no longer idle here: found to hold, or held idle elsewhere.
   free(rule: WorldRule) {
     const held = this.held.get(rule);
     if (!held) { return; }
     this.held.delete(rule);
+    if (!held.names.length) { return; }
     const byName = this.lines.get(held.line)!;
     for (const [i, name] of held.names.entries()) {
       const byStamp = byName.get(name)!, stamp = held.stamps[i]!, rules = byStamp.get(stamp)!;
