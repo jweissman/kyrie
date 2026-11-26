@@ -50,7 +50,8 @@ describe('a life before, and a caster\'s art', () => {
     expect(trade.cards.every(c => sailors.some(b => b.id === c.id))).toBe(true);
     expect(trade.cards.map(c => c.id)).toContain(trade.chosen!);
     flow.choose('trade', 'fisherman');
-    expect([flow.member.backgroundId, flow.current()]).toEqual(['fisherman', 'name']);
+    // The trade chosen, the perk is asked next, the last before the name (OR-153).
+    expect([flow.member.backgroundId, flow.current()]).toEqual(['fisherman', 'perk']);
     expect(flow.life()).toContain('Once a fisherman.');
   });
 

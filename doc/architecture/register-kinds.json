@@ -3042,6 +3042,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "the owner's direction of 26 November, kept whole, not commissioned"
+  },
+  "OR-1211": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ruling of 26 November: a committed requirement, unmet"
   }
  },
  "blockedBy": {

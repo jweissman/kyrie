@@ -4,7 +4,10 @@ import type { Choice } from '../ui/choice-list';
 // How an opportunity's aspects are drawn (amendment 6, C): the page's one table of them. Meaning is the engine's
 // (see Aspects); this is presentation only, and the only place a colour stands for an aspect. Gold is the aim the
 // player follows and nothing else; green what is to be gained; blue what is to be learned or looked into; red a danger
-// seen (a fight); violet the uncanny (the owner, 15 November: five colours and no more). Everything else (somewhere
+// seen (a fight); violet the mathematical (the owner, 26 November: a puzzle's answer the character has proved, which
+// is so guaranteed; a relic, device or inscription of the Mathematical Age, an ancient wonder to investigate for new
+// places, the meta-campaign, unusual abilities, other planes; blue's clues and machines hint at it) (the owner, 15
+// November: five colours and no more). Everything else (somewhere
 // worth a look, a way out, someone who could join the company, a clue about the age) is an icon and no colour. What has
 // none (a need, the way back, an ordinary control) is neutral. Every aspect has its word, so that colour is never the
 // only cue.

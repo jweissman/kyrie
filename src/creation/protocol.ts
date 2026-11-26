@@ -85,6 +85,9 @@ export interface Catalog {
   // magnitude, colour), the lines between them and the figure it is named for (an SVG path on a field of 100).
   // Its two gifts, both given with it (OR-89, OR-117): each by name, what it is in a sentence, and its rule in plain
   // words.
+  // The perks a life may begin with, one of each of the Atlas's five families (see CreationPerks), each as the
+  // reference says it.
+  perks: { id: string; name: string; line: string; family: string }[];
   signs: { id: string; name: string; month: string; line: string; stars: number[][]; lines: number[][];
     figure?: string; gifts: { id: string; name: string; text: string; does: string }[] }[];
   campaigns: CampaignChoice[];

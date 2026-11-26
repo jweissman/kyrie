@@ -53,6 +53,8 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   // The sign of Imbar's sky they were born under, chosen at creation (data/imbar/sky.json; see CreationFlow): every
   // gift of it is theirs, held as a trait (see SkyGifts). A `gift` chosen once, as a sign's gift was, is not read.
   sign?: string;
+  // The perk chosen at creation (see CreationPerks), held as a trait.
+  perk?: string;
   // A kind with Hit Dice has their listed average, unless its dice are rolled from its own seed (the SRD adaptation
   // briefing, §1: an optional rolled-monster mode, the same expression thrown).
   hitPoints?: 'listed' | 'rolled';
@@ -200,7 +202,7 @@ export class Content {
       if (context[key] !== undefined) { creature.base[key] = context[key]!; }
     }
     creature.traits = [...new Set([...chassis.traits, ...TraitGrants.choose(creature, context.traits, stream('traits')),
-      ...TraitGrants.formations(context.formations), ...SkyGifts.of(creature.sign)])];
+      ...TraitGrants.formations(context.formations), ...Content.borne(creature, context)])];
     const granted = TraitGrants.abilities(creature, { spells: context.spells, prepared: context.prepared }, stream('spells'));
     creature.base.abilities = [...new Set([...chassis.abilities, ...granted,
       ...context.abilities ?? []])].filter(a => Creation.executable(a));
@@ -239,6 +241,10 @@ export class Content {
     }
   }
   // Six rolls of three dice, one for each quality, as creation makes them: for the creation page to place.
+  // What a life is given of who it chose to be: its sign's gifts and its perk (see SkyGifts, CreationPerks).
+  private static borne(creature: Creature, context: CreatureGenerationContext): string[] {
+    return [...SkyGifts.of(creature.sign), ...context.perk ? [context.perk] : []];
+  }
   static rolls(seed: string): Record<Attribute, number> {
     const generated = new Content(RandomStreams.key(seed, 'attributes', 'protagonist')).generate('attributes');
     return Object.fromEntries(CreatureSchema.attributes.map(key => [key, Content.score(generated, key)])) as

@@ -5,6 +5,7 @@ import { CreationRules } from './creation-rules';
 import { Words } from '../presentation/words';
 import { CompanyChapters } from '../handbook/phb-company';
 import type { Catalog, Member, Setting } from './protocol';
+import { CreationPerks } from './creation-perks';
 import { CreationSpells, type SpellStepId } from './creation-spells';
 import { CreationEntries } from './creation-entries';
 
@@ -32,7 +33,7 @@ export interface CreationEntry {
 // a calling), as rows, as one dense list (the names of a people, creation's one exception to four in view), or as
 // rows over the sky they are signs of (the observatory).
 export type CreationPresent = 'cards' | 'rows' | 'list' | 'sky';
-export type CreationStepId = 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'trade'
+export type CreationStepId = 'you' | 'sign' | 'calling' | 'specialty' | 'before' | 'trade' | 'perk'
   | 'presenting' | 'name' | SpellStepId;
 // What may be chosen besides a step's card, behind Details (the page's own rules once: workflow-parity's first rows):
 // a trade by name within the kind of life; the weapon in hand; two qualities' rolls changed over ("a:b"); the rolls
@@ -97,6 +98,7 @@ export class CreationFlow {
     // Born under a sign until another is chosen: one of the sky's, drawn by the country and the name.
     const signs = catalog.signs, drawn = [...`${setting.title}${member.name ?? ''}`].reduce((n, ch) => n + ch.charCodeAt(0), 0);
     if (signs.length && !this.member.sign) { this.member.sign = signs[drawn % signs.length]!.id; }
+    if (catalog.perks?.length && !this.member.perk) { this.member.perk = CreationPerks.drawn(`${setting.title}${member.name ?? ''}`); }
     this.drawnSign = this.member.sign;
   }
   // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
@@ -192,6 +194,10 @@ export class CreationFlow {
           .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}`, ...k.life ? { say: k.life } : {},
             entry: CompanyChapters.kind(k.id) })) },
       ...this.trades(),
+      // A perk, the last thing chosen of who one is (OR-153): one of each of the Atlas's five families (CreationPerks).
+      ...c.perks?.length ? [{ id: 'perk' as const, ask: 'What sets you apart?', present: 'rows' as const, all: true as const,
+        chosen: m.perk, cards: c.perks.map(x => ({ id: x.id, name: x.name, line: x.line, say: x.line,
+          emblem: CreationPerks.emblems[x.id] ?? x.id })) }] : [],
       // The names of your people as one list, a hand of them at a time (creation's one dense menu: the owner, 17
       // November), another hand dealt on asking, and a field to write your own in.
       { id: 'name', ask: 'Choose your name', present: 'list', all: true, chosen: m.name, write: 'Or write your own',
@@ -301,6 +307,7 @@ export class CreationFlow {
       return;
     }
     if (step === 'sign') { m.sign = value; return; }
+    if (step === 'perk') { m.perk = value; return; }
     if (step === 'specialty') { m.traits = value ? [value] : []; delete m.spells; }
     else if (step === 'before') { m.backgroundId = this.trade(value) ?? m.backgroundId; this.past = true; this.dealt = 0; }
     else { this.change(step === 'you' ? 'raceId' : step === 'calling' ? 'classId' : 'pronouns', value); }

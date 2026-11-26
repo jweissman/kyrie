@@ -564,6 +564,78 @@
         "kyr": true,
         "notes": "A gift of the sky one is born under, given with the sign (OR-89, OR-117)."
       }
+    },
+    "far_seeing": {
+      "name": "Far-seeing",
+      "category": "perk",
+      "description": "Reads what is meant behind what is said, and what is coming: Insight, and a steadier will.",
+      "skills": [
+        "insight"
+      ],
+      "modifiers": {
+        "saves": {
+          "will": 1
+        }
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A perk chosen at creation, the gold: wisdom, insight, divination family of the Atlas's five (the owner, 26 November: perks organised by the Atlas's tones; OR-153). A first spike: each gives what a trait already carries (a skill, a modifier); the lens each will earn comes with compactification's earned surfaces."
+      }
+    },
+    "keen_eyed": {
+      "name": "Keen-eyed",
+      "category": "perk",
+      "description": "Has read and remembers, and sees what is out of its place: Lore.",
+      "skills": [
+        "lore"
+      ],
+      "modifiers": {},
+      "source": {
+        "kyr": true,
+        "notes": "A perk chosen at creation, the blue: perception, knowledge, lore family of the Atlas's five (the owner, 26 November: perks organised by the Atlas's tones; OR-153). A first spike: each gives what a trait already carries (a skill, a modifier); the lens each will earn comes with compactification's earned surfaces."
+      }
+    },
+    "tactician": {
+      "name": "Tactician",
+      "category": "perk",
+      "description": "Sees the shape of a fight before it begins: +2 initiative.",
+      "modifiers": {
+        "initiative": 2
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A perk chosen at creation, the red: tactics, logistics, strategy family of the Atlas's five (the owner, 26 November: perks organised by the Atlas's tones; OR-153). A first spike: each gives what a trait already carries (a skill, a modifier); the lens each will earn comes with compactification's earned surfaces."
+      }
+    },
+    "haggler": {
+      "name": "Haggler",
+      "category": "perk",
+      "description": "Knows what things are worth and how to talk a price down: Persuasion.",
+      "skills": [
+        "persuasion"
+      ],
+      "modifiers": {},
+      "source": {
+        "kyr": true,
+        "notes": "A perk chosen at creation, the green: trade, barter, economics family of the Atlas's five (the owner, 26 November: perks organised by the Atlas's tones; OR-153). A first spike: each gives what a trait already carries (a skill, a modifier); the lens each will earn comes with compactification's earned surfaces."
+      }
+    },
+    "mathematician": {
+      "name": "Mathematician",
+      "category": "perk",
+      "description": "Thinks a thing through to its proof, a puzzle of number or pattern worked rather than guessed: +1 intelligence, Lockwork.",
+      "skills": [
+        "lockwork"
+      ],
+      "modifiers": {
+        "attributes": {
+          "intelligence": 1
+        }
+      },
+      "source": {
+        "kyr": true,
+        "notes": "A perk chosen at creation, the violet family of the Atlas's five: the mathematical (the owner, 26 November: puzzles that want equations or computation, solved by proof and so guaranteed; the relics, devices and inscriptions of the Mathematical Age, each an ancient wonder to investigate; of intelligence more than wisdom, taking perception's deductions much further). A first spike: it gives what a trait already carries; the lens it earns comes with compactification's earned surfaces."
+      }
     }
   }
 }

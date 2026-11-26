@@ -14,6 +14,8 @@ import { ModuleBundle, type CampaignManifest } from '../../src/campaign/module-b
 import { Scenarios } from '../scenarios';
 import { Origins } from '../../src/world/origins';
 import type { Catalog, CompanyView, Member, Setting } from '../../src/creation/protocol';
+import { CreationPerks } from '../../src/creation/creation-perks';
+import { Traits } from '../../src/ports/traits';
 import { CreatureSchema } from '../../src/creature';
 import { CharacterSheets } from '../../src/presentation/character-sheet';
 import { Fighting } from '../../src/rules/fighting';
@@ -58,6 +60,8 @@ export class Creation {
         does: (k.skills ?? []).map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`).join(' ') })),
       presets: companies.map(c => ({ ...c, members: structuredClone(c.members) })),
       signs: sky.signs.map(s => ({ ...structuredClone(s), gifts: s.gifts.map(g => Creation.skyGift(g)) })),
+      perks: CreationPerks.offered.map(([id, family]) => ({ id, name: Traits.of(id)?.name ?? id,
+        line: Traits.of(id)?.description ?? '', family })),
       campaigns: [...Scenarios.list.map(s => ({ id: s.manifest, title: s.title, note: s.note, detail: s.detail,
         seed: s.seed, ...s.recommended ? { recommended: true } : {} })),
       { id: this.generated, title: 'A generated region', seed: 'thorn',

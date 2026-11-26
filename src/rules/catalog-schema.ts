@@ -54,7 +54,7 @@ export interface Condition {
 }
 // sign: a gift of the sky one is born under, given with the sign (see SkyGifts).
 export type TraitCategory = 'lineage' | 'nature' | 'affinity' | 'character' | 'feat' | 'party' | 'specialization' | 'calling'
-  | 'sign';
+  | 'sign' | 'perk';
 // What happens when something occurs to a perk's holder: Orsino's onKill, onLevelUp and onOffensiveCasting.
 export interface Triggers {
   onKill?: { gold?: string; experience?: string; status?: string }[];

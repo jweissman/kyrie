@@ -40,7 +40,7 @@ describe('the gifts of the sky', () => {
     expect(bear.entry!.rules[0]).toBe('Unturned: +2 against fear, +1 against charms. Skilled in brawn.');
     flow.choose('sign', 'sign_bear');
     expect([flow.current(), flow.steps().map(x => x.id)]).toEqual(['calling', ['you', 'presenting', 'sign', 'calling',
-      'before', 'name']]);
+      'before', 'perk', 'name']]);
     expect(Object.hasOwn(flow.member, 'gift')).toBe(false);
   });
 

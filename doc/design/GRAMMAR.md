@@ -82,6 +82,11 @@ one narrative.
 - **One indicator, one colour** (TP-02; the colour atlas, 15 November). An act's mark, a likeness's pip, the place's
   mark and the rail's pips take the act's chief aspect by one precedence: gold, red, green, blue, violet. Silver and
   rose are retired: exploration and companionship are icons, never a colour (TP-03). The rest is said in hidden words.
+- **Violet is the mathematical** (the owner, 26 November). A puzzle shows violet when the character has proved its
+  answer: worked by equation or computation, of intelligence more than wisdom, and so guaranteed correct. A relic,
+  device, gadget or inscription of the Mathematical Age is violet because it holds an ancient wonder to investigate,
+  which opens new places, the meta-campaign, unusual abilities, or the way between planes. Blue investigates clues and
+  machines for new knowledge, and its findings hint at the violet path.
 
 ## Choosing
 
