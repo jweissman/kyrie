@@ -126,6 +126,7 @@ export class MechanicsText {
   }
   // Conditions a damage type sets off on whoever it hurts (Orsino's status triggers): fire may set a creature burning.
   static triggered(e: Effect): [string, (typeof Content.statuses)[string]][] {
+    if (e.triggers === false) { return []; }
     const type = e.kind === 'damage' || e.kind === 'drain' ? e.damageType : undefined;
     return type ? Object.entries(Content.statuses)
       .filter(([id, c]) => c.trigger === type && Canon.resolve('conditions', id) === id) : [];

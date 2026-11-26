@@ -2,9 +2,39 @@
 
 ## Playable reach and social magic: 26 November
 
-**The catalog is ahead of the game.** The 404 creature routines and twenty spell recipes below are spec-only
-prototypes, not installed encounters or learned spells. We have not made an installed-encounter census or measured
-their effect on the world. Counting them as playable migrations would be misleading.
+**The catalog is ahead of the game.** The 404 creature routines and cure/inflict recipes below are spec-only
+prototypes, not installed encounters or learned spells. Ray of Frost was already playable; Acid Splash has since
+been installed as described below. We have not made an installed-encounter census or measured the prototypes' effect
+on the world. Counting them as playable migrations would be misleading.
+
+### Two playable cantrips
+
+Acid Splash and Disrupt Undead are now catalog spells, not prototype adapters. An ordinary conjurer or necromancer
+respectively learns them at creation; the placed black-candle mage in the laboratory generated from the first-town
+template knows both, because generated enemy mages receive all arcane cantrips. The laboratory's ossuary also contains
+a ghoul: the Disrupt Undead spec constructs a fight from that generated ghoul and an ordinary necromancer, and casts at
+it. This is not a full journey to the ossuary or evidence of encounter balance.
+
+The smallest engine lift was adding `untyped` damage: unlike `true`, it does not bypass all defenses, and unlike
+`radiant`, it does not double against Kyr's undead. The spell has no separate positive-energy tag, can target only
+enemy undead, and Kyr's general damage reduction can still affect nonphysical damage. Both rays omit the SRD's close
+range and use Kyr's unlimited cantrips. Acid Splash does not allow spell resistance; Disrupt Undead does. Their
+resistance, target and damage behavior are exercised through the real combat engine. A related text fix stops the
+handbook and ability details from claiming an acid burn when an effect disables damage triggers.
+
+The arcane cantrip pool changed from 10 to 12. Conjurers gained Acid Splash; necromancers gained Disrupt Undead;
+generalists and generated enemy mages gained both. In the one recorded level-one hostile-conjurer sample the leveled
+pick remained Summon Vermin; this is not a world-wide caster census. The fidelity census now counts 121 mapped spell
+rows, 46 structural passes, 39 resolution passes and 38 identity proofs. Those are selected-field grades, not a claim
+that these two spells or the overall catalog are fully SRD-exact.
+
+One next candidate is Daze: one humanoid of at most 4 Hit Dice loses one round on a failed Will save, with spell
+resistance. `HitDicePool` supplies a single-target limit, and conditions placed by another actor wait for their
+holder's turn before counting down. Prove both initiative orders, resistance, save and limit; merely assigning
+`stun` adds its unwanted roll penalty. The SRD gives it to both bards and wizards, so also prove actual bard access,
+not just the shared arcane label. The source also marks it mind-affecting, but the live ability schema does not carry
+that descriptor: establish how eligible humanoids immune to mind-affecting magic resist it. This candidate has not yet
+been implemented; it is not evidence that further spells are blocked.
 
 ### SRD source extraction corrections
 
@@ -18,7 +48,7 @@ alternative routine or attack mode is extracted.
 
 ### Vertical pass: spell levels and Hit Dice
 
-The local source has **605 spell records**: 119 distinct records have direct mappings and 486 do not. Across the six
+The local source has **605 spell records**: 121 distinct records have direct mappings and 484 do not. Across the six
 base class lists Sor/Wiz, Clr, Drd, Brd, Pal and Rgr, **104 records have different levels on different class lists**;
 including domains, 115 do. One `tradition` and one `level` cannot express these lists. For example, Protection from
 Energy is a ranger level 2 spell and a cleric level 3 spell. The smallest general boundary is per-calling (and,
@@ -28,9 +58,9 @@ rest. Do not copy a source level into the shared field when it would give a diff
 
 The census used to borrow the lowest level from an unrelated class or domain if its comparison list was absent.
 It now compares arcane with Sor/Wiz and divine with Clr, the current spell-selection callings; a missing list is a
-mismatch, not a borrowed level or DC. Of 119 mapped rows, **51 levels are exact, 67 differ and one is an explicitly
+mismatch, not a borrowed level or DC. Of 121 mapped rows, **53 levels are exact, 67 differ and one is an explicitly
 named conversion**; 19 of the differences are absent from the comparison list entirely. The census now reports
-44 structural passes, 37 resolution passes and 36 identity proofs. This is a more honest measurement, not a
+46 structural passes, 39 resolution passes and 38 identity proofs. This is a more honest measurement, not a
 regression in spells. It still does not assess bard, druid, ranger, paladin or domain access.
 The 19 missing-list rows are `augury`, `barkskin`, `cloudkill`, `confuse`, `death`, `domination`, `earthquake`,
 `entangle`, `fire_storm`, `glyph_of_warding`, `goodberry`, `hold_animal`, `holy_wrath`, `life_drain`, `nightmare`,

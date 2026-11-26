@@ -6,14 +6,14 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 |---|---|
 | Ancestries, callings, backgrounds and formations | 51 faithful, 250 adapted, 415 kyr, 5 not playable, 4 unreachable, 11 orsino data only |
 | Character creation | 15 faithful, 27 adapted, 1 kyr |
-| Progression, feats and high levels | 210 faithful, 49 adapted, 5 kyr, 33 not playable |
+| Progression, feats and high levels | 210 faithful, 49 adapted, 7 kyr, 33 not playable |
 | Action timing, reactions, conditions, costs and targeting | 173 faithful, 35 adapted, 63 kyr, 21 not playable |
-| Spells: traditions, slots, durations and unusual magic | 207 faithful, 45 adapted, 5 kyr, 30 not playable |
+| Spells: traditions, slots, durations and unusual magic | 207 faithful, 45 adapted, 7 kyr, 30 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 37 faithful, 6 adapted, 7 represented, 12 not playable |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 74 kyr, 4 not playable, 104 orsino data only |
 | Equipment, treasure and magic items | 345 faithful, 116 adapted, 9 represented, 118 kyr, 7 not playable, 6 orsino data only |
 | Environment, world and planar rules | 3 adapted, 7 represented, 302 kyr, 180 orsino data only |
-| Content authoring and generation | 45 kyr |
+| Content authoring and generation | 46 kyr |
 
 ## Ancestries, callings, backgrounds and formations
 
@@ -57,7 +57,7 @@ Handbook sections: `phb:callings`, `phb:ancestries`.
 
 ## Progression, feats and high levels
 
-Entries: 210 faithful, 49 adapted, 5 kyr, 33 not playable.
+Entries: 210 faithful, 49 adapted, 7 kyr, 33 not playable.
 
 **What Orsino defines.** Experience to any level (50L³ + 150L² + 300L − 600), a quality point a level, a new spell for specialists, feats at 5, 10 and 15, an epic note at 20; spell levels to 9 as caster level rises.
 
@@ -97,7 +97,7 @@ Handbook sections: `phb:combat`, `phb:conditions`, `phb:techniques`.
 
 ## Spells: traditions, slots, durations and unusual magic
 
-Entries: 207 faithful, 45 adapted, 5 kyr, 30 not playable.
+Entries: 207 faithful, 45 adapted, 7 kyr, 30 not playable.
 
 **What Orsino defines.** 131 arcane and 154 divine spells across levels 0 to 9, schools and domains, slot tables, spell saves and durations, and spells that summon, cast other spells, choose an effect at random, resurrect, kill outright or shift planes.
 
@@ -197,7 +197,7 @@ Handbook sections: `dmg:world-rules`, `dmg:orsino-world/orsino-plane`, `dmg:orsi
 
 ## Content authoring and generation
 
-Entries: 45 kyr.
+Entries: 46 kyr.
 
 **What Orsino defines.** Deem tables and templates generate creatures, dungeons, rooms, settlements, shops and treasure; the books are generated from the same tables.
 

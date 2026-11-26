@@ -801,7 +801,7 @@
     "faithful": 723,
     "adapted": 425,
     "represented": 4,
-    "kyr": 633,
+    "kyr": 635,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -931,7 +931,7 @@
       "faithful": 207,
       "adapted": 45,
       "represented": 0,
-      "kyr": 5,
+      "kyr": 7,
       "unsupported": 30,
       "unreachable": 0,
       "data-only": 0
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 348,
+    "kyr": 349,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 40,
+      "kyr": 41,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -9550,6 +9550,13 @@
    "section": "equipment/stones"
   },
   {
+   "id": "ability:acid_splash",
+   "title": "Acid Splash",
+   "status": "kyr",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-0"
+  },
+  {
    "id": "ability:animate_animal",
    "title": "Animate Animal",
    "status": "faithful",
@@ -9567,6 +9574,13 @@
    "id": "ability:dancing_lights",
    "title": "Dancing Lights",
    "status": "faithful",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-0"
+  },
+  {
+   "id": "ability:disrupt_undead",
+   "title": "Disrupt Undead",
+   "status": "kyr",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-0"
   },
@@ -16368,6 +16382,13 @@
    "section": "world-rules/rules-services"
   },
   {
+   "id": "kit:tinker",
+   "title": "A tinker at work",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
    "id": "kit:bounty",
    "title": "A price on a power",
    "status": "kyr",
@@ -16389,13 +16410,6 @@
    "section": "making-worlds/kits"
   },
   {
-   "id": "kit:tinker",
-   "title": "A tinker at work",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
    "id": "framework:frontier",
    "title": "Frontier",
    "status": "kyr",
@@ -16405,6 +16419,13 @@
   {
    "id": "campaign:a-winter-in-carth",
    "title": "A Winter in Carth",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:cleave",
+   "title": "The Cradle Across the Cleave",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"
