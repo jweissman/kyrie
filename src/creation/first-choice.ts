@@ -40,10 +40,13 @@ export class FirstChoice {
   // New Game's question: how the life begins; where a country is kept, in which world (World: the one kept here, or a
   // new one, the kept let go as the new life sets out); and Back to the title.
   static step(where: Where = {}): FirstStep {
-    const world: FirstStep['cards'] = !where.kept ? [] : [{ id: 'world', name: 'World',
-      aside: where.fresh ? 'A new one' : 'The one kept here',
-      say: where.fresh ? 'A new country: the world kept here is let go as the new life sets out.'
-        : 'The country of the game kept here, as it now stands.' }];
+    // Said plainly (the owner, 26 November: "Will clicking the button lose the world? Create a new one? Who knows"):
+    // the row only turns which map the new life is drawn on; one game is kept, and it is replaced only as the new life
+    // sets out, whichever map. The same map is the kept game's seed drawn afresh, not its world as played.
+    const world: FirstStep['cards'] = !where.kept ? [] : [{ id: 'world', name: 'Map',
+      aside: where.fresh ? 'A new map' : 'Your saved game\'s',
+      say: (where.fresh ? 'A country never seen before.' : 'The same country as your saved game, drawn fresh.')
+        + ' Your saved game is replaced only once the new life sets out.' }];
     return { id: 'begin', ask: 'How will you begin?', present: 'rows', all: true, chosen: 'build', cards: [
       { id: 'build', name: 'Create a character', line: 'Choose who you are, step by step.',
         say: 'Your people, your calling, the stars you were born under and what you did before.' },

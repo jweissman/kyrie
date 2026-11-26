@@ -190,9 +190,9 @@ describe('a new game, set out on at once', () => {
       page.press('begin');
       expect(page.mode()).toBe('begin');
       expect(page.actions()).toEqual(['build', 'set-out-now', 'world', 'back']);
-      expect(page.html()).toContain('The one kept here');
+      expect(page.html()).toContain('Your saved game');
       page.press('world');
-      expect(page.html()).toContain('A new one');
+      expect(page.html()).toContain('A new map');
       const seeds = await page.aheads(2);
       expect(seeds[0]).toBe('bakelo');
       expect(seeds[1]).not.toBe('bakelo');

@@ -36,8 +36,8 @@ describe('Interface › Ways in', () => {
   it('then asks one thing: create a character, or a new life at once; where a world is kept, which', () => {
     expect(FirstChoice.step().cards.map(c => c.id)).toEqual(['build', 'set-out-now', 'back']);
     const kept = FirstChoice.step({ kept: 'bakelo' }).cards.find(c => c.id === 'world');
-    expect([kept?.name, kept?.aside]).toEqual(['World', 'The one kept here']);
-    expect(FirstChoice.step({ kept: 'bakelo', fresh: true }).cards.find(c => c.id === 'world')?.aside).toBe('A new one');
+    expect([kept?.name, kept?.aside]).toEqual(['Map', "Your saved game's"]);
+    expect(FirstChoice.step({ kept: 'bakelo', fresh: true }).cards.find(c => c.id === 'world')?.aside).toBe('A new map');
   });
   it('pauses a game with two ways: back to it, or Return to title', () => {
     expect(FirstChoice.paused().cards.map(c => c.name)).toEqual(['Back to the game', 'Return to title']);
