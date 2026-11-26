@@ -169,12 +169,13 @@ conditions and origin to that lowering. Combat effects currently operate on figh
 not implement world effects, choose their rules, or prove that text matches execution. Land those as the independent
 OR-1098–1106 proof slices.
 
-**Form and identity (OR-1205).** Provisionally, bind an enduring character identity separately from the form and
-its currently available capabilities; a form change writes the form relationship, not a replacement character.
-Reads and writes must say which is addressed, and a transformation's source and reversal retain provenance. The
-requested `doc/design/direction-2026-11-26-transformations.md` and OR-1205 are absent from the fetched main at
-`665ab4ebbf56dc274d3c881c1cabd331c44bedec`; their policy cannot be inferred here. Review this part against that
-direction before commissioning it.
+**Form and identity (OR-1205).** Bind an enduring identity separately from its form and currently available
+capabilities, following [the transformation direction](../design/direction-2026-11-26-transformations.md), §2.
+A polymorph keeps identity and changes form; a disguise changes observers' beliefs about form; a clone has a new
+identity and copied form; a hologram presents a form without a substantive entity. References and writes must
+distinguish those targets, and preserve transformation and reversal provenance. The kernel binds the distinction,
+not an ontology of forms: installed domains supply their kinds, capacities and transformation rules. The binder
+does not itself implement these effects or make a shown form into a world entity.
 
 **Typed vocabulary (slice 6, OR-744).** Generate typed relation, measure and kind accessors from the installed
 declarations' identities and signatures. The kernel owns generic binding, types and query mechanics; each installed
