@@ -7,8 +7,9 @@ import { Carriers } from '../src/ui/carriers';
 import { Runner, type Said } from '../src/cli/runner';
 
 // The general store at Porthalen (cold play 4, CL-50): its wares had been folded under Marjory Ashby's talk, so that
-// only its haggling showed; every ware was "for Carlin", a hireling carrying a third of what she could, once the one
-// who plays had come up out of a barrow with a few things more; and it had not said where food is to be had.
+// only its haggling showed (they are hers, within her talk, since OR-801, and all of them are there); every ware was
+// "for Carlin", a hireling carrying a third of what she could, once the one who plays had come up out of a barrow
+// with a few things more; and it had not said where food is to be had.
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 const act = (id: string) => JSON.stringify({ act: id });
 
@@ -20,7 +21,13 @@ describe('the general store at Porthalen', () => {
     const store = said(await r.ask(act('go(region__s1_general_door,region__s1_general)')));
     // That food is not bought here, naming no tradesman a town may lack (a drawn town's descriptions, test/named-held).
     expect(store.scene.lines.join(' ')).toContain('Meal and lamp-oil are not sold here.');
-    const buys = [...store.offer.primary, ...store.offer.rest].filter(o => RunnerOffer.act(o).startsWith('buy_item('));
+    // Its wares are Marjory Ashby's, bought within her talk (OR-801: a trader's wares are the trader's), all of them
+    // there and not its haggling alone.
+    const talk = [...store.offer.primary, ...store.offer.rest].find(o => o.id === 'region__s1_general_keeper#talk')!;
+    expect(talk).toBeDefined();
+    const within = said(await r.ask(act(talk.id)));
+    const buys = [...within.offer.primary, ...within.offer.rest]
+      .filter(o => RunnerOffer.act(o).startsWith('buy_item('));
     expect(buys.map(o => o.label)).toContainEqual(expect.stringMatching(/^Buy a backpack/));
     for (const line of ['go(region__s1_general_door,region__s1_green)', 'go(region__s1_inn_door,region__s1_taproom)',
       'region__s1_traveller_brings', 'recruit(region__s1_traveller)']) { said(await r.ask(act(line))); }
