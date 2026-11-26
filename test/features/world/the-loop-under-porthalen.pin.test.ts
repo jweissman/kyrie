@@ -73,7 +73,11 @@ class Walk {
     for (const step of steps) {
       const row = step === 'through' ? undefined : this.row(step.slice(1));
       if (step !== 'through') { expect([step, row?.label]).toEqual([step, expect.any(String)]); }
-      const said = await AsMeant.ask(this.r, JSON.stringify({ act: row?.id ?? RunnerFight.through }));
+      let said = await AsMeant.ask(this.r, JSON.stringify({ act: row?.id ?? RunnerFight.through }));
+      // Pressed on, the fight is handed back at each new danger (PressOn, OR-830), and pressed on again past it.
+      for (let i = 0; i < 40 && step === 'through' && !('error' in said) && said.moment === 'fight'; i++) {
+        said = await AsMeant.ask(this.r, JSON.stringify({ act: RunnerFight.through }));
+      }
       expect([step, 'error' in said ? said.error : '']).toEqual([step, '']);
       this.s = said as Said;
       // At every turn: something to do, unless the company is dead.

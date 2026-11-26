@@ -69,7 +69,7 @@ export class PressOn {
       if (!meant || !ability) { continue; }
       const harm = PressOn.worst(foe, ability);
       for (const f of PressOn.reached(ability, meant.target, ours)) {
-        const was = out.get(f.id), heavier = harm > (was?.heaviest ?? 0);
+        const was = out.get(f.id), heavier = !was || harm > was.heaviest;
         out.set(f.id, { harm: (was?.harm ?? 0) + harm, heaviest: heavier ? harm : was!.heaviest,
           by: heavier ? foe.id : was!.by });
       }
