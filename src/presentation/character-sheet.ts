@@ -140,11 +140,13 @@ export class CharacterSheets {
     const f = CombatProjection.fighter(catalog, c, 'fighters'), combatant = Effects.combatant(f), weapon = combatant.weapon;
     const missile = weapon.missile === true, stat = missile ? combatant.dexterity : combatant.strength;
     const toHit = Fighting.toHit(combatant);
-    const bonus = Math.max(0, Fighting.statMod(stat));
+    const bonus = weapon.damageBonus ?? (weapon.lesser ? 0 : Math.max(0, Fighting.statMod(stat)));
     const unarmoured = Fighting.thac0(f.level) - 10 - toHit, ac = Fighting.armorClass(combatant);
     const worn = (c.state.inventory ?? []).find(i => i.equipped && catalog.find(i.definition)?.armor);
     return [
-      { label: 'Strikes with', value: `${weapon.name.toLowerCase()}: ${weapon.damage}${bonus ? ` + ${bonus}` : ''} ${weapon.type}` },
+      { label: 'Strikes with', value: `${weapon.name.toLowerCase()}: ${weapon.damage}`
+        + `${bonus > 0 ? ` + ${bonus}` : bonus < 0 ? ` - ${-bonus}` : ''} ${weapon.type}`
+        + `${weapon.damageBonus !== undefined && bonus < 0 ? ' (minimum 1)' : ''}` },
       { label: 'To land a blow', value: `${Math.max(2, unarmoured)} or more on the die against someone unarmoured` },
       { label: 'Armour', value: worn ? catalog.get(worn.definition).name : 'none' },
       { label: 'To be struck', value: `a common foe needs ${Math.min(20, Math.max(2, Fighting.thac0(1) - ac))} or more` },

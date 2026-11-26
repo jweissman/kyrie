@@ -885,7 +885,8 @@ its Strength and saved by its scores and level. Now, by the breed alone (data/ca
   15 alone, so it wears nothing).
 
 **Update, 26 November:** the bite is at +2 for 1d6+1 and both secondary claws at +0 for 1d3; their paralysis riders
-remain. Kyr's critical policy remains an adaptation. The census does not compare the secondary attack bonuses.
+remain. Kyr's critical policy remains an adaptation. The census now compares each strike's hit chance and
+noncritical weapon damage.
 **Omitted:** ghoul fever (a disease by days the engine has no clock for: its play identity stays unassessed),
 turn resistance, elves' immunity. The census grades it S✓ R✓ I–; with the rat, two of 71 creatures now pass in
 resolution, and one of a1's 88 placed groups is SRD-faithful (1 % of the six countries' meetings).
@@ -2103,7 +2104,7 @@ young owlbear is a module's own kind (the circus menagerie).
 - saves of +9, +5 and +2 (exact);
 - AC 15 as Westernesse 6 (converted: natural 2 and Dexterity 1).
 
-It goes without Orsino's five powers and the wild aspect, which had added +2 to hit, +1 to every roll, evasion, bonus damage and a tenth off all harm. **Update, 26 November:** its two claws are at +9 for 1d6+5 and its bite at +4 for 1d8+2, carried as individual fixed strike bonuses into combat. Kyr's criticals remain different. **Omitted:** improved grab, scent. The census grades it S✓ R✓ I–, but compares only the first attack's hit chance and the damage dice, not each strike's bonuses.
+It goes without Orsino's five powers and the wild aspect, which had added +2 to hit, +1 to every roll, evasion, bonus damage and a tenth off all harm. **Update, 26 November:** its two claws are at +9 for 1d6+5 and its bite at +4 for 1d8+2, carried as individual fixed strike bonuses into combat. Kyr's criticals remain different. **Omitted:** improved grab, scent. The census grades it S✓ R✓ I–, comparing each strike's hit chance and noncritical weapon damage, not criticals or all special qualities.
 
 **Its challenge before the strike update**, measured (bin/kyrie bestiary challenge, test/srd-challenge): **8.** A lone warrior needed the eighth level to beat it; it is the SRD's challenge 4 for a company of four. Orsino's owlbear measured 1 at its first level and 6 at its fifth. These measurements predate the weaker secondary bite and must be repeated in CI.
 

@@ -14,9 +14,9 @@ import type { Creature } from '../src/creature';
 import type { Fighter } from '../src/model';
 
 // The long centipede by the SRD Medium monstrous centipede's numbers (mission-22/srd-proving-cases.md, case 63): a
-// breed of Orsino's centipede, the old drain's under the first town. Four hit points at any rank; a bite of 1d6 at the
-// SRD's +2; AC 14 as Westernesse 7; saves of +2, +2 and +0; its poison a save against 10 or 1d3 off Dexterity (Numbed,
-// a day on the world's clock), and a watch later a second save or 1d3 more, which accrues.
+// breed of Orsino's centipede, the old drain's under the first town. Four hit points at any rank; a bite of 1d6-1
+// at the SRD's +2; AC 14 as Westernesse 7; saves of +2, +2 and +0; its poison a save against 10 or 1d3 off Dexterity
+// (Numbed, a day on the world's clock), and a watch later a second save or 1d3 more, which accrues.
 const c = new Content('long-centipede');
 const kinds = ['fortitude', 'reflex', 'will'];
 const sheet = (k: Creature) => {
@@ -49,6 +49,11 @@ describe('the long centipede by the SRD\'s numbers', () => {
     expect(ranks[2]).toEqual(ranks[0]!);
     expect(ranks[0]).toMatchObject({ hp: 4, armour: 7, blow: '1d6', saves: [2, 2, 0] });
     expect(ranks[0]!.abilities).not.toContain('venomous_bite');
+  });
+  it('bites for 1d6-1 with a minimum of one', () => {
+    const centipede = Effects.combatant(c.creature('centipede/long', 'k', 'goblins', 2));
+    expect(centipede.weapon.damageBonus).toBe(-1);
+    expect([1, 2, 6].map(rolled => Fighting.weaponDamage(centipede, rolled, false).amount)).toEqual([1, 1, 5]);
   });
   it('lays its venom where its bite lands: Numbed unless saved, and the venom working on, both on the world\'s clock', () => {
     const struck = 'abcdefgh'.split('').map(bite).filter((w): w is Fighter => !!w);
