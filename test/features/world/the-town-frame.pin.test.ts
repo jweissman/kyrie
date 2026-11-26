@@ -49,12 +49,14 @@ describe('the first town\'s frame', () => {
   it('under the churchyard, the sexton\'s selling and the bone-pickers, laid by putting back what was taken',
     async () => {
       const walk = await Walk.begun('bench-1');
-      await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', 'about the bones in the churchyard',
+      await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', ': the bones in the churchyard$',
         '^To the market-place', '^To the churchyard', 'Job Dunstall', '^Down to the crypt', 'light a torch', 'ossuary']);
       // The stripped shelves are seen before the sexton will say what he did.
       expect(walk.holds('knows', 'party', 'region__s1_u_pickers_why')).toBe(true);
-      await walk.play(['^To the crypt', 'churchyard', 'who opened the old shelves', 'crypt', 'ossuary',
-        '^Put the grave-goods back']);
+      // His talk is led for who opened the old shelves in the ossuary, asked whole (OR-802: too long for its row).
+      await walk.play(['^To the crypt', 'churchyard', '^Talk to Job Dunstall$']);
+      expect(walk.holds('knows', 'party', 'region__s1_u_sexton_sold')).toBe(true);
+      await walk.play(['crypt', 'ossuary', '^Put the grave-goods back']);
       expect(walk.holds('region__s1_u_done', 'region__s1_u_pickers_job')).toBe(true);
       expect(walk.s.scene.lines.join(' ')).toMatch(/150 experience/);
       // Their young are gone from the charnel passage with them, and the way down to the undercroft is open.
@@ -64,15 +66,15 @@ describe('the first town\'s frame', () => {
     }, 300000);
   it('talks at the inn of the sexton found out, once the bone-pickers are laid by what he gave back', async () => {
     const walk = await Walk.begun('bench-1');
-    await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', 'about the bones in the churchyard',
+    await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', ': the bones in the churchyard$',
       '^To the market-place', '^To the churchyard', '^Down to the crypt', 'light a torch', 'ossuary', '^To the crypt',
-      'churchyard', 'who opened the old shelves', 'crypt', 'ossuary', '^Put the grave-goods back', '^To the crypt',
+      'churchyard', '^Talk to Job Dunstall$', 'crypt', 'ossuary', '^Put the grave-goods back', '^To the crypt',
       'churchyard', '^To the market-place', '^Into the Gentle Eagle']);
     expect(walk.s.scene.lines.join(' ')).toMatch(/Job Dunstall was in last night,. says/);
   }, 300000);
   it('in the quarry, the she-bear\'s den and her wolves, a real fight, and the house pays', async () => {
     const walk = await Walk.begun('bench-2');
-    await walk.play(['^To the landing', '^Read the notice', '^Into the Fierce Dragon', 'about the old quarry', 'landing|Out',
+    await walk.play(['^To the landing', '^Read the notice', '^Into the Fierce Dragon', ': the old quarry$', 'landing|Out',
       'old quarry pit', '^Down to the quarry adit$', 'light a torch', 'cut gallery|old cutting', '^Attack the wol', 'through',
       '^To the den', '^Attack the she-bear', 'through']);
     expect(walk.holds('able', 'region__s1_u_bear')).toBe(false);
@@ -85,13 +87,13 @@ describe('the first town\'s frame', () => {
   // lose to her in a fight, and is told so); and let by, her cub read at the den's mouth (a ranger).
   it('lays the bone-pickers by the rite of rest, said again where it fails', async () => {
     const walk = await Walk.begun('bench-1', 'dwarf/cleric/Dori');
-    await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', 'about the bones in the churchyard',
+    await walk.play(['^To the market-place', '^Read the notice', '^To the shrine', ': the bones in the churchyard$',
       '^To the market-place', '^To the churchyard', '^Down to the crypt', 'light a (torch|candle)', 'ossuary',
       'rite of rest over the opened shelves', 'rite of rest over the opened shelves']);
     expect(walk.holds('region__s1_u_done', 'region__s1_u_pickers')).toBe(true);
     expect(walk.holds('at', 'region__s1_u_pickers', 'region__s1_u_ossuary')).toBe(false);
   }, 300000);
-  const quarry = ['^To the landing', '^Read the notice', '^Into the Fierce Dragon', 'about the old quarry'];
+  const quarry = ['^To the landing', '^Read the notice', '^Into the Fierce Dragon', ': the old quarry$'];
   const down = ['old quarry pit', '^Down to the quarry adit$', 'light a (torch|candle)', 'cut gallery|old cutting',
     '^Attack the wol', 'through'];
   it('smokes the she-bear out with oil, a thief warned that she is beyond them', async () => {

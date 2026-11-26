@@ -21,7 +21,9 @@ describe('the ledge below the vault (OR-311)', () => {
     const s = journey.session, r = new Runner(s);
     GeneratedWorld.put(s, 's1_ud');
     let said = r.said('look');
-    const ask = rows(said).find(x => /would come down with you/.test(x.label));
+    // Led by the talk, whether she would come down asked within it (OR-802: a question too long is its talk).
+    const waiting = s.campaign.module.entities.find(e => e.id === 'region__s1_ud_waiting')!;
+    const ask = rows(said).find(x => x.label === `Talk to ${waiting.name.split(', ')[0]}`);
     expect(ask?.label).toBeDefined();
     said = await AsMeant.ask(r, JSON.stringify({ act: ask!.id })) as Said;
     expect(s.campaign.world.test(ModuleWriter.call('willing', 'region__s1_ud_waiting', 'party'))).toBe(true);

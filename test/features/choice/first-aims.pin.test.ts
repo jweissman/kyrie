@@ -42,7 +42,7 @@ describe('Choice and consequence › The First Aims', () => {
     };
     // Down into the workings under the town, by the corn-store: found; and with that, two things done, the undertaking.
     await play(['^Read the notice on the well-post', "^To Holgar's salt-house",
-      '^Ask Holgar about the rats in the corn-store', '^Buy a torch for', '^To the old corn-store', '^Light a torch', '^Down to the corn-store cellar']);
+      '^Holgar: the rats in the corn-store', '^Buy a torch for', '^To the old corn-store', '^Light a torch', '^Down to the corn-store cellar']);
     expect(achieved()).toEqual(['aims__help_gained', 'aims__dungeon_found']);
     expect(aim()).toBe(true);
     expect(followed()).not.toBe('aims__orient');

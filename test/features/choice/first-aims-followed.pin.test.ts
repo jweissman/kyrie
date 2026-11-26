@@ -26,7 +26,7 @@ describe('Choice and consequence › The First Aims followed', () => {
     // Down into the workings under the town by the corn-store, as the first-aims pin goes: two things done, and the
     // undertaking there to take up.
     for (const step of ['^Read the notice on the well-post', "^To Holgar's salt-house",
-      '^Ask Holgar about the rats in the corn-store', '^Buy a torch for', '^To the old corn-store', '^Light a torch',
+      '^Holgar: the rats in the corn-store', '^Buy a torch for', '^To the old corn-store', '^Light a torch',
       '^Down to the corn-store cellar']) {
       const row = rows(r.said('look')).find(x => new RegExp(step, 'i').test(x.label));
       expect([step, row?.label]).toEqual([step, expect.any(String)]);

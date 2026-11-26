@@ -7,6 +7,10 @@ import { Words } from './words';
 export class QuestionTitle {
   // The characters a row holds at 390 pixels, its mark and key beside it (as test/small/label-length counts them).
   static readonly room = 40;
+  // Someone asked by what they are, not by the name the talk has for them ("Ask the drover's lad where his drove went",
+  // in the talk to Oswy Tolley): the question is the matter, put to whom the talk names.
+  private static readonly role =
+    /^Ask (?:the|a|an) (?:[\w'’-]+ ){1,3}?(?=(?:who|what|where|when|why|how|whether|if|about) )/;
   // full: the words the row would have; talk: the talk it is led within ("Talk to Eogan"); question: what is asked
   // ("Ask Eogan what is out in the country round", or "Ask what…" as it stands under the talk).
   static of(full: string, talk: string | undefined, question: string): string {
@@ -15,8 +19,8 @@ export class QuestionTitle {
     if (!who) { return full; }
     const names = [who, Words.bare(who), `the ${Words.bare(who)}`];
     const named = names.find(n => question.startsWith(`Ask ${n} `));
-    const matter = (named ? question.slice(`Ask ${named} `.length) : question.replace(/^Ask /, ''))
-      .replace(/^about /, '');
+    const matter = (named ? question.slice(`Ask ${named} `.length)
+      : question.replace(QuestionTitle.role, '').replace(/^Ask /, '')).replace(/^about /, '');
     const title = `${Words.upper(who)}: ${matter}`;
     if (matter !== question && title.length <= this.room) { return title; }
     return talk.length <= this.room ? talk : Words.upper(who);

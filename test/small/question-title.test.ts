@@ -18,6 +18,11 @@ describe('a question led with', () => {
         'Ask Hester Lyle whether she has had a letter', 'Talk to Hester Lyle'],
       ['Ask Hask to put his orders in writing before he carries them out', 'Talk to Hask',
         'Ask Hask to put his orders in writing before he carries them out', 'Talk to Hask'],
+      // Asked by what they are, in the talk to whom it names (the castellan, the drover's lad).
+      ['Talk to Ffion Wyn — ask the castellan about the king-barrow', 'Talk to Ffion Wyn',
+        'Ask the castellan about the king-barrow', 'Ffion Wyn: the king-barrow'],
+      ['Talk to Oswy Tolley — ask the drover\'s lad where his drove went', 'Talk to Oswy Tolley',
+        'Ask the drover\'s lad where his drove went', 'Oswy Tolley: where his drove went'],
       // Short enough already, or no question: as it was.
       ['Ask Wat about Father', 'Talk to Wat', 'Ask Wat about Father', 'Ask Wat about Father'],
       ['Talk to the factor — sell the bronze crown', 'Talk to the factor', 'Sell the bronze crown',

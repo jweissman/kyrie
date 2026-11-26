@@ -45,11 +45,11 @@ describe('World › The opening dungeon, unmistakable', () => {
     expect(s.scene.lines.join(' ')).toMatch(/corn-store/);
     // Recruit: whoever is on the green would come along, for what the company has.
     const hand = c.module.entities.find(e => e.id === 'region__s1_u_hand')!;
-    await play([`^Talk to ${hand.name.split(', ')[0]} — ask the drover's lad`,
+    await play([`^${hand.name.split(', ')[0]}: where his drove went`,
       `^Ask ${hand.name.split(', ')[0]} to join the company`]);
     expect(c.readout.partyIds.length).toBe(2);
     // Prepare: light and a ration, at the salter's; then explore, face danger, discover and return.
-    await play(["^To Holgar's salt-house", '^Ask Holgar about the rats in the corn-store', '^Buy a torch for',
+    await play(["^To Holgar's salt-house", '^Holgar: the rats in the corn-store', '^Buy a torch for',
       '^Buy one ration from Holgar', '^To the old corn-store', '^Light a torch', '^Down to the corn-store cellar',
       '^To the rat-runs', '^Attack the rats', 'through', '^Down to the nest', '^Attack the old buck rat', 'through',
       'light a candle', '^Search here', '^Out to the landing at Porthalen', "^To Holgar's salt-house",

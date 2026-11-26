@@ -122,7 +122,7 @@ describe('the golden route, after the fourth cold play', () => {
     // along leads first: Promotion's tiers; MT-15), asked as the agent's had been. On the drove's green it is the
     // drover's lad, drawn for the drover's life (undertown.kyrt's hand: the difference census's first proposal), and
     // someone, named for the town (OR-304: RegionUndertown.hand).
-    expect(labels(byLine[0]).join('|')).toMatch(/Talk to [A-Z][a-z]+ [A-Z][a-z]+ — ask the drover's lad where his drove went/);
+    expect(labels(byLine[0]).join('|')).toMatch(/(^|\|)[A-Z][a-z]+ [A-Z][a-z]+: where his drove went/);
     expect(labels(byLine[0]).join(' ')).not.toMatch(/^Ask the drover|Ask the Guldríce agent/);
     // The company's head is called by its kingdom, not "the factor", beside Aster of the Exchange (CL-49's 12): among
     // the people here.

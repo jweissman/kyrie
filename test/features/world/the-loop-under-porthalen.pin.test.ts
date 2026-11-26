@@ -23,7 +23,7 @@ const flat = (rs: Row[]): Row[] => rs.flatMap(r => [r, ...flat(r.opens ?? [])]);
 const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
   ...Object.values(s.offer?.lenses ?? {}).flat()] as Row[]);
 const established = ['~Read the notice on the well-post', "~To Holgar's salt-house",
-  '~Ask Holgar about the rats in the corn-store', '~Buy a torch for', '~Buy one ration from Holgar',
+  '~Holgar: the rats in the corn-store', '~Buy a torch for', '~Buy one ration from Holgar',
   '~To the old corn-store', '~Light a torch', '~Down to the corn-store cellar', '~To the rat-runs', '~Attack the rats',
   'through', '~Down to the nest', '~Attack the old buck rat', 'through', '~light a candle', '~Search here',
   '~Out to the landing at Porthalen', "~To Holgar's salt-house", '~Tell Holgar the rats under the corn-store are dead',
