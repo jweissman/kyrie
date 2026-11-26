@@ -41,7 +41,7 @@
       "cost": 1,
       "spell": {
         "tradition": "arcane",
-        "level": 2,
+        "level": 1,
         "school": "necromancy",
         "resistance": true
       },
@@ -50,7 +50,7 @@
         "srd35": "spell:ray-of-enfeeblement",
         "conversion": "srd35-westernesse-v1",
         "fidelity": "adapted",
-        "notes": "The SRD's Ray of Enfeeblement (doc/architecture/mission-22/srd-proving-cases.md, case 58) by its resolution: one foe a ranged touch lands on (Touch), no save, spell resistance answering it, 1d6 off its Strength and a point each two casting levels, to +5 at the tenth (an amount its caster throws: ConditionAmount, the enfeebled condition), a minute a casting level (Lasting). Kept: Orsino's second level (the SRD's first would move the necromancers' draws). Before, Orsino's Weakness: Strength two less and two less harm a blow for three rounds, a Fortitude save against 14 + the caster's level."
+        "notes": "The SRD's Ray of Enfeeblement (doc/architecture/mission-22/srd-proving-cases.md, case 58): first-level arcane necromancy; one foe a ranged touch lands on (Touch), no save, spell resistance answering it, 1d6 off its Strength and a point each two casting levels, to +5 at the tenth (an amount its caster throws: ConditionAmount, the enfeebled condition), a minute a casting level (Lasting). Its first-level place moves it from second-level necromancer picks. Before, Orsino's Weakness: second level; Strength two less and two less harm a blow for three rounds, a Fortitude save against 14 + the caster's level."
       }
     },
     "flesh_to_stone": {

@@ -2023,7 +2023,7 @@ decision for the lead, with the tactics' weighing of a boon laid on a foe.
 ### 58. A condition's amount by its caster, and Ray of Enfeeblement by the SRD's resolution (19 November): adapted
 
 Named by the last report as the route Ray of Enfeeblement waited on (case 35's list; "What remains"). Spec:
-`test/ray-of-enfeeblement` (3).
+`test/ray-of-enfeeblement` (4).
 
 **The mechanic built** (`ConditionAmount`, src/rules/condition-amount.ts): an apply effect may name an `amount`,
 thrown by its caster's values as it is laid (as temporary hit points and images are) and kept with the condition held;
@@ -2039,14 +2039,14 @@ Orsino's `weakened`, which Mass and Major Weakness lay, is untouched):
   one;
 - a minute a casting level (exact: Lasting).
 
-**Kept:** Orsino's second level (the SRD's first would move the necromancers' draws and a first-level card: the lead's
-stabilization). **Omitted:** its range. Before: Orsino's Weakness, Strength two less and two less harm a blow for
-three rounds, a Fortitude save against 14 and the caster's level. The census grades it S✗ R✓ I✓ (its level): 37 of
-119 pass in resolution.
+**Level:** first, the SRD's (Orsino's was second). **Omitted:** its range. The first-level placement moves it from
+second- to first-level necromancer picks. Before: Orsino's Weakness, Strength two less and two less harm a blow for
+three rounds, a Fortitude save against 14 and the caster's level. The census grades it S✓ R✓ I✓: 37 of 119 pass in
+resolution.
 
-**What it moves:** no draw or card (its level and school unchanged). Two installed casters know it, thorn's and mere's
-howe scholars (third-level mages of the Bound Howe's camp); no first-hour fight. A fifth-level caster's ray at a
-first-level wolf: 3 to 8 off its Strength for fifty rounds where the touch lands.
+**What it moves:** two installed casters know it, thorn's and mere's howe scholars (third-level mages of the Bound
+Howe's camp); no first-hour fight. A fifth-level caster's ray at a first-level wolf: 3 to 8 off its Strength for fifty
+rounds where the touch lands.
 
 ### 59. Barkskin and Shield of Faith growing with the caster (19 November): two conversions made exact
 
