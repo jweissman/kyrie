@@ -11,16 +11,33 @@ import { AsMeant } from './support/as-meant';
 // the king answers his crown being lifted (CL-44). The play is replayed by its own lines, as the cold player meant them
 // (AsMeant: the agent asked about the king-barrow by turning to him, since the hand on the green is led first).
 const lines = readFileSync('doc/architecture/mission-22/cold/cold-4-lines.txt', 'utf8').split('\n').filter(Boolean);
+// Where the world now asks more of the play than it did, the acts it asks are played after the line, as the cold
+// player would have played them (the line's number, from one, and the acts after it):
+// - the journey the play took to Holyking in one act (line 27) walked past two footpads standing in the road at the
+//   fen of Addermoss. It stops for them now (the lead's ruling, 25 November: a journey stops for a threat that blocks
+//   the way; walking through it was a lie). The company asks them to let it by, as the engine leads, gets nowhere,
+//   and fights them to the end; by then night has come, and the road to Holyking stops for it, so the company waits
+//   for first light and goes on by the play's own next line (28), arriving at Holyking as the play did.
+// - the ghouls' fight in the bone hall rolls otherwise after that fight and that night, and is still going after the
+//   play's last blow (line 54): it is pressed on to its end, as the play pressed it, before the candle is lit.
+const act = (id: string) => JSON.stringify({ act: id });
+const after: Record<number, string[]> = {
+  27: [act('region__wr173r/0:Ask two footpads to let you by · an even chance · one try'), act('fight:through'),
+    act('travel:region__w8'), act('company/0:Wait until first light')],
+  54: [act('fight:through')],
+};
+const played = lines.slice(0, 90).flatMap((line, i) => [line, ...after[i + 1] ?? []]);
 describe('the golden route, after the fourth cold play', () => {
   const told: Said[] = [], byLine: (Said | undefined)[] = [];
   let first: Said;
   let runner: Runner;
-  // Each turn said, up to the crown taken (the cold play's 90th line), and the lines each said.
+  // Each turn said, up to the crown taken (the cold play's 90th line), and the lines each said (the play's own first,
+  // which the acts after line 27 do not move).
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     runner = new Runner(BeforeRooms.set(journey.session));
     first = runner.said();
-    for (const line of lines.slice(0, 90)) {
+    for (const line of played) {
       const s = await AsMeant.ask(runner, line);
       byLine.push('error' in s ? undefined : s);
       if (!('error' in s)) { told.push(s); }
@@ -35,6 +52,11 @@ describe('the golden route, after the fourth cold play', () => {
     expect(said.slice(place).join(' ')).not.toContain('They took Bran');
     expect(said.some(l => l.startsWith('An aim: '))).toBe(true);
   });
+  // The lead's ruling of 25 November: the road to Holyking stops where the footpads stand in it, and is gone on after.
+  it('stops the journey where a threat blocks the road, and goes on to Holyking after it', () => {
+    expect(text(at('region__t173'))).toContain('Two men with cudgels step out of the hedge ahead and stand in the road');
+    expect(at('region__w8')).toBeDefined();
+  });
   // Defect 13: a room's things had been in its acts alone.
   it('says what lies in a room the first time it is come to', () => {
     expect(text(at('region__w8_barrow_passage'))).toContain('You see a string of amber beads.');
@@ -43,7 +65,11 @@ describe('the golden route, after the fourth cold play', () => {
   });
   // Defect 17: a fight had opened on a line of hit points, and an ossuary on "The snakes are here."
   it('opens a fight on what came at the company, and says what the snakes are', () => {
-    expect(told.find(s => s.moment === 'fight')?.scene.lines[0]).toBe('The agile ghouls come at you without a sound.');
+    // The first fight now the footpads' in the road (line 27's stop), then the barrow's first.
+    const fights = told.filter(s => s.moment === 'fight'), barrow = told.findIndex(s => s.at === 'region__w8');
+    expect(fights[0]?.scene.lines[0]).toBe('Two footpads come at you.');
+    expect(told.slice(barrow).find(s => s.moment === 'fight')?.scene.lines[0])
+      .toBe('The agile ghouls come at you without a sound.');
     expect(text(at('region__w8_halls_ossuary'))).toContain('The snakes are here, each an adder, grey-brown');
   });
   // Defect 19: the torch had gone out in the fight with no word, and the dark come on after it.

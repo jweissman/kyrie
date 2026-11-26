@@ -24,6 +24,12 @@ const cases: [string, string, string[], boolean][] = [
   // Asked her question, gone back to the well and come again: an answer owed (Topic … answering).
   ['p11', 'well', [], false],
   ['p11', 'gate', ['said', 'answer'], true],
+  // A band living off the road that steps out into it and warns the company off (roving.kyrt's road footpads): a
+  // threat that blocks the way stops the journey (the lead's ruling, 25 November: walking on through it is a lie; the
+  // fourth cold play's journey to Holyking now meets the footpads at the fen of Addermoss and stops there). The old
+  // verdict agrees: the replay had walked past them only because its journey went another way (by the reed landing)
+  // before 25 November, not because the glance read no danger in them.
+  ['p12', 'road', ['said', 'threat', 'warning', 'hostile'], true],
 ];
 describe('where a leg comes', () => {
   it('asks the player for what the page would, read from the rows and never from a page', async () => {

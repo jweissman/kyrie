@@ -12,11 +12,15 @@ import { AsMeant } from './support/as-meant';
 // stopped short with nothing said of why (GR-02), and the aim followed led in gold on the page and not in the runner's
 // account of it (GR-03). Each turn as the recording has it, by its step.
 class Route {
-  static async played(as: string, file: string, upto: number): Promise<{ at: Said[]; c: Campaign }> {
-    const lines = readFileSync(`doc/architecture/mission-22/s3-0/${file}`, 'utf8').split('\n').filter(Boolean);
+  // after: where the world now asks more of the run than it did, the acts it asks, played after the recording's line
+  // (by its number, from one), as the run's player would have played them.
+  static async played(as: string, file: string, upto: number, after: Record<number, string[]> = {}):
+    Promise<{ at: Said[]; c: Campaign }> {
+    const lines = readFileSync(`doc/architecture/mission-22/s3-0/${file}`, 'utf8').split('\n').filter(Boolean)
+      .slice(0, upto).flatMap((line, i) => [line, ...after[i + 1] ?? []]);
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
     const r = new Runner(journey.session), at: Said[] = [];
-    for (const line of lines.slice(0, upto)) {
+    for (const line of lines) {
       let s = await AsMeant.ask(r, line);
       if ('error' in s) { s = await Route.answer(r, line, at) ?? s; }
       if ('error' in s) { throw new Error(`${line}: ${s.error}`); }
@@ -50,23 +54,37 @@ class Route {
 }
 describe('the road home, on the warrior\'s route', () => {
   let at: Said[] = [];
-  beforeAll(async () => { ({ at } = await Route.played('human/warrior/Wenna', 'warrior-lines.txt', 52)); }, 180000);
+  // The journey home from the sea-bank (line 50) had gone past Gatesend's green, where the town was out thanking the
+  // company, to the bridge over the Whitewater, where the company was weary. It stops at the green now, for the paper
+  // the reeve's levy sit under, a sign newly there of people the company can speak with (ArrivalAttention's sign; the
+  // old glance led them for the place's life alone, OR-748); the company sets out home again from there, as the run
+  // had (the same line again), and comes to the bridge weary as before.
+  beforeAll(async () => {
+    ({ at } = await Route.played('human/warrior/Wenna', 'warrior-lines.txt', 52,
+      { 50: [JSON.stringify({ act: 'travel:region__s1' })] }));
+  }, 180000);
   it('leads out of the Wardens\' gatehouse toward the reeve, and to her at the landing', () => {
     // Step 48, the claim followed in the gatehouse: the way out to the sea-bank, gold on the page, is led.
     expect([at[47]!.at, at[47]!.led]).toEqual(['gate__gatehouse', ['go(gate__gate_door,gate__bank)']]);
-    // Step 52, come to the landing: the claim itself, said to the reeve.
-    expect([at[51]!.at, at[51]!.led]).toEqual(['region__s1_green', ['gate__claim_whole']]);
+    // Step 52, come to the landing (one later for the stop at Gatesend): the claim itself, said to the reeve.
+    expect([at[52]!.at, at[52]!.led]).toEqual(['region__s1_green', ['gate__claim_whole']]);
     // And says no need of another aim's there: the corn-store's padlock is nothing to the claim (GR-11).
-    expect(at[51]!.scene.lines.join(' ')).not.toContain('Pick the corn-store padlock');
+    expect(at[52]!.scene.lines.join(' ')).not.toContain('Pick the corn-store padlock');
   });
   it('says why the journey home stopped short', () => {
-    expect([at[49]!.at, at[49]!.scene.lines]).toEqual(['region__s5_s2_way', expect.arrayContaining(['You are weary'])]);
+    expect([at[49]!.at, at[50]!.at, at[50]!.scene.lines])
+      .toEqual(['region__s4_green', 'region__s5_s2_way', expect.arrayContaining(['You are weary'])]);
   });
-  // Gatesend's thanks, said as the company passed its green, said with where (GR-07), not as if on the Reedbridge road.
+  // What a place passed on the way said is said with where (GR-07), not as if where the company stopped. Gatesend's
+  // thanks, which had been said so as the company passed its green, are said at the green itself now that the journey
+  // stops there, as its own; the pedlar met on the woodland south of Reedbridge, passed on the last leg home, is said
+  // with that place at the landing.
   it('tells what a place passed on the way said with that place', () => {
-    const lines = at[49]!.scene.lines;
-    expect(lines.filter(l => /Doors are open all along the lane/.test(l)))
-      .toEqual([expect.stringMatching(/^At the gate-yard of Gatesend: Doors are open/)]);
+    const thanks = (i: number) => at[i]!.scene.lines.filter(l => /Doors are open all along the lane\./.test(l));
+    expect([thanks(49), thanks(50), thanks(52)])
+      .toEqual([[expect.stringMatching(/^Doors are open all along the lane\. Someone has chalked/)], [], []]);
+    expect(at[52]!.scene.lines.filter(l => /A pedlar is coming the other way/.test(l)))
+      .toEqual([expect.stringMatching(/^At woodland south of Reedbridge: A pedlar is coming/)]);
   });
 });
 describe('the road home, on the mage\'s route', () => {

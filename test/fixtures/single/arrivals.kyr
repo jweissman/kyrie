@@ -76,5 +76,13 @@ Module arrivals "A track of places, each with one thing to meet on coming to it"
     Says "'So it has,' says the wardress.".
   }
   Event gate_back at gate when at(party, gate) and returning(party) "The wardress is waiting for your answer.".
+  // A road a band of footpads lives off, as a country's roads have one (data/generation/wild/roving.kyrt's road
+  // footpads): they step out into the road ahead and warn the company off.
+  Place road "a road between hedges" is room.
+  Passage p12 "the track to the road" is path between gate and road.
+  Person pads "two footpads" at road {
+    Role "two hard-faced men with cudgels". Species human. Numbers 2. Level 1. Temperament territorial. Lair road.
+    Warns "Two men with cudgels step out of the hedge ahead and stand in the road.".
+  }
   Goal false.
 }
