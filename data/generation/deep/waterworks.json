@@ -207,6 +207,11 @@
   },
   "wonders": ["magical_fountain", "ethereal_fountain", "celestial_fountain", "whispering_voices", "glowing_runes", "arcane_symbols", "living_mural"],
   "mechanisms": {
+    "shortcuts": [
+      {"level": "galleries", "at": "stair_foot", "thing": "the Wardens' hoist", "unmade": "A hoist stands over the walkway: a platform on bronze chains that the Wardens rode down from the gatehouse. Its pulleys are dry and stiff.", "made": "The hoist's pulleys are oiled, and its platform rides the chains freely.", "make": "Oil the hoist's pulleys", "needs": "lamp_oil", "consumes": "lamp_oil", "told": "The hoist runs now. From the way in, it will let you straight down to the foot of the stair.", "way": "the Wardens' hoist", "kind": "shaft", "minutes": 6},
+      {"level": "cistern", "at": "landing", "thing": "the gauge-well", "unmade": "Beside the marked pillar a round well goes up through the vault toward the galleries, with bronze rungs in its side. The lowest rungs are gone.", "made": "Your rope hangs down the gauge-well from the lowest sound rung.", "make": "Climb the gauge-well and leave a rope hanging in it", "needs": "rope", "consumes": "rope", "told": "Your rope hangs in the gauge-well now. From the way in, you can go straight down it to the landing.", "way": "the rope in the gauge-well", "kind": "shaft", "minutes": 10},
+      {"level": "still", "at": "shore", "thing": "the overflow", "unmade": "A dry overflow channel climbs steeply away from the shore, smooth as a gutter, toward the cisterns above.", "made": "Your rope runs down the overflow to the shore, made fast at the top.", "make": "Climb the overflow and leave a rope hanging in it", "needs": "rope", "consumes": "rope", "told": "Your rope hangs in the overflow now. From the way in, you can go straight down it to the shore.", "way": "the rope in the overflow", "kind": "shaft", "minutes": 15}
+    ],
     "winch": { "kind": "stair", "thing": "the gate-wheel",
       "seized": "The gate-wheel is green with verdigris and will not turn.",
       "turning": "The gate-wheel turns, grinding, and the bronze gate can be raised in its slots and let down again.",

@@ -58,6 +58,17 @@ export interface MechanismWords {
     idle: string; dry: string; heard: string;
     // The water running out of the site at its mouth and outside, and once it is turned down the race instead.
     flowing?: string; diverted?: string };
+  // The delver's ways down, one for each level below the first (DeepShortcuts).
+  shortcuts?: DeepShortcut[];
+}
+// A way down to a level already reached, made from below where the company first comes down to it: the level and
+// the role of the room it serves; the thing there that is made to serve (its states, and the act that makes it, at
+// what it needs and uses up); what is told once it is made; and the way it is then from the site's way in.
+// geared: the way into that room is worked by gear that must be turning first (the mine's winding wheel), and what
+// is said while it is not.
+export interface DeepShortcut {
+  level: string; at: string; thing: string; unmade: string; made: string; make: string; needs?: string;
+  consumes?: string; geared?: string; told: string; way: string; kind: string; minutes: number;
 }
 // What a deep site was for, and so how it is laid out, what lives in it, and what lies at the bottom of it.
 export interface DeepPurpose {

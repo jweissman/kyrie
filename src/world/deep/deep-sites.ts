@@ -3,6 +3,7 @@ import { Canon } from '../../canon/canon';
 import { ItemNames } from '../../lang/item-names';
 import { DeepLayouts, type DeepLayout, type DeepLink, type DeepRoom } from './deep-layout';
 import { DeepMechanisms } from './deep-mechanisms';
+import { DeepShortcuts } from './deep-shortcuts';
 import { DeepPacing, type DeepContent } from './deep-pacing';
 import { DeepRooms } from './deep-rooms';
 import { DeepTime } from './deep-time';
@@ -47,6 +48,7 @@ export class DeepSites {
       ...this.ways(layout, handled),
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
+      ...DeepShortcuts.lines(layout, purpose.mechanisms.shortcuts ?? []),
       // The earlier party's first camp is found first, from the top; those further down are the same party's again.
       ...content.flatMap(c => DeepRooms.lines(c, { site: site.id, purpose, ...this.fragment(region, purpose),
         ...content.find(x => x.special) ? { first: content.find(x => x.special)!.room.id } : {} })),

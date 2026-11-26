@@ -884,6 +884,11 @@
     ]
   },
   "mechanisms": {
+    "shortcuts": [
+      {"level": "haulage", "at": "shaft_bottom", "thing": "the cage", "unmade": "The cage stands at the shaft bottom, unhooked from its chain, its sheaves dry and stiff. Wound from above, it would come down here in one long drop.", "made": "The cage hangs hooked to its chain, its sheaves oiled.", "make": "Oil the cage's sheaves and hook it to the chain", "needs": "lamp_oil", "consumes": "lamp_oil", "geared": "The cage cannot be hooked to a chain that will not run: the wheel above is seized.", "told": "The cage runs now. From the way in, the tub-road and the cage take you straight down to the shaft bottom.", "way": "the tub-road and the cage", "kind": "shaft", "minutes": 8},
+      {"level": "drowned", "at": "stair_foot", "thing": "the raise", "unmade": "Beside the foot of the stair a narrow raise goes straight up into the rock. Ladders are pinned to its side. The lowest lengths have rotted away.", "made": "Your rope hangs down the raise beside the ladders, made fast at the top.", "make": "Climb the raise and leave a rope hanging in it", "needs": "rope", "consumes": "rope", "told": "Your rope hangs in the raise now. From the way in, you can go straight down it to the foot of the sealed stair.", "way": "the rope in the raise", "kind": "shaft", "minutes": 10},
+      {"level": "breach", "at": "breach", "thing": "the warm chimney", "unmade": "Over the breach a chimney goes up through the rock, smooth as the hole itself, toward the Delvers' workings. A cold draught falls down it from far above.", "made": "Your rope hangs down the warm chimney, made fast at the top.", "make": "Climb the chimney and leave a rope hanging in it", "needs": "rope", "consumes": "rope", "told": "Your rope hangs in the chimney now. From the way in, you can go straight down it to the breach.", "way": "the rope in the warm chimney", "kind": "shaft", "minutes": 15}
+    ],
     "winch": {
       "kind": "shaft",
       "thing": "the winding wheel",

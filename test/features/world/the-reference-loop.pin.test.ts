@@ -12,7 +12,10 @@ import { ScreenModel } from '../../../src/ui/screen-model';
 // woundwort on the old ride and, by searching the burners' clearing and then the fallen stones, the way down; take what
 // the last party left on the ledge, go down into the first level and fight what is there, come out, rest at the shrine,
 // sell what was gathered, and after a night go down again, to find the first level as it was left and something new in
-// it. Every act by the rows the runner offers, ways by where they go and acts by their words; it fails on a first town
+// it. A rope left in the halls' dead-shaft on the second trip, the third begins there from the way in, in one act,
+// where the first two walked the whole first level; a rope in the king's chimney, and the next goes straight to the
+// third level (the delver's way down, the cold play's D1: test/features/world/the-way-down.pin.test.ts). Every act
+// by the rows the runner offers, ways by where they go and acts by their words; it fails on a first town
 // that is not the reference game's (the woods, the way down among the stones, the three working places are none of them
 // there).
 type Row = { id: string; label: string; opens?: Row[] };
@@ -27,7 +30,9 @@ describe('World › The reference loop', () => {
     let s = r.said('look');
     const P = (x: string) => `region__s1_${x}`, at = () => c.world.one('at', 'party');
     const coin = () => s.purse?.coin ?? NaN;
+    let moves = 0;
     const say = async (id: string) => {
+      moves++;
       const said = await r.ask(JSON.stringify({ act: id }));
       expect([id, 'error' in said ? said.error : '']).toEqual([id, '']);
       s = said as Said;
@@ -100,14 +105,15 @@ describe('World › The reference loop', () => {
     await to('green'); await to('shrine'); await act(`^Talk to ${priest}`); await act('what lies past the passage-grave');
     expect(s.scene.lines.join(' ')).toMatch(/a club[^]*Take fire/);
     await to('green'); await to('shop'); await act('^Buy a club'); await act('^Buy an oil firebomb');
-    await maybe('^Buy a torch');
+    // And a coil of rope, for the way down (the club and the bomb spent the purse: a spare axe sold for it).
+    await maybe('^Buy a torch'); await maybe('^Sell a battleaxe'); await act('^Buy .*rope');
     // A night in the town, and down again: the ways found are still known, the bats lie dead where they fell, and
     // something from deeper has moved into the room they held (DeepTime: one band a level, the first dawn after the
     // company has gone off it).
     if (rows(s).some(x => /^Wait until dark/.test(x.label))) { await act('^Wait until dark'); }
     await act('^Wait until first light');
     await to('green'); await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');
-    await act('^Light a torch'); await to('ud'); await down();
+    await act('^Light a torch'); await to('ud'); moves = 0; await down();
     expect(s.scene.lines.join(' ')).toMatch(/whoever lives here came after you went/);
     expect(rows(s).some(x => /^Attack /.test(x.label))).toBe(true);
     // Past the newcomers, and down: the second level, deeper than the first trip, and its bone hounds met.
@@ -115,18 +121,25 @@ describe('World › The reference loop', () => {
     await act('^Attack '); await lit(); await act('^Lever the jammed counterweight'); await lit(); await act('^Down to');
     await lit();
     expect(at()).toMatch(new RegExp(`^${P('ud_halls')}_`));
+    // From the ledge to the halls, the second trip: every room of the first level again, and the stair.
+    const walked = moves;
     await maybe('^Attack '); await lit();
+    // The delver's way down (the cold play's D1): a rope left hanging in the dead-shaft, from the halls to the way in.
+    await act('^Climb the dead-shaft and leave a rope');
     // Out, rested, and asked again: what lies past the second level.
     await act(`^Out to ${heart}`); await to('shrine'); await act('^Take a pallet|^Rest six hours');
     await act(`^Talk to ${priest}`); await act('what lies past the halls');
     expect(s.scene.lines.join(' ')).toMatch(/Take fire/);
     // The third trip: through the halls to the king's door, and down into the third level.
     await to('green'); await to('shop'); await maybe('^Buy a torch'); await maybe('^Buy an oil firebomb');
+    await maybe('^Sell scale mail'); await act('^Buy .*rope');
     await to('green'); await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');
-    // The way opened on the second trip stays open: no counterweight to lever again.
-    await act('^Light a torch'); await to('ud'); await down(); await lit();
-    expect(rows(s).some(x => /^Lever the jammed counterweight/.test(x.label))).toBe(false);
-    await act('^Down to'); await lit();
+    // The third trip begins at the depth reached: from the way in, down the rope to the halls in one act, where the
+    // first two had walked the whole first level (the mouth, the passage, the chamber, the back-stone, the stair).
+    await act('^Light a torch'); await to('ud');
+    moves = 0; await to('ud_halls_stair_foot'); await lit();
+    expect(at()).toBe(P('ud_halls_stair_foot'));
+    expect(moves).toBeLessThan(walked);
     await maybe('^Attack '); await lit();
     for (const room of ['ud_halls_bone_hall', 'ud_halls_gallery', 'ud_halls_kings_door']) {
       const way = rows(s).find(x => x.id === `exit:${P(room)}` || x.id === `exit:${P(room)}/0:Go`);
@@ -141,5 +154,13 @@ describe('World › The reference loop', () => {
     // The king's door sealed with a stone, broken; and down.
     if (!await maybe('^Down to')) { await act('Break the seal-stone'); await lit(); await maybe('^Down to'); }
     expect(at()).toMatch(new RegExp(`^${P('ud_grave')}_`));
+    // And a rope left in the king's chimney: the next trip goes from the way in straight to the third level.
+    await lit(); await maybe('^Attack '); await lit();
+    await act("^Climb the king's chimney and leave a rope");
+    await act(`^Out to ${heart}`);
+    await to('wood_edge'); await to('wood_ride'); await to('wood_burners'); await to('wood_stones');
+    await act('^Light a torch'); await to('ud');
+    moves = 0; await to('ud_grave_antechamber');
+    expect([at(), moves]).toEqual([P('ud_grave_antechamber'), 1]);
   }, 600000);
 });

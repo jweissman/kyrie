@@ -191,6 +191,10 @@
   },
   "wonders": ["singing_crystal", "whispering_voices", "enchanted_flute", "glowing_runes", "shifting_walls", "arcane_symbols", "living_mural"],
   "mechanisms": {
+    "shortcuts": [
+      {"level": "choir", "at": "stair_foot", "thing": "the narrow door", "unmade": "A narrow door of stone stands shut in the wall of the hall, barred on this side by a beam of stone. A draught comes under it from above.", "made": "The narrow door stands open, its stone bar on the floor. A stair behind it climbs toward the way in.", "make": "Lift the stone bar from the narrow door", "needs": "brawn or crowbar", "told": "The narrow door stands open, and its stair climbs to the way in. From there, you can come straight down to the foot of the stair.", "way": "the narrow stair", "kind": "stair", "minutes": 6},
+      {"level": "still", "at": "landing", "thing": "the round shaft", "unmade": "A round shaft goes up from the landing, smooth as the rest of the hall, too smooth to climb without a rope.", "made": "Your rope hangs down the round shaft, made fast at the top.", "make": "Climb the round shaft and leave a rope hanging in it", "needs": "rope", "consumes": "rope", "told": "Your rope hangs in the round shaft now. From the way in, you can go straight down it to the landing.", "way": "the rope in the round shaft", "kind": "shaft", "minutes": 12}
+    ],
     "winch": { "kind": "stair", "thing": "the pivot-door",
       "seized": "The pivot-door has settled on its stone, its edge sunk into the floor; it will not turn.",
       "turning": "The pivot-door swings on its pivot as true as the day it was sung there.",

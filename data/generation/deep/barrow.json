@@ -193,6 +193,10 @@
   },
   "wonders": ["whispering_voices", "phantom_flame", "glowing_runes", "arcane_symbols", "living_mural", "enchanted_flute", "eternal_candle"],
   "mechanisms": {
+    "shortcuts": [
+      {"level": "halls", "at": "stair_foot", "thing": "the dead-shaft", "unmade": "A square shaft goes up through the roof of the hall, its edges worn smooth by ropes. The Barrow-Kin let their dead down this way. A bronze ring is set in the floor beneath it.", "made": "Your rope hangs down the dead-shaft, made fast to the bronze ring.", "make": "Climb the dead-shaft and leave a rope hanging in it", "needs": "rope", "consumes": "rope", "told": "Your rope hangs in the dead-shaft now. From the way in, you can go straight down it to the halls.", "way": "the rope in the dead-shaft", "kind": "shaft", "minutes": 6},
+      {"level": "grave", "at": "antechamber", "thing": "the king's chimney", "unmade": "Over the stone bench a narrow chimney goes up through the dark rock, cut straight and true. The smoke of the king's pyre went up this way. Iron staples climb it a little way, then stop.", "made": "Your rope hangs down the king's chimney from the topmost staple.", "make": "Climb the king's chimney and leave a rope hanging in it", "needs": "rope", "consumes": "rope", "told": "Your rope hangs in the king's chimney now. From the way in, you can go straight down it to the antechamber.", "way": "the rope in the king's chimney", "kind": "shaft", "minutes": 10}
+    ],
     "winch": { "kind": "stair", "thing": "the portal stone's counterweight",
       "seized": "The portal stone stands down across the stair behind the back-stone, and its counterweight hangs jammed in its slot, wedged with fallen stone.",
       "turning": "The counterweight runs free in its slot, and the portal stone can be raised off the stair and let down again.",

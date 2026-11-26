@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 183 pins (151 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 597 live rows, 210 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 598 live rows, 210 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -309,13 +309,16 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 7 pins · 7 defects · 19 asks
+- **Dungeons and sites** · 10 pins · 7 defects · 19 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
   - ✓ trades with both traders, finds the way down in the old woods, descends, retreats, recovers, sells and descends again
+  - ✓ is made from below with a rope, stays made, and is offered from the way in straight down to that depth
+  - ✓ in the mine is the cage, hooked to its chain with oil once the winding wheel above is free
+  - ✓ is there for every level below the first of every kind of deep site, whatever its draw
   - ✓ meets fewer and stranger things below, and is told the hall under the town once, at the bottom
   - direction CP-08 P2: Generated people thin; settlements texture before drama; two settlements should differ;…
   - direction CP-09 P3: Natural history: geology beyond formations; herb-lore or woodcraft telling plants apart ("What…
@@ -701,7 +704,7 @@ page's colours and opportunities.)
   - requirement MT-16 P1: The layers as logical units, mechanically held (the owner, 19 November, night: "force logical…
   - requirement MT-28 P2: Shared structures mutable by convention, and identity in strings (Findings J, K): shared…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 4 defects · 17 asks
+- **Testing instruments** · 0 pins · 4 defects · 18 asks
   - requirement TC-03 P2: Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies,…
   - requirement TC-04 P2: The safe-zone walk at five sizes in CI; atlas states tested as projected data
   - requirement TC-05 P2: The census proves structure, not play: no seven-stage report, no per-world invariants; no…
@@ -718,6 +721,7 @@ page's colours and opportunities.)
   - requirement OR-389 P3: The runner begins in a world past the title (bin/kyrie run --world …), so its agents never meet…
   - requirement OR-465 P2: The opening's comprehension and pace not yet measured by the ladder's higher rungs: blind…
   - requirement OR-508 P1: Standing rule: every page change lands with a contact sheet at 1280 and 390 that its builder has…
+  - requirement OR-761 P3: The world gate's distances count ways the company cannot yet take: NoviceCountry.distances…
   - requirement MT-29 P2: The review's Stage 0 guardrails, together (Finding L): a dependency-cycle baseline beside the…
 - **Documentation and the register** · 0 pins · 0 defects · 7 asks
   - requirement DC-03 P3: R10: a drift review at each closure; a current-invariants appendix; doc freshness checks
@@ -794,7 +798,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Authoring forms and their lint** (Kyr and Deem): AU-01, AU-03, AU-07, AU-12, AU-13, AU-14, OB-07, OB-11, OR-164, OR-224, OR-230, OR-522, ST-05, ST-08, WB-07, AU-23, AU-24, AU-25, AU-29, AU-30, AU-31, AU-33, AU-39, AU-41, AU-42, AU-44, AU-45, AU-53, AU-57
 - **Generation and tables** (Kyr and Deem): AU-04, AU-10, AU-11, AB-12, OR-150, OR-405, OR-421, OR-671, OR-673, KX-02, KX-04, AU-34, AU-51, AU-58, AU-60
 - **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, BX-02, OR-545, OR-740, OR-742, OR-744, OR-634, MT-07, MT-16, MT-28, MT-31
-- **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-407, OR-456, OR-384, OR-389, OR-465, OR-508, MT-29
+- **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-407, OR-456, OR-384, OR-389, OR-465, OR-508, OR-761, MT-29
 - **Documentation and the register** (The engine): DC-03, DC-05, DC-06, DC-07, DC-08, OB-03, OB-04
 
 ### Pins not yet met (32)

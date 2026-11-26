@@ -1261,6 +1261,18 @@
    "pri": "P1",
    "why": "25 Nov, the owner's playtest: progression and economy, a tabletop deliverable to be commissioned"
   },
+  "OR-760": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "25 Nov, the cold play's design finding D1: a change of design the lead called (the way down earned, not given), not a broken contract"
+  },
+  "OR-761": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov: a measure's reading unsound (the world gate's distances), an instrument's obligation, not a violation of a contract the game claims"
+  },
   "OR-679": {
    "kind": "requirement",
    "was": "defect",
