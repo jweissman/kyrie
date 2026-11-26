@@ -10,11 +10,17 @@ import type { PlaySession } from '../src/session/play-session';
 // module over as a copy without its semantic records, made afresh each time, and read by that copy's identity every
 // world was packed and posted to the page again after every act, a megabyte and a half each time in a drawn country.
 class Kept {
+  // With one Promise, so that its module keeps a semantic record and every save hands over a fresh copy of it (the
+  // page's path as a world of the corpus takes it: without the record the copy is the module itself).
   static readonly kyr = `
       Place lane "the lane" is room at 0, 0 outdoors.
       Place hall "the hall" is room at 1, 0.
       Passage door "the door" is door between lane and hall taking 2 minutes.
-      Company party "You" of 1 at lane.`;
+      Company party "You" of 1 at lane.
+      Person pip "Pip" at lane { Peaceable. }
+      Promise show_pip "to show Pip the hall" to pip
+        kept when at(party, hall) and at(pip, hall) "Pip looks about the hall." { }
+        broken when at(pip, hall) and at(party, lane) "Pip went without you." { }.`;
   static async host() {
     const t = await Tiny.start(Kept.kyr), posted: Extract<Message, { kind: 'saved' }>[] = [];
     const host = new EngineHost(m => { if (m.kind === 'saved') { posted.push(m); } });
@@ -39,6 +45,7 @@ describe('the world a game is played in', () => {
   });
   it('is posted to the page once across acts that do not change it, and again after one that does', async () => {
     const { t, host, posted } = await Kept.host();
+    expect(t.campaign.module.semantic?.length).toBeGreaterThan(0);
     await Kept.act(host, t, /hall/);
     await Kept.act(host, t, /lane/);
     expect(posted.length).toBe(2);
