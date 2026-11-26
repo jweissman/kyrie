@@ -7,6 +7,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Scenery } from '../src/ui/scenery';
 import { Fits } from '../src/ui/fits';
 import { AsMeant } from './support/as-meant';
+import { ColdFour } from './support/cold-four';
 
 // What the golden route tells and paints, against what the company is in (Sprint 3, S3-4 and S3-5; NP-01, NP-02,
 // OA-13): the warrior come down the drove road and the elf mage of the weir, played by cold plays 4 and 5's own lines
@@ -20,11 +21,14 @@ interface Frame { at: string; name: string; daylight: string; under: boolean; we
 const routes = [
   ['the warrior on the drove road', 'human/warrior/Wenna', 'doc/architecture/mission-22/cold/cold-4-lines.txt', 90],
   ['the mage of the weir', 'elf/mage/Ilse/scholar', 'doc/architecture/mission-22/cold/cold-5-lines.txt', 96]] as const;
+// The fourth play's lines with what the world now asks after them (ColdFour: the footpads its road to Holyking now
+// stops for, and the ghouls' fight pressed on).
 async function walk(as: string, play: string, n: number): Promise<Frame[]> {
-  const sent = readFileSync(play, 'utf8').split('\n').filter(Boolean);
+  const sent = play === ColdFour.path ? ColdFour.played(n) : readFileSync(play, 'utf8').split('\n').filter(Boolean)
+    .slice(0, n);
   const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
   const r = new Runner(journey.session), frames: Frame[] = [];
-  for (const line of sent.slice(0, n)) {
+  for (const line of sent) {
     const x = await AsMeant.ask(r, line);
     if ('error' in x) { continue; }
     const c = journey.session.campaign, w = c.world, screen = ScreenModel.build(c), painting = Scenery.seen(screen);
