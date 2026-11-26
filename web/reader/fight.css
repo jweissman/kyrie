@@ -291,8 +291,9 @@
   .fight .hand-detail .whom { justify-self: end; }
   .fight .hand-note { text-align: right; }
   .fight-told-col { padding: 0 var(--menu-inset); box-sizing: border-box; }
-  /* Whose turn it is, over the rows it is theirs to choose from; who follows, before it. */
+  /* Whose turn it is, over the rows it is theirs to choose from; who follows, at the page's left edge, under the
+     company's cards (they had stood just left of the turn, read as one line with it). */
   .fight > .slot > .turn { padding-right: var(--menu-edge); }
   .fight .turn .now { order: 2; flex: 0 0 var(--menu-rows); }
-  .fight .turn .order { order: 1; }
+  .fight .turn .order { order: 1; margin: 0 auto 0 0; }
 }
