@@ -108,4 +108,21 @@ export class Scrolled {
       + parseFloat(getComputedStyle(el).paddingBottom);
     el.style.setProperty('--held', `${Math.ceil(foot)}px`);
   }
+  // How tall a part stands, written on what holds it (--name), for the stage to keep what is placed over the painting
+  // clear of it: who is here had been drawn at a fixed depth under the place's name, over the purse once the name and
+  // the hour ran to three lines at 390 (the game builder's walk, 26 November).
+  static useTall(at: RefObject<HTMLElement | null>, name: string) {
+    useLayoutEffect(() => {
+      const el = at.current, host = el?.parentElement;
+      if (!el || !host) { return undefined; }
+      const write = Scrolled.tall.bind(Scrolled, el, host, name);
+      write();
+      const seen = new ResizeObserver(write);
+      seen.observe(el);
+      return seen.disconnect.bind(seen);
+    }, [at, name]);
+  }
+  private static tall(el: HTMLElement, host: HTMLElement, name: string) {
+    host.style.setProperty(name, `${Math.ceil(el.getBoundingClientRect().height)}px`);
+  }
 }

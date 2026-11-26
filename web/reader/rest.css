@@ -404,7 +404,10 @@
   .scene-rail[data-fold="folded"] .rail-mark { width: 31px; height: 31px; }
   .scene-rail[data-fold="folded"] .lenses-fold { padding: 4px 3px; right: calc(100% + 4px); }
   .scene-rail[data-fold="folded"] .rail-mark.lenses-mark .glint { inset: 6.5px; }
-  .shell.scene-full .world-page.scale-scene .surface :is(.portraits, .lens-strip) { top: calc(var(--safe-t) + 96px);
+  /* Under the place's name, its hour and the purse as they stand (--bar-h, the bar measured: Scrolled.useTall), less
+     the bar's own foot; never over them where they run to three lines. */
+  .shell.scene-full .world-page.scale-scene .surface :is(.portraits, .lens-strip) {
+    top: max(calc(var(--safe-t) + 96px), calc(var(--bar-h, 0px) - 34px));
     bottom: auto; left: var(--safe-x); right: var(--safe-x); }  /* A crowd in two rows at most, small faces and their names said to a reader (OR-503: four rows of named faces had
      stood over the telling and the rows under it). */
   .shell.scene-full .world-page.scale-scene .surface .portraits.crowd > li { flex: 0 0 34px; min-width: 34px; }

@@ -22,8 +22,12 @@ export class Rail {
     if (await Rail.within(page, selector)) { await Rail.unfold(page, touch); }
     if (touch) { await page.tap(selector); } else { await page.click(selector); }
   }
-  // A lens opened from the rail: talk, go, look or wait.
-  static open(page: Page, lens: 'talk' | 'go' | 'look' | 'wait'): Promise<void> {
-    return Rail.click(page, `.rail-mark.opens-${lens}`);
+  // A lens opened from the rail: talk, go, look or wait; left as it is where it is open already (a second press on its
+  // mark puts it away, and what the spec meant to press next was then gone from under it).
+  static async open(page: Page, lens: 'talk' | 'go' | 'look' | 'wait'): Promise<void> {
+    const mark = `.rail-mark.opens-${lens}`;
+    if (await page.locator(`${mark}:is([aria-pressed="true"], [aria-expanded="true"])`).count()) { return; }
+    await Rail.click(page, mark);
+    await page.waitForSelector(`${mark}:is([aria-pressed="true"], [aria-expanded="true"])`, { state: 'visible' });
   }
 }

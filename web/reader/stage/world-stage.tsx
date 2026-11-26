@@ -54,12 +54,14 @@ export class WorldStage {
     // Mission 21's compositions (see Look): one panel holding the place's name, its telling, its menu and its tools
     // (veil, plate); lenses that never open a page (attend).
     const resting = !overworld && !!frame.leaf.glance, panel = resting && Look.is('veil', 'plate');
+    const bar = useRef<HTMLElement>(null);
+    Scrolled.useTall(bar, '--bar-h');
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
         + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}${!overworld && SceneRail.talking(app) ? ' talking' : ''}`}
         id="page">
-        {!panel && <header className="world-bar" {...PageFrame.slot('header')}><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>}
+        {!panel && <header ref={bar} className="world-bar" {...PageFrame.slot('header')}><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>}
         <div className="world-body">
           <section className="surface" aria-label="Where you are" {...PageFrame.slot('background')}>
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
