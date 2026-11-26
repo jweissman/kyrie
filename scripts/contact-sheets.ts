@@ -7,6 +7,7 @@
 // one. CI keeps it as the contact-sheets workflow's artifact (doc/architecture/verification.md).
 //   bun scripts/contact-sheets.ts [--out dir] [--sizes 390x844,820x1180] [--motion full|reduce|both]
 //     [--walks title,make,kept,hour,books] (some of the walks only, for a page change's own sheet: OR-508) [--update]
+//     [--core] (the core pages alone, full size, at 1280×800, 820×1180 and 390×844: OR-1091)
 // A whole run holds the lines below AA to a ratchet that may only fall (OR-506: SheetRatchet).
 // Needs a Playwright Chromium (KYRIE_CHROMIUM may name it) and, on this machine, LD_LIBRARY_PATH for NSS.
 import { mkdir, mkdtemp, rm } from 'node:fs/promises';
@@ -18,6 +19,7 @@ import type { SheetMiss, SheetShot } from './contact-sheet-camera';
 import { SheetCompose } from './contact-sheet-compose';
 import { SheetHour } from './contact-sheet-hour';
 import { SheetRatchet } from './contact-sheet-ratchet';
+import { SheetCore } from './contact-sheet-core';
 import { SheetWalks, type SheetRun } from './contact-sheet-walks';
 
 export class ContactSheets {
@@ -28,14 +30,19 @@ export class ContactSheets {
   static readonly walks: [string, (run: SheetRun) => Promise<void>][] = [
     ['title', SheetWalks.title], ['make', SheetWalks.creation], ['kept', SheetWalks.kept], ['hour', SheetHour.walk],
     ['books', SheetWalks.books]];
+  // --core: the core pages alone, each at its full resolution, at a desk's, an upright tablet's and a phone's size, for
+  // a design review (OR-1091: SheetCore); held to no ratchet, the whole run's to hold.
+  static readonly core = '1280x800,820x1180,390x844';
   static async main(args: string[]): Promise<number> {
-    const out = resolve(ContactSheets.option(args, 'out', 'contact-sheets'));
+    const core = args.includes('--core');
+    const out = resolve(ContactSheets.option(args, 'out', core ? 'contact-sheets-core' : 'contact-sheets'));
     // --motion full (the default), reduce, or both: each size walked again as for one who asks for less motion.
     const motion = ContactSheets.option(args, 'motion', 'full'), passes = motion === 'both' ? [false, true]
       : [motion === 'reduce'];
     const asked = ContactSheets.option(args, 'walks', ContactSheets.walks.map(([w]) => w).join(',')).split(',');
-    const walks = ContactSheets.walks.filter(([w]) => asked.includes(w));
-    const sizes = ContactSheets.option(args, 'sizes', '390x844,820x1180').split(',')
+    const walks: typeof ContactSheets.walks = core ? [['core', SheetCore.walk]]
+      : ContactSheets.walks.filter(([w]) => asked.includes(w));
+    const sizes = ContactSheets.option(args, 'sizes', core ? ContactSheets.core : '390x844,820x1180').split(',')
       .flatMap(s => passes.map(r => (r ? `${s}-reduced` : s)));
     await rm(out, { recursive: true, force: true });
     await mkdir(out, { recursive: true });

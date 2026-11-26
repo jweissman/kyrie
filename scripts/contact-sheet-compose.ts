@@ -23,10 +23,15 @@ export class SheetCompose {
     const [w, h] = size.split('x').map(n => parseInt(n, 10)) as [number, number];
     return w > h ? 4 : 6;
   }
+  // Every picture labelled with its page, its state and its viewport (OR-1091, the owner's review: a shot unlabelled
+  // could not be told from its neighbour): the page by its name, the state in its caption, the viewport its size.
+  static label(s: SheetShot): string {
+    return `<b>${String(s.n).padStart(2, '0')} ${SheetCompose.escape(s.name)}</b> · ${SheetCompose.escape(s.caption)}`
+      + ` · <span class="viewport">${SheetCompose.escape(s.size.replace('x', '×'))}</span>`;
+  }
   static sheet(size: string, shots: SheetShot[], meta: string): string {
     const figures = shots.map(s => `<figure><img src="${s.file}" alt="">`
-      + `<figcaption><b>${String(s.n).padStart(2, '0')} ${SheetCompose.escape(s.name)}</b> · `
-      + `${SheetCompose.escape(s.caption)}</figcaption></figure>`).join('\n');
+      + `<figcaption>${SheetCompose.label(s)}</figcaption></figure>`).join('\n');
     const across = SheetCompose.columns(size), wide = across * (size.startsWith('390') ? 230 : 300);
     return `<!doctype html><html><head><meta charset="utf-8"><title>Kyrie at ${size}</title>`
       + `<style>${SheetCompose.style} body { width: ${wide}px; } .grid { grid-template-columns: repeat(${across}, 1fr); }`
@@ -39,7 +44,7 @@ export class SheetCompose {
     const missed = misses.length ? misses.map(m => `<li>${m.size} ${SheetCompose.escape(`${m.walk}/${m.step}`)}: `
       + `${SheetCompose.escape(m.why)}</li>`).join('') : '<li>none</li>';
     const all = sizes.map(s => `<h2>${s}</h2><ol>${shots.filter(x => x.size === s).map(x =>
-      `<li><a href="${x.file}">${SheetCompose.escape(x.name)}</a> · ${SheetCompose.escape(x.caption)}</li>`).join('')}</ol>`);
+      `<li><a href="${x.file}">${SheetCompose.label(x)}</a></li>`).join('')}</ol>`);
     return `<!doctype html><html><head><meta charset="utf-8"><title>Kyrie contact sheets</title>`
       + `<style>${SheetCompose.style} body { max-width: 900px; }</style></head><body><h1>Kyrie contact sheets</h1>`
       + `<p class="meta">${SheetCompose.escape(meta)}</p><h2>Sheets</h2><ul>${sheets}</ul>`

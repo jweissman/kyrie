@@ -135,7 +135,7 @@ export class SheetHour {
     throw new Error('the fight did not end in 200 turns');
   }
   // Gone to by the places lens, as test/safe-zone-browser goes (CN-01).
-  private async to(place: string): Promise<void> {
+  async to(place: string): Promise<void> {
     const { page } = this;
     if (await page.locator('.act.opens-go').count()) { await page.click('.act.opens-go'); await this.d.settle(); return; }
     await Rail.click(page, '.rail-mark.opens-go');
