@@ -6,7 +6,6 @@
   "src/presentation/company-knowledge.ts": "the projector's record of what was learnt, and how (CompanyKnowledge.of)",
   "src/presentation/company-map.ts": "the projector's memory of places: perceived before and remembered (CompanyMap.of)",
   "src/ui/known-country.ts": "the projector's knowledge of the country: places told of and seen from afar, ways told, land looked out over, wayfinding, the places aims name (KnownCountry.of; OR-741's first slice, ways and destinations)",
-  "src/presentation/company-senses.ts": "the projector's senses: what the company is capable of, where those it could perceive along its ways stand and the ways on as it would find them, whom it knows by name, which of it brings what a sight wants noticing, which things perceived grow, and each observation as written (CompanySenses; OR-741's slice of narration and perception)",
   "src/presentation/outcome.ts": "the projector's prospective reading: what an offered act would teach (Outcome.foreseen, asked through Knowing; Outcome.taught, the whole world's, for the diagnostic tools)",
   "src/presentation/player-revision.ts": "the player revision's key: the world compared by identity, never read (PlayerRevision.of)",
   "src/cli/runner-fidelity.ts": "diagnostic: promise fidelity, an act tried in a copy of the world; nothing of it is shown",
@@ -20,7 +19,6 @@
   "CompanyKnowledge.of(campaign, actor, labels): what was learnt",
   "CompanyMap.of(campaign, actor, travel): the places remembered and the ways known",
   "KnownCountry.of(world, actor): what the company knows of the country, for its map and its journeys (told, sighted, directions, looked, wayfinding, aimed)",
-  "CompanySenses (capable, standing, passages, acquainted, label, noticer, growing, observations): what the company perceives of itself and about it, for the narrator and the glance's perception",
   "PlayerFrame.knowing: the revision's projection, as the frame's consumers read it"
  ],
  "counts": {
@@ -173,6 +171,11 @@
    "world": 2,
    "facts": 5
   },
+  "src/presentation/narrator.ts": {
+   "world": 2,
+   "facts": 5,
+   "rules": 3
+  },
   "src/presentation/openings.ts": {
    "world": 3,
    "facts": 11
@@ -180,6 +183,10 @@
   "src/presentation/outmatched.ts": {
    "world": 4,
    "facts": 9
+  },
+  "src/presentation/perception.ts": {
+   "world": 6,
+   "facts": 5
   },
   "src/presentation/prologue.ts": {
    "rules": 2

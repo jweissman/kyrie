@@ -10,6 +10,7 @@ import { FictionalTime } from '../campaign/fictional-time';
 import { Typography } from './typography';
 import { Narration } from './narration'; import { LineMoments, type Typed } from './line-moments';
 import { Spoken } from './spoken';
+import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { Chapters } from '../lang/chapters';
 import type { Opening, Told as Opened } from './prologue';
@@ -17,7 +18,7 @@ import { Succession } from './succession'; import { Readings } from './readings'
 import { Compass } from './compass'; import { Noted, type Note } from './noted';
 import { Likenesses } from './likenesses'; import { LensSubjects } from './lens-subjects';
 import { ToldOnce } from './told-once';
-import { Glance } from './glance'; import { CompanySenses } from './company-senses'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
+import { Glance } from './glance'; import { Instruments } from './instruments'; import { Introduced } from './introduced';
 import { SceneBudget } from './scene-budget'; import { Voice } from '../narrative/voice';
 import { TaughtSigns } from './taught-signs'; import { Charge } from './charge';
 import type { Glance as GlanceView } from './glance-types'; import type { Asked } from './travel-question';
@@ -225,7 +226,15 @@ export class Narrator {
   }
   // An observation's definition, by its id; one near a variable is told by its own (id@entity).
   private static def(defs: Map<string, Observation>, id: string): Observation | undefined { return defs.get(id.split('@')[0]!); }
-  private static defs(campaign: Campaign): Map<string, Observation> { return CompanySenses.observations(campaign); }
+  private static readonly cached = new WeakMap<Campaign['module'], Map<string, Observation>>();
+  private static defs(campaign: Campaign): Map<string, Observation> {
+    let defs = this.cached.get(campaign.module);
+    if (!defs) {
+      defs = new Map((campaign.module.observations ?? []).map(o => [o.id, o]));
+      this.cached.set(campaign.module, defs);
+    }
+    return defs;
+  }
   // What the place's description holds now. Lines about someone or something here are told with them; an event is
   // told as part of what happened; ambience (the place's passing life) the first time each line of it is seen: in a
   // place not known yet, or a line come to hold in a place known (GR-26: the second stage of what is afoot in a town,
@@ -265,18 +274,23 @@ export class Narrator {
   // data/rules/care.kyr); what the one who plays notices is simply told. Only one in the company: a traveller of the
   // country before joining is not (the follow-up review was told "Immeral sees it first" of someone it had never met).
   private static noticed(campaign: Campaign, def: Observation | undefined, text: string): string {
-    const by = def?.by && CompanySenses.noticer(campaign, def.by);
-    const name = by && campaign.module.entities.find(e => e.id === by)?.name;
+    const world = campaign.world, company = campaign.playerActor;
+    const known = new Set(world.module.relations.map(r => r.name));
+    if (!def?.by || !company || !known.has('companion') || !known.has('memberOf')) { return text; }
+    const by = world.related('brings').find(r => r.args[1] === def.by
+      && world.test(ModuleWriter.call('companion', r.args[0]!))
+      && world.test(ModuleWriter.call('memberOf', r.args[0]!, company)) && world.test(ModuleWriter.call('awake', r.args[0]!)));
+    const name = by && campaign.module.entities.find(e => e.id === by.args[0])?.name;
     return name ? `${name} sees it first. ${text}` : text;
   }
   // What grows along the way is told where it is first met, not at every riverbank after: the follow-up review read
   // the same willows and meadowsweet again and again. It is still there to be gathered.
   private static familiar(campaign: Campaign, screen: Screen): Set<string> {
-    const grows = CompanySenses.growing(campaign, screen.things.map(t => t.id));
-    if (!grows.size) { return new Set(); }
+    const world = campaign.world;
+    if (!world.module.relations.some(r => r.name === 'grows')) { return new Set(); }
     const before = new Set(campaign.history.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.text)));
-    return new Set(screen.things.filter(t => grows.has(t.id)).flatMap(t => t.says ?? [])
-      .filter(text => before.has(text)));
+    return new Set(screen.things.filter(t => world.test(ModuleWriter.call('grows', t.id)))
+      .flatMap(t => t.says ?? []).filter(text => before.has(text)));
   }
   private static seenBefore(campaign: Campaign): Set<string> {
     return new Set(campaign.history.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.id)));

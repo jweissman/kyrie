@@ -15,9 +15,7 @@ import { Glob } from 'bun';
 // 1250 → 1249 on 25 November: the world's rules read Reads, and what is computed, through the entry (CampaignTick).
 // 1249 → 1247 on 26 November: the map's and the journeys' reads of what the company knows moved into KnownCountry
 // (src/ui/known-country.ts), which reads the language through its entry (OR-741).
-// 1247 → 1244 on 26 November: the narrator's and the perception's reads of what the company perceives moved into
-// CompanySenses (src/presentation/company-senses.ts), which reads the language through its entry (OR-741).
-const kept = 1244;
+const kept = 1247;
 class Deep {
   static count(): number {
     const roots = ['src/**/*.ts', 'web/**/*.{ts,tsx}', 'scripts/**/*.ts', 'test/**/*.ts', 'bin/**/*.ts'];
