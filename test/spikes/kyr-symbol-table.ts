@@ -6,15 +6,17 @@ type Kind = 'module' | 'relation' | 'measure' | 'query' | 'action' | 'entity' | 
   | 'rule' | 'observation' | 'objective' | 'pursuit' | 'route' | 'topic' | 'ending' | 'chapter'
   | 'promise' | 'occasion' | 'situation' | 'matter' | 'incident' | 'passage' | 'species';
 type Node = ohm.Node;
-export interface SourceModule { file: string; text: string; module: Module }
-export interface Context { modules: readonly SourceModule[]; catalog: ReadonlyMap<string, Symbol> }
+export interface SourceModule { file: string; text: string; module: Module; scope: 'shared' | 'local' }
+export interface Context { modules: readonly SourceModule[]; catalog: ReadonlyMap<string, readonly Symbol[]> }
 export interface Symbol {
-  file: string; module: string; kind: Kind; name: string; signature: string;
+  file: string; module: string; scope: 'shared' | 'local' | 'catalog'; kind: Kind; name: string; signature: string;
   start: number; end: number; line: number; column: number;
 }
+export type Binding = { status: 'bound'; target: Symbol } | { status: 'unresolved' }
+  | { status: 'ambiguous'; candidates: Symbol[] };
 export interface Occurrence {
   file: string; module: string; name: string; mode: 'read' | 'write' | 'mention';
-  start: number; end: number; line: number; column: number; target?: Symbol;
+  start: number; end: number; line: number; column: number; binding?: Binding;
 }
 
 // An isolated experiment, not the compiler's binding authority. It records identifiers and a subset of declarations.
@@ -25,15 +27,28 @@ export class SymbolTableSpike {
   constructor(readonly context: Context) {
     for (const source of context.modules) { this.index(source); }
     for (const occurrence of this.occurrences.filter(o => o.mode !== 'mention')) {
-      occurrence.target = this.symbols.find(s => s.module === occurrence.module && s.name === occurrence.name
-        && this.function(s.kind)) ?? this.symbols.find(s => s.file.startsWith('data/rules/')
-          && s.name === occurrence.name && this.function(s.kind)) ?? context.catalog.get(occurrence.name);
+      occurrence.binding = this.bind(occurrence);
     }
+  }
+  private bind(occurrence: Occurrence): Binding {
+    const matches = (symbol: Symbol) => symbol.name === occurrence.name && this.function(symbol.kind);
+    const local = this.symbols.filter(symbol => symbol.scope === 'local' && symbol.module === occurrence.module
+      && matches(symbol));
+    if (local.length) { return this.result(local); }
+    const shared = this.symbols.filter(symbol => symbol.scope === 'shared' && matches(symbol));
+    if (shared.length) { return this.result(shared); }
+    return this.result([...(this.context.catalog.get(occurrence.name) ?? [])].filter(matches));
+  }
+  private result(candidates: Symbol[]): Binding {
+    if (candidates.length === 0) { return { status: 'unresolved' }; }
+    if (candidates.length > 1) { return { status: 'ambiguous', candidates }; }
+    return { status: 'bound', target: candidates[0]! };
   }
   private index(source: SourceModule) {
     const match = Grammars.quick.match(source.text);
     if (match.failed()) { throw new Error(`Invalid Kyr in ${source.file}: ${match.message}`); }
-    const writes = new Set<number>(), names = new Set<number>(), table = this;
+    const writes = new Set<number>(), names = new Set<number>(), declarationsSeen = new Map<string, number>();
+    const table = this;
     let identifiers = 0;
     const symbolStart = this.symbols.length, occurrenceStart = this.occurrences.length;
     const declarations: Record<string, { kind: Kind; index: number }> = {
@@ -60,7 +75,7 @@ export class SymbolTableSpike {
         if (declaration) {
           const node = children[declaration.index]!;
           names.add(node.source.startIdx);
-          table.declaration(source, declaration.kind, node);
+          table.declaration(source, declaration.kind, node, declarationsSeen);
         }
         if (['Assert', 'Retract', 'Set', 'Increase', 'Decrease'].includes(this.ctorName)) {
           writes.add(children[1]!.source.startIdx);
@@ -85,11 +100,16 @@ export class SymbolTableSpike {
       throw new Error(`${source.file}: captured ${recorded} of ${identifiers} identifier nodes`);
     }
   }
-  private declaration(source: SourceModule, kind: Kind, node: Node) {
+  private declaration(source: SourceModule, kind: Kind, node: Node, seen: Map<string, number>) {
     const name = node.sourceString;
-    const list = kind === 'relation' ? source.module.relations : kind === 'measure' ? source.module.measures : [];
-    const signature = list.find(s => s.name === name)?.types.join(',') ?? '';
-    this.symbols.push({ file: source.file, module: source.module.id, kind, name, signature, ...this.span(node) });
+    const list = kind === 'relation' ? source.module.relations : kind === 'measure' ? source.module.measures
+      : kind === 'query' ? source.module.queries.map(q => ({ name: q.name, types: q.parameters.map(p => p.type) })) : [];
+    const matches = list.filter(s => s.name === name), key = `${kind}:${name}`;
+    const index = seen.get(key) ?? 0;
+    seen.set(key, index + 1);
+    const signature = matches[index]?.types.join(',') ?? '';
+    this.symbols.push({ file: source.file, module: source.module.id, scope: source.scope, kind, name, signature,
+      ...this.span(node) });
   }
   private call(source: SourceModule, node: Node, write: boolean) {
     this.occurrences.push({ file: source.file, module: source.module.id, name: node.sourceString,
@@ -105,11 +125,11 @@ export class SymbolTableSpike {
     return { start: node.source.startIdx, end: node.source.endIdx, line: at.lineNum, column: at.colNum };
   }
   twins(): Finding[] {
-    const shared = this.symbols.filter(s => s.file.startsWith('data/rules/'));
+    const shared = this.symbols.filter(s => s.scope === 'shared');
     const queries = new Set(shared.filter(s => s.kind === 'query').map(s => s.name));
-    const functions = new Set(shared.filter(s => s.kind !== 'action').map(s => s.name));
+    const functions = new Set(shared.filter(s => this.function(s.kind)).map(s => s.name));
     const actions = new Set(shared.filter(s => s.kind === 'action').map(s => s.name));
-    return this.context.modules.filter(s => !s.file.startsWith('data/rules/')).flatMap(source => {
+    return this.context.modules.filter(s => s.scope === 'local').flatMap(source => {
       const local = this.symbols.filter(s => s.file === source.file);
       const clashes = [
         ...local.filter(s => s.kind === 'query' && functions.has(s.name)).map(s => `query ${s.name}`),
@@ -130,26 +150,26 @@ export class SymbolTableSpike {
       }
     }
     for (const [name, list] of defs) {
-      const shared = list.filter(s => s.file.startsWith('data/rules/'));
+      const shared = list.filter(s => s.scope === 'shared');
       if (new Set(shared.map(s => s.signature)).size > 1) {
         findings.push({ level: 'warning', check: 'vocabulary', where: name,
           message: `defined with different meanings: ${shared.map(s => `${s.file}(${s.signature})`).join(', ')}` });
       }
-      for (const s of shared.length ? list.filter(x => !x.file.startsWith('data/rules/')) : []) {
+      for (const s of shared.length ? list.filter(x => x.scope === 'local') : []) {
         findings.push({ level: 'error', check: 'redefinition', where: s.file, message: `redefines canonical ${name}` });
       }
     }
     return findings;
   }
   shadowFindings(where: string, installedId: string): Finding[] {
-    const shared = this.symbols.filter(s => s.file.startsWith('data/rules/'));
-    const functions = new Set(shared.filter(s => s.kind !== 'action').map(s => s.name));
+    const shared = this.symbols.filter(s => s.scope === 'shared');
+    const functions = new Set(shared.filter(s => this.function(s.kind)).map(s => s.name));
     const actions = new Set(shared.filter(s => s.kind === 'action').map(s => s.name));
-    return this.context.modules.filter(s => !s.file.startsWith('data/rules/')).flatMap(source => {
+    return this.context.modules.filter(s => s.scope === 'local').flatMap(source => {
       const local = this.symbols.filter(s => s.file === source.file);
       return local.flatMap(symbol => {
         const action = symbol.kind === 'action' && actions.has(symbol.name);
-        const func = symbol.kind !== 'action' && functions.has(symbol.name);
+        const func = this.function(symbol.kind) && functions.has(symbol.name);
         if (!action && !func) { return []; }
         const description = action
           ? `action ${symbol.name} is one of the shared rules' too; in this module it is the module's own`
