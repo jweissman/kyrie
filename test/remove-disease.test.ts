@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/arena';
 import { Content } from '../src/content';
@@ -35,11 +36,11 @@ describe('Remove Disease, by the SRD\'s resolution', () => {
       .toEqual(['blessed', 'poison']);
   });
   it('is cast outside a fight as well, from the third level\'s slot', () => {
-    const hero = c.createCreature('hero', { raceId: 'human', classId: 'cleric', traits: ['vitalist'], level: 5 }, 'rd');
+    const hero = c.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'cleric', traits: ['vitalist'], level: 5 }, 'rd');
     if (!hero.base.abilities.includes('cure_disease')) { hero.base.abilities.push('cure_disease'); }
     Spellcasting.prepare(hero.state, 2, hero.state.prepared![2]![0]!, 'cure_disease');
     hero.state.conditions.push({ id: 'infected', remaining: 3 });
-    const store = new CreatureStore([hero]), before = hero.state.slots![2]!;
+    const store = new CreatureStore(ItemCatalog.canon, [hero]), before = hero.state.slots![2]!;
     FieldUse.perform(store, ['hero'], { ability: 'cure_disease', caster: 'hero', target: 'hero', seed: 'field' });
     expect(store.get('hero').state.conditions.some(s => s.id === 'infected')).toBe(false);
     expect(store.get('hero').state.slots![2]).toBe(before - 1);

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -21,7 +22,7 @@ describe('a likeness chosen at creation', () => {
     const s = await Chosen.start('victrix'), me = ScreenModel.build(s.campaign).party[0]!;
     expect([me.portrait?.src, me.portrait?.large]).toEqual(['paintings/victrix.webp', 'paintings/large/victrix.webp']);
     const creature = s.campaign.readout.creatures.find(c => c.id === me.id)!;
-    expect(CombatProjection.creature(CombatProjection.fighter(creature, 'fighters'), creature).likeness).toBe('victrix');
+    expect(CombatProjection.creature(CombatProjection.fighter(ItemCatalog.canon, creature, 'fighters'), creature).likeness).toBe('victrix');
     const back = PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint())) as ReturnType<typeof s.checkpoint>);
     expect(ScreenModel.build(back.campaign).party[0]!.portrait?.src).toBe('paintings/victrix.webp');
   }, 60000);

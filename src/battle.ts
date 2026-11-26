@@ -57,16 +57,15 @@ export class Battle {
     // And words, which every fight has, as it has waiting (see Parley).
     const base = Parley.worded(scenario.abilities === Content.abilities ? Content.abilities
       : structuredClone(scenario.abilities));
-    const carried = [...new Set(this.fighters.flatMap(f => Object.keys(f.stock ?? {})))]
-      .filter(id => !base.some(a => a.id === id)).map(id => structuredClone(ItemCatalog.used(id)!));
+    const carried = [...new Map(this.fighters.flatMap(f => Object.keys(f.stock ?? {})
+      .map(id => [id, f] as const)))].filter(([id]) => !base.some(a => a.id === id))
+      .map(([id, f]) => structuredClone(ItemCatalog.fought(f, id)!));
     this.abilities = carried.length ? [...base, ...carried] : base;
     try { BattleRoll.validate(this.fighters, this.abilities); } catch (error) { this.lease?.release(); throw error; }
+    // One of no campaign's (an arena's) is of the catalog's kinds alone; a campaign's is leased from its store.
     if (!this.lease) {
-      const store = new CreatureStore(this.fighters.map(f => {
-        const creature = CombatProjection.creature(f);
-        creature.state.conditions = creature.state.conditions.filter(c => Battle.kept(c));
-        return creature;
-      }));
+      const store = new CreatureStore(ItemCatalog.canon, this.fighters.map(f => CombatProjection.creature(f))
+        .map(c => ({ ...c, state: { ...c.state, conditions: c.state.conditions.filter(s => Battle.kept(s)) } })));
       this.lease = store.acquire(this.fighters.map(f => f.id));
     }
     this.expressions = new Expressions(`${seed}:combat`);
@@ -96,7 +95,7 @@ export class Battle {
       // The laws of the place hold for everyone in the fight, for as long as it lasts.
       const laws = (options.laws ?? []).filter(id => Conditions.exact(id)).map(id => Battle.holding(id));
       const combatants = participants.map((p, i) => {
-        const f = CombatProjection.fighter(lease.creatures[i]!, p.team);
+        const f = CombatProjection.fighter(store.catalog, lease.creatures[i]!, p.team);
         // Those too long without sleep fight weary; those who drew it out and waited for it meet it ready.
         // And those with no light fight in the dark.
         const held = ([['weary', options.weary], ['ready', options.ready], ['in_the_dark', options.dark]] as const)
@@ -115,6 +114,7 @@ export class Battle {
   // One in the fight as they came into it, with their pack and arms: what a reckoning from where everyone stands
   // builds them back from (see DangerSense.of).
   original(id: string): Creature | undefined { return this.lease?.creatures.find(c => c.id === id); }
+  get catalog(): ItemCatalog { return this.lease!.catalog; }
   get participants(): EncounterParticipant[] {
     return [...this.fighters, ...this.departed].map(f => CombatProjection.participant(f,
       f.statuses.filter(s => Effects.status(s.id).lifetime === 'encounter')));

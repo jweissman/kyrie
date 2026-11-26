@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Membership } from '../src/campaign/membership';
 import { Content } from '../src/content';
@@ -13,9 +14,9 @@ describe("a recruit's own coin", () => {
     const module = ModuleParser.parse(`Module m "M" { Place yard "the yard" is room. Entity party: group "You".
       Relation at(entity, place). Relation memberOf(member, group). Relation joinedAs(member, group).
       Relation travelsWith(group, group). Entity hal: group "Hal". Entity hal_m: member "Hal". }`);
-    const content = new Content('purse'), hal = content.createCreature('hal_body', { raceId: 'human', classId: 'warrior' });
+    const content = new Content('purse'), hal = content.createCreature(ItemCatalog.canon, 'hal_body', { raceId: 'human', classId: 'warrior' });
     hal.state.gold = 12;
-    const store = new CreatureStore([hal]);
+    const store = new CreatureStore(ItemCatalog.canon, [hal]);
     module.entities.find(e => e.id === 'hal_m')!.creatureId = 'hal_body';
     const current = { partyIds: [] as string[], inhabitants: { hal: ['hal_body'], party: [] as string[] } as Record<string, string[]>,
       enlisted: {} as Record<string, string>, purses: undefined as Record<string, number> | undefined };

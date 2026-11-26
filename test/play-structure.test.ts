@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { PlaySession } from '../src/session/play-session';
@@ -173,7 +174,7 @@ describe('a start', () => {
   // Plate at the start made ordinary foes harmless ("a common foe needs 20"): plate is something to buy.
   it('puts a warrior in mail, never plate', () => {
     const worn = Array.from({ length: 40 }, (_, i) => new Content(`mail${i}`)
-      .createCreature('w', { raceId: 'human', classId: 'warrior' }))
+      .createCreature(ItemCatalog.canon, 'w', { raceId: 'human', classId: 'warrior' }))
       .map(c => c.state.inventory?.find(i => i.equipped && Canon.items[i.definition]?.armor)?.definition);
     expect(new Set(worn)).toEqual(new Set(['ring', 'scale', 'chainmail']));
   });

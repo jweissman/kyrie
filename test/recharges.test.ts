@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { afterAll, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { CanonValidation } from '../src/canon/canon-validation';
@@ -56,9 +57,9 @@ describe('what gives an ability\'s uses back', () => {
   it('is read by the recovery itself: a rest leaves a night\'s use spent, a camp gives it back', () => {
     const content = new Content('recharges'), { shelteredRest, roughRest } = Canon.rules.combat.ids;
     for (const [ability, kind, back] of [[shelteredRest, 'rest', false], [roughRest, 'night', true]] as const) {
-      const c = content.createCreature('h', { raceId: 'human', classId: 'warrior' });
+      const c = content.createCreature(ItemCatalog.canon, 'h', { raceId: 'human', classId: 'warrior' });
       c.state.daily = { used: { t_night: 1 } };
-      const store = new CreatureStore([c]);
+      const store = new CreatureStore(ItemCatalog.canon, [c]);
       FieldUse.perform(store, ['h'], { ability, caster: 'h', target: 'h', seed: 's', service: 'recover',
         recovery: { kind, day: 1 } });
       expect([kind, store.get('h').state.daily?.used?.t_night === undefined]).toEqual([kind, back]);

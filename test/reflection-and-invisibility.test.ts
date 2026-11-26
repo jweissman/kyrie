@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { CombatProjection } from '../src/combat-projection';
@@ -14,9 +15,9 @@ describe('a reflection', () => {
       .toEqual([0.25, 0.5, 0.75]);
     expect(Canon.abilities.reflection!.unsupported).toBeUndefined();
     const content = new Content('mirror');
-    const mage = CombatProjection.fighter(content.createCreature('mage', { raceId: 'human', classId: 'mage', level: 9 }),
+    const mage = CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'mage', { raceId: 'human', classId: 'mage', level: 9 }),
       'fighters');
-    const brute = CombatProjection.fighter(content.createCreature('brute', { raceId: 'human', classId: 'warrior', level: 9 }),
+    const brute = CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'brute', { raceId: 'human', classId: 'warrior', level: 9 }),
       'goblins');
     mage.statuses.push({ id: 'reflect', remaining: 3 });
     const context = (actor: typeof mage): EffectContext => ({ actor, fighters: [mage, brute], turn: 1, events: [],
@@ -37,9 +38,9 @@ describe('a reflection', () => {
 describe('the invisible', () => {
   it('are not gone for one by one, unless the invisible are seen', () => {
     const content = new Content('unseen');
-    const thief = CombatProjection.fighter(content.createCreature('thief', { raceId: 'human', classId: 'thief', level: 3 }),
+    const thief = CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'thief', { raceId: 'human', classId: 'thief', level: 3 }),
       'fighters');
-    const guard = CombatProjection.fighter(content.createCreature('guard', { raceId: 'human', classId: 'warrior', level: 3 }),
+    const guard = CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'guard', { raceId: 'human', classId: 'warrior', level: 3 }),
       'goblins');
     thief.statuses.push({ id: 'invisible', remaining: 3 });
     const fighters = [thief, guard];

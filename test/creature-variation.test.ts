@@ -15,7 +15,7 @@ import type { RegistryEntry } from '../src/registry/orsino-extract';
 // lineage, an elemental's element, a stag's sex are variations of one base, not species of their own): each made by the
 // one way creatures are made, from its kind's record with its variations laid over it (data/catalog/variations.json),
 // with mechanical consequences, kept with the creature as it was made, and refused where it does not fit.
-const make = (raceId: string, variations?: string[], level?: number) => new Content('variation').createCreature('c',
+const make = (raceId: string, variations?: string[], level?: number) => new Content('variation').createCreature(ItemCatalog.canon, 'c',
   { raceId, ...variations ? { variations } : {}, ...level ? { level } : {} } as never, 'c');
 const scores = (c: ReturnType<typeof make>) => [c.base.strength, c.base.dexterity, c.base.constitution];
 const orsino = (id: string) => (registry.entries as unknown as RegistryEntry[]).find(e => e.id === id)!
@@ -36,15 +36,15 @@ describe('a creature and its variations', () => {
     expect(Canon.materials.iron!.kind).toBe('metal');
   });
   it('gives a dragon its lineage\'s breath and its proof against what it breathes', () => {
-    const red = CombatProjection.fighter(make('dragon', ['red_lineage']), 'goblins');
-    const white = CombatProjection.fighter(make('dragon', ['white_lineage']), 'goblins');
+    const red = CombatProjection.fighter(ItemCatalog.canon, make('dragon', ['red_lineage']), 'goblins');
+    const white = CombatProjection.fighter(ItemCatalog.canon, make('dragon', ['white_lineage']), 'goblins');
     // Every lineage a breath weapon (all its foes, a save vs breath), and its bite besides (the owner, 6 November).
     expect([red.equipment.weapon.id, white.equipment.weapon.id, red.abilities.includes('breathe_fire'),
       white.abilities.includes('breathe_cold')]).toEqual(['bite', 'bite', true, true]);
     expect([Effects.modifiers(red).resistances?.fire, Effects.modifiers(white).resistances?.cold])
       .toEqual([0.75, 0.75]);
     expect(make('red_dragon').variations).toEqual(['red_lineage']);
-    expect(ItemCatalog.equipment(make('dragon')).weapon.id).toBe('bite');
+    expect(ItemCatalog.canon.equipment(make('dragon')).weapon.id).toBe('bite');
   });
   it('makes each of Orsino\'s seventeen elementals the Elemental of an element, and calls them up by that', () => {
     const fire = make('fire_elemental'), water = make('water_elemental');
@@ -81,7 +81,7 @@ describe('a creature and its variations', () => {
         party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }) });
     const s = await PlaySession.start(source.resolve('g.campaign.json'), 'g', source);
     const shape = (c: ReturnType<typeof make>) => ({ kind: c.raceId, variations: c.variations, hp: c.base.maxHp,
-      con: c.base.constitution, weapon: ItemCatalog.equipment(c).weapon.id });
+      con: c.base.constitution, weapon: ItemCatalog.canon.equipment(c).weapon.id });
     const made = () => s.campaign.readout.creatures.filter(c => ['golem', 'dragon'].includes(c.raceId)).map(shape);
     expect(made().map(m => [m.kind, m.variations, m.weapon])).toEqual([['golem', ['stone'], 'slam'],
       ['dragon', ['green_lineage', 'young'], 'bite']]);

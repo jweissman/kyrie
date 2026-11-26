@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -64,8 +65,8 @@ describe('a mage in the king-barrow', () => {
     const s = await Barrow.start([Barrow.mage]), wenna = s.campaign.readout.creatures[0]!;
     const fallen = (condition: string) => ({ ...structuredClone(wenna),
       state: { ...structuredClone(wenna.state), hp: 0, conditions: [{ id: condition, remaining: 3 }] } });
-    expect(PartyCapabilities.has('light', [fallen('lit')])).toBe(true);
-    expect(PartyCapabilities.has('light', [fallen('torchlit')])).toBe(false);
+    expect(PartyCapabilities.has(ItemCatalog.canon, 'light', [fallen('lit')])).toBe(true);
+    expect(PartyCapabilities.has(ItemCatalog.canon, 'light', [fallen('torchlit')])).toBe(false);
   }, 60000);
   it('hears its leader as someone, and says what was read as read', async () => {
     const s = await Barrow.start([Barrow.mage]);

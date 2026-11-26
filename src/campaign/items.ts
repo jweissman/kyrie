@@ -23,7 +23,7 @@ export class Items {
   // An item is named in events by its world label (an authored instance name) when it has one, else by its kind.
   static take(store: CreatureStore, owner: string, item: ItemRef & { definition: string }): CombatEvent[] {
     const { id, definition, label } = item;
-    ItemCatalog.get(definition);
+    store.catalog.get(definition);
     if (store.snapshot.some(c => c.state.inventory?.some(i => i.id === id))) { throw new Error('Item already owned'); }
     const lease = store.acquire([owner]);
     try {
@@ -31,7 +31,7 @@ export class Items {
       if (!creature.state.hp) { throw new Error('Dead creatures cannot collect items'); }
       (creature.state.inventory ??= []).push({ id, definition });
       lease.commit(lease.creatures);
-      return [{ type: 'gain', turn: 0, actor: owner, target: owner, detail: label ?? ItemCatalog.get(definition).name, amount: 1 }];
+      return [{ type: 'gain', turn: 0, actor: owner, target: owner, detail: label ?? store.catalog.get(definition).name, amount: 1 }];
     } finally { lease.release(); }
   }
   // A search by a company with a perk for finds (a foundry's jury-rigging) turns up an extra consumable for whichever
@@ -56,14 +56,14 @@ export class Items {
     try {
       const creature = lease.creatures[0]!, item = creature.state.inventory?.find(i => i.id === id);
       if (!creature.state.hp || !item) { throw new Error('Item is not owned by a living wearer'); }
-      const definition = ItemCatalog.get(item.definition);
+      const definition = store.catalog.get(item.definition);
       if (!definition.slot) { throw new Error('Item cannot be equipped'); }
       if (!Creation.canEquip(creature.classId, item.definition)) {
         throw new Error(`${creature.name} is not proficient with ${definition.name}`);
       }
       // As many to a slot as it holds (a ring to each hand: the item audit's G10), the first worn taken off for more.
       const worn = creature.state.inventory!.filter(o => o !== item && o.equipped
-        && ItemCatalog.get(o.definition).slot === definition.slot);
+        && store.catalog.get(o.definition).slot === definition.slot);
       for (const other of worn.slice(0, Math.max(0, worn.length - ItemCatalog.holds(definition.slot) + 1))) {
         other.equipped = false;
       }
@@ -77,7 +77,7 @@ export class Items {
     const { owner, target, id, seed } = options;
     const item = store.get(owner).state.inventory?.find(i => i.id === id);
     if (!item) { throw new Error('Item is not owned'); }
-    const definition = ItemCatalog.get(item.definition);
+    const definition = store.catalog.get(item.definition);
     if (!definition.use) { throw new Error('Item is not consumable'); }
     const ability = this.consumable(item.definition, definition.name, definition.use);
     return this.resolve(store, { ids: [owner, target], ability, actorId: owner, targetId: target, seed,
@@ -132,7 +132,7 @@ export class Items {
       from.state.inventory = from.state.inventory!.filter(i => i.id !== id);
       (to.state.inventory ??= []).push({ ...item, equipped: false });
       lease.commit(lease.creatures);
-      return [{ type: 'gain', turn: 0, actor: owner, target: recipient, detail: label ?? ItemCatalog.get(item.definition).name }];
+      return [{ type: 'gain', turn: 0, actor: owner, target: recipient, detail: label ?? store.catalog.get(item.definition).name }];
     } finally { lease.release(); }
   }
   // An item out of its carrier's hands: set down, given, sold, put away or used up, as the action says it was; the
@@ -189,7 +189,7 @@ export class Items {
     ability.effects.forEach(e => Effects.validate(e, Content.abilities.map(a => a.id)));
     const lease = store.acquire([...new Set(ids)]);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(lease.catalog, c, 'fighters'));
       const actor = fighters.find(c => c.id === actorId);
       if (actor && (!actor.hp || actor.statuses.some(s => Effects.skips(s.id)))) {
         throw new Error('Source cannot act');
@@ -203,7 +203,7 @@ export class Items {
       // What is used up is gone; a wand keeps the charges it has left, as it does in a fight (the item audit's G8).
       if (consumed) {
         const owner = next.find(c => c.id === actorId)!, item = owner.state.inventory!.find(i => i.id === consumed)!;
-        const left = (item.charges ?? ItemCatalog.get(item.definition).charges ?? 1) - 1;
+        const left = (item.charges ?? store.catalog.get(item.definition).charges ?? 1) - 1;
         owner.state.inventory = left > 0
           ? owner.state.inventory!.map(i => i.id === consumed ? { ...i, charges: left } : i)
           : owner.state.inventory!.filter(i => i.id !== consumed);

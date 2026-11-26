@@ -1477,7 +1477,9 @@
   "OR-745": "testing",
   "OR-746": "architecture",
   "OR-747": "terminal",
-  "OR-790": "architecture"
+  "OR-790": "architecture",
+  "OR-791": "architecture",
+  "OR-792": "architecture"
  },
  "aspects": [
   {

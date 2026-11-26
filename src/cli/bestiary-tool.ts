@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../item-catalog';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { Canon } from '../canon/canon';
 import { Content } from '../content';
@@ -75,6 +76,7 @@ export class BestiaryTool {
     return wins / this.trials;
   }
   private static made(id: string, context: Record<string, unknown>, team: Fighter['team'], seed: string): Fighter {
-    return CombatProjection.fighter(this.content.createCreature(id, context as never, `${seed}:${id}`), team);
+    return CombatProjection.fighter(ItemCatalog.canon,
+      this.content.createCreature(ItemCatalog.canon, id, context as never, `${seed}:${id}`), team);
   }
 }

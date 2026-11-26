@@ -1,4 +1,4 @@
-import { ItemCatalog } from '../item-catalog';
+import type { ItemCatalog } from '../item-catalog';
 import { Overlays } from '../overlays';
 import { WorldConstructs } from '../lang/world-constructs';
 import { ModuleWriter } from '../lang/module-writer';
@@ -101,7 +101,7 @@ export class Cast {
   }
   private static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth'];
   // What a profession means for a person in the world: what they offer, and where they spend their day.
-  static professions(module: Module, people: Person[]) {
+  static professions(module: Module, people: Person[], catalog: ItemCatalog) {
     for (const p of people) {
       const id = p.professionId;
       if (!id || !Overlays.has(id, 'profession')) { continue; }
@@ -112,7 +112,7 @@ export class Cast {
         && !module.entities.some(e => e.id === `${p.id}_${x.kind}` && e.type === 'service'));
       if (offers.length && module.relations.some(r => r.name === 'offers')) {
         WorldConstructs.offers(module, { id: p.id, ...p.place ? { place: p.place } : {}, offers },
-          kind => ItemCatalog.definitions[kind]?.name);
+          kind => catalog.find(kind)?.name);
       }
       // One who is nowhere keeps no hours anywhere (WPC-04).
       if (o.routine && p.place && !module.pursuits?.some(x => x.actor === p.id && x.id === `${p.id}_routine`)) {
@@ -139,11 +139,11 @@ export class Cast {
       creatures: members.map(id => ({ id, context: { level: 1, population: 'pc' as const }, gold: 0 })) };
   }
   // Catalog item kinds referenced by facts exist as canonical entities without a separate declaration.
-  static itemKinds(module: Module) {
+  static itemKinds(module: Module, catalog: ItemCatalog) {
     for (const c of module.initial) {
       const kind = c.kind === 'assert' && ['itemKind', 'needs', 'wants'].includes(c.call.name) ? c.call.args[1] : undefined;
-      if (kind && ItemCatalog.definitions[kind] && !module.entities.some(e => e.id === kind)) {
-        module.entities.push({ id: kind, type: 'itemkind', name: ItemCatalog.get(kind).name });
+      if (kind && catalog.has(kind) && !module.entities.some(e => e.id === kind)) {
+        module.entities.push({ id: kind, type: 'itemkind', name: catalog.get(kind).name });
       }
     }
   }

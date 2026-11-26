@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../web/engine/creation';
 import { Content } from '../src/content';
@@ -27,7 +28,7 @@ describe('the spells shown at creation', () => {
   it.each(ways)('are the spells a %s of %s is made with, given as chosen', (calling, id, way) => {
     const plan = SpellSelection.plan(Canon.traits[id]!);
     expect(() => SpellSelection.validate(plan, way.picks!, id)).not.toThrow();
-    const made = new Content('first-spells').createCreature('p', { name: 'Ada', raceId: 'human', classId: calling,
+    const made = new Content('first-spells').createCreature(ItemCatalog.canon, 'p', { name: 'Ada', raceId: 'human', classId: calling,
       traits: [id], spells: way.picks });
     const known = made.base.abilities.filter(a => Canon.abilities[a]?.spell);
     expect(way.spells!.map(s => s.id).sort()).toEqual([...known].sort());

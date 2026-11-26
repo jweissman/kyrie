@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { existsSync } from 'node:fs';
 import animalPaintings from '../data/paintings/animals.json';
@@ -17,7 +18,7 @@ import type { Fighter } from '../src/model';
 // a ranger's call answered by the animals of the country the fight is in, an animal added by its record among them;
 // and every dragon's lineage a breath weapon met with a save, never a bite with a colour.
 const ranger = (environment?: string): Fighter => ({
-  ...CombatProjection.fighter(new Content('menagerie').createCreature('ranger', { raceId: 'human', classId: 'ranger',
+  ...CombatProjection.fighter(ItemCatalog.canon, new Content('menagerie').createCreature(ItemCatalog.canon, 'ranger', { raceId: 'human', classId: 'ranger',
     level: 3 } as never), 'fighters'), ...environment ? { environment } : {} });
 const call = Canon.abilities.summon_animal!.effects!.find(e => e.kind === 'summon')! as Parameters<typeof Summoning.pool>[0];
 
@@ -73,13 +74,13 @@ describe('the menagerie', () => {
   });
   it('gives every dragon lineage a breath weapon met with a save vs breath, and its bite besides', () => {
     for (const lineage of ['red', 'white', 'black', 'blue', 'green', 'gold', 'silver', 'brass', 'bronze', 'copper']) {
-      const dragon = new Content('dragon').createCreature('d', { raceId: `dragon/${lineage}_lineage`, level: 5 } as never);
+      const dragon = new Content('dragon').createCreature(ItemCatalog.canon, 'd', { raceId: `dragon/${lineage}_lineage`, level: 5 } as never);
       const breath = dragon.base.abilities.filter(a => a.startsWith('breathe_'));
       expect([lineage, breath.length]).toEqual([lineage, 1]);
       const effects = Canon.abilities[breath[0]!]!.effects ?? [];
       expect([lineage, effects[0]?.target, effects[0]?.save?.kind]).toEqual([lineage, 'enemies', 'breath']);
       // Its bite is its own natural weapon, not its breath.
-      expect([lineage, CombatProjection.fighter(dragon, 'goblins').equipment.weapon.id]).toEqual([lineage, 'bite']);
+      expect([lineage, CombatProjection.fighter(ItemCatalog.canon, dragon, 'goblins').equipment.weapon.id]).toEqual([lineage, 'bite']);
     }
   });
 });

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { Content } from '../src/content';
@@ -20,10 +21,10 @@ describe('the rules of a fight', () => {
       flee: [{ die: '1d2', atMost: 1 }, { die: '1d4', atMost: 3 }] });
   });
   it('throw a fight\'s dice in field time: one poisoned to nothing in the night saves against death', () => {
-    const c = new Content('table').createCreature('hero', { raceId: 'human', classId: 'warrior' });
+    const c = new Content('table').createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
     c.state.hp = 1;
     c.state.conditions = [{ id: 'poisoned', remaining: 6, clock: 'world-time' }];
-    const store = new CreatureStore([c]), events: CombatEvent[] = [];
+    const store = new CreatureStore(ItemCatalog.canon, [c]), events: CombatEvent[] = [];
     FieldUse.advance(store, 1, events, undefined);
     expect(store.get(c.id).state.hp === 0 || store.get(c.id).state.hp === 1).toBe(true);
     expect(events.some(e => e.type === 'save' && e.kind === 'death')).toBe(true);

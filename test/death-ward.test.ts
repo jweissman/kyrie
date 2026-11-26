@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/battle';
 import { Content } from '../src/content';
@@ -11,12 +12,12 @@ import type { CombatEvent } from '../src/model';
 // among it, GT-01) does not touch them. A wraith at a warded hero, the hero only waiting.
 const c = new Content('death-ward');
 const hero = (ward: boolean): Creature => {
-  const x = c.createCreature('hero', { raceId: 'human', classId: 'warrior', level: 5 }, 'hero');
+  const x = c.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior', level: 5 }, 'hero');
   return { ...x, base: { ...x.base, maxHp: 300 }, state: { ...x.state, hp: 300,
     conditions: ward ? [{ id: 'death_ward', remaining: 999 }] : [] } };
 };
 const touched = (ward: boolean, seed = 'wraith') => {
-  const s = new CreatureStore([hero(ward), c.createCreature('wraith', { raceId: 'wraith', level: 3 }, 'wraith')]);
+  const s = new CreatureStore(ItemCatalog.canon, [hero(ward), c.createCreature(ItemCatalog.canon, 'wraith', { raceId: 'wraith', level: 3 }, 'wraith')]);
   const b = Battle.encounter(s, [{ creatureId: 'wraith', team: 'goblins' }, { creatureId: 'hero', team: 'fighters' }],
     { seed, maxTurns: 400 });
   // Until a touch has landed (a save against it, or a level gone): the drain is a touch that can miss since the

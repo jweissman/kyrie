@@ -1,5 +1,5 @@
 import { Canon } from '../canon/canon';
-import { ItemCatalog } from '../item-catalog';
+import type { ItemCatalog } from '../item-catalog';
 import type { Creature } from '../creature';
 import type { ItemKind } from './catalog-schema';
 
@@ -25,8 +25,8 @@ export class Burden {
   }
   // Anyone can carry ten and twice their strength (with what they wear: a belt of giant strength), and what a beast
   // they lead carries besides (a pack mule's thirty).
-  static capacity(c: Creature): number {
-    return 10 + 2 * ItemCatalog.quality(c, 'strength')
+  static capacity(catalog: ItemCatalog, c: Creature): number {
+    return 10 + 2 * catalog.quality(c, 'strength')
       + (c.state.inventory ?? []).reduce((n, i) => n + this.carries(i.definition), 0);
   }
   static carries(kind: string): number { return (Canon.items[kind] as { carries?: number } | undefined)?.carries ?? 0; }

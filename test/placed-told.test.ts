@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { beforeAll, describe, expect, it } from 'bun:test';
 import { Battle } from '../src/arena';
 import { Beside } from '../src/campaign/beside';
@@ -40,9 +41,9 @@ class Placed {
     let won = 0, flight = true;
     for (let n = 0; n < fights; n++) {
       const content = new Content(`told-${n}`);
-      const hero = CombatProjection.fighter(content.createCreature('hero', { raceId: 'human', classId: 'warrior' },
+      const hero = CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' },
         `hero:${n}`), 'fighters');
-      const foes = members.map((id, k) => ({ ...CombatProjection.fighter(structuredClone(
+      const foes = members.map((id, k) => ({ ...CombatProjection.fighter(ItemCatalog.canon, structuredClone(
         c.readout.creatures.find(x => x.id === id)!), 'goblins'), id: `foe${k}` }));
       // At play's limit of turns (Battle's 500): at 60 a long fight had ended a draw, and was counted lost.
       const b = new Battle({ id: 'told', combatants: [hero, ...foes], abilities: Content.abilities }, `told:${n}`);

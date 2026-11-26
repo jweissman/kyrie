@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/battle';
 import { Content } from '../src/content';
@@ -6,10 +7,10 @@ import { CreatureStore } from '../src/creature-store';
 class Fight {
   static make(seed: string) {
     const content = new Content(seed);
-    const bran = content.createCreature('bran', { raceId: 'human', classId: 'warrior', name: 'Bran' });
-    const dori = content.createCreature('dori', { raceId: 'dwarf', classId: 'cleric', name: 'Dori' });
-    const bear = content.createCreature('bear', { raceId: 'bear', name: 'Bear' });
-    const store = new CreatureStore([bran, dori, bear]);
+    const bran = content.createCreature(ItemCatalog.canon, 'bran', { raceId: 'human', classId: 'warrior', name: 'Bran' });
+    const dori = content.createCreature(ItemCatalog.canon, 'dori', { raceId: 'dwarf', classId: 'cleric', name: 'Dori' });
+    const bear = content.createCreature(ItemCatalog.canon, 'bear', { raceId: 'bear', name: 'Bear' });
+    const store = new CreatureStore(ItemCatalog.canon, [bran, dori, bear]);
     return Battle.encounter(store, [{ creatureId: 'bran', team: 'fighters' }, { creatureId: 'dori', team: 'fighters' },
       { creatureId: 'bear', team: 'goblins' }], { seed });
   }

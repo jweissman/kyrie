@@ -45,8 +45,8 @@ describe('a kind declared in one file of a module', () => {
     const text = 'Module localkind "One file" {\n  Kind dreg_ox "a little ox of dreg" is treasure worth 2 weighing 1.\n}';
     ModuleParser.parse(text);
     LocalKinds.reset();
-    expect(ItemCatalog.definitions.dreg_ox).toBeUndefined();
+    expect(ItemCatalog.ambient.dreg_ox).toBeUndefined();
     ModuleParser.parse(text);
-    expect(ItemCatalog.definitions.dreg_ox?.name).toBe('a little ox of dreg');
+    expect(ItemCatalog.ambient.dreg_ox?.name).toBe('a little ox of dreg');
   });
 });

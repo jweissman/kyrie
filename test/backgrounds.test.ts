@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { BackgroundCatalog, type BackgroundTables, type OrsinoBackground } from '../src/rules/background-catalog';
@@ -55,7 +56,7 @@ describe('backgrounds compiled from Orsino\'s rows and Kyr\'s kinds', () => {
     expect(() => BackgroundCatalog.compile(orsino, tables({ x: ['a', 'b'] }, { c: {} }), has)).toThrow('unknown background c');
   });
   it('makes characters as before: a hunter brings woodcraft and a rope, and Orsino\'s scores', () => {
-    const elen = new Content('bg').createCreature('elen', { raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' });
+    const elen = new Content('bg').createCreature(ItemCatalog.canon, 'elen', { raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' });
     expect(Overlays.skills(elen)).toContain('woodcraft');
     expect(elen.state.inventory!.map(i => i.definition)).toContain('rope');
   });

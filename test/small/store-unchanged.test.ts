@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
@@ -9,8 +10,8 @@ import { CreatureStore } from '../../src/creature-store';
 describe('a commit that changes nothing', () => {
   const made = () => {
     const content = new Content('store-unchanged');
-    return new CreatureStore([content.createCreature('hero', { raceId: 'human', classId: 'warrior' }),
-      content.createCreature('goblin', { raceId: 'goblin', classId: 'commoner' })]);
+    return new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' }),
+      content.createCreature(ItemCatalog.canon, 'goblin', { raceId: 'goblin', classId: 'commoner' })]);
   };
   it('keeps each record and the revision', () => {
     const store = made(), hero = store.peek('hero'), version = store.version, lease = store.acquire(['hero', 'goblin']);

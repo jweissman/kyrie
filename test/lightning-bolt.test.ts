@@ -18,7 +18,7 @@ const said = (a: typeof effect.save) => a!.difficulty.kind === 'deem' ? a!.diffi
 const mean = (level: number) => Amounts.mean(effect.kind === 'damage' && effect.amount.kind === 'deem'
   ? effect.amount.expression : '', { castingLevel: level });
 const hardy = (f: Fighter, level = 7): Fighter => ({ ...f, level, hp: 500, maxHp: 500 });
-const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.weapon('shortbow') } });
+const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.canon.weapon('shortbow') } });
 const mage = (): Fighter => ({ ...hardy(c.character('mage', 'mage', 'fighters')), intelligence: 16,
   abilities: ['lightning_bolt'], maxSlots: [0, 0, 0, 1], slots: [0, 0, 0, 1],
   prepared: [[], [], [], ['lightning_bolt']], ready: [[], [], [], ['lightning_bolt']] });

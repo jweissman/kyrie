@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -52,7 +53,7 @@ describe('every ready company', () => {
       for (const seed of ['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8']) {
         const drawn = new Content(seed);
         for (const m of company.members as CreatureGenerationContext[]) {
-          const c = drawn.createCreature(`${company.id}_${m.name!.toLowerCase()}`, m);
+          const c = drawn.createCreature(ItemCatalog.canon, `${company.id}_${m.name!.toLowerCase()}`, m);
           expect(new Set(c.state.inventory!.map(i => i.id)).size).toBe(c.state.inventory!.length);
         }
       }

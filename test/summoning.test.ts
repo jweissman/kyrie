@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/arena';
 import { Content } from '../src/content';
@@ -21,7 +22,7 @@ const drawn = { ...CanonRuntime.ability('drawn_bolt', (orsino.abilities as unkno
 class Field {
   // A caster of a level with the spell known and prepared in a slot of its level.
   static caster(spell: string, level: number, raceId = 'human', classId = 'mage'): Fighter {
-    const f = CombatProjection.fighter(new Content(`field-${spell}`).createCreature('caster', { raceId, classId, level }), 'fighters');
+    const f = CombatProjection.fighter(ItemCatalog.canon, new Content(`field-${spell}`).createCreature(ItemCatalog.canon, 'caster', { raceId, classId, level }), 'fighters');
     const tier = (Canon.abilities[spell] ?? drawn).spell?.level ?? 0;
     if (!f.abilities.includes(spell)) { f.abilities.push(spell); }
     if (tier) { f.prepared![tier - 1]![0] = spell; f.ready![tier - 1]![0] = spell; }
@@ -105,9 +106,9 @@ describe('random targets and many actions', () => {
     expect(saved.size).toBeGreaterThan(0);
   });
   it('lets an owlbear act twice in its turn, and values it as Orsino does', () => {
-    const owlbear = new Content('owl').createCreature('owlbear', { raceId: 'owlbear', level: 3 });
+    const owlbear = new Content('owl').createCreature(ItemCatalog.canon, 'owlbear', { raceId: 'owlbear', level: 3 });
     expect(Advancement.worth(owlbear)).toBe(150 + 50 * 3);
-    const battle = Field.battle([CombatProjection.fighter(owlbear, 'goblins'),
+    const battle = Field.battle([CombatProjection.fighter(ItemCatalog.canon, owlbear, 'goblins'),
       ...Array.from({ length: 2 }, (_, i) => ({ ...new Content('c').character('warrior', `w-${i}`, 'fighters'), hp: 90, maxHp: 90 }))], 'owlbear');
     Field.until(battle, 'owlbear');
     // A plain blow (its maul is wound up, and takes the turn).

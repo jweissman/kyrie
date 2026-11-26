@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { Summoning } from '../src/summoning';
@@ -75,7 +76,7 @@ describe('the smaller defects', () => {
       Relation travelsWith(group, group). Relation fallen(member). Relation awake(member). Relation needsCare(member).
       Entity hal: group "Hal". Entity hal_m: member "Hal". Entity hob_m: member "Hob". }`);
     const content = new Content('left');
-    const store = new CreatureStore(['hal_body', 'hob_body'].map(id => content.createCreature(id,
+    const store = new CreatureStore(ItemCatalog.canon, ['hal_body', 'hob_body'].map(id => content.createCreature(ItemCatalog.canon, id,
       { raceId: 'human', classId: 'warrior' })));
     module.entities.find(e => e.id === 'hal_m')!.creatureId = 'hal_body';
     module.entities.find(e => e.id === 'hob_m')!.creatureId = 'hob_body';

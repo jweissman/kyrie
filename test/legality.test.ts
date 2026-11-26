@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/battle';
 import { Content } from '../src/content';
@@ -17,7 +18,7 @@ class Legal {
   }
   // A caster of the ninth level with every slot holding the one spell.
   static caster(classId: string, spell: string): Fighter {
-    const c = CombatProjection.fighter(new Content('legality').createCreature(classId, { raceId: 'human',
+    const c = CombatProjection.fighter(ItemCatalog.canon, new Content('legality').createCreature(ItemCatalog.canon, classId, { raceId: 'human',
       classId, level: 9 }), 'fighters');
     return { ...c, abilities: [spell], prepared: c.prepared!.map(row => row.map(() => spell)),
       ready: c.ready!.map(row => row.map(() => spell)) };

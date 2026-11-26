@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { BestiaryTool } from '../src/cli/bestiary-tool';
@@ -21,7 +22,7 @@ import type { Creature } from '../src/creature';
 const c = new Content('wild-boar');
 const kinds = ['fortitude', 'reflex', 'will'];
 const sheet = (k: Creature) => {
-  const f = CombatProjection.fighter(k, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
+  const f = CombatProjection.fighter(ItemCatalog.canon, k, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
   return { hp: k.base.maxHp, armour: Fighting.armorClass(Effects.combatant(f)), blow: f.equipment.weapon.damage, scores,
     saves: kinds.map(s => Fighting.statMod(scores[Canon.rules.saveKinds[s]!]!) + f.level
       + Effects.saveModifier(f, s)) };
@@ -29,12 +30,12 @@ const sheet = (k: Creature) => {
 describe('the wild boar by the SRD\'s numbers', () => {
   it('is the same boar whoever it is and at every rank: its own six scores, 25, AC 5, a gore of 1d8, +6, +3, +2', () => {
     const boars = [['a', 1], ['b', 1], ['c', 3], ['d', 6]] as const;
-    const made = boars.map(([id, level]) => sheet(c.createCreature(id, { raceId: 'boar/wild', level })));
+    const made = boars.map(([id, level]) => sheet(c.createCreature(ItemCatalog.canon, id, { raceId: 'boar/wild', level })));
     for (const m of made.slice(1)) { expect(m).toEqual(made[0]!); }
     expect(made[0]).toMatchObject({ hp: 25, armour: 5, blow: '1d8', saves: [6, 3, 2], scores: { strength: 15,
       dexterity: 10, constitution: 17, intelligence: 2, wisdom: 13, charisma: 4 } });
     // Orsino's boar rolls its scores, each one its own.
-    const rolled = ['a', 'b', 'c'].map(id => c.createCreature(id, { raceId: 'boar' }).base.strength);
+    const rolled = ['a', 'b', 'c'].map(id => c.createCreature(ItemCatalog.canon, id, { raceId: 'boar' }).base.strength);
     expect(new Set(rolled).size).toBeGreaterThan(1);
   });
   it('says all six scores, beside Hit Dice and with no attributes of its own, or is refused', () => {

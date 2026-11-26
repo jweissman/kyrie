@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { afterAll, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { CanonValidation } from '../src/canon/canon-validation';
@@ -29,7 +30,7 @@ describe('a variation that is a stat block', () => {
     expect(k.defenses).toEqual([...Canon.creature('golem').defenses!, ...variations.t_basalt!.defenses!]);
   });
   it('has its listed average at any level, whether named composed or given as a variation', () => {
-    const at = (level: number, asked: object) => content.createCreature(`b${level}`, { level, ...asked });
+    const at = (level: number, asked: object) => content.createCreature(ItemCatalog.canon, `b${level}`, { level, ...asked });
     const named = [1, 4, 9].map(l => at(l, { raceId: 'golem/t_basalt' }));
     const given = [1, 4, 9].map(l => at(l, { raceId: 'golem', variations: ['t_basalt'] }));
     expect([...named, ...given].map(c => c.base.maxHp)).toEqual([53, 53, 53, 53, 53, 53]);

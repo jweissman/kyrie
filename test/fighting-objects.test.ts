@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/battle';
 import { Content } from '../src/content';
@@ -11,8 +12,8 @@ import { Canon } from '../src/canon/canon';
 describe('a fighting object', () => {
   it('takes its turn, and a plane\'s law holds everyone fighting there', () => {
     const content = new Content('objects');
-    const store = new CreatureStore([content.createCreature('turret', { raceId: 'turret' }, 'turret'),
-      content.createCreature('hero', { raceId: 'human', classId: 'mage', level: 1 }, 'hero')]);
+    const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'turret', { raceId: 'turret' }, 'turret'),
+      content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'mage', level: 1 }, 'hero')]);
     const battle = Battle.encounter(store, [{ creatureId: 'turret', team: 'goblins' },
       { creatureId: 'hero', team: 'fighters' }], { seed: 'objects', laws: ['plane_gehenna'], maxTurns: 12 });
     expect(battle.state.combatants.every(f => f.statuses.some(s => s.id === 'plane_gehenna'))).toBe(true);
@@ -27,8 +28,8 @@ describe('a fighting object', () => {
     // Orsino's ten planes, the canon's laws of the six inner planes (GT-01) and of its three outer ones (GT-03).
     expect(Object.keys(Canon.conditions).filter(id => id.startsWith('plane_')).length).toBe(19);
     // A company weary for want of sleep fights weary; its foes do not.
-    const tired = Battle.encounter(new CreatureStore([content.createCreature('t2', { raceId: 'turret' }, 't2'),
-      content.createCreature('h2', { raceId: 'human', classId: 'mage', level: 1 }, 'h2')]),
+    const tired = Battle.encounter(new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 't2', { raceId: 'turret' }, 't2'),
+      content.createCreature(ItemCatalog.canon, 'h2', { raceId: 'human', classId: 'mage', level: 1 }, 'h2')]),
     [{ creatureId: 't2', team: 'goblins' }, { creatureId: 'h2', team: 'fighters' }], { seed: 'tired', weary: ['h2'] });
     expect(tired.state.combatants.map(f => [f.id, f.statuses.some(s => s.id === 'weary')])).toEqual(
       expect.arrayContaining([['t2', false], ['h2', true]]));

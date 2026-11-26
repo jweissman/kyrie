@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
@@ -64,7 +65,7 @@ describe('a caster\'s first spells, chosen', () => {
     const way = Creation.catalog().callings.find(x => x.id === 'mage')!.specializations.find(t => t.id === 'evoker')!;
     expect(CreationDefaults.allowed(flow.member.spells, way)).toBe(true);
     // And the life set out with knows them.
-    const known = new Content('spells').createCreature('pc', { ...flow.member, raceId: 'human', classId: 'mage' })
+    const known = new Content('spells').createCreature(ItemCatalog.canon, 'pc', { ...flow.member, raceId: 'human', classId: 'mage' })
       .base.abilities;
     expect(['charm', 'sleep', 'firebolt'].every(id => known.includes(id))).toBe(true);
     expect(known).not.toContain('burning_hands');

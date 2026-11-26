@@ -1,3 +1,4 @@
+import type { ItemCatalog } from '../item-catalog';
 import { NewsFold } from './news-fold';
 import type { Operator, Predicate } from '../lang/module';
 import { PurchaseCompare } from './purchase-compare';
@@ -58,6 +59,8 @@ export interface GroupingContext {
   // The world as it is, by which a choice is reckoned as long as the clock will reckon it (ActionTime): a step through
   // a door is a minute, not ten.
   world?: World;
+  // The kinds of thing its campaign knows (see ItemCatalog): what a ware is beside what is worn.
+  catalog: ItemCatalog;
   // How a fight with a group would go, for a choice that begins one (see DangerSense).
   reckon?: (group: string) => { danger: Danger; text: string } | undefined;
   // What an authored act that can hurt the company is done to (see ChoiceGrouping.hurts).
@@ -409,8 +412,8 @@ export class ChoiceGrouping {
       key === 'worthfee' ? String(data.context.fees?.get(`worth:${data.b.form}`) ?? 0) :
       key === 'hirefee' ? ` — ${data.context.fees?.get(`hire:${data.b.recruit}`) ?? 0} coin`.replace(/^ — 0 coin$/, '') :
       key === 'them' || key === 'their' ? PronounWords.of(data.context.world, data.b.companion, key) :
-      key === 'versus' ? (data.context.world ? PurchaseCompare.versus(data.context.world, data.b.form ?? '',
-        data.b.recipient ?? '', data.context.names) : '') :
+      key === 'versus' ? (data.context.world ? PurchaseCompare.versus(data.context.catalog,
+        data.context.world, data.b.form ?? '', { recipient: data.b.recipient ?? '', names: data.context.names }) : '') :
         data.context.names.get(data.b[key] ?? key) ?? data.b[key] ?? key);
   }
   // The way a thing stands on, by its name (a door, not where it goes: "Listen at the hall" had been said of a door).

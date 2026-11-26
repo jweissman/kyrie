@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content, type CreatureGenerationContext } from '../src/content';
 import { Canon } from '../src/canon/canon';
@@ -23,8 +24,8 @@ class Party {
 
 describe('backgrounds and professions are typed overlays from Orsino', () => {
   it('compose onto one character: Orsino stats, scaled gold, catalog gear and a skill, each with its source', () => {
-    const base = new Content('overlay-test').createCreature('x', { raceId: 'elf', classId: 'ranger' });
-    const hunter = new Content('overlay-test').createCreature('x', { raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' });
+    const base = new Content('overlay-test').createCreature(ItemCatalog.canon, 'x', { raceId: 'elf', classId: 'ranger' });
+    const hunter = new Content('overlay-test').createCreature(ItemCatalog.canon, 'x', { raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' });
     expect(hunter.base.dexterity - base.base.dexterity).toBe(2);
     expect(hunter.base.wisdom - base.base.wisdom).toBe(1);
     expect(hunter.state.gold - base.state.gold).toBe(2);
@@ -35,9 +36,9 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
   });
   it('rejects compositions Orsino forbids or the model cannot mean', () => {
     const c = new Content('overlay-test');
-    expect(() => c.createCreature('x', { raceId: 'human', classId: 'fighter', backgroundId: 'medic' })).toThrow('requires the cleric class');
-    expect(() => c.createCreature('x', { raceId: 'human', classId: 'fighter', backgroundId: 'innkeeper' })).toThrow('is a profession');
-    expect(() => c.createCreature('x', { raceId: 'human', classId: 'fighter', professionId: 'hunter' })).toThrow('is a background');
+    expect(() => c.createCreature(ItemCatalog.canon, 'x', { raceId: 'human', classId: 'fighter', backgroundId: 'medic' })).toThrow('requires the cleric class');
+    expect(() => c.createCreature(ItemCatalog.canon, 'x', { raceId: 'human', classId: 'fighter', backgroundId: 'innkeeper' })).toThrow('is a profession');
+    expect(() => c.createCreature(ItemCatalog.canon, 'x', { raceId: 'human', classId: 'fighter', professionId: 'hunter' })).toThrow('is a background');
   });
   it('the same overlay means the same thing in both installations', async () => {
     for (const manifest of [Party.river, Party.quarry]) {
@@ -81,7 +82,7 @@ describe('backgrounds and professions are typed overlays from Orsino', () => {
     const own = { id: 'm', name: 'M', place: 'p', raceId: 'human', classId: 'commoner', level: 1, actions: [],
       professionId: 'innkeeper', offers: [{ kind: 'lodging', text: 'a cot', fee: 1 }] } as Person;
     const module = ModuleParser.parse('Module t "T" { Relation offers(group, service). Goal false. }');
-    Cast.professions(module, [own]);
+    Cast.professions(module, [own], ItemCatalog.canon);
     expect(module.entities.some(e => e.type === 'service')).toBe(false);
   }, 60000);
 });

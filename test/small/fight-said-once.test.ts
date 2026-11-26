@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
@@ -14,8 +15,8 @@ import { Voice } from '../../src/narrative/voice';
 describe('a fight\'s words, said once', () => {
   it('tell a killing blow by what it dealt, and the fall once', () => {
     const content = new Content('fight-words');
-    const store = new CreatureStore([content.createCreature('ama', { raceId: 'human', classId: 'warrior', level: 3 }),
-      content.createCreature('rat', { raceId: 'rat' })]);
+    const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'ama', { raceId: 'human', classId: 'warrior', level: 3 }),
+      content.createCreature(ItemCatalog.canon, 'rat', { raceId: 'rat' })]);
     const battle = Battle.encounter(store, [{ creatureId: 'ama', team: 'fighters' }, { creatureId: 'rat', team: 'goblins' }],
       { seed: 'fight-words' });
     for (let n = 0; n < 40 && !battle.state.outcome; n++) {

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../item-catalog';
 import { Content } from '../content';
 import { Canon } from '../canon/canon';
 import { CreatureStore } from '../creature-store';
@@ -34,17 +35,17 @@ export class EncounterLab {
     try {
       company = Array.from({ length: 1 + Math.floor(draw.next() * 3) }, (_, i) => {
         const raceId = draw.pick(this.peoples)!, classes = Canon.ancestries[raceId]!.classes.filter(c => c !== 'commoner');
-        return content.createCreature(`c${i}`, { raceId, classId: draw.pick(classes)! as 'warrior', level });
+        return content.createCreature(ItemCatalog.canon, `c${i}`, { raceId, classId: draw.pick(classes)! as 'warrior', level });
       });
       const groups = Array.from({ length: 2 + Math.floor(draw.next() * 2) }, (_, g) =>
         Array.from({ length: 1 + Math.floor(draw.next() * 3) }, (_, i) =>
-          content.createCreature(`f${g}_${i}`, { raceId: kind, level: Math.max(1, level - 1 + Math.floor(draw.next() * 3)) })));
-      const store = new CreatureStore([...company, ...groups.flat()]);
+          content.createCreature(ItemCatalog.canon, `f${g}_${i}`, { raceId: kind, level: Math.max(1, level - 1 + Math.floor(draw.next() * 3)) })));
+      const store = new CreatureStore(ItemCatalog.canon, [...company, ...groups.flat()]);
       for (const [g, group] of groups.entries()) {
         if (!company.some(c => store.get(c.id).state.hp > 0)) { break; }
         this.fight(store, { company: company.map(c => c.id), group: group.map(c => c.id), seed: `${seed}:${g}` }, draw,
           result);
-        store.snapshot.forEach(c => CreatureSchema.validate(c));
+        store.snapshot.forEach(c => CreatureSchema.validate(c, store.catalog));
       }
     } catch (error) {
       result.failures.push({ seed, message: (error as Error).message, kind,

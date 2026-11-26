@@ -8,6 +8,7 @@ import { World } from '../lang/world';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
 import { CreatureStore } from '../creature-store';
+import { ItemCatalog } from '../item-catalog';
 import { Membership } from './membership';
 import { ClockShift } from './clock-shift';
 import { CreatureFacts } from './creature-facts';
@@ -44,7 +45,8 @@ export class ModuleInstallations {
     const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
     const added = next.campaign!.creatures.filter(c => !held.has(c.id));
-    const store = creatures.with(added.map(entry => this.creature(entry)));
+    const catalog = ItemCatalog.of(next.module.catalog);
+    const store = creatures.with(catalog, added.map(entry => this.creature(catalog, entry)));
     const world = next.live ?? new World(next.module, next.world);
     CreatureFacts.initialize(world, actors, store);
     Progression.outcomes(world, next.campaign!);
@@ -57,9 +59,9 @@ export class ModuleInstallations {
     return { actors, store, world };
   }
   // A creature a campaign's definition declares, made from its own seed (or, with none, the campaign's), with its gold.
-  static creature(entry: CampaignDefinition['creatures'][number], content?: Content): Creature {
+  static creature(catalog: ItemCatalog, entry: CampaignDefinition['creatures'][number], content?: Content): Creature {
     const maker = entry.seed ? new Content(entry.seed) : content ?? new Content(entry.seed!);
-    const creature = maker.createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
+    const creature = maker.createCreature(catalog, entry.id, entry.context, entry.seed ? 'self' : entry.id);
     creature.state.gold += entry.gold;
     return creature;
   }

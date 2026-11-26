@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../web/engine/creation';
 import { CreationRules } from '../src/creation/creation-rules';
@@ -19,7 +20,7 @@ describe('creation, by the rules', () => {
       const c = { base: { intelligence: score, level: 1 }, traits: [],
         state: { hp: 0, conditions: [], inventory: [] } } as unknown as Creature;
       expect([CreationRules.fight(score), CreationRules.check(score)])
-        .toEqual([Fighting.statMod(score), Checks.bonus(c, 'lore').modifier]);
+        .toEqual([Fighting.statMod(score), Checks.bonus(ItemCatalog.canon, c, 'lore').modifier]);
     }
     expect(CreationRules.quality('strength', 13)).toEqual(['A blow with a weapon in the hand: +2 to hit, +2 to the harm it'
       + ' does.', 'Climbing, and lifting or forcing what is stuck: +1 to the roll. Against paralysis: +3 and the die.']);
