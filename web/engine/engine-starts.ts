@@ -3,6 +3,9 @@ import { Creation } from './creation';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { StockOpenings } from '../../src/world/stock-openings';
 import type { Message, Request } from '../../src/creation/protocol';
+import { ModuleBundle } from '../../src/campaign/module-bundle';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
+import { Scenarios } from '../scenarios';
 
 // What setting out asks for: the campaign (or the generated region), and who comes, and why.
 export type Starting = Omit<Extract<Request, { kind: 'begin' }>, 'kind'>;
@@ -18,6 +21,10 @@ export class EngineStarts {
   // How long each step of the last start took, kept for its first frame (M19-49: where the wait goes).
   phases: { texts?: number; draw?: number; place?: number } = {};
   constructor(private readonly creation: Creation, private readonly post: (message: Message) => void) {}
+  warmRules(): void {
+    const vocabulary = CanonVocabulary.context();
+    setTimeout(() => void ModuleBundle.warmRules(vocabulary, Scenarios.source()).catch(() => undefined), 0);
+  }
   static key(r: Starting): string {
     return JSON.stringify([r.campaign, r.seed, r.party, r.terrain ?? null, r.origin ?? null, r.memorial ?? null,
       r.chain ?? null, r.opening ?? null]);

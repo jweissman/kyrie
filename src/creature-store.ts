@@ -5,10 +5,18 @@ import { CreatureSchema, type Creature } from './creature';
 import { CreatureLease } from './creature-lease';
 import { Equality } from './equality';
 import { SkyGifts } from './rules/sky-gifts';
-import type { ItemCatalog } from './item-catalog';
+import { ItemCatalog } from './item-catalog';
+import type { KindsMade } from './lang';
 export { CreatureLease } from './creature-lease';
 
 export class CreatureStore {
+  static catalogOf(kinds: KindsMade | undefined): ItemCatalog { return ItemCatalog.of(kinds); }
+  static catalogAmong(kinds: KindsMade | undefined, ...own: (KindsMade | undefined)[]): ItemCatalog {
+    return ItemCatalog.among(kinds, ...own);
+  }
+  static fromKinds(kinds: KindsMade | undefined, creatures: Creature[] = []): CreatureStore {
+    return new CreatureStore(this.catalogOf(kinds), creatures);
+  }
   private records = new Map<string, Creature>();
   private occupied = new Set<string>();
   private leases = new Map<CreatureLease, string[]>();

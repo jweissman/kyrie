@@ -20,7 +20,7 @@ import { World } from '../lang/world'; import { Beside } from './beside'; import
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { EngineDeclarations } from './engine-declarations'; import { Spoils } from './spoils'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
-import { Journey } from './journey'; import { ItemCatalog } from '../item-catalog';
+import { Journey } from './journey'; import type { ItemCatalog } from '../item-catalog';
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
 import type { VocabularyContext } from '../lang';
 
@@ -54,7 +54,7 @@ export class Campaign implements WatchHost {
       // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
       this.vocabulary.install(saved.module.catalog); this.compiled = saved.module;
       this.definition = SavedSchemas.read(saved);
-      this.creatures = new CreatureStore(ItemCatalog.of(saved.module.catalog), saved.creatures);
+      this.creatures = CreatureStore.fromKinds(saved.module.catalog, saved.creatures);
       this.current = saved.state; this.log = saved.events; this.encounter = saved.encounter;
       this.observations = saved.observations;
       // A save from before demand grounding holds grounded actions; its schemas are in the definition.
@@ -69,7 +69,7 @@ export class Campaign implements WatchHost {
     }
     if (!instance.campaign) { throw new Error('A campaign is a composition of installed modules'); }
     this.definition = instance.campaign; const content = new Content(`${seed}:campaign`);
-    this.compiled = instance.module; this.creatures = new CreatureStore(ItemCatalog.of(instance.module.catalog));
+    this.compiled = instance.module; this.creatures = CreatureStore.fromKinds(instance.module.catalog);
     for (const entry of this.definition.creatures) {
       this.creatures.insert(ModuleInstallations.creature(this.catalog, entry, content));
     }
@@ -127,7 +127,7 @@ export class Campaign implements WatchHost {
       this.vocabulary = vocabulary;
       this.installBoundary();
       if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
-      EngineDeclarations.declare(draft, ItemCatalog.among(this.module.catalog, draft.instance.module.catalog));
+      EngineDeclarations.declare(draft, CreatureStore.catalogAmong(this.module.catalog, draft.instance.module.catalog));
       const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
         budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
       const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current);
