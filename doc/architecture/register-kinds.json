@@ -2706,6 +2706,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, filed and classified at once: a measured share of a journey leg toward beta's 5 ms target, not an observed failure of a claimed contract"
+  },
+  "OR-726": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "26 Nov, split from OR-740 at its closing: the remainder of an architecture step (the fifth review's step 1), a structural requirement, not an observed violation"
   }
  },
  "blockedBy": {

@@ -6,7 +6,7 @@
   "src/presentation/company-knowledge.ts": "the projector's record of what was learnt, and how (CompanyKnowledge.of)",
   "src/presentation/company-map.ts": "the projector's memory of places: perceived before and remembered (CompanyMap.of)",
   "src/presentation/outcome.ts": "the projector's prospective reading: what an offered act would teach (Outcome.foreseen, asked through Knowing; Outcome.taught, the whole world's, for the diagnostic tools)",
-  "src/presentation/player-frame.ts": "the player revision's key: the world compared by identity, never read",
+  "src/presentation/player-revision.ts": "the player revision's key: the world compared by identity, never read (PlayerRevision.of)",
   "src/cli/runner-fidelity.ts": "diagnostic: promise fidelity, an act tried in a copy of the world; nothing of it is shown",
   "web/engine/kept-game.ts": "persistence: the save writes the whole world, which is never shown"
  },

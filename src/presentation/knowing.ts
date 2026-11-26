@@ -3,6 +3,7 @@ import type { Call, Operator } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { Outcome } from './outcome';
 import { PlayerView, type PlayerSnapshot } from './player-view';
+import { PlayerRevision } from './player-revision';
 import { ObservationText } from '../lang/observation-text';
 import type { World } from '../lang/world';
 
@@ -20,17 +21,14 @@ import type { World } from '../lang/world';
 // Legality stays the runtime's: the rows are the acts the rules offer (PlayerFrame), and this warrants only their
 // wording and facets. A second projection for a revision is the one kept.
 export class Knowing {
-  private static readonly kept = new WeakMap<Campaign, Knowing>();
   private readonly sights: { inView?: ReadonlySet<string>; present?: ReadonlySet<string>;
     visited?: ReadonlySet<string> } = {};
   private constructor(readonly campaign: Campaign, readonly world: Campaign['world'],
     readonly perceived: PlayerSnapshot) {}
+  // The projection of the campaign's player revision, kept with it.
   static of(campaign: Campaign): Knowing {
-    const perceived = PlayerView.observe(campaign), kept = this.kept.get(campaign);
-    if (kept && kept.world === campaign.world && kept.perceived === perceived) { return kept; }
-    const now = new Knowing(campaign, campaign.world, perceived);
-    this.kept.set(campaign, now);
-    return now;
+    return PlayerRevision.of(campaign).reading('knowing', () =>
+      new Knowing(campaign, campaign.world, PlayerView.observe(campaign)));
   }
   get actor(): string { return this.perceived.actor; }
   // Where the company stands (the place itself, whatever kind of place): asked of the campaign as well, by what works

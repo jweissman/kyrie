@@ -3,6 +3,7 @@ import type { Operator, Predicate, Value } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import type { PublicChoice } from './action-presentation';
 import { PlayerView } from './player-view';
+import { PlayerRevision } from './player-revision';
 
 // A choice the company could make if it had the coin: a purchase, a toll, a hire, a bed. What it costs and what the
 // company has.
@@ -12,8 +13,6 @@ export interface Short { choice: PublicChoice; action: Operator; cost: number; h
 // grounded once in a world where the company has coin to spare, keeping those that open there and not here. Tessary's
 // W21: Pounce's draft for six coin was never offered to a player with five, and nothing was said.
 export class CoinReading {
-  // Kept for the world it was read in, until the next command changes it.
-  private static readonly cache = new WeakMap<Campaign, { world: object; short: Short[] }>();
   // The comparisons of the company's coin with a price in a requirement: quantity(actor, gold) >= price.
   private static prices(p: Predicate | undefined, out: { right: Value; actor: string }[] = []) {
     if (!p) { return out; }
@@ -22,9 +21,12 @@ export class CoinReading {
     if (p.kind === 'and' || p.kind === 'or') { this.prices(p.left, out); this.prices(p.right, out); }
     return out;
   }
+  // Kept for the player's revision it was read in.
   static read(campaign: Campaign): Short[] {
-    const world = campaign.world, actor = campaign.playerActor, hit = this.cache.get(campaign);
-    if (hit?.world === world) { return hit.short; }
+    return PlayerRevision.of(campaign).reading('coin short', () => this.short(campaign));
+  }
+  private static short(campaign: Campaign): Short[] {
+    const world = campaign.world, actor = campaign.playerActor;
     const priced = this.priced(campaign.module.actions);
     if (!actor || !priced.size || !world.module.measures.some(m => m.name === 'quantity')) { return []; }
     const have = world.number(ModuleWriter.call('quantity', actor, 'gold'));
@@ -37,7 +39,6 @@ export class CoinReading {
     const short = PlayerView.offer(campaign, opened).map(row => ({ ...row, have,
       cost: Math.max(0, ...this.prices(row.action.requires).filter(p => p.actor === actor)
         .map(p => world.number(p.right))) }));
-    this.cache.set(campaign, { world, short });
     return short;
   }
   // The actions with a price, found once for a module's actions (again where they grow), not for every page.

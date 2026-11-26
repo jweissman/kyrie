@@ -6,6 +6,7 @@ import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ItemNames } from '../lang/item-names';
 import { Canon } from '../canon/canon';
 import { SkillSources } from './skill-sources';
+import { PlayerRevision } from './player-revision';
 
 // A choice the company could make with a skill it lacks: the skill, and anything else that would do instead (a crowbar,
 // for brawn), which it has not got either.
@@ -19,13 +20,12 @@ export interface Wanting {
 interface Call { kind: 'call'; name: string; args: string[] }
 // Which schemas name a skill outright, and which ask for whatever a thing or a way needs.
 interface Shape { named: Map<string, Set<string>>; needing: Set<string> }
+// Who does each skilled choice, and what a skill the company lacks would open.
+interface Read { uses: Map<string, string[]>; wanting: Wanting[] }
 // How the company's skills bear on what it can do here: which skill each choice relies on (and so who does it),
 // and what the company could do if anyone in it had a skill it lacks, read from the same legal commands in a world
 // that differs by that one skill. Nothing is assumed about any particular skill or place.
 export class SkillReading {
-  // Kept for the world it was read in: the same world object until the next command changes it (its content key, which
-  // sorts every fact, cost a screen tens of milliseconds).
-  static readonly cache = new WeakMap<Campaign, { world: object; uses: Map<string, string[]>; wanting: Wanting[] }>();
   // The skills a schema names outright (capable(actor, lore)), and the schemas that ask for whatever a thing or a
   // way needs (equippedFor, meets): a change that needs lockwork, a way that needs climbing.
   private static calls(p: Predicate | undefined, out: Call[] = []): Call[] {
@@ -77,10 +77,13 @@ export class SkillReading {
   private static firsts(world: Campaign['world'], name: string, second: string): string[] {
     return world.relatedTo(name, second).map(r => r.args[0]!);
   }
-  static read(campaign: Campaign): { uses: Map<string, string[]>; wanting: Wanting[] } {
+  // Kept for the player's revision it was read in (PlayerRevision; a content key of the world, which sorts every fact,
+  // had cost a screen tens of milliseconds).
+  static read(campaign: Campaign): Read {
+    return PlayerRevision.of(campaign).reading('skills', () => this.reading(campaign));
+  }
+  private static reading(campaign: Campaign): Read {
     const world = campaign.world, actor = campaign.playerActor;
-    const key = world, hit = this.cache.get(campaign);
-    if (hit?.world === key) { return hit; }
     const uses = new Map<string, string[]>(), wanting: Wanting[] = [];
     if (!actor) { return { uses, wanting }; }
     const { named, needing } = this.shape(campaign);
@@ -104,7 +107,7 @@ export class SkillReading {
       .map(skill => ({ skill, only: new Set([...named.get(skill.id) ?? [],
         ...nearNeeds.some(r => r.args[1] === skill.id) ? needing : []]) })), ...this.things(campaign, actor, nearNeeds)
       .map(skill => ({ skill, only: needing }))].filter(l => l.only.size);
-    if (!lacking.length) { return this.keep(campaign, { world: key, uses, wanting }); }
+    if (!lacking.length) { return { uses, wanting }; }
     // Grounded once, as if the company had every skill it lacks; each choice that opens is kept for the one skill
     // that opens it alone.
     const all = world.apply(lacking.map(l => ({ kind: 'assert' as const,
@@ -125,7 +128,7 @@ export class SkillReading {
     // One choice wanting a skill or a thing is told once, by the first that opens it (the skill, with the thing as
     // what else would do).
     const once = wanting.filter((w, i) => wanting.findIndex(x => x.choice.id === w.choice.id) === i);
-    return this.keep(campaign, { world: key, uses, wanting: once });
+    return { uses, wanting: once };
   }
   // The kinds of thing what is here needs that nobody in the company is carrying, as one of each (a ten-foot pole).
   private static things(campaign: Campaign, actor: string, near: readonly { args: readonly string[] }[]) {
@@ -145,9 +148,5 @@ export class SkillReading {
     const skills = new Set(entities.filter(e => e.type === 'capability').map(e => e.id));
     return [...new Set(needs.filter(r => bound.includes(r.args[0]!) && !skills.has(r.args[1]!)).map(r => r.args[1]!))]
       .map(k => this.called(campaign, k));
-  }
-  private static keep(campaign: Campaign, read: { world: object; uses: Map<string, string[]>; wanting: Wanting[] }) {
-    this.cache.set(campaign, read);
-    return read;
   }
 }

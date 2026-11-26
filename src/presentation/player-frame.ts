@@ -2,6 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Operator } from '../campaign/planner';
 import { PlayerView } from './player-view';
 import { Knowing } from './knowing';
+import { PlayerRevision } from './player-revision';
 
 // A row as the frame holds it, and the frame's rows: read by every consumer, changed by none (each is frozen).
 export type FrameRow = ReturnType<typeof PlayerView.choices>[number];
@@ -14,25 +15,23 @@ export type FrameRows = readonly FrameRow[];
 // that what the player is offered means one thing everywhere. Each had derived its own from its own copy, some forty
 // asks in twenty-seven files (eleven a turn on the golden walk), counted by scripts/frame-rows.ts.
 //
-// A revision is the campaign's world and the list on offer in it (Campaign.offered: a new world, a command under way
-// or the game ended each give a new one). The session's own revisions (a talk opened or paged, a lens, the map put
-// away) change what is drawn of the rows, never the rows, so the screen and the leaf built for them read the same
-// frame. What a consumer derives from the rows it keeps here, by name (see reading), so that it is derived once.
+// A revision is the player's revision of the campaign (PlayerRevision: its world, the list on offer in it, its clock,
+// log and installation), and the frame is the revision's reading of its rows, kept with it and dropped with it. The
+// session's own revisions (a talk opened or paged, a lens, the map put away) change what is drawn of the rows, never
+// the rows, so the screen and the leaf built for them read the same frame. What a consumer derives from the rows it
+// keeps here, by name (see reading), so that it is derived once.
 export class PlayerFrame {
-  private static readonly kept = new WeakMap<Campaign, PlayerFrame>();
   private readonly readings = new Map<string, unknown>();
-  private constructor(readonly campaign: Campaign, readonly world: Campaign['world'], readonly offered: readonly Operator[],
-    readonly rows: FrameRows) {}
-  // The frame of the campaign as it is now: the one kept while its revision holds, else built.
+  private constructor(readonly revision: PlayerRevision, readonly rows: FrameRows) {}
+  get campaign(): Campaign { return this.revision.campaign; }
+  get world(): Campaign['world'] { return this.revision.world; }
+  get offered(): readonly Operator[] { return this.revision.offered; }
+  // The frame of the campaign as it is now: its revision's.
   static of(campaign: Campaign): PlayerFrame {
-    const offered = campaign.offered(), kept = this.kept.get(campaign);
-    if (kept && kept.world === campaign.world && kept.offered === offered) { return kept; }
+    const revision = PlayerRevision.of(campaign);
     // Worked out under the campaign's own rules (its installation, OR-520).
-    const rows = Object.freeze(campaign.within(() => PlayerView.choices(campaign)).map(r => Object.freeze({ ...r,
-      choice: Object.freeze(r.choice) })));
-    const frame = new PlayerFrame(campaign, campaign.world, offered, rows);
-    this.kept.set(campaign, frame);
-    return frame;
+    return revision.reading('frame', () => new PlayerFrame(revision, Object.freeze(campaign.within(() =>
+      PlayerView.choices(campaign)).map(r => Object.freeze({ ...r, choice: Object.freeze(r.choice) })))));
   }
   // What the company knows and perceives in this revision (the projection the rows are worded and marked by: the
   // knowledge boundary's door, OR-527), for the consumers that read the frame.

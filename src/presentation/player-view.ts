@@ -4,7 +4,7 @@ import { Spatial } from '../lang/spatial';
 import { ItemCatalog } from '../item-catalog';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { LocalObservations } from '../campaign/local-observations';
-import type { Campaign, CampaignEvent } from '../campaign/campaign';
+import type { Campaign } from '../campaign/campaign';
 import type { Call, Entity, MovementMode } from '../lang/module';
 import type { Operator } from '../campaign/planner';
 import { ModuleWriter } from '../lang/module-writer';
@@ -23,6 +23,7 @@ import { CompanyMap } from './company-map'; import { Undertakings } from './unde
 import { QueryIndex } from '../lang/query-index';
 import { ChoiceIds } from '../ui/choice-ids';
 import { PlayerFrame, type FrameRows } from './player-frame';
+import { PlayerRevision } from './player-revision';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -79,8 +80,7 @@ export interface PlayerSnapshot {
 }
 export interface ChronicleEntry { at: number; kind: 'player' | 'npc' | 'world' | 'observation' | 'discovery' | 'event'; text: string; detail: string[] }
 // What the company perceives of one world, kept with what it was worked out of (see PlayerView.observe).
-interface Observed { campaign: Campaign; key: string; store: object; version: number; last?: CampaignEvent;
-  snapshot?: PlayerSnapshot; chronicle?: readonly ChronicleEntry[] }
+interface Observed { snapshot?: PlayerSnapshot; chronicle?: readonly ChronicleEntry[] }
 
 // Player-safe projection of an omniscient campaign. Kyr has no declared observability, so this applies one
 // conservative, documented locality policy: the player actor's own facts, its location, co-located entities,
@@ -227,12 +227,12 @@ export class PlayerView {
     return QueryIndex.of(world.module, 'benighted') ? world.test(ModuleWriter.call('benighted', actor))
       : this.test(world, 'unlit', place) && !this.test(world, 'capable', actor, 'light');
   }
-  // What the company perceives turns on the world and, beside it, the campaign's clock, creatures and log. A page asks
-  // it of one world several times (before a command, after it, in the command's feedback, for its screen), so it is
-  // worked out once for each, and given frozen: no reader may change what the next is given. And what has happened, as
-  // the company has it (see chronicle), turns on no more, and is kept with it: read again from the whole log, by the
-  // command's feedback and again for the page, every act (OR-91).
-  private static readonly observed = new WeakMap<World, Observed>();
+  // What the company perceives turns on the player's revision (PlayerRevision: the world and, beside it, the
+  // campaign's clock, creatures, log and the aim followed). A page asks it of one revision several times (before a
+  // command, after it, in the command's feedback, for its screen), so it is worked out once for each, and given frozen:
+  // no reader may change what the next is given. And what has happened, as the company has it (see chronicle), turns
+  // on no more, and is kept with it: read again from the whole log, by the command's feedback and again for the page,
+  // every act (OR-91).
   static observe(campaign: Campaign): PlayerSnapshot {
     return this.kept(campaign).snapshot ??= Costs.time('observe', () => Frozen.deep(this.perceive(campaign)));
   }
@@ -240,18 +240,7 @@ export class PlayerView {
     const actor = this.actor(campaign);
     return this.kept(campaign).chronicle ??= Frozen.deep(Chronicle.of(campaign, actor, this.labels(campaign)));
   }
-  private static kept(campaign: Campaign): Observed {
-    const world = campaign.world, kept = this.observed.get(world), store = campaign.tickState.creatures;
-    const read = campaign.readout, last = campaign.history.at(-1);
-    // And the aim followed, which the player changes without changing the world: kept from before Follow this, the
-    // snapshot had said nothing was followed, and an aim seen through was not known to have been (PL-06).
-    const key = `${read.elapsed}:${read.minutes ?? 0}:${campaign.history.length}:${campaign.installations.length}`
-      + `:${campaign.running}:${campaign.tickState.current.following?.id ?? ''}`;
-    if (kept?.campaign === campaign && kept.key === key && kept.store === store && kept.version === store.version
-      && kept.last === last) { return kept; }
-    const now = { campaign, key, store, version: store.version, last }; this.observed.set(world, now);
-    return now;
-  }
+  private static kept(campaign: Campaign): Observed { return PlayerRevision.of(campaign).reading('observed', () => ({})); }
   private static perceive(campaign: Campaign): PlayerSnapshot {
     const actor = this.actor(campaign), world = campaign.world, labels = this.labels(campaign);
     const entities = campaign.module.entities, read = campaign.readout;

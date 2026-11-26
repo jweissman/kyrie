@@ -1464,6 +1464,7 @@
     "test/golden-promises.test.ts": 41630,
     "test/golden-road-home.test.ts": 54099,
     "test/travel-ways-oracle.test.ts": 82940,
+    "test/player-revision-oracle.test.ts": 46050,
     "test/golden-told.test.ts": 59241,
     "test/gosses-company-leads.test.ts": 5819,
     "test/windfall.test.ts": 20210,
