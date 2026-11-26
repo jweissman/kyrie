@@ -171,7 +171,8 @@
    "OR-1085",
    "OR-1092",
    "OR-1093",
-   "OR-1123"
+   "OR-1123",
+   "OR-1131"
   ],
   "outside": {
    "OR-678": "progression and the economy, a tabletop deliverable to be commissioned (the reference game's direction): a direction, not the slice's routes",
@@ -211,7 +212,8 @@
    "OR-407": "the platform's: the cost of the specs, not of the first hour a player meets",
    "OR-508": "a standing rule of process (every page change with a contact sheet looked at), not a defect a player meets",
    "OR-973": "the specs' own: walks brought across to what the company knows, not a defect a player meets",
-   "OR-1097": "the maturity track's: abilities as world writes; no first-hour defect a player meets waits on it"
+   "OR-1097": "the maturity track's: abilities as world writes; no first-hour defect a player meets waits on it",
+   "OR-1124": "the economy's ladder: past the first hour, its first rung the start the slice already holds"
   }
  },
  "active": {

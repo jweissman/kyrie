@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 642 live rows, 224 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 651 live rows, 226 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -55,7 +55,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 5 defects · 4 asks
+- **Conversation held to its focus** · 11 pins · 6 defects · 4 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -162,7 +162,7 @@ page's colours and opportunities.)
 
 ### Undertakings
 
-- **Aims and the gold thread** · 16 pins · 19 defects · 18 asks
+- **Aims and the gold thread** · 16 pins · 20 defects · 19 asks
   - ✓ leads a step from the way out: from the taproom, out to the green toward the town holding the one it names
   - ✓ leads no way out toward a town the company knows no journey to
   - ✓ leads no way out of its own town for one in a room of it not yet been to
@@ -191,6 +191,7 @@ page's colours and opportunities.)
   - requirement HP-02 P1: Horizons commissioned before they are imagined: the factor gives Icelake, the company's claim, the…
   - direction OR-469 P3: The First Aims' other horizons (the direction's §9: find Dun Rìerdan, explore the southern…
   - requirement OR-650 P2: A shut place with nothing found leads nowhere in its site: at Porthalen Hall's press-door (iscoed,…
+  - requirement OR-1129 P2: The dungeon's treasure scaled by level to the ladder: the first level's caches pay rung one, the…
   - requirement OR-1099 P2: Slice 1: reading by art: a spell granting lore (Comprehend Languages) reads the reference…
   - direction TS-01 P2: Philosophical schools that argue in good faith, teach by dialectic (for a fee, improving speech…
   - direction TS-02 P2: Persuading a crowd as a contested roll against the crowd; a disputation narrated as mass…
@@ -216,7 +217,7 @@ page's colours and opportunities.)
 
 ### The company
 
-- **Companions and hirelings** · 3 pins · 2 defects · 5 asks
+- **Companions and hirelings** · 3 pins · 2 defects · 6 asks
   - ✓ draws one who joins by the face they were met in, on the scene, on their page and in a fight, every frame
   - ✓ lets the company work for its keep, and then sleep on the house
   - ✓ lets a bard sing for the supper, for coin, once an evening
@@ -224,28 +225,34 @@ page's colours and opportunities.)
   - requirement PV-04 P2: **The Commander:** recruit a small group, issue an order, resolve a conflict by the rules,…
   - requirement OR-281 P1: People who anchor an undertaking still only what they are: the surveyor's son of a town's tie, the…
   - requirement OR-386 P3: The owner's "calculations on demand" (OR-307): the folio writes no modifier beside a value, and…
+  - requirement OR-1126 P2: Pack animals and a carrying limit felt: a mule or pony bought or hired (rung 1) carries more home,…
   - direction PG-01 P3: Character standing as a progression framework (the owner, 19 November,…
 - **Levels and growth** · 1 pins · 0 defects · 1 asks
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
-- **Belongings with a history** · 2 pins · 0 defects · 1 asks
+- **Belongings with a history** · 2 pins · 0 defects · 2 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
-- **Lodging and rest** · 4 pins · 2 defects · 2 asks
+  - requirement OR-1130 P3: A room kept at the inn (the long haul): rented by the week, a safe rest and a store for what is…
+- **Lodging and rest** · 4 pins · 2 defects · 3 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
   - ✓ is let on the house's own terms: an inn's room in Porthalen, a guest-cell at Gatesend
   - direction CP-06 P3: Orsino room and shop tables not drawn; dungeon and room generation from Orsino; Orsino's…
   - direction OR-610 P2: A domain-tier buyer, and something to buy between the field and the domain: a deep site's prize…
+  - requirement OR-1124 P1: The economy has no ladder above a poor start: a good day earns 255 to 476 coin, the dearest ware…
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 3 defects · 6 asks
+- **Markets and prices** · 0 pins · 3 defects · 9 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
+  - requirement OR-1125 P2: The ladder's measure: expeditions to afford each rung, read from the gold-follower over the…
+  - requirement OR-1127 P2: Rung-one goods for sale in the first town and its neighbours (mail, a mule, scrolls, a tutor's…
+  - requirement OR-1128 P2: Made to order: the smith takes a commission (a weapon or armour of a better make, rung 2), names…
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - direction WD-04 P2: No price follows a country's want: a merchant's stock and prices are by trade, the same wherever…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
@@ -822,7 +829,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **News and rumour** (Conversation): OR-365
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
-- **Markets and prices** (Trade): CP-07, PV-01, OR-678, BO-12, WD-04, WD-07
+- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1125, OR-1127, OR-1128, BO-12, WD-04, WD-07
 - **Countries and regions** (The land): PV-03, OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, OR-1074, OR-1106, WD-01, WD-02, WD-03, WD-09, WD-16, SS-01, WB-01, WB-02, WB-03
 - **Weather, sky and season** (The land): IM-01
 - **The planes** (The land): GT-01, GT-03

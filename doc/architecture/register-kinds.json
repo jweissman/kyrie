@@ -2928,6 +2928,48 @@
    "was": "defect",
    "pri": "P3",
    "why": "a design review's direction, shared by the owner 26 November, kept whole, not yet commissioned"
+  },
+  "OR-1124": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ask of 26 November: a committed requirement, unmet"
+  },
+  "OR-1125": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1124"
+  },
+  "OR-1126": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1124"
+  },
+  "OR-1127": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1124"
+  },
+  "OR-1128": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1124"
+  },
+  "OR-1129": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1124"
+  },
+  "OR-1130": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "a slice of OR-1124"
   }
  },
  "blockedBy": {
