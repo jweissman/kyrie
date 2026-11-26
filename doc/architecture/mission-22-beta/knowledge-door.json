@@ -63,25 +63,25 @@
    "rules": 7
   },
   "src/presentation/aim-aside.ts": {
-   "world": 2,
-   "facts": 3
+   "world": 1,
+   "facts": 1
   },
   "src/presentation/aim-continuity.ts": {
-   "world": 2,
-   "facts": 3
+   "world": 1,
+   "facts": 2
   },
   "src/presentation/aim-lead.ts": {
-   "world": 7,
-   "facts": 11,
+   "world": 4,
+   "facts": 8,
    "rules": 1
   },
   "src/presentation/aim-leads.ts": {
    "world": 9,
-   "facts": 29
+   "facts": 24
   },
   "src/presentation/aim-means.ts": {
-   "world": 4,
-   "facts": 4
+   "world": 1,
+   "facts": 1
   },
   "src/presentation/aim-parts.ts": {
    "world": 1,
@@ -94,7 +94,7 @@
    "rules": 1
   },
   "src/presentation/aim-words.ts": {
-   "facts": 8
+   "facts": 5
   },
   "src/presentation/character-sheet.ts": {
    "world": 2,
@@ -121,7 +121,7 @@
   },
   "src/presentation/company-light.ts": {
    "world": 2,
-   "facts": 16
+   "facts": 15
   },
   "src/presentation/compass.ts": {
    "world": 2
@@ -137,7 +137,7 @@
   },
   "src/presentation/fight-help.ts": {
    "world": 2,
-   "facts": 3
+   "facts": 2
   },
   "src/presentation/fought.ts": {
    "creatures": 1
@@ -148,8 +148,8 @@
    "rules": 2
   },
   "src/presentation/glance.ts": {
-   "world": 6,
-   "facts": 11
+   "world": 4,
+   "facts": 9
   },
   "src/presentation/guarded.ts": {
    "world": 3,
@@ -171,15 +171,15 @@
   },
   "src/presentation/means.ts": {
    "world": 2,
-   "facts": 5
+   "facts": 4
   },
   "src/presentation/openings.ts": {
    "world": 3,
    "facts": 11
   },
   "src/presentation/outmatched.ts": {
-   "world": 4,
-   "facts": 9
+   "world": 3,
+   "facts": 6
   },
   "src/presentation/prologue.ts": {
    "rules": 2
@@ -219,19 +219,15 @@
   },
   "src/presentation/succession.ts": {
    "world": 5,
-   "facts": 17
+   "facts": 15
   },
   "src/presentation/talk-weight.ts": {
    "world": 3,
    "facts": 7
   },
-  "src/presentation/threshold.ts": {
-   "world": 2,
-   "facts": 2
-  },
   "src/presentation/undertakings.ts": {
    "world": 7,
-   "facts": 14
+   "facts": 13
   },
   "src/presentation/unread.ts": {
    "world": 1,

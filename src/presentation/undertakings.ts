@@ -11,6 +11,7 @@ import { AimWords } from './aim-words'; import { SiteOutsides } from './site-out
 import type { Promoted } from './glance-types';
 import { Stories } from './stories';
 import { AimParts } from './aim-parts';
+import { CompanyRecall } from './company-recall';
 import { ScreenModel } from '../ui/screen-model';
 import { Narrator } from './narrator';
 
@@ -178,7 +179,7 @@ export class Undertakings {
     const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
     const places = this.held(campaign).filter(o => o.id !== this.followed(campaign)?.id)
       .map(o => ({ id: o.id, at: new Set([...this.places(campaign, o), ...Stakes.named(campaign, o),
-        ...Stakes.addresses(campaign, o)]) }));
+        ...Stakes.addresses(campaign, o, id => CompanyRecall.whereabouts(campaign, screen, id))]) }));
     return acts.map(a => {
       if (a.why !== 'held') { return a; }
       const to = screen.exits.find(e => e.id === a.exit)?.destination.id ?? a.command?.replace(/^travel:/, '')
@@ -221,9 +222,11 @@ export class Undertakings {
       .filter(e => !['plane', 'region'].includes(e.space?.kind ?? '')).map(e => e.id));
     // And where whoever it names is found, where its words do not say (see AimWords): tell Kellen the dead are still.
     const sought = AimWords.strangers(w, o).flatMap(id => AimWords.whereabouts(w, id));
-    // Toward someone its author names, the town or site they are in (Naillil at Elmham): not the room, which the map
-    // has no business knowing before the company does.
-    const target = Stakes.target(campaign, o), at = target.subject ? w.one('at', target.subject) : undefined;
+    // Toward someone its author names, the town or site the company knows them to be in (Naillil at Elmham, where it
+    // last saw her): not the room, which the map has no business knowing before the company does, nor a town it has
+    // not seen them in (OR-881).
+    const target = Stakes.target(campaign, o);
+    const at = target.subject ? CompanyRecall.where(campaign, target.subject) : undefined;
     const addressed = at ? Spatial.ancestry(byId, at).slice(1)
       .filter(e => ['settlement', 'site'].includes(e.space?.kind ?? '')).map(e => e.id) : [];
     // And the places its words say, which the company has been told ("the child at the market-place").

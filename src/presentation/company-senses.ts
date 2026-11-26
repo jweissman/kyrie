@@ -53,6 +53,18 @@ export class CompanySenses {
     if (!w.module.relations.some(r => r.name === 'grows')) { return new Set(); }
     return new Set([...things].filter(t => w.test(ModuleWriter.call('grows', t))));
   }
+  // Where someone or something keeps, as their author set them (Person … at …: a trader's shop, a priest's shrine),
+  // never where they stand now: read once for each module.
+  private static readonly keeps = new WeakMap<object, Map<string, string>>();
+  static kept(module: Campaign['module'], id: string): string | undefined {
+    let at = this.keeps.get(module);
+    if (!at) {
+      at = new Map(module.initial.flatMap(c => c.kind === 'assert' && c.call.name === 'at'
+        ? [[c.call.args[0]!, c.call.args[1]!] as const] : []));
+      this.keeps.set(module, at);
+    }
+    return at.get(id);
+  }
   // Each observation as its author wrote it, by its id: read once for each module.
   private static readonly cached = new WeakMap<Campaign['module'], Map<string, Observation>>();
   static observations(campaign: Campaign): Map<string, Observation> {

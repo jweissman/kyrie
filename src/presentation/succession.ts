@@ -12,6 +12,7 @@ import { Sentences } from './sentences';
 import type { Told } from './narrator';
 import { Undertakings } from './undertakings';
 import { SeenThrough } from '../ui/seen-through';
+import { CompanyRecall } from './company-recall';
 
 // What pulls once an aim followed is seen through (M21's playability list, PL-06; the lead's ruling, 13 November:
 // ranks 1 and 2 only). Said once, as the aim ends, and offered, never followed for the player: an aim seen through had
@@ -48,7 +49,8 @@ export class Succession {
       const thing = calls.flatMap(c => c.args).find(id => byId.get(id)?.type === 'item' && (!only || id === only)
         && (taking.has(id) || w.test(ModuleWriter.call('carries', actor, id))));
       const who = calls.find(c => c.name === 'at' && c.args[0] !== 'actor' && byId.get(c.args[0]!)?.type === 'group');
-      const place = who && w.one('at', who.args[0]!);
+      // Where the company knows them to be, never where they stand unseen (OR-881).
+      const place = who && CompanyRecall.where(campaign, who.args[0]!);
       if (!thing || !place || place === screen.place.id || !this.would(campaign, a, { place, thing })) { continue; }
       const take = taking.get(thing), there = this.town(byId, place, screen.place.id);
       if (!take && !Itineraries.plan(campaign, there)) { continue; }
@@ -110,7 +112,7 @@ export class Succession {
       .map(r => r.args[1]!));
     const mentor = w.related('teaches').find(r => open.has(r.args[1]!) && w.number(ModuleWriter.call('lessonFee',
       r.args[0]!)) <= purse)?.args[0];
-    const place = mentor && w.one('at', mentor);
+    const place = mentor && CompanyRecall.where(campaign, mentor);
     if (!place || place === screen.place.id) { return undefined; }
     const name = ObservationText.label(w, mentor), there = ObservationText.label(w, place);
     return { kind: 'lead', text: `${name} would teach you now, at ${there}.`, command: `travel:${place}`,

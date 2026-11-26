@@ -57,9 +57,9 @@ export class Atlas {
     // The aim names what is there where it is someone or something, as an errand would; a sign, by its place.
     const named: Partial<Record<Kind, string>> = { companion: 'wenna', danger: 'rats', payoff: 'casket',
       knowledge: 'osric' };
-    // A thing, never seen from where the company stands, is found where the aim's words say it is: the gold goes to
-    // where the company knows it to be, never where it lies unseen (OR-880).
-    const where = kind === 'payoff' ? ` on {${at}}` : '';
+    // Someone or something, never seen from where the company stands, is found where the aim's words say: the gold
+    // goes to where the company knows them to be, never where they stand or lie unseen (OR-880, OR-881).
+    const where = kind === 'payoff' ? ` on {${at}}` : ` at {${at}}`;
     const aim = !o.aim ? '' : named[kind] ? `Objective seek when not got(${named[kind]}) "Find {${named[kind]}}${where}.".`
       : `Objective seek when true toward ${at} "Find what is at {${at}}.".`;
     const t = await Tiny.start(`${this.ground}\n${this.put(kind, at)}\n${aim}\n${o.more ?? ''}`,

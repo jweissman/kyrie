@@ -4,6 +4,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { Spatial } from '../lang/spatial';
+import { CompanySenses } from './company-senses';
 
 // An aim in words, naming no one the company cannot place. Someone an aim leads to (tell them, find them) whom the
 // company has never spoken with, and whose town the aim does not name, is said as who they are and where they are
@@ -47,8 +48,10 @@ export class AimWords {
     });
   }
   // Where someone is found, most particular first: the room they keep, and what it lies in short of the country.
+  // Where they keep is where their author set them (the aim's words tell it, as whoever gave it would), never where
+  // they stand now, which the words had followed about unseen (OR-881).
   static whereabouts(world: World, id: string): string[] {
-    const at = world.one('at', id), byId = EntityIndex.of(world.module.entities).byId;
+    const at = this.kept(world, id), byId = EntityIndex.of(world.module.entities).byId;
     return at ? Spatial.ancestry(byId, at).filter(e => !['plane', 'region'].includes(e.space?.kind ?? ''))
       .map(e => e.id) : [];
   }
@@ -63,15 +66,17 @@ export class AimWords {
   }
   // The room someone keeps within their town, where it is not the town itself (a shrine, a forge, a counting-house).
   private static room(world: World, byId: Map<string, Entity>, id: string, town: string): string | undefined {
-    const at = world.one('at', id);
+    const at = this.kept(world, id);
     return at && at !== town && byId.get(at)?.space ? at : undefined;
   }
   // The town, or the site, someone is in.
   private static town(world: World, byId: Map<string, Entity>, id: string): string | undefined {
-    const at = world.one('at', id);
+    const at = this.kept(world, id);
     return at ? Spatial.ancestry(byId, at).find(e => ['settlement', 'site'].includes(e.space?.kind ?? ''))?.id
       : undefined;
   }
+  // Where someone keeps, as their author set them (CompanySenses.kept).
+  private static kept(world: World, id: string): string | undefined { return CompanySenses.kept(world.module, id); }
   // Whether the aim is a promise the company made (see Promises.lower).
   private static promised(o: Objective): boolean {
     let made = false;

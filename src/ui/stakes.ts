@@ -45,15 +45,27 @@ export class Stakes {
   }
   // The places an aim names only as where something else it names stands: those holding another thing it names, or
   // the place someone it names is at.
-  // Toward someone its author names, wherever they are is where they are sought.
-  static addresses(campaign: Campaign, o: Objective): Set<string> {
-    const ids = o.toward?.length ? new Set(o.toward) : Stakes.said(campaign, o);
-    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
+  // Toward someone its author names, where the company knows them to be is where they are sought (`where`, the
+  // company's knowledge, passed in by the player's parts: CompanyRecall.whereabouts). The world's truth had been read
+  // here, so that an aim written toward someone never seen said where they stood, and the gold went there (OR-881).
+  // Without it, only a place's own and the aim's words: nothing of where anyone stands.
+  static addresses(campaign: Campaign, o: Objective, where?: (id: string) => string | undefined): Set<string> {
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    if (o.toward?.length) {
+      // Never seen, where the aim's words say ("the old writing in {hold}"): the first place they name, which the
+      // rest only place ("the ossuary under the churchyard").
+      const said = [...Stakes.said(campaign, o)].filter(p => byId.get(p)?.space).slice(0, 1);
+      return new Set(o.toward.flatMap(id => {
+        const at = byId.get(id)?.space ? id : where?.(id);
+        return (at ? [at] : said).flatMap(p => Spatial.ancestry(byId, p)).filter(e => e.id !== id).map(e => e.id);
+      }));
+    }
+    const ids = Stakes.said(campaign, o), w = campaign.world;
     const under = [...ids].flatMap(id => {
       const at = byId.get(id)?.space ? id : w.one('at', id);
       return at ? Spatial.ancestry(byId, at).filter(e => e.id !== id).map(e => e.id) : [];
     });
-    return new Set(o.toward?.length ? under : under.filter(id => ids.has(id)));
+    return new Set(under.filter(id => ids.has(id)));
   }
   // What an aim's words name (or its condition, when its words name nothing): what the company has been told.
   // Read once for each aim of a module: the page asks it at every glance.
