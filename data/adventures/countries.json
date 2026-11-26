@@ -1125,7 +1125,7 @@
    "province": true,
    "bundle": "overexall/placed.json",
    "entry": "road",
-   "marker": "dorcas",
+   "marker": "exall",
    "side": "north",
    "beside": [
     "hills",
