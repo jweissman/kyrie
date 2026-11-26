@@ -6,6 +6,7 @@ import { Raised } from './stage/raised';
 import { GlanceStage } from './stage/glance';
 import { Explorer, type Part } from './stage/explorer';
 import { CompassStage } from './stage/compass-stage';
+import { Folded } from './stage/folded-rail';
 import { SceneRail } from './stage/scene-rail';
 import { Act } from './stage/act';
 import { PressGuard } from './press-guard';
@@ -152,6 +153,9 @@ export class ReaderKeys {
       app.explore(app.state.exploring === part ? undefined : part);
       return true;
     }
+    // F: the folded lenses taken up, or folded again (Folded, OR-1084).
+    if (key === 'f' && app.state.frame?.leaf.glance?.rail === 'folded' && !app.state.outdoors
+      && Stage.mode(app) === 'explore') { Folded.toggle(app); return true; }
     if (key === '?') { app.setState({ help: !app.state.help }); return true; }
     return false;
   }

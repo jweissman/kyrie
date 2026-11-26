@@ -13,7 +13,9 @@ const read = (f: string) => readFileSync(f, 'utf8');
 describe('a semantic indicator', () => {
   it('is drawn in an Atlas tone only from an indicator', () => {
     const allowed = new Set(['web/reader/stage/pip.tsx', 'web/reader/stage/choice-row.tsx', 'web/reader/notices.tsx',
-      'web/reader/stage/wayfinder.tsx', 'web/reader/board/board-labels.ts']);
+      'web/reader/stage/wayfinder.tsx', 'web/reader/board/board-labels.ts',
+      // The folded lenses' diamond, glittering with the tones of their own indicators (OR-1084: Folded.held).
+      'web/reader/stage/folded-rail.tsx']);
     const tones = files.filter(f => f.startsWith('web/') && !allowed.has(f) && /var\(--tone-|`var\(--tone-\$\{/.test(read(f)));
     expect(tones).toEqual([]);
     // Where a tone is drawn from a variable, it is an indicator's.

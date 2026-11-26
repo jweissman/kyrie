@@ -95,7 +95,8 @@ export class Glance {
       ...this.aimed(campaign, screen, reading, continuance), ...Threshold.leads(campaign, screen, reading.named),
       ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),
       ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},
-      ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {} };
+      ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {},
+      rail: 'folded' };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
   private static after(campaign: Campaign, told: Told, at: { screen: Screen; acts: Promoted[]; scene: Scene }) {

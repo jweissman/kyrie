@@ -56,6 +56,10 @@ export class MonoDriver {
     for (let p = 0; p < 6 && !await this.page.locator(selector).count()
       && await this.page.locator('[data-option="more"]').count(); p++) { await this.page.click('[data-option="more"]'); }
     if (this.pointer) {
+      // A lens folded at rest into its diamond (OR-1084) is unseen to a finger until the diamond is touched, as a
+      // player touches it: a touch on the folded strip only unfolds it.
+      if (await this.page.locator(selector).first().evaluate(e => !!e.closest('.scene-rail[data-fold]:not(.unfolded)'
+        + ' .lenses-fold')).catch(() => false)) { await this.page.tap('[data-action="lenses"]'); }
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
       await this.still();
       await this.page.tap(selector);

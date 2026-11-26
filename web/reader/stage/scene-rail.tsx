@@ -17,6 +17,7 @@ import { LensRows } from './lens-rows';
 import { Look } from '../look';
 import { WorldStage } from './world-stage';
 import { PageFrame } from '../page-frame';
+import { Folded } from './folded-rail';
 
 // How a touch on the rail stands now (amendment 6, the owner's notes of 11 November): lit, by the tone of what it has
 // that is new or the aim's; ordinary, with something in it still useful; dim, with nothing new for now (it can still
@@ -31,8 +32,11 @@ type Standing = { lit?: Attested } | { dim: true } | { shut: string } | Record<s
 export class SceneRail {
   static View({ app }: { app: ReaderApp; draw?: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
-    return (
-      <nav {...PageFrame.slot('rail')} className="scene-rail" aria-label="Go, look, wait, search, the map and your book">
+    // At rest the lenses fold into one emblem where the engine says so (Glance.rail, OR-1084): taken up, they stand
+    // above it; the map and the book beside it either way. The folded strip is unseen until then, so a touch on it
+    // only unfolds it, never acts unseen (Folded.guard).
+    const folded = app.state.frame?.leaf.glance?.rail === 'folded', open = folded && Folded.open(app);
+    const lenses = <>
         <SceneRail.Talk app={app} />
         <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)} />
         <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)} />
@@ -46,6 +50,13 @@ export class SceneRail {
         <button type="button" className="rail-mark by-glyph" {...search ? { 'data-action': 'explore' } : {}}
           disabled={!search} aria-label={search ? 'Search: look closely' : 'Search: nothing here to search'}
           onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>
+    </>;
+    return (
+      <nav {...PageFrame.slot('rail')} className={`scene-rail${open ? ' unfolded' : ''}`}
+        {...folded ? { 'data-fold': 'folded' } : {}} aria-label="Go, look, wait, search, the map and your book"
+        {...folded ? Folded.guard(app, open) : {}}>
+        {folded ? <><div className="lenses-fold" id="lenses-fold" role="group" aria-label="The lenses">{lenses}</div>
+          <Folded.Mark app={app} open={open} /></> : lenses}
         <span className="rail-gap" aria-hidden="true" />
         <SceneRail.Books app={app} />
       </nav>

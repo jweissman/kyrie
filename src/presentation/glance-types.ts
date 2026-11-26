@@ -190,6 +190,11 @@ export interface Glance {
   after?: AfterAct;
   // The scene's four, and every other choice of it, for every client (see Offers).
   offer?: import('./offer').Offer;
+  // How the scene's rail of lenses is drawn at rest (OR-1084, the owner, 26 November: "fade the lenses rail in the
+  // resting scene, or at least let it be folded into a single icon"): folded to one emblem, which unfolds to the
+  // lenses when taken up, by a pointer or the keys; the map and the book stay beside it. A render hint every client
+  // takes alike; the resting scene is the one place it folds.
+  rail?: 'folded';
 }
 // What pulls once an aim is seen through (PL-06): the deed's own consequence (the yoke, to be hung over the drover's
 // hearth: at, where) or a lead not followed (an aim held, to follow; or a place something known leads to). Its words

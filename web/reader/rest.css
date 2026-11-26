@@ -337,6 +337,18 @@
 .rail-mark:is(.pressed, [aria-expanded="true"])::after { content: ''; position: absolute; left: 13px; right: 13px; bottom: 5px; height: 1.5px;
   border-radius: 1px; background: rgba(236, 230, 217, .75); }
 .scene-rail .rail-gap { width: 1px; height: 22px; margin: 0 6px; background: var(--edge-strong); }
+/* The lenses folded at rest (Folded, OR-1084): the diamond in their place on the rail, and the lenses in a strip of
+   the rail's own beside it, where they stood, never over the menu's column, unseen until it is taken up
+   (aria-expanded), a lens of it is open, or a pointer or the keys come to it; no slide, a short fade in place. */
+.scene-rail[data-fold="folded"] .lenses-fold { position: absolute; right: calc(100% + 6px); bottom: -1px; display: flex;
+  gap: 2px; padding: 4px 6px; border: 1px solid var(--edge); border-radius: 999px;
+  background: rgba(12, 13, 17, .62); backdrop-filter: blur(6px); opacity: 0; transition: opacity var(--quick); }
+.scene-rail[data-fold="folded"]:is(.unfolded, :hover, :focus-within) .lenses-fold { opacity: 1; }
+/* Its glitter: the cut filled, still, with the Atlas colour of what the folded lenses hold, or neutral; the facets
+   drawn over it in the rail's ink. The one designed element coloured so (AGENTS.md, the colour grammar). */
+.rail-mark.lenses-mark .glint { position: absolute; inset: 9px; background: var(--glint, rgba(236, 230, 217, .16));
+  clip-path: polygon(33.3% 18.75%, 66.7% 18.75%, 83.3% 39.6%, 50% 83.3%, 16.7% 39.6%); opacity: .9; }
+.rail-mark.lenses-mark .facets { position: relative; stroke-width: 1.2; }
 .rail-mark { all: unset; box-sizing: border-box; position: relative; display: inline-grid; place-items: center; width: 40px;
   height: 40px; border-radius: 50%; cursor: pointer; color: rgba(236, 230, 217, .82);
   transition: color var(--quick), background var(--quick), opacity var(--quick); }
@@ -385,8 +397,11 @@
     display: none; }
   .shell.scene-full .world-page.scale-scene .surface .portraits { z-index: 5; }
   .shell.scene-full .world-page .surface .lens-strip { display: none; }
-  /* Seven marks inside a phone's zone. */
+  /* Seven marks inside a phone's zone; eight, the folded lenses' diamond among them, unfolded beside it (OR-1084). */
   .scene-rail .rail-mark { width: 36px; height: 36px; }
+  .scene-rail[data-fold="folded"] .rail-mark { width: 31px; height: 31px; }
+  .scene-rail[data-fold="folded"] .lenses-fold { padding: 4px 3px; right: calc(100% + 4px); }
+  .scene-rail[data-fold="folded"] .rail-mark.lenses-mark .glint { inset: 6.5px; }
   .shell.scene-full .world-page.scale-scene .surface :is(.portraits, .lens-strip) { top: calc(var(--safe-t) + 96px);
     bottom: auto; left: var(--safe-x); right: var(--safe-x); }  /* A crowd in two rows at most, small faces and their names said to a reader (OR-503: four rows of named faces had
      stood over the telling and the rows under it). */
