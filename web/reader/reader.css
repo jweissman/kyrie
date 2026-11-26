@@ -422,17 +422,17 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .shell[data-backstage="folio"] .book-frame > .book { padding: clamp(10px, 2.4vw, 28px) clamp(10px, 3vw, 40px) clamp(16px, 3vw, 40px); }
 .shell[data-backstage="folio"] .book-page:not(.map-page) { max-width: 76rem; margin: 0 auto;
   padding: clamp(22px, 3vw, 40px) clamp(18px, 3.4vw, 48px) 72px;
-  --ivory: #2B241B; --ink: #2B241B; --grey: #5B4F3F; --dim: #5B4F3F; --faint: #6E6150; --accent: #2B241B;
+  --ivory: #2B241B; --ink: #2B241B; --grey: #54493A; --dim: #54493A; --faint: #5E5242; --accent: #2B241B;
   --hair: rgba(43, 36, 27, .14); --edge: rgba(43, 36, 27, .24); --edge-strong: rgba(43, 36, 27, .4);
-  --accent-line: rgba(43, 36, 27, .3); --surface: #EFE6D2; --raised: #E4D8BE; --lift: #D8CDB6;
-  --paper: rgba(255, 250, 236, .4); --wash: #E4D8BE; --deep: #E4D8BE;
+  --accent-line: rgba(43, 36, 27, .3); --surface: #E3D8C1; --raised: #D7CBB1; --lift: #CBBFA6;
+  --paper: rgba(255, 250, 236, .22); --wash: #D7CBB1; --deep: #D7CBB1;
   --choice-ground: rgba(43, 36, 27, .05); --choice-edge: rgba(43, 36, 27, .14);
   --choice-ground-hot: rgba(43, 36, 27, .1); --choice-edge-hot: rgba(43, 36, 27, .32);
   color: var(--ink); border: 1px solid rgba(43, 36, 27, .35); box-shadow: 0 0 0 1px rgba(0, 0, 0, .5), 0 24px 70px rgba(0, 0, 0, .55);
   color-scheme: light;
-  background: radial-gradient(120% 90% at 50% 40%, rgba(255, 250, 236, .55), rgba(255, 250, 236, 0) 60%),
+  background: radial-gradient(120% 90% at 50% 40%, rgba(255, 250, 236, .18), rgba(255, 250, 236, 0) 60%),
     radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(92, 66, 32, .16) 100%),
-    repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #EFE6D2; }
+    repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #E3D8C1; }
 .shell[data-backstage="folio"] .book-page:not(.map-page) :is(h1, h2, h3, p, li, span, b, dt, dd) { text-shadow: none; }
 /* Set as a book is: paragraphs indented, not gapped, and ragged right. */
 .shell[data-backstage="folio"] .book-page:not(.map-page) p { text-align: left; }

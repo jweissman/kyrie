@@ -43,6 +43,14 @@ export class SheetHour {
     for (const [key, name, said] of [['i', 'pack', 'The book: pack'], ['c', 'character', 'The book: character'],
       ['j', 'notes', 'The book: notes'], ['h', 'story', 'The book: story']] as const) {
       await cam.step(name, said, () => d.mode(key));
+      // From the pack, a thing's entry in the encyclopedia, opened over the game (EncyclopediaOverlay), then put away.
+      if (key === 'i' && !cam.broken && await page.locator('.pack-entry').count()) {
+        await cam.step('encyclopedia-entry', 'The encyclopedia over the game: a thing\'s entry', async () => {
+          await page.click('.pack-entry'); await page.waitForSelector('.enc-overlay .enc-page');
+          await page.waitForTimeout(1200);
+        });
+        await page.keyboard.press('Escape');
+      }
       if (!cam.broken) { await page.keyboard.press('e'); await d.settle(); }
     }
   }

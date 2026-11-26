@@ -110,8 +110,9 @@ export class EncyclopediaHtml {
 @font-face { font-family: 'Jost'; src: url(../fonts/jost-normal-latin.woff2) format('woff2'); font-weight: 300 800; }
 @font-face { font-family: 'Newsreader'; src: url(../fonts/newsreader-normal-latin.woff2) format('woff2'); font-weight: 300 700; }
 @font-face { font-family: 'Newsreader'; font-style: italic; src: url(../fonts/newsreader-italic-latin.woff2) format('woff2'); }
-:root { color-scheme: light; --paper: #EFE6D2; --paper-deep: #E4D8BE; --ink: #2B241B; --dim: #5B4F3F; --faint: #6E6150;
-  --rule: rgba(43,36,27,.24); --hair: rgba(43,36,27,.12); --link: #7A2E1F; --sepia: #6B4A2B;
+:root { color-scheme: light; --paper: ${Folio.ink.paper}; --paper-deep: ${Folio.ink.deep}; --ink: ${Folio.ink.ink};
+  --dim: ${Folio.ink.dim}; --faint: ${Folio.ink.faint};
+  --rule: ${Folio.ink.rule}; --hair: ${Folio.ink.hair}; --link: ${Folio.ink.link}; --sepia: ${Folio.ink.sepia};
   --read: 'Newsreader', Georgia, serif; --do: 'Jost', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif; }
 * { box-sizing: border-box; }
 body { margin: 0; color: var(--ink); font: 18px/1.6 var(--read); }
