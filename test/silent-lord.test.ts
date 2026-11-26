@@ -52,7 +52,7 @@ describe('the silent lord: where it stands in the world', () => {
   it('is noticed on the first town’s green, uncovered by asking the keeper, and walked to from the map', async () => {
     const id = (await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {})).report.placements
       .find(x => x.scenario === 'silent-lord')!.bindings.keep!;
-    const j = await start('ranger');
+    const j = await start();
     await j.play('==day 2 09:00', '>s1_green');
     expect(knows(j, 'levy_called')).toBe(false);
     expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === k('keep_rumoured'))).toBe(false);
