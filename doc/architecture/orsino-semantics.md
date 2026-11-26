@@ -146,7 +146,7 @@ and 35. Each refuses itself in the catalog and is never offered.
 
 ## The bestiary
 
-`bun bin/orsino-registry.ts bestiary` composes Kyr species from Orsino's monster template (`OrsinoMonsters`): 39
+`bin/kyrie orsino bestiary` composes Kyr species from Orsino's monster template (`OrsinoMonsters`): 39
 monster types by class, 16 elementals by element and 38 animals by kind. Each species grows with level as the
 template does: attributes by round(level / 8), and hit points by the class line + CON modifier + 3 a level. Each has
 the class's actions a turn and is worth the class's experience + 50 a level. What Kyr cannot play is named in
