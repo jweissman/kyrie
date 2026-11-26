@@ -23,8 +23,8 @@ The owner's thoughts, as they came, kept whole. These are directions, not commis
 **What it asks of the platform (why it is the proof):**
 - **The ship is the company.** An entity with modules, extended and refitted. Its crew are members whose roles and
   configuration matter.
-- **Command points per day:** a spendable daily resource, turned into durable upgrades and feats for the crew. The
-  runtime needs a daily budget that no fantasy notion of spell slots or rest defines.
+- **Command points per day:** spent on durable upgrades and feats for the crew. They are distinct from fatigue and in
+  addition to it (below); both are general engine concepts, not Tethys's or the fantasy domain's.
 - **Group configuration bonuses:** formations, stations, a crew's complementary roles. Orsino's party bonuses were
   central to its play and have not been carried into Kyrie clearly. Tethys makes them first-class, and Westernesse can
   then take them back (a war-band's formation, a ship of the Saltings).
@@ -37,6 +37,35 @@ The owner's thoughts, as they came, kept whole. These are directions, not commis
 shuttle run, the dead survey outpost), which already plays without Westernesse's catalog wherever the platform allows.
 The next slice adds the ship as company, the day's command points and one crew configuration bonus, each in Kyr, each
 a finding wherever the kernel reaches for fantasy.
+
+## Fatigue: a few shots a day, the engine's pacing (the owner, 26 November)
+
+> command points _should_ be distinct and in addition to fatigue, but absolutely available as a general engine concept.
+> The baseline idea for pacing story is fatigue or action points that refresh daily. Certain actions -- and we should
+> be quite distinct about this -- are 'enervating' and require a long-press and spending a fatigue point. You can do
+> anything that doesn't require a fatigue point if you're low on AP but in general the idea is you get a small number
+> of shots every day to do some magic economic (or magical etc) transformation. It's limited tries applied to the core
+> engine loop. Maybe the "Explore..." action that I think is really important fits in here too -- you can use it like a
+> lottery to find a new, generated on-demand encounter or sublocation but only a small number of times per day
+
+- **Fatigue (action points) is the kernel's pacing.** A few points, refreshed each day (by a night's rest), for every
+  setting.
+- **Enervating acts are few, and marked distinctly.** They are an economic, magical or otherwise transforming act, and
+  the engine declares them so:
+  - each is held (a long press, the grammar's held acts: `Choice.hold`);
+  - each spends a point;
+  - its row says so.
+- **Everything else stays open when the points are spent.** Low on fatigue, the company can still do anything that
+  does not need a point. The limit is on the transformations, not on play.
+- **Explore… as a lottery, a few times a day.** It spends from the same budget and draws a new encounter or sublocation
+  generated on demand, deterministic by stable identity (a draw keyed by the place, the day and the try), so that the
+  world stays lazily realised and replayable.
+- **Command points** are a second, distinct budget on the same kernel mechanism, Tethys's (the captain's day), spent on
+  durable upgrades and feats for the crew. A setting may declare further budgets of its own kind.
+- **Its consequences:**
+  - It gives the economy's ladder (OR-1124) its tempo: a day buys a few transformations, so expeditions and rest
+    matter.
+  - It gives the composition principle its scarcity of action.
 
 ## The proof of separation: inversion of control, earned
 

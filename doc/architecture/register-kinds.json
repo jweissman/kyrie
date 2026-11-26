@@ -2982,6 +2982,30 @@
    "was": "defect",
    "pri": "P1",
    "why": "the owner's ask of 26 November: an instrument for reporting, unmet"
+  },
+  "OR-1200": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's direction of 26 November: a committed requirement, unmet"
+  },
+  "OR-1201": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November, a slice of OR-1200"
+  },
+  "OR-1202": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November, kept whole"
+  },
+  "OR-1203": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November, kept whole"
   }
  },
  "blockedBy": {
