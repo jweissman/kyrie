@@ -1,6 +1,5 @@
 import type { Campaign } from '../campaign/campaign'; import { Offers } from './offer'; import { CompanyLight } from './company-light';
-import { Threshold } from './threshold';
-import { HeldActs, type Host } from './held-acts';
+import { Threshold } from './threshold'; import { HeldActs, type Host } from './held-acts';
 import { LedWords } from './led-words'; import { HeldLead } from './held-lead';
 export type { Host };
 import type { Call, Entity, Module, Objective, Predicate } from '../lang/module';
@@ -53,7 +52,8 @@ export class Glance {
     const reading = this.reading(campaign, screen, { recall, life, pointed: lines.pointed, sensed, told });
     const s: Situation = { threat: scene.subjects.some(x => SceneModel.threat(x)), warned: !!screen.warned,
       dark: !!screen.dark, settled: reading.needs.settled, open: reading.needs.open,
-      down: screen.party.some(m => m.hp <= 0), aimed: !!screen.aims?.some(a => a.followed) };
+      down: screen.party.some(m => m.hp <= 0), dying: screen.party.some(m => m.hp <= 0 && !m.conditions.includes('slain')),
+      aimed: !!screen.aims?.some(a => a.followed) };
     // What was done here with nothing happened since is held: never led again (OR-417, see LedAgain).
     const cands = LedAgain.hold(campaign, here, Affordances.of(scene, screen, reading));
     // At the opening the four are the charge's (see Charge); the place's lenses and ways hold the rest as ever.

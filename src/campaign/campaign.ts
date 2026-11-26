@@ -30,9 +30,8 @@ import { ActionTime } from './action-time'; import { Engagement } from './engage
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
 import type { CampaignState, CampaignSave, CampaignEvent, Dated, Restored } from './campaign-types';
-import { Crossing, type ExecutionContext } from './crossing';
-import { SemanticRecords } from '../lang/semantic-record';
-import { SavedSchemas } from './saved-schemas';
+import { Crossing, type ExecutionContext } from './crossing'; import { SemanticRecords } from '../lang/semantic-record';
+import { SavedSchemas } from './saved-schemas'; import { LifeLost } from './life-lost';
 export class Campaign implements WatchHost {
   private compiled: Module;
   get module(): Module { return this.compiled; }
@@ -163,10 +162,12 @@ export class Campaign implements WatchHost {
   // What the world could not take (the canon, in a world kept from before it: see CanonInstall), said for the lint.
   get conflicts(): readonly string[] { return this.definition?.conflicts ?? []; }
   conflict(note: string) { this.definition = { ...this.definition!, conflicts: [...this.conflicts, note] }; }
-  // Whether anyone of the company stands, from the live records: read many times a turn (`party` copies each twice).
+  // Whether anyone of the company stands, from the live records: read many times a turn (`party` copies each twice);
+  // and the one who plays is not dead past raising (LifeLost).
   get running(): boolean {
-    return this.current.partyIds.some(id => this.creatures.peek(id).state.hp > 0) && (this.persistent
-      || this.current.outcome === 'active') && !Endings.reached(this.world, this.installations);
+    const ids = this.current.partyIds, w = this.world;
+    return ids.some(id => this.creatures.peek(id).state.hp > 0) && (this.persistent || this.current.outcome === 'active')
+      && !Endings.reached(w, this.installations) && !LifeLost.lost(w, this.module.entities, this.creatures, ids[0]);
   }
   // A copy to play on beside this one, between commands: what a save restored would be, without writing the game out
   // and reading it back (a fork: a kept game's round trip had taken a third of a second, its module checked again).

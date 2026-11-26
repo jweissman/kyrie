@@ -20,6 +20,7 @@ import { RegionKey } from './region-key';
 import { DebtShapes } from './debt-shapes';
 import { OriginOpenings, type OriginOpening } from './origin-opening';
 import { StockOpenings, type StockOpening } from './stock-openings';
+import { ReferenceSettlement } from './reference-settlement';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -60,15 +61,27 @@ export class Origins {
       return { manifest, source: await base.read(base.resolve(manifest.source, at)) };
     }));
   }
-  // The origins this world can hold, said as the creation page offers them.
+  // The origins this world can hold, said as the creation page offers them. In a country with the reference game's
+  // settlement, only the lives that begin in it (OR-644, OR-682): "Coming home" had begun at the drover's town and the
+  // fever's at the sick child's, where a going-on is set only outside the reference town (ScenarioTowns), so two of
+  // four blind lives never saw the old woods. An origin named (a tester's, a spec's) still begins where it binds.
   static choices(loaded: Loaded[], region: Region, placements: Placement[]): OriginChoice[] {
     return loaded.flatMap(o => {
-      const bound = this.bind(o.manifest.binder, region, placements);
+      const found = this.bind(o.manifest.binder, region, placements);
+      const bound = found && this.referenced(region, found.start) ? found : undefined;
       const opening = bound && OriginOpenings.of(this.fill(o.source, bound.values), o.manifest.title);
       return bound ? [{ id: o.manifest.id, title: o.manifest.title, choice: this.fill(o.manifest.choice, bound.values),
         ...opening ? { opening } : {}, ...o.manifest.background ? { background: o.manifest.background } : {},
         ...o.manifest.kinds ? { kinds: o.manifest.kinds } : {} }] : [];
     });
+  }
+  // Where an origin begins a life in this country, if it can.
+  static begins(binder: string, region: Region, placements: Placement[]): string | undefined {
+    return this.bind(binder, region, placements)?.start.place;
+  }
+  private static referenced(region: Region, start: Start): boolean {
+    const s = ReferenceSettlement.of(region);
+    return !s || start.place === s.id || start.place.startsWith(`${s.id}_`);
   }
   // The protagonist as the origin makes them: its background (what they know how to do), which is what its story
   // says they are (a scribe of the order reads the old script), and what they carry. One that makes them nothing in

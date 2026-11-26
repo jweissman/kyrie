@@ -24,6 +24,8 @@ export class Obituary {
     return Endings.reached(campaign.world, campaign.installations) ?? this.of(campaign);
   }
   static of(campaign: Campaign): { title: string; lines: string[]; memorial?: Memorial } {
+    const unrisen = this.unrisen(campaign);
+    if (unrisen) { return unrisen; }
     const events = campaign.history, last = [...events].reverse().find(e => e.combat.some(c => c.type === 'death'));
     const party = new Set(campaign.readout.partyIds), names = this.names(campaign);
     const fallen = (last?.combat ?? []).filter((c): c is Death => c.type === 'death' && party.has(c.actor));
@@ -34,7 +36,11 @@ export class Obituary {
       .sort((a, b) => Number(b === first) - Number(a === first)).map(id => names.get(id) ?? 'You');
     const at = campaign.world.one('at', campaign.playerActor ?? 'party');
     const place = at && ObservationText.label(campaign.world, at);
-    const title = party.size > 1 ? 'No one is left standing' : who === 'You' ? 'You are dead' : `${who} is dead`;
+    // The one who plays dead with someone of the company still standing is their death, not the company's (OR-683).
+    const stands = campaign.readout.creatures.some(c => party.has(c.id) && c.state.hp > 0);
+    const you = names.get(first ?? '') ?? 'You';
+    const title = stands ? `${you} is dead` : party.size > 1 ? 'No one is left standing'
+      : who === 'You' ? 'You are dead' : `${who} is dead`;
     if (!last || !one) { return { title, lines: [`It is over${place ? `, at ${place}` : ''}.`] }; }
     // Where they fell, and where they lie, which is where the company is: it may have carried them on.
     const where = campaign.world.one('at', campaign.playerActor ?? 'party') ?? '';
@@ -59,6 +65,26 @@ export class Obituary {
         + ' you.',
     ].filter(Boolean), memorial: { name: who, place: where,
       how: killer ? `${this.upper(killer)} killed ${who}.` : 'Nobody saw how.' } };
+  }
+  // The one who plays, fallen and not come round at a rest (Orsino's system shock: FieldUse.shock), with someone of the
+  // company still standing over them (OR-683): where they fell, and when they died.
+  private static unrisen(campaign: Campaign): { title: string; lines: string[]; memorial: Memorial } | undefined {
+    const first = campaign.readout.partyIds[0], history = campaign.history;
+    const ref = campaign.module.entities.find(e => e.creatureId === first)?.id, dies = `+ slain(${ref})`;
+    const died = ref ? [...history].reverse().find(e => !e.combat.some(c => c.type === 'initiative')
+      && e.changes.includes(dies)) : undefined;
+    const since = died ? history.slice(history.indexOf(died) + 1) : [];
+    if (!first || !died || since.some(e => e.combat.some(c => c.type === 'revive' && c.target === first))) { return undefined; }
+    const who = this.names(campaign).get(first) ?? 'You', where = campaign.world.one('at', campaign.playerActor ?? 'party');
+    const fight = [...history.slice(0, history.indexOf(died))].reverse()
+      .find(e => e.combat.some(c => c.type === 'death' && c.actor === first));
+    const fell = fight && this.scene(campaign, fight), place = where && ObservationText.label(campaign.world, where);
+    return { title: who === 'You' ? 'You are dead' : `${who} is dead`, lines: [
+      ...fight ? [`${who} fell${fell ? ` at ${ObservationText.label(campaign.world, fell)}` : ''}, ${this.when(fight)}.`] : [],
+      `${who} did not come round${place ? `, at ${place}` : ''}, ${this.when(died)}, and has died of their wounds.`,
+      'What you did there is in the story so far. Begun again, the country is as it was on its first day, and remembers'
+        + ' you.',
+    ], memorial: { name: who, place: where ?? '', how: `${who} fell, and did not come round.` } };
   }
   // What began it: being fallen on while doing something, or the company's own command.
   private static began(campaign: Campaign, event: CampaignEvent, names: Map<string, string>): string {
@@ -105,6 +131,7 @@ export class Obituary {
     const ability = action && Content.abilities.find(a => a.id === action.command.ability);
     return ability && !['melee', 'ranged'].includes(ability.id) ? ability.name.toLowerCase() : '';
   }
+  private static when(e: CampaignEvent): string { return `${FictionalTime.part(e.elapsed)} of ${this.day(e.elapsed)}`; }
   private static day(elapsed: number): string {
     const n = Number(/^Day (\d+)/.exec(FictionalTime.at(elapsed))?.[1] ?? 1);
     return ['the first day', 'the second day', 'the third day', 'the fourth day', 'the fifth day'][n - 1] ?? `day ${n}`;

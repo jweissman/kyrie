@@ -41,10 +41,10 @@ export interface Candidate {
 }
 // Where the company stands: a danger here, someone warning it off, in the dark with no light, in a settlement or a
 // site (where a way not yet taken is worth leading with), in the open country (where the ways are the compass).
-// down: someone of the company is senseless (no hit points).
+// down: someone of the company is senseless (no hit points); dying: so, and not dead yet, whom a rest may kill.
 // aimed: an aim is followed.
 export interface Situation { threat: boolean; warned: boolean; dark: boolean; settled: boolean; open: boolean;
-  down?: boolean; aimed?: boolean }
+  down?: boolean; dying?: boolean; aimed?: boolean }
 
 // Chooses the few choices a place leads with (OWN-18, OWN-19; the cold review's affordance facets): urgent first (an
 // answer owed, a danger, a warning, the dark), then what the aim names, then what the company needs, then what the
@@ -414,7 +414,9 @@ export class Promotion {
     // reckoned the aim's step and then dropped here, and the gold led on into the keep (test/small/gold-thread). Not
     // for being made where the aim is: that is gone from Affordances (M21's PL-08).
     if (c.kind === 'search') { return whys.filter(w => w === 'sign' || w === 'named' || w === 'advance'); }
-    if (c.kind === 'camp' || c.kind === 'rest') { return whys.filter(w => this.tiers[w][0] === 2); }
+    // Nor a rest or a camp while one of the company lies senseless and not dead: at a rest they come round or die where
+    // they fell, and the rest led with had killed the one who played (OR-683, cold play 2); the way back is led.
+    if (c.kind === 'camp' || c.kind === 'rest') { return s.dying ? [] : whys.filter(w => this.tiers[w][0] === 2); }
     return whys;
   }
   // Where it is drawn among the rest: by its best reason, but an attack the company's own reckoning calls deadly after
