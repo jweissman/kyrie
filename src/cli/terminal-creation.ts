@@ -11,7 +11,7 @@ import { FreshSeeds } from '../world/fresh-seeds';
 import type { EnginePage } from '../creation/opening-pages';
 
 // A step as it is asked: creation's (CreationFlow), or how the game begins (FirstChoice).
-type Asked = Pick<CreationStep, 'ask' | 'cards' | 'chosen' | 'all' | 'many' | 'picked'>;
+type Asked = Pick<CreationStep, 'ask' | 'cards' | 'chosen' | 'all' | 'many' | 'picked' | 'place'>;
 
 // Who comes into the world, chosen in the terminal as the page chooses: by asking the engine where the making of a
 // life stands and sending it each choice, through the same requests the page's worker answers (world, creation,
@@ -62,6 +62,7 @@ export class TerminalCreation {
   // A step's cards by number, under their groups; a card that cannot be taken says why, and is not taken.
   private async card(step: Asked): Promise<CreationCard> {
     if (TerminalInput.picks(this.input)) { return this.picked(step, this.input); }
+    if (step.place) { this.say(`\nStep ${step.place.at} of ${step.place.of}`); }
     this.say(`\n${Typography.plain(step.ask)}`);
     let group: string | undefined;
     // The four the step leads with, and the rest under `more`, numbered as they stand (the owner, 14 November).

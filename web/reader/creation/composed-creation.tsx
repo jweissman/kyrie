@@ -106,7 +106,9 @@ export class ComposedCreation {
         chosen={step.chosen} flare={flare} onFocus={look} onChoose={choose} whole={!!step.all} zoom={zoom} onOut={out} />
         {zoom && <ChoiceRow.Button className="sky-out" data={{ action: 'whole-sky' }} label="All twelve"
           plain="neutral" onClick={out} />}</>}
-      header={<><h1 className="ask">{Typography.curl(step.ask)}</h1>{!sky && entry}</>}
+      header={<>{step.place && <p className="step-place" data-region="step-place">
+        Step {step.place.at} of {step.place.of}</p>}
+        <h1 className="ask">{Typography.curl(step.ask)}</h1>{!sky && entry}</>}
       narrative={<p className="consider" aria-live="polite">{Typography.curl(offer.say(lit))}</p>}
       menu={<ComposedCreation.Options committed={app.state.waiting} offer={offer} more={more} unfold={unfold} chosen={step.chosen} lit={lit}
         {...step.many ? { picked: step.picked ?? [], learn: step.cards.at(-1)?.id } : {}}

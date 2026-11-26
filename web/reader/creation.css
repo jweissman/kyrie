@@ -203,3 +203,10 @@
    taken (row.css's [data-taken]), the others quiet, and no press is taken until the answer comes. */
 .composed-rows[data-committed] { pointer-events: none; }
 .composed-rows[data-committed] .composed-row:not([data-taken]) { opacity: .4; transition: opacity 120ms ease; }
+/* Where the making stands (CreationStep.place, OR-1136): a quiet line over the question, in the label role, neutral;
+   on a phone in the question's flow. */
+.composed .step-place { position: absolute; left: 10%; top: calc(max(72px, 9vh) - 24px); margin: 0; z-index: 1;
+  font: var(--t-label); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--dim); }
+@media (max-width: 760px) {
+  .composed .step-place { position: relative; inset: auto; padding: 0 var(--safe-r) 6px var(--safe-l); }
+}

@@ -60,6 +60,10 @@ export interface CreationStep {
   all?: boolean; write?: string; roll?: string; leads?: boolean; emblems?: boolean; many?: number; picked?: string[];
   // How a choice is made, said once, at the first step: what comes to a row reads it, and a press chooses it (OR-255).
   how?: string;
+  // Where the step stands in the making, and how many steps there are with setting out the last (OR-1136, the third
+  // review: the steps had looked alike, and nothing said how far through the player was): a hint every client draws
+  // quietly (the page over its question, the terminal on the line before it).
+  place?: { at: number; of: number };
 }
 
 // Making the protagonist, one flow for every client. The engine says the steps in order, each with its question and
@@ -98,7 +102,8 @@ export class CreationFlow {
   // The reason for having come is not asked: the world gives it, as where the life begins (the owner, 17 November:
   // "remove the abstract origin-quest selection in favor of diegetic starting circumstances"; see circumstance).
   steps(): CreationStep[] {
-    return this.unranked().map(step => ({ ...step, cards: this.ranked(step),
+    const all = this.unranked();
+    return all.map((step, i) => ({ ...step, cards: this.ranked(step), place: { at: i + 1, of: all.length + 1 },
       ...CreationFlow.leading.includes(step.id) ? { leads: true } : {} }));
   }
   // How one presents leads too: the names asked next are drawn for it, and the page going on before the engine's answer
