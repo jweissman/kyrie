@@ -137,7 +137,7 @@ export class CatalogContext {
     if (named.includes('/')) {
       const [base, ...variations] = named.split('/');
       const made = CatalogContext.frozen(Object.hasOwn(this.species, base!)
-        ? CanonRuntime.vary(base!, this.creature(base!), variations) : Canon.creature(named));
+        ? CanonRuntime.vary(base!, this.creature(base!, seen), variations) : Canon.creature(named));
       this.resolvedSpecies.set(named, made);
       return made;
     }
