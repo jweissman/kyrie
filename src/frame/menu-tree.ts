@@ -32,6 +32,9 @@ export interface MenuMarks {
   place: Leaf[]; local: Leaf[]; map: Leaf[]; led: Record<string, Leaf[]>; rows: Record<string, Leaf[]>;
   within: Record<string, Leaf[]>; lensed: Partial<Record<Lens, Record<string, Leaf[]>>>;
   replies: Record<string, Leaf[]>;
+  // places: each place named beside a way from here, by its id, as what is perceived of its area along the way there
+  // (its place-mark, OR-1248); the place the company stands in is place's own.
+  places?: Record<string, Leaf[]>;
 }
 
 export class MenuTree {
@@ -93,7 +96,9 @@ export class MenuTree {
       map: next ? [Fold.step(next.choice, [Attest.witness(g, next.choice)])] : [],
       led: Object.fromEntries([...ids].map(id => [id, Fold.of(g, chosen(id), id, true)])),
       ...this.rows(g, menu, chosen), lensed: this.lensed(g, chosen),
-      replies: this.replies(g, raw ?? SceneModel.build(frame.screen), frame.screen.paying ?? []) };
+      replies: this.replies(g, raw ?? SceneModel.build(frame.screen), frame.screen.paying ?? []),
+      places: Object.fromEntries([...frame.screen.exits.map(e => e.destination.id), ...around.map(d => d.id)]
+        .map(id => [id, [Fold.step(`sensed:${id}`, [Attest.sensed(g, id)])]])) };
   }
   private static replies(g: Projected | undefined, scene: Scene, paying: readonly string[]): Record<string, Leaf[]> {
     const out: Record<string, Leaf[]> = {};

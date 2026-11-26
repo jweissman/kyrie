@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PlaceMark } from './place-mark';
 import type { ReaderApp } from '../reader-app';
 import { Sheet } from '../sheet';
 import { MapView } from '../map-view';
@@ -31,7 +32,7 @@ export class BookStage {
               book (Mission 21's scenes: the Pack's head had read as a web page's bar). */}
           <button type="button" className="quiet-word back-to" data-action="back" onClick={app.back}>
             <span className="back-sign" aria-hidden="true">{Signs.way('Out')}</span>
-            {Typography.curl(frame.screen.place.name)}</button>
+            <PlaceMark.Dash app={app} />{Typography.curl(frame.screen.place.name)}</button>
           {!map && <Act.Sheets app={app} />}
           {plan && <button type="button" className="option to-country" data-action="country"
             onClick={() => toCountry(true)}>The country</button>}

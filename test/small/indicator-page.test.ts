@@ -75,12 +75,12 @@ describe('the page\'s one indicator', () => {
       expect([c.aspects, drawn(html, 'pip')]).toEqual([c.aspects, expected(c)]);
     }
   });
-  // The place's mark is a heading's dash, text, not an action row: neutral whatever the place offers (the owner, 25
-  // November, OR-513), what it offers said in its words.
-  it('draws the place\'s mark neutral, what it offers said in words', () => {
+  // The place's mark is a horizontal place-mark (the owner, 26 November, OR-1248, superseding OR-513 for it): coloured
+  // by what the place offers, from the same leaves as its rows, what it offers said in its words too.
+  it('draws the place\'s mark in the tones of what the place offers, said in words', () => {
     for (const c of cases.filter(x => !x.gilded)) {
       const html = renderToStaticMarkup(createElement(PlaceMark.View, { app: app([led(c)]) }));
-      expect([c.aspects, /style=|--tone-/.test(html)]).toEqual([c.aspects, false]);
+      expect([c.aspects, /--pm:/.test(html)]).toEqual([c.aspects, !!expected(c).tone]);
       expect([c.aspects, /aria-label="[^"]+"/.test(html)]).toEqual([c.aspects, true]);
     }
   });

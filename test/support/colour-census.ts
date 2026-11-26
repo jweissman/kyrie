@@ -94,7 +94,7 @@ export class ColourCensus {
   // recommended card. Narration, feedback, the notes, the glance's told lines, a conversation's words and the Book
   // are text: none.
   static readonly rows = new RegExp(['choice-row', 'row-mark', '\\.act\\b', 'way-tile', '\\.option\\b', '\\.opener\\b',
-    '\\.corner\\b', 'rail-mark', '\\bpip\\b', 'wf-row', 'ah-row', '\\.unfolded', 'opened-list'].join('|'));
+    '\\.corner\\b', 'rail-mark', '\\bpip\\b', 'place-mark', 'place-dash', 'wf-row', 'ah-row', '\\.unfolded', 'opened-list'].join('|'));
   static readonly instruments = new RegExp(['field-land', 'atlas-key', '\\.board', '\\.fight', '\\.obs', '\\.flame',
     '\\.gauge', '\\.strip', '\\.throw', '\\.ident', '\\.fields', '\\.campaign-sheet',
     '\\.world-page\\.threatened', 'face(?:\\.whole| img\\.whole)', 'data-theme="folio"', '\\.sheet-key'].join('|'));
@@ -112,6 +112,28 @@ export class ColourCensus {
         ...src.matchAll(new RegExp(`setProperty\\('--([\\w-]+)',\\s*${value}`, 'g'))];
       for (const [, name, value] of set) {
         if (!/url\(|(?:px|%|deg|s)`/.test(value!)) { out.add(name!); }
+      }
+    }
+    return out;
+  }
+  // The Atlas's colour in its three marks alone (the owner, 26 November): a place-mark (horizontal: a place's heading
+  // dash, the map's town and sign), an action-mark (vertical: a row's mark, a bar inset or bordered at a row's left)
+  // and a lens-mark (the rail's marks, a pip, a lens's corner key) with the diamond; and the studio's stab, which is
+  // the Atlas's indicator itself, in heroic size (OR-507). Any other rule drawing an Atlas tone (a tone, gold, or a
+  // tone set inline at run time) is a finding.
+  static readonly marks = new RegExp(['row-mark', 'rail-mark', '\\bpip\\b', 'pip-', 'place-mark', 'place-dash',
+    'lenses-mark', '\\.glint\\b', 'prism', '\\.corner\\b', '\\.ident \\.indicator\\b', 'board-town', 'board-sign'].join('|'));
+  static atlasOff(): string[] {
+    const out: string[] = [], atlas = new RegExp(`var\\(--(tone-|gold\\b|gold\\)|${[...this.inline()].join('|')})`);
+    for (const f of this.files()) {
+      for (const r of this.rules(readFileSync(join(this.dir, f), 'utf8'))) {
+        if (/^(from|to|[\d.%, ]+)$/.test(r.selector) || this.marks.test(r.selector)) { continue; }
+        const decls = [...r.body.matchAll(/(?:^|;)\s*([\w-]+)\s*:([^;]*)/g)].filter(m => !m[1]!.startsWith('--')
+          && atlas.test(m[2]!));
+        // An action-mark: a bar at a row's left, inset (2px or 3px) or its left border.
+        const vertical = (p: string, v: string) => /^border-left(-color)?$/.test(p) || (p === 'box-shadow'
+          && /^\s*inset [23]px 0 0 \S+\s*$/.test(v));
+        if (decls.some(m => !vertical(m[1]!, m[2]!))) { out.push(`${f}: ${r.selector}`); }
       }
     }
     return out;

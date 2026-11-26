@@ -185,9 +185,9 @@
 .act.way-tile .glyph { flex: none; width: 12px; color: var(--dim); font: 400 12px/1 var(--do); text-align: center; }
 .act.way-tile .n { font: 500 13.5px/1.2 var(--do); color: var(--ivory); white-space: nowrap; overflow: hidden;
   text-overflow: ellipsis; }
-.act.way-tile.aimed { border-color: var(--gold-line); }
-/* The aimed way's gold is its glyph's, the mark; its name stays the ordinary ivory (AT-03). */
-.act.way-tile.aimed .glyph { color: var(--gold); }
+.act.way-tile.aimed { border-color: var(--edge-strong); box-shadow: inset 2px 0 0 var(--gold); }
+/* The aimed way's gold is its action mark's alone, a vertical bar at its left (the owner, 26 November: the Atlas's
+   colour only in its three marks); its glyph and name stay the ordinary ivory (AT-03). */
 .act.way-tile.shut { opacity: .55; border-style: dashed; }
 .act.way-tile:hover, .act.way-tile.sel, .act.way-tile:focus-visible { background: rgba(236, 230, 217, .08); }
 .ways-here .way-detail { margin: 0; min-height: 1.3em; font: 400 12.5px/1.3 var(--do); color: var(--dim);
