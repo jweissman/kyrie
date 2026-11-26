@@ -106,11 +106,14 @@ export class RunnerFight {
         aspects: [], marks: [] }] : []];
   }
   // The four led with in a fight, as the page's hand leads: the weapon's blow, the way out, this turn, the rest of it.
-  offer(): { primary: FightChoice[]; rest: FightChoice[] } {
-    const all = this.choices(), flee = all.find(c => /^fight:flee:/.test(c.id));
-    const words = all.find(c => /^fight:demand:/.test(c.id));
-    const primary = [all[0], words, flee, all.at(-2), all.at(-1)].filter((c, i, list): c is FightChoice => !!c
-      && list.indexOf(c) === i);
+  offer(): { primary: FightChoice[]; rest: FightChoice[] } { return RunnerFight.four(this.choices()); }
+  // By what each is, never by where it falls: the third had been the second-last row, which, with no pressing on to
+  // be had, was the last thing in the hand ("Use a minor potion of healing on Hugh Lamb", Hugh unhurt and the leader
+  // at 4 of 11: OR-693). The call to yield (Parley) leads after the blow when it is offered.
+  static four(all: FightChoice[]): { primary: FightChoice[]; rest: FightChoice[] } {
+    const kinds = [/^fight:demand:/, /^fight:flee:/, /^fight:auto$/, /^fight:through$/];
+    const primary = [all[0], ...kinds.map(re => all.find(c => re.test(c.id)))]
+      .filter((c, i, list): c is FightChoice => !!c && list.indexOf(c) === i);
     return { primary, rest: all.filter(c => !primary.includes(c)) };
   }
   // A carried thing is used ("Use a minor potion of healing on Wenna"), as the page calls it; an ability is aimed.

@@ -30,6 +30,8 @@ import { DoableJourneys } from '../presentation/doable-journeys';
 import { Itineraries } from '../ui/itinerary';
 import { RunnerTalks } from './runner-talks';
 import { Leaving } from '../presentation/leaving';
+import { PackSaid } from '../presentation/pack-said';
+import { RunnerAgain } from './runner-again';
 import { RunnerEnding } from './runner-ending';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { Obituary } from '../narrative/obituary';
@@ -97,6 +99,7 @@ export class Runner {
   private payoff = new RunnerPayoff();
   private scene = new TerminalScene();
   private fight = new RunnerFight();
+  private again = new RunnerAgain();
   // since: how long the story was as it began (see FightBegun), and its words.
   private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent>;
     with?: string; since: number; label?: string };
@@ -179,7 +182,11 @@ export class Runner {
     return { at: screen.place.id, ...changed.length ? { changed } : {}, ...kept ? { kept } : {} };
   }
   // The glance's own offer (Offers.scene) as rows that can be done (RunnerOffer, from Doable): its four and its rest.
-  private offer(screen: Screen, g: Leaf['glance']) { return RunnerOffer.of(screen, g, this.names(), this.with); }
+  private offer(screen: Screen, g: Leaf['glance']) {
+    const made = RunnerOffer.of(screen, g, this.names(), this.with);
+    this.again.keep(RunnerOffer.flat([...made.offer.primary, ...made.offer.rest, ...made.under]));
+    return made;
+  }
   // A row by its id, by what it does, or by the id an older build kept it by (its place among its siblings: ChoiceIds).
   private static row<T extends { id: string; does?: string }>(all: T[], id: string): T | undefined {
     const kept = all.find(x => x.id === id) ?? all.find(x => x.does === id);
@@ -244,6 +251,11 @@ export class Runner {
     let asked: Asked;
     try { asked = JSON.parse(line) as Asked; } catch { return { error: `not JSON: ${line}` }; }
     if (!this.campaign.running) { return this.ended(asked); }
+    // In a fight, a look, a lens or every choice is the fight, every move of it (OR-690: "every choice" had answered
+    // the place out of the fight, with no rows).
+    if (this.fight.fighting && !('act' in asked) && !('follow' in asked)) {
+      return { turn: this.n, moment: 'fight', scene: { lines: this.fight.lines(), prose: [] }, offer: this.fight.offer() };
+    }
     if ('look' in asked) { return this.said('look'); }
     if ('lens' in asked) { return this.lensed(asked.lens); }
     if ('more' in asked) { return this.said(); }
@@ -262,6 +274,9 @@ export class Runner {
     const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
     const offered = all.flatMap(x => [x.id, ...x.does ? [x.does] : []]).concat(g?.next?.command ?? []);
     // The row asked for, by its id or by what it does; and what taking it does.
+    // Asked by an id a turn offered, the same act as the turn offers it now (RunnerAgain: OR-686).
+    const again = this.again.find(all, asked.act);
+    if (again !== asked.act) { return this.ask(JSON.stringify({ act: again })); }
     const row = Runner.row(all, asked.act), act = row?.does ?? asked.act;
     // Turning to someone with acts held within their talk takes no time: by the engine's holder (<person>#talk) where
     // it does nothing of its own (a companion's, which only holds; one the four lead for an act does that act: TB-01),
@@ -360,8 +375,8 @@ export class Runner {
   private lensed(lens: Lens | 'journeys' | 'pack', first?: string): Said | { error: string } {
     const screen = this.standing.screen, g = this.glanced();
     if (lens === 'pack') {
-      const all = this.offer(screen, g).pack;
-      return { turn: this.n, moment: 'inspect', scene: { lines: [], prose: [] },
+      const all = this.offer(screen, g).pack, lines = PackSaid.lines(screen);
+      return { turn: this.n, moment: 'inspect', scene: { lines, prose: [] },
         offer: { primary: all.slice(0, 4), rest: all.slice(4) } };
     }
     if (lens === 'journeys') {
@@ -371,7 +386,9 @@ export class Runner {
         offer: { primary: all.slice(0, 4), rest: all.slice(4) } };
     }
     if (!g?.lenses[lens]) { return { error: `no lens: ${String(lens)}` }; }
-    return { turn: this.n, moment: 'inspect', scene: { lines: [], prose: [] },
+    // The things lens says what the company carries too, as the page's pack does (OR-688).
+    const lines = lens === 'things' ? PackSaid.lines(screen) : [];
+    return { turn: this.n, moment: 'inspect', scene: { lines, prose: [] },
       offer: RunnerOffer.lensed(screen, g, this.names(), lens) };
   }
   // An opener opened: its rows, the four first, where the company stands; nothing led nor gilded but as they are.

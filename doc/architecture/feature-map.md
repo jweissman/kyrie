@@ -5,14 +5,14 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 599 live rows, 207 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 594 live rows, 202 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
 ### Scenes and their acts
 
 - **Acts offered in a scene** · 0 pins · 1 defects · 0 asks
-- **Looking, searching and reading a place** · 3 pins · 3 defects · 7 asks
+- **Looking, searching and reading a place** · 3 pins · 2 defects · 7 asks
   - ○ a second look or search at a place gives something its first look did not
   - ○ every layer (world, country, region, hex, building) has its icon, shown where it is named
   - ✓ says it found nothing where nothing is put away, and tells what it finds where something is
@@ -87,7 +87,7 @@ page's colours and opportunities.)
   - requirement OA-05 P2: Review T1, a departure reckoning: before setting out, route and terrain, duration and arrival…
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 20 defects · 11 asks
+- **Fights that cost** · 5 pins · 18 defects · 11 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -133,7 +133,7 @@ page's colours and opportunities.)
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
   - direction OB-20 P2: Wander (the owner, 15 November): a deterministic, authoritative exploration policy over known…
   - direction TR-03 P2: Travel cost (F): a six-to-eight-hex journey differs from one hex only in time
-- **Wayfinding and bearings** · 2 pins · 9 defects · 6 asks
+- **Wayfinding and bearings** · 2 pins · 10 defects · 6 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement NM-17 P2: The map panel's hierarchy below its title unpinned: no spec asserts the eyebrow…
@@ -200,7 +200,7 @@ page's colours and opportunities.)
 
 ### The company
 
-- **Companions and hirelings** · 2 pins · 3 defects · 5 asks
+- **Companions and hirelings** · 2 pins · 2 defects · 5 asks
   - ✓ lets the company work for its keep, and then sleep on the house
   - ✓ lets a bard sing for the supper, for coin, once an evening
   - requirement PV-02 P2: **The Befriender:** bond with a recruitable animal, travel together, a consequential event,…
@@ -211,7 +211,7 @@ page's colours and opportunities.)
 - **Levels and growth** · 1 pins · 0 defects · 1 asks
   - ○ a level gained opens a way to talk, climb, decipher or slip past that was shut before
   - requirement OR-347 P2: Levels and growth: the capability as its pins hold it (a level gained opens a way to talk, climb,…
-- **Belongings with a history** · 2 pins · 1 defects · 1 asks
+- **Belongings with a history** · 2 pins · 0 defects · 1 asks
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
@@ -575,7 +575,7 @@ page's colours and opportunities.)
 
 ### The terminal
 
-- **Playing in the terminal** · 0 pins · 4 defects · 8 asks
+- **Playing in the terminal** · 0 pins · 3 defects · 8 asks
   - requirement TM-04 P2: The walker exercises every surface the fixture supports: lenses, expanded acts, looking,…
   - requirement TM-05 P2: Cheap and meaningful: budget, parity and projection checks on tiny Kyr worlds in the fast lane; a…
   - requirement TB-03 P1: A taxonomy of 10–12 action types for ordinary scenes, at most one promoted of each; combat and…

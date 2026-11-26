@@ -5,7 +5,7 @@ Module world_core "Bodies, places, time and the shared catalog" {
   // is; a fact and who knows it; and who is hostile to whom. The rules about them stay where they were (care,
   // belongings, discovery, dominion); a world of talk and votes need not install a fight's to say who is angry.
   Kind member. Kind item. Kind itemkind. Kind fact.
-  Relation memberOf(member, group). Relation awake(member). Relation itemKind(item, itemkind).
+  Relation memberOf(member, group). Relation awake(member). Relation slain(member). Relation itemKind(item, itemkind).
   Relation ownedItem(item, member). Relation knows(group, fact). Relation hostile(group, group).
   // A part of a town (the green, the market, the waterside): the places in it, and the one it is walked to (see
   // data/generation/town/quarters.json). A place keeps its containment; a quarter is only where it lies.

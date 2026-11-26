@@ -47,10 +47,13 @@ Module world_people "Company and intention" {
   // The one order there is, given to whoever has joined the company: stay here (they wait where they are, and are theirs
   // again, no longer the company's members: Membership.depart), and come on (they are the company's again, with no hire
   // to pay twice). What they do meanwhile is their own.
+  // One who joined and is dead is given no order (OR-684: "Ask Ellyjobell to stay here" after she died and was buried).
+  Query lostRetainer(r: group) means joinedAs(?m, r) and slain(?m).
   Action hold_here(actor: group, retainer: group, site: place) "Ask {retainer} to stay here" {
     Time 1 minute.
     Description "They stay where they are, and wait for you.".
-    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(retainer, actor) and distinct(actor, retainer).
+    Requires able(actor) and company(actor) and at(actor, site) and travelsWith(retainer, actor) and distinct(actor, retainer)
+      and not lostRetainer(retainer).
     On success { Retract travelsWith(retainer, actor). Assert waitsHere(retainer, actor). }
   }
   Action call_on(actor: group, retainer: group, site: place) "Ask {retainer} to come on again" {
