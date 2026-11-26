@@ -5001,8 +5001,8 @@
    "type": "Large Outsider (Evil, Extraplanar, Lawful)",
    "hitDice": "18d8+144",
    "hp": 225,
-   "ac": 0,
-   "natural": 0,
+   "ac": 40,
+   "natural": 23,
    "attacks": [
     {
      "name": "claws",
@@ -9836,7 +9836,7 @@
    "type": "Medium Monstrous Humanoid",
    "hitDice": "7d8+7d10+28",
    "hp": 103,
-   "ac": 0,
+   "ac": 23,
    "natural": 1,
    "attacks": [],
    "specialAttacks": [
