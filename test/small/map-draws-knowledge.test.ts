@@ -5,6 +5,9 @@ import type { Screen } from '../../src/ui/screen-types';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionRoads } from '../../src/world/region-roads';
 import { RegionGeography } from '../../src/world/region-geography';
+import { RegionTracts } from '../../src/world/region-tracts';
+import { RegionZones } from '../../src/world/region-zones';
+import { RegionSites } from '../../src/world/region-sites';
 
 // The map draws the character's knowledge, not the world's truth (OR-741's first slice, ways and destinations; the
 // owner's playtest, 25 November: "The world map is still quite chaotic; things were unfolding that were nowhere near
@@ -90,6 +93,35 @@ describe('a road between two towns', () => {
       }
     }
     expect(roads).toBeGreaterThan(3);
+  });
+});
+
+// Wild country is named by what is known of it too (OR-812): a stretch of open country, or the country about a site,
+// named for where it lies from a town ("the woods south-east of Windscar"), and the edge of a wood known by the town
+// it faces ("the edge of Birchwood by Newmeet"), are seen by their land, or the side of the wild country they are on,
+// until the company has seen that town (its green by day teaches <town>_why). Iscoed's and a1's country, as Kyr.
+class Wild {
+  static readonly place =
+    /^ {2}Place (\w+) "([^"]*)" is (?:room|wilderness)[^"]*?(?: seen as "([^"]*)" until (\w+))?\.$/;
+}
+describe('wild country named for a town', () => {
+  it('is seen by its land, naming no town, until that town is seen', () => {
+    let named = 0;
+    for (const seed of ['iscoed', 'a1']) {
+      const region = WorldAssembler.region(seed, [0, 0]), towns = region.settlements;
+      const places = [...RegionTracts.lines(region), ...RegionZones.lines(region),
+        ...RegionSites.lines(region)].join('\n').split('\n')
+        .map(l => Wild.place.exec(l))
+        .filter((m): m is RegExpExecArray => !!m);
+      for (const [, id, name, seen = '', until] of places) {
+        const town = towns.find(t => new RegExp(`(of|by) ${t.name}$`).test(name!));
+        if (!town) { continue; }
+        expect([id, until]).toEqual([id, `${town.id}_why`]);
+        expect(towns.filter(t => seen.includes(t.name)).map(t => [id, t.name])).toEqual([]);
+        named++;
+      }
+    }
+    expect(named).toBeGreaterThan(10);
   });
 });
 
