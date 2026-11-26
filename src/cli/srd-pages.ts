@@ -66,16 +66,17 @@ export class SrdPages {
   static list(s: string): string[] { return s && s !== '-' ? s.split(/,\s*(?![^()]*\))/).map(x => x.trim()) : []; }
   // "Bite +2 melee (1d6+1 plus paralysis) and 2 claws +0 melee (1d3 plus paralysis)": the first routine only.
   // A blow of a routine: "2 claws +0 melee (1d3 plus paralysis)", its count, its name, and what it deals.
-  static readonly blow = new RegExp("^(\\d+)?\\s*([A-Za-z' -]+?)\\s*([+-]\\d+)(?:\\/[+-]\\d+)*\\s+(melee|ranged)"
+  static readonly blow = new RegExp("^(\\d+)?\\s*([A-Za-z' -]+?)\\s*([+-]\\d+(?:\\/[+-]\\d+)*)\\s+(melee|ranged)"
     + '(?: touch)?,?\\s*\\(([^)]*)\\)');
   static attacks(s: string): Attack[] {
     const first = s.split(/;\s*or\s+|\bor\b/)[0]!;
     return first.split(/\s+and\s+|,\s+(?!\()/).flatMap(part => {
-      const m = part.match(SrdPages.blow);
+      const m = part.replace(/^and\s+/, '').match(SrdPages.blow);
       if (!m) { return []; }
       const dice = m[5]!.match(/(\d+d\d+)([+-]\d+)?/);
-      return dice ? [{ name: m[2]!.trim().toLowerCase(), count: Number(m[1] ?? 1), dice: dice[1]!,
-        plus: Number(dice[2] ?? 0), bonus: Number(m[3]), ...part.includes('touch') ? { touch: true } : {} }] : [];
+      return dice ? m[3]!.split('/').map(bonus => ({ name: m[2]!.trim().toLowerCase(),
+        count: Number(m[1] ?? 1), dice: dice[1]!, plus: Number(dice[2] ?? 0), bonus: Number(bonus),
+        ...part.includes('touch') ? { touch: true } : {} })) : [];
     });
   }
   static saves(s: string): Record<string, number> {
