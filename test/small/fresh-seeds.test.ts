@@ -24,6 +24,14 @@ describe('a new life\'s world', () => {
         text.includes(`Discovery ${t}_wood_door `)]).toEqual([seed, true, true]);
     }
   });
+  // OR-772: s7's first town was founded as a fortress, whose gate-tower is climbed to see the country from; the
+  // reference settlement written in its place has no gate-tower, and the sights from it are not written either.
+  it('sees no country from a founding\'s height the reference settlement does not have', () => {
+    const region = WorldAssembler.region('s7', [0, 0]), t = ReferenceSettlement.of(region)!.id;
+    const text = RegionWriter.source(region, { size: 1, contacts: [] });
+    expect(text).not.toContain(`Place ${t}_gate `);
+    expect(text.match(new RegExp(`Observe \\w+ at ${t}_gate `, 'g')) ?? []).toEqual([]);
+  });
   it('is drawn at random for a life with no seed named, and never changes one that is named', () => {
     expect(FreshSeeds.referenced(FreshSeeds.seed(FirstChoice.seed))).toBe(true);
     // Iscoed is a marsh; kite, a forest, is one of the worlds the specs walk by name, which keep their first town.
