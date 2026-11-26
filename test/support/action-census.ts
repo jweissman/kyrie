@@ -96,13 +96,20 @@ export class ActionCensus {
     }), surface);
   }
   // What is in a menu or a rail but cannot be pressed where it is drawn: the point at its middle is another element's,
-  // or nothing's (a creation rail's marks had been drawn with pointer-events none, on main for one push).
+  // or nothing's (a creation rail's marks had been drawn with pointer-events none, on main for one push). Not what is
+  // scrolled out of view within what scrolls (the Book's rows under a long page of notes, a scroll away, as one out of
+  // the window is: OR-873 asks whether the Book's menu should stand in view).
   static unreachable(page: Page, surface: string): Promise<Pressable[]> {
     return page.evaluate(surface => Array.from(document.querySelectorAll(
       ':is([data-menu], [data-rail]) :is(button, a[href], [data-act])')).filter(el => {
       const r = el.getBoundingClientRect(), cs = getComputedStyle(el);
       if (r.width < 2 || r.height < 2 || cs.visibility === 'hidden' || +cs.opacity < 0.05 || el.closest('[aria-hidden="true"]')
         || r.bottom < 0 || r.top > innerHeight || r.right < 0 || r.left > innerWidth) { return false; }
+      for (let p = el.parentElement; p; p = p.parentElement) {
+        if (!/(auto|scroll)/.test(getComputedStyle(p).overflowY)) { continue; }
+        const box = p.getBoundingClientRect(), y = r.top + r.height / 2;
+        if (y < box.top || y > box.bottom) { return false; }
+      }
       const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
       return !hit || !(hit === el || el.contains(hit));
     }).map(el => ({ surface, text: `${((el as HTMLElement).innerText || el.getAttribute('aria-label') || el.tagName)
@@ -122,7 +129,9 @@ export class ActionCensus {
       }).length;
       const header = shown('header'), narrative = shown('narrative');
       // The opening's page after its beats has no header of its own, its chapter said on the pages before (097c3a55).
-      const headers = surface === 'opening:after' ? [0, 1] : [1];
+      // Nor has the title, its name small at the head of its ways in, in the menu (no hero: OR-501, the owner, 24
+      // November); the census had asked it for a header since.
+      const headers = surface === 'opening:after' || surface === 'title' ? [0, 1] : [1];
       return headers.includes(header) && narrative <= 1 ? []
         : [{ surface, text: `${header} headers, ${narrative} narratives` }];
     }, surface);
