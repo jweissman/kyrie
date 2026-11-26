@@ -12,12 +12,12 @@ import { RunnerFind } from './support/runner-find';
 // company did is answerable from the transcript alone.
 class Drove {
   static async start() {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     return new Runner(journey.session);
   }
   // As a player meets it: the started game, its runner, and its roll forced where a check decides the path.
   static async begin() {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     return { journey, r: new Runner(journey.session) };
   }
   static text(s: Said): string { return s.scene.lines.join(' ').replace(/[‘’]/g, "'"); }

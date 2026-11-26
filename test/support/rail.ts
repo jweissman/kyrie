@@ -12,6 +12,16 @@ export class Rail {
     if (touch) { await page.tap('[data-action="lenses"]'); } else { await page.click('[data-action="lenses"]'); }
     await page.waitForSelector('.scene-rail.unfolded .lenses-fold', { state: 'visible' });
   }
+  // The earned stage (compactification, OR-1245): the lenses, the map and the journal are earned in play (Surfaces),
+  // so a spec that presses one of them, where it does not stand yet, has the company earn every surface first, as the
+  // oracle does (kyrieMono.earn), rather than playing to the fourth level. Only where something is missing.
+  static readonly earnable = /rail-mark|data-action="(lenses|book|mode|compass)"|data-control="map-mark"|data-view/;
+  static async earned(page: Page, selector: string): Promise<void> {
+    if (!Rail.earnable.test(selector) || await page.locator(selector).count()) { return; }
+    await page.evaluate(() => (window as unknown as { kyrieMono: { earn(): Promise<void> } }).kyrieMono.earn());
+    await page.waitForFunction(() => !(window as unknown as { kyrieMono: { inspect(): { pending: boolean } } })
+      .kyrieMono.inspect().pending, null, { timeout: 60000 });
+  }
   // Whether what the selector names first stands among the folded lenses.
   static async within(page: Page, selector: string): Promise<boolean> {
     return page.locator(selector).first()
@@ -19,6 +29,7 @@ export class Rail {
   }
   // A press on what the selector names, the lenses unfolded first where it is among them.
   static async click(page: Page, selector: string, touch = false): Promise<void> {
+    await Rail.earned(page, selector);
     if (await Rail.within(page, selector)) { await Rail.unfold(page, touch); }
     if (touch) { await page.tap(selector); } else { await page.click(selector); }
   }

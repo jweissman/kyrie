@@ -32,7 +32,7 @@ async function golden(): Promise<string[]> {
   return out;
 }
 async function journeys(world: string): Promise<string[]> {
-  const { journey } = await PlayTool.start(PlayTool.parse(['--world', world, '--as', 'human/warrior/Wat']));
+  const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', world, '--as', 'human/warrior/Wat']));
   const s = journey.session, out: string[] = [];
   for (const to of TravelCensus.far(s.campaign, 2).slice(0, 3)) {
     for (let tries = 0; tries < 4; tries++) {

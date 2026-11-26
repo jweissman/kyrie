@@ -69,7 +69,7 @@ const scene = (rows: ReturnType<typeof Doable.of>) => Doable.flat(rows).filter(r
 const aimed = `${fen}
   Relation looked(entity). Objective mound when not looked(barrow) toward barrow "Look into the long mound.".`;
 const out = async (world: string) => {
-  const t = await Tiny.start(world, { chart }), c = t.campaign;
+  const t = await Tiny.start(world, { chart, earned: true }), c = t.campaign;
   await t.session.leg(PlayerView.choices(c).find(r => r.choice.id.includes('green_out'))!.choice.id);
   return { c, t };
 };
@@ -109,7 +109,7 @@ describe('the map\'s journeys, planned on demand', () => {
     expect(asked.rows.map(r => r.place)).toEqual(expect.arrayContaining(['t__barrow']));
   });
   it('walk about the town by its own ways, as a search across the open country walks it', async () => {
-    const t = await Tiny.start(fen, { chart }), c = t.campaign;
+    const t = await Tiny.start(fen, { chart, earned: true }), c = t.campaign;
     // Down the lane and back to the green: the yard gate known, the tanyard a walk of two ways from the green.
     const go = (to: string) => t.session.leg(PlayerView.choices(c).find(r => r.choice.id.includes(to))!.choice.id);
     await go('green_lane'); await go('green_lane');

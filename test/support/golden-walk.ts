@@ -15,7 +15,9 @@ export class GoldenWalk {
   static readonly green = '{"act":"exit:region__s1_green"}';
   static opened(): number { return this.lines().indexOf(this.green) + 1; }
   // A life on Iscoed as the walk in this file was played: the golden walk's in the opening, any other's without.
+  // On the earned stage (OR-1245): the walk goes across the country by the map, which a life has not earned yet.
   static args(as = this.as, file = this.file): string[] {
-    return ['--world', 'iscoed', '--as', as, '--opening', file === this.file ? this.opening : StockOpenings.none];
+    return ['--world', 'iscoed', '--as', as, '--opening', file === this.file ? this.opening : StockOpenings.none,
+      '--earned'];
   }
 }

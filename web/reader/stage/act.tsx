@@ -10,6 +10,7 @@ import { Grave } from '../../../src/presentation/grave';
 import { RowAside } from './row-aside';
 import { RowWords } from './row-words';
 import { PageFrame } from '../page-frame';
+import { Surfaces } from '../../../src/presentation/surfaces';
 
 // What every choice on the stage is drawn by: one button, known by the engine's command through its place in the
 // menu (data-index), marked when the keys are on it, saying what it opens when it opens something. Its look is the
@@ -96,11 +97,17 @@ export class Act {
   // opened from the scene's rail or by M (the owner, 11 November: the map had been in the book as well).
   // The Book's pages in the order their tabs stand, which left and right go through (OR-306: ReaderKeys).
   static readonly backstage: readonly View[] = ['company', 'journal', 'pack', 'story'];
+  // Those standing now: the notes and the story only with the journal earned (Surfaces, OR-1244); else the company,
+  // and what it carries.
+  static pages(app: ReaderApp): readonly View[] {
+    const journal = Surfaces.has(app.state.frame?.screen, 'the_journal');
+    return Act.backstage.filter(view => journal || !['journal', 'story'].includes(view));
+  }
   static Sheets({ app }: { app: ReaderApp }) {
     const many = (app.state.frame?.screen.party.length ?? 0) > 1;
     const named: Record<string, [string, string]> = { company: [many ? 'Company' : 'Character', 'c'],
       journal: ['Notes', 'j'], pack: ['Pack', 'i'], story: ['Story', 'h'] };
-    const sheets = Act.backstage.map(view => [view, ...named[view]!] as [View, string, string]);
+    const sheets = Act.pages(app).map(view => [view, ...named[view]!] as [View, string, string]);
     return (
       <ul {...PageFrame.slot('rail')} className="sheets" aria-label="Books">{sheets.map(([view, label, key]) => <li key={view}><button type="button"
         className="sheet-key" data-action="mode" data-view={view} data-key={key}

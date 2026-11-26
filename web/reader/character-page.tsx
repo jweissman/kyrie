@@ -9,6 +9,8 @@ import { Counted } from '../../src/counted';
 import { Act, type Draw } from './stage/act';
 import { Told } from './stage/told';
 import { Words } from '../../src/presentation/words';
+import { Surfaces } from '../../src/presentation/surfaces';
+import { CompanyGoals } from './company-goals';
 
 // The character: who they are, how they stand, what they can do and what they could become. Everything on it is
 // worked out by the rules the game plays by (see CharacterSheets), so what it says is what a fight or a check will
@@ -54,6 +56,7 @@ export class CharacterPage {
             {acts.length > 0 && <section><h3>What can be done</h3><Act.List choices={acts} draw={draw} className="column" />
             </section>}</div>
         </div>
+        {!Surfaces.has(screen, 'the_journal') && <CompanyGoals.View app={app} />}
       </article>
     );
   }

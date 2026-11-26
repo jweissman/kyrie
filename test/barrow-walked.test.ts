@@ -21,7 +21,7 @@ class Walk {
   readonly been: string[] = [];
   private constructor(readonly r: Runner) {}
   static async begin(warned: boolean): Promise<Walk> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const w = new Walk(new Runner(journey.session));
     await w.act('go(region__s1_inn_door,region__s1_taproom)');
     if (warned) { await w.act('region__s1_innkeeper_matter'); await w.act('region__w8_rumour'); await w.act('region__w8_saying'); }

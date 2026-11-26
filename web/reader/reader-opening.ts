@@ -253,6 +253,8 @@ export class ReaderOpening {
         approach: frame.leaf.prologue ? this.app.state.approach : undefined,
         outdoors: WorldStage.begins(frame),
         prologue: frame.leaf.prologue ? 0 : undefined, told: frame.leaf.prologue, beat: performance.now() });
+      // A spec's earned stage (?earned, OR-1245): every surface earned as play begins.
+      if (this.app.props.query.has('earned')) { await this.app.earn(); }
     } catch (error) { if (typeof otherwise === 'function') { otherwise(error); } else { this.fail(error, otherwise); } }
   }
   // A new game's opening is told over the way in: set out from the choice of a life, that painting comes up out of the

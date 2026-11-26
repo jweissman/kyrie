@@ -12,7 +12,7 @@ import { Itineraries } from '../src/ui/itinerary';
 // CN-02.)
 describe('a journey from a house of the town', () => {
   it('goes out of doors first, as one act, from Porthalen\'s customs-house to the march-stone down the road', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const s = journey.session;
     await s.leg('travel:drove__customs');
     expect(s.campaign.world.one('at', 'party')).toBe('drove__customs');

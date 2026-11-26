@@ -14,7 +14,7 @@ import { Heard } from './support/heard';
 // the same in the browser (test/board-update-browser).
 describe('the map at a journey\'s end', () => {
   it('is updated in place, and draws what a board made again would', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1']));
     // Told of the country's towns, to go to one after another: the map draws what the company knows (OR-810).
     Heard.towns(journey.campaign);
     const land = () => BoardField.land(Glanced.of(journey.session).frame().screen.region!);

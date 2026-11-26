@@ -43,7 +43,7 @@ describe('the world map, offered', () => {
     expect(over).toEqual([]);
   }, 300000);
   it('once at most, over a1\'s first acts', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1']));
     const r = new Runner(journey.session), over: string[] = [];
     for (let turn = 0; turn < 20; turn++) {
       if (maps(journey.session) > 1) { over.push(`${turn}: ${journey.session.campaign.world.one('at', 'party')}`); }

@@ -16,7 +16,7 @@ const text = (s: Said | { error: string }) => { if ('error' in s) { throw new Er
 describe('a journey told', () => {
   it('says the Light ran out on a leg before the last (cold play 5, its 19)', async () => {
     const lines = readFileSync('doc/architecture/mission-22/cold/cold-5-lines.txt', 'utf8').split('\n').filter(Boolean);
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
     const r = new Runner(journey.session);
     for (const line of lines.slice(0, 18)) { await r.ask(line); }
     expect(lines[18]).toBe('{"act":"travel:region__s4_taproom"}');
@@ -26,7 +26,7 @@ describe('a journey told', () => {
   }, 180000);
   // Its counterexample is the same journey told by its last leg alone, the event in the campaign's record.
   it('tells the pedlar seen on the way, where the journey goes on past them', async () => {
-    const s = (await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wenna']))).journey.session;
+    const s = (await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--as', 'human/warrior/Wenna']))).journey.session;
     // Cloudreach's march-stone by its name: ten hexes off since AR-21's one way-finder, past the census's six to eight.
     // Since OR-810 the stone is on no fresh life's map (nobody in a1 tells of it: OR-811), so it is set out for by its
     // id, as a journey told it would be (test/travel-continuity likewise).

@@ -3,6 +3,7 @@ import type { Route } from './glance-types';
 import { JourneyFold } from './journey-fold';
 import { Typography } from './typography';
 import type { Row } from './doable';
+import { Surfaces } from './surfaces';
 
 interface Journey { command: string; label: string; minutes: number }
 
@@ -31,7 +32,15 @@ export class DoableJourneys {
   // One the four lead with that goes across the country opens the map at where it goes (chart), every client alike:
   // the page charts it, the runner opens its journeys there; the journey itself is set out on from the map (the lead's
   // ruling, 20 November, on the parity measure's page pressed: the page had opened the map, the runner set out).
+  // While the world map is hidden (compactification, the owner, 26 November: "The world map can be hidden for now";
+  // OR-1242), no row opens it and nothing leads to it: a way across the hex is the map's alone (Crossing), so the gold
+  // that would have led there leads nowhere rather than to an act that would be refused, and the aim says in its own
+  // words where it is.
   static mapped(rows: Row[], screen: Screen, out?: Route): Row[] {
+    const all = this.charting(rows, screen, out);
+    return Surfaces.has(screen, 'the_map') ? all : all.filter(r => r.id !== 'view:map' && !r.chart && !r.map);
+  }
+  private static charting(rows: Row[], screen: Screen, out?: Route): Row[] {
     const fold = JourneyFold.kept(screen, out), drawn = !!screen.region?.land?.tracts;
     // Not a walk whose way leaves the hex (Destination.crosses): that is the map's, as any crossing is.
     const about = new Set([...(screen.around ?? []).filter(d => !d.crosses).map(d => d.id),

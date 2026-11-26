@@ -41,7 +41,7 @@ class Engagement {
 }
 describe('Conflict › An engagement answered', () => {
   it('in a1\'s corn-store runs, the rats warning: only the answers to them, and the map put away', async () => {
-    const { journey: j } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Aud']));
+    const { journey: j } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--as', 'human/warrior/Aud']));
     for (const step of ['To the landing at Lowmouth', 'Read the notice', 'To Mik\'s salt-house', 'Talk to Mik',
       'Ask Mik about the rats', 'Take your leave', 'To the landing at Lowmouth', 'To the old corn-store',
       'a torch: Light', 'Down to the corn-store cellar', 'To the rat-runs']) { await j.step(step); }

@@ -53,7 +53,7 @@ describe('a player revision, kept or afresh', () => {
     expect(await afresh(() => golden(false))).toEqual(kept);
   }, 400000);
   it('keeps at every stop of a seeded journey what would be worked out afresh', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wat']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--as', 'human/warrior/Wat']));
     const s = journey.session;
     let stops = 0;
     for (const to of TravelCensus.far(s.campaign, 2).slice(0, 3)) {

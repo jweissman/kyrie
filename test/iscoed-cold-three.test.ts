@@ -10,7 +10,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 const said = (x: Said | { error: string }): Said => { if ('error' in x) { throw new Error(x.error); } return x; };
 describe('the drove road, after the third cold play', () => {
   it('weighs at the salt-house the rats the notice sent the company to ask about', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const r = new Runner(journey.session);
     said(await r.ask(JSON.stringify({ act: 'region__s1_u_notice_read(party,region__s1_green)' })));
     said(await r.ask(JSON.stringify({ act: 'go(region__s1_shop_door,region__s1_shop)' })));
@@ -24,7 +24,7 @@ describe('the drove road, after the third cold play', () => {
   // CL-25: at the customs-house, with Bran's line to read and Mardle to talk to, no way the company has not taken is
   // led with for being untaken: "To the taproom of the Stone Horn" had led from the third turn on for no reason.
   it('leads at the customs-house with the drove, not the taproom', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const r = new Runner(journey.session);
     // CL-26: the first turn says who the one who plays is, as the page's card does.
     expect(r.said().you).toBe('Wenna, human warrior, 14 of 14');

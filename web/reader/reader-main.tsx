@@ -31,6 +31,8 @@ class ReaderMain {
     const app = () => ReaderMain.app.current;
     (window as unknown as { kyrieMono: unknown }).kyrieMono = { inspect: ReaderMain.inspect,
       exportTranscript: ReaderMain.transcript,
+      // Every surface earned (the lenses, the map, the encyclopedia, the journal): a spec's earned stage (OR-1245).
+      earn: () => app()?.earn(),
       begin: (r: Parameters<ReaderApp['opening']['setOutWith']>[0]) => app()?.opening.setOutWith(r),
       act: (command: string, said: string) => app()?.act(command, said), auto: () => app()?.auto(),
       back: () => app()?.back(),

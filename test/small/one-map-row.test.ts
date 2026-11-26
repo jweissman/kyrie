@@ -29,8 +29,9 @@ const fen = `
 const chart = { width: 2, height: 1, cover: '..', rivers: [], roads: {}, parts: {},
   places: { t0: 0, t1: 1, hythe: 1, barrow: 0 } };
 const maps = (rows: Row[]) => Doable.flat(rows).filter(r => /^view:map(:|$)/.test(r.does ?? ''));
-const rows = async (aim?: string) => {
-  const t = await Tiny.start(fen, { chart }), c = t.campaign;
+const rows = async (aim?: string, earned = true) => {
+  // On the earned stage (OR-1245): the map is hidden until it is earned.
+  const t = await Tiny.start(fen, { chart, earned }), c = t.campaign;
   await t.session.leg(PlayerView.choices(c).find(r => r.choice.id.includes('green_out'))!.choice.id);
   if (aim) { await t.session.leg(`follow:${aim}`); }
   const s = ScreenModel.build(c);
@@ -38,6 +39,12 @@ const rows = async (aim?: string) => {
 };
 
 describe('the map', () => {
+  // Hidden while compactification holds (the owner, 26 November; OR-1242): no row opens it, and the aim's gold across
+  // the hex leads nowhere rather than to the map, until the map is earned (nothing earns it yet).
+  it('is opened by no row before it is earned, the aim\'s way across included', async () => {
+    expect(maps(await rows(undefined, false))).toEqual([]);
+    expect(maps(await rows('t__mound', false))).toEqual([]);
+  });
   it('is opened by one row, its own, where no aim leads across', async () => {
     expect(maps(await rows()).map(r => r.does)).toEqual(['view:map']);
   });

@@ -20,6 +20,7 @@ import { Act, type Draw } from './act';
 import { GlanceStage } from './glance';
 import { PageFrame } from '../page-frame';
 import { SceneRail } from './scene-rail';
+import { Surfaces } from '../../../src/presentation/surfaces';
 import { Pip } from './pip';
 import type { Attested } from '../../../src/presentation/attest';
 import { Fold } from '../../../src/presentation/fold';
@@ -202,7 +203,9 @@ export class WorldStage {
   // roof, it begins on the place itself: the opening had sent the debtor "straight to Tuck's door", and the first page
   // was the whole world map saying "You stand at its gate" under the heading "Tuck's wood-yard" (both cold players of
   // Mission 20's first round; the owner's amendment 1 of 10 November, superseding "play begins on the map" there).
-  static begins(frame: Frame): boolean { return !frame.combat && WorldStage.wild(frame.screen); }
+  static begins(frame: Frame): boolean {
+    return !frame.combat && WorldStage.wild(frame.screen) && Surfaces.has(frame.screen, 'the_map');
+  }
   static wild(screen: Screen): boolean {
     return PlaceStage.kind(screen) === 'wild' && !!screen.region?.land;
   }

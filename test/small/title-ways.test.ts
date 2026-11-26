@@ -19,9 +19,11 @@ describe("the title's ways in", () => {
     // No row carries an icon (the studio's emblem beside the name is the heading's, not a row's).
     expect([...menu.matchAll(/<li>.*?<\/li>/gs)].some(m => m[0].includes('<svg'))).toBe(false);
   });
+  // Once earned, in a game paused, by a library stood in (compactification, OR-1243); never on the title.
   it('keeps the encyclopedia in Options, marked in the knowledge blue at its left, with no icon', () => {
     const options = renderToStaticMarkup(createElement(OptionsPage.View, { app: { state: { options: { size: 'usual',
-      rolls: 'shown' } }, props: { query: new URLSearchParams() } } as never }));
+      rolls: 'shown' }, frame: { screen: { surfaces: ['the_encyclopedia'] } } },
+    props: { query: new URLSearchParams() } } as never }));
     const row = /<a [^>]*data-action="encyclopedia"[^>]*>(.*?)<\/a>/.exec(options)?.[1] ?? '';
     expect(row).toMatch(/^<i class="prism-bar row-mark" style="--prism:var\(--tone-blue\)"/);
     expect(row).not.toContain('<svg');

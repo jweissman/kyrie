@@ -57,6 +57,7 @@ export class MonoDriver {
     for (let p = 0; p < 6 && !await this.page.locator(selector).count()
       && await this.page.locator('[data-option="more"]').count(); p++) { await this.page.click('[data-option="more"]'); }
     // A lens folded at rest behind its diamond (OR-1084) is taken up first, as a player takes it up (Rail).
+    await Rail.earned(this.page, selector);
     if (await Rail.within(this.page, selector)) { await Rail.unfold(this.page, !!this.pointer); }
     if (this.pointer) {
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
@@ -366,6 +367,8 @@ export class MonoDriver {
   }
   // A book opened as a player would: by its key, or, by pointer, from the book in the corner and then its tab.
   async mode(key: string) {
+    // The map and the journal's pages are earned (OR-1245): a spec that opens one stands on the earned stage.
+    if ('mjh'.includes(key)) { await Rail.earned(this.page, '[data-action="lenses"]'); }
     if (!this.pointer) { await this.key(key); return; }
     // The map is the whole screen, closed by its own cross (Mission 18).
     const shut = '.field-map [data-action="close"]';

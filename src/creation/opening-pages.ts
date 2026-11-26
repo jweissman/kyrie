@@ -77,8 +77,9 @@ export class OpeningPages {
       { id: 'hidden', label: 'Not told', note: 'only what came of it' }] }];
   // Options: each setting a row, what it is now beside it, taken to go on to its next value (option:<key>:<value>);
   // a save file opened; the encyclopedia, which opens apart (the title's row until OR-1072); and from a game paused its
-  // two ways (FirstChoice.paused), else Back to the title. A page of the backstage's folio (OR-1073).
-  static options(now: Settings, paused: boolean): EnginePage {
+  // two ways (FirstChoice.paused), else Back to the title. A page of the backstage's folio (OR-1073). The encyclopedia
+  // only once the game in play has earned it, by a library stood in (compactification, OR-1243): never before a game.
+  static options(now: Settings, paused: boolean, read = false): EnginePage {
     const set = OpeningPages.settings.map(s => {
       const at = s.values.findIndex(v => v.id === now[s.key]), value = s.values[Math.max(0, at)]!;
       const next = s.values[(Math.max(0, at) + 1) % s.values.length]!;
@@ -92,8 +93,8 @@ export class OpeningPages {
       rows: [...set, { id: 'load-file', label: 'Open a save file', glyph: 'courier', group: 'Books',
         aside: 'Downloaded from this browser or another' },
       // The encyclopedia's mark is the knowledge blue, and it has no emblem (the owner, 18 November, OR-86).
-      { id: 'encyclopedia', label: 'The encyclopedia', group: 'Books',
-        said: 'The encyclopedia, opens apart', href: 'encyclopedia/index.html' }, ...ways] };
+      ...read ? [{ id: 'encyclopedia', label: 'The encyclopedia', group: 'Books',
+        said: 'The encyclopedia, opens apart', href: 'encyclopedia/index.html' }] : [], ...ways] };
   }
   // A setting's row taken: the settings it makes, or none where the row sets none.
   static set(now: Settings, row: PageRow): Settings | undefined {

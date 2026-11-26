@@ -8,7 +8,7 @@ import { Runner, type Said } from '../src/cli/runner';
 // the drill-yard.
 class Stones {
   static async walk(purse: number): Promise<Said> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--origin', 'wanderer',
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--origin', 'wanderer',
       '--as', 'human/warrior/Wenna']));
     journey.coin(purse);
     const r = new Runner(journey.session);
