@@ -6,6 +6,16 @@
 prototypes, not installed encounters or learned spells. We have not made an installed-encounter census or measured
 their effect on the world. Counting them as playable migrations would be misleading.
 
+### SRD source extraction corrections
+
+The pinned monster pages use two armor-class forms the extractor missed: the pit fiend labels the row `AC:`, and
+the harpy archer prefixes its value with `AC`. The parser now accepts both, restoring AC 40 (including +23 natural)
+and AC 23 respectively. Iterative full-attack bonuses such as `+7/+2` were also truncated, while some blows after
+`, and` were skipped. Extraction now preserves those bonuses in order and handles that separator; regeneration
+changes 22 source records. Focused source-page tests cover the alternate AC forms, the harpy and athach routines.
+These are reference-data corrections only: they add no playable bodies or encounters and make no claim that every
+alternative routine or attack mode is extracted.
+
 There are real placed examples. The generated first town's corn-store has an old buck using `rat/midden`, the adapted
 dire rat from case 64; `test/undertown.test.ts` follows the town's job through the nest to the merchant's reward.
 The same generated site offers a mage who knows Sleep a named act against the rats in the run. It spends a slot,
