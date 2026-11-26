@@ -3012,6 +3012,36 @@
    "was": "defect",
    "pri": "P2",
    "why": "the owner's direction of 26 November, kept whole"
+  },
+  "OR-1205": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November, kept whole, not commissioned"
+  },
+  "OR-1206": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November, kept whole, not commissioned"
+  },
+  "OR-1207": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "the owner's direction of 26 November, kept whole, not commissioned"
+  },
+  "OR-1208": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "the owner's direction of 26 November, kept whole, not commissioned"
+  },
+  "OR-1209": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November, kept whole, not commissioned"
   }
  },
  "blockedBy": {
