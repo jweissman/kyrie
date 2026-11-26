@@ -246,11 +246,6 @@
     "accept": "an ordinary act settled (pressed to answer drawn, page open again) under 300 ms p95 in test/input-answered-browser at both sizes"
    },
    {
-    "id": "OR-182",
-    "owner": "maturity",
-    "accept": "the held journey's card within the hold plus 100 ms on every run for ten consecutive CI runs, the cause named from a main-thread trace"
-   },
-   {
     "id": "OR-144",
     "owner": "maturity",
     "accept": "Set out now to the first scene in under 3 s on the deployed page (blocked by AX-04)"
