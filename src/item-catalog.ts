@@ -40,12 +40,19 @@ export class ItemCatalog {
   // A module's own kinds read among its campaign's (kinds): the campaign's, and the module's in place of any of them
   // it gives another meaning (its installation's own once installed: ModuleNamespace), as the module is assembled.
   static among(kinds: KindsMade | undefined, ...own: (KindsMade | undefined)[]): ItemCatalog {
-    const given = [kinds, ...own].filter(k => k?.items && Object.keys(k.items).length);
+    const given = [kinds, ...own].filter((k): k is KindsMade => !!k?.items && !!Object.keys(k.items).length);
     if (given.length < 2) { return this.of(given[0]); }
-    return this.of({ items: Object.assign({}, ...given.map(k => k!.items)) as KindsMade['items'] });
+    return this.of({ items: Object.assign({}, ...given.map(k => k.items)) as KindsMade['items'] });
   }
+  // Each kind lowered once, whichever catalogs hold it.
+  private static readonly lowered = new WeakMap<object, ItemDefinition>();
   // What the executor reads of a module's own kind of thing (see LocalKinds).
   static runtime(item: ItemKind): ItemDefinition {
+    let lowered = this.lowered.get(item);
+    if (!lowered) { lowered = this.lower(item); this.lowered.set(item, lowered); }
+    return lowered;
+  }
+  private static lower(item: ItemKind): ItemDefinition {
     return { name: item.name, description: item.description,
       ...item.slot ? { slot: item.slot } : {}, ...item.modifiers ? { modifiers: item.modifiers } : {},
       ...item.hooks ? { hooks: item.hooks } : {}, ...item.weapon ? { weapon: item.weapon } : {},
