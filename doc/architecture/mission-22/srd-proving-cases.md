@@ -2365,7 +2365,6 @@ and encounter-balance walks were not run. The fidelity census grades the two map
 fields; the omissions above remain.
 
 ### 67. The drover's dog (26 November): a fixed working dog without a new encounter
-### 67. The drover's dog (26 November): a fixed working dog without a new encounter
 
 The drover's existing, peaceable grey dog now uses `dog/drove`, a named variant of Kyr's working dog with the SRD
 dog's six scores, 6 hit points, AC 15 converted to 6, saves +4/+5/+1 and one bite at +2 for 1d4+1. The fixed body
@@ -2378,6 +2377,7 @@ piercing-wound rules differ. The placement is not hostile. In an illustrative 12
 first-level warrior, the warrior wins all 12 against either the old or the new dog, including dog retreats. This
 does not measure a generated-world encounter. The census gives the new mapping S✓ R✓ I? on selected fields; it
 does not prove the missing senses. It is a second mapping of the dog, not another distinct SRD creature.
+
 ### 68. Fixed bodies in Hit Dice pools (26 November)
 
 An encounter level is not a fixed body's Hit Dice. The shared `HitDicePool` now reads the body's source count through
