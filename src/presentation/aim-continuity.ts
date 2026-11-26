@@ -20,6 +20,7 @@ import { Guarded } from './guarded';
 import { Shut } from './shut';
 import { Unread } from './unread';
 import { AimMeans } from './aim-means';
+import { CompanyRecall } from './company-recall';
 
 // How the aim followed goes on from here (the owner's trust contracts, 18 November, B: "Gold must not vanish silently
 // because the route planner and local opportunity projection interpret an objective differently"). Gold had been an
@@ -211,7 +212,8 @@ export class AimContinuity {
   private static shut(campaign: Campaign, screen: Screen, lead: AimLead): string | undefined {
     if (['barred', 'means', 'placed', 'route'].includes(lead.source) || !lead.next[0]) { return undefined; }
     const byId = EntityIndex.of(campaign.module.entities).byId, next = lead.next[0];
-    const to = byId.get(next)?.space ? next : campaign.world.one('at', next);
+    // Where the company knows the one it names to be, never where they went unseen (OR-880).
+    const to = CompanyRecall.whereabouts(campaign, screen, next);
     const def = Undertakings.followed(campaign), unread = to && def ? Unread.at(campaign, to, def) : undefined;
     if (unread) { return Unread.said(campaign, unread); }
     if (!to || to === screen.place.id) { return undefined; }
@@ -257,7 +259,8 @@ export class AimContinuity {
   private static sought(campaign: Campaign, screen: Screen, to: string, aim: string): boolean {
     const named = campaign.module.objectives?.find(o => o.id === aim)?.toward ?? [];
     const there = new Set([...AimAdvances.sought(campaign), ...AimAdvances.taughtAt(campaign),
-      ...AimAdvances.unreached(campaign), ...named.flatMap(id => campaign.world.one('at', id) ?? [])]);
+      ...AimAdvances.unreached(campaign),
+      ...named.flatMap(id => CompanyRecall.whereabouts(campaign, screen, id) ?? [])]);
     return there.has(to) || (there.size > 0
       && KnownWays.first(campaign, screen.place.id, id => there.has(id), { able: true }) === to);
   }
@@ -271,7 +274,7 @@ export class AimContinuity {
   // the town or site it lies in (as RunnerLed reads the four).
   static acting(campaign: Campaign, screen: Screen, lead: AimLead, cands: Candidate[]): Candidate[] {
     if (!lead.next.length) { return []; }
-    const w = campaign.world, byId = EntityIndex.of(campaign.module.entities).byId;
+    const byId = EntityIndex.of(campaign.module.entities).byId;
     const def = Undertakings.followed(campaign);
     // At the place the aim names, what its words are about is the step too: the pawl the aim is to bring up out of the
     // gate-well, found there, is taken for it (cold play 5, CL-33: "Collect the sea-gate's pawl" unmarked, the
@@ -280,7 +283,7 @@ export class AimContinuity {
     // Where what it waits on lies here to be found, the search of here acts on it (the drain's letters).
     const search = AimLeading.lies(campaign, screen);
     const step = new Set([...lead.next, ...about,
-      ...lead.next.flatMap(id => byId.get(id)?.space ? [] : w.one('at', id) ?? [])]);
+      ...lead.next.flatMap(id => byId.get(id)?.space ? [] : CompanyRecall.whereabouts(campaign, screen, id) ?? [])]);
     // Where the step is what bars the way, an act whose site is the bar acts on it too (the speaking door's words).
     const skip = lead.source === 'barred' ? ['actor'] : ['actor', 'site'];
     const bound = PlayerFrame.of(campaign).bound(skip);

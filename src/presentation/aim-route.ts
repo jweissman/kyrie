@@ -20,7 +20,9 @@ export class AimRoute {
     if (AimLeading.lies(campaign, screen)) { return new Set([screen.place.id]); }
     // The way in shut for want of something, whoever sells it, where they are: the aim's, and nothing else it names.
     const lead = AimLeading.of(campaign, screen);
-    if (lead?.source === 'means') { aimed = new Set(lead.next.flatMap(id => [id, campaign.world.one('at', id) ?? id])); }
+    if (lead?.source === 'means') {
+      aimed = new Set(lead.next.flatMap(id => [id, CompanyRecall.whereabouts(campaign, screen, id) ?? id]));
+    }
     const by = AimLeading.route(campaign, screen)?.next ?? [];
     // Out of an enclosed place toward what it names, or where its author says it is gone to by (the courier's town).
     const toward = by.length ? new Set([...aimed, ...by]) : aimed, out = this.outward(campaign, screen, toward);
@@ -37,9 +39,9 @@ export class AimRoute {
     if (direct.some(id => named.has(id))) { return undefined; }
     const been = VisitedPlaces.of(campaign, campaign.playerActor!);
     for (const id of named) {
-      // Someone it names is gone to where they are (Glen, at his forge in Brightford), where the company has been:
-      // never to where they truly stand unknown to it (the opportunity architecture's knowledge boundary, AR-21).
-      const to = EntityIndex.of(campaign.module.entities).byId.get(id)?.space ? id : campaign.world.one('at', id);
+      // Someone it names is gone to where the company last saw them (Glen, at his forge in Brightford): never to where
+      // they truly stand unknown to it (the opportunity architecture's knowledge boundary, AR-21; OR-880).
+      const to = CompanyRecall.whereabouts(campaign, screen, id);
       const legs = id === campaign.playerActor || !to || (to !== id && !been.has(to)) ? []
         : Itineraries.plan(campaign, to)?.legs ?? [];
       const out = legs.find(l => !Itineraries.enclosed(campaign, l.to));
@@ -56,11 +58,11 @@ export class AimRoute {
   private static holding(campaign: Campaign, screen: Screen, named: Set<string>): string | undefined {
     const byId = EntityIndex.of(campaign.module.entities).byId;
     const mine = new Set([screen.place.id, ...Spatial.ancestry(byId, screen.place.id).map(e => e.id)]);
-    // The journeys the company knows, as the open country offers them (none are listed from inside: CN-02).
-    const leads = Itineraries.destinations(campaign);
-    const known = new Set([...leads, ...Itineraries.roads(campaign, leads)].map(d => d.id));
+    // The journeys the company knows, as the map sets out for them (none are listed from inside: CN-02): not every
+    // town the country's roads reach, which the map does not draw (OR-880).
+    const known = new Set(Itineraries.drawnJourneys(campaign, screen.region).map(d => d.id));
     for (const id of named) {
-      const to = byId.get(id)?.space ? id : campaign.world.one('at', id);
+      const to = CompanyRecall.whereabouts(campaign, screen, id);
       if (!to || id === campaign.playerActor) { continue; }
       for (const e of Spatial.ancestry(byId, to)) {
         if (!['settlement', 'site'].includes(e.space?.kind ?? '') || mine.has(e.id) || !known.has(e.id)) { continue; }
