@@ -6,8 +6,8 @@ import { AbilityCensus } from '../support/ability-census';
 describe('every catalog ability as an effect sentence', () => {
   const census = AbilityCensus.roundTrip();
   it('prints and parses back as many as it did', () => {
-    // 215 of 411 on 26 November; 216 of 412 with Comprehend Languages, a sentence (OR-1099).
-    expect(census.total).toBe(412);
+    // 216 of 412 with Comprehend Languages (OR-1099); the two SRD cantrips bring the total to 414, still 216 equal.
+    expect(census.total).toBe(414);
     expect(census.equal).toBeGreaterThanOrEqual(216);
   });
   it('never prints a sentence that fails to parse or comes back different', () => {
