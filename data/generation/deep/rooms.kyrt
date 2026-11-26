@@ -45,7 +45,7 @@
   Entity {room}_journal: fact "{journal}".
   Thing {room}_notebook "a damp notebook" at {room} {
     State shut "A notebook lies by the dead fire, swollen with damp, its cover held shut with a strap.".
-    State read "The notebook lies open by the dead fire where you left it.".
+    State read "The damp notebook lies open where you left it.".
     Change read "Unstrap the notebook and read it" from shut to read.
   }
   Observe {room}_read at {room} when state({room}_notebook, read) and not knows(party, {room}_journal) "{journal}" teaches {room}_journal.

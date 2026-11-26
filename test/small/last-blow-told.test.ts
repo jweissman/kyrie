@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { Runner } from '../../src/cli/runner';
 import { Obituary } from '../../src/narrative/obituary';
-import { BlowWeight } from '../../src/narrative/blow-weight';
+import { BlowWeight } from '../../src/blows/blow-weight';
 import type { CombatEvent } from '../../src/model';
 
 // The ending tells the last blow as the fight told it (OR-691, cold play 1, T113: the fight's last blow "for 6", the

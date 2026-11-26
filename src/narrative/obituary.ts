@@ -10,7 +10,7 @@ import { Provocation } from '../campaign/provocation';
 import { CombatProjection } from '../combat-projection';
 import type { Memorial } from '../memorial';
 import { Endings } from '../lang/endings';
-import { BlowWeight } from './blow-weight';
+import { BlowWeight } from '../blows/blow-weight';
 
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Death = Extract<CombatEvent, { type: 'defend' | 'death' | 'skip' | 'random' }>;

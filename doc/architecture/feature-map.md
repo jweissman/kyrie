@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 592 live rows, 200 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 590 live rows, 198 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -87,7 +87,7 @@ page's colours and opportunities.)
   - requirement OA-05 P2: Review T1, a departure reckoning: before setting out, route and terrain, duration and arrival…
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 18 defects · 11 asks
+- **Fights that cost** · 5 pins · 17 defects · 11 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -215,7 +215,7 @@ page's colours and opportunities.)
   - ○ an item has its history and maker, said when it is looked at, and a use beyond its numbers
   - ✓ is taken from in the pack, not the scene, for every client
   - requirement OR-460 P3: The wonders met have no place in the Book: a wonder's discovery is known and kept, but the Notes…
-- **Lodging and rest** · 4 pins · 1 defects · 2 asks
+- **Lodging and rest** · 4 pins · 2 defects · 2 asks
   - ✓ is rented, keeps what is left in its chest two days, greets the company back, and gives the room's night
   - ✓ has the answer to a letter home sent up to the room's pillow
   - ✓ keeps what is in the chest through a save and resume
@@ -225,7 +225,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 3 defects · 6 asks
+- **Markets and prices** · 0 pins · 2 defects · 6 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -388,7 +388,7 @@ page's colours and opportunities.)
 
 ### Consequence
 
-- **Choices that change what follows** · 5 pins · 3 defects · 3 asks
+- **Choices that change what follows** · 5 pins · 2 defects · 3 asks
   - ✓ tells a choice's outcome in its own words, and the world and a save keep what came of it
   - ○ a spared enemy reappears later, as what being spared made of them
   - ○ a promise broken resurfaces in what someone says or will do

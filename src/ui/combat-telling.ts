@@ -1,5 +1,5 @@
 import { Content } from '../content';
-import { BlowWeight } from '../narrative/blow-weight';
+import { BlowWeight } from '../blows/blow-weight';
 import { Canon } from '../canon/canon';
 import { ConditionSense } from '../canon/condition-sense';
 import { CombatPresenter } from './combat-presenter';
