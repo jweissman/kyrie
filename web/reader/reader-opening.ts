@@ -209,7 +209,7 @@ export class ReaderOpening {
   readonly begin = () => { void this.setOut(); };
   async setOut() {
     const starting = this.starting();
-    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
+    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true, approach: undefined });
     clearTimeout(this.readyTimer);
     await this.rising();
     // The life the engine holds, set out with as it stands (EngineCreation); else the page's own company.
@@ -226,7 +226,7 @@ export class ReaderOpening {
   // Automation (kyrieMono.begin): set out with exactly this company, as Begin would, so a kept journey can be played
   // again in the browser in the world it was recorded in.
   async setOutWith(starting: Omit<Extract<Request, { kind: 'begin' }>, 'kind'>) {
-    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
+    this.app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true, approach: undefined });
     await this.enter(this.app.engine.request<Frame>({ kind: 'begin', ...starting }), 'company');
   }
   // A game kept before anything was done in it opens on its opening again, where the page tells it apart. One that
@@ -247,8 +247,10 @@ export class ReaderOpening {
       // Play begins where the company is (see WorldStage.begins).
       // The loading page's last words are its own: left in the state, they were told again under the first act taken
       // ("Telling where you are.": M22's review, OR-24).
+      // The painting risen behind setting out is kept for the opening told over it (OR-1123: put away here, the opening
+      // had worked out a way in of its own and dissolved to it); a game with no opening lets it go.
       this.app.setState({ phase: 'play', frame, view: 'here', cursor: 0, open: [], member: '', leaving: false, stage: '',
-        approach: undefined,
+        approach: frame.leaf.prologue ? this.app.state.approach : undefined,
         outdoors: WorldStage.begins(frame),
         prologue: frame.leaf.prologue ? 0 : undefined, told: frame.leaf.prologue, beat: performance.now() });
     } catch (error) { if (typeof otherwise === 'function') { otherwise(error); } else { this.fail(error, otherwise); } }
@@ -259,10 +261,13 @@ export class ReaderOpening {
   // motion is not kept waiting on it, nor one who set out now (quick: in the world in under a second, OR-120).
   // Setting out on a life whose origin tells its opening, the painting comes up at once, behind that opening's first
   // page (see LoadingPage.opening), and stays: the first scene is then drawn on it, not cut to (OR-23).
-  private async rising() {
-    const s = this.app.state, told = s.setting?.origins?.find(o => o.id === s.origin)?.opening;
+  // What it rises for is passed by the caller where it has just been set: the page's state is not yet what was set
+  // (React takes a setState up later), and read from it, Set out now's rise had found no origin and no country, so
+  // that the opening's words stood on the dark and its painting came up under them afterwards (OR-1123).
+  private async rising(now: { setting?: Setting; origin?: string; seed: string } = this.app.state) {
+    const told = now.setting?.origins?.find(o => o.id === now.origin)?.opening;
     if (!told || !this.apart()) { return; }
-    const plate = Scenery.country(s.setting?.terrain, s.seed);
+    const plate = Scenery.country(now.setting?.terrain, now.seed);
     if (!plate) { return; }
     await Shell.had(plate);
     this.app.setState({ approach: plate });
@@ -337,14 +342,14 @@ export class ReaderOpening {
   // at once; the way in is not waited on, the opening coming up with its painting.
   private async now(seed: string) {
     const app = this.app;
-    app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true });
+    app.setState({ phase: 'loading', stage: 'Setting out', error: '', leaving: true, approach: undefined });
     try {
       const setting = await app.engine.request<Setting>({ kind: 'world', seed });
       const creation = await app.engine.request<CreationState>({ kind: 'creation' });
       app.setState({ campaign: 'world', seed, setting, party: [creation.member], editing: -1, origin: creation.origin,
         named: false, creation });
+      await this.rising({ setting, origin: creation.origin, seed });
     } catch (error) { this.fail(error, 'title'); return; }
-    await this.rising();
     await this.enter(app.engine.request<Frame>({ kind: 'set-out', rolled: true, apart: this.apart() }), 'title', true);
   }
   // Another country, from creation: drawn from a seed of its own, which the save keeps.

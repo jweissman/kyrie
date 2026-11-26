@@ -33,7 +33,8 @@ class Plates {
       img.decode().then(done, done);
       return () => { live = false; };
     }, [wanted]);
-    return wanted ? ready : undefined;
+    // One had already is drawn in the same frame it is wanted, never a frame later over the last (OR-1123).
+    return !wanted ? undefined : Plates.loaded.has(wanted) ? wanted : ready;
   }
   static url(plate: string): string { return `paintings/large/${plate}.webp`; }
   // A painting had before it is wanted, so that it comes up the moment it is asked for.
@@ -49,7 +50,13 @@ class Plates {
 export class Shell {
   static View({ app, children }: { app: ReaderApp; children: ReactNode }) {
     const s = app.state, wanted = Shell.plate(app), plate = Plates.useReady(wanted);
-    const was = Shell.useDissolve(plate, s.frame?.screen.place.id);
+    // The first scene's own painting had while the opening is read, so that the scene comes up on it at once, never
+    // on the way in's for a moment first (OR-1123).
+    const next = Stage.prologue(app) && s.frame && !s.frame.screen.dark ? Scenery.seen(s.frame.screen) : undefined;
+    useEffect(() => { if (next) { void Plates.had(next); } }, [next]);
+    // The way in is no painting of the place's family: from it to the place's own is a cut, never the sky's slow
+    // dissolve (OR-1123: the first scene had come up over the way in and dissolved to its own over four seconds).
+    const was = Shell.useDissolve(plate, `${s.frame?.screen.place.id ?? ''}${Shell.approaching(app) ? ':way' : ''}`);
     const approaching = Shell.approaching(app);
     const creating = (s.phase === 'company' || (s.phase === 'loading' && !!s.leaving && !approaching))
       && !!s.setting?.generated;
@@ -98,7 +105,9 @@ export class Shell {
   // only once the first place is (see ReaderOpening.approach), and is often not the country chosen in.
   static plate(app: ReaderApp): string | undefined {
     const s = app.state;
-    if (Stage.prologue(app) && s.frame) { return Shell.way(s.frame, s.setting?.terrain, s.seed); }
+    // The painting risen behind setting out stays behind the opening, never put away for another (OR-77, OR-1123: the
+    // way in had been worked out afresh for the opening's first page, and cut to over the one already up).
+    if (Stage.prologue(app) && s.frame) { return s.approach ?? Shell.way(s.frame, s.setting?.terrain, s.seed); }
     // In the scene first, the place's own painting, so that talk, the dossier and a fight stand in the place, not
     // on the country behind it (amendment 6, A); in the dark, nothing.
     if (s.phase === 'play' && s.frame) { return s.frame.screen.dark ? undefined : Scenery.seen(s.frame.screen); }
