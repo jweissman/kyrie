@@ -70,16 +70,15 @@ class Knowing {
 
 describe('what the map knows of a place', () => {
   it('shows a place heard of as a mark, a site past the known land as a question, and keeps what is learned', async () => {
-    const s = await Knowing.start(), start = Knowing.of(s);
+    const s = await Knowing.start(), start = Knowing.of(s), W = start.land.width;
     // Not on the map before it is heard of: the march-stones the roads run out to, at the far ends of the country (the
     // owner, 3 November: the world map started mostly revealed). Only the towns down the roads from where one has been.
     expect(start.land.marks.filter(m => /__(edge_[a-z]+|gate_\w+)$/.test(m.id))).toEqual([]);
-    // Nor the towns further along the country's roads, which a journey may follow but nobody has named to the company:
-    // a fresh life's map had named every town of the country (the owner, 25 November: "things were unfolding that were
-    // nowhere near where I was, and I hadn't explored yet"; OR-741, test/small/map-draws-knowledge). Here no town but
-    // the first is on the map until it is come to, or the road to it walked from where it begins.
+    // The towns along the roads are names over the unknown, the roads to them drawn only as far as the land is known.
     const far = start.region.areas.filter(a => start.land.towns[a.id] === 'heard');
-    expect(far).toEqual([]);
+    expect(far.length).toBeGreaterThan(1);
+    expect(far.filter(a => start.land.known.includes(a.y * W + a.x))).toEqual([]);
+    expect(start.states).toMatchObject(Object.fromEntries(far.map(a => [a.id, 'heard'])));
     // Sites just past the land known, not made out, a lone tower's among them.
     const questions = Knowing.unmade(start.land);
     expect(start.land.marks.some(m => m.id === 'region__w9')).toBe(false);

@@ -5,7 +5,6 @@
   "src/presentation/player-view.ts": "the projector's perception: what is perceived now (PlayerView.observe, present, the rows' warrant)",
   "src/presentation/company-knowledge.ts": "the projector's record of what was learnt, and how (CompanyKnowledge.of)",
   "src/presentation/company-map.ts": "the projector's memory of places: perceived before and remembered (CompanyMap.of)",
-  "src/ui/known-country.ts": "the projector's knowledge of the country: places told of and seen from afar, ways told, land looked out over, wayfinding, the places aims name (KnownCountry.of; OR-741's first slice, ways and destinations)",
   "src/presentation/outcome.ts": "the projector's prospective reading: what an offered act would teach (Outcome.foreseen, asked through Knowing; Outcome.taught, the whole world's, for the diagnostic tools)",
   "src/presentation/player-revision.ts": "the player revision's key: the world compared by identity, never read (PlayerRevision.of)",
   "src/cli/runner-fidelity.ts": "diagnostic: promise fidelity, an act tried in a copy of the world; nothing of it is shown",
@@ -18,7 +17,6 @@
   "PlayerFrame.of(campaign): the rows, legal by the runtime and worded and warranted by the projection",
   "CompanyKnowledge.of(campaign, actor, labels): what was learnt",
   "CompanyMap.of(campaign, actor, travel): the places remembered and the ways known",
-  "KnownCountry.of(world, actor): what the company knows of the country, for its map and its journeys (told, sighted, directions, looked, wayfinding, aimed)",
   "PlayerFrame.knowing: the revision's projection, as the frame's consumers read it"
  ],
  "counts": {
@@ -262,8 +260,8 @@
    "creatures": 1
   },
   "src/ui/chart-model.ts": {
-   "facts": 16,
-   "rules": 1
+   "facts": 33,
+   "rules": 2
   },
   "src/ui/choice-grouping.ts": {
    "world": 9,
@@ -280,8 +278,8 @@
    "facts": 4
   },
   "src/ui/itinerary.ts": {
-   "world": 14,
-   "facts": 10
+   "world": 15,
+   "facts": 18
   },
   "src/ui/known-names.ts": {
    "world": 1,
