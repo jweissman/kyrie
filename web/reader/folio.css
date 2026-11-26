@@ -55,9 +55,9 @@
 @media (max-width: 899px), (orientation: portrait) {
   [data-theme="folio"].options-page .folio-sheet { display: block; }
 }
-[data-theme="folio"].options-page .option-set { margin: 0 0 var(--s4); }
-[data-theme="folio"].options-page .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-[data-theme="folio"].options-page .rows.back { margin-top: var(--s5); }
+[data-theme="folio"].options-page .option-set { margin: 0 0 var(--row-gap); }
+[data-theme="folio"].options-page .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--row-gap); }
+[data-theme="folio"].options-page .rows.back { margin-top: var(--row-gap); }
 [data-theme="folio"].options-page .choice-row .row-glyph { width: 20px; height: 20px; margin: 0 10px -4px 0; fill: none;
   stroke: currentColor; stroke-width: 1.5; opacity: .85; }
 [data-theme="folio"].options-page .colophon { margin: var(--s6) 0 0; padding: 0; font: italic 400 14px/1.4 var(--told);

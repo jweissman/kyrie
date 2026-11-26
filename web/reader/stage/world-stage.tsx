@@ -29,6 +29,7 @@ import { SceneSurface } from './scene-surface';
 import { Raised } from './raised';
 import { Told } from './told';
 import { Look } from '../look';
+import { Folded } from './folded-rail';
 
 // Where the company is, as a world it moves through (the owner, 4 November, evening; spatial-play.md). Across the
 // stage the place bar (where, how deep, the hour); under it the surface and, beside it, the focus.
@@ -59,7 +60,8 @@ export class WorldStage {
     return (
       <article className={`world-page scale-${overworld ? 'board' : 'scene'} kind-${PlaceStage.kind(screen)}`
         + `${screen.dark ? ' dark' : ''}${up ? ` raised-${up}` : ''}`
-        + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}${!overworld && SceneRail.talking(app) ? ' talking' : ''}`}
+        + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}${!overworld && SceneRail.talking(app) ? ' talking' : ''}`
+        + `${resting && Folded.open(app) ? ' lenses-up' : ''}`}
         id="page">
         {!panel && <header ref={bar} className="world-bar" {...PageFrame.slot('header')}><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>}
         <div className="world-body">

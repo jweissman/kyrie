@@ -19,12 +19,15 @@ html { font-size: clamp(14px, 0.32vw + 10.4px, 17px); scroll-padding-top: 4rem; 
 body { margin: 0; color: var(--ink); font: 400 0.92rem/1.5 var(--mono); -webkit-font-smoothing: antialiased; }
 a { color: var(--amber); text-decoration: none; } a:hover { text-decoration: underline; }
 h1, h2, h3, h4 { font-family: var(--prose); font-weight: 600; margin: 0; }
-.bar { position: sticky; top: 0; z-index: 3; display: flex; align-items: baseline; gap: 2ch; padding: 0.6rem 1rem;
+.bar { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; gap: 2ch; padding: 0.2rem 1rem;
   background: ${Folio.ink.paper}; border-bottom: 1px solid var(--rule); overflow-x: auto; white-space: nowrap; }
 .brand { color: var(--amber); text-transform: uppercase; letter-spacing: 0.24em; font-weight: 600; }
-.books { display: flex; gap: 0.4ch; }
-.books a { color: var(--dim); padding: 0.2em 1ch; border: 1px solid transparent; border-radius: 3px; font-size: 0.85rem; }
-.books a[aria-current] { color: var(--ink); border-color: var(--rule-2); background: var(--sheet); }
+/* The books as tabs a finger takes (44 px, 8 px apart), the open one marked by a neutral underline, never a box or a
+   colour (OR-1085: colour belongs to indicators). */
+.books { display: flex; gap: 8px; }
+.books a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.2ch; color: var(--dim);
+  border-bottom: 2px solid transparent; font-size: 0.85rem; }
+.books a[aria-current] { color: var(--ink); border-bottom-color: var(--ink); }
 .layout { display: grid; grid-template-columns: 19rem minmax(0, 1fr); }
 .toc { position: sticky; top: 2.9rem; align-self: start; max-height: calc(100vh - 2.9rem); overflow-y: auto; padding: 1rem;
   border-right: 1px solid var(--rule); font-size: 0.82rem; }

@@ -122,7 +122,7 @@
 /* ---- How pages lay rows out: in a column, one spacing apart in every menu (OR-505: --row-gap, the one distance
    between one row and the next; a group's heading stands between groups, never a gap of a list's own).
    test/row-spacing-browser measures it. ---- */
-:root { --row-gap: 6px; }
+:root { --row-gap: 8px; }
 :root :is(.glance .led, .glance .openers, .talk .replies, .talk .dialogue .answer > .leave, ol.led, .options-page .rows,
   .title-menu ul, .journal .keep, .world-page .focus .led, .world-page.scale-scene .glance .led, .fight .hand-menu,
   .plates) { gap: var(--row-gap); }
@@ -152,17 +152,17 @@
 
 /* ---- A list of acts (Act.List: the place's own, the Wait page's, a thing's, the book's) is a column of rows, never a
    flow of link-like words (CN-04). ---- */
-:root ul.acts { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+:root ul.acts { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--row-gap); }
 :root ul.acts > li { margin: 0; min-width: 0; }
-:root ul.acts.small .choice-row.choice-row { min-height: 40px; padding-top: 6px; padding-bottom: 6px; }
+:root ul.acts.small .choice-row.choice-row { min-height: 44px; padding-top: 6px; padding-bottom: 6px; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0);
   white-space: nowrap; border: 0; }
 
 /* The map's menu is rows, not a numbered list (a stray "1." stood before Put away the map). */
-.map-menu { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.map-menu { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--row-gap); }
 .map-menu > li { list-style: none; }
 /* Rows in a list of acts, wherever the list stands (the notes, a journey, the ending, the map): no numerals, the rows' own
    gap, the width of the column (the owner, 17 November: an act that is not a full-width row is a P0). */
-ol.led { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+ol.led { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: var(--row-gap); }
 ol.led > li { list-style: none; min-width: 0; }

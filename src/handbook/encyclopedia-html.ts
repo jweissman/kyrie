@@ -119,12 +119,15 @@ body { margin: 0; color: var(--ink); font: 18px/1.6 var(--read); }
 a { color: var(--link); text-decoration: none; } a:hover { text-decoration: underline; text-decoration-thickness: 1px;
   text-underline-offset: 3px; }
 /* The running head: the book's name and its chapters in small capitals, a double rule beneath. */
-.bar { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline;
-  padding: 12px 32px 10px; background: var(--paper); border-bottom: 3px double var(--rule);
+.bar { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 0 18px; align-items: center;
+  padding: 4px 32px 2px; background: var(--paper); border-bottom: 3px double var(--rule);
   font: 500 11.5px/1.4 var(--do); letter-spacing: .16em; text-transform: uppercase; }
 .bar .brand { color: var(--ink); letter-spacing: .3em; } .bar .home { color: var(--dim); }
-.bar nav { display: flex; flex-wrap: wrap; gap: 4px 16px; } .bar nav a { color: var(--dim); }
-.bar nav a[aria-current] { color: var(--ink); border-bottom: 1px solid var(--ink); }
+.bar nav { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+/* Each chapter a tab a finger takes (44 px tall, the open one underlined in ink, no colour: OR-1085). */
+.bar nav a { display: inline-flex; align-items: center; min-height: 44px; color: var(--dim);
+  border-bottom: 2px solid transparent; }
+.bar nav a[aria-current] { color: var(--ink); border-bottom-color: var(--ink); }
 .landing { max-width: 1000px; margin: 0 auto; padding: 56px 40px 80px; }
 .over, .label, .kind { font: 500 11px/1.4 var(--do); letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
 h1 { font: 400 44px/1.1 var(--read); margin: 6px 0 18px; letter-spacing: .005em; }
@@ -189,13 +192,24 @@ p { text-align: left; hyphens: manual; }
   border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
 th, td { text-align: left; padding: 6px 14px 6px 0; border-bottom: 1px solid var(--hair); vertical-align: top; }
 th { color: var(--dim); font-weight: 500; border-bottom: 1px solid var(--rule); } tr:target td { color: var(--link); }
-@media (max-width: 900px) { .layout { grid-template-columns: 200px minmax(0, 1fr); gap: 28px; padding: 0 24px; } }
+/* On a tablet the contents stand over the chapter, and its tables are set to be read and touched (OR-1085: the stat
+   table had been too small to read at 820). */
+@media (max-width: 1024px) { .layout { grid-template-columns: 1fr; gap: 0; padding: 0 28px; }
+  .toc { position: static; max-height: none; padding: 20px 0 0; font-size: 16px; } .toc a { display: inline-block; padding: 10px 0; }
+  table { font-size: 16px; } th, td { padding: 10px 16px 10px 0; } body { font-size: 19px; }
+  .bar { flex-wrap: nowrap; } .bar nav { flex: 1; min-width: 0; flex-wrap: nowrap; overflow-x: auto; white-space: nowrap;
+    scrollbar-width: none; } }
 @media (max-width: 760px) { .layout { grid-template-columns: 1fr; } .toc { position: static; max-height: none; }
-  h1 { font-size: 34px; } .entries { columns: 1; } .bar { padding: 10px 16px; } .landing, .layout { padding: 0 18px; } }
+  h1 { font-size: 34px; } .entries { columns: 1; } .bar { padding: 4px 16px 2px; } .bar .brand { display: none; } .landing, .layout { padding: 0 18px; } }
 `;
   // The search: on a chapter page, entries and rows hide as you type; on the title page, every entry by its name.
   static readonly script = `
 (() => {
+  // The open chapter in view where the chapters run past the bar's width (a tablet's, a phone's: OR-1085).
+  const open = document.querySelector('.bar nav a[aria-current]'), nav = open && open.parentElement;
+  if (nav && nav.scrollWidth > nav.clientWidth) {
+    nav.scrollLeft += open.getBoundingClientRect().left - nav.getBoundingClientRect().left - (nav.clientWidth - open.offsetWidth) / 2;
+  }
   const find = document.getElementById('find');
   if (find) { find.addEventListener('input', () => { const q = find.value.trim().toLowerCase(); let any = false;
     document.querySelectorAll('.item').forEach(el => { const on = !q || el.textContent.toLowerCase().includes(q);

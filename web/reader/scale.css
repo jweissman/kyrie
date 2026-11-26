@@ -1,0 +1,85 @@
+/* ---- The page in proportion at every size (OR-1085, the design review of the 820x1180 contact sheet, 26 November:
+   an upright tablet had read as a desktop page unscaled, tiny type with most of the screen blank). Read last, over the
+   sheets it settles, so that what a size asks is said here once:
+   - every row and tab a finger takes at least 44 px tall, 8 px or more apart (--row-gap, the one distance between
+     rows: menu.css), the rail's marks among them, folded or not, at every size;
+   - narration a size larger wherever it is read (10 to 15%: the third review), the scene's telling and the first goal;
+   - on an upright tablet (700 px and wider, portrait) the type, the rows and the title's and Options' columns in
+     proportion to the screen, never a desktop's left at its size.
+   The checks: test/scale-browser (targets, gaps and the tablet's type, measured). ---- */
+
+/* The rail's marks: 44 px every one, a hair apart, and the dock clear of a home bar or gesture strip (OR-1087). */
+:root .scene-rail .rail-mark, :root .scene-rail[data-fold="folded"] .rail-mark { width: 44px; height: 44px; }
+:root .scene-rail { bottom: max(calc(var(--safe-y, 24px) + 2px), calc(env(safe-area-inset-bottom) + 16px)); gap: 8px; }
+:root .scene-rail[data-fold="folded"] .lenses-fold { gap: 8px; }
+@media (max-width: 899px), (orientation: portrait) {
+  :root .scene-rail { bottom: max(calc(var(--safe-b) + 4px), calc(env(safe-area-inset-bottom) + 16px)); }
+}
+/* On a phone the eight marks do not stand 44 px apart in one line inside the safe zone: taken up, the lenses stand in
+   a strip of their own over the rail's right end, never beside it past the zone's edge, and the scene's panel makes
+   room under its rows for them (lenses-up: WorldStage). */
+@media (max-width: 600px) {
+  :root .scene-rail[data-fold="folded"] .lenses-fold { right: -1px; bottom: calc(100% + 8px); }
+  :root .scene-rail .rail-gap { margin: 0 2px; }
+  :root .scene-rail[data-fold="folded"] .rail-mark.lenses-mark .glint { inset: 9px; }
+  .shell.scene-full .world-page.scale-scene.lenses-up .world-body > .focus {
+    padding-bottom: calc(var(--safe-b) + 64px + 60px); }
+}
+
+@media (max-width: 899px), (orientation: portrait) {
+  /* With who is here shown under the heading, the panel stands under them (two rows of a crowd at most, about 76 px
+     from under the heading's foot), never over them: what it tells had run under a crowd of sixteen. */
+  .shell.scene-full .world-page.scale-scene.talking .world-body > .focus {
+    max-height: calc(100dvh - var(--bar-h, 200px) - 48px); }
+}
+
+/* Narration a size larger wherever it is read (the third review: 10 to 15%). */
+.setting > p { font-size: 17.5px; }
+.setting > p.lead { font-size: 19.5px; }
+.setting .presence p { font-size: 16px; }
+.told-col .life { font-size: 17px; }
+.told-col .first-goal { font-size: 17.5px; }
+.told-col .next-pull { font-size: 17px; }
+@media (max-width: 899px), (orientation: portrait) {
+  .shell.scene-full .setting > p, .shell.scene-full .told-col .first-goal { font-size: 16px; }
+  .shell.scene-full .setting > p.lead { font-size: 17.5px; }
+  .shell.scene-full .told-col .life, .shell.scene-full .told-col .happened p { font-size: 16px; }
+}
+
+/* An upright tablet: the type and the rows in proportion to the screen. */
+@media (min-width: 700px) and (orientation: portrait) {
+  :root {
+    --t-title: 300 40px/1.12 var(--do);
+    --t-tell-lead: 400 20.5px/1.5 var(--told);
+    --t-tell: 400 19px/1.55 var(--told);
+    --t-choice: 500 17.5px/1.25 var(--do);
+    --t-aside: 400 14.5px/1.35 var(--do);
+    --t-label: 600 12px/1.2 var(--do);
+    --t-key: 600 12px/1 var(--do);
+    --type-heading: 300 42px/1.1 var(--do);
+    --type-control: 500 15.5px/1.2 var(--do);
+    --type-note: 400 15px/1.35 var(--do);
+    --type-kicker: 500 13px/1.3 var(--do);
+    --type-word: 500 13px/1 var(--do);
+    --choice-h: 58px;
+  }
+  .shell.scene-full .setting > p, .shell.scene-full .told-col .first-goal { font-size: 19px; line-height: 1.55; }
+  .shell.scene-full .setting > p.lead { font-size: 20.5px; }
+  .shell.scene-full .told-col .life, .shell.scene-full .told-col .happened p { font-size: 18.5px; }
+  .world-bar .place { font-size: 44px; }
+  /* The title: its mark, its line and its rows at a tablet's size, standing in the lower middle of the screen. */
+  .title-menu .mark { font-size: 14px; }
+  .title-menu .title-line { font-size: 18px; }
+  :root .title-menu .way-in.choice-row.choice-row { height: 64px; }
+  :root .title-menu .way-in.choice-row.choice-row > .row-label { font-size: 18px; }
+  .title-menu .title-told, .begin-menu .begin-line { font-size: 18px; }
+  .begin-menu .begin-ask { font-size: 14px; }
+  /* Creation's question on one line across the page, as a place's name is (at 36% of the width it had wrapped under
+     the line beneath it). */
+  .composed .ask { width: auto; right: 10%; max-width: none; }
+  .composed .composed-col { top: calc(max(72px, 9vh) + 64px); }
+  /* Options on the folio: its name and rows a size up, as the Book's are. */
+  [data-theme="folio"] .folio-sheet h1 { font-size: 44px; }
+  [data-theme="folio"].options-page .colophon { font-size: 17px; }
+  [data-theme="folio"] .folio-head { font-size: 13px; }
+}
