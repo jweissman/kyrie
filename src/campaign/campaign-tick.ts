@@ -15,6 +15,7 @@ import { Reads } from '../lang/reads';
 import { EndingOrder } from '../lang/ending-order';
 import { Journey } from './journey';
 import { Consequences } from './consequences';
+import { RuleWakes } from './rule-wakes';
 import type { Call, Change, Module, Operator, Predicate, WorldRule, WorldState } from '../lang/module';
 import type { CampaignDefinition } from './definition';
 import type { CreatureStore } from '../creature-store';
@@ -22,7 +23,7 @@ import type { CreatureStore } from '../creature-store';
 export interface PendingAction { action: string; until: number }
 // What a rule found idle is held to (see CampaignTick.instances): all its condition reads; the names it is held idle
 // by, and their stamps where it was found so; the module it was found idle in.
-interface Idle { reads: string[]; held?: string[]; stamped?: number[]; module?: object }
+interface Idle { reads: string[]; held?: string[]; stamped?: number[]; module?: Module }
 export interface TickHost {
   readonly world: World; readonly module: Module; readonly playerActor: string | undefined;
   readonly operators: Operators;
@@ -130,8 +131,22 @@ export class CampaignTick {
   // acted in it: what the company perceived then it heard said in the watch (see heard).
   static rules(host: TickHost, happenings: Happening[], began: World = host.world) {
     const rules = host.module.rules ?? [];
-    for (const rule of rules) { if (!rule.late) { this.fire(host, rule, happenings, { began }); } }
-    for (const rule of rules) { if (rule.upkeep || rule.late) { this.fire(host, rule, happenings, { began }); } }
+    this.pass(host, rules, false, { happenings, began });
+    this.pass(host, rules, true, { happenings, began });
+  }
+  // One pass over the rules in their order (again: the upkeep and the late), asking only those a write has woken (see
+  // RuleWakes): a rule held idle whose names are unwritten since would find nothing. Whatever fires writes the world,
+  // and what it wrote may wake a rule after it in the pass, so the rules asleep are read again from the world it left.
+  private static pass(host: TickHost, rules: readonly WorldRule[], again: boolean,
+    { happenings, began }: { happenings: Happening[]; began: World }) {
+    let world = host.world, wakes = RuleWakes.of(world.module), asleep = wakes.asleep(world);
+    for (const rule of rules) {
+      if (again ? !rule.upkeep && !rule.late : rule.late) { continue; }
+      if (!this.afresh && wakes.sleeps(asleep, rule)) { continue; }
+      this.fire(host, rule, happenings, { began });
+      if (host.world === world) { continue; }
+      world = host.world; wakes = RuleWakes.of(world.module); asleep = wakes.asleep(world);
+    }
   }
   // The endings alone, read once more after the company has fallen: the cold that killed it struck after the watch's
   // rules had run, and no pass came after, so a module's own ending on dead(party), the dead walking in out of the
@@ -296,7 +311,11 @@ export class CampaignTick {
     if (idle.module === world.module && world.agrees(idle.held ?? idle.reads, idle.stamped)) { return []; }
     const found = this.found(rule, world);
     idle.held = found.length ? undefined : this.stays(rule, world) ?? idle.reads;
-    idle.stamped = idle.held && world.stamped(idle.held); idle.module = world.module;
+    idle.stamped = idle.held && world.stamped(idle.held);
+    if (idle.module && idle.module !== world.module) { RuleWakes.of(idle.module).free(rule); }
+    idle.module = world.module;
+    const wakes = RuleWakes.of(world.module);
+    if (idle.held) { wakes.hold(rule, idle.held, idle.stamped!); } else { wakes.free(rule); }
     return found;
   }
   // The names of the part of a rule's condition that keeps it from holding (see idle), read longest ago; none where
