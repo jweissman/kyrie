@@ -399,7 +399,8 @@
     Time 1 minutes.
     Resolve invoke(sleep, caster, {t}_u_rats).
     On success { Assert {t}_u_rats_lulled({t}_u_rats_job). Assert assails({t}_u_rats, actor). }
-    Result "The words go out over the run like a breath of cold air. The rats slow and stagger and lie down where they were.".
+    Result "The words go out over the run like a breath of cold air. Some rats still move." when able({t}_u_rats).
+    Result "The words go out over the run like a breath of cold air. The remaining rats lie still." when not able({t}_u_rats).
   }
   // Asleep is not dead (CF-02): the sleepers are done for by a deliberate act, and a band only asleep is not cleared.
   Action {t}_u_rats_done_for(actor: group, site: place) "Do for the sleeping rats where they lie" {

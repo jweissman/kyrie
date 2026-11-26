@@ -1,5 +1,44 @@
 # SRD catalog: friction
 
+## Playable reach and social magic: 26 November
+
+**The catalog is ahead of the game.** The 404 creature routines and twenty spell recipes below are spec-only
+prototypes, not installed encounters or learned spells. We have not made an installed-encounter census or measured
+their effect on the world. Counting them as playable migrations would be misleading.
+
+There are real placed examples. The generated first town's corn-store has an old buck using `rat/midden`, the adapted
+dire rat from case 64; `test/undertown.test.ts` follows the town's job through the nest to the merchant's reward.
+The same generated site offers a mage who knows Sleep a named act against the rats in the run. It spends a slot,
+rolls saves and persists sleeping creatures into the world; survivors attack, and killing sleepers is a separate act.
+`test/small/sleep-band.test.ts` now also exercises that actual generated template with all saves, mixed saves and no
+saves, and checks that its words agree. The group-level result says whether any rats still move, not exactly how many
+fell asleep. This is a deliberately adapted spell: ten combat rounds become ten world watches in this field route,
+not the SRD's minute.
+
+The nest's clearance rule currently uses `not able` for the buck, not `dead`. A temporary incapacitation would not
+be a durable clearance, but whether an ordinary playable route can leave this particular buck temporarily unable
+after a fight has not been established. Reproduce that route before changing the rule; the run's distinct field
+Sleep action targets the other band.
+
+**Charm does not yet charm a guard socially.** The current `charmed` condition changes combat allegiance
+(`test/turn-structure.test.ts`); it is an Orsino adaptation, not SRD Charm Person's attitude toward the caster.
+`FieldUse.hostile` only accepts conditions that stop actions, so the existing field invocation does not offer Charm;
+`CreatureFacts` projects no source-linked charmed-by relationship for guard or conversation rules. A named spell in a
+spellbook therefore does not establish a social route, passage, or a friendly dialogue. It must not be presented as
+automatic obedience or as a completed SRD migration.
+
+The smallest useful end-to-end slice needs all of these, not just another condition label:
+
+1. A named, eligible humanoid guard and caster, with ordinary learning and a spent slot; the actual ability path must
+   apply the correct save and resistance and leave an ineligible or resisting target unchanged.
+2. A source-linked, temporary friendly attitude in authoritative creature/world state, surviving reload and expiring
+   on world time. Define what hostile acts do to it against the SRD, and avoid reusing combat side-switch as friendship.
+3. One authored guard encounter whose conversation or passage reads that relationship, including a refused or checked
+   unreasonable request. Show normal, saved, charmed, expired and attacked outcomes through the ordinary engine
+   questions, with truthful narration and no client-only controls.
+4. Compare seeded player and installed caster picks and encounter outcomes before placement. Then extend the shared
+   contract to more social effects; do not bulk-import spells on the strength of the guard fixture alone.
+
 ## Pass of 26 November
 
 The source lists in `data/sources/srd35/` contain 605 spell records and 440 creature stat blocks. This pass compared

@@ -161,7 +161,8 @@ Module lab "The undercroft at Lowmouth" {
     Time 1 minutes.
     Resolve invoke(sleep, caster, low_u_rats).
     On success { Assert low_u_rats_lulled(low_u_rats_job). Assert assails(low_u_rats, actor). }
-    Result "The words go out over the run like a breath of cold air. The rats slow and stagger and lie down where they were.".
+    Result "The words go out over the run like a breath of cold air. Some rats still move." when able(low_u_rats).
+    Result "The words go out over the run like a breath of cold air. The remaining rats lie still." when not able(low_u_rats).
   }
   Action low_u_rats_done_for(actor: group, site: place) "Do for the sleeping rats where they lie" {
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, low_u_warren) and at(low_u_rats, low_u_warren) and not able(low_u_rats) and not dead(low_u_rats).
