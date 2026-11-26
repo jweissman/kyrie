@@ -11,7 +11,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { LocalObservations } from './local-observations';
 import { World } from '../lang/world';
-import { Reads } from '../lang/reads';
+import { ComputedRelations, Reads } from '../lang/index';
 import { EndingOrder } from '../lang/ending-order';
 import { Journey } from './journey';
 import { Consequences } from './consequences';
@@ -309,8 +309,12 @@ export class CampaignTick {
     let idle = this.idle.get(rule);
     if (!idle) { idle = { reads: Reads.names(world.module, [rule.when]) }; this.idle.set(rule, idle); }
     if (idle.module === world.module && world.agrees(idle.held ?? idle.reads, idle.stamped)) { return []; }
-    const found = this.found(rule, world);
-    idle.held = found.length ? undefined : this.stays(rule, world) ?? idle.reads;
+    // One with ?variables is first read for a part that keeps it from holding at all, and solved only where none
+    // does: of the rules a watch woke, four in five had been solved for every binding only for a part asking of no
+    // variable, or a fact of which there is none, to fail them all (AX-10). One with none is asked whole.
+    const open = World.variables(rule.when), blocked = open ? this.stays(rule, world) : undefined;
+    const found = blocked ? [] : this.found(rule, world);
+    idle.held = found.length ? undefined : blocked ?? (open ? undefined : this.stays(rule, world)) ?? idle.reads;
     idle.stamped = idle.held && world.stamped(idle.held);
     if (idle.module && idle.module !== world.module) { RuleWakes.of(idle.module).free(rule); }
     idle.module = world.module;
@@ -319,23 +323,31 @@ export class CampaignTick {
     return found;
   }
   // The names of the part of a rule's condition that keeps it from holding (see idle), read longest ago; none where
-  // no part asking of no variable fails alone.
+  // no part fails alone. A part fails alone where it asks of no variable and does not hold, or where it asks for a fact
+  // of a relation, of which the world holds none that fits (granted(?c, ?k), nothing yet granted anyone): no binding
+  // of the whole can hold then. A fact compared, or computed (distinct), or a query's, is not read so.
   private static stays(rule: WorldRule, world: World): string[] | undefined {
     let best: { reads: string[]; at: number } | undefined;
-    for (const part of this.closed(rule)) {
-      if (world.test(part)) { continue; }
+    const { closed, atoms } = this.closed(rule);
+    for (const part of [...closed, ...atoms]) {
+      if (closed.includes(part) ? world.test(part) : !this.none(world, part as Call)) { continue; }
       const reads = Reads.names(world.module, [part]), at = Math.max(0, ...reads.map(n => world.stamp(n)));
       if (!best || at < best.at) { best = { reads, at }; }
     }
     return best?.reads;
   }
+  // Whether the world holds no fact of a relation that fits a part asking of it with ?variables.
+  private static none(world: World, atom: Call): boolean {
+    return world.relates(atom.name) && !ComputedRelations.has(atom.name) && !!world.solve(atom, {}).next().done;
+  }
   // A condition's parts joined by and that name no variable anywhere in them (not even one compared: price(?ware) > 1,
-  // which World.variables does not see), each once a rule.
-  private static readonly conjoined = new WeakMap<WorldRule, Predicate[]>();
-  private static closed(rule: WorldRule): Predicate[] {
+  // which World.variables does not see), each once a rule; and those that ask a fact with ?variables (see stays).
+  private static readonly conjoined = new WeakMap<WorldRule, { closed: Predicate[]; atoms: Predicate[] }>();
+  private static closed(rule: WorldRule): { closed: Predicate[]; atoms: Predicate[] } {
     let parts = this.conjoined.get(rule);
     if (!parts) {
-      parts = this.conjuncts(rule.when).filter(p => !JSON.stringify(p).includes('"?'));
+      const all = this.conjuncts(rule.when), open = new Set(all.filter(p => JSON.stringify(p).includes('"?')));
+      parts = { closed: all.filter(p => !open.has(p)), atoms: all.filter(p => p.kind === 'call' && open.has(p)) };
       this.conjoined.set(rule, parts);
     }
     return parts;
