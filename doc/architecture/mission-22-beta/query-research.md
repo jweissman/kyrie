@@ -154,3 +154,147 @@ one graph on every parse, deterministic generation memo, and per-world index.
    paired runs, including heap retention and the complete fresh-result oracle. Acceptance: a measured improvement
    under the relevant budget, interleaved-campaign and invalidation cases passing, and one redundant production
    derivation deleted. Otherwise retain the targeted caches and do not start a query-engine project.
+
+## Verification, 25 November (second builder, this machine)
+
+The text above is the first author's, unchanged. What follows is a verification of it on the lead's machine
+(WSL2, x86-64, 16 logical CPUs, Bun 1.4.3), shared and loaded, every run through `heavy.sh`, at the research
+branch's base `528ca30`. The traced inventory rows are in the [inventory's appendix](query-cache-inventory.md#verification-25-november-traced-rows-and-census).
+
+### The key claim, repeated
+
+`scripts/research/legal-query-walk.ts` gained one option, `--order=a,b,c`, the order the three are asked in at each
+checkpoint; the default is the author's. The first one asked fills the lower memos for that world (relation indexes,
+`Operators.proposals`), so a fixed order favours the later two. Twelve runs were made, each of the six orders twice,
+interleaved. Every run had 67 hits, 51 misses, no resets and no mismatch.
+
+| Over 12 runs | Total of 59 checkpoints: median (range) | Median checkpoint: median (range) |
+|---|---:|---:|
+| Fresh `Operators.applicable`, constructor excluded | 1,327 ms (1,118–1,990) | 18.2 ms (15.4–28.7) |
+| Existing incremental | 665 ms (574–841) | 8.8 ms (6.7–10.5) |
+| Tracked whole-result query, first ask | 677 ms (550–921) | 9.1 ms (7.6–12.1) |
+| Tracked, immediate second ask | 1.1 ms (0.8–1.5) | under 0.05 ms |
+| Fresh construction, separately | 835 ms (681–1,142) | 12.5 ms (10.3–16.3) |
+
+Tracked against existing, run by run: the total was **+2.6% slower** at the median (range −7.1% to +14.0%), and the
+median checkpoint +6.9% slower (−22.6% to +34.9%).
+
+**Agreed:**
+- A whole-result query adds nothing over the existing incremental grounding. Its difference from it is inside the
+  run-to-run spread. The author's +0.7% faster total and 12% slower median are both inside that spread too.
+- It halves the cost of fresh grounding, as the author found.
+
+**One addition:** the 67 hits are mostly the immediate second ask. Of the 59 first asks only **8 hit**, and 51
+missed. On this walk, almost every line writes something the whole legal list reads, so a coarser query cannot
+win here.
+
+### What legal grounding costs a turn, and why the two figures differ
+
+Turn attribution (`scripts/turn-attribution.ts`, four runs interleaved with the walks above) puts `legal` at a
+median of **22.6 ms a turn** (range 20.1–23.5). That is 34.2 calls a turn, in turns of 216 ms, and 28.6 ms of
+journey legs. A fifth run, on `origin/main` (`aa85de40a`), gave 21.9 ms. The 17.6 ms figure has the same boundary,
+taken under a different load. The research walk's "existing" costs 8.8 ms because its boundary is different:
+
+- **What is timed.** Turn attribution times `Campaign.offered` as the product calls it, which adds three things:
+  - `Installed.within`;
+  - the player's action filter;
+  - `Crossing.carried`.
+- **How many calls.** It counts 34 calls a turn. All but about one are the per-world memo
+  (`CampaignGrounding.applicable`). A probe counted 2,020 calls, 1,957 of them memo hits, and 63
+  `KeptGroundings.all` passes over the 59 lines: about one fresh world a turn.
+- **Cold or warm.** Turn attribution pays for the first touch of each new world: new relation-map indexes and
+  `Operators.proposals`. The walk's checkpoint grounds `campaign.world` only after the product has already grounded
+  it, so all three arms find those lower memos warm.
+
+The same probe split the product's cost per turn:
+- `KeptGroundings.all`: 18.8 ms of `offered`'s 19.7 ms;
+- re-grounding about **145 stale schemas**: 13.7 ms;
+- the shut checks (`PresenceGate`): 0.6 ms;
+- the rest is the stale index and `KeptReading.holds`.
+
+**Which reads make a schema stale.** The `at` relation does, about 190 schemas a world. The next are `able`, `state`
+and `knows`. Every read of `at` was a pick (by actor or by room), never the whole relation.
+
+**Most re-grounding is wasted:** **92% of re-groundings (7,022 of 7,671) produced the same action ids as before.**
+They cost about 750 of the walk's roughly 1,000 ms of re-grounding.
+
+### A finer dependency was tried, and does not help
+
+To test whether finer dependencies would recover that waste, a throwaway trace was tried on `origin/main`. It is not
+kept on this branch: the second-prototype instruction arrived while it was being measured. It worked like this:
+- it recorded every primitive read a schema's grounding made of its world, with what the read returned;
+- a schema found stale by its stamps was then held to those results (salsa's verification at the world's read
+  primitives);
+- it ran behind a flag that was off by default.
+
+What it found:
+- **It saved almost nothing:** 120 of 7,759 stale schemas held, 1.5%.
+- **It cost a lot:** legal rose from 23.4 to 36.8 ms a turn in a single paired run, and the turn from 212 to 286 ms.
+- **Why:** the reads really change. The company moves, and something enters or leaves the room. The outputs stay
+  the same because they are mostly empty before and after.
+
+So the existing name-and-pick dependencies are **not too coarse**. No dependency-tracking query, however fine, removes
+this cost, because the cost is in the computation itself, not in its invalidation.
+
+### What I would change in the recommendation
+
+I agree with the decision: adapt, do not adopt. Under the reviewer's rules there is no case for a universal query
+engine. The engine already has one revision substrate, per-name write stamps on a world line (`World.stamps`,
+`lineage`), and one read-tracker (`WorldReads`). The seven cross-world families are consumers of that substrate,
+not rival engines.
+
+I would sharpen four things:
+
+1. **Name the waste and its remedy.** For legal grounding, the remaining cost is about 145 location-anchored
+   schemas re-grounded on each move, and they mostly ground to nothing. The candidate slice is algorithmic:
+   - group schemas by what anchors them (who and what is with the actor), as `PresenceGate` already does for
+     people;
+   - re-ground only the schemas whose anchor set is non-empty in the new place.
+
+   It is measured against `test/groundings-incremental` as the oracle. Expected gain: most of 13.7 ms a turn, and of
+   the leg's 28.6 ms. It is not a query-engine slice, and it deletes the per-schema `at`-pick dependency bookkeeping
+   for those schemas.
+2. **Early cutoff belongs downstream.** When a re-grounding returns the same ids, `KeptGroundings.all` still builds a
+   new `out` array, and `CampaignGrounding.offered` always filters into a new array. So every identity-keyed
+   consumer misses every world: `PlayerView.listed`, `RefusalReading.gating`, `CoinReading.pricing`,
+   `SkillReading.shapes`, `PlayerFrame`.
+
+   Fix: when the ids are unchanged, give back the previous array. That is salsa's backdating, as a small change
+   with the incremental spec as its oracle. It is a cheap, safe slice whose saving is measured by the frame's and
+   rows' share of a turn.
+3. **A typed player revision is the real missing key**, more than a query graph. Five caches key on the current
+   world's identity and hold that `World` strongly:
+   - `SkillReading.cache`;
+   - `RefusalReading.cache`;
+   - `CoinReading.cache`;
+   - `PlayerFrame.kept`;
+   - `Knowing.kept`.
+
+   Two more stand on composite hand-made keys: `PlayerView.observed`'s string of elapsed, minutes, history length
+   and so on, and the creature store's version. Step 1 of the fifth review's order (a complete player revision) would
+   replace these six or seven ad hoc keys with one, and that is where "gathering invalidations by hand" lives.
+4. **The fresh oracle is weaker than it looks.** `Twins.afresh` turns off only `WorldReads.of`. In both twins it
+   leaves on:
+   - `ObservationText.presented`'s direct `agrees` branch;
+   - `CampaignTick.idle`;
+   - `Agency.fruitless`;
+   - `Projection`;
+   - every identity, length, key-only and cursor cache.
+
+   Before any consolidation claims "cached equals fresh", the oracle needs a switch per family. The first item is a
+   `Twins` option that turns each of the seven families off.
+
+**On the register rows the commission named:**
+- None closes on this research.
+- **AX-10 and AX-05** (journey legs) are touched by item 1 through the leg's legal share. The act's 100 ms of a leg
+  is the larger cost and is not a query problem.
+- **AX-04** (a world's start: module installs that rebuild indexes) is a deterministic build cost. The fix is a
+  layered index joined per install, not invalidation.
+- **MT-27 and OR-633** are not retired by a query system either.
+
+**Possible defects the trace found, each still to be confirmed with a failing spec before it is registered** (none is
+registered here):
+- `QueryModes.negating` is keyed by predicate alone, though its answer depends on the module's queries.
+- `Doable.kept` is keyed by the glance alone, though it reads the screen.
+- `Glance.namings` caches `Stakes.named`, which reads `at` for an aim with no `toward`.
+- `FixedStatBlock.blocks` is keyed by race id across campaigns with local kinds.

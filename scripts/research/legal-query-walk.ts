@@ -3,11 +3,16 @@ import { isDeepStrictEqual } from 'node:util';
 import { PlayTool } from '../../src/cli/play-tool';
 import { Runner } from '../../src/cli/runner';
 import { Operators } from '../../src/campaign/operators';
+import type { Operator } from '../../src/lang';
 import { AsMeant } from '../../test/support/as-meant';
 import { GoldenWalk } from '../../test/support/golden-walk';
 import { LegalQueryPrototype } from './legal-query-prototype';
 
 class LegalWalk {
+  // The order the three are asked in at each checkpoint (--order fresh,existing,tracked, the default): the first asked
+  // fills the world's and module's lower memos for the others, so paired runs rotate it.
+  static readonly order = (process.argv.find(a => a.startsWith('--order='))?.slice(8) ?? 'fresh,existing,tracked')
+    .split(',');
   static time<T>(run: () => T): [T, number] {
     const start = performance.now(), result = run();
     return [result, performance.now() - start];
@@ -35,9 +40,11 @@ class LegalWalk {
       }
       const world = campaign.world, actor = campaign.playerActor;
       const [oracle, createMs] = this.time(() => new Operators(module, actors));
-      const [wanted, freshMs] = this.time(() => oracle.applicable(world, actor));
-      const [current, existingMs] = this.time(() => production.applicable(world, actor));
-      const [answer, queryMs] = this.time(() => query.ask(world, actor));
+      const asked: Record<string, { applicable(w: typeof world, a: typeof actor): Operator[] }> = {
+        fresh: oracle, existing: production, tracked: { applicable: query.ask.bind(query) } };
+      const got = Object.fromEntries(LegalWalk.order
+        .map(k => [k, this.time(() => asked[k]!.applicable(world, actor))]));
+      const [wanted, freshMs] = got.fresh!, [current, existingMs] = got.existing!, [answer, queryMs] = got.tracked!;
       const [again, repeatMs] = this.time(() => query.ask(world, actor));
       if (!isDeepStrictEqual(wanted, answer) || !isDeepStrictEqual(wanted, again)
         || !isDeepStrictEqual(wanted, current)) {
@@ -47,7 +54,8 @@ class LegalWalk {
       tracked.push(queryMs); repeated.push(repeatMs);
     }
     hits += query.hits; misses += query.misses;
-    console.log(JSON.stringify({ bun: Bun.version, platform: process.platform, arch: process.arch, resets, hits, misses,
+    console.log(JSON.stringify({ order: LegalWalk.order,
+      bun: Bun.version, platform: process.platform, arch: process.arch, resets, hits, misses,
       construction: this.stats(construction), fresh: this.stats(fresh), existing: this.stats(existing),
       tracked: this.stats(tracked), repeated: this.stats(repeated) }, null, 2));
   }

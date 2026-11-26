@@ -192,3 +192,118 @@ These are examples, not an exhaustive audit of every cache's test coverage.
 ### Scope note
 
 The rows above expand the previously named compact groups into individual entries and add the other cache fields surfaced by the targeted source inventory. A few rows cite the declaration line and describe the apparent cache contract; where the prior inspection did not read the method body (marked with `…`), I do not infer finer key semantics than the declaration establishes.
+## Verification, 25 November: traced rows and census
+
+The rows above are the first author's, unchanged. This appendix traces each row marked `…` to its method bodies,
+adds the caches it omits, and states a reproducible census.
+
+**Families:**
+- A: cross-world dependency validation;
+- B: identity memo;
+- C: length or shape check;
+- D: key-only, by string or static;
+- E: incremental cursor over an appended log;
+- F: comparison of explicit inputs.
+
+"PG" is process-global static; nearly every `WeakMap` cache is one.
+
+### Corrections to the rows above
+
+- **E, not "array identity only":** `CompanyRecall.logs`, `VisitedPlaces.travels` and `Deeds.read` resume from a
+  cursor. They reset when the actor changes, the log shrinks, or `log[read-1] !== last`.
+- **Not caches:**
+  - `ChartModel.within` (`chart-model.ts:212`) is an output accumulator;
+  - `Chain.first` is scratch state for one casting;
+  - `Histories.plans` is a registry;
+  - `Composition.made` is a take-once handoff (`take()` deletes the entry it returns).
+- **`Countries.plans` is in effect static:** its weak key is the static `Countries.marches` array, so it is an
+  unbounded map on seed and first country.
+- **`SkillReading.cache`, `RefusalReading.cache` and `CoinReading.cache` hold the `World` strongly** (its `{ world }`
+  record). Their early returns (no actor, nothing refused, nothing priced) are not cached.
+- **`PlayerView.observed` is F:**
+  - its hit needs the same campaign;
+  - a key made of elapsed, minutes, history length, installations, running and the followed id;
+  - the creature store's identity and version;
+  - the last history entry's identity.
+
+  It holds the campaign strongly.
+
+### Omitted caches
+
+| Cache, file:line | Key; invalidation; retained | Fam |
+|---|---|---|
+| `Battle.sound`, battle.ts:48 | ability array; length; a number | C |
+| `ModuleCompiler.signatures`, module-compiler.ts:20 | signature array; reset after each `validate()`; per instance | B |
+| `Composition.vocabularies`, compose/composition.ts:31 | bundle source; never (a rejected promise stays); one Module shared by every campaign of a source | B |
+| `Sittings.cast`, paintings/sittings.ts:20 | module; never; choices from the readout at first ask | B |
+| `Doable.kept`, presentation/doable.ts:61 | glance alone; never; rows, tree, lens map (also built from the screen: to confirm) | B |
+| `RuleWords.taught`, narrative/rule-words.ts:36 | module; never; rule ids | B |
+| `KeptReading.diffs`, lang/kept-reading.ts:50 | world, then name, then fact and value lists by identity; never | B |
+| `KeptParts.tokens`, ui/kept-parts.ts:58 | any object; a counter; feeds KeptParts' shape key | B |
+| `CreationEntries.made`, creation/creation-entries.ts:19 | `ancestry:/class:/background:<id>`; never; local kinds not in the key | D |
+| `Itinerary.reached`, ui/itinerary.ts:89 | `WorldMemo` (world, key) | B |
+
+`KeptParts` has seven consumers: itineraries, quarters, services, prices, chart, ways and openings.
+`Agency.fruitless` holds Module objects strongly, up to 4,000 entries, until it clears. `Projection.seen` holds a
+World per instance.
+
+### Census, with its counting rule
+
+**Rule.** A *cross-world validation family* is a cache that reuses a result in a different `World` after
+testing that world's write stamps, lineage or changed facts against what it recorded. Count one per consuming
+class. Exclude change detectors that keep nothing (`CampaignTick.stirred`, `CreatureFacts.commitMoney`,
+`CommandResolution`, `World.changes`) and false positives (`Voice.agrees`).
+
+**Reproduce:**
+
+```sh
+grep -rnE --include=*.ts '\.agrees\(|KeptReading\.holds|sameLine\(|\.differing\(' src \
+  | grep -v '^src/lang/world.ts\|kept-reading.ts' | cut -d: -f1 | sort -u
+```
+
+At `528ca30` this gives nine files. Less `voice.ts` (a false positive) and `creature-facts.ts` (a change detector),
+that leaves seven families:
+- KeptGroundings;
+- KeptParts;
+- PassageModel;
+- ObservationText.presented;
+- Agency.fruitless;
+- CampaignTick.idle;
+- Projection.
+
+This is the same seven as the author's. `Nearby`, `PassageModel.read` and the five `WorldMemo` instances
+(`grep -rn 'new WorldMemo' src`) are per-world memos. They re-note their reads, so that an enclosing family stays
+sound.
+
+**Other validation families**, the six distinct ways a cache here decides it is stale:
+
+| Scheme | Caches |
+|---|---|
+| World write stamps on a line | the seven above. The only revision in salsa's sense. |
+| World identity, the current world held in a record | SkillReading, RefusalReading, CoinReading, PlayerFrame, Knowing, CampaignGrounding.applicable |
+| A composite hand-made key | PlayerView.observed; the creature store's `version` |
+| A log cursor | CompanyRecall, VisitedPlaces, Deeds, CompanyKnowledge |
+| Length or shape | QueryIndex, EntityIndex, Services.towns, Environment.indexed, ObservationText.indexes, SkillReading.shapes, RefusalReading.gating, CoinReading.pricing, CreatureFacts.declarations, QueryModes.queries, Battle.sound, World.signatures, CampaignGrounding.grounded |
+| Comparison of explicit inputs | GatheredModifiers, CheckedActions, SavedSchemas, Membership |
+
+Everything else is an identity or key-only memo of a deterministic derivation: 106 `WeakMap` declarations at
+`528ca30` (`grep -rnE --include=*.ts "static (readonly )?[a-zA-Z_]+ = new WeakMap|private (readonly )?[a-zA-Z_]+ =
+new WeakMap" src | wc -l`), plus the static string maps.
+
+**Oracles against fresh** were found only for the A families and the KnownWays tree:
+- `projection-equals-full`, `projection-equals-drawn`;
+- `groundings-incremental`;
+- `ways-incremental`;
+- `small/ways-kept`;
+- `small/kept-holds-no-world`.
+
+They have limits:
+- **Not fully fresh:** `Twins.afresh` replaces only `WorldReads.of`. It leaves on ObservationText's direct `agrees`
+  branch, CampaignTick.idle, Agency.fruitless, Projection and every B to F cache.
+- **No oracle at all** for any B to F cache. The nearest is `small/deeds`, which only checks appending.
+
+**Possible staleness**, to confirm with a failing spec before registering:
+- `QueryModes.negating` is keyed by predicate alone, but depends on the module's queries;
+- `Doable.kept` is keyed by the glance, but reads the screen;
+- `Glance.namings` caches `Stakes.named`, which reads `at` for an aim with no `toward`;
+- `FixedStatBlock.blocks` is keyed by race id, while local kinds are per campaign.

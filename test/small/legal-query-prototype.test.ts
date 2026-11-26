@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'bun:test';
-import { ModuleParser } from '../../src/lang/module-parser';
-import { ModuleWriter } from '../../src/lang/module-writer';
-import { World } from '../../src/lang/world';
-import { WorldReads } from '../../src/lang/world-reads';
+// Operators first: Kyr's entry loaded before it meets the language's parser cycle half-made (OR-542).
 import { Operators } from '../../src/campaign/operators';
+import { ModuleParser, ModuleWriter, World, WorldReads } from '../../src/lang';
 import { LegalQueryPrototype } from '../../scripts/research/legal-query-prototype';
 
 const module = ModuleParser.parse(`Module m "m" {

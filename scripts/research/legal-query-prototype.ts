@@ -1,8 +1,6 @@
 import { Operators } from '../../src/campaign/operators';
 import type { CampaignActor } from '../../src/campaign/definition';
-import { KeptReading, type Kept } from '../../src/lang/kept-reading';
-import type { Module, Operator } from '../../src/lang/module';
-import type { World } from '../../src/lang/world';
+import { KeptReading, type Kept, type Module, type Operator, type World } from '../../src/lang';
 
 // Research only: one query per actor, scoped to one immutable module and controller list.
 export class LegalQueryPrototype {
