@@ -75,6 +75,8 @@ export class CatalogContext {
   }
   private static lower(item: ItemKind): ItemDefinition {
     return { name: item.name, description: item.description, ...item.value !== undefined ? { value: item.value } : {},
+      ...item.mass !== undefined ? { mass: item.mass } : {},
+      ...item.carries !== undefined ? { carries: item.carries } : {},
       ...item.category ? { category: item.category } : {},
       ...item.slot ? { slot: item.slot } : {}, ...item.modifiers ? { modifiers: item.modifiers } : {},
       ...item.hooks ? { hooks: item.hooks } : {}, ...item.weapon ? { weapon: item.weapon } : {},

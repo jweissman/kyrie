@@ -1,7 +1,5 @@
-import { Canon } from '../canon/canon';
 import type { ItemCatalog } from '../item-catalog';
 import type { Creature } from '../creature';
-import type { ItemKind } from './catalog-schema';
 
 // What a member carries, and how much they can carry before it slows them. A kind of thing weighs what it says it
 // weighs (a module's own kind, "weighing 2"), else what its class of weapon or armour weighs, else what things of its
@@ -12,22 +10,22 @@ export class Burden {
   static readonly armours: Record<string, number> = { light: 4, medium: 8, heavy: 12 };
   static readonly categories: Record<string, number> = { weapon: 2, armor: 8, tool: 2, gear: 1, equipment: 1,
     consumable: 0, treasure: 1 };
-  static mass(kind: string): number {
-    const item = Canon.items[kind] as (ItemKind & { mass?: number }) | undefined;
+  static mass(catalog: ItemCatalog, kind: string): number {
+    const item = catalog.find(kind);
     if (!item) { return 1; }
     if (item.mass !== undefined) { return item.mass; }
     const weapon = item.weapon?.weight && this.weapons[item.weapon.weight];
     const armour = item.armor?.weight && this.armours[item.armor.weight];
-    return weapon || armour || (this.categories[item.category] ?? 1);
+    return weapon || armour || (item.category ? this.categories[item.category] : undefined) || 1;
   }
-  static load(c: Creature): number {
-    return (c.state.inventory ?? []).reduce((n, i) => n + this.mass(i.definition), 0);
+  static load(catalog: ItemCatalog, c: Creature): number {
+    return (c.state.inventory ?? []).reduce((n, i) => n + this.mass(catalog, i.definition), 0);
   }
   // Anyone can carry ten and twice their strength (with what they wear: a belt of giant strength), and what a beast
   // they lead carries besides (a pack mule's thirty).
   static capacity(catalog: ItemCatalog, c: Creature): number {
     return 10 + 2 * catalog.quality(c, 'strength')
-      + (c.state.inventory ?? []).reduce((n, i) => n + this.carries(i.definition), 0);
+      + (c.state.inventory ?? []).reduce((n, i) => n + this.carries(catalog, i.definition), 0);
   }
-  static carries(kind: string): number { return (Canon.items[kind] as { carries?: number } | undefined)?.carries ?? 0; }
+  static carries(catalog: ItemCatalog, kind: string): number { return catalog.find(kind)?.carries ?? 0; }
 }

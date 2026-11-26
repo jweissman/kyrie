@@ -1,8 +1,8 @@
 {
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
-  "runtime -> setting": 55,
-  "player -> setting": 72,
+  "runtime -> setting": 54,
+  "player -> setting": 69,
   "setting -> player": 13
  },
  "edges": [
@@ -87,15 +87,11 @@
   "src/presentation/perk-text.ts -> src/canon/canon",
   "src/presentation/prose-lint.ts -> data/editorial/prose-lint.json",
   "src/presentation/signs.ts -> data/paintings/emblems.json",
-  "src/presentation/skill-reading.ts -> src/canon/canon",
-  "src/presentation/skill-sources.ts -> src/canon/canon",
   "src/presentation/spell-schools.ts -> src/canon/canon",
-  "src/presentation/threshold.ts -> src/canon/canon",
   "src/quarry.ts -> src/canon/canon",
   "src/rules/actor-values.ts -> src/canon/canon",
   "src/rules/actor-values.ts -> src/canon/canon-runtime",
   "src/rules/advancement.ts -> src/canon/canon",
-  "src/rules/burden.ts -> src/canon/canon",
   "src/rules/checks.ts -> src/canon/canon",
   "src/rules/creation.ts -> src/canon/canon",
   "src/rules/creation.ts -> src/canon/canon-runtime",

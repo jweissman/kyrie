@@ -175,8 +175,8 @@ export class CombatTelling {
     const held = this.fighter(attack.actor)?.equipment?.weapon;
     // The blow's own weapon: a ghoul's claws and its bite are one routine, told each by its own.
     const own = !attack.weapon || !held || attack.weapon === held.id;
-    const weapon = own ? this.weapon(attack.actor) : (Canon.items[attack.weapon]?.name ?? attack.weapon.replace(/_/g, ' ')).toLowerCase();
-    const natural = own ? held?.natural : held?.natural || !Canon.items[attack.weapon]?.weapon;
+    const weapon = own ? this.weapon(attack.actor) : (attack.weaponName ?? attack.weapon.replace(/_/g, ' ')).toLowerCase();
+    const natural = own ? held?.natural : attack.natural ?? !attack.weaponName;
     const how = natural ? CombatTelling.whose(actor, weapon) : actor;
     // A creature's antlers or claws are many, and miss and catch as many ("Finn's antlers misses": the cold
     // evaluation; "the risen dead's claws catches Maren": play 8).

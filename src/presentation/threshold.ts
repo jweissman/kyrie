@@ -2,7 +2,6 @@ import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
 import { EntityIndex } from '../lang/entity-index';
 import { Spatial } from '../lang/spatial';
-import { Canon } from '../canon/canon';
 import { ItemNames } from '../lang/item-names';
 import { Means, type Lead } from './means';
 import { CompanyRecall } from './company-recall';
@@ -21,7 +20,7 @@ export class Threshold {
     const byId = campaign && EntityIndex.of(campaign.module.entities).byId;
     return ways.flatMap(e => {
       const barred = e.acts.find(a => a.disabled), way = Threshold.upper(e.way ?? e.name);
-      const from = leads.find(l => l.way === e.id)?.from[0], kind = from && Canon.items[from.kind]?.name;
+      const from = leads.find(l => l.way === e.id)?.from[0], kind = from && campaign?.catalog.find(from.kind)?.name;
       const who = from && byId?.get(from.seller)?.name, called = who?.includes(',') ? `${who},` : who;
       const had = called && kind ? `; ${called} sells ${ItemNames.called(kind)}` : '';
       if (barred) { return [`${barred.label === 'Go' ? way : barred.label}: ${Threshold.clause(barred.disabled!)}${had}`]; }

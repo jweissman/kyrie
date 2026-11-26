@@ -29,7 +29,7 @@ export class Carriers {
     const same = loads.find(l => l.items.some(i => Carriers.together(catalog, kind, world.one('itemKind', i))));
     // Nobody is handed what would leave them carrying more than they can, while another has room for it: a pot of
     // pitch given to the one the player plays had laden the company, and Sallowfield's causeway came an hour too late.
-    const room = loads.filter(l => Carriers.fits(world, l.member, kind));
+    const room = loads.filter(l => Carriers.fits(catalog, world, l.member, kind));
     const able = room.length ? room : loads;
     const least = [...able].sort((a, b) => a.items.length - b.items.length)[0], own = able.find(l => l === loads[0]);
     const mine = own && least && !Carriers.laden(world, own, least) ? own : least;
@@ -56,9 +56,9 @@ export class Carriers {
   private static share(world: World, member: string): number {
     return world.number(ModuleWriter.call('carried', member)) / Math.max(1, world.number(ModuleWriter.call('capacity', member)));
   }
-  private static fits(world: World, member: string, kind?: string): boolean {
+  private static fits(catalog: ItemCatalog, world: World, member: string, kind?: string): boolean {
     if (!world.module.measures?.some(m => m.name === 'capacity')) { return true; }
-    const mass = kind ? world.number(ModuleWriter.call('mass', kind)) || Burden.mass(kind.split('__').pop()!) : 0;
+    const mass = kind ? world.number(ModuleWriter.call('mass', kind)) || Burden.mass(catalog, kind.split('__').pop()!) : 0;
     return world.number(ModuleWriter.call('carried', member)) + mass <= world.number(ModuleWriter.call('capacity', member));
   }
   // Who takes each thing the choices offer to take, by what is done with it ("take_item|the rope"): the one carrier()

@@ -256,11 +256,7 @@ export class CreatureFacts {
           .map(a => a.id) : []));
     }
     for (const item of c.state.inventory ?? []) { scope.catalog.get(item.definition); }
-    // What they carry against what they can (see Burden).
-    if (scope.measures.has('carried')) {
-      changes.push({ kind: 'set', call: ModuleWriter.call('carried', reference), value: ModuleWriter.number(Burden.load(c)) },
-        { kind: 'set', call: ModuleWriter.call('capacity', reference), value: ModuleWriter.number(Burden.capacity(scope.catalog, c)) });
-    }
+    changes.push(...this.burden(scope, reference, c));
     changes.push(...this.calling(c, reference, scope, learned));
     const known = new Set([...learned, ...Object.keys(scope.catalog.abilities(c))]);
     const useful = scope.field.filter(a => CreatureFacts.helps(a, c) && !Tended.blocks(a, c));
@@ -276,6 +272,14 @@ export class CreatureFacts {
     if (has.has('treatable')) { changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id))); }
     if (has.has('canCast')) { changes.push(...this.set(scope, 'canCast', reference, usable.map(a => a.id))); }
     return changes;
+  }
+  // What a member carries against what they can (see Burden).
+  private static burden(scope: Scope, reference: string, c: Creature): Change[] {
+    if (!scope.measures.has('carried')) { return []; }
+    return [{ kind: 'set', call: ModuleWriter.call('carried', reference),
+      value: ModuleWriter.number(Burden.load(scope.catalog, c)) },
+    { kind: 'set', call: ModuleWriter.call('capacity', reference),
+      value: ModuleWriter.number(Burden.capacity(scope.catalog, c)) }];
   }
   // Each calling (or ancestry) by its class (or race), under every id an installation gave it.
   private static callings(entities: Entity[], type: string, prefix: string): Map<string, string[]> {

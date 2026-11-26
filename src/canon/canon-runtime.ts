@@ -7,7 +7,7 @@ import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats 
 export interface PerkAt { environment?: string; weapon?: { weight?: string; missile?: boolean } }
 
 export interface RuntimeItem {
-  name: string; description: string; value?: number; category?: ItemKind['category']; slot?: string;
+  name: string; description: string; value?: number; mass?: number; carries?: number; category?: ItemKind['category']; slot?: string;
   capability?: string; ability?: string; use?: string;
   modifiers?: Modifiers; hooks?: Hooks; weapon?: WeaponStats; armorAc?: number; armor?: ItemKind['armor']; fuel?: string;
   charges?: number; tool?: string[]; aids?: string[];
@@ -91,6 +91,7 @@ export class CanonRuntime {
   static items(): Record<string, RuntimeItem> {
     const own = Object.fromEntries(Object.entries(Canon.items).map(([id, i]) => [id, {
       name: i.name, description: i.description, ...i.value !== undefined ? { value: i.value } : {},
+      ...i.mass !== undefined ? { mass: i.mass } : {}, ...i.carries !== undefined ? { carries: i.carries } : {},
       ...i.category ? { category: i.category } : {}, ...i.slot ? { slot: i.slot } : {},
       ...i.grants?.skill ? { capability: i.grants.skill } : {},
       ...i.grants?.ability ? { ability: i.grants.ability } : {},
