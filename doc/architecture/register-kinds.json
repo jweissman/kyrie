@@ -3102,6 +3102,24 @@
    "was": "defect",
    "pri": "P3",
    "why": "an adventure branch's friction carried into the register, kept whole"
+  },
+  "OR-1270": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a wanted change to the opening's pacing, not a broken contract"
+  },
+  "OR-1272": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a ruling on how creation's choices are first shown"
+  },
+  "OR-1273": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "an instrument's quality, not a broken contract"
   }
  },
  "blockedBy": {

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 203 pins (171 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 658 live rows, 218 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 203 pins (171 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 663 live rows, 220 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -411,9 +411,10 @@ page's colours and opportunities.)
   - direction AB-08 P2: Band against band; bands that lose members
   - direction OR-526 P3: SRD proving case 66, the spiders' mother as the SRD Large monstrous spider, deferred at alpha's…
   - direction SR-02 P2: The SRD creature migration by proof slices (rules/proof-slices.md; srd-fidelity.md's creatures,…
-- **Peoples and ancestries** · 0 pins · 0 defects · 4 asks
+- **Peoples and ancestries** · 0 pins · 1 defects · 5 asks
   - direction FH-19 P2: Ancestry and background barely register; no per-member ancestry or background fact; perception by…
   - direction OR-316 P3: Ancestry told as a people: an entry's demographic, social, cultural and physical information, not…
+  - requirement OR-1272 P2: Creation shows identity choices such as ancestry and gender as already chosen before the player…
   - requirement OR-123 P1: No Back in creation: optional choices feel like an irreversible funnel (the owner, 19 November;…
   - requirement OR-124 P2: The ancestry glyphs and encyclopedia entries do not give enough meaningful information to choose…
 - **A terrain's peoples, beasts, gems and materials** · 0 pins · 0 defects · 1 asks
@@ -485,7 +486,7 @@ page's colours and opportunities.)
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
   - direction WD-14 P3: A module cannot begin the company in a place of its own: the company is declared in the region's…
   - requirement AT-08 P2: The first choices present in the first quarter hour (the owner's thought, 19 November): help…
-- **Character creation** · 3 pins · 4 defects · 8 asks
+- **Character creation** · 3 pins · 5 defects · 9 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
   - ✓ each see acts the others do not
@@ -493,17 +494,19 @@ page's colours and opportunities.)
   - requirement OR-153 P1: Perk selection as the last stage of character creation: the owner, "I do think adding perk…
   - direction OR-154 P3: A tarot's major arcana chosen in creation, perhaps only where a perk unlocks it: the old masters'…
   - direction OR-511 P3: Creation's choices given weight: the painting shifting with the choice, portraits as framed cameos
+  - requirement OR-1273 P2: The sky instrument (the stars at birth) is jerky and not majestic: it wants slow, cool-blue…
   - requirement OR-1211 P1: One path to a protagonist (the owner, 26 November: "the engine should be the only way to generate…
   - direction OR-1083 P2: A feat or perk chosen at every level (the owner: "you want to know feats and perks are chosen at…
   - requirement OR-118 P2: One unusual gift per sign, a global effect and not a stat bump (the owner's play, 18 November)
   - requirement OR-136 P2: Set out now's first wording: under 100 ms from the click to the first scene; 80-150 ms measured…
-- **Openings** · 5 pins · 1 defects · 2 asks
+- **Openings** · 5 pins · 1 defects · 3 asks
   - ✓ has a drover's lad for the drover, and a bailiff's man for the debtor, each willing to come
   - ✓ learns light, food, help and risk by doing, by the offered rows alone, and comes out to the drove story
   - ✓ lets a careless life out, without a light and without Dai, at a cost
   - ✓ is a bout by a light, a fight to the end in the dark
   - ✓ tells the pans and the weir on coming down to them, and teaches what their lives begin knowing
   - requirement OPR-06 P2: Names of the opening from mixed tongues
+  - requirement OR-1270 P2: The studio's stab passes too quickly to carry weight: drawn out, it would give the opening a…
   - direction ST-09 P2: Clear opening beats, and the starting scenarios made variable: an origin's opening elaborated beat…
 
 ### The page
@@ -864,7 +867,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Law, lordship and tolls** (Institutions): AI-06
 - **Orders, troupes and companies** (Institutions): WB-05
 - **Wonders declared, discovered and afforded** (Places to explore): OR-455
-- **Peoples and ancestries** (Creatures and peoples): FH-19, OR-316, OR-123, OR-124
+- **Peoples and ancestries** (Creatures and peoples): FH-19, OR-316, OR-1272, OR-123, OR-124
 - **A terrain's peoples, beasts, gems and materials** (Creatures and peoples): OR-453
 - **Paintings by terrain, subject, season, weather and light** (Pictures): OR-442, OR-454
 - **Playing in the terminal** (The terminal): TM-04, TM-05, TB-03, TB-04, TB-06, TB-07, OR-747, TB-11
