@@ -8,8 +8,8 @@ describe('every catalog ability as an effect sentence', () => {
   it('prints and parses back as many as it did', () => {
     // 215 of 411 on 26 November; 216 of 412 with Comprehend Languages, a sentence (OR-1099); 297 of 412 on 27 November,
     // with what a save that succeeds does and what resisting does said (OR-1320, OR-1321); 313 with on whom alone it
-    // falls (OR-1322); 329 with a removal of any of the states named (OR-1323).
-    expect(census.total).toBe(412);
+    // falls (OR-1322); 329 with a removal of any of the states named (OR-1323); of 414 with the two SRD cantrips.
+    expect(census.total).toBe(414);
     expect(census.equal).toBeGreaterThanOrEqual(329);
   });
   it('never prints a sentence that fails to parse or comes back different', () => {
