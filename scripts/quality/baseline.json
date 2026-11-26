@@ -3,9 +3,16 @@
   "slice": 32,
   "breaches": 0,
   "heap": 921,
-  "first": 7614,
-  "turn": 125,
-  "decision": 34
+  "first": 5475,
+  "turn": 94,
+  "decision": 28,
+  "start": 5361,
+  "still": 88,
+  "still95": 168,
+  "decision95": 53,
+  "leg": 53,
+  "leg95": 117.5,
+  "ci": 6.1
  },
  "local": {
   "slice": 32,
