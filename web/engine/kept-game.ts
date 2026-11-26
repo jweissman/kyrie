@@ -52,10 +52,22 @@ export class KeptGame {
   // play is made an entity of the module as it is given (Consequences.make); kept without it, the world opened again
   // had no such thing, and the game would not open ("Inconsistent saved creature facts", once Bask gave the corn-store
   // key: Mission 19's play).
+  // The same module is the same parts: a save hands it over as a copy without its semantic records (the compiler's,
+  // never kept: SemanticRecords.unwritten), made afresh at every save, whose every other part is the module's own. Read
+  // by the copy's identity, every world was kept again after every act, the whole of it, a megabyte and a half packed
+  // and written into the browser (OR-1150: "Ask … for news" took seconds).
   static still(world: Keyed, checkpoint: SessionCheckpoint): boolean {
     const { module, definition } = checkpoint.save;
-    return world.part.module === module && world.part.definition === definition && world.shape === this.shape(module);
+    return KeptGame.same(world.part.module, module) && world.part.definition === definition
+      && world.shape === this.shape(module);
   }
+  static same(kept: CampaignSave['module'], now: CampaignSave['module']): boolean {
+    if (kept === now) { return true; }
+    const was = kept as unknown as Record<string, unknown>, is = now as unknown as Record<string, unknown>;
+    const keys = KeptGame.parts(kept);
+    return keys.length === KeptGame.parts(now).length && keys.every(k => was[k] === is[k]);
+  }
+  private static parts(module: object): string[] { return Object.keys(module).filter(k => k !== 'semantic'); }
   static shape(module: CampaignSave['module']): string {
     return [module.entities.length, module.relations.length, module.measures.length, module.actions.length].join(':');
   }
