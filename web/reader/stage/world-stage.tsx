@@ -208,13 +208,18 @@ export class WorldStage {
   static Board({ app, screen, chosen, choose }: { app: ReaderApp; screen: Screen; chosen?: string;
     choose: (id?: string) => void }) {
     const pick = (id: string) => {
-      if (chosen === id) { const go = MapView.way(screen, id).go; if (go && !Act.asks(go)) { app.choose(go); return; } }
+      const g = app.state.frame?.leaf?.glance;
+      if (chosen && MapView.shown(screen.region!, chosen) === id) {
+        const go = MapView.way(screen, chosen, g).go;
+        if (go && !Act.asks(go)) { app.choose(go); return; }
+      }
       choose(id);
     };
     const [planned, plan] = useState<Record<string, string[] | null>>({});
     useEffect(() => { MapView.ask(app, screen, { chosen, planned, plan }); }, [app, screen, chosen, planned]);
     const walking = app.state.walking, bound = BoardField.whither(screen.region!, app.state.frame?.bound?.id);
-    return <div className="board-surface"><BoardField.View region={screen.region!} chosen={chosen} choose={pick}
+    return <div className="board-surface"><BoardField.View region={screen.region!}
+      chosen={MapView.shown(screen.region!, chosen)} choose={pick}
       bound={bound} face={screen.party[0]?.face?.medium} walking={walking?.way} walked={walking?.done}
       // What the journey came to know, lit as the mark passes it (OR-112, OR-162): the map in the scene had been given
       // none, and the country came all at once when the walk was done.
@@ -287,7 +292,7 @@ export class WorldStage {
   static onward(app: ReaderApp): { onward: { c: Choice; name: string } } | undefined {
     const frame = app.state.frame!, bound = frame.bound;
     const c = bound && ((app.menu.destinations ?? []).find(x => x.id === `travel:${bound.id}`)
-      ?? (frame.screen.region?.land ? MapView.way(frame.screen, bound.id).go : undefined));
+      ?? (frame.screen.region?.land ? MapView.way(frame.screen, bound.id, frame.leaf.glance).go : undefined));
     return bound && c ? { onward: { c, name: bound.name } } : undefined;
   }
   // The odds of getting away from a fight, as the engine rolls them (vocabulary.json's combat.flee): each try's, and
@@ -310,7 +315,7 @@ export class WorldStage {
   // November). At its gate is the game's first page, or a town just come to across the map.
   static Town({ app, screen, town, see }: { app: ReaderApp; screen: Screen;
     town: NonNullable<Screen['region']>['areas'][number]; see?: (id: string) => void }) {
-    const { d, here, go } = MapView.way(screen, town.id), views = Scenery.views.settlement ?? [];
+    const way = MapView.way(screen, town.id, app.state.frame?.leaf?.glance), { d, here, go } = way, views = Scenery.views.settlement ?? [];
     const view = views.length ? views[Scenery.hash(town.id) % views.length] : undefined;
     const come = here && app.state.frame?.travel?.arrived;
     const inside = here && !app.state.frame?.travel && !!screen.elapsed;
@@ -326,7 +331,7 @@ export class WorldStage {
           : town.visited ? 'A town you know' : 'A town'}</p>
         <h2 className="to">{Typography.curl(town.name)}</h2>
         {/* How long, when and at what cost, set out as the route card sets them (see RouteCard). */}
-        {d && !here ? <dl className="rc-facts">{RouteCard.facts(screen, town.id, MapView.way(screen, town.id)).map(([k, v]) =>
+        {d && !here ? <dl className="rc-facts">{RouteCard.facts(screen, town.id, way).map(([k, v]) =>
           <div key={k}><dt>{k}</dt><dd>{Typography.curl(v)}</dd></div>)}</dl>
           : <p className="how">{inside ? `${where}.` : here ? 'You stand at its gate.'
             : go ? 'Across the country you can see.' : 'You know no way there yet.'}</p>}

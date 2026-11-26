@@ -21,7 +21,7 @@ export class RouteCard {
   static View({ app, screen, chosen, clear, over, view }: { app: ReaderApp; screen: Screen; chosen: string;
     view?: (id: string) => void;
     clear?: () => void; over?: boolean }) {
-    const region = screen.region!, way = MapView.way(screen, chosen), { title, context } = RouteCard.named(region, chosen, way);
+    const region = screen.region!, way = MapView.way(screen, chosen, app.state.frame?.leaf?.glance), { title, context } = RouteCard.named(region, chosen, way);
     return (
       <aside className={`plan route-card${over ? ' over' : ''}`} aria-label={`The way to ${way.name}`} data-id={chosen}
         aria-live={over ? 'off' : 'polite'}>

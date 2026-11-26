@@ -19,6 +19,8 @@ import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Marks } from '../../src/ui/marks';
 import { Words } from '../../src/presentation/words';
 import { RouteCard } from './route-card';
+import { MapRows, type MapRow } from '../../src/presentation/map-rows';
+import type { Glance } from '../../src/presentation/glance-types';
 
 // The map (Mission 18, the owner's correction): the whole screen, the country as an illustrated hex crawl, with as
 // little else over it as will do. Every hex the company knows is drawn as its land, the ring just beyond as country
@@ -54,7 +56,7 @@ export class MapView {
     const map = (
       <section className="field-map" data-region="map" aria-label="The map" role="dialog" aria-modal="true"
         tabIndex={-1} ref={dialog} onKeyDown={e => MapView.escape(e, app, chosen ? forget : undefined)}>
-        {region?.land ? <BoardField.View region={region} chosen={chosen} choose={pick} bound={bound}
+        {region?.land ? <BoardField.View region={region} chosen={MapView.shown(region, chosen)} choose={pick} bound={bound}
           face={screen.party[0]?.face?.medium} walking={app.state.walking?.way} learned={app.state.walking?.known} walked={app.state.walking?.done}
           point={point} courses={MapView.courses(app, screen, { chosen, bound, planned })} dress={MapView.dress(app, screen)} />
           : <p className="none">You have no map of this country yet.</p>}
@@ -78,7 +80,8 @@ export class MapView {
     planned: Record<string, string[] | null> }): Courses {
     const along = (id?: string) => id === undefined ? undefined : JourneyCourse.planned(screen, id)
       ?? JourneyCourse.along(screen, at.planned[MapView.asked(screen, id)] ?? undefined) ?? [];
-    return { chosen: at.chosen === undefined ? undefined : along(MapView.whither(screen, at.chosen)),
+    const g = app.state.frame?.leaf?.glance;
+    return { chosen: at.chosen === undefined ? undefined : along(MapView.whither(screen, at.chosen, g)),
       bound: along(app.state.frame?.bound?.id),
       aimed: !!at.bound && Guidance.shown(app) && at.bound === MapView.aimed(app, screen) };
   }
@@ -92,15 +95,16 @@ export class MapView {
     }).filter(([, d]) => Object.keys(d as object).length));
   }
   // Where a choice on the map would set out for: the itinerary's place, else the journey its set-out makes.
-  private static whither(screen: Screen, chosen: string): string | undefined {
+  private static whither(screen: Screen, chosen: string, glance?: Glance): string | undefined {
     if (!screen.region?.land) { return undefined; }
-    const way = MapView.way(screen, chosen);
-    return way.d?.id ?? (way.go?.command?.startsWith('travel:') ? way.go.command.slice('travel:'.length) : undefined);
+    const way = MapView.way(screen, chosen, glance);
+    return way.d?.id ?? MapRows.place(way.go?.command);
   }
   // The engine's plan for where the map would set out for that the screen has none of, asked once for each.
   static ask(app: ReaderApp, screen: Screen, at: { chosen?: string; planned: Record<string, string[] | null>;
     plan: (f: (p: Record<string, string[] | null>) => Record<string, string[] | null>) => void }): void {
-    for (const id of [at.chosen && MapView.whither(screen, at.chosen), app.state.frame?.bound?.id]) {
+    const g = app.state.frame?.leaf?.glance;
+    for (const id of [at.chosen && MapView.whither(screen, at.chosen, g), app.state.frame?.bound?.id]) {
       const key = id && MapView.asked(screen, id);
       if (!id || !key || key in at.planned || JourneyCourse.planned(screen, id)) { continue; }
       at.plan(p => ({ ...p, [key]: null }));
@@ -120,14 +124,14 @@ export class MapView {
   private static aim(app: ReaderApp, screen: Screen): string | undefined {
     // The aim followed, where it names somewhere the company knows the way to; else where the page leads toward it.
     // Another aim held is not the map's to open on (the owner's play of 7 November: "your aim" is the one followed).
-    const followed = Followed.of(screen);
+    const followed = Followed.of(screen), g = app.state.frame?.leaf?.glance;
     const named = followed && Aims.named(screen, screen.destinations ?? [], followed)?.id;
-    if (named && screen.region?.land && MapView.way(screen, named).go) { return named; }
+    if (named && screen.region?.land && MapView.way(screen, named, g).go) { return named; }
     // The aim's journey, or the way out into the country it leads by (the road the father went out by).
     const following = app.state.frame?.leaf.glance?.following ?? [];
     const id = following.find(a => a.startsWith('travel:'))?.slice('travel:'.length)
       ?? screen.exits.find(e => following.includes(e.id) && e.transition === 'travel')?.destination.id;
-    if (id && screen.region?.land && MapView.way(screen, id).go) { return id; }
+    if (id && screen.region?.land && MapView.way(screen, id, g).go) { return id; }
     // Where the aim is, on the map, though no way there is known yet: chosen, its card says so.
     const land = screen.region?.land, marked = new Set([...land?.marks.map(m => m.id) ?? [],
       ...(screen.region?.areas ?? []).filter(a => a.kind === 'settlement').map(a => a.id)]);
@@ -215,11 +219,18 @@ export class MapView {
   }
   // A hex or a place chosen: what it is called, the way the page plans there, whether you are there already, and how
   // to set out for it, if there is any way to.
-  static way(screen: Screen, chosen: string) {
+  // Where the engine sets out for the place chosen from the map (MapRows: its journey, or its way into the next
+  // stretch), the card plays that row and no plan of its own: the card had planned from the screen's own lists, which
+  // do not hold every place the map's rows set out for, and set out for the hex such a place stands in (leaving
+  // Porthalen for the way into Tolleth, the card's Travel to went to the open fields east of Reedbridge:
+  // test/page-walk-browser, OR-840). The page's plans are only for what the engine's rows do not reach (a hex itself,
+  // across the country).
+  static way(screen: Screen, chosen: string, glance?: Glance) {
     const region = screen.region!, land = region.land!;
     const cell = /^hex:(\d+)$/.exec(chosen)?.[1], id = cell !== undefined ? MapView.on(land, Number(cell)) : chosen;
-    const area = region.within[id] ?? id, name = cell !== undefined ? MapView.ground(land, Number(cell), region)
-      : region.areas.find(a => a.id === chosen)?.name ?? land.marks.find(m => m.id === chosen)?.name ?? chosen;
+    const area = region.within[id] ?? id, row = glance && MapView.row(glance, screen, id);
+    const name = cell !== undefined ? MapView.ground(land, Number(cell), region)
+      : region.areas.find(a => a.id === chosen)?.name ?? land.marks.find(m => m.id === chosen)?.name ?? row?.name ?? chosen;
     // The place itself before what it lies in: a keep in a fen is set out for, not the fen.
     const plans = [...screen.destinations ?? [], ...screen.roads ?? [], ...screen.around ?? [], ...screen.mapped ?? []];
     const d = plans.find(x => x.id === id) ?? plans.find(x => x.id === area);
@@ -234,10 +245,29 @@ export class MapView {
     // own hex, which went out of the town into the country about it, to a circus ground or an orchard behind the
     // houses (the owner's player report, 12 November).
     const across = mark && land.across?.[mark.id];
-    const go: Choice | undefined = inside ? undefined : d ? MapView.leaving(screen, MenuModel.journey(d), here) : here ? undefined : MapView.step(screen, id, cell)
+    const go: Choice | undefined = inside ? undefined : row ? MapView.leaving(screen, MapView.played(row), here)
+      : d ? MapView.leaving(screen, MenuModel.journey(d), here) : here ? undefined : MapView.step(screen, id, cell)
       ?? (mark ? across ? { id: across, label: `Go across country to ${name}`, tone: 'way', command: across } : undefined
         : MapView.across(land, cell, name) ?? (cell !== undefined ? MapView.toward(land, Number(cell), name) : undefined));
-    return { cell, name, d, here, go };
+    return { cell, name, d, here, go, ...row ? { minutes: row.minutes } : {} };
+  }
+  // The engine's row of the map's for a place (see MapRows), but the way into a place on the company's own stretch,
+  // which the card's Enter has (MapMenu's enter) and is no journey.
+  private static row(glance: Glance, screen: Screen, id: string): MapRow | undefined {
+    let rows = MapView.rows.get(glance);
+    if (rows?.screen !== screen) { rows = { screen, rows: MapRows.of(glance, screen) }; MapView.rows.set(glance, rows); }
+    return rows.rows.find(r => r.place === id && !r.close);
+  }
+  private static readonly rows = new WeakMap<Glance, { screen: Screen; rows: MapRow[] }>();
+  // The engine's row as the card's set-out: its own id, words and act.
+  private static played(r: MapRow): Choice {
+    return { id: r.row.id, label: r.row.label, tone: 'way', command: r.row.does!,
+      ...r.row.shut ? { disabled: r.row.shut } : {} };
+  }
+  // What is chosen as the board shows it: a place viewed from the map's menu is chosen as itself, so that its card plays
+  // the engine's row for it (see way), and the board rings its mark, its town or its hex (BoardField.whither).
+  static shown(region: RegionChart, chosen?: string): string | undefined {
+    return chosen && (BoardField.whither(region, chosen) ?? chosen);
   }
   // Set out from inside a town or a site, the map says the company leaves where it is: consulted from a room of a
   // town, the map had set out from it as if from the open road (the owner's play of 10 November).

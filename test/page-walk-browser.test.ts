@@ -10,8 +10,8 @@ import type { MonoDriver } from './support/mono-driver';
 
 // The page cold play's driver works the controls a player has (GR-24; cold play 9 had stopped measuring the game at
 // T32, its driver pressing rows under a lens or a view it never opened). A short walk in Iscoed as Set out now draws
-// it (the drove road), each step by MonoDriver.act, as scripts/cold-play/page-runner.ts plays: the aim followed by its
-// own row; the Black Rhyne searched where the page draws Search; a walk about the town, held (the travel rows of
+// it (the drove road), each step by MonoDriver.act, as scripts/cold-play/page-runner.ts plays: the aim taken up by its
+// own step's row; the Black Rhyne searched where the page draws Search; a walk about the town, held (the travel rows of
 // T8-T9 and T75); and Porthalen left by the map, its own row held. None of it by the page's automation.
 // A new life on Iscoed begins under the fall in the old adit (StockOpenings): out of it first, by a player's controls
 // as the rest is, a light made, the badger fought (it stands between the company and the prop), under the fallen
@@ -60,9 +60,18 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     const act = async (id: string) => { by.push(`${id}: ${await d.act(id)}`); return d.inspect(); };
     // The aims as the page holds them, written down (the driver had written none).
     const first = await d.inspect();
-    expect((first.aims ?? []).length).toBeGreaterThan(0);
-    const aim = first.aims!.find(a => a.follow)!;
-    expect((await act(aim.follow!)).aims?.find(a => a.id === aim.id)?.followed).toBe(true);
+    expect((first.aims ?? []).map(a => a.id)).toContain('drove__held_aim');
+    // The aim is taken up by its own step, the one row in its words (one row, one act: OR-466): no row to follow it
+    // stands beside it. Pressed, it turns to Owain, the question first of what can be said to him, and asking it
+    // follows the drove on to the Black Rhyne.
+    const step = page.locator('[data-choice="drove__owain#talk"] >> visible=true').first();
+    expect(await step.innerText()).toMatch(/Ask Owain how many head came down/);
+    expect(await page.locator('[data-choice="follow:drove__held_aim"]').count()).toBe(0);
+    const talk = await act('drove__owain#talk');
+    const question = talk.choices.find(c => /^Ask how many head came down/.test(c.label));
+    expect([talk.mode, question?.id]).toEqual(['talk', expect.any(String)]);
+    expect((await act(question!.id)).aims?.find(a => a.followed)?.id).toBe('drove__held_rhyne');
+    await d.away();
     await act('exit:drove__pens');
     await act('exit:drove__rhyne');
     await act('company/0:Search here');

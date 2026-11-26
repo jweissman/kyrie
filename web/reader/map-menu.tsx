@@ -8,7 +8,6 @@ import { ChoiceRow, type RowParts } from './stage/choice-row';
 import { Words } from '../../src/presentation/words';
 import { Typography } from '../../src/presentation/typography';
 import { PageFrame } from './page-frame';
-import { BoardField } from './board-field';
 import { PlaceFacets } from '../../src/presentation/place-facets';
 import { Guidance } from './guidance';
 import { Attest } from '../../src/presentation/attest';
@@ -55,10 +54,10 @@ export class MapMenu {
     return <li><ChoiceRow.Button className={`led-act put-away${held ? ' held' : ''}`} data={{ action: 'put-away-map' }}
       onClick={put} {...tone} label={held ? 'Something is here: put away the map' : 'Put away the map'} /></li>;
   }
-  // A place as the map's board knows it (its mark, its town, its hex: BoardField.whither).
-  static whither(screen: Screen, id: string): string {
-    return screen.region?.land ? BoardField.whither(screen.region, id) ?? id : id;
-  }
+  // What a place viewed from the map's rows is chosen as: the place itself, so that the card plays the engine's row for
+  // it (MapView.way); the board rings where it stands (MapView.shown). Chosen as the hex it stands in, the card had
+  // set out for that hex (OR-840).
+  static viewed(r: MapRow): string { return r.place; }
   // A row's mark: the one colour of what the place is, the fold of its leaves (see PlaceFacets), the aim's gold only
   // where the way is shown.
   static marked(leaves: readonly Leaf[] | undefined, gilded: boolean): Pick<RowParts, 'indicator' | 'plain'> {
@@ -102,7 +101,8 @@ export class MapMenu {
       return <ol {...PageFrame.slot('menu')} className="led map-menu" aria-label="On the map">
         {MapMenu.putAway(app, put, true)}</ol>;
     }
-    const land = screen.region?.land, way = chosen && land ? MapView.way(screen, chosen) : undefined, go = way?.go;
+    const g = app.state.frame?.leaf?.glance;
+    const land = screen.region?.land, way = chosen && land ? MapView.way(screen, chosen, g) : undefined, go = way?.go;
     const aimed = !!go && MapMenu.gold(app, screen, go.id).indicator?.tone === 'gold';
     const named = chosen && screen.region ? RouteCard.named(screen.region, chosen, way!).title : undefined;
     const taken = [go?.id, onward?.c.id];
@@ -126,12 +126,13 @@ export class MapMenu {
           data={{ action: 'set-out', choice: go.id }} act={go.id} onClick={() => app.choose(go)}
           {...go ? MapMenu.gold(app, screen, go.id) : { plain: 'neutral' as const }}
           label={Typography.curl(`Travel to ${Words.upper(named ?? go.label)}`)}
-          aside={way?.d ? `${aimed ? 'your aim · ' : ''}${Words.span(way.d.minutes)}` : 'across the country'} /></li>}
+          aside={way?.d || way?.minutes ? `${aimed ? 'your aim · ' : ''}${Words.span(way.d?.minutes ?? way.minutes!)}`
+            : 'across the country'} /></li>}
         {/* Each in the engine's words (MapRows), or, a place chosen on the map, viewing another (a gesture). */}
         {paged.shown.map(r => <li key={r.place}><ChoiceRow.Button className="led-act"
           data={{ action: view && !r.close ? 'map-view' : 'map-road', choice: r.c.id }}
           {...view && !r.close ? {} : { act: r.c.command }}
-          onClick={() => (view && !r.close ? view(MapMenu.whither(screen, r.place)) : app.choose(r.c))}
+          onClick={() => (view && !r.close ? view(MapMenu.viewed(r)) : app.choose(r.c))}
           {...MapMenu.marked(r.leaves, gilded)}
           label={<>{Typography.curl(view && !r.close ? `View ${Words.upper(r.name)}` : r.c.label)}{PlaceFacets.aspects(r.leaves)
             .includes('companionship') && <Glyphs.View id="companion" className="led-icon" label="someone who might join you" />}</>}
