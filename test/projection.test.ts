@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it, spyOn } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -31,7 +32,8 @@ describe('the projection of creatures into the world', () => {
     expect(after.length).toBeGreaterThan(0);
     expect(Math.max(...after)).toBeLessThan(everyone / 4);
     const save = s.campaign.save(), world = s.campaign.world;
-    expect(CreatureFacts.project(world, save.definition!.actors as CampaignActor[], new CreatureStore(save.creatures)))
+    expect(CreatureFacts.project(world, save.definition!.actors as CampaignActor[],
+      new CreatureStore(ItemCatalog.of(save.module.catalog), save.creatures)))
       .toBe(world);
   }, 60000);
 });

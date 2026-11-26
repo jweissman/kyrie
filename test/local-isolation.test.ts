@@ -3,7 +3,6 @@ import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { Canon } from '../src/canon/canon';
-import { ItemCatalog } from '../src/item-catalog';
 
 // Two adventures that give the same names to different things (test/fixtures/locals): at the mere, moonglass is
 // treasure the mere makes and a mere hound is a territorial wolf of the reeds; at the works, moonglass is a lens
@@ -30,7 +29,7 @@ describe('an adventure\'s own kinds', () => {
     const works = await Locals.start('works');
     expect(Locals.kinds()).toEqual({ glass: { name: 'a moonglass lens', category: 'equipment' },
       hound: { name: 'a mere hound', like: 'dog' } });
-    expect(ItemCatalog.definitions.moonglass?.name).toBe('a moonglass lens');
+    expect(works.campaign.catalog.find('moonglass')?.name).toBe('a moonglass lens');
     // The mere's hounds, wolves of the reeds, hold their ground; the works' dog is tame, and can be made much of.
     expect(PlayerView.choices(works.campaign).map(c => c.choice.name)).toContain('Make much of Ash');
     // Played again, the mere has its own again, from its compiled campaign rather than from being read afresh.

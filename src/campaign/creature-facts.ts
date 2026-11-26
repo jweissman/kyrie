@@ -2,7 +2,7 @@ import { Lasting } from '../rules/lasting';
 import { Tended } from '../rules/tended';
 import { Canon } from '../canon/canon';
 import { Spellcasting } from '../rules/spellcasting';
-import { ItemCatalog } from '../item-catalog';
+import type { ItemCatalog } from '../item-catalog';
 import { Fighting } from '../rules/fighting';
 import { Creation } from '../rules/creation';
 import { Content } from '../content';
@@ -31,7 +31,7 @@ interface Declared {
   callings: Map<string, string[]>; ancestries: Map<string, string[]>;
 }
 // What the module declares, with the world the projection reads what holds now from (see `set`).
-interface Scope extends Declared { world: World; at?: PerkContext }
+interface Scope extends Declared { world: World; catalog: ItemCatalog; at?: PerkContext }
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
   // Every relation or measure `project` writes.
@@ -60,7 +60,7 @@ export class CreatureFacts {
     throw new Error('Inconsistent saved creature facts');
   }
   private static changes(world: World, actors: CampaignActor[], store: CreatureStore): Change[] {
-    const scope = this.scope(world), changes: Change[] = [];
+    const scope = this.scope(world, store.catalog), changes: Change[] = [];
     for (const actor of actors) {
       const members = actor.members.map(id => store.peek(id)), environment = Environment.of(world, actor.id);
       changes.push(...this.group(actor, members, { ...scope, ...environment ? { at: { environment } } : {} }));
@@ -157,22 +157,24 @@ export class CreatureFacts {
     this.declarations.set(module, { lengths, declared: made });
     return made;
   }
-  private static scope(world: World): Scope { return { ...this.declared(world.module), world }; }
+  private static scope(world: World, catalog: ItemCatalog): Scope {
+    return { ...this.declared(world.module), world, catalog };
+  }
   // What the company as a whole can do and is: its skills, who brings each, whether it can act, and its coin.
   private static group(actor: CampaignActor, members: Creature[], scope: Scope): Change[] {
-    const changes: Change[] = [], { has, capabilities, references, at, world } = scope;
+    const changes: Change[] = [], { has, capabilities, references, at, world, catalog } = scope;
     if (has.has('capable')) {
       // What it carries, or what it has been granted for a while (see core.kyr's granted).
       const granted = has.has('granted') ? new Set(world.related('granted').filter(r => r.args[0] === actor.id)
         .map(r => r.args[1]!)) : new Set<string>();
       for (const capability of capabilities) {
-        changes.push({ kind: PartyCapabilities.has(capability.id, members, at) || granted.has(capability.id) ? 'assert'
+        changes.push({ kind: PartyCapabilities.has(catalog, capability.id, members, at) || granted.has(capability.id) ? 'assert'
           : 'retract', call: ModuleWriter.call('capable', actor.id, capability.id) });
       }
     }
     for (const c of has.has('brings') ? members : []) {
       for (const capability of capabilities) {
-        changes.push({ kind: PartyCapabilities.brings(capability.id, c, at) ? 'assert' : 'retract',
+        changes.push({ kind: PartyCapabilities.brings(catalog, capability.id, c, at) ? 'assert' : 'retract',
           call: ModuleWriter.call('brings', references.get(c.id)!, capability.id) });
       }
     }
@@ -253,17 +255,17 @@ export class CreatureFacts {
         ? scope.declared.filter(a => !learned.includes(a.id) && (!a.spell || a.spell.tradition === tradition))
           .map(a => a.id) : []));
     }
-    for (const item of c.state.inventory ?? []) { ItemCatalog.get(item.definition); }
+    for (const item of c.state.inventory ?? []) { scope.catalog.get(item.definition); }
     // What they carry against what they can (see Burden).
     if (scope.measures.has('carried')) {
       changes.push({ kind: 'set', call: ModuleWriter.call('carried', reference), value: ModuleWriter.number(Burden.load(c)) },
-        { kind: 'set', call: ModuleWriter.call('capacity', reference), value: ModuleWriter.number(Burden.capacity(c)) });
+        { kind: 'set', call: ModuleWriter.call('capacity', reference), value: ModuleWriter.number(Burden.capacity(scope.catalog, c)) });
     }
     changes.push(...this.calling(c, reference, scope, learned));
-    const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c))]);
+    const known = new Set([...learned, ...Object.keys(scope.catalog.abilities(c))]);
     const useful = scope.field.filter(a => CreatureFacts.helps(a, c) && !Tended.blocks(a, c));
     if (has.has('relieves')) {
-      changes.push(...this.set(scope, 'relieves', reference, kinds.filter(k => this.relieves(k.id, c)).map(k => k.id)));
+      changes.push(...this.set(scope, 'relieves', reference, kinds.filter(k => this.relieves(scope.catalog, k.id, c)).map(k => k.id)));
     }
     // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
     // And, for the company alone, a spell it could cast at a band outside a fight (CF-03: FieldUse.cast).
@@ -307,8 +309,8 @@ export class CreatureFacts {
   // A kind of thing used up on someone relieves them if it would help them; one that is no remedy (it does what it
   // does, whoever takes it) always does, but one aimed at a foe (a flask of fire to throw) is for a fight, not for one
   // of the company. Kept by the kind's use as well as its id (see ItemCatalog.use).
-  private static relieves(kind: string, c: Creature): boolean {
-    const ability = ItemCatalog.use(kind);
+  private static relieves(catalog: ItemCatalog, kind: string, c: Creature): boolean {
+    const ability = catalog.use(kind);
     if (!ability || ability.effects.every(e => /enem/.test(e.target))) { return false; }
     const remedy = ability.effects.some(e => ['heal', 'remove', 'apply'].includes(e.kind));
     return !remedy || this.helps(ability, c);
@@ -363,7 +365,7 @@ export class CreatureFacts {
   private static schooling(world: World, members: Creature[], scope: Scope): Change[] {
     const named = new Set(scope.capabilities.map(e => e.id));
     return this.choices(world, 'skillOpen', members.map(c => [scope.references.get(c.id)!,
-      Advancement.teachable(c).filter(id => named.has(id))]));
+      Advancement.teachable(scope.catalog, c).filter(id => named.has(id))]));
   }
   private static choices(world: World, relation: string, open: [string, string[]][]): Change[] {
     const refs = new Set(open.map(([ref]) => ref));

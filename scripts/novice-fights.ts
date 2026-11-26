@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { Battle } from '../src/battle';
 import { CreatureStore } from '../src/creature-store';
 import type { Creature } from '../src/creature';
@@ -53,7 +54,7 @@ export class NoviceFights {
   }
   static declined(n: number): Tally { return { ...this.empty(), trials: n, declined: n }; }
   static battle(setup: Setup, seed: string): Battle {
-    const store = new CreatureStore(structuredClone([...setup.company, ...setup.foes]));
+    const store = new CreatureStore(ItemCatalog.canon, structuredClone([...setup.company, ...setup.foes]));
     return Battle.encounter(store, [...setup.company.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...setup.foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))],
     { seed, maxTurns: this.maxTurns, ...setup.place, ...setup.moment ? { moment: setup.moment } : {} });

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import animals from '../data/catalog/animals.json';
 import monsters from '../data/catalog/monsters.json';
@@ -16,7 +17,7 @@ import { ModuleParser } from '../src/lang/module-parser';
 // varies it is its base with those variations, a kind added by its record alone is made in play by an author's
 // Person and by what a country generates alike, and is shown, fights and is kept by that record.
 const make = (raceId: string, more: Record<string, unknown> = {}) =>
-  new Content('pipeline').createCreature('c', { raceId, ...more } as never, 'c');
+  new Content('pipeline').createCreature(ItemCatalog.canon, 'c', { raceId, ...more } as never, 'c');
 describe('one creature pipeline', () => {
   it('makes every base creature from its own record, and only what it is asked to be', () => {
     // Not the fighting objects (a ward, a turret: monsters.json's combatEntity kinds), whose powers are their own.
@@ -29,7 +30,7 @@ describe('one creature pipeline', () => {
     }
     // Wolves had come out of a list of five bodies with frost or marsh laid on them at random.
     for (const seed of ['a', 'b', 'c', 'd']) {
-      const wolf = new Content(seed).createCreature('w', { raceId: 'wolf' }, 'w');
+      const wolf = new Content(seed).createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf' }, 'w');
       expect(wolf.traits ?? []).not.toContain('frost_adapted');
     }
   });

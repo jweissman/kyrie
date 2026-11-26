@@ -19,7 +19,7 @@ const dc = (id: string, at: Record<string, number>) => {
   const s = spell(id).effects[0]!.save!; return Amounts.mean(s.difficulty.kind === 'deem' ? s.difficulty.expression : '', at);
 };
 const hardy = (f: Fighter, level = 7): Fighter => ({ ...f, level, hp: 500, maxHp: 500 });
-const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.weapon('shortbow') } });
+const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.canon.weapon('shortbow') } });
 const caster = (id: string, tier: number): Fighter => {
   const slots = Array.from({ length: tier }, (_, i) => i === tier - 1 ? 1 : 0);
   return { ...hardy(c.character('mage', 'mage', 'fighters')), intelligence: 16, abilities: [id], maxSlots: slots,

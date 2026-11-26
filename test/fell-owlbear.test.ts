@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
@@ -14,7 +15,7 @@ import { Canon } from '../src/canon/canon';
 const content = new Content('fell-owlbear');
 const kinds = ['fortitude', 'reflex', 'will'];
 const sheet = (c: Creature) => {
-  const f = CombatProjection.fighter(c, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
+  const f = CombatProjection.fighter(ItemCatalog.canon, c, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
   return { hp: c.base.maxHp, armour: Fighting.armorClass(Effects.combatant(f)),
     blows: (f.equipment.routine ?? [f.equipment.weapon]).map(w => w.damage.replace(/[+-]\d+$/, '')),
     saves: kinds.map(k => Fighting.statMod(scores[Canon.rules.saveKinds[k]!]!) + f.level + Effects.saveModifier(f, k)),
@@ -22,7 +23,7 @@ const sheet = (c: Creature) => {
 };
 describe('the fell owlbear by the SRD\'s numbers', () => {
   it('is the same owlbear at every rank: 52, AC 6, claws 1d6 and bite 1d8, saves +9, +5, +2, nothing of Orsino\'s', () => {
-    const ranks = [1, 2, 6].map(level => sheet(content.createCreature(`o${level}`, { raceId: 'owlbear/fell', level })));
+    const ranks = [1, 2, 6].map(level => sheet(content.createCreature(ItemCatalog.canon, `o${level}`, { raceId: 'owlbear/fell', level })));
     expect(ranks[1]).toEqual(ranks[0]!);
     expect(ranks[2]).toEqual(ranks[0]!);
     expect(ranks[0]).toMatchObject({ hp: 52, armour: 6, blows: ['1d6', '1d6', '1d8'], saves: [9, 5, 2] });
@@ -38,9 +39,9 @@ describe('the fell owlbear by the SRD\'s numbers', () => {
     }
   });
   it('comes back from a save as it went', () => {
-    const o = content.createCreature('kept', { raceId: 'owlbear/fell', level: 2 });
+    const o = content.createCreature(ItemCatalog.canon, 'kept', { raceId: 'owlbear/fell', level: 2 });
     const again = JSON.parse(JSON.stringify(o)) as Creature;
-    expect(() => CreatureSchema.validate(again)).not.toThrow();
+    expect(() => CreatureSchema.validate(again, ItemCatalog.canon)).not.toThrow();
     expect(sheet(again)).toEqual(sheet(o));
   });
   it('passes the census in structure and resolution; improved grab is the one special it lacks', () => {

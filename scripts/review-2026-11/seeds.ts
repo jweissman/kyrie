@@ -6,6 +6,7 @@
 // request sets randomIdentity, so the seeds come out equal. Then the people both countries hold by the same local id
 // are made as an install makes them (ModuleInstallations.creature, from entry.seed) and their bodies compared.
 //   bun scripts/review-2026-11/seeds.ts [seed=a1]
+import { ItemCatalog } from '../../src/item-catalog';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { ModuleInstallations } from '../../src/campaign/module-installations';
@@ -44,7 +45,8 @@ for (const mine of a.draft.instance.campaign!.creatures) {
   if (!other) { continue; }
   compared++;
   if (mine.seed!.replace(a.rid, '') === other.seed!.replace(b.rid, '')) { same++; }
-  const ca = ModuleInstallations.creature(mine), cb = ModuleInstallations.creature(other);
+  const ca = ModuleInstallations.creature(ItemCatalog.canon, mine),
+    cb = ModuleInstallations.creature(ItemCatalog.canon, other);
   const sameContext = mine.context.raceId === other.context.raceId && mine.context.classId === other.context.classId;
   if (sameContext && body(ca) === body(cb)) {
     alike++;

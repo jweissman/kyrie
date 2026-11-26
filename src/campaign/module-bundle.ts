@@ -399,7 +399,7 @@ export class ModuleBundle {
     LocalKinds.read(combined.catalog); LocalKinds.read(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
-      const instance = ModuleAssembly.compose(composed, combined, generated, seed);
+      const instance = ModuleAssembly.compose(composed, combined, generated, { seed, kinds: options.kinds });
       ModuleCanon.settle(instance.module, given);
       if (told.length) { instance.campaign = { ...instance.campaign!, shadows: told }; }
       imports = this.imports(options.unbound ? { ...bound, optional: bound.imports } : bound, request,

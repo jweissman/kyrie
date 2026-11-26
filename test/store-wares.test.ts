@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { RunnerOffer } from '../src/cli/runner-offer';
 import { DrawnWorld } from '../src/world/drawn-world';
@@ -38,6 +39,6 @@ describe('the general store at Porthalen', () => {
     expect(small.length).toBe(8);
     const laden = world.apply(small.flatMap(i => [{ kind: 'retract' as const, call: ModuleWriter.call('forSale', i) },
       { kind: 'assert' as const, call: ModuleWriter.call('ownedItem', i, wenna) }]));
-    expect(Carriers.carrier(laden, party, 'region__s1_general_keeper_backpack_1')).toBe(wenna);
+    expect(Carriers.carrier(ItemCatalog.canon, laden, party, 'region__s1_general_keeper_backpack_1')).toBe(wenna);
   }, 180000);
 });

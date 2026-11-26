@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { Canon } from '../src/canon/canon';
@@ -18,7 +19,7 @@ import type { Region } from '../src/world/region-writer';
 // The bestiary as a coherent ontology that generated play uses (the owner, 6 November): base kinds and what varies
 // them as structure; each kind's danger measured; encounters composed from the canon by habitat, abundance and a budget
 // of danger, as Orsino composed its parties; and a kind or a plant added by its record alone met in a generated world.
-const made = (kind: string, level = 1) => new Content('bestiary').createCreature(kind, { raceId: kind, level } as never);
+const made = (kind: string, level = 1) => new Content('bestiary').createCreature(ItemCatalog.canon, kind, { raceId: kind, level } as never);
 const worlds = async (seeds: string[]) => Promise.all(seeds.map(async seed => {
   const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared, {});
   return { w, session: await PlaySession.start(w.path, seed, w.source) };
@@ -60,7 +61,7 @@ describe('the bestiary', () => {
     expect(CreatureVariants.templates).toEqual(['skeletal', 'spectral', 'vampiric', 'zombie']);
     const hound = made('bone_hound');
     expect([hound.variations, hound.traits]).toEqual([['skeletal'], expect.arrayContaining(['undead', 'bloodless'])]);
-    const resist = (kind: string) => Effects.modifiers(CombatProjection.fighter(made(kind), 'goblins')).resistances ?? {};
+    const resist = (kind: string) => Effects.modifiers(CombatProjection.fighter(ItemCatalog.canon, made(kind), 'goblins')).resistances ?? {};
     expect([resist('bone_hound').radiant, resist('hound').radiant ?? 0]).toEqual([-1, 0]);
     // The frost's proof against cold is the frost's (its trait, frost_adapted): any frost creature has it.
     expect([resist('frost_wolf').cold, resist('wolf').cold ?? 0]).toEqual([0.5, 0]);

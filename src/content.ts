@@ -1,3 +1,4 @@
+import { ItemCatalog } from './item-catalog';
 import { Spellcasting } from './rules/spellcasting';
 import { Callings } from './ports/callings';
 import './canon/canon-vocabulary';
@@ -124,12 +125,15 @@ export class Content {
     return value;
   }
   // A summoned or ad hoc creature of a species.
+  // Of the catalog's kinds alone: what is summoned or made for a fight carries nothing of a campaign's own.
   creature(species: string, id: string, team: Fighter['team'], level?: number): Fighter {
     if (!Canon.isSpecies(species)) { throw new Error(`Unknown species ${species}`); }
-    return CombatProjection.fighter(this.createCreature(id, { raceId: species, ...level ? { level } : {} }), team);
+    return CombatProjection.fighter(ItemCatalog.canon, this.createCreature(ItemCatalog.canon, id, { raceId: species,
+      ...level ? { level } : {} }), team);
   }
   character(classId: ClassId, id: string, team: Fighter['team'], raceId: RaceId = 'human'): Fighter {
-    return CombatProjection.fighter(this.createCreature(id, { classId, raceId }), team);
+    return CombatProjection.fighter(ItemCatalog.canon, this.createCreature(ItemCatalog.canon, id, { classId,
+      raceId }), team);
   }
   // A kind named for what varies it is its base with those variations (see Species.variations), before any the author
   // gives, each once.
@@ -153,10 +157,12 @@ export class Content {
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
   // derive hit points and spell slots. A species creature takes its own statistics, natural weapon and nature traits.
-  createCreature(id: string, asked: CreatureGenerationContext = {}, randomIdentity = id): Creature {
-    return Costs.time('creature', () => this.created(id, asked, randomIdentity), { id: asked.raceId ?? asked.classId ?? id });
+  // Of a campaign's kinds of thing (catalog): what it carries is of them.
+  createCreature(catalog: ItemCatalog, id: string, asked: CreatureGenerationContext = {},
+    randomIdentity = id): Creature {
+    return Costs.time('creature', () => this.created(catalog, id, asked, randomIdentity), { id: asked.raceId ?? asked.classId ?? id });
   }
-  private created(id: string, asked: CreatureGenerationContext = {}, randomIdentity = id): Creature {
+  private created(catalog: ItemCatalog, id: string, asked: CreatureGenerationContext, random: string): Creature {
     // A kind by a name it was once known by (organisms.json's grey wolf is the wolf: data/catalog/aliases.json).
     const context = asked.raceId ? { ...asked, raceId: Canon.resolve('species', asked.raceId) as RaceId } : asked;
     if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
@@ -167,7 +173,7 @@ export class Content {
     }
     // Every creature is made from its catalog record (the owner, 5 November: one pipeline; Deem's creature grammar,
     // which had made five bodies its own way, is retired): what makes it other than its kind is its variations.
-    const stream = this.stream.bind(this, randomIdentity);
+    const stream = this.stream.bind(this, random);
     // A kind given a variation (or a template: the skeletal) that is a stat block is the kind composed with it.
     const raceId = CreatureVariants.body(context.raceId ?? stream('population').generate('population',
       context.population ? { population: context.population } : {}).raceId as string, CreatureVariants.borne(context));
@@ -196,7 +202,7 @@ export class Content {
     if (context.backgroundId) { creature.backgroundId = context.backgroundId; }
     for (const k of ['likeness', 'sign'] as const) { if (context[k]) { creature[k] = context[k]; } }
     if (context.professionId) { creature.professionId = context.professionId; }
-    Overlays.validate({ classId, backgroundId: context.backgroundId, professionId: context.professionId }, id);
+    Overlays.validate({ classId, backgroundId: context.backgroundId, professionId: context.professionId }, id, catalog);
     Overlays.apply(creature);
     for (const key of CreatureSchema.attributes) {
       if (context[key] !== undefined) { creature.base[key] = context[key]!; }
@@ -215,9 +221,9 @@ export class Content {
     creature.base.maxMana = creature.state.mana = 0;
     Spellcasting.equip(creature);
     creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
-    if (!species && context.outfit !== 'own') { this.equip(creature, chassis, context, randomIdentity); }
-    Overlays.carry(creature, [...context.gear ?? [], ...species ? [] : Overlays.classGear({ ...context, classId })]);
-    CreatureSchema.validate(CreatureVariants.vary(creature, Content.implied(raceId, context)));
+    if (!species && context.outfit !== 'own') { this.equip(creature, chassis, context, random); }
+    Overlays.carry(catalog, creature, [...context.gear ?? [], ...Overlays.classGear({ ...context, classId })]);
+    CreatureSchema.validate(CreatureVariants.vary(creature, Content.implied(raceId, context)), catalog);
     return creature;
   }
   private stream(identity: string, domain: string): Content {

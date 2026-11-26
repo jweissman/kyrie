@@ -22,12 +22,12 @@ const registry = new OrsinoRegistry(snapshot as unknown as RegistrySnapshot, { r
 const source = (id: string) => registry.entry(id).definition as Record<string, unknown>;
 
 class Probe {
-  static creature(id: string, context: Parameters<Content['createCreature']>[1]) {
-    return new Content(id).createCreature(id, context);
+  static creature(id: string, context: Parameters<Content['createCreature']>[2]) {
+    return new Content(id).createCreature(ItemCatalog.canon, id, context);
   }
   static cast(caster: ReturnType<typeof Probe.creature>, ability: string, target = caster) {
-    const actor = CombatProjection.fighter(caster, 'fighters');
-    const recipient = target === caster ? actor : CombatProjection.fighter(target, 'fighters');
+    const actor = CombatProjection.fighter(ItemCatalog.canon, caster, 'fighters');
+    const recipient = target === caster ? actor : CombatProjection.fighter(ItemCatalog.canon, target, 'fighters');
     const events: CombatEvent[] = [];
     const definition = Content.abilities.find(a => a.id === ability)!;
     AbilityUse.perform(definition, recipient.id, new Expressions(ability), {
@@ -54,7 +54,7 @@ describe('1-3: peoples, species, variants and aspects', () => {
     expect(human.base.abilities).toEqual(['defend', 'guard', 'taunt', 'vigor_up', 'cleave', 'prepare_charge', 'charge',
       'set_spear', 'second_wind', 'sweep']);
     expect(wolf.base.abilities).toEqual(['howl', 'flee']);
-    expect(CombatProjection.fighter(wolf, 'goblins').equipment.weapon).toMatchObject({ id: 'bite', damage: '1d6' });
+    expect(CombatProjection.fighter(ItemCatalog.canon, wolf, 'goblins').equipment.weapon).toMatchObject({ id: 'bite', damage: '1d6' });
     expect(() => Probe.creature('pup', { raceId: 'wolf', classId: 'warrior' })).toThrow('species and takes no class');
     expect(() => Probe.creature('sage', { raceId: 'elf', classId: 'cleric' })).toThrow('an elf cannot be a cleric');
     expect(() => ModuleParser.parse('Module m "m" { Person w "W" at x { Species wolf. Calling warrior. } Goal false. }'))
@@ -67,7 +67,7 @@ describe('1-3: peoples, species, variants and aspects', () => {
     expect(frost.type).toBe(wolf.type);
     expect(frost.habitats).toEqual(wolf.habitats);
     // Its cold is the frost's, laid on as one is made (data/catalog/variations.json, frost): a nature, not a bite.
-    expect(new Content('dm').createCreature('f', { raceId: 'frost_wolf' } as never).traits).toContain('frost_adapted');
+    expect(new Content('dm').createCreature(ItemCatalog.canon, 'f', { raceId: 'frost_wolf' } as never).traits).toContain('frost_adapted');
     const red = Canon.creature('red_dragon'), dragon = Canon.creature('dragon');
     expect(red.statistics).toEqual(dragon.statistics);
     // Its fire is its lineage's, laid on as it is made (data/catalog/variations.json, red_lineage).
@@ -86,7 +86,7 @@ describe('1-3: peoples, species, variants and aspects', () => {
       iron.scores.cha]);
     expect(made.variations).toEqual(['iron']);
     expect([golem.type, golem.traits, golem.statistics!.armor]).toEqual(['construct', ['construct'], 'plate']);
-    const body = CombatProjection.fighter(Probe.creature('hulk', { raceId: 'iron_golem' }), 'goblins');
+    const body = CombatProjection.fighter(ItemCatalog.canon, Probe.creature('hulk', { raceId: 'iron_golem' }), 'goblins');
     expect(Effects.immune(body, 'poison') && Effects.immune(body, 'sleep')).toBe(true);
     expect(Effects.modifiers(body).resistances?.slashing).toBe(0.5);
     expect(body.equipment.armorAc).toBe(7);
@@ -125,11 +125,11 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     const keeper = Canon.backgrounds.innkeeper!;
     expect([keeper.use, keeper.offers?.[0]?.kind, keeper.routine]).toEqual(['profession', 'lodging', 'keeping the inn']);
     const knight = Probe.creature('dame', { classId: 'warrior', raceId: 'human', traits: ['knight', 'brave'], level: 3 });
-    const fighter = CombatProjection.fighter(knight, 'fighters');
+    const fighter = CombatProjection.fighter(ItemCatalog.canon, knight, 'fighters');
     expect(Effects.saveModifier(fighter, 'magic')).toBe(2);
     // Order of the Shield always; Heavy Handed's +5 to hit only with a heavy weapon in hand.
     const wielding = (id: string) => ({ ...fighter,
-      equipment: { ...fighter.equipment!, weapon: ItemCatalog.weapon(id) } });
+      equipment: { ...fighter.equipment!, weapon: ItemCatalog.canon.weapon(id) } });
     expect([Effects.modifiers(wielding('dagger')).toHit, Effects.modifiers(wielding('greatsword')).toHit,
       Effects.modifiers(wielding('greatsword')).ac]).toEqual([undefined, 5, -2]);
     expect(() => Probe.creature('squire', { classId: 'warrior', raceId: 'human', traits: ['knight', 'brave'] }))
@@ -146,7 +146,7 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     expect(recipient.statuses.map(s => s.id)).toEqual(['fire_resistant']);
     expect(Effects.modifiers(recipient).resist?.fire).toBe(10);
     expect(Canon.traits.fire_affinity!.category).toBe('affinity');
-    const salamander = CombatProjection.fighter(Probe.creature('sal', { classId: 'warrior', raceId: 'human',
+    const salamander = CombatProjection.fighter(ItemCatalog.canon, Probe.creature('sal', { classId: 'warrior', raceId: 'human',
       traits: ['brave'] }), 'fighters');
     salamander.traits = ['fire_affinity'];
     const m = Effects.modifiers(salamander);
@@ -169,7 +169,7 @@ describe('7-11: equipment, monsters, theology, ecology and local mechanisms', ()
       { id: 'rhys__chainmail', definition: 'chainmail', equipped: true },
       { id: 'rhys__torch', definition: 'torch' }, { id: 'rhys__pole', definition: 'pole' },
       { id: 'rhys__candle', definition: 'candle' }]);
-    const equipment = CombatProjection.fighter(knight, 'fighters').equipment;
+    const equipment = CombatProjection.fighter(ItemCatalog.canon, knight, 'fighters').equipment;
     expect([equipment.weapon.id, equipment.armorAc, equipment.hooks.onAttackHit?.length]).toEqual(['longsword_of_flames', 5, 1]);
   });
 

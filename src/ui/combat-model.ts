@@ -202,7 +202,7 @@ export class CombatModel {
     const weapon = this.weapon(actor);
     if (command.ability === 'melee') { return `${name} strikes at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
     if (command.ability === 'ranged') { return `${name} shoots at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
-    const carried = ItemCatalog.used(command.ability)?.name;
+    const carried = ItemCatalog.fought(actor ?? {}, command.ability)?.name;
     const ability = carried ? ItemNames.called(carried) : Content.abilities.find(a => a.id === command.ability)?.name
       ?? command.ability;
     return `${name} uses ${ability}${target ? ` on ${target}` : ''}`;

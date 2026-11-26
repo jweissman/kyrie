@@ -22,7 +22,7 @@ const hardy = (f: Fighter, level = 9): Fighter => ({ ...f, level, hp: 500, maxHp
 const mage = (): Fighter => ({ ...hardy(c.character('mage', 'mage', 'fighters')), intelligence: 16,
   abilities: ['cone_of_cold'], maxSlots: [0, 0, 0, 0, 1], slots: [0, 0, 0, 0, 1],
   prepared: [[], [], [], [], ['cone_of_cold']], ready: [[], [], [], [], ['cone_of_cold']] });
-const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.weapon('shortbow') } });
+const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.canon.weapon('shortbow') } });
 const company = (g2: Partial<Fighter> = {}, body?: Fighter) => [hardy(c.character('warrior', 'warrior', 'fighters')),
   mage(), hardy(c.character('warrior', 'g1', 'goblins')), body ?? { ...hardy(c.character('warrior', 'g2', 'goblins')), ...g2 },
   bow(hardy(c.character('ranger', 'archer', 'goblins', 'goblin')))];

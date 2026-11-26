@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/battle';
 import { Content } from '../src/content';
@@ -12,9 +13,9 @@ import type { Creature } from '../src/creature';
 // fight they are still spent in the next, kept on the creature, and a night's rest gives them back.
 const c = new Content('daily');
 const tough = (x: Creature): Creature => ({ ...x, base: { ...x.base, maxHp: 900 }, state: { ...x.state, hp: 900 } });
-const store = (kind: string, level: number) => new CreatureStore([
-  tough(c.createCreature('foe', { raceId: kind, level }, 'foe')),
-  tough(c.createCreature('hero', { raceId: 'human', classId: 'warrior', level: 5 }, 'hero'))]);
+const store = (kind: string, level: number) => new CreatureStore(ItemCatalog.canon, [
+  tough(c.createCreature(ItemCatalog.canon, 'foe', { raceId: kind, level }, 'foe')),
+  tough(c.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior', level: 5 }, 'hero'))]);
 // A fight of a few rounds, the hero only waiting; whether the foe could use the ability on its turns, and what it did.
 const fight = (s: CreatureStore, ability: string, seed: string, turns = 12) => {
   const b = Battle.encounter(s, [{ creatureId: 'foe', team: 'goblins' }, { creatureId: 'hero', team: 'fighters' }],
@@ -45,7 +46,7 @@ describe('uses a day', () => {
     // Spent for the day: the next fight offers it no breath at all.
     expect(fight(s, 'breathe_fire', 'day1-spent', 30)).toEqual({ offered: false, used: 0 });
     // The day's uses go into a saved game with the creature, and come out of it.
-    expect(new CreatureStore([structuredClone(s.get('foe'))]).get('foe').state.daily).toEqual({ used: { breathe_fire: 3 } });
+    expect(new CreatureStore(ItemCatalog.canon, [structuredClone(s.get('foe'))]).get('foe').state.daily).toEqual({ used: { breathe_fire: 3 } });
     const rested = rest(s);
     expect(rested.some(e => e.type === 'gain' && e.detail === 'uses' && e.amount === 3)).toBe(true);
     expect(s.get('foe').state.daily).toBeUndefined();

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -85,10 +86,10 @@ describe('a fallen companion', () => {
   }, 180000);
   it('comes round at a rest with 1 HP, or dies where they fell, and once dead is not rolled for again', () => {
     const fallen = (seed: string, constitution: number) => {
-      const elen = new Content('shock').createCreature('elen', { raceId: 'human', classId: 'warrior', constitution });
+      const elen = new Content('shock').createCreature(ItemCatalog.canon, 'elen', { raceId: 'human', classId: 'warrior', constitution });
       elen.state.hp = 0;
-      const bran = new Content('shock').createCreature('bran', { raceId: 'human', classId: 'warrior' });
-      const store = new CreatureStore([elen, bran]), events = FieldUse.shock(store, ['elen', 'bran'], seed);
+      const bran = new Content('shock').createCreature(ItemCatalog.canon, 'bran', { raceId: 'human', classId: 'warrior' });
+      const store = new CreatureStore(ItemCatalog.canon, [elen, bran]), events = FieldUse.shock(store, ['elen', 'bran'], seed);
       return { elen: store.get('elen'), events };
     };
     expect(fallen('hardy', 30).elen.state.hp).toBe(1);
@@ -97,12 +98,12 @@ describe('a fallen companion', () => {
     const died = tries.find(t => t.elen.state.hp === 0)!;
     expect(died.elen.state.conditions.map(c => c.id)).toContain('slain');
     expect(died.events.map(e => e.type)).toEqual(['save', 'status']);
-    const bran = new Content('shock').createCreature('bran', { raceId: 'human', classId: 'warrior' });
-    expect(FieldUse.shock(new CreatureStore([died.elen, bran]), ['elen', 'bran'], 'again')).toEqual([]);
+    const bran = new Content('shock').createCreature(ItemCatalog.canon, 'bran', { raceId: 'human', classId: 'warrior' });
+    expect(FieldUse.shock(new CreatureStore(ItemCatalog.canon, [died.elen, bran]), ['elen', 'bran'], 'again')).toEqual([]);
     // Nobody is left on their feet to tend the fallen: nobody comes round.
-    const alone = new Content('shock').createCreature('elen', { raceId: 'human', classId: 'warrior', constitution: 30 });
+    const alone = new Content('shock').createCreature(ItemCatalog.canon, 'elen', { raceId: 'human', classId: 'warrior', constitution: 30 });
     alone.state.hp = 0;
-    expect(FieldUse.shock(new CreatureStore([alone]), ['elen'], 'hardy')).toEqual([]);
+    expect(FieldUse.shock(new CreatureStore(ItemCatalog.canon, [alone]), ['elen'], 'hardy')).toEqual([]);
   });
   it('is not raised by a village priest', async () => {
     const { w, s } = await Fallen.start(), village = w.report.region.settlements.find(t => t.size !== 'town')!;

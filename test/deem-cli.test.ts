@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { runGeneration, type DeemValue } from 'deem';
 import { Canon } from '../src/canon/canon';
@@ -27,7 +28,7 @@ describe('Deem public CLI entry point', () => {
     const templates = Object.keys(GenerationSetting.templates);
     expect(templates.filter(t => ['creature', 'dragon', 'animal', 'humanoid', 'construct'].includes(t))).toEqual([]);
     expect(Object.keys(GenerationSetting.tables).filter(t => /^creature(?!Population)|^dragon/.test(t))).toEqual([]);
-    const wisp = new Content('drawn').createCreature('w', { raceId: 'wisp' });
+    const wisp = new Content('drawn').createCreature(ItemCatalog.canon, 'w', { raceId: 'wisp' });
     expect(wisp.base.maxHp).toBeGreaterThan(0);
   });
 });

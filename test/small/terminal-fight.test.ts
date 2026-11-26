@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
@@ -23,8 +24,8 @@ const said = async (battle: Battle, reverse: boolean): Promise<string[]> => {
 describe('the terminal\'s fight', () => {
   it('lists the moves in one order, a strike first, and names the fighters, never by id', async () => {
     const content = new Content('terminal-fight'), rats = 'region__s2_u_rats_person_2';
-    const store = new CreatureStore([content.createCreature('ama', { raceId: 'human', classId: 'warrior' }),
-      content.createCreature(rats, { raceId: 'wolf' })]);
+    const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'ama', { raceId: 'human', classId: 'warrior' }),
+      content.createCreature(ItemCatalog.canon, rats, { raceId: 'wolf' })]);
     const battle = Battle.encounter(store, [{ creatureId: 'ama', team: 'fighters' }, { creatureId: rats, team: 'goblins' }],
       { seed: 'terminal-fight' });
     while (battle.state.actor !== 'ama') { battle.step(battle.legalCommands()[0]!); }

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../../src/arena';
 import { Content } from '../../src/content';
@@ -44,16 +45,16 @@ describe('a fight that does not contradict itself', () => {
     expect(say('{Actor} [break|breaks] and [run|runs].', true)).toBe('Wenna break and run.');
   });
   it('brings a ranger the same companion, by its name, in every fight after the first', () => {
-    const made = new Content('companion').createCreature('ranger', { raceId: 'human', classId: 'ranger', level: 3 });
-    const fought = call({ ...CombatProjection.fighter(made, 'fighters'), environment: 'forest' }, 'first');
+    const made = new Content('companion').createCreature(ItemCatalog.canon, 'ranger', { raceId: 'human', classId: 'ranger', level: 3 });
+    const fought = call({ ...CombatProjection.fighter(ItemCatalog.canon, made, 'fighters'), environment: 'forest' }, 'first');
     const first = fought.called;
     // What the fight made of the ranger goes on from it (as Battle commits it), and into a fight in other country.
     const after = CombatProjection.creature(fought.ranger, made);
     expect(after.state.companion).toEqual({ raceId: first.raceId, name: first.name });
-    const second = call({ ...CombatProjection.fighter(after, 'fighters'), environment: 'cave' }, 'second').called;
+    const second = call({ ...CombatProjection.fighter(ItemCatalog.canon, after, 'fighters'), environment: 'cave' }, 'second').called;
     expect([second.raceId, second.name]).toEqual([first.raceId, first.name]);
     // Without it, the call in the cave is answered by a beast of the cave.
-    expect(call({ ...CombatProjection.fighter(made, 'fighters'), environment: 'cave' }, 'second').called.raceId)
+    expect(call({ ...CombatProjection.fighter(ItemCatalog.canon, made, 'fighters'), environment: 'cave' }, 'second').called.raceId)
       .not.toBe(first.raceId);
   });
 });

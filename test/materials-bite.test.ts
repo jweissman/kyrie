@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { afterAll, describe, expect, it } from 'bun:test';
 import { AbilityUse } from '../src/ability-use';
 import { Canon } from '../src/canon/canon';
@@ -20,12 +21,12 @@ LocalKinds.install({ species: { t_shade: { ...Canon.creature('wolf'), name: 'Sha
 afterAll(() => LocalKinds.reset());
 const content = new Content('materials-bite');
 const carrying = (material?: string) => {
-  const c = content.createCreature('h', { raceId: 'human', classId: 'warrior', level: 5 });
+  const c = content.createCreature(ItemCatalog.canon, 'h', { raceId: 'human', classId: 'warrior', level: 5 });
   c.state.inventory = [...(c.state.inventory ?? []).filter(i => !Canon.items[i.definition]?.weapon),
     { id: 'h__blade', definition: 'longsword', equipped: true, ...material ? { material } : {} }];
   return c;
 };
-const armed = (material?: string): Fighter => CombatProjection.fighter(carrying(material), 'fighters');
+const armed = (material?: string): Fighter => CombatProjection.fighter(ItemCatalog.canon, carrying(material), 'fighters');
 const struck = (material?: string) => {
   for (let n = 0; n < 40; n++) {
     const hero = armed(material), shade: Fighter = { ...content.creature('t_shade', 's', 'goblins'), hp: 99, maxHp: 99 };
@@ -54,7 +55,7 @@ describe('a longsword of silver', () => {
       expect(CanonValidation.problems().filter(p => p.startsWith('material silver')))
         .toEqual(['material silver: passes unknown attack tag moonlight']);
     } finally { silver.passes = was; }
-    expect(() => CreatureSchema.validate(carrying('mithril'))).toThrow('Invalid item inventory');
-    expect(() => CreatureSchema.validate(carrying('silver'))).not.toThrow();
+    expect(() => CreatureSchema.validate(carrying('mithril'), ItemCatalog.canon)).toThrow('Invalid item inventory');
+    expect(() => CreatureSchema.validate(carrying('silver'), ItemCatalog.canon)).not.toThrow();
   });
 });

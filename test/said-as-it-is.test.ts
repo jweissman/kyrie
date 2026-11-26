@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -56,7 +57,8 @@ describe('a place says what is so', () => {
       checkpoint.save.creatures.find(c => c.id === id)!.state.hp = 0;
     }
     checkpoint.save.state.world = CreatureFacts.project(new World(checkpoint.save.module, checkpoint.save.state.world),
-      checkpoint.save.definition!.actors, new CreatureStore(checkpoint.save.creatures)).snapshot;
+      checkpoint.save.definition!.actors, new CreatureStore(ItemCatalog.of(checkpoint.save.module.catalog),
+        checkpoint.save.creatures)).snapshot;
     const after = PlaySession.resume(checkpoint);
     Galleries.put(after, post);
     const event = await after.perform('wait');

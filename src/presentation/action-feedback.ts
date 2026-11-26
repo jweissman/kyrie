@@ -194,7 +194,7 @@ export class ActionFeedbackView {
     const skills = this.capabilities(when), live = campaign.readout;
     const members = live.creatures.filter(c => live.partyIds.includes(c.id));
     for (const skill of skills) {
-      const who = PartyCapabilities.providers(skill, members).map(c => c.name);
+      const who = PartyCapabilities.providers(campaign.catalog, skill, members).map(c => c.name);
       const name = Canon.skills[skill]?.name.toLowerCase(), whose = members.length === 1 ? ['your'] : who.map(n => `${n}'s`);
       if (who.length && name) { return `It is ${this.list(whose)} ${name} that makes it out.`; }
     }
@@ -293,7 +293,7 @@ export class ActionFeedbackView {
   // What lasting conditions ran out in an event, in the words they are told by (a leg of a journey: see Travel).
   static lapses(campaign: Campaign, event: CampaignEvent): string[] {
     if (!event.combat.length) { return []; }
-    const names = CombatProjection.told(Fought.of(campaign, [event]), campaign.readout.partyIds,
+    const names = CombatProjection.told(campaign.catalog, Fought.of(campaign, [event]), campaign.readout.partyIds,
       BandNames.of(campaign));
     return this.lapsed(event, names).lapsed ?? [];
   }
@@ -355,7 +355,7 @@ export class ActionFeedbackView {
   // where something of a fight is told (every creature the world holds had been drawn as a fighter for each act).
   private static named(campaign: Campaign, event: CampaignEvent): Parameters<typeof CombatPresenter.format>[1] {
     const fought = event.combat.length > 0;
-    return CombatProjection.told(Fought.of(campaign, [event]), campaign.readout.partyIds,
+    return CombatProjection.told(campaign.catalog, Fought.of(campaign, [event]), campaign.readout.partyIds,
       fought ? BandNames.of(campaign) : undefined);
   }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {

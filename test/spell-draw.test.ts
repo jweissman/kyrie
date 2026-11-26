@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { afterEach, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { Content, type CreatureGenerationContext } from '../src/content';
@@ -9,7 +10,7 @@ import type { Ability } from '../src/rules/catalog-schema';
 // level, or taken from it, changes only the casters who gain or lose that spell, and each of them by that spell
 // alone: a draw by index into the level's sorted list had moved three mages in four (case 10).
 const made = (who: CreatureGenerationContext, n: number) => Array.from({ length: n }, (_, i) =>
-  new Set(new Content(`draw-${i}`).createCreature(`c${i}`, { raceId: 'human', ...who }, `seed-${i}`).base.abilities));
+  new Set(new Content(`draw-${i}`).createCreature(ItemCatalog.canon, `c${i}`, { raceId: 'human', ...who }, `seed-${i}`).base.abilities));
 const dummy = (level: number, school = 'evocation', tradition = 'arcane'): Ability => ({ name: 'Dummy', kind: 'spell',
   description: 'A spell that is only there to be drawn.', cost: 1, spell: { tradition, level, school },
   effects: [{ kind: 'damage', amount: { kind: 'literal', value: 1 }, damageType: 'fire', target: 'enemy' }] } as Ability);

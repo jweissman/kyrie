@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -77,7 +78,7 @@ describe('score-only attributes and derived statMod', () => {
       ['dwarf', 'cleric', 'medic']] as const) {
       const seed = `overlays:${raceId}`;
       const raw = new Content(RandomStreams.key(seed, 'attributes', 'hero')).generate('attributes');
-      const creature = new Content(seed).createCreature('hero', { raceId, classId, backgroundId,
+      const creature = new Content(seed).createCreature(ItemCatalog.canon, 'hero', { raceId, classId, backgroundId,
         ...classId === 'warrior' ? { traits: ['brave'] } : classId === 'cleric' ? { traits: ['vitalist'] } : {} });
       for (const key of CreatureSchema.attributes) {
         const add = (Canon.ancestries[raceId]!.attributes[key] ?? 0) + (Canon.classes[classId]!.attributes[key] ?? 0)
@@ -87,15 +88,16 @@ describe('score-only attributes and derived statMod', () => {
     }
     const chosen = { strength: 3, dexterity: 6, intelligence: 9, wisdom: 12, constitution: 15, charisma: 18 };
     expect(new Content('overrides').generate('attributes', chosen)).toEqual(chosen);
-    const creature = new Content('overrides').createCreature('hero', { ...chosen, raceId: 'human', classId: 'warrior' });
+    const creature = new Content('overrides').createCreature(ItemCatalog.canon, 'hero', { ...chosen, raceId: 'human', classId: 'warrior' });
     for (const key of CreatureSchema.attributes) { expect(creature.base[key]).toBe(chosen[key]); }
     expect(creature.base).not.toHaveProperty('scores');
     expect(creature.base.maxHp).toBe(12 + 3); // the warrior's hit die plus CON 15's modifier, round(2.5) = 3
-    expect(() => CreatureSchema.validate({ ...creature, base: { ...creature.base, scores: chosen } } as never))
+    expect(() => CreatureSchema.validate({ ...creature, base: { ...creature.base, scores: chosen } } as never,
+      ItemCatalog.canon))
       .toThrow('requires migration');
-    expect(() => new Content('legacy').createCreature('hero', { strengthScore: 18 } as never)).toThrow('context');
+    expect(() => new Content('legacy').createCreature(ItemCatalog.canon, 'hero', { strengthScore: 18 } as never)).toThrow('context');
     for (const invalid of [0, -1, 1.5, Infinity]) {
-      expect(() => new Content('invalid').createCreature('hero', { strength: invalid })).toThrow('context');
+      expect(() => new Content('invalid').createCreature(ItemCatalog.canon, 'hero', { strength: invalid })).toThrow('context');
     }
   });
   it('keeps numeric overlays additive through nested generation', () => {

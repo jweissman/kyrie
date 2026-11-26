@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
@@ -14,10 +15,10 @@ const mean = (id: string, castingLevel: number) => {
   return Amounts.mean(e.kind === 'heal' && e.amount.kind === 'deem' ? e.amount.expression : '', { castingLevel });
 };
 const cleric = (level: number) => {
-  const c = new Content('cure').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level,
+  const c = new Content('cure').createCreature(ItemCatalog.canon, 'dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level,
     spells: ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'], wisdom: 14 });
   c.state.hp = 1;
-  return new CreatureStore([c]);
+  return new CreatureStore(ItemCatalog.canon, [c]);
 };
 const healed = (level: number, seed: string) => FieldUse.perform(cleric(level), ['dori'],
   { ability: 'cure', caster: 'dori', target: 'dori', seed }).flatMap(e => e.type === 'heal' ? [e.amount] : []);

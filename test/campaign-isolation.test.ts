@@ -19,7 +19,7 @@ describe('the kinds a campaign declares for itself', () => {
     await PlaySession.start('test/fixtures/probes/ordinary/ordinary.campaign.json', 'second', source);
     // The first game's ox is still a kind of thing to it, and it can be taken up.
     first.campaign.world.test({ kind: 'boolean', value: true });
-    expect(ItemCatalog.definitions.dreg_ox).toBeDefined();
+    expect(first.campaign.catalog.find('dreg_ox')).toBeDefined();
     const event = await first.perform(take);
     expect(event.result).toBe('success');
   });
@@ -37,7 +37,8 @@ describe('the kinds a campaign declares for itself', () => {
     expect(() => ModuleParser.parse('Module bad "Bad" { Kind dagger "a counterfeit" is treasure worth 9. }')).toThrow();
     LocalKinds.reset();
     expect(Canon.items.dagger).toBeDefined();
-    expect(ItemCatalog.definitions.dagger).toBeDefined();
+    expect(ItemCatalog.ambient.dagger).toBeDefined();
+    expect(ItemCatalog.canon.find('dagger')).toBeDefined();
   });
   // Two modules of one campaign naming a kind each their own way keep both meanings apart: the later one's kind takes
   // its installation's name (ModuleNamespace.renamed, OR-540), never a meaning shared or one refused.

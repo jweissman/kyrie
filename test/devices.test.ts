@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import registry from '../data/sources/orsino/registry.json';
 import { Battle } from '../src/battle';
@@ -19,8 +20,9 @@ import type { RegistryEntry } from '../src/registry/orsino-extract';
 const ids = ['turret', 'antimagic_ward', 'barrier', 'bomb', 'phylactery'];
 const fight = (device: string, seed: string) => {
   const content = new Content(seed);
-  const store = new CreatureStore([content.createCreature(device, { raceId: device }, device),
-    content.createCreature('hero', { raceId: 'human', classId: 'warrior', level: 3 }, 'hero')]);
+  const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, device,
+    { raceId: device }, device),
+    content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior', level: 3 }, 'hero')]);
   return Battle.encounter(store, [{ creatureId: device, team: 'goblins' }, { creatureId: 'hero', team: 'fighters' }],
     { seed, maxTurns: 12 });
 };
@@ -41,7 +43,7 @@ describe('a device', () => {
     const entries = registry.entries as unknown as RegistryEntry[];
     const called = Object.values(OrsinoBestiary.vocabulary(entries).byType).flat();
     expect(called.filter(id => ids.includes(id))).toEqual([]);
-    const made = new Content('d').createCreature('t', { raceId: 'turret' }, 't');
+    const made = new Content('d').createCreature(ItemCatalog.canon, 't', { raceId: 'turret' }, 't');
     expect([made.base.maxHp, made.classId]).toEqual([8, undefined]);
   });
   it('fights with its own powers: a turret\'s volley, and a bomb that burns its enemies and is gone', () => {

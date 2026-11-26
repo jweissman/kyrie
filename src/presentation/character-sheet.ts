@@ -1,3 +1,4 @@
+import type { ItemCatalog } from '../item-catalog';
 import { Canon } from '../canon/canon';
 import { Content } from '../content';
 import { CombatProjection } from '../combat-projection';
@@ -66,12 +67,14 @@ export class CharacterSheets {
     if (!c) { return {}; }
     const named = this.capabilities(campaign.module.entities);
     const asleep = !!at.ref && world.relates('awake') && !world.test(ModuleWriter.call('awake', at.ref));
+    const catalog = campaign.catalog;
     // What a skill would open is asked only of a member with a development to make (OR-861): every member's sheet on
     // every page had read it, most with none to make.
     const developing = !!c.state.advances?.qualities && c.state.hp > 0;
-    const development = this.development(c, { ...at, ...developing ? { opens: Openings.of(campaign) } : {}, named,
+    const development = this.development(catalog, c, {
+      ...at, ...developing ? { opens: Openings.of(campaign) } : {}, named,
       why: asleep ? `Not while ${c.name} sleeps` : 'Not just now' });
-    return { sheet: this.sheet(c), ...development ? { development } : {} };
+    return { sheet: this.sheet(catalog, c), ...development ? { development } : {} };
   }
   // The module's skills, found once for its entities (again where they grow), not by going through every entity for
   // every member's sheet on every page (OR-863).
@@ -96,18 +99,19 @@ export class CharacterSheets {
       .map(a => ({ name: a.name, text: MechanicsText.full(a, { ...Object.fromEntries(CreatureSchema.attributes
         .map(q => [q, c.base[q]])), level: c.base.level, bonusSpellDC: 0 }) }));
     return { recruit: { line: line.trim().toLowerCase(), level: c.base.level, hp: c.state.hp, maxHp: c.base.maxHp, hire,
-      sheet: this.sheet(c), techniques } };
+      sheet: this.sheet(campaign.catalog, c), techniques } };
   }
   // Whether among what can be done with someone is asking them to join.
   private static asks(acts: { command?: string; children?: unknown[] }[]): boolean {
     return acts.some(a => a.command?.startsWith('recruit(') || this.asks((a.children ?? []) as typeof acts));
   }
-  static sheet(c: Creature): CharacterSheet {
-    const f = CombatProjection.fighter(c, 'fighters'), scores = Effects.scores(f);
+  static sheet(catalog: ItemCatalog, c: Creature): CharacterSheet {
+    const f = CombatProjection.fighter(catalog, c, 'fighters'), scores = Effects.scores(f);
     return {
       qualities: CreatureSchema.attributes.map(id => ({ id, name: this.names[id], score: scores[id], base: c.base[id],
         fight: Fighting.statMod(scores[id]), check: Math.floor((c.base[id] - 10) / 2), rests: this.rests[id] })),
-      fighting: this.fighting(c), saves: this.saves(c), skills: this.skills(c), ...this.specialty(c), ...this.born(c) };
+      fighting: this.fighting(catalog, c), saves: this.saves(catalog, c), skills: this.skills(catalog, c),
+        ...this.specialty(c), ...this.born(c) };
   }
   // The sign and its gifts as the reference says them ("Quick: +2 initiative.").
   private static born(c: Creature): Pick<CharacterSheet, 'born'> {
@@ -131,8 +135,8 @@ export class CharacterSheets {
   }
   // How the member fights and is fought: what they strike with and what a blow does, what they need on the die to
   // land one, and what a common foe needs to land one on them.
-  static fighting(c: Creature): Bearing[] {
-    const f = CombatProjection.fighter(c, 'fighters'), combatant = Effects.combatant(f), weapon = combatant.weapon;
+  static fighting(catalog: ItemCatalog, c: Creature): Bearing[] {
+    const f = CombatProjection.fighter(catalog, c, 'fighters'), combatant = Effects.combatant(f), weapon = combatant.weapon;
     const missile = weapon.missile === true, stat = missile ? combatant.dexterity : combatant.strength;
     const toHit = Fighting.toHit(combatant);
     const bonus = Math.max(0, Fighting.statMod(stat));
@@ -143,14 +147,14 @@ export class CharacterSheets {
       { label: 'To land a blow', value: `${Math.max(2, unarmoured)} or more on the die against someone unarmoured` },
       { label: 'Armour', value: worn ? Canon.items[worn.definition]!.name : 'none' },
       { label: 'To be struck', value: `a common foe needs ${Math.min(20, Math.max(2, Fighting.thac0(1) - ac))} or more` },
-      { label: 'Hit points', value: `${c.state.hp} of ${f.maxHp}` }, ...this.drained(c, f.level),
+      { label: 'Hit points', value: `${c.state.hp} of ${f.maxHp}` }, ...this.drained(catalog, c, f.level),
       { label: 'Each level adds', value: `1d${Canon.classes[c.classId ?? '']?.hitDie ?? 6}`
         + `${Fighting.statMod(c.base.constitution) ? ` ${this.signed(Fighting.statMod(c.base.constitution))}` : ''}`
         + ' hit points' }];
   }
   // The saves, by the quality each rests on: the die, and the quality's modifier and the member's level added.
-  static saves(c: Creature): Bearing[] {
-    const f = CombatProjection.fighter(c, 'fighters'), scores = Effects.scores(f);
+  static saves(catalog: ItemCatalog, c: Creature): Bearing[] {
+    const f = CombatProjection.fighter(catalog, c, 'fighters'), scores = Effects.scores(f);
     const kinds = Content.rules.saveKinds as Record<string, Attribute>, by = new Map<Attribute, string[]>();
     for (const [kind, quality] of Object.entries(kinds)) {
       const word = this.harms[kind];
@@ -160,7 +164,7 @@ export class CharacterSheets {
       value: this.signed(Fighting.statMod(scores[quality]) + f.level + Effects.saveModifier(f)) }));
   }
   // Levels taken by the dead, said plainly: what they stand at now, and what gives the rest back (see LevelDrain).
-  static drained(c: Creature, level: number): Bearing[] {
+  static drained(catalog: ItemCatalog, c: Creature, level: number): Bearing[] {
     const lost = c.base.level - level;
     return lost ? [{ label: 'Drained', value: `${lost === 1 ? 'a level' : `${lost} levels`} taken: fighting as level ${level}`
       + ` of ${c.base.level}, with the hit points and spells of it, until a restoration at a temple or by a cleric` }] : [];
@@ -168,11 +172,11 @@ export class CharacterSheets {
   // What each kind of save holds out against, in words (the same words the techniques use).
   static readonly harms: Record<string, string> = MechanicsText.harms;
   // The skills the member brings, where each comes from, and what a check on it adds.
-  static skills(c: Creature): SkillRow[] {
-    return Object.entries(Canon.skills).filter(([id]) => PartyCapabilities.brings(id, c))
+  static skills(catalog: ItemCatalog, c: Creature): SkillRow[] {
+    return Object.entries(Canon.skills).filter(([id]) => PartyCapabilities.brings(catalog, id, c))
       .map(([id, s]) => ({ id, name: s.name, text: s.description, from: this.from(c, id),
         ...s.means ? { means: true } : {},
-        ...Checks.qualities[id] ? { check: Checks.total(c, id) } : {} }));
+        ...Checks.qualities[id] ? { check: Checks.total(catalog, c, id) } : {} }));
   }
   private static from(c: Creature, id: string): string {
     if ((c.state.skills ?? []).includes(id)) { return 'taken up'; }
@@ -184,22 +188,23 @@ export class CharacterSheets {
   // engine offers it now, the command that spends it (`offered`: the member's commands, by id), and where it does
   // not, why not (`why`). Only skills the world has a use for are offered (`named`): a cleric was shown "Reading the
   // dead" in a world where nothing reads it, and could not take it.
-  static development(c: Creature, at: { ref?: string; offered?: Set<string>; opens?: Map<string, string[]>;
+  static development(catalog: ItemCatalog, c: Creature, at: { ref?: string; offered?: Set<string>;
+    opens?: Map<string, string[]>;
     named?: ReadonlySet<string>; why?: string } = {}): Development | undefined {
     const left = c.state.advances?.qualities ?? 0;
     if (!left || c.state.hp === 0) { return undefined; }
-    const skills = Advancement.teachable(c).filter(s => !at.named || at.named.has(s));
-    const options = [...CreatureSchema.attributes.map(q => this.quality(c, q)),
-      ...skills.map(s => ({ ...this.skill(c, s), ...at.opens?.get(s) ? { opens: at.opens.get(s)! } : {} }))];
+    const skills = Advancement.teachable(catalog, c).filter(s => !at.named || at.named.has(s));
+    const options = [...CreatureSchema.attributes.map(q => this.quality(catalog, c, q)),
+      ...skills.map(s => ({ ...this.skill(catalog, c, s), ...at.opens?.get(s) ? { opens: at.opens.get(s)! } : {} }))];
     return { left, options: options.map(o => {
       const command = `${o.kind === 'quality' ? 'raise_quality' : 'learn_skill'}(${at.ref},${o.id})`;
       return at.ref && at.offered?.has(command) ? { ...o, command } : { ...o, why: at.why ?? 'Not just now' };
     }) };
   }
-  private static quality(c: Creature, q: Attribute): DevelopmentOption {
+  private static quality(catalog: ItemCatalog, c: Creature, q: Attribute): DevelopmentOption {
     const after = structuredClone(c);
     after.base[q]++;
-    const changes = this.compare(c, after);
+    const changes = this.compare(catalog, c, after);
     // Every check resting on the quality moves together: its modifier, before any training.
     const resting = Object.entries(Checks.qualities).filter(([id, at]) => at === q && Canon.skills[id])
       .map(([id]) => id);
@@ -211,15 +216,15 @@ export class CharacterSheets {
     return { kind: 'quality', id: q, name: this.names[q], text: `${c.base[q]} → ${c.base[q] + 1}`,
       changes: changes.length ? changes : ['Nothing yet: the next point after it will tell'] };
   }
-  private static skill(c: Creature, id: string): DevelopmentOption {
+  private static skill(catalog: ItemCatalog, c: Creature, id: string): DevelopmentOption {
     const after = structuredClone(c), skill = Canon.skills[id]!;
     after.state.skills = [...after.state.skills ?? [], id];
     return { kind: 'skill', id, name: skill.name, text: skill.description,
-      changes: [`A check on it: ${this.signed(Checks.total(c, id))} → ${this.signed(Checks.total(after, id))}`] };
+      changes: [`A check on it: ${this.signed(Checks.total(catalog, c, id))} → ${this.signed(Checks.total(catalog, after, id))}`] };
   }
   // What differs between two sheets, said as the player would want it: "To land a blow: 9 → 8 or more".
-  private static compare(before: Creature, after: Creature): string[] {
-    const [a, b] = [this.sheet(before), this.sheet(after)], out: string[] = [];
+  private static compare(catalog: ItemCatalog, before: Creature, after: Creature): string[] {
+    const [a, b] = [this.sheet(catalog, before), this.sheet(catalog, after)], out: string[] = [];
     for (const [i, row] of a.fighting.entries()) {
       if (row.value !== b.fighting[i]!.value) { out.push(`${row.label}: ${row.value} → ${b.fighting[i]!.value}`); }
     }

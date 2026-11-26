@@ -1,3 +1,4 @@
+import type { ItemCatalog } from '../item-catalog';
 import { Canon } from '../canon/canon';
 import { Traits } from '../ports/traits';
 import { Callings } from '../ports/callings';
@@ -126,13 +127,13 @@ export class Advancement {
   }
   // The skills a member could take up with a development: those their calling teaches (Callings.table()' `learns`)
   // that they do not already bring, by background, calling, gear or study.
-  static teachable(creature: Creature): string[] {
+  static teachable(catalog: ItemCatalog, creature: Creature): string[] {
     if (!creature.state.advances?.qualities || creature.state.hp === 0) { return []; }
-    return (Callings.of(creature.classId ?? '')?.learns ?? []).filter(id => !PartyCapabilities.brings(id, creature));
+    return (Callings.of(creature.classId ?? '')?.learns ?? []).filter(id => !PartyCapabilities.brings(catalog, id, creature));
   }
   // Takes up a skill with a development: from then on the member brings it, as one trained in it.
-  static school(creature: Creature, skill: string) {
-    if (!this.teachable(creature).includes(skill)) { throw new Error(`${creature.id} cannot take up ${skill}`); }
+  static school(catalog: ItemCatalog, creature: Creature, skill: string) {
+    if (!this.teachable(catalog, creature).includes(skill)) { throw new Error(`${creature.id} cannot take up ${skill}`); }
     creature.state.skills = [...creature.state.skills ?? [], skill];
     creature.state.advances!.qualities--;
   }

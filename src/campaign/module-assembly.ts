@@ -44,12 +44,13 @@ export type AdventureManifest = SituationManifest;
 // Combines declarative content and a reusable ruleset; contains no adventure-specific decisions.
 export class ModuleAssembly {
   static compose(situationSource: string | Module, rulesSource: string | Module, manifest: AdventureManifest,
-    seed: string): CampaignInstance {
+    at: { seed: string; kinds: Module['catalog'] }): CampaignInstance {
     const situation = typeof situationSource === 'string' ? ModuleParser.parse(situationSource) : situationSource;
     const rules = typeof rulesSource === 'string' ? ModuleParser.parse(rulesSource) : rulesSource;
-    const module = this.joined(situation, rules, manifest);
+    const module = this.joined(situation, rules, manifest), catalog = ItemCatalog.among(at.kinds, module.catalog);
     Spatial.addEscorts(module); Spatial.addSearches(module);
-    Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
+    Spatial.placeFacts(module); Cast.itemKinds(module, catalog); Cast.professions(module, situation.people ?? [],
+      catalog);
     this.talkers(module, manifest.imports ?? []); this.unheld(module); this.present(module, situation);
     PutQuestions.lower(module);
     const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
@@ -59,8 +60,8 @@ export class ModuleAssembly {
     if (module.initial.some(c => ['memberOf', 'awake', 'needsCare', 'canCast', 'treatable', 'relieves', 'ownedItem', 'wearing', 'canTrain', 'proficient'].includes(c.call.name))) {
       throw new Error('Member state is inferred from the canonical cast; do not initialize it manually');
     }
-    this.generatedItems(module, manifest.items ?? {});
-    ItemTraits.assert(module);
+    this.generatedItems(module, manifest.items ?? {}, catalog);
+    ItemTraits.assert(module, catalog);
     this.references(module, cast);
     const order = [...manifest.actors.order, ...(company ? [company.actor] : []), ...people];
     const actors = this.actors(order, module);
@@ -81,7 +82,7 @@ export class ModuleAssembly {
     // the shared rules' every declaration with it, had been checked again after it was instantiated, which settles
     // only its dice (AX-03; that each install checks the shared rules at all: test/shared-validity).
     const compiler = new ModuleCompiler(RuntimeCapabilities.signatures, false, seed => new Expressions(seed));
-    const instance = compiler.instantiate(module, seed, this.predicates(definition));
+    const instance = compiler.instantiate(module, at.seed, this.predicates(definition));
     for (const p of instance.module.pursuits ?? []) {
       const owner = definition.actors.find(a => a.id === p.actor)
         ?? definition.extensions?.find(e => e.actor === p.actor);
@@ -234,10 +235,10 @@ export class ModuleAssembly {
     }
     return out;
   }
-  private static generatedItems(module: Module, items: Record<string, string>) {
+  private static generatedItems(module: Module, items: Record<string, string>, catalog: ItemCatalog) {
     for (const [id, kind] of Object.entries(items)) {
       const entity = module.entities.find(e => e.id === id && e.type === 'item');
-      const definition = ItemCatalog.get(kind);
+      const definition = catalog.get(kind);
       if (!entity || !module.entities.some(e => e.id === kind && e.type === 'itemkind')
         || module.initial.some(c => c.call.name === 'itemKind' && c.call.args[0] === id)) {
         throw new Error(`Generated item ${id} needs a declared item, kind and no duplicate authored binding`);

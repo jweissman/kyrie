@@ -118,8 +118,7 @@ export class RunnerFight {
   }
   // A carried thing is used ("Use a minor potion of healing on Wenna"), as the page calls it; an ability is aimed.
   private static called(b: Battle, ability: { id: string; name: string }, target: string, aimed: boolean): string {
-    const carried = ItemCatalog.used(ability.id);
-    if (carried) { return `Use ${ItemNames.called(carried.name)}${aimed ? ` on ${RunnerFight.name(b, target)}` : ''}`; }
+    if (ItemCatalog.carried(ability.id)) { return `Use ${ItemNames.called(ability.name)}${aimed ? ` on ${RunnerFight.name(b, target)}` : ''}`; }
     return aimed ? `${ability.name} at ${RunnerFight.name(b, target)}` : ability.name;
   }
   private static side(b: Battle, ours: boolean): string {

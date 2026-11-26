@@ -100,7 +100,8 @@ export class SkillReading {
         ...(needing.has(schema) || schema === 'go'
           ? needs.filter(r => bound.includes(r.args[0]!)).map(r => r.args[1]!) : [])]
         .filter(s => this.has(campaign, actor, s));
-      const by = [...new Set(skills.flatMap(s => PartyCapabilities.providers(s, creatures).map(c => c.name)))];
+      const by = [...new Set(skills.flatMap(s => PartyCapabilities.providers(campaign.catalog, s,
+        creatures).map(c => c.name)))];
       if (by.length) { uses.set(op.id, by); }
     }
     // What a skill nobody has would open here: the schemas that could ask for it, in a world where the company has it.

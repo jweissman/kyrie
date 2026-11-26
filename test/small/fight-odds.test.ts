@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../../src/battle';
 import { Content } from '../../src/content';
@@ -11,9 +12,9 @@ import { FightOdds } from '../../src/presentation/fight-odds';
 // played on, to at most 24, until it is sure either way; each is let run to play's own limit of turns.
 const fight = (seed: string, foe: string, count: number, level = 1) => {
   const content = new Content(seed);
-  const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior', level });
-  const foes = Array.from({ length: count }, (_, i) => content.createCreature(`f${i}`, { raceId: foe }));
-  return Battle.encounter(new CreatureStore([hero, ...foes]), [{ creatureId: 'hero', team: 'fighters' },
+  const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior', level });
+  const foes = Array.from({ length: count }, (_, i) => content.createCreature(ItemCatalog.canon, `f${i}`, { raceId: foe }));
+  return Battle.encounter(new CreatureStore(ItemCatalog.canon, [hero, ...foes]), [{ creatureId: 'hero', team: 'fighters' },
     ...foes.map(f => ({ creatureId: f.id, team: 'goblins' as const }))], { seed, moment: 'seen' });
 };
 describe('an easy win, as the company reckons it', () => {

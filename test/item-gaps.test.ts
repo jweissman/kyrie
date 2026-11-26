@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
@@ -15,9 +16,9 @@ import { Checks } from '../src/rules/checks';
 // ring at a time (G10).
 class Kit {
   static store() {
-    const c = new Content('item-gaps').createCreature('hero', { raceId: 'human', classId: 'warrior', level: 4 });
+    const c = new Content('item-gaps').createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior', level: 4 });
     c.state.hp = 3;
-    return new CreatureStore([c]);
+    return new CreatureStore(ItemCatalog.canon, [c]);
   }
 }
 
@@ -26,7 +27,7 @@ describe('what the item audit found the runtime left undone', () => {
     const store = Kit.store();
     Items.take(store, 'hero', { id: 'ring-1', definition: 'ring_of_regeneration' });
     Items.equip(store, 'hero', 'ring-1');
-    const hero = CombatProjection.fighter(store.get('hero'), 'fighters');
+    const hero = CombatProjection.fighter(ItemCatalog.canon, store.get('hero'), 'fighters');
     const context = { actor: hero, fighters: [hero], turn: 0, events: [], content: new Content('regen'),
       expressions: new Expressions('regen'),
       abilities: Content.abilities.map(a => a.id), retreat: false, location: null } as unknown as EffectContext;
@@ -51,12 +52,12 @@ describe('what the item audit found the runtime left undone', () => {
   });
   it('counts what a thing worn adds to a quality out of a fight: what is carried, and a check', () => {
     const store = Kit.store(), bare = store.get('hero');
-    const [carry, force] = [Burden.capacity(bare), Checks.total(bare, 'brawn')];
+    const [carry, force] = [Burden.capacity(ItemCatalog.canon, bare), Checks.total(ItemCatalog.canon, bare, 'brawn')];
     Items.take(store, 'hero', { id: 'belt-1', definition: 'belt_of_giant_strength' });
     Items.equip(store, 'hero', 'belt-1');
     const belted = store.get('hero');
-    expect(Burden.capacity(belted)).toBe(carry + 12);
-    expect(Checks.total(belted, 'brawn')).toBe(force + 3);
+    expect(Burden.capacity(ItemCatalog.canon, belted)).toBe(carry + 12);
+    expect(Checks.total(ItemCatalog.canon, belted, 'brawn')).toBe(force + 3);
   });
   it('wears a ring on each hand, and a third in place of the first', () => {
     const store = Kit.store();

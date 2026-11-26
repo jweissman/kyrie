@@ -132,7 +132,7 @@ export class FieldUse {
       && (s.remaining <= 0 || !this.held(held, c.id, s.id))))) { return false; }
     const lease = store.acquire(timed.map(c => c.id));
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(lease.catalog, c, 'fighters'));
       const visible = scene?.actors.filter(a => a.id === scene.player || (place
         && scene.world.test(ModuleWriter.call('at', a.id, place)))).flatMap(a => a.members);
       for (const target of fighters) {
@@ -179,7 +179,7 @@ export class FieldUse {
       const c = lease.creatures[0]!;
       if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else if (name === 'feat') {
         Advancement.feat(c, choice);
-      } else if (name === 'school') { Advancement.school(c, choice); } else if (name === 'tutor') {
+      } else if (name === 'school') { Advancement.school(store.catalog, c, choice); } else if (name === 'tutor') {
         if (!Advancement.tutor(c, choice)) { return []; }
       } else if (name === 'teach') {
         if (!Advancement.teach(c, choice)) { return []; }
@@ -246,7 +246,7 @@ export class FieldUse {
     const lease = store.acquire([options.caster, ...foes]);
     try {
       const fighters = lease.creatures
-        .map(c => CombatProjection.fighter(c, c.id === options.caster ? 'fighters' : 'goblins'));
+        .map(c => CombatProjection.fighter(lease.catalog, c, c.id === options.caster ? 'fighters' : 'goblins'));
       const actor = this.caster(fighters, options.caster, ability);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
         content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
@@ -301,7 +301,7 @@ export class FieldUse {
       ? { ...e, location: options.destination } : e) };
     const lease = store.acquire([options.caster]);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(lease.catalog, c, 'fighters'));
       const actor = this.caster(fighters, options.caster, ability);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
         content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
@@ -333,7 +333,7 @@ export class FieldUse {
     const lease = store.acquire([...new Set(ids)]);
     try {
       if (options.service === 'recover' && lease.creatures.every(c => c.state.hp === 0)) { return []; }
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(lease.catalog, c, 'fighters'));
       const actor = this.caster(fighters, options.caster, ability, options.service);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[],
         ...(actor.abilitySources?.[ability.id] ? { source: actor.abilitySources[ability.id] } : {}),

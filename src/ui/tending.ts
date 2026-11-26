@@ -1,6 +1,5 @@
 import { Content } from '../content';
-import { ItemCatalog } from '../item-catalog';
-import type { ArenaAbility } from '../lang/parse';
+import { ItemUses } from './item-uses';
 import type { Choice } from './choice-list';
 import type { Act, Screen } from './screen-types';
 
@@ -48,16 +47,14 @@ export class Tending {
     const [, kind, args = ''] = /^(field_spell|use_item)\((.*)\)$/.exec(act.command!) ?? [];
     const parts = args.split(','), recipient = parts.at(-1), spell = kind === 'field_spell';
     const item = spell ? undefined : screen.items.find(i => i.id === parts[0]);
-    const ability = spell ? Content.abilities.find(a => a.id === parts[1]) : item && ItemCatalog.use(item.kind);
-    if (!kind || !recipient || !this.mends(ability)) { return undefined; }
+    const spelt = spell ? Content.abilities.find(a => a.id === parts[1]) : undefined;
+    const mends = spell ? ItemUses.mends(spelt) : !!item?.mends;
+    if (!kind || !recipient || !mends) { return undefined; }
     const who = spell ? screen.party.find(m => m.ref === parts[0])?.name : item?.ownerName;
-    const what = spell ? `cast ${ability!.name}` : `use ${this.thing(item!.name)}`;
+    const what = spell ? `cast ${spelt!.name}` : `use ${this.thing(item!.name)}`;
     return { recipient, choice: { id: `mend:${act.command!}`, label: `${who}: ${what}`, tone: spell ? 'spell' : 'item',
       command: act.command!, ...act.minutes ? { minutes: act.minutes } : {}, ...act.about ? { about: act.about } : {},
       ...act.disabled ? { disabled: act.disabled } : {} } };
-  }
-  private static mends(ability: ArenaAbility | undefined): boolean {
-    return !!ability?.effects.some(e => e.kind === 'heal' || e.kind === 'remove');
   }
   // "the healing herbs", "a draught of healing", as the pack names it.
   private static thing(name: string): string {

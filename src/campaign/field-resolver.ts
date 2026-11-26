@@ -103,7 +103,7 @@ export class FieldResolver {
     if (call.name === 'check') {
       const members = host.actors.find(a => a.id === call.args[0])?.members ?? [];
       const difficulty = Checks.difficulty(call.args[2]!, id => host.world.number(ModuleWriter.call('toBeat', id)));
-      return Checks.make(creatures.snapshot.filter(c => members.includes(c.id)),
+      return Checks.make(creatures.catalog, creatures.snapshot.filter(c => members.includes(c.id)),
         { skill: call.args[1]!, difficulty, seed, about: action.id, forced: host.forced,
           rests: Checks.rests(host.world, call.args[1]!) });
     }

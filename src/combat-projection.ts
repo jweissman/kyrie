@@ -1,5 +1,5 @@
 import { Canon } from './canon/canon';
-import { ItemCatalog } from './item-catalog';
+import type { ItemCatalog } from './item-catalog';
 import { LevelDrain } from './rules/level-drain';
 import type { Creature } from './creature';
 import type { BattleState, EncounterParticipant, Fighter, Team } from './model';
@@ -27,7 +27,7 @@ export class CombatProjection {
         ...(fighter.prepared
           ? { prepared: structuredClone(fighter.prepared), ready: structuredClone(fighter.ready ?? []) } : {}),
         learnedAbilities: fighter.abilities.filter(id => !(original?.base.abilities ?? fighter.abilities).includes(id)
-          && !(original && ItemCatalog.abilities(original)[id]
+          && !(original && fighter.abilitySources?.[id]
             && !original.state.learnedAbilities.includes(id)) && !fighter.stock?.[id]),
         conditions: structuredClone(fighter.statuses),
         // What it used up in the fight is gone from its pack; a wand used and not spent keeps the charges it has left.
@@ -45,24 +45,25 @@ export class CombatProjection {
   // Every creature as a fight told after it names them, each on its own side: the company's as fighters, and the rest
   // as what they were fought as. Each creature had been drawn as of the company, and a foe's hit points told as it fell
   // ("takes 6 slashing damage (0 HP left)"), where a foe's are never told (the owner, 7 November).
-  static told(creatures: readonly Creature[], party: readonly string[], called?: ReadonlyMap<string, string>):
-    BattleState {
+  static told(catalog: ItemCatalog, creatures: readonly Creature[], party: readonly string[],
+    called?: ReadonlyMap<string, string>): BattleState {
     const ours = new Set(party);
-    return { combatants: creatures.map(c => ({ ...this.fighter(c, ours.has(c.id) ? 'fighters' : 'goblins'),
+    return { combatants: creatures.map(c => ({ ...this.fighter(catalog, c, ours.has(c.id) ? 'fighters' : 'goblins'),
       ...called?.get(c.id) ? { name: called.get(c.id)! } : {} })), turn: 0, actor: '', outcome: null };
   }
   // One of the company carries into a fight what it can use up there (see ItemCatalog.stock), each kind an ability
   // whose source is the first of that kind it has not used.
   // One drained of levels fights at the level it stands at (see LevelDrain).
-  static fighter(creature: Creature, team: Team): Fighter {
-    const fighter = CombatProjection.made(creature, team), drained = LevelDrain.levels(creature.state.conditions);
+  static fighter(catalog: ItemCatalog, creature: Creature, team: Team): Fighter {
+    const fighter = CombatProjection.made(catalog, creature, team),
+      drained = LevelDrain.levels(creature.state.conditions);
     if (drained) { LevelDrain.lower(fighter, drained); }
     return fighter;
   }
-  private static made(creature: Creature, team: Team): Fighter {
-    const stock = team === 'fighters' ? ItemCatalog.stock(creature) : {}, sources = { ...ItemCatalog.abilities(creature),
-      ...Object.fromEntries(Object.entries(stock).map(([id, [first]]) => [id,
-        { id: first!, kind: 'item' as const, name: ItemCatalog.used(id)!.name }])) };
+  private static made(catalog: ItemCatalog, creature: Creature, team: Team): Fighter {
+    const stock = team === 'fighters' ? catalog.stock(creature) : {}, sources = { ...catalog.abilities(creature),
+      ...Object.fromEntries(Object.entries(stock).map(([id, [first]]) => [id, { id: first!, kind: 'item' as const,
+        name: catalog.get(id.slice(5)).name, use: catalog.get(id.slice(5)).use! }])) };
     return { id: creature.id, name: creature.name, raceId: creature.raceId,
       ...creature.classId ? { classId: creature.classId } : {},
       ...structuredClone(creature.base), hp: creature.state.hp, mana: creature.state.mana,
@@ -73,8 +74,8 @@ export class CombatProjection {
       abilities: [...new Set([...creature.base.abilities, ...creature.state.learnedAbilities,
         ...Object.keys(sources)])],
       ...(Object.keys(sources).length ? { abilitySources: sources } : {}),
-      ...(Object.keys(stock).length ? { stock } : {}), ...CombatProjection.charges(creature, stock),
-      statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature),
+      ...(Object.keys(stock).length ? { stock } : {}), ...CombatProjection.charges(catalog, creature, stock),
+      statuses: structuredClone(creature.state.conditions), equipment: catalog.equipment(creature),
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
       ...(creature.variations ? { variations: [...creature.variations] } : {}),
       // A creature of a kind with no calling: its kind's powers are its own, spells among them cast without slots.
@@ -84,10 +85,11 @@ export class CombatProjection {
       team, cooldowns: {} };
   }
   // The uses left in each charged thing it carries into the fight (a wand): its own count, or its kind's when new.
-  static charges(creature: Creature, stock: Record<string, string[]>): { charges?: Record<string, number> } {
+  static charges(catalog: ItemCatalog, creature: Creature, stock: Record<string, string[]>):
+    { charges?: Record<string, number> } {
     const carried = new Set(Object.values(stock).flat()), charges = Object.fromEntries((creature.state.inventory ?? [])
-      .filter(i => carried.has(i.id) && ItemCatalog.get(i.definition).charges)
-      .map(i => [i.id, i.charges ?? ItemCatalog.get(i.definition).charges!]));
+      .filter(i => carried.has(i.id) && catalog.get(i.definition).charges)
+      .map(i => [i.id, i.charges ?? catalog.get(i.definition).charges!]));
     return Object.keys(charges).length ? { charges } : {};
   }
   // One charge used of a charged thing: whether any are left in it.

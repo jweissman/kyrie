@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
@@ -30,9 +31,9 @@ const made = () => {
 };
 const fight = () => {
   const content = new Content('mage-casts');
-  const store = new CreatureStore([content.createCreature('wiz', { ...made(), level: 1 } as never),
-    content.createCreature('pal', { raceId: 'human', classId: 'warrior', level: 1 }),
-    ...['r1', 'r2'].map(id => content.createCreature(id, { raceId: 'rat' }))]);
+  const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'wiz', { ...made(), level: 1 } as never),
+    content.createCreature(ItemCatalog.canon, 'pal', { raceId: 'human', classId: 'warrior', level: 1 }),
+    ...['r1', 'r2'].map(id => content.createCreature(ItemCatalog.canon, id, { raceId: 'rat' }))]);
   const battle = Battle.encounter(store, [{ creatureId: 'wiz', team: 'fighters' }, { creatureId: 'pal', team: 'fighters' },
     ...['r1', 'r2'].map(creatureId => ({ creatureId, team: 'goblins' as const }))], { seed: 'mage-casts' });
   for (let i = 0; i < 20 && battle.state.actor !== 'wiz'; i++) {

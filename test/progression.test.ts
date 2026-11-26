@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { Advancement } from '../src/rules/advancement';
@@ -17,14 +18,14 @@ class Party {
   static readonly members = [['Bran', 'human', 'warrior'], ['Ivo', 'human', 'mage'], ['Dori', 'dwarf', 'cleric']] as const;
   static made(level: number, seed = 'party'): Creature[] {
     const content = new Content(seed);
-    return this.members.map(([name, raceId, classId]) => content.createCreature(`${name.toLowerCase()}-${level}`,
+    return this.members.map(([name, raceId, classId]) => content.createCreature(ItemCatalog.canon, `${name.toLowerCase()}-${level}`,
       { name, raceId, classId, level, ...classId === 'mage' ? { traits: ['evoker'] } : {},
         ...classId === 'cleric' ? { traits: ['vitalist'] } : {} }));
   }
   static fight(level: number, foe: string, seed: string) {
-    const fighters = this.made(level, seed).map(c => CombatProjection.fighter(c, 'fighters'));
+    const fighters = this.made(level, seed).map(c => CombatProjection.fighter(ItemCatalog.canon, c, 'fighters'));
     const content = new Content(`${seed}:foe`);
-    const enemy = CombatProjection.fighter(content.createCreature('foe', { raceId: foe }), 'goblins');
+    const enemy = CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'foe', { raceId: foe }), 'goblins');
     return Arena.simulate({ id: `level-${level}`, abilities: structuredClone(Content.abilities),
       combatants: [...fighters, enemy] }, seed, Tactics.choose).state.outcome;
   }
@@ -40,7 +41,7 @@ describe('progression to twentieth level', () => {
   it('gives a caster of seventeenth level ninth-level slots, and never offers a spell it has no slot for', () => {
     const [, ivo] = Party.made(17);
     expect(ivo!.base.maxSlots!.length).toBe(9);
-    const bard = new Content('bard').createCreature('wren', { raceId: 'human', classId: 'bard', level: 17,
+    const bard = new Content('bard').createCreature(ItemCatalog.canon, 'wren', { raceId: 'human', classId: 'bard', level: 17,
       traits: ['rhythm_rhyme'] });
     expect(Spellcasting.table('bard', 17, bard.base).length).toBe(6);
     bard.state.advances = { qualities: 0, spells: 1 };
@@ -49,8 +50,8 @@ describe('progression to twentieth level', () => {
   });
   it('makes a companion at a level with what one trained to that level holds', () => {
     for (const [name, raceId, classId] of [['Nell', 'human', 'thief'], ['Elen', 'elf', 'ranger'], ['Bran', 'human', 'warrior']] as const) {
-      const made = new Content('same').createCreature(name, { raceId, classId, level: 15 });
-      const trained = new Content('same').createCreature(name, { raceId, classId });
+      const made = new Content('same').createCreature(ItemCatalog.canon, name, { raceId, classId, level: 15 });
+      const trained = new Content('same').createCreature(ItemCatalog.canon, name, { raceId, classId });
       trained.state.experience = Advancement.threshold(15);
       Advancement.train(trained, 'seed');
       expect(trained.base.level).toBe(15);
@@ -59,7 +60,7 @@ describe('progression to twentieth level', () => {
     }
   });
   it('lets the store keep what a level brings, and nothing else', () => {
-    const store = new CreatureStore([new Content('store').createCreature('bran', { raceId: 'human', classId: 'warrior' })]);
+    const store = new CreatureStore(ItemCatalog.canon, [new Content('store').createCreature(ItemCatalog.canon, 'bran', { raceId: 'human', classId: 'warrior' })]);
     const lease = store.acquire(['bran']);
     const next = lease.creatures[0]!;
     next.state.experience = Advancement.threshold(13);

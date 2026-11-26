@@ -25,7 +25,7 @@ import { World } from '../lang/world'; import { Beside } from './beside'; import
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { EngineDeclarations } from './engine-declarations'; import { Spoils } from './spoils'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
-import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
+import { Journey } from './journey'; import { ItemCatalog } from '../item-catalog'; import { LocalKinds } from '../canon/local-catalog';
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
@@ -34,9 +34,10 @@ import { Crossing, type ExecutionContext } from './crossing'; import { SemanticR
 import { SavedSchemas } from './saved-schemas'; import { LifeLost } from './life-lost';
 export class Campaign implements WatchHost {
   private compiled: Module;
-  get module(): Module { return this.compiled; }
+  // Its kinds of thing, the catalog's and its modules' own (see ItemCatalog), held by its creatures' store.
+  get module(): Module { return this.compiled; } get catalog(): ItemCatalog { return this.creatures.catalog; }
   private current: Omit<CampaignState, 'party' | 'creatures'>;
-  private creatures = new CreatureStore(); private log: CampaignEvent[] = []; private encounter = 0;
+  private creatures: CreatureStore; private log: CampaignEvent[] = []; private encounter = 0;
   // A check made to come out so, for a test (see Checks.make; Journey.roll).
   forced?: 'pass' | 'fail'; private definition?: CampaignDefinition;
   // command: the command a session has open here, from resolved to committed (what came of it drawn, told, its step
@@ -56,8 +57,8 @@ export class Campaign implements WatchHost {
       // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
       LocalKinds.activate(saved.module.catalog, this); this.compiled = saved.module;
       this.definition = SavedSchemas.read(saved);
-      this.current = saved.state; this.creatures = new CreatureStore(saved.creatures);
-      this.log = saved.events; this.encounter = saved.encounter;
+      this.creatures = new CreatureStore(ItemCatalog.of(saved.module.catalog), saved.creatures);
+      this.current = saved.state; this.log = saved.events; this.encounter = saved.encounter;
       this.observations = saved.observations;
       // A save from before demand grounding holds grounded actions; its schemas are in the definition.
       if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
@@ -71,9 +72,9 @@ export class Campaign implements WatchHost {
     }
     if (!instance.campaign) { throw new Error('A campaign is a composition of installed modules'); }
     this.definition = instance.campaign; const content = new Content(`${seed}:campaign`);
-    this.compiled = instance.module;
+    this.compiled = instance.module; this.creatures = new CreatureStore(ItemCatalog.of(instance.module.catalog));
     for (const entry of this.definition.creatures) {
-      this.creatures.insert(ModuleInstallations.creature(entry, content));
+      this.creatures.insert(ModuleInstallations.creature(this.catalog, entry, content));
     }
     const player = this.definition.actors.find(a => a.player);
     if (!player) { throw new Error('Campaign needs a player actor'); }
@@ -109,7 +110,7 @@ export class Campaign implements WatchHost {
     const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays, world = this.world;
     LocalKinds.activate(this.module.catalog, copy);
     const compiled = arrays(this.compiled), current = structuredClone(this.current);
-    const creatures = new CreatureStore(this.creatures.snapshot), committed = new CommittedWorld();
+    const creatures = new CreatureStore(this.catalog, this.creatures.snapshot), committed = new CommittedWorld();
     Object.assign(copy, { compiled, definition: this.definition && arrays(this.definition), current, creatures,
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
       executing: false, installation: Installed.current(), committed, grounding: new CampaignGrounding(),
@@ -136,7 +137,7 @@ export class Campaign implements WatchHost {
       // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).
       this.installBoundary(); LocalKinds.reclaim(this, this.module.catalog, draft.instance.module.catalog);
       if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
-      EngineDeclarations.declare(draft);
+      EngineDeclarations.declare(draft, this.compiled.catalog);
       const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
         budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
       const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current);
@@ -208,7 +209,7 @@ export class Campaign implements WatchHost {
   get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
   get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
   get fighters(): Fighter[] { return this.party; }
-  private get party(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters')); }
+  private get party(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.catalog, this.creatures.get(id), 'fighters')); }
   get events(): CampaignEvent[] { return structuredClone(this.log); }
   // What the company was told of the last command, kept with it (see Telling): what it has heard is not said again.
   // And what the world said that was held back as told lately (see RuleWords).
@@ -288,8 +289,8 @@ export class Campaign implements WatchHost {
   // It holds the module and definition too, so that what came of a command after it (the country beyond it drew,
   // installed) is undone with it (see undo).
   private checkpoint() {
-    return { creatures: this.creatures.with([]), current: structuredClone({ ...this.current, world: undefined }),
-      world: this.world, compiled: this.compiled, definition: this.definition,
+    return { creatures: this.creatures.with(this.catalog, []), world: this.world, compiled: this.compiled,
+      current: structuredClone({ ...this.current, world: undefined }), definition: this.definition,
       observations: structuredClone(this.observations), events: this.log.length, encounter: this.encounter };
   }
   // The last command undone, with all that came of it: a session whose command failed after the campaign had carried

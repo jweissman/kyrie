@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -35,7 +36,7 @@ describe('what a company carries', () => {
   it('is weighed by kind, against ten and twice the carrier\'s strength', async () => {
     const s = await Load.start(), r = s.campaign.readout, wenna = r.creatures.find(c => r.partyIds.includes(c.id))!;
     expect([Burden.mass('star_iron'), Burden.mass('delver_ring'), Burden.mass('scale')]).toEqual([2, 0, 8]);
-    expect(Burden.capacity(wenna)).toBe(10 + 2 * wenna.base.strength);
+    expect(Burden.capacity(ItemCatalog.canon, wenna)).toBe(10 + 2 * wenna.base.strength);
     expect(Load.laden(s)).toBe(false);
   }, 60000);
   it('slows a company carrying more than it can: the heart of the vein, carried up, weighs it down', async () => {

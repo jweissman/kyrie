@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { readFileSync } from 'node:fs';
 import { AbilityUse } from '../src/ability-use';
@@ -19,7 +20,7 @@ import type { Fighter } from '../src/model';
 const c = new Content('midden-rat');
 const kinds = ['fortitude', 'reflex', 'will'];
 const sheet = (k: Creature) => {
-  const f = CombatProjection.fighter(k, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
+  const f = CombatProjection.fighter(ItemCatalog.canon, k, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
   return { hp: k.base.maxHp, armour: Fighting.armorClass(Effects.combatant(f)), blow: f.equipment.weapon.damage,
     saves: kinds.map(s => Fighting.statMod(scores[Canon.rules.saveKinds[s]!]!) + f.level
       + Effects.saveModifier(f, s)) };
@@ -42,7 +43,7 @@ const bite = (seed: string): Fighter | undefined => {
 };
 describe('the midden rat by the SRD\'s numbers', () => {
   it('is the same rat at every rank: 5, AC 6, a bite of 1d4, saves +3, +5, +3', () => {
-    const ranks = [1, 2, 5].map(level => sheet(c.createCreature(`r${level}`, { raceId: 'rat/midden', level })));
+    const ranks = [1, 2, 5].map(level => sheet(c.createCreature(ItemCatalog.canon, `r${level}`, { raceId: 'rat/midden', level })));
     expect(ranks[1]).toEqual(ranks[0]!);
     expect(ranks[2]).toEqual(ranks[0]!);
     expect(ranks[0]).toMatchObject({ hp: 5, armour: 6, blow: '1d4', saves: [3, 5, 3] });

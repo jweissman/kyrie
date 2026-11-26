@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
@@ -15,7 +16,7 @@ import { Canon } from '../src/canon/canon';
 const content = new Content('barrow-ghoul');
 const kinds = ['fortitude', 'reflex', 'will', 'paralyze', 'charm'];
 const sheet = (c: Creature) => {
-  const f = CombatProjection.fighter(c, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
+  const f = CombatProjection.fighter(ItemCatalog.canon, c, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
   return { hp: c.base.maxHp, armour: Fighting.armorClass(Effects.combatant(f)),
     blows: (f.equipment.routine ?? [f.equipment.weapon]).map(w => w.damage.replace(/[+-]\d+$/, '')),
     saves: kinds.map(k => Fighting.statMod(scores[Canon.rules.saveKinds[k]!]!) + f.level
@@ -23,7 +24,7 @@ const sheet = (c: Creature) => {
 };
 describe('the barrow ghoul by the SRD\'s numbers', () => {
   it('is the same ghoul at every rank it is met at: 13, AC 7, bite 1d6 and claws 1d3, saves +0, +2, +5', () => {
-    const ranks = [1, 2, 6].map(level => sheet(content.createCreature(`g${level}`, { raceId: 'ghoul/barrow', level })));
+    const ranks = [1, 2, 6].map(level => sheet(content.createCreature(ItemCatalog.canon, `g${level}`, { raceId: 'ghoul/barrow', level })));
     expect(ranks[1]).toEqual(ranks[0]!);
     expect(ranks[2]).toEqual(ranks[0]!);
     expect(ranks[0]).toEqual({ hp: 13, armour: 7, blows: ['1d6', '1d3', '1d3'], saves: [0, 2, 5, 0, 5] });
@@ -37,9 +38,9 @@ describe('the barrow ghoul by the SRD\'s numbers', () => {
     }
   });
   it('comes back from a save as it went', () => {
-    const g = content.createCreature('kept', { raceId: 'ghoul/barrow', level: 2 });
+    const g = content.createCreature(ItemCatalog.canon, 'kept', { raceId: 'ghoul/barrow', level: 2 });
     const again = JSON.parse(JSON.stringify(g)) as Creature;
-    expect(() => CreatureSchema.validate(again)).not.toThrow();
+    expect(() => CreatureSchema.validate(again, ItemCatalog.canon)).not.toThrow();
     expect(sheet(again)).toEqual(sheet(g));
   });
   it('passes the census in structure and resolution; ghoul fever is the one special it lacks', () => {

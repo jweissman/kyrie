@@ -19,7 +19,7 @@ export interface Fighter {
   // The spell prepared in each slot, by spell level, and those of them not yet cast.
   prepared?: string[][]; ready?: string[][];
   gold: number; experience: number;
-  abilitySources?: Record<string, { id: string; kind: 'item'; name: string }>;
+  abilitySources?: Record<string, { id: string; kind: 'item'; name: string; use?: string }>;
   // What it carries that it can use up here, by the ability each is used as (the items of that kind not yet used),
   // and what it has used up in this fight (PT-07).
   stock?: Record<string, string[]>; spent?: string[];
@@ -101,8 +101,8 @@ export type CombatEvent = (
   // A check made outside a fight (see Checks): unrolled when it could not have gone otherwise.
   | { type: 'check'; turn: number; actor: string; skill: string; rolled: number; difficulty: number; success: boolean;
     die?: number; stat?: string; modifier?: number; trained?: number; unrolled?: boolean;
-    // What a tool to hand added, and which kind of thing it was (thieves' tools, at a lock).
-    tool?: number; using?: string }
+    // What a tool to hand added, and which kind of thing it was (thieves' tools, at a lock), by its kind's name too.
+    tool?: number; using?: string; usingName?: string }
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
   | { type: 'intercept'; turn: number; actor: string; target: string }
   // A caster's check against a creature's spell resistance: d20 and casting level against it (see SpellResistance).

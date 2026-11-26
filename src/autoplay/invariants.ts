@@ -16,7 +16,7 @@ export class Invariants {
   static creatures(s: PlaySession): Violation[] {
     const out: Violation[] = [];
     for (const c of s.campaign.readout.creatures) {
-      try { CreatureSchema.validate(structuredClone(c)); } catch (error) {
+      try { CreatureSchema.validate(structuredClone(c), s.campaign.catalog); } catch (error) {
         out.push({ kind: 'creature', message: `${c.id}: ${(error as Error).message}` });
       }
     }

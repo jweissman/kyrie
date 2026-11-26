@@ -18,7 +18,7 @@ variations.t_grown = { axis: 'breed', word: 'grown', says: 'grown as it was let 
 afterAll(() => { delete variations.t_grown; });
 const content = new Content('stat-expressions');
 const made = (level: number, company = 1) =>
-  content.createCreature(`g${level}-${company}`, { raceId: 'ghoul/t_grown', level, company });
+  content.createCreature(ItemCatalog.canon, `g${level}-${company}`, { raceId: 'ghoul/t_grown', level, company });
 
 describe('a stat block read over its context', () => {
   it('has the hit points its level and its company make it, as it is made', () => {
@@ -27,7 +27,7 @@ describe('a stat block read over its context', () => {
   });
   it('strikes for its own damage at its level, blow by blow, and its hide is harder for its level', () => {
     for (const level of [1, 4, 9]) {
-      const c = made(level), e = ItemCatalog.equipment(c);
+      const c = made(level), e = ItemCatalog.canon.equipment(c);
       expect(e.weapon.damage).toBe('1d4 + #level');
       const f = content.creature('ghoul/t_grown', `f${level}`, 'goblins', level), expressions = new Expressions(`blow-${level}`);
       for (let n = 0; n < 12; n++) {

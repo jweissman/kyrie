@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { afterAll, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { CanonValidation } from '../src/canon/canon-validation';
@@ -14,7 +15,7 @@ import { Fighting } from '../src/rules/fighting';
 // ordinary rat keeps the saves and blows its level gives it. This spec is rat/cellar's play-identity test (the
 // concordance names it).
 const content = new Content('fixed-stat-block');
-const fighter = (c: Creature) => CombatProjection.fighter(c, 'goblins');
+const fighter = (c: Creature) => CombatProjection.fighter(ItemCatalog.canon, c, 'goblins');
 const kinds = ['fortitude', 'poison', 'paralyze', 'reflex', 'will', 'sleep', 'charm'];
 const saves = (c: Creature) => {
   const f = fighter(c), scores = Effects.scores(f) as Record<string, number>;
@@ -29,28 +30,28 @@ const sheet = (c: Creature) => {
 };
 describe('the SRD rat, a fixed stat block', () => {
   it('is the same rat at every rank it is met at, and saves and bites as the SRD has it', () => {
-    const ranks = [1, 3, 6].map(level => sheet(content.createCreature(`r${level}`, { raceId: 'rat/cellar', level })));
+    const ranks = [1, 3, 6].map(level => sheet(content.createCreature(ItemCatalog.canon, `r${level}`, { raceId: 'rat/cellar', level })));
     expect(ranks[1]).toEqual(ranks[0]!);
     expect(ranks[2]).toEqual(ranks[0]!);
     expect(ranks[0]).toMatchObject({ hp: 1, scores: [2, 15, 10, 2, 12, 2], blows: ['1d3'], saves: [2, 2, 2, 4, 1, 1, 1] });
   });
   it('hits SRD AC 15 half the time at any rank, by the roll and its forecast alike', () => {
     for (const level of [1, 4, 9]) {
-      const rat = Effects.combatant(fighter(content.createCreature(`h${level}`, { raceId: 'rat/cellar', level })));
+      const rat = Effects.combatant(fighter(content.createCreature(ItemCatalog.canon, `h${level}`, { raceId: 'rat/cellar', level })));
       const mark = { ...rat, armorAc: 4, dexterity: 10, modifiers: {}, fixedToHit: undefined };
       expect([level, Fighting.chance(rat, mark)]).toEqual([level, 0.5]);
       expect([level, Fighting.attack(rat, mark, () => 10).need]).toEqual([level, 11]);
     }
   });
   it('comes back from a save as it went', () => {
-    const rat = content.createCreature('kept', { raceId: 'rat/cellar', level: 4 });
+    const rat = content.createCreature(ItemCatalog.canon, 'kept', { raceId: 'rat/cellar', level: 4 });
     const again = JSON.parse(JSON.stringify(rat)) as Creature;
-    expect(() => CreatureSchema.validate(again)).not.toThrow();
+    expect(() => CreatureSchema.validate(again, ItemCatalog.canon)).not.toThrow();
     expect(sheet(again)).toEqual(sheet(rat));
   });
   it('leaves an ordinary rat to its level', () => {
-    const low = saves(content.createCreature('o1', { raceId: 'rat', level: 1 }));
-    expect(saves(content.createCreature('o6', { raceId: 'rat', level: 6 }))).not.toEqual(low);
+    const low = saves(content.createCreature(ItemCatalog.canon, 'o1', { raceId: 'rat', level: 1 }));
+    expect(saves(content.createCreature(ItemCatalog.canon, 'o6', { raceId: 'rat', level: 6 }))).not.toEqual(low);
   });
 });
 

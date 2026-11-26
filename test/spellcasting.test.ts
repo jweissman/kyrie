@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
@@ -7,7 +8,7 @@ import { Spellcasting } from '../src/rules/spellcasting';
 const spells = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'];
 class Casters {
   static cleric(level: number) {
-    return new Content('slots').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level,
+    return new Content('slots').createCreature(ItemCatalog.canon, 'dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level,
       spells, wisdom: 14 });
   }
   static cast(store: CreatureStore, ability: string) {
@@ -23,12 +24,12 @@ describe('prepared spells', () => {
     // A first preparation takes each level's own prayers in turn.
     expect(dori.state.prepared).toEqual([['cure', 'bless', 'anoint'], ['prayer']]);
     expect(dori.state.ready).toEqual(dori.state.prepared);
-    expect(new Content('slots').createCreature('bran', { raceId: 'human', classId: 'warrior' }).base.maxSlots).toBeUndefined();
+    expect(new Content('slots').createCreature(ItemCatalog.canon, 'bran', { raceId: 'human', classId: 'warrior' }).base.maxSlots).toBeUndefined();
   });
   // Any spell known is cast from a ready slot of its level or higher, the lowest ready (the SRD's; the owner, 15
   // November, P0: a mage whose slots were prepared with its first-learned spells could not cast Magic Missile).
   it('casting spends a ready slot of the spell\'s level or higher; a cantrip spends none; with none left, none is cast', () => {
-    const store = new CreatureStore([Casters.cleric(3)]);
+    const store = new CreatureStore(ItemCatalog.canon, [Casters.cleric(3)]);
     Casters.cast(store, 'cure_minor');
     expect(store.get('dori').state.slots).toEqual([3, 1]);
     Casters.cast(store, 'cure');
@@ -65,6 +66,6 @@ describe('prepared spells', () => {
   it('a creature saved before preparation existed prepares when it is loaded', () => {
     const old = Casters.cleric(3);
     delete old.base.maxSlots; delete old.state.slots; delete old.state.prepared; delete old.state.ready;
-    expect(new CreatureStore([old]).get('dori').state.prepared).toEqual([['cure', 'bless', 'anoint'], ['prayer']]);
+    expect(new CreatureStore(ItemCatalog.canon, [old]).get('dori').state.prepared).toEqual([['cure', 'bless', 'anoint'], ['prayer']]);
   });
 });

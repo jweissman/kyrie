@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content, type CreatureGenerationContext } from '../src/content';
 import { Canon } from '../src/canon/canon';
@@ -14,21 +15,21 @@ describe('compositional creature generation', () => {
       { raceId: 'goblin' }, { population: 'monster' }, {},
     ];
     for (const context of contexts) {
-      const first = new Content('general').createCreature('entity', context);
-      expect(first).toEqual(new Content('general').createCreature('entity', context));
+      const first = new Content('general').createCreature(ItemCatalog.canon, 'entity', context);
+      expect(first).toEqual(new Content('general').createCreature(ItemCatalog.canon, 'entity', context));
       expect(first.base.level).toBe(context.level ?? 1);
       if (context.raceId) { expect(first.raceId).toBe(context.raceId); }
       if (context.classId) { expect(first.classId).toBe(Creation.classId(context.classId)); }
       if (context.population === 'monster') { expect(['goblin', 'wisp']).toContain(first.raceId); }
     }
-    expect(new Content('general').createCreature('entity', contexts[0]!).classId).toBe('warrior');
+    expect(new Content('general').createCreature(ItemCatalog.canon, 'entity', contexts[0]!).classId).toBe('warrior');
   });
   it('derives hit points, spell slots and spells from Orsino\'s chassis, honouring authored scores', () => {
     const spells = ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'];
     const context = { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], spells, strength: 18,
       constitution: 15, wisdom: 14, name: 'Chosen' } satisfies CreatureGenerationContext;
-    const low = new Content('scaling').createCreature('low', { ...context, level: 1 });
-    const high = new Content('scaling').createCreature('high', { ...context, level: 4 });
+    const low = new Content('scaling').createCreature(ItemCatalog.canon, 'low', { ...context, level: 1 });
+    const high = new Content('scaling').createCreature(ItemCatalog.canon, 'high', { ...context, level: 4 });
     expect([high.name, high.raceId, high.classId]).toEqual(['Chosen', 'dwarf', 'cleric']);
     for (const key of ['strength', 'constitution'] as const) { expect(high.base[key]).toBe(low.base[key]); }
     expect([high.base.strength, high.base.constitution]).toEqual([18, 15]);
@@ -42,7 +43,7 @@ describe('compositional creature generation', () => {
   });
   it('keeps kind and class independent of allegiance, and a species free of any class', () => {
     const generated = Array.from({ length: 12 }, (_, i) =>
-      new Content(`monster:${i}`).createCreature(`monster:${i}`, { population: 'monster' }));
+      new Content(`monster:${i}`).createCreature(ItemCatalog.canon, `monster:${i}`, { population: 'monster' }));
     expect(new Set(generated.map(c => c.raceId)).size).toBeGreaterThan(1);
     for (const c of generated) {
       if (Canon.isSpecies(c.raceId)) { expect(c.classId).toBeUndefined(); }
@@ -57,10 +58,10 @@ describe('compositional creature generation', () => {
   it('rejects invalid constraints and invalid generated attributes', () => {
     const content = new Content('invalid');
     for (const level of [0, -1, 1.5, Infinity]) {
-      expect(() => content.createCreature('invalid', { level })).toThrow('context');
+      expect(() => content.createCreature(ItemCatalog.canon, 'invalid', { level })).toThrow('context');
     }
-    expect(() => content.createCreature('invalid', { strength: -1 })).toThrow();
-    expect(() => content.createCreature('invalid', { raceId: 'missing' as never })).toThrow('context');
-    expect(() => content.createCreature('invalid', { classId: 'missing' as never })).toThrow('context');
+    expect(() => content.createCreature(ItemCatalog.canon, 'invalid', { strength: -1 })).toThrow();
+    expect(() => content.createCreature(ItemCatalog.canon, 'invalid', { raceId: 'missing' as never })).toThrow('context');
+    expect(() => content.createCreature(ItemCatalog.canon, 'invalid', { classId: 'missing' as never })).toThrow('context');
   });
 });

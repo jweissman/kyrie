@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/arena';
 import { Content, type CreatureGenerationContext } from '../src/content';
@@ -68,7 +69,7 @@ describe('a formation in play', () => {
   it('gives each of three clerics the Synod when the company is formed, and their healing more', async () => {
     const s = await Party.start(Party.of(['human', 'cleric'], ['dwarf', 'cleric'], ['human', 'cleric']));
     expect(Party.members(s).map(c => c.traits?.includes('synodist'))).toEqual([true, true, true]);
-    const fighter = CombatProjection.fighter(Party.members(s)[0]!, 'fighters');
+    const fighter = CombatProjection.fighter(ItemCatalog.canon, Party.members(s)[0]!, 'fighters');
     expect(Effects.modifiers(fighter).bonusHealing).toBe('1d4');
     const mixed = await Party.start(Party.of(['human', 'cleric'], ['dwarf', 'cleric'], ['human', 'warrior']));
     expect(Party.members(mixed).some(c => c.traits?.includes('synodist'))).toBe(false);
@@ -76,7 +77,7 @@ describe('a formation in play', () => {
   it('lets a free fellowship find, by searching, what would otherwise need a woodsman', async () => {
     const search = async (party: CreatureGenerationContext[]) => {
       const s = await Party.start(party);
-      expect(PartyCapabilities.has('woodcraft', Party.members(s))).toBe(false);
+      expect(PartyCapabilities.has(ItemCatalog.canon, 'woodcraft', Party.members(s))).toBe(false);
       Party.change(s, 'assert', 'at', 'party', 'world__switchbacks');
       await s.leg('search(world__switchbacks)');
       return s.campaign.world.test(ModuleWriter.call('knows', 'party', 'world__goat_path_known'));
@@ -87,7 +88,7 @@ describe('a formation in play', () => {
     expect(await search(fellowship)).toBe(true);
   }, 60000);
   it('takes 10 on Orsino\'s search check: Wisdom and every search bonus that holds there count', () => {
-    const c = new Content('eye').createCreature('e', { raceId: 'dwarf', classId: 'warrior', backgroundId: 'scholar' });
+    const c = new Content('eye').createCreature(ItemCatalog.canon, 'e', { raceId: 'dwarf', classId: 'warrior', backgroundId: 'scholar' });
     const base = 10 + Fighting.statMod(c.base.wisdom);
     expect(Searching.score(c)).toBe(base);
     expect(Searching.score({ ...c, traits: ['fellowship'] })).toBe(base + 5);
@@ -112,7 +113,7 @@ describe('a formation in play', () => {
 describe('perks at a level and on a kill', () => {
   it('gives a war band an extra hit point each level', () => {
     const [plain, band] = [[], ['warbander']].map(formations => {
-      const c = new Content('levels').createCreature('w', { raceId: 'human', classId: 'warrior', formations });
+      const c = new Content('levels').createCreature(ItemCatalog.canon, 'w', { raceId: 'human', classId: 'warrior', formations });
       c.state.experience = Advancement.threshold(3);
       Advancement.train(c, 'same');
       return c;

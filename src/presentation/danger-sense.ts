@@ -1,3 +1,4 @@
+import type { ItemCatalog } from '../item-catalog';
 import { LevelDrain } from '../rules/level-drain';
 import { Canon } from '../canon/canon';
 import { Battle } from '../battle';
@@ -18,7 +19,8 @@ export type Danger = 'slight' | 'fair' | 'hard' | 'grave' | 'deadly';
 export interface Reckoning { danger: Danger; text: string; mortal?: boolean }
 
 // Where a fight is fought, and, for one already joined, how it opened.
-type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
+// Of its campaign's kinds of thing (catalog): what the company fights with is of them.
+type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment; catalog: ItemCatalog };
 
 // How a fight with a group would likely go, as the company reckons it before it starts: the fight played out a few
 // times from where everyone stands now, both sides fighting as the game's own tactics would. It decides nothing; it
@@ -118,7 +120,8 @@ export class DangerSense {
       (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition), c.state.daily ?? {}])]);
     // A bout is reckoned as it will be fought, and said to be one: the odds of a sparring bout had read as a killing
     // (the Quiet in the Sky's QIS-04).
-    const place: Place = { ...Environment.encounter(campaign.world, campaign.playerActor, [], group), ...dark };
+    const place: Place = { ...Environment.encounter(campaign.world, campaign.playerActor, [], group), ...dark,
+      catalog: campaign.catalog };
     return { ours, foes, key, place };
   }
   // What the company reckoned of a fight before it began, by who would be in it and how each stands: a fight joined
@@ -146,7 +149,8 @@ export class DangerSense {
     const moment = battle.opening;
     const key = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
       f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
-    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {} }),
+    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {},
+      catalog: battle.catalog }),
       ours, foes));
   }
   // Those still standing in a fight, each side, as the creatures they came into it as, less what they have spent.
@@ -239,9 +243,9 @@ export class DangerSense {
   // One fight played out: whether the company won it, who of it fell, and how hurt it came out.
   private static trial(ours: Creature[], foes: Creature[], seed: string, place: Place): Trial {
     // (The store copies what it is given.)
-    const store = new CreatureStore([...ours, ...foes]);
+    const { catalog, ...where } = place, store = new CreatureStore(catalog, [...ours, ...foes]);
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
-      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: FightOdds.turns, ...place,
+      ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: FightOdds.turns, ...where,
       rehearsed: true });
     // Fought until nothing is left to do, which is when it has ended (its state read, never copied, a turn: view).
     for (let legal = battle.legalCommands(); legal.length; legal = battle.legalCommands()) {

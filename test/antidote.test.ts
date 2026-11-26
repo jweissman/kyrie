@@ -6,7 +6,7 @@ import { ItemCatalog } from '../src/item-catalog';
 // and the antidote had taken away only the world's poisoned, "to no effect" on a bitten companion (round 7).
 describe('an antidote', () => {
   it('takes away both the world\'s poisoned and the fight\'s poison', () => {
-    const def = ItemCatalog.get('antidote'), ability = parseAbility('antidote', def.name, def.use!);
+    const def = ItemCatalog.canon.get('antidote'), ability = parseAbility('antidote', def.name, def.use!);
     const removes = JSON.stringify(ability.effects);
     expect(removes).toContain('"poisoned"');
     expect(removes).toContain('"poison"');

@@ -119,6 +119,6 @@ export class ChoiceWording {
     const hard = Checks.known(check.args[2]!, id => campaign.world.number(ModuleWriter.call('toBeat', id)));
     const rests = Checks.rests(campaign.world, check.args[1]!);
     return hard === undefined ? undefined
-      : this.chances[Checks.odds(company, Checks.skill(check.args[1]!), hard, rests)];
+      : this.chances[Checks.odds(campaign.catalog, company, Checks.skill(check.args[1]!), { difficulty: hard, rests })];
   }
 }

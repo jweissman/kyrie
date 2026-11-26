@@ -8,9 +8,9 @@ import { ItemCatalog } from '../item-catalog';
 // at the start, where it came from: the calling's kit, or the life before (Overlays gives each its own id); and the
 // slot it is worn in.
 export class ItemStow {
-  static of(c: Creature, i: ItemInstance, light: boolean):
+  static of(catalog: ItemCatalog, c: Creature, i: ItemInstance, light: boolean):
     { stow: 'worn' | 'supplies' | 'carried'; packed?: string; slot?: string } {
-    const slot = ItemCatalog.get(i.definition).slot;
+    const slot = catalog.get(i.definition).slot;
     const stow = i.equipped ? 'worn' : Canon.items[i.definition]?.category === 'consumable' || light || this.supplies.has(i.definition)
       ? 'supplies' : 'carried';
     const packed = i.id === Overlays.gearId(c.id, i.definition) ? this.packed(c, i.definition) : undefined;

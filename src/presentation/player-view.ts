@@ -1,7 +1,6 @@
 import { Crossing } from '../campaign/crossing';
 import { OwnWords } from './own-words';
 import { Spatial } from '../lang/spatial';
-import { ItemCatalog } from '../item-catalog';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { LocalObservations } from '../campaign/local-observations';
 import type { Campaign } from '../campaign/campaign';
@@ -265,7 +264,7 @@ export class PlayerView {
       present: perceiving && location ? this.present(campaign, actor, location.id, dark) : [],
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>
         (c.state.inventory ?? []).map(i => {
-        const d = ItemCatalog.get(i.definition);
+        const d = campaign.catalog.get(i.definition);
         return { id: i.id, name: d.name, description: d.description, owner: c.name, equipped: !!i.equipped,
           ...(d.slot ? { slot: d.slot } : {}), effects: [d.use ?? d.description] };
       })),
@@ -282,7 +281,8 @@ export class PlayerView {
       deadlines: campaign.installations.filter(m => m.deadline !== undefined).flatMap(m => m.pressures.map(id => ({
         situation: m.name, pressure: labels.get(id) ?? id, at: m.deadline!, passed: state.elapsed >= m.deadline! }))),
       capabilities: this.about(world, 'capable', actor, entities).map(e => ({ name: e.name,
-        providers: PartyCapabilities.providers(e.id, state.creatures.filter(c => state.partyIds.includes(c.id)))
+        providers: PartyCapabilities.providers(campaign.catalog, e.id,
+          state.creatures.filter(c => state.partyIds.includes(c.id)))
           .map(c => `${c.name} (${c.raceId} ${c.classId})`) })),
       choices: publicChoices.map(c => c.choice), followed: perceiving ? Undertakings.followed(campaign)?.id : undefined,
       // The aims held by the one test every client counts by (Undertakings.held), each in its words.

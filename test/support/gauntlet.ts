@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
 import { Battle } from '../../src/battle';
@@ -19,10 +20,10 @@ export class Gauntlet {
   static encounter(bout: Bout, seed: string): Battle {
     const content = new Content(bout.who ?? 'gauntlet'), ids = Array.from({ length: bout.count }, (_, i) => `f${i}`);
     const level = bout.level ?? 1, callings = [bout.calling, ...bout.mates ?? []];
-    const party = callings.map((classId, i) => content.createCreature(`pc${i}`, { raceId: 'human', classId, level } as never));
-    const foes = ids.map(id => content.createCreature(id, { raceId: bout.foe,
+    const party = callings.map((classId, i) => content.createCreature(ItemCatalog.canon, `pc${i}`, { raceId: 'human', classId, level } as never));
+    const foes = ids.map(id => content.createCreature(ItemCatalog.canon, id, { raceId: bout.foe,
       ...bout.foeLevel ? { level: bout.foeLevel } : {} } as never));
-    return Battle.encounter(new CreatureStore([...party, ...foes]), [...party.map((_, i) => ({ creatureId: `pc${i}`,
+    return Battle.encounter(new CreatureStore(ItemCatalog.canon, [...party, ...foes]), [...party.map((_, i) => ({ creatureId: `pc${i}`,
       team: 'fighters' as const })), ...ids.map(creatureId => ({ creatureId, team: 'goblins' as const }))], { seed });
   }
   // Fought to its end by the company's own tactics: whether the company won, and the rounds it took.
@@ -31,7 +32,7 @@ export class Gauntlet {
   }
   // Creatures as they stand in a world (copied: the store copies what it is given), one side against the other.
   static between(ours: readonly Creature[], foes: readonly Creature[], seed: string): Battle {
-    return Battle.encounter(new CreatureStore([...ours, ...foes]), [
+    return Battle.encounter(new CreatureStore(ItemCatalog.canon, [...ours, ...foes]), [
       ...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed });
   }

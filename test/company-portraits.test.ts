@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { existsSync } from 'node:fs';
 import { CompanyPortraits, type Face } from '../src/paintings/company-portraits';
@@ -79,9 +80,9 @@ describe('the portraits of the company', () => {
   });
   it('shows the company by their portraits in a fight, and no foe', () => {
     const content = new Content('faces');
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
-    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });
-    const battle = Battle.encounter(new CreatureStore([hero, foe]), [{ creatureId: 'hero', team: 'fighters' },
+    const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
+    const foe = content.createCreature(ItemCatalog.canon, 'foe', { raceId: 'goblin', classId: 'thief' });
+    const battle = Battle.encounter(new CreatureStore(ItemCatalog.canon, [hero, foe]), [{ creatureId: 'hero', team: 'fighters' },
       { creatureId: 'foe', team: 'goblins' }], { seed: 'faces' });
     const face: Face = CompanyPortraits.of({ classId: 'warrior', raceId: 'human', presentation: 'man', key: 'hero' })!;
     const screen = CombatModel.build(battle, undefined, new Map([['hero', face], ['foe', face]]));

@@ -137,8 +137,10 @@ export interface ItemRow {
   // was packed at the start, where from (the calling's kit, the background's), so a bundle of firewood is accounted
   // for (the owner, 9 November: "firewood in my inventory without understanding how or why").
   stow: 'worn' | 'supplies' | 'carried'; packed?: string;
-  // Using it brings light.
-  light?: boolean;
+  // Using it brings light; and what it burns, where it is a lamp (the catalog's fuel).
+  light?: boolean; fuel?: string;
+  // Using it heals, or lifts something (a salve, an antidote): it is offered to one who is hurt (see Tending).
+  mends?: boolean;
   // What it is kept for, when its use is not offered now (see ItemUses).
   kept?: string;
   // Which way it points, where it points to somewhere the canon names (the Dun Rìerdan waystone: see Seats).

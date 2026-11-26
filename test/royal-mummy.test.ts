@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import barrow from '../data/generation/deep/barrow.json';
 import { Battle } from '../src/arena';
@@ -21,7 +22,7 @@ import { Parties } from '../src/world/parties';
 const content = new Content('royal-mummy');
 const kinds = ['fortitude', 'reflex', 'will'];
 const sheet = (c: Creature) => {
-  const f = CombatProjection.fighter(c, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
+  const f = CombatProjection.fighter(ItemCatalog.canon, c, 'goblins'), scores = Effects.scores(f) as Record<string, number>;
   return { hp: c.base.maxHp, armour: Fighting.armorClass(Effects.combatant(f)),
     blows: (f.equipment.routine ?? [f.equipment.weapon]).map(w => w.damage), abilities: f.abilities,
     saves: kinds.map(k => Fighting.statMod(scores[Canon.rules.saveKinds[k]!]!) + f.level
@@ -34,7 +35,7 @@ const blow = (kind: string, amount: number, type: string) => {
 };
 describe('the king under the mound by the SRD mummy\'s numbers', () => {
   it('is the same mummy at every rank it is met at: 55, AC 1, one slam of 1d6+3 and its Strength, +4/+2/+8', () => {
-    const ranks = [1, 8, 12].map(level => sheet(content.createCreature(`m${level}`, { raceId: 'mummy/royal', level })));
+    const ranks = [1, 8, 12].map(level => sheet(content.createCreature(ItemCatalog.canon, `m${level}`, { raceId: 'mummy/royal', level })));
     expect(ranks[1]).toEqual(ranks[0]!);
     expect(ranks[2]).toEqual(ranks[0]!);
     expect(ranks[0]).toEqual({ hp: 55, armour: 1, blows: ['1d6+3'], abilities: ['despair'], saves: [4, 2, 8] });
@@ -54,7 +55,7 @@ describe('the king under the mound by the SRD mummy\'s numbers', () => {
     expect([blow('mummy', 12, 'slashing'), blow('mummy', 10, 'fire')]).toEqual([6, 15]);
   });
   it('holds whoever fails its despair still for two rounds, once a fight', () => {
-    const us = [0, 1, 2].map(i => CombatProjection.fighter(content.createCreature(`w${i}`,
+    const us = [0, 1, 2].map(i => CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, `w${i}`,
       { raceId: 'human', classId: 'warrior', level: 3 }, `d:${i}`), 'fighters'));
     const b = new Battle({ id: 'd', combatants: [...us, content.creature('mummy/royal', 'king', 'goblins', 12)],
       abilities: Content.abilities }, 'despair:1');
@@ -70,9 +71,9 @@ describe('the king under the mound by the SRD mummy\'s numbers', () => {
   it('is the barrow\'s king alone: placed by hand, never drawn, and comes back from a save as it went', () => {
     expect([barrow.keeper.species, barrow.keeper.variations]).toEqual(['mummy', ['royal']]);
     expect(Parties.kinds()).not.toContain('mummy/royal');
-    const m = content.createCreature('kept', { raceId: 'mummy/royal', level: 12 });
+    const m = content.createCreature(ItemCatalog.canon, 'kept', { raceId: 'mummy/royal', level: 12 });
     const again = JSON.parse(JSON.stringify(m)) as Creature;
-    expect(() => CreatureSchema.validate(again)).not.toThrow();
+    expect(() => CreatureSchema.validate(again, ItemCatalog.canon)).not.toThrow();
     expect(sheet(again)).toEqual(sheet(m));
   });
   it('passes the census in structure and resolution; mummy rot is the one special it lacks', () => {

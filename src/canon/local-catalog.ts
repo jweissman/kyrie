@@ -87,13 +87,7 @@ export class LocalKinds {
       } else { this.shadow(id); }
       this.installed.add(`item:${id}`);
       (Canon.items as Record<string, ItemKind>)[id] = item;
-      (ItemCatalog.definitions as Record<string, unknown>)[id] = { name: item.name, description: item.description,
-        ...item.slot ? { slot: item.slot } : {}, ...item.modifiers ? { modifiers: item.modifiers } : {},
-        ...item.hooks ? { hooks: item.hooks } : {}, ...item.weapon ? { weapon: item.weapon } : {},
-        ...item.armor ? { armor: item.armor } : {}, ...item.use ? { use: item.use } : {},
-        ...item.grants?.skill ? { capability: item.grants.skill } : {},
-        ...item.grants?.ability ? { ability: item.grants.ability } : {},
-        ...item.tool ? { tool: item.tool } : {}, ...item.aids ? { aids: item.aids } : {} };
+      (ItemCatalog.ambient as Record<string, unknown>)[id] = ItemCatalog.runtime(item);
     }
     for (const [id, species] of Object.entries(catalog?.species ?? {})) {
       this.same('species', id, Canon.species[id], species);
@@ -139,7 +133,7 @@ export class LocalKinds {
       for (const key of [...this.installed]) { if (!before.has(key)) { this.remove(key); this.installed.delete(key); } }
       for (const [id, [item, definition]] of shadowed) {
         (Canon.items as Record<string, ItemKind>)[id] = item;
-        (ItemCatalog.definitions as Record<string, unknown>)[id] = definition;
+        (ItemCatalog.ambient as Record<string, unknown>)[id] = definition;
       }
     }
   }
@@ -147,7 +141,7 @@ export class LocalKinds {
   private static readonly asides: Map<string, [ItemKind, unknown]>[] = [];
   private static shadow(id: string) {
     const kept = this.asides.at(-1);
-    const definitions = ItemCatalog.definitions as Record<string, unknown>;
+    const definitions = ItemCatalog.ambient as Record<string, unknown>;
     if (kept && !kept.has(id)) { kept.set(id, [Canon.items[id]!, definitions[id]]); }
   }
   // Whether two modules' kinds of one name are two kinds: what each is, whoever declared it.
@@ -156,7 +150,7 @@ export class LocalKinds {
     const [family, id] = key.split(':') as [string, string];
     if (family === 'item') {
       delete (Canon.items as Record<string, ItemKind>)[id];
-      delete (ItemCatalog.definitions as Record<string, unknown>)[id];
+      delete (ItemCatalog.ambient as Record<string, unknown>)[id];
     } else { delete (Canon.species as Record<string, Species>)[id]; Canon.installed.delete(id); }
   }
   // The campaign in play: its modules' kinds, and no other campaign's.

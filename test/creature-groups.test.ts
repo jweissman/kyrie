@@ -40,7 +40,7 @@ it('a person may be a numbered group of creatures composed by the Deem generator
   const drake = npcs.find(x => x.raceId === 'dragon')!;
   expect([drake.variations, drake.traits]).toEqual([['green_lineage', 'young'], expect.arrayContaining(['poison_lineage'])]);
   // Its breath a breath weapon (all its foes, a save vs breath), its bite its weapon.
-  expect([ItemCatalog.equipment(drake).weapon.id, drake.base.abilities.includes('breathe_poison')]).toEqual(['bite', true]);
+  expect([ItemCatalog.canon.equipment(drake).weapon.id, drake.base.abilities.includes('breathe_poison')]).toEqual(['bite', true]);
   const attack = c.available().find(a => a.resolve?.name === 'combat' && a.resolve.args[0] === 'cave__brood')!;
   const battle = c.encounterBattle(attack.id);
   expect(battle.state.combatants.filter(f => f.team === 'goblins').map(f => f.name))

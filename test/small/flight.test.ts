@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
@@ -16,8 +17,8 @@ describe('getting away from a fight', () => {
     let tries = 0, sure = 0;
     for (let seed = 0; seed < 60; seed++) {
       const content = new Content(`flee-${seed}`);
-      const store = new CreatureStore([content.createCreature('ama', { raceId: 'human', classId: 'warrior' }),
-        ...['w1', 'w2'].map(id => content.createCreature(id, { raceId: 'wolf' }))]);
+      const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'ama', { raceId: 'human', classId: 'warrior' }),
+        ...['w1', 'w2'].map(id => content.createCreature(ItemCatalog.canon, id, { raceId: 'wolf' }))]);
       const battle = Battle.encounter(store, [{ creatureId: 'ama', team: 'fighters' },
         ...['w1', 'w2'].map(id => ({ creatureId: id, team: 'goblins' as const }))], { seed: `flee-${seed}` });
       let failed = 0;

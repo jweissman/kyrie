@@ -32,6 +32,6 @@ console.log(`structuredClone(rules.actions): ${Timing.time(() => structuredClone
 // composing with a situation declares (Cast.itemKinds); so they are measured composed with a one-place situation.
 const copy = Timing.time(() => structuredClone(rules));
 const manifest = { name: '', creatures: [], actors: { order: [] }, initial: [], outcomes: [] };
-const composed = Timing.time(() => ModuleAssembly.compose(structuredClone(tiny), structuredClone(rules), manifest, 's'), 7);
+const composed = Timing.time(() => ModuleAssembly.compose(structuredClone(tiny), structuredClone(rules), manifest, { seed: 's', kinds: undefined }), 7);
 console.log(`ModuleAssembly.compose(a one-place situation, rules): ${(composed - copy).toFixed(1)} ms`
   + ' (what each install pays for the rules before its own content, the copy aside)');

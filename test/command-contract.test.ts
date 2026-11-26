@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { PlayerView } from '../src/presentation/player-view';
 import { Items } from '../src/campaign/items';
 import { CreatureFacts } from '../src/campaign/creature-facts';
@@ -108,7 +109,8 @@ it('advances world-time wards during ordinary campaign actions, saves their cloc
   checkpoint.save.creatures.find(c => c.id === id)!.state.conditions.push({
     id: 'fireproof', remaining: 2, clock: 'world-time', source: 'ward' });
   checkpoint.save.state.world = CreatureFacts.project(new World(checkpoint.save.module, checkpoint.save.state.world),
-    checkpoint.save.definition!.actors, new CreatureStore(checkpoint.save.creatures)).snapshot;
+    checkpoint.save.definition!.actors, new CreatureStore(ItemCatalog.of(checkpoint.save.module.catalog),
+      checkpoint.save.creatures)).snapshot;
   const restored = PlaySession.resume(checkpoint);
   const event = await restored.leg('go(march__causeway_path,march__causeway)');
   expect(event.resolution?.outcome).toBe('success');
@@ -126,7 +128,8 @@ it('commits a fatal hazard as failure without crossing, and rejects later invali
   const checkpoint = s.checkpoint();
   checkpoint.save.creatures.find(c => c.id === checkpoint.save.state.partyIds[1])!.state.hp = 1;
   checkpoint.save.state.world = CreatureFacts.project(new World(checkpoint.save.module, checkpoint.save.state.world),
-    checkpoint.save.definition!.actors, new CreatureStore(checkpoint.save.creatures)).snapshot;
+    checkpoint.save.definition!.actors, new CreatureStore(ItemCatalog.of(checkpoint.save.module.catalog),
+      checkpoint.save.creatures)).snapshot;
   const resumed = PlaySession.resume(checkpoint);
   const event = await resumed.perform('risk(hill__steam_pipe,march__member_party_2)');
   expect(event.result).toBe('failure'); expect(event.resolution?.outcome).toBe('failure');
@@ -142,18 +145,18 @@ it('commits a fatal hazard as failure without crossing, and rejects later invali
 }, 30000);
 
 it('validates field wards using the shared typed definitions and keeps generated base data unchanged', () => {
-  const c = new Content('clock').createCreature('mage', { raceId: 'human', classId: 'cleric', traits: ['vitalist'] });
+  const c = new Content('clock').createCreature(ItemCatalog.canon, 'mage', { raceId: 'human', classId: 'cleric', traits: ['vitalist'] });
   c.state.learnedAbilities.push('fire_ward');
-  const store = new CreatureStore([c]);
+  const store = new CreatureStore(ItemCatalog.canon, [c]);
   FieldUse.perform(store, ['mage'], { ability: 'fire_ward', caster: 'mage', target: 'mage', seed: 'clock' });
   expect(store.get('mage').state.conditions[0]).toMatchObject({ remaining: 12, clock: 'world-time' });
   expect(store.get('mage').base).toEqual(c.base);
-  expect(CombatProjection.fighter(store.get('mage'), 'fighters').statuses[0]!.clock).toBe('world-time');
+  expect(CombatProjection.fighter(ItemCatalog.canon, store.get('mage'), 'fighters').statuses[0]!.clock).toBe('world-time');
 });
 
 it('resolves an explicitly bound area through the same pipeline without affecting absent creatures', () => {
   const content = new Content('area'), ids = ['one', 'two', 'elsewhere'];
-  const store = new CreatureStore(ids.map(id => content.createCreature(id, { raceId: 'human', classId: 'warrior',
+  const store = new CreatureStore(ItemCatalog.canon, ids.map(id => content.createCreature(ItemCatalog.canon, id, { raceId: 'human', classId: 'warrior',
     traits: ['brave'] })));
   const entities = [{ id: 'hot_air', type: 'hazard', name: 'Hot air', effect: 'Deal 1 fire damage to all.' }];
   {
@@ -173,7 +176,7 @@ it('keeps offscreen ongoing effects in the canonical receipt without leaking the
   npc.state.conditions.push({ id: 'poisoned', remaining: 1, clock: 'world-time', source: 'private-needle' });
   const initialHp = npc.state.hp;
   cp.save.state.world = CreatureFacts.project(new World(cp.save.module, cp.save.state.world),
-    cp.save.definition!.actors, new CreatureStore(cp.save.creatures)).snapshot;
+    cp.save.definition!.actors, new CreatureStore(ItemCatalog.of(cp.save.module.catalog), cp.save.creatures)).snapshot;
   const s = PlaySession.resume(cp), event = await s.leg('wait');
   expect(s.campaign.state.creatures.find(c => c.id === npc.id)!.state.hp).toBe(initialHp - 2);
   expect(event.combat.some(e => 'actor' in e && e.actor === 'private-needle')).toBe(false);
@@ -193,8 +196,8 @@ it('applies typed ongoing damage without treating armour class as poison protect
 });
 
 it('removes an equipment-granted field ability when its item leaves, retaining the independently cast ward', () => {
-  const c = new Content('focus').createCreature('mage', { raceId: 'human', classId: 'cleric', traits: ['vitalist'] });
-  const store = new CreatureStore([c]);
+  const c = new Content('focus').createCreature(ItemCatalog.canon, 'mage', { raceId: 'human', classId: 'cleric', traits: ['vitalist'] });
+  const store = new CreatureStore(ItemCatalog.canon, [c]);
   Items.take(store, 'mage', { id: 'focus', definition: 'warding_focus' }); Items.equip(store, 'mage', 'focus');
   FieldUse.perform(store, ['mage'], { ability: 'fire_ward', caster: 'mage', target: 'mage', seed: 'focus' });
   Items.drop(store, 'mage', 'focus');
@@ -218,10 +221,10 @@ it('makes half saves an explicit partial resolution with committed cost', () => 
 
 it('keeps world clocks separate from owner-turn clocks across encounter projection and commit', () => {
   const content = new Content('independent-clocks');
-  const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
-  const enemy = content.createCreature('enemy', { classId: 'thief', raceId: 'goblin' });
+  const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
+  const enemy = content.createCreature(ItemCatalog.canon, 'enemy', { classId: 'thief', raceId: 'goblin' });
   hero.state.conditions.push({ id: 'fireproof', remaining: 12, clock: 'world-time', source: 'focus' });
-  const store = new CreatureStore([hero, enemy]);
+  const store = new CreatureStore(ItemCatalog.canon, [hero, enemy]);
   const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' },
     { creatureId: 'enemy', team: 'goblins' }], { seed: 'independent-clocks' });
   while (!battle.state.outcome && battle.state.actor !== 'hero') {
@@ -240,7 +243,7 @@ it('commits deaths during delayed recovery instead of throwing and rolling back 
     c.state.conditions.push({ id: 'poisoned', remaining: 1, clock: 'world-time', source: 'bad-provisions' });
   }
   cp.save.state.world = CreatureFacts.project(new World(cp.save.module, cp.save.state.world),
-    cp.save.definition!.actors, new CreatureStore(cp.save.creatures)).snapshot;
+    cp.save.definition!.actors, new CreatureStore(ItemCatalog.of(cp.save.module.catalog), cp.save.creatures)).snapshot;
   const s = PlaySession.resume(cp), command = PlayerView.observe(s.campaign).choices
     .find(c => c.id.startsWith('take_lodging'))!.id;
   const before = s.campaign.state.elapsed, event = await s.leg(command);

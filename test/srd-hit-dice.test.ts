@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Amounts } from '../src/rules/amounts';
 import { Content } from '../src/content';
@@ -91,19 +92,19 @@ describe('every amount field takes dice', () => {
 describe('a kind with Hit Dice', () => {
   const content = new Content('hit-dice');
   it('has their listed average whatever level it is made at, and no growth of its qualities', () => {
-    const made = [1, 3, 7, 12].map(level => content.createCreature(`u${level}`, { raceId: 'unicorn', level }));
+    const made = [1, 3, 7, 12].map(level => content.createCreature(ItemCatalog.canon, `u${level}`, { raceId: 'unicorn', level }));
     expect(made.map(c => c.base.maxHp)).toEqual([42, 42, 42, 42]);
     expect(new Set(made.map(c => c.base.strength)).size).toBe(1);
     expect(Canon.creature('unicorn').statistics?.growth).toBeUndefined();
   });
   it('rolls the same expression from its seed when its dice are rolled', () => {
-    const rolled = [1, 2, 3, 4, 5, 6].map(n => content.createCreature(`r${n}`, { raceId: 'unicorn', hitPoints: 'rolled' }));
+    const rolled = [1, 2, 3, 4, 5, 6].map(n => content.createCreature(ItemCatalog.canon, `r${n}`, { raceId: 'unicorn', hitPoints: 'rolled' }));
     for (const r of rolled) {
       expect(r.base.maxHp).toBeGreaterThanOrEqual(24);
       expect(r.base.maxHp).toBeLessThanOrEqual(60);
     }
     expect(new Set(rolled.map(r => r.base.maxHp)).size).toBeGreaterThan(1);
-    expect(content.createCreature('r1', { raceId: 'unicorn', hitPoints: 'rolled' }).base.maxHp).toBe(rolled[0]!.base.maxHp);
+    expect(content.createCreature(ItemCatalog.canon, 'r1', { raceId: 'unicorn', hitPoints: 'rolled' }).base.maxHp).toBe(rolled[0]!.base.maxHp);
   });
   it('keeps its count of Hit Dice for effects that read it, apart from its level', () => {
     const unicorn = content.creature('unicorn', 'u', 'goblins', 5);

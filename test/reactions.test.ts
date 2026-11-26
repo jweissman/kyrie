@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/arena';
 import { Content } from '../src/content';
@@ -16,7 +17,7 @@ class Scene {
     return { ...this.content.creature('wolf', id, 'goblins'), abilities: [], hp: 60, maxHp: 60, ...extra };
   }
   static caster(id: string, spell: string, team: Fighter['team'] = 'fighters'): Fighter {
-    const c = CombatProjection.fighter(new Content(id).createCreature(id, { raceId: 'human', classId: 'cleric', level: 17 }), team);
+    const c = CombatProjection.fighter(ItemCatalog.canon, new Content(id).createCreature(ItemCatalog.canon, id, { raceId: 'human', classId: 'cleric', level: 17 }), team);
     return { ...c, abilities: [spell], hp: 90, maxHp: 90, prepared: c.prepared!.map(row => row.map(() => spell)),
       ready: c.ready!.map(row => row.map(() => spell)) };
   }

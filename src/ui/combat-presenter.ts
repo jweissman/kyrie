@@ -71,7 +71,7 @@ export class CombatPresenter {
   private static check(event: Extract<CombatEvent, { type: 'check' }>, actor: string): string {
     if (!event.actor) { return `None of you can try it (${event.skill}).`; }
     const terms = [`${event.stat} ${event.modifier}`, ...event.trained ? [`${event.skill} ${event.trained}`] : [],
-      ...event.tool && event.using ? [`${ItemCatalog.get(event.using).name.toLowerCase()} ${event.tool}`] : []];
+      ...event.tool && event.using ? [`${(event.usingName ?? event.using.replace(/_/g, ' ')).toLowerCase()} ${event.tool}`] : []];
     if (event.unrolled) {
       return `${actor} ${event.success ? 'needs no luck for it' : 'has no chance of it'} (${event.skill}: `
         + `${event.success ? 'at worst' : 'at best'} ${event.rolled} against ${event.difficulty}).`;
@@ -109,7 +109,7 @@ export class CombatPresenter {
         if (event.source?.kind === 'trap') { return `${event.source.name ?? ability} triggers.`; }
         // A blow is told by its hit or miss, not as "uses Melee Attack" before it (register M19-121).
         if (['melee', 'ranged'].includes(event.command.ability) && !event.source) { return ''; }
-        const carried = event.source?.kind === 'item' && ItemCatalog.used(event.command.ability);
+        const carried = event.source?.kind === 'item' && ItemCatalog.carried(event.command.ability);
         return `${name} uses ${carried ? ItemNames.called(event.source!.name ?? ability)
           : event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;
       }
