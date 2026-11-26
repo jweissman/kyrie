@@ -12,7 +12,9 @@ import { Glob } from 'bun';
 // for its parser, loaded first (OR-542).
 // 1251 → 1250 on 25 November: what lies in wait at a way's mouth moved into PassageModel.lurking, read there by the
 // page's ways and the journey alike, and Passages' imports for it gone.
-const kept = 1250;
+// 1250 → 1249 on 25 November: the rest shelter's reading (src/campaign/shelter.ts) takes the module writer and the
+// world through the entry, and campaign.ts no longer imports the module writer.
+const kept = 1249;
 class Deep {
   static count(): number {
     const roots = ['src/**/*.ts', 'web/**/*.{ts,tsx}', 'scripts/**/*.ts', 'test/**/*.ts', 'bin/**/*.ts'];

@@ -1,5 +1,4 @@
-import { ModuleWriter } from '../lang/module-writer';
-import type { World } from '../lang/world';
+import { ModuleWriter, type World } from '../lang';
 import type { Operator } from './planner';
 
 // Whether a rest's shelter still holds when the rest ends: a rough rest anywhere, a rest at a site that is restful and
