@@ -1172,6 +1172,31 @@
    "heard": "South in the Summermark lies Orlane, a valley of wild roses, and above it Saint Arda's ruined abbey, where the red dragon Avarrax keeps the town's stolen bell.",
    "skyline": "a green valley with one black hill in it, and a roofless abbey on the hill that glows red even at noon",
    "far": "a roofless abbey on a black hill holds a red glimmer even at noon, above a valley gone over to wild roses"
+  },
+  {
+   "id": "cleave",
+   "province": true,
+   "bundle": "cleave/placed.json",
+   "entry": "road",
+   "marker": "cassia",
+   "side": "west",
+   "beside": [
+    "mountain",
+    "hills",
+    "forest",
+    "frost"
+   ],
+   "covers": [
+    "fell",
+    "heath"
+   ],
+   "name": "the Cleave",
+   "topic": "the Cleave, a gorge whose silk bridge has gone dead, with a birth waiting on the far side",
+   "terrain": "mountain",
+   "rumour": "'West, at the Cleave,' says {keeper}, 'the spiders' bridge has gone dead, and nobody can get the old midwife over to the far side, where there's a woman near her time.'",
+   "heard": "West lies the Cleave, a gorge crossed by a road of spider-silk that nine great spiders keep, and the road is dead: they will not spin it again.",
+   "skyline": "a black gorge in the high country, and a bridge across it of grey silk, hanging slack",
+   "far": "a road of grey silk hangs slack across a black gorge, and great shapes sit still on the hub at its middle"
   }
  ]
 }

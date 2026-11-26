@@ -3084,6 +3084,18 @@
    "was": "defect",
    "pri": "P3",
    "why": "an adventure branch's friction carried into the register, kept whole"
+  },
+  "OR-1215": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "an adventure branch's friction carried into the register, kept whole"
+  },
+  "OR-1216": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "an adventure branch's friction carried into the register, kept whole"
   }
  },
  "blockedBy": {

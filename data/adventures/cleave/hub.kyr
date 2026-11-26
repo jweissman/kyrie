@@ -28,9 +28,12 @@ Module cleave "The Cradle Across the Cleave" {
     On success { Assert state(egg, warming). Set eggStart() to watch(clock). Retract following(hesper, actor). Assert at(hesper, site). }
     Result "Hesper lowers herself onto the silk like a woman sitting down in her own church. The ring of daughters opens, very slightly, in one place. The oldest one taps the silk twice with a foreleg, and lets down a thread across Hesper's knees, and Hesper takes the egg-case off its hook with both hands and puts it in her apron. 'Well,' she says. 'Here we are again.'".
   }
+  Relation keptVigil(group).
+  Milestone vigil_milestone "sat up with Hesper through the dark" worth 60 when keptVigil(party).
   Action sit_up(actor: group, site: place) "Sit up with Hesper through the dark" {
     Requires able(actor) and company(actor) and at(actor, site) and at(egg, site) and state(egg, warming).
     Time 3 hours.
+    On success { Assert keptVigil(actor). }
     Result "You sit. The lines hum, and fall quiet. Hesper does not move except to shift her hands, and once, quietly, to say a name. The nine do not move at all. Below the hub the Cleave is black, and lights go over it that are not stars.".
   }
   Rule egg_hatches at hub when state(egg, warming) and watch(clock) >= eggStart() + 48 and dark() says "The case cracks across, quite quietly, like a good loaf. In Hesper's apron two hundred spiders the size of a thumbnail come out into the lamplight of themselves, all in a heap, all furious, and Hesper Lunn, who has delivered fourteen hundred and six children, says, 'There. There. That is the thing about starting.' One by one, they climb off her knee and out on the silk and each of them spins a single thread, and lets it go into the dark toward the south lip, and the thread does not fall." { Assert state(egg, hatched). Set hatchAt() to watch(clock). }
