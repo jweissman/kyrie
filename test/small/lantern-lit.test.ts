@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'bun:test';
-import { CompanyLight } from '../../src/presentation/company-light';
+// The world first: Kyr's entry (src/lang/index) cannot be the first of the language loaded, which the light's parts,
+// reading through the knowledge door, would make it (OR-952).
 import { Tiny } from '../support/tiny';
+import { CompanyLight } from '../../src/presentation/company-light';
 
 // A lantern sold with nothing to burn in it says so (CL-62, S3-0: one bought at Mabel's before the gate-well was never
 // offered as a light, the provisions saying "1 torch, 2 candles to spare"): the sale, the pack and the provisions

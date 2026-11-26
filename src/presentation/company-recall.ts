@@ -153,7 +153,12 @@ export class CompanyRecall {
   static whereabouts(campaign: Campaign, screen: Screen, id: string): string | undefined {
     if (EntityIndex.of(campaign.module.entities).byId.get(id)?.space) { return id; }
     if ([...screen.people, ...screen.things].some(t => t.id === id)) { return screen.place.id; }
-    return CompanyRecall.of(campaign).sawAt(id);
+    return CompanyRecall.of(campaign).sawAt(id) ?? this.home(campaign, id);
+  }
+  // Never seen in this life, the company's own family where they keep: a son knows the inn his mother cooks at before
+  // he sets out (the kin opening's way home to tell her had been lost with OR-880, test/honest-start; OR-951).
+  private static home(campaign: Campaign, id: string): string | undefined {
+    return CompanySenses.family(campaign, id) ? CompanySenses.kept(campaign.module, id) : undefined;
   }
   // The same without a screen, for the gold's parts that read an aim apart from any one place drawn (AimLeading,
   // Threshold, Outmatched and the rest: OR-881): someone or something standing where the company stands now is seen
@@ -162,7 +167,7 @@ export class CompanyRecall {
     if (EntityIndex.of(campaign.module.entities).byId.get(id)?.space) { return id; }
     const actor = campaign.playerActor ?? 'party', at = CompanySenses.standing(campaign, [actor, id]);
     const here = [...at].find(([, who]) => who.includes(actor))?.[0];
-    return here && at.get(here)!.includes(id) ? here : CompanyRecall.of(campaign).sawAt(id);
+    return here && at.get(here)!.includes(id) ? here : CompanyRecall.of(campaign).sawAt(id) ?? this.home(campaign, id);
   }
   // A trader, or a thing for sale, where the company knows it to be (where), or, never seen, at the shop it keeps in a
   // town the company has been in: a town's shops are known by their signs (the herb-shop a door off the green, as the

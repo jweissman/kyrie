@@ -1,6 +1,7 @@
 import type { Campaign } from '../campaign/campaign';
-import { ModuleWriter, ObservationText, type Entity, type Observation, type World } from '../lang/index';
+import { ModuleWriter, ObservationText, type Entity, type Objective, type Observation, type World } from '../lang/index';
 import type { PassageModel } from '../ui/passage-model';
+import { AimWords } from './aim-words';
 
 // What the company perceives of itself and of what is about it, for the narrator and the glance's perception (OR-741,
 // the knowledge door's slice of narration and perception): a part of the one door (see Knowing), read of the world
@@ -35,6 +36,17 @@ export class CompanySenses {
   static acquainted(campaign: Campaign, who: string): boolean {
     const w = campaign.world;
     return w.relates('acquainted') && w.test(ModuleWriter.call('acquainted', who, campaign.playerActor ?? 'party'));
+  }
+  // Where an aim's words say someone is found, where it says them as a stranger, by who and where they are ("Find
+  // Ianto, the fuel boatman at Reedbridge": AimWords), the place the company was told of; else nowhere (OR-950).
+  static toldAt(campaign: Campaign, o: Objective, who: string): string | undefined {
+    return AimWords.strangers(campaign.world, o).includes(who) ? AimWords.whereabouts(campaign.world, who)[0]
+      : undefined;
+  }
+  // Whether someone is the company's own family (kin: the drover's son's mother), known before the life's first day.
+  static family(campaign: Campaign, who: string): boolean {
+    const w = campaign.world;
+    return w.relates('kin') && w.test(ModuleWriter.call('kin', campaign.playerActor ?? 'party', who));
   }
   static label(campaign: Campaign, who: string): string { return ObservationText.label(campaign.world, who); }
   // The one of the company, awake, who brings what a sight wants noticing (see Narrator.noticed): a companion and a

@@ -20,7 +20,7 @@
   "CompanyKnowledge.of(campaign, actor, labels): what was learnt",
   "CompanyMap.of(campaign, actor, travel): the places remembered and the ways known",
   "KnownCountry.of(world, actor): what the company knows of the country, for its map and its journeys (told, sighted, directions, looked, wayfinding, aimed)",
-  "CompanySenses (capable, standing, passages, acquainted, label, noticer, growing, observations): what the company perceives of itself and about it, for the narrator and the glance's perception",
+  "CompanySenses (capable, standing, passages, acquainted, toldAt, family, label, noticer, growing, observations): what the company perceives of itself and about it, for the narrator and the glance's perception",
   "PlayerFrame.knowing: the revision's projection, as the frame's consumers read it"
  ],
  "counts": {

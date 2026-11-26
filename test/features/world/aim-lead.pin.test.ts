@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
 import { Itineraries } from '../../../src/ui/itinerary';
+import { AimWords } from '../../../src/presentation/aim-words';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. An aim's lead a step from the way out (AT-12, S3-0's
 // golden route, 20 November): from the Stone Horn's taproom the fuel boat's aim toward Ianto at Reedbridge had said
 // "Nothing here bears on your aim now", the landing a minute off leading with Reedbridge. From inside, where no plan
 // reaches the room the one it names stands in, the way out toward the town holding them is the step, in gold; only
-// to a town the company knows a journey to, and never out of its own town for one in it.
+// to a town the company knows a journey to, and never out of its own town for one in it. Ianto is never seen: the
+// town is the one the aim's words tell of him ("Find Ianto, the fuel boatman at Reedbridge"), never where the world
+// has him unseen (OR-880, OR-950).
 const country = (opts: { far?: boolean; told?: boolean; here?: boolean } = {}) => `
   Place hythe "Hythe" is settlement at 0, 0.
   Place green "the green at Hythe" is room within hythe at 0, 0 outdoors.
@@ -27,7 +30,7 @@ const country = (opts: { far?: boolean; told?: boolean; here?: boolean } = {}) =
   ${opts.told === false ? '' : 'Initially Assert knows(party, reed_told).'}
   Company party "You" of 1 at green.
   Person ianto "Ianto" at ${opts.here ? 'back' : 'boathouse'} { Role "the fuel boatman". Ancestry human. Peaceable. Pronouns he. }
-  Objective cold when true toward ianto "Find out what has become of Ianto's fuel boat.".
+  Objective cold when true toward ianto "Find {ianto} and his fuel boat.".
   Goal false.`;
 class Lead {
   static async inside(opts: Parameters<typeof country>[0] = {}): Promise<Tiny> {
@@ -49,6 +52,8 @@ describe('World › An aim led from inside', () => {
     async () => {
       const t = await Lead.inside();
       expect(t.where()).toBe('t__taproom');
+      const aim = t.campaign.module.objectives!.find(o => o.id === 't__cold')!;
+      expect(AimWords.render(t.campaign.world, aim)).toContain('at Reedbridge');
       expect(Lead.gold(t)).toEqual(['go(t__door,t__green)']);
     });
   // Reedbridge beyond a lane not yet walked, and not told of: no journey is known to it, and nothing leads out.

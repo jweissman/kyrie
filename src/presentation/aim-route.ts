@@ -8,6 +8,7 @@ import { Spatial } from '../lang/spatial';
 import { AimLeading } from './aim-lead';
 import { CompanyRecall } from './company-recall';
 import { VisitedPlaces } from './visited-places';
+import { CompanySenses } from './company-senses';
 
 // The way an aim is gone to by, where its author says (Objective … toward … by …): part of what it names until the
 // company is past it (see Glance's reading).
@@ -41,7 +42,7 @@ export class AimRoute {
     for (const id of named) {
       // Someone it names is gone to where the company last saw them (Glen, at his forge in Brightford): never to where
       // they truly stand unknown to it (the opportunity architecture's knowledge boundary, AR-21; OR-880).
-      const to = CompanyRecall.whereabouts(campaign, screen, id);
+      const to = this.known(campaign, screen, id);
       const legs = id === campaign.playerActor || !to || (to !== id && !been.has(to)) ? []
         : Itineraries.plan(campaign, to)?.legs ?? [];
       const out = legs.find(l => !Itineraries.enclosed(campaign, l.to));
@@ -62,7 +63,7 @@ export class AimRoute {
     // town the country's roads reach, which the map does not draw (OR-880).
     const known = new Set(Itineraries.drawnJourneys(campaign, screen.region).map(d => d.id));
     for (const id of named) {
-      const to = CompanyRecall.whereabouts(campaign, screen, id);
+      const to = this.known(campaign, screen, id);
       if (!to || id === campaign.playerActor) { continue; }
       for (const e of Spatial.ancestry(byId, to)) {
         if (!['settlement', 'site'].includes(e.space?.kind ?? '') || mine.has(e.id) || !known.has(e.id)) { continue; }
@@ -71,6 +72,15 @@ export class AimRoute {
       }
     }
     return undefined;
+  }
+  // Where the company knows someone the aim names to be (CompanyRecall.whereabouts), or, never seen, where the aim's
+  // own words say they are found: the followed aim says a stranger by who they are and where ("Find Ianto, the fuel
+  // boatman at Reedbridge": AimWords), so the town it tells of is led toward, as the words lead (OR-950). Nowhere
+  // the words do not say, as before (Glen never seen, his forge unsaid: test/small/gold-last-seen).
+  private static known(campaign: Campaign, screen: Screen, id: string): string | undefined {
+    const seen = CompanyRecall.whereabouts(campaign, screen, id);
+    const aim = seen ? undefined : Undertakings.followed(campaign);
+    return seen ?? (aim && CompanySenses.toldAt(campaign, aim, id));
   }
   // Deeper in than a step or two, the first step of the way out toward what the aim names outside (see outward): in
   // Ironkeep's lord's chamber, following the brothers' errand to Mistlake, the way out by the great hall had been led
