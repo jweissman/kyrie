@@ -10,6 +10,7 @@ import tables from '../../data/generation/scenes/wilds.json';
 import text from '../../data/generation/wild/astray.kyrt' with { type: 'text' };
 import { KyrTemplates } from './kyr-template';
 import { RegionKey } from './region-key';
+import { Vantage } from './vantage';
 
 interface Kind { id: string; name: string; scene: string; ambience: string; view?: boolean; things?: Feature[] }
 interface Table {
@@ -19,7 +20,7 @@ interface Table {
 }
 // One place in a stretch of wild country, where it stands on the land and what it is.
 export interface Landmark { id: string; cell: number; part: number; name: string; scene: string; ambience: string;
-  view?: boolean; water?: string; side?: string; kind?: string; things?: Feature[] }
+  view?: boolean; water?: string; side?: string; kind?: string; things?: Feature[]; by?: string }
 // Where a way into wild country starts: a road running by it, or a settlement near it; the cell it starts from, and
 // the settlement it is known by.
 // at: for a way off a road, the hex the road's own room stands on (its crossing, or its middle: see RegionRoads), which
@@ -83,7 +84,8 @@ export class RegionZones {
     }
     out.push(...this.sides(zone, region, out));
     const from = this.from(region, zone).name, taken = this.taken(region, zone);
-    const named = out.map(l => ({ ...l, name: this.fill(l.name, { zone: name, river: l.water ?? '', from: l.side ?? from }),
+    const named = out.map(l => ({ ...l, ...l.name.includes('{from}') ? { by: l.side ?? from } : {},
+      name: this.fill(l.name, { zone: name, river: l.water ?? '', from: l.side ?? from }),
       scene: this.fill(l.scene, { zone: name, river: l.water ?? '', from: this.upper(l.side ?? from) }),
       ...l.things ? { things: l.things.map(t => Features.filled(t, x => this.fill(x, { zone: name, river: l.water ?? '' }))) } : {} }))
       // A name another wild country of the region has already is said with its own (two woods' old banks: the willow
@@ -136,7 +138,7 @@ export class RegionZones {
     const marks = this.landmarks(region, zone), lines = [`  Place ${zone.id} ${q(name)} is wilderness within region at ${x}, ${y}.`];
     for (const l of marks) {
       const [lx, ly] = RegionGeography.spot(region, l.cell);
-      lines.push(`  Place ${l.id} ${q(l.name)} is room within ${zone.id} at ${lx}, ${ly} outdoors.`,
+      lines.push(`  Place ${l.id} ${q(l.name)} is room within ${zone.id} at ${lx}, ${ly} outdoors${this.unnamed(region, zone, l)}.`,
         `  Observe ${l.id}_scene at ${l.id} as fixture when true ${q(l.scene)}.`,
         ...l.ambience ? [`  Observe ${l.id}_life at ${l.id} as ambience when not dark() ${q(l.ambience)}.`] : [],
         ...l.view ? this.view(zone, l) : [], ...(l.things ?? []).flatMap(t => Features.lines(`${l.id}_${t.id}`, l.id, t)));
@@ -144,6 +146,17 @@ export class RegionZones {
     lines.push(...this.trails(zone, region, marks), ...this.entries(zone, region, marks),
       ...this.astray(zone, region, marks));
     return lines;
+  }
+  // An edge known by the town it faces ("the edge of Birchwood by Newmeet") is seen by the side of the wild country it
+  // is on until the company has seen that town (its green by day teaches <town>_why): the map had named, at the edge
+  // of a wood, a town nobody had told of (OR-812; a tract and a road likewise, RegionTracts and RegionRoads.unnamed).
+  private static unnamed(region: Region, zone: Wilds, l: Landmark): string {
+    const town = l.by === undefined ? undefined : region.settlements.find(s => s.name === l.by);
+    if (!town) { return ''; }
+    const W = RegionGeography.atlas(region).land.width, c = zone.centres[0]!;
+    const seen = this.fill(this.table[zone.wild].entry.name.replace(/ by \{from\}$/, ''), { zone: zone.naming.name });
+    const side = l.cell === c ? '' : `, on its ${Vantage.bearing(l.cell % W - c % W, Math.floor(l.cell / W) - Math.floor(c / W))} side`;
+    return ` seen as ${JSON.stringify(`${seen}${side}`)} until ${town.id}_why`;
   }
   // Somewhere high enough to see from: climbed, it tells you the lie of the land, and you will not lose your way in it;
   // once the company has gone from it, it is somewhere to climb again, to see what the haze hid (see RegionSights).
