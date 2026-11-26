@@ -2641,6 +2641,12 @@
    "pri": "P1",
    "why": "25 Nov, split from MT-25: a maturity stage (generated typed vocabulary), MT-25's second half as it was asked; not an observed violation"
   },
+  "OR-700": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "26 Nov, the owner's commissioned symbol-table spike: a required architecture outcome, not an observed software failure; implementation follows compilation-context slices 0–3"
+  },
   "OR-747": {
    "kind": "requirement",
    "was": "defect",

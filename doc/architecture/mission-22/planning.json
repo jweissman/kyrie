@@ -182,6 +182,7 @@
    "MT-18": "platform: one projection; its player-facing symptoms are rows in the set (OR-152, AR-05)",
    "MT-24": "platform: command atomicity; a lost or half state met in play would be a row in the set",
    "MT-25": "platform: string reads; symptoms met in play are rows in the set",
+   "OR-700": "compiler architecture behind compilation-context slices 0–3; the supported first-hour player does not meet the symbol-table implementation directly",
    "OR-740": "platform: the complete player revision, an architecture step; what a player meets of a second derivation is a row in the set",
    "OR-743": "platform: told from facts, an architecture step; the said-vs-held defects met in the first hour (NP-19, OA-14, CO-19) are in the set and blocked on it",
    "OR-744": "platform: generated typed vocabulary, MT-25's remainder; symptoms met in play are rows in the set",
