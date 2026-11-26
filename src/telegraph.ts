@@ -1,5 +1,6 @@
 import type { Battle } from './battle';
 import type { Fighter } from './model';
+import type { ItemCatalog } from './item-catalog';
 import { SettingPort, type SettingTelegraphs } from './setting-port';
 
 type ArenaAbility = Battle['repertoire'][number];
@@ -21,8 +22,9 @@ export class Telegraph {
     together: { natural: '{Who} close on {whom} together.', missile: '{Who} all draw on {whom}.',
       held: '{Who} close on {whom} together.' }, spells: { harm: {}, school: {}, tradition: {} }, type: Telegraph.nobody };
   // called: what the company calls each one in the fight; whom: the one it means its act for.
-  static of(foe: Who, ability: ArenaAbility, target: Who, called: (f: Who) => string): Telegraphed {
-    const found = Telegraph.find(foe, ability, target.id === foe.id);
+  static of(catalog: ItemCatalog, foe: Who, ability: ArenaAbility, at: { target: Who; called: (f: Who) => string }):
+    Telegraphed {
+    const { target, called } = at, found = Telegraph.find(catalog, foe, ability, target.id === foe.id);
     const line = found ? found.line : '{Who} means to use {ability}{at}.';
     return { line: Telegraph.fill(line, { foe, ability, target, called }), source: found?.source ?? 'generic' };
   }
@@ -45,7 +47,8 @@ export class Telegraph {
     const type = Telegraph.book.type(foe.raceId);
     return (type && type !== 'beast' ? Telegraph.book.gestures[type] : undefined) ?? ability.windup ?? 'gathers itself';
   }
-  private static find(foe: Who, ability: ArenaAbility, self: boolean): { line: string; source: Source } | undefined {
+  private static find(catalog: ItemCatalog, foe: Who, ability: ArenaAbility, self: boolean):
+    { line: string; source: Source } | undefined {
     const species = Telegraph.book.type(foe.raceId);
     const blow = ['melee', 'ranged'].includes(ability.id), weapon = foe.equipment?.weapon;
     const key = blow ? weapon?.id ?? 'fist' : ability.id;
@@ -55,15 +58,16 @@ export class Telegraph {
     if (type) { return { line: type, source: 'type' }; }
     const own = Telegraph.book.abilities[ability.id];
     if (own) { return { line: typeof own === 'string' ? own : species ? own.creature : own.person, source: 'ability' }; }
-    if (blow) { return Telegraph.blow(weapon); }
+    if (blow) { return Telegraph.blow(catalog, weapon); }
     return Telegraph.spell(ability, self);
   }
-  private static blow(weapon: Fighter['equipment']['weapon'] | undefined): { line: string; source: Source } {
+  private static blow(catalog: ItemCatalog, weapon: Fighter['equipment']['weapon'] | undefined):
+    { line: string; source: Source } {
     if (!weapon || weapon.natural) {
       return { line: Telegraph.book.natural[weapon?.id ?? 'fist'] ?? Telegraph.book.natural.fist
         ?? '{Who} goes for {whom}.', source: 'natural' };
     }
-    const kind = weapon.kind ?? '', held = Telegraph.book.held;
+    const kind = catalog.get(weapon.id).weapon?.kind ?? '', held = Telegraph.book.held;
     const line = held[`${kind}-${weapon.type}`] ?? held[kind] ?? held[weapon.missile ? 'missile' : 'melee']
       ?? '{Who} comes at {whom} with {a weapon}.';
     return { line, source: 'held' };

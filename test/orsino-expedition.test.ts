@@ -4,7 +4,6 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
-import { Canon } from '../src/canon/canon';
 import type { CreatureStore } from '../src/creature-store';
 import { GeneratedWorld } from './support/generated';
 
@@ -40,11 +39,11 @@ class Expedition {
 describe('an expedition among Orsino\'s things', () => {
   it('finds a stone and two wonders below, wears them, and sells what is worth selling at home', async () => {
     const s = await Expedition.start();
-    const stone = Canon.items[Expedition.kind(s, 'w9_haulage_hall_gem0')]!;
+    const stone = s.campaign.catalog.definition(Expedition.kind(s, 'w9_haulage_hall_gem0'))!;
     expect(stone).toMatchObject({ name: 'a large brilliant-cut rose quartz', rank: 'common', value: 23,
       portrait: 'gems/rose_quartz' });
     expect(stone.description).toBe('A common gemstone, brilliant-cut, clear.');
-    expect(Canon.items[Expedition.kind(s, 'w9_drowned_furnace_find1')]!.source.orsino)
+    expect(s.campaign.catalog.definition(Expedition.kind(s, 'w9_drowned_furnace_find1'))!.source.orsino)
       .toBe('equipment:amulet_of_health');
     await Expedition.take(s, 'w9_haulage_hall', [/^Collect a large brilliant-cut rose quartz/]);
     await Expedition.take(s, 'w9_drowned_furnace', [/^Collect a ring of strength/, /^Collect an amulet of health/]);
@@ -63,6 +62,6 @@ describe('an expedition among Orsino\'s things', () => {
     expect(Expedition.gold(s)).toBe(gold + 11);
     gold = Expedition.gold(s);
     await Expedition.choose(s, /^Sell an amulet of health to /);
-    expect(Expedition.gold(s)).toBe(gold + Math.floor(Canon.items.amulet_of_health!.value! / 2));
+    expect(Expedition.gold(s)).toBe(gold + Math.floor(s.campaign.catalog.definition('amulet_of_health')!.value! / 2));
   }, 240000);
 });

@@ -90,8 +90,8 @@ export class Campaign implements WatchHost {
   static load(...a: Parameters<typeof Campaign.loaded>) { return Costs.timed('campaign', () => this.loaded(...a)); }
   static loaded(path: string, seed: string, source: BundleSource, party?: CreatureGenerationContext[] | Assembly) {
     const at: Assembly = Array.isArray(party) ? { party } : party ?? {};
-    return this.loads.take(source, JSON.stringify([path, seed, at.party ?? null, Installed.current().id]),
-      () => CampaignAssembly.assemble({ path, seed, source,
+    return this.loads.take(source, { key: JSON.stringify([path, seed, at.party ?? null, Installed.current().id]),
+      installation: Installed.current().id }, () => CampaignAssembly.assemble({ path, seed, source,
         at: { ...at, party: at.party && structuredClone(at.party) }, vocabulary: Content.vocabulary() }),
       l => l.fork());
   }

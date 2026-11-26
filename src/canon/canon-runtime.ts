@@ -1,7 +1,7 @@
 import { parseAbility, type Amount, type Area, type ArenaAbility } from '../lang/parse';
 import { Canon, type Family } from './canon';
 import { Amounts } from '../rules/amounts';
-import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats } from '../rules/catalog-schema';
+import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, Species, WeaponStats } from '../rules/catalog-schema';
 
 // Where a perk is asked about: the holder's environment, and the weapon it wields.
 export interface PerkAt { environment?: string; weapon?: { weight?: string; missile?: boolean } }
@@ -20,6 +20,11 @@ export class CanonRuntime {
   static item(id: string): ItemKind | undefined { return Canon.items[this.resolve('items', id)]; }
   static itemIds(): string[] { return Object.keys(Canon.items); }
   static isBody(id: string): boolean { return Canon.isBody(id); }
+  static isVariation(id: string): boolean { return Object.hasOwn(Canon.variations, id); }
+  static vary(id: string, species: Species, variations: string[]): Species {
+    return Canon.vary(id, species, variations);
+  }
+  static temperament(species: Species): string | undefined { return Canon.speciesTemperament(species); }
   private static withAliases<T>(family: Family, entries: Record<string, T>): Record<string, T> {
     const out = { ...entries };
     for (const [alias, target] of Object.entries(Canon.aliases[family] ?? {})) {

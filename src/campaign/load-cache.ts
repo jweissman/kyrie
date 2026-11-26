@@ -10,13 +10,23 @@ export interface Assembly {
 // Memoizes deterministic loads per bundle source. Sources are assumed not to change underneath a running process.
 export class LoadCache<T> {
   private loaded = new WeakMap<BundleSource, Map<string, Promise<T>>>();
-  // One at a time, through to its use: what is loaded joins catalogs the process shares, and two campaigns loaded at
-  // once, each declaring a token, met in them and failed (the architecture review's H7).
-  private queue: Promise<unknown> = Promise.resolve();
-  take<R>(source: BundleSource, key: string, load: () => Promise<T>, use: (loaded: T) => R): Promise<R> {
-    const run = this.queue.then(() => this.get(source, key, load)).then(use);
-    this.queue = run.catch(() => undefined);
-    return run;
+  // Loads within one installation can interleave; distinct installations wait for each other because the browser
+  // cannot carry Installed.during across awaits independently.
+  private active?: { id: string; count: number; done: Promise<void>; finish: () => void };
+  async take<R>(source: BundleSource, at: { key: string; installation: string }, load: () => Promise<T>,
+    use: (loaded: T) => R): Promise<R> {
+    while (this.active && this.active.id !== at.installation) { await this.active.done; }
+    if (!this.active) {
+      let finish!: () => void;
+      const done = new Promise<void>(resolve => { finish = resolve; });
+      this.active = { id: at.installation, count: 0, done, finish };
+    }
+    const active = this.active;
+    active.count++;
+    try { return use(await this.get(source, at.key, load)); }
+    finally {
+      if (--active.count === 0) { this.active = undefined; active.finish(); }
+    }
   }
   get(source: BundleSource, key: string, load: () => Promise<T>): Promise<T> {
     let bySource = this.loaded.get(source);

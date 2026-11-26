@@ -146,8 +146,8 @@ describe('a way across country, told as it goes', () => {
 describe('the turning points of a fight', () => {
   it('are remarked on now and then, in the fighter\'s own manner, and never twice the same', async () => {
     const { Barks } = await import('../src/narrative/barks');
-    const fighters = [{ id: 'a', name: 'Wenna', team: 'fighters', raceId: 'human' },
-      { id: 'b', name: 'a cultist', team: 'goblins', raceId: 'human' }] as never[];
+    const fighters = [{ id: 'a', name: 'Wenna', team: 'fighters', raceId: 'human', equipment: {} },
+      { id: 'b', name: 'a cultist', team: 'goblins', raceId: 'human', equipment: {} }] as never[];
     const barks = new Barks(fighters, 'k'), said: string[] = [];
     for (let n = 0; n < 40; n++) {
       const b = barks.of([{ type: 'attack', turn: n, actor: n % 2 ? 'a' : 'b', target: n % 2 ? 'b' : 'a', die: 20, need: 10,
@@ -164,8 +164,8 @@ describe('the turning points of a fight', () => {
     // Each of a dozen, by their id a different manner (see Barks.context).
     const said: string[] = [];
     for (let k = 0; k < 12; k++) {
-      const fighters = [{ id: `a${k}`, name: 'Gunnvor', team: 'fighters', raceId: 'dwarf' },
-        { id: 'b', name: 'a wolf', team: 'beasts', raceId: 'wolf' }] as never[];
+      const fighters = [{ id: `a${k}`, name: 'Gunnvor', team: 'fighters', raceId: 'dwarf', equipment: {} },
+        { id: 'b', name: 'a wolf', team: 'beasts', raceId: 'wolf', equipment: {} }] as never[];
       const barks = new Barks(fighters, 'k', new Map([[`a${k}`, 'she']]));
       for (let n = 0; n < 40; n++) {
         const b = barks.of([{ type: 'attack', turn: n, actor: `a${k}`, target: 'b', die: 2, need: 10, toHit: 0,

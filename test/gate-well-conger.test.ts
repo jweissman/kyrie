@@ -22,7 +22,7 @@ class Odds {
   static won(c: Campaign, ours: string[]): number {
     const read = c.readout, foes = Beside.members(c.world, read.inhabitants, conger)
       .map(id => read.creatures.find(x => x.id === id)!), us = ours.map(id => read.creatures.find(x => x.id === id)!);
-    return Array.from({ length: trials }, (_, i) => Gauntlet.fought(Gauntlet.between(us, foes, `conger-${i}`)))
+    return Array.from({ length: trials }, (_, i) => Gauntlet.fought(Gauntlet.between(c.catalog, us, foes, `conger-${i}`)))
       .filter(f => f.won).length / trials;
   }
 }

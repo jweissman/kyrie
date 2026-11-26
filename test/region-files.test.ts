@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { ModuleParser } from '../src/lang/module-parser';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // A generated country is written in several files, each read on its own, in order. Found measuring the browser:
 // Begin on wren failed ("names a kind missing from the item catalog: abbey_chalice") and the page stayed on the
@@ -16,8 +17,9 @@ describe('a generated country', () => {
         { origin: 'kin', party: [{ name: 'Wenna', raceId: 'dwarf', classId: 'warrior' }] });
       const region = w.source.resolve(`world-${seed}/region/module.json`);
       const files = (JSON.parse(await w.source.read(region)) as { source: string[] }).source;
+      const vocabulary = CanonVocabulary.context();
       for (const file of files) {
-        try { ModuleParser.parse(await w.source.read(w.source.resolve(file, region))); }
+        try { ModuleParser.parseWithin(vocabulary, await w.source.read(w.source.resolve(file, region))); }
         catch (error) { failed.push(`${seed} ${file}: ${(error as Error).message}`); }
       }
     }

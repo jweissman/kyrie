@@ -1,4 +1,3 @@
-import { ItemCatalog } from '../src/item-catalog';
 import type { Campaign } from '../src/campaign/campaign';
 import { CampaignTick } from '../src/campaign/campaign-tick';
 import { Engagement } from '../src/campaign/engagement';
@@ -77,7 +76,7 @@ export class NoviceMeeting {
   private static brought(campaign: Campaign, company: Creature[]): Change[] {
     const world = campaign.world, party = campaign.playerActor!;
     return EntityIndex.of(campaign.module.entities).typed('capability')
-      .filter(k => company.some(c => PartyCapabilities.brings(ItemCatalog.canon, k.id, c))
+      .filter(k => company.some(c => PartyCapabilities.brings(campaign.catalog, k.id, c))
         && !world.test(ModuleWriter.call('capable', party, k.id)))
       .map(k => ({ kind: 'assert' as const, call: ModuleWriter.call('capable', party, k.id) }));
   }

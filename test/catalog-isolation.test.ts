@@ -5,6 +5,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleParser } from '../src/lang/module-parser';
 import { CanonVocabulary } from '../src/canon/canon-vocabulary';
+import { ItemCatalog } from '../src/item-catalog';
 
 // What a campaign means does not turn on what else the process has done (the architecture review's H7, from its
 // probes det-kind-cache, det-parse-cache and det-concurrent): two campaigns' tonics were one tonic to whichever was
@@ -30,6 +31,15 @@ class Two {
   }
 }
 describe('a campaign in a process that has run others', () => {
+  it('resolves variations of its own species and keeps their temperament', () => {
+    const text = 'Module animals "Animals" { Species local_pike "a pike" like great_pike temperament territorial. }';
+    const catalog = ItemCatalog.of(ModuleParser.parseWithin(CanonVocabulary.context(), text).catalog);
+    expect(catalog.isSpecies('local_pike/great/elder')).toBe(true);
+    expect(catalog.temperament('local_pike/great/elder')).toBe('territorial');
+    expect(catalog.creature('local_pike/great/elder').variations?.slice(-2)).toEqual(['great', 'elder']);
+    expect(ItemCatalog.canon.isSpecies('local_pike/great/elder')).toBe(false);
+    expect(catalog.isSpecies('local_pike/not_a_variation')).toBe(false);
+  });
   it('uses its own kinds, whichever ran first', async () => {
     const tonic = Two.source(dir => `Kind tonic "a tonic" like ${dir === 'a' ? 'wine' : 'elixir_of_strength'}.
       Item flask "a flask of tonic" is tonic at room.`);

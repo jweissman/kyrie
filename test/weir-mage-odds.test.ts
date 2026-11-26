@@ -20,7 +20,7 @@ class Odds {
   static won(c: Campaign): number {
     const read = c.readout, ours = read.partyIds.map(id => read.creatures.find(x => x.id === id)!);
     const foes = Beside.members(c.world, read.inhabitants, rats).map(id => read.creatures.find(x => x.id === id)!);
-    return Array.from({ length: trials }, (_, i) => Gauntlet.fought(Gauntlet.between(ours, foes, `weir-${i}`)))
+    return Array.from({ length: trials }, (_, i) => Gauntlet.fought(Gauntlet.between(c.catalog, ours, foes, `weir-${i}`)))
       .filter(f => f.won).length / trials;
   }
 }

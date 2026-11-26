@@ -88,7 +88,7 @@ export class NoviceViability {
     const foes = band.members.map(id => creatures.find(c => c.id === id)).filter((c): c is Creature => !!c);
     const reading = NoviceMeeting.read(campaign, band, company), world = reading.world, party = campaign.playerActor!;
     if (reading.tolerated) { return []; }
-    const setup: Setup = { seed: `${country.seed}:${at.calling}:${at.company}:${band.id}`, company, foes,
+    const setup: Setup = { seed: `${country.seed}:${at.calling}:${at.company}:${band.id}`, catalog: campaign.catalog, company, foes,
       lead: at.ids[0]!, prisoners: world.relates('takesPrisoners')
         && world.test(ModuleWriter.call('takesPrisoners', band.id)),
       place: Environment.encounter(world, party, at.ids, band.id),

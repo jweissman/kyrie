@@ -41,7 +41,7 @@ export class CombatTelling {
   }
   // What fighters say at the turning points, now and then (see Barks), and what they said in the fights before.
   private static barker(state: BattleState, said?: ReadonlyMap<string, string>): Barks {
-    const fighters = [...state.combatants, ...(state.departed ?? []) as Fighter[]];
+    const fighters = [...state.combatants, ...state.departed ?? []];
     return new Barks(fighters, fighters.map(f => f.id).join(','), said, state.barked);
   }
   // Each exchange: an act and what follows from it, in the round it fell in.
