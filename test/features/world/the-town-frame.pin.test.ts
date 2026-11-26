@@ -92,7 +92,7 @@ describe('the first town\'s frame', () => {
     '^Attack the wol', 'through'];
   it('smokes the she-bear out with oil, a thief warned that she is beyond them', async () => {
     const walk = await Walk.begun('bench-2', 'human/thief/Ned');
-    await walk.play([...quarry, 'landing|Out', "To Mildred's chandlery", 'Buy a flask of lamp oil',
+    await walk.play([...quarry, 'landing|Out', "To Mildred's chandlery", 'Mildred', 'Buy a flask of lamp oil', 'leave',
       '^To the landing|Out to the landing', ...down, '^To the den']);
     expect(rows(walk.s).find(x => /^Attack the she-bear/.test(x.label))?.aside).toMatch(/^Beyond you/);
     await walk.play(['^To the cut gallery', 'Pour lamp oil on wet bracken']);
