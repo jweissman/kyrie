@@ -8,9 +8,11 @@ import type { Land } from './land/terrain';
 // looks.
 export interface Sighting { id: string; cell: number; bearing: string; far: boolean; glass: boolean; distance: number }
 export class Vantage {
-  static readonly near = 4.5;
-  static readonly far = 8;
-  static readonly glass = 12;
+  // A hex or two about where the company stands, and no further, glass or no (the owner, 26 November, OR-1250: a climb
+  // had revealed half the country; under compactification it shows the place's own neighbourhood).
+  static readonly near = 1.5;
+  static readonly far = 2;
+  static readonly glass = 2;
   // How far above the land the eye stands from what is climbed: the crown of an old tree stands higher over its
   // ground than a cairn over its rise; a crag is high already.
   static readonly heights: Record<string, number> = { oak: 0.2, alders: 0.16, cairn: 0.1, crag: 0.12, tower: 0.24 };

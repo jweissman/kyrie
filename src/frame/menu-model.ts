@@ -242,14 +242,17 @@ export class MenuModel {
   // by where (the first legs' places). A place whose way is not known is set out toward, as far as the known ways go
   // (the edge of the wood it is said to be in). Past the nearest few, the map, which has them all.
   static destinations(screen: Frame['screen'], bound?: string, aimed: string[] = []): Choice[] {
-    const all = (screen.destinations ?? []).filter(d => d.id !== bound);
+    // While the map is hidden, none across the hex (Surfaces, OR-1242): a climb's far sights had each been a journey.
+    const mapped = Surfaces.has(screen, 'the_map');
+    const all = (screen.destinations ?? []).filter(d => d.id !== bound && (mapped || !d.crosses));
     // The nearest, and the place your aims name, near or far: the engine says which (see Glance.aimed).
     const named = all.slice(this.near).find(d => aimed.includes(`travel:${d.id}`));
     const shown = [...all.slice(0, this.near), ...named ? [named] : []], rest = all.length - shown.length;
     return [...shown.map(d => ({ ...this.journey(d), note: [d.scale, this.by(d), Hours.dark(screen.elapsed, d.minutes)]
-      .filter(Boolean).join(' · ') })), ...this.roads(screen, bound, this.near - shown.length),
+      .filter(Boolean).join(' · ') })), ...mapped ? this.roads(screen, bound, this.near - shown.length) : [],
       // The map's row says no number of places (the owner, 25 November: "Why is the map sending you a notification?").
-      ...rest > 0 ? [{ id: 'view:map', label: rest === 1 ? 'Another place you know, on the map'
+      // None while the map is hidden (Surfaces, OR-1242).
+      ...rest > 0 && mapped ? [{ id: 'view:map', label: rest === 1 ? 'Another place you know, on the map'
         : 'Other places you know, on the map', tone: 'way' as const, command: 'view:map' }] : []];
   }
   // Where nothing much has been told of yet (a first town), the nearest of the towns the roads go to and the

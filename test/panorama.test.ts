@@ -31,17 +31,17 @@ describe('a panorama', () => {
       by: 'It is your wayfinding that makes it out.',
       way: 'The way: to the edge of Beorquudu, and on to the old bank, where the track to it starts.' });
   });
-  it('offers to set out for each way that is somewhere to set out for', () => {
+  // Told once, in words (the owner, 26 November, OR-1250): no row for each place seen, none to set out or to look at
+  // the map; a place known for what it is said by its name and its look.
+  it('tells the view once, in words, with no row for any place seen', () => {
     const { sights } = Moments.of(lines);
     const going = [{ id: 'region__w3', name: 'Paliduslac', journey: { id: 'travel:region__w3', tone: 'way' as const,
       label: 'Set out toward Paliduslac', command: 'travel:region__w3' } }];
     const html = renderToStaticMarkup(createElement(Panorama.View, { sights, going, choose: () => undefined }));
     expect(html).toContain('What can be seen from here');
-    expect(html.match(/data-action="set-out"/g)).toHaveLength(1);
-    // Its going said by its button, never by hover text (OR-79).
-    expect(html).toContain('data-id="region__w3"');
-    expect(html).not.toContain('title=');
-    expect(html).toContain('A square doorway in a hillside in Beorquudu. It is your wayfinding that makes it out.');
+    expect(html).not.toMatch(/<button|<li|data-action/);
+    expect(html.match(/<p class="view">/g)).toHaveLength(1);
+    expect(html).toContain('Paliduslac (a square doorway in a hillside in Beorquudu)');
   });
   it('leaves out of the margin what it says itself', () => {
     const { sights } = Moments.of(lines);
