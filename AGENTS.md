@@ -103,7 +103,7 @@ this help the player forget the interface and become interested in what happens 
 
 ## Testing
 
-- **The experience gate:** `bun run quality` (scripts/quality/) reads its numbers nightly in CI and holds each by a
+- **The experience gate:** `bun run quality` (scripts/quality/) reads its numbers nightly in CI and holds each available, baselined reading by a
   ratchet in scripts/quality/baseline.json, kept apart for CI and a local machine: the slice's P0/P1 defects, the
   heap a turn keeps, the continuity census's breaches, main's CI minutes, and the performance measures, from one
   replay of the golden walk (scripts/quality/walk-timings.ts):
