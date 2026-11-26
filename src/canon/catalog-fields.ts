@@ -11,7 +11,7 @@ const fields = {
     'statistics', 'abilities', 'traits', 'defenses', 'resistances', 'temperament', 'habitats', 'variations',
     'portrait', 'worth', 'omits', 'source'],
   statistics: ['attributes', 'hitPoints', 'hitDie', 'hitDice', 'level', 'weapon', 'armor', 'primary', 'actions',
-    'attacks', 'growth', 'riders', 'damage', 'armorBonus', 'saves', 'attackBonus'],
+    'attacks', 'strikes', 'growth', 'riders', 'damage', 'armorBonus', 'saves', 'attackBonus'],
   ability: ['name', 'kind', 'description', 'effect', 'effects', 'cost', 'recharge', 'windup', 'spell', 'level',
     'resist', 'requires', 'uses', 'area', 'unsupported', 'source', 'recharges'],
   condition: ['name', 'description', 'lifetime', 'modifiers', 'hooks', 'trigger', 'duration', 'saveKind', 'law',
@@ -39,7 +39,7 @@ const fields = {
   variation: ['axis', 'word', 'says', 'kinds', 'attributes', 'health', 'abilities', 'traits', 'hint', 'habitats',
     'abundance', 'resistances', 'types', 'weapon', 'material', 'temperament', 'type', 'source', 'hitDice', 'defenses',
     'attacks', 'armor', 'forgoes', 'unplaced', 'riders', 'damage', 'armorBonus', 'saves',
-    'attackBonus', 'actions', 'portrait', 'scores'],
+    'attackBonus', 'strikes', 'actions', 'portrait', 'scores'],
 } as const;
 type Record_ = Record<string, unknown>;
 

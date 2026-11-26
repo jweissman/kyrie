@@ -297,7 +297,8 @@ exists and runs, do not claim the world gate covered this migration.
 **Call:** prove reusable seams before installing a hundred bodies or changing twenty spellbooks. Two spec-only
 adapters now execute against the real combat/effect engine. They change no catalog entry, concordance, encounter
 placement or generation pool, and they do not increase the fidelity census. The one engine extension is opt-in
-per-strike numeric data on `WeaponProfile`; no live catalog assembler sets it yet.
+per-strike numeric data on `WeaponProfile`. The update below carries those numbers into two already-placed creatures;
+the other source bodies remain prototypes.
 
 ### Creatures: the routine is the first small boundary
 
@@ -336,12 +337,19 @@ bludgeoning fixture placeholder, not a claim about the source. The structured at
 attack-mode/damage-type contract, and source qualities and specials stay listed as blockers. Neither mapping
 coverage nor the census is promoted by these tests.
 
-**Smallest next implementation:** carry these per-strike values through an explicitly validated fixed-routine
-catalog representation, `ItemCatalog` and creature projection; do not use shared weapon IDs as a substitute for
-distinct strikes. Prove round-trip projection, worn-weapon overrides, a missed first strike followed by a hit, and
-death interrupting the routine. Extend the census to compare every strike's bonus and full damage, rather than the
-first hit chance and dice with bonuses stripped. Stage a complete, unplaced body with source attack modes and
-defenses before adding any ecology row.
+**Live boundary, 26 November:** fixed bodies may now supply one pair of signed bonuses per ordered natural strike.
+Validation requires Hit Dice, a routine and matching whole-number pairs. The values flow through composition and
+`ItemCatalog` without modifying shared weapons; a wielded weapon replaces the routine. An already-placed fell
+owlbear uses claws at +9 for 1d6+5 and a bite at +4 for 1d8+2, instead of treating its bite as another primary
+strike. The vault's barrow ghoul uses a bite at +2 for 1d6+1 and claws at +0 for 1d3, retaining paralysis on each
+strike. Their projected routines, save round-trip, weapon override and interrupted routine have focused tests.
+The reduced secondary attacks change the vault, Tallow and arcology fights; their prior balance measurements must be
+repeated in CI. Improved grab and scent remain absent from the owlbear, and ghoul fever and elf immunity from the
+ghoul. Kyr's critical policy remains an adaptation.
+
+**Next boundary:** prove a missed first strike followed by a later hit, and extend the census to compare every
+strike's bonus and full damage, rather than the first hit chance and dice with bonuses stripped. Stage a complete,
+unplaced body with source attack modes and defenses before adding any ecology row.
 
 ### Spells: a twenty-entry mechanism batch
 
@@ -401,10 +409,10 @@ are estimates of **shared obligations**, not disjoint completed batches or a gua
 listed record. Existing typed defenses and spell resistance should be reused, with each source's immunity,
 reduction bypass and regeneration behavior proved separately.
 
-**Recommendation to the main builder:** land the per-strike boundary independently of placement, then make the
-recipient-local branching and selection contract a rules/player slice. These are bounded lifts, not an Augury-sized
-world system. Sense and grapple contracts are the next high-leverage creature work. Do not globally replace the
-placed spiders, boars or ghouls to make the count reach a hundred.
+**Recommendation to the main builder:** review the opt-in per-strike boundary and rerun the affected owlbear
+encounters, then make the recipient-local branching and selection contract a rules/player slice. These are bounded
+lifts, not an Augury-sized world system. Sense and grapple contracts are the next high-leverage creature work. Do
+not globally replace the placed spiders, boars or ghouls to make the count reach a hundred.
 
 Reproduce the mechanism proofs:
 
