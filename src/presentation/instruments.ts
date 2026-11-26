@@ -73,7 +73,8 @@ export class Instruments {
   private static reader(campaign: Campaign): boolean {
     const ids = new Set(campaign.readout.partyIds);
     return campaign.readout.creatures.filter(c => ids.has(c.id))
-      .some(c => PartyCapabilities.skilled('wayfinding', c) || PartyCapabilities.skilled('lore', c));
+      .some(c => PartyCapabilities.skilled('wayfinding', c, {}, campaign.vocabulary)
+        || PartyCapabilities.skilled('lore', c, {}, campaign.vocabulary));
   }
   private static provisions(screen: Screen): Instrument {
     const e = screen.expedition, days = e.rations;

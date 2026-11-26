@@ -16,6 +16,7 @@ import { ObservationText } from '../lang/observation-text';
 import { Itineraries } from '../ui/itinerary';
 import { Telling } from '../narrative/telling'; import { Days } from '../narrative/days'; import { Answers } from '../narrative/answers';
 import { RuleWords } from '../narrative/rule-words';
+import type { CatalogContext } from '../catalog-context';
 
 export interface ActionFeedback {
   attempt: string; result: string; resources: string[]; time: string; immediate: string[]; discoveries: string[];
@@ -192,7 +193,7 @@ export class ActionFeedbackView {
     const skills = this.capabilities(when), live = campaign.readout;
     const members = live.creatures.filter(c => live.partyIds.includes(c.id));
     for (const skill of skills) {
-      const who = PartyCapabilities.providers(skill, members).map(c => c.name);
+      const who = PartyCapabilities.providers(skill, members, {}, campaign.vocabulary).map(c => c.name);
       const name = Canon.skills[skill]?.name.toLowerCase(), whose = members.length === 1 ? ['your'] : who.map(n => `${n}'s`);
       if (who.length && name) { return `It is ${this.list(whose)} ${name} that makes it out.`; }
     }
@@ -240,32 +241,33 @@ export class ActionFeedbackView {
   // How a fight went, blow by blow; set upon after a fight of its own, that fight, then who came at the company ("The
   // bone hounds come at you."), then theirs.
   private static fights(event: CampaignEvent, before: PlayerSnapshot,
-    names: Parameters<typeof CombatPresenter.format>[1]): string[] {
+    names: Parameters<typeof CombatPresenter.format>[1], vocabulary?: CatalogContext): string[] {
     // Set upon in the midst of something done with no fight of its own (a firebomb thrown through a crack), what came
     // of it is told before the fight, not lost (two cold players learned the brood was burned only from the reward).
     const split = event.prelude?.fought ?? 0, onset = event.prelude?.response;
-    if (!event.prelude) { return this.blows(event.combat, before, names); }
+    if (!event.prelude) { return this.blows(event.combat, before, names, vocabulary); }
     // And the roll of what was done, before what came of it: a warning-off failed into a fight told no roll (CL-10).
     const rolled = event.combat.slice(0, split).filter(e => e.type === 'check')
-      .map(e => CombatPresenter.format(e, names));
-    return [...this.blows(event.combat.slice(0, split), before, names), ...rolled, ...onset ? [onset] : [],
-      ...this.blows(event.combat.slice(split), before, names)];
+      .map(e => CombatPresenter.format(e, names, true, vocabulary));
+    return [...this.blows(event.combat.slice(0, split), before, names, vocabulary), ...rolled, ...onset ? [onset] : [],
+      ...this.blows(event.combat.slice(split), before, names, vocabulary)];
   }
   private static blows(events: CampaignEvent['combat'], before: PlayerSnapshot,
-    names: Parameters<typeof CombatPresenter.format>[1]): string[] {
+    names: Parameters<typeof CombatPresenter.format>[1], vocabulary?: CatalogContext): string[] {
     // Without who moved first nor a blow's dice: a flight had been told "Initiative: the third wolf 14, … The third
     // wolf misses Wynn (rolled 5, needed 14)" (the laboratory's matrix: 33 arrivals past six sentences, all retreats).
     const told = events.filter(e => e.type !== 'action' && e.type !== 'initiative'
       && !('amount' in e && e.amount === 0 && e.type !== 'damage')
       && !(e.type === 'remove' && ActionFeedbackView.lacked(before, e.target, e.detail)));
     // Out of a fight only: in one, each turn's heat is told as the turn's.
-    return events.some(e => e.type === 'initiative') ? told.map(e => CombatPresenter.format(e, names, false))
-      : this.laws(told, names);
+    return events.some(e => e.type === 'initiative') ? told.map(e => CombatPresenter.format(e, names, false, vocabulary))
+      : this.laws(told, names, vocabulary);
   }
   // A place's law felt watch after watch (the Fire's heat, the Positive's mending) is told once for whoever felt it,
   // in all (a change in the telling, not the rules): an hour in the Fire had told "Ama takes 1 fire damage" six times
   // over.
-  private static laws(events: CampaignEvent['combat'], names: Parameters<typeof CombatPresenter.format>[1]):
+  private static laws(events: CampaignEvent['combat'], names: Parameters<typeof CombatPresenter.format>[1],
+    vocabulary?: CatalogContext):
     string[] {
     const lines: string[] = [];
     for (let i = 0; i < events.length; i++) {
@@ -274,10 +276,10 @@ export class ActionFeedbackView {
       i += run.length - 1;
       const last = run.at(-1)!;
       if (run.length < 2 || (last.type !== 'damage' && last.type !== 'heal')) {
-        lines.push(CombatPresenter.format(e, names, false)); continue;
+        lines.push(CombatPresenter.format(e, names, false, vocabulary)); continue;
       }
       const sum = run.reduce((n, x) => n + (x.type === 'damage' || x.type === 'heal' ? x.amount : 0), 0);
-      lines.push(CombatPresenter.format({ ...last, amount: sum, rolled: sum }, names, false)
+      lines.push(CombatPresenter.format({ ...last, amount: sum, rolled: sum }, names, false, vocabulary)
         .replace(/; roll \d+\)\.$/, ').').replace(/ (damage|HP) \(/, ' $1 in all, a watch at a time ('));
     }
     return lines;
@@ -292,7 +294,7 @@ export class ActionFeedbackView {
   static lapses(campaign: Campaign, event: CampaignEvent): string[] {
     if (!event.combat.length) { return []; }
     const names = CombatProjection.told(Fought.of(campaign, [event]), campaign.readout.partyIds,
-      BandNames.of(campaign));
+      BandNames.of(campaign), campaign.vocabulary);
     return this.lapsed(event, names).lapsed ?? [];
   }
   // What ran out in it, and what a journey's legs before it brought, where it is a journey's last (see Travel.way).
@@ -348,7 +350,7 @@ export class ActionFeedbackView {
   private static named(campaign: Campaign, event: CampaignEvent): Parameters<typeof CombatPresenter.format>[1] {
     const fought = event.combat.length > 0;
     return CombatProjection.told(Fought.of(campaign, [event]), campaign.readout.partyIds,
-      fought ? BandNames.of(campaign) : undefined);
+      fought ? BandNames.of(campaign) : undefined, campaign.vocabulary);
   }
   static read(campaign: Campaign, event: CampaignEvent, before: PlayerSnapshot): ActionFeedback {
     const after = PlayerView.observe(campaign);
@@ -356,9 +358,9 @@ export class ActionFeedbackView {
     // A command of the session that is no act of the world (an aim chosen to follow): said as it was.
     if (!action) { return this.session(event, after, before); }
     const names = this.named(campaign, event);
-    const combat = this.fights(event, before, names), split = event.prelude?.fought;
+    const combat = this.fights(event, before, names, campaign.vocabulary), split = event.prelude?.fought;
     const rolls = event.combat.filter(e => e.type === 'check' || (e.type === 'save' && !event.combat.some(x => x.type === 'initiative')))
-      .map(e => CombatPresenter.format(e, names));
+      .map(e => CombatPresenter.format(e, names, true, campaign.vocabulary));
     const learned = after.knowledge.filter(k => !before.knowledge.some(b => b.id === k.id));
     // What taught the company something is what it saw, though once it knows, the place no longer shows it so.
     const taught = ActionFeedbackView.taught(campaign, event)

@@ -45,12 +45,12 @@ export class CanonValidation {
   static readonly itemCategories = ['weapon', 'armor', 'tool', 'gear', 'consumable', 'equipment', 'treasure',
     'document'];
   private problems: string[] = [];
-  static problems(): string[] {
-    const v = new CanonValidation();
+  private constructor(private readonly catalog: ReturnType<typeof CatalogFields.catalogs>) {}
+  static problems(canonicalOnly = false): string[] {
+    const v = new CanonValidation(CatalogFields.catalogs(canonicalOnly));
     v.identities(); v.ancestries(); v.species(); v.variations(); v.classes(); v.traits(); v.abilities();
-    v.conditions(); v.items();
-    v.backgrounds(); v.religion(); v.plants(); v.sources(); v.materials();
-    return [...Canon.conflicts, ...CatalogFields.problems(), ...v.problems];
+    v.conditions(); v.items(); v.backgrounds(); v.religion(); v.plants(); v.sources(); v.materials();
+    return [...Canon.conflicts, ...CatalogFields.problems(canonicalOnly ? v.catalog : undefined), ...v.problems];
   }
   // What is not wrong but not yet finished: a plant written ahead of its plate (it is shown without one until the plate
   // is cut). Said by lint, never refused at load (the owner writes plants before their sheet is drawn).
@@ -58,26 +58,26 @@ export class CanonValidation {
     return Object.entries(Canon.plants).filter(([, o]) => o.portrait && !CanonValidation.paintings.has(o.portrait))
       .map(([id, o]) => `plant ${id}: no plate ${o.portrait} cut yet (data/paintings/plants.json)`);
   }
-  static assert() {
-    const problems = this.problems();
+  static assert(canonicalOnly = false) {
+    const problems = this.problems(canonicalOnly);
     if (problems.length) { throw new Error(`Canonical content is inconsistent:\n${problems.join('\n')}`); }
   }
   private fail(where: string, message: string) { this.problems.push(`${where}: ${message}`); }
   private identities() {
-    const entityFamilies = { ability: Object.keys(Canon.abilities), item: Object.keys(Canon.items),
+    const entityFamilies = { ability: Object.keys(Canon.abilities), item: Object.keys(this.catalog.items),
       skill: Object.keys(Canon.skills), deity: Object.keys(Canon.deities), plant: Object.keys(Canon.plants) };
     this.disjoint(entityFamilies);
-    this.disjoint({ ancestry: Object.keys(Canon.ancestries), species: Object.keys(Canon.species),
+    this.disjoint({ ancestry: Object.keys(Canon.ancestries), species: Object.keys(this.catalog.species),
       class: Object.keys(Canon.classes) });
     this.disjoint({ condition: Object.keys(Canon.conditions), trait: Object.keys(Canon.traits) });
     const families = { abilities: Canon.abilities, conditions: Canon.conditions, traits: Canon.traits,
-      items: Canon.items, plants: Canon.plants, species: Canon.species } as const;
+      items: this.catalog.items, plants: Canon.plants, species: this.catalog.species } as const;
     for (const [family, entries] of Object.entries(families)) {
       for (const [alias, target] of Object.entries(Canon.aliases[family as keyof typeof families] ?? {})) {
         if (Object.hasOwn(entries, alias)) { this.fail(`alias ${alias}`, `shadows a canonical ${family} identifier`); }
         // A species' alias may name a kind composed of a base and its variations (fire_elemental is
         // elemental/fire_element).
-        const known = family === 'species' ? Canon.isSpecies(target) : Object.hasOwn(entries, target);
+        const known = family === 'species' ? Canon.isSpecies(target, this.catalog.species) : Object.hasOwn(entries, target);
         if (!known) { this.fail(`alias ${alias}`, `names unknown ${family} ${target}`); }
       }
     }
@@ -115,18 +115,20 @@ export class CanonValidation {
   // Every body the chassis makes (a creature's, a device's): its record whole, its painting a painting of the
   // collection, its material a material.
   private species() {
-    for (const [id, own] of [...Object.entries(Canon.species), ...Object.entries(Canon.devices)]) {
+    for (const [id, own] of [...Object.entries(this.catalog.species), ...Object.entries(Canon.devices)]) {
       const where = `${Canon.isDevice(id) ? 'device' : 'species'} ${id}`;
       if (own.portrait && !CanonValidation.paintings.has(own.portrait)) { this.fail(where, `no painting ${own.portrait}`); }
       if (own.material && !Canon.materials[own.material]) { this.fail(where, `unknown material ${own.material}`); }
-      if (own.variantOf && !Canon.isSpecies(own.variantOf)) { this.fail(where, `is a variant of unknown species ${own.variantOf}`); continue; }
+      if (own.variantOf && !Canon.isSpecies(own.variantOf, this.catalog.species)) {
+        this.fail(where, `is a variant of unknown species ${own.variantOf}`); continue; }
       let s;
-      try { s = Canon.creature(id); } catch (error) { this.fail(where, (error as Error).message); continue; }
+      try { s = Canon.creature(id, [], this.catalog.species); }
+      catch (error) { this.fail(where, (error as Error).message); continue; }
       if (!s.statistics) { this.fail(where, 'has no statistics'); continue; }
       const types = Canon.isDevice(id) ? CanonValidation.deviceTypes : CanonValidation.creatureTypes;
       if (!s.type || !types.includes(s.type)) { this.fail(where, `has unknown type ${s.type}`); }
-      if (!Canon.items[s.statistics.weapon]?.weapon) { this.fail(where, `natural weapon ${s.statistics.weapon} is not a weapon`); }
-      if (s.statistics.armor && !Canon.items[s.statistics.armor]?.armor) { this.fail(where, `natural armour ${s.statistics.armor} is not armour`); }
+      if (!this.catalog.items[s.statistics.weapon]?.weapon) { this.fail(where, `natural weapon ${s.statistics.weapon} is not a weapon`); }
+      if (s.statistics.armor && !this.catalog.items[s.statistics.armor]?.armor) { this.fail(where, `natural armour ${s.statistics.armor} is not armour`); }
       this.hitDice(where, s.statistics);
       this.expressions(where, s.statistics);
       this.riders(where, s.statistics.riders);
@@ -148,7 +150,7 @@ export class CanonValidation {
       for (const t of (v.types ?? []).filter(t => !CanonValidation.creatureTypes.includes(t))) {
         this.fail(where, `unknown type ${t}`);
       }
-      if (v.weapon && !Canon.items[v.weapon]?.weapon) { this.fail(where, `${v.weapon} is not a weapon`); }
+      if (v.weapon && !this.catalog.items[v.weapon]?.weapon) { this.fail(where, `${v.weapon} is not a weapon`); }
       if (v.material && !Canon.materials[v.material]) { this.fail(where, `unknown material ${v.material}`); }
       for (const a of (v.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `unknown ability ${a}`); }
       for (const t of (v.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `unknown trait ${t}`); }
@@ -169,8 +171,8 @@ export class CanonValidation {
   private stated(where: string, v: (typeof CreatureVariants.variations)[string]) {
     if (v.hitDice !== undefined) { this.hitDice(where, { hitDice: v.hitDice } as NonNullable<Species['statistics']>); }
     this.defenses(where, v.defenses);
-    for (const a of (v.attacks ?? []).filter(a => !Canon.items[a]?.weapon?.natural)) { this.fail(where, `${a} is no natural weapon`); }
-    if (v.armor && !Canon.items[v.armor]?.armor) { this.fail(where, `hide ${v.armor} is not armour`); }
+    for (const a of (v.attacks ?? []).filter(a => !this.catalog.items[a]?.weapon?.natural)) { this.fail(where, `${a} is no natural weapon`); }
+    if (v.armor && !this.catalog.items[v.armor]?.armor) { this.fail(where, `hide ${v.armor} is not armour`); }
     for (const a of (v.forgoes?.abilities ?? []).filter(a => !Canon.abilities[a])) { this.fail(where, `forgoes unknown ability ${a}`); }
     for (const t of (v.forgoes?.traits ?? []).filter(t => !Canon.traits[t])) { this.fail(where, `forgoes unknown trait ${t}`); }
     const harms = [...Canon.rules.damageTypes, 'physical', 'all'];
@@ -185,7 +187,7 @@ export class CanonValidation {
     attackBonus?: number; hitDice?: string; scores?: object; attributes?: object | string }) {
     this.fixed(where, st);
     for (const [weapon, text] of Object.entries(st.damage ?? {})) {
-      if (!Canon.items[weapon]?.weapon?.natural) { this.fail(where, `damage for ${weapon}, which is no natural weapon`); }
+      if (!this.catalog.items[weapon]?.weapon?.natural) { this.fail(where, `damage for ${weapon}, which is no natural weapon`); }
       const refused = StatExpressions.refused(text, StatExpressions.blow);
       if (refused) { this.fail(where, `damage ${refused}`); }
     }
@@ -202,7 +204,7 @@ export class CanonValidation {
   // What a blow carries (see Statistics.riders) is carried by a natural weapon, and lands on what it struck.
   private riders(where: string, riders: Record<string, { target: string }[]> | undefined) {
     for (const [weapon, effects] of Object.entries(riders ?? {})) {
-      if (!Canon.items[weapon]?.weapon?.natural) { this.fail(where, `rides on ${weapon}, which is no natural weapon`); }
+      if (!this.catalog.items[weapon]?.weapon?.natural) { this.fail(where, `rides on ${weapon}, which is no natural weapon`); }
       for (const e of effects.filter(e => e.target !== 'enemy')) { this.fail(where, `a rider on ${weapon} lands on ${e.target}`); }
     }
   }
@@ -232,10 +234,10 @@ export class CanonValidation {
           this.fail(where, `${s} is not a specialization of this class`);
         }
       }
-      for (const w of c.weapons.filter(w => !Canon.items[w]?.weapon)) { this.fail(where, `starts with ${w}, not a weapon`); }
-      for (const a of c.armor.filter(a => !Canon.items[a]?.armor)) { this.fail(where, `starts in ${a}, not armour`); }
+      for (const w of c.weapons.filter(w => !this.catalog.items[w]?.weapon)) { this.fail(where, `starts with ${w}, not a weapon`); }
+      for (const a of c.armor.filter(a => !this.catalog.items[a]?.armor)) { this.fail(where, `starts in ${a}, not armour`); }
       // A calling's kit is items the catalog has (proof-slices.md step 7): none silently dropped at creation.
-      for (const g of (c.startingGear ?? []).filter(g => !Canon.items[g])) { this.fail(where, `carries unknown item ${g}`); }
+      for (const g of (c.startingGear ?? []).filter(g => !this.catalog.items[g])) { this.fail(where, `carries unknown item ${g}`); }
       if (!Number.isInteger(c.hitDie) || c.hitDie < 1) { this.fail(where, 'needs a hit die'); }
     }
   }
@@ -292,7 +294,7 @@ export class CanonValidation {
     }
   }
   private items() {
-    for (const [id, i] of Object.entries(Canon.items)) {
+    for (const [id, i] of Object.entries(this.catalog.items)) {
       const where = `item ${id}`;
       if (!CanonValidation.itemCategories.includes(i.category)) { this.fail(where, `unknown category ${i.category}`); }
       if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); this.granted(where, [i.grants.ability]); }
@@ -305,7 +307,7 @@ export class CanonValidation {
       }
       // A use Kyr cannot run yet is said (unsupported.use: a wand of wonder's random effect), never left out.
       if (i.category === 'consumable' && !i.use && !i.unsupported?.use) { this.fail(where, 'a consumable needs a use'); }
-      if (i.fuel && !Canon.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }
+      if (i.fuel && !this.catalog.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }
       if (i.weapon && !i.unsupported && !Canon.rules.damageTypes.includes(i.weapon.type)) {
         this.fail(where, `unknown damage type ${i.weapon.type}`);
       }
@@ -323,7 +325,7 @@ export class CanonValidation {
       if (!['background', 'profession'].includes(b.use)) { this.fail(where, `unknown use ${b.use}`); }
       if (b.requiredClass && !Canon.classes[b.requiredClass]) { this.fail(where, `requires unknown class ${b.requiredClass}`); }
       for (const s of (b.skills ?? []).filter(s => !Canon.skills[s])) { this.fail(where, `grants unknown skill ${s}`); }
-      for (const g of (b.gear ?? []).filter(g => !Canon.items[g])) { this.fail(where, `gives unknown item ${g}`); }
+      for (const g of (b.gear ?? []).filter(g => !this.catalog.items[g])) { this.fail(where, `gives unknown item ${g}`); }
     }
   }
   private religion() {
@@ -338,7 +340,7 @@ export class CanonValidation {
   private plants() {
     for (const [id, o] of Object.entries(Canon.plants)) {
       const where = `plant ${id}`;
-      for (const it of [o.yields, o.cut?.yields].filter((x): x is string => !!x && !Canon.items[x])) {
+      for (const it of [o.yields, o.cut?.yields].filter((x): x is string => !!x && !this.catalog.items[x])) {
         this.fail(where, `yields ${it}, which is no item`);
       }
       if (o.stand && (!o.yields || !o.gathered)) { this.fail(where, 'a stand gathers something it yields'); }
@@ -349,10 +351,11 @@ export class CanonValidation {
     }
   }
   private sources() {
-    const families = { ability: Canon.abilities, ancestry: Canon.ancestries, species: Canon.species,
+    const families = { ability: Canon.abilities, ancestry: Canon.ancestries, species: this.catalog.species,
       class: Canon.classes,
-      trait: Canon.traits, background: Canon.backgrounds, skill: Canon.skills, item: Canon.items, deity: Canon.deities,
-      plant: Canon.plants } as Record<string, Record<string, { source?: { orsino?: string; kyr?: true } }>>;
+      trait: Canon.traits, background: Canon.backgrounds, skill: Canon.skills, item: this.catalog.items,
+      deity: Canon.deities, plant: Canon.plants
+    } as Record<string, Record<string, { source?: { orsino?: string; kyr?: true } }>>;
     for (const [family, entries] of Object.entries(families)) {
       for (const [id, e] of Object.entries(entries)) {
         if (!e.source || (!e.source.orsino && !e.source.kyr)) { this.fail(`${family} ${id}`, 'has no source'); }

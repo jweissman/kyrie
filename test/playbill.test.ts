@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
-import { Canon } from '../src/canon/canon';
 
 // A paper of a module's own, and a kind that brings what the module says it brings.
 describe('a document, and a kind granting the module\'s own capability', () => {
@@ -9,7 +8,8 @@ describe('a document, and a kind granting the module\'s own capability', () => {
   // the old script; Quittance's pm 10 (QTC-A26): a stamp was read by an action offered in every room.
   it('is carried and read where it is carried, never equipped, and teaches what it says', async () => {
     const j = await Journey.start(probe);
-    expect(Canon.items.bill_kind?.slot).toBeUndefined();
+    expect(j.campaign.vocabulary?.itemDefinition('bill_kind')).toBeDefined();
+    expect(j.campaign.vocabulary?.itemDefinition('bill_kind')?.slot).toBeUndefined();
     await j.play('a playbill: Take');
     const labels = j.choices().map(c => c.label);
     expect(labels.filter(l => /playbill/i.test(l) && /Equip/.test(l))).toEqual([]);

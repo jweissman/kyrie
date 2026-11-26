@@ -1,4 +1,4 @@
-import { ItemCatalog } from '../item-catalog';
+import { Vocabularies, type Vocabulary } from '../lang/vocabulary';
 import { Overlays } from '../overlays';
 import { WorldConstructs } from '../lang/world-constructs';
 import { ModuleWriter } from '../lang/module-writer';
@@ -14,7 +14,8 @@ export interface CastMember { id: string; context: CreatureGenerationContext; go
 export class Cast {
   static readonly fields = ['raceId', 'classId', 'level', 'backgroundId', 'professionId', 'traits', 'gear', 'aspect',
     'template', 'variations'] as const;
-  static person(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember {
+  static person(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = [],
+    vocabulary: Vocabulary = Vocabularies): CastMember {
     for (const key of Object.keys(generated)) {
       if (!['name', 'parameters', 'role', 'count'].includes(key) && !(this.fields as readonly string[]).includes(key)) {
         throw new Error(`Generated casting for ${p.id} sets ${key}, which is not a field of a person`);
@@ -48,7 +49,8 @@ export class Cast {
     const offered = Object.entries((generated.parameters ?? {}) as Record<string, unknown>)
       .filter(([, v]) => v != null);
     const parameters = { ...Object.fromEntries(offered), ...p.creature } as Record<string, unknown>;
-    const chosen = typeof generated.raceId === 'string' && Canon.isSpecies(generated.raceId);
+    const chosen = typeof generated.raceId === 'string'
+      && (vocabulary.isSpecies?.(generated.raceId) ?? Canon.isSpecies(generated.raceId));
     if (Object.keys(parameters).length && !chosen) {
       Object.assign(context, Cast.creature(p.id, parameters, context));
       provenance.raceId = p.creature ? 'authored' : 'generated';
@@ -76,21 +78,25 @@ export class Cast {
     return typeof v === 'string' && !['any', 'none'].includes(v) ? v : undefined;
   }
   // Every creature of a person's group: one unless the person Numbers more. Each has its own identity and draws.
-  static group(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember[] {
+  static group(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = [],
+    vocabulary: Vocabulary = Vocabularies): CastMember[] {
     // How many: as the author numbered them, else as generation cast them (a den's one bear or two wolves), else one.
-    const first = this.person(p, generated, conflicts);
+    const first = this.person(p, generated, conflicts, vocabulary);
     const count = p.count ?? (typeof generated.count === 'number' ? generated.count : 1);
     if (p.names && p.names.length !== count) { throw new Error(`${p.id}: Called names ${p.names.length} of ${count}`); }
     if (count === 1) { return [first]; }
     return Array.from({ length: count }, (_, i) => ({ ...structuredClone(first), id: i ? `${first.id}_${i + 1}` : first.id,
-      context: { ...structuredClone(first.context), name: p.names?.[i] ?? this.numbered(p, generated, i) } }));
+      context: { ...structuredClone(first.context),
+        name: p.names?.[i] ?? this.numbered(p, generated, i, vocabulary) } }));
   }
   // Members of a group no one has named are told apart by their role and number ("Cave spider 2"), or, when the
   // role describes the whole group ("a sow bear and her grown cub", "goblins who have made a home of the upper
   // galleries"), by their kind ("Bear 2", "Goblin 2").
-  private static numbered(p: Person, generated: Record<string, unknown>, i: number): string {
+  private static numbered(p: Person, generated: Record<string, unknown>, i: number, vocabulary: Vocabulary): string {
     const role = typeof generated.role === 'string' ? generated.role : p.role;
-    const species = Content.race(p.raceId ?? '')?.name;
+    const race = p.raceId ?? '';
+    const species = Canon.ancestries[race]?.name
+      ?? (vocabulary.bodyName ? vocabulary.bodyName(race) : Content.race(race)?.name);
     const unusable = !role || / and |,/.test(role) || role.split(' ').length > 3;
     // A group its author named as someone's ("Skell's sons") is told by that name, one by one ("The second of Skell's
     // sons"), not by its kind: the barge's fight had been "Human 1", "Human 2" (CO-14).
@@ -101,7 +107,7 @@ export class Cast {
   }
   private static readonly ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth'];
   // What a profession means for a person in the world: what they offer, and where they spend their day.
-  static professions(module: Module, people: Person[]) {
+  static professions(module: Module, people: Person[], vocabulary: Vocabulary = Vocabularies) {
     for (const p of people) {
       const id = p.professionId;
       if (!id || !Overlays.has(id, 'profession')) { continue; }
@@ -112,7 +118,7 @@ export class Cast {
         && !module.entities.some(e => e.id === `${p.id}_${x.kind}` && e.type === 'service'));
       if (offers.length && module.relations.some(r => r.name === 'offers')) {
         WorldConstructs.offers(module, { id: p.id, ...p.place ? { place: p.place } : {}, offers },
-          kind => ItemCatalog.definitions[kind]?.name);
+          kind => vocabulary.kind(kind)?.name, vocabulary);
       }
       // One who is nowhere keeps no hours anywhere (WPC-04).
       if (o.routine && p.place && !module.pursuits?.some(x => x.actor === p.id && x.id === `${p.id}_routine`)) {
@@ -139,11 +145,12 @@ export class Cast {
       creatures: members.map(id => ({ id, context: { level: 1, population: 'pc' as const }, gold: 0 })) };
   }
   // Catalog item kinds referenced by facts exist as canonical entities without a separate declaration.
-  static itemKinds(module: Module) {
+  static itemKinds(module: Module, vocabulary: Vocabulary = Vocabularies) {
     for (const c of module.initial) {
       const kind = c.kind === 'assert' && ['itemKind', 'needs', 'wants'].includes(c.call.name) ? c.call.args[1] : undefined;
-      if (kind && ItemCatalog.definitions[kind] && !module.entities.some(e => e.id === kind)) {
-        module.entities.push({ id: kind, type: 'itemkind', name: ItemCatalog.get(kind).name });
+      const definition = kind && vocabulary.kind(kind);
+      if (kind && definition && !module.entities.some(e => e.id === kind)) {
+        module.entities.push({ id: kind, type: 'itemkind', name: definition.name });
       }
     }
   }

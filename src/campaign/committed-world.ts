@@ -1,6 +1,5 @@
 import { World } from '../lang/world';
 import type { Module, WorldState } from '../lang/module';
-import { LocalKinds } from '../canon/local-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 
 // A campaign's world as last committed, kept as itself. It is written into the campaign's state as its facts only when
@@ -35,9 +34,7 @@ export class CommittedWorld {
     if (!this.stale || !this.viewed) { return; }
     current.world = this.viewed.world.view as WorldState; this.viewed.state = current.world; this.stale = false;
   }
-  // Read, its campaign (owner) makes its kinds the catalogs' if another campaign's are (see LocalKinds.claim).
-  of(current: { world: WorldState }, module: Module, owner?: object): World {
-    if (owner) { LocalKinds.claim(owner, module.catalog); }
+  of(current: { world: WorldState }, module: Module): World {
     const v = this.viewed;
     if (v && v.module === module && (this.stale || v.state === current.world)) { return v.world; }
     this.keep(current);

@@ -24,6 +24,7 @@ import { ItemNames } from '../lang/item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
 import { CreaturePortraits } from '../paintings/creature-portraits';
 import type { Face } from '../paintings/company-portraits';
+import type { CatalogContext } from '../catalog-context';
 
 // Encounter projection for the game screen. Abilities and targets come from Battle.legalCommands only. Who is in the
 // fight is called as the company knows them (called, from BandNames): "the second of the agile bone hounds", as the
@@ -39,15 +40,17 @@ export class CombatModel {
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
       // A creature by its kind's painting (a summoned hawk, a den's wolves), as one of the company by their portrait.
-      foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state, CreaturePortraits.face(f.raceId))),
+      foes: state.combatants.filter(f => f.team !== 'fighters')
+        .map(f => this.row(f, state, CreaturePortraits.face(f.raceId, battle.vocabulary), battle.vocabulary)),
       allies: state.combatants.filter(f => f.team === 'fighters')
-        .map(f => this.row(f, state, faces?.get(f.id) ?? CreaturePortraits.face(f.raceId))),
+        .map(f => this.row(f, state, faces?.get(f.id) ?? CreaturePortraits.face(f.raceId, battle.vocabulary),
+          battle.vocabulary)),
       abilities: choices.map(c => ({ id: c.ability.id, name: this.named(c.ability, actor),
-        text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
+        text: MechanicsText.full(c.ability, actor && Effects.context(actor), battle.vocabulary),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
         cooldown: c.ability.cooldown ?? 0, scope: c.scope,
-        ...this.gist(c.ability, actor),
-        rank: Math.max(...c.commands.map(command => Tactics.score(state, command))),
+        ...this.gist(c.ability, actor, battle.vocabulary),
+        rank: Math.max(...c.commands.map(command => Tactics.score(state, command, battle.vocabulary))),
         ...(c.ability.spell ? { spell: { level: c.ability.spell.level,
           ready: actor ? Spellcasting.casts(actor, c.ability) : 0 } } : {}),
         targets: c.requiresTarget ? c.commands.map(cmd => this.target(c.ability, actor!, cmd.target!, state)) : [],
@@ -62,9 +65,9 @@ export class CombatModel {
         .map(id => this.name(state, id)),
       laws: [...new Set(state.combatants.flatMap(f => f.statuses.map(s => s.id)).filter(id => ConditionSense.law(id)))]
         .map(id => ({ name: ConditionSense.name(id), text: Canon.conditions[id]!.description })),
-      log: battle.events.map(e => this.line(e, state)).filter(line => !!line).slice(-40),
+      log: battle.events.map(e => this.line(e, state, battle.vocabulary)).filter(line => !!line).slice(-40),
       round: battle.events.filter(e => e.type === 'initiative').length,
-      exchanges: CombatTelling.exchanges(battle.events, state, said).map((t, n) => ({ n, ...t })),
+      exchanges: CombatTelling.exchanges(battle.events, state, said, battle.vocabulary).map((t, n) => ({ n, ...t })),
     };
   }
   // What the one acting knows and cannot use now, by its name, and why (see Unusable).
@@ -76,9 +79,9 @@ export class CombatModel {
     return out.length ? { unavailable: out } : {};
   }
   // What a technique does besides a blow, for its card; a spell is told by its own preview, and running by its odds.
-  private static gist(ability: ArenaAbility, actor?: Fighter): { gist?: string } {
+  private static gist(ability: ArenaAbility, actor?: Fighter, vocabulary?: CatalogContext): { gist?: string } {
     if (ability.spell || ability.effects.some(e => e.kind === 'flee')) { return {}; }
-    const gist = MechanicsText.gist(ability, actor && Effects.context(actor));
+    const gist = MechanicsText.gist(ability, actor && Effects.context(actor), vocabulary);
     return gist ? { gist } : {};
   }
   private static called(state: BattleState, called?: ReadonlyMap<string, string>): BattleState {
@@ -94,13 +97,14 @@ export class CombatModel {
     let over = false;
     for (const e of told) {
       over = e.type === 'end' || (over && e.type !== 'initiative');
-      const line = over && e.type !== 'action' ? CombatPresenter.format(e, state) : '';
+      const line = over && e.type !== 'action' ? CombatPresenter.format(e, state, true, battle.vocabulary) : '';
       if (line) { lines.push(line); }
     }
     return { ...this.build(battle, called, faces, said), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
   }
-  private static row(f: BattleState['combatants'][number], state: BattleState, face?: Face): CombatantRow {
-    const race = Content.race(f.raceId)?.name ?? f.raceId;
+  private static row(f: BattleState['combatants'][number], state: BattleState, face?: Face,
+    vocabulary?: CatalogContext): CombatantRow {
+    const race = Content.race(f.raceId, vocabulary)?.name ?? f.raceId;
     const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
     const worn = f.statuses.filter(s => !ConditionSense.law(s.id));
     return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,
@@ -163,11 +167,11 @@ export class CombatModel {
     return state.combatants.find(f => f.id === id)?.name ?? id;
   }
   // Readable consequences first; the dice arithmetic stays available in the developer chronicle.
-  static line(e: CombatEvent, state: BattleState): string {
-    const line = this.said(e, state);
+  static line(e: CombatEvent, state: BattleState, vocabulary?: CatalogContext): string {
+    const line = this.said(e, state, vocabulary);
     return line && line.charAt(0).toUpperCase() + line.slice(1);
   }
-  private static said(e: CombatEvent, state: BattleState): string {
+  private static said(e: CombatEvent, state: BattleState, vocabulary?: CatalogContext): string {
     if (e.type === 'attack') {
       const verb = e.success ? e.critical ? 'critically hits' : 'hits' : e.evaded ? 'is evaded by' : 'misses';
       const what = `${e.image ? 'an image of ' : ''}${this.name(state, e.target)}`;
@@ -191,17 +195,20 @@ export class CombatModel {
       const against = e.kind && e.kind !== e.stat ? ` the ${e.kind} save` : '';
       return `${this.name(state, e.target)} ${e.success ? 'resists' : 'fails to resist'}${against} (${e.stat ?? 'save'} ${e.rolled} vs ${e.difficulty}).`;
     }
-    if (e.type === 'action' && e.source?.kind !== 'trap') { return this.act(e.command, state); }
-    return CombatPresenter.format(e, state);
+    if (e.type === 'action' && e.source?.kind !== 'trap') { return this.act(e, state, vocabulary); }
+    return CombatPresenter.format(e, state, true, vocabulary);
   }
   // What someone did, as a sentence: "Nell strikes at Nettle with the dagger", "Hulda uses Cleave on Gristle".
-  private static act(command: { actor: string; ability: string; target?: string }, state: BattleState): string {
+  private static act(event: Extract<CombatEvent, { type: 'action' }>, state: BattleState,
+    vocabulary?: CatalogContext): string {
+    const command = event.command;
     const actor = state.combatants.find(f => f.id === command.actor), name = this.name(state, command.actor);
     const target = command.target && command.target !== command.actor ? this.name(state, command.target) : '';
     const weapon = this.weapon(actor);
     if (command.ability === 'melee') { return `${name} strikes at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
     if (command.ability === 'ranged') { return `${name} shoots at ${target}${weapon ? ` with the ${weapon}` : ''}`; }
-    const carried = ItemCatalog.used(command.ability)?.name;
+    const carried = command.ability.startsWith('item-') && event.source?.kind === 'item' && event.source.name
+      || ItemCatalog.used(command.ability, vocabulary)?.name;
     const ability = carried ? ItemNames.called(carried) : Content.abilities.find(a => a.id === command.ability)?.name
       ?? command.ability;
     return `${name} uses ${ability}${target ? ` on ${target}` : ''}`;

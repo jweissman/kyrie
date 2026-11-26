@@ -1,6 +1,5 @@
 import { RandomStreams } from '../random-streams'; import { Installed, type InstalledDomain } from '../ports/installed';
-import { CampaignAssembly } from './campaign-assembly';
-import { CommandResolutions } from './command-resolution';
+import { CampaignAssembly } from './campaign-assembly'; import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath'; import { FieldUse } from './field-use'; import { PlaneLaws } from './plane-laws';
 import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
 import { FieldResolver } from './field-resolver';
@@ -24,7 +23,7 @@ import { World } from '../lang/world'; import { Beside } from './beside'; import
 import type { Operator } from './planner'; import { RuntimeCapabilities } from './runtime-capabilities';
 import { EngineDeclarations } from './engine-declarations'; import { Spoils } from './spoils'; import { CampaignTick } from './campaign-tick'; import { Mercy } from './mercy';
 import { WatchLoop, type WatchHost } from './watch-loop'; import { Environment } from './environment';
-import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog';
+import { Journey } from './journey'; import { LocalKinds } from '../canon/local-catalog'; import { CatalogContexts, type CatalogContext } from '../catalog-context';
 import { ActionTime } from './action-time'; import { Engagement } from './engagement';
 
 export type { ModuleStatus, CampaignState, NpcDecision, CampaignSave, CampaignEvent } from './campaign-types';
@@ -52,26 +51,29 @@ export class Campaign implements WatchHost {
   constructor(seed: string, instance: CampaignInstance, restored?: Restored, dated?: Dated) {
     const saved = restored && (restored.owned ? restored.save : structuredClone(restored.save));
     if (saved) {
-      // Its own kinds first: the company carries things of them, in a page that may have played nothing yet.
-      LocalKinds.activate(saved.module.catalog, this); this.compiled = saved.module; this.definition = saved.definition;
-      this.current = saved.state; this.creatures = new CreatureStore(saved.creatures);
-      this.log = saved.events; this.encounter = saved.encounter;
-      this.observations = saved.observations;
+      this.compiled = saved.module; this.definition = saved.definition;
+      this.current = saved.state; this.creatures = new CreatureStore(saved.creatures,
+        CatalogContexts.scoped(saved.module.catalog));
+      this.log = saved.events; this.encounter = saved.encounter; this.observations = saved.observations;
       // A save from before demand grounding holds grounded actions; its schemas are in the definition.
       if (saved.actionFormat !== 'schemas' && this.definition?.schemas) {
         this.compiled.actions = this.definition.schemas;
       }
-      if (!restored.trusted) { new ModuleCompiler(RuntimeCapabilities.signatures, true).validate(this.module); }
-      if (this.definition && CreatureFacts.saved(this.world, this.live, this.creatures) === 'stale') { this.refresh(); }
+      if (!restored.trusted) {
+        new ModuleCompiler(RuntimeCapabilities.signatures, true, undefined, this.vocabulary).validate(this.module);
+      }
+      if (this.definition && CreatureFacts.saved(this.world, this.live, this.creatures,
+        this.creatures.vocabulary) === 'stale') { this.refresh(); }
       // A game kept by an earlier build may carry its fights' weariness on whoever fought them (HeldConditions).
       if (!restored.trusted && HeldConditions.release(this.creatures)) { this.refresh(); }
       return;
     }
     if (!instance.campaign) { throw new Error('A campaign is a composition of installed modules'); }
-    this.definition = instance.campaign; const content = new Content(`${seed}:campaign`);
-    this.compiled = instance.module;
+    const vocabulary = CatalogContexts.scoped(instance.module.catalog);
+    this.definition = instance.campaign; const content = new Content(`${seed}:campaign`, undefined, vocabulary);
+    this.creatures = new CreatureStore([], vocabulary); this.compiled = instance.module;
     for (const entry of this.definition.creatures) {
-      this.creatures.insert(ModuleInstallations.creature(entry, content));
+      this.creatures.insert(ModuleInstallations.creature(entry, content, vocabulary));
     }
     const player = this.definition.actors.find(a => a.player);
     if (!player) { throw new Error('Campaign needs a player actor'); }
@@ -98,16 +100,14 @@ export class Campaign implements WatchHost {
     return Object.fromEntries(Object.entries(o).map(([k, v]) => [k, Array.isArray(v) ? [...v as unknown[]] : v])) as T;
   }
   // A fork shares compiled operators and definition records, which are never mutated after loading, behind fresh
-  // top-level arrays, and copies all mutable state; its own kinds are the catalogs', before its creatures, whose
-  // things are of them, are taken in (a campaign loaded before another reset them carried an unknown trowel).
+  // top-level arrays, and copies all mutable state. Its creatures are read against its own kinds.
   // The world it is played in is shared, under the copy's own module (a world is never changed), and so is what of it
   // is projected for whom: the copy's first act had projected every actor's facts again (OR-91, about 240 ms).
   private fork(): Campaign {
     this.keepFacts();
     const copy = Object.create(Campaign.prototype) as Campaign, arrays = Campaign.arrays, world = this.world;
-    LocalKinds.activate(this.module.catalog, copy);
-    const compiled = arrays(this.compiled), current = structuredClone(this.current);
-    const creatures = new CreatureStore(this.creatures.snapshot), committed = new CommittedWorld();
+    const compiled = arrays(this.compiled), current = structuredClone(this.current), committed = new CommittedWorld();
+    const creatures = new CreatureStore(this.creatures.snapshot, CatalogContexts.scoped(this.module.catalog));
     Object.assign(copy, { compiled, definition: this.definition && arrays(this.definition), current, creatures,
       log: structuredClone(this.log), encounter: this.encounter, observations: structuredClone(this.observations),
       executing: false, installation: Installed.current(), committed, grounding: new CampaignGrounding(),
@@ -122,22 +122,21 @@ export class Campaign implements WatchHost {
     return Installed.during(this.installation, async () => {
       this.installBoundary();
       if (!this.definition?.installations) { throw new Error('Install modules into a bundle-based campaign'); }
-      await CanonInstall.before(this, request, source); const startedAt = this.current.elapsed;
+      await CanonInstall.before(this, request, source, CatalogContexts.scoped(this.compiled.catalog));
+      const vocabulary = CatalogContexts.scoped(this.compiled.catalog), startedAt = this.current.elapsed;
       const { seed, elapsed, canonless } = this.current, draft = await ModuleBundle.load(request, { seed, elapsed,
         installed: this.definition.installations, people: this.compiled.entities, canonless,
-        kinds: this.compiled.catalog }, source).catch((error: unknown) => {
-        // What was read before it failed gave back the campaign's own kinds (see LocalKinds.read).
-        LocalKinds.activate(this.module.catalog, this); throw error;
-      });
-      // The catalogs are the process's, and whatever ran while the module was read (another game saving, or reading a
-      // country ahead) may have put its own kinds in them: this campaign's go back, and the module's own with them,
-      // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).
-      this.installBoundary(); LocalKinds.reclaim(this, this.module.catalog, draft.instance.module.catalog);
+        kinds: this.compiled.catalog, vocabulary }, source);
       if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
-      EngineDeclarations.declare(draft);
+      this.installBoundary();
+      const installedVocabulary = CatalogContexts.scoped(
+        LocalKinds.merge(this.module.catalog, draft.instance.module.catalog).catalog);
+      EngineDeclarations.declare(draft, installedVocabulary);
       const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
-        budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
-      const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current, everyone);
+        budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed,
+      { checked, vocabulary: installedVocabulary });
+      const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current,
+        { everyone, vocabulary: installedVocabulary });
       this.compiled = next.module; this.definition = next.campaign; this.creatures = store;
       this.commit(world); this.current.deadline = next.budget;
       for (const actor of actors) { this.current.inhabitants[actor.id] = [...actor.members]; }
@@ -153,7 +152,7 @@ export class Campaign implements WatchHost {
   get schemas(): Operator[] { return structuredClone(this.definition?.schemas ?? []); }
   get actors(): readonly CampaignActor[] { return this.definition?.actors ?? []; }
   get playerActor(): string | undefined { return this.definition?.actors.find(a => a.player)?.id; }
-  get persistent(): boolean { return !!this.definition; }
+  get persistent(): boolean { return !!this.definition; } get fighters(): Fighter[] { return this.party; }
   // What the world could not take (the canon, in a world kept from before it: see CanonInstall), said for the lint.
   get conflicts(): readonly string[] { return this.definition?.conflicts ?? []; }
   conflict(note: string) { this.definition = { ...this.definition!, conflicts: [...this.conflicts, note] }; }
@@ -193,8 +192,9 @@ export class Campaign implements WatchHost {
   get history(): readonly CampaignEvent[] { return this.log; }
   get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
   get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
-  get fighters(): Fighter[] { return this.party; }
-  private get party(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.creatures.get(id), 'fighters')); }
+  get vocabulary(): CatalogContext | undefined { return this.creatures.vocabulary; }
+  private get party(): Fighter[] { return this.current.partyIds.map(id =>
+    CombatProjection.fighter(this.creatures.get(id), 'fighters', this.creatures.vocabulary)); }
   get events(): CampaignEvent[] { return structuredClone(this.log); }
   // What the company was told of the last command, kept with it (see Telling): what it has heard is not said again.
   // And what the world said that was held back as told lately (see RuleWords).
@@ -204,7 +204,7 @@ export class Campaign implements WatchHost {
   private committed = new CommittedWorld();
   private commit(world: World) { this.committed.commit(this.current, this.module, world); }
   private keepFacts() { this.committed.keep(this.current); }
-  get world(): World { return this.committed.of(this.current, this.module, this); }
+  get world(): World { return this.committed.of(this.current, this.module); }
   // Actions are grounded on demand against the current module and controllers (see CampaignGrounding).
   private grounding = new CampaignGrounding();
   get operators(): Operators { return this.grounding.operators(this.module, this.definition?.actors); }
@@ -286,7 +286,6 @@ export class Campaign implements WatchHost {
   // A command that throws commits nothing: combat damage taken before the error is discarded with it.
   private rollback(battle: Battle | undefined, checkpoint: ReturnType<Campaign['checkpoint']>) {
     battle?.close();
-    if (this.compiled !== checkpoint.compiled) { LocalKinds.activate(checkpoint.compiled.catalog, this); }
     this.compiled = checkpoint.compiled; this.definition = checkpoint.definition;
     this.creatures = checkpoint.creatures; this.current = { ...checkpoint.current, world: this.current.world };
     this.observations = checkpoint.observations; this.log.length = checkpoint.events;

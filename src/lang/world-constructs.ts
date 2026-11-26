@@ -1,6 +1,6 @@
 import { ItemNames } from './item-names';
 import type { Anchor, Call, Change, Module, Predicate } from './module';
-import { Vocabularies } from './vocabulary';
+import { Vocabularies, type Vocabulary } from './vocabulary';
 
 export interface StateSpec { id: string; flags: string[]; text: string }
 export interface ChangeSpec {
@@ -50,7 +50,7 @@ export class WorldConstructs {
   // A kind of the catalog a module gives or spends (`Give lantern to actor.`) is a kind it names, as an Item of it
   // would name it: given by kind, it had been no entity of the module's, and refused (the owner's town quests,
   // 3 November, paying in lanterns and draughts).
-  static given(module: Module) {
+  static given(module: Module, vocabulary: Vocabulary = Vocabularies) {
     const changes = [...module.initial, ...module.actions.flatMap(a => [...a.success, ...a.failure]),
       ...(module.rules ?? []).flatMap(r => r.effects)];
     const kinds = changes.filter(x => ['assert', 'increase'].includes(x.kind)
@@ -65,7 +65,7 @@ export class WorldConstructs {
       c.call.args.forEach((arg, i) => { if (typed.get(c.call.name)?.[i] === 'itemkind') { held.add(arg); } });
     }
     for (const kind of [...kinds, ...held]) {
-      const known = Vocabularies.kind(kind)?.name;
+      const known = vocabulary.kind(kind)?.name;
       if (known && !module.entities.some(e => e.id === kind)) { this.entity(module, kind, 'itemkind', known); }
     }
   }
@@ -148,13 +148,14 @@ export class WorldConstructs {
     'portal', 'overland'];
   // An item instance with one name: the authored one, or its catalog kind's name.
   static item(module: Module, i: { id: string; name?: string; kind: string; place?: string; inside?: boolean;
-    hidden?: string; owner?: string } & Partial<Pick<ThingSpec, 'states' | 'changes'>>, kindName?: string) {
+    hidden?: string; owner?: string } & Partial<Pick<ThingSpec, 'states' | 'changes'>>, kindName?: string,
+    vocabulary: Vocabulary = Vocabularies) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }
     module.entities.push({ id: i.id, type: 'item', name: i.name ?? ItemNames.called(kindName) });
     // Its states are seen near it, lying somewhere or carried, and its changes made by whoever reaches it (QTC-A23).
     if (i.states?.length) {
       this.states(module, { id: i.id, name: i.name ?? kindName, type: 'item', states: i.states, changes: i.changes ?? [] },
-        { kind: 'near', id: i.id });
+        { kind: 'near', id: i.id }, vocabulary);
     }
     this.entity(module, i.kind, 'itemkind', kindName);
     this.assert(module, 'itemKind', i.id, i.kind);
@@ -166,7 +167,7 @@ export class WorldConstructs {
   // A person's offers and wares: services with fees, counted goods, or item instances of catalog kinds for sale.
   static offers(module: Module, p: { id: string; place?: string; offers?: { kind: string; text: string; fee: number }[];
     sells?: { what: string; fee: number; stock: number }[]; buys?: { what: string; fee: number }[] },
-  catalog?: (kind: string) => string | undefined) {
+  catalog?: (kind: string) => string | undefined, vocabulary: Vocabulary = Vocabularies) {
     // What a person will pay for a kind of thing the company brings them, and coin to pay with: ten times the most they
     // pay, unless the module gives them their own (Low Water's 14: Halm bought finds and held nothing, and the page
     // never offered him one).
@@ -199,7 +200,7 @@ export class WorldConstructs {
       }
       this.entity(module, s.what, 'itemkind', kindName);
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'shelf', args: [p.id, s.what] }, value: { kind: 'number', value: s.stock } });
-      if (Vocabularies.kind(s.what)?.use && p.place) {
+      if (vocabulary.kind(s.what)?.use && p.place) {
         this.restock(module, { id: p.id, place: p.place }, s.what, s.stock);
       }
       for (let n = 1; n <= s.stock; n++) {
@@ -229,7 +230,8 @@ export class WorldConstructs {
   private static all(ps: Predicate[]): Predicate { return ps.reduce((left, right) => ({ kind: 'and', left, right })); }
   // States and changes of a thing or person. A thing's descriptions follow the thing: they are perceived where it
   // stands, or from either side of the passage it occupies, and only while it is in that state.
-  static states(module: Module, t: ThingSpec, anchor: { kind: Anchor; id: string; from?: string }) {
+  static states(module: Module, t: ThingSpec, anchor: { kind: Anchor; id: string; from?: string },
+    vocabulary: Vocabulary = Vocabularies) {
     const names = new Set(t.states.map(s => s.id));
     if (names.size !== t.states.length) { throw new Error(`Duplicate state in ${t.id}`); }
     for (const c of t.changes) {
@@ -265,7 +267,7 @@ export class WorldConstructs {
       if (c.at) { this.assert(module, 'changeAt', id, c.at); }
       if (c.when) { this.withheld(module, t, id, c); }
       // Consuming a good spends some of the company's stock; consuming a kind of item uses one up.
-      const spent = c.consumes ? Vocabularies.kind(c.consumes)?.name : undefined;
+      const spent = c.consumes ? vocabulary.kind(c.consumes)?.name : undefined;
       if (spent) { this.entity(module, c.consumes!, 'itemkind', spent); this.assert(module, 'spends', id, c.consumes!); }
       else if (c.consumes) { this.assert(module, 'consumes', id, c.consumes); }
     }
@@ -333,7 +335,7 @@ export class WorldConstructs {
     this.event(module, { id: `${met}__met`, anchor: { kind: 'at', id: t.site.id }, text: w.text, effects: [],
       when: { kind: 'and', left: here, right: { kind: 'not', value: this.call('knows', party, met) } }, teaches: met });
   }
-  static thing(module: Module, t: ThingSpec) {
+  static thing(module: Module, t: ThingSpec, vocabulary: Vocabulary = Vocabularies) {
     module.entities.push({ id: t.id, type: t.type, name: t.name, ...t.known ? { roles: t.known } : {} });
     // One nowhere is in no place until something puts it somewhere (M19-95).
     if (t.site) { this.assert(module, t.site.anchor, t.id, t.site.id); }
@@ -352,7 +354,7 @@ export class WorldConstructs {
       for (const verb of tries) { this.assert(module, 'suits', t.id, verb); }
     }
     this.states(module, t, t.site?.anchor === 'on' ? { kind: 'beside', id: t.site.id, from: t.site.from }
-      : { kind: 'near', id: t.id });
+      : { kind: 'near', id: t.id }, vocabulary);
   }
   // How a thing may be tried, by what anyone can see of it, so that offering a try gives nothing away: anything can
   // be looked at closely; a chest or a casket, or anything shut, prodded, pried at and listened at; a door, wall or

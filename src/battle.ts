@@ -8,31 +8,27 @@ import { Effects, type EffectContext } from './effects';
 import { Targeting } from './targeting'; import { Fighting } from './rules/fighting';
 import { Morale } from './rules/morale'; import { ShakingOff } from './rules/shaking-off';
 import { Tactics } from './tactics';
+import { FighterBody } from './rules/fighter-body';
 import { Quarry } from './quarry'; import { Positions } from './rules/positions'; import { HitDicePool } from './rules/hit-dice-pool';
 import { ItemCatalog } from './item-catalog'; import type { ArenaAbility } from './lang/parse';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
+import type { CatalogContext } from './catalog-context';
 
 // Orsino's combat loop (Combat.round and Combat.turn): each round everyone rolls initiative (d20 + DEX modifier +
 // initiative bonus) and every untimed condition ticks down; on its turn a creature's cooldowns tick, a creature with
 // noActions loses the turn, and after acting its conditions' turn-end effects happen.
 export class Battle {
-  private fighters: Fighter[];
+  private fighters: Fighter[]; readonly vocabulary?: CatalogContext;
   // Foes that fled the fight: gone from it, but still themselves when it is over.
   private departed: Fighter[] = [];
-  private abilities: ArenaAbility[];
-  private expressions: Expressions;
-  private content: Content;
-  private order: string[] = [];
-  private cursor = 0;
-  private turn = 1;
-  private outcome: Outcome | null = null;
-  private history: CombatEvent[] = [];
+  private abilities: ArenaAbility[]; private expressions: Expressions; private content: Content;
+  private order: string[] = []; private cursor = 0; private turn = 1;
+  private outcome: Outcome | null = null; private history: CombatEvent[] = [];
   // What each creature on the other side means to do this round, decided as the round begins.
   private intents = new Map<string, Command>();
   // Actions left in the current turn (Orsino's attacksPerTurn with extraAttacksPerTurn), and the one thing a creature
   // acting at random has fallen on doing.
-  private actions = 1;
-  private impulse?: Command;
+  private actions = 1; private impulse?: Command;
   // A fight that came at the company, seen as it began: the company acts first in the first round, and can get back
   // the way it came for certain (PT-10). Rounds begun, and how often the company has tried to run and been held.
   // A fight played out only to be reckoned (DangerSense's trials) keeps nothing of itself until it ends: the battle
@@ -48,6 +44,7 @@ export class Battle {
   private static readonly sound = new WeakMap<ArenaAbility[], number>();
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
     if (!Number.isSafeInteger(maxTurns) || maxTurns < 1) { throw new Error('Invalid turn limit'); }
+    this.vocabulary = lease?.vocabulary ?? scenario.vocabulary;
     this.moment = scenario.moment; this.rehearsed = !!scenario.rehearsed;
     this.fighters = structuredClone(scenario.combatants);
     this.terms = scenario.terms ?? {}; this.upright = new Set(this.fighters.filter(f => f.hp > 0).map(f => f.id));
@@ -55,19 +52,19 @@ export class Battle {
     // the company carries to use up is fought with as abilities of this fight's own (see ItemCatalog.stock).
     const base = scenario.abilities === Content.abilities ? Content.abilities : structuredClone(scenario.abilities);
     const carried = [...new Set(this.fighters.flatMap(f => Object.keys(f.stock ?? {})))]
-      .filter(id => !base.some(a => a.id === id)).map(id => structuredClone(ItemCatalog.used(id)!));
+      .filter(id => !base.some(a => a.id === id)).map(id => structuredClone(ItemCatalog.used(id, this.vocabulary)!));
     this.abilities = carried.length ? [...base, ...carried] : base;
     try { this.validate(); } catch (error) { this.lease?.release(); throw error; }
     if (!this.lease) {
       const store = new CreatureStore(this.fighters.map(f => {
-        const creature = CombatProjection.creature(f);
+        const creature = CombatProjection.creature(f, undefined, this.vocabulary);
         creature.state.conditions = creature.state.conditions.filter(c => Battle.kept(c));
         return creature;
-      }));
+      }), this.vocabulary);
       this.lease = store.acquire(this.fighters.map(f => f.id));
     }
     this.expressions = new Expressions(`${seed}:combat`);
-    this.content = new Content(`${seed}:summons`);
+    this.content = new Content(`${seed}:summons`, undefined, this.vocabulary);
     this.finishIfEliminated();
     // Combat.setUp: whatever the fighters carry into the fight that acts as it begins (Orsino's onCombatStart).
     for (const f of [...this.fighters]) { AbilityUse.hooks(f, 'onCombatStart', f, this.context(f)); }
@@ -93,7 +90,7 @@ export class Battle {
       // The laws of the place hold for everyone in the fight, for as long as it lasts.
       const laws = (options.laws ?? []).filter(id => Conditions.exact(id)).map(id => Battle.holding(id));
       const combatants = participants.map((p, i) => {
-        const f = CombatProjection.fighter(lease.creatures[i]!, p.team);
+        const f = CombatProjection.fighter(lease.creatures[i]!, p.team, store.vocabulary);
         // Those too long without sleep fight weary; those who drew it out and waited for it meet it ready.
         // And those with no light fight in the dark.
         const held = ([['weary', options.weary], ['ready', options.ready], ['in_the_dark', options.dark]] as const)
@@ -120,7 +117,7 @@ export class Battle {
     if (!this.lease || (this.rehearsed && !this.outcome)) { return; }
     const creatures = this.lease.creatures.map(original => {
       const fighter = [...this.fighters, ...this.departed].find(f => f.id === original.id)!;
-      const creature = CombatProjection.creature(fighter, original);
+      const creature = CombatProjection.creature(fighter, original, this.lease!.vocabulary);
       creature.state.conditions = creature.state.conditions.filter(c => Battle.kept(c));
       return creature;
     });
@@ -149,7 +146,7 @@ export class Battle {
       for (const n of [ability.cost ?? 0, ability.cooldown ?? 0]) {
         if (!Number.isSafeInteger(n) || n < 0) { throw new Error('Invalid ability cost/cooldown'); }
       }
-      ability.effects.forEach(effect => Effects.validate(effect, abilityIds));
+      ability.effects.forEach(effect => Effects.validate(effect, abilityIds, this.vocabulary));
     }
     if (this.abilities === Content.abilities) { Battle.sound.set(this.abilities, this.abilities.length); }
   }
@@ -217,7 +214,7 @@ export class Battle {
   chosen(): Command {
     const legal = this.legalCommands(), intent = this.intents.get(this.actor().id);
     if (intent && legal.some(c => c.ability === intent.ability && c.target === intent.target)) { return { ...intent }; }
-    return Tactics.choose(this.view, this.plain(legal));
+    return Tactics.choose(this.view, this.plain(legal), this.vocabulary);
   }
   // The commands that use up nothing carried. What is chosen for anyone rather than by the company itself (a turn
   // left to the game's tactics, "auto", the laboratory's players) leaves what it carries to the company's own call.
@@ -243,7 +240,9 @@ export class Battle {
       const legal = this.commandsFor(f);
       const wound = f.windup && legal.find(c => c.ability === f.windup!.ability && c.target === f.windup!.target);
       if (f.windup && !wound) { delete f.windup; }
-      if (legal.length) { this.intents.set(f.id, wound ?? Tactics.choose({ ...this.view, actor: f.id }, legal)); }
+      if (legal.length) {
+        this.intents.set(f.id, wound ?? Tactics.choose({ ...this.view, actor: f.id }, legal, this.vocabulary));
+      }
     }
   }
   private winding(actor: Fighter, command: Command): boolean {
@@ -321,7 +320,7 @@ export class Battle {
       const f = this.fighters.find(x => x.id === id), legal = f && f.hp > 0 ? this.commandsFor(f) : [];
       if (legal.some(c => c.ability === intent.ability && c.target === intent.target)) { continue; }
       if (!legal.length) { this.intents.delete(id); continue; }
-      this.intents.set(id, Tactics.choose({ ...this.view, actor: id }, this.plain(legal)));
+      this.intents.set(id, Tactics.choose({ ...this.view, actor: id }, this.plain(legal), this.vocabulary));
     }
   }
   // What can be done in this fight: the catalog's abilities, and the things the company carries to use up.
@@ -400,8 +399,8 @@ export class Battle {
   }
   // Combat.turn's start: cooldowns tick; a creature with noActions loses the turn.
   // A kind's own actions a turn (Orsino's monsterAttacksPerTurn: an owlbear's two, a dragon's three); one for people.
-  static actionsOf(f: Fighter): number {
-    return Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics?.actions ?? 1 : 1;
+  static actionsOf(f: Fighter, vocabulary?: CatalogContext): number {
+    return FighterBody.of(f, vocabulary ?? Canon)?.statistics?.actions ?? 1;
   }
   private startTurn() {
     while (!this.outcome) {
@@ -413,7 +412,8 @@ export class Battle {
       this.finishIfEliminated();
       if (this.outcome) { return; }
       if (actor.hp > 0 && !actor.statuses.some(s => Effects.skips(s.id))) {
-        this.actions = Math.max(1, Battle.actionsOf(actor) + (Effects.modifiers(actor).extraAttacksPerTurn ?? 0));
+        this.actions = Math.max(1, Battle.actionsOf(actor, this.vocabulary)
+          + (Effects.modifiers(actor).extraAttacksPerTurn ?? 0));
         this.impulsive(actor);
         return;
       }

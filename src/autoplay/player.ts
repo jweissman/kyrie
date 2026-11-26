@@ -82,7 +82,7 @@ export class AutoPlayer {
     if (flee && this.draw.chance(this.temper === 'fight' ? 0.02 : 0.08)) { return Promise.resolve(flee); }
     const blows = legal.filter(c => c.ability !== 'flee' && c.ability !== 'wait');
     const pick = this.temper === 'deviate' && this.draw.chance(0.5) ? this.draw.pick(blows) : undefined;
-    return Promise.resolve(pick ?? Tactics.choose(battle.state, legal));
+    return Promise.resolve(pick ?? Tactics.choose(battle.state, legal, battle.vocabulary));
   };
   private of(s: Situation, ...kinds: string[]): Offered[] {
     return s.offered.filter(o => kinds.includes(AutoPlayer.kind(o.id)));

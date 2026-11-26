@@ -8,6 +8,7 @@ import { ItemNames } from '../lang/item-names';
 import { Counted } from '../counted';
 import { Words } from '../presentation/words';
 import { DefenseTelling } from './defense-telling';
+import type { CatalogContext } from '../catalog-context';
 
 export class CombatPresenter {
   // A condition's own words for starting or running out ("{target} holds up a light."), if it has them.
@@ -68,10 +69,11 @@ export class CombatPresenter {
     return `${target} ${event.success ? 'passes' : 'fails'} the ${event.kind ?? event.stat ?? ''} save (${terms} `
       + `against ${event.difficulty}${event.limit ? '; three saves already made' : ''}).`;
   }
-  private static check(event: Extract<CombatEvent, { type: 'check' }>, actor: string): string {
+  private static check(event: Extract<CombatEvent, { type: 'check' }>, actor: string, vocabulary?: CatalogContext): string {
     if (!event.actor) { return `None of you can try it (${event.skill}).`; }
     const terms = [`${event.stat} ${event.modifier}`, ...event.trained ? [`${event.skill} ${event.trained}`] : [],
-      ...event.tool && event.using ? [`${ItemCatalog.get(event.using).name.toLowerCase()} ${event.tool}`] : []];
+      ...event.tool && event.using
+        ? [`${(event.usingName ?? ItemCatalog.get(event.using, vocabulary).name).toLowerCase()} ${event.tool}`] : []];
     if (event.unrolled) {
       return `${actor} ${event.success ? 'needs no luck for it' : 'has no chance of it'} (${event.skill}: `
         + `${event.success ? 'at worst' : 'at best'} ${event.rolled} against ${event.difficulty}).`;
@@ -98,7 +100,7 @@ export class CombatPresenter {
   }
   // dice: whether a blow's rolls are said ("rolled 5, needed 14"): the chronicle's, not a scene's (see blows in
   // ActionFeedbackView: a flight had been told with them).
-  static format(event: CombatEvent, state: BattleState, dice = true): string {
+  static format(event: CombatEvent, state: BattleState, dice = true, vocabulary?: CatalogContext): string {
     const known = [...state.combatants, ...state.departed ?? []];
     const actor = 'actor' in event ? known.find(f => f.id === event.actor)?.name ?? event.actor : '';
     const target = 'target' in event ? known.find(f => f.id === event.target)?.name ?? event.target : '';
@@ -109,7 +111,7 @@ export class CombatPresenter {
         if (event.source?.kind === 'trap') { return `${event.source.name ?? ability} triggers.`; }
         // A blow is told by its hit or miss, not as "uses Melee Attack" before it (register M19-121).
         if (['melee', 'ranged'].includes(event.command.ability) && !event.source) { return ''; }
-        const carried = event.source?.kind === 'item' && ItemCatalog.used(event.command.ability);
+        const carried = event.source?.kind === 'item' && event.command.ability.startsWith('item-');
         return `${name} uses ${carried ? ItemNames.called(event.source!.name ?? ability)
           : event.source?.kind === 'item' ? event.source.name ?? ability : ability}.`;
       }
@@ -131,7 +133,7 @@ export class CombatPresenter {
       // A foe's death save is nothing to the player ("the rat fails the death save … against 25": the owner, 8
       // November).
       case 'save': return event.kind === 'death' && this.foe(event, state) ? '' : this.save(event, target);
-      case 'check': return this.check(event, actor);
+      case 'check': return this.check(event, actor, vocabulary);
       case 'status': if (this.told(event.detail, 'begins')) { return this.told(event.detail, 'begins')!.replace('{target}', target); }
         return `${target} gains ${event.detail} `
         + (event.clock === 'until-removed' ? 'until removed.' : event.clock === 'world-time'

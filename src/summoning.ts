@@ -2,6 +2,7 @@ import type { Effect } from './lang/parse';
 import type { EffectContext } from './effects';
 import type { Fighter } from './model';
 import { Canon } from './canon/canon';
+import type { CatalogContext } from './catalog-context';
 
 type Summon = Extract<Effect, { kind: 'summon' }>;
 
@@ -17,7 +18,7 @@ export class Summoning {
     const expressions = context.expressions!;
     const count = effect.amount ? Math.max(0, expressions.amount(effect.amount, Summoning.values(owner))) : 1;
     for (let i = 0; i < count; i++) {
-      const pool = Summoning.pool(effect, owner);
+      const pool = Summoning.pool(effect, owner, context.content.vocabulary);
       const drawn = pool[pool.length > 1 ? expressions.number(`1d${pool.length}`) - 1 : 0]!;
       // A companion (a call answered by the beasts of the summoner's people: Orsino's byAncestry) is the summoner's
       // own: the first to answer, from the animals of the country, comes every time after, by its name. Each call
@@ -40,18 +41,20 @@ export class Summoning {
   // What answers a call where the fight is (the owner, 6 November: a ranger calls the animals of the country): of those
   // it could call, the ones that live there; a call of animals any of the catalog's wild animals that live there (an
   // animal added by its record answers in its own country); where none does, any it could call.
-  static pool(effect: Summon, owner: Fighter): string[] {
+  static pool(effect: Summon, owner: Fighter, vocabulary?: CatalogContext): string[] {
     const called = effect.byAncestry?.[owner.raceId] ?? effect.from ?? [effect.creature];
     const here = Summoning.habitat(owner.environment);
     if (!here) { return called; }
-    const animals = called.every(id => Canon.isSpecies(id) && Canon.creature(id).kind === 'animal');
-    const wild = animals ? Canon.catalogued.filter(id => Canon.creature(id).kind === 'animal' && Summoning.lives(id, here)
-      && Canon.temperament(id) !== 'tame' && !Canon.creature(id).variantOf) : [];
-    const local = [...new Set([...called.filter(id => Summoning.lives(id, here)), ...wild])];
+    const bodies = vocabulary ?? Canon;
+    const animals = called.every(id => bodies.isSpecies(id) && bodies.creature(id).kind === 'animal');
+    const wild = animals ? Canon.catalogued.filter(id => bodies.creature(id).kind === 'animal'
+      && Summoning.lives(id, here, vocabulary) && bodies.temperament(id) !== 'tame' && !bodies.creature(id).variantOf) : [];
+    const local = [...new Set([...called.filter(id => Summoning.lives(id, here, vocabulary)), ...wild])];
     return local.length ? local : called;
   }
-  private static lives(id: string, here: string): boolean {
-    return Canon.isSpecies(id) && !!Canon.creature(id).habitats?.includes(here);
+  private static lives(id: string, here: string, vocabulary?: CatalogContext): boolean {
+    const bodies = vocabulary ?? Canon;
+    return bodies.isSpecies(id) && !!bodies.creature(id).habitats?.includes(here);
   }
   // The kind of country a fight's ground is (Orsino's environment: a town, a cave, the region's terrain).
   static habitat(environment?: string): string | undefined {

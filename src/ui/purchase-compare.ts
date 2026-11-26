@@ -2,16 +2,19 @@ import { ItemCatalog } from '../item-catalog';
 import type { World } from '../lang/world';
 import type { Names } from './known-names';
 
+type Scope = Names | { names: Names; item?: (kind: string) => ReturnType<typeof ItemCatalog.get> | undefined };
+
 // What a thing for sale is beside what its buyer has on in the same place (body, hand): armour that turns less than
 // the scale mail worn, a weapon lighter than the longsword carried, said on the purchase before it is made (the cold
 // review of 1 November: inferior chitin armour bought with nothing to compare it to).
 export class PurchaseCompare {
-  static versus(world: World, kind: string, recipient: string, names: Names): string {
-    const it = this.def(kind), slot = it?.slot;
+  static versus(world: World, kind: string, recipient: string, context: Scope): string {
+    const { names, item } = 'get' in context ? { names: context, item: undefined } : context;
+    const lookup = item ?? this.def.bind(this), it = lookup(kind), slot = it?.slot;
     if (!it || !slot || !world.relates('wearing')) { return ''; }
     const worn = world.related('wearing').filter(r => r.args[1] === recipient).map(r => r.args[0]!)
-      .find(id => this.def(world.one('itemKind', id) ?? '')?.slot === slot);
-    const had = worn && this.def(world.one('itemKind', worn) ?? '');
+      .find(id => lookup(world.one('itemKind', id) ?? '')?.slot === slot);
+    const had = worn && lookup(world.one('itemKind', worn) ?? '');
     if (!worn || !had) { return ''; }
     const [mine, theirs] = [this.strength(it), this.strength(had)];
     if (mine === undefined || theirs === undefined) { return ''; }

@@ -23,7 +23,7 @@ export class Items {
   // An item is named in events by its world label (an authored instance name) when it has one, else by its kind.
   static take(store: CreatureStore, owner: string, item: ItemRef & { definition: string }): CombatEvent[] {
     const { id, definition, label } = item;
-    ItemCatalog.get(definition);
+    ItemCatalog.get(definition, store.vocabulary);
     if (store.snapshot.some(c => c.state.inventory?.some(i => i.id === id))) { throw new Error('Item already owned'); }
     const lease = store.acquire([owner]);
     try {
@@ -31,7 +31,8 @@ export class Items {
       if (!creature.state.hp) { throw new Error('Dead creatures cannot collect items'); }
       (creature.state.inventory ??= []).push({ id, definition });
       lease.commit(lease.creatures);
-      return [{ type: 'gain', turn: 0, actor: owner, target: owner, detail: label ?? ItemCatalog.get(definition).name, amount: 1 }];
+      return [{ type: 'gain', turn: 0, actor: owner, target: owner,
+        detail: label ?? ItemCatalog.get(definition, store.vocabulary).name, amount: 1 }];
     } finally { lease.release(); }
   }
   // A search by a company with a perk for finds (a foundry's jury-rigging) turns up an extra consumable for whichever
@@ -42,7 +43,8 @@ export class Items {
     const searcher = Searching.searcher(members.map(id => store.get(id)), options.at);
     const finds = searcher && Searching.finds(searcher, options.at) ? Perks.bonus(searcher.traits, 'loot', options.at) : 0;
     if (!finds) { return []; }
-    const pool = Object.entries(Canon.items).filter(([, d]) => d.category === 'consumable').map(([k]) => k).sort();
+    const pool = Object.entries(store.vocabulary?.itemDefinitions() ?? Canon.items)
+      .filter(([, d]) => d.category === 'consumable').map(([k]) => k).sort();
     const roll = new Expressions(options.seed), events: CombatEvent[] = [];
     for (let n = 0; n < finds; n++) {
       const definition = pool[roll.number(`1d${pool.length}`) - 1]!;
@@ -56,14 +58,14 @@ export class Items {
     try {
       const creature = lease.creatures[0]!, item = creature.state.inventory?.find(i => i.id === id);
       if (!creature.state.hp || !item) { throw new Error('Item is not owned by a living wearer'); }
-      const definition = ItemCatalog.get(item.definition);
+      const definition = ItemCatalog.get(item.definition, store.vocabulary);
       if (!definition.slot) { throw new Error('Item cannot be equipped'); }
-      if (!Creation.canEquip(creature.classId, item.definition)) {
+      if (!Creation.canEquip(creature.classId, item.definition, store.vocabulary)) {
         throw new Error(`${creature.name} is not proficient with ${definition.name}`);
       }
       // As many to a slot as it holds (a ring to each hand: the item audit's G10), the first worn taken off for more.
       const worn = creature.state.inventory!.filter(o => o !== item && o.equipped
-        && ItemCatalog.get(o.definition).slot === definition.slot);
+        && ItemCatalog.get(o.definition, store.vocabulary).slot === definition.slot);
       for (const other of worn.slice(0, Math.max(0, worn.length - ItemCatalog.holds(definition.slot) + 1))) {
         other.equipped = false;
       }
@@ -77,7 +79,7 @@ export class Items {
     const { owner, target, id, seed } = options;
     const item = store.get(owner).state.inventory?.find(i => i.id === id);
     if (!item) { throw new Error('Item is not owned'); }
-    const definition = ItemCatalog.get(item.definition);
+    const definition = ItemCatalog.get(item.definition, store.vocabulary);
     if (!definition.use) { throw new Error('Item is not consumable'); }
     const ability = this.consumable(item.definition, definition.name, definition.use);
     return this.resolve(store, { ids: [owner, target], ability, actorId: owner, targetId: target, seed,
@@ -132,7 +134,8 @@ export class Items {
       from.state.inventory = from.state.inventory!.filter(i => i.id !== id);
       (to.state.inventory ??= []).push({ ...item, equipped: false });
       lease.commit(lease.creatures);
-      return [{ type: 'gain', turn: 0, actor: owner, target: recipient, detail: label ?? ItemCatalog.get(item.definition).name }];
+      return [{ type: 'gain', turn: 0, actor: owner, target: recipient,
+        detail: label ?? ItemCatalog.get(item.definition, store.vocabulary).name }];
     } finally { lease.release(); }
   }
   // An item out of its carrier's hands: set down, given, sold, put away or used up, as the action says it was; the
@@ -186,10 +189,10 @@ export class Items {
   private static resolve(store: CreatureStore, options: { ids: string[]; ability: ArenaAbility; actorId: string;
     targetId: string; seed: string; source: NonNullable<EffectContext['source']>; consumed?: string }): CombatEvent[] {
     const { ids, ability, actorId, targetId, seed, source, consumed } = options;
-    ability.effects.forEach(e => Effects.validate(e, Content.abilities.map(a => a.id)));
+    ability.effects.forEach(e => Effects.validate(e, Content.abilities.map(a => a.id), store.vocabulary));
     const lease = store.acquire([...new Set(ids)]);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters', store.vocabulary));
       const actor = fighters.find(c => c.id === actorId);
       if (actor && (!actor.hp || actor.statuses.some(s => Effects.skips(s.id)))) {
         throw new Error('Source cannot act');
@@ -197,13 +200,15 @@ export class Items {
       if (!actor && !['trap', 'shrine'].includes(source.kind)) { throw new Error('Missing creature source'); }
       const context: EffectContext = { actor, fighters, turn: 0, events: [], source, field: true,
         ...(!actor ? { recipients: fighters } : {}),
-        content: new Content(`${seed}:content`), abilities: Content.abilities.map(a => a.id), retreat: false, location: null };
+        content: new Content(`${seed}:content`, undefined, store.vocabulary),
+        abilities: Content.abilities.map(a => a.id), retreat: false, location: null };
       AbilityUse.perform(ability, targetId, new Expressions(seed), context);
-      const next = lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c));
+      const next = lease.creatures.map(c =>
+        CombatProjection.creature(fighters.find(f => f.id === c.id)!, c, store.vocabulary));
       // What is used up is gone; a wand keeps the charges it has left, as it does in a fight (the item audit's G8).
       if (consumed) {
         const owner = next.find(c => c.id === actorId)!, item = owner.state.inventory!.find(i => i.id === consumed)!;
-        const left = (item.charges ?? ItemCatalog.get(item.definition).charges ?? 1) - 1;
+        const left = (item.charges ?? ItemCatalog.get(item.definition, store.vocabulary).charges ?? 1) - 1;
         owner.state.inventory = left > 0
           ? owner.state.inventory!.map(i => i.id === consumed ? { ...i, charges: left } : i)
           : owner.state.inventory!.filter(i => i.id !== consumed);

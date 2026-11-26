@@ -1,6 +1,8 @@
 import { parseAbility, type Amount, type Area, type ArenaAbility } from '../lang/parse';
 import { Canon, type Family } from './canon';
 import { Amounts } from '../rules/amounts';
+import { FighterBody } from '../rules/fighter-body';
+import type { Fighter } from '../model';
 import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats } from '../rules/catalog-schema';
 
 // Where a perk is asked about: the holder's environment, and the weapon it wields.
@@ -25,9 +27,9 @@ export class CanonRuntime {
   private static amount(text: string): Amount { return Amounts.of(text); }
   // How many Hit Dice a creature has, for an effect that reads them (#hitDice: Sleep's pool, a save's difficulty):
   // a fixed stat block's own count (2d12+3 is two), else one a level, never reconstructed from its hit points.
-  static hitDice({ raceId, level }: { raceId: string; level: number }): number {
-    const hd = Canon.isBody(raceId) ? Canon.creature(raceId).statistics?.hitDice : undefined;
-    return hd ? Amounts.dice(hd).reduce((n, d) => n + d.count, 0) || level : level;
+  static hitDice(fighter: { raceId: string; level: number; body?: Fighter['body'] }): number {
+    const hd = FighterBody.of(fighter, Canon)?.statistics?.hitDice;
+    return hd ? Amounts.dice(hd).reduce((n, d) => n + d.count, 0) || fighter.level : fighter.level;
   }
   static ability(id: string, a: Ability): ArenaAbility {
     const common = { cost: a.cost ?? 0, cooldown: this.recharge(id, a), ...a.spell ? { spell: a.spell } : {},
@@ -86,7 +88,11 @@ export class CanonRuntime {
       .filter(([, c]) => !c.unsupported)));
   }
   static items(): Record<string, RuntimeItem> {
-    const own = Object.fromEntries(Object.entries(Canon.items).map(([id, i]) => [id, {
+    const own = Object.fromEntries(Object.entries(Canon.items).map(([id, i]) => [id, this.item(i)]));
+    return this.withAliases('items', own);
+  }
+  static item(i: ItemKind): RuntimeItem {
+    return {
       name: i.name, description: i.description, ...i.slot ? { slot: i.slot } : {},
       ...i.grants?.skill ? { capability: i.grants.skill } : {},
       ...i.grants?.ability ? { ability: i.grants.ability } : {},
@@ -94,8 +100,7 @@ export class CanonRuntime {
       ...i.weapon ? { weapon: i.weapon } : {}, ...i.armor ? { armor: i.armor } : {},
       ...i.use ? { use: i.use } : {}, ...i.fuel ? { fuel: i.fuel } : {},
       ...i.charges ? { charges: i.charges } : {}, ...i.tool ? { tool: i.tool } : {},
-      ...i.aids ? { aids: i.aids } : {} } as RuntimeItem]));
-    return this.withAliases('items', own);
+      ...i.aids ? { aids: i.aids } : {} };
   }
   // The permanent modifiers and hooks of the traits a creature holds, with the perks that hold only somewhere (in a
   // forest) or with something (a heavy weapon) when they do.

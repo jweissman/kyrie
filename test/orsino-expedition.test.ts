@@ -40,11 +40,11 @@ class Expedition {
 describe('an expedition among Orsino\'s things', () => {
   it('finds a stone and two wonders below, wears them, and sells what is worth selling at home', async () => {
     const s = await Expedition.start();
-    const stone = Canon.items[Expedition.kind(s, 'w9_haulage_hall_gem0')]!;
+    const stone = s.campaign.vocabulary!.itemDefinition(Expedition.kind(s, 'w9_haulage_hall_gem0'))!;
     expect(stone).toMatchObject({ name: 'a large brilliant-cut rose quartz', rank: 'common', value: 23,
       portrait: 'gems/rose_quartz' });
     expect(stone.description).toBe('A common gemstone, brilliant-cut, clear.');
-    expect(Canon.items[Expedition.kind(s, 'w9_drowned_furnace_find1')]!.source.orsino)
+    expect(s.campaign.vocabulary!.itemDefinition(Expedition.kind(s, 'w9_drowned_furnace_find1'))!.source.orsino)
       .toBe('equipment:amulet_of_health');
     await Expedition.take(s, 'w9_haulage_hall', [/^Collect a large brilliant-cut rose quartz/]);
     await Expedition.take(s, 'w9_drowned_furnace', [/^Collect a ring of strength/, /^Collect an amulet of health/]);

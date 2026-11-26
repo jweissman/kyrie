@@ -4,6 +4,8 @@ import { ModuleParser } from '../../src/lang/module-parser';
 import { FateChainLint } from '../../src/cli/fate-chain-lint';
 import { ExportRoles } from '../../src/cli/export-roles';
 import { KyrLint } from '../../src/cli/kyr-lint';
+import { LocalKinds } from '../../src/canon/local-catalog';
+import { Canon } from '../../src/canon/canon';
 
 // A chain of fates told at the close, one of which has no case for some state, leaves its ending unreached and
 // nothing says so (AU-37, The Warm Wall's friction: a fate branch had none). `kyrie lint` says which fate, and the
@@ -43,7 +45,13 @@ describe('a chain of fates', () => {
       + ' holds there, and the chain stops short of its ending; write a last case asking nothing more']);
   });
   it('passes the Warm Wall, whose fates each end with a plain case', async () => {
-    const module = await ExportRoles.module(join(KyrLint.root, 'data/adventures/warmwall/module.json'));
-    expect('error' in module ? module.error : FateChainLint.findings(module)).toEqual([]);
+    const marker = LocalKinds.item('other', { id: 'foreign_marker', name: 'foreign marker',
+      base: { category: 'gear' } });
+    LocalKinds.activate({ items: { foreign_marker: marker } });
+    try {
+      const module = await ExportRoles.module(join(KyrLint.root, 'data/adventures/warmwall/module.json'));
+      expect('error' in module ? module.error : FateChainLint.findings(module)).toEqual([]);
+      expect(Canon.items.foreign_marker?.name).toBe('foreign marker');
+    } finally { LocalKinds.reset(); }
   });
 });

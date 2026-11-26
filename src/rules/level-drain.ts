@@ -6,6 +6,8 @@ import { Fighting } from './fighting';
 import { Spellcasting } from './spellcasting';
 import type { Attribute, ConditionInstance } from '../creature';
 import type { CombatEvent, Fighter } from '../model';
+import type { CatalogContext } from '../catalog-context';
+import { FighterBody } from './fighter-body';
 
 interface Drained extends Partial<Record<Attribute, number>> {
   level: number; maxHp: number; hp: number; raceId: string; classId?: string; constitution: number;
@@ -33,9 +35,12 @@ export class LevelDrain {
   }
   // The hit points a level gives it, on the average: its calling's die (half and one) with its Constitution, or its
   // kind's growth a level; never less than one.
-  static perLevel(f: Pick<Drained, 'raceId' | 'classId' | 'constitution'>): number {
+  static perLevel(f: Pick<Drained, 'raceId' | 'classId' | 'constitution'> & { body?: Fighter['body'] },
+    vocabulary?: CatalogContext): number {
     const die = f.classId ? Callings.of(f.classId)?.hitDie : undefined;
-    const st = Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics : undefined;
+    const bodies = vocabulary ?? Canon;
+    const st = 'body' in f ? FighterBody.of(f)?.statistics
+      : bodies.isBody(f.raceId) ? bodies.creature(f.raceId).statistics : undefined;
     // A fixed stat block loses a Hit Die's worth, on the average (a d12's six).
     const sides = st?.hitDice ? Amounts.dice(st.hitDice)[0]?.sides : undefined;
     const grown = sides ? Math.floor((sides + 1) / 2) : st?.growth?.hitPoints?.perLevel;
@@ -43,10 +48,10 @@ export class LevelDrain {
   }
   // A body as it stands with `n` levels more taken: lower in level and in hit points, its slots those of the level it
   // stands at (a slot it no longer has is spent). Whether it was drained below its first level.
-  static lower(f: Drained, n: number): boolean {
+  static lower(f: Drained, n: number, vocabulary?: CatalogContext): boolean {
     const taken = Math.min(n, f.level - 1);
     f.level -= taken;
-    f.maxHp = Math.max(1, f.maxHp - taken * this.perLevel(f));
+    f.maxHp = Math.max(1, f.maxHp - taken * this.perLevel(f, vocabulary));
     f.hp = Math.min(f.hp, f.maxHp);
     if (f.maxSlots && f.slots) {
       const table = Spellcasting.table(f.classId, f.level, f);
@@ -57,23 +62,23 @@ export class LevelDrain {
   }
   // Lifted (what a remove takes from it, a restoration among them): the levels it had lost are its own again, and the
   // hit points with them (its wounds are as they were).
-  static without(f: Fighter, removed: readonly ConditionInstance[]) {
+  static without(f: Fighter, removed: readonly ConditionInstance[], vocabulary?: CatalogContext) {
     f.statuses = f.statuses.filter(s => !removed.includes(s));
     const n = this.levels(removed);
-    if (n > 0) { f.level += n; f.maxHp += n * this.perLevel(f); }
+    if (n > 0) { f.level += n; f.maxHp += n * this.perLevel(f, vocabulary); }
   }
   // Levels taken in a fight: counted on its condition, the body lowered now; a level it could not give, past its first,
   // taken from its life instead, and it falls if that leaves none. What happened, as events.
   // One warded against death's own powers (Death Ward: immune to `drain`) keeps every level, told as an immunity.
-  static take(f: Fighter, n: number, at: { turn: number; actor?: { id: string }; source?: { id: string } },
-    warded = false): CombatEvent[] {
+  static take(f: Fighter, n: number, at: { turn: number; actor?: { id: string }; source?: { id: string };
+    content?: { vocabulary?: CatalogContext } }, warded = false): CombatEvent[] {
     if (n <= 0 || f.hp === 0) { return []; }
     const by = at.actor?.id ?? at.source?.id ?? f.id;
     if (warded) {
       return [{ type: 'save', turn: at.turn, actor: by, target: f.id, rolled: 0, difficulty: 0, success: true,
         kind: 'drain', immune: true, against: this.id }];
     }
-    const before = f.level, past = this.lower(f, n), taken = before - f.level;
+    const before = f.level, past = this.lower(f, n, at.content?.vocabulary), taken = before - f.level;
     const events: CombatEvent[] = [];
     if (taken) {
       const held = f.statuses.find(s => s.id === this.id);
@@ -84,7 +89,7 @@ export class LevelDrain {
         clock: 'until-removed' });
     }
     if (past) {
-      const lost = Math.min(f.hp, (n - taken) * this.perLevel(f));
+      const lost = Math.min(f.hp, (n - taken) * this.perLevel(f, at.content?.vocabulary));
       f.hp -= lost;
       events.push({ type: 'damage', turn: at.turn, actor: by, target: f.id, rolled: lost, amount: lost, hp: f.hp });
       if (f.hp === 0) { events.push({ type: 'death', turn: at.turn, actor: f.id }); }

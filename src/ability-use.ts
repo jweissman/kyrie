@@ -45,7 +45,7 @@ export class AbilityUse {
     if (![ability.cost ?? 0, ability.cooldown ?? 0].every(n => Number.isSafeInteger(n) && n >= 0)) {
       throw new Error('Invalid ability cost or cooldown');
     }
-    ability.effects.forEach(e => Effects.validate(e, context.abilities));
+    ability.effects.forEach(e => Effects.validate(e, context.abilities, context.content.vocabulary));
     if (!actor && (!context.source || !context.recipients)) { throw new Error('A non-creature source needs bound recipients'); }
     if (!actor && (ability.cost || ability.effects.some(e => ['defend', 'flee', 'drain', 'summon', 'travel', 'attack']
       .includes(e.kind) || e.target === 'self'))) { throw new Error('This ability requires a creature actor'); }

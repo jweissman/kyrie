@@ -5,6 +5,7 @@ import { Canon } from '../canon/canon';
 import { ItemCatalog } from '../item-catalog';
 import type { Attribute, Creature } from '../creature';
 import type { CombatEvent } from '../model';
+import type { CatalogContext } from '../catalog-context';
 
 export type Check = Extract<CombatEvent, { type: 'check' }>;
 export type Odds = 'sure' | 'likely' | 'even' | 'unlikely' | 'beyond';
@@ -41,29 +42,31 @@ export class Checks {
   // thieves' tools help a thief at a lock, and one who never learnt to pick one not at all.
   // A capability of a campaign's own rests on the quality it names (restsOn, in the world: BX-01's L5), the
   // catalog's skills on theirs, anything else on wisdom.
-  static bonus(c: Creature, skill: string, rests?: Attribute): { modifier: number; stat: Attribute; trained: number;
-    tool: number; using?: string } {
-    const stat = this.qualities[skill] ?? rests ?? 'wisdom', modifier = Math.floor((ItemCatalog.quality(c, stat) - 10) / 2);
-    const trained = PartyCapabilities.skilled(skill, c) ? 2 + Math.floor((c.base.level - 1) / 4) : 0;
-    const using = PartyCapabilities.tool(skill, c);
+  static bonus(c: Creature, skill: string, rests?: Attribute, vocabulary?: CatalogContext):
+    { modifier: number; stat: Attribute; trained: number; tool: number; using?: string } {
+    const stat = this.qualities[skill] ?? rests ?? 'wisdom';
+    const modifier = Math.floor((ItemCatalog.quality(c, stat, vocabulary) - 10) / 2);
+    const trained = PartyCapabilities.skilled(skill, c, {}, vocabulary) ? 2 + Math.floor((c.base.level - 1) / 4) : 0;
+    const using = PartyCapabilities.tool(skill, c, {}, vocabulary);
     return { modifier, stat, trained, tool: using ? this.toolBonus : 0, ...using ? { using } : {} };
   }
   private static added(b: { modifier: number; trained: number; tool: number }): number {
     return b.modifier + b.trained + b.tool;
   }
   // What a check event says of how its roll was made up.
-  private static parts(b: ReturnType<typeof Checks.bonus>): Partial<Check> {
-    const tool = b.using ? { tool: b.tool, using: b.using } : {};
+  private static parts(b: ReturnType<typeof Checks.bonus>, vocabulary?: CatalogContext): Partial<Check> {
+    const tool = b.using ? { tool: b.tool, using: b.using, usingName: ItemCatalog.get(b.using, vocabulary).name } : {};
     return { stat: b.stat, modifier: b.modifier, trained: b.trained, ...tool };
   }
   // Who makes it: of those standing, the one who adds most.
-  static maker(creatures: Creature[], skill: string, rests?: Attribute): Creature | undefined {
+  static maker(creatures: Creature[], skill: string, rests?: Attribute, vocabulary?: CatalogContext):
+    Creature | undefined {
     const able = creatures.filter(c => c.state.hp > 0);
     return able.reduce<Creature | undefined>((best, c) => !best
-      || this.total(c, skill, rests) > this.total(best, skill, rests) ? c : best, undefined);
+      || this.total(c, skill, rests, vocabulary) > this.total(best, skill, rests, vocabulary) ? c : best, undefined);
   }
-  static total(c: Creature, skill: string, rests?: Attribute): number {
-    return this.added(this.bonus(c, skill, rests));
+  static total(c: Creature, skill: string, rests?: Attribute, vocabulary?: CatalogContext): number {
+    return this.added(this.bonus(c, skill, rests, vocabulary));
   }
   // The quality a capability of the world's own rests on, where it says (Initially Assert restsOn(systems,
   // intelligence)).
@@ -72,10 +75,11 @@ export class Checks {
     return world.relates('restsOn') ? world.one('restsOn', capability) as Attribute | undefined : undefined;
   }
   // How it looks before it is tried, to the one who would try it.
-  static odds(creatures: Creature[], skill: string, difficulty: number, rests?: Attribute): Odds {
-    const c = this.maker(creatures, skill, rests);
+  static odds(creatures: Creature[], skill: string, difficulty: number,
+    at: { rests?: Attribute; vocabulary?: CatalogContext } = {}): Odds {
+    const c = this.maker(creatures, skill, at.rests, at.vocabulary);
     if (!c) { return 'beyond'; }
-    const add = this.total(c, skill, rests);
+    const add = this.total(c, skill, at.rests, at.vocabulary);
     if (1 + add >= difficulty) { return 'sure'; }
     if (20 + add < difficulty) { return 'beyond'; }
     const chance = (21 + add - difficulty) / 20;
@@ -85,11 +89,11 @@ export class Checks {
   // have it come out as it asks (forced: a natural twenty, or a one), whatever the odds: a test of a failed check had
   // been a search over seeds, pinned to the steps before it (Quittance's friction 7, QTC-07).
   static make(creatures: Creature[], at: { skill: string; difficulty: string | number; seed: string; about?: string;
-    forced?: 'pass' | 'fail'; rests?: Attribute }): CombatEvent[] {
-    const skill = this.skill(at.skill), c = this.maker(creatures, skill, at.rests);
+    forced?: 'pass' | 'fail'; rests?: Attribute; vocabulary?: CatalogContext }): CombatEvent[] {
+    const skill = this.skill(at.skill), c = this.maker(creatures, skill, at.rests, at.vocabulary);
     const difficulty = typeof at.difficulty === 'number' ? at.difficulty : this.difficulty(at.difficulty);
     if (!c) { return [{ type: 'check', turn: 0, actor: '', skill, rolled: 0, difficulty, success: false }]; }
-    const b = this.bonus(c, skill, at.rests), add = this.added(b), parts = this.parts(b);
+    const b = this.bonus(c, skill, at.rests, at.vocabulary), add = this.added(b), parts = this.parts(b, at.vocabulary);
     if (at.forced) {
       const die = at.forced === 'pass' ? 20 : 1;
       return [{ type: 'check', turn: 0, actor: c.id, skill, rolled: die + add, die, difficulty,

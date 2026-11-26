@@ -11,6 +11,13 @@ import { Composition } from '../src/world/compose/composition';
 import { WorldAssembler } from '../src/world/world-assembler';
 import type { CreatureStore } from '../src/creature-store';
 import { GeneratedWorld } from './support/generated';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
+import { LocalKinds } from '../src/canon/local-catalog';
+import { Ledger } from '../src/world/compose/ledger';
+import { ModuleParser } from '../src/lang/module-parser';
+import { ModuleCanon } from '../src/campaign/module-canon';
+import type { Vocabulary } from '../src/lang/vocabulary';
+import { KeptParses } from '../src/lang/kept-parses';
 
 // The assembler as a partner to Deem: kits (data/kits/raider-hold, data/kits/bounty) placed into an authored region
 // (test/fixtures/fells), with slots fixed by an author or bound by requirement and preference, dimensions proposed by
@@ -34,7 +41,266 @@ class Compose {
   }
 }
 
+describe('multi-file context', () => {
+  it('keeps the source path of identical compiled modules in their own campaign', async () => {
+    const text = 'Module routes "Routes" { Place hill "hill" is room. '
+      + 'Person keeper "keeper" at hill { Ancestry human. Calling warrior. } '
+      + 'Route round for keeper priority 5 { up at hill from watch 20. } }';
+    const manifest = JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] });
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'context-path-a/module.json': manifest, 'context-path-a/site.kyr': text,
+      'context-path-b/module.json': manifest, 'context-path-b/site.kyr': text });
+    for (const dir of ['context-path-a', 'context-path-b', 'context-path-a']) {
+      const draft = await ModuleBundle.load({ id: 'routes', bundle: `${dir}/module.json` },
+        { seed: 'source-path', vocabulary: CanonVocabulary.scoped() }, source);
+      expect(draft.instance.module.semantic?.find(r => r.kind === 'route')?.span?.file)
+        .toBe(source.resolve(`${dir}/site.kyr`));
+    }
+  });
+  it('updates a kind inheriting from another kind later in the same file', () => {
+    const base = LocalKinds.item('old', { id: 'base_c', name: 'old', base: { category: 'gear' }, worth: 1 });
+    for (const inheritance of ['like base_c', 'like // inherited\n base_c']) {
+      const vocabulary = CanonVocabulary.scoped({ items: { base_c: base } });
+      const files = [`Module a "A" { Kind derived "derived" ${inheritance}. Kind base_c "base" is gear worth 9. }`];
+      const modules = KeptParses.together(files, vocabulary, text => text,
+        text => ModuleParser.parse(text, [], vocabulary));
+      expect(modules[0]!.catalog?.items?.derived).toMatchObject({ value: 9 });
+    }
+  });
+  it('updates inherited kinds when a later file changes their parent', () => {
+    const base = LocalKinds.item('old', { id: 'base_c', name: 'old', base: { category: 'gear' }, worth: 1 });
+    const vocabulary = CanonVocabulary.scoped({ items: { base_c: base } });
+    const files = ['Module a "A" { Kind a "a" like base_b. }',
+      'Module b "B" { Kind base_b "b" like base_c. }',
+      'Module c "C" { Kind base_c "c" is gear worth 9. }'];
+    const modules = KeptParses.together(files, vocabulary, text => text,
+      text => ModuleParser.parse(text, [], vocabulary));
+    expect(modules.map(m => Object.values(m.catalog!.items!)[0]))
+      .toMatchObject([{ value: 9 }, { value: 9 }, { value: 9 }]);
+  });
+  it('continues past partial failures without an optional fingerprint', () => {
+    const scoped = CanonVocabulary.scoped();
+    const vocabulary: Vocabulary = { id: scoped.id, kind: scoped.kind.bind(scoped), item: scoped.item.bind(scoped),
+      species: scoped.species.bind(scoped), install: scoped.install.bind(scoped), seen: scoped.seen.bind(scoped),
+      ability: scoped.ability.bind(scoped) };
+    const files = ['Module a "A" { Kind aaa "a" like bbb. }',
+      'Module b "B" { Kind bbb "b" like ccc. Item bi is aaa nowhere. }',
+      'Module c "C" { Kind ccc "c" is gear. Item ci is aaa nowhere. }'];
+    const modules = KeptParses.together(files, vocabulary, text => text,
+      text => ModuleParser.parse(text, [], vocabulary));
+    expect(modules.map(m => m.id)).toEqual(['a', 'b', 'c']);
+  });
+  it('does not replace a species when its provider cannot report species presence', () => {
+    const own = CanonVocabulary.scoped();
+    own.install({ species: { local_hound: own.species('own', { id: 'local_hound', name: 'wolf', like: 'wolf' }) } });
+    const vocabulary: Vocabulary = { id: own.id, kind: own.kind.bind(own), item: own.item.bind(own),
+      species: own.species.bind(own), install: own.install.bind(own), seen: own.seen.bind(own),
+      ability: own.ability.bind(own), fork: own.fork.bind(own), isSpecies: () => undefined };
+    const source = 'Module canon "Canon" { Species local_hound "bear" like bear. }';
+    const catalog = ModuleParser.parse(source, [], CanonVocabulary.scoped()).catalog!;
+    expect(() => ModuleCanon.supply({ ids: new Set(), entities: new Map(), catalog }, vocabulary))
+      .toThrow('species-aware vocabulary');
+    expect(own.creature('local_hound').name).toBe('wolf');
+  });
+  it('refuses conflicting ancestry when a provider cannot resolve species aliases', () => {
+    const own = CanonVocabulary.scoped();
+    own.install({ species: { local_hound: own.species('own', { id: 'local_hound', name: 'wolf', like: 'wolf' }) } });
+    const vocabulary: Vocabulary = { id: own.id, kind: own.kind.bind(own), item: own.item.bind(own),
+      species: own.species.bind(own), install: own.install.bind(own), seen: own.seen.bind(own),
+      ability: own.ability.bind(own), isSpecies: own.isSpecies.bind(own),
+      speciesDefinition: own.speciesDefinition.bind(own) };
+    const canon = { ids: new Set<string>(), entities: new Map(), catalog: { species: {
+      local_hound: { name: 'bear', variantOf: 'bear' }, canon_child: { name: 'child', variantOf: 'alias_hound' } } } };
+    expect(() => ModuleCanon.supply(canon, vocabulary)).toThrow('without species alias resolution');
+    expect(own.isSpecies('canon_child')).toBe(false);
+    vocabulary.resolveSpecies = id => id === 'alias_hound' ? 'local_hound' : id;
+    expect(() => ModuleCanon.supply(canon, vocabulary)).toThrow('depends on a different species');
+    expect(own.isSpecies('canon_child')).toBe(false);
+  });
+  it('does not read conflicting canon species in a canonless bundle', async () => {
+    const vocabulary = CanonVocabulary.scoped();
+    vocabulary.install({ species: { local_hound: vocabulary.species('own',
+      { id: 'local_hound', name: 'wolf', like: 'wolf' }) } });
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/imbar/module.json': JSON.stringify({ source: 'context.kyr', globals: [] }),
+      'data/imbar/context.kyr': 'Module canon "Canon" { Species local_hound "bear" like bear. }',
+      'context/site.kyr': 'Module child "Child" { Place yard "yard" is room. '
+        + 'Person hound "hound" at yard { Species local_hound. } }',
+      'context/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] }) });
+    const draft = await ModuleBundle.load({ id: 'child', bundle: 'context/module.json' },
+      { seed: 'canonless-species', canonless: true, vocabulary }, source);
+    expect(draft.instance.campaign!.creatures.some(c => c.context.raceId === 'local_hound')).toBe(true);
+    expect(vocabulary.creature('local_hound').name).toBe('wolf');
+  });
+  it('reads conflicting canon species without replacing the caller species', async () => {
+    const vocabulary = CanonVocabulary.scoped();
+    vocabulary.install({ species: { local_hound: vocabulary.species('own',
+      { id: 'local_hound', name: 'wolf', like: 'wolf' }) } });
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/imbar/module.json': JSON.stringify({ source: 'context.kyr', globals: [] }),
+      'data/imbar/context.kyr': 'Module canon "Canon" { Species local_hound "bear" like bear. }',
+      'context/site.kyr': 'Module child "Child" { Place yard "yard" is room. '
+        + 'Person hound "hound" at yard { Species local_hound. } }',
+      'context/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] }) });
+    const draft = await ModuleBundle.load({ id: 'child', bundle: 'context/module.json' },
+      { seed: 'canon-species', vocabulary }, source);
+    expect(draft.instance.campaign!.creatures.some(c => c.context.raceId === 'local_hound')).toBe(true);
+    expect(vocabulary.creature('local_hound').name).toBe('wolf');
+  });
+  it('refuses a canon child whose existing parent has a different meaning', async () => {
+    const vocabulary = CanonVocabulary.scoped();
+    vocabulary.install({ species: { local_hound: vocabulary.species('own',
+      { id: 'local_hound', name: 'wolf', like: 'wolf' }) } });
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/imbar/module.json': JSON.stringify({ source: 'context.kyr', globals: [] }),
+      'data/imbar/context.kyr': 'Module canon "Canon" { Species local_hound "bear" like bear. '
+        + 'Species canon_child "cub" like local_hound. }',
+      'context/site.kyr': 'Module child "Child" { Place yard "yard" is room. }',
+      'context/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] }) });
+    await expect(ModuleBundle.load({ id: 'child', bundle: 'context/module.json' }, { seed: 'canon', vocabulary }, source))
+      .rejects.toThrow('Canon species canon_child depends on a different species local_hound');
+    expect(vocabulary.creature('local_hound').name).toBe('wolf');
+    expect(vocabulary.isSpecies('canon_child')).toBe(false);
+  });
+  it('refuses a canon child whose caller-owned ancestor depends on a conflicting species', async () => {
+    const vocabulary = CanonVocabulary.scoped();
+    vocabulary.install({ species: { local_hound: vocabulary.species('own',
+      { id: 'local_hound', name: 'wolf', like: 'wolf' }) } });
+    vocabulary.install({ species: { middle: vocabulary.species('own',
+      { id: 'middle', name: 'middle', like: 'local_hound' }) } });
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/imbar/module.json': JSON.stringify({ source: 'context.kyr', globals: [] }),
+      'data/imbar/context.kyr': 'Module canon "Canon" { Species local_hound "bear" like bear. '
+        + 'Species canon_child "cub" like middle. }',
+      'context/site.kyr': 'Module child "Child" { Place yard "yard" is room. }',
+      'context/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] }) });
+    await expect(ModuleBundle.load({ id: 'child', bundle: 'context/module.json' }, { seed: 'canon', vocabulary }, source))
+      .rejects.toThrow('Canon species canon_child depends on a different species local_hound');
+    expect(vocabulary.isSpecies('canon_child')).toBe(false);
+  });
+  it('accepts unrelated canon children of aliased species', async () => {
+    const vocabulary = CanonVocabulary.scoped();
+    vocabulary.install({ species: { local_hound: vocabulary.species('own',
+      { id: 'local_hound', name: 'wolf', like: 'wolf' }) } });
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/imbar/module.json': JSON.stringify({ source: 'context.kyr', globals: [] }),
+      'data/imbar/context.kyr': 'Module canon "Canon" { Species local_hound "bear" like bear. '
+        + 'Species canon_child "child" like cave_hound. }',
+      'context/site.kyr': 'Module child "Child" { Place yard "yard" is room. }',
+      'context/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] }) });
+    await ModuleBundle.load({ id: 'child', bundle: 'context/module.json' }, { seed: 'canon', vocabulary }, source);
+    expect(vocabulary.isSpecies('canon_child')).toBe(true);
+  });
+  it('reads canon files with kinds declared in a later file', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/imbar/module.json': JSON.stringify({ source: ['first.kyr', 'second.kyr'], globals: [] }),
+      'data/imbar/first.kyr': 'Module first "First" { Kind heir "heir" like later_kind. }',
+      'data/imbar/second.kyr': 'Module second "Second" { Kind later_kind "later kind" is gear worth 9. }' });
+    const canon = await ModuleCanon.declarations(source, CanonVocabulary.scoped());
+    expect(canon?.catalog.items?.heir).toMatchObject({ value: 9 });
+  });
+});
+
 describe('composing kits', () => {
+  it('does not let reading canon replace a campaign kind when a module inherits it', async () => {
+    const vocabulary = CanonVocabulary.scoped({ items: { pharos_lens: LocalKinds.item('own',
+      { id: 'pharos_lens', name: 'my lens', base: { category: 'gear' }, worth: 1 }) } });
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'canon-context/site.kyr': 'Module child "Child" { Kind heir "Heir" like pharos_lens. }',
+      'canon-context/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] }) });
+    const result = await ModuleBundle.load({ id: 'child', bundle: 'canon-context/module.json' },
+      { seed: 'canon-context', canonless: true, vocabulary }, source);
+    expect(result.instance.module.catalog?.items?.heir).toMatchObject({ value: 1 });
+    expect(vocabulary.itemDefinition('pharos_lens')?.value).toBe(1);
+  });
+  it('supplies missing canon kinds to a standalone bundle without replacing its own kinds', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/imbar/module.json': JSON.stringify({ source: 'context.kyr', globals: [] }),
+      'data/imbar/context.kyr': 'Module canon "Canon" { Kind canonical_token "canon token" is gear worth 40. }',
+      'canon-context/site.kyr': 'Module child "Child" { Kind heir "Heir" like canonical_token. }',
+      'canon-context/module.json': JSON.stringify({ version: 1, source: 'site.kyr', rules: ['world'] }) });
+    const load = (vocabulary: CanonVocabulary) => ModuleBundle.load({ id: 'child', bundle: 'canon-context/module.json' },
+      { seed: 'canon-context', vocabulary }, source);
+    const own = CanonVocabulary.scoped({ items: { canonical_token: LocalKinds.item('own',
+      { id: 'canonical_token', name: 'own token', base: { category: 'gear' }, worth: 1 }) } });
+    expect((await load(CanonVocabulary.scoped())).instance.module.catalog?.items?.heir).toMatchObject({ value: 40 });
+    expect((await load(own)).instance.module.catalog?.items?.heir).toMatchObject({ value: 1 });
+    expect(own.itemDefinition('canonical_token')?.value).toBe(1);
+  });
+  it('refuses to mutate an unforkable vocabulary when reading canon', async () => {
+    const scoped = CanonVocabulary.scoped();
+    const vocabulary: Vocabulary = { id: scoped.id, kind: scoped.kind.bind(scoped), item: scoped.item.bind(scoped),
+      species: scoped.species.bind(scoped), install: scoped.install.bind(scoped), seen: scoped.seen.bind(scoped),
+      ability: scoped.ability.bind(scoped) };
+    const before = scoped.fingerprint();
+    await expect(ModuleCanon.declarations(NodeBundleSource.shared, vocabulary))
+      .rejects.toThrow('Reading canon requires a forkable vocabulary');
+    expect(scoped.fingerprint()).toBe(before);
+  });
+  it('reads a region whose later file declares a kind used in an earlier file', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'context/first.kyr': 'Module first "First" { Place yard "Yard" is room at 0, 0 outdoors. '
+        + 'Item token "token" is later_kind at yard. }',
+      'context/second.kyr': 'Module second "Second" { Kind later_kind "later kind" like base_kind. }',
+      'context/third.kyr': 'Module third "Third" { Kind base_kind "base kind" is gear. }',
+      'context/region.json': JSON.stringify({ version: 1, source: ['first.kyr', 'second.kyr', 'third.kyr'], rules: ['world'],
+        assembly: {}, exports: { yard: 'yard' } }) });
+    const vocabulary = CanonVocabulary.scoped(), request = { id: 'region', bundle: source.resolve('context/region.json') };
+    const ledger = new Ledger(await Composition.vocabulary(source, vocabulary));
+    await expect(Composition.region(ledger, request, source, vocabulary)).resolves.toBeUndefined();
+    expect(vocabulary.itemDefinition('later_kind')?.name).toBe('later kind');
+    const draft = await ModuleBundle.load(request, { seed: 'context', vocabulary: CanonVocabulary.scoped() }, source);
+    expect(draft.instance.module.entities.some(e => e.id === 'region__token')).toBe(true);
+  });
+  it('reports an unresolved cycle between region kinds', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'context/a.kyr': 'Module a "A" { Kind alpha "alpha" like beta. }',
+      'context/b.kyr': 'Module b "B" { Kind beta "beta" like alpha. }',
+      'context/region.json': JSON.stringify({ source: ['a.kyr', 'b.kyr'], assembly: {} }) });
+    const vocabulary = CanonVocabulary.scoped();
+    const ledger = new Ledger(await Composition.vocabulary(source, vocabulary));
+    await expect(Composition.region(ledger, { id: 'region', bundle: source.resolve('context/region.json') },
+      source, vocabulary)).rejects.toThrow('beta');
+  });
+  it('reads the assembly vocabulary and region against the requested compilation context', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'data/assembly/vocabulary.kyr': 'Module vocab "Vocab" { Kind child "child" like context_parent. }',
+      'context/region.kyr': 'Module region "Region" { Kind heir "heir" like context_parent. }',
+      'context/region.json': JSON.stringify({ source: 'region.kyr', assembly: {} }) });
+    const make = (name: string, value: number) => CanonVocabulary.scoped({ items: {
+      context_parent: LocalKinds.item(name, { id: 'context_parent', name, base: { category: 'gear' }, worth: value }),
+    } });
+    const a = make('alpha', 1), b = make('beta', 9);
+    const parsed = await Promise.all([Composition.vocabulary(source, a), Composition.vocabulary(source, b)]);
+    expect(parsed.map(m => m.catalog?.items?.child?.name)).toEqual(['child', 'child']);
+    expect([a.itemDefinition('child')?.value, b.itemDefinition('child')?.value]).toEqual([1, 9]);
+    const ledger = new Ledger(ModuleParser.parse('Module empty "Empty" {}', [], CanonVocabulary.scoped()));
+    const request = { id: 'region', bundle: source.resolve('context/region.json') };
+    await Composition.region(ledger, request, source, a);
+    await Composition.region(ledger, request, source, b);
+    expect([a.itemDefinition('heir')?.value, b.itemDefinition('heir')?.value]).toEqual([1, 9]);
+  });
+  it('only reuses a prepared composition for an equivalent vocabulary', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared,
+      { 'data/assembly/vocabulary.kyr': 'Module vocab "Vocab" { Kind child "child" like context_parent. }' });
+    const make = (value: number) => CanonVocabulary.scoped({ items: {
+      context_parent: LocalKinds.item('context', { id: 'context_parent', name: 'parent',
+        base: { category: 'gear' }, worth: value }),
+    } });
+    const a = make(1), b = make(9);
+    const composed = await Composition.expand([], { seed: 'context', source, vocabulary: a });
+    expect(a.kind('child')).toBeUndefined();
+    Composition.keep(source, 'context', composed, { seed: 'context', vocabulary: a });
+    expect(Composition.take(source, 'context', 'context', b)).toBeUndefined();
+    expect(Composition.take(source, 'context', 'context', make(1))).toBe(composed);
+    expect(a.kind('child')).toBeUndefined();
+    expect(Composition.take(source, 'context', 'context', a)).toBeUndefined();
+    LocalKinds.activate({ items: { context_parent: a.itemDefinition('context_parent')! } });
+    try {
+      Composition.keep(source, 'ambient', composed, { seed: 'context', vocabulary: a });
+      expect(Composition.take(source, 'ambient', 'context')).toBe(composed);
+    } finally { LocalKinds.reset(); }
+  });
   it('builds the fells\' Hob-Knot from the raider-hold kit with every slot and dimension fixed by its author', async () => {
     const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
     const text = m.composition!.trace.text().join('\n');

@@ -24,7 +24,8 @@ export class Chronicle {
       if (c.kind === 'assert' && c.call.name === 'at') { at.set(c.call.args[0]!, c.call.args[1]!); }
     }
     // Drawn as fighters only the creatures some fight of the log names (see Fought).
-    const names = CombatProjection.told(Fought.of(campaign, campaign.history), campaign.readout.partyIds);
+    const names = CombatProjection.told(Fought.of(campaign, campaign.history), campaign.readout.partyIds, undefined,
+      campaign.vocabulary);
     const deadlines = campaign.installations.filter(m => m.deadline !== undefined);
     let previous = 0;
     const perceived = new Set<string>();
@@ -70,7 +71,8 @@ export class Chronicle {
     const declared = action ? (event.result === 'success' ? action.success : action.failure) : [];
     return { at: previous, kind: 'player',
       text: `${action?.name ?? event.action}${event.result === 'failure' ? ' — failed' : ''}`,
-      detail: [...Spoken.told(campaign, event, labels), ...event.combat.map(c => CombatPresenter.format(c, names)),
+      detail: [...Spoken.told(campaign, event, labels),
+        ...event.combat.map(c => CombatPresenter.format(c, names, true, campaign.vocabulary)),
         ...(campaign.module.observations?.length ? [] : declared.map(change => this.change(change, labels)))] };
   }
 }

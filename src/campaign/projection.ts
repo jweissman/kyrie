@@ -18,12 +18,15 @@ export class Projection {
   private seen?: World;
   private store?: CreatureStore;
   private revision = -1;
+  private vocabulary?: string;
   private inputs = new Map<string, Input>();
   refresh(world: World, actors: readonly CampaignActor[], store: CreatureStore): World {
-    if (world === this.seen && store === this.store && store.version === this.revision) { return world; }
-    const dirty = this.dirty(world, actors, store);
-    const projected = dirty.length ? CreatureFacts.project(world, dirty, store) : world;
-    this.seen = projected; this.store = store; this.revision = store.version;
+    const vocabulary = store.vocabulary?.fingerprint();
+    if (world === this.seen && store === this.store && store.version === this.revision
+      && vocabulary === this.vocabulary) { return world; }
+    const dirty = this.dirty(world, actors, store, vocabulary !== this.vocabulary);
+    const projected = dirty.length ? CreatureFacts.project(world, dirty, store, store.vocabulary) : world;
+    this.seen = projected; this.store = store; this.revision = store.version; this.vocabulary = vocabulary;
     return projected;
   }
   // As it stands, for a copy of the campaign (Campaign.fork) playing in the same world under its own module, with a
@@ -32,8 +35,11 @@ export class Projection {
   // assumed). Not as it stands where it does not stand for this world and these creatures: then all of it again.
   forked(world: World, was: CreatureStore, to: { world: World; store: CreatureStore }): Projection {
     const copy = new Projection(), store = to.store;
-    if (this.seen !== world || this.store !== was || this.revision !== was.version) { return copy; }
+    if (this.seen !== world || this.store !== was || this.revision !== was.version
+      || this.vocabulary !== was.vocabulary?.fingerprint()
+      || this.vocabulary !== store.vocabulary?.fingerprint()) { return copy; }
     copy.seen = to.world; copy.store = store; copy.revision = store.version;
+    copy.vocabulary = this.vocabulary;
     for (const [id, input] of this.inputs) {
       const members = input.members.map(c => store.peek(c.id));
       if (members.every((c, i) => JSON.stringify(c) === JSON.stringify(input.members[i]))) {
@@ -42,9 +48,10 @@ export class Projection {
     }
     return copy;
   }
-  private dirty(world: World, actors: readonly CampaignActor[], store: CreatureStore): CampaignActor[] {
+  private dirty(world: World, actors: readonly CampaignActor[], store: CreatureStore,
+    vocabularyChanged: boolean): CampaignActor[] {
     const seen = this.seen;
-    const all = !seen || seen.module !== world.module || !seen.sameLine(world);
+    const all = !seen || seen.module !== world.module || !seen.sameLine(world) || vocabularyChanged;
     const touched = new Set((all ? [] : world.differing(seen, CreatureFacts.reads)).flatMap(c => c.args));
     const moves = all ? [] : world.differing(seen, Projection.places), moved = new Set(moves.map(c => c.args[0]));
     // A place gone dark or lit, or its ground said, may be anyone's environment.

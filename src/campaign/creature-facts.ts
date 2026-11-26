@@ -22,6 +22,7 @@ import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
 import { LevelDrain } from '../rules/level-drain';
 import { ConditionSense } from '../canon/condition-sense';
+import type { CatalogContext } from '../catalog-context';
 
 type Entity = Module['entities'][number];
 interface Declared {
@@ -31,7 +32,7 @@ interface Declared {
   callings: Map<string, string[]>; ancestries: Map<string, string[]>;
 }
 // What the module declares, with the world the projection reads what holds now from (see `set`).
-interface Scope extends Declared { world: World; at?: PerkContext }
+interface Scope extends Declared { world: World; at?: PerkContext; vocabulary?: CatalogContext }
 // A materialized planning view. CreatureStore remains authoritative for health and personal currency.
 export class CreatureFacts {
   // Every relation or measure `project` writes.
@@ -44,8 +45,8 @@ export class CreatureFacts {
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
   static readonly reads = [...CreatureFacts.written, 'carried', 'capacity', 'peaceable', 'state', 'warning', 'onslaught',
     'flinch', 'granted'];
-  static project(world: World, actors: CampaignActor[], store: CreatureStore): World {
-    const different = this.changes(world, actors, store);
+  static project(world: World, actors: CampaignActor[], store: CreatureStore, vocabulary?: CatalogContext): World {
+    const different = this.changes(world, actors, store, vocabulary);
     return different.length ? world.apply(different) : world;
   }
   // What a save from an earlier build may hold otherwise, its projection since corrected: needing care had held of a
@@ -53,14 +54,15 @@ export class CreatureFacts {
   // So too what everyone outside the company could wield, which is no longer said (Mission 21).
   static readonly revised: ReadonlySet<string> = new Set(['needsCare', 'proficient']);
   // A saved world's creature facts as the creatures project them: the same, or stale; anything else is refused.
-  static saved(world: World, actors: CampaignActor[], store: CreatureStore): 'same' | 'stale' {
-    const different = this.changes(world, actors, store);
+  static saved(world: World, actors: CampaignActor[], store: CreatureStore, vocabulary?: CatalogContext): 'same' | 'stale' {
+    const different = this.changes(world, actors, store, vocabulary);
     if (!different.length) { return 'same'; }
     if (different.every(c => this.revised.has(c.call.name))) { return 'stale'; }
     throw new Error('Inconsistent saved creature facts');
   }
-  private static changes(world: World, actors: CampaignActor[], store: CreatureStore): Change[] {
-    const scope = this.scope(world), changes: Change[] = [];
+  private static changes(world: World, actors: CampaignActor[], store: CreatureStore,
+    vocabulary?: CatalogContext): Change[] {
+    const scope = this.scope(world, vocabulary), changes: Change[] = [];
     for (const actor of actors) {
       const members = actor.members.map(id => store.peek(id)), environment = Environment.of(world, actor.id);
       changes.push(...this.group(actor, members, { ...scope, ...environment ? { at: { environment } } : {} }));
@@ -73,7 +75,7 @@ export class CreatureFacts {
       if (scope.has.has('learnable')) { changes.push(...this.lessons(world, members, scope.references)); }
       if (scope.has.has('featOpen')) { changes.push(...this.feats(world, members, scope.references)); }
       if (scope.has.has('skillOpen')) { changes.push(...this.schooling(world, members, scope)); }
-      if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members)); }
+      if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members, vocabulary)); }
     }
     return changes.filter(c => c.kind === 'assert' ? !world.holds(World.key(c.call)) :
       c.kind === 'retract' ? world.holds(World.key(c.call)) :
@@ -83,9 +85,12 @@ export class CreatureFacts {
   // A group of one species takes its species' temperament, unless the place has given it one; and a group the place
   // has given no words of its own (and whose meeting with the company it has not scripted in states) speaks in the
   // plain words of its temperament.
-  private static temperament(world: World, group: string, members: Creature[]): Change[] {
+  private static temperament(world: World, group: string, members: Creature[], vocabulary?: CatalogContext): Change[] {
     // Of its kind as it is made: a starving rat "will not wait to be sure of you" (BP-04), a rat is wary.
-    const kinds = new Set(members.map(c => Canon.temperament([c.raceId, ...c.variations ?? []].join('/'))));
+    const kinds = new Set(members.map(c => {
+      const id = [c.raceId, ...c.variations ?? []].join('/');
+      return vocabulary ? vocabulary.temperament(id) : Canon.temperament(id);
+    }));
     const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, words = this.words(world.module);
     const given = world.one('temperament', group);
     // One the place has made peaceable keeps the peace, whatever its kind would do; a tame kind is peaceable anyway.
@@ -156,7 +161,9 @@ export class CreatureFacts {
     this.declarations.set(module, { lengths, declared: made });
     return made;
   }
-  private static scope(world: World): Scope { return { ...this.declared(world.module), world }; }
+  private static scope(world: World, vocabulary?: CatalogContext): Scope {
+    return { ...this.declared(world.module), world, vocabulary };
+  }
   // What the company as a whole can do and is: its skills, who brings each, whether it can act, and its coin.
   private static group(actor: CampaignActor, members: Creature[], scope: Scope): Change[] {
     const changes: Change[] = [], { has, capabilities, references, at, world } = scope;
@@ -165,13 +172,14 @@ export class CreatureFacts {
       const granted = has.has('granted') ? new Set(world.related('granted').filter(r => r.args[0] === actor.id)
         .map(r => r.args[1]!)) : new Set<string>();
       for (const capability of capabilities) {
-        changes.push({ kind: PartyCapabilities.has(capability.id, members, at) || granted.has(capability.id) ? 'assert'
+        changes.push({ kind: PartyCapabilities.has(capability.id, members, at, scope.vocabulary)
+          || granted.has(capability.id) ? 'assert'
           : 'retract', call: ModuleWriter.call('capable', actor.id, capability.id) });
       }
     }
     for (const c of has.has('brings') ? members : []) {
       for (const capability of capabilities) {
-        changes.push({ kind: PartyCapabilities.brings(capability.id, c, at) ? 'assert' : 'retract',
+        changes.push({ kind: PartyCapabilities.brings(capability.id, c, at, scope.vocabulary) ? 'assert' : 'retract',
           call: ModuleWriter.call('brings', references.get(c.id)!, capability.id) });
       }
     }
@@ -242,7 +250,7 @@ export class CreatureFacts {
     // only reader): said of everyone, it had been three facts in four of a world (construction.md §6).
     if (has.has('proficient')) {
       changes.push(...this.set(scope, 'proficient', reference, company
-        ? kinds.filter(k => Creation.canEquip(c.classId, k.id)).map(k => k.id) : []));
+        ? kinds.filter(k => Creation.canEquip(c.classId, k.id, scope.vocabulary)).map(k => k.id) : []));
     }
     const learned = [...c.base.abilities, ...c.state.learnedAbilities];
     if (has.has('canTrain')) {
@@ -252,17 +260,15 @@ export class CreatureFacts {
         ? scope.declared.filter(a => !learned.includes(a.id) && (!a.spell || a.spell.tradition === tradition))
           .map(a => a.id) : []));
     }
-    for (const item of c.state.inventory ?? []) { ItemCatalog.get(item.definition); }
+    for (const item of c.state.inventory ?? []) { ItemCatalog.get(item.definition, scope.vocabulary); }
     // What they carry against what they can (see Burden).
-    if (scope.measures.has('carried')) {
-      changes.push({ kind: 'set', call: ModuleWriter.call('carried', reference), value: ModuleWriter.number(Burden.load(c)) },
-        { kind: 'set', call: ModuleWriter.call('capacity', reference), value: ModuleWriter.number(Burden.capacity(c)) });
-    }
+    if (scope.measures.has('carried')) { changes.push(...this.burden(c, reference, scope.vocabulary)); }
     changes.push(...this.calling(c, reference, scope, learned));
-    const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c))]);
+    const known = new Set([...learned, ...Object.keys(ItemCatalog.abilities(c, scope.vocabulary))]);
     const useful = scope.field.filter(a => CreatureFacts.helps(a, c) && !Tended.blocks(a, c));
     if (has.has('relieves')) {
-      changes.push(...this.set(scope, 'relieves', reference, kinds.filter(k => this.relieves(k.id, c)).map(k => k.id)));
+      changes.push(...this.set(scope, 'relieves', reference,
+        kinds.filter(k => this.relieves(k.id, c, scope.vocabulary)).map(k => k.id)));
     }
     // Orsino's gate outside combat too: a spell or levelled skill above ⌈level / 2⌉ cannot be used yet.
     // And, for the company alone, a spell it could cast at a band outside a fight (CF-03: FieldUse.cast).
@@ -273,6 +279,12 @@ export class CreatureFacts {
     if (has.has('treatable')) { changes.push(...this.set(scope, 'treatable', reference, useful.map(a => a.id))); }
     if (has.has('canCast')) { changes.push(...this.set(scope, 'canCast', reference, usable.map(a => a.id))); }
     return changes;
+  }
+  private static burden(c: Creature, reference: string, vocabulary?: CatalogContext): Change[] {
+    return [{ kind: 'set', call: ModuleWriter.call('carried', reference),
+      value: ModuleWriter.number(Burden.load(c, vocabulary)) },
+    { kind: 'set', call: ModuleWriter.call('capacity', reference),
+      value: ModuleWriter.number(Burden.capacity(c, vocabulary)) }];
   }
   // Each calling (or ancestry) by its class (or race), under every id an installation gave it.
   private static callings(entities: Entity[], type: string, prefix: string): Map<string, string[]> {
@@ -306,8 +318,8 @@ export class CreatureFacts {
   // A kind of thing used up on someone relieves them if it would help them; one that is no remedy (it does what it
   // does, whoever takes it) always does, but one aimed at a foe (a flask of fire to throw) is for a fight, not for one
   // of the company. Kept by the kind's use as well as its id (see ItemCatalog.use).
-  private static relieves(kind: string, c: Creature): boolean {
-    const ability = ItemCatalog.use(kind);
+  private static relieves(kind: string, c: Creature, vocabulary?: CatalogContext): boolean {
+    const ability = ItemCatalog.use(kind, vocabulary);
     if (!ability || ability.effects.every(e => /enem/.test(e.target))) { return false; }
     const remedy = ability.effects.some(e => ['heal', 'remove', 'apply'].includes(e.kind));
     return !remedy || this.helps(ability, c);
@@ -362,7 +374,7 @@ export class CreatureFacts {
   private static schooling(world: World, members: Creature[], scope: Scope): Change[] {
     const named = new Set(scope.capabilities.map(e => e.id));
     return this.choices(world, 'skillOpen', members.map(c => [scope.references.get(c.id)!,
-      Advancement.teachable(c).filter(id => named.has(id))]));
+      Advancement.teachable(c, scope.vocabulary).filter(id => named.has(id))]));
   }
   private static choices(world: World, relation: string, open: [string, string[]][]): Change[] {
     const refs = new Set(open.map(([ref]) => ref));

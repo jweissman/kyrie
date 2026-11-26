@@ -12,8 +12,8 @@ describe('a game whose modules are read while another game is about', () => {
   it('keeps the kinds its own modules declare as they are installed', async () => {
     const w = await WorldAssembler.assemble('kite', NodeBundleSource.shared,
       { origin: 'kin', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const other = {}, source: BundleSource = { resolve: (p, from) => w.source.resolve(p, from),
-      read: async p => { LocalKinds.claim(other, undefined); return w.source.read(p); } };
+    const source: BundleSource = { resolve: (p, from) => w.source.resolve(p, from),
+      read: async p => { LocalKinds.activate(undefined); return w.source.read(p); } };
     const s = await PlaySession.start(w.path, 'kite', source);
     expect(s.campaign.readout.creatures.some(c => c.id === 'players__the_bear_person')).toBe(true);
   }, 180000);

@@ -5,6 +5,8 @@ export type { Creature } from './creature';
 import type { ArenaAbility } from './lang/parse';
 import type { Equipment } from './item-catalog';
 import type { Daily } from './rules/daily-uses';
+import type { Species } from './rules/catalog-schema';
+import type { CatalogContext } from './catalog-context';
 
 export type Team = 'fighters' | 'goblins';
 export interface EncounterParticipant {
@@ -27,6 +29,8 @@ export interface Fighter {
   charges?: Record<string, number>;
   // The wielded (or natural) weapon, worn armour's ac, and equipped items' modifiers and hooks.
   equipment: Equipment;
+  // The resolved body used in this fight, or null for a scoped fighter without one.
+  body?: (Pick<Species, 'kind' | 'type' | 'defenses' | 'statistics'> & { species?: boolean }) | null;
   statuses: ConditionInstance[];
   // The creature whose call brought it into the fight, for a summoned one.
   summoner?: string;
@@ -62,6 +66,7 @@ export interface Fighter {
 export type Moment = 'seen' | 'sprung';
 export interface Scenario {
   id: string; combatants: Fighter[]; abilities: ArenaAbility[]; moment?: Moment; terms?: Terms;
+  vocabulary?: CatalogContext;
   // Played out only to be reckoned, never kept step by step (see Battle's rehearsed).
   rehearsed?: boolean;
 }
@@ -100,7 +105,7 @@ export type CombatEvent = (
   | { type: 'check'; turn: number; actor: string; skill: string; rolled: number; difficulty: number; success: boolean;
     die?: number; stat?: string; modifier?: number; trained?: number; unrolled?: boolean;
     // What a tool to hand added, and which kind of thing it was (thieves' tools, at a lock).
-    tool?: number; using?: string }
+    tool?: number; using?: string; usingName?: string }
   // A guard takes a blow meant for the one they guard; a creature winds up a big blow, or loses it to a stun.
   | { type: 'intercept'; turn: number; actor: string; target: string }
   // A caster's check against a creature's spell resistance: d20 and casting level against it (see SpellResistance).

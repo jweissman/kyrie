@@ -31,14 +31,15 @@ export class PlaneLaws {
     if (!laws.length || !members.length) { return false; }
     const lease = store.acquire(members);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters', store.vocabulary));
       for (const target of fighters) {
         const context = { fighters, turn: scene.elapsed, events, field: true,
           expressions: new Expressions(RandomStreams.key(scene.seed ?? 'field', 'law', scene.elapsed, target.id)),
-          content: new Content('law'), abilities: [], retreat: false, location: null };
+          content: new Content('law', undefined, store.vocabulary), abilities: [], retreat: false, location: null };
         for (const law of laws) { Effects.periodic(target, law, law, context); }
       }
-      lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
+      lease.commit(lease.creatures.map(c =>
+        CombatProjection.creature(fighters.find(f => f.id === c.id)!, c, store.vocabulary)));
     } finally { lease.release(); }
     return true;
   }

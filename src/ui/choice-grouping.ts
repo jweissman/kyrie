@@ -17,6 +17,7 @@ import { Carriers } from './carriers';
 import { ChoiceIds } from './choice-ids';
 import { ChoiceWords } from './choice-words';
 import { ChoiceTries } from './choice-tries';
+import type { ItemDefinition } from '../item-catalog';
 
 type Slot = 'exit' | 'target' | 'item' | 'member' | 'camp';
 export interface Rule {
@@ -49,6 +50,7 @@ export interface GroupingContext {
   // Where a band lies in wait after dark, and who (see Waylaid).
   waylaid?: Map<string, string>;
   tell?: (id: string) => string | undefined;
+  item?: (kind: string) => ItemDefinition | undefined;
   // Who takes an item the company picks up or buys; the other hands are not offered.
   carrier?: (item: string) => string | undefined;
   // Whom each thing is offered to, of those the choices offer it to (see Carriers.hands).
@@ -405,7 +407,7 @@ export class ChoiceGrouping {
       key === 'hirefee' ? ` — ${data.context.fees?.get(`hire:${data.b.recruit}`) ?? 0} coin`.replace(/^ — 0 coin$/, '') :
       key === 'them' || key === 'their' ? PronounWords.of(data.context.world, data.b.companion, key) :
       key === 'versus' ? (data.context.world ? PurchaseCompare.versus(data.context.world, data.b.form ?? '',
-        data.b.recipient ?? '', data.context.names) : '') :
+        data.b.recipient ?? '', { names: data.context.names, item: data.context.item }) : '') :
         data.context.names.get(data.b[key] ?? key) ?? data.b[key] ?? key);
   }
   // The way a thing stands on, by its name (a door, not where it goes: "Listen at the hall" had been said of a door).

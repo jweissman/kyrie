@@ -1,13 +1,13 @@
 import { Costs } from '../costs';
-import { LocalKinds } from '../canon/local-catalog';
 import { ParseCache } from '../lang/parse-cache';
 import { TextHash } from '../lang/text-hash';
-import { Vocabularies } from '../lang/vocabulary';
+import { Vocabularies, type Vocabulary } from '../lang/vocabulary';
 import type { Module } from '../lang/module';
 
 // A module's own files compiled: read each among the kinds its files declare, joined, and its names that the shared
 // rules name too made its own (see ModuleBundle.loading). What that comes to depends on nothing but the texts, the
-// shared rules it is read beside, and the kinds already in the catalogs that its texts name; so it is kept by those,
+// shared rules it is read beside, the source paths recorded in its semantic spans, and the kinds already in the
+// catalogs that its texts name; so it is kept by those,
 // in the process and wherever the process keeps its parses (ParseCache.store: on disk, or the browser's IndexedDB),
 // and a module installed again (the same adventure in another world, a country's site read again) is not read,
 // joined and shadowed again file by file (compile-once-plan.md step 1).
@@ -32,19 +32,21 @@ export class CompiledModules {
   }
   // Taken before the module's own files would be read: the kinds its texts name are those in the catalogs as its
   // first file would have been read among them (the kinds its files declare are its texts' own).
-  static key(edition: string, texts: readonly string[]): string {
+  static key(edition: string, texts: readonly string[], vocabulary: Vocabulary = Vocabularies,
+    at: { rules: readonly string[]; paths: readonly string[] } = { rules: [], paths: [] }): string {
     const all = texts.join('\u0001');
-    return `\u0003compiled\u0000${edition}\u0000${Vocabularies.seen(all)}\u0000${all}`;
+    const seen = [...texts, ...at.rules].map(text => Vocabularies.key(vocabulary, text)).join('\u0001');
+    return `\u0005compiled\u0000${edition}\u0000${JSON.stringify(at.paths)}\u0000${seen}\u0000${all}`;
   }
   // The module compiled before, its own kinds put back in the catalogs as reading it would have put them: a copy, or,
   // shared, the one kept, for a caller that writes nothing of it (ModuleBundle.loading, which copies only what it
   // changes: the company's size, the canon's entities given it; test/small/frozen-modules: AX-04).
-  static get(key: string, shared = false): Compiled | undefined {
+  static get(key: string, shared = false, vocabulary: Vocabulary = Vocabularies): Compiled | undefined {
     const known = this.kept.get(key), kept = known ?? ParseCache.store?.get(key) as unknown as Compiled | undefined;
     if (!kept?.module) { return undefined; }
     if (!known) { this.remember(key, kept); }
     Costs.note('compiled kept', 0, { bytes: key.length });
-    LocalKinds.read(kept.module.catalog);
+    vocabulary.install(kept.module.catalog);
     return shared ? kept : structuredClone(kept);
   }
   static set(key: string, compiled: Compiled) {

@@ -3,16 +3,18 @@ import { MechanicsText } from '../presentation/mechanics-text';
 import { SpellSchools } from '../presentation/spell-schools';
 import type { ArenaAbility } from '../lang/parse';
 import type { MemberRow } from './screen-types';
+import type { CatalogContext } from '../catalog-context';
 
 // A member's techniques and spells as the company's book shows them: what each does at their level, what it costs,
 // and what it needs in hand ("Set Spear" was listed for a ranger with a bow, and said nothing of a spear: the cold
 // evaluation, M17-73). A fight offers it only with such a weapon (see Battle).
 export class AbilityRows {
-  static of(m: { abilities?: string[]; attributes?: Record<string, number>; level: number }): MemberRow['abilities'] {
+  static of(m: { abilities?: string[]; attributes?: Record<string, number>; level: number },
+    vocabulary?: CatalogContext): MemberRow['abilities'] {
     return (m.abilities ?? []).map(id => Content.abilities.find(a => a.id === id)).filter(a => !!a)
       .map(a => ({ id: a.id, name: a.name, cost: a.cost ?? 0, price: MechanicsText.price(a),
         ...SpellSchools.field([a.id]),
-        text: [MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }), this.needs(a)]
+        text: [MechanicsText.full(a, { ...m.attributes, level: m.level, bonusSpellDC: 0 }, vocabulary), this.needs(a)]
           .filter(Boolean).join(' ') }));
   }
   private static needs(a: ArenaAbility): string {

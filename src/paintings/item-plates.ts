@@ -2,20 +2,24 @@ import { Canon } from '../canon/canon';
 import { CanonValidation } from '../canon/canon-validation';
 import { Likeness } from './likeness';
 import type { World } from '../lang/world';
+import type { CatalogContext } from '../catalog-context';
 
 // A thing by its kind's plate (the owner's sheets: gear, arms, armour, consumables, valuables, stones), where one is
 // cut: a stone found below by its stone's, a module's kind like another by that one's. What has none is told in words
 // alone.
 export class ItemPlates {
-  static of(world: World, item: string): ReturnType<typeof Likeness.portrait> | undefined {
+  static of(world: World, item: string, vocabulary?: CatalogContext):
+    ReturnType<typeof Likeness.portrait> | undefined {
     const kind = world.one('itemKind', item);
-    return kind ? ItemPlates.kind(kind) : undefined;
+    return kind ? ItemPlates.kind(kind, vocabulary) : undefined;
   }
   // A kind's plate, by the catalog's id for it (torch, ring_of_protection), a module's own kind by the kind it is.
   // A thing gathered from a plant with no plate of its own is drawn by its plant: forty-two of the fifty-four herbs and
   // simples gathered had been told in words alone in the pack (the owner's play of 10 November).
-  static kind(kind: string): ReturnType<typeof Likeness.portrait> | undefined {
-    const id = kind.replace(/^.*__/, ''), own = Canon.items[id]?.portrait;
+  static kind(kind: string, vocabulary?: CatalogContext): ReturnType<typeof Likeness.portrait> | undefined {
+    const id = kind.replace(/^.*__/, '');
+    const item = vocabulary ? vocabulary.itemDefinition(kind) ?? vocabulary.itemDefinition(id) : Canon.items[id];
+    const own = item?.portrait;
     const plate = own && CanonValidation.paintings.has(own) ? own : ItemPlates.grown.get(id);
     return plate && CanonValidation.paintings.has(plate) ? Likeness.portrait(plate) : undefined;
   }

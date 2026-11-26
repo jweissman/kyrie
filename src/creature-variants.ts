@@ -3,7 +3,7 @@ import variations from '../data/catalog/variations.json';
 import { Deem, type DeemValue } from 'deem';
 import { Canon } from './canon/canon';
 import type { Creature } from './model';
-import { Creation } from './rules/creation';
+import { Creation, type SpeciesBodies } from './rules/creation';
 import type { Defense } from './rules/defenses';
 import type { Effect } from './lang/parse';
 
@@ -67,10 +67,10 @@ export class CreatureVariants {
   static readonly variations = variations.variations as Record<string, Variation>;
   // A creature's variations, if they are known ones, fit its kind and type, and none shares an axis with another: why
   // not, else nothing.
-  static refused(ids: string[], species?: string): string | undefined {
+  static refused(ids: string[], species?: string, bodies: SpeciesBodies = Canon): string | undefined {
     const unknown = ids.find(id => !this.variations[id]);
     if (unknown) { return `no variation ${unknown}`; }
-    const of = species && Canon.isBody(species) ? Canon.creature(species) : undefined;
+    const of = species && bodies.isBody(species) ? bodies.creature(species) : undefined;
     const unfit = of && ids.find(id => { const v = this.variations[id]!;
       return !v.kinds.includes(of.kind ?? 'animal') || (v.types && !v.types.includes(of.type ?? '')); });
     if (unfit) { return `${this.variations[unfit]!.word || unfit} is not for ${Creation.a(species!)}`; }
@@ -110,10 +110,10 @@ export class CreatureVariants {
   // A kind with the variations given it that are stat blocks of their own (Hit Dice, defenses, a routine: see the
   // canon's Overlay) as one composed kind, golem/flesh, whose record says them; any other variation stays the
   // creature's own, as ever. Whether a variation is a stat block is what it says.
-  static body(raceId: string, ids: readonly string[] = []): string {
+  static body(raceId: string, ids: readonly string[] = [], bodies: SpeciesBodies = Canon): string {
     const own = new Set(raceId.split('/').slice(1));
     const stated = ids.filter(id => !own.has(id) && CreatureVariants.stated(id));
-    return stated.length && Canon.isBody(raceId) ? [raceId, ...stated].join('/') : raceId;
+    return stated.length && bodies.isBody(raceId) ? [raceId, ...stated].join('/') : raceId;
   }
   // What a creature is made with: its variations, and the template that makes it one of the dead.
   static borne(context: { variations?: string[]; template?: string }): string[] {
@@ -135,7 +135,8 @@ export class CreatureVariants {
     return `${article} ${words} ${bare}`;
   }
   // A creature as its context makes it: with its aspect, its template and its variations, which must be known ones.
-  static vary(creature: Creature, context: { aspect?: string; template?: string; variations?: string[] }): Creature {
+  static vary(creature: Creature, context: { aspect?: string; template?: string; variations?: string[] },
+    bodies: SpeciesBodies = Canon): Creature {
     if (context.aspect) {
       const aspect = this.aspect(context.aspect);
       if (!aspect) { throw new Error(`${creature.id}: no aspect ${context.aspect}`); }
@@ -146,7 +147,7 @@ export class CreatureVariants {
     }
     // Made of the dead: the template is one more of its variations, kept with it.
     const ids = [...new Set([...context.variations ?? [], ...context.template ? [context.template] : []])];
-    const refused = this.refused(ids, creature.raceId);
+    const refused = this.refused(ids, creature.raceId, bodies);
     if (refused) { throw new Error(`${creature.id}: ${refused}`); }
     // What it is, kept with it (saved and read again as it was made): its variations.
     if (ids.length) { creature.variations = [...ids]; }
@@ -154,7 +155,7 @@ export class CreatureVariants {
       this.apply(creature, { attributes: v.attributes ?? {}, abilities: v.abilities ?? [], traits: v.traits ?? [] });
       // Its health at each level, and what it has now with it; a fixed stat block (one with Hit Dice) is not grown by
       // the level it is met at, and takes it once.
-      const fixed = Canon.isBody(creature.raceId) && !!Canon.creature(creature.raceId).statistics?.hitDice;
+      const fixed = bodies.isBody(creature.raceId) && !!bodies.creature(creature.raceId).statistics?.hitDice;
       const more = (v.health ?? 0) * (fixed ? 1 : creature.base.level);
       creature.base.maxHp = Math.max(1, creature.base.maxHp + more);
       creature.state.hp = Math.max(1, Math.min(creature.base.maxHp, creature.state.hp + more));

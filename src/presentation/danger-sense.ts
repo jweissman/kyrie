@@ -12,13 +12,14 @@ import { FightOdds } from './fight-odds';
 import type { Campaign } from '../campaign/campaign';
 import type { Creature } from '../creature';
 import type { CombatEvent, Fighter, Moment } from '../model';
+import type { CatalogContext } from '../catalog-context';
 
 export type Danger = 'slight' | 'fair' | 'hard' | 'grave' | 'deadly';
 // mortal: the one who plays fell in a fight played out (OR-322: a fight that can end a life asks before it is begun).
 export interface Reckoning { danger: Danger; text: string; mortal?: boolean }
 
 // Where a fight is fought, and, for one already joined, how it opened.
-type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment };
+type Place = ReturnType<typeof Environment.encounter> & { moment?: Moment; vocabulary?: CatalogContext };
 
 // How a fight with a group would likely go, as the company reckons it before it starts: the fight played out a few
 // times from where everyone stands now, both sides fighting as the game's own tactics would. It decides nothing; it
@@ -41,12 +42,12 @@ export class DangerSense {
   static reckon(campaign: Campaign, group: string): Reckoning | undefined {
     const set = this.setup(campaign, group);
     if (!set) { return undefined; }
-    const { ours, foes, key, place } = set;
+    const { ours, foes, key, seed, place } = set;
     const reckoning = this.kept(key, () => {
-      const reckoning = this.judge(this.play(ours, foes, key, place), ours, foes);
+      const reckoning = this.judge(this.play(ours, foes, seed, place), ours, foes);
       return place.terms?.yields ? { ...reckoning, text: `${reckoning.text} ${DangerSense.bout}` } : reckoning;
     });
-    this.foreseen.set(this.lineup(ours, foes), reckoning);
+    this.foreseen.set(this.lineup(ours, foes, place.vocabulary), reckoning);
     if (this.foreseen.size > 200) { this.foreseen.delete(this.foreseen.keys().next().value!); }
     return reckoning;
   }
@@ -68,12 +69,12 @@ export class DangerSense {
   static advance(campaign: Campaign, group: string): boolean | 'reckon' | undefined {
     const set = this.setup(campaign, group);
     if (!set) { return false; }
-    const { ours, foes, key, place } = set, line = ours.length === 1 ? 0.75 : 0.6;
+    const { ours, foes, key, seed, place } = set, line = ours.length === 1 ? 0.75 : 0.6;
     const made = this.reckoned.get(key) ?? this.verdicts.get(key);
     if (made !== undefined) { return typeof made === 'boolean' ? made : DangerSense.grave.has(made.danger); }
     if (this.wholes.has(key)) { return 'reckon'; }
     const at = this.under.get(key) ?? { played: 0, won: 0, near: false };
-    const t = this.trial(ours, foes, `${key}:${at.played}`, place);
+    const t = this.trial(ours, foes, `${seed}:${at.played}`, place);
     const now = { played: at.played + 1, won: at.won + (t.won ? 1 : 0), near: at.near || (t.won && t.hurt > 0.6),
       ...at.all ? { all: at.all } : {} };
     if (now.played === this.trials) {
@@ -113,13 +114,15 @@ export class DangerSense {
     const together = !!actor && w.one('at', group) === w.one('at', actor);
     const dark = together ? Environment.dark(w, actor, read.partyIds) : {};
     // (The key seeds the trials: a fight in the light is keyed, and so reckoned, as it was before darkness counted.)
-    const key = JSON.stringify([group, ...dark.dark ? ['dark'] : [], ...[...ours, ...foes].map(c => [c.id, c.state.hp,
+    const seed = JSON.stringify([group, ...dark.dark ? ['dark'] : [], ...[...ours, ...foes].map(c => [c.id, c.state.hp,
       c.state.mana, LevelDrain.level(c), c.state.conditions.map(s => s.id),
       (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition), c.state.daily ?? {}])]);
     // A bout is reckoned as it will be fought, and said to be one: the odds of a sparring bout had read as a killing
     // (the Quiet in the Sky's QIS-04).
-    const place: Place = { ...Environment.encounter(campaign.world, campaign.playerActor, [], group), ...dark };
-    return { ours, foes, key, place };
+    const vocabulary = campaign.vocabulary, key = this.contextKey(seed, vocabulary);
+    const place: Place = { ...Environment.encounter(campaign.world, campaign.playerActor, [], group),
+      ...dark, vocabulary };
+    return { ours, foes, key, seed, place };
   }
   // What the company reckoned of a fight before it began, by who would be in it and how each stands: a fight joined
   // is reckoned as it was foreseen until something in it has changed (someone hurt, a spell spent). Each reckoning is
@@ -127,10 +130,13 @@ export class DangerSense {
   // reckons it is no match for you" over the attack on a great centipede, then, the fight begun and no blow struck,
   // "Traubon reckons you would likely beat it, but Sable could fall" (the fresh playtest of 7 November).
   private static readonly foreseen = new Map<string, Reckoning>();
-  private static lineup(ours: Creature[], foes: Creature[]): string {
-    return JSON.stringify([ours, foes].map(side => side.toSorted((a, b) => a.id.localeCompare(b.id))
+  private static contextKey(key: string, vocabulary?: CatalogContext): string {
+    return vocabulary ? JSON.stringify([key, vocabulary.fingerprint()]) : key;
+  }
+  private static lineup(ours: Creature[], foes: Creature[], vocabulary?: CatalogContext): string {
+    return this.contextKey(JSON.stringify([ours, foes].map(side => side.toSorted((a, b) => a.id.localeCompare(b.id))
       .map(c => [c.id, c.state.hp, c.state.mana, LevelDrain.level(c), (c.state.ready ?? []).flat().length,
-        (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition).sort()])));
+        (c.state.inventory ?? []).filter(i => i.equipped).map(i => i.definition).sort()]))), vocabulary);
   }
   static readonly bout = 'It is a bout, to the first fall: no one will be killed.';
   // A fight already joined, as it would go from where everyone stands: what the company reckons in the moment before
@@ -141,13 +147,13 @@ export class DangerSense {
   // opens: seen as it began, the company strikes first.
   static of(battle: Battle): Reckoning {
     const { ours, foes } = this.fighters(battle), standing = battle.state.combatants.filter(f => f.hp > 0);
-    const foreseen = this.foreseen.get(this.lineup(ours, foes));
+    const vocabulary = battle.vocabulary, foreseen = this.foreseen.get(this.lineup(ours, foes, vocabulary));
     if (foreseen) { return foreseen; }
     const moment = battle.opening;
-    const key = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
+    const seed = JSON.stringify(['joined', moment ?? '', ...standing.map(f => [f.id, f.hp, f.mana, f.level,
       f.statuses.map(s => s.id), f.equipment.weapon.name, f.equipment.armorAc])]);
-    return this.kept(key, () => this.judge(this.play(ours, foes, key, { laws: [], ...moment ? { moment } : {} }),
-      ours, foes));
+    return this.kept(this.contextKey(seed, vocabulary), () => this.judge(this.play(ours, foes, seed,
+      { laws: [], vocabulary, ...moment ? { moment } : {} }), ours, foes));
   }
   // Those still standing in a fight, each side, as the creatures they came into it as, less what they have spent.
   static fighters(battle: Battle): { ours: Creature[]; foes: Creature[] } {
@@ -156,7 +162,7 @@ export class DangerSense {
       foes: standing.filter(f => f.team !== 'fighters').map(f => this.back(battle, f)) };
   }
   private static back(battle: Battle, f: Fighter): Creature {
-    return CombatProjection.creature(f, battle.original(f.id));
+    return CombatProjection.creature(f, battle.original(f.id), battle.vocabulary);
   }
   private static kept(key: string, reckon: () => Reckoning): Reckoning {
     let reckoning = this.reckoned.get(key);
@@ -239,13 +245,13 @@ export class DangerSense {
   // One fight played out: whether the company won it, who of it fell, and how hurt it came out.
   private static trial(ours: Creature[], foes: Creature[], seed: string, place: Place): Trial {
     // (The store copies what it is given.)
-    const store = new CreatureStore([...ours, ...foes]);
+    const store = new CreatureStore([...ours, ...foes], place.vocabulary);
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...foes.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: FightOdds.turns, ...place,
       rehearsed: true });
     // Fought until nothing is left to do, which is when it has ended (its state read, never copied, a turn: view).
     for (let legal = battle.legalCommands(); legal.length; legal = battle.legalCommands()) {
-      battle.step(Tactics.choose(battle.view, battle.plain(legal)));
+      battle.step(Tactics.choose(battle.view, battle.plain(legal), battle.vocabulary));
     }
     const bite = this.blows(battle, new Set(ours.map(c => c.id)), new Set(foes.map(f => f.id)));
     // The last foe running off is the company's fight won, not lost (three rats with a flee in them, beaten in play,

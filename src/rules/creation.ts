@@ -1,7 +1,7 @@
 import { Canon } from '../canon/canon';
 import { Callings } from '../ports/callings';
 import { Abilities } from '../ports/abilities';
-import type { Attribute, CharacterClass, Proficiencies } from './catalog-schema';
+import type { Attribute, CharacterClass, Proficiencies, Species } from './catalog-schema';
 import { Fighting } from './fighting';
 import { Amounts } from './amounts';
 import { CanonRuntime } from '../canon/canon-runtime';
@@ -13,6 +13,7 @@ export interface Chassis {
   // A fixed stat block's Hit Dice (see Statistics.hitDice): its hit points, whatever level it is met at.
   hitDice?: string;
 }
+export interface SpeciesBodies { isBody(id: string): boolean; creature(id: string): Species }
 // Orsino's character creation (CharacterRecord and the pc template) and its NPC hit points, as rules over the canon.
 export class Creation {
   static readonly picks: Record<number, number> = { 1: 3, 2: 2, 3: 1 };
@@ -28,9 +29,9 @@ export class Creation {
   }
   // A person's chassis comes from its ancestry, its class and the class's features to its level; a species
   // creature's from its own statistics.
-  static chassis(raceId: string, classId?: string, level = 1): Chassis {
-    if (Canon.isBody(raceId)) {
-      const s = Canon.creature(raceId), st = s.statistics!;
+  static chassis(raceId: string, classId?: string, level = 1, bodies: SpeciesBodies = Canon): Chassis {
+    if (bodies.isBody(raceId)) {
+      const s = bodies.creature(raceId), st = s.statistics!;
       // A kind with Hit Dice is a fixed stat block: met at any level, its qualities and hit points are its own.
       const grow = st.growth && !st.hitDice ? Math.round(level / 8) : 0;
       return { hitDie: st.hitDie ?? 0, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],
@@ -94,8 +95,9 @@ export class Creation {
     return !(p.weights && !p.weights.includes(item.weight ?? ''));
   }
   // Inventory.isProficient for weapons and armour. A creature without a class (a species) is proficient by nature.
-  static canEquip(classId: string | undefined, itemKind: string): boolean {
-    const c = this.classOf(classId), item = Canon.items[itemKind];
+  static canEquip(classId: string | undefined, itemKind: string,
+    vocabulary?: import('../catalog-context').CatalogContext): boolean {
+    const c = this.classOf(classId), item = vocabulary ? vocabulary.itemDefinition(itemKind) : Canon.items[itemKind];
     if (!c || !item) { return true; }
     if (item.weapon && item.slot === 'weapon') { return this.proficient(c.proficiencies.weapons, item.weapon, 'kind'); }
     if (item.armor) { return this.proficient(c.proficiencies.armor, item.armor, 'type'); }

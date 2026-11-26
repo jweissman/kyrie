@@ -13,11 +13,11 @@ import type { Declared } from './module-source';
 import { DeclaredValues } from './declared-values';
 import { DeclarationShapes } from './declaration-shapes';
 import { ModuleMade, type Field } from './module-made';
-import { Vocabularies } from './vocabulary';
+import { Vocabularies, type Vocabulary } from './vocabulary';
 
 export interface Chunk { text: string; at: number }
 // A text matched: its module's id and name, and each declaration's field and text.
-export interface Parts { id: string; name: string; fields: Field[]; sources: string[] }
+export interface Parts { id: string; name: string; fields: Field[]; sources: string[]; starts: number[] }
 export class DeclarationParses {
   // Declarations that keep where they were written: their text is parsed whole.
   private static readonly placed = /^(Route|Promise|Occasion)\b/;
@@ -47,12 +47,13 @@ export class DeclarationParses {
   // rest matched together after the module's header (parts) and taken only where each part is exactly one
   // declaration; then the module made of them as a whole parse makes it (ModuleMade). None where the text does not
   // split so, or anything in it does not go so: the text is then parsed whole, and says what is wrong where it is.
-  static module(text: string, declared: readonly Declared[], parts: (text: string) => Parts | undefined)
+  static module(text: string, declared: readonly Declared[], parts: (text: string) => Parts | undefined,
+    vocabulary: Vocabulary = Vocabularies)
     : Module | undefined {
     const split = this.split(text);
     if (!split) { return undefined; }
     try {
-      const keys = split.chunks.map(c => `${Vocabularies.seen(c.text)}\u0000${c.text}`);
+      const keys = split.chunks.map(c => `${Vocabularies.key(vocabulary, c.text)}\u0000${c.text}`);
       const missing = keys.flatMap((k, i) => this.kept.has(k) ? [] : [i]);
       // Those not kept filled from their shapes, or matched together after the header (DeclarationShapes).
       let header: Parts | undefined;
@@ -62,7 +63,7 @@ export class DeclarationParses {
           return undefined;
         }
         header ??= read; return read.fields;
-      });
+      }, vocabulary);
       const read = header ?? parts(`${split.head}\n}`);
       if (!found || !read) { return undefined; }
       const made = new Map(missing.map((i, j) => [i, found[j]!]));
@@ -70,7 +71,7 @@ export class DeclarationParses {
       const fields = keys.map((k, i) => this.placedAt(made.get(i) ?? structuredClone(this.kept.get(k) as Field), text,
         split.chunks[i]!.at));
       return DeclaredValues.during(declared, () => ModuleMade.of({ id: read.id, name: read.name, fields,
-        starts: split.chunks.map(c => c.at) }, (i, run) => this.at(text, split.chunks[i]!.at, run)));
+        starts: split.chunks.map(c => c.at) }, (i, run) => this.at(text, split.chunks[i]!.at, run), vocabulary));
     } catch { return undefined; }
   }
   // A Situation keeps where it was written as its declaration's start (SemanticRecords.span): split, that is where
@@ -84,9 +85,10 @@ export class DeclarationParses {
     return field;
   }
   // An error in a declaration of a text split, said with the line and column it begins at in the text.
-  private static at<T>(text: string, start: number, run: () => T): T {
+  static at<T>(text: string, start: number, run: () => T): T {
     try { return run(); } catch (error) {
       const before = text.slice(0, start).split('\n'), message = error instanceof Error ? error.message : String(error);
+      if (/^Line \d+, col \d+: /.test(message)) { throw error; }
       throw new Error(`Line ${before.length}, col ${before.at(-1)!.length + 1}: ${message}`);
     }
   }

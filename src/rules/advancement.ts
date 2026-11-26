@@ -11,6 +11,7 @@ import { Creation } from './creation';
 import { Perks } from './perks';
 import type { CombatEvent } from '../model';
 import { PartyCapabilities } from '../campaign/party-capabilities';
+import type { CatalogContext } from '../catalog-context';
 
 interface Table {
   thresholds: number[]; species: Record<string, number>; ancestry: Record<string, number>; person: number;
@@ -27,11 +28,14 @@ export class Advancement {
     return level <= 1 ? 0 : t[level - 2] ?? Infinity;
   }
   // What defeating a creature is worth: its kind's value for each of its levels.
-  static worth(creature: Creature): number {
-    const own = Canon.isBody(creature.raceId) ? Canon.creature(creature.raceId).worth : undefined;
+  static worth(creature: Creature, vocabulary?: CatalogContext): number {
+    const body = vocabulary ? vocabulary.isBody(creature.raceId) : Canon.isBody(creature.raceId);
+    const species = body ? vocabulary ? vocabulary.creature(creature.raceId)
+      : Canon.creature(creature.raceId) : undefined;
+    const own = species?.worth;
     if (own) { return own.base + own.perLevel * creature.base.level; }
-    const each = Canon.isBody(creature.raceId)
-      ? this.table.species[Canon.creature(creature.raceId).type ?? ''] ?? this.table.species.monster!
+    const each = species
+      ? this.table.species[species.type ?? ''] ?? this.table.species.monster!
       : this.table.ancestry[creature.raceId] ?? this.table.person;
     return each * creature.base.level;
   }
@@ -126,13 +130,14 @@ export class Advancement {
   }
   // The skills a member could take up with a development: those their calling teaches (Callings.table()' `learns`)
   // that they do not already bring, by background, calling, gear or study.
-  static teachable(creature: Creature): string[] {
+  static teachable(creature: Creature, vocabulary?: CatalogContext): string[] {
     if (!creature.state.advances?.qualities || creature.state.hp === 0) { return []; }
-    return (Callings.of(creature.classId ?? '')?.learns ?? []).filter(id => !PartyCapabilities.brings(id, creature));
+    return (Callings.of(creature.classId ?? '')?.learns ?? [])
+      .filter(id => !PartyCapabilities.brings(id, creature, {}, vocabulary));
   }
   // Takes up a skill with a development: from then on the member brings it, as one trained in it.
-  static school(creature: Creature, skill: string) {
-    if (!this.teachable(creature).includes(skill)) { throw new Error(`${creature.id} cannot take up ${skill}`); }
+  static school(creature: Creature, skill: string, vocabulary?: CatalogContext) {
+    if (!this.teachable(creature, vocabulary).includes(skill)) { throw new Error(`${creature.id} cannot take up ${skill}`); }
     creature.state.skills = [...creature.state.skills ?? [], skill];
     creature.state.advances!.qualities--;
   }

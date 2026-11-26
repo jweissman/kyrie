@@ -3,6 +3,7 @@ import { EntityIndex } from '../lang/entity-index';
 import { Canon } from '../canon/canon';
 import { WorldGrid } from './world-grid';
 import { WorldShape } from './world-shape';
+import type { CatalogContext } from '../catalog-context';
 
 // Where a thing points (see ItemKind.points): the canon's identity, what it is called, and where the world builds it,
 // as the place a module seated it in once that place is in the world, and the cell of the grid whose country it is
@@ -29,8 +30,9 @@ export class Seats {
   }
   // Where a kind of thing points in this world, if it points anywhere: its identity, and the place and country the
   // world builds it in.
-  static pointed(world: World, kind: string): Pointing | undefined {
-    const identity = Canon.items[Canon.resolve('items', kind)]?.points;
+  static pointed(world: World, kind: string, vocabulary?: CatalogContext): Pointing | undefined {
+    const item = vocabulary ? vocabulary.itemDefinition(kind) : Canon.items[Canon.resolve('items', kind)];
+    const identity = item?.points;
     if (!identity) { return undefined; }
     const byId = EntityIndex.of(world.module.entities).byId, place = this.place(world, identity);
     const cell = (place && this.cell(world, place)) ?? WorldShape.seat(identity);
@@ -38,8 +40,8 @@ export class Seats {
   }
   // What the thing says of it, from where the company stands: "It points north, toward Dun Rìerdan." Where the
   // company is in the city's country, it points there; in the city, it is still.
-  static line(world: World, kind: string, at = world.one('at', 'party')): string | undefined {
-    const p = this.pointed(world, kind);
+  static line(world: World, kind: string, at = world.one('at', 'party'), vocabulary?: CatalogContext): string | undefined {
+    const p = this.pointed(world, kind, vocabulary);
     if (!p) { return undefined; }
     const here = at && this.cell(world, at);
     if (p.place && at && this.within(world, at, p.place)) { return `It is still: ${p.name} is here.`; }

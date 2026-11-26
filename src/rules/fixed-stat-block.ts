@@ -1,5 +1,8 @@
 import { Canon } from '../canon/canon';
 import { FantasyRules } from '../fantasy-rules';
+import type { Fighter } from '../model';
+import type { Statistics } from './catalog-schema';
+import { FighterBody } from './fighter-body';
 
 // A fixed stat block's saves and the bonus its blows are struck at (Statistics.saves, attackBonus: proof-slices.md,
 // step 2), as Westernesse rolls them. A save is a d20, the modifier of the score its kind reads, the level, and its
@@ -17,24 +20,30 @@ export class FixedStatBlock {
   private static readonly blocks = new Map<string, Block | undefined>();
   static of(raceId: string): Block | undefined {
     if (!this.blocks.has(raceId)) {
-      const st = Canon.isBody(raceId) ? Canon.creature(raceId).statistics : undefined;
-      const fixed = st?.hitDice && (st.saves || st.attackBonus !== undefined);
-      this.blocks.set(raceId, fixed ? { ...st.saves ? { saves: st.saves } : {},
-        ...st.attackBonus !== undefined ? { attackBonus: st.attackBonus } : {} } : undefined);
+      this.blocks.set(raceId, this.read(raceId));
     }
     return this.blocks.get(raceId);
   }
-  private static fixed(f: { raceId: string; classId?: string }): Block | undefined {
-    return f.classId ? undefined : this.of(f.raceId);
+  private static read(raceId: string): Block | undefined {
+    return this.block(Canon.isBody(raceId) ? Canon.creature(raceId).statistics : undefined);
+  }
+  private static block(st?: Statistics): Block | undefined {
+    const fixed = st?.hitDice && (st.saves || st.attackBonus !== undefined);
+    return fixed ? { ...st.saves ? { saves: st.saves } : {},
+      ...st.attackBonus !== undefined ? { attackBonus: st.attackBonus } : {} } : undefined;
+  }
+  private static fixed(f: { raceId: string; classId?: string; body?: Fighter['body'] }): Block | undefined {
+    return f.classId ? undefined : 'body' in f ? this.block(FighterBody.of(f)?.statistics) : this.of(f.raceId);
   }
   // The bonus to a save of this kind that makes it the block's: none for a creature of a calling, or of a kind without.
-  static save(f: { raceId: string; classId?: string; level: number }, kind: string, scores: Record<string, number>) {
+  static save(f: { raceId: string; classId?: string; level: number; body?: Fighter['body'] },
+    kind: string, scores: Record<string, number>) {
     const block = this.fixed(f)?.saves, attribute = Canon.rules.saveKinds[kind];
     if (!block || !attribute) { return 0; }
     return block[this.families[attribute]!] - FantasyRules.statMod(scores[attribute]!) - f.level;
   }
   // A blow's to-hit from the block's bonus, in place of its score's modifier; undefined for any other creature.
-  static toHit(f: { raceId: string; classId?: string; level: number }): number | undefined {
+  static toHit(f: { raceId: string; classId?: string; level: number; body?: Fighter['body'] }): number | undefined {
     const bonus = this.fixed(f)?.attackBonus;
     return bonus === undefined ? undefined : bonus - 1 - Math.floor(f.level / 2);
   }

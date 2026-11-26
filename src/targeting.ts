@@ -1,6 +1,7 @@
 import type { Fighter } from './model';
 import type { ArenaAbility, Target } from './lang/parse';
 import { Effects } from './effects';
+import { FighterBody } from './rules/fighter-body';
 import { Canon } from './canon/canon';
 
 export class Targeting {
@@ -43,7 +44,7 @@ export class Targeting {
   // had fallen on none, srd-proving-cases.md case 48).
   static bears(f: Fighter, trait: string): boolean {
     if (f.traits?.includes(trait)) { return true; }
-    const body = Canon.isBody(f.raceId) ? Canon.creature(f.raceId) : undefined;
+    const body = FighterBody.of(f, Canon);
     return !!body && (body.kind === trait || body.type === trait);
   }
   static selected(target: Target): boolean { return ['enemy', 'ally', 'dead ally'].includes(target); }

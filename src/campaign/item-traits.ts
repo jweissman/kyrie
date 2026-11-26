@@ -1,3 +1,4 @@
+import { Vocabularies, type Vocabulary } from '../lang/vocabulary';
 import { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Module } from '../lang/module';
@@ -8,19 +9,31 @@ import type { Module } from '../lang/module';
 // A kind the module only gives later (`Give antidote to actor.`) is one of its kinds too: the undertown's antidote for
 // the spiders' bite had been no remedy, never offered for the companion it was given for (review A's T91: T24-17).
 export class ItemTraits {
-  static assert(module: Module) {
+  static assert(module: Module, vocabulary: Vocabulary = Vocabularies) {
     const kinds = new Set([...module.initial.filter(c => c.kind === 'assert' && c.call.name === 'itemKind')
-      .map(c => c.call.args[1]!), ...module.entities.filter(e => e.type === 'itemkind' && ItemCatalog.definitions[e.id])
+      .map(c => c.call.args[1]!), ...module.entities.filter(e => e.type === 'itemkind' && this.traits(vocabulary, e.id))
       .map(e => e.id)]);
-    for (const kind of kinds) {
-      const definition = ItemCatalog.get(kind);
-      const fuel = [...kinds].some(k => ItemCatalog.get(k).fuel === kind);
+    const definitions = new Map([...kinds].map(id => [id, this.definition(vocabulary, id)]));
+    const fuels = new Set([...definitions.values()].map(item => item.fuel));
+    for (const [kind, definition] of definitions) {
+      const fuel = fuels.has(kind);
+      const use = typeof definition.use === 'string' ? definition.use : '';
       for (const name of [...(definition.slot ? ['wearable'] : []), ...(definition.use ? ['consumable'] : []),
-        ...(/^Apply (torchlit|candlelit) to self/.test(definition.use ?? '') ? ['lightsUp'] : []), ...fuel ? ['fuel'] : []]) {
+        ...(/^Apply (torchlit|candlelit) to self/.test(use) ? ['lightsUp'] : []), ...fuel ? ['fuel'] : []]) {
         this.trait(module, name, kind);
       }
       if (definition.fuel && kinds.has(definition.fuel)) { this.trait(module, 'burns', kind, definition.fuel); }
     }
+  }
+  private static traits(vocabulary: Vocabulary, id: string) {
+    if (vocabulary.itemTraits) { return vocabulary.itemTraits(id); }
+    if (vocabulary === Vocabularies) { return ItemCatalog.definitions[id]; }
+    throw new Error('An explicit vocabulary used for composition must provide itemTraits');
+  }
+  private static definition(vocabulary: Vocabulary, id: string) {
+    const definition = this.traits(vocabulary, id);
+    if (!definition) { throw new Error(`Unknown item definition ${id}`); }
+    return definition;
   }
   private static trait(module: Module, name: string, ...args: string[]) {
     if (module.relations.some(r => r.name === name) && !module.initial.some(c => c.kind === 'assert'

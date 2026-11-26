@@ -25,7 +25,9 @@ interface Shape { named: Map<string, Set<string>>; needing: Set<string> }
 export class SkillReading {
   // Kept for the world it was read in: the same world object until the next command changes it (its content key, which
   // sorts every fact, cost a screen tens of milliseconds).
-  static readonly cache = new WeakMap<Campaign, { world: object; uses: Map<string, string[]>; wanting: Wanting[] }>();
+  static readonly cache = new WeakMap<Campaign, {
+    world: object; vocabulary?: string; uses: Map<string, string[]>; wanting: Wanting[];
+  }>();
   // The skills a schema names outright (capable(actor, lore)), and the schemas that ask for whatever a thing or a
   // way needs (equippedFor, meets): a change that needs lockwork, a way that needs climbing.
   private static calls(p: Predicate | undefined, out: Call[] = []): Call[] {
@@ -79,8 +81,8 @@ export class SkillReading {
   }
   static read(campaign: Campaign): { uses: Map<string, string[]>; wanting: Wanting[] } {
     const world = campaign.world, actor = campaign.playerActor;
-    const key = world, hit = this.cache.get(campaign);
-    if (hit?.world === key) { return hit; }
+    const key = world, hit = this.cache.get(campaign), vocabulary = campaign.vocabulary?.fingerprint();
+    if (hit?.world === key && hit.vocabulary === vocabulary) { return hit; }
     const uses = new Map<string, string[]>(), wanting: Wanting[] = [];
     if (!actor) { return { uses, wanting }; }
     const { named, needing } = this.shape(campaign);
@@ -93,7 +95,8 @@ export class SkillReading {
         ...(needing.has(schema) || schema === 'go'
           ? needs.filter(r => bound.includes(r.args[0]!)).map(r => r.args[1]!) : [])]
         .filter(s => this.has(campaign, actor, s));
-      const by = [...new Set(skills.flatMap(s => PartyCapabilities.providers(s, creatures).map(c => c.name)))];
+      const by = [...new Set(skills.flatMap(s =>
+        PartyCapabilities.providers(s, creatures, {}, campaign.vocabulary).map(c => c.name)))];
       if (by.length) { uses.set(op.id, by); }
     }
     // What a skill nobody has would open here: the schemas that could ask for it, in a world where the company has it.
@@ -104,7 +107,7 @@ export class SkillReading {
       .map(skill => ({ skill, only: new Set([...named.get(skill.id) ?? [],
         ...nearNeeds.some(r => r.args[1] === skill.id) ? needing : []]) })), ...this.things(campaign, actor, nearNeeds)
       .map(skill => ({ skill, only: needing }))].filter(l => l.only.size);
-    if (!lacking.length) { return this.keep(campaign, { world: key, uses, wanting }); }
+    if (!lacking.length) { return this.keep(campaign, { world: key, vocabulary, uses, wanting }); }
     // Grounded once, as if the company had every skill it lacks; each choice that opens is kept for the one skill
     // that opens it alone.
     const all = world.apply(lacking.map(l => ({ kind: 'assert' as const,
@@ -125,7 +128,7 @@ export class SkillReading {
     // One choice wanting a skill or a thing is told once, by the first that opens it (the skill, with the thing as
     // what else would do).
     const once = wanting.filter((w, i) => wanting.findIndex(x => x.choice.id === w.choice.id) === i);
-    return this.keep(campaign, { world: key, uses, wanting: once });
+    return this.keep(campaign, { world: key, vocabulary, uses, wanting: once });
   }
   // The kinds of thing what is here needs that nobody in the company is carrying, as one of each (a ten-foot pole).
   private static things(campaign: Campaign, actor: string, near: readonly { args: readonly string[] }[]) {
@@ -135,7 +138,8 @@ export class SkillReading {
       .map(k => ({ id: k, name: this.called(campaign, k), thing: true }));
   }
   private static called(campaign: Campaign, k: string): string {
-    return ItemNames.called(Canon.items[k]?.name ?? campaign.module.entities.find(e => e.id === k)?.name
+    const item = campaign.vocabulary ? campaign.vocabulary.itemDefinition(k) : Canon.items[k];
+    return ItemNames.called(item?.name ?? campaign.module.entities.find(e => e.id === k)?.name
       ?? k.replace(/_/g, ' '));
   }
   // What else a choice's thing or way would take, besides a skill: the kinds of thing that would do.
@@ -146,7 +150,8 @@ export class SkillReading {
     return [...new Set(needs.filter(r => bound.includes(r.args[0]!) && !skills.has(r.args[1]!)).map(r => r.args[1]!))]
       .map(k => this.called(campaign, k));
   }
-  private static keep(campaign: Campaign, read: { world: object; uses: Map<string, string[]>; wanting: Wanting[] }) {
+  private static keep(campaign: Campaign,
+    read: { world: object; vocabulary?: string; uses: Map<string, string[]>; wanting: Wanting[] }) {
     this.cache.set(campaign, read);
     return read;
   }

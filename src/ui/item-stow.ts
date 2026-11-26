@@ -2,16 +2,18 @@ import type { Creature, ItemInstance } from '../creature';
 import { Canon } from '../canon/canon';
 import { Overlays } from '../overlays';
 import { ItemCatalog } from '../item-catalog';
+import type { CatalogContext } from '../catalog-context';
 
 // Where a thing is kept, for the pack to part what is worn or in hand from the supplies a journey uses up and from
 // everything else carried (the owner, 9 November: everything carried and worn shown alike); and, for what was packed
 // at the start, where it came from: the calling's kit, or the life before (Overlays gives each its own id); and the
 // slot it is worn in.
 export class ItemStow {
-  static of(c: Creature, i: ItemInstance, light: boolean):
+  static of(c: Creature, i: ItemInstance, light: boolean, vocabulary?: CatalogContext):
     { stow: 'worn' | 'supplies' | 'carried'; packed?: string; slot?: string } {
-    const slot = ItemCatalog.get(i.definition).slot;
-    const stow = i.equipped ? 'worn' : Canon.items[i.definition]?.category === 'consumable' || light || this.supplies.has(i.definition)
+    const slot = ItemCatalog.get(i.definition, vocabulary).slot;
+    const item = vocabulary ? vocabulary.itemDefinition(i.definition) : Canon.items[i.definition];
+    const stow = i.equipped ? 'worn' : item?.category === 'consumable' || light || this.supplies.has(i.definition)
       ? 'supplies' : 'carried';
     const packed = i.id === Overlays.gearId(c.id, i.definition) ? this.packed(c, i.definition) : undefined;
     return { stow, ...packed ? { packed } : {}, ...slot ? { slot } : {} };

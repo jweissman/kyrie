@@ -19,7 +19,7 @@ describe('the kinds a campaign declares for itself', () => {
     await PlaySession.start('test/fixtures/probes/ordinary/ordinary.campaign.json', 'second', source);
     // The first game's ox is still a kind of thing to it, and it can be taken up.
     first.campaign.world.test({ kind: 'boolean', value: true });
-    expect(ItemCatalog.definitions.dreg_ox).toBeDefined();
+    expect(first.campaign.vocabulary?.itemDefinition('dreg_ox')).toBeDefined();
     const event = await first.perform(take);
     expect(event.result).toBe('success');
   });
@@ -29,7 +29,8 @@ describe('the kinds a campaign declares for itself', () => {
     await PlaySession.start(players, 'again', source);
     await PlaySession.start(city, 'again', source);
     const again = await PlaySession.start(players, 'again', source);
-    expect(Canon.isSpecies('players__dancing_bear') || Canon.isSpecies('dancing_bear')).toBe(true);
+    expect(again.campaign.vocabulary?.speciesDefinition('players__dancing_bear')
+      ?? again.campaign.vocabulary?.speciesDefinition('dancing_bear')).toBeDefined();
     expect(again.campaign.running).toBe(true);
   }, 60000);
   it('take nothing of the catalog\'s when one is refused', () => {
@@ -55,7 +56,7 @@ describe('the kinds a campaign declares for itself', () => {
     party: [{ name: 'A', raceId: 'human', classId: 'warrior' }] });
     const overlay = new OverlayBundleSource(source, files);
     const two = await PlaySession.start(overlay.resolve('isolation/two.campaign.json'), 'two', overlay);
-    const worths = Object.entries(Canon.items).filter(([id]) => id.endsWith('isolation_coin'))
+    const worths = Object.entries(two.campaign.vocabulary!.itemDefinitions()).filter(([id]) => id.endsWith('isolation_coin'))
       .map(([id, kind]) => [id === 'isolation_coin', kind.value]);
     expect(two.campaign.running).toBe(true);
     expect(worths.sort()).toEqual([[false, 99], [true, 2]]);

@@ -8,6 +8,7 @@ import { Quarry } from './quarry';
 import { Expressions } from './expressions';
 import type { Amount, ArenaAbility } from './lang/parse';
 import { Positions } from './rules/positions';
+import type { CatalogContext } from './catalog-context';
 
 // The automatic controller's choice: score each legal command, take the best. Ties are broken explicitly, never by
 // catalog order: first by the position of the ability in the actor's own ability list (its weapon attack last), then by
@@ -50,11 +51,12 @@ export class Tactics {
     return amount.kind === 'literal' ? amount : { kind: 'deem', expression:
       amount.expression.replace(/(\d*)d(\d+)/g, (_, n: string, d: string) => `(${Number(n || 1) * Number(d)})`) };
   }
-  static score(state: BattleState, command: Command): number {
+  static score(state: BattleState, command: Command, vocabulary?: CatalogContext): number {
     const actor = state.combatants.find(f => f.id === command.actor)!;
     const target = state.combatants.find(f => f.id === command.target)!;
     // A thing carried to use up is scored as what using it does (see ItemCatalog.use).
-    const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability)!;
+    const ability = Content.abilities.find(a => a.id === command.ability)
+      ?? ItemCatalog.used(command.ability, vocabulary)!;
     const area = Positions.area(ability);
     const caught = area ? Positions.caught(actor, command.target, area, state.combatants) : undefined;
     const ours = caught?.filter(f => f.team === actor.team) ?? [], friends = ours.length;
@@ -69,7 +71,7 @@ export class Tactics {
           // The company finishes whoever is nearest falling; a foe goes for whom its kind would (see Quarry), and a
           // blow at all of them (a turret's volley) falls on that one too.
           score += actor.team === 'fighters' ? Math.max(0, 8 - target.hp)
-            : all || Quarry.of(state, actor) === target.id ? 8 : 0;
+            : all || Quarry.of(state, actor, vocabulary) === target.id ? 8 : 0;
           const type = effect.kind === 'attack' ? actor.equipment?.weapon?.type ?? 'bludgeoning'
             : effect.kind === 'damage' ? effect.damageType : effect.damageType ?? 'necrotic';
           score -= Tactics.blunted(Tactics.resistance(target, type));
@@ -89,7 +91,8 @@ export class Tactics {
             score += 6; kept ||= effect.target === 'self';
           }
           // A foe's own power (a ghoul's touch) falls on whom its kind goes for, as its blows do.
-          if (actor.team !== 'fighters' && target.team !== actor.team && Quarry.of(state, actor) === target.id) { score += 8; }
+          if (actor.team !== 'fighters' && target.team !== actor.team
+            && Quarry.of(state, actor, vocabulary) === target.id) { score += 8; }
           break;
         default: break;
       }
@@ -139,7 +142,7 @@ export class Tactics {
     return power?.spell && power.effects.some(e => ['damage', 'drain'].includes(e.kind)
       || (e.kind === 'apply' && Effects.skips(e.status))) ? 12 : 0;
   }
-  static choose(state: BattleState, all: Command[]): Command {
+  static choose(state: BattleState, all: Command[], vocabulary?: CatalogContext): Command {
     const actor = state.combatants.find(f => f.id === state.actor)!;
     // A device does what it was made to do whenever it can (a bomb's fuse, a ward's silence), as Orsino's do; it has
     // no judgement to weigh a blow against it.
@@ -151,7 +154,7 @@ export class Tactics {
     // A creature's own powers (a ghoul's paralysing touch, a vampire's charm) are what makes it what it is: used when
     // they are ready, before a plain blow; their rest keeps them from every turn (see AbilityUse).
     const ranked = legal.map(command => ({ command,
-      score: Tactics.score(state, command) + Tactics.own(actor, command) }))
+      score: Tactics.score(state, command, vocabulary) + Tactics.own(actor, command) }))
       .sort((a, b) => b.score - a.score || Tactics.rank(order, a.command) - Tactics.rank(order, b.command)
         || Tactics.order(a.command.target, b.command.target));
     if (!ranked[0]) { throw new Error('No legal tactical command'); }

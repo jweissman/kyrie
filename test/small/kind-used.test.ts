@@ -3,6 +3,8 @@ import { Tiny } from '../support/tiny';
 import { SceneModel } from '../../src/ui/scene';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { Canon } from '../../src/canon/canon';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
+import { LocalKinds } from '../../src/canon/local-catalog';
 import { PlayerView } from '../../src/presentation/player-view';
 import type { CreatureStore } from '../../src/creature-store';
 
@@ -24,11 +26,21 @@ const names = (t: Tiny) => PlayerView.choices(t.campaign).map(r => r.choice.name
 const carried = (t: Tiny) => (hp(t).inventory ?? []).filter(i => i.definition === 'day_tonic').length;
 
 describe('a kind of the module\'s own, used', () => {
+  it('requires a use for a consumable unless it inherits one or an unsupported use', () => {
+    const vocabulary = CanonVocabulary.scoped(), capabilities = new Set<string>();
+    expect(() => vocabulary.item('test', { id: 'inert', name: 'inert',
+      base: { category: 'consumable' } }, capabilities)).toThrow('a consumable needs a use');
+    expect(vocabulary.item('test', { id: 'inherited', name: 'inherited', base: { like: 'ale' } }, capabilities).use)
+      .toBe(Canon.items.ale!.use);
+    expect(vocabulary.item('test', { id: 'unsupported', name: 'unsupported',
+      base: { like: 'scroll_of_shapechange' } }, capabilities).unsupported?.use).toBeTruthy();
+  });
   it('is declared with its use, and no catalogue file names it', async () => {
-    await Tiny.start(yard());
-    expect([Canon.items.day_tonic?.category, Canon.items.day_tonic?.use, Canon.items.day_tonic?.value])
+    const t = await Tiny.start(yard());
+    const tonic = t.campaign.vocabulary?.itemDefinition('day_tonic');
+    expect([tonic?.category, tonic?.use, tonic?.value])
       .toEqual(['consumable', 'Heal (2d4) health to ally.', 3]);
-    expect(Canon.items.day_tonic?.source).toEqual({ kyr: true, notes: 'Declared by the module t.' });
+    expect(tonic?.source).toEqual({ kyr: true, notes: 'Declared by the module t.' });
   });
 
   it('is used on one who is hurt, mends them by its dice, and is used up', async () => {
@@ -51,6 +63,19 @@ describe('a kind of the module\'s own, used', () => {
     expect(healed).toBeGreaterThanOrEqual(2);
     expect(healed).toBeLessThanOrEqual(8);
     expect(carried(t)).toBe(0);
+  });
+
+  it('keeps tending from the screen catalog when another campaign becomes active', async () => {
+    const t = await Tiny.start(yard());
+    await t.play('Take'); hurt(t, 6); await t.play('Wait a while');
+    const screen = ScreenModel.build(t.campaign);
+    const other = LocalKinds.item('other', { id: 'day_tonic', name: 'fire',
+      base: { category: 'consumable' }, use: 'Deal (1d6) fire damage to enemy.' });
+    LocalKinds.activate({ items: { day_tonic: other } });
+    try {
+      expect(SceneModel.build(screen).you.find(c => c.id.startsWith('mend:'))?.label)
+        .toBe('Tend Ama: use a day tonic');
+    } finally { LocalKinds.reset(); }
   });
 
   it('refuses at once an effect the language does not read, or a use on what is not used up', async () => {

@@ -3,9 +3,10 @@ import { ItemCatalog } from './item-catalog';
 import { LevelDrain } from './rules/level-drain';
 import type { Creature } from './creature';
 import type { BattleState, EncounterParticipant, Fighter, Team } from './model';
+import type { CatalogContext } from './catalog-context';
 
 export class CombatProjection {
-  static creature(fighter: Fighter, original?: Creature): Creature {
+  static creature(fighter: Fighter, original?: Creature, vocabulary?: CatalogContext): Creature {
     const companion = fighter.companion ?? original?.state.companion;
     return { ...(original?.generation ? { generation: structuredClone(original.generation) } : {}),
       ...(original?.professionId ? { professionId: original.professionId } : {}),
@@ -27,7 +28,7 @@ export class CombatProjection {
         ...(fighter.prepared
           ? { prepared: structuredClone(fighter.prepared), ready: structuredClone(fighter.ready ?? []) } : {}),
         learnedAbilities: fighter.abilities.filter(id => !(original?.base.abilities ?? fighter.abilities).includes(id)
-          && !(original && ItemCatalog.abilities(original)[id]
+          && !(original && ItemCatalog.abilities(original, vocabulary)[id]
             && !original.state.learnedAbilities.includes(id)) && !fighter.stock?.[id]),
         conditions: structuredClone(fighter.statuses),
         // What it used up in the fight is gone from its pack; a wand used and not spent keeps the charges it has left.
@@ -45,24 +46,28 @@ export class CombatProjection {
   // Every creature as a fight told after it names them, each on its own side: the company's as fighters, and the rest
   // as what they were fought as. Each creature had been drawn as of the company, and a foe's hit points told as it fell
   // ("takes 6 slashing damage (0 HP left)"), where a foe's are never told (the owner, 7 November).
-  static told(creatures: readonly Creature[], party: readonly string[], called?: ReadonlyMap<string, string>):
+  static told(creatures: readonly Creature[], party: readonly string[], called?: ReadonlyMap<string, string>,
+    vocabulary?: CatalogContext):
     BattleState {
     const ours = new Set(party);
-    return { combatants: creatures.map(c => ({ ...this.fighter(c, ours.has(c.id) ? 'fighters' : 'goblins'),
+    return { combatants: creatures.map(c => ({ ...this.fighter(c, ours.has(c.id) ? 'fighters' : 'goblins', vocabulary),
       ...called?.get(c.id) ? { name: called.get(c.id)! } : {} })), turn: 0, actor: '', outcome: null };
   }
   // One of the company carries into a fight what it can use up there (see ItemCatalog.stock), each kind an ability
   // whose source is the first of that kind it has not used.
   // One drained of levels fights at the level it stands at (see LevelDrain).
-  static fighter(creature: Creature, team: Team): Fighter {
-    const fighter = CombatProjection.made(creature, team), drained = LevelDrain.levels(creature.state.conditions);
-    if (drained) { LevelDrain.lower(fighter, drained); }
+  static fighter(creature: Creature, team: Team, vocabulary?: CatalogContext): Fighter {
+    const fighter = CombatProjection.made(creature, team, vocabulary);
+    const drained = LevelDrain.levels(creature.state.conditions);
+    if (drained) { LevelDrain.lower(fighter, drained, vocabulary); }
     return fighter;
   }
-  private static made(creature: Creature, team: Team): Fighter {
-    const stock = team === 'fighters' ? ItemCatalog.stock(creature) : {}, sources = { ...ItemCatalog.abilities(creature),
+  private static made(creature: Creature, team: Team, vocabulary?: CatalogContext): Fighter {
+    const stock = team === 'fighters' ? ItemCatalog.stock(creature, vocabulary) : {};
+    const body = vocabulary?.isBody(creature.raceId) ? vocabulary.creature(creature.raceId) : undefined;
+    const sources = { ...ItemCatalog.abilities(creature, vocabulary),
       ...Object.fromEntries(Object.entries(stock).map(([id, [first]]) => [id,
-        { id: first!, kind: 'item' as const, name: ItemCatalog.used(id)!.name }])) };
+        { id: first!, kind: 'item' as const, name: ItemCatalog.used(id, vocabulary)!.name }])) };
     return { id: creature.id, name: creature.name, raceId: creature.raceId,
       ...creature.classId ? { classId: creature.classId } : {},
       ...structuredClone(creature.base), hp: creature.state.hp, mana: creature.state.mana,
@@ -73,21 +78,26 @@ export class CombatProjection {
       abilities: [...new Set([...creature.base.abilities, ...creature.state.learnedAbilities,
         ...Object.keys(sources)])],
       ...(Object.keys(sources).length ? { abilitySources: sources } : {}),
-      ...(Object.keys(stock).length ? { stock } : {}), ...CombatProjection.charges(creature, stock),
-      statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature),
+      ...(Object.keys(stock).length ? { stock } : {}), ...CombatProjection.charges(creature, stock, vocabulary),
+      statuses: structuredClone(creature.state.conditions), equipment: ItemCatalog.equipment(creature, vocabulary),
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
       ...(creature.variations ? { variations: [...creature.variations] } : {}),
       // A creature of a kind with no calling: its kind's powers are its own, spells among them cast without slots.
-      ...(Canon.isBody(creature.raceId) && !creature.classId ? { innate: [...creature.base.abilities] } : {}),
+      ...((vocabulary ? vocabulary.isBody(creature.raceId) : Canon.isBody(creature.raceId)) && !creature.classId
+        ? { innate: [...creature.base.abilities] } : {}),
       ...creature.state.daily ? { daily: structuredClone(creature.state.daily) } : {},
       ...creature.state.companion ? { companion: { ...creature.state.companion } } : {},
+      ...vocabulary ? { body: body ? { species: vocabulary.isSpecies(creature.raceId),
+        kind: body.kind, type: body.type, defenses: body.defenses,
+        statistics: body.statistics } : null } : {},
       team, cooldowns: {} };
   }
   // The uses left in each charged thing it carries into the fight (a wand): its own count, or its kind's when new.
-  static charges(creature: Creature, stock: Record<string, string[]>): { charges?: Record<string, number> } {
+  static charges(creature: Creature, stock: Record<string, string[]>, vocabulary?: CatalogContext):
+    { charges?: Record<string, number> } {
     const carried = new Set(Object.values(stock).flat()), charges = Object.fromEntries((creature.state.inventory ?? [])
-      .filter(i => carried.has(i.id) && ItemCatalog.get(i.definition).charges)
-      .map(i => [i.id, i.charges ?? ItemCatalog.get(i.definition).charges!]));
+      .filter(i => carried.has(i.id) && ItemCatalog.get(i.definition, vocabulary).charges)
+      .map(i => [i.id, i.charges ?? ItemCatalog.get(i.definition, vocabulary).charges!]));
     return Object.keys(charges).length ? { charges } : {};
   }
   // One charge used of a charged thing: whether any are left in it.

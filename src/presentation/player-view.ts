@@ -78,7 +78,8 @@ export interface PlayerSnapshot {
 }
 export interface ChronicleEntry { at: number; kind: 'player' | 'npc' | 'world' | 'observation' | 'discovery' | 'event'; text: string; detail: string[] }
 // What the company perceives of one world, kept with what it was worked out of (see PlayerView.observe).
-interface Observed { campaign: Campaign; key: string; store: object; version: number; last?: CampaignEvent;
+interface Observed { campaign: Campaign; key: string; store: object; version: number; vocabulary?: string;
+  last?: CampaignEvent;
   snapshot?: PlayerSnapshot; chronicle?: readonly ChronicleEntry[] }
 
 // Player-safe projection of an omniscient campaign. Kyr has no declared observability, so this applies one
@@ -224,14 +225,14 @@ export class PlayerView {
   }
   private static kept(campaign: Campaign): Observed {
     const world = campaign.world, kept = this.observed.get(world), store = campaign.tickState.creatures;
-    const read = campaign.readout, last = campaign.history.at(-1);
+    const read = campaign.readout, last = campaign.history.at(-1), vocabulary = campaign.vocabulary?.fingerprint();
     // And the aim followed, which the player changes without changing the world: kept from before Follow this, the
     // snapshot had said nothing was followed, and an aim seen through was not known to have been (PL-06).
     const key = `${read.elapsed}:${read.minutes ?? 0}:${campaign.history.length}:${campaign.installations.length}`
       + `:${campaign.running}:${campaign.tickState.current.following?.id ?? ''}`;
     if (kept?.campaign === campaign && kept.key === key && kept.store === store && kept.version === store.version
-      && kept.last === last) { return kept; }
-    const now = { campaign, key, store, version: store.version, last }; this.observed.set(world, now);
+      && kept.last === last && kept.vocabulary === vocabulary) { return kept; }
+    const now = { campaign, key, store, version: store.version, vocabulary, last }; this.observed.set(world, now);
     return now;
   }
   private static perceive(campaign: Campaign): PlayerSnapshot {
@@ -257,7 +258,7 @@ export class PlayerView {
       present: perceiving && location ? this.present(campaign, actor, location.id, dark) : [],
       items: state.creatures.filter(c => state.partyIds.includes(c.id)).flatMap(c =>
         (c.state.inventory ?? []).map(i => {
-        const d = ItemCatalog.get(i.definition);
+        const d = ItemCatalog.get(i.definition, campaign.vocabulary);
         return { id: i.id, name: d.name, description: d.description, owner: c.name, equipped: !!i.equipped,
           ...(d.slot ? { slot: d.slot } : {}), effects: [d.use ?? d.description] };
       })),
@@ -274,7 +275,8 @@ export class PlayerView {
       deadlines: campaign.installations.filter(m => m.deadline !== undefined).flatMap(m => m.pressures.map(id => ({
         situation: m.name, pressure: labels.get(id) ?? id, at: m.deadline!, passed: state.elapsed >= m.deadline! }))),
       capabilities: this.about(world, 'capable', actor, entities).map(e => ({ name: e.name,
-        providers: PartyCapabilities.providers(e.id, state.creatures.filter(c => state.partyIds.includes(c.id)))
+        providers: PartyCapabilities.providers(e.id, state.creatures.filter(c => state.partyIds.includes(c.id)), {},
+          campaign.vocabulary)
           .map(c => `${c.name} (${c.raceId} ${c.classId})`) })),
       choices: publicChoices.map(c => c.choice), followed: perceiving ? Undertakings.followed(campaign)?.id : undefined,
       // The aims held by the one test every client counts by (Undertakings.held), each in its words.

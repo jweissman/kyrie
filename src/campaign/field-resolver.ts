@@ -99,7 +99,7 @@ export class FieldResolver {
       const difficulty = Checks.difficulty(call.args[2]!, id => host.world.number(ModuleWriter.call('toBeat', id)));
       return Checks.make(creatures.snapshot.filter(c => members.includes(c.id)),
         { skill: call.args[1]!, difficulty, seed, about: action.id, forced: host.forced,
-          rests: Checks.rests(host.world, call.args[1]!) });
+          rests: Checks.rests(host.world, call.args[1]!), vocabulary: creatures.vocabulary });
     }
     throw new Error(`Unsupported resolver ${call.name}`);
   }

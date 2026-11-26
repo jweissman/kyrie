@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
+import { Invariants } from '../../src/autoplay/invariants';
+import { PlayerView } from '../../src/presentation/player-view';
+import { ActionFeedbackView } from '../../src/presentation/action-feedback';
 
 // Instruments of observation, earned and honest (the owner, 14 November: RI-04). The sky is read only in the open:
 // its moon by anyone at night, the sign rising this month (Imbar's sky, a sign a month) only by one who reads the
@@ -14,6 +17,24 @@ const field = `
 const at = (calling: string) => Tiny.start(field, { party: [{ name: 'Wat', raceId: 'human', classId: calling }],
   calendar: { year: 1312, month: 6, day: 5 } });
 describe('the company\'s instruments', () => {
+  it('reads the sky and validates creatures with campaign-local gear and species', async () => {
+    const t = await Tiny.start(`${field} Kind local_token "a token" is gear. `
+      + 'Species local_wolf "a wolf" like wolf. '
+      + 'Person wolf "Wolf" at field { Species local_wolf. }', {
+      party: [{ name: 'Wat', raceId: 'human', classId: 'warrior', outfit: 'own', gear: ['local_token'] }],
+      calendar: { year: 1312, month: 6, day: 5 }, own: true });
+    expect(t.leaf.instruments?.find(i => i.id === 'sky')).toBeDefined();
+    expect(Invariants.creatures(t.session)).toEqual([]);
+  });
+  it('credits a skilled observation while the observer carries local gear', async () => {
+    const t = await Tiny.start(`${field} Kind local_token "a token" is gear. Entity secret: fact "A secret.".
+      Observe marks at field when searched(party, field) and capable(party, lore) "Old marks." teaches secret.`, {
+      party: [{ name: 'Wat', raceId: 'human', classId: 'mage', outfit: 'own', gear: ['local_token'] }], own: true });
+    const before = PlayerView.observe(t.campaign);
+    const event = await t.session.leg('search(party,t__field)');
+    const feedback = ActionFeedbackView.read(t.campaign, event, before);
+    expect(feedback.observations).toContain('It is your lore that makes it out.');
+  });
   it('read the sky by night to one who knows it, the moon to anyone, and nothing by day or indoors', async () => {
     const mage = await at('mage'), warrior = await at('warrior');
     const sky = (t: Tiny) => t.leaf.instruments!.find(i => i.id === 'sky');

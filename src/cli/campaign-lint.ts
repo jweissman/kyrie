@@ -344,21 +344,23 @@ export class CampaignLint {
   items() {
     for (const e of this.module.entities.filter(x => x.type === 'item')) {
       const kind = this.relations('itemKind').find(r => r.args[0] === e.id)?.args[1];
-      if (kind && !ItemCatalog.definitions[kind]) {
+      const vocabulary = this.session.campaign.vocabulary;
+      if (kind && !(vocabulary ? vocabulary.runtimeItem(kind) : ItemCatalog.definitions[kind])) {
         this.add('error', 'item-identity', `${e.id} is of kind ${kind}, missing from the item catalog`);
       }
     }
   }
   // Category errors in who the people are, and use of quarantined or renamed content. A species takes no calling;
   // a person of an ancestry takes a class that ancestry allows.
+  private body(id: string): boolean { return this.session.campaign.vocabulary?.isBody(id) ?? Canon.isBody(id); }
   domain() {
     for (const c of this.session.campaign.state.creatures) {
       const where = c.id;
-      if (Canon.isBody(c.raceId)) {
+      if (this.body(c.raceId)) {
         if (c.classId !== undefined) { this.add('error', 'category', `${where}: species ${c.raceId} cannot take the class ${c.classId}`); }
       } else if (Canon.isAncestry(c.raceId)) {
         if (!c.classId) { this.add('error', 'category', `${where}: a ${c.raceId} needs a class`); }
-        else if (Canon.isBody(c.classId)) { this.add('error', 'category', `${where}: ${c.classId} is a species, not a class`); }
+        else if (this.body(c.classId)) { this.add('error', 'category', `${where}: ${c.classId} is a species, not a class`); }
         else if (!Canon.ancestries[c.raceId]!.classes.includes(c.classId)) {
           this.add('error', 'category', `${where}: a ${c.raceId} cannot be a ${c.classId}`);
         }

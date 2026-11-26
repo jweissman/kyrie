@@ -59,7 +59,7 @@ export interface Companion { raceId: string; name: string }
 
 export class CreatureSchema {
   // What levels have still to give, and the skills taken up with them.
-  static validateProgress(creature: Creature) {
+  static validateProgress(creature: Creature, vocabulary?: import('./catalog-context').CatalogContext) {
     const advances = creature.state.advances;
     const counts = advances ? [advances.qualities, advances.spells, advances.feats ?? 0] : [];
     if (!counts.every(n => Number.isSafeInteger(n) && n >= 0)) {
@@ -71,7 +71,8 @@ export class CreatureSchema {
     }
     if (!DailyUses.validate(creature.state.daily)) { throw new Error(`Invalid uses a day: ${creature.id}`); }
     const c = creature.state.companion;
-    if (c !== undefined && (typeof c.name !== 'string' || !c.name || typeof c.raceId !== 'string' || !Canon.isBody(c.raceId))) {
+    if (c !== undefined && (typeof c.name !== 'string' || !c.name || typeof c.raceId !== 'string'
+      || !(vocabulary ? vocabulary.isBody(c.raceId) : Canon.isBody(c.raceId)))) {
       throw new Error(`Invalid companion: ${creature.id}`);
     }
   }
@@ -87,7 +88,7 @@ export class CreatureSchema {
       throw new Error(`${creature.id}: a sign is one of Imbar's sky`);
     }
   }
-  static validate(creature: Creature) {
+  static validate(creature: Creature, vocabulary?: import('./catalog-context').CatalogContext) {
     if (Object.hasOwn(creature.base, 'scores')) {
       throw new Error('Legacy score/modifier creature data requires migration');
     }
@@ -95,7 +96,8 @@ export class CreatureSchema {
       throw new Error('Creature needs identity, name and kind');
     }
     CreatureSchema.marks(creature);
-    if (Canon.isBody(creature.raceId) ? creature.classId !== undefined
+    const body = vocabulary ? vocabulary.isBody(creature.raceId) : Canon.isBody(creature.raceId);
+    if (body ? creature.classId !== undefined
       : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Callings.of(creature.classId)) {
       throw new Error(`${creature.id}: a person has an ancestry and a class; a species creature has no class`);
     }
@@ -117,13 +119,13 @@ export class CreatureSchema {
         || ready[i]!.some(id => ready[i]!.filter(x => x === id).length > p.filter(x => x === id).length)))) {
       throw new Error(`Invalid prepared spells: ${creature.id}`);
     }
-    this.validateProgress(creature);
+    this.validateProgress(creature, vocabulary);
     const inventory = creature.state.inventory ?? [];
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition
       || (i.equipped !== undefined && typeof i.equipped !== 'boolean') || (i.material && !Canon.materials[i.material]))
       || new Set(inventory.map(i => i.id)).size !== inventory.length) { throw new Error('Invalid item inventory'); }
-    const slots = inventory.filter(i => i.equipped).map(i => ItemCatalog.get(i.definition).slot);
-    inventory.forEach(i => ItemCatalog.get(i.definition));
+    const slots = inventory.filter(i => i.equipped).map(i => this.itemSlot(i.definition, vocabulary));
+    inventory.forEach(i => this.itemSlot(i.definition, vocabulary));
     if (slots.some(s => !s || slots.filter(t => t === s).length > ItemCatalog.holds(s))) {
       throw new Error('Invalid equipment slots');
     }
@@ -140,5 +142,10 @@ export class CreatureSchema {
       || new Set(creature.state.conditions.map(c => `${c.id}:${c.source ?? ""}`)).size !== creature.state.conditions.length) {
       throw new Error('Invalid creature conditions');
     }
+  }
+  private static itemSlot(id: string, vocabulary?: import('./catalog-context').CatalogContext): string | undefined {
+    const item = vocabulary ? vocabulary.itemDefinition(id) : ItemCatalog.get(id);
+    if (!item) { throw new Error(`Unknown item definition ${id}`); }
+    return item.slot;
   }
 }

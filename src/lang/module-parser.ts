@@ -10,7 +10,7 @@ import { StatementParser } from './statement-parser';
 import { ObjectParser } from './object-parser';
 import { CatalogParser } from './catalog-parser'; import { Milestones } from './milestones'; import { ParseCache } from './parse-cache';
 import { InformationParser } from './information-parser'; import { Endings } from './endings';
-import { Vocabularies } from './vocabulary'; import { DeclarationParses, type Parts } from './declaration-parses';
+import { Vocabularies, type Vocabulary } from './vocabulary'; import { DeclarationParses, type Parts } from './declaration-parses';
 import { ModuleMade } from './module-made'; import { Routes } from './routes'; import { ActionParts } from './action-parts';
 import { TemplatedPredicates } from './templated-predicates';
 import { ObjectiveParser } from './objective-parser';
@@ -61,7 +61,7 @@ export class ModuleParser {
     ChangeAt: ModuleParser.Second, ItemOwner: ModuleParser.Third,
     PersonManner: PersonParser.PersonManner, PersonPronouns: PersonParser.PersonPronouns,
     PersonHaunt: PersonParser.PersonHaunt, Grave: PersonParser.Grave,
-    Module: ModuleParser.Module, Observation: ModuleParser.Observation, Speaker: PersonParser.Speaker,
+    Observation: ModuleParser.Observation, Speaker: PersonParser.Speaker,
     WorldRule: ModuleParser.WorldRule, Pursuit: ModuleParser.Pursuit, PursuitUsing: ModuleParser.PursuitUsing,
     Kind: StatementParser.Kind, Relation: ModuleParser.Relation, Measure: ModuleParser.Measure,
     Query: ModuleParser.Query, Parameter: StatementParser.Parameter, Entity: ModuleParser.Entity,
@@ -92,13 +92,13 @@ export class ModuleParser {
   // (Kind figurine like dreg_ox) is not taken for one read without them (the review's H7).
   // declared: what a generator declared for the text as values, each declared where its line was (ModuleSource,
   // AX-04), and kept with the text (the same text with other values is another module).
-  static parse(text: string, declared: readonly Declared[] = []): Module {
-    const key = KeptParses.key(text, declared);
+  static parse(text: string, declared: readonly Declared[] = [], vocabulary: Vocabulary = Vocabularies): Module {
+    const key = KeptParses.key(text, declared, vocabulary);
     const known = ParseCache.get(key), began = performance.now();
-    if (known) { Vocabularies.install(known.catalog); return structuredClone(known); }
+    if (known) { vocabulary.install(known.catalog); return structuredClone(known); }
     // Its declarations parsed before taken as they were, the rest matched (DeclarationParses), else the text whole.
-    const split = ModuleParser.chunked(text, declared), matched = performance.now();
-    const module = split ?? ModuleParser.whole(text, declared);
+    const split = ModuleParser.chunked(text, declared, vocabulary), matched = performance.now();
+    const module = split ?? ModuleParser.whole(text, declared, vocabulary);
     const lowered = performance.now();
     // Each part told apart (the review of generated parsing, §4), the bytes the text's own in UTF-8.
     const bytes = ParseCache.costs ? new TextEncoder().encode(text).byteLength : text.length;
@@ -107,20 +107,24 @@ export class ModuleParser {
     ParseCache.set(key, module, lowered - began, bytes);
     return module;
   }
-  static whole(text: string, declared: readonly Declared[] = []): Module {
+  static whole(text: string, declared: readonly Declared[] = [], vocabulary: Vocabulary = Vocabularies): Module {
     const match = ModuleParser.grammar.match(text);
     if (match.failed()) { throw new Error(`Invalid Kyr module: ${Grammars.why(text)}`); }
-    return DeclaredValues.during(declared, () => ModuleParser.semantics(match).ast() as Module);
+    const parts = ModuleParser.semantics(match).parts() as Parts;
+    return DeclaredValues.during(declared, () => ModuleMade.of(parts,
+      (i, run) => DeclarationParses.at(text, parts.starts[i]!, run), vocabulary));
   }
   // The text's declarations, each its kept field where it was parsed before, the rest matched (DeclarationParses),
   // read as its header and each declaration's field and text.
-  static chunked(text: string, declared: readonly Declared[] = []): Module | undefined {
+  static chunked(text: string, declared: readonly Declared[] = [],
+    vocabulary: Vocabulary = Vocabularies): Module | undefined {
     return DeclarationParses.module(text, declared, t => { const match = ModuleParser.grammar.match(t);
-      return match.failed() ? undefined : ModuleParser.semantics(match).parts() as Parts; });
+      return match.failed() ? undefined : ModuleParser.semantics(match).parts() as Parts; }, vocabulary);
   }
   static Parts(_m: Node, id: Node, name: Node, _o: Node, declarations: Node, _c: Node): Parts {
-    const c = declarations.children, fields = c.map(x => ModuleParser.ast(x) as Field);
-    return { id: id.sourceString, name: ModuleParser.ast(name) as string, fields, sources: c.map(x => x.sourceString) };
+    const c = declarations.children, fields = c.map(x => ModuleParser.located(x, () => ModuleParser.ast(x) as Field));
+    return { id: id.sourceString, name: ModuleParser.ast(name) as string, fields, sources: c.map(x => x.sourceString),
+      starts: c.map(x => x.source.startIdx) };
   }
   static predicate(text: string): Predicate {
     const match = ModuleParser.grammar.match(text, 'Predicate');
@@ -144,14 +148,6 @@ export class ModuleParser {
   }
   static BuysPart(_b: Node, what: Node, _for: Node, fee: Node, _coin: Node, _dot: Node) {
     return { field: 'buys', value: { what: what.sourceString, fee: Number(fee.sourceString) } };
-  }
-  static Module(_module: Node, id: Node, name: Node, _open: Node, declarations: Node, _close: Node): Module {
-    // Ohm builds a node's children afresh each time they are asked for: asked once per declaration, a module of N
-    // declarations took N² to read (scripts/scale-costs).
-    const children = declarations.children;
-    const fields = children.map(child => ModuleParser.located(child, () => ModuleParser.ast(child) as Field));
-    return ModuleMade.of({ id: id.sourceString, name: ModuleParser.ast(name) as string, fields,
-      starts: children.map(c => c.source.startIdx) }, (i, run) => ModuleParser.located(children[i]!, run));
   }
   // An error in a declaration, said with the line and column it begins at.
   static located<T>(node: Node, run: () => T): T {

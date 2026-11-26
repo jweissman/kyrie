@@ -4,6 +4,7 @@ import { Narrator } from '../presentation/narrator';
 import { Owed } from '../ui/owed';
 import type { Campaign } from '../campaign/campaign';
 import type { Happening } from './happening';
+import type { CatalogContext } from '../catalog-context';
 
 // The circumstances a happening is told in, as the voice tables name them (see data/voice): who the actor is to the
 // one who plays (bond), their manner and the words they are spoken of in, what kind of creature they are, the hour,
@@ -15,10 +16,12 @@ export class VoiceContext {
   // pairs: each kind of happening already told of each actor ("pet:o__bolt").
   static of(campaign: Campaign, h: Happening, pairs: Set<string>): Record<string, string> {
     const actor = h.actor ?? '', world = campaign.world, company = campaign.playerActor ?? 'party';
-    const species = this.species(campaign, actor), kind = species ? Canon.creature(species).kind ?? 'creature' : 'person';
+    const bodies = campaign.vocabulary ?? Canon, species = this.species(campaign, actor);
+    const kind = species ? bodies.creature(species).kind ?? 'creature' : 'person';
     const place = world.one('at', company), shelter = (place && Narrator.shelter(campaign, place)) ?? 'outdoors';
     return { bond: this.bond(campaign, actor, company), manner: this.manner(campaign, actor),
-      pronoun: this.pronoun(campaign, actor, kind), kind, ...species ? { species: this.base(species) } : {},
+      pronoun: this.pronoun(campaign, actor, kind), kind,
+      ...species ? { species: this.base(species, campaign.vocabulary) } : {},
       ...this.temper(campaign, actor), ...this.mood(campaign, actor), ...this.owing(campaign, h),
       // Under the ground (or the sea) there is no hour to speak of: clerks in a lamp-lit hall under the sea said "Mind
       // how you go in the dark" (What Tessary Owes, W19).
@@ -115,14 +118,15 @@ export class VoiceContext {
   static species(campaign: Campaign, actor: string): string | undefined {
     const readout = campaign.readout, member = readout.inhabitants?.[actor]?.[0];
     const id = member ? readout.creatures.find(c => c.id === member)?.raceId : undefined;
-    return id && Canon.isSpecies(id) ? id : undefined;
+    return id && (campaign.vocabulary ?? Canon).isSpecies(id) ? id : undefined;
   }
   // A species is spoken of as the domestic kind it is, or is like: "the hall dog" is a dog.
-  static base(species: string): string {
+  static base(species: string, vocabulary?: CatalogContext): string {
     let at: string | undefined = species;
     for (let n = 0; at && n < 6; n++) {
       if (this.kinds.includes(at)) { return at; }
-      at = Canon.isSpecies(at) ? Canon.creature(at).variantOf : undefined;
+      const bodies = vocabulary ?? Canon;
+      at = bodies.isSpecies(at) ? bodies.creature(at).variantOf : undefined;
     }
     return species;
   }

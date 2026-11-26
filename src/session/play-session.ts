@@ -247,7 +247,7 @@ export class PlaySession {
       response: aim ? `You set your mind to it: ${AimSaid.title(text)}.` : 'You set your mind to nothing in particular.' };
   }
   static auto(this: void, battle: Battle): Promise<Command> {
-    return Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));
+    return Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands()), battle.vocabulary));
   }
   static scripted(commands: Command[]): CombatController {
     return PlaySession.next.bind(undefined, structuredClone(commands));

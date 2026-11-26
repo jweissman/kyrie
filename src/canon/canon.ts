@@ -205,37 +205,37 @@ export class Canon {
   // variations' words, living where the base and they say, the variations made with it (the owner, 6 November: one
   // archetype, its elements, materials and lineages overlays, never a chassis each). One with variantOf is its base
   // with the variant's declared fields laid over it. Cycles are errors.
-  static creature(id: string, seen: string[] = []): Species {
+  static creature(id: string, seen: string[] = [], species: Readonly<Record<string, Species>> = this.species): Species {
     const named = this.resolve('species', id);
-    if (named.includes('/')) { return this.composed(named); }
+    if (named.includes('/')) { return this.composed(named, seen, species); }
     // Every body the one chassis makes, a creature's (with a module's own kinds, installed as it loads) or a
     // device's: the contract they share (qualities, hit points, a natural strike, powers, nature).
-    const own = this.species[named] ?? this.devices[named];
+    const own = species[named] ?? this.devices[named];
     if (!own) { throw new Error(`Unknown species ${id}`); }
     if (!own.variantOf) { return own; }
     if (seen.includes(id)) { throw new Error(`Species variant cycle: ${[...seen, id].join(' > ')}`); }
     const { variantOf, ...changes } = own;
-    return { ...this.creature(variantOf, [...seen, id]), ...changes, variantOf };
+    return { ...this.creature(variantOf, [...seen, id], species), ...changes, variantOf };
   }
   // How a species meets a company: its own temperament, or for a monster the one its type has. An animal without
   // its own (a hare, a moth) has none, and lets the company be.
-  static temperament(id: string): string | undefined {
-    if (!this.isSpecies(id)) { return undefined; }
-    const s = this.creature(id), byType = monsters.temperaments as Record<string, string>;
+  static temperament(id: string, species: Readonly<Record<string, Species>> = this.species): string | undefined {
+    if (!this.isSpecies(id, species)) { return undefined; }
+    const s = this.creature(id, [], species), byType = monsters.temperaments as Record<string, string>;
     return s.temperament ?? (s.kind === 'monster' ? byType[s.type ?? ''] : undefined);
   }
   static isAncestry(id: string): boolean { return Object.hasOwn(this.ancestries, id); }
-  static isSpecies(id: string): boolean {
+  static isSpecies(id: string, species: Readonly<Record<string, Species>> = this.species): boolean {
     if (!id) { return false; }
     const named = this.resolve('species', id);
-    if (!named.includes('/')) { return Object.hasOwn(this.species, named); }
+    if (!named.includes('/')) { return Object.hasOwn(species, named); }
     const [base, ...ids] = named.split('/');
-    return Object.hasOwn(this.species, base!) && ids.every(v => Object.hasOwn(this.variations, v));
+    return Object.hasOwn(species, base!) && ids.every(v => Object.hasOwn(this.variations, v));
   }
   static readonly variations = variations.variations as unknown as Record<string, Overlay>;
   // A base and its variations as one kind (see creature).
-  private static composed(id: string): Species {
-    const [base, ...ids] = id.split('/'), b = this.creature(base!), over = ids.map(v => this.variations[v]);
+  private static composed(id: string, seen: string[], species: Readonly<Record<string, Species>>): Species {
+    const [base, ...ids] = id.split('/'), b = this.creature(base!, seen, species), over = ids.map(v => this.variations[v]);
     if (over.some(v => !v)) { throw new Error(`Unknown species ${id}`); }
     const words = over.map(v => v!.word).filter(Boolean).join(' '), name = b.name.toLowerCase();
     const habitats = [...new Set([...b.habitats ?? [], ...over.flatMap(v => v!.habitats ?? [])])];
@@ -299,8 +299,8 @@ export class Canon {
   static traitTable(): Readonly<Record<string, Trait>> { return this.traits; }
   static callingOf(id: string): CharacterClass | undefined { return this.classes[id]; }
   static callingTable(): Readonly<Record<string, CharacterClass>> { return this.classes; }
-  static soul(id: string, pronoun?: string): boolean {
-    return this.isSpecies(id) && ['monster', 'spirit'].includes(this.creature(id).kind ?? '')
+  static soul(id: string, pronoun?: string, bodies: Pick<typeof Canon, 'isSpecies' | 'creature'> = this): boolean {
+    return bodies.isSpecies(id) && ['monster', 'spirit'].includes(bodies.creature(id).kind ?? '')
       && !!pronoun && pronoun !== 'pron_it';
   }
 }

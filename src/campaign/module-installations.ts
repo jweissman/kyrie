@@ -2,6 +2,7 @@ import { LocalKinds } from '../canon/local-catalog';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { RoleRequirements } from './role-requirements';
 import { ModuleCompiler } from '../lang/module-compiler';
+import { Vocabularies, type Vocabulary } from '../lang/vocabulary';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Instance, Module, Signature } from '../lang/module';
 import { World } from '../lang/world';
@@ -17,6 +18,7 @@ import { InstalledInstance } from './installed-instance';
 import type { Creature } from '../creature';
 import { Discovery } from '../lang/discovery';
 import { EngineOwned } from '../lang/engine-owned';
+import type { CatalogContext } from '../catalog-context';
 
 export class ModuleInstallations {
   // Actors another installation declared take up the goals and actions this one gives them: each so extended a new
@@ -40,16 +42,16 @@ export class ModuleInstallations {
   // everyone: whether everyone's facts are projected again, or only the newcomers' (while a campaign is assembled
   // from many modules at once, when everyone's are projected once at the end).
   static populate(next: CampaignInstance & { live?: World }, creatures: CreatureStore,
-    current: Parameters<typeof Membership.live>[1], everyone = true) {
+    current: Parameters<typeof Membership.live>[1], at: { everyone: boolean; vocabulary?: CatalogContext }) {
     const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
     const live = Membership.live(next.campaign!.actors, current).actors;
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
     const added = next.campaign!.creatures.filter(c => !held.has(c.id));
-    const store = creatures.with(added.map(entry => this.creature(entry)));
+    const store = creatures.with(added.map(entry => this.creature(entry, undefined, at.vocabulary)), at.vocabulary);
     const joined = next.live ?? new World(next.module, next.world);
     CreatureFacts.initialize(joined, actors, store);
-    const projected = everyone ? live : live.filter(a => !had.has(a.id));
-    const world = CreatureFacts.project(joined, projected, store);
+    const projected = at.everyone ? live : live.filter(a => !had.has(a.id));
+    const world = CreatureFacts.project(joined, projected, store, at.vocabulary);
     Progression.outcomes(world, next.campaign!);
     for (const actor of next.campaign!.actors) {
       for (const goal of actor.goals) {
@@ -60,8 +62,10 @@ export class ModuleInstallations {
     return { actors, store, world };
   }
   // A creature a campaign's definition declares, made from its own seed (or, with none, the campaign's), with its gold.
-  static creature(entry: CampaignDefinition['creatures'][number], content?: Content): Creature {
-    const maker = entry.seed ? new Content(entry.seed) : content ?? new Content(entry.seed!);
+  static creature(entry: CampaignDefinition['creatures'][number], content?: Content,
+    vocabulary?: CatalogContext): Creature {
+    const maker = entry.seed ? new Content(entry.seed, undefined, vocabulary)
+      : content ?? new Content(entry.seed!, undefined, vocabulary);
     const creature = maker.createCreature(entry.id, entry.context, entry.seed ? 'self' : entry.id);
     creature.state.gold += entry.gold;
     return creature;
@@ -138,13 +142,13 @@ export class ModuleInstallations {
   // checked: whether to check the joined module now. A campaign assembled from many modules at once checks the whole
   // once, when the last is in (see Campaign.assemble), not again after each.
   // The joined module checked whole: its declarations, and what can be discovered in its world.
-  static check(module: Instance['module'], world: World) {
-    new ModuleCompiler(RuntimeCapabilities.signatures, true).validate(module);
+  static check(module: Instance['module'], world: World, vocabulary: Vocabulary = Vocabularies) {
+    new ModuleCompiler(RuntimeCapabilities.signatures, true, undefined, vocabulary).validate(module);
     Discovery.validate(module, world);
   }
   // base.live: the world the installation joins, as it is (given, it is not built again from every fact).
   static prepare(base: (CampaignInstance & { live?: World }) | undefined, draft: ModuleDraft, elapsed: number,
-    checked = true): InstalledInstance {
+    checking: boolean | { checked: boolean; vocabulary: Vocabulary } = true): InstalledInstance {
     // A draft is made for the one installation, and is the installation's own to change.
     const incoming = draft.instance, addition = incoming.campaign!;
     ClockShift.apply(incoming.module, addition, draft.id, elapsed);
@@ -179,7 +183,9 @@ export class ModuleInstallations {
       throw new Error('Campaign rules require shared gold and clock entities');
     }
     const installed = joining.apply(incoming.module.initial);
-    if (checked) { this.check(module, installed); }
+    if (typeof checking === 'boolean' ? checking : checking.checked) {
+      this.check(module, installed, typeof checking === 'boolean' ? Vocabularies : checking.vocabulary);
+    }
     return new InstalledInstance(module, installed, definition,
       Math.max(0, ...definition.installations!.flatMap(m => m.deadline === undefined ? [] : [m.deadline])));
   }

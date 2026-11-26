@@ -135,6 +135,8 @@ export interface ItemRow {
   stow: 'worn' | 'supplies' | 'carried'; packed?: string;
   // Using it brings light.
   light?: boolean;
+  // Its use mends or removes a condition, as resolved in the campaign's catalog.
+  mends?: boolean;
   // What it is kept for, when its use is not offered now (see ItemUses).
   kept?: string;
   // Which way it points, where it points to somewhere the canon names (the Dun Rìerdan waystone: see Seats).

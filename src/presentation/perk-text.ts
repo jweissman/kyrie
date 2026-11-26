@@ -1,10 +1,19 @@
 import { Canon } from '../canon/canon';
 import type { Perk } from '../rules/catalog-schema';
 import { MechanicsText } from './mechanics-text';
+import { Content } from '../content';
 
 // What a perk does, said from what it is (its modifiers, bonuses, triggers and where it holds), so the words are the
 // rule: "Herbal Remedies: +1d4 healing." Orsino's own descriptions name checks Kyr does not make.
 export class PerkText {
+  static feat(id: string): string | undefined {
+    const feat = Canon.traits[id];
+    if (feat?.category !== 'feat') { return undefined; }
+    const perks = (feat.perks ?? [{ name: feat.name, description: '', modifiers: feat.modifiers }]).map(p => this.of(p));
+    const brings = (feat.grants?.abilities ?? []).map(a => Content.abilities.find(x => x.id === a)?.name)
+      .filter(Boolean);
+    return [...perks, brings.length ? `Brings ${brings.join(', ')}.` : ''].filter(Boolean).join(' ');
+  }
   static readonly places: Record<string, string> = { urban: 'in a town', forest: 'in forest', cave: 'in the dark',
     mountain: 'in the mountains', hills: 'in the hills', marsh: 'in fen country', desert: 'in desert', frost: 'in the frozen north' };
   static of(perk: Perk): string {

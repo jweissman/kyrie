@@ -438,6 +438,27 @@ semantic boundary.
 9. Declared test horizons.
 10. Packages moved last.
 
+The step 5 spike found that the existing caches distinguished local kinds only by their names, so alternating
+campaigns could reuse a parse or compiled module made against a different definition of the same kind.
+`test/small/kinds-two-modules` pins alternating parses and module compilations with different inherited values;
+the cache keys include the named kinds' definitions. Parsing, compilation and module installation accept a scoped
+vocabulary. Compiled keys also include source paths because semantic records retain them; identical texts at different
+paths therefore do not share compiled entries. Controlled interleaved starts and installs match sequential modules and
+worlds, including local species and gear. Read-ahead uses a fork where available and skips providers unable to fork;
+kit composition and canonical declaration lookup require a fork to avoid changing their caller's context. Supplying
+canon species also requires a species-aware provider; a child of a conflicting existing species is refused rather
+than given the wrong parent. Explicit providers used to compose item kinds must supply their item traits.
+Providers without those capabilities cannot use those paths until adapted. Creature creation, its store, installation
+projection and checks can read the supplied catalog. Cold content validation checks the canonical catalog alone;
+local consumables, species habitats and catalog identities are checked in their owning vocabulary. Tending reads
+the remedy resolved on the screen, rather than looking the item up again in the ambient catalog.
+Campaign world reads, installation, rollback and export lint no longer switch ambient catalogs. Public loads in the
+same rules installation can interleave and are compared with sequential starts; different installations remain ordered
+because a browser without an asynchronous carrier cannot hold both domains across awaits. Unscoped language tools
+retain a legacy ambient vocabulary, and other runtime consumers still read ambient catalogs. An adversarial review
+found no significant issues in the spike after iteration; landing still needs the required gates and the page's
+1280/390 contact sheet. The changes remain unlanded, including the provider compatibility limitations above.
+
 ## An order of work that does not interrupt
 
 Each stage is small, lands alone, and is held by a ratchet. None needs the Game or World streams to stop. They are

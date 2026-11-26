@@ -64,7 +64,7 @@ export class EncounterLab {
       const mine = battle.playerControls(actor);
       const chosen = !mine ? battle.chosen() : draw.chance(0.03) && legal.find(c => c.ability === 'flee')
         ? legal.find(c => c.ability === 'flee')! : draw.chance(0.3) && blows.length ? draw.pick(blows)!
-          : Tactics.choose(battle.state, legal);
+          : Tactics.choose(battle.state, legal, battle.vocabulary);
       battle.step(chosen);
     }
     if (!battle.state.outcome) { battle.close(); }

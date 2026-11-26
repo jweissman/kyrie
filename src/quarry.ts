@@ -3,6 +3,7 @@ import { Effects } from './effects';
 import { Fighting } from './rules/fighting';
 import { Targeting } from './targeting';
 import type { BattleState, CombatEvent, Command, Fighter } from './model';
+import type { CatalogContext } from './catalog-context';
 
 // Whom a foe goes for, as its kind would, and when one of the company steps in front of another. Every foe had struck
 // whoever had the fewest hit points (the audit's SLIP-07), so the mage behind a warrior was cut down first whatever
@@ -23,15 +24,16 @@ export class Quarry {
       by.harm = (by.harm ?? 0) + e.amount;
     }
   }
-  static kind(actor: Fighter): Kind {
+  static kind(actor: Fighter, vocabulary?: CatalogContext): Kind {
     if (Canon.isAncestry(actor.raceId)) { return 'band'; }
-    return Canon.temperament(actor.raceId) === 'wary' ? 'coward' : 'beast';
+    return (vocabulary ? vocabulary.temperament(actor.raceId) : Canon.temperament(actor.raceId)) === 'wary'
+      ? 'coward' : 'beast';
   }
   // The one the actor would rather strike, of those it could.
-  static of(state: BattleState, actor: Fighter): string | undefined {
+  static of(state: BattleState, actor: Fighter, vocabulary?: CatalogContext): string | undefined {
     const enemies = Targeting.candidates('enemy', actor, state.combatants);
     if (!enemies.length) { return undefined; }
-    const kind = this.kind(actor);
+    const kind = this.kind(actor, vocabulary);
     if (kind === 'band') { return this.dangerous(enemies)?.id ?? enemies[0]!.id; }
     const weak = kind === 'coward' && !enemies.some(f => f.maxHp > actor.maxHp);
     if (weak) { return [...enemies].sort((a, b) => a.hp - b.hp)[0]!.id; }

@@ -7,6 +7,7 @@ import { ModifierSet, type Modifiers } from './rules/modifiers';
 import type { WeaponProfile } from './rules/fighting';
 import type { Attribute, Creature } from './creature';
 import { CreatureVariants } from './creature-variants';
+import type { CatalogContext } from './catalog-context';
 export type ItemDefinition = RuntimeItem;
 export interface Equipment {
   modifiers: Modifiers; hooks: Hooks; weapon: WeaponProfile; armorAc: number;
@@ -16,34 +17,35 @@ export interface Equipment {
 
 export class ItemCatalog {
   static readonly definitions: Record<string, ItemDefinition> = CanonRuntime.items();
-  static get(id: string): ItemDefinition {
-    const result = this.definitions[id];
+  static get(id: string, vocabulary?: CatalogContext): ItemDefinition {
+    const result = vocabulary ? vocabulary.runtimeItem(id) : this.definitions[id];
     if (!result) { throw new Error(`Unknown item definition ${id}`); }
     return result;
   }
-  static abilities(creature: Creature): Record<string, { id: string; kind: 'item'; name: string }> {
+  static abilities(creature: Creature, vocabulary?: CatalogContext): Record<string, { id: string; kind: 'item'; name: string }> {
     return Object.fromEntries((creature.state.inventory ?? []).filter(i => i.equipped)
-      .flatMap(i => { const d = this.get(i.definition); return d.ability
+      .flatMap(i => { const d = this.get(i.definition, vocabulary); return d.ability
         ? [[d.ability, { id: i.id, kind: 'item' as const, name: d.name }]] : []; }));
   }
   // What using a thing of a kind does, as an ability (a healing potion's "Heal (2d4 + 2) health to ally."), kept by
   // the kind and its use (the architecture review's H7); found by the ability's id too ("item-healing_potion").
   private static readonly uses = new Map<string, ArenaAbility | undefined>();
-  static use(kind: string): ArenaAbility | undefined {
-    const d = this.definitions[kind], key = `${kind}\u0000${d?.use ?? ''}`;
+  static use(kind: string, vocabulary?: CatalogContext): ArenaAbility | undefined {
+    const d = vocabulary ? vocabulary.runtimeItem(kind) : this.definitions[kind];
+    const key = JSON.stringify([kind, d?.name, d?.use]);
     if (!this.uses.has(key)) { this.uses.set(key, d?.use ? parseAbility(`item-${kind}`, d.name, d.use) : undefined); }
     return this.uses.get(key);
   }
-  static used(ability: string): ArenaAbility | undefined {
-    return ability.startsWith('item-') ? this.use(ability.slice(5)) : undefined;
+  static used(ability: string, vocabulary?: CatalogContext): ArenaAbility | undefined {
+    return ability.startsWith('item-') ? this.use(ability.slice(5), vocabulary) : undefined;
   }
   // What a creature carries that it can use up in a fight, by the ability each is used as: a draught, a salve, a flask
   // of fire to throw; not a light, nor anything else whose use runs on the clock for hours (PT-07: a fight offered no
   // use of the alchemist's fire in the pack, though the foe was vulnerable to fire).
-  static stock(creature: Creature): Record<string, string[]> {
+  static stock(creature: Creature, vocabulary?: CatalogContext): Record<string, string[]> {
     const stock: Record<string, string[]> = {};
     for (const i of (creature.state.inventory ?? []).filter(x => !x.equipped)) {
-      const use = this.use(i.definition);
+      const use = this.use(i.definition, vocabulary);
       if (use?.effects.length && use.effects.every(e => e.kind !== 'apply' || !e.clock)) { (stock[use.id] ??= []).push(i.id); }
     }
     return stock;
@@ -52,13 +54,13 @@ export class ItemCatalog {
   static holds(slot: string): number { return slot === 'ring' ? 2 : 1; }
   // A quality as its bearer has it with what they wear (a belt of giant strength's six), out of a fight as in one (the
   // item audit's G9: a field check and what one can carry had read the bare quality).
-  static quality(creature: Creature, stat: Attribute): number {
+  static quality(creature: Creature, stat: Attribute, vocabulary?: CatalogContext): number {
     const worn = (creature.state.inventory ?? []).filter(i => i.equipped)
-      .reduce((n, i) => n + (this.get(i.definition).modifiers?.attributes?.[stat] ?? 0), 0);
+      .reduce((n, i) => n + (this.get(i.definition, vocabulary).modifiers?.attributes?.[stat] ?? 0), 0);
     return creature.base[stat] + worn;
   }
-  static weapon(id: string, name?: string, material?: string): WeaponProfile {
-    const w = this.get(id).weapon;
+  static weapon(id: string, name?: string, material?: string, vocabulary?: CatalogContext): WeaponProfile {
+    const w = this.get(id, vocabulary).weapon;
     if (!w) { throw new Error(`${id} is not a weapon`); }
     // Made of a material that passes a guard (a longsword of silver), it carries what the material passes.
     const passes = material ? Canon.materials[material]?.passes : undefined;
@@ -66,36 +68,40 @@ export class ItemCatalog {
     // that only magic passes (the unicorn's 10/magic: the SRD adaptation briefing, §3); its own tags beside.
     const tags = [...w.tags ?? [], ...Canon.wonders.has(id) && !w.tags?.includes('magic') ? ['magic'] : [],
       ...passes && !w.tags?.includes(passes) ? [passes] : []];
-    return { id, name: name ?? this.get(id).name, damage: w.damage, type: w.type,
+    return { id, name: name ?? this.get(id, vocabulary).name, damage: w.damage, type: w.type,
       ...w.weight ? { weight: w.weight } : {},
       ...w.missile ? { missile: true } : {}, ...w.intercept ? { intercept: true } : {},
       ...w.natural ? { natural: true } : {}, ...tags.length ? { tags } : {} };
   }
   // What a creature's equipment contributes: the wielded weapon (else its natural weapon, else a fist, as in Orsino's
   // effectiveWeapon), the body armour's ac (else its natural armour), and the modifiers and hooks of equipped items.
-  static equipment(creature: Creature): Equipment {
+  static equipment(creature: Creature, vocabulary?: CatalogContext): Equipment {
     const equipped = (creature.state.inventory ?? []).filter(i => i.equipped);
-    const natural = Canon.isBody(creature.raceId) ? Canon.creature(creature.raceId).statistics : undefined;
-    const wielded = equipped.find(i => this.get(i.definition).weapon);
-    const worn = equipped.find(i => this.get(i.definition).armor);
+    const bodies = vocabulary ?? Canon;
+    const natural = bodies.isBody(creature.raceId) ? bodies.creature(creature.raceId).statistics : undefined;
+    const wielded = equipped.find(i => this.get(i.definition, vocabulary).weapon);
+    const worn = equipped.find(i => this.get(i.definition, vocabulary).armor);
     const hooks: Hooks = {};
     for (const i of equipped) {
-      for (const [key, effects] of Object.entries(this.get(i.definition).hooks ?? {})) {
+      for (const [key, effects] of Object.entries(this.get(i.definition, vocabulary).hooks ?? {})) {
         if (key !== 'reactions') { (hooks[key as HookKey] ??= []).push(...effects as Effect[]); }
       }
     }
     // A body's own blows carry its kind's riders (see Statistics.riders); a weapon in hand carries none of them.
-    return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
-      weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
-      armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac
+    return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition, vocabulary).modifiers ?? {})), hooks,
+      weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material, vocabulary)
+        : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural, vocabulary),
+      armorAc: worn ? this.get(worn.definition, vocabulary).armor!.ac
+        : natural?.armor ? this.get(natural.armor, vocabulary).armor!.ac
         + StatExpressions.armor(natural.armorBonus, { level: creature.base.level }) : 0,
       ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon
-        ? this.body(id, natural) : { ...this.body(id, natural), lesser: true }) } : {} };
+        ? this.body(id, natural, vocabulary) : { ...this.body(id, natural, vocabulary), lesser: true }) } : {} };
   }
   // A body's own blow: the weapon, in its stat block's own damage where it says one (see StatExpressions), with what
   // it carries when it lands (its riders).
-  static body(id: string, natural?: Pick<Statistics, 'riders' | 'damage'>): WeaponProfile {
-    const weapon = this.weapon(id), own = natural?.riders?.[id], damage = natural?.damage?.[id];
+  static body(id: string, natural?: Pick<Statistics, 'riders' | 'damage'>, vocabulary?: CatalogContext): WeaponProfile {
+    const weapon = this.weapon(id, undefined, undefined, vocabulary);
+    const own = natural?.riders?.[id], damage = natural?.damage?.[id];
     return { ...weapon, ...damage ? { damage } : {}, ...own?.length ? { onHit: structuredClone(own) } : {} };
   }
 }

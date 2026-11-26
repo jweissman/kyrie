@@ -7,6 +7,7 @@ import { FantasyRules } from '../fantasy-rules';
 import type { Amount, Area, ArenaAbility, Effect, Save, Target } from '../lang/parse';
 import { Positions } from '../rules/positions';
 import type { Modifiers } from '../rules/modifiers';
+import type { CatalogContext } from '../catalog-context';
 
 type Expression = Parameters<Deem['explain']>[0] & object;
 type Interval = { min: number; max: number };
@@ -25,7 +26,7 @@ export class MechanicsText {
   // What an ability does, in words a player would use (Mission 16 found "You gain defending for 1 turn", "a will
   // save against 19" and costs in brackets mid-sentence): what it does, then what each condition it gives does, then
   // what kind of spell it is, what it takes and when it can be used again.
-  static ability(ability: ArenaAbility, actor?: Record<string, number>): AbilityText {
+  static ability(ability: ArenaAbility, actor?: Record<string, number>, vocabulary?: CatalogContext): AbilityText {
     // Enemies drawn at random are drawn once: a later effect falls on the same ones; one enemy or ally, named once, is
     // "it" after.
     const area = Positions.area(ability);
@@ -33,7 +34,7 @@ export class MechanicsText {
       const before = ability.effects.slice(0, i).some(p => p.target === e.target);
       return this.effect(e, actor, area && Positions.spread(e) ? before ? 'each caught' : MechanicsText.areas[area]
         : e.target === 'random enemies' ? before
-          : before && e.target === 'enemy' ? 'it' : before && e.target === 'ally' ? 'that ally' : false);
+          : before && e.target === 'enemy' ? 'it' : before && e.target === 'ally' ? 'that ally' : false, vocabulary);
     });
     const level = ability.spell?.level ?? 0;
     const costs = [level ? `Takes ${level === 8 ? 'an' : 'a'} ${Spellcasting.ordinal(level)}-level slot.`
@@ -43,7 +44,8 @@ export class MechanicsText {
     ability.uses ? `${ability.uses === 1 ? 'Once' : ability.uses === 2 ? 'Twice' : `${ability.uses} times`} a day, until a night's rest.` : '']
       .filter(Boolean);
     const details = [...new Set(ability.effects.flatMap(e => e.kind === 'apply' ? [e.status]
-      : this.triggered(e).map(([id]) => id)))].map(id => this.condition(id, actor)).filter((d): d is string => !!d);
+      : this.triggered(e).map(([id]) => id)))].map(id => this.condition(id, actor, vocabulary))
+      .filter((d): d is string => !!d);
     const kind = ability.spell?.tradition ?? '', an = /^[aeiou]/.test(kind) ? 'An' : 'A';
     const spell = !ability.spell ? [] : ability.spell.level ? [`${an} ${kind} spell of the ${Spellcasting.ordinal(level)} level.`]
       : [];
@@ -59,10 +61,11 @@ export class MechanicsText {
   // What an ability does besides the blow its card's odds tell, in a few words for the fight card: "it is prone for
   // 3 turns · again after 3 turns", "heal yourself for 1d10 + 1 (2–11) · again after 3 turns". The cards had said
   // only a blow's odds, alike for Strike, Cleave and Sweep, and nothing at all of Second Wind (the OWN-28 diagnosis).
-  static gist(ability: ArenaAbility, actor?: Record<string, number>): string {
+  static gist(ability: ArenaAbility, actor?: Record<string, number>, vocabulary?: CatalogContext): string {
     const struck = ability.effects.some(e => e.kind === 'attack');
     const parts = ability.effects.filter(e => e.kind !== 'attack' || e.spillover).map(e => e.kind === 'attack'
-      ? 'a killing blow carries on to another' : this.effect(e, actor, struck && e.target === 'enemy' ? 'it' : false));
+      ? 'a killing blow carries on to another'
+      : this.effect(e, actor, struck && e.target === 'enemy' ? 'it' : false, vocabulary));
     return [...parts, ability.cooldown ? this.again(ability.cooldown) : ''].filter(Boolean).join(' · ');
   }
   // What using an ability spends, in a few words: "1st-level slot", "cantrip", "2 mana", or nothing.
@@ -72,11 +75,12 @@ export class MechanicsText {
       : ability.cost ? `${ability.cost} mana` : '';
   }
   // The summary followed by what each condition it applies does.
-  static full(ability: ArenaAbility, actor?: Record<string, number>): string {
-    const t = this.ability(ability, actor);
+  static full(ability: ArenaAbility, actor?: Record<string, number>, vocabulary?: CatalogContext): string {
+    const t = this.ability(ability, actor, vocabulary);
     return [t.summary, ...t.details].join(' ');
   }
-  static effect(e: Effect, actor?: Record<string, number>, again: boolean | string = false): string {
+  static effect(e: Effect, actor?: Record<string, number>, again: boolean | string = false,
+    vocabulary?: CatalogContext): string {
     const to = typeof again === 'string' ? again : again ? 'each of them' : e.target === 'random enemies' && e.count
       ? e.count.kind === 'literal' && e.count.value === 1 ? 'a random enemy'
         : `${this.amount(e.count, actor)} different enemies, drawn at random` : this.targets[e.target];
@@ -88,8 +92,8 @@ export class MechanicsText {
         case 'heal': return `heal ${to} for ${amount}`;
         case 'revive': return `raise ${to} with ${e.percent ? `${e.percent}% of their health` : `${amount} health`}`
           + `${e.traits?.length ? `, ${e.traits.map(t => Canon.traits[t]?.name.toLowerCase() ?? t).join(' and ')} now` : ''}`;
-        case 'random': return `on ${to}, one of these, drawn at random: ${MechanicsText.inner(e.effects, actor)}`;
-        case 'cycle': return `on ${to}, each the next of these in turn: ${MechanicsText.inner(e.effects, actor)}`;
+        case 'random': return `on ${to}, one of these, drawn at random: ${MechanicsText.inner(e.effects, actor, vocabulary)}`;
+        case 'cycle': return `on ${to}, each the next of these in turn: ${MechanicsText.inner(e.effects, actor, vocabulary)}`;
         case 'cast': return `${Canon.abilities[e.ability]?.name ?? e.ability}, at no cost`;
         case 'drain': return `drain ${amount} health from ${to}`;
         case 'enervate': return `take ${amount === '1' ? 'a level' : `${amount} levels`} from ${to}, until a restoration`;
@@ -104,7 +108,7 @@ export class MechanicsText {
         case 'kill': return `slay ${to}`;
         case 'gain': return `give ${to} ${amount} ${e.resource}`;
         case 'learn': return `teach ${to} ${Canon.abilities[e.ability]?.name ?? e.ability}`;
-        case 'summon': return MechanicsText.summon(e, actor);
+        case 'summon': return MechanicsText.summon(e, actor, vocabulary);
         case 'travel': return 'leave the fight';
       }
     })();
@@ -172,14 +176,14 @@ export class MechanicsText {
   }
   static conditionName(id: string): string { return (Canon.conditions[id]?.name ?? id).toLowerCase(); }
   // What a condition does, from its modifiers: "Blessed: +1 to hit, +1 damage."
-  static condition(id: string, actor?: Record<string, number>): string | undefined {
+  static condition(id: string, actor?: Record<string, number>, vocabulary?: CatalogContext): string | undefined {
     const c = Canon.conditions[id];
     if (!c) { return undefined; }
     // What it binds its holder to, said with what it gives (Preparing to Charge: the next turn is the charge).
     const gives = this.modifiers(c.modifiers ?? {}, actor).join(', ');
     const binds = [c.compel ? `the next turn can only be ${Canon.abilities[c.compel]?.name ?? c.compel}, nothing else` : '',
       c.forceTarget ? 'whoever has it can strike at nobody but whoever gave it' : ''].filter(Boolean).join('; ');
-    const said = [gives, binds, ...this.hooks(id, actor)].filter(Boolean).join('; and ');
+    const said = [gives, binds, ...this.hooks(id, actor, vocabulary)].filter(Boolean).join('; and ');
     // What it does that no figure says (someone takes the blows meant for them), in its own words.
     const own = c.description && c.description !== c.name
       ? c.description.replace(/\.$/, '').replace(/^[A-Z](?=[a-z])/, x => x.toLowerCase()) : '';
@@ -195,11 +199,11 @@ export class MechanicsText {
   // Who "the enemy" of a moment is: the one struck, the attacker, the enemy that charged.
   static readonly others: Record<string, string> = { onAttackHit: 'the one struck', onAttack: 'the one attacked',
     onAttacked: 'the attacker', onMissReceived: 'the attacker', onOffensiveCasting: 'the enemy' };
-  private static hooks(id: string, actor?: Record<string, number>): string[] {
+  private static hooks(id: string, actor?: Record<string, number>, vocabulary?: CatalogContext): string[] {
     const c = Canon.conditions[id]!, { reactions, ...own } = c.hooks ?? {};
     return Object.entries({ ...own, ...reactions }).flatMap(([when, effects]) => this.moments[when] && effects?.length
       ? [`${this.moments[when]}, ${effects.map(e => e.kind === 'remove' && !e.status ? 'it ends'
-        : this.effect(e, actor, e.target === 'self' ? 'whoever has it' : this.others[when] ?? 'that enemy'))
+        : this.effect(e, actor, e.target === 'self' ? 'whoever has it' : this.others[when] ?? 'that enemy', vocabulary))
         .join(', and ')}`] : []);
   }
   static modifiers(m: Modifiers, actor?: Record<string, number>): string[] {
@@ -254,20 +258,23 @@ export class MechanicsText {
   }
   // A formula specialized to an actor where possible, with its range: "1d6 + 2 (3–8)".
   // "call 1d4 + 2 (3–6) of: rat, spider, centipede, of level 5, to fight for you until the fight ends".
-  static summon(e: Extract<Effect, { kind: 'summon' }>, actor?: Record<string, number>): string {
+  static summon(e: Extract<Effect, { kind: 'summon' }>, actor?: Record<string, number>,
+    vocabulary?: CatalogContext): string {
     const what = e.byAncestry ? 'the beast your people keep company with'
-      : e.from && e.from.length > 1 ? `one of: ${MechanicsText.species(e.from).join(', ')}`
-        : MechanicsText.species([e.from?.[0] ?? e.creature]).map(n => `${/^[aeiou]/.test(n) ? 'an' : 'a'} ${n}`)[0];
+      : e.from && e.from.length > 1 ? `one of: ${MechanicsText.species(e.from, vocabulary).join(', ')}`
+        : MechanicsText.species([e.from?.[0] ?? e.creature], vocabulary)
+          .map(n => `${/^[aeiou]/.test(n) ? 'an' : 'a'} ${n}`)[0];
     const many = e.amount && !(e.amount.kind === 'literal' && e.amount.value === 1);
     return `call ${many ? `${this.amount(e.amount!, actor)} creatures, each ${what}` : `${what}`}`
       + `${e.level && e.level > 1 ? `, of level ${e.level}` : ''}, to fight for you until the fight ends`;
   }
   // Effects inside another that chose their target already: "4d6 fire damage to it / 3d12 cold damage to it".
-  static inner(effects: Effect[], actor?: Record<string, number>): string {
-    return effects.map(x => this.effect(x, actor, x.target === 'self' ? 'yourself' : 'it')).join(' / ');
+  static inner(effects: Effect[], actor?: Record<string, number>, vocabulary?: CatalogContext): string {
+    return effects.map(x => this.effect(x, actor, x.target === 'self' ? 'yourself' : 'it', vocabulary)).join(' / ');
   }
-  static species(ids: string[]): string[] {
-    return ids.map(id => Canon.isSpecies(id) ? Canon.creature(id).name.toLowerCase() : id);
+  static species(ids: string[], vocabulary?: CatalogContext): string[] {
+    const bodies = vocabulary ?? Canon;
+    return ids.map(id => bodies.isSpecies(id) ? bodies.creature(id).name.toLowerCase() : id);
   }
   // A die a caster level, to a cap (roll(cappedLevel(10), 6)): said as the SRD says it, "1d6 per caster level, to
   // 10d6", with whatever the rest adds; a cap alone (cappedLevel(5)) as "1 per caster level, to 5".

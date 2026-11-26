@@ -1,12 +1,9 @@
 import { Flight } from './rules/flight'; import { Conditions } from './ports/conditions'; import { Traits } from './ports/traits';
-import { FixedStatBlock } from './rules/fixed-stat-block';
-import { ActorValues } from './rules/actor-values';
+import { FixedStatBlock } from './rules/fixed-stat-block'; import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses, type Recovery } from './rules/daily-uses';
 import { LevelDrain } from './rules/level-drain'; import { Flames } from './rules/flames';
-import { Summoning } from './summoning';
-import { Content } from './content';
-import { Canon } from './canon/canon';
+import { Summoning } from './summoning'; import { Content } from './content'; import { Canon } from './canon/canon';
 import { Perks } from './rules/perks';
 import type { Condition, HookKey } from './rules/catalog-schema';
 import type { Area, Effect } from './lang/parse';
@@ -22,6 +19,7 @@ import { Lasting } from './rules/lasting';
 import { Images } from './rules/images';
 import { ConditionAmount } from './rules/condition-amount';
 import type { Attribute } from './creature';
+import type { CatalogContext } from './catalog-context';
 
 export interface EffectContext {
   source?: { id: string; kind: 'ability' | 'trap' | 'item' | 'shrine'; name?: string };
@@ -111,10 +109,12 @@ export class Effects {
     if (!context.expressions) { throw new Error('Dice bonuses need a seeded expression stream'); }
     return context.expressions.integer(value, actor ? Effects.context(actor) : {});
   }
-  static validate(effect: Effect, abilities: string[]) {
+  static validate(effect: Effect, abilities: string[], vocabulary?: CatalogContext) {
     if (!['attack', 'damage', 'heal', 'drain', 'enervate', 'revive', 'defend', 'flee', 'apply', 'remove', 'kill', 'gain',
       'learn', 'summon', 'travel', 'random', 'cycle', 'cast'].includes(effect.kind)) { throw new Error('Unknown typed effect'); }
-    if (effect.kind === 'random' || effect.kind === 'cycle') { effect.effects.forEach(e => Effects.validate(e, abilities)); }
+    if (effect.kind === 'random' || effect.kind === 'cycle') {
+      effect.effects.forEach(e => Effects.validate(e, abilities, vocabulary));
+    }
     if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy', 'random enemies']
       .includes(effect.target)) { throw new Error('Unknown effect target'); }
     for (const amount of [...('amount' in effect ? [effect.amount] : []), ...(effect.save ? [effect.save.difficulty] : [])]) {
@@ -157,7 +157,7 @@ export class Effects {
       throw new Error('A raising restores between 1 and 100 percent of health');
     }
     if (effect.kind === 'summon' && [effect.creature, ...effect.from ?? [], ...Object.values(effect.byAncestry ?? {}).flat()]
-      .some(s => !Canon.isSpecies(s))) { throw new Error('Unknown summoned creature'); }
+      .some(s => !(vocabulary ?? Canon).isSpecies(s))) { throw new Error('Unknown summoned creature'); }
   }
   // Damage that reaches a creature is soaked by its conditions' temporary hit points first (Commands.handleHit).
   static hp(target: Fighter, amount: number, context: EffectContext, healing = false) {
@@ -382,7 +382,7 @@ export class Effects {
         // its kind of harm (poison, disease, fear) or its name. By name alone, "cure disease" lifted nothing from the
         // Diseased, nor the restorations Kyr's lasting Poisoned (the review's A5).
         const removed = target.statuses.filter(s => Effects.removes(effect, s.id));
-        LevelDrain.without(target, removed);
+        LevelDrain.without(target, removed, context.content.vocabulary);
         for (const s of removed) { Effects.detail(context, target, { type: 'remove', detail: s.id }); }
         break;
       }

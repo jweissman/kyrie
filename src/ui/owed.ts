@@ -3,6 +3,7 @@ import type { Change, Operator } from '../lang/module';
 import type { World } from '../lang/world';
 import { Canon } from '../canon/canon';
 import { Treasure } from './treasure';
+import type { CatalogContext } from '../catalog-context';
 
 // Who has something for the company now (the owner, 7 November: the wagoner got out of the ditch would pay two coin
 // to be told so, and nothing showed it; "a payoff waiting is invisible"): someone with a thing to be said to them,
@@ -26,24 +27,26 @@ export class Owed {
   private static paying(campaign: Campaign) {
     const actor = campaign.playerActor, world = campaign.world;
     if (!actor) { return []; }
-    return campaign.offered().filter(o => o.topic && o.speaker && Owed.pays(o, actor, world));
+    return campaign.offered().filter(o => o.topic && o.speaker && Owed.pays(o, actor, world, campaign.vocabulary));
   }
   // Whether doing it pays the company: more of what it counts (coin, rations), so many of a kind given, or a thing
   // of worth given.
-  static pays(o: Operator, actor: string, world: World): boolean {
-    return o.success.some(c => Owed.gives(c, actor, world));
+  static pays(o: Operator, actor: string, world: World, vocabulary?: CatalogContext): boolean {
+    return o.success.some(c => Owed.gives(c, actor, world, vocabulary));
   }
-  private static gives(c: Change, actor: string, world: World): boolean {
+  private static gives(c: Change, actor: string, world: World, vocabulary?: CatalogContext): boolean {
     const name = c.call.name.replace(/^.*__/, ''), [what, to] = c.call.args;
     if (c.kind === 'increase') {
       const more = c.value.kind !== 'number' || c.value.value > 0;
       return more && ((name === 'quantity' && what === actor) || (name === 'gifts' && to === actor));
     }
-    return c.kind === 'assert' && name === 'handed' && to === actor && Owed.worth(world, what!);
+    return c.kind === 'assert' && name === 'handed' && to === actor && Owed.worth(world, what!, vocabulary);
   }
   // A thing given that is worth something: a treasure, or of a kind the catalog prices.
-  private static worth(world: World, thing: string): boolean {
+  private static worth(world: World, thing: string, vocabulary?: CatalogContext): boolean {
     const kind = world.module.relations.some(r => r.name === 'itemKind') ? world.one('itemKind', thing) : undefined;
-    return Treasure.valuable(world, thing) || (Canon.items[(kind ?? thing).replace(/^.*__/, '')]?.value ?? 0) > 0;
+    const id = (kind ?? thing).replace(/^.*__/, '');
+    const item = vocabulary ? vocabulary.itemDefinition(id) : Canon.items[id];
+    return Treasure.valuable(world, thing) || (item?.value ?? 0) > 0;
   }
 }

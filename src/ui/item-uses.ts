@@ -1,24 +1,30 @@
 import { ItemCatalog } from '../item-catalog';
 import { ConditionSense } from '../canon/condition-sense';
 import type { Act } from './screen-types';
+import type { CatalogContext } from '../catalog-context';
+import type { ArenaAbility } from '../lang/parse';
 
 // What a thing carried is kept for, when its use is not offered now: a salve when none of the company needs it, a
 // flask of fire outside a fight (PT-18: moss that "binds a wound better than linen" could not be used, and nothing
 // said why).
 export class ItemUses {
   static readonly using = /^(use_item|light_item|light_lamp)\(/;
+  static mends(ability: ArenaAbility | undefined): boolean {
+    return !!ability?.effects.some(e => e.kind === 'heal' || e.kind === 'remove');
+  }
   // A lamp with nothing to burn says so, by what the company carries (CL-62: a lantern bought with no oil sat in the
   // pack as if it were a light, and only the torch and the candles were offered).
-  static kept(kind: string, acts: Act[], carried: ReadonlySet<string> = new Set()): string | undefined {
+  static kept(kind: string, acts: Act[], carried: ReadonlySet<string> = new Set(),
+    vocabulary?: CatalogContext): string | undefined {
     if (acts.flatMap(a => [a, ...a.children ?? []]).some(a => a.command && this.using.test(a.command))) {
       return undefined;
     }
-    const fuel = ItemCatalog.get(kind).fuel;
+    const fuel = ItemCatalog.get(kind, vocabulary).fuel;
     if (fuel) {
       return carried.has(fuel) ? undefined
-        : `for light · burns ${ItemCatalog.get(fuel).name.replace(/^flask of /i, '').toLowerCase()}, and you have none`;
+        : `for light · burns ${ItemCatalog.get(fuel, vocabulary).name.replace(/^flask of /i, '').toLowerCase()}, and you have none`;
     }
-    const use = ItemCatalog.use(kind);
+    const use = ItemCatalog.use(kind, vocabulary);
     if (!use) { return undefined; }
     if (use.effects.every(e => /enem/.test(e.target))) { return 'for a fight · thrown at a foe'; }
     const cures = use.effects.flatMap(e => e.kind === 'remove' ? [ConditionSense.name(e.status).toLowerCase()] : []);
@@ -31,7 +37,9 @@ export class ItemUses {
   }
   // Whether the company carries a lamp with nothing to burn in it: no light to spare, and the provisions say so
   // (CL-62).
-  static dry(kinds: string[]): boolean {
-    return kinds.some(k => { const fuel = ItemCatalog.get(k).fuel; return !!fuel && !kinds.includes(fuel); });
+  static dry(kinds: string[], vocabulary?: CatalogContext): boolean {
+    return kinds.some(k => {
+      const fuel = ItemCatalog.get(k, vocabulary).fuel; return !!fuel && !kinds.includes(fuel);
+    });
   }
 }

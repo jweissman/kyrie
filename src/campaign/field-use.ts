@@ -32,7 +32,8 @@ export class FieldUse {
       ? world.number(ModuleWriter.call('encounterXp', result.opponent)) : 0;
     if (authored) { this.grant(store, party, authored, result.events); return; }
     const n = result.members.length;
-    const won = result.members.reduce((sum, id) => sum + Advancement.worth(store.get(id)), 0) + 10 * n + 25;
+    const won = result.members.reduce((sum, id) => sum + Advancement.worth(store.get(id), store.vocabulary), 0)
+      + 10 * n + 25;
     this.grant(store, party, Math.floor(won / 2), result.events);
   }
   // Living members whose experience has reached their next level gain it (Advancement.train).
@@ -120,7 +121,7 @@ export class FieldUse {
     if (!ids.length) { return false; }
     const lease = store.acquire(ids);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters', store.vocabulary));
       const place = scene?.player ? scene.world.one('at', scene.player) : undefined;
       const visible = scene?.actors.filter(a => a.id === scene.player || (place
         && scene.world.test(ModuleWriter.call('at', a.id, place)))).flatMap(a => a.members);
@@ -133,13 +134,14 @@ export class FieldUse {
         Effects.advance(target, 'world-time', { fighters, turn: elapsed, events, field: true,
           expressions: new Expressions(RandomStreams.key(scene?.seed ?? 'field', 'field', elapsed, target.id)),
           lapse: AbilityUse.lapse.bind(AbilityUse),
-          content: new Content('clock'), abilities: [], retreat: false, location: null },
+          content: new Content('clock', undefined, store.vocabulary), abilities: [], retreat: false, location: null },
         id => own && !dark && this.burns(id));
         if (visible && !visible.includes(target.id)) {
           events.slice(start).forEach(e => { e.visibility = 'private'; });
         }
       }
-      lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
+      lease.commit(lease.creatures.map(c =>
+        CombatProjection.creature(fighters.find(f => f.id === c.id)!, c, store.vocabulary)));
     } finally { lease.release(); }
     return true;
   }
@@ -156,7 +158,7 @@ export class FieldUse {
       const c = lease.creatures[0]!;
       if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else if (name === 'feat') {
         Advancement.feat(c, choice);
-      } else if (name === 'school') { Advancement.school(c, choice); } else if (name === 'teach') {
+      } else if (name === 'school') { Advancement.school(c, choice, store.vocabulary); } else if (name === 'teach') {
         if (!Advancement.teach(c, choice)) { return []; }
       } else { Advancement.learn(c, choice); }
       lease.commit([c], { advancement: true });
@@ -221,13 +223,14 @@ export class FieldUse {
     const lease = store.acquire([options.caster, ...foes]);
     try {
       const fighters = lease.creatures
-        .map(c => CombatProjection.fighter(c, c.id === options.caster ? 'fighters' : 'goblins'));
+        .map(c => CombatProjection.fighter(c, c.id === options.caster ? 'fighters' : 'goblins', store.vocabulary));
       const actor = this.caster(fighters, options.caster, ability);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
-        content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
+        content: new Content(`${options.seed}:content`, undefined, store.vocabulary), abilities: Content.abilities.map(a => a.id),
         retreat: false, location: null };
       AbilityUse.perform(ability, foes[0]!, new Expressions(options.seed), context);
-      const committed = lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c));
+      const committed = lease.creatures.map(c =>
+        CombatProjection.creature(fighters.find(f => f.id === c.id)!, c, store.vocabulary));
       for (const c of committed.filter(x => x.id !== options.caster)) {
         c.state.conditions = c.state.conditions.filter(s => Effects.lasting(s) || Effects.skips(s.id))
           .map(s => Effects.lasting(s) ? s : { ...s, clock: 'world-time' as const });
@@ -252,13 +255,14 @@ export class FieldUse {
       ? { ...e, location: options.destination } : e) };
     const lease = store.acquire([options.caster]);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters', store.vocabulary));
       const actor = this.caster(fighters, options.caster, ability);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
-        content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
+        content: new Content(`${options.seed}:content`, undefined, store.vocabulary), abilities: Content.abilities.map(a => a.id),
         retreat: false, location: null };
       AbilityUse.perform(ability, options.caster, new Expressions(options.seed), context);
-      lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
+      lease.commit(lease.creatures.map(c =>
+        CombatProjection.creature(fighters.find(f => f.id === c.id)!, c, store.vocabulary)));
       return context.events;
     } finally { lease.release(); }
   }
@@ -284,14 +288,15 @@ export class FieldUse {
     const lease = store.acquire([...new Set(ids)]);
     try {
       if (options.service === 'recover' && lease.creatures.every(c => c.state.hp === 0)) { return []; }
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters', store.vocabulary));
       const actor = this.caster(fighters, options.caster, ability, options.service);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[],
         ...(actor.abilitySources?.[ability.id] ? { source: actor.abilitySources[ability.id] } : {}),
-        content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
+        content: new Content(`${options.seed}:content`, undefined, store.vocabulary), abilities: Content.abilities.map(a => a.id),
         retreat: false, location: null, ...options.recovery ? { recovery: options.recovery } : {} };
       AbilityUse.perform(ability, options.target, new Expressions(options.seed), context);
-      const committed = lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c));
+      const committed = lease.creatures.map(c =>
+        CombatProjection.creature(fighters.find(f => f.id === c.id)!, c, store.vocabulary));
       // Mended in the field by a healing cantrip, they are tended until the company rests (see Tended).
       if (!options.service && Tended.cantripHeal(ability)) {
         for (const c of committed.filter(x => x.id === options.target)) { Tended.mark(c); }

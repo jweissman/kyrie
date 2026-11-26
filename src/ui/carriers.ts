@@ -4,6 +4,7 @@ import type { World } from '../lang/world';
 import type { Filling, Row } from './choice-grouping';
 import type { Act } from './screen-types';
 import type { Campaign } from '../campaign/campaign';
+import type { CatalogContext } from '../catalog-context';
 
 // Who in the company takes something it picks up or buys, so that taking is one choice rather than a list of hands:
 // a companion already carrying something of the same kind, else the one the player plays, unless they carry far more
@@ -18,18 +19,21 @@ export class Carriers {
   }
   static readonly burdened = 6;
   // Read by the world's indexes (it had gone through every fact the world held, for each thing that could be taken).
-  static carrier(world: World, actor: string, item: string): string | undefined {
+  static carrier(world: World, actor: string, item: string, vocabulary?: CatalogContext): string | undefined {
     const kind = world.one('itemKind', item);
     const loads = world.relatedTo('memberOf', actor).filter(r => world.test(ModuleWriter.call('awake', r.args[0]!)))
       .map(r => ({ member: r.args[0]!, items: world.relatedTo('ownedItem', r.args[0]!).map(o => o.args[0]!) }));
     const same = loads.find(l => l.items.some(i => world.one('itemKind', i) === kind));
     // Nobody is handed what would leave them carrying more than they can, while another has room for it: a pot of
     // pitch given to the one the player plays had laden the company, and Sallowfield's causeway came an hour too late.
-    const room = loads.filter(l => Carriers.fits(world, l.member, kind));
+    const room = loads.filter(l => Carriers.fits(world, l.member, kind, vocabulary));
     const able = room.length ? room : loads;
     const least = [...able].sort((a, b) => a.items.length - b.items.length)[0], own = able.find(l => l === loads[0]);
     const mine = own && least && !Carriers.laden(world, own, least) ? own : least;
     return (same && able.includes(same) ? same : mine)?.member;
+  }
+  static in(campaign: Campaign, actor: string, item: string): string | undefined {
+    return this.carrier(campaign.world, actor, item, campaign.vocabulary);
   }
   // Whether the one the player plays carries far more than another: by how much of what each can carry is taken up,
   // where the world weighs things, else by how many things each has. Counted, a warrior come up out of a barrow with
@@ -46,9 +50,10 @@ export class Carriers {
   private static share(world: World, member: string): number {
     return world.number(ModuleWriter.call('carried', member)) / Math.max(1, world.number(ModuleWriter.call('capacity', member)));
   }
-  private static fits(world: World, member: string, kind?: string): boolean {
+  private static fits(world: World, member: string, kind?: string, vocabulary?: CatalogContext): boolean {
     if (!world.module.measures?.some(m => m.name === 'capacity')) { return true; }
-    const mass = kind ? world.number(ModuleWriter.call('mass', kind)) || Burden.mass(kind.split('__').pop()!) : 0;
+    const fallback = kind && (vocabulary?.itemDefinition(kind) ? kind : kind.split('__').pop()!);
+    const mass = kind ? world.number(ModuleWriter.call('mass', kind)) || Burden.mass(fallback!, vocabulary) : 0;
     return world.number(ModuleWriter.call('carried', member)) + mass <= world.number(ModuleWriter.call('capacity', member));
   }
   // Who takes each thing the choices offer to take, by what is done with it ("take_item|the rope"): the one carrier()

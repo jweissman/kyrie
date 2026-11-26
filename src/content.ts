@@ -1,5 +1,6 @@
 import { Spellcasting } from './rules/spellcasting';
 import { Callings } from './ports/callings';
+// Campaign construction needs the setting's scoped catalog factory before it can create content.
 import './canon/canon-vocabulary';
 import { Costs } from './costs';
 import { buildSetting, Generator, Template } from 'deem';
@@ -9,6 +10,7 @@ import { Effects } from './effects';
 import { FantasyRules } from './fantasy-rules';
 import type { ArenaAbility } from './lang/parse';
 import { Canon } from './canon/canon';
+import { CatalogContexts, type CatalogContext } from './catalog-context';
 import { CanonRuntime } from './canon/canon-runtime';
 import { TraitGrants } from './canon/trait-grants';
 import { CanonValidation } from './canon/canon-validation';
@@ -63,8 +65,10 @@ export class Content {
   // What the creation screen and presenters show: classes and kinds by name.
   static readonly classes: Record<string, { name: string; playable?: boolean }> = { ...Callings.table() };
   // A people or a kind of creature by its id, as the catalogs have it now (an adventure's own species among them).
-  static race(id: string): { name: string; classes?: string[]; playable?: boolean } | undefined {
-    return Canon.ancestries[id] ?? (Canon.isBody(id) ? Canon.creature(id) : undefined);
+  static race(id: string, vocabulary?: CatalogContext):
+    { name: string; classes?: string[]; playable?: boolean } | undefined {
+    const bodies = vocabulary ?? Canon;
+    return Canon.ancestries[id] ?? (bodies.isBody(id) ? bodies.creature(id) : undefined);
   }
   static readonly playableClasses = Object.entries(Callings.table()).filter(([, c]) => c.playable).map(([id]) => id);
   static readonly playableRaces = Object.entries(Canon.ancestries).filter(([, a]) => a.playable).map(([id]) => id);
@@ -81,7 +85,8 @@ export class Content {
     }
     return { ...Content.setting, ...extra };
   }
-  constructor(private readonly seed: string, private readonly setting = Content.setting) {
+  constructor(private readonly seed: string, private readonly setting = Content.setting,
+    readonly vocabulary?: CatalogContext) {
     this.runtime = Template.bootstrapDeem({ seed: Expressions.seed(seed) }, this.setting);
     Object.assign(this.runtime.stdlib, FantasyRules.functions);
     Content.validate();
@@ -89,17 +94,19 @@ export class Content {
   private static checked = false;
   static validate() {
     if (Content.checked) { return; }
-    CanonValidation.assert();
-    const ids = Content.abilities.map(a => a.id);
+    CanonValidation.assert(true);
+    const ids = Content.abilities.map(a => a.id), canonical = CatalogContexts.scoped();
     for (const ability of Content.abilities) {
       for (const effect of ability.effects) {
-        Effects.validate(effect, ids);
+        Effects.validate(effect, ids, canonical);
       }
     }
     // And what a body's blows carry (its kind's or a variation's riders), as any effect.
-    const ridden = [...Object.values(Canon.species).map(s => s.statistics?.riders),
+    const ridden = [...Canon.catalogued.map(id => Canon.species[id]!.statistics?.riders),
       ...Object.values(Canon.variations).map(v => v.riders)];
-    for (const effect of ridden.flatMap(r => Object.values(r ?? {}).flat())) { Effects.validate(effect, ids); }
+    for (const effect of ridden.flatMap(r => Object.values(r ?? {}).flat())) {
+      Effects.validate(effect, ids, canonical);
+    }
     Content.checked = true;
   }
   generate(type: string, context: Record<string, DeemValue> = {}) {
@@ -123,22 +130,26 @@ export class Content {
   }
   // A summoned or ad hoc creature of a species.
   creature(species: string, id: string, team: Fighter['team'], level?: number): Fighter {
-    if (!Canon.isSpecies(species)) { throw new Error(`Unknown species ${species}`); }
-    return CombatProjection.fighter(this.createCreature(id, { raceId: species, ...level ? { level } : {} }), team);
+    if (!(this.vocabulary ? this.vocabulary.isSpecies(species) : Canon.isSpecies(species))) {
+      throw new Error(`Unknown species ${species}`);
+    }
+    return CombatProjection.fighter(this.createCreature(id, { raceId: species, ...level ? { level } : {} }),
+      team, this.vocabulary);
   }
   character(classId: ClassId, id: string, team: Fighter['team'], raceId: RaceId = 'human'): Fighter {
-    return CombatProjection.fighter(this.createCreature(id, { classId, raceId }), team);
+    return CombatProjection.fighter(this.createCreature(id, { classId, raceId }), team, this.vocabulary);
   }
   // A kind named for what varies it is its base with those variations (see Species.variations), before any the author
   // gives, each once.
-  private static implied(raceId: string, context: CreatureGenerationContext): CreatureGenerationContext {
-    const own = Canon.isBody(raceId) ? Canon.creature(raceId).variations ?? [] : [];
+  private implied(raceId: string, context: CreatureGenerationContext): CreatureGenerationContext {
+    const bodies = this.vocabulary ?? Canon;
+    const own = bodies.isBody(raceId) ? bodies.creature(raceId).variations ?? [] : [];
     return own.length ? { ...context, variations: [...new Set([...own, ...context.variations ?? []])] } : context;
   }
-  private static invalid(context: CreatureGenerationContext): boolean {
+  private invalid(context: CreatureGenerationContext): boolean {
     return (context.backgroundId !== undefined && !Overlays.has(context.backgroundId))
       || Object.keys(context).some(key => key.endsWith('Score'))
-      || (context.raceId !== undefined && !Content.race(context.raceId))
+      || (context.raceId !== undefined && !Content.race(context.raceId, this.vocabulary))
       || (context.classId !== undefined && !Creation.classOf(context.classId))
       || (context.population !== undefined && !Object.hasOwn(tables.creaturePopulation.groups, context.population))
       || CreatureSchema.attributes.some(key => context[key] !== undefined
@@ -147,6 +158,12 @@ export class Content {
       || (context.level !== undefined && (!Number.isSafeInteger(context.level) || context.level < 1))
       || (context.hitPoints !== undefined && !['listed', 'rolled'].includes(context.hitPoints))
       || (context.company !== undefined && (!Number.isSafeInteger(context.company) || context.company < 1));
+  }
+  private static checkClass(id: string, raceId: string | undefined, classId: string | undefined,
+    bodies: import('./rules/creation').SpeciesBodies) {
+    if (raceId && bodies.isBody(raceId) && classId !== undefined) {
+      throw new Error(`${id}: ${Creation.a(raceId)} is a species and takes no class`);
+    }
   }
   // Orsino's character creation: roll 3d6 per score, add the ancestry's, class's and background's modifiers, take the
   // ancestry's birth traits and a specialization, pick spells, draw a weapon and armour from the class's tables, and
@@ -157,19 +174,17 @@ export class Content {
   private created(id: string, asked: CreatureGenerationContext = {}, randomIdentity = id): Creature {
     // A kind by a name it was once known by (organisms.json's grey wolf is the wolf: data/catalog/aliases.json).
     const context = asked.raceId ? { ...asked, raceId: Canon.resolve('species', asked.raceId) as RaceId } : asked;
-    if (Content.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
-    const speciesFamily = context.raceId && Canon.isBody(context.raceId)
-      ? context.raceId : undefined;
-    if (speciesFamily && context.classId !== undefined) {
-      throw new Error(`${id}: ${Creation.a(speciesFamily)} is a species and takes no class`);
-    }
+    if (this.invalid(context)) { throw new Error(`Invalid creature generation context for ${id}`); }
+    const bodies = this.vocabulary ?? Canon;
+    Content.checkClass(id, context.raceId, context.classId, bodies);
     // Every creature is made from its catalog record (the owner, 5 November: one pipeline; Deem's creature grammar,
     // which had made five bodies its own way, is retired): what makes it other than its kind is its variations.
     const stream = this.stream.bind(this, randomIdentity);
     // A kind given a variation (or a template: the skeletal) that is a stat block is the kind composed with it.
     const raceId = CreatureVariants.body(context.raceId ?? stream('population').generate('population',
-      context.population ? { population: context.population } : {}).raceId as string, CreatureVariants.borne(context));
-    const species = Canon.isBody(raceId);
+      context.population ? { population: context.population } : {}).raceId as string,
+    CreatureVariants.borne(context), bodies);
+    const species = bodies.isBody(raceId);
     if (species && context.classId !== undefined) { throw new Error(`${id}: ${Creation.a(raceId)} is a species and takes no class`); }
     const ancestry = Canon.ancestries[raceId];
     const classId = species ? undefined : Creation.classId(context.classId
@@ -178,8 +193,8 @@ export class Content {
     const kind = ancestry?.nameGroup ?? (Object.hasOwn(tables.forename.groups, raceId) ? raceId : 'hero');
     const generated = { ...stream('attributes').generate('attributes'),
       name: String(stream('name').generate('creature_name', { kind }).name) };
-    const level = context.level ?? (species ? Canon.creature(raceId).statistics?.level : undefined) ?? 1;
-    const chassis = Creation.chassis(raceId, classId, level);
+    const level = context.level ?? (species ? bodies.creature(raceId).statistics?.level : undefined) ?? 1;
+    const chassis = Creation.chassis(raceId, classId, level, bodies);
     // Dice placed at creation are already placed where the calling wants them (Rolls.suited): its bonus is not added
     // on top as well. Counted twice, with the people's and the trade's, a first-level warrior had come to strength 19
     // and constitution 16, and every fight of the first hour was a walkover (Mission 20's combat diagnostic).
@@ -214,13 +229,15 @@ export class Content {
     Spellcasting.equip(creature);
     creature.base.speed = Math.max(0, Fighting.statMod(creature.base.dexterity));
     if (!species && context.outfit !== 'own') { this.equip(creature, chassis, context, randomIdentity); }
-    Overlays.carry(creature, [...context.gear ?? [], ...species ? [] : Overlays.classGear({ ...context, classId })]);
-    CreatureSchema.validate(CreatureVariants.vary(creature, Content.implied(raceId, context)));
+    Overlays.carry(creature, [...context.gear ?? [], ...species ? []
+      : Overlays.classGear({ ...context, classId }, this.vocabulary)], this.vocabulary);
+    CreatureSchema.validate(CreatureVariants.vary(creature, this.implied(raceId, context), bodies), this.vocabulary);
     return creature;
   }
   private stream(identity: string, domain: string): Content {
-    return new Content(RandomStreams.key(this.seed, domain, identity), this.setting);
+    return new Content(RandomStreams.key(this.seed, domain, identity), this.setting, this.vocabulary);
   }
+  private item(id: string) { return this.vocabulary ? this.vocabulary.itemDefinition(id) : Canon.items[id]; }
   // The pc equipment template: one weapon and one body armour from the class's tables, worn from the start.
   private equip(creature: Creature, chassis: ReturnType<typeof Creation.chassis>,
     context: CreatureGenerationContext, randomIdentity: string) {
@@ -228,10 +245,10 @@ export class Content {
     for (const [choice, table] of [[context.weapon, chassis.weapons], [context.armor, chassis.armor]] as const) {
       // A weapon or armour the author gave the person replaces the draw from the class's table.
     const authored = (context.gear ?? []).map(g => Canon.resolve('items', g))
-      .find(g => table === chassis.weapons ? Canon.items[g]?.weapon && Canon.items[g]?.slot : Canon.items[g]?.armor);
-    const kind = choice ?? authored ?? (table.length ? new Content(RandomStreams.key(this.seed, table === chassis.weapons ? 'weapon' : 'armor', randomIdentity), this.setting).pick([...table]) : undefined);
-      if (!kind || Canon.items[kind]?.weapon?.natural) { continue; }
-      if (!Canon.items[kind]) { throw new Error(`${creature.id}: unknown starting equipment ${kind}`); }
+      .find(g => table === chassis.weapons ? this.item(g)?.weapon && this.item(g)?.slot : this.item(g)?.armor);
+    const kind = choice ?? authored ?? (table.length ? new Content(RandomStreams.key(this.seed, table === chassis.weapons ? 'weapon' : 'armor', randomIdentity), this.setting, this.vocabulary).pick([...table]) : undefined);
+      if (!kind || this.item(kind)?.weapon?.natural) { continue; }
+      if (!this.item(kind)) { throw new Error(`${creature.id}: unknown starting equipment ${kind}`); }
       // A background that already gave one (an outlaw's dagger) has it in hand: there is one of each kind.
       const id = Overlays.gearId(creature.id, kind), held = inventory.find(i => i.id === id);
       if (held) { held.equipped = true; continue; }

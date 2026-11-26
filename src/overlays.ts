@@ -2,6 +2,7 @@ import { ItemNames } from './lang/item-names';
 import { Callings } from './ports/callings';
 import { Canon } from './canon/canon';
 import { ItemCatalog } from './item-catalog';
+import type { CatalogContext } from './catalog-context';
 import { ItemTraits } from './campaign/item-traits';
 import type { Attribute, Creature } from './creature';
 import type { Instance } from './lang/module';
@@ -71,36 +72,48 @@ export class Overlays {
     }
   }
   // Equipment a person is authored to carry: one instance of each kind, equipped where its slot is free.
-  static carry(creature: Creature, kinds: string[]) {
+  static carry(creature: Creature, kinds: string[], vocabulary?: CatalogContext) {
     if (!kinds.length) { return; }
     const inventory = creature.state.inventory ??= [];
     for (const kind of kinds.map(k => Canon.resolve('items', k))) {
-      const slot = ItemCatalog.get(kind).slot, id = this.gearId(creature.id, kind);
+      const slot = this.itemSlot(kind, vocabulary), id = this.gearId(creature.id, kind);
       if (inventory.some(i => i.id === id)) { continue; }
-      const free = slot && !inventory.some(i => i.equipped && ItemCatalog.get(i.definition).slot === slot);
+      const free = slot && !inventory.some(i => i.equipped
+        && this.itemSlot(i.definition, vocabulary) === slot);
       inventory.push({ id, definition: kind, ...free ? { equipped: true } : {} });
     }
+  }
+  private static itemSlot(kind: string, vocabulary?: CatalogContext): string | undefined {
+    const item = vocabulary ? vocabulary.itemDefinition(kind) : ItemCatalog.get(kind);
+    if (!item) { throw new Error(`Unknown item definition ${kind}`); }
+    return item.slot;
   }
   // What a person of a class carries from the start besides arms and armour, as Orsino's classes do (a warrior's
   // torch and pole, a thief's tools): those the item catalog has. Whoever sets out on the road carries a light, a
   // candle that weighs nothing (a ranger went down into a pitch-dark barrow with none, and found none to buy: the
   // cold evaluation); a torch too was a load that slowed a companion carrying weight-stones.
-  static classGear(c: { raceId?: string; classId?: string; outfit?: 'own' }): string[] {
-    if (!c.classId || c.outfit === 'own' || (c.raceId && Canon.isBody(c.raceId))) { return []; }
+  static classGear(c: { raceId?: string; classId?: string; outfit?: 'own' }, vocabulary?: CatalogContext): string[] {
+    if (!c.classId || c.outfit === 'own'
+      || (c.raceId && (vocabulary ? vocabulary.isBody(c.raceId) : Canon.isBody(c.raceId)))) { return []; }
     const klass = Callings.of(Canon.resolve('classes', c.classId));
     const light = klass && klass.adventuring !== false ? ['candle'] : [];
-    return [...new Set([...klass?.startingGear ?? [], ...light])].filter(k => Canon.items[k]);
+    return [...new Set([...klass?.startingGear ?? [], ...light])]
+      .filter(k => vocabulary ? vocabulary.itemDefinition(k) : Canon.items[k]);
   }
   // The weapons and armour a person might start with: Orsino draws them from the class's tables during creation, so
   // every candidate is declared and only the drawn ones are ever owned.
-  static startingCandidates(c: { raceId?: string; classId?: string; weapon?: string; armor?: string }): string[] {
-    if (c.raceId && Canon.isBody(c.raceId)) { return []; }
+  static startingCandidates(c: { raceId?: string; classId?: string; weapon?: string; armor?: string },
+    vocabulary?: CatalogContext): string[] {
+    if (c.raceId && (vocabulary ? vocabulary.isBody(c.raceId) : Canon.isBody(c.raceId))) { return []; }
     const named = c.classId ? Callings.of(Canon.resolve('classes', c.classId)) : undefined;
     if (c.classId && !named) { throw new Error(`No calling ${c.classId}: it is none of ${Object.keys(Callings.table()).join(', ')}`); }
     const classes = named ? [named] : Object.values(Callings.table()).filter(k => k.adventuring !== false);
     const tables = [...c.weapon ? [c.weapon] : classes.flatMap(k => k.weapons),
       ...c.armor ? [c.armor] : classes.flatMap(k => k.armor)];
-    return [...new Set(tables.filter(k => Canon.items[k] && !Canon.items[k]!.weapon?.natural))];
+    return [...new Set(tables.filter(k => {
+      const item = vocabulary ? vocabulary.itemDefinition(k) : Canon.items[k];
+      return item && !item.weapon?.natural;
+    }))];
   }
   static contributions(c: { backgroundId?: string; professionId?: string }): Contribution[] {
     return this.of(c).flatMap(([id, o]) => [
@@ -117,14 +130,15 @@ export class Overlays {
   // What each kind of thing a module knows of is worth (its catalog value), so that whoever deals in it will pay:
   // set once, by the module that first names the kind. A treasure is any dealer's in valuables; anything else is
   // the trade's that sells its like (data/rules/belongings.kyr, sell_ware), and a wonder the dealer's in rare things.
-  static declareWorth(instance: Instance) {
+  static declareWorth(instance: Instance, vocabulary?: CatalogContext) {
     const module = instance.module, measured = new Set(module.measures.map(m => m.name)), set = Overlays.set;
     if (!measured.has('worth')) { return; }
     // A trade by whatever name the rules were installed under (rules__trade_arms), under each if more than once.
     const classes = module.entities.filter(x => x.type === 'tradeclass').map(x => x.id);
     const traded = module.relations.some(r => r.name === 'tradeOf') && classes.length > 0;
     for (const e of module.entities.filter(x => x.type === 'itemkind')) {
-      const item = Canon.items[e.id], trades = item?.category === 'treasure' ? [] : this.trades(e.id, item);
+      const item = vocabulary ? vocabulary.itemDefinition(e.id) : Canon.items[e.id];
+      const trades = item?.category === 'treasure' ? [] : this.trades(e.id, item);
       if (!item?.value || item.category !== 'treasure' && !(traded && trades.length)) { continue; }
       module.initial.push(set('worth', e.id, item.value),
         ...item.category === 'treasure' ? [Overlays.fact('valuable', e.id)] : [],
@@ -151,24 +165,26 @@ export class Overlays {
     const own = wonder && ['equipment', 'consumable'].includes(item.category) ? undefined : by[item.category];
     return [...own ? [own] : [], ...wonder ? ['trade_rare'] : []];
   }
-  static declareGear(instance: CampaignInstance) {
+  static declareGear(instance: CampaignInstance, vocabulary?: CatalogContext) {
     const module = instance.module;
     for (const c of instance.campaign?.creatures ?? []) {
       const carried = (c.context.gear ?? []).map(k => Canon.resolve('items', k));
       const gear = c.context.outfit === 'own' ? [carried] : [...this.of(c.context).map(([, o]) => o.gear ?? []),
-        carried, this.startingCandidates(c.context), this.classGear(c.context)];
+        carried, this.startingCandidates(c.context, vocabulary), this.classGear(c.context, vocabulary)];
       for (const kinds of gear) {
         for (const kind of kinds) {
           const id = this.gearId(c.id, kind);
           if (module.entities.some(e => e.id === id)) { continue; }
+          const definition = vocabulary ? vocabulary.kind(kind) : ItemCatalog.get(kind);
+          if (!definition) { throw new Error(`Unknown item definition ${kind}`); }
           if (!module.entities.some(e => e.id === kind)) {
-            module.entities.push({ id: kind, type: 'itemkind', name: ItemCatalog.get(kind).name });
+            module.entities.push({ id: kind, type: 'itemkind', name: definition.name });
           }
-          module.entities.push({ id, type: 'item', name: ItemNames.called(ItemCatalog.get(kind).name) });
+          module.entities.push({ id, type: 'item', name: ItemNames.called(definition.name) });
           module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'itemKind', args: [id, kind] } });
         }
       }
     }
-    ItemTraits.assert(module);
+    ItemTraits.assert(module, vocabulary);
   }
 }

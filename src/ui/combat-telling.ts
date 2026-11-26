@@ -5,27 +5,33 @@ import { CombatPresenter } from './combat-presenter';
 import { DefenseTelling } from './defense-telling';
 import { Barks } from '../narrative/barks';
 import type { BattleState, CombatEvent, Fighter } from '../model';
-import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
+import { ItemCatalog } from '../item-catalog';
+import type { CatalogContext } from '../catalog-context';
 
 // One exchange: what was told, the dice behind it, the round it fell in, and who acted (if anyone did).
 export interface Telling { text: string; detail: string; round: number; actor?: string }
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 interface Blow { attack: Extract<CombatEvent, { type: 'attack' }>; damage?: Harm }
+type TellingScope = ReadonlyMap<string, string> | { said?: ReadonlyMap<string, string>; vocabulary?: CatalogContext };
 
 // A fight as the company sees it: each exchange (someone acts, and what follows from it) told in a sentence or two,
 // "Elen hits the boar with the spear, for 4. The boar is knocked flat." The dice stay with the exchange, for whoever
 // looks closer, and nothing is said that a watcher could not see.
 export class CombatTelling {
-  static exchanges(events: CombatEvent[], state: BattleState, said?: ReadonlyMap<string, string>): Telling[] {
-    return this.since(events, 0, state, said);
+  static exchanges(events: CombatEvent[], state: BattleState, said?: ReadonlyMap<string, string>,
+    vocabulary?: CatalogContext): Telling[] {
+    return this.since(events, 0, state, { said, vocabulary });
   }
   // The exchanges begun at or after one event, of the whole fight told: a client telling a fight turn by turn had told
   // each turn's events as a fight of their own, its barks begun afresh, and a companion said "Damn it" at each miss
   // (the owner's headless review, 14 November: never the same line twice in one fight).
-  static since(events: CombatEvent[], from: number, state: BattleState, said?: ReadonlyMap<string, string>): Telling[] {
-    const barks = this.barker(state, said), told = new CombatTelling(state, CombatTelling.unlasted(events));
+  static since(events: CombatEvent[], from: number, state: BattleState,
+    options: TellingScope = {}): Telling[] {
+    const scope = 'get' in options ? { said: options, vocabulary: undefined } : options;
+    const barks = this.barker(state, scope.said);
+    const told = new CombatTelling(state, CombatTelling.unlasted(events), scope.vocabulary);
     return this.groups(events).map((g, n) => ({ g, bark: barks.of(g.events, n) })).filter(({ g }) => g.at >= from)
       .map(({ g, bark }) => this.tell(CombatTelling.unheld(g.events), g.round, told, bark)).filter(t => t.text);
   }
@@ -89,7 +95,8 @@ export class CombatTelling {
       // Each sentence begun as one ("The fourth bat misses Ralf", not "the fourth bat misses Ralf").
       // How it fell is the dice, not the blow again: the last blow of the rats' fight was told, then told again
       // with its rolls, its rat falling and the fight won (the owner, 11 November late).
-      detail: group.filter(e => CombatTelling.rolled.has(e.type)).map(e => CombatPresenter.format(e, told.state))
+      detail: group.filter(e => CombatTelling.rolled.has(e.type))
+        .map(e => CombatPresenter.format(e, told.state, true, told.vocabulary))
         .filter(Boolean)
         .map(l => `${l.charAt(0).toUpperCase()}${l.slice(1)}`).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
@@ -128,7 +135,8 @@ export class CombatTelling {
   private static bleeds(id?: string): boolean {
     return !!id && Canon.conditions[Canon.resolve('conditions', id)]?.saveKind === 'bleed';
   }
-  private constructor(private readonly state: BattleState, private readonly unsaid: ReadonlySet<CombatEvent>) {}
+  private constructor(private readonly state: BattleState, private readonly unsaid: ReadonlySet<CombatEvent>,
+    private readonly vocabulary?: CatalogContext) {}
   private fighter(id: string): Fighter | undefined {
     return [...this.state.combatants, ...(this.state.departed ?? []) as Fighter[]].find(f => f.id === id);
   }
@@ -148,7 +156,9 @@ export class CombatTelling {
     }
     const attack = blows[0]?.attack;
     const damage = attack ? blows[0]!.damage : rest.find((e): e is Harm => e.type === 'damage');
-    const carried = action.source?.kind === 'item' && ItemCatalog.used(c.ability) ? action.source.name : undefined;
+    const carried = c.ability.startsWith('item-')
+      ? (action.source?.kind === 'item' ? action.source.name : undefined)
+        || ItemCatalog.used(c.ability, this.vocabulary)?.name : undefined;
     const ability = carried ? ItemNames.called(carried)
       : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return [`${actor} waits.`]; }
@@ -173,11 +183,15 @@ export class CombatTelling {
     if (attack.image) {
       return `${actor} ${kind === 'ranged' ? 'shoots at' : 'strikes at'} ${target}${CombatTelling.imaged(attack)}.`;
     }
-    const held = this.fighter(attack.actor)?.equipment?.weapon;
+    const equipment = this.fighter(attack.actor)?.equipment, held = equipment?.weapon;
     // The blow's own weapon: a ghoul's claws and its bite are one routine, told each by its own.
     const own = !attack.weapon || !held || attack.weapon === held.id;
-    const weapon = own ? this.weapon(attack.actor) : (Canon.items[attack.weapon]?.name ?? attack.weapon.replace(/_/g, ' ')).toLowerCase();
-    const natural = own ? held?.natural : held?.natural || !Canon.items[attack.weapon]?.weapon;
+    const struck = own ? held : equipment?.routine?.find(w => w.id === attack.weapon);
+    const item = this.vocabulary ? this.vocabulary.itemDefinition(attack.weapon) : Canon.items[attack.weapon];
+    const weapon = own ? this.weapon(attack.actor)
+      : (struck?.name ?? item?.name ?? attack.weapon.replace(/_/g, ' ')).toLowerCase();
+    const natural = own ? held?.natural
+      : held?.natural || (struck ? struck.natural : !item?.weapon);
     const how = natural ? CombatTelling.whose(actor, weapon) : actor;
     // A creature's antlers or claws are many, and miss and catch as many ("Finn's antlers misses": the cold
     // evaluation; "the risen dead's claws catches Maren": play 8).
@@ -234,7 +248,7 @@ export class CombatTelling {
       case 'expire': return CombatPresenter.told(e.detail, 'ends')?.replace('{target}', this.name(e.target));
       case 'end': case 'attack': case 'action': case 'initiative': case 'remove': return undefined;
       case 'resist': return CombatPresenter.format(e, this.state, false);
-      default: return CombatPresenter.format(e, this.state);
+      default: return CombatPresenter.format(e, this.state, true, this.vocabulary);
     }
   }
   // A save that held: what it held against, when the blow would have left a condition ("shrugs off the bleeding").

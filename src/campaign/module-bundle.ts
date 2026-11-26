@@ -7,6 +7,7 @@ import { RandomStreams } from '../random-streams';
 import { Content } from '../content';
 import { ModuleParser } from '../lang/module-parser';
 import { KeptParses } from '../lang/kept-parses';
+import { Vocabularies, type Vocabulary } from '../lang/vocabulary';
 import { Diagnostics, type SourceFile } from '../lang/diagnostics';
 import { ModuleAssembly, type AdventureManifest } from './module-assembly';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
@@ -25,7 +26,7 @@ import { Composition, type Composed, type ManifestEntry } from '../world/compose
 import { Routes } from '../lang/routes';
 import { ModuleExports, type ExportEntry } from './module-exports';
 // A file read ahead: its text, the kinds it was read among, and what was declared for it as values.
-interface Ahead { text: string; kinds: string; declared: FileSource['declared'] }
+interface Ahead { text: string; kinds: string | undefined; declared: FileSource['declared'] }
 
 export interface BundleRequest {
   id: string; bundle: string; imports?: Record<string, string>; context?: Record<string, DeemValue>;
@@ -92,7 +93,8 @@ export class ModuleBundle {
     if (!valid) { throw new Error('Invalid module manifest'); }
   }
   // A campaign's modules, in order; entries that ask for a kit are composed into modules with the campaign's seed.
-  static async campaign(path: string, source: BundleSource, seed = ''): Promise<CampaignManifest> {
+  static async campaign(path: string, source: BundleSource, seed = '',
+    vocabulary: Vocabulary = Vocabularies): Promise<CampaignManifest> {
     const manifest = JSON.parse(await source.read(path)) as Omit<CampaignManifest, 'modules'> & { modules: ManifestEntry[] };
     if (manifest.version !== 1 || typeof manifest.name !== 'string' || !Array.isArray(manifest.modules)
       || !manifest.modules.length || (manifest.night && !FictionalTime.keeps(manifest.night))) {
@@ -101,8 +103,8 @@ export class ModuleBundle {
     const entries = manifest.modules.map(m => Composition.isKit(m) ? { ...m, kit: source.resolve(m.kit, path) }
       : { ...m, bundle: source.resolve(m.bundle, path) });
     if (!entries.some(e => Composition.isKit(e))) { return { ...manifest, modules: entries as BundleRequest[] }; }
-    const composed = Composition.take(source, path, seed)
-      ?? await Costs.timed('kits', () => Composition.expand(entries, { seed, source }));
+    const composed = Composition.take(source, path, seed, vocabulary)
+      ?? await Costs.timed('kits', () => Composition.expand(entries, { seed, source, vocabulary }));
     return { ...manifest, modules: composed.modules, composition: composed };
   }
   // A story's context with the names of everyone already in the world among those its people are drawn apart from,
@@ -127,38 +129,40 @@ export class ModuleBundle {
   private static readonly parses = new Map<string, Module>();
   // A text read before is kept, and declares its own kinds as it did when it was read, for the files read after it:
   // two of wren's works leave one chalice, declared in one file of the region and placed in another.
-  // A module's own file is kept by the kinds it was read among as well as its text (see `own`); the shared rules,
-  // which place nothing of a module's kinds, by their text.
+  // Every file is kept by its text and the kinds it names, including shared rules.
   // declared: what a generator declared for the file as values (ModuleSource), declared where their lines were.
-  private static parsed(file: SourceFile, among = false, declared: FileSource['declared'] = []): Module {
-    const key = this.key(file.text, among, declared);
+  private static parsed(file: SourceFile, declared: FileSource['declared'] = [],
+    vocabulary: Vocabulary = Vocabularies): Module {
+    const key = this.key(file.text, declared, vocabulary);
     let module = this.parses.get(key);
     if (!module) {
       // Kept here uncopied (each caller is given a copy below): KeptParses.
-      try { module = KeptParses.of(file.text, declared, ModuleParser.parse.bind(ModuleParser)); }
+      try { module = KeptParses.of(file.text, declared, ModuleParser.parse.bind(ModuleParser), vocabulary); }
       catch (error) { throw Diagnostics.parse(error, file.path); }
       if (this.parses.size > 400) { this.parses.clear(); }
       this.parses.set(key, module);
-    } else { LocalKinds.read(module.catalog); }
+    } else { vocabulary.install(module.catalog); }
     return structuredClone(module);
   }
   // The shared rules a module is read with, joined once for each set of them and kept: every module of a world is read
   // with the same few, and joining them again for each (each file copied out of the parse cache, then joined) had
   // been most of what reading a generated world cost (M19-49). Kept, never changed: compose writes nothing of it.
   private static readonly rulesets = new Map<string, Module>();
-  private static shared(files: SourceFile[]): Module {
-    const key = files.map(f => f.text).join('\u0001');
+  private static shared(files: SourceFile[], vocabulary: Vocabulary = Vocabularies): Module {
+    const text = files.map(f => f.text).join('\u0001');
+    const key = `${files.map(f => Vocabularies.key(vocabulary, f.text)).join('\u0001')}\u0000${text}`;
     let merged = this.rulesets.get(key);
     if (!merged) {
-      merged = this.merge(files.map(f => this.parsed(f)));
+      merged = this.merge(files.map(f => this.parsed(f, [], vocabulary)), vocabulary);
       if (this.rulesets.size > 8) { this.rulesets.clear(); }
       this.rulesets.set(key, merged);
-    } else { LocalKinds.read(merged.catalog); }
+    } else { vocabulary.install(merged.catalog); }
     return merged;
   }
   // And what a generator declared for it as values, where it did (the same text with other values is another module).
-  private static key(text: string, among: boolean, declared: FileSource['declared'] = []): string {
-    return `${among ? `${LocalKinds.seen(text)}\u0000${text}` : text}${declared.length
+  private static key(text: string, declared: FileSource['declared'] = [],
+    vocabulary: Vocabulary = Vocabularies): string {
+    return `${Vocabularies.key(vocabulary, text)}\u0000${text}${declared.length
       ? `\u0000${JSON.stringify(declared)}` : ''}`;
   }
   // A module's own files, each read among every kind its files declare, as one file's are read among its own wherever
@@ -167,20 +171,17 @@ export class ModuleBundle {
   // Each is read again only if a file after it declared kinds (a file knows its own wherever in it they are written);
   // one that could not be read for a kind not yet declared is read again too, once every file has declared its own
   // (Half the Hive's 8: kinds had to come in a file before the one that used them).
-  private static own(files: SourceFile[], sources: (FileSource | undefined)[] = []): Module[] {
-    const read = files.map((f, i) => {
-      try { return { module: this.parsed(f, true, sources[i]?.declared), kinds: LocalKinds.fingerprint() }; }
-      catch { return undefined; }
-    });
-    const all = LocalKinds.fingerprint();
-    return read.map((r, i) => r && r.kinds === all ? r.module : this.parsed(files[i]!, true, sources[i]?.declared));
+  private static own(files: SourceFile[], sources: (FileSource | undefined)[] = [],
+    vocabulary: Vocabulary = Vocabularies): Module[] {
+    return KeptParses.together(files, vocabulary, file => file.text,
+      (file, i) => this.parsed(file, sources[i]?.declared, vocabulary));
   }
   // Several files of one module, joined: the first's identity, everything each declares. What each file declares
   // for itself as it is read (a way's kind, a thing's state) is declared once; anything else declared twice is still
   // an error.
-  private static merge(modules: Module[]): Module {
+  private static merge(modules: Module[], vocabulary: Vocabulary = Vocabularies): Module {
     const merged = this.joined(modules);
-    WorldConstructs.given(merged); Routes.company(merged);
+    WorldConstructs.given(merged, vocabulary); Routes.company(merged);
     return merged;
   }
   private static joined(modules: Module[]): Module {
@@ -259,70 +260,70 @@ export class ModuleBundle {
   // Reads and parses a module's files ahead of its loading (a country while its protagonist is chosen), one file at a
   // time with a pause between, so that whatever else is asked meanwhile is answered; its loading then finds them.
   static async warm(path: string, source: BundleSource): Promise<void> {
+    const vocabulary = Vocabularies.fork();
+    if (!vocabulary) { return; }
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     const { situations, rules } = this.paths(manifest, path, source);
     await this.read([...situations, ...rules], source, { own: situations.length,
-      values: await this.sources(manifest, path, source) });
+      values: await this.sources(manifest, path, source), vocabulary });
   }
   // The same for a module not yet in the game in play (the country beyond a march, while the player reads the choice
-  // that leads to it): what each file declares of its own kinds is taken out of the catalogs again once it is parsed,
-  // the kinds of the files before it put in for it alone, so a country never gone to leaves none behind.
-  static async prepare(path: string, source: BundleSource): Promise<void> {
-    const manifest = JSON.parse(await source.read(path)) as BundleManifest, catalogs: Module['catalog'][] = [];
+  // that leads to it): a fork holds its kinds, so a country never gone to leaves none behind. Providers that cannot
+  // fork cannot safely be read ahead.
+  static async prepare(path: string, source: BundleSource, context: Vocabulary = Vocabularies): Promise<void> {
+    const vocabulary = context.fork?.();
+    if (!vocabulary) { return; }
+    const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     const { situations, rules } = this.paths(manifest, path, source), read: Ahead[] = [];
     const values = await this.sources(manifest, path, source);
     for (const [i, file] of [...situations, ...rules].entries()) {
       const text = await source.read(file), own = i < situations.length, declared = values[i]?.declared ?? [];
-      const module = LocalKinds.aside(() => {
-        for (const catalog of catalogs) { LocalKinds.read(catalog); }
-        const parsed = this.ahead(text, own, declared);
-        LocalKinds.read(parsed?.catalog);
-        if (own) { read.push({ text, kinds: LocalKinds.fingerprint(), declared }); }
-        return parsed;
-      });
+      this.ahead(text, declared, vocabulary);
+      if (own) { read.push({ text, kinds: vocabulary.fingerprint?.(), declared }); }
       await new Promise(resolve => setTimeout(resolve, 0));
-      catalogs.push(module?.catalog);
     }
     // Those of its own read before all its kinds were known, read again among them, as its loading will (see `own`).
-    LocalKinds.aside(() => {
-      for (const catalog of catalogs) { LocalKinds.read(catalog); }
-      const all = LocalKinds.fingerprint();
-      for (const r of read.filter(x => x.kinds !== all)) { this.ahead(r.text, true, r.declared); }
-    });
+    const all = vocabulary.fingerprint?.();
+    for (const r of read.filter(x => !all || x.kinds !== all)) { this.ahead(r.text, r.declared, vocabulary); }
   }
   // One file read ahead, kept as its loading will look for it (see `key`).
-  private static ahead(text: string, own: boolean, declared: FileSource['declared'] = []): Module | undefined {
-    const key = this.key(text, own, declared), known = this.parses.get(key);
-    if (known) { return known; }
+  private static ahead(text: string, declared: FileSource['declared'] = [],
+    vocabulary: Vocabulary = Vocabularies): Module | undefined {
+    const key = this.key(text, declared, vocabulary), known = this.parses.get(key);
+    if (known) { vocabulary.install(known.catalog); return known; }
     try {
-      const parsed = KeptParses.of(text, declared, ModuleParser.parse.bind(ModuleParser));
+      const parsed = KeptParses.of(text, declared, ModuleParser.parse.bind(ModuleParser), vocabulary);
       if (this.parses.size < 400) { this.parses.set(key, parsed); }
       return parsed;
     } catch { return undefined; }
   }
   // The rules every game is played by, read before any game is asked for (while the title is up).
   static async warmRules(source: BundleSource): Promise<void> {
-    await this.read(this.ruleNames.map(name => source.resolve(`data/rules/${name}.kyr`)), source);
+    const vocabulary = Vocabularies.fork();
+    if (!vocabulary) { return; }
+    await this.read(this.ruleNames.map(name => source.resolve(`data/rules/${name}.kyr`)), source,
+      { own: 0, values: [], vocabulary });
   }
   // The first `own` of them a module's own files (see `key`), each with what was declared for it as values.
   private static async read(files: string[], source: BundleSource,
-    at: { own: number; values: (FileSource | undefined)[] } = { own: 0, values: [] }): Promise<void> {
+    at: { own: number; values: (FileSource | undefined)[]; vocabulary: Vocabulary }): Promise<void> {
     const read: Ahead[] = [];
     for (const [i, file] of files.entries()) {
       const own = i < at.own, declared = own ? at.values[i]?.declared ?? [] : [];
-      const text = await source.read(file), key = this.key(text, own, declared);
+      const text = await source.read(file), key = this.key(text, declared, at.vocabulary);
       if (!this.parses.has(key)) {
         // The parse kept, uncopied: these are copied as they are handed out (see parsed).
-        try { this.parses.set(key, KeptParses.of(text, declared, ModuleParser.parse.bind(ModuleParser))); }
+        try { this.parses.set(key,
+          KeptParses.of(text, declared, ModuleParser.parse.bind(ModuleParser), at.vocabulary)); }
         catch { /* said when it is loaded */ }
         await new Promise(resolve => setTimeout(resolve, 0));
       }
-      LocalKinds.read(this.parses.get(key)?.catalog);
-      if (own) { read.push({ text, kinds: LocalKinds.fingerprint(), declared }); }
+      at.vocabulary.install(this.parses.get(key)?.catalog);
+      if (own) { read.push({ text, kinds: at.vocabulary.fingerprint?.(), declared }); }
     }
     // Its own read before all its kinds were known, read again among them, as its loading will (see `own`).
-    const all = LocalKinds.fingerprint();
-    for (const r of read.filter(x => x.kinds !== all)) { this.ahead(r.text, true, r.declared); }
+    const all = at.vocabulary.fingerprint?.();
+    for (const r of read.filter(x => !all || x.kinds !== all)) { this.ahead(r.text, r.declared, at.vocabulary); }
   }
   // Only the named rules are shared (world, elements, devotion): any other file a manifest names among its rules is
   // its own, read as its sources are and named for it (a rules file of its own had declared another module's private
@@ -331,12 +332,13 @@ export class ModuleBundle {
   // A module's own files compiled before, or each read (among the kinds they declare) with what was declared for it
   // as values put in its place (ModuleSource), by the key of both and the shared rules.
   private static async reading(own: SourceFile[], rules: SourceFile[],
-    at: { manifest: BundleManifest; path: string; source: BundleSource }) {
+    at: { manifest: BundleManifest; path: string; source: BundleSource; vocabulary: Vocabulary }) {
     const sources = await this.sources(at.manifest, at.path, at.source);
     const key = CompiledModules.key(CompiledModules.edition(rules.map(f => f.text)),
-      [...own.map(f => f.text), ...sources.some(Boolean) ? sources.map(x => x ? JSON.stringify(x) : '') : []]);
-    const kept = CompiledModules.get(key, true);
-    return { key, kept, sources, mine: kept ? [] : this.own(own, sources)
+      [...own.map(f => f.text), ...sources.some(Boolean) ? sources.map(x => x ? JSON.stringify(x) : '') : []],
+      at.vocabulary, { rules: rules.map(f => f.text), paths: own.map(f => f.path) });
+    const kept = CompiledModules.get(key, true, at.vocabulary);
+    return { key, kept, sources, mine: kept ? [] : this.own(own, sources, at.vocabulary)
       .map((m, i) => SemanticRecords.filed(m, own[i]!.path)) };
   }
   // What was declared for each of a module's own files as values, in their order (none where nothing was).
@@ -360,17 +362,22 @@ export class ModuleBundle {
   static load(...a: Parameters<typeof ModuleBundle.loading>): Promise<ModuleDraft> {
     return Costs.timed('install', () => ModuleBundle.loading(...a), { id: a[0].id });
   }
+  private static async canon(path: string, source: BundleSource, vocabulary: Vocabulary) {
+    const canon = ModuleCanon.is(path, source) ? undefined : await ModuleCanon.declarations(source, vocabulary);
+    ModuleCanon.supply(canon, vocabulary);
+    return canon;
+  }
   private static async loading(request: BundleRequest, options: {
     seed: string; installed?: InstalledModule[]; elapsed?: number; people?: readonly Entity[]; party?: number;
-    canonless?: boolean; kinds?: Module['catalog'];
+    canonless?: boolean; kinds?: Module['catalog']; vocabulary?: Vocabulary;
     // Read on its own, its imports unbound (what its exports are: ExportRoles), never to be played.
     unbound?: boolean;
   }, source: BundleSource): Promise<ModuleDraft> {
     if (!/^[A-Za-z][A-Za-z0-9-]*$/.test(request.id)) { throw new Error('Invalid module installation ID'); }
-    const path = source.resolve(request.bundle);
+    const vocabulary = options.vocabulary ?? Vocabularies, path = source.resolve(request.bundle);
     const manifest = JSON.parse(await source.read(path)) as BundleManifest;
     ModuleBundle.check(manifest);
-    const canon = ModuleCanon.is(path, source) ? undefined : await ModuleCanon.declarations(source);
+    const canon = options.canonless ? undefined : await this.canon(path, source, vocabulary);
     const { situations: situationPaths, rules: rulePaths } = this.paths(manifest, path, source,
       options.canonless);
     const settled = await Promise.allSettled([...situationPaths, ...rulePaths,
@@ -384,29 +391,29 @@ export class ModuleBundle {
     // Its own files first, each read among every kind they declare (see `own`), and then the shared rules; or its own
     // as they were compiled before beside the same rules (see CompiledModules).
     const own = files.slice(0, situationPaths.length), rules = files.slice(situationPaths.length);
-    const { key, kept, mine, sources } = await this.reading(own, rules, { manifest, path, source });
+    const { key, kept, mine, sources } = await this.reading(own, rules, { manifest, path, source, vocabulary });
     const seed = RandomStreams.key(options.seed, 'module', kept?.id ?? mine[0]!.id, request.randomIdentity ?? '');
     const generated = { ...this.generated(manifest, texts.slice(-2) as [string, string], seed,
       { ...ModuleBundle.apart({ ...manifest.generation?.context, ...request.context }, options.people),
         now: options.elapsed ?? 0 }),
     imports: manifest.imports ?? [] };
-    const combined = this.shared(rules);
+    const combined = this.shared(rules, vocabulary);
     // The one kept is shared: of it, only what is changed here is copied (its company, sized; its entities, given the
     // canon's), and the shared rules too go to compose uncopied, which writes into neither (ModuleCompiler.instantiate
     // lowers into a module of its own: AX-04, test/small/frozen-modules).
-    const made = kept ?? this.compiled(key, own, mine, { combined, valued: sources.some(Boolean) }), told = made.told;
+    const made = kept ?? this.compiled(key, own, mine, { combined, valued: sources.some(Boolean), vocabulary });
     const composed = kept ? ModuleBundle.owned(made.module) : made.module;
     ModuleBundle.sized(composed, options.party);
     // What it names of the canon is given it, and bound as the world's own (see ModuleCanon).
     const given = ModuleCanon.give(composed, manifest.canon ?? [], canon, path);
     const bound = given.length ? { ...manifest, globals: [...manifest.globals ?? [], ...given] } : manifest;
     // A module read before (and kept parsed) puts its own kinds back for the campaign being assembled.
-    LocalKinds.read(combined.catalog); LocalKinds.read(composed.catalog);
+    vocabulary.install(combined.catalog); vocabulary.install(composed.catalog);
     let draft: ModuleDraft, imports: Record<string, string>;
     try {
-      const instance = ModuleAssembly.compose(composed, combined, generated, seed);
+      const instance = ModuleAssembly.compose(composed, combined, generated, { seed, vocabulary });
       ModuleCanon.settle(instance.module, given);
-      if (told.length) { instance.campaign = { ...instance.campaign!, shadows: told }; }
+      if (made.told.length) { instance.campaign = { ...instance.campaign!, shadows: made.told }; }
       imports = this.imports(options.unbound ? { ...bound, optional: bound.imports } : bound, request,
         options.installed, instance.module);
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
@@ -427,15 +434,17 @@ export class ModuleBundle {
   // ModuleShadow); kept by its texts and the rules' edition.
   // A module of a generator's values naming a shared rule's own (none does) is refused: renamed in the text, the
   // values would be read where their lines are no more.
-  private static compiled(key: string, own: SourceFile[], mine: Module[], at: { combined: Module; valued: boolean }):
+  private static compiled(key: string, own: SourceFile[], mine: Module[],
+    at: { combined: Module; valued: boolean; vocabulary: Vocabulary }):
     Compiled {
-    const combined = at.combined, parsed = this.merge(mine), shadowed = ModuleShadow.shared(parsed, combined);
+    const combined = at.combined, parsed = this.merge(mine, at.vocabulary);
+    const shadowed = ModuleShadow.shared(parsed, combined);
     if (at.valued && shadowed.functions.length) {
       throw new Error(`A module declared in part as values names the shared rules' ${shadowed.functions.join(', ')}`);
     }
     const module = ModuleShadow.apart(shadowed.functions.length
-      ? this.merge(own.map(f => SemanticRecords.filed(this.parsed({ ...f, text: ModuleShadow.text(f.text, shadowed) },
-        true), f.path))) : parsed,
+      ? this.merge(own.map(f => SemanticRecords.filed(this.parsed(
+        { ...f, text: ModuleShadow.text(f.text, shadowed) }, [], at.vocabulary), f.path)), at.vocabulary) : parsed,
     shadowed);
     const compiled = { module, id: mine[0]!.id, told: ModuleShadow.told(shadowed) };
     CompiledModules.set(key, compiled);

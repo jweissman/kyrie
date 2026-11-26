@@ -1,4 +1,5 @@
 import { Canon } from './canon';
+import { LocalKinds } from './local-catalog';
 
 // The fields each catalog record may have (the SRD adaptation briefing, §14: unknown fields are errors at every
 // catalog boundary). A field Kyr does not read is refused as the canon loads, never carried inert: the unicorn's `dr`
@@ -45,16 +46,21 @@ type Record_ = Record<string, unknown>;
 
 export class CatalogFields {
   static readonly fields: Readonly<Record<keyof typeof fields, readonly string[]>> = fields;
+  static catalogs(canonicalOnly: boolean): { items: typeof Canon.items; species: typeof Canon.species } {
+    if (!canonicalOnly) { return { items: Canon.items, species: Canon.species }; }
+    return { items: Object.fromEntries(Object.entries(Canon.items).filter(([id]) => !LocalKinds.local(id))),
+      species: Object.fromEntries(Object.entries(Canon.species).filter(([id]) => !Canon.installed.has(id))) };
+  }
   // Every resolved record's fields (after Orsino's generated entries and Kyr's hand-written ones are merged, as the
   // canon reads them), and the fields of what each holds: a body's statistics, a weapon's and armour's stats, a source.
-  static problems(): string[] {
-    const families: [keyof typeof fields, Record<string, unknown>][] = [['species', Canon.species],
+  static problems(catalog?: { items: typeof Canon.items; species: typeof Canon.species }): string[] {
+    const families: [keyof typeof fields, Record<string, unknown>][] = [['species', catalog?.species ?? Canon.species],
       ['species', Canon.devices], ['ability', Canon.abilities], ['condition', Canon.conditions], ['trait', Canon.traits],
-      ['item', Canon.items], ['ancestry', Canon.ancestries], ['class', Canon.classes], ['skill', Canon.skills],
+      ['item', catalog?.items ?? Canon.items], ['ancestry', Canon.ancestries], ['class', Canon.classes], ['skill', Canon.skills],
       ['plant', Canon.plants], ['deity', Canon.deities], ['domain', Canon.domains], ['material', Canon.materials],
       ['habitat', Canon.habitats], ['variation', Canon.variations]];
     return families.flatMap(([family, records]) => Object.entries(records)
-      .filter(([id]) => !Canon.installed.has(id))
+      .filter(([id]) => catalog || !Canon.installed.has(id))
       .flatMap(([id, r]) => CatalogFields.of(`${family} ${id}`, family, r as Record_)));
   }
   private static of(where: string, family: keyof typeof fields, r: Record_): string[] {

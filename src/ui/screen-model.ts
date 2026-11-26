@@ -57,9 +57,11 @@ export class ScreenModel {
     const present = new Set(view.present.map(p => p.id)), teaches = knowing.teaches.bind(knowing);
     const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign);
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign, frame.rows), { present, names, prices, passageOf, fees,
-      tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
+      tell: ScreenModel.tellFor.bind(undefined, campaign.vocabulary),
+      ...campaign.vocabulary ? { item: campaign.vocabulary.runtimeItem.bind(campaign.vocabulary) } : {},
+      ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), teaches,
-      ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
+      ...(view.actor ? { carrier: Carriers.in.bind(Carriers, campaign, view.actor) } : {}) });
     const here = view.location?.id ?? '', passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
     const unclaimed = new Map([...grouped.targets].filter(([id]) => !present.has(id)));
@@ -77,8 +79,7 @@ export class ScreenModel {
       title: view.title, clock: FictionalTime.at(view.elapsed, view.minutes), elapsed: view.elapsed,
       running: view.running, ...Patience.of(campaign, view.minutes),
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
-      prose: scene.prose, fresh: scene.fresh, observed: view.observations,
-      dark: view.observations.some(o => o.id === 'darkness'),
+      prose: scene.prose, fresh: scene.fresh, observed: view.observations, dark,
       exits: here ? Headings.of(world.module, passages.path(here), here, passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited })) : [],
       // A kind's painting is of its kind, as an emblem is (the menagerie, 6 November): two dogs here are both dogs.
@@ -96,7 +97,7 @@ export class ScreenModel {
       trade: here ? TradeModel.at(world, here, names) : [], services: Services.of(campaign, names),
       ...Undertakings.shown(campaign, view.objectives ?? [], here), ...Owed.shown(campaign),
       ...TalkWeight.shown(campaign, frame), ...stakes.size ? { aimed: [...stakes] } : {},
-      ...charted, expedition: this.expedition(world, view, items, here),
+      ...charted, expedition: this.expedition(campaign, view, items, here),
       map: view.map.places.map(p => ({ id: p.id, name: p.name, visited: p.visited, here: p.id === here,
         zone: passages.path(p.id).slice(0, -1).at(-1)?.name ?? p.zone ?? '' })),
       ...Itineraries.shown(campaign, entities, charted.region), ...Quarters.shown(world, entities, here),
@@ -185,9 +186,8 @@ export class ScreenModel {
   // like now, told with them. Lines the company has not seen before at a place it has seen before are fresh.
   private static scene(campaign: Campaign, view: PlayerSnapshot, present: Set<string>) {
     const defs = new Map((campaign.module.observations ?? []).map(o => [o.id, o]));
-    const events = campaign.history, last = events.at(-1);
+    const events = campaign.history, last = events.at(-1), here = view.location?.id;
     const before = new Set(events.slice(0, -1).flatMap(e => (e.perceptions ?? []).map(p => p.id)));
-    const here = view.location?.id;
     const known = here !== undefined && [...before].some(id => defs.get(id)?.place === here && !defs.get(id)?.anchor);
     const fresh = known ? (last?.perceptions ?? []).filter(p => p.kind === 'observation' && !before.has(p.id))
       .map(p => FictionalTime.prose(p.text)) : [];
@@ -208,18 +208,14 @@ export class ScreenModel {
   }
   // What a spell or technique does, in its own words and then in the rules' terms.
   // Why a choice cannot be made: the skill it needs, and anything else that would do, which the company lacks.
-  static tell(this: void, id: string): string | undefined {
-    const ability = Content.abilities.find(a => a.id === id), feat = Canon.traits[id];
-    // A feat: what each of its perks does, and the abilities it brings.
-    if (!ability && feat?.category === 'feat') {
-      const perks = (feat.perks ?? [{ name: feat.name, description: '', modifiers: feat.modifiers }]).map(p => PerkText.of(p));
-      const brings = (feat.grants?.abilities ?? []).map(a => Content.abilities.find(x => x.id === a)?.name)
-        .filter(Boolean);
-      return [...perks, brings.length ? `Brings ${brings.join(', ')}.` : ''].filter(Boolean).join(' ');
-    }
-    if (!ability) { return undefined; }
+  private static tellFor(this: void, vocabulary: Campaign['vocabulary'], id: string): string | undefined {
+    return ScreenModel.tell(id, vocabulary);
+  }
+  static tell(this: void, id: string, vocabulary?: Campaign['vocabulary']): string | undefined {
+    const ability = Content.abilities.find(a => a.id === id);
+    if (!ability) { return PerkText.feat(id); }
     const prose = Canon.abilities[id]?.effects ? ability.description : '';
-    return [prose, MechanicsText.full(ability)].filter(Boolean).join(' ');
+    return [prose, MechanicsText.full(ability, undefined, vocabulary)].filter(Boolean).join(' ');
   }
   // Things standing on a passage from here (a door, a ladder) are acted on from that exit.
   private static passageOf(world: Campaign['world'], here: string): Map<string, string> {
@@ -232,15 +228,15 @@ export class ScreenModel {
     return result;
   }
   // What a provisioning party plans around: the hour, whether it is light, food in hand, and when they next must eat.
-  private static expedition(world: Campaign['world'], view: PlayerSnapshot, items: ItemRow[], here?: string) {
+  private static expedition(campaign: Campaign, view: PlayerSnapshot, items: ItemRow[], here?: string) {
     // Light as the world has it (dark), and the evening as the one clock says it: two formulas disagreed by an hour
     // (the review's H5).
-    const actor = view.actor, elapsed = view.elapsed, part = FictionalTime.part(elapsed);
+    const world = campaign.world, actor = view.actor, elapsed = view.elapsed, part = FictionalTime.part(elapsed);
     const dark = world.relates('dark') ? world.test(ModuleWriter.call('dark')) : part === 'night';
     const daylight = dark ? 'night' : part === 'evening' ? 'evening' : 'day';
     const meal = world.module.measures.some(m => m.name === 'nextMeal') ? world.number(ModuleWriter.call('nextMeal', actor)) : 0;
     const unlit = !!here && world.test(ModuleWriter.call('unlit', here));
-    return { time: FictionalTime.at(elapsed, view.minutes), daylight, ...this.light(view, items, unlit),
+    return { time: FictionalTime.at(elapsed, view.minutes), daylight, ...this.light(view, items, unlit, campaign),
       ...CarriedFlame.of(view, unlit),
       rations: world.module.measures.some(m => m.name === 'quantity') ? world.number(ModuleWriter.call('quantity', actor, 'rations')) : 0,
       hungry: world.module.relations.some(r => r.name === 'hungry') && world.test(ModuleWriter.call('hungry', actor)),
@@ -253,7 +249,7 @@ export class ScreenModel {
   // How long the company's light will last, where that matters: somewhere unlit, or while something burns. A flame of
   // its own is put out where it is not wanted, and keeps what is left of it (FieldUse.advance): a torch said to have
   // "10 minutes left" in daylight, and after a night's sleep, read as burning on (play 7).
-  private static light(view: PlayerSnapshot, items: ItemRow[], unlit: boolean): { light?: string } {
+  private static light(view: PlayerSnapshot, items: ItemRow[], unlit: boolean, campaign: Campaign): { light?: string } {
     const lit = view.party.flatMap(m => m.conditions.filter(c => this.burning[c]).map(c => `${m.name}'s ${this.burning[c]}`
       + `${c !== 'lit' && !unlit ? ', put out' : ''}${m.lasting?.[c] ? `${c !== 'lit' && !unlit ? ' with' : ','} `
         + `${FictionalTime.spoken(m.lasting[c])} left` : ''}`));
@@ -262,7 +258,7 @@ export class ScreenModel {
       [this.count(items, 'lamp_oil'), 'flask of oil', 'flasks of oil']] as [number, string, string][])
       .filter(([n]) => n > 0).map(([n, one, many]) => `${n} ${n === 1 ? one : many}`).join(', ');
     return { light: `${lit.length ? lit.join('; ') : 'Nothing lit'} · ${spare ? `${spare} to spare` : 'nothing to spare'}`
-      + (ItemUses.dry(items.map(i => i.kind)) ? ' · a lamp, and no oil for it' : '') };
+      + (ItemUses.dry(items.map(i => i.kind), campaign.vocabulary) ? ' · a lamp, and no oil for it' : '') };
   }
   private static count(items: ItemRow[], kind: string): number { return items.filter(i => i.kind === kind).length; }
   // Identical wares on one shelf read as one row with a count; acting on the row acts on one of them.
@@ -276,12 +272,12 @@ export class ScreenModel {
     }
     return out;
   }
-  private static look(members: NonNullable<PlayerSnapshot['present'][number]['members']>): string | undefined {
-    const standing = members.filter(m => m.hp > 0);
+  private static look(members: NonNullable<PlayerSnapshot['present'][number]['members']>,
+    vocabulary?: Campaign['vocabulary']): string | undefined {
+    const standing = members.filter(m => m.hp > 0), kinds = new Map<string, number>();
     if (!standing.length) { return undefined; }
-    const kinds = new Map<string, number>();
     for (const m of standing) {
-      const race = Content.race(m.raceId)?.name ?? m.raceId;
+      const race = Content.race(m.raceId, vocabulary)?.name ?? m.raceId;
       const calling = m.classId ? Content.classes[m.classId as keyof typeof Content.classes]?.name : undefined;
       const kind = calling ? `${race} ${calling.toLowerCase()}` : race;
       kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
@@ -304,29 +300,29 @@ export class ScreenModel {
       // A creature that keeps the peace (a dog on a doorstep, a goat on a tether) is an animal about the place, not a
       // danger; what it is, its role says. One of the dead or a spirit who keeps it, and is a he or a she, is someone
       // (a drowned girl in a cell had been among the animals: play 8).
-      const peaceable = !playable && w.test(ModuleWriter.call('peaceable', p.id));
-      const soul = peaceable && p.members?.length === 1 && Canon.soul(member!.raceId, w.one('pronouns', p.id));
-      const animal = peaceable && !soul;
+      const peaceable = !playable && w.test(ModuleWriter.call('peaceable', p.id)), bodies = at.campaign?.vocabulary ?? Canon;
+      const soul = peaceable && p.members?.length === 1 && Canon.soul(member!.raceId, w.one('pronouns', p.id), bodies);
+      const animal = peaceable && !soul, v = at.campaign?.vocabulary;
       // A creature its author gave a role is said by it ("the tall grey figure that walks the Long Man"), not by its
       // kind, which may be what the company has yet to find out (an automaton). In the dark neither is seen: a
       // revenant in a pitch-black crypt was "The risen dead · Revenant" (A Winter in Carth's friction 11, CTH-11).
       const note = dark ? undefined : (p.state ? undefined : p.condition) ?? (member && !playable && !animal
-        && !p.name.includes(', ') ? `${Content.race(member.raceId)?.name ?? member.raceId}` : undefined);
+        && !p.name.includes(', ') ? `${Content.race(member.raceId, v)?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       // In the dark they are heard, not seen: nothing of how many are hurt, how seasoned or how hardy (the
       // architecture review's H5: exact hit points beside "In the dark you can hear…").
       const look = dark || p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner'))
-        ? undefined : this.look(p.members ?? []);
+        ? undefined : this.look(p.members ?? [], v);
       const name = Band.last(p, dark ? p.name.split(', ')[0]! : this.called(w, p.id, p.name));
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
       // A creature is shown by its kind's painting, where its kind has one (see CreaturePortraits).
       const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id)
-        : !playable && member && !dark ? CreaturePortraits.of(member.raceId) : undefined;
+        : !playable && member && !dark ? CreaturePortraits.of(member.raceId, v) : undefined;
       // A beast by the beast's emblem, keeping the peace or not (hounds denned in a room are beasts too).
-      const beast = !playable && !!member && Canon.isSpecies(member.raceId) && Canon.creature(member.raceId).kind === 'animal';
+      const beast = !playable && !!member && bodies.isSpecies(member.raceId) && bodies.creature(member.raceId).kind === 'animal';
       const emblem = animal || beast ? 'animal' : playable && Emblems.has(member!.raceId) ? member!.raceId : undefined;
-      const entry = !playable && member && !dark ? EncyclopediaEntry.creature(member.raceId) : undefined;
+      const entry = !playable && member && !dark ? EncyclopediaEntry.creature(member.raceId, v) : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {}, ...entry ? { entry } : {},
         ...Band.standing(p) > 1 ? { many: true } : {}, ...Canon.isDevice(member?.raceId ?? '') && { device: true },
@@ -340,18 +336,19 @@ export class ScreenModel {
     // Something growing is told by how it grows (its description), not by the name of its state.
     const note = p.condition && p.type !== 'scenery' ? p.condition : owner ? `${owner}'s` : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
-    const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
-    const plate = p.type === 'item' ? ItemPlates.of(w, p.id) : undefined, within = p.within ? { within: p.within } : {};
+    const look = p.type === 'item' ? this.described(w, p.id, p.name, at.campaign?.vocabulary) : undefined;
+    const plate = p.type === 'item' ? ItemPlates.of(w, p.id, at.campaign?.vocabulary) : undefined;
     // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
-    return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name, ...within,
+    return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
+      ...p.within ? { within: p.within } : {},
       ...(note ? { note } : {}), ...(look ? { look } : {}), ...plate ? { portrait: plate } : {},
       ...(p.type === 'item' && !forSale && !owner && Treasure.valuable(w, p.id) ? { valuable: true } : {}), acts };
   }
   // A thing to be had, seen for what it is in its kind's own words (the follow-up review found a singer's token that
   // offered nothing but Take, though its kind is described); none where those words are only its name.
-  private static described(w: Campaign['world'], id: string, name: string): string | undefined {
+  private static described(w: World, id: string, name: string, vocabulary?: Campaign['vocabulary']): string | undefined {
     const kind = w.module.relations.some(r => r.name === 'itemKind') ? w.one('itemKind', id) : undefined;
-    const told = kind ? ItemCatalog.definitions[kind] : undefined;
+    const told = kind ? vocabulary ? vocabulary.runtimeItem(kind) : ItemCatalog.definitions[kind] : undefined;
     if (!told) { return undefined; }
     return [name, told.name].some(n => ScreenModel.bare(n) === ScreenModel.bare(told.description)) ? undefined
       : told.description;
@@ -364,9 +361,9 @@ export class ScreenModel {
       .map(t => ({ name: t!.name, perks: (t!.perks ?? []).map(p => PerkText.of(p)) }));
   }
   private static party(view: PlayerSnapshot, campaign: Campaign, grouped: Grouped): MemberRow[] {
-    const entities = campaign.module.entities, taken = new Set<string>();
+    const entities = campaign.module.entities, taken = new Set<string>(), vocabulary = campaign.vocabulary;
     return view.party.map(m => {
-      const ref = entities.find(e => e.creatureId === m.id)?.id, race = Content.race(m.raceId)?.name ?? m.raceId;
+      const ref = entities.find(e => e.creatureId === m.id)?.id, race = Content.race(m.raceId, vocabulary)?.name;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness ?? Portraits.met(campaign, ref);
       const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined, trade = Canon.backgrounds[m.backgroundId ?? ''];
@@ -374,7 +371,7 @@ export class ScreenModel {
       const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} },
         taken);
       const emblems = [m.raceId, m.classId].filter((x): x is string => !!x && Emblems.has(x));
-      return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(), emblems,
+      return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race ?? m.raceId} ${klass}`.toLowerCase(), emblems,
         ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},
         ...face ? { face } : {}, ...m.classId ? { calling: m.classId } : {},
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
@@ -385,9 +382,8 @@ export class ScreenModel {
         conditions: m.conditions.filter(c => !this.boon(c)).map(c => this.condition(c)), ...Standing.of(m),
         boons: m.conditions.filter(c => this.boon(c))
           .map(c => `${this.condition(c)}${m.lasting?.[c] ? ` · ${FictionalTime.duration(m.lasting[c])} left` : ''}`),
-        abilities: AbilityRows.of(m),
-        attributes: m.attributes ?? {}, acts: ref ? Illumination.mark([...grouped.members.get(ref) ?? [],
-          ...this.orders(campaign, ref, grouped)]) : [],
+        abilities: AbilityRows.of(m, vocabulary), attributes: m.attributes ?? {}, acts: ref ? Illumination.mark([
+          ...grouped.members.get(ref) ?? [], ...this.orders(campaign, ref, grouped)]) : [],
         overlays: this.overlays(campaign, m.id), ...this.sheet(campaign, m.id, ref, grouped.members.get(ref ?? '') ?? []) };
     });
   }
@@ -422,12 +418,11 @@ export class ScreenModel {
   }
   // Each overlay and what it actually contributed, so a player can see why a companion can do something.
   private static overlays(campaign: Campaign, id: string) {
-    const c = campaign.readout.creatures.find(x => x.id === id);
-    if (!c) { return []; }
+    const c = campaign.readout.creatures.find(x => x.id === id); if (!c) { return []; }
     const all = Overlays.contributions(c);
     return Overlays.of(c).map(([oid, o]) => ({ id: oid, name: o.name, role: o.role,
       grants: all.filter(x => x.source === oid).map(x => x.kind === 'skill' ? `${campaign.module.entities.find(e => e.id === x.value)?.name ?? x.value} (skill)`
-        : x.kind === 'gear' ? ItemCatalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
+        : x.kind === 'gear' ? ItemCatalog.get(x.value, campaign.vocabulary).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
   }
   private static condition(id: string): string { return Canon.conditions[Canon.resolve('conditions', id)]?.name ?? id; }
   // A condition that helps (a lit torch, a blessing, a ward) is told apart from one that hurts.
@@ -438,16 +433,19 @@ export class ScreenModel {
     return !!status && !!Canon.conditions[Canon.resolve('conditions', status)]?.grants?.includes('light');
   }
   private static items(campaign: Campaign, grouped: Grouped, entities: Map<string, Entity>): ItemRow[] {
-    const state = campaign.readout;
+    const state = campaign.readout, v = campaign.vocabulary, world = campaign.world;
     const party = state.creatures.filter(c => state.partyIds.includes(c.id)), carried = ItemUses.carried(party);
     return party.flatMap(c => (c.state.inventory ?? []).map(i => {
-      const d = ItemCatalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
-      const kept = ItemUses.kept(i.definition, acts, carried), points = Seats.line(campaign.world, i.definition);
-      const plate = ItemPlates.kind(i.definition);
+      const d = ItemCatalog.get(i.definition, v), acts = grouped.items.get(i.id) ?? [];
+      const kept = ItemUses.kept(i.definition, acts, carried, v);
+      const points = Seats.line(world, i.definition, undefined, v), plate = ItemPlates.kind(i.definition, v);
       return { id: i.id, name: ItemNames.shown(entities.get(i.id)?.name, d.name), kind: i.definition,
         description: d.description, ...plate ? { plate } : {},
-        owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...ItemStow.of(c, i, this.lights(d.use)),
-        ...(this.lights(d.use) ? { light: true } : {}), acts, ...kept ? { kept } : {}, ...points ? { points } : {} };
+        owner: c.id, ownerName: c.name, equipped: !!i.equipped,
+        ...ItemStow.of(c, i, this.lights(d.use), v),
+        ...(this.lights(d.use) ? { light: true } : {}),
+        ...ItemUses.mends(d.use ? ItemCatalog.use(i.definition, v) : undefined) ? { mends: true } : {},
+        acts, ...kept ? { kept } : {}, ...points ? { points } : {} };
     }));
   }
 }

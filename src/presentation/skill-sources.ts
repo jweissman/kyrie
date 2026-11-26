@@ -9,7 +9,8 @@ import { EntityIndex } from '../lang/entity-index';
 // expedition diagnosis).
 export class SkillSources {
   static where(campaign: Campaign, skill: string): string | undefined {
-    const kinds = new Set(Object.entries(Canon.items).filter(([, i]) => i.grants?.skill === skill
+    const items = campaign.vocabulary?.itemDefinitions() ?? Canon.items;
+    const kinds = new Set(Object.entries(items).filter(([, i]) => i.grants?.skill === skill
       || i.aids?.includes(skill)).map(([k]) => k));
     if (!kinds.size) { return undefined; }
     // By the indexes of the module's entities and of who sells each thing, not by going through every sale for each
@@ -18,7 +19,7 @@ export class SkillSources {
     const ware = world.related('itemKind').find(r => kinds.has(r.args[1]!) && world.related('soldBy', r.args[0]).length);
     if (!ware) { return undefined; }
     const seller = world.related('soldBy', ware.args[0])[0]!.args[1]!;
-    const place = world.one('at', seller), who = byId.get(seller)?.name, kind = Canon.items[ware.args[1]!]!.name;
+    const place = world.one('at', seller), who = byId.get(seller)?.name, kind = items[ware.args[1]!]!.name;
     if (!who) { return undefined; }
     const at = place && byId.get(place)?.name;
     return `${who}${at ? `, at ${at},` : ''} sells ${ItemNames.called(kind)}.`;

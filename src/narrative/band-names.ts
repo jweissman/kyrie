@@ -27,14 +27,15 @@ export class BandNames {
       const nth = this.ordinals[band.members.indexOf(c.id)] ?? 'last';
       // A band all of one kind by the kind: "the second great rat", not "the second of the rats under the corn-store"
       // (Mission 19's play: the band's whole name on every line of the fight).
-      if (!kinds.has(band.id)) { kinds.set(band.id, this.kind(creatures, band.members)); }
+      if (!kinds.has(band.id)) { kinds.set(band.id, this.kind(creatures, band.members, campaign.vocabulary)); }
       const kind = kinds.get(band.id);
       return [c.id, kind ? `the ${nth} ${kind}` : `the ${nth} of ${label.replace(/^(a|an) /i, 'the ')}`];
     }));
   }
-  private static kind(creatures: Map<string, { raceId?: string }>, members: string[]): string | undefined {
+  private static kind(creatures: Map<string, { raceId?: string }>, members: string[],
+    vocabulary?: Campaign['vocabulary']): string | undefined {
     const kinds = new Set(members.map(id => creatures.get(id)?.raceId));
     const [race] = kinds;
-    return kinds.size === 1 && race ? Content.race(race)?.name.toLowerCase() : undefined;
+    return kinds.size === 1 && race ? Content.race(race, vocabulary)?.name.toLowerCase() : undefined;
   }
 }

@@ -142,7 +142,9 @@ export class WorldAssembler {
         + 'company for nothing: listen in the taprooms, at the shrines and on the roads, and go where the trouble is. '
         + 'Choose three companions.' } });
     const source = new OverlayBundleSource(base, files);
-    if ('composed' in held && held.composed) { Composition.keep(source, path, seed, held.composed); }
+    if ('composed' in held && held.composed && held.vocabulary) {
+      Composition.keep(source, path, held.composed, { seed, vocabulary: held.vocabulary });
+    }
     return { path, source, report: { seed, region, context, placements, contacts,
       eligibility: library.map((e, i) => ({ scenario: e.manifest.id, ...eligibility[i]! })) } };
   }

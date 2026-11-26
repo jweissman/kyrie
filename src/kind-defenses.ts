@@ -1,4 +1,3 @@
-import { Canon } from './canon/canon';
 import { Content } from './content';
 import { Effects, type EffectContext } from './effects';
 import { Defenses, type Defense, type Mitigated } from './rules/defenses';
@@ -6,6 +5,8 @@ import { Fighting } from './rules/fighting';
 import variations from '../data/catalog/variations.json';
 import type { Fighter } from './model';
 import type { Effect } from './lang/parse';
+import { FighterBody } from './rules/fighter-body';
+import { Canon } from './canon/canon';
 
 // A blow as Effects.damage takes it: its amount and kind, what a critical added, and what its weapon carries.
 // triggers: false, its kind sets off none of the conditions it triggers (the SRD's harm: see Effect's).
@@ -18,7 +19,7 @@ export class KindDefenses {
   // Its kind's fractions (its typed defenses', Canon.defended) and those of what varies it (the frost's proof against
   // cold, what the dead are hurt by), as modifiers to be summed with every other source's.
   static fractions(fighter: Fighter): { resistances: Record<string, number> }[] {
-    const kind = Canon.isBody(fighter.raceId) ? Defenses.fractions(Canon.creature(fighter.raceId).defenses) : {};
+    const kind = Defenses.fractions(FighterBody.of(fighter, Canon)?.defenses);
     const varied = (fighter.variations ?? []).flatMap(id => {
       const r = (variations.variations as Record<string, { resistances?: Record<string, number> }>)[id]?.resistances;
       return r ? [{ resistances: r }] : [];
@@ -35,7 +36,7 @@ export class KindDefenses {
   }
   // Its kind's defenses beside those fractions: immunity, flat resistance, reduction, regeneration.
   static of(fighter: Fighter): Defense[] {
-    const own = Canon.isBody(fighter.raceId) ? Canon.creature(fighter.raceId).defenses ?? [] : [];
+    const own = FighterBody.of(fighter, Canon)?.defenses ?? [];
     return own.filter(d => !(d.kind === 'resistance' && d.mode === 'fraction'));
   }
   // A blow, after the attacker's bonus, through the defender's defenses: it carries its damage type, the weapon's

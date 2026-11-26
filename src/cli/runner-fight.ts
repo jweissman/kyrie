@@ -29,7 +29,7 @@ export class RunnerFight {
   private opened = false;
   // The controller the session's leg is given: each of the company's turns waits for the agent, unless it said through.
   readonly controller = (battle: Battle): Promise<Command> => {
-    if (this.rest) { return Promise.resolve(Tactics.choose(battle.state, battle.legalCommands())); }
+    if (this.rest) { return Promise.resolve(Tactics.choose(battle.state, battle.legalCommands(), battle.vocabulary)); }
     this.battle = battle;
     return new Promise(resolve => { this.pending = { battle, resolve }; this.waking?.(); });
   };
@@ -41,7 +41,8 @@ export class RunnerFight {
     const out = await Promise.race([leg.then(done => ({ done })), turn]);
     if ('done' in out) {
       const b = this.battle;
-      this.closing = b && CombatTelling.since(b.events, this.from, b.state).map(t => t.text);
+      this.closing = b && CombatTelling.since(b.events, this.from, b.state, { vocabulary: b.vocabulary })
+        .map(t => t.text);
       this.pending = undefined; this.battle = undefined; this.rest = false; this.from = 0; this.opened = false;
     }
     return out;
@@ -64,7 +65,8 @@ export class RunnerFight {
     const opening = this.opened ? [] : begun?.() ?? [];
     if (!this.opened) { this.opening = opening; }
     this.opened = true;
-    const events = b.events, told = CombatTelling.since(events, this.from, b.state).map(t => t.text);
+    const events = b.events, told = CombatTelling.since(events, this.from, b.state, { vocabulary: b.vocabulary })
+      .map(t => t.text);
     this.from = events.length;
     // Each side named as a side (cold play 7, CL-60: "Bryn 10/10 · Nettle 6/6 · …" had read a hob as one of the
     // company).
@@ -100,7 +102,7 @@ export class RunnerFight {
   }
   // A carried thing is used ("Use a minor potion of healing on Wenna"), as the page calls it; an ability is aimed.
   private static called(b: Battle, ability: { id: string; name: string }, target: string, aimed: boolean): string {
-    const carried = ItemCatalog.used(ability.id);
+    const carried = ItemCatalog.used(ability.id, b.vocabulary);
     if (carried) { return `Use ${ItemNames.called(carried.name)}${aimed ? ` on ${RunnerFight.name(b, target)}` : ''}`; }
     return aimed ? `${ability.name} at ${RunnerFight.name(b, target)}` : ability.name;
   }
@@ -124,7 +126,8 @@ export class RunnerFight {
     if (!p) { return false; }
     const legal = p.battle.legalCommands();
     const [, ability, target] = /^fight:([^:]+):(.+)$/.exec(id) ?? [];
-    const command = id === RunnerFight.auto || id === RunnerFight.through ? Tactics.choose(p.battle.state, legal)
+    const command = id === RunnerFight.auto || id === RunnerFight.through
+      ? Tactics.choose(p.battle.state, legal, p.battle.vocabulary)
       : legal.find(c => c.ability === ability && c.target === target);
     if (!command) { return false; }
     if (id === RunnerFight.through) { this.rest = true; }

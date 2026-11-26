@@ -70,8 +70,9 @@ export class Terminal {
     + ' · aims · follow <n> · journeys · save [path] · q';
   static readonly lenses = new Set(['things', 'people', 'places', 'time', 'here']);
   // A fight's turn, as TerminalFight takes it (typed, or picked in the human mode).
-  static command(state: BattleState, legal: Command[], input: Asking, onward?: () => void): Promise<Command | null> {
-    return TerminalFight.command(state, legal, input, onward);
+  static command(state: BattleState, legal: Command[], input: Asking,
+    options?: Parameters<typeof TerminalFight.command>[3]): Promise<Command | null> {
+    return TerminalFight.command(state, legal, input, options);
   }
   static async battle(battle: Battle, input: Asking): Promise<Command[] | null> {
     const commands: Command[] = [];
@@ -79,12 +80,13 @@ export class Terminal {
       const state = battle.state;
       const actor = state.combatants.find(f => f.id === state.actor)!;
       const legal = battle.legalCommands();
-      const command = actor.team === 'fighters' ? await Terminal.command(state, legal, input) :
-        Tactics.choose(state, legal);
+      const command = actor.team === 'fighters' ? await Terminal.command(state, legal, input, { battle }) :
+        Tactics.choose(state, legal, battle.vocabulary);
       if (!command) { return null; }
       const events = battle.step(command);
       commands.push(command);
-      CombatTelling.since(battle.events, battle.events.length - events.length, battle.state)
+      CombatTelling.since(battle.events, battle.events.length - events.length, battle.state,
+        { vocabulary: battle.vocabulary })
         .forEach(t => console.log(t.text));
     }
     console.log(`Encounter: ${battle.state.outcome ?? 'active'}`);
@@ -401,13 +403,13 @@ export class Terminal {
         const holding = ours.every(f => f.hp > f.maxHp / 3);
         if (pressed && pressing && !holding) { console.log('The fight turns against you: choose again.'); }
         pressing &&= holding;
-        if (pressing) { return Tactics.choose(battle.state, battle.plain(battle.legalCommands())); }
+        if (pressing) { return Tactics.choose(battle.state, battle.plain(battle.legalCommands()), battle.vocabulary); }
         const events = battle.events;
-        CombatTelling.since(events, told.get(battle) ?? events.length, battle.state).forEach(t => console.log(t.text));
+        CombatTelling.since(events, told.get(battle) ?? events.length, battle.state, { vocabulary: battle.vocabulary })
+          .forEach(t => console.log(t.text));
         told.set(battle, events.length);
-        const command = await Terminal.command(battle.state, battle.legalCommands(), input, () => {
-          pressing = pressed = true;
-        });
+        const command = await Terminal.command(battle.state, battle.legalCommands(), input,
+          TerminalFight.scope(battle, () => { pressing = pressed = true; }));
         if (!command) { throw new Error(quitPlay); }
         return command;
       });

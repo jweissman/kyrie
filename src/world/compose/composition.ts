@@ -4,6 +4,7 @@ import type { Module } from '../../lang/module';
 import { ModuleParser } from '../../lang/module-parser';
 import { ModuleSource } from '../../lang/module-source';
 import { KeptParses } from '../../lang/kept-parses';
+import { Vocabularies, type Vocabulary } from '../../lang/vocabulary';
 import { Composer, type Placement } from './composer';
 import { Geography } from './geography';
 import { Kits } from './kit';
@@ -28,37 +29,50 @@ export interface AssemblyNote { commitments?: string[][] }
 // then, in the order listed, with the campaign's seed. An authored campaign that cannot be composed does not load.
 export class Composition {
   static readonly vocabularyPath = 'data/assembly/vocabulary.kyr';
-  private static vocabularies = new WeakMap<BundleSource, Promise<Module>>();
+  private static vocabularies = new WeakMap<BundleSource, Promise<string>>();
   static isKit(entry: ManifestEntry): entry is KitEntry { return 'kit' in entry; }
   // A composition made already for a campaign's manifest, as a world's assembler makes it to write the inn's count
   // after the kits are placed (WorldAssembler.held), kept for the campaign that loads it from the same source, path
   // and seed: the same entries against the same country as written, but for the count, which the ledger does not read.
   // Taken once: a second campaign from the same world composes its own (campaign isolation).
-  private static readonly made = new WeakMap<BundleSource, Map<string, Composed>>();
-  static keep(source: BundleSource, path: string, seed: string, composed: Composed): void {
-    const kept = this.made.get(source) ?? new Map<string, Composed>();
-    kept.set(`${path}\u0000${seed}`, composed);
+  private static readonly made = new WeakMap<BundleSource, Map<string, { composed: Composed; vocabulary: string }>>();
+  private static key(vocabulary: Vocabulary): string | undefined {
+    const fingerprint = vocabulary.fingerprint?.();
+    return fingerprint === undefined ? undefined : JSON.stringify([vocabulary.id, fingerprint]);
+  }
+  static keep(source: BundleSource, path: string, composed: Composed,
+    at: { seed: string; vocabulary: Vocabulary }): void {
+    const key = this.key(at.vocabulary);
+    if (key === undefined) { return; }
+    const kept = this.made.get(source) ?? new Map<string, { composed: Composed; vocabulary: string }>();
+    kept.set(`${path}\u0000${at.seed}`, { composed, vocabulary: key });
     this.made.set(source, kept);
   }
-  static take(source: BundleSource, path: string, seed: string): Composed | undefined {
-    const kept = this.made.get(source), key = `${path}\u0000${seed}`, composed = kept?.get(key);
-    kept?.delete(key);
-    return composed;
+  static take(source: BundleSource, path: string, seed: string, vocabulary: Vocabulary = Vocabularies):
+    Composed | undefined {
+    const kept = this.made.get(source), key = `${path}\u0000${seed}`, found = kept?.get(key);
+    if (!found || found.vocabulary !== this.key(vocabulary)) { return undefined; }
+    kept!.delete(key);
+    return found.composed;
   }
-  static vocabulary(source: BundleSource): Promise<Module> {
+  static async vocabulary(source: BundleSource, vocabulary: Vocabulary = Vocabularies): Promise<Module> {
     let cached = this.vocabularies.get(source);
     if (!cached) {
-      cached = source.read(source.resolve(this.vocabularyPath)).then(text => ModuleParser.parse(text));
+      cached = source.read(source.resolve(this.vocabularyPath));
       this.vocabularies.set(source, cached);
     }
-    return cached;
+    return KeptParses.of(await cached, [], ModuleParser.parse.bind(ModuleParser), vocabulary);
   }
-  static async expand(entries: ManifestEntry[], at: { seed: string; source: BundleSource }): Promise<Composed> {
-    const { seed, source } = at, ledger = new Ledger(await this.vocabulary(source));
+  static async expand(entries: ManifestEntry[],
+    at: { seed: string; source: BundleSource; vocabulary?: Vocabulary }): Promise<Composed> {
+    const { seed, source } = at;
+    const vocabulary = (at.vocabulary ?? Vocabularies).fork?.();
+    if (!vocabulary) { throw new Error('Composition requires a forkable vocabulary'); }
+    const ledger = new Ledger(await this.vocabulary(source, vocabulary));
     const modules: BundleRequest[] = [], placements: Placement[] = [], refused: Composed['refused'] = [];
     let composer: Composer | undefined;
     for (const entry of entries) {
-      if (!this.isKit(entry)) { modules.push(entry); await this.region(ledger, entry, source); continue; }
+      if (!this.isKit(entry)) { modules.push(entry); await this.region(ledger, entry, source, vocabulary); continue; }
       composer ??= new Composer(ledger, { seed, source, context: this.context(ledger) });
       const kit = await Kits.load(source, entry.kit);
       const placement = composer.place(kit, { kit: kit.manifest.id, id: entry.id,
@@ -76,7 +90,8 @@ export class Composition {
   // Places a kit into a campaign already composed: the campaign's own composition is made again (the same seed gives
   // the same ledger), and the new kit is placed against it, so it can take nothing already taken. The modules it
   // returns are installed into the running campaign as they are.
-  static async introduce(path: string, entry: KitEntry, at: { seed: string; source: BundleSource }):
+  static async introduce(path: string, entry: KitEntry,
+    at: { seed: string; source: BundleSource; vocabulary?: Vocabulary }):
     Promise<{ placement?: Placement; trace: Trace; ledger: Ledger }> {
     const { seed, source } = at, raw = JSON.parse(await source.read(path)) as { modules: ManifestEntry[] };
     const entries = raw.modules.map(m => Composition.isKit(m) ? { ...m, kit: source.resolve(m.kit, path) }
@@ -89,7 +104,8 @@ export class Composition {
     return { ...(placement ? { placement } : {}), trace: composer.trace, ledger: before.ledger };
   }
   // A module that describes itself for assembly contributes its places and ways to the ledger.
-  static async region(ledger: Ledger, entry: BundleRequest, source: BundleSource): Promise<void> {
+  static async region(ledger: Ledger, entry: BundleRequest, source: BundleSource,
+    vocabulary: Vocabulary = Vocabularies): Promise<void> {
     const manifest = JSON.parse(await source.read(entry.bundle)) as BundleManifest & { assembly?: AssemblyNote };
     if (!manifest.assembly) { return; }
     // A module in several files (a generated region) is read whole: its places and ways are in all of them.
@@ -100,7 +116,8 @@ export class Composition {
     const sources = await ModuleSource.sources(manifest, entry.bundle, source);
     // Read, never changed: the parses as they are kept, uncopied (KeptParses).
     const parse = ModuleParser.parse.bind(ModuleParser);
-    const parts = texts.map((text, i) => KeptParses.of(text, sources[i]?.declared ?? [], parse));
+    const parts = KeptParses.together(texts, vocabulary, text => text,
+      (text, i) => KeptParses.of(text, sources[i]?.declared ?? [], parse, vocabulary));
     const company = parts.find(m => m.company)?.company;
     const module = { ...parts[0]!, ...company ? { company } : {}, entities: parts.flatMap(m => m.entities),
       initial: parts.flatMap(m => m.initial) };
