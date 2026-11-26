@@ -2970,6 +2970,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "a slice of OR-1124"
+  },
+  "OR-1139": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "the owner's idea of 26 November, kept whole, not commissioned"
   }
  },
  "blockedBy": {

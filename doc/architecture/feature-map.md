@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 657 live rows, 232 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 658 live rows, 232 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -24,10 +24,11 @@ page's colours and opportunities.)
   - direction FF-01 P2: Time and absence matter: something in the undertown moves on without the company, and a returning…
   - direction OB-18 P3: Books and practices as instruments (the owner, 15 November): a bestiary's catalogue and the…
   - requirement BO-05 P1: Walking back through rooms already seen: 100 of 474 moves dead, most in town rooms with one way…
-- **Puzzles and mechanisms** · 2 pins · 1 defects · 2 asks
+- **Puzzles and mechanisms** · 2 pins · 1 defects · 3 asks
   - ✓ opens a way with a clue and a key found in another place: the key and its door, at the hour the slate tells
   - ○ a puzzle of reasoning other than a riddle, its solution read from the world
   - requirement OR-340 P2: Puzzles and mechanisms: the capability as its pins hold it (opens a way with a clue and a key…
+  - direction OR-1139 P3: Each wonder a singular instrument (the owner, 26 November): an interactive rendering in…
   - requirement OR-1103 P2: Slice 5: open and seal a way: Try opening and Try sealing on a way, the kernel's opening rule over…
 - **Troubles with more than one cause** · 2 pins · 0 defects · 1 asks
   - ✓ finds no rat under the corn-store: a swept path first, then a night's watch and a word decide it
