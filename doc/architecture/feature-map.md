@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 590 live rows, 198 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 192 pins (160 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 592 live rows, 198 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -53,7 +53,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 2 defects · 6 asks
+- **Conversation held to its focus** · 11 pins · 2 defects · 4 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -66,14 +66,23 @@ page's colours and opportunities.)
   - ✓ keeps the stay order out of what can be said
   - ✓ puts a refused reply after the replies that can be taken
   - requirement OA-09 P2: Review C1, an interaction contract for foreground people: why they are foregrounded, what…
-  - requirement OR-165 P1: Conversation owned by the engine, not a topic browser: people ask the company questions, create…
   - requirement OR-213 P2: The talk drawer after replies have been asked held to the same focus contract: spent rows, the…
   - requirement OR-424 P2: Reflection: a bounded act (gathering one's thoughts, study, a long rest) by which evidence the…
   - requirement OR-674 P3: Talk that moves its speaker ends the conversation, and its label does not say so: "Ask Varnish to…
-  - requirement BO-07 P1: Talking to someone teaches nothing: 138 talk_to acts in the census, one taught anything; each a…
 - **Checks put in conversation** · 1 pins · 0 defects · 1 asks
   - ✗ a question put in conversation is a check, its outcome said by the one asked
   - requirement OR-342 P2: Checks put in conversation: the capability as its pins hold it (a question put in conversation is…
+- **Interlocutors who ask, test and teach** · 6 pins · 0 defects · 4 asks
+  - ✓ is a question put by the one greeted, answered from the engine's rows, one answer given
+  - ✓ is put after whatever the company first asks her, a talk led for a question being that question
+  - ✓ takes a word that may not come off as an answer, rolled and told in the talk, either way leading on
+  - ✓ teaches for coin a skill that then notices what it is for
+  - ✓ without the lesson, the old ride shows nothing to one with no woodcraft
+  - ✓ asks in turn, teaches for coin what then shows in the woods, and tests before telling
+  - requirement OR-165 P1: Conversation owned by the engine, not a topic browser: people ask the company questions, create…
+  - direction OR-854 P3: The put question and the spoken answer are readings of existing forms (a question's condition…
+  - direction OR-855 P3: Knowledge checks in talk use Kyrie's own skills (woodcraft for what the SRD calls Nature, lore for…
+  - requirement BO-07 P1: Talking to someone teaches nothing: 138 talk_to acts in the census, one taught anything; each a…
 - **News and rumour** · 0 pins · 1 defects · 1 asks
   - direction OR-365 P3: News and rumour: people tell what they have heard of places and people far off, and the company…
 
@@ -746,8 +755,8 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - AR-05 (Architecture and layers), TB-10 (Playing in the terminal), OR-149 (Rows, lenses and the frame), R10-01 (Fights that cost), OR-181 (Fights that cost), OR-71 (Narration), CO-20 (Wayfinding and bearings), TR-21 (Wayfinding and bearings), OR-515 (Wayfinding and bearings), OR-141 (Rows, lenses and the frame), GR-25 (Aims and the gold thread), OB-21 (The title and Play), AR-20 (Architecture and layers), OR-162 (Wayfinding and bearings), OR-747 (Playing in the terminal)
 - **OR-743** P1: Told from facts, said vs held: told text and paintings assert what the world's facts deny (lanterns lit in a sealed room, "hundreds" of two bats, a door… · blocks 10 (2 P0/P1) over 6 capabilities
   - NP-19 (Narration), NP-18 (Narration), PL-29 (Companions and hirelings), T24-09 (Fights that cost), OR-195 (Fights that cost), GR-23 (Aims and the gold thread), CO-19 (Narration), CP-15 (The Atlas: marks and their witnesses), GR-21 (Aims and the gold thread), CL-50 (Dungeons and sites)
-- **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (6 P0/P1) over 7 capabilities
-  - OR-140 (Rows, lenses and the frame), CL-31 (Dungeons and sites), AP-07 (The Atlas: marks and their witnesses), BO-07 (Conversation held to its focus), R11-02 (Conversation held to its focus), BO-11 (Days, hours and waiting), PL-31 (Spellcasting), AP-11 (What an act would teach)
+- **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (6 P0/P1) over 8 capabilities
+  - OR-140 (Rows, lenses and the frame), CL-31 (Dungeons and sites), AP-07 (The Atlas: marks and their witnesses), BO-07 (Interlocutors who ask, test and teach), R11-02 (Conversation held to its focus), BO-11 (Days, hours and waiting), PL-31 (Spellcasting), AP-11 (What an act would teach)
 - **OR-741** P2: The knowledge door as a capability boundary (the fifth review's step 6), slice by slice: the door is declarative (ScreenModel takes the campaign and hands it… · blocks 5 (0 P0/P1) over 4 capabilities
   - OR-774 (Journeys over known ways), OR-533 (News and rumour), AP-13 (The Atlas: marks and their witnesses), R7-04 (Journeys over known ways), NM-07 (Wayfinding and bearings)
 - **AX-05** P1: The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey · **Partly (the lead, 15… · blocks 5 (2 P0/P1) over 5 capabilities

@@ -48,7 +48,9 @@
    "world/the-ledge-below-the-vault": "adventures",
    "world/opening-dungeon": "adventures",
    "world/the-reference-loop": "adventures",
-   "world/the-way-down": "adventures"
+   "world/the-way-down": "adventures",
+   "choice/asked-in-turn": "talk",
+   "world/the-herb-wife-asks": "talk"
   },
   "describes": {
    "Character › Stat checks woven into narrative moments": "talk",
@@ -1455,6 +1457,12 @@
   "OR-842": "page-ui",
   "OR-843": "page-ui",
   "OR-844": "page-ui",
+  "OR-850": "talk",
+  "OR-851": "talk",
+  "OR-852": "talk",
+  "OR-853": "talk",
+  "OR-854": "talk",
+  "OR-855": "talk",
   "OR-450": "world", "OR-451": "world", "OR-452": "travel", "OR-453": "creation", "OR-454": "art", "OR-455": "world", "OR-456": "testing", "OR-457": "undertakings",
   "OR-320": "testing",
   "OR-321": "fight",

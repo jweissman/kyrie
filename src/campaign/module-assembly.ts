@@ -17,6 +17,7 @@ import { ItemTraits } from './item-traits';
 import type { CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
 import type { Instance, Operator, Module, Person, Predicate } from '../lang/module';
 import { EngineOwned } from '../lang/engine-owned';
+import { PutQuestions } from './put-questions';
 
 interface GoalSource {
   id: string; when: string; target: string; priority: number; urgent?: { when: string; priority: number };
@@ -49,6 +50,7 @@ export class ModuleAssembly {
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module); Cast.professions(module, situation.people ?? []);
     this.talkers(module, manifest.imports ?? []); this.unheld(module); this.present(module, situation);
+    PutQuestions.lower(module);
     const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
     const seen = (situation.people ?? []).filter(p => p.seen);
     if (seen.length) { module.seen = Object.fromEntries(seen.map(p => [p.id, p.seen!])); }

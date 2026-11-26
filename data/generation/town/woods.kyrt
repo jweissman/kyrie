@@ -55,6 +55,90 @@
     Says "'Have you been into the old woods?' says {{dealer}}, and looks at your boots. 'Go up by the field path, and keep to the old ride. Bring back woundwort, there's a price for it here. Keep away from the holly where the ground is churned, there's a boar that has had two dogs this year. And past the burners' clearing, up under the beeches, are the old stones. Nobody goes there. The burners went, and didn't burn there again.'".
     On discuss { Assert knows(actor, {t}_wood_stones_known). }
   }
+  // The one who buys what the woods give asks the company in turn (OR-850; src/campaign/put-questions.ts): what brings it
+  // up to the woods, as soon as it is spoken with, and what it carries, once it has something green in its pack; and
+  // teaches, for coin, how to read the woods, so that the old ride's tracks are seen there (woodcraft).
+  Relation {t}_wood_met(group). Relation {t}_wood_shown(group).
+  Topic {t}_wood_why with {dealer} "{{dealer}} asks what brings you to the woods" when addressed({dealer}, actor) once {
+    Says "{{dealer}} looks at your boots before your face. 'You're not from here. What brings you up to the old woods?'".
+    On discuss { Assert {t}_wood_met(actor). }
+  }
+  Topic {t}_wood_why_herbs with {dealer} "Say you have come for what grows there" answering {t}_wood_why when true {
+    Says "'Woundwort, then,' says {{dealer}}. 'It grows on the old ride, in the gap where an oak came down and the sun gets in. Bring it here. There's a price for it.'".
+    On discuss { Assert knows(actor, {t}_wood_wort). }
+  }
+  Topic {t}_wood_why_stones with {dealer} "Say you are going up to the old stones" answering {t}_wood_why when true {
+    Says "{{dealer}} is quiet for a moment. 'Then go by the burners' clearing. A deer-path goes up from it to the beeches. And go to the shrine first. {{t}_priest} knows what is under the stones, and doesn't tell just anyone.'".
+    On discuss { Assert knows(actor, {t}_wood_stones_known). }
+  }
+  Action {t}_wood_why_lie(actor: group, site: place) "Say you are only passing through" {
+    Speaker {dealer}.
+    Requires able(actor) and at(actor, site) and at({dealer}, site) and asks({dealer}, actor) and {t}_wood_met(actor).
+    Time 1 minute.
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert knows(actor, {t}_wood_tracks). }
+    On failure { Assert knows(actor, {t}_wood_stones_known). }
+    Result "'Then keep to the ride and out of the holly,' says {{dealer}}. 'A boar runs through it. It has had two dogs this year. Where the ground is churned, that's its run.'".
+    Otherwise "'Passing through,' says {{dealer}}, and laughs. 'You've the stones in your face. Go by the burners' clearing, then. A deer-path goes up from it. And see the shrine first.'".
+  }
+  Topic {t}_wood_plant with {dealer} "{{dealer}} asks about the herbs you carry" when addressed({dealer}, actor) and holding(actor, herbs) and {t}_wood_met(actor) once {
+    Says "{{dealer}} has seen the green in your pack. 'Show me that. Do you know what you've got there?'".
+    On discuss { Assert {t}_wood_shown(actor). }
+  }
+  Action {t}_wood_plant_named(actor: group, site: place) "Name the plant" {
+    Speaker {dealer}.
+    Requires able(actor) and at(actor, site) and at({dealer}, site) and asks({dealer}, actor) and {t}_wood_shown(actor).
+    Time 1 minute.
+    Resolve check(actor, woodcraft, dc_fair).
+    On success { Give yarrow_poultice to actor. }
+    Result "You turn a leaf over. Woundwort: the grey down under the leaf gives it away. {{dealer}} nods. 'Not many know it. Here. Yarrow, for the next one of you that bleeds.'".
+    Otherwise "You call it sorrel. {{dealer}} turns a leaf over. 'Woundwort. See the grey under it? You'd walk past a field of it. I could teach you to read the woods, if you want it. Five coin.'".
+  }
+  Topic {t}_wood_plant_unknown with {dealer} "Say you do not know" answering {t}_wood_plant when true {
+    Says "'Woundwort,' says {{dealer}}. 'For a wound that won't close. I could teach you to read the woods, if you want it. Five coin.'".
+  }
+  Action {t}_wood_lesson(actor: group, pupil: member, site: place) "Pay {{dealer}} 5 coin to teach {pupil} to read the woods" {
+    Speaker {dealer}.
+    Requires able(actor) and at(actor, site) and at({dealer}, site) and {t}_wood_met(actor) and memberOf(pupil, actor) and awake(pupil) and not brings(pupil, woodcraft) and quantity(actor, gold) >= 5.
+    Time 6.
+    Resolve tutor(pupil, woodcraft).
+    On success { Decrease quantity(actor, gold) by 5. Increase quantity({dealer}, gold) by 5. }
+    Result "{{dealer}} takes {pupil} out past the field wall for an hour. A deer's slot beside a boar's. The place a fox lay up. A broken stem a day old. 'Now you'll see what's in my woods,' {{dealer}} says.".
+  }
+  // The shrine-keeper tests what the company says it knows of the stones before telling what is under them (OR-851):
+  // what the old ones cut there, a shut door (on the burners' bench, and on the stone itself), said or called to mind.
+  // A wrong answer sends the company up to look; come back from the stones, it can say what it saw.
+  Relation {t}_rite_put(group). Relation {t}_rite_doubted(group).
+  Topic {t}_rite with {t}_priest "Ask {{t}_priest} what lies under the fallen stones" when knows(actor, {t}_wood_stones_known) and not knows(actor, {w}_named) once {
+    Says "'So you know where the stones are,' says {{t}_priest}. 'Plenty say so. Tell me what the old ones cut on them, and I'll tell you what is under them.'".
+    On discuss { Assert {t}_rite_put(actor). }
+  }
+  Topic {t}_rite_sun with {t}_priest "Say a sun, rising" answering {t}_rite when true {
+    Says "'A sun?' says {{t}_priest}. 'Then you haven't been up there. Go and look, and come back when you have.'".
+    On discuss { Assert {t}_rite_doubted(actor). }
+  }
+  Topic {t}_rite_door with {t}_priest "Say a door, drawn shut" answering {t}_rite when true {
+    Says "{{t}_priest} lets out a breath. 'Then you've seen it. Between two of the stones a stair goes down, into {site}. The dead there are older than {town}. Take light, and more than you think you need.'".
+    On discuss { Assert knows(actor, {t}_wood_door). Assert knows(actor, {w}_named). }
+  }
+  Topic {t}_rite_hand with {t}_priest "Say an open hand" answering {t}_rite when true {
+    Says "'Then you haven't looked,' says {{t}_priest}. 'Go up and look. Come back when you have.'".
+    On discuss { Assert {t}_rite_doubted(actor). }
+  }
+  Action {t}_rite_recall(actor: group, site: place) "Think back to what the old makers cut on their doors" {
+    Speaker {t}_priest.
+    Requires able(actor) and at(actor, site) and at({t}_priest, site) and asks({t}_priest, actor) and {t}_rite_put(actor).
+    Time 1 minute.
+    Resolve check(actor, lore, dc_fair).
+    On success { Assert knows(actor, {t}_wood_door). Assert knows(actor, {w}_named). }
+    On failure { Assert {t}_rite_doubted(actor). }
+    Result "The old makers marked a way down with a door drawn shut, to keep the living out. You say so. {{t}_priest} looks at you again. 'Then you know. Between two of the stones a stair goes down, into {site}. Take light, and more than you think you need.'".
+    Otherwise "You try to call it to mind, and it won't come. 'Then go up and look,' says {{t}_priest}. 'Come back when you have.'".
+  }
+  Topic {t}_rite_again with {t}_priest "Tell {{t}_priest} a shut door is cut on the stones" when {t}_rite_doubted(actor) and been(actor, {t}_wood_stones) and not knows(actor, {w}_named) once {
+    Says "'So it is,' says {{t}_priest}. 'Between two of the stones a stair goes down, into {site}. The dead there are older than {town}. Take light, and more than you think you need.'".
+    On discuss { Assert knows(actor, {t}_wood_door). Assert knows(actor, {w}_named). }
+  }
   // The woods go on without the company (OR-641), by the world's own clock: woundwort grows back on the ride a few
   // days after it is picked, twice, and not in winter; some nights after the old boar is killed a young one takes its
   // wallow; rain shows the boar's runs to anyone; and once the company has been down under the stones, the next wind

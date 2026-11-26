@@ -7,6 +7,7 @@ import { Editor } from './editor';
 import { Journeys } from './journeys';
 import { Days } from './days'; import { Answers } from './answers';
 import { NightSkies } from './night-skies';
+import { RuleWords } from './rule-words';
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
 import { EntityIndex } from '../lang/entity-index';
@@ -56,10 +57,11 @@ export class Telling {
     // And a wait come to first light or dark, by the sky and where it is waited out (see Days).
     // And the night sky, watched for its own sake (see NightSkies).
     // And an answer, as given again where it is (see Answers).
+    const asking = new Set(RuleWords.askers(campaign.module, event.perceptions).values());
     const told: Voiced[] = [...Journeys.tell(campaign, event, used), ...Days.tell(campaign, event, used),
       ...NightSkies.tell(campaign, event, used), ...Answers.tell(campaign, event, used)];
     for (const h of happenings) {
-      const said = this.say(campaign, h, { used, pairs,
+      const said = this.say(campaign, h, { used, pairs, asking,
         key: `${campaign.readout.seed}:${event.elapsed}:${h.kind}:${h.actor ?? ''}` });
       if (said) { told.push(said); Editor.said(used, said.id); }
     }
@@ -139,7 +141,7 @@ export class Telling {
       ? ObservationText.label(campaign.world, id) : all);
   }
   private static say(campaign: Campaign, h: Happening,
-    memory: { used: Set<string>; pairs: Set<string>; key: string }): Voiced | undefined {
+    memory: { used: Set<string>; pairs: Set<string>; key: string; asking?: ReadonlySet<string> }): Voiced | undefined {
     const actor = h.actor ?? '', context = VoiceContext.of(campaign, h, memory.pairs);
     const speaking = { actor: this.called(campaign, actor), pronoun: context.pronoun,
       many: (campaign.readout.inhabitants?.[actor]?.length ?? 1) > 1 };
@@ -149,6 +151,9 @@ export class Telling {
     const mine = this.authored[h.kind] ? this.words(campaign, this.authored[h.kind]!, actor) : [];
     const own = this.holding(campaign, mine);
     if (mine.length && !own) { return undefined; }
+    // One who greets the company with a question of their own (RuleWords.askers) is not given the tables' greeting
+    // before it: "'Now then! A new face. What can I do for you?'" had followed "'What brings you up to the woods?'".
+    if (!own && (h.kind === 'greet' || h.kind === 'address') && memory.asking?.has(actor)) { return undefined; }
     // A farewell of their own is theirs every time; a joining or a parting the first time, and after it, nothing from
     // the tables in another voice (the Grand Tour's 12: a second joining in the tables' words).
     if (own && (context.moment === 'first' || h.kind === 'farewell')) {

@@ -106,6 +106,10 @@ Module world_people "Company and intention" {
     Time 0.
     On success { Retract addressed(person, actor). }
   }
+  // Someone who has put a question to the company that it has not yet answered (src/campaign/put-questions.ts): a
+  // question put once, that is answered (Topic … answering), asks it until an answer is given. A word said to them
+  // that reads it (an Action with their Speaker that Requires asks(them, actor)) answers it too, however it goes.
+  Relation asks(person: group, company: group).
   Rule conversation_ends when addressed(?p, ?c) and not together(?p, ?c) { Retract addressed(?p, ?c). }
   // Nor does a conversation outlast whoever it was with falling, nor their turning on the company: nobody dead says
   // goodbye.

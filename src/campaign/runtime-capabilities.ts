@@ -34,5 +34,7 @@ export class RuntimeCapabilities {
     { name: 'teach', types: ['member', 'ability'], exclusive: false },
     { name: 'feat', types: ['member', 'feat'], exclusive: false },
     { name: 'school', types: ['member', 'capability'], exclusive: false },
+    // A skill taught by someone, no development spent (Advancement.tutor).
+    { name: 'tutor', types: ['member', 'capability'], exclusive: false },
   ];
 }

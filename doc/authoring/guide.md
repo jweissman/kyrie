@@ -424,6 +424,63 @@ topics as topics).
   }
 ```
 
+### A question someone puts to the company
+
+Someone with a question of their own asks it; the company does not have to ask to be asked. A question put once whose
+condition is that the company is speaking with them (`addressed(nell, actor)`) is theirs to put: greeted, they ask it
+in their own words, instead of the tables' greeting, and it is never a row to press. Its label is how it is noted.
+Its answers are offered under "Your answer" while it stands unanswered, wherever the company comes back to them, and
+one is given. A second question of theirs waits until the first is answered, and is put then
+(`test/features/choice/asked-in-turn.pin`; src/campaign/put-questions.ts).
+
+A word said to them that may not come off answers it too: an action with their `Speaker` that `Requires asks(nell,
+actor)` (someone's question to the company stands unanswered) is offered among the answers, rolls, and answers the
+question however it goes. Where they have more than one question, it answers the one that made true something it
+reads.
+
+```text
+  Topic nell_asks with nell "Nell asks what brings you up to the woods" when addressed(nell, actor) once {
+    Says "'What brings you up to the woods?' Nell asks.".
+    On discuss { Assert met(actor). }
+  }
+  Topic nell_herbs with nell "Say you have come for herbs" answering nell_asks when true {
+    Says "'Then you want the old ride,' says Nell.".
+    On discuss { Assert knows(actor, wort_known). }
+  }
+  Action nell_lie(actor: group, site: place) "Say you are only passing through" {
+    Speaker nell.
+    Requires able(actor) and at(actor, site) and at(nell, site) and asks(nell, actor) and met(actor).
+    Resolve check(actor, deception, dc_fair).
+    On success { Assert knows(actor, runs_known). }
+    On failure { Assert doubted(actor). }
+    Result "'Then keep out of the holly,' says Nell. 'A boar runs there.'".
+    Otherwise "'Passing through,' says Nell, and laughs.".
+  }
+```
+
+A test, a riddle or a claim to weigh is a question with its answers: the right one and the wrong ones, and a check of
+what the company knows (`Resolve check(actor, lore, dc_fair)`) as a word that may not come off. Write where each
+leads: a wrong answer sends the company to look, and a topic for what it has seen since says so (the shrine-keeper's
+test in data/generation/town/woods.kyrt).
+
+### Taught for coin
+
+A lesson that changes what someone can do or notice is an action said to the teacher that `Resolve tutor(pupil,
+woodcraft)`: the member brings the skill from then on, as one trained in it, with no level's development spent, and
+what that skill notices (`Observe … as sign noticed by woodcraft …`) is noticed. Guard it with `not brings(pupil,
+woodcraft)` and the purse, and take the coin in what it does.
+
+```text
+  Action nell_lesson(actor: group, pupil: member, site: place) "Pay Nell 5 coin to teach {pupil} to read the woods" {
+    Speaker nell.
+    Requires able(actor) and at(actor, site) and at(nell, site) and memberOf(pupil, actor) and awake(pupil)
+      and not brings(pupil, woodcraft) and quantity(actor, gold) >= 5.
+    Time 6.
+    Resolve tutor(pupil, woodcraft).
+    On success { Decrease quantity(actor, gold) by 5. }
+  }
+```
+
 ### Said to someone, and it may not come off
 
 Talking someone round, lying to them, asking what they may refuse: an action with a `Speaker` is said to them, and

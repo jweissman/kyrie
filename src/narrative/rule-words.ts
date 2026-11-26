@@ -2,6 +2,9 @@ import type { Campaign } from '../campaign/campaign';
 import type { CampaignEvent } from '../campaign/campaign-types';
 import { FictionalTime } from '../campaign/fictional-time';
 import type { Voiced } from './telling';
+import type { Module } from '../lang/index';
+
+type Line = { text: string; kind: 'event' };
 
 // What the world's rules say where the company hears them, against the record of what has been told: a rule's words
 // told are kept (CampaignEvent.voiced, kind rule), and the same words of the same rule are not told again within a few
@@ -50,5 +53,24 @@ export class RuleWords {
   static said(event: CampaignEvent): NonNullable<CampaignEvent['perceptions']> {
     const unsaid = new Set(event.unsaid ?? []);
     return (event.perceptions ?? []).filter(p => p.kind === 'event' && !unsaid.has(p.id));
+  }
+  // A question put by someone (src/campaign/put-questions.ts) is the line of a rule `<question>_put`, said by the
+  // question's speaker: told after their greeting, and in place of the tables'.
+  // Who put a question among what was perceived, by the rule that put it: each line's words and the one who said it.
+  static askers(module: Module, perceived: readonly { id: string; text: string }[] = []): Map<string, string> {
+    const out = new Map<string, string>();
+    for (const p of perceived) {
+      const id = p.id.split('@')[0]!, rule = id.endsWith('_put') ? module.rules?.find(r => r.id === id) : undefined;
+      const q = rule && module.actions.find(a => a.id === id.slice(0, -'_put'.length));
+      if (q?.topic && q.speaker && q.speaker === rule!.place) { out.set(p.text, q.speaker); }
+    }
+    return out;
+  }
+  // What was told, as event lines: the questions put, and the rest.
+  static parted(module: Module, perceived: readonly { id: string; text: string }[] | undefined, all: string[],
+    besides?: string) {
+    const asked = RuleWords.askers(module, perceived), told = all.filter(t => t !== besides);
+    return [told.filter(t => asked.has(t)), told.filter(t => !asked.has(t))]
+      .map(ts => ts.map(text => ({ text, kind: 'event' as const }))) as [Line[], Line[]];
   }
 }

@@ -29,6 +29,12 @@ export class Spoken {
     return { ...feedback, discoveries, leads: (feedback.leads ?? []).filter(t => Spoken.taught(taught, t)),
       ...whole ? { result: discoveries.join(' ') } : {} };
   }
+  // A word said to someone that may not come off is told by its roll, then by what they say back (OR-850): the roll
+  // had come after their answer, and after the next question they put.
+  static rolled(operator: Operator | undefined, fight: boolean, feedback: ActionFeedback): { text: string; kind: 'roll' }[] {
+    return (operator?.speaker && !fight ? feedback.rolls.filter(t => feedback.immediate.includes(t)) : [])
+      .map(text => ({ text, kind: 'roll' as const }));
+  }
   // A conversation's act: a topic, or turning to someone to talk.
   static talking(operator: Operator | undefined): boolean { return !!operator?.topic || operator?.schema === 'talk_to'; }
   private static taught(names: string[], t: string): boolean {

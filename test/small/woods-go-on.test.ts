@@ -8,12 +8,14 @@ import type { Settlement } from '../../src/world/region-writer';
 // the old ride comes up again some dawns later; the old boar killed, a young one takes its wallow some nights after;
 // rain shows the boar's runs to anyone; and once the company has been down under the stones, the next wet or windy
 // day brings an oak down across the ride with a ring in its roots. The woods as data/generation/town/woods.kyrt
-// writes them (RegionWoods), in a fragment: a heart, the one who buys what the woods give, a sky, and nowhere else.
+// writes them (RegionWoods), in a fragment: a heart, the one who buys what the woods give, the shrine-keeper who tests
+// what the company knows of the stones, a sky, and nowhere else.
 const woods = (sky: string) => [
   'Place n "Newmeet" is settlement at 0, 0.',
   'Place n_green "the market-place" is room within n at 1, 1 outdoors.',
   'Place elsewhere "somewhere else" is room.',
   'Person n_innkeeper "Sable" at n_green { Role "herb-wife". Ancestry human. Peaceable. }',
+  'Person n_priest "Ida" at n_green { Role "shrine-keeper". Ancestry human. Peaceable. }',
   `Thing sky "the sky" at n is scenery { State weather_fair "Fair.". State weather_${sky} "${sky}.". }`,
   `Initially Assert state(sky, weather_fair).`,
   ...RegionWoods.lines({ id: 'n', name: 'Newmeet' } as Settlement,

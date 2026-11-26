@@ -449,8 +449,9 @@ export class Narrator {
     const chapter = Chapters.opened(campaign.module, event.perceptions);
     // What came to the purse with the world's words is a change, said whatever the room (OR-696).
     const paid = new Set(feedback.paid ?? []);
-    const events = feedback.events.filter(t => t !== chapter?.text)
-      .map(text => ({ text, kind: paid.has(text) ? 'change' as const : 'event' as const }));
+    // A question someone puts as they are greeted is told after the greeting, as they would say it (RuleWords.askers).
+    const [put, others] = RuleWords.parted(campaign.module, event.perceptions, feedback.events, chapter?.text);
+    const events = others.map(l => ({ text: l.text, kind: paid.has(l.text) ? 'change' as const : 'event' as const }));
     // A thing changed is told by what came of it (the water going down) before how it is now (the well dry); a wait,
     // by how the place has become (night on the crest) before what broke it off (the Mower come up onto it).
     const changing = /^change_thing/.test(action?.schema ?? ''), waiting = /^wait/.test(action?.schema ?? '');
@@ -458,12 +459,13 @@ export class Narrator {
     // A chapter opens the telling, of a walk or a wait; one come to by an act that passed the time follows the act (the
     // Grand Tour's "Sennet wakes to the winch-gang's horn" was told before the night's bed and supper: GTR-X05).
     const opened = chapter ? [{ text: chapter.text, kind: 'opening' as const }] : [], first = told.moved || waiting;
+    const rolled = Spoken.rolled(action, fight, feedback);
     const lines: ExchangeLine[] = [
       ...first ? opened : [], ...(feedback.way ?? []).map(text => ({ text, kind: 'event' as const })),
-      ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [], ...done,
-      ...first ? [] : opened, ...spoken.map(text => ({ text, kind: 'speech' as const })),
-      ...changing || fight ? [] : events, ...voiced,
-      ...feedback.immediate.map(text => ({ text: text.replace(/^You witness: /, ''), kind: feedback.lapsed?.includes(text)
+      ...waiting ? seen.filter(l => l.text !== feedback.result) : [], ...feat, ...changing ? events : [],
+      ...rolled, ...done, ...first ? [] : opened, ...spoken.map(text => ({ text, kind: 'speech' as const })),
+      ...changing || fight ? [] : events, ...voiced, ...put,
+      ...feedback.immediate.filter(t => !rolled.some(r => r.text === t)).map(text => ({ text: text.replace(/^You witness: /, ''), kind: feedback.lapsed?.includes(text)
         ? 'event' as const : fight ? 'fight' as const : feedback.rolls.includes(text) ? 'roll' as const : 'event' as const })),
       ...outcome,
       // What a fight set off is told after the blows that set it off: the Banns at Hessel read a man on his knees

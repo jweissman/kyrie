@@ -121,6 +121,28 @@
        ]
       },
       {
+       "id": "asked-in-turn",
+       "title": "Interlocutors who ask, test and teach",
+       "feature": "talk",
+       "pins": [
+        "Choice › Asked in turn",
+        "World › The herb-wife asks, and the shrine tests"
+       ],
+       "words": [
+        "asks the company",
+        "put to the company",
+        "teach"
+       ],
+       "rows": [
+        "OR-850",
+        "OR-851",
+        "OR-852",
+        "OR-853",
+        "OR-854",
+        "OR-855"
+       ]
+      },
+      {
        "id": "news",
        "title": "News and rumour",
        "feature": "talk",

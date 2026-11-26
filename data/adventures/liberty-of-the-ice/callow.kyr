@@ -61,20 +61,21 @@ Module pellam "The Liberty of the Ice" {
   }
   // With his hand, he goes where the company goes, and argues.
   Rule callow_follows when following(callow, party) and at(party, ?p) and not at(callow, ?p) and not callowSlipped(callow) and not callowDead(callow) { Assert at(callow, ?p). }
-  Topic callow_question with callow "Let Magister Callow ask you his question" when callowHand(actor) and not callowAsks(actor) once {
+  // His question is his to put (OR-853): talked to, with his hand given, he asks it, and his answers wait for yours.
+  Topic callow_question with callow "Magister Callow asks which of you is bound by your hand" when addressed(callow, actor) and callowHand(actor) and not callowAsks(actor) once {
     Says "He walks beside you with his arm through yours, coughing. 'Here is my question,' he says. 'Yesterday you were a stranger who had never seen Pellam. Today you are a person who has walked on its river and had its law cried at you and shaken on keeping an old heretic. Tomorrow you will be someone else again. Which of you is bound by the hand you gave the Reeve?' He stops in the middle of Freezeland Street. 'Think about it. I want your answer, and I want it to be yours, and not the Reeve's.'".
     On discuss { Assert callowAsks(actor). }
   }
-  Topic answer_binds with callow "Tell Callow: the hand binds whoever gave it, changed or not" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor) once {
+  Topic answer_binds with callow "Tell Callow: the hand binds whoever gave it, changed or not" answering callow_question when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor) once {
     Says "'The Reeve's answer.' He nods, quite respectfully. 'And Pellam's, and Harker's, and every honest man's. A man is his promises. He changes, they stand still, and he is dragged along behind them like a dog behind a cart.' He walks on. 'Then I shall come to your Landing, since you are bound, and they will put me in the stocks, since I am guilty, and you will have been right.' He pats your arm. 'It is very comfortable, being right. I tried it for a week once.'".
     On discuss { Assert saidBinds(actor). }
   }
-  Topic answer_changes with callow "Tell Callow: he is right; nobody is bound by who they were" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor) once {
+  Topic answer_changes with callow "Tell Callow: he is right; nobody is bound by who they were" answering callow_question when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor) once {
     Says "His face lights up like a boy's. 'Oh, good,' he says. 'Oh, very good. A convert, on the ice.' Then he stops, and looks at you more carefully. 'Then you'll not mind,' he says, 'when I am not at your Landing. The one who shook for me will be gone by then, you see. You will be somebody else, who never promised anything.' He laughs, and coughs. 'I would hate to be a hypocrite in front of a convert.'".
     On discuss { Assert saidChanges(actor). }
   }
   // A middle answer, which only someone who has seen a bargain shaken on a lie can give.
-  Topic answer_knowing with callow "Tell Callow: a hand binds the one who shook it, if he knew what he was shaking on; a hand shaken on a lie about the thing itself binds nobody" when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor)
+  Topic answer_knowing with callow "Tell Callow: a hand binds the one who shook it, if he knew what he was shaking on; a hand shaken on a lie about the thing itself binds nobody" answering callow_question when callowAsks(actor) and not saidBinds(actor) and not saidChanges(actor) and not saidKnowing(actor)
     and (knows(actor, hired_sold) or knows(actor, tansy_hired) or knows(actor, gant_altered)) once {
     Says "He stops walking. For a while he does not say anything at all, which you have not seen him do. 'That is not the Flow,' he says at last. 'And it is not the Reeve.' He takes his arm back and looks at it. 'It is a third thing. Nothing stays, but what a man knew when he gave his hand, that stays: it is the one thing that was really there.' He looks at you. 'You have been somewhere, to think of that. Somebody shook on a lie in front of you.' He takes your arm again. 'I'll come to your Landing,' says Edrin Callow. 'I'll argue that. It is better than mine.'".
     On discuss { Assert saidKnowing(actor). }

@@ -2736,6 +2736,42 @@
    "was": "defect",
    "pri": "P2",
    "why": "26 Nov, filed and classified at once: a measured share of the screen toward beta's 30 ms turn, not an observed failure of a claimed contract"
+  },
+  "OR-850": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "26 Nov, the owner's direction: a wanted capability of conversation (interlocutors who ask), not a broken contract"
+  },
+  "OR-851": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "26 Nov, the owner's direction: reference-game content for a capability, not a broken contract"
+  },
+  "OR-852": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "26 Nov, the owner's direction: reference-game content and a rule (a skill taught for coin), not a broken contract"
+  },
+  "OR-853": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "26 Nov, the owner's direction: a use in an existing adventure, not a broken contract"
+  },
+  "OR-854": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov: a future form of the language, a direction blocked by the language hold"
+  },
+  "OR-855": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov: a question of fidelity to the SRD, a direction for a proof slice"
   }
  },
  "blockedBy": {

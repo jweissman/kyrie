@@ -136,6 +136,13 @@ export class Advancement {
     creature.state.skills = [...creature.state.skills ?? [], skill];
     creature.state.advances!.qualities--;
   }
+  // Taught a skill by someone who has it (Resolve tutor: a herb-wife's hour in the woods, for coin): from then on the
+  // member brings it, as one trained in it, with no development spent. False where they bring it already.
+  static tutor(creature: Creature, skill: string): boolean {
+    if (creature.state.hp === 0 || PartyCapabilities.brings(skill, creature)) { return false; }
+    creature.state.skills = [...creature.state.skills ?? [], skill];
+    return true;
+  }
   static improve(creature: Creature, quality: Attribute) {
     const advances = creature.state.advances;
     if (!advances?.qualities || !CreatureSchema.attributes.includes(quality) || creature.state.hp === 0) {
