@@ -9,7 +9,7 @@ import { RunnerFind } from './support/runner-find';
 // would; asked for one, its master now says what earns it, then its fee, and paid, the technique is taught.
 class Yard {
   static async start() {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--origin', 'wanderer',
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--origin', 'wanderer',
       '--as', 'human/warrior/Wenna']));
     const r = new Runner(journey.session);
     return { journey, r, s: r.said() as Said };

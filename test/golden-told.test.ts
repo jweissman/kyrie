@@ -26,7 +26,7 @@ const routes = [
 async function walk(as: string, play: string, n: number): Promise<Frame[]> {
   const sent = play === ColdFour.path ? ColdFour.played(n) : readFileSync(play, 'utf8').split('\n').filter(Boolean)
     .slice(0, n);
-  const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
+  const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', as]));
   const r = new Runner(journey.session), frames: Frame[] = [];
   for (const line of sent) {
     const x = await AsMeant.ask(r, line);

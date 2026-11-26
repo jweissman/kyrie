@@ -34,7 +34,7 @@ const differs = (a: Asked): string | undefined => {
 describe('the kept groundings equal the full on every turn of the census walks', () => {
   for (const w of ContinuityCensus.walks) {
     it(`${w.name}`, async () => {
-      const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', w.as]));
+      const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', w.as]));
       const s = journey.session, r = new Runner(s), honest = new HonestPlayer(s), wrong: string[] = [];
       const turns = w.lines ? ContinuityCensus.lines(w.lines) : Array.from({ length: w.steps ?? 0 }, () => '');
       let checked = 0, played = 0;

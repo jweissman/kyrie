@@ -1,3 +1,4 @@
+import { Earned } from '../src/lang/index';
 import { Charted } from './support/charted';
 import { Doable } from '../src/presentation/doable';
 import { describe, expect, it } from 'bun:test';
@@ -26,6 +27,8 @@ class Walk {
     // yard's second cause).
     const s = await DrawnWorld.start('a1', { origin: 'wanderer', party: [{ name: 'Ralf', raceId: 'human', classId: 'warrior',
       level: 4 }, { name: 'Odo', raceId: 'human', classId: 'cleric', level: 4 }] }, NodeBundleSource.shared);
+    // On the earned stage (OR-1245): the map and the lenses are hidden until earned, and this walks with them.
+    Earned.grant(s.campaign);
     GeneratedWorld.put(s, 's1_u_yard');
     // Put in the churchyard, never on the green or the road in: told of the country's towns, that the map has a country
     // to offer at the walk's end, since it draws what the company knows (OR-810).

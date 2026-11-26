@@ -9,8 +9,10 @@ import { MenuModel } from '../src/frame/menu-model';
 class Hosted {
   static async begin(): Promise<{ host: EngineHost; first: Frame }> {
     const host = new EngineHost((_: Message) => undefined);
-    const first = await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', origin: 'debt',
-      party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] }) as Frame;
+    await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', origin: 'debt',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'ranger' }] });
+    // On the earned stage (OR-1245): the map and the lenses are hidden until earned, and this walks with them.
+    const first = await host.handle({ kind: 'earn' }) as Frame;
     return { host, first };
   }
   static inner(host: EngineHost) { return host as unknown as { bound?: string; frame(): Frame }; }

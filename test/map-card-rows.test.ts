@@ -1,3 +1,4 @@
+import { Earned } from '../src/lang/index';
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { Frame } from '../src/creation/protocol';
@@ -19,6 +20,8 @@ describe('the map\'s card', () => {
     await host.handle({ kind: 'begin', campaign: 'world', seed: 'iscoed', origin: 'drove', opening: 'none',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] } as never);
     const c = host.played!.campaign;
+    // On the earned stage (OR-1245): the map and the lenses are hidden until earned, and this walks with them.
+    Earned.grant(c);
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__gate_tolleth_beyond') }]));
     const frame = await host.handle({ kind: 'perform', command: 'wait' }) as Frame;
     const screen = frame.screen, g = frame.leaf.glance!, rows = MapRows.of(g, screen).filter(r => !r.close);

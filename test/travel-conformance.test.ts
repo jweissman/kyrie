@@ -22,6 +22,8 @@ const start = async () => {
   const host = new EngineHost(() => undefined);
   await host.handle({ kind: 'begin', campaign: Creation.generated, seed: 'wren', origin: 'wanderer',
     party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
+  // On the earned stage (OR-1245): the map and the lenses are hidden until earned, and this walks with them.
+  await host.handle({ kind: 'earn' });
   const kept = JSON.parse(await host.handle({ kind: 'checkpoint' }) as string) as { checkpoint: SessionCheckpoint };
   // Taken up as the terminal takes up a kept game: its drawn country widening as it goes (TerminalPlay.opened).
   return { host, terminal: TerminalPlay.opened(kept.checkpoint) };
