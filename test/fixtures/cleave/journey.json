@@ -1,0 +1,41 @@
+{
+  "arrive": [
+    "^To the bridgehead"
+  ],
+  "lessons": [
+    "^Into Hesper Lunn's cottage",
+    "Ask Hesper what to do about the cord",
+    "Ask Hesper what to do about the cloth",
+    "Ask Hesper what to do about the waiting",
+    "^Out to the bridgehead"
+  ],
+  "cassia": [
+    "^To the Stub",
+    "Ask Cassia about the lit",
+    "Ask Cassia why",
+    "Ask Cassia whether anyone",
+    "^To the bridgehead"
+  ],
+  "hesperEgg": [
+    "^Into Hesper Lunn's cottage",
+    "Tell Hesper the Mother's",
+    "^Out to the bridgehead",
+    "^To the Stub",
+    "Tell Cassia who has come",
+    "^To the hub"
+  ],
+  "vigil": [
+    "Sit Hesper down",
+    "Sit up with Hesper",
+    "Sit up with Hesper",
+    "Sit up with Hesper",
+    "Sit up with Hesper",
+    "Ask Hesper whether she will come on",
+    "=+13"
+  ],
+  "ledge": [
+    "^To the Stub",
+    "^To Toop's ledge",
+    "Ask Ottoline what the lamps"
+  ]
+}

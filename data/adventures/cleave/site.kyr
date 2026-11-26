@@ -1,0 +1,64 @@
+Module cleave "The Cradle Across the Cleave" {
+  Description "A gorge a quarter-mile across, a bridge of grey silk that nine spiders no longer spin, and a woman in labour on the far side.".
+
+  Place country "the Cleave country" is region within imbar.
+  Place tarnlip "Tarnlip" is settlement within country at 0, 0.
+  Place gorge "the Cleave" is wilderness within country at 1, 0.
+  Place overleap "Overleap" is settlement within country at 2, 0.
+  Place cottage "Hesper Lunn's cottage" is building within tarnlip.
+  Place farmhouse "the Pennards' farmhouse" is building within overleap.
+
+  Place road "the Tarnlip road" is room within tarnlip at 0, 0 outdoors.
+  Place edge "the bridgehead" is room within tarnlip at 1, 0 outdoors.
+  Place shed "the haulers' shed" is room within tarnlip at 1, 1 outdoors.
+  Place hesper_kitchen "Hesper Lunn's kitchen" is room within cottage at 0, 0.
+  Place stub "the Stub" is room within gorge at 0, 0 outdoors.
+  Place ledge "Toop's ledge" is room within gorge at 0, 1 outdoors.
+  Place hub "the hub of the web" is room within gorge at 1, 0 outdoors.
+  Place south_edge "the south lip" is room within overleap at 0, 0 outdoors.
+  Place south_shed "the south anchor-post" is room within overleap at 0, 1 outdoors.
+  Place farm_kitchen "the Pennards' kitchen" is room within farmhouse at 1, 0.
+
+  Passage high_street "the high street" is road between road and edge taking 10 minutes.
+  Passage cottage_door "Hesper Lunn's door" is door between edge and hesper_kitchen.
+  Passage shed_path "the path to the haulers' shed" is path between edge and shed taking 10 minutes.
+  Passage stub_walk "the road out onto the Stub" is path between edge and stub taking 10 minutes.
+  Passage ledge_ladder "the rope ladder down the cliff" is ladder between stub and ledge.
+  Passage sag "the sag of the old bridge" is path between stub and hub taking 30 minutes.
+  Passage new_span "the road from the hub to the south lip" is bridge between hub and south_edge taking 20 minutes.
+  Passage haulers_line "the haulers' line" is ferry between shed and south_shed taking 20 minutes.
+  Passage flitter_drift "the long glide" is drift between ledge and south_edge one way taking 10 minutes.
+  Passage south_path "the south path" is path between south_edge and south_shed taking 10 minutes.
+  Passage farm_door "the Pennards' door" is door between south_edge and farm_kitchen.
+
+  Observe road_scene at road when true "The road comes up between stone walls to Tarnlip's nine chimneys, and past them the sky stops. A man is coming down it at a run, hatless, with a bag in each hand.".
+  Observe edge_scene at edge when true "The street ends at a rail, and beyond the rail there is the Cleave. A quarter-mile off, across the air, the far lip stands up green and small, with a farm on it.".
+  Observe edge_beard at edge when true "The bridge begins here. Sixty yards of it do, and then a grey road stops in the air, and the wind combs its end.".
+  Observe shed_scene at shed when true "A tarred shed on the lip, a winch, and a cable that goes out over nothing to a post on the far side. A wicker basket hangs from it on a pulley, swaying a little.".
+  Observe stub_scene at stub when true "The silk is grey, tacky and springing, a cart wide, and it holds. Sixty yards out it stops being a road and goes on as a long slack loop down toward the middle of the gorge.".
+  Observe stub_cut at stub when true "Far off, at the loop's low end, hangs a lit thing the size of a coffin, turning. Around it, very still, there are nine long dark shapes.".
+  Observe ledge_scene at ledge when true "A shelf of rock thirty feet under the Stub, with a lean-to, a hen-run, a ring of lamps on poles, and a frame of ash-wood and oiled silk stood on its end against the wall.".
+  Observe hub_scene at hub when true "The hub is a knot of silk and rock hung in the middle of the air. Lines go out of it on every side, tight as harp-strings, and the wind plays them.".
+  Observe south_scene at south_edge when true "The south lip, close to. A beard of grey silk hangs from a post, slack, and from here the north lip is a row of small chimneys.".
+  Observe south_shed_scene at south_shed when true "A post, a winch and a hut. The cable comes in over the edge, singing.".
+  Observe hesper_scene at hesper_kitchen when true "A kitchen with a door-post notched all the way up, thick as a hand, and a table with a woman at it in her boots.".
+  Observe farm_scene at farm_kitchen when true "A big kitchen with a fire too high for the day, a pan on every hook, and a bed brought down from upstairs.".
+
+  Thing wind "the wind in the Cleave" at edge is scenery {
+    State calm "The wind in the Cleave is a breath, and the silk hangs plumb.".
+    State gusting "The wind comes up out of the Cleave in long shoves, and every line of silk in sight hums.".
+  }
+  Thing strand "the slack of the old bridge" on sag {
+    State still "The slack hangs quiet.".
+    State buffeted dangerous "The slack bucks and sways under the gusts.".
+    Hurts with fall_hazard when buffeted then buffeted.
+  }
+  Hazard fall_hazard "A gust on the silk" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+
+  Rule gusts_rise when state(wind, calm) and hour(clock) >= 11 and hour(clock) < 17 and dice(clock) <= 55 { Assert state(wind, gusting). }
+  Rule gusts_rise_night when state(wind, calm) and dice(clock) <= 4 { Assert state(wind, gusting). }
+  Rule gusts_fall when state(wind, gusting) and (hour(clock) >= 17 or hour(clock) < 11) and dice(clock) <= 35 { Assert state(wind, calm). }
+  Rule gusts_fall_day when state(wind, gusting) and dice(clock) <= 8 { Assert state(wind, calm). }
+  Rule strand_buffets when state(wind, gusting) and state(strand, still) { Assert state(strand, buffeted). }
+  Rule strand_stills when state(wind, calm) and state(strand, buffeted) { Assert state(strand, still). }
+}

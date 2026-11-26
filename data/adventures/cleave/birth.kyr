@@ -1,0 +1,54 @@
+Module cleave "The Cradle Across the Cleave" {
+  Thing labour "Linnet's labour" at farm_kitchen is scenery {
+    State hard "Linnet Pennard is on the bed, working.".
+    State born "The child is born.".
+  }
+
+  Rule labour_ends when watch(clock) >= 144 and state(labour, hard) and not at(party, farm_kitchen) { Assert state(labour, born). Assert birthAlone(party). }
+
+  Action deliver_with_hesper(actor: group, site: place) "Stand back and let Hesper work" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(labour, site) and state(labour, hard) and following(hesper, actor).
+    Time 3 hours.
+    On success { Assert state(labour, born). Assert birthHesper(actor). }
+    Result "Hesper rolls her sleeves in two turns each and does not say hello. 'Linnet,' she says. 'Look at me. You will not like me for the next hour and that is correct.' Gammer Roke, who has opened her mouth to say what she would do, shuts it and holds out a towel instead, as a woman hands over a sword. It is long. Hesper's voice does not change once. The only time anyone looks at the door is when Dov arrives in it, white to the lips, and is told by three women at once to boil something.".
+  }
+  Action deliver_taught(actor: group, site: place) "Bring the child yourself, as Hesper taught you" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(labour, site) and state(labour, hard) and not following(hesper, actor) and lessons(actor) >= 2 and holding(actor, pn_kit).
+    Time 3 hours.
+    On success { Assert state(labour, born). Assert birthTaught(actor). }
+    Result "You boil what you are told to boil. You hear Hesper in your own head, as clear as a bell in a small room: two ties, a hand apart, cut between. Warm and dry and ready before. Hands where she can see them. Gammer Roke, at the fire, watches you and says, once, 'Who told you that?' and does not ask again. The child comes cross and wet and furious, and goes on its mother's chest before anyone looks at it.".
+  }
+  Action deliver_rough(actor: group, site: place) "Help Gammer Roke bring the child, with no one to tell you how" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(labour, site) and state(labour, hard) and not following(hesper, actor) and not (lessons(actor) >= 2 and holding(actor, pn_kit)).
+    Resolve check(actor, insight, dc_fair).
+    Time 3 hours.
+    On success { Assert state(labour, born). Assert birthLucky(actor). }
+    On failure { Assert state(labour, born). Assert birthRough(actor). }
+    Result "You do what the room tells you, which is more than you would have thought. Gammer Roke, who has no use for you, finds one. 'Hands there. Hold her under the arm. Say nothing.' You say nothing, and at the end of a very long time there is a child, and it is breathing, and it is not pleased.".
+    Otherwise "It goes badly. Not so badly as it might: but Gammer Roke is shouting, and Linnet has stopped swearing, which is worse, and there is a moment when nobody in the room knows what to do next, and then there is a child, and it is breathing, and its mother is not.".
+  }
+
+  Relation birthLucky(group).
+  Query birthDone() means state(labour, born).
+
+  Objective find_way when not birthDone() and not hesperAgreed(party) and not hesperBasket(party) toward hesper by hesper_kitchen "Linnet Pennard is in labour on the far side of the Cleave, and Hesper Lunn, who should be with her, is at her kitchen table on the near one.".
+  Objective ask_cassia when hesperAgreed(party) and not cassiaYields(party) and state(egg, cold) toward cassia by stub "Hesper will go out to the hub if the web-warden lets her.".
+  Objective sit_with_it when cassiaYields(party) and state(egg, cold) and not birthDone() toward hub "The Mother's last egg-case is cold under the hub, and Cassia has agreed that Hesper may take it.".
+  Objective cross_over when (state(egg, hatched) or hesperBasket(party)) and not birthDone() toward farm_kitchen "Linnet is waiting, and Hesper is ready to go to her.".
+
+  Milestone m_hub "heard what Hesper would not say" worth 40 when knows(party, hub_word).
+  Milestone m_egg "learned what lies cold under the hub" worth 60 when knows(party, egg_cold_known).
+  Milestone m_tale "learned who warmed the first egg-case" worth 80 when knows(party, hesper_tale_known).
+  Milestone m_agree "brought Hesper Lunn to go out to the hub" worth 120 when hesperAgreed(party).
+  Milestone m_cassia "won the web-warden over" worth 80 when cassiaYields(party).
+  Milestone m_hatch "sat up through a night with something being born" worth 200 when state(egg, hatched).
+  Milestone m_lessons "learned a midwife's three rules" worth 60 when lessons(party) >= 3.
+  Milestone m_born "got a child born on the far side of the Cleave" worth 150 when birthDone().
+
+  Ending grey_road "The Grey Road" when birthHesper(party) and state(span, spun) "The child comes at the turn of the night, into Hesper Lunn's hands, with Gammer Roke for once holding a towel and saying nothing. It is a girl. Dov, asked for a name, says 'Hesper,' and is told by three women at once that it is a name for a hen. By morning the road across the Cleave is a road, and Tarnlip comes over it on foot with pies, and Ned Quarrel at the head in his leather apron, carrying a cheese. He is the first to put a foot on the silk. He says nothing about it, and nobody asks. At noon the daughters let Cerise down off the hub on a hundred yards of line, slowly, into the cloud, and the whole parish stands along the rail and nobody sings, until Cassia Fursby, who has not slept in ten nights, does. The child is called Prudence. On the door-post of a cottage in Tarnlip there is a new notch, and above it, in pencil, a small arrow pointing at the Cleave.".
+  Ending five_coin "Five Coin the Crossing" when birthHesper(party) "The child comes with the dawn, into Hesper Lunn's hands, and Gammer Roke holds a towel and says nothing for as long as it takes to say a prayer. Hesper has ridden over hooded in Ned Quarrel's basket with her fists in her lap, and has said nothing of it, and will not. The road does not come back. Through the summer the nine hang round the cold light at the hub and Cassia hums on the Stub, and Ned's line runs from first light to last at five coin a head and a good deal of cheese. He has taken on a boy. He says it is a nuisance. In the autumn, on a night with no wind, the light in the thing under the hub goes out, and Cassia stops humming, and the daughters take it down and hang it by their mother. Nobody in Tarnlip says what they were waiting for. Hesper cuts a notch in her door-post, and goes on cutting them, and crosses by the basket every month, hooded, and has begun to ask Ned about his potatoes.".
+  Ending three_rules "Three Rules" when birthTaught(party) "It is a long time coming, and then it is there. You do as you were told, and give it to its mother before you look. Gammer Roke, who has no use for anyone, sits down. Across the Cleave in the afternoon someone lights a pole of lamps for you: white, white, white. Hesper Lunn gets the word from Ottoline's hens and does not move for a minute. Then she sends over by the line a tin of lard and a note in a hand like a row of stitches: 'Did you tie it a hand apart?' You did. She does not answer that. She comes over the following Tuesday, in the basket, with her eyes shut, to look at your work and to correct Gammer Roke, and the two of them are not seen to speak for the rest of the day, which is how Tarnlip knows it went well.".
+  Ending lucky_hands "Hands in the Kitchen" when birthLucky(party) "Nobody told you how, and it was done, and you will not entirely be able to say what you did. The child is cross and wet and breathing. Gammer Roke, who has no use for you, puts a cup of something in your hand that is mostly brandy and does not look at you while you drink it. In the afternoon a pole of lamps goes up on the south lip: white, white, white, and Ottoline Toop's hens are heard in Tarnlip. Hesper Lunn comes over by the line next day, hooded, and inspects the child, the cord, the linen, and you, in that order, and says that someone has been lucky. She says it like a woman who knows the price of luck, and then she asks for the kettle.".
+  Ending gammers_kitchen "Gammer's Kitchen" when birthRough(party) "It is hard, and long, and not as it should have been. The child lives. Linnet is a long time getting up. Gammer Roke, who has never lost a calf she could not explain, does not explain this, and sits by the bed three days with a kettle on her knee. Hesper Lunn comes over the next noon in Ned's basket, hooded, and takes off her coat and does not say anything about anyone. She puts her hand on Linnet's forehead for a long time. 'You did well,' she tells Gammer. She tells you the same. It is the only lie she tells in the whole of that spring, and she tells it twice, and she does not charge for it.".
+  Ending without_you "The Pole of Lamps" when birthAlone(party) "The child is born by morning with nobody in the room who was sent for: Gammer Roke, and a lamp, and the dog. Across the Cleave Ottoline Toop reads the signal on the south post in the morning and sets all nineteen hens off with a shout, because it is white white white. Linnet is well, and tired, and does not ask what held you. Hesper Lunn sits at her kitchen table with her boots on and the bag in her lap until noon, and then takes off her boots, and goes to the door-post, and for the first time in forty years cannot find the nail. Somebody has to tell Dov. It is Ned Quarrel, in the end, who sends the news over on the line in a basket by itself.".
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Cradle Across the Cleave",
+  "pitch": {
+    "heading": "The Cradle Across the Cleave",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "cleave",
+      "bundle": "../adventures/cleave/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

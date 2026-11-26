@@ -1,0 +1,14 @@
+Module cleave "The Cradle Across the Cleave" {
+  Thing brake "Ned Quarrel's brake" on haulers_line from shed {
+    State held blocking "Ned's brake is down, and the basket hangs where it is.".
+    State free "The brake is off, and the basket stands on its rail, waiting.".
+  }
+  Rule brake_holds at shed when at(party, shed) and state(wind, gusting) and state(brake, free) says "The cable begins to sing. Ned Quarrel gets up off the lever, sets the brake, and puts your five coin on the rail without looking at it. 'Gust,' he says." { Assert state(brake, held). Retract linePaid(party). Increase quantity(party, gold) by 5. }
+  Rule brake_resets when state(brake, free) and at(party, south_shed) { Assert state(brake, held). Retract linePaid(party). }
+
+  Thing flitter "Ottoline's flitter" on flitter_drift from ledge {
+    State grounded blocking "The flitter stands on its end against the rock: ash ribs, oiled silk, a harness like a saddle for someone lying down.".
+    State flown "You lie down in the harness with your face an inch from the silk, and Ottoline lets go. For one long breath there is nothing, and then the air under you takes hold, and the Cleave opens: gold walls, a floor of cloud far below with a river of light in it, and on every side the Spinners' lines, unlit, humming, ruled across the sky like a page. Nothing moves except you. The south lip comes up grey-green and slow, and you touch it as one touches a sleeper's cheek.".
+    Change launch "Take the flitter off the ledge" from grounded to flown when state(wind, calm) and not following(hesper, party) and not following(dov, party) "The flitter will not take anyone who cannot be told to lie still. Nor will it go in a gust.".
+  }
+}
