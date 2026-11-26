@@ -52,6 +52,7 @@
    "world/the-start-is-the-dungeon": "adventures",
    "world/the-way-down": "adventures",
    "world/reading-by-art": "spells",
+   "world/fire-meets-things": "spells",
    "choice/asked-in-turn": "talk",
    "world/the-herb-wife-asks": "talk",
    "interface/oracle": "testing"
@@ -1544,6 +1545,7 @@
   "OR-1104": "talk",
   "OR-1105": "authoring",
   "OR-1106": "world",
+  "OR-1220": "fight",
   "OR-1083": "creation",
   "OR-770": "opening",
   "OR-771": "world",

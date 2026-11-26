@@ -28,6 +28,11 @@
     "bleed",
     "electric"
   ],
+  "elements": {
+    "about": "The kernel's element (data/rules/elements.kyr) a kind of harm lets loose where it lands, where the two are not named alike: a lightning bolt's electric harm is lightning, a thunderclap's thunder is the element of thunder (OR-1100). A kind named as an element is that element.",
+    "electric": "lightning",
+    "thunder": "sonic"
+  },
   "physicalDamage": [
     "physical",
     "piercing",

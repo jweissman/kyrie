@@ -1520,7 +1520,41 @@ Also kept, without comment: exposedTo.
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 1 | 0 | 0 | 0 | 0 |
+| 1 | 3 | 0 | 0 | 1 | 1 |
+
+#### elementVerb
+
+*Kyr · relation(element, verb)* · `rule:world_elements.elementVerb`
+
+What an element does to a thing it reaches, as a try (data/rules/probing.kyr): fire puts it to the flame. Whatever lets fire loose, a torch held to it, a firebomb, a spell, is the same try, and its author answers the try, never what made it (OR-1100: `Event … when tried(webs, burning)`).
+
+#### put_to
+
+*Kyr · rule* · `rule:world_elements.put_to`
+
+A thing put to an element's try where it stands lets the element loose in that place.
+
+> When: tried(?t, ?v); elementVerb(?e, ?v); at(?t, ?p); not (exposedTo(?p, ?e))
+
+> Then: Assert exposedTo(?p, ?e).
+
+#### looses
+
+*Kyr · relation(ability, verb)* · `rule:world_elements.looses`
+
+An ability whose harm lets loose an element a try answers (Fire Bolt's fire, burning), written by the engine from the rules domain's shadow of its effects; cast between fights at a thing that suits the try, for its cost (a spell at a thing is offered by the thing, only where it suits the try and the company can cast it: the owner, 26 November).
+
+#### loose at
+
+*Kyr · action (group, member, ability, entity, verb, place)* · `rule:world_elements.loose_at`
+
+- Shown as: Have {caster} cast {technique} at {target}
+- Takes: 10 minutes
+- Costs: 1
+
+> Needs: able(actor); at(actor, site); memberOf(caster, actor); awake(caster); probeable(target); reaches(actor, target); canCast(caster, technique); looses(technique, way); suits(target, way); not (tried(target, way))
+
+> Then: nothing changes
 
 ### What grows where, and what can be gathered from it
 

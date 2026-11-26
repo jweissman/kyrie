@@ -1,6 +1,7 @@
 import type { AbilityDomain } from './abilities';
 import type { CallingsDomain } from './callings';
 import type { ConditionDomain } from './conditions';
+import type { EffectDomain } from './effects';
 import type { TraitsDomain } from './traits';
 
 // What a setting installs for the runtime's rules to ask of (the installed context, OR-520; platform-separation.md,
@@ -13,6 +14,7 @@ export interface InstalledDomain {
   readonly abilities?: AbilityDomain;
   readonly traits?: TraitsDomain;
   readonly callings?: CallingsDomain;
+  readonly effects?: EffectDomain;
 }
 // What carries an installation along an asynchronous operation, through its awaits, apart from any other under way at
 // once (Node's and Bun's AsyncLocalStorage, given by their composition roots: src/cli/installed-carried.ts). The page's

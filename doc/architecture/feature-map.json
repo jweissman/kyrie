@@ -196,7 +196,8 @@
        "feature": "spells",
        "pins": [
         "Conflict › Spells and abilities with mechanics and words",
-        "World › Reading by art"
+        "World › Reading by art",
+        "World › Fire meets things"
        ],
        "default": true
       }

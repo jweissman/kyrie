@@ -5,6 +5,7 @@ import { FieldUse } from '../../src/campaign/field-use';
 import { Content } from '../../src/content';
 import type { ArenaAbility, Effect } from '../../src/lang';
 import { EffectSentences } from './effect-sentences';
+import { EffectShadows } from '../../src/ports/effects';
 
 type Entry = { name: string; effect?: string; effects?: Effect[] };
 
@@ -40,15 +41,26 @@ export class AbilityCensus {
     const text = readFileSync(new URL('../../data/rules/elements.kyr', import.meta.url), 'utf8');
     return new Set([...text.matchAll(/Entity (\w+): element\b/g)].map(m => m[1]!));
   }
-  private static readonly area = new Set(['enemies', 'allies', 'party', 'all']);
-  // An ability whose harm lets an element loose in the room it is used in (Exposure).
+  // An ability whose harm lets an element loose where it lands, on one or many (Exposure, by the rules domain's world
+  // shadow: electric harm is lightning; OR-1100).
   static exposes(a: ArenaAbility, elements: Set<string>): boolean {
-    return a.effects.some(e => e.kind === 'damage' && this.area.has(e.target) && elements.has(e.damageType));
+    return a.effects.some(e => e.kind === 'damage' && elements.has(EffectShadows.element(e.damageType) ?? ''));
   }
   // An ability that lays a condition granting a capability (Light's lit, Knock's unbarring): what the world then lets
   // the company do.
   static enables(a: ArenaAbility): boolean {
     return a.effects.some(e => e.kind === 'apply' && !!Content.statuses[e.status]?.grants?.length);
+  }
+  // The elements whose try the kernel names (`Initially Assert elementVerb(fire, burning)`): what fire does to a thing.
+  static trying(): Set<string> {
+    const text = readFileSync(new URL('../../data/rules/elements.kyr', import.meta.url), 'utf8');
+    return new Set([...text.matchAll(/Initially Assert elementVerb\((\w+), \w+\)/g)].map(m => m[1]!));
+  }
+  // What changes what the world lets the company do, or writes a fact of it that its authors answer: a capability
+  // granted, or a thing put to an element's try (tried(webs, burning)).
+  static changing(): string[] {
+    const trying = this.trying();
+    return Content.abilities.filter(a => this.enables(a) || this.exposes(a, trying)).map(a => a.id);
   }
   static reach(): { playable: number; reading: string[]; enabling: string[] } {
     const elements = this.elements();

@@ -144,7 +144,7 @@ export class CreatureFacts {
     const declared = Content.abilities.filter(a => abilityIds.has(a.id)), items = entities.filter(e => e.type === 'item');
     const made = { has: new Set(relations.map(r => r.name)), measures: new Set(measures.map(m => m.name)),
       abilityIds, declared, field: declared.filter(a => FieldUse.safe(a.id)),
-      hostile: declared.filter(a => FieldUse.hostile(a.id) || FieldUse.carries(a.id)),
+      hostile: declared.filter(a => FieldUse.hostile(a.id) || FieldUse.carries(a.id) || FieldUse.looses(a.id)),
       capabilities: entities.filter(e => e.type === 'capability'), items, itemIds: new Set(items.map(e => e.id)),
       kinds: entities.filter(e => e.type === 'itemkind'),
       // Each calling by its class, under every id an installation gave it (canon__calling_mage,

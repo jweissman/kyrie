@@ -26,7 +26,7 @@ export class IntentCatalogue {
     social: ['talk_to', 'ask', 'tell', 'talk_round', 'sing_supper', 'pay_tribute', 'make_offering', 'haggle', 'haggle_item'],
     manipulation: ['take_item', 'take_from', 'take_out', 'put_item', 'put_in', 'give', 'give_back', 'give_valuable',
       'transfer_item', 'equip_item', 'use_item', 'eat_item', 'draw_out', 'light', 'light_item', 'light_lamp',
-      'douse_light', 'push', 'burn', 'destroy_source', 'bury_companion', 'raise_quality', 'change_thing'],
+      'douse_light', 'push', 'burn', 'loose_at', 'destroy_source', 'bury_companion', 'raise_quality', 'change_thing'],
     practice: ['learn_skill', 'learn_spell', 'learn_reward', 'train_member', 'take_feat', 'prepare_spell', 'gather',
       'make_remedy', 'make_plain', 'work_keep', 'field_spell'],
     relationships: ['recruit', 'send_off', 'part_ways', 'pet', 'lead', 'hold_here', 'call_on'],

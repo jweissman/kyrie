@@ -17,7 +17,17 @@ export class DeepMechanisms {
     return [...layout.links.flatMap(l => l.mechanism === 'winch' && said.winch ? this.winch(l, said.winch)
       : l.mechanism === 'seal' && said.seal ? this.seal(l, words, said.seal) : []),
     ...said.drowned ? layout.levels.filter(l => l.flooded).flatMap(l => this.drowned(layout, l, said.drowned!)) : [],
-    ...said.vent ? this.vent(layout, said.vent) : []];
+    ...said.vent ? this.vent(layout, said.vent) : [], ...said.kindling ? this.kindling(layout, said.kindling) : []];
+  }
+  // What fire takes: answered by the try (tried(…, burning)), whatever put it to the flame, never by what did.
+  private static kindling(layout: DeepLayout, k: NonNullable<MechanismWords['kindling']>): string[] {
+    const room = this.room(layout, k.role);
+    if (!room) { return []; }
+    const q = this.q, id = `${room.id}_kindling`;
+    return [`  Thing ${id} ${q(k.thing)} at ${room.id} {`, `    State whole ${q(k.whole)}.`, `    State burnt ${q(k.burnt)}.`,
+      '    Tries burning.', '  }',
+      `  Event ${id}_catches at ${room.id} when tried(${id}, burning) and state(${id}, whole) ${q(k.catches)} then {`
+        + ` Assert state(${id}, burnt). Retract unlit(${room.id}). }`];
   }
   static room(layout: DeepLayout, role: string): DeepRoom | undefined {
     return layout.levels.flatMap(l => l.rooms).find(r => r.role === role);

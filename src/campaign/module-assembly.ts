@@ -5,6 +5,7 @@ import { Traits } from '../ports/traits';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { ItemCatalog } from '../item-catalog';
 import { FieldUse } from './field-use';
+import { Exposure } from './exposure';
 import { Discovery, type DiscoveryBinding, type DiscoveryDefinition } from '../lang/discovery';
 import { Content, type CreatureGenerationContext } from '../content';
 import { World } from '../lang/world';
@@ -297,6 +298,7 @@ export class ModuleAssembly {
         module.initial.push({ kind: 'assert', call: ModuleWriter.call('fieldUsable', ability.id) });
       }
     }
+    if (module.relations.some(r => r.name === 'looses')) { module.initial.push(...Exposure.looses(module)); }
     if (module.kinds.includes('member')) {
       for (const creature of cast) {
         module.entities.push({ id: `member_${creature.id}`, creatureId: creature.id,

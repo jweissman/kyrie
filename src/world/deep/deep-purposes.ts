@@ -60,6 +60,11 @@ export interface MechanismWords {
     flowing?: string; diverted?: string };
   // The delver's ways down, one for each level below the first (DeepShortcuts).
   shortcuts?: DeepShortcut[];
+  // Something in a room that fire takes (OR-1100): what it is, as it lies and once burnt, and what is seen as it
+  // catches.
+  // Put to the flame by whatever lets fire loose there (a torch held to it, a firebomb, a spell), it burns, and its
+  // light keeps the room lit.
+  kindling?: { role: string; thing: string; whole: string; burnt: string; catches: string };
 }
 // A way down to a level already reached, made from below where the company first comes down to it: the level and
 // the role of the room it serves; the thing there that is made to serve (its states, and the act that makes it, at

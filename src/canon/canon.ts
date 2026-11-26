@@ -102,6 +102,7 @@ export class Canon {
   }
   static readonly rules = rules as unknown as {
     attributes: string[]; damageTypes: string[]; physicalDamage: string[]; resources: string[];
+    elements: Record<string, string>;
     saveKinds: Record<string, string>; saveLimit: number; procedures: Record<string, Procedure>; combat: Combat;
   };
   static readonly abilities = Canon.merge<Ability>('ability', orsinoAbilities.abilities, abilities.abilities);
@@ -299,6 +300,12 @@ export class Canon {
   static traitTable(): Readonly<Record<string, Trait>> { return this.traits; }
   static callingOf(id: string): CharacterClass | undefined { return this.classes[id]; }
   static callingTable(): Readonly<Record<string, CharacterClass>> { return this.classes; }
+  // The element a kind of harm lets loose where it lands (the effects port, src/ports/effects.ts): its own name, or the
+  // vocabulary's for it (electric is lightning); physical harm none.
+  static elementOf(damageType: string): string | undefined {
+    if (this.rules.physicalDamage.includes(damageType)) { return undefined; }
+    return this.rules.elements[damageType] ?? damageType;
+  }
   static soul(id: string, pronoun?: string): boolean {
     return this.isSpecies(id) && ['monster', 'spirit'].includes(this.creature(id).kind ?? '')
       && !!pronoun && pronoun !== 'pron_it';
@@ -312,5 +319,6 @@ export const FantasyRules: InstalledDomain = Object.freeze({
   abilities: { ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) },
   traits: { one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) },
   callings: { one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) },
+  effects: { element: Canon.elementOf.bind(Canon) },
 });
 Installed.base(FantasyRules);

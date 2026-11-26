@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 341,
+    "kyr": 345,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 297,
+      "kyr": 301,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15358,6 +15358,34 @@
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-dominion"
+  },
+  {
+   "id": "rule:world_elements.elementVerb",
+   "title": "elementVerb",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-elements"
+  },
+  {
+   "id": "rule:world_elements.put_to",
+   "title": "put_to",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-elements"
+  },
+  {
+   "id": "rule:world_elements.looses",
+   "title": "looses",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-elements"
+  },
+  {
+   "id": "rule:world_elements.loose_at",
+   "title": "loose at",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-elements"
   },
   {
    "id": "rule:world_growing.grows",

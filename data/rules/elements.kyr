@@ -5,5 +5,26 @@ Module world_elements "Fire, frost and other elements let loose in a place" {
   Entity radiant: element "radiance". Entity force: element "force". Entity sonic: element "thunder".
   Entity psychic: element "dread".
   Relation exposedTo(place, element).
+  // What an element does to a thing it reaches, as a try (data/rules/probing.kyr): fire puts it to the flame. Whatever
+  // lets fire loose, a torch held to it, a firebomb, a spell, is the same try, and its author answers the try, never
+  // what made it (OR-1100: `Event … when tried(webs, burning)`).
+  Relation elementVerb(element, verb).
+  Initially Assert elementVerb(fire, burning).
+  // A thing put to an element's try where it stands lets the element loose in that place.
+  Rule put_to when tried(?t, ?v) and elementVerb(?e, ?v) and at(?t, ?p) and not exposedTo(?p, ?e) {
+    Assert exposedTo(?p, ?e). }
+  // An ability whose harm lets loose an element a try answers (Fire Bolt's fire, burning), written by the engine from
+  // the rules domain's shadow of its effects; cast between fights at a thing that suits the try, for its cost (a spell
+  // at a thing is offered by the thing, only where it suits the try and the company can cast it: the owner, 26
+  // November).
+  Relation looses(ability, verb).
+  Action loose_at(actor: group, caster: member, technique: ability, target: entity, way: verb, site: place) "Have {caster} cast {technique} at {target}" {
+    Time 1 minute.
+    Requires able(actor) and at(actor, site) and memberOf(caster, actor) and awake(caster) and probeable(target)
+      and reaches(actor, target) and canCast(caster, technique) and looses(technique, way) and suits(target, way)
+      and not tried(target, way).
+    Resolve invoke(technique, caster, target).
+    Result "{caster} casts {technique} at {target}.".
+  }
   Goal false.
 }

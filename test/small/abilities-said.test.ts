@@ -23,13 +23,20 @@ describe('every catalog ability as an effect sentence', () => {
 describe('abilities and the world', () => {
   const reach = AbilityCensus.reach();
   it('counts the playable abilities with any reading outside a fight', () => {
-    // 84 of 335 on 26 November; 85 of 336 with Comprehend Languages (OR-1099).
+    // 84 of 335 on 26 November; 85 of 336 with Comprehend Languages (OR-1099); 143 once any harm of an element lets
+    // it loose where it lands, on one or many, and electric and thunder are elements (OR-1100).
     expect(reach.playable).toBeGreaterThanOrEqual(336);
-    expect(reach.reading.length).toBeGreaterThanOrEqual(85);
+    expect(reach.reading.length).toBeGreaterThanOrEqual(143);
+    expect(reach.reading).toEqual(expect.arrayContaining(['lightning_bolt', 'stormsurge', 'maelstrom', 'firebolt']));
   });
   it('counts those that change what the world lets the company do', () => {
     // 2 on 26 November (Light, Knock); 3 with Comprehend Languages, granting lore (OR-1099).
     expect(reach.enabling.length).toBeGreaterThanOrEqual(3);
     expect(reach.enabling).toEqual(expect.arrayContaining(['conjure_light', 'knock', 'comprehend_languages']));
+  });
+  it('counts those that enable, or write a fact of the world its authors answer', () => {
+    // 2 on 26 November; 13 once fire puts what it reaches to the flame (tried(thing, burning): OR-1100).
+    expect(AbilityCensus.changing().length).toBeGreaterThanOrEqual(13);
+    expect(AbilityCensus.changing()).toEqual(expect.arrayContaining(['firebolt', 'fireball', 'knock']));
   });
 });

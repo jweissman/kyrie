@@ -2857,6 +2857,12 @@
    "pri": "P1",
    "why": "the owner's ask of 26 November (the abilities research's answers): a committed requirement, unmet"
   },
+  "OR-1220": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the remainder of OR-1100: a thing thrown as fire, not yet read"
+  },
   "OR-1098": {
    "kind": "requirement",
    "was": "defect",

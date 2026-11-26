@@ -58,6 +58,12 @@ export class FieldResolver {
       const [ability, caster, destination] = call.args as [string, string, string];
       return FieldUse.shift(creatures, { ability, caster, destination, seed });
     }
+    // A spell let loose at a thing (Fire Bolt at the webs: data/rules/elements.kyr's loose_at): its cost paid, and what
+    // it lets loose written to the world after (Exposure).
+    if (call.name === 'invoke' && !host.module.entities.some(e => e.id === action.resolve!.args[2] && e.type === 'member')
+      && !host.actors.some(a => a.id === call.args[2])) {
+      return FieldUse.loose(creatures, { ability: call.args[0]!, caster: call.args[1]!, seed });
+    }
     if (call.name === 'invoke') {
       const band = host.actors.find(a => a.id === call.args[2]);
       if (band) {

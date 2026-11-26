@@ -8,6 +8,7 @@ import type { CampaignActor } from './definition';
 import { ModuleWriter } from '../lang/module-writer';
 import type { World } from '../lang/world';
 import { Content } from '../content';
+import { EffectShadows } from '../ports/effects';
 import { Spellcasting } from '../rules/spellcasting';
 import { CombatProjection } from '../combat-projection';
 import { Effects } from '../effects';
@@ -257,6 +258,29 @@ export class FieldUse {
           .map(s => Effects.lasting(s) ? s : { ...s, clock: 'world-time' as const });
       }
       lease.commit(committed);
+      return context.events;
+    } finally { lease.release(); }
+  }
+  // A spell whose harm lets an element loose where it lands (Fire Bolt's fire: the rules domain's world shadow), which
+  // may be cast at a thing between fights where the world says what the element does to it (looses, loose_at).
+  static looses(id: string): boolean {
+    const ability = Content.abilities.find(a => a.id === id);
+    return !!ability?.spell && ability.effects.some(e => e.kind === 'damage' && !!EffectShadows.element(e.damageType));
+  }
+  // A spell let loose at a thing between fights (OR-1100): by a named caster who knows it and can cast it now, for the
+  // slot it costs in a fight, touching no one; what it lets loose is the world's (Exposure, after the command).
+  static loose(store: CreatureStore, options: { ability: string; caster: string; seed: string }): CombatEvent[] {
+    const found = Content.abilities.find(a => a.id === options.ability);
+    if (!found || !this.looses(found.id)) { throw new Error('Unsupported field effect'); }
+    const lease = store.acquire([options.caster]);
+    try {
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const actor = this.caster(fighters, options.caster, found);
+      const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
+        content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
+        retreat: false, location: null };
+      AbilityUse.perform({ ...found, effects: [] }, options.caster, new Expressions(options.seed), context);
+      lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
       return context.events;
     } finally { lease.release(); }
   }
