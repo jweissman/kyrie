@@ -73,22 +73,25 @@
     "heart": { "names": ["the king's hall"], "scenes": ["The grave of the first king is a hall: a ring of standing stones under the rock. In the middle of the ring is a stone bier, and on it a cloak gone to dust in the shape of a body."] },
     "deep_grave": { "names": ["the deep grave"], "scenes": ["Behind the ring a smooth-sided pit goes down into the rock. A smell of turned earth comes up out of it. Whatever lies at the bottom of it is not the king, or is not only the king."] }
   },
-  "dwellerHabitats": ["barrow", "cave"],
+  "dwellerHabitats": ["barrow", "cave", "ruin"],
   "dwellers": [
     { "depth": 0, "groups": [
       { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on what the mound gives up", "temperament": "wary" },
       { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the passage roof", "temperament": "wary" },
       { "ancestry": "human", "calling": "thief", "count": 3, "label": "the grave-robbers", "role": "grave-robbers working the passage-grave", "temperament": "wary" },
-      { "species": "beetle", "count": 3, "label": "the beetles", "role": "beetles as big as a hand, among the bones", "temperament": "wary" }
+      { "species": "beetle", "count": 3, "label": "the beetles", "role": "beetles as big as a hand, among the bones", "temperament": "wary" },
+      { "species": "zombie", "count": 3, "label": "the dead of the mound", "role": "the barrow's dead, risen and going nowhere", "temperament": "savage" }
     ] },
     { "depth": 1, "groups": [
       { "species": "ghoul", "count": 3, "label": "the ghouls", "role": "things that came down for the dead and stayed, and wait in the dark of the halls for what comes after them", "temperament": "territorial" },
       { "species": "bone_hound", "count": 3, "label": "the bone hounds", "role": "hounds of knitted bone, that keep the halls", "temperament": "territorial" },
-      { "species": "spirit", "count": 2, "label": "the restless dead", "role": "two of the laid dead, who do not lie still", "temperament": "savage" }
+      { "species": "spirit", "count": 2, "label": "the restless dead", "role": "two of the laid dead, who do not lie still", "temperament": "savage" },
+      { "species": "wisp", "count": 3, "label": "the corpse-lights", "role": "lights that go before the dead and lead the living astray", "temperament": "ambush" }
     ] },
     { "depth": 2, "groups": [
       { "species": "revenant", "count": 3, "label": "the king's men", "role": "the king's own, laid with him and risen with him", "temperament": "territorial" },
-      { "species": "wraith", "count": 2, "label": "the shades", "role": "shades that walk the king's grave, and cool the air before them", "temperament": "territorial" }
+      { "species": "wraith", "count": 2, "label": "the shades", "role": "shades that walk the king's grave, and cool the air before them", "temperament": "territorial" },
+      { "species": "vampire", "count": 1, "label": "the drinker", "role": "one of the king's house who would not lie down, and is thirsty", "temperament": "savage" }
     ] }
   ],
   "elites": [
@@ -100,7 +103,9 @@
       { "species": "banshee", "count": 2, "label": "the mourners", "role": "mourners who never stopped mourning, whose keening goes before them down the long halls", "temperament": "territorial" }
     ] },
     { "depth": 2, "groups": [
-      { "species": "revenant", "count": 2, "label": "the king's champions", "role": "the champions who were laid at the king's door, and stand there still", "temperament": "territorial", "variations": ["elder"] }
+      { "species": "revenant", "count": 2, "label": "the king's champions", "role": "the champions who were laid at the king's door, and stand there still", "temperament": "territorial", "variations": ["elder"] },
+      { "species": "lich", "count": 1, "label": "the king's priest", "role": "the priest who laid the king down, and keeps his door still", "temperament": "savage" },
+      { "species": "nightmare", "count": 1, "label": "the king's horse", "role": "the black horse they buried with the king, burning where its eyes were", "temperament": "territorial" }
     ] }
   ],
   "keeper": {

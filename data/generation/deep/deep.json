@@ -547,6 +547,13 @@
           "label": "the goblins",
           "role": "goblins who have made a home of the upper galleries",
           "temperament": "wary"
+        },
+        {
+          "species": "wolf",
+          "count": 2,
+          "label": "the wolves",
+          "role": "a pair of wolves that have made the old workings their den",
+          "temperament": "territorial"
         }
       ]
     },
@@ -580,6 +587,20 @@
           "label": "the mud",
           "role": "mud that moves where the pump-shaft overflows",
           "temperament": "savage"
+        },
+        {
+          "species": "mephit",
+          "count": 2,
+          "label": "the forge-imps",
+          "role": "small things of smoke and cinder, come up with the forge's last fire",
+          "temperament": "territorial"
+        },
+        {
+          "species": "automaton",
+          "count": 2,
+          "label": "the haulers",
+          "role": "iron haulers of the Delvers that still drag their sledges along the haulage",
+          "temperament": "obedient"
         }
       ]
     },
@@ -592,6 +613,20 @@
           "label": "the shining one",
           "role": "a thing of star-iron and light that walks the drowned galleries",
           "temperament": "territorial"
+        },
+        {
+          "species": "xill",
+          "count": 2,
+          "label": "the xill",
+          "role": "red things that step out of the rock, and lay their eggs in what they catch",
+          "temperament": "ambush"
+        },
+        {
+          "species": "grey_render",
+          "count": 1,
+          "label": "the render",
+          "role": "a grey bulk that tears open the stone for what lives in it",
+          "temperament": "ambush"
         }
       ]
     },
@@ -611,6 +646,13 @@
           "label": "the ooze",
           "role": "something grey that lives in the silt",
           "temperament": "ambush"
+        },
+        {
+          "species": "fiend",
+          "count": 1,
+          "label": "the thing from the rift",
+          "role": "a horned shape that came up through the breach the Delvers made",
+          "temperament": "savage"
         }
       ]
     }
@@ -847,6 +889,13 @@
           "label": "the vein's warden",
           "role": "rock that has learned to stand up",
           "temperament": "territorial"
+        },
+        {
+          "species": "ifrit",
+          "count": 1,
+          "label": "the burning one",
+          "role": "a shape of fire that walks the bottom of the breach, where the deep heat comes up",
+          "temperament": "savage"
         }
       ]
     }

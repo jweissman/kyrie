@@ -13,7 +13,7 @@ export interface Measure { id: string; label: string; kind: Kind; why: string; f
   read: Reckoned }
 export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
-  | 'stranded'
+  | 'stranded' | 'bestiary'
   | 'identity';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
@@ -76,6 +76,9 @@ export class QuantityMeasures {
       kind: 'band', floor: 4, why: 'a companion at the dungeon, and searchable gear near the secure entry (the owner, '
         + '24 November: OR-311): someone to take on, and a light, food and gear found by searching, by its way in',
       read: 'outfit' },
+    { id: 'bestiary', label: '1. Kinds of the bestiary the deep can field', kind: 'up',
+      why: 'as much of the bestiary as possible deployed (the owner, 26 November; OR-1230): its tables and rooms, and '
+        + 'beside it every generated placement; may only rise', read: 'bestiary' },
     { id: 'stranded', label: '10. Authored content no played world reaches', kind: 'down',
       why: 'an executable spell offered by an installed calling’s SpellSelection plan is reachable without an authored '
         + 'text mention; other content no world reaches is cost without return, so this may only fall', read: 'stranded' },

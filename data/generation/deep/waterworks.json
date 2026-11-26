@@ -89,11 +89,14 @@
       { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on the dry ledges", "temperament": "wary" },
       { "species": "frog", "count": 4, "label": "the frogs", "role": "white frogs that have never seen the sun", "temperament": "wary" },
       { "species": "snake", "count": 2, "label": "the snakes", "role": "pale snakes that hunt along the channels", "temperament": "wary" },
-      { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the gate-hall's roof", "temperament": "wary" }
+      { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the gate-hall's roof", "temperament": "wary" },
+      { "species": "eel", "count": 3, "label": "the eels", "role": "eels thick as an arm, in the race below the gate", "temperament": "territorial" }
     ] },
     { "depth": 1, "groups": [
       { "species": "mud_elemental", "count": 2, "label": "the mud", "role": "silt that has learned to move", "temperament": "territorial" },
-      { "species": "spirit", "count": 3, "label": "the drowned", "role": "Wardens who drowned at their posts, and keep them", "temperament": "savage" }
+      { "species": "spirit", "count": 3, "label": "the drowned", "role": "Wardens who drowned at their posts, and keep them", "temperament": "savage" },
+      { "species": "locatah", "count": 2, "label": "the fish-folk", "role": "fish-folk come up the pipes out of the deep water", "temperament": "territorial" },
+      { "species": "tide_caller", "count": 1, "label": "the tide-caller", "role": "a thing in the deep water that calls it up over whoever comes near", "temperament": "ambush" }
     ] },
     { "depth": 2, "groups": [
       { "species": "water_elemental", "count": 1, "label": "the cistern-water", "role": "water that has stood too long in the dark and wants something", "temperament": "territorial" },
@@ -112,10 +115,12 @@
       { "species": "revenant", "count": 1, "label": "the warden of the wheel", "role": "the warden of the great wheel, who never left it", "temperament": "territorial" }
     ] },
     { "depth": 2, "groups": [
-      { "species": "ice_elemental", "count": 1, "label": "the cold", "role": "the cold at the bottom of the cistern, given a shape", "temperament": "territorial" }
+      { "species": "ice_elemental", "count": 1, "label": "the cold", "role": "the cold at the bottom of the cistern, given a shape", "temperament": "territorial" },
+      { "species": "crocodile", "count": 1, "label": "the old crocodile", "role": "a crocodile grown huge in the warm water of the cistern", "temperament": "ambush" }
     ] },
     { "depth": 3, "groups": [
-      { "species": "salt_elemental", "count": 1, "label": "the salt-warden", "role": "the salt the still water left, standing guard", "temperament": "territorial" }
+      { "species": "salt_elemental", "count": 1, "label": "the salt-warden", "role": "the salt the still water left, standing guard", "temperament": "territorial" },
+      { "species": "clockwork_soldier", "count": 1, "label": "the wardens' warder", "role": "a brass warder the Water-Wardens set at the still water, and never stood down", "temperament": "obedient" }
     ] }
   ],
   "keeper": {
