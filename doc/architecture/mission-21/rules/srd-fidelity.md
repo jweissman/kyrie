@@ -79,11 +79,11 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | hawk | hawk | 0/0 | S✗ R✗ I– | O | ✗ 11 → 4 | ✗ 1d8 → 1d4 | ✗ 25% → 55% | – | – | ✗ -1/+0/+0 → +2/+5/+2 |
 | hyena | hyena | 0/0 | S✗ R✗ I– | O | ✗ 13 → 7 | ✓ | ✓ | – | ✗ · → trip | ✗ +2/-2/+0 → +5/+5/+1 |
 | leopard | leopard | 0/0 | S✗ R✗ I– | O | ✗ 10 → 6 | ✗ 1d4 → 1d3 1d3 1d6 | ✗ 40% → 60% | – | O | ✗ +3/+1/+0 → +5/+7/+2 |
-| lillend | lillend | 0/0 | S✗ R✗ I– | O | ✗ 10 → 4 | ✗ 1d8 → 1d8 2d6 | ✗ 30% → 85% | ✗ · → immunity poison, resistance fire 10 | O | ✗ +2/+1/+2 → +7/+10/+8 |
+| lillend | lillend | 0/0 | S✗ R✗ I– | O | ✗ 10 → 4 | ✗ 1d8 → 1d8 1d8 2d6 | ✗ 30% → 85% | ✗ · → immunity poison, resistance fire 10 | O | ✗ +2/+1/+2 → +7/+10/+8 |
 | lion | lion | 0/0 | S✗ R✗ I– | O | ✗ 9 → 6 | ✗ 1d6 → 1d4 1d4 1d8 | ✗ 40% → 65% | – | ✗ · → improved grab, pounce, rake 1d4+2 | ✗ +2/+2/-1 → +6/+7/+2 |
 | lizard | lizard | 0/0 | S✗ R✗ I– | O | ✗ 8 → 7 | ✗ 1d6 → 1d4 | ✗ 25% → 50% | – | – | ✗ -1/-1/-1 → +2/+4/+1 |
 | locatah | locathah | 0/0 | S✗ R✗ I– | O | ✗ 4 → 7 | ✗ 1d4 → 1d8 | ✓ | – | O | ✗ +1/+3/+1 → +3/+1/+1 |
-| marilith | marilith | 0/0 | S✗ R✗ I– | O | ✗ 4 → -8 | ✗ 1d4 → 2d6 2d6 2d6 2d6 2d6 2d6 4d6 | ✗ 60% → 95% | ✗ SR 25 → SR 25, immunity lightning, immunity poison, reduction 10/good, resistance acid 10 | O | ✗ +4/+5/+2 → +19/+14/+14 |
+| marilith | marilith | 0/0 | S✗ R✗ I– | O | ✗ 4 → -8 | ✗ 1d4 → 2d6 2d6 2d6 2d6 2d6 2d6 2d6 2d6 2d6 4d6 | ✗ 60% → 95% | ✗ SR 25 → SR 25, immunity lightning, immunity poison, reduction 10/good, resistance acid 10 | O | ✗ +4/+5/+2 → +19/+14/+14 |
 | monkey | monkey | 0/0 | S✗ R✗ I– | O | ✗ 9 → 7 | ✗ 1d6 → 1d3 | ✗ 20% → 50% | – | – | ✗ -1/+2/+1 → +2/+4/+1 |
 | nightmare | nightmare | 0/0 | S✗ R✗ I– | O | ✗ 7 → -3 | ✗ 1d4 → 1d8 1d8 1d8 | ✗ 60% → 75% | – | O | ✗ +2/+3/-2 → +8/+7/+6 |
 | nymph | nymph | 0/0 | S✗ R✗ I– | O | ✗ 7 → 4 | ✓ | ✗ 35% → 60% | ✗ · → reduction 10/cold_iron | O | ✗ +1/+2/+4 → +7/+12/+12 |
