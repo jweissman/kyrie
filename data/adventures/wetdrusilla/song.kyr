@@ -1,0 +1,36 @@
+Module wetdrusilla "Wet Drusilla" {
+  // ── The song ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery chorus_known "The chorus of Wet Drusilla: 'Haul away, Drusilla, the tide's a long time late; / a woman with a sail can wait, and wait, and wait.'".
+  Discovery verse_1 "Verse one: 'Drusilla Sarsby was born in a cart / three days from the nearest well; / the carters poured their last cask on her head / and walked on dry, as the tellers tell.' (Tiggs)".
+  Discovery verse_2 "Verse two: 'She married old Alfie for the sake of his well / and drank it down to the mud; / she left him the bucket, she left him the rope, / and a note that said, Thanks. Be good.' (Mabin Hawke)".
+  Discovery verse_3 "Verse three: 'She towed the Penny off Garrow Flat / with eleven goats and a mule; / the goats went first, and the crust held firm, / and she said the mule was a fool.' (Bartle Cresswell)".
+  Discovery verse_4 "Verse four: 'She rigged the Mary in Dryquay's sheets / and kept her a point off the wind; / she was home in a week with the beds all made / and nobody asked where she'd been.' (Old Cleat)".
+  Discovery verse_5 "Verse five: 'She gave her last cup to a raider's brat / in the Chorus, under the sun; / the raider said, Why? and she said, Why not? / There was only the one.' (Jessamy Teak)".
+  Discovery verse_6 "Verse six: 'On the Bishop's Stair she lost her breeches / and a pilot found them there; / he's kept them folded fifty years / and he never told where.' (Ravel Balfour)".
+  Discovery verse_7 "Verse seven: 'She outsang the Singing in the Chorus bowl / with a note from the floor of her chest; / the dunes lay down and the sand lay still / and she left a cask for the rest.' (Perpetua Pennyfeather)".
+  Discovery verse_8 "Verse eight: 'She left a basket on the quay with a jib / and a name pinned to the hem; / the jib was the best that she ever rigged, / and she never came back for them.' (Sunniva Cleat, who did not give it)".
+
+  // ── What is known ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Discovery sails_at_two "The Contrary Mary sails at two, and does not wait.".
+  Discovery ebb_known "Nobody agrees where the sea went: down the well in the west, or called, or drawn, or simply out.".
+  Discovery mary_was_hers "Captain Pomfret bought the Mary from Drusilla Sarsby, with a promise that Drusilla never called in.".
+  Discovery singing_known "The Chorus dunes hum at dusk, one note and then another under it, and the sleeper walks up the nearest slope. A low note held is said to answer it.".
+  Discovery sunniva_cleat_raised "Sunniva Cleat was raised by the sailmaker Cleat, and calls him the nearest she has to a word for it.".
+  Discovery drusilla_grace "Drusilla Sarsby said her one grace in a dust storm: thank you for the water, and sorry for the rest.".
+  Discovery goat_lore "Mrs Bishop the goat can find a sink in the crust: sent out on a long rope, she stops dead where it is unsound.".
+  Discovery ravel_hears "Ravel Balfour listens to the Ebb through the mast, and says the Ebb is quietest where the sea was deepest.".
+  Discovery ravel_deaf "Ravel Balfour is deaf in his left ear, and the Singing cannot get a grip on him.".
+  Discovery ravel_loved "Ravel Balfour would have given Drusilla Sarsby everything.".
+  Discovery will_known "Drusilla's will: ashes to the Silver, in the Mary, with the song, all nine verses, sung by those that know them.".
+  Discovery last_night "Someone sat up with Drusilla Sarsby on her last night, and the Anchor's keeper will not say who.".
+  Discovery alfie_note_known "Alfie Wenlow wrote back to Drusilla's note forty-one years ago, and has never found her address.".
+  Discovery quay_child "Drusilla Sarsby left a baby on Dryquay's quay in a basket with a jib, and the sailmaker Cleat found her.".
+  Discovery cleat_message "Cleat says to tell Sunniva that supper is at six, and that he made too much.".
+  Discovery point_off "The Mary will run a point off the wind with a loft-sail over, and go faster than a careful hand dares.".
+  Discovery low_note "Against the Singing, a low note held from the floor of the chest, under the hum.".
+  Discovery cask_known "Drusilla left a cask of water in the Magnanimous's bilge, under the third rib.".
+  Discovery bilge_known "Under the third rib of the Magnanimous there is a gap into the bilge.".
+  Discovery hulk_seen "A wrecked ship lies on her side in the sand, and the Mary can be laid alongside her.".
+  Discovery bowl_seen "A rope ladder at the lee rail goes down into the dune bowl.".
+  Discovery silver_seen "The Silver lies under the Mary's rail, and a rope ladder goes down to it.".
+}

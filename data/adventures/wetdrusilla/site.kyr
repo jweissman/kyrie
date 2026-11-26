@@ -1,0 +1,91 @@
+Module wetdrusilla "Wet Drusilla" {
+  Description "Dryquay, a harbour with no sea, and a sand-ship that sails at two to carry a dead woman's ashes two days out across the Ebb to the Silver, with the song.".
+
+  // The Ebb: a sea that went out. Dryquay's quays stand eighty feet over the sand. Two days out the Chorus dunes sing at dusk,
+  // and at the lowest place a skin of brine lies over a salt pan, the Silver, where the dead of Dryquay have gone for six hundred years.
+  Place country "the Ebb" is region within imbar.
+  Place dryquay "Dryquay" is settlement within country at 0, 0.
+  Place anchor "the Beached Anchor" is building within dryquay.
+  Place loft_house "Cleat's sail-loft" is building within dryquay.
+  Place mary "the Contrary Mary" is site within country at 1, 0.
+  Place hulk "the Magnanimous" is site within country at 2, 0.
+  Place chorus "the Chorus dunes" is site within country at 3, 0.
+  Place silver "the Silver" is site within country at 4, 0.
+
+  Place road "the Quay road" is room within dryquay at 0, 0 outdoors.
+  Place quay "the old quay" is room within dryquay at 1, 0 outdoors.
+  Place step "the step of the Beached Anchor" is room within dryquay at 1, 1 outdoors.
+  Place taproom "the Beached Anchor's taproom" is room within anchor at 2, 1.
+  Place loft "the sail-loft" is room within loft_house at 2, 0.
+
+  Place deck "the deck of the Contrary Mary" is room within mary at 0, 0 outdoors.
+  Place galley "the Mary's galley" is room within mary at 1, 0 indoors.
+  Place masthead "the masthead" is room within mary at 0, 1 outdoors.
+
+  Place hulk_deck "the tilted deck of the Magnanimous" is room within hulk at 0, 0 outdoors.
+  Place hulk_hold "the hold of the Magnanimous" is room within hulk at 1, 0 indoors.
+  Place bilge "the bilge under the third rib" is room within hulk at 2, 0 indoors.
+
+  Place crest "the dune crest" is room within chorus at 0, 0 outdoors.
+  Place pan "the Silver" is room within silver at 0, 0 outdoors.
+
+  Passage dry_road "the road down to the quay" is road between road and quay taking 10 minutes.
+  Passage step_way "the harbour steps" is steps between quay and step.
+  Passage anchor_door "the Beached Anchor's door" is door between step and taproom.
+  Passage loft_door "the sail-loft's door" is door between quay and loft.
+  Passage quay_ladder "the long ladder to the sand" is ladder between quay and deck taking 4 minutes.
+  Passage galley_door "the galley door" is door between deck and galley.
+  Passage mast_ladder "the masthead ladder" is ladder between deck and masthead.
+  Passage plank "the gangplank" is bridge between deck and hulk_deck hidden until hulk_seen.
+  Passage hatch "the hatch" is ladder between hulk_deck and hulk_hold.
+  Passage bilge_way "the gap under the ribs" is crawl between hulk_hold and bilge hidden until bilge_known.
+  Passage dune_ladder "the rope ladder over the lee side" is ladder between deck and crest hidden until bowl_seen.
+  Passage silver_ladder "the rope ladder down to the Silver" is ladder between deck and pan hidden until silver_seen.
+
+  // How the Mary stands, by where she is: a thing on each way that leaves her, shut except where she lies.
+  Thing quay_ladder_t "the long ladder" on quay_ladder {
+    State down "The ladder runs down the quay wall, eighty feet of iron rungs, to the sand and the Mary's deck.".
+    State up blocking "The long ladder is hauled up.".
+  }
+  Thing plank_t "the gangplank" on plank {
+    State stowed blocking "The gangplank is lashed to the rail.".
+    State laid "A gangplank is laid from the Mary's rail across to the Magnanimous's tilted deck.".
+  }
+  Thing dune_ladder_t "the lee ladder" on dune_ladder {
+    State stowed blocking "The lee ladder is rolled at the rail.".
+    State dropped "The lee ladder hangs down into the dune bowl.".
+  }
+  Thing silver_ladder_t "the rope ladder" on silver_ladder {
+    State stowed blocking "The rope ladder is rolled at the rail.".
+    State dropped "A ladder hangs over the side to the Silver.".
+  }
+
+  // ── Dryquay ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe road_scene at road when true "The road comes in over a rise of white sand, and stops. Ahead the ground ends in a wall, and beyond the wall there is no ground at all, only light.".
+  Observe road_wind at road when true "A warm wind blows steadily out across the Ebb, with a smell of hot salt.".
+  Observe quay_scene at quay when leg() == 0 "The quay is Aenean work, a wall of black blocks eighty feet high with iron mooring rings as big as cartwheels, a hundred and forty of them, all rusted shut. Under it the Ebb begins. A long ladder goes down to a sand-ship waiting on her runners.".
+  Observe quay_gone at quay when leg() >= 1 "The Mary is gone. The long ladder is hauled up, and her two runner-tracks go out over the sand toward the horizon, side by side, and are lost in the glare.".
+  Observe step_scene at step when true "A stone step above the harbour steps, worn into a dip in the middle. Gulls that have never seen the sea sit along the wall of the Beached Anchor.".
+  Observe taproom_scene at taproom when true "A long low room hung with ships' lanterns, all of them hung upside down. A bell with no clapper stands on the bar. There is a stool by the window that nobody sits on.".
+  Observe loft_scene at loft when true "A sail-loft under the quay's lip, forty feet of floor chalked with sail-patterns and hung with canvas. The light through the high window is the colour of a lamp in water.".
+
+  // ── The Mary ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe deck_moored at deck when leg() == 0 "The Contrary Mary lies on her runners on the sand, low and long, with one tall mast and a loft-sail furled over her bow. She has been patched with every colour of canvas. A goat is tied at her foot.".
+  Observe deck_shallows at deck when leg() == 1 "The Mary runs before the Steady across the hard pan, so fast that the sand streams like water under the runners. The quay is already a line, then a thread. The sky comes all the way down.".
+  Observe deck_hulk at deck when leg() == 2 "The Mary lies in the lee of the Magnanimous, which fills half the sky. The Steady has dropped. Under the iron ribs a lamp is lit.".
+  Observe deck_chorus at deck when leg() == 3 and hour(clock) < 18 and hour(clock) >= 7 "The dunes of the Chorus go on in long ranks like a swell, pale gold on the sunward side and blue on the other. The Mary runs the troughs between them, and the sand hisses under her runners.".
+  Observe deck_singing at deck when leg() == 3 and (hour(clock) >= 18 or hour(clock) < 7) "The Mary lies at anchor in a bowl of dune, with the wind gone. The slopes ring faintly above her, one note, then another under it, like a wet finger round a glass.".
+  Observe deck_silver at deck when leg() == 4 "The Mary rides on the sky. There is no horizon. The Silver goes out flat on every side, a skin of brine over white salt, and the sky lies in it so exactly that the mast has a mast beneath it, pointing down.".
+  Observe galley_scene at galley when true "A galley the size of a wardrobe, a stove, and nine hooks with nine pots. Every pot has a different dent.".
+  Observe masthead_scene at masthead when leg() == 0 "From the masthead Dryquay is a white wall with a ragged top and, beyond it, the road you came by. The other way, nothing, to the edge of the world.".
+  Observe masthead_out at masthead when leg() >= 1 "The masthead sways in great slow arcs. All round you the Ebb lies out as flat as a table, and the Mary's shadow runs along it like a dog.".
+
+  // ── The Magnanimous ───────────────────────────────────────────────────────────────────────────────────────────────
+  Observe hulk_deck_scene at hulk_deck when true "The Magnanimous lies on her side in the sand, three hundred feet of iron rib with her deck for a hillside. Washing lines run from the rails. A stovepipe comes out of a hatch and smokes.".
+  Observe hulk_hold_scene at hulk_hold when true "The hold is a long cave of curved iron, lit by a hundred jars with a wick in each. Shelves along the ribs hold what the Ebb gives up: spoons, hinges, a harp frame, teeth. A stove glows in the middle of the floor.".
+  Observe bilge_scene at bilge when true "A low place under the third rib where the iron meets the sand. It smells of tar and cold water.".
+
+  // ── The Chorus ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Observe crest_scene at crest when true "The crest of a dune, with the whole bowl below you and the Mary small at the bottom of it with one lamp lit. The sand under your feet is humming.".
+  Observe pan_scene at pan when true "You stand on the Silver. Under your boots is a hand's depth of warm brine and under that white salt. In every direction there is only you and the sky, and the sky is under you as well.".
+}

@@ -1,0 +1,141 @@
+Module wetdrusilla "Wet Drusilla" {
+  Relation crustPending(group). Relation crustSafe(group). Relation crustBroken(group). Relation kinRaider(group). Relation raidersPaid(group). Relation raidersOutrun(group).
+  Hazard sink_lurch "The Mary breaks through the crust" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+
+  // ── The sledge-folk ───────────────────────────────────────────────────────────────────────────────────────────────
+  // Midday on the second day. They take water from ships. The Mary carries a good deal of it, and a woman who once gave
+  // Jessamy Teak's child her last cup. Sung at with the chorus, they stop; paid, they go; outrun, they follow a while; fought,
+  // they fight, and there is no verse in a dead woman.
+  Person jessamy "Jessamy Teak" nowhere {
+    Role "chief of the sledge-folk, with three on runners behind her". Ancestry human. Pronouns she. Calling warrior. Level 3. Numbers 4.
+    Temperament territorial.
+    Arrives at deck when leg() == 3 and day(clock) == 2 and hour(clock) >= 11.
+    Arrives "Three low sledges come over the dune-crest side by side and down into the trough, hissing, and close on the Mary's quarter with their sails full. A woman stands in the first, upright and easy, a gourd on her belt and a boarding-hook in her hand, and she puts the hook over the rail and brings the sledge in as if she were tying up at a pier.".
+    Warns "'Water,' says the woman in the first sledge, quite kindly. 'Two casks, and we'll turn about and wish you a clean wind. Or we can take what's here.' Behind her the other two sledges lie in with their hooks out. Nobody on them looks as if they enjoy this, and nobody looks as if they mind.".
+    Comes "The sledge-folk come over the rail with the hooks first, low, from three sides at once, as if they had done it a thousand times and each of them had a favourite way.".
+    Pleads "The woman with the gourd sits down hard on the deck with her hand to her side, and the others stop where they stand. 'Enough,' she says. 'Enough. Take it, Captain, it's yours.'".
+    Greets "She looks at you like someone reckoning a distance, and not a long one.".
+  }
+  Rule raiders_leave when leg() == 3 and at(jessamy, deck) and tolerates(jessamy, party) and raidersPaid(party) and not kinRaider(party)
+    says "The sledges cast off and fall away astern, their sails going pale against the sand, and the woman with the gourd lifts a hand without turning round. Nobody on the Mary lifts one back." {
+    Retract at(jessamy, deck).
+  }
+
+  Action pay_raiders(actor: group) "Hand the sledge-folk two casks of water" {
+    Requires able(actor) and company(actor) and at(actor, deck) and at(jessamy, deck) and able(jessamy) and not tolerates(jessamy, actor) and casks() >= 2.
+    Time 3 minutes.
+    On success { Decrease casks() by 2. Assert raidersPaid(actor). Assert tolerates(jessamy, actor). Retract warned(jessamy, actor). Retract assails(jessamy, actor). }
+    Result "Two small casks go over the rail on a rope and are hauled down into the first sledge. The woman weighs one in her hand and nods. 'Fair,' she says. 'It's more than some.' She does not smile, and it is not unfriendly.".
+  }
+  Action outrun_raiders(actor: group) "Put the loft-sail over and run the Mary a point off the wind" {
+    Requires able(actor) and company(actor) and at(actor, deck) and at(jessamy, deck) and able(jessamy) and not tolerates(jessamy, actor) and knows(actor, point_off) and not raidersOutrun(actor).
+    Time 2 minutes.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert raidersOutrun(actor). Assert tolerates(jessamy, actor). Retract warned(jessamy, actor). Retract assails(jessamy, actor). Retract at(jessamy, deck). }
+    On failure { Assert raidersOutrun(actor). Assert assails(jessamy, actor). Retract warned(jessamy, actor). }
+    Result "The loft-sail goes up over the bow with a crack, and the Mary lays herself a point off the wind and runs. The runners scream. The sledges are the fastest things on the Ebb, and for ten minutes they keep level, and then the first falls back, and the hooks come off the rail and are wound in. A voice calls across the sand, not angry: 'Who rigs her like that?' Nobody answers it.".
+    Otherwise "The sail goes over, and fills, and the Mary lurches the wrong way. The hooks bite again. The woman looks up at you with real interest.".
+  }
+  Action sing_chorus_at_raiders(actor: group) "Stand at the rail and sing the chorus across to the sledges" {
+    Requires able(actor) and company(actor) and at(actor, deck) and at(jessamy, deck) and able(jessamy) and not tolerates(jessamy, actor) and knows(actor, chorus_known).
+    Time 2 minutes.
+    On success { Assert kinRaider(actor). Assert tolerates(jessamy, actor). Retract warned(jessamy, actor). Retract assails(jessamy, actor). Assert knows(actor, jessamy_told). }
+    Result "You sing it badly and clearly, with your feet apart. Haul away, Drusilla, the tide's a long time late. Halfway through the second line the woman in the first sledge lets go of her hook. The sledge slews round on its own and sits. 'That is hers,' she says. 'Whose ship is this?' 'Drusilla Sarsby is dead,' someone says, behind you. It is Sunniva. She says it without any expression at all. The woman with the gourd gets down from her sledge and stands in the sand with her hands open at her sides. 'Then I'll want to hear it sung properly,' she says, 'and I'll want to bring my own cup.'".
+  }
+  Discovery jessamy_told "Jessamy Teak of the sledge-folk knew Drusilla, and did not know she was dead.".
+  Topic jessamy_verse with jessamy "Ask Jessamy what the dead woman was to her" when kinRaider(party) and tolerates(jessamy, actor) once {
+    Says "'In the Chorus, thirty years back, a Sarsby came on us in a trough with her water-skins nearly flat and a girl of mine in my arms, burning with it.' Jessamy looks at her hands. 'I took her for a raider like me. She took the cup out of her own throat and put it in my girl's mouth. I said, Why? and she said, Why not? There was only the one.' She sings it with the gourd on her knee, in a voice like a hinge: 'She gave her last cup to a raider's brat / in the Chorus, under the sun; / the raider said, Why? and she said, Why not? / There was only the one.' 'My girl's a mother herself,' says Jessamy. 'I never knew the name to thank. I know it now, and she's dead.'".
+    On discuss { Assert knows(actor, verse_5). Increase verses() by 1. }
+  }
+  Topic jessamy_gourd with jessamy "Ask Jessamy to come to the Silver" when knows(actor, verse_5) once {
+    Says "'We'll run alongside. The Mary can't be left out here with a crew of four and a goat.' She unslings the gourd and weighs it. 'It's the one from that day. It's held nothing but water since, and some of it's hers. Tip it in for me, at the end. I'll not be near enough.'".
+    On discuss { Give ds_gourd to actor. Assert alongside(party). }
+  }
+  Relation alongside(group).
+  Rule jessamy_alongside when at(jessamy, deck) and alongside(party) and leg() == 3
+    says "The sledges peel off and run along the Mary's flank, a little way out, hissing, with their sails reefed to her pace." {
+    Retract at(jessamy, deck).
+  }
+  Rule jessamy_returns when leg() == 4 and alongside(party) and not at(jessamy, deck)
+    says "Three sledges come in over the white and lie off the Mary's stern, and Jessamy Teak climbs the rail without a hook and stands in the bows with her hands behind her, like someone who has come early to church." {
+    Assert at(jessamy, deck).
+  }
+
+  // ── The crust ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  // Afternoon on the second day. Three lanes across a field of crusted sand; one carries the Mary, and a world's dice say
+  // which (Deem, rolled once when the module is installed). A goat, a trained ear or luck.
+  Rule crust_ahead when leg() == 3 and day(clock) == 2 and hour(clock) >= 14 and not crustSeen(party) once
+    says "'Crust,' calls Ravel Balfour from the masthead, without raising his voice. 'Wide. Three lanes: left, middle, right. One of them will carry us.' Captain Pomfret does not look round. 'Which?' 'I hear it,' says Ravel, 'and I'll not say. A man leans on what he's told.' 'Somebody call it,' says the Captain. 'Anybody. We're at the edge.'" {
+    Assert crustSeen(party). Assert crustPending(party).
+  }
+  Relation crustSeen(group).
+  Rule crust_default when crustPending(party) and day(clock) == 2 and hour(clock) >= 15 and sinklane() == 2
+    says "The Captain gives up on you and takes the middle. It holds." {
+    Retract crustPending(party). Assert crustSafe(party).
+  }
+  Rule crust_default_wrong when crustPending(party) and day(clock) == 2 and hour(clock) >= 15 and sinklane() != 2
+    says "The Captain gives up on you and takes the middle. It is a very bad choice. The near runner goes through the crust with a noise like a plate breaking, and the Mary slams down on her side, and sand comes over the rail in a long warm sheet. Two casks are gone." {
+    Retract crustPending(party). Assert crustBroken(party). Assert strikes(sink_lurch, party). Decrease casks() by 2 or to nothing.
+  }
+  Action lane_1_safe(actor: group) "Call the left-hand lane" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and sinklane() == 1.
+    Time 1 minute.
+    On success { Assert crustSafe(actor). Retract crustPending(actor). }
+    Result "'Left-hand,' you say, and the Captain does not ask twice. The Mary leans into the lane and the sand under her goes from hissing to a deep, even drumming. Off to either side the crust is wrinkled and pale and lies very quietly. Nobody breathes until it is behind you.".
+  }
+  Action lane_1_wrong(actor: group) "Call the left-hand lane" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and sinklane() != 1.
+    Time 1 minute.
+    On success { Assert crustBroken(actor). Retract crustPending(actor). Assert strikes(sink_lurch, party). Decrease casks() by 2 or to nothing. }
+    Result "'Left-hand,' you say, and the Captain does not ask twice. For forty yards it is fine. Then the near runner goes through the crust with a noise like a plate breaking, and the Mary slews and slams down on her side, and sand comes over the rail in a long warm sheet. When she is upright again two casks are gone, bust in the hold and drunk by the Ebb in the time it takes to say so.".
+  }
+  Action lane_2_safe(actor: group) "Call the middle lane" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and sinklane() == 2.
+    Time 1 minute.
+    On success { Assert crustSafe(actor). Retract crustPending(actor). }
+    Result "'Middle,' you say, and the Captain does not ask twice. The Mary leans into the lane and the sand under her goes from hissing to a deep, even drumming. Off to either side the crust is wrinkled and pale and lies very quietly. Nobody breathes until it is behind you.".
+  }
+  Action lane_2_wrong(actor: group) "Call the middle lane" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and sinklane() != 2.
+    Time 1 minute.
+    On success { Assert crustBroken(actor). Retract crustPending(actor). Assert strikes(sink_lurch, party). Decrease casks() by 2 or to nothing. }
+    Result "'Middle,' you say, and the Captain does not ask twice. For forty yards it is fine. Then the near runner goes through the crust with a noise like a plate breaking, and the Mary slews and slams down on her side, and sand comes over the rail in a long warm sheet. When she is upright again two casks are gone, bust in the hold and drunk by the Ebb in the time it takes to say so.".
+  }
+  Action lane_3_safe(actor: group) "Call the right-hand lane" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and sinklane() == 3.
+    Time 1 minute.
+    On success { Assert crustSafe(actor). Retract crustPending(actor). }
+    Result "'Right-hand,' you say, and the Captain does not ask twice. The Mary leans into the lane and the sand under her goes from hissing to a deep, even drumming. Off to either side the crust is wrinkled and pale and lies very quietly. Nobody breathes until it is behind you.".
+  }
+  Action lane_3_wrong(actor: group) "Call the right-hand lane" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and sinklane() != 3.
+    Time 1 minute.
+    On success { Assert crustBroken(actor). Retract crustPending(actor). Assert strikes(sink_lurch, party). Decrease casks() by 2 or to nothing. }
+    Result "'Right-hand,' you say, and the Captain does not ask twice. For forty yards it is fine. Then the near runner goes through the crust with a noise like a plate breaking, and the Mary slews and slams down on her side, and sand comes over the rail in a long warm sheet. When she is upright again two casks are gone, bust in the hold and drunk by the Ebb in the time it takes to say so.".
+  }
+
+  Action send_goat(actor: group) "Send Mrs Bishop out on the long rope across the crust" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and knows(actor, goat_lore) and at(goat, deck).
+    Time 4 minutes.
+    On success { Assert goatSent(actor). }
+    Result "Tiggs lets the goat down over the bow on forty feet of rope. She trots the left-hand lane without interest and is still going when the rope runs out. She tries the middle and stops dead at the second step, and will not be moved. At the right she plants her feet at the first, with her ears flat, and looks round at you.".
+    Result "Tiggs lets the goat down over the bow on forty feet of rope. She tries the left-hand lane and stops dead at the third step. She walks the middle without interest, all the way. At the right she puts one foot out and takes it back as though it had been bitten." when sinklane() == 2.
+    Result "Tiggs lets the goat down over the bow on forty feet of rope. At the left-hand lane she sits down. At the middle she walks three steps and sits down again, with great dignity. The right-hand lane she walks to the end of her rope, and eats something, and is the best-informed person aboard." when sinklane() == 3.
+  }
+  Relation goatSent(group).
+  Action listen_lane(actor: group) "Lie down beside Ravel and listen to the crust through the planks" {
+    Requires able(actor) and company(actor) and at(actor, deck) and crustPending(actor) and (capable(actor, woodcraft) or capable(actor, wayfinding)).
+    Time 3 minutes.
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert lanesHeard(actor). }
+    Result "You lie on the warm planks with your cheek to the wood, and the Ebb comes up through the Mary in layers: the hiss, the drumming of the runners, a long dry creak you take at first for the mast. The left-hand lane is quiet. The middle is a different quiet, slightly hollow. The right is a low full drumming, like a barn floor. You know which you would stand on.".
+    Otherwise "You lie with your cheek to the planks and hear the Mary. Ravel Balfour does not stir.".
+  }
+  Relation lanesHeard(group).
+
+  Rule crust_safe_told when crustSafe(party) and not safeTold(party) once
+    says "Behind the Mary the crust lies wrinkled and quiet, and Mrs Bishop, who did not volunteer, looks back at it with contempt." {
+    Assert safeTold(party).
+  }
+  Relation safeTold(group).
+}

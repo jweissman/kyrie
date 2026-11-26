@@ -1,0 +1,89 @@
+Module wetdrusilla "Wet Drusilla" {
+  // ── The Silver ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing jars "the lights under the brine" at pan {
+    Wonder historical unique for spiritual, aesthetic "Under a hand's depth of brine, in rows, lie jars: hundreds, thousands, glazed brown and green, each with its lid sealed in wax and a lamp-flame's worth of light inside. The dead of Dryquay have gone out to the Silver for six hundred years, and nothing in all that time has been taken away.".
+    State sunk "The jars lie under the brine in their rows, each with its small light.".
+    Tries looking.
+  }
+  Observe jars_looked near jars when tried(jars, looking) "You kneel and put your face down to the brine. The jars go away in every direction in lines, as straight as a vineyard, and every one has a name scratched on it in the same hand: the jar-maker's hand, as if one person had made all of them. There are blank ones at the end of the row, waiting." teaches jars_known.
+  Observe jar_named near jars when knows(party, jars_known) "At the end of the nearest row stands one jar that is newer than the rest, with the brine barely dulled on it, and it is already lit. It is scratched in the same hand as all the others, long before anyone carried her here: DRUSILLA SARSBY. Underneath, smaller, as if a joke had been allowed: Wet." teaches jar_named_known.
+  Discovery jar_named_known "A jar stands lit on the Silver already, scratched DRUSILLA SARSBY, and under it, smaller: Wet. Whatever makes the jars knew before anyone sang.".
+  Discovery jars_known "Under the Silver's brine lie the ashes of Dryquay's dead, in lit jars, in rows, six hundred years of them.".
+
+  Action pour_bucket(actor: group) "Pour Alfie Wenlow's bucket over the rail onto the Silver" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and holding(actor, ds_bucket).
+    Time 2 minutes.
+    On success { Spend ds_bucket from actor. Increase watergifts() by 1. }
+    Result "You tip it. Forty-one years of mornings go over the rail in a rope of clear water and the Silver takes it without a mark. 'Kept the bucket,' you say, because somebody has to. On the deck Captain Pomfret has turned away, and is tightening a rope that does not need it.".
+  }
+  Action pour_cask(actor: group) "Pour Drusilla's own cask onto the Silver" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and holding(actor, ds_cask).
+    Time 2 minutes.
+    On success { Spend ds_cask from actor. Increase watergifts() by 1. }
+    Result "You knock out the red plug. The water that comes out is older than the cask, and smells of rain on hot stone, and falls into the Silver without a ripple. 'It was for the rest of us,' says Perpetua's voice in your head. It is the first water the Silver has had in a long time that was given and not left.".
+  }
+  Action pour_gourd(actor: group) "Pour Jessamy Teak's gourd onto the Silver" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and holding(actor, ds_gourd).
+    Time 2 minutes.
+    On success { Spend ds_gourd from actor. Increase watergifts() by 1. }
+    Result "You pull the corncob. In the bows Jessamy Teak does not move, and does not look away. The water goes down in a thin bright line, and the Silver turns the colour of the sky above it and then is only itself.".
+  }
+  Action sing_song(actor: group) "Sing Wet Drusilla at the rail, as many verses as you have" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and knows(actor, chorus_known) and not sung(actor).
+    Time 20 minutes.
+    On success { Assert sung(actor). }
+    Result "You sing the verses you have, one after another, and the chorus between them, with your feet apart. Alone, you sound foolish. Then Tiggs comes in a beat late and a tone sharp, and the Captain, and Bartle off the key altogether, and Ravel Balfour's voice comes down from the masthead like a rope. It is not a good choir. It is, however, all there is, and over the white nobody could do better.".
+  }
+  Action ninth_kind(actor: group) "Sing a ninth verse: that she came home, and was sat up with" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and sung(actor) and ninth() == 0 and knows(actor, last_night).
+    Time 5 minutes.
+    On success { Set ninth() to 1. }
+    Result "'She came home to the quay at the end of her tide,' you sing, 'and her daughter sat up with her there; and whatever was wrong was said in the night, and the rest is the sea's to bear.' Sunniva Cleat has not moved. She has shut her eyes.".
+  }
+  Action ninth_bawdy(actor: group) "Sing a ninth verse: that she will sell the sea its own water back" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and sung(actor) and ninth() == 0.
+    Time 5 minutes.
+    On success { Set ninth() to 2. }
+    Result "'And if the sea takes her in, God help it,' you sing, 'she'll have it sold by noon, and sell it its own water back at a fair price, and a bit over, soon.' The Captain laughs first, a bark. Then Bartle. Then Sunniva Cleat, with her hand over her mouth, as one laughs in church.".
+  }
+  Action ninth_true(actor: group) "Sing a ninth verse: that she was wrong to leave, and is sung anyway" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and sung(actor) and ninth() == 0 and (knows(actor, verse_8) or knows(actor, quay_child)).
+    Time 5 minutes.
+    On success { Set ninth() to 3. }
+    Result "'She was wrong to leave her, and knew it, and left,' you sing, 'and was wrong again to stay away; we sing her anyway, as we sing the sea: too late, and still, and here today.' Nobody joins. Nobody stops you. When you reach the end Sunniva Cleat says, quite steadily, 'Yes,' and that is the whole of her review.".
+  }
+  Action ask_scatter(actor: group) "Ask Sunniva to give her mother to the Silver" {
+    Speaker sunniva.
+    Requires able(actor) and company(actor) and at(actor, deck) and at(sunniva, deck) and leg() == 4 and sung(actor) and ninth() > 0 and not scattered(actor) and not refused(actor) and warmth() >= 1.
+    Time 5 minutes.
+    On success { Assert scattered(actor). }
+    Result "Sunniva Cleat goes down the rope ladder onto the Silver alone, with the bag. She walks out forty paces over the sky. She opens it, and holds it up, and the wind off the salt takes what is in it, not in a cloud but in a long grey ribbon, low over the brine, going out. Then she says something nobody can hear, and begins, very quietly, to sing the eighth verse.".
+    Result "Sunniva Cleat goes down the rope ladder onto the Silver alone, with the bag. It hangs light on her arm, and she does not mention why, and nobody does. She walks out forty paces over the sky and opens it, and the wind takes what is left in a short grey ribbon. Then she says something nobody can hear, and begins, very quietly, to sing the eighth verse." when ashesLost(actor).
+  }
+  Action ask_scatter_cold(actor: group) "Ask Sunniva to give her mother to the Silver" {
+    Speaker sunniva.
+    Requires able(actor) and company(actor) and at(actor, deck) and at(sunniva, deck) and leg() == 4 and sung(actor) and ninth() > 0 and not scattered(actor) and not refused(actor) and warmth() < 1.
+    Time 5 minutes.
+    On success { Assert refused(actor). }
+    Result "Sunniva Cleat looks at the Silver for a long time, and at the sky in it. 'No,' she says. 'I thought I could. I find I would rather she sat in a sail-loft where I can see her, and I will take her home.' She shifts the bag. 'You sang it well. Thank you. It was not for you to ask.'".
+  }
+
+  Rule raiders_stand when leg() == 4 and at(jessamy, deck) and not scattered(party) and not refused(party) and not standTold(party) once
+    says "Nobody on deck speaks to Jessamy Teak. She takes her hat off." {
+    Assert standTold(party).
+  }
+  Relation standTold(group).
+  Observe silver_cleric at deck when leg() == 4 and memberOf(?m, party) and hasCalling(?m, calling_cleric) "{?m} knows the office for the dead, and keeps it to the lips: the Silver is not a place for the old words.".
+
+  // ── Endings ───────────────────────────────────────────────────────────────────────────────────────────────────────
+  Ending urn_home "The Urn Goes Home" when refused(party) or (leg() == 4 and day(clock) >= 3 and hour(clock) >= 18 and not scattered(party))
+    "The Mary comes about at dusk and the Silver goes dark behind her, a skin of grey. Sunniva Cleat sits in the bows with the bag in her lap all the way home. On the morning of the fifth day the loft door opens before the ladder is down, and an old man with a palm like a leather mitten comes out and stands at the quay's edge with his arms at his sides. She carries the bag up the ladder herself. Nobody says anything. Supper, Mabin Hawke tells you, is at six.".
+  Ending tide_true "The Tide Comes In" over hand_deep when scattered(party) and ninth() == 3 and verses() >= 7 and watergifts() >= 2 and warmth() >= 2
+    "On the Silver, forty paces out, Sunniva Cleat sings the last line of her own verse, and the sea comes. First the brine trembles. Then it rises: the whole skin of it lifts a hand's depth, and an ankle's, and the jars under it light together like a city seen from a hill. A swell comes in from the south without a wind and lifts the Contrary Mary off the salt, and she floats. Captain Pomfret says nothing. She puts both hands on the wheel and weeps without any noise, like a woman paying a debt in a coin she has kept for forty years, and then, because she is the Captain, she calls 'Hard a-lee,' and the Mary turns on water. Out on the brine one jar has lit like a lamp lit in a window, and then another, and then the whole field, and the old jar-maker's hand is plain on the nearest: DRUSILLA SARSBY, Wet, and under it, new, in no hand at all, the words Come in. It lasts the length of the chorus twice. Then the water is gone, down into the salt as if called, and the Mary settles on her runners, wet to the keel. In Dryquay, they say, the bell with no clapper rang once that morning by itself. Alfie Wenlow, on his step, was seen to put his letter in his pocket and take out a clean sheet.".
+  Ending tide_in "The Tide Comes In" over hand_deep when scattered(party) and verses() >= 7 and watergifts() >= 2 and warmth() >= 2
+    "The sea comes in on the last word. The Silver trembles, and rises, and a swell lifts the Contrary Mary off the salt and holds her up. She floats. Captain Pomfret puts both hands on the wheel and says nothing at all. It lasts the length of the chorus twice, and then the water goes down into the salt as though it had been called, and the Mary settles on her runners, wet to the keel. In Dryquay they say the bell with no clapper rang once that morning by itself. Nobody will say what the ninth verse was. Everyone who was on the Silver can sing it.".
+  Ending hand_deep "A Hand's Depth" when scattered(party) and verses() + watergifts() >= 6
+    "The Silver shivers and rises to the ankle, a hand's depth of warm sea out of nowhere, and for the length of the chorus the Mary sits on it with a ring of small waves going out round her. The ash goes down into it in a grey thread. Then the sea goes back, politely, as a guest goes who has not been asked to stay. It was not much. Sunniva Cleat looks at the wet salt for a long time. 'It was enough to be noticed,' she says. 'I think that is what she wanted.' Captain Pomfret says she has sailed on worse.".
+  Ending salt "Ashes on the Salt" when scattered(party)
+    "The wind takes the ash out over the Silver in a long ribbon, and the song is sung, and the sea does not come. The brine lies flat and bright under the sky. Nobody says it was a failure, because it was a funeral, and a funeral is its own account. Sunniva Cleat stands a long time at the rail. 'She would have been furious,' she says. 'She would have said she was owed a sea.' Captain Pomfret turns the Mary for home on the afternoon wind. Behind her, on the salt, a few of the jars have begun, very faintly, to light.".
+}
