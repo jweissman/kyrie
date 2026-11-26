@@ -4,6 +4,7 @@ import { Canon } from '../src/canon/canon';
 import { CreatureFidelity } from '../src/cli/srd-creature-fidelity';
 import { SpellFidelity } from '../src/cli/srd-spell-fidelity';
 import { SrdFidelityReport } from '../src/cli/srd-fidelity-report';
+import { Content } from '../src/content';
 import concordance from '../data/sources/srd35/concordance.json';
 import type { Encounters } from '../src/cli/srd-encounters';
 
@@ -82,5 +83,29 @@ describe('the SRD fidelity census', () => {
     expect(SpellFidelity.row('fireball', 'fireball').grades).toEqual({ structural: 'pass', resolution: 'pass',
       identity: 'proved' });
     expect(SpellFidelity.row('magic_missile', 'magic-missile').grades.structural).toBe('pass');
+  });
+  it('does not certify a routine when a secondary strike has the wrong bonus', () => {
+    const creature = new Content('srd-secondary').creature('owlbear/fell', 'owl', 'goblins', 5);
+    const source = CreatureFidelity.monsters.owlbear!;
+    expect(CreatureFidelity.hit(creature, source)).toEqual({ verdict: 'exact',
+      ours: '75% / 75% / 50%', theirs: '75% / 75% / 50%' });
+    const routine = creature.equipment.routine!.map(w => ({ ...w }));
+    routine[2]!.attackBonus = 9;
+    const wrong = { ...creature, equipment: { ...creature.equipment, routine } };
+    expect(CreatureFidelity.hit(wrong, source)).toEqual({ verdict: 'differs',
+      ours: '75% / 75% / 75%', theirs: '75% / 75% / 50%' });
+    expect(CreatureFidelity.damage(creature, source)).toEqual({ verdict: 'exact',
+      ours: '1d6+5 / 1d6+5 / 1d8+2', theirs: '1d6+5 / 1d6+5 / 1d8+2' });
+    routine[2]!.damageBonus = 5;
+    expect(CreatureFidelity.damage(wrong, source)).toEqual({ verdict: 'differs',
+      ours: '1d6+5 / 1d6+5 / 1d8+5', theirs: '1d6+5 / 1d6+5 / 1d8+2' });
+  });
+  it('distinguishes a signed die without the minimum-one rule from a fixed strike', () => {
+    const rat = new Content('srd-minimum').creature('rat/cellar', 'rat', 'goblins', 1);
+    const weapon = { ...rat.equipment.weapon, damage: '1d3-4', damageBonus: undefined };
+    const missingMinimum = { ...rat, equipment: { ...rat.equipment, weapon, routine: [weapon] } };
+    expect(CreatureFidelity.damage(missingMinimum, CreatureFidelity.monsters.rat!)).toEqual({
+      verdict: 'differs', ours: '1d3-4 (no minimum)', theirs: '1d3-4',
+    });
   });
 });
