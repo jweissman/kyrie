@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 199 pins (167 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 669 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 199 pins (167 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 654 live rows, 218 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -57,7 +57,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 6 defects · 4 asks
+- **Conversation held to its focus** · 11 pins · 4 defects · 4 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -101,7 +101,7 @@ page's colours and opportunities.)
   - requirement OA-05 P2: Review T1, a departure reckoning: before setting out, route and terrain, duration and arrival…
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 19 defects · 15 asks
+- **Fights that cost** · 5 pins · 18 defects · 15 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
@@ -480,7 +480,7 @@ page's colours and opportunities.)
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
   - direction WD-14 P3: A module cannot begin the company in a place of its own: the company is declared in the region's…
   - requirement AT-08 P2: The first choices present in the first quarter hour (the owner's thought, 19 November): help…
-- **Character creation** · 3 pins · 7 defects · 7 asks
+- **Character creation** · 3 pins · 4 defects · 7 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
   - ✓ each see acts the others do not
@@ -528,7 +528,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 30 defects · 30 asks
+- **Rows, lenses and the frame** · 3 pins · 22 defects · 30 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -761,7 +761,7 @@ page's colours and opportunities.)
   - requirement MT-16 P1: The layers as logical units, mechanically held (the owner, 19 November, night: "force logical…
   - requirement MT-28 P2: Shared structures mutable by convention, and identity in strings (Findings J, K): shared…
   - direction MT-31 P3: A journey as one unit: its legs are each a command of their own, committed with its receipt and…
-- **Testing instruments** · 0 pins · 6 defects · 21 asks
+- **Testing instruments** · 0 pins · 5 defects · 21 asks
   - requirement TC-03 P2: Test architecture: content-addressed fixtures, changed-test selection by recorded dependencies,…
   - requirement TC-04 P2: The safe-zone walk at five sizes in CI; atlas states tested as projected data
   - requirement TC-05 P2: The census proves structure, not play: no seven-stage report, no per-world invariants; no…
