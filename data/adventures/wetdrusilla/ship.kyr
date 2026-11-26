@@ -1,0 +1,51 @@
+Module wetdrusilla "Wet Drusilla" {
+  Measure leg(). Measure casks(). Measure verses(). Measure watergifts(). Measure warmth(). Measure ninth(). Measure sinklane().
+  Relation guarded(group). Relation waxed(group). Relation nightPassed(group). Relation walkedBack(group). Relation ashesLost(group).
+  Relation sung(group). Relation scattered(group). Relation refused(group).
+
+  Initially Set casks() to 4.
+  Initially Set sinklane() to (1d3).
+
+  Query afterSail() means day(clock) >= 2 or (day(clock) == 1 and hour(clock) >= 14).
+  Query nightHours() means hour(clock) >= 18 or hour(clock) < 5.
+
+  // ── The Mary's day ────────────────────────────────────────────────────────────────────────────────────────────────
+  // leg 0 on the sand under the quay; 1 the Shallows (sails at two); 2 moored under the Magnanimous (at seven in the evening);
+  // 3 the Chorus (at eight the next morning, to the Silver at five on the third); 4 on the Silver.
+  Rule cast_off when leg() == 0 and afterSail() and within(party, mary)
+    says "A horn blows from the quay, once, and Captain Pomfret says a word to the deck. Tiggs comes down the long ladder with the goat under one arm, and the ladder is hauled up behind him. From the masthead Ravel Balfour calls down, 'Steady's up.' The loft-sail drops from its yard and fills with a crack like a door in a gale, and the Mary goes." {
+    Set leg() to 1. Assert state(quay_ladder_t, up). Retract at(tiggs, quay). Assert at(tiggs, deck). Retract at(goat, quay). Assert at(goat, deck).
+  }
+  Rule moor_at_hulk when leg() == 1 and (day(clock) >= 2 or hour(clock) >= 19)
+    says "The sun goes down behind the Mary's stern, huge and flat, and ahead of her something black stands up out of the sand: ribs, a funnel, a long iron side. 'The Magnanimous,' says the Captain. 'We lie under her tonight. Nobody sails the Chorus in the dark.' The loft-sail comes down, and the runners grind, and stop." teaches hulk_seen {
+    Set leg() to 2. Assert state(plank_t, laid).
+  }
+  Rule horn_at_hulk when leg() == 2 and day(clock) >= 2 and hour(clock) >= 7 and within(party, hulk) and not hornBlown(party) once
+    says "From under the iron a ship's horn blows, once, short and flat. 'That's the Mary,' says Perpetua Pennyfeather, not looking up. 'She doesn't blow twice.'" {
+    Assert hornBlown(party).
+  }
+  Relation hornBlown(group).
+  Rule sail_chorus when leg() == 2 and day(clock) >= 2 and hour(clock) >= 8 and within(party, mary)
+    says "The Steady comes up as it came the day before, like a hand under a blanket. The plank is hauled in, the sail drops, and the Magnanimous slides back and away until it is a toy on its side in the glare. Ahead the sand begins to heave in long pale ranks." {
+    Set leg() to 3. Assert state(plank_t, stowed).
+  }
+  Rule anchor_in_bowl when leg() == 3 and day(clock) == 2 and hour(clock) >= 17 and not anchored(party) once
+    says "In the late light the Captain swings the Mary into a bowl between three dunes, and drops the sand-anchor, and furls. 'Not a step further till dawn,' she says. 'You'll hear why.'" {
+    Assert anchored(party).
+  }
+  Relation anchored(group).
+  Rule reach_silver when leg() == 3 and day(clock) >= 3 and hour(clock) >= 5 and within(party, mary)
+    says "Before dawn the Mary is under way again, in the cold, on a wind that has turned round and blows from the Silver. The dunes fall away behind. The sand goes white. Then the runners stop hissing, and the sound under the keel is a flat small ticking like a clock, and the light comes up." teaches silver_seen {
+    Set leg() to 4. Assert state(silver_ladder_t, dropped). Assert state(dune_ladder_t, stowed).
+  }
+
+  Chapter c_shallows "The Shallows" when leg() >= 1 "Sand like a floor, flat to the world's edge, and the Mary on it at fifteen knots with nothing to hit.".
+  Chapter c_hulk "The Magnanimous" when leg() >= 2 "A ship the size of a street lies on her side in the evening, with a lamp in her.".
+  Chapter c_chorus "The Chorus" when leg() >= 3 "The second morning, and the dunes begin.".
+  Chapter c_silver "The Silver" when leg() >= 4 "The third dawn.".
+
+  Ending left_quay "Left on the Quay" when leg() == 0 and afterSail() and not within(party, mary)
+    "The horn blows from the quay at two, once. You hear the loft-sail fill, a long way down, and by the time you reach the quay wall the Mary is a pale shape with a wake of sand behind her. Mabin Hawke comes out onto the step with a mug in each hand and gives you one. 'She doesn't wait,' she says. 'It's in the will. Sit. We'll drink to her from here, and nobody will know the difference but the sea.'".
+  Ending marooned "Marooned on the Magnanimous" when leg() == 2 and day(clock) >= 2 and hour(clock) >= 8 and not within(party, mary)
+    "The Mary's horn does not blow a second time. By the time you are on the tilted deck the loft-sail is a white speck on the Chorus. Perpetua Pennyfeather puts a mug of something hot into your hand. 'Well,' she says. 'Now you'll want to learn to sing.' It is nine days to the next sail through the Shallows. You learn eleven songs, all of them hers, and she sells you a harp-frame at a very fair price.".
+}

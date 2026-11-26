@@ -1096,6 +1096,29 @@
    "heard": "East at the head of a sea-loch lies Tolt, whose tide-mill has stood still eleven days with a whale calf in its race.",
    "skyline": "a long grey sea-loch shut by a bar of pale sand, and a great mill-wheel standing still",
    "far": "a whale calf is wedged in a tide-mill's race at the head of a sea-loch"
+  },
+  {
+   "id": "wetdrusilla",
+   "province": true,
+   "bundle": "wetdrusilla/placed.json",
+   "entry": "road",
+   "marker": "pomfret",
+   "side": "south",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "name": "the Ebb",
+   "topic": "Dryquay on the Ebb, where a sand-ship carries a dead woman's ashes out to be sung over",
+   "terrain": "desert",
+   "rumour": "'South, where the road gives out into white sand,' says {keeper}, 'there is a harbour called Dryquay with no sea in it, and a sand-ship called the Contrary Mary that sails at two. She is carrying the ashes of Wet Drusilla Sarsby two days out across the Ebb, to be sung over, and the Captain is short of hands.'",
+   "heard": "South, where the road gives out into white sand, lies Dryquay, a harbour with no sea. A sand-ship called the Contrary Mary sails from it at two, two days out across the Ebb with a dead woman's ashes, to be sung over.",
+   "skyline": "a white wall at the edge of a plain so bright it has no far side",
+   "far": "a harbour with no sea sends a sand-ship out across the dry bed of it, to scatter a dead woman's ashes and sing"
   }
  ]
 }

@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "source": ["site.kyr","ship.kyr","people.kyr","song.kyr","raiders.kyr","singing.kyr","silver.kyr","acts.kyr","company.kyr"],
+  "rules": ["world"],
+  "globals": ["party"],
+  "canon": ["imbar"],
+  "exports": { "party": "party", "region": "country", "road": "road" }
+}

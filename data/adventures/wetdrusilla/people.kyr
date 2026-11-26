@@ -1,0 +1,198 @@
+Module wetdrusilla "Wet Drusilla" {
+  Kind ds_bucket "Alfie Wenlow's bucket" is treasure worth 1 weighing 2 described "A wooden bucket bound with three iron hoops, the staves worn silver where a hand held them. It has been scrubbed so often it smells of nothing. Inside the rim someone has cut, with a knife, a very small W.".
+  Kind ds_wax "a lump of stopping-wax" is gear worth 0 weighing 0 described "A greasy lump of yellow wax, pared thin in places where bits have been pinched off.".
+  Kind ds_cask "Drusilla's cask" is treasure worth 1 weighing 3 described "A small oak cask no longer than a forearm, tarred at the seams and sealed with a plug of red wax. Burned into the end are the letters D.S. and a drop of water. It sloshes.".
+  Kind ds_gourd "Jessamy Teak's water-gourd" is treasure worth 1 weighing 1 described "A gourd the size of two fists, stoppered with a corncob, on a thong gone black from handling. It is cool to the touch even in the sun.".
+
+  Item drusilla_cask "Drusilla's cask" is ds_cask at bilge hidden until cask_known.
+
+  // ── Captain Pomfret ───────────────────────────────────────────────────────────────────────────────────────────────
+  Person pomfret "Captain Pomfret" at deck {
+    Role "the captain of the Contrary Mary". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Greets "A woman with two fingers missing from her left hand is coiling a rope without looking at it. 'Hands?' says Captain Pomfret. 'Good. I'm two short. Water and bread, three coin at the Silver, and you don't touch the goat.'".
+    Greets again "'Still here,' says the Captain, to the rope.".
+  }
+  Topic pomfret_work with pomfret "Ask Captain Pomfret about the passage" when true once {
+    Says "'We sail at two. Not a minute after, and not a minute before, because the Steady hasn't got up.' She pulls the rope tight. 'Two days out to the Silver, a night under the Magnanimous, a night in the Chorus, burial at dawn on the third. The Sarsby woman's daughter's paying. You work the sheets and keep watch, and if the Singing gets you I am not coming to find you.'".
+    On discuss { Assert knows(actor, sails_at_two). }
+  }
+  Topic pomfret_ebb with pomfret "Ask the Captain where the sea went" when true once {
+    Says "'Ask six people, get seven answers.' She doesn't look up. 'My grandmother said it went down the well in the west, the one they hang the mountain over. The priests say it was called. The Collegium say it was drawn. I say a sea is a thing that goes out, and the only mistake we made was to build a harbour.'".
+    On discuss { Assert knows(actor, ebb_known). }
+  }
+  Topic pomfret_drusilla with pomfret "Ask the Captain about Wet Drusilla" when true once {
+    Says "'She taught me to sail. Then she sold me the Mary for everything I'd saved and a promise she'd keep the first call on her.' A thing moves in the Captain's face and is put away. 'I had the Mary. She had the promise. She never called. Not once, in twelve years, and she knew where to find me.'".
+    On discuss { Assert knows(actor, mary_was_hers). }
+  }
+  Topic pomfret_singing with pomfret "Ask the Captain about the Singing" when leg() >= 2 once {
+    Says "'The dunes hum when the day goes out of them. One note, then another underneath. It gets in the bones, and the sleeper walks up the nearest slope and keeps walking.' She is looking at the dark where the Chorus will be. 'My sister walked up one. We found her boots. I'm told there's a way to answer it, with a low note held, and I can't hold one, and I won't ask who can.'".
+    On discuss { Assert knows(actor, singing_known). }
+  }
+
+  // ── Sunniva Cleat ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person sunniva "Sunniva Cleat" at deck {
+    Role "who has hired the Mary". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A tall woman in a sailmaker's apron stands at the rail with a sailcloth bag held against her ribs in both arms, the way one holds a child that has finally gone to sleep. 'The bag stays with me,' says Sunniva Cleat. 'That is the first thing, and mostly the last.'".
+    Greets again "'Yes?' says Sunniva Cleat, and shifts the bag.".
+  }
+  Topic sunniva_who with sunniva "Ask Sunniva who the dead woman was to her" when true once {
+    Says "'My mother.' She says it like a tool put back on the right hook. 'I'd have said the woman who left the funeral to be paid for, but it turns out that's me.' She looks out at the sand. 'Cleat raised me. He's the nearest I've got to a word for it.'".
+    On discuss { Assert knows(actor, sunniva_cleat_raised). }
+  }
+  Topic sunniva_song with sunniva "Ask Sunniva whether she knows the song" when true once {
+    Says "'Everyone does. It is the tune the quay is built on.' Her arms tighten a very little on the bag. 'I know the tune. I do not sing.'".
+    On discuss { Assert askedSong(party). }
+  }
+  Relation askedSong(group).
+  Topic sunniva_press with sunniva "Ask Sunniva again for the eighth verse" when askedSong(party) and not knows(actor, verse_8) once {
+    Says "She turns her whole body, so that the bag is between you. 'No,' she says. Nothing else, and no heat in it, which is worse.".
+    On discuss { Decrease warmth() by 1 or to nothing. }
+  }
+  Topic sunniva_supper with sunniva "Tell Sunniva that Cleat says supper is at six" when knows(actor, cleat_message) once {
+    Says "For a moment her face does nothing at all. 'He always makes too much,' she says. 'He says it as though it were the soup's fault.' She turns to the rail so that you cannot see her. 'You may tell him I said the Silver is very big, and I'll have the appetite.'".
+    On discuss { Increase warmth() by 1. }
+  }
+  Topic sunniva_stool with sunniva "Ask Sunniva about the last night, the stool by the window" when knows(actor, last_night) once {
+    Says "'Mabin,' says Sunniva, with something between disgust and love. 'Mabin could not carry a tray without carrying the news.' She is silent for a long time. 'She asked for the song. I said I couldn't. She said, Nobody can, to begin with. That was the whole of it.' She lifts the bag a little, higher. 'She was very annoyed to be dying. I thought that was in character.'".
+    On discuss { Increase warmth() by 1. }
+  }
+
+  // ── Bartle Cresswell ──────────────────────────────────────────────────────────────────────────────────────────────
+  Person bartle "Bartle Cresswell" at galley {
+    Role "the Mary's cook". Ancestry human. Pronouns he. Manner cheerful. Peaceable.
+    Greets "A man shaped like a barrel is stirring nine pots with one spoon and crying into at least two of them. 'Onions,' says Bartle Cresswell. 'No, it isn't.'".
+    Greets again "'Soup,' says Bartle, without turning round.".
+  }
+  Topic bartle_drusilla with bartle "Ask Bartle what she was like to cook for" when true once {
+    Says "'Insufferable. Ate standing up. Sent soup back that she'd asked for.' He puts the spoon down and picks it up again. 'Eleven years. She said grace once, in the Chorus, in a dust storm. She said, Thank you for the water, and sorry for the rest. I never knew who she meant it to.'".
+    On discuss { Assert knows(actor, drusilla_grace). }
+  }
+  Topic bartle_asks with bartle "Bartle asks you a question" when addressed(bartle, actor) and company(actor) and not bartleAsked(actor) once {
+    Says "'Do I carry a tune?' says Bartle Cresswell, and the spoon stops. 'Honestly. Everyone lies.'".
+    On discuss { Assert bartleAsked(actor). }
+  }
+  Relation bartleAsked(group). Relation bartleSang(group).
+  Topic bartle_lie with bartle "Tell him he carries it beautifully" answering bartle_asks when true {
+    Says "'There,' says Bartle, and goes pink to the ears. 'Eleven years, and nobody has said so. Then I'll sing it.' He clears his throat and drives into it like a cart into a river: 'She towed the Penny off Garrow Flat / with eleven goats and a mule; / the goats went first, and the crust held firm, / and she said the mule was a fool.' He stops, delighted. 'The goats go first. That's the whole of the verse. She never trusted a sand she hadn't sent a goat across.'".
+    On discuss { Assert knows(actor, verse_3). Assert knows(actor, goat_lore). Increase verses() by 1. Assert bartleSang(party). }
+  }
+  Topic bartle_truth with bartle "Tell him he carries it like a goat carries a bucket" answering bartle_asks when true {
+    Says "Bartle Cresswell laughs so hard he has to sit on a pot. 'A goat!' he says. 'A bucket!' He wipes his eyes. 'Nobody ever said. Eleven years, I have been stopping my ears against myself.' He takes a lump of yellow wax out of his apron and gives it to you, and then, because he is not able to stop, sings: 'She towed the Penny off Garrow Flat / with eleven goats and a mule; / the goats went first, and the crust held firm, / and she said the mule was a fool.' 'The goats go first,' he says. 'That's the whole of the verse.'".
+    On discuss { Assert knows(actor, verse_3). Assert knows(actor, goat_lore). Increase verses() by 1. Assert bartleSang(party). Give ds_wax to actor. }
+  }
+
+  // ── Ravel Balfour ─────────────────────────────────────────────────────────────────────────────────────────────────
+  Person ravel "Ravel Balfour" at masthead {
+    Role "the Mary's pilot". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "An old man lies along the masthead platform with his right ear flat to the wood and his eyes shut. 'Don't walk heavy,' says Ravel Balfour. 'I'm listening to a bit of the Ebb.'".
+    Greets again "'Mind the boards,' says Ravel, to the mast.".
+  }
+  Topic ravel_listen with ravel "Ask Ravel what he hears" when true once {
+    Says "'Sand moving under sand. Salt cooling.' His eyes stay shut. 'Nothing, thank God. It is the quietest place there is, the Ebb, and it is quietest where the sea was deepest.'".
+    On discuss { Assert knows(actor, ravel_hears). }
+  }
+  Topic ravel_ear with ravel "Ask Ravel about his other ear" when true once {
+    Says "'The left. Deaf since I was nine, from a fever.' He turns his head on the planks and taps it. 'The Chorus can't get a grip on half a man. I have stood watch at that bowl forty times. It is a great pity, in my profession, to be proof against the only music there is.'".
+    On discuss { Assert knows(actor, ravel_deaf). }
+  }
+  Topic ravel_drusilla with ravel "Ask Ravel about Wet Drusilla" when true once {
+    Says "He is quiet so long that you think he has gone to sleep. 'She owed me nothing,' says Ravel Balfour, 'and I'd have given her everything. That is not a thing a pilot says. It is a thing a pilot finds out, over fifty years, from the wrong end.'".
+    On discuss { Assert knows(actor, ravel_loved). }
+  }
+  Topic ravel_verse with ravel "Ask Ravel for his verse, here, where she can't hear" when knows(actor, ravel_loved) once {
+    Says "He raises himself on one elbow and looks down through the hatch to be sure of the deck. Then, very low, in a voice like a rope paying out: 'On the Bishop's Stair she lost her breeches / and a pilot found them there; / he's kept them folded fifty years / and he never told where.' He lies down again. 'Not in front of her daughter,' he says. 'There's a kindness in not being funny at someone's mother.'".
+    On discuss { Assert knows(actor, verse_6). Increase verses() by 1. }
+  }
+
+  // ── Tiggs and the goat ────────────────────────────────────────────────────────────────────────────────────────────
+  Person tiggs "Tiggs" at quay {
+    Role "the deck boy". Ancestry human. Pronouns he. Manner cheerful. Peaceable.
+    Greets "A boy of eleven stands on the quay wall with a rope in one fist. At the other end of the rope a goat is trying to go back down the ladder. 'Don't touch her,' says Tiggs. 'She has views.'".
+    Greets again "'Mrs Bishop says hello,' says Tiggs, who has lost the argument.".
+  }
+  Person goat "Mrs Bishop" at quay {
+    Role "a goat with views". Species goat. Peaceable.
+  }
+  Topic tiggs_goat with tiggs "Ask Tiggs about the goat" when true once {
+    Says "'Mrs Bishop. Best sink-finder on the Ebb and the worst goat.' He holds out a hand to show a scar. 'Old Drusilla trained her. You send her out on the long rope across anything you don't like the look of. If she stops dead, you don't go.'".
+    On discuss { Assert knows(actor, goat_lore). }
+  }
+  Topic tiggs_verse with tiggs "Ask Tiggs to sing the song" when true once {
+    Says "Tiggs sings it at a run, as if it might get away: 'Drusilla Sarsby was born in a cart / three days from the nearest well; / the carters poured their last cask on her head / and walked on dry, as the tellers tell.' He draws breath. 'That's the first. Everybody does that one. Then you all do the chorus and put your feet apart.'".
+    On discuss { Assert knows(actor, verse_1). Increase verses() by 1. }
+  }
+
+  // ── Mabin Hawke and Alfie Wenlow ──────────────────────────────────────────────────────────────────────────────────
+  Person mabin "Mabin Hawke" at taproom {
+    Role "the keeper of the Beached Anchor". Profession innkeeper. Ancestry human. Pronouns she. Manner cheerful. Peaceable.
+    Sells rations for 2 coin from 4.
+    Greets "A broad woman with a sand-racer's squint is polishing a bell with no clapper. 'You're the hands for the Mary,' says Mabin Hawke. 'You're early, which is the first sign you'll be no use. Sit.'".
+    Greets again "'Well?' says Mabin, and pours.".
+  }
+  Topic mabin_will with mabin "Ask Mabin about the will" when true once {
+    Says "'She had it read in this room, forty people, free beer.' Mabin turns the bell. 'Ashes to the Silver, in the Mary, with the song, all nine verses, sung by those that know them. If the sea won't come for that, it's no sea of hers. The whole room laughed. The only one who didn't was Sunniva, and she stayed to the end.' She puts the bell down. 'The chorus goes, Haul away, Drusilla, the tide's a long time late; a woman with a sail can wait, and wait, and wait. There are nine verses and nobody has ever sung more than three together.'".
+    On discuss { Assert knows(actor, will_known). Assert knows(actor, chorus_known). }
+  }
+  Topic mabin_verse with mabin "Stand Mabin a drink and ask for her verse" when knows(actor, will_known) and quantity(actor, gold) >= 2 once {
+    Says "Mabin takes the coins, pours two, and sings with her eyes on the ceiling: 'She married old Alfie for the sake of his well / and drank it down to the mud; / she left him the bucket, she left him the rope, / and a note that said, Thanks. Be good.' She drinks. 'He's on the step now. He'll want to talk. Don't let him hold your sleeve.'".
+    On discuss { Decrease quantity(actor, gold) by 2. Assert knows(actor, verse_2). Increase verses() by 1. }
+  }
+  Topic mabin_stool with mabin "Ask Mabin about the stool by the window" when knows(actor, will_known) once {
+    Says "'Hers.' Mabin does not look at it. 'Six winters she sat there, every afternoon, watching the sail-loft door across the quay. Never crossed. Pride, or the other thing.' She shifts a mug. 'The last night, someone went the other way, and sat up with her, and I brought up the tea. I'll not say who. You'll have guessed, and if you haven't, it isn't yours to.'".
+    On discuss { Assert knows(actor, last_night). }
+  }
+  Action buy_cask(actor: group, site: place) "Buy a cask of water from Mabin, 3 coin" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(mabin, site) and quantity(actor, gold) >= 3 and casks() < 7 and leg() == 0.
+    Time 2 minutes.
+    On success { Decrease quantity(actor, gold) by 3. Increase casks() by 1. }
+    Result "Mabin has a boy roll a small cask down to the quay for the Mary. 'Three,' she says. 'It's cheaper than the sea would be.'".
+  }
+
+  Person alfie "Alfie Wenlow" at step {
+    Role "a very old man on the step". Ancestry human. Pronouns he. Manner cheerful. Peaceable.
+    Greets "An old man sits on the step in a coat that was good once, with a letter folded very small in one fist. 'Is it today?' says Alfie Wenlow. 'It's today. I had it as Thursday.'".
+    Greets again "'Are you still going?' says Alfie. 'Good. Good.'".
+  }
+  Topic alfie_note with alfie "Ask Alfie about the note she left him" when true once {
+    Says "'Thanks. Be good.' He unfolds the letter and refolds it. 'Forty-one years. I wrote back the same week, and I have been trying to send it ever since. She had no address. She had a ship.' He laughs. 'She drank my well dry and I never hated her. A well's for drinking. It only seemed a pity not to have been asked.'".
+    On discuss { Assert knows(actor, alfie_note_known). }
+  }
+  Topic alfie_bucket with alfie "Ask Alfie about the bucket" when knows(actor, alfie_note_known) once {
+    Says "'In the cupboard.' He leans on his stick and gets up one inch at a time. 'I filled it every morning for forty years, in case.' He is gone for a long while and comes back with a wooden bucket, scrubbed to the colour of bone. 'Tip it in for me. Anywhere she is. It's the same water. It is only a bit older.' He puts it in your hands. 'Tell her I kept the bucket.'".
+    On discuss { Give ds_bucket to actor. }
+  }
+
+  // ── Old Cleat ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Person cleat "Old Cleat" at loft {
+    Role "the sailmaker". Ancestry human. Pronouns he. Manner acerbic. Peaceable.
+    Greets "An old man with a palm like a leather mitten is sewing a seam as long as a street. He does not look up. 'If it's the Sarsby woman, she's not for sale, and if it's the Mary, the answer's no,' says Old Cleat.".
+    Greets again "'Still here?' says Cleat, and bites the thread.".
+  }
+  Topic cleat_sarsby with cleat "Ask Cleat about Drusilla Sarsby" when true once {
+    Says "'She left a basket on my floor with a jib in it that was better than anything I'd cut in forty years.' The needle goes in and comes out. 'I have never forgiven her for the jib. It was the right cloth, the right cut. The child had it round her like a flag. I could not so much as complain.'".
+    On discuss { Assert knows(actor, quay_child). }
+  }
+  Topic cleat_verse with cleat "Ask Cleat for his verse" when knows(actor, quay_child) once {
+    Says "'Once,' says Cleat, 'for the sheets, and not for her.' He sings it flat and quick, without looking up: 'She rigged the Mary in Dryquay's sheets / and kept her a point off the wind; / she was home in a week with the beds all made / and nobody asked where she'd been.' The needle comes out. 'A point off the wind, mind. The Mary will run a point off and carry a loft-sail over, and nobody sails her so but a fool or a Sarsby.'".
+    On discuss { Assert knows(actor, verse_4). Assert knows(actor, point_off). Increase verses() by 1. }
+  }
+  Topic cleat_sunniva with cleat "Ask Cleat about Sunniva" when knows(actor, quay_child) once {
+    Says "'She is a good sailmaker and a bad liar.' He puts down the work for the first time. 'Tell her supper is at six. Same as always. She will say she isn't hungry. Tell her I made too much.' He picks up the seam again. 'I'm not coming down the ladder. I am eighty-one, and I have made that ship's sails, and I will not see her go.'".
+    On discuss { Assert knows(actor, cleat_message). }
+  }
+
+  // ── Perpetua Pennyfeather ─────────────────────────────────────────────────────────────────────────────────────────
+  Person perpetua "Perpetua Pennyfeather" at hulk_hold {
+    Role "who lives in the Magnanimous". Ancestry human. Pronouns she. Manner proud. Peaceable.
+    Greets "A woman in nine shawls is frying something in the middle of the iron floor. 'Nothing I sell is for sale to anyone who hasn't heard me sing,' says Perpetua Pennyfeather. 'Sit down. It won't hurt, and it isn't long.'".
+    Greets again "'Back,' says Perpetua. 'Good. Sit.'".
+  }
+  Topic perpetua_sing with perpetua "Sit, and hear Perpetua sing" when true once {
+    Says "She sings one note, from the bottom of herself, without opening her mouth very wide. It is lower than you thought a voice went. The jars on the shelves begin to hum with it. Your ribs hum. Then she opens her mouth, and what comes out is the seventh verse, in that low note, one word to a breath: 'She outsang the Singing in the Chorus bowl / with a note from the floor of her chest; / the dunes lay down and the sand lay still / and she left a cask for the rest.' 'That's the way,' says Perpetua. 'Not loud. Under. The Singing is a high thing and it wants something to lie down on.'".
+    On discuss { Assert knows(actor, verse_7). Assert knows(actor, low_note). Increase verses() by 1. }
+  }
+  Topic perpetua_drusilla with perpetua "Ask Perpetua about Drusilla" when true once {
+    Says "'I was her deckhand, the night of that verse. I held the line while she held the note.' She turns the pan. 'After, I came here. Twenty years. The Singing finds me every night and I answer it. I have never had so good a conversation.' She prods the fire. 'She came by the year before she died. Left a cask. Said the rest of us might need it. I thought it a poor sort of present, a cask of water, in a place like this. It's in the bilge, under the third rib. I have not liked to touch it.'".
+    On discuss { Assert knows(actor, cask_known). Assert knows(actor, bilge_known). }
+  }
+}
