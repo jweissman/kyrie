@@ -1,3 +1,4 @@
+import { Earned } from '../src/lang/index';
 import { describe, expect, it } from 'bun:test';
 import { RunnerOffer } from '../src/cli/runner-offer';
 import { DrawnWorld } from '../src/world/drawn-world';
@@ -15,6 +16,8 @@ describe('the speaking door, its safe tries spent', () => {
   it('leads with its words, grave and never gold, and not with the way out', async () => {
     const s = await DrawnWorld.start('a1', { origin: 'order', party: [{ name: 'Hamo', raceId: 'human',
       classId: 'cleric', backgroundId: 'doctor' }] }, NodeBundleSource.shared);
+    // On the earned stage (OR-1245): the map and the lenses are hidden until earned, and this walks with them.
+    Earned.grant(s.campaign);
     const walk = await RunnerWalk.run(new Runner(s), 'straight', 12, 1);
     // Before, the door's own safe tries are its gold (look, push, listen); after, nothing is.
     // (The door's tries by what they do, under the look at it that opens them (TB-12): once done by that look, worded

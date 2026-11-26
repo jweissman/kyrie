@@ -66,7 +66,7 @@ export class FirstHourFights {
     return c.findIndex(x => x.type === 'death' && x.actor === id);
   }
   static async walk(w: Walk): Promise<Fought[]> {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', w.as]));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', w.as]));
     const s = journey.session, r = new Runner(s), honest = new HonestPlayer(s), out: Fought[] = [];
     const lines = w.lines ? readFileSync(w.lines, 'utf8').split('\n').filter(l => l.trim() && !l.startsWith('#'))
       : Array.from({ length: w.steps ?? 0 }, () => '');
@@ -92,7 +92,7 @@ export class FirstHourFights {
       }
       console.log(`${w.name}: ${fought.length} fights`);
     }
-    const begun = (await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']))).journey;
+    const begun = (await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']))).journey;
     for (const b of FirstHourBands.bands(begun.session.campaign, 10)) {
       console.log([b.name, b.where, `${b.minutes} min`, `${b.members} foes`, `said ${b.said}`, `won ${b.won}/${b.trials}`,
         `fell ${b.fell}`, `rounds ${FirstHourBands.median(b.rounds)}`, `lost ${FirstHourBands.median(b.lost)}`,

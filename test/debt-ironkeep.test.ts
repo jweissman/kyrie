@@ -16,7 +16,7 @@ class Debt {
 }
 describe('the debt, at Ironkeep', () => {
   it('leads through the keep and never out of it into the open fields', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wenna',
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--as', 'human/warrior/Wenna',
       '--origin', 'debt', '--chain', 'salvage']));
     const r = new Runner(journey.session), golds: string[] = [];
     let s = await GoldContinuity.followed(r, r.said()), arrived = false;

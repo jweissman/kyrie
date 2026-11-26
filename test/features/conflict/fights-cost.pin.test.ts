@@ -16,7 +16,7 @@ describe('Conflict › Fights that cost', () => {
   let walk: Fought[] = [], bands: Banded[] = [];
   beforeAll(async () => {
     walk = await FirstHourFights.walk(FirstHourFights.walks[0]!);
-    const begun = (await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']))).journey;
+    const begun = (await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']))).journey;
     bands = FirstHourBands.bands(begun.session.campaign, 10);
   }, 600000);
   // A band that stands and fights (a beast that runs before the first blow is not a fight).

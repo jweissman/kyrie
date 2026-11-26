@@ -30,7 +30,7 @@ describe('the conger in the gate-well, on the warrior\'s route', () => {
   let r: Runner, c: Campaign;
   const at: Said[] = [];
   beforeAll(async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     r = new Runner(journey.session); c = journey.session.campaign;
     for (const line of lines.slice(0, 43)) {
       const s = await AsMeant.ask(r, line);
@@ -69,7 +69,7 @@ describe('the conger in the gate-well, on the warrior\'s route', () => {
   // company of one. Level 5 (an eel's hit die is a d4): Wenna alone wins 180 of 200 (90 %), with Carlin all 200;
   // at level 2 alone had won 195, no risk to speak of.
   it('is won by Wenna alone most times, and by Wenna and Carlin nearly always', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     const fresh = journey.session.campaign, ids = fresh.readout.partyIds;
     const there = { kind: 'call' as const, name: 'at', args: [conger, 'gate__well'] };
     fresh.commitWorld(fresh.world.apply([{ kind: 'assert', call: there }]));
@@ -81,7 +81,7 @@ describe('the conger in the gate-well, on the warrior\'s route', () => {
   }, 60000);
   it('is down in the sluice by day: the weir\'s mage goes down at a quarter to nine and meets nothing', async () => {
     const cold5 = readFileSync('doc/architecture/mission-22/cold/cold-5-lines.txt', 'utf8').split('\n').filter(Boolean);
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
     const mage = new Runner(journey.session);
     let s: Said | undefined;
     for (const line of cold5.slice(0, 10)) { const x = await AsMeant.ask(mage, line); if (!('error' in x)) { s = x; } }
