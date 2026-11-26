@@ -3,6 +3,7 @@ import { Content } from '../src/content';
 import { AbilityUse } from '../src/ability-use';
 import { Expressions } from '../src/expressions';
 import { Amounts } from '../src/rules/amounts';
+import { ItemCatalog } from '../src/item-catalog';
 import type { EffectContext } from '../src/effects';
 import type { Fighter } from '../src/model';
 import { SrdEnergyPrototype as Prototype, type EnergyRecipe } from './support/srd-energy-prototype';
@@ -12,11 +13,12 @@ const fighter = (id: string, undead = false): Fighter => ({
   id, name: id, team: 'fighters', raceId: 'human', level: 40, strength: 10, dexterity: 10, constitution: 10,
   intelligence: 10, wisdom: 10, charisma: 10, speed: 10, hp: 500, maxHp: 1000, mana: 0, maxMana: 0,
   gold: 0, experience: 0, abilities: [], statuses: [], cooldowns: {}, traits: undead ? ['undead'] : [],
-  equipment: { armorAc: 0, modifiers: {}, hooks: {}, weapon: {
+  equipment: { body: ItemCatalog.canon.bodyOf('human'), armorAc: 0, modifiers: {}, hooks: {}, weapon: {
     id: 'fist', name: 'fist', damage: '1d3', type: 'bludgeoning',
   } },
 });
 const field = (recipe: EnergyRecipe, targets: Fighter[], seed = 'energy'): EffectContext => {
+  for (const target of targets) { target.equipment.body = ItemCatalog.canon.bodyOf(target.raceId); }
   const actor = { ...fighter('caster'), classId: 'cleric', wisdom: 16 };
   actor.ready = Array.from({ length: 8 }, (_, i) => i === recipe.level - 1 ? [recipe.id] : []);
   actor.slots = actor.ready.map(r => r.length);

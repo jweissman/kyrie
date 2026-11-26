@@ -4,11 +4,13 @@ import { CanonRuntime } from './canon/canon-runtime';
 import { KindDefenses } from './kind-defenses';
 import { Content } from './content';
 import { ConditionAmount } from './rules/condition-amount';
+import { FighterBody } from './fighter-body';
 
 // What a fighter's modifiers were gathered from, and what they came to.
 interface Gathered {
   statuses: string; environment: Fighter['environment']; equipment: Fighter['equipment'];
   weapon: Fighter['equipment']['weapon'] | undefined; worn: Fighter['equipment']['modifiers'] | undefined;
+  body: Fighter['equipment']['body'];
   traits: Fighter['traits']; raceId: string; variations: Fighter['variations']; modifiers: Modifiers;
 }
 // Orsino's gatherEffects: conditions held, the traits the creature has, its equipment and its kind's resistances,
@@ -21,17 +23,19 @@ interface Gathered {
 export class GatheredModifiers {
   private static readonly kept = new WeakMap<Fighter, Gathered>();
   static of(fighter: Fighter): Modifiers {
+    const body = FighterBody.of(fighter);
     const statuses = fighter.statuses.map(s => s.amount ? `${s.id}:${s.amount}` : s.id).join(' ');
     const kept = GatheredModifiers.kept.get(fighter);
     const equipment = fighter.equipment as Fighter['equipment'] | undefined;
     if (kept && kept.statuses === statuses && kept.environment === fighter.environment
       && kept.equipment === fighter.equipment && kept.weapon === equipment?.weapon && kept.worn === equipment?.modifiers
-      && kept.traits === fighter.traits && kept.raceId === fighter.raceId && kept.variations === fighter.variations) {
+      && kept.body === body && kept.traits === fighter.traits && kept.raceId === fighter.raceId
+      && kept.variations === fighter.variations) {
       return kept.modifiers;
     }
     const modifiers = GatheredModifiers.frozen(GatheredModifiers.gather(fighter));
     GatheredModifiers.kept.set(fighter, { statuses, environment: fighter.environment, equipment: fighter.equipment,
-      weapon: equipment?.weapon, worn: equipment?.modifiers, traits: fighter.traits, raceId: fighter.raceId,
+      weapon: equipment?.weapon, worn: equipment?.modifiers, body, traits: fighter.traits, raceId: fighter.raceId,
       variations: fighter.variations, modifiers });
     return modifiers;
   }

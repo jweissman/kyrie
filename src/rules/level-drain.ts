@@ -9,7 +9,7 @@ import type { CombatEvent, Fighter } from '../model';
 
 interface Drained extends Partial<Record<Attribute, number>> {
   level: number; maxHp: number; hp: number; raceId: string; classId?: string; constitution: number;
-  equipment?: Fighter['equipment'];
+  equipment: Fighter['equipment'];
   maxSlots?: number[]; slots?: number[]; ready?: string[][];
 }
 
@@ -37,6 +37,7 @@ export class LevelDrain {
   static perLevel(f: Pick<Drained, 'classId' | 'constitution' | 'equipment'>): number {
     const die = f.classId ? Callings.of(f.classId)?.hitDie : undefined;
     const st = f.equipment?.body;
+    if (st === undefined) { throw new Error('A fighter requires its catalog body projection (null for no body)'); }
     // A fixed stat block loses a Hit Die's worth, on the average (a d12's six).
     const sides = st?.hitDice ? Amounts.dice(st.hitDice)[0]?.sides : undefined;
     const grown = sides ? Math.floor((sides + 1) / 2) : st?.hitPointGrowth;

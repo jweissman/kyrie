@@ -18,6 +18,7 @@ export class FixedStatBlock {
   private static readonly blocks = new WeakMap<object, Block | undefined>();
   static of(fighter: Pick<Fighter, 'equipment'>): Block | undefined {
     const body = fighter.equipment?.body;
+    if (body === undefined) { throw new Error('A fighter requires its catalog body projection (null for no body)'); }
     if (!body) { return undefined; }
     if (!this.blocks.has(body)) {
       const fixed = body.hitDice && (body.saves || body.attackBonus !== undefined);
@@ -27,7 +28,8 @@ export class FixedStatBlock {
     return this.blocks.get(body);
   }
   private static fixed(f: Pick<Fighter, 'classId' | 'equipment'>): Block | undefined {
-    return f.classId ? undefined : this.of(f);
+    const block = this.of(f);
+    return f.classId ? undefined : block;
   }
   // The bonus to a save of this kind that makes it the block's: none for a creature of a calling, or of a kind without.
   static save(f: Pick<Fighter, 'classId' | 'equipment' | 'level'>, kind: string, scores: Record<string, number>) {

@@ -10,7 +10,7 @@ import { Morale } from './rules/morale'; import { ShakingOff } from './rules/sha
 import { Tactics } from './tactics'; import { Parley } from './parley'; import { BattleRoll } from './battle-roll';
 import { Quarry } from './quarry'; import { Positions } from './rules/positions'; import { HitDicePool } from './rules/hit-dice-pool';
 import { ItemCatalog } from './item-catalog'; import type { ArenaAbility } from './lang/parse';
-import { Telegraph } from './telegraph';
+import { Telegraph } from './telegraph'; import { FighterBody } from './fighter-body';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
 
 // Orsino's combat loop (Combat.round and Combat.turn): each round everyone rolls initiative (d20 + DEX modifier +
@@ -404,7 +404,7 @@ export class Battle {
   // Combat.turn's start: cooldowns tick; a creature with noActions loses the turn.
   // A kind's own actions a turn (Orsino's monsterAttacksPerTurn: an owlbear's two, a dragon's three); one for people.
   static actionsOf(f: Fighter): number {
-    return f.equipment?.body?.actions ?? 1;
+    return FighterBody.of(f)?.actions ?? 1;
   }
   private startTurn() {
     while (!this.outcome) {

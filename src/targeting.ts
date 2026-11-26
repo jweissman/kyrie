@@ -1,6 +1,7 @@
 import type { Fighter } from './model';
 import type { ArenaAbility, Target } from './lang/parse';
 import { Effects } from './effects';
+import { FighterBody } from './fighter-body';
 
 export class Targeting {
   // A creature whose allegiance has changed (Orsino's charm) sees its own side as the enemy and the other as friends;
@@ -43,8 +44,8 @@ export class Targeting {
   // bears, or its body's kind or type (a wolf is an animal and a beast, though no trait says so: Orsino's Hold Animal
   // had fallen on none, srd-proving-cases.md case 48).
   static bears(f: Fighter, trait: string): boolean {
+    const body = FighterBody.of(f);
     if (f.traits?.includes(trait)) { return true; }
-    const body = f.equipment?.body;
     return !!body && (body.kind === trait || body.type === trait);
   }
   static selected(target: Target): boolean { return ['enemy', 'ally', 'dead ally'].includes(target); }
