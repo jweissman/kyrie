@@ -1,0 +1,41 @@
+Module tailrace "The Calf in the Tail-Race" {
+  Description "Tolt, at the head of a sea-loch: a tide-mill whose wheel has stopped, a whale calf wedged in the tail-race under it, a gauger coming for it, and a spring tide on the third night.".
+
+  Place shore "the Tolt shore" is region within imbar.
+  Place tolt "Tolt" is settlement within shore at 0, 0.
+  Place bar_land "the loch bar" is wilderness within shore at 1, 0.
+  Place ladle_inn "the Ladle" is building within tolt.
+
+  Place road "the loch road" is room within tolt at 0, 0 outdoors.
+  Place hard "the hard" is room within tolt at 1, 0 outdoors.
+  Place yard "Thord's mill-yard" is room within tolt at 2, 0 outdoors.
+  Place tailrace "the tail-race" is room within tolt at 2, 1 outdoors.
+  Place sill "the weir-sill" is room within tolt at 3, 1 outdoors.
+  Place meadow "Ulkin's salt-meadow" is room within tolt at 3, 2 outdoors.
+  Place taproom "the taproom of the Ladle" is room within ladle_inn at 1, 1.
+  Place bar_head "the bar-head" is room within bar_land at 0, 0 outdoors.
+
+  Passage track_down "the track down to the hard" is path between road and hard taking 10 minutes.
+  Passage mill_gate "the mill gate" is gate between hard and yard.
+  Passage race_steps "the steps down to the tail-race" is steps between yard and tailrace.
+  Passage pond_wall "the crest of the pond-wall" is path between tailrace and sill taking 10 minutes.
+  Passage dyke_path "the dyke path" is path between sill and meadow taking 10 minutes.
+  Passage ladle_door "the Ladle's door" is door between hard and taproom.
+  Passage spit "the shingle spit" is path between hard and bar_head taking 30 minutes.
+
+  Observe road_scene at road when true "The road comes over the last shoulder of the hills, and the loch is below: grey, long, shut at its far end by a bar of pale sand with the sea beyond it. In the middle of the village a great wheel stands quite still.".
+  Observe road_hum at road as sound when not been(party, hard) "Under the wind there is a noise like someone humming into a jug.".
+  Observe hard_scene at hard when true "Boats lie on a shingle hard, and the Ladle's sign hangs over a low door. Up the slope the mill stands over its pond with its wheel stopped, and every few minutes the stones of the wall give back a long, low note.".
+  Observe hard_call at hard as sound when dark() "Beyond the bar the old whale calls, long and low, and up in the tail-race the calf answers, and the stones of the mill ring like a struck plate.".
+  Observe hard_boats at hard as ambience when true "Nobody has put a boat out in eleven days. The men sit on the hulls and look at the mill.".
+  Observe yard_scene at yard when true "Flour has drifted over everything in the mill-yard, the cart, the dog, the cabbages. Sacks of oats wait in a row for a wheel that is not turning.".
+  Observe race_scene at tailrace when true "The tail-race is a stone channel built for water, under the black belly of the wheel. The water comes down it in a sheet over something grey, and the whole wall hums.".
+  Observe race_breath at tailrace as ambience when true "Every time it breathes, the sacks along the wall shift a little, as if to make room.".
+  Observe sill_scene at sill when true "The weir-sill is a low wall of black timber with the sea on one side of it and the mill-pond on the other. Stop-logs, one above another, are held in grooves by iron pins. The sea is a hand's breadth lower than the pond.".
+  Observe sill_knock at sill as sound when knows(party, knock_known) and state(sill_logs, shut) "At the foot of every wave the sea knocks against the timber, softly, twice. Ulkin was right about it.".
+  Observe meadow_scene at meadow when true "A flat salt-meadow lies under the pond-wall, silver with grass and with geese. Haycocks stand in rows across it, to the very edge of the dyke.".
+  Observe meadow_geese at meadow as ambience when true "The geese are all facing the loch.".
+  Observe taproom_scene at taproom when true "A low room, a peat fire, and a table scrubbed to the grain. Over the hearth hangs a ladle as long as a man's arm, black with use.".
+  Observe bar_scene at bar_head when true "A shingle spit runs out to the bar, and the sea beyond the bar goes up to the sky. The wind here has teeth. Every sound the loch makes comes to this point and stops.".
+  Observe bar_far at bar_head as sign when not tideOn() "Beyond the sand the water goes up in a white column, and hangs, and falls. It is a long way away, and very patient.".
+}

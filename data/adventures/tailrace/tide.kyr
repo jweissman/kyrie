@@ -1,0 +1,97 @@
+Module tailrace "The Calf in the Tail-Race" {
+  // ── The clock: the gauger comes at noon on the second day, boils at dawn on the third, and the spring tide tops that night
+  Relation oilDeal(group). Relation nightTold(entity).
+  Query gaugerOn() means watch(clock) >= 168.
+  Query flenseOn() means watch(clock) >= 276.
+  Query tideOn() means watch(clock) >= 372.
+  Query greyOn() means watch(clock) >= 408.
+  Query dawnOn() means watch(clock) >= 414.
+
+  Chapter ch_stopped "Eleven Days Stopped" when within(party, tolt) "Tolt has not ground a grain in eleven days, and has a whale in its mill-race and three nights to the top of the year's tide.".
+  Chapter ch_gauger "The Gauger" when watch(clock) >= 168 and within(party, shore) "The Rì's gauger has come to the Ladle with a copper on a cart.".
+  Chapter ch_tide "The Top of the Tide" when tideOn() and within(party, shore) "The sea stands higher on the sill than it has all year.".
+
+  // ── What the calf's days do ────────────────────────────────────────────────────────────────────────────────────
+  Observe calf_failing at tailrace as sign when state(calf, wedged) and fed(calf) < 3 and watch(clock) >= 180 "The calf has stopped answering the wall. Mabet has stopped reading, and sits with her hand flat on its side.".
+  Rule boil_starts heard within shore when state(calf, wedged) and (boilNow(party) or (flenseOn() and not stayed(party)))
+    says "At the hard the copper is lit. The smoke goes up straight in the still air, and the smell of it comes up the street, sweet and heavy, like a thing being forgiven." { Assert state(calf, butchered). }
+  Rule boil_after heard within shore when dawnOn() and state(calf, wedged)
+    says "The tide has turned and the calf has not moved. Waric Holle looks at the sky, and at his date, and says, without much in his voice, 'I am sorry. I did say.'" { Assert state(calf, butchered). }
+  Rule calf_fades heard within shore when watch(clock) >= 300 and state(calf, wedged) and fed(calf) < 3 and not tideOn()
+    says "In the small hours the calf sighs, and does not breathe in again. The wall goes quiet, for the first time in a fortnight, and out past the bar the Dam calls once and then not at all." { Assert state(calf, dead). }
+
+  // ── The top of the tide ────────────────────────────────────────────────────────────────────────────────────────
+  Rule tide_comes when tideOn() and within(party, shore) and not nightTold(sill_logs)
+    says "The sea comes up the loch at dusk, quiet, and stands a hand higher on the sill than it has all year. The Ladle's lamps are out. Nobody in Tolt is speaking above a whisper." { Assert nightTold(sill_logs). }
+  Rule calf_floats heard within shore when state(sill_logs, drawn) and tideOn() and state(calf, wedged)
+    says "The sea comes over the sill in a black sheet, and the race fills from below. The calf shifts, and lifts, and lows: a long, wavering note that sets every stone in the mill ringing. For the first time in eleven days the wheel moves, a quarter-turn, and stops." { Assert state(calf, afloat). }
+  Rule maric_sounds heard within shore when state(calf, afloat) and maricCalls(party) and not hornSounded(party)
+    says "On the bar-head a man who has carried a horn for a year raises it. He does not sound the kill. It is a low note, a little flat, a brother's note, and he holds it until his breath fails." { Assert hornSounded(party). }
+  Rule maric_blows_anyway heard within shore when state(calf, afloat) and not maricYields(party) and not hornSounded(party)
+    says "On the bar-head Maric Selle's horn sounds across the water, as it has sounded every dusk, and this time the calf answers it." { Assert hornSounded(party). }
+  Action sound_horn(actor: group, site: place) "Sound Maric's horn over the black water" {
+    Requires able(actor) and company(actor) and at(actor, site) and holding(actor, tr_horn) and state(calf, afloat) and tideOn() and not hornSounded(party).
+    Time 1.
+    On success { Assert hornSounded(party). }
+    Result "You put your mouth where a man's mouth has worn the horn, and blow as if you were sorry and also coming. It comes out a little flat. It goes out across the loch like a hand.".
+  }
+  Rule dam_answers heard within shore when hornSounded(party) and state(calf, afloat) and not damAnswered(party)
+    says "Past the bar the water rises in a hill and slides. She comes over the sand as slowly as weather, old and wide and grey, the back of her longer than the Ladle, and she makes no sound at all. Then the calf calls, and she answers, and the whole loch lights from beneath: green, cold, in threads and wheels, wherever either of them turns. Tolt stands on the hard with its lamps out and does not say a word." { Assert damAnswered(party). Assert state(calf, gone). }
+  Rule harpoon_flies heard within shore when damAnswered(party) and not maricYields(party) and not maricJoined(party) and not harpooned(party)
+    says "Something goes across the lit water with a line behind it, and the sea changes. She turns once, slowly, as a great door turns, and the calf is beside her, and the harpoon is in her shoulder, and the sound she makes goes through the stones of the mill and out the other side." { Assert harpooned(party). }
+  Rule irons_fly heard within shore when damAnswered(party) and maricJoined(party) and not harpooned(party)
+    says "You and Maric stand on the bar-head with the irons ready, and she comes over the sand into the shallows, slow, with the lit water pouring off her. The first iron is his. The second is yours. She turns, once, as a great door turns, and the sea stands up white, and goes red, and the sound she makes goes through the stones of the mill and out the other side." { Assert harpooned(party). }
+  Rule calf_strays heard within shore when state(calf, afloat) and watch(clock) >= 396 and not hornSounded(party)
+    says "Towards morning the calf drifts down the race and out through the sill, tail moving, listening. Nobody has told it which way. It goes toward the bar, and into the dark, and the loch closes over it." { Assert state(calf, gone). }
+
+  // ── The grey hour: what each of them did, told before the book closes ──────────────────────────────────────────
+  Rule fate_wheel when within(party, shore) and greyOn() and state(calf, gone) and oilDeal(party) and not fateTold(agnel)
+    says "In the grey hour the stones begin to grind, and the press with them, and Agnel Thord is at the press in her good apron with her sleeves up, pressing rape into a keg stamped with the Rì's mark in flour. Waric Holle stands at her elbow weighing the first gallon with great seriousness. 'Heavy,' he says. 'Good.' It is eleven words he has said that are not in his warrant." { Assert fateTold(agnel). }
+  Rule fate_wheel_plain when within(party, shore) and greyOn() and state(calf, gone) and not oilDeal(party) and not fateTold(agnel)
+    says "In the grey hour the great wheel goes round, and Agnel Thord stands in front of it with her arms folded, as she stood eleven days, and does not say anything, because it is the first time in her life she has had to be quiet to hear it." { Assert fateTold(agnel). }
+  Rule fate_waric_paid when within(party, shore) and greyOn() and state(calf, gone) and stayed(party) and not oilDeal(party) and not fateTold(waric)
+    says "Waric Holle enters in his book, 'Calf: removed by the sea. Fee: not refunded.' Then he sneezes, and strikes out refunded, and writes it again smaller." { Assert fateTold(waric). }
+  Rule fate_waric_none when within(party, shore) and greyOn() and state(calf, gone) and not stayed(party) and not fateTold(waric)
+    says "The boilers' copper stands cold on the hard and Waric Holle stands over it, bareheaded, as over a grave he has been cheated of. He says nothing. It is hard to say which of them he is angry with." { Assert fateTold(waric). }
+  Rule fate_ulkin_saved when within(party, shore) and greyOn() and state(sill_logs, drawn) and hayMoved(party) and not fateTold(ulkin)
+    says "Hobin Ulkin's geese stand in a row on the bank above their meadow and watch the sea go over where the hay was, with the satisfaction of those who knew. 'It knocked,' says Ulkin. 'We answered.'" { Assert fateTold(ulkin). }
+  Rule fate_ulkin_lost when within(party, shore) and greyOn() and state(sill_logs, drawn) and not hayMoved(party) and not fateTold(ulkin)
+    says "Ulkin's haycocks go out across the flooded meadow one by one, bobbing, like a regatta, and Ulkin follows them in a punt, counting, with the geese swimming behind. He is not angry. He is only telling the haycocks, very kindly, what they have done." { Assert fateTold(ulkin). }
+  Rule fate_sill when within(party, shore) and greyOn() and state(sill_logs, drawn) and sillForced(party) and not fateTold(sill_logs)
+    says "Agnel finds the stop-logs in four pieces on the sill at dawn, and counts them, and says nothing for as long as it takes to count them again. 'I will want those paid for,' she says. 'I will not want them mentioned.'" { Assert fateTold(sill_logs). }
+  Rule fate_mabet when within(party, shore) and greyOn() and state(calf, gone) and not fateTold(mabet)
+    says "Mabet is on the pond-wall with her list. 'Cabbage,' she tells the dark water, with great clearness. 'Turnip. Kale. Parsnip.' It is a long time before she shuts the book, and she does not do it as someone who has finished." { Assert fateTold(mabet). }
+  Rule fate_maric_calls when within(party, shore) and greyOn() and state(calf, gone) and maricCalls(party) and not fateTold(maric)
+    says "Maric Selle sits on the bar-head with the horn in his lap and his harpoon in the sea, and in the grey light there is a second grey back out past the sand, smaller, close to a larger one, going. He lifts his hand. It might be a wave. It might be that he has been told what it was for." { Assert fateTold(maric). }
+  Rule fate_maric_lent when within(party, shore) and greyOn() and state(calf, gone) and hornLent(party) and not fateTold(maric)
+    says "Maric Selle sits on the bar-head with his hands empty, and does not look at the horn that is not there. When you come out along the spit he moves over on the capstan stone without a word, and the two of you watch the two backs go out over the bar." { Assert fateTold(maric). }
+  Rule fate_maric_proud when within(party, shore) and greyOn() and harpooned(party) and not maricJoined(party) and not fateTold(maric)
+    says "Maric Selle is on the bar-head at dawn with the empty line coiled at his feet. He looks like a man who has done the thing he planned a year, and finds that it is not a thing that can be put down." { Assert fateTold(maric). }
+  Rule fate_maric_joined when within(party, shore) and greyOn() and harpooned(party) and maricJoined(party) and not fateTold(maric)
+    says "Maric Selle sits on the bar-head at dawn with the two irons and the empty line. He has done what he planned for a year. 'Joss,' he says, to the water, as to a man across a table, and waits for the answer, and it does not come, and it never will, and he has found it out." { Assert fateTold(maric). }
+  Rule fate_clean_flank when within(party, shore) and greyOn() and state(calf, gone) and splinterShown(party) and not fateTold(calf)
+    says "At the edge of the sand a small grey back rolls over once in the first light and shows its left side, clean. Maric Selle sees it from the bar-head. 'Well,' he says, as to a man who has paid a long-standing debt in the wrong coin and been thanked for it." { Assert fateTold(calf). }
+  Rule fate_knives when within(party, shore) and greyOn() and knivesHidden(party) and not fateTold(boilers)
+    says "The boilers find their knives at noon, in the weed off the hard, one at a time, and have it out among themselves about whose turn it was." { Assert fateTold(boilers). }
+  Rule fate_boiled_bar when within(party, shore) and state(calf, butchered) and watch(clock) >= 290 and not fateTold(boilers)
+    says "That night the Dam lies across the bar like a closed door. No boat leaves Tolt. At the Ladle, Marne Fousk takes down the herring-sign and does not put it back." { Assert fateTold(boilers). }
+
+  // ── What a company grows by here ────────────────────────────────────────────────────────────────────────────────
+  Milestone m_scar "found what the calf carries in its side" worth 60 when knows(party, scar_known).
+  Milestone m_fed "fed the calf through its worst days" worth 80 when fed(calf) >= 3.
+  Milestone m_splinter "drew the splinter out of the calf" worth 120 when splinterDrawn(party).
+  Milestone m_maric "laid down a whaleman's harpoon" worth 200 when maricYields(party).
+  Milestone m_oil "persuaded the Rì's gauger with a different oil" worth 150 when oilDeal(party).
+  Milestone m_joined "stood on the bar-head with the whalemen" worth 40 when maricJoined(party).
+  Milestone m_light "stirred the cold fire in the loch" worth 80 when state(coldlight, stirred).
+  Milestone m_free "floated the calf at the top of the tide" worth 250 when state(calf, gone).
+  Milestone m_answer "heard the Dam answer" worth 300 when damAnswered(party).
+
+  // ── Endings ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Ending lit_water "The Lit Water" when dawnOn() and state(calf, gone) and damAnswered(party) and maricYields(party) "By morning the loch is only a loch. The bar is a pale line, and beyond it nothing, wide and flat, with the sun coming up in it. The mill grinds all that day, and nobody mentions the whale at the Ladle until the evening, when Marne Fousk pours Maric Selle a drink he does not pay for. Out at the bar the herring come in that week, and the next, as if a debt had been called in the right direction. Ulkin says it was the sea being polite. Mabet says it was Parsnip, and that she told him not to answer, and he is very poor at being told.".
+  Ending harpoon_night "The Line Across the Water" when dawnOn() and state(calf, gone) and damAnswered(party) and not maricYields(party) and not maricJoined(party) "They go out over the bar, the two of them, the large one trailing a line, and the loch is black behind them. Nobody in Tolt sleeps. At first light a boat finds the harpoon-line cut at the thwart and the water clean. Maric Selle does not speak of it. The Dam does not return, and neither, that year, do the herring. The mill goes round with nobody watching it, and when Mabet reads aloud now, it is not to anyone in the race.".
+  Ending sixty_barrels "Sixty Barrels" when dawnOn() and state(calf, gone) and damAnswered(party) and maricJoined(party) "She is three days dying in the shallows. The whole of Tolt turns out with knives and pots and the Rì's copper, and the smell of the boiling lies on the loch for a month. Waric Holle weighs the oil with his folding scales, barrel after barrel, and says nothing at all, and writes the figure down, and does not look up. The lamps of Dun Rìerdan burn all that winter with oil from the loch, bright and clear. The calf is not found. Tolt is richer than it has been in fourteen years, and in the Ladle no one will sit with their back to the bar.".
+  Ending calf_alone "A Calf Alone" when dawnOn() and state(calf, gone) and not damAnswered(party) "The tide goes out of the race and the calf with it, no one having told it which way. At dawn Mabet, on the bar-head with her list, sees two grey backs at the edge of the sand, one small and one very large, going out together past the end of everything. She does not say whose doing it was. At noon the wheel makes its first full turn since the autumn, to a small cheer from the hard, and the old whale off the bar is not called the Dam in Tolt again; they call her, shortly, her.".
+  Ending boiled "Boiling Day" when state(calf, butchered) "The calf is boiled on the hard, in the Rì's copper, and the smell lies on Tolt for a month. Waric Holle makes his three barrels and seals them with the Rì's seal, and goes back up the coast with a cold and the oil, and the lamps of Dun Rìerdan burn a little brighter that winter, which is a thing that is also true. The wheel goes round under the smoke. In the night the Dam comes in and lies across the bar, and does not leave, and the herring go away.".
+  Ending starved "The Quiet Race" when state(calf, dead) "They lift the calf out of the race with ropes and a team of oxen, and bury it in Ulkin's meadow, which is a thing that is not done with whales. Two men start the wheel by hand, and no one at the mill says anything at all. Out past the bar the Dam calls every dusk for a month, and then does not. Mabet does not read aloud again. She keeps the list in the press, in a drawer, between the cabbage and the leeks.".
+}

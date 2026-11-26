@@ -1,0 +1,74 @@
+Module tailrace "The Calf in the Tail-Race" {
+  Kind tr_herring "a string of herring" is gear worth 1 weighing 1 described "Six herring on a withy, stiff and bright, smelling of the sea they have just left.".
+  Kind tr_mallet "Agnel Thord's drawing-mallet" is gear worth 2 weighing 3 described "A beech mallet the size of a child, its face dished by thirty-one years of knocking stop-logs home.".
+  Kind tr_horn "Maric Selle's horn" is gear worth 4 weighing 1 described "A ram's horn, bound in tarred cord, with a mouthpiece worn to the shape of one man's lip.".
+  Kind tr_splinter "a splinter of tarred oak" is treasure worth 0 weighing 0 described "A finger of black oak as long as a candle, with a brass nail still through it. It came out of a living thing, and it is warm.".
+
+  Measure fed(entity). Measure wetCount(entity). Measure feedBar(group).
+  Relation mabetAsked(group). Relation mabetTrusts(group). Relation splinterDrawn(group). Relation splinterShown(group).
+  Relation pressPledged(group). Relation stayed(group). Relation knivesHidden(group). Relation waricWary(group).
+  Relation ulkinWarned(group). Relation hayMoved(group). Relation mallet_lent(group). Relation sillForced(group).
+  Relation maricYields(group). Relation maricCalls(group). Relation hornSounded(group). Relation damAnswered(group).
+  Relation harpooned(group). Relation lightSeen(group). Relation fateTold(entity).
+
+  Discovery law_known "A great fish in the Rì's water is the Rì's, to be boiled for the lamps of the Star-Readers' towers. The gauger's boilers begin on the dawn of the third day.".
+  Discovery lampboy_known "Waric Holle trimmed wicks in a Star-Reader's tower for nine years. The lamps have cost more since the whalers stopped coming.".
+  Discovery press_known "The mill's rape-press stands idle while the wheel is stopped. Turning, it gives forty gallons of lamp-oil a week.".
+  Discovery feed_known "The calf wants three good feeds, of herring or of cold water by the bucket, before the spring tide, or it will not be strong enough to swim.".
+  Discovery scar_known "The calf's left flank is scarred by a cord, and a splinter of tarred oak with a brass nail through it is still in the scar.".
+  Discovery sill_known "The pond's sill is held by stop-logs. Drawn at the top of the spring tide, the sea comes over and floats the race; drawn earlier, it only drowns Ulkin's meadow.".
+  Discovery dam_known "An old whale has lain off the bar for eleven nights, calling. Tolt calls her the Dam.".
+  Discovery horn_known "Maric Selle's horn answers the Dam, and the Dam answers it.".
+  Discovery plan_known "Maric means to take the Dam when she comes in for her calf: sixty barrels, with a harpoon of his own forging.".
+  Discovery intent_known "The Good Intent, Maric Selle's boat, went up on the Dam's back last March with his brother Joss in her, when she was between the boat and her calf.".
+  Discovery cold_known "On a dark tide the loch burns where it is stirred.".
+
+  // ── The calf ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing calf "the calf" at tailrace {
+    State wedged "A whale calf lies wedged nose-up in the tail-race, grey and glossy, with an eye the colour of a plum. It breathes in long wet sighs.".
+    State afloat "The race is brimming. The calf has come up off the stone and hangs in the water with its tail moving, listening.".
+    State gone "The tail-race is full of nothing but water, and the wheel has begun, slowly, to turn.".
+    State dead "The calf lies still in the race. Its eye has gone dull.".
+    State butchered "The race runs red and thick under the wheel, and the boilers' fire is lit on the bank.".
+  }
+  Observe calf_hungry at tailrace as sign when state(calf, wedged) and fed(calf) == 0 "The calf noses at the empty water. Its flank has begun to show the line of its ribs.".
+  Observe calf_fed at tailrace as sign when state(calf, wedged) and fed(calf) >= 3 "The calf is brighter-eyed than it was. It follows your hands.".
+  Observe scar_seen near calf when tried(calf, looking) and state(calf, wedged) "On the calf's left flank a cord has bitten deep into the skin and healed over it. In the scar, driven in like a nail in a post, is a finger of black oak with a brass nail through it." teaches scar_known.
+
+  Action feed_calf(actor: group, site: place) "Throw the calf a string of herring" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(calf, site) and state(calf, wedged) and holding(actor, tr_herring).
+    Time 2.
+    On success { Spend tr_herring from actor. Increase fed(calf) by 1. }
+    Result "The calf takes the herring one at a time, as if it were being polite, and the water comes up through its blowhole in a small grateful fountain.".
+  }
+  Action wet_calf(actor: group, site: place) "Wet the calf down with a bucket-chain" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(calf, site) and state(calf, wedged) and wetCount(calf) * 72 <= watch(clock).
+    Time 6.
+    On success { Increase wetCount(calf) by 1. Increase fed(calf) by 1. }
+    Result "For an hour you carry water up from the pond in a bucket and pour it down the calf's back, and it shivers all the way along, like a horse. By the end the sacking on its flank is steaming and it has stopped sighing.".
+  }
+  Action draw_splinter(actor: group, site: place) "Draw the splinter out of the calf's flank" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(calf, site) and state(calf, wedged) and knows(actor, scar_known) and knows(actor, hold_known) and mabetTrusts(actor) and not splinterDrawn(actor).
+    Time 2.
+    On success { Assert splinterDrawn(actor). Give tr_splinter to actor. }
+    Result "Mabet takes the calf's head in both arms and tells it about leeks. You get your fingers round the oak and pull, and it comes slowly, with a sound like a boot out of mud. The calf lows once, a note you feel in your teeth, and then lies still, and its eye rolls round to look at you.".
+  }
+
+  // ── The sill and the meadow ─────────────────────────────────────────────────────────────────────────────────────
+  Thing sill_logs "the stop-logs" at sill {
+    State shut "The stop-logs stand in their grooves, pinned.".
+    State drawn "The stop-logs are out and the sea is pouring through the sill, black and fast, into the pond.".
+    Change draw "Draw the stop-logs with Agnel's mallet" from shut to drawn needing tr_mallet when tideOn() "The tide is a hand's breadth too low to lift the race. Draw the logs now and the pond drains for nothing.".
+    Change force "Break the stop-logs out with a crowbar" from shut to drawn needing crowbar when tideOn() "Nor will a crowbar help before the tide.".
+  }
+  Observe parsnip_named at tailrace as sign when knows(party, parsnip_known) and state(calf, wedged) "'Parsnip,' says Mabet, and the calf rolls an eye round at his name.".
+  Rule force_marks when state(sill_logs, drawn) and not holding(party, tr_mallet) and not sillForced(party) { Assert sillForced(party). }
+
+  // ── The loch's cold light, which is there whether or not anyone is saved ──────────────────────────────────────────
+  Thing coldlight "the loch off the hard" at hard {
+    State dark "The loch off the hard lies flat and grey, with a skin of weed along the shingle.".
+    State stirred "Where you have stirred it the water burns pale green, in coils, and goes on burning after your hand is out.".
+    Change stir "Trail a hand through the loch" from dark to stirred when dark() "In daylight it is only water.".
+    Wonder natural rare for aesthetic "Where a ripple turns, the water has a faint green cast, as if something under it were thinking of light. The loch is lit from within, and wants only the dark and a hand to say so.".
+  }
+}

@@ -1472,6 +1472,8 @@
     "test/goingbank-placed.test.ts": 15550,
     "test/rule-wakeups.test.ts": 164000,
     "test/quiet-watches.test.ts": 160000,
-    "test/one-action.test.ts": 90000
+    "test/one-action.test.ts": 90000,
+    "test/tailrace.test.ts": 50000,
+    "test/tailrace-placed.test.ts": 34000
   }
 }

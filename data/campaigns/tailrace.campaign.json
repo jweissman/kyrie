@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Calf in the Tail-Race",
+  "pitch": {
+    "heading": "The Calf in the Tail-Race",
+    "text": "A whale calf is wedged in the tail-race of Tolt's tide-mill, and the Rì's gauger is coming with a copper to boil it. The year's spring tide tops on the third night, and its mother is waiting past the bar."
+  },
+  "modules": [
+    {
+      "id": "tailrace",
+      "bundle": "../adventures/tailrace/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

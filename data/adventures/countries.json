@@ -1069,6 +1069,33 @@
    "heard": "North at Tarrow Lip a bridge of plaited grass crosses the Gape to Ketter. This spring it came out nine paces short of the far bank.",
    "skyline": "a long green hill beyond a gorge, and a thread of bridge that stops short of it",
    "far": "a grass-rope bridge over a gorge came out short of the far bank this spring"
+  },
+  {
+   "id": "tailrace",
+   "province": true,
+   "bundle": "tailrace/placed.json",
+   "entry": "road",
+   "marker": "mabet",
+   "side": "east",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "meadow",
+    "heath"
+   ],
+   "name": "the Tolt shore",
+   "topic": "Tolt, whose mill-wheel has stopped",
+   "terrain": "hills",
+   "rumour": "'East, down the loch road,' says {keeper}, 'there's a tide-mill at Tolt with a whale calf wedged in its race. The Rì's gauger is on his way with a copper to boil it.'",
+   "heard": "East at the head of a sea-loch lies Tolt, whose tide-mill has stood still eleven days with a whale calf in its race.",
+   "skyline": "a long grey sea-loch shut by a bar of pale sand, and a great mill-wheel standing still",
+   "far": "a whale calf is wedged in a tide-mill's race at the head of a sea-loch"
   }
  ]
 }

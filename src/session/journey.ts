@@ -209,9 +209,9 @@ export class Journey {
   private chosen(step: string): Offered {
     const matched = this.matches(step), c = matched[0];
     if (!c) {
-      // (Not every Pack and Give row, which buried what was offered under four thousand characters: Quittance's A14.)
-      const all = this.choices().map(x => x.label), kept = all.filter(l => !/^(Pack|Give|Unpack|Drop) /.test(l));
-      const more = all.length > kept.length ? ` | and ${all.length - kept.length} to pack, give or drop` : '';
+      // (Not every Pack, Give or Set down row, which buried what was offered: Quittance's A14, the Tail-Race's OR-782.)
+      const all = this.choices().map(x => x.label), kept = all.filter(l => !/^(Pack|Give|Unpack|Drop) |: Set/.test(l));
+      const more = all.length > kept.length ? ` | and ${all.length - kept.length} to pack, give, set down or drop` : '';
       throw Journey.unoffered(`No /${step}/ at watch ${this.watch()} among ${kept.join(' | ')}${more}`);
     }
     if (new Set(matched.map(m => m.command)).size > 1) {

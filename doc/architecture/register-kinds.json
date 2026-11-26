@@ -1309,6 +1309,24 @@
    "pri": "P3",
    "why": "25 Nov, an adventure's friction: a label that could say more, the act itself honest"
   },
+  "OR-780": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: its thin parts unproven, not a broken contract (its dead ends and its unpaid fifth mended at integration)"
+  },
+  "OR-781": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: proposals for Kyr, Deem and the author's tools, a wanted future"
+  },
+  "OR-782": {
+   "kind": "defect",
+   "was": "requirement",
+   "pri": "P3",
+   "why": "25 Nov, an adventure's friction: the journey's own message claims to show what is offered and buried it; mended"
+  },
   "OR-651": {
    "kind": "requirement",
    "was": "defect",
