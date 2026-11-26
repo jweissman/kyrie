@@ -1,6 +1,7 @@
 import type { Read } from './country';
 import type { Reading, Readings } from './measures';
 import type { Walked } from './walks';
+import { QuantityBestiary } from './bestiary';
 
 // How each quantity is worked out from what was read (see QuantityMeasures for what each is held to).
 export class Reckon {
@@ -155,6 +156,12 @@ export class Reckon {
     const each = this.each(r.countries, c => c.seed, c => c.reach.things.length);
     return this.of(each, Math.min(...Object.values(each)), `${this.said(each)}; ${r.countries.slice(0, 1)
       .map(c => `${c.seed}: ${c.reach.things.join(', ')}`).join('')}`);
+  }
+  // The bestiary's kinds the deep can field (OR-1230), and beside it how many some generated placement can.
+  static bestiary(): Reading {
+    const unplaced = QuantityBestiary.unplaced();
+    return { value: QuantityBestiary.fielded().size, note: `placed ${QuantityBestiary.placed().size}; never placed `
+      + `${unplaced.length} (${unplaced.slice(0, 6).join(', ')})` };
   }
   static stranded(r: Readings): Reading {
     const s = r.stranded;

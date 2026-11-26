@@ -79,16 +79,19 @@
       { "species": "bat", "count": 4, "label": "the bats", "role": "bats that roost in the hall of doors", "temperament": "wary" },
       { "species": "rat", "count": 5, "label": "the rats", "role": "rats that live on what the hill lets fall", "temperament": "wary" },
       { "species": "beetle", "count": 3, "label": "the beetles", "role": "beetles as big as a fist, white from the dark", "temperament": "wary" },
-      { "species": "centipede", "count": 2, "label": "the centipedes", "role": "centipedes that hunt along the smooth walls", "temperament": "wary" }
+      { "species": "centipede", "count": 2, "label": "the centipedes", "role": "centipedes that hunt along the smooth walls", "temperament": "wary" },
+      { "species": "pseudodragon", "count": 2, "label": "the little dragons", "role": "little dragons that roost over the doors and sing back", "temperament": "territorial" }
     ] },
     { "depth": 1, "groups": [
       { "species": "dust_elemental", "count": 1, "label": "the dust", "role": "the dust of sung stone that has cracked, which moves", "temperament": "territorial" },
       { "species": "banshee", "count": 2, "label": "the voices", "role": "voices in the stone that sing back, and will not stop, and rise as you near", "temperament": "territorial" },
-      { "species": "spirit", "count": 3, "label": "the cantors", "role": "cantors who would not leave their choir", "temperament": "territorial" }
+      { "species": "spirit", "count": 3, "label": "the cantors", "role": "cantors who would not leave their choir", "temperament": "territorial" },
+      { "species": "yrthak", "count": 1, "label": "the yrthak", "role": "a blind winged thing that hunts by the sound of the choir", "temperament": "territorial" }
     ] },
     { "depth": 2, "groups": [
       { "species": "crystal_elemental", "count": 1, "label": "the hard note", "role": "a singer's note gone hard, as sharp as glass", "temperament": "territorial" },
-      { "species": "earth_elemental", "count": 1, "label": "the unsung stone", "role": "stone that was sung and has come unsung, and walks", "temperament": "territorial" }
+      { "species": "earth_elemental", "count": 1, "label": "the unsung stone", "role": "stone that was sung and has come unsung, and walks", "temperament": "territorial" },
+      { "species": "automaton", "count": 2, "label": "the tuners", "role": "the Stone-Singers' engines, still going round the hall to tune it", "temperament": "obedient" }
     ] }
   ],
   "elites": [
@@ -96,7 +99,8 @@
       { "species": "great_centipede", "count": 1, "label": "the great centipede", "role": "a centipede as long as the gallery bends, that knows every bend", "temperament": "territorial" }
     ] },
     { "depth": 1, "groups": [
-      { "species": "banshee", "count": 1, "label": "the first cantor", "role": "the first cantor of the choir, who still leads the song", "temperament": "territorial" }
+      { "species": "banshee", "count": 1, "label": "the first cantor", "role": "the first cantor of the choir, who still leads the song", "temperament": "territorial" },
+      { "species": "lillend", "count": 1, "label": "the lillend", "role": "a winged singer with a serpent's tail, who keeps the choir for its own", "temperament": "territorial" }
     ] },
     { "depth": 2, "groups": [
       { "species": "earth_elemental", "count": 1, "label": "the keeper of the chorus", "role": "the stone that keeps the chorus, and will not have them woken", "temperament": "territorial" }

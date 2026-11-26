@@ -63,11 +63,13 @@ describe('the reference game\'s settlement', () => {
   });
   it('has its shrine-keeper say what each depth below the first wants, once the company has been above it (OR-644)', () => {
     const { t, text } = written('s0');
-    const counsel = text.slice(text.indexOf(`Topic ${t}_ud_counsel_2`), text.indexOf(`Topic ${t}_ud_counsel_3`) + 400);
-    // s0's halls of the dead keep bone hounds at the stair's foot and a mummy; under the halls lies the king, a mummy.
+    const counsel = text.slice(text.indexOf(`Topic ${t}_ud_counsel_2`), text.indexOf(`Topic ${t}_ud_counsel_3`) + 600);
+    // s0's halls of the dead keep banshees, corpse-lights and a mummy (the wisp came into the barrow's tables with the
+    // bestiary census, OR-1230, and the bone hounds went to another draw); under the halls lies the king, a mummy.
     expect(counsel).toContain('Topic s1_ud_counsel_2 with s1_priest "Ask {s1_priest} what lies past the passage-grave"'
       + ' when been(party, ?p) and deepLevelOf(?p, s1_ud_barrow)');
-    expect(counsel).toMatch(/counsel_2[^]*a club[^]*Take fire/);
+    expect(counsel).toMatch(/counsel_2[^]*Take fire/);
+    expect(counsel).not.toMatch(/counsel_2[^]*a club[^]*counsel_3/);
     expect(counsel).toMatch(/counsel_3[^]*Take fire/);
     expect(counsel).not.toMatch(/counsel_3[^]*a club/);
     expect(text).toMatch(new RegExp(`Person ${t}_merchant .*Sells oil_firebomb .*Sells club `));
