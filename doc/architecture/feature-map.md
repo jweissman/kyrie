@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 192 pins (160 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 592 live rows, 198 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 192 pins (160 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 591 live rows, 197 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -142,7 +142,7 @@ page's colours and opportunities.)
   - direction OB-19 P3: The middle scale inside a hex (the owner, 15 November): a gallery of existing hexes at local scale…
   - direction OB-20 P2: Wander (the owner, 15 November): a deterministic, authoritative exploration policy over known…
   - direction TR-03 P2: Travel cost (F): a six-to-eight-hex journey differs from one hex only in time
-- **Wayfinding and bearings** · 2 pins · 10 defects · 6 asks
+- **Wayfinding and bearings** · 2 pins · 9 defects · 6 asks
   - ○ a strategic map of countries above the hex map, and a hex view of the places within a hex
   - ✓ is said alike by the terminal and the page, by the way's own command
   - requirement NM-17 P2: The map panel's hierarchy below its title unpinned: no spec asserts the eyebrow…

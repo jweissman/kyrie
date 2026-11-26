@@ -4,7 +4,7 @@ import { FictionalTime } from '../campaign/fictional-time';
 import type { Voiced } from './telling';
 import type { Module } from '../lang/index';
 
-type Line = { text: string; kind: 'event' };
+type Line = { text: string; kind: 'event' | 'change' };
 
 // What the world's rules say where the company hears them, against the record of what has been told: a rule's words
 // told are kept (CampaignEvent.voiced, kind rule), and the same words of the same rule are not told again within a few
@@ -66,11 +66,13 @@ export class RuleWords {
     }
     return out;
   }
-  // What was told, as event lines: the questions put, and the rest.
+  // What was told, as event lines: the questions put, and the rest; what came to the purse with the world's words is a
+  // change among the rest, said whatever the room (OR-696).
   static parted(module: Module, perceived: readonly { id: string; text: string }[] | undefined, all: string[],
-    besides?: string) {
-    const asked = RuleWords.askers(module, perceived), told = all.filter(t => t !== besides);
-    return [told.filter(t => asked.has(t)), told.filter(t => !asked.has(t))]
-      .map(ts => ts.map(text => ({ text, kind: 'event' as const }))) as [Line[], Line[]];
+    told: { besides?: string; paid?: readonly string[] } = {}): [Line[], Line[]] {
+    const asked = RuleWords.askers(module, perceived), said = all.filter(t => t !== told.besides);
+    const paid = new Set(told.paid ?? []);
+    return [said.filter(t => asked.has(t)).map(text => ({ text, kind: 'event' })),
+      said.filter(t => !asked.has(t)).map(text => ({ text, kind: paid.has(text) ? 'change' : 'event' }))];
   }
 }
