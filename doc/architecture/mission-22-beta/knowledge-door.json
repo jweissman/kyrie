@@ -65,8 +65,8 @@
    "facts": 3
   },
   "src/presentation/aim-continuity.ts": {
-   "world": 2,
-   "facts": 3
+   "world": 5,
+   "facts": 6
   },
   "src/presentation/aim-lead.ts": {
    "world": 7,
@@ -90,6 +90,10 @@
    "world": 2,
    "facts": 3,
    "rules": 1
+  },
+  "src/presentation/aim-route.ts": {
+   "world": 3,
+   "facts": 3
   },
   "src/presentation/aim-words.ts": {
    "facts": 8
@@ -146,8 +150,8 @@
    "rules": 2
   },
   "src/presentation/glance.ts": {
-   "world": 6,
-   "facts": 11
+   "world": 8,
+   "facts": 13
   },
   "src/presentation/guarded.ts": {
    "world": 3,

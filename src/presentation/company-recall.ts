@@ -1,6 +1,5 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { VisitedPlaces } from './visited-places';
-import { EntityIndex } from '../lang/index';
 import type { Screen } from '../ui/screen-types';
 
 // What the company remembers of its own story, for the glance (see Glance): where it has been, whom it has spoken
@@ -15,9 +14,6 @@ interface Read {
   talked: Set<string>; done: Map<string, Set<string>>;
   // Where the company last spoke with each one it has spoken with: its own experience, not where they are now.
   spoke: Map<string, string>;
-  // Where the company last stood in a place with each one and each thing it has been in a place with: where it last
-  // saw them, which is all it knows of where they are (OR-880).
-  saw: Map<string, string>;
   // Where the company came from to where it was before the last command.
   came?: string;
   // How many of its commands brought news (something learnt, someone joined, a level), how many it has given where it
@@ -50,12 +46,12 @@ export class CompanyRecall {
     let r = this.logs.get(log);
     if (!r || r.actor !== actor || log.length - 1 < r.read || (r.read > 0 && log[r.read - 1] !== r.last)) {
       r = { actor, read: 0, at: new Map(), visited: new Set(), seen: new Set(), texts: new Set(), talked: new Set(),
-        done: new Map(), spoke: new Map(), saw: new Map(), acts: 0, stay: 0, idle: new Map(), failed: new Map(),
+        done: new Map(), spoke: new Map(), acts: 0, stay: 0, idle: new Map(), failed: new Map(),
         grown: 0, tries: new Map() };
       for (const c of campaign.module.initial) {
         if (c.kind === 'assert' && c.call.name === 'at') { r.at.set(c.call.args[0]!, c.call.args[1]!); }
       }
-      if (r.at.has(actor)) { r.visited.add(r.at.get(actor)!); this.met(r, r.at.get(actor)!); }
+      if (r.at.has(actor)) { r.visited.add(r.at.get(actor)!); }
       this.logs.set(log, r);
     }
     for (; r.read < log.length - 1; r.read++) { this.take(campaign, r, log[r.read]!); }
@@ -76,7 +72,7 @@ export class CompanyRecall {
   private static take(campaign: Campaign, r: Read, event: CampaignEvent) {
     const here = r.at.get(r.actor), whom = this.whom(campaign, event.action);
     if (whom) { r.talked.add(whom); }
-    if (whom && here) { r.spoke.set(whom, here); r.saw.set(whom, here); }
+    if (whom && here) { r.spoke.set(whom, here); }
     if (here && event.result === 'failure') {
       r.failed.set(here, (r.failed.get(here) ?? new Map()).set(event.action, r.grown));
       const tried = CompanyRecall.tried(here, event.action, r.grown);
@@ -87,7 +83,6 @@ export class CompanyRecall {
     VisitedPlaces.moves(event.changes, r.at);
     const there = r.at.get(r.actor);
     if (there) { r.visited.add(there); }
-    if (there && there !== here) { this.met(r, there); } else if (there) { this.arrived(r, event, there); }
     if (here && there && there !== here) {
       if (!r.stay) { r.idle.set(here, { at: r.acts, times: CompanyRecall.times(r, here) + 1 }); }
       r.stay = 0;
@@ -96,17 +91,6 @@ export class CompanyRecall {
       if (CompanyRecall.news(event)) { r.acts++; }
     }
     if (here && there && there !== here) { r.came = here; }
-  }
-  // Come to a place: everyone and everything in it seen there.
-  private static met(r: Read, place: string) {
-    for (const [id, at] of r.at) { if (at === place && id !== r.actor) { r.saw.set(id, place); } }
-  }
-  // Staying in a place: those come to it while the company stood there seen there.
-  private static arrived(r: Read, event: CampaignEvent, place: string) {
-    for (const c of event.changes) {
-      const m = /^\+ at\(([^,]+), ([^)]+)\)$/.exec(c);
-      if (m && m[2] === place && m[1] !== r.actor) { r.saw.set(m[1]!, place); }
-    }
   }
   // Whom a command spoke with: talking to them, asking them something, or one of the things written to be asked them.
   static whom(campaign: Campaign, action: string): string | undefined {
@@ -142,21 +126,6 @@ export class CompanyRecall {
   saw(id: string): boolean { return this.r.seen.has(id); }
   // Those the company last spoke with at a place, before the last command.
   spokeAt(place: string): string[] { return [...this.r.spoke].filter(([, at]) => at === place).map(([who]) => who); }
-  // Where the company last saw someone or something, before the last command: in the place it last stood in with
-  // them. Never where they are now unseen (OR-880: the gold had led to where a person truly stood, moved since).
-  sawAt(id: string): string | undefined { return this.r.saw.get(id); }
-  // Where the company knows what an aim names to be: a place is where it is; someone or something, here where it is
-  // seen now, else where the company last saw it (sawAt). Where it has never seen them, nowhere: the aim's other words
-  // (the town it names, who is to be asked) lead instead, never the world's truth (OR-880).
-  static whereabouts(campaign: Campaign, screen: Screen, id: string): string | undefined {
-    if (EntityIndex.of(campaign.module.entities).byId.get(id)?.space) { return id; }
-    if ([...screen.people, ...screen.things].some(t => t.id === id)) { return screen.place.id; }
-    return CompanyRecall.of(campaign).sawAt(id);
-  }
-  // Each where the company knows it to be (see whereabouts), or itself where it knows nowhere.
-  static placed(campaign: Campaign, screen: Screen, ids: Iterable<string>): string[] {
-    return [...ids].map(id => this.whereabouts(campaign, screen, id) ?? id);
-  }
   read(text: string): boolean { return this.r.texts.has(text); }
   // Whether the company has spoken with them, the last command included.
   talkedTo(id: string): boolean { return this.r.talked.has(id) || this.lastly.talked.has(id); }

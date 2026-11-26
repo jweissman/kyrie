@@ -207,7 +207,7 @@ export class Glance {
     const authored = new Set(rows.filter(r => this.changes.includes(r.action.schema ?? '')).map(r => r.choice.id));
     const aim = screen.aims?.find(a => a.followed)?.text, advances = AimLeads.advances(campaign, rows);
     const alternatives = Alternatives.of(rows), seen = [...screen.people, ...screen.things].map(t => t.id);
-    const coin = AimAdvances.wants(campaign), holding = this.holding(campaign, screen, named);
+    const coin = AimAdvances.wants(campaign), holding = this.holding(campaign, named);
     return { ...aim ? { aim } : {}, ...advances.size ? { advances } : {}, ...coin ? { coin } : {}, holding, schema,
       ...alternatives.size ? { alternatives } : {},
       args, touches, authored, serves: Undertakings.serving(campaign, rows),
@@ -271,11 +271,10 @@ export class Glance {
     if ([...ids].some(id => byId.get(id)?.space?.kind === 'room')) { return ids; }
     const w = campaign.world, known = new Set([...screen.map.map(p => p.id),
       ...screen.exits.map(e => e.destination.id)]);
-    // Where the company last saw them, or where the aim's words say they are: never where they went unseen (OR-880).
     const at = [...ids].flatMap(id => {
-      const seen = CompanyRecall.whereabouts(campaign, screen, id), t = w.one('at', id) ?? '';
-      const place = seen && known.has(seen) ? seen : Spatial.ancestry(byId, t).some(e => addresses.has(e.id)) ? t : '';
-      return place && !ids.has(place) ? [place] : [];
+      const place = w.one('at', id);
+      const told = !!place && Spatial.ancestry(byId, place).some(e => addresses.has(e.id));
+      return place && (known.has(place) || told) && !ids.has(place) ? [place] : [];
     });
     return at.length ? new Set([...ids, ...at]) : ids;
   }
@@ -295,11 +294,10 @@ export class Glance {
   }
   // The places that hold what the aim names (its town, its site), and the outside a site it names is entered from (the
   // ground before Lunalac's door, set out for to bring its reading-glass up): a journey to any of them is toward it.
-  // Where the company knows them to be (OR-880).
-  private static holding(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> {
+  private static holding(campaign: Campaign, named: Set<string>): Set<string> {
     const byId = EntityIndex.of(campaign.module.entities).byId;
     const held = new Set([...named].flatMap(id => {
-      const at = CompanyRecall.whereabouts(campaign, screen, id);
+      const at = byId.get(id)?.space ? id : campaign.world.one('at', id);
       return at ? Spatial.ancestry(byId, at).filter(e => !['region', 'plane'].includes(e.space?.kind ?? ''))
         .map(e => e.id) : [];
     }));
@@ -354,9 +352,9 @@ export class Glance {
     const direct = new Set([...screen.exits.map(e => e.destination.id), ...(screen.around ?? []).map(d => d.id)]);
     const straight = [...aims.named].some(id => direct.has(id) && id !== here && !around.has(id) && !aims.idle.has(id));
     // Someone the aim names is gone to where the company has seen them (the merchant owed word of the nest, from the
-    // nest: nothing had led back up toward him, round 7); never where it has not been, nor where they went (OR-880).
-    const seen = new Set(screen.map.filter(p => p.visited).map(p => p.id)), named = CompanyRecall
-      .placed(campaign, screen, aims.named).filter(id => byId.get(id)?.space && (seen.has(id) || aims.named.has(id)));
+    // nest: nothing had led back up toward him, round 7); never where it has not been.
+    const seen = new Set(screen.map.filter(p => p.visited).map(p => p.id)), named = [...aims.named]
+      .map(id => byId.get(id)?.space ? id : campaign.world.one('at', id) ?? id).filter(id => byId.get(id)?.space && (seen.has(id) || aims.named.has(id)));
     const places = [...straight ? [] : named.map(id => [id, 'toward'] as const),
       ...held.map(id => [id, 'held'] as const)]
       .filter(([id]) => byId.get(id)?.space && !around.has(id) && !been.has(id) && !aims.idle.has(id)
