@@ -17,7 +17,7 @@ type Files = Record<string, string>;
 
 // The hunter's career in a generated world (CR-01; doc/architecture/mission-22/career-phase1.md, phase 2), by three
 // modules and no framework:
-// - the Rì's commission, read on the first town's notice after its own jobs (career);
+// - the Rì's commission, found by searching beneath the first town's notice after its own jobs (career);
 // - the world's one named dragon, laired in the nearest mountain country beyond the first, written into that country
 //   when it is drawn (career_lair);
 // - the royal game-warden, written into the canon's Dun Rìerdan when its country is drawn (career_warden).
@@ -57,7 +57,7 @@ export class Career {
     return { imports: ['party', ...names], roles: Object.fromEntries([['party', { type: 'group' }],
       ...names.map(n => [n, { type: types[n] ?? 'fact' }])]) };
   }
-  // The commission in the first world, on the notice of the town the company begins in.
+  // The commission in the first world, beneath the notice of the town the company begins in.
   static first(seed: string, region: Region, at: { root: string; files: Files; start?: { place?: string;
     approach?: { settlement: string } } }): BundleRequest[] {
     const dragon = this.dragon(seed, region.terrain), s = at.start;
@@ -75,8 +75,8 @@ export class Career {
   }
   // Where the proclamation is posted in a town: its green, under the town's notices (the First Aims lead there).
   static posted(town: string): string { return `${town}_green`; }
-  // The commission, in the first world: read on the notice of the town the company begins in, once the town's own
-  // notice is (never the first word on it), and an aim from then on.
+  // The commission, in the first world: searched for beneath the town's own notice, never its first word, and an aim
+  // from then on.
   static posting(region: Region, dragon: Dragon, at: { root: string; files: Files; home: string }): BundleRequest
     | undefined {
     const home = region.settlements.find(s => s.id === at.home) ?? region.settlements[0];
@@ -97,11 +97,14 @@ export class Career {
       // town's own jobs opens, which leads with them (test/decision-frame).
       '  Relation passed(group).',
       '  Rule passed_by when knows(party, notice) and not at(party, green) and not passed(party) { Assert passed(party). }',
-      '  Action read_commission(actor: group, site: place) "Read the royal proclamation under the notices" {',
+      '  Action read_commission(actor: group, site: place) "Search under the notices for the Rì\'s commission" {',
       '    Requires able(actor) and at(actor, site) and at(actor, green) and knows(actor, notice) and passed(actor)'
         + ' and not knows(actor, commission).',
-      `    Time 1. On success { Assert knows(actor, commission). }`, `    Result ${q(`Under the town's notices, a sheet `
-        + `under the Rì's seal. ${said}`)}.`, '  }',
+      `    Time 1. Resolve rummage(actor). On success { Assert knows(actor, commission). }`,
+      `    Result ${q(`Under the town's notices, a sheet `
+        + `under the Rì's seal. ${said}`)}.`,
+      `    Otherwise ${q(`You search beneath the town's notices, but find only the papers already posted.`)}.`,
+      '  }',
       ...this.aims(d, price, ways), '  Goal false.', '}', ''].join('\n'),
     { ...this.roles(['green', 'notice', ...Object.keys(ways)], { green: 'place', hunt: 'place', city: 'place' }),
       exports: { commission: 'commission', slain: 'slain', knighted: 'knighted', paid: 'paid' } });

@@ -21,8 +21,10 @@ const start = (seed: string) => Kept.drawn(seed, { origin: 'debt',
   party: [{ name: 'Mira', raceId: 'human', classId: 'warrior' }] });
 const told = async (seed: string): Promise<Journey> => {
   const k = await start(seed);
-  await k.play('>s1_taproom', '>s1_green');
-  return k.play('==day 3 09:00', '>s1_taproom', '>s1_green');
+  const j = await k.play('>s1_taproom', '>s1_green', '==day 3 09:00', '>s1_taproom', '>s1_green');
+  Placed.at(j, j.campaign.world.one('at', 'region__s1_innkeeper')!);
+  await j.play('Ask .* about the crier');
+  return j;
 };
 const facts = { house: 'arcology__rumour', howe: 'howe__ridge_told', keep: 'keep__levy_called' };
 const known = (j: Journey) => Object.fromEntries(Object.entries(facts).map(([k, f]) => [k, Placed.holds(j, 'knows', 'party', f)]));
@@ -42,6 +44,9 @@ describe('the three deep modules are found from the first town', () => {
       if (bound('bound-howe').town !== 's1') { expect(first.howe).toBe(false); }
       expect(first.keep).toBe(false);
       const j = await k.play('==day 3 09:00', '>s1_taproom', '>s1_green');
+      expect(known(j)).toEqual({ house: true, howe: true, keep: false });
+      Placed.at(j, j.campaign.world.one('at', 'region__s1_innkeeper')!);
+      await j.play('Ask .* about the crier');
       expect(known(j)).toEqual({ house: true, howe: true, keep: true });
       const aims = ScreenModel.build(j.campaign).objectives.join(' ');
       expect(aims).toMatch(/bends round a hill with nothing in it/);
