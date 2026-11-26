@@ -212,7 +212,7 @@ export class ComposedCreation {
   // written in place.
   static Own({ app, step, onward }: { app: ReaderApp; step: CreationStep; onward: () => void }) {
     return <>
-      {step.roll !== undefined && <ComposedRow.View option={{ id: 'roll', name: 'Roll again', aside: step.roll }}
+      {step.roll !== undefined && <ComposedRow.View option={{ id: 'roll', name: step.again ?? 'More…', aside: step.roll }}
         onConsider={() => undefined} onChoose={() => app.opening.roll()} />}
       {step.write !== undefined && <label className="choice-row composed-row composed-write">
         <i className="prism-bar row-mark neutral" aria-hidden="true" style={{ '--prism': 'var(--row-neutral)' } as CSSProperties} />

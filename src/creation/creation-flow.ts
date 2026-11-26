@@ -50,7 +50,9 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 // cards: every card, the four the step leads with first (the owner, 14 November: four promoted on every surface, the
 // rest reachable); a client shows the first four and offers the rest, numbered as they stand, unless all (every card
 // at once: they are few, or a list). write: a field to write one's own in, by its placeholder; roll: the act that
-// deals another hand of the cards, by its aside.
+// deals another hand of the cards, by its aside; again: that act's words, as it truly does it (OR-1274): "Roll again"
+// where the hand is drawn (the names), "More…" where it is the next of a list in its order (the trades, best suited
+// first), never a draw promised that is not made.
 // leads: what the next step asks hangs on the card chosen here (the calling's art, the kind's trades, the names for
 // how one presents), so a client waits for the engine's answer before going on, never showing the next step as it
 // stood before.
@@ -59,7 +61,8 @@ export type CreationChoice = CreationStepId | 'trade' | 'weapon' | 'place' | 're
 // (picked: those taken), and the last card the one that goes on with them.
 export interface CreationStep {
   id: CreationStepId; ask: string; cards: CreationCard[]; chosen?: string; names?: string[]; present: CreationPresent;
-  all?: boolean; write?: string; roll?: string; leads?: boolean; emblems?: boolean; many?: number; picked?: string[];
+  all?: boolean; write?: string; roll?: string; again?: string; leads?: boolean; emblems?: boolean; many?: number;
+  picked?: string[];
   // How a choice is made, said once, at the first step: what comes to a row reads it, and a press chooses it (OR-255).
   how?: string;
   // Where the step stands in the making, and how many steps there are with setting out the last (OR-1136, the third
@@ -92,6 +95,9 @@ export class CreationFlow {
   // presenting last changed.
   private at?: CreationStepId | 'go';
   private rolls = 0;
+  // Who one is, chosen by the player (the owner's playtest, 26 November, OR-1272: ancestry and presentation had shown
+  // as chosen before they were): until a step of these is chosen, none of its cards is marked chosen.
+  private readonly owned = new Set<CreationChoice>();
   // The hands of trades dealt since the kind of life last changed (see trades).
   private dealt = 0;
   constructor(readonly setting: Setting, readonly catalog: Catalog, member = setting.party[0]!) {
@@ -167,13 +173,15 @@ export class CreationFlow {
     const c = this.catalog, m = this.member, people = c.ancestries.find(a => a.id === m.raceId);
     const open = c.backgrounds.filter(b => !b.calling || b.calling === m.classId);
     return [
-      { id: 'you', ask: 'Choose your ancestry', how: CreationFlow.how, present: 'cards', chosen: m.raceId,
+      { id: 'you', ask: 'Choose your ancestry', how: CreationFlow.how, present: 'cards',
+        ...this.owned.has('you') ? { chosen: m.raceId } : {},
         cards: c.ancestries.map(a => ({ id: a.id,
         name: a.name, line: a.line, text: a.text, emblem: a.id, ...CreationFlow.said(a),
         ...CreationFlow.has(CreationEntries.people(a)) })) },
       // How one presents, second, before anything named for who one is (the owner, 19 November: "you can be a male
       // abbess"): a trade's word, an abbot or an abbess, is said for the one choosing it.
-      { id: 'presenting', ask: 'How do you present?', present: 'rows', all: true, chosen: m.pronouns,
+      { id: 'presenting', ask: 'How do you present?', present: 'rows', all: true,
+        ...this.owned.has('presenting') ? { chosen: m.pronouns } : {},
         cards: CreationFlow.presenting.map(([id, name, aside]) => ({ id, name, aside,
           say: 'The words the world will speak of you in.' })) },
       // The sky they were born under (data/imbar/sky.json): a sign of Imbar's own months, which the world can read in
@@ -202,7 +210,7 @@ export class CreationFlow {
       // The names of your people as one list, a hand of them at a time (creation's one dense menu: the owner, 17
       // November), another hand dealt on asking, and a field to write your own in.
       { id: 'name', ask: 'Choose your name', present: 'list', all: true, chosen: m.name, write: 'Or write your own',
-        roll: 'other names of your people', cards: CreationDefaults.table(m, this.setting, this.rolls)
+        roll: 'other names of your people', again: 'Roll again', cards: CreationDefaults.table(m, this.setting, this.rolls)
           .map(name => ({ id: name, name, say: '' })), names: CreationDefaults.names(m, this.setting) },
     ];
   }
@@ -243,7 +251,7 @@ export class CreationFlow {
     if (!this.past || !kind || of.length < 2) { return []; }
     const hand = CreationDefaults.hand(of, this.dealt, CreationFlow.trades);
     return [{ id: 'trade', ask: kind.asks ?? 'What did you do before this?', present: 'list', all: true, chosen: was!.id,
-      ...hand.length < of.length ? { roll: 'other trades' } : {}, cards: hand.map(b => ({ id: b.id, emblem: `life_${kind.id}`,
+      ...hand.length < of.length ? { roll: 'other trades', again: 'More…' } : {}, cards: hand.map(b => ({ id: b.id, emblem: `life_${kind.id}`,
         name: BackgroundCatalog.called(b, m.pronouns), say: b.text && `${Words.upper(b.text)}.`,
         entry: CreationEntries.trade(b) })) }];
   }
@@ -292,6 +300,7 @@ export class CreationFlow {
   }
   private settled(step: CreationChoice, value: string) {
     const m = this.member, was = m.classId, people = m.raceId;
+    if (step === 'you' || step === 'presenting') { this.owned.add(step); }
     if (step === 'origin') { this.origin = value; this.asked = true; return; }
     if (step === 'weapon') { m.weapon = value; return; }
     if (step === 'drawn') { m.name = value; this.named = false; return; }

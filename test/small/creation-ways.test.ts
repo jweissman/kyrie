@@ -77,3 +77,26 @@ describe('a life before, and a caster\'s art', () => {
     expect(step(flow, 'specialty')).toBeUndefined();
   });
 });
+// A row says what it does (the owner's playtest, 26 November, OR-1274: "Roll again" over a list in its order promised
+// a draw it did not make): the names are drawn, so another hand is "Roll again"; the trades are the next of a list,
+// best suited first, so another hand is "More…". The words are the engine's, every client alike.
+describe('another hand of a step\'s options', () => {
+  it('is a roll where the hand is drawn, and more where it is the list\'s next', () => {
+    const flow = made(['you', 'human'], ['presenting', 'he'], ['sign', 'sign_ship'], ['calling', 'warrior']);
+    flow.choose('before', 'stage');
+    const trade = step(flow, 'trade')!;
+    if (trade.roll) { expect(trade.again).toBe('More…'); }
+    expect(step(flow, 'name')!.again).toBe('Roll again');
+  });
+});
+// Who one is starts unmarked (the owner's playtest, 26 November, OR-1272): ancestry and how one presents are shown
+// chosen only once the player has chosen them.
+describe('who one is', () => {
+  it('is shown unchosen until chosen', () => {
+    const flow = new CreationFlow(setting, Creation.catalog());
+    expect([step(flow, 'you')!.chosen, step(flow, 'presenting')!.chosen]).toEqual([undefined, undefined]);
+    flow.choose('you', 'human');
+    flow.choose('presenting', 'she');
+    expect([step(flow, 'you')!.chosen, step(flow, 'presenting')!.chosen]).toEqual(['human', 'she']);
+  });
+});
