@@ -49,7 +49,8 @@
       "names": ["the still water", "under the cisterns"],
       "spine": ["shore", "heart"],
       "branches": [
-        { "at": "heart", "roles": ["source"] }
+        { "at": "heart", "roles": ["source"] },
+        { "at": "shore", "roles": ["causeway"] }
       ],
       "loops": []
     }
@@ -80,6 +81,7 @@
     "vault": { "names": ["the wardens' vault"], "scenes": ["A vault off the drowned hall, its bronze door sealed with wax against the water. Inside are shelves, and what the Wardens kept dry."] },
     "archive": { "names": ["the archive"], "scenes": ["A room of stone shelves above the waterline. Here the Wardens kept their reckoning of the springs, year by year, on tablets of slate. At the back the floor drops away in steps cut down the cistern's wall."] },
     "shore": { "names": ["the shore"], "scenes": ["At the bottom of the steps a strip of white stone runs along water that does not move at all. Not a ripple shows, though water runs everywhere above."] },
+    "causeway": { "names": ["the causeway"], "scenes": ["A causeway of fitted stone runs out across the still water toward the heart of the works. The water on either side is black, and nothing in it moves."] },
     "heart": { "names": ["the still water"], "scenes": ["A pool as wide as a hall lies under the hill, perfectly still, and your light does not go into it but lies on top of it. In the middle of the pool, on a pillar a hand under the surface, there is something that glints."] },
     "source": { "names": ["the source"], "scenes": ["Behind the pool the rock opens on a crack. Water wells up through it from far below, without a sound or a ripple. The air in the crack is warm."] }
   },

@@ -42,7 +42,7 @@
       "spine": ["antechamber", "heart"],
       "branches": [
         { "at": "heart", "roles": ["deep_grave"] },
-        { "at": "antechamber", "roles": ["treasury"] }
+        { "at": "antechamber", "roles": ["treasury", "guard_room"] }
       ],
       "loops": []
     }
@@ -70,6 +70,7 @@
     "kings_door": { "names": ["the king's door"], "scenes": ["The gallery ends at a door of two posts and a lintel, each a single stone, carved closer than anything else here. Between them is a black opening as tall as a man."] },
     "antechamber": { "names": ["the antechamber"], "scenes": ["Beyond the door the chalk gives way to old dark rock. A small chamber, empty but for a stone bench and the marks of the many who have knelt before it."] },
     "treasury": { "names": ["the king's treasury"], "scenes": ["A low room of stone shelves, most of them bare now. On the floor, a rotted sack, a pick, and a man's bones lie where the robbers' tunnel comes through the wall."] },
+    "guard_room": { "names": ["the guard-chamber"], "scenes": ["A long low chamber cut before the king's grave. Stone benches run down both walls, where the king's guard were laid in their arms, and most of the benches are empty."] },
     "heart": { "names": ["the king's hall"], "scenes": ["The grave of the first king is a hall: a ring of standing stones under the rock. In the middle of the ring is a stone bier, and on it a cloak gone to dust in the shape of a body."] },
     "deep_grave": { "names": ["the deep grave"], "scenes": ["Behind the ring a smooth-sided pit goes down into the rock. A smell of turned earth comes up out of it. Whatever lies at the bottom of it is not the king, or is not only the king."] }
   },

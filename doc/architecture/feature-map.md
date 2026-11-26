@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 204 pins (173 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 698 live rows, 227 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 204 pins (173 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 699 live rows, 227 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -357,8 +357,9 @@ page's colours and opportunities.)
   - ✓ Reedbridge: or his mistress fetched, who mends it in a breath, and he does not look up after
   - ✓ Porthalen and Wrackham: whoever lives there and mends things has the old pump apart, Hesper Lowe and Elfred alike
   - ✓ Gatesend: a master short of a part; a torch spoiled trying, or her salvage searched, and a trade offered
-- **Law, lordship and tolls** · 0 pins · 0 defects · 1 asks
+- **Law, lordship and tolls** · 0 pins · 0 defects · 2 asks
   - requirement AI-06 P3: R96 (rotating the altered-law provinces per world) and R97 (retiring `oldcoin` and `quarrel`,…
+  - requirement OR-1233 P3: Authored dungeons deepened: the bound howe's lower level (the robbers' workings under the howe)…
 - **Orders, troupes and companies** · 0 pins · 0 defects · 1 asks
   - direction WB-05 P3: One living person promoted to a historical force: a contemporary artist, general, saint, criminal,…
 
@@ -893,7 +894,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Cities of the canon, seated by rule** (Settlements): OR-451
 - **Religion and devotion** (Institutions): WB-04
 - **Learning: colleges, libraries, scholars** (Institutions): OR-366
-- **Law, lordship and tolls** (Institutions): AI-06
+- **Law, lordship and tolls** (Institutions): AI-06, OR-1233
 - **Orders, troupes and companies** (Institutions): WB-05
 - **Wonders declared, discovered and afforded** (Places to explore): OR-455
 - **Peoples and ancestries** (Creatures and peoples): FH-19, OR-316, OR-123, OR-124
