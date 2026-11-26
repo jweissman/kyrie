@@ -223,8 +223,27 @@ this help the player forget the interface and become interested in what happens 
   the hard right.
 - **Every change to the page is looked at:** it lands with a contact sheet at 1280 and 390 that its builder has looked
   at page by page. Its contrast is held by the contact sheet's ratchet (scripts/contact-sheet-contrast.ts).
+- **Compactification: unity of place** (the owner, 26 November, night; doc/design/direction-2026-11-26-compactification.md).
+  Until revised, this governs:
+  - **The slice:** the slice is the reference experience.
+  - **The specs:** they serve it; the breadth (other worlds, the old routes) runs at night, and what serves no aim is
+    retired with its reason.
+  - **One place:** everything layers onto one location, with many entries and depth within it. An adventure's needs
+    are generated within the hex, placed topologically.
+  - **Surfaces earned:**
+    - the lenses at act II (level 4 to 6);
+    - the world map hidden;
+    - the encyclopedia once a library is visited;
+    - one backstage page, the company;
+    - the journal and log only with a scribe in the company.
+  - **Generation:**
+    - treasure rolled on Deem tables, never placed;
+    - names drawn by Markov chain in Deem's character template;
+    - placements and structures from templates;
+    - authored content written for variation.
+  - **Conversation:** a skill check in conversation earns experience.
 - **Unfolding menus only in a fight.** Elsewhere rows are one flat level. Long lists appear only in a store.
-- **The map is an in-world instrument**, not an app. It opens for inspection while the character stays in the scene;
+- **The map is an in-world instrument**, not an app (hidden for now, under compactification). It opens for inspection while the character stays in the scene;
   "Put away the map" is an act. **Ways to another hex appear only on the map** (the owner, 25 November, overruling
   "the hex crawl is playable by the action menu alone": one act had carried them across several hexes from a town
   without the map ever opened). The scene's menu offers only the ways within its hex; crossing hexes begins by opening

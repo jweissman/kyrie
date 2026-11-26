@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 200 pins (168 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 656 live rows, 218 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 200 pins (168 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 654 live rows, 216 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -701,7 +701,7 @@ page's colours and opportunities.)
   - requirement R10-05 P2: Acceptance defect B6 (11 November): one combined replay through the headless projection and the…
   - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
   - requirement MT-27 P2: Saves carry the compiled module rather than chiefly state (Finding F: a 2.8 MB checkpoint, 1.6 MB…
-- **Start-up and loading** · 1 pins · 7 defects · 11 asks
+- **Start-up and loading** · 1 pins · 6 defects · 11 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
   - requirement SP-03 P2: Reuse compiled module and operator definitions across sessions; cache one player frame per response
@@ -717,7 +717,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 2 defects · 11 asks
+- **Incremental computation** · 5 pins · 1 defects · 11 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
