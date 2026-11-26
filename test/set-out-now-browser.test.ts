@@ -36,19 +36,19 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('Set out now in the page', () => {
   }, 300000);
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
-  it('offers New character; asks how the game begins, and we enter the world as we are within a second', async () => {
+  it('offers New Game; asks how the game begins, and we enter the world as we are within a second', async () => {
     const { page, errors } = await MonoBrowser.page(browser, { width: 1280, height: 800 }, { site, query: '' });
     await page.waitForSelector('[data-action="begin"]', { state: 'visible', timeout: 60000 });
     expect(await page.$$eval('.title-menu [data-action]', els => els.map(e => [e.getAttribute('data-action'),
-      e.textContent?.trim()]))).toEqual([['begin', 'New character'], ['options', 'Options'],
-      ['encyclopedia', 'The encyclopedia']]);
+      e.textContent?.trim()]))).toEqual([['begin', 'New Game'], ['options', 'Options'], ['quit', 'Quit']]);
     // The title stood while the country was drawn behind it, and its start made ready.
     await page.evaluate(() => (window as unknown as { kyrieMono: { idle(): Promise<unknown> } }).kyrieMono.idle());
     await page.evaluate(() => document.querySelector<HTMLElement>('[data-action="begin"]')!.click());
     await page.waitForSelector('[data-mode="begin"]', { timeout: 2000 });
     const rows = await page.$$eval('.begin-menu [data-action]', els => els.map(e => [e.getAttribute('data-action'),
       e.textContent?.trim(), e.querySelector('svg') ? 'icon' : '']));
-    expect(rows).toEqual([['build', 'Create a character', ''], ['set-out-now', 'A new life, at once', '']]);
+    expect(rows).toEqual([['build', 'Create a character', ''], ['set-out-now', 'A new life, at once', ''],
+      ['back', 'Back', '']]);
     const ms = await page.evaluate(() => new Promise<number>(done => {
       const began = performance.now();
       const seen = () => document.querySelector('.stage[data-mode="explore"], .stage[data-mode="prologue"]');

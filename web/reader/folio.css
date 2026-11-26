@@ -1,0 +1,65 @@
+/* ---- The backstage's one folio (OR-502; OR-1073, the owner, 26 November: "the backstage area is still a mess and
+   needs a lift"). Every page read rather than lived (the Book's character, notes, pack and story; Options, from the
+   title or from a game paused) is laid on it, where the engine's theme hint puts it (data-theme="folio": PageFrame for
+   an engine page, BookStage for the Book), never chosen page by page: the dark table under the whole screen, opaque
+   (no painting at its sides, no glass slab over a painting, no blur); the page's head a quiet line on the table; and
+   one parchment leaf under it (.folio-leaf scrolls, .folio-sheet is the paper), the same size on every page however
+   much is written on it, its words inside the safe zone. The paper and its inks are the Encyclopedia's (Folio.ink:
+   src/handbook/folio.ts, test/small/folio-inks), its tokens the page's own within it, so what a page draws on it needs
+   nothing of its own. The map is no page of it. Read last, over the stylesheets it settles. ---- */
+[data-theme="folio"] { --folio-table: #0A0B0E; --folio-x: clamp(18px, 3.4vw, 48px); }
+.shell:has([data-theme="folio"]) .ambient { display: none; }
+.shell:has([data-theme="folio"]) { background: #0A0B0E; }
+:root .shell .frame > [data-theme="folio"], :root .shell.scene-full .book-frame[data-theme="folio"] {
+  box-sizing: border-box; width: 100vw; max-width: none; height: 100dvh; margin: 0; padding: 0;
+  display: grid; grid-template-rows: auto minmax(0, 1fr); place-items: stretch; overflow: hidden;
+  background: #0A0B0E; backdrop-filter: none; border: 0; box-shadow: none; --book-in: 0px; }
+/* The head: a quiet line on the table, at the safe zone's top and left, no bar and no rule under it. */
+[data-theme="folio"] .book-head, [data-theme="folio"] .folio-head {
+  margin: 0; padding: var(--safe-t) var(--safe-r) 12px var(--safe-l); background: none; border: 0; }
+[data-theme="folio"] .folio-head { font: 500 11.5px/40px var(--do); letter-spacing: .24em; text-transform: uppercase;
+  color: var(--dim); }
+/* The leaf: what scrolls, the paper's margin of the table about it, its words beginning at the safe zone's edge. */
+:root [data-theme="folio"] .folio-leaf.folio-leaf { min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex;
+  flex-direction: column; padding: 0 max(8px, calc(var(--safe-r) - var(--folio-x))) clamp(12px, 3vh, 32px)
+  max(8px, calc(var(--safe-l) - var(--folio-x))); scrollbar-width: thin; }
+/* The paper: one size on every page (it fills the leaf, and grows only with what is written), the Encyclopedia's. */
+:root [data-theme="folio"] .folio-sheet.folio-sheet { flex: 1 0 auto; box-sizing: border-box; width: 100%;
+  max-width: none; margin: 0; padding: clamp(22px, 3vw, 40px) var(--folio-x) 56px;
+  --ivory: #2B241B; --ink: #2B241B; --grey: #54493A; --dim: #54493A; --faint: #5E5242; --accent: #2B241B;
+  --text-meta: #54493A; --row-neutral: rgba(43, 36, 27, .32);
+  --hair: rgba(43, 36, 27, .14); --edge: rgba(43, 36, 27, .24); --edge-strong: rgba(43, 36, 27, .4);
+  --accent-line: rgba(43, 36, 27, .3); --surface: #E3D8C1; --raised: #D7CBB1; --lift: #CBBFA6;
+  --paper: rgba(255, 250, 236, .22); --wash: #D7CBB1; --deep: #D7CBB1;
+  --choice-ground: rgba(43, 36, 27, .05); --choice-edge: rgba(43, 36, 27, .14);
+  --choice-ground-hot: rgba(43, 36, 27, .1); --choice-edge-hot: rgba(43, 36, 27, .32);
+  color: var(--ink); border: 1px solid rgba(43, 36, 27, .35); box-shadow: 0 0 0 1px rgba(0, 0, 0, .5), 0 24px 70px rgba(0, 0, 0, .55);
+  color-scheme: light;
+  background: radial-gradient(120% 90% at 50% 40%, rgba(255, 250, 236, .18), rgba(255, 250, 236, 0) 60%),
+    radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(92, 66, 32, .16) 100%),
+    repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #E3D8C1; }
+[data-theme="folio"] .folio-sheet :is(h1, h2, h3, p, li, span, b, dt, dd) { text-shadow: none; }
+/* Set as a book is: ragged right. */
+[data-theme="folio"] .folio-sheet p { text-align: left; }
+/* A page's name on the paper as the Book's are (What you carry, Notes, The story so far). */
+[data-theme="folio"] .folio-sheet h1 { margin: 0 0 22px; font: 300 34px/1.1 var(--do); letter-spacing: .01em;
+  text-transform: none; color: var(--ink); }
+
+/* Options on the folio: its name at the paper's head, and its rows in the frame's one menu column (OR-305: --menu-x,
+   --menu-rows; the sheet's words begin at the safe zone's left, inside its border), quiet, a gap before the ways back,
+   and whose game it is at the foot, the build beside it. On a narrow or upright screen the column is the paper's. */
+[data-theme="folio"].options-page .folio-sheet { display: grid; align-content: start;
+  grid-template-columns: max(0px, calc(var(--menu-x) - var(--safe-l) - 1px)) var(--menu-rows); }
+[data-theme="folio"].options-page .folio-sheet h1 { grid-column: 1; grid-row: 1 / span 6; }
+[data-theme="folio"].options-page .folio-sheet :is(.option-set, .rows.back, .colophon) { grid-column: 2; }
+@media (max-width: 899px), (orientation: portrait) {
+  [data-theme="folio"].options-page .folio-sheet { display: block; }
+}
+[data-theme="folio"].options-page .option-set { margin: 0 0 var(--s4); }
+[data-theme="folio"].options-page .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+[data-theme="folio"].options-page .rows.back { margin-top: var(--s5); }
+[data-theme="folio"].options-page .choice-row .row-glyph { width: 20px; height: 20px; margin: 0 10px -4px 0; fill: none;
+  stroke: currentColor; stroke-width: 1.5; opacity: .85; }
+[data-theme="folio"].options-page .colophon { margin: var(--s6) 0 0; padding: 0; font: italic 400 14px/1.4 var(--told);
+  color: var(--dim); }
+[data-theme="folio"].options-page .colophon .build { font: 400 12px/1.4 var(--do); font-style: normal; }

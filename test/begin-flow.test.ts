@@ -15,11 +15,11 @@ import { ReaderStore, type SavedGame } from '../web/reader/reader-store';
 // question, two rows), a life at once, and play. A page object over the reader's own opening (ReaderOpening) and its
 // pages as they render, with the engine in process and asked as the worker is (each request and its answer passed as
 // a message would be): every press by the action id the page draws, never a row's place or its words. With no game
-// kept the title draws New character alone; pressed, the two rows are drawn at once, the engine asked nothing (the
+// kept the title draws New Game alone; pressed, its rows are drawn at once, the engine asked nothing (the
 // country drawn already, while the title showed); a life at once asks for that country and sets out rolled, and the
 // page is in play in the country drawn ahead. A kept game this build cannot open is refused and said, never migrated.
-// The title's rows after its ways in: Options and the encyclopedia, the engine's too (OpeningPages.title, OR-382).
-const apart = ['options', 'encyclopedia'];
+// The title's rows after its ways in: Options and Quit, the engine's too (OpeningPages.title, OR-382, OR-1072).
+const apart = ['options', 'quit'];
 class Page {
   state = { phase: 'title', options: {}, campaign: '', seed: '', party: [], editing: -1, view: 'here', cursor: 0,
     open: [], member: '', stage: '', error: '' } as unknown as AppState;
@@ -82,7 +82,7 @@ describe('a new game, set out on at once', () => {
     const before = page.asked.length;
     expect(page.mode()).toBe('begin');
     expect(page.actions()).toEqual(FirstChoice.step().cards.map(c => c.id));
-    expect(page.actions()).toEqual(['build', 'set-out-now']);
+    expect(page.actions()).toEqual(['build', 'set-out-now', 'back']);
     const html = page.html();
     for (const card of FirstChoice.step().cards) { expect(html).toContain(card.name); }
     // The name is the title page's alone: the question stands by itself (OR-160), so nothing above it moves.
@@ -130,7 +130,7 @@ describe('a new game, set out on at once', () => {
     expect(aheads()).toEqual([first]);
     page.savedGame = { text: await page.engine.request({ kind: 'checkpoint' }) as string, title: 'Kyr', where: 'Here',
       when: 'Now', company: 'You' };
-    // Back to the title, and New character: asked at once, a country drawn for it by a seed of its own (the kept game
+    // Back to the title, and New Game: asked at once, a country drawn for it by a seed of its own (the kept game
     // names no seed of its own here).
     page.opening.title();
     expect(page.actions()).toEqual(['continue', 'begin', ...apart]);
@@ -152,8 +152,8 @@ describe('a new game, set out on at once', () => {
     await page.host.idle();
   }, 180000);
   // OR-300: a kept game this build cannot open is tried once, refused, and said plainly on the title; Continue goes,
-  // and New character (in its country, by its seed) and New world remain. Nothing is migrated.
-  it('refuses a kept game it cannot open, says so on the title, and offers a new character or a new world', async () => {
+  // and New Game (in its country, by its seed, or a new one) remains. Nothing is migrated.
+  it('refuses a kept game it cannot open, says so on the title, and offers a new game', async () => {
     const refused: string[] = [];
     spyOn(ReaderStore, 'refuse').mockImplementation(r => { refused.push(r); });
     const page = new Page();
@@ -161,38 +161,48 @@ describe('a new game, set out on at once', () => {
       seed: 'bakelo' };
     await page.opening.boot();
     // Kept and still going: Continue first, and nothing is drawn ahead for a new game meanwhile.
-    expect(page.actions()).toEqual(['continue', 'begin', 'world', ...apart]);
+    expect(page.actions()).toEqual(['continue', 'begin', ...apart]);
     expect(page.asked.some(r => r.kind === 'ahead')).toBe(false);
     page.press('continue');
     for (let i = 0; i < 400 && page.state.phase !== 'title'; i++) { await new Promise(r => setTimeout(r, 25)); }
     // Not opened: the title again, Continue gone, why said in the engine's line, and remembered beside the game.
     expect(page.mode()).toBe('title');
-    expect(page.actions()).toEqual(['begin', 'world', ...apart]);
+    expect(page.actions()).toEqual(['begin', ...apart]);
     expect(page.html()).toContain('data-id="refused"');
     expect(page.html()).toContain('cannot be opened by this edition');
     expect(refused).toHaveLength(1);
     expect(page.state.error).toBe('');
-    // New character: a new life in the kept game's country, by its seed.
+    // New Game: a new life in the kept game's country, by its seed, unless a new one is asked for.
     page.press('begin');
     expect(page.mode()).toBe('begin');
     expect(page.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed)).toEqual(['bakelo']);
     await page.host.idle();
   }, 120000);
-  it('lets the kept world go for New world, its seed remembered, and draws a country of its own', async () => {
-    const forgot: string[] = [];
-    spyOn(ReaderStore, 'forget').mockImplementation(seed => { forgot.push(seed); });
-    const page = new Page();
-    page.savedGame = { text: 'kept', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud', seed: 'bakelo' };
-    await page.opening.boot();
-    page.press('world');
-    expect(page.mode()).toBe('begin');
-    expect(forgot).toEqual(['bakelo']);
-    await page.aheads(1);
-    const seeds = page.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed);
-    expect(seeds).toHaveLength(1);
-    expect(seeds[0]).not.toBe('bakelo');
-    await page.host.idle();
-  }, 120000);
+  // OR-1072: New Game's World turned to a new one draws a country of its own at once; the kept world is let go, its
+  // seed remembered, only as the new life sets out in the other.
+  it('lets the kept world go for a new one asked in New Game, its seed remembered, and draws a country of its own',
+    async () => {
+      const forgot: string[] = [];
+      spyOn(ReaderStore, 'forget').mockImplementation(seed => { forgot.push(seed); });
+      const page = new Page();
+      page.savedGame = { text: 'kept', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud', seed: 'bakelo' };
+      await page.opening.boot();
+      page.press('begin');
+      expect(page.mode()).toBe('begin');
+      expect(page.actions()).toEqual(['build', 'set-out-now', 'world', 'back']);
+      expect(page.html()).toContain('The one kept here');
+      page.press('world');
+      expect(page.html()).toContain('A new one');
+      const seeds = await page.aheads(2);
+      expect(seeds[0]).toBe('bakelo');
+      expect(seeds[1]).not.toBe('bakelo');
+      expect(forgot).toEqual([]);
+      page.press('build');
+      await page.until('company');
+      expect(forgot).toEqual(['bakelo']);
+      expect(page.state.seed).toBe(seeds[1]!);
+      await page.host.idle();
+    }, 120000);
   it('builds a character in the same country, by the other row', async () => {
     const page = new Page();
     await page.opening.boot();

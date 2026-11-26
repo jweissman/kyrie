@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 192 pins (160 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 610 live rows, 208 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 195 pins (163 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 608 live rows, 207 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -432,16 +432,19 @@ page's colours and opportunities.)
 
 ### Beginning
 
-- **The title and Play** · 9 pins · 2 defects · 11 asks
-  - ✓ gives the title its rows and hints: the ways in, Options and the encyclopedia, over the embers, its name heading
+- **The title and Play** · 12 pins · 2 defects · 11 asks
+  - ✓ gives the title its rows and hints: the ways in, Options and Quit, over the embers, its name heading
   - ✓ is drawn by the page as the engine gives it, no row of the page's own
-  - ✓ is asked in the terminal by the same rows, Options and the encyclopedia said to be the page's
-  - ✓ offers New character alone with nothing kept; Continue, New character and New world over a kept game
-  - ✓ then asks one thing: create a character, or a new life at once
+  - ✓ is asked in the terminal by the same rows, Options said to be the page's
+  - ✓ offers New Game alone with nothing kept; Continue and New Game over a kept game
+  - ✓ then asks one thing: create a character, or a new life at once; where a world is kept, which
   - ✓ pauses a game with two ways: back to it, or Return to title
   - ✓ knows the terminal's kept game, and refuses one it cannot open
   - ✓ holds nothing on the title, how a game begins, creation's rows or the opening's Continue
   - ✓ takes every press at once, a quick second tap on the page just drawn among them
+  - ✓ offers Continue, New Game, Options and Quit, in that order, Continue only with a life to continue
+  - ✓ is drawn as those rows and nothing else to press
+  - ✓ takes Quit honestly: the game put away, kept, and a way back to the title
   - requirement FH-01 P2: No person has accepted the first hour: PD-14's five cold players have never been run
   - direction TO-03 P1: The studio stab, the title and creation as one designed passage: a few composed seconds of…
   - direction TO-05 P2: A vocabulary of exceptional responsive interactions with particular things (a lock's mechanism, an…
@@ -501,7 +504,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 24 defects · 30 asks
+- **Rows, lenses and the frame** · 3 pins · 23 defects · 30 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -664,7 +667,7 @@ page's colours and opportunities.)
   - requirement R10-05 P2: Acceptance defect B6 (11 November): one combined replay through the headless projection and the…
   - requirement OR-525 P1: Restoration, carried as a beta commitment at alpha's close (trust-contracts.md: "to do") and never…
   - requirement MT-27 P2: Saves carry the compiled module rather than chiefly state (Finding F: a 2.8 MB checkpoint, 1.6 MB…
-- **Start-up and loading** · 1 pins · 5 defects · 12 asks
+- **Start-up and loading** · 1 pins · 5 defects · 11 asks
   - ✓ keeps the game once, however many legs it goes
   - direction SP-02 P1: Eager instantiation of distant content (130,826 facts, 30 modules, 23.8 MB checkpoint, ~500 MB…
   - requirement SP-03 P2: Reuse compiled module and operator definitions across sessions; cache one player frame per response
@@ -675,7 +678,6 @@ page's colours and opportunities.)
   - requirement LC-03 P2: Waiting costs about 7 s a game day on a drawn country (silent-lord-malice's nine-day wait: 65 s of…
   - requirement LC-04 P2: The rest lane made cheaper (the fast line, 15 Nov). **Kept times refreshed** from the full run…
   - requirement OR-144 P1: Set out now is still slow (the owner's playtest, 20 November: "We should be able to set out now…
-  - requirement OR-1072 P1: The title offers exactly Continue, New Game, Options and Quit (the owner: "I was even a little…
   - requirement OR-137 P1: The start itself to about a second, and kept: restored across loads rather than drawn again (9-17…
   - requirement OR-126 P1: The first fifteen seconds as four clicks in about 4 s: new game, accept the world, generate a…
 

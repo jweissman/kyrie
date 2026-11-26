@@ -9,6 +9,7 @@ import { Stage } from './stage';
 import { Act } from './act';
 import { ChoiceRow } from './choice-row';
 import { PageFrame } from '../page-frame';
+import { Folio } from '../../../src/handbook/folio';
 
 // What is read rather than lived: notes, the story so far, what the company carries, the company itself, the map.
 // The book opens over the page: its tabs across its head, the one open marked, and the way back to the page first;
@@ -20,8 +21,11 @@ export class BookStage {
   static View({ app }: { app: ReaderApp }) {
     const frame = app.state.frame!, map = app.state.view === 'map', [country, toCountry] = useState(false);
     const plan = map && !country && PlanView.inside(frame.screen);
+    // Every page of the Book but the map is the backstage's folio (Folio.theme, OR-1073), applied as the frame applies
+    // it to an engine page (PageFrame.leaf): the dark table under it, the head a quiet line on it, one parchment leaf.
+    const folio = map ? undefined : Folio.theme;
     return (
-      <div className="book-frame" id="page">
+      <div className="book-frame" id="page" {...folio ? { 'data-theme': folio } : {}}>
         <header className="book-head" {...PageFrame.slot('header')}>
           {/* The way back to the place, a quiet word with its sign (the shared signs' out), not a boxed button over the
               book (Mission 21's scenes: the Pack's head had read as a web page's bar). */}
@@ -32,8 +36,8 @@ export class BookStage {
           {plan && <button type="button" className="option to-country" data-action="country"
             onClick={() => toCountry(true)}>The country</button>}
         </header>
-        <div className="book" {...PageFrame.slot('narrative')}>
-          <div className={map ? 'book-page map-page' : 'book-page'}>
+        <div className={folio ? 'book folio-leaf' : 'book'} {...PageFrame.slot('narrative')}>
+          <div className={map ? 'book-page map-page' : 'book-page folio-sheet'}>
             {!map ? <Sheet.View app={app} /> : plan
               ? <PlanView.View screen={frame.screen} /> : <MapView.View app={app} screen={frame.screen} />}
           </div>

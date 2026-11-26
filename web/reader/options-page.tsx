@@ -4,6 +4,7 @@ import { TitlePage } from './title-page';
 import { Identity } from '../../src/presentation/identity';
 import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
+import { Build } from './build';
 import type { Paused } from '../../src/creation/first-choice';
 import { OpeningPages, type PageRow } from '../../src/creation/opening-pages';
 
@@ -19,6 +20,9 @@ import { OpeningPages, type PageRow } from '../../src/creation/opening-pages';
 // Opened from a game (the Book's Options, OR-300: "a pause menu that says options and then back to title screen"), the
 // same settings, and at its foot the engine's ways from a paused game (FirstChoice.paused): back to the game, or
 // Return to title, where the game stays kept and Continue takes it up. All of them the engine's (OpeningPages.options).
+// A page of the backstage (OR-1073): the frame lays it on the folio as the engine's theme hint says, the Book's own
+// parchment on the dark table, the game's name a quiet line on the table over it; the encyclopedia is its row (the
+// title's until OR-1072), and the build it is said in its colophon (the title's corner until then).
 export class OptionsPage {
   // Options is the engine's page (OpeningPages.options, OR-382): its rows in their groups, the ways from a game paused
   // after them; the page draws them and keeps nothing of its own but the hidden field a save file is read through.
@@ -27,24 +31,28 @@ export class OptionsPage {
     const page = OpeningPages.options(options, !!app.state.frame), groups = [...new Set(page.rows.flatMap(r => r.group ?? []))];
     const ways = page.rows.filter(r => !r.group);
     return <PageFrame.View kind="options" className="opening options-page" attrs={{ 'data-mode': 'options' }}
-      body="options-main"
-      header={<><p className="label">{Identity.spoken(named.game)}</p><h1>{page.ask}</h1></>}
+      {...page.hints.theme ? { theme: page.hints.theme } : {}}
+      header={<p className="label folio-head">{Identity.spoken(named.game)}</p>}
+      narrative={<h1>{page.ask}</h1>}
       menu={<>
         {groups.map(group => <section key={group} className="option-set" aria-label={group}>
-          <p className="label">{group}</p>
           <ul className="rows">{page.rows.filter(r => r.group === group).map(row => <li key={row.id}>
             {OptionsPage.row(app, row)}</li>)}</ul>
-          {group === 'A saved game' && <input type="file" id="load" accept="application/json" hidden
-            onChange={TitlePage.load.bind(null, app)} />}
         </section>)}
+        <input type="file" id="load" accept="application/json" hidden onChange={TitlePage.load.bind(null, app)} />
         <ul className="rows back">{ways.map(row => <li key={row.id}>{OptionsPage.row(app, row)}</li>)}</ul>
-        <p className="colophon">{Identity.spoken(named.game)}, from {Identity.spoken(named.studio)}</p>
+        <p className="colophon">{`${Identity.spoken(named.game)}, from ${Identity.spoken(named.studio)}`}
+          <span className="build" data-id="build">{` · build ${Build.commit}`}</span></p>
       </>} />;
   }
-  // A row as the engine gives it: a setting's (option:<key>:<value>, what it is now beside it), the save file's, or a
-  // way back.
+  // A row as the engine gives it: a setting's (option:<key>:<value>, what it is now beside it), the save file's, the
+  // encyclopedia's, which opens apart (a link, said so to a reader), or a way back.
   private static row(app: ReaderApp, row: PageRow) {
     const set = row.setting;
+    if (row.href) {
+      return <ChoiceRow.Link data={{ action: row.id }} href={row.href} label={<span aria-hidden="true">{row.label}</span>}
+        plain="knowing" own={{ target: '_blank', rel: 'noopener', 'data-nav': true, ...row.said ? { 'aria-label': row.said } : {} }} />;
+    }
     const go = set ? OptionsPage.set.bind(null, app, row) : row.id === 'load-file' ? OptionsPage.open
       : row.id === 'back' && !app.state.frame ? OptionsPage.back.bind(null, app)
         : OptionsPage.paused.bind(null, app, row.id as Paused);

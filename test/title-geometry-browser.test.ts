@@ -12,7 +12,8 @@ import { MonoBrowser } from './support/mono-browser';
 // desk, on an iPad both ways up and on a phone: its rows the same box either way (OR-160). A page as any other
 // (OR-382, the owner's ruling of 24 November): its name small over its rows (OR-501: no hero), in the frame's column at
 // the right on a wide screen, centred upright or narrow, about the screen's middle line. Its rows are
-// the engine's: the ways in, then Options and the encyclopedia. Opt in with KYRIE_BROWSER=1.
+// the engine's core four (OR-1072): Continue where a game is kept, New Game, Options and Quit. Opt in with
+// KYRIE_BROWSER=1.
 interface Box { x: number; y: number; width: number; height: number }
 class Title {
   static async boxes(page: Page): Promise<{ rows: Box[]; texts: string[]; mark: Box; menu: Box; save?: Box;
@@ -72,7 +73,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       const { page } = await MonoBrowser.page(browser, size, { site, pointer: false, query: '' });
       await Title.ready(page);
       const bare = await Title.boxes(page);
-      // With nothing kept, one way in, New character (OR-300), then Options and the encyclopedia.
+      // With nothing kept, one way in, New Game, then Options and Quit (OR-1072).
       Title.check(bare, 3);
       // A game kept (begun by the address, as the other specs do), then the title again with nothing in the address.
       const base = page.url().split('?')[0]!;
@@ -86,10 +87,9 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the title page geometry', () => {
       await page.waitForSelector('[data-action="continue"]', { timeout: 60000 });
       await Title.ready(page);
       const kept = await Title.boxes(page);
-      // A game kept: Continue, New character and New world, then Options and the encyclopedia, alike (OR-300).
-      Title.check(kept, 5);
-      expect(kept.texts.map(t => t.toLowerCase())).toEqual(['continue', 'new character', 'new world', 'options',
-        'the encyclopedia']);
+      // A game kept: Continue, New Game, Options and Quit, alike (OR-1072).
+      Title.check(kept, 4);
+      expect(kept.texts.map(t => t.toLowerCase())).toEqual(['continue', 'new game', 'options', 'quit']);
       await page.screenshot({ path: `/var/tmp/kyrie/title/title-${size.width}.png` });
       // The game it continues is said to a pointer and a reader only, never as a line of its own (the owner, 17
       // November); the rows are the same width and place with or without a save.

@@ -29,10 +29,43 @@ export class SheetWalks {
       await page.keyboard.down('Enter'); await page.waitForTimeout(900); await page.keyboard.up('Enter');
       await page.waitForSelector('[data-mode="begin"]');
     });
-    await cam.step('options', 'Options', async () => {
+    await cam.step('options', 'Options, on the folio', async () => {
       await page.keyboard.press('Escape');
       await page.click('[data-action="options"]');
       await page.waitForSelector('[data-mode="options"]');
+    });
+    await cam.step('quit', 'Quit: the game put away', async () => {
+      await page.click('.options-page [data-action="back"]');
+      await page.click('[data-action="quit"]');
+      await page.waitForSelector('[data-mode="closed"]');
+    });
+    await page.close();
+  }
+  // The backstage with a life kept (OR-1073): a life set out on at once in a1, the Book's pages on the folio, the game
+  // paused for its Options there, then Return to title, where Continue now leads, and New Game with its World row.
+  static async kept(run: SheetRun): Promise<void> {
+    const { page, driver } = await MonoBrowser.page(run.browser, run.size, { site: run.site, query: '?world=a1', reduced: run.reduced });
+    page.setDefaultTimeout(30000);
+    const cam = SheetWalks.camera(run, page, 'kept', driver);
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await page.click('[data-action="start"]');
+    await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
+    // The notes last: the game is paused from their foot (Sheet's Options).
+    for (const [key, name, said] of [['c', 'character', 'The Book: character'], ['i', 'pack', 'The Book: pack'],
+      ['h', 'story', 'The Book: story'], ['j', 'notes', 'The Book: notes']] as const) {
+      await cam.step(name, said, () => driver.mode(key));
+    }
+    await cam.step('paused', 'Options, the game paused', async () => {
+      await page.click('[data-action="options"]');
+      await page.waitForSelector('[data-mode="options"]');
+    });
+    await cam.step('title-kept', 'The title, a life kept', async () => {
+      await page.click('.options-page [data-action="title"]');
+      await page.waitForSelector('[data-action="continue"]');
+    });
+    await cam.step('new-game-kept', 'New Game, a world kept', async () => {
+      await page.click('[data-action="begin"]');
+      await page.waitForSelector('[data-mode="begin"] [data-action="world"]');
     });
     await page.close();
   }

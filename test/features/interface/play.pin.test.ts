@@ -15,27 +15,29 @@ import { PrologueStage } from '../../../web/reader/stage/prologue-stage';
 import { PressGuard } from '../../../web/reader/press-guard';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. The first minute's interface (the owner, 23
-// November; BRIEF §3.1; the playtests of 23-24 November, OR-300): the title's ways in, Continue a game still going,
-// New character and New world, each its own row; then one question, Create a character or a life at once; and
-// nothing on the way in is held (OR-169).
+// November; BRIEF §3.1; the playtests of 23-24 November, OR-300; OR-1072, 26 November): the title's ways in, Continue
+// a game still going and New Game, each its own row; then one question, Create a character or a life at once, and
+// where a country is kept, in which world; and nothing on the way in is held (OR-169).
 describe('Interface › Ways in', () => {
-  it('offers New character alone with nothing kept; Continue, New character and New world over a kept game', () => {
-    expect(FirstChoice.title().cards.map(c => [c.id, c.name])).toEqual([['begin', 'New character']]);
+  it('offers New Game alone with nothing kept; Continue and New Game over a kept game', () => {
+    expect(FirstChoice.title().cards.map(c => [c.id, c.name])).toEqual([['begin', 'New Game']]);
     const kept = FirstChoice.title({ where: 'The lane', when: 'Morning, the first day', seed: 'bakelo' });
-    expect(kept.cards.map(c => [c.id, c.name])).toEqual([['continue', 'Continue'], ['begin', 'New character'],
-      ['world', 'New world']]);
+    expect(kept.cards.map(c => [c.id, c.name])).toEqual([['continue', 'Continue'], ['begin', 'New Game']]);
     expect([kept.chosen, kept.cards[0]!.said]).toEqual(['continue', 'Continue: The lane · Morning, the first day']);
-    // New character begins in the kept country, by its seed; New world in one of its own.
-    expect(FirstChoice.seedFor('begin', { seed: 'bakelo' })).toBe('bakelo');
-    expect(FirstChoice.seedFor('world', { seed: 'bakelo' })).not.toBe('bakelo');
+    // New Game begins in the kept country, by its seed, unless a new one is asked for there.
+    expect(FirstChoice.seedFor({ kept: 'bakelo' })).toBe('bakelo');
+    expect(FirstChoice.seedFor({ kept: 'bakelo', fresh: true })).toBeUndefined();
     // A game that has ended is not taken up again; one refused is not offered, and why is said plainly.
     expect(FirstChoice.title({ where: 'The lane', ended: true, seed: 'bakelo' }).chosen).toBe('begin');
     const refused = FirstChoice.title({ seed: 'bakelo', refused: 'no such world' });
-    expect(refused.cards.map(c => c.id)).toEqual(['begin', 'world']);
+    expect(refused.cards.map(c => c.id)).toEqual(['begin']);
     expect(refused.told).toMatch(/^The game kept here cannot be opened by this edition.*\(no such world\)$/);
   });
-  it('then asks one thing: create a character, or a new life at once', () => {
-    expect(FirstChoice.step().cards.map(c => c.id)).toEqual(['build', 'set-out-now']);
+  it('then asks one thing: create a character, or a new life at once; where a world is kept, which', () => {
+    expect(FirstChoice.step().cards.map(c => c.id)).toEqual(['build', 'set-out-now', 'back']);
+    const kept = FirstChoice.step({ kept: 'bakelo' }).cards.find(c => c.id === 'world');
+    expect([kept?.name, kept?.aside]).toEqual(['World', 'The one kept here']);
+    expect(FirstChoice.step({ kept: 'bakelo', fresh: true }).cards.find(c => c.id === 'world')?.aside).toBe('A new one');
   });
   it('pauses a game with two ways: back to it, or Return to title', () => {
     expect(FirstChoice.paused().cards.map(c => c.name)).toEqual(['Back to the game', 'Return to title']);
@@ -64,7 +66,7 @@ describe('Interface › Ways in', () => {
 describe('Interface › No long presses on the way in', () => {
   it('holds nothing on the title, how a game begins, creation\'s rows or the opening\'s Continue', () => {
     const app = (phase: string) => ({ state: { phase }, props: { query: new URLSearchParams() },
-      opening: { way: () => undefined, kept: () => undefined, beginAs: () => undefined } }) as never;
+      opening: { way: () => undefined, kept: () => undefined, beginAs: () => undefined, where: () => ({}) } }) as never;
     const drawn = [renderToStaticMarkup(createElement(TitlePage.View, { app: app('title') })),
       renderToStaticMarkup(createElement(TitlePage.View, { app: app('begin') })),
       renderToStaticMarkup(createElement(ComposedRow.View, { option: { id: 'human', name: 'Human' },

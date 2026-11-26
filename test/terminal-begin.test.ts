@@ -5,8 +5,8 @@ import type { Frame } from '../src/creation/protocol';
 import type { Asking } from '../src/cli/terminal-input';
 
 // OR-120 in the terminal: one at the keys is asked first how the game begins, as the page asks it (the engine's
-// question and its two rows, numbered), and A new life, at once, typed by the number printed beside its name,
-// sets out at once rolled, the country drawn while the question was read.
+// question and its rows, numbered: the two ways, and Back, OR-1072), and A new life, at once, typed by the number
+// printed beside its name, sets out at once rolled, the country drawn while the question was read.
 describe('the terminal\'s first question', () => {
   it('is the page\'s: Create a character or A new life, at once, which sets out rolled', async () => {
     const host = new EngineHost(() => undefined), said: string[] = [];
@@ -14,10 +14,10 @@ describe('the terminal\'s first question', () => {
       const line = said.find(l => / A new life, at once /.test(`${l} `));
       return line ? /^ {2}(\d+)\./.exec(line)![1]! : '';
     } } as Asking;
-    const { rolled } = await new TerminalCreation(input, l => said.push(l)).begin(host, 'bakoru');
+    const { rolled } = (await new TerminalCreation(input, l => said.push(l)).begin(host, 'bakoru'))!;
     expect(said.filter(l => l.startsWith('\n')).map(l => l.trim())).toEqual(['How will you begin?']);
     expect(said.filter(l => /^ {2}\d\./.test(l)).map(l => l.replace(/ —.*/, '').trim()))
-      .toEqual(['1. Create a character', '2. A new life, at once']);
+      .toEqual(['1. Create a character', '2. A new life, at once', '3. Back']);
     expect(rolled).toBe(true);
     const frame = await host.handle({ kind: 'set-out', rolled }) as Frame;
     expect(frame.transcript.seed).toBe('bakoru');

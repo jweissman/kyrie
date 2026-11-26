@@ -96,7 +96,7 @@ export class ColourCensus {
     '\\.corner\\b', 'rail-mark', '\\bpip\\b', 'wf-row', 'ah-row', '\\.unfolded', 'opened-list'].join('|'));
   static readonly instruments = new RegExp(['field-land', 'atlas-key', '\\.board', '\\.fight', '\\.obs', '\\.flame',
     '\\.gauge', '\\.strip', '\\.throw', '\\.ident', '\\.fields', '\\.campaign-sheet',
-    '\\.world-page\\.threatened', 'face(?:\\.whole| img\\.whole)', 'data-backstage', '\\.sheet-key'].join('|'));
+    '\\.world-page\\.threatened', 'face(?:\\.whole| img\\.whole)', 'data-theme="folio"', '\\.sheet-key'].join('|'));
   // The custom properties the page's components set inline (a style object's '--x', or setProperty('--x')) whose
   // value may be a colour: a tone chosen at run time that no style sheet shows (the place's mark had drawn its dash in
   // the tone of the place's chief opportunity through '--pm'). A value that is a picture, a length, an angle, a share

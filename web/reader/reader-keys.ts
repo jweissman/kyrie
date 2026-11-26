@@ -175,7 +175,7 @@ export class ReaderKeys {
     if (key === 'Escape') {
       if (sheet) { sheet.querySelector<HTMLElement>('[data-action="close"]')?.click(); return true; }
       // Back from how a new game begins, or from the campaigns, is to the title.
-      if (this.app.state.phase === 'campaigns' || this.app.state.phase === 'begin') {
+      if (['campaigns', 'begin', 'closed'].includes(this.app.state.phase)) {
         this.app.opening.title(); return true;
       }
       // Back from making a life is to the title; only development (?dev) has the list of campaigns behind it.

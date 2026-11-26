@@ -6,7 +6,8 @@ import { Signs } from '../presentation/signs';
 import { Typography } from '../presentation/typography';
 import { TerminalInput, type Asking, type Picking } from './terminal-input';
 import type { Menu, Row } from './terminal-picker';
-import type { FirstStep } from '../creation/first-choice';
+import { FirstChoice, type FirstStep, type Where } from '../creation/first-choice';
+import { FreshSeeds } from '../world/fresh-seeds';
 import type { EnginePage } from '../creation/opening-pages';
 
 // A step as it is asked: creation's (CreationFlow), or how the game begins (FirstChoice).
@@ -24,17 +25,24 @@ export class TerminalCreation {
   // How the game begins, asked first of one at the keys, as the page asks it (FirstChoice, OR-120): a life built step
   // by step, or one drawn whole from creation's defaults and set out with at once (set-out's rolled). The country is
   // drawn while the question is read, and the start Set out now asks made ready behind it (see EngineForesight).
-  async begin(host: EngineHost, seed: string): Promise<{ rolled: boolean }> {
-    await host.handle({ kind: 'ahead', seed });
-    if ((await this.card(await host.handle({ kind: 'beginning' }) as FirstStep)).id !== 'set-out-now') {
-      await this.choose(host, seed);
-      return { rolled: false };
+  // named: the country asked for (--world); kept: the seed of the one kept here, where World turns which the new life
+  // begins in, and the question is asked again. Back is the title again (undefined).
+  async begin(host: EngineHost, named?: string, kept?: string): Promise<{ rolled: boolean } | undefined> {
+    const where: Where = kept ? { kept } : {};
+    let fresh: string | undefined, ahead: string | undefined;
+    for (;;) {
+      const seed = FirstChoice.seedFor(where) ?? named ?? (fresh ??= FreshSeeds.seed(FirstChoice.seed));
+      if (seed !== ahead) { await host.handle({ kind: 'ahead', seed }); ahead = seed; }
+      const id = (await this.card(await host.handle({ kind: 'beginning', ...where }) as FirstStep)).id;
+      if (id === 'back') { return undefined; }
+      if (id === 'world') { where.fresh = !where.fresh; continue; }
+      if (id === 'build') { await this.choose(host, seed); return { rolled: false }; }
+      await host.handle({ kind: 'world', seed });
+      return { rolled: true };
     }
-    await host.handle({ kind: 'world', seed });
-    return { rolled: true };
   }
   // A page of the engine's (OpeningPages, OR-382), its rows asked as numbered lines, as the page draws them: the
-  // title's Continue, New character, New world, Options and the encyclopedia.
+  // title's Continue, New Game, Options and Quit.
   async row(page: EnginePage): Promise<string> {
     return (await this.card({ ask: page.ask, chosen: page.chosen, all: true,
       cards: page.rows.map(r => ({ id: r.id, name: r.label })) })).id;

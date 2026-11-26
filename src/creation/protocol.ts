@@ -134,8 +134,9 @@ export type Request =
   // The country a new game will begin in, by the seed it will use, drawn while the title shows, and the start Set out
   // now asks made ready behind it (see EngineForesight); a world asked for by the same seed is that one.
   | { kind: 'ahead'; seed: string }
-  // How a new game begins, the first thing asked of it (see FirstChoice): asked before any country is drawn.
-  | { kind: 'beginning' }
+  // How a new game begins, the first thing asked of it (see FirstChoice): asked before any country is drawn; where a
+  // country is kept (its seed), whether the new life begins in it or in a new one (fresh).
+  | { kind: 'beginning'; kept?: string; fresh?: boolean }
   // For automation: answered once nothing is under way (a country drawn ahead, a start made ready: EngineHost.idle).
   | { kind: 'idle' }
   // Making a life, as the engine holds it: where it stands, or a choice at a step and where it then stands (see
@@ -179,8 +180,8 @@ export type Request =
 export interface Envelope { id: number; request: Request }
 // What a kept game says about itself on the title: the campaign, where the company is, when, and who.
 // ended: the game kept has come to its end (a death, or the campaign's close): the title's Play begins anew.
-// seed: the seed a drawn country was drawn from, by which New character begins in it again and New world lets it go
-// (FirstChoice.title); refused: why this build could not open it, once tried (said on the title, never tried again).
+// seed: the seed a drawn country was drawn from, by which New Game begins in it again or lets it go (FirstChoice.step);
+// refused: why this build could not open it, once tried (said on the title, never tried again).
 export interface SaveSummary {
   title: string; where: string; when: string; company: string; ended?: boolean; seed?: string; refused?: string;
 }

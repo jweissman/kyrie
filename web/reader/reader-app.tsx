@@ -32,8 +32,9 @@ import { Act } from './stage/act';
 import { GlanceStage } from './stage/glance';
 import { Folds } from './folds';
 
-// begin: how a new game begins, asked over the title (see FirstChoice).
-export type Phase = 'title' | 'begin' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
+// begin: how a new game begins, asked over the title (see FirstChoice); closed: the game put away by Quit
+// (OpeningPages.closed).
+export type Phase = 'title' | 'begin' | 'closed' | 'options' | 'campaigns' | 'company' | 'loading' | 'play';
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
 // held on the screen for its own sake.
 export interface Travel { from: string; to: string; way: string; minutes: number }
@@ -46,6 +47,8 @@ export interface FightMark {
 }
 export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame; options: Options;
+  // New Game asked to begin in a new world, the one kept here let go as it sets out (ReaderOpening.turnWorld).
+  fresh?: boolean;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   origin?: string;
   // Where making a life stands, as the engine holds it (EngineCreation, TB-09): its steps, their cards (the four it
@@ -481,7 +484,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // Test and automation hook: the same semantic state the page draws.
   inspect() {
     const s = this.state, menu = this.menu, frame = s.frame;
-    const mode = s.phase !== 'play' ? { title: 'title', begin: 'begin', options: 'options', campaigns: 'campaigns',
+    const mode = s.phase !== 'play' ? { title: 'title', begin: 'begin', closed: 'closed', options: 'options', campaigns: 'campaigns',
       company: 'create', loading: 'create' }[s.phase]
       : Stage.prologue(this) ? 'prologue' : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
         ? { person: 'talk', thing: 'examine' }[s.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
@@ -511,7 +514,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   }
   private page(): ReactNode {
     switch (this.state.phase) {
-      case 'title': case 'begin': return <TitlePage.View app={this} />;
+      case 'title': case 'begin': case 'closed': return <TitlePage.View app={this} />;
       case 'options': return <OptionsPage.View app={this} />;
       case 'campaigns': return <CampaignPage.View app={this} />;
       case 'company': return !this.state.setting?.generated ? <CompanyPage.View app={this} />

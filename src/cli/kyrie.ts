@@ -149,12 +149,14 @@ export class KyrieCli {
     if (create) {
       const host = new EngineHost(() => undefined);
       // How the game begins is asked first, as the page asks it: Build a character, or Set out now (OR-120).
-      let rolled = false;
-      try { ({ rolled } = await new TerminalCreation(input).begin(host, options.world!)); } catch (error) {
+      let begun: { rolled: boolean } | undefined;
+      try { begun = await new TerminalCreation(input).begin(host, options.world!); } catch (error) {
         if (error instanceof Error && error.message === TerminalCreation.left) { input.close(); return 0; }
         throw error;
       }
-      await host.handle({ kind: 'set-out', ...rolled ? { rolled } : {} });
+      // Back, with no title behind it here: leaving.
+      if (!begun) { input.close(); return 0; }
+      await host.handle({ kind: 'set-out', ...begun.rolled ? { rolled: true } : {} });
       await Terminal.play(host.played!, { input, profile: options.profile, ...played });
       return 0;
     }

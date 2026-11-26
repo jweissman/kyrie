@@ -1,9 +1,8 @@
-import { useEffect, useState, type AnimationEvent, type ChangeEvent, type CSSProperties, type MouseEvent } from 'react';
+import { useEffect, useState, type AnimationEvent, type ChangeEvent, type CSSProperties } from 'react';
 import type { ReaderApp } from './reader-app';
 import { Toast } from './toast';
 import { Identity } from '../../src/presentation/identity';
 import { Ident } from './ident';
-import { Build } from './build';
 import { createPortal } from 'react-dom';
 import { ChoiceRow } from './stage/choice-row';
 import { PageFrame } from './page-frame';
@@ -13,22 +12,23 @@ import { OpeningPages, type PageRow } from '../../src/creation/opening-pages';
 
 type Beat = 'ident' | 'dark' | 'reveal' | 'ready';
 // A way in, by what it is: the sky behind the title answers the one the hand or the keys are on.
-type Way = 'continue' | 'begin' | 'world' | 'encyclopedia' | 'options';
+type Way = 'continue' | 'begin' | 'options' | 'quit';
 
 // The title, the first page of the game's own language (the owner, 14 November, TO-01..03: "a quiet, extremely
 // legible foreground over a deeper, more complex, subtly moving background"; the moving double box about the choices
 // had been where he bounced off). Once a session the studio's mark draws its seven towers; the title comes up out of
 // it with no black between. The title is the engine's page (OpeningPages.title, OR-382), drawn in the one frame as any
-// page is: the embers its backdrop, and in the frame's menu column the game's name, small (OR-501), over its rows, the ways in (Continue where a kept game can be taken up, New character, New world: OR-300) then Options and
-// the encyclopedia, each a row of the game's own (see ChoiceRow), lit at once by its mark when the hand or the keys
+// page is: the embers its backdrop, and in the frame's menu column the game's name, small (OR-501), over its rows, the
+// core four and nothing else (the owner, 26 November, OR-1072): Continue where a kept game can be taken up, New Game,
+// Options and Quit, each a row of the game's own (see ChoiceRow), lit at once by its mark when the hand or the keys
 // are on it; a kept game that could not be opened is said under them in a plain line. Any key or touch skips
 // straight to the way in.
 // One who asks for less motion is shown it at once. Nothing here says how a country is made; a save brought from
-// elsewhere is opened from Options, and the ways in for testing appear only when the address asks (?dev). The names
-// shown are the game's and the studio's (src/presentation/identity.ts).
+// elsewhere, the encyclopedia and the build are Options'; the campaigns for testing are the address's (?campaign=),
+// no list of the title's. The names shown are the game's and the studio's (src/presentation/identity.ts).
 export class TitlePage {
   static View({ app }: { app: ReaderApp }) {
-    const s = app.state, query = app.props.query, dev = query.has('dev');
+    const s = app.state, query = app.props.query;
     const named = Identity.named(query), [beat, skip] = TitlePage.useBeat(query.has('ident') || query.has('studio'));
     // The title is the engine's page (OpeningPages.title, OR-382): its rows, its heading and its backdrop.
     const page = OpeningPages.title(app.opening.kept()), first = page.chosen as Way, [active, activate] = useState<Way>(first);
@@ -41,35 +41,32 @@ export class TitlePage {
       if ((beat === 'reveal' || beat === 'ready') && s.phase === 'title') { TitlePage.focus(first); }
     }, [beat, first, s.phase]);
     // A new game asks first how it begins, where Play stood (see BeginMenu).
+    // Quit's page is the dark alone (OpeningPages.closed): the embers gone out.
+    const over = s.phase === 'begin' || s.phase === 'closed', asked = over ? BeginMenu.page(app) : page;
     return <PageFrame.View kind="title" className={`opening title-page beat-${beat}`}
-      attrs={{ 'data-mode': s.phase === 'begin' ? 'begin' : 'title' }}
+      attrs={{ 'data-mode': over ? s.phase : 'title' }}
       body="title-main" hidden={beat === 'ident' || beat === 'dark'}
-      background={<>{beat !== 'ident' && page.hints.backdrop === 'embers' && <TitlePage.Motes />}
+      background={<>{beat !== 'ident' && asked.hints.backdrop === 'embers' && <TitlePage.Motes />}
         {beat === 'ident' && !TitlePage.early() && <Ident.View studio={named.studio} />}</>}
       // No hero (OR-501, the owner, 24 November: "it doesn't need a huge 'Westernesse'"): the game's name, the page's
       // heading, small in the frame's own type at the head of the ways in, at the hard right, the studio's emblem
       // beside it and the page's line under it (OR-529); the embers keep the space. How a new game begins asks in its place (BeginMenu), the name not kept over it.
-      menu={s.phase === 'begin' ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={page.ask}>
+      menu={over ? <BeginMenu.View app={app} /> : <nav className="title-menu" aria-label={page.ask}>
         {page.hints.heading === 'name' && <h1 className="mark" aria-label={Identity.spoken(named.game)}>
           <Ident.Glyph studio={named.studio} /><span>{named.game}</span></h1>}
         {page.line && <p className="title-line">{page.line}</p>}
         <ul>{page.rows.map(row => <li key={row.id}>{TitlePage.row(app, row, item)}</li>)}</ul>
         {page.told && <p className="title-told" data-id="refused" role="status">{page.told}</p>}
       </nav>}
-      over={<>{dev && <TitlePage.Dev app={app} />}
-        {beat === 'ident' && <TitlePage.Skip skip={skip} />}
-        {beat !== 'ident' && <p className="build" data-id="build">{`build ${Build.commit}`}</p>}
+      over={<>{beat === 'ident' && <TitlePage.Skip skip={skip} />}
         <Toast.View app={app} /></>} />;
   }
-  // A row of the title's page as the engine gives it: the ways in, Options, and the encyclopedia, which opens apart
-  // (a link, said so to a reader); what each does said to a pointer and a reader only, never a line of its own.
+  // A row of the title's page as the engine gives it: the ways in, Options and Quit; what each does said to a pointer
+  // and a reader only, never a line of its own.
   static row(app: ReaderApp, row: PageRow, item: (way: Way) => Record<string, unknown>) {
     const way = row.id as Way, own = { ...item(way), ...row.said ? { 'aria-label': row.said } : {} };
-    if (row.href) {
-      return <ChoiceRow.Link className="way-in" data={{ action: row.id }} href={row.href}
-        label={<span aria-hidden="true">{row.label}</span>} plain="knowing" own={{ target: '_blank', rel: 'noopener', ...own }} />;
-    }
-    const go = way === 'options' ? TitlePage.options.bind(null, app) : app.opening.way.bind(null, way as never);
+    const go = way === 'options' ? TitlePage.options.bind(null, app) : way === 'quit' ? app.opening.quit
+      : app.opening.way.bind(null, way);
     return <ChoiceRow.Button className="way-in" data={{ action: row.id }} label={row.label}
       plain={row.every ? 'every' : 'neutral'} own={{ ...PressGuard.once(go), ...own }} />;
   }
@@ -201,20 +198,7 @@ export class TitlePage {
     try { seen = sessionStorage.getItem('kyrie.ident') === '1'; sessionStorage.setItem('kyrie.ident', '1'); } catch { /* no storage */ }
     return seen && !asked ? 'reveal' : 'ident';
   }
-  // For testing: every campaign the build carries, by name.
-  static Dev({ app }: { app: ReaderApp }) {
-    const campaigns = app.state.catalog?.campaigns ?? [];
-    return (
-      <section className="dev" aria-label="Testing">
-        <p className="label">Testing</p>
-        <ol>{campaigns.map(c => <li key={c.id}><ChoiceRow.Button data={{ action: 'campaign', id: c.id }} label={c.title}
-          aside={c.seed} plain="neutral" own={{ 'data-nav': true }} onClick={TitlePage.pick.bind(null, app)} />
-        </li>)}</ol>
-      </section>
-    );
-  }
   private static options(app: ReaderApp) { app.setState({ phase: 'options' }); }
-  private static pick(app: ReaderApp, e: MouseEvent<HTMLButtonElement>) { void app.opening.pick(e.currentTarget.dataset.id!); }
   static load(app: ReaderApp, e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) { void file.text().then(text => app.opening.resume(text)); }

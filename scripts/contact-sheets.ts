@@ -6,7 +6,7 @@
 // could not be reached is said in index.html and shots.json, with a picture of where the page stood; it fails no
 // one. CI keeps it as the contact-sheets workflow's artifact (doc/architecture/verification.md).
 //   bun scripts/contact-sheets.ts [--out dir] [--sizes 390x844,820x1180] [--motion full|reduce|both]
-//     [--walks title,make,hour,books] (some of the walks only, for a page change's own sheet: OR-508) [--update]
+//     [--walks title,make,kept,hour,books] (some of the walks only, for a page change's own sheet: OR-508) [--update]
 // A whole run holds the lines below AA to a ratchet that may only fall (OR-506: SheetRatchet).
 // Needs a Playwright Chromium (KYRIE_CHROMIUM may name it) and, on this machine, LD_LIBRARY_PATH for NSS.
 import { mkdir, mkdtemp, rm } from 'node:fs/promises';
@@ -26,7 +26,8 @@ export class ContactSheets {
     return at >= 0 && args[at + 1] ? args[at + 1]! : fallback;
   }
   static readonly walks: [string, (run: SheetRun) => Promise<void>][] = [
-    ['title', SheetWalks.title], ['make', SheetWalks.creation], ['hour', SheetHour.walk], ['books', SheetWalks.books]];
+    ['title', SheetWalks.title], ['make', SheetWalks.creation], ['kept', SheetWalks.kept], ['hour', SheetHour.walk],
+    ['books', SheetWalks.books]];
   static async main(args: string[]): Promise<number> {
     const out = resolve(ContactSheets.option(args, 'out', 'contact-sheets'));
     // --motion full (the default), reduce, or both: each size walked again as for one who asks for less motion.

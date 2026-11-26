@@ -70,7 +70,7 @@ export class Sheet {
           <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} plain="neutral"
             label="Download a save file" /></li>
           {/* The game paused (OR-300): Options, its settings and Return to title, where this game stays kept for
-              Continue and a new character or a new world begins over it. */}
+              Continue and a new game begins over it. */}
           <li><ChoiceRow.Button data={{ action: 'options' }} onClick={Sheet.options.bind(null, app)} plain="neutral"
             label="Options" /></li>
         </ol>

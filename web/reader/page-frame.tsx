@@ -21,6 +21,10 @@ export interface PageParts {
   apart?: boolean;
   // A column inside the body holding the narrative and the menu together (a step of a life: its telling over its rows).
   column?: string;
+  // The theme the engine's page hints (PageHints.theme): the backstage's folio (Folio.theme, OR-1073), which the frame
+  // applies, never the page: the dark table under the whole page, the header a quiet line on it, and the narrative and
+  // menu on one parchment leaf of one size (.folio-leaf, scrolling, holding .folio-sheet), as every page of the Book is.
+  theme?: 'folio';
 }
 export type Slot = 'background' | 'header' | 'narrative' | 'menu' | 'rail';
 export class PageFrame {
@@ -30,15 +34,17 @@ export class PageFrame {
     return { 'data-slot': name, ...name === 'menu' ? { 'data-menu': true } : name === 'rail' ? { 'data-rail': true } : {} };
   }
   static View({ kind, className, background, header, narrative, menu, rail, over, attrs, body, hidden, apart,
-    column }: PageParts) {
+    column, theme }: PageParts) {
     const head = header && <div className="slot" {...PageFrame.slot('header')}>{header}</div>;
     const told = <>
       {narrative && <div className="slot" {...PageFrame.slot('narrative')}>{narrative}</div>}
       {menu && <div className="slot" {...PageFrame.slot('menu')}>{menu}</div>}
     </>;
-    const slots = <>{!apart && head}{column ? <div className={column}>{told}</div> : told}</>;
+    const inner = column ? <div className={column}>{told}</div> : told;
+    const slots = <>{!apart && head}{theme ? PageFrame.leaf(inner) : inner}</>;
     return (
-      <article className={`page-frame${className ? ` ${className}` : ''}`} id="page" data-page={kind} {...attrs}>
+      <article className={`page-frame${className ? ` ${className}` : ''}`} id="page" data-page={kind}
+        {...theme ? { 'data-theme': theme } : {}} {...attrs}>
         {background && <div className="slot" {...PageFrame.slot('background')}>{background}</div>}
         {apart && head}
         {body ? <main className={body} aria-hidden={hidden || undefined}>{slots}</main> : slots}
@@ -46,5 +52,9 @@ export class PageFrame {
         {over}
       </article>
     );
+  }
+  // The folio's one leaf: what scrolls, and the parchment in it (the Book's pages are the same two: BookStage).
+  static leaf(inside: ReactNode) {
+    return <div className="folio-leaf"><div className="folio-sheet">{inside}</div></div>;
   }
 }

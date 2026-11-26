@@ -129,27 +129,10 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
 .opening { max-width: 62rem; margin: 0 auto; padding: clamp(28px, 7vw, 96px) clamp(16px, 5vw, 64px) 64px; min-height: var(--frame-h); }
 .small-ways .link { font: inherit; }
 .loading h1 { font: 400 clamp(36px, 4.6vw, 56px)/1.05 var(--told); margin: 0 0 22px; }
-/* Options, in the title's own dark and its column, its choices the one row (ChoiceRow; the owner, 18 November, OR-81):
-   a small label over each setting, its rows close under it, Back at the foot, and whose game it is. */
+/* Options: the whole screen, as the title is, for the backstage's folio to lie on (folio.css, OR-1073). */
 .shell.phase-options { --frame-w: 100vw; --frame-h: 100dvh; }
 .shell.phase-options .frame { background: transparent; border: 0; box-shadow: none; }
 .shell.phase-options .frame::after, .shell.phase-options .ambient { display: none; }
-/* Options in the frame's menu column (OR-380), its name over its rows, as the scene's telling stands over its acts. */
-.frame > .opening.options-page.options-page { display: grid; place-items: center end; height: var(--frame-h); min-height: 0; max-width: none;
-  padding: var(--s6) var(--menu-edge) var(--s6) 0; overflow-y: auto; scrollbar-width: none; }
-.frame > .opening.options-page.options-page > main { width: var(--menu-rows); margin: 0; }
-.options-page h1 { font: var(--t-title); letter-spacing: .2em; text-transform: uppercase; color: var(--ivory);
-  margin: 0 0 var(--s5); }
-.options-page .option-set { margin: 0 0 var(--s4); }
-.options-page :is(main > .label, h1, .option-set > .label, .colophon) { padding-left: 22px; }
-.options-page .option-set > .label { margin: 0 0 var(--s1); }
-.options-page .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.options-page .rows.back { margin-top: var(--s5); }
-/* Each row's emblem before its words (OR-143), sized here as a row's is in play: an unsized one is an svg's 300 by
-   150, which pushes the words out of the row (the owner's P0 of 20 November). */
-.options-page .choice-row .row-glyph { width: 20px; height: 20px; margin: 0 10px -4px 0; fill: none;
-  stroke: currentColor; stroke-width: 1.5; opacity: .85; }
-.options-page .colophon { margin: var(--s5) 0 0; font: italic 400 14px/1.4 var(--told); color: var(--faint); }
 :root[data-size="smaller"] #mono { zoom: .9; }
 :root[data-size="larger"] #mono { zoom: 1.15; }
 .roll, .line.roll { color: var(--grey); font: 400 14.5px/1.45 var(--do); }
@@ -413,29 +396,7 @@ kbd { font: 500 10.5px/1 var(--do); color: var(--dim); border: 1px solid var(--e
   .character .head-of.pc .sat { width: 80px; height: 80px; }
 }
 
-/* ---- The backstage as one folio (OR-502; OR-307 had made the character's alone, the owner's playtests of 23-24
-   November: "a simple folio, perhaps the Encyclopedia's parchment"): every page of the book (the company, the notes,
-   the pack, the story) on the Encyclopedia's paper in its ink, one folio of one size laid on the dark table with a
-   margin of the dark about it, as the shell's engine hint says (data-backstage: Folio.theme); the map is no page of it.
-   The page's tokens are the parchment's within it, so what it draws needs nothing of its own; the roster floating
-   over the character keeps the game's dark. ---- */
-.shell[data-backstage="folio"] .book-frame > .book { padding: clamp(10px, 2.4vw, 28px) clamp(10px, 3vw, 40px) clamp(16px, 3vw, 40px); }
-.shell[data-backstage="folio"] .book-page:not(.map-page) { max-width: 76rem; margin: 0 auto;
-  padding: clamp(22px, 3vw, 40px) clamp(18px, 3.4vw, 48px) 72px;
-  --ivory: #2B241B; --ink: #2B241B; --grey: #54493A; --dim: #54493A; --faint: #5E5242; --accent: #2B241B;
-  --hair: rgba(43, 36, 27, .14); --edge: rgba(43, 36, 27, .24); --edge-strong: rgba(43, 36, 27, .4);
-  --accent-line: rgba(43, 36, 27, .3); --surface: #E3D8C1; --raised: #D7CBB1; --lift: #CBBFA6;
-  --paper: rgba(255, 250, 236, .22); --wash: #D7CBB1; --deep: #D7CBB1;
-  --choice-ground: rgba(43, 36, 27, .05); --choice-edge: rgba(43, 36, 27, .14);
-  --choice-ground-hot: rgba(43, 36, 27, .1); --choice-edge-hot: rgba(43, 36, 27, .32);
-  color: var(--ink); border: 1px solid rgba(43, 36, 27, .35); box-shadow: 0 0 0 1px rgba(0, 0, 0, .5), 0 24px 70px rgba(0, 0, 0, .55);
-  color-scheme: light;
-  background: radial-gradient(120% 90% at 50% 40%, rgba(255, 250, 236, .18), rgba(255, 250, 236, 0) 60%),
-    radial-gradient(140% 120% at 50% 50%, rgba(0, 0, 0, 0) 62%, rgba(92, 66, 32, .16) 100%),
-    repeating-linear-gradient(0deg, rgba(92, 66, 32, .025) 0 1px, rgba(0, 0, 0, 0) 1px 3px), #E3D8C1; }
-.shell[data-backstage="folio"] .book-page:not(.map-page) :is(h1, h2, h3, p, li, span, b, dt, dd) { text-shadow: none; }
-/* Set as a book is: paragraphs indented, not gapped, and ragged right. */
-.shell[data-backstage="folio"] .book-page:not(.map-page) p { text-align: left; }
+/* ---- The backstage's folio, every page of the Book on it, is folio.css's (OR-502, OR-1073). ---- */
 .character .members.roster { --ivory: #ECE6D9; --ink: #ECE6D9; --edge: rgba(236, 230, 217, .10); }
 .character .values { display: flex; flex-wrap: wrap; gap: 8px clamp(20px, 3vw, 40px); margin: 14px 0 6px; padding: 10px 0;
   border-top: 3px double var(--edge); border-bottom: 1px solid var(--hair); }

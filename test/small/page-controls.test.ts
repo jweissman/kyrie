@@ -68,8 +68,8 @@ const rows: Record<string, string[]> = {
   'web/reader/stage/panorama.tsx': ['set-out'],
   'web/reader/stage/prologue-stage.tsx': ['answer', 'action'],
   'web/reader/stage/talk-stage.tsx': ['trade-back', 'more-talk', 'trade', 'unbought', 'unbought'],
-  // The title's rows, the engine's by their ids (OpeningPages.title, OR-382): the ways in, Options, the encyclopedia.
-  'web/reader/title-page.tsx': ['action', 'campaign'],
+  // The title's rows, the engine's by their ids (OpeningPages.title, OR-382): the ways in, Options and Quit (OR-1072).
+  'web/reader/title-page.tsx': ['action'],
 };
 class Source {
   // The opening tag from `at`, to its `>` outside braces and quotes.

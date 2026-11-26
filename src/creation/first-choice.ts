@@ -9,15 +9,21 @@ import type { CreationCard, CreationPresent } from './creation-flow';
 // at once while the world it will begin in is drawn behind the title, and the life it would roll made ready there
 // (the seam for AX-04's pre-rolled world: ReaderOpening.foresee asks EngineForesight.ahead at the title's load).
 export type Beginning = 'build' | 'set-out-now';
+// The rest of New Game's rows (OR-1072): where a country is kept, which world the new life begins in (World, what it is
+// now beside it, taken to turn it over), and Back to the title, a row as every page's way back is.
+export type BeginRow = Beginning | 'world' | 'back';
+// Where a new life begins: in the country kept here (its seed), unless a new one is asked for (fresh); with none kept,
+// in a new one.
+export interface Where { kept?: string; fresh?: boolean }
 export interface FirstStep {
   id: 'begin'; ask: string; present: CreationPresent; all: true; chosen: Beginning;
-  cards: (CreationCard & { id: Beginning })[];
+  cards: (CreationCard & { id: BeginRow })[];
 }
-// The title's ways in (the owner's playtests, 23-24 November, OR-300: "it's not like rolling a new character"):
-// Continue the game kept here (only where it is still going and has not been refused), New character (a new life, in
-// the world kept here where one is kept, else in a new one), and New world (a new life in a new country, the world kept
-// here let go, its seed remembered). Each is its own row, by its id; what each does is said to a reader and a pointer.
-export type Way = 'continue' | 'begin' | 'world';
+// The title's ways in (the owner, 26 November, OR-1072: "keep 'Continue / New Game / Options / Quit' as the core
+// four"): Continue the game kept here (only where it is still going and has not been refused), and New Game, which asks
+// how the new life begins and, where a country is kept, in which world (step: the choice OR-300 had made two rows of
+// the title, New character and New world). Each is its own row, by its id; what each does is said to a reader.
+export type Way = 'continue' | 'begin';
 // A game kept where the title is shown, as its summary says it: where and when it was left, whether it has ended, the
 // seed its country was drawn from (a drawn country), and why it could not be opened, once tried and refused. During
 // beta a game kept by an earlier build is tried, never migrated; if it cannot be opened, that is said and remembered.
@@ -31,42 +37,40 @@ export interface TitleStep {
 export type Paused = 'back' | 'title';
 export interface PausedStep { id: 'options'; ask: string; chosen: Paused; cards: (CreationCard & { id: Paused })[] }
 export class FirstChoice {
-  static step(): FirstStep {
+  // New Game's question: how the life begins; where a country is kept, in which world (World: the one kept here, or a
+  // new one, the kept let go as the new life sets out); and Back to the title.
+  static step(where: Where = {}): FirstStep {
+    const world: FirstStep['cards'] = !where.kept ? [] : [{ id: 'world', name: 'World',
+      aside: where.fresh ? 'A new one' : 'The one kept here',
+      say: where.fresh ? 'A new country: the world kept here is let go as the new life sets out.'
+        : 'The country of the game kept here, as it now stands.' }];
     return { id: 'begin', ask: 'How will you begin?', present: 'rows', all: true, chosen: 'build', cards: [
       { id: 'build', name: 'Create a character', line: 'Choose who you are, step by step.',
         say: 'Your people, your calling, the stars you were born under and what you did before.' },
       // Its label short and literal (OR-301: the owner, 24 November, "far too long"); the literary words its line's.
       { id: 'set-out-now', name: 'A new life, at once', line: 'We enter the world as we are: whole, able and ready.',
         say: 'We enter the world as we are: a life of this country, whole as the world would make it.' },
-    ] };
+      ...world, { id: 'back', name: 'Back', say: 'Back to the title.' }] };
   }
-  // The title's rows: Continue where the kept game is going and not refused; New character always; New world where a
-  // country is kept to let go (with none kept it would be New character under a second name). The keys are on the
-  // first offered.
+  // The title's ways in: Continue where the kept game is going and not refused, and New Game always. The keys are on
+  // the first offered.
   static title(kept?: Kept): TitleStep {
-    const at = [kept?.where, kept?.when].filter(Boolean).join(' · '), world = !!kept?.seed;
+    const at = [kept?.where, kept?.when].filter(Boolean).join(' · ');
     const cards: TitleStep['cards'] = [];
     if (FirstChoice.continues(kept)) { cards.push({ id: 'continue', name: 'Continue', said: `Continue${at ? `: ${at}` : ''}` }); }
-    cards.push({ id: 'begin', name: 'New character',
-      said: world ? 'New character: a new life in the world kept here' : 'New character: a new life in a new world' });
-    if (world) {
-      cards.push({ id: 'world', name: 'New world',
-        said: 'New world: a new life in a new country, the world kept here let go' });
-    }
+    cards.push({ id: 'begin', name: 'New Game', said: 'New Game: a new life' });
     return { id: 'title', ask: 'Ways in', chosen: cards[0]!.id, all: true, cards,
       ...kept?.refused ? { told: FirstChoice.refusal(kept.refused) } : {} };
   }
   static continues(kept?: Kept): kept is Kept { return !!kept && !kept.ended && !kept.refused; }
-  // The seed a way in begins its new life in: the kept world's for New character, where one is kept; none named for
-  // New world, or for New character with no world kept: a new one, which the engine draws (the setting's FreshSeeds,
-  // asked as { kind: 'seed' }), so that a new life begins where the setting says new lives begin.
-  static seedFor(way: Exclude<Way, 'continue'>, kept?: Kept): string | undefined {
-    return way === 'world' ? undefined : kept?.seed;
-  }
+  // The seed a new life begins in: the kept world's, where one is kept and no new one is asked for; else none named, a
+  // new one, which the engine draws (the setting's FreshSeeds, asked as { kind: 'seed' }), so that a new life begins
+  // where the setting says new lives begin.
+  static seedFor(where: Where): string | undefined { return where.fresh ? undefined : where.kept; }
   // A kept game this build could not open, said plainly on the title and in the terminal.
   static refusal(reason: string): string {
-    return `The game kept here cannot be opened by this edition, so it cannot be continued: begin a new character or `
-      + `a new world. (${reason})`;
+    return `The game kept here cannot be opened by this edition, so it cannot be continued: begin a new game. `
+      + `(${reason})`;
   }
   // The in-game Options' ways (the owner, 23 November: "an options menu within the game, like a pause menu").
   static paused(): PausedStep {

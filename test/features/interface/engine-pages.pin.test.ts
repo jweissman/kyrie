@@ -17,43 +17,50 @@ import type { ReaderApp } from '../../../web/reader/reader-app';
 const kept = { where: 'The lane', when: 'Morning, the first day', seed: 'bakelo' };
 const app = (phase: string, extra: Record<string, unknown> = {}) => ({ state: { phase, options: { size: 'usual',
   rolls: 'shown' }, ...extra }, props: { query: new URLSearchParams() },
-opening: { way: () => undefined, kept: () => kept, beginAs: () => undefined } }) as unknown as ReaderApp;
+opening: { way: () => undefined, kept: () => kept, beginAs: () => undefined, where: () => ({ kept: kept.seed }) } }) as
+  unknown as ReaderApp;
 const actions = (html: string) => [...html.matchAll(/data-action="([\w-]+)"/g)].map(m => m[1]);
 // The title's rows, its menu (the studio's mark before it has its own Skip, which is the mark's, not the page's).
 const menu = (html: string) => actions(/<nav class="title-menu[\s\S]*?<\/nav>/.exec(html)![0]);
 describe('Interface › Pages the engine draws', () => {
-  it('gives the title its rows and hints: the ways in, Options and the encyclopedia, over the embers, its name heading', () => {
-    expect(OpeningPages.title().rows.map(r => r.id)).toEqual(['begin', 'options', 'encyclopedia']);
+  it('gives the title its rows and hints: the ways in, Options and Quit, over the embers, its name heading', () => {
+    expect(OpeningPages.title().rows.map(r => r.id)).toEqual(['begin', 'options', 'quit']);
     const page = OpeningPages.title(kept);
-    expect(page.rows.map(r => r.id)).toEqual(['continue', 'begin', 'world', 'options', 'encyclopedia']);
+    expect(page.rows.map(r => r.id)).toEqual(['continue', 'begin', 'options', 'quit']);
     expect(page.hints).toEqual({ backdrop: 'embers', heading: 'name' });
     // Its line under the name, the engine's words (OR-529), drawn under the heading with the studio's emblem beside it.
     expect(page.line).toBe(Identity.line);
     const drawn = renderToStaticMarkup(createElement(TitlePage.View, { app: app('title') }));
     expect(drawn).toContain(`<p class="title-line">${Identity.line}</p>`);
     expect(drawn).toMatch(/<h1 class="mark"[^>]*><svg class="mark-glyph"/);
-    expect(OpeningPages.begin().rows.map(r => r.id)).toEqual(['build', 'set-out-now']);
+    expect(OpeningPages.begin().rows.map(r => r.id)).toEqual(['build', 'set-out-now', 'back']);
+    expect(OpeningPages.begin({ kept: 'bakelo' }).rows.map(r => r.id)).toEqual(['build', 'set-out-now', 'world', 'back']);
+    // Options and the Book are the backstage's folio, by the engine's hint, which the frame applies (OR-1073).
+    expect(OpeningPages.options({ size: 'usual', rolls: 'shown' }, false).hints.theme).toBe('folio');
   });
   it('is drawn by the page as the engine gives it, no row of the page\'s own', () => {
     const title = renderToStaticMarkup(createElement(TitlePage.View, { app: app('title') }));
     expect(menu(title)).toEqual(OpeningPages.title(kept).rows.map(r => r.id));
     const begin = renderToStaticMarkup(createElement(TitlePage.View, { app: app('begin') }));
-    expect(menu(begin)).toEqual(OpeningPages.begin().rows.map(r => r.id));
+    expect(menu(begin)).toEqual(OpeningPages.begin({ kept: kept.seed }).rows.map(r => r.id));
+    const closed = renderToStaticMarkup(createElement(TitlePage.View, { app: app('closed') }));
+    expect(menu(closed)).toEqual(OpeningPages.closed(true).rows.map(r => r.id));
     const options = renderToStaticMarkup(createElement(OptionsPage.View, { app: app('options') }));
     const rows = OpeningPages.options({ size: 'usual', rolls: 'shown' }, false).rows;
     expect(actions(options)).toEqual(rows.map(r => r.id.startsWith('option:') ? 'option' : r.id));
+    expect(options).toContain('data-theme="folio"');
     const paused = renderToStaticMarkup(createElement(OptionsPage.View, { app: app('options', { frame: {} }) }));
     expect(actions(paused).slice(-2)).toEqual(['back', 'title']);
   });
-  it('is asked in the terminal by the same rows, Options and the encyclopedia said to be the page\'s', async () => {
-    const said: string[] = [], answers = ['4', '5', '2'];
+  it('is asked in the terminal by the same rows, Options said to be the page\'s', async () => {
+    const said: string[] = [], answers = ['3', '2'];
     const input = { ask: async () => answers.shift() ?? null, close: () => undefined };
     const page = OpeningPages.title(kept);
     const say = (line: string) => { said.push(line); };
     const way = await TerminalPlay.way(page, new TerminalCreation(input, say), say);
     expect(way).toBe('begin');
-    expect(said.filter(l => /^ {2}\d\. /.test(l)).slice(0, 5).map(l => l.replace(/^ {2}\d\. | \*$/g, '')))
+    expect(said.filter(l => /^ {2}\d\. /.test(l)).slice(0, 4).map(l => l.replace(/^ {2}\d\. | \*$/g, '')))
       .toEqual(page.rows.map(r => r.label));
-    expect(said.filter(l => l === TerminalPlay.apart.options || l === TerminalPlay.apart.encyclopedia)).toHaveLength(2);
+    expect(said.filter(l => l === TerminalPlay.apart.options)).toHaveLength(1);
   });
 });
