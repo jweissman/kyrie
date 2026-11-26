@@ -4,6 +4,7 @@ import type { Frame, Message } from '../src/creation/protocol';
 import type { PlaySession } from '../src/session/play-session';
 import { Digest } from '../src/session/digest';
 import { Costs } from '../src/costs';
+import { Heard } from './support/heard';
 
 // A journey's leg told by its receipt, its frame built only where the journey ends (AX-05; platform-separation.md,
 // the trust thread's second step), against the journey as it was, every leg's frame built whole (EngineHost.wholeLegs,
@@ -19,7 +20,9 @@ import { Costs } from '../src/costs';
 // come before the pikes and the danger in fifteen.)
 // (In the world of 26 November every seventh place no longer met the pikes, and no journey came to harm on the way
 // within twenty-five: every eleventh, twenty-seven journeys meet the pikes, the danger, night and a band that sets
-// upon the company, OR-962.)
+// upon the company, OR-962.) (Since the map draws what the company knows, OR-810, the company is told of every town
+// as the milestones tell them, and thirty-six journeys meet a bar, the danger, night and harm on the way; the bar
+// now the cudgel-men standing in the road as often as the pikes.)
 class Both {
   static async begin(whole: boolean): Promise<{ host: EngineHost; frame: Frame }> {
     // A fight on the way is the page's to choose in: pressed through by the company's own tactics, as the page can.
@@ -29,6 +32,9 @@ class Both {
     host.wholeLegs = whole;
     const frame = await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', origin: 'wanderer',
       party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] }) as Frame;
+    // Told of every town, as the milestones tell them: the journeys are the matter here, not how the company hears of
+    // where they go (the map draws what the company knows since OR-810, and a fresh wanderer's offered few).
+    Heard.towns((host as unknown as { session: PlaySession }).session.campaign);
     return { host, frame };
   }
   static digest(host: EngineHost): string {
@@ -50,7 +56,7 @@ describe('a journey told leg by leg from its receipts', () => {
     expect(Both.shown(told.frame)).toBe(Both.shown(whole.frame));
     const stops = new Set<string>(), screens = { whole: 0, told: 0 };
     let [a, b] = [whole.frame, told.frame], legs = 0, held = 0;
-    for (let n = 0; n < 27 && a.screen.running; n++) {
+    for (let n = 0; n < 36 && a.screen.running; n++) {
       const to = Both.whither(a, n);
       if (!to) { break; }
       if (a.bound) { held++; }
@@ -69,8 +75,9 @@ describe('a journey told leg by leg from its receipts', () => {
     // on the way is met as a wound or as a fight on a leg: since the journey stops for a threat that blocks the way
     // (ArrivalAttention, the lead's ruling of 25 November), kite's road bands mostly stop it before they set upon it,
     // but one met on a leg sets upon the company there (OR-773's case), told whole by its receipt as by its frames.
-    expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'Pikes come down across the road',
-      'There is danger here', 'Night has come on']));
+    // A bar across the road is the pikes let down or a band standing in it (the cudgel-men out of the hedge).
+    expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'There is danger here', 'Night has come on']));
+    expect([...stops].some(s => /^Pikes come down across the road|stand in the road$/.test(s))).toBe(true);
     expect([...stops].some(s => ['Someone was hurt on the way', 'You were set upon on the way'].includes(s))).toBe(true);
     expect(held).toBeGreaterThan(0);
     expect(legs).toBeGreaterThan(30);
