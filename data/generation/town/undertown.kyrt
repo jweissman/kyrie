@@ -519,7 +519,7 @@
     State snuffed "The black candle is out, and smells of something worse than tallow.".
     Change pinch "Pinch out the black candle" from alight to snuffed when not at({t}_u_raiser, {t}_u_ossuary) or not able({t}_u_raiser) "The man with the black candle stands over it, and the dead are his while it burns.".
   }
-  Entity {t}_u_dead_job: fact "Lay the dead in the ossuary under the churchyard at {town}.".
+  Entity {t}_u_dead_job: fact "Lay the dead in the crypt under the churchyard at {town}.".
   // Not once the job is done: a warrior who forced the crypt door and laid the dead had still been offered the job,
   // and the key, after the pay (the owner, 7 November). So for each job asked of.
   Topic {t}_u_dead_job_ask with {t}_priest "Ask {{t}_priest} about the noises under the churchyard" when (toldMatter({t}_priest, actor) or knows(actor, {t}_u_notice) or been(actor, {t}_u_yard)) and not {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) once {
@@ -596,8 +596,7 @@
   // churchyard: the crypt is where the priest said they came up, but they are in the
   // ossuary beyond it, and an aim that pointed at the crypt left a company that had been through the ossuary standing
   // in the crypt led only to search it (the owner's play of 11 November: led to the threshold and abandoned there).
-  // Its words say the ossuary, as the priest would: the gold reads where the company knows them to be (OR-881).
-  Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) toward {t}_u_dead, {t}_u_raiser by {t}_u_yard "Lay the dead in {{t}_u_ossuary} under {{t}_u_yard} at {town}, and find out who raised them.".
+  Objective {t}_u_dead_job_aim when {t}_u_given({t}_u_dead_job) and not {t}_u_done({t}_u_dead_job) toward {t}_u_dead, {t}_u_raiser by {t}_u_yard "Lay the dead in {{t}_u_crypt} under {{t}_u_yard} at {town}, and find out who raised them.".
   Topic {t}_u_dead_job_paid with {t}_priest "Tell {{t}_priest} the dead under the churchyard are laid, and the man who raised them gone" when {t}_u_done({t}_u_dead_job) and {t}_u_done({t}_u_raiser) and not {t}_u_halved({t}_u_dead_job) and not {t}_u_paid({t}_u_dead_job) once {
     Says "{{t}_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {{t}_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert {t}_u_paid({t}_u_dead_job). Retract knows(actor, {t}_u_dead_job). }

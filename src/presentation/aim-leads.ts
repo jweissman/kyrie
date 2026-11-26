@@ -12,7 +12,6 @@ import type { FrameRows } from './player-frame';
 import { Undertakings } from './undertakings';
 import type { Screen } from '../ui/screen-types';
 import { AimLeading } from './aim-lead';
-import { CompanyRecall } from './company-recall';
 
 // The aim followed is a destination, leads and a route (review-mitigations U1; the lead's ruling, 13 November, PL-13):
 // a place it names, been to already, is the aim's only while something there would now bring about what it waits on,
@@ -86,10 +85,7 @@ export class AimLeads {
     const sites = new Set([here, ...screen.exits.map(e => e.destination.id)]
       .flatMap(id => this.site(byId, id) ?? []));
     if (!sites.size) { return true; }
-    // What the aim's words say it lies in, for what the company has never seen ("the old writing in {hold}").
-    const def = Undertakings.followed(campaign);
-    const said = def ? [...Stakes.said(campaign, def)].filter(id => byId.get(id)?.space) : [];
-    const actor = campaign.playerActor ?? 'party', at = { campaign, byId, sites, here, said };
+    const actor = campaign.playerActor ?? 'party', at = { campaign, byId, sites, here };
     const told = w.relates('leadsTo') ? w.related('leadsTo')
       .filter(l => w.test(ModuleWriter.call('knows', actor, l.args[0]!))).map(l => l.args[1]!) : [];
     return [...[...named].filter(id => id !== actor), ...AimAdvances.sought(campaign),
@@ -102,16 +98,11 @@ export class AimLeads {
   // Somewhere in one of those sites, or whoever or whatever stands in it, but not the site itself nor where the
   // company stands.
   private static inside(id: string, at: { campaign: Campaign; byId: Map<string, Entity>; sites: Set<string>;
-    here: string; said: string[] }): boolean {
-    // Where the company knows them to be, or what they are inside; never seen, where the aim's words say; never where
-    // they stand unseen (OR-881).
-    const w = at.campaign.world, holder = w.relates('inside') ? w.one('inside', id) : undefined;
-    const place = CompanyRecall.where(at.campaign, id) ?? (holder && CompanyRecall.where(at.campaign, holder));
-    if (!place) { return !at.byId.get(id)?.space && !at.sites.has(id) && at.said.some(p => this.in(at, p)); }
-    return !at.sites.has(id) && place !== at.here && this.in(at, place);
-  }
-  private static in(at: { byId: Map<string, Entity>; sites: Set<string> }, place: string): boolean {
-    return Spatial.ancestry(at.byId, place).some(e => at.sites.has(e.id));
+    here: string }): boolean {
+    const w = at.campaign.world;
+    const place = at.byId.get(id)?.space ? id : w.one('at', id) ?? (w.relates('inside') ? w.one('inside', id) : undefined);
+    return !!place && !at.sites.has(id) && place !== at.here
+      && Spatial.ancestry(at.byId, place).some(e => at.sites.has(e.id));
   }
   // Where what the aim waits on someone keeping grows: each place a stand of a kind they want stands in, and the
   // places round it.
@@ -137,15 +128,10 @@ export class AimLeads {
     if (carried) { return []; }
     const sold = w.related('forSale').map(r => r.args[0]!).filter(i => wanted.has(w.one('itemKind', i) ?? ''));
     // Those in the town the company is in, where there are any: Windscar's had been led as well as Newmeet's own.
-    // Only what the company knows to be for sale: seen, or in a shop of a town it has been in (CompanyRecall.shop:
-    // OR-881). The sellers, and the shop each thing lies in for sale.
-    const byId = EntityIndex.of(campaign.module.entities).byId, town = this.town(byId, Knowing.here(campaign) ?? '');
-    const shelf = sold.flatMap(i => {
-      const by = w.one('soldBy', i), at = CompanyRecall.shop(campaign, i) ?? (by && CompanyRecall.shop(campaign, by));
-      return at ? [{ at, by }] : [];
-    });
-    const near = shelf.filter(s => town && this.town(byId, s.at) === town);
-    return [...new Set((near.length ? near : shelf).flatMap(s => [s.by, s.at].flatMap(x => x ?? [])))];
+    const byId = EntityIndex.of(campaign.module.entities).byId, town = this.town(byId, w.one('at', actor) ?? '');
+    const near = sold.filter(i => town && this.town(byId, w.one('at', i) ?? '') === town);
+    // The sellers, and the shop each thing lies in for sale.
+    return [...new Set((near.length ? near : sold).flatMap(i => [w.one('soldBy', i), w.one('at', i)].flatMap(x => x ?? [])))];
   }
   private static town(byId: Map<string, Entity>, place: string): string | undefined {
     return Spatial.ancestry(byId, place).find(e => e.space?.kind === 'settlement')?.id;
@@ -162,11 +148,9 @@ export class AimLeads {
   // Worked out once for each world (a world is never changed, only replaced), as the glance is drawn again and again.
   private static readonly answered = new WeakMap<object, Map<string, boolean>>();
   // Where someone the aim names stands, still able: the rats' run the company fled back up from is still the aim's.
-  // Where the company last saw them (OR-881).
   static occupied(campaign: Campaign, named: Set<string>): Set<string> {
     const w = campaign.world;
-    return new Set([...named].filter(id => w.test(ModuleWriter.call('able', id)))
-      .flatMap(id => CompanyRecall.where(campaign, id) ?? []));
+    return new Set([...named].filter(id => w.test(ModuleWriter.call('able', id))).flatMap(id => w.one('at', id) ?? []));
   }
   static there(campaign: Campaign, place: string): boolean {
     const w = campaign.world, known = this.answered.get(w) ?? this.answered.set(w, new Map()).get(w)!;

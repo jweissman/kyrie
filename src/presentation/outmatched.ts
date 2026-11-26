@@ -10,7 +10,6 @@ import { ObservationText } from '../lang/observation-text';
 import { Stakes } from '../ui/stakes';
 import { Companions } from './companions';
 import { DangerSense } from './danger-sense';
-import { CompanyRecall } from './company-recall';
 
 // A fight an aim leads to that is beyond the company, as the company itself reckons it (DangerSense: grave or
 // deadly), for a company going alone (OR-64, the owner, 17 November: "way too easy for a starting mage to die …
@@ -57,34 +56,25 @@ export class Outmatched {
   static reading(campaign: Campaign, screen: Screen): { help?: { who: string; at: string } } {
     const followed = screen.aims?.find(a => a.followed);
     const o = followed && (campaign.module.objectives ?? []).find(x => x.id === followed.id);
-    const help = o && this.band(campaign, o) ? this.helper(campaign) : undefined;
-    return help ? { help } : {};
+    const who = o && this.band(campaign, o) ? this.help(campaign) : undefined;
+    const at = who && campaign.world.one('at', who);
+    return who && at ? { help: { who, at } } : {};
   }
-  // Who to take along, and where, said as a need ("ask Arlen, at the taproom of the Laughing Flame, to go with you"):
-  // where the company knows them to be (OR-881).
+  // Who to take along, and where, said as a need ("ask Arlen, at the taproom of the Laughing Flame, to go with you").
   static asked(campaign: Campaign, who: string): string {
-    const w = campaign.world, at = CompanyRecall.where(campaign, who);
+    const w = campaign.world, at = w.one('at', who);
     return `ask ${ObservationText.label(w, who)}${at ? `, at ${ObservationText.label(w, at)},` : ''} to go with you.`;
   }
   // Someone who could go with the company: of those who could join it, the first.
   static help(campaign: Campaign): string | undefined { return [...Companions.possible(campaign)][0]; }
-  // And where: of those who could join it, the first the company knows where to find (where it last saw them). The
-  // world's truth of where they stood had been read, and the way led to someone never met (OR-881).
-  static helper(campaign: Campaign): { who: string; at: string } | undefined {
-    for (const who of Companions.possible(campaign)) {
-      const at = CompanyRecall.where(campaign, who);
-      if (at) { return { who, at }; }
-    }
-    return undefined;
-  }
   // What the one who gave an aim says of it, where its fight is beyond the company: by those aims just taken.
   static warning(campaign: Campaign, event: CampaignEvent, taken: { id: string }[]): string | undefined {
     const giver = campaign.operator(event.action)?.speaker, ids = new Set(taken.map(t => t.id));
     const given = (campaign.module.objectives ?? []).filter(o => ids.has(o.id));
     if (!giver || !given.some(o => this.band(campaign, o))) { return undefined; }
-    const w = campaign.world, helper = this.helper(campaign);
-    return (helper ? voice.help : voice.alone).replace('{giver}', ObservationText.label(w, giver))
-      .replace('{helper}', helper ? ObservationText.label(w, helper.who) : '')
-      .replace('{where}', helper ? ObservationText.label(w, helper.at) : '');
+    const w = campaign.world, helper = this.help(campaign), where = helper && w.one('at', helper);
+    return (helper && where ? voice.help : voice.alone).replace('{giver}', ObservationText.label(w, giver))
+      .replace('{helper}', helper ? ObservationText.label(w, helper) : '')
+      .replace('{where}', where ? ObservationText.label(w, where) : '');
   }
 }

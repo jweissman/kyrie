@@ -1,7 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Screen } from '../ui/screen-types';
-import { CompanyRecall } from './company-recall';
 
 // What the company has to see by: where none of it carries a light or has one going, the kinds of thing that light
 // (for one who sells it: Affordances.served), and the ways from here into somewhere unlit, which lead nowhere it can
@@ -31,9 +30,8 @@ export class CompanyLight {
     const sellers = dark.size ? new Set([...campaign.module.initial.flatMap(c => c.kind === 'set'
       && c.call.name === 'shelf' && lights.has(c.call.args[1]!) ? [c.call.args[0]!] : []),
     ...w.relates('sells') ? w.related('sells').filter(r => lights.has(r.args[1]!)).map(r => r.args[0]!) : []]) : undefined;
-    // And where the company knows them to stand (where it last saw them, or the shop it knows they keep), for the ways
-    // and the walks about the town to lead there (Affordances): never where they stand unseen (OR-881).
-    const shops = new Set([...sellers ?? []].flatMap(p => CompanyRecall.shop(campaign, p) ?? []));
+    // And where they stand, for the ways and the walks about the town to lead there (Affordances).
+    const shops = new Set([...sellers ?? []].flatMap(p => w.one('at', p) ?? []));
     return { unlit: lights, ...dark.size ? { dark } : {}, ...sellers?.size ? { sellers, shops } : {},
       ...toward ? { lit: toward } : {} };
   }

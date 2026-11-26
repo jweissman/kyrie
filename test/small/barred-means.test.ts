@@ -12,9 +12,8 @@ describe('a barred way on, with a chandler down the lane', () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['test/fixtures/single/tower.kyr', '--as',
       'human/warrior/Wynn']));
     const c = journey.session.campaign, g = Narrator.leaf(c, ScreenModel.build(c)).glance!;
-    // Where Nest is, the company does not yet know: never seen, no place is given (OR-881; gold-whereabouts).
     expect(g.leads).toEqual([{ way: 'exit:tower__top', needs: ['climbing', 'rope'],
-      from: [{ seller: 'tower__nest', kind: 'rope' }] }]);
+      from: [{ seller: 'tower__nest', kind: 'rope', at: 'tower__lane' }] }]);
     expect(g.need).toEqual(['The broken stair: needs climbing or a coil of rope; Nest, a chandler, sells a coil of rope']);
   });
 });

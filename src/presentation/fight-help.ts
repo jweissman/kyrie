@@ -31,8 +31,7 @@ export class FightHelp {
   }
   // What would help, in words; none where nothing is known to.
   static said(campaign: Campaign, screen: Screen): string | undefined {
-    // Someone who would go along, where the company knows to find them (OR-881).
-    const world = campaign.world, help = Outmatched.helper(campaign), who = help?.who, where = help?.at;
+    const world = campaign.world, who = Outmatched.help(campaign), where = who && world.one('at', who);
     const back = CompanyRecall.of(campaign).back(screen, true).back;
     const place = back && screen.exits.find(e => e.id === back)?.destination.name;
     const ways = [...screen.dark ? [voice.light] : [],

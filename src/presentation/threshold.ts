@@ -5,7 +5,6 @@ import { Spatial } from '../lang/spatial';
 import { Canon } from '../canon/canon';
 import { ItemNames } from '../lang/item-names';
 import { Means, type Lead } from './means';
-import { CompanyRecall } from './company-recall';
 
 // The threshold of the place the followed aim is about: what bars the way on, and the ways that leave it.
 export class Threshold {
@@ -44,12 +43,11 @@ export class Threshold {
       && (e.acts.some(a => a.disabled) || (!e.acts.length && !!e.blocked))
       && (site || !campaign || this.toward(campaign, screen, named, e.destination.id)));
   }
-  // Whether a way goes to a place the aim names, or to where the company knows something it names to lie or stand
-  // (OR-881: never where it stands unseen).
+  // Whether a way goes to a place the aim names, or to where something it names lies or stands.
   private static toward(campaign: Campaign, screen: Screen, named: Set<string>, to: string): boolean {
     const byId = EntityIndex.of(campaign.module.entities).byId;
     return named.has(to) || [...named].some(id => id !== screen.place.id
-      && [id, CompanyRecall.where(campaign, id) ?? ''].some(at => Spatial.ancestry(byId, at).some(a => a.id === to)));
+      && [id, campaign.world.one('at', id) ?? ''].some(at => Spatial.ancestry(byId, at).some(a => a.id === to)));
   }
   // "Needs brawn: no one in the company can use it now." and "You would need climbing or a coil of rope." alike.
   private static clause(reason: string): string {
@@ -62,9 +60,9 @@ export class Threshold {
   // leaving is not that (the lead's ruling, 15 November, on Mistlake's speaking door: push, pull and listen spent, the
   // four had been the way out to the woods, a wait and a spell, the riddle's words buried in the rest).
   static leaving(campaign: Campaign, screen: Screen, named: Set<string>): Set<string> | undefined {
-    const byId = EntityIndex.of(campaign.module.entities).byId, here = screen.place.id;
+    const byId = EntityIndex.of(campaign.module.entities).byId, here = screen.place.id, w = campaign.world;
     const sites = new Set([...named].flatMap(id => {
-      const at = CompanyRecall.where(campaign, id);
+      const at = byId.get(id)?.space ? id : w.one('at', id);
       return at ? Spatial.ancestry(byId, at).filter(e => e.space?.kind === 'site').map(e => e.id) : [];
     }));
     const scope = named.has(here) ? here : screen.path.find(p => p.kind === 'site' && sites.has(p.id))?.id;

@@ -8,7 +8,6 @@ import { Guarded } from './guarded';
 import { Outmatched } from './outmatched';
 import { SiteOutsides } from './site-outsides';
 import { Undertakings } from './undertakings';
-import { CompanyRecall } from './company-recall';
 
 // An aim set aside, from anywhere, while its way is barred by a keeper the company has met there and reckons beyond
 // it, and no help is to be had (the coordinator's call, 24 November, on OR-411 with OR-412): its ways lead no more,
@@ -29,9 +28,8 @@ export class AimAside {
     // that it names, from further off (OR-417: from Brockminster the son had been led out toward Windtower again, its
     // lookouts beyond him, and back, round and round).
     const names = Undertakings.names(campaign, o), sites = new Set<string>(), rooms = new Set<string>();
-    // Where the company knows them to be, never where they stand unseen (OR-881).
     for (const id of [next, ...names]) {
-      const to = CompanyRecall.where(campaign, id);
+      const to = byId.get(id)?.space ? id : w.one('at', id);
       const site = to && (SiteOutsides.siteOf(byId, to) ?? outsides.get(to));
       if (site) { sites.add(site); } else if (to && byId.get(to)?.space?.kind === 'room') { rooms.add(to); }
     }
@@ -66,9 +64,8 @@ export class AimAside {
   static reading(campaign: Campaign, screen: Screen): { help?: { who: string; at: string } } {
     const out = Outmatched.reading(campaign, screen);
     if (out.help) { return out; }
-    // Where the company knows them to be (Outmatched.helper: OR-881).
-    const help = this.of(campaign, screen, false) && Outmatched.helper(campaign);
-    return help ? { help } : {};
+    const who = this.of(campaign, screen, false) && Outmatched.help(campaign), at = who && campaign.world.one('at', who);
+    return who && at ? { help: { who, at } } : {};
   }
   // A candidate with the set-aside aim's reasons taken off it, and no reason at all to go into the keeper's room
   // (the son at Windtower's door had been led in again by the door itself, a way not yet tired of).

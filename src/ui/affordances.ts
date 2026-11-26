@@ -492,9 +492,7 @@ export class Affordances {
       .filter(d => !(screen.destinations ?? []).some(x => x.id === d.id))];
     // Nor set out for where a way from here goes straight to the place the aim names: on the road between Porthalen
     // and Reedbridge, "To the landing at Porthalen" and "Set out for Porthalen" had both been gold (GR-01: one gold).
-    // Or into the town it names (the reeve at Porthalen, never seen: OR-881).
-    if (screen.exits.some(e => !e.blocked && (r.named.has(e.destination.id)
-      || r.named.has(screen.region?.within[e.destination.id] ?? '')) && !r.idle?.has(e.destination.id))) {
+    if (screen.exits.some(e => !e.blocked && r.named.has(e.destination.id) && !r.idle?.has(e.destination.id))) {
       return [];
     }
     return journeys.filter(d => !near.has(d.id) && this.within(d.id, r.named, r) && !r.idle?.has(d.id)

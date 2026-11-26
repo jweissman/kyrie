@@ -185,9 +185,8 @@ export class AimContinuity {
     const byId = EntityIndex.of(campaign.module.entities).byId, here = Knowing.here(campaign);
     // The first town, where the notice on the well-post is, before any other (else the nearest).
     const post = campaign.module.entities.find(e => /_u_notice_post$/.test(e.id))?.id;
-    // Where the company has seen it (OR-881).
-    const home = post && Spatial.ancestry(byId, CompanyRecall.where(campaign, post) ?? '')
-      .find(e => e.space?.kind === 'settlement')?.id;
+    const home = post
+      && Spatial.ancestry(byId, campaign.world.one('at', post) ?? '').find(e => e.space?.kind === 'settlement')?.id;
     const first = here ? KnownWays.first(campaign, here, id => this.above(byId, id) && Spatial.ancestry(byId, id)
       .some(e => home ? e.id === home : e.space?.kind === 'settlement'), { able: true }) : undefined;
     return first ? cands.find(c => !!c.exit && c.exit.endsWith(first)) : undefined;
