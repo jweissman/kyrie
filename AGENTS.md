@@ -231,7 +231,7 @@ this help the player forget the interface and become interested in what happens 
   sources. A campaign installs modules in order; ids are namespaced per installation.
   The direction (the owner, 24 November): two top-level parts an author can latch onto, `settings/` (campaign-level
   metadata and tables) and `scenarios/` (specific adventures and stories), with a small global part for rule modules
-  and catalogs. It is researched before anything moves (doc/architecture/mission-22-beta/data-layout.md).
+  and catalogs. It is researched before anything moves.
 - **Orsino:**
   - `data/catalog/orsino/` is generated (`bun bin/orsino-registry.ts catalog`);
   - a hand entry may replace a generated one only by naming the same `source.orsino`;
