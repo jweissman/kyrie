@@ -45,7 +45,8 @@ Module silent_lord "The silent lord" {
   Rule gate_admits when not hunted(house) and state(gate_refusal, refuses) { Assert state(gate_refusal, admits). }
 
   // ---- What the first town's people say of it.
-  Topic keeper_crier with keeper "Ask {keeper} about the crier" when knows(actor, levy_seen) and day(clock) >= 2 once {
+  Topic keeper_crier with keeper "Ask {keeper} about the crier" when day(clock) >= 2 and
+    (state(levy_post, called) or state(levy_post, pressed) or state(levy_post, postponed)) once {
     Says "'Twenty spears out of this town and the two nearest,' says {keeper}, 'and a hundred bushels, and he reads it off like the price of eggs. The lord used to ride through at Michaelmas and have one cup at this bar and pay for two. He has not come. The castellan signs for him.' A pause. 'The castellan has a name for being careful. I would like to see what she is being careful of.' {keeper} jerks a thumb at the road. 'It is {outside}, in {land}: a day or so along the roads from here, out over the ford and on through the villages beyond.'".
     On discuss { Assert knows(actor, levy_called). Assert knows(actor, lord_unseen). }
   }
