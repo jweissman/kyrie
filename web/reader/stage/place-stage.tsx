@@ -14,7 +14,6 @@ import { GlanceStage } from './glance';
 import { Raised } from './raised';
 import { ThingStage } from './thing-stage';
 import { ChoiceRow } from './choice-row';
-import { Attest } from '../../../src/presentation/attest';
 import { Fold } from '../../../src/presentation/fold';
 import { Guidance } from '../guidance';
 
@@ -200,9 +199,7 @@ export class PlaceStage {
   // act that bears it), never the opener's (AT-07 §5 step 3: Act.List had drawn them with no indicator at all, so an
   // opener lit worth a look or blue opened onto plain rows). What it opens in turn, beneath it.
   static Within({ choice: k, draw }: { choice: Choice; draw: Draw }) {
-    const g = draw.app.state.frame?.leaf.glance;
-    const indicator = Fold.mark(k.children?.length && !k.command ? Fold.of(g, k, k.id, true)
-      : [Fold.leaf(k, Attest.within(g, k))], Guidance.shown(draw.app));
+    const indicator = Fold.mark(draw.app.state.frame?.menu.marks.within[k.id] ?? [], Guidance.shown(draw.app));
     return <><ChoiceRow.Act choice={k} draw={draw} {...ChoiceRow.mark(indicator)}
       label={Typography.curl(k.alone || Words.shown(k.label))} {...k.note ? { aside: Typography.curl(k.note) } : {}} />
       {k.children && draw.open.has(k.id) && <Act.List choices={k.children} draw={draw} className="column" />}</>;

@@ -38,7 +38,7 @@ const ask: Choice = { id: 'wat#talk/0', label: 'Ask about the well', tone: 'pers
 const marked = <F extends Pick<Frame, 'leaf' | 'screen'>>(frame: F, menu: Menu) => ({ ...frame,
   menu: { marks: MenuTree.marks(frame, menu) } });
 const app = (acts: Promoted[], likenesses = {}) => {
-  const menu = { choices: [ask], scene: { subjects: [] } } as unknown as Menu;
+  const menu = { choices: [ask], scene: { subjects: [], near: [], far: [], you: [] } } as unknown as Menu;
   const frame = marked({ leaf: { glance: { acts, likenesses } }, screen: { exits: [], party: [], path: [],
     place: { id: 'yard', kind: 'place', name: 'The yard' } } } as unknown as Frame, menu);
   return { state: { keyed: false, cursor: 0, open: [], frame }, menu, props: { query: new URLSearchParams() },

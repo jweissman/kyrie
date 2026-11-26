@@ -6,10 +6,7 @@
   "src/cli/terminal.ts": 3,
   "web/reader/creation/signature.tsx": 1,
   "web/reader/map-menu.tsx": 2,
-  "web/reader/stage/at-hand.tsx": 2,
   "web/reader/stage/attention.tsx": 1,
-  "web/reader/stage/lens-rows.ts": 1,
-  "web/reader/stage/place-stage.tsx": 3,
   "web/reader/stage/talk-stage.tsx": 3,
   "web/reader/stage/wayfinder.tsx": 7
  }

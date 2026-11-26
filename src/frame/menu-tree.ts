@@ -2,9 +2,9 @@ import type { Choice, Section } from '../ui/choice-list';
 import { SceneModel, type Scene } from '../ui/scene';
 import { Attending } from '../ui/attention';
 import type { Frame } from '../creation/protocol';
-import type { Promoted } from '../presentation/glance-types';
-import { Fold, type Leaf } from '../presentation/fold';
-import { Attest } from '../presentation/attest';
+import type { Lens, Promoted } from '../presentation/glance-types';
+import { Fold, type Chosen, type Leaf } from '../presentation/fold';
+import { Attest, type Projected } from '../presentation/attest';
 import { MenuModel, type Menu, type Sheets } from './menu-model';
 
 // The resting scene's menu, as the frame holds it (OR-1071; the owner, 26 November: "we definitely need to move
@@ -22,8 +22,14 @@ export interface MenuNode {
 }
 // place: what the place leads with, each act by its leaves (PlaceMark, the rail's mark over the scene); local: the
 // same, less the journeys across the country (the map's way back to the scene); map: the aim's next step where it is a
-// journey across the country, the map's gold; led: each act led with (the glance's, a lens's, the offer's), by id.
-export interface MenuMarks { place: Leaf[]; local: Leaf[]; map: Leaf[]; led: Record<string, Leaf[]> }
+// journey across the country, the map's gold; led: each act led with (the glance's, a lens's, the offer's), by id;
+// rows: each row of the scene as its own drawer marks it (Look… and a thing's pane: the aim's gold only on the act that
+// carries it on); within: each as a row inside an opener marks it (by its own witnesses, an opener by its rows);
+// lensed: each lens's rows, by id (the lens, the rail's mark over it, a tile, a row gathered by focus).
+export interface MenuMarks {
+  place: Leaf[]; local: Leaf[]; map: Leaf[]; led: Record<string, Leaf[]>; rows: Record<string, Leaf[]>;
+  within: Record<string, Leaf[]>; lensed: Partial<Record<Lens, Record<string, Leaf[]>>>;
+}
 
 export class MenuTree {
   // The frame with its menu: worked out where the frame leaves the engine (EngineHost), once all of it is settled.
@@ -82,6 +88,36 @@ export class MenuTree {
       ...g?.offer?.primary ?? [], ...g?.offer?.rest ?? []].map(a => a.choice));
     return { place: Fold.led(g, chosen), local: Fold.led(g, chosen, true),
       map: next ? [Fold.step(next.choice, [Attest.witness(g, next.choice)])] : [],
-      led: Object.fromEntries([...ids].map(id => [id, Fold.of(g, chosen(id), id, true)])) };
+      led: Object.fromEntries([...ids].map(id => [id, Fold.of(g, chosen(id), id, true)])),
+      ...this.rows(g, menu, chosen), lensed: this.lensed(g, chosen) };
+  }
+  private static rows(g: Projected | undefined, menu: Menu, chosen: Chosen): Pick<MenuMarks, 'rows' | 'within'> {
+    const scene = menu.scene, rows: Record<string, Leaf[]> = {}, within: Record<string, Leaf[]> = {};
+    if (!scene) { return { rows, within }; }
+    const all = Attending.all([...[...scene.subjects, ...scene.still ?? []].flatMap(s => s.choices), ...scene.near,
+      ...scene.far, ...scene.you, ...menu.around ?? []]);
+    const next = new Set((g?.acts ?? []).filter(a => a.continues).flatMap(a => chosen(a.choice)?.id ?? []));
+    for (const c of all) {
+      rows[c.id] ??= Fold.of(g, c, c.id, next.has(c.id));
+      within[c.id] ??= c.children?.length && !c.command ? Fold.of(g, c, c.id, true)
+        : [Fold.leaf(c, Attest.within(g, c))];
+    }
+    return { rows, within };
+  }
+  private static lensed(g: Projected | undefined, chosen: Chosen): MenuMarks['lensed'] {
+    return Object.fromEntries(Object.entries(g?.lenses ?? {}).map(([lens, l]) => {
+      const inside = Object.values(l.leaves ?? {}).flat();
+      const ids = new Set([...l.promoted, ...l.rest, ...inside].map(a => a.choice));
+      const led = [...g?.acts ?? [], ...l.promoted];
+      return [lens, Object.fromEntries([...ids].map(id => [id, this.lens(g, { led, id,
+        command: inside.find(a => a.choice === id)?.command }, chosen)]))];
+    }));
+  }
+  // An act within an opener the menu does not hold unopened (a tablet's reading, gathered by focus) is known by the
+  // lens's own command for it, so that what the opener is led for is found on it (AT-07: the gathered tablets plain).
+  private static lens(g: Projected | undefined, { led, id, command }: { led: Promoted[]; id: string; command?: string },
+    chosen: Chosen): Leaf[] {
+    const on = led.some(a => a.choice === id && a.continues);
+    return Fold.of(g, chosen(id) ?? (command ? { id, label: '', tone: 'way', command } : undefined), id, on);
   }
 }

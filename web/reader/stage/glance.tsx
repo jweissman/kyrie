@@ -318,7 +318,7 @@ export class GlanceStage {
   // Its mark, the lens's one witness for the row (LensRows.borne), as the rail's mark reads it.
   static LensRow({ app, draw, act: a, lens }: { app: ReaderApp; draw: Draw; act: LensAct; lens: Lens }) {
     const c = GlanceStage.choice(app, a.choice);
-    const mark = ChoiceRow.mark(Fold.mark(LensRows.leaves(app, lens, a.choice, GlanceStage.choice), Guidance.shown(app)));
+    const mark = ChoiceRow.mark(Fold.mark(LensRows.leaves(app, lens, a.choice), Guidance.shown(app)));
     // What it risks said on it, as the four say theirs (a way with no coming back); and in the time lens what it spends,
     // the engine's note (a camp "until morning", a rest until the hour it ends), said before it is chosen, at one press
     // (OR-185: nothing held; the hold had been the only sign of its cost).

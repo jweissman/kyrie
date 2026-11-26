@@ -19,7 +19,7 @@ const ask: Choice = { id: 'wat#talk/0', label: 'Ask about the well', tone: 'pers
 const led = (note: string): Promoted => ({ choice: ask.id, label: ask.label, note, why: 'named', facets: ['here'], tier: 1,
   aspects: ['knowledge'], marks: [] });
 const render = (note: string) => {
-  const menu = { choices: [ask], scene: { subjects: [] } } as unknown as Menu;
+  const menu = { choices: [ask], scene: { subjects: [], near: [], far: [], you: [] } } as unknown as Menu;
   const bare = { leaf: { glance: { acts: [] } }, screen: { exits: [], party: [] } } as unknown as Frame;
   const frame = { ...bare, menu: { marks: MenuTree.marks(bare, menu) } };
   const app = { state: { keyed: false, cursor: 0, open: [], frame }, menu,

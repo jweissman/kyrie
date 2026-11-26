@@ -1,7 +1,9 @@
 import { expect } from 'bun:test';
 import type { Frame } from '../../src/creation/protocol';
 import { MenuModel, type Menu } from '../../src/frame/menu-model';
-import { MenuTree } from '../../src/frame/menu-tree';
+import { MenuTree, type MenuMarks } from '../../src/frame/menu-tree';
+import type { Choice } from '../../src/ui/choice-list';
+import type { Lens, Lensed } from '../../src/presentation/glance-types';
 import { SceneModel } from '../../src/ui/scene';
 import { Attending } from '../../src/ui/attention';
 import { Fold } from '../../src/presentation/fold';
@@ -36,6 +38,34 @@ export class MenuOracle {
     for (const a of [...g?.acts ?? [], ...g?.offer?.primary ?? []]) {
       if (!this.same(tree.marks.led[a.choice], Fold.of(g, chosen(a.choice), a.choice, true))) {
         out.push(`${at}: the mark of ${a.choice} differs`);
+      }
+    }
+    return [...out, ...this.rows(frame, tree.marks, menu), ...this.lensed(frame, tree.marks, menu)];
+  }
+  // Each row of the scene as Look… and a thing's pane had marked it (AtHand.leaves: the aim's gold only where it
+  // carries the aim on), and as a row inside an opener had (PlaceStage.Within).
+  private static rows(frame: Frame, marks: MenuMarks, menu: Menu): string[] {
+    const g = frame.leaf.glance, scene = menu.scene!, out: string[] = [];
+    const carries = (c: Choice) => !!g?.acts.some(a => a.continues && MenuModel.lead(menu, a.choice)?.id === c.id);
+    for (const c of Attending.all([...[...scene.subjects, ...scene.still ?? []].flatMap(s => s.choices), ...scene.near,
+      ...scene.far, ...scene.you])) {
+      if (!this.same(marks.rows[c.id], Fold.of(g, c, c.id, carries(c)))) { out.push(`the row ${c.id} differs`); }
+      const within = c.children?.length && !c.command ? Fold.of(g, c, c.id, true) : [Fold.leaf(c, Attest.within(g, c))];
+      if (!this.same(marks.within[c.id], within)) { out.push(`the row ${c.id} within differs`); }
+    }
+    return out;
+  }
+  // Each lens's row as LensRows had marked it.
+  private static lensed(frame: Frame, marks: MenuMarks, menu: Menu): string[] {
+    const g = frame.leaf.glance, out: string[] = [];
+    for (const [lens, l] of Object.entries(g?.lenses ?? {}) as [Lens, Lensed][]) {
+      const inside = Object.values(l.leaves ?? {}).flat();
+      for (const a of [...l.promoted, ...l.rest, ...inside]) {
+        const id = a.choice, on = [...g?.acts ?? [], ...l.promoted].some(x => x.choice === id && x.continues);
+        const command = inside.find(x => x.choice === id)?.command;
+        const was = Fold.of(g, MenuModel.lead(menu, id) ?? (command ? { id, label: '', command } as Choice : undefined),
+          id, on);
+        if (!this.same(marks.lensed[lens]?.[id], was)) { out.push(`the ${lens} lens's ${id} differs`); }
       }
     }
     return out;

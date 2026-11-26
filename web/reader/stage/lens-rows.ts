@@ -4,7 +4,7 @@ import type { Choice } from '../../../src/ui/choice-list';
 import type { Screen } from '../../../src/ui/screen-types';
 import type { QuarterRow } from '../../../src/ui/quarters';
 import { LensFocus, type Part } from './lens-focus';
-import { Fold, type Leaf } from '../../../src/presentation/fold';
+import type { Leaf } from '../../../src/presentation/fold';
 import { Selection } from './lens-selection';
 import { Doable } from '../../../src/presentation/doable';
 
@@ -64,11 +64,9 @@ export class LensRows {
   // lens's own command for it, so that what the opener is led for is found on it (AT-07: the gathered tablets plain).
   // A row that opens rows of its own (a talk, a thing's look) is marked by the fold of those rows, never by its own
   // reasons (Fold; AT-07 I1, I2): what it says is in it, is.
-  static leaves(app: ReaderApp, lens: Lens, id: string, choice: Named): Leaf[] {
-    const g = app.state.frame?.leaf.glance, lensed = g?.lenses?.[lens];
-    const on = [...g?.acts ?? [], ...lensed?.promoted ?? []].some(a => a.choice === id && a.continues);
-    const command = Object.values(lensed?.leaves ?? {}).flat().find(a => a.choice === id)?.command;
-    return Fold.of(g, choice(app, id) ?? (command ? { id, label: '', command } as Choice : undefined), id, on);
+  // The frame holds each (MenuTree's marks): the page reads them.
+  static leaves(app: ReaderApp, lens: Lens, id: string): Leaf[] {
+    return app.state.frame?.menu.marks.lensed[lens]?.[id] ?? [];
   }
   // The witnesses of a way or thing's rows in the lens (its choice, or the acts done to it): a tile over the painting
   // is marked by these where the lens is what opens, never by a derivation of its own.
@@ -76,7 +74,7 @@ export class LensRows {
     const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return []; }
     return LensRows.of(app, lens, lensed, choice).all.filter(a => a.choice === key || a.subject === key)
-      .flatMap(a => LensRows.leaves(app, lens, a.choice, choice));
+      .flatMap(a => LensRows.leaves(app, lens, a.choice));
   }
   // The witnesses of every mark the lens draws as it opens, focused on nothing: each row's, a row gathered by focus
   // marked by every act in it, on every page: a later page's are promised on the row that turns to it, which is marked
@@ -85,9 +83,9 @@ export class LensRows {
     const lensed = app.state.frame?.leaf.glance?.lenses?.[lens];
     if (!lensed) { return []; }
     const drawn = LensRows.of(app, lens, lensed, choice);
-    if (!LensRows.focused(app, drawn)) { return drawn.all.flatMap(a => LensRows.each(app, lens, choice, a)); }
+    if (!LensRows.focused(app, drawn)) { return drawn.all.flatMap(a => LensRows.leaves(app, lens, a.choice)); }
     return LensFocus.of(drawn.all, [], s => s, LensRows.part(app, lens)).rows.flatMap(r => LensFocus.unit(r)
-      ? r.acts.flatMap(x => LensRows.each(app, lens, choice, x)) : LensRows.each(app, lens, choice, r));
+      ? r.acts.flatMap(x => LensRows.leaves(app, lens, x.choice)) : LensRows.leaves(app, lens, r.choice));
   }
   // The quarter of the town a way of the places lens goes into, where it is not the one the company is in: such ways,
   // where they do not fit, are one row for the quarter, focused to its ways (AT-04's stopgap; the Wayfinder had set a
@@ -105,8 +103,5 @@ export class LensRows {
     const q = dest ? quarters.find(x => x.places.includes(dest)) : undefined;
     if (q) { return { key: `quarter:${q.id}`, name: q.here ? `About ${q.name}` : q.name }; }
     return !exit || exit.crosses || !exit.local ? { key: 'quarter:', name: 'Beyond the town' } : undefined;
-  }
-  private static each(app: ReaderApp, lens: Lens, choice: Named, a: { choice: string }): Leaf[] {
-    return LensRows.leaves(app, lens, a.choice, choice);
   }
 }

@@ -68,7 +68,7 @@ export class LensFocused {
   }
   // The witnesses a row of the lens bears: its own act's, or every act gathered in it.
   static leaves(app: ReaderApp, lens: Lens, r: ReturnType<typeof LensFocus.of>['rows'][number]): Leaf[] {
-    return (LensFocus.unit(r) ? r.acts : [r]).flatMap(x => LensRows.leaves(app, lens, x.choice, GlanceStage.choice));
+    return (LensFocus.unit(r) ? r.acts : [r]).flatMap(x => LensRows.leaves(app, lens, x.choice));
   }
   // The engine's focus on the opener that holds these acts, where one does (Choice.focus).
   static focus(app: ReaderApp, ids: string[]): string | undefined {
