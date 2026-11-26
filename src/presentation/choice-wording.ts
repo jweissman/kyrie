@@ -4,7 +4,7 @@ import { ObservationText } from '../lang/observation-text';
 import { Checks, type Odds } from '../rules/checks';
 import { Harm } from '../rules/harm';
 import type { Campaign } from '../campaign/campaign';
-import type { Call, Module, Predicate } from '../lang/module';
+import type { Call, Module, Predicate, Value } from '../lang/module';
 import { World } from '../lang/world';
 import { OutOf } from './out-of';
 import type { Operator } from '../campaign/planner';
@@ -34,8 +34,11 @@ export class ChoiceWording {
     const to = action.schema === 'risk' && world.module.entities.find(e => e.id === action.bindings?.destination);
     if (to) { name = name.replace(/^Risk (.+?); /, `Risk $1 on the way to ${ObservationText.known(world, to)}; `); }
     if (resolve?.name === 'purchase') { name += ` · ${world.number(ModuleWriter.call('price', resolve.args[0]!))} coin`; }
-    // An offering costs what its shrine asks.
-    if (resolve?.name === 'bless') { name += ` · ${world.number(ModuleWriter.call('offering', resolve.args[0]!))} coin`; }
+    // And what any other act takes from the purse, by what it does: an offering what its shrine asks, a bed, a
+    // healing, a lesson, a toll. "Take a bed and supper from Warryn" had taken three coin unsaid (OR-694, cold play
+    // 2). A hire says its own fee (its row's), and words that say the price already are not said twice.
+    const fee = action.schema === 'recruit' ? 0 : this.fee(world, action, campaign.playerActor);
+    if (fee > 0 && !name.includes(`${fee} coin`)) { name += ` · ${fee} coin`; }
     // A check says how it looks to the one who would make it: likely, an even chance, beyond you; and one that cannot
     // be tried again if it fails says so.
     if (resolve?.name === 'check') {
@@ -53,6 +56,13 @@ export class ChoiceWording {
     const theirs = resolve?.name === 'acquire' && Knowing.theirs(world, resolve.args[0]!, campaign.playerActor ?? 'party');
     if (theirs) { name += ` · ${theirs}'s, not yours`; }
     return name;
+  }
+  // What the act takes from the company's coin when it comes off (Decrease quantity(actor, gold) by …).
+  private static fee(world: World, action: Operator, player?: string): number {
+    const actor = action.bindings?.actor ?? player ?? 'party';
+    const values = action.success.flatMap(c => c.kind === 'decrease' && c.call.name === 'quantity'
+      && c.call.args[0] === actor && c.call.args[1] === 'gold' ? [c.value] : []);
+    return values.reduce((n, v: Value) => n + (v.kind === 'number' ? v.value : v.kind === 'call' ? world.number(v) : 0), 0);
   }
   // Whether the spell a preparation replaces is no longer ready in its slot (Spellcasting.prepare: ready at once only
   // in place of one still ready).
