@@ -302,12 +302,12 @@ export class ReaderOpening {
   // seed, and the country drawn ahead for it, never a second roll (OR-770).
   private foreseen?: { seed?: string; ready: Promise<string> };
   private foresee(asked?: string) {
-    const ahead = (seed: string) => this.app.engine.request({ kind: 'ahead', seed }).catch(() => undefined);
-    if (asked) { this.foreseen = { seed: asked, ready: Promise.resolve(asked) }; void ahead(asked); return; }
+    if (asked) { this.foreseen = { seed: asked, ready: Promise.resolve(asked) }; void this.ahead(asked); return; }
     const foreseen: NonNullable<ReaderOpening['foreseen']> = { ready: this.fresh() };
     this.foreseen = foreseen;
-    void foreseen.ready.then(seed => { foreseen.seed = seed; return ahead(seed); }).catch(() => undefined);
+    void foreseen.ready.then(seed => { foreseen.seed = seed; return this.ahead(seed); }).catch(() => undefined);
   }
+  private ahead(seed: string) { return this.app.engine.request({ kind: 'ahead', seed }).catch(() => undefined); }
   // A new life's seed, the engine's (FreshSeeds): a world whose first town is the reference game's.
   private fresh(): Promise<string> { return this.app.engine.request<string>({ kind: 'seed' }); }
   // How the new game begins, as chosen (see FirstChoice): a life built step by step in the country drawn for it, or

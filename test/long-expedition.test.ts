@@ -12,8 +12,9 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // where the unbroken game ends. (Half the star-iron lies in the mine since OR-323, 24 November: three lumps carried up
 // and sold, where there had been six.) (Thoradin had fallen to the goblins and been raised at the shrine on the way
 // home; on
-// the fights of 4fbff0a, foes choosing by kind and techniques resting, he comes through that fight standing.) (Since OR-423, 25 November, a town's rumours are told only once what the
-// matter is has been asked: the record asks Fargrim and Ulfgar first.)
+// the fights of 4fbff0a, foes choosing by kind and techniques resting, he comes through that fight standing.)
+// (Since OR-423, 25 November, a town's rumours are told only once what the matter is has been asked: the record asks
+// Fargrim and Ulfgar first.)
 class Expedition {
   static readonly steps = [
     'bailey', 'Wooden.Wolf', '^Ask Fargrim what the matter is', 'old.workings', 'Ask.Thoradin.whether',
