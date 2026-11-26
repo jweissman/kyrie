@@ -55,10 +55,10 @@ export class SrdPages {
     return rows.find(r => r[0]?.text.startsWith(label))?.slice(1).map(c => c.text) ?? [];
   }
   static monster(file: string, name: string, type: string, at: (label: string) => string): Monster {
-    const hd = at('Hit Dice:'), ac = at('Armor Class:');
+    const hd = at('Hit Dice:'), ac = at('Armor Class:') || at('AC:');
     const qualities = this.list(at('Special Qualities:')), defences = this.defences(qualities.join(', '));
     return { name, page: file, type, hitDice: (hd.match(/^([^(]+)\(/)?.[1] ?? hd).replace(/\s+/g, ''),
-      hp: Number(hd.match(/\((\d+) hp\)/)?.[1] ?? 0), ac: Number(ac.match(/^(\d+)/)?.[1] ?? 0),
+      hp: Number(hd.match(/\((\d+) hp\)/)?.[1] ?? 0), ac: Number(ac.match(/^(?:AC\s+)?(\d+)/i)?.[1] ?? 0),
       natural: Number(ac.match(/\+(\d+) natural/)?.[1] ?? 0), attacks: this.attacks(at('Full Attack:')),
       specialAttacks: this.list(at('Special Attacks:')), specialQualities: qualities, saves: this.saves(at('Saves:')),
       scores: this.scores(at('Abilities:')), cr: at('Challenge Rating:'), ...defences };
