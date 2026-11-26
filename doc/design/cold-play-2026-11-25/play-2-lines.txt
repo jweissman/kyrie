@@ -1,0 +1,164 @@
+{"answer":"3"}
+{"answer":"2"}
+{"answer":"6"}
+{"answer":"1"}
+{"answer":"1"}
+{"answer":"5"}
+{"answer":"Brokk"}
+{"act":"exit:region__s2_green"}
+{"act":"exit:region__s2_adit"}
+{"act":"region__s2_r3#talk"}
+{"act":"region__s2_r3#talk"}
+{"act":"exit:region__s2_green"}
+{"act":"exit:region__s2_u_pit"}
+{"act":"exit:region__s2_u_adit/0:Wrench the adit gate's padlock off its staple"}
+{"act":"exit:region__s2_u_adit"}
+{"act":"light:region__party_1__torch"}
+{"act":"exit:region__s2_u_gallery"}
+{"act":"region__s2_u_dogs/0:Attack"}
+{"act":"fight:cleave:region__s2_u_dogs_person"}
+{"act":"fight:melee:region__s2_u_dogs_person"}
+{"act":"fight:through"}
+{"act":"exit:region__s2_u_brood"}
+{"act":"region__s2_u_bear/0:Attack"}
+{"act":"fight:cleave:region__s2_u_bear_person"}
+{"act":"fight:defend:region__party_1"}
+{"act":"fight:sweep:region__s2_u_bear_person"}
+{"act":"fight:cleave:region__s2_u_bear_person"}
+{"act":"company/0:Search here"}
+{"act":"travel:region__s2_u_pit"}
+{"follow":"region__s2_u_bear_job_owed"}
+{"act":"travel:region__s2_taproom"}
+{"act":"region__s2_innkeeper#talk"}
+{"act":"region__s2_traveller#talk"}
+{"act":"region__s2_traveller#talk"}
+{"look":true}
+{"more":true}
+{"act":"region__s2_innkeeper#talk"}
+{"act":"region__s2_innkeeper/0:Take a bed and supper — 3 coin"}
+{"act":"buy_item(region__s2_innkeeper_torch_1,region__member_party_1)"}
+{"act":"travel:region__s2_u_pit"}
+{"act":"exit:region__s2_u_adit"}
+{"act":"exit:region__s2_u_gallery"}
+{"act":"light:region__s2_innkeeper_torch_1"}
+{"act":"exit:region__s2_u_face"}
+{"act":"region__s2_u_face_lead/0:Attack"}
+{"act":"fight:through"}
+{"act":"exit:region__s2_u_undercroft"}
+{"act":"company/0:Press the three deep-cut letters on the flag, as the ring below has them"}
+{"act":"light:region__party_1__candle"}
+{"act":"exit:region__s2_u_vault"}
+{"act":"region__s2_u_keeper/0:Attack"}
+{"act":"fight:cleave:region__s2_u_keeper_person"}
+{"act":"fight:hunters_mark:region__s2_u_keeper_person"}
+{"act":"fight:ranged:region__s2_u_keeper_person"}
+{"act":"fight:ranged:region__s2_u_keeper_person"}
+{"act":"region__s2_u_vault_rings#look"}
+{"act":"region__s2_u_vault_stone#look"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s2_ud"}
+{"act":"region__s2_ud_waiting#talk"}
+{"act":"region__s2_ud_waiting#talk"}
+{"act":"travel:region__s2_u_pit"}
+{"act":"exit:region__s2_u_pit"}
+{"act":"exit:region__s2_green"}
+{"act":"exit:region__s2_taproom"}
+{"act":"region__s2_innkeeper#talk"}
+{"act":"travel:region__s2_chandlery"}
+{"act":"region__s2_chandler#talk"}
+{"lens":"things"}
+{"more":true}
+{"act":"buy_item(region__s2_chandler_torch_1,region__member_party_1)"}
+{"act":"travel:region__s2_shop"}
+{"act":"region__s2_merchant#talk"}
+{"act":"sell(region__s2_u_vault_rings,region__s2_merchant)"}
+{"act":"region__s2_merchant_lantern_1/0:Buy from Ulara — 7 coin"}
+{"act":"buy_item(region__s2_merchant_lamp_oil_1,region__member_party_1)"}
+{"act":"buy_item(region__s2_merchant_lamp_oil_1,region__member_party_1)"}
+{"look":true}
+{"more":true}
+{"act":"travel:region__s2_u_pit"}
+{"act":"exit:region__s2_u_adit"}
+{"more":true}
+{"act":"exit:region__s2_u_gallery"}
+{"act":"exit:region__s2_u_face"}
+{"act":"exit:region__s2_u_undercroft"}
+{"act":"exit:region__s2_u_vault"}
+{"act":"exit:region__s2_ud"}
+{"act":"exit:region__s2_ud_adit_mouth"}
+{"act":"company/0:Fill a lantern from a flask of lamp oil and light it"}
+{"act":"region__s2_ud_adit_mouth_find0#look"}
+{"act":"exit:region__s2_ud_adit_adit"}
+{"act":"region__s2_ud_adit_adit_dwellers/0:Attack"}
+{"act":"fight:through"}
+{"act":"region__s2_ud_adit_adit_coins/0:Gather up the coins"}
+{"act":"exit:region__s2_ud_adit_forge"}
+{"act":"region__s2_ud_adit_forge_dwellers/0:Attack"}
+{"act":"fight:through"}
+{"act":"region__s2_ud_adit_forge_coins/0:Gather up the coins"}
+{"act":"region__s2_ud_adit_forge_dwellers_person__shortsword#look"}
+{"act":"region__s2_ud_adit_forge_dwellers_person__candle#look"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s2_ud_adit_adit"}
+{"act":"exit:region__s2_ud_adit_crossing/0:Risk the glowing rune — Brokk Strakeln goes first"}
+{"act":"mend:region__party_1"}
+{"act":"region__s2_ud_adit_crossing_find0#look"}
+{"more":true}
+{"act":"region__s2_ud_adit_crossing_casket/0:Press the word “Watch” on the casket"}
+{"more":true}
+{"act":"travel:region__s2_u_pit"}
+{"act":"exit:region__s2_green"}
+{"act":"travel:region__s2_shrine"}
+{"act":"region__s2_priest#talk"}
+{"act":"advance:region__party_1/0:Advance/0:Raise a quality/0:Strength"}
+{"act":"company/0:Lay Ellyjobell to rest"}
+{"act":"region__s2_ud_wall"}
+{"act":"travel:region__s2_shop"}
+{"more":true}
+{"act":"region__s2_merchant#talk"}
+{"act":"sell_ware(region__s2_ud_adit_forge_dwellers_person__shortsword,region__s2_merchant)"}
+{"act":"buy_item(region__s2_merchant_lamp_oil_2,region__member_party_1)"}
+{"act":"buy_item(region__s2_merchant_pole_1,region__member_party_1)"}
+{"act":"travel:region__s2_u_pit"}
+{"act":"exit:region__s2_u_adit"}
+{"act":"exit:region__s2_u_gallery"}
+{"act":"exit:region__s2_u_face"}
+{"act":"exit:region__s2_u_undercroft"}
+{"act":"exit:region__s2_u_vault"}
+{"act":"exit:region__s2_ud"}
+{"act":"exit:region__s2_ud_adit_mouth"}
+{"act":"exit:region__s2_ud_adit_adit"}
+{"act":"exit:region__s2_ud_adit_crossing/0:Go"}
+{"act":"exit:region__s2_ud_adit_winze_head/0:Drag the barricade apart"}
+{"act":"exit:region__s2_ud_adit_winze_head/0:Go"}
+{"act":"region__s2_ud_adit_winze_head_dwellers/0:Attack"}
+{"act":"fight:hunters_mark:region__s2_ud_adit_winze_head_dwellers_person"}
+{"act":"fight:cleave:region__s2_ud_adit_winze_head_dwellers_person"}
+{"act":"fight:through"}
+{"act":"region__s2_ud_adit_winze_head_coins/0:Gather up the coins"}
+{"act":"region__s2_ud_adit_winze_head_dwellers_person__scale#look"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s2_ud_haulage_winze_foot"}
+{"act":"region__s2_ud_haulage_winze_foot_find0#look"}
+{"act":"region__s2_ud_haulage_winze_foot_gem0#look"}
+{"act":"region__s2_ud_haulage_winze_foot_coins/0:Gather up the coins"}
+{"look":true}
+{"act":"exit:region__s2_ud_haulage_haulage"}
+{"act":"region__s2_ud_haulage_haulage_ore0#look"}
+{"act":"exit:region__s2_ud_haulage_hall/0:Look at the humming thing/0:Prod it with the pole"}
+{"act":"exit:region__s2_ud_haulage_hall/0:Look at the humming thing"}
+{"act":"exit:region__s2_ud_haulage_hall/0:Knock it over with the pole, from well back"}
+{"act":"exit:region__s2_ud_haulage_hall"}
+{"act":"region__s2_ud_haulage_hall_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:cleave:region__s2_ud_haulage_hall_dwellers_person"}
+{"act":"fight:through"}
+{"act":"region__s2_ud_haulage_hall_coins/0:Gather up the coins"}
+{"act":"company/0:Rest six hours"}
+{"look":true}
+{"act":"raise_quality(region__member_s2_traveller_person,dexterity)"}
+{"act":"exit:region__s2_ud_haulage_stores"}
+{"act":"fight:through"}
+{"act":"light:region__s2_traveller_person__candle"}
+{"act":"company/0:Rest six hours"}
+{"more":true}

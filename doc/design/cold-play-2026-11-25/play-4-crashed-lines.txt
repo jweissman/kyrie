@@ -1,0 +1,9 @@
+{"answer":"1"}
+{"answer":"1"}
+{"answer":"11"}
+{"answer":"1"}
+{"answer":"2"}
+{"answer":"1"}
+{"answer":"Maren"}
+{"act":"region__s1_priest#talk"}
+{"act":"region__s1_priest#talk"}

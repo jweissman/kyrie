@@ -1,0 +1,260 @@
+{"answer":"3"}
+{"answer":"1"}
+{"answer":"2"}
+{"answer":"2"}
+{"answer":"1"}
+{"answer":"1"}
+{"answer":"4"}
+{"answer":"2"}
+{"answer":"14"}
+{"answer":"21"}
+{"answer":"8"}
+{"answer":"4"}
+{"answer":"Hild"}
+{"act":"origin__carter/0:Help him, for a share of the load"}
+{"lens":"things"}
+{"lens":"things"}
+{"look":true}
+{"act":"company/0:Hild Loderr: make Minor Potion of Healing of healing herbs and healing herbs · likely"}
+{"act":"exit:region__s3_green"}
+{"act":"region__s3_merchant/0:Read the notice on the well-post"}
+{"act":"drover__son#talk"}
+{"act":"drover__son#talk"}
+{"act":"buy_item(region__s3_merchant_bandages_1,region__member_party_1)"}
+{"act":"buy_item(region__s3_merchant_herbs_1,region__member_party_1)"}
+{"act":"buy_item(region__s3_r1_candle_1,region__member_party_1)"}
+{"act":"region__s3_merchant_yarrow_poultice_1/0:Buy from Thamior — 2 coin"}
+{"act":"region__s3_u_hand#talk"}
+{"act":"region__s3_u_hand#talk"}
+{"act":"exit:region__s3_shrine"}
+{"act":"region__s3_priest#talk"}
+{"act":"region__s3_priest#talk"}
+{"act":"howe__priest_kin"}
+{"follow":"region__s3_u_dead_job_aim"}
+{"act":"travel:region__s3_u_yard"}
+{"act":"prepare:region__party_1/0:Prepare spells/0:In place of Bless (first-level slot)/0:Pure Beam"}
+{"act":"company/0:Hild Loderr: make Minor Potion of Healing of healing herbs and healing herbs · likely"}
+{"act":"exit:region__s3_u_crypt/0:Look at the lock of the stone door/0:Listen at it"}
+{"act":"exit:region__s3_u_crypt/0:Go"}
+{"act":"light:drover__son_person__torch"}
+{"act":"fight:melee:region__s3_u_crypt_bats_person"}
+{"act":"fight:melee:region__s3_u_crypt_bats_person_2"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s3_u_ossuary"}
+{"act":"region__s3_u_raiser/0:Talk/0:Ask the man with the black candle who he is"}
+{"act":"region__s3_u_candle/0:Say the rite of rest over the bone-heaps, against the black candle · likely"}
+{"act":"region__s3_u_raiser_book#look"}
+{"act":"exit:region__s3_u_charnel"}
+{"act":"light:region__s3_r1_candle_1"}
+{"act":"read_item(region__s3_u_raiser_book)"}
+{"act":"company/0:Search here"}
+{"look":true}
+{"act":"region__s3_u_charnel_plate#look"}
+{"act":"region__s3_u_charnel_torc#look"}
+{"act":"region__s3_u_charnel_bracelet#look"}
+{"act":"exit:region__s3_u_undercroft"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s3_u_drain"}
+{"act":"region__s3_u_crawler/0:Attack"}
+{"act":"fight:melee:region__s3_u_crawler_person"}
+{"act":"fight:melee:region__s3_u_crawler_person"}
+{"act":"fight:cleanse:region__party_1"}
+{"act":"fight:taunt:region__s3_u_crawler_person"}
+{"act":"fight:cure_minor:region__party_1"}
+{"act":"fight:pure_beam:region__s3_u_crawler_person"}
+{"act":"fight:melee:region__s3_u_crawler_person"}
+{"act":"mend:region__party_1"}
+{"act":"mend:field_spell(region__member_s3_u_hand_person,cure_minor,region__member_party_1)"}
+{"act":"mend:region__party_1"}
+{"act":"mend:use_item(region__s3_merchant_bandages_1,region__member_party_1)"}
+{"act":"travel:region__s3_u_yard"}
+{"act":"travel:region__s3_shrine"}
+{"act":"region__s3_priest#talk"}
+{"act":"travel:region__s3_taproom"}
+{"act":"drover__wife#talk"}
+{"act":"region__s3_traveller#talk"}
+{"act":"region__s3_innkeeper#talk"}
+{"act":"region__s3_traveller#talk"}
+{"act":"region__s3_u_hobb#talk"}
+{"act":"buy_item(region__s3_innkeeper_torch_1,region__member_party_1)"}
+{"act":"buy_item(region__s3_innkeeper_torch_1,region__member_party_1)"}
+{"more":true}
+{"look":true}
+{"look":true}
+{"act":"region__s3_room_rent"}
+{"act":"region__s3_u_crypt_token_asked"}
+{"act":"region__s3_u_drain_asked"}
+{"act":"exit:region__s3_room"}
+{"look":true}
+{"look":true}
+{"act":"company/0:Sleep in your own room (the loft over the alehouse)"}
+{"act":"travel:region__s3_chandlery"}
+{"act":"region__s3_chandler#talk"}
+{"act":"region__s3_chandler_oil_firebomb_1/0:Buy from Soveliss — 2 coin"}
+{"act":"region__s3_chandler/0:Buy/0:A torch — 1 coin"}
+{"act":"region__s3_chandler/0:Buy/0:A torch — 1 coin"}
+{"act":"take_leave(region__s3_chandler)"}
+{"act":"region__s3_chandler_oil_firebomb_1/0:Haggle with Soveliss for an oil firebomb · an even chance · one try"}
+{"act":"buy_item(region__s3_chandler_oil_firebomb_1,region__member_party_1)"}
+{"look":true}
+{"act":"region__s3_chandler_oil_firebomb_2/0:Buy from Soveliss — 2 coin"}
+{"act":"travel:region__s3_u_pit"}
+{"act":"company/0:Work along the faces of the pit, ledge by ledge"}
+{"act":"exit:region__s3_u_adit/0:Look at the padlock on the adit gate/0:Listen at it"}
+{"act":"exit:region__s3_u_adit/0:Go"}
+{"act":"exit:region__s3_u_gallery/0:Shore up the cracked roof with the quarrymen's old timbers"}
+{"act":"exit:region__s3_u_gallery"}
+{"act":"region__s3_u_spiders/0:Attack"}
+{"act":"fight:ranged:region__s3_u_spiders_person"}
+{"act":"fight:melee:region__s3_u_spiders_person"}
+{"act":"fight:melee:region__s3_u_spiders_person"}
+{"act":"fight:through"}
+{"act":"light:region__s3_innkeeper_torch_1"}
+{"act":"company/0:Throw an oil firebomb through the crack into the brood-chamber"}
+{"act":"exit:region__s3_u_brood"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s3_u_gallery"}
+{"act":"exit:region__s3_u_face"}
+{"act":"exit:region__s3_u_undercroft"}
+{"act":"company/0:Press the three deep-cut letters on the flag, as the ring below has them"}
+{"act":"travel:region__s3_u_yard"}
+{"act":"region__s3_u_charnel_rats/0:Attack"}
+{"act":"fight:melee:region__s3_u_charnel_rats_person"}
+{"act":"fight:melee:region__s3_u_charnel_lead_person"}
+{"act":"travel:region__s3_u_yard"}
+{"act":"travel:region__s3_taproom"}
+{"act":"region__s3_innkeeper#talk"}
+{"act":"buy_item(region__s3_innkeeper_torch_2,region__member_party_1)"}
+{"act":"travel:region__s3_chandlery"}
+{"act":"region__s3_chandler_lantern_1/0:Haggle with Soveliss for a lantern · an even chance · one try"}
+{"act":"buy_item(region__s3_chandler_lantern_1,region__member_s3_u_hand_person)"}
+{"act":"buy_item(region__s3_chandler_lamp_oil_1,region__member_s3_u_hand_person)"}
+{"act":"region__s3_chandler_oil_firebomb_3/0:Buy from Soveliss — 2 coin"}
+{"look":true}
+{"act":"buy_item(region__s3_chandler_lamp_oil_1,region__member_s3_traveller_person)"}
+{"look":true}
+{"act":"buy_item(region__s3_chandler_lamp_oil_2,region__member_s3_traveller_person)"}
+{"act":"travel:region__s3_room"}
+{"act":"company/0:Sleep in your own room (the loft over the alehouse)"}
+{"look":true}
+{"act":"travel:region__s3_u_undercroft"}
+{"follow":"region__s3_u_vault_sought"}
+{"act":"travel:region__s3_green"}
+{"look":true}
+{"act":"exit:region__s3_u_yard"}
+{"act":"exit:region__s3_u_crypt/0:Go"}
+{"look":true}
+{"act":"light:region__party_1__candle"}
+{"look":true}
+{"look":true}
+{"act":"exit:region__s3_u_ossuary"}
+{"look":true}
+{"act":"exit:region__s3_u_charnel"}
+{"look":true}
+{"act":"exit:region__s3_u_undercroft"}
+{"act":"exit:region__s3_u_vault"}
+{"act":"region__s3_u_keeper/0:Lay ten coin at the keeper's feet and say the rite of the door"}
+{"act":"region__s3_u_vault_rings#look"}
+{"act":"region__s3_u_vault_stone#look"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s3_ud"}
+{"act":"region__s3_ud_waiting#talk"}
+{"act":"company/0:Search here"}
+{"look":true}
+{"act":"region__s3_ud_left_lantern#look"}
+{"act":"region__s3_ud_left_food#look"}
+{"look":true}
+{"act":"exit:region__s3_ud_barrow_mouth"}
+{"act":"exit:region__s3_ud_barrow_robbers"}
+{"act":"region__s3_ud_barrow_robbers_coins/0:Look closely"}
+{"act":"region__s3_ud_barrow_robbers_coins/0:Gather up the coins"}
+{"act":"region__s3_ud_barrow_robbers_find1#look"}
+{"look":true}
+{"act":"region__s3_ud_barrow_robbers_coins#look"}
+{"act":"exit:region__s3_ud_barrow_mouth"}
+{"act":"exit:region__s3_ud_barrow_passage/0:Look at the enchanted object/0:Look closely"}
+{"act":"exit:region__s3_ud_barrow_passage/0:Knock it over with the pole, from well back"}
+{"act":"exit:region__s3_ud_barrow_passage"}
+{"act":"region__s3_ud_barrow_passage_notebook/0:Unstrap the notebook and read it"}
+{"act":"region__s3_ud_barrow_passage_coins/0:Gather up the coins"}
+{"act":"region__s3_ud_barrow_passage_casket#look"}
+{"act":"region__s3_ud_barrow_passage_casket/0:Listen at it"}
+{"look":true}
+{"act":"region__s3_ud_barrow_passage_casket/0:Press the word “Echo” on the casket"}
+{"look":true}
+{"act":"light:region__s3_innkeeper_torch_2"}
+{"look":true}
+{"act":"region__s3_ud_barrow_passage_casket_gift#look"}
+{"act":"region__s3_ud_barrow_passage_torch#look"}
+{"act":"region__s3_ud_barrow_passage_left0#look"}
+{"look":true}
+{"act":"exit:region__s3_ud_barrow_chamber/0:Hook the wire with the pole and pull, from well back"}
+{"act":"exit:region__s3_ud_barrow_chamber/0:Go"}
+{"act":"region__s3_ud_barrow_chamber_find0#look"}
+{"act":"region__s3_ud_barrow_chamber_find1#look"}
+{"act":"exit:region__s3_ud_barrow_back_stone"}
+{"act":"region__s3_ud_barrow_back_stone_coins/0:Gather up the coins"}
+{"act":"region__s3_ud_barrow_back_stone__s3_ud_halls_stair_foot_wheel#look"}
+{"act":"fight:melee:region__s3_ud_barrow_back_stone_device_person"}
+{"act":"fight:melee:region__s3_ud_barrow_back_stone_device_person"}
+{"act":"exit:region__s3_ud_halls_stair_foot"}
+{"look":true}
+{"act":"exit:region__s3_ud_halls_stair_foot/0:Go by the stair behind the portal stone"}
+{"act":"exit:region__s3_ud_halls_bone_hall"}
+{"act":"region__s3_ud_halls_bone_hall_coins/0:Gather up the coins"}
+{"act":"exit:region__s3_ud_halls_mourners"}
+{"act":"region__s3_ud_halls_mourners_find0#look"}
+{"act":"region__s3_ud_halls_mourners_after0_doc#look"}
+{"act":"exit:region__s3_ud_halls_bone_hall"}
+{"act":"travel:region__s3_u_yard"}
+{"act":"travel:region__s3_room"}
+{"act":"company/0:Sleep in your own room (the loft over the alehouse)"}
+{"act":"prepare:region__party_1/0:Prepare spells/0:In place of Cure Light Wounds (first-level slot)/0:Bless"}
+{"act":"region__s3_ud_rumour"}
+{"act":"travel:region__s3_u_yard"}
+{"act":"exit:region__s3_u_crypt/0:Go"}
+{"look":true}
+{"act":"exit:region__s3_u_ossuary"}
+{"act":"exit:region__s3_u_charnel"}
+{"act":"exit:region__s3_u_undercroft"}
+{"act":"exit:region__s3_u_vault"}
+{"act":"exit:region__s3_ud"}
+{"look":true}
+{"act":"light:region__s3_chandler_torch_1"}
+{"act":"region__s3_ud_waiting#talk"}
+{"act":"exit:region__s3_ud_barrow_mouth"}
+{"act":"exit:region__s3_ud_barrow_passage"}
+{"act":"exit:region__s3_ud_barrow_chamber"}
+{"act":"exit:region__s3_ud_barrow_back_stone"}
+{"act":"exit:region__s3_ud_halls_stair_foot/0:Go by the stair behind the portal stone"}
+{"act":"exit:region__s3_ud_halls_bone_hall"}
+{"look":true}
+{"act":"exit:region__s3_ud_barrow_chamber/0:Go"}
+{"act":"exit:region__s3_ud_barrow_back_stone"}
+{"act":"exit:region__s3_ud_halls_stair_foot/0:Go by the stair behind the portal stone"}
+{"act":"exit:region__s3_ud_halls_bone_hall"}
+{"act":"exit:region__s3_ud_halls_mourners"}
+{"act":"region__s3_ud_halls_mourners_dwellers/0:Attack"}
+{"act":"fight:melee:region__s3_ud_halls_mourners_dwellers_person"}
+{"act":"fight:ranged:region__s3_ud_halls_mourners_dwellers_person"}
+{"more":true}
+{"look":true}
+{"look":true}
+{"act":"fight:auto"}
+{"act":"fight:melee:region__s3_ud_halls_mourners_dwellers_person"}
+{"act":"fight:pure_beam:region__s3_ud_halls_mourners_dwellers_person"}
+{"act":"fight:taunt:region__s3_ud_halls_mourners_dwellers_person_2"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:through"}
+{"act":"region__s3_ud_halls_mourners_wonder_arcane_symbols#look"}
+{"act":"region__s3_ud_halls_mourners_after0_find#look"}
+{"look":true}
+{"act":"region__s3_ud_halls_mourners_coins/0:Gather up the coins"}
+{"act":"travel:region__s3_u_yard"}

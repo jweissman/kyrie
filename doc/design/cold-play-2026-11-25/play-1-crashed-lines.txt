@@ -1,0 +1,12 @@
+{"answer":"more"}
+{"answer":"2"}
+{"answer":"1"}
+{"answer":"4"}
+{"answer":"more"}
+{"answer":"4"}
+{"answer":"8"}
+{"answer":"7"}
+{"answer":"Isilwen"}
+{"look":true}
+{"act":"region__s1_priest#talk"}
+{"look":true}

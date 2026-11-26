@@ -1,0 +1,266 @@
+{"answer":"3"}
+{"answer":"1"}
+{"answer":"4"}
+{"answer":"1"}
+{"answer":"4"}
+{"answer":"4"}
+{"answer":"Brenna"}
+{"act":"origin__pedlar/0:Stand up to the robbers · an even chance · one try"}
+{"act":"exit:region__s1_green"}
+{"act":"pricePatron__elders#talk"}
+{"act":"region__w9_head#talk"}
+{"act":"region__w9_head#talk"}
+{"act":"exit:region__s1_shop"}
+{"lens":"things"}
+{"act":"region__s1_merchant_leather_1/0:Buy from Dayereth — 12 coin"}
+{"act":"sell_ware(region__s1_merchant_leather_1,region__s1_merchant)"}
+{"act":"buy_item(region__s1_merchant_bandages_1,region__member_party_1)"}
+{"act":"buy_goods(rations,region__s1_merchant)"}
+{"act":"region__s1_merchant#talk"}
+{"act":"region__s1_merchant/0:Talk/0:Ask Dayereth what the matter is in Pardatîr"}
+{"act":"region__s1_merchant#talk"}
+{"act":"travel:region__s1_taproom"}
+{"act":"region__s1_traveller#talk"}
+{"act":"region__s1_traveller#talk"}
+{"act":"region__s1_innkeeper#talk"}
+{"act":"region__s1_innkeeper#talk"}
+{"act":"region__s1_innkeeper_matter"}
+{"look":true}
+{"act":"region__s1_ud_rumour"}
+{"act":"origin__pedlar#talk"}
+{"act":"origin__pedlar#talk"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_shrine"}
+{"act":"region__s1_altar/0:Leave an offering, and ask the god's favour for Brenna · 2 coin"}
+{"act":"travel:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"exit:region__s1_wood_burners"}
+{"act":"company/0:Search here"}
+{"act":"region__s1_wood_lamp#look"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s1_ud"}
+{"act":"light:region__party_1__torch"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"region__s1_ud_waiting#talk"}
+{"act":"company/0:Search here"}
+{"act":"region__s1_ud_left_lantern#look"}
+{"act":"region__s1_ud_left_food#look"}
+{"act":"region__s1_ud_left_rope#look"}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"act":"region__s1_ud_adit_mouth_find0#look"}
+{"act":"region__s1_ud_adit_mouth_gem0#look"}
+{"act":"exit:region__s1_ud_adit_adit"}
+{"act":"region__s1_ud_adit_adit_coins#look"}
+{"act":"region__s1_ud_adit_adit_after0_doc#look"}
+{"act":"exit:region__s1_ud_adit_forge/0:Look at the humming thing/0:Look closely"}
+{"act":"region__s1_ud_adit_adit_coins/0:Gather up the coins"}
+{"act":"exit:region__s1_ud_adit_forge/0:Knock it over with the pole, from well back"}
+{"act":"exit:region__s1_ud_adit_forge"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s1_ud_adit_adit"}
+{"act":"exit:region__s1_ud_adit_crossing"}
+{"act":"region__s1_ud_adit_crossing_coins/0:Gather up the coins"}
+{"act":"exit:region__s1_ud_adit_winze_head/0:Look at the warlords' barricade/0:Listen at it"}
+{"more":true}
+{"act":"fight:melee:region__s1_ud_adit_crossing_device_person"}
+{"act":"fight:cleave:region__s1_ud_adit_crossing_device_person"}
+{"act":"region__s1_ud_adit_crossing_dwellers/0:Ask the goblins to let you by · an even chance · one try"}
+{"act":"region__s1_ud_adit_crossing_dwellers#talk"}
+{"act":"take_leave(region__s1_ud_adit_crossing_dwellers)"}
+{"act":"exit:region__s1_ud_adit_stope"}
+{"act":"region__s1_ud_adit_stope_find0#look"}
+{"act":"region__s1_ud_adit_stope_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_adit_stope_ore0#look"}
+{"act":"company/0:Search here"}
+{"look":true}
+{"act":"light:region__s1_traveller_person__torch"}
+{"act":"company/0:Search here"}
+{"act":"exit:region__s1_ud_adit_vent"}
+{"act":"region__s1_ud_adit_vent_notebook/0:Unstrap the notebook and read it"}
+{"act":"region__s1_ud_adit_vent_torch#look"}
+{"act":"region__s1_ud_adit_vent_coins#look"}
+{"act":"region__s1_ud_adit_vent_coins/0:Gather up the coins"}
+{"act":"exit:region__s1_ud_adit_stope"}
+{"act":"exit:region__s1_ud_adit_shaft_head"}
+{"act":"region__s1_ud_adit_shaft_head_ore0#look"}
+{"act":"region__s1_ud_adit_shaft_head_find0#look"}
+{"act":"region__s1_ud_adit_shaft_head_wonder_eternal_candle#look"}
+{"act":"exit:region__s1_ud_haulage_shaft_bottom"}
+{"act":"region__s1_ud_haulage_shaft_bottom_ore0#look"}
+{"act":"company/0:Search here"}
+{"look":true}
+{"act":"light:region__s1_ud_adit_vent_torch"}
+{"act":"company/0:Search here"}
+{"act":"region__s1_ud_haulage_haulage_dwellers/0:Attack"}
+{"act":"fight:sweep:region__s1_ud_haulage_haulage_dwellers_person"}
+{"act":"fight:melee:region__s1_ud_haulage_haulage_dwellers_person"}
+{"act":"fight:melee:region__s1_ud_haulage_haulage_dwellers_person_2"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Listen at it"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Press down the stamp of the lamp"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Press down the stamp of the hammer"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Press down the stamp of the wheel"}
+{"look":true}
+{"act":"light:region__s1_ud_waiting_person__torch"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Press down the stamp of the wheel"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Press down the stamp of the lamp"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Press down the stamp of the hammer"}
+{"act":"region__s1_ud_haulage_shaft_bottom_order/0:Prise the strong-box open by main force"}
+{"look":true}
+{"act":"light:region__party_1__candle"}
+{"act":"exit:region__s1_ud_haulage_haulage"}
+{"act":"region__s1_ud_haulage_haulage_gem0#look"}
+{"act":"region__s1_ud_haulage_haulage_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_haulage_haulage_ore0#look"}
+{"act":"exit:region__s1_ud_haulage_hall"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"region__s1_ud_haulage_haulage_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_haulage_haulage_ore0#look"}
+{"act":"exit:region__s1_ud_haulage_hall"}
+{"act":"region__s1_ud_haulage_hall_coins/0:Gather up the coins"}
+{"act":"company/0:Prise the planks off the end wall"}
+{"act":"exit:region__s1_ud_haulage_hall_cache_chamber"}
+{"act":"region__s1_ud_haulage_hall_cache_doc#look"}
+{"act":"region__s1_ud_haulage_hall_cache_kept2#look"}
+{"act":"region__s1_ud_haulage_hall_cache_kept1#look"}
+{"act":"exit:region__s1_ud_haulage_hall"}
+{"act":"exit:region__s1_ud_haulage_haulage2/0:Draw out what is in there, and wait for it here"}
+{"act":"region__s1_ud_haulage_haulage2_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"exit:region__s1_ud_haulage_haulage2"}
+{"act":"region__s1_ud_haulage_haulage2_gem0#look"}
+{"act":"region__s1_ud_haulage_haulage2_coins/0:Gather up the coins"}
+{"act":"region__s1_ud_haulage_haulage2_ore0#look"}
+{"act":"exit:region__s1_ud_haulage_seal"}
+{"act":"region__s1_ud_haulage_seal_wonder_glowing_crystals#look"}
+{"act":"region__s1_ud_haulage_seal_casket#look"}
+{"more":true}
+{"look":true}
+{"act":"region__s1_ud_haulage_seal_casket/0:Press the word “Shirt” on the casket"}
+{"act":"region__s1_ud_haulage_seal_casket_gift#look"}
+{"act":"exit:region__s1_ud_drowned_stair_foot/0:Break the wall down"}
+{"act":"exit:region__s1_ud_drowned_stair_foot/0:Go"}
+{"act":"region__s1_ud_drowned_stair_foot_find0#look"}
+{"act":"region__s1_ud_drowned_stair_foot_gem0#look"}
+{"act":"exit:region__s1_ud_haulage_seal"}
+{"act":"exit:region__s1_ud_haulage_haulage2"}
+{"act":"exit:region__s1_ud_haulage_hall"}
+{"act":"exit:region__s1_ud_haulage_haulage"}
+{"act":"exit:region__s1_ud_haulage_pump/0:Look at the humming thing/0:Prod it with the pole"}
+{"act":"exit:region__s1_ud_haulage_pump/0:Look at the humming thing"}
+{"act":"exit:region__s1_ud_haulage_pump/0:Knock it over with the pole, from well back"}
+{"act":"exit:region__s1_ud_haulage_pump"}
+{"act":"region__s1_ud_haulage_pump_chain#look"}
+{"act":"travel:region__s1_green"}
+{"act":"region__s1_wood_windfall_ring#look"}
+{"act":"travel:region__s1_green"}
+{"act":"exit:region__s1_taproom"}
+{"more":true}
+{"look":true}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_shrine"}
+{"act":"company/0:Rest six hours"}
+{"act":"company/0:Rest six hours"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_shop"}
+{"more":true}
+{"act":"region__s1_merchant#talk"}
+{"act":"region__s1_merchant#talk"}
+{"act":"sell_valuable(region__s1_ud_haulage_haulage_gem0,region__s1_merchant)"}
+{"act":"sell_valuable(region__s1_ud_haulage_haulage2_gem0,region__s1_merchant)"}
+{"act":"sell_valuable(region__s1_ud_drowned_stair_foot_find0,region__s1_merchant)"}
+{"act":"sell_valuable(region__s1_ud_drowned_stair_foot_gem0,region__s1_merchant)"}
+{"act":"sell_valuable(region__s1_ud_haulage_hall_cache_kept2,region__s1_merchant)"}
+{"act":"sell_valuable(region__s1_ud_adit_stope_find0,region__s1_merchant)"}
+{"act":"sell(region__s1_ud_adit_stope_ore0,region__s1_merchant)"}
+{"act":"region__s1_merchant_crowbar_1/0:Buy from Dayereth — 3 coin"}
+{"act":"buy_item(region__s1_merchant_torch_1,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_torch_1,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_torch_1,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_lamp_oil_1,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_lamp_oil_1,region__member_party_1)"}
+{"act":"buy_goods(rations,region__s1_merchant)"}
+{"act":"buy_goods(rations,region__s1_merchant)"}
+{"more":true}
+{"act":"buy_item(region__s1_merchant_torch_2,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_torch_3,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_torch_4,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_lamp_oil_2,region__member_party_1)"}
+{"act":"buy_item(region__s1_merchant_lamp_oil_3,region__member_party_1)"}
+{"look":true}
+{"act":"travel:region__s1_ud"}
+{"act":"raise_quality(region__member_party_1,constitution)"}
+{"act":"exit:region__s1_green"}
+{"act":"exit:region__s1_wood_edge"}
+{"act":"exit:region__s1_wood_ride"}
+{"act":"exit:region__s1_wood_burners"}
+{"act":"exit:region__s1_wood_stones"}
+{"act":"exit:region__s1_ud"}
+{"look":true}
+{"act":"company/0:Fill a hooded lantern, oil still in it from a flask of lamp oil and light it"}
+{"act":"exit:region__s1_ud_adit_mouth"}
+{"act":"exit:region__s1_ud_adit_adit"}
+{"act":"exit:region__s1_ud_adit_crossing"}
+{"act":"exit:region__s1_ud_adit_winze_head/0:Drag the barricade apart"}
+{"act":"exit:region__s1_ud_adit_winze_head"}
+{"act":"region__s1_ud_adit_winze_head_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"region__s1_ud_adit_winze_head_find0#look"}
+{"act":"region__s1_ud_adit_winze_head_gem0#look"}
+{"act":"region__s1_ud_adit_winze_head_coins/0:Gather up the coins"}
+{"act":"exit:region__s1_ud_haulage_winze_foot"}
+{"act":"region__s1_ud_haulage_winze_foot_dwellers/0:Attack"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"region__s1_ud_haulage_winze_foot_find0#look"}
+{"act":"region__s1_ud_haulage_winze_foot_coins/0:Gather up the coins"}
+{"act":"exit:region__s1_ud_haulage_haulage"}
+{"act":"exit:region__s1_ud_haulage_hall"}
+{"act":"exit:region__s1_ud_haulage_haulage2"}
+{"act":"exit:region__s1_ud_haulage_seal"}
+{"act":"exit:region__s1_ud_drowned_stair_foot"}
+{"look":true}
+{"act":"exit:region__s1_ud_haulage_haulage/0:Draw out what is in there, and wait for it here"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
+{"act":"fight:auto"}
