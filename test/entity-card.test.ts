@@ -25,8 +25,9 @@ describe('an entity card', () => {
     for (const a of asked) { expect(a.changes!.some(x => /^\+ knows\(party, /.test(x))).toBe(true); }
     // A place known only by its look until its name is known: the card says the look, and nothing behind it.
     const mound = EntityCard.of(c, 'region__w1')!;
-    expect([mound.name, mound.known]).toEqual(['a long mound north of Thornhaven', []]);
-    expect(EntityCard.of(c, 'region__w1', 'author')!.truth!.alias).toBe('a long mound north of Thornhaven');
+    // Seen by its side of the country, not by a town the company may not know (OR-812).
+    expect([mound.name, mound.known]).toEqual(['the north-western long mound in the woods', []]);
+    expect(EntityCard.of(c, 'region__w1', 'author')!.truth!.alias).toBe('the north-western long mound in the woods');
     // Told its name, the card names it, and says what told it.
     const w = c as unknown as { world: { apply(x: unknown[]): unknown }; commit(x: unknown): void };
     w.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__w1_named') }]));

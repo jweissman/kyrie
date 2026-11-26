@@ -47,8 +47,13 @@ export class RegionSites {
         : RegionZones.where(zone, site.part ?? 0);
       return like.some(s => s.zone === zone.id) ? `${which} ${near}` : `${seen} in ${zone.naming.name}`;
     }
-    const side = RegionGeography.compass(RegionGeography.spot(region, seat.town.cell!), seat.spot);
-    return `${seen} ${side === 'here' ? 'near' : `${side} of`} ${seat.town.name}`;
+    // Told apart from its likes by the side of the country it is on, and the land it stands in: never by the town it
+    // lies from, which the company may not know ("a long mound south of Gatesend" had named a town nobody had told
+    // of: OR-812).
+    const { width, height } = RegionGeography.atlas(region).land;
+    const centre = RegionGeography.spot(region, width * Math.floor(height / 2) + Math.floor(width / 2));
+    const side = RegionGeography.compass(centre, seat.spot), land = RegionGeography.country[region.terrain] ?? 'country';
+    return `${side === 'here' ? seen : seen.replace(/^(a|an|the) /, `the ${side}ern `)} in the ${land}`;
   }
   // How a site looks from outside: a makers' work as its plan says, in the shape it has; anything else by its kind.
   static look(site: Region['sites'][number], region: Region): string {
@@ -155,7 +160,10 @@ export class RegionSites {
         `  Passage ${id}_track ${q(`the track to {${id}}`)} is track between ${from} and ${id} taking 1 hour${hidden ? ` hidden until ${id}_found` : ''}.`];
     }
     const [x, y] = seat.spot, start = this.start(seat, region);
-    return [`  Place ${seat.land} ${q(where)} is wilderness within region at ${x}, ${y}.`,
+    // Known by the town it lies from only once that town is seen (OR-812): till then by its land and what stands on it.
+    const land = `the ${RegionGeography.country[region.terrain] ?? 'country'} about ${seen}`;
+    return [`  Place ${seat.land} ${q(where)} is wilderness within region at ${x}, ${y} seen as ${q(land)}`
+      + ` until ${seat.town.id}_why.`,
       `  Place ${id} ${q(site.name)} is room within ${seat.land} at 1, 1 seen as ${q(seen)} until ${id}_named.`,
       `  Passage ${id}_track ${q(`the track to {${id}}`)} is track between ${start.from} and ${id} taking ${RegionRoads.time(start.minutes)}${hidden ? ` hidden until ${id}_found` : ''}.`];
   }
