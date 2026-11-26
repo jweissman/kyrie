@@ -11,7 +11,8 @@ import { join } from 'node:path';
 export class ColourCensus {
   static readonly dir = join(import.meta.dir, '../../web/reader');
   // An indicator's selector: a row's mark, a pip, the rail's or a place's mark, a lit corner key, a way's glyph.
-  static readonly indicator = /row-mark|\bpip\b|pip-|rail-mark|place-mark|\.led\b|::before|glyph|\.dot\b|lamp|\.star\b/;
+  static readonly indicator =
+    /row-mark|\bpip\b|pip-|rail-mark|place-mark|\.led\b|::before|glyph|\.dot\b|lamp|\.star\b|\.ident \.indicator\b/;
   static readonly gold = /--gold|--tone-gold|#F2BD4C/i;
   static readonly hued = /--(gold|ember|verdigris|azure|violet|tone-|red\b|blue\b|yellow\b|river|danger)/;
   static strip(css: string): string { return css.replace(/\/\*[\s\S]*?\*\//g, ''); }

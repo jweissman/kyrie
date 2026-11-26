@@ -47,7 +47,7 @@ describe('the design system, held by the stylesheets', () => {
   const known = new Set([
     'fight.css .fight .fighter.target', 'fight.css .fight .moves .aiming', 'foundations.css .kicker',
     'foundations.css .cornered::after', 'frame.css .frame::after',
-    'frame.css .ident .ground', 'frame.css .ident .lamp', 'frame.css .ident .lamp.seventh', 'frame.css .ident .star',
+    'frame.css .ident .indicator',
     'reader.css .fields input:focus, .fields select:focus', 'reader.css .campaign-sheet .card.recommended',
     'reader.css .character .members .act.here .n', 'reader.css .character .gauge .bar i.mana',
     'stage.css .prologue-page .on i',

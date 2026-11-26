@@ -160,25 +160,18 @@ html, body { overflow: hidden; }
 /* The mark in the page itself, before the script (SiteBuild.mark): the whole screen, put away where not to be played. */
 #pre-ident { position: fixed; }
 .no-pre-ident #pre-ident { display: none; }
-.ident svg { width: min(240px, 50vw); overflow: visible; }
-.ident line { stroke-linecap: round; }
-.ident .ground { stroke: var(--gold-line); stroke-width: 1; animation: draw-out .8s var(--ease) both; }
-@keyframes draw-out { from { clip-path: inset(0 50% 0 50%); } to { clip-path: inset(0 0 0 0); } }
-/* The towers are stone, drawn in the neutral ink and never coloured (OR-528): only their lights are. */
-.ident .tower { stroke: rgba(236, 230, 217, .78); stroke-width: 2.4; stroke-dasharray: 90; stroke-dashoffset: 90;
-  animation: tower .8s var(--ease) forwards; }
-@keyframes tower { to { stroke-dashoffset: 0; } }
-.ident .spire { stroke: var(--ivory); stroke-width: 1; stroke-dasharray: 8; stroke-dashoffset: 8; opacity: .9;
-  animation: tower .45s var(--ease) forwards; }
-/* Each light in its Atlas tone, lit once by its opacity alone and held steady (OR-528, OR-507): a small soft glow of
-   its own colour, never a bloom, and nothing brightens and falls back. */
-.ident .light-gold { --hue: var(--tone-gold); } .ident .light-green { --hue: var(--tone-green); }
-.ident .light-blue { --hue: var(--tone-blue); } .ident .light-violet { --hue: var(--tone-violet); }
-.ident .lamp { fill: var(--hue); opacity: 0; filter: drop-shadow(0 0 2px var(--hue)); animation: lamp .6s ease-out forwards; }
-@keyframes lamp { to { opacity: .86; } }
-.ident .lamp.seventh { animation-duration: .8s; }
-.ident .star { fill: var(--hue); filter: drop-shadow(0 0 3px var(--hue)); opacity: 0;
-  animation: lamp .8s ease-out forwards; }
+/* The Atlas's indicator in heroic size: a tall rounded upright, the five tones flowing through it in one OKLab
+   gradient, rising from its foot and held. Each tone is the Atlas's own token (glance.css --tone-*), no colour the
+   mark's own. The flow moves the colours within it; its light never changes. */
+.ident .indicator { --gold-t: var(--tone-gold); --red-t: var(--tone-red); --green-t: var(--tone-green);
+  --blue-t: var(--tone-blue); --violet-t: var(--tone-violet); display: block; width: clamp(9px, 1vw, 13px);
+  height: min(46vh, 380px); border-radius: 999px; transform-origin: 50% 100%;
+  background: linear-gradient(in oklab 180deg, var(--gold-t), var(--red-t), var(--green-t), var(--blue-t),
+    var(--violet-t), var(--gold-t), var(--red-t), var(--green-t)) 50% 0 / 100% 300%;
+  box-shadow: 0 0 22px -6px var(--violet-t), 0 0 22px -6px var(--gold-t);
+  animation: indicator-rise 1s var(--ease) both, indicator-flow 2.8s linear both; }
+@keyframes indicator-rise { from { transform: scaleY(0); opacity: 0; } to { transform: scaleY(1); opacity: 1; } }
+@keyframes indicator-flow { from { background-position: 50% 0; } to { background-position: 50% 100%; } }
 .ident .studio { margin: 0; font: 300 clamp(11px, 1.15vw, 15px)/1 var(--do); letter-spacing: .5em; padding-left: .5em;
   color: var(--ivory); white-space: nowrap; opacity: 0; animation: studio 1.1s var(--ease) forwards; }
 @keyframes studio { from { opacity: 0; letter-spacing: .72em; padding-left: .72em; filter: blur(3px); }
