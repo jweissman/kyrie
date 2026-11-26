@@ -171,5 +171,5 @@ data.
 
 ## What would change these judgements
 
-The registry check (`bun bin/orsino-registry.ts check`) refuses a catalog entry translated as executable if any of
+The registry check (`bin/kyrie orsino check`) refuses a catalog entry translated as executable if any of
 its features is judged unsupported. A new Orsino revision must pass that check before it can be adopted.
