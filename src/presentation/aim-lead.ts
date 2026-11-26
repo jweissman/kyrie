@@ -61,7 +61,7 @@ export class AimLeading {
     const within = this.within(campaign, screen, def);
     // The aim's place shut to the company, and what would open it to be had: that first (AimMeans.unshut, OR-172).
     const unshut = AimMeans.unshut(campaign, screen, def, named);
-    if (!this.at(campaign, screen, named) && !this.entered(campaign, screen, named)) {
+    if (!this.at(campaign, screen, this.told(campaign, def, named)) && !this.entered(campaign, screen, named)) {
       return unshut ?? within ?? AimMeans.lead(campaign, def, named) ?? { aim, source: 'toward', next: [...named] };
     }
     return unshut ?? within ?? this.level(campaign, screen, named, aim) ?? this.deeper(campaign, screen, named, aim)
@@ -105,10 +105,10 @@ export class AimLeading {
   // and the stair down from it, the lead had pointed into a side recess, the first room not visited, and the gold
   // went round between them).
   private static level(campaign: Campaign, screen: Screen, named: Set<string>, aim: string): AimLead | undefined {
-    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world, here = screen.place.id;
+    const byId = EntityIndex.of(campaign.module.entities).byId, here = screen.place.id;
     const mine = this.levelOf(byId, here), site = this.siteOf(byId, here);
     const levels = new Set([...named].flatMap(id => {
-      const at = byId.get(id)?.space ? id : w.one('at', id), level = at && this.levelOf(byId, at);
+      const at = CompanyRecall.where(campaign, id), level = at && this.levelOf(byId, at);
       return level && level !== mine && site && this.siteOf(byId, at) === site ? [level] : [];
     }));
     if (!levels.size) { return undefined; }
@@ -123,17 +123,29 @@ export class AimLeading {
   private static levelOf(byId: Map<string, Entity>, id: string): string | undefined {
     return Spatial.ancestry(byId, id).find(e => e.space?.kind === 'level')?.id;
   }
-  // In the place it is gone to by, at what it is toward, or on the way from the one to the other.
+  // In the place it is gone to by, at what it is toward (where the company knows it to be: OR-881), or on the way
+  // from the one to the other.
   static there(campaign: Campaign, screen: Screen, t: ResolvedTarget): boolean {
     const byId = EntityIndex.of(campaign.module.entities).byId, line = Spatial.ancestry(byId, screen.place.id);
-    const at = t.actionAt ?? (t.subject ? campaign.world.one('at', t.subject) : undefined);
+    const at = t.actionAt ?? (t.subject ? CompanyRecall.where(campaign, t.subject) : undefined);
     return line.some(e => e.id === t.routeTo || e.id === at) || (!!at && this.between(campaign, t.routeTo!, at)
       .has(screen.place.id));
   }
-  // Whether the company stands in a place the aim names, or where someone or something it names is.
+  // What the aim names, and, for someone or something it names that the company has never seen, the place its words
+  // say they are in ("the old writing in {hold}": Stakes.addresses): the company is at the aim there (OR-881). Not a
+  // room, where what is not seen standing in it is not there ("the dead under {yard}" are on beyond it).
+  private static told(campaign: Campaign, def: Objective, named: Set<string>): Set<string> {
+    if (![...named].some(id => !CompanyRecall.where(campaign, id))) { return named; }
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const said = [...Stakes.said(campaign, def)].find(id => byId.get(id)?.space && !named.has(id)
+      && byId.get(id)?.space?.kind !== 'room');
+    return said ? new Set([...named, said]) : named;
+  }
+  // Whether the company stands in a place the aim names, or where it knows someone or something it names to be:
+  // never where they stand unseen (OR-881).
   private static at(campaign: Campaign, screen: Screen, named: Set<string>): boolean {
-    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
-    const places = new Set([...named].flatMap(id => byId.get(id)?.space ? [id] : w.one('at', id) ?? []));
+    const byId = EntityIndex.of(campaign.module.entities).byId;
+    const places = new Set([...named].flatMap(id => CompanyRecall.where(campaign, id) ?? []));
     return Spatial.ancestry(byId, screen.place.id).some(e => places.has(e.id));
   }
   // Further into the site the company stands in, or at the door of: the nearest place where what the aim waits on is

@@ -2,6 +2,7 @@ import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
 import { Canon } from '../canon/canon';
 import { SkillReading } from './skill-reading';
+import { CompanyRecall } from './company-recall';
 
 // What a barred way on needs (a skill, or a kind of thing), and where the world says it is to be had: someone who sells
 // the thing, or a thing that gives the skill (a coil of rope for a climb). Read from what the world holds, the needs a
@@ -32,8 +33,10 @@ export class Means {
       && kinds.has(c.call.args[1]!) ? [[c.call.args[0]!, c.call.args[1]!] as const] : []),
     ...w.relates('sells') ? w.related('sells').filter(r => kinds.has(r.args[1]!))
       .map(r => [r.args[0]!, r.args[1]!] as const) : []];
+    // Where the company knows the seller to be (seen, or the shop it knows they keep), never where they stand unseen
+    // (OR-881).
     return [...new Map(sold.map(([seller, kind]) => {
-      const at = w.one('at', seller);
+      const at = CompanyRecall.shop(campaign, seller);
       return [seller, { seller, kind, ...at ? { at } : {} }];
     })).values()];
   }

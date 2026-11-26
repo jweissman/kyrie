@@ -9,6 +9,8 @@ import type { AimLead } from './aim-lead';
 import type { Screen } from '../ui/screen-types';
 import { Shut } from './shut';
 import { Waits } from './waits';
+import { CompanyRecall } from './company-recall';
+import { Knowing } from './knowing';
 
 // What the aim followed waits on lies in a site the company has come to and found shut to it: every way in it knows
 // asks for something it has not got (a climb, without climbing or a rope; a portcullis to heave, without the brawn),
@@ -30,7 +32,7 @@ export class AimMeans {
     if (stood.some(p => KnownWays.way(campaign, p, id => this.untried(at, id), { able: true }))) { return undefined; }
     const needs = [...new Set(stood.flatMap(p => (graph.get(p) ?? [])
       .filter(w => w.status === 'needs' && this.untried(at, w.to)).flatMap(w => this.needs(campaign, w.passage))))];
-    const here = campaign.world.one('at', actor) ?? '';
+    const here = Knowing.here(campaign) ?? '';
     const seller = Means.sources(campaign, needs).filter(s => s.at && been.has(s.at))
       .map(s => ({ s, way: s.at === here ? 0 : KnownWays.way(campaign, here, id => id === s.at)?.minutes }))
       .filter(x => x.way !== undefined).toSorted((a, b) => a.way! - b.way!)[0]?.s;
@@ -40,9 +42,9 @@ export class AimMeans {
   // or the thing where it lies, is the step (OR-172: Orla Pennick, who knows where the old press key hangs, once the
   // cellar's rats are seen to; the need had named only a crowbar's seller).
   static unshut(campaign: Campaign, screen: Screen, def: Objective, named: Set<string>): AimLead | undefined {
-    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
+    // Where the company knows what it names to be (OR-881).
     for (const id of named) {
-      const place = byId.get(id)?.space ? id : w.one('at', id), here = screen.place.id;
+      const place = CompanyRecall.where(campaign, id), here = screen.place.id;
       if (!place || place === here) { continue; }
       const ways = this.ways(campaign, here, place), found = Shut.of(campaign, here, ways)?.found;
       if (found) { return { aim: def.id, source: 'means', next: [found.waits ?? found.teller ?? found.item] }; }
@@ -58,9 +60,8 @@ export class AimMeans {
   // The acts here that open the aim's shut place (see unshut): the telling of where the thing is, and what that
   // waits on, a step or two back (Waits.acts), as the rows offer them.
   static opening(campaign: Campaign, here: string, def: Objective, named: Set<string>): Set<string> {
-    const byId = EntityIndex.of(campaign.module.entities).byId, w = campaign.world;
     for (const id of named) {
-      const place = byId.get(id)?.space ? id : w.one('at', id);
+      const place = CompanyRecall.where(campaign, id);
       const telling = place && this.shutFrom(campaign, here, place)?.found?.telling;
       const op = telling && campaign.module.actions.find(o => o.id === telling);
       if (op) { return new Set(Waits.acts(campaign, op)); }

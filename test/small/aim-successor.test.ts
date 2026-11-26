@@ -5,7 +5,8 @@ import { Undertakings } from '../../src/presentation/undertakings';
 // What pulls once an aim followed is seen through (M21's playability list, PL-06; the lead's ruling of 13 November,
 // ranks 1 and 2): said once, as it ends, and offered, never followed for the player. a1's oxen seen through had left
 // "No aim is held", the drover's yoke among the bones, and Odo's "I want the yoke back" led nowhere. The oxen in
-// miniature (data/goings-on/drover/oxen): a den, the yoke lying in it, and the drover's wife at her hearth in Hythe.
+// miniature (data/goings-on/drover/oxen): a den, the yoke lying in it, and the drover's wife at her hearth in Hythe,
+// where the company saw her before it set out (where she is is the company's to know: OR-881).
 const oxen = `
   Place hythe "Hythe" is settlement.
   Place hearth "the drover's kitchen" is room within hythe at 0, 0.
@@ -70,8 +71,10 @@ const telling = `
 
 describe('what pulls after an aim', () => {
   it('offers the deed\'s own consequence: the yoke to take, then to be hung at Hythe, never followed', async () => {
-    const t = await Tiny.start(oxen);
+    const t = await Tiny.start(oxen.replace('Company party "You" of 1 at den.', 'Company party "You" of 1 at hearth.'));
     t.follow('oxen');
+    await t.perform('go(t__kitchen_door,t__lane)');
+    await t.perform('go(t__track,t__den)');
     await t.perform('change_thing(t__bones_read)');
     expect(t.glance.next).toMatchObject({ kind: 'consequence', text: 'Hang the yoke over the hearth, where it always hung',
       at: 'Hythe' });

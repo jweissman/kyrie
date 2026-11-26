@@ -1,6 +1,8 @@
 import type { Campaign, CampaignEvent } from '../campaign/campaign';
 import { VisitedPlaces } from './visited-places';
-import { EntityIndex } from '../lang/index';
+import { EntityIndex, Spatial, type Entity } from '../lang/index';
+import { CompanySenses } from './company-senses';
+import { Knowing } from './knowing';
 import type { Screen } from '../ui/screen-types';
 
 // What the company remembers of its own story, for the glance (see Glance): where it has been, whom it has spoken
@@ -152,6 +154,27 @@ export class CompanyRecall {
     if (EntityIndex.of(campaign.module.entities).byId.get(id)?.space) { return id; }
     if ([...screen.people, ...screen.things].some(t => t.id === id)) { return screen.place.id; }
     return CompanyRecall.of(campaign).sawAt(id);
+  }
+  // The same without a screen, for the gold's parts that read an aim apart from any one place drawn (AimLeading,
+  // Threshold, Outmatched and the rest: OR-881): someone or something standing where the company stands now is seen
+  // there (as coming to a place sees what is in it: see met), else where the company last saw them.
+  static where(campaign: Campaign, id: string): string | undefined {
+    if (EntityIndex.of(campaign.module.entities).byId.get(id)?.space) { return id; }
+    const actor = campaign.playerActor ?? 'party', at = CompanySenses.standing(campaign, [actor, id]);
+    const here = [...at].find(([, who]) => who.includes(actor))?.[0];
+    return here && at.get(here)!.includes(id) ? here : CompanyRecall.of(campaign).sawAt(id);
+  }
+  // A trader, or a thing for sale, where the company knows it to be (where), or, never seen, at the shop it keeps in a
+  // town the company has been in: a town's shops are known by their signs (the herb-shop a door off the green, as the
+  // walks about a town are offered), never by whoever stands in them now (OR-881).
+  static shop(campaign: Campaign, id: string): string | undefined {
+    const at = this.where(campaign, id), kept = at ? undefined : CompanySenses.kept(campaign.module, id);
+    if (at || !kept) { return at; }
+    const byId = EntityIndex.of(campaign.module.entities).byId, town = this.town(byId, kept);
+    return town && [...Knowing.of(campaign).visited].some(p => this.town(byId, p) === town) ? kept : undefined;
+  }
+  private static town(byId: Map<string, Entity>, place: string): string | undefined {
+    return Spatial.ancestry(byId, place).find(e => e.space?.kind === 'settlement')?.id;
   }
   // Each where the company knows it to be (see whereabouts), or itself where it knows nowhere.
   static placed(campaign: Campaign, screen: Screen, ids: Iterable<string>): string[] {

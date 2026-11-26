@@ -187,7 +187,7 @@ export class Glance {
     const seller = screen.aims?.some(a => a.followed) ? light.sellers : null;
     const named = AimRoute.routed(campaign, screen, this.inside(campaign, screen, this.whereabouts(campaign, screen,
       new Set([...this.named(campaign), ...seller ?? [], ...this.saidHere(campaign, screen)]),
-      this.addressed(campaign))));
+      this.addressed(campaign, screen))));
     const held = this.inside(campaign, screen,
       new Set([...screen.aimed ?? []].filter(id => !named.has(id) && id !== campaign.playerActor)));
     const spent = AimLeads.spent(campaign, screen, named), by = [...screen.around ?? [], ...screen.destinations ?? []];
@@ -235,8 +235,8 @@ export class Glance {
     const { recall, here, advances } = at;
     return new Set(commands.filter(c => recall.did(here, c) && !(advances.has(c) && recall.missed(here, c))));
   }
-  private static sells(campaign: Campaign, place: string, sellers: Set<string> | undefined): boolean {
-    return !!sellers && [...sellers].some(p => campaign.world.one('at', p) === place);
+  private static sells(campaign: Campaign, place: string, sellers: Set<string> | undefined): boolean { // OR-881
+    return !!sellers && [...sellers].some(p => CompanyRecall.shop(campaign, p) === place);
   }
   // Where a bed is to be had a step from here, in a settlement at night, when no one here offers one: whoever offers
   // lodging, where they are.
@@ -263,21 +263,21 @@ export class Glance {
   // corn-store's key, in his shop off the green, had been one face among many, and nothing on the green led to him
   // (the owner's play, 6 November: M19-86).
   // Not where the aim names a place of its own: "ask at the inn" of a debt is the inn, and the creditor named in it had
-  // led back to the shop the company had just left with nothing to pay (the owner, 7 November).
-  // Where the aim gives their address ("Lothar at Brockfield"), they are sought there, wherever in it they stand.
+  // led back to the shop just left with nothing to pay (the owner, 7 November). Where the aim gives their address
+  // ("Lothar at Brockfield"), they are sought there until they are seen.
   private static whereabouts(campaign: Campaign, screen: Screen, ids: Set<string>, addresses: Set<string>):
     Set<string> {
     const byId = EntityIndex.of(campaign.module.entities).byId;
     if ([...ids].some(id => byId.get(id)?.space?.kind === 'room')) { return ids; }
-    const w = campaign.world, known = new Set([...screen.map.map(p => p.id),
-      ...screen.exits.map(e => e.destination.id)]);
-    // Where the company last saw them, or where the aim's words say they are: never where they went unseen (OR-880).
-    const at = [...ids].flatMap(id => {
-      const seen = CompanyRecall.whereabouts(campaign, screen, id), t = w.one('at', id) ?? '';
-      const place = seen && known.has(seen) ? seen : Spatial.ancestry(byId, t).some(e => addresses.has(e.id)) ? t : '';
-      return place && !ids.has(place) ? [place] : [];
-    });
-    return at.length ? new Set([...ids, ...at]) : ids;
+    const known = new Set([...screen.map.map(p => p.id), ...screen.exits.map(e => e.destination.id)]);
+    // Where the company last saw them, or, never seen, the most particular address the aim's words give: never where
+    // they went unseen (OR-880), nor the room within the address the world has them in, never told (OR-881).
+    const at = [...ids].map(id => CompanyRecall.whereabouts(campaign, screen, id))
+      .filter((s): s is string => !!s && known.has(s) && !ids.has(s));
+    const unseen = [...ids].some(id => !byId.get(id)?.space && !CompanyRecall.whereabouts(campaign, screen, id));
+    const told = unseen ? [...addresses].filter(a => !['region', 'plane'].includes(byId.get(a)?.space?.kind ?? '')
+      && ![...addresses].some(b => b !== a && Spatial.ancestry(byId, b).some(e => e.id === a))) : [];
+    return at.length || told.length ? new Set([...ids, ...at, ...told]) : ids;
   }
   // An aim at the place a site stands at (the heath the lone tower stands on) is, to a company inside the site, an aim
   // at the site itself: what it asks is in there, not out by the way in. In the crypt under the tower, following
@@ -317,9 +317,9 @@ export class Glance {
   private static reads(p: Predicate, into: Call[]) {
     ModuleWriter.conditionCalls(p, call => { into.push(call); return call; });
   }
-  private static addressed(campaign: Campaign): Set<string> {
+  private static addressed(campaign: Campaign, screen: Screen): Set<string> {
     const def = Undertakings.followed(campaign);
-    return def ? Stakes.addresses(campaign, def) : new Set();
+    return def ? Stakes.addresses(campaign, def, id => CompanyRecall.whereabouts(campaign, screen, id)) : new Set();
   }
   // Where the company stands, where the words of the aim followed say it: "the den in the quarry adit under the old
   // quarry pit", the adit reached, is the aim's place, and its ways on its way (down in thorn's adit nothing had led on

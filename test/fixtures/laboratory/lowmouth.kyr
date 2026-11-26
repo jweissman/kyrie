@@ -256,7 +256,7 @@ Module lab "The undercroft at Lowmouth" {
     State snuffed "The black candle is out, and smells of something worse than tallow.".
     Change pinch "Pinch out the black candle" from alight to snuffed when not at(low_u_raiser, low_u_ossuary) or not able(low_u_raiser) "The man with the black candle stands over it, and the dead are his while it burns.".
   }
-  Entity low_u_dead_job: fact "Lay the dead in the crypt under the churchyard at Lowmouth.".
+  Entity low_u_dead_job: fact "Lay the dead in the ossuary under the churchyard at Lowmouth.".
   Topic low_u_dead_job_ask with low_priest "Ask {low_priest} about the noises under the churchyard" when (toldMatter(low_priest, actor) or knows(actor, low_u_notice) or been(actor, low_u_yard)) and not low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) once {
     Says "{low_priest} looks at the floor. 'The catacombs. Something has come up out of the bone-heaps, and there have been lights in the churchyard at night that were not mine.' The crypt key is unhooked from a belt. 'I cannot ask anyone to go. If you will, lay them, and find out who is doing it. Fifteen coin, and what the shrine can give besides.'".
     On discuss { Assert knows(actor, low_u_dead_job). Assert low_u_given(low_u_dead_job). Give crypt_key to actor. Assert keyholder(actor, low_u_crypt_lock). }
@@ -310,7 +310,7 @@ Module lab "The undercroft at Lowmouth" {
   Rule low_u_dead_cleared when not able(low_u_dead) and not low_u_done(low_u_dead_job) { Assert low_u_done(low_u_dead_job). }
   Rule low_u_raiser_ended when not able(low_u_raiser) and not low_u_done(low_u_raiser) { Assert low_u_done(low_u_raiser). }
   Observe low_u_graves_mended at low_u_yard as fixture when low_u_done(low_u_raiser) "The three graves by the wall have been dug again and filled properly, and turfed. A fresh stone stands at the head of each, with no name cut on it yet.".
-  Objective low_u_dead_job_aim when low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_u_dead, low_u_raiser by low_u_yard "Lay the dead in {low_u_crypt} under {low_u_yard} at Lowmouth, and find out who raised them.".
+  Objective low_u_dead_job_aim when low_u_given(low_u_dead_job) and not low_u_done(low_u_dead_job) toward low_u_dead, low_u_raiser by low_u_yard "Lay the dead in {low_u_ossuary} under {low_u_yard} at Lowmouth, and find out who raised them.".
   Topic low_u_dead_job_paid with low_priest "Tell {low_priest} the dead under the churchyard are laid, and the man who raised them gone" when low_u_done(low_u_dead_job) and low_u_done(low_u_raiser) and not low_u_halved(low_u_dead_job) and not low_u_paid(low_u_dead_job) once {
     Says "{low_priest} hears it all with eyes shut. At the end come the names of the three in the opened graves, one after another. Then 15 coin. From the shrine's own chest come a charm of ashwood and bronze wire, and two small stoppered bottles. 'The charm was made for those who go among the dead,' {low_priest} says. 'The bottles are for after.'".
     On discuss { Increase quantity(actor, gold) by 15. Give ashwood_charm to actor. Give 2 minor_healing_potion to actor. Assert low_u_paid(low_u_dead_job). Retract knows(actor, low_u_dead_job). }
