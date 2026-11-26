@@ -293,19 +293,20 @@ export class ReaderOpening {
   // fresh: a new world asked for (New world), never the one already drawn ahead.
   readonly anew = (seed?: string, fresh = false) => {
     this.app.setState({ phase: 'begin', memorial: undefined, error: '' });
-    if (fresh || !this.foreseen || (seed && seed !== this.foreseen)) { this.foresee(seed); }
+    if (fresh || !this.foreseen || (seed && seed !== this.foreseen.seed)) { this.foresee(seed); }
   };
   // The seed a new game will use, named as the title shows, and its country drawn for it in the engine while the
   // title is up, with the start Set out now asks made ready behind it (OR-121, EngineForesight): never where a game is
   // kept, whose Continue must not wait on it, until New game is pressed.
-  private foreseen?: string;
+  // The seed is kept as it is asked of the engine (ready), so that a choice made before it has come takes the same
+  // seed, and the country drawn ahead for it, never a second roll (OR-770).
+  private foreseen?: { seed?: string; ready: Promise<string> };
   private foresee(asked?: string) {
-    this.foreseen = asked;
-    void (async () => {
-      const seed = asked ?? await this.fresh();
-      this.foreseen = seed;
-      await this.app.engine.request({ kind: 'ahead', seed });
-    })().catch(() => undefined);
+    const ahead = (seed: string) => this.app.engine.request({ kind: 'ahead', seed }).catch(() => undefined);
+    if (asked) { this.foreseen = { seed: asked, ready: Promise.resolve(asked) }; void ahead(asked); return; }
+    const foreseen: NonNullable<ReaderOpening['foreseen']> = { ready: this.fresh() };
+    this.foreseen = foreseen;
+    void foreseen.ready.then(seed => { foreseen.seed = seed; return ahead(seed); }).catch(() => undefined);
   }
   // A new life's seed, the engine's (FreshSeeds): a world whose first town is the reference game's.
   private fresh(): Promise<string> { return this.app.engine.request<string>({ kind: 'seed' }); }
@@ -315,7 +316,7 @@ export class ReaderOpening {
     const foreseen = this.foreseen;
     this.foreseen = undefined;
     void (async () => {
-      const seed = foreseen ?? await this.fresh();
+      const seed = await foreseen?.ready.catch(() => undefined) ?? await this.fresh();
       await (how === 'set-out-now' ? this.now(seed) : this.pick('world', seed));
     })();
   }

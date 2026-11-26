@@ -49,6 +49,13 @@ class Page {
       : undefined;
     if (row) { row.go(); } else { this.opening.way(id as Way); }
   }
+  // The countries drawn ahead, once the nth has been asked for: the seed a new life rolls is the engine's (FreshSeeds,
+  // asked as { kind: 'seed' }), so the page names it to be drawn ahead a moment after the title or the question is up.
+  async aheads(n: number): Promise<string[]> {
+    const aheads = () => this.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed);
+    for (let i = 0; i < 400 && aheads().length < n; i++) { await new Promise(r => setTimeout(r, 25)); }
+    return aheads();
+  }
   async until(phase: AppState['phase'], error = '') {
     for (let i = 0; i < 1200 && this.state.phase !== phase; i++) { await new Promise(r => setTimeout(r, 50)); }
     expect(this.state.error).toBe(error);
@@ -66,6 +73,7 @@ describe('a new game, set out on at once', () => {
     expect(page.mode()).toBe('title');
     expect(page.html()).toContain('class="mark"');
     expect(page.actions()).toEqual(['begin', ...apart]);
+    await page.aheads(1);
     const ahead = page.asked.find(r => r.kind === 'ahead');
     expect(ahead).toBeDefined();
     page.press('begin');
@@ -93,6 +101,20 @@ describe('a new game, set out on at once', () => {
     expect([page.state.seed, page.state.frame?.transcript.seed]).toEqual([seed, seed]);
     expect(page.state.frame?.screen.place.name).toBeTruthy();
   }, 120000);
+  // OR-770: the seed a new life rolls is asked of the engine; Set out now pressed before it has come sets out in the
+  // country that seed names, the one drawn ahead, never a second roll.
+  it('sets out in the country drawn ahead, though chosen before its seed has come', async () => {
+    spyOn(Shell, 'had').mockResolvedValue(undefined);
+    const page = new Page();
+    await page.opening.boot();
+    page.press('begin'); page.press('set-out-now');
+    await page.until('play');
+    const [seed] = await page.aheads(1);
+    expect(page.asked.filter(r => r.kind === 'seed')).toHaveLength(1);
+    expect(page.asked.find(r => r.kind === 'world')).toMatchObject({ seed });
+    expect(page.state.frame?.transcript.seed).toBe(seed);
+    await page.host.idle();
+  }, 120000);
   // The roll made while the title shows (AX-04, OR-23) never crosses a life: a new life begun from a game in play is
   // rolled afresh, by a seed of its own; the kept game taken up again is its own country, never the roll; and a new
   // life after that is rolled afresh again (the page had kept a seed the engine let go of as the game was opened).
@@ -114,6 +136,7 @@ describe('a new game, set out on at once', () => {
     expect(page.actions()).toEqual(['continue', 'begin', ...apart]);
     page.press('begin');
     expect(page.mode()).toBe('begin');
+    await page.aheads(2);
     expect(aheads()).toHaveLength(2);
     expect(aheads()[1]).not.toBe(first);
     // Escape, and Play: the kept game, in its own country.
@@ -123,6 +146,7 @@ describe('a new game, set out on at once', () => {
     expect(page.state.frame!.transcript.seed).toBe(first);
     // And a new life again: rolled afresh, not asked of the country let go as the game was opened.
     page.opening.title(); page.press('begin');
+    await page.aheads(3);
     expect(aheads()).toHaveLength(3);
     expect(new Set(aheads()).size).toBe(3);
     await page.host.idle();
@@ -163,6 +187,7 @@ describe('a new game, set out on at once', () => {
     page.press('world');
     expect(page.mode()).toBe('begin');
     expect(forgot).toEqual(['bakelo']);
+    await page.aheads(1);
     const seeds = page.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed);
     expect(seeds).toHaveLength(1);
     expect(seeds[0]).not.toBe('bakelo');
@@ -171,6 +196,7 @@ describe('a new game, set out on at once', () => {
   it('builds a character in the same country, by the other row', async () => {
     const page = new Page();
     await page.opening.boot();
+    await page.aheads(1);
     const seed = (page.asked.find(r => r.kind === 'ahead') as Extract<Request, { kind: 'ahead' }>).seed;
     page.press('begin');
     page.press('build');
