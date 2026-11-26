@@ -21,7 +21,7 @@ describe('the golden route, after the fourth cold play', () => {
   // Each turn said, up to the crown taken (the cold play's 90th line), and the lines each said (the play's own first,
   // which the acts after line 27 do not move).
   beforeAll(async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     runner = new Runner(BeforeRooms.set(journey.session));
     first = runner.said();
     for (const line of played) {

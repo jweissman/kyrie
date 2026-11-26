@@ -7,6 +7,7 @@ import { PageFrame } from './page-frame';
 import { Build } from './build';
 import type { Paused } from '../../src/creation/first-choice';
 import { OpeningPages, type PageRow } from '../../src/creation/opening-pages';
+import { Surfaces } from '../../src/presentation/surfaces';
 
 // Options, from the title: the size of the page's letters, whether the dice behind what happens are told ("Wenna
 // makes the persuasion check (d20 16 …)") or only what came of them, and a game saved elsewhere opened from its file;
@@ -28,7 +29,8 @@ export class OptionsPage {
   // after them; the page draws them and keeps nothing of its own but the hidden field a save file is read through.
   static View({ app }: { app: ReaderApp }) {
     const options = app.state.options, named = Identity.named(app.props.query);
-    const page = OpeningPages.options(options, !!app.state.frame), groups = [...new Set(page.rows.flatMap(r => r.group ?? []))];
+    const frame = app.state.frame, read = !!frame && Surfaces.has(frame.screen, 'the_encyclopedia');
+    const page = OpeningPages.options(options, !!frame, read), groups = [...new Set(page.rows.flatMap(r => r.group ?? []))];
     const ways = page.rows.filter(r => !r.group);
     return <PageFrame.View kind="options" className="opening options-page" attrs={{ 'data-mode': 'options' }}
       {...page.hints.theme ? { theme: page.hints.theme } : {}}

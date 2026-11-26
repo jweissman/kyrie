@@ -18,6 +18,7 @@ import { Look } from '../look';
 import { WorldStage } from './world-stage';
 import { PageFrame } from '../page-frame';
 import { Folded } from './folded-rail';
+import { Surfaces } from '../../../src/presentation/surfaces';
 
 // How a touch on the rail stands now (amendment 6, the owner's notes of 11 November): lit, by the tone of what it has
 // that is new or the aim's; ordinary, with something in it still useful; dim, with nothing new for now (it can still
@@ -34,27 +35,32 @@ export class SceneRail {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     // At rest the lenses fold into one emblem where the engine says so (Glance.rail, OR-1084): taken up, they stand
     // beside it; the map and the book beside it either way. Folded, the strip cannot be pressed: the diamond alone is.
-    const folded = app.state.frame?.leaf.glance?.rail === 'folded', open = folded && Folded.open(app);
+    // Only the lenses earned stand in it (Surfaces, OR-1241): with none, neither they nor their diamond.
+    const rail = app.state.frame?.leaf.glance?.rail, any = !rail || rail.lenses.length > 0;
+    const folded = !!rail && any, open = folded && Folded.open(app);
     const lenses = <>
-        <SceneRail.Talk app={app} />
-        <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go" standing={SceneRail.go(app)} />
-        <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look" standing={SceneRail.look(app)} />
+        {Surfaces.lens(rail, 'talk') && <SceneRail.Talk app={app} />}
+        {Surfaces.lens(rail, 'go') && <SceneRail.Mark app={app} part="go" glyph="go_on" words="Go"
+          standing={SceneRail.go(app)} />}
+        {Surfaces.lens(rail, 'look') && <SceneRail.Mark app={app} part="look" glyph="look_about" words="Look"
+          standing={SceneRail.look(app)} />}
         {/* Each in its own place whether it can be done or not, shut and saying why when not: the rail's marks had moved
             under the finger as the Search came and went, and a touch for the Eye opened Go (round 7, both players). */}
-        <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait"
-          standing={wait ? {} : { shut: 'nothing to wait for here' }} />
+        {Surfaces.lens(rail, 'wait') && <SceneRail.Mark app={app} part="wait" glyph="wait" words="Wait"
+          standing={wait ? {} : { shut: 'nothing to wait for here' }} />}
         {/* An attention, never a second place to commit: the glass turns the scene to what can be searched and looked at (the
             Look lens, where the search leads); "Search here" is done by the one foreground, never from the rail (the
             owner, 15 November: every act through one of the four). */}
-        <button type="button" className="rail-mark by-glyph" {...search ? { 'data-action': 'explore' } : {}}
+        {Surfaces.lens(rail, 'search') && <button type="button" className="rail-mark by-glyph"
+          {...search ? { 'data-action': 'explore' } : {}}
           disabled={!search} aria-label={search ? 'Search: look closely' : 'Search: nothing here to search'}
-          onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>
+          onClick={() => app.explore('look')}><Glyphs.View id="search" className="rail-glyph" /></button>}
     </>;
     return (
       <nav {...PageFrame.slot('rail')} className={`scene-rail${open ? ' unfolded' : ''}`}
         {...folded ? { 'data-fold': 'folded' } : {}} aria-label="Go, look, wait, search, the map and your book">
         {folded ? <><div className="lenses-fold" id="lenses-fold" role="group" aria-label="The lenses">{lenses}</div>
-          <Folded.Mark app={app} open={open} /></> : lenses}
+          <Folded.Mark app={app} open={open} /></> : any && lenses}
         <span className="rail-gap" aria-hidden="true" />
         <SceneRail.Books app={app} />
       </nav>
@@ -92,7 +98,7 @@ export class SceneRail {
     const marks = <>
       <SceneRail.MapMark app={app} onMap={onMap} />
       <button type="button" className="rail-mark" data-action="book" aria-label="Your book"
-        onClick={() => app.show('journal')}><Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} />
+        onClick={() => app.show(SceneRail.book(app))}><Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} />
       </button>
     </>;
     return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
@@ -101,6 +107,11 @@ export class SceneRail {
   // The map's one mark, as it stands: on the map, pressed, back to where the company is; inside an enclosed place, the
   // compass (the places lens, the way out at its foot); else the map, lit where a journey is the aim's next step.
   static MapMark({ app, onMap }: { app: ReaderApp; onMap?: boolean }) {
+    // Neither the map nor the compass before it is earned (Surfaces, OR-1242): the compass is the places lens.
+    const screen = app.state.frame?.screen;
+    if (!onMap && !(CompassStage.of(app) ? Surfaces.has(screen, 'lens_go') : Surfaces.has(screen, 'the_map'))) {
+      return null;
+    }
     const local = onMap ? SceneRail.local(app) : undefined, lit = onMap ? undefined : SceneRail.map(app);
     const compass = !onMap && !!CompassStage.of(app), going = app.state.exploring === 'go';
     // Shut as Go… is where no way on from here is open (in the dark of the adit's fall, OR-211: the places lens had come
@@ -136,6 +147,10 @@ export class SceneRail {
       <Glyphs.View id={glyph} className="rail-glyph" />
       {!shut && <Pip.View mark={lit} />}
     </button>;
+  }
+  // The book's page it opens at: the notes where the journal is earned, else the company, its one page (OR-1244).
+  static book(app: ReaderApp): 'journal' | 'company' {
+    return Surfaces.has(app.state.frame?.screen, 'the_journal') ? 'journal' : 'company';
   }
   // No way on from here that can be taken: none, or every one refused (the gallery from the adit's fall, unlit).
   static noWayOn(app: ReaderApp): boolean { return Wayfinder.ways(app).every(w => w.c.disabled); }

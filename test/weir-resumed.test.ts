@@ -34,7 +34,7 @@ const kept = (s: PlaySession) => {
 };
 describe('the weir life, kept and taken up again', () => {
   it('keeps the reeve warned, the gate shut and the boat she saw, and the landing still answers it', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'elf/mage/Ilse/scholar']));
     const r = new Runner(journey.session);
     for (const line of lines.slice(0, 21)) { said(await r.ask(line)); }
     await take(r, /^Out to the gate-yard/);

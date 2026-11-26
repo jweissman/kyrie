@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { Earned } from '../../../src/lang/index';
 import { DrawnWorld } from '../../../src/world/drawn-world';
 import { NodeBundleSource } from '../../../src/campaign/node-bundle-source';
 import { PlayerView } from '../../../src/presentation/player-view';
@@ -21,6 +22,8 @@ describe('a way to another hex', () => {
     const s = await DrawnWorld.start('a1', { origin: 'order',
       party: [{ name: 'B', raceId: 'dwarf', classId: 'cleric' }] }, NodeBundleSource.shared);
     const c = s.campaign;
+    // On the earned stage (OR-1245): the map is hidden while compactification holds (test/small/one-map-row).
+    Earned.grant(c);
     await s.leg(PlayerView.choices(c).find(x => /the brothers' letter/.test(x.choice.name))!.choice.id);
     Undertakings.follow(c, Undertakings.held(c).find(o => Undertakings.errand(c, o))!.id);
     const screen = Itineraries.charted(c, ScreenModel.build(c)), glance = Narrator.leaf(c, screen).glance!;

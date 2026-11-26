@@ -15,6 +15,7 @@ import { PackGrid } from './pack-grid';
 import { Followed } from './followed';
 import { AimNear } from './aim-near';
 import { PageFrame } from './page-frame';
+import { Surfaces } from '../../src/presentation/surfaces';
 
 // What takes the right-hand side's place when asked for: your notes (what is unfinished, what you know, and how sure
 // you can be of it), the story so far, what you carry, the company. The book's head goes back to what is here (a back
@@ -67,15 +68,21 @@ export class Sheet {
         {!facts.length && <p className="none">You know nothing here yet but what you see.</p>}
         <ol {...PageFrame.slot('menu')} className="led keep" aria-label="What can be done">
           {aim && <Sheet.AimActs app={app} aim={aim} />}
-          <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} plain="neutral"
-            label="Download a save file" /></li>
-          {/* The game paused (OR-300): Options, its settings and Return to title, where this game stays kept for
-              Continue and a new game begins over it. */}
-          <li><ChoiceRow.Button data={{ action: 'options' }} onClick={Sheet.options.bind(null, app)} plain="neutral"
-            label="Options" /></li>
+          <Sheet.Kept app={app} />
         </ol>
       </article>
     );
+  }
+  // The book's own rows, on its notes or, with no journal, on the company's one page (CompanyGoals): a save file, and
+  // the game paused (OR-300): Options, its settings and Return to title, where this game stays kept for Continue and a
+  // new game begins over it.
+  static Kept({ app }: { app: ReaderApp }) {
+    return <>
+      <li><ChoiceRow.Button data={{ action: 'export' }} onClick={app.download} plain="neutral"
+        label="Download a save file" /></li>
+      <li><ChoiceRow.Button data={{ action: 'options' }} onClick={Sheet.options.bind(null, app)} plain="neutral"
+        label="Options" /></li>
+    </>;
   }
   // Options over the game, paused: the sheet put away beneath it, and back to it as it stood.
   static options(app: ReaderApp) { app.setState({ phase: 'options', view: 'here' }); }
@@ -162,7 +169,7 @@ export class Sheet {
         // Following is a choice made, not an opportunity: the chosen mark, no Atlas gold (the trust contracts).
         onClick={() => { void Sheet.take(app, held?.follow); }} plain={following ? 'chosen' : 'neutral'}
         label={following ? 'Following' : 'Follow this'} /></li>
-      {place && <li><ChoiceRow.Button className="on-map" data={{ action: 'aim-map', id: place.id }} plain="neutral"
+      {place && Surfaces.has(screen, 'the_map') && <li><ChoiceRow.Button className="on-map" data={{ action: 'aim-map', id: place.id }} plain="neutral"
         label={`${place.name}, on the map`}
         onClick={() => { void Sheet.take(app, held?.follow).then(() => app.chart(Sheet.charted(screen, place.id))); }} /></li>}
     </>;

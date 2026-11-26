@@ -34,6 +34,7 @@ import { CompassStage } from './compass-stage';
 import { Look } from '../look';
 import { Signs } from '../../../src/presentation/signs';
 import { PageFrame } from '../page-frame';
+import { Unlensed } from './unlensed';
 
 // A place at a glance (OWN-18, OWN-19), as the engine decides it (see Glance), under the place's head: what is told in
 // one column, and what can be done held in view beside it (under it on a screen held upright), never a scroll away.
@@ -237,6 +238,7 @@ export class GlanceStage {
           className={`opener opens-go${only.aim === 'followed' ? ' led' : ''}`}>
           {Typography.curl(`To ${only.name}…`)}</Act.View>
           : null}
+        {!lens && <Unlensed.View app={app} draw={draw} drawn={[only?.c.id, back?.id, ...drawn.map(d => d?.id)]} />}
         {/* Go, Look, Wait and Search are the scene's rail, apart from what is told and led with (see SceneRail). */}
       </p>
     </>;

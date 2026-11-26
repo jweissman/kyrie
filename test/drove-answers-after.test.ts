@@ -11,7 +11,7 @@ import { ModuleWriter } from '../src/lang/module-writer';
 // clock.
 class After {
   static async start() {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', 'human/warrior/Wenna']));
     return { journey, r: new Runner(journey.session) };
   }
   static async act(r: Runner, act: string): Promise<string> {

@@ -193,9 +193,13 @@ export interface Glance {
   // How the scene's rail of lenses is drawn at rest (OR-1084, the owner, 26 November: "fade the lenses rail in the
   // resting scene, or at least let it be folded into a single icon"): folded to one emblem, which unfolds to the
   // lenses when taken up, by a pointer or the keys; the map and the book stay beside it. A render hint every client
-  // takes alike; the resting scene is the one place it folds.
-  rail?: 'folded';
+  // takes alike; the resting scene is the one place it folds. Only the lenses the company has earned stand in it
+  // (Screen.surfaces; compactification, the owner, 26 November: "I'm not even sure we should show the diamond/lenses
+  // at all until act II"): with none, neither the lenses nor their diamond is drawn (OR-1241).
+  rail?: Rail;
 }
+export type RailLens = 'talk' | 'go' | 'look' | 'wait' | 'search';
+export interface Rail { fold: 'folded'; lenses: RailLens[] }
 // What pulls once an aim is seen through (PL-06): the deed's own consequence (the yoke, to be hung over the drover's
 // hearth: at, where) or a lead not followed (an aim held, to follow; or a place something known leads to). Its words
 // are the act's, the aim's or the fact's, one sentence at most; the choice is the command or the aim's following.

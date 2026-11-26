@@ -28,6 +28,7 @@ import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../creation/creation-flow';
 import type { Member } from '../creation/protocol';
 import { PlayParts } from './play-parts';
+import { Earned } from '../lang/index';
 import { Traces, type Came } from './traces';
 import type { Happened } from './happened';
 
@@ -41,7 +42,7 @@ export class PlayTool {
     for (let i = 0; i < args.length; i++) {
       const a = args[i]!, flag = /^--(seed|steps|probe|world|origin|as|in|context|keep|roll|chain|opening)$/.exec(a);
       if (flag) { flags.set(flag[1]!, [...flags.get(flag[1]!) ?? [], args[++i] ?? '']); }
-      else if (a === '--choices' || a === '--profile') { flags.set(a.slice(2), ['yes']); }
+      else if (a === '--choices' || a === '--profile' || a === '--earned') { flags.set(a.slice(2), ['yes']); }
       else { rest.push(a); }
     }
     const world = flags.get('world')?.[0], into = flags.get('in')?.[0];
@@ -51,13 +52,21 @@ export class PlayTool {
       origin: flags.get('origin')?.[0], as: flags.get('as')?.[0], chain: flags.get('chain')?.[0],
       opening: flags.get('opening')?.[0],
       seed: flags.get('seed')?.[0] ?? 'journey', file: flags.get('steps')?.[0], probes: flags.get('probe') ?? [],
-      choices: flags.has('choices'), keep: flags.get('keep')?.[0], profile: flags.has('profile'),
+      choices: flags.has('choices'), keep: flags.get('keep')?.[0], profile: flags.has('profile'), earned: flags.has('earned'),
       roll: (['pass', 'fail'] as const).find(r => r === flags.get('roll')?.[0]) };
   }
   // The game the options name (a campaign, or a generated world drawn for one protagonist), and the steps that lead
   // into what is to be played (to a scene, or into talk with someone).
   // made: who the player chose to be, where they were asked (see TerminalCreation), in place of --as.
+  // --earned: every surface earned as play begins (Earned.every: the lenses, the map, the encyclopedia, the journal),
+  // the stage a walk across the country, or a spec of an earned surface, plays on (compactification, OR-1245).
   static async start(o: ReturnType<typeof PlayTool.parse>, watch?: Stopwatch, made?: CreatureGenerationContext)
+    : Promise<{ journey: Journey; lead: string[]; source?: BundleSource; report?: WorldReport }> {
+    const started = await PlayTool.begun(o, watch, made);
+    if (o.earned) { Earned.grant(started.journey.session.campaign); }
+    return started;
+  }
+  private static async begun(o: ReturnType<typeof PlayTool.parse>, watch?: Stopwatch, made?: CreatureGenerationContext)
     : Promise<{ journey: Journey; lead: string[]; source?: BundleSource; report?: WorldReport }> {
     if (o.part) { return PlayParts.start(o.part.kind, o.part.id, o.part.into, o.part.context); }
     const [raceId = 'human', classId = 'ranger', name = 'Aud', backgroundId] =

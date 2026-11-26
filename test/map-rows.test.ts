@@ -41,7 +41,7 @@ describe('the map\'s rows', () => {
   // gate); and a journey across the country comes before a step into the next stretch (int-mat5's CI: the landing's
   // first page had been steps alone).
   it('enter the town on the company\'s own stretch first, then journeys before steps', async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wenna']));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--as', 'human/warrior/Wenna', '--earned']));
     for (const go of ['travel:region__s2_green', 'travel:region__t90', 'travel:region__t89']) { await journey.session.leg(go); }
     const r = new Runner(journey.session);
     r.said();

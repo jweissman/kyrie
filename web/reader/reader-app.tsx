@@ -11,6 +11,8 @@ import { Explorer, type Part } from './stage/explorer';
 import { Conversation, type TalkLine } from './conversation';
 import type { Attention } from '../../src/ui/attention';
 import type { Promoted } from '../../src/presentation/glance-types';
+import { Surfaces } from '../../src/presentation/surfaces'; import { Earned } from '../../src/lang/index';
+import type { Screen } from '../../src/ui/screen-types';
 import { ReaderStore, type SavedGame } from './reader-store';
 import { WorldVault } from './world-vault';
 import { ReaderKeys } from './reader-keys';
@@ -204,7 +206,10 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const news = [...this.state.news ?? [], ...News.of(message.frame, this.state.news)];
       this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight, news,
         attention: Conversation.place, talk: [], asked: [], confirming: undefined, charted: undefined,
-        outdoors: !!message.frame.screen.region?.land && !combat });
+        outdoors: !!message.frame.screen.region?.land && !combat && Surfaces.has(message.frame.screen, 'the_map') });
+      if (this.props.query.has('earned') && message.frame.screen.surfaces?.length !== Earned.surfaces.length) {
+        void this.earn();
+      }
     }
   }
   private keeping: Promise<void> = Promise.resolve();
@@ -344,7 +349,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       const fromScene = !this.state.outdoors && this.state.view !== 'map';
       const walked = JourneyCourse.of(frame, next);
       performance.mark('page:answered');
-      if (walked) { await this.walk(walked, next.screen.region?.land?.known); }
+      if (walked && Surfaces.has(next.screen, 'the_map')) { await this.walk(walked, next.screen.region?.land?.known); }
       performance.mark('page:walked');
       // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
       // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
@@ -368,8 +373,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // owner, 5 November: the inn to the smithy had gone by way of the whole country's map).
         // Only a journey stays on the map it was walked on; anything else that crossed comes back as it would have
         // (inside Tessary an act about the Landgate had left the map up: the scratch full run of 20 November).
-        outdoors: walked && journey ? !fromScene && !next.combat : journey && fromScene ? false
-          : ReaderApp.outdoors(frame, next),
+        outdoors: Surfaces.has(next.screen, 'the_map') && (walked && journey ? !fromScene && !next.combat
+          : journey && fromScene ? false : ReaderApp.outdoors(frame, next)),
         walking: undefined,
         exploring: keeps ? this.state.exploring : undefined, kept: keeps,
         // Talk is a lens on one place: gone on to another, it is put away (the contact sheet, 12 November: the rats
@@ -381,7 +386,8 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // Whether the map is up after a command: come into open country, it is; come into a town or a site, or anything done
   // where the company already was, the place is shown.
   static outdoors(before: Frame, after: Frame): boolean {
-    return after.screen.place.id !== before.screen.place.id && !after.combat && WorldStage.wild(after.screen);
+    return after.screen.place.id !== before.screen.place.id && !after.combat && WorldStage.wild(after.screen)
+      && Surfaces.has(after.screen, 'the_map');
   }
   // The trading opened in a conversation, or shut (back to what is said).
   readonly trade = (open: boolean) => { this.setState({ trading: open || undefined, cursor: 0, hovered: undefined }); };
@@ -400,6 +406,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   // November). A country with no land drawn has its own map, the Map in the books.
   readonly chart = (id: string) => {
     const at = this.state.frame?.screen.place.id;
+    if (!Surfaces.has(this.state.frame?.screen, 'the_map')) { return; }
     if (!at || !this.state.frame?.screen.region?.land) { this.show('map'); return; }
     this.outdoor(true); this.setState({ charted: { at, id } });
   };
@@ -433,8 +440,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
     else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
   };
-  show(view: View, who?: string) {
-    if (this.state.frame?.combat && view !== 'here') { return; }
+  show(asked: View, who?: string) {
+    if (this.state.frame?.combat && asked !== 'here') { return; }
+    // Only what is earned (Surfaces): no map yet, and the notes and the story only with the journal; else the company.
+    const screen = this.state.frame?.screen, view = ReaderApp.earned(asked, screen);
+    if (!view) { return; }
     // The Book's notes opened: what was unread is read there, and the pip goes.
     if (view === 'journal' && this.state.news?.length) { this.setState({ reading: this.state.news, news: [] }); }
     // The map is the one map, wherever the company is in a country that has one: raised over the stage, not a page,
@@ -457,6 +467,15 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       this.setState({ story: undefined });
       void this.engine.request<Entry[]>({ kind: 'story' }).then(story => { this.setState({ story }); });
     }
+  }
+  // Every surface earned at once (the oracle's; and ?earned, the stage a spec of an earned surface plays on: OR-1245).
+  readonly earn = async () => {
+    const frame = await this.engine.request<Frame | null>({ kind: 'earn' });
+    if (frame) { this.setState({ frame, cursor: 0, open: [], hovered: undefined }); }
+  };
+  static earned(view: View, screen?: Screen): View | undefined {
+    if (view === 'map') { return Surfaces.has(screen, 'the_map') ? view : undefined; }
+    return ['journal', 'story'].includes(view) && !Surfaces.has(screen, 'the_journal') ? 'company' : view;
   }
   readonly hover = (id?: string) => { if (id !== this.state.hovered) { this.setState({ hovered: id }); } };
   readonly download = () => {

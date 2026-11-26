@@ -42,7 +42,8 @@ export class Awkward {
   Objective ford when not knows(party, ford_known) toward green "Find out where the old ford is.".
   Goal false.`;
   static start(): Promise<Tiny> {
-    return Tiny.start(this.kyr, { calendar: { year: 1312, month: 6, day: 5 },
+    // On the earned stage (OR-1245): its specs press the lenses' keys, which a first-level company has not earned.
+    return Tiny.start(this.kyr, { calendar: { year: 1312, month: 6, day: 5 }, earned: true,
       party: [{ name: 'Aud', raceId: 'human', classId: 'ranger' }] });
   }
 }

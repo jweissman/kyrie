@@ -11,6 +11,7 @@ import { Hours } from './hours';
 import { Wares } from './wares';
 import { Leaving } from '../presentation/leaving';
 import { MenuTree } from './menu-tree';
+import { Surfaces } from '../presentation/surfaces';
 
 // A journey under way: from where, to where, by what way and how long. Said while the engine works it out, never
 // held on the screen for its own sake.
@@ -107,7 +108,9 @@ export class MenuModel {
     // 12 November: a taproom had led with two things, and the several with something for the company were only their
     // likenesses). Where the aim's next step stands among them is settled here, once, so that the page and the keys
     // agree (see MenuModel.placed): the keys had followed the glance's order while the page drew another.
-    const shown = glance?.acts ?? [];
+    // No lead across the hex while the map is hidden (Surfaces, OR-1242): it would be a row with nothing to draw.
+    const mapped = Surfaces.has(screen, 'the_map'), far = new Set([...overland, ...journeys].map(c => c.id));
+    const shown = (glance?.acts ?? []).filter(a => mapped || !far.has(a.choice));
     const leads = MenuModel.placed(shown);
     const talked = new Set(scene.subjects.filter(x => x.kind === 'person' && !x.danger)
       .flatMap(x => x.choices.filter(c => /#talk$/.test(c.id)).map(c => c.id)));
@@ -116,7 +119,8 @@ export class MenuModel {
     // The map's own row where the engine offers one (Doable: DoableJourneys.mapped, MT-18), the page's own rule only
     // where no glance is drawn (a road).
     const going = inside ? [] : journeys, country = (glance ? Doable.of(glance, screen).some(r => r.id === 'view:map')
-      : !screen.place.underground && (overland.length || (inside && journeys.length))) ? MenuModel.country : undefined;
+      : !screen.place.underground && mapped && (overland.length || (inside && journeys.length))) ? MenuModel.country
+      : undefined;
     const about = [...this.around(screen), ...country ? [country] : []];
     const subjects = scene.subjects.flatMap(s => s.choices);
     const ways = this.leaving([...scene.near, ...about, ...scene.far, ...going], screen);
@@ -127,7 +131,7 @@ export class MenuModel {
       ? [{ id: 'destinations', title: 'Set out for', tone: 'way' as const, glyph: '⇢', choices: going }] : []],
     choices: this.leaving(this.led(this.unfolded([...subjects, ...ways, ...scene.you, ...this.following(frame)],
       opened), glance && { ...glance, acts: leads },
-    { aimed, overland: new Set([...overland, ...journeys].map(c => c.id)) }), screen), destinations: going,
+    { aimed, overland: mapped ? far : new Set() }), screen), destinations: going,
     around: about, ...glance ? { sheets, leads, leading, said: new Map([...glance.acts,
       ...glance.offer?.primary ?? [], ...glance.offer?.rest ?? []].map(a => [a.choice, a.label])) } : {},
     ...country ? { overland: new Set([...overland, ...journeys].map(c => c.id)) } : {} };

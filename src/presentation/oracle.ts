@@ -15,6 +15,9 @@ export interface OracleReport {
   world?: { seed: string; scenario: string; installed: string[]; terrain?: string };
   life?: { name: string; calling?: string; origin?: string; level?: number };
   where?: { place: string; name: string; region?: string; hex?: number; clock: string; elapsed: number; turn: number };
+  // The surfaces the company has earned (Screen.surfaces), and so what it has not: the developer's, all of them, by the
+  // address's ?earned (compactification, OR-1245: "or accessible through oracle").
+  surfaces?: string[];
   last?: OracleAct;
   save: { checkpoint: number; kept: number };
 }
@@ -37,7 +40,8 @@ export class Oracle {
         ...drawn?.origin ? { origin: drawn.origin } : {}, ...lead ? { level: lead.level } : {} },
       ...screen ? { where: { place: screen.place.id, name: screen.place.name, ...region ? { region: region.id } : {},
         ...screen.region?.land?.here !== undefined ? { hex: screen.region.land.here } : {},
-        clock: screen.clock, elapsed: screen.elapsed, turn: campaign.history.length } } : {} };
+        clock: screen.clock, elapsed: screen.elapsed, turn: campaign.history.length } } : {},
+      ...screen?.surfaces ? { surfaces: screen.surfaces } : {} };
   }
   // The last act's engine timings, once its frame is built (Frame.timing); kept as they were until another act.
   static timed(last: OracleAct | undefined, timing: OracleAct['timing']): OracleAct | undefined {
@@ -68,6 +72,7 @@ export class Oracle {
         + `${t?.narrative !== undefined ? `, telling ${t.narrative} ms` : ''}`
         + `${page?.draw !== undefined ? ` · page ${page.draw} ms` : ''}${page?.total !== undefined ? ` · total ${page.total} ms` : ''}`);
     }
+    if (report.surfaces) { lines.push(`earned ${report.surfaces.join(', ') || '(nothing yet)'} · ?earned earns every one`); }
     lines.push(`save checkpoint v${save.checkpoint} · kept v${save.kept}`);
     if (page) { lines.push(`viewport ${page.viewport}`, `agent ${page.agent}`); }
     return lines.join('\n');

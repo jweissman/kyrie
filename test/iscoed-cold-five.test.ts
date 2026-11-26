@@ -18,7 +18,7 @@ const lines = (play: 4 | 5, n: number) => readFileSync(sent[play], 'utf8').split
 const text = (s: Said) => s.scene.lines.join('\n');
 const labels = (s: Said) => [...s.offer.primary, ...s.offer.rest].map(o => o.label);
 async function play(as: string, acts: string[]) {
-  const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
+  const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', as]));
   const r = new Runner(BeforeRooms.set(journey.session));
   // The plays' own lines, with the few it sent that were not offered then (an act refused is kept in the log).
   let s = r.said();

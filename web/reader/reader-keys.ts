@@ -12,6 +12,7 @@ import { Act } from './stage/act';
 import { PressGuard } from './press-guard';
 import { DigitSettle } from './digit-settle';
 import type { Choice } from '../../src/ui/choice-list';
+import { Surfaces } from '../../src/presentation/surfaces';
 
 // The keyboard. In play, arrows move the highlight through what can be done now (raising the sheet a choice is on, at
 // a place: see Raised), Enter does it, a digit does one at once (at a place, 1 to 3 what the glance leads with), Esc
@@ -53,9 +54,10 @@ export class ReaderKeys {
     if (s.exploring && Stage.mode(app) === 'explore' && Explorer.key(app, key)) { return true; }
     // The backstage's tabs, one navigation instrument (OR-306): left and right go to the page before and after, round
     // again at the ends, on every page of the Book alike.
-    if ((key === 'ArrowLeft' || key === 'ArrowRight') && Act.backstage.includes(s.view)) {
-      const at = Act.backstage.indexOf(s.view), n = Act.backstage.length;
-      app.show(Act.backstage[(at + (key === 'ArrowRight' ? 1 : -1) + n) % n]!);
+    const pages = Act.pages(app);
+    if ((key === 'ArrowLeft' || key === 'ArrowRight') && pages.includes(s.view)) {
+      const at = pages.indexOf(s.view), n = pages.length;
+      app.show(pages[(at + (key === 'ArrowRight' ? 1 : -1) + n) % n]!);
       return true;
     }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
@@ -144,17 +146,20 @@ export class ReaderKeys {
     // Inside an enclosed place, M is the compass, as its mark is (see SceneRail.Books).
     // Nothing, where no way on is open (its mark shut: OR-211), never an empty lens.
     if (key === 'm' && CompassStage.of(app) && Stage.mode(app) === 'explore') {
+      if (!Surfaces.has(app.state.frame?.screen, 'lens_go')) { return true; }
       if (!SceneRail.noWayOn(app)) { Explorer.open(app, app.state.exploring === 'go' ? undefined : 'go'); }
       return true;
     }
     if (ReaderKeys.views[key]) { app.show(ReaderKeys.views[key]); return true; }
-    const part = ReaderKeys.parts[key];
-    if (part && app.state.frame?.leaf.glance && !app.state.outdoors && Stage.mode(app) === 'explore') {
+    // A lens by its key only where it is earned (Surfaces, OR-1241), as its mark is drawn.
+    const part = ReaderKeys.parts[key], rail = app.state.frame?.leaf.glance?.rail;
+    if (part && Surfaces.lens(rail, part) && app.state.frame?.leaf.glance && !app.state.outdoors
+      && Stage.mode(app) === 'explore') {
       app.explore(app.state.exploring === part ? undefined : part);
       return true;
     }
     // F: the folded lenses taken up, or folded again (Folded, OR-1084).
-    if (key === 'f' && app.state.frame?.leaf.glance?.rail === 'folded' && !app.state.outdoors
+    if (key === 'f' && !!rail?.lenses.length && !app.state.outdoors
       && Stage.mode(app) === 'explore') { Folded.toggle(app); return true; }
     if (key === '?') { app.setState({ help: !app.state.help }); return true; }
     return false;

@@ -1,4 +1,5 @@
 import { WorldAssembler } from '../../src/world/world-assembler';
+import { Earned } from '../../src/lang/index';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { PlaySession } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view';
@@ -30,7 +31,10 @@ export class Glanced {
   static async country(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'kin', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    return new Glanced(Glanced.following(await PlaySession.start(w.path, seed, w.source)));
+    // On the earned stage (OR-1245): the frames these specs read are of the whole page, the map and the lenses too.
+    const session = await PlaySession.start(w.path, seed, w.source);
+    Earned.grant(session.campaign);
+    return new Glanced(Glanced.following(session));
   }
   // The company's own errand followed, as a player chooses it with Follow this: nothing is followed for them (the
   // owner, 12 November), and a spec of the page with an aim is of a player who has chosen one.

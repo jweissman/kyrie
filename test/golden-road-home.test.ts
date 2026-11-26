@@ -20,7 +20,7 @@ class Route {
     Promise<{ at: Said[]; c: Campaign }> {
     const lines = readFileSync(`doc/architecture/mission-22/s3-0/${file}`, 'utf8').split('\n').filter(Boolean)
       .slice(0, upto).flatMap((line, i) => [instead[i + 1] ?? line, ...after[i + 1] ?? []]);
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', as]));
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--as', as]));
     const r = new Runner(journey.session), at: Said[] = [];
     for (const line of lines) {
       let s = await AsMeant.ask(r, line);

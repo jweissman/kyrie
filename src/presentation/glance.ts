@@ -24,7 +24,7 @@ import { Perception } from './perception'; import { Companions } from './compani
 import { Alternatives } from './alternatives';
 import { CompanyRecall } from './company-recall';
 import { Acquainted } from './acquainted'; import { DecisionFrame } from './decision-frame';
-import { Charge } from './charge';
+import { Charge } from './charge'; import { Surfaces } from './surfaces';
 import { GlanceLines } from './glance-lines'; import { SiteOutsides } from './site-outsides';
 import type { Arrival, Glance as View, Promoted, Sensed } from './glance-types';
 import { PlayerFrame } from './player-frame'; import { TalkingWith } from './talking-with';
@@ -96,7 +96,7 @@ export class Glance {
       ...recall.back(screen, Itineraries.enclosed(campaign, here)), lenses: Promotion.lenses(cands, scene, s, acts),
       ...reading.idle?.size ? { idle: [...reading.idle] } : {}, ...sensed.length ? { sensed } : {},
       ...said ? { aim } : {}, ...goal ? { goal } : {}, ...need.length ? { need } : {}, ...after ? { after } : {},
-      rail: 'folded' };
+      rail: Surfaces.rail(screen) };
   }
   // What came of the act just done, and what it made relevant (REV-05; see DecisionFrame).
   private static after(campaign: Campaign, told: Told, at: { screen: Screen; acts: Promoted[]; scene: Scene }) {

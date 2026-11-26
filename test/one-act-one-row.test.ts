@@ -38,7 +38,7 @@ describe('one act, one row', () => {
   // follow and the question in Owain's talk. The aim's step offered here is its one row, in its words, and taking it
   // asks him and takes up the aim, the next part followed on from it.
   it("draws the aim to follow and its step offered here as one row, which takes the aim up", async () => {
-    const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--origin', 'drove', '--opening',
+    const { journey } = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'iscoed', '--origin', 'drove', '--opening',
       'none']));
     const r = new Runner(journey.session), s = r.said();
     const rows = RunnerOffer.flat([...s.offer.primary, ...s.offer.rest]);

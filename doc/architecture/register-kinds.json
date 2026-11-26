@@ -3120,6 +3120,54 @@
    "was": "defect",
    "pri": "P2",
    "why": "an instrument's quality, not a broken contract"
+  },
+  "OR-1240": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1241": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1242": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1243": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1244": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1245": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1246": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1247": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "the owner's direction of 26 November (compactification): a committed requirement"
   }
  },
  "blockedBy": {

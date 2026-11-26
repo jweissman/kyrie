@@ -33,7 +33,7 @@ export class SheetHour {
     });
     await cam.step('town', "Millholm's green, at rest", () => this.to('region__s2_green'));
     // The lenses folded at rest into their diamond (OR-1084), taken up.
-    await cam.step('lenses', 'The lenses unfolded from their diamond', () => page.click('[data-action="lenses"]'));
+    await cam.step('lenses', 'The lenses unfolded from their diamond', () => Rail.click(page, '[data-action="lenses"]'));
     await page.click('[data-action="lenses"]').catch(SheetHour.none);
     for (const [part, said] of [['go', 'Go… opened'], ['look', 'Look… opened'], ['wait', 'Wait… opened']] as const) {
       const mark = `.rail-mark.opens-${part}:not(:disabled)`;

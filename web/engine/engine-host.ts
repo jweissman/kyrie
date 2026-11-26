@@ -37,7 +37,7 @@ import { Oracle, type OracleAct } from '../../src/presentation/oracle';
 import { ChoiceList } from '../../src/ui/choice-list'; import { MenuTree } from '../../src/frame/menu-tree';
 import { Likenesses } from '../../src/presentation/likenesses';
 import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead';
-import { BoundJourney } from './bound-journey'; import { LegTold, type LegPassed } from './leg-told';
+import { BoundJourney } from './bound-journey'; import { LegTold, type LegPassed } from './leg-told'; import { Earned } from '../../src/lang/index';
 
 // A journey as it goes: each leg as it was told, and the frame the last one left, if it left one. passed: where the
 // last leg was told by its receipt, the host as it was before it (see passed), for the frame built where it ends.
@@ -117,7 +117,8 @@ export class EngineHost {
       case 'checkpoint': await this.working;
         return this.session ? JSON.stringify({ build: BuildStamp.current, checkpoint: this.session.checkpoint(true),
           log: this.log, ...this.bound ? { bound: this.bound } : {} }) : null;
-      case 'story': return this.log; case 'receipts': return this.session?.receipts ?? [];
+      // Every surface earned (the oracle's; a spec's earned stage, OR-1245), and the frame drawn again with them.
+      case 'story': return this.log; case 'receipts': return this.session?.receipts ?? []; case 'earn': Earned.grant(this.session?.campaign); return this.session ? this.settled() : null;
     }
   }
   // A choice in the making of a life, and the start it now asks for made ready meanwhile (see EngineStarts.readying).

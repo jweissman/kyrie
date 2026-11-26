@@ -3,6 +3,7 @@ import type { ItemRow, Screen } from '../../src/ui/screen-types';
 import type { ReaderApp } from './reader-app';
 import { Typography } from '../../src/presentation/typography';
 import { Words } from '../../src/presentation/words';
+import { Surfaces } from '../../src/presentation/surfaces';
 import { Act, type Draw } from './stage/act';
 
 // What each of you carries, as the things themselves (the owner's own play, 7 November: the pack had been "a jagged
@@ -40,7 +41,8 @@ export class PackGrid {
                 <PackGrid.Tile app={app} draw={draw} choice={c} item={items.find(i => i.id === c.id)}
                   chosen={c === chosen} /></li>)}</ul></div> : null;
           })}</div>
-          {chosen && <PackGrid.Chosen draw={draw} choice={chosen} item={items.find(i => i.id === chosen.id)} />}
+          {chosen && <PackGrid.Chosen draw={draw} choice={chosen} item={items.find(i => i.id === chosen.id)}
+            read={Surfaces.has(app.state.frame?.screen, 'the_encyclopedia')} />}
         </div>
       </section>
     );
@@ -63,7 +65,8 @@ export class PackGrid {
   // EncyclopediaHtml.script); a kind with no entry of its own opens the search for its name.
   static entry(kind: string): string { return `encyclopedia/index.html?id=item-${kind.replace(/_/g, '-')}`; }
   // The thing chosen: its plate large, its name, what it is, and what can be done with it.
-  static Chosen({ draw, choice: c, item }: { draw: Draw; choice: Choice; item?: ItemRow }) {
+  // Its entry only once the encyclopedia is earned (read: a library stood in, OR-1243).
+  static Chosen({ draw, choice: c, item, read }: { draw: Draw; choice: Choice; item?: ItemRow; read?: boolean }) {
     const acts = draw.open.has(c.id) ? c.children ?? [] : [];
     return (
       <section className="pack-chosen" aria-live="polite" data-held={c.id}>
@@ -73,7 +76,7 @@ export class PackGrid {
         {c.about && <p className="pack-about">{Typography.curl(c.about)}</p>}
         {item?.packed && <p className="pack-packed">{Typography.curl(item.packed)}</p>}
         {acts.length > 0 && <Act.List choices={acts} draw={draw} className="column" />}
-        {item && <a className="pack-entry quiet-word" href={PackGrid.entry(item.kind)} target="_blank" rel="noopener">
+        {item && read && <a className="pack-entry quiet-word" href={PackGrid.entry(item.kind)} target="_blank" rel="noopener">
           In the encyclopedia</a>}
       </section>
     );

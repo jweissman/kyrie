@@ -13,6 +13,7 @@ import { ScreenModel } from '../../src/ui/screen-model';
 import { Itineraries } from '../../src/ui/itinerary';
 import { Costs, type Tally } from '../../src/costs';
 import type { Screen } from '../../src/ui/screen-types';
+import { Earned } from '../../src/lang/index';
 
 // The smallest world a rule can be proved in (Mission 21, Phase 0): one Kyr module written in the spec (see
 // SingleModule), on the shared rules, started in a tenth of a second in a process that has started one (0.22 s warm
@@ -33,9 +34,11 @@ export class Tiny {
   // land of its place `region` where it has one drawn by hand, its open country as places t0, t1… (see LandModel).
   static async start(kyr: string, options: { party?: CreatureGenerationContext[]; rules?: string[];
     seed?: string; chart?: LandChart; calendar?: CalendarStart; canon?: string[]; own?: boolean;
-    night?: 'none'; currency?: string } = {}): Promise<Tiny> {
+    night?: 'none'; currency?: string; earned?: boolean } = {}): Promise<Tiny> {
     const mark = Costs.mark(), { source, campaign } = SingleModule.source(kyr, options);
     const session = await PlaySession.start(campaign, options.seed ?? 'tiny', source);
+    // The earned stage (OR-1245): every surface earned at once, for a rule of the map or the lenses proved here.
+    if (options.earned) { Earned.grant(session.campaign); }
     const tiny = new Tiny(Journey.of(session, true));
     tiny.costs = Costs.since(mark);
     return tiny;

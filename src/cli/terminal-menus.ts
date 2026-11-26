@@ -4,6 +4,7 @@ import { Typography } from '../presentation/typography';
 import { TerminalColour } from './terminal-colour';
 import type { Instrument } from '../presentation/instruments';
 import type { Aspect, Lens } from '../presentation/glance-types';
+import { Earned, type Surface } from '../lang/index';
 import type { ActType } from '../presentation/offer';
 import type { Menu, Row } from './terminal-picker';
 import type { Signed } from './terminal-signs';
@@ -18,8 +19,10 @@ export interface Listing { id: string; name: string; time: number; aspects?: Asp
 // What a scene's picker is made of: the few led with and every legal act, the lens looked through (or the talk), the
 // instruments that bear on the moment, and the row the focus was on.
 // with: whom the company is speaking with, by name.
+// surfaces: what the company has earned (Screen.surfaces): a lens's key and the map's only once earned (OR-1241).
 export interface Scene {
   first: Listing[]; all: Listing[]; lens?: Lens; with?: string; instruments?: Instrument[]; focus?: string;
+  surfaces?: Surface[];
 }
 
 // The human mode's menus (TP-01), made from what the terminal already lists: a scene's four and the rest of the legal
@@ -29,17 +32,22 @@ export class TerminalMenus {
   // The keys that are commands at rest: the lenses by the page's names for them (GRAMMAR.md: Talk, Go, Look, Wait),
   // the place looked at whole, the map, the company, the aims, a save.
   static readonly lenses: Record<string, Lens> = { t: 'people', g: 'places', l: 'things', w: 'time' };
+  private static readonly earns: Record<Lens, Surface> = { people: 'lens_talk', places: 'lens_go', things: 'lens_look',
+    time: 'lens_wait' };
   private static readonly lensSaid: Record<Lens, string> = { people: 'talk', places: 'go', things: 'look',
     time: 'wait' };
   static scene(s: Scene): Menu {
     const shown = new Set(s.first.map(c => c.id));
-    const keys = Object.fromEntries(Object.entries(this.lenses).map(([k, lens]) => [k,
-      { command: s.lens === lens ? 'here' : lens, said: this.lensSaid[lens] }]));
+    const keys = Object.fromEntries(Object.entries(this.lenses)
+      .filter(([, lens]) => Earned.has(s.surfaces, this.earns[lens]))
+      .map(([k, lens]) => [k, { command: s.lens === lens ? 'here' : lens, said: this.lensSaid[lens] }]));
+    const map: Record<string, { command: string; said: string }> = Earned.has(s.surfaces, 'the_map')
+      ? { m: { command: 'map', said: 'map' } } : {};
     return { rows: s.first.map(c => this.row(c)), rest: this.grouped(s.all.filter(c => !shown.has(c.id))), fold: true,
       info: (s.instruments ?? []).filter(i => i.relevant).map(i => this.instrument(i)),
       ...s.lens ? { title: `${this.lensSaid[s.lens][0]!.toUpperCase()}${this.lensSaid[s.lens].slice(1)}`, back: 'here' }
         : s.with ? { title: `With ${Typography.plain(s.with)}` } : {},
-      keys: { ...keys, o: { command: 'look', said: 'look about' }, m: { command: 'map', said: 'map' },
+      keys: { ...keys, o: { command: 'look', said: 'look about' }, ...map,
         c: { command: 'character', said: 'company' }, a: { command: 'aims', said: 'aims' },
         s: { command: 'save', said: 'save' } },
       ...s.focus ? { focus: s.focus } : {} };

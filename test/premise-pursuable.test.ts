@@ -18,7 +18,7 @@ describe('the first page of every origin on a1', () => {
     for (const origin of ['debt', 'kin', 'herbs', 'order', 'wanderer', 'map', 'lost', 'courier']) {
       // An origin this world cannot hold (herbs, with no fever placed) is not offered at creation, and is refused
       // where it is asked for by name (--as): it had set out with "No aim is held".
-      const s = await PlayTool.start(PlayTool.parse(['--world', 'a1', '--origin', origin, '--as', 'human/thief/Haze']))
+      const s = await PlayTool.start(PlayTool.parse(['--earned', '--world', 'a1', '--origin', origin, '--as', 'human/thief/Haze']))
         .then(x => x.journey.session).catch((e: Error) => { out.push(`refused: ${e.message}`); return undefined; });
       if (!s) { continue; }
       // The origin's own errand; or, where its premise is a trouble of the country's (the fever's child, the

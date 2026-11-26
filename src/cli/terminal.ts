@@ -302,6 +302,7 @@ export class Terminal {
     const picked = await input.pick(TerminalMenus.scene({ first: offered.first,
       all: offered.rest ? [...offered.first, ...offered.rest] : offered.all.filter(c => !folded.has(c.id)),
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
+      ...turn.current?.screen.surfaces ? { surfaces: turn.current.screen.surfaces } : {},
       ...turn.talking ? { with: this.whom(turn.current?.screen, turn.talking.id) } : {},
       ...turn.focus ? { focus: turn.focus } : {} }));
     if (!picked) { return null; }
