@@ -1,0 +1,1 @@
+{"version":1,"source":["valley.kyr","abbey.kyr","dragon.kyr","endings.kyr","placed.kyr"],"rules":["world"],"globals":["party"],"canon":["imbar"],"imports":["party"],"roles":{"party":{"type":"group"}},"exports":{"party":"party","region":"summermark","road":"rose_road"}}

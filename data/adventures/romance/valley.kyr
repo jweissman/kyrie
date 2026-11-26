@@ -1,0 +1,32 @@
+Module romance "The Rose of Orlane" {
+  Description "A green valley, a ruined abbey and the red dragon that keeps its bell, its prisoners and its book of spells.".
+  Place summermark "the Summermark" is region within imbar.
+  Place orlane "Orlane" is settlement within summermark at 0, 0.
+  Place rose_road "the rose road" is room within orlane at 0, 0 outdoors.
+  Place bridge "the bridge of swords" is room within orlane at 1, 0 outdoors.
+  Place high_valley "the high valley" is wilderness within summermark at 0, 1.
+  Place abbey_gate "the gate of Saint Arda's" is room within high_valley at 0, 0 outdoors.
+  Passage road_to_bridge "the road to the bridge" is road between rose_road and bridge taking 20 minutes.
+  Passage bridge_to_abbey "the pilgrim road into the high valley" is road between bridge and abbey_gate taking 2 hours.
+  Observe rose_scene at rose_road as fixture when true "Wild roses have taken the milestones. Beyond them the high valley is green except for one black hill, where a roofless abbey holds a red glimmer even at noon.".
+  Observe bridge_scene at bridge as fixture when true "Every stone in the bridge's parapet bears the cut shape of a sword. Under the arch, the river runs red with iron from the hill.".
+  Observe gate_scene at abbey_gate as fixture when true "Saint Arda's stands open to the sky. Its bell is gone; in the tower, something enormous breathes among the rafters.".
+  Person maelin "Maelin Vale" at rose_road { Role "the old keeper of Orlane's empty bell-rope". Ancestry human. Peaceable. Pronouns she. }
+  Discovery dragon_tale "The red dragon Avarrax has taken Saint Arda's abbey. It keeps the abbey bell and every treasure carried up the hill. Three treasure-seekers who went after the bell are alive in its undercroft.".
+  Discovery arda_mercy "Saint Arda's words were: steel for the proud, the open hand for the bound.".
+  Topic maelin_dragon with maelin "Ask Maelin Vale about the red light on the hill" when not knows(party, dragon_tale) {
+    Says "'Avarrax,' says Maelin. 'It came at midsummer and carried our bell off in its claws. Since then it has taken every bright thing on the road. Three young fools climbed after the bell. I heard them singing under the hill yesterday, to tell us they lived.' She gives the ruined abbey one hard look. 'Bring the living down. Bring the bell if fortune loves you.'".
+    On discuss { Assert knows(actor, dragon_tale). }
+  }
+  Topic maelin_saint with maelin "Ask Maelin what the swords on the bridge mean" when knows(party, dragon_tale) and not knows(party, arda_mercy) {
+    Says "'The knights came armed to take the valley,' says Maelin. 'Arda made them lay every sword on the bridge before she opened the gate. Her words are cut under the arch: steel for the proud, the open hand for the bound. Remember the second half.'".
+    On discuss { Assert knows(actor, arda_mercy). }
+  }
+  Observe bridge_words at bridge as sign when not knows(party, arda_mercy) "Under the bridge's arch, old letters wait just above the waterline.".
+  Action read_bridge(actor: group, site: place) "Climb down and read the letters under the bridge" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, bridge) and not knows(actor, arda_mercy). Time 10 minutes.
+    On success { Assert knows(actor, arda_mercy). }
+    Result "Moss gives way under your hand. The letters beneath it read: STEEL FOR THE PROUD; THE OPEN HAND FOR THE BOUND.".
+  }
+  Objective climb_when_told when knows(party, dragon_tale) and not dead(avarrax) toward abbey_gate "Avarrax holds Saint Arda's abbey. Three treasure-seekers are alive beneath it, and Orlane's bell lies in the dragon's hoard.".
+}

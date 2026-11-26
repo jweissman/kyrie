@@ -1,0 +1,15 @@
+Module romance "The Rose of Orlane" {
+  Person avarrax "Avarrax" at tower {
+    Role "the red dragon of Saint Arda's, old enough to know the value of a bell and young enough to sleep on crowns". Species dragon. Variant red_lineage. Level 8. Numbers 1. Temperament proud.
+    Warns "A red head rises behind the bell. Smoke slips between teeth long as knives. 'Another little company,' says Avarrax. 'Have you brought me a better story than the last?'".
+    Comes "Avarrax unfolds from the treasure, and the broken tower becomes too small for its wings.". Lair tower.
+  }
+  Relation dragonChallenged(group).
+  Action challenge_dragon(actor: group, site: place) "Challenge Avarrax for the bell and the prisoners" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, tower) and at(avarrax, tower) and able(avarrax) and not dead(avarrax) and not dragonChallenged(actor). Time 0.
+    On success { Assert dragonChallenged(actor). Retract peaceable(avarrax). }
+    Result "'For a bell?' Avarrax asks. 'For strangers?' The dragon laughs, and every coin on the floor jumps. Then the fire comes.".
+  }
+  Rule dragon_falls at tower when dead(avarrax) once says "Avarrax falls across the broken rim of the tower. For a moment its wings fill the high valley; then they settle, red and still, and below, in Orlane, the empty bell-rope begins to stir in the wind." { }
+  Objective dragon_stands when knows(party, dragon_tale) and at(party, tower) and able(avarrax) and not dead(avarrax) "Avarrax stands between you and the hoard of Saint Arda's.".
+}

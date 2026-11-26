@@ -1,0 +1,11 @@
+Module romance "The Rose of Orlane" {
+  Relation bellReturned(group).
+  Topic return_bell with maelin "Return the bell of Orlane to Maelin" when prisonersFreed(party) and dead(avarrax) and holding(party, bell_kind) and not bellReturned(party) {
+    Says "Nobody cheers when the bell comes down the rose road. They put their shoulders beneath it. Maelin lays both hands on the bronze, where the dragon's claws left it bright. 'Ring it,' she says to the three who were prisoners. The note goes up the valley. Birds rise from every hedge, and the black hill gives back a small, astonished echo.".
+    On discuss { Spend bell_kind from party. Assert bellReturned(party). }
+  }
+  Ending rescuers_end "The Bell at Evening" when bellReturned(party) and bookRead(party) and at(party, rose_road) "At evening the bell speaks over Orlane again. The rescued treasure-seekers sit under the tower with bread in their hands. Somewhere in the company, two new spells wait like a flame and the rain that answers it. High on Saint Arda's hill, a crown still lies among the coin—or does not—and that part of the tale is yours.".
+  Milestone rescued_milestone "freed the prisoners of Saint Arda's" worth 120 when prisonersFreed(party).
+  Milestone dragon_milestone "defeated Avarrax" worth 300 when dead(avarrax).
+  Milestone spells_milestone "learned the two answers in Saint Arda's book" worth 150 when bookRead(party).
+}

@@ -1,0 +1,54 @@
+Module romance "The Rose of Orlane" {
+  Place nave "the roofless nave" is room within high_valley at 1, 0 outdoors.
+  Place undercroft "the undercroft" is room within high_valley at 1, 1 underground.
+  Place tower "the broken bell-tower" is room within high_valley at 2, 0 outdoors.
+  Passage gate_to_nave "the abbey gate" is door between abbey_gate and nave.
+  Passage stair_below "the undercroft stair" is stair between nave and undercroft.
+  Passage stair_tower "the bell-tower stair" is passage between nave and tower.
+  Observe nave_scene at nave as fixture when true "Grass grows between the paving stones. The saints along the walls have lost their faces to claw-marks, except Arda, whose stone hands are open.".
+  Observe undercroft_scene at undercroft as fixture when true "The undercroft is cool, close and full of the smell of roses. Three prisoners watch from behind an iron screen.".
+  Observe tower_scene at tower as fixture when true "Half a tower remains. On its open floor lies the wealth of a dozen little adventures: cups, crowns, pilgrim coin and the bronze bell of Orlane.".
+  Person prisoners "the three prisoners" at undercroft { Role "three treasure-seekers, hungry and ash-streaked, still wearing their empty sword-belts". Ancestry human. Numbers 3. Peaceable. }
+  Relation prisonersFreed(group). Relation prisonersFound(group).
+  Rule hear_prisoners at nave when at(party, nave) and not prisonersFreed(party) and not prisonersFound(party) once says "From below comes a thin, determined song. Three voices reach the last line and begin again." { Assert prisonersFound(party). }
+  Thing iron_screen "the iron screen" on stair_below {
+    State barred blocking "An iron screen bars the stair. Its lock has no keyhole; two stone hands project from the wall beside it, one closed and one open.".
+    State open "The iron screen stands open on a hinge hidden in the stone.".
+  }
+  Action open_screen(actor: group, site: place) "Lay an open hand in Saint Arda's stone hand" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and state(iron_screen, barred) and knows(actor, arda_mercy). Time 1 minute.
+    On success { Assert state(iron_screen, open). }
+    Result "Stone warms under your palm. The saint's fingers close very gently about yours, and the iron screen swings inward without a sound.".
+  }
+  Action force_screen(actor: group, site: place) "Force the iron screen" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, nave) and state(iron_screen, barred) and not knows(actor, arda_mercy).
+    Resolve check(actor, brawn, dc_hard).
+    On success { Assert state(iron_screen, open). } Result "Old iron screams in the stairwell. The screen tears free of its lower hinge.".
+    Otherwise "The iron bows, groans, and holds. The closed stone hand seems almost to tighten.".
+  }
+  Topic prisoners_story with prisoners "Ask the prisoners how they came here" when not prisonersFreed(party) {
+    Says "'Treasure,' says the tallest, with a rueful dignity. 'We thought the old stories meant coin. They did. They neglected to mean dragon.' A smaller prisoner points upward. 'The book is real too. Blue leather, silver corners. Avarrax cannot open it. We heard it trying.'".
+  }
+  Topic free_prisoners with prisoners "Lead the prisoners out of the undercroft" when state(iron_screen, open) and not prisonersFreed(party) {
+    Says "They come through one at a time. The last, a young woman with a burnt braid, turns back to the cell and bows. 'We came hunting treasure,' she says. 'It is good to know what we found.'".
+    On discuss { Assert prisonersFreed(party). }
+  }
+  Rule prisoners_leave when prisonersFreed(party) and at(prisoners, undercroft) { Retract at(prisoners, undercroft). Assert at(prisoners, rose_road). }
+  Kind bell_kind "the bell of Orlane" is treasure worth 200 weighing 18 described "A bronze abbey bell small enough for three strong people to carry, green at the lip and bright where the dragon's claws held it.".
+  Kind crown_kind "the briar crown" is treasure worth 350 weighing 2 described "A narrow gold crown worked as a briar, each thorn tipped with a seed pearl.".
+  Kind spellbook_kind "Saint Arda's book of embers" is treasure worth 80 weighing 2 described "A book of blue leather with silver corners. Its first page is warm. Its last smells of rain on stone.".
+  Item abbey_bell "Orlane's stolen bell" is bell_kind at tower. Item briar_crown "the briar crown" is crown_kind at tower. Item book_of_embers "Saint Arda's book of embers" is spellbook_kind at tower.
+  Relation fireRead(group). Relation rainRead(group). Relation bookRead(group).
+  Action read_fire_page(actor: group, reader: member, site: place) "Have {reader} read the book's page of fire" {
+    Requires able(actor) and company(actor) and at(actor, site) and memberOf(reader, actor) and holding(actor, spellbook_kind) and not fireRead(actor). Time 1 hour.
+    Resolve teach(reader, burning_hands). On success { Assert fireRead(actor). }
+    Result "The silver clasp opens for {reader}. Fire flowers from an empty hand across the page, petal by petal, until the hand remembers it.".
+  }
+  Action read_rain_page(actor: group, reader: member, site: place) "Have {reader} read the book's page of rain" {
+    Requires able(actor) and company(actor) and at(actor, site) and memberOf(reader, actor) and holding(actor, spellbook_kind) and not rainRead(actor). Time 1 hour.
+    Resolve teach(reader, drench). On success { Assert rainRead(actor). }
+    Result "The last page smells of rain on stone. Water answers {reader}'s lifted hand, and the letters fade, leaving room for another hand in another age.".
+  }
+  Rule book_learned when fireRead(party) and rainRead(party) and not bookRead(party) { Assert bookRead(party). }
+  Objective prisoners_wait when prisonersFound(party) and not prisonersFreed(party) toward undercroft "Three treasure-seekers are imprisoned beneath Saint Arda's. The screen bears the saint's open hand.".
+}
