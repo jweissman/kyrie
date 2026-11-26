@@ -65,7 +65,9 @@ class Played {
       const site = /^region__(w\d+)/.exec(c.world.one('at', group) ?? '')?.[1];
       if (!site || members.some(m => read.partyIds.includes(m))
         || c.world.test(ModuleWriter.call('peaceable', group))) { continue; }
-      const worth = members.reduce((n, id) => n + Advancement.worth(read.creatures.find(x => x.id === id)!), 0);
+      const worth = members.reduce(
+        (n, id) => n + Advancement.worth(c.catalog, read.creatures.find(x => x.id === id)!), 0,
+      );
       if (worth > (best.get(site)?.worth ?? -1)) { best.set(site, { group, worth }); }
     }
     return [...best.values()].map(({ group }) => ({ name: c.module.entities.find(e => e.id === group)?.name,

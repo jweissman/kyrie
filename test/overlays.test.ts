@@ -92,18 +92,18 @@ describe('authored identity is never overwritten by generation', () => {
     const p = { id: 'nera', name: 'Nera', place: 'shop', raceId: 'human', classId: 'commoner', level: 2, actions: [],
       authored: ['raceId', 'level'] } as Person;
     const conflicts: string[] = [];
-    const cast = Cast.person(p, { name: 'Nerys', raceId: 'dwarf', classId: 'fighter' }, conflicts);
+    const cast = Cast.person(ItemCatalog.canon, p, { name: 'Nerys', raceId: 'dwarf', classId: 'fighter' }, conflicts);
     expect(cast.context).toMatchObject({ name: 'Nerys', raceId: 'human', classId: 'fighter', level: 2 });
     expect(cast.provenance).toMatchObject({ name: 'generated', raceId: 'authored', classId: 'generated', level: 'authored' });
     expect(conflicts).toEqual(['nera.raceId: generated dwarf ignored; authored human kept']);
-    expect(() => Cast.person(p, { hitPoints: 4 })).toThrow('not a field of a person');
+    expect(() => Cast.person(ItemCatalog.canon, p, { hitPoints: 4 })).toThrow('not a field of a person');
   });
   it('gives way to an authored calling a generated people cannot follow', () => {
     const curate = { id: 'wenna', name: 'Someone', place: 'green', classId: 'cleric', level: 1, actions: [],
       authored: ['classId', 'level'] } as unknown as Person;
-    const cast = Cast.person(curate, { raceId: 'elf' });
+    const cast = Cast.person(ItemCatalog.canon, curate, { raceId: 'elf' });
     expect(cast.context).toMatchObject({ raceId: 'human', classId: 'cleric' });
     expect(cast.provenance?.raceId).toBe('default');
-    expect(Cast.person(curate, { raceId: 'dwarf' }).context.raceId).toBe('dwarf');
+    expect(Cast.person(ItemCatalog.canon, curate, { raceId: 'dwarf' }).context.raceId).toBe('dwarf');
   });
 });

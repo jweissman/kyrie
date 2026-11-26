@@ -14,7 +14,8 @@ export interface CastMember { id: string; context: CreatureGenerationContext; go
 export class Cast {
   static readonly fields = ['raceId', 'classId', 'level', 'backgroundId', 'professionId', 'traits', 'gear', 'aspect',
     'template', 'variations'] as const;
-  static person(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember {
+  static person(catalog: ItemCatalog, p: Person, generated: Record<string, unknown> = {},
+    conflicts: string[] = []): CastMember {
     for (const key of Object.keys(generated)) {
       if (!['name', 'parameters', 'role', 'count'].includes(key) && !(this.fields as readonly string[]).includes(key)) {
         throw new Error(`Generated casting for ${p.id} sets ${key}, which is not a field of a person`);
@@ -48,7 +49,7 @@ export class Cast {
     const offered = Object.entries((generated.parameters ?? {}) as Record<string, unknown>)
       .filter(([, v]) => v != null);
     const parameters = { ...Object.fromEntries(offered), ...p.creature } as Record<string, unknown>;
-    const chosen = typeof generated.raceId === 'string' && Canon.isSpecies(generated.raceId);
+    const chosen = typeof generated.raceId === 'string' && catalog.isSpecies(generated.raceId);
     if (Object.keys(parameters).length && !chosen) {
       Object.assign(context, Cast.creature(p.id, parameters, context));
       provenance.raceId = p.creature ? 'authored' : 'generated';
@@ -76,21 +77,22 @@ export class Cast {
     return typeof v === 'string' && !['any', 'none'].includes(v) ? v : undefined;
   }
   // Every creature of a person's group: one unless the person Numbers more. Each has its own identity and draws.
-  static group(p: Person, generated: Record<string, unknown> = {}, conflicts: string[] = []): CastMember[] {
+  static group(catalog: ItemCatalog, p: Person, generated: Record<string, unknown> = {},
+    conflicts: string[] = []): CastMember[] {
     // How many: as the author numbered them, else as generation cast them (a den's one bear or two wolves), else one.
-    const first = this.person(p, generated, conflicts);
+    const first = this.person(catalog, p, generated, conflicts);
     const count = p.count ?? (typeof generated.count === 'number' ? generated.count : 1);
     if (p.names && p.names.length !== count) { throw new Error(`${p.id}: Called names ${p.names.length} of ${count}`); }
     if (count === 1) { return [first]; }
     return Array.from({ length: count }, (_, i) => ({ ...structuredClone(first), id: i ? `${first.id}_${i + 1}` : first.id,
-      context: { ...structuredClone(first.context), name: p.names?.[i] ?? this.numbered(p, generated, i) } }));
+      context: { ...structuredClone(first.context), name: p.names?.[i] ?? this.numbered(catalog, p, generated, i) } }));
   }
   // Members of a group no one has named are told apart by their role and number ("Cave spider 2"), or, when the
   // role describes the whole group ("a sow bear and her grown cub", "goblins who have made a home of the upper
   // galleries"), by their kind ("Bear 2", "Goblin 2").
-  private static numbered(p: Person, generated: Record<string, unknown>, i: number): string {
+  private static numbered(catalog: ItemCatalog, p: Person, generated: Record<string, unknown>, i: number): string {
     const role = typeof generated.role === 'string' ? generated.role : p.role;
-    const species = Content.race(p.raceId ?? '')?.name;
+    const species = Content.race(catalog, p.raceId ?? '')?.name;
     const unusable = !role || / and |,/.test(role) || role.split(' ').length > 3;
     // A group its author named as someone's ("Skell's sons") is told by that name, one by one ("The second of Skell's
     // sons"), not by its kind: the barge's fight had been "Human 1", "Human 2" (CO-14).

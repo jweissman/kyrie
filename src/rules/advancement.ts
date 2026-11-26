@@ -28,11 +28,11 @@ export class Advancement {
     return level <= 1 ? 0 : t[level - 2] ?? Infinity;
   }
   // What defeating a creature is worth: its kind's value for each of its levels.
-  static worth(creature: Creature): number {
-    const own = Canon.isBody(creature.raceId) ? Canon.creature(creature.raceId).worth : undefined;
+  static worth(catalog: ItemCatalog, creature: Creature): number {
+    const own = catalog.isBody(creature.raceId) ? catalog.creature(creature.raceId).worth : undefined;
     if (own) { return own.base + own.perLevel * creature.base.level; }
-    const each = Canon.isBody(creature.raceId)
-      ? this.table.species[Canon.creature(creature.raceId).type ?? ''] ?? this.table.species.monster!
+    const each = catalog.isBody(creature.raceId)
+      ? this.table.species[catalog.creature(creature.raceId).type ?? ''] ?? this.table.species.monster!
       : this.table.ancestry[creature.raceId] ?? this.table.person;
     return each * creature.base.level;
   }
@@ -139,8 +139,8 @@ export class Advancement {
   }
   // Taught a skill by someone who has it (Resolve tutor: a herb-wife's hour in the woods, for coin): from then on the
   // member brings it, as one trained in it, with no development spent. False where they bring it already.
-  static tutor(creature: Creature, skill: string): boolean {
-    if (creature.state.hp === 0 || PartyCapabilities.brings(skill, creature)) { return false; }
+  static tutor(catalog: ItemCatalog, creature: Creature, skill: string): boolean {
+    if (creature.state.hp === 0 || PartyCapabilities.brings(catalog, skill, creature)) { return false; }
     creature.state.skills = [...creature.state.skills ?? [], skill];
     return true;
   }

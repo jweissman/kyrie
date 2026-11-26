@@ -59,7 +59,7 @@ export interface Companion { raceId: string; name: string }
 
 export class CreatureSchema {
   // What levels have still to give, and the skills taken up with them.
-  static validateProgress(creature: Creature) {
+  static validateProgress(creature: Creature, catalog: ItemCatalog) {
     const advances = creature.state.advances;
     const counts = advances ? [advances.qualities, advances.spells, advances.feats ?? 0] : [];
     if (!counts.every(n => Number.isSafeInteger(n) && n >= 0)) {
@@ -71,7 +71,8 @@ export class CreatureSchema {
     }
     if (!DailyUses.validate(creature.state.daily)) { throw new Error(`Invalid uses a day: ${creature.id}`); }
     const c = creature.state.companion;
-    if (c !== undefined && (typeof c.name !== 'string' || !c.name || typeof c.raceId !== 'string' || !Canon.isBody(c.raceId))) {
+    if (c !== undefined && (typeof c.name !== 'string' || !c.name || typeof c.raceId !== 'string'
+      || !catalog.isBody(c.raceId))) {
       throw new Error(`Invalid companion: ${creature.id}`);
     }
   }
@@ -95,7 +96,7 @@ export class CreatureSchema {
       throw new Error('Creature needs identity, name and kind');
     }
     CreatureSchema.marks(creature);
-    if (Canon.isBody(creature.raceId) ? creature.classId !== undefined
+    if (catalog.isBody(creature.raceId) ? creature.classId !== undefined
       : !Canon.isAncestry(creature.raceId) || typeof creature.classId !== 'string' || !Callings.of(creature.classId)) {
       throw new Error(`${creature.id}: a person has an ancestry and a class; a species creature has no class`);
     }
@@ -117,7 +118,7 @@ export class CreatureSchema {
         || ready[i]!.some(id => ready[i]!.filter(x => x === id).length > p.filter(x => x === id).length)))) {
       throw new Error(`Invalid prepared spells: ${creature.id}`);
     }
-    this.validateProgress(creature);
+    this.validateProgress(creature, catalog);
     const inventory = creature.state.inventory ?? [];
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition
       || (i.equipped !== undefined && typeof i.equipped !== 'boolean') || (i.material && !Canon.materials[i.material]))

@@ -73,7 +73,7 @@ export class CreatureFacts {
       if (scope.has.has('learnable')) { changes.push(...this.lessons(world, members, scope.references)); }
       if (scope.has.has('featOpen')) { changes.push(...this.feats(world, members, scope.references)); }
       if (scope.has.has('skillOpen')) { changes.push(...this.schooling(world, members, scope)); }
-      if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members)); }
+      if (scope.has.has('temperament')) { changes.push(...this.temperament(world, actor.id, members, scope.catalog)); }
     }
     return changes.filter(c => c.kind === 'assert' ? !world.holds(World.key(c.call)) :
       c.kind === 'retract' ? world.holds(World.key(c.call)) :
@@ -83,9 +83,9 @@ export class CreatureFacts {
   // A group of one species takes its species' temperament, unless the place has given it one; and a group the place
   // has given no words of its own (and whose meeting with the company it has not scripted in states) speaks in the
   // plain words of its temperament.
-  private static temperament(world: World, group: string, members: Creature[]): Change[] {
+  private static temperament(world: World, group: string, members: Creature[], catalog: ItemCatalog): Change[] {
     // Of its kind as it is made: a starving rat "will not wait to be sure of you" (BP-04), a rat is wary.
-    const kinds = new Set(members.map(c => Canon.temperament([c.raceId, ...c.variations ?? []].join('/'))));
+    const kinds = new Set(members.map(c => catalog.temperament([c.raceId, ...c.variations ?? []].join('/'))));
     const kind = [...kinds][0] ? `temper_${[...kinds][0]!}` : undefined, words = this.words(world.module);
     const given = world.one('temperament', group);
     // One the place has made peaceable keeps the peace, whatever its kind would do; a tame kind is peaceable anyway.
@@ -245,7 +245,7 @@ export class CreatureFacts {
     // only reader): said of everyone, it had been three facts in four of a world (construction.md §6).
     if (has.has('proficient')) {
       changes.push(...this.set(scope, 'proficient', reference, company
-        ? kinds.filter(k => Creation.canEquip(c.classId, k.id)).map(k => k.id) : []));
+        ? kinds.filter(k => Creation.canEquip(scope.catalog, c.classId, k.id)).map(k => k.id) : []));
     }
     const learned = [...c.base.abilities, ...c.state.learnedAbilities];
     if (has.has('canTrain')) {

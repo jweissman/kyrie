@@ -104,7 +104,7 @@ export class MonsterManual {
   }
   // A kind's painting, as play shows it (see CreaturePortraits); a device has none.
   private painted(id: string): Pick<Entry, 'painting'> {
-    const painting = Canon.isBody(id) ? CreaturePortraits.painting(id) : undefined;
+    const painting = CreaturePortraits.canonicalPainting(id);
     return painting ? { painting } : {};
   }
   // What can make a creature other than its kind, one of each axis (data/catalog/variations.json).

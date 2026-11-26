@@ -39,7 +39,8 @@ export class Unread {
   // "The road-grant in the press: it wants lore, and the company has none of it."
   static said(campaign: Campaign, u: Unreadable): string {
     const byId = EntityIndex.of(campaign.module.entities).byId;
-    const named = u.needs.map(n => Means.item(n) ? ItemNames.called(Means.item(n)!)
+    const named = u.needs.map(n => Means.item(campaign.catalog, n)
+      ? ItemNames.called(Means.item(campaign.catalog, n)!)
       : (byId.get(n)?.name ?? n.replace(/_/g, ' ')).toLowerCase());
     const list = named.length > 1 ? `${named.slice(0, -1).join(', ')} or ${named.at(-1)}` : named[0] ?? 'more';
     return `${u.name.charAt(0).toUpperCase()}${u.name.slice(1)}: it wants ${list}, and the company has none of it.`;

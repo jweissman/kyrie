@@ -22,7 +22,7 @@ export class CampaignAssembly {
       const draft = await ModuleBundle.load(request, { seed, installed: canon?.campaign.installations,
         party: party?.length, canonless: manifest.canon === false, kinds: canon?.module.catalog }, source);
       if (party) { CompanyChoices.apply(draft, party, manifest.canon === false); }
-      EngineDeclarations.declare(draft, canon?.module.catalog);
+      EngineDeclarations.declare(draft, Campaign.catalogAmong(canon?.module.catalog, draft.instance.module.catalog));
       const first = ModuleInstallations.prepare(canon, draft, 0, false);
       campaign = new Campaign(seed, first, undefined, CanonInstall.dated(manifest));
     }

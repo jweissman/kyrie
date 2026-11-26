@@ -8,6 +8,7 @@ import { WorldAssembler } from '../world/world-assembler';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import { CreatureVariants } from '../creature-variants';
 import abilities from '../../data/catalog/orsino/abilities.json';
+import { ItemCatalog } from '../item-catalog';
 
 // What of the bestiary ordinary generated play meets (the owner, 6 November: evidence that it is operational, not
 // imported): countries made from seeds, every creature their generated text places counted by the way it came there
@@ -74,7 +75,7 @@ export class BestiaryReport {
   // Why nothing can choose a kind.
   static why(kind: string): string {
     const s = Canon.creature(kind);
-    if (CreatureVariants.wanting(kind)) { return `met only with its ${s.requires} (its kinds are)`; }
+    if (CreatureVariants.wanting(ItemCatalog.canon, kind)) { return `met only with its ${s.requires} (its kinds are)`; }
     if (Canon.temperament(kind) === 'tame') { return 'tame: kept by people, placed with them'; }
     if (!s.habitats?.length) { return 'its record says nowhere it lives'; }
     if (!s.abundance) { return 'its record says where it lives but not how common it is'; }

@@ -19,9 +19,10 @@ describe('advancement', () => {
   it('follows Orsino\'s experience curve and values creatures by kind and level', () => {
     expect([2, 3, 4].map(l => Advancement.threshold(l))).toEqual([1000, 3000, 6200]);
     const content = new Content('worth');
-    expect(Advancement.worth(content.createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf' }))).toBe(150);
-    expect(Advancement.worth(content.createCreature(ItemCatalog.canon, 'r', { raceId: 'revenant' }))).toBe(300);
-    expect(Advancement.worth(content.createCreature(ItemCatalog.canon, 'h', { raceId: 'human', classId: 'warrior', level: 2 }))).toBe(60);
+    expect(Advancement.worth(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf' }))).toBe(150);
+    expect(Advancement.worth(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'r', { raceId: 'revenant' }))).toBe(300);
+    expect(Advancement.worth(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'h',
+      { raceId: 'human', classId: 'warrior', level: 2 }))).toBe(60);
   });
   // Half of Orsino's reward (worth, ten for each of them, and 25) to each who stood: shared among them, a companion had
   // halved what one earned (the play-structure investigation's PT-03); by the square of their number, four rats had
@@ -33,7 +34,7 @@ describe('advancement', () => {
     company[2]!.state.hp = 0;
     const store = new CreatureStore(ItemCatalog.canon, [...hounds, ...company]),
       world = { module: { measures: [] } } as unknown as World;
-    const half = Math.floor((2 * Advancement.worth(hounds[0]!) + 10 * 2 + 25) / 2);
+    const half = Math.floor((2 * Advancement.worth(ItemCatalog.canon, hounds[0]!) + 10 * 2 + 25) / 2);
     FieldUse.award(store, ['a', 'b', 'c'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
     FieldUse.award(store, ['d'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
     expect(['a', 'b', 'c', 'd'].map(id => store.get(id).state.experience)).toEqual([half, half, 0, half]);

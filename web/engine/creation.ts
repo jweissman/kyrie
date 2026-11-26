@@ -20,6 +20,7 @@ import { CreatureSchema } from '../../src/creature';
 import { CharacterSheets } from '../../src/presentation/character-sheet';
 import { Fighting } from '../../src/rules/fighting';
 import { Creation as RulesCreation } from '../../src/rules/creation';
+import { ItemCatalog } from '../../src/item-catalog';
 import { MechanicsText } from '../../src/presentation/mechanics-text';
 import type { Trait } from '../../src/rules/catalog-schema';
 import { ProtagonistNames } from '../../src/world/protagonist-names';
@@ -112,7 +113,8 @@ export class Creation {
   static arms(calling: string): Catalog['callings'][number]['weapons'] {
     const c = Canon.classes[Canon.resolve('classes', calling)], own = c?.weapons ?? [];
     return Object.entries(Canon.items).filter(([id, i]) => i.weapon && !i.weapon.natural && i.slot === 'weapon'
-      && (own.includes(id) || (/^weapon:/.test(i.source.orsino ?? '') && RulesCreation.canEquip(calling, id))))
+      && (own.includes(id) || (/^weapon:/.test(i.source.orsino ?? '')
+        && RulesCreation.canEquip(ItemCatalog.canon, calling, id))))
       .map(([id, i]) => ({ id, name: i.name, damage: i.weapon!.damage, type: i.weapon!.type, kind: i.weapon!.kind ?? '',
         weight: i.weapon!.weight ?? '', missile: i.weapon!.missile === true, ...i.weapon!.intercept ? { intercept: true } : {},
         ...own.includes(id) ? { own: true } : {}, value: i.value ?? 0 }));
@@ -135,7 +137,7 @@ export class Creation {
     if (!p || p.all) { return 'any armour'; }
     // Ordinary armour: a wonder (a robe of the archmagi) is found, not a calling's wear.
     const worn = Object.entries(Canon.items).filter(([id, i]) => i.armor && !i.modifiers && !i.hooks
-      && RulesCreation.canEquip(calling, id))
+      && RulesCreation.canEquip(ItemCatalog.canon, calling, id))
       .map(([, i]) => i.name.toLowerCase());
     return worn.length ? worn.join(', ') : 'no armour';
   }

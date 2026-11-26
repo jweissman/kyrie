@@ -25,7 +25,7 @@ export class Quarry {
   }
   static kind(actor: Fighter): Kind {
     if (Canon.isAncestry(actor.raceId)) { return 'band'; }
-    return Canon.temperament(actor.raceId) === 'wary' ? 'coward' : 'beast';
+    return actor.equipment?.body?.temperament === 'wary' ? 'coward' : 'beast';
   }
   // The one the actor would rather strike, of those it could.
   static of(state: BattleState, actor: Fighter): string | undefined {

@@ -38,7 +38,8 @@ export class Parties {
     const [base, ...ids] = id.split('/');
     if (!ids.length) { return abundance ?? 1; }
     const own = ids.map(v => CreatureVariants.variations[v]?.abundance).find(a => a !== undefined);
-    return own ?? (Canon.creature(base!).abundance ?? 1) / CreatureVariants.structurals(base!).length;
+    return own ?? (Canon.creature(base!).abundance ?? 1)
+      / CreatureVariants.structuralsFor(Canon.creature(base!)).length;
   }
   // Every kind there is to meet: each record, and a base that is always of something (an elemental of an element, a
   // golem of a material, a dragon of a lineage) as each of the things it can be of (golem/glass), so that a variation
@@ -47,8 +48,8 @@ export class Parties {
     // The catalog's own kinds, never a module's (a circus's dancing bear, installed as its module loads, belongs to the
     // world that wrote it: drawn into another, it is a kind that world does not have).
     return Canon.catalogued.flatMap(id => {
-      const of = CreatureVariants.structurals(id);
-      return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wanting(id) ? [] : [id];
+      const species = Canon.creature(id), of = CreatureVariants.structuralsFor(species);
+      return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wantingSpecies(species) ? [] : [id];
     });
   }
   // Orsino's budget was twice the room's challenge for a party of four; a company here is often one, a lone life and a
@@ -83,7 +84,7 @@ export class Parties {
   }
   // One of a party: a composed kind (golem/glass) is its base with its variations, as an author would write it.
   static member(kind: string, count: number, level: number): Member {
-    const [species, ...variations] = kind.split('/'), name = Canon.creature(kind).name.toLowerCase();
+    const [species, ...variations] = kind.split('/'), made = Canon.creature(kind), name = made.name.toLowerCase();
     const role = `${/^[aeiou]/.test(name) ? 'an' : 'a'} ${name}`;
     return { species: species!, count, level, label: `the ${count > 1 ? Counted.plural(name) : name}`, role,
       // One with no temper of its own (a snake, a beetle) defends where it lives, and does not go looking for anyone.

@@ -1,4 +1,4 @@
-import { Canon } from './canon/canon'; import { Flight } from './rules/flight';
+import { Flight } from './rules/flight';
 import { Spellcasting } from './rules/spellcasting'; import { Conditions } from './ports/conditions';
 import { AttackRoutine } from './attack-routine'; import { AbilityUse } from './ability-use';
 import { CreatureStore, type CreatureLease } from './creature-store'; import type { Creature } from './creature';
@@ -17,13 +17,11 @@ import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, 
 // initiative bonus) and every untimed condition ticks down; on its turn a creature's cooldowns tick, a creature with
 // noActions loses the turn, and after acting its conditions' turn-end effects happen.
 export class Battle {
-  private fighters: Fighter[];
+  private fighters: Fighter[]; private readonly catalogContext: ItemCatalog;
   // Foes that fled the fight: gone from it, but still themselves when it is over.
   private departed: Fighter[] = [];
-  private abilities: ArenaAbility[];
-  private expressions: Expressions;
-  private content: Content;
-  private order: string[] = [];
+  private abilities: ArenaAbility[]; private expressions: Expressions;
+  private content: Content; private order: string[] = [];
   private cursor = 0;
   private turn = 1;
   private outcome: Outcome | null = null;
@@ -68,6 +66,7 @@ export class Battle {
         .map(c => ({ ...c, state: { ...c.state, conditions: c.state.conditions.filter(s => Battle.kept(s)) } })));
       this.lease = store.acquire(this.fighters.map(f => f.id));
     }
+    this.catalogContext = this.lease.catalog;
     this.expressions = new Expressions(`${seed}:combat`);
     this.content = new Content(`${seed}:summons`);
     this.finishIfEliminated();
@@ -114,7 +113,7 @@ export class Battle {
   // One in the fight as they came into it, with their pack and arms: what a reckoning from where everyone stands
   // builds them back from (see DangerSense.of).
   original(id: string): Creature | undefined { return this.lease?.creatures.find(c => c.id === id); }
-  get catalog(): ItemCatalog { return this.lease!.catalog; }
+  get catalog(): ItemCatalog { return this.catalogContext; }
   get participants(): EncounterParticipant[] {
     return [...this.fighters, ...this.departed].map(f => CombatProjection.participant(f,
       f.statuses.filter(s => Effects.status(s.id).lifetime === 'encounter')));
@@ -155,7 +154,10 @@ export class Battle {
   usable(actor: Fighter): ArenaAbility[] {
     // Orsino's pcTurn also offers every player-side combatant Wait and Flee.
     const known = [...actor.abilities, actor.equipment?.weapon?.missile ? 'ranged' : 'melee',
-      ...actor.team === 'fighters' ? ['wait', 'flee', ...Parley.heard(this.fighters, this.departed.length, !!this.terms.yields) ? [Parley.id] : []] : []];
+      ...actor.team === 'fighters' ? ['wait', 'flee',
+        ...Parley.heard(
+          this.catalog, this.fighters, this.departed.length, !!this.terms.yields,
+        ) ? [Parley.id] : []] : []];
     const m = Effects.modifiers(actor);
     const usable = this.abilities.filter(a => known.includes(a.id) && Spellcasting.affordable(actor, a)
       && !(actor.cooldowns[a.id] ?? 0)
@@ -375,7 +377,7 @@ export class Battle {
   // A thinking band no author waits on the fall of, half of it down: each of it standing makes its morale save, once.
   private shaken(): Fighter[] {
     const band = this.terms.morale && !this.tested ? Morale.broken(this.fighters, this.departed) : [];
-    if (!band.length || !band.every(f => Parley.thinking(f))) { return []; }
+    if (!band.length || !band.every(f => Parley.thinking(this.catalog, f))) { return []; }
     this.tested = true;
     return Morale.shaken(band.map(f => ({ f, wisdom: Effects.scores(f).wisdom })),
       { turn: this.turn, events: this.history, dice: this.expressions });
@@ -402,7 +404,7 @@ export class Battle {
   // Combat.turn's start: cooldowns tick; a creature with noActions loses the turn.
   // A kind's own actions a turn (Orsino's monsterAttacksPerTurn: an owlbear's two, a dragon's three); one for people.
   static actionsOf(f: Fighter): number {
-    return Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics?.actions ?? 1 : 1;
+    return f.equipment?.body?.actions ?? 1;
   }
   private startTurn() {
     while (!this.outcome) {

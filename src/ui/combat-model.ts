@@ -39,9 +39,12 @@ export class CombatModel {
     return {
       turn: state.turn, actor: state.actor, actorName: actor?.name ?? '', ours, outcome: state.outcome,
       // A creature by its kind's painting (a summoned hawk, a den's wolves), as one of the company by their portrait.
-      foes: state.combatants.filter(f => f.team !== 'fighters').map(f => this.row(f, state, CreaturePortraits.face(f.raceId))),
+      foes: state.combatants.filter(f => f.team !== 'fighters')
+        .map(f => this.row(battle.catalog, f, state, CreaturePortraits.face(battle.catalog, f.raceId))),
       allies: state.combatants.filter(f => f.team === 'fighters')
-        .map(f => this.row(f, state, faces?.get(f.id) ?? CreaturePortraits.face(f.raceId))),
+        .map(f => this.row(
+          battle.catalog, f, state, faces?.get(f.id) ?? CreaturePortraits.face(battle.catalog, f.raceId),
+        )),
       abilities: choices.map(c => ({ id: c.ability.id, name: this.named(c.ability, actor),
         text: MechanicsText.full(c.ability, actor && Effects.context(actor)),
         cost: c.ability.cost ?? 0, price: MechanicsText.price(c.ability),
@@ -100,8 +103,9 @@ export class CombatModel {
     }
     return { ...this.build(battle, called, faces, said), after: [...new Set(Narration.tidy(lines.filter(Boolean)))] };
   }
-  private static row(f: BattleState['combatants'][number], state: BattleState, face?: Face): CombatantRow {
-    const race = Content.race(f.raceId)?.name ?? f.raceId;
+  private static row(catalog: ItemCatalog, f: BattleState['combatants'][number],
+    state: BattleState, face?: Face): CombatantRow {
+    const race = Content.race(catalog, f.raceId)?.name ?? f.raceId;
     const klass = f.classId ? Content.classes[f.classId as keyof typeof Content.classes]?.name ?? f.classId : '';
     const worn = f.statuses.filter(s => !ConditionSense.law(s.id));
     return { id: f.id, name: f.name, line: [race, klass].filter(Boolean).join(' ').toLowerCase(), hp: f.hp, maxHp: f.maxHp,

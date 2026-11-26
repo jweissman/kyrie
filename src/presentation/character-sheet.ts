@@ -94,7 +94,8 @@ export class CharacterSheets {
     const id = campaign.readout.inhabitants[group]?.[0], c = campaign.readout.creatures.find(x => x.id === id);
     if (!c || !this.asks(acts)) { return {}; }
     const world = campaign.world, hire = world.relates('willing') ? world.number(ModuleWriter.call('hire', group)) : 0;
-    const line = `${Content.race(c.raceId)?.name ?? c.raceId} ${Content.classes[c.classId ?? '']?.name ?? ''}`;
+    const line = `${Content.race(campaign.catalog, c.raceId)?.name ?? c.raceId} `
+      + `${Content.classes[c.classId ?? '']?.name ?? ''}`;
     const techniques = (c.base.abilities ?? []).map(a => Content.abilities.find(x => x.id === a)).filter(a => !!a)
       .map(a => ({ name: a.name, text: MechanicsText.full(a, { ...Object.fromEntries(CreatureSchema.attributes
         .map(q => [q, c.base[q]])), level: c.base.level, bonusSpellDC: 0 }) }));
@@ -141,11 +142,11 @@ export class CharacterSheets {
     const toHit = Fighting.toHit(combatant);
     const bonus = Math.max(0, Fighting.statMod(stat));
     const unarmoured = Fighting.thac0(f.level) - 10 - toHit, ac = Fighting.armorClass(combatant);
-    const worn = (c.state.inventory ?? []).find(i => i.equipped && Canon.items[i.definition]?.armor);
+    const worn = (c.state.inventory ?? []).find(i => i.equipped && catalog.find(i.definition)?.armor);
     return [
       { label: 'Strikes with', value: `${weapon.name.toLowerCase()}: ${weapon.damage}${bonus ? ` + ${bonus}` : ''} ${weapon.type}` },
       { label: 'To land a blow', value: `${Math.max(2, unarmoured)} or more on the die against someone unarmoured` },
-      { label: 'Armour', value: worn ? Canon.items[worn.definition]!.name : 'none' },
+      { label: 'Armour', value: worn ? catalog.get(worn.definition).name : 'none' },
       { label: 'To be struck', value: `a common foe needs ${Math.min(20, Math.max(2, Fighting.thac0(1) - ac))} or more` },
       { label: 'Hit points', value: `${c.state.hp} of ${f.maxHp}` }, ...this.drained(catalog, c, f.level),
       { label: 'Each level adds', value: `1d${Canon.classes[c.classId ?? '']?.hitDie ?? 6}`

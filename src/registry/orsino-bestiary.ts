@@ -117,7 +117,8 @@ export class OrsinoBestiary {
     // A base always of something (the Elemental, the Golem, the Dragon) is each of the things it can be of, by that
     // variation's own Orsino source (elemental:fire is elemental/fire_element), never a record of its own.
     const composed = ids.filter(id => all[id]!.requires).flatMap(id =>
-      CreatureVariants.structurals(id).map(v => [id, `${id}/${v}`, CreatureVariants.variations[v] as { source?: { orsino?: string } }] as const));
+      CreatureVariants.structuralsFor(all[id]!).map(v =>
+        [id, `${id}/${v}`, CreatureVariants.variations[v] as { source?: { orsino?: string } }] as const));
     for (const [, kind, v] of composed) { if (v.source?.orsino) { byOrsino[v.source.orsino] = kind; } }
     // What a summoning calls is a creature, of the beasts, the magical kinds or another plane; a fighting object (a
     // bomb, a turret, a barrier, a phylactery) is set where it stands by an ability of its own, and is not called by a

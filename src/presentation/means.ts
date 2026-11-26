@@ -1,6 +1,6 @@
 import type { Campaign } from '../campaign/campaign';
 import type { Screen } from '../ui/screen-types';
-import { Canon } from '../canon/canon';
+import type { ItemCatalog } from '../item-catalog';
 import { SkillReading } from './skill-reading';
 import { CompanyRecall } from './company-recall';
 
@@ -23,12 +23,14 @@ export class Means {
     }).filter(l => l.needs.length);
   }
   // The catalog's name for a kind of thing, if it is one of the catalog's.
-  static item(kind: string): string | undefined { return Canon.items[kind]?.name; }
+  static item(catalog: ItemCatalog, kind: string): string | undefined { return catalog.find(kind)?.name; }
   // Who sells a kind it needs, or a kind that gives a skill it needs (a kind of the catalog kept on a shelf, or a
   // good of the module's own, sold).
   static sources(campaign: Campaign, needs: string[]): Lead['from'] {
-    const w = campaign.world, kinds = new Set([...needs, ...Object.entries(Canon.items)
-      .filter(([, i]) => needs.some(n => i.grants?.skill === n || i.aids?.includes(n))).map(([k]) => k)]);
+    const w = campaign.world, catalog = campaign.catalog, kinds = new Set([...needs, ...catalog.ids.filter(k => {
+      const item = catalog.find(k);
+      return !!item && needs.some(n => item.capability === n || item.aids?.includes(n));
+    })]);
     const sold = [...campaign.module.initial.flatMap(c => c.kind === 'set' && c.call.name === 'shelf'
       && kinds.has(c.call.args[1]!) ? [[c.call.args[0]!, c.call.args[1]!] as const] : []),
     ...w.relates('sells') ? w.related('sells').filter(r => kinds.has(r.args[1]!))

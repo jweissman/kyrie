@@ -53,7 +53,7 @@ export class ModuleAssembly {
       catalog);
     this.talkers(module, manifest.imports ?? []); this.unheld(module); this.present(module, situation);
     PutQuestions.lower(module);
-    const { cast, conflicts, company, people } = this.people(module, situation.people ?? [], manifest);
+    const { cast, conflicts, company, people } = this.people(catalog, module, situation.people ?? [], manifest);
     const seen = (situation.people ?? []).filter(p => p.seen);
     if (seen.length) { module.seen = Object.fromEntries(seen.map(p => [p.id, p.seen!])); }
     delete module.people;
@@ -125,11 +125,14 @@ export class ModuleAssembly {
   }
   // Who is in the module: the manifest's creatures, the company, and each declared person's group, named as
   // generation cast them; and a controller for each person.
-  private static people(module: Module, people: Person[], given: AdventureManifest) {
+  private static people(catalog: ItemCatalog, module: Module, people: Person[], given: AdventureManifest) {
     const conflicts: string[] = [];
-    const manifest = { ...given, ...given.casting ? { casting: this.named(given.casting) } : {} };
-    const groups = people.map(p => Cast.group(p, manifest.casting?.[p.id] as Record<string, unknown> | undefined,
-      conflicts));
+    const manifest = {
+      ...given, ...given.casting ? { casting: this.named(given.casting) } : {},
+    };
+    const groups = people.map(p => Cast.group(
+      catalog, p, manifest.casting?.[p.id] as Record<string, unknown> | undefined, conflicts,
+    ));
     const company = Cast.company(module);
     const actors = people.map((p, i) => ({ id: p.id, members: groups[i]!.map(m => m.id),
       horizon: p.horizon ?? 4, actions: p.actions, goals: [] }));

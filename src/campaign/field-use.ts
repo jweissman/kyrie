@@ -34,7 +34,9 @@ export class FieldUse {
       ? world.number(ModuleWriter.call('encounterXp', result.opponent)) : 0;
     if (authored) { this.grant(store, party, authored, result.events); return; }
     const n = result.members.length;
-    const won = result.members.reduce((sum, id) => sum + Advancement.worth(store.get(id)), 0) + 10 * n + 25;
+    const won = result.members.reduce(
+      (sum, id) => sum + Advancement.worth(store.catalog, store.get(id)), 0,
+    ) + 10 * n + 25;
     this.grant(store, party, Math.floor(won / 2), result.events);
   }
   // Living members whose experience has reached their next level gain it (Advancement.train).
@@ -180,7 +182,7 @@ export class FieldUse {
       if (name === 'improve') { Advancement.improve(c, choice as Attribute); } else if (name === 'feat') {
         Advancement.feat(c, choice);
       } else if (name === 'school') { Advancement.school(store.catalog, c, choice); } else if (name === 'tutor') {
-        if (!Advancement.tutor(c, choice)) { return []; }
+        if (!Advancement.tutor(store.catalog, c, choice)) { return []; }
       } else if (name === 'teach') {
         if (!Advancement.teach(c, choice)) { return []; }
       } else { Advancement.learn(c, choice); }

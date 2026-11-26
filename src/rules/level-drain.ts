@@ -1,14 +1,15 @@
 import { Amounts } from './amounts';
 import { Callings } from '../ports/callings';
 import { Conditions } from '../ports/conditions';
-import { Canon } from '../canon/canon';
 import { Fighting } from './fighting';
 import { Spellcasting } from './spellcasting';
+import { Canon } from '../canon/canon';
 import type { Attribute, ConditionInstance } from '../creature';
 import type { CombatEvent, Fighter } from '../model';
 
 interface Drained extends Partial<Record<Attribute, number>> {
   level: number; maxHp: number; hp: number; raceId: string; classId?: string; constitution: number;
+  equipment?: Fighter['equipment'];
   maxSlots?: number[]; slots?: number[]; ready?: string[][];
 }
 
@@ -33,12 +34,12 @@ export class LevelDrain {
   }
   // The hit points a level gives it, on the average: its calling's die (half and one) with its Constitution, or its
   // kind's growth a level; never less than one.
-  static perLevel(f: Pick<Drained, 'raceId' | 'classId' | 'constitution'>): number {
+  static perLevel(f: Pick<Drained, 'classId' | 'constitution' | 'equipment'>): number {
     const die = f.classId ? Callings.of(f.classId)?.hitDie : undefined;
-    const st = Canon.isBody(f.raceId) ? Canon.creature(f.raceId).statistics : undefined;
+    const st = f.equipment?.body;
     // A fixed stat block loses a Hit Die's worth, on the average (a d12's six).
     const sides = st?.hitDice ? Amounts.dice(st.hitDice)[0]?.sides : undefined;
-    const grown = sides ? Math.floor((sides + 1) / 2) : st?.growth?.hitPoints?.perLevel;
+    const grown = sides ? Math.floor((sides + 1) / 2) : st?.hitPointGrowth;
     return Math.max(1, die ? Math.floor(die / 2) + 1 + Fighting.statMod(f.constitution) : grown ?? 1);
   }
   // A body as it stands with `n` levels more taken: lower in level and in hit points, its slots those of the level it

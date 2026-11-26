@@ -1,5 +1,4 @@
 import type { CombatEvent, Fighter } from '../model';
-import { Canon } from '../canon/canon';
 import { Voice } from './voice';
 import { VoiceContext } from './voice-context';
 import { Editor } from './editor';
@@ -78,7 +77,7 @@ export class Barks {
   private context(f: Fighter): Record<string, string> {
     const side = f.team === 'fighters' ? 'company' : 'foe';
     const role = Barks.roles.find(r => f.name.toLowerCase().includes(r) || f.classId === r);
-    const kind = Canon.isSpecies(f.raceId) ? Canon.creature(f.raceId).kind ?? 'creature' : 'person';
+    const kind = f.equipment.body ? f.equipment.body.kind ?? 'creature' : 'person';
     return { side, kind, manner: VoiceContext.manners[this.hash(f.id) % VoiceContext.manners.length]!,
       ...role ? { role } : {} };
   }

@@ -110,7 +110,7 @@ export class RegionEcology {
   }
   // A beast with the variations its country gives it, and called by them ("a wolf" of the snows, "a frost wolf").
   static varied(beast: Beast, where: { habitat: string; climate: string }, draw: Draw): Beast {
-    const variations = CreatureVariants.fitting(beast.species, where, () => draw.next());
+    const variations = CreatureVariants.fittingFor(Canon.creature(beast.species), where, () => draw.next());
     return variations.length ? { ...beast, variations, role: CreatureVariants.called(beast.role, variations) } : beast;
   }
   // "a wolf", venomous, is "a venomous wolf".

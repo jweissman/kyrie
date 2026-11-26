@@ -7,7 +7,8 @@ import type { Ability, Condition, Hooks, ItemKind, Modifiers, Perk, WeaponStats 
 export interface PerkAt { environment?: string; weapon?: { weight?: string; missile?: boolean } }
 
 export interface RuntimeItem {
-  name: string; description: string; slot?: string; capability?: string; ability?: string; use?: string;
+  name: string; description: string; value?: number; category?: ItemKind['category']; slot?: string;
+  capability?: string; ability?: string; use?: string;
   modifiers?: Modifiers; hooks?: Hooks; weapon?: WeaponStats; armorAc?: number; armor?: ItemKind['armor']; fuel?: string;
   charges?: number; tool?: string[]; aids?: string[];
 }
@@ -15,6 +16,8 @@ export interface RuntimeItem {
 // Lowers the canonical catalogs into the shapes the executor reads: the ability list for AbilityUse, condition
 // definitions for Effects, item definitions for ItemCatalog, and the passive modifiers of traits.
 export class CanonRuntime {
+  static resolve(family: Family, id: string): string { return Canon.resolve(family, id); }
+  static isBody(id: string): boolean { return Canon.isBody(id); }
   private static withAliases<T>(family: Family, entries: Record<string, T>): Record<string, T> {
     const out = { ...entries };
     for (const [alias, target] of Object.entries(Canon.aliases[family] ?? {})) {
@@ -87,7 +90,8 @@ export class CanonRuntime {
   }
   static items(): Record<string, RuntimeItem> {
     const own = Object.fromEntries(Object.entries(Canon.items).map(([id, i]) => [id, {
-      name: i.name, description: i.description, ...i.slot ? { slot: i.slot } : {},
+      name: i.name, description: i.description, ...i.value !== undefined ? { value: i.value } : {},
+      ...i.category ? { category: i.category } : {}, ...i.slot ? { slot: i.slot } : {},
       ...i.grants?.skill ? { capability: i.grants.skill } : {},
       ...i.grants?.ability ? { ability: i.grants.ability } : {},
       ...i.modifiers ? { modifiers: i.modifiers } : {}, ...i.hooks ? { hooks: i.hooks } : {},

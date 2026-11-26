@@ -42,7 +42,7 @@ export class Items {
     const searcher = Searching.searcher(members.map(id => store.get(id)), options.at);
     const finds = searcher && Searching.finds(searcher, options.at) ? Perks.bonus(searcher.traits, 'loot', options.at) : 0;
     if (!finds) { return []; }
-    const pool = Object.entries(Canon.items).filter(([, d]) => d.category === 'consumable').map(([k]) => k).sort();
+    const pool = store.catalog.ids.filter(id => store.catalog.find(id)?.category === 'consumable').sort();
     const roll = new Expressions(options.seed), events: CombatEvent[] = [];
     for (let n = 0; n < finds; n++) {
       const definition = pool[roll.number(`1d${pool.length}`) - 1]!;
@@ -58,7 +58,7 @@ export class Items {
       if (!creature.state.hp || !item) { throw new Error('Item is not owned by a living wearer'); }
       const definition = store.catalog.get(item.definition);
       if (!definition.slot) { throw new Error('Item cannot be equipped'); }
-      if (!Creation.canEquip(creature.classId, item.definition)) {
+      if (!Creation.canEquip(store.catalog, creature.classId, item.definition)) {
         throw new Error(`${creature.name} is not proficient with ${definition.name}`);
       }
       // As many to a slot as it holds (a ring to each hand: the item audit's G10), the first worn taken off for more.

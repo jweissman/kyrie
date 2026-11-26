@@ -100,7 +100,8 @@ export class Shut {
   // the company has none of them."
   static said(campaign: Campaign, s: Shutting): string {
     const byId = EntityIndex.of(campaign.module.entities).byId;
-    const named = s.needs.map(n => Means.item(n) ? ItemNames.called(Means.item(n)!)
+    const named = s.needs.map(n => Means.item(campaign.catalog, n)
+      ? ItemNames.called(Means.item(campaign.catalog, n)!)
       : (byId.get(n)?.name ?? n.replace(/_/g, ' ')).toLowerCase());
     const list = named.length > 1 ? `${named.slice(0, -1).join(', ')} or ${named.at(-1)}` : named[0] ?? 'what opens it';
     const f = s.found, thing = f && byId.get(f.item)?.name;
@@ -112,7 +113,7 @@ export class Shut {
     }
     const who = s.from[0] && (byId.get(s.from[0].seller)?.name ?? s.from[0].seller);
     const sold = s.from[0] && `; ${who!.includes(',') ? `${who},` : who} sells ${
-      ItemNames.called(Means.item(s.from[0].kind) ?? s.from[0].kind)}`;
+      ItemNames.called(Means.item(campaign.catalog, s.from[0].kind) ?? s.from[0].kind)}`;
     return `${Shut.upper(s.name)} bars the way: it wants ${list}, and the company has none`
       + ` of them${sold ?? ''}.`;
   }
