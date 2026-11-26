@@ -7,7 +7,7 @@ import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Undertakings } from '../../src/presentation/undertakings';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { CombatModel } from '../../src/ui/combat-model';
-import { Tactics } from '../../src/tactics'; import { Pressing } from '../../src/pressing';
+import { Tactics } from '../../src/tactics'; import { Pressing } from '../../src/pressing'; import { FoeIntents } from '../../src/foe-intents';
 import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
@@ -481,7 +481,8 @@ export class EngineHost {
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
       // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
       ...this.turn ? { combat: { ...CombatModel.build(this.turn.battle, BandNames.of(campaign), faces, said),
-        ...this.pressed.halted ? { halted: this.pressed.halted } : {} } }
+        ...this.pressed.halted ? { halted: this.pressed.halted } : {},
+        coming: FoeIntents.lines(this.turn.battle, BandNames.of(campaign)) } }
         : this.fought && this.told
           ? { combat: CombatModel.ended(this.fought, this.told.event.combat,
             { called: BandNames.of(campaign), faces, said }) } : {},

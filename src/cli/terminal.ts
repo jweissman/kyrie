@@ -21,7 +21,7 @@ import { Battle } from '../battle';
 import { ActionTime } from '../campaign/action-time';
 import type { BattleState, Command } from '../model';
 import { Tactics } from '../tactics'; import { Foregone } from '../ui/foregone'; import { Pressing } from '../pressing';
-import { BandNames } from '../narrative/band-names';
+import { BandNames } from '../narrative/band-names'; import { FoeIntents } from '../foe-intents';
 import { CombatTelling } from '../ui/combat-telling';
 import { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
@@ -408,6 +408,7 @@ export class Terminal {
         if (press.halted) { console.log(`${press.halted} Choose again.`); pressing = false; }
         const events = battle.events;
         CombatTelling.since(events, told.get(battle) ?? events.length, battle.state).forEach(t => console.log(t.text));
+        FoeIntents.lines(battle, BandNames.of(session.campaign)).forEach(l => console.log(l));
         told.set(battle, events.length);
         const command = await Terminal.command(battle.state, battle.legalCommands(), input, () => {
           pressing = true;

@@ -114,6 +114,8 @@
 .fight .beat .what .how > p { font: 400 12.5px/1.45 var(--do); color: var(--faint); margin: 2px 0 0; }
 .fight .beat .what.earlier { font-size: 15px; color: var(--faint); animation: none; }
 .fight .beat .after { font: 500 14.5px/1.5 var(--do); color: var(--dim); }
+/* What the other side means to do next, under what has just happened: the telling's face, quieter. */
+.fight .beat .coming { font: italic 400 17px/1.5 var(--told); color: var(--dim); margin: 0 0 .4em; }
 .fight .beat .quiet { color: var(--faint); font-style: italic; }
 .fight-log p { font-size: 15px; color: var(--dim); }
 /* Whose turn, and who follows. */

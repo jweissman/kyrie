@@ -332,6 +332,8 @@ export interface CombatScreen {
   // Why a fight pressed on was handed back to the player before this turn (see PressOn): "Wenna could fall to the
   // hobgoblin's next blow."
   halted?: string;
+  // What the other side means to do before the company's turn comes round again, in words (see FoeIntents).
+  coming?: string[];
   foes: CombatantRow[]; allies: CombatantRow[];
   // What the one acting knows and cannot use now, and why (see Unusable): drawn in its place, not done.
   unavailable?: { id: string; name: string; why: string; spell?: true; carried?: true }[];

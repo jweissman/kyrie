@@ -2,6 +2,7 @@ import type { Battle } from '../battle';
 import type { Command } from '../model';
 import { Tactics } from '../tactics';
 import { Pressing } from '../pressing';
+import { FoeIntents } from '../foe-intents';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import { CombatChoices } from '../ui/combat-choices';
@@ -79,9 +80,10 @@ export class RunnerFight {
     // Each side named as a side (cold play 7, CL-60: "Bryn 10/10 · Nettle 6/6 · …" had read a hob as one of the
     // company).
     const who = `${RunnerFight.side(b, true)} | against you: ${RunnerFight.side(b, false)}`;
-    const halted = this.halted ? [`${this.halted} Choose again.`] : [];
+    // What is coming before the company's turn comes round again (see FoeIntents).
+    const halted = this.halted ? [`${this.halted} Choose again.`] : [], coming = FoeIntents.lines(b);
     this.halted = undefined;
-    return [...opening, ...told, ...halted, who];
+    return [...opening, ...told, ...coming, ...halted, who];
   }
   choices(): FightChoice[] {
     const b = this.pending?.battle;

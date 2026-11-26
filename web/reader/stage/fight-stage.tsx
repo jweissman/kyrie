@@ -73,6 +73,9 @@ export class FightStage {
             {recent.map(e => <div key={e.n} className="what"><p>{Typography.curl(e.text)}</p>
               {e.detail && <details className="how"><summary>How it fell</summary>
                 <p>{Typography.curl(e.detail)}</p></details>}</div>)}
+            {/* What is coming, said where the eye is, before the player answers it (see FoeIntents). */}
+            {combat.ours && !combat.outcome && (combat.coming ?? []).map(l => <p key={l} className="coming">
+              {Typography.curl(l)}</p>)}
             {/* Pressed on, and handed back: why, under what brought it to it (see PressOn). */}
             {combat.halted && !combat.outcome && <p className="moment halted" data-region="halted">
               {Typography.curl(combat.halted)}</p>}
