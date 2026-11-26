@@ -152,7 +152,10 @@ compilation is isolated. The three real inputs are `data/rules/people.kyr`, `dat
 `data/adventures/eelbell/night.kyr`; the shadow parity case separately uses the dedicated
 `test/fixtures/probes/shadow/site.kyr` fixture. Across the three real inputs, the prototype records every one of
 2,244 grammar `ident` nodes as either a declared symbol or an occurrence: 166 symbols, 554 reads, 92 writes and
-1,432 mentions. Of the 646 call occurrences, 421 have no target within this deliberately incomplete context.
+1,432 mentions. Under the deliberately empty catalog used for this census, 225 of the 646 call occurrences bind
+uniquely to the three inputs, 421 remain unresolved and none are ambiguous. A separate duplicate-signature mutation
+proves that the binder reports ambiguity rather than choosing the first candidate; an explicit catalog test likewise
+distinguishes a bound name, a missing name and conflicting candidates.
 The per-module completeness invariant fails if an identifier node is omitted. Mutations insert a shared relation
 clash and a query/shared-relation clash to exercise nonempty lint results. For vocabulary and twin lint, the test
 compares complete finding objects on the real inputs. For shadow lint, the prototype's query equals the current
@@ -162,11 +165,12 @@ exist; the prototype independently checks each recorded span against source text
 Neither query covers all generated declarations, templates or the complete corpus.
 
 On this shared Linux environment, Bun 1.4.3, five alternating warm-process runs after one warm-up, parsing and lowering
-those three files with `ModuleParser.whole` (no parse cache), median was **51.3 ms** without and **279.5 ms** with
-the prototype, 5.44 times as long (individual runs: 49.3–54.9 and 245.5–288.2 ms). The table reparses all three files
-with Ohm and traverses the resulting tree, so this experiment fails the no-regression criterion and must not be wired
-in. This measures parse/lowering plus the prototype, **not** complete compiler validation, cached compilation, CI or
-full-world startup. The measured result supports emitting symbols and references during existing lowering, not running
-a parallel parse. No claim is made about production compile time; slice B must measure it after integrating emission
-into the existing pass. The context work, corpus-wide parity, complete lint span parity and real installation
-interleaving remain unverified here.
+those three files with `ModuleParser.whole` (no parse cache), the final explicitly-scoped prototype measured **61.0 ms**
+median without and **264.2 ms** with the table, 4.33 times as long (individual runs: 48.6–68.2 and 239.5–281.5 ms).
+An earlier iteration measured 51.3/279.5 ms; the variance reinforces that this small-process benchmark is directional,
+not a production gate. The table reparses all three files with Ohm and traverses the resulting tree, so it fails the
+no-regression criterion and must not be wired in. This measures parse/lowering plus the prototype, **not** complete
+compiler validation, cached compilation, CI or full-world startup. The measured result supports emitting symbols and
+references during existing lowering, not running a parallel parse. No claim is made about production compile time;
+slice B must measure it after integrating emission into the existing pass. The context work, corpus-wide parity,
+complete lint span parity and real installation interleaving remain unverified here.
