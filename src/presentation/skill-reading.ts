@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import { EntityIndex } from '../lang/entity-index';
 import type { Operator, Predicate } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
 import { PartyCapabilities } from '../campaign/party-capabilities';
@@ -59,6 +60,9 @@ export class SkillReading {
     }
     return { named, needing };
   }
+  // The module's skills, by its entities' index: every entity of the world had been gone through for them, three times
+  // a screen (OR-863).
+  private static capabilities(campaign: Campaign) { return EntityIndex.of(campaign.module.entities).typed('capability'); }
   private static has(campaign: Campaign, actor: string, skill: string): boolean {
     return campaign.world.test(ModuleWriter.call('capable', actor, skill));
   }
@@ -103,7 +107,7 @@ export class SkillReading {
     // Only needs of what is near the company count: the things here, the ways out, and what stands on them.
     const legal = new Set(campaign.offered().map(a => a.id)), near = this.near(campaign, actor);
     const nearNeeds = needs.filter(r => near.has(r.args[0]!));
-    const lacking = [...campaign.module.entities.filter(e => e.type === 'capability' && !this.has(campaign, actor, e.id))
+    const lacking = [...this.capabilities(campaign).filter(e => !this.has(campaign, actor, e.id))
       .map(skill => ({ skill, only: new Set([...named.get(skill.id) ?? [],
         ...nearNeeds.some(r => r.args[1] === skill.id) ? needing : []]) })), ...this.things(campaign, actor, nearNeeds)
       .map(skill => ({ skill, only: needing }))].filter(l => l.only.size);
@@ -132,20 +136,19 @@ export class SkillReading {
   }
   // The kinds of thing what is here needs that nobody in the company is carrying, as one of each (a ten-foot pole).
   private static things(campaign: Campaign, actor: string, near: readonly { args: readonly string[] }[]) {
-    const skills = new Set(campaign.module.entities.filter(e => e.type === 'capability').map(e => e.id));
+    const skills = new Set(this.capabilities(campaign).map(e => e.id));
     return [...new Set(near.map(r => r.args[1]!))].filter(k => !skills.has(k)
       && !campaign.world.test(ModuleWriter.call('meets', actor, k)))
       .map(k => ({ id: k, name: this.called(campaign, k), thing: true }));
   }
   private static called(campaign: Campaign, k: string): string {
-    return ItemNames.called(Canon.items[k]?.name ?? campaign.module.entities.find(e => e.id === k)?.name
+    return ItemNames.called(Canon.items[k]?.name ?? EntityIndex.of(campaign.module.entities).byId.get(k)?.name
       ?? k.replace(/_/g, ' '));
   }
   // What else a choice's thing or way would take, besides a skill: the kinds of thing that would do.
   private static instead(campaign: Campaign, action: Operator,
     needs: readonly { args: readonly string[] }[]): string[] {
-    const bound = Object.values(action.bindings ?? {}), entities = campaign.module.entities;
-    const skills = new Set(entities.filter(e => e.type === 'capability').map(e => e.id));
+    const bound = Object.values(action.bindings ?? {}), skills = new Set(this.capabilities(campaign).map(e => e.id));
     return [...new Set(needs.filter(r => bound.includes(r.args[0]!) && !skills.has(r.args[1]!)).map(r => r.args[1]!))]
       .map(k => this.called(campaign, k));
   }

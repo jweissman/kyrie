@@ -119,7 +119,7 @@ export class ScreenModel {
   // what a valuable is worth).
   private static fees(campaign: Campaign): Map<string, number> {
     const world = campaign.world; return new Map([
-      ...campaign.module.entities.filter(e => e.type === 'service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
+      ...EntityIndex.of(campaign.module.entities).typed('service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
       ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('pays').map(m => [`pays:${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('hire').map(m => [`hire:${m.call.args[0]}`, m.value] as const),
@@ -148,7 +148,7 @@ export class ScreenModel {
   private static called(w: Campaign['world'], id: string, raw: string): string {
     const name = raw.includes('{') ? ObservationText.render(raw, w, false) : raw;
     const kinship = w.module.relations.some(r => r.name === 'kinship') ? w.one('kinship', id) : undefined;
-    const word = kinship && w.module.entities.find(e => e.id === kinship)?.name;
+    const word = kinship && EntityIndex.of(w.module.entities).byId.get(kinship)?.name;
     return word ? `${name.split(', ')[0]}, ${word}` : name;
   }
   // Whoever has joined the company, talked to wherever the company is, whether or not they have anything left to
@@ -165,7 +165,7 @@ export class ScreenModel {
       const portrait = member && Canon.ancestries[member.raceId]?.playable === true ? Portraits.of(campaign, id)
         : undefined;
       at.unclaimed.delete(id);
-      return { id, kind: 'person' as const, name: this.called(world, id, world.module.entities.find(e => e.id === id)?.name ?? id),
+      return { id, kind: 'person' as const, name: this.called(world, id, EntityIndex.of(world.module.entities).byId.get(id)?.name ?? id),
         ...portrait ? { portrait } : {}, acts, companion: true };
     });
   }

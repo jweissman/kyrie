@@ -3,6 +3,7 @@ import { PlayTool } from '../src/cli/play-tool';
 import { Runner } from '../src/cli/runner';
 import { PlayerRevision } from '../src/presentation/player-revision';
 import { KeptParts } from '../src/ui/kept-parts';
+import { Outcome } from '../src/presentation/outcome';
 import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { TravelCensus } from '../scripts/travel-census';
@@ -11,13 +12,14 @@ import { GoldenWalk } from './support/golden-walk';
 import type { Campaign } from '../src/campaign/campaign';
 
 // The screen as the game builds it, with every part it keeps and carries from one revision to the next and every part
-// it leaves unasked, is the screen built afresh (OR-860, OR-861, OR-862): with the player's revision and the page's
-// kept parts off (PlayerRevision.keeping, KeptParts.keeping), every reading is worked out whole at every ask. At every
+// it leaves unasked, is the screen built afresh (OR-860 to OR-864): with the player's revision, the page's kept parts
+// and what an act would teach carried off (PlayerRevision.keeping, KeptParts.keeping, Outcome.carrying), every reading
+// is worked out whole at every ask. At every
 // turn of the golden walk, and at every stop of a seeded journey on a1, the screen and the narrator's leaf are the same
 // either way, on the same campaign.
 const afresh = <T>(f: () => T): T => {
-  PlayerRevision.keeping = false; KeptParts.keeping = false;
-  try { return f(); } finally { PlayerRevision.keeping = true; KeptParts.keeping = true; }
+  PlayerRevision.keeping = false; KeptParts.keeping = false; Outcome.carrying = false;
+  try { return f(); } finally { PlayerRevision.keeping = true; KeptParts.keeping = true; Outcome.carrying = true; }
 };
 const seen = (c: Campaign) => {
   const screen = ScreenModel.build(c);

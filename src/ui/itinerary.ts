@@ -357,14 +357,28 @@ export class Itineraries {
     // Not underground, nor to anywhere underground: a cellar under the corn-store had offered the inn's taproom,
     // thirty minutes off, and the town's walks had offered the ossuary (OWN-57's play).
     if (!town || byId.get(here)?.space?.shelter === 'underground') { return []; }
-    return campaign.module.entities.filter(e => e.type === 'place' && e.space?.kind === 'room' && e.id !== here
-      && e.space.shelter !== 'underground' && Spatial.ancestry(byId, e.id).some(a => a.id === town.id)
-      && this.entrance(campaign, byId, e.id))
+    const rooms = this.rooms(byId, town.id);
+    return EntityIndex.of(campaign.module.entities).typed('place').filter(e => rooms.has(e.id) && e.id !== here
+      && e.space!.shelter !== 'underground' && this.entrance(campaign, byId, e.id))
       // By the town's own ways, the open country not searched for them: a walk about a town had searched every way of
       // the country across its open land (roams, the town's rooms having been), most of an ordinary turn's routes.
       .flatMap(r => { const p = this.route(campaign, r.id, true, false); return p && p.legs.length > 1 ? [p] : []; })
       .sort((a, b) => a.minutes - b.minutes);
   }
+  // A town's rooms, found once for the module's places (again where they grow): every room of the world had been
+  // walked up through its places for every page in a town, to find the town's (OR-863).
+  private static rooms(byId: Map<string, Entity>, town: string): ReadonlySet<string> {
+    const towns = this.towns.get(byId) ?? new Map<string, ReadonlySet<string>>();
+    this.towns.set(byId, towns);
+    let rooms = towns.get(town);
+    if (!rooms) {
+      rooms = new Set([...byId.values()].filter(e => e.type === 'place' && e.space?.kind === 'room'
+        && Spatial.ancestry(byId, e.id).some(a => a.id === town)).map(e => e.id));
+      towns.set(town, rooms);
+    }
+    return rooms;
+  }
+  private static readonly towns = new WeakMap<Map<string, Entity>, Map<string, ReadonlySet<string>>>();
   // Of a site standing in the town (the Hall), only the way into it: its inner rooms are gone to from within it (the
   // old tree on the hill had been listed among the town's walks).
   private static entrance(campaign: Campaign, byId: Map<string, Entity>, id: string): boolean {

@@ -57,6 +57,12 @@ export class Knowing {
   get visited(): ReadonlySet<string> {
     return this.sights.visited ??= new Set(this.perceived.map.places.filter(p => p.visited).map(p => p.id));
   }
+  // What the company sees and has been, in words: what an act would teach it is carried from one world to the next
+  // while this is as it was (see Outcome.carried).
+  get sight(): string {
+    return this.seen ??= `${[...this.inView].sort().join(',')}|${[...this.visited].sort().join(',')}`;
+  }
+  private seen?: string;
   // Learnt: whether the company knows a fact (or has heard of a thing).
   knows(fact: string): boolean { return this.world.test(ModuleWriter.call('knows', this.actor, fact)); }
   // Whether the company could tell that a fact holds or does not, by what it perceives, remembers or knows: a fact of

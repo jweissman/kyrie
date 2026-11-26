@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { PlayerView } from '../../src/presentation/player-view';
-import { ModuleWriter } from '../../src/lang/module-writer';
+import { ModuleWriter } from '../../src/lang/index';
 import { PlaySession } from '../../src/session/play-session';
 
 // A try limit on a check (CB-05): `Resolve check(…) once.` is a try spent whatever comes of it. Failed, the plea is

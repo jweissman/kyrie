@@ -64,7 +64,7 @@ export class CharacterSheets {
   static of(campaign: Campaign, id: string, at: { ref?: string; offered: Set<string> }) {
     const c = campaign.readout.creatures.find(x => x.id === id), world = campaign.world;
     if (!c) { return {}; }
-    const named = new Set(campaign.module.entities.filter(e => e.type === 'capability').map(e => e.id));
+    const named = this.capabilities(campaign.module.entities);
     const asleep = !!at.ref && world.relates('awake') && !world.test(ModuleWriter.call('awake', at.ref));
     // What a skill would open is asked only of a member with a development to make (OR-861): every member's sheet on
     // every page had read it, most with none to make.
@@ -73,6 +73,17 @@ export class CharacterSheets {
       why: asleep ? `Not while ${c.name} sleeps` : 'Not just now' });
     return { sheet: this.sheet(c), ...development ? { development } : {} };
   }
+  // The module's skills, found once for its entities (again where they grow), not by going through every entity for
+  // every member's sheet on every page (OR-863).
+  private static capabilities(entities: Campaign['module']['entities']): ReadonlySet<string> {
+    const had = this.named.get(entities);
+    if (had?.length === entities.length) { return had.ids; }
+    const ids = new Set(entities.filter(e => e.type === 'capability').map(e => e.id));
+    this.named.set(entities, { length: entities.length, ids });
+    return ids;
+  }
+  private static readonly named = new WeakMap<Campaign['module']['entities'],
+    { length: number; ids: ReadonlySet<string> }>();
   // Someone the company could ask to join, seen before it asks: the cold playtest could not see what a recruit could
   // do until they had joined, and paid for it.
   static recruit(campaign: Campaign, group: string, acts: { command?: string; children?: unknown[] }[]):
@@ -174,7 +185,7 @@ export class CharacterSheets {
   // not, why not (`why`). Only skills the world has a use for are offered (`named`): a cleric was shown "Reading the
   // dead" in a world where nothing reads it, and could not take it.
   static development(c: Creature, at: { ref?: string; offered?: Set<string>; opens?: Map<string, string[]>;
-    named?: Set<string>; why?: string } = {}): Development | undefined {
+    named?: ReadonlySet<string>; why?: string } = {}): Development | undefined {
     const left = c.state.advances?.qualities ?? 0;
     if (!left || c.state.hp === 0) { return undefined; }
     const skills = Advancement.teachable(c).filter(s => !at.named || at.named.has(s));

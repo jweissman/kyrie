@@ -49,7 +49,15 @@ export class CreatureStore {
   get hasActiveLeases(): boolean { return this.leases.size > 0; }
   get snapshot(): Creature[] { return structuredClone([...this.records.values()]); }
   // The live records, for reading only: no copy is made, so a caller must never change them.
-  get live(): readonly Creature[] { return [...this.records.values()]; }
+  // One list for a revision (frozen: never changed), not a copy at every ask: a turn asked for it about a hundred
+  // times, each a copy of every record (OR-863).
+  get live(): readonly Creature[] {
+    if (this.listed?.at !== this.revision) {
+      this.listed = { at: this.revision, live: Object.freeze([...this.records.values()]) };
+    }
+    return this.listed.live;
+  }
+  private listed?: { at: number; live: readonly Creature[] };
   acquire(ids: string[]): CreatureLease {
     if (new Set(ids).size !== ids.length) { throw new Error('Duplicate encounter creature'); }
     const creatures = ids.map(id => this.get(id));

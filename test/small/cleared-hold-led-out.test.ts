@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
-import { ModuleWriter } from '../../src/lang/module-writer';
+import { ModuleWriter } from '../../src/lang/index';
 
 // A hold cleared from within is led out of by the four, never shut in (BL-03, the second blind playtest: after the
 // Gaffer's fight the way out was barred by the gate hobs, and "Up to the cave mouth" was only under Go…, "a player who

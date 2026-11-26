@@ -2,6 +2,7 @@ import type { Call, Change, Module, Operator, Predicate } from '../lang/module';
 import { World } from '../lang/world';
 import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
+import { KeptReading, type Kept } from '../lang/kept-reading';
 
 // What the company would know after an act that it does not know now (OR-206; BRIEF §5A: one Outcome per drawn row,
 // the first slice of it, knowledge): read once from the act itself, by the cheap step (outcome-cost-study.md), never
@@ -38,14 +39,45 @@ export class Outcome {
     this.kept.set(world, memo);
     const actor = action.bindings?.actor ?? company.actor;
     const key = `${actor}|${action.id}|${company.foresees === this.everything ? 'all' : 'foreseen'}`;
-    const had = memo.get(key);
+    const had = this.carrying ? memo.get(key) : undefined;
     if (had) { return had; }
     // Only what the company would be told it knows: a fact with words (one without is a mark an author keeps, the
     // brother knelt by the cart: CompanyKnowledge).
     const byId = EntityIndex.of(module.entities).byId;
-    const out = this.teaching(world, action.success ?? [], actor, company).filter(f => !!byId.get(f)?.name);
+    const read = this.told.bind(this, world, action, { actor, company, byId });
+    // Off (the screen's oracle), worked out afresh at every ask, neither kept for the world nor carried.
+    if (!this.carrying) { return read(); }
+    const out = company.sight === undefined ? read() : this.carried(world, key, company.sight, read);
     memo.set(key, out);
     return out;
+  }
+  // What an act would teach as the company foresees it, carried from one world of its line to the next while nothing it
+  // read has been written (see KeptReading: the world as it stands and as the act would leave it, both of one line)
+  // and the company sees and has been where it saw and had been (sight): about fifty acts a turn were read again for
+  // every world, though an act writes what few of them read (OR-864). The last `lately` are kept, a turn's acts and
+  // more (each holds what of the world it picked: 512 had kept some 48 KB a turn more on the golden walk).
+  static carrying = true;
+  static readonly lately = 64;
+  private static readonly carriedBy = new Map<string, Kept<readonly string[]> & { sight: string; shape: string;
+    module: Module; }>();
+  private static carried(world: World, key: string, sight: string, read: () => readonly string[]): readonly string[] {
+    const m = world.module, shape = `${m.entities.length}.${m.rules?.length ?? 0}.${m.observations?.length ?? 0}`;
+    const was = this.carriedBy.get(key);
+    this.carriedBy.delete(key);
+    if (was && was.sight === sight && was.shape === shape && was.module === m && KeptReading.holds(world, was)) {
+      this.carriedBy.set(key, was);
+      return was.value;
+    }
+    const now = KeptReading.read(world, read);
+    if (now.kept) {
+      this.carriedBy.set(key, { ...now.kept, sight, shape, module: m });
+      if (this.carriedBy.size > this.lately) { this.carriedBy.delete(this.carriedBy.keys().next().value!); }
+    }
+    return now.value;
+  }
+  private static told(world: World, action: Operator, at: { actor: string; company: Foreseeing;
+    byId: ReadonlyMap<string, { name?: string }> }): readonly string[] {
+    return this.teaching(world, action.success ?? [], at.actor, at.company).filter(f => !!at.byId.get(f)?.name);
   }
   private static teaching(world: World, success: readonly Change[], actor: string, company: Foreseeing):
     readonly string[] {
@@ -106,4 +138,6 @@ export class Outcome {
 }
 interface Teacher { when: Predicate; fact: string; place?: string }
 // Who would learn, and what of a condition it could tell (see Knowing).
-export interface Foreseeing { actor: string; foresees(call: Call): boolean }
+// sight: what the company sees and has been, said in words, by which what it would learn is carried from one world to
+// the next (see Outcome.carried); none, never carried.
+export interface Foreseeing { actor: string; foresees(call: Call): boolean; readonly sight?: string }
