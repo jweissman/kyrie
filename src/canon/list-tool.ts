@@ -1,7 +1,7 @@
 // The setting's own catalogues listed (in the setting, where a read of Canon is its own, not an ambient one).
 import { readdirSync, existsSync } from 'node:fs';
 import { Canon } from './canon';
-import { Likeness } from '../paintings/likeness';
+import likeness from '../../data/paintings/likeness.json';
 
 // What the game holds, one a line, for reading and for grep (the owner, 26 November: "`kyrie list professions` …
 // that echoes out all known active/effective backgrounds and professions one per line"). Each line is the id, then
@@ -36,7 +36,7 @@ export class ListTool {
       return what ? 1 : 0;
     }
     const kind = args.find(a => a.startsWith('--kind='))?.slice('--kind='.length), all = this.rows(what as Listed);
-    const rows = all.filter(r => !kind || r.kind === kind).sort((a, b) => a.id.localeCompare(b.id));
+    const rows = all.filter(r => !kind || r.kind === kind).sort((a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
     if (kind && !rows.length) {
       print(`no ${what} of kind ${kind}; the kinds are: ${[...new Set(all.map(r => r.kind).filter(Boolean))].sort()
         .join(', ')}`);
@@ -66,8 +66,12 @@ export class ListTool {
       case 'items': return Object.entries(Canon.items).map(([id, i]) => ({ id, kind: i.category, whole: i,
         cols: [i.name, i.category ?? '', i.value === undefined ? '' : `${i.value}`] }));
       case 'conditions': return Object.entries(Canon.conditions).map(([id, c]) => ({ id, whole: c, cols: [c.name ?? id] }));
-      case 'portraits': return [...Likeness.sitters].map(([id, s]) => ({ id, kind: s.station, whole: s,
-        cols: [s.sex, s.age ?? '', s.station ?? '', s.era] }));
+      // Read from the corpus's record (data/paintings), not the paintings' module, which reads the setting.
+      case 'portraits': return Object.entries((likeness as unknown as { sitters: Record<string, string> }).sitters)
+        .map(([id, line]) => {
+          const [sex = '', age = '', station = '', era = ''] = line.split('|');
+          return { id, kind: station, whole: { sex, age, station, era }, cols: [sex, age, station, era] };
+        });
       default: return this.dirs(`data/${what}`).map(id => ({ id, whole: { id }, cols: [] }));
     }
   }
