@@ -991,19 +991,19 @@
   Rule {t}_u_restock_drain_in when {t}_u_restocked() and {t}_u_onward_by({t}_u_warren) and not {t}_u_came({t}_u_drain_rats) { Assert {t}_u_came({t}_u_drain_rats). Assert at({t}_u_drain_rats, {t}_u_drain). Assert at({t}_u_drain_lead, {t}_u_drain). }
   Rule {t}_u_restock_charnel_in when {t}_u_restocked() and {t}_u_onward_by({t}_u_ossuary) and not {t}_u_came({t}_u_charnel_rats) { Assert {t}_u_came({t}_u_charnel_rats). Assert at({t}_u_charnel_rats, {t}_u_charnel). Assert at({t}_u_charnel_lead, {t}_u_charnel). }
   Rule {t}_u_restock_face_in when {t}_u_restocked() and {t}_u_onward_by({t}_u_gallery) and not {t}_u_came({t}_u_face_rats) { Assert {t}_u_came({t}_u_face_rats). Assert at({t}_u_face_rats, {t}_u_face). Assert at({t}_u_face_lead, {t}_u_face). }
-  Person {t}_u_drain_rats "the rats come up into the drain" nowhere {
+  Person {t}_u_drain_rats "the rats in the drain" nowhere {
     Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_drain.
   }
   Person {t}_u_drain_lead "the old rat that leads them" nowhere {
     Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair {t}_u_drain.
   }
-  Person {t}_u_charnel_rats "the rats come up into the charnel passage" nowhere {
+  Person {t}_u_charnel_rats "the rats in the charnel passage" nowhere {
     Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_charnel.
   }
   Person {t}_u_charnel_lead "the old rat that leads them" nowhere {
     Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair {t}_u_charnel.
   }
-  Person {t}_u_face_rats "the rats come up into the working face" nowhere {
+  Person {t}_u_face_rats "the rats at the working face" nowhere {
     Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat.{runts} Numbers {brood}. Level 1. Temperament territorial. Lair {t}_u_face.
   }
   Person {t}_u_face_lead "the old rat that leads them" nowhere {

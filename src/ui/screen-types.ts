@@ -97,6 +97,8 @@ export interface TargetRow {
   look?: string; state?: 'dead' | 'down'; acts: Act[];
   // A device that fights without being a creature (a ward, a turret): broken, not dead (register M19-238).
   device?: boolean;
+  // Who the company is held from by a threat it must answer first (see Engaged): what it would do toward them waits.
+  held?: true;
   // A treasure lying where the company is, there to be taken (not for sale).
   valuable?: boolean;
   // More than one of them (the goblins), to be spoken of as they are.

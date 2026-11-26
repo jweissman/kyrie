@@ -110,10 +110,11 @@ export class CreatureFacts {
     return [...given ? [] : [ModuleWriter.call('temperament', group, temper)], ...said]
       .map(call => ({ kind: 'assert' as const, call }));
   }
-  // A name whose head word, before any preposition, is plural ("the rats under the corn-store", "the hounds").
+  // A name whose head word, before any preposition, is plural ("the rats under the corn-store", "the hounds", "the
+  // barrow-dead").
   static plural(name: string): boolean {
     const head = name.toLowerCase().split(/\s+(?:under|in|of|at|from|by|on|beneath|behind|near)\s+/)[0]!
-      .split(/\s+/).at(-1) ?? '';
+      .split(/\s+/).at(-1)?.split('-').at(-1) ?? '';
     return /[^su]s$/.test(head) || ['men', 'folk', 'people', 'mice', 'geese', 'children', 'dead'].includes(head);
   }
   // The temperaments a module declares, and the plain words of each, by their unprefixed ids.

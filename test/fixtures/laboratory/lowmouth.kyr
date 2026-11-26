@@ -500,19 +500,19 @@ Module lab "The undercroft at Lowmouth" {
   Rule low_u_restock_drain_in when low_u_restocked() and low_u_onward_by(low_u_warren) and not low_u_came(low_u_drain_rats) { Assert low_u_came(low_u_drain_rats). Assert at(low_u_drain_rats, low_u_drain). Assert at(low_u_drain_lead, low_u_drain). }
   Rule low_u_restock_charnel_in when low_u_restocked() and low_u_onward_by(low_u_ossuary) and not low_u_came(low_u_charnel_rats) { Assert low_u_came(low_u_charnel_rats). Assert at(low_u_charnel_rats, low_u_charnel). Assert at(low_u_charnel_lead, low_u_charnel). }
   Rule low_u_restock_face_in when low_u_restocked() and low_u_onward_by(low_u_gallery) and not low_u_came(low_u_face_rats) { Assert low_u_came(low_u_face_rats). Assert at(low_u_face_rats, low_u_face). Assert at(low_u_face_lead, low_u_face). }
-  Person low_u_drain_rats "the rats come up into the drain" nowhere {
+  Person low_u_drain_rats "the rats in the drain" nowhere {
     Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_drain.
   }
   Person low_u_drain_lead "the old rat that leads them" nowhere {
     Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair low_u_drain.
   }
-  Person low_u_charnel_rats "the rats come up into the charnel passage" nowhere {
+  Person low_u_charnel_rats "the rats in the charnel passage" nowhere {
     Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_charnel.
   }
   Person low_u_charnel_lead "the old rat that leads them" nowhere {
     Role "a rat grey to the tail, scarred, that the others give way to". Species rat. Numbers 1. Level 1. Temperament territorial. Lair low_u_charnel.
   }
-  Person low_u_face_rats "the rats come up into the working face" nowhere {
+  Person low_u_face_rats "the rats at the working face" nowhere {
     Role "rats come up out of the deep work after what the old ways' first troubles left, lean and bold". Species rat. Variant runt. Numbers 1. Level 1. Temperament territorial. Lair low_u_face.
   }
   Person low_u_face_lead "the old rat that leads them" nowhere {

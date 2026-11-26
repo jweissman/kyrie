@@ -9,10 +9,11 @@ export class Promises {
   static broken(screen: Screen): string[] {
     return [...this.people(screen), ...this.ways(screen), ...this.valuables(screen)];
   }
-  // Someone there, alive and not of the company, with no act toward them that can be taken or is told why not.
+  // Someone there, alive and not of the company, with no act toward them that can be taken or is told why not; and
+  // not held from by a threat the company answers first (Engaged), which is why.
   private static people(screen: Screen): string[] {
-    return screen.people.filter(p => p.kind === 'person' && !p.state && !p.companion && !this.answered(p))
-      .map(p => `${p.name} is here, and nothing can be done toward them`);
+    return screen.people.filter(p => p.kind === 'person' && !p.state && !p.companion && !p.held && !this.answered(p))
+      .map(p => `${p.name} ${p.many ? 'are' : 'is'} here, and nothing can be done toward them`);
   }
   private static ways(screen: Screen): string[] {
     return screen.exits.filter(e => !e.blocked && !this.acted(e.acts))

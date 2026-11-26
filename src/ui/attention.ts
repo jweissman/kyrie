@@ -31,8 +31,10 @@ export class Attending {
       const deeds = s.choices.filter(c => c.deed && !c.children);
       const rest = this.replies(s.choices.filter(c => !deeds.includes(c)));
       // Someone with nothing to be said to them but goodbye is there, not someone to talk to (the owner, 9 November:
-      // a likeness clicked, a conversation opened, and only "Take your leave" in it). What is done about them stays.
-      if (!rest.length) { return { ...s, choices: deeds }; }
+      // a likeness clicked, a conversation opened, and only "Take your leave" in it). What is done about them stays,
+      // and a blow is done, not said: goblins talked round and talked to had held "Attack the goblins" alone, in a
+      // talk drawn as that blow (OR-698, cold plays 1 and 4).
+      if (rest.every(c => c.does === 'attack' && !c.children)) { return { ...s, choices: [...deeds, ...rest] }; }
       return { ...s, choices: [{ id: `${s.id}#talk`, label: `Talk to ${this.called(s)}`, tone: 'person',
         ...talk?.command ? { command: talk.command, does: 'talk_to' } : {}, children: rest.length ? rest : [] }, ...deeds] };
     }

@@ -24,7 +24,8 @@ Module world_making "What a company can make of what it carries" {
     Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
       and (not undiscovered(mk_recipe) or knowsRecipe(actor, mk_recipe))
       and remedy(mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind) and makes(mk_recipe, mk_made)
-      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
+      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind)
+      and distinct(mk_first, mk_second).
     Time 6.
     Resolve check(actor, mending, dc_fair).
     On success { Spend mk_first_kind from actor. Spend mk_second_kind from actor. Give mk_made to actor. }
@@ -37,7 +38,8 @@ Module world_making "What a company can make of what it carries" {
     Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
       and (not undiscovered(mk_recipe) or knowsRecipe(actor, mk_recipe))
       and not remedy(mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind) and makes(mk_recipe, mk_made)
-      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
+      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind)
+      and distinct(mk_first, mk_second).
     Time 1.
     On success { Spend mk_first_kind from actor. Spend mk_second_kind from actor. Give mk_made to actor. }
     Result "{mk_maker} makes {mk_made} of them.".
@@ -46,7 +48,8 @@ Module world_making "What a company can make of what it carries" {
     Description "Two things steeped, ground or bound together to see what they do: the way, if there is one, is learned.".
     Requires able(actor) and memberOf(mk_maker, actor) and awake(mk_maker) and not benighted(actor)
       and undiscovered(mk_recipe) and not knowsRecipe(actor, mk_recipe) and takes(mk_recipe, mk_first_kind) and takesWith(mk_recipe, mk_second_kind)
-      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind).
+      and ownedItem(mk_first, mk_maker) and itemKind(mk_first, mk_first_kind) and ownedItem(mk_second, mk_maker) and itemKind(mk_second, mk_second_kind)
+      and distinct(mk_first, mk_second).
     Time 6.
     Resolve check(actor, mending, dc_fair).
     On success { Assert knowsRecipe(actor, mk_recipe). }

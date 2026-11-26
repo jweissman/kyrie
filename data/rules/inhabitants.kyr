@@ -68,6 +68,7 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   Entity temper_words_ambush_onslaught_many: fact "{?g} spring out at you.".
   Entity temper_words_obedient_warning_many: fact "{?g} stand across the way, and do not move: they were set there to keep it.".
   Entity temper_words_obedient_onslaught_many: fact "{?g} come at you, as they were made to.".
+  Entity temper_words_seizing_onslaught_many: fact "{?g} take hold of you, and there is no fighting them.".
   Entity temper_words_wary_flinch_many: fact "{?g} slip away from you.".
   Entity temper_words_wary_onslaught_many: fact "Cornered, {?g} turn on you.".
   Entity temper_words_proud_warning_many: fact "{?g} look at you as if you owed them something.".

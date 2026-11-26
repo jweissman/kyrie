@@ -1,4 +1,4 @@
-import type { Act, Screen } from '../ui/screen-types';
+import type { Act, Screen, TargetRow } from '../ui/screen-types';
 import type { Operator } from '../lang/module';
 import type { Row } from './doable';
 
@@ -43,7 +43,7 @@ export class Engaged {
         .map(o => o.id)) };
     return { ...screen,
       camp: screen.camp.flatMap(a => a.command !== 'wait' ? this.acts([a], at) : fight ? [{ ...a, label: this.stand }] : []),
-      people: screen.people.map(p => threats.has(p.id) ? p : { ...p, acts: this.acts(p.acts, at) }),
+      people: screen.people.map(p => threats.has(p.id) ? p : this.held(p, at)),
       // Engaged in something not a threat, a way out is a way to leave it, nothing done to the way (a padlock tried).
       ...fight ? {} : { things: screen.things.map(t => threats.has(t.id) ? t : { ...t, acts: this.acts(t.acts, at) }),
         exits: screen.exits.map(e => ({ ...e, acts: e.acts.filter(a => this.going(a) || this.names(a, at)) })) },
@@ -69,6 +69,12 @@ export class Engaged {
     if (r.does === 'wait') { return fight ? [{ ...r, label: this.stand, short: this.stand }] : []; }
     if (r.does && held.has(r.does)) { return [{ ...r, ...opens ? { opens } : {} }]; }
     return opens?.length ? [{ ...r, opens }] : [];
+  }
+  // Someone else here, with only what answers the threat left toward them: held from, where nothing is (the goblins
+  // at the crossing while a blasting charge stands across the way: OR-698), not someone shown with nothing to be done.
+  private static held(p: TargetRow, at: At): TargetRow {
+    const acts = this.acts(p.acts, at);
+    return { ...p, acts, ...p.acts.length && !acts.length ? { held: true as const } : {} };
   }
   private static commands(acts: Act[]): string[] {
     return acts.flatMap(a => [...a.command ? [a.command] : [], ...this.commands(a.children ?? [])]);

@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 594 live rows, 202 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 592 live rows, 200 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -53,7 +53,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 3 defects · 6 asks
+- **Conversation held to its focus** · 11 pins · 2 defects · 6 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -225,7 +225,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 4 defects · 6 asks
+- **Markets and prices** · 0 pins · 3 defects · 6 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -534,7 +534,7 @@ page's colours and opportunities.)
 
 ### Words
 
-- **Narration** · 3 pins · 18 defects · 17 asks
+- **Narration** · 3 pins · 17 defects · 17 asks
   - ○ the narration of an hour in a1 holds to "you", in the present, by a census of its sentences
   - ○ a place's first telling gives more than sight (sound, smell, touch or weather), within budget
   - ○ the words never contradict the state (a door told shut is shut, the weather told is so)
@@ -555,7 +555,7 @@ page's colours and opportunities.)
   - direction SN-05 P2: Perception by subskill (sight, hearing, scent), each member perceiving their own (an elf's ear, a…
   - requirement PP-03 P2: A watchlist of suspicious constructions for an editor, each with its evidence, failing nothing: an…
   - requirement PP-05 P2: The reference corpus: the 30 passages a first hour meets most, read aloud by the owner and…
-- **Voices and dialogue** · 1 pins · 0 defects · 1 asks
+- **Voices and dialogue** · 1 pins · 1 defects · 1 asks
   - ○ two people of different callings and peoples answer the same question in distinct registers
   - requirement OR-362 P2: Voices and dialogue: the capability as its pins hold it (two people of different callings and…
 
