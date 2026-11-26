@@ -10698,6 +10698,13 @@
    "section": "magic/spells-divine/spells-divine-2"
   },
   {
+   "id": "ability:cure_moderate",
+   "title": "Cure Moderate Wounds",
+   "status": "adapted",
+   "book": "phb",
+   "section": "magic/spells-divine/spells-divine-2"
+  },
+  {
    "id": "ability:death_ward",
    "title": "Death Ward",
    "status": "faithful",
@@ -10838,8 +10845,8 @@
    "section": "magic/spells-divine/spells-divine-3"
   },
   {
-   "id": "ability:cure_moderate",
-   "title": "Cure Moderate Wounds",
+   "id": "ability:cure_serious",
+   "title": "Cure Serious Wounds",
    "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-3"
@@ -10929,8 +10936,8 @@
    "section": "magic/spells-divine/spells-divine-4"
   },
   {
-   "id": "ability:cure_serious",
-   "title": "Cure Serious Wounds",
+   "id": "ability:cure_critical",
+   "title": "Cure Critical Wounds",
    "status": "adapted",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-4"
@@ -11102,13 +11109,6 @@
    "status": "faithful",
    "book": "phb",
    "section": "magic/spells-divine/spells-divine-5"
-  },
-  {
-   "id": "ability:cure_critical",
-   "title": "Cure Critical Wounds",
-   "status": "adapted",
-   "book": "phb",
-   "section": "magic/spells-divine/spells-divine-6"
   },
   {
    "id": "ability:flood",

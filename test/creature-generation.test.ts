@@ -24,7 +24,7 @@ describe('compositional creature generation', () => {
     expect(new Content('general').createCreature('entity', contexts[0]!).classId).toBe('warrior');
   });
   it('derives hit points, spell slots and spells from Orsino\'s chassis, honouring authored scores', () => {
-    const spells = ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'];
+    const spells = ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'];
     const context = { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], spells, strength: 18,
       constitution: 15, wisdom: 14, name: 'Chosen' } satisfies CreatureGenerationContext;
     const low = new Content('scaling').createCreature('low', { ...context, level: 1 });

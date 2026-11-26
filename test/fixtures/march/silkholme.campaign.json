@@ -64,8 +64,8 @@
         "bless",
         "anoint",
         "prayer",
-        "minor_restoration",
-        "cure_moderate"
+        "cure_moderate",
+        "cure_serious"
       ]
     }
   ]

@@ -4,7 +4,7 @@ import { CreatureStore } from '../src/creature-store';
 import { FieldUse } from '../src/campaign/field-use';
 import { Spellcasting } from '../src/rules/spellcasting';
 
-const spells = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'];
+const spells = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'];
 class Casters {
   static cleric(level: number) {
     return new Content('slots').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level,
