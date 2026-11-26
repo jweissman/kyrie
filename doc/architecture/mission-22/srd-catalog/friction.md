@@ -7,6 +7,12 @@ prototypes, not installed encounters or learned spells. Ray of Frost was already
 been installed as described below. We have not made an installed-encounter census or measured the prototypes' effect
 on the world. Counting them as playable migrations would be misleading.
 
+### First-town aims: clue before lead
+
+The public crier teaches that a levy was read; the keep aim appears only after asking the keeper, who reveals that
+the lord has not been seen. The `first-town-aims-uncovered` pin checks that distinction alongside the Walk and career
+aims, so knowing the public fact does not hand out the lead.
+
 ### Two playable cantrips
 
 Acid Splash and Disrupt Undead are now catalog spells, not prototype adapters. An ordinary conjurer or necromancer

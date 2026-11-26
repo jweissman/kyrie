@@ -54,11 +54,13 @@ describe('the silent lord: where it stands in the world', () => {
       .find(x => x.scenario === 'silent-lord')!.bindings.keep!;
     const j = await start();
     await j.play('==day 2 09:00', '>s1_green');
-    expect(knows(j, 'levy_called')).toBe(false);
+    expect(knows(j, 'levy_called')).toBe(true);
+    expect(knows(j, 'lord_unseen')).toBe(false);
     expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === k('keep_rumoured'))).toBe(false);
     Placed.at(j, j.campaign.world.one('at', 'region__s1_innkeeper')!);
     await j.play('Ask .* about the crier');
     expect(knows(j, 'levy_called')).toBe(true);
+    expect(knows(j, 'lord_unseen')).toBe(true);
     expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === k('keep_rumoured'))).toBe(true);
     const done = await MapPlay.reach(j, `region__${id}`);
     expect(done.arrived).toBe(true);
