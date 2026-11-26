@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 598 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 597 live rows, 205 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -53,7 +53,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 4 defects · 6 asks
+- **Conversation held to its focus** · 11 pins · 3 defects · 6 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -112,7 +112,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 7 defects · 12 asks
+- **Journeys over known ways** · 8 pins · 8 defects · 12 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -225,7 +225,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 5 defects · 6 asks
+- **Markets and prices** · 0 pins · 4 defects · 6 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…

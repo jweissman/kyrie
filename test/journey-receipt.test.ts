@@ -14,6 +14,9 @@ import { Costs } from '../src/costs';
 // let down across the road, danger where it comes, night, and the company set upon on the way, and the journey held
 // gone on with after each stop. (Wren's fifteen had met a bar, danger and the set-upon; in today's world it
 // meets the first two only in some twenty-five, and the set-upon not in forty-five.)
+// (Since OR-632 the places the map alone lays a way to are the screen's mapped, which the page's map lists with its
+// roads and destinations, and so are set out for here; twenty-five journeys, since the stops ArrivalAttention adds
+// come before the pikes and the danger in fifteen.)
 class Both {
   static async begin(whole: boolean): Promise<{ host: EngineHost; frame: Frame }> {
     // A fight on the way is the page's to choose in: pressed through by the company's own tactics, as the page can.
@@ -30,9 +33,10 @@ class Both {
   }
   // The frame as the page is given it, but for how long its parts took to build.
   static shown(frame: Frame): string { return JSON.stringify({ ...frame, timing: undefined }); }
-  // Where a journey from here sets out for: the way held, gone on with; else one of the places the map offers.
+  // Where a journey from here sets out for: the way held, gone on with; else one of the places the map offers (its
+  // mapped too, the places the map alone lays a way to since OR-632, as the page's map lists them: MapView).
   static whither(frame: Frame, n: number): string | undefined {
-    const offered = [...frame.screen.roads ?? [], ...frame.screen.destinations ?? []];
+    const offered = [...frame.screen.roads ?? [], ...frame.screen.destinations ?? [], ...frame.screen.mapped ?? []];
     return frame.bound?.id ?? offered[(n * 7) % Math.max(1, offered.length)]?.id;
   }
 }
@@ -43,7 +47,7 @@ describe('a journey told leg by leg from its receipts', () => {
     expect(Both.shown(told.frame)).toBe(Both.shown(whole.frame));
     const stops = new Set<string>(), screens = { whole: 0, told: 0 };
     let [a, b] = [whole.frame, told.frame], legs = 0, held = 0;
-    for (let n = 0; n < 15 && a.screen.running; n++) {
+    for (let n = 0; n < 25 && a.screen.running; n++) {
       const to = Both.whither(a, n);
       if (!to) { break; }
       if (a.bound) { held++; }
@@ -58,9 +62,12 @@ describe('a journey told leg by leg from its receipts', () => {
       stops.add((a.travel!.stopped ?? (a.travel!.arrived ? 'arrived' : '')).split(/[,.:]/)[0]!);
       legs += a.travel!.legs.length;
     }
-    // Each kind of stop met (so that the equality is not of arrivals alone), and legs told without their frames.
+    // Each kind of stop met (so that the equality is not of arrivals alone), and legs told without their frames. Harm
+    // on the way is met as a wound now rather than a fight: since the journey stops for a threat that blocks the way
+    // (ArrivalAttention, the lead's ruling of 25 November), kite's road bands stop it before they set upon it, and
+    // twenty-five journeys meet no fight on a leg (OR-773 wants that case of its own).
     expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'Pikes come down across the road',
-      'There is danger here', 'Night has come on', 'You were set upon on the way']));
+      'There is danger here', 'Night has come on', 'Someone was hurt on the way']));
     expect(held).toBeGreaterThan(0);
     expect(legs).toBeGreaterThan(30);
     expect(screens.told).toBeLessThan(screens.whole - legs / 2);
