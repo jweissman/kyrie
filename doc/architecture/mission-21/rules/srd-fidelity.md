@@ -6,7 +6,7 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 **2 of 88 placed encounters in a1 SRD-faithful** (a hostile group whose every
 kind passes in structure and resolution); 61 of them have an SRD counterpart for every kind.
 **Spells with an SRD counterpart (120 of 287 catalog spells): 50 pass in structure
-(level, school), 37 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
+(level, school), 28 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
 target, duration), 37 proved in play identity.** Creatures with one (79):
 8 in structure (Hit
 Dice, armour), 7 in resolution (blows, chance to hit, defences, saves), 3 proved in
@@ -18,7 +18,7 @@ kind that has an SRD counterpart and 2 % with a faithful one (541 groups).
 
 | creatures, field exact or converted | hitDice 9 | armour 10 | attacks 27 | hit 13 | defences 5 | specials 2 | saves 8 | of 79 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 61 | school 85 | dice 14 | type 13 | save 38 | dc 26 | attack 111 | resist 19 | target 76 | duration 58 | of 120 |
+| spells, field exact or converted | level 61 | school 85 | dice 10 | type 13 | save 35 | dc 26 | attack 111 | resist 19 | target 67 | duration 56 | of 120 |
 
 ## Creatures, most met first
 
@@ -113,19 +113,19 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | acid_arrow | acid-arrow | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | – | ✓ | ✓ |
 | animate_dead | animate-dead | S✗ R✗ I– | ✗ 3 → 4 | ✓ | – | – | – | – | ✓ | – | ✗ one → several | ✓ |
-| armor | mage-armor | S✓ R✓ I✓ | ✓ | ≈ Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22) | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | – | ✓ | ✓ |
+| armor | mage-armor | S✓ R✗ I✓ | ✓ | ≈ Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22) | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | – | ✗ · → one | ≈ the fight, twenty rounds, where the SRD's is an hour a level (srd-proving-cases.md, case 22) |
 | augury | augury | S✓ R✗ I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → instant |
 | barkskin | barkskin | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✓ |
 | blade_barrier | blade-barrier | S✗ R✗ I– | ✗ 4 → 6 | ✗ · → evocation | ✗ · → 3.5/17.5/35/52.5 | ✗ · → force | ✗ · → dexterity half | ✗ · → 19 | ✓ | ✗ · → yes | ✗ self → burst | ✗ 3 rounds → long |
 | bless | bless | S✓ R✓ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ≈ the whole company, the caster among them: Kyr's field has no distances (srd-proving-cases.md, case 17) | ✓ |
 | blur | blur | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 49) | ≈ harmless: none is made (srd-proving-cases.md, case 49) | ✓ | – | ✓ | ✓ |
 | burning_hands | burning-hands | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| calm_emotions | calm-emotions | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ three rounds, the census's caster's, at every casting level, for the SRD's concentration up to a round a level: Kyr's casters do not concentrate (srd-proving-cases.md, case 24) |
+| calm_emotions | calm-emotions | S✓ R✗ I✓ | ✓ | ✓ | – | – | ✗ · → wisdom negates | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ three rounds, the census's caster's, at every casting level, for the SRD's concentration up to a round a level: Kyr's casters do not concentrate (srd-proving-cases.md, case 24) |
 | cause_blindness | blindness-deafness | S✗ R✗ I– | ✗ 3 → 2 | ✓ | – | – | ✓ | ✗ 17 → 15 | ✓ | ✗ · → yes | ✓ | ✗ 5 rounds → long |
 | chain_lightning | chain-lightning | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
 | charm | charm-person | S✓ R✗ I– | ✓ | ✓ | – | – | ✓ | ✗ 19 → 14 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
 | cloudkill | cloudkill | S✗ R✗ I– | ✓ | ✗ · → conjuration | ✗ 4.5/4.5/4.5/4.5 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 18 | ✓ | – | ✓ | ✗ 3 rounds → long |
-| command | command | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| command | command | S✓ R✗ I✓ | ✓ | ✓ | – | – | ✗ · → wisdom negates | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✗ · → one | ✗ instant → 1 rounds |
 | comprehend_languages | comprehend-languages | S✓ R✗ I✓ | ✓ | ✓ | – | – | – | – | ✓ | – | ✗ · → self | ✗ instant → long |
 | cone_of_cold | cone-of-cold | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
 | confuse | confusion-lesser | S✗ R✗ I– | ✓ | ✗ · → enchantment | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | – | ✓ | ✗ 3 rounds → 1 rounds |
@@ -134,12 +134,12 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | contagion | contagion | S✗ R✗ I– | ✗ 7 → 4 | ✓ | ✗ 28/32/37/47 → · | – | ✗ wisdom half → constitution negates | ✗ 15 → 17 | ✓ | ✗ · → yes | ✗ all → one | ✗ 3 rounds → instant |
 | control_undead | control-undead | S✗ R✗ I– | ✗ 6 → 7 | ✓ | – | – | ✗ · → wisdom negates | ✗ · → 20 | ✓ | ✗ · → yes | ✗ all → several | ✗ 3 rounds → long |
 | create_darkness | darkness | S✗ R✗ I– | ✓ | ✗ · → evocation | – | – | ✗ dexterity negates → · | ✗ 18 → · | ✓ | – | ✗ all → one | ✗ 3 rounds → long |
-| cure | cure-light-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
-| cure_critical | cure-critical-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure | cure-light-wounds | S✓ R✗ I✓ | ✓ | ✓ | ✗ · → 5.5/9.5/9.5/9.5 | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✗ · → one | ✓ |
+| cure_critical | cure-critical-wounds | S✓ R✗ I✓ | ✓ | ✓ | ✗ · → 19/23/28/38 | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✗ · → one | ✓ |
 | cure_disease | remove-disease | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 42) | ≈ harmless: none is made (srd-proving-cases.md, case 42) | ✓ | – | ✓ | ✓ |
-| cure_minor | cure-minor-wounds | S✓ R✗ I– | ✓ | ✓ | ✗ 1/1/1/1 → · | – | ✗ · → wisdom half | ✗ · → 13 | ✓ | – | ✓ | ✓ |
-| cure_moderate | cure-moderate-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
-| cure_serious | cure-serious-wounds | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✓ | ✓ |
+| cure_minor | cure-minor-wounds | S✓ R✗ I– | ✓ | ✓ | – | – | ✗ · → wisdom half | ✗ · → 13 | ✓ | – | ✗ · → one | ✓ |
+| cure_moderate | cure-moderate-wounds | S✓ R✗ I✓ | ✓ | ✓ | ✗ · → 10/14/19/19 | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✗ · → one | ✓ |
+| cure_serious | cure-serious-wounds | S✓ R✗ I✓ | ✓ | ✓ | ✗ · → 14.5/18.5/23.5/28.5 | – | ≈ harmless: Kyr's cure mends the living alone, whom the SRD's save does not touch; the save is an undead's against its harm, omitted (srd-proving-cases.md, case 16) | ≈ harmless: none is made by the living (srd-proving-cases.md, case 16) | ✓ | – | ✗ · → one | ✓ |
 | curse | bestow-curse | S✗ R✗ I– | ✗ 0 → 3 | ✗ · → necromancy | – | – | ✓ | ✗ 15 → 16 | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |
 | dancing_lights | dancing-lights | S✗ R✗ I– | ✓ | ✗ illusion → evocation | – | – | ✗ wisdom negates → · | ✗ 16 → · | ✓ | – | ✗ all → burst | ✗ 3 rounds → long |
 | daylight | daylight | S✗ R✗ I– | ✗ 4 → 3 | ✗ · → evocation | ✗ 2.5/2.5/2.5/2.5 → · | – | ✗ wisdom half → · | ✗ 15 → · | ✗ none → melee touch | – | ✗ all → one | ✗ instant → long |
@@ -158,7 +158,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | finger_of_death | finger-of-death | S✓ R✗ I– | ✓ | ✓ | ✗ 36/40/45/55 → 11.5/15.5/20.5/30.5 | – | ✗ wisdom half → constitution negates | ✗ 15 → 20 | ✓ | ✗ · → yes | ✓ | ✓ |
 | fire_storm | fire-storm | S✗ R✗ I– | ✗ 6 → 7 | ✓ | ✗ 21/21/21/21 → 3.5/17.5/35/70 | ✓ | ✗ wisdom half → dexterity half | ✗ 15 → 20 | ✓ | ✗ · → yes | ✗ burst → one | ✓ |
 | fireball | fireball | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ✓ |
-| flesh_to_stone | flesh-to-stone | S✓ R✓ I✓ | ✓ | ✓ | – | – | ✓ | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✓ | ≈ instantaneous, the stone lasting: Kyr's petrified lasts the fight it is laid in, its lifetime (srd-proving-cases.md, case 55) |
+| flesh_to_stone | flesh-to-stone | S✓ R✗ I✓ | ✓ | ✓ | – | – | ✗ · → constitution negates | ≈ the SRD's and half the casting level, a Westernesse save adding the saver's whole level (srd-proving-cases.md, case 7) | ✓ | ✓ | ✗ · → one | ✓ |
 | flight | fly | S✓ R✗ I– | ✓ | ✓ | ✗ · → 3.5/3.5/3.5/3.5 | – | ✗ · → wisdom negates | ✗ · → 16 | ✓ | – | ✓ | ✗ 3 rounds → long |
 | foresight | foresight | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✗ one → self | ✗ 3 rounds → long |
 | glyph_of_warding | glyph-of-warding | S✗ R✗ I– | ✗ 5 → 3 | ✗ illusion → abjuration | – | – | – | – | ✗ none → melee touch | – | ✗ self → one | ✗ 3 rounds → long |
@@ -203,7 +203,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | raise_dead | raise-dead | S✗ R✗ I– | ✗ 4 → 5 | ✗ · → conjuration | – | – | – | – | ✗ none → melee touch | – | ✓ | ✓ |
 | ray_of_frost | ray-of-frost | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | ✓ | ✓ | ✓ |
 | remove_fear | remove-fear | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | – | ✓ | ✓ |
-| resist_fire | resist-energy | S✓ R✓ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 38) | ≈ harmless: none is made (srd-proving-cases.md, case 38) | ✓ | – | ✓ | ✓ |
+| resist_fire | resist-energy | S✓ R✗ I✓ | ✓ | ✓ | – | – | ≈ harmless: made by none who takes it willingly, and Kyr's caster lays it only on themselves or a companion (srd-proving-cases.md, case 38) | ≈ harmless: none is made (srd-proving-cases.md, case 38) | ✓ | – | ✗ · → one | ✗ instant → long |
 | restoration | restoration | S✗ R✗ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | – | ✗ · → one | ✗ instant → long |
 | resurrect | resurrection | S✗ R✓ I– | ✓ | ✗ · → conjuration | – | – | – | – | ✓ | – | ✓ | ✓ |
 | shapechange | shapechange | S✓ RU I– | ✓ | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → long |

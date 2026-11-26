@@ -3077,6 +3077,15 @@ The worlds that ship with the game.
 
 > On Lantana Cay it is the end of the dry, and the ship that brought you waits on a wind that comes with the rains. Up the hill above Palla an old woman has carried the rain-gourd to the falls every year for fifty years. This year her hip will not.
 
+### The Rose of Orlane
+
+*Kyr* · `campaign:romance`
+
+- Regions and sites: romance
+- Kits placed: —
+
+> Climb to a ruined abbey, rescue three treasure-seekers, face the dragon on its hoard and recover a book whose pages teach fire and rain.
+
 ### Three Nights at Sallowfield
 
 *Kyr* · `campaign:sallowfield`

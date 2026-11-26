@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 345,
+    "kyr": 342,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 301,
+      "kyr": 297,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 39,
+      "kyr": 40,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15360,34 +15360,6 @@
    "section": "world-rules/rules-dominion"
   },
   {
-   "id": "rule:world_elements.elementVerb",
-   "title": "elementVerb",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
-   "id": "rule:world_elements.put_to",
-   "title": "put_to",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
-   "id": "rule:world_elements.looses",
-   "title": "looses",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
-   "id": "rule:world_elements.loose_at",
-   "title": "loose at",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
    "id": "rule:world_growing.grows",
    "title": "grows, crop",
    "status": "kyr",
@@ -16489,6 +16461,13 @@
   {
    "id": "campaign:raingourd",
    "title": "The Rain-Gourd",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:romance",
+   "title": "The Rose of Orlane",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

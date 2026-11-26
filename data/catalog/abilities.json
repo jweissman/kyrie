@@ -5,9 +5,7 @@
       "name": "Cure Minor Wounds",
       "kind": "spell",
       "description": "Bind a scratch or a bruise: one point.",
-      "effects": [
-        { "kind": "heal", "amount": { "kind": "literal", "value": 1 }, "target": "ally" }
-      ],
+      "effect": "Heal 1 health to ally.",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 0, "domain": "life", "school": "conjuration" },
       "source": {
@@ -57,21 +55,7 @@
       "name": "Flesh to Stone",
       "kind": "spell",
       "description": "Turn one foe to stone where it stands, unless it holds itself together against it; stone it stays until the fight is over.",
-      "effects": [
-        {
-          "kind": "apply",
-          "status": "petrified",
-          "duration": 1000,
-          "target": "enemy",
-          "save": {
-            "kind": "fortitude",
-            "difficulty": {
-              "kind": "deem",
-              "expression": "16 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
-            }
-          }
-        }
-      ],
+      "effect": "Apply petrified to enemy for 1000 turns unless fortitude save against (16 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC).",
       "cost": 1,
       "spell": {
         "tradition": "arcane",
@@ -118,15 +102,7 @@
       "name": "Fire ward",
       "kind": "technique",
       "description": "Ward a companion against fire for about two hours.",
-      "effects": [
-        {
-          "kind": "apply",
-          "status": "fireproof",
-          "duration": 12,
-          "target": "ally",
-          "clock": "world-time"
-        }
-      ],
+      "effect": "Apply fireproof to ally for 2 hours.",
       "source": {
         "orsino": "status:fireproof",
         "fidelity": "adapted",
@@ -137,15 +113,7 @@
       "name": "Cold ward",
       "kind": "technique",
       "description": "Ward a companion against cold for about two hours.",
-      "effects": [
-        {
-          "kind": "apply",
-          "status": "waterproof",
-          "duration": 12,
-          "target": "ally",
-          "clock": "world-time"
-        }
-      ],
+      "effect": "Apply waterproof to ally for 2 hours.",
       "source": {
         "orsino": "status:waterproof",
         "fidelity": "adapted",
@@ -156,15 +124,7 @@
       "name": "Despair",
       "kind": "natural",
       "description": "It turns its face on whoever stands before it, and the sight holds them still with dread: whoever does not master their fear cannot move for a while. Once a day.",
-      "effects": [
-        {
-          "kind": "apply",
-          "status": "paralyzed",
-          "duration": 2,
-          "target": "enemies",
-          "save": { "kind": "fear", "difficulty": { "kind": "literal", "value": 16 } }
-        }
-      ],
+      "effect": "Apply paralyzed to enemies for 2 turns unless fear save against 16.",
       "uses": 1,
       "recharges": "day",
       "source": {
@@ -443,9 +403,7 @@
       "name": "Cure Light Wounds",
       "kind": "spell",
       "description": "Bind light wounds: 1d8, and a point for every level you have, to five.",
-      "effects": [
-        { "kind": "heal", "amount": { "kind": "deem", "expression": "1d8 + cappedLevel(5)" }, "target": "ally" }
-      ],
+      "effect": "Heal (1d8 + cappedLevel(5)) health to ally.",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 1, "domain": "life", "school": "conjuration" },
       "source": {
@@ -460,9 +418,7 @@
       "name": "Cure Moderate Wounds",
       "kind": "spell",
       "description": "Bind moderate wounds: 2d8, and a point for every level you have, to ten.",
-      "effects": [
-        { "kind": "heal", "amount": { "kind": "deem", "expression": "2d8 + cappedLevel(10)" }, "target": "ally" }
-      ],
+      "effect": "Heal (2d8 + cappedLevel(10)) health to ally.",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 2, "domain": "life", "school": "conjuration" },
       "source": {
@@ -477,9 +433,7 @@
       "name": "Cure Serious Wounds",
       "kind": "spell",
       "description": "Bind serious wounds: 3d8, and a point for every level you have, to fifteen.",
-      "effects": [
-        { "kind": "heal", "amount": { "kind": "deem", "expression": "3d8 + cappedLevel(15)" }, "target": "ally" }
-      ],
+      "effect": "Heal (3d8 + cappedLevel(15)) health to ally.",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 3, "domain": "life", "school": "conjuration" },
       "source": {
@@ -494,9 +448,7 @@
       "name": "Cure Critical Wounds",
       "kind": "spell",
       "description": "Bind critical wounds: 4d8, and a point for every level you have, to twenty.",
-      "effects": [
-        { "kind": "heal", "amount": { "kind": "deem", "expression": "4d8 + cappedLevel(20)" }, "target": "ally" }
-      ],
+      "effect": "Heal (4d8 + cappedLevel(20)) health to ally.",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 4, "domain": "life", "school": "conjuration" },
       "source": {
@@ -538,14 +490,7 @@
       "name": "Mage Armor",
       "kind": "spell",
       "description": "An unseen armour of force about you or one beside you, as good as a mail coat.",
-      "effects": [
-        {
-          "kind": "apply",
-          "status": "mage_armored",
-          "duration": 20,
-          "target": "ally"
-        }
-      ],
+      "effect": "Apply mage_armored to ally for 20 turns.",
       "cost": 1,
       "spell": {
         "tradition": "arcane",
@@ -615,21 +560,7 @@
       "name": "Calm Emotions",
       "kind": "spell",
       "description": "A calm falls on the place you aim it at: friend or foe, whoever does not shake it off stands quiet and does nothing, until a blow breaks it.",
-      "effects": [
-        {
-          "kind": "apply",
-          "status": "calmed",
-          "duration": 3,
-          "target": "enemies",
-          "save": {
-            "kind": "will",
-            "difficulty": {
-              "kind": "deem",
-              "expression": "12 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
-            }
-          }
-        }
-      ],
+      "effect": "Apply calmed to enemies for 3 turns unless will save against (12 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC).",
       "area": "burst",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 2, "domain": "nature", "school": "enchantment", "resistance": true },
@@ -786,9 +717,7 @@
       "name": "Resist Fire",
       "kind": "spell",
       "description": "Lay a hand on yourself or one of the company, and fire's heat is held off them for the fight: ten less from every burn.",
-      "effects": [
-        { "kind": "apply", "status": "fire_resistant", "duration": 20, "target": "ally" }
-      ],
+      "effect": "Apply fire_resistant to ally for 20 turns.",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 2, "domain": "life", "school": "abjuration" },
       "source": {
@@ -820,21 +749,7 @@
       "name": "Command",
       "kind": "spell",
       "description": "One word, spoken with the god's authority: Fall! Whoever does not shake it off throws themselves down and loses their turn.",
-      "effects": [
-        {
-          "kind": "apply",
-          "status": "prone",
-          "duration": 1,
-          "target": "enemy",
-          "save": {
-            "kind": "will",
-            "difficulty": {
-              "kind": "deem",
-              "expression": "11 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC"
-            }
-          }
-        }
-      ],
+      "effect": "Apply prone to enemy for 1 turn unless will save against (11 + floor((#castingScore - 10) / 2) + floor(#castingLevel / 2) + #bonusSpellDC).",
       "cost": 1,
       "spell": { "tradition": "divine", "level": 1, "domain": "law", "school": "enchantment", "resistance": true },
       "source": {
@@ -1588,30 +1503,7 @@
       "name": "Hornet Swarm",
       "kind": "spell",
       "description": "A prayer to the wild that is answered out of the nearest hollow tree: a brown cloud of hornets over every foe, stinging, so that they strike wild while it lasts.",
-      "effects": [
-        {
-          "kind": "damage",
-          "amount": {
-            "kind": "deem",
-            "expression": "1d4"
-          },
-          "damageType": "piercing",
-          "target": "enemies"
-        },
-        {
-          "kind": "apply",
-          "status": "distracted",
-          "duration": 2,
-          "target": "enemies",
-          "save": {
-            "kind": "reflex",
-            "difficulty": {
-              "kind": "deem",
-              "expression": "15 + #level + #bonusSpellDC"
-            }
-          }
-        }
-      ],
+      "effect": "Deal (1d4) piercing damage to enemies. Apply distracted to enemies for 2 turns unless reflex save against (15 + #level + #bonusSpellDC).",
       "cost": 1,
       "spell": {
         "tradition": "divine",
@@ -1627,16 +1519,7 @@
       "name": "Kindle",
       "kind": "spell",
       "description": "Heal for a small amount of health.",
-      "effects": [
-        {
-          "kind": "heal",
-          "amount": {
-            "kind": "deem",
-            "expression": "1d3 + statMod(#wisdom)"
-          },
-          "target": "ally"
-        }
-      ],
+      "effect": "Heal (1d3 + statMod(#wisdom)) health to ally.",
       "cost": 1,
       "spell": {
         "tradition": "divine",
@@ -1653,16 +1536,7 @@
       "name": "Rejuvenate",
       "kind": "spell",
       "description": "Heal a small amount of health for an ally.",
-      "effects": [
-        {
-          "kind": "heal",
-          "amount": {
-            "kind": "deem",
-            "expression": "1d8 + statMod(#wisdom)"
-          },
-          "target": "ally"
-        }
-      ],
+      "effect": "Heal (1d8 + statMod(#wisdom)) health to ally.",
       "cost": 1,
       "spell": {
         "tradition": "divine",
@@ -1679,16 +1553,7 @@
       "name": "Greater Rejuvenate",
       "kind": "spell",
       "description": "Heal a large amount of health.",
-      "effects": [
-        {
-          "kind": "heal",
-          "amount": {
-            "kind": "deem",
-            "expression": "2d8 + statMod(#wisdom)"
-          },
-          "target": "ally"
-        }
-      ],
+      "effect": "Heal (2d8 + statMod(#wisdom)) health to ally.",
       "cost": 1,
       "spell": {
         "tradition": "divine",
@@ -1705,16 +1570,7 @@
       "name": "Mass Rejuvenate",
       "kind": "spell",
       "description": "Heal a massive amount of health for all allies.",
-      "effects": [
-        {
-          "kind": "heal",
-          "amount": {
-            "kind": "deem",
-            "expression": "4d8 + statMod(#wisdom)"
-          },
-          "target": "allies"
-        }
-      ],
+      "effect": "Heal (4d8 + statMod(#wisdom)) health to allies.",
       "cost": 1,
       "spell": {
         "tradition": "divine",
@@ -1731,30 +1587,7 @@
       "name": "Holy",
       "kind": "spell",
       "description": "Smite your foes with holy energy.",
-      "effects": [
-        {
-          "kind": "damage",
-          "amount": {
-            "kind": "deem",
-            "expression": "3d6 + statMod(#wisdom)"
-          },
-          "damageType": "radiant",
-          "target": "enemies"
-        },
-        {
-          "kind": "apply",
-          "status": "deafened",
-          "duration": 3,
-          "target": "enemies",
-          "save": {
-            "kind": "fortitude",
-            "difficulty": {
-              "kind": "deem",
-              "expression": "18 + #level + #bonusSpellDC"
-            }
-          }
-        }
-      ],
+      "effect": "Deal (3d6 + statMod(#wisdom)) radiant damage to enemies. Apply deafened to enemies for 3 turns unless fortitude save against (18 + #level + #bonusSpellDC).",
       "cost": 1,
       "spell": {
         "tradition": "divine",
