@@ -25,6 +25,8 @@ export class ItemUses {
     const states = [...cures, ...use.effects.some(e => e.kind === 'heal') ? ['hurt'] : []];
     return states.length ? `for one who is ${states.join(' or ')} · none of you is now` : undefined;
   }
+  // What a kind of lamp burns, if it is one (the catalog's fuel), by its bare kind.
+  static fuel(kind: string): string | undefined { return ItemCatalog.definitions[kind]?.fuel; }
   // The kinds the company carries, among them a lamp's fuel.
   static carried(members: { state: { inventory?: { definition: string }[] } }[]): Set<string> {
     return new Set(members.flatMap(c => (c.state.inventory ?? []).map(i => i.definition)));

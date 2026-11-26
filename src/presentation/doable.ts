@@ -32,6 +32,10 @@ export interface Row {
   holds?: string[];
   // Why it cannot be done now (Choice.disabled): a row that neither does nor opens anything says why.
   shut?: string;
+  // What the page says beside it (Choice.note): who of the company takes what is bought or picked up, where its words
+  // leave that out, its price and its time. Every client says it: the runner had dropped it, and a blind player read
+  // "Buy from Soveliss — 7 coin" and found Hugh had the lantern (OR-687).
+  note?: string;
   // A journey set out on from the map, not drawn in the rest (DoableJourneys: JourneyFold's, the runner's alone till
   // MT-18).
   map?: true;
@@ -322,7 +326,8 @@ export class Doable {
       witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led && at.led !== false ? { for: led } : {},
       ...asked ? { called: act?.unmet ? this.called(c?.alone || (c?.label ?? label), asked) : asked } : {},
-      ...c?.disabled ? { shut: c.disabled } : {}, ...at.parents?.get(id) && !at.opening
+      ...c?.disabled ? { shut: c.disabled } : {}, ...c?.note ? { note: c.note } : {},
+      ...at.parents?.get(id) && !at.opening
         ? { within: at.parents.get(id)! } : {} }, legal = at.legal ?? new Set<string>();
     const kids = c?.children ?? [];
     // A row with a command does it, even where acts hang under it (a way with a door to listen at is gone by).

@@ -42,8 +42,9 @@ import { ChoiceIds } from '../ui/choice-ids';
 // aside: what the row says before it is chosen, of a fight that could be lost: its odds and the help to be had (CL-52).
 // id: the engine's own row's (Doable's), as every client names it (MT-18, AT-13); does: the command taking it does,
 // which may be asked for in its place (the cold plays' kept lines ask by command). An opener does nothing: it opens.
+// note: what is said beside it, as the page says it (Row.note): who takes it, its price, its time (OR-687).
 export interface Offered { id: string; label: string; does?: string; aspects: string[]; type: ActType; minutes?: number;
-  marks: string[]; bearing?: Bearing; opens?: Offered[]; says?: string; aside?: string }
+  marks: string[]; bearing?: Bearing; opens?: Offered[]; says?: string; aside?: string; note?: string }
 // What the runner says on each turn: how it was come to (arriving somewhere, what came of an act, or looked at on
 // purpose), the scene's lines as the terminal tells them, the four led with and the rest, the aim and what is needed.
 // scene.prose: of its lines, the narration alone (not the heading nor the aim and what is needed), as the scene

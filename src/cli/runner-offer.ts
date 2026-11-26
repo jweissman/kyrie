@@ -98,7 +98,7 @@ export class RunnerOffer {
     const label = r.only ? (whole && ChoiceWords.whole(whole)) ?? r.label
       : entry ? r.label : own?.label ?? at.names.get(id) ?? r.label;
     return { ...this.made(r.id, label, own, { does: id, minutes: r.minutes }),
-      ...own || !opener ? {} : { type: opener.type } };
+      ...own || !opener ? {} : { type: opener.type }, ...r.note ? { note: Typography.plain(r.note) } : {} };
   }
   // A row by the engine's id, doing its command; a journey the scene's offer left out is the engine's row's own: a
   // journey, as long as the row says.
