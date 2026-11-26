@@ -5,6 +5,7 @@ import { PlaySession } from '../../src/session/play-session';
 import { Frontier } from '../../src/world/frontier';
 import { Travel } from '../../src/session/travel';
 import { MapCard } from './map-card';
+import { Itineraries } from '../../src/ui/itinerary';
 
 // A generated world played from its map: begun with one ranger from an origin, a set-out pressed on the map's card,
 // and gone on with as the page's "Go on to" would.
@@ -33,8 +34,11 @@ export class MapPlay {
   // What is chosen on the map set out for by its card's button, and gone on with to the end: where it set out for,
   // and whether it came there.
   static async press(j: Journey, chosen: string): Promise<{ to?: string; arrived: boolean }> {
-    const to = /^travel:(.+)$/.exec(MapCard.of(j.screen(), chosen).command ?? '')?.[1];
+    const to = /^travel:(.+)$/.exec(MapCard.of(MapPlay.charted(j), chosen).command ?? '')?.[1];
     return { ...to ? { to } : {}, arrived: !!to && (await MapPlay.reach(j, to)).arrived };
   }
+  // The screen as the map is given it (Itineraries.charted): its journeys to every place it knows a way to, laid only
+  // where the map is asked for (routes on demand, OR-632), as the page's map is drawn.
+  static charted(j: Journey) { return Itineraries.charted(j.campaign, j.screen()); }
   static at(j: Journey): string { return j.campaign.world.one('at', 'party')!; }
 }

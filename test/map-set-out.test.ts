@@ -12,7 +12,7 @@ import { MapPlay } from './support/map-play';
 describe('setting out from the map', () => {
   // (With wayfinding: without it a march-stone is on the map only once heard of, the owner, 3 November.)
   it('goes by the road to each march-stone, named for the country beyond, and draws that country there', async () => {
-    const j = await MapPlay.start('kite', 'debt'), screen = j.screen(), land = screen.region!.land!;
+    const j = await MapPlay.start('kite', 'debt'), screen = MapPlay.charted(j), land = screen.region!.land!;
     const stones = land.marks.filter(m => /^region__(edge_[a-z]+|gate_\w+)$/.test(m.id));
     // The four march-stones, and the way into each of the country's provinces (Gate B: every adventure in it).
     expect(stones.length).toBe(4 + Countries.provinces.length);
@@ -39,7 +39,7 @@ describe('setting out from the map', () => {
     expect(ways.filter(l => /^To (among|by|under|over) /.test(l))).toEqual([]);
   }, 240000);
   it('goes across the country from the road into the first town, and never into the sea', async () => {
-    const j = await MapPlay.start('kite', 'wanderer'), screen = j.screen(), land = screen.region!.land!;
+    const j = await MapPlay.start('kite', 'wanderer'), screen = MapPlay.charted(j), land = screen.region!.land!;
     const water = land.known.find(c => ['~', 'o'].includes(land.cover[c]!));
     const wet = MapCard.of(screen, `hex:${water}`);
     expect([wet.command, wet.text.includes('There is no going there on foot.')]).toEqual([undefined, true]);
@@ -56,7 +56,7 @@ describe('setting out from the map', () => {
   // known of: only where the company has been, or stood beside (the owner, 4 November), so the fellside the lone
   // tower stands on is not a hex to cross to, while the tower is a place to set out for.
   it('goes to a place known by wayfinding itself, and across country from inside a shop', async () => {
-    const j = await MapPlay.start('kite', 'debt'), screen = j.screen(), land = screen.region!.land!;
+    const j = await MapPlay.start('kite', 'debt'), screen = MapPlay.charted(j), land = screen.region!.land!;
     expect(screen.place.id).toBe('region__s1_shop');
     const hex = land.marks.find(m => m.id === 'region__w9')!.cell;
     expect(land.known).not.toContain(hex);
