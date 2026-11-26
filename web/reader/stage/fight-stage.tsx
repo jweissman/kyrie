@@ -73,6 +73,9 @@ export class FightStage {
             {recent.map(e => <div key={e.n} className="what"><p>{Typography.curl(e.text)}</p>
               {e.detail && <details className="how"><summary>How it fell</summary>
                 <p>{Typography.curl(e.detail)}</p></details>}</div>)}
+            {/* Pressed on, and handed back: why, under what brought it to it (see PressOn). */}
+            {combat.halted && !combat.outcome && <p className="moment halted" data-region="halted">
+              {Typography.curl(combat.halted)}</p>}
             {after.map(l => <p key={l} className="after">{Typography.curl(l)}</p>)}
             {combat.outcome && <FightStage.Aftermath app={app} />}
             {!recent.length && !first && !after.length && <p className="quiet">Nothing has changed.</p>}

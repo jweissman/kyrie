@@ -7,7 +7,7 @@ import { FictionalTime } from '../../src/campaign/fictional-time';
 import { Undertakings } from '../../src/presentation/undertakings';
 import { ScreenModel } from '../../src/ui/screen-model';
 import { CombatModel } from '../../src/ui/combat-model';
-import { Tactics } from '../../src/tactics';
+import { Tactics } from '../../src/tactics'; import { Pressing } from '../../src/pressing';
 import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
 import type { Screen } from '../../src/ui/screen-types';
@@ -327,15 +327,14 @@ export class EngineHost {
   }
   // The fight's controller: the page turns to the fight, opening with what started it, and waits for a choice.
   // Pressed on to its end (the cold review's REV-16: a fight decided, then clicked through blow by blow): each turn of
-  // the company's fought by its own tactics, until the fight ends or turns against it (one of the company down).
-  private pressing = false;
+  // the company's fought by its own tactics, until the fight ends or the engine's one rule stops it (see PressOn),
+  // which says why (Pressing.halted).
+  private pressing = false; private readonly pressed = new Pressing();
   readonly controller = (battle: Battle) => new Promise<Command>(resolve => {
     // A fight begins where the company now is (it may have just come there), not where the page last showed it.
     if (!this.opening.length) { this.opening = this.begun(); this.screen = undefined; }
-    const ours = battle.state.combatants.filter(f => f.team === 'fighters');
-    if (this.pressing && ours.every(f => f.hp > f.maxHp / 3)) {
-      resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands()))); return;
-    }
+    const pressed = this.pressed.next(battle, this.pressing, this.session && BandNames.of(this.session.campaign));
+    if (pressed.command) { resolve(pressed.command); return; }
     this.pressing = false;
     this.turn = { battle, resolve }; this.fought = battle;
     this.post({ kind: 'frame', frame: this.frame() });
@@ -481,7 +480,8 @@ export class EngineHost {
       leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
       // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
-      ...this.turn ? { combat: CombatModel.build(this.turn.battle, BandNames.of(campaign), faces, said) }
+      ...this.turn ? { combat: { ...CombatModel.build(this.turn.battle, BandNames.of(campaign), faces, said),
+        ...this.pressed.halted ? { halted: this.pressed.halted } : {} } }
         : this.fought && this.told
           ? { combat: CombatModel.ended(this.fought, this.told.event.combat,
             { called: BandNames.of(campaign), faces, said }) } : {},

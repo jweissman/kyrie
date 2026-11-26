@@ -1,6 +1,7 @@
 import type { Battle } from '../battle';
 import type { Command } from '../model';
 import { Tactics } from '../tactics';
+import { Pressing } from '../pressing';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import { CombatChoices } from '../ui/combat-choices';
@@ -25,11 +26,19 @@ export class RunnerFight {
   private opening: string[] = [];
   private waking?: () => void;
   private from = 0;
+  // Pressed on from where it was asked for, until the engine's one rule stops it (see PressOn), and why it stopped,
+  // told with the turn it stopped at.
   private rest = false;
+  private pressed = new Pressing();
+  private halted?: string;
   private opened = false;
   // The controller the session's leg is given: each of the company's turns waits for the agent, unless it said through.
   readonly controller = (battle: Battle): Promise<Command> => {
-    if (this.rest) { return Promise.resolve(Tactics.choose(battle.state, battle.legalCommands())); }
+    if (this.rest) {
+      this.halted = this.pressed.halt(battle);
+      if (!this.halted) { return Promise.resolve(Tactics.choose(battle.state, battle.legalCommands())); }
+      this.rest = false;
+    }
     this.battle = battle;
     return new Promise(resolve => { this.pending = { battle, resolve }; this.waking?.(); });
   };
@@ -42,7 +51,8 @@ export class RunnerFight {
     if ('done' in out) {
       const b = this.battle;
       this.closing = b && CombatTelling.since(b.events, this.from, b.state).map(t => t.text);
-      this.pending = undefined; this.battle = undefined; this.rest = false; this.from = 0; this.opened = false;
+      this.pending = undefined; this.battle = undefined; this.rest = false; this.halted = undefined; this.from = 0;
+      this.opened = false;
     }
     return out;
   }
@@ -69,7 +79,9 @@ export class RunnerFight {
     // Each side named as a side (cold play 7, CL-60: "Bryn 10/10 · Nettle 6/6 · …" had read a hob as one of the
     // company).
     const who = `${RunnerFight.side(b, true)} | against you: ${RunnerFight.side(b, false)}`;
-    return [...opening, ...told, who];
+    const halted = this.halted ? [`${this.halted} Choose again.`] : [];
+    this.halted = undefined;
+    return [...opening, ...told, ...halted, who];
   }
   choices(): FightChoice[] {
     const b = this.pending?.battle;

@@ -27,7 +27,10 @@ describe('a company fallen', () => {
     const offer = r.said().offer, attack = RunnerOffer.flat([...offer.primary, ...offer.rest]).find(o => o.type === 'fight')!;
     expect(offer.primary.some(o => o.type === 'fight')).toBe(false);
     let turn = said(await r.ask(JSON.stringify({ act: attack.id })));
-    if (turn.moment === 'fight') { turn = said(await r.ask(JSON.stringify({ act: RunnerFight.through }))); }
+    // Pressed on, the fight is handed back before each new danger (PressOn, OR-830), and pressed on again past it.
+    for (let i = 0; i < 20 && turn.moment === 'fight'; i++) {
+      turn = said(await r.ask(JSON.stringify({ act: RunnerFight.through })));
+    }
     expect([turn.end, t.campaign.running]).toEqual([true, false]);
     expect(turn.ending?.title).toBe('Ama is dead');
     expect(turn.ending?.lines.join(' ')).toMatch(/It began when you attacked the barrow-king/);

@@ -329,6 +329,9 @@ export interface CombatScreen {
   turn: number; actor: string; actorName: string; ours: boolean; outcome: string | null;
   // The round the fight is in: each begins with everyone's order drawn again.
   round: number;
+  // Why a fight pressed on was handed back to the player before this turn (see PressOn): "Wenna could fall to the
+  // hobgoblin's next blow."
+  halted?: string;
   foes: CombatantRow[]; allies: CombatantRow[];
   // What the one acting knows and cannot use now, and why (see Unusable): drawn in its place, not done.
   unavailable?: { id: string; name: string; why: string; spell?: true; carried?: true }[];

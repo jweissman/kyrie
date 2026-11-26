@@ -20,7 +20,8 @@ import { Campaign } from '../campaign/campaign';
 import { Battle } from '../battle';
 import { ActionTime } from '../campaign/action-time';
 import type { BattleState, Command } from '../model';
-import { Tactics } from '../tactics'; import { Foregone } from '../ui/foregone';
+import { Tactics } from '../tactics'; import { Foregone } from '../ui/foregone'; import { Pressing } from '../pressing';
+import { BandNames } from '../narrative/band-names';
 import { CombatTelling } from '../ui/combat-telling';
 import { PlaySession } from '../session/play-session';
 import { PlayerView } from '../presentation/player-view';
@@ -395,21 +396,21 @@ export class Terminal {
       // A foregone fight is one act, fought through by the company's tactics unless it turns, as the page's host
       // fights it (see Foregone; BP-01).
       // Pressed on to its end (TerminalFight's end) is the same, from the turn it was asked for (HP-05).
-      let pressing = Foregone.is(turn.current?.screen, choice.id), pressed = false;
+      // Either stops where the engine's one rule says (PressOn), and says why.
+      let pressing = Foregone.is(turn.current?.screen, choice.id);
+      const pressed = new Pressing();
       // What came of each exchange since the company's last turn, told before it chooses again, as the page's fight
       // tells it (CombatTelling): only the hurts had shown between turns, the blows told after the fight.
       const told = new Map<Battle, number>();
       const event = await session.leg(choice.id, async battle => {
-        const ours = battle.state.combatants.filter(f => f.team === 'fighters');
-        const holding = ours.every(f => f.hp > f.maxHp / 3);
-        if (pressed && pressing && !holding) { console.log('The fight turns against you: choose again.'); }
-        pressing &&= holding;
-        if (pressing) { return Tactics.choose(battle.state, battle.plain(battle.legalCommands())); }
+        const press = pressed.next(battle, pressing, BandNames.of(session.campaign));
+        if (press.command) { return press.command; }
+        if (press.halted) { console.log(`${press.halted} Choose again.`); pressing = false; }
         const events = battle.events;
         CombatTelling.since(events, told.get(battle) ?? events.length, battle.state).forEach(t => console.log(t.text));
         told.set(battle, events.length);
         const command = await Terminal.command(battle.state, battle.legalCommands(), input, () => {
-          pressing = pressed = true;
+          pressing = true;
         });
         if (!command) { throw new Error(quitPlay); }
         return command;

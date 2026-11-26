@@ -35,6 +35,18 @@ export class Tactics {
     return ability.effects.reduce((n, e) => n + (e.kind !== 'damage' && e.kind !== 'drain' || !e.amount ? 0
       : Tactics.reckoner.harm(Tactics.highest(e.amount), Effects.context(actor))), 0);
   }
+  // The most one blow of the actor's weapon comes to (a kind's routine, each of its weapons in turn): its dice at
+  // their highest, a critical's addition and the strength or dexterity behind it (Fighting.weaponDamage), before the
+  // defences of whoever it falls on.
+  static heaviest(actor: Fighter): number {
+    const routine = actor.equipment?.routine?.length ? actor.equipment.routine : [undefined];
+    return routine.reduce((n, weapon) => {
+      const armed = weapon ? { ...actor, equipment: { ...actor.equipment, weapon } } : actor;
+      const rolled = Tactics.reckoner.harm(Tactics.highest({ kind: 'deem',
+        expression: Effects.combatant(armed).weapon.damage }), Effects.context(actor));
+      return n + AbilityUse.heaviest(armed, rolled);
+    }, 0);
+  }
   // What a heal mends on the average, its dice at their mean at the actor's values (a cure of one point mends one: a
   // hurt vitalist had spent every turn on its one-point cantrip, srd-proving-cases.md case 51).
   private static mends(amount: Amount, actor: Fighter): number {

@@ -266,6 +266,10 @@ export class AbilityUse {
     return { lands: Math.min(0.95, Math.max(0.05, (21 - need) / 20)),
       harm: Fighting.weaponDamage(attacker, rolled, false).amount };
   }
+  // A roll of the weapon at its worst for whoever it lands on: a critical's addition and all (Fighting.weaponDamage).
+  static heaviest(actor: Fighter, rolled: number): number {
+    return Fighting.weaponDamage(Effects.combatant(actor), rolled, true).amount;
+  }
   static lays(effects: readonly Effect[]): ReadonlySet<string> {
     return new Set(effects.flatMap(e => e.kind === 'apply' ? [Canon.resolve('conditions', e.status)] : []));
   }
