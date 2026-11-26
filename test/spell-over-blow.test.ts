@@ -31,6 +31,14 @@ describe('a spell that fells, over a blow that might miss', () => {
     expect(Tactics.score(state, cast)).toBeGreaterThan(Tactics.score(state, swing));
     expect(Tactics.choose(state, [swing, cast]).ability).toBe('siphon_life');
   });
+  it('weighs a ranged touch that can miss against a spell that always lands', () => {
+    const b = new Battle({ id: 'rats', combatants: [Rats.mage(), ...Rats.rats()], abilities: Content.abilities }, 'rats');
+    const state = { ...b.state, actor: 'mage' };
+    const cast = { actor: 'mage', ability: 'siphon_life', target: 'r1' };
+    const splash = { actor: 'mage', ability: 'acid_splash', target: 'r1' };
+    expect(Tactics.score(state, cast)).toBeGreaterThan(Tactics.score(state, splash));
+    expect(Tactics.choose(state, [splash, cast]).ability).toBe('siphon_life');
+  });
   it('keeps the slot against a foe the spell would only scratch', () => {
     const b = new Battle({ id: 'big', combatants: [Rats.mage(), ...Rats.rats(30)], abilities: Content.abilities }, 'big');
     const state = { ...b.state, actor: 'mage' };
