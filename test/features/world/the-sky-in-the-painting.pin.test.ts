@@ -20,7 +20,11 @@ describe('the painting a scene shows', () => {
     // But for a painting wanted and asked for (doc/design/paintings-needed.md: scene-fields-rain, -evening, -night),
     // which the walk has met since its life began in the adit (OR-186: an hour later through the fields): the dim
     // ground there, not a picture against the sky.
-    const wanted = (t: Turn) => t.fault === 'blank' && /open fields/.test(t.place);
+    // And the bridge-foot at Reedbridge in rain: its kind's commissioned paintings are all of a dry day, and the old
+    // masters that had stood for it are no longer backgrounds (OR-675; OR-676's commission list): a bridge in rain is
+    // wanted (doc/design/paintings-needed.md), not a dry bridge against the rain.
+    const wanted = (t: Turn) => t.fault === 'blank'
+      && (/open fields/.test(t.place) || (/bridge-foot at Reedbridge/.test(t.place) && /rain/.test(t.weather ?? '')));
     expect(turns.filter(t => t.fault && !wanted(t)).map(said)).toEqual([]);
     // And every place the walk passes, put under each of the census's skies (a fair day, rain by day, a fair
     // evening, a fair night, rain by night), is never painted against it: none, where nothing fits, is a painting

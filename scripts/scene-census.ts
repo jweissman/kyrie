@@ -49,9 +49,12 @@ export class SceneCensus {
   static async walk(lines = this.lines(), seen?: (screen: Screen) => void): Promise<Turn[]> {
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const r = new Runner(journey.session), c = journey.session.campaign;
-    // The way in first, the plate a new life opens on (Scenery.approach), under the sky it opens in.
+    // The way in first, the plate a new life opens on (Scenery.approach), under the sky it opens in: where the page
+    // draws one, never in the dark (PrologueStage: a life that opens in the dark, as under the fall in Iscoed's adit,
+    // opens on no plate, whatever would fit).
     const first = ScreenModel.build(c);
-    const turns: Turn[] = [{ ...this.turn(0, first, Scenery.approach(first)), place: 'the way in' }];
+    const turns: Turn[] = first.dark ? []
+      : [{ ...this.turn(0, first, Scenery.approach(first)), place: 'the way in' }];
     turns.push(this.seen(0, ScreenModel.build(c), seen));
     for (const [i, line] of lines.entries()) {
       await AsMeant.ask(r, line);

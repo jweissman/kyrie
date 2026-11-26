@@ -120,6 +120,10 @@ outside winter, so it opens on none by day; it opens on none in rain or fog. A f
 the grey chapel. Wanted: `scene-approach-frost` (the road between snow-fences to turf roofs, by day, no snow falling)
 and a forest road in rain.
 
+**A bridge in rain.** The bridge-foot at Reedbridge is painted by its kind's commissioned paintings (`scene-bridge`,
+`scene-valley-bridge`, `scene-valley-road`), all of a dry day; the old masters that stood for it in rain are no longer
+backgrounds (OR-675). Wanted: `scene-bridge-rain` (a river town's bridge in rain by day).
+
 **Authored places.** An author's own painting is now kept only where it fits the sky. The Howe's and the Arcology's are
 painted for one light, so they go blank, or take their kind's, in the others: the camp in the lee and the Lantern
 Company's camp by day (their painting is a campfire by night); the survey cairn, the heather rise and the Arcology's
