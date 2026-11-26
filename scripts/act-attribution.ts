@@ -28,7 +28,8 @@ import { FieldUse } from '../src/campaign/field-use';
 import { CommittedWorld } from '../src/campaign/committed-world';
 import { Crossing } from '../src/campaign/crossing';
 import { CreatureFacts } from '../src/campaign/creature-facts';
-import { ActionParts, World } from '../src/lang/index';
+import { World } from '../src/lang/world';
+import { ActionParts } from '../src/lang/action-parts';
 
 type Count = 'state' | 'asked' | 'gated' | 'idle' | 'solved' | 'held' | 'fired' | 'answer' | 'acts' | 'watches';
 export class ActAttribution {
