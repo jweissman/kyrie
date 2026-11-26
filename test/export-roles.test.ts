@@ -6,11 +6,13 @@ import { ModuleNamespace } from '../src/campaign/module-namespace';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import type { InstalledModule } from '../src/campaign/definition';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Typed exports (the maturity track's step 3, MT-03): a module's export may say the part it plays (fact, outcome,
 // participant, place, capability), and a parent then composes with it from its manifest alone, without its Kyr. A
 // role declared that its entity cannot play, or a parent's import of another role, fails at the load.
 class Exporting {
+  static readonly vocabulary = CanonVocabulary.context();
   static json(path: string): BundleManifest { return JSON.parse(readFileSync(path, 'utf8')) as BundleManifest; }
   // A child that keeps a word and a keeper, and a parent that hears a word; the child's roles as given.
   static source(word: string) {
@@ -23,12 +25,13 @@ class Exporting {
       'x/parent.kyr': 'Module parent "Parent" { Entity heard: fact "Heard.". Goal false. }' });
   }
   static async child(source: OverlayBundleSource): Promise<InstalledModule> {
-    const draft = await ModuleBundle.load({ id: 'child', bundle: source.resolve('x/child.json') }, { seed: 's' }, source);
+    const draft = await ModuleBundle.load({ id: 'child', bundle: source.resolve('x/child.json') },
+      { seed: 's', vocabulary: this.vocabulary }, source);
     return ModuleNamespace.record(draft, 0);
   }
   static parent(source: OverlayBundleSource, installed: InstalledModule[], from: string) {
     const request: BundleRequest = { id: 'parent', bundle: source.resolve('x/parent.json'), imports: { heard: from } };
-    return ModuleBundle.load(request, { seed: 's', installed }, source);
+    return ModuleBundle.load(request, { seed: 's', installed, vocabulary: this.vocabulary }, source);
   }
 }
 

@@ -1,5 +1,5 @@
 import type { Module } from './module';
-import { Vocabularies, type ReadAmong } from './vocabulary';
+import type { VocabularyContext, ReadAmong } from './vocabulary';
 
 // What has been parsed, kept: in the process, the last few dozen texts (the same shared rules come again and again),
 // and, where the process has a file system, on disk between processes (see ParseStore). Parsing is the costliest part
@@ -19,8 +19,8 @@ export class ParseCache {
   // The module remembered for a key, as it was parsed: the one kept, not a copy, so a caller that may change it copies
   // it first (ModuleParser.parse does).
   // Of the parses kept for a key, the one good among the kinds now, its reads noted (Vocabularies.kept).
-  static get(key: string): Module | undefined {
-    const known = this.parsed.get(key), variants = known ?? this.variants(key), kept = Vocabularies.kept(variants);
+  static get(context: VocabularyContext, key: string): Module | undefined {
+    const known = this.parsed.get(key), variants = known ?? this.variants(key), kept = context.kept(variants);
     if (kept) { this.costs?.note('parse kept', 0, { bytes: key.length }); }
     // Those from the store remembered even where none is good now, for the parse kept beside them (set).
     if (variants && (kept || !known)) { this.remember(key, variants); }
@@ -33,10 +33,12 @@ export class ParseCache {
   // What a parse cost (see Costs): the text's length, and the time taken.
   // bytes: the text's UTF-8 size, where the parser gives it (the key's length had been taken for it).
   // reads: what the reading asked of the vocabulary (see Vocabularies.reading).
-  static set(key: string, reading: ReadAmong<Module>, ms = 0, bytes = key.length) {
+  static set(context: VocabularyContext, key: string, reading: ReadAmong<Module>,
+    measure: { ms?: number; bytes?: number } = {}) {
+    const { ms = 0, bytes = key.length } = measure;
     this.costs?.note('parse', ms, { bytes });
     const cloned = performance.now();
-    const variants = Vocabularies.keep(this.parsed.get(key), { value: structuredClone(reading.value),
+    const variants = context.keep(this.parsed.get(key), { value: structuredClone(reading.value),
       reads: reading.reads });
     this.remember(key, variants);
     const stored = performance.now();

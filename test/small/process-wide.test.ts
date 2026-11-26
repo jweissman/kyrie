@@ -7,10 +7,6 @@ import { join, relative } from 'node:path';
 // (src/ports/installed.ts); these remain, each to be scoped or kept as parse-time, and the list may only shrink.
 const root = join(import.meta.dir, '../..');
 const kept = [
-  'src/canon/local-catalog.ts LocalKinds.activate',
-  'src/canon/local-catalog.ts LocalKinds.install',
-  'src/canon/local-catalog.ts LocalKinds.reset',
-  'src/lang/vocabulary.ts Vocabularies.install',
   'src/setting-port.ts SettingPort.install',
 ];
 class ProcessWide {

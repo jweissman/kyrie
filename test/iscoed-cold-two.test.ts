@@ -5,6 +5,7 @@ import { Journey } from '../src/session/journey';
 import { Runner } from '../src/cli/runner';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { RegionWriter } from '../src/world/region-writer';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // The second cold play of the golden route (Iscoed's drove road, a human warrior: mission-22/cold/cold-2-report.md),
 // its findings in the world slice's ground, each held where it was met: the proof offered on coming back to the
@@ -44,7 +45,7 @@ describe('the drove road, after the second cold play', () => {
       expect(j.latest).toMatch(/I will have the book off him/);
     }, 180000);
   it('hears of a rival company beaten to its prize coming back with nothing', () => {
-    const source = RegionWriter.source(WorldAssembler.region('a1', [0, 0]), null);
+    const source = RegionWriter.source(WorldAssembler.region('a1', [0, 0]), null, {}, CanonVocabulary.context());
     expect(source).toMatch(/came back from .* with nothing: someone had been down to it before them/);
   });
 });

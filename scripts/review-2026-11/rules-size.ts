@@ -10,6 +10,7 @@ import { ModuleParser } from '../../src/lang/module-parser';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { ModuleAssembly } from '../../src/campaign/module-assembly';
 import type { Module } from '../../src/lang/module';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 class Timing {
   static median(xs: number[]): number { return xs.sort((a, b) => a - b)[Math.floor(xs.length / 2)]!; }
@@ -20,8 +21,11 @@ class Timing {
   }
 }
 const files = ModuleBundle.world.map(n => ({ path: `data/rules/${n}.kyr`, text: readFileSync(`data/rules/${n}.kyr`, 'utf8') }));
-const rules = (ModuleBundle as unknown as { shared(f: typeof files): Module }).shared(files);
-const tiny = ModuleParser.parse('Module t "T" { Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard. }');
+const vocabulary = CanonVocabulary.context();
+const rules = (ModuleBundle as unknown as { shared(c: typeof vocabulary, f: typeof files): Module })
+  .shared(vocabulary, files);
+const tiny = ModuleParser.parseWithin(vocabulary,
+  'Module t "T" { Place yard "the yard" is room at 0, 0 outdoors. Company party "You" of 1 at yard. }');
 console.log(`rules: ${files.length} files, ${(files.reduce((n, f) => n + f.text.length, 0) / 1024).toFixed(0)} KB of Kyr; `
   + `${rules.actions.length} actions, ${rules.relations.length} relations, ${rules.entities.length} entities, `
   + `${rules.initial.length} initial facts, ${(rules.rules ?? []).length} rules; `
@@ -32,6 +36,7 @@ console.log(`structuredClone(rules.actions): ${Timing.time(() => structuredClone
 // composing with a situation declares (Cast.itemKinds); so they are measured composed with a one-place situation.
 const copy = Timing.time(() => structuredClone(rules));
 const manifest = { name: '', creatures: [], actors: { order: [] }, initial: [], outcomes: [] };
-const composed = Timing.time(() => ModuleAssembly.compose(structuredClone(tiny), structuredClone(rules), manifest, { seed: 's', kinds: undefined }), 7);
+const composed = Timing.time(() => ModuleAssembly.compose(structuredClone(tiny), structuredClone(rules), manifest,
+  { seed: 's', kinds: undefined, vocabulary }), 7);
 console.log(`ModuleAssembly.compose(a one-place situation, rules): ${(composed - copy).toFixed(1)} ms`
   + ' (what each install pays for the rules before its own content, the copy aside)');

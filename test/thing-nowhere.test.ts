@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { ModuleParser } from '../src/lang/module-parser';
+import { Content } from '../src/content';
 import { Journey } from '../src/session/journey';
 import { ScreenModel } from '../src/ui/screen-model';
 
@@ -22,8 +23,10 @@ const site = `Module tn "Off stage" { Place hill "the Hill" is settlement.
   Goal false. }`;
 describe('a thing nowhere', () => {
   it('lies in no place, and is a thing of the module all the same', () => {
-    const module = ModuleParser.parse(site), facts = (name: string, id: string) => module.initial
-      .filter(c => c.kind === 'assert' && c.call.name === name && c.call.args[0] === id).map(c => c.call.args[1]);
+    const module = ModuleParser.parseWithin(Content.vocabulary(), site);
+    const facts = (name: string, id: string) => module.initial
+      .filter(c => c.kind === 'assert' && c.call.name === name && c.call.args[0] === id)
+      .map(c => c.call.args[1]);
     expect(['ledger', 'screen', 'token', 'hidden_token'].map(id => module.entities.find(e => e.id === id)?.type))
       .toEqual(['thing', 'scenery', 'item', 'item']);
     for (const id of ['ledger', 'screen', 'token', 'hidden_token']) {

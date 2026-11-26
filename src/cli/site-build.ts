@@ -9,6 +9,8 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Ident } from '../../web/reader/ident';
 import { Identity } from '../presentation/identity';
+import { CanonVocabulary } from '../canon/canon-vocabulary';
+import { CatalogContext } from '../item-catalog';
 
 // Static browser build: classic IIFE scripts plus HTML/CSS with relative URLs, so the site works from file://,
 // a domain root, or a GitHub Pages repository subpath. Tests reuse bundle() to execute the browser artifact.
@@ -79,7 +81,7 @@ export class SiteBuild {
     await this.page(out, '');
     await writeFile(join(out, '.nojekyll'), '');
     await writeFile(join(out, 'version.json'), `${JSON.stringify({ commit: this.commit(), built: new Date().toISOString() })}\n`);
-    const handbooks = new Handbooks(this.root);
+    const handbooks = new Handbooks(this.root, CanonVocabulary.context(), CatalogContext.canon);
     await HandbookPublisher.html(handbooks, join(out, 'handbook'));
     await HandbookPublisher.encyclopedia(handbooks, join(out, 'encyclopedia'));
     return size;

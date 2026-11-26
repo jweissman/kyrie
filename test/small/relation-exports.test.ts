@@ -5,12 +5,14 @@ import { ModuleNamespace } from '../../src/campaign/module-namespace';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../../src/campaign/overlay-bundle-source';
 import type { InstalledModule } from '../../src/campaign/definition';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 // Relations and measures as typed exports (KX-03, in place of kx-1's `shared`): a module exports a relation or a
 // measure it declares, by its name, its role inferred (relation, measure) or declared and held to it; a consumer
 // declares it as the definer does and imports it in its manifest, and the campaign binds the consumer's name to the
 // definer's installed one, as an entity is bound. Not imported, the consumer's is its own.
 class Vocabulary {
+  static context = CanonVocabulary.context();
   static source(exports: Record<string, unknown>, consumer = ['tuned', 'tug']) {
     return new OverlayBundleSource(NodeBundleSource.shared, {
       'v/kind.json': JSON.stringify({ version: 1, source: 'kind.kyr', rules: ['world'], exports }),
@@ -21,12 +23,13 @@ class Vocabulary {
         + 'Initially Assert tuned(chip, home). Initially Set tug(chip) to 2. Goal false. }' });
   }
   static async kind(source: OverlayBundleSource): Promise<InstalledModule> {
-    const draft = await ModuleBundle.load({ id: 'kind', bundle: source.resolve('v/kind.json') }, { seed: 's' }, source);
+    const draft = await ModuleBundle.load({ id: 'kind', bundle: source.resolve('v/kind.json') },
+      { seed: 's', vocabulary: this.context }, source);
     return ModuleNamespace.record(draft, 0);
   }
   static user(source: OverlayBundleSource, installed: InstalledModule[], imports?: Record<string, string>) {
     const request: BundleRequest = { id: 'user', bundle: source.resolve('v/user.json'), ...imports ? { imports } : {} };
-    return ModuleBundle.load(request, { seed: 's', installed }, source);
+    return ModuleBundle.load(request, { seed: 's', installed, vocabulary: this.context }, source);
   }
 }
 

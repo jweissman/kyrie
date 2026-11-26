@@ -16,6 +16,7 @@ import { Canon } from '../canon/canon';
 import { batch } from '../arena';
 import { PlaySession, type Transcript } from '../session/play-session';
 import { ModuleParser } from '../lang/module-parser';
+import { CanonVocabulary } from '../canon/canon-vocabulary';
 import { KyrLint } from './kyr-lint';
 import { Preview } from './preview';
 import { WorldTool } from './world';
@@ -191,7 +192,7 @@ export class KyrieCli {
   // A Kyr module as the engine reads it: the parsed module, as JSON, or the first error with its place.
   private static async compile(path: string): Promise<number> {
     if (!path) { console.error('usage: bin/kyrie compile <module.kyr>'); return 1; }
-    try { console.log(JSON.stringify(ModuleParser.parse(await readFile(path, 'utf8')), null, 1)); return 0; }
+    try { console.log(JSON.stringify(ModuleParser.parseWithin(CanonVocabulary.context(), await readFile(path, 'utf8')), null, 1)); return 0; }
     catch (error) { console.error(`${path}: ${error instanceof Error ? error.message : String(error)}`); return 1; }
   }
   // The suite, as bun runs it, with whatever arguments are given (a file, a pattern, --changed).

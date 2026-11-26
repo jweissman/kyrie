@@ -4,6 +4,7 @@ import { FirstChoice } from '../../src/creation/first-choice';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionWriter } from '../../src/world/region-writer';
 import { ReferenceSettlement } from '../../src/world/reference-settlement';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 // Every new life begins in the reference game (the owner's playtest, 25 November: "it takes way too long to start up a
 // new world; and once you do it's all very sweaty and unclear how to get to the dungeon, if there is one"): the seed
@@ -19,7 +20,7 @@ describe('a new life\'s world', () => {
     for (const seed of seeds) {
       const region = WorldAssembler.region(seed, [0, 0]), town = ReferenceSettlement.of(region);
       expect([seed, town?.name]).toEqual([seed, expect.any(String)]);
-      const t = town!.id, text = RegionWriter.source(region, { size: 1, contacts: [] });
+      const t = town!.id, text = RegionWriter.source(region, { size: 1, contacts: [] }, {}, CanonVocabulary.context());
       expect([seed, new RegExp(`Passage ${t}_wood_down .* hidden until ${t}_wood_door`).test(text),
         text.includes(`Discovery ${t}_wood_door `)]).toEqual([seed, true, true]);
     }
@@ -28,7 +29,7 @@ describe('a new life\'s world', () => {
   // reference settlement written in its place has no gate-tower, and the sights from it are not written either.
   it('sees no country from a founding\'s height the reference settlement does not have', () => {
     const region = WorldAssembler.region('s7', [0, 0]), t = ReferenceSettlement.of(region)!.id;
-    const text = RegionWriter.source(region, { size: 1, contacts: [] });
+    const text = RegionWriter.source(region, { size: 1, contacts: [] }, {}, CanonVocabulary.context());
     expect(text).not.toContain(`Place ${t}_gate `);
     expect(text.match(new RegExp(`Observe \\w+ at ${t}_gate `, 'g')) ?? []).toEqual([]);
   });

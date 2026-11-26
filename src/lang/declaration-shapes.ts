@@ -1,7 +1,7 @@
 import type { Field } from './module-made';
 import type { Module } from './module';
 import { ParseCache } from './parse-cache';
-import { Vocabularies } from './vocabulary';
+import { VocabularyContext } from './vocabulary';
 
 // A declaration's shape: its text with what a generator fills in taken out (AX-04: a new world's 1.4 MB of Kyr is some
 // fifteen hundred shapes, much the same in every world, filled with its own names and words). A string with no escape
@@ -61,12 +61,13 @@ export class DeclarationShapes {
   // The fields of declarations not kept by their text: each filled from its shape where the shape is known, the rest
   // parsed (parse: declarations' texts read together, a field for each, or none); and the shapes met a second time
   // parsed beside them, each known where its first text's filling is that text's own field.
-  static read(texts: readonly string[], parse: (texts: string[]) => Field[] | undefined): Field[] | undefined {
+  static read(context: VocabularyContext, texts: readonly string[],
+    parse: (texts: string[]) => Field[] | undefined): Field[] | undefined {
     this.load();
     const shapes = texts.map(t => this.of(t)), keys = shapes.map(s => s?.text);
     const out: (Field | undefined)[] = texts.map((_t, i) => this.filling(keys[i], shapes[i]));
     const plain = texts.flatMap((_t, i) => out[i] ? [] : [i]);
-    const reading = Vocabularies.reading(() => parse(plain.map(i => texts[i]!))), read = reading.value;
+    const reading = context.reading(() => parse(plain.map(i => texts[i]!))), read = reading.value;
     if (!read) { return undefined; }
     plain.forEach((i, j) => { out[i] = read[j]; });
     // A shape is a lowering of its text alone: one that asked of the kinds installed is learnt by none.

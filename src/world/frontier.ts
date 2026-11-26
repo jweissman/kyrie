@@ -130,9 +130,12 @@ export class Frontier {
       if (installed.has(rid) || installed.has(`link${[at[1]!, rid].sort().join('')}`)
         || this.closed(campaign, rid, side)) { continue; }
       const country = this.fits(campaign, at[1]!, side);
-      if (country) { await ModuleBundle.prepare(this.base.resolve(`data/adventures/${country.bundle}`), this.base); continue; }
+      if (country) { await ModuleBundle.prepare(campaign.vocabulary,
+        this.base.resolve(`data/adventures/${country.bundle}`), this.base); continue; }
       const beyond = await this.drawn(campaign, x, y, true);
-      for (const request of beyond.requests) { await ModuleBundle.prepare(request.bundle, beyond.source); }
+      for (const request of beyond.requests) {
+        await ModuleBundle.prepare(campaign.vocabulary, request.bundle, beyond.source);
+      }
     }
   }
   // The country drawn beyond a march, from all it is drawn from now: drawn once, if it was drawn ahead from the same.

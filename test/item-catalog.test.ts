@@ -3,7 +3,6 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { Canon } from '../src/canon/canon';
 import { LootTables } from '../src/world/loot-tables';
-import { LocalKinds } from '../src/canon/local-catalog';
 
 // One authored catalog of the kinds of thing there are (data/catalog/items/; the owner, 6 November: the main catalog
 // holds only global item types, what one adventure or one generator alone uses is declared there, as a local Kind).
@@ -30,10 +29,10 @@ class Uses {
 describe('the item catalog', () => {
   it('holds only the kinds of thing more than one place uses, as Orsino\'s corpus and Kyr\'s own', () => {
     // What may lie in a ruin is the loot table's to use (LootTables): a kind of its own the catalog holds is anyone's.
-    // A module's own kinds, which join the catalog while a spec before this one played it, are not the catalog's.
+    // A module's own kinds are held by its campaign, never by the process catalog.
     const drops = new Set(Object.values(LootTables.tiers).flat());
     const own = Object.entries(Canon.items).filter(([id, i]) => !i.source?.orsino && !id.startsWith('fine_')
-      && !id.endsWith('_gathered') && !drops.has(id) && !LocalKinds.local(id)).map(([id]) => id);
+      && !id.endsWith('_gathered') && !drops.has(id)).map(([id]) => id);
     const local = own.map(id => [id, [...Uses.owners(id)]] as const)
       .filter(([, by]) => by.length === 0 || (by.length === 1 && by[0] !== 'shared'));
     expect(local).toEqual([]);

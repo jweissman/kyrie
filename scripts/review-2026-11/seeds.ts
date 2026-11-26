@@ -12,15 +12,17 @@ import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { ModuleInstallations } from '../../src/campaign/module-installations';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import type { InstalledModule } from '../../src/campaign/definition';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 const seed = process.argv[2] ?? 'a1', base = NodeBundleSource.shared;
+const vocabulary = CanonVocabulary.context();
 const host: InstalledModule = { id: 'region', name: 'host', seed: 'host', installedAt: 0, goal: { kind: 'boolean', value: false },
   actors: [], pressures: [], outcomes: [], exports: { party: 'party' } };
 const drafts = [];
 for (const [x, y] of [[-1, 0], [0, -1]] as const) {
   const beyond = await WorldAssembler.beyond(seed, base, { x, y, exclude: [], first: 'plains' });
   const request = beyond.requests[0]!;
-  const draft = await ModuleBundle.load(request, { seed, installed: [host] }, beyond.source);
+  const draft = await ModuleBundle.load(request, { seed, installed: [host], vocabulary }, beyond.source);
   drafts.push({ rid: request.id, name: beyond.region.name, draft });
 }
 const [a, b] = drafts as [typeof drafts[0], typeof drafts[0]];

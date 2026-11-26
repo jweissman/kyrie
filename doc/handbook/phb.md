@@ -5656,6 +5656,30 @@ Used: Heal one ally for 1d4 (1–4).
 
 > A small plant with delicate blue flowers and thin stems. Gathered where it grows.
 
+#### Minor Potion of Healing
+
+*Faithful · consumable* · `item:healingdraught`
+
+<img src="../../web/reader/paintings/consumables/minor_healing_potion.webp" alt="" width="128">
+
+- Worth: 15
+
+Used: Heal one ally for 2d4 + 2 (4–10).
+
+> A vial of glittering red liquid that restores health when consumed.
+
+#### Oil firebomb
+
+*Kyr · consumable* · `item:fire_flask`
+
+<img src="../../web/reader/paintings/consumables/oil_firebomb.webp" alt="" width="128">
+
+- Worth: 2
+
+Used: 1d6 (1–6) fire damage to one enemy (a Dexterity save against 11 avoids it; may leave whoever it hurts burning: a Constitution save against 15 avoids it).
+
+> A stoppered flask of lamp oil with a rag in its neck. Lit and thrown, it bursts in fire over what it strikes, if it is not dodged: a soldier's or a carter's makeshift, cheap where lamp oil is sold, for a thing steel barely harms: not an alchemist's fire, which clings and cannot be dodged.
+
 ### Stones
 
 A stone found is cut or rough, of a size, and clear or clouded: a huge flawless one is worth three times one of middling size and good water, a tiny clouded one a quarter.

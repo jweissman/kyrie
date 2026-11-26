@@ -8,6 +8,7 @@ import type { Ledger } from '../src/world/compose/ledger';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { WhyTool } from '../src/cli/why-tool';
 import { ModuleParser } from '../src/lang/module-parser';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // People in the assembler's ledger (data/assembly/vocabulary.kyr: practises, dwells): each settlement's folk whose
 // work is a craft's, and those a town's author says practise one (Hesper Lowe, data/generation/town/neighbours.kyrt),
@@ -19,7 +20,7 @@ class PeopleCensus {
   // Places the tinker kit in a drawn country, unfixed, until no town is left; then counts what it did.
   static async of(seed: string): Promise<Census> {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared);
-    const ledger = (await ModuleBundle.campaign(w.path, w.source, seed)).composition!.ledger;
+    const ledger = (await ModuleBundle.campaign(w.path, w.source, CanonVocabulary.context(), seed)).composition!.ledger;
     const composer = new Composer(ledger, { seed, source: w.source, context: Composition.context(ledger) });
     const kit = await Kits.load(w.source, w.source.resolve('data/kits/tinker/kit.json'));
     const placed: Placement[] = [];

@@ -4,7 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleParser } from '../src/lang/module-parser';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // What a campaign means does not turn on what else the process has done (the architecture review's H7, from its
 // probes det-kind-cache, det-parse-cache and det-concurrent): two campaigns' tonics were one tonic to whichever was
@@ -39,12 +39,10 @@ describe('a campaign in a process that has run others', () => {
   }, 120000);
   it('reads a module as it reads without another campaign\'s kinds, once they are gone', async () => {
     const text = 'Module later "Later" { Kind figurine "a figurine" like dreg_ox. }';
-    LocalKinds.reset();
-    expect(() => ModuleParser.parse(text)).toThrow();
+    const isolated = CanonVocabulary.context();
+    expect(() => ModuleParser.parseWithin(isolated, text)).toThrow();
     await PlaySession.start('test/fixtures/probes/local-kind/probe.campaign.json', 'w', NodeBundleSource.shared);
-    try { ModuleParser.parse(text); } catch { /* read among the other campaign's kinds, it may stand */ }
-    LocalKinds.reset();
-    expect(() => ModuleParser.parse(text)).toThrow();
+    expect(() => ModuleParser.parseWithin(isolated, text)).toThrow();
   }, 120000);
   it('loads beside another declaring the same kind its own way', async () => {
     const tokens = Two.source(dir => `Kind token "a token" is treasure worth ${dir === 'a' ? 2 : 99}.

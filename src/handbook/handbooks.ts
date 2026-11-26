@@ -9,6 +9,8 @@ import { PlayersHandbook } from './phb';
 import { MonsterManual } from './mm';
 import { DungeonMastersGuide } from './dmg';
 import { Progression } from './progression';
+import type { VocabularyContext } from '../lang';
+import type { CanonItemReader } from './catalog';
 
 export interface Placed { id: string; title: string; status: Status; book: Book['id']; section: string }
 export interface Coverage {
@@ -25,11 +27,12 @@ export class Handbooks {
   readonly books: Book[];
   readonly problems: Problem[] = [];
   readonly registry: OrsinoRegistry;
-  constructor(readonly root: string) {
+  constructor(readonly root: string, readonly vocabulary: VocabularyContext, readonly items: CanonItemReader) {
     this.registry = new OrsinoRegistry(Handbooks.read(root, 'data/sources/orsino/registry.json') as RegistrySnapshot,
       CatalogLedger.combined(Handbooks.read(root, 'data/sources/orsino/adaptations.json') as Ledger));
-    const appendix = new OrsinoAppendix(this.registry), mm = new MonsterManual(appendix);
-    this.books = [new PlayersHandbook(appendix).book(), new DungeonMastersGuide(appendix, root).book(), mm.book()];
+    const appendix = new OrsinoAppendix(this.registry), mm = new MonsterManual(appendix, items);
+    this.books = [new PlayersHandbook(appendix, items).book(),
+      new DungeonMastersGuide(appendix, root, vocabulary).book(), mm.book()];
     this.problems.push(...mm.problems, ...Progression.problems(), ...this.audit());
   }
   static read(root: string, path: string): unknown { return JSON.parse(readFileSync(join(root, path), 'utf8')); }

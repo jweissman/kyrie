@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { ModuleParser } from '../lang/module-parser';
+import { CanonVocabulary } from '../canon/canon-vocabulary';
 import { EngineOwned } from '../lang/engine-owned';
 
 // The names an adventure must not give its own relations, measures and queries, and the names its rules and endings
@@ -21,7 +22,7 @@ export class CanonicalNames {
       for (const n of list) { names.set(n, `the engine's ${kind}`); }
     }
     for (const file of readdirSync(dir).filter(f => f.endsWith('.kyr')).sort()) {
-      const m = ModuleParser.parse(readFileSync(join(dir, file), 'utf8'));
+      const m = ModuleParser.parseWithin(CanonVocabulary.context(), readFileSync(join(dir, file), 'utf8'));
       for (const [kind, sigs] of [['Relation', m.relations], ['Measure', m.measures], ['Query', m.queries]] as const) {
         for (const s of sigs) { if (!names.has(s.name)) { names.set(s.name, `the shared rules' ${kind} (${file})`); } }
       }

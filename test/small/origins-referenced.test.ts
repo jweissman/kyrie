@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { WorldDrawings } from '../../src/world/world-drawings';
 import { Origins } from '../../src/world/origins';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 import { ReferenceSettlement } from '../../src/world/reference-settlement';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 
@@ -14,7 +15,7 @@ describe('the lives a country with the reference settlement offers', () => {
     const base = NodeBundleSource.shared, { region, placements } = await WorldDrawings.of(seed, base);
     const loaded = await Origins.load(base), town = ReferenceSettlement.of(region)!;
     expect(Origins.begins('kin', region, placements)?.startsWith(`${town.id}_`)).toBe(false);
-    const offered = Origins.choices(loaded, region, placements);
+    const offered = Origins.choices(loaded, region, placements, CanonVocabulary.context());
     expect(offered.length).toBeGreaterThan(3);
     const binder = (id: string) => loaded.find(o => o.manifest.id === id)!.manifest.binder;
     expect(offered.map(o => [o.id, Origins.begins(binder(o.id), region, placements)?.split('_')[0]]))

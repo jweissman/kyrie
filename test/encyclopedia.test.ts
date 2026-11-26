@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'bun:test';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
+import { CatalogContext } from '../src/item-catalog';
 import { Handbooks } from '../src/handbook/handbooks';
 import { Encyclopedia, type Land } from '../src/handbook/encyclopedia';
 import { EncyclopediaHtml } from '../src/handbook/encyclopedia-html';
@@ -8,10 +10,12 @@ import { HandbookPublisher } from '../src/handbook/publish';
 // handbooks are, so that what it says a spell does is what the game does; only what the game plays, nothing of how
 // it was made (statuses, Orsino, the handbooks), and of the adventures' lands only what is said of them.
 describe('the Encyclopedia of Imbar', () => {
-  const handbooks = new Handbooks(process.cwd());
+  const vocabulary = CanonVocabulary.context();
+  const handbooks = new Handbooks(process.cwd(), vocabulary, CatalogContext.canon);
   const lands = (Handbooks.read(process.cwd(), 'data/adventures/countries.json') as { countries: Land[] }).countries
     .filter(c => c.heard);
-  const book = new Encyclopedia(handbooks, lands, Encyclopedia.canon(process.cwd()), HandbookPublisher.tongues());
+  const book = new Encyclopedia(handbooks, lands, Encyclopedia.canon(process.cwd(), vocabulary),
+    HandbookPublisher.tongues());
   const html = new EncyclopediaHtml(book);
   it('has its chapters, each with entries', () => {
     expect(book.chapters.map(c => c.id)).toEqual(['peoples', 'lives', 'magic', 'arms', 'creatures', 'plants', 'conditions',

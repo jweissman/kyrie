@@ -127,6 +127,6 @@ describe('natural history', () => {
     expect([Herbals.price(undefined), Herbals.price(6), Herbals.price(3), Herbals.price(2), Herbals.price(1)])
       .toEqual([1, 1, 2, 3, 6]);
     const region = WorldAssembler.region('a1', [0, 0]);
-    expect(RegionWriter.source(region).includes('Buys hazel_gathered for 3 coin.')).toBe(true);
+    expect(RegionWriter.source(region, null, {}, Content.vocabulary()).includes('Buys hazel_gathered for 3 coin.')).toBe(true);
   });
 });

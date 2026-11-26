@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
 import { ModuleBundle } from '../src/campaign/module-bundle';
 import { MemoryBundleSource } from '../src/campaign/memory-bundle-source';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Night was nine in the evening until six in the morning in every season and country: A Winter in Carth's February
 // in the north is dark at five, and its every rule for night asked a nightfall() of its own (its friction 1); the
@@ -20,6 +21,6 @@ describe('a campaign\'s own night', () => {
   it('is refused when it keeps hours a night cannot', async () => {
     const source = new MemoryBundleSource({ 'c.json': JSON.stringify({ version: 1, name: 'C', night: { falls: 5, lifts: 20 },
       modules: [{ id: 'p', bundle: 'm.json' }] }) });
-    await expect(ModuleBundle.campaign('c.json', source)).rejects.toThrow('Invalid campaign manifest');
+    await expect(ModuleBundle.campaign('c.json', source, CanonVocabulary.context())).rejects.toThrow('Invalid campaign manifest');
   });
 });

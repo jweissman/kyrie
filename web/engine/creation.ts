@@ -11,6 +11,7 @@ import { WorldAssembler } from '../../src/world/world-assembler';
 import { DrawnWorld } from '../../src/world/drawn-world';
 import type { BundleSource } from '../../src/campaign/bundle-source';
 import { ModuleBundle, type CampaignManifest } from '../../src/campaign/module-bundle';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 import { Scenarios } from '../scenarios';
 import { Origins } from '../../src/world/origins';
 import type { Catalog, CompanyView, Member, Setting } from '../../src/creation/protocol';
@@ -51,7 +52,7 @@ export class Creation {
         text: this.brings(id), qualities: { ...Canon.backgrounds[id]?.attributes ?? {} } as Record<string, number>,
         // What the trade puts in the purse, in the purse's coin (OR-257): its gold pieces had been said (70 gold).
         coin: Overlays.coins(Overlays.get(id)),
-        gear: (Canon.backgrounds[id]?.gear ?? []).map(g => Canon.items[g]?.name.toLowerCase() ?? g),
+        gear: (Canon.backgrounds[id]?.gear ?? []).map(g => ItemCatalog.canon.definition(g)?.name.toLowerCase() ?? g),
         ...Canon.backgrounds[id]?.requiredClass ? { calling: Canon.backgrounds[id].requiredClass } : {},
         ...Canon.backgrounds[id]?.forms ? { forms: Canon.backgrounds[id].forms } : {} }))
         .sort((a, b) => a.name.localeCompare(b.name)),
@@ -112,7 +113,8 @@ export class Creation {
   // adventure (the Wardens' blade, the longsword of flames): those are found.
   static arms(calling: string): Catalog['callings'][number]['weapons'] {
     const c = Canon.classes[Canon.resolve('classes', calling)], own = c?.weapons ?? [];
-    return Object.entries(Canon.items).filter(([id, i]) => i.weapon && !i.weapon.natural && i.slot === 'weapon'
+    return ItemCatalog.canon.definitions.map(id => [id, ItemCatalog.canon.definition(id)!] as const)
+      .filter(([id, i]) => i.weapon && !i.weapon.natural && i.slot === 'weapon'
       && (own.includes(id) || (/^weapon:/.test(i.source.orsino ?? '')
         && RulesCreation.canEquip(ItemCatalog.canon, calling, id))))
       .map(([id, i]) => ({ id, name: i.name, damage: i.weapon!.damage, type: i.weapon!.type, kind: i.weapon!.kind ?? '',
@@ -136,7 +138,8 @@ export class Creation {
     const c = Canon.classes[Canon.resolve('classes', calling)], p = c?.proficiencies.armor;
     if (!p || p.all) { return 'any armour'; }
     // Ordinary armour: a wonder (a robe of the archmagi) is found, not a calling's wear.
-    const worn = Object.entries(Canon.items).filter(([id, i]) => i.armor && !i.modifiers && !i.hooks
+    const worn = ItemCatalog.canon.definitions.map(id => [id, ItemCatalog.canon.definition(id)!] as const)
+      .filter(([id, i]) => i.armor && !i.modifiers && !i.hooks
       && RulesCreation.canEquip(ItemCatalog.canon, calling, id))
       .map(([, i]) => i.name.toLowerCase());
     return worn.length ? worn.join(', ') : 'no armour';
@@ -150,7 +153,7 @@ export class Creation {
       const name = Canon.skills[s]?.name.toLowerCase() ?? s, gloss = Canon.skills[s]?.description?.split(': ').at(-1);
       return gloss && gloss !== Canon.skills[s]?.description ? `${name} (${gloss.replace(/\.$/, '')})` : name;
     });
-    const gear = (b?.gear ?? []).map(g => Canon.items[g]?.name.toLowerCase() ?? g);
+    const gear = (b?.gear ?? []).map(g => ItemCatalog.canon.definition(g)?.name.toLowerCase() ?? g);
     return [skills.length ? `knows ${skills.join(' and ')}` : '', gear.length ? `carries ${gear.join(', ')}` : '']
       .filter(Boolean).join('; ');
   }
@@ -173,7 +176,7 @@ export class Creation {
     // WorldDrawings).
     const { region, placements } = await WorldDrawings.of(seed, source, terrain ? { region: { terrain } } : {});
     const title = region.name;
-    const origins = Origins.choices(await Origins.load(source), region, placements);
+    const origins = Origins.choices(await Origins.load(source), region, placements, Content.vocabulary());
     const names = ProtagonistNames.drawn(region, seed);
     return { title, generated: true, origins, terrain: region.terrain, names,
       pitch: { heading: `Who comes to ${title}?`, text: `${title} is ${Creation.country(region.terrain)} country. `
@@ -187,7 +190,8 @@ export class Creation {
     const campaign = JSON.parse(await source.read(path)) as CampaignManifest;
     const bundles = campaign.modules.flatMap(m => 'bundle' in m ? [String(m.bundle)] : [])
       .sort((a, b) => Number(/\/region\//.test(b)) - Number(/\/region\//.test(a)));
-    for (const bundle of bundles) { await ModuleBundle.warm(source.resolve(bundle, path), source); }
+    const vocabulary = CanonVocabulary.context();
+    for (const bundle of bundles) { await ModuleBundle.warm(vocabulary, source.resolve(bundle, path), source); }
   }
   static country(terrain: string): string {
     return ({ marsh: 'fen', forest: 'forest', mountain: 'high', frost: 'cold northern' } as Record<string, string>)[terrain] ?? terrain;
@@ -218,10 +222,10 @@ export class Creation {
     return { path: world.path, source: world.source };
   }
   static preview(party: Member[], generated: boolean): CompanyView {
-    const company = CompanyPreview.company(party), formations = CompanyPreview.formations(party);
+    const company = CompanyPreview.company(party, ItemCatalog.canon), formations = CompanyPreview.formations(party);
     return {
       members: party.map(p => {
-        const m = CompanyPreview.member(p);
+        const m = CompanyPreview.member(p, ItemCatalog.canon);
         return { calling: m.calling, practice: m.practice, skills: m.skills.map(s => s.name), gear: m.gear,
           ...m.contact && generated ? { contact: m.contact } : {}, ...m.requires ? { requires: m.requires } : {} };
       }),

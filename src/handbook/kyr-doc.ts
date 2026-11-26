@@ -3,6 +3,7 @@ import { ModuleWriter } from '../lang/module-writer';
 import type { Module, Operator, Predicate } from '../lang/module';
 import { FictionalTime } from '../campaign/fictional-time';
 import type { Entry, Section } from './model';
+import type { VocabularyContext } from '../lang';
 
 export interface Declaration { kind: string; name: string; signature: string; comment: string[] }
 
@@ -24,8 +25,8 @@ export class KyrDoc {
     }
     return found;
   }
-  static section(file: string, text: string): Section {
-    const module = ModuleParser.parse(text);
+  static section(file: string, text: string, vocabulary: VocabularyContext): Section {
+    const module = ModuleParser.parseWithin(vocabulary, text);
     const groups = new Map<string, Declaration[]>();
     for (const d of this.declarations(text)) {
       const key = d.comment[0] ?? (['Rule', 'Action'].includes(d.kind) ? `${d.kind} ${d.name}` : '');

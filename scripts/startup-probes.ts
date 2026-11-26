@@ -69,13 +69,19 @@ export class StartupProbes {
     this.perInstall(ModuleBundle as unknown as Wrappable);
     if (clones) { this.clones(); }
   }
-  // Each text parsed: its text's hash apart from the kinds it was read among (the key's first part), so that one text
-  // parsed twice among different kinds is seen to be.
+  // Each text parsed: its text's hash apart from the kind signatures it read, so distinct readings stay visible.
   static readonly parses: { text: string; kinds: string; kb: number; ms: number }[] = [];
   private static parsedText(this: void, f: (...a: unknown[]) => unknown, self: unknown, a: unknown[]) {
-    const key = a[0] as string, cut = key.indexOf('\u0000'), text = key.slice(cut + 1);
-    StartupProbes.parses.push({ text: Bun.hash(text).toString(36), kinds: key.slice(0, cut),
-      kb: Math.round(text.length / 1024), ms: Math.round(a[2] as number) });
+    const contextual = typeof a[0] !== 'string';
+    const key = contextual ? a[1] : a[0];
+    const reading = a[contextual ? 2 : 1] as { reads: unknown };
+    const ms = contextual ? (a[3] as { ms: number }).ms : a[2];
+    if (typeof key !== 'string') { throw new Error('ParseCache.set did not receive a string key'); }
+    const cut = key.indexOf('\u0000');
+    if (cut < 0) { throw new Error('ParseCache.set received a key without its text separator'); }
+    const rest = key.slice(cut + 1), end = rest.indexOf('\u0000'), text = end < 0 ? rest : rest.slice(0, end);
+    StartupProbes.parses.push({ text: Bun.hash(text).toString(36), kinds: JSON.stringify(reading.reads),
+      kb: Math.round(text.length / 1024), ms: Math.round(ms as number) });
     return Reflect.apply(f, self, a);
   }
   private static perInstall(bundle: Wrappable) {

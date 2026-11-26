@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { Journey } from '../src/session/journey';
 import { Spatial } from '../src/lang/spatial';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Modules that name the canon (data/imbar) in their manifests extend it and do not redeclare it: two courts of the
 // Plane of Fire, by two hands, are regions of one plane, joined to its one threshold; what one says of the canon's
@@ -17,7 +18,8 @@ class Fire {
     const files = { 'probe-r/module.json': JSON.stringify({ version: 1, source: 's.kyr', rules: ['world'], canon }),
       'probe-r/s.kyr': `Module r "R" { ${kyr} Goal false. }` };
     const source = new OverlayBundleSource(Fire.base, files);
-    return ModuleBundle.load({ id: 'r', bundle: source.resolve('probe-r/module.json') }, { seed: 'r' }, source);
+    return ModuleBundle.load({ id: 'r', bundle: source.resolve('probe-r/module.json') },
+      { seed: 'r', vocabulary: CanonVocabulary.context() }, source);
   }
 }
 

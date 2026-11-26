@@ -3,6 +3,7 @@ import type { BundleSource } from '../campaign/bundle-source';
 import { ModuleBundle, type BundleManifest, type CampaignManifest } from '../campaign/module-bundle';
 import { Diagnostics } from '../lang/diagnostics';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
+import { CanonVocabulary } from '../canon/canon-vocabulary';
 
 // A line of an author's (or a generator's) Kyr: the file, as the repository or the world's overlay names it, its
 // number, and its words.
@@ -14,9 +15,10 @@ export interface SourceLine { file: string; line: number; text: string }
 export class WhySources {
   private files?: Map<string, SourceLine[][]>;
   private manifested?: Promise<CampaignManifest>;
+  private readonly vocabulary = CanonVocabulary.context();
   constructor(readonly scenario: string, readonly source: BundleSource, readonly seed: string) {}
   manifest(): Promise<CampaignManifest> {
-    return this.manifested ??= ModuleBundle.campaign(this.scenario, this.source, this.seed);
+    return this.manifested ??= ModuleBundle.campaign(this.scenario, this.source, this.vocabulary, this.seed);
   }
   // Where a module's own id is declared (Person s1_merchant …, Rule lowes_comes …), by the keywords given, else any.
   async declared(id: string, keywords = Diagnostics.declares): Promise<SourceLine | undefined> {

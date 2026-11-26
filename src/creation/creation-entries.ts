@@ -3,6 +3,7 @@ import { CompanyChapters } from '../handbook/phb-company';
 import { HandbookText } from '../handbook/text';
 import { FirstSpells } from './first-spells';
 import { Words } from '../presentation/words';
+import { CatalogContext } from '../item-catalog';
 import type { Catalog } from './protocol';
 import type { CreationEntry } from './creation-flow';
 
@@ -112,7 +113,7 @@ export class CreationEntries {
     return CreationEntries.entries.get(id);
   }
   private static written(): Map<string, CreationEntry> {
-    const callings = CompanyChapters.callings();
+    const callings = CompanyChapters.callings(CatalogContext.canon);
     const all = [...CompanyChapters.ancestries().entries ?? [], ...callings.entries ?? [],
       ...(callings.sections ?? []).flatMap(x => x.entries ?? []), ...CompanyChapters.signs().entries ?? []];
     return new Map(all.map(e => [e.id, { facts: e.facts ?? [], rules: e.rules ?? [] }]));

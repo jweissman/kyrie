@@ -6,6 +6,7 @@ import { WorldAudit } from '../src/world/world-audit';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { ModuleBundle } from '../src/campaign/module-bundle';
 import { PlacedSites } from '../src/world/placed-sites';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Every story in a generated world can be found and finished: its places walked to, what its people want got
 // somewhere, its word heard from someone reachable, every site set apart for one (a kit's hold, a makers' work) told
@@ -16,7 +17,7 @@ class Audited {
   static async world(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const composed = (await ModuleBundle.campaign(w.path, w.source, seed)).composition;
+    const composed = (await ModuleBundle.campaign(w.path, w.source, CanonVocabulary.context(), seed)).composition;
     return { w, s: await PlaySession.start(w.path, seed, w.source), sites: PlacedSites.of(w.report, composed) };
   }
   static retract(s: PlaySession, name: string, last: string) {

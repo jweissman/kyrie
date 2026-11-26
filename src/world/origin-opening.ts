@@ -1,4 +1,5 @@
 import { ModuleParser } from '../lang/module-parser';
+import type { VocabularyContext } from '../lang';
 
 // An origin's opening, as its own module tells it, before any world is read (OR-23: the prologue as the loading
 // screen): the chapter it names and its first beats, why the company came and how it came in, filled with the words
@@ -8,9 +9,9 @@ import { ModuleParser } from '../lang/module-parser';
 export interface OriginOpening { title: string; beats: string[] }
 export class OriginOpenings {
   static readonly arrival = 'arrival';
-  static of(source: string, title: string): OriginOpening | undefined {
+  static of(source: string, title: string, vocabulary: VocabularyContext): OriginOpening | undefined {
     let module;
-    try { module = ModuleParser.parse(source); } catch { return undefined; }
+    try { module = ModuleParser.parseWithin(vocabulary.fork(), source); } catch { return undefined; }
     const said = module.observations ?? [];
     // Why: the first of its features said where it begins, not near anyone, nor the meeting; then the arrival.
     const why = said.find(o => o.aspect === 'feature' && o.anchor !== 'near' && o.id !== 'meeting' && o.id !== this.arrival);

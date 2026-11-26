@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { ModuleBundle } from '../src/campaign/module-bundle';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { WorldAssembler } from '../src/world/world-assembler';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // What an inn's count of the old places round its town says of a place a kit's band has made its own (FH-24). a1's
 // inn had named the raiders' hold (Seolforfyrd then, Shadowrest now) as one more old place nobody with sense goes to:
@@ -28,8 +29,10 @@ describe('an inn\'s count of the old places round its town', () => {
         party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
       // The composition the assembler made to write the count, taken by the first campaign to load; a second composes
       // its own, against the country as written with the count, and places every kit where the first did.
-      const composed = (await ModuleBundle.campaign(w.path, w.source as never, seed)).composition!;
-      const again = (await ModuleBundle.campaign(w.path, w.source as never, seed)).composition!;
+      const composed = (await ModuleBundle.campaign(w.path, w.source as never,
+        CanonVocabulary.context(), seed)).composition!;
+      const again = (await ModuleBundle.campaign(w.path, w.source as never,
+        CanonVocabulary.context(), seed)).composition!;
       expect(again).not.toBe(composed);
       expect(JSON.stringify(again.placements)).toBe(JSON.stringify(composed.placements));
       const sites = new Map(w.report.region.sites.map(s => [s.id, s.name]));

@@ -1,7 +1,7 @@
 import plants from '../../data/catalog/plants.json';
 import type { Instance } from '../lang/module';
 import { ModuleWriter } from '../lang/module-writer';
-import { Canon } from '../canon/canon';
+import type { ItemCatalog } from '../item-catalog';
 
 // Remedies of what grows (the owner, 6 November: the plants' uses, so that what is gathered can be made into
 // something, without a second item system): a herb good for healing laid on with bandages makes a herb poultice; one
@@ -13,7 +13,7 @@ export class HerbRecipes {
     ['healing', 'bandages', 'herb_poultice', 'laid on with a bandage'],
     ['medicine', 'herbs', 'minor_healing_potion', 'steeped with healing herbs'],
     ['purification', 'herbs', 'antidote', 'boiled down with healing herbs']];
-  static declare(instance: Instance) {
+  static declare(instance: Instance, catalog: ItemCatalog) {
     const module = instance.module;
     if (!module.relations.some(r => r.name === 'takes')) { return; }
     const kinds = new Set(module.entities.filter(e => e.type === 'itemkind').map(e => e.id)), authored = HerbRecipes.pairs(instance);
@@ -23,7 +23,7 @@ export class HerbRecipes {
       if (!herb || !kinds.has(herb)) { continue; }
       for (const [use, aid, made, how] of HerbRecipes.by.filter(([u]) => (p.uses ?? []).includes(u))) {
         if (authored.has(`${herb},${aid}`)) { continue; }
-        HerbRecipes.recipe(instance, { herb, name: p.name.toLowerCase(), use, aid, made, how });
+        HerbRecipes.recipe(instance, { herb, name: p.name.toLowerCase(), use, aid, made, how }, catalog);
       }
     }
   }
@@ -38,11 +38,11 @@ export class HerbRecipes {
       && i.call.name === name ? [[i.call.args[0]!, i.call.args[1]!] as const] : []));
   }
   private static recipe(instance: Instance, r: { herb: string; name: string; use: string; aid: string; made: string;
-    how: string }) {
+    how: string }, catalog: ItemCatalog) {
     const module = instance.module, id = `${r.herb}_${r.use}`;
     for (const kind of [r.aid, r.made]) {
       if (!module.entities.some(e => e.id === kind)) {
-        module.entities.push({ id: kind, type: 'itemkind', name: Canon.items[kind]?.name ?? kind });
+        module.entities.push({ id: kind, type: 'itemkind', name: catalog.find(kind)?.name ?? kind });
       }
     }
     module.entities.push({ id, type: 'recipe', name: `${r.name} ${r.how}` });

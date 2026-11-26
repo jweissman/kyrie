@@ -3,6 +3,7 @@ import '../../src/campaign/node-bundle-source';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionWriter } from '../../src/world/region-writer';
 import { ModuleParser } from '../../src/lang/module-parser';
+import { Content } from '../../src/content';
 import { DeclarationParses } from '../../src/lang/declaration-parses';
 import { DeclarationShapes } from '../../src/lang/declaration-shapes';
 import type { Declared } from '../../src/lang/module-source';
@@ -29,13 +30,16 @@ describe('a declaration filled from its shape', () => {
     let filled = 0;
     for (const seed of ['shapes-a', 'shapes-b']) {
       filled = DeclarationShapes.fills;
-      const files = RegionWriter.files(WorldAssembler.region(seed, [0, 0]), null);
+      const vocabulary = Content.vocabulary();
+      const files = RegionWriter.files(WorldAssembler.region(seed, [0, 0]), null, {}, Content.vocabulary());
       for (const [name, text] of Object.entries(files)) {
         if (!RegionWriter.readsAsKyr(name)) { continue; }
         const ir = files[`${name}.ir.json`];
         const declared = ir ? (JSON.parse(ir) as { declared: Declared[] }).declared : [];
         DeclarationParses.kept.clear();
-        const split = ModuleParser.chunked(text, declared), whole = ModuleParser.whole(text, declared);
+        const split = ModuleParser.chunkedWithin(vocabulary.fork(), text, declared),
+          whole = ModuleParser.wholeWithin(vocabulary.fork(), text, declared);
+        vocabulary.install(whole.catalog);
         texts++;
         if (!split || JSON.stringify(split) !== JSON.stringify(whole)) { differ.push(`${seed} ${name}`); }
       }

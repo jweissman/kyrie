@@ -37,10 +37,10 @@ describe('A cold set-out', () => {
     // a kind another of its files declares is read before that kind is known and again among it (ModuleBundle.read),
     // two readings of one text, as it was before parses were kept by what they read (then under two keys). What OR-121
     // forbids is a reading made again among the same kinds, a parse lost and redone.
-    spyOn(ParseCache, 'set').mockImplementation((key, reading, ms) => {
+    spyOn(ParseCache, 'set').mockImplementation((context, key, reading, ms) => {
       const read = `${key}\u0001${JSON.stringify(reading.reads)}`;
       parsed.set(read, (parsed.get(read) ?? 0) + 1);
-      set(key, reading, ms);
+      set(context, key, reading, ms);
     });
     // The warm-up is the coldest: the shared rules and the sites first read in it, as well as its country.
     await Cold.click('bakoru');

@@ -9,6 +9,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { GenerationSetting } from '../src/generation-setting';
 import { GeneratedWorld } from './support/generated';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Who lives in a generated region and what lives in its wild places: a mix of peoples that fits the country, each
 // person of their own people and named in their way; and dens that hold what makes dens in that kind of country.
@@ -41,7 +42,7 @@ describe('a generated region is peopled', () => {
   });
   it('writes each townsperson as of their own people', () => {
     const region = RegionPeoples.settle(WorldAssembler.lay(Peopled.region(3), 'holt3'), 'mix-3');
-    const source = RegionWriter.source(region);
+    const source = RegionWriter.source(region, null, {}, CanonVocabulary.context());
     const s = region.settlements[1]!;
     // Whoever keeps travellers there (an innkeeper, an alehouse-keeper, whoever speaks for a hamlet) is of their own
     // people.

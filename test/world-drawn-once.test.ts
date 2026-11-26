@@ -4,6 +4,7 @@ import type { BundleSource } from '../src/campaign/bundle-source';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { WorldDrawings } from '../src/world/world-drawings';
 import { Origins } from '../src/world/origins';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 import { Creation } from '../web/engine/creation';
 
 // A new life draws its country once (WorldDrawings): creation reads the country as drawn, and the start into it is
@@ -33,7 +34,7 @@ describe('a country drawn once for a new life', () => {
     expect(setting.title).toBe(whole.report.region.name);
     expect(setting.terrain).toBe(whole.report.region.terrain);
     expect(setting.origins).toEqual(Origins.choices(await Origins.load(source), whole.report.region,
-      whole.report.placements));
+      whole.report.placements, CanonVocabulary.context()));
     expect(await new Creation().generate(seed, undefined, source)).toEqual(setting);
   }, 60000);
   it('gives each its own copy: what one world does to its country is not another\'s', async () => {

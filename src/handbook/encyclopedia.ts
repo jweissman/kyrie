@@ -6,6 +6,7 @@ import type { Handbooks } from './handbooks';
 import type { Book, Entry, Section, Status } from './model';
 import { EncyclopediaLore } from './encyclopedia-lore';
 import { Canon } from '../canon/canon';
+import type { VocabularyContext } from '../lang';
 
 export interface Chapter { id: string; title: string; lede: string[]; sections: Section[] }
 // A land an adventure lies in, as its own folk and its neighbours speak of it (countries.json): never what is found
@@ -43,7 +44,7 @@ export class Encyclopedia {
         'The spells learnt by study and the prayers granted by the gods, level by level, and the techniques of those '
         + 'who fight without them. Each says what it does when it is used.'] },
       { id: 'arms', title: 'Arms, gear and treasure', sections: [...Encyclopedia.take(phb, ['equipment']),
-        ...EncyclopediaLore.making()], lede: [
+        ...EncyclopediaLore.making(handbooks.vocabulary.fork(), handbooks.items)], lede: [
         'What can be carried, bought and sold: weapons and armour, the gear an expedition lives by, and the things '
         + 'worth bringing back.'] },
       { id: 'creatures', title: 'Creatures', sections: mm.sections.filter(x => x.id !== 'plants'), lede: [
@@ -140,9 +141,9 @@ export class Encyclopedia {
   }
   // The planes of Imbar's canon, read by the Kyr parser (never by matching its text): each plane, whether it is the
   // world, an inner plane or an outer one (by the file it is written in), and what is seen at its threshold.
-  static canon(root: string): Plane[] {
+  static canon(root: string, vocabulary: VocabularyContext): Plane[] {
     return [['planes.kyr', 'an inner plane'], ['outer.kyr', 'an outer plane']].flatMap(([file, kind]) => {
-      const m = ModuleParser.parse(readFileSync(join(root, 'data/imbar', file!), 'utf8'));
+      const m = ModuleParser.parseWithin(vocabulary.fork(), readFileSync(join(root, 'data/imbar', file!), 'utf8'));
       const byId = new Map(m.entities.map(e => [e.id, e]));
       const seen = new Map((m.observations ?? []).flatMap(o => {
         const p = Encyclopedia.planeOf(byId, o.place);

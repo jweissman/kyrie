@@ -88,6 +88,10 @@
   {
    "file": "test/first-questions.test.ts",
    "why": "what the first people met offer before anything is learnt, by seed (OR-423): a generator, kit or goings-on that gives a townsperson a question about what the company has not heard of"
+  },
+  {
+   "file": "test/reference-campaign-isolation.test.ts",
+   "why": "two reference-game campaigns with local kinds, interleaved against their standalone receipts"
   }
  ],
  "budget": {

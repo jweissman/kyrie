@@ -3,6 +3,7 @@ import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionWriter } from '../../src/world/region-writer';
 import { ReferenceSettlement } from '../../src/world/reference-settlement';
 import { Canon } from '../../src/canon/canon';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 // The reference game's settlement (the owner, 25 November: doc/design/direction-2026-11-25-reference-game.md §2;
 // register OR-611). The first town of a forest country, the terrain the first country draws most often (16 of 40
@@ -15,7 +16,7 @@ import { Canon } from '../../src/canon/canon';
 // marsh's). The country's text only, no world.
 const written = (seed: string) => {
   const region = WorldAssembler.region(seed, [0, 0]), t = region.settlements[0]!.id;
-  const text = RegionWriter.source(region, { size: 1, contacts: [] });
+  const text = RegionWriter.source(region, { size: 1, contacts: [] }, {}, CanonVocabulary.context());
   return { region, t, text, people: [...text.matchAll(new RegExp(`^\\s*Person (${t}_\\w+) `, 'gm'))].map(m => m[1]!) };
 };
 describe('the reference game\'s settlement', () => {

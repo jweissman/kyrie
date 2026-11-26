@@ -37,7 +37,7 @@ type Frozen = Readonly<Record<string, ItemDefinition>>;
 export class CatalogContext {
   // The catalog's own, as the setting lowered them, before any module's kind joined them.
   private static readonly base: Frozen = CatalogContext.frozen(CanonRuntime.items());
-  static readonly canon = new CatalogContext({}, {});
+  static readonly canon = new CatalogContext({}, {}, {});
   private static readonly made = new WeakMap<object, CatalogContext>();
   // A campaign's, from what its modules made of their own kinds: the same made, the same catalog.
   static of(kinds: KindsMade | undefined): CatalogContext {
@@ -49,7 +49,7 @@ export class CatalogContext {
     if (!catalog) {
       catalog = new CatalogContext(
         Object.fromEntries(Object.entries(items ?? {}).map(([id, i]) => [id, this.runtime(i)])),
-        species ?? {});
+        species ?? {}, items ?? {});
       this.made.set(kinds, catalog);
     }
     return catalog;
@@ -85,18 +85,20 @@ export class CatalogContext {
       ...item.grants?.ability ? { ability: item.grants.ability } : {},
       ...item.tool ? { tool: item.tool } : {}, ...item.aids ? { aids: item.aids } : {} } as ItemDefinition;
   }
-  // The process's join of the catalog and the kinds of the campaign last activated, as the language reads a module
-  // against it (CanonVocabulary.kind) until parsing is given its campaign's catalog too (slice 3): never read in play.
-  static readonly ambient: Record<string, ItemDefinition> = { ...CatalogContext.base };
   private readonly own: Frozen;
   private readonly species: Readonly<Record<string, Species>>;
   private readonly itemIds: readonly string[];
+  private readonly definitionIds: readonly string[];
+  private readonly itemKinds: Readonly<Record<string, ItemKind>>;
   private readonly resolvedSpecies = new Map<string, Species>();
   private readonly bodyStatistics = new WeakMap<Species, BodyStatistics>();
-  private constructor(own: Record<string, ItemDefinition>, species: Record<string, Species>) {
+  private constructor(own: Record<string, ItemDefinition>, species: Record<string, Species>,
+    itemKinds: Record<string, ItemKind> = {}) {
     this.own = CatalogContext.frozen(own);
     this.species = CatalogContext.frozen(species);
     this.itemIds = Object.freeze([...new Set([...Object.keys(CatalogContext.base), ...Object.keys(own)])]);
+    this.definitionIds = Object.freeze([...new Set([...CanonRuntime.itemIds(), ...Object.keys(itemKinds)])]);
+    this.itemKinds = CatalogContext.frozen(itemKinds);
     Object.freeze(this);
   }
   // Frozen through, so that what is shared by reference is never changed by whoever reads it.
@@ -112,9 +114,13 @@ export class CatalogContext {
     return Object.hasOwn(this.own, id) ? this.own[id] : Object.hasOwn(CatalogContext.base,
       id) ? CatalogContext.base[id] : undefined;
   }
+  definition(id: string): ItemKind | undefined {
+    return this.itemKinds[id] ?? CanonRuntime.item(id);
+  }
   has(id: string): boolean { return this.find(id) !== undefined; }
   itemId(id: string): string { return CanonRuntime.resolve('items', id); }
   get ids(): readonly string[] { return this.itemIds; }
+  get definitions(): readonly string[] { return this.definitionIds; }
   // The campaign's own kinds, by id.
   get local(): readonly string[] { return Object.keys(this.own); }
   localSpecies(id: string): Species | undefined { return this.species[CanonRuntime.resolve('species', id)]; }
