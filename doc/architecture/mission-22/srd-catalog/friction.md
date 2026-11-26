@@ -291,7 +291,7 @@ per-strike numeric data on `WeaponProfile`; no live catalog assembler sets it ye
 
 ### Creatures: the routine is the first small boundary
 
-The full 440-record source pass found 202 records with more than one strike, 128 with different attack bonuses
+The full 440-record source pass now finds 215 records with more than one extracted strike, 143 with different attack bonuses
 within their routine, and 28 with negative damage bonuses. A single fixed body attack bonus and automatic positive
 Strength damage cannot express those routines faithfully: an ape's claws are +7 with +5 damage, while its bite is
 +2 with +2 damage. A secondary attack is not universally "no Strength."
@@ -309,8 +309,8 @@ On that opt-in attack path a natural 20 hits even an otherwise unreachable AC; e
 previous behavior. Touch spells discard these *weapon* values rather than borrowing a claw's bonus. Criticals keep
 Kyr's current policy: this prototype does not import the SRD's threat/confirmation/multiplier rules.
 
-**Measured proof:** `test/srd-routine-prototype.test.ts` exercises **404 source bodies, 834 individual strikes**,
-including **127 bodies with different bonuses**. For every strike it checks all twenty attack rolls at four ACs
+**Measured proof:** `test/srd-routine-prototype.test.ts` exercises **404 source bodies, 866 individual extracted strikes**,
+including **142 bodies with different bonuses**. For every strike it checks all twenty attack rolls at four ACs
 (5, 15, 25 and 60), three ranks (1, 7 and 20), forecast agreement, and minimum/maximum noncritical damage. It also
 executes an ape's complete routine through `AttackRoutine` and `AbilityUse`, checking the three distinct attack
 thresholds, one action, damage only on hits, and reproducible events.

@@ -3841,6 +3841,27 @@
      "bonus": 25
     },
     {
+     "name": "primary longsword",
+     "count": 1,
+     "dice": "2d6",
+     "plus": 9,
+     "bonus": 20
+    },
+    {
+     "name": "primary longsword",
+     "count": 1,
+     "dice": "2d6",
+     "plus": 9,
+     "bonus": 15
+    },
+    {
+     "name": "primary longsword",
+     "count": 1,
+     "dice": "2d6",
+     "plus": 9,
+     "bonus": 10
+    },
+    {
      "name": "longswords",
      "count": 5,
      "dice": "2d6",
@@ -4406,6 +4427,13 @@
      "dice": "1d10",
      "plus": 3,
      "bonus": 9
+    },
+    {
+     "name": "glaive",
+     "count": 1,
+     "dice": "1d10",
+     "plus": 3,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -4603,6 +4631,13 @@
      "dice": "1d8",
      "plus": 5,
      "bonus": 14
+    },
+    {
+     "name": "longsword",
+     "count": 1,
+     "dice": "1d8",
+     "plus": 5,
+     "bonus": 9
     }
    ],
    "specialAttacks": [
@@ -4734,6 +4769,20 @@
      "bonus": 25
     },
     {
+     "name": "spiked chain",
+     "count": 1,
+     "dice": "2d6",
+     "plus": 15,
+     "bonus": 20
+    },
+    {
+     "name": "spiked chain",
+     "count": 1,
+     "dice": "2d6",
+     "plus": 15,
+     "bonus": 15
+    },
+    {
      "name": "bite",
      "count": 1,
      "dice": "2d8",
@@ -4812,6 +4861,20 @@
      "dice": "2d6",
      "plus": 9,
      "bonus": 20
+    },
+    {
+     "name": "spear",
+     "count": 1,
+     "dice": "2d6",
+     "plus": 9,
+     "bonus": 15
+    },
+    {
+     "name": "spear",
+     "count": 1,
+     "dice": "2d6",
+     "plus": 9,
+     "bonus": 10
     },
     {
      "name": "bite",
@@ -7713,6 +7776,13 @@
      "dice": "2d6",
      "plus": 6,
      "bonus": 12
+    },
+    {
+     "name": "morningstars",
+     "count": 2,
+     "dice": "2d6",
+     "plus": 6,
+     "bonus": 7
     }
    ],
    "specialAttacks": [],
@@ -8333,6 +8403,13 @@
      "dice": "1d6",
      "plus": 4,
      "bonus": 9
+    },
+    {
+     "name": "scimitar",
+     "count": 1,
+     "dice": "1d6",
+     "plus": 4,
+     "bonus": 4
     }
    ],
    "specialAttacks": [
@@ -8539,6 +8616,20 @@
      "dice": "4d6",
      "plus": 18,
      "bonus": 22
+    },
+    {
+     "name": "gargantuan morningstar",
+     "count": 1,
+     "dice": "4d6",
+     "plus": 18,
+     "bonus": 17
+    },
+    {
+     "name": "gargantuan morningstar",
+     "count": 1,
+     "dice": "4d6",
+     "plus": 18,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -8584,6 +8675,20 @@
      "dice": "3d6",
      "plus": 15,
      "bonus": 20
+    },
+    {
+     "name": "greatsword",
+     "count": 1,
+     "dice": "3d6",
+     "plus": 15,
+     "bonus": 15
+    },
+    {
+     "name": "greatsword",
+     "count": 1,
+     "dice": "3d6",
+     "plus": 15,
+     "bonus": 10
     }
    ],
    "specialAttacks": [
@@ -8628,6 +8733,13 @@
      "dice": "3d6",
      "plus": 13,
      "bonus": 18
+    },
+    {
+     "name": "huge greataxe",
+     "count": 1,
+     "dice": "3d6",
+     "plus": 13,
+     "bonus": 13
     }
    ],
    "specialAttacks": [
@@ -8719,6 +8831,13 @@
      "dice": "2d8",
      "plus": 10,
      "bonus": 16
+    },
+    {
+     "name": "greatclub",
+     "count": 1,
+     "dice": "2d8",
+     "plus": 10,
+     "bonus": 11
     }
    ],
    "specialAttacks": [
@@ -8761,6 +8880,13 @@
      "dice": "2d8",
      "plus": 12,
      "bonus": 17
+    },
+    {
+     "name": "greatclub",
+     "count": 1,
+     "dice": "2d8",
+     "plus": 12,
+     "bonus": 12
     }
    ],
    "specialAttacks": [
@@ -8804,6 +8930,20 @@
      "dice": "4d6",
      "plus": 21,
      "bonus": 26
+    },
+    {
+     "name": "greatsword",
+     "count": 1,
+     "dice": "4d6",
+     "plus": 21,
+     "bonus": 21
+    },
+    {
+     "name": "greatsword",
+     "count": 1,
+     "dice": "4d6",
+     "plus": 21,
+     "bonus": 16
     }
    ],
    "specialAttacks": [
@@ -9799,6 +9939,13 @@
      "bonus": 7
     },
     {
+     "name": "club",
+     "count": 1,
+     "dice": "1d6",
+     "plus": 0,
+     "bonus": 2
+    },
+    {
      "name": "claws",
      "count": 2,
      "dice": "1d3",
@@ -10490,6 +10637,14 @@
      "dice": "5d6",
      "plus": 0,
      "bonus": 11,
+     "touch": true
+    },
+    {
+     "name": "vampiric touch",
+     "count": 1,
+     "dice": "5d6",
+     "plus": 0,
+     "bonus": 6,
      "touch": true
     }
    ],
@@ -11836,7 +11991,21 @@
      "bonus": 12
     },
     {
-     "name": "and bite",
+     "name": "morningstar",
+     "count": 1,
+     "dice": "3d6",
+     "plus": 8,
+     "bonus": 7
+    },
+    {
+     "name": "morningstars",
+     "count": 2,
+     "dice": "3d6",
+     "plus": 4,
+     "bonus": 12
+    },
+    {
+     "name": "bite",
      "count": 1,
      "dice": "2d8",
      "plus": 4,
@@ -12381,6 +12550,13 @@
      "dice": "1d8",
      "plus": 5,
      "bonus": 11
+    },
+    {
+     "name": "short sword",
+     "count": 1,
+     "dice": "1d8",
+     "plus": 5,
+     "bonus": 6
     },
     {
      "name": "tail slap",
@@ -13463,6 +13639,13 @@
      "dice": "2d8",
      "plus": 10,
      "bonus": 21
+    },
+    {
+     "name": "greatclub",
+     "count": 1,
+     "dice": "2d8",
+     "plus": 10,
+     "bonus": 16
     }
    ],
    "specialAttacks": [
@@ -13729,6 +13912,13 @@
      "dice": "1d6",
      "plus": 0,
      "bonus": 8
+    },
+    {
+     "name": "shortbow",
+     "count": 1,
+     "dice": "1d6",
+     "plus": 0,
+     "bonus": 3
     }
    ],
    "specialAttacks": [
@@ -14396,6 +14586,13 @@
      "dice": "3d6",
      "plus": 6,
      "bonus": 9
+    },
+    {
+     "name": "greataxe",
+     "count": 1,
+     "dice": "3d6",
+     "plus": 6,
+     "bonus": 4
     },
     {
      "name": "gore",
@@ -16542,6 +16739,13 @@
      "bonus": 11
     },
     {
+     "name": "spear",
+     "count": 1,
+     "dice": "1d8",
+     "plus": 3,
+     "bonus": 6
+    },
+    {
      "name": "tail slap",
      "count": 1,
      "dice": "2d6",
@@ -17448,6 +17652,13 @@
      "dice": "4d6",
      "plus": 18,
      "bonus": 18
+    },
+    {
+     "name": "gargantuan morningstar",
+     "count": 1,
+     "dice": "4d6",
+     "plus": 18,
+     "bonus": 13
     }
    ],
    "specialAttacks": [],
