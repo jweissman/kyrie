@@ -40,6 +40,10 @@ describe('a campaign in a process that has run others', () => {
     expect(ItemCatalog.canon.isSpecies('local_pike/great/elder')).toBe(false);
     expect(catalog.isSpecies('local_pike/not_a_variation')).toBe(false);
   });
+  it('refuses a local species cycle through a variation', () => {
+    const kinds = { species: { loop: { name: 'loop', description: 'loop', variantOf: 'loop/great' } } };
+    expect(() => ItemCatalog.of(kinds).creature('loop')).toThrow('Species variant cycle');
+  });
   it('uses its own kinds, whichever ran first', async () => {
     const tonic = Two.source(dir => `Kind tonic "a tonic" like ${dir === 'a' ? 'wine' : 'elixir_of_strength'}.
       Item flask "a flask of tonic" is tonic at room.`);
