@@ -20,7 +20,7 @@ export class MechanicsText {
   private static readonly targets: Record<Target, string> = {
     enemy: 'one enemy', enemies: 'every enemy', ally: 'one ally', allies: 'every ally', party: 'the whole company',
     self: 'yourself', all: 'everyone', 'dead ally': 'a fallen ally', 'random enemy': 'a random enemy',
-    'random enemies': 'random enemies',
+    'random enemies': 'random enemies', it: 'what it is aimed at', here: 'the place',
   };
   // What an ability does, in words a player would use (Mission 16 found "You gain defending for 1 turn", "a will
   // save against 19" and costs in brackets mid-sentence): what it does, then what each condition it gives does, then
@@ -106,6 +106,7 @@ export class MechanicsText {
         case 'learn': return `teach ${to} ${Canon.abilities[e.ability]?.name ?? e.ability}`;
         case 'summon': return MechanicsText.summon(e, actor);
         case 'travel': return 'leave the fight';
+        case 'try': return `try ${e.verb} on ${to}`;
       }
     })();
     const qualifiers = [e.when ? 'when its condition holds' : '', e.targetTrait ? `only ${e.targetTrait} creatures` : '',

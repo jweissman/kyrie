@@ -2863,6 +2863,12 @@
    "pri": "P2",
    "why": "the remainder of OR-1100: a thing thrown as fire, not yet read"
   },
+  "OR-1221": {
+   "kind": "requirement",
+   "was": "direction",
+   "pri": "P2",
+   "why": "the language forms L1 and L2 that OR-1102 to OR-1104 need"
+  },
   "OR-1098": {
    "kind": "requirement",
    "was": "defect",

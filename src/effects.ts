@@ -113,10 +113,10 @@ export class Effects {
   }
   static validate(effect: Effect, abilities: string[]) {
     if (!['attack', 'damage', 'heal', 'drain', 'enervate', 'revive', 'defend', 'flee', 'apply', 'remove', 'kill', 'gain',
-      'learn', 'summon', 'travel', 'random', 'cycle', 'cast'].includes(effect.kind)) { throw new Error('Unknown typed effect'); }
+      'learn', 'summon', 'travel', 'random', 'cycle', 'cast', 'try'].includes(effect.kind)) { throw new Error('Unknown typed effect'); }
     if (effect.kind === 'random' || effect.kind === 'cycle') { effect.effects.forEach(e => Effects.validate(e, abilities)); }
-    if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy', 'random enemies']
-      .includes(effect.target)) { throw new Error('Unknown effect target'); }
+    if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy', 'random enemies', 'it',
+      'here'].includes(effect.target)) { throw new Error('Unknown effect target'); }
     for (const amount of [...('amount' in effect ? [effect.amount] : []), ...(effect.save ? [effect.save.difficulty] : [])]) {
       if (!amount || (amount.kind !== 'literal' && amount.kind !== 'deem')
         || (amount.kind === 'literal' && (!Number.isSafeInteger(amount.value) || amount.value < 0))

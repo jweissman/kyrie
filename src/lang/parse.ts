@@ -2,8 +2,10 @@ import { Deem } from 'deem';
 import * as ohm from 'ohm-js';
 import { Grammars } from './grammars';
 
+// it: the thing, way or person the act names; here: the place it is done in (the effect language's world targets, L1:
+// doc/design/research-abilities-and-the-world-2026-11-26.md §3.3).
 export type Target = 'enemy' | 'ally' | 'self' | 'dead ally' | 'enemies' | 'allies' | 'party' | 'all' | 'random enemy'
-  | 'random enemies';
+  | 'random enemies' | 'it' | 'here';
 export type Amount = { kind: 'literal'; value: number } | { kind: 'deem'; expression: string };
 export type Resource = 'gold' | 'experience' | 'mana' | 'slots' | 'uses';
 type EffectBody =
@@ -37,7 +39,10 @@ type EffectBody =
   // from the summoner's ancestry's companions; made at a level (first when unstated). The summoner owns them.
   | { kind: 'summon'; creature: string; target: Target; from?: string[]; byAncestry?: Record<string, string[]>;
     amount?: Amount; level?: number }
-  | { kind: 'travel'; location: string; target: 'self' };
+  | { kind: 'travel'; location: string; target: 'self' }
+  // A verb of the kernel's (data/rules/probing.kyr: burning, opening, lighting…) tried on what it is aimed at, lowered
+  // to `tried(target, verb)`; what follows is the world's rules for the verb, never the ability's (L2, §3.3).
+  | { kind: 'try'; verb: string; target: Target };
 // A save names either an attribute (a Kyr attribute save) or an Orsino save category such as breath or will.
 // again: what it lays is saved against again on each turn its holder loses to it (see ShakingOff). lesser: a success
 // lays what it lays all the same, for so many rounds (the SRD's partial: Cause Fear's one round shaken).
@@ -97,6 +102,8 @@ export class AbilityParser {
     Summon: AbilityParser.Summon,
     Travel: AbilityParser.Travel,
     Cast: AbilityParser.Cast,
+    Try_on: AbilityParser.TryOn,
+    Try_here: AbilityParser.TryHere,
     expression: AbilityParser.expression,
     integer: AbilityParser.integer,
   });
@@ -185,6 +192,13 @@ export class AbilityParser {
   // Another ability performed at no cost (a scroll of fireball read, a wand of magic missile pointed).
   static Cast(_cast: ohm.Node, ability: ohm.Node, _on: ohm.Node, target: ohm.Node): Effect {
     return { kind: 'cast', ability: ability.sourceString, target: target.sourceString as Target };
+  }
+  // "Try opening on it.", "Try lighting here.": a verb tried on a target, or on the place.
+  static TryOn(_try: ohm.Node, verb: ohm.Node, _on: ohm.Node, target: ohm.Node): Effect {
+    return { kind: 'try', verb: verb.sourceString, target: target.sourceString as Target };
+  }
+  static TryHere(_try: ohm.Node, verb: ohm.Node, _here: ohm.Node): Effect {
+    return { kind: 'try', verb: verb.sourceString, target: 'here' };
   }
   static expression(_open: ohm.Node, content: ohm.Node, _close: ohm.Node): Amount {
     return { kind: 'deem', expression: content.sourceString.trim() };

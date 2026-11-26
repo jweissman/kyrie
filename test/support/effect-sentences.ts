@@ -10,7 +10,7 @@ export class EffectSentences {
   // The modifiers the grammar has no word for, each named as the census counts it.
   private static readonly modifiers = ['onResist', 'targetTrait', 'count', 'hitDice', 'chain', 'touch', 'triggers'] as const;
   private static readonly targets = new Set(['dead ally', 'random enemy', 'enemies', 'allies', 'party', 'enemy', 'ally',
-    'self', 'all']);
+    'self', 'all', 'it', 'here']);
 
   static amount(a: Amount): string { return a.kind === 'literal' ? String(a.value) : `(${a.expression})`; }
 
@@ -68,6 +68,7 @@ export class EffectSentences {
         : { sentence: `Summon ${e.creature} for ${e.target}` };
       case 'travel': return { sentence: `Travel to ${e.location}` };
       case 'cast': return { sentence: `Cast ${e.ability} on ${e.target}` };
+      case 'try': return { sentence: e.target === 'here' ? `Try ${e.verb} here` : `Try ${e.verb} on ${e.target}` };
       default: return { lacks: e.kind };
     }
   }

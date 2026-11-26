@@ -8,6 +8,8 @@ export class Targeting {
   // to everyone else it is still on the side it began on.
   static candidates(target: Target, actor: Fighter, fighters: Fighter[]): Fighter[] {
     const own = Effects.modifiers(actor), turned = !!own.changeAllegiance, sees = !!own.seeInvisible;
+    // What the act names and the place (it, here) are no one in a fight: an ability aimed only so is not offered there.
+    if (target === 'it' || target === 'here') { return []; }
     return fighters.filter(f => {
       const friend = (f.team === actor.team) !== turned;
       if (target === 'dead ally') { return f.hp === 0 && friend; }
