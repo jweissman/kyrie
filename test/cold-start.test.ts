@@ -33,9 +33,14 @@ describe('A cold set-out', () => {
   afterEach(() => { mock.restore(); });
   it('parses each text it reads once, and who each topic is put to once, within its budgets', async () => {
     const parsed = new Map<string, number>(), set = ParseCache.set.bind(ParseCache);
-    spyOn(ParseCache, 'set').mockImplementation((key, module, ms) => {
-      parsed.set(key, (parsed.get(key) ?? 0) + 1);
-      set(key, module, ms);
+    // Counted by the text and what its reading asked of the kinds (Vocabularies.reading): a module's file that places
+    // a kind another of its files declares is read before that kind is known and again among it (ModuleBundle.read),
+    // two readings of one text, as it was before parses were kept by what they read (then under two keys). What OR-121
+    // forbids is a reading made again among the same kinds, a parse lost and redone.
+    spyOn(ParseCache, 'set').mockImplementation((key, reading, ms) => {
+      const read = `${key}\u0001${JSON.stringify(reading.reads)}`;
+      parsed.set(read, (parsed.get(read) ?? 0) + 1);
+      set(key, reading, ms);
     });
     // The warm-up is the coldest: the shared rules and the sites first read in it, as well as its country.
     await Cold.click('bakoru');

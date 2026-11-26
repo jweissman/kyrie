@@ -18,9 +18,11 @@ export class EngineForesight {
   constructor(private readonly creation: Creation, private readonly made: EngineCreation,
     private readonly starts: EngineStarts) {}
   // What the title asks of the country a new game begins in: a new life's seed (FreshSeeds: one whose first town is the
-  // reference game's), its country drawn ahead, or drawn.
+  // reference game's), its country drawn ahead, or drawn. A seed rolled is drawn ahead at once, as the page would ask
+  // on its answer: the page's own ahead came a message later, so that the engine said it was idle with nothing yet
+  // drawn, and Set out now pressed then waited the whole drawing (ten seconds; OR-872).
   asked(request: Extract<Request, { kind: 'world' | 'ahead' | 'seed' }>): Promise<Setting> | string | null {
-    if (request.kind === 'seed') { return FreshSeeds.seed(FirstChoice.seed); }
+    if (request.kind === 'seed') { const seed = FreshSeeds.seed(FirstChoice.seed); this.ahead(seed); return seed; }
     if (request.kind === 'ahead') { this.ahead(request.seed); return null; }
     return this.drawn(request.seed, request.terrain);
   }
