@@ -100,9 +100,14 @@ export class Telling {
   // Who of the company did it: the one who plays where they bring the skill (or nobody does: a thing carried, a skill
   // granted); else the companion who brings it, told as theirs. The tinker's daughter picked the corn-store's lock and
   // it was told "You take your time over it, by feel" (cold play 9, GR-19).
+  // Only the company's own: anyone in the world may bring a skill (a hand waiting on a ledge to be hired), and the
+  // first who did had been told as the one who heaved ("Samwise sets their shoulder to it": cold plays 1 and 3, 25
+  // November).
   private static featBy(campaign: Campaign, skill: string): string | undefined {
     if (!campaign.world.relates('brings')) { return undefined; }
-    const bringing = campaign.world.related('brings').filter(r => r.args[1] === skill).map(r => r.args[0]!);
+    const company = campaign.playerActor ?? 'party', world = campaign.world;
+    const bringing = world.related('brings').filter(r => r.args[1] === skill).map(r => r.args[0]!)
+      .filter(m => world.test(ModuleWriter.call('memberOf', m, company)));
     const lead = campaign.readout.partyIds[0], you = campaign.module.entities.find(e => e.creatureId === lead)?.id;
     return !bringing.length || (you && bringing.includes(you)) ? undefined : bringing[0];
   }

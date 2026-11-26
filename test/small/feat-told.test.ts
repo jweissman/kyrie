@@ -46,4 +46,17 @@ describe('a calling\'s own act', () => {
     expect(feat?.text).toMatch(/^(Haze|It is an old, stiff lock\. Haze) /);
     expect(feat?.text).not.toMatch(/\b[Yy]ou (work|take)\b/);
   });
+  it('is never told as the act of someone outside the company who brings the skill (cold play 1 and 3, 25 November)', async () => {
+    // "Samwise sets their shoulder to it and heaves", Samwise in no company of the player's: a hand waiting to be hired
+    // brings brawn, and whoever brought it anywhere in the world was taken for the one who did it. Here the company has
+    // the strength for a while (granted), and nobody in it brings it: the one who plays did it.
+    const t = await Tiny.start(`
+      Person sam "Samwise" at lane { Role "a hired hand". Ancestry human. Calling warrior. Peaceable. Pronouns he. }
+      ${store.replace('Goal false.', 'Initially Assert granted(party, brawn). Goal false.')}`,
+    { party: [{ name: 'Iselde', raceId: 'elf', classId: 'mage' }] });
+    await t.perform('change_thing(t__lock_wrench)');
+    const feat = (t.campaign.history.at(-1)?.voiced ?? []).find(v => v.kind === 'feat');
+    expect(feat?.id).toMatch(/^feat\.brawn\.\d/);
+    expect(feat?.text).not.toMatch(/Samwise/);
+  });
 });
