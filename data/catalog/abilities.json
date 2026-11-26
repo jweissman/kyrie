@@ -1096,8 +1096,8 @@
     "knock": {
       "name": "Knock",
       "kind": "spell",
-      "description": "For an hour, locks and bars open at the caster's touch.",
-      "effect": "Apply unbarring to ally for 1 hour.",
+      "description": "A lock or bar the caster points at opens of itself.",
+      "effect": "Try opening on it.",
       "spell": {
         "tradition": "arcane",
         "level": 2,
@@ -1105,7 +1105,7 @@
       },
       "source": {
         "kyr": true,
-        "notes": "The old-school Knock, which Orsino's catalog lacks: whoever bears it may do what lockwork does for an hour."
+        "notes": "The old-school Knock, which Orsino's catalog lacks, as the SRD's (one door, box or chest; instantaneous): a verb tried on what it is cast at, which the kernel's opening rule answers by the lockwork change already written of it (data/rules/probing.kyr; the owner, 26 November: \"this door opens\" is a verb). It had laid unbarring, lockwork for an hour."
       }
     },
     "comprehend_languages": {

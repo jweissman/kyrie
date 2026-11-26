@@ -2,6 +2,14 @@ Module probing "Trying things: looking closely, prodding, prying, burning, pushi
   Entity looking: verb "looked over closely". Entity prodding: verb "prodded with a pole".
   Entity prying: verb "pried at with a bar". Entity burning: verb "put to the flame".
   Entity pushing: verb "pushed and pulled". Entity listening: verb "listened at".
+  // Opened by art (Knock: `Try opening on it.`; OR-1103): what a lock or bar holds (a change of it needs lockwork)
+  // suits the try, and tried, it is changed as that change changes it, as if its lock were picked. Each lockwork change
+  // already written is reached so, with no author's edit.
+  Entity opening: verb "opened by art".
+  Rule lockwork_suits when changeOf(?c, ?t) and needs(?c, lockwork) and probeable(?t) and not suits(?t, opening) {
+    Assert suits(?t, opening). }
+  Rule opened_by_art when tried(?t, opening) and changeOf(?c, ?t) and needs(?c, lockwork) and changeFrom(?c, ?s)
+    and state(?t, ?s) and changeTo(?c, ?r) { Retract state(?t, ?s). Assert state(?t, ?r). }
   // Anything that can be handled can be tried, in the ways its look suits (and any its author adds); what it does
   // when tried is the author's (an observation, an event, a rule on tried). A try that finds nothing says so;
   // offering it never reveals anything. Something already undone (a trap gone off, a seal broken, a lid off) is not

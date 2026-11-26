@@ -57,15 +57,17 @@ export class AbilityCensus {
     return new Set([...text.matchAll(/Initially Assert elementVerb\((\w+), \w+\)/g)].map(m => m[1]!));
   }
   // What changes what the world lets the company do, or writes a fact of it that its authors answer: a capability
-  // granted, or a thing put to an element's try (tried(webs, burning)).
+  // granted, a thing put to an element's try (tried(webs, burning)), or a verb tried (Knock: tried(door, opening)).
   static changing(): string[] {
     const trying = this.trying();
-    return Content.abilities.filter(a => this.enables(a) || this.exposes(a, trying)).map(a => a.id);
+    return Content.abilities.filter(a => this.enables(a) || this.exposes(a, trying)
+      || a.effects.some(e => e.kind === 'try')).map(a => a.id);
   }
   static reach(): { playable: number; reading: string[]; enabling: string[] } {
     const elements = this.elements();
     const reading = Content.abilities.filter(a => FieldUse.safe(a.id) || FieldUse.hostile(a.id)
-      || FieldUse.carries(a.id) || this.exposes(a, elements) || this.enables(a)).map(a => a.id);
+      || FieldUse.carries(a.id) || FieldUse.looses(a.id) || this.exposes(a, elements) || this.enables(a))
+      .map(a => a.id);
     return { playable: Content.abilities.length, reading, enabling: Content.abilities.filter(a => this.enables(a))
       .map(a => a.id) };
   }

@@ -6683,9 +6683,9 @@ One enemy gains slow for 3 turns (a Dexterity save against 12 + level + the cast
 
 *Kyr · level 2 arcane spell, transmutation* · `ability:knock`
 
-One ally is unbarring for 1 hour. Unbarring: locks open at a touch for a while. An arcane spell of the second level. Takes a second-level slot.
+Try opening on what it is aimed at. An arcane spell of the second level. Takes a second-level slot.
 
-> For an hour, locks and bars open at the caster's touch.
+> A lock or bar the caster points at opens of itself.
 
 ##### Magebane
 

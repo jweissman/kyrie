@@ -304,7 +304,8 @@ export class Canon {
   // What an ability's effects would write to the world before it is used (the effects port's lowering, OR-1101): its
   // harm of an element puts the thing it is cast at to that element's try, where the world says what the element does
   // and the thing suits it (Fire Bolt at the linen: tried(linen, burning)); a condition it lays brings the company what
-  // the condition grants (Comprehend Languages: capable(party, lore)).
+  // the condition grants (Comprehend Languages: capable(party, lore)); a verb it tries is tried (Knock: tried(door,
+  // opening)).
   static lower(effects: readonly Effect[], at: { world: World; actor: string; target: string }): Change[] {
     const w = at.world, call = Canon.call;
     const changes = effects.flatMap(e => {
@@ -314,6 +315,12 @@ export class Canon {
           .map(r => r.args[1]!) : [];
         return verbs.filter(v => w.relates('suits') && w.test(call('suits', at.target, v))
           && !(w.relates('tried') && w.test(call('tried', at.target, v)))).map(v => call('tried', at.target, v));
+      }
+      // A verb tried on what the act names, or on the place (Try opening on it.): what the world's rules for the verb
+      // answer.
+      if (e.kind === 'try') {
+        const on = e.target === 'here' ? w.one('at', at.actor) : at.target;
+        return on && !(w.relates('tried') && w.test(call('tried', on, e.verb))) ? [call('tried', on, e.verb)] : [];
       }
       if (e.kind !== 'apply' || !w.relates('capable')) { return []; }
       return (this.conditionOf(e.status)?.grants ?? []).filter(g => !w.test(call('capable', at.actor, g)))

@@ -20,7 +20,9 @@ export class Exposure {
     if (!used.length) { return after; }
     const place = before.one('at', action.actor);
     if (!place) { return after; }
-    const changes = this.changes(after, { actor: action.actor, place, abilities: used });
+    const target = action.resolve?.name === 'invoke' ? action.resolve.args[2] : undefined;
+    const changes = [...this.changes(after, { actor: action.actor, place, abilities: used }),
+      ...this.tries(after, { place, target, abilities: used })];
     return changes.length ? after.apply(changes) : after;
   }
   // What was used: each ability acted with in a fight, or the spell a field act invokes.
@@ -59,12 +61,23 @@ export class Exposure {
     }
     return changes;
   }
+  // A verb an ability tries (`Try opening on it.`), on what its act names or on the place: tried, for the world's rules
+  // for the verb to answer (the opening rule, data/rules/probing.kyr).
+  private static tries(world: World, at: { place: string; target?: string; abilities: ArenaAbility[] }): Change[] {
+    const call = ModuleWriter.call.bind(ModuleWriter);
+    return at.abilities.flatMap(a => a.effects.flatMap(e => {
+      const on = e.kind !== 'try' ? undefined : e.target === 'here' ? at.place : e.target === 'it' ? at.target : undefined;
+      return on && e.kind === 'try' && !world.test(call('tried', on, e.verb)) ? [{ kind: 'assert' as const,
+        call: call('tried', on, e.verb) }] : [];
+    }));
+  }
   private static verbs(world: World, element: string): string[] {
     return world.relates('elementVerb') ? world.related('elementVerb').filter(r => r.args[0] === element)
       .map(r => r.args[1]!) : [];
   }
-  // Each spell with a harm that lets loose an element a try answers, and the try (`looses(ability, verb)`): what may be
-  // cast at a thing between fights (data/rules/elements.kyr's loose_at).
+  // Each spell with a harm that lets loose an element a try answers, or that tries a verb on what it is cast at (Knock:
+  // `Try opening on it.`), and the try (`looses(ability, verb)`): what may be cast at a thing between fights
+  // (data/rules/elements.kyr's loose_at).
   static looses(module: Module): Change[] {
     const verbs = new Map<string, string[]>();
     for (const c of module.initial) {
@@ -72,9 +85,10 @@ export class Exposure {
         verbs.set(c.call.args[0]!, [...verbs.get(c.call.args[0]!) ?? [], c.call.args[1]!]);
       }
     }
-    if (!verbs.size) { return []; }
-    return Content.abilities.filter(a => !!a.spell).flatMap(a => [...new Set(this.elements(a, module)
-      .flatMap(e => verbs.get(e) ?? []))].map(verb => ({ kind: 'assert' as const,
+    const known = new Set(module.entities.filter(x => x.type === 'verb').map(x => x.id));
+    return Content.abilities.filter(a => !!a.spell).flatMap(a => [...new Set([...this.elements(a, module)
+      .flatMap(e => verbs.get(e) ?? []), ...a.effects.flatMap(e => e.kind === 'try' && e.target === 'it'
+      && known.has(e.verb) ? [e.verb] : [])])].map(verb => ({ kind: 'assert' as const,
       call: ModuleWriter.call('looses', a.id, verb) })));
   }
 }

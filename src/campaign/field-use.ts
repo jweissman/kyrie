@@ -265,7 +265,8 @@ export class FieldUse {
   // may be cast at a thing between fights where the world says what the element does to it (looses, loose_at).
   static looses(id: string): boolean {
     const ability = Content.abilities.find(a => a.id === id);
-    return !!ability?.spell && ability.effects.some(e => e.kind === 'damage' && !!EffectShadows.element(e.damageType));
+    return !!ability?.spell && ability.effects.some(e => (e.kind === 'damage' && !!EffectShadows.element(e.damageType))
+      || (e.kind === 'try' && e.target === 'it'));
   }
   // A spell let loose at a thing between fights (OR-1100): by a named caster who knows it and can cast it now, for the
   // slot it costs in a fight, touching no one; what it lets loose is the world's (Exposure, after the command).

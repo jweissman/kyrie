@@ -2536,7 +2536,25 @@ Nor does a conversation outlast whoever it was with falling, nor their turning o
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 0 | 0 | 0 | 0 | 1 | 7 |
+| 0 | 0 | 0 | 0 | 3 | 7 |
+
+#### lockwork_suits
+
+*Kyr · rule* · `rule:probing.lockwork_suits`
+
+Opened by art (Knock: `Try opening on it.`; OR-1103): what a lock or bar holds (a change of it needs lockwork) suits the try, and tried, it is changed as that change changes it, as if its lock were picked. Each lockwork change already written is reached so, with no author's edit.
+
+> When: changeOf(?c, ?t); needs(?c, lockwork); probeable(?t); not (suits(?t, opening))
+
+> Then: Assert suits(?t, opening).
+
+#### opened_by_art
+
+*Kyr · rule* · `rule:probing.opened_by_art`
+
+> When: tried(?t, opening); changeOf(?c, ?t); needs(?c, lockwork); changeFrom(?c, ?s); state(?t, ?s); changeTo(?c, ?r)
+
+> Then: Retract state(?t, ?s). Assert state(?t, ?r).
 
 #### look closely
 
