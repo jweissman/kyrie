@@ -112,7 +112,9 @@ describe('World › The reference loop', () => {
     const priest = c.module.entities.find(e => e.id === P('priest'))!.name.split(', ')[0]!;
     const heart = c.module.entities.find(e => e.id === P('green'))!.name;
     await to('green'); await to('shrine'); await talk(priest); await act('what lies past the passage-grave');
-    expect(s.scene.lines.join(' ')).toMatch(/a club[^]*Take fire/);
+    // In either order (the halls' dwellers as drawn since OR-1234).
+    expect(s.scene.lines.join(' ')).toContain('a club');
+    expect(s.scene.lines.join(' ')).toContain('Take fire');
     await to('green'); await store(); await act('^Buy a club'); await act('^Buy an oil firebomb');
     // And a coil of rope, for the way down (the club and the bomb spent the purse: a spare axe sold for it).
     await maybe('^Buy a torch'); await maybe('^Sell a battleaxe'); await act('^Buy .*rope');

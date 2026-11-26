@@ -20,7 +20,12 @@ class Search {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     let s = await PlaySession.start(w.path, 'a1', w.source);
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
-    c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w8_barrow_passage') }]));
+    // Whoever lives in the passage taken out of it (a1's grave-robbers since OR-1234), so that the search is the
+    // subject.
+    const room = 'region__w8_barrow_passage', here = s.campaign.world.related('at').filter(r => r.args[1] === room
+      && s.campaign.module.entities.some(e => e.id === r.args[0] && e.type === 'group'));
+    c.commit(c.world.apply([...here.map(r => ({ kind: 'retract' as const, call: ModuleWriter.call('at', ...r.args) })),
+      { kind: 'assert', call: ModuleWriter.call('at', 'party', room) }]));
     await s.leg(PlayerView.choices(s.campaign).find(x => x.choice.name === 'Light a torch')!.choice.id);
     if (left !== undefined) {
       const checkpoint = s.checkpoint();

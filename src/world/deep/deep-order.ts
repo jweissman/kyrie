@@ -18,8 +18,12 @@ export class DeepOrder {
   static lines(layout: DeepLayout, content: DeepContent[], at: { purpose: DeepPurpose; key: string }): string[] {
     const words = (at.purpose as DeepPurpose & { order?: OrderWords }).order;
     const level = content.filter(c => c.room.level === 1), cache = (at.purpose as { cache?: { role: string } }).cache;
-    const free = level.filter(c => !c.dwellers && c.room.role !== cache?.role && !c.wonder);
-    const chest = free.find(c => c.riddle) ?? free.find(c => c.room.y === 1) ?? free[0];
+    // A room with no one in it first; where every room has someone (most rooms below the mouth do: OR-1234), one of
+    // theirs that no elite keeps, the chest to be had once they are dealt with.
+    const open = level.filter(c => c.room.role !== cache?.role && !c.wonder), free = open.filter(c => !c.dwellers);
+    const kept = open.filter(c => !c.dwellers?.elite);
+    const chest = free.find(c => c.riddle) ?? free.find(c => c.room.y === 1) ?? free[0] ?? kept.find(c => c.riddle)
+      ?? kept.find(c => c.room.y === 1) ?? kept[0];
     const frieze = chest && (level.find(c => c !== chest && c.room.y === 1) ?? level.find(c => c !== chest));
     if (!words || !chest || !frieze) { return []; }
     delete chest.riddle;

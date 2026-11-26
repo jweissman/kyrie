@@ -18,6 +18,13 @@ class Delve {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: cls }] });
     return { s: await PlaySession.start(w.path, 'wren', w.source), region: w.report.region as Region };
   }
+  // A band taken out of wherever it is, by its name.
+  static clear(s: PlaySession, name: string) {
+    const c = s.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(w: unknown): void };
+    const ids = new Set(s.campaign.module.entities.filter(e => e.type === 'group' && e.name === name).map(e => e.id));
+    c.commit(c.world.apply(s.campaign.world.related('at').filter(r => ids.has(r.args[0]!))
+      .map(r => ({ kind: 'retract', call: ModuleWriter.call('at', ...r.args) }))));
+  }
   static names(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
   // Takes the first choice whose words match, and says what the player would read after it.
   static async take(s: PlaySession, pattern: RegExp) {
@@ -65,19 +72,22 @@ describe('a deep site, from the inn', () => {
       ScreenModel.build(s.campaign).clock)!.slice(1).map(Number);
     expect((h1! * 60 + m1!) - (h0! * 60 + m0!)).toBeGreaterThan(0);
     expect((h1! * 60 + m1!) - (h0! * 60 + m0!)).toBeLessThan(10);
-    // The scattered coin is only looked at; the glyph across a way is looked at, or prodded from a pace off.
+    // The scattered coin is only looked at; the wire across a way is looked at, or prodded from a pace off (the
+    // crossing's trap is a wire since the deep's draws were keyed by room, OR-1234).
     const names = Delve.names(s);
     expect(names).toContain('Look closely at scattered coins');
     const tried = /^(Prod|Pry at|Hold a flame to|Push and pull at|Listen at) scattered coins/;
     expect(names.filter(n => tried.test(n))).toEqual([]);
     // Called as it is seen until it is understood (CB-19's UNT-109).
-    expect(names).toContain('Prod the shimmering glyph with the pole');
-    expect(names.filter(n => /^(Listen at|Hold a flame to) the (arcane|shimmering) glyph/.test(n))).toEqual([]);
+    expect(names).toContain('Prod the wire across the way with the pole');
+    expect(names.filter(n => /^(Listen at|Hold a flame to) the (trip)?wire/.test(n))).toEqual([]);
   }, 90000);
   it('meets its goblins with words, at the odds the page tells, and a word that goes badly is answered', async () => {
     const { s } = await Delve.start('warrior');
     await Delve.walk(s, [...Delve.inn, /^Ask Fargrim about the old workings$/, ...Delve.road, /^Light a torch$/,
       /^Take the gallery to the crossing$/]);
+    // The wolves that came into the mine with OR-1230 taken out of the crossing: the goblins' words are the subject.
+    Delve.clear(s, 'the wolves');
     const met = /draw back from you and|go still when you come/;
     expect(await Delve.take(s, /^Talk to the goblins$/)).toMatch(met);
     // Each is tried once, whatever comes of it, and says so before it is tried (the audit's SLIP-08).

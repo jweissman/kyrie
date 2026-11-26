@@ -6,6 +6,7 @@ import { ModuleWriter } from '../../../src/lang/module-writer';
 import { ScreenModel } from '../../../src/ui/screen-model';
 import { Situations } from '../../../src/lang/situations';
 import { AsMeant } from '../../support/as-meant';
+import type { CreatureStore } from '../../../src/creature-store';
 import { GoldenWalk } from '../../support/golden-walk';
 
 // The brief's reference journey (BRIEF §3.2; sprint 3), in the supported fixture: Porthalen, Iscoed's first town, and
@@ -62,8 +63,27 @@ class Walk {
     const { journey } = await PlayTool.start(PlayTool.parse(GoldenWalk.args()));
     const walk = new Walk(new Runner(journey.session), journey.session);
     for (const line of GoldenWalk.lines().slice(0, GoldenWalk.opened())) { await AsMeant.ask(walk.r, line); }
+    // The workings' first level's packs of wolves (OR-1230 put them in the mine, and they go about it, and newcomers
+    // come to it from beyond) and the crossing's charge and rats taken out of it: the loop is the subject, and a
+    // careful first life worn by three ways down falls to them.
+    for (const room of ['mouth', 'shaft_head', 'crossing', 'beyond']) { walk.clear(`region__s1_ud_adit_${room}`); }
     walk.s = walk.r.said('look');
     return walk;
+  }
+  // Whoever lives in a room taken out of it.
+  clear(room: string): void {
+    const c = this.session.campaign as unknown as { world: { apply(c: unknown[]): unknown }; commit(x: unknown): void };
+    const here = this.session.campaign.world.related('at').filter(r => r.args[1] === room
+      && this.session.campaign.module.entities.some(e => e.id === r.args[0] && e.type === 'group'));
+    c.commit(c.world.apply(here.map(r => ({ kind: 'retract', call: ModuleWriter.call('at', ...r.args) }))));
+    // And gone for good, so that none of them comes back to the room or goes about the level.
+    const members = here.flatMap(r => this.session.campaign.readout.inhabitants[r.args[0]!] ?? []);
+    const store = (this.session.campaign as unknown as { creatures: CreatureStore }).creatures;
+    const lease = store.acquire(members);
+    try {
+      for (const k of lease.creatures) { k.state.hp = 0; }
+      lease.commit(lease.creatures);
+    } finally { lease.release(); }
   }
   holds(name: string, ...args: string[]): boolean {
     return this.session.campaign.world.test(ModuleWriter.call(name, ...args));

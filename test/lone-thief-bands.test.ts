@@ -60,7 +60,9 @@ describe('a first-level thief alone against the bands away from a town', () => {
     expect(won).toBeGreaterThanOrEqual(0.33);
     expect(won).toBeLessThanOrEqual(0.5);
     const fights = stand.filter(b => FirstHourBands.median(b.rounds) > 0);
-    expect(fights.filter(b => b.won * 10 >= b.trials * 8).length).toBeLessThanOrEqual(10);
+    // Few of them hers for the taking: a fifth at most (10 of 49 had been the ceiling; 11 of 62 since the deep holds
+    // more bands, OR-1230 to OR-1234).
+    expect(fights.filter(b => b.won * 10 >= b.trials * 8).length).toBeLessThanOrEqual(fights.length / 5);
     expect(sum(careful, 'fled') / sum(careful, 'trials')).toBeGreaterThanOrEqual(0.2);
     expect(sum(careful, 'fell')).toBeLessThan(sum(stand, 'fell') * 0.75);
   });

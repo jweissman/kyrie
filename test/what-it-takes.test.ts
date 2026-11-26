@@ -32,6 +32,12 @@ class Barrow {
     c.commit(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', `region__${place}`) },
       { kind: 'retract', call: ModuleWriter.call('unlit', `region__${place}`) }]));
   }
+  // Takes a room's dwellers out of it, so that what is told there is not a fight's.
+  static clear(s: PlaySession, ...ids: string[]) {
+    const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
+    c.commit(c.world.apply(ids.map(id => ({ kind: 'retract' as const,
+      call: ModuleWriter.call('at', `region__${id}`, `region__${id.replace(/_dwellers(_beside)?$/, '')}`) }))));
+  }
   static names(s: PlaySession) { return PlayerView.choices(s.campaign).map(c => c.choice.name); }
   // Every choice the page offers, those opened under others too.
   static every(cs: Choice[]): Choice[] { return cs.flatMap(c => [c, ...Barrow.every(c.children ?? [])]); }
@@ -67,36 +73,40 @@ describe('what it takes, as the page tells it', () => {
   it('says where a trap\'s way goes, and once the trap is understood, what it would do to whoever goes first', async () => {
     const s = await Barrow.start();
     // Called by what is seen of it until it is understood (CB-19's UNT-109), then by what it is.
-    const blind = /^Risk the carved wall on the way to the hall of the bones; Wenna goes first/;
-    const risk = /^Risk the hidden switch on the way to the hall of the bones; Wenna goes first/;
-    Barrow.put(s, 'w8_halls_stair_foot');
+    // a1's carved wall stands on the way from the long gallery to the embalmers' room (as the deep's draws are keyed
+    // by room since OR-1234), and the gallery's zombies are taken out of it, so that looking is not a fight.
+    const blind = /^Risk the carved wall on the way to the embalmers' room; Wenna goes first/;
+    const risk = /^Risk the hidden switch on the way to the embalmers' room; Wenna goes first/;
+    Barrow.clear(s, 'w8_halls_gallery_dwellers', 'w8_halls_gallery_dwellers_beside');
+    Barrow.put(s, 'w8_halls_gallery');
     expect(Barrow.names(s).find(n => blind.test(n))).toBe(
-      'Risk the carved wall on the way to the hall of the bones; Wenna goes first');
+      'Risk the carved wall on the way to the embalmers\' room; Wenna goes first');
     await Barrow.take(s, /^Look closely at the carved wall$/);
-    expect(Barrow.names(s).find(n => risk.test(n))).toMatch(/goes first · it could kill$/);
+    expect(Barrow.names(s).find(n => risk.test(n))).toMatch(/goes first · it would hurt badly$/);
     expect(Barrow.wanting(s)).toContain(
       'Push the switch in with the pole\'s end, standing clear: Needs a ten-foot pole, and the company has none.');
   }, 60000);
   it('says the bats are here, as it says the goblins are', async () => {
     const s = await Barrow.start();
-    Barrow.put(s, 'w8_barrow_chamber');
+    // a1's bats roost in the light-box now (the deep's draws keyed by room since OR-1234), swift ones.
+    Barrow.put(s, 'w8_barrow_vent');
     // The bats are told of with whatever else is there (the barrow keeps a phylactery among them, some countries).
     const presence = Narrator.leaf(s.campaign, ScreenModel.build(s.campaign)).presence;
-    expect(presence.some(l => /\bthe bats\b/i.test(l))).toBe(true);
+    expect(presence.some(l => /\bthe (swift )?bats\b/i.test(l))).toBe(true);
   }, 60000);
   it('tells a sale as a sale, not as setting the thing down', async () => {
     const s = await Barrow.start();
     Barrow.put(s, 'w8_barrow_mouth');
-    await Barrow.take(s, /^Collect a jade idol for Wenna$/);
+    await Barrow.take(s, /^Collect a simple ring for Wenna$/);
     Barrow.put(s, 's1_shop');
     // What it fetches is said before it is sold (the follow-up review sold a lamp and learned the price after).
     const offered = Barrow.every(SceneModel.build(ScreenModel.build(s.campaign)).subjects.flatMap(x => x.choices))
-      .find(c => c.label === 'Sell a jade idol');
+      .find(c => c.label === 'Sell a simple ring');
     const coin = () => s.campaign.world.number(ModuleWriter.call('quantity', 'party', 'gold')), before = coin();
-    const told = await Barrow.take(s, /^Sell a jade idol to Mik$/);
+    const told = await Barrow.take(s, /^Sell a simple ring to Mik$/);
     expect(offered?.note).toStartWith(`${coin() - before} coin`);
     // And says what it paid (cold play 2, CL-06).
-    expect(told).toContain(`Mik looks a jade idol over and pays you ${coin() - before} coin for it.`);
+    expect(told).toContain(`Mik looks a simple ring over and pays you ${coin() - before} coin for it.`);
     expect(told).not.toContain('set down');
   }, 60000);
   it('lets what waits in the next room be heard before the company is in it', async () => {
@@ -104,7 +114,7 @@ describe('what it takes, as the page tells it', () => {
     Barrow.put(s, 'w8_halls_bone_hall');
     const heard = () => PlayerView.observe(s.campaign).observations.map(o => o.text).join(' ');
     expect(heard()).toContain('From the ossuary comes a sound you do not like at all');
-    expect(heard()).toContain('Something is moving about in the mourners\' hall');
+    expect(heard()).toContain('From the mourners\' hall comes a cold you can feel on your face');
     // What falls on whoever comes in is heard as what it is: the ghouls of the long gallery are no breathing beast
     // (the follow-up review met a banshee with breathing for its warning).
     expect(heard()).toContain('From the long gallery comes a cold you can feel on your face');
