@@ -1,0 +1,141 @@
+Module overexall "Over Exall" {
+  Relation peatReleased(group). Relation warmed(group). Relation fed(group). Relation unburdened(group).
+  Relation aboard(group). Relation saleyHeld(group). Relation spiked(group). Relation struck(group).
+  Relation lettyLeave(group). Relation moss_taken(group). Relation barbelSeen(group). Relation risingTold(group).
+  Measure low(). Measure lifted(). Measure calmUntil(). Measure liftedDay().
+  Relation saleyShamed(group).
+
+  Kind oe_liquor "a cask of Marta's tan-liquor" is treasure worth 1 weighing 3 described "A small cask, hooped with willow, that you carry at arm's length. The smell is of oak-bark, old lime and thirty years of other people's opinions.".
+  Kind oe_leaven "a crock of the Old Leaven" is treasure worth 1 weighing 2 described "A crock with a muslin cap, warm to the hand. Under the cloth something grey and sour is slowly, steadily thinking.".
+  Kind oe_bar "Saley's cutting-bar" like crowbar described "A forged bar as long as an arm, chisel-ended, with a small cloud stamped in the haft and the tip worn bright. It is cold and very clean.".
+  Kind oe_lamp "a jar of lamp-moss" like lantern described "Brass-coloured moss in a stoppered jar. At dusk it begins to glow, steadily, like a shaded lamp, and a pale jelly the size of a thumb hangs in the air above the stopper, drifting in one direction.".
+
+  Query rose() means lifted() >= 2 and liftedDay() > 0 and (day(clock) > liftedDay() + 1 or (day(clock) == liftedDay() + 1 and hour(clock) >= 6)).
+  Query dawn4() means day(clock) >= 5 or (day(clock) == 4 and hour(clock) >= 6).
+  Query calm() means calmUntil() > 0 and watch(clock) < calmUntil() or aboard(party).
+
+  // ── The sinking ───────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule sinks_1 heard within brack when day(clock) == 1 and hour(clock) >= 18 and low() == 0 and lifted() < 2 once says "At dusk the Lodger settles. A house-height, no more. Every chimney-pot in Exall clinks, once, together." { Set low() to 1. }
+  Rule sinks_2 heard within brack when day(clock) == 2 and hour(clock) >= 18 and low() == 1 and lifted() < 2 once says "At dusk the Lodger settles again, and the washing on the High Street's lines lifts and drops. Something in the town's roofs gives, with a sound like a cough." { Set low() to 2. }
+  Rule sinks_3 heard within brack when day(clock) == 3 and hour(clock) >= 18 and low() == 2 and lifted() < 2 once says "At dusk the Lodger comes down on the highest roofs. Tiles slide off Judith Thord's and go in the street one at a time, politely." { Set low() to 3. }
+  Rule lift_marked_day when lifted() >= 2 and liftedDay() == 0 and hour(clock) >= 6 { Set liftedDay() to day(clock). }
+  Rule lift_marked_night when lifted() >= 2 and liftedDay() == 0 and hour(clock) < 6 { Set liftedDay() to day(clock) - 1. }
+  Rule lift_told heard within brack when lifted() >= 2 and not risingTold(party) once says "Over Exall the belly goes taut. Every pot in the town rises a half-tone. Nobody says anything, and the Lodger does not go yet, but the roofs have stopped ticking, and the chimney-smoke has begun to go up and not flatten." { Assert risingTold(party). Set low() to 0. }
+
+  // ── The Lodger ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing lodger "the Lodger" at cross {
+    Wonder natural unique for aesthetic, spiritual, scientific "From the Cross the whale is a ceiling: a slate-grey belly furrowed in long pleats, each pleat the width of a cart, wet and warm. A single eye, shut, is visible far up where the chin lies on the spire. When it breathes out, a rain comes down in the shape of the breath.".
+    State hanging "The Lodger hangs over the town, its lip on the steeple.".
+    Tries listening.
+  }
+  Observe lodger_listen near lodger when tried(lodger, listening) "You stand under it and listen. It is like a cathedral organ played at the bottom of the sea. Under the hum is a slow double beat, a heart the size of a cart-horse, and every seventh beat something answers it from a great distance." teaches lodger_known.
+
+  // ── The night visit: the Pits ──────────────────────────────────────────────────────────────────────────────────
+  Rule barbel_comes heard at row when at(party, row) and dark() and hour(clock) >= 23 and not barbelSeen(party)
+    says "A shadow comes down the Row out of the roof of the sky. It is a barbel as thick as a mainmast, grey and shining, lowering itself as delicately as a heron lowers a foot. It passes along the racks without touching the finished leather. It stops at the rankest hide on the end rack, the one still green with lime, and takes it up the way you take a pea from a pod. Then it goes up into the dark, and the pits drip, and the night is as it was."
+    again "The barbel comes down the Row again, delicately, and takes the green hide again, and goes up. Marta Hord is in her doorway with a candle. She does not say anything."
+    teaches barbel_known { Assert barbelSeen(party). }
+  Rule barbel_clears when hour(clock) == 7 and barbelSeen(party) { Retract barbelSeen(party). }
+  Observe barbel_rank at row as sign when knows(party, barbel_known) "The green hide on the end rack is gone each morning. The finished leather has never been touched." teaches rank_known.
+
+  // ── The bell ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Rule steeple_opens when lettyLeave(party) and state(steeple_lock, chained) { Assert state(steeple_lock, open). }
+  Thing steeple_lock "the chain on the steeple door" on steeple_stair {
+    State chained blocking "A bell-rope has been chained through the steeple door's ring and knotted. Letty Forne has chalked on the door: NOT NOW.".
+    State open "The steeple door stands open on the stair.".
+    Change slip "Slip the chain off the steeple door" from chained to open needing lockwork.
+  }
+  Action ring_bare(actor: group) "Strike the hour on the bare bell" {
+    Requires able(actor) and company(actor) and at(actor, bell_chamber) and calmUntil() < watch(clock) + 1.
+    Time 10 minutes.
+    On success { Set calmUntil() to watch(clock) + 36. }
+    Result "You pull off the fleece and the felt. The clapper hangs a moment in the dark. Then you let it fall, and the bell says its one word through the tower and into the whale. For a long breath nothing at all. Then from very far above, a third below, something hums back, long and low, and the stone under your feet goes warm.".
+  }
+  Observe bell_calm at bell_chamber when calm() "The hum is still in the louvres, a held note, like a hand on a flank.".
+  Observe bell_answer at bell_chamber as sign when calm() "It is answering. It is not dead." teaches answer_heard.
+
+  // ── The ladder ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Hazard gust "A gust on the Lodger's lip" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
+  Thing wind "the wind on the rope ladder" on lip_ladder from ledge {
+    State gusting dangerous "The rope ladder goes up the lip into the wind, and slaps the stone like a flag. A gust is working at it from above.".
+    State lashed "The ladder's foot is lashed to the weathercock's stump, and hangs quiet. The wind goes over it.".
+    Change lash "Lash the ladder's foot to the spire" from gusting to lashed needing rope.
+    Hurts with gust when gusting then gusting.
+  }
+
+  // ── The back ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing moss "the lamp-moss" at back {
+    Wonder natural rare for aesthetic, scientific "Where the sun has been on the moss for an hour the tips give a soft light of their own. Out of it the jellies rise in the warmth, pale hats the size of a head, and hang, and all drift the same way. When one crosses your face it is as cool and as weightless as a thought you were just about to have.".
+    State growing "Brass-coloured moss grows in drifts across the skin, ankle-deep, and glows faintly where it is trodden.".
+    Tries listening.
+  }
+  Observe moss_listen near moss when tried(moss, listening) "Close to the skin the moss makes a sound like a great many people breathing in their sleep. The jellies sing, one note each, so that walking through them is a chord." teaches lodger_known.
+  Action gather_moss(actor: group) "Fill a jar with lamp-moss" {
+    Requires able(actor) and company(actor) and at(actor, back) and not moss_taken(party).
+    Time 10 minutes.
+    On success { Give oe_lamp to actor. Assert moss_taken(party). }
+    Result "You scoop moss into a jar and stopper it. The jellies above it turn, all together, and watch you do it, and then go on drifting.".
+  }
+
+  // ── The iron ──────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing iron "the old harpoon head" at shoulder {
+    State fast "At the seam of the shoulder a harpoon head is sunk in the skin, so old that a hide of scar has grown over its barbs. It is the size of a spade, black, rotten with rust. A small cloud is stamped in the socket, and under it: S.O. CLOUDGATE.".
+    State free "The old harpoon head lies on the skin, bright where the bar went in. Under it the wound is pink and clean, and the whole shoulder shudders with a long breath.".
+    Change cut "Cut the old iron out of the Lodger's shoulder" from fast to free needing crowbar or oe_bar when calm() "The Lodger flinches at every touch of the iron. It must be quieted first.".
+    Tries looking.
+  }
+  Observe iron_seen near iron as sign when state(iron, fast) "The stamp is a maker's mark, twenty years old at most." teaches iron_known.
+  Rule iron_cut when state(iron, free) and not unburdened(party) { Assert unburdened(party). Increase lifted() by 1. }
+
+  // ── The feeding and the fire ──────────────────────────────────────────────────────────────────────────────────────
+  Action feed_lodger(actor: group) "Pour the liquor and the leaven down the Lodger's lip" {
+    Requires able(actor) and company(actor) and at(actor, ledge) and holding(actor, oe_liquor) and holding(actor, oe_leaven) and not fed(party).
+    Time 30 minutes.
+    On success { Spend oe_liquor from actor. Spend oe_leaven from actor. Assert fed(party). Increase lifted() by 1. }
+    Result "You tilt the cask over the lip, and the liquor goes down the grey fold in a brown rope. You break the crock after it, and the Old Leaven goes with it, two hundred years of a family's bread, into the dark. For a moment nothing. Then the whole lip opens, delicately, like a hand around a coin. The eye does not open. A very long breath goes out over the town, and it smells of bread.".
+  }
+  Action light_fire(actor: group) "Light the Long Fire" {
+    Requires able(actor) and company(actor) and at(actor, cross) and knows(actor, fire_known) and peatReleased(party) and hour(clock) >= 17 and not warmed(party).
+    Time 60 minutes.
+    On success { Assert warmed(party). Increase lifted() by 1. }
+    Result "You do it as Dorcas said: every hearth, every door open, every chimney swept. Gideon Tolt carries the first sod himself and sets it in the Cross's brazier. Down the High Street, doors fly open, and one chimney, then six, then the whole town, begins to smoke. The smoke goes up under the Lodger in a hundred columns, and the belly above the Cross lights a dull red from beneath, like a lantern with a hand round it.".
+  }
+  Observe fire_lit at cross as sign when warmed(party) "The hearths of Exall are all lit, and every door in the town stands open. The smoke goes straight up under the belly, and the belly takes it.".
+
+  // ── Dorcas goes up ────────────────────────────────────────────────────────────────────────────────────────────────
+  Action hand_dorcas(actor: group) "Help Dorcas Holle across the Lodger's lip" {
+    Grave "Dorcas goes up with the Lodger, and does not come down when the town does.".
+    Requires able(actor) and company(actor) and at(actor, ledge) and following(dorcas, actor) and not aboard(party).
+    Time 20 minutes.
+    On success { Retract following(dorcas, actor). Assert at(dorcas, shoulder). Assert aboard(party). }
+    Result "She comes over the lip on your arm and a rope, in her good coat, with her handkerchief in her teeth. On the skin she stands and does not say anything. Then she takes the handkerchief out of her mouth, and kneels, and puts her palm flat on the Lodger, as one does on a horse. A long way along the spine, something huge takes a breath it was holding.".
+  }
+
+  // ── Saley's iron ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Action argue_saley(actor: group) "Argue Captain Saley out of her shot" {
+    Speaker saley.
+    Requires able(actor) and company(actor) and at(actor, field) and at(saley, field) and not saleyHeld(party) and not struck(party).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert saleyHeld(party). }
+    Result "Saley hears you out with her tea going cold in her hand. 'Arithmetic is arithmetic,' she says at last. 'But I can do it again at dawn on the fourth day as easily as at dusk on the third. Dawn, then. And not a minute after.'".
+    Otherwise "Saley pours you more tea. 'No,' she says, kindly. 'Though it was nearly good.'".
+  }
+  Action spike_gun(actor: group) "Spike the harpoon gun while Saley is at her kettle" {
+    Requires able(actor) and company(actor) and at(actor, field) and not spiked(party) and not saleyHeld(party) and not struck(party).
+    Time 10 minutes.
+    Resolve check(actor, trapwork, dc_hard).
+    On success { Assert spiked(party). Retract tolerates(saley, actor). }
+    Result "You put a nail in the breech, and a second in the sear, and walk off with your hands in your pockets. It will be an afternoon before she finds it, and a good deal longer before she forgives it.".
+    Otherwise "The tripod clanks. 'Don't,' says Saley, without turning round.".
+  }
+  Rule saley_fires heard within brack when day(clock) == 3 and hour(clock) >= 19 and lifted() < 2 and not saleyHeld(party) and not spiked(party) and not struck(party) once
+    says "At dusk on the third day, as she said she would, Captain Saley of Cloudgate lays her cheek to the stock of the gun on the Windlass Field and puts a harpoon the length of a mast into the Lodger's flank behind the eye. For a long, long moment the whole town hears it breathe. Then the breath goes out of it, and it does not come back." { Assert struck(party). }
+  Rule saley_fires_late heard within brack when dawn4() and lifted() < 2 and saleyHeld(party) and not saleyShamed(party) and not struck(party) once
+    says "At dawn on the fourth day, as she said she would, Captain Saley lays her cheek to the stock of the gun, and the Lodger breathes out for the last time." { Assert struck(party). }
+  // ── What the town says after ──────────────────────────────────────────────────────────────────────────────────────
+  Rule after_marta heard within brack when rose() and liquorGiven(party) once says "Marta Hord has been seen at the Cross at noon, bareheaded, being thanked by people who have not spoken to her in forty years. She takes it badly, and is extremely pleased." { }
+  Rule after_elley heard within brack when rose() and leavenGiven(party) once says "Perrin Elley has halved the Old Leaven, and feeds both halves at dawn and dusk. The sign at his door says SKYLOAF, and under it, in smaller letters, A GIFT." { }
+  Rule after_tolt heard within brack when rose() and peatReleased(party) once says "Gideon Tolt has cut the town's turf by lantern since Michaelmas. He says it is a miserable business, and that nobody has died of it." { }
+  Rule after_spiked heard within brack when rose() and spiked(party) once says "Captain Saley has found the nails in her gun. She is on the Edge road with her kite folded, and does not look at the town as she goes." { }
+}
