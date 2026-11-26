@@ -111,19 +111,20 @@ export class Tactics {
     return score + Tactics.surer(ability, actor, target) - (ability.cost ?? 0);
   }
   // How much surer a power's harm is to fell the one it is aimed at than the actor's own blow would be, in the
-  // score's tens: the chance that it lands (a blow's d20 against what the SRD's to-hit needs; a power with no attack
-  // roll lands, its save for half halving its harm half the time) by how much of what they have left its mean harm
-  // takes. A blow is the measure, so it scores nothing over itself and nothing changes for one who only strikes; a
-  // power that kills where a blow might miss outscores it by more than its slot (the World agent's ladder under
-  // Porthalen: a mage of four hit points, given Siphon Life, swung her staff at two rats of one and died to them, the
-  // blow and the spell scoring alike before the slot's cost, so that the spell lost by one). Only whole tenths surer
-  // count, and never less than nothing: a raiser's 1d4 cantrip at a warrior of 33 had come out a tenth surer than its
-  // knife by rounding, tied its slot, and was cast every turn its scald was not (test/interior-walk).
+  // score's tens: the chance that it lands (a blow's d20 against what the SRD's to-hit needs; a touch's own odds; a
+  // power with no attack roll lands, its save for half halving its harm half the time) by how much of what they have
+  // left its mean harm takes. A blow is the measure, so it scores nothing over itself and nothing changes for one who
+  // only strikes; a power that kills where a blow might miss outscores it by more than its slot (the World agent's
+  // ladder under Porthalen: a mage of four hit points, given Siphon Life, swung her staff at two rats of one and died
+  // to them, the blow and the spell scoring alike before the slot's cost, so that the spell lost by one). Only whole
+  // tenths surer count, and never less than nothing: a raiser's 1d4 cantrip at a warrior of 33 had come out a tenth
+  // surer than its knife by rounding, tied its slot, and was cast every turn its scald was not (test/interior-walk).
   private static surer(ability: ArenaAbility, actor: Fighter, target: Fighter): number {
     if (actor.team === target.team || target.hp <= 0) { return 0; }
     const harm = ability.effects.filter(e => e.kind === 'damage' || e.kind === 'drain');
     if (!harm.length || ability.effects.some(e => e.kind === 'attack')) { return 0; }
-    const power = Math.min(1, harm.reduce((n, e) => n + Tactics.fells(ability, e, actor, target.hp), 0));
+    const power = Math.min(1, harm.reduce((n, e) => n + Tactics.fells(ability, e, actor, target.hp)
+      * AbilityUse.touchChance(e, actor, target), 0));
     return Math.max(0, Math.floor(10 * (power - Tactics.blow(actor, target))));
   }
   // How much of what one has left a power's harm takes on the average, its save weighed in.
