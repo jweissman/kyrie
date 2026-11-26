@@ -233,7 +233,7 @@ this help the player forget the interface and become interested in what happens 
   metadata and tables) and `scenarios/` (specific adventures and stories), with a small global part for rule modules
   and catalogs. It is researched before anything moves.
 - **Orsino:**
-  - `data/catalog/orsino/` is generated (`bun bin/orsino-registry.ts catalog`);
+  - `data/catalog/orsino/` is generated (`bin/kyrie orsino catalog`);
   - a hand entry may replace a generated one only by naming the same `source.orsino`;
   - the coverage report is generated (`report`) and a spec fails when it is stale.
 - **Handbooks** (PHB, DMG, MM) are generated audit instruments. Run `bin/kyrie handbook` after catalog or rule edits.
