@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionWriter } from '../../src/world/region-writer';
 import { ReferenceSettlement } from '../../src/world/reference-settlement';
+import { Canon } from '../../src/canon/canon';
 
 // The reference game's settlement (the owner, 25 November: doc/design/direction-2026-11-25-reference-game.md §2;
 // register OR-611). The first town of a forest country, the terrain the first country draws most often (16 of 40
@@ -39,6 +40,12 @@ describe('the reference game\'s settlement', () => {
     // Trader 1 sells provisions, light and arms, and buys valuables; Trader 2 buys what is gathered.
     const person = (id: string) => new RegExp(`^\\s*Person ${id} [^\\n]*`, 'm').exec(text)![0];
     expect(person(`${t}_merchant`)).toMatch(/Sells rations .* Sells torch .* Sells spear /);
+    // And a dearer shelf, the economy's first rung (OR-1127): each at its catalog worth, beyond a start's purse.
+    for (const [what, fee] of ReferenceSettlement.dearer) {
+      expect(person(`${t}_merchant`)).toContain(`Sells ${what} for ${fee} coin from 1.`);
+      expect(Canon.items[what]?.value).toBe(fee);
+      expect(fee).toBeGreaterThanOrEqual(30);
+    }
     expect(text).toContain(`Initially Assert buysValuables(${t}_merchant).`);
     expect(person(`${t}_innkeeper`)).toMatch(/Buys herbs for \d+ coin/);
     expect(person(`${t}_priest`)).toMatch(/Offers lodging .* Offers healing /);

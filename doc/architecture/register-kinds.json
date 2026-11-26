@@ -2947,12 +2947,6 @@
    "pri": "P2",
    "why": "a slice of OR-1124"
   },
-  "OR-1127": {
-   "kind": "requirement",
-   "was": "defect",
-   "pri": "P2",
-   "why": "a slice of OR-1124"
-  },
   "OR-1128": {
    "kind": "requirement",
    "was": "defect",
@@ -3006,6 +3000,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "the owner's direction of 26 November, kept whole"
+  },
+  "OR-1210": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1124, split from OR-1127"
   }
  },
  "blockedBy": {

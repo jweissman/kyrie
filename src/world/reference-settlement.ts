@@ -63,6 +63,12 @@ export class ReferenceSettlement {
   static readonly arms: [string, number, number][] = [['dagger', 2, 2], ['club', 1, 2], ['spear', 2, 2],
     ['javelin', 1, 4], ['sling', 1, 2], ['handaxe', 6, 1], ['shortbow', 15, 1], ['hide_armor', 10, 1],
     ['leather', 12, 1]];
+  // Trader 1's dearer shelf, the economy's first rung (OR-1124, OR-1127; the owner, 26 November: "an economy that can
+  // only support 200 gold in purchases is not a serious adventuring economy"): what a company saves a trip or two below
+  // for, at the catalog's worth (Canon.items), one of each. The rest of the store is had from the start's purse; these
+  // are two to four times it, a reason to go down and come back.
+  static readonly dearer: [string, number, number][] = [['longbow', 30, 1], ['greatsword', 30, 1], ['scale', 40, 1],
+    ['healing_potion', 40, 1], ['chainmail', 50, 1], ['banded', 60, 1]];
   // Trader 2's: what the country gives (the settlement's own trade's stock) and the woods' remedies.
   static readonly remedies: [string, number, number][] = [['herbs', 1, 4], ['yarrow_poultice', 2, 2],
     ['antidote', 3, 2], ['minor_healing_potion', 18, 1]];
@@ -116,7 +122,7 @@ export class ReferenceSettlement {
     const q = JSON.stringify, t = s.id;
     return `  Person ${t}_merchant ${q(s.merchant)} at ${t}_shop { Role "keeper of the store at ${s.name}, who sells what the woods`
       + ` ask for and buys what comes out of them". ${SettlementWriter.of(s, 'merchant', region)}`
-      + ` Peaceable.${SettlementWriter.pronoun(s, 'merchant', f)} ${this.sells([...this.provisions, ...this.arms])}`
+      + ` Peaceable.${SettlementWriter.pronoun(s, 'merchant', f)} ${this.sells([...this.provisions, ...this.arms, ...this.dearer])}`
       + ` Buys grave_rings for 8 coin. Buys chapel_plate for 12 coin. }\n`
       + `  Initially Assert buysValuables(${t}_merchant). Initially Set purse(${t}_merchant) to 600.`
       + ` Initially Set quantity(${t}_merchant, gold) to 600.${RegionShops.dealsIn(`${t}_merchant`, 'general')}`
