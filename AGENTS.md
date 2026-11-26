@@ -208,8 +208,12 @@ this help the player forget the interface and become interested in what happens 
   - Situations come from a varied repertoire, not shallow errands (OR-310, OR-311).
   - Danger is genuine. Roads carry a little. Fights are dense in specific, easy-to-find combat places, which quests
     send the company back to periodically and which reward expedition after expedition.
-- **The conversation page** (the speaker's painting large, the dialogue beside it) is the one page rated right; keep
-  it. Conversation is moving toward one scrolling page, then engine-owned dialectic (OR-149, OR-165).
+- **The conversation page** (the speaker's painting large, the dialogue beside it) is not yet right, in design or in
+  play (the owner, 26 November). Its composition is borrowed from the old masters' portraits and the space given them,
+  and it looks broken where there is no portrait. Make the most of the corpus before commissioning: a painting for
+  nearly everyone met, chosen by profession, since portraits show callings, not named people. A commission is for a
+  calling the corpus lacks (a ringleader for Gosse), not for a named person. Conversation is moving toward one
+  scrolling page, then engine-owned dialectic (OR-149, OR-165).
 - **Nothing floats over text** (the owner, 24 November): the frame reserves the menu column and no content runs under
   it. Transparency is used very sparingly, never where it makes words unreadable ("it just looks cheap").
 - **Themes are set globally:** a theme is an engine hint for a whole application of the page (the backstage, the
