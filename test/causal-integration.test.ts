@@ -108,7 +108,7 @@ it('resolves source-only hazards without synthetic creatures and rejects creatur
 it('preserves a timed spell through field use and consumes its duration only at combat-round boundaries', () => {
   const content = new Content('ward');
   const hero = content.createCreature('hero', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level: 3,
-    spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'] });
+    spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'] });
   const enemy = content.createCreature('enemy', { raceId: 'goblin', classId: 'thief' });
   Spellcasting.prepare(hero.state, 1, 'prayer', 'resist_fire');
   const store = new CreatureStore([hero, enemy]);

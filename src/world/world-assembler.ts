@@ -84,7 +84,7 @@ export class WorldAssembler {
     { name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' },
     { name: 'Bran', raceId: 'human', classId: 'warrior', backgroundId: 'locksmith', traits: ['toughness'] },
     { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic', traits: ['vitalist'],
-      spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'] }];
+      spells: ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'] }];
   static assemble(...a: Parameters<typeof WorldAssembler.built>) { return Costs.timed('world', () => this.built(...a)); }
   private static async built(seed: string, base: BundleSource, options: {
     library?: string; scenarios?: number; towns?: number; region?: Record<string, DeemValue>;

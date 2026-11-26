@@ -98,7 +98,7 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
   it('gives a cleric its domain cantrips and the spells it picks, gated by ⌈level / 2⌉, as Orsino does', () => {
     expect(Canon.classes.cleric!.specializations).toContain('vitalist');
     expect(Canon.classes.cleric!.specializations).toHaveLength(12);
-    const picks = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'];
+    const picks = ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'];
     const novice = Probe.creature('novice', { classId: 'cleric', raceId: 'dwarf', traits: ['vitalist'], spells: picks });
     expect(novice.base.abilities).toEqual(['defend', 'cure_minor', 'sanctify', ...picks]);
     // The SRD's abjuration beside Life since srd-proving-cases.md case 38.
@@ -108,7 +108,7 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
     const plan = SpellSelection.plan(Canon.traits.vitalist!);
     expect(plan.levels.map(l => l.count)).toEqual([3, 2, 1]);
     expect(() => Probe.creature('greedy', { classId: 'cleric', raceId: 'dwarf', traits: ['vitalist'],
-      spells: ['cure', 'bless', 'anoint', 'remove_fear', 'prayer', 'resist_fire', 'cure_moderate'] }))
+      spells: ['cure', 'bless', 'anoint', 'remove_fear', 'prayer', 'resist_fire', 'cure_serious'] }))
       .toThrow('choose 3 level-1 spells');
     expect(() => Probe.creature('wrong', { classId: 'thief', raceId: 'human', traits: ['vitalist'] }))
       .toThrow('cannot specialize as vitalist');
@@ -138,7 +138,7 @@ describe('4-6: classes, specializations, backgrounds, feats, spells and traits',
 
   it('treats a spell and a passive trait as different things with the same modifier vocabulary', () => {
     const elder = Probe.creature('elder', { classId: 'cleric', raceId: 'dwarf', traits: ['vitalist'], level: 3,
-      spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_moderate'] });
+      spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'] });
     const ally = Probe.creature('ally', { classId: 'warrior', raceId: 'human', traits: ['brave'] });
     Spellcasting.prepare(elder.state, 1, 'prayer', 'resist_fire');
     const { recipient } = Probe.cast(elder, 'resist_fire', ally);

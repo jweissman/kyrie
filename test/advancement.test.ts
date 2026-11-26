@@ -38,7 +38,7 @@ describe('advancement', () => {
   });
   it('a level rolls the hit die, adds Constitution, and moves a caster\'s slot table on, the same way every time', () => {
     const make = () => new Content('train').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'],
-      spells: ['cure', 'bless', 'anoint', 'prayer', 'minor_restoration', 'cure_moderate'], wisdom: 14 });
+      spells: ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'], wisdom: 14 });
     const dori = make(), hp = dori.base.maxHp;
     dori.state.experience = 3000;
     const events = Advancement.train(dori, 'seed');

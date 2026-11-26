@@ -7883,6 +7883,16 @@ Every enemy is blinded for 3 turns (a Dexterity save against 15 + level + the ca
 
 *Not playable — effects: No effect Kyr can execute.*
 
+##### Cure Moderate Wounds
+
+*Adapted · level 2 divine spell, conjuration, life domain* · `ability:cure_moderate`
+
+Heal one ally for 2d8 + 1 per caster level, to 10. A divine spell of the second level. Takes a second-level slot.
+
+> Bind moderate wounds: 2d8, and a point for every level you have, to ten.
+
+*Adapted: The SRD's Cure Moderate Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): second level, 2d8 and a point a casting level, to 10 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's third level and 2d8, the same at every level.*
+
 ##### Death Ward
 
 *Faithful · level 2 divine spell, life domain* · `ability:death_ward`
@@ -8053,15 +8063,15 @@ End disease on one ally. A divine spell of the third level. Takes a third-level 
 
 *Adapted: The SRD's Remove Disease (doc/architecture/mission-22/srd-proving-cases.md, case 42): third level, its school conjuration beside Life, on the caster or one ally (the creature touched), every disease on them ended (every condition whose harm is disease: the Diseased, the Infected), and nothing else; at once, in a fight or out of one. Its save is the SRD's harmless one. Kept: Orsino's name (the dens' Scroll of Cure Disease is named for it, though the scroll's own use ends the Diseased alone). Omitted: the parasites and green slime it kills; the diseases the SRD says it may not counter, which Kyr has none of. Before, Orsino's the same removal, without the SRD's school.*
 
-##### Cure Moderate Wounds
+##### Cure Serious Wounds
 
-*Adapted · level 3 divine spell, conjuration, life domain* · `ability:cure_moderate`
+*Adapted · level 3 divine spell, conjuration, life domain* · `ability:cure_serious`
 
-Heal one ally for 2d8 + 1 per caster level, to 10. A divine spell of the third level. Takes a third-level slot.
+Heal one ally for 3d8 + 1 per caster level, to 15. A divine spell of the third level. Takes a third-level slot.
 
-> Bind moderate wounds: 2d8, and a point for every level you have, to ten.
+> Bind serious wounds: 3d8, and a point for every level you have, to fifteen.
 
-*Adapted: The SRD's Cure Moderate Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 2d8 and a point a casting level, to 10 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (3; the SRD's 2), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 2d8, the same at every level.*
+*Adapted: The SRD's Cure Serious Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): third level, 3d8 and a point a casting level, to 15 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's fourth level and 3d8, the same at every level.*
 
 ##### Dirge
 
@@ -8163,15 +8173,15 @@ You gain blade barrier for 3 turns. Blade Barrier: against an enemy who strikes 
 
 > Create a wall of spinning blades that damages enemies passing through it.
 
-##### Cure Serious Wounds
+##### Cure Critical Wounds
 
-*Adapted · level 4 divine spell, conjuration, life domain* · `ability:cure_serious`
+*Adapted · level 4 divine spell, conjuration, life domain* · `ability:cure_critical`
 
-Heal one ally for 3d8 + 1 per caster level, to 15. A divine spell of the fourth level. Takes a fourth-level slot.
+Heal one ally for 4d8 + 1 per caster level, to 20. A divine spell of the fourth level. Takes a fourth-level slot.
 
-> Bind serious wounds: 3d8, and a point for every level you have, to fifteen.
+> Bind critical wounds: 4d8, and a point for every level you have, to twenty.
 
-*Adapted: The SRD's Cure Serious Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 3d8 and a point a casting level, to 15 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (4; the SRD's 3), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 3d8, the same at every level.*
+*Adapted: The SRD's Cure Critical Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): fourth level, 4d8 and a point a casting level, to 20 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's sixth level and 4d8, the same at every level.*
 
 ##### Daylight
 
@@ -8370,16 +8380,6 @@ You gain pure strike for 3 turns. Pure Strike: +4 to hit, +4 damage; and on land
 > A brilliant burst of solar energy injures your foes.
 
 #### Level 6
-
-##### Cure Critical Wounds
-
-*Adapted · level 6 divine spell, conjuration, life domain* · `ability:cure_critical`
-
-Heal one ally for 4d8 + 1 per caster level, to 20. A divine spell of the sixth level. Takes a sixth-level slot.
-
-> Bind critical wounds: 4d8, and a point for every level you have, to twenty.
-
-*Adapted: The SRD's Cure Critical Wounds (doc/architecture/mission-22/srd-proving-cases.md, case 16): 4d8 and a point a casting level, to 20 (by #castingLevel), on one ally; its school the SRD's conjuration, beside its domain. Kept: Orsino's level (6; the SRD's 4), which the preset companions' spells are chosen by: a slice of its own. Omitted: the harm a cure does the undead (the SRD's touch and its Will save for half), and spell resistance. Before, Orsino's 4d8, the same at every level.*
 
 ##### Flood
 
