@@ -4,6 +4,10 @@
 // Projection, the aftermath, what the company perceives, the change list and receipt, the copies), and the world's
 // rules counted: how many are asked in an act, how many are passed over on their stamps, how many solved, and how many
 // fire. Ordinary acts and a journey's legs are reported apart.
+// Its absolute times are not to be trusted: every part wrapped (World.apply, structuredClone among them) pays for its
+// clock and proxy, and the walk ran at 258 ms a turn wrapped against about 185 unwrapped. Its counts are exact. On it,
+// the rules' scan looked like 15 ms an act; asks cut by 87% gave 3% of the act, unwrapped (25 November). Decide by
+// base against branch unwrapped (scripts/turn-attribution.ts, interleaved) or a CPU profile, not by these times.
 //   bun scripts/act-attribution.ts [--json] [--counts: the counts alone, untimed but for the turn's own parts]
 import { TurnAttribution } from './turn-attribution';
 import { PlayTool } from '../src/cli/play-tool';
