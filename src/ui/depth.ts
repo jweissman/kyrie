@@ -46,12 +46,17 @@ export class Depth {
   private level(id: string): Entity | undefined {
     return Spatial.ancestry(this.entities, id).find(e => e.space?.kind === 'level');
   }
+  // From a level of a site to another, as many storeys as the levels between; from outside a site's levels into one
+  // below its first (a delver's way down from the way in: DeepShortcuts), as many as that level is below the first,
+  // so that a rope in a shaft to the third level is not said to come out on the second's storey.
   private drop(w: Way): number {
     const [a, b] = [this.level(w.from), this.level(w.to)];
-    if (a && b && a.id !== b.id && a.space?.parent === b.space?.parent) {
-      const levels = [...this.entities.values()].filter(e => e.space?.kind === 'level' && e.space.parent === a.space?.parent);
-      return Math.max(1, levels.indexOf(b) - levels.indexOf(a));
+    const kind = Depth.down.has(this.world.one('passageKind', w.passage) ?? '') ? 1 : 0;
+    if (b && (!a || (a.id !== b.id && a.space?.parent === b.space?.parent))) {
+      const levels = [...this.entities.values()]
+        .filter(e => e.space?.kind === 'level' && e.space.parent === b.space?.parent);
+      return a ? Math.max(1, levels.indexOf(b) - levels.indexOf(a)) : Math.max(kind, levels.indexOf(b));
     }
-    return Depth.down.has(this.world.one('passageKind', w.passage) ?? '') ? 1 : 0;
+    return kind;
   }
 }

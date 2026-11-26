@@ -30,7 +30,7 @@ export interface Itinerary { id: string; to: string; name: string; legs: Leg[]; 
 
 type Destination = NonNullable<Screen['destinations']>[number];
 // Which places a list of journeys keeps (only), and how each is laid (lay: a plan, where none is said).
-interface Laying { only?: (id: string) => boolean; lay?: (id: string) => Itinerary | undefined }
+interface Laying { only?: (id: string, ways?: readonly Call[]) => boolean; lay?: (id: string) => Itinerary | undefined }
 
 // The way to somewhere known, over the ways the company knows: those it has walked from, been told of, the country's
 // roads (which its folk know), and with wayfinding every road and path of the country (see ChartModel.ways).
@@ -164,7 +164,7 @@ export class Itineraries {
     // Nor is the place the company is inside (Sanhtusrecs, offered from its own long passage: the cold evaluation).
     const ways = world.related('connects');
     const lay = on.lay ?? this.plan.bind(this, campaign);
-    const plans = [...known].filter(id => id !== area?.id && (!on.only || on.only(id))
+    const plans = [...known].filter(id => id !== area?.id && (!on.only || on.only(id, ways))
       && !this.inside(byId, { here, id, ways, entities }) && (told.includes(id) || this.worth(byId.get(id))))
       .flatMap(id => { const p = lay(id); return p && (p.legs.length > 1 || p.toward || p.beyond) ? [p] : []; });
     const toward = { ...Undertakings.aimed(campaign), told, visited };
@@ -288,13 +288,20 @@ export class Itineraries {
   // nor any other journey (platform-separation.md's immediate queue, step 3: the followed aim's route only when
   // guidance needs it). None where no aim is followed. Not to where a way from here goes already: that way is the
   // aim's step, as it was.
+  // Or to the place a site the aim names is gone into from (Moonlake, for the Wardens' cisterns behind it): an aim
+  // names a work's rooms, not the place it is set out for by (OWN-56); laid only to the places it names, nothing had
+  // led toward the cisterns at all (OR-871).
   private static aimed(campaign: Campaign, at: string): Laying {
     const followed = Undertakings.aimed(campaign).followed, byId = this.byId(campaign);
     const ways = new Set((this.graph(campaign).get(at) ?? []).map(w => w.to));
-    return { only: this.aimsAt.bind(this, { byId, ways, followed }), lay: this.layAimed.bind(this, campaign, at) };
+    return { only: this.aimsAt.bind(this, { byId, ways, followed, entities: campaign.module.entities }),
+      lay: this.layAimed.bind(this, campaign, at) };
   }
-  private static aimsAt(on: { byId: Map<string, Entity>; ways: Set<string>; followed: string[] }, id: string): boolean {
-    return !on.ways.has(id) && on.followed.some(p => this.within(on.byId, p, id));
+  private static aimsAt(on: { byId: Map<string, Entity>; ways: Set<string>; followed: string[];
+    entities: readonly Entity[] }, id: string, connects?: readonly Call[]): boolean {
+    if (on.ways.has(id)) { return false; }
+    const into = connects ? SiteScale.behind(on.entities, id, connects) : undefined;
+    return on.followed.some(p => this.within(on.byId, p, id) || (!!into && this.within(on.byId, p, into)));
   }
   private static layAimed(campaign: Campaign, at: string, id: string): Itinerary | undefined {
     return Passages.leaves(campaign.module, at, [id]) ? this.reaching(campaign, at, id) : this.plan(campaign, id);
