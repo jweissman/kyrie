@@ -107,6 +107,8 @@
     line-height: 1.25; }
 }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-aside { font: var(--t-aside); color: var(--dim); }
+/* An aside said whole or not at all: dropped where the row has no room for all of it (RowAside), never cut to a stub. */
+:root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .row-aside[data-dropped] { display: none; }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > .led-mark { font: var(--t-aside); color: var(--ivory); }
 :root :is(.shell, .world-page, .talk, .fight, .field-map) .choice-row.choice-row > :is(.row-key, .row-opens) { flex: none; margin-left: auto;
   position: static; min-width: 0; padding: 0; border: 0; background: none; font: var(--t-key); color: var(--dim); opacity: .7; }

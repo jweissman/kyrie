@@ -4,6 +4,7 @@ import { Act, type Draw } from './act';
 import type { Attested } from '../../../src/presentation/attest';
 import { Glyphs } from '../creation/glyphs';
 import { RowWords } from './row-words';
+import { RowAside } from './row-aside';
 
 // The one row every choice is drawn as (Mission 21's design system, proposal step 1: the M20 screens study's
 // proposal A): the scene's acts, a place's things that can change the world, a conversation's questions, its leave and
@@ -44,7 +45,7 @@ export class ChoiceRow {
       {/* A companion is its icon alone, beside the words, wherever the row's indicator has one (TP-03). */}
       <span className="n row-label">{glyph && <Glyphs.View id={glyph} className="row-glyph" />}{label}
         {indicator?.companion && <Glyphs.View id="companion" className="led-icon" label="could join you" />}</span>
-      {aside && <span className="why-said row-aside">{aside}</span>}
+      {aside && <RowAside.View>{aside}</RowAside.View>}
       {extra}
       {number !== undefined && <kbd className="key row-key" aria-hidden="true">{number}</kbd>}
     </>;

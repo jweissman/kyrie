@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import type { RegionChart, Screen } from '../../src/ui/screen-types';
+import { Scrolled } from './stage/scrolled';
 import type { ReaderApp } from './reader-app';
 import { MapView } from './map-view';
 import { MapMenu } from './map-menu';
@@ -21,9 +23,13 @@ export class RouteCard {
   static View({ app, screen, chosen, clear, over, view }: { app: ReaderApp; screen: Screen; chosen: string;
     view?: (id: string) => void;
     clear?: () => void; over?: boolean }) {
-    const region = screen.region!, way = MapView.way(screen, chosen, app.state.frame?.leaf?.glance), { title, context } = RouteCard.named(region, chosen, way);
+    const region = screen.region!, way = MapView.way(screen, chosen, app.state.frame?.leaf?.glance);
+    const { title, context } = RouteCard.named(region, chosen, way);
+    // Taller than the room above the dock (a phone's), the card says it goes on, its foot faded (data-more: book.css).
+    const card = useRef<HTMLElement>(null);
+    Scrolled.useCue(card, chosen);
     return (
-      <aside className={`plan route-card${over ? ' over' : ''}`} aria-label={`The way to ${way.name}`} data-id={chosen}
+      <aside ref={card} className={`plan route-card${over ? ' over' : ''}`} aria-label={`The way to ${way.name}`} data-id={chosen}
         aria-live={over ? 'off' : 'polite'}>
         <p className="rc-eyebrow">{RouteCard.eyebrow(screen, way)}</p>
         <h2 className="rc-title to" tabIndex={-1}>{Typography.curl(Words.upper(title))}</h2>

@@ -1,4 +1,5 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { Scrolled } from './scrolled';
 import { Glyphs } from '../creation/glyphs';
 import type { Promoted } from '../../../src/presentation/glance-types';
 import { Guidance } from '../guidance';
@@ -231,6 +232,9 @@ export class WorldStage {
   // see: another place chosen on the map from its menu (View …: see MapMenu).
   static Hex({ app, screen, id, clear, enter, see }: { app: ReaderApp; screen: Screen; id?: string; clear: () => void;
     enter: () => void; see?: (id: string) => void }) {
+    // Taller than the room above the dock (a phone's), the card says it goes on (data-more: book.css).
+    const card = useRef<HTMLElement>(null);
+    Scrolled.useCue(card, `${id ?? ''}${app.state.frame?.screen.place.id}`);
     if (id) {
       const town = screen.region?.areas.find(a => a.id === id && a.kind === 'settlement');
       return town ? <WorldStage.Town app={app} screen={screen} town={town} see={see} />
@@ -244,7 +248,7 @@ export class WorldStage {
     const people = (app.menu.scene?.subjects ?? []).filter(x => x.kind === 'person').length;
     const danger = (app.menu.scene?.subjects ?? []).some(x => x.danger), unplaced = MapView.unplaced(app, screen);
     return (
-      <section className="hex-card" data-id={screen.place.id} aria-live="polite">
+      <section className="hex-card" data-id={screen.place.id} aria-live="polite" ref={card}>
         <p className="label">Where you are</p>
         <h2 className="to">{Typography.curl(Words.upper(name))}</h2>
         {land.here !== undefined && <p className="how">{Typography.curl(Words.upper(MapView.ground(land, land.here,
@@ -315,6 +319,8 @@ export class WorldStage {
   // November). At its gate is the game's first page, or a town just come to across the map.
   static Town({ app, screen, town, see }: { app: ReaderApp; screen: Screen;
     town: NonNullable<Screen['region']>['areas'][number]; see?: (id: string) => void }) {
+    const card = useRef<HTMLElement>(null);
+    Scrolled.useCue(card, town.id);
     const way = MapView.way(screen, town.id, app.state.frame?.leaf?.glance), { d, here, go } = way, views = Scenery.views.settlement ?? [];
     const view = views.length ? views[Scenery.hash(town.id) % views.length] : undefined;
     const come = here && app.state.frame?.travel?.arrived;
@@ -324,7 +330,7 @@ export class WorldStage {
     // company already stood (the blind playtest, 13 November: "Enter Shaynof" returned to the road; BP-05).
     const entry = here && !inside ? WorldStage.entry(app) : undefined;
     return (
-      <section className="enter-card" data-id={town.id} data-state={here ? come ? 'arrived' : inside ? 'inside' : 'here'
+      <section className="enter-card" ref={card} data-id={town.id} data-state={here ? come ? 'arrived' : inside ? 'inside' : 'here'
         : 'chosen'} aria-live="polite">
         {view && <div className="enter-view"><PlaceStage.Country view={view} /></div>}
         <p className="label">{come ? 'You have come to' : inside ? 'You are in' : here ? 'You are at'

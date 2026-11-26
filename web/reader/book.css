@@ -398,6 +398,10 @@
 /* A place chosen on the map as a decision (see RouteCard): what the choice is in a word, the place, where it lies, a few
    set facts, the way folded away, one short command. One column, a reading measure, nothing bold but the command. */
 .plan.route-card { display: flex; flex-direction: column; gap: 0; padding: 22px 24px 20px; color: var(--ivory); }
+/* A map card taller than the room above the dock (a phone's) says it goes on: its foot faded while more of it lies below
+   (Scrolled.useCue's data-more), as a told column's is, nothing laid over its words; scrolled to its end, whole (the
+   owner, 26 November: the card had been cut at the screen's foot with nothing to say so). */
+:is(.plan.route-card, .hex-card, .enter-card)[data-more] { mask-image: linear-gradient(180deg, #000 calc(100% - 44px), transparent); }
 .route-card .rc-eyebrow { margin: 0 32px 8px 0; font: 500 11px/1.4 var(--do); letter-spacing: .22em; text-transform: uppercase;
   color: var(--dim); }
 .route-card .rc-title { margin: 0 24px 0 0; font: 300 clamp(24px, 2.1vw, 30px)/1.12 var(--do); color: var(--ivory);

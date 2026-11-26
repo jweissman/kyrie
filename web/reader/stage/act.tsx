@@ -7,6 +7,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../../../src/presentation/words';
 import { Signs } from '../../../src/presentation/signs';
 import { Grave } from '../../../src/presentation/grave';
+import { RowAside } from './row-aside';
 import { RowWords } from './row-words';
 import { PageFrame } from '../page-frame';
 
@@ -57,7 +58,7 @@ export class Act {
         aria-expanded={opens ? draw.open.has(c.id) : undefined} data-taken={taken} aria-label={said}
         onClick={i >= 0 ? Act.click.bind(null, draw.app) : Act.direct.bind(null, draw.app, c)}>
         {children ?? <><span className="row-label">{Typography.curl(words)}</span>{c.note
-          && !warned && <span className="note row-aside">{Typography.curl(c.note)}</span>}</>}
+          && !warned && <RowAside.View note>{Typography.curl(c.note)}</RowAside.View>}</>}
         {tags.map(m => <span key={m.kind} className={`mark-tag mark-${m.kind}${m.danger ? ` danger-${m.danger}` : ''}`}>
           {Signs.marks[m.kind]}</span>)}
         {c.disabled && !quiet && <span className="why">{Typography.curl(c.disabled)}</span>}
