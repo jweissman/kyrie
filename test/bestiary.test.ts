@@ -91,7 +91,7 @@ describe('the bestiary', () => {
     // Nothing tame, nothing bare that requires what varies it, none that lives elsewhere.
     for (const k of kinds) {
       expect([k, Canon.creature(k).habitats]).toEqual([k, expect.arrayContaining(['cave'])]);
-      expect([k, Canon.temperament(k) === 'tame' || CreatureVariants.wanting(k)]).toEqual([k, false]);
+      expect([k, Canon.temperament(k) === 'tame' || CreatureVariants.wanting(ItemCatalog.canon, k)]).toEqual([k, false]);
     }
     expect(kinds.size).toBeGreaterThan(8);
     // The composer names no kind: what takes part is what the records say.

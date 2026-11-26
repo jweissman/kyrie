@@ -1,12 +1,9 @@
 import { RandomStreams } from '../random-streams'; import { Installed, type InstalledDomain } from '../ports/installed';
-import { CampaignAssembly } from './campaign-assembly';
-import { CommandResolutions } from './command-resolution';
+import { CampaignAssembly } from './campaign-assembly'; import { CommandResolutions } from './command-resolution';
 import { Aftermath } from './aftermath'; import { FieldUse } from './field-use'; import { PlaneLaws } from './plane-laws';
 import { ActionParts } from '../lang/action-parts'; import { Operators } from './operators';
-import { FieldResolver } from './field-resolver';
-import { Perceptions } from './perceptions'; import { Costs } from '../costs';
-import { ModuleBundle, type BundleRequest } from './module-bundle';
-import type { BundleSource } from './bundle-source';
+import { FieldResolver } from './field-resolver'; import { Perceptions } from './perceptions'; import { Costs } from '../costs';
+import { ModuleBundle, type BundleRequest } from './module-bundle'; import type { BundleSource } from './bundle-source';
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
@@ -15,8 +12,7 @@ import { Shelter } from './shelter';
 import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
-import type { Creature } from '../creature';
-import { Membership, type LiveCache } from './membership';
+import type { Creature } from '../creature'; import { Membership, type LiveCache } from './membership';
 import { CampaignPlan } from './campaign-plan'; import { Battle } from '../arena';
 import { LoadCache, type Assembly } from './load-cache'; import { CombatProjection } from '../combat-projection';
 import { Content, type CreatureGenerationContext } from '../content';
@@ -33,6 +29,10 @@ import type { CampaignState, CampaignSave, CampaignEvent, Dated, Restored } from
 import { Crossing, type ExecutionContext } from './crossing'; import { SemanticRecords } from '../lang/semantic-record';
 import { SavedSchemas } from './saved-schemas'; import { LifeLost } from './life-lost';
 export class Campaign implements WatchHost {
+  static catalogAmong(...kinds: (Module['catalog'] | undefined)[]): ItemCatalog {
+    const [catalog, ...own] = kinds;
+    return ItemCatalog.among(catalog, ...own);
+  }
   private compiled: Module;
   // Its kinds of thing, the catalog's and its modules' own (see ItemCatalog), held by its creatures' store.
   get module(): Module { return this.compiled; } get catalog(): ItemCatalog { return this.creatures.catalog; }
@@ -137,7 +137,7 @@ export class Campaign implements WatchHost {
       // before anyone it brings is made (a game begun after another lost the players' bear: Mission 20).
       this.installBoundary(); LocalKinds.reclaim(this, this.module.catalog, draft.instance.module.catalog);
       if (this.current.elapsed !== startedAt) { throw new Error('Campaign advanced while loading module; retry installation'); }
-      EngineDeclarations.declare(draft, this.compiled.catalog);
+      EngineDeclarations.declare(draft, Campaign.catalogAmong(this.module.catalog, draft.instance.module.catalog));
       const next = ModuleInstallations.prepare({ module: this.module, world: this.current.world, live: this.world,
         budget: this.current.deadline, campaign: this.definition }, draft, this.current.elapsed, checked);
       const { actors, store, world } = ModuleInstallations.populate(next, this.creatures, this.current);

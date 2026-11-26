@@ -9,20 +9,16 @@ import { KnownNames } from './known-names'; import { Engaged } from '../presenta
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../rules/background-catalog';
-import { ConditionSense } from '../canon/condition-sense';
-import { Advancement } from '../rules/advancement';
+import { ConditionSense } from '../canon/condition-sense'; import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
 import { Illumination } from './illumination'; import { Standing } from './standing'; import { Patience } from './patience';
-import { ItemCatalog } from '../item-catalog';
-import { ModuleWriter } from '../lang/module-writer';
+import { ItemCatalog } from '../item-catalog'; import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time'; import { CanonInstall } from '../campaign/canon-install';
-import { Calendar } from '../campaign/calendar';
+import { Calendar } from '../campaign/calendar'; import type { Entity } from '../lang/module';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view'; import { PlayerFrame } from '../presentation/player-frame';
 import type { Campaign } from '../campaign/campaign';
-import type { Entity } from '../lang/module';
 import { Withheld } from './withheld'; import { LightLeft } from './light-left';
-import { CompanyRecall } from '../presentation/company-recall';
-import { DangerSense } from '../presentation/danger-sense';
+import { CompanyRecall } from '../presentation/company-recall'; import { DangerSense } from '../presentation/danger-sense';
 import { FightHelp } from '../presentation/fight-help';
 import { ChoiceGrouping, type Grouped } from './choice-grouping';
 import { ObservationText } from '../lang/observation-text';
@@ -274,12 +270,13 @@ export class ScreenModel {
     }
     return out;
   }
-  private static look(members: NonNullable<PlayerSnapshot['present'][number]['members']>): string | undefined {
+  private static look(catalog: ItemCatalog,
+    members: NonNullable<PlayerSnapshot['present'][number]['members']>): string | undefined {
     const standing = members.filter(m => m.hp > 0);
     if (!standing.length) { return undefined; }
     const kinds = new Map<string, number>();
     for (const m of standing) {
-      const race = Content.race(m.raceId)?.name ?? m.raceId;
+      const race = Content.race(catalog, m.raceId)?.name ?? m.raceId;
       const calling = m.classId ? Content.classes[m.classId as keyof typeof Content.classes]?.name : undefined;
       const kind = calling ? `${race} ${calling.toLowerCase()}` : race;
       kinds.set(kind, (kinds.get(kind) ?? 0) + 1);
@@ -293,6 +290,7 @@ export class ScreenModel {
   private static target(p: PlayerSnapshot['present'][number], grouped: Grouped, w: Campaign['world'],
     at: { dark?: boolean; campaign: Campaign }): TargetRow {
     const dark = !!at.dark, acts = grouped.targets.get(p.id) ?? [];
+    const catalog = at.campaign.catalog;
     if (p.type === 'group') {
       const member = p.members?.[0];
       // Anyone of a people (an ancestry, whether or not a player may be one) is a person; anything else a creature.
@@ -309,22 +307,23 @@ export class ScreenModel {
       // kind, which may be what the company has yet to find out (an automaton). In the dark neither is seen: a
       // revenant in a pitch-black crypt was "The risen dead · Revenant" (A Winter in Carth's friction 11, CTH-11).
       const note = dark ? undefined : (p.state ? undefined : p.condition) ?? (member && !playable && !animal
-        && !p.name.includes(', ') ? `${Content.race(member.raceId)?.name ?? member.raceId}` : undefined);
+        && !p.name.includes(', ') ? `${Content.race(catalog, member.raceId)?.name ?? member.raceId}` : undefined);
       // People are described when they follow a calling (a necromancer, a hired blade), creatures always.
       // In the dark they are heard, not seen: nothing of how many are hurt, how seasoned or how hardy (the
       // architecture review's H5: exact hit points beside "In the dark you can hear…").
       const look = dark || p.state || (playable && !p.members?.some(m => m.classId && m.classId !== 'commoner'))
-        ? undefined : this.look(p.members ?? []);
+        ? undefined : this.look(catalog, p.members ?? []);
       const name = Band.last(p, dark ? p.name.split(', ')[0]! : this.called(w, p.id, p.name));
       // A painting is of one person, of a people who look like the folk in the paintings: not a band of goblins.
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
       // A creature is shown by its kind's painting, where its kind has one (see CreaturePortraits).
       const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id)
-        : !playable && member && !dark ? CreaturePortraits.of(member.raceId) : undefined;
+        : !playable && member && !dark ? CreaturePortraits.of(catalog, member.raceId) : undefined;
       // A beast by the beast's emblem, keeping the peace or not (hounds denned in a room are beasts too).
-      const beast = !playable && !!member && Canon.isSpecies(member.raceId) && Canon.creature(member.raceId).kind === 'animal';
+      const beast = !playable && !!member && catalog.isSpecies(member.raceId)
+        && catalog.creature(member.raceId).kind === 'animal';
       const emblem = animal || beast ? 'animal' : playable && Emblems.has(member!.raceId) ? member!.raceId : undefined;
-      const entry = !playable && member && !dark ? EncyclopediaEntry.creature(member.raceId) : undefined;
+      const entry = !playable && member && !dark ? EncyclopediaEntry.creature(catalog, member.raceId) : undefined;
       return { id: p.id, kind: playable || soul ? 'person' : animal ? 'animal' : 'creature', name, ...(note ? { note } : {}),
         ...portrait ? { portrait } : {}, ...emblem ? { emblem } : {}, ...entry ? { entry } : {},
         ...Band.standing(p) > 1 ? { many: true } : {}, ...Canon.isDevice(member?.raceId ?? '') && { device: true },
@@ -363,7 +362,8 @@ export class ScreenModel {
   private static party(view: PlayerSnapshot, campaign: Campaign, grouped: Grouped): MemberRow[] {
     const entities = campaign.module.entities, taken = new Set<string>();
     return view.party.map(m => {
-      const ref = entities.find(e => e.creatureId === m.id)?.id, race = Content.race(m.raceId)?.name ?? m.raceId;
+      const ref = entities.find(e => e.creatureId === m.id)?.id,
+        race = Content.race(campaign.catalog, m.raceId)?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness ?? Portraits.met(campaign, ref);
       const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined, trade = Canon.backgrounds[m.backgroundId ?? ''];

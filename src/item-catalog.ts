@@ -1,6 +1,7 @@
 import { CanonRuntime, type RuntimeItem } from './canon/canon-runtime';
 import { Canon } from './canon/canon';
-import type { HookKey, Hooks, ItemKind, Statistics } from './rules/catalog-schema';
+import type { HookKey, Hooks, ItemKind, Species, Statistics } from './rules/catalog-schema';
+import type { Defense } from './rules/defenses';
 import { StatExpressions } from './rules/stat-expressions';
 import { parseAbility, type ArenaAbility, type Effect } from './lang/parse';
 import { ModifierSet, type Modifiers } from './rules/modifiers';
@@ -9,8 +10,20 @@ import type { Attribute, Creature } from './creature';
 import { CreatureVariants } from './creature-variants';
 import type { KindsMade } from './lang/vocabulary';
 export type ItemDefinition = RuntimeItem;
+export interface BodyStatistics {
+  kind?: string;
+  type?: string;
+  actions?: number;
+  temperament?: string;
+  hitDice?: string;
+  hitPointGrowth?: number;
+  saves?: Statistics['saves'];
+  attackBonus?: number;
+  defenses?: Defense[];
+}
 export interface Equipment {
   modifiers: Modifiers; hooks: Hooks; weapon: WeaponProfile; armorAc: number;
+  body?: BodyStatistics;
   // A kind's natural attacks in a round, each its own weapon (a dragon's claw, claw and bite; see Species).
   routine?: WeaponProfile[];
 }
@@ -21,28 +34,36 @@ type Frozen = Readonly<Record<string, ItemDefinition>>;
 // shared by reference, frozen, never copied as they are read. Every reader is handed the campaign's (Campaign.catalog,
 // CreatureStore.catalog), or the catalog's alone where nothing of a campaign's is (ItemCatalog.canon: a tool, a spec);
 // none asks the process which campaign is in play, so two campaigns that give one name two kinds each read their own.
-export class ItemCatalog {
+export class CatalogContext {
   // The catalog's own, as the setting lowered them, before any module's kind joined them.
-  private static readonly base: Frozen = ItemCatalog.frozen(CanonRuntime.items());
-  static readonly canon = new ItemCatalog({});
-  private static readonly made = new WeakMap<object, ItemCatalog>();
+  private static readonly base: Frozen = CatalogContext.frozen(CanonRuntime.items());
+  static readonly canon = new CatalogContext({}, {});
+  private static readonly made = new WeakMap<object, CatalogContext>();
   // A campaign's, from what its modules made of their own kinds: the same made, the same catalog.
-  static of(kinds: KindsMade | undefined): ItemCatalog {
+  static of(kinds: KindsMade | undefined): CatalogContext {
+    if (!kinds) { return this.canon; }
     const items = (kinds as { items?: Record<string, ItemKind> } | undefined)?.items;
-    if (!kinds || !items || !Object.keys(items).length) { return this.canon; }
+    const species = (kinds as { species?: Record<string, Species> } | undefined)?.species;
+    if ((!items || !Object.keys(items).length) && (!species || !Object.keys(species).length)) { return this.canon; }
     let catalog = this.made.get(kinds);
     if (!catalog) {
-      catalog = new ItemCatalog(Object.fromEntries(Object.entries(items).map(([id, i]) => [id, this.runtime(i)])));
+      catalog = new CatalogContext(
+        Object.fromEntries(Object.entries(items ?? {}).map(([id, i]) => [id, this.runtime(i)])),
+        species ?? {});
       this.made.set(kinds, catalog);
     }
     return catalog;
   }
   // A module's own kinds read among its campaign's (kinds): the campaign's, and the module's in place of any of them
   // it gives another meaning (its installation's own once installed: ModuleNamespace), as the module is assembled.
-  static among(kinds: KindsMade | undefined, ...own: (KindsMade | undefined)[]): ItemCatalog {
-    const given = [kinds, ...own].filter((k): k is KindsMade => !!k?.items && !!Object.keys(k.items).length);
+  static among(kinds: KindsMade | undefined, ...own: (KindsMade | undefined)[]): CatalogContext {
+    const given = [kinds, ...own].filter((k): k is KindsMade =>
+      !!(k?.items && Object.keys(k.items).length || k?.species && Object.keys(k.species).length));
     if (given.length < 2) { return this.of(given[0]); }
-    return this.of({ items: Object.assign({}, ...given.map(k => k.items)) as KindsMade['items'] });
+    return this.of({
+      items: Object.assign({}, ...given.map(k => k.items ?? {})) as KindsMade['items'],
+      species: Object.assign({}, ...given.map(k => k.species ?? {})) as KindsMade['species'],
+    });
   }
   // Each kind lowered once, whichever catalogs hold it.
   private static readonly lowered = new WeakMap<object, ItemDefinition>();
@@ -53,7 +74,8 @@ export class ItemCatalog {
     return lowered;
   }
   private static lower(item: ItemKind): ItemDefinition {
-    return { name: item.name, description: item.description,
+    return { name: item.name, description: item.description, ...item.value !== undefined ? { value: item.value } : {},
+      ...item.category ? { category: item.category } : {},
       ...item.slot ? { slot: item.slot } : {}, ...item.modifiers ? { modifiers: item.modifiers } : {},
       ...item.hooks ? { hooks: item.hooks } : {}, ...item.weapon ? { weapon: item.weapon } : {},
       ...item.armor ? { armor: item.armor } : {}, ...item.use ? { use: item.use } : {},
@@ -63,25 +85,85 @@ export class ItemCatalog {
   }
   // The process's join of the catalog and the kinds of the campaign last activated, as the language reads a module
   // against it (CanonVocabulary.kind) until parsing is given its campaign's catalog too (slice 3): never read in play.
-  static readonly ambient: Record<string, ItemDefinition> = { ...ItemCatalog.base };
+  static readonly ambient: Record<string, ItemDefinition> = { ...CatalogContext.base };
   private readonly own: Frozen;
-  private constructor(own: Record<string, ItemDefinition>) { this.own = ItemCatalog.frozen(own); }
+  private readonly species: Readonly<Record<string, Species>>;
+  private readonly itemIds: readonly string[];
+  private readonly resolvedSpecies = new Map<string, Species>();
+  private readonly bodyStatistics = new WeakMap<Species, BodyStatistics>();
+  private constructor(own: Record<string, ItemDefinition>, species: Record<string, Species>) {
+    this.own = CatalogContext.frozen(own);
+    this.species = CatalogContext.frozen(species);
+    this.itemIds = Object.freeze([...new Set([...Object.keys(CatalogContext.base), ...Object.keys(own)])]);
+    Object.freeze(this);
+  }
   // Frozen through, so that what is shared by reference is never changed by whoever reads it.
   private static frozen<T>(x: T): T {
     if (x && typeof x === 'object' && !Object.isFrozen(x)) {
-      for (const v of Object.values(x)) { ItemCatalog.frozen(v); }
+      for (const v of Object.values(x)) { CatalogContext.frozen(v); }
       Object.freeze(x);
     }
     return x;
   }
   // A kind by its id, if it is one.
   find(id: string): ItemDefinition | undefined {
-    return Object.hasOwn(this.own, id) ? this.own[id] : Object.hasOwn(ItemCatalog.base,
-      id) ? ItemCatalog.base[id] : undefined;
+    return Object.hasOwn(this.own, id) ? this.own[id] : Object.hasOwn(CatalogContext.base,
+      id) ? CatalogContext.base[id] : undefined;
   }
   has(id: string): boolean { return this.find(id) !== undefined; }
+  itemId(id: string): string { return CanonRuntime.resolve('items', id); }
+  get ids(): readonly string[] { return this.itemIds; }
   // The campaign's own kinds, by id.
   get local(): readonly string[] { return Object.keys(this.own); }
+  localSpecies(id: string): Species | undefined { return this.species[CanonRuntime.resolve('species', id)]; }
+  isSpecies(id: string): boolean { return Object.hasOwn(this.species, CanonRuntime.resolve('species', id)) || Canon.isSpecies(id); }
+  isBody(id: string): boolean { return Object.hasOwn(this.species, CanonRuntime.resolve('species', id)) || Canon.isBody(id); }
+  creature(id: string, seen: string[] = []): Species {
+    const named = CanonRuntime.resolve('species', id);
+    const cached = this.resolvedSpecies.get(named);
+    if (cached) { return cached; }
+    if (named.includes('/')) {
+      const made = CatalogContext.frozen(Canon.creature(named));
+      this.resolvedSpecies.set(named, made);
+      return made;
+    }
+    const own = this.species[named];
+    if (!own) {
+      const made = CatalogContext.frozen(Canon.creature(id, seen));
+      this.resolvedSpecies.set(named, made);
+      return made;
+    }
+    if (!own.variantOf) { this.resolvedSpecies.set(named, own); return own; }
+    if (seen.includes(named)) { throw new Error(`Species variant cycle: ${[...seen, named].join(' > ')}`); }
+    const { variantOf, ...changes } = own;
+    const made = CatalogContext.frozen({ ...this.creature(variantOf, [...seen, named]), ...changes, variantOf });
+    this.resolvedSpecies.set(named, made);
+    return made;
+  }
+  temperament(id: string): string | undefined {
+    if (!this.isSpecies(id)) { return undefined; }
+    const named = CanonRuntime.resolve('species', id), own = this.species[named];
+    if (!own) { return Canon.temperament(id); }
+    const species = this.creature(id);
+    return species.temperament ?? (own.variantOf ? Canon.temperament(own.variantOf) : undefined);
+  }
+  private bodyStats(species: Species): BodyStatistics {
+    let stats = this.bodyStatistics.get(species);
+    if (!stats) {
+      const source = species.statistics;
+      stats = CatalogContext.frozen({ ...species.kind ? { kind: species.kind } : {},
+        ...species.type ? { type: species.type } : {},         ...source?.actions !== undefined
+          ? { actions: source.actions } : {},
+        ...species.temperament ? { temperament: species.temperament } : {},
+        ...source?.hitDice ? { hitDice: source.hitDice } : {},
+        ...source?.growth?.hitPoints ? { hitPointGrowth: source.growth.hitPoints.perLevel } : {},
+        ...source?.saves ? { saves: source.saves } : {},
+        ...source?.attackBonus !== undefined ? { attackBonus: source.attackBonus } : {},
+        ...species.defenses?.length ? { defenses: species.defenses } : {} });
+      this.bodyStatistics.set(species, stats);
+    }
+    return stats;
+  }
   get(id: string): ItemDefinition {
     const result = this.find(id);
     if (!result) { throw new Error(`Unknown item definition ${id}`); }
@@ -96,14 +178,14 @@ export class ItemCatalog {
   // the kind and its use (the architecture review's H7); found by the ability's id too ("item-healing_potion").
   // Kept by what it is read from, so that two campaigns' kinds of one name are read each as itself.
   private static readonly uses = new Map<string, ArenaAbility | undefined>();
-  use(kind: string): ArenaAbility | undefined { return ItemCatalog.using(kind, this.find(kind)); }
+  use(kind: string): ArenaAbility | undefined { return CatalogContext.using(kind, this.find(kind)); }
   static using(kind: string, d: { name: string; use?: string } | undefined): ArenaAbility | undefined {
-    const key = `${kind}\u0000${d?.name ?? ''}\u0000${d?.use ?? ''}`, uses = ItemCatalog.uses;
+    const key = `${kind}\u0000${d?.name ?? ''}\u0000${d?.use ?? ''}`, uses = CatalogContext.uses;
     if (!uses.has(key)) { uses.set(key, d?.use ? parseAbility(`item-${kind}`, d.name, d.use) : undefined); }
     return uses.get(key);
   }
   used(ability: string): ArenaAbility | undefined {
-    return ItemCatalog.carried(ability) ? this.use(ability.slice(5)) : undefined;
+    return CatalogContext.carried(ability) ? this.use(ability.slice(5)) : undefined;
   }
   // Whether an ability is a thing's use (item-healing_potion), as a fight's carried things are fought with.
   static carried(ability: string): boolean { return ability.startsWith('item-'); }
@@ -152,7 +234,8 @@ export class ItemCatalog {
   // effectiveWeapon), the body armour's ac (else its natural armour), and the modifiers and hooks of equipped items.
   equipment(creature: Creature): Equipment {
     const equipped = (creature.state.inventory ?? []).filter(i => i.equipped);
-    const natural = Canon.isBody(creature.raceId) ? Canon.creature(creature.raceId).statistics : undefined;
+    const species = this.isBody(creature.raceId) ? this.creature(creature.raceId) : undefined;
+    const natural = species?.statistics;
     const wielded = equipped.find(i => this.get(i.definition).weapon);
     const worn = equipped.find(i => this.get(i.definition).armor);
     const hooks: Hooks = {};
@@ -161,11 +244,13 @@ export class ItemCatalog {
         if (key !== 'reactions') { (hooks[key as HookKey] ??= []).push(...effects as Effect[]); }
       }
     }
+
     // A body's own blows carry its kind's riders (see Statistics.riders); a weapon in hand carries none of them.
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
       weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
       armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac
         + StatExpressions.armor(natural.armorBonus, { level: creature.base.level }) : 0,
+      ...species ? { body: this.bodyStats(species) } : {},
       ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon
         ? this.body(id, natural) : { ...this.body(id, natural), lesser: true }) } : {} };
   }
@@ -176,3 +261,5 @@ export class ItemCatalog {
     return { ...weapon, ...damage ? { damage } : {}, ...own?.length ? { onHit: structuredClone(own) } : {} };
   }
 }
+
+export { CatalogContext as ItemCatalog };

@@ -2,6 +2,7 @@ import type { Battle } from './battle';
 import { Content } from './content';
 import { Effects } from './effects';
 import type { CombatEvent, Fighter } from './model';
+import type { ItemCatalog } from './item-catalog';
 
 type ArenaAbility = Battle['repertoire'][number];
 
@@ -22,13 +23,13 @@ export class Parley {
   static readonly ability: ArenaAbility = { id: Parley.id, name: 'Call on them to yield', effects: [],
     description: 'Call on them to throw down their arms: an intimidation check against how much fight is left in them.' };
   // Whether the other side would hear it: each of them standing a thinking creature, and the fight gone against them.
-  static heard(fighters: readonly Fighter[], departed: number, bout: boolean): boolean {
+  static heard(catalog: ItemCatalog, fighters: readonly Fighter[], departed: number, bout: boolean): boolean {
     const foes = fighters.filter(f => f.team !== 'fighters' && !f.summoner), standing = foes.filter(f => f.hp > 0);
-    if (bout || !standing.length || !standing.every(f => this.thinking(f))) { return false; }
+    if (bout || !standing.length || !standing.every(f => this.thinking(catalog, f))) { return false; }
     return departed > 0 || standing.length < foes.length || standing.every(f => f.hp <= f.maxHp / 2);
   }
-  static thinking(f: Fighter): boolean {
-    const kind = Content.race(f.raceId) as { kind?: string; type?: string } | undefined;
+  static thinking(catalog: ItemCatalog, f: Fighter): boolean {
+    const kind = Content.race(catalog, f.raceId) as { kind?: string; type?: string } | undefined;
     return Effects.scores(f).intelligence >= 6 && !['animal', 'device'].includes(kind?.kind ?? '')
       && !['undead', 'construct', 'ooze', 'elemental', 'plant'].includes(kind?.type ?? '');
   }

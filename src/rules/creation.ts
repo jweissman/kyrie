@@ -5,6 +5,7 @@ import type { Attribute, CharacterClass, Proficiencies } from './catalog-schema'
 import { Fighting } from './fighting';
 import { Amounts } from './amounts';
 import { CanonRuntime } from '../canon/canon-runtime';
+import type { ItemCatalog } from '../item-catalog';
 
 export interface Chassis {
   hitDie: number; attributes: Partial<Record<Attribute, number>>; abilities: string[]; traits: string[];
@@ -28,9 +29,9 @@ export class Creation {
   }
   // A person's chassis comes from its ancestry, its class and the class's features to its level; a species
   // creature's from its own statistics.
-  static chassis(raceId: string, classId?: string, level = 1): Chassis {
-    if (Canon.isBody(raceId)) {
-      const s = Canon.creature(raceId), st = s.statistics!;
+  static chassis(catalog: ItemCatalog, raceId: string, classId?: string, level = 1): Chassis {
+    if (catalog.isBody(raceId)) {
+      const s = catalog.creature(raceId), st = s.statistics!;
       // A kind with Hit Dice is a fixed stat block: met at any level, its qualities and hit points are its own.
       const grow = st.growth && !st.hitDice ? Math.round(level / 8) : 0;
       return { hitDie: st.hitDie ?? 0, attributes: {}, abilities: s.abilities ?? [], traits: s.traits ?? [],
@@ -94,8 +95,8 @@ export class Creation {
     return !(p.weights && !p.weights.includes(item.weight ?? ''));
   }
   // Inventory.isProficient for weapons and armour. A creature without a class (a species) is proficient by nature.
-  static canEquip(classId: string | undefined, itemKind: string): boolean {
-    const c = this.classOf(classId), item = Canon.items[itemKind];
+  static canEquip(catalog: ItemCatalog, classId: string | undefined, itemKind: string): boolean {
+    const c = this.classOf(classId), item = catalog.find(itemKind);
     if (!c || !item) { return true; }
     if (item.weapon && item.slot === 'weapon') { return this.proficient(c.proficiencies.weapons, item.weapon, 'kind'); }
     if (item.armor) { return this.proficient(c.proficiencies.armor, item.armor, 'type'); }

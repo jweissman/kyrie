@@ -11,16 +11,16 @@ export class ItemStow {
   static of(catalog: ItemCatalog, c: Creature, i: ItemInstance, light: boolean):
     { stow: 'worn' | 'supplies' | 'carried'; packed?: string; slot?: string } {
     const slot = catalog.get(i.definition).slot;
-    const stow = i.equipped ? 'worn' : Canon.items[i.definition]?.category === 'consumable' || light || this.supplies.has(i.definition)
+    const stow = i.equipped ? 'worn' : catalog.find(i.definition)?.category === 'consumable' || light || this.supplies.has(i.definition)
       ? 'supplies' : 'carried';
-    const packed = i.id === Overlays.gearId(c.id, i.definition) ? this.packed(c, i.definition) : undefined;
+    const packed = i.id === Overlays.gearId(c.id, i.definition) ? this.packed(catalog, c, i.definition) : undefined;
     return { stow, ...packed ? { packed } : {}, ...slot ? { slot } : {} };
   }
   // What a journey uses up that the catalog does not call consumable: food, fire, the means of a camp.
   private static readonly supplies = new Set(['rations', 'firewood', 'bedroll', 'flask', 'waterskin', 'lamp_oil']);
-  private static packed(c: Creature, kind: string): string {
+  private static packed(catalog: ItemCatalog, c: Creature, kind: string): string {
     const calling = c.classId ? Canon.classes[Canon.resolve('classes', c.classId)] : undefined;
-    if (Overlays.classGear(c).includes(kind)) {
+    if (Overlays.classGear(catalog, c).includes(kind)) {
       return `Packed when you set out: ${calling ? `${this.an(calling.name.toLowerCase())}'s` : 'your'} kit.`;
     }
     const life = c.backgroundId ? Canon.backgrounds[c.backgroundId] : undefined;

@@ -28,7 +28,7 @@ describe('a calling\'s first kit', () => {
     for (const [classId, kit] of Object.entries(kits)) {
       for (const seed of ['a', 'b']) {
         const inventory = first(classId, seed).state.inventory ?? [];
-        const candidates = new Set(Overlays.startingCandidates({ raceId: 'human', classId }));
+        const candidates = new Set(Overlays.startingCandidates(ItemCatalog.canon, { raceId: 'human', classId }));
         expect(inventory.filter(i => !candidates.has(i.definition)).map(i => i.definition)).toEqual(kit);
         expect(inventory.every(i => Canon.items[i.definition])).toBe(true);
       }

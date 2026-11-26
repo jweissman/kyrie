@@ -107,7 +107,7 @@ describe('random targets and many actions', () => {
   });
   it('lets an owlbear act twice in its turn, and values it as Orsino does', () => {
     const owlbear = new Content('owl').createCreature(ItemCatalog.canon, 'owlbear', { raceId: 'owlbear', level: 3 });
-    expect(Advancement.worth(owlbear)).toBe(150 + 50 * 3);
+    expect(Advancement.worth(ItemCatalog.canon, owlbear)).toBe(150 + 50 * 3);
     const battle = Field.battle([CombatProjection.fighter(ItemCatalog.canon, owlbear, 'goblins'),
       ...Array.from({ length: 2 }, (_, i) => ({ ...new Content('c').character('warrior', `w-${i}`, 'fighters'), hp: 90, maxHp: 90 }))], 'owlbear');
     Field.until(battle, 'owlbear');

@@ -38,7 +38,8 @@ describe('the menagerie', () => {
     for (const p of monsterPaintings.portraits) {
       expect([p.kind, existsSync(`web/reader/${p.file}`), existsSync(`web/reader/${p.large}`)]).toEqual([p.kind, true, true]);
     }
-    expect(['dragon/red_lineage', 'golem/iron', 'fire_elemental'].map(id => CreaturePortraits.painting(id)))
+    expect(['dragon/red_lineage', 'golem/iron', 'fire_elemental']
+      .map(id => CreaturePortraits.painting(ItemCatalog.canon, id)))
       .toEqual(['monsters/dragon', 'monsters/golem', 'monsters/elemental']);
   });
   it('places the seven new animals where they live', () => {

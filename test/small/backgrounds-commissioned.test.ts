@@ -4,6 +4,7 @@ import { Scenery } from '../../src/ui/scenery';
 import { SceneKinds } from '../../src/ui/scene-kinds';
 import { Commissioned } from '../../src/ui/commissioned';
 import { CreaturePortraits } from '../../src/paintings/creature-portraits';
+import { ItemCatalog } from '../../src/item-catalog';
 import type { PlaceRef, Screen } from '../../src/ui/screen-types';
 
 // The owner's ruling (25 November): "I wonder if we shouldn't forbid using the old masters painting for backgrounds;
@@ -73,6 +74,6 @@ describe('a place\'s background', () => {
       'summer'))).toMatch(/^scene-/);
   });
   it('leaves the old masters to the portraits', () => {
-    expect(CreaturePortraits.painting('elemental/fire_element')).toBe('monsters/elemental');
+    expect(CreaturePortraits.painting(ItemCatalog.canon, 'elemental/fire_element')).toBe('monsters/elemental');
   });
 });

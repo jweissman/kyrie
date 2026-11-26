@@ -43,7 +43,7 @@ describe('a variation that is a stat block', () => {
     expect(f.equipment.routine?.map(w => [w.id, !!w.lesser])).toEqual([['tail', false], ['slam', true]]);
   });
   it('is placed nowhere when it says so, and leaves every other variation as it was', () => {
-    expect(CreatureVariants.structurals('golem')).not.toContain('t_basalt');
+    expect(CreatureVariants.structurals(ItemCatalog.canon, 'golem')).not.toContain('t_basalt');
     expect(Parties.kinds()).not.toContain('golem/t_basalt');
     for (const kind of Parties.kinds().filter(k => k.includes('/'))) {
       const base = Canon.creature(kind.split('/')[0]!);

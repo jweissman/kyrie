@@ -1,4 +1,3 @@
-import { Canon } from './canon/canon';
 import type { ItemCatalog } from './item-catalog';
 import { LevelDrain } from './rules/level-drain';
 import type { Creature } from './creature';
@@ -79,7 +78,7 @@ export class CombatProjection {
       ...(creature.traits ? { traits: [...creature.traits] } : {}),
       ...(creature.variations ? { variations: [...creature.variations] } : {}),
       // A creature of a kind with no calling: its kind's powers are its own, spells among them cast without slots.
-      ...(Canon.isBody(creature.raceId) && !creature.classId ? { innate: [...creature.base.abilities] } : {}),
+      ...(catalog.isBody(creature.raceId) && !creature.classId ? { innate: [...creature.base.abilities] } : {}),
       ...creature.state.daily ? { daily: structuredClone(creature.state.daily) } : {},
       ...creature.state.companion ? { companion: { ...creature.state.companion } } : {},
       team, cooldowns: {} };

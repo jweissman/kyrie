@@ -46,8 +46,8 @@ export class BestiaryTool {
   // (an elemental's element); not a module's own kinds, installed as it loads.
   static measurable(): string[] {
     return Canon.catalogued.flatMap(id => {
-      const of = CreatureVariants.structurals(id);
-      return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wanting(id) ? [] : [id];
+      const of = CreatureVariants.structurals(ItemCatalog.canon, id);
+      return of.length ? of.map(v => `${id}/${v}`) : CreatureVariants.wanting(ItemCatalog.canon, id) ? [] : [id];
     });
   }
   private static readonly content = new Content('bestiary');
