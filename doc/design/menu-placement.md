@@ -46,7 +46,7 @@ conversation's place, and the conversation is the one page rated right.
 
 **On a narrow or upright screen,** the column is the screen within its safe zone, at the foot.
 
-**In a fight,** the menu may take the left side, using the same measure and the same rows.
+**In a fight,** the menu stands in the same column as every page's, hard right (the owner, 25 November: a fight is "a page like any other"); whom to choose stands beside it, on its left. It had taken the left side, the column mirrored.
 
 The trade-off:
 
@@ -64,7 +64,7 @@ The trade-off:
 | First slice | the scene with its lenses, and a conversation: both take the column from the frame's tokens (`rest.css`, `talk.css`) | 4 / 4 |
 | OR-380, pages before play | how a life begins, a step of a life, and Options (now on the one page's frame, `PageFrame` kind `options`), each in the column by the frame's tokens; the title's ways in the safe zone's width on a phone | 4 / 3 |
 | OR-380, in play | the map's card (its width the column's and its padding the menu's inset, the board framing where you are clear of it), the Book's notes (its rows one over another in the column) | 2 / 1 |
-| OR-380, the rest | the opening (its words and its way on in the column, where the scene's telling stands next), the ending (its column by the tokens), a fight on a wide screen (the hand's column the menu column mirrored to the left) | 2 (the title's, OR-382) / 1 |
+| OR-380, the rest | the opening (its words and its way on in the column, where the scene's telling stands next), the ending (its column by the tokens), a fight on a wide screen (the hand's column the menu column itself, since 26 November; it had been mirrored to the left) | 2 (the title's, OR-382) / 1 |
 | OR-382 | the title, conforming: its name at the left, its rows in the column | 1 / 1 |
 | Left | a fight's hand on a narrow screen (OR-383); the ending measured by a walk that reaches one (OR-384) | |
 

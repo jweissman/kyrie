@@ -275,13 +275,24 @@
 @media (max-width: 899px), (orientation: portrait) {
   .fight-told { align-items: end; justify-items: stretch; padding-bottom: calc(var(--safe-b, 24px) + 64px); }
   .fight-told-col { width: auto; } }
-/* The fight's menu on the other side at the frame's measure (OR-380, the owner's "a fight might switch sides, in the same
-   interaction language"): on a wide screen the hand's column is the menu column mirrored, --menu-rows wide and in from
-   the left as the scene's stands in from the right; what the move under the hand does stands beside it. The way on
-   after a foregone fight is the column's own, its rows inset as the scene's are. On a narrow screen the hand keeps its
-   two columns (OR-383). */
+/* The fight's menu where every page's is (the owner, 25 November: a fight "forces actions to the 'wrong' side of the
+   page … it's just a page like any other"; it had been the menu column mirrored to the left, OR-380): on a wide screen
+   the hand's rows stand in the frame's menu column, hard right, --menu-rows wide and in from the right as the scene's
+   are, and what the move under the hand does (whom to choose, a kind's Back) stands beside them on their left, drawn
+   toward them. The foes' cards are on that side too, so that the rows and whom they choose are near. The way on after
+   a foregone fight is the column's own, its rows inset as the scene's are. On a narrow screen the hand keeps its two
+   columns (OR-383). */
 @media (min-width: 900px) and (orientation: landscape) {
-  .fight > .slot > .moves { padding-left: var(--menu-edge); }
-  .fight .hand { grid-template-columns: var(--menu-rows) minmax(0, 1fr); }
+  .fight > .slot > .moves { padding-right: var(--menu-edge); }
+  .fight .hand { grid-template-columns: minmax(0, 1fr) var(--menu-rows); }
+  .fight .hand > .hand-menu { grid-column: 2; grid-row: 1; }
+  .fight .hand > .hand-detail { grid-column: 1; grid-row: 1; }
+  .fight .hand-detail .aiming { justify-items: end; }
+  .fight .hand-detail .whom { justify-self: end; }
+  .fight .hand-note { text-align: right; }
   .fight-told-col { padding: 0 var(--menu-inset); box-sizing: border-box; }
+  /* Whose turn it is, over the rows it is theirs to choose from; who follows, before it. */
+  .fight > .slot > .turn { padding-right: var(--menu-edge); }
+  .fight .turn .now { order: 2; flex: 0 0 var(--menu-rows); }
+  .fight .turn .order { order: 1; }
 }
