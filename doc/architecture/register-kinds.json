@@ -2850,6 +2850,60 @@
    "was": "defect",
    "pri": "P3",
    "why": "26 Nov, championing two authors: an engine capability their prose wanted, a wanted future"
+  },
+  "OR-1097": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ask of 26 November (the abilities research's answers): a committed requirement, unmet"
+  },
+  "OR-1098": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1097"
+  },
+  "OR-1099": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1097"
+  },
+  "OR-1101": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1097"
+  },
+  "OR-1102": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1097"
+  },
+  "OR-1103": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1097"
+  },
+  "OR-1104": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1097"
+  },
+  "OR-1105": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a slice of OR-1097"
+  },
+  "OR-1106": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "a slice of OR-1097"
   }
  },
  "blockedBy": {

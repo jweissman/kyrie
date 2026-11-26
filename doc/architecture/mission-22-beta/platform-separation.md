@@ -116,7 +116,7 @@ of its kernel to evaluate Kyr code".
 
 What is pure today is the language's statics: parsing, compiling, lowering, the World and its solving. Its dynamics are
 in the runtime:
-- what a statement does (`src/effects.ts`: Assert, Set, Bring, Slay and the rest);
+- what a statement does (the World and src/campaign/consequences.ts apply Kyr's changes: Assert, Set, Bring, Slay and the rest; `src/effects.ts` is the combat interpreter of the effect language, over fighters only: doc/design/research-abilities-and-the-world-2026-11-26.md, finding 1);
 - rules fired until nothing changes (`src/campaign/campaign-tick.ts`: prime, settle, the idle hold);
 - an act checked, applied and settled (the runtime's Outcome path).
 

@@ -390,3 +390,25 @@ test/features/world/the-reference-loop.pin).
 - *whether the electric and thunder exposures are lost by design;*
 - *whether a mage of the reference game can learn a second-level spell before the dungeon's second level;*
 - *how often cold-play agents reached for a spell outside a fight.*
+
+## 6. The owner's answers (26 November)
+
+The owner agreed with the lead's answers to all six questions: "I think I agree with your suggestions on the language --
+let's just make sure everything there is registered clearly. It feels like a huge blind spot since the whole idea is
+that Kyr can bridge the gap between local and global effects."
+
+1. **Leave for the language:** given, for the forms below (L1 to L4), in the slices' order, after the
+   compilation-context review's slices 1 to 3. The symbol table (that review's slice 4) is still to be asked for.
+2. **Knock and Light:** both forms, by the fiction. "For an hour you can…" is a grant; "this door opens" is a verb.
+   Knock becomes a verb on a door.
+3. **A spell at a thing** is offered by the thing, only where it suits the verb and the company can cast it, in the
+   one flat level.
+4. **Durations:** a lasting relation's own `…Until` measure and ending rule for now. A general
+   `Assert … for <time>` is left for semantic tracing.
+5. **The catalog** stays typed silver from the generator, with a printer making every ability readable as Kyr in the
+   handbook and in lint. No hand entry is written as JSON where a sentence can say it.
+6. **World readings first** for charmed (`tolerates`) and invisible or hidden (`unseen`); the rest as the SRD and
+   play call for them.
+
+Registered as OR-1097 (the direction) and OR-1098 to OR-1106 (its slices).
+
