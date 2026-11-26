@@ -166,7 +166,8 @@
         {
           "at": "vault",
           "roles": [
-            "?hollow"
+            "?hollow",
+            "last_gallery"
           ]
         },
         {
@@ -495,6 +496,14 @@
       ],
       "scenes": [
         "At the back of the cavern the floor opens in a crack you could walk into sideways. It goes down, smooth-sided and faintly warm, further than anything the Delvers dug. A smell comes up it like the inside of a shell."
+      ]
+    },
+    "last_gallery": {
+      "names": [
+        "the last gallery"
+      ],
+      "scenes": [
+        "The Delvers' last gallery, cut in haste. The timbering stops halfway along, and past it the walls are black and glassy where the rock was fired."
       ]
     },
     "heart": {

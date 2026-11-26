@@ -3061,6 +3061,12 @@
    "pri": "P3",
    "why": "the owner's direction of 26 November, kept whole, not commissioned"
   },
+  "OR-1233": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov: the owner's ask (authored dungeons deepened too), not yet met for authored sites; not an observed failure of a claimed contract"
+  },
   "OR-1231": {
    "kind": "requirement",
    "was": "defect",
