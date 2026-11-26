@@ -53,6 +53,8 @@ export class SrdFidelityReport {
       `weapon damage before other bonuses or defenses, defences, saves), ${h.creatures[2]} proved in`,
       'play identity. A grade passes when none of its measured fields differs; it is not full SRD fidelity. Play',
       'identity means the concordance names a focused test; for creatures, the special-attacks field also passes.',
+      'Spell levels compare arcane to Sor/Wiz and divine to Clr; a missing list is a mismatch, not a level borrowed',
+      'from another class or domain. Other classes and domains are not assessed by this comparison.',
       '', `In six generated countries' dens (${e.countries.join(', ')}), ${pct(h.met[1], h.met[2])} of meetings are with a`,
       `kind that has an SRD counterpart and ${pct(h.met[0], h.met[2])} with one passing these fields (${h.met[2]} groups).`, '',
       ...this.fieldCounts(), '', '## Creatures, most met first', '',

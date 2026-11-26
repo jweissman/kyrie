@@ -90,6 +90,13 @@ describe('Sleep cast over a band outside a fight', () => {
     await t.play('Do for the sleepers where they lie');
     expect(band(t).every(c => c.state.hp === 0)).toBe(true);
   });
+  it('counts a fixed body by its Hit Dice when the band is met at a higher level', async () => {
+    const text = run('rats').replace('Species rat. Numbers 3.', 'Species dog. Variant drove. Numbers 3. Level 7.');
+    const t = await Tiny.start(text, { party: [enchanter], seed: 'lull' });
+    expect(band(t).every(c => c.raceId === 'dog/drove' && c.base.level === 7)).toBe(true);
+    await t.play('Have Ysabel cast Sleep over the rats');
+    expect(t.campaign.events.at(-1)!.combat.filter(e => e.type === 'save').length).toBe(3);
+  });
   it('wears off as the world\'s clock runs, and those who wake come at the company', async () => {
     const t = await Tiny.start(run('rats'), { party: [enchanter], seed: 'lull' });
     await t.play('Have Ysabel cast Sleep over the rats');
