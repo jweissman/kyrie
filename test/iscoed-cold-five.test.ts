@@ -117,7 +117,7 @@ describe('Gatesend, after the fifth cold play', () => {
     expect(notices(run.s)).toHaveLength(0);
     let s = run.s;
     for (const line of lines(5, 12)) { const x = await AsMeant.ask(run.r, line); if (!('error' in x)) { s = x; } }
-    expect(notices(s).map(o => o.label)).toEqual(['Read the royal proclamation under the notices']);
+    expect(notices(s).map(o => o.label)).toEqual(['Search under the notices for the Rì\'s commission']);
   }, 180000);
   // CL-39's 33, 39, 40: the Hall's music box says whose it is before it is taken, and taking it is no find; the cup
   // in the undercroft is not drawn as a payoff nor found for experience, and its ring is bare only once it is lifted.

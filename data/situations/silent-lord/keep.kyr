@@ -15,6 +15,7 @@ Module silent_lord "The silent lord" {
 
   // ---- What the country says of it (the scenario's hooks), and what the household is, as a whole.
   Entity levy_called: fact "A crier in the castellan's colours has read a levy on the green: spears and grain, to be at the keep on the twelfth day, for the king's muster.".
+  Entity levy_seen: fact "You have noticed the crier's levy notice.".
   Entity lord_unseen: fact "The lord of {outside} has not been seen in eleven days. His castellan signs for him.".
   Initially Assert established(levy_called). Initially Assert established(lord_unseen).
 

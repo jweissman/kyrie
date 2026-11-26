@@ -251,6 +251,6 @@ Module walk "The Walk of the Milestones" {
   Observe walk_arrives at green_a as sign when at(band_a, green_a) "A string of barefoot strangers has taken the well-steps and is chalking the stone: a number, and a little wheel with a wing. They are singing something with no tune to speak of and a great deal of will." teaches walk_heard.
   Observe walk_chalking at green_a as sound when at(band_a, green_a) "Somewhere behind the singing a man is selling something, with the voice of a man who has sold it before.".
   Observe walk_travel_b at green_b as sign when host(walk_b) >= 1 and not at(band_b, green_b) "Chalked numbers on the stone, a day old: the Walk has been, or is coming.".
-  Objective find_walk when knows(party, walk_heard) and not decided(walk) toward leader "A barefoot company is chalking the old road's milestones; find out who leads them, and what the Bailiff means to do about it.".
+  Objective find_walk when knows(party, gathering_known) and not decided(walk) toward leader "A barefoot company is chalking the old road's milestones; find out who leads them, and what the Bailiff means to do about it.".
   Goal decided(walk).
 }
