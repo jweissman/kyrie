@@ -23,7 +23,10 @@
 .when.marked::before { content: none; }
 .place-mark { display: inline-grid; justify-items: center; gap: 3px; margin-right: 2px; }
 .place-mark .pm-glyph { width: 16px; height: 16px; fill: none; stroke: var(--ivory); stroke-width: 1.5; opacity: .85; }
-.place-mark .pm-accent { display: block; width: 18px; height: 2px; border-radius: 1px; background: var(--faint); }
+.place-mark .pm-accent { display: block; width: 18px; height: 3px; border-radius: 2px; background: var(--pm, var(--faint)); }
+/* Another place named (a way, the Book's way back): the same horizontal dash, before its name (OR-1248). */
+.place-dash { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin: 0 7px 3px 0;
+  vertical-align: middle; background: var(--pm, var(--faint)); }
 .place-mark.dim { opacity: var(--cond-idle); }
 /* A heading is no promise: gold is the followed aim's alone, and its next step (the owner, 17 November: the Colour
    Atlas's contract; "Coming home" and "Your first goal" had been drawn in the aim's gold). */
@@ -318,8 +321,7 @@
 .way-thing { font: 500 11px/1.3 var(--do); letter-spacing: .14em; text-transform: uppercase; color: var(--ivory);
   margin: 8px 0 4px 16px; }
 .way-by { font: 400 12.5px/1.3 var(--do); color: var(--faint); padding: 2px 0 0 4px; }
-.ways .options > li.aimed .act.way { border-color: var(--gold-line); box-shadow: inset 2px 0 0 var(--gold); }
-.ways .options > li.aimed .act.way::before { background: var(--gold); border-color: var(--gold); }
+.ways .options > li.aimed .act.way { border-color: var(--edge-strong); box-shadow: inset 2px 0 0 var(--gold); }
 .ways.about .options { grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
 .ways.about .options > li:is(.wide, .whole) { grid-column: 1 / -1; }
 .ways.about .act.way .lead { display: none; }
@@ -333,7 +335,7 @@
   padding: 8px 12px 8px 30px; }
 .act.tile .n { font: 500 14.5px/1.25 var(--do); }
 .act.tile .t { font: 400 12px var(--do); color: var(--dim); }
-.act.tile.aimed { border-color: var(--gold-line); }
+.act.tile.aimed { border-color: var(--edge-strong); box-shadow: inset 2px 0 0 var(--gold); }
 .all-ways { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
   width: 100%; min-height: 46px; padding: 10px 16px; border: 1px solid var(--edge-strong); font: 500 12.5px/1 var(--do);
   letter-spacing: .16em; text-transform: uppercase; color: var(--ivory); }

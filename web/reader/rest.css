@@ -65,8 +65,9 @@
 .openers .act.opener .grave-said { display: block; max-width: 30em; margin-top: 8px; font: 500 14px/1.45 var(--told);
   letter-spacing: 0; text-transform: none; }
 .openers .act.opener:has(> .grave-said)::after { content: none; }
-.openers .opener.led::after { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 0 2px 7px;
-  border-radius: 50%; background: var(--gold); vertical-align: middle; }
+/* The aim's step among the quiet touches marked as an action is, a short vertical bar at its left (the Atlas's colour
+   only in its three marks, the owner, 26 November). */
+.openers .opener.led { box-shadow: inset 2px 0 0 var(--gold); padding-left: 10px; }
 
 /* Who is here: everyone, in one row along the foot of the picture, each likeness giving way to the rest down to a
    small face before any is left out; more than a row holds, in two (the owner's own play, 7 November: "+3" had folded
@@ -272,7 +273,7 @@
 .shell.scene-full .book-frame > .book { padding-inline: max(0px, calc(var(--safe-l) - var(--book-in) - 16px)); }
 /* The way not shown (?guide=quiet, a company without a cleric: see Guidance): the aim's marks elsewhere on the page
    are drawn as anything else is, so that nothing tells the one right answer. */
-.shell.guide-quiet .openers .opener.led::after { content: none; }
+.shell.guide-quiet .openers .opener.led { box-shadow: none; }
 .shell.guide-quiet .wf-preview .wf-aim { display: none; }
 .shell.guide-quiet .wf-row.aimed { border-left-color: transparent; }
 .shell.guide-quiet .replies li.aimed > .act { border-color: var(--edge); box-shadow: none; }

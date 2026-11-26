@@ -4,6 +4,7 @@ import { Surfaces } from '../../../src/presentation/surfaces';
 import { Act, type Draw } from './act';
 import { Wayfinder } from './wayfinder';
 import { Pastime } from './pastime';
+import { PlaceMark } from './place-mark';
 
 // The resting scene before its lenses are earned (compactification, OR-1241: "I'm not even sure we should show the
 // diamond/lenses at all until act II"): nothing the lenses would have opened is out of reach, so the ways on from here
@@ -20,7 +21,7 @@ export class Unlensed {
     return <>
       {ways.map(w => <Act.View key={w.c.id} choice={w.c} draw={draw} quiet
         className={`opener opens-go${w.aim === 'followed' ? ' led' : ''}`}>
-        {Typography.curl(`To ${w.name}…`)}</Act.View>)}
+        <PlaceMark.Dash app={app} to={Wayfinder.to(w)} />{Typography.curl(`To ${w.name}…`)}</Act.View>)}
       {time.map(c => c && <Act.View key={c.id} choice={c} draw={draw} quiet className="opener opens-wait">
         {Typography.curl(c.label)}</Act.View>)}
     </>;

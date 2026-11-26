@@ -3168,6 +3168,36 @@
    "was": "defect",
    "pri": "P3",
    "why": "the owner's direction of 26 November (compactification): a committed requirement"
+  },
+  "OR-1248": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's ask of 26 November: a committed requirement"
+  },
+  "OR-1249": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's ask of 26 November: a committed requirement"
+  },
+  "OR-1250": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ask of 26 November: a committed requirement"
+  },
+  "OR-1251": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's ask of 26 November: a committed requirement"
+  },
+  "OR-1252": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "the owner's ask of 26 November: a committed requirement"
   }
  },
  "blockedBy": {

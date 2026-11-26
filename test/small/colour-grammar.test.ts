@@ -26,6 +26,9 @@ describe('the colour grammar', () => {
   it('reads the colours components set inline', () => {
     expect([...ColourCensus.inline()]).toEqual(expect.arrayContaining(['prism', 'pip', 'wf-tone']));
   });
+  // The Atlas's colour only in its three marks (the owner, 26 November): place-marks (horizontal), action-marks
+  // (vertical) and lens-marks with the diamond; nothing else, held at none.
+  it('draws the Atlas\'s colour only in its three marks', () => { expect(ColourCensus.atlasOff()).toEqual([]); });
   it('flashes no colour', () => { expect(ColourCensus.flashes()).toEqual([]); });
   it('lights a row in neutral ink, never its tone', () => {
     expect(css('menu.css')).not.toMatch(/choice-row[^{]*\{\s*--row-tone:\s*var\(--tone-/);
