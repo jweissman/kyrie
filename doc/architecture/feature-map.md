@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 658 live rows, 232 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 660 live rows, 234 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -594,7 +594,7 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 8 defects · 7 asks
+- **Paintings and portraits** · 1 pins · 10 defects · 7 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - requirement CP-02 P3: Paintings the first hour lacks (toll-house hall and counting-house, a warehouse, a muck pit, cave…
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
