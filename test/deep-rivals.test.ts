@@ -14,6 +14,8 @@ import type { CreatureStore } from '../src/creature-store';
 // morning the brothers go up to Aurumtener themselves, and go down a level every two days, leaving their mark. At
 // the bottom the keeper breaks them, if it is still there, and what they carried is left lying; if it is not, they
 // bring the heart up, and the company's errand is over.
+// (The heart is worth what its siblings are since SI-07, 25 November: the prior gives 150, half again once his brothers
+// are broken, where he had given 1000 and 1500.)
 class Rivals {
   static readonly id = 'region__w9_rivals';
   static async start(seed = 'wren') {
@@ -61,11 +63,11 @@ describe('rivals for a deep site\'s prize', () => {
     const s = await Rivals.start();
     Rivals.put(s, 'region__s1_green');
     expect(await Rivals.take(s, /^Ask the prior about the old workings$/))
-      .toMatch(/The brothers of Ísenheald kept that place once.*we can give 1000 coin/);
+      .toMatch(/The brothers of Ísenheald kept that place once.*we can give 150 coin/);
     expect([Rivals.test(s, 'knows', 'party', `${Rivals.id}_offer`), Rivals.test(s, 'knows', 'party', 'region__w9_named')])
       .toEqual([true, true]);
     expect(await Rivals.take(s, /^Ask the prior for something to go down with$/)).toContain('ten coin');
-    expect(Rivals.pays(s)).toBe(990);
+    expect(Rivals.pays(s)).toBe(140);
   }, 60000);
   it('set out on the second morning, as the talk has it, and leave their mark on each level they pass', async () => {
     const s = await Rivals.start();
@@ -95,8 +97,8 @@ describe('rivals for a deep site\'s prize', () => {
     Rivals.put(s, 'region__s1_green');
     await s.leg('wait');
     expect(Rivals.test(s, 'foiled', Rivals.id)).toBe(true);
-    expect(Rivals.pays(s)).toBe(1500);
-    expect(await Rivals.take(s, /^Ask the prior what became of the brothers$/)).toContain('find 1500 coin for it');
+    expect(Rivals.pays(s)).toBe(230);
+    expect(await Rivals.take(s, /^Ask the prior what became of the brothers$/)).toContain('find 230 coin for it');
     // Where they fell, they lie, and what they carried is there to be taken.
     Rivals.put(s, bottom);
     expect(Rivals.seen(s)).toContain('Here the brothers met whatever is below');
