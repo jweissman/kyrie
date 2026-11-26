@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Journey } from '../src/session/journey';
-import { Endings } from '../src/lang/endings';
+import { Endings } from '../src/lang/index';
 import { KyrLint } from '../src/cli/kyr-lint';
 import steps from './fixtures/cleave/journey.json';
 

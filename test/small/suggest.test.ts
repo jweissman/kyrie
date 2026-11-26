@@ -48,10 +48,10 @@ describe('kyrie suggest', () => {
     const shapes = SuggestAdventures.shapes();
     expect(shapes.length).toBeGreaterThan(30);
     // A Wonder is declared by few, and none holds enough of them for a wonder-tranche (Windfall's orchard, the Going
-    // Bank's breathing wall, the Tail-Race's lit loch, Wet Drusilla's jars under the Silver and Over Exall's whale the
-    // first).
-    expect(shapes.filter(s => s.counts.wonder > 0).map(s => s.id)).toEqual(['goingbank', 'overexall', 'tailrace',
-      'wetdrusilla', 'windfall']);
+    // Bank's breathing wall, the Tail-Race's lit loch, Wet Drusilla's jars under the Silver, Over Exall's whale and the
+    // Cleave's Cerise, the Mother glowing in her silk under the hub, the first).
+    expect(shapes.filter(s => s.counts.wonder > 0).map(s => s.id)).toEqual(['cleave', 'goingbank', 'overexall',
+      'tailrace', 'wetdrusilla', 'windfall']);
     expect(SuggestAdventures.report().join('\n')).toContain('a wonder-tranche: 0 of');
   });
   it('counts the owner\'s paintings by terrain and subject, the list of those wanted kept as it reads', () => {
