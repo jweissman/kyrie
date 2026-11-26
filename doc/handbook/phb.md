@@ -6371,6 +6371,16 @@ Kyr's slot tables run to character level 20, and reach spells of level 9: Orsino
 
 #### Cantrips
 
+##### Acid Splash
+
+*Kyr · cantrip arcane spell, conjuration* · `ability:acid_splash`
+
+1d3 (1–3) acid damage to one enemy (only if a ranged touch attack lands, worn armour not counting). An arcane cantrip, cast at will.
+
+> A small orb of acid flies at one foe, dealing 1d3 acid if it strikes.
+
+*Adapted: The SRD's Acid Splash: a conjuration cantrip, one foe by ranged touch, 1d3 acid and no spell resistance. Its acid sets off none of Orsino's acid burn. Omitted: its close range; cantrips use Kyr's unlimited casting.*
+
 ##### Animate Animal
 
 *Faithful · cantrip arcane spell, necromancy* · `ability:animate_animal`
@@ -6394,6 +6404,16 @@ Raise a fallen ally with 30% of their health, undead nature now (only animal cre
 Every enemy is distracted for 3 turns (a Wisdom save against 15 + level + the caster's spell bonus avoids it); every enemy is blinded for 3 turns (a Wisdom save against 10 + level + the caster's spell bonus avoids it). Distracted: −1 to hit, −1 damage, −5 evasion. Blinded: −4 to hit, −10 evasion, −2 to every roll. An arcane cantrip, cast at will.
 
 > Create small lights that hover and move.
+
+##### Disrupt Undead
+
+*Kyr · cantrip arcane spell, necromancy* · `ability:disrupt_undead`
+
+1d6 (1–6) untyped damage to one enemy (only undead creatures; only if a ranged touch attack lands, worn armour not counting). An arcane cantrip, cast at will.
+
+> A ray of positive energy strikes one undead foe for 1d6 if it lands.
+
+*Adapted: The SRD's Disrupt Undead: a necromancy cantrip, one undead foe by ranged touch, 1d6 untyped damage and spell resistance. Omitted: close range and a distinct positive-energy damage tag. Kyr cantrips are cast at will and its general damage reduction can affect nonphysical damage.*
 
 ##### Frostbite
 
@@ -6449,7 +6469,7 @@ You are minor warded for 10 turns. Minor Warded: +1 against magic, 7 + level mor
 
 *Adapted · cantrip arcane spell, evocation* · `ability:ray_of_frost`
 
-1d3 (1–3) cold damage to one enemy (only if a ranged touch attack lands, worn armour not counting; may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane cantrip, cast at will.
+1d3 (1–3) cold damage to one enemy (only if a ranged touch attack lands, worn armour not counting). An arcane cantrip, cast at will.
 
 > A ray of freezing air and ice springs from your finger at one foe: 1d3 cold if it strikes.
 
@@ -6653,7 +6673,7 @@ Call 1d4 + floor((level / 2)) creatures, each one of: rat, spider, centipede, to
 
 *Adapted · level 2 arcane spell, conjuration* · `ability:acid_arrow`
 
-2d4 (2–8) acid damage to one enemy (only if a ranged touch attack lands, worn armour not counting; may leave whoever it hurts acid burn: a Constitution save against 15 avoids it); it is clinging acid no turns at the first casting level, 3 turns at the tenth. Acid Burn: takes 1d6 (1–6) acid damage each turn. Clinging Acid: takes 2d4 (2–8) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
+2d4 (2–8) acid damage to one enemy (only if a ranged touch attack lands, worn armour not counting); it is clinging acid no turns at the first casting level, 3 turns at the tenth. Clinging Acid: takes 2d4 (2–8) acid damage each turn. An arcane spell of the second level. Takes a second-level slot.
 
 > An arrow of acid flies from your hand at one foe: 2d4 if the shot lands, and the acid clings and burns 2d4 more at the end of each of its turns, a turn for every three levels you have.
 
@@ -6829,7 +6849,7 @@ One enemy is weakened for 3 turns (a Constitution save against 18 + level + the 
 
 *Adapted · level 3 arcane spell, evocation* · `ability:fireball`
 
-1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the third level. Takes a third-level slot.
+1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the third level. Takes a third-level slot.
 
 > A bead of fire flies to where you aim it and bursts, 1d6 for every level you have, to ten, on everyone in the place it bursts in, friend or foe; whoever throws themselves clear takes half.
 
@@ -7025,7 +7045,7 @@ On one enemy, one of these, drawn at random: 4d6 (4–24) fire damage to it (hal
 
 *Adapted · level 5 arcane spell, evocation* · `ability:cone_of_cold`
 
-1d6 per caster level, to 15d6 cold damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 15 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts frozen: a Dexterity save against 15 avoids it). Frozen: Dexterity −5, cannot act. An arcane spell of the fifth level. Takes a fifth-level slot.
+1d6 per caster level, to 15d6 cold damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 15 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the fifth level. Takes a fifth-level slot.
 
 > Cold bursts from your hands in a cone, 1d6 for every level you have, to fifteen, on everyone it catches, friend or foe; whoever throws themselves clear takes half.
 
@@ -8191,7 +8211,7 @@ Every enemy is fleeing for 2 turns (only undead creatures; a Wisdom save against
 
 *Adapted · level 3 divine spell, necromancy, death domain* · `ability:life_drain`
 
-Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 > Your touch draws the life out of a foe, 1d6 for every two levels you have, to ten, and what you draw mends you.
 

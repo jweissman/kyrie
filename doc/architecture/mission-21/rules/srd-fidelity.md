@@ -5,9 +5,9 @@ concordance (data/sources/srd35); test/srd-fidelity holds it current. Do not edi
 
 **2 of 88 placed encounters in a1 pass the sampled creature fields** (a group whose every
 kind passes in structure and resolution); 61 of them have an SRD counterpart for every kind.
-**Spells with an SRD counterpart (120 of 287 catalog spells): 45 pass in structure
-(level, school), 28 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
-target, duration), 37 proved in play identity.** Creatures with one (79):
+**Spells with an SRD counterpart (122 of 289 catalog spells): 47 pass in structure
+(level, school), 30 in resolution (harm, kind, save and its difficulty, aim, spell resistance,
+target, duration), 39 proved in play identity.** Creatures with one (79):
 8 in structure (Hit
 Dice, armour), 7 in resolution (blow dice, each strike's chance to hit AC 15 and noncritical
 weapon damage before other bonuses or defenses, defences, saves), 3 proved in
@@ -21,7 +21,7 @@ kind that has an SRD counterpart and 2 % with one passing these fields (541 grou
 
 | creatures, field exact or converted | hitDice 9 | armour 10 | attacks 27 | hit 9 | damage 10 | defences 5 | specials 2 | saves 8 | of 79 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| spells, field exact or converted | level 54 | school 85 | dice 10 | type 13 | save 35 | dc 26 | attack 111 | resist 19 | target 67 | duration 56 | of 120 |
+| spells, field exact or converted | level 56 | school 87 | dice 12 | type 14 | save 35 | dc 26 | attack 113 | resist 20 | target 69 | duration 58 | of 122 |
 
 ## Creatures, most met first
 
@@ -115,6 +115,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | spell | SRD | grades | level | school | dice | type | save | dc | attack | resist | target | duration |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | acid_arrow | acid-arrow | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | – | ✓ | ✓ |
+| acid_splash | acid-splash | S✓ R✓ I✓ | ✓ | ✓ | ✓ | ✓ | – | – | ✓ | – | ✓ | ✓ |
 | animate_dead | animate-dead | S✗ R✗ I– | ✗ 3 → 4 | ✓ | – | – | – | – | ✓ | – | ✗ one → several | ✓ |
 | armor | mage-armor | S✓ R✗ I✓ | ✓ | ≈ Orsino's abjuration, kept by the owner's word: the SRD's conjuration would move abjurers' and conjurers' draws (srd-proving-cases.md, case 22) | – | – | ≈ harmless: made by none who takes it willingly (srd-proving-cases.md, case 21) | ≈ harmless: none is made (srd-proving-cases.md, case 21) | ✓ | – | ✗ · → one | ≈ the fight, twenty rounds, where the SRD's is an hour a level (srd-proving-cases.md, case 22) |
 | augury | augury | S✗ R✗ I– | ✗ 2 → not on Sor/Wiz list | ✓ | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → instant |
@@ -151,6 +152,7 @@ value taken; E the SRD's needs what the engine lacks; ≈ converted by a named r
 | disintegrate | disintegrate | S✗ R✗ I– | ✗ 5 → 6 | ✗ evocation → transmutation | ✗ 35/35/35/35 → 7/35/70/140 | – | ✗ wisdom half → constitution negates | ✗ 15 → 19 | ✗ none → ranged touch | ✗ · → yes | ✓ | ✓ |
 | dispel_magic | dispel-magic | S✗ RU I– | ✗ 2 → 3 | ✓ | – | – | – | – | ✓ | – | ✗ · → one | ✓ |
 | divine_favor | divine-favor | S✓ R✓ I✓ | ≈ Orsino's, a War cantrip, kept by the lead's decision and the owner's word (srd-proving-cases.md, case 23) | ✓ | – | – | – | – | ✓ | – | ✓ | ≈ a minute, ten rounds, at every casting level: Kyr's durations do not grow with the caster (srd-proving-cases.md, case 14) |
+| disrupt_undead | disrupt-undead | S✓ R✓ I✓ | ✓ | ✓ | ✓ | – | – | – | ✓ | ✓ | ✓ | ✓ |
 | divine_power | divine-power | S✗ RU I– | ✗ 8 → 4 | ✗ · → evocation | – | – | – | – | ✓ | – | ✓ | ✗ 3 rounds → 5 rounds |
 | dominate_person | dominate-person | S✗ R✗ I– | ✓ | ✗ necromancy → enchantment | – | – | ✗ · → wisdom negates | ✗ · → 18 | ✓ | ✗ · → yes | ✓ | ✗ 10 rounds → long |
 | domination | dominate-monster | S✗ R✗ I– | ✗ 7 → not on Clr list | ✗ · → enchantment | – | – | ✓ | ✗ 38 → not on Clr list | ✓ | ✗ · → yes | ✓ | ✗ 3 rounds → long |

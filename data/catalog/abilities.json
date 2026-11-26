@@ -945,6 +945,55 @@
         "notes": "The SRD's Burning Hands (doc/architecture/mission-22/srd-proving-cases.md, case 12): first level, 1d4 fire a casting level to 5d4 at the fifth (by #castingLevel), a cone (the rules' areas), a Reflex save for half at the SRD's difficulty and half the casting level (case 7's conversion). Omitted: setting things alight. Before, Orsino's second level and 2d6 on every foe, no save. Spell resistance answers it (SpellResistance, srd-proving-cases.md case 43)."
       }
     },
+    "acid_splash": {
+      "name": "Acid Splash",
+      "kind": "spell",
+      "description": "A small orb of acid flies at one foe, dealing 1d3 acid if it strikes.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "1d3" },
+          "damageType": "acid",
+          "target": "enemy",
+          "touch": "ranged",
+          "triggers": false
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 0, "school": "conjuration" },
+      "source": {
+        "kyr": true,
+        "srd35": "spell:acid-splash",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Acid Splash: a conjuration cantrip, one foe by ranged touch, 1d3 acid and no spell resistance. Its acid sets off none of Orsino's acid burn. Omitted: its close range; cantrips use Kyr's unlimited casting."
+      }
+    },
+    "disrupt_undead": {
+      "name": "Disrupt Undead",
+      "kind": "spell",
+      "description": "A ray of positive energy strikes one undead foe for 1d6 if it lands.",
+      "effects": [
+        {
+          "kind": "damage",
+          "amount": { "kind": "deem", "expression": "1d6" },
+          "damageType": "untyped",
+          "target": "enemy",
+          "targetTrait": "undead",
+          "touch": "ranged",
+          "triggers": false
+        }
+      ],
+      "cost": 1,
+      "spell": { "tradition": "arcane", "level": 0, "school": "necromancy", "resistance": true },
+      "source": {
+        "kyr": true,
+        "srd35": "spell:disrupt-undead",
+        "conversion": "srd35-westernesse-v1",
+        "fidelity": "adapted",
+        "notes": "The SRD's Disrupt Undead: a necromancy cantrip, one undead foe by ranged touch, 1d6 untyped damage and spell resistance. Omitted: close range and a distinct positive-energy damage tag. Kyr cantrips are cast at will and its general damage reduction can affect nonphysical damage."
+      }
+    },
     "acid_arrow": {
       "name": "Acid Arrow",
       "kind": "spell",
