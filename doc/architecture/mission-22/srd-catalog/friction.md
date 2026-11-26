@@ -78,3 +78,167 @@ Cure Moderate, Serious and Critical Wounds now use their SRD second, third and f
 healing mechanics are retained; the focused spec casts them at the newly reachable cleric levels and checks the slot
 spent. The preset cleric's valid spell picks change, as described in case 16. The SRD census's structural passes
 increase from 45 to 48; resolution and identity counts do not change. This does not close OR-157, SR-01 or SR-02.
+
+## What the numbers can and cannot say
+
+The inventory asks whether a **direct mapping** exists. The fidelity census asks whether **selected fields on mapped
+rows**, read from resolved canon, match or have a recorded conversion. Neither asks whether every SRD behavior is
+playable. A catalog entry can be unsupported, a mapping can represent an intentional adaptation, and a source record
+without a direct mapping can have a differently named representation. Do not divide structural passes by all source
+records and call the answer the percentage migrated, or call mapped records lore-accurate on the strength of the
+mapping alone.
+
+For example, the living-healing half of a cure is exercised and its save is recorded as a conversion, while its
+hostile undead route remains absent. A census resolution pass does not make that omitted route work. Likewise,
+creature mappings include multiple Kyr bodies pointing to one SRD block: an ID count is not a count of distinct
+creatures.
+
+The generated report and its implementation are `doc/architecture/mission-21/rules/srd-fidelity.md`,
+`src/cli/srd-spell-fidelity.ts`, `src/cli/srd-creature-fidelity.ts`, and `src/cli/srd-spell-resolution.ts`.
+The comparison has useful limits:
+
+- A named conversion is accepted as converted, not demonstrated equivalent. It needs a description of the changed
+  contract and a test of the actual behavior, including the boundary or counterexample that distinguishes it.
+- A field marked `n/a` can be legitimately inapplicable or simply not measured. Those are different things; do not
+  assume either that every `n/a` is a bug or that it proves equivalence. Report the reason for each.
+- Spell damage is sampled at four caster levels, duration and targeting are classified coarsely, and creature hit
+  chance uses one armor class and the first attack. A match can hide a missed scaling boundary, different recipients,
+  or a different multiattack. Add boundary and full-routine tests against observed resolution, not more labels alone.
+- The identity grade uses concordance test references. `test/srd-fidelity.test.ts` checks that references exist, but
+  their existence does not establish that the tests exercise each defining behavior. Tie each claimed behavior to an
+  assertion and an ordinary player or encounter route. Preserve intentional conversions as conversions.
+- The encounter percentages describe the kept a1 groups and six fixed-seed den samples, not all play. A change to a
+  source or placement also needs a fresh encounter measurement rather than an unchanged saved census.
+
+**Instrument slice:** first make the report distinguish inapplicable, unmeasured, unsupported, exact and converted
+fields; retain the per-field evidence rather than treating an aggregate as a full-fidelity verdict. Validate identity
+claims against behavior assertions, not only reference existence. Add fixtures where a coarse sample would pass
+despite a wrong cap, duration, target set, or secondary attack; then compare actual engine outcomes at the relevant
+boundaries. This is separate from changing the census baseline: a stricter reading may honestly lower the count.
+
+### Verdict breakdown at this slice
+
+These are field comparisons, not counts of individual spells or creatures that are fully faithful. A row contributes
+to every field. The census accepts exact, converted and `n/a` fields when grading; `orsino` means the creature
+comparison uses the procedural Orsino body rather than a fixed SRD block.
+
+| Spell field (119 mapped rows) | Exact | Converted | Differs | n/a |
+| --- | ---: | ---: | ---: | ---: |
+| Level | 58 | 1 | 60 | 0 |
+| School | 83 | 1 | 35 | 0 |
+| Dice | 14 | 0 | 23 | 82 |
+| Type | 13 | 0 | 1 | 105 |
+| Save | 27 | 11 | 39 | 42 |
+| DC | 6 | 20 | 54 | 39 |
+| Attack | 110 | 0 | 9 | 0 |
+| Resistance | 19 | 0 | 35 | 65 |
+| Target | 73 | 3 | 43 | 0 |
+| Duration | 52 | 6 | 61 | 0 |
+
+| Creature field (79 mapped rows) | Exact | Differs | n/a | Orsino |
+| --- | ---: | ---: | ---: | ---: |
+| Hit Dice | 9 | 0 | 0 | 70 |
+| Armour | 10 | 69 | 0 | 0 |
+| Attacks | 27 | 52 | 0 | 0 |
+| Hit | 13 | 60 | 6 | 0 |
+| Saves | 8 | 71 | 0 | 0 |
+| Defences | 5 | 19 | 55 | 0 |
+| Specials | 2 | 19 | 18 | 40 |
+
+| Grade | Spells | Creatures |
+| --- | --- | --- |
+| Structural | 48 pass; 71 fail | 8 pass; 71 fail |
+| Resolution | 37 pass; 68 fail; 14 unsupported | 7 pass; 72 fail |
+| Identity | 36 proved; 83 unassessed | 3 proved; 76 unassessed |
+
+The 14 unsupported spell *resolution grades* are not the same population as the 30 catalog spell entries carrying
+an `unsupported` field: the former is over mapped rows and applies the grader's rules. An `n/a` is legitimate when
+both compared values are absent: Magic Missile's DC, for instance, is `n/a` because there is no save
+(`test/srd-fidelity.test.ts`). It does not by itself establish whether the underlying source or modeled data were
+complete. `unassessed` is an identity grade, not another field verdict.
+
+Recompute directly from the same resolved rows; the generated ledger combines exact and converted in its summary:
+
+```sh
+bun -e '
+import { SpellFidelity, spellFields } from "./src/cli/srd-spell-fidelity.ts";
+import { CreatureFidelity, creatureFields } from "./src/cli/srd-creature-fidelity.ts";
+for (const [label, rows, fields] of [
+  ["spells", SpellFidelity.rows(), spellFields],
+  ["creatures", CreatureFidelity.rows(), creatureFields],
+] as const) {
+  console.log(label, "rows", rows.length);
+  for (const f of fields) {
+    const counts: Record<string, number> = {};
+    for (const r of rows) counts[r[f].verdict] = (counts[r[f].verdict] ?? 0) + 1;
+    console.log(f, JSON.stringify(counts));
+  }
+  for (const g of ["structural", "resolution", "identity"] as const) {
+    const counts: Record<string, number> = {};
+    for (const r of rows) counts[r.grades[g]] = (counts[r.grades[g]] ?? 0) + 1;
+    console.log(g, JSON.stringify(counts));
+  }
+}'
+```
+
+## Candidate slices for the rules builder
+
+The order favors a small shared proof before a wider catalog change. All differences below refer to the current
+worktree's resolved rows and source records, not an assertion that the source extracts contain all rules text.
+Existing engine primitives reduce the work but do not prove their combination is wired into the particular spell.
+
+| Priority and mapped spell | Current behavior and friction | Specific mitigation and acceptance | Reach and generation risk |
+| --- | --- | --- | --- |
+| 1. `cure_minor`, Cure Minor Wounds | A zero-level cure heals one ally for one point; its catalog note omits harm to undead. Dice, save and DC differ in the census. The structured source omits the healing amount, so the dice verdict alone does not disprove the one-point heal. | Preserve one-point living healing without a hostile save. Prove an undead hostile touch, Will save and resistance through resolution, with a missed touch, a saved target and a resisted target. The touch and resistance primitives exist, but the heal effect does not establish this route. Expand the same proof to the stronger cures. | Keep ordinary cantrip use and tending intact. Measure any change in target availability, combat choices and existing spell selection. |
+| 2. `conjure_light`, Light | Source: level 0, an object touched, ten minutes per caster level. The current Kyr-authored level-1 spell gives an ally `lit` for two hours. Level, target and duration differ. | First prove a light on an object changes an actual scene's visibility and expires at the right world time, including save/reload and two caster levels; a timed status alone is not object lighting. Decide whether to retain the current spell as an adaptation and introduce a distinct version instead of silently changing it. | Moving to the separate cantrip pool or adding traditions changes learned and prepared spell sets. Measure player creation and installed casters before changing either. |
+| 3. `charm`, Charm Person | Source: one humanoid, Will negates, resistance, one hour per level. Current record uses three rounds, a different DC and no resistance flag. The present charmed allegiance is not automatically the SRD's treatment as a friend. | Prove target eligibility, DC, resistance before effects, both save outcomes and expiry across world time. Separately prove what requests and hostile acts mean to the subject; do not make a DC-only pass stand for relationship semantics. | Level and school need not move, but the longer relationship can affect combat, conversation and persisted world state. Compare those outcomes and test reload. |
+| 4. `disintegrate` | Source is a sixth-level transmutation ray with ranged touch, caster-scaled damage, Fortitude partial and spell resistance. The current fifth-level evocation is flat 10d6 force with different attack, save and resistance handling. | Connect and prove ranged touch hit/miss, resistance, a failed and successful Fortitude save, scaling at low level and its cap, and creature and object outcomes. Do not equate an existing touch helper with this complete route. | Changing level and school affects selection and specialist pools; count changed player and installed hostile spellbooks. Keeping the current slot is a conversion, not full fidelity. |
+| 5. `animate_dead` | Source has different cleric and wizard levels and touches one or more corpses. The current arcane third-level effect revives one dead ally with undead traits; its level and target fail the census, and revival is not corpse animation. | First settle whether the existing record remains an adaptation. For an SRD version, prove one and several valid corpses, invalid targets, created undead, control and persistence. Support different class-list levels only with an explicit representation and selection proof. | New creatures and control affect encounter and world state. Check source caps and resource costs, caster lists, hostile preparation and save/reload before placing the spell. |
+
+## Candidate slices for creatures
+
+The existing examples are adaptations with proofs, not blank implementations. Their historical sample counts are not
+the current generated ledger's coverage. Keep the existing behavior and its evidence visible while extending it.
+
+| Candidate | What exists and what remains | Specific mitigation and placement risk |
+| --- | --- | --- |
+| `boar/wild` | Case 65's fixed-stat breed passes structure and resolution; its ferocity, low-light vision and scent are omitted. `boar` is a separate procedural row and fails those grades. The current ledger records `boar` at 1/9 and `boar/wild` at 0/0; case 65 separately measured 10 boars in 156 open-country meetings across eight countries. | Implement fighting while disabled or dying as a state and action rule, not a trait label. Prove its action, resulting harm or death, combat exit and reload. The breed already replaces one warned wood meeting, while roadstation and den boars remain the old body; measure both avoidance and fought outcomes before widening placement. |
+| `rat/midden` | The dire-rat breed already proves a bite, disease save, one-to-three-day incubation and a Fevered condition (`test/midden-rat.test.ts`). Case 64 records one save for both scores, a single toll and day-end recovery as adaptations; low-light vision, scent, Climb and Swim are omitted. The current ledger records 0/0, not proof it is unreachable. | Compare the SRD disease's individual saves, repeated progression, recovery and treatment with the existing clock before changing it. Exercise multiple days, removal during incubation and after harm, and reload; measure any change to the placed encounter. Reuse this clock where appropriate for Ghoul Fever, rather than describing onset as wholly absent. |
+| `long_centipede` | `test/long-centipede.test.ts` already proves poison, a delayed second dose, accumulation, Cleanse and placement. Case 63 records the second save at a watch rather than a minute, and full Dexterity recovery at day-end instead of point-by-point. | If exact timing is wanted, prove the second save at the intended time and gradual recovery, including treatment and reload. Assess whether a finer clock advances while the player is not in combat before applying it to other poisons. The kept encounter ledger can be stale after a placement change. |
+| `spider/great/cave` | The current row maps to medium monstrous spider and records 3/35 in the kept ledger; attacks match but armor, hit chance and saves differ. Case 28's earlier replacement experiment made every tested pair lethal. It is not a completed SRD replacement. | Keep the placed Orsino spider until a scoped fixed-stat variant has its poison and attack proof, a measured role and warning, and seeded lone/company fights. Case 28's lead decision was to leave it as-is; do not replace all spiders on the basis of a table match. |
+| Barrow ghoul | A distinct breed and its combat route already have a proof (case 25). Ghoul Fever, turn resistance and elf immunity remain omitted; the ordinary ghoul is also a separate, widely encountered body. | Prove the disease over world days, turn resistance in the actual turning rule, and an eligible elf's immunity without suppressing effects on other targets. Place the breed selectively and rerun encounter samples instead of replacing all ghouls. |
+
+## Acceptance and release plan
+
+For each proposed slice, keep five pieces together, following
+`doc/architecture/mission-21/rules/proof-slices.md`:
+
+1. Name the precise SRD source, current modeled behavior, omitted or converted behavior, and whether the entry is
+   installed, generated, reachable or only catalogued. A reference-only or unmapped row is not a playable migration.
+2. Prove the defining rule with a minimal fragment through the same resolution path used by play. Include failure,
+   resistance or immunity as applicable, save/reload and replay where the effect persists, and visible causal events.
+   Then prove one ordinary character can learn and cast the spell, or one ordinary encounter can produce the
+   creature, without inventing a client-only route.
+3. Inventory all affected picks and placements before changing them. For spells, compare seeded player and hostile
+   spellbooks, available slots, presets and installed casters. For creatures, compare affected ecology rows, warning
+   and avoidance, first-hour encounters and fixed-source stats. Keep new variants unplaced until measured.
+4. Compare before and after against the **same** seeds and party composition; record both the results and any
+   placement or rules conversion. Test a lone novice as well as a company, and distinguish avoided from fought
+   meetings. Do not tune a source body's HP merely to conceal a placement problem.
+5. Regenerate the fidelity report and relevant handbook, review unrelated drift separately, and record the proving
+   spec, actual reach and unresolved omissions. Only call a row exact when the defining behavior and the relevant
+   fields have been checked, not merely when the census changes color.
+
+Run the narrow spec and fast gates first; the larger world walks belong in CI, not this machine. In addition to
+`bun run test:canary`, run `bun run quantity` on the proposed head and a comparable baseline, keeping the seed,
+party and per-encounter results. Its default countries are `iscoed`, `a1` and `thorn`; its fairness reading compares
+outcomes with Kyr's own reckoning (`doc/architecture/quantity.md`), so it is a useful regression signal, not an
+independent proof of SRD encounter balance. Inspect changed installed encounters and explicitly sample fights and
+avoidance at their intended ranks as well. If a band fails, investigate the world or the soundness of the measure;
+do not widen it to make an import pass.
+
+**CI friction, 26 November:** PR #2's run for commit `a47ac81` concluded `action_required` without jobs; its cause is
+not established here. The local fast and small gates passed for that commit, but this is not a green CI result. No
+`quantity` or `test:canary` invocation was found in the repository's workflow YAML. Arrange an explicit CI run of
+these measures for content changes that affect placement or draws and keep the output with the slice; until that
+exists and runs, do not claim the world gate covered this migration.
