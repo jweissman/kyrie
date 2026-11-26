@@ -326,6 +326,9 @@
     margin-left: calc(var(--safe-l) - var(--card-pad)); margin-right: calc(var(--safe-r) - var(--card-pad)); }
   .shell.scene-full .world-page.scale-board .board-surface .field-tools { top: 150px; bottom: auto; left: auto;
     right: var(--safe-x, 16px); transform: none; }
+  /* The map's name and its line keep clear of those controls: the frame reserves their column (nothing floats over
+     text, the owner's; at 390 wide "The landing at Porthalen" had run under Nearer and Further). */
+  .shell.scene-full .world-page.scale-board > .world-bar { padding-right: calc(var(--safe-x, 16px) + 52px); }
 }
 /* A lens on: its mark brighter, with a short line under it, not a filled circle (the owner, 12 November: "more
    subtle at least"). */
