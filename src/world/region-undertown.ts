@@ -153,31 +153,18 @@ export class RegionUndertown {
     const taken = region.sites.find(x => x.work?.deep)?.work?.art;
     return ['bone', ...DeepPurposes.order].find(a => a !== taken)!;
   }
-  // The makers of what the town is built over (or the woods beside it are), as the country's history has them.
-  static makers(region: Region): NonNullable<Region['history']>['makers'][number] {
-    const art = this.art(region), history = region.history!;
-    return history.makers.find(m => m.art === art) ?? history.makers[0]!;
-  }
-  // What the deep place is called: called and kinded as what it is (the Delvers' mine under a town had been "the old
-  // dead", a barrow: SI-02), under the old woods where the town is the reference game's.
-  static called(region: Region, s: Settlement): string {
-    const plan = DeepPurposes.of(this.art(region))?.plan;
-    return (ReferenceSettlement.is(region, s) ? plan?.wooded ?? 'the old dead under the old woods'
-      : plan?.buried ?? 'the old dead under {town}').replace('{town}', s.name);
-  }
   private static catacombs(region: Region, s: Settlement): string[] {
     const art = this.art(region), purpose = DeepPurposes.of(art), taken = region.sites.find(x => x.work?.deep);
     const history = region.history;
     if (!purpose || !history) { return []; }
-    const t = s.id, w = `${t}_ud`, makers = this.makers(region);
+    const t = s.id, w = `${t}_ud`, makers = history.makers.find(m => m.art === art) ?? history.makers[0]!;
     const old = makers.self.name ?? makers.epithet, k = history.successors;
-    const wooded = ReferenceSettlement.is(region, s), name = this.called(region, s);
+    // Called and kinded as what it is: the Delvers' mine under a town had been "the old dead", a barrow (SI-02).
+    const wooded = ReferenceSettlement.is(region, s);
+    const name = (wooded ? purpose.plan.wooded ?? 'the old dead under the old woods'
+      : purpose.plan.buried ?? 'the old dead under {town}').replace('{town}', s.name);
     const site: Site = { id: w, kind: purpose.plan.kind, name, hours: 0 };
-    // Under the old woods, the makers' marks at its door, read, tell who they were (the brothers' errand there).
-    const marked: Record<string, string> = wooded ? { makersfact: `history_${makers.art}`, craft: makers.craft,
-      belief: makers.belief, heard: `knows(actor, ${t}_wood_door)` } : {};
     const values = { w, name: site.name, old, oldup: old.toUpperCase(), land: t, x: '1', y: '8', kingdom: k.name,
-      ...marked,
       kingdomup: k.name.toUpperCase(), kingdomkind: k.kind, fallen: k.fallen, fate: makers.fate, town: t,
       townname: s.name,
       keeper: `${t}_innkeeper`, priest: `${t}_priest`, merchant: `${t}_merchant`, holy: Foundings.holyPlace(region, s),

@@ -44,9 +44,7 @@ Module pans "The cold pans" {
   Observe boiling_hot at boiling when fuelled(party) "All three hearths roar. The brine seethes in the pans and the air is thick with steam and the smell of the sea, and a man with a long wooden rake draws the white salt up onto the boards to drain.".
   Observe boiling_spoiled at boiling when spoiled(party) "The pans are cold and the brine in them has gone to a brown scum. Two men are tipping it out into the ditch, and nobody is speaking.".
   Observe staithe_scene at staithe when not fuelled(party) "A flat-bottomed fuel boat lies tied up at the staithe, sacks of charcoal heaped in her waist. On the bank a man sits with his arm strapped across his chest, looking at her.".
-  // Said when he is spoken to, not on arriving: what has become of the boat is found out by asking after it (the world
-  // gate's measure 8: an aim seen through by arriving alone).
-  Observe ianto_says at staithe as sign when not fuelled(party) and not knows(party, boatman) and addressed(ianto, party) "'Broke it on the windlass, loading her,' Ianto calls up to you, and lifts the strapped arm. 'She's full. I can't pole her down one-handed, and nobody here will take her through the cut.'" teaches boatman.
+  Observe ianto_says at staithe as sign when not fuelled(party) and not knows(party, boatman) "'Broke it on the windlass, loading her,' Ianto calls up to you, and lifts the strapped arm. 'She's full. I can't pole her down one-handed, and nobody here will take her through the cut.'" teaches boatman.
   Person ianto "Ianto" at staithe { Role "the fuel boatman of {fuelvillage}, with a broken arm". Pronouns he. Peaceable. Manner grim. }
 
   Topic trader_cold with trader "Ask {trader} why the pans are cold" when (toldMatter(trader, actor) or knows(actor, chimney) or knows(actor, cold)) and not fuelled(party) and not spoiled(party) once {
@@ -142,10 +140,8 @@ Module pans "The cold pans" {
   Objective cold_aim when knows(party, cold) and not knows(party, boatman) and not fuelled(party) and not spoiled(party) toward ianto "Find out what has become of {trader}'s fuel boat at {fuelvillage}: the salt-pans at {town} go cold in three days without it.".
   Objective cold_fetch when knows(party, boatman) and not fuelled(party) and not spoiled(party) and not carted(party) and not afloat(party) toward ianto by staithe "Bring {trader} fuel from Ianto's boat at {fuelvillage}: pole her down the cut, or carry two sacks.".
   Objective cold_carry when holding(party, fuel_sack_kind) and not fuelled(party) and not spoiled(party) toward trader by boiling "Take the charcoal to {trader}'s boiling-house at {town}.".
-  // Poled down, the boat's aim is one until {trader} is told she is in: brought to the quay, it had been seen through
-  // by the arriving (the world gate's measure 8).
-  Objective cold_down when (afloat(party) or (carted(party) and knows(party, poled))) and not fuelled(party) and not spoiled(party) toward trader by shop "Bring Ianto's fuel boat down the cut to {trader}'s salt-house at {town}, and tell {trader} she is in.".
-  Objective cold_told when carted(party) and not knows(party, poled) and not fuelled(party) and not spoiled(party) toward trader by shop "Tell {trader} in the salt-house that the fuel boat is at the quay.".
+  Objective cold_down when afloat(party) and not carted(party) and not fuelled(party) and not spoiled(party) toward trader by shop "Bring Ianto's fuel boat down the cut to {trader}'s salt-house at {town}.".
+  Objective cold_told when carted(party) and not fuelled(party) and not spoiled(party) toward trader by shop "Tell {trader} in the salt-house that the fuel boat is at the quay.".
   Rule word_old when fuelled(party) and not stale(cold) { Assert stale(cold). }
   // The boat at the staithe is over once it has left it, and Ffion's want once the fuel has gone where it went
   // (FH-25: the Notes had kept both after the pans were lit).

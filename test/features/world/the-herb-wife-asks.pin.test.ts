@@ -49,8 +49,7 @@ describe('World › The herb-wife asks, and the shrine tests', () => {
     const name = (id: string) => c.module.entities.find(e => e.id === P(id))!.name.split(', ')[0]!;
     const dealer = name('innkeeper'), priest = name('priest');
     // A talk, plain or led with a question by its short title ("Finnan: what is out in the country round", OR-802).
-    // Or led with the question a life's aim leads to (come over the hills, the work is asked after: OR-1075).
-    const talk = (who: string) => `^(Talk to ${who}( —|$)|${who}: |Ask ${who} about the old woods$)`;
+    const talk = (who: string) => `^(Talk to ${who}( —|$)|${who}: )`;
     await to('green'); await to('taproom');
     // Greeted, the herb-wife asks; nothing was pressed to be asked.
     expect(rows(s).some(x => /asks what brings you/.test(x.label))).toBe(false);
@@ -82,10 +81,9 @@ describe('World › The herb-wife asks, and the shrine tests', () => {
     expect(said()).toMatch(/Yarrow, for the next one of you that bleeds/);
     journey.session.campaign.forced = undefined;
     // The shrine: what is under the stones is told only to one who can say what is cut on them.
-    await maybe('^Ask .* about the old woods');
+    await act('^Ask .* about the old woods');
     await maybe('^Take your leave'); await to('green'); await to('shrine');
-    // The talk led with the question asked of the stones, where an aim leads to her: asked as she is talked to.
-    await act(talk(priest)); await maybe('what lies under the fallen stones');
+    await act(talk(priest)); await act('what lies under the fallen stones');
     expect(said()).toMatch(/Tell me what the old ones cut on them/);
     await act('^Say a sun, rising');
     expect(said()).toMatch(/Go and look, and come back/);
@@ -95,7 +93,7 @@ describe('World › The herb-wife asks, and the shrine tests', () => {
     await to('wood_burners'); await to('wood_stones');
     expect(rows(s).some(x => x.id === `exit:${P('ud')}`)).toBe(false);
     await to('wood_burners'); await to('wood_ride'); await to('wood_edge'); await to('green'); await to('shrine');
-    await act('a shut door is cut on the stones');
+    await act(talk(priest)); await act('a shut door is cut on the stones');
     expect(said()).toMatch(/a stair goes down/);
     expect(knows('wood_door')).toBe(true);
   }, 120000);

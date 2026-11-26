@@ -38,14 +38,11 @@ export class KitWord {
     const squares = this.ledger.solve(ModuleParser.predicate('square(?town, ?square)')).map(b => b['?square']!);
     const own = squares.includes(heard) ? heard : this.one('square(?town, ?square)', { '?town': heard }, '?square');
     if (!own) { return []; }
-    // Not where a square is kept quiet (the reference game's first town: ReferenceSettlement.quiet), which hears of
-    // nothing out in the country but its own old woods: the next inn on tells it instead.
-    const quiet = new Set(this.ledger.solve(ModuleParser.predicate('quiet(?s)')).map(b => b['?s']!));
-    const next = squares.filter(s => s !== own && !quiet.has(s))
+    const next = squares.filter(s => s !== own)
       .map(s => ({ s, hours: this.ledger.number(KitWord.hours, own, s) }))
       // Ties by id in code-unit order, never the locale's (PR-04).
       .sort((a, b) => a.hours - b.hours || (a.s < b.s ? -1 : a.s > b.s ? 1 : 0))[0]?.s;
-    return [...quiet.has(own) ? [] : [own], ...next ? [next] : []]
+    return [own, ...next ? [next] : []]
       .flatMap(s => this.ledger.solve(ModuleParser.predicate('keeper(?keeper, ?square)'), { '?square': s })
         .map(b => ({ keeper: b['?keeper']!, square: s })));
   }

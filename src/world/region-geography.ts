@@ -1,5 +1,4 @@
 import { Terrain } from './land/terrain';
-import { ReferenceSettlement } from './reference-settlement';
 import sites from '../../data/generation/scenes/sites.json';
 import type { Atlas, Way } from './land/atlas';
 import type { Landmark } from './region-land';
@@ -59,10 +58,8 @@ export class RegionGeography {
   static near(region: Region, site: Site): Settlement {
     const named = region.settlements.find(s => s.id === site.near);
     if (named || site.cell === undefined) { return named ?? region.settlements[0]!; }
-    // Not from the reference game's town, where the country has another: it tells of its old woods alone (the owner,
-    // 26 November: "the First Town and the Big Dungeon and not much else around at all").
-    const land = this.atlas(region).land, others = ReferenceSettlement.others(region);
-    return [...others.length ? others : region.settlements].sort((a, b) => Terrain.distance(land, a.cell!, site.cell!)
+    const land = this.atlas(region).land;
+    return [...region.settlements].sort((a, b) => Terrain.distance(land, a.cell!, site.cell!)
       - Terrain.distance(land, b.cell!, site.cell!))[0]!;
   }
   // Which way one spot lies from another, as people say it: "north", "south-east".

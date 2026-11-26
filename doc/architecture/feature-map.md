@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 197 pins (165 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 655 live rows, 230 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 658 live rows, 232 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -199,7 +199,7 @@ page's colours and opportunities.)
   - direction TS-03 P2: A party's end continues as a relative (the brother) in the same world, as it was, not a reload…
   - direction CR-01 P1: A hunter's career: royal posting → dragon venture → knighthood → royal game-warden → continuing…
   - direction CR-02 P2: Two cities of Seven Towers: Gosse's Company builds its own "Dun Rierdan"…
-- **Jobs, debts and payoffs** · 6 pins · 0 defects · 1 asks
+- **Jobs, debts and payoffs** · 6 pins · 1 defects · 1 asks
   - ✓ leads to each part in turn under the gold, focus held, the Notes saying which parts are done
   - ✓ recognises what the company did unprompted, offers the undertaking after, and rewards each part once
   - ✓ is led from the proof to the sale, paid, and on to the road west, by the gold alone
@@ -247,7 +247,7 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 9 asks
+- **Markets and prices** · 0 pins · 3 defects · 9 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
@@ -262,7 +262,7 @@ page's colours and opportunities.)
 
 ### The land
 
-- **Countries and regions** · 0 pins · 5 defects · 21 asks
+- **Countries and regions** · 0 pins · 5 defects · 22 asks
   - requirement PV-03 P2: **The Landholder:** acquire a parcel, commission a change, leave, return, find it part of the…
   - direction OR-155 P3: Cards gathered in the world, a collectible game: cards found, won and traded, each granting a…
   - direction OR-156 P3: Charms: permanent improvements made to an object that are not "enchant" or "improve" but grafted…
@@ -274,6 +274,7 @@ page's colours and opportunities.)
   - direction OR-312 P2: Several places and entrances within one hex, and eventually joined below or between: no code to…
   - requirement OR-640 P2: The reference game's settlement for a second terrain: only a forest country's first town is made…
   - requirement OR-642 P2: Others than the reference town's own still stand in it, written by country-level generators that…
+  - requirement OR-1074 P1: The starting area is too full (the owner: "ideally in the starting area, I'd like the First Town…
   - requirement OR-1106 P3: Slice 8: weather and terrain: the sky tried by a verb, or a change on it needing a granted…
   - direction WD-01 P2: The canon city is an oversized village: Dun Rìerdan is the `town` of a seed-drawn country (a1 a…
   - requirement WD-02 P1: The first country is composed by accretion: its own seed's land, then 27 authored provinces and 13…
@@ -335,14 +336,13 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 11 pins · 7 defects · 19 asks
+- **Dungeons and sites** · 10 pins · 7 defects · 19 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
   - ✓ fought at the first level, the vault's keeper kills
   - ✓ gone all three ways with care, grows to the second level, the dead's book opens the way past the keeper, and what 
   - ✓ trades with both traders, finds the way down in the old woods, descends, retreats, recovers, sells and descends again
-  - ✓ leads a new life from the town to the shrine, the stones and down into resistance, and nowhere else
   - ✓ is made from below with a rope, stays made, and is offered from the way in straight down to that depth
   - ✓ in the mine is the cage, hooked to its chain with oil once the winding wheel above is free
   - ✓ is there for every level below the first of every kind of deep site, whatever its draw
@@ -831,7 +831,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
 - **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1125, OR-1127, OR-1128, BO-12, WD-04, WD-07
-- **Countries and regions** (The land): PV-03, OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, OR-1106, WD-01, WD-02, WD-03, WD-09, WD-16, SS-01, WB-01, WB-02, WB-03
+- **Countries and regions** (The land): PV-03, OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, OR-1074, OR-1106, WD-01, WD-02, WD-03, WD-09, WD-16, SS-01, WB-01, WB-02, WB-03
 - **Weather, sky and season** (The land): IM-01
 - **The planes** (The land): GT-01, GT-03
 - **Settlements by terrain and scale** (Settlements): OR-450

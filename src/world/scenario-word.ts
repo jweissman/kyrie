@@ -1,8 +1,7 @@
 import { RegionGeography } from './region-geography';
 import { RegionSites } from './region-sites';
 import { RegionZones } from './region-zones';
-import { RegionWriter, type Contact, type Region, type Settlement } from './region-writer';
-import { ReferenceSettlement } from './reference-settlement';
+import { RegionWriter, type Contact, type Region } from './region-writer';
 import { SettlementWriter } from './settlement-writer';
 import { WorldAssembler, type Placement, type ScenarioManifest } from './world-assembler';
 
@@ -10,16 +9,6 @@ import { WorldAssembler, type Placement, type ScenarioManifest } from './world-a
 // settlement nearest it and its neighbour along the road, offered as something to ask about; any of them reveals
 // the way in, and so does looking about where it starts, when the scenario says what is found there.
 export class ScenarioWord {
-  // Word goes from the settlement nearest the trouble to its neighbour along the road: never to the reference game's
-  // town, which hears of nothing out in the country but its old woods (the owner, 26 November, OR-1074).
-  static towns(region: Region, home: Settlement): Settlement[] {
-    const road = RegionGeography.roads(region)
-      .find(r => (r.from.id === home.id && !ReferenceSettlement.is(region, r.to))
-        || (r.to.id === home.id && !ReferenceSettlement.is(region, r.from)));
-    return [home, road ? (road.from.id === home.id ? road.to : road.from)
-      : region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!]
-      .filter(t => !ReferenceSettlement.is(region, t));
-  }
   static of(s: ScenarioManifest, placement: Placement, at: { region: Region; contacts: Contact[] }) {
     const { region, contacts } = at;
     const hooks = s.hooks ?? [];
@@ -29,7 +18,10 @@ export class ScenarioWord {
     const site = region.sites.find(w => w.id === placement.bindings[firstSite ?? '']);
     const home = site ? RegionWriter.near(region, site)
       : region.settlements.find(t => Object.values(placement.bindings).includes(t.id)) ?? region.settlements[0]!;
-    const towns = this.towns(region, home);
+    // Word goes from the settlement nearest the trouble to its neighbour along the road.
+    const road = RegionGeography.roads(region).find(r => r.from.id === home.id || r.to.id === home.id);
+    const towns = [home, road ? (road.from.id === home.id ? road.to : road.from)
+      : region.settlements[(region.settlements.indexOf(home) + 1) % region.settlements.length]!];
     const imports: Record<string, string> = { party: `${RegionWriter.id}.party` }, lines: string[] = [];
     lines.push(`Module word_${placement.instance} ${q(`Word of ${s.name}`)} {`, '  Entity party: group "Your company".');
     // Local names are prefixed so they cannot shadow a rule's parameter names (site, way…).

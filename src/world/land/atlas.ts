@@ -14,10 +14,8 @@ export interface Way extends Road { id: string; start: number; end: number; pass
 export interface Spot { cell: number; zone?: string; part?: number }
 // A region's geography: its land, where people live and the roads between them, its rivers, lakes and wild country,
 // all named.
-// clear: cells round which no work or site is placed within two hexes (the reference game's first town: the owner, 26
-// November, "the First Town and the Big Dungeon and not much else around at all").
 export interface Atlas { land: Land; seats: Seat[]; ways: Way[]; rivers: Water[]; lakes: Water[]; zones: Wilds[];
-  borders: Border[]; clear?: number[] }
+  borders: Border[] }
 
 export class Atlases {
   // shore: the side of the land that falls to a great sea, where the world's shape gives one (see WorldShape).
@@ -61,8 +59,7 @@ export class Atlases {
     const crowd = new Map<string | undefined, number>();
     for (const c of at.taken) { const z = this.within(atlas, c).zone; crowd.set(z, (crowd.get(z) ?? 0) + 1); }
     const open = land.cover.map((cover, c) => ({ c, rank: grounds.indexOf(cover) }))
-      .filter(({ c, rank }) => rank >= 0 && blocked.every(b => Terrain.distance(land, b, c) >= 2)
-        && this.clear(atlas, c))
+      .filter(({ c, rank }) => rank >= 0 && blocked.every(b => Terrain.distance(land, b, c) >= 2))
       .map(({ c, rank }) => ({ c, score: -rank * 2 + this.depth(atlas, c) + draw.next() * 1.5
         + (kind === 'mine' && Atlases.ores.has(land.ground?.deposits[c] ?? '') ? 3 : 0)
         - 1.5 * ((this.within(atlas, c).zone && crowd.get(this.within(atlas, c).zone)) || 0) }))
@@ -73,10 +70,6 @@ export class Atlases {
     if (best === undefined) { return undefined; }
     at.taken.push(best);
     return { cell: best, ...this.within(atlas, best) };
-  }
-  // Whether a cell is free of the clearing about a town kept clear (see Atlas.clear).
-  static clear(atlas: Atlas, c: number): boolean {
-    return (atlas.clear ?? []).every(t => Terrain.hexes(atlas.land, t, c) > 2);
   }
   // A site deeper in wild country is better hidden, and more likely to be what it is: its part's distance in.
   private static depth(atlas: Atlas, c: number): number {

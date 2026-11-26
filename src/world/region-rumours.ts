@@ -1,7 +1,6 @@
 import { RegionGeography, type Seat } from './region-geography';
 import { RegionSites } from './region-sites';
 import { Terrain } from './land/terrain';
-import { ReferenceSettlement } from './reference-settlement';
 import type { Region } from './region-writer';
 
 // What is out in the country round a town, as whoever keeps travellers there would tell it: the old places nearest
@@ -16,10 +15,7 @@ export class RegionRumours {
   static lines(region: Region): string[] {
     const q = JSON.stringify, seats = RegionRumours.told(region);
     return region.settlements.flatMap(town => {
-      // The reference game's town tells of nothing out in the country but its own old woods (the owner, 26 November:
-      // "the First Town and the Big Dungeon and not much else around at all"): the count of the country's nearest old
-      // places had sent a fresh company hours down the roads to them, past the woods and the way down under them.
-      const near = ReferenceSettlement.is(region, town) ? [] : RegionRumours.nearest(region, town, seats);
+      const near = RegionRumours.nearest(region, town, seats);
       // That it has been told, for an aim to go on from (the debt: asked at the inn, out to what was told of).
       const told = [`  Entity ${town.id}_country_told: fact ${q(`What is out in the country round ${town.name}`)}.`];
       if (!near.length) { return told; }
@@ -46,8 +42,7 @@ export class RegionRumours {
   // Every site some town's count tells of.
   static counted(region: Region): Set<string> {
     const seats = RegionRumours.told(region);
-    return new Set(region.settlements.filter(town => !ReferenceSettlement.is(region, town))
-      .flatMap(town => RegionRumours.nearest(region, town, seats).map(s => s.site.id)));
+    return new Set(region.settlements.flatMap(town => RegionRumours.nearest(region, town, seats).map(s => s.site.id)));
   }
   // The sites nearest a town, by the land between.
   static nearest(region: Region, town: Region['settlements'][number], seats: Seat[]): Seat[] {

@@ -10,8 +10,6 @@ Module assembly "What a world is made of, for assembling one" {
   Relation square(place, place). Relation keeper(group, place).
   // A room on a road through wild country, a landmark travellers know, a narrow place a road cannot avoid.
   Relation waypoint(place). Relation landmark(place). Relation chokepoint(place). Relation onRoad(place).
-  // Within two hexes of the reference game's first town, where no kit sets a band, a toll or a price (OR-1074).
-  Relation quiet(place).
   Relation siteKind(place, sitekind).
   // A place a stranger knows only by how it looks (a smooth doorway in a crag) until a fact names it: that fact.
   Relation namedBy(place, entity).

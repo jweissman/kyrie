@@ -28,16 +28,6 @@ export class Terrain {
   static distance(land: Land, a: number, b: number): number {
     return Math.abs(this.x(land, a) - this.x(land, b)) + Math.abs(this.y(land, a) - this.y(land, b));
   }
-  // Hexes between two cells, the land set out in hexes with every other row half a cell to the east, as the page's
-  // map draws it (LandModel.round): what "within two hexes" of a town means.
-  static hexes(land: Land, a: number, b: number): number {
-    const [q1, r1] = this.cube(land, a), [q2, r2] = this.cube(land, b), dq = q1 - q2, dr = r1 - r2;
-    return (Math.abs(dq) + Math.abs(dr) + Math.abs(dq + dr)) / 2;
-  }
-  private static cube(land: Land, c: number): [number, number] {
-    const y = this.y(land, c);
-    return [this.x(land, c) - (y - (y & 1)) / 2, y];
-  }
   static river(land: Land, c: number): number | undefined {
     const i = land.water.rivers.findIndex(r => r.cells.includes(c));
     return i < 0 ? undefined : i;

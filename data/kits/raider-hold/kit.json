@@ -10,8 +10,7 @@
         "free(?approach)",
         "not landmark(?approach)",
         "not chokepoint(?approach)",
-        "not onRoad(?approach)",
-        "not quiet(?approach)"
+        "not onRoad(?approach)"
       ],
       "prefers": [
         {
@@ -31,8 +30,7 @@
         "not tolls(?other, ?road)",
         "not ambushes(?other, ?road)",
         "hours(?road, ?approach) >= 1",
-        "hours(?road, ?approach) <= 6",
-        "not quiet(?road)"
+        "hours(?road, ?approach) <= 6"
       ],
       "prefers": [
         {
@@ -48,8 +46,7 @@
     "prey": {
       "is": "square(?town, ?prey)",
       "requires": [
-        "hours(?prey, ?approach) <= 8",
-        "not quiet(?prey)"
+        "hours(?prey, ?approach) <= 8"
       ],
       "prefers": [
         {
