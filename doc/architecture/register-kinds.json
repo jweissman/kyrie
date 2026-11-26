@@ -2772,6 +2772,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "26 Nov: a question of fidelity to the SRD, a direction for a proof slice"
+  },
+  "OR-882": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "26 Nov, filed as a slice of OR-741's knowledge door (an architecture step, the fifth review's step 6): a structural requirement, not an observed violation"
   }
  },
  "blockedBy": {
