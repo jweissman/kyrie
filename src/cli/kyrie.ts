@@ -31,6 +31,7 @@ import { Traces } from './traces';
 import { VerifyTool } from './verify-tool';
 import { NewTool } from './new-tool';
 import { CountriesTool } from './countries-tool';
+import { ListTool } from './list-tool';
 import { ReachTool } from './reach-tool';
 import { ForecastTool } from './forecast-tool';
 import { TranscriptsTool } from './transcripts-tool';
@@ -71,6 +72,7 @@ export class KyrieCli {
     '           bin/kyrie play scene|character <id> --in <adventure> [--context name] [step ...] [--keep name]',
     '           bin/kyrie keep <transcript.json> <name> (a game saved from the browser, kept as a test)',
     '           bin/kyrie countries [--diff [before.json]] [seed ...] (where each authored country lies; what a change moves)',
+    '           bin/kyrie list [professions|callings|spells|items|portraits|…] [--kind=k] [--count] [--json] (one a line)',
     '           bin/kyrie reach <campaign.json> [--seed s] [--steps n] | --all [--detail] (what a curious player reaches)',
     '           bin/kyrie forecast <campaign.json> [--callings warrior,mage] (each band against novices of each calling)',
     '           bin/kyrie transcripts <campaign.json> --out <dir> [--seed s] <steps.json>... (journeys as the page told them)',
@@ -105,6 +107,7 @@ export class KyrieCli {
       case 'verify': return VerifyTool.main(rest);
       case 'new': return NewTool.main(rest);
       case 'countries': return CountriesTool.main(rest);
+      case 'list': return ListTool.main(rest);
       case 'reach': return ReachTool.main(rest);
       case 'forecast': return ForecastTool.main(rest);
       case 'transcripts': return TranscriptsTool.main(rest);
