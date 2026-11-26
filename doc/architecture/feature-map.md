@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 636 live rows, 219 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 641 live rows, 223 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -464,7 +464,7 @@ page's colours and opportunities.)
   - requirement OB-17 P1: M22's first phase is done only when several cold-play reports in a row are positive (the owner, 17…
   - direction WD-14 P3: A module cannot begin the company in a place of its own: the company is declared in the region's…
   - requirement AT-08 P2: The first choices present in the first quarter hour (the owner's thought, 19 November): help…
-- **Character creation** · 3 pins · 5 defects · 7 asks
+- **Character creation** · 3 pins · 6 defects · 7 asks
   - ✓ makes a mage with a school and spells, and a warrior with neither, from the same flow
   - ○ a calling, a people and a past each open a way through one problem the others do not
   - ✓ each see acts the others do not
@@ -512,7 +512,7 @@ page's colours and opportunities.)
   - ✓ is blue where the company would know something after it, and what it said is what is learned
   - ✓ is typed by what it teaches, and drawn so among the replies
   - requirement AP-03 P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts…
-- **Rows, lenses and the frame** · 3 pins · 26 defects · 30 asks
+- **Rows, lenses and the frame** · 3 pins · 29 defects · 30 asks
   - ○ every offered act says what it will do or risk before it is taken, in the voice
   - ✓ along the drove road, after every act, and the landing's ways gathered by quarter
   - ✓ along the weir road, after every act
@@ -586,7 +586,7 @@ page's colours and opportunities.)
 
 ### Pictures
 
-- **Paintings and portraits** · 1 pins · 8 defects · 6 asks
+- **Paintings and portraits** · 1 pins · 8 defects · 7 asks
   - ✓ keeps to the world's sky and hour at every turn of the warrior's golden walk, from the way in
   - requirement CP-02 P3: Paintings the first hour lacks (toll-house hall and counting-house, a warehouse, a muck pit, cave…
   - direction OR-467 P3: A place's painting chosen by its kind is not held to its family (Scenery.of picks from the…
@@ -594,6 +594,7 @@ page's colours and opportunities.)
   - direction OR-523 P3: The page's small copies of the paintings (web/reader/paintings, some 1 250 files) are generated…
   - direction OR-543 P3: A lookbook (the owner, 25 November): `bin/kyrie lookbook` writes a design manual beside the…
   - direction OR-676 P2: The commission list: kinds of place with no commissioned painting, now painted by what they lie in…
+  - direction OR-1122 P3: Materials by what they are (a direction): a library's vellum for the encyclopedia, a cheaper leaf…
 - **Paintings by terrain, subject, season, weather and light** · 0 pins · 0 defects · 2 asks
   - requirement OR-442 P2: Asset metadata and placement interfaces (the direction's §6 and §11, beta case 6): a painting's…
   - direction OR-454 P3: The visual atlas (gamma G5): assets indexed terrain → subject → place or archetype → season →…

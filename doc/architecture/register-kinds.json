@@ -2922,6 +2922,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "26 Nov, championing an author: an engine capability their prose wanted, a wanted future"
+  },
+  "OR-1122": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "a design review's direction, shared by the owner 26 November, kept whole, not yet commissioned"
   }
  },
  "blockedBy": {
