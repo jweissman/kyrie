@@ -77,7 +77,8 @@ export class QuantityMeasures {
         + '24 November: OR-311): someone to take on, and a light, food and gear found by searching, by its way in',
       read: 'outfit' },
     { id: 'stranded', label: '10. Authored content no played world reaches', kind: 'down',
-      why: 'content that never reaches a player is cost without return; may only fall', read: 'stranded' },
+      why: 'an executable spell offered by an installed calling’s SpellSelection plan is reachable without an authored '
+        + 'text mention; other content no world reaches is cost without return, so this may only fall', read: 'stranded' },
     { id: 'identity', label: 'Consequential people with a name (%)', kind: 'report',
       why: 'OR-304, OR-281: unbaselined at first', read: 'identity' }];
 }

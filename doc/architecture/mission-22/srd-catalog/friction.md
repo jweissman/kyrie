@@ -28,6 +28,19 @@ pick remained Summon Vermin; this is not a world-wide caster census. The fidelit
 rows, 46 structural passes, 39 resolution passes and 38 identity proofs. Those are selected-field grades, not a claim
 that these two spells or the overall catalog are fully SRD-exact.
 
+### Measure 10: executable selection is reach
+
+The old ability census searched authored text for a literal id. A spell offered by school or domain could be playable
+without its id appearing in that text, so the census called reachable content stranded. It now includes executable
+cantrips and levelled options from every spell-access specialization of a playable calling's `SpellSelection.plan`,
+alongside the authored-id scan. This measures an available path, not proof that a sampled world actually casts each
+spell.
+
+The correction removes these 12 ids from the previously unnamed ability count: `acid_splash`, `calm_emotions`,
+`disrupt_undead`, `divine_favor`, `hold_animal`, `hold_person`, `hornet_swarm`, `protection_from_evil`,
+`rejuvenate`, `remove_fear`, `resist_fire` and `shocking_grasp`. Quantity was not run; the baseline is still 28 and
+must be updated with `bun run quantity --update` only after a valid reading confirms the new value.
+
 One next candidate is Daze: one humanoid of at most 4 Hit Dice loses one round on a failed Will save, with spell
 resistance. `HitDicePool` supplies a single-target limit, and conditions placed by another actor wait for their
 holder's turn before counting down. Prove both initiative orders, resistance, save and limit; merely assigning
