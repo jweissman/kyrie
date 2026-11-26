@@ -5,20 +5,15 @@ import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { BeforeRooms } from './support/before-rooms';
 
-// The sixth cold play of the golden route (mission-22/cold/cold-6-report.md), replayed by its own lines to the sealed
-// vault under Porthalen. CL-52: "Attack the keeper of the vault" had been offered with only a danger mark, and a fresh
-// warrior alone died of it in four rounds; the row now says the odds and the help that can be had, and is not the
-// place's lead. CL-53: after the death the offer was empty and a look was never answered; every line after an ending
-// is answered with it, and the ending's own "begun again" is offered and done.
+// The sixth cold play of the golden route (mission-22/cold/cold-6-report.md), replayed with the keeper's corrected
+// SRD strike bonuses. A lone first-level warrior is in danger but is not certainly beaten by the first exchange, so
+// the offered warning names that uncertainty and the help available without claiming the fight is unwinnable.
 const lines = readFileSync('doc/architecture/mission-22/cold/cold-6-lines.txt', 'utf8').split('\n').filter(Boolean);
 function said(x: Said | { error: string }): Said { if ('error' in x) { throw new Error(x.error); } return x; }
 describe('the sealed vault, after the sixth cold play', () => {
-  let runner: Runner, vault: Said, first: Said;
+  let runner: Runner, vault: Said;
   beforeAll(async () => {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', 'human/warrior/Wenna']));
-    // The first day as a fresh start has it, what beginning again is held to (the one on the green among it); the kept
-    // play itself replayed with the arrivals set aside.
-    first = new Runner(journey.session).said();
     runner = new Runner(BeforeRooms.set(journey.session));
     for (const line of lines.slice(0, lines.indexOf('{"act":"attack(region__s1_u_keeper)"}'))) {
       const s = await runner.ask(line);
@@ -30,22 +25,16 @@ describe('the sealed vault, after the sixth cold play', () => {
     const attack = RunnerOffer.flat([...vault.offer.primary, ...vault.offer.rest])
       .find(o => RunnerOffer.act(o) === 'attack(region__s1_u_keeper)');
     expect(vault.offer.primary.some(o => RunnerOffer.act(o) === 'attack(region__s1_u_keeper)')).toBe(false);
-    expect(attack?.aside).toMatch(/^Beyond you: It is more than you can take\. What would help: /);
+    expect(attack?.aside).toMatch(/^Could be lost: A fight with it could be lost\. What would help: /);
     expect(attack?.aside).toContain('a companion (');
     expect(attack?.aside).toContain('the way back to the undercroft');
     expect(vault.offer.primary[0]?.id).not.toBe(attack?.id);
   });
-  it('answers every line after the death with the ending, and offers to begin again', async () => {
-    expect(said(await runner.ask('{"act":"attack(region__s1_u_keeper)"}')).end).toBe(true);
+  it('does not call the first exchange a death', async () => {
+    const fight = said(await runner.ask('{"act":"attack(region__s1_u_keeper)"}'));
+    expect(fight.end).toBeUndefined();
+    expect(fight.scene.lines.join(' ')).toContain('Wenna cannot move.');
     const look = said(await runner.ask('{"look":true}'));
-    expect([look.end, look.ending?.title]).toEqual([true, 'Wenna is dead']);
-    expect(look.offer.primary.map(o => [o.id, o.label]))
-      .toEqual([['again', 'Begin again in this country, from its first day']]);
-    expect(said(await runner.ask('{"act":"search(region__s1_u_vault)"}')).end).toBe(true);
-  }, 120000);
-  it('begins again in the same country from its first day', async () => {
-    const again = said(await runner.ask('{"act":"again"}'));
-    expect([again.end, again.moment, again.at, again.you]).toEqual([undefined, 'arrive', first.at, first.you]);
-    expect(again.offer.primary.map(o => o.id)).toEqual(first.offer.primary.map(o => o.id));
+    expect([look.end, look.ending]).toEqual([undefined, undefined]);
   }, 120000);
 });

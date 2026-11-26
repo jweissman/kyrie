@@ -5,9 +5,9 @@ import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { BeforeRooms } from './support/before-rooms';
 
-// The sixth cold play of the golden route (mission-22/cold/cold-6-report.md), replayed by its own lines: the keeper of
-// the vault under Porthalen paralysed Wenna with its first blow, she never had a turn, and of four rounds she was told
-// only the last (CL-51: "Wenna takes 6 piercing damage (0 HP left). Wenna falls. The fight is lost.").
+// The sixth cold play of the golden route (mission-22/cold/cold-6-report.md), replayed with the keeper's corrected
+// SRD strike bonuses: Wenna is paralysed and badly hurt, but this exchange no longer ends the fight. Each strike is
+// named in the telling rather than collapsed into one generic hit.
 const lines = readFileSync('doc/architecture/mission-22/cold/cold-6-lines.txt', 'utf8').split('\n').filter(Boolean);
 describe('the golden route, after the sixth cold play', () => {
   it('tells a fight the one who plays had no turn in, blow by blow', async () => {
@@ -25,8 +25,8 @@ describe('the golden route, after the sixth cold play', () => {
     }
     const told = last!.scene.lines.join(' ');
     expect(told).toContain('Wenna cannot move.');
-    expect(told).toContain('The keeper of the vault hits Wenna.');
-    expect(told).toContain('The fight is lost.');
+    expect(told).toContain('The claws of the keeper of the vault catch Wenna');
+    expect(told).not.toContain('The fight is lost.');
   }, 240000);
   // CL-54, CL-55 and CL-56, by the play's own lines to the book read and the undercroft lit: talk says something and is
   // one step; the man with the black candle has a question; the dead man's clues make an aim; his book is read; and
