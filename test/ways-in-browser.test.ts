@@ -2,7 +2,7 @@
 // OR-300 in the browser, at a desk's size and a phone's: a game kept, paused from the Book's Options and left by
 // Return to title; the title then offers Continue and New Game, the engine's rows (OR-1072); Continue takes the game up
 // where it stood. A kept game this build cannot open is refused when tried, said plainly on the title, and remembered
-// after a reload, Continue gone; New Game asks how the new life begins, and in which world. Opt in with
+// after a reload, Continue gone; New Game asks how the new life begins (no map: OR-1271). Opt in with
 // KYRIE_BROWSER=1.
 import { afterAll, beforeAll, describe, expect, it } from 'bun:test';
 import { mkdtemp, rm } from 'node:fs/promises';
@@ -63,7 +63,8 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the ways in, and back to the title 
         expect(told!.x).toBeGreaterThanOrEqual(0);
         expect(told!.x + told!.width).toBeLessThanOrEqual(size.width);
         await page.click('[data-action="begin"]');
-        await page.waitForSelector('[data-mode="begin"] [data-action="world"]', { timeout: 5000 });
+        // No map asked (OR-1271): New Game's acts, the saved game replaced as one sets out.
+        await page.waitForSelector('[data-mode="begin"] [data-action="build"]', { timeout: 5000 });
         expect(errors).toEqual([]);
       }, 600000);
   }

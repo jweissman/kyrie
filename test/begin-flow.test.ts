@@ -172,37 +172,34 @@ describe('a new game, set out on at once', () => {
     expect(page.html()).toContain('cannot be opened by this edition');
     expect(refused).toHaveLength(1);
     expect(page.state.error).toBe('');
-    // New Game: a new life in the kept game's country, by its seed, unless a new one is asked for.
+    // New Game: a new life in a country never seen, not the kept game's (OR-1271).
     page.press('begin');
     expect(page.mode()).toBe('begin');
-    expect(page.asked.filter(r => r.kind === 'ahead').map(r => (r as { seed: string }).seed)).toEqual(['bakelo']);
+    const aheads = await page.aheads(1);
+    expect(aheads[0]).not.toBe('bakelo');
     await page.host.idle();
   }, 120000);
-  // OR-1072: New Game's World turned to a new one draws a country of its own at once; the kept world is let go, its
-  // seed remembered, only as the new life sets out in the other.
-  it('lets the kept world go for a new one asked in New Game, its seed remembered, and draws a country of its own',
-    async () => {
-      const forgot: string[] = [];
-      spyOn(ReaderStore, 'forget').mockImplementation(seed => { forgot.push(seed); });
-      const page = new Page();
-      page.savedGame = { text: 'kept', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud', seed: 'bakelo' };
-      await page.opening.boot();
-      page.press('begin');
-      expect(page.mode()).toBe('begin');
-      expect(page.actions()).toEqual(['build', 'set-out-now', 'world', 'back']);
-      expect(page.html()).toContain('Your saved game');
-      page.press('world');
-      expect(page.html()).toContain('A new map');
-      const seeds = await page.aheads(2);
-      expect(seeds[0]).toBe('bakelo');
-      expect(seeds[1]).not.toBe('bakelo');
-      expect(forgot).toEqual([]);
-      page.press('build');
-      await page.until('company');
-      expect(forgot).toEqual(['bakelo']);
-      expect(page.state.seed).toBe(seeds[1]!);
-      await page.host.idle();
-    }, 120000);
+  // OR-1271: no map asked: New Game draws a country never seen, and the act that sets out says, in its own words, that
+  // the saved game is replaced then; it is let go, its seed remembered, only as the new life sets out.
+  it('draws a country of its own for a new life, and lets the kept game go only as the new life sets out', async () => {
+    const forgot: string[] = [];
+    spyOn(ReaderStore, 'forget').mockImplementation(seed => { forgot.push(seed); });
+    const page = new Page();
+    page.savedGame = { text: 'kept', title: 'Kyr', where: 'The lane', when: 'Morning', company: 'Aud', seed: 'bakelo' };
+    await page.opening.boot();
+    page.press('begin');
+    expect(page.mode()).toBe('begin');
+    expect(page.actions()).toEqual(['build', 'set-out-now', 'back']);
+    expect(page.html()).toContain('Your saved game is replaced as this life sets out.');
+    const seeds = await page.aheads(1);
+    expect(seeds[0]).not.toBe('bakelo');
+    expect(forgot).toEqual([]);
+    page.press('build');
+    await page.until('company');
+    expect(forgot).toEqual(['bakelo']);
+    expect(page.state.seed).toBe(seeds[0]!);
+    await page.host.idle();
+  }, 120000);
   it('builds a character in the same country, by the other row', async () => {
     const page = new Page();
     await page.opening.boot();

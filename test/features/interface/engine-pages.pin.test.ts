@@ -34,7 +34,9 @@ describe('Interface › Pages the engine draws', () => {
     expect(drawn).toContain(`<p class="title-line">${Identity.line}</p>`);
     expect(drawn).toMatch(/<h1 class="mark"[^>]*><svg class="mark-glyph"/);
     expect(OpeningPages.begin().rows.map(r => r.id)).toEqual(['build', 'set-out-now', 'back']);
-    expect(OpeningPages.begin({ kept: 'bakelo' }).rows.map(r => r.id)).toEqual(['build', 'set-out-now', 'world', 'back']);
+    expect(OpeningPages.begin({ kept: 'bakelo' }).rows.map(r => r.id)).toEqual(['build', 'set-out-now', 'back']);
+    // No map asked (OR-1271): the acts that set out say the saved game is replaced then.
+    expect(OpeningPages.begin({ kept: 'bakelo' }).rows[0]!.say).toMatch(/saved game is replaced as this life sets out/);
     // Options and the Book are the backstage's folio, by the engine's hint, which the frame applies (OR-1073).
     expect(OpeningPages.options({ size: 'usual', rolls: 'shown' }, false).hints.theme).toBe('folio');
   });

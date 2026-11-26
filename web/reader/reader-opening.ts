@@ -297,23 +297,15 @@ export class ReaderOpening {
   // A new game: first, how it begins (FirstChoice, the engine's question: build a character, or set out now), asked at
   // once, the country it will begin in drawn meanwhile if it is not drawn already (see foresee).
   // seed: the country it begins in, where the title names one (New character in the world kept here).
-  // fresh: a new world asked for (New world), never the one already drawn ahead.
-  readonly anew = (seed?: string, fresh = false) => {
-    this.app.setState({ phase: 'begin', memorial: undefined, error: '', fresh });
-    if (fresh || !this.foreseen || (seed && seed !== this.foreseen.seed)) { this.foresee(seed); }
+  readonly anew = (seed?: string) => {
+    this.app.setState({ phase: 'begin', memorial: undefined, error: '' });
+    if (!this.foreseen || (seed && seed !== this.foreseen.seed)) { this.foresee(seed); }
   };
-  // Where New Game's new life begins (FirstChoice.step): in the country kept here unless a new one is asked for.
+  // What New Game says of the game kept here (FirstChoice.step): a new life always begins in a country never seen.
   where(): Where {
     const kept = this.kept()?.seed;
-    return kept ? { kept, ...this.app.state.fresh ? { fresh: true } : {} } : {};
+    return kept ? { kept } : {};
   }
-  // New Game's World turned over (OR-1072): the kept country, or a new one drawn for it at once. The kept world is let
-  // go only when the new life sets out in another (beginAs), never by turning the row.
-  readonly turnWorld = () => {
-    const where = this.where();
-    if (!where.kept) { return; }
-    this.anew(where.fresh ? where.kept : undefined, !where.fresh);
-  };
   // The seed a new game will use, named as the title shows, and its country drawn for it in the engine while the
   // title is up, with the start Set out now asks made ready behind it (OR-121, EngineForesight): never where a game is
   // kept, whose Continue must not wait on it, until New game is pressed.
@@ -334,7 +326,8 @@ export class ReaderOpening {
   beginAs(how: Beginning) {
     const foreseen = this.foreseen, where = this.where();
     this.foreseen = undefined;
-    if (where.fresh && where.kept) { ReaderStore.forget(where.kept); }
+    // The saved game replaced as the new life sets out (OR-1271), as its row said.
+    if (where.kept) { ReaderStore.forget(where.kept); }
     void (async () => {
       const seed = await foreseen?.ready.catch(() => undefined) ?? await this.fresh();
       await (how === 'set-out-now' ? this.now(seed) : this.pick('world', seed));
@@ -373,12 +366,12 @@ export class ReaderOpening {
   }
   private unopened?: { text: string; reason: string };
   // A way in from the title, by its id (FirstChoice.title, OR-1072): the game kept here taken up; or New Game, which
-  // asks how a new life begins, in the world kept here unless a new one is asked for there (turnWorld). The page draws
+  // asks how a new life begins, always in a country never seen (OR-1271). The page draws
   // the engine's rows and binds each to this, nothing else.
   readonly way = (way: Way) => {
     const kept = this.kept();
     if (way === 'continue') { if (FirstChoice.continues(kept)) { this.carryOn(); } return; }
-    this.anew(FirstChoice.seedFor({ ...kept?.seed ? { kept: kept.seed } : {} }));
+    this.anew();
   };
   // Quit (OR-1072): a page may not close the tab a player opened, so the game is put away, honestly: the tab closed
   // where the browser allows it (one opened by a script), else the quiet closing page, which says the game is kept

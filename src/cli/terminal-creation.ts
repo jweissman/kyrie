@@ -25,21 +25,17 @@ export class TerminalCreation {
   // How the game begins, asked first of one at the keys, as the page asks it (FirstChoice, OR-120): a life built step
   // by step, or one drawn whole from creation's defaults and set out with at once (set-out's rolled). The country is
   // drawn while the question is read, and the start Set out now asks made ready behind it (see EngineForesight).
-  // named: the country asked for (--world); kept: the seed of the one kept here, where World turns which the new life
-  // begins in, and the question is asked again. Back is the title again (undefined).
+  // named: the country asked for (--world); kept: the seed of the one kept here, which the acts that set out say they
+  // replace (OR-1271); a new life always begins in a country never seen. Back is the title again (undefined).
   async begin(host: EngineHost, named?: string, kept?: string): Promise<{ rolled: boolean } | undefined> {
     const where: Where = kept ? { kept } : {};
-    let fresh: string | undefined, ahead: string | undefined;
-    for (;;) {
-      const seed = FirstChoice.seedFor(where) ?? named ?? (fresh ??= FreshSeeds.seed(FirstChoice.seed));
-      if (seed !== ahead) { await host.handle({ kind: 'ahead', seed }); ahead = seed; }
-      const id = (await this.card(await host.handle({ kind: 'beginning', ...where }) as FirstStep)).id;
-      if (id === 'back') { return undefined; }
-      if (id === 'world') { where.fresh = !where.fresh; continue; }
-      if (id === 'build') { await this.choose(host, seed); return { rolled: false }; }
-      await host.handle({ kind: 'world', seed });
-      return { rolled: true };
-    }
+    const seed = named ?? FreshSeeds.seed(FirstChoice.seed);
+    await host.handle({ kind: 'ahead', seed });
+    const id = (await this.card(await host.handle({ kind: 'beginning', ...where }) as FirstStep)).id;
+    if (id === 'back') { return undefined; }
+    if (id === 'build') { await this.choose(host, seed); return { rolled: false }; }
+    await host.handle({ kind: 'world', seed });
+    return { rolled: true };
   }
   // A page of the engine's (OpeningPages, OR-382), its rows asked as numbered lines, as the page draws them: the
   // title's Continue, New Game, Options and Quit.

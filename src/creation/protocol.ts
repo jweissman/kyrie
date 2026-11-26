@@ -141,8 +141,8 @@ export type Request =
   // now asks made ready behind it (see EngineForesight); a world asked for by the same seed is that one.
   | { kind: 'ahead'; seed: string }
   // How a new game begins, the first thing asked of it (see FirstChoice): asked before any country is drawn; where a
-  // country is kept (its seed), whether the new life begins in it or in a new one (fresh).
-  | { kind: 'beginning'; kept?: string; fresh?: boolean }
+  // country is kept (its seed), said on the acts that set out, which replace it (OR-1271).
+  | { kind: 'beginning'; kept?: string }
   // For automation: answered once nothing is under way (a country drawn ahead, a start made ready: EngineHost.idle).
   | { kind: 'idle' }
   // Making a life, as the engine holds it: where it stands, or a choice at a step and where it then stands (see

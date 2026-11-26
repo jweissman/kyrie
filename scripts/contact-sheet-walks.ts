@@ -63,9 +63,9 @@ export class SheetWalks {
       await page.click('.options-page [data-action="title"]');
       await page.waitForSelector('[data-action="continue"]');
     });
-    await cam.step('new-game-kept', 'New Game, a world kept', async () => {
+    await cam.step('new-game-kept', 'New Game, a game kept', async () => {
       await page.click('[data-action="begin"]');
-      await page.waitForSelector('[data-mode="begin"] [data-action="world"]');
+      await page.waitForSelector('[data-mode="begin"] [data-action="build"]');
     });
     await page.close();
   }

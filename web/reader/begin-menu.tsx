@@ -25,8 +25,7 @@ export class BeginMenu {
   static rows(app: ReaderApp): { id: string; label: string; say: string; aside?: string; said?: string; every: boolean;
     go: () => void }[] {
     const opening = app.opening;
-    const go = (id: string): (() => void) => id === 'world' ? opening.turnWorld
-      : id === 'back' || id === 'title' ? opening.title : opening.beginAs.bind(opening, id as Beginning);
+    const go = (id: string): (() => void) => id === 'back' || id === 'title' ? opening.title : opening.beginAs.bind(opening, id as Beginning);
     return BeginMenu.page(app).rows.map(row => ({ id: row.id, label: row.label, say: row.say ?? '',
       ...row.aside ? { aside: row.aside } : {}, ...row.said ? { said: row.said } : {}, every: !!row.every,
       go: go(row.id) }));

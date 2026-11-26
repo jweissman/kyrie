@@ -46,8 +46,6 @@ export interface FightMark {
 }
 export interface AppState {
   phase: Phase; catalog?: Catalog; saved?: SavedGame; options: Options;
-  // New Game asked to begin in a new world, the one kept here let go as it sets out (ReaderOpening.turnWorld).
-  fresh?: boolean;
   campaign: string; seed: string; setting?: Setting; party: Member[]; preview?: CompanyView; editing: number;
   origin?: string;
   // Where making a life stands, as the engine holds it (EngineCreation, TB-09): its steps, their cards (the four it

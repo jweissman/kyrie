@@ -93,7 +93,7 @@ export class EngineHost {
       case 'catalog': return Creation.catalog();
       case 'setting': return this.creation.setting(request.campaign);
       case 'world': case 'ahead': case 'seed': return this.foresight.asked(request);
-      case 'beginning': return FirstChoice.step({ ...request.kept ? { kept: request.kept } : {}, ...request.fresh ? { fresh: true } : {} });
+      case 'beginning': return FirstChoice.step({ ...request.kept ? { kept: request.kept } : {} });
       case 'idle': await this.idle(); return null;
       case 'creation': return request.step ? this.chosen(request.step, request.value ?? '') : this.made.state();
       // Set out now (rolled): the life drawn whole from the flow's defaults, as the start made ahead was (OR-120).

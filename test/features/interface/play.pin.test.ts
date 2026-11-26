@@ -24,20 +24,22 @@ describe('Interface › Ways in', () => {
     const kept = FirstChoice.title({ where: 'The lane', when: 'Morning, the first day', seed: 'bakelo' });
     expect(kept.cards.map(c => [c.id, c.name])).toEqual([['continue', 'Continue'], ['begin', 'New Game']]);
     expect([kept.chosen, kept.cards[0]!.said]).toEqual(['continue', 'Continue: The lane · Morning, the first day']);
-    // New Game begins in the kept country, by its seed, unless a new one is asked for there.
-    expect(FirstChoice.seedFor({ kept: 'bakelo' })).toBe('bakelo');
-    expect(FirstChoice.seedFor({ kept: 'bakelo', fresh: true })).toBeUndefined();
+    // New Game begins in a country never seen, and asks no map (OR-1271); where a game is kept, each act that sets
+    // out says that it is replaced then, and with none kept nothing is said of one.
+    const over = FirstChoice.step({ kept: 'bakelo' }), none = FirstChoice.step();
+    expect(over.cards.map(c => c.id)).toEqual(['build', 'set-out-now', 'back']);
+    expect(over.cards.filter(c => c.id !== 'back').every(c => /saved game is replaced as this life sets out/.test(c.say ?? '')))
+      .toBe(true);
+    expect(none.cards.some(c => /saved game/.test(c.say ?? ''))).toBe(false);
     // A game that has ended is not taken up again; one refused is not offered, and why is said plainly.
     expect(FirstChoice.title({ where: 'The lane', ended: true, seed: 'bakelo' }).chosen).toBe('begin');
     const refused = FirstChoice.title({ seed: 'bakelo', refused: 'no such world' });
     expect(refused.cards.map(c => c.id)).toEqual(['begin']);
     expect(refused.told).toMatch(/^The game kept here cannot be opened by this edition.*\(no such world\)$/);
   });
-  it('then asks one thing: create a character, or a new life at once; where a world is kept, which', () => {
+  it('then asks one thing: create a character, or a new life at once, never which map (OR-1271)', () => {
     expect(FirstChoice.step().cards.map(c => c.id)).toEqual(['build', 'set-out-now', 'back']);
-    const kept = FirstChoice.step({ kept: 'bakelo' }).cards.find(c => c.id === 'world');
-    expect([kept?.name, kept?.aside]).toEqual(['Map', "Your saved game's"]);
-    expect(FirstChoice.step({ kept: 'bakelo', fresh: true }).cards.find(c => c.id === 'world')?.aside).toBe('A new map');
+    expect(FirstChoice.step({ kept: 'bakelo' }).cards.map(c => c.id)).toEqual(['build', 'set-out-now', 'back']);
   });
   it('pauses a game with two ways: back to it, or Return to title', () => {
     expect(FirstChoice.paused().cards.map(c => c.name)).toEqual(['Back to the game', 'Return to title']);
