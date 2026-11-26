@@ -447,7 +447,10 @@ export class Narrator {
     const outcome = feedback.ended ? telling.map(l => ({ ...l, kind: 'fight' as const })) : [];
     // A chapter opened is told first of all, in its own paragraph, under its title (see Chapters and leaf).
     const chapter = Chapters.opened(campaign.module, event.perceptions);
-    const events = feedback.events.filter(t => t !== chapter?.text).map(text => ({ text, kind: 'event' as const }));
+    // What came to the purse with the world's words is a change, said whatever the room (OR-696).
+    const paid = new Set(feedback.paid ?? []);
+    const events = feedback.events.filter(t => t !== chapter?.text)
+      .map(text => ({ text, kind: paid.has(text) ? 'change' as const : 'event' as const }));
     // A thing changed is told by what came of it (the water going down) before how it is now (the well dry); a wait,
     // by how the place has become (night on the crest) before what broke it off (the Mower come up onto it).
     const changing = /^change_thing/.test(action?.schema ?? ''), waiting = /^wait/.test(action?.schema ?? '');

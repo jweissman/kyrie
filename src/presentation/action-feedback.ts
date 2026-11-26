@@ -22,6 +22,8 @@ export interface ActionFeedback {
   // Of the immediate, those that tell a roll made outside a fight (a check): what was rolled, against what.
   rolls: string[];
   observations: string[]; available: string[]; unavailable: string[]; events: string[];
+  // Of the events, what came with the purse changing (RuleWords.paying): told as a change, never held for room.
+  paid?: string[];
   // Whether the result is how a fight ended, which is told after its blows.
   ended?: boolean;
   // Of the immediate, what lasting conditions ran out while it was done (a torch guttering out in the middle of a
@@ -296,6 +298,12 @@ export class ActionFeedbackView {
     return this.lapsed(event, names).lapsed ?? [];
   }
   // What ran out in it, and what a journey's legs before it brought, where it is a journey's last (see Travel.way).
+  // What of the world's words came with the purse changing (see RuleWords.paying).
+  private static paid(campaign: Campaign, event: CampaignEvent): Pick<ActionFeedback, 'paid'> {
+    const paying = RuleWords.paying(campaign), paid = RuleWords.said(event)
+      .filter(p => paying.has(p.id.split('@')[0]!)).map(p => p.text);
+    return paid.length ? { paid } : {};
+  }
   private static ran(event: CampaignEvent, names: Parameters<typeof CombatPresenter.format>[1]): Pick<ActionFeedback,
     'lapsed' | 'way'> {
     return { ...this.lapsed(event, names), ...event.way?.length ? { way: [...event.way] } : {} };
@@ -408,7 +416,7 @@ export class ActionFeedbackView {
       ...offered.length ? { offered } : {},
       ...amended.length ? { amended } : {}, ...taken.length ? { taken } : {}, ...this.borne(campaign, before, after),
       // Not the world's words held back as told lately (see RuleWords).
-      events: RuleWords.said(event).map(p => p.text),
+      events: RuleWords.said(event).map(p => p.text), ...this.paid(campaign, event),
       observations: changed.map(o => FictionalTime.prose(o.text)),
       available: before.location?.id === after.location?.id ?
         after.choices.filter(c => !old.has(c.id)).map(c => c.name) : [],

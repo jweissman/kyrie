@@ -34,6 +34,18 @@ export class RuleWords {
     return made;
   }
   private static readonly taught = new WeakMap<object, Set<string>>();
+  // The rules whose words come with what the company has changing (its coin, its rations: quantity), by id: what came
+  // to the purse is said with it, never held back for room (OR-696, cold play 3: six coin picked up where rats warned,
+  // the purse 6 → 12 with no line).
+  static paying(campaign: Campaign): Set<string> {
+    const module = campaign.module, kept = this.paid.get(module);
+    if (kept) { return kept; }
+    const made = new Set((module.rules ?? []).filter(r => r.say && r.effects.some(c => c.call.name === 'quantity'))
+      .map(r => r.id));
+    this.paid.set(module, made);
+    return made;
+  }
+  private static readonly paid = new WeakMap<object, Set<string>>();
   // The world's words a command is told in: not those held back as heard lately.
   static said(event: CampaignEvent): NonNullable<CampaignEvent['perceptions']> {
     const unsaid = new Set(event.unsaid ?? []);

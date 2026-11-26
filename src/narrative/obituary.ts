@@ -10,6 +10,7 @@ import { Provocation } from '../campaign/provocation';
 import { CombatProjection } from '../combat-projection';
 import type { Memorial } from '../memorial';
 import { Endings } from '../lang/endings';
+import { BlowWeight } from './blow-weight';
 
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Death = Extract<CombatEvent, { type: 'defend' | 'death' | 'skip' | 'random' }>;
@@ -55,7 +56,7 @@ export class Obituary {
       `${this.list(all.length ? all : [who])} fell${fell ? ` at ${fell}` : ''}, ${FictionalTime.part(last.elapsed)} of ${
         this.day(last.elapsed)}.`,
       this.began(campaign, last, names),
-      killer ? `${this.upper(killer)} struck the last blow${weapon ? ` with ${weapon}` : ''}${blow!.amount ? `, for ${blow!.amount}` : ''}.` : '',
+      killer ? `${this.upper(killer)} struck the last blow${weapon ? ` with ${weapon}` : ''}${blow!.amount ? `, for ${BlowWeight.of(blow!)}` : ''}.` : '',
       // How many against how many, as it was: not "one against one" for one against two (the cold playtest).
       `${rounds > 1 ? `It lasted ${rounds} rounds` : 'It was over in a round'}; ${this.count(Math.max(1, foes.size))
       } against ${this.count(party.size)}.`,

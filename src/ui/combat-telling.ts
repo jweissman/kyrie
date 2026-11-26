@@ -1,4 +1,5 @@
 import { Content } from '../content';
+import { BlowWeight } from '../narrative/blow-weight';
 import { Canon } from '../canon/canon';
 import { ConditionSense } from '../canon/condition-sense';
 import { CombatPresenter } from './combat-presenter';
@@ -61,11 +62,8 @@ export class CombatTelling {
     return events.filter((e, i) => e.type !== 'save' || !e.success || !e.against || !events.slice(i + 1)
       .some(f => f.type === 'status' && f.target === e.target && Canon.resolve('conditions', f.detail) === e.against));
   }
-  // How hard a blow struck: all of it where it laid its mark low, not only what the mark had left to lose (the
-  // adventure branch's R81: a blow of 9 on a rat with 1 left had read "for 1", and a long fight's end as a scratch).
-  private static blow(e: { amount?: number; rolled?: number; hp?: number }): number {
-    return e.hp === 0 && (e.rolled ?? 0) > (e.amount ?? 0) ? e.rolled! : e.amount ?? 0;
-  }
+  // How hard a blow struck (BlowWeight), as the ending says it too.
+  private static blow(e: { amount?: number; rolled?: number; hp?: number }): number { return BlowWeight.of(e); }
   // What is rolled for, whose numbers say how a blow fell.
   private static readonly rolled = new Set<CombatEvent['type']>(['attack', 'damage', 'save', 'check']);
   private static tell(group: CombatEvent[], round: number, told: CombatTelling, bark?: string): Telling {
