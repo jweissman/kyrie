@@ -137,7 +137,7 @@ export class Runner {
     const c = this.campaign, now = this.standing, screen = now.screen;
     const leaf = this.journeyed(this.scene.leaf(c, screen, this.told), screen);
     now.glance = { of: leaf.glance }; this.leafed = leaf;
-    const lines = this.scene.lines(screen, leaf, turned).filter(l => l.trim());
+    const lines = this.scene.lines(screen, leaf, turned, turned === 'act' && !!this.with).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
     const { offer } = c.running ? this.offer(screen, g) : { offer: RunnerEnding.offer(this.session) };
     const led = RunnerLed.of(now.frame, screen, offer.primary, { lead: g?.lead, gilt: (g?.acts ?? [])
@@ -289,7 +289,10 @@ export class Runner {
     if (charted) { return this.lensed('journeys', charted[1] && `travel:${charted[1]}`); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (act.startsWith('follow:')) { this.now = undefined; await this.session.leg(act); return this.said('look'); }
-    const talking = /^talk_to\(([^)]+)\)$/.exec(act)?.[1] ?? RunnerTalks.whose(g ? Doable.of(g, screen) : []).get(act);
+    // And one of the replies of whoever the company is talking with keeps it talking with them, as the page's
+    // conversation does (a plea to Wat, made in his talk, is said in it with its dice: test/small/talk-roll-said).
+    const talking = /^talk_to\(([^)]+)\)$/.exec(act)?.[1] ?? RunnerTalks.whose(g ? Doable.of(g, screen) : []).get(act)
+      ?? (this.with && !act.startsWith('take_leave(') && RunnerTalks.theirs(screen, this.with, act) ? this.with : undefined);
     this.doing = { act, before: PlayerView.observe(this.campaign), since: this.campaign.history.length,
       label: this.names().get(act), leg: this.lead(act),
       ...talking ? { with: talking } : {} };

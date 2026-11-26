@@ -48,7 +48,9 @@ export class TerminalScene {
     const leaf = Narrator.leaf(campaign, screen, told, opening?.opening);
     return opening ? { ...leaf, prologue: opening.told } : leaf;
   }
-  lines(screen: Screen, leaf: Leaf, turned: Turned): string[] {
+  // talking: the act was said to someone the company is talking with, whose page tells the exchange whole, a check's
+  // dice and all (the page's How it fell, folded where it fell: TalkStage.Lines); elsewhere the dice wait for a look.
+  lines(screen: Screen, leaf: Leaf, turned: Turned, talking = false): string[] {
     const whole = turned === 'look', day = screen.date?.short ?? `Day ${FictionalTime.day(screen.elapsed)}`;
     const time = this.fresh('time', `${day}, ${FictionalTime.part(screen.elapsed)}`, whole);
     const place = this.fresh('place', screen.place.name, whole), weather = this.fresh('weather', screen.weather, whole);
@@ -67,7 +69,8 @@ export class TerminalScene {
     const of = exchange.map(l => l.text).join('\n');
     // Another act's telling is said afresh, though its words be the same ("An hour passes." each hour).
     if (!whole || this.heard.of !== of) { this.heard = { of, said: new Set() }; }
-    const lines = ToldLines.said(exchange, whole).filter(l => !unsaid.has(l.text) && !this.heard.said.has(l.text));
+    const lines = ToldLines.said(exchange, whole || talking)
+      .filter(l => !unsaid.has(l.text) && !this.heard.said.has(l.text));
     lines.forEach(l => this.heard.said.add(l.text));
     const happened = lines.map(l => l.kind === 'speech'
       ? TerminalColour.italic(Typography.plain(l.text), this.depth) : Typography.plain(l.text));

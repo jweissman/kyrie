@@ -106,7 +106,7 @@ export class Terminal {
     turn.attended = false;
     // Picked at a terminal, each line broken at its words to the terminal's width, not where the terminal breaks it.
     const width = turn.width?.();
-    for (const line of scene.lines(screen, leaf, turned)) {
+    for (const line of scene.lines(screen, leaf, turned, turned === 'act' && !!turn.talking)) {
       for (const l of width && line ? TerminalWidth.wrap(line, width - 1) : [line]) { console.log(l); }
     }
     if (turn.profile) {

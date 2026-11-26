@@ -52,6 +52,11 @@ export class RunnerTalks {
     return new Set(screen.people.flatMap(p => this.flat(p.acts)).filter(a => a.command
       && (TalkFocus.services.has(a.does ?? '') || ['haggle', 'buy_item'].includes(a.does ?? ''))).map(a => a.command!));
   }
+  // Whether a command is one of a person's own (what is said to them, or done with them), as the page's conversation
+  // offers it among their replies.
+  static theirs(screen: Screen, person: string, command: string): boolean {
+    return this.flat(screen.people.find(p => p.id === person)?.acts ?? []).some(a => a.command === command);
+  }
   // A talk called as the page calls it ("Talk to Kynes", not "Talk to Kynes, innkeeper").
   private static called(screen: Screen, person: string): string | undefined {
     const talk = this.flat(screen.people.find(x => x.id === person)?.acts ?? []).find(a => a.does === 'talk_to');
