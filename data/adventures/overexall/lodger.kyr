@@ -17,9 +17,10 @@ Module overexall "Over Exall" {
   // ── The sinking ───────────────────────────────────────────────────────────────────────────────────────────────────
   Rule sinks_1 heard within brack when day(clock) == 1 and hour(clock) >= 18 and low() == 0 and lifted() < 2 once says "At dusk the Lodger settles. A house-height, no more. Every chimney-pot in Exall clinks, once, together." { Set low() to 1. }
   Rule sinks_2 heard within brack when day(clock) == 2 and hour(clock) >= 18 and low() == 1 and lifted() < 2 once says "At dusk the Lodger settles again, and the washing on the High Street's lines lifts and drops. Something in the town's roofs gives, with a sound like a cough." { Set low() to 2. }
-  Rule sinks_3 heard within brack when day(clock) == 3 and hour(clock) >= 18 and low() == 2 and lifted() < 2 once says "At dusk the Lodger comes down on the highest roofs. Tiles slide off Judith Thord's and go in the street one at a time, politely." { Set low() to 3. }
+  Rule sinks_3 heard within brack when day(clock) == 3 and hour(clock) >= 18 and low() == 2 and lifted() < 2 once says "At dusk the Lodger comes down on the highest roofs. Tiles slide off Judith Sowden's and go in the street one at a time, politely." { Set low() to 3. }
   Rule lift_marked_day when lifted() >= 2 and liftedDay() == 0 and hour(clock) >= 6 { Set liftedDay() to day(clock). }
   Rule lift_marked_night when lifted() >= 2 and liftedDay() == 0 and hour(clock) < 6 { Set liftedDay() to day(clock) - 1. }
+  Rule lift_felt heard within brack when lifted() == 1 and not risingTold(party) once says "The belly over the Cross stirs, and lifts a hand's breadth, and settles again. The pots in the square go quiet for a breath. It is not enough, yet." { }
   Rule lift_told heard within brack when lifted() >= 2 and not risingTold(party) once says "Over Exall the belly goes taut. Every pot in the town rises a half-tone. Nobody says anything, and the Lodger does not go yet, but the roofs have stopped ticking, and the chimney-smoke has begun to go up and not flatten." { Assert risingTold(party). Set low() to 0. }
 
   // ── The Lodger ────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -98,12 +99,12 @@ Module overexall "Over Exall" {
     Requires able(actor) and company(actor) and at(actor, cross) and knows(actor, fire_known) and peatReleased(party) and hour(clock) >= 17 and not warmed(party).
     Time 60 minutes.
     On success { Assert warmed(party). Increase lifted() by 1. }
-    Result "You do it as Dorcas said: every hearth, every door open, every chimney swept. Gideon Tolt carries the first sod himself and sets it in the Cross's brazier. Down the High Street, doors fly open, and one chimney, then six, then the whole town, begins to smoke. The smoke goes up under the Lodger in a hundred columns, and the belly above the Cross lights a dull red from beneath, like a lantern with a hand round it.".
+    Result "You do it as Dorcas said: every hearth, every door open, every chimney swept. Gideon Fother carries the first sod himself and sets it in the Cross's brazier. Down the High Street, doors fly open, and one chimney, then six, then the whole town, begins to smoke. The smoke goes up under the Lodger in a hundred columns, and the belly above the Cross lights a dull red from beneath, like a lantern with a hand round it.".
   }
   Observe fire_lit at cross as sign when warmed(party) "The hearths of Exall are all lit, and every door in the town stands open. The smoke goes straight up under the belly, and the belly takes it.".
 
   // ── Dorcas goes up ────────────────────────────────────────────────────────────────────────────────────────────────
-  Action hand_dorcas(actor: group) "Help Dorcas Holle across the Lodger's lip" {
+  Action hand_dorcas(actor: group) "Help Dorcas Scarth across the Lodger's lip" {
     Grave "Dorcas goes up with the Lodger, and does not come down when the town does.".
     Requires able(actor) and company(actor) and at(actor, ledge) and following(dorcas, actor) and not aboard(party).
     Time 20 minutes.
@@ -136,6 +137,6 @@ Module overexall "Over Exall" {
   // ── What the town says after ──────────────────────────────────────────────────────────────────────────────────────
   Rule after_marta heard within brack when rose() and liquorGiven(party) once says "Marta Hord has been seen at the Cross at noon, bareheaded, being thanked by people who have not spoken to her in forty years. She takes it badly, and is extremely pleased." { }
   Rule after_elley heard within brack when rose() and leavenGiven(party) once says "Perrin Elley has halved the Old Leaven, and feeds both halves at dawn and dusk. The sign at his door says SKYLOAF, and under it, in smaller letters, A GIFT." { }
-  Rule after_tolt heard within brack when rose() and peatReleased(party) once says "Gideon Tolt has cut the town's turf by lantern since Michaelmas. He says it is a miserable business, and that nobody has died of it." { }
+  Rule after_tolt heard within brack when rose() and peatReleased(party) once says "Gideon Fother has cut the town's turf by lantern since Michaelmas. He says it is a miserable business, and that nobody has died of it." { }
   Rule after_spiked heard within brack when rose() and spiked(party) once says "Captain Saley has found the nails in her gun. She is on the Edge road with her kite folded, and does not look at the town as she goes." { }
 }

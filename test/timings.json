@@ -1478,6 +1478,8 @@
     "test/tailrace.test.ts": 50000,
     "test/tailrace-placed.test.ts": 34000,
     "test/wetdrusilla.test.ts": 21000,
-    "test/wetdrusilla-placed.test.ts": 17000
+    "test/wetdrusilla-placed.test.ts": 17000,
+    "test/overexall.test.ts": 11000,
+    "test/overexall-placed.test.ts": 17000
   }
 }

@@ -9,7 +9,7 @@ Connections: Cloudgate (the Grand Tour) is where Saley is from; the Wickering ra
 - The knowledge chain is real investigation: the barbel at night, Dorcas, and the Old Leaven's provenance each lead to the same fact by different roads (`rank_known`). Elley will not give the leaven until the player can tell him whose it is.
 - Saley is moved by evidence (the stamped iron), not coin; she can also be argued with, or sabotaged (`spike_gun`), and each leaves a different mark on the ending.
 - Five endings plus Dorcas variants, all reached by explicit journeys (test/overexall.test.ts, 10 passing): Candlemas, The Lodger Leaves, The Lodger Stays (one lift, Saley shamed), Arithmetic, The Roof of the World.
-- Aftermath lines for Marta, Elley, Tolt and a spiked Saley are told at the dawn the whale goes.
+- Aftermath lines for Marta, Elley, Fother and a spiked Saley are told at the dawn the whale goes.
 
 ## Verification
 `bin/kyrie verify overexall`: compiles, lint 0 errors/0 warnings (7 advisories: endings "heard everywhere", ignorable; ending rules are unanchored by nature), 10/10 journeys pass. Reach (greedy, 400 steps) saw topics 18/29, acts 3/6, rooms 10/14; the unreached are the branches the journeys cover by hand. `voice repeats` finds deliberate echoes (the third-below hum, the "breath goes out"); I trimmed none of them. No human play recorded. I did not run the browser preview in this session, so the page's look (painting hints for a whale and a steeple) is unverified.
@@ -19,7 +19,7 @@ Connections: Cloudgate (the Grand Tour) is where Saley is from; the Wickering ra
 - Time is cheap: talk is free and travel is minutes, so a competent player finishes in the first afternoon and then waits. Rising is held to the next dawn so the ending is not instant, but the three-day clock only presses a player who dawdles.
 - Three lifts are sums in a measure (`lifted()`); the player is never told what the count is. A tougher design would show the belly's state per lift.
 - The "stays" ending is thin: one lift is not an obvious cause of a gentle landing. It is charming rather than earned.
-- Sab Thord has two topics and one shortcut; Judith is mostly colour. Neither has a stake.
+- Sab Sowden has two topics and one shortcut; Judith is mostly colour. Neither has a stake.
 - The kite ride is a bare passage ("You leave the Windlass Field in the full of the morning"): the most wondrous trip has generic narration.
 - Goingbank also has an iron in a living creature's shoulder and a breathing hide. Mine is a different animal and story, but an integrator should know.
 

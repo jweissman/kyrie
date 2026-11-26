@@ -1,9 +1,9 @@
 Module overexall "Over Exall" {
-  // ── Dorcas Holle, who was there ───────────────────────────────────────────────────────────────────────────────────
-  Person dorcas "Dorcas Holle" at bedroom {
+  // ── Dorcas Scarth, who was there ───────────────────────────────────────────────────────────────────────────────────
+  Person dorcas "Dorcas Scarth" at bedroom {
     Role "the oldest woman in Exall". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
     Greets "A very old woman sits bolt upright against three pillows with her good ear toward the door. 'You are not Judith,' she says. 'Judith comes to shout. Sit where I can see you. What is it you want, and is it about that animal?'".
-    Greets again "'Well?' says Dorcas Holle. 'Closer. The good ear.'".
+    Greets again "'Well?' says Dorcas Scarth. 'Closer. The good ear.'".
     Farewell "'Mind the stair,' says Dorcas. 'They have not mended it since the last time.'".
   }
   Topic dorcas_candle with dorcas "Ask Dorcas what she calls the whale" when true once {
@@ -18,12 +18,13 @@ Module overexall "Over Exall" {
     Says "'Whatever has gone a little off. I tried her with a fresh loaf, that first year, and she did not care for it at all. And then Mother Elley's bread, the sour, which had been left out three days.' She nods. 'Sour things. Rank things. Whatever has been thinking about it.'".
     On discuss { Assert knows(actor, rank_known). }
   }
-  Topic dorcas_bread with dorcas "Ask Dorcas where Elley's sourdough came from" when knows(actor, candlemas_known) once {
+  Topic dorcas_bread with dorcas "Ask Dorcas where Elley's sourdough came from" when knows(actor, candlemas_known) or knows(actor, leaven_kept) or knows(actor, elley_refused) once {
     Says "'Ah.' She puts her head back. 'That is the story nobody listens to, because it is about bread. The morning Candlemas went up, a lump of grey came down out of her, a cough, a shedding, I do not know, and it landed on the Elleys' windowsill. Sour. Warm. Old Mother Elley put flour to it, because she was a practical woman.' A short, dry laugh. 'Two hundred years. Everyone in Exall has been eating her, every Sunday. It's a wonder she never minded.'".
     On discuss { Assert knows(actor, leaven_known). }
   }
   Topic dorcas_back with dorcas "Ask Dorcas what it is like on the back" when knows(actor, candlemas_known) once {
     Says "She is silent for so long that you wonder if she has dropped off. 'It is a meadow,' she says. 'It is warm, and the little things go by. If I could tell you what it is like I should not want to go again.' She turns her face to the window and the hum. 'There was no iron in her, then. Mind. She was thin, that was all. If you go up, look at her shoulder. Someone has been at her since.'".
+    On discuss { Assert knows(actor, shoulder_told). }
   }
   Topic dorcas_wish with dorcas "Ask Dorcas if she would go up again" when knows(actor, candlemas_known) and not wishAsked(party) once {
     Grave "Dorcas will go up with the Lodger, and not come down with the town.".
@@ -31,4 +32,5 @@ Module overexall "Over Exall" {
     On discuss { Assert wishAsked(party). Assert acceptsEscort(dorcas, actor). }
   }
   Relation wishAsked(group).
+  Discovery shoulder_told "Dorcas Scarth says there was no iron in the Lodger sixty-one years ago: look at its shoulder, for someone has been at it since.".
 }

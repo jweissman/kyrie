@@ -3,7 +3,7 @@
   "^To the Cross"
  ],
  "learn": [
-  "Into Dorcas Holle's cottage",
+  "Into Dorcas Scarth's cottage",
   "Ask Dorcas what she calls the whale",
   "Ask Dorcas how it was raised",
   "Ask Dorcas what the whale eats",
@@ -16,7 +16,7 @@
   "Ask Marta for a cask of her tan-liquor, for the Lodger",
   "To the Cross",
   "To the peat-stack",
-  "Tell Tolt that Dorcas Holle was there sixty-one years ago, and the fire raised it",
+  "Tell Fother that Dorcas Scarth was there sixty-one years ago, and the fire raised it",
   "To the Cross",
   "Into St Ebba's by the lych-gate",
   "Ask Letty why the bell is muffled",
@@ -64,7 +64,7 @@
  ],
  "dorcas": [
   "To the Cross",
-  "Into Dorcas Holle's cottage",
+  "Into Dorcas Scarth's cottage",
   "Ask Dorcas if she would go up again",
   "Ask her to come with you",
   "Out to the Cross",
@@ -72,7 +72,7 @@
   "Into the steeple by the steeple door",
   "To the jaw-ledge",
   "Pour the liquor and the leaven down the Lodger's lip",
-  "Help Dorcas Holle across the Lodger's lip",
+  "Help Dorcas Scarth across the Lodger's lip",
   "To the bell-chamber",
   "Out to the foot of the steeple",
   "Out to the Cross",

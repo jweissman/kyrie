@@ -14,7 +14,7 @@ Nobody in the story is wrong. The tanner, the baker, the bell-ringer, the alderm
 
 **The road up.** The sun is out and it is raining on the Edge road, only on the town. At the top there is a sign, nailed over an older sign: *EXALL. PLEASE DO NOT FEED THE WHALE.* Under it, in a different hand: *WE HAVE TRIED.*
 
-**The Cross at noon.** The market is held in a shadow the shape of a barn door turned over. The belly is slate-grey and wet and goes on out of sight in both directions. Stallholders have rigged tarred sails for umbrellas. When the Lodger breathes, every pewter pot in the town hums one note, and Judith Thord at the Tarpaulin says it has curdled four batches of her cream, 'which is a rudeness I have not been able to take up with anyone.'
+**The Cross at noon.** The market is held in a shadow the shape of a barn door turned over. The belly is slate-grey and wet and goes on out of sight in both directions. Stallholders have rigged tarred sails for umbrellas. When the Lodger breathes, every pewter pot in the town hums one note, and Judith Sowden at the Tarpaulin says it has curdled four batches of her cream, 'which is a rudeness I have not been able to take up with anyone.'
 
 **Letty Forne, in the bell-chamber.** The steeple goes up through the town's roofs and the whale's chin is hooked over it like a man resting his jaw on a gatepost. Letty rings the hours with a cloth bound round the clapper.
 
@@ -26,15 +26,15 @@ Nobody in the story is wrong. The tanner, the baker, the bell-ringer, the alderm
 
 **Perrin Elley, in the bakehouse.** The sourdough of Exall is famous three valleys out, a tall black-crusted loaf the town calls a Skyloaf. Its leaven is called the Old Leaven. It lives in a crock with a muslin cap, and it has been fed every day for two hundred years. Elley will not discuss the crock. Whoever eats a Skyloaf, he says, eats a family.
 
-**Alderman Gideon Tolt, at the peat-stack.** Behind the Cross stands the town's winter: forty cords of cut peat under a roof, the whole warmth of Exall until April. The Alderman has stood in front of it for two days with a stick. He is not a bad man. He has three hundred and eleven people to bring through a winter, and a thing the size of a cathedral is, he says, a nuisance with a *tide* in it. 'I don't mind it being sad. I mind it being sad on my peat.'
+**Alderman Gideon Fother, at the peat-stack.** Behind the Cross stands the town's winter: forty cords of cut peat under a roof, the whole warmth of Exall until April. The Alderman has stood in front of it for two days with a stick. He is not a bad man. He has three hundred and eleven people to bring through a winter, and a thing the size of a cathedral is, he says, a nuisance with a *tide* in it. 'I don't mind it being sad. I mind it being sad on my peat.'
 
 **Ottoline Saley, on the Windlass Field.** At the edge of the Edge a woman in a flying-coat is staking a kite, a great diamond of oiled silk, to a drum of cable. She has a harpoon gun on a tripod and a camp kettle, and offers tea before she offers anything else.
 
 'I am not going to take it from you by surprise,' says Captain Saley of Cloudgate. 'I'll tell you what I'm going to do, and when. At dusk on the third day, if it is still hanging, I fire. A drift-whale that is killed up there goes slowly, and spills its lamp-oil over the High Street for a month, and that's bad, but it does not come down on the roofs, because I put it down on the Edge. And I get something for the oil. You may call that ugly. I call it arithmetic.' She pours. 'Sugar?'
 
-**Dorcas Holle, in her bed.** Ninety-one, deaf in one ear and uncompromising in the other. She sits up when you say *Candlemas*.
+**Dorcas Scarth, in her bed.** Ninety-one, deaf in one ear and uncompromising in the other. She sits up when you say *Candlemas*.
 
-'Sixty-one years ago. I was thirty. She came down on the church just so, and starved just so, and we lit every hearth in Exall on the third night, and she *took* them. Went up like a lark. I was on the leads with a bellows in my hand, and I could not tell you why, but I climbed down her lip and stepped on her back and she took me up with her.' She settles the blanket. 'Three days. I came down on the Brack in a rainstorm, and walked home, and nobody believed a word of it. Don't ask me what it is like. If I could say what it is like I should not want to go again.'
+'Sixty-one years ago. I was thirty. She came down on the church just so, and starved just so, and we lit every hearth in Exall on the third night, and she *took* them. Went up like a lark. I was on the leads with a bellows in my hand, and I could not tell you why, but I climbed down her lip and stepped on her back and she took me up with her.' She settles the blanket. 'Three days. I came down on the Brackmoor in a rainstorm, and walked home, and nobody believed a word of it. Don't ask me what it is like. If I could say what it is like I should not want to go again.'
 
 **The Old Leaven.** Dorcas, when asked about the bread: 'Where do you think it came from? The morning she went up, a lump of something grey came down on Elley's great-grandmother's windowsill. A little sour. She put flour to it.' It is the whale's. The Skyloaf is two hundred years of the Lodger's own gift, kept alive in a crock by people who never knew whose it was. What the Lodger needs, in its sinking, is to be fed what it *is*.
 
@@ -48,12 +48,12 @@ A character who has stood there is not sure afterward that the town is the main 
 
 ## The Long Fire
 
-The old remedy, which Dorcas remembers and nobody else does: warm it. A drift-whale holds its height by the warmth in its belly, and a starving one loses it. On the third night every hearth in Exall is lit at once, with the doors open and the chimneys swept, and the whole town's smoke goes up under it like a hand. Which means the peat. Tolt will not give it for argument; he'll give it for a price, or for Dorcas, or for the truth that the Lodger has been in his town before and left it standing. He will not give it to Saley.
+The old remedy, which Dorcas remembers and nobody else does: warm it. A drift-whale holds its height by the warmth in its belly, and a starving one loses it. On the third night every hearth in Exall is lit at once, with the doors open and the chimneys swept, and the whole town's smoke goes up under it like a hand. Which means the peat. Fother will not give it for argument; he'll give it for a price, or for Dorcas, or for the truth that the Lodger has been in his town before and left it standing. He will not give it to Saley.
 
 ## What the company may do
 
 - Learn what the Lodger is (Letty, Dorcas, the Cross by night, the back) and what it is *not* (a danger from malice).
-- **Warm it**: bring Tolt round, get the Long Fire lit, find Letty's bell to call it.
+- **Warm it**: bring Fother round, get the Long Fire lit, find Letty's bell to call it.
 - **Feed it**: Marta's tan-liquor and the Old Leaven. Elley will not hand over the town's bread-mother until he knows whose it is.
 - **Lighten it**: climb the rope ladder in the wind, reach the iron, cut it free (Saley's bar, or a smith's, or a crowbar and nerve).
 - **Deal with Saley**: argue, buy, shame, or enlist her: show her the iron and she becomes the kite that carries the company up, and the cutting-bar.
@@ -63,7 +63,7 @@ The old remedy, which Dorcas remembers and nobody else does: warm it. A drift-wh
 
 - **Candlemas** (rises, Dorcas aboard): she waves her handkerchief from the shoulder. Letty rings the hour with the clapper bare, for the first time in three days, and the sky answers it in a third below.
 - **The Lodger Leaves** (it rises, no Dorcas): town dry, hearths cold, the bread fine. For a month the High Street is wet and the children sing it.
-- **The Lodger Stays** (one thing done; Saley stays her hand): it sinks gently, and finds the Edge, and *rests*. Exall is the only town in the Brack with a ceiling. The Tarpaulin has to be rebuilt. The Skyloaf is fed daily by a barbel.
+- **The Lodger Stays** (one thing done; Saley stays her hand): it sinks gently, and finds the Edge, and *rests*. Exall is the only town in the Brackmoor with a ceiling. The Tarpaulin has to be rebuilt. The Skyloaf is fed daily by a barbel.
 - **Arithmetic** (Saley fires): it comes down on the Edge, as promised. Lamp-oil for a month. Exall lights the Edge-road with it for twenty years.
 - **The Fall** (nothing done in time): the roof of the world comes in.
 

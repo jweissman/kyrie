@@ -1119,6 +1119,33 @@
    "heard": "South, where the road gives out into white sand, lies Dryquay, a harbour with no sea. A sand-ship called the Contrary Mary sails from it at two, two days out across the Ebb with a dead woman's ashes, to be sung over.",
    "skyline": "a white wall at the edge of a plain so bright it has no far side",
    "far": "a harbour with no sea sends a sand-ship out across the dry bed of it, to scatter a dead woman's ashes and sing"
+  },
+  {
+   "id": "overexall",
+   "province": true,
+   "bundle": "overexall/placed.json",
+   "entry": "road",
+   "marker": "dorcas",
+   "side": "north",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "heath",
+    "fell"
+   ],
+   "name": "the Brackmoor",
+   "topic": "Exall on the Brackmoor, where a drift-whale hangs by its lip from the steeple",
+   "terrain": "hills",
+   "rumour": "'North, up on the Brackmoor,' says {keeper}, 'there's a ridge town called Exall with a whale hung on its church. A drift-whale, come down out of the high cloud in the night, by the lip on the steeple, and it sinks a house-height every dusk.'",
+   "heard": "North on the Brackmoor lies Exall, three hundred people on a ridge, with a drift-whale hung by its lip from the steeple of St Ebba's. It sinks a house-height each dusk.",
+   "skyline": "a ridge-top town under a long grey shape that is not a cloud, hung from a church spire",
+   "far": "a drift-whale hangs by its lip from a church spire on a ridge, and sinks a house-height each dusk"
   }
  ]
 }

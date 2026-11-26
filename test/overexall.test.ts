@@ -45,7 +45,8 @@ describe("Over Exall", () => {
 
   it('lets the Lodger leave when it is warmed, fed and unburdened, and Saley keeps her gun down', async () => {
     const j = await start();
-    await j.play(...steps.arrive, ...steps.learn, ...steps.look, ...steps.saley, ...steps.cut, ...steps.feed, '=day 2 07:00');
+    await j.play(...steps.arrive, ...steps.learn, ...steps.look, ...steps.saley, ...steps.cut, ...steps.feed,
+      '=day 2 07:00');
     expect(j.measure('lifted')).toBe(3);
     expect(reached(j, 'leaves')).toBe(true);
     expect(j.page).toContain('clapper bare');
@@ -77,4 +78,40 @@ describe("Over Exall", () => {
     expect(j.holds('aboard', 'party')).toBe(true);
     expect(reached(j, 'candlemas')).toBe(true);
   }, 120000);
+});
+
+// Integration's mends (26 November): what a talk tells is something later play reads, a lift is felt as it comes, and
+// Dorcas aboard a whale that stays has an ending of her own.
+describe("Over Exall's mends", () => {
+  const campaign = 'data/campaigns/overexall.campaign.json';
+  const start = async () => Journey.start(campaign, "overexall");
+  const reached = (j: Journey, ending: string) => j.holds('reached', 'overexall__' + ending);
+  const know = (j: Journey, fact: string) => j.holds('knows', 'party', 'overexall__' + fact);
+
+  // Dorcas's word on the back said only its words; it is a note now, and the shoulder bears her out.
+  it('keeps Dorcas\'s word on the shoulder, and finds it true there', async () => {
+    const j = await start();
+    await j.play(...steps.arrive, ...steps.learn.slice(0, 2), 'Ask Dorcas what it is like on the back');
+    expect(know(j, 'shoulder_told')).toBe(true);
+    await j.play(...steps.learn.slice(2), ...steps.look);
+    expect(j.page).toContain('Dorcas was right.');
+  }, 120000);
+
+  // The refusals say what each would want, kept in the Notes; Perrin's crock leads to Dorcas's story of it.
+  it('keeps what the refusals ask, and the crock on the shelf leads to Dorcas', async () => {
+    const j = await start();
+    await j.play(...steps.arrive, 'Into Elley\'s bakehouse', 'Ask Perrin about the crock on the shelf', 'Out to the Cross',
+      'To the peat-stack', 'Ask Fother for the peat', 'To the Cross', "Into Dorcas Scarth's cottage");
+    expect(know(j, 'leaven_kept') && know(j, 'fother_asks')).toBe(true);
+    expect(j.offers("Ask Dorcas where Elley's sourdough came from")).toBe(true);
+  }, 120000);
+
+  it('feels a single lift, and the Lodger stays with Dorcas on its shoulder', async () => {
+    const j = await start();
+    await j.play(...steps.arrive, ...steps.learn, ...steps.dorcas.slice(0, -2));
+    expect(j.page).toContain('lifts a hand’s breadth');
+    await j.play("Into St Ebba's by the lych-gate", ...steps.look, ...steps.saley, '=day 4 07:00');
+    expect(j.measure('lifted')).toBe(1);
+    expect(reached(j, 'stays_dorcas')).toBe(true);
+  }, 180000);
 });

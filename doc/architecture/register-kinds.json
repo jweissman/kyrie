@@ -2904,6 +2904,24 @@
    "was": "defect",
    "pri": "P3",
    "why": "a slice of OR-1097"
+  },
+  "OR-1114": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov, an adventure's friction: its thin parts unproven, not a broken contract (its dead ends, its name clashes and its unplaced country mended at integration)"
+  },
+  "OR-1115": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov, an adventure's friction: proposals for Kyr, Deem and the author's tools, a wanted future"
+  },
+  "OR-1116": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov, championing an author: an engine capability their prose wanted, a wanted future"
   }
  },
  "blockedBy": {

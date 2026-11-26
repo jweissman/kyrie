@@ -1,15 +1,15 @@
 Module overexall "Over Exall" {
-  Description "Exall: three hundred people on a ridge in the Brack, and a drift-whale hung by its lip from the steeple, sinking a house-height every dusk.".
+  Description "Exall: three hundred people on a ridge in the Brackmoor, and a drift-whale hung by its lip from the steeple, sinking a house-height every dusk.".
 
   // The whale lies along the ridge: its chin on the steeple of St Ebba's, its belly over the Cross, its tail past the Edge.
-  Place brack "the Brack" is region within imbar.
+  Place brack "the Brackmoor" is region within imbar.
   Place edge "the Edge" is wilderness within brack at 0, 0.
   Place exall "Exall" is settlement within brack at 0, 1.
   Place lodger_site "the Lodger" is site within brack at 1, 1.
 
   Place tarpaulin "the Tarpaulin" is building within exall.
   Place bakehouse "Elley's bakehouse" is building within exall.
-  Place cottage "Dorcas Holle's cottage" is building within exall.
+  Place cottage "Dorcas Scarth's cottage" is building within exall.
   Place kirk "St Ebba's" is site within exall.
   Place steeple "the steeple" is level within kirk.
 
@@ -21,7 +21,7 @@ Module overexall "Over Exall" {
   Place taproom "the Tarpaulin's taproom" is room within tarpaulin at 0, 0.
   Place loft "the pigeon loft" is room within tarpaulin at 0, 1.
   Place oven "the bakehouse" is room within bakehouse at 0, 0.
-  Place bedroom "Dorcas Holle's room" is room within cottage at 0, 0.
+  Place bedroom "Dorcas Scarth's room" is room within cottage at 0, 0.
   Place foot "the foot of the steeple" is room within kirk at 0, 0.
   Place bell_chamber "the bell-chamber" is room within steeple at 0, 0.
   Place ledge "the jaw-ledge" is room within steeple at 1, 0 outdoors.
@@ -32,7 +32,7 @@ Module overexall "Over Exall" {
   Passage field_path "the track along the Edge" is path between road and field taking 10 minutes.
   Passage tarp_door "the Tarpaulin's door" is door between cross and taproom.
   Passage bake_door "the bakehouse door" is door between cross and oven.
-  Passage cottage_door "Dorcas Holle's door" is door between cross and bedroom.
+  Passage cottage_door "Dorcas Scarth's door" is door between cross and bedroom.
   Passage row_way "the way down to the Pits" is path between cross and row taking 5 minutes.
   Passage stack_way "the lane to the peat-stack" is path between cross and stack taking 5 minutes.
   Passage lych "the lych-gate" is gate between cross and foot.
@@ -80,19 +80,20 @@ Module overexall "Over Exall" {
 
   // ── The Edge road's far side ──────────────────────────────────────────────────────────────────────────────────────
   Observe back_scene at back when true "You are standing on the animal. The skin runs away under your feet in a long grey slope, warm as a flank, and the slope rises and falls. Along the spine the wind is warm.".
+  Observe shoulder_dorcas at shoulder as sign when knows(party, shoulder_told) and state(iron, fast) "Dorcas was right. The scar along the seam is younger than the skin round it, and there is a hard thing under it the size of a spade.".
   Observe shoulder_scene at shoulder when true "The shoulder is where the lip ends and the great muscle begins. The skin is thick here and scarred in long seams. It moves up and down, slowly, under a wind that comes from very far away.".
 
   // ── What can be known ─────────────────────────────────────────────────────────────────────────────────────────────
   Discovery lodger_known "A drift-whale has come down on Exall in the night and hung itself by the lip on St Ebba's steeple. It sinks about a house-height each dusk and will be on the roofs on the fourth morning.".
   Discovery lane_lost "The drift-whales keep to lanes in the high cloud. The Shales folk of Wickering have driven a rain-cloud through the lanes for nine generations, and this autumn it went into a glasshouse and put them out.".
-  Discovery candlemas_known "Dorcas Holle calls the Lodger Candlemas. It came down on Exall sixty-one years ago, and rose again, and took her up with it.".
+  Discovery candlemas_known "Dorcas Scarth calls the Lodger Candlemas. It came down on Exall sixty-one years ago, and rose again, and took her up with it.".
   Discovery fire_known "Sixty-one years ago Exall lit every hearth at once on the third night, and the smoke raised the whale.".
   Discovery leaven_known "The Old Leaven that makes Exall's Skyloaf came out of the whale: a lump of grey sourness that fell on a windowsill the morning it rose.".
   Discovery rank_known "The Lodger takes only what is rank: sour hides, old dough, tan-liquor. It is starving, and it is looking for the smell of what it is.".
   Discovery answer_heard "The Lodger answers the bell. At noon a third below, a long way off, something hums along.".
   Discovery iron_known "An old harpoon head is lodged in the Lodger's shoulder, grown over with skin. It is stamped with a small cloud and S.O. CLOUDGATE.".
   Discovery strike_known "Captain Ottoline Saley of Cloudgate will fire on the Lodger at dusk on the third day if it is still hanging.".
-  Discovery roofs_known "Sab Thord goes out over the roofs from the pigeon loft to the ledge.".
+  Discovery roofs_known "Sab Sowden goes out over the roofs from the pigeon loft to the ledge.".
   Discovery kite_known "Captain Saley's kite can carry a company from the Windlass Field to the Lodger's back.".
   Discovery barbel_known "At night the Lodger lowers a feeler a hundred feet long into the Pits and takes the rankest hide off the rack.".
   Discovery peat_known "The town's peat-stack holds forty cords, and every hearth lit at once would use most of it.".
