@@ -38,8 +38,8 @@ spell.
 
 The correction removes these 12 ids from the previously unnamed ability count: `acid_splash`, `calm_emotions`,
 `disrupt_undead`, `divine_favor`, `hold_animal`, `hold_person`, `hornet_swarm`, `protection_from_evil`,
-`rejuvenate`, `remove_fear`, `resist_fire` and `shocking_grasp`. Quantity was not run; the baseline is still 28 and
-must be updated with `bun run quantity --update` only after a valid reading confirms the new value.
+`rejuvenate`, `remove_fear`, `resist_fire` and `shocking_grasp`. The lead's same-night quantity reading on
+aa85436a against main was 17 against 27; the stranded-content baseline is lowered to 17.
 
 One next candidate is Daze: one humanoid of at most 4 Hit Dice loses one round on a failed Will save, with spell
 resistance. `HitDicePool` supplies a single-target limit, and conditions placed by another actor wait for their
@@ -485,10 +485,10 @@ special qualities.
 | `dog/drove` | Bite +2/+1. | The peaceable grey dog in `data/goings-on/drover/situation.kyr`; this is not a hostile encounter. |
 | `rat/cellar` | Bite +4/-4 (`1d3-4`, minimum 1). | Unplaced, so it changes no encounter. The placed corn-store buck is `rat/midden`, a different body, and was not changed by this strike audit. |
 
-**Balance acceptance still pending:** no same-seed thorn gold-follower walk has been captured on main and this branch,
-so the fight that ends main's walk and the branch's corresponding fight are unknown. Measures 8b and 1–4 have not been
-compared either. The required world/quantity run belongs in CI, but the available CI workflow does not run quantity;
-no band or baseline was changed to conceal the missing result.
+**Balance:** the lead's same-night quantity reading on aa85436a against main put first-town aims handed out at 13%
+against 12% (held at 14%), and fights at combat places within band. Measure 7 fell from 3% to 0; measure 8 rose from
+21% to 22%, already red on main, as two more aims were reached. The walk-ending fight and measures 2–4 were not
+supplied. These measurements predate the touch-aware tactics correction and the remeasured ghoul challenge.
 
 The character-sheet damage text now shows a signed fixed bonus and its minimum; its engine output is tested, but the
 required 1280/390 contact sheet has not been made or visually reviewed. Do not land that page change without it.

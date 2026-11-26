@@ -9,8 +9,8 @@ import { Challenge } from '../src/world/challenge';
 // Strength, had done nothing to a warrior of the twentieth level and stunned him all the same (674 failed stun saves
 // after blows for nothing in the tool's twelve fights), which is what had made it 24, beyond any warrior; and the
 // barrow ghoul, on the edge at 2 (a second-level warrior had won six of twelve), measures 4.
-// Measured again for the barrow ghoul by the SRD's numbers (18 November, srd-proving-cases.md case 25: AC 7 in place of
-// hide's 6, claws of 1d3, struck at the SRD's +2 and not by its Strength): 2, a second-level warrior's match.
+// Measured again after correcting the ghoul's secondary strikes to +0 (26 November): 1 at each rank, with a lone
+// first-level warrior winning six of twelve. Its bite and claws still each carry paralysis.
 // Measured for the fell owlbear by the SRD's numbers (20 November, case 62): 8, the SRD's challenge 4 for a company of
 // four met by one warrior alone. The long centipede (21 November, case 63): a third, as the SRD's challenge 1/2; the
 // midden rat (case 64): a third, as the SRD's 1/3; the wild boar (case 65): 2, the SRD's 2.
@@ -20,12 +20,18 @@ describe('the challenge of the SRD kinds', () => {
       'centipede/long', 'rat/midden', 'boar/wild']) {
       expect([kind, Challenge.measured(kind)]).toEqual([kind, true]);
     }
-    // The barrow ghoul is four of Orsino's: a lone warrior of the second level, against half of one of the first.
-    expect([Challenge.of('ghoul/barrow'), Challenge.of('ghoul')]).toEqual([2, 0.5]);
+    // The barrow ghoul is twice Orsino's: one first-level warrior, against half of one for the base.
+    expect([Challenge.of('ghoul/barrow'), Challenge.of('ghoul')]).toEqual([1, 0.5]);
+    expect(Challenge.of('ghoul/barrow', 5)).toBe(1);
   }, 60000);
-  it('is what the fights say: a second-level warrior beats the barrow ghoul, a first-level one does not', () => {
-    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 2, foes: 1 })).toBeGreaterThanOrEqual(0.5);
-    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 1 })).toBeLessThan(0.5);
+  it('measures the ghoul as a first-level match, but not a pair as one', () => {
+    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 1 })).toBeGreaterThanOrEqual(0.5);
+    expect(BestiaryTool.won('ghoul/barrow', 1, { warrior: 1, foes: 2 })).toBeLessThan(0.5);
+  }, 60000);
+  it('feels a level apart: the wild boar beats a first-level warrior, not a second-level one', () => {
+    expect(Challenge.of('boar/wild')).toBe(2);
+    expect(BestiaryTool.won('boar/wild', 1, { warrior: 1, foes: 1 })).toBeLessThan(0.5);
+    expect(BestiaryTool.won('boar/wild', 1, { warrior: 2, foes: 1 })).toBeGreaterThanOrEqual(0.5);
   }, 60000);
   // Their 10/magic and 5/adamantine: no blade of the catalog's passes either. A warrior of the twentieth level gets
   // enough past ten to beat the unicorn; the flesh golem no one beats.
