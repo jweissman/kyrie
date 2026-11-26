@@ -120,6 +120,17 @@ export class PlayerView {
   // Actions as the page offers them: what the company sees, named as it would name them, worded, alike ones as one
   // (also what the company could do with more coin: CoinReading).
   static offer(campaign: Campaign, offered: readonly Operator[]) { return this.list(campaign, offered); }
+  // The rows of these schemas alone, as the frame holds them, the rest of what is on offer not grounded nor worded:
+  // a journey's leg wants only its way, and whether anyone here would fight (test/small/rows-of-schemas holds them to
+  // the frame's). Not an ask: whether one is asked turns on everyone else on offer (OwnWords.unasked).
+  static only(campaign: Campaign, schemas: ReadonlySet<string>): ReturnType<typeof PlayerView.list> {
+    if (schemas.has('ask')) { throw new Error('An ask is worded by all that is on offer'); }
+    if (!campaign.running) { return []; }
+    const world = campaign.world, actor = campaign.playerActor;
+    const at = { module: campaign.module, world, ...actor ? { playerActor: actor } : {} };
+    return campaign.within(() => this.list(campaign, campaign.operators.applicable(world, actor, new Set(schemas))
+      .filter(action => !Crossing.carried(at, action))));
+  }
   private static list(campaign: Campaign, offered: readonly Operator[]) {
     const world = campaign.world, unnamed = Masked.unnamed(world), actor = campaign.playerActor ?? '';
     const here = ChoiceWording.here(campaign);
@@ -167,6 +178,12 @@ export class PlayerView {
   // architecture review's H2: a legal action the page folded away could not be done, and a game kept by one build's
   // wording could fail to play again by another's).
   static resolve(campaign: Campaign, command: string): string {
+    // A row's id begins with its schema's: found among that schema's rows, it is found without the rest worded (a
+    // journey's leg, its way). Any other is looked for among all the rows, as before.
+    const schema = /^([a-z0-9_]+)(?:\(|$)/.exec(command)?.[1];
+    const own = schema && schema !== 'ask' && campaign.module.actions.some(a => a.id === schema)
+      ? this.only(campaign, new Set([schema])).find(c => c.choice.id === command) : undefined;
+    if (own) { return own.action.id; }
     const rows = this.choices(campaign);
     // By its id, or by the id an older build kept it by, its place among its siblings in it (ChoiceIds).
     const id = ChoiceIds.resolve(command, rows.map(c => c.choice.id));

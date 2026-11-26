@@ -1,4 +1,5 @@
 import type { Campaign } from '../campaign/campaign';
+import type { Operator } from '../campaign/planner';
 import { AimAdvances } from './aim-advances';
 import type { Promoted } from './glance-types';
 import type { Candidate } from '../ui/promotion';
@@ -25,7 +26,9 @@ export class HeldLead {
   }
   // The aim the command (a choice's id) takes up, where it is the step of the aim to follow, as the glance drew it.
   // The screen's aims are read only where the command moves some aim held on: most acts move none.
-  static taken(campaign: Campaign, command: string): string | undefined {
+  // A way is no aim's step (AimAdvances leads no way), so a leg of a journey asks no rows of the frame here.
+  static taken(campaign: Campaign, command: string, action?: Operator): string | undefined {
+    if (action?.movement) { return undefined; }
     const held = Undertakings.held(campaign);
     if (Undertakings.followed(campaign, held)) { return undefined; }
     const rows = PlayerFrame.of(campaign).rows;

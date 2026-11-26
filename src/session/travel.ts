@@ -73,8 +73,11 @@ export class Travel {
     return done;
   }
   // One leg, as the page would take it: why the journey stops there, if it does.
+  // Its way, and whether the company is held where it lies, are all a leg asks of what is on offer: those two alone are
+  // grounded and worded, not the whole frame (which had been built on every leg only to find the way in it).
+  private static readonly ways: ReadonlySet<string> = new Set(['go', 'lie_still']);
   private static async step(t: Traveller, leg: Leg, done: Journeyed): Promise<string | undefined> {
-    const offered = PlayerFrame.of(t.campaign).rows;
+    const offered = PlayerFrame.only(t.campaign, this.ways);
     const choice = offered.find(c => /^go\(/.test(c.choice.id) && c.choice.id.startsWith(`go(${leg.passage},`));
     // A company held where it lies (asleep, stunned) goes nowhere until it can: the map had set out from beside a
     // trap and come back to where the company lay, saying that the way would not let it by (the owner, 11 November).
@@ -154,8 +157,11 @@ export class Travel {
   // with, or one only to slip away from it (temper_wary, temper_tame): the country's animals "let the company be"
   // (data/generation/wild/animals.kyrt), and a monkey, a fox, a hedgehog, a curlew and an otter had each stopped a
   // journey as "There is danger here", nothing to be done but go on (the owner's trust contracts, G).
+  // Those who could be fought here: the attack rows alone, not the whole frame.
+  private static readonly fights: ReadonlySet<string> = new Set(['attack']);
   private static groups(campaign: Campaign): string[] {
-    return PlayerFrame.of(campaign).rows.filter(c => /^attack\(/.test(c.choice.id)).map(c => c.action.bindings?.opponent ?? '');
+    return PlayerFrame.only(campaign, this.fights).filter(c => /^attack\(/.test(c.choice.id))
+      .map(c => c.action.bindings?.opponent ?? '');
   }
   private static hostile(campaign: Campaign, g: string): boolean {
     const world = campaign.world, tolerates = world.relates('tolerates');

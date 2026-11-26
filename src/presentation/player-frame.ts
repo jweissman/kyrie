@@ -56,6 +56,11 @@ export class PlayerFrame {
       Object.entries(r.action.bindings ?? {}).filter(([k]) => !skip.includes(k)).map(([, v]) => v)])));
   }
   static readonly doer: readonly string[] = ['actor', 'site'];
+  // The rows of a few schemas alone, as the frame would hold them, without building it (PlayerView.only): for a reader
+  // that asks for those and nothing else, a journey's leg.
+  static only(campaign: Campaign, schemas: ReadonlySet<string>): FrameRows {
+    return PlayerView.only(campaign, schemas);
+  }
   // What a consumer derives from the rows, worked out once for this revision: its name says what it is and whose.
   reading<T>(name: string, derive: () => T): T {
     if (!this.readings.has(name)) { this.readings.set(name, derive()); }

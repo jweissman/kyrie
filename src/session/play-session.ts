@@ -226,7 +226,8 @@ export class PlaySession {
   // The command's action, and the aims held before it; the step of the aim to follow, done, takes the aim up first
   // (one row, one act: HeldLead, OR-466).
   private resolving(command: string): { id: string; aims: string[] } {
-    const id = PlayerView.resolve(this.campaign, command), takes = HeldLead.taken(this.campaign, command);
+    const id = PlayerView.resolve(this.campaign, command);
+    const takes = HeldLead.taken(this.campaign, command, this.campaign.operator(id));
     if (takes) { this.follow(takes); }
     return { id, aims: Undertakings.held(this.campaign).map(o => o.id) };
   }
