@@ -2,8 +2,10 @@ import { CreatureSchema } from '../creature';
 import { PlaySession } from '../session/play-session';
 import { PlayerFrame } from '../presentation/player-frame';
 import type { CampaignEvent } from '../campaign/campaign';
+import { ScreenModel } from '../ui/screen-model';
+import { CompanyFaces } from './company-faces';
 
-export interface Violation { kind: 'creature' | 'softlock' | 'roundtrip' | 'party' | 'silent' | 'time'; message: string }
+export interface Violation { kind: 'creature' | 'softlock' | 'roundtrip' | 'party' | 'silent' | 'time' | 'faces'; message: string }
 
 // What every step of play must keep true, whatever was chosen. Every creature is as the rules allow (the check a save
 // is opened under, and the one "Invalid creature conditions" broke); a game still going offers something to do; the
@@ -42,6 +44,12 @@ export class Invariants {
   static time(said: number | undefined, spent: number, event: CampaignEvent): Violation[] {
     return said !== undefined && said > 10 && said !== spent && !event.cut && !event.combat.length
       ? [{ kind: 'time', message: `${event.action}: said ${said} minutes, took ${spent}` }] : [];
+  }
+  // Every member of the company who has joined is on the scene by their one face, as on their page (OR-1070).
+  static faces(s: PlaySession): Violation[] {
+    const c = s.campaign;
+    return c.running && !c.fighting ? CompanyFaces.of(c, ScreenModel.build(c)).map(message => ({ kind: 'faces', message }))
+      : [];
   }
   static roundtrip(s: PlaySession): Violation[] {
     try {

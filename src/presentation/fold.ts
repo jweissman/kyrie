@@ -1,6 +1,5 @@
 import { Attest, type Attested, type Projected, type Witness } from './attest';
 import type { Choice } from '../ui/choice-list';
-import type { Aspect } from './glance-types';
 import { Attending } from '../ui/attention';
 
 // A container's mark (an opener's row, a thing gathered by focus, the row that turns a page, a rail mark over its
@@ -66,19 +65,12 @@ export class Fold {
     return (g?.acts ?? []).filter(a => !local || !a.choice.startsWith('travel:'))
       .flatMap(a => Fold.of(g, chosen(a.choice), a.choice, true));
   }
-  // A leaf as it bears one aspect alone (the followed aim's step, whatever else is done there).
-  private static only(l: Leaf, aspect: Aspect): Leaf {
-    return { id: l.id, witnesses: l.witnesses.flatMap(w => Attest.only(w, aspect) ?? []) } as unknown as Leaf;
-  }
-  // Someone here, as the acts with them the glance leads with are borne (Likenesses): the followed aim's next step
-  // alone where it is one of them; and a danger seen in them, the scene's, which no act bears.
-  static likeness(g: Projected | undefined, who: string, chosen: Chosen): Leaf[] {
-    const acts = (g?.acts ?? []).filter(a => a.subject === who), on = acts.filter(a => a.continues);
-    if (on.length) {
-      return on.flatMap(a => Fold.of(g, chosen(a.choice), a.choice, true)).map(l => Fold.only(l, 'undertaking'));
-    }
-    const threat = Attest.only(Attest.subject(g, who), 'danger');
-    return [...threat ? [Fold.leaf({ id: `subject:${who}` }, [threat])] : [],
-      ...acts.flatMap(a => Fold.of(g, chosen(a.choice), a.choice, false))];
+  // Someone here, as the engine reckons them (Likenesses, M21's PL-32): the one witness the glance issues for their
+  // likeness, made of the acts with them the glance leads with, the rows their drawer draws and a danger seen in them,
+  // the followed aim's next step first where it is one of them. The page had folded the acts alone (OR-1001): on the
+  // warrior's golden walk the Guldríce agent, the surveyor's son, Kynes and Holgar were plain over drawers of blue
+  // questions at 53 of its turns, while the engine's likeness, and the drawer, said blue.
+  static subject(g: Projected | undefined, who: string): Leaf[] {
+    return [Fold.leaf({ id: `subject:${who}` }, [Attest.subject(g, who)])];
   }
 }

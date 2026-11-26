@@ -137,7 +137,7 @@ export class WorldStage {
   // (see Guidance). Drawn as one pip by the likeness (see Pip), never composed again here from the glance's acts.
   static seen(app: ReaderApp, x: SceneSubject): Attested | undefined {
     const g = app.state.frame?.leaf.glance, likeness = g?.likenesses?.[x.id];
-    return Fold.mark(Fold.likeness(g, x.id, GlanceStage.choice.bind(null, app)), !!likeness?.continues && Guidance.shown(app));
+    return Fold.mark(Fold.subject(g, x.id), !!likeness?.continues && Guidance.shown(app));
   }
   // A likeness with nothing to open, touched, says why beneath it for a moment, rather than nothing (round 6: three taps
   // on the factor's hands, and on an enemy, did nothing, and nothing said why).

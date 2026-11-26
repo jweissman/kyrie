@@ -40,7 +40,7 @@ export class Likenesses {
   // else its drawer holds said beside it.
   private static drawn(out: Record<string, Likeness>, g: Projected, at: { scene: Scene; screen: Screen }):
     Record<string, Likeness> {
-    for (const sub of at.scene.subjects.filter(x => x.kind === 'person')) {
+    for (const sub of at.scene.subjects.filter(x => x.kind === 'person' || x.kind === 'companion')) {
       const was = out[sub.id];
       const aspects = [...was?.aspects ?? [], ...this.replies(sub.choices)
         .flatMap(c => Attest.reply(g, c, at.screen.paying ?? []).flatMap(w => w.aspects))]

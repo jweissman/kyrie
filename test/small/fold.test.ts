@@ -62,21 +62,18 @@ describe('a container\'s mark', () => {
     expect(Fold.mark([step], true)?.tone).toBe('gold');
     expect(() => Fold.step('x_mill', [Attest.witness(g, 'tablet/0')])).toThrow(/not along the way/);
   });
-  it('folds someone by the acts with them: the aim\'s next step alone, else all of them, and a danger seen', () => {
-    const acts = [{ choice: 'cyril#talk', subject: 'cyril', aspects: ['companionship'] },
-      { choice: 'cyril/give', subject: 'cyril', aspects: ['payoff'] }];
-    const none = () => undefined;
-    const plain = { acts, likenesses: { cyril: { aspects: ['companionship', 'payoff'] } } } as unknown as Projected;
-    expect(Fold.likeness(plain, 'cyril', none).map(l => l.id)).toEqual(['cyril#talk', 'cyril/give']);
-    const on = { acts: [...acts, { choice: 'cyril/ask', subject: 'cyril', aspects: ['undertaking'], continues: true }],
-      likenesses: { cyril: { aspects: ['undertaking'], continues: true } } } as unknown as Projected;
-    expect(Fold.mark(Fold.likeness(on, 'cyril', none), true)?.witnesses.map(w => w.id)).toEqual(['cyril/ask']);
+  it('folds someone by the engine\'s one value for their likeness: the aim\'s next step first, a danger, a companion', () => {
+    // What the acts with them and their drawer's rows bear, together (Likenesses), never the acts alone (OR-1001).
+    const plain = { acts: [], likenesses: { cyril: { aspects: ['companionship', 'knowledge'] } } } as unknown as Projected;
+    expect(Fold.subject(plain, 'cyril').map(l => l.id)).toEqual(['subject:cyril']);
+    expect([Fold.mark(Fold.subject(plain, 'cyril'), false)?.tone, Fold.mark(Fold.subject(plain, 'cyril'), false)?.companion])
+      .toEqual(['blue', true]);
+    const on = { acts: [], likenesses: { cyril: { aspects: ['undertaking', 'knowledge'], continues: true } } } as unknown as Projected;
+    expect(Fold.mark(Fold.subject(on, 'cyril'), true)?.tone).toBe('gold');
+    expect(Fold.mark(Fold.subject(on, 'cyril'), false)?.tone).toBe('blue');
     const threat = { acts: [], likenesses: { wolf: { aspects: ['danger'] } } } as unknown as Projected;
-    expect(Fold.mark(Fold.likeness(threat, 'wolf', none), true)?.tone).toBe('red');
-    // A talk the page draws no row for is folded by what it is led for inside it, never its own reasons.
-    const talk = { acts: [{ choice: 'cyril#talk', subject: 'cyril', aspects: ['knowledge', 'danger'],
-      inside: [{ command: 'ask(cyril)', aspects: ['knowledge'] }] }] } as unknown as Projected;
-    expect(Fold.mark(Fold.likeness(talk, 'cyril', none), true)?.tone).toBe('blue');
+    expect(Fold.mark(Fold.subject(threat, 'wolf'), true)?.tone).toBe('red');
+    expect(Fold.mark(Fold.subject({ acts: [] } as unknown as Projected, 'nobody'), true)).toBeUndefined();
   });
   it('is made by Fold alone anywhere in the game: no module but the fold calls Attest.of (I1 whole)', async () => {
     // Every indicator any client draws is a Fold.mark of leaves: the page, the map, the talk, the rail and the engine's

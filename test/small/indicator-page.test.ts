@@ -57,7 +57,7 @@ describe('the page\'s one indicator', () => {
   });
   it('draws a likeness\'s pip in it, a companion by the icon', () => {
     for (const c of cases.filter(x => !x.gilded)) {
-      // Folded of what is done with them (Fold.likeness): an act about Lindal the glance leads with.
+      // The engine's likeness for them (Fold.subject): an act about Lindal the glance leads with.
       const at = app([{ ...led(c), subject: 'lindal' }], { lindal: { aspects: c.aspects } });
       const x = { id: 'lindal', name: 'Lindal', kind: 'person', choices: [] } as never;
       const seen = WorldStage.seen(at, x);

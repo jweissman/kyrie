@@ -84,6 +84,7 @@ export class AutoplayRun {
       const keep = spec.keep && step % spec.keep === spec.keep - 1;
       const event = move.kind === 'travel' ? undefined : c.history.at(-1);
       const violations: Violation[] = [...Invariants.creatures(s), ...Invariants.offered(s), ...Invariants.party(s),
+        ...Invariants.faces(s),
         ...event ? [...Invariants.told(event), ...Invariants.time(said, this.minutes(s) - from, event)] : [],
         ...keep ? Invariants.roundtrip(s) : []];
       if (violations.length) { failure = { kind: violations[0]!.kind, message: violations[0]!.message, step, move }; }

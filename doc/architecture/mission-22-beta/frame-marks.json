@@ -1,0 +1,20 @@
+{
+ "about": "Marks a client derives for itself instead of reading the frame, by file (scripts/frame-marks.ts); each may only fall (test/small/frame-marks).",
+ "counts": {
+  "src/cli/terminal-colour.ts": 3,
+  "src/cli/terminal-menus.ts": 2,
+  "src/cli/terminal.ts": 3,
+  "web/reader/creation/signature.tsx": 1,
+  "web/reader/map-menu.tsx": 2,
+  "web/reader/stage/at-hand.tsx": 2,
+  "web/reader/stage/attention.tsx": 1,
+  "web/reader/stage/glance.tsx": 1,
+  "web/reader/stage/lens-rows.ts": 1,
+  "web/reader/stage/place-mark.tsx": 1,
+  "web/reader/stage/place-stage.tsx": 3,
+  "web/reader/stage/scene-rail.tsx": 3,
+  "web/reader/stage/talk-stage.tsx": 3,
+  "web/reader/stage/wayfinder.tsx": 7,
+  "web/reader/stage/world-stage.tsx": 1
+ }
+}

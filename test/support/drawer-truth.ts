@@ -16,7 +16,7 @@ import { TalkStage } from '../../web/reader/stage/talk-stage';
 export class DrawerTruth {
   static of(frame: Frame): string[] {
     const out: string[] = [], scene = SceneModel.build(frame.screen), g = frame.leaf.glance;
-    for (const sub of scene.subjects.filter(x => x.kind === 'person')) {
+    for (const sub of scene.subjects.filter(x => x.kind === 'person' || x.kind === 'companion')) {
       const aspects = g?.likenesses?.[sub.id]?.aspects ?? [], tone = Indicator.of({ aspects }).tone;
       const has = new Set<string>(aspects.flatMap(a => Emphasis.tones[a] ?? []));
       const drawn = this.drawn(frame, sub.id);
