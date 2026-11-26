@@ -4,6 +4,7 @@ import { PlayerView } from '../../src/presentation/player-view';
 import { ModuleWriter } from '../../src/lang/module-writer';
 import { PlaySession } from '../../src/session/play-session';
 import type { CreatureGenerationContext } from '../../src/content';
+import { Laboratory } from '../../scripts/laboratory';
 
 // A hostile spell cast at a band outside a fight (the casting-fiction invariant, CF-03; mission-22 brief Phase 4A:
 // "Sleep and other hostile spells initiating or altering a confrontation"). `Resolve invoke(sleep, caster, band)` is
@@ -47,6 +48,27 @@ describe('Sleep cast over a band outside a fight', () => {
   it('is offered by name to a caster who knows it, and to no one who does not', async () => {
     expect(names(await Tiny.start(run('rats'), { party: [enchanter] }))).toContain('Have Ysabel cast Sleep over the rats');
     expect(names(await Tiny.start(run('rats'), { party: [evoker] })).filter(n => /Sleep/.test(n))).toEqual([]);
+  });
+
+  describe('Sleep in the generated corn-store', () => {
+    for (const [seed, saves, words] of [
+      ['a', [true, false], 'Some rats still move.'],
+      ['e', [true, true], 'Some rats still move.'],
+      ['f', [false, false], 'The remaining rats lie still.']
+    ] as const) {
+      it(`tells the outcome of the rats' saves (${seed})`, async () => {
+        const t = await Tiny.start(Laboratory.text(), { party: [enchanter], seed });
+        t.journey.put('party', 'lab__low_u_warren');
+        const caster = () => t.campaign.readout.creatures.find(c => c.id === 'lab__party_1')!;
+        const before = JSON.stringify(caster().state.ready);
+        await t.play('Have Ysabel cast Sleep over the rats in the run');
+        const event = t.campaign.events.find(e => e.action.includes('rats_slept'))!;
+        expect(event.combat.filter(e => e.type === 'save').map(e => e.success)).toEqual([...saves]);
+        expect(event.response).toContain(words);
+        expect(JSON.stringify(caster().state.ready)).not.toBe(before);
+        expect(event.response?.includes('come at you')).toBe(saves.some(Boolean));
+      });
+    }
   });
   it('spends the slot, rolls each save, and lays the band asleep, not dead, until a separate act does for them', async () => {
     const t = await Tiny.start(run('rats'), { party: [enchanter], seed: 'lull' }), before = slots(t);
