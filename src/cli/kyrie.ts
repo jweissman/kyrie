@@ -31,7 +31,7 @@ import { Traces } from './traces';
 import { VerifyTool } from './verify-tool';
 import { NewTool } from './new-tool';
 import { CountriesTool } from './countries-tool';
-import { ListTool } from './list-tool';
+import { ListTool } from '../canon/list-tool';
 import { ReachTool } from './reach-tool';
 import { ForecastTool } from './forecast-tool';
 import { TranscriptsTool } from './transcripts-tool';

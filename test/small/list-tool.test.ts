@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { ListTool } from '../../src/cli/list-tool';
+import { ListTool } from '../../src/canon/list-tool';
 import { Canon } from '../../src/canon/canon';
 
 // bin/kyrie list: what the game compiles, one a line (the owner, 26 November).

@@ -1,5 +1,6 @@
+// The setting's own catalogues listed (in the setting, where a read of Canon is its own, not an ambient one).
 import { readdirSync, existsSync } from 'node:fs';
-import { Canon } from '../canon/canon';
+import { Canon } from './canon';
 import { Likeness } from '../paintings/likeness';
 
 // What the game holds, one a line, for reading and for grep (the owner, 26 November: "`kyrie list professions` …
