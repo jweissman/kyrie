@@ -15,14 +15,16 @@ import { Frontier } from '../src/world/frontier';
 // system shock). Their gear can be taken from them; a town's priest can call them back (Orsino's Raise Dead) for a
 // long vigil and a great price, with half their health; and the dead can be laid to rest.
 class Fallen {
-  static async start(slain = false) {
+  // The one who falls is the company's first, Elen, unless another is named: the first is the one who plays, whose
+  // death ends the life (OR-683), so the dead laid to rest is a companion, Dori.
+  static async start(slain = false, who = 0) {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared, { scenarios: 0, towns: 0, framework: null });
     const s = await PlaySession.start(w.path, 'a1', w.source);
     const store = (s.campaign as unknown as { creatures: CreatureStore }).creatures;
     const lease = store.acquire(s.campaign.state.partyIds);
     try {
-      lease.creatures[0]!.state.hp = 0;
-      if (slain) { lease.creatures[0]!.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' }); }
+      lease.creatures[who]!.state.hp = 0;
+      if (slain) { lease.creatures[who]!.state.conditions.push({ id: 'slain', remaining: 1, clock: 'until-removed' }); }
       lease.creatures[1]!.state.gold = 400;
       lease.commit(lease.creatures);
     } finally { lease.release(); }
@@ -58,28 +60,28 @@ describe('a fallen companion', () => {
     expect(Fallen.choice(s, /^Ask .* to raise Elen/)).toBeUndefined();
   }, 60000);
   it('dead, can be laid to rest, and leaves the company; senseless, cannot', async () => {
-    expect(await Fallen.start().then(async ({ w, s }) => {
+    expect(await Fallen.start(false, 2).then(async ({ w, s }) => {
       GeneratedWorld.put(s, `${w.report.region.settlements[0]!.id}_green`);
       await s.leg('wait');
-      return Fallen.choice(s, /^Lay Elen to rest$/);
+      return Fallen.choice(s, /^Lay Dori to rest$/);
     })).toBeUndefined();
-    const { w, s } = await Fallen.start(true), town = w.report.region.settlements[0]!;
+    const { w, s } = await Fallen.start(true, 2), town = w.report.region.settlements[0]!;
     GeneratedWorld.put(s, `${town.id}_green`);
     await s.leg('wait');
-    const rest = Fallen.choice(s, /^Lay Elen to rest$/)!;
+    const rest = Fallen.choice(s, /^Lay Dori to rest$/)!;
     expect(rest).toBeDefined();
     await s.leg(rest.choice.id);
-    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
-    expect(Fallen.choice(s, /Elen/)).toBeUndefined();
+    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Elen', 'Bran']);
+    expect(Fallen.choice(s, /Dori/)).toBeUndefined();
     // Kept and opened again, the company is still the two of them.
     const back = PlaySession.resume(JSON.parse(JSON.stringify(s.checkpoint())));
-    expect(back.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
+    expect(back.campaign.state.party.map(m => m.name)).toEqual(['Elen', 'Bran']);
     // Nor does she come back when the country beyond is drawn and installed.
     GeneratedWorld.put(s, 'edge_west');
     await s.leg('wait');
     expect(await new Frontier('a1', NodeBundleSource.shared).expand(s.campaign)).toBeDefined();
-    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Bran', 'Dori']);
-    expect(Fallen.choice(s, /Elen/)).toBeUndefined();
+    expect(s.campaign.state.party.map(m => m.name)).toEqual(['Elen', 'Bran']);
+    expect(Fallen.choice(s, /Dori/)).toBeUndefined();
   }, 180000);
   it('comes round at a rest with 1 HP, or dies where they fell, and once dead is not rolled for again', () => {
     const fallen = (seed: string, constitution: number) => {
