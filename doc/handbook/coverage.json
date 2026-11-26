@@ -801,7 +801,7 @@
     "faithful": 722,
     "adapted": 425,
     "represented": 4,
-    "kyr": 629,
+    "kyr": 632,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -905,7 +905,7 @@
       "faithful": 241,
       "adapted": 84,
       "represented": 0,
-      "kyr": 116,
+      "kyr": 117,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -931,7 +931,7 @@
       "faithful": 207,
       "adapted": 45,
       "represented": 0,
-      "kyr": 4,
+      "kyr": 5,
       "unsupported": 30,
       "unreachable": 0,
       "data-only": 0
@@ -983,7 +983,7 @@
       "faithful": 121,
       "adapted": 31,
       "represented": 0,
-      "kyr": 57,
+      "kyr": 58,
       "unsupported": 18,
       "unreachable": 0,
       "data-only": 0
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 339,
+    "kyr": 341,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1049,7 +1049,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 37,
+      "kyr": 39,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -8325,6 +8325,13 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:scroll_of_comprehend_languages",
+   "title": "Scroll of Comprehend Languages",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:scroll_of_domination",
    "title": "Scroll of Domination",
    "status": "faithful",
@@ -9637,6 +9644,13 @@
    "id": "ability:charm",
    "title": "Charm Person",
    "status": "faithful",
+   "book": "phb",
+   "section": "magic/spells-arcane/spells-arcane-1"
+  },
+  {
+   "id": "ability:comprehend_languages",
+   "title": "Comprehend Languages",
+   "status": "kyr",
    "book": "phb",
    "section": "magic/spells-arcane/spells-arcane-1"
   },
@@ -12870,6 +12884,13 @@
   {
    "id": "condition:lamplit",
    "title": "Lamplit",
+   "status": "kyr",
+   "book": "phb",
+   "section": "conditions"
+  },
+  {
+   "id": "condition:lettered",
+   "title": "Lettered",
    "status": "kyr",
    "book": "phb",
    "section": "conditions"
@@ -16417,6 +16438,13 @@
    "section": "campaigns"
   },
   {
+   "id": "campaign:overexall",
+   "title": "Over Exall",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
    "id": "campaign:parliament-of-books",
    "title": "A Parliament of Books",
    "status": "kyr",
@@ -16559,6 +16587,13 @@
   {
    "id": "campaign:weatherdrove",
    "title": "The Weather Drove",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "campaigns"
+  },
+  {
+   "id": "campaign:wetdrusilla",
+   "title": "Wet Drusilla",
    "status": "kyr",
    "book": "dmg",
    "section": "campaigns"

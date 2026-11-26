@@ -51,6 +51,7 @@
    "world/the-reference-loop": "adventures",
    "world/the-start-is-the-dungeon": "adventures",
    "world/the-way-down": "adventures",
+   "world/reading-by-art": "spells",
    "choice/asked-in-turn": "talk",
    "world/the-herb-wife-asks": "talk",
    "interface/oracle": "testing"

@@ -3007,6 +3007,15 @@ The worlds that ship with the game.
 
 > Thirty miles of road the Aeneans built in a season and the mountains have taken back in eleven hundred years: bridges down, galleries fallen, mansios roofless. At its far end, they say, someone still lights the lamps. Choose three companions, and decide what to carry.
 
+### Over Exall
+
+*Kyr* · `campaign:overexall`
+
+- Regions and sites: overexall
+- Kits placed: —
+
+> A drift-whale has hung itself by the lip on the steeple of Exall, and sinks a house-height every dusk. In three days it will be on the roofs. A woman of ninety-one calls it Candlemas, and says it has been here before.
+
 ### A Parliament of Books
 
 *Kyr* · `campaign:parliament-of-books`
@@ -3195,6 +3204,15 @@ The worlds that ship with the game.
 - Kits placed: —
 
 > Wickering drinks for a year if the Widow rains on the Seven Gardens. She is a cloud the Shales have driven nine generations, and this autumn she came down off the mountains and went into a glasshouse.
+
+### Wet Drusilla
+
+*Kyr* · `campaign:wetdrusilla`
+
+- Regions and sites: wetdrusilla
+- Kits placed: —
+
+> Dryquay is a harbour with no sea. The Contrary Mary sails at two, two days out across the Ebb with Wet Drusilla Sarsby's ashes, to be sung over with all nine verses of her song.
 
 ### What Tessary Owes
 

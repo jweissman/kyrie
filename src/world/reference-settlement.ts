@@ -59,7 +59,9 @@ export class ReferenceSettlement {
   // ready for the woods and the dark.
   static readonly provisions: [string, number, number][] = [['rations', 2, 8], ['torch', 1, 8], ['candle', 1, 6],
     ['lantern', 7, 2], ['lamp_oil', 1, 6], ['rope', 1, 4], ['crowbar', 3, 2], ['pole', 1, 2], ['sack', 2, 4],
-    ['bedroll', 1, 3], ['waterskin', 2, 3], ['chalk', 1, 4], ['iron_spikes', 1, 4], ['bandages', 1, 4], ['oil_firebomb', 2, 3]];
+    ['bedroll', 1, 3], ['waterskin', 2, 3], ['chalk', 1, 4], ['iron_spikes', 1, 4], ['bandages', 1, 4], ['oil_firebomb', 2, 3],
+    // And one scroll, for a company with no one to read the old letters under the woods (OR-1099).
+    ['scroll_of_comprehend_languages', 10, 1]];
   static readonly arms: [string, number, number][] = [['dagger', 2, 2], ['club', 1, 2], ['spear', 2, 2],
     ['javelin', 1, 4], ['sling', 1, 2], ['handaxe', 6, 1], ['shortbow', 15, 1], ['hide_armor', 10, 1],
     ['leather', 12, 1]];

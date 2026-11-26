@@ -74,7 +74,7 @@ describe('the SRD fidelity census', () => {
     // 50, 52, 55 and 58.
     expect(rows.filter(r => r.grades.identity === 'proved').map(r => r.id).sort()).toEqual(['acid_arrow', 'armor', 'barkskin', 'bless', 'blur',
       'burning_hands',
-      'calm_emotions', 'centipede/long', 'chain_lightning', 'command', 'cone_of_cold', 'cure', 'cure_critical', 'cure_disease', 'cure_moderate', 'cure_serious', 'divine_favor',
+      'calm_emotions', 'centipede/long', 'chain_lightning', 'command', 'comprehend_languages', 'cone_of_cold', 'cure', 'cure_critical', 'cure_disease', 'cure_moderate', 'cure_serious', 'divine_favor',
       'entangle', 'fireball', 'flesh_to_stone', 'hold_animal', 'hold_person', 'life_drain', 'lightning_bolt', 'magic_missile', 'mass_curse', 'mirror_image', 'paralyzing_touch', 'protection_from_evil', 'rat/cellar', 'rat/midden', 'ray_of_frost', 'remove_fear', 'resist_fire', 'shield',
       'shocking_grasp', 'sleep', 'terror', 'weakness']);
     expect(SpellFidelity.row('cloudkill', 'cloudkill').grades).toEqual({ structural: 'fail', resolution: 'fail',

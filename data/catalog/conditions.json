@@ -147,6 +147,21 @@
         "notes": "A torch burns about an hour: light in unlit places, and a flame for what needs burning."
       }
     },
+    "lettered": {
+      "name": "Lettered",
+      "description": "Old letters and strange tongues read plainly for a while.",
+      "lifetime": "persistent",
+      "modifiers": {},
+      "grants": [
+        "lore"
+      ],
+      "begins": "The old letters will read plainly to {target} for the next hour.",
+      "ends": "The old letters are strange to {target} again.",
+      "source": {
+        "kyr": true,
+        "notes": "The effect of Comprehend Languages: for an hour its bearer reads what lore reads."
+      }
+    },
     "unbarring": {
       "name": "Unbarring",
       "description": "Locks open at a touch for a while.",

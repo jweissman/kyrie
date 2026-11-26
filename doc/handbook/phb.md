@@ -4426,6 +4426,16 @@ Used: End diseased on one ally.
 
 > A magical scroll that can cure a target of any disease afflicting them.
 
+#### Scroll of Comprehend Languages
+
+*Kyr · consumable* · `item:scroll_of_comprehend_languages`
+
+- Worth: 25
+
+Used: One ally is lettered for 1 hour.
+
+> A scroll of one spell: read over a companion, old letters and strange tongues read plainly to them for an hour.
+
 #### Scroll of Domination
 
 *Faithful · consumable* · `item:scroll_of_domination`
@@ -6474,6 +6484,14 @@ One ally is warded for 20 turns. Warded: +1 against magic, 14 + 2 × level more 
 One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
 > Charm an enemy, making them friendly towards you.
+
+##### Comprehend Languages
+
+*Kyr · level 1 arcane spell, divination* · `ability:comprehend_languages`
+
+One ally is lettered for 1 hour. Lettered: old letters and strange tongues read plainly for a while. An arcane spell of the first level. Takes a first-level slot.
+
+> For an hour, old letters and strange tongues read as plainly as one's own.
 
 ##### Drench
 
@@ -10788,6 +10806,12 @@ Cannot act.
 *Kyr · lasts beyond a fight* · `condition:lamplit`
 
 > Carrying a lit lantern: a steady light against the dark, and a flame to hand.
+
+### Lettered
+
+*Kyr · lasts beyond a fight* · `condition:lettered`
+
+> Old letters and strange tongues read plainly for a while.
 
 ### Lightproof
 

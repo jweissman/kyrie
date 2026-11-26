@@ -1193,6 +1193,21 @@
         "notes": "The old-school Knock, which Orsino's catalog lacks: whoever bears it may do what lockwork does for an hour."
       }
     },
+    "comprehend_languages": {
+      "name": "Comprehend Languages",
+      "kind": "spell",
+      "description": "For an hour, old letters and strange tongues read as plainly as one's own.",
+      "effect": "Apply lettered to ally for 1 hour.",
+      "spell": {
+        "tradition": "arcane",
+        "level": 1,
+        "school": "divination"
+      },
+      "source": {
+        "kyr": true,
+        "notes": "The SRD's Comprehend Languages (Brd 1, Clr 1, Sor/Wiz 1), which Orsino's catalog lacks: whoever bears it reads what lore reads for an hour (the SRD's ten minutes a level, at the level Kyr's casters go below at). Laid on a companion, not only the caster, so that it is cast between fights as a ward is."
+      }
+    },
     "pratfall": {
       "name": "Pratfall",
       "kind": "technique",
