@@ -2778,6 +2778,54 @@
    "was": "defect",
    "pri": "P2",
    "why": "26 Nov, filed as a slice of OR-741's knowledge door (an architecture step, the fifth review's step 6): a structural requirement, not an observed violation"
+  },
+  "OR-1071": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ask of 26 November: a committed requirement, unmet; its failures are filed apart (OR-1070)"
+  },
+  "OR-1072": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ruling of 26 November on the title: a committed requirement, unmet"
+  },
+  "OR-1074": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ruling of 26 November on the starting area: a committed requirement, unmet"
+  },
+  "OR-1076": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "the lead's call under the reference-game ruling of 25 November: held world content, waiting on the reference game's question; not a failure"
+  },
+  "OR-1077": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November on combat, kept whole, not yet commissioned"
+  },
+  "OR-1078": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November on combat, kept whole, not yet commissioned"
+  },
+  "OR-1079": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November on combat, kept whole, not yet commissioned"
+  },
+  "OR-1080": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November on combat, kept whole, not yet commissioned"
   }
  },
  "blockedBy": {
