@@ -23,8 +23,9 @@ export class RegionRoads {
   private static road(road: Road, region: Region): string[] {
     const q = JSON.stringify, { from, to, land, way, form } = road, [x, y] = road.spot, n = this.names(road, region);
     const [out, on] = this.halves(road, region);
-    const lines = [`  Place ${land} ${q(n.land)} is wilderness within region at ${x}, ${y}.`,
-      `  Place ${way} ${q(n.way)} is room within ${land} at 1, 1.`,
+    const seen = this.unnamed(road, region, n);
+    const lines = [`  Place ${land} ${q(n.land)} is wilderness within region at ${x}, ${y}${seen.land}.`,
+      `  Place ${way} ${q(n.way)} is room within ${land} at 1, 1${seen.way}.`, ...seen.lines,
       `  Passage road_${from.id}_${to.id} ${q(n.out)} is road between ${from.id}_green and ${way} taking ${out}.`,
       `  Passage road_${from.id}_${to.id}_on ${q(n.on)} is ${n.kind} between ${way} and ${to.id}_green taking ${on}.`,
       `  Observe ${way}_scene at ${way} when true ${q(`${n.scene} ${RegionEcology.sign(this.habitat(road, region), way)}`
@@ -33,6 +34,34 @@ export class RegionRoads {
     if (form?.form === 'river' && road.route.crossings[0]?.kind === 'ford') { lines.push(...this.ford(road)); }
     if (road.route.over) { lines.push(...this.pass(road)); }
     return lines;
+  }
+  // A road named for the towns at its ends, as it is seen by a company that does not know them both: by which way it
+  // runs and the ground it crosses ("the east-west road over the meadows"), until the company stands on it and reads
+  // its milestone, which names both ends (and so tells of the town at the far one). The map had named a town nobody had
+  // told of in its road's name: "To the road between Mistshaw and Millholm" from Millholm (OR-810, the owner's playtest
+  // of 25 November). A road named for its river, wood or pass names no town, and is seen as it is.
+  private static unnamed(road: Road, region: Region, n: WayNames): { land: string; way: string; lines: string[] } {
+    const { from, to, way } = road, q = JSON.stringify;
+    if (![n.way, n.land].some(name => name.includes(from.name) || name.includes(to.name))) {
+      return { land: '', way: '', lines: [] };
+    }
+    const ground = RegionRoads.grounds[this.ground(road, region)] ?? 'open country';
+    const alias = `the ${this.axis(road, region)} road over the ${ground}`, fact = `${way}_named`;
+    return { land: ` seen as ${q(`the ${ground} along the ${this.axis(road, region)} road`)} until ${fact}`,
+      way: ` seen as ${q(alias)} until ${fact}`,
+      lines: [`  Entity ${fact}: fact ${q(`The ${alias.slice(4)} runs between ${from.name} and ${to.name}.`)}.`,
+        `  Initially Assert leadsTo(${fact}, ${from.id}). Initially Assert leadsTo(${fact}, ${to.id}).`,
+        `  Observe ${fact}_stone at ${way} as reading when true ${q(`A milestone: ${from.name} one way, ${to.name} the other.`)} teaches ${fact}.`] };
+  }
+  static readonly grounds: Record<string, string> = { meadow: 'meadows', heath: 'heath', wood: 'woods', fen: 'fen',
+    fell: 'fells' };
+  // Which way a road runs, from one end to the other: east-west, north-south, or a diagonal by its northern wind.
+  private static axis(road: Road, region: Region): string {
+    const w = RegionGeography.atlas(region).land.width, a = road.route.cells[0]!, b = road.route.cells.at(-1)!;
+    const dx = b % w - a % w, dy = Math.floor(b / w) - Math.floor(a / w);
+    if (Math.abs(dx) > 2 * Math.abs(dy)) { return 'east-west'; }
+    if (Math.abs(dy) > 2 * Math.abs(dx)) { return 'north-south'; }
+    return Math.sign(dx) === Math.sign(dy) ? 'north-west' : 'north-east';
   }
   // The time each half of a road takes, in the minutes Kyr counts, to the nearest ten: each half the ground it goes
   // over, out to where the way room stands (its crossing, or its middle). Halved evenly, a ford a hex from one end had
