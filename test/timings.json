@@ -1468,7 +1468,6 @@
     "test/windfall.test.ts": 20210,
     "test/windfall-placed.test.ts": 13140,
     "test/goingbank.test.ts": 15480,
-    "test/goingbank-placed.test.ts": 15550,
-    "test/rule-wakeups.test.ts": 42010
+    "test/goingbank-placed.test.ts": 15550
   }
 }

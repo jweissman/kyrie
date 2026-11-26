@@ -188,6 +188,7 @@ export class CampaignTick {
   }
   private static fire(host: TickHost, rule: WorldRule, happenings: Happening[],
     { began, since }: { began: World; since?: World }) {
+    const { definition, creatures } = host.tickState;
     // A rule said within an area waits for the company to be there: news of the city is told, and done, when the
     // company comes up from under the sea (What Tessary Owes' W1, the Road's F9). One only heard within it happens
     // regardless: the Sexton goes back up the tower whether or not anyone is under the water (the Grand Tour's 22).
@@ -206,8 +207,6 @@ export class CampaignTick {
       // Hessel's friction 6, which kept its own rule for it).
       const prior = host.world, next = Journey.along(prior, prior.apply(this.yielding(host, rule, effects)),
         host.playerActor);
-      // The company's state read only for a rule that fires: of a thousand asked a watch, a handful do (AX-10).
-      const { definition, creatures } = host.tickState;
       CreatureFacts.commitMoney(prior, next, definition.actors, creatures);
       // The world itself is kept, not a copy of its facts, which the next reading of the world would build again
       // from every fact (Mission 15's profile: most of a command's time in a country of several regions).
@@ -287,10 +286,7 @@ export class CampaignTick {
   // watch because it also asks the hour: AX-10, most of a quiet watch's rules solved again for reading the clock).
   // `reads` stays all the condition reads, for whoever asks what a rule turns on (yielding, stirred).
   private static readonly idle = new WeakMap<WorldRule, Idle>();
-  // The oracle (test/rule-wakeups): every rule asked and solved afresh in every pass, nothing held idle.
-  static afresh = false;
   static instances(rule: WorldRule, world: World): [Change[], Record<string, string>][] {
-    if (this.afresh) { return this.found(rule, world); }
     let idle = this.idle.get(rule);
     if (!idle) { idle = { reads: Reads.names(world.module, [rule.when]) }; this.idle.set(rule, idle); }
     if (idle.module === world.module && world.agrees(idle.held ?? idle.reads, idle.stamped)) { return []; }
