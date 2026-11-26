@@ -181,7 +181,8 @@ export class CanonValidation {
   // A stat block's expressions (see StatExpressions): its damage by a natural weapon, reading only what a blow binds;
   // its natural armour's bonus, reading only what its making binds, and no dice.
   private expressions(where: string, st: { damage?: Record<string, string>; armorBonus?: string; saves?: object;
-    attackBonus?: number; hitDice?: string; scores?: object; attributes?: object | string }) {
+    attackBonus?: number; hitDice?: string; scores?: object; attributes?: object | string;
+    attacks?: string[]; strikes?: { attackBonus: number; damageBonus: number }[] }) {
     this.fixed(where, st);
     for (const [weapon, text] of Object.entries(st.damage ?? {})) {
       if (!Canon.items[weapon]?.weapon?.natural) { this.fail(where, `damage for ${weapon}, which is no natural weapon`); }

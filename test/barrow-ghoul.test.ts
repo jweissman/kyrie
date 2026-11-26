@@ -10,7 +10,7 @@ import { Canon } from '../src/canon/canon';
 
 // The barrow ghoul by the SRD ghoul's numbers (mission-22/srd-proving-cases.md, case 25): the keeper of the vault under
 // the first town, the one SRD stat block a1 places, met alone and told before it is joined. Thirteen hit points at any
-// rank; a bite of 1d6 and two claws of 1d3, each struck at the SRD's +2 and each paralysing as it lands; AC 14 as
+// rank; a bite at +2 for 1d6+1 and two claws at +0 for 1d3, each paralysing as it lands; AC 14 as
 // Westernesse 7; saves of +0, +2 and +5. Until 18 November it wore hide (AC 6), clawed for 1d4 and was struck by its
 // Strength, half again as likely to hit, and saved by its scores and level.
 const content = new Content('barrow-ghoul');
@@ -35,6 +35,19 @@ describe('the barrow ghoul by the SRD\'s numbers', () => {
       const mark = { ...g, armorAc: 4, dexterity: 10, modifiers: {}, fixedToHit: undefined };
       expect([level, Fighting.chance(g, mark)]).toEqual([level, 0.4]);
       expect([level, Fighting.attack(g, mark, () => 10).need]).toEqual([level, 13]);
+    }
+  });
+  it('strikes with the bite and secondary claws separately while retaining their paralysis riders', () => {
+    for (const level of [1, 5]) {
+      const g = content.creature('ghoul/barrow', `g${level}`, 'goblins', level);
+      const combatant = Effects.combatant(g), mark = { ...combatant, armorAc: 4, dexterity: 10, modifiers: {} };
+      const strikes = g.equipment.routine!;
+      expect(strikes.map(w => [w.attackBonus, w.damageBonus])).toEqual([[2, 1], [0, 0], [0, 0]]);
+      expect(strikes.map(w => Fighting.attack({ ...combatant, weapon: w }, mark, () => 10).need))
+        .toEqual([13, 15, 15]);
+      expect(strikes.map(w => Fighting.weaponDamage({ ...combatant, weapon: w }, 1, false).amount))
+        .toEqual([2, 1, 1]);
+      expect(strikes.map(w => w.onHit?.[0]?.kind)).toEqual(['apply', 'apply', 'apply']);
     }
   });
   it('comes back from a save as it went', () => {

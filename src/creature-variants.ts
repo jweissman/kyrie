@@ -36,6 +36,7 @@ export interface Variation {
   forgoes?: { abilities?: string[]; traits?: string[]; resistances?: string[] }; unplaced?: true; actions?: number;
   riders?: Record<string, Effect[]>; damage?: Record<string, string>; armorBonus?: string;
   saves?: { fortitude: number; reflex: number; will: number }; attackBonus?: number; scores?: Record<string, number>;
+  strikes?: { attackBonus: number; damageBonus: number }[];
   // Its own painting, or none where its base's would contradict it (see Variation in the canon's schema).
   portrait?: string | null;
 }
@@ -132,7 +133,7 @@ export class CreatureVariants {
   static stated(id: string): boolean {
     const v = this.variations[id];
     return !!v && !!(v.hitDice || v.defenses || v.attacks || v.armor || v.forgoes || v.riders || v.damage
-      || v.armorBonus || v.saves || v.scores || v.attackBonus !== undefined || v.actions !== undefined);
+      || v.armorBonus || v.saves || v.scores || v.strikes || v.attackBonus !== undefined || v.actions !== undefined);
   }
   // What a creature is called with its variations: "a wolf", old and frost, is "an old frost wolf".
   static called(role: string, ids: string[]): string {

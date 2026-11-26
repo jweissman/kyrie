@@ -269,6 +269,7 @@ export class Canon {
   }
   private static stated(b: Species, over: Overlay[]): Partial<Species> {
     const said = { hitDice: this.first(over, 'hitDice'), attacks: this.first(over, 'attacks'),
+      strikes: over.find(v => v.attacks)?.strikes,
       armor: this.first(over, 'armor'), riders: this.first(over, 'riders'), damage: this.first(over, 'damage'),
       armorBonus: this.first(over, 'armorBonus'), saves: this.first(over, 'saves'),
       attackBonus: this.first(over, 'attackBonus'), actions: this.first(over, 'actions'),
@@ -283,6 +284,7 @@ export class Canon {
       return {};
     }
     const st = { ...b.statistics! };
+    if (said.attacks && !said.strikes) { delete st.strikes; }
     // Hit Dice are the whole of its hit points: no growth, no fixed number beside them.
     if (said.hitDice) { delete st.growth; delete st.hitPoints; }
     const stated = Object.fromEntries(Object.entries(said).filter(([, v]) => v !== undefined));
