@@ -3,6 +3,7 @@ import { World } from '../lang/world';
 import { ModuleWriter } from '../lang/module-writer';
 import { EntityIndex } from '../lang/entity-index';
 import { KeptReading, type Kept } from '../lang/kept-reading';
+import { EffectShadows } from '../ports/effects';
 
 // What the company would know after an act that it does not know now (OR-206; BRIEF §5A: one Outcome per drawn row,
 // the first slice of it, knowledge): read once from the act itself, by the cheap step (outcome-cost-study.md), never
@@ -77,7 +78,9 @@ export class Outcome {
   }
   private static told(world: World, action: Operator, at: { actor: string; company: Foreseeing;
     byId: ReadonlyMap<string, { name?: string }> }): readonly string[] {
-    return this.teaching(world, action.success ?? [], at.actor, at.company).filter(f => !!at.byId.get(f)?.name);
+    // A spell's world changes, given ahead by the rules domain's lowering, as its success's are (OR-1101).
+    const success = [...action.success ?? [], ...this.lowered(world, action)];
+    return this.teaching(world, success, at.actor, at.company).filter(f => !!at.byId.get(f)?.name);
   }
   private static teaching(world: World, success: readonly Change[], actor: string, company: Foreseeing):
     readonly string[] {
@@ -92,6 +95,13 @@ export class Outcome {
       && this.calls(t.when).every(c => keys.has(this.key(c)) || company.foresees(c))
       && after.test(t.when) && !world.test(t.when)).map(t => t.fact);
     return [...new Set([...told, ...shown])];
+  }
+  // What an act that invokes an ability (Resolve invoke: a spell cast between fights, at one of the company or at a
+  // thing) would write to the world, ahead of it, as the rules domain lowers its effects (the effects port: OR-1101).
+  private static lowered(world: World, action: Operator): Change[] {
+    const resolve = action.resolve, actor = action.bindings?.actor ?? action.actor;
+    return resolve?.name === 'invoke' && actor
+      ? EffectShadows.lower(resolve.args[0]!, { world, actor, target: resolve.args[2] ?? '' }) : [];
   }
   // Who it was learned from, or heard of, or read in: the learning's own record (see WorldConstructs.learnt; reading
   // a notice, `learnedFrom`, had stopped counting as learning when PL-03 began reading the record: PL-16). What an act

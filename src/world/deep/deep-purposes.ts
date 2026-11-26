@@ -64,7 +64,8 @@ export interface MechanismWords {
   // catches.
   // Put to the flame by whatever lets fire loose there (a torch held to it, a firebomb, a spell), it burns, and its
   // light keeps the room lit.
-  kindling?: { role: string; thing: string; whole: string; burnt: string; catches: string };
+  // What its light shows of the keeper's bane, where the site has one (told).
+  kindling?: { role: string; thing: string; whole: string; burnt: string; catches: string; told?: string };
 }
 // A way down to a level already reached, made from below where the company first comes down to it: the level and
 // the role of the room it serves; the thing there that is made to serve (its states, and the act that makes it, at

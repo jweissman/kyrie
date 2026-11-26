@@ -219,7 +219,8 @@
     "kindling": { "role": "embalmers", "thing": "the embalmers' linen",
       "whole": "On the stone tables lie the embalmers' last lengths of linen, rolled and stiff with resin, waiting for dead who never came.",
       "burnt": "The stone tables are black with soot where the resined linen burned, and the smell of it hangs in the room.",
-      "catches": "The resined linen catches at once. It burns high, roll after roll, with a hard yellow light." }
+      "catches": "The resined linen catches at once. It burns high, roll after roll, with a hard yellow light.",
+      "told": "In its light the paintings on the walls show the embalmers sealing the noon sun into jars for the king's door." }
   },
   "after": {
     "warlords": [

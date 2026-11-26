@@ -3,6 +3,7 @@ import sky from '../../data/imbar/sky.json';
 import telegraphs from '../../data/catalog/telegraphs.json';
 import { SettingPort, type SettingTelegraphs } from '../setting-port';
 import { Canon } from './canon';
+import { EffectsRead } from './effects-read';
 
 // Westernesse gives the runtime its parts (MT-16, S6; see SettingPort): Imbar's reckoning of days and its sky's
 // signs, and how its creatures and arms look as they come at the company (data/catalog/telegraphs.json). Imported for
@@ -19,3 +20,4 @@ export class SettingInstall {
 }
 
 SettingInstall.install();
+Canon.reader = EffectsRead;

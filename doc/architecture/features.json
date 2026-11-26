@@ -53,6 +53,7 @@
    "world/the-way-down": "adventures",
    "world/reading-by-art": "spells",
    "world/fire-meets-things": "spells",
+   "world/the-spell-foreseen": "spells",
    "choice/asked-in-turn": "talk",
    "world/the-herb-wife-asks": "talk",
    "interface/oracle": "testing"

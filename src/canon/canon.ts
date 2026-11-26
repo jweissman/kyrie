@@ -1,5 +1,6 @@
 import abilities from '../../data/catalog/abilities.json';
 import { Installed, type InstalledDomain } from '../ports/installed';
+import type { Change, Effect, World } from '../lang';
 import aliases from '../../data/catalog/aliases.json';
 import ancestries from '../../data/catalog/ancestries.json';
 import backgrounds from '../../data/catalog/backgrounds.json';
@@ -300,6 +301,33 @@ export class Canon {
   static traitTable(): Readonly<Record<string, Trait>> { return this.traits; }
   static callingOf(id: string): CharacterClass | undefined { return this.classes[id]; }
   static callingTable(): Readonly<Record<string, CharacterClass>> { return this.classes; }
+  // What an ability's effects would write to the world before it is used (the effects port's lowering, OR-1101): its
+  // harm of an element puts the thing it is cast at to that element's try, where the world says what the element does
+  // and the thing suits it (Fire Bolt at the linen: tried(linen, burning)); a condition it lays brings the company what
+  // the condition grants (Comprehend Languages: capable(party, lore)).
+  static lower(effects: readonly Effect[], at: { world: World; actor: string; target: string }): Change[] {
+    const w = at.world, call = Canon.call;
+    const changes = effects.flatMap(e => {
+      if (e.kind === 'damage') {
+        const element = this.elementOf(e.damageType);
+        const verbs = element && w.relates('elementVerb') ? w.related('elementVerb').filter(r => r.args[0] === element)
+          .map(r => r.args[1]!) : [];
+        return verbs.filter(v => w.relates('suits') && w.test(call('suits', at.target, v))
+          && !(w.relates('tried') && w.test(call('tried', at.target, v)))).map(v => call('tried', at.target, v));
+      }
+      if (e.kind !== 'apply' || !w.relates('capable')) { return []; }
+      return (this.conditionOf(e.status)?.grants ?? []).filter(g => !w.test(call('capable', at.actor, g)))
+        .map(g => call('capable', at.actor, g));
+    });
+    return changes.map(c => ({ kind: 'assert' as const, call: c }));
+  }
+  private static call(this: void, name: string, ...args: string[]) { return { kind: 'call' as const, name, args }; }
+  // An ability's effects by its id, as the runtime reads them (a sentence parsed: CanonRuntime), given by the
+  // composition root (src/canon/setting-install.ts), so that the catalog needs no parser of its own.
+  static reader?: { effects(id: string): readonly Effect[] };
+  static lowerAbility(id: string, at: { world: World; actor: string; target: string }): Change[] {
+    return this.lower(this.reader?.effects(id) ?? [], at);
+  }
   // The element a kind of harm lets loose where it lands (the effects port, src/ports/effects.ts): its own name, or the
   // vocabulary's for it (electric is lightning); physical harm none.
   static elementOf(damageType: string): string | undefined {
@@ -319,6 +347,6 @@ export const FantasyRules: InstalledDomain = Object.freeze({
   abilities: { ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) },
   traits: { one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) },
   callings: { one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) },
-  effects: { element: Canon.elementOf.bind(Canon) },
+  effects: { element: Canon.elementOf.bind(Canon), lower: Canon.lowerAbility.bind(Canon) },
 });
 Installed.base(FantasyRules);
