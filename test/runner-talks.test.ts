@@ -36,7 +36,8 @@ describe('the runner holds what is said to someone under their talk', () => {
     const trade = ids.flatMap((id, i) => /^buy_item\(region__s1_innkeeper_/.test(id) ? [i] : []);
     expect([asks.length > 2, trade.length > 0]).toEqual([true, true]);
     expect(Math.max(...asks)).toBeLessThan(Math.min(...trade));
-    expect(his.offer.primary.filter(o => /^Ask Kynes/.test(o.label)).length).toBeGreaterThan(0);
+    // (A question to him led among the four is titled short, "Kynes: what is out in the country round": OR-802.)
+    expect(his.offer.primary.filter(o => /^(Ask Kynes|Kynes: )/.test(o.label)).length).toBeGreaterThan(0);
     // What he has heard of far places is one question, as the page asks it (CL-67): the word of the country and the
     // lands beyond had stood as thirteen asks, each by name, in the runner's rows where the page asked him once.
     const all = [...his.offer.primary, ...his.offer.rest];

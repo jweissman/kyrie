@@ -17,6 +17,9 @@ import { Costs } from '../src/costs';
 // (Since OR-632 the places the map alone lays a way to are the screen's mapped, which the page's map lists with its
 // roads and destinations, and so are set out for here; twenty-five journeys, since the stops ArrivalAttention adds
 // come before the pikes and the danger in fifteen.)
+// (In the world of 26 November every seventh place no longer met the pikes, and no journey came to harm on the way
+// within twenty-five: every eleventh, twenty-seven journeys meet the pikes, the danger, night and a band that sets
+// upon the company, OR-962.)
 class Both {
   static async begin(whole: boolean): Promise<{ host: EngineHost; frame: Frame }> {
     // A fight on the way is the page's to choose in: pressed through by the company's own tactics, as the page can.
@@ -37,7 +40,7 @@ class Both {
   // mapped too, the places the map alone lays a way to since OR-632, as the page's map lists them: MapView).
   static whither(frame: Frame, n: number): string | undefined {
     const offered = [...frame.screen.roads ?? [], ...frame.screen.destinations ?? [], ...frame.screen.mapped ?? []];
-    return frame.bound?.id ?? offered[(n * 7) % Math.max(1, offered.length)]?.id;
+    return frame.bound?.id ?? offered[(n * 11) % Math.max(1, offered.length)]?.id;
   }
 }
 
@@ -47,7 +50,7 @@ describe('a journey told leg by leg from its receipts', () => {
     expect(Both.shown(told.frame)).toBe(Both.shown(whole.frame));
     const stops = new Set<string>(), screens = { whole: 0, told: 0 };
     let [a, b] = [whole.frame, told.frame], legs = 0, held = 0;
-    for (let n = 0; n < 25 && a.screen.running; n++) {
+    for (let n = 0; n < 27 && a.screen.running; n++) {
       const to = Both.whither(a, n);
       if (!to) { break; }
       if (a.bound) { held++; }
@@ -63,11 +66,12 @@ describe('a journey told leg by leg from its receipts', () => {
       legs += a.travel!.legs.length;
     }
     // Each kind of stop met (so that the equality is not of arrivals alone), and legs told without their frames. Harm
-    // on the way is met as a wound now rather than a fight: since the journey stops for a threat that blocks the way
-    // (ArrivalAttention, the lead's ruling of 25 November), kite's road bands stop it before they set upon it, and
-    // twenty-five journeys meet no fight on a leg (OR-773 wants that case of its own).
+    // on the way is met as a wound or as a fight on a leg: since the journey stops for a threat that blocks the way
+    // (ArrivalAttention, the lead's ruling of 25 November), kite's road bands mostly stop it before they set upon it,
+    // but one met on a leg sets upon the company there (OR-773's case), told whole by its receipt as by its frames.
     expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'Pikes come down across the road',
-      'There is danger here', 'Night has come on', 'Someone was hurt on the way']));
+      'There is danger here', 'Night has come on']));
+    expect([...stops].some(s => ['Someone was hurt on the way', 'You were set upon on the way'].includes(s))).toBe(true);
     expect(held).toBeGreaterThan(0);
     expect(legs).toBeGreaterThan(30);
     expect(screens.told).toBeLessThan(screens.whole - legs / 2);

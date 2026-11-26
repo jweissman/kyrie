@@ -1,3 +1,4 @@
+import * as React from 'react';
 import type { ReactElement } from 'react';
 import type { Screen } from '../../src/ui/screen-types';
 import type { Choice } from '../../src/ui/choice-list';
@@ -10,6 +11,9 @@ type Element = ReactElement<{ children?: unknown; 'data-action'?: string; onClic
 // button sets out by when it is pressed.
 export class MapCard {
   static of(screen: Screen, chosen: string): { text: string; legs: number; command?: string } {
+    return MapCard.held(() => MapCard.read(screen, chosen));
+  }
+  private static read(screen: Screen, chosen: string): { text: string; legs: number; command?: string } {
     let command: string | undefined;
     const app = { choose: (c: Choice) => { command = c.command; }, state: { frame: { title: '' } } } as unknown as ReaderApp;
     const card = RouteCard.View({ app, screen, chosen }) as Element, all = MapCard.all(card);
@@ -20,6 +24,22 @@ export class MapCard {
     return { text: MapCard.text(card.props.children), legs: legs?.length ?? 0, ...command ? { command } : {} };
   }
   private static none(): void { /* an event's default, here nothing */ }
+  // Its components called with no renderer under them: what they keep (a ref to the card, to say it goes on; an aside
+  // measured against its row: OR-841, OR-842) is kept for the call alone, and what they do once drawn is not done,
+  // for nothing here is drawn. Their words and what their buttons do are as the page has them.
+  private static held<T>(read: () => T): T {
+    const internals = (React as unknown as Record<string, { H: unknown }>)
+      .__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE!;
+    const was = internals.H;
+    internals.H = MapCard.hooks;
+    try { return read(); } finally { internals.H = was; }
+  }
+  private static readonly hooks = {
+    useRef: <V>(current: V) => ({ current }), useEffect: MapCard.none, useLayoutEffect: MapCard.none,
+    useState: <V>(v: V) => [typeof v === 'function' ? (v as () => V)() : v, MapCard.none],
+    useMemo: <V>(make: () => V) => make(), useCallback: <F>(f: F) => f,
+    useContext: (c: { _currentValue?: unknown }) => c._currentValue,
+  };
   // Every element under one, itself first.
   private static all(node: unknown): Element[] {
     if (Array.isArray(node)) { return node.flatMap(n => MapCard.all(n)); }

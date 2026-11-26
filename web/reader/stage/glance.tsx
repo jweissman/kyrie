@@ -629,13 +629,17 @@ export class GlanceStage {
   static readonly aimWords = /^(your aim|toward your aim|where your aim is)$/;
   // As the player would say it: "Make much of the grey dog", "Look at the fresh ruts".
   static label(app: ReaderApp, a: Promoted, c: Choice): string {
-    // Someone not yet met, led for a question: talking to them, the question after it (see Doable.called, CL-45).
+    // Someone not yet met, led for a question: talking to them, the question after it (see Doable.called, CL-45), in
+    // the engine's title for it where it has one (QuestionTitle: "Carlin: whether she would come along", OR-802; the
+    // page had drawn its own long words for it, the parity measure's "page words", OR-960).
     const asked = a.unmet ? GlanceStage.within(a, c) : undefined;
-    if (asked) { return Doable.called(c.alone || c.label, asked); }
+    const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
+    if (asked) {
+      return (g && screen && Doable.one(g, screen, a.choice, a.command).called) || Doable.called(c.alone || c.label, asked);
+    }
     // Someone met, led for a question or an act within their talk: the engine's words for it ("Ask Owain how many head
     // came down", "Pole Ianto's fuel boat …"), not "Talk to your cousin" with the question as an aside (MT-18: the
     // parity measure, made to read what the four draw, found the page's own words here, 20 November).
-    const g = app.state.frame?.leaf.glance, screen = app.state.frame?.screen;
     const led = a.for ?? a.inside?.[0]?.command;
     if (g && screen && led && led !== c.command && /#talk$/.test(c.id)) {
       const row = Doable.one(g, screen, a.choice, a.command);

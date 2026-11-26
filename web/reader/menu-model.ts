@@ -142,11 +142,12 @@ export class MenuModel {
   // lead's own words: never the world map's row again beside the world map's own (the owner's playtest, 20 November,
   // P0: three "Open the world map" offered at once).
   private static found(choices: Choice[], id: string, overland: Set<string>,
-    { leads, said }: { leads?: { choice: string; label: string }[]; said?: Map<string, string> } = {})
-    : Choice | undefined {
+    { leads, said, does }: { leads?: { choice: string; label: string }[]; said?: Map<string, string>; does?: string }
+      = {}): Choice | undefined {
     const own = choices.find(c => c.id === id);
     if (own || !overland.has(id)) { return own; }
-    const to = id.startsWith('travel:') ? id.slice('travel:'.length) : undefined;
+    const journey = [id, does].find(x => x?.startsWith('travel:'));
+    const to = journey?.slice('travel:'.length);
     const words = leads?.find(a => a.choice === id)?.label ?? said?.get(id);
     return { ...MenuModel.country, id, ...words ? { label: words } : {}, command: to ? `view:map:${to}` : 'view:map' };
   }
@@ -184,8 +185,12 @@ export class MenuModel {
   // been a word with whoever was by the road, and a player following the page went back and forth to them).
   private static led(choices: Choice[], glance?: Glance,
     { aimed = [], overland = new Set() }: { aimed?: string[]; overland?: Set<string> } = {}): Choice[] {
-    const first = [...new Set((glance ? glance.acts.map(a => a.choice) : aimed)
-      .flatMap(id => MenuModel.found(choices, id, overland) ?? []))];
+    // A lead out into the country is the map opened at where it goes, by what the lead does (a way out, exit:<place>,
+    // goes travel:<place>): the world map's own row had stood for a way out west led in gold (OR-961).
+    const acts = glance?.acts ?? [];
+    const first = [...new Set((glance ? acts.map(a => a.choice) : aimed)
+      .flatMap(id => MenuModel.found(choices, id, overland, { leads: acts,
+        does: acts.find(a => a.choice === id)?.command }) ?? []))];
     return [...first, ...choices.filter(c => !first.includes(c))];
   }
   // A thing for sale, open whole (its quantities are among the choices).

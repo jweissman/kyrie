@@ -39,7 +39,8 @@ describe('the capability market of a town', () => {
   it('sells a fine weapon off the master-at-arms\' rack', async () => {
     const j = await start('ranger');
     await j.play('^To the market-place of Newmeet', '^To the drill-yard', '^Talk to');
-    const buy = j.choices().find(c => /fine /.test(c.label))!;
+    // Bought, not haggled for: the haggling over each ware stands beside its buying within the trade (OR-801).
+    const buy = j.choices().find(c => /^Buy .*fine /.test(c.label))!;
     expect(buy).toBeDefined();
     await j.play(buy.label.replace(/[.*+?^$()|[\]\\]/g, '\\$&'));
     expect(j.screen().items.some(i => /^fine /i.test(i.name) || / fine /i.test(i.name))).toBe(true);

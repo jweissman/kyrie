@@ -36,7 +36,7 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     let s = await Store.walk(r, r.said() as Said, /^To the market/, /^Read the notice/);
     expect(said(s)).toContain('GRAIN going from the old corn-store, a sack a night. Rats, says Caw.');
     // Caw is turned to for the question the notice sent the company to ask, his talk led with it (OR-199).
-    s = await Store.walk(r, s, /chandlery/, /^(Ask Caw|Talk to Caw — ask) about the rats in the corn-store$/);
+    s = await Store.walk(r, s, /chandlery/, /^Caw: the rats in the corn-store$/);
     expect(said(s)).toContain('never a hole gnawed in one of them');
     const given = Store.fork(j);
     s = await Store.walk(r, s, /^To the market/, /^To the old corn-store/, /^Down to the corn-store cellar/,
@@ -54,10 +54,12 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     expect(j.holds('region__s1_u_apprentice_kept', job)).toBe(true);
     s = await Store.walk(r, s, /^Up to the old corn-store/, /chandlery/, /^Tell Caw the grain will stop going/);
     expect(said(s)).toMatch(/Six, for a thing I.m not to know/);
-    s = await Store.walk(r, s, /^(Ask the apprentice|Talk to the apprentice — ask) about the old drain/);
+    s = await Store.walk(r, s, /^The apprentice: the old drain/);
     expect(j.holds('knows', 'party', 'region__s1_u_drain_warm')).toBe(true);
     let m = await Store.walk(marched.r, marched.r.said() as Said, /^Take the apprentice up to Caw/);
-    m = await Store.walk(marched.r, m, /^Up to the old corn-store/, /chandlery/, /^Ask Caw for the ten coin/);
+    // The bounty is asked by its short title, or, too long for one, by Caw's plain talk, which asks it whole (OR-802).
+    m = await Store.walk(marched.r, m, /^Up to the old corn-store/, /chandlery/,
+      /^(Ask Caw for the ten coin|Caw: for the ten coin|Talk to Caw$)/);
     expect(said(m)).toMatch(/I.d sooner it had been rats/);
     expect([marched.journey.holds('region__s1_u_apprentice_exposed', job),
       marched.journey.holds('at', 'region__s1_u_apprentice', 'region__s1_shop')]).toEqual([true, false]);

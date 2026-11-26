@@ -34,7 +34,7 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
     const { journey: j, r } = await Store.start();
     let s = await Store.walk(r, r.said() as Said, /^To the market/, /^Read the notice/);
     expect(said(s)).toContain('Something at the grain in the old corn-store, nights, and the bread off the sill.');
-    s = await Store.walk(r, s, /herb-shop/, /^(Ask Falkor|Talk to Falkor — ask) about what is at the grain$/);
+    s = await Store.walk(r, s, /herb-shop/, /^Falkor: what is at the grain$/);
     expect(said(s)).toMatch(/Two days, mind\. Then I lay poison under the grain myself/);
     const given = Store.fork(j);
     s = await Store.walk(r, s, /^To the market/, /^To the old corn-store/, /^Down to the corn-store cellar/,
@@ -59,7 +59,10 @@ describe('Choice & Consequence › A trouble with more than one cause', () => {
       /^To the corn-store cellar/, /^Up to the old corn-store/, /^To the market/, /^To the shrine/,
       /^Ask Carmine about the girl from the corn-store/);
     expect(said(h)).toMatch(/Back at the mill\. You did what you were paid for/);
-    h = await Store.walk(handed.r, h, /herb-shop/, /^Ask Falkor for the ten coin/);
+    // The bounty is asked by its short title, or, too long for one, by Falkor's plain talk, which asks it whole
+    // (OR-802).
+    h = await Store.walk(handed.r, h, /herb-shop/,
+      /^(Ask Falkor for the ten coin|Falkor: for the ten coin|Talk to Falkor$)/);
     expect(handed.journey.holds('region__s1_u_paid', job)).toBe(true);
     expect([j, handed.journey].map(x => x.campaign.events.some(e => e.combat.some(c => c.type === 'attack'))))
       .toEqual([false, false]);
