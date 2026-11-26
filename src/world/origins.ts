@@ -21,6 +21,7 @@ import { DebtShapes } from './debt-shapes';
 import { OriginOpenings, type OriginOpening } from './origin-opening';
 import { StockOpenings, type StockOpening } from './stock-openings';
 import { ReferenceSettlement } from './reference-settlement';
+import { ReferenceOrigins } from './reference-origins';
 
 // Why one person has come into a generated country, and who and what there already concerns them: a father who did
 // not come home, a debt, an errand for an order, a sick child who needs what they carry. Each origin is a module of
@@ -163,6 +164,8 @@ export class Origins {
   // A country of the strategic atlas begins only its own lives (see AtlasOrigins).
   private static bind(binder: string, region: Region, placements: Placement[]): Bound | undefined {
     if (region.country) { return AtlasOrigins.bind(binder, region, placements); }
+    const referenced = ReferenceOrigins.bind(binder, region, Origins);
+    if (referenced !== undefined) { return referenced ?? undefined; }
     switch (binder) {
       case 'kin': return this.kin(region, placements);
       case 'debt': return this.debt(region);
@@ -179,7 +182,7 @@ export class Origins {
     return placements.find(p => p.scenario === scenario && p.rid === 'region');
   }
   // How someone comes into a settlement, by its country; and what its trade looks like from the road.
-  private static approach(region: Region, s: Settlement): Record<string, string> {
+  static approach(region: Region, s: Settlement): Record<string, string> {
     const a = this.way(region);
     const trade = (tables.trade as Record<string, string>)[s.trade] ?? 'smoke from the chimneys';
     // What is seen of it from the road is what made it: masts at a harbour, the brothers' wall, a fort's gate-tower.
@@ -192,7 +195,7 @@ export class Origins {
   }
   // Beginning on the way into a settlement, which the region writes for the protagonist, with the life going on there
   // as they come (see RegionWriter.company).
-  private static arriving(region: Region, s: Settlement): { start: Start; approach: [string, string] } {
+  static arriving(region: Region, s: Settlement): { start: Start; approach: [string, string] } {
     const a = this.way(region);
     return { start: { place: `${s.id}_approach`, approach: { settlement: s.id, name: a.name.replace('{home}', s.name),
       way: a.way, now: a.now.replace('{home}', s.name) } }, approach: [`region.${s.id}_approach`, 'place'] };

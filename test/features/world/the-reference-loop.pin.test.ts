@@ -68,7 +68,9 @@ describe('World › The reference loop', () => {
     const store = async () => { await to('shop'); await act(`^(Talk to|Ask) ${keeper}`); };
     // Someone's talk is opened by its row, the bare talk or the question it is led with, titled short (OR-802:
     // "Finnan: what is out in the country round"), which asks it and stays in the talk.
-    const talk = (who: string) => act(`^(Talk to ${who}\\b|${who}: )`);
+    // Or, where a life's aim leads to them (come over the hills, the work is asked after: OR-1075), the talk led with
+    // that question ("Ask Finnan"), which it asks.
+    const talk = (who: string) => act(`^(Talk to ${who}\\b|${who}: |Ask ${who}$)`);
     // The settlement: three working places off its heart, and the woods.
     await to('green');
     expect(['shop', 'taproom', 'shrine', 'wood_edge'].every(p => rows(s).some(x => x.id === `exit:${P(p)}`))).toBe(true);
@@ -78,7 +80,7 @@ describe('World › The reference loop', () => {
     expect(coin()).toBe(purse - 3);
     // Trader 2: the woods asked about, and someone at the fire taken on.
     await to('green'); await to('taproom');
-    await talk(dealer); await act('about the old woods');
+    await talk(dealer); await maybe('about the old woods');
     expect(s.scene.lines.join(' ')).toMatch(/Have you been into the old woods\?/);
     await act('^(Talk to .*come along|.*: whether .* would come along)'); await act('to join the company');
     expect(c.readout.partyIds.length).toBe(2);

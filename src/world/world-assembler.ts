@@ -23,7 +23,8 @@ import { Composition, type KitEntry } from './compose/composition';
 import { RegionHeld } from './region-held';
 import { Atlases } from './land/atlas';
 import { Histories } from './history/histories';
-import { WorldGrid } from './world-grid'; import { StrategicAtlas } from './strategic-atlas';
+import { WorldGrid } from './world-grid'; import { ReferenceSettlement } from './reference-settlement';
+import { StrategicAtlas } from './strategic-atlas';
 import { ScenarioWord } from './scenario-word';
 import { Livelihoods } from './livelihoods';
 import { RegionWorks } from './region-works';
@@ -168,8 +169,9 @@ export class WorldAssembler {
     { taken = [], first }: { taken?: string[]; first?: string } = {}): Region {
     const own = WorldGrid.seed(seed, ...at);
     const d = WorldGrid.land(seed, at, drawn);
-    const region = { ...StrategicAtlas.named(PlaceNames.render(RegionPeoples.settle(this.lay(d, own, seed, taken),
-      RandomStreams.key(own, 'world')))), at, beyond: WorldGrid.beyond(seed, at) };
+    const laid = this.lay(d, own, { world: seed, taken, clear: ReferenceSettlement.country(seed, at, d.terrain) });
+    const region = { ...StrategicAtlas.named(PlaceNames.render(RegionPeoples.settle(laid, RandomStreams.key(own, 'world')))),
+      at, beyond: WorldGrid.beyond(seed, at) };
     // Every country knows what authored country lies beyond it, where one does.
     return { ...region, world: seed, beyond: Countries.beyond(region, seed, first ?? region.terrain) };
   }
@@ -232,9 +234,12 @@ export class WorldAssembler {
   static prefix(rid: string): string { return rid === RegionWriter.id ? '' : rid; }
   // A region drawn by Deem laid on land of its own: its atlas, its settlements where people settled, and its sites
   // where each kind can stand (those that can stand nowhere left out).
-  static lay(drawn: Region, seed: string, world = seed, taken: string[] = []): Region {
+  // clear: the first town is the reference game's, and nothing of the makers' is placed within two hexes of it.
+  static lay(drawn: Region, seed: string, { world = seed, taken = [], clear = false }:
+    { world?: string; taken?: string[]; clear?: boolean } = {}): Region {
     const atlas = Atlases.make(RandomStreams.key(seed, 'world', 'land'), drawn.terrain,
       { tongue: PlaceNames.landTongue(drawn), taken: [drawn.name], ...StrategicAtlas.land(drawn) });
+    if (clear && atlas.seats[0]) { atlas.clear = [atlas.seats[0].cell]; }
     const region = RegionRecruits.distinct(Livelihoods.seat(drawn, atlas, seed), seed);
     const history = Histories.make(RandomStreams.key(seed, 'world', 'history'), drawn.terrain, atlas,
       { world: RandomStreams.key(world, 'world', 'history'), taken, arts: StrategicAtlas.arts(drawn) });
@@ -362,9 +367,7 @@ export class WorldAssembler {
           const key = RandomStreams.key(seed, 'world', 'site', instance, role);
           site = PlaceNames.another(region, need.site.map(kind => this.newSite(region, kind, key)).find(Boolean)!, key);
           if (!this.situate(region, site, RandomStreams.key(seed, 'world', 'spot', instance, role))) {
-            region.sites.length = sites;
-            for (const id of [...claimed].filter(id => !before.has(id))) { claimed.delete(id); }
-            return undefined;
+            return this.undo(region, { sites, claimed, before });
           }
           region.sites.push(site); generated.push(site.id);
         }
@@ -372,6 +375,8 @@ export class WorldAssembler {
       } else if (need.settlement) {
         bindings[role] = ScenarioTowns.town(need.settlement, { region, bindings, claimed,
           parts: ScenarioTowns.parts(s, role), key: RandomStreams.key(seed, 'world', 'town', instance, role) });
+        // No town to hold it but the reference game's, which holds no going-on: not placed in this country.
+        if (!bindings[role]) { return this.undo(region, { sites, claimed, before }); }
       } else if (need.way) {
         const way = ScenarioTowns.way(region, need.way, bindings); if (way) { bindings[role] = way; }
       }
@@ -379,6 +384,12 @@ export class WorldAssembler {
     const linked = this.link(s, bindings, { region, placements: at.placements ?? [] });
     return { scenario: s.id, instance, bindings, generated, carriers: {}, rid: at.rid, ...linked ? { linked } : {},
       modules: s.modules.filter(m => !m.when || bindings[m.when]).map(m => `${prefix}${this.install(m.id, n)}`) };
+  }
+  // A placement not made: the sites and claims it made undone.
+  private static undo(region: Region, at: { sites: number; claimed: Set<string>; before: Set<string> }): undefined {
+    region.sites.length = at.sites;
+    for (const id of [...at.claimed].filter(id => !at.before.has(id))) { at.claimed.delete(id); }
+    return undefined;
   }
   // Binds each link to the placement of its scenario already made in the country whose place is nearest the one it
   // is near (a site near that settlement first, then the fewest hours out); none, and it is left unbound.

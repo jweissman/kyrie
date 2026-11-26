@@ -16,7 +16,8 @@ export class RegionWoods {
       wet: this.weather(at.sky, ['rainy', 'stormy']), windy: this.weather(at.sky, ['windy', 'stormy', 'rainy']) };
     return [...this.template.sections.flatMap(x => KyrTemplates.fill(x.lines, values)),
       // What a site placed in the country has from being placed (see RegionSites): that it is named, and found.
-      `  Entity ${w}_named: fact ${q(`Under the fallen stones in the old woods above ${s.name} a stair goes down, into ${at.site}.`)}.`,
+      // A discovery, so that a life can begin knowing it (ReferenceOrigins: a dead man's map, a sister's letter).
+      `  Discovery ${w}_named ${q(`Under the fallen stones in the old woods above ${s.name} a stair goes down, into ${at.site}.`)}.`,
       `  Entity ${w}_found: fact ${q(`The way down into ${at.site} is between the fallen stones under the beeches, in the old woods.`)}.`,
       `  Place ${w} "the stair under the fallen stones" is room within ${t} at 1, 7 underground 4 down.`,
       `  Initially Assert unlit(${w}).`,

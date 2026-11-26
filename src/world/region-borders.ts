@@ -81,7 +81,9 @@ export class RegionBorders {
     const lines = [`  Discovery ${id} ${q(beyond.heard)}.`, `  Initially Assert leadsTo(${id}, ${b.room}).`,
       ...this.ways(id, beyond),
       ...beyond.notice ? this.notice(b, beyond, region) : []];
-    for (const s of region.settlements) {
+    // Not asked of in the reference game's town, which hears of nothing out in the country but its old woods (the
+    // owner, 26 November: no "incredibly specific questions about the world" before anything grounds them).
+    for (const s of ReferenceSettlement.others(region)) {
       const keeper = `${s.id}_innkeeper`, about = beyond.topic ?? b.way;
       const directions = s === seat ? '' : ` '${seat.name} is where ${b.way} goes out from,' {${keeper}} adds.`;
       // Declared as a value (ModuleSource: AX-04, by bytes a drawn country's largest construct), its Kyr beside.
@@ -108,7 +110,7 @@ export class RegionBorders {
           `  Initially Assert leadsTo(${id}_${f.id}, ${this.room({ side } as Border)}).`);
       }
       const told = heard.map(f => `${f.then === side ? `On ${f.then} beyond it` : `${this.cap(f.then)} of it`} there is ${f.name}, ${RegionGeography.terrain(f.terrain)} country, they say, where ${f.far}.`);
-      for (const s of region.settlements) {
+      for (const s of ReferenceSettlement.others(region)) {
         const keeper = `${s.id}_innkeeper`;
         lines.push(`  Topic ${id}_told_${s.id} with ${keeper} ${q(`Ask {${keeper}} about what lies beyond ${via}`)} when not knows(actor, ${id}_${heard[0]!.id}) {`,
           `    Says ${q(`'Beyond ${via}?' says {${keeper}}. '${told.join(' ')} Folk in ${via} would know more of it than I do.'`)}.`,

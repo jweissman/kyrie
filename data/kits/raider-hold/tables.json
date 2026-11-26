@@ -61,7 +61,8 @@
             "chapel": {
               "is": "square(?home, ?chapel)",
               "requires": [
-                "hours(?chapel, ?approach) <= 10"
+                "hours(?chapel, ?approach) <= 10",
+                "not quiet(?chapel)"
               ],
               "prefers": [
                 {

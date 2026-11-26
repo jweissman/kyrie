@@ -56,7 +56,12 @@ export class ScenarioTowns {
     }
     if (need !== 'any') { return (fit[0] ?? region.settlements[0]!).id; }
     const open = fit.filter(t => !claimed.has(t.id));
-    const town = open.length ? open[new Expressions(at.key).number(`1d${open.length}`) - 1]! : region.settlements[0]!;
+    // Every other town taken, one of them again before the reference game's (a renewal's quarrel had been set in its
+    // house's garden: OR-1074).
+    // None fits but the reference game's: none (the placement is not made).
+    const pool = open.length ? open : fit;
+    if (!pool.length && ReferenceSettlement.of(region)) { return ''; }
+    const town = pool.length ? pool[new Expressions(at.key).number(`1d${pool.length}`) - 1]! : region.settlements[0]!;
     claimed.add(town.id);
     return town.id;
   }
