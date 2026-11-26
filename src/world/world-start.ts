@@ -18,6 +18,12 @@ interface At { seed: string; region: Region; placements: Placement[]; party: Cre
 // the notice of the town the life begins in (Career); the First Aims, an undertaking it may take up (FirstAims,
 // OR-443); and, for one who comes alone, who at the first inn would come along (RegionRecruits.arrival, PT-11).
 export class WorldStart {
+  // A company for tests and tools that supply none, never a player's life.
+  static readonly fixture: CreatureGenerationContext[] = [
+    { name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' },
+    { name: 'Bran', raceId: 'human', classId: 'warrior', backgroundId: 'locksmith', traits: ['toughness'] },
+    { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic', traits: ['vitalist'],
+      spells: ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'] }];
   static async begun(base: BundleSource, origin: Parameters<typeof Origins.write>[0] | undefined,
     opening: string | undefined, at: At): Promise<Begun | undefined> {
     const stock = origin && opening ? await StockOpenings.load(base, opening) : undefined;

@@ -44,14 +44,14 @@ describe('the cure family, by the SRD\'s numbers', () => {
     for (const [level, id, dice, slot] of [
       [3, 'cure_moderate', 2, 1], [5, 'cure_serious', 3, 2], [7, 'cure_critical', 4, 3],
     ] as const) {
-      const c = new Content('cure').createCreature('dori', { ...preset, level, wisdom: 14 });
+      const c = new Content('cure').createCreature(ItemCatalog.canon, 'dori', { ...preset, level, wisdom: 14 });
       if (id === 'cure_critical') {
         c.state.advances = { qualities: 0, spells: 1 };
         expect(Advancement.learnable(c)).toContain(id);
         Advancement.learn(c, id);
       }
       c.base.maxHp = 200; c.state.hp = 1;
-      const store = new CreatureStore([c]), before = [...store.get('dori').state.slots!];
+      const store = new CreatureStore(ItemCatalog.canon, [c]), before = [...store.get('dori').state.slots!];
       const events = FieldUse.perform(store, ['dori'], { ability: id, caster: 'dori', target: 'dori', seed: id });
       const healing = events.flatMap(e => e.type === 'heal' ? [e.amount] : []);
       expect(healing).toHaveLength(1);

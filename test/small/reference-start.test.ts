@@ -6,6 +6,7 @@ import { RegionGeography } from '../../src/world/region-geography';
 import { RegionWriter } from '../../src/world/region-writer';
 import { Terrain } from '../../src/world/land/terrain';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 // The start is the first town and the deep dungeon, and not much else (the owner, 26 November: "ideally in the
 // starting area, I'd like the First Town and the Big Dungeon and not much else around at all"; "random pointless
@@ -19,13 +20,14 @@ describe('the reference game\'s start', () => {
     const town = ReferenceSettlement.of(region)!, land = RegionGeography.atlas(region).land;
     const near = region.sites.filter(w => w.cell !== undefined && Terrain.hexes(land, town.cell!, w.cell) <= 2);
     expect([seed, near.map(w => w.name)]).toEqual([seed, []]);
-    const loaded = await Origins.load(base), offered = Origins.choices(loaded, region, placements);
+    const loaded = await Origins.load(base);
+    const offered = Origins.choices(loaded, region, placements, CanonVocabulary.context());
     expect(offered.map(o => o.id).sort()).toEqual(['debt', 'lost', 'map', 'order', 'wanderer']);
     // Every reason a life has leads under the stones: the map's cross, the sister, the old writing, the debt's pay.
     for (const o of offered.filter(x => ['map', 'lost', 'order'].includes(x.id))) {
       expect([o.id, /the old dead|the fallen stones/.test(o.choice)]).toEqual([o.id, true]);
     }
-    const t = town.id, text = RegionWriter.source(region, { size: 1, contacts: [] });
+    const t = town.id, text = RegionWriter.source(region, { size: 1, contacts: [] }, {}, CanonVocabulary.context());
     // Its keeper counts off none of the country's old places, nor tells of the countries beyond.
     expect(text).not.toContain(`Topic ${t}_country_asked `);
     expect(text).not.toMatch(new RegExp(`_told_${t} with`));

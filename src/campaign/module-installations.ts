@@ -8,7 +8,7 @@ import { World } from '../lang/world';
 import { ModuleNamespace, type ModuleDraft } from './module-namespace';
 import type { CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
 import { CreatureStore } from '../creature-store';
-import { ItemCatalog } from '../item-catalog';
+import type { ItemCatalog } from '../item-catalog';
 import { Membership } from './membership';
 import { ClockShift } from './clock-shift';
 import { CreatureFacts } from './creature-facts';
@@ -22,7 +22,7 @@ import { EngineOwned } from '../lang/engine-owned';
 export class ModuleInstallations {
   static catalogAmong(...kinds: (Module['catalog'] | undefined)[]) {
     const [catalog, ...own] = kinds;
-    return ItemCatalog.among(catalog, ...own);
+    return CreatureStore.catalogAmong(catalog, ...own);
   }
   // Actors another installation declared take up the goals and actions this one gives them: each so extended a new
   // actor, the rest as they were (never changed after they are joined: every actor of the world had been copied
@@ -49,7 +49,7 @@ export class ModuleInstallations {
     const had = new Set(Object.keys(current.inhabitants)), held = new Set(creatures.live.map(c => c.id));
     const actors = next.campaign!.actors.filter(a => !had.has(a.id));
     const added = next.campaign!.creatures.filter(c => !held.has(c.id));
-    const catalog = ItemCatalog.of(next.module.catalog);
+    const catalog = CreatureStore.catalogOf(next.module.catalog);
     const store = creatures.with(catalog, added.map(entry => this.creature(catalog, entry)));
     const world = next.live ?? new World(next.module, next.world);
     CreatureFacts.initialize(world, actors, store);

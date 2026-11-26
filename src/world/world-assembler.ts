@@ -80,13 +80,7 @@ export class WorldAssembler {
   static readonly heard: Record<Carrier['channel'], string> = { road: 'News from the roads reaches them first.',
     tavern: 'They hear everything said across their tables.', temple: 'The faithful bring them their troubles.',
     market: 'Traders tell them what they have seen.' };
-  // A company for the tests and tools that pass none: never a player's (Begin makes one life through creation, and an
-  // origin takes only the first of a company it is given; the owner, 6 November: an adventure never supplies a party).
-  static readonly fixture: CreatureGenerationContext[] = [
-    { name: 'Elen', raceId: 'elf', classId: 'ranger', backgroundId: 'hunter' },
-    { name: 'Bran', raceId: 'human', classId: 'warrior', backgroundId: 'locksmith', traits: ['toughness'] },
-    { name: 'Dori', raceId: 'dwarf', classId: 'cleric', backgroundId: 'medic', traits: ['vitalist'],
-      spells: ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'] }];
+  static readonly fixture = WorldStart.fixture;
   static assemble(...a: Parameters<typeof WorldAssembler.built>) { return Costs.timed('world', () => this.built(...a)); }
   private static async built(seed: string, base: BundleSource, options: {
     library?: string; scenarios?: number; towns?: number; region?: Record<string, DeemValue>;

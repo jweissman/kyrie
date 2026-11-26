@@ -16,7 +16,7 @@ import type { Ability } from '../src/rules/catalog-schema';
 // cappedLevel(n), read alike by the evaluator, the mean, validation and the page.
 const content = new Content('casting-level');
 const cast = (raceId: string, level: number,
-  classId?: string) => Effects.context(CombatProjection.fighter(ItemCatalog.canon, 
+  classId?: string) => Effects.context(CombatProjection.fighter(ItemCatalog.canon,
   content.createCreature(ItemCatalog.canon, `${raceId}-${level}`, { raceId, level, ...classId ? { classId } : {} }), 'fighters'))
   .castingLevel;
 describe('the casting level', () => {
