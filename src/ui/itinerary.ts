@@ -340,6 +340,13 @@ export class Itineraries {
   // Of the towns and march-stones the known roads go to, those the map draws (an area of it, a place within one, or a
   // mark on its land): the rest are no more known to the company than the map shows (OR-741: a fresh life had been
   // offered every town of the country, and the map named them all). With no map of the country, all of them.
+  // The journeys the map sets out for: where the company could set out for, and of the towns and march-stones its
+  // roads go to, those the map draws (see onMap). Never a town the map does not show (OR-880: the way out of a
+  // building toward an aim had led toward any town the country's roads reach).
+  static drawnJourneys(campaign: Campaign, region: RegionChart | undefined): Itinerary[] {
+    const leads = this.destinations(campaign);
+    return [...leads, ...this.onMap(this.roads(campaign, leads), region)];
+  }
   private static onMap(roads: Itinerary[], region: RegionChart | undefined): Itinerary[] {
     if (!region) { return roads; }
     const known = new Set([...region.areas.map(a => a.id), ...Object.keys(region.within),
