@@ -8,6 +8,7 @@ import { Fold } from './fold';
 import { DoableJourneys } from './doable-journeys';
 import { Engaged } from './engaged';
 import { Leaving } from './leaving';
+import { QuestionTitle } from './question-title';
 
 // One resolution from the engine's offer to rows that can be done (mission-22/doable-design.md, TB-12): what each
 // offered choice is, what taking it does, and what it opens, read once from the scene the page draws its menu from
@@ -333,7 +334,7 @@ export class Doable {
     const base = { id, label: full, ...short ? { short } : {},
       witnesses, ...at.lens ? { lens: at.lens } : {},
       ...at.led ? { led: true as const } : {}, ...led && at.led !== false ? { for: led } : {},
-      ...asked ? { called: act?.unmet ? this.called(c?.alone || (c?.label ?? label), asked) : asked } : {},
+      ...asked ? { called: this.titled(c?.alone || (c?.label ?? label), asked, !!act?.unmet) } : {},
       ...c?.disabled ? { shut: c.disabled } : {}, ...c?.note ? { note: c.note } : {},
       ...at.parents?.get(id) && !at.opening
         ? { within: at.parents.get(id)! } : {} }, legal = at.legal ?? new Set<string>();
@@ -353,6 +354,10 @@ export class Doable {
     const one = only.length === 1 ? only[0] : undefined;
     if (one?.does && !c?.focus) { return this.made({ ...base, label: one.label, does: one.does, only: true }, legal); }
     return this.made({ ...base, opens, ...c?.focus ? { says: c.focus } : {} }, legal);
+  }
+  // A talk led for a question is called by the question, in a title short enough to be read whole (QuestionTitle).
+  private static titled(talk: string, asked: string, unmet: boolean): string {
+    return QuestionTitle.of(unmet ? this.called(talk, asked) : asked, talk, asked);
   }
   // A talk led for a question to someone not yet met is talking to them, the question after it: "Ask the factor about
   // the king-barrow", led on the landing before anyone had said who the factor was, had asked a stranger by a title
