@@ -2,7 +2,7 @@
  "about": "Imports that go the wrong way between the layers (MT-16, scripts/layers.ts), kept so that none is added; each removed is taken off.",
  "kinds": {
   "runtime -> setting": 55,
-  "player -> setting": 74,
+  "player -> setting": 72,
   "setting -> player": 13
  },
  "edges": [
@@ -127,7 +127,6 @@
   "src/ui/item-stow.ts -> src/canon/canon",
   "src/ui/item-uses.ts -> src/canon/condition-sense",
   "src/ui/overland.ts -> data/generation/scenes/tracts.json",
-  "src/ui/owed.ts -> src/canon/canon",
   "src/ui/portraits.ts -> src/paintings/company-portraits",
   "src/ui/portraits.ts -> src/paintings/likeness",
   "src/ui/portraits.ts -> src/paintings/sittings",
@@ -142,7 +141,6 @@
   "src/ui/screen-model.ts -> src/paintings/likeness",
   "src/ui/screen-model.ts -> src/world/seats",
   "src/ui/screen-types.ts -> src/paintings/company-portraits",
-  "src/ui/services.ts -> src/canon/canon",
   "src/ui/unusable.ts -> src/canon/condition-sense",
   "src/world/community/community-writer.ts -> src/narrative/voice",
   "src/world/drawn-world.ts -> src/session/play-session",

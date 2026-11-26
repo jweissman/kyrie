@@ -9,6 +9,11 @@ import { Canon } from '../canon/canon';
 import { CreatureSchema } from '../creature';
 import { ModuleWriter } from '../lang/module-writer';
 
+interface ItemCatalogReader {
+  has(id: string): boolean;
+  itemId(id: string): string;
+}
+
 // The companions chosen at character creation, checked and written into the first module's company.
 export class CompanyChoices {
   // Three dice: from 3 to 18.
@@ -35,7 +40,7 @@ export class CompanyChoices {
     return (x.startsWith(id.slice(0, 3)) ? 0 : 100) + [...id].filter((ch, i) => x[i] !== ch).length
       + Math.abs(id.length - x.length);
   }
-  static apply(draft: ModuleDraft, party: CreatureGenerationContext[], own = false) {
+  static apply(draft: ModuleDraft, party: CreatureGenerationContext[], own: boolean, catalog: ItemCatalogReader) {
     const player = draft.instance.campaign!.actors.find(a => a.player)!;
     if (party.length !== player.members.length) { throw new Error(`Choose ${player.members.length} companions`); }
     if (new Set(party.map(c => c.name?.trim().toLowerCase())).size !== party.length) {
@@ -59,7 +64,7 @@ export class CompanyChoices {
       if (level !== undefined && (!Number.isInteger(level) || level < 1 || level > 20)) {
         throw new Error('A companion begins at a level from 1 to 20');
       }
-      if ((context.gear ?? []).some(g => !Canon.items[Canon.resolve('items', g)])) {
+      if ((context.gear ?? []).some(g => !catalog.has(catalog.itemId(g)))) {
         throw new Error('Unknown starting gear');
       }
       // A likeness chosen at creation is a painting of the collection's (see Likeness).
