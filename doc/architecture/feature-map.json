@@ -1060,7 +1060,10 @@
        "id": "forms",
        "title": "Authoring forms and their lint",
        "feature": "authoring",
-       "default": true
+       "default": true,
+       "rows": [
+        "OR-700"
+       ]
       },
       {
        "id": "generation",

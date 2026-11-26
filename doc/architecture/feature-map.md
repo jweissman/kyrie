@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 595 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 596 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -588,7 +588,7 @@ page's colours and opportunities.)
 
 ### Kyr and Deem
 
-- **Authoring forms and their lint** · 0 pins · 15 defects · 29 asks
+- **Authoring forms and their lint** · 0 pins · 15 defects · 30 asks
   - requirement AU-01 P2: A bounded, current authoring trail: entry points, examples, the path to play, ownership,…
   - direction AU-03 P2: R8: authoring cost drift; cost lint for unbound parameters, weak conjunctions and broad queries;…
   - direction AU-07 P2: People, pursuit and inhabitants: pursuit re-planned each watch; hidden ways; a lasting rout;…
@@ -601,6 +601,7 @@ page's colours and opportunities.)
   - direction OR-224 P3: A Situation that can be done without its core resolved is not found by the lint: the adit's Done…
   - direction OR-230 P3: The Book of Faces' confessional (cleric.kyr) repeats its bookkeeping in its effects, which a…
   - direction OR-522 P3: data/ has nineteen top-level folders, read by literal paths; for beta an inventory of each…
+  - requirement OR-700 P1: Kyr's compiler as binding authority: every declaration and reference has one identity, kind,…
   - direction ST-05 P2: Scenario forms declared and kept: a manifest's form (texture, incident, story, major situation,…
   - requirement ST-08 P1: The adventure-structure brief (the owner, 17 November; mission-22/adventure-structure-brief.md): a…
   - requirement WB-07 P2: Whether the Account bible is withdrawn as a corpus-wide authoring mandate and kept as one period's…
@@ -796,7 +797,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **A terrain's peoples, beasts, gems and materials** (Creatures and peoples): OR-453
 - **Paintings by terrain, subject, season, weather and light** (Pictures): OR-442, OR-454
 - **Playing in the terminal** (The terminal): TM-04, TM-05, TB-03, TB-04, TB-06, TB-07, OR-747, TB-11
-- **Authoring forms and their lint** (Kyr and Deem): AU-01, AU-03, AU-07, AU-12, AU-13, AU-14, OB-07, OB-11, OR-164, OR-224, OR-230, OR-522, ST-05, ST-08, WB-07, AU-23, AU-24, AU-25, AU-29, AU-30, AU-31, AU-33, AU-39, AU-41, AU-42, AU-44, AU-45, AU-53, AU-57
+- **Authoring forms and their lint** (Kyr and Deem): AU-01, AU-03, AU-07, AU-12, AU-13, AU-14, OB-07, OB-11, OR-164, OR-224, OR-230, OR-522, OR-700, ST-05, ST-08, WB-07, AU-23, AU-24, AU-25, AU-29, AU-30, AU-31, AU-33, AU-39, AU-41, AU-42, AU-44, AU-45, AU-53, AU-57
 - **Generation and tables** (Kyr and Deem): AU-04, AU-10, AU-11, AB-12, OR-150, OR-405, OR-421, OR-671, OR-673, KX-02, KX-04, AU-34, AU-51, AU-58, AU-60
 - **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, BX-02, OR-545, OR-740, OR-742, OR-744, OR-634, MT-07, MT-16, MT-28, MT-31
 - **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-407, OR-456, OR-384, OR-389, OR-465, OR-508, OR-761, MT-29
