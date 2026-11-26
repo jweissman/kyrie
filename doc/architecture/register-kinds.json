@@ -2976,6 +2976,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "the owner's idea of 26 November, kept whole, not commissioned"
+  },
+  "OR-1151": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P1",
+   "why": "the owner's ask of 26 November: an instrument for reporting, unmet"
   }
  },
  "blockedBy": {
