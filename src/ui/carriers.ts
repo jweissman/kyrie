@@ -1,3 +1,4 @@
+import type { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import { Burden } from '../rules/burden';
 import { ItemUses } from './item-uses';
@@ -19,13 +20,13 @@ export class Carriers {
   }
   static readonly burdened = 6;
   // Read by the world's indexes (it had gone through every fact the world held, for each thing that could be taken).
-  static carrier(world: World, actor: string, item: string): string | undefined {
+  static carrier(catalog: ItemCatalog, world: World, actor: string, item: string): string | undefined {
     const kind = world.one('itemKind', item);
     const loads = world.relatedTo('memberOf', actor).filter(r => world.test(ModuleWriter.call('awake', r.args[0]!)))
       .map(r => ({ member: r.args[0]!, items: world.relatedTo('ownedItem', r.args[0]!).map(o => o.args[0]!) }));
     // Or what it goes with: a lamp's oil to whoever carries the lamp, a lamp to whoever carries its oil (OR-687: the
     // lantern had gone to Hugh and its oil to Orryn).
-    const same = loads.find(l => l.items.some(i => Carriers.together(kind, world.one('itemKind', i))));
+    const same = loads.find(l => l.items.some(i => Carriers.together(catalog, kind, world.one('itemKind', i))));
     // Nobody is handed what would leave them carrying more than they can, while another has room for it: a pot of
     // pitch given to the one the player plays had laden the company, and Sallowfield's causeway came an hour too late.
     const room = loads.filter(l => Carriers.fits(world, l.member, kind));
@@ -35,10 +36,10 @@ export class Carriers {
     return (same && able.includes(same) ? same : mine)?.member;
   }
   // Whether two kinds of thing go in one pack: the same, or a lamp and what it burns (the catalog's fuel).
-  private static together(a?: string, b?: string): boolean {
+  private static together(catalog: ItemCatalog, a?: string, b?: string): boolean {
     if (!a || !b) { return false; }
     const [x, y] = [a, b].map(k => k.split('__').pop()!);
-    return a === b || ItemUses.fuel(x!) === y || ItemUses.fuel(y!) === x;
+    return a === b || ItemUses.fuel(catalog, x!) === y || ItemUses.fuel(catalog, y!) === x;
   }
   // Whether the one the player plays carries far more than another: by how much of what each can carry is taken up,
   // where the world weighs things, else by how many things each has. Counted, a warrior come up out of a barrow with

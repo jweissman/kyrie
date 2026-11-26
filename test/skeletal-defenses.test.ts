@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { Canon } from '../src/canon/canon';
@@ -20,7 +21,7 @@ describe('the skeleton\'s defenses', () => {
       struck('bone_hound', 'cold'), struck('bone_hound', 'fire')]).toEqual([4, 4, 9, 0, 9]);
   });
   it('are a template\'s too: a horse made skeletal is the skeletal horse, with them', () => {
-    const horse = c.createCreature('h', { raceId: 'horse', template: 'skeletal', level: 4 });
+    const horse = c.createCreature(ItemCatalog.canon, 'h', { raceId: 'horse', template: 'skeletal', level: 4 });
     expect(horse.raceId).toBe('horse/skeletal');
     expect(Canon.creature(horse.raceId).defenses).toContainEqual({ kind: 'immunity', to: ['cold'] });
   });

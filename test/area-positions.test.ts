@@ -12,7 +12,7 @@ import type { CombatEvent, Command, Fighter } from '../src/model';
 // side's rear.
 const c = new Content('areas');
 const hardy = (f: Fighter, level = 5): Fighter => ({ ...f, level, hp: 500, maxHp: 500 });
-const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.weapon('shortbow') } });
+const bow = (f: Fighter): Fighter => ({ ...f, equipment: { ...f.equipment, weapon: ItemCatalog.canon.weapon('shortbow') } });
 const mage = (): Fighter => ({ ...hardy(c.character('mage', 'mage', 'fighters'), 7), abilities: ['fireball'],
   maxSlots: [0, 0, 1], slots: [0, 0, 1], prepared: [[], [], ['fireball']], ready: [[], [], ['fireball']] });
 const battle = (combatants: Fighter[], seed: string) =>

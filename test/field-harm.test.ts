@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
@@ -13,8 +14,8 @@ describe('harm met outside a fight', () => {
       effect: 'Deal (1d4) cold damage to ally.' } as unknown as Entity;
     const struck: string[][] = [];
     for (let i = 0; i < 24; i++) {
-      const bard = new Content(`chill${i}`).createCreature('bard', { raceId: 'human', classId: 'bard', name: 'Maren' });
-      const store = new CreatureStore([bard]);
+      const bard = new Content(`chill${i}`).createCreature(ItemCatalog.canon, 'bard', { raceId: 'human', classId: 'bard', name: 'Maren' });
+      const store = new CreatureStore(ItemCatalog.canon, [bard]);
       Items.expose(store, { target: 'bard', ability: 'steps_cold', source: 'steps_cold', seed: `chill${i}`, entities: [night] });
       const after = store.get('bard');
       struck.push((after.state.conditions ?? []).map(c => c.id));

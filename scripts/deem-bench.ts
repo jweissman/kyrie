@@ -3,6 +3,7 @@
 // first creature, as the public CLI does), warm generation in a running Kyr (per creature, by family), the same with
 // an execution trace recorded, and serializing what was generated.
 // Usage: bun scripts/deem-bench.ts [--json] [--count n]
+import { ItemCatalog } from '../src/item-catalog';
 import { runGeneration } from 'deem';
 import { Content } from '../src/content';
 
@@ -23,11 +24,11 @@ class DeemBench {
     this.time('cold: CLI, traced', () => runGeneration({ settingDir: process.cwd(), scenario: 'generation',
       type: 'attributes', seed: 'bench', trace: true }), r => `${r.trace.length} trace events`);
     const content = this.time('warm: runtime bootstrap', () => new Content('bench'));
-    content.createCreature('warmup', { raceId: 'dragon' });
+    content.createCreature(ItemCatalog.canon, 'warmup', { raceId: 'dragon' });
     const made: unknown[] = [];
     for (const family of this.families) {
       const total = this.time(`warm: ${count} × ${family}`, () => {
-        for (let i = 0; i < count; i++) { made.push(content.createCreature(`${family}-${i}`, { raceId: family })); }
+        for (let i = 0; i < count; i++) { made.push(content.createCreature(ItemCatalog.canon, `${family}-${i}`, { raceId: family })); }
         return count;
       });
       const row = this.rows.at(-1)!;

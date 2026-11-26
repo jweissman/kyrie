@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import sky from '../../data/imbar/sky.json';
 import { Canon } from '../../src/canon/canon';
@@ -45,28 +46,29 @@ describe('the gifts of the sky', () => {
   });
 
   it('are both held by the one made under the sign, and the sheet says both', () => {
-    const made = new Content('sky-gifts').createCreature('pc', { raceId: 'human', classId: 'warrior', sign: 'sign_hart' });
+    const made = new Content('sky-gifts').createCreature(ItemCatalog.canon, 'pc', { raceId: 'human', classId: 'warrior', sign: 'sign_hart' });
     expect(made.traits).toEqual(expect.arrayContaining(['star_quick', 'star_wary']));
-    expect(Effects.modifiers(CombatProjection.fighter(made, 'fighters')).initiative).toBe(2);
-    expect(CharacterSheets.sheet(made).born).toEqual({ sign: 'The Hart', gifts: ['Quick: +2 initiative.',
+    expect(Effects.modifiers(CombatProjection.fighter(ItemCatalog.canon, made, 'fighters')).initiative).toBe(2);
+    expect(CharacterSheets.sheet(ItemCatalog.canon, made).born).toEqual({ sign: 'The Hart', gifts: ['Quick: +2 initiative.',
       'Wary: +2 against what can be dodged. Skilled in woodcraft.'] });
   });
 
   it('are each named once on the sheet, a gift whose perk bears its name too (OR-258, "Lamplit eye: Lamplit eye:")', () => {
     for (const s of sky.signs) {
-      const made = new Content(`sky-gifts-${s.id}`).createCreature('pc', { raceId: 'human', classId: 'warrior', sign: s.id });
-      for (const line of CharacterSheets.sheet(made).born!.gifts) { expect(line).not.toMatch(/^([^:]+): \1:/); }
+      const made = new Content(`sky-gifts-${s.id}`).createCreature(ItemCatalog.canon, 'pc', { raceId: 'human', classId: 'warrior', sign: s.id });
+      for (const line of CharacterSheets.sheet(ItemCatalog.canon,
+        made).born!.gifts) { expect(line).not.toMatch(/^([^:]+): \1:/); }
     }
-    const lantern = new Content('sky-gifts-lantern').createCreature('pc', { raceId: 'human', classId: 'warrior',
+    const lantern = new Content('sky-gifts-lantern').createCreature(ItemCatalog.canon, 'pc', { raceId: 'human', classId: 'warrior',
       sign: sky.signs.find(s => s.gifts.includes('star_lamplit'))!.id });
-    expect(CharacterSheets.sheet(lantern).born!.gifts).toContain(
+    expect(CharacterSheets.sheet(ItemCatalog.canon, lantern).born!.gifts).toContain(
       'Lamplit eye: +2 to searching, their torches, candles and lanterns burn an hour longer.');
   });
 
   it('are all held by one kept from when a gift was chosen, on coming back', () => {
-    const made = new Content('sky-gifts-kept').createCreature('pc', { raceId: 'human', classId: 'warrior', sign: 'sign_fox' });
+    const made = new Content('sky-gifts-kept').createCreature(ItemCatalog.canon, 'pc', { raceId: 'human', classId: 'warrior', sign: 'sign_fox' });
     made.traits = made.traits!.filter(t => t !== 'star_sly');
-    const back = new CreatureStore([made]).get('pc');
+    const back = new CreatureStore(ItemCatalog.canon, [made]).get('pc');
     expect(back.traits).toEqual(expect.arrayContaining(['star_hard_to_pin', 'star_sly']));
   });
 });

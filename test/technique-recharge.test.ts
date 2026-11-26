@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Battle } from '../src/battle';
 import { Canon } from '../src/canon/canon';
@@ -15,9 +16,9 @@ class Rested {
   static readonly ability = (id: string) => Content.abilities.find(a => a.id === id)!;
   static fight(seed: string) {
     const content = new Content(seed);
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
-    const foe = content.createCreature('foe', { raceId: 'human', classId: 'warrior' });
-    const store = new CreatureStore([hero, foe]);
+    const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
+    const foe = content.createCreature(ItemCatalog.canon, 'foe', { raceId: 'human', classId: 'warrior' });
+    const store = new CreatureStore(ItemCatalog.canon, [hero, foe]);
     return Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' }, { creatureId: 'foe', team: 'goblins' }],
       { seed });
   }

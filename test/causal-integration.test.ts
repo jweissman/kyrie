@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { Spellcasting } from '../src/rules/spellcasting';
 import { expect, it } from 'bun:test';
 import { Content } from '../src/content';
@@ -35,14 +36,14 @@ class Causal {
 
 it('resolves a flaming weapon as an attack and a hook on hitting, with additive resistances', () => {
   const content = new Content('components');
-  const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior', traits: ['brave'],
+  const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior', traits: ['brave'],
     professionId: 'herbalist' });
-  const store = new CreatureStore([hero]);
+  const store = new CreatureStore(ItemCatalog.canon, [hero]);
   Items.take(store, 'hero', { id: 'sword', definition: 'longsword_of_flames' }); Items.equip(store, 'hero', 'sword');
   const melee = Content.abilities.find(a => a.id === 'melee')!;
   let context: EffectContext | undefined;
   for (let i = 0; i < 40 && !context?.events.some(e => e.type === 'attack' && e.success); i++) {
-    const actor = CombatProjection.fighter(store.get('hero'), 'fighters');
+    const actor = CombatProjection.fighter(ItemCatalog.canon, store.get('hero'), 'fighters');
     const target = content.creature('revenant', 'warden', 'goblins');
     target.hp = target.maxHp = 100; target.statuses = [{ id: 'fireproof', remaining: 10, source: 'ward' }];
     context = { actor, fighters: [actor, target], turn: 1, events: [], content, abilities: [], retreat: false,
@@ -63,10 +64,10 @@ it('resolves a flaming weapon as an attack and a hook on hitting, with additive 
 });
 
 it('keeps an independently learned technique when the same technique is also granted by equipment', () => {
-  const c = new Content('known').createCreature('hero', { raceId: 'human', classId: 'warrior' });
+  const c = new Content('known').createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
   c.state.learnedAbilities.push('fire_ward');
   c.state.inventory = [{ id: 'focus', definition: 'warding_focus', equipped: true }];
-  const next = CombatProjection.creature(CombatProjection.fighter(c, 'fighters'), c);
+  const next = CombatProjection.creature(CombatProjection.fighter(ItemCatalog.canon, c, 'fighters'), c);
   expect(next.state.learnedAbilities).toContain('fire_ward');
 });
 
@@ -88,15 +89,15 @@ it('honors immunity and vulnerability, and rejects malformed typed mechanics', (
 });
 
 it('resolves source-only hazards without synthetic creatures and rejects creature-only effects before mutation', () => {
-  const c = new Content('steam').createCreature('hero', { raceId: 'human', classId: 'warrior' });
-  const store = new CreatureStore([c]);
+  const c = new Content('steam').createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
+  const store = new CreatureStore(ItemCatalog.canon, [c]);
   const steam = [{ id: 'foundry_steam', type: 'hazard', name: 'Scalding foundry steam',
     effect: 'Deal (1d6) fire damage to ally unless dexterity save against (11).' }];
   const events = Items.expose(store, { target: c.id, ability: 'foundry_steam', source: 'actual-pipe', seed: 'steam',
     entities: steam });
   expect(store.snapshot).toHaveLength(1);
   expect(events[0]).toMatchObject({ type: 'action', command: { actor: 'actual-pipe' }, source: { id: 'actual-pipe' } });
-  const target = CombatProjection.fighter(c, 'fighters'), context: EffectContext = { recipients: [target], fighters: [target],
+  const target = CombatProjection.fighter(ItemCatalog.canon, c, 'fighters'), context: EffectContext = { recipients: [target], fighters: [target],
     source: { id: 'vent', kind: 'trap' }, turn: 0, events: [], content: new Content('invalid'), abilities: [],
     retreat: false, location: null };
   const before = JSON.stringify(target);
@@ -107,11 +108,11 @@ it('resolves source-only hazards without synthetic creatures and rejects creatur
 
 it('preserves a timed spell through field use and consumes its duration only at combat-round boundaries', () => {
   const content = new Content('ward');
-  const hero = content.createCreature('hero', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level: 3,
+  const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'], level: 3,
     spells: ['cure', 'bless', 'anoint', 'prayer', 'resist_fire', 'cure_serious'] });
-  const enemy = content.createCreature('enemy', { raceId: 'goblin', classId: 'thief' });
+  const enemy = content.createCreature(ItemCatalog.canon, 'enemy', { raceId: 'goblin', classId: 'thief' });
   Spellcasting.prepare(hero.state, 1, 'prayer', 'resist_fire');
-  const store = new CreatureStore([hero, enemy]);
+  const store = new CreatureStore(ItemCatalog.canon, [hero, enemy]);
   FieldUse.perform(store, ['hero'], { ability: 'resist_fire', caster: 'hero', target: 'hero', seed: 'cast' });
   // Resist Fire lasts the fight, twenty rounds (srd-proving-cases.md case 38: Orsino's fireproof had lasted three); a
   // second-level spell spends a second-level slot.

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { Content } from '../src/content';
@@ -18,7 +19,7 @@ describe.each([['catfolk', ['agile', 'lucky'], 'Sable'], ['birdfolk', ['agile', 
       expect(Canon.ancestries[people]!.classes).toEqual(expect.arrayContaining(['warrior', 'mage', 'cleric', 'thief',
         'bard', 'ranger', 'monk']));
       for (const classId of Canon.ancestries[people]!.classes) {
-        const creature = new Content('cat').createCreature('pc', { raceId: people, classId });
+        const creature = new Content('cat').createCreature(ItemCatalog.canon, 'pc', { raceId: people, classId });
         expect([classId, creature.raceId, creature.traits])
           .toEqual([classId, people, expect.arrayContaining([...traits])]);
         for (const presentation of ['man', 'woman'] as const) {

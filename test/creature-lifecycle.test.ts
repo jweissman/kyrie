@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureSchema } from '../src/creature';
@@ -13,11 +14,11 @@ class Lifecycle {
   static readonly wound = parseAbility('wound', 'Wound', 'Deal 2 physical damage to enemy. Apply bleeding to enemy for 2 turns.');
   static setup(seed = 'lifecycle') {
     const content = new Content(seed);
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior', traits: ['brave'],
+    const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior', traits: ['brave'],
       abilities: ['wait'] });
-    const goblin = content.createCreature('goblin', { raceId: 'goblin', classId: 'commoner', abilities: ['wait'] });
+    const goblin = content.createCreature(ItemCatalog.canon, 'goblin', { raceId: 'goblin', classId: 'commoner', abilities: ['wait'] });
     hero.state.learnedAbilities.push('wound');
-    const store = new CreatureStore([hero, goblin]);
+    const store = new CreatureStore(ItemCatalog.canon, [hero, goblin]);
     return { hero, goblin, store };
   }
   static enter(store: CreatureStore, seed = 'encounter', abilities = [...Content.abilities, Lifecycle.wound]) {
@@ -59,9 +60,9 @@ describe('canonical creature lifecycle', () => {
   // A creature made again from how it stands in a fight keeps everything of its state: once, the skills taken up with
   // its levels were lost (a warrior's climbing, gone at the next watch of a torch burning).
   it('keeps the whole of a creature\'s state through a fight', () => {
-    const c = new Content('kept').createCreature('wenna', { raceId: 'human', classId: 'warrior' });
+    const c = new Content('kept').createCreature(ItemCatalog.canon, 'wenna', { raceId: 'human', classId: 'warrior' });
     c.state.skills = ['climbing']; c.state.advances = { qualities: 1, spells: 0 };
-    const again = CombatProjection.creature(CombatProjection.fighter(c, 'fighters'), c);
+    const again = CombatProjection.creature(CombatProjection.fighter(ItemCatalog.canon, c, 'fighters'), c);
     expect(again.state).toEqual(c.state);
   });
   it('generates PCs and goblins from one creature template reproducibly and validates their complete instances', () => {
@@ -72,17 +73,17 @@ describe('canonical creature lifecycle', () => {
     expect(a.hero.base.abilities).toContain('cleave');
     expect(a.goblin.raceId).toBe('goblin');
     for (const creature of a.store.snapshot) {
-      CreatureSchema.validate(creature);
+      CreatureSchema.validate(creature, ItemCatalog.canon);
       expect(creature).not.toHaveProperty('team');
       expect(creature).not.toHaveProperty('cooldowns');
       expect(creature).not.toHaveProperty('guarding');
     }
     const invalid = structuredClone(a.hero);
     invalid.state.hp = invalid.base.maxHp + 1;
-    expect(() => new CreatureStore([invalid])).toThrow();
+    expect(() => new CreatureStore(ItemCatalog.canon, [invalid])).toThrow();
     invalid.state.hp = 1;
     invalid.state.conditions = [{ id: 'weakened', remaining: 0 }];
-    expect(() => CreatureSchema.validate(invalid)).toThrow();
+    expect(() => CreatureSchema.validate(invalid, ItemCatalog.canon)).toThrow();
     expect(() => a.store.insert(a.hero)).toThrow();
     const detached = a.store.get('hero');
     detached.state.hp = 0;
@@ -91,10 +92,10 @@ describe('canonical creature lifecycle', () => {
   it('runs two generated fighters versus two generated goblins through the shared engine deterministically', () => {
     const run = () => {
       const content = new Content('persistent-arena');
-      const creatures = [content.createCreature('hero-1', { raceId: 'human', classId: 'warrior' }),
-        content.createCreature('hero-2', { raceId: 'human', classId: 'warrior' }), content.createCreature('goblin-1', { raceId: 'goblin', classId: 'commoner' }),
-        content.createCreature('goblin-2', { raceId: 'goblin', classId: 'commoner' })];
-      const store = new CreatureStore(creatures);
+      const creatures = [content.createCreature(ItemCatalog.canon, 'hero-1', { raceId: 'human', classId: 'warrior' }),
+        content.createCreature(ItemCatalog.canon, 'hero-2', { raceId: 'human', classId: 'warrior' }), content.createCreature(ItemCatalog.canon, 'goblin-1', { raceId: 'goblin', classId: 'commoner' }),
+        content.createCreature(ItemCatalog.canon, 'goblin-2', { raceId: 'goblin', classId: 'commoner' })];
+      const store = new CreatureStore(ItemCatalog.canon, creatures);
       const battle = Battle.encounter(store, creatures.map(c => ({ creatureId: c.id,
         team: c.raceId === 'goblin' ? 'goblins' as const : 'fighters' as const })), { seed: 'persistent-battle' });
       while (!battle.state.outcome) {
@@ -112,7 +113,7 @@ describe('canonical creature lifecycle', () => {
     const { hero, goblin, store, injured, events } = Lifecycle.woundAndLeave('lifecycle');
     expect(store.get(goblin.id)).toEqual(injured);
     expect(injured.base).toEqual(goblin.base);
-    const reloaded = new CreatureStore(store.snapshot);
+    const reloaded = new CreatureStore(ItemCatalog.canon, store.snapshot);
     const again = Lifecycle.enter(reloaded, 'second');
     const current = reloaded.get(goblin.id);
     expect(current.state.hp).toBe(injured.state.hp);
@@ -164,7 +165,7 @@ describe('canonical creature lifecycle', () => {
     creatures.find(c => c.id === 'hero')!.base.maxMana = 4;
     creatures.find(c => c.id === 'hero')!.state.mana = 4;
     creatures.find(c => c.id === 'hero')!.state.learnedAbilities.push('test');
-    const owner = new CreatureStore(creatures);
+    const owner = new CreatureStore(ItemCatalog.canon, creatures);
     const battle = Battle.encounter(owner, [
       { creatureId: 'hero', team: 'fighters' }, { creatureId: 'goblin', team: 'goblins' },
     ], { seed: 'effects', abilities: [...Content.abilities, ability, Lifecycle.wound] });

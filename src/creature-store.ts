@@ -5,6 +5,7 @@ import { CreatureSchema, type Creature } from './creature';
 import { CreatureLease } from './creature-lease';
 import { Equality } from './equality';
 import { SkyGifts } from './rules/sky-gifts';
+import type { ItemCatalog } from './item-catalog';
 export { CreatureLease } from './creature-lease';
 
 export class CreatureStore {
@@ -14,13 +15,14 @@ export class CreatureStore {
   // Incremented by every write, so derived views can tell when they are stale.
   private revision = 0;
   get version(): number { return this.revision; }
-  constructor(creatures: Creature[] = []) {
+  // The kinds of thing its creatures' things are of: their campaign's (see ItemCatalog).
+  constructor(readonly catalog: ItemCatalog, creatures: Creature[] = []) {
     for (const creature of creatures) { this.insert(creature); }
   }
   // One kept from before every gift of a sign was given holds them all (SkyGifts.borne).
   insert(creature: Creature) {
     creature = SkyGifts.borne(Spellcasting.equip(structuredClone(creature)));
-    CreatureSchema.validate(creature);
+    CreatureSchema.validate(creature, this.catalog);
     if (this.records.has(creature.id)) { throw new Error(`Duplicate creature ${creature.id}`); }
     const existingItems = new Set([...this.records.values()].flatMap(c => (c.state.inventory ?? []).map(i => i.id)));
     if (creature.state.inventory?.some(i => existingItems.has(i.id))) { throw new Error('Item has multiple owners'); }
@@ -29,8 +31,9 @@ export class CreatureStore {
   }
   // A store with these creatures besides. Records are replaced when they change, never changed where they lie, so
   // the two stores can share the ones they both hold.
-  with(added: Creature[]): CreatureStore {
-    const next = new CreatureStore();
+  // Of a campaign's kinds as they are now (a module installed brings its own, and creatures who carry them).
+  with(catalog: ItemCatalog, added: Creature[]): CreatureStore {
+    const next = new CreatureStore(catalog);
     next.records = new Map(this.records);
     for (const creature of added) { next.insert(creature); }
     return next;
@@ -76,7 +79,7 @@ export class CreatureStore {
     if (next.length !== ids.length || new Set(next.map(c => c.id)).size !== ids.length
       || next.some(c => !ids.includes(c.id))) { throw new Error('Encounter changed creature identities'); }
     next.forEach(c => {
-      CreatureSchema.validate(c);
+      CreatureSchema.validate(c, this.catalog);
       const previous = this.records.get(c.id)!;
       if (!Equality.deep(CreatureStore.kept(c.base, options), CreatureStore.kept(previous.base, options))
         || c.base.level < previous.base.level

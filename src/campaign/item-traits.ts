@@ -1,4 +1,4 @@
-import { ItemCatalog } from '../item-catalog';
+import type { ItemCatalog } from '../item-catalog';
 import { ModuleWriter } from '../lang/module-writer';
 import type { Module } from '../lang/module';
 
@@ -8,13 +8,13 @@ import type { Module } from '../lang/module';
 // A kind the module only gives later (`Give antidote to actor.`) is one of its kinds too: the undertown's antidote for
 // the spiders' bite had been no remedy, never offered for the companion it was given for (review A's T91: T24-17).
 export class ItemTraits {
-  static assert(module: Module) {
+  static assert(module: Module, catalog: ItemCatalog) {
     const kinds = new Set([...module.initial.filter(c => c.kind === 'assert' && c.call.name === 'itemKind')
-      .map(c => c.call.args[1]!), ...module.entities.filter(e => e.type === 'itemkind' && ItemCatalog.definitions[e.id])
+      .map(c => c.call.args[1]!), ...module.entities.filter(e => e.type === 'itemkind' && catalog.has(e.id))
       .map(e => e.id)]);
     for (const kind of kinds) {
-      const definition = ItemCatalog.get(kind);
-      const fuel = [...kinds].some(k => ItemCatalog.get(k).fuel === kind);
+      const definition = catalog.get(kind);
+      const fuel = [...kinds].some(k => catalog.get(k).fuel === kind);
       for (const name of [...(definition.slot ? ['wearable'] : []), ...(definition.use ? ['consumable'] : []),
         ...(/^Apply (torchlit|candlelit) to self/.test(definition.use ?? '') ? ['lightsUp'] : []), ...fuel ? ['fuel'] : []]) {
         this.trait(module, name, kind);

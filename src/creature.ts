@@ -87,7 +87,7 @@ export class CreatureSchema {
       throw new Error(`${creature.id}: a sign is one of Imbar's sky`);
     }
   }
-  static validate(creature: Creature) {
+  static validate(creature: Creature, catalog: ItemCatalog) {
     if (Object.hasOwn(creature.base, 'scores')) {
       throw new Error('Legacy score/modifier creature data requires migration');
     }
@@ -122,8 +122,8 @@ export class CreatureSchema {
     if (!Array.isArray(inventory) || inventory.some(i => !i.id || !i.definition
       || (i.equipped !== undefined && typeof i.equipped !== 'boolean') || (i.material && !Canon.materials[i.material]))
       || new Set(inventory.map(i => i.id)).size !== inventory.length) { throw new Error('Invalid item inventory'); }
-    const slots = inventory.filter(i => i.equipped).map(i => ItemCatalog.get(i.definition).slot);
-    inventory.forEach(i => ItemCatalog.get(i.definition));
+    const slots = inventory.filter(i => i.equipped).map(i => catalog.get(i.definition).slot);
+    inventory.forEach(i => catalog.get(i.definition));
     if (slots.some(s => !s || slots.filter(t => t === s).length > ItemCatalog.holds(s))) {
       throw new Error('Invalid equipment slots');
     }

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import sky from '../../data/imbar/sky.json';
 import { Canon } from '../../src/canon/canon';
@@ -14,7 +15,7 @@ import { Perks } from '../../src/rules/perks';
 // stealth slips past a watcher), and a check on it adds the training. The Lantern's lights burn an hour longer; the
 // Sower's coin and the Sheaf's finds were already the world's. Shown on a mage, whose calling brings none of them.
 const content = new Content('sign-gifts');
-const born = (sign: string, gear: string[] = []) => content.createCreature(`pc_${sign}`, { raceId: 'human',
+const born = (sign: string, gear: string[] = []) => content.createCreature(ItemCatalog.canon, `pc_${sign}`, { raceId: 'human',
   classId: 'mage', sign, gear });
 const skills: Record<string, string> = { sign_bear: 'brawn', sign_hart: 'woodcraft', sign_crown: 'persuasion',
   sign_scythe: 'digging', sign_fox: 'stealth', sign_hearth: 'mending', sign_swan: 'insight', sign_ship: 'wayfinding',
@@ -29,17 +30,19 @@ describe('the gifts of the sky at work', () => {
   it('bring a skill: the company is capable of it, and a check on it is made as one trained', () => {
     for (const [sign, skill] of Object.entries(skills)) {
       const under = born(sign), other = born('sign_sower');
-      expect([sign, PartyCapabilities.has(skill, [under]), PartyCapabilities.has(skill, [other])])
+      expect([sign, PartyCapabilities.has(ItemCatalog.canon, skill, [under]),
+        PartyCapabilities.has(ItemCatalog.canon, skill, [other])])
         .toEqual([sign, true, false]);
-      expect([sign, Checks.bonus(under, skill).trained, Checks.bonus(other, skill).trained]).toEqual([sign, 2, 0]);
-      const check = Checks.make([under], { skill, difficulty: 'dc_fair', seed: 'gift' })[0]!;
+      expect([sign, Checks.bonus(ItemCatalog.canon, under, skill).trained, Checks.bonus(ItemCatalog.canon, other,
+        skill).trained]).toEqual([sign, 2, 0]);
+      const check = Checks.make(ItemCatalog.canon, [under], { skill, difficulty: 'dc_fair', seed: 'gift' })[0]!;
       expect([sign, check.type === 'check' && check.trained]).toEqual([sign, 2]);
     }
   });
 
   it('burn a torch the Lantern\'s child lights an hour longer', () => {
     const burns = (sign: string) => {
-      const c = born(sign, ['torch']), store = new CreatureStore([c]);
+      const c = born(sign, ['torch']), store = new CreatureStore(ItemCatalog.canon, [c]);
       const torch = store.get(c.id).state.inventory!.find(i => i.definition === 'torch')!;
       Items.consume(store, { owner: c.id, target: c.id, id: torch.id, seed: 'torch' });
       return store.get(c.id).state.conditions.find(s => s.id === 'torchlit')?.remaining;

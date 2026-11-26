@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { afterAll, describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { CanonValidation } from '../src/canon/canon-validation';
@@ -14,15 +15,16 @@ import type { Ability } from '../src/rules/catalog-schema';
 // level as it stands after any drain, a kind's own powers at its source Hit Dice; and one cap over it,
 // cappedLevel(n), read alike by the evaluator, the mean, validation and the page.
 const content = new Content('casting-level');
-const cast = (raceId: string, level: number, classId?: string) => Effects.context(CombatProjection.fighter(
-  content.createCreature(`${raceId}-${level}`, { raceId, level, ...classId ? { classId } : {} }), 'fighters'))
+const cast = (raceId: string, level: number,
+  classId?: string) => Effects.context(CombatProjection.fighter(ItemCatalog.canon, 
+  content.createCreature(ItemCatalog.canon, `${raceId}-${level}`, { raceId, level, ...classId ? { classId } : {} }), 'fighters'))
   .castingLevel;
 describe('the casting level', () => {
   it('is a calling\'s level as it stands, drained or not', () => {
     expect([1, 5, 9].map(level => cast('human', level, 'mage'))).toEqual([1, 5, 9]);
-    const drained = content.createCreature('drained', { raceId: 'human', classId: 'mage', level: 5 });
+    const drained = content.createCreature(ItemCatalog.canon, 'drained', { raceId: 'human', classId: 'mage', level: 5 });
     drained.state.conditions.push({ id: 'drained', remaining: 2, clock: 'until-removed' });
-    expect(Effects.context(CombatProjection.fighter(drained, 'fighters')).castingLevel).toBe(3);
+    expect(Effects.context(CombatProjection.fighter(ItemCatalog.canon, drained, 'fighters')).castingLevel).toBe(3);
   });
   it('is a kind\'s source Hit Dice for its own powers: an Orsino creature\'s level, a fixed block\'s count', () => {
     expect(cast('ghoul', 5)).toBe(5);

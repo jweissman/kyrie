@@ -11,6 +11,7 @@
 //   E      a full country (--full; seconds, so not by default)
 //   bun scripts/lane-costs.ts [--full] [--gauntlet 60] [--callings mage,warrior,thief,cleric]
 // Run it in a fresh process for the cold column; a run is the same run again (every seed is fixed).
+import { ItemCatalog } from '../src/item-catalog';
 import { performance } from 'node:perf_hooks';
 
 const fragment = `Module a "A" {
@@ -34,7 +35,7 @@ export class LaneCosts {
       if (rung === 'validate') { new ModuleCompiler([], false).validate(structuredClone(parsed)); }
     } else if (rung === 'creature') {
       const { Content } = await import('../src/content');
-      new Content('ladder').createCreature('pc', { raceId: 'human', classId: 'mage', level: 1 } as never);
+      new Content('ladder').createCreature(ItemCatalog.canon, 'pc', { raceId: 'human', classId: 'mage', level: 1 } as never);
     } else if (rung === 'fight') {
       const { Gauntlet } = await import('../test/support/gauntlet');
       Gauntlet.fight({ calling: 'mage', foe: 'rat', count: 3 }, 'ladder');

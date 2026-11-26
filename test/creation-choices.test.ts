@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { Canon } from '../src/canon/canon';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
@@ -19,7 +20,7 @@ describe('qualities placed at creation', () => {
   // people's and the trade's, a first-level warrior had come to strength 19 and every first fight was a walkover).
   const people = Canon.ancestries.human!.attributes as Partial<Record<string, number>>;
   it('are the rolls as placed, with what the people add', () => {
-    const wenna = new Content('placed').createCreature('wenna', { raceId: 'human', classId: 'warrior', rolled });
+    const wenna = new Content('placed').createCreature(ItemCatalog.canon, 'wenna', { raceId: 'human', classId: 'warrior', rolled });
     const adds = people;
     expect(CreatureSchema.attributes.map(q => wenna.base[q]))
       .toEqual(CreatureSchema.attributes.map(q => rolled[q] + (adds[q] ?? 0)));

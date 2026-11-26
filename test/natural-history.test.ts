@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { afterEach, describe, expect, it } from 'bun:test';
 import { existsSync } from 'node:fs';
 import ecology from '../data/generation/tables/ecology.json';
@@ -38,7 +39,7 @@ describe('natural history', () => {
     expect(Object.keys(ecology.denBeast.groups).filter(h => !Canon.habitats[h])).toEqual([]);
     // A desert has its own beasts, not the fells' wolves and bears.
     expect(RegionEcology.terrain.desert).toBe('desert');
-    expect(new Content('alias').createCreature('w', { raceId: 'grey_wolf' as never }).raceId).toBe('wolf');
+    expect(new Content('alias').createCreature(ItemCatalog.canon, 'w', { raceId: 'grey_wolf' as never }).raceId).toBe('wolf');
   });
   it('grows a plant written into plants.json wherever its habitat is, with what it yields', async () => {
     (Canon.plants as Record<string, Plant>).bog_myrtle = { name: 'Bog myrtle', looks: 'A low shrub of grey-green leaves.',
@@ -65,7 +66,7 @@ describe('natural history', () => {
     const den = RegionEcology.den(await region('a1'), 'meadow')!;
     expect([den.species, den.label, den.nature]).toEqual(['marsh_harrier', 'the marsh harriers', 'wild']);
     const varied = RegionEcology.varied(den, { habitat: 'meadow', climate: 'temperate' }, new Draw('harrier'));
-    const made = new Content('harrier').createCreature('h', { raceId: 'marsh_harrier', level: 3,
+    const made = new Content('harrier').createCreature(ItemCatalog.canon, 'h', { raceId: 'marsh_harrier', level: 3,
       ...varied.variations ? { variations: varied.variations } : {} });
     expect([made.raceId, made.base.maxHp > 0, made.base.abilities]).toEqual(['marsh_harrier', true, ['flee']]);
   });

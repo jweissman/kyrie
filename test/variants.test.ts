@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { ModuleParser } from '../src/lang/module-parser';
 import { ModuleWriter } from '../src/lang/module-writer';
@@ -23,14 +24,14 @@ describe('a creature other than its kind', () => {
     expect([hounds!.aspect, bones!.template]).toEqual(['venomous', 'skeletal']);
     expect(ModuleWriter.person(hounds!)).toContain('Aspect venomous.');
     expect(ModuleWriter.person(bones!)).toContain('Undead skeletal.');
-    const plain = new Content('x').createCreature('w', { raceId: 'wolf' }, 'w');
-    const venomous = new Content('x').createCreature('w', { raceId: 'wolf', aspect: 'venomous' }, 'w');
-    const skeletal = new Content('x').createCreature('w', { raceId: 'wolf', template: 'skeletal' }, 'w');
+    const plain = new Content('x').createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf' }, 'w');
+    const venomous = new Content('x').createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf', aspect: 'venomous' }, 'w');
+    const skeletal = new Content('x').createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf', template: 'skeletal' }, 'w');
     expect(venomous.base.abilities).toContain('poison_bite');
     expect(venomous.base.constitution).toBeGreaterThan(plain.base.constitution);
     expect(skeletal.traits).toEqual(expect.arrayContaining(['undead', 'bloodless']));
     expect(skeletal.base.strength).toBeLessThan(plain.base.strength);
-    expect(() => new Content('x').createCreature('w', { raceId: 'wolf', aspect: 'purple' }, 'w')).toThrow(/purple/);
+    expect(() => new Content('x').createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf', aspect: 'purple' }, 'w')).toThrow(/purple/);
   });
   it('is drawn for a den by rarity, the same for the same den, and the dead of a beast are laid by rites', () => {
     const wolf = { species: 'wolf', count: 2, label: 'the wolves', role: 'a wolf', nature: 'wild' };
@@ -60,15 +61,15 @@ describe('a creature of its kind, varied', () => {
     const buck = m.people![0]!;
     expect(buck.variations).toEqual(['elder', 'great']);
     expect(ModuleWriter.person(buck)).toContain('Variant elder. Variant great.');
-    const plain = new Content('x').createCreature('r', { raceId: 'rat', level: 2 }, 'r');
-    const old = new Content('x').createCreature('r', { raceId: 'rat', level: 2, variations: ['elder', 'great'] }, 'r');
+    const plain = new Content('x').createCreature(ItemCatalog.canon, 'r', { raceId: 'rat', level: 2 }, 'r');
+    const old = new Content('x').createCreature(ItemCatalog.canon, 'r', { raceId: 'rat', level: 2, variations: ['elder', 'great'] }, 'r');
     expect(old.base.strength).toBe(plain.base.strength + 4);
     expect(old.base.maxHp).toBe(plain.base.maxHp + 6);
     expect(old.traits).toContain('sturdy');
     expect(CreatureVariants.called('a great rat', ['elder'])).toBe('an old great rat');
-    expect(() => new Content('x').createCreature('r', { raceId: 'wolf', variations: ['young', 'elder'] }, 'r'))
+    expect(() => new Content('x').createCreature(ItemCatalog.canon, 'r', { raceId: 'wolf', variations: ['young', 'elder'] }, 'r'))
       .toThrow(/two variations of its age/);
-    expect(() => new Content('x').createCreature('r', { raceId: 'wolf', variations: ['purple'] }, 'r')).toThrow(/purple/);
+    expect(() => new Content('x').createCreature(ItemCatalog.canon, 'r', { raceId: 'wolf', variations: ['purple'] }, 'r')).toThrow(/purple/);
   });
   it('is laid on by its country: frost where the winters are long, and none where nothing hints at it', () => {
     const wolf = { species: 'wolf', count: 2, label: 'the wolves', role: 'a wolf', nature: 'wild' };

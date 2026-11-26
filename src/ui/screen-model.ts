@@ -55,11 +55,11 @@ export class ScreenModel {
     const view = PlayerView.observe(campaign), world = campaign.world, entities = ObservationText.presented(world);
     const names = new KnownNames(campaign), prices = this.prices(world), knowing = frame.knowing;
     const present = new Set(view.present.map(p => p.id)), teaches = knowing.teaches.bind(knowing);
-    const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign);
+    const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = this.fees(campaign), catalog = campaign.catalog;
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign, frame.rows), { present, names, prices, passageOf, fees,
       tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
-      world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), teaches,
-      ...(view.actor ? { carrier: Carriers.carrier.bind(null, world, view.actor) } : {}) });
+      world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), teaches, catalog,
+      ...(view.actor ? { carrier: Carriers.carrier.bind(null, catalog, world, view.actor) } : {}) });
     const here = view.location?.id ?? '', passages = new Passages(entities, world, view.actor);
     const visited = new Set(view.map.places.filter(p => p.visited).map(p => p.id));
     const unclaimed = new Map([...grouped.targets].filter(([id]) => !present.has(id)));
@@ -260,7 +260,7 @@ export class ScreenModel {
       [this.count(items, 'lamp_oil'), 'flask of oil', 'flasks of oil']] as [number, string, string][])
       .filter(([n]) => n > 0).map(([n, one, many]) => `${n} ${n === 1 ? one : many}`).join(', ');
     return { light: `${lit.length ? lit.join('; ') : 'Nothing lit'} · ${spare ? `${spare} to spare` : 'nothing to spare'}`
-      + (ItemUses.dry(items.map(i => i.kind)) ? ' · a lamp, and no oil for it' : '') };
+      + (ItemUses.dry(items) ? ' · a lamp, and no oil for it' : '') };
   }
   private static count(items: ItemRow[], kind: string): number { return items.filter(i => i.kind === kind).length; }
   // Identical wares on one shelf read as one row with a count; acting on the row acts on one of them.
@@ -291,7 +291,7 @@ export class ScreenModel {
       + `; ${low === high ? low : `${low}–${high}`} HP${standing.length > 1 ? ' each' : ''}; ${hurt ? `${hurt} wounded` : 'unhurt'}.`;
   }
   private static target(p: PlayerSnapshot['present'][number], grouped: Grouped, w: Campaign['world'],
-    at: { dark?: boolean; campaign?: Campaign } = {}): TargetRow {
+    at: { dark?: boolean; campaign: Campaign }): TargetRow {
     const dark = !!at.dark, acts = grouped.targets.get(p.id) ?? [];
     if (p.type === 'group') {
       const member = p.members?.[0];
@@ -338,7 +338,7 @@ export class ScreenModel {
     // Something growing is told by how it grows (its description), not by the name of its state.
     const note = p.condition && p.type !== 'scenery' ? p.condition : owner ? `${owner}'s` : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
-    const look = p.type === 'item' ? this.described(w, p.id, p.name) : undefined;
+    const look = p.type === 'item' ? this.described(at.campaign.catalog, w, p) : undefined;
     const plate = p.type === 'item' ? ItemPlates.of(w, p.id) : undefined, within = p.within ? { within: p.within } : {};
     // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name, ...within,
@@ -347,12 +347,11 @@ export class ScreenModel {
   }
   // A thing to be had, seen for what it is in its kind's own words (the follow-up review found a singer's token that
   // offered nothing but Take, though its kind is described); none where those words are only its name.
-  private static described(w: Campaign['world'], id: string, name: string): string | undefined {
-    const kind = w.module.relations.some(r => r.name === 'itemKind') ? w.one('itemKind', id) : undefined;
-    const told = kind ? ItemCatalog.definitions[kind] : undefined;
-    if (!told) { return undefined; }
-    return [name, told.name].some(n => ScreenModel.bare(n) === ScreenModel.bare(told.description)) ? undefined
-      : told.description;
+  private static described(catalog: ItemCatalog, w: Campaign['world'], p: { id: string; name: string }) {
+    const kind = w.module.relations.some(r => r.name === 'itemKind') ? w.one('itemKind', p.id) : undefined;
+    const told = kind ? catalog.find(kind) : undefined;
+    return !told || [p.name, told.name].some(n => ScreenModel.bare(n) === ScreenModel.bare(told.description))
+      ? undefined : told.description;
   }
   private static bare(s: string): string { return s.toLowerCase().replace(/^(an?|the) /, ''); }
   // The formations the company was formed as: every member holds them, so the first living one says.
@@ -425,7 +424,7 @@ export class ScreenModel {
     const all = Overlays.contributions(c);
     return Overlays.of(c).map(([oid, o]) => ({ id: oid, name: o.name, role: o.role,
       grants: all.filter(x => x.source === oid).map(x => x.kind === 'skill' ? `${campaign.module.entities.find(e => e.id === x.value)?.name ?? x.value} (skill)`
-        : x.kind === 'gear' ? ItemCatalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
+        : x.kind === 'gear' ? campaign.catalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
   }
   private static condition(id: string): string { return Canon.conditions[Canon.resolve('conditions', id)]?.name ?? id; }
   // A condition that helps (a lit torch, a blessing, a ward) is told apart from one that hurts.
@@ -439,13 +438,14 @@ export class ScreenModel {
     const state = campaign.readout;
     const party = state.creatures.filter(c => state.partyIds.includes(c.id)), carried = ItemUses.carried(party);
     return party.flatMap(c => (c.state.inventory ?? []).map(i => {
-      const d = ItemCatalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
-      const kept = ItemUses.kept(i.definition, acts, carried), points = Seats.line(campaign.world, i.definition);
-      const plate = ItemPlates.kind(i.definition);
+      const catalog = campaign.catalog, d = catalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
+      const kept = ItemUses.kept(catalog, i.definition, acts, carried), plate = ItemPlates.kind(i.definition);
+      const points = Seats.line(campaign.world, i.definition), mends = ItemUses.mends(catalog.use(i.definition));
       return { id: i.id, name: ItemNames.shown(entities.get(i.id)?.name, d.name), kind: i.definition,
         description: d.description, ...plate ? { plate } : {},
-        owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...ItemStow.of(c, i, this.lights(d.use)),
-        ...(this.lights(d.use) ? { light: true } : {}), acts, ...kept ? { kept } : {}, ...points ? { points } : {} };
+        owner: c.id, ownerName: c.name, equipped: !!i.equipped, ...ItemStow.of(catalog, c, i, this.lights(d.use)),
+        ...(this.lights(d.use) ? { light: true } : {}), ...d.fuel ? { fuel: d.fuel } : {}, ...mends ? { mends } : {},
+        acts, ...kept ? { kept } : {}, ...points ? { points } : {} };
     }));
   }
 }

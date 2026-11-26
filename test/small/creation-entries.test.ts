@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow, type CreationStep } from '../../src/creation/creation-flow';
@@ -84,7 +85,7 @@ describe('the entry beside a choice', () => {
         expect.arrayContaining(['Gold'])]);
     }
     for (const b of catalog.backgrounds) {
-      const made = new Content(`purse-${b.id}`).createCreature('pc', { raceId: 'human', classId: b.calling ?? 'warrior',
+      const made = new Content(`purse-${b.id}`).createCreature(ItemCatalog.canon, 'pc', { raceId: 'human', classId: b.calling ?? 'warrior',
         backgroundId: b.id });
       expect([b.id, made.state.gold]).toEqual([b.id, b.coin]);
     }

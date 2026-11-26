@@ -126,7 +126,7 @@ export class Obituary {
     const attack = [...combat].reverse().find((c): c is Of<'attack'> => c.type === 'attack' && c.target === blow.target
       && c.actor === blow.actor);
     const striker = campaign.readout.creatures.find(c => c.id === blow.actor);
-    const own = striker && CombatProjection.fighter(striker, 'goblins').equipment?.weapon?.natural;
+    const own = striker && CombatProjection.fighter(campaign.catalog, striker, 'goblins').equipment?.weapon?.natural;
     if (attack?.weapon) { return `${own ? 'its' : 'a'} ${attack.weapon.replace(/_/g, ' ')}`; }
     const action = [...combat].reverse().find((c): c is Of<'action'> => c.type === 'action' && c.command.actor === blow.actor);
     const ability = action && Content.abilities.find(a => a.id === action.command.ability);

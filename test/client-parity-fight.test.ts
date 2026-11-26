@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { EngineHost } from '../web/engine/engine-host';
 import type { Frame, Message } from '../src/creation/protocol';
@@ -27,7 +28,9 @@ class Pair {
     const room = 'region__w8_halls_mourners', world = new World(save.module, save.state.world).apply([
       { kind: 'assert', call: ModuleWriter.call('at', 'party', room) },
       { kind: 'retract', call: ModuleWriter.call('unlit', room) }]);
-    save.state.world = CreatureFacts.project(world, save.definition!.actors, new CreatureStore(save.creatures))
+    save.state.world = CreatureFacts.project(world, save.definition!.actors,
+      new CreatureStore(ItemCatalog.of(save.module.catalog),
+      save.creatures))
       .snapshot;
     const copy = (): SessionCheckpoint => JSON.parse(JSON.stringify(kept)) as SessionCheckpoint;
     held.session = PlaySession.resume(copy());

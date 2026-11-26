@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Progression } from '../../src/campaign/progression';
 import { CreatureStore } from '../../src/creature-store';
@@ -16,7 +17,7 @@ describe('the milestones achieved, once seen', () => {
     let asked = 0;
     Milestones.achieved = (world: World) => { asked++; return read.call(Milestones, world); };
     try {
-      const award = { elapsed: 3, store: new CreatureStore(), party: [], events: [] };
+      const award = { elapsed: 3, store: new CreatureStore(ItemCatalog.canon), party: [], events: [] };
       Progression.milestones(w, seen, award);
       expect([asked, seen]).toEqual([1, { 'kept_pan.achieved': 3 }]);
       Progression.milestones(w, seen, { ...award, elapsed: 4 });

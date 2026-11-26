@@ -344,7 +344,7 @@ export class CampaignLint {
   items() {
     for (const e of this.module.entities.filter(x => x.type === 'item')) {
       const kind = this.relations('itemKind').find(r => r.args[0] === e.id)?.args[1];
-      if (kind && !ItemCatalog.definitions[kind]) {
+      if (kind && !ItemCatalog.of(this.module.catalog).has(kind)) {
         this.add('error', 'item-identity', `${e.id} is of kind ${kind}, missing from the item catalog`);
       }
     }

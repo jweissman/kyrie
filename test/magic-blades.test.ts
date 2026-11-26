@@ -13,15 +13,17 @@ describe('a magic blade against a guard of 10/magic', () => {
   const content = new Content('magic-blades'), expressions = new Expressions('magic-blades');
   const hit = (weapon: string) => {
     const unicorn = content.creature('unicorn', 'u', 'goblins'), events: CombatEvent[] = [];
-    const w = ItemCatalog.weapon(weapon), context = { fighters: [unicorn], turn: 1, events, content, abilities: [],
+    const w = ItemCatalog.canon.weapon(weapon), context = { fighters: [unicorn], turn: 1, events, content,
+      abilities: [],
       retreat: false, location: null, expressions, source: { id: 'test', kind: 'trap' } } as EffectContext;
     Effects.damage(unicorn, { amount: 14, type: w.type, tags: [...w.tags ?? [], 'manufactured'] }, context);
     return events.find(e => e.type === 'damage');
   };
   it('tags every wonder\'s blade magic, and no ordinary one', () => {
-    const blades = Object.entries(Canon.items).filter(([, i]) => i.weapon && !i.weapon.natural);
+    const blades = Object.entries(Canon.items).filter(([id,
+      i]) => ItemCatalog.canon.has(id) && i.weapon && !i.weapon.natural);
     for (const [id] of blades) {
-      expect([id, ItemCatalog.weapon(id).tags?.includes('magic') ?? false]).toEqual([id, Canon.wonders.has(id)]);
+      expect([id, ItemCatalog.canon.weapon(id).tags?.includes('magic') ?? false]).toEqual([id, Canon.wonders.has(id)]);
     }
     expect(blades.filter(([id]) => Canon.wonders.has(id)).length).toBeGreaterThan(5);
   });

@@ -17,14 +17,14 @@ import type { Creature } from '../src/creature';
 class Bench {
   // One of a calling, with what they set out with, and without any of a kind of thing.
   static member(classId: string, without: string[] = []): { store: CreatureStore; c: () => Creature } {
-    const c = new Content(`tools-${classId}`).createCreature(classId, { raceId: 'human', classId, level: 1 });
+    const c = new Content(`tools-${classId}`).createCreature(ItemCatalog.canon, classId, { raceId: 'human', classId, level: 1 });
     c.state.inventory = (c.state.inventory ?? []).filter(i => !without.includes(i.definition));
-    const store = new CreatureStore([c]);
+    const store = new CreatureStore(ItemCatalog.canon, [c]);
     return { store, c: () => store.get(classId) };
   }
   // How many of a hundred tries at a lock of fair difficulty come through.
   static locks(c: Creature): number {
-    return Array.from({ length: 100 }, (_, n) => Checks.make([c], { skill: 'lockwork', difficulty: 'dc_fair',
+    return Array.from({ length: 100 }, (_, n) => Checks.make(ItemCatalog.canon, [c], { skill: 'lockwork', difficulty: 'dc_fair',
       seed: `lock-${n}` })).filter(e => Checks.passed(e)).length;
   }
 }
@@ -33,23 +33,23 @@ describe('a professional tool', () => {
   it('helps a trained thief at a lock: with thieves\' tools they open more of them than without', () => {
     const bare = Bench.member('thief', ['thieves_tools']), tooled = Bench.member('thief', ['thieves_tools']);
     Items.take(tooled.store, 'thief', { id: 'picks', definition: 'thieves_tools' });
-    const [without, withTools] = [Checks.bonus(bare.c(), 'lockwork'), Checks.bonus(tooled.c(), 'lockwork')];
+    const [without, withTools] = [Checks.bonus(ItemCatalog.canon, bare.c(), 'lockwork'), Checks.bonus(ItemCatalog.canon, tooled.c(), 'lockwork')];
     expect(without.trained).toBeGreaterThan(0);
     expect([without.tool, withTools.tool, withTools.using]).toEqual([0, Checks.toolBonus, 'thieves_tools']);
-    expect(Checks.total(tooled.c(), 'lockwork')).toBe(Checks.total(bare.c(), 'lockwork') + Checks.toolBonus);
+    expect(Checks.total(ItemCatalog.canon, tooled.c(), 'lockwork')).toBe(Checks.total(ItemCatalog.canon, bare.c(), 'lockwork') + Checks.toolBonus);
     expect(Bench.locks(tooled.c())).toBeGreaterThan(Bench.locks(bare.c()));
     // And the roll says what the tools added.
-    const roll = Checks.make([tooled.c()], { skill: 'lockwork', difficulty: 'dc_hard', seed: 'said' })[0]!;
+    const roll = Checks.make(ItemCatalog.canon, [tooled.c()], { skill: 'lockwork', difficulty: 'dc_hard', seed: 'said' })[0]!;
     expect(roll).toMatchObject({ tool: Checks.toolBonus, using: 'thieves_tools' });
   });
   it('lends one never trained in it nothing: a warrior with thieves\' tools is no better at a lock', () => {
     const bare = Bench.member('warrior'), tooled = Bench.member('warrior');
     Items.take(tooled.store, 'warrior', { id: 'picks', definition: 'thieves_tools' });
-    expect(Checks.bonus(tooled.c(), 'lockwork')).toEqual(Checks.bonus(bare.c(), 'lockwork'));
-    expect(Checks.bonus(tooled.c(), 'lockwork')).toMatchObject({ trained: 0, tool: 0 });
+    expect(Checks.bonus(ItemCatalog.canon, tooled.c(), 'lockwork')).toEqual(Checks.bonus(ItemCatalog.canon, bare.c(), 'lockwork'));
+    expect(Checks.bonus(ItemCatalog.canon, tooled.c(), 'lockwork')).toMatchObject({ trained: 0, tool: 0 });
     expect(Bench.locks(tooled.c())).toBe(Bench.locks(bare.c()));
     // Carrying them is no training: the warrior brings no lockwork to the company for them.
-    expect(PartyCapabilities.has('lockwork', [tooled.c()])).toBe(false);
+    expect(PartyCapabilities.has(ItemCatalog.canon, 'lockwork', [tooled.c()])).toBe(false);
   });
   it('is declared for its skills in the catalog, and no tool grants a skill', () => {
     expect(['thieves_tools', 'holy_symbol', 'musical_instrument', 'spellbook', 'first_aid_kit', 'bandages']
@@ -65,20 +65,20 @@ describe('a professional tool', () => {
 describe('an ordinary tool', () => {
   it('digs for anyone: a warrior with a shovel can do what needs digging, and a little better at it', () => {
     const bare = Bench.member('warrior'), dug = Bench.member('warrior');
-    expect(PartyCapabilities.has('digging', [bare.c()])).toBe(false);
+    expect(PartyCapabilities.has(ItemCatalog.canon, 'digging', [bare.c()])).toBe(false);
     Items.take(dug.store, 'warrior', { id: 'spade', definition: 'shovel' });
-    expect(PartyCapabilities.has('digging', [dug.c()])).toBe(true);
-    expect(PartyCapabilities.providers('digging', [dug.c()]).map(c => c.id)).toEqual(['warrior']);
+    expect(PartyCapabilities.has(ItemCatalog.canon, 'digging', [dug.c()])).toBe(true);
+    expect(PartyCapabilities.providers(ItemCatalog.canon, 'digging', [dug.c()]).map(c => c.id)).toEqual(['warrior']);
     // It is no training: no proficiency, only the shovel's help.
-    expect(PartyCapabilities.skilled('digging', dug.c())).toBe(false);
-    expect(Checks.bonus(dug.c(), 'digging')).toMatchObject({ trained: 0, tool: Checks.toolBonus, using: 'shovel' });
+    expect(PartyCapabilities.skilled(ItemCatalog.canon, 'digging', dug.c())).toBe(false);
+    expect(Checks.bonus(ItemCatalog.canon, dug.c(), 'digging')).toMatchObject({ trained: 0, tool: Checks.toolBonus, using: 'shovel' });
   });
   it('climbs for anyone: pitons, iron spikes, a ladder and the climber\'s harness', () => {
     for (const kind of ['piton', 'iron_spikes', 'ladder', 'climbing_harness']) {
       const m = Bench.member('warrior');
       Items.take(m.store, 'warrior', { id: 'aid', definition: kind });
-      if (ItemCatalog.get(kind).slot) { Items.equip(m.store, 'warrior', 'aid'); }
-      expect([kind, PartyCapabilities.has('climbing', [m.c()]), PartyCapabilities.skilled('climbing', m.c())])
+      if (ItemCatalog.canon.get(kind).slot) { Items.equip(m.store, 'warrior', 'aid'); }
+      expect([kind, PartyCapabilities.has(ItemCatalog.canon, 'climbing', [m.c()]), PartyCapabilities.skilled(ItemCatalog.canon, 'climbing', m.c())])
         .toEqual([kind, true, false]);
     }
   });

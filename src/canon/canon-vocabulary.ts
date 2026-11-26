@@ -9,7 +9,7 @@ import { ItemCatalog } from '../item-catalog';
 // content), so that the language itself imports none of it.
 export class CanonVocabulary implements Vocabulary {
   readonly id = 'canon';
-  kind(id: string): { name: string; use?: unknown } | undefined { return ItemCatalog.definitions[id]; }
+  kind(id: string): { name: string; use?: unknown } | undefined { return ItemCatalog.ambient[id]; }
   item(module: string, spec: LocalKindSpec, capabilities: ReadonlySet<string>):
     NonNullable<LocalCatalog['items']>[string] { return LocalKinds.item(module, spec, capabilities); }
   species(module: string, spec: LocalSpeciesSpec): NonNullable<LocalCatalog['species']>[string] {

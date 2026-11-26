@@ -65,9 +65,9 @@ export class Tactics {
   static score(state: BattleState, command: Command): number {
     const actor = state.combatants.find(f => f.id === command.actor)!;
     const target = state.combatants.find(f => f.id === command.target)!;
-    // A thing carried to use up is scored as what using it does (see ItemCatalog.use).
+    // A thing carried to use up is scored as what using it does, as it was carried in (see ItemCatalog.fought).
     // Words (Parley) are no blow, and score nothing.
-    const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.used(command.ability);
+    const ability = Content.abilities.find(a => a.id === command.ability) ?? ItemCatalog.fought(actor, command.ability);
     if (!ability) { return 0; }
     const area = Positions.area(ability);
     const caught = area ? Positions.caught(actor, command.target, area, state.combatants) : undefined;

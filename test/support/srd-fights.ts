@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { Battle } from '../../src/arena';
 import { Canon } from '../../src/canon/canon';
 import { CombatProjection } from '../../src/combat-projection';
@@ -9,7 +10,7 @@ import type { Fighter } from '../../src/model';
 export class SrdFights {
   // Four of a level, one of each of the four old callings, or the callings given.
   static party(content: Content, level: number, ids = ['warrior', 'cleric', 'thief', 'mage']): Fighter[] {
-    return ids.map((classId, n) => CombatProjection.fighter(content.createCreature(`${classId}${n}`,
+    return ids.map((classId, n) => CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, `${classId}${n}`,
       { raceId: 'human', classId, level }), 'fighters'));
   }
   static fight(kind: string, level: number, seed: string, ids?: string[]): { b: Battle; rounds: number; won: boolean } {

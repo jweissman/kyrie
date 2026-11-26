@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
 import { CombatProjection } from '../../src/combat-projection';
@@ -13,7 +14,7 @@ import type { CombatEvent } from '../../src/model';
 const blow = (id: string, left: number): CombatEvent[] => [{ type: 'damage', turn: 1, actor: 'wolf', target: id,
   amount: 20 - left, hp: left, rolled: 20 - left } as unknown as CombatEvent];
 const fighter = (id: string) => {
-  const f = CombatProjection.fighter(new Content('barks').createCreature(id, { raceId: 'human', classId: 'warrior' }), 'fighters');
+  const f = CombatProjection.fighter(ItemCatalog.canon, new Content('barks').createCreature(ItemCatalog.canon, id, { raceId: 'human', classId: 'warrior' }), 'fighters');
   f.maxHp = 20;
   return f;
 };

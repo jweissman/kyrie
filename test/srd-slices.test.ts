@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import type { Battle } from '../src/arena';
 import { Content } from '../src/content';
@@ -23,7 +24,7 @@ describe('the barrow ghoul (SRD: 2d12, bite 1d6+1 and two claws 1d3, paralysis)'
     const g = Canon.creature('ghoul/barrow');
     expect([g.statistics?.hitDice, g.statistics?.attacks, g.abilities, g.traits]).toEqual(['2d12',
       ['bite', 'claws', 'claws'], [], ['undead']]);
-    expect([1, 5].map(level => new Content('barrow').createCreature(`g${level}`, { raceId: 'ghoul/barrow', level })
+    expect([1, 5].map(level => new Content('barrow').createCreature(ItemCatalog.canon, `g${level}`, { raceId: 'ghoul/barrow', level })
       .base.maxHp)).toEqual([13, 13]);
     expect(Canon.creature('ghoul').statistics?.hitDice).toBeUndefined();
     // Against one warrior, so that it lives to strike: each blow of its is the three, a roll each.

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { Content } from '../src/content';
@@ -18,26 +19,27 @@ describe('advancement', () => {
   it('follows Orsino\'s experience curve and values creatures by kind and level', () => {
     expect([2, 3, 4].map(l => Advancement.threshold(l))).toEqual([1000, 3000, 6200]);
     const content = new Content('worth');
-    expect(Advancement.worth(content.createCreature('w', { raceId: 'wolf' }))).toBe(150);
-    expect(Advancement.worth(content.createCreature('r', { raceId: 'revenant' }))).toBe(300);
-    expect(Advancement.worth(content.createCreature('h', { raceId: 'human', classId: 'warrior', level: 2 }))).toBe(60);
+    expect(Advancement.worth(content.createCreature(ItemCatalog.canon, 'w', { raceId: 'wolf' }))).toBe(150);
+    expect(Advancement.worth(content.createCreature(ItemCatalog.canon, 'r', { raceId: 'revenant' }))).toBe(300);
+    expect(Advancement.worth(content.createCreature(ItemCatalog.canon, 'h', { raceId: 'human', classId: 'warrior', level: 2 }))).toBe(60);
   });
   // Half of Orsino's reward (worth, ten for each of them, and 25) to each who stood: shared among them, a companion had
   // halved what one earned (the play-structure investigation's PT-03); by the square of their number, four rats had
   // been more than a level (the cold review of 1 November).
   it('gives each who stood half of Orsino\'s reward for a won fight, so a companion costs nothing', () => {
     const content = new Content('share');
-    const hounds = ['h1', 'h2'].map(id => content.createCreature(id, { raceId: 'bone_hound', level: 2 }));
-    const company = ['a', 'b', 'c', 'd'].map(id => content.createCreature(id, { raceId: 'human', classId: 'warrior' }));
+    const hounds = ['h1', 'h2'].map(id => content.createCreature(ItemCatalog.canon, id, { raceId: 'bone_hound', level: 2 }));
+    const company = ['a', 'b', 'c', 'd'].map(id => content.createCreature(ItemCatalog.canon, id, { raceId: 'human', classId: 'warrior' }));
     company[2]!.state.hp = 0;
-    const store = new CreatureStore([...hounds, ...company]), world = { module: { measures: [] } } as unknown as World;
+    const store = new CreatureStore(ItemCatalog.canon, [...hounds, ...company]),
+      world = { module: { measures: [] } } as unknown as World;
     const half = Math.floor((2 * Advancement.worth(hounds[0]!) + 10 * 2 + 25) / 2);
     FieldUse.award(store, ['a', 'b', 'c'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
     FieldUse.award(store, ['d'], world, { opponent: 'hounds', members: ['h1', 'h2'], events: [] });
     expect(['a', 'b', 'c', 'd'].map(id => store.get(id).state.experience)).toEqual([half, half, 0, half]);
   });
   it('a level rolls the hit die, adds Constitution, and moves a caster\'s slot table on, the same way every time', () => {
-    const make = () => new Content('train').createCreature('dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'],
+    const make = () => new Content('train').createCreature(ItemCatalog.canon, 'dori', { raceId: 'dwarf', classId: 'cleric', traits: ['vitalist'],
       spells: ['cure', 'bless', 'anoint', 'prayer', 'cure_moderate', 'cure_serious'], wisdom: 14 });
     const dori = make(), hp = dori.base.maxHp;
     dori.state.experience = 3000;
@@ -89,14 +91,14 @@ describe('experience for a module someone else resolves', () => {
 
 describe('a level gained', () => {
   it('is still to be spent after a watch with something on the clock (a torch burning, a poison working)', () => {
-    const elen = new Content('kept').createCreature('elen', { raceId: 'human', classId: 'warrior' });
+    const elen = new Content('kept').createCreature(ItemCatalog.canon, 'elen', { raceId: 'human', classId: 'warrior' });
     elen.state.experience = 1000;
     Advancement.train(elen, 'seed');
-    const back = CombatProjection.creature(CombatProjection.fighter(elen, 'fighters'), elen);
+    const back = CombatProjection.creature(CombatProjection.fighter(ItemCatalog.canon, elen, 'fighters'), elen);
     expect(back.state.advances).toEqual(elen.state.advances);
   });
   it('gives a point of any quality, and a specialist caster a spell of its tradition it can cast', () => {
-    const ivo = new Content('levels').createCreature('ivo', { raceId: 'human', classId: 'mage', traits: ['evoker'] });
+    const ivo = new Content('levels').createCreature(ItemCatalog.canon, 'ivo', { raceId: 'human', classId: 'mage', traits: ['evoker'] });
     ivo.state.experience = 1000;
     Advancement.train(ivo, 'seed');
     expect([ivo.base.level, ivo.state.advances]).toEqual([2, { qualities: 1, spells: 1 }]);
@@ -112,7 +114,7 @@ describe('a level gained', () => {
       { qualities: 0, spells: 0 }]);
     expect(() => Advancement.improve(ivo, 'strength')).toThrow();
     // A warrior takes the point, and no spell.
-    const bran = new Content('levels').createCreature('bran', { raceId: 'human', classId: 'warrior' });
+    const bran = new Content('levels').createCreature(ItemCatalog.canon, 'bran', { raceId: 'human', classId: 'warrior' });
     bran.state.experience = 1000;
     Advancement.train(bran, 'seed');
     expect(bran.state.advances).toEqual({ qualities: 1, spells: 0 });
@@ -151,7 +153,7 @@ describe('a level gained', () => {
 
 describe('a feat at the fifth level', () => {
   it('is offered from the calling\'s feats, and one rules another out, as Orsino\'s are', () => {
-    const w = new Content('feat').createCreature('w', { raceId: 'human', classId: 'warrior', level: 4 });
+    const w = new Content('feat').createCreature(ItemCatalog.canon, 'w', { raceId: 'human', classId: 'warrior', level: 4 });
     w.state.experience = Advancement.threshold(5);
     Advancement.train(w, 'feat');
     expect(w.state.advances?.feats).toBe(1);
@@ -161,7 +163,7 @@ describe('a feat at the fifth level', () => {
     // A barbarian is no knight: at the tenth level only the battle cry is left to take.
     expect(Advancement.offered(w)).toEqual(['battle_cry']);
     expect(w.base.abilities).toContain('reckless_attack');
-    expect(() => new Content('both').createCreature('k', { raceId: 'human', classId: 'warrior', level: 3,
+    expect(() => new Content('both').createCreature(ItemCatalog.canon, 'k', { raceId: 'human', classId: 'warrior', level: 3,
       traits: ['knight', 'barbarian'] })).toThrow('rules out');
   });
   it('is taken in the field: after a night under a roof, the warrior takes up a feat', async () => {
@@ -189,20 +191,20 @@ describe('a feat at the fifth level', () => {
 
 describe('a skill taken up with a level', () => {
   it('is one of the skills the calling teaches, and makes the member trained in it', () => {
-    const w = new Content('skill').createCreature('w', { raceId: 'human', classId: 'warrior' });
-    expect(Advancement.teachable(w)).toEqual([]);
+    const w = new Content('skill').createCreature(ItemCatalog.canon, 'w', { raceId: 'human', classId: 'warrior' });
+    expect(Advancement.teachable(ItemCatalog.canon, w)).toEqual([]);
     w.state.experience = Advancement.threshold(2);
     Advancement.train(w, 'skill');
     // A warrior already brings brawn and intimidation; of what the calling teaches, nothing it has.
-    expect(Advancement.teachable(w)).toEqual(['climbing', 'mending', 'woodcraft', 'digging', 'insight', 'persuasion']);
-    const before = Checks.total(w, 'persuasion');
-    Advancement.school(w, 'persuasion');
-    expect([w.state.skills, w.state.advances?.qualities, PartyCapabilities.brings('persuasion', w)])
+    expect(Advancement.teachable(ItemCatalog.canon, w)).toEqual(['climbing', 'mending', 'woodcraft', 'digging', 'insight', 'persuasion']);
+    const before = Checks.total(ItemCatalog.canon, w, 'persuasion');
+    Advancement.school(ItemCatalog.canon, w, 'persuasion');
+    expect([w.state.skills, w.state.advances?.qualities, PartyCapabilities.brings(ItemCatalog.canon, 'persuasion', w)])
       .toEqual([['persuasion'], 0, true]);
     // Trained: two more on every check that rests on it, so talking a band round is likelier.
-    expect(Checks.total(w, 'persuasion')).toBe(before + 2);
+    expect(Checks.total(ItemCatalog.canon, w, 'persuasion')).toBe(before + 2);
     // One development: the point or the skill, not both.
-    expect(Advancement.teachable(w)).toEqual([]);
+    expect(Advancement.teachable(ItemCatalog.canon, w)).toEqual([]);
     expect(() => Advancement.improve(w, 'strength')).toThrow();
   });
   it('is offered from the company after a night under a roof, as a quality is', async () => {
@@ -234,11 +236,11 @@ describe('a skill taken up with a level', () => {
 // among a cleric's skills in a world where nothing reads the dead, and could not take it, with no reason given.
 describe('a development on the sheet', () => {
   it('offers only the skills the world has a use for, and says why one cannot be taken now', () => {
-    const hild = new Content('dev').createCreature('hild', { raceId: 'human', classId: 'cleric' });
+    const hild = new Content('dev').createCreature(ItemCatalog.canon, 'hild', { raceId: 'human', classId: 'cleric' });
     hild.state.experience = Advancement.threshold(2);
     Advancement.train(hild, 'dev');
-    expect(Advancement.teachable(hild)).toContain('reading_the_dead');
-    const d = CharacterSheets.development(hild, { ref: 'r', offered: new Set(['raise_quality(r,strength)']),
+    expect(Advancement.teachable(ItemCatalog.canon, hild)).toContain('reading_the_dead');
+    const d = CharacterSheets.development(ItemCatalog.canon, hild, { ref: 'r', offered: new Set(['raise_quality(r,strength)']),
       named: new Set(['lore', 'persuasion', 'woodcraft']), why: 'Not while Hild sleeps' })!;
     expect(d.options.filter(o => o.kind === 'skill').map(o => o.id)).toEqual(['lore', 'persuasion', 'woodcraft']);
     expect(d.options.find(o => o.id === 'strength')).toMatchObject({ command: 'raise_quality(r,strength)' });
@@ -251,14 +253,14 @@ describe('a development on the sheet', () => {
 // met a cleric of the death domain, praying curses and drains, under nothing but the calling's "Prayers that heal".
 describe('a specialist\'s character sheet', () => {
   it('names its domain or school, and what its first spells are of', () => {
-    const aldith = new Content('sworn').createCreature('aldith', { raceId: 'human', classId: 'cleric',
+    const aldith = new Content('sworn').createCreature(ItemCatalog.canon, 'aldith', { raceId: 'human', classId: 'cleric',
       traits: ['deathspeaker'] });
-    expect(CharacterSheets.sheet(aldith).specialty).toEqual({ name: 'Deathspeaker',
+    expect(CharacterSheets.sheet(ItemCatalog.canon, aldith).specialty).toEqual({ name: 'Deathspeaker',
       about: 'You are a herald of death and the afterlife.', of: 'death', prayers: true });
-    const ivo = new Content('sworn').createCreature('ivo', { raceId: 'human', classId: 'mage', traits: ['evoker'] });
-    expect(CharacterSheets.sheet(ivo).specialty).toMatchObject({ name: 'Evocation Specialist', of: 'evocation', prayers: false });
+    const ivo = new Content('sworn').createCreature(ItemCatalog.canon, 'ivo', { raceId: 'human', classId: 'mage', traits: ['evoker'] });
+    expect(CharacterSheets.sheet(ItemCatalog.canon, ivo).specialty).toMatchObject({ name: 'Evocation Specialist', of: 'evocation', prayers: false });
     // A warrior is no specialist.
-    const bran = new Content('sworn').createCreature('bran', { raceId: 'human', classId: 'warrior' });
-    expect(CharacterSheets.sheet(bran).specialty).toBeUndefined();
+    const bran = new Content('sworn').createCreature(ItemCatalog.canon, 'bran', { raceId: 'human', classId: 'warrior' });
+    expect(CharacterSheets.sheet(ItemCatalog.canon, bran).specialty).toBeUndefined();
   });
 });

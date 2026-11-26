@@ -14,11 +14,11 @@ import { ItemUses } from '../src/ui/item-uses';
 class Carried {
   static fight(seed: string) {
     const content = new Content(seed);
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
+    const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
     hero.state.inventory = [{ id: 'fire1', definition: 'alchemist_fire' }, { id: 'fire2', definition: 'alchemist_fire' },
       { id: 'draught', definition: 'minor_healing_potion' }];
-    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });
-    const store = new CreatureStore([hero, foe]);
+    const foe = content.createCreature(ItemCatalog.canon, 'foe', { raceId: 'goblin', classId: 'thief' });
+    const store = new CreatureStore(ItemCatalog.canon, [hero, foe]);
     const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' },
       { creatureId: 'foe', team: 'goblins' }], { seed });
     return { store, battle };
@@ -30,8 +30,8 @@ class Carried {
 
 describe('what the company carries, in a fight', () => {
   it('is the catalog\'s own: alchemist\'s fire is thrown at a foe, and is no use on one of the company', () => {
-    expect(ItemCatalog.get('alchemist_fire').use).toBe('Deal (1d6) fire damage to enemy.');
-    expect(ItemCatalog.use('alchemist_fire')!.effects).toEqual([expect.objectContaining({ kind: 'damage',
+    expect(ItemCatalog.canon.get('alchemist_fire').use).toBe('Deal (1d6) fire damage to enemy.');
+    expect(ItemCatalog.canon.use('alchemist_fire')!.effects).toEqual([expect.objectContaining({ kind: 'damage',
       damageType: 'fire', target: 'enemy' })]);
   });
   it('is offered, used up as it is used, and gone from the pack after; never used unasked', () => {
@@ -59,14 +59,14 @@ describe('what the company carries, in a fight', () => {
 // Kyr had held as gear it could not use): a scroll of fireball read at the foes burns them, and is spent.
 describe('a thing that casts a spell', () => {
   it('casts it in a fight, at no cost, and is spent', () => {
-    expect(ItemCatalog.get('scroll_of_fireball').use).toBe('Cast fireball on enemy.');
-    expect(ItemCatalog.use('wand_of_magic_missile')!.effects).toEqual([{ kind: 'cast', ability: 'magic_missile',
+    expect(ItemCatalog.canon.get('scroll_of_fireball').use).toBe('Cast fireball on enemy.');
+    expect(ItemCatalog.canon.use('wand_of_magic_missile')!.effects).toEqual([{ kind: 'cast', ability: 'magic_missile',
       target: 'enemy' }]);
     const content = new Content('scroll');
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
+    const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
     hero.state.inventory = [{ id: 'scroll', definition: 'scroll_of_fireball' }];
-    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });
-    const store = new CreatureStore([hero, foe]);
+    const foe = content.createCreature(ItemCatalog.canon, 'foe', { raceId: 'goblin', classId: 'thief' });
+    const store = new CreatureStore(ItemCatalog.canon, [hero, foe]);
     const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' },
       { creatureId: 'foe', team: 'goblins' }], { seed: 'scroll' });
     Carried.toHero(battle);
@@ -76,12 +76,12 @@ describe('a thing that casts a spell', () => {
     expect(store.get('hero').state.inventory).toEqual([]);
   });
   it('a wand is a charge spent at each use, and comes out of the fight with what it has left', () => {
-    expect(ItemCatalog.get('wand_of_magic_missile').charges).toBe(20);
+    expect(ItemCatalog.canon.get('wand_of_magic_missile').charges).toBe(20);
     const content = new Content('wand');
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
+    const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
     hero.state.inventory = [{ id: 'wand', definition: 'wand_of_magic_missile', charges: 2 }];
-    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });
-    const store = new CreatureStore([hero, foe]);
+    const foe = content.createCreature(ItemCatalog.canon, 'foe', { raceId: 'goblin', classId: 'thief' });
+    const store = new CreatureStore(ItemCatalog.canon, [hero, foe]);
     const battle = Battle.encounter(store, [{ creatureId: 'hero', team: 'fighters' },
       { creatureId: 'foe', team: 'goblins' }], { seed: 'wand' });
     Carried.toHero(battle);
@@ -99,12 +99,12 @@ describe('a thing that casts a spell', () => {
 // not be used on anyone, and nothing said why): none of the company needs it.
 describe('a thing whose use is not offered now', () => {
   it('says what it is kept for', () => {
-    expect(ItemUses.kept('herbs', [])).toBe('for one who is hurt · none of you is now');
-    expect(ItemUses.kept('yarrow_poultice', [])).toBe('for one who is bleeding or hurt · none of you is now');
-    expect(ItemUses.kept('alchemist_fire', [])).toBe('for a fight · thrown at a foe');
-    expect(ItemUses.kept('herbs', [{ key: 'use', label: 'Use herbs on Aud', command: 'use_item(herbs1,herbs,aud,aud)' }]))
+    expect(ItemUses.kept(ItemCatalog.canon, 'herbs', [])).toBe('for one who is hurt · none of you is now');
+    expect(ItemUses.kept(ItemCatalog.canon, 'yarrow_poultice', [])).toBe('for one who is bleeding or hurt · none of you is now');
+    expect(ItemUses.kept(ItemCatalog.canon, 'alchemist_fire', [])).toBe('for a fight · thrown at a foe');
+    expect(ItemUses.kept(ItemCatalog.canon, 'herbs', [{ key: 'use', label: 'Use herbs on Aud', command: 'use_item(herbs1,herbs,aud,aud)' }]))
       .toBeUndefined();
-    expect(ItemUses.kept('rope', [])).toBeUndefined();
+    expect(ItemUses.kept(ItemCatalog.canon, 'rope', [])).toBeUndefined();
   });
 });
 
@@ -113,10 +113,10 @@ describe('a thing whose use is not offered now', () => {
 describe('a thing that strengthens spells', () => {
   it('adds to the harm of a spell its bearer casts', () => {
     const content = new Content('stone');
-    const mage = content.createCreature('mage', { raceId: 'human', classId: 'mage', level: 3 });
+    const mage = content.createCreature(ItemCatalog.canon, 'mage', { raceId: 'human', classId: 'mage', level: 3 });
     mage.state.inventory = [...mage.state.inventory ?? [], { id: 'stone', definition: 'singing_stone', equipped: true }];
-    const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief', level: 6 });
-    const battle = Battle.encounter(new CreatureStore([mage, foe]), [{ creatureId: 'mage', team: 'fighters' },
+    const foe = content.createCreature(ItemCatalog.canon, 'foe', { raceId: 'goblin', classId: 'thief', level: 6 });
+    const battle = Battle.encounter(new CreatureStore(ItemCatalog.canon, [mage, foe]), [{ creatureId: 'mage', team: 'fighters' },
       { creatureId: 'foe', team: 'goblins' }], { seed: 'stone' });
     Carried.toHero(battle, 'mage');
     const spell = battle.legalCommands().find(c => Content.abilities.find(a => a.id === c.ability)?.spell

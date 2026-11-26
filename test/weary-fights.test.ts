@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
@@ -39,18 +40,18 @@ class Weary {
 describe('a weary company\'s fights', () => {
   it('leave nothing of what they were fought under on those who fought them, fight after fight', () => {
     const content = new Content('weary');
-    const store = new CreatureStore([content.createCreature('wenna', { raceId: 'human', classId: 'warrior' }),
-      ...['w1', 'w2'].map(id => content.createCreature(id, { raceId: 'wolf' }))]);
+    const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'wenna', { raceId: 'human', classId: 'warrior' }),
+      ...['w1', 'w2'].map(id => content.createCreature(ItemCatalog.canon, id, { raceId: 'wolf' }))]);
     Weary.fight(store, 'wenna', 'w1', 'first');
     expect(Weary.carried(store, 'wenna').filter(id => id === 'weary' || id === 'ready')).toEqual([]);
     expect(() => Weary.fight(store, 'wenna', 'w2', 'second')).not.toThrow();
     expect(Weary.carried(store, 'wenna').filter(id => id === 'weary' || id === 'ready')).toEqual([]);
   });
   it('are let go of as a game kept before is opened, and nothing else is', () => {
-    const wenna = new Content('kept').createCreature('wenna', { raceId: 'human', classId: 'warrior' });
+    const wenna = new Content('kept').createCreature(ItemCatalog.canon, 'wenna', { raceId: 'human', classId: 'warrior' });
     wenna.state.conditions = [{ id: 'weary', remaining: 1, clock: 'until-removed' },
       { id: 'ready', remaining: 1, clock: 'until-removed' }, { id: 'weary', remaining: 6, clock: 'world-time', source: 'x' }];
-    const store = new CreatureStore([wenna]);
+    const store = new CreatureStore(ItemCatalog.canon, [wenna]);
     expect(HeldConditions.release(store)).toBe(true);
     expect(store.get('wenna').state.conditions).toEqual([{ id: 'weary', remaining: 6, clock: 'world-time', source: 'x' }]);
     expect(HeldConditions.release(store)).toBe(false);

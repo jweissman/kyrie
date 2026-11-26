@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import ledger from '../../data/sources/orsino/adaptations.json';
 import { Canon } from '../../src/canon/canon';
@@ -21,7 +22,7 @@ const kits: Record<string, string[]> = {
   monk: ['robe', 'alms_bowl', 'needle_and_thread', 'candle'],
 };
 const first = (classId: string, seed: string) =>
-  content.createCreature(`p_${classId}`, { raceId: 'human', classId, level: 1 }, seed);
+  content.createCreature(ItemCatalog.canon, `p_${classId}`, { raceId: 'human', classId, level: 1 }, seed);
 describe('a calling\'s first kit', () => {
   it('is exactly the calling\'s kit for each of the seven, every kind in the catalog, its arms its own tables\'', () => {
     for (const [classId, kit] of Object.entries(kits)) {

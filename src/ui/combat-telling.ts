@@ -146,7 +146,7 @@ export class CombatTelling {
     }
     const attack = blows[0]?.attack;
     const damage = attack ? blows[0]!.damage : rest.find((e): e is Harm => e.type === 'damage');
-    const carried = action.source?.kind === 'item' && ItemCatalog.used(c.ability) ? action.source.name : undefined;
+    const carried = action.source?.kind === 'item' && ItemCatalog.carried(c.ability) ? action.source.name : undefined;
     const ability = carried ? ItemNames.called(carried)
       : Content.abilities.find(a => a.id === c.ability)?.name ?? c.ability;
     if (c.ability === 'wait') { return [`${actor} waits.`]; }

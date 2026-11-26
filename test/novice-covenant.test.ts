@@ -34,11 +34,11 @@ class Covenant {
   // A warrior with what a warrior sets out with, and men of the road with nothing in their hands, seen as they come.
   static fight(seed: string, many = 1, trial = seed): Battle {
     const content = new Content(seed);
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
-    const foes = Array.from({ length: many }, (_, i) => content.createCreature(`foe${i}`,
+    const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' });
+    const foes = Array.from({ length: many }, (_, i) => content.createCreature(ItemCatalog.canon, `foe${i}`,
       { raceId: 'human', classId: 'warrior' }));
     for (const foe of foes) { foe.state.inventory = []; }
-    return Battle.encounter(new CreatureStore([hero, ...foes]), [{ creatureId: 'hero', team: 'fighters' },
+    return Battle.encounter(new CreatureStore(ItemCatalog.canon, [hero, ...foes]), [{ creatureId: 'hero', team: 'fighters' },
       ...foes.map(f => ({ creatureId: f.id, team: 'goblins' as const }))], { seed: trial, moment: 'seen' });
   }
   // The share of such fights won, fought to the end by the game's own tactics, each from a seed of its own.
@@ -56,7 +56,7 @@ class Covenant {
     hard: [0.6, 1], fair: [0.9, 1], slight: [0.9, 1] };
   // Whether an item gives whoever uses it light: its use lays a condition that grants it (a torch, a candle).
   static lights(id: string): boolean {
-    const use = ItemCatalog.definitions[id]?.use;
+    const use = ItemCatalog.canon.find(id)?.use;
     return !!use && parseAbility(id, id, use).effects.some(e => e.kind === 'apply'
       && !!Canon.conditions[Canon.resolve('conditions', e.status)]?.grants?.includes('light'));
   }

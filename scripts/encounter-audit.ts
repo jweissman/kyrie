@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { writeFileSync } from 'node:fs';
 import { Battle } from '../src/battle';
 import { Content } from '../src/content';
@@ -30,12 +31,12 @@ export class EncounterAudit {
   static party(size: 'solo' | 'four'): Creature[] {
     const calls = size === 'solo' ? [['warrior', 1]] as const
       : [['warrior', 3], ['cleric', 3], ['mage', 3], ['thief', 3]] as const;
-    return calls.map(([classId, level], i) => this.content.createCreature(`pc${i + 1}`,
+    return calls.map(([classId, level], i) => this.content.createCreature(ItemCatalog.canon, `pc${i + 1}`,
       { classId, raceId: 'human', level } as never, `audit:pc${i + 1}`) as Creature);
   }
   static kind(kind: string, level: number, count = 1): Foe {
     return { label: `${kind} L${level}${count > 1 ? ` x${count}` : ''}`, creatures: Array.from({ length: count }, (_, i) =>
-      this.content.createCreature(`foe${i}`, { raceId: kind, level } as never, `audit:${kind}:${i}`) as Creature) };
+      this.content.createCreature(ItemCatalog.canon, `foe${i}`, { raceId: kind, level } as never, `audit:${kind}:${i}`) as Creature) };
   }
   static average(dice: string): number {
     const m = /^(\d+)d(\d+)([+-]\d+)?$/.exec(dice);
@@ -44,7 +45,7 @@ export class EncounterAudit {
   static fight(company: Creature[], foes: Creature[], seed: string) {
     const ours = company.map(c => structuredClone(c));
     const theirs = foes.map((c, i) => ({ ...structuredClone(c), id: `foe${i}` }));
-    const store = new CreatureStore([...ours, ...theirs]);
+    const store = new CreatureStore(ItemCatalog.canon, [...ours, ...theirs]);
     const battle = Battle.encounter(store, [...ours.map(c => ({ creatureId: c.id, team: 'fighters' as const })),
       ...theirs.map(c => ({ creatureId: c.id, team: 'goblins' as const }))], { seed, maxTurns: 150, laws: [] });
     const start = new Map(battle.state.combatants.map(f => [f.id, f.hp]));
@@ -75,9 +76,9 @@ export class EncounterAudit {
       fled: +(r.fled / trials).toFixed(2), hurt: +(r.hurt / trials).toFixed(2) };
   }
   static row(group: string, foe: Foe, trials: number): Row {
-    const fs = foe.creatures.map(c => new CreatureStore([structuredClone(c)])).map(s => s.live[0]!);
+    const fs = foe.creatures.map(c => new CreatureStore(ItemCatalog.canon, [structuredClone(c)])).map(s => s.live[0]!);
     const named = fs.map((c, i) => ({ ...structuredClone(c), id: `foe${i}` }));
-    const probe = Battle.encounter(new CreatureStore([...this.party('solo'), ...named]),
+    const probe = Battle.encounter(new CreatureStore(ItemCatalog.canon, [...this.party('solo'), ...named]),
       [{ creatureId: 'pc1', team: 'fighters' }, ...named.map(c => ({ creatureId: c.id, team: 'goblins' as const }))],
       { seed: 'p', maxTurns: 10, laws: [] });
     const f = probe.state.combatants.filter(x => x.team === 'goblins');

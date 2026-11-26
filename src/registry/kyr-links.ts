@@ -47,10 +47,11 @@ export class KyrLinks {
     const [family, id] = link.split(/:(.*)/s) as [string, string];
     if (family === 'background') {
       const o = Overlays.get(id);
-      Overlays.validate({ classId: o.requiredClass, ...o.role === 'background' ? { backgroundId: id } : { professionId: id } }, id);
+      Overlays.validate({ classId: o.requiredClass, ...o.role === 'background' ? { backgroundId: id } : { professionId: id } },
+        id, ItemCatalog.canon);
     }
     if (family === 'item') {
-      const item = ItemCatalog.get(id);
+      const item = ItemCatalog.canon.get(id);
       if (item.ability && !Content.abilities.some(a => a.id === item.ability)) { throw new Error(`grants unknown ${item.ability}`); }
     }
     if (family === 'ability') { Content.validate(); }

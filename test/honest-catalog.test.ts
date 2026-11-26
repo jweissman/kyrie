@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import monsters from '../data/catalog/monsters.json';
 import { Canon } from '../src/canon/canon';
@@ -62,7 +63,7 @@ describe('a reference-only ability', () => {
       const spell = Canon.abilities[id]!.spell;
       if (spell) { expect(Creation.spellbook(spell.tradition, spell.level)).not.toContain(id); }
     }
-    const taught = new Content('reference-only').createCreature('m', { raceId: 'human', classId: 'mage',
+    const taught = new Content('reference-only').createCreature(ItemCatalog.canon, 'm', { raceId: 'human', classId: 'mage',
       abilities: ['electric_arc', 'goodberry'] });
     expect(taught.base.abilities).not.toContain('electric_arc');
     expect(taught.base.abilities).not.toContain('goodberry');

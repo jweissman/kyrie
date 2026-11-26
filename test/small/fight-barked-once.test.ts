@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Content } from '../../src/content';
 import { CreatureStore } from '../../src/creature-store';
@@ -10,9 +11,9 @@ import { CombatTelling } from '../../src/ui/combat-telling';
 // (the owner's headless review, 14 November: never the same line twice in one fight). No world: a few fights alone.
 const fight = (seed: string) => {
   const content = new Content(seed);
-  const store = new CreatureStore([content.createCreature('ama', { raceId: 'human', classId: 'warrior', level: 2 }),
-    content.createCreature('osk', { raceId: 'human', classId: 'ranger', level: 2 }),
-    ...['r1', 'r2', 'r3'].map(id => content.createCreature(id, { raceId: 'rat' }))]);
+  const store = new CreatureStore(ItemCatalog.canon, [content.createCreature(ItemCatalog.canon, 'ama', { raceId: 'human', classId: 'warrior', level: 2 }),
+    content.createCreature(ItemCatalog.canon, 'osk', { raceId: 'human', classId: 'ranger', level: 2 }),
+    ...['r1', 'r2', 'r3'].map(id => content.createCreature(ItemCatalog.canon, id, { raceId: 'rat' }))]);
   return Battle.encounter(store, [{ creatureId: 'ama', team: 'fighters' }, { creatureId: 'osk', team: 'fighters' },
     ...['r1', 'r2', 'r3'].map(creatureId => ({ creatureId, team: 'goblins' as const }))], { seed });
 };

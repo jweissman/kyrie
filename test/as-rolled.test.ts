@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it } from 'bun:test';
 import { Canon } from '../src/canon/canon';
 import { Content } from '../src/content';
@@ -22,8 +23,8 @@ describe('a protagonist named by --as', () => {
     const all = j.campaign.readout.creatures, me = all.find(c => c.id === j.campaign.readout.partyIds[0])!;
     const ancestry = Canon.ancestries.human?.attributes?.strength ?? 0;
     expect(me.base.strength).toBe(Creation.rolled('iscoed', 'warrior').strength! + ancestry);
-    const a = Effects.combatant(CombatProjection.fighter(me, 'fighters'));
-    const rats = all.filter(c => c.raceId === 'rat').map(c => Fighting.chance(a, Effects.combatant(CombatProjection.fighter(c, 'goblins'))));
+    const a = Effects.combatant(CombatProjection.fighter(ItemCatalog.canon, me, 'fighters'));
+    const rats = all.filter(c => c.raceId === 'rat').map(c => Fighting.chance(a, Effects.combatant(CombatProjection.fighter(ItemCatalog.canon, c, 'goblins'))));
     expect(rats.length).toBeGreaterThan(0);
     expect(Math.min(...rats)).toBeGreaterThanOrEqual(0.6);
   }, 120000);

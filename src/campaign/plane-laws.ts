@@ -31,7 +31,7 @@ export class PlaneLaws {
     if (!laws.length || !members.length) { return false; }
     const lease = store.acquire(members);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(lease.catalog, c, 'fighters'));
       for (const target of fighters) {
         const context = { fighters, turn: scene.elapsed, events, field: true,
           expressions: new Expressions(RandomStreams.key(scene.seed ?? 'field', 'law', scene.elapsed, target.id)),

@@ -1,3 +1,4 @@
+import { ItemCatalog } from '../src/item-catalog';
 import { describe, expect, it, spyOn } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
@@ -28,7 +29,7 @@ class Search {
       }
       const save = checkpoint.save;
       save.state.world = CreatureFacts.project(new World(save.module, save.state.world), save.definition!.actors,
-        new CreatureStore(save.creatures)).snapshot;
+        new CreatureStore(ItemCatalog.of(save.module.catalog), save.creatures)).snapshot;
       s = PlaySession.resume(checkpoint);
     }
     return s;

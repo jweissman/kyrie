@@ -42,11 +42,11 @@ describe('a module compiled before', () => {
       const path = made(dir, `\n  // ${dir}`);
       const fresh = await start(path);
       LocalKinds.reset();
-      expect(ItemCatalog.definitions.dreg_kept_ox).toBeUndefined();
+      expect(ItemCatalog.ambient.dreg_kept_ox).toBeUndefined();
       const kept = await start(path);
       // At least this module kept (on CI a shared piece compiled by the first start is kept by the second as well).
       expect(kept.kept).toBeGreaterThan(fresh.kept);
-      expect(ItemCatalog.definitions.dreg_kept_ox?.name).toBe('a little ox of dreg, on a cord');
+      expect(ItemCatalog.ambient.dreg_kept_ox?.name).toBe('a little ox of dreg, on a cord');
       expect(kept.checkpoint).toBe(fresh.checkpoint);
       // Its name the shared rules' too (weighed) is its own as it was compiled: lint's word kept with it.
       expect(kept.checkpoint).toContain('own_weighed');

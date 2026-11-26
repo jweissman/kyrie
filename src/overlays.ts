@@ -43,7 +43,8 @@ export class Overlays {
   static readonly coinScale = Canon.coinScale;
   static coins(o: Overlay): number { return Canon.coins(o.gold); }
   // Conflicts are errors: wrong role, a class requirement the character lacks, unknown gear.
-  static validate(context: { classId?: string; backgroundId?: string; professionId?: string }, who: string) {
+  static validate(context: { classId?: string; backgroundId?: string; professionId?: string }, who: string,
+    catalog: ItemCatalog) {
     for (const [field, role] of [['backgroundId', 'background'], ['professionId', 'profession']] as const) {
       const id = context[field];
       if (id && this.catalog[id] && this.catalog[id].role !== role) { throw new Error(`${who}: ${id} is a ${this.catalog[id].role}, not a ${role}`); }
@@ -54,7 +55,7 @@ export class Overlays {
       if (o.requiredClass && cls !== o.requiredClass && !cls.includes(o.requiredClass)) {
         throw new Error(`${who}: the ${id} overlay requires the ${o.requiredClass} class`);
       }
-      for (const kind of o.gear ?? []) { ItemCatalog.get(kind); }
+      for (const kind of o.gear ?? []) { catalog.get(kind); }
     }
   }
   static apply(creature: Creature) {
@@ -71,13 +72,13 @@ export class Overlays {
     }
   }
   // Equipment a person is authored to carry: one instance of each kind, equipped where its slot is free.
-  static carry(creature: Creature, kinds: string[]) {
+  static carry(catalog: ItemCatalog, creature: Creature, kinds: string[]) {
     if (!kinds.length) { return; }
     const inventory = creature.state.inventory ??= [];
     for (const kind of kinds.map(k => Canon.resolve('items', k))) {
-      const slot = ItemCatalog.get(kind).slot, id = this.gearId(creature.id, kind);
+      const slot = catalog.get(kind).slot, id = this.gearId(creature.id, kind);
       if (inventory.some(i => i.id === id)) { continue; }
-      const free = slot && !inventory.some(i => i.equipped && ItemCatalog.get(i.definition).slot === slot);
+      const free = slot && !inventory.some(i => i.equipped && catalog.get(i.definition).slot === slot);
       inventory.push({ id, definition: kind, ...free ? { equipped: true } : {} });
     }
   }
@@ -151,8 +152,9 @@ export class Overlays {
     const own = wonder && ['equipment', 'consumable'].includes(item.category) ? undefined : by[item.category];
     return [...own ? [own] : [], ...wonder ? ['trade_rare'] : []];
   }
-  static declareGear(instance: CampaignInstance) {
-    const module = instance.module;
+  // Among its campaign's kinds (see ItemCatalog.among).
+  static declareGear(instance: CampaignInstance, kinds: CampaignInstance['module']['catalog']) {
+    const module = instance.module, catalog = ItemCatalog.among(kinds, module.catalog);
     for (const c of instance.campaign?.creatures ?? []) {
       const carried = (c.context.gear ?? []).map(k => Canon.resolve('items', k));
       const gear = c.context.outfit === 'own' ? [carried] : [...this.of(c.context).map(([, o]) => o.gear ?? []),
@@ -162,13 +164,13 @@ export class Overlays {
           const id = this.gearId(c.id, kind);
           if (module.entities.some(e => e.id === id)) { continue; }
           if (!module.entities.some(e => e.id === kind)) {
-            module.entities.push({ id: kind, type: 'itemkind', name: ItemCatalog.get(kind).name });
+            module.entities.push({ id: kind, type: 'itemkind', name: catalog.get(kind).name });
           }
-          module.entities.push({ id, type: 'item', name: ItemNames.called(ItemCatalog.get(kind).name) });
+          module.entities.push({ id, type: 'item', name: ItemNames.called(catalog.get(kind).name) });
           module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'itemKind', args: [id, kind] } });
         }
       }
     }
-    ItemTraits.assert(module);
+    ItemTraits.assert(module, catalog);
   }
 }
