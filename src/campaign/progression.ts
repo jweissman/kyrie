@@ -66,6 +66,10 @@ export class Progression {
   static milestones(world: World, seen: Record<string, number>,
     award: { elapsed: number; store: CreatureStore; party: string[]; events: CombatEvent[]; own?: boolean },
     by?: { definition: CampaignDefinition; player?: string }) {
+    // Asked after every watch and resolution, and mostly with nothing new: the milestones are read whole (each one's
+    // title and worth looked up) only where one achieved has not yet been seen.
+    if (!world.relates('achieved')) { return; }
+    if (world.related('achieved').every(r => seen[`${r.args[0]}.achieved`] !== undefined)) { return; }
     for (const m of Milestones.achieved(world)) {
       const key = `${m.id}.achieved`;
       if (seen[key] !== undefined) { continue; }
