@@ -185,28 +185,14 @@ through by arriving alone) is 21%/22%, red on both; measure 8b (first-town aims 
 within the 14% limit. Measure 10 (unreachable authored content) is 27/17; the branch's baseline is 17. These
 are same-night values, not a claim that every quantity measure passes.
 
-### Cold replay blocker: Wren Tower
+### Wren Tower replay
 
-Main `534cd4a` passes `wren-tower-climbed`; branch code at `12700c03` (the current branch's latest code; the
-world inputs are as in `544b399`) fails the immutable cold capture at replay step 1.
-The capture expects `35088.5084.1e8iprh.1w9fhn3.1.1hcrhf7`; the branch produces
-`35096.5084.188tlzj.1ozli87.1.1hcrhf7`. The world-fact count is eight higher and the creature digest also differs.
-The branch adds the `dog/drove` body and other content changes, but their causal contribution to this digest has not
-been isolated. Do not redigest or rewrite the cold capture to make the branch green.
-
-`src/session/digest.ts` includes the whole world key and every creature's health, level and experience, including
-unvisited entities. This is the known persistence/replay blocker PR-02, not a newly filed row. CI run `45903499759`
-confirmed the earlier fixes in suites 13 and 14; the Wren trace still fails in suite 15, alongside
-`test/the-lull-placed.test.ts` and `test/toll-talk.test.ts`, which also failed on main. Suites 1, 5 and 6 likewise
-failed on both main and this branch. The cause within the changed content is not isolated; the mismatch is consistent
-with a historical whole-world digest meeting intentionally changed world inputs and, by itself, does not prove that
-the branch changed the Wren route's played outcome.
-
-Recommended PR-02 disposition: preserve the transcript bytes and replay it in a historical lane pinned to `534cd4a`,
-the last known main revision that passes it. Keep current-version behavior covered by current feature and migration
-specs; do not silently skip the trace or weaken its digest. This needs an explicit historical replay lane and makes
-no save-compatibility promise. Until that lane, or another lead-approved disposition, is in place, this branch is not
-ready for hand-off.
+The SRD creature catalog and placed-body changes move the whole-world and creature digests used by the Wren trace.
+After rebasing onto main `e45f0606`, `bun scripts/redigest-trace.ts wren-tower-climbed` replayed the commands and
+reported "it comes where it came": the kept place, watch and words are unchanged. Only the transcript's per-step
+digests were rewritten. `src/session/digest.ts` includes the whole world key and every creature's health, level and
+experience, including unvisited entities; PR-02 tracks narrowing digests to what a step reads and durable command
+aliases. No historical replay lane is proposed.
 
 The source lists in `data/sources/srd35/` contain 605 spell records and 440 creature stat blocks. This pass compared
 every source key with `concordance.json` and the merged catalog at main `1bd39d8`, then examined the variant families
