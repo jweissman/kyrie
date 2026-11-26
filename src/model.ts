@@ -84,7 +84,9 @@ export type CombatEvent = (
     stoppedBy?: string }
   // Orsino's attack roll: die at or above need hits (need = THAC0 − armourClass − toHit); evasion may cancel a hit.
   | { type: 'attack'; turn: number; actor: string; target: string; die: number; need: number; toHit: number;
-    armorClass: number; weapon: string; success: boolean; critical: boolean; evaded?: boolean;
+    armorClass: number; weapon: string; weaponName?: string; natural?: boolean; success: boolean; critical: boolean;
+    // Captured with the act so narration does not resolve a weapon against another campaign's catalog.
+    evaded?: boolean;
     // concealed: it would have landed, and the target's concealment turned it (see Fighting.attack).
     concealed?: true;
     // A touch spell's attack (see Touch), no weapon's: melee or ranged. image: it fell on one of the target's images,

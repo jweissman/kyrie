@@ -5,7 +5,6 @@ import { ModuleWriter } from '../lang/module-writer';
 import { PartyCapabilities } from '../campaign/party-capabilities';
 import { ActionPresentation, type PublicChoice } from './action-presentation';
 import { ItemNames } from '../lang/item-names';
-import { Canon } from '../canon/canon';
 import { SkillSources } from './skill-sources';
 import { PlayerRevision } from './player-revision';
 
@@ -143,7 +142,7 @@ export class SkillReading {
       .map(k => ({ id: k, name: this.called(campaign, k), thing: true }));
   }
   private static called(campaign: Campaign, k: string): string {
-    return ItemNames.called(Canon.items[k]?.name ?? EntityIndex.of(campaign.module.entities).byId.get(k)?.name
+    return ItemNames.called(campaign.catalog.find(k)?.name ?? EntityIndex.of(campaign.module.entities).byId.get(k)?.name
       ?? k.replace(/_/g, ' '));
   }
   // What else a choice's thing or way would take, besides a skill: the kinds of thing that would do.

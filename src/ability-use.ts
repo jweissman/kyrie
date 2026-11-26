@@ -237,6 +237,7 @@ export class AbilityUse {
       () => expressions.number('1d100'));
     context.events.push({ type: 'attack', turn: context.turn, actor: actor.id, target: target.id, die: roll.die,
       need: roll.need, toHit: roll.toHit, armorClass: roll.armorClass, weapon: attacker.weapon.id,
+      weaponName: attacker.weapon.name, natural: attacker.weapon.natural ?? false,
       success: roll.success, critical: roll.critical, ...roll.evasion?.evaded ? { evaded: true } : {},
       ...roll.concealment?.missed ? { concealed: true } : {} });
     if (!roll.success) {
