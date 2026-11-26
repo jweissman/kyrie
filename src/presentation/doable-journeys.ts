@@ -52,9 +52,16 @@ export class DoableJourneys {
     // Where the map sets out from here, it is offered whatever is yet laid (Screen.overland): the scene lays only the
     // aim's journey, the rest the map's as it opens (routes on demand). Its row says no number of journeys: a count on
     // the map's row was a notification (the owner, 25 November: "Why is the map sending you a notification?").
-    const all = [...marked, ...set], map = drawn && !screen.place.underground
+    const all: Row[] = [...marked, ...set], map = drawn && !screen.place.underground
       && (!!screen.overland || all.some(r => r.map || r.chart));
-    return map ? [...all, { id: 'view:map', label: 'Open the world map', does: 'view:map', witnesses: [] }] : all;
+    // One row opens the map, never two (the owner's playtest, 25 November: the landing offered "Open the map" and
+    // "Open the world map" at once): the row led with across the country where it is the aim's, in its gold; else the
+    // map's own.
+    const gilt = all.filter(r => r.chart && r.witnesses.some(w => w.aspects.includes('undertaking')));
+    if (gilt.length) { return all.filter(r => !r.chart || gilt.includes(r)); }
+    const plain = all.filter(r => !r.chart);
+    return map || plain.length < all.length
+      ? [...plain, { id: 'view:map', label: 'Open the world map', does: 'view:map', witnesses: [] }] : all;
   }
   // A row the four lead with across the country, as opening the map at where it goes: by the map's own id where its
   // own is the journey's (map:<place>), so that the journey keeps its id, set out on from the map.

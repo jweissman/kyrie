@@ -66,6 +66,9 @@ export class Offers {
     const fill: Offered[] = [], waitsOnly = live.filter(c => this.types[c.kind] !== 'other' || c.whys.length)
       .every(c => this.types[c.kind] === 'wait');
     const bare = !led.length && !live.some(c => c.whys.length);
+    // A way into another hex is the map's (the owner, 25 November): never a filler of the four, which would open the
+    // map beside the map's own row ("Open the map" and "Open the world map" on one landing); only what leads there.
+    const crossing = new Set(screen?.exits.filter(e => e.crosses).map(e => e.id) ?? []);
     // Of a kind not yet shown first; and where the scene has fewer than four kinds, the next of any (four waits in a
     // bare loft are four choices, not one).
     for (const distinct of [true, false]) {
@@ -90,6 +93,7 @@ export class Offers {
         // leading way is the glance's own (Glance.ways: the way on, or back in, PL-26).
         const reasonless = !c.whys.length && !waitsOnly && !(bare && type === 'wait') && !ways.includes(c.choice);
         if (shown.has(c.choice) || (distinct && types.has(type)) || upkeep || again || idle || reasonless
+          || crossing.has(c.choice)
           || held.has(c.command ?? '')) { continue; }
         // The ways of one choice side by side, or none of them (OR-242; see Alternatives).
         const choice = this.together(c, byChoice);

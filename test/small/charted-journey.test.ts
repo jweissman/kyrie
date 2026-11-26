@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { DoableJourneys } from '../../src/presentation/doable-journeys';
 import type { Row } from '../../src/presentation/doable';
+import type { Witness } from '../../src/presentation/attest';
 import type { Screen } from '../../src/ui/screen-types';
 
 // Cross-hex travel only by the map (the owner, 31 October; the lead's ruling of 20 November on the parity measure's
@@ -13,26 +14,28 @@ const screen = {
   around: [place('shrine', 5)], destinations: [place('reedbridge', 400), place('gatesend', 600)],
   aims: [{ id: 'boat', places: ['gatesend'] }],
 } as unknown as Screen;
-function row(id: string, does: string, led?: true): Row {
-  return { id, label: id, does, witnesses: [], ...led ? { led } : {} };
+function row(id: string, does: string, led?: true, aim?: true): Row {
+  const gold = { id, aspects: ['undertaking'], kind: 'act' } as unknown as Witness;
+  return { id, label: id, does, witnesses: aim ? [gold] : [], ...led ? { led } : {} };
 }
 describe('a journey across the country', () => {
   it('led with, opens the map at where it goes, and is set out on from there', () => {
-    const rows = DoableJourneys.mapped([row('travel:reedbridge', 'travel:reedbridge', true),
-      row('exit:ford', 'travel:ford', true), row('travel:shrine', 'travel:shrine', true)], screen);
+    const rows = DoableJourneys.mapped([row('travel:reedbridge', 'travel:reedbridge', true, true),
+      row('exit:ford', 'travel:ford', true, true), row('travel:shrine', 'travel:shrine', true)], screen);
     expect(rows.map(r => [r.id, r.does, r.chart ?? null, r.map ?? null])).toEqual([
       ['map:reedbridge', 'view:map:reedbridge', 'reedbridge', null],
       ['exit:ford', 'view:map:ford', 'ford', null],
       ['travel:shrine', 'travel:shrine', null, null],
       ['travel:reedbridge', 'travel:reedbridge', null, true],
-      ['travel:ford', 'travel:ford', null, true],
-      ['view:map', 'view:map', null, null]]);
+      ['travel:ford', 'travel:ford', null, true]]);
     // Said as what it does, gold as the aim's step (the owner, 25 November: ways to another hex appear only on the
     // map); the journey it opens the map on keeps its own words there.
     expect(rows.filter(r => r.chart).map(r => [r.label, r.called])).toEqual([['Open the map', 'Open the map'],
       ['Open the map', 'Open the map']]);
     expect(rows.find(r => r.id === 'travel:reedbridge')?.label).toBe('travel:reedbridge');
   });
+  // One row opens the map (the owner's playtest, 25 November, OR-804): the aim's way across in its gold, or else the
+  // map's own; never both, as "Open the map" and "Open the world map" had stood on one landing.
   // A walk about the town whose way runs out over the open country (Destination.crosses, Passages.leaves) is the map's
   // too, led or not (the owner's new life, 25 November: one act in the first town had carried the company more than
   // a hex).
@@ -41,7 +44,9 @@ describe('a journey across the country', () => {
     expect(DoableJourneys.mapped([row('travel:shrine', 'travel:shrine')], away).map(r => [r.id, r.map ?? null]))
       .toEqual([['travel:shrine', true], ['view:map', null]]);
     expect(DoableJourneys.mapped([row('travel:shrine', 'travel:shrine', true)], away).map(r => [r.id, r.does]))
-      .toEqual([['map:shrine', 'view:map:shrine'], ['travel:shrine', 'travel:shrine'], ['view:map', 'view:map']]);
+      .toEqual([['travel:shrine', 'travel:shrine'], ['view:map', 'view:map']]);
+    expect(DoableJourneys.mapped([row('travel:shrine', 'travel:shrine', true, true)], away).map(r => [r.id, r.does]))
+      .toEqual([['map:shrine', 'view:map:shrine'], ['travel:shrine', 'travel:shrine']]);
   });
   it('to where an aim names, is on the map, not in the rest', () => {
     const rows = DoableJourneys.mapped([row('travel:gatesend', 'travel:gatesend'),
@@ -62,7 +67,7 @@ describe('a journey across the country', () => {
     const own = { ...screen, around: [], exits: [{ id: 'exit:millholm_green', destination: { id: 'millholm_green' } }],
       region: { land: { tracts: 'region__t', here: 89, towns: { millholm: 'known', lowmouth: 'known' } } } };
     const rows = DoableJourneys.mapped([row('travel:millholm_store', 'travel:millholm_store', true),
-      row('travel:lowmouth', 'travel:lowmouth', true), row('exit:millholm_green', 'go(gate,millholm_green)', true)],
+      row('travel:lowmouth', 'travel:lowmouth', true, true), row('exit:millholm_green', 'go(gate,millholm_green)', true)],
     own as unknown as Screen);
     expect(rows.filter(r => r.led).map(r => [r.id, r.does])).toEqual([
       ['travel:millholm_store', 'travel:millholm_store'], ['map:lowmouth', 'view:map:lowmouth'],
