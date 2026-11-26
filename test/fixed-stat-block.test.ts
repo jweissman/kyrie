@@ -8,6 +8,7 @@ import { CreatureSchema, type Creature } from '../src/creature';
 import { CreatureVariants, type Variation } from '../src/creature-variants';
 import { Effects } from '../src/effects';
 import { Fighting } from '../src/rules/fighting';
+import { CharacterSheets } from '../src/presentation/character-sheet';
 
 // A fixed stat block's saves and attack bonus (proof-slices.md, step 2), proved on the SRD rat, rat/cellar: made by
 // the ordinary creature path at any rank, it is the same rat (its hit point, scores, bite, the bonus it bites at and
@@ -42,6 +43,14 @@ describe('the SRD rat, a fixed stat block', () => {
       expect([level, Fighting.chance(rat, mark)]).toEqual([level, 0.5]);
       expect([level, Fighting.attack(rat, mark, () => 10).need]).toEqual([level, 11]);
     }
+  });
+  it('bites for 1d3-4 with the SRD minimum of one', () => {
+    const creature = content.createCreature('bite', { raceId: 'rat/cellar', level: 1 });
+    const rat = Effects.combatant(fighter(creature));
+    expect(rat.weapon.damageBonus).toBe(-4);
+    expect([1, 2, 3].map(rolled => Fighting.weaponDamage(rat, rolled, false).amount)).toEqual([1, 1, 1]);
+    expect(CharacterSheets.fighting(creature).find(b => b.label === 'Strikes with')?.value)
+      .toContain('1d3 - 4 piercing (minimum 1)');
   });
   it('comes back from a save as it went', () => {
     const rat = content.createCreature(ItemCatalog.canon, 'kept', { raceId: 'rat/cellar', level: 4 });

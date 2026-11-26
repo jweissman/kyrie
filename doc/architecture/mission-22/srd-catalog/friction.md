@@ -150,12 +150,13 @@ The comparison has useful limits:
   contract and a test of the actual behavior, including the boundary or counterexample that distinguishes it.
 - A field marked `n/a` can be legitimately inapplicable or simply not measured. Those are different things; do not
   assume either that every `n/a` is a bug or that it proves equivalence. Report the reason for each.
-- Spell damage is sampled at four caster levels, duration and targeting are classified coarsely, and creature hit
-  chance uses one armor class and the first attack. A match can hide a missed scaling boundary, different recipients,
-  or a different multiattack. Add boundary and full-routine tests against observed resolution, not more labels alone.
-- The identity grade uses concordance test references. `test/srd-fidelity.test.ts` checks that references exist, but
-  their existence does not establish that the tests exercise each defining behavior. Tie each claimed behavior to an
-  assertion and an ordinary player or encounter route. Preserve intentional conversions as conversions.
+- Spell damage is sampled at four caster levels and duration and targeting are classified coarsely. Creature hit
+  chance now checks every strike but still uses one armor class; weapon damage is checked before other bonuses or
+  defenses. A match can hide a missed scaling boundary, different recipients, criticals, or an attack mode the source
+  extraction omitted. Add boundary and full-routine tests against observed resolution, not more labels alone.
+- The identity grade uses concordance test references. The census does not establish that the named tests exercise
+  each defining behavior. Tie each claimed behavior to an assertion and an ordinary player or encounter route.
+  Preserve intentional conversions as conversions.
 - The encounter percentages describe the kept a1 groups and six fixed-seed den samples, not all play. A change to a
   source or placement also needs a fresh encounter measurement rather than an unchanged saved census.
 
@@ -347,9 +348,17 @@ The reduced secondary attacks change the vault, Tallow and arcology fights; thei
 repeated in CI. Improved grab and scent remain absent from the owlbear, and ghoul fever and elf immunity from the
 ghoul. Kyr's critical policy remains an adaptation.
 
-**Next boundary:** prove a missed first strike followed by a later hit, and extend the census to compare every
-strike's bonus and full damage, rather than the first hit chance and dice with bonuses stripped. Stage a complete,
-unplaced body with source attack modes and defenses before adding any ecology row.
+**Census correction:** comparing each strike's hit chance and noncritical weapon damage exposed two negative-Strength
+errors: the long centipede's bite was 1d6 instead of 1d6-1, and the cellar rat's was 1d3 instead of 1d3-4
+(minimum one). Both now carry signed damage through the fixed-strike path, with focused tests. The centipede is in
+the first town's drain; the cellar rat remains unplaced. The changed centipede encounter needs a fresh CI balance
+measurement. With the corrected variants, seven of 79 mapped creatures pass the stricter resolution fields; these
+grades still do not prove criticals, attack modes, senses or special qualities.
+The character-sheet damage text now shows a signed fixed bonus and its minimum; its engine output is tested, but the
+required 1280/390 contact sheet has not been made or visually reviewed. Do not land that page change without it.
+
+**Next boundary:** prove a missed first strike followed by a later hit. Stage a complete, unplaced body with source
+attack modes and defenses before adding any ecology row.
 
 ### Spells: a twenty-entry mechanism batch
 
