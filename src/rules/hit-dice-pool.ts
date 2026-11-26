@@ -7,15 +7,17 @@ import type { Fighter } from '../model';
 // of fewest Hit Dice first, in the fight's order among equals, as many as the pool holds. It stops at the first it
 // cannot hold (the Hit Dice left over are wasted), so none of more than the pool is ever touched. Whoever is proof
 // against the effect's save (the undead against sleep) takes nothing from the pool and still saves, immune, as before.
-// A Kyr creature's Hit Dice are its level.
+// Fixed bodies use their stat block's Hit Dice; other creatures use their level.
 export class HitDicePool {
   static held(effect: Pick<Effect, 'hitDice' | 'save'>, fighters: readonly Fighter[]): Fighter[] {
     if (effect.hitDice === undefined) { return [...fighters]; }
     const proof = new Set(fighters.filter(f => HitDicePool.proof(effect, f)).map(f => f.id)), held = new Set(proof);
     let left = effect.hitDice;
-    for (const f of fighters.filter(f => !proof.has(f.id)).sort((a, b) => a.level - b.level)) {
-      if (f.level > left) { break; }
-      left -= f.level;
+    const candidates = fighters.filter(f => !proof.has(f.id)).map(f => ({ f, dice: Effects.hitDice(f) }))
+      .sort((a, b) => a.dice - b.dice);
+    for (const { f, dice } of candidates) {
+      if (dice > left) { break; }
+      left -= dice;
       held.add(f.id);
     }
     return fighters.filter(f => held.has(f.id));

@@ -16,6 +16,82 @@ changes 22 source records. Focused source-page tests cover the alternate AC form
 These are reference-data corrections only: they add no playable bodies or encounters and make no claim that every
 alternative routine or attack mode is extracted.
 
+### Vertical pass: spell levels and Hit Dice
+
+The local source has **605 spell records**: 119 distinct records have direct mappings and 486 do not. Across the six
+base class lists Sor/Wiz, Clr, Drd, Brd, Pal and Rgr, **104 records have different levels on different class lists**;
+including domains, 115 do. One `tradition` and one `level` cannot express these lists. For example, Protection from
+Energy is a ranger level 2 spell and a cleric level 3 spell. The smallest general boundary is per-calling (and,
+separately, per-domain) level and acquisition, read at creation, advancement, preparation, slots and save DC; test
+one spell at two different levels, a class not on the list, a domain-only grant and save/reload before migrating the
+rest. Do not copy a source level into the shared field when it would give a different calling the wrong slot.
+
+The census used to borrow the lowest level from an unrelated class or domain if its comparison list was absent.
+It now compares arcane with Sor/Wiz and divine with Clr, the current spell-selection callings; a missing list is a
+mismatch, not a borrowed level or DC. Of 119 mapped rows, **51 levels are exact, 67 differ and one is an explicitly
+named conversion**; 19 of the differences are absent from the comparison list entirely. The census now reports
+44 structural passes, 37 resolution passes and 36 identity proofs. This is a more honest measurement, not a
+regression in spells. It still does not assess bard, druid, ranger, paladin or domain access.
+The 19 missing-list rows are `augury`, `barkskin`, `cloudkill`, `confuse`, `death`, `domination`, `earthquake`,
+`entangle`, `fire_storm`, `glyph_of_warding`, `goodberry`, `hold_animal`, `holy_wrath`, `life_drain`, `nightmare`,
+`silence`, `spike_growth`, `stoneskin` and `sunburst`. Some are real adaptations with meaningful identities; a
+source-list mismatch is not a request to delete them.
+
+Of the **440 creature source bodies**, 397 have simple whole-die expressions, 14 have bare fractional expressions,
+and 29 have other forms, including fractional dice with bonuses and mixed racial/class dice. A spec-only staging
+adapter parses all 440 with Kyr's amount grammar: it changes `1/2d6+1` into `1d6/2+1`, and joins mixed expressions
+such as `14d8+84plus8d10+48`. It places nothing. The expression's floored mean matches the extracted printed hit
+points for **429**, but not these 11 (mean → printed):
+
+| Source body | Mean → printed HP |
+| --- | ---: |
+| frost giant jarl | 239 → 231 |
+| gorgon | 84 → 85 |
+| harpy archer | 98 → 103 |
+| seven-headed hydra | 76 → 77 |
+| aboleth mage | 187 → 177 |
+| hound archon hero | 138 → 143 |
+| rat swarm | 18 → 13 |
+| troll hunter | 126 → 130 |
+| celestial charger | 150 → 155 |
+| minotaur zombie | 57 → 81 |
+| gray render zombie | 93 → 133 |
+
+This flags a question, not proof that the source is wrong: a classed creature may use a different first-die
+convention, and extraction or transcription also needs checking. Compare the original stat blocks and their rules
+before adopting either number. The extracted AC is also missing for the pit fiend and harpy archer. The original
+external SRD pages were unreachable here. The staging adapter does not prove attack modes, abilities or placement.
+Among 80 mapped live bodies, 10 have exact sampled Hit Dice and 70 still grow by Orsino's level; this is not 440
+migrated bodies.
+
+**Shared runtime fix:** Sleep's Hit Dice pool used encounter level even for fixed bodies whose `#hitDice` already
+came from their source expression. It now reads the same fixed-body count as actor expressions, preserving level for
+ordinary characters and growing bodies. `test/sleep.test.ts` exercises ordering, wasted remainder, a one-HD dog
+encountered at level 7 and a five-HD owlbear encountered at level 1; `test/small/sleep-band.test.ts` exercises the
+field path. The current count treats a fractional expression such as `1d8/4` as one die; verify the SRD's treatment
+for each HD-based effect before claiming fractional-HD fidelity. Sleep's existing area order and field-time
+adaptations remain. The changed target eligibility may affect encounters with fixed bodies; remeasure in CI.
+
+### The drover's dog
+
+The existing drover situation now gives its peaceable grey dog the named `dog/drove` body, adapted from the SRD dog.
+Its six scores, 6 hit points, AC 15 converted to 6, saves +4/+5/+1 and bite +2 for 1d4+1 are fixed at every rank.
+Kyr's Dexterity modifier differs from the SRD's, so the converted AC needs no additional natural armor here. A
+headless test loads the authored situation, makes much of the dog through the normal choice and verifies the dog
+voice and the discovery of the ditch-mud clue. The test substitutes only a starting company location; it is not a
+generated-world journey.
+
+This is a new body for an existing placement, not another distinct SRD source creature or a new hostile encounter.
+`unplaced` keeps it out of random creature draws. An illustrative 12-trial fight of one first-level warrior against
+one dog reports 12 wins both before and after; a fleeing dog counts as a win, so this is not a balance proof. The
+dog's scent, low-light vision, skills, movement and size rules remain absent, and Kyr's critical and piercing-wound
+rules differ. It does not yet follow a trail or respond to a smell. A useful next slice is a shared perception
+contract whose result changes an authored investigation; a stat block alone cannot establish that behavior.
+
+Adding this second dog mapping brings the census to 80 creature rows mapping to 70 distinct source records:
+9 pass structural fields, 8 pass resolution and 3 have a recorded identity proof. The new dog's identity is
+unassessed. These sampled grades do not check the omitted senses or prove full SRD fidelity.
+
 There are real placed examples. The generated first town's corn-store has an old buck using `rat/midden`, the adapted
 dire rat from case 64; `test/undertown.test.ts` follows the town's job through the nest to the merchant's reward.
 The same generated site offers a mage who knows Sleep a named act against the rats in the run. It spends a slot,

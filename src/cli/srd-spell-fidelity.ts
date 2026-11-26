@@ -42,10 +42,13 @@ export class SpellFidelity {
     return Object.entries(this.map).filter(([id]) => Canon.abilities[id]?.spell).map(([id, key]) => this.row(id, key));
   }
   static row(id: string, key: string, ability: Ability = Canon.abilities[id]!): SpellRow {
-    const s = this.spells[key]!, level = this.listed(s, ability.spell!.tradition) ?? 1, r = SpellResolution;
+    const s = this.spells[key]!, level = this.listed(s, ability.spell!.tradition), r = SpellResolution;
+    const difficulty = r.dc(ability, s, level ?? ability.spell!.level);
     const fields = { level: this.level(ability, s), school: this.same(ability.spell!.school ?? '', s.school),
       dice: this.dice(ability, s), type: this.type(ability, s), save: this.save(ability, s),
-      dc: this.measured(r.dc(ability, s, level)), attack: this.measured(r.attack(ability, s)),
+      dc: level === undefined && (difficulty.ours || difficulty.theirs)
+        ? { verdict: 'differs' as const, ours: difficulty.ours, theirs: this.missingList(ability.spell!.tradition) }
+        : this.measured(difficulty), attack: this.measured(r.attack(ability, s)),
       resist: this.resist(ability, s),
       target: this.measured(r.target(id, ability, s)), duration: this.same(this.lasts(ability), this.theirs(s)) };
     for (const [field, rule] of Object.entries(this.conversions[id] ?? {})) {
@@ -70,14 +73,18 @@ export class SpellFidelity {
   private static same(ours: string, theirs: string): Field {
     return { verdict: !ours && !theirs ? 'n/a' : ours === theirs ? 'exact' : 'differs', ours, theirs };
   }
-  // Its level on the list of its tradition: an arcane spell the sorcerer's and wizard's, a divine one the cleric's,
-  // else the druid's, else the lowest it has.
-  static listed(s: SrdSpell, tradition?: string): number | undefined {
-    const lists = tradition === 'arcane' ? ['Sor/Wiz'] : ['Clr', 'Drd'];
-    return lists.map(l => s.levels[l]).find(n => n !== undefined) ?? Math.min(...Object.values(s.levels));
+  // The comparison list for the current spell-selection callings: the sorcerer's and wizard's, or the cleric's.
+  // No other class or domain supplies a level to a list on which the spell does not appear.
+  static listed(s: SrdSpell, tradition: 'arcane' | 'divine'): number | undefined {
+    return tradition === 'arcane' ? s.levels['Sor/Wiz'] : s.levels.Clr;
+  }
+  private static missingList(tradition: 'arcane' | 'divine'): string {
+    return tradition === 'arcane' ? 'not on Sor/Wiz list' : 'not on Clr list';
   }
   private static level(a: Ability, s: SrdSpell): Field {
-    return this.same(String(a.spell!.level), String(this.listed(s, a.spell!.tradition)));
+    const listed = this.listed(s, a.spell!.tradition);
+    const theirs = listed === undefined ? this.missingList(a.spell!.tradition) : String(listed);
+    return this.same(String(a.spell!.level), theirs);
   }
   private static harm(a: Ability): Effect | undefined {
     return a.effects?.find(e => ['damage', 'drain'].includes(e.kind)) ?? a.effects?.find(e => e.kind === 'heal');

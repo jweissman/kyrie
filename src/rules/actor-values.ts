@@ -11,8 +11,9 @@ import type { Fighter } from '../model';
 // casts nothing, or a kind of no calling, Charisma, as the SRD's spell-like abilities read it), and #bonusSpellDC what
 // its gear and conditions add to its spells' difficulty.
 export class ActorValues {
+  static hitDice(actor: Fighter): number { return CanonRuntime.hitDice(actor); }
   static of(actor: Fighter, bonusSpellDC: number): Record<string, number> {
-    const hitDice = CanonRuntime.hitDice(actor);
+    const hitDice = this.hitDice(actor);
     return { strength: actor.strength, dexterity: actor.dexterity, intelligence: actor.intelligence,
       wisdom: actor.wisdom, constitution: actor.constitution, charisma: actor.charisma, hp: actor.hp,
       maxHp: actor.maxHp, mana: actor.mana, level: actor.level, hitDice, castingLevel: CastingLevel.of(actor, hitDice),

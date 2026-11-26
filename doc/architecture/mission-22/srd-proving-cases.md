@@ -2344,3 +2344,25 @@ and cleric win 80 → 10 %); the waterworks' keeper stays Orsino's until the kee
 The oathkeeper's creation card offering Command and Holy Wrath (case 33) is accepted: what a first-level oathkeeper
 knows is the SRD's first level.
 
+### 67. The drover's dog (26 November): a fixed working dog without a new encounter
+
+The drover's existing, peaceable grey dog now uses `dog/drove`, a named variant of Kyr's working dog with the SRD
+dog's six scores, 6 hit points, AC 15 converted to 6, saves +4/+5/+1 and one bite at +2 for 1d4+1. The fixed body
+does not scale with rank. It is not selected for random dens. `test/drove-dog.test.ts` checks the combat projection
+at three ranks and loads the authored situation in a small world: petting the dog still produces dog narration and
+teaches the ditch-mud clue.
+
+The SRD's scent, low-light vision, skills, movement and size rules are not modeled for her; Kyr's critical and
+piercing-wound rules differ. The placement is not hostile. In an illustrative 12-trial combat sample against one
+first-level warrior, the warrior wins all 12 against either the old or the new dog, including dog retreats. This
+does not measure a generated-world encounter. The census gives the new mapping S✓ R✓ I? on selected fields; it
+does not prove the missing senses. It is a second mapping of the dog, not another distinct SRD creature.
+### 68. Fixed bodies in Hit Dice pools (26 November)
+
+An encounter level is not a fixed body's Hit Dice. The shared `HitDicePool` now reads the body's source count through
+the same projection as `#hitDice`, while characters and growing creatures retain their level-based count. Combat
+target legality, affected targets and the combat model's forecast all use that pool; the field spell resolves through
+the same ability path. `test/sleep.test.ts` exercises a high-level one-HD dog, a low-level five-HD owlbear, and
+selection order; `test/small/sleep-band.test.ts` exercises the field path. The interpretation of fractional Hit Dice
+and Sleep's other adaptations are not thereby settled. Fixed-body eligibility has changed, so affected encounter
+balance still needs CI.
