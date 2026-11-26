@@ -7,6 +7,7 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { MonoDriver } from './support/mono-driver';
+import { Rail } from './support/rail';
 
 // One foreground menu (the owner, 15 November: at most four items, every gameplay action through one of them; the
 // deployed play met compound menus, a fifth row, duplicate names). The first minutes of an ordinary player's journey,
@@ -64,6 +65,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the foreground, as a player meets i
       if (s.mode === 'explore' && !lensed) {
         // Each lens of the rail is one menu in place of the four, never beside them: the one way is not drawn twice.
         lensed = true;
+        await Rail.unfold(page);
         const rail = page.locator('[data-action="explore"]:visible').first();
         if (await rail.count()) {
           await rail.click(); await page.waitForTimeout(800);

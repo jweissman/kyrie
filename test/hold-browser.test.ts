@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // Nothing is held (the owner, 23 November, OR-185: "No long presses"; a night's rest and a camp had been held, 16
 // November): a wait, a search, a camp and a rest are each done at one press of the mouse or one key, nothing filling
@@ -34,7 +35,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('nothing held in play', () => {
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await d.enter();
-    await page.click('.rail-mark.opens-wait'); await d.settle();
+    await Rail.click(page, '.rail-mark.opens-wait'); await d.settle();
     expect(await page.locator('[data-hold], .ix-reticle').count()).toBe(0);
     const before = (await d.inspect()).log.length;
     await page.locator('.glance .lens-time [data-act]').first().click(); await d.settle();
@@ -51,7 +52,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('nothing held in play', () => {
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await d.enter();
     await Afield.go(page, d);
-    await page.click('.rail-mark.opens-wait'); await d.settle();
+    await Rail.click(page, '.rail-mark.opens-wait'); await d.settle();
     expect(await LensPages.seek(page, camp)).toBe(true);
     const row = page.locator(camp).first(), before = (await d.inspect()).log.length;
     expect(await row.textContent()).toMatch(/until /);
@@ -69,7 +70,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('nothing held in play', () => {
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await d.enter();
     await Afield.go(page, d);
-    await page.click('.rail-mark.opens-wait'); await d.settle();
+    await Rail.click(page, '.rail-mark.opens-wait'); await d.settle();
     expect(await LensPages.seek(page, camp)).toBe(true);
     const before = (await d.inspect()).log.length;
     await page.locator(camp).first().focus();

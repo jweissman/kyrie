@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // A generated world begun in the browser, as a player begins it: the creation page read for a while, then Begin.
 // Found measuring the browser: wren never began ("names a kind missing from the item catalog: abbey_chalice"),
@@ -85,7 +86,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a generated world in the browser', 
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });
     await driver.pick(c => /^To the market-place/.test(c.label), 'the market-place');
-    await page.click('.rail-mark.opens-go');
+    await Rail.click(page, '.rail-mark.opens-go');
     const names: boolean[] = [];
     await LensPages.every(page, async () => {
       names.push(...await page.$$eval('.glance .lens-places [data-act]', tiles => tiles.map(t => {

@@ -11,6 +11,7 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../../src/cli/site-build';
 import { MonoBrowser } from './mono-browser';
 import { MonoDriver } from './mono-driver';
+import { Rail } from './rail';
 
 type Browser = Awaited<ReturnType<typeof MonoBrowser.launch>>;
 type Look = Awaited<ReturnType<typeof Discovery.look>>;
@@ -187,6 +188,7 @@ class Discovery {
     await MonoDriver.enter(page, '[data-option="set-out"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 240000 }); await page.waitForTimeout(1500);
     out['scene choice row (not pressed)'] = await Discovery.states(page, '.glance .choice-row', false, false);
+    await Rail.unfold(page);
     out['scene rail mark (not pressed)'] = await Discovery.states(page, '.rail-mark.opens-look', false, false);
     await page.keyboard.press('m');
     await page.waitForSelector('.field-land.board[data-board="ready"]', { timeout: 120000 });

@@ -1,6 +1,7 @@
 /// <reference lib="dom" />
 import type { Page } from 'playwright-core';
 import { MonoDriver } from './mono-driver';
+import { Rail } from './rail';
 
 // Where each page draws its primary action menu (OR-305, the owner's cold play of 24 November: "the global page
 // template owns the primary action menu's placement, layout and behaviour; no screen decides it for itself"). The
@@ -72,7 +73,7 @@ export class MenuPlacement {
     for (const part of ['talk', 'go']) {
       const mark = page.locator(`.rail-mark.opens-${part}`);
       if (!await mark.count() || !await mark.isEnabled()) { continue; }
-      await mark.click(); await d.settle(); await at(`lens:${part}`); await page.keyboard.press('Escape'); await d.settle();
+      await Rail.click(page, `.rail-mark.opens-${part}`); await d.settle(); await at(`lens:${part}`); await page.keyboard.press('Escape'); await d.settle();
     }
     const talk = page.locator('[data-act$="#talk"]').first();
     if (await talk.count()) { await talk.click(); await d.settle(); await at('talk'); await d.away(); }

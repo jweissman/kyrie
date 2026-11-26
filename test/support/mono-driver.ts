@@ -1,4 +1,5 @@
 /// <reference lib="dom" />
+import { Rail } from './rail';
 import type { Page } from 'playwright-core';
 import { LensPages } from './lens-pages';
 
@@ -55,11 +56,9 @@ export class MonoDriver {
     // Composed creation pages its rows and cards four at a time (More…, round): turned until the choice is in view.
     for (let p = 0; p < 6 && !await this.page.locator(selector).count()
       && await this.page.locator('[data-option="more"]').count(); p++) { await this.page.click('[data-option="more"]'); }
+    // A lens folded at rest behind its diamond (OR-1084) is taken up first, as a player takes it up (Rail).
+    if (await Rail.within(this.page, selector)) { await Rail.unfold(this.page, !!this.pointer); }
     if (this.pointer) {
-      // A lens folded at rest into its diamond (OR-1084) is unseen to a finger until the diamond is touched, as a
-      // player touches it: a touch on the folded strip only unfolds it.
-      if (await this.page.locator(selector).first().evaluate(e => !!e.closest('.scene-rail[data-fold]:not(.unfolded)'
-        + ' .lenses-fold')).catch(() => false)) { await this.page.tap('[data-action="lenses"]'); }
       await this.page.locator(selector).first().evaluate(e => e.scrollIntoView({ block: 'center' }));
       await this.still();
       await this.page.tap(selector);

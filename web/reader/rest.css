@@ -338,12 +338,14 @@
   border-radius: 1px; background: rgba(236, 230, 217, .75); }
 .scene-rail .rail-gap { width: 1px; height: 22px; margin: 0 6px; background: var(--edge-strong); }
 /* The lenses folded at rest (Folded, OR-1084): the diamond in their place on the rail, and the lenses in a strip of
-   the rail's own beside it, where they stood, never over the menu's column, unseen until it is taken up
-   (aria-expanded), a lens of it is open, or a pointer or the keys come to it; no slide, a short fade in place. */
+   the rail's own beside it, where they stood, never over the menu's column. Folded, the strip is not there to be
+   pressed or reached by the keys (visibility: the diamond alone is live); taken up (a press, F, Enter on it) or with a
+   lens of it open, it is; no slide, a short fade in place. */
 .scene-rail[data-fold="folded"] .lenses-fold { position: absolute; right: calc(100% + 6px); bottom: -1px; display: flex;
   gap: 2px; padding: 4px 6px; border: 1px solid var(--edge); border-radius: 999px;
-  background: rgba(12, 13, 17, .62); backdrop-filter: blur(6px); opacity: 0; transition: opacity var(--quick); }
-.scene-rail[data-fold="folded"]:is(.unfolded, :hover, :focus-within) .lenses-fold { opacity: 1; }
+  background: rgba(12, 13, 17, .62); backdrop-filter: blur(6px); opacity: 0; visibility: hidden;
+  transition: opacity var(--quick), visibility 0s linear var(--quick); }
+.scene-rail[data-fold="folded"].unfolded .lenses-fold { opacity: 1; visibility: visible; transition: opacity var(--quick); }
 /* Its glitter: the cut filled, still, with the Atlas colour of what the folded lenses hold, or neutral; the facets
    drawn over it in the rail's ink. The one designed element coloured so (AGENTS.md, the colour grammar). */
 .rail-mark.lenses-mark .glint { position: absolute; inset: 9px; background: var(--glint, rgba(236, 230, 217, .16));

@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // A puzzle on a way, as the player is shown it: what it says, every answer it offers under it and in view, and an
 // answer that asks before it is given (the owner's play, 31 October: a speaking door's words ran under the foot of the
@@ -29,7 +30,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a riddle on a way', () => {
     // The door is on a way off this place: a thing at hand (the things lens), whose seven acts do not fit the four, so
     // it is one row; focused, its words are one row beside its other acts; focused, the four words are the four rows,
     // all in view at once, never paged (the owner, 17 November: focus on the riddle as an act, then its answers).
-    await page.click('.opens-look:not([disabled]) >> nth=-1'); await driver.settle();
+    await Rail.click(page, '.opens-look:not([disabled]) >> nth=-1'); await driver.settle();
     await page.click('.glance .lens [data-action="focus"]:has-text("speaking door")'); await page.waitForTimeout(100);
     expect(await page.evaluate(() => document.body.innerText)).toContain('What has keys but can’t open locks?');
     await page.click('.glance .lens [data-action="focus"]:has-text("Press the word")'); await page.waitForTimeout(100);

@@ -8,6 +8,7 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // The fight holds still (CN-06, the owner, 14 November: "Selecting an enemy currently causes its card to expand
 // vertically … switching targets must not reflow the scene"; "the highlighted menu unexpectedly becomes a horizontal
@@ -66,8 +67,8 @@ class Walk {
   // Gone to by the places lens (CN-01): the way there or the walk there, among its four or the rest unfolded.
   async to(place: string) {
     const { page } = this;
-    if (await page.locator('.act.opens-go').count()) { await page.click('.opens-go'); await this.d.settle(); return; }
-    await page.click('.opens-go');
+    if (await page.locator('.act.opens-go').count()) { await Rail.click(page, '.opens-go'); await this.d.settle(); return; }
+    await Rail.click(page, '.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
     // A journey is held to set out on (OR-111); the driver holds what is held.

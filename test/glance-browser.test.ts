@@ -12,6 +12,7 @@ import type { MonoDriver } from './support/mono-driver';
 import { Glanced } from './support/glanced';
 import { Pellam } from './support/pellam';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // A place at a glance on the page (OWN-18, OWN-19): one column under the place's head, at most three things worth
 // doing, no foot of status and acts, no panes side by side, nothing wider or taller than the screen; Look about, Every
@@ -72,14 +73,14 @@ class Glancing {
     const rest = { talk: await at('.opens-talk'), go: await at('.opens-go'),
       told: await at('.focus .setting p') > 0, folds: await at('details'), listed: await at('.focus .ways-here'),
       keys: await page.locator('.glance-keys').count() };
-    await page.click('.opens-go');
+    await Rail.click(page, '.opens-go');
     const go = { ways: await at('.glance .lens-places [data-act]') > 0, page: await at('.explorer'),
       kept: await at('.focus .setting p') > 0,
       others: await at('.glance .lens :is(.portrait, .chip, .plate, .yours-here, .at-ways, .about-here)') };
-    await page.click('.opens-go');
-    await page.click('.opens-wait');
+    await Rail.click(page, '.opens-go');
+    await Rail.click(page, '.opens-wait');
     const wait = { waits: await at('.glance .lens-time [data-act]') > 0 };
-    await page.click('.opens-wait');
+    await Rail.click(page, '.opens-wait');
     return { ...rest, ...go, ...wait };
   }
 }

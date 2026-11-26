@@ -8,6 +8,7 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // Portraits are true circles (OR-504, the owner's playtest of 24 November): wherever a face is drawn small, its box is
 // square and round, and its picture covers it. Measured on the first hour's pages that draw faces, at a laptop's
@@ -31,7 +32,7 @@ class Faces {
   }
   // Gone to by the places lens, as the fight's geometry walks it.
   static async to(page: Page, d: MonoDriver, place: string) {
-    await page.click('.opens-go');
+    await Rail.click(page, '.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
     await d.click(row);

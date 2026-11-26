@@ -8,6 +8,7 @@ import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import type { MonoDriver } from './support/mono-driver';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // One row model, one spacing (OR-505, the owner's playtest of 24 November): in every menu a page draws (each element
 // PageFrame marked its menu), the rows one over another stand the same distance apart, whatever group or list each is
@@ -46,7 +47,7 @@ class Rows {
     }, where);
   }
   static async to(page: Page, d: MonoDriver, place: string) {
-    await page.click('.opens-go');
+    await Rail.click(page, '.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
     await d.click(row);
@@ -82,7 +83,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the rows of a menu', () => {
     await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
     await Rows.to(page, d, 'region__s2_green');
     uneven.push(...await Rows.uneven(page, 'the green'));
-    await page.click('.opens-go');
+    await Rail.click(page, '.opens-go');
     uneven.push(...await Rows.uneven(page, 'the places lens'));
     await d.key('Escape');
     await d.talk();

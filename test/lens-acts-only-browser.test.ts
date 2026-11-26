@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // A lens's list is its acts and nothing else (the owner, 15 November: "some text interspersed in the action list; it
 // should basically never be the case; I think it's trying to be a category marker"): unfolded whole, the talk lens had
@@ -24,11 +25,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a lens', () => {
       query: '?world=a1' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]'); await driver.settle();
-    await page.click('.rail-mark.opens-go'); await driver.settle();
+    await Rail.click(page, '.rail-mark.opens-go'); await driver.settle();
     await page.locator('.glance .lens [data-act]').first().click(); await driver.settle();
     const stray: string[] = [];
     for (const part of ['go', 'look', 'wait', 'talk']) {
-      await page.locator(`.rail-mark.opens-${part}`).first().click(); await driver.settle();
+      await Rail.click(page, `.rail-mark.opens-${part} >> nth=0`); await driver.settle();
       await LensPages.every(page, async () => {
         stray.push(...(await page.evaluate(() => [...document.querySelectorAll('.glance .do-col *')].filter(e =>
           // What is seen of a thing is said once above the acts, never among them (Glance's lens-seen), not stray.

@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
+import { Rail } from './support/rail';
 
 // A press is taken once, on the screen it was made on (the interaction research, IG-17 and IG-18). At a laptop's 1280
 // by 800, with keys and a mouse, on the road into the kite's first town:
@@ -76,7 +77,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a press is taken once, on its own s
     let before = await Sent.count(page);
     // Since the four lead with the aim's gold and fill only with what has a reason (18 November: gold first, AT-01),
     // the wagoner left is not among them: his row is under Talk on the rail.
-    if (!await page.locator(talk).count()) { await page.click('.rail-mark.opens-talk'); await Sent.idle(page); }
+    if (!await page.locator(talk).count()) { await Rail.click(page, '.rail-mark.opens-talk'); await Sent.idle(page); }
     before = await Sent.count(page);
     await page.locator(talk).first().focus();
     for (let k = 0; k < 10; k++) { await page.keyboard.down('Enter'); await page.waitForTimeout(40); }

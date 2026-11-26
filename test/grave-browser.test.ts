@@ -7,11 +7,12 @@ import type { Page } from 'playwright-core';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 class Grave {
   // A thing turned to as a player turns to it: the things lens (Look…), its acts unfolded, the thing among them.
   static async touch(page: Page, name: RegExp) {
-    await page.click('.opens-look');
+    await Rail.click(page, '.opens-look');
     await LensPages.seekText(page, name);
     await page.locator('.glance .lens', { hasText: name }).waitFor();
   }

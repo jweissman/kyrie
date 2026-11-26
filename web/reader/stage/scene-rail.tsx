@@ -33,8 +33,7 @@ export class SceneRail {
   static View({ app }: { app: ReaderApp; draw?: Draw }) {
     const search = Pastime.search(app), wait = Pastime.wait(app);
     // At rest the lenses fold into one emblem where the engine says so (Glance.rail, OR-1084): taken up, they stand
-    // above it; the map and the book beside it either way. The folded strip is unseen until then, so a touch on it
-    // only unfolds it, never acts unseen (Folded.guard).
+    // beside it; the map and the book beside it either way. Folded, the strip cannot be pressed: the diamond alone is.
     const folded = app.state.frame?.leaf.glance?.rail === 'folded', open = folded && Folded.open(app);
     const lenses = <>
         <SceneRail.Talk app={app} />
@@ -53,8 +52,7 @@ export class SceneRail {
     </>;
     return (
       <nav {...PageFrame.slot('rail')} className={`scene-rail${open ? ' unfolded' : ''}`}
-        {...folded ? { 'data-fold': 'folded' } : {}} aria-label="Go, look, wait, search, the map and your book"
-        {...folded ? Folded.guard(app, open) : {}}>
+        {...folded ? { 'data-fold': 'folded' } : {}} aria-label="Go, look, wait, search, the map and your book">
         {folded ? <><div className="lenses-fold" id="lenses-fold" role="group" aria-label="The lenses">{lenses}</div>
           <Folded.Mark app={app} open={open} /></> : lenses}
         <span className="rail-gap" aria-hidden="true" />

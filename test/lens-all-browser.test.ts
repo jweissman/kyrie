@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { SiteBuild } from '../src/cli/site-build';
 import { MonoBrowser } from './support/mono-browser';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // A lens is four acts at a time and never an expanding list (the owner, 16 November: four items in every context,
 // lenses included): where it has more, a "More… n of N" row turns the page, the next acts in place of these, round to
@@ -26,7 +27,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a lens, paged', () => {
       await page.click('[data-action="start"]'); await driver.settle();
       const pager = page.locator(LensPages.pager);
       for (let step = 0; step < 8 && !await pager.count(); step++) {
-        if (await page.locator('.rail-mark.opens-go').count()) { await page.click('.rail-mark.opens-go'); await driver.settle(); }
+        if (await page.locator('.rail-mark.opens-go').count()) { await Rail.click(page, '.rail-mark.opens-go'); await driver.settle(); }
         if (await pager.count()) { break; }
         await page.locator('.glance .lens [data-act]').first().click(); await driver.settle();
       }

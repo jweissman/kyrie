@@ -9,6 +9,7 @@ import { MonoBrowser } from './support/mono-browser';
 import { MonoDriver } from './support/mono-driver';
 import { SafeZone } from './support/safe-zone';
 import { LensPages } from './support/lens-pages';
+import { Rail } from './support/rail';
 
 // Everything that can be touched stays inside the safe zone the page itself draws (?safe), through the first hour's
 // pages, as a player goes through them: the life chosen, the road in, the town, Go… opened, a talk, the corn-store and
@@ -33,7 +34,7 @@ class Pages {
   async to(place: string) {
     const { page } = this;
     if (await page.locator('.act.opens-go').count()) { await page.click('.act.opens-go'); await this.d.settle(); return; }
-    await page.click('.rail-mark.opens-go');
+    await Rail.click(page, '.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
     // A journey is held to set out on (OR-111); the driver holds what is held.
@@ -63,7 +64,7 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the safe zone', () => {
       await p.check('opening');
       await p.to('region__s2_green');
       await p.check('town');
-      await page.click('.opens-go'); await p.check('go-open'); await driver.key('Escape');
+      await Rail.click(page, '.opens-go'); await p.check('go-open'); await driver.key('Escape');
       // The book, which the zone had never been checked on: its Back stood 14px from the top (the contact sheet).
       await driver.mode('i'); await p.check('pack'); await driver.mode('c'); await p.check('character');
       await page.keyboard.press('e'); await driver.settle();

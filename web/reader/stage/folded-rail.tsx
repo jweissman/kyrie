@@ -1,4 +1,4 @@
-import type { CSSProperties, MouseEvent, PointerEvent } from 'react';
+import type { CSSProperties } from 'react';
 import type { ReaderApp } from '../reader-app';
 import type { Attested } from '../../../src/presentation/attest';
 import { SceneRail } from './scene-rail';
@@ -6,8 +6,8 @@ import { Glyphs } from '../creation/glyphs';
 
 // The lenses folded at rest (OR-1084, the owner, 26 November: "fade the lenses rail in the resting scene, or at least
 // let it be folded into a single icon"; the engine's hint, Glance.rail): one faceted diamond, the Atlas's facets, in
-// the lenses' place on the rail. Taken up (a press, Enter on it, or F), or come to by a pointer or the keys, the lenses
-// stand above it as they stood on the rail; a lens opened keeps them so, and they fold again at a new place.
+// the lenses' place on the rail. Taken up (a press, Enter on it, or F), the lenses
+// stand beside it as they stood on the rail; a lens opened keeps them so, and they fold again at a new place.
 // The diamond glitters with what the folded lenses hold (the owner: the one designed element coloured so, the colour
 // grammar's exception, AGENTS.md): its cut filled, still, with the Atlas colour of each opportunity their marks bear
 // unfolded, from the same derivation (SceneRail.go, SceneRail.look), never a list of its own: one colour for one, a
@@ -46,18 +46,4 @@ export class Folded {
   }
   // The diamond's cut, in the emblems' 48 units: its girdle, table and facets.
   static readonly cut = 'M16 9H32L40 19L24 40L8 19ZM8 19H40M20 19L24 9L28 19M20 19L24 40M28 19L24 40';
-  // A touch on the folded strip while it is unseen unfolds it and does nothing else (nothing acts unseen); a pointer
-  // that can hover has shown it before it presses.
-  private static touched = false;
-  static guard(app: ReaderApp, open: boolean) {
-    return {
-      onPointerDownCapture: (e: PointerEvent) => { Folded.touched = e.pointerType === 'touch'; },
-      onClickCapture: (e: MouseEvent) => {
-        const inside = (e.target as Element | null)?.closest?.('.lenses-fold');
-        if (open || !inside || !Folded.touched) { return; }
-        e.preventDefault(); e.stopPropagation();
-        app.setState({ rail: app.state.frame?.screen.place.id });
-      },
-    };
-  }
 }

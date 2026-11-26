@@ -5,6 +5,7 @@ import { MonoDriver } from '../test/support/mono-driver';
 import { LensPages } from '../test/support/lens-pages';
 import type { SheetCamera } from './contact-sheet-camera';
 import { SheetWalks, type SheetRun } from './contact-sheet-walks';
+import { Rail } from '../test/support/rail';
 
 // The first hour in a1, as test/safe-zone-browser walks it (the walk every nightly run proves): set out with the life
 // creation offers, Millholm's green, the lenses opened, the book's pages, a talk with Bask the salter and her stall,
@@ -37,7 +38,7 @@ export class SheetHour {
     for (const [part, said] of [['go', 'Go… opened'], ['look', 'Look… opened'], ['wait', 'Wait… opened']] as const) {
       const mark = `.rail-mark.opens-${part}:not(:disabled)`;
       if (this.cam.broken || !await page.locator(mark).count()) { continue; }
-      await cam.step(`${part}-lens`, said, () => page.click(mark));
+      await cam.step(`${part}-lens`, said, () => Rail.click(page, mark));
       await d.key('Escape').catch(SheetHour.none);
     }
   }
@@ -137,7 +138,7 @@ export class SheetHour {
   private async to(place: string): Promise<void> {
     const { page } = this;
     if (await page.locator('.act.opens-go').count()) { await page.click('.act.opens-go'); await this.d.settle(); return; }
-    await page.click('.rail-mark.opens-go');
+    await Rail.click(page, '.rail-mark.opens-go');
     const row = `.glance .lens :is([data-act="travel:${place}"], [data-act^="exit:${place}"]) >> nth=0`;
     await LensPages.seek(page, row);
     await this.d.click(row);
