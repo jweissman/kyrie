@@ -71,11 +71,11 @@ describe('a journey travelled', () => {
   // counterexample is the same leg with something there that asks the player (Travel.weighty): it would stop.
   // Cloudreach's march-stone by its name: laid since AR-21 by no second road it only touched (as quick across the
   // country), it is ten hexes off, past the census's six to eight.
-  // Since OR-810 the stone is on no fresh life's map (nobody in a1 tells of it, and it is ten hexes off: OR-811), so
-  // it is set out for by its id, as a journey told it would be; what the map offers is map-draws-knowledge's.
   it('goes on past what asks nothing of the player, and tells it with the leg', async () => {
     const s = await Walked.start(), c = s.campaign;
-    const stone = c.module.entities.find(e => e.space && /Cloudreach/.test(e.name))!;
+    const screen = Itineraries.charted(c, ScreenModel.build(c)),
+      stone = [...screen.destinations ?? [], ...screen.roads ?? [],
+      ...screen.mapped ?? []].find(d => /Cloudreach/.test(d.name))!;
     const done = await Travel.go({ campaign: c, perform: (command: string) => s.perform(command) }, stone.id);
     const met = done.legs.find(l => /pedlar/.test(l.passed ?? ''));
     expect(met).toBeDefined();

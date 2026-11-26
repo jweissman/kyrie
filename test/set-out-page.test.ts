@@ -34,11 +34,7 @@ describe('the page of the first town', () => {
   it('offers the nearest towns and march-stones by the roads, a few, none a single way off', async () => {
     const { host, first } = await Page.begin('wanderer');
     const green = await Page.take(host, /market-place/);
-    // Not on the road in, before the town is entered: there the company knows only the town ahead (OR-810, the map
-    // draws what the company knows), and the first frame offers no town it has not heard of.
-    expect([...first.screen.roads ?? [], ...first.screen.destinations ?? []]
-      .filter(d => /__s\d+$/.test(d.id) && d.id !== 'region__s1')).toEqual([]);
-    for (const frame of [green]) {
+    for (const frame of [first, green]) {
       // In a town the page goes out to the country, where the map sets out by the roads it plans (see MenuModel.place).
       const menu = MenuModel.build(frame, 'here', []), inside = MenuModel.inside(frame.screen);
       if (inside) { expect(menu.choices.map(c => c.id)).toContain(MenuModel.country.id); }
