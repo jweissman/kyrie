@@ -180,6 +180,9 @@
 .composed .composed-col:has(.composed-rows[data-many]) .consider { height: 3em; -webkit-line-clamp: 2; }
 @media (max-width: 760px) {
   .composed .composed-step { position: absolute; overflow-y: auto; padding: 64px 0 24px; }
+  /* Its rows end above Back, Set out now and the life's emblems at the foot, and scroll there, never under them (a
+     caster's hand of spells had run under the emblems at 390: nothing floats over text). */
+  .composed .composed-step { bottom: calc(var(--safe-b) + 80px); }
   /* Above the sign's sky, which is drawn over the whole page (a static question had been painted under it). */
   .composed .ask { position: relative; inset: auto; z-index: 1; width: auto; max-width: none; padding: 0 var(--safe-r) 12px var(--safe-l); }
   .composed .composed-col { position: static; width: auto; padding: 0 var(--safe-r) 0 var(--safe-l);
