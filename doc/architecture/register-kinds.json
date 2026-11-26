@@ -3006,6 +3006,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "a slice of OR-1124, split from OR-1127"
+  },
+  "OR-1204": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the owner's direction of 26 November, kept whole"
   }
  },
  "blockedBy": {

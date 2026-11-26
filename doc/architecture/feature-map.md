@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 199 pins (167 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 663 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 199 pins (167 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 664 live rows, 233 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -249,13 +249,14 @@ page's colours and opportunities.)
 
 ### Trade
 
-- **Markets and prices** · 0 pins · 2 defects · 9 asks
+- **Markets and prices** · 0 pins · 2 defects · 10 asks
   - direction CP-07 P3: Items: per-item depth; most magic items, charges, treasure by tier; content inventory with…
   - requirement PV-01 P2: **The Alchemist:** collect three plants, experiment, discover a preparation, reproduce it, use or…
   - direction OR-678 P1: Progression and economy (the owner's playtest, 25 November): little treasure, nothing to spend it…
   - requirement OR-1125 P2: The ladder's measure: expeditions to afford each rung, read from the gold-follower over the…
   - requirement OR-1128 P2: Made to order: the smith takes a commission (a weapon or armour of a better make, rung 2), names…
   - requirement OR-1210 P2: The first rung's other goods (split from OR-1127): a mule or pony (with OR-1126's carrying limit),…
+  - direction OR-1204 P2: Life structured around small exchanges of resources aligned with the Atlas's colours (meat and…
   - requirement BO-12 P1: A verb gained by a lesson in the first hour: the mentor named in the first exchange, a pin over…
   - direction WD-04 P2: No price follows a country's want: a merchant's stock and prices are by trade, the same wherever…
   - requirement WD-07 P1: Expedition gains open no new way into the world: home ÷ spend 4–5 (sites/economy-now.md); after a…
@@ -841,7 +842,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **News and rumour** (Conversation): OR-365
 - **Passage arranged between cities** (Travel): OR-452
 - **First Aims, nested and optional** (Undertakings): OR-457
-- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1125, OR-1128, OR-1210, BO-12, WD-04, WD-07
+- **Markets and prices** (Trade): CP-07, PV-01, OR-678, OR-1125, OR-1128, OR-1210, OR-1204, BO-12, WD-04, WD-07
 - **Countries and regions** (The land): PV-03, OR-155, OR-156, OR-157, OR-158, OR-210, OR-221, OR-234, OR-312, OR-640, OR-642, OR-1106, WD-01, WD-02, WD-03, WD-09, WD-16, SS-01, WB-01, WB-02, WB-03
 - **Weather, sky and season** (The land): IM-01
 - **The planes** (The land): GT-01, GT-03
