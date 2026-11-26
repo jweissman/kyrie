@@ -15,6 +15,7 @@ import { Illumination } from './illumination'; import { Standing } from './stand
 import { ItemCatalog } from '../item-catalog'; import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time'; import { CanonInstall } from '../campaign/canon-install';
 import { Calendar } from '../campaign/calendar'; import type { Entity } from '../lang/module';
+import { Earned } from '../lang/index';
 import { PlayerView, type PlayerSnapshot } from '../presentation/player-view'; import { PlayerFrame } from '../presentation/player-frame';
 import type { Campaign } from '../campaign/campaign';
 import { Withheld } from './withheld'; import { LightLeft } from './light-left';
@@ -86,7 +87,7 @@ export class ScreenModel {
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
           .map(r => `${r.amount} ${r.name}`), ...CanonInstall.currency(campaign.module) },
-      knowledge: this.knowledge(view), ...Deeds.seen(campaign, view),
+      knowledge: this.knowledge(view), ...Deeds.seen(campaign, view), surfaces: Earned.of(world, campaign.playerActor),
       deadlines: view.deadlines.map(d => `${d.pressure}: ${FictionalTime.at(d.at)}${d.passed ? ' (passed)' : ''}`),
       capabilities: (view.capabilities ?? []).map(c => `${c.name} — ${c.providers.join(', ')}`),
       formations: this.formations(campaign),

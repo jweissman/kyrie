@@ -1,4 +1,5 @@
 import type { QuarterRow } from './quarters';
+import type { Surface } from '../lang/index';
 import type { Counter } from './trade-model';
 import type { Danger } from '../presentation/danger-sense';
 import type { CharacterSheet, Development, Recruit } from '../presentation/character-sheet';
@@ -206,6 +207,9 @@ export interface Screen {
   done: string[];
   // What the company has done that the game remembers, once each (see Deeds).
   deeds?: { id: string; title: string; text: string }[];
+  // The game's own surfaces the company has earned (Earned: the lenses, the map, the encyclopedia, the journal), which
+  // every client shows and no other; none said, every one (a screen made before earning, a world that keeps none).
+  surfaces?: Surface[];
   deadlines: string[]; capabilities: string[];
   // The formations the company makes (Orsino's party traits), and what each perk does.
   formations: { name: string; perks: string[] }[];

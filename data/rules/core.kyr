@@ -126,6 +126,18 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity craft_learning: craft "learning". Entity craft_earth: craft "the earth". Entity craft_arms: craft "arms".
   Entity craft_water: craft "the water". Entity craft_stage: craft "the stage". Entity craft_trade: craft "trade".
   Entity craft_court: craft "the court". Entity craft_margins: craft "the margins".
+  // What of the game's own surfaces the company has earned (compactification, the owner, 26 November: "surfaces are
+  // earned"): each lens, the map, the encyclopedia and the journal, shown to every client once earned and kept after.
+  // The engine writes it (CreatureFacts), never a module: every lens once any of the company has come to the fourth
+  // level (act II); the encyclopedia once it has stood in a library; the journal once one of it has done the work of
+  // learning (a scholar, a scribe). Nothing writes the map's while compactification holds.
+  Kind surface. Relation earned(group, surface).
+  Entity lens_talk: surface "the talk lens". Entity lens_go: surface "the places lens".
+  Entity lens_look: surface "the things lens". Entity lens_wait: surface "the time lens".
+  Entity lens_search: surface "the search". Entity the_map: surface "the map".
+  Entity the_encyclopedia: surface "the encyclopedia". Entity the_journal: surface "the journal".
+  // A place where books are kept to be read: having stood in one, the company has the encyclopedia.
+  Relation library(place).
   // The calling each of the company follows (its class): who someone is, not only what they can do. A warrior's arc
   // had asked capable(party, brawn), which a commoner who had learned brawn passed (the Book of Faces' BOF-13).
   Kind callingkind. Relation hasCalling(member, callingkind).

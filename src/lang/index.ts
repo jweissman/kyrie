@@ -14,6 +14,7 @@ export * from './declaration-shapes';
 export * from './declared-reads';
 export * from './diagnostics';
 export * from './discovery';
+export * from './earned';
 export * from './ending-order';
 export * from './endings';
 export * from './engine-owned';

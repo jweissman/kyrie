@@ -22,6 +22,7 @@ import { Perks, type PerkContext } from '../rules/perks';
 import { Environment } from './environment';
 import { LevelDrain } from '../rules/level-drain';
 import { ConditionSense } from '../canon/condition-sense';
+import { Earned } from '../lang/index';
 
 type Entity = Module['entities'][number];
 interface Declared {
@@ -38,12 +39,12 @@ export class CreatureFacts {
   static readonly written = ['capable', 'memberOf', 'companion', 'awake', 'needsCare', 'ownedItem', 'wearing', 'proficient', 'canTrain',
     'treatable', 'relieves', 'canCast', 'able', 'dead', 'quantity', 'swappable', 'company', 'improvable', 'learnable',
     'brings', 'featOpen', 'skillOpen', 'temperament', 'fallen', 'slain', 'craft', 'levelOf', 'hasCalling', 'learned', 'levelDrained',
-    'hasAncestry'];
+    'hasAncestry', 'earned'];
   static readonly crafts = ['wild', 'roads', 'mechanisms', 'shadows', 'healing', 'faith', 'learning', 'earth', 'arms',
     'water', 'stage', 'trade', 'court', 'margins'];
   // Every relation or measure a projection writes or reads besides the creatures (see Projection).
   static readonly reads = [...CreatureFacts.written, 'carried', 'capacity', 'peaceable', 'state', 'warning', 'onslaught',
-    'flinch', 'granted'];
+    'flinch', 'granted', 'library'];
   static project(world: World, actors: CampaignActor[], store: CreatureStore): World {
     const different = this.changes(world, actors, store);
     return different.length ? world.apply(different) : world;
@@ -51,7 +52,8 @@ export class CreatureFacts {
   // What a save from an earlier build may hold otherwise, its projection since corrected: needing care had held of a
   // lit torch (PL-09). A save that differs only in these is brought up to date, not refused.
   // So too what everyone outside the company could wield, which is no longer said (Mission 21).
-  static readonly revised: ReadonlySet<string> = new Set(['needsCare', 'proficient']);
+  // So too the surfaces a company has earned (Earned), which a save from before them never said.
+  static readonly revised: ReadonlySet<string> = new Set(['needsCare', 'proficient', 'earned']);
   // A saved world's creature facts as the creatures project them: the same, or stale; anything else is refused.
   static saved(world: World, actors: CampaignActor[], store: CreatureStore): 'same' | 'stale' {
     const different = this.changes(world, actors, store);
@@ -186,11 +188,17 @@ export class CreatureFacts {
       changes.push({ kind: actor.player ? 'assert' : 'retract', call: ModuleWriter.call('company', actor.id) });
     }
     // The kinds of work the company's people have done, for those who do the same work to know them by.
+    const done = new Set(members.map(c => c.backgroundId && Canon.backgrounds[c.backgroundId]?.kind).filter(Boolean));
     if (has.has('craft') && actor.player) {
-      const done = new Set(members.map(c => c.backgroundId && Canon.backgrounds[c.backgroundId]?.kind).filter(Boolean));
       for (const kind of CreatureFacts.crafts) {
         changes.push({ kind: done.has(kind) ? 'assert' : 'retract', call: ModuleWriter.call('craft', actor.id, `craft_${kind}`) });
       }
+    }
+    // The surfaces the player's company has earned (Earned): asserted once earned, never retracted.
+    if (has.has('earned') && actor.player) {
+      const level = Math.max(0, ...members.map(c => c.base.level));
+      changes.push(...Earned.now(world, actor.id, { level, learning: done.has('learning') })
+        .map(s => ({ kind: 'assert' as const, call: ModuleWriter.call('earned', actor.id, s) })));
     }
     const alive = members.some(c => c.state.hp > 0);
     const able = members.some(c => c.state.hp > 0 && !c.state.conditions.some(s => Effects.skips(s.id)));
