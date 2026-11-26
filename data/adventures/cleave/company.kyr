@@ -1,0 +1,4 @@
+Module cleave "The Cradle Across the Cleave" {
+  Company party "You" of 1 at road.
+  Initially Set quantity(party, gold) to 12. Initially Set quantity(party, rations) to 2.
+}

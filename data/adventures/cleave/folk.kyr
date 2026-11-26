@@ -1,0 +1,166 @@
+Module cleave "The Cradle Across the Cleave" {
+  Kind pn_kit "a bag of linen and thread" is gear worth 0 weighing 2 described "A canvas bag with a brass clasp, packed by someone who has packed it fourteen hundred times: linen, a coil of waxed thread, scissors in a cloth, a small bottle, and a tin of lard.".
+
+  Relation hesperAgreed(group). Relation hesperBasket(group). Relation linePaid(group). Relation cassiaYields(group).
+  Relation birthHesper(group). Relation birthTaught(group). Relation birthRough(group). Relation birthAlone(group).
+  Measure lessons(group). Measure eggStart().
+
+  Discovery hub_word "Hesper Lunn will not ride the basket, and will not go out to the hub. She said 'hub' before anyone else had.".
+  Discovery mother_known "Cerise, the Mother of the Spinners, died at midwinter. Her nine daughters hung her from the hub and have not spun since.".
+  Discovery egg_cold_known "Cerise laid one last egg-case, under the hub, and it has been cold since midwinter. The daughters will not leave it, and will not spin until it is warm or dead.".
+  Discovery hesper_tale_known "Hesper Lunn, at fourteen, warmed in her apron the egg-case that the nine daughters came out of.".
+  Discovery lamp_known "The lamps at Overleap say three red and one white: come.".
+  Discovery line_known "Ned Quarrel's basket crosses in calm air for five coin, and is not sent in a gust.".
+  Discovery wind_known "The wind in the Cleave comes up about eleven and drops about dusk, most days, and sometimes forgets.".
+  Discovery flitter_known "Ottoline Toop's flitter will take the company from her ledge to the south lip in the lull, if the air is willing. It will not take anyone who cannot be told to lie still.".
+
+  Person hesper "Hesper Lunn" at hesper_kitchen {
+    Role "the midwife of Tarnlip". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A woman of seventy-four sits at a kitchen table with her boots on and both hands folded on a closed bag. 'Dov will have said it is the basket,' says Hesper Lunn. 'It is not the basket. Sit, you are making the door nervous.'".
+    Greets again "'Well?' says Hesper Lunn.".
+    Farewell "'Do not let him carry both bags again,' says Hesper. 'It is making him lopsided.'".
+    Remarks at stub "Hesper stops at the first of the silk and puts one boot on it, as on a sleeping dog. It gives, and holds. 'Don't tell me to look up,' she says. 'I have never needed to look.'".
+    Remarks at hub "Hesper does not say anything for a time. Overhead the lit thing turns on its line. 'Cerise,' says Hesper at last, quite gently, 'you silly old cow.'".
+    Remarks at farm_kitchen "Hesper stands in the door and looks at the bed. Her hands, which were holding the bag, put it down.".
+  }
+  Topic hesper_basket with hesper "Ask Hesper whether she will ride Ned's basket" when true once {
+    Says "'No,' says Hesper. 'Not for the swinging. I have been swung. I will not be hung on a rope across the place I used to walk.' She smooths the bag. 'And I do not go out to the hub, so you need not ask that either.'".
+    On discuss { Assert knows(actor, hub_word). }
+  }
+  Topic hesper_hub with hesper "Ask Hesper what is out at the hub" when knows(party, hub_word) once {
+    Says "'Cerise,' says Hesper, 'God rest her, and the girls. Go and see Cassia Fursby on the Stub. She will tell you nothing useful, and she will tell it beautifully.' She looks at her hands. 'I have not been out since the thaw.'".
+    On discuss { Assert knows(actor, mother_known). }
+  }
+  Topic hesper_lamps with hesper "Tell Hesper the lamps at Overleap say come" when knows(party, lamp_known) and not hesperAgreed(party) and not hesperBasket(party) once {
+    Says "Hesper gets up. It takes a moment. 'Then I shall be hung on a rope,' she says, 'since you have made me. Dov, the bags. A hood on my eyes, and nobody sing.' At the door she stops. 'Whatever is out at the hub will go on being out there. Remember I said so.'".
+    On discuss { Assert hesperBasket(actor). Assert following(hesper, actor). }
+  }
+  Topic hesper_egg with hesper "Tell Hesper the Mother's last egg-case hangs cold under the hub" when knows(party, egg_cold_known) and not hesperAgreed(party) once {
+    Says "Hesper Lunn is quiet for as long as it takes the kettle to tick twice. 'I was fourteen,' she says. 'Her first. They said it was dead, and the Mother lay on the hub like a dropped shawl, and nobody in Tarnlip would go near. I carried it under my apron from dusk to dawn. It was the size of a turnip and it was as cold as a well.' She turns the bag over. 'It came out in my lap. Nine of them, and all of them furious.' She stands. 'The Stub, then. Not the basket. Dov, the bags. And somebody write down that I was frightened.'".
+    On discuss { Assert hesperAgreed(actor). Assert following(hesper, actor). Assert knows(actor, hesper_tale_known). }
+  }
+  Topic hesper_cord with hesper "Ask Hesper what to do about the cord, if you must manage alone" when true once {
+    Says "'Nothing,' says Hesper, 'for longer than you will like. It stops by itself. Then two ties, a hand apart, and cut between. Not with the kitchen knife.' She taps the bag. 'With these. They are boiled.'".
+    On discuss { Increase lessons(actor) by 1. }
+  }
+  Topic hesper_cloth with hesper "Ask Hesper what to do about the cloth, if you must manage alone" when true once {
+    Says "'Warm,' says Hesper. 'Warm, and dry, and ready before. The child comes out cross and wet and wants a chest. Skin to skin, and a cap on its head, and then you may look at it.' She sniffs. 'People look first.'".
+    On discuss { Increase lessons(actor) by 1. }
+  }
+  Topic hesper_wait with hesper "Ask Hesper what to do about the waiting, if you must manage alone" when true once {
+    Says "'That is most of it,' says Hesper. 'Hands where she can see them. Do not tell her she is doing well, she knows. Do not say hush. Give her something to push against and let the mother-in-law boil things.' She nearly smiles. 'Gammer Roke is useful so long as she has a kettle.'".
+    On discuss { Increase lessons(actor) by 1. }
+  }
+
+  Person dov "Dov Pennard" at road {
+    Role "Linnet's husband". Ancestry human. Pronouns he. Manner jovial. Peaceable.
+    Greets "A young man runs down the road at you with a bag in each hand, stops six feet short, and starts talking. 'It's the midwife, she's in the cottage, she won't come, it's not the basket, I thought it was the basket, Ned says not in a gust, I went on the Stub and I got ten yards, my wife is on the other side of that,' he says, and points at the sky.".
+    Greets again "'Anything?' says Dov.".
+    Farewell "'I'll be here,' says Dov. 'I've been here all night. It's something to be.'".
+  }
+  Topic dov_story with dov "Ask Dov what has happened" when true once {
+    Says "'Linnet's mother sent a boy up the lamps at midnight,' says Dov. 'I went down the Pennard lane and over the Stub, which isn't there, so I came back. I tried Ned's basket. I tried the ladder to Ottoline's, and I stood on the first rung until the cold got into my teeth.' He puts a bag down and picks it up again. 'The hen-woman says the lamps say come. I can't hear the lamps. I can only see them.'".
+  }
+  Topic dov_come with dov "Ask Dov to come with you" when true once {
+    Says "'On my knees,' says Dov. 'On my face, if it's quicker.' He thinks. 'I'll carry whatever you like.'".
+    On discuss { Assert following(dov, actor). }
+  }
+  Topic dov_bag with dov "Take Hesper's second bag from Dov" when true once {
+    Says "'It's got all her things in,' says Dov, with enormous relief. 'I don't know what the things are. There's a very small pair of scissors.'".
+    On discuss { Give pn_kit to actor. }
+  }
+
+  Person ned "Ned Quarrel" at shed {
+    Role "who keeps the haulers' line". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "A man in a leather apron sits on the brake-lever of the winch eating a cold potato. 'Five coin,' says Ned Quarrel, 'in calm. Ten in a gust, and I will not send it in a gust, so do not offer me ten.'".
+    Greets again "'Wind,' says Ned, and looks at it.".
+    Farewell "'Mind the basket,' says Ned. 'It has opinions.'".
+  }
+  Topic ned_line with ned "Ask Ned about the line" when true once {
+    Says "'One cable, one basket, one hand-brake, one man,' says Ned. 'Twenty minutes over. I carry cheese, wool and iron, and now people. They are worse than cheese; they talk.' He finishes the potato. 'Five coin in calm. I do not take the money until the air is fit.'".
+    On discuss { Assert knows(actor, line_known). }
+  }
+  Topic ned_wind with ned "Ask Ned how the wind goes" when true once {
+    Says "'Up from eleven,' says Ned. 'Down by dusk. Most days.' He looks into the Cleave as at a neighbour's dog. 'Some days it forgets. Some nights it remembers. The cable sings when it is coming. Listen for that.'".
+    On discuss { Assert knows(actor, wind_known). }
+  }
+  Topic ned_bridge with ned "Ask Ned what he makes of the old bridge" when true once {
+    Says "'Sixty years of free road, and I hauled cheese,' says Ned. 'My father hauled cheese. The bridge was free and it was not mine, and every cart that went over it went over my grandfather's grave.' He is silent. 'I would like to have been asked. I would like to be asked still. If the thing comes back I will go on hauling cheese. It is a good cheese.'".
+  }
+  Topic ned_pay with ned "Pay Ned five coin for the crossing" when state(wind, calm) and quantity(actor, gold) >= 5 and not linePaid(actor) {
+    Says "Ned takes the five coin, bites it, and stands up off the lever. 'Basket's on the rail,' he says. 'Do not lean. Do not look at the cable. It knows.'".
+    On discuss { Decrease quantity(actor, gold) by 5. Assert linePaid(actor). Assert state(brake, free). }
+  }
+  Topic ned_gust with ned "Ask Ned to send the basket" when state(wind, gusting) {
+    Says "'In that?' says Ned. 'It will take the basket to the south post and leave you to explain.' He shakes his head. 'Come back when the cable stops singing.'".
+  }
+
+  Person cassia "Cassia Fursby" at stub {
+    Role "the web-warden". Ancestry human. Pronouns she. Manner compassionate. Peaceable.
+    Greets "A woman in a quilted coat sits cross-legged on the silk at the stub's cut end with a reed-pipe at her lip, humming a note you feel in your back teeth. She does not look up. 'Don't step on the thread,' says Cassia Fursby. 'The one at your foot. It is the only one they can still feel me by.'".
+    Greets again "'Hush,' says Cassia, and goes on.".
+    Farewell "'Mind the gusts,' says Cassia, and returns to her note.".
+  }
+  Topic cassia_what with cassia "Ask Cassia what she is doing" when true once {
+    Says "'I hum the spinning note,' says Cassia. 'They have heard it every thaw of their lives and they hear it now, and they do not spin.' She lowers the pipe a moment. Her hands are shaking, a little, all the time. 'Nine nights. I think they like the sound of someone being there.'".
+  }
+  Topic cassia_mother with cassia "Ask Cassia about the lit thing at the hub" when true once {
+    Says "'Cerise,' says Cassia. 'The Mother. She spun this road in one night every thaw for sixty years, and she was a hundred pounds of bad temper. She died at midwinter. They wrapped her in the best silk they had, which they spun for her, and hung her from the hub, and it is the only thing they have spun since.' She nods at it. 'She goes on glowing. They do not know what else to do with her.'".
+    On discuss { Assert knows(actor, mother_known). }
+  }
+  Topic cassia_egg with cassia "Ask Cassia why the daughters will not spin" when knows(party, mother_known) once {
+    Says "'She laid one more at the end,' says Cassia. 'Under the hub, in the dark, cold already. They will not leave it and will not let anyone near it, and they will not spin a thread while it is neither warm nor dead.' She puts the pipe down. 'I think it is dead. I hum to it in case. I have never told them what I think.'".
+    On discuss { Assert knows(actor, egg_cold_known). }
+  }
+  Topic cassia_warm with cassia "Ask Cassia whether anyone could warm the egg-case" when knows(party, egg_cold_known) once {
+    Says "'Not I,' says Cassia. 'They know my hands, and they know I am afraid, and they are right.' She turns the pipe over. 'It would want someone who has done it. My mother kept the book of the web. In it, sixty years ago, there is one name written down for the Mother's first brood: the girl who held the egg through the night. Hesper Lunn.' She stops. 'She is on the other side of the street, and she has not come.'".
+    On discuss { Assert knows(actor, hesper_tale_known). }
+  }
+  Topic cassia_meet with cassia "Tell Cassia who has come with you" when following(hesper, party) and hesperAgreed(party) and not cassiaYields(party) once {
+    Says "Cassia gets up. It takes her time, and nothing about her face moves. 'Hesper Lunn,' she says. 'My mother wrote you down as the girl with the apron.' 'Your mother,' says Hesper, 'was a prig.' 'Yes,' says Cassia, and her face does move, finally. 'Go out, then. I will hum you as far as the hub. After that you are theirs.'".
+    On discuss { Assert cassiaYields(actor). }
+  }
+
+  Person ottoline "Ottoline Toop" at ledge {
+    Role "who lives on the ledge under the Stub". Ancestry human. Pronouns she. Manner jovial. Peaceable.
+    Greets "A small brown woman in a goatskin coat is feeding hens off a tin plate and does not stop. 'Mind the rail. Mind the third hen, Hannah, she is a biter. You are the ones who are going over,' says Ottoline Toop. 'I could tell from the way you came down the ladder. You looked at everything but the drop.'".
+    Greets again "'Still here,' says Ottoline, to the hens.".
+    Farewell "'Up the ladder is up,' says Ottoline. 'Remember that part.'".
+  }
+  Topic ott_lamps with ottoline "Ask Ottoline what the lamps say" when true once {
+    Says "'Three red and one white,' says Ottoline, 'and has been since the sun was a hand high. That is Overleap. That is come. Two reds is hurry. One red and one white is she is easier. White white white is a daughter, and red red red is a son, and then they spell it, and I tell Hesper by the post.' She turns a lamp a quarter-turn. 'It has not changed. It will.'".
+    On discuss { Assert knows(actor, lamp_known). }
+  }
+  Topic ott_flitter with ottoline "Ask Ottoline about the flitter" when true once {
+    Says "'Ash and oiled silk,' says Ottoline, 'and I have been off this ledge on it eight hundred times. It takes you down the long glide to the south lip in ten minutes, with a good air under you, and it is the nearest thing to being a hen with a purpose.' She pats the frame. 'In the lull, not the gusts. I haul it back by the line for the next of you. It will not take anyone who cannot be told to lie still, which means no midwives and no husbands.'".
+    On discuss { Assert knows(actor, flitter_known). }
+  }
+  Topic ott_hens with ottoline "Ask Ottoline about the hens" when true once {
+    Says "'Nineteen,' says Ottoline. 'Seventeen are named for children Hesper Lunn has delivered on the south side, since the lamps tell me their names. The other two are named Hesper.' She looks at the hens with deep satisfaction. 'The names are the only way I can say thank you. She does not approve of thanks. She approves of hens.'".
+  }
+  Topic ott_mother with ottoline "Ask Ottoline about the Mother" when true once {
+    Says "'I saw them hang her,' says Ottoline. 'From here. Nine of them, at night, in the wind, and not one thread out of place.' She wipes her eyes with the back of a feed-hand. 'There is a pale thing under the hub. Round, like a pear. It has been faintly lit since midwinter, and nothing that is dead gives light. I think it is cold, and I think it is alive, and I do not know what a cold living thing wants.'".
+    On discuss { Assert knows(actor, egg_cold_known). }
+  }
+  Observe lamps_come at ledge as sign when true "Across the Cleave, on the south lip, a pole carries four lamps: three red, one white.".
+
+  Person daughters "the nine daughters of the Mother" at hub {
+    Role "the Spinners". Species spider. Numbers 9. Peaceable. Pronouns they.
+    Greets "Nine spiders, each the size of a pony, hang in a ring around the cold light under the hub, and every one of them turns, very slowly, to look at you. None of them moves a leg.".
+    Greets again "The ring does not open or close. It is only watching.".
+  }
+
+  Person linnet "Linnet Pennard" at farm_kitchen {
+    Role "in labour". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A young woman on a bed brought down from upstairs, sweat-dark, holding the bedpost with both hands. 'Is that,' says Linnet Pennard, through her teeth, 'the midwife.' It is not a question. 'Dov. Where is Dov. I am going to kill Dov.'".
+    Greets again "'No,' says Linnet, on a breath, to nothing.".
+  }
+  Person gammer "Gammer Roke" at farm_kitchen {
+    Role "Linnet's mother". Ancestry human. Pronouns she. Manner jovial. Peaceable.
+    Greets "A large woman with her sleeves above the elbow stands at the fire with a kettle in each hand. 'You are not the midwife,' says Gammer Roke. 'You are not the midwife and you have not got her bag. Can you boil water? Everybody can boil water. Do that.'".
+    Greets again "'Kettle,' says Gammer Roke.".
+  }
+  Topic gammer_how with gammer "Ask Gammer how Linnet does" when true once {
+    Says "'Eleven hours since she stopped talking and began swearing at the dog,' says Gammer Roke. 'It is coming, and it is not coming fast, and there is a look it will have if it goes wrong, and she has not got it yet. I have had two hundred calves out of two hundred and four cows.' She lowers her voice. 'It is not the same. I know it is not the same.'".
+  }
+}

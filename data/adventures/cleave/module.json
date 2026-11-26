@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "folk.kyr",
+    "crossing.kyr",
+    "hub.kyr",
+    "birth.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "country",
+    "road": "road"
+  }
+}

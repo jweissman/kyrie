@@ -1,0 +1,52 @@
+Module cleave "The Cradle Across the Cleave" {
+  Measure hatchAt().
+
+  Thing cerise "Cerise, the Mother" at hub {
+    State hanging "Under the hub, on a line, a long cocoon of white silk the size of a coffin turns in the wind, and glows faintly through its weave, as an ember does under ash.".
+    State heard "You stand under the cocoon with your head back. Inside the silk, very faintly, something hums, one low note, and the nine daughters hum it with it.".
+    Change listen "Stand under the Mother and listen" from hanging to heard.
+    Wonder natural unique for aesthetic, spiritual "Sixty years of weaving lie in the silk she is wrapped in, every stitch her daughters' and none of it hers. The light in it is slow, soft, green-gold. It does not seem to be going out.".
+  }
+
+  Thing egg "the Mother's last egg-case" at hub {
+    State cold "Lower down, in the shadow of the hub, hangs a pale round thing like a pear, lit a little from within, and very cold to look at.".
+    State warming "In Hesper's lap, in her apron, the egg-case has begun to give back what it is given. Its light is a shade brighter than it was.".
+    State hatched "The egg-case lies open in Hesper's lap like a split fruit, and the lap is moving.".
+  }
+  Thing span "the road from the hub to the south lip" on new_span {
+    State frayed blocking "From the hub a few grey strands go out toward the south lip and give out in the air a hundred yards short, slack and dull.".
+    State spun "A new road runs from the hub to the south lip, a cart wide, grey, shining a little wet, and still being spun at its far end by something small.".
+  }
+
+  Observe daughters_still at hub as sign when state(egg, cold) "None of the nine moves. They hang round the cold light in a ring, and it is the stillness of something listening for one particular footstep.".
+  Observe egg_tick at hub as sign when state(egg, warming) and watch(clock) >= eggStart() + 20 and watch(clock) < eggStart() + 40 "In Hesper's apron something ticks, once, then again. A daughter lowers one leg onto the silk by her knee, and takes it away.".
+  Observe egg_late at hub as sign when state(egg, warming) and watch(clock) >= eggStart() + 40 "The light in the apron is warm now, the colour of a lamp seen through a hand. The nine have come in close, and the wind has dropped to nothing.".
+
+  Action warm_egg(actor: group, site: place) "Sit Hesper down under the hub with the egg-case in her apron" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(egg, site) and state(egg, cold) and following(hesper, actor) and cassiaYields(actor).
+    Time 1.
+    On success { Assert state(egg, warming). Set eggStart() to watch(clock). Retract following(hesper, actor). Assert at(hesper, site). }
+    Result "Hesper lowers herself onto the silk like a woman sitting down in her own church. The ring of daughters opens, very slightly, in one place. The oldest one taps the silk twice with a foreleg, and lets down a thread across Hesper's knees, and Hesper takes the egg-case off its hook with both hands and puts it in her apron. 'Well,' she says. 'Here we are again.'".
+  }
+  Action sit_up(actor: group, site: place) "Sit up with Hesper through the dark" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(egg, site) and state(egg, warming).
+    Time 3 hours.
+    Result "You sit. The lines hum, and fall quiet. Hesper does not move except to shift her hands, and once, quietly, to say a name. The nine do not move at all. Below the hub the Cleave is black, and lights go over it that are not stars.".
+  }
+  Rule egg_hatches at hub when state(egg, warming) and watch(clock) >= eggStart() + 48 and dark() says "The case cracks across, quite quietly, like a good loaf. In Hesper's apron two hundred spiders the size of a thumbnail come out into the lamplight of themselves, all in a heap, all furious, and Hesper Lunn, who has delivered fourteen hundred and six children, says, 'There. There. That is the thing about starting.' One by one, they climb off her knee and out on the silk and each of them spins a single thread, and lets it go into the dark toward the south lip, and the thread does not fall." { Assert state(egg, hatched). Set hatchAt() to watch(clock). }
+  Rule span_spun at hub when state(egg, hatched) and state(span, frayed) and watch(clock) >= hatchAt() + 12 says "The nine go out onto the dark together. They do not hurry. In the first hour the road toward the south lip is a pencil-line, then a ribbon, and then, as you watch, a thing that a cart could go on. Their thread and the two hundred small ones weave in. The oldest daughter comes back to the hub last and taps the silk twice beside Hesper's foot." { Assert state(span, spun). }
+
+  Topic hesper_night_prudence with hesper "Ask Hesper about the donkey" when at(hesper, hub) and state(egg, warming) once {
+    Says "'Prudence,' says Hesper. 'Eleven years. She did not like the bridge and she never said so, she only put each foot down as though she were writing her name.' She moves her thumb on the egg-case. 'She died in the autumn. Cerise let me go over on my own feet for two months. I did not look down. That was a thing I could do because of her.'".
+  }
+  Topic hesper_night_tally with hesper "Ask Hesper about the tally on the door-post" when at(hesper, hub) and state(egg, warming) once {
+    Says "'A nail and a notch,' says Hesper. 'Fourteen hundred and six. I have never counted the ones that went wrong. They are on the other post.' She does not look at you. 'Do not look for the other post. It is on the inside of the cupboard, and it is not for visitors.'".
+  }
+  Topic hesper_night_afraid with hesper "Ask Hesper what she was afraid of" when at(hesper, hub) and state(egg, warming) once {
+    Says "'That it would be dead,' says Hesper. 'And that it would not be.' She breathes on the case, as one breathes on a window. 'If it was dead, the road was dead. If it was alive, I would be sitting up on the hub of the world at seventy-four, in a wind, with my knees.' She thinks. 'Neither was as bad as not knowing. It generally is not.'".
+  }
+  Topic hesper_onward with hesper "Ask Hesper whether she will come on to Linnet" when at(hesper, hub) and state(egg, hatched) once {
+    Says "'I should think so,' says Hesper. She gets up in three goes, and the hatchlings pour off her apron like water off a roof. 'There is a girl across that road with a head coming, and I have said nothing to her all day. Give me your arm. Not that one, the one that has not got the bag.'".
+    On discuss { Assert following(hesper, actor). }
+  }
+}
