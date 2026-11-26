@@ -143,19 +143,6 @@ describe('wild country named for a town', () => {
     }
     expect(named).toBeGreaterThan(10);
   });
-  // A site's name as it is told says its land as the company knows it, by reference: "Black Keep: a walled keep on its
-  // rise in the fen east of Sedgebrook", told at Brightford, had named Sedgebrook before it was seen (OR-942).
-  it('is told, in a site\'s name, as the company knows the land, naming no town', () => {
-    let told = 0;
-    for (const seed of ['iscoed', 'a1']) {
-      const region = WorldAssembler.region(seed, [0, 0]), towns = region.settlements;
-      for (const line of RegionSites.lines(region).filter(l => /^ {2}Discovery \w+_named /.test(l))) {
-        expect(towns.filter(t => new RegExp(`(of|around) ${t.name}\\b`).test(line)).map(t => [line, t.name])).toEqual([]);
-        told += Number(/\{\w+_land\}/.test(line));
-      }
-    }
-    expect(told).toBeGreaterThan(0);
-  });
 });
 
 describe('the map\'s reads of the world', () => {

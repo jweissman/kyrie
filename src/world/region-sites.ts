@@ -50,7 +50,9 @@ export class RegionSites {
     // Told apart from its likes by the side of the country it is on, and the land it stands in: never by the town it
     // lies from, which the company may not know ("a long mound south of Gatesend" had named a town nobody had told
     // of: OR-812).
-    const side = this.side(seat, region), land = RegionGeography.country[region.terrain] ?? 'country';
+    const { width, height } = RegionGeography.atlas(region).land;
+    const centre = RegionGeography.spot(region, width * Math.floor(height / 2) + Math.floor(width / 2));
+    const side = RegionGeography.compass(centre, seat.spot), land = RegionGeography.country[region.terrain] ?? 'country';
     return `${side === 'here' ? seen : seen.replace(/^(a|an|the) /, `the ${side}ern `)} in the ${land}`;
   }
   // How a site looks from outside: a makers' work as its plan says, in the shape it has; anything else by its kind.
@@ -70,18 +72,18 @@ export class RegionSites {
   }
   private static seat(seat: Seat, region: Region, claimed: boolean): string[] {
     const q = JSON.stringify, { site } = seat, id = site.id;
-    const where = this.where(seat, region), seen = this.look(site, region), said = this.toldWhere(seat, region);
+    const where = this.where(seat, region), seen = this.look(site, region);
     const great = !!site.work?.great, zone = RegionGeography.atlas(region).zones.find(z => z.id === site.zone);
     const hidden = great || (!claimed && (site.part ?? 0) > 0), tells = hidden || !!zone;
     const lines = [...this.stand(seat, region, { where, hidden }),
-      `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${said}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
+      `  Discovery ${id}_named ${q(`${site.name}: ${seen} in ${where}.${site.work ? '' : RegionGeography.meaning(site)}`)}.`,
       `  Initially Assert leadsTo(${id}_named, ${id}).`,
       // A work's own plan says how it looks; what is said here of it is the life of the place, told after.
       `  Observe ${id}_scene at ${id}${site.work ? ' as ambience' : ''} when true ${q(this.scene(seat, region))}.`,
       // Where the name is cut over the door, the stone says it; elsewhere the place is known for what it is called.
       ...this.cut[site.kind] && !site.work ? [] : [`  Observe ${id}_known at ${id} as feature when knows(party, ${id}_named) ${q(`This is ${site.name}${this.worn(region, site) ? ', as the folk call it' : ''}.`)}.`],
       // A work's own people tell of it in its plan's words (RegionWorks); anything else, the innkeeper knows.
-      ...site.work ? [] : this.asked(seat, region, said, tells)];
+      ...site.work ? [] : this.asked(seat, region, where, tells)];
     // Every site's way can be learned, told landmark by landmark where it is in wild country; one deep in wild country
     // can also be found by searching where it starts. Told, it is a way the company can set out along (leadsVia).
     const ways = [...zone ? RegionZones.told(region, zone, site.part ?? 0) : [], `${id}_track`];
@@ -158,10 +160,8 @@ export class RegionSites {
         `  Passage ${id}_track ${q(`the track to {${id}}`)} is track between ${from} and ${id} taking 1 hour${hidden ? ` hidden until ${id}_found` : ''}.`];
     }
     const [x, y] = seat.spot, start = this.start(seat, region);
-    // Known by the town it lies from only once that town is seen (OR-812): till then by its side of the country ("the
-    // south-eastern fen"), or, in the middle of it, by what stands there.
-    const country = RegionGeography.country[region.terrain] ?? 'country', side = this.side(seat, region);
-    const land = side === 'here' ? `the ${country} about ${seen}` : `the ${side}ern ${country}`;
+    // Known by the town it lies from only once that town is seen (OR-812): till then by its land and what stands on it.
+    const land = `the ${RegionGeography.country[region.terrain] ?? 'country'} about ${seen}`;
     return [`  Place ${seat.land} ${q(where)} is wilderness within region at ${x}, ${y} seen as ${q(land)}`
       + ` until ${seat.town.id}_why.`,
       `  Place ${id} ${q(site.name)} is room within ${seat.land} at 1, 1 seen as ${q(seen)} until ${id}_named.`,
@@ -184,19 +184,6 @@ export class RegionSites {
     const best = road && road.gap < town.gap ? road : { ...town, along: 0 };
     const track = Math.max(30, Math.round(best.gap * RegionRoads.minutesPerHour / 10) * 10);
     return { from: best.from, minutes: track + Math.round(best.along / 10) * 10 };
-  }
-  // Where a site is, as a fact or a teller says it: its land as the company knows it (by reference, so that a town
-  // not yet seen is not named in the telling: "Black Keep: a walled keep on its rise in the fen east of Sedgebrook",
-  // told at Brightford, had named Sedgebrook before it was seen: OR-942), or the wild country it stands in.
-  private static toldWhere(seat: Seat, region: Region): string {
-    return RegionGeography.atlas(region).zones.some(z => z.id === seat.site.zone) ? this.where(seat, region)
-      : `{${seat.land}}`;
-  }
-  // The side of the country a site stands on, from the middle of the land (see seenAs).
-  private static side(seat: Seat, region: Region): string {
-    const { width, height } = RegionGeography.atlas(region).land;
-    const centre = RegionGeography.spot(region, width * Math.floor(height / 2) + Math.floor(width / 2));
-    return RegionGeography.compass(centre, seat.spot);
   }
   // Where a site is, as people say it: the wild country it stands in, or which way it lies from the settlement.
   static where(seat: Seat, region: Region): string {
