@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Walking } from './support/walking';
+import { PlayerView } from '../src/presentation/player-view';
 
 // The Walk, played on foot by the page's own labels (a scholar: a mage), seed a1: a penance Walk with a soldier for its
 // leader, a dowager for its patron, the bailiff bound by the book, and the Gathering at the fourth town. No place is
@@ -14,9 +15,12 @@ describe('the Walk, played by a scholar', () => {
     const green = await said('==day 2 10:00');
     expect(green).toMatch(/barefoot strangers/);
     expect(Walking.knows(j, 'walk_heard')).toBe(true);
+    expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === 'walk__find_walk')).toBe(false);
     await said('Keep a mile');
     expect(Walking.holds(j, 'kept', 'party')).toBe(true);
-    await said('>walk__camp_a', 'Ask .* where the Walk is going', 'Ask .* what is on the roll', 'Say to .* that you have kept a mile',
+    await said('>walk__camp_a', 'Ask .* where the Walk is going');
+    expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === 'walk__find_walk')).toBe(true);
+    await said('Ask .* what is on the roll', 'Say to .* that you have kept a mile',
       'Ask .* who she is walking for', 'Ask .* to let you copy the roll');
     expect(Walking.knows(j, 'hal_named')).toBe(true);
     expect(j.choices().some(c => /Annet|roll/i.test(c.full))).toBe(true);

@@ -3,6 +3,7 @@ import { DrawnWorld } from '../src/world/drawn-world';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
+import { PlayerView } from '../src/presentation/player-view';
 import { Placed } from './support/placed';
 import { MapPlay } from './support/map-play';
 
@@ -48,12 +49,17 @@ describe('the silent lord: where it stands in the world', () => {
     expect(leaguers.length).toBe(1);
   }, 240000);
 
-  it('is heard of from the crier on the first town’s green, and walked to from the map, and the gate is a gate', async () => {
+  it('is noticed on the first town’s green, uncovered by asking the keeper, and walked to from the map', async () => {
     const id = (await WorldAssembler.assemble('kahitude', NodeBundleSource.shared, {})).report.placements
       .find(x => x.scenario === 'silent-lord')!.bindings.keep!;
     const j = await start('ranger');
     await j.play('==day 2 09:00', '>s1_green');
+    expect(knows(j, 'levy_called')).toBe(false);
+    expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === k('keep_rumoured'))).toBe(false);
+    Placed.at(j, j.campaign.world.one('at', 'region__s1_innkeeper')!);
+    await j.play('Ask .* about the crier');
     expect(knows(j, 'levy_called')).toBe(true);
+    expect(PlayerView.observe(j.campaign).objectives?.some(o => o.id === k('keep_rumoured'))).toBe(true);
     const done = await MapPlay.reach(j, `region__${id}`);
     expect(done.arrived).toBe(true);
     // Come to it after dark, its gate is shut and the porter asked at the wicket: the morning opens it (the journey

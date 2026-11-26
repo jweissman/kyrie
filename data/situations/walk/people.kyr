@@ -126,7 +126,7 @@ Module walk "The Walk of the Milestones" {
   Topic leader_what with leader "Ask {leader} what the Walk is for" when true once {
     Says "'To keep the road,' says {leader}. The creed comes out the way a creed does after the hundredth saying, worn smooth: {creed_line}. A breath. 'You may think that is not much. It is all of it. A mile is a long thing when you are barefoot. I did not know how long.' The cough. 'Walk one, and then ask me again.'".
   }
-  Topic leader_where with leader "Ask {leader} where the Walk is going" when true once {
+  Topic leader_where with leader "Ask {leader} where the Walk is going" when knows(actor, walk_heard) once {
     Says "'The Station,' says {leader}. 'The old milestone and its rest. On the tenth day the Walk comes to it, all of it, from every green, and speaks the names of the road: everyone who died on it, since the Office closed its books. Forty-one so far. Annet has them. It is to be said aloud, together. Out loud.' The staff turns once in the hands. 'The Bench would rather it were not said out loud. It is our whole difficulty.'".
     On discuss { Assert knows(actor, gathering_known). }
   }

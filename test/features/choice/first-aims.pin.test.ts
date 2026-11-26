@@ -46,12 +46,14 @@ describe('Choice and consequence › The First Aims', () => {
     expect(achieved()).toEqual(['aims__help_gained', 'aims__dungeon_found']);
     expect(aim()).toBe(true);
     expect(followed()).not.toBe('aims__orient');
-    // Explored to their second level; then the Rì's proclamation read on the green: Dun Rìerdan learnt of; all done.
+    // Explored to their second level; then the Rì's commission searched for beneath the notice: Dun Rìerdan learnt of.
     await play(['^To the rat-runs', '^Attack the rats', 'through', '^Down to the nest']);
     expect(achieved()).toContain('aims__dungeon_explored');
     const xp = () => ScreenModel.build(c).party.map(m => m.experience);
-    await play(['^Attack the old buck rat', 'through', 'light a candle', '^Out to the landing at Porthalen',
-      '^Read the royal proclamation']);
+    await play(['^Attack the old buck rat', 'through', 'light a candle', '^Out to the landing at Porthalen']);
+    for (let tries = 0; tries < 20 && !achieved().includes('aims__far_learnt'); tries++) {
+      await play(['^Search under the notices for the Rì\'s commission']);
+    }
     expect(achieved()).toEqual(['aims__help_gained', 'aims__dungeon_found', 'aims__dungeon_explored',
       'aims__far_learnt', 'aims__oriented']);
     // Achieved: the undertaking gone from what is held, its end told once, and no part rewarded twice.

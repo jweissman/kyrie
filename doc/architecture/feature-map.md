@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 203 pins (171 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 670 live rows, 223 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 204 pins (172 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 670 live rows, 223 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -206,13 +206,14 @@ page's colours and opportunities.)
   - direction TS-03 P2: A party's end continues as a relative (the brother) in the same world, as it was, not a reload…
   - direction CR-01 P1: A hunter's career: royal posting → dragon venture → knighthood → royal game-warden → continuing…
   - direction CR-02 P2: Two cities of Seven Towers: Gosse's Company builds its own "Dun Rierdan"…
-- **Jobs, debts and payoffs** · 6 pins · 0 defects · 1 asks
+- **Jobs, debts and payoffs** · 7 pins · 0 defects · 1 asks
   - ✓ leads to each part in turn under the gold, focus held, the Notes saying which parts are done
   - ✓ recognises what the company did unprompted, offers the undertaking after, and rewards each part once
   - ✓ is led from the proof to the sale, paid, and on to the road west, by the gold alone
   - ✓ a1: what went into the river is for sale downstream, claimed, and carried home
   - ✓ ash: a load carried for the creditor's trade, and the purse brought back square
   - ✓ thorn: the salvage, sent to the inn to hear what is out in the country round
+  - ✓ reveals the keep, the Walk and the career only after asking or searching
   - requirement OR-310 P1: The starting situations too alike and too dull: across runs similar errands and fetches, hours of…
 - **Notes, journal and recap** · 2 pins · 0 defects · 3 asks
   - ✓ holds the Notes to what still holds, the aims few, and far news to one question a person
