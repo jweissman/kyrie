@@ -2344,6 +2344,27 @@ and cleric win 80 → 10 %); the waterworks' keeper stays Orsino's until the kee
 The oathkeeper's creation card offering Command and Holy Wrath (case 33) is accepted: what a first-level oathkeeper
 knows is the SRD's first level.
 
+### 66. Acid Splash and Disrupt Undead (26 November): two playable cantrips
+
+The catalog now gives conjurers Acid Splash and necromancers Disrupt Undead. Both are ranged touches, with no save;
+the first deals 1d3 acid and does not allow spell resistance, the second deals 1d6 untyped damage to an undead enemy
+and does. `test/acid-splash.test.ts` and `test/disrupt-undead.test.ts` exercise creation, hit and miss, slot cost,
+target eligibility and resistance. The latter also casts at the ghoul generated under the first town, in a fight
+constructed from the laboratory's actual creatures; it is not a journey or a balance measurement.
+
+`untyped` is a new damage kind: unlike `true`, it respects general defenses, and unlike `radiant`, it does not
+double against Kyr's undead. The SRD's positive-energy identity is not yet a distinct damage tag. Both spells
+omit close range and use Kyr's unlimited cantrips; Disrupt Undead targets only enemies, and Kyr's general damage
+reduction can affect nonphysical damage. Acid Splash has no secondary acid burn. Ability text now respects
+`triggers: false`, so it and the other affected spells are no longer described as causing conditions they cannot.
+
+The arcane cantrip pool grows from 10 to 12. Conjurers gain Acid Splash, necromancers gain Disrupt Undead, and
+generalists and generated hostile mages gain both. The laboratory's placed black-candle mage knows both. In one
+level-one hostile-conjurer sample the leveled pick remained Summon Vermin; a world-wide installed-caster census
+and encounter-balance walks were not run. The fidelity census grades the two mapped rows S✓ R✓ I✓ on its selected
+fields; the omissions above remain.
+
+### 67. The drover's dog (26 November): a fixed working dog without a new encounter
 ### 67. The drover's dog (26 November): a fixed working dog without a new encounter
 
 The drover's existing, peaceable grey dog now uses `dog/drove`, a named variant of Kyr's working dog with the SRD

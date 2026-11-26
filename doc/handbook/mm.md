@@ -450,7 +450,7 @@ Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
 Poison Bite: 1d4 (1–4) poison damage to one enemy (may leave whoever it hurts poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
-Fireball: 1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the third level. Takes a third-level slot.
+Fireball: 1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the third level. Takes a third-level slot.
 
 Lightning Bolt: 1d6 per caster level, to 10d6 electric damage to the one it is aimed at, and the first in each place its line crosses before and beyond, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the third level. Takes a third-level slot.
 
@@ -1940,7 +1940,7 @@ Rage: You are raging for 3 turns. Raging: +1 to hit, 3 easier to hit, +2 damage.
 
 Poison Bite: 1d4 (1–4) poison damage to one enemy (may leave whoever it hurts poison: a Constitution save against 15 avoids it). Poison: takes 1d4 (1–4) true damage each turn. Again after 3 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Wild: +2 to hit, +2 damage, +2 evasion, +1 to every roll, resists 10% of all.
 
@@ -2340,7 +2340,7 @@ Cause Fear: One enemy is frightened for 3 turns (5 Hit Dice of them, the fewest 
 
 Burning Hands: 1d4 per caster level, to 5d4 fire damage to everyone between you and where it is aimed, friend or foe (a Dexterity save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the first level. Takes a first-level slot.
 
-Fireball: 1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it; may leave whoever it hurts burning: a Constitution save against 15 avoids it). Burning: takes 1d3 (1–3) fire damage each turn. An arcane spell of the third level. Takes a third-level slot.
+Fireball: 1d6 per caster level, to 10d6 fire damage to everyone but you where it bursts, friend or foe (a Dexterity save against 13 + the casting score's modifier + half the caster level + the caster's spell bonus halves it). An arcane spell of the third level. Takes a third-level slot.
 
 Fiendish Resilience: Resists 50% of fire, resists 50% of poison, immune to charm.
 
@@ -2943,7 +2943,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Undead Nature: Takes 100% more radiant, immune to poison, immune to charm, immune to sleep, immune to disease.
 
@@ -2974,7 +2974,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Paralyzing Touch: One enemy is paralyzed for 6 turns (only humanoid creatures; only if a touch attack lands, worn armour not counting; a Constitution save against 12 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Paralyzed: Strength −5, Dexterity −5, cannot act. An arcane spell of the second level. Takes a second-level slot.
 
@@ -3007,7 +3007,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. An arcane spell of the third level. Takes a third-level slot.
 
@@ -3048,7 +3048,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Bane: Every enemy is baned for 10 turns at the first casting level, 100 turns at the tenth (a Wisdom save against 11 + the casting score's modifier + half the caster level + the caster's spell bonus avoids it). Baned: −1 to hit, −1 against fear. A divine spell of the first level. Takes a first-level slot.
 
@@ -3088,7 +3088,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 > A barrow's dead warden, risen to drain the living and lull them to sleep.
 
@@ -3113,7 +3113,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Slow: Every enemy gains slow for 4 turns (a Dexterity save against 14 + level + the caster's spell bonus avoids it). Slow: −10 initiative, Dexterity −5, -1 more blows a turn. An arcane spell of the second level. Takes a second-level slot.
 
@@ -3150,7 +3150,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Charm Person: One enemy is charmed for 3 turns (only humanoid creatures; a Wisdom save against 18 + level + the caster's spell bonus avoids it). Charmed: fights for the other side. An arcane spell of the first level. Takes a first-level slot.
 
@@ -3185,7 +3185,7 @@ Curse: One enemy is cursed for 3 turns (a Wisdom save against 10 + level + the c
 
 Scream: Every enemy is frightened for 3 turns (a Wisdom save against 12 + level + the caster's spell bonus avoids it). Frightened: −2 to hit, −5 initiative, −1 to every roll, −2 to every save. Again after 6 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Energy drain: Weapon attack against one enemy; take a level from it, until a restoration. Again after 3 turns.
 
@@ -3319,7 +3319,7 @@ Animate Dead: Raise a fallen ally with 40% of their health, undead nature now. A
 
 Black Ritual: You are summoning for 3 turns. Summoning: when it ends, Summon Lich, at no cost. Again after 3 turns.
 
-Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting; may leave whoever it hurts diseased: a Constitution save against 15 avoids it). Diseased: −2 to every save, Constitution −2, takes 1d4 (1–4) necrotic damage each turn. A divine spell of the third level. Takes a third-level slot.
+Vampiric Touch: Drain 1d6 per 2 caster levels, to 10d6 health from one enemy (only if a touch attack lands, worn armour not counting). A divine spell of the third level. Takes a third-level slot.
 
 Inanimate Nature: Immune to charm, immune to fear, immune to stun, immune to sleep, immune to poison, immune to disease, immune to bleed.
 
