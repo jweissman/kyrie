@@ -99,9 +99,8 @@ export class Effects {
     const m = Effects.modifiers(fighter), block = kind ? FixedStatBlock.save(fighter, kind, this.scores(fighter)) : 0;
     return (m.saveVersusAll ?? 0) + (kind ? m.saves?.[kind] ?? 0 : 0) + block;
   }
-  static immune(fighter: Fighter, kind: string): boolean {
-    return Effects.modifiers(fighter).immune?.includes(kind) ?? false;
-  }
+  static immune(f: Fighter, kind: string): boolean { return Effects.modifiers(f).immune?.includes(kind) ?? false; }
+  static hitDice(fighter: Fighter): number { return ActorValues.hitDice(fighter); }
   // Deem values for an actor's expressions (ActorValues): its scores, #level, #castingLevel and #bonusSpellDC.
   static context(actor: Fighter): Record<string, number> {
     return ActorValues.of(actor, Effects.modifiers(actor).bonusSpellDC ?? 0);

@@ -83,4 +83,24 @@ describe('Sleep, by the SRD\'s numbers', () => {
     expect(caught.map(f => f.id)).toEqual(['warrior', 'g1', 'g2', 'g3']);
     expect(HitDicePool.held(effect, caught).map(f => f.id)).toEqual(['g1', 'g2', 'g3']);
   });
+  it('counts fixed bodies by their own Hit Dice, not by the level the encounter assigns them', () => {
+    const bodies = [c.creature('boar/wild', 'boar', 'goblins', 1),
+      c.creature('dog/drove', 'dog', 'goblins', 7), c.creature('owlbear/fell', 'owlbear', 'goblins', 1),
+      c.creature('rat/cellar', 'rat', 'goblins', 5)];
+    expect(HitDicePool.held(effect, bodies).map(f => f.id)).toEqual(['dog', 'rat']);
+    expect(HitDicePool.held(effect, [bodies[0]!]).map(f => f.id)).toEqual(['boar']);
+    expect(HitDicePool.held(effect, [bodies[2]!])).toEqual([]);
+  });
+  it('offers and resolves Sleep on a high-level one-Hit-Die dog, not a low-level five-Hit-Die owlbear', () => {
+    const dog = hardy(c.creature('dog/drove', 'dog', 'goblins', 7), 7);
+    const owl = hardy(c.creature('owlbear/fell', 'owl', 'goblins', 1), 1);
+    const b = new Battle({ id: 'fixed-hd', combatants: [mage(), dog, owl], abilities: Content.abilities }, 'fixed-hd', 200);
+    for (let i = 0; i < 40 && b.state.actor !== 'mage'; i++) {
+      b.step(b.legalCommands().find(x => x.ability === 'wait') ?? b.chosen());
+    }
+    const choices = b.legalCommands().filter(x => x.ability === 'sleep');
+    expect(choices.some(x => x.target === 'dog')).toBe(true);
+    const events = b.step(choices.find(x => x.target === 'dog')!);
+    expect(saves(events).map(e => e.type === 'save' && e.target)).toEqual(['dog']);
+  });
 });

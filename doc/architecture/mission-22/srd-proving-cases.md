@@ -2357,3 +2357,12 @@ piercing-wound rules differ. The placement is not hostile. In an illustrative 12
 first-level warrior, the warrior wins all 12 against either the old or the new dog, including dog retreats. This
 does not measure a generated-world encounter. The census gives the new mapping S✓ R✓ I? on selected fields; it
 does not prove the missing senses. It is a second mapping of the dog, not another distinct SRD creature.
+### 68. Fixed bodies in Hit Dice pools (26 November)
+
+An encounter level is not a fixed body's Hit Dice. The shared `HitDicePool` now reads the body's source count through
+the same projection as `#hitDice`, while characters and growing creatures retain their level-based count. Combat
+target legality, affected targets and the combat model's forecast all use that pool; the field spell resolves through
+the same ability path. `test/sleep.test.ts` exercises a high-level one-HD dog, a low-level five-HD owlbear, and
+selection order; `test/small/sleep-band.test.ts` exercises the field path. The interpretation of fractional Hit Dice
+and Sleep's other adaptations are not thereby settled. Fixed-body eligibility has changed, so affected encounter
+balance still needs CI.

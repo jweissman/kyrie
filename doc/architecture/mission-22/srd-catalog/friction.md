@@ -16,6 +16,62 @@ changes 22 source records. Focused source-page tests cover the alternate AC form
 These are reference-data corrections only: they add no playable bodies or encounters and make no claim that every
 alternative routine or attack mode is extracted.
 
+### Vertical pass: spell levels and Hit Dice
+
+The local source has **605 spell records**: 119 distinct records have direct mappings and 486 do not. Across the six
+base class lists Sor/Wiz, Clr, Drd, Brd, Pal and Rgr, **104 records have different levels on different class lists**;
+including domains, 115 do. One `tradition` and one `level` cannot express these lists. For example, Protection from
+Energy is a ranger level 2 spell and a cleric level 3 spell. The smallest general boundary is per-calling (and,
+separately, per-domain) level and acquisition, read at creation, advancement, preparation, slots and save DC; test
+one spell at two different levels, a class not on the list, a domain-only grant and save/reload before migrating the
+rest. Do not copy a source level into the shared field when it would give a different calling the wrong slot.
+
+The census used to borrow the lowest level from an unrelated class or domain if its comparison list was absent.
+It now compares arcane with Sor/Wiz and divine with Clr, the current spell-selection callings; a missing list is a
+mismatch, not a borrowed level or DC. Of 119 mapped rows, **51 levels are exact, 67 differ and one is an explicitly
+named conversion**; 19 of the differences are absent from the comparison list entirely. The census now reports
+44 structural passes, 37 resolution passes and 36 identity proofs. This is a more honest measurement, not a
+regression in spells. It still does not assess bard, druid, ranger, paladin or domain access.
+The 19 missing-list rows are `augury`, `barkskin`, `cloudkill`, `confuse`, `death`, `domination`, `earthquake`,
+`entangle`, `fire_storm`, `glyph_of_warding`, `goodberry`, `hold_animal`, `holy_wrath`, `life_drain`, `nightmare`,
+`silence`, `spike_growth`, `stoneskin` and `sunburst`. Some are real adaptations with meaningful identities; a
+source-list mismatch is not a request to delete them.
+
+Of the **440 creature source bodies**, 397 have simple whole-die expressions, 14 have bare fractional expressions,
+and 29 have other forms, including fractional dice with bonuses and mixed racial/class dice. A spec-only staging
+adapter parses all 440 with Kyr's amount grammar: it changes `1/2d6+1` into `1d6/2+1`, and joins mixed expressions
+such as `14d8+84plus8d10+48`. It places nothing. The expression's floored mean matches the extracted printed hit
+points for **429**, but not these 11 (mean → printed):
+
+| Source body | Mean → printed HP |
+| --- | ---: |
+| frost giant jarl | 239 → 231 |
+| gorgon | 84 → 85 |
+| harpy archer | 98 → 103 |
+| seven-headed hydra | 76 → 77 |
+| aboleth mage | 187 → 177 |
+| hound archon hero | 138 → 143 |
+| rat swarm | 18 → 13 |
+| troll hunter | 126 → 130 |
+| celestial charger | 150 → 155 |
+| minotaur zombie | 57 → 81 |
+| gray render zombie | 93 → 133 |
+
+This flags a question, not proof that the source is wrong: a classed creature may use a different first-die
+convention, and extraction or transcription also needs checking. Compare the original stat blocks and their rules
+before adopting either number. The extracted AC is also missing for the pit fiend and harpy archer. The original
+external SRD pages were unreachable here. The staging adapter does not prove attack modes, abilities or placement.
+Among 80 mapped live bodies, 10 have exact sampled Hit Dice and 70 still grow by Orsino's level; this is not 440
+migrated bodies.
+
+**Shared runtime fix:** Sleep's Hit Dice pool used encounter level even for fixed bodies whose `#hitDice` already
+came from their source expression. It now reads the same fixed-body count as actor expressions, preserving level for
+ordinary characters and growing bodies. `test/sleep.test.ts` exercises ordering, wasted remainder, a one-HD dog
+encountered at level 7 and a five-HD owlbear encountered at level 1; `test/small/sleep-band.test.ts` exercises the
+field path. The current count treats a fractional expression such as `1d8/4` as one die; verify the SRD's treatment
+for each HD-based effect before claiming fractional-HD fidelity. Sleep's existing area order and field-time
+adaptations remain. The changed target eligibility may affect encounters with fixed bodies; remeasure in CI.
+
 ### The drover's dog
 
 The existing drover situation now gives its peaceable grey dog the named `dog/drove` body, adapted from the SRD dog.

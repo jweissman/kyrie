@@ -41,6 +41,19 @@ describe('the SRD fidelity census', () => {
     const off = { ...listed, spell: { ...listed.spell, level: listed.spell.level + 1 } };
     expect(SpellFidelity.row('fireball', 'fireball', off).level.verdict).toBe('differs');
   });
+  it('does not borrow a level or save difficulty from an unrelated class or domain', () => {
+    const cloudkill = SpellFidelity.row('cloudkill', 'cloudkill');
+    expect(cloudkill.level).toEqual({ verdict: 'differs', ours: '5', theirs: 'not on Clr list' });
+    expect(cloudkill.dc).toEqual({ verdict: 'differs', ours: '15', theirs: 'not on Clr list' });
+    expect(SpellFidelity.row('augury', 'augury').level)
+      .toEqual({ verdict: 'differs', ours: '2', theirs: 'not on Sor/Wiz list' });
+    expect(SpellFidelity.row('life_drain', 'vampiric-touch').level)
+      .toEqual({ verdict: 'differs', ours: '3', theirs: 'not on Clr list' });
+    expect(SpellFidelity.row('barkskin', 'barkskin').level)
+      .toEqual({ verdict: 'differs', ours: '2', theirs: 'not on Clr list' });
+    const sleep = SpellFidelity.spells.sleep!;
+    expect(SpellFidelity.listed(sleep, 'arcane')).toBe(sleep.levels['Sor/Wiz']);
+  });
   // A page that says its spell "functions like" another names no range, target, duration or save of its own: it takes
   // the other's (SrdPages.inherit), so Cure Moderate Wounds is instantaneous and saved against as Cure Light Wounds.
   it('reads a spell that functions like another by the other\'s header, where its own names none', () => {
@@ -51,9 +64,9 @@ describe('the SRD fidelity census', () => {
   // What the census had not measured (proof-slices.md, step 1): a save's difficulty, how a spell is aimed, what it
   // falls on, a blow's chance to hit, and three grades a row passes or fails.
   it('measures a save\'s difficulty, how a spell is aimed and what it falls on, at the census\'s caster', () => {
-    // Cloudkill, still Orsino's: its 15 against the SRD's 18 (Fireball, the SRD's since case 12, passes).
+    // Cloudkill is divine in Kyr, but the SRD lists it for Sor/Wiz, so no divine DC is asserted.
     const cloudkill = SpellFidelity.row('cloudkill', 'cloudkill');
-    expect(cloudkill.dc).toEqual({ verdict: 'differs', ours: '15', theirs: '18' });
+    expect(cloudkill.dc).toEqual({ verdict: 'differs', ours: '15', theirs: 'not on Clr list' });
     expect(cloudkill.target).toEqual({ verdict: 'exact', ours: 'burst', theirs: 'burst' });
     // Shocking Grasp touches since case 35, Ray of Frost by a ranged touch since case 45; Orsino's Weakness rolls none.
     expect(SpellFidelity.row('shocking_grasp', 'shocking-grasp').attack)
