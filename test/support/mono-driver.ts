@@ -371,6 +371,9 @@ export class MonoDriver {
     // The map is no page of the book: from the book, back to the scene and its rail (the owner, 11 November).
     if (key === 'm' && !await this.page.locator(tab).count()) { await this.click('[data-action="back"]'); }
     if (!await this.page.locator(tab).count()) {
+      // A conversation has no rail (OR-503: nothing floats over its words; the keys still open the book): by touch,
+      // the company turns away from it first, as a player would, and opens the book from the place.
+      if (!await this.page.locator('[data-action="book"]').count()) { await this.away(); }
       await this.click('[data-action="book"]');
       const opened = { j: 'journal', c: 'party', i: 'pack', m: 'map', h: 'story' }[key];
       if ((await this.inspect()).mode === opened) { return; }

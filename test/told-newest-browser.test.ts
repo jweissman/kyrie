@@ -47,7 +47,10 @@ class Newest {
         return false;
       };
       const last = [...col?.querySelectorAll('p') ?? []].filter(p => p.offsetParent !== null && p.innerText.trim()).at(-1);
-      const cut = !!col && col.scrollHeight > col.clientHeight + 1;
+      // Cut as the page reckons a column cut (Scrolled.mark: more than 4 px past what it shows), so that a column a
+      // pixel or two over its box, its last line whole (the gate-yard at 390 wide: 185 px in 183), is not read as
+      // holding back words it shows.
+      const cut = !!col && col.scrollHeight > col.clientHeight + 4;
       const row = document.querySelector('.focus .do-col [data-act]');
       return { last: last ? { whole: !clipped(last), words: last.innerText.slice(0, 60) } : undefined,
         row: !!row && !clipped(row, false),

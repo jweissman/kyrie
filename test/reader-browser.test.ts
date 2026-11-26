@@ -95,12 +95,14 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the reader', () => {
     await Reading.fight(d);
     expect((await d.inspect()).mode).toBe('combat');
     expect(await page.locator('.foes .intent').count()).toBeGreaterThan(0);
-    // Each of the company by their portrait as the card's left panel, the whole height of it and about a quarter of
-    // its width (the owner, 2026-10-30: not a little square); a foe with a painting (a beast) the same, never laid over
-    // its words (the owner, 6 November).
+    // Each of the company by their portrait at the card's left, a true circle (OR-504, the owner's playtest of 24
+    // November; it had been the card's whole height and a quarter of its width, the owner's 30 October), inside the
+    // card; a foe with a painting (a beast) the same, never laid over its words (the owner, 6 November).
     const panel = (side: string) => page.locator(`.${side} .fighter .face`).evaluateAll(faces => faces.map(f => {
       const p = f.getBoundingClientRect(), card = f.parentElement!.getBoundingClientRect();
-      return [card.height - p.height <= 2, p.width / card.width > 0.2 && p.width / card.width < 0.36];
+      const name = f.parentElement!.querySelector('.n')?.getBoundingClientRect();
+      const round = Math.abs(p.width - p.height) <= 1 && p.top >= card.top && p.bottom <= card.bottom + 0.5;
+      return [round, !name || p.right <= name.left + 0.5 || p.bottom <= name.top + 0.5];
     }));
     const ours = await page.locator('.ours .fighter .face').evaluateAll(faces => faces.map(f => !!f.querySelector('img')));
     expect([ours, await panel('ours')]).toEqual([Array(3).fill(true), Array(3).fill([true, true])]);
