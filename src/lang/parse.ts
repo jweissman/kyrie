@@ -20,7 +20,7 @@ type EffectBody =
   // Orsino's randomEffect, cycleEffects and cast: one of the effects, drawn from the seed or taken in turn; or
   // another ability performed at no cost.
   | { kind: 'random' | 'cycle'; effects: Effect[]; target: Target }
-  | { kind: 'cast'; ability: string; target: Target }
+  | { kind: 'cast'; ability: string; target: Target; castingLevel?: number }
   | { kind: 'drain'; amount: Amount; damageType?: string; target: Target }
   // Energy drain (the old games' wight and wraith): levels taken from the one touched, held down until a restoration
   // lifts them (see LevelDrain).

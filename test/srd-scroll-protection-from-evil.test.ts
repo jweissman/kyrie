@@ -9,17 +9,17 @@ import { LootTables } from '../src/world/loot-tables';
 describe('the SRD scroll of Protection from Evil', () => {
   it('is a first-level scroll in minor treasure and wards an ally when read in a fight', () => {
     expect(Canon.items.scroll_of_protection_from_evil).toMatchObject({
-      value: 25, use: 'Cast protection_from_evil on ally.',
+      value: 25, use: 'Cast protection_from_evil on ally.', casterLevel: 1,
       source: { srd35: 'item:scroll-of-protection-from-evil', fidelity: 'adapted' }
     });
     expect(Canon.abilities.protection_from_evil?.spell?.level).toBe(1);
     expect(ItemCatalog.use('scroll_of_protection_from_evil')?.effects).toEqual([
-      expect.objectContaining({ kind: 'cast', ability: 'protection_from_evil', target: 'ally' })
+      expect.objectContaining({ kind: 'cast', ability: 'protection_from_evil', target: 'ally', castingLevel: 1 })
     ]);
     expect(LootTables.tiers.minor).toContain('scroll_of_protection_from_evil');
 
     const content = new Content('protection-scroll');
-    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior' });
+    const hero = content.createCreature('hero', { raceId: 'human', classId: 'warrior', level: 7 });
     hero.state.inventory = [{ id: 'scroll', definition: 'scroll_of_protection_from_evil' }];
     const ally = content.createCreature('ally', { raceId: 'human', classId: 'warrior' });
     const foe = content.createCreature('foe', { raceId: 'goblin', classId: 'thief' });

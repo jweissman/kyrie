@@ -11,8 +11,8 @@ import type { Fighter } from '../model';
 export class Images {
   // How many a condition laid now holds: its modifiers' images, thrown by the caster's values; none if it names none.
   static laid(dice: string | undefined, context: EffectContext, holder: Fighter): number {
-    return dice && context.expressions
-      ? Math.max(0, context.expressions.number(dice, Effects.context(context.actor ?? holder))) : 0;
+    const values = Effects.context(context.actor ?? holder, context.castingLevel);
+    return dice && context.expressions ? Math.max(0, context.expressions.number(dice, values)) : 0;
   }
   // The share of attacks that reach the holder through its images (a forecast's): one in as many as there are, and it.
   static share(target: Fighter): number {

@@ -2,16 +2,17 @@ import { Flight } from './rules/flight'; import { Conditions } from './ports/con
 import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
-import { DailyUses, type Recovery } from './rules/daily-uses';
+import { DailyUses } from './rules/daily-uses';
 import { LevelDrain } from './rules/level-drain'; import { Flames } from './rules/flames';
 import { Summoning } from './summoning';
 import { Content } from './content';
 import { Canon } from './canon/canon';
 import { Perks } from './rules/perks';
 import type { Condition, HookKey } from './rules/catalog-schema';
-import type { Area, Effect } from './lang/parse';
-import type { Expressions } from './expressions';
-import type { CombatEvent, Fighter } from './model';
+import type { Effect } from './lang/parse';
+import type { Fighter } from './model';
+import type { EffectContext } from './effect-context';
+export type { EffectContext } from './effect-context';
 import { Fighting, type Combatant } from './rules/fighting';
 import type { Dice, Modifiers } from './rules/modifiers';
 import { KindDefenses, type Hit } from './kind-defenses';
@@ -23,41 +24,6 @@ import { Images } from './rules/images';
 import { ConditionAmount } from './rules/condition-amount';
 import type { Attribute } from './creature';
 
-export interface EffectContext {
-  source?: { id: string; kind: 'ability' | 'trap' | 'item' | 'shrine'; name?: string };
-  actor?: Fighter; recipients?: Fighter[]; values?: Record<string, number>;
-  fighters: Fighter[]; turn: number; events: CombatEvent[];
-  content: Content; abilities: string[]; retreat: boolean; location: string | null;
-  // The seeded stream dice bonuses (bonusDamage "1d4") and temporary hit points are rolled from.
-  expressions?: Expressions;
-  // A blow sent back by a reflection, which is not reflected again.
-  reflected?: boolean;
-  // Runs a creature's status or item hooks (set by AbilityUse); hooking marks effects already inside a hook.
-  hook?: (holder: Fighter, key: HookKey, subject: Fighter, context: EffectContext) => void;
-  hooking?: boolean;
-  // Whether what is being done is a spell, whose harm its caster's bonusSpellDamage adds to.
-  spell?: boolean;
-  // The conditions what is being done lays on by itself (a venomous bite's poison): its harm's kind does not also
-  // trigger them, so it has one chance to, not two (CB-14, the lead's ruling).
-  applies?: ReadonlySet<string>;
-  // What recovery this is, for what recharges only by night or by day (see DailyUses.restore).
-  recovery?: Recovery;
-  // The creatures an ability drew at random, drawn once for all its effects and its resist saves.
-  drawn?: Fighter[];
-  // Where an area is let loose, and its shape: whoever stands there is caught (see Positions).
-  aim?: { area: Area; at: string };
-  // An ability another one casts (Orsino's cast effect) costs nothing.
-  free?: boolean;
-  // A spell that allows spell resistance being cast: whom it has got past, or not, checked once each (SpellResistance).
-  resisting?: Map<string, boolean>;
-  // Outside a fight (a hazard met, a shrine's touch, a thing used in the field): what lasts a fight does not begin.
-  field?: boolean;
-  // Runs a lapsing condition's effects (set by the battle, which knows how to resolve them).
-  lapse?: (holder: Fighter, effects: Effect[], context: EffectContext) => void;
-  // How the company would fare running now (set by the battle): sure, in the moment before a fight that came at it
-  // closes; and how many times it has tried and been held, each surer than the last.
-  sure?: boolean; tries?: number;
-}
 const ATTRIBUTES: Attribute[] = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'];
 export class Effects {
   static sourceId(context: EffectContext): string {
@@ -102,13 +68,14 @@ export class Effects {
   static immune(f: Fighter, kind: string): boolean { return Effects.modifiers(f).immune?.includes(kind) ?? false; }
   static hitDice(fighter: Fighter): number { return ActorValues.hitDice(fighter); }
   // Deem values for an actor's expressions (ActorValues): its scores, #level, #castingLevel and #bonusSpellDC.
-  static context(actor: Fighter): Record<string, number> {
-    return ActorValues.of(actor, Effects.modifiers(actor).bonusSpellDC ?? 0);
+  static context(actor: Fighter, castingLevel?: number): Record<string, number> {
+    const values = ActorValues.of(actor, Effects.modifiers(actor).bonusSpellDC ?? 0);
+    return castingLevel === undefined ? values : { ...values, castingLevel };
   }
   static dice(value: Dice | undefined, context: EffectContext, actor?: Fighter): number {
     if (value === undefined || typeof value === 'number') { return value ?? 0; }
     if (!context.expressions) { throw new Error('Dice bonuses need a seeded expression stream'); }
-    return context.expressions.integer(value, actor ? Effects.context(actor) : {});
+    return context.expressions.integer(value, actor ? Effects.context(actor, context.castingLevel) : {});
   }
   static validate(effect: Effect, abilities: string[]) {
     if (!['attack', 'damage', 'heal', 'drain', 'enervate', 'revive', 'defend', 'flee', 'apply', 'remove', 'kill', 'gain',
@@ -116,6 +83,10 @@ export class Effects {
     if (effect.kind === 'random' || effect.kind === 'cycle') { effect.effects.forEach(e => Effects.validate(e, abilities)); }
     if (!['enemy', 'ally', 'self', 'dead ally', 'enemies', 'allies', 'party', 'all', 'random enemy', 'random enemies', 'it',
       'here'].includes(effect.target)) { throw new Error('Unknown effect target'); }
+    if (effect.kind === 'cast' && effect.castingLevel !== undefined
+      && (!Number.isSafeInteger(effect.castingLevel) || effect.castingLevel < 1)) {
+      throw new Error('A cast has a positive whole-number caster level');
+    }
     for (const amount of [...('amount' in effect ? [effect.amount] : []), ...(effect.save ? [effect.save.difficulty] : [])]) {
       if (!amount || (amount.kind !== 'literal' && amount.kind !== 'deem')
         || (amount.kind === 'literal' && (!Number.isSafeInteger(amount.value) || amount.value < 0))
@@ -426,7 +397,8 @@ export class Effects {
     // same spell cast again each round (a red dragon frozen throughout by a first-level mage's frostbite).
     if (Effects.skips(effect.status) && target.statuses.some(s => s.id === effect.status)) { return; }
     // How long it lasts, by its caster's values as it is laid (see Lasting): one that comes to no turns lays nothing.
-    const rounds = Lasting.laid(effect.duration, context.expressions, Effects.context(context.actor ?? target));
+    const rounds = Lasting.laid(effect.duration, context.expressions,
+      Effects.context(context.actor ?? target, context.castingLevel));
     if (rounds < 1) { return; }
     const status = Effects.status(effect.status);
     const prior = ConditionAmount.prior(status.stacking, target.statuses, effect.status);
@@ -435,9 +407,11 @@ export class Effects {
     target.statuses = target.statuses.filter(s => !out.includes(s) && (s.id !== effect.status
       || (status.stacking === 'source-refresh' && s.source !== context.source?.id)));
     const pool = status.modifiers.tempHp && context.expressions
-      ? context.expressions.number(status.modifiers.tempHp, Effects.context(context.actor ?? target)) : 0;
+      ? context.expressions.number(status.modifiers.tempHp,
+        Effects.context(context.actor ?? target, context.castingLevel)) : 0;
     const images = Images.laid(status.modifiers.images, context, target);
-    const amount = ConditionAmount.laid(effect.amount, context.expressions, Effects.context(context.actor ?? target));
+    const amount = ConditionAmount.laid(effect.amount, context.expressions,
+      Effects.context(context.actor ?? target, context.castingLevel));
     // A perk can make every status its holder applies last longer (a troupe's resonant harmony), and a flame they
     // light burn longer, by hours of six watches (the Lantern's gift: OR-118).
     const at = context.actor?.environment ? { environment: context.actor.environment } : {};

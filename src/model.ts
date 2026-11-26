@@ -19,7 +19,7 @@ export interface Fighter {
   // The spell prepared in each slot, by spell level, and those of them not yet cast.
   prepared?: string[][]; ready?: string[][];
   gold: number; experience: number;
-  abilitySources?: Record<string, { id: string; kind: 'item'; name: string; use?: string }>;
+  abilitySources?: Record<string, { id: string; kind: 'item'; name: string; use?: string; casterLevel?: number }>;
   // What it carries that it can use up here, by the ability each is used as (the items of that kind not yet used),
   // and what it has used up in this fight (PT-07).
   stock?: Record<string, string[]>; spent?: string[];

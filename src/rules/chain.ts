@@ -16,7 +16,7 @@ export class Chain {
     by: { actor: Fighter; context: EffectContext; expressions: Expressions }): Fighter[] {
     if (!effect.chain || !aimed.length) { return aimed; }
     const { actor, context, expressions } = by;
-    const leaps = Math.max(0, expressions.amount(effect.chain.count, Effects.context(actor)));
+    const leaps = Math.max(0, expressions.amount(effect.chain.count, Effects.context(actor, context.castingLevel)));
     const others = Targeting.candidates('enemies', actor, context.fighters)
       .filter(f => f.hp > 0 && f.id !== aimed[0]!.id);
     Chain.first.set(context, { at: aimed[0]!.id });
