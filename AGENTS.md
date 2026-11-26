@@ -154,7 +154,7 @@ this help the player forget the interface and become interested in what happens 
 
 ## Design and experience
 
-- **The doctrine governs.** Invitation, not inventory; attention repaid; a quiet, stable, game-native interface.
+- Invitation, not inventory; attention repaid; a quiet, stable, game-native interface.
 - **Prose:** empty words are an obstacle. Avoid compound "X, and Y, and Z" clauses and "someone/something". The
   first-hour ratchets in test/small hold this.
 - **The resting scene:** the painting dominates. Add a short description, small floating portraits of those present,
