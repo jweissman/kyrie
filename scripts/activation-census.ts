@@ -17,7 +17,9 @@ import { CountriesTool } from '../src/cli/countries-tool';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { SceneKinds } from '../src/ui/scene-kinds';
+import { SpellSelection } from '../src/rules/spell-selection';
 import { WorldAssembler } from '../src/world/world-assembler';
+import type { Trait } from '../src/rules/catalog-schema';
 import type { PlaceRef } from '../src/ui/screen-types';
 import countries from '../data/adventures/countries.json';
 import scenery from '../data/paintings/scenery.json';
@@ -156,7 +158,8 @@ export class ActivationCensus {
     return { rows, stranded, authoredOnly, summoned, eligible: unmet.filter(r => generated.has(r.k)).map(r => r.k) };
   }
   // What no played world can reach, by kind (scripts/quantity's stranded content): species with no path at all; work
-  // plans no registry names; scenarios no list names; adventures that are no country; abilities nothing names.
+  // plans no registry names; scenarios no list names; adventures that are no country; abilities no authored name or
+  // executable selection plan.
   static async stranded(seeds: string[]): Promise<Record<string, string[]>> {
     const { stranded } = this.stages(await BestiaryReport.sample(seeds));
     const works = this.list('data/generation/works').filter(f => f.endsWith('.kyrt')).map(f => f.replace(/\.kyrt$/, ''));
@@ -180,11 +183,16 @@ export class ActivationCensus {
   }
   static unnamedAbilities(): string[] {
     const known = (JSON.parse(this.read('data/catalog/abilities.json')) as { abilities: Record<string, unknown> }).abilities;
+    const planned = new Set(Object.values(Canon.classes).filter(c => c.playable).flatMap(c => c.specializations ?? [])
+      .map(id => Canon.traits[id]).filter((t): t is Trait => !!t?.spellAccess).flatMap(t => {
+        const plan = SpellSelection.plan(t);
+        return [...plan.cantrips, ...plan.levels.flatMap(level => level.open)];
+      }));
     const skip = /catalog\/abilities\.json|sources\/orsino|catalog\/orsino/;
     const corpus = ['data/catalog', 'data/generation', 'data/adventures', 'data/goings-on', 'data/rules', 'src']
       .flatMap(d => this.files(d)).filter(f => !skip.test(f) && /\.(json|kyr|kyrt|ts)$/.test(f))
       .map(f => this.read(f)).join('\n');
-    return Object.keys(known).filter(id => !new RegExp(`["' ]${id}["' .,)]`).test(corpus));
+    return Object.keys(known).filter(id => !planned.has(id) && !new RegExp(`["' ]${id}["' .,)]`).test(corpus));
   }
   private static homes(kinds: string[]): [string, string[]][] {
     const files = [...new Bun.Glob('data/{situations,adventures,goings-on}/**/*.{kyr,kyrt}').scanSync({ cwd: this.root })];
@@ -278,8 +286,8 @@ export class ActivationCensus {
     const known = (JSON.parse(this.read('data/catalog/abilities.json')) as { abilities: Record<string, unknown> }).abilities;
     const unnamed = new Set(this.unnamedAbilities()), named = Object.keys(known).filter(id => !unnamed.has(id));
     return ['## Abilities and spells (`data/catalog/abilities.json`)', '',
-      'Measured: authored (a record) → named by a class, species, item, trait, adventure or rule anywhere outside the '
-      + 'catalog file and the Orsino snapshot.', '',
+      'Measured: authored (a record) → named by a class, species, item, trait, adventure or rule outside the catalog '
+      + 'and Orsino snapshot, or offered by an installed calling’s executable SpellSelection plan.', '',
       `${Object.keys(known).length} records; ${named.length} named elsewhere; `
       + `${Object.keys(known).length - named.length} named nowhere: ${Object.keys(known).filter(i => !named.includes(i)).join(', ') || 'none'}.`, ''];
   }
