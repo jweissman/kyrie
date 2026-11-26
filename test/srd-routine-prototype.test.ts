@@ -88,9 +88,9 @@ describe('staged SRD routines, not installed creatures', () => {
       const routine = Prototype.routine('ape');
       const actor = { ...content.character('warrior', 'ape', 'goblins'), classId: undefined,
         strength: 21, dexterity: 15, level: 4, traits: [], statuses: [],
-        equipment: { armorAc: 0, modifiers: {}, hooks: {}, weapon: routine[0]!, routine } };
+        equipment: { body: null, armorAc: 0, modifiers: {}, hooks: {}, weapon: routine[0]!, routine } };
       const target = { ...content.character('warrior', 'mark', 'fighters'), dexterity: 10, traits: [], statuses: [],
-        hp: 1000, maxHp: 1000, equipment: { armorAc: 4, modifiers: {}, hooks: {},
+        hp: 1000, maxHp: 1000, equipment: { body: null, armorAc: 4, modifiers: {}, hooks: {},
           weapon: { id: 'fist', name: 'fist', damage: '1d3', type: 'bludgeoning' } } };
       const expressions = new Expressions(seed), context: EffectContext = { actor, fighters: [actor, target],
         turn: 1, events: [], content, abilities: [], retreat: false, location: null, expressions };

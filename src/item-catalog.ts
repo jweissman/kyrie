@@ -23,7 +23,8 @@ export interface BodyStatistics {
 }
 export interface Equipment {
   modifiers: Modifiers; hooks: Hooks; weapon: WeaponProfile; armorAc: number;
-  body?: BodyStatistics;
+  // Resolved by the campaign's catalog; null explicitly means no species body.
+  body: BodyStatistics | null;
   // A kind's natural attacks in a round, each its own weapon (a dragon's claw, claw and bite; see Species).
   routine?: WeaponProfile[];
 }
@@ -158,6 +159,9 @@ export class CatalogContext {
     if (!this.isSpecies(id)) { return undefined; }
     return CanonRuntime.temperament(this.creature(id));
   }
+  bodyOf(id: string): BodyStatistics | null {
+    return this.isBody(id) ? this.bodyStats(this.creature(id)) : null;
+  }
   private bodyStats(species: Species): BodyStatistics {
     let stats = this.bodyStatistics.get(species);
     if (!stats) {
@@ -261,7 +265,7 @@ export class CatalogContext {
       weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
       armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac
         + StatExpressions.armor(natural.armorBonus, { level: creature.base.level }) : 0,
-      ...species ? { body: this.bodyStats(species) } : {},
+      body: species ? this.bodyStats(species) : null,
       ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon
         ? this.body(id, natural) : { ...this.body(id, natural), lesser: true }) } : {} };
   }

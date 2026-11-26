@@ -2,6 +2,7 @@ import { Canon } from './canon/canon';
 import { Effects } from './effects';
 import { Fighting } from './rules/fighting';
 import { Targeting } from './targeting';
+import { FighterBody } from './fighter-body';
 import type { BattleState, CombatEvent, Command, Fighter } from './model';
 
 // Whom a foe goes for, as its kind would, and when one of the company steps in front of another. Every foe had struck
@@ -24,8 +25,9 @@ export class Quarry {
     }
   }
   static kind(actor: Fighter): Kind {
+    const body = FighterBody.of(actor);
     if (Canon.isAncestry(actor.raceId)) { return 'band'; }
-    return actor.equipment?.body?.temperament === 'wary' ? 'coward' : 'beast';
+    return body?.temperament === 'wary' ? 'coward' : 'beast';
   }
   // The one the actor would rather strike, of those it could.
   static of(state: BattleState, actor: Fighter): string | undefined {

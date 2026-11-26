@@ -2,6 +2,7 @@ import { Content } from './content';
 import { Effects, type EffectContext } from './effects';
 import { Defenses, type Defense, type Mitigated } from './rules/defenses';
 import { Fighting } from './rules/fighting';
+import { FighterBody } from './fighter-body';
 import variations from '../data/catalog/variations.json';
 import type { Fighter } from './model';
 import type { Effect } from './lang/parse';
@@ -17,7 +18,7 @@ export class KindDefenses {
   // Its kind's fractions (its typed defenses', Canon.defended) and those of what varies it (the frost's proof against
   // cold, what the dead are hurt by), as modifiers to be summed with every other source's.
   static fractions(fighter: Fighter): { resistances: Record<string, number> }[] {
-    const kind = fighter.equipment?.body ? Defenses.fractions(fighter.equipment.body.defenses) : {};
+    const body = FighterBody.of(fighter), kind = body ? Defenses.fractions(body.defenses) : {};
     const varied = (fighter.variations ?? []).flatMap(id => {
       const r = (variations.variations as Record<string, { resistances?: Record<string, number> }>)[id]?.resistances;
       return r ? [{ resistances: r }] : [];
@@ -34,7 +35,7 @@ export class KindDefenses {
   }
   // Its kind's defenses beside those fractions: immunity, flat resistance, reduction, regeneration.
   static of(fighter: Fighter): Defense[] {
-    const own = fighter.equipment?.body?.defenses ?? [];
+    const own = FighterBody.of(fighter)?.defenses ?? [];
     return own.filter(d => !(d.kind === 'resistance' && d.mode === 'fraction'));
   }
   // A blow, after the attacker's bonus, through the defender's defenses: it carries its damage type, the weapon's
