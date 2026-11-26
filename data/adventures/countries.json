@@ -1146,6 +1146,32 @@
    "heard": "North on the Brackmoor lies Exall, three hundred people on a ridge, with a drift-whale hung by its lip from the steeple of St Ebba's. It sinks a house-height each dusk.",
    "skyline": "a ridge-top town under a long grey shape that is not a cloud, hung from a church spire",
    "far": "a drift-whale hangs by its lip from a church spire on a ridge, and sinks a house-height each dusk"
+  },
+  {
+   "id": "romance",
+   "province": true,
+   "bundle": "romance/placed.json",
+   "entry": "road",
+   "marker": "avarrax",
+   "side": "south",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "desert"
+   ],
+   "covers": [
+    "meadow",
+    "wood"
+   ],
+   "name": "the Summermark",
+   "topic": "Orlane in the Summermark, under the black hill where a red dragon keeps the abbey of Saint Arda",
+   "terrain": "hills",
+   "rumour": "'South, in the Summermark,' says {keeper}, 'there's a valley town called Orlane gone quiet. A red dragon took their abbey bell at midsummer, and three young fools went up the hill after it. Somebody heard them singing.'",
+   "heard": "South in the Summermark lies Orlane, a valley of wild roses, and above it Saint Arda's ruined abbey, where the red dragon Avarrax keeps the town's stolen bell.",
+   "skyline": "a green valley with one black hill in it, and a roofless abbey on the hill that glows red even at noon",
+   "far": "a roofless abbey on a black hill holds a red glimmer even at noon, above a valley gone over to wild roses"
   }
  ]
 }

@@ -3048,6 +3048,24 @@
    "was": "defect",
    "pri": "P1",
    "why": "the owner's ruling of 26 November: a committed requirement, unmet"
+  },
+  "OR-1212": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "an adventure branch's friction carried into the register, kept whole"
+  },
+  "OR-1213": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "an adventure branch's friction carried into the register, kept whole"
+  },
+  "OR-1214": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "an adventure branch's friction carried into the register, kept whole"
   }
  },
  "blockedBy": {

@@ -28,6 +28,7 @@ Module romance "The Rose of Orlane" {
   }
   Topic prisoners_story with prisoners "Ask the prisoners how they came here" when not prisonersFreed(party) {
     Says "'Treasure,' says the tallest, with a rueful dignity. 'We thought the old stories meant coin. They did. They neglected to mean dragon.' A smaller prisoner points upward. 'The book is real too. Blue leather, silver corners. Avarrax cannot open it. We heard it trying.'".
+    On discuss { Assert knows(actor, book_above). }
   }
   Topic free_prisoners with prisoners "Lead the prisoners out of the undercroft" when state(iron_screen, open) and not prisonersFreed(party) {
     Says "They come through one at a time. The last, a young woman with a burnt braid, turns back to the cell and bows. 'We came hunting treasure,' she says. 'It is good to know what we found.'".
@@ -50,5 +51,7 @@ Module romance "The Rose of Orlane" {
     Result "The last page smells of rain on stone. Water answers {reader}'s lifted hand, and the letters fade, leaving room for another hand in another age.".
   }
   Rule book_learned when fireRead(party) and rainRead(party) and not bookRead(party) { Assert bookRead(party). }
+  Discovery book_above "Saint Arda's book of embers is real: blue leather and silver corners, up in the dragon's hoard in the bell-tower, with the bell.".
+  Objective book_in_tower when knows(party, book_above) and not holding(party, spellbook_kind) toward tower "The prisoners say Saint Arda's book of embers lies in the dragon's hoard in the bell-tower.".
   Objective prisoners_wait when prisonersFound(party) and not prisonersFreed(party) toward undercroft "Three treasure-seekers are imprisoned beneath Saint Arda's. The screen bears the saint's open hand.".
 }
