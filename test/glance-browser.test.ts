@@ -170,9 +170,11 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('a place at a glance', () => {
     await Glancing.enter(page, d);
     const den = (await d.inspect()).glance!;
     // The way back is led only from a fight that could be lost (the owner, 4 November: led from every fight, it had
-    // taken a player following the page out of each site at its first foe).
-    expect(den.acts.slice(0, 2).map(a => a.why)).toEqual(['danger', 'danger']);
-    expect(den.acts[1]!.marks).toContain('fight');
+    // taken a player following the page out of each site at its first foe). The den's beasts could fell the one who
+    // plays, alone, with no one to get her up (their reckoning mortal: Marks.asks, OR-412), which ends the life
+    // (OR-683): so the leader is led, and then the way back, not the attack on the beasts.
+    expect(den.acts.slice(0, 2).map(a => a.why)).toEqual(['danger', 'retreat']);
+    expect(den.acts[0]!.marks).toContain('fight');
     expect(await page.locator('[data-region="glance"] .threat').count()).toBe(1);
     expect(await Glancing.quiet(page)).toEqual({ scroll: false, panes: 0, led: true });
     await Glancing.shot(page, 'thorn-hole');
