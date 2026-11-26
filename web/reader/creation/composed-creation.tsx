@@ -123,7 +123,7 @@ export class ComposedCreation {
   // touch on the open sky; or Escape, which goes back a step only once the wheel is whole.
   static useZoom(sky: boolean, consider: (id: string) => void): [string | undefined, (id: string) => void, () => void] {
     const [zoom, zoomed] = useState<string>(), timer = useRef(0), keys = useRef(false), moved = useRef(false);
-    const over = useRef(false), drawn = useRef<string | undefined>(undefined);
+    const over = useRef(false), drawn = useRef<string | undefined>(undefined), rest = useRef(0);
     drawn.current = zoom;
     const out = () => { window.clearTimeout(timer.current); zoomed(undefined); };
     // Escape while a sign is drawn up lets the wheel go, and only that (see ComposedCreation.escape).
@@ -146,6 +146,14 @@ export class ComposedCreation {
         window.removeEventListener('keydown', escape, true);
         window.removeEventListener('pointermove', hand, true); window.removeEventListener('pointerdown', hand, true); };
     }, []);
+    // Come to the sky or gone from it, the wheel is whole and nothing has moved yet: the keys that brought the page
+    // (Escape back from the calling, Enter on from how you present) are no row gone to, and a sign drawn up as the
+    // page went on (its rest's timer still running) is not kept for coming back. Either had left the sign drawn up on
+    // coming back, and the next Escape only let it go (OR-874: test/naming-browser's back, one run in three).
+    useEffect(() => {
+      moved.current = false; keys.current = false;
+      window.clearTimeout(rest.current); window.clearTimeout(timer.current); zoomed(undefined);
+    }, [sky]);
     const idle = () => {
       window.clearTimeout(timer.current);
       timer.current = window.setTimeout(() => {
@@ -156,7 +164,6 @@ export class ComposedCreation {
     };
     // Drawn up only once the hand or the keys rest on a row a moment: passing over the rows had begun a zoom at each,
     // the sky lurching from one to the next (OR-96).
-    const rest = useRef(0);
     const drawUp = (id: string) => {
       window.clearTimeout(rest.current);
       rest.current = window.setTimeout(() => { zoomed(id); idle(); }, ComposedCreation.rest);

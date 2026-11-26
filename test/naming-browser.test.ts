@@ -108,4 +108,22 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the name and how you present', () =
     expect(errors).toEqual([]);
     await page.close();
   }, 240000);
+  // A sign drawn up by the keys resting on it, and the page gone on: come back to the sky, the wheel is whole and one
+  // Escape goes back a step (OR-874: the sign had stayed drawn up, its rest's timer running on after the page went
+  // on, and the first Escape only let it go; this spec's back over the sky had been red one run in three).
+  it('comes back to the sky whole, and goes back from it at one Escape', async () => {
+    const { page, errors } = await MonoBrowser.page(browser, { width: 1180, height: 820 }, { site, pointer: false,
+      query: '?world=kite' });
+    await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
+    await Naming.on(page, 'sign');
+    await page.keyboard.press('ArrowDown');
+    await page.waitForSelector('.observatory.zoomed', { timeout: 5000 });
+    await Naming.on(page, 'calling');
+    await Naming.back(page, 'sign');
+    await page.waitForTimeout(800);
+    expect(await page.locator('.observatory.zoomed').count()).toBe(0);
+    await Naming.back(page, 'presenting');
+    expect(errors).toEqual([]);
+    await page.close();
+  }, 120000);
 });
