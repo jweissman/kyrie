@@ -2664,6 +2664,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, split from CL-53: a wanted feature of the ending's question (the reading: \"a wanted feature\"); the death that left nothing to do is mended"
+  },
+  "OR-720": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, filed and classified at once: a measured share of AX-10's act, a candidate toward beta's targets, not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {
