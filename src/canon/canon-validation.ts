@@ -304,6 +304,10 @@ export class CanonValidation {
       }
       // A use Kyr cannot run yet is said (unsupported.use: a wand of wonder's random effect), never left out.
       if (i.category === 'consumable' && !i.use && !i.unsupported?.use) { this.fail(where, 'a consumable needs a use'); }
+      if (i.casterLevel !== undefined && (!Number.isSafeInteger(i.casterLevel) || i.casterLevel < 1)) {
+        this.fail(where, 'caster level must be a positive whole number');
+      }
+      if (i.casterLevel !== undefined && !i.use) { this.fail(where, 'caster level requires a spell use'); }
       if (i.fuel && !Canon.items[i.fuel]?.use) { this.fail(where, `burns ${i.fuel}, which gives no light`); }
       if (i.weapon && !i.unsupported && !Canon.rules.damageTypes.includes(i.weapon.type)) {
         this.fail(where, `unknown damage type ${i.weapon.type}`);

@@ -8,7 +8,7 @@ export interface PerkAt { environment?: string; weapon?: { weight?: string; miss
 
 export interface RuntimeItem {
   name: string; description: string; value?: number; mass?: number; carries?: number; category?: ItemKind['category']; slot?: string;
-  capability?: string; ability?: string; use?: string;
+  capability?: string; ability?: string; use?: string; casterLevel?: number;
   modifiers?: Modifiers; hooks?: Hooks; weapon?: WeaponStats; armorAc?: number; armor?: ItemKind['armor']; fuel?: string;
   charges?: number; tool?: string[]; aids?: string[];
 }
@@ -104,7 +104,8 @@ export class CanonRuntime {
       ...i.grants?.ability ? { ability: i.grants.ability } : {},
       ...i.modifiers ? { modifiers: i.modifiers } : {}, ...i.hooks ? { hooks: i.hooks } : {},
       ...i.weapon ? { weapon: i.weapon } : {}, ...i.armor ? { armor: i.armor } : {},
-      ...i.use ? { use: i.use } : {}, ...i.fuel ? { fuel: i.fuel } : {},
+      ...i.use ? { use: i.use } : {}, ...i.casterLevel !== undefined ? { casterLevel: i.casterLevel } : {},
+      ...i.fuel ? { fuel: i.fuel } : {},
       ...i.charges ? { charges: i.charges } : {}, ...i.tool ? { tool: i.tool } : {},
       ...i.aids ? { aids: i.aids } : {} } as RuntimeItem]));
     return this.withAliases('items', own);

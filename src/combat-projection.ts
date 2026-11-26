@@ -62,7 +62,9 @@ export class CombatProjection {
   private static made(catalog: ItemCatalog, creature: Creature, team: Team): Fighter {
     const stock = team === 'fighters' ? catalog.stock(creature) : {}, sources = { ...catalog.abilities(creature),
       ...Object.fromEntries(Object.entries(stock).map(([id, [first]]) => [id, { id: first!, kind: 'item' as const,
-        name: catalog.get(id.slice(5)).name, use: catalog.get(id.slice(5)).use! }])) };
+        name: catalog.get(id.slice(5)).name, use: catalog.get(id.slice(5)).use!,
+        ...catalog.get(id.slice(5)).casterLevel !== undefined
+          ? { casterLevel: catalog.get(id.slice(5)).casterLevel } : {} }])) };
     return { id: creature.id, name: creature.name, raceId: creature.raceId,
       ...creature.classId ? { classId: creature.classId } : {},
       ...structuredClone(creature.base), hp: creature.state.hp, mana: creature.state.mana,

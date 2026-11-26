@@ -82,6 +82,7 @@ export class CatalogContext {
       ...item.slot ? { slot: item.slot } : {}, ...item.modifiers ? { modifiers: item.modifiers } : {},
       ...item.hooks ? { hooks: item.hooks } : {}, ...item.weapon ? { weapon: item.weapon } : {},
       ...item.armor ? { armor: item.armor } : {}, ...item.use ? { use: item.use } : {},
+      ...item.casterLevel !== undefined ? { casterLevel: item.casterLevel } : {},
       ...item.grants?.skill ? { capability: item.grants.skill } : {},
       ...item.grants?.ability ? { ability: item.grants.ability } : {},
       ...item.tool ? { tool: item.tool } : {}, ...item.aids ? { aids: item.aids } : {} } as ItemDefinition;
@@ -194,10 +195,20 @@ export class CatalogContext {
   // Kept by what it is read from, so that two campaigns' kinds of one name are read each as itself.
   private static readonly uses = new Map<string, ArenaAbility | undefined>();
   use(kind: string): ArenaAbility | undefined { return CatalogContext.using(kind, this.find(kind)); }
-  static using(kind: string, d: { name: string; use?: string } | undefined): ArenaAbility | undefined {
-    const key = `${kind}\u0000${d?.name ?? ''}\u0000${d?.use ?? ''}`, uses = CatalogContext.uses;
-    if (!uses.has(key)) { uses.set(key, d?.use ? parseAbility(`item-${kind}`, d.name, d.use) : undefined); }
+  static using(kind: string, d: { name: string; use?: string; casterLevel?: number } | undefined): ArenaAbility | undefined {
+    const key = `${kind}\u0000${d?.name ?? ''}\u0000${d?.use ?? ''}\u0000${d?.casterLevel ?? ''}`, uses = CatalogContext.uses;
+    if (!uses.has(key)) { uses.set(key, this.parsed(kind, d)); }
     return uses.get(key);
+  }
+  private static parsed(kind: string, d: { name: string; use?: string; casterLevel?: number } | undefined):
+    ArenaAbility | undefined {
+    const parsed = d?.use ? parseAbility(`item-${kind}`, d.name, d.use) : undefined;
+    if (d?.casterLevel === undefined) { return parsed; }
+    if (!parsed?.effects.some(e => e.kind === 'cast')) {
+      throw new Error(`${kind} sets a caster level but does not cast a spell`);
+    }
+    return { ...parsed, effects: parsed.effects.map(e => e.kind === 'cast'
+      ? { ...e, castingLevel: d.casterLevel } : e) };
   }
   used(ability: string): ArenaAbility | undefined {
     return CatalogContext.carried(ability) ? this.use(ability.slice(5)) : undefined;
@@ -206,7 +217,7 @@ export class CatalogContext {
   static carried(ability: string): boolean { return ability.startsWith('item-'); }
   // What one in a fight uses a carried thing as, from what they carried into it (see CombatProjection.made): a fight
   // reads its fighters, never a campaign's catalog.
-  static fought(fighter: { abilitySources?: Record<string, { name: string; use?: string }> }, ability: string):
+  static fought(fighter: { abilitySources?: Record<string, { name: string; use?: string; casterLevel?: number }> }, ability: string):
     ArenaAbility | undefined {
     const source = this.carried(ability) ? fighter.abilitySources?.[ability] : undefined;
     return source?.use ? this.using(ability.slice(5), source) : undefined;

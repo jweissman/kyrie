@@ -71,13 +71,18 @@ export class AbilityUse {
   // Orsino's randomEnemies: distinct living enemies, as many as the count (one for a random enemy), from the seed.
   private static draw(effect: Effect, candidates: Fighter[], expressions: Expressions,
     context: EffectContext): Fighter[] {
-    const values = context.actor ? Effects.context(context.actor) : context.values ?? {};
+    const values = context.actor ? Effects.context(context.actor, context.castingLevel) : context.values ?? {};
     const n = effect.target === 'random enemy' ? 1 : Math.max(0, expressions.amount(effect.count ?? { kind: 'literal', value: 1 }, values));
     const pool = [...candidates], picked: Fighter[] = [];
     while (picked.length < Math.min(n, candidates.length)) {
       picked.push(...pool.splice(expressions.number(`1d${pool.length}`) - 1, 1));
     }
     return picked;
+  }
+  private static conditionMet(effect: Effect, actor: Fighter | undefined, context: EffectContext,
+    expressions: Expressions): boolean {
+    return !effect.when || expressions.condition(effect.when,
+      actor ? Effects.context(actor, context.castingLevel) : context.values ?? {});
   }
   // Ability.perform: pay, give each target of an offensive spell its resist save, then resolve the effects in order;
   // the first effect that succeeds on no target ends the ability (a missed attack, a saved debuff).
@@ -89,8 +94,7 @@ export class AbilityUse {
     const targetId = AbilityUse.guarded(ability, chosenId, context);
     context.expressions = expressions;
     context.hook ??= AbilityUse.hooks.bind(AbilityUse);
-    const effects = ability.effects.filter(effect => !effect.when
-      || expressions.condition(effect.when, actor ? Effects.context(actor) : context.values ?? {}));
+    const effects = ability.effects.filter(effect => AbilityUse.conditionMet(effect, actor, context, expressions));
     // An ability with no effects (Orsino's wait), or whose conditions all fail, resolves without touching anyone.
     if (effects.length && effects.every(e => !AbilityUse.targets(e, targetId, expressions, context).length
       && !['defend', 'flee', 'travel'].includes(e.kind))) { throw new Error('No eligible ability target'); }
@@ -112,7 +116,7 @@ export class AbilityUse {
     }
     const resisted = new Set<string>();
     if (ability.resist && actor) {
-      const dc = expressions.amount(ability.resist.difficulty, Effects.context(actor));
+      const dc = expressions.amount(ability.resist.difficulty, Effects.context(actor, context.castingLevel));
       const touched = new Set(effects.flatMap(e => AbilityUse.targets(e, targetId, expressions, context)));
       for (const t of [...touched].filter(t => area || t.team !== actor.team)) {
         if (Effects.save(t, ability.resist.kind, dc, context)) { resisted.add(t.id); }
@@ -144,7 +148,7 @@ export class AbilityUse {
   private static *landings(effect: Effect, targets: Fighter[], expressions: Expressions, context: EffectContext) {
     for (const aimed of targets) {
       if (!Volley.of(effect) || !context.actor) { yield aimed; continue; }
-      const blows = expressions.amount(effect.count!, Effects.context(context.actor));
+      const blows = expressions.amount(effect.count!, Effects.context(context.actor, context.castingLevel));
       for (let n = 0; n < blows; n++) {
         const target = Volley.next(aimed, context.fighters);
         if (!target) { return; }
@@ -184,7 +188,7 @@ export class AbilityUse {
     if (effect.kind === 'cast') { return CompoundEffects.cast(effect, target, options); }
     if (effect.kind === 'apply' && effect.save && options.resisted) { return false; }
     let took: 'full' | 'partial' = 'full';
-    const values = actor ? Effects.context(actor) : context.values ?? {};
+    const values = actor ? Effects.context(actor, context.castingLevel) : context.values ?? {};
     // A perk can make one ability hit harder (a thieves' guild's backstab).
     const harms = effect.kind === 'damage' || effect.kind === 'drain';
     const harder = actor && options.ability && harms ? Perks.abilityDamage(actor.traits, options.ability) : 1;
@@ -215,7 +219,8 @@ export class AbilityUse {
     const effectContext = sourceBound && actor && !context.source ? { ...context,
       source: { id: `${actor.id}:${options.ability ?? 'hook'}`, kind: 'ability' as const } } : context;
     const start = context.events.length;
-    Effects.apply(effect, target, amount, effectContext); ShakingOff.mark(effect, target, actor, expressions);
+    Effects.apply(effect, target, amount, effectContext);
+    ShakingOff.mark(effect, target, actor, { expressions, castingLevel: context.castingLevel });
     // Orsino's onHeal: the healer's own statuses answer its healing (a healer marked for judgment burns).
     if (effect.kind === 'heal' && actor) { AbilityUse.hooks(actor, 'onHeal', target, context); }
     if (took === 'partial' && effect.kind === 'damage') {
@@ -244,7 +249,7 @@ export class AbilityUse {
       AbilityUse.hooks(target, 'onMissReceived', actor, context);
       return false;
     }
-    const rolled = expressions.number(attacker.weapon.damage, Effects.context(actor));
+    const rolled = expressions.number(attacker.weapon.damage, Effects.context(actor, context.castingLevel));
     const melee = Effects.dice(attacker.modifiers.bonusMeleeDamage, context, actor);
     const damage = Fighting.weaponDamage(attacker, rolled, roll.critical, melee);
     const before = target.hp;

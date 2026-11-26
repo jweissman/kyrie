@@ -15,7 +15,7 @@ export class PerkTriggers {
     if (ability.resist) {
       for (const extra of Perks.triggers(actor.traits, 'onOffensiveCasting', at)) {
         for (const target of enemies.filter(f => alive.has(f.id) && f.hp > 0)) {
-          const amount = context.expressions!.number(extra.amount, Effects.context(actor));
+          const amount = context.expressions!.number(extra.amount, Effects.context(actor, context.castingLevel));
           Effects.apply({ kind: 'damage', amount: { kind: 'literal', value: amount }, damageType: extra.damageType,
             target: 'enemy' }, target, amount, context);
         }
@@ -27,7 +27,8 @@ export class PerkTriggers {
         Effects.apply({ kind: 'apply', status: reward.status, duration: 1, target: 'self' }, actor, 0, context);
       }
       for (const resource of ['gold', 'experience'] as const) {
-        const roll = reward[resource] && context.expressions!.number(reward[resource], Effects.context(actor));
+        const roll = reward[resource] && context.expressions!.number(reward[resource],
+          Effects.context(actor, context.castingLevel));
         if (!roll) { continue; }
         // Orsino's gold is in gold pieces; Kyr pays a coin for every ten.
         const amount = resource === 'gold'

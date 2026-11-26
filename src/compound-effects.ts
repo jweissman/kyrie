@@ -36,7 +36,10 @@ export class CompoundEffects {
     const loose = Positions.area(inner) ? target.id : actor.id;
     const chosen = !aimed ? loose : candidates.some(c => c.id === target.id) ? target.id : candidates[0]?.id;
     if (!chosen) { return false; }
-    const result = AbilityUse.perform(inner, chosen, options.expressions, { ...options.context, free: true });
+    const castingLevel = effect.castingLevel ?? options.context.castingLevel;
+    const result = AbilityUse.perform(inner, chosen, options.expressions, {
+      ...options.context, ...castingLevel === undefined ? {} : { castingLevel }, free: true
+    });
     return result.outcome === 'failure' ? false : result.outcome === 'partial' ? 'partial' : 'full';
   }
 }

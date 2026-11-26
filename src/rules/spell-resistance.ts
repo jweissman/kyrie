@@ -21,7 +21,8 @@ export class SpellResistance {
     if (known !== undefined) { return known; }
     const difficulty = SpellResistance.of(target);
     if (difficulty <= 0) { resisting.set(target.id, true); return true; }
-    const die = context.expressions.number('1d20'), level = Effects.context(actor).castingLevel ?? actor.level;
+    const die = context.expressions.number('1d20'),
+      level = Effects.context(actor, context.castingLevel).castingLevel ?? actor.level;
     const success = die + level >= difficulty;
     context.events.push({ type: 'resist', turn: context.turn, actor: actor.id, target: target.id, die, level,
       rolled: die + level, difficulty, success });

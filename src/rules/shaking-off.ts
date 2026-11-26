@@ -7,12 +7,14 @@ import type { Fighter } from '../model';
 // the effect"): a condition laid by a save marked `again` keeps the save and its difficulty, and its holder, on each
 // turn it loses to it, saves again; a success ends it, and the turn is spent on the effort.
 export class ShakingOff {
-  static mark(effect: Effect, target: Fighter, actor: Fighter | undefined, expressions: Expressions) {
+  static mark(effect: Effect, target: Fighter, actor: Fighter | undefined,
+    context: { expressions: Expressions; castingLevel?: number }) {
     if (effect.kind !== 'apply' || !effect.save?.again || !effect.save.kind) { return; }
     const held = target.statuses.findLast(s => s.id === effect.status);
     if (!held) { return; }
     held.again = { kind: effect.save.kind,
-      difficulty: expressions.amount(effect.save.difficulty, actor ? Effects.context(actor) : {}) };
+      difficulty: context.expressions.amount(effect.save.difficulty,
+        actor ? Effects.context(actor, context.castingLevel) : {}) };
   }
   static tick(holder: Fighter, context: EffectContext) {
     for (const s of holder.statuses.filter(s => s.again && holder.hp > 0)) {
