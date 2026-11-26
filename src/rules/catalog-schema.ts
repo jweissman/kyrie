@@ -127,6 +127,8 @@ export interface Statistics {
   // Its natural attacks in a round, in order, each a natural weapon of the catalog (a dragon's claws, claws, bite):
   // its plain blow is all of them, a roll each, as one action. Its weapon alone when unstated.
   attacks?: string[];
+  // Fixed ascending attack and signed damage bonuses, one for each natural attack in order.
+  strikes?: { attackBonus: number; damageBonus: number }[];
   // Orsino's template growth for a creature made above first level: every fixed attribute rises by round(level / 8),
   // and a monster's hit points are base + Constitution modifier + perLevel × level (an animal's stay fixed).
   growth?: { hitPoints?: { base: number; perLevel: number } };
@@ -162,6 +164,7 @@ export interface Overlay {
   // SRD's turns five: forgoes.resistances names the harm), and it may act fewer times a turn than its base (actions).
   forgoes?: { abilities?: string[]; traits?: string[]; resistances?: string[] }; riders?: Record<string, Effect[]>;
   damage?: Record<string, string>; armorBonus?: string; saves?: Statistics['saves']; attackBonus?: number;
+  strikes?: Statistics['strikes'];
   actions?: number;
   // Its six scores, in place of its base's, rolled or fixed (an SRD boar over Orsino's rolled one): where it says them
   // it lays no attributes of its own beside them (srd-proving-cases.md case 65).

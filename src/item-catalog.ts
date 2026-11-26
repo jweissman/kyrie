@@ -253,6 +253,9 @@ export class CatalogContext {
     const natural = species?.statistics;
     const wielded = equipped.find(i => this.get(i.definition).weapon);
     const worn = equipped.find(i => this.get(i.definition).armor);
+    const routine = !wielded && natural?.attacks?.length ? natural.attacks.map((id, i) => ({
+      ...this.body(id, natural), ...id !== natural.weapon ? { lesser: true } : {}, ...natural.strikes?.[i],
+    })) : undefined;
     const hooks: Hooks = {};
     for (const i of equipped) {
       for (const [key, effects] of Object.entries(this.get(i.definition).hooks ?? {})) {
@@ -262,12 +265,12 @@ export class CatalogContext {
 
     // A body's own blows carry its kind's riders (see Statistics.riders); a weapon in hand carries none of them.
     return { modifiers: ModifierSet.sum(equipped.map(i => this.get(i.definition).modifiers ?? {})), hooks,
-      weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material) : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
+      weapon: wielded ? this.weapon(wielded.definition, undefined, wielded.material)
+        : natural?.strikes ? routine![0]! : this.body(CreatureVariants.weapon(creature, natural?.weapon) ?? 'fist', natural),
       armorAc: worn ? this.get(worn.definition).armor!.ac : natural?.armor ? this.get(natural.armor).armor!.ac
         + StatExpressions.armor(natural.armorBonus, { level: creature.base.level }) : 0,
       body: species ? this.bodyStats(species) : null,
-      ...!wielded && natural?.attacks?.length ? { routine: natural.attacks.map(id => id === natural.weapon
-        ? this.body(id, natural) : { ...this.body(id, natural), lesser: true }) } : {} };
+      ...routine ? { routine } : {} };
   }
   // A body's own blow: the weapon, in its stat block's own damage where it says one (see StatExpressions), with what
   // it carries when it lands (its riders).

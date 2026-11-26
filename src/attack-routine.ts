@@ -7,12 +7,17 @@ export class AttackRoutine {
   // perform strikes once and says whether what was struck at is down.
   static strike(actor: Fighter, ability: string, history: CombatEvent[], perform: () => boolean) {
     const routine = ability === 'melee' && actor.equipment?.routine?.length ? actor.equipment.routine : [undefined];
-    for (const [i, weapon] of routine.entries()) {
-      if (weapon) { actor.equipment = { ...actor.equipment!, weapon }; }
-      const start = history.length;
-      const down = perform();
-      if (i > 0 && history[start]?.type === 'action') { history.splice(start, 1); }
-      if (down) { return; }
+    const original = actor.equipment?.weapon;
+    try {
+      for (const [i, weapon] of routine.entries()) {
+        if (weapon) { actor.equipment = { ...actor.equipment!, weapon }; }
+        const start = history.length;
+        const down = perform();
+        if (i > 0 && history[start]?.type === 'action') { history.splice(start, 1); }
+        if (down) { return; }
+      }
+    } finally {
+      if (original && actor.equipment && routine[0]) { actor.equipment = { ...actor.equipment, weapon: original }; }
     }
   }
 }

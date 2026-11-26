@@ -884,12 +884,14 @@ its Strength and saved by its scores and level. Now, by the breed alone (data/ca
 - AC 14 as Westernesse 7 (converted: the SRD's natural armour 2 and Dexterity 2 are Westernesse's Dexterity modifier of
   15 alone, so it wears nothing).
 
-**Adapted:** the claws are struck at the bite's +2, where the SRD's secondary claws are at +0 (a fixed block has one
-bonus). **Omitted:** ghoul fever (a disease by days the engine has no clock for: its play identity stays unassessed),
+**Update, 26 November:** the bite is at +2 for 1d6+1 and both secondary claws at +0 for 1d3; their paralysis riders
+remain. Kyr's critical policy remains an adaptation. The census does not compare the secondary attack bonuses.
+**Omitted:** ghoul fever (a disease by days the engine has no clock for: its play identity stays unassessed),
 turn resistance, elves' immunity. The census grades it S✓ R✓ I–; with the rat, two of 71 creatures now pass in
 resolution, and one of a1's 88 placed groups is SRD-faithful (1 % of the six countries' meetings).
 
 **What it moves:** the vault alone, in all eight worlds; no other installed group holds it (it is `unplaced`). The
+following challenge and encounter measurements predate the strike update and need to be repeated in CI. The
 challenge table measures it again: 2 at its first level, 3 at its fifth (it had been 4 and 5), a second-level
 warrior's match; test/srd-challenge follows. The vault, its keeper as placed (level 2, 13 hit points), 40 seeds:
 
@@ -2101,9 +2103,9 @@ young owlbear is a module's own kind (the circus menagerie).
 - saves of +9, +5 and +2 (exact);
 - AC 15 as Westernesse 6 (converted: natural 2 and Dexterity 1).
 
-It goes without Orsino's five powers and the wild aspect, which had added +2 to hit, +1 to every roll, evasion, bonus damage and a tenth off all harm. **Adapted:** the bite at the claws' +9 and full Strength (one bonus a body). **Omitted:** improved grab, scent. The census grades it S✓ R✓ I–: 4 of 76 creatures now pass in resolution.
+It goes without Orsino's five powers and the wild aspect, which had added +2 to hit, +1 to every roll, evasion, bonus damage and a tenth off all harm. **Update, 26 November:** its two claws are at +9 for 1d6+5 and its bite at +4 for 1d8+2, carried as individual fixed strike bonuses into combat. Kyr's criticals remain different. **Omitted:** improved grab, scent. The census grades it S✓ R✓ I–, but compares only the first attack's hit chance and the damage dice, not each strike's bonuses.
 
-**Its challenge,** measured (bin/kyrie bestiary challenge, test/srd-challenge): **8.** A lone warrior needs the eighth level to beat it; it is the SRD's challenge 4 for a company of four. Orsino's owlbear measures 1 at its first level and 6 at its fifth.
+**Its challenge before the strike update**, measured (bin/kyrie bestiary challenge, test/srd-challenge): **8.** A lone warrior needed the eighth level to beat it; it is the SRD's challenge 4 for a company of four. Orsino's owlbear measured 1 at its first level and 6 at its fifth. These measurements predate the weaker secondary bite and must be repeated in CI.
 
 **What it moves:** two placements, chosen because each is warned of and has a way round:
 - **Tallow's scrub,** the she-owlbear: baited with a ration of meat. Tallow's own fight table (scripts/tallow-fights.ts, its fresh company, 20 seeds): won 12/20 → 3/20, all three members down in 16.
