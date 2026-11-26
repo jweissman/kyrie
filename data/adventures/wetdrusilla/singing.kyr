@@ -1,4 +1,5 @@
 Module wetdrusilla "Wet Drusilla" {
+  Relation noteHeld(group).
   Hazard dune_fall "A fall down the dune" means "Deal (1d6) physical damage to ally unless dexterity save against (12).".
 
   // ── The Singing ───────────────────────────────────────────────────────────────────────────────────────────────────
@@ -11,20 +12,21 @@ Module wetdrusilla "Wet Drusilla" {
     Result "You warm the wax in your fist and press it in. The Mary goes quiet as a held breath, and your own pulse comes up in the middle of the quiet like a man knocking.".
   }
   Action hold_note(actor: group) "Hold the low note against the Singing until it is light" {
-    Requires able(actor) and company(actor) and at(actor, deck) and knows(actor, low_note) and leg() == 3 and day(clock) == 2 and hour(clock) >= 18 and not guarded(actor).
+    Requires able(actor) and company(actor) and at(actor, deck) and knows(actor, low_note) and leg() == 3 and day(clock) == 2 and hour(clock) >= 18 and not guarded(actor) and not noteHeld(actor).
     Time 8 hours.
     Meanwhile guarded(actor).
+    On success { Assert noteHeld(actor). }
     Result "You sit with your back to the mast and find the note, down under your breastbone where Perpetua put it, and hold it. Above the bowl the hum climbs, and tries your note, and slides off it like water off a roof. Around two the Captain brings you a cup and says nothing at all. Toward four the slopes go quiet one by one, and the dunes lie down.".
   }
-  Rule night_calm when leg() == 3 and day(clock) >= 3 and hour(clock) >= 1 and hour(clock) < 5 and not nightPassed(party) and guarded(party)
+  Rule night_calm heard within mary when leg() == 3 and day(clock) >= 3 and hour(clock) >= 1 and hour(clock) < 5 and not nightPassed(party) and (guarded(party) or noteHeld(party))
     says "Deep in the night, with your note under it, the Singing has nothing to hold. Sunniva Cleat sleeps on the deck with the bag in both arms and her mouth a little open, and does not stir." {
     Assert nightPassed(party). Increase warmth() by 1.
   }
-  Rule night_walk when leg() == 3 and day(clock) >= 3 and hour(clock) >= 1 and hour(clock) < 5 and not nightPassed(party) and not guarded(party) and not waxed(party)
+  Rule night_walk heard within mary when leg() == 3 and day(clock) >= 3 and hour(clock) >= 1 and hour(clock) < 5 and not nightPassed(party) and not guarded(party) and not noteHeld(party) and not waxed(party)
     says "The hum finds you at one in the morning and goes through you like a hand through water. You are on your feet. You are at the lee rail. Then you are at the foot of a dune with sand in your mouth and one boot gone, and the Mary's lamp very high above you. At the rail, where Sunniva Cleat was, there is nobody." teaches bowl_seen {
     Assert nightPassed(party). Assert strikes(dune_fall, party). Retract at(sunniva, deck). Assert at(sunniva, crest). Assert state(dune_ladder_t, dropped).
   }
-  Rule night_walk_deaf when leg() == 3 and day(clock) >= 3 and hour(clock) >= 1 and hour(clock) < 5 and not nightPassed(party) and not guarded(party) and waxed(party)
+  Rule night_walk_deaf heard within mary when leg() == 3 and day(clock) >= 3 and hour(clock) >= 1 and hour(clock) < 5 and not nightPassed(party) and not guarded(party) and not noteHeld(party) and waxed(party)
     says "The wax holds. In the silence you see Sunniva Cleat get up from the deck like a woman who has been called, and go to the lee rail, and down the ladder with the bag in her arms, and up the long slope of the dune with her face turned to the stars. Her mouth is moving." teaches bowl_seen {
     Assert nightPassed(party). Retract at(sunniva, deck). Assert at(sunniva, crest). Assert state(dune_ladder_t, dropped).
   }
@@ -43,6 +45,13 @@ Module wetdrusilla "Wet Drusilla" {
     says "At four she comes down the dune alone, in the grey, with sand in her hair and her face quite empty. A thread of ash is on her sleeve. The bag is lighter than it was, and she knows it by the way it hangs. She sits against the mast, and says nothing, and will not meet anybody's eye." {
     Retract at(sunniva, crest). Assert at(sunniva, deck). Assert ashesLost(party). Decrease warmth() by 1 or to nothing. Assert state(dune_ladder_t, stowed).
   }
+  // Her warmth is a measure the page does not show: a quiet note as it crosses what the endings ask.
+  Discovery sunniva_near "Sunniva Cleat has begun to speak to you as to someone who will be at the rail at the end.".
+  Discovery sunniva_warm "Sunniva Cleat has said more to you on this voyage than to anyone aboard the Mary.".
+  Rule sunniva_nears within mary when warmth() >= 1 and not knows(party, sunniva_near)
+    says "Sunniva Cleat moves the bag to her other arm, so that there is room beside her at the rail." teaches sunniva_near { }
+  Rule sunniva_warms within mary when warmth() >= 2 and not knows(party, sunniva_warm)
+    says "Sunniva Cleat hands you the end of a sheet to hold while she makes it fast, as she would hand it to Cleat." teaches sunniva_warm { }
   Topic sunniva_heard with sunniva "Tell Sunniva you heard her on the dune" when walkedBack(party) and knows(actor, verse_8) once {
     Says "She is quiet for the length of a long breath. 'Then you have it,' says Sunniva Cleat. 'I did not give it.' She looks at the bag. 'I have sung it every night since the will was read, with the door shut. It is a very bad verse. It is not even well made.' Her mouth does something. 'Thank you for not making a speech. Don't sing it for me.'".
     On discuss { Increase warmth() by 1. }

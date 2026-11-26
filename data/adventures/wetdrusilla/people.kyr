@@ -67,16 +67,17 @@ Module wetdrusilla "Wet Drusilla" {
     Says "'Insufferable. Ate standing up. Sent soup back that she'd asked for.' He puts the spoon down and picks it up again. 'Eleven years. She said grace once, in the Chorus, in a dust storm. She said, Thank you for the water, and sorry for the rest. I never knew who she meant it to.'".
     On discuss { Assert knows(actor, drusilla_grace). }
   }
-  Topic bartle_asks with bartle "Bartle asks you a question" when addressed(bartle, actor) and company(actor) and not bartleAsked(actor) once {
-    Says "'Do I carry a tune?' says Bartle Cresswell, and the spoon stops. 'Honestly. Everyone lies.'".
-    On discuss { Assert bartleAsked(actor). }
+  Topic bartle_asks with bartle "Ask Bartle whether he knows a verse" when not knows(actor, tune_asked) once {
+    Says "'I know the one,' says Bartle Cresswell, and the spoon stops. 'First tell me. Do I carry a tune? Honestly. Everyone lies.'".
+    On discuss { Assert knows(actor, tune_asked). }
   }
-  Relation bartleAsked(group). Relation bartleSang(group).
-  Topic bartle_lie with bartle "Tell him he carries it beautifully" answering bartle_asks when true {
+  Relation bartleSang(group).
+  Discovery tune_asked "Bartle Cresswell will sing his verse once he is told, honestly, whether he carries a tune.".
+  Topic bartle_lie with bartle "Tell him he carries it beautifully" answering bartle_asks when knows(party, tune_asked) {
     Says "'There,' says Bartle, and goes pink to the ears. 'Eleven years, and nobody has said so. Then I'll sing it.' He clears his throat and drives into it like a cart into a river: 'She towed the Penny off Garrow Flat / with eleven goats and a mule; / the goats went first, and the crust held firm, / and she said the mule was a fool.' He stops, delighted. 'The goats go first. That's the whole of the verse. She never trusted a sand she hadn't sent a goat across.'".
     On discuss { Assert knows(actor, verse_3). Assert knows(actor, goat_lore). Increase verses() by 1. Assert bartleSang(party). }
   }
-  Topic bartle_truth with bartle "Tell him he carries it like a goat carries a bucket" answering bartle_asks when true {
+  Topic bartle_truth with bartle "Tell him he carries it like a goat carries a bucket" answering bartle_asks when knows(party, tune_asked) {
     Says "Bartle Cresswell laughs so hard he has to sit on a pot. 'A goat!' he says. 'A bucket!' He wipes his eyes. 'Nobody ever said. Eleven years, I have been stopping my ears against myself.' He takes a lump of yellow wax out of his apron and gives it to you, and then, because he is not able to stop, sings: 'She towed the Penny off Garrow Flat / with eleven goats and a mule; / the goats went first, and the crust held firm, / and she said the mule was a fool.' 'The goats go first,' he says. 'That's the whole of the verse.'".
     On discuss { Assert knows(actor, verse_3). Assert knows(actor, goat_lore). Increase verses() by 1. Assert bartleSang(party). Give ds_wax to actor. }
   }

@@ -2826,6 +2826,30 @@
    "was": "defect",
    "pri": "P2",
    "why": "the owner's direction of 26 November (composition by contrast), kept whole, not yet commissioned"
+  },
+  "OR-1110": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov, an adventure's friction: its thin parts unproven, not a broken contract (its dead ends, its act that lied and its unpaid hands mended at integration)"
+  },
+  "OR-1111": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov, an adventure's friction: proposals for Kyr, Deem and the author's tools, a wanted future"
+  },
+  "OR-1112": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov, championing an author: an engine capability their prose wanted, a wanted future"
+  },
+  "OR-1113": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P3",
+   "why": "26 Nov, championing two authors: an engine capability their prose wanted, a wanted future"
   }
  },
  "blockedBy": {

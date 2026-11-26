@@ -16,7 +16,7 @@ Module wetdrusilla "Wet Drusilla" {
     says "A horn blows from the quay, once, and Captain Pomfret says a word to the deck. Tiggs comes down the long ladder with the goat under one arm, and the ladder is hauled up behind him. From the masthead Ravel Balfour calls down, 'Steady's up.' The loft-sail drops from its yard and fills with a crack like a door in a gale, and the Mary goes." {
     Set leg() to 1. Assert state(quay_ladder_t, up). Retract at(tiggs, quay). Assert at(tiggs, deck). Retract at(goat, quay). Assert at(goat, deck).
   }
-  Rule moor_at_hulk when leg() == 1 and (day(clock) >= 2 or hour(clock) >= 19)
+  Rule moor_at_hulk heard within mary when leg() == 1 and (day(clock) >= 2 or hour(clock) >= 19)
     says "The sun goes down behind the Mary's stern, huge and flat, and ahead of her something black stands up out of the sand: ribs, a funnel, a long iron side. 'The Magnanimous,' says the Captain. 'We lie under her tonight. Nobody sails the Chorus in the dark.' The loft-sail comes down, and the runners grind, and stop." teaches hulk_seen {
     Set leg() to 2. Assert state(plank_t, laid).
   }
@@ -29,7 +29,7 @@ Module wetdrusilla "Wet Drusilla" {
     says "The Steady comes up as it came the day before, like a hand under a blanket. The plank is hauled in, the sail drops, and the Magnanimous slides back and away until it is a toy on its side in the glare. Ahead the sand begins to heave in long pale ranks." {
     Set leg() to 3. Assert state(plank_t, stowed).
   }
-  Rule anchor_in_bowl when leg() == 3 and day(clock) == 2 and hour(clock) >= 17 and not anchored(party) once
+  Rule anchor_in_bowl heard within mary when leg() == 3 and day(clock) == 2 and hour(clock) >= 17 and not anchored(party) once
     says "In the late light the Captain swings the Mary into a bowl between three dunes, and drops the sand-anchor, and furls. 'Not a step further till dawn,' she says. 'You'll hear why.'" {
     Assert anchored(party).
   }

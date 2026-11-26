@@ -68,7 +68,22 @@ Module wetdrusilla "Wet Drusilla" {
     Result "Sunniva Cleat looks at the Silver for a long time, and at the sky in it. 'No,' she says. 'I thought I could. I find I would rather she sat in a sail-loft where I can see her, and I will take her home.' She shifts the bag. 'You sang it well. Thank you. It was not for you to ask.'".
   }
 
-  Rule raiders_stand when leg() == 4 and at(jessamy, deck) and not scattered(party) and not refused(party) and not standTold(party) once
+  // Hands' pay, promised on the quay: three coin at the Silver.
+  Rule pomfret_pays heard within mary when leg() == 4 and not paidHands(party) once
+    says "Captain Pomfret comes along the rail with her bad hand shut, and opens it over yours: three coin. 'Hands' pay,' she says. 'At the Silver. It's what I said.'" {
+    Assert paidHands(party). Increase quantity(party, gold) by 3.
+  }
+  Relation paidHands(group).
+  Relation graced(group).
+  // Bartle's story of her one grace, said where she is going.
+  Action say_grace(actor: group) "Say Drusilla's grace over the rail" {
+    Requires able(actor) and company(actor) and at(actor, deck) and leg() == 4 and knows(actor, drusilla_grace) and not graced(actor).
+    Time 1 minute.
+    On success { Assert graced(actor). Increase warmth() by 1. }
+    Result "'Thank you for the water,' you say, to the Silver, 'and sorry for the rest.' In the galley door Bartle Cresswell takes his hat off. Sunniva Cleat looks round at you as if you had said her name. 'She said that,' she says. 'In the storm. He told me once, and I did not believe him.'".
+  }
+
+  Rule raiders_stand heard within mary when leg() == 4 and at(jessamy, deck) and not scattered(party) and not refused(party) and not standTold(party) once
     says "Nobody on deck speaks to Jessamy Teak. She takes her hat off." {
     Assert standTold(party).
   }

@@ -3,7 +3,7 @@ Module wetdrusilla "Wet Drusilla" {
   Milestone ds_ms_all "learned eight verses of Wet Drusilla" worth 80 when verses() >= 8.
   Milestone ds_ms_raiders "stopped the sledge-folk without a blow" worth 80 when tolerates(jessamy, party).
   Milestone ds_ms_crust "brought the Mary over the crust" worth 60 when crustSafe(party).
-  Milestone ds_ms_night "kept the Singing off" worth 60 when nightPassed(party) and (guarded(party) or waxed(party)).
+  Milestone ds_ms_night "kept the Singing off" worth 60 when nightPassed(party) and (guarded(party) or noteHeld(party) or waxed(party)).
   Milestone ds_ms_sung "sang the song on the Silver" worth 100 when sung(party).
   Milestone ds_ms_jars "saw the lights under the brine" worth 40 when knows(party, jars_known).
 }

@@ -1476,6 +1476,8 @@
     "test/quiet-watches.test.ts": 160000,
     "test/one-action.test.ts": 90000,
     "test/tailrace.test.ts": 50000,
-    "test/tailrace-placed.test.ts": 34000
+    "test/tailrace-placed.test.ts": 34000,
+    "test/wetdrusilla.test.ts": 21000,
+    "test/wetdrusilla-placed.test.ts": 17000
   }
 }

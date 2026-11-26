@@ -16,7 +16,7 @@ Module wetdrusilla "Wet Drusilla" {
     Pleads "The woman with the gourd sits down hard on the deck with her hand to her side, and the others stop where they stand. 'Enough,' she says. 'Enough. Take it, Captain, it's yours.'".
     Greets "She looks at you like someone reckoning a distance, and not a long one.".
   }
-  Rule raiders_leave when leg() == 3 and at(jessamy, deck) and tolerates(jessamy, party) and raidersPaid(party) and not kinRaider(party)
+  Rule raiders_leave heard within mary when leg() == 3 and at(jessamy, deck) and tolerates(jessamy, party) and raidersPaid(party) and not kinRaider(party)
     says "The sledges cast off and fall away astern, their sails going pale against the sand, and the woman with the gourd lifts a hand without turning round. Nobody on the Mary lifts one back." {
     Retract at(jessamy, deck).
   }
@@ -52,11 +52,11 @@ Module wetdrusilla "Wet Drusilla" {
     On discuss { Give ds_gourd to actor. Assert alongside(party). }
   }
   Relation alongside(group).
-  Rule jessamy_alongside when at(jessamy, deck) and alongside(party) and leg() == 3
+  Rule jessamy_alongside heard within mary when at(jessamy, deck) and alongside(party) and leg() == 3
     says "The sledges peel off and run along the Mary's flank, a little way out, hissing, with their sails reefed to her pace." {
     Retract at(jessamy, deck).
   }
-  Rule jessamy_returns when leg() == 4 and alongside(party) and not at(jessamy, deck)
+  Rule jessamy_returns heard within mary when leg() == 4 and alongside(party) and not at(jessamy, deck)
     says "Three sledges come in over the white and lie off the Mary's stern, and Jessamy Teak climbs the rail without a hook and stands in the bows with her hands behind her, like someone who has come early to church." {
     Assert at(jessamy, deck).
   }
@@ -64,16 +64,16 @@ Module wetdrusilla "Wet Drusilla" {
   // ── The crust ─────────────────────────────────────────────────────────────────────────────────────────────────────
   // Afternoon on the second day. Three lanes across a field of crusted sand; one carries the Mary, and a world's dice say
   // which (Deem, rolled once when the module is installed). A goat, a trained ear or luck.
-  Rule crust_ahead when leg() == 3 and day(clock) == 2 and hour(clock) >= 14 and not crustSeen(party) once
+  Rule crust_ahead heard within mary when leg() == 3 and day(clock) == 2 and hour(clock) >= 14 and not crustSeen(party) once
     says "'Crust,' calls Ravel Balfour from the masthead, without raising his voice. 'Wide. Three lanes: left, middle, right. One of them will carry us.' Captain Pomfret does not look round. 'Which?' 'I hear it,' says Ravel, 'and I'll not say. A man leans on what he's told.' 'Somebody call it,' says the Captain. 'Anybody. We're at the edge.'" {
     Assert crustSeen(party). Assert crustPending(party).
   }
   Relation crustSeen(group).
-  Rule crust_default when crustPending(party) and day(clock) == 2 and hour(clock) >= 15 and sinklane() == 2
+  Rule crust_default heard within mary when crustPending(party) and day(clock) == 2 and hour(clock) >= 15 and sinklane() == 2
     says "The Captain gives up on you and takes the middle. It holds." {
     Retract crustPending(party). Assert crustSafe(party).
   }
-  Rule crust_default_wrong when crustPending(party) and day(clock) == 2 and hour(clock) >= 15 and sinklane() != 2
+  Rule crust_default_wrong heard within mary when crustPending(party) and day(clock) == 2 and hour(clock) >= 15 and sinklane() != 2
     says "The Captain gives up on you and takes the middle. It is a very bad choice. The near runner goes through the crust with a noise like a plate breaking, and the Mary slams down on her side, and sand comes over the rail in a long warm sheet. Two casks are gone." {
     Retract crustPending(party). Assert crustBroken(party). Assert strikes(sink_lurch, party). Decrease casks() by 2 or to nothing.
   }
@@ -128,14 +128,28 @@ Module wetdrusilla "Wet Drusilla" {
     Time 3 minutes.
     Resolve check(actor, wayfinding, dc_fair).
     On success { Assert lanesHeard(actor). }
-    Result "You lie on the warm planks with your cheek to the wood, and the Ebb comes up through the Mary in layers: the hiss, the drumming of the runners, a long dry creak you take at first for the mast. The left-hand lane is quiet. The middle is a different quiet, slightly hollow. The right is a low full drumming, like a barn floor. You know which you would stand on.".
+    Result "You lie on the warm planks with your cheek to the wood, and the Ebb comes up through the Mary in layers: the hiss, the drumming of the runners, a long dry creak you take at first for the mast. The left-hand lane is a low full drumming, like a barn floor. The middle is quiet, slightly hollow. The right is a different quiet, hollower still. You know which you would stand on.".
+    Result "You lie on the warm planks with your cheek to the wood, and the Ebb comes up through the Mary in layers: the hiss, the drumming of the runners, a long dry creak you take at first for the mast. The left-hand lane is quiet. The middle is a low full drumming, like a barn floor. The right is a different quiet, slightly hollow. You know which you would stand on." when sinklane() == 2.
+    Result "You lie on the warm planks with your cheek to the wood, and the Ebb comes up through the Mary in layers: the hiss, the drumming of the runners, a long dry creak you take at first for the mast. The left-hand lane is quiet. The middle is a different quiet, slightly hollow. The right is a low full drumming, like a barn floor. You know which you would stand on." when sinklane() == 3.
     Otherwise "You lie with your cheek to the planks and hear the Mary. Ravel Balfour does not stir.".
   }
   Relation lanesHeard(group).
 
-  Rule crust_safe_told when crustSafe(party) and not safeTold(party) once
+  Rule crust_safe_told heard within mary when crustSafe(party) and not safeTold(party) once
     says "Behind the Mary the crust lies wrinkled and quiet, and Mrs Bishop, who did not volunteer, looks back at it with contempt." {
     Assert safeTold(party).
   }
   Relation safeTold(group).
+
+  // What the goat or a listening ear showed is kept, in the Notes as well as on the page, and the Captain reads it.
+  Discovery lane_left "Over the crust, the left-hand lane will carry the Mary.".
+  Discovery lane_middle "Over the crust, the middle lane will carry the Mary.".
+  Discovery lane_right "Over the crust, the right-hand lane will carry the Mary.".
+  Query laneShown() means goatSent(party) or lanesHeard(party).
+  Rule lane_shown_left within mary when laneShown() and crustPending(party) and sinklane() == 1 and not knows(party, lane_left)
+    says "Captain Pomfret reads it in your face before you speak. 'Left-hand, is it,' she says. 'Then call it.'" teaches lane_left { }
+  Rule lane_shown_middle within mary when laneShown() and crustPending(party) and sinklane() == 2 and not knows(party, lane_middle)
+    says "Captain Pomfret reads it in your face before you speak. 'The middle, is it,' she says. 'Then call it.'" teaches lane_middle { }
+  Rule lane_shown_right within mary when laneShown() and crustPending(party) and sinklane() == 3 and not knows(party, lane_right)
+    says "Captain Pomfret reads it in your face before you speak. 'Right-hand, is it,' she says. 'Then call it.'" teaches lane_right { }
 }
