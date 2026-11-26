@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "lodger.kyr",
+    "people.kyr",
+    "dorcas.kyr",
+    "endings.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "brack",
+    "road": "road"
+  }
+}

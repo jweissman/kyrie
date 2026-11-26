@@ -1,0 +1,93 @@
+{
+ "arrive": [
+  "^To the Cross"
+ ],
+ "learn": [
+  "Into Dorcas Holle's cottage",
+  "Ask Dorcas what she calls the whale",
+  "Ask Dorcas how it was raised",
+  "Ask Dorcas what the whale eats",
+  "Ask Dorcas where Elley's sourdough came from",
+  "Out to the Cross",
+  "Into Elley's bakehouse",
+  "Tell Perrin where the Old Leaven came from",
+  "Out to the Cross",
+  "To the Pits",
+  "Ask Marta for a cask of her tan-liquor, for the Lodger",
+  "To the Cross",
+  "To the peat-stack",
+  "Tell Tolt that Dorcas Holle was there sixty-one years ago, and the fire raised it",
+  "To the Cross",
+  "Into St Ebba's by the lych-gate",
+  "Ask Letty why the bell is muffled",
+  "Tell Letty you mean the Lodger no harm, and ask to go up"
+ ],
+ "look": [
+  "Into the steeple by the steeple door",
+  "To the jaw-ledge",
+  "Lash the ladder's foot to the spire",
+  "To the Lodger's back",
+  "To the Lodger's shoulder"
+ ],
+ "saley": [
+  "To the Lodger's back",
+  "To the jaw-ledge",
+  "To the bell-chamber",
+  "Out to the foot of the steeple",
+  "Out to the Cross",
+  "To the Edge road",
+  "To the Windlass Field",
+  "Tell Saley about the iron in the Lodger's shoulder",
+  "Ask Saley to lend you a cutting-bar"
+ ],
+ "cut": [
+  "To the Lodger's back",
+  "To the Lodger's shoulder",
+  "To the Lodger's back",
+  "To the jaw-ledge",
+  "To the bell-chamber",
+  "Strike the hour on the bare bell",
+  "To the jaw-ledge",
+  "To the Lodger's back",
+  "To the Lodger's shoulder",
+  "Cut the old iron out of the Lodger's shoulder"
+ ],
+ "feed": [
+  "To the Lodger's back",
+  "To the jaw-ledge",
+  "Pour the liquor and the leaven down the Lodger's lip",
+  "To the bell-chamber",
+  "Out to the foot of the steeple",
+  "Out to the Cross",
+  "=day 1 17:30",
+  "Light the Long Fire"
+ ],
+ "dorcas": [
+  "To the Cross",
+  "Into Dorcas Holle's cottage",
+  "Ask Dorcas if she would go up again",
+  "Ask her to come with you",
+  "Out to the Cross",
+  "Into St Ebba's by the lych-gate",
+  "Into the steeple by the steeple door",
+  "To the jaw-ledge",
+  "Pour the liquor and the leaven down the Lodger's lip",
+  "Help Dorcas Holle across the Lodger's lip",
+  "To the bell-chamber",
+  "Out to the foot of the steeple",
+  "Out to the Cross",
+  "=day 1 17:30",
+  "Light the Long Fire"
+ ],
+ "fedOnly": [
+  "To the Lodger's back",
+  "To the jaw-ledge",
+  "Pour the liquor and the leaven down the Lodger's lip"
+ ],
+ "roofs": [
+  "Into the Tarpaulin by the Tarpaulin's door",
+  "To the pigeon loft",
+  "Ask Sab how a person gets to the ledge without the stair",
+  "Into St Ebba's by the gutter over the roofs"
+ ]
+}

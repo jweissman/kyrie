@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "Over Exall",
+  "pitch": {
+    "heading": "Over Exall",
+    "text": "A drift-whale has hung itself by the lip on the steeple of Exall, and sinks a house-height every dusk. In three days it will be on the roofs. A woman of ninety-one calls it Candlemas, and says it has been here before."
+  },
+  "modules": [
+    {
+      "id": "overexall",
+      "bundle": "../adventures/overexall/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

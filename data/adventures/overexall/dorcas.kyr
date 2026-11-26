@@ -1,0 +1,34 @@
+Module overexall "Over Exall" {
+  // ── Dorcas Holle, who was there ───────────────────────────────────────────────────────────────────────────────────
+  Person dorcas "Dorcas Holle" at bedroom {
+    Role "the oldest woman in Exall". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Greets "A very old woman sits bolt upright against three pillows with her good ear toward the door. 'You are not Judith,' she says. 'Judith comes to shout. Sit where I can see you. What is it you want, and is it about that animal?'".
+    Greets again "'Well?' says Dorcas Holle. 'Closer. The good ear.'".
+    Farewell "'Mind the stair,' says Dorcas. 'They have not mended it since the last time.'".
+  }
+  Topic dorcas_candle with dorcas "Ask Dorcas what she calls the whale" when true once {
+    Says "'Candlemas.' She says it with a certain satisfaction. 'Sixty-one years ago, on the day of that name. She came down on the church exactly so, and hung from the spire exactly so, and starved exactly so. They all said it was a thing for the Bishop.' She settles her cushion. 'I was thirty. I had a husband and a bellows. I will tell you what I did if you can sit still.'".
+    On discuss { Assert knows(actor, candlemas_known). }
+  }
+  Topic dorcas_fire with dorcas "Ask Dorcas how it was raised" when knows(actor, candlemas_known) once {
+    Says "'On the third night, every hearth in Exall, lit at once. Every door open. Every chimney swept, and everybody up on a roof with a bellows to make sure.' She smiles at the ceiling. 'A thing like that holds itself up with the warmth in its belly, and when it is hungry it loses the warmth. So you give it ours. The smoke goes up under it like a hand. And she took it, you could feel her take it, the whole street took a breath. Then she went up like a lark.' She lowers her eyes. 'Which is a great deal of peat. We cut turf by lantern until Christmas, and not a soul complained.'".
+    On discuss { Assert knows(actor, fire_known). }
+  }
+  Topic dorcas_fed with dorcas "Ask Dorcas what the whale eats" when knows(actor, candlemas_known) once {
+    Says "'Whatever has gone a little off. I tried her with a fresh loaf, that first year, and she did not care for it at all. And then Mother Elley's bread, the sour, which had been left out three days.' She nods. 'Sour things. Rank things. Whatever has been thinking about it.'".
+    On discuss { Assert knows(actor, rank_known). }
+  }
+  Topic dorcas_bread with dorcas "Ask Dorcas where Elley's sourdough came from" when knows(actor, candlemas_known) once {
+    Says "'Ah.' She puts her head back. 'That is the story nobody listens to, because it is about bread. The morning Candlemas went up, a lump of grey came down out of her, a cough, a shedding, I do not know, and it landed on the Elleys' windowsill. Sour. Warm. Old Mother Elley put flour to it, because she was a practical woman.' A short, dry laugh. 'Two hundred years. Everyone in Exall has been eating her, every Sunday. It's a wonder she never minded.'".
+    On discuss { Assert knows(actor, leaven_known). }
+  }
+  Topic dorcas_back with dorcas "Ask Dorcas what it is like on the back" when knows(actor, candlemas_known) once {
+    Says "She is silent for so long that you wonder if she has dropped off. 'It is a meadow,' she says. 'It is warm, and the little things go by. If I could tell you what it is like I should not want to go again.' She turns her face to the window and the hum. 'There was no iron in her, then. Mind. She was thin, that was all. If you go up, look at her shoulder. Someone has been at her since.'".
+  }
+  Topic dorcas_wish with dorcas "Ask Dorcas if she would go up again" when knows(actor, candlemas_known) and not wishAsked(party) once {
+    Grave "Dorcas will go up with the Lodger, and not come down with the town.".
+    Says "'Nobody has asked.' She looks at you, with both ears, for the first time. 'I should like to see her go. I should like it from the back. I have my good coat, and my good handkerchief, and nobody left in this town who would not be better off with the story and without the woman.' A small smile. 'You will have to carry me up the steeple, which is not a thing I recommend, and then you will have to find a way of getting a very old lady over the lip of a very large animal. I will not be in the way.' She holds out a hand, and it does not shake. 'Say yes, and I will be dressed.'".
+    On discuss { Assert wishAsked(party). Assert acceptsEscort(dorcas, actor). }
+  }
+  Relation wishAsked(group).
+}

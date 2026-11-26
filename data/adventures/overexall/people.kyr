@@ -1,0 +1,144 @@
+Module overexall "Over Exall" {
+  // ── Judith Thord, the Tarpaulin ───────────────────────────────────────────────────────────────────────────────────
+  Person judith "Judith Thord" at taproom {
+    Role "keeper of the Tarpaulin". Profession innkeeper. Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Sells rations for 2 coin from 6.
+    Sells rope for 1 coin from 4.
+    Greets "A woman with her sleeves rolled stands in a pewter bowl behind the bar, pouring ale from a height. 'Don't sit on the left,' she says. 'It drips. The right drips less.'".
+    Greets again "'Right side,' says Judith Thord, by way of welcome.".
+  }
+  Topic judith_lodger with judith "Ask Judith how the whale came" when true once {
+    Says "'In the night. Tuesday. I heard the pots go.' She tilts a jug. 'It came down out of the dark very slowly with its mouth open, and shut it on the steeple, and that was that. Letty rang the hour and it did not let go. Four batches of cream, I have lost.' She sets the jug down. 'It is a rudeness I have not been able to take up with anyone.'".
+    On discuss { Assert knows(actor, lodger_known). }
+  }
+  Topic judith_last with judith "Ask Judith if it has happened before" when knows(actor, lodger_known) once {
+    Says "'Not in my time.' She wipes the bar in one long stroke. 'Dorcas Holle goes on about it. She says it was her Candlemas. Eleven years ago she said it was her cat. Go and be told, if you like, and bring a cushion.'".
+    On discuss { Assert knows(actor, candlemas_known). }
+  }
+  Topic judith_tolt with judith "Ask Judith what the Alderman is doing at the peat-stack" when true once {
+    Says "'Standing at it,' says Judith. 'He has been standing at it since Wednesday. I took him a pie and he did not eat it, he only held it, and when I came back for the plate it had gone cold in his hand.' She shakes her head. 'He is afraid of the winter. We all are. He is the one who has to be seen to be.'".
+    On discuss { Assert knows(actor, peat_known). }
+  }
+
+  // ── Sab Thord, in the loft ────────────────────────────────────────────────────────────────────────────────────────
+  Person sab "Sab Thord" at loft {
+    Role "Judith's son, who keeps the pigeons". Ancestry human. Pronouns he. Manner cheerful. Peaceable.
+    Greets "A boy of twelve is lying on his stomach in the pigeon-droppings with his chin on his fists, looking up through a slat at the belly of a whale. 'Shh,' he says. 'It's saying something.'".
+    Greets again "'Still saying it,' says Sab.".
+  }
+  Topic sab_roofs with sab "Ask Sab how a person gets to the ledge without the stair" when true once {
+    Says "'Out the hatch, along the gutter, over Elley's, over the Cross, and then it's just slates until the church.' He looks at your boots. 'You want a rope for the third bit. Or to be me.'".
+    On discuss { Assert knows(actor, roofs_known). }
+  }
+  Topic sab_night with sab "Ask Sab what he sees at night" when true once {
+    Says "'The feeler.' He says it with his whole face. 'It comes down the Pits at midnight, about, like a, like a big grey eel with an opinion. It goes along the racks. It only takes the rank one.' He sits up. 'I wanted to feed it a sausage. Mam says no. Mam says, it's not that kind of animal.'".
+    On discuss { Assert knows(actor, barbel_known). }
+  }
+
+  // ── Letty Forne, the bell-ringer ──────────────────────────────────────────────────────────────────────────────────
+  Person letty "Letty Forne" at foot {
+    Role "ringer of St Ebba's". Ancestry human. Pronouns she. Manner compassionate. Peaceable.
+    Greets "A broad woman in a tower-keeper's apron sits on the lowest step of the stair with a bell-rope across her lap and her arms folded on it. 'The steeple is shut,' she says. 'I'll not have it woken. If you've come to look at it, look from the Cross.'".
+    Greets again "'Shut,' says Letty Forne, 'still.'".
+  }
+  Topic letty_muffled with letty "Ask Letty why the bell is muffled" when true once {
+    Says "'Because it doesn't like loud.' She turns the rope over. 'I felt it the first night. I rang the hour with the clapper bare, as one does, and the whole whale went still, the way a cat does when you take it by the scruff. I thought I had killed it. Then it hummed back, and I was more frightened than before. So I wrapped the bell. The quarters I have stopped. The hours I could not, because the town has to know what time it is.' She stops. 'It answers the noon. A third below, from a great way off, like somebody humming along in another room. I have not told a soul. They would want me to stop, and I should not know how.'".
+    On discuss { Assert knows(actor, answer_heard). }
+  }
+  Topic letty_up with letty "Ask Letty to let you up the steeple" when not lettyLeave(party) once only {
+    Says "'No.' She does not look up. 'Not for someone who has not heard it.'".
+  }
+  Topic letty_leave with letty "Tell Letty you mean the Lodger no harm, and ask to go up" when knows(actor, answer_heard) and (knows(actor, rank_known) or knows(actor, candlemas_known)) and not lettyLeave(party) once {
+    Says "She looks at you for a long time. Then she gets up and unhooks the chain from the door, loop by loop, with the care of someone dressing a wound. 'Go up,' she says. 'Strike the hour on the bare bell, if you want it quiet. I only ever dared the once. It goes through the whole beast, and it holds still for it, and you have a little time.'".
+    On discuss { Assert lettyLeave(party). }
+  }
+
+  // ── Marta Hord, the tanner ────────────────────────────────────────────────────────────────────────────────────────
+  Person marta "Marta Hord" at row {
+    Role "the tanner". Ancestry human. Pronouns she. Manner proud. Peaceable.
+    Greets "A woman in a leather apron stands in her doorway with her arms folded, daring the day to say it. 'Don't,' she says, 'say anything about the smell. Everyone else has.'".
+    Greets again "'Well,' says Marta Hord. 'It came again.'".
+  }
+  Topic marta_hides with marta "Ask Marta about the missing hides" when true once {
+    Says "'Four a night to begin with. Now one.' She lifts a corner of the nearest hide and drops it again. 'It takes the green one, the one in lime, the worst-smelling thing in Exall, which is saying something. It leaves the finished leather and the good bark-tanned. It takes only what is rank.' Her chin comes up. 'Forty years they have held their noses at me. And at last something has come down out of heaven to say it smells *wonderful*.'".
+    On discuss { Assert knows(actor, barbel_known). Assert knows(actor, rank_known). }
+  }
+  Topic marta_liquor_early with marta "Ask Marta for a cask of her tan-liquor" when not knows(actor, rank_known) and not knows(actor, leaven_known) once {
+    Says "'What for?' Marta narrows her eyes. 'Nobody has wanted it since the Michaelmas fair. I will not give it for a joke.'".
+  }
+  Topic marta_liquor with marta "Ask Marta for a cask of her tan-liquor, for the Lodger" when (knows(actor, rank_known) or knows(actor, leaven_known)) and not liquorGiven(party) once {
+    Says "She stands there a moment with her mouth slightly open. Then she goes into the shed and comes out rolling a small cask, which she tips upright with her boot. 'Eight years in the pit, that. It is the strongest I have. I was keeping it for a better day.' She wipes her hands. 'It will do.'".
+    On discuss { Give oe_liquor to actor. Assert liquorGiven(party). }
+  }
+  Relation liquorGiven(group). Relation leavenGiven(group).
+
+  // ── Perrin Elley, the baker ───────────────────────────────────────────────────────────────────────────────────────
+  Person elley "Perrin Elley" at oven {
+    Role "the baker". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Sells rations for 1 coin from 6.
+    Greets "A big man in flour to the elbows is turning loaves out of a tin onto a rack. They are tall and black-crusted and slightly leaning. 'Skyloaf,' he says. 'Two coin. Don't ask for the recipe. It is not a recipe. It is a person.'".
+    Greets again "'Skyloaf,' says Perrin Elley, 'if you want one.'".
+  }
+  Topic elley_leaven with elley "Ask Perrin about the crock on the shelf" when true once {
+    Says "'The Old Leaven.' He does not turn his head to it. 'Two hundred and six years. My great-grandmother's great-grandmother's. It is fed at dawn and dusk. If it goes, Exall has no bread, and if Exall has no bread by the winter, Exall has no Exall.' He lays a loaf down. 'It does not leave the shelf, and I do not discuss it.'".
+  }
+  Topic elley_ask with elley "Ask Perrin for a crock of the Old Leaven" when not knows(actor, leaven_known) once {
+    Says "'No.' He is not unkind about it. 'I would sooner give you a hand.'".
+  }
+  Topic elley_tell with elley "Tell Perrin where the Old Leaven came from" when knows(actor, leaven_known) and not leavenGiven(party) once {
+    Says "He wipes his hands on his apron a long time. 'Grey. A lump of grey.' He says it slowly, as if tasting it. 'My great-grandmother's. On the sill, the morning it went. She always said it was a gift from the weather.' He lifts the crock down himself, and takes the cloth off, and looks at it. 'Two hundred years I have been feeding it. Nobody told me it was hungry for the same thing.' He puts the cloth back. 'Take it. Take half of it, and leave me the rest, and I will start again from that.' He wipes his eyes with a forearm. 'It is flour, that is all. Everybody can see it is flour.'".
+    On discuss { Give oe_leaven to actor. Assert leavenGiven(party). }
+  }
+
+  // ── Alderman Tolt, at the peat-stack ──────────────────────────────────────────────────────────────────────────────
+  Person tolt "Gideon Tolt" at stack {
+    Role "the Alderman of Exall". Ancestry human. Pronouns he. Manner stoic. Peaceable.
+    Greets "A heavy man in a good coat stands in front of forty cords of peat with a stick across his knees, like a man guarding a gate. 'Ask me for the peat,' he says, 'and I will say no, and then we will both feel it.'".
+    Greets again "'No,' says Gideon Tolt, 'in advance.'".
+  }
+  Topic tolt_peat with tolt "Ask Tolt for the peat" when true once {
+    Says "'The peat is the winter.' He does not move. 'Three hundred and eleven people, and every one of them warm until April if I do not do something kind. I have no objection to the whale being sad. I object to its being sad on my peat.' He taps the stick. 'Give me a reason I can say at the Cross.'".
+  }
+  Topic tolt_pay with tolt "Offer Tolt fifteen coin for the town's peat" when knows(actor, fire_known) and quantity(actor, gold) >= 15 and not peatReleased(party) once {
+    Says "He takes the coin and counts it in his hand as one counts a dead man's teeth. 'Fifteen coin buys four cords at the Wrackham market.' He gives a small bitter laugh. 'Burn it. I will tell the town I sold it. That is a thing I can say.'".
+    On discuss { Decrease quantity(actor, gold) by 15. Assert peatReleased(party). }
+  }
+  Topic tolt_dorcas with tolt "Tell Tolt that Dorcas Holle was there sixty-one years ago, and the fire raised it" when knows(actor, fire_known) and knows(actor, candlemas_known) and not peatReleased(party) once {
+    Says "'Dorcas Holle.' He says the name like a bad tooth. 'She told me this when I was nine. I did not believe a word.' He looks at the stack. He looks up. 'It came before, and it went, and Exall was still here.' A long time. 'I will not give you the peat. I will give it to *her*, and she can tell the town what to do with it.' He puts the stick down against the stack, and it is a surrender.".
+    On discuss { Assert peatReleased(party). }
+  }
+  Action sway_tolt(actor: group) "Put it to Tolt that a cold winter is better than a roof on the town" {
+    Speaker tolt.
+    Requires able(actor) and company(actor) and at(actor, stack) and at(tolt, stack) and knows(actor, fire_known) and not peatReleased(party).
+    Time 20 minutes.
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert peatReleased(party). }
+    Result "'Cut turf in the bog by lantern until Christmas,' says Tolt slowly. 'Yes. We could do that. It would be a miserable thing, and nobody would die of it.' He lifts the stick off the stack. 'Take it.'".
+    Otherwise "'No,' says Tolt, not harshly. 'You have no winter of your own to lose.'".
+  }
+
+  // ── Captain Ottoline Saley, on the Windlass Field ─────────────────────────────────────────────────────────────────
+  Person saley "Captain Ottoline Saley" at field {
+    Role "a drift-whaler of Cloudgate". Ancestry human. Pronouns she. Manner stoic. Peaceable.
+    Greets "A woman in a flying-coat is boiling a kettle on a camp-stove between a harpoon gun on a tripod and a drum of cable. 'Tea,' she says, 'before the unpleasantness. Sugar?'".
+    Greets again "'Tea,' says Captain Saley, and means it.".
+  }
+  Initially Assert tolerates(saley, party).
+  Topic saley_plan with saley "Ask Saley what she means to do" when true once {
+    Says "'I will tell you what and when, because I was brought up to.' She pours. 'At dusk on the third day, if it is still hanging, I fire. A drift-whale killed up there goes slowly, and spills its lamp-oil over the High Street for a month, and that is a bad month. But if I fire from here, it goes down on the Edge, because I put it there. Not on the roofs. And I am paid for the oil.' She sips. 'You may call that ugly. I call it arithmetic.'".
+    On discuss { Assert knows(actor, strike_known). }
+  }
+  Topic saley_lane with saley "Ask Saley why it came down" when true once {
+    Says "'Lost, and hungry.' She points her cup at the north. 'The whales keep to lanes, high up. For nine generations the Shales folk at Wickering have driven a rain-cloud through the lanes, and kept the sky tidy. This autumn it went into a glasshouse. A cloud is not a thing to put in a glasshouse. It put the lanes out. Half the drift is wandering about the Brack.' She shrugs. 'This one was old. It was always going to land somewhere warm.'".
+    On discuss { Assert knows(actor, lane_lost). }
+  }
+  Topic saley_iron with saley "Tell Saley about the iron in the Lodger's shoulder" when knows(actor, iron_known) and not saleyHeld(party) once {
+    Says "She does not say anything for a long time. The kettle begins to scream and she lifts it off without looking. 'S.O.,' she says. 'Ottoline Saley, second voyage. I was nineteen.' She puts the kettle on the turf. 'I put it into the shoulder of a cow the size of a church, and she went up into the cloud with it and did not come down, and I told everyone she died. I told myself.' She sits back on her heels. 'It will have been dragging at her ever since. A hundredweight of rust. Twenty-two years.' She looks at the gun. 'It is mine. I will not shoot her with the other one.'".
+    On discuss { Assert saleyHeld(party). Assert saleyShamed(party). }
+  }
+  Topic saley_bar with saley "Ask Saley to lend you a cutting-bar" when saleyHeld(party) and knows(actor, iron_known) and not barGiven(party) once {
+    Says "'It is on the kite-frame. It is the bar I cut the line with, that day. I have kept it greased.' She takes it from the frame and puts it in your hands. 'Cut it out clean. If it is not clean it will fester.' A pause. 'And you may take my kite. She will lift three. Up to the back, thirty minutes, and no ladder.'".
+    On discuss { Give oe_bar to actor. Assert barGiven(party). Assert knows(actor, kite_known). }
+  }
+  Relation barGiven(group).
+}
