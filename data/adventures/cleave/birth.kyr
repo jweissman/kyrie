@@ -32,6 +32,7 @@ Module cleave "The Cradle Across the Cleave" {
   Query birthDone() means state(labour, born).
 
   Objective find_way when not birthDone() and not hesperAgreed(party) and not hesperBasket(party) toward hesper by hesper_kitchen "Linnet Pennard is in labour on the far side of the Cleave, and Hesper Lunn, who should be with her, is at her kitchen table on the near one.".
+  Objective read_lamps when knows(party, ledge_known) and not knows(party, lamp_known) and not birthDone() and not hesperAgreed(party) and not hesperBasket(party) toward ottoline by ledge "Dov says the hen-woman on the ledge under the Stub can read what the lamps at Overleap are saying.".
   Objective ask_cassia when hesperAgreed(party) and not cassiaYields(party) and state(egg, cold) toward cassia by stub "Hesper will go out to the hub if the web-warden lets her.".
   Objective sit_with_it when cassiaYields(party) and state(egg, cold) and not birthDone() toward hub "The Mother's last egg-case is cold under the hub, and Cassia has agreed that Hesper may take it.".
   Objective cross_over when (state(egg, hatched) or hesperBasket(party)) and not birthDone() toward farm_kitchen "Linnet is waiting, and Hesper is ready to go to her.".

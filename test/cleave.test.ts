@@ -94,4 +94,18 @@ describe('The Cradle Across the Cleave', () => {
     await j.play('=day 2 8:00');
     expect(title(j)).toBe('The Pole of Lamps');
   }, 120000);
+
+  it('what Hesper is asked through the night counts toward the vigil, as the sitting does', async () => {
+    const j = await start('ledge');
+    await j.play('Ask Ottoline about the hens', ...S.cassia!, ...S.hesperEgg!, 'Sit Hesper down', 'Sit up with Hesper');
+    expect(j.holds('keptVigil', 'party')).toBe(false);
+    await j.play("Tell Hesper about Ottoline's hens");
+    expect(j.holds('keptVigil', 'party')).toBe(true);
+  }, 120000);
+
+  it("Dov's story points the company down to the hen-woman who reads the lamps", async () => {
+    const j = await Journey.start(campaign, 'cleave');
+    await j.play('Ask Dov what has happened');
+    expect(j.holds('knows', 'party', 'ledge_known')).toBe(true);
+  }, 60000);
 });

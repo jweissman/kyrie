@@ -12,6 +12,11 @@ Module cleave "The Cradle Across the Cleave" {
   Discovery lamp_known "The lamps at Overleap say three red and one white: come.".
   Discovery line_known "Ned Quarrel's basket crosses in calm air for five coin, and is not sent in a gust.".
   Discovery wind_known "The wind in the Cleave comes up about eleven and drops about dusk, most days, and sometimes forgets.".
+  Discovery ledge_known "Ottoline Toop, the hen-woman on the ledge under the Stub, reads the lamps at Overleap. A rope ladder goes down to her from the Stub.".
+  Discovery hum_known "Cassia Fursby hums the spinning note to the nine from the Stub, night after night. They do not spin, but she thinks they like to hear a person there.".
+  Discovery gammer_look "Gammer Roke watches Linnet's face for the look a birth has when it goes wrong. Linnet has not got it yet.".
+  Discovery hens_known "Seventeen of Ottoline Toop's hens are named for children Hesper Lunn delivered on the south side, and two are named Hesper.".
+  Relation nedAsked(group).
   Discovery flitter_known "Ottoline Toop's flitter will take the company from her ledge to the south lip in the lull, if the air is willing. It will not take anyone who cannot be told to lie still.".
 
   Person hesper "Hesper Lunn" at hesper_kitchen {
@@ -60,6 +65,7 @@ Module cleave "The Cradle Across the Cleave" {
   }
   Topic dov_story with dov "Ask Dov what has happened" when true once {
     Says "'Linnet's mother sent a boy up the lamps at midnight,' says Dov. 'I went down the Pennard lane and over the Stub, which isn't there, so I came back. I tried Ned's basket. I tried the ladder to Ottoline's, and I stood on the first rung until the cold got into my teeth.' He puts a bag down and picks it up again. 'The hen-woman says the lamps say come. I can't hear the lamps. I can only see them.'".
+    On discuss { Assert knows(actor, ledge_known). }
   }
   Topic dov_come with dov "Ask Dov to come with you" when true once {
     Says "'On my knees,' says Dov. 'On my face, if it's quicker.' He thinks. 'I'll carry whatever you like.'".
@@ -86,6 +92,7 @@ Module cleave "The Cradle Across the Cleave" {
   }
   Topic ned_bridge with ned "Ask Ned what he makes of the old bridge" when true once {
     Says "'Sixty years of free road, and I hauled cheese,' says Ned. 'My father hauled cheese. The bridge was free and it was not mine, and every cart that went over it went over my grandfather's grave.' He is silent. 'I would like to have been asked. I would like to be asked still. If the thing comes back I will go on hauling cheese. It is a good cheese.'".
+    On discuss { Assert nedAsked(actor). }
   }
   Topic ned_pay with ned "Pay Ned five coin for the crossing" when state(wind, calm) and quantity(actor, gold) >= 5 and not linePaid(actor) {
     Says "Ned takes the five coin, bites it, and stands up off the lever. 'Basket's on the rail,' he says. 'Do not lean. Do not look at the cable. It knows.'".
@@ -93,6 +100,7 @@ Module cleave "The Cradle Across the Cleave" {
   }
   Topic ned_gust with ned "Ask Ned to send the basket" when state(wind, gusting) {
     Says "'In that?' says Ned. 'It will take the basket to the south post and leave you to explain.' He shakes his head. 'Come back when the cable stops singing.'".
+    On discuss { Assert knows(actor, wind_known). }
   }
 
   Person cassia "Cassia Fursby" at stub {
@@ -103,6 +111,7 @@ Module cleave "The Cradle Across the Cleave" {
   }
   Topic cassia_what with cassia "Ask Cassia what she is doing" when true once {
     Says "'I hum the spinning note,' says Cassia. 'They have heard it every thaw of their lives and they hear it now, and they do not spin.' She lowers the pipe a moment. Her hands are shaking, a little, all the time. 'Nine nights. I think they like the sound of someone being there.'".
+    On discuss { Assert knows(actor, hum_known). }
   }
   Topic cassia_mother with cassia "Ask Cassia about the lit thing at the hub" when true once {
     Says "'Cerise,' says Cassia. 'The Mother. She spun this road in one night every thaw for sixty years, and she was a hundred pounds of bad temper. She died at midwinter. They wrapped her in the best silk they had, which they spun for her, and hung her from the hub, and it is the only thing they have spun since.' She nods at it. 'She goes on glowing. They do not know what else to do with her.'".
@@ -137,11 +146,14 @@ Module cleave "The Cradle Across the Cleave" {
   }
   Topic ott_hens with ottoline "Ask Ottoline about the hens" when true once {
     Says "'Nineteen,' says Ottoline. 'Seventeen are named for children Hesper Lunn has delivered on the south side, since the lamps tell me their names. The other two are named Hesper.' She looks at the hens with deep satisfaction. 'The names are the only way I can say thank you. She does not approve of thanks. She approves of hens.'".
+    On discuss { Assert knows(actor, hens_known). }
   }
   Topic ott_mother with ottoline "Ask Ottoline about the Mother" when true once {
     Says "'I saw them hang her,' says Ottoline. 'From here. Nine of them, at night, in the wind, and not one thread out of place.' She wipes her eyes with the back of a feed-hand. 'There is a pale thing under the hub. Round, like a pear. It has been faintly lit since midwinter, and nothing that is dead gives light. I think it is cold, and I think it is alive, and I do not know what a cold living thing wants.'".
     On discuss { Assert knows(actor, egg_cold_known). }
   }
+  Observe cable_sings at shed when state(wind, gusting) and knows(party, wind_known) "The cable over the drop is singing, as Ned said it would. It is no weather for the basket.".
+  Observe ned_looks at south_edge when state(span, spun) and nedAsked(party) "Across the new road, at the north rail, a man in a leather apron stands with a cheese under his arm and looks at the silk for a long time. He has been asked, and he is thinking it over.".
   Observe lamps_come at ledge as sign when true "Across the Cleave, on the south lip, a pole carries four lamps: three red, one white.".
 
   Person daughters "the nine daughters of the Mother" at hub {
@@ -149,6 +161,8 @@ Module cleave "The Cradle Across the Cleave" {
     Greets "Nine spiders, each the size of a pony, hang in a ring around the cold light under the hub, and every one of them turns, very slowly, to look at you. None of them moves a leg.".
     Greets again "The ring does not open or close. It is only watching.".
   }
+
+  Observe gammer_watches at farm_kitchen when state(labour, hard) and knows(party, gammer_look) "Between pains Gammer Roke looks at Linnet's face, as a shepherd reads a sky. She has not seen the look yet.".
 
   Person linnet "Linnet Pennard" at farm_kitchen {
     Role "in labour". Ancestry human. Pronouns she. Manner stoic. Peaceable.
@@ -162,5 +176,6 @@ Module cleave "The Cradle Across the Cleave" {
   }
   Topic gammer_how with gammer "Ask Gammer how Linnet does" when true once {
     Says "'Eleven hours since she stopped talking and began swearing at the dog,' says Gammer Roke. 'It is coming, and it is not coming fast, and there is a look it will have if it goes wrong, and she has not got it yet. I have had two hundred calves out of two hundred and four cows.' She lowers her voice. 'It is not the same. I know it is not the same.'".
+    On discuss { Assert knows(actor, gammer_look). }
   }
 }
