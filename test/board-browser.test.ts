@@ -21,8 +21,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map\'s board, in three dimensio
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
   it('draws the country, you on it, and plans and sets out for a town chosen by the keys', async () => {
+    // One come in debt, who knows the country's roads as a trader does: since the map draws what the company knows
+    // (OR-810), a fresh life knows no town but its own, and the board drew one town.
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1280, height: 800 },
-      { site, pointer: false, query: '?world=kite' });
+      { site, pointer: false, query: '?world=kite&origin=debt' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });

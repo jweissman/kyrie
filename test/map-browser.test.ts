@@ -22,8 +22,10 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the map and the notes, to plan with
   afterAll(async () => { await browser?.close(); await rm(site, { recursive: true, force: true }); });
 
   it('chooses a town on the map, shows the way there, and sets out for it', async () => {
+    // One come in debt, who knows the country's roads as a trader does: since the map draws what the company knows
+    // (OR-810), a fresh life knows no town but its own, and Brockfield is on the map only once heard of, or so known.
     const { page, errors, driver } = await MonoBrowser.page(browser, { width: 1440, height: 900 },
-      { site, pointer: false, query: '?world=kite' });
+      { site, pointer: false, query: '?world=kite&origin=debt' });
     await page.waitForSelector('[data-mode="create"]', { timeout: 120000 });
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"]', { timeout: 60000 });

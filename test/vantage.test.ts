@@ -122,7 +122,8 @@ describe('somewhere high', () => {
     // (Wannstede, s3, is glossed once it is on the company's map: not yet, since nobody has told of it: OR-810.)
     expect(Object.keys(land.glosses).map(id => id.replace(/^region__/, ''))).toEqual(['s4', 'w5']);
     // A site seen through it is seen with the way to it, as one seen nearer is.
-    expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst by Levankhafar,'
+    // Its edge said as the company knows it, Levankhafar not yet seen (OR-970), as the way to it is offered.
+    expect(lines).toContain('The way to a cave in the hillside in Pinehurst: to the edge of Pinehurst,'
       + ' where the track to it starts.');
   }, 120000);
   it('sees nothing behind a ridge, and nothing far in haze', () => {

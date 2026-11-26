@@ -292,10 +292,12 @@ export class RegionZones {
     const all = this.landmarks(region, zone), to = all.find(l => l.id === this.room(zone, part))!;
     const land = RegionGeography.atlas(region).land;
     // Told from the edge it is nearest by the trails, which is named for the town it is entered from (the foot of
-    // Barzelrehes by Muzgkom), and on along them.
+    // Barzelrehes by Muzgkom), and on along them. Each by reference, so that it is said as the company knows it: a
+    // telling at Gothgiba had named "the foot of Barzelrehes by Muzgkom" while the way to it was offered as "the foot
+    // of Barzelrehes", Muzgkom unseen (OR-970).
     const [entry, ...marks] = all.filter((l, i) => i === 0 || l.side).map(e => this.path(land, all, e, to))
       .sort((a, b) => a.length - b.length)[0]!;
-    return `to ${entry!.name}${marks.length ? `, and on to ${marks.map(l => l.name).join(', then ')}` : ''}`;
+    return `to {${entry!.id}}${marks.length ? `, and on to ${marks.map(l => `{${l.id}}`).join(', then ')}` : ''}`;
   }
   // Where in a wild country something stands, as people say it: deep in Bruinforwest, at the foot of Hartholt.
   static where(zone: Wilds, part: number): string {

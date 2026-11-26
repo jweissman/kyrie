@@ -37,7 +37,8 @@ interface Read {
 export class CompanyRecall {
   private static readonly logs = new WeakMap<readonly CampaignEvent[], Read>();
   private constructor(private readonly r: Read, private readonly lastly: { talked: Set<string>; done: Set<string>;
-    from?: string; came?: string; left?: string; acted?: boolean; grown: number; failed?: boolean }) {}
+    from?: string; came?: string; left?: string; acted?: boolean; grown: number; failed?: boolean;
+    went: Map<string, string | undefined> }) {}
   // In an enclosed place (indoors, under the ground, in a building or a site: one rule with the compass, see
   // Itineraries.enclosed), the way the company came, open to it, for the page to keep in sight beside Go… (PR-08: five
   // cold players in three rounds could not find the way back or up, and walked out step by step through Go…; inside a
@@ -70,7 +71,8 @@ export class CompanyRecall {
     }
     const moved = !!last && !!from && last.changes.includes(`- at(${actor}, ${from})`);
     const came = moved ? from : r.came, left = moved && !r.stay ? from : undefined;
-    return new CompanyRecall(r, { talked, done, ...from ? { from } : {}, ...came ? { came } : {},
+    const went = last && from && !moved ? this.went(r, last, from) : new Map<string, string | undefined>();
+    return new CompanyRecall(r, { talked, done, went, ...from ? { from } : {}, ...came ? { came } : {},
       ...left ? { left } : {}, acted: !!last && !moved && CompanyRecall.news(last), grown: r.grown
         + (last && this.grew(last) ? 1 : 0), ...last?.result === 'failure' ? { failed: true } : {} });
   }
@@ -89,7 +91,10 @@ export class CompanyRecall {
     VisitedPlaces.moves(event.changes, r.at);
     const there = r.at.get(r.actor);
     if (there) { r.visited.add(there); }
-    if (there && there !== here) { this.met(r, there); } else if (there) { this.arrived(r, event, there); }
+    if (there && there !== here) { this.met(r, there); } else if (there) {
+      this.arrived(r, event, there);
+      for (const [id, to] of this.went(r, event, there)) { if (to) { r.saw.set(id, to); } else { r.saw.delete(id); } }
+    }
     if (here && there && there !== here) {
       if (!r.stay) { r.idle.set(here, { at: r.acts, times: CompanyRecall.times(r, here) + 1 }); }
       r.stay = 0;
@@ -109,6 +114,23 @@ export class CompanyRecall {
       const m = /^\+ at\(([^,]+), ([^)]+)\)$/.exec(c);
       if (m && m[2] === place && m[1] !== r.actor) { r.saw.set(m[1]!, place); }
     }
+  }
+  // Staying in a place: those gone from it while the company stood there seen to go, to a place the company has been
+  // to (Bran let out of the customs-house goes back to his drove at the pens); elsewhere, only known to be gone (none,
+  // as undefined). Something taken up, gone to no place, is not gone. The gold had held the company at the
+  // customs-house, where it had last seen Bran, long after he had walked out of it (OR-971).
+  private static went(r: Read, event: CampaignEvent, place: string): Map<string, string | undefined> {
+    const out = new Map<string, string | undefined>(), to = new Map<string, string>();
+    for (const c of event.changes) {
+      const m = /^\+ at\(([^,]+), ([^)]+)\)$/.exec(c);
+      if (m) { to.set(m[1]!, m[2]!); }
+    }
+    for (const c of event.changes) {
+      const m = /^- at\(([^,]+), ([^)]+)\)$/.exec(c), id = m?.[1];
+      const dest = id && m[2] === place && id !== r.actor ? to.get(id) : undefined;
+      if (dest && dest !== place) { out.set(id!, r.visited.has(dest) ? dest : undefined); }
+    }
+    return out;
   }
   // Whom a command spoke with: talking to them, asking them something, or one of the things written to be asked them.
   static whom(campaign: Campaign, action: string): string | undefined {
@@ -146,7 +168,9 @@ export class CompanyRecall {
   spokeAt(place: string): string[] { return [...this.r.spoke].filter(([, at]) => at === place).map(([who]) => who); }
   // Where the company last saw someone or something, before the last command: in the place it last stood in with
   // them. Never where they are now unseen (OR-880: the gold had led to where a person truly stood, moved since).
-  sawAt(id: string): string | undefined { return this.r.saw.get(id); }
+  sawAt(id: string): string | undefined {
+    return this.lastly.went.has(id) ? this.lastly.went.get(id) : this.r.saw.get(id);
+  }
   // Where the company knows what an aim names to be: a place is where it is; someone or something, here where it is
   // seen now, else where the company last saw it (sawAt). Where it has never seen them, nowhere: the aim's other words
   // (the town it names, who is to be asked) lead instead, never the world's truth (OR-880).

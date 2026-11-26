@@ -1,4 +1,4 @@
-import { ModuleWriter, ObservationText, type World } from '../lang/index';
+import { EntityIndex, ModuleWriter, ObservationText, type World } from '../lang/index';
 
 // What the company knows of the country, for its map and its journeys (OR-741, the knowledge door's first slice: ways
 // and destinations; platform-separation.md, the fifth review's step 6): a part of the one door (see Knowing), read of
@@ -34,11 +34,23 @@ export class KnownCountry {
   get wayfinding(): boolean {
     return this.kept.wayfinding ??= this.world.test(ModuleWriter.call('capable', this.actor, 'wayfinding'));
   }
-  // The places facts it knows lead to.
+  // The places facts it knows lead to; and the towns their words name, which it has been told of so ("The reeve at
+  // {town} pays thirty crowns", known at Gatesend, had left Porthalen off the map and its journeys: OR-972).
   get told(): readonly string[] {
     const w = this.world;
-    return this.kept.told ??= w.relates('leadsTo') ? w.related('leadsTo').filter(r => this.knows(r.args[0]!))
-      .map(r => r.args[1]!) : [];
+    return this.kept.told ??= [...w.relates('leadsTo') ? w.related('leadsTo').filter(r => this.knows(r.args[0]!))
+      .map(r => r.args[1]!) : [], ...this.named()];
+  }
+  private named(): string[] {
+    const w = this.world, byId = EntityIndex.of(w.module.entities).byId, towns = new Set<string>();
+    if (!w.relates('knows')) { return []; }
+    for (const r of w.related('knows', this.actor)) {
+      const text = byId.get(r.args[1]!)?.type === 'fact' ? byId.get(r.args[1]!)!.name : undefined;
+      for (const id of text?.includes('{') ? ObservationText.names(text) : []) {
+        if (byId.get(id)?.space?.kind === 'settlement') { towns.add(id); }
+      }
+    }
+    return [...towns];
   }
   // The places it has seen with its own eyes from afar: a fact leading there that it witnessed.
   get sighted(): readonly string[] {

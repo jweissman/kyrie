@@ -79,15 +79,20 @@ describe('Gatesend, after the fifth cold play', () => {
     const all = [...lensed.offer.primary, ...lensed.offer.rest].map(o => o.id);
     // 27 when the ruling was made (11 kept, 16 folded); the counts move as the country does, the fold holds. The map's
     // journeys are uncounted on the scene (its row says no number: the owner, 25 November), laid as its lens opens.
+    // Since the map draws what the company knows (OR-810), only the places it has heard of are journeys: 17 on 26
+    // November (6 kept, 11 folded), where the 27 had counted places nobody had told it of.
     expect(kept.length).toBeLessThanOrEqual(12);
     expect(s.offer.more?.journeys).toBeUndefined();
-    expect(all.length).toBeGreaterThanOrEqual(27);
+    expect(all.length - kept.length).toBeGreaterThanOrEqual(8);
     const aimed = (ScreenModel.build(r.session.campaign).aims ?? []).flatMap(a => a.places ?? [])
       .map(p => `travel:${p}`).filter(id => all.includes(id));
     expect(aimed.length).toBeGreaterThan(0);
     expect(aimed.filter(id => !kept.includes(id))).toEqual([]);
-    expect(s.offer.rest.map(o => o.id)).not.toContain('travel:region__s5');
-    expect('error' in await r.ask(JSON.stringify({ act: 'travel:region__s5' }))).toBe(false);
+    // A journey folded is no less legal (it had been the one to region__s5, a town the company has not heard of since
+    // OR-810: one it has heard of, folded, now).
+    const folded = all.find(id => id.startsWith('travel:') && !kept.includes(id) && !aimed.includes(id))!;
+    expect(s.offer.rest.map(o => o.id)).not.toContain(folded);
+    expect('error' in await r.ask(JSON.stringify({ act: folded }))).toBe(false);
   }, 180000);
   // CL-47's 30 (cold play 4's T115): once wound, the gatehouse has the pawl in its socket, not "an empty socket".
   it('sets the pawl in its socket once the gate is wound', async () => {

@@ -96,6 +96,13 @@ describe.skipIf(!process.env.KYRIE_BROWSER)('the page cold play\'s driver', () =
     await page.click('[data-action="start"]');
     await page.waitForSelector('[data-mode="explore"], [data-mode="prologue"]', { timeout: 180000 });
     await outOfTheAdit(d);
+    // Told of somewhere across the country first, by the notice on the well-post (the sea-gate at Gatesend): since the
+    // map draws what the company knows (OR-810), a company come up out of the adit has heard of no other town.
+    const green = await d.inspect();
+    const notice = [...green.choices, ...green.sections.flatMap(x => x.choices)]
+      .find(c => /^Read the notice on the well-post/.test(c.label));
+    expect(notice?.id).toEqual(expect.any(String));
+    expect(await d.act(notice!.id)).not.toBe('fallback');
     const here = (await d.inspect()).place?.id;
     await d.key('m');
     // A journey across the country among the map's rows (a way into the next hex is one too, by go(…): not that).

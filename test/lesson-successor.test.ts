@@ -13,9 +13,12 @@ class Stones {
     journey.coin(purse);
     const r = new Runner(journey.session);
     let s = await r.ask(JSON.stringify({ follow: 'quarrel__stones' })) as Said;
-    for (const label of [/^To the landing at/, /^Into the Lucky Phoenix/, /^Out to the inn's back garden/,
-      /^Search here/, /^To Mik's salt-house/, /^Tell Mik about the old holes/]) {
-      const o = [...s.offer.primary, ...s.offer.rest].find(x => label.test(x.label))!;
+    // The drill-yard looked into first, and Ebba seen there: the gold leads only to someone the company knows where to
+    // find (OR-881), and a mentor never met is not one.
+    for (const label of [/^To the landing at/, /^To the drill-yard/, /^To the taproom of the Lucky Phoenix/,
+      /^Out to the inn's back garden/, /^Search here/, /^To Mik's salt-house/, /^Tell Mik about the old holes/]) {
+      const o = [...s.offer.primary, ...s.offer.rest].find(x => label.test(x.label));
+      if (!o) { throw new Error(`not offered: ${label} (${[...s.offer.primary, ...s.offer.rest].map(x => x.label).join(' | ')})`); }
       s = await r.ask(JSON.stringify({ act: o.id })) as Said;
     }
     return s;
