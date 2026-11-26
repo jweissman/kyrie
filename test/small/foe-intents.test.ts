@@ -32,12 +32,12 @@ describe("the other side's intents", () => {
     const battle = fight(['rat', 'rat']), pending = (battle.state.order ?? []).filter(id => id !== 'w');
     const lines = FoeIntents.lines(battle, called);
     expect(lines.length).toBe(pending.length ? 1 : 0);
-    if (pending.length === 2) { expect(lines[0]).toMatch(/^The first rat and the second rat are going for Wenna\./); }
-    if (pending.length === 1) { expect(lines[0]).toMatch(/^The (first|second) rat is going for Wenna with its /); }
+    if (pending.length === 2) { expect(lines[0]).toMatch(/^The first rat and the second rat scurry at Wenna/); }
+    if (pending.length === 1) { expect(lines[0]).toMatch(/^The (first|second) rat darts at Wenna's ankles/); }
   });
   it('say when a blow could bring one of the company down', () => {
     const lines = FoeIntents.lines(fight(['bear'], 'mage'), new Map([['w', 'Iselde'], ['f0', 'the bear']]));
-    expect(lines.join(' ')).toMatch(/The bear .*Iselde\..* could bring Iselde down\./);
+    expect(lines.join(' ')).toMatch(/The bear .*Iselde.* could bring Iselde down\./);
   });
   it('are none for a foe that has acted this round, its blow already struck', () => {
     const battle = fight(['rat']), acted = !(battle.state.order ?? []).includes('f0');
@@ -53,6 +53,6 @@ describe("the other side's intents", () => {
     const pressed = first.moment === 'fight' ? said(await r.ask(JSON.stringify({ act: RunnerFight.through }))) : first;
     expect(pressed.moment).toBe('fight');
     expect(pressed.scene.lines.join(' ')).toMatch(/Choose again\./);
-    expect([...first.scene.lines, ...pressed.scene.lines].join(' ')).toMatch(/is going for Ama|means to use/);
+    expect([...first.scene.lines, ...pressed.scene.lines].join(' ')).toMatch(/reaches for Ama|at Ama/);
   });
 });

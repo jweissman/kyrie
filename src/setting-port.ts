@@ -12,7 +12,17 @@ export interface SettingReckoning { months: SettingMonth[]; weekdays: string[]; 
 export interface SettingSign { id: string; name: string; month: string; line: string; gifts: string[];
   stars: number[][]; lines: number[][]; figure: string }
 export interface SettingSky { signs: SettingSign[] }
-export interface SettingParts { reckoning: SettingReckoning; sky: SettingSky }
+// What a foe's declared blow looks like, by its kind and its body and what it holds (see Telegraph), and what kind of
+// creature a body is (beast, undead, giant), none for a person.
+export interface SettingTelegraphs {
+  natural: Record<string, string>; held: Record<string, string>; together: Record<string, string>;
+  abilities: Record<string, string | { creature: string; person: string }>;
+  types: Record<string, Record<string, string>>; kinds: Record<string, Record<string, string>>;
+  gestures: Record<string, string>; gathered: Record<string, string>;
+  spells: { harm: Record<string, string>; school: Record<string, string>; tradition: Record<string, string> };
+  type(raceId: string): string | undefined;
+}
+export interface SettingParts { reckoning: SettingReckoning; sky: SettingSky; telegraphs?: SettingTelegraphs }
 
 export class SettingPort {
   private static given?: SettingParts;
@@ -21,6 +31,8 @@ export class SettingPort {
   static installed(): boolean { return this.given !== undefined; }
   static get reckoning(): SettingReckoning { return this.parts().reckoning; }
   static get sky(): SettingSky { return this.parts().sky; }
+  // A setting may give none: every foe's intent is then said plainly.
+  static get telegraphs(): SettingTelegraphs | undefined { return this.given?.telegraphs; }
   private static parts(): SettingParts {
     if (!this.given) {
       throw new Error('The setting has given the runtime nothing yet: import src/canon/setting-install at the '

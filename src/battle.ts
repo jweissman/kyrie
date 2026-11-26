@@ -10,6 +10,7 @@ import { Morale } from './rules/morale'; import { ShakingOff } from './rules/sha
 import { Tactics } from './tactics'; import { Parley } from './parley'; import { BattleRoll } from './battle-roll';
 import { Quarry } from './quarry'; import { Positions } from './rules/positions'; import { HitDicePool } from './rules/hit-dice-pool';
 import { ItemCatalog } from './item-catalog'; import type { ArenaAbility } from './lang/parse';
+import { Telegraph } from './telegraph';
 import type { BattleState, CombatEvent, Command, EncounterParticipant, Fighter, Moment, Outcome, Scenario, Team } from './model';
 
 // Orsino's combat loop (Combat.round and Combat.turn): each round everyone rolls initiative (d20 + DEX modifier +
@@ -258,7 +259,8 @@ export class Battle {
     // A creature on the other side winds up a big blow before it lands: this turn it gathers itself.
     if (ability.windup && actor.team !== 'fighters' && !this.winding(actor, command)) {
       actor.windup = { ...command };
-      this.history.push({ type: 'windup', turn: this.turn, actor: actor.id, target: command.target, detail: ability.windup });
+      this.history.push({ type: 'windup', turn: this.turn, actor: actor.id, target: command.target,
+        detail: Telegraph.gesture(actor, ability) });
       this.endTurn(actor);
       if (!this.outcome) { this.advance(); }
       return this.settled(start);

@@ -53,8 +53,10 @@ export class Probes {
       return { status: n >= 2 ? 'present' : n ? 'partial' : 'absent', evidence: `${n} endings declared in authored adventures` };
     },
     boss: () => {
-      const phases = found(/\bphase\b|telegraph/i, 'src/battle.ts', 'src/tactics.ts', 'src/rules');
-      return { status: phases ? 'present' : 'partial', evidence: `phases or telegraphs ${phases}; strong foes by level` };
+      // Every foe's blow is telegraphed now (src/telegraph.ts, test/small/telegraphs), a boss's with the rest: what a
+      // boss still wants is its phases.
+      const phases = found(/\bphase\b/i, 'src/battle.ts', 'src/tactics.ts', 'src/rules');
+      return { status: phases ? 'present' : 'partial', evidence: `phases ${phases}; strong foes by level, telegraphed` };
     },
     injury: () => {
       const lasting = found(/Relation (wounded|cursed|blessed|maimed)/, 'data/rules');
