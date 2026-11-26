@@ -111,10 +111,12 @@
   Relation {t}_rite_put(group). Relation {t}_rite_doubted(group).
   // A wrong answer is told something too (what would open her), so that the right one is not the only one the atlas
   // marks as teaching: the page had drawn "Say a door, drawn shut" blue among the three.
+  // What she asks, kept as heard: the question is something to know, so that asking it is marked as worth asking.
+  Entity {t}_rite_asks: fact "{{t}_priest} will say what lies under the fallen stones to one who can say what the old ones cut on them.".
   Entity {t}_rite_look: fact "{{t}_priest} will say what is under the fallen stones to one who has been up and seen what is cut on them.".
   Topic {t}_rite with {t}_priest "Ask {{t}_priest} what lies under the fallen stones" when knows(actor, {t}_wood_stones_known) and not knows(actor, {w}_named) once {
     Says "'So you know where the stones are,' says {{t}_priest}. 'Plenty say so. Tell me what the old ones cut on them, and I'll tell you what is under them.'".
-    On discuss { Assert {t}_rite_put(actor). }
+    On discuss { Assert {t}_rite_put(actor). Assert knows(actor, {t}_rite_asks). }
   }
   Topic {t}_rite_sun with {t}_priest "Say a sun, rising" answering {t}_rite when true {
     Says "'A sun?' says {{t}_priest}. 'Then you haven't been up there. Go and look, and come back when you have.'".
@@ -142,6 +144,15 @@
     Says "'So it is,' says {{t}_priest}. 'Between two of the stones a stair goes down, into {site}. The dead there are older than {town}. Take light, and more than you think you need.'".
     On discuss { Assert knows(actor, {t}_wood_door). Assert knows(actor, {w}_named). }
   }
+  // Where what is heard of the stones leads (OR-1040): to the shrine-keeper, who knows what is under them; told to go and
+  // look, up to the stones; and once the way down is known, down it. Each follows from something said or found.
+  Objective {t}_wood_ask when knows(party, {t}_wood_stones_known) and not knows(party, {t}_wood_door) and not knows(party, {w}_named) and not {t}_rite_put(party) toward {t}_priest "{{t}_priest} at the shrine knows what lies under the fallen stones in the old woods.".
+  Objective {t}_wood_answer when {t}_rite_put(party) and not {t}_rite_doubted(party) and not knows(party, {t}_wood_door) and not knows(party, {w}_named) toward {t}_priest "{{t}_priest} asks what the old ones cut on the fallen stones.".
+  Objective {t}_wood_tell when {t}_rite_doubted(party) and been(party, {t}_wood_stones) and not knows(party, {t}_wood_door) and not knows(party, {w}_named) toward {t}_priest "You have seen what is cut on the fallen stones. Tell {{t}_priest}.".
+  Objective {t}_wood_look when {t}_rite_doubted(party) and not been(party, {t}_wood_stones) and not knows(party, {t}_wood_door) toward {t}_wood_stones "{{t}_priest} will say what lies under the fallen stones to one who has been up and seen what is cut on them.".
+  // The way down known (the shrine-keeper's word, a life's own), the way up to the stones is seen from the clearing.
+  Rule {t}_wood_stones_told heard at {t}_wood_burners when knows(party, {t}_wood_door) and not knows(party, {t}_wood_stones_known) says "A deer-path goes up out of the clearing toward the beeches, where you were told the stones are." teaches {t}_wood_stones_known { }
+  Objective {t}_wood_below when knows(party, {t}_wood_door) and not been(party, {w}) toward {w} "Between two of the fallen stones in the old woods a stair goes down into the dark. Take light, and more than you think you need.".
   // The woods go on without the company (OR-641), by the world's own clock: woundwort grows back on the ride a few
   // days after it is picked, twice, and not in winter; some nights after the old boar is killed a young one takes its
   // wallow; rain shows the boar's runs to anyone; and once the company has been down under the stones, the next wind

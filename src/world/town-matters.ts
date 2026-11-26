@@ -20,6 +20,19 @@ export class TownMatters {
       TownMatters.topic(priest, `Ask {${priest}} what the matter is in ${town}`, `'The dead do not all lie quiet here,' `
         + `says {${priest}}, 'and the living bring me their quarrels. Ask, and I will tell you what I can.'`)];
   }
+  // In the reference game's town, thin and mundane (the owner, 26 November: "extremely simple and mostly mundane, and
+  // very thin for the first town, so that plot hooks stand out as you uncover them"): there is no lodger, debt or
+  // cellar to ask after, and its three say so in their own words (OR-1082).
+  static plain(s: Settlement): string[] {
+    const town = s.name, keeper = `${s.id}_innkeeper`, merchant = `${s.id}_merchant`, priest = `${s.id}_priest`;
+    return [
+      TownMatters.topic(keeper, `Ask {${keeper}} what the matter is in ${town}`, `'In ${town}?' says {${keeper}}. 'Rain on `
+        + `the thatch, and the price of skins. What comes out of the woods comes through here.'`),
+      TownMatters.topic(merchant, `Ask {${merchant}} what the matter is in ${town}`, `'Trade is slow,' says {${merchant}}. `
+        + `'Folk buy rope and lamp-oil when they mean to go up the hill, and sell me what they bring down.'`),
+      TownMatters.topic(priest, `Ask {${priest}} what the matter is in ${town}`, `'Births and burials,' says `
+        + `{${priest}}. 'A sprain, now and then, from the woods. Sit by the fire if you are tired.'`)];
+  }
   private static topic(who: string, label: string, says: string): string {
     const q = TownMatters.q;
     return `  Topic ${who}_matter with ${who} ${q(label)} when not toldMatter(${who}, actor) once {\n`

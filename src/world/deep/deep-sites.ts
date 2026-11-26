@@ -205,10 +205,14 @@ export class DeepSites {
       `  Topic ${w}_saying with ${values.keeper} ${q(`Ask {${values.keeper}} what the old folk say of ${values.name}`)} when knows(actor, ${w}_named) and not knows(actor, ${w}_bane) once {`,
       `    Says ${q(`{${values.keeper}} lowers {their ${values.keeper}} voice. 'My grandmother used to say it: ${DeepSites.lower(purpose.bane.fact)}'`)}.`,
       `    On discuss { Assert knows(actor, ${w}_bane). }`, '  }'] : [];
-    return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when toldMatter(${values.keeper}, actor) and not knows(actor, ${w}_named) once {`,
+    // Under the reference game's woods, told of only to a company that knows the way down (values.heard): what is
+    // under the stones is the shrine-keeper's to tell first (the woods' riddle), and told before it, the gold had led
+    // to a place whose way nobody had found.
+    const heard = values.heard ? ` and ${values.heard}` : ` and not knows(actor, ${w}_named)`;
+    return [`  Topic ${w}_rumour with ${values.keeper} ${q(`Ask {${values.keeper}} about ${purpose.hook.topic}`)} when toldMatter(${values.keeper}, actor)${heard} once {`,
       `    Says ${q(`${first} {${values.keeper}} wipes the counter. '${this.lies(values.where!)} Go in daylight, and take more light than you think.'`)}.`,
       `    On discuss { Assert knows(actor, ${w}_named). Assert knows(actor, ${w}_found). }`, '  }', ...saying,
-      ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when toldMatter(${values.merchant}, actor) once {`,
+      ...second && trade ? [`  Topic ${w}_rumour2 with ${values.merchant} ${q(`Ask {${values.merchant}} ${trade.topic}`)} when toldMatter(${values.merchant}, actor)${values.heard ? ` and ${values.heard}` : ''} once {`,
         `    Says ${q(`${second} {${values.merchant}} ${trade.says}`)}.`,
         // What he names, the map names too (he says Lapisrecs; the mound had stayed "a great long mound with a door of
         // stone", and a cold player went to another: Mission 20's third round, D 104), though not the way there.

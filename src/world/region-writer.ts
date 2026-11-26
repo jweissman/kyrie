@@ -330,7 +330,10 @@ export class RegionWriter {
       const has = SettlementWriter.rooms(region, s);
       return [s.id, `${s.id}_green`, ...has.taproom ? [`${s.id}_taproom`] : [], ...has.shrine ? [`${s.id}_shrine`] : [],
         ...has.shop ? [`${s.id}_shop`] : [], `${s.id}_innkeeper`, `${s.id}_priest`, `${s.id}_merchant`, `${s.id}_traveller`,
-        `${s.id}_country_told`];
+        `${s.id}_country_told`,
+        // The deep place under the reference game's woods, for a life's reason to lead to (ReferenceOrigins).
+        ...ReferenceSettlement.is(region, s) ? [`${s.id}_ud`, `${s.id}_ud_named`,
+          `${s.id}_wood_stones`, `${s.id}_wood_stones_known`, `${s.id}_wood_door`] : []];
     }),
     ...region.sites.flatMap(w => [w.id, `${w.id}_track`, `${w.id}_named`, `${w.id}_found`]), ...ways,
     ...roads.map(r => r.land),
@@ -356,6 +359,7 @@ export class RegionWriter {
     const commitments = [['terrain', 'region', region.terrain], ...ways.map(w => ['onRoad', w]), ...held, ...known,
       ...region.settlements.map(s => ['keeper', `${s.id}_innkeeper`, `${s.id}_green`]),
       ...practitioners.flatMap(p => [['practises', p.id, p.craft], ['dwells', p.id, p.at], ...p.written ? [['written', p.id]] : []]),
+      ...ReferenceSettlement.quiet(region),
       ...region.sites.map(w => ['siteKind', w.id, w.kind]), ...Object.entries(taken).map(([w, by]) => ['taken', w, by]),
       // The Empire's posting-house is no band's hold: a kit may not take it, as no scenario may.
       ...region.sites.filter(w => w.work?.imperial && !taken[w.id]).map(w => ['taken', w.id, 'empire'])];

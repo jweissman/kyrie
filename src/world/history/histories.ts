@@ -4,7 +4,7 @@ import { Draw } from '../land/draw';
 import { DeepPurposes } from '../deep/deep-purposes';
 import { Terrain } from '../land/terrain';
 import { RegionLand } from '../region-land';
-import type { Atlas } from '../land/atlas';
+import { Atlases, type Atlas } from '../land/atlas';
 import type { Naming } from '../land/land-names';
 import { WorkPlans, type WorkPlan } from './work-plans';
 import { Wearing } from './wearing';
@@ -152,7 +152,7 @@ export class Histories {
     // Works of a kind stand well apart: two towers in sight of each other, not side by side.
     const open = land.cover.map((cover, c) => ({ c, rank: this.rank(plan, cover) }))
       .filter(({ c, rank }) => rank >= 0 && blocked.every(b => Terrain.distance(land, b, c) >= 2)
-        && at.same.every(b => Terrain.distance(land, b, c) >= 4))
+        && at.same.every(b => Terrain.distance(land, b, c) >= 4) && Atlases.clear(atlas, c))
       .map(({ c, rank }) => ({ c, score: -2 * rank + this.suits(atlas, plan, { c, taken }) + draw.next() * 1.5 }))
       .sort((a, b) => b.score - a.score || a.c - b.c);
     const cell = open[0]?.c;

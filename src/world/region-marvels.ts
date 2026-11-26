@@ -3,6 +3,7 @@ import { WrittenKyr } from './written-kyr';
 import { Canon } from '../canon/canon';
 import { parseAbility, type Effect } from '../lang/parse';
 import { Draw } from './land/draw';
+import { Atlases } from './land/atlas';
 import { RegionGeography } from './region-geography';
 import { RegionZones } from './region-zones';
 import type { Region, Site } from './region-writer';
@@ -52,8 +53,10 @@ export class RegionMarvels {
   // The wild country's wonders: one in each of up to two of its parts, at the heart or the deep of it.
   static lines(region: Region): string[] {
     const atlas = RegionGeography.atlas(region);
+    // None within two hexes of the reference game's town (see Atlas.clear).
     const deep = atlas.zones.map(z => RegionZones.landmarks(region, z))
-      .map(marks => ({ at: marks.find(l => /_(heart|deep)$/.test(l.id)), edge: marks[0]?.id })).filter(l => l.at);
+      .map(marks => ({ at: marks.find(l => /_(heart|deep)$/.test(l.id)), edge: marks[0]?.id }))
+      .filter(l => l.at && Atlases.clear(atlas, l.at.cell));
     const wild = new Draw(`${RegionKey.of(region)}:wonders`).shuffle(this.wonders.filter(([, w]) => w.where === 'wild'));
     return wild.slice(0, Math.min(2, deep.length))
       .flatMap((w, i) => this.wonder(w, deep[i]!.at!.id, 'wonder', { near: deep[i]!.edge }));

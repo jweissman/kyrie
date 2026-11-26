@@ -9,7 +9,8 @@
       "requires": [
         "free(?post)",
         "not tolls(?other, ?post)",
-        "not ambushes(?other, ?post)"
+        "not ambushes(?other, ?post)",
+        "not quiet(?post)"
       ],
       "prefers": [
         {
@@ -25,7 +26,8 @@
     "market": {
       "is": "square(?town, ?market)",
       "requires": [
-        "hours(?market, ?post) <= 4"
+        "hours(?market, ?post) <= 4",
+        "not quiet(?market)"
       ],
       "prefers": [
         {

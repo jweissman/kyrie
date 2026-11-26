@@ -7,6 +7,9 @@ import { Herbals } from './herbals';
 import { Foundings } from './founding';
 import { TownMatters } from './town-matters';
 import { RegionGeography } from './region-geography';
+import { RegionRoads } from './region-roads';
+import { RegionZones } from './region-zones';
+import { Atlases } from './land/atlas';
 import { StrategicAtlas } from './strategic-atlas';
 import { Communities } from './community/community';
 import type { Region, Settlement } from './region-writer';
@@ -27,6 +30,24 @@ export class ReferenceSettlement {
     const at = (region as Region & { at?: [number, number] }).at;
     return !!at && at[0] === 0 && at[1] === 0 && region.settlements[0] === s && this.terrains.has(region.terrain)
       && !StrategicAtlas.keepsFirstTown(region.world);
+  }
+  // Whether a world's country, at its place on the world's grid and of its terrain, has the reference game's first
+  // town: as is() asks of a region once it is drawn.
+  static country(world: string, at: [number, number], terrain: string): boolean {
+    return at[0] === 0 && at[1] === 0 && this.terrains.has(terrain) && !StrategicAtlas.keepsFirstTown(world);
+  }
+  // What lies within two hexes of the reference game's town (Atlas.clear), as facts a kit reads (quiet(?place)): the
+  // town and its heart, the rooms of the roads and of the wild country there, so that no raiders' hold, toll or price
+  // is set about it (the owner, 26 November: "the First Town and the Big Dungeon and not much else around at all").
+  static quiet(region: Region): string[][] {
+    const s = this.of(region);
+    if (!s || s.cell === undefined) { return []; }
+    const atlas = RegionGeography.atlas(region), clear = { ...atlas, clear: [s.cell] };
+    const ways = RegionGeography.roads(region).filter(r => !Atlases.clear(clear, r.route.cells[RegionRoads.room(r)]!))
+      .map(r => r.way);
+    const wild = atlas.zones.flatMap(z => z.parts.flatMap((cells, i) => cells.every(c => Atlases.clear(clear, c)) ? []
+      : [RegionZones.room(z, i)]));
+    return [s.id, `${s.id}_green`, ...ways, ...wild].map(id => ['quiet', id]);
   }
   // The country's settlements but the reference game's.
   static others(region: Region): Settlement[] { return region.settlements.filter(s => !this.is(region, s)); }
@@ -67,7 +88,7 @@ export class ReferenceSettlement {
       `  Passage ${t}_shrine_door ${q('the shrine\'s doorway')} is doorway between ${t}_shrine and ${t}_green.`,
       `  Initially Assert restful(${t}_shrine).`,
       this.trader(s, f, region), this.dealer(s, f, region), this.keeper(s, f, region),
-      ...TownMatters.lines(s),
+      ...TownMatters.plain(s),
       // Someone at the fire who would come along: the country's own traveller, at Trader 2's.
       ...RegionRecruits.traveller(s, i, region, `${t}_taproom`),
       SettlementWriter.observe(`${t}_day`, `${t}_green`, { aspect: 'fixture', when: 'not dark()',

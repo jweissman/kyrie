@@ -4,6 +4,7 @@ import { KyrTemplates } from './kyr-template';
 import { RegionGeography } from './region-geography';
 import { RegionRumours } from './region-rumours';
 import { RegionSites } from './region-sites';
+import { ReferenceSettlement } from './reference-settlement';
 import type { Region } from './region-writer';
 import { RegionKey } from './region-key';
 
@@ -17,12 +18,13 @@ export class RegionThreads {
     const options = new Draw(`${RegionKey.of(region)}:threads`).shuffle([...new Set(this.template.sections.map(s => s.option))]);
     const seats = RegionGeography.seats(region).filter(x => x.site.cell !== undefined && !x.site.work?.great
       && !x.site.work?.deep && !x.site.work?.imperial);
-    return ['  Measure heard_threads(group).', ...region.settlements.flatMap((s, i) => {
+    // None in the reference game's town, thin and mundane (the owner, 26 November): no thread is drawn for it.
+    return ['  Measure heard_threads(group).', ...region.settlements.flatMap((s, i) => ReferenceSettlement.is(region, s) ? [] : (() => {
       const option = options[i % options.length]!, near = RegionRumours.nearest(region, s, seats)[0];
       const values = { t: s.id, town: s.name, kingdom: region.history?.successors.name ?? 'the old kingdom',
         deity: region.deity, ...near ? { site: near.site.id, sitename: near.site.name,
           where: RegionSites.where(near, region) } : {} };
       return this.template.sections.filter(x => x.option === option).flatMap(x => KyrTemplates.fill(x.lines, values));
-    })];
+    })())];
   }
 }
