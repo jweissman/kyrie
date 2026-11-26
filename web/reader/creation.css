@@ -31,6 +31,9 @@
    hint: a people's names; the owner, 17 November). */
 .composed .composed-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
 @media (max-width: 599px) { .composed .composed-list .row-aside { display: none; } }
+/* Eight or fewer stand in one column, as every other step's do (OR-1089: a caster's art, eight schools, had been a
+   cramped two-column list); two to a line only where there are more (names, a hand of spells, the lives before). */
+.composed .composed-list:not(:has(> :nth-child(9))) { grid-template-columns: minmax(0, 1fr); gap: var(--row-gap); }
 
 /* ---- Creation composed (see ComposedCreation): a column of rows at the left of the frame, under the question, its
    sentence beneath; ancestry and calling as rows with their emblems; the sky behind the signs. ---- */

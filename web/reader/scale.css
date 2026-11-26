@@ -83,3 +83,10 @@
   [data-theme="folio"].options-page .colophon { font-size: 17px; }
   [data-theme="folio"] .folio-head { font-size: 13px; }
 }
+
+/* Narration's measure (OR-1086, the review of the 820 sheet: full-width paragraphs had passed 75 characters a line):
+   whatever is told is held to about 65 characters, at 1.6, wherever its column is wider; the rows keep the column's
+   width. */
+.shell.scene-full :is(.setting > p, .setting .presence p, .told-col .first-goal, .told-col .life, .told-col .happened p,
+  .told-col .next-pull), .talk .lines .line { max-width: 65ch; }
+.shell.scene-full :is(.setting > p, .told-col .happened p) { line-height: 1.6; }
