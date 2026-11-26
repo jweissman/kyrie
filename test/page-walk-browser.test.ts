@@ -15,7 +15,8 @@ import type { MonoDriver } from './support/mono-driver';
 // T8-T9 and T75); and Porthalen left by the map, its own row held. None of it by the page's automation.
 // A new life on Iscoed begins under the fall in the old adit (StockOpenings): out of it first, by a player's controls
 // as the rest is, a light made, the badger fought (it stands between the company and the prop), under the fallen
-// prop, and down to the green, where the drove road's walk begins. The adit's own incidents are test/features/world/under-the-fall.pin's.
+// prop, and down to the green, where the drove road's walk begins. The adit's own incidents are
+// test/features/world/under-the-fall.pin's.
 // The prop is lifted from its own drawer, opened by its likeness (pressing the likeness alone had left it down, and
 // the drift's mouth beyond it pressed with the drawer open: the driver's fallback).
 // In the dark of the fall no way on is open: the compass's mark is shut, and M brings up no empty lens (OR-211).

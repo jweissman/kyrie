@@ -1,32 +1,19 @@
 import { beforeAll, describe, expect, it } from 'bun:test';
 import { RunnerOffer } from '../src/cli/runner-offer';
-import { readFileSync } from 'node:fs';
 import { PlayTool } from '../src/cli/play-tool';
 import { Runner, type Said } from '../src/cli/runner';
 import { BeforeRooms } from './support/before-rooms';
 import { AsMeant } from './support/as-meant';
+import { ColdFour } from './support/cold-four';
 
 // The fourth cold play of the golden route (mission-22/cold/cold-4-report.md), its one change held where it was met:
 // every scene says, in its own prose and the first time it is seen, what is there and what is happening (CL-42), and
 // the king answers his crown being lifted (CL-44). The play is replayed by its own lines, as the cold player meant them
 // (AsMeant: the agent asked about the king-barrow by turning to him, since the hand on the green is led first).
-const lines = readFileSync('doc/architecture/mission-22/cold/cold-4-lines.txt', 'utf8').split('\n').filter(Boolean);
 // Where the world now asks more of the play than it did, the acts it asks are played after the line, as the cold
-// player would have played them (the line's number, from one, and the acts after it):
-// - the journey the play took to Holyking in one act (line 27) walked past two footpads standing in the road at the
-//   fen of Addermoss. It stops for them now (the lead's ruling, 25 November: a journey stops for a threat that blocks
-//   the way; walking through it was a lie). The company asks them to let it by, as the engine leads, gets nowhere,
-//   and fights them to the end; by then night has come, and the road to Holyking stops for it, so the company waits
-//   for first light and goes on by the play's own next line (28), arriving at Holyking as the play did.
-// - the ghouls' fight in the bone hall rolls otherwise after that fight and that night, and is still going after the
-//   play's last blow (line 54): it is pressed on to its end, as the play pressed it, before the candle is lit.
-const act = (id: string) => JSON.stringify({ act: id });
-const after: Record<number, string[]> = {
-  27: [act('region__wr173r/0:Ask two footpads to let you by · an even chance · one try'), act('fight:through'),
-    act('travel:region__w8'), act('company/0:Wait until first light')],
-  54: [act('fight:through')],
-};
-const played = lines.slice(0, 90).flatMap((line, i) => [line, ...after[i + 1] ?? []]);
+// player would have played them (test/support/cold-four.ts: the footpads the road to Holyking now stops for after line
+// 27, and the ghouls' fight pressed on after line 54), as test/golden-told plays them.
+const played = ColdFour.played(90);
 describe('the golden route, after the fourth cold play', () => {
   const told: Said[] = [], byLine: (Said | undefined)[] = [];
   let first: Said;
