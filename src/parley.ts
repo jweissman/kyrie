@@ -27,7 +27,7 @@ export class Parley {
     if (bout || !standing.length || !standing.every(f => this.thinking(f))) { return false; }
     return departed > 0 || standing.length < foes.length || standing.every(f => f.hp <= f.maxHp / 2);
   }
-  private static thinking(f: Fighter): boolean {
+  static thinking(f: Fighter): boolean {
     const kind = Content.race(f.raceId) as { kind?: string; type?: string } | undefined;
     return Effects.scores(f).intelligence >= 6 && !['animal', 'device'].includes(kind?.kind ?? '')
       && !['undead', 'construct', 'ooze', 'elemental', 'plant'].includes(kind?.type ?? '');

@@ -2,6 +2,7 @@ import type { World } from '../lang/world';
 import type { Entity } from '../lang/module';
 import type { Terms } from '../model';
 import { ModuleWriter } from '../lang/module-writer';
+import { FallAwaited } from './fall-awaited';
 
 // Orsino's environment for a combatant (a dungeon's terrain: urban, forest, cave, desert), read from where it stands:
 // in a settlement, urban; in an unlit place, a cave; otherwise the terrain of the region it is in, if the region says.
@@ -18,11 +19,16 @@ export class Environment {
       ...Environment.dark(world, actor, members),
       ...terms ? { terms } : {} };
   }
-  // A band its author says yields, or breaks (core.kyr), fights so; any other to the death, as it always has.
+  // A band its author says yields, or breaks (core.kyr), fights so. Any other may lose heart once half of it is down,
+  // if it is a band that can (Morale.shaken: thinking creatures), unless its module waits on its fall (FallAwaited)
+  // or its temper is to fight to the end (savage, obedient).
   static terms(world: World, against?: string): Terms | undefined {
     const yields = !!against && world.relates('yields') && world.test(ModuleWriter.call('yields', against));
     const breaks = !!against && world.relates('breaks') && world.test(ModuleWriter.call('breaks', against));
-    return yields || breaks ? { ...yields ? { yields } : {}, ...breaks ? { breaks } : {} } : undefined;
+    if (yields || breaks) { return { ...yields ? { yields } : {}, ...breaks ? { breaks } : {} }; }
+    const temper = against && world.relates('temperament') ? world.one('temperament', against) ?? '' : '';
+    const fierce = /temper_(savage|obedient)$/.test(temper);
+    return against && !fierce && !FallAwaited.of(world.module, against) ? { morale: true } : undefined;
   }
   // A company that drew out what it fights, and waited for it (inhabitants.kyr): its members meet it ready.
   static ready(world: World, at: { actor?: string; against?: string }, members: string[]): { ready?: string[] } {

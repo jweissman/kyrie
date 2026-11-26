@@ -44,7 +44,7 @@ export class Battle {
   private readonly terms: NonNullable<Scenario['terms']>;
   private readonly upright: Set<string>;
   // And what was said in the fights before this one, so that it is not said again in it (see Barks).
-  private broke = false; private barked: string[] = [];
+  private broke = false; private tested = false; private barked: string[] = [];
   // How often the company has called on the other side to yield, and been refused (see Parley).
   private refused = 0;
   constructor(scenario: Scenario, seed: string, private maxTurns = 500, private lease?: CreatureLease) {
@@ -364,13 +364,21 @@ export class Battle {
   // Combat.round: a foe that has turned to flight leaves before anyone rolls, and what it summoned goes with it; and
   // a band that breaks, broken (see Morale).
   private rout() {
-    const broken = this.terms.breaks ? Morale.broken(this.fighters, this.departed) : [];
+    const broken = this.terms.breaks ? Morale.broken(this.fighters, this.departed) : this.shaken();
     if (broken.length) { this.broke = true; }
     for (const f of new Set([...this.fighters.filter(x => x.hp > 0 && x.team !== 'fighters' && Effects.modifiers(x).flee),
       ...broken])) {
       this.depart(f);
       this.history.push({ type: 'flee', turn: this.turn, actor: f.id, success: true });
     }
+  }
+  // A thinking band no author waits on the fall of, half of it down: each of it standing makes its morale save, once.
+  private shaken(): Fighter[] {
+    const band = this.terms.morale && !this.tested ? Morale.broken(this.fighters, this.departed) : [];
+    if (!band.length || !band.every(f => Parley.thinking(f))) { return []; }
+    this.tested = true;
+    return Morale.shaken(band.map(f => ({ f, wisdom: Effects.scores(f).wisdom })),
+      { turn: this.turn, events: this.history, dice: this.expressions });
   }
   private depart(f: Fighter) {
     for (const g of [f, ...this.fighters.filter(s => s.summoner === f.id)]) {

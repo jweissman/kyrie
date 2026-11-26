@@ -244,6 +244,8 @@ export class CombatTelling {
   // A save that held: what it held against, when the blow would have left a condition ("shrugs off the bleeding").
   private saved(e: Of<'save'>): string | undefined {
     const who = this.name(e.target), what = e.against ? ConditionSense.name(e.against).toLowerCase() : '';
+    // A band's heart, half of it down (Morale.shaken): who holds, and who loses it and runs.
+    if (e.kind === 'morale') { return e.success ? `${who} holds firm.` : `${who} loses heart.`; }
     // "stunned", "bleeding" are states one is or is not in; "armor shred" is a thing one takes or shrugs off.
     const state = /(ed|ing)$/.test(what.split(' ')[0] ?? '');
     // What cannot bleed does not; "cannot be bleeding" (a warded vessel, round 5) is said of no one.
