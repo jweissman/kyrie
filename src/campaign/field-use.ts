@@ -277,7 +277,7 @@ export class FieldUse {
     if (!found || !this.looses(found.id)) { throw new Error('Unsupported field effect'); }
     const lease = store.acquire([options.caster]);
     try {
-      const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
+      const fighters = lease.creatures.map(c => CombatProjection.fighter(lease.catalog, c, 'fighters'));
       const actor = this.caster(fighters, options.caster, found);
       const context = { actor, fighters, turn: 0, events: [] as CombatEvent[], field: true,
         content: new Content(`${options.seed}:content`), abilities: Content.abilities.map(a => a.id),
