@@ -49,8 +49,9 @@ describe('as the company would tell it', () => {
   // In wren's mine (thorn's cisterns have nothing lying in wait since the ooze went down to the deepest level).
   it('lets someone who reads sign see what lies in wait, and nobody else', async () => {
     const ranger = await Thorn.start('ranger', 'wren'), warrior = await Thorn.start('warrior', 'wren');
-    for (const s of [ranger, warrior]) { Thorn.put(s, 'w9_adit_crossing'); }
-    expect(Thorn.seen(ranger)).toContain('The stone at the mouth of the way to the head of the winze is slick');
+    // Its ooze lies in wait in the hollow vault, seen from the breach (the deep's draws keyed by room since OR-1234).
+    for (const s of [ranger, warrior]) { Thorn.put(s, 'w9_breach_breach'); }
+    expect(Thorn.seen(ranger)).toContain('The stone at the mouth of the way to the hollow vault is slick');
     expect(Thorn.seen(warrior)).not.toContain('Something lies in wait in there');
   }, 180000);
   it('does not offer to try what is already undone, nor to look at what was gathered, nor to send a goat off', async () => {

@@ -108,7 +108,8 @@ export class DeepSites {
   }
   // Where a company can rest (a hall, a store-room, an old camp), and what may find it there: the savage and the
   // territorial of a level go about it, and now and then one comes to wherever the company is on their level, the
-  // longer it stays the likelier.
+  // longer it stays the likelier: one watch in twenty (one in a hundred had been as good as never; the owner, 26
+  // November: far more fighting).
   private static rest(purpose: DeepPurpose, layout: DeepLayout, content: DeepContent[]): string[] {
     const rooms = layout.levels.flatMap(l => l.rooms);
     const restful = rooms.filter(r => purpose.rest?.includes(r.role) || content.some(c => c.room === r && c.special));
@@ -116,7 +117,7 @@ export class DeepSites {
       ...restful.map(r => `  Initially Assert restful(${r.id}).`)];
     for (const c of content.filter(x => x.dwellers && !x.dwellers.elite && ['savage', 'territorial'].includes(x.dwellers.group.temperament))) {
       const id = c.dwellers!.id, level = layout.levels[c.room.level]!.id;
-      lines.push(`  Rule ${id}_wanders when able(${id}) and at(${id}, ?o) and at(party, ?p) and deepLevelOf(?p, ${level}) and deepLevelOf(?o, ${level}) and distinct(?o, ?p) and dice(${id}) <= 1 says ${this.q(`Something is coming along ${purpose.walks?.[0] ?? 'the passage'} toward you: ${c.dwellers!.group.label}.`)} {`,
+      lines.push(`  Rule ${id}_wanders when able(${id}) and at(${id}, ?o) and at(party, ?p) and deepLevelOf(?p, ${level}) and deepLevelOf(?o, ${level}) and distinct(?o, ?p) and dice(${id}) <= 5 says ${this.q(`Something is coming along ${purpose.walks?.[0] ?? 'the passage'} toward you: ${c.dwellers!.group.label}.`)} {`,
         `    Retract at(${id}, ?o). Assert at(${id}, ?p). }`);
     }
     return lines;

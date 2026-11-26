@@ -30,6 +30,12 @@ export interface DeepContent {
 export class DeepPacing {
   static readonly tables = (world as unknown as { dungeon: DungeonTables }).dungeon;
   static readonly flavors = ['standard', 'dangerous', 'lucrative', 'balanced'];
+  // Kyrie's floor under Orsino's odds of a fight, by room guide (the owner, 26 November: "add 3x-10x more combat to the
+  // game… better to overdo than fail to communicate the core pleasure of a system like this"). Orsino's dungeon had a
+  // fight in about four rooms of ten (a mob or an elite always; a trap's, a treasure's or the entrance's one time in
+  // five or ten); here most rooms below the mouth are someone's, and a hoard is seldom left unwatched.
+  static readonly fights: Readonly<Record<string, number>> = { entrance: 0.35, trap: 0.6, treasure: 0.75,
+    puzzle: 0.5, special: 0.5, empty: 0.6, wonder: 0.4 };
   // The most harm a trap may do on an average roll, by depth: a short fall at the top, a long one at the bottom.
   static readonly caps = [10.5, 17.5, 28, 45];
   // Treasure tiers by depth: Orsino's draw (mostly negligible or minor) at the top, a tier better each level down.
@@ -44,12 +50,20 @@ export class DeepPacing {
     const elites = draw.shuffle(this.groups(purpose.elites ?? purpose.dwellers, level.index));
     // The keeper's rooms are its own: nothing else lives where it does, or where it goes to ground.
     const kept = new Set(['heart', purpose.keeper.refuge]), laid = new Set<string>();
+    // The first band a level holds, from where it is entered, is one that stands (the way in meets resistance: the
+    // reference game's town sends a new life down into it, and a level of bats, beetles and robbers who all slink off
+    // had given it none); the rest come in their drawn turn.
+    let stood = false;
     return DeepPlacement.settled(order.map(({ room, way }, i) => {
       const guide = i === 0 ? 'entrance' : sequence[i % sequence.length]!, odds = this.tables.overlays[guide]!;
       const content: DeepContent = { room, guide };
-      if (draw.next() < odds.encounter && groups.length && !kept.has(room.role)) {
+      if (draw.next() < Math.max(odds.encounter, this.fights[guide] ?? 0) && groups.length && !kept.has(room.role)) {
+        // Drawn by the room (stable identity), so that a fight placed or not leaves the level's traps, riddles and
+        // treasure as they were: more fights are not more coin.
+        if (!stood && !odds.challenging) { this.standing(groups); }
         content.dwellers = this.dwellers({ room, groups: odds.challenging ? elites : groups, depth: level.index, i },
-          !!odds.challenging, draw);
+          !!odds.challenging, new Draw(`${room.id}:dwellers`));
+        stood ||= !!odds.challenging || content.dwellers.group.temperament !== 'wary';
         if (level.index > 0) { content.dwellers = this.composed(content.dwellers, purpose); }
       }
       if (way && !way.between && draw.next() < odds.trap) { content.trap = this.trap(way, level.index, draw, laid); }
@@ -59,6 +73,11 @@ export class DeepPacing {
       if (guide === 'special') { content.special = true; }
       return content;
     }), layout, level);
+  }
+  // The first of a level's groups that stands its ground, brought to the head of their turn.
+  private static standing(groups: DeepGroup[]): void {
+    const at = groups.findIndex(g => g.temperament !== 'wary');
+    if (at > 0) { groups.unshift(...groups.splice(at, 1)); }
   }
   // The rooms of a level in the order they are reached from where it is entered (the first room a connector from
   // above arrives in, or the first of its spine), each with the way it is first reached by.

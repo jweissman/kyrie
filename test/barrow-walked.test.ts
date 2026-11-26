@@ -29,6 +29,15 @@ class Walk {
       'go(region__s1_shop_door,region__s1_shop)', 'region__s1_merchant_matter', 'region__w8_rumour2', 'go(region__s1_shop_door,region__s1_green)',
       'travel:region__w8']) { await w.act(id); }
     said(await w.r.ask(JSON.stringify({ follow: warned ? 'region__w8_bane_aim' : 'region__w8_bring' })));
+    // The embalmers' room's elite (the mourners when this was written, another of the barrow's elites in iscoed's
+    // draw since OR-1230) taken out of it, for the company led there: what the forewarning changes is the subject,
+    // not that fight.
+    if (warned) {
+      const c = w.r.session.campaign as unknown as
+        { world: { apply(c: unknown[]): unknown }; commit(x: unknown): void };
+      c.commit(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', `${halls}_embalmers_dwellers`,
+        `${halls}_embalmers`) }]));
+    }
     return w;
   }
   get at(): string | undefined { return this.r.said().at; }
@@ -65,6 +74,10 @@ class Walk {
   // From the gallery through the king's door, its seal-stone broken, to the king's hall.
   async on(): Promise<Said> {
     await this.to(`${halls}_kings_door`);
+    // The torch burns out on the longer way down (the gallery's fight as well as the hall's, since OR-1234): what else
+    // the company carries is lit.
+    const light = offered(this.r.said()).map(o => RunnerOffer.act(o)).find(id => id.startsWith('light_item('));
+    if (light) { await this.act(light); }
     await this.act(`change_thing(${halls}_kings_door__w8_grave_antechamber_wall_break)`);
     await this.to(`${grave}_antechamber`);
     return this.to(`${grave}_heart`);
@@ -74,44 +87,46 @@ class Walk {
     && c.state.hp > 0).length; }
   private get party(): readonly string[] { return this.r.session.campaign.readout.partyIds; }
 }
+// What the company fights on the way down: the long passage's dead, the hall of the bones' keeper and the long
+// gallery's (most rooms of a deep site hold someone since OR-1234).
+const down = ['region__w8_barrow_passage', `${halls}_bone_hall`, `${halls}_gallery`];
 const toEmbalmers = (id: string) => id.endsWith(`,${halls}_embalmers)`);
 describe('the king-barrow, walked through its halls', () => {
   it('warned, is led to the jar past the mourners, and the king gives the crown up without a fight', async () => {
     const w = await Walk.begin(true);
     await w.down();
     expect(w.at).toBe(`${halls}_gallery`);
-    expect(w.fought).toEqual([`${halls}_bone_hall`]);
+    expect(w.fought).toEqual(down);
     expect(w.led.some(toEmbalmers)).toBe(true);
-    const room = await w.act(w.led.find(toEmbalmers)!);
+    await w.act(w.led.find(toEmbalmers)!);
     expect(w.at).toBe(`${halls}_embalmers`);
-    expect(room.scene.lines.join(' ')).toContain('banshees');
     await w.act('take_item(region__w8_bane_item,region__member_party_1)');
     await w.to(`${halls}_gallery`);
     const hall = await w.on();
-    expect(w.fought).toEqual([`${halls}_bone_hall`, `${halls}_kings_door`]);
+    expect(w.fought).toEqual([...down, `${halls}_kings_door`]);
     expect(hall.scene.lines.join(' ')).toContain('The king sits up on his bier');
     const back = await w.act('equip_item(region__w8_bane_item,region__member_party_1)');
     expect(back.scene.lines.join(' ')).toContain('goes back from it, step by step, into the deep grave');
     const crown = await w.act('take_item(region__w8_heart,region__member_party_1)');
     expect(crown.moment).toBe('outcome');
-    expect(w.fought).toHaveLength(2);
+    expect(w.fought).toHaveLength(down.length + 1);
     expect(w.holds('ownedItem', 'region__w8_heart', 'region__member_party_1')).toBe(true);
     expect(w.standing).toBe(2);
   }, 120000);
   it('unwarned, is led nowhere near the jar, walks on to the king, and goes down when it lifts his crown', async () => {
     const w = await Walk.begin(false);
     const gallery = await w.down();
-    expect(w.fought).toEqual([`${halls}_bone_hall`]);
+    expect(w.fought).toEqual(down);
     expect(w.led.some(toEmbalmers)).toBe(false);
     expect(gallery.going?.kind).toBe('frontier');
     const hall = await w.on();
-    expect(w.fought).toEqual([`${halls}_bone_hall`, `${halls}_kings_door`]);
+    expect(w.fought).toEqual([...down, `${halls}_kings_door`]);
     expect(w.been).not.toContain(`${halls}_embalmers`);
     expect(hall.scene.lines.join(' ')).toContain('The king sits up on his bier');
     expect(hall.scene.lines.join(' ')).not.toContain('goes back from it');
     expect(offered(hall).some(o => o.id.startsWith('equip_item(region__w8_bane_item'))).toBe(false);
     await w.act('take_item(region__w8_heart,region__member_party_1)');
-    expect(w.fought).toEqual([`${halls}_bone_hall`, `${halls}_kings_door`, `${grave}_heart`]);
+    expect(w.fought).toEqual([...down, `${halls}_kings_door`, `${grave}_heart`]);
     expect(w.standing).toBe(0);
   }, 120000);
 });

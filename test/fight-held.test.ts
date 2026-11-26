@@ -31,7 +31,9 @@ class Hounds {
     for (const m of save.creatures.filter(x => save.state.partyIds.includes(x.id))) {
       m.base.maxHp = 300; m.state.hp = hp;
     }
-    const room = 'region__w8_halls_mourners', world = new World(save.module, save.state.world)
+    // The hounds keep the embalmers' room (the mourners' hall had them until the deep's draws were keyed by room,
+    // OR-1234).
+    const room = 'region__w8_halls_embalmers', world = new World(save.module, save.state.world)
       .apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', room) },
         { kind: 'retract', call: ModuleWriter.call('unlit', room) }]);
     save.state.world = CreatureFacts.project(world, save.definition!.actors,
@@ -89,10 +91,11 @@ describe('a fight that has ended', () => {
 // A fight that ended the story turned the page to its end as the last blow was struck: the act last chosen in it, and
 // what came of it, were never seen (the cold playtest: "Strike again -> straight to end screen; my last strike's result
 // never shown"). It is held on its page like any other, how it was lost after the blows that lost it, and going on
-// from it is going on to the end. Wenna, worn down, strikes at the bone hounds and falls.
+// from it is going on to the end. Wenna, worn down (enough left of her to choose a blow before the embalmers' room's
+// third-level hounds bite: OR-1234), strikes at the bone hounds and falls.
 describe('a fight that ends the story', () => {
   it('shows the last act chosen in it before the end', async () => {
-    const seen: Frame[] = [], { host, session } = await Hounds.host(seen, 6, 'melee');
+    const seen: Frame[] = [], { host, session } = await Hounds.host(seen, 14, 'melee');
     const frame = await Hounds.attack(host, session), fight = frame.combat!;
     expect(frame.screen.running).toBe(false);
     expect(frame.ending?.lines.length).toBeGreaterThan(0);

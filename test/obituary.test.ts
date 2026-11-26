@@ -28,7 +28,8 @@ describe('the ending', () => {
     // What struck the last blow, as known: one of the band, or a wound one of them gave (bleeding from a hound's bite),
     // by its condition's name: since the tactics of 7 November Wenna bleeds to death of Orsino's bleed, which had been
     // told by its id, "Bleed struck the last blow".
-    const blow = /^(The (first|second|third) [a-z ]+|Bleeding|Poison) struck the last blow/;
+    // (The mourners' hall holds a1's ghouls since OR-1234, whose sickness can be the last of it: "Diseased".)
+    const blow = /^(The (first|second|third) [a-z ]+|Bleeding|Poison|Diseased) struck the last blow/;
     expect(told.lines.some(l => blow.test(l))).toBe(true);
     expect(told.lines.join(' ')).not.toMatch(/hound \d/);
   }, 60000);

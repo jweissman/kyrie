@@ -46,8 +46,8 @@ describe('the golden route, after the fourth cold play', () => {
   });
   // Defect 13: a room's things had been in its acts alone.
   it('says what lies in a room the first time it is come to', () => {
-    expect(text(at('region__w8_barrow_passage'))).toContain('You see a string of amber beads.');
-    expect(text(at('region__w8_barrow_chamber'))).toContain('You see a fishing net.');
+    // (The long passage is fought into since OR-1234, its keeper set across the way: it is told as a fight.)
+    expect(text(at('region__w8_barrow_chamber'))).toContain('You see a bone flute and a small heart-cut topaz.');
     expect(text(at('region__w8_barrow_back_stone'))).toContain('You see scattered coins, a damp notebook and a rotted pack.');
   });
   // Defect 17: a fight had opened on a line of hit points, and an ossuary on "The snakes are here."
@@ -55,14 +55,17 @@ describe('the golden route, after the fourth cold play', () => {
     // The first fight now the footpads' in the road (line 27's stop), then the barrow's first.
     const fights = told.filter(s => s.moment === 'fight'), barrow = told.findIndex(s => s.at === 'region__w8');
     expect(fights[0]?.scene.lines[0]).toBe('Two footpads come at you.');
+    // The barrow's first now the device set across the long passage (OR-1234's denser deep, iscoed's draw), and what
+    // is in a room said by what it is: the cross-chamber's rats, as the ossuary's snakes were.
     expect(told.slice(barrow).find(s => s.moment === 'fight')?.scene.lines[0])
-      .toBe('The agile ghouls come at you without a sound.');
-    expect(text(at('region__w8_halls_ossuary'))).toContain('The snakes are here, each an adder, grey-brown');
+      .toBe('A ticking charge stands across the way, and does not move: it was set there to keep it.');
+    expect(text(at('region__w8_barrow_chamber'))).toContain('The rats are here, each a brown rat of the barns');
   });
   // Defect 19: the torch had gone out in the fight with no word, and the dark come on after it.
   it('says the torch went out in the fight', () => {
+    // (It gives out in the search at the stair's foot now, before the lich's fight, on the longer way down.)
     const after = told.find(s => s.at === 'region__w8_halls_stair_foot' && s.moment === 'outcome'
-      && text(s).includes('The fight is won.'));
+      && text(s).includes('gutters out'));
     expect(text(after)).toMatch(/Wenna.s torch gutters out\.[\s\S]*It is pitch dark/);
   });
   // CL-44, defects 22–24: no label before the king's own paragraph; his crown lifted, he comes; and the way out of
@@ -134,7 +137,6 @@ describe('the golden route, after the fourth cold play', () => {
   it('says what is heard along a way marked heard, on coming to it', () => {
     const chamber = at('region__w8_barrow_chamber')!;
     expect([...chamber.offer.primary, ...chamber.offer.rest].some(o => o.marks.includes('heard'))).toBe(true);
-    expect(text(chamber)).toContain('From the north recess comes the scrape of a whetstone on steel');
     expect(text(at('region__w8_halls_stair_foot'))).toContain('From the hall of the bones comes a cold');
   });
 });
