@@ -65,7 +65,7 @@ export class ScreenModel {
     const unclaimed = new Map([...grouped.targets].filter(([id]) => !present.has(id)));
     const companions = this.companions(campaign, view.actor, { unclaimed, present });
     const scene = this.scene(campaign, view, present), along = this.along(world, view.actor);
-    const items = this.items(campaign, grouped, entities);
+    const items = this.items(campaign, grouped, entities), party = this.party(view, campaign, grouped);
     const dark = view.observations.some(o => o.id === 'darkness'), stakes = Stakes.of(campaign), owed = Owed.of(campaign);
     const charted = ChartModel.kept(world, view.actor, entities, { visited, here });
     // Each person in the one painting they are met in wherever they are (see Portraits).
@@ -82,9 +82,10 @@ export class ScreenModel {
       exits: here ? Headings.of(world.module, passages.path(here), here, passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited })) : [],
       // A kind's painting is of its kind, as an emblem is (the menagerie, 6 November): two dogs here are both dogs.
-      people: [...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions],
+      people: Portraits.joined([...rows.filter(r => ['person', 'creature', 'animal'].includes(r.kind)), ...companions],
+        campaign, party, Emblems.has.bind(Emblems)),
       things: rows.filter(r => r.kind === 'thing' || r.kind === 'feature'),
-      party: this.party(view, campaign, grouped), items, camp: grouped.camp,
+      party, items, camp: grouped.camp,
       purse: { coin: view.resources?.find(r => r.id === 'gold')?.amount ?? 0,
         rations: view.resources?.find(r => r.id === 'rations')?.amount ?? 0,
         other: (view.resources ?? []).filter(r => !['gold', 'rations'].includes(r.id) && r.amount > 0)
@@ -157,16 +158,13 @@ export class ScreenModel {
   // a brother's portrait become an initial as he joined).
   private static companions(campaign: Campaign, actor: string | undefined,
     at: { unclaimed: Map<string, Act[]>; present: Set<string> }): TargetRow[] {
-    const world = campaign.world, read = campaign.readout;
+    const world = campaign.world;
     if (!actor || !world.module.relations.some(r => r.name === 'travelsWith')) { return []; }
     return world.related('travelsWith').filter(r => r.args[1] === actor && !at.present.has(r.args[0]!)).map(r => {
       const id = r.args[0]!, acts = at.unclaimed.get(id) ?? [];
-      const member = read.creatures.find(c => c.id === (read.inhabitants[id]?.[0] ?? `${id}_person`));
-      const portrait = member && Canon.ancestries[member.raceId]?.playable === true ? Portraits.of(campaign, id)
-        : undefined;
       at.unclaimed.delete(id);
       return { id, kind: 'person' as const, name: this.called(world, id, EntityIndex.of(world.module.entities).byId.get(id)?.name ?? id),
-        ...portrait ? { portrait } : {}, acts, companion: true };
+        acts, companion: true };
     });
   }
   // What the company knows, newest first, with how it knows it: seen, found in something, told by someone, or known

@@ -460,10 +460,10 @@ export class EngineHost {
     this.screen = Itineraries.charted(campaign, this.screen ?? ScreenModel.build(campaign));
     // A generated world is named on the page for the region the company is in, as it goes on past the first.
     const region = this.frontier && this.screen.path.find(p => p.kind === 'region')?.name;
-    // In a fight, the company's own by their portraits, as on their pages.
+    // In a fight, the company's own by their one face, as on their pages and on the scene (Portraits.member, OR-1070).
     // A foe who is someone by their own likeness, as the company is (M19-78).
     const faces = new Map([...this.turn || this.fought ? Portraits.foes(campaign) : [],
-      ...this.screen.party.flatMap(m => m.face ? [[m.id, m.face] as const] : [])]);
+      ...Portraits.company(this.screen.party)]);
     // The words each of the company is spoken of in, for what they say and do in a fight (see Barks).
     const said = new Map(this.screen.party.flatMap(m => {
       const words = m.ref ? /pron_(he|she|they)$/.exec(CompanyPortraits.said(campaign.world, m.ref) ?? '')?.[1] : undefined;

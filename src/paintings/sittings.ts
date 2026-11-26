@@ -146,4 +146,10 @@ export class Sittings {
       ...member?.professionId ? { profession: member.professionId } : {}, ...role ? { role } : {},
       ...name ? { name } : {}, ...sex ? { sex } : {} };
   }
+  // Whether someone is painted at all: one person, of a people who look like the folk in the paintings (a band of
+  // goblins is not, nor a lizardfolk). The one gate of every reading above, so that whoever is met by their emblem is
+  // never given a painting elsewhere: Gesk, a lizardfolk met by his emblem in Gatesend's taproom, had been the
+  // ascetic's painting on his page and in a fight, and a bare glyph on the scene once he joined (OR-1070).
+  static painted(campaign: Campaign, id: string): boolean { return !!this.member(campaign, id); }
+
 }

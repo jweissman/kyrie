@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 71 capabilities; 195 pins (163 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 608 live rows, 207 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 71 capabilities; 196 pins (164 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 607 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -212,7 +212,8 @@ page's colours and opportunities.)
 
 ### The company
 
-- **Companions and hirelings** · 2 pins · 3 defects · 5 asks
+- **Companions and hirelings** · 3 pins · 2 defects · 5 asks
+  - ✓ draws one who joins by the face they were met in, on the scene, on their page and in a fight, every frame
   - ✓ lets the company work for its keep, and then sleep on the house
   - ✓ lets a bard sing for the supper, for coin, once an evening
   - requirement PV-02 P2: **The Befriender:** bond with a recruitable animal, travel together, a consequential event,…

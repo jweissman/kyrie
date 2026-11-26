@@ -110,6 +110,8 @@ export interface TargetRow {
   reckoning?: { danger: Danger; text: string; help?: string; mortal?: boolean };
   // Someone who has joined the company: not here so much as with you, and to be talked to wherever you are.
   companion?: boolean;
+  // Which member of the company they are (MemberRow.id), whose one face they are drawn by (see ScreenModel.joined).
+  member?: string;
   // The painting shown beside them: for what they do, not of them (see Likeness), and how it is credited.
   // A painting of someone who could be them: the small copy, the large one for conversation, where the face sits (a
   // percentage of the height, for cropping), and who painted it, as far as the painting itself says.
