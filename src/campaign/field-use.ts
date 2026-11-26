@@ -15,10 +15,11 @@ import { Fighting } from '../rules/fighting';
 import { AbilityUse } from '../ability-use';
 import { Expressions } from '../expressions';
 import { RandomStreams } from '../random-streams';
+import { QuietWatches } from './quiet-watches';
 import type { CreatureStore } from '../creature-store';
 import type { CombatEvent, Fighter } from '../model';
 import type { ArenaAbility } from '../lang/parse';
-import type { Attribute } from '../creature';
+import type { Attribute, Creature } from '../creature';
 
 export class FieldUse {
   // Experience for a won encounter: its authored value for each who stood; or half of Orsino's reward (what its
@@ -116,25 +117,32 @@ export class FieldUse {
   // and to wait out a night, and in the day, or in a lit room.
   static advance(store: CreatureStore, elapsed: number, events: CombatEvent[],
     scene?: { world: World; actors: CampaignActor[]; player?: string; asleep?: boolean; seed?: string }) {
-    const ids = store.live.filter(c => c.state.conditions.some(s => s.clock === 'world-time')).map(c => c.id);
-    if (!ids.length) { return false; }
-    const lease = store.acquire(ids);
+    const timed = this.timed(store);
+    if (!timed.length) { return false; }
+    const place = scene?.player ? scene.world.one('at', scene.player) : undefined;
+    const company = scene?.actors.find(a => a.id === scene.player)?.members ?? [];
+    const dark = !!place && !scene?.asleep && scene!.world.test(ModuleWriter.call('unlit', place));
+    const held = { company, dark };
+    // A watch in which nothing would tick (every condition on the clock a flame held unlit, none run out) leaves every
+    // record as it was: none is leased, run down and written back, and nothing is projected again for it (OR-721: the
+    // warrior's torch, held through every daylit watch of every journey, had cost a lease and a commit of her record
+    // each watch, and a Projection asked again, for no change).
+    if (!QuietWatches.afresh && !timed.some(c => c.state.conditions.some(s => s.clock === 'world-time'
+      && (s.remaining <= 0 || !this.held(held, c.id, s.id))))) { return false; }
+    const lease = store.acquire(timed.map(c => c.id));
     try {
       const fighters = lease.creatures.map(c => CombatProjection.fighter(c, 'fighters'));
-      const place = scene?.player ? scene.world.one('at', scene.player) : undefined;
       const visible = scene?.actors.filter(a => a.id === scene.player || (place
         && scene.world.test(ModuleWriter.call('at', a.id, place)))).flatMap(a => a.members);
-      const company = scene?.actors.find(a => a.id === scene.player)?.members ?? [];
-      const dark = !!place && !scene?.asleep && scene!.world.test(ModuleWriter.call('unlit', place));
       for (const target of fighters) {
-        const start = events.length, own = company.includes(target.id);
+        const start = events.length;
         // With a fight's dice and what lapses (a countdown's blast) as in a fight, outside one: a tick of dice had
         // thrown, and a death save had been skipped (the architecture review's A23).
         Effects.advance(target, 'world-time', { fighters, turn: elapsed, events, field: true,
           expressions: new Expressions(RandomStreams.key(scene?.seed ?? 'field', 'field', elapsed, target.id)),
           lapse: AbilityUse.lapse.bind(AbilityUse),
           content: new Content('clock'), abilities: [], retreat: false, location: null },
-        id => own && !dark && this.burns(id));
+        id => this.held(held, target.id, id));
         if (visible && !visible.includes(target.id)) {
           events.slice(start).forEach(e => { e.visibility = 'private'; });
         }
@@ -142,6 +150,20 @@ export class FieldUse {
       lease.commit(lease.creatures.map(c => CombatProjection.creature(fighters.find(f => f.id === c.id)!, c)));
     } finally { lease.release(); }
     return true;
+  }
+  // Those under a condition on the world's clock, read once for each revision of the store (every watch had gone
+  // through every creature of the country for them).
+  private static readonly clocked = new WeakMap<CreatureStore, { version: number; creatures: readonly Creature[] }>();
+  private static timed(store: CreatureStore): readonly Creature[] {
+    const was = this.clocked.get(store);
+    if (was?.version === store.version) { return was.creatures; }
+    const creatures = store.live.filter(c => c.state.conditions.some(s => s.clock === 'world-time'));
+    this.clocked.set(store, { version: store.version, creatures });
+    return creatures;
+  }
+  // A flame of the company's own, put out where it is not wanted (not in the dark): it does not burn down.
+  private static held(at: { company: readonly string[]; dark: boolean }, owner: string, id: string): boolean {
+    return at.company.includes(owner) && !at.dark && this.burns(id);
   }
   private static burns(id: string): boolean {
     const grants = Effects.status(id).grants ?? [];

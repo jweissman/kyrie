@@ -2670,6 +2670,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "25 Nov, filed and classified at once: a measured share of AX-10's act, a candidate toward beta's targets, not an observed failure of a claimed contract"
+  },
+  "OR-721": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "25 Nov, filed and classified at once: a measured share of a journey leg toward beta's 5 ms target, not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {

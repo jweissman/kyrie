@@ -5,6 +5,7 @@ import { Engagement } from './engagement';
 import { Interruption } from './interruption';
 import { Arrivals } from './arrivals';
 import { Journey, type Leg } from './journey';
+import { QuietWatches } from './quiet-watches';
 import type { Operator } from '../lang/module';
 import type { World } from '../lang/world';
 import type { CombatEvent } from '../model';
@@ -35,6 +36,7 @@ export class WatchLoop {
     const passed = this.watches(host, action, at);
     this.meanwhile(host, action, 'retract');
     if (host.persistent && this.fallen(host)) { CampaignTick.endings(host, passed.happenings); }
+    QuietWatches.witness?.(host);
     return passed;
   }
   private static meanwhile(host: WatchHost, action: Operator, kind: 'assert' | 'retract') {

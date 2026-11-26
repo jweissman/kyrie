@@ -1,6 +1,8 @@
 import { ModuleWriter } from '../lang/module-writer';
 import { ObservationText } from '../lang/observation-text';
-import type { Change, Operator } from '../lang/module';
+import type { Change, Module, Operator } from '../lang/module';
+import { Reads } from '../lang/index';
+import { QuietWatches } from './quiet-watches';
 import type { World } from '../lang/world';
 
 // effects: what the command does besides moving the company (the ice a risk breaks), by which the way is judged.
@@ -58,13 +60,31 @@ export class Journey {
   // Whether the way is still passable for the company, were it back where it set out and had done what it set out
   // to do to the way. What it risked does not turn it back, though it stays as dangerous as it was: foul air in a
   // shaft, met on every crossing, had turned back every company that braved it (Quittance's bg 7, QTC-A08).
+  // Judged again only where something it reads, or that the way's judging writes, has been written since it was last
+  // judged on this leg: a watch on a route had made a world of the company back where it set out, every watch, to ask
+  // of it what nothing since had changed (OR-721).
   static open(world: World, leg: Leg): boolean {
     if (!leg.way || !world.module.queries.some(q => q.name === 'passable')) { return true; }
+    const was = this.judged.get(leg);
+    if (was && !QuietWatches.afresh && was.module === world.module && world.agrees(was.reads, was.stamped)) {
+      // Under the oracle (test/quiet-watches), judged again all the same, and held to the same answer.
+      if (QuietWatches.witness && this.judge(world, leg) !== was.open) { throw new Error(`Journey: ${leg.way} judged`); }
+      return was.open;
+    }
+    const open = this.judge(world, leg), passable = ModuleWriter.call('passable', leg.way, leg.actor);
+    const reads = was?.module === world.module ? was.reads
+      : [...new Set([...Reads.names(world.module, [passable]), 'at', 'harmsWhen', ...leg.effects.map(c => c.call.name)])];
+    this.judged.set(leg, { module: world.module, reads, stamped: world.stamped(reads), open });
+    return open;
+  }
+  private static judge(world: World, leg: Leg): boolean {
     const dared = leg.risked ? world.related('harmsWhen', leg.risked).map(r => ({ kind: 'retract' as const,
       call: ModuleWriter.call('harmsWhen', ...r.args) })) : [];
     return world.apply([this.at('assert', leg.actor, leg.origin), ...leg.effects, ...dared])
-      .test(ModuleWriter.call('passable', leg.way, leg.actor));
+      .test(ModuleWriter.call('passable', leg.way!, leg.actor));
   }
+  private static readonly judged = new WeakMap<Leg, { module: Module; reads: string[]; stamped: number[];
+    open: boolean }>();
   static back(world: World, leg: Leg): World {
     return world.apply([...this.travelling(world, leg, 'retract'),
       ...[leg.actor, ...leg.followers].map(g => this.at('assert', g, leg.origin))]);
