@@ -56,6 +56,8 @@ describe('one city, two adventures', () => {
       return s.leg(row.choice.id);
     };
     c.commitWorld(c.world.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'party', k('two_poles')) }]));
+    // What the matter is, asked first: a town's particular questions are told only after it (OR-423, OR-771).
+    await take(k('gully_matter'));
     await take(q('keeper_stones'));
     await take(`,${q('garden')})`);
     await take(`search(${q('garden')})`);

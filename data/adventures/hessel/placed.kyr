@@ -8,4 +8,19 @@ Module hessel "The Banns at Hessel" {
   Rule word_old when seasonOver() and cameToHessel(party) and not stale(word) { Assert stale(word). }
   Rule word_gone_old when gone(cherrett) and not stale(word_gone) { Assert stale(word_gone). }
   Rule word_danced_old when cherrettDanced(cherrett) and not stale(word_danced) { Assert stale(word_danced). }
+  // What is the matter here, as a generated town's three are asked it (TownMatters, OR-423): Hessel placed as a city
+  // lends its innkeeper, merchant and priest to the stories a city hosts (the boundary stones among them), whose
+  // particular questions are told only once they have said what the matter is (OR-771).
+  Topic gully_matter with gully "Ask Mrs Gully what the matter is in Hessel" when not toldMatter(gully, actor) once {
+    Says "'In Hessel?' says Mrs Gully. 'The Season, and everybody up the hill marrying everybody else's money. Down here it's chairmen and their quarrels, and what's dug up and what's let lie. Ask me.'".
+    On discuss { Assert toldMatter(gully, actor). }
+  }
+  Topic hetty_matter with hetty "Ask Hetty Quiney what the matter is in Hessel" when not toldMatter(hetty, actor) once {
+    Says "Hetty takes a pin out of her mouth. 'Bonnets are dear and ribbons are dearer, and every lady up the hill wants hers by Saturday. And the lower town is always falling out over a yard of ground. Ask.'".
+    On discuss { Assert toldMatter(hetty, actor). }
+  }
+  Topic pyne_matter with pyne "Ask Mr Pyne what the matter is in Hessel" when not toldMatter(pyne, actor) once {
+    Says "'The matter?' says Mr Pyne, and colours. 'The banns, mostly, in the Season. And the parish brings me its quarrels, which I am to mend. Ask, and I will tell you what I can.'".
+    On discuss { Assert toldMatter(pyne, actor). }
+  }
 }
