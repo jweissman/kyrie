@@ -334,4 +334,11 @@
    over its name or how hurt it is; on a phone, aiming, the target rows take the hand's place in view (they had fallen
    below the fold under the hand). */
 .fight .fighter .chance { top: auto; bottom: 6px; }
-@media (max-width: 600px) { .fight.aiming .hand > .hand-menu { display: none; } }
+/* On a card with a face, over the face's foot, where no words are (it had lain over the foe's intent). */
+.fight .fighter.faced .chance { left: 4px; right: auto; bottom: 4px; max-width: calc(var(--panel) - 8px);
+  white-space: nowrap; }
+@media (max-width: 600px) {
+  .fight.aiming .hand > .hand-menu { display: none; }
+  /* On a phone each target's chance is said in the rows that stand in the hand's place, not over a narrow card. */
+  .fight .fighter .chance { display: none; }
+}

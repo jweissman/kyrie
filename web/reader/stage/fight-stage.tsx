@@ -177,7 +177,8 @@ export class FightStage {
         {foe && (!f.down && f.intent ? <FightStage.Intent intent={f.intent} />
           : <p className="intent-held" aria-hidden="true">{'\u00a0'}</p>)}
         {foe && !f.down && f.defenses && <p className="defenses">{Words.upper(f.defenses)}.</p>}
-        {target && <span className="chance">{Typography.curl(target.note?.split(' · ')[0] ?? '')}</span>}
+        {/* Said as what it is, a blow's chance of landing (OR-1133's cold reading: "3 in 5" alone had to be guessed). */}
+        {target && FightStage.chance(target) && <span className="chance">Hits {FightStage.chance(target)}</span>}
         {/* The reticle over the card: the act's own target, drawn as every choice is (OR-94). */}
         {target && app && <Act.View choice={target} draw={Act.draw(app)} quiet variant="glyph" className="pick"
           said={Typography.curl(target.label)}><></></Act.View>}
@@ -189,6 +190,11 @@ export class FightStage {
   static LogMark({ log, show, words }: { log: boolean; show: (on: boolean) => void; words: string }) {
     return <button type="button" className="quiet-word fight-log-toggle" data-action="fight-log" aria-pressed={log}
       onClick={() => show(!log)}>{words}</button>;
+  }
+  // A target's chance of being struck, as its note leads with it ("3 in 5", "almost always"), else none.
+  static chance(target: Choice): string | undefined {
+    const first = target.note?.split(' · ')[0] ?? '';
+    return /\bin \d+$|^almost /.test(first) ? Typography.curl(first) : undefined;
   }
   // How full a foe's bar is drawn: by its hurt, not its count.
   static band(f: CombatantRow, dark?: boolean): number {
