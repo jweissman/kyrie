@@ -242,3 +242,131 @@ not established here. The local fast and small gates passed for that commit, but
 `quantity` or `test:canary` invocation was found in the repository's workflow YAML. Arrange an explicit CI run of
 these measures for content changes that affect placement or draws and keep the output with the slice; until that
 exists and runs, do not claim the world gate covered this migration.
+
+## Scale prototypes: 26 November, second pass
+
+**Call:** prove reusable seams before installing a hundred bodies or changing twenty spellbooks. Two spec-only
+adapters now execute against the real combat/effect engine. They change no catalog entry, concordance, encounter
+placement or generation pool, and they do not increase the fidelity census. The one engine extension is opt-in
+per-strike numeric data on `WeaponProfile`; no live catalog assembler sets it yet.
+
+### Creatures: the routine is the first small boundary
+
+The full 440-record source pass found 202 records with more than one strike, 128 with different attack bonuses
+within their routine, and 28 with negative damage bonuses. A single fixed body attack bonus and automatic positive
+Strength damage cannot express those routines faithfully: an ape's claws are +7 with +5 damage, while its bite is
++2 with +2 damage. A secondary attack is not universally "no Strength."
+
+`test/support/srd-routine-prototype.ts` stages every numeric routine it can validate, preserving strike order,
+count, dice, individual attack bonus and signed damage bonus. `src/rules/fighting.ts` accepts two optional weapon
+profile fields:
+
+- `attackBonus`: the individual ascending SRD bonus, converted to the engine's descending AC equation at the
+  combatant's current rank. It overrides the body's single fixed bonus, not adds to it. Modifiers still apply.
+- `damageBonus`: the signed source bonus, in place of automatic score damage, with a minimum of one before
+  mitigation. Zero is a real override, not a missing value.
+
+On that opt-in attack path a natural 20 hits even an otherwise unreachable AC; existing weapons retain their
+previous behavior. Touch spells discard these *weapon* values rather than borrowing a claw's bonus. Criticals keep
+Kyr's current policy: this prototype does not import the SRD's threat/confirmation/multiplier rules.
+
+**Measured proof:** `test/srd-routine-prototype.test.ts` exercises **404 source bodies, 834 individual strikes**,
+including **127 bodies with different bonuses**. For every strike it checks all twenty attack rolls at four ACs
+(5, 15, 25 and 60), three ranks (1, 7 and 20), forecast agreement, and minimum/maximum noncritical damage. It also
+executes an ape's complete routine through `AttackRoutine` and `AbilityUse`, checking the three distinct attack
+thresholds, one action, damage only on hits, and reproducible events.
+
+**36 records are explicitly rejected:** 29 have no extracted routine and seven have an absent or nonpositive
+Strength/Dexterity the current numeric adapter cannot accept. They are not filled with invented defaults. The test
+prints their IDs and reasons. This includes extraction gaps, not necessarily missing SRD attacks: a balor's empty
+routine is a reason to fix the source extraction, not proof that it has no weapon.
+
+These are **404 numeric routine proofs, not 404 creature migrations**. The adapter does not construct persistent
+creatures or implement their other scores, saves, HP, movement, defenses or special abilities. Its damage type is a
+bludgeoning fixture placeholder, not a claim about the source. The structured attack extraction lacks the complete
+attack-mode/damage-type contract, and source qualities and specials stay listed as blockers. Neither mapping
+coverage nor the census is promoted by these tests.
+
+**Smallest next implementation:** carry these per-strike values through an explicitly validated fixed-routine
+catalog representation, `ItemCatalog` and creature projection; do not use shared weapon IDs as a substitute for
+distinct strikes. Prove round-trip projection, worn-weapon overrides, a missed first strike followed by a hit, and
+death interrupting the routine. Extend the census to compare every strike's bonus and full damage, rather than the
+first hit chance and dice with bonuses stripped. Stage a complete, unplaced body with source attack modes and
+defenses before adding any ecology row.
+
+### Spells: a twenty-entry mechanism batch
+
+`test/support/srd-energy-prototype.ts` and `test/srd-energy-prototype.test.ts` exercise:
+
+- the five single cures and five single inflicts, including Minor Wounds;
+- four mass cures and four mass inflicts;
+- Acid Splash and Ray of Frost through ordinary `AbilityUse.perform`.
+
+The shared family recipe uses each source's cleric level and school, the family's dice and caster-level cap, and
+recipient nature rather than team to choose healing or harm. Harmful single touches run before resistance and a
+Will save for half. Mass spells do not roll touches; each harmful recipient gets its own resistance/save, while
+willing healing does not. The test checks all eighteen family members, all cap boundaries and one beyond, touch
+hits and misses, successful and failed resistance, mixed living/undead recipients, deterministic replay and a single
+slot spent for a mass cast. The two rays exercise real touch attacks, damage, cantrip slot behavior and absence of
+unwanted save/status riders.
+
+**Smallest next engine lift:** a recipient-local branch inside one effect invocation, and an engine-owned explicit
+recipient selection contract. Current `when` reads the caster's values, `targetTrait` only filters positively, and
+an effect that reaches nobody ends the sequential invocation. Consequently, placing a living heal and an undead
+harm in successive effects is not a correct general cure implementation. The prototype chooses the one applicable
+effect *before* calling the existing effect resolver; it does not introduce a parallel damage/save engine. Touch,
+resistance, damage, healing, caster expressions and slots already exist.
+
+The mass prototype validates distinct, present, standing recipients, at most one per caster level, close-range
+distance, and the thirty-foot pairwise separation. It rejects invalid sets before spending a slot or changing HP;
+the exact range/separation boundaries are also tested. Its positions are **spec-supplied feet**, not the game's
+three combat zones. Its aggregate action's comma-separated target IDs are prototype evidence, not a new production
+command protocol. A real selection belongs to the authoritative engine question and must survive clients/replay;
+do not wire this adapter into a page or reinterpret all allies as the chosen subset.
+
+**Still not exact migrated spells:** the recipes isolate the HP/target mechanism. They do not prove class-list
+availability outside the cleric list, learning or prepared spell draws, hostile AI selection, material components,
+holding a missed touch charge, unwilling recipients of a beneficial spell, dying targets, or all source prose.
+Saves still use Kyr's existing saving procedure, including its fourth-success rule, rather than replacing the SRD
+rules domain. Radiant/necrotic are explicit engine energy conversions. Source extracts for inherited variants can
+omit their headers; the family rules here are explicit, not guessed from blank source fields.
+
+### What stands between this and a hundred complete creatures
+
+Of the 404 numeric candidates, **91 have no listed special attack**. Even these can have senses, traits, movement
+and defenses that must affect play. So this pass does not justify a hundred complete imports with only the numeric
+extension. The next shared contracts are prioritized by the actual source population, not a new catalog target:
+
+| Shared contract | Candidate records affected | Smallest next proof |
+| --- | ---: | --- |
+| Source attack extraction | 29 rejected empty routines | Preserve melee/ranged/touch mode, count, individual bonus, full damage and critical data on a known missing weaponed creature; fail explicitly on unresolved alternate routines. |
+| Perception/senses | 257 list darkvision 60 ft.; 157 low-light vision; 122 scent | A typed sense read by actual visibility/detection, with darkness, range and obstruction cases; do not add decorative trait labels. Check existing sight rules before extending them. |
+| Coupled grapple state | 72 list improved grab; 30 constrict | An on-hit grab creates a relation between two creatures; escape, movement, permitted attacks, death and combat exit read/clear it consistently. Constriction occurs on the stated successful check, not every arbitrary attack. Prove a simple grabber before swallow-whole. |
+| Attack riders and clocks | 54 have a special attack mentioning poison | Reuse the existing poison save/rider and delayed-dose mechanism, then prove exact per-dose timing, recovery and treatment. Missing onset is not the general blocker; source-specific values and conversion policies are. |
+| Innate casting contract | 60 list spell-like abilities | Parse the actual named abilities, caster level, per-day limits, DC and resistance policy; run them through the ordinary invocation path with no unintended class slots. A label alone supplies none of this. |
+| Movement-linked attack routines | 18 pounce; 19 rake | A legal charge/pounce establishes the movement/engagement state that permits a full routine; rake is enabled only by its stated condition. Prove legality, forecast and resolution together. |
+
+Counts overlap and are over numeric candidates only. Sense counts use the normalized exact source labels; poison,
+grab, constrict, pounce and rake counts use case-insensitive mentions in each record's special-attack list. They
+are estimates of **shared obligations**, not disjoint completed batches or a guarantee that one helper retires every
+listed record. Existing typed defenses and spell resistance should be reused, with each source's immunity,
+reduction bypass and regeneration behavior proved separately.
+
+**Recommendation to the main builder:** land the per-strike boundary independently of placement, then make the
+recipient-local branching and selection contract a rules/player slice. These are bounded lifts, not an Augury-sized
+world system. Sense and grapple contracts are the next high-leverage creature work. Do not globally replace the
+placed spiders, boars or ghouls to make the count reach a hundred.
+
+Reproduce the mechanism proofs:
+
+```sh
+bun test test/srd-routine-prototype.test.ts test/srd-energy-prototype.test.ts
+```
+
+No world walk or installed-encounter balance measure is claimed for these uninstalled prototypes.
+
+**Local evidence:** the final fast gate passed (2,053 tests), the small gate passed (999), and the focused prototype,
+fixed-stat, touch, forecast, concealment and resistance specs passed (38). The first fast run caught one new deep
+language import in the prototype; it now uses Kyr's public type entry and the ratchet passes unchanged. Handbook
+generation was directed to session artifacts to avoid carrying unrelated generated drift; it still reports the
+four previously noted unreachable ancestry traits. CI and playable placement acceptance remain outstanding.
