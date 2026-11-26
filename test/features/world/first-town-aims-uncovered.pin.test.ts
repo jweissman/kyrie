@@ -15,6 +15,8 @@ describe('World › First-town aims uncovered by investigation', () => {
     const j = await start();
     await j.play('To the landing', 'Read the notice on the well-post', 'Into .*', 'Out .*',
       '==day 2 09:00', '>s1_green');
+    expect(Placed.holds(j, 'knows', 'party', 'keep__levy_called')).toBe(true);
+    expect(Placed.holds(j, 'knows', 'party', 'keep__lord_unseen')).toBe(false);
     expect([hasAim(j, 'keep__keep_rumoured'), hasAim(j, 'walk__find_walk'), hasAim(j, 'career__dragon')])
       .toEqual([false, false, false]);
 
@@ -22,6 +24,7 @@ describe('World › First-town aims uncovered by investigation', () => {
     expect(keeper).toBeDefined();
     Placed.at(j, keeper!);
     await j.play('Ask .* about the crier');
+    expect(Placed.holds(j, 'knows', 'party', 'keep__lord_unseen')).toBe(true);
     expect(hasAim(j, 'keep__keep_rumoured')).toBe(true);
 
     await j.play('>walk__camp_a', 'Ask .* where the Walk is going');
