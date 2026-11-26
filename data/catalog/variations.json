@@ -26,6 +26,18 @@
       "says": "swollen and slow, keeping to her eggs and not leaving them",
       "attributes": { "strength": 1, "constitution": 3, "dexterity": -2 }, "health": 3
     },
+    "drove": {
+      "axis": "breed", "word": "drove", "kinds": ["animal"], "types": ["beast"],
+      "says": "a small working dog, quick on its feet and accustomed to the road",
+      "hitDice": "1d8+2",
+      "scores": { "strength": 13, "dexterity": 17, "constitution": 15, "intelligence": 2, "wisdom": 12, "charisma": 6 },
+      "attacks": ["bite"], "strikes": [{ "attackBonus": 2, "damageBonus": 1 }], "damage": { "bite": "1d4" },
+      "saves": { "fortitude": 4, "reflex": 5, "will": 1 }, "unplaced": true,
+      "source": {
+        "kyr": true, "fidelity": "adapted", "srd35": "monster:dog", "conversion": "srd35-westernesse-v1",
+        "notes": "The SRD dog as a breed of the working dog: 1d8+2 Hit Dice, six fixed scores, a bite at +2 for 1d4+1, saves +4/+5/+1 and AC 15 converted to Westernesse 6. The drover's grey dog is peaceable; this changes her body, not the investigation or a hostile encounter. Omitted: low-light vision, scent, skills, movement and size rules. Kyr's criticals and piercing-wound triggers differ. Named only, never drawn into dens."
+      }
+    },
     "pack_leader": {
       "axis": "role", "word": "lead", "kinds": ["animal"],
       "says": "the one the rest follow, and watch",

@@ -16,6 +16,26 @@ changes 22 source records. Focused source-page tests cover the alternate AC form
 These are reference-data corrections only: they add no playable bodies or encounters and make no claim that every
 alternative routine or attack mode is extracted.
 
+### The drover's dog
+
+The existing drover situation now gives its peaceable grey dog the named `dog/drove` body, adapted from the SRD dog.
+Its six scores, 6 hit points, AC 15 converted to 6, saves +4/+5/+1 and bite +2 for 1d4+1 are fixed at every rank.
+Kyr's Dexterity modifier differs from the SRD's, so the converted AC needs no additional natural armor here. A
+headless test loads the authored situation, makes much of the dog through the normal choice and verifies the dog
+voice and the discovery of the ditch-mud clue. The test substitutes only a starting company location; it is not a
+generated-world journey.
+
+This is a new body for an existing placement, not another distinct SRD source creature or a new hostile encounter.
+`unplaced` keeps it out of random creature draws. An illustrative 12-trial fight of one first-level warrior against
+one dog reports 12 wins both before and after; a fleeing dog counts as a win, so this is not a balance proof. The
+dog's scent, low-light vision, skills, movement and size rules remain absent, and Kyr's critical and piercing-wound
+rules differ. It does not yet follow a trail or respond to a smell. A useful next slice is a shared perception
+contract whose result changes an authored investigation; a stat block alone cannot establish that behavior.
+
+Adding this second dog mapping brings the census to 80 creature rows mapping to 70 distinct source records:
+9 pass structural fields, 8 pass resolution and 3 have a recorded identity proof. The new dog's identity is
+unassessed. These sampled grades do not check the omitted senses or prove full SRD fidelity.
+
 There are real placed examples. The generated first town's corn-store has an old buck using `rat/midden`, the adapted
 dire rat from case 64; `test/undertown.test.ts` follows the town's job through the nest to the merchant's reward.
 The same generated site offers a mage who knows Sleep a named act against the rats in the run. It spends a slot,
@@ -353,7 +373,8 @@ errors: the long centipede's bite was 1d6 instead of 1d6-1, and the cellar rat's
 (minimum one). Both now carry signed damage through the fixed-strike path, with focused tests. The centipede is in
 the first town's drain; the cellar rat remains unplaced. The changed centipede encounter needs a fresh CI balance
 measurement. With the corrected variants, seven of 79 mapped creatures pass the stricter resolution fields; these
-grades still do not prove criticals, attack modes, senses or special qualities.
+were the counts before the drover's dog above. The grades still do not prove criticals, attack modes, senses or
+special qualities.
 The character-sheet damage text now shows a signed fixed bonus and its minimum; its engine output is tested, but the
 required 1280/390 contact sheet has not been made or visually reviewed. Do not land that page change without it.
 

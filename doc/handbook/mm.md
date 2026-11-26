@@ -3361,6 +3361,7 @@ A creature is its kind with any of these laid over it, one of each axis: an old 
 | runt | size | runt | small for its kind, and the quicker for it | Strength -2, Constitution -1, Dexterity +2, health -1 a level | only by an author |
 | great | size | great | twice the size of the rest of its kind | Strength +3, Constitution +2, Dexterity -2, health +2 a level | only by an author |
 | brood_mother | role | brood-mother | swollen and slow, keeping to her eggs and not leaving them | Strength +1, Constitution +3, Dexterity -2, health +3 a level | only by an author |
+| drove | breed | drove | a small working dog, quick on its feet and accustomed to the road | — | only by an author |
 | pack_leader | role | lead | the one the rest follow, and watch | Strength +1, Constitution +1, Charisma +2, health +1 a level, Berserker Rage | only by an author |
 | frost | region | frost | thick-coated and pale, bred where the winters are long | Frost adapted | #climate == 'cold' \|\| #habitat == 'snow' |
 | marsh | region | fen | dark and slick with the mud of the fens it was bred in | Marsh adapted | #habitat == 'fen' |

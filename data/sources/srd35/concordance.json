@@ -51,6 +51,10 @@
   "dog": {
    "srd": "dog"
   },
+  "dog/drove": {
+   "srd": "dog",
+   "notes": "The drover's peaceable dog; scent and low-light vision omitted."
+  },
   "dryad": {
    "srd": "dryad"
   },

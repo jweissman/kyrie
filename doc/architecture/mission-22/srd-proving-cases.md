@@ -2344,3 +2344,16 @@ and cleric win 80 → 10 %); the waterworks' keeper stays Orsino's until the kee
 The oathkeeper's creation card offering Command and Holy Wrath (case 33) is accepted: what a first-level oathkeeper
 knows is the SRD's first level.
 
+### 67. The drover's dog (26 November): a fixed working dog without a new encounter
+
+The drover's existing, peaceable grey dog now uses `dog/drove`, a named variant of Kyr's working dog with the SRD
+dog's six scores, 6 hit points, AC 15 converted to 6, saves +4/+5/+1 and one bite at +2 for 1d4+1. The fixed body
+does not scale with rank. It is not selected for random dens. `test/drove-dog.test.ts` checks the combat projection
+at three ranks and loads the authored situation in a small world: petting the dog still produces dog narration and
+teaches the ditch-mud clue.
+
+The SRD's scent, low-light vision, skills, movement and size rules are not modeled for her; Kyr's critical and
+piercing-wound rules differ. The placement is not hostile. In an illustrative 12-trial combat sample against one
+first-level warrior, the warrior wins all 12 against either the old or the new dog, including dog retreats. This
+does not measure a generated-world encounter. The census gives the new mapping S✓ R✓ I? on selected fields; it
+does not prove the missing senses. It is a second mapping of the dog, not another distinct SRD creature.
