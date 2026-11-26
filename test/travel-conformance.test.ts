@@ -46,11 +46,8 @@ const offered = (s: PlaySession, at: Awaited<ReturnType<typeof leafAfter>>) =>
 describe('travel as an engine question', () => {
   it('asks page and terminal the same, sets out by the same command, and comes to the same frame', async () => {
     const { host, terminal } = await start();
-    // Come down into the town first, by the same command: on the road down into it, the wanderer's map holds the town
-    // alone, and no journey past it, since the map draws what the company knows (OR-810).
-    const down = PlayerView.choices(terminal.campaign).find(r => /,region__s1_green\)$/.test(r.choice.id))!.choice.id;
-    const frame = await host.handle({ kind: 'perform', command: down }) as Frame;
-    const here = await leafAfter(terminal, down);
+    const frame = await host.handle({ kind: 'perform', command: 'wait' }) as Frame;
+    const here = await leafAfter(terminal, 'wait');
     expect(frame.leaf.travel?.rows.length).toBeGreaterThan(0);
     expect(asked(here.leaf.travel)).toEqual(asked(frame.leaf.travel));
     // The terminal's journeys are the engine's rows and nothing of its own.

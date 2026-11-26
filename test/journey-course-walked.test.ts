@@ -3,7 +3,6 @@ import { PlayTool } from '../src/cli/play-tool';
 import { JourneyCourse } from '../web/reader/journey-course';
 import { HexGrid } from '../web/reader/board/hex-grid';
 import { Glanced } from './support/glanced';
-import { Heard } from './support/heard';
 
 // A journey walked on the map a hex at a time (the owner's playtest of 20 November, OR-162: "The paths are still very
 // chaotic, seemingly overshooting the target and doubling back … it should be reasonably mechanical, hex-by-hex"). From
@@ -14,8 +13,6 @@ describe('a journey\'s course on the map', () => {
   for (const world of ['iscoed', 'a1', 'kite']) {
     it(`is walked a hex at a time and never doubles back but by a spur, from ${world}'s start`, async () => {
       const { journey } = await PlayTool.start(PlayTool.parse(['--world', world]));
-      // Told of the country's towns, for courses enough to walk: the map draws what the company knows (OR-810).
-      Heard.towns(journey.campaign);
       const screen = Glanced.of(journey.session).frame().screen, land = screen.region?.land;
       expect(land).toBeDefined();
       const grid = new HexGrid(land!.width, land!.height), bad: string[] = [];

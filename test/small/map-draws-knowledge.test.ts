@@ -89,30 +89,10 @@ describe('a road between two towns', () => {
         expect([r.way, room?.[1]]).toEqual([r.way, expect.stringMatching(seen)]);
         expect(kyr).toContain(`Observe ${r.way}_named_stone at ${r.way} as reading`);
         expect(kyr).toContain(`Initially Assert leadsTo(${r.way}_named, ${r.to.id}).`);
-        // Its milestone's note is over once the company has been to both towns (the first day's load, FH-25).
-        expect(kyr).toContain(`Rule ${r.way}_named_over when been(party, ${r.from.id}_green) and been(party, ${r.to.id}_green)`);
         roads++;
       }
     }
     expect(roads).toBeGreaterThan(3);
-  });
-  // A bridge, a ford, a wood or a pass told apart from its likes by the town it is nearer ("the bridge over the
-  // Redwater by Brightbridge") is seen as what it is, told apart by its side of the country: by its axis and ground
-  // alone, an aim to look along the bridge for a father had named "the east-west road over the woods" (OR-940).
-  it('named for its river, wood or pass and a town, is seen as what it is, naming no town', () => {
-    let roads = 0;
-    for (const seed of ['iscoed', 'a1', 'kite']) {
-      const region = WorldAssembler.region(seed, [0, 0]), kyr = RegionRoads.lines(region).join('\n');
-      const towns = region.settlements.map(t => t.name);
-      for (const r of RegionGeography.roads(region).filter(x => x.form)) {
-        const room = new RegExp(`Place ${r.way} "([^"]*)" is room within ${r.land} at 1, 1 seen as "([^"]*)" until`).exec(kyr);
-        if (!room) { continue; }
-        expect([r.way, room[2]]).toEqual([r.way, expect.stringContaining(r.form!.name)]);
-        expect(towns.filter(t => room[2]!.includes(t)).map(t => [r.way, t])).toEqual([]);
-        roads++;
-      }
-    }
-    expect(roads).toBeGreaterThan(0);
   });
 });
 

@@ -36,8 +36,7 @@ describe('the frame after an act, in kite', () => {
     expect(v.after!.changed).toContainEqual(expect.stringMatching(/^To take up: Hobs took a bell/));
     // The aim's gold way first (the owner, 18 November: a golden option first), before the brother.
     expect(v.after!.next).toEqual({ command: 'travel:region__s5_s2_way',
-      // Told apart from the other bridge over the Redwater by its side of the country, not a town (OR-810, OR-940).
-      label: 'To the north-eastern bridge over the Redwater', choice: 'exit:region__s5_s2_way', why: 'named' });
+      label: 'To the bridge over the Redwater by Brightbridge', choice: 'exit:region__s5_s2_way', why: 'named' });
   });
   // A company of one is led to whoever would join it (M19-59: a lone cleric had turned back from every fight of the
   // first town's jobs, never told the traveller at the inn would come): the answer opened it, and the glance leads it.

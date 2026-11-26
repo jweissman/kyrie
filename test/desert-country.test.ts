@@ -3,7 +3,6 @@ import { Terrain } from '../src/world/land/terrain';
 import { DrawnWorld } from '../src/world/drawn-world';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
-import { Heard } from './support/heard';
 
 // A desert country (the owner, OWN-44): drawn when asked for (?terrain=desert), never yet from a seed's own draw, so
 // that no world already played changes. Its land is dunes over half of it, stony waste below, rock and mesas above,
@@ -20,9 +19,6 @@ describe('a desert country', () => {
   it('is played into: its towns named, its first place reached', async () => {
     const j = Journey.of(await DrawnWorld.start('dune1', { party: [{ name: 'Aud', raceId: 'human', classId: 'ranger' }],
       origin: 'wanderer', terrain: 'desert' }, NodeBundleSource.shared));
-    // Told of its towns: the map draws what the company knows, and a wanderer on the road in knows the one (OR-810).
-    expect(j.screen().region!.areas.filter(a => a.kind === 'settlement').length).toBeGreaterThan(0);
-    Heard.towns(j.session.campaign);
     const region = j.screen().region!;
     expect(region.areas.filter(a => a.kind === 'settlement').length).toBeGreaterThan(2);
     expect(j.screen().place.name).toBeTruthy();

@@ -39,41 +39,19 @@ export class RegionRoads {
   // runs and the ground it crosses ("the east-west road over the meadows"), until the company stands on it and reads
   // its milestone, which names both ends (and so tells of the town at the far one). The map had named a town nobody had
   // told of in its road's name: "To the road between Mistshaw and Millholm" from Millholm (OR-810, the owner's playtest
-  // of 25 November). A road named for its river, wood or pass names no town, and is seen as it is; told apart from its
-  // likes by the town it is nearer ("the bridge over the Redwater by Brightbridge"), it is seen as what it is, told
-  // apart by its side of the country instead ("the western bridge over the Redwater"): seen by its axis and ground
-  // alone, an aim to look along the bridge for a father had named "the east-west road over the woods" (OR-940).
+  // of 25 November). A road named for its river, wood or pass names no town, and is seen as it is.
   private static unnamed(road: Road, region: Region, n: WayNames): { land: string; way: string; lines: string[] } {
     const { from, to, way } = road, q = JSON.stringify;
-    if (![n.way, n.land].some(name => this.towns(road, name))) { return { land: '', way: '', lines: [] }; }
-    const own = this.own(road, region), axis = this.axis(road, region), side = this.side(road, region);
-    const ground = RegionRoads.grounds[this.ground(road, region)] ?? 'open country', fact = `${way}_named`;
-    const alias = this.towns(road, own.way) ? `the ${axis} road over the ${ground}` : this.sided(own.way, side, axis);
-    const land = this.towns(road, own.land) ? `the ${ground} along the ${axis} road` : this.sided(own.land, side, axis);
-    const named = this.towns(road, n.way) ? alias : n.way;
-    return { land: this.towns(road, n.land) ? ` seen as ${q(land)} until ${fact}` : '',
-      way: this.towns(road, n.way) ? ` seen as ${q(alias)} until ${fact}` : '',
-      lines: [`  Entity ${fact}: fact ${q(`The ${named.slice(4)} runs between ${from.name} and ${to.name}.`)}.`,
+    if (![n.way, n.land].some(name => name.includes(from.name) || name.includes(to.name))) {
+      return { land: '', way: '', lines: [] };
+    }
+    const ground = RegionRoads.grounds[this.ground(road, region)] ?? 'open country';
+    const alias = `the ${this.axis(road, region)} road over the ${ground}`, fact = `${way}_named`;
+    return { land: ` seen as ${q(`the ${ground} along the ${this.axis(road, region)} road`)} until ${fact}`,
+      way: ` seen as ${q(alias)} until ${fact}`,
+      lines: [`  Entity ${fact}: fact ${q(`The ${alias.slice(4)} runs between ${from.name} and ${to.name}.`)}.`,
         `  Initially Assert leadsTo(${fact}, ${from.id}). Initially Assert leadsTo(${fact}, ${to.id}).`,
-        `  Observe ${fact}_stone at ${way} as reading when true ${q(`A milestone: ${from.name} one way, ${to.name} the other.`)} teaches ${fact}.`,
-        // Over once the company has been to both towns: the map names the road then, and the Notes need not (FH-25).
-        `  Rule ${fact}_over when been(party, ${from.id}_green) and been(party, ${to.id}_green) and not stale(${fact})`
-        + ` { Assert stale(${fact}). }`] };
-  }
-  // Whether a name names either town at a road's ends.
-  private static towns(road: Road, name: string): boolean {
-    return name.includes(road.from.name) || name.includes(road.to.name);
-  }
-  // A name told by the side of the country it is on ("the western bridge over the Redwater"), or, in the middle of
-  // the land, by the road it is on.
-  private static sided(name: string, side: string, axis: string): string {
-    return side === 'here' ? `${name} on the ${axis} road` : name.replace(/^the /, `the ${side}ern `);
-  }
-  // The side of the country a road's way room stands on, from the middle of the land (as a site's: RegionSites.seenAs).
-  private static side(road: Road, region: Region): string {
-    const { width, height } = RegionGeography.atlas(region).land;
-    const centre = RegionGeography.spot(region, width * Math.floor(height / 2) + Math.floor(width / 2));
-    return RegionGeography.compass(centre, road.spot);
+        `  Observe ${fact}_stone at ${way} as reading when true ${q(`A milestone: ${from.name} one way, ${to.name} the other.`)} teaches ${fact}.`] };
   }
   static readonly grounds: Record<string, string> = { meadow: 'meadows', heath: 'heath', wood: 'woods', fen: 'fen',
     fell: 'fells' };
