@@ -22,6 +22,7 @@ import { CompanyKnowledge } from './company-knowledge';
 import { CompanyMap } from './company-map'; import { Undertakings } from './undertakings';
 import { QueryIndex } from '../lang/query-index';
 import { ChoiceIds } from '../ui/choice-ids';
+import { PlayerFrame, type FrameRows } from './player-frame';
 
 export interface SpatialScene {
   ancestry: { id: string; name: string; kind: string }[];
@@ -184,7 +185,7 @@ export class PlayerView {
     const own = schema && schema !== 'ask' && campaign.module.actions.some(a => a.id === schema)
       ? this.only(campaign, new Set([schema])).find(c => c.choice.id === command) : undefined;
     if (own) { return own.action.id; }
-    const rows = this.choices(campaign);
+    const rows = PlayerFrame.of(campaign).rows;
     // By its id, or by the id an older build kept it by, its place among its siblings in it (ChoiceIds).
     const id = ChoiceIds.resolve(command, rows.map(c => c.choice.id));
     const match = id === undefined ? undefined : rows.find(c => c.choice.id === id);
@@ -261,7 +262,8 @@ export class PlayerView {
     const situations = campaign.installations.length ?
       campaign.installations.map(m => ({ name: m.name, description: m.description ?? '' })) :
       [{ name: campaign.module.name, description: campaign.module.description }];
-    const publicChoices = this.choices(campaign);
+    // The frame's rows, the one row set of this revision (PlayerFrame), not a copy of its own.
+    const publicChoices = PlayerFrame.of(campaign).rows;
     return { actor, title: campaign.module.name, situations, elapsed: state.elapsed, running: campaign.running,
       ...read.minutes ? { minutes: read.minutes } : {},
       ...(location ? { location: { id: location.id, name: ObservationText.label(world, location.id),
@@ -330,7 +332,7 @@ export class PlayerView {
       .map(e => this.entity(campaign, world, e.roles ? now.get(e.id) ?? e : e));
   }
   private static spatial(campaign: Campaign, actor: string, location: Entity,
-    choices: ReturnType<typeof PlayerView.choices>): SpatialScene {
+    choices: FrameRows): SpatialScene {
     const world = campaign.world, entities = ObservationText.presented(world);
     const ancestry = Spatial.ancestry(entities, location.id).reverse()
       .map(e => ({ id: e.id, name: e.name, kind: e.space!.kind }));

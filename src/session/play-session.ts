@@ -135,7 +135,7 @@ export class PlaySession {
         command.slice('travel:'.length));
       this.journeyed = done;
       // None taken: a wait, where the company can wait; else what was last told (one held where it lies cannot).
-      const held = !PlayerView.choices(this.campaign).some(c => c.choice.id === 'wait');
+      const held = !PlayerView.only(this.campaign, PlaySession.waits).some(c => c.choice.id === 'wait');
       const last = done.legs.at(-1)?.event ?? (held ? this.campaign.history.at(-1) : undefined);
       // Told with what its legs before brought (see Travel.way): a copy, not the campaign's record.
       const way = Travel.way(done);
@@ -146,6 +146,8 @@ export class PlaySession {
     return to ? this.campaign.crossing.travelling(to, () => this.perform(command, controller))
       : this.perform(command, controller);
   }
+  // Whether the company can wait: the wait's rows alone, not the whole frame (PlayerView.only).
+  private static readonly waits: ReadonlySet<string> = new Set(['wait']);
   // A leg of a journey, as Travel.go takes it (its words aside), its fight the controller's.
   private travelled(controller: CombatController, command: string): Promise<CampaignEvent> {
     return this.perform(command, controller);

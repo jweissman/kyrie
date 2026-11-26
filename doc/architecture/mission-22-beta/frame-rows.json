@@ -12,7 +12,6 @@
   "scripts/scale-bench.ts": 2,
   "scripts/scale-costs.ts": 2,
   "scripts/sim-bench.ts": 2,
-  "scripts/travel-census.ts": 1,
-  "src/session/play-session.ts": 1
+  "scripts/travel-census.ts": 1
  }
 }
