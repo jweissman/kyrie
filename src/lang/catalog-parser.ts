@@ -1,6 +1,6 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
-import { Vocabularies, type KindsMade, type LocalKindSpec, type LocalSpeciesSpec } from './vocabulary';
+import { type KindsMade, type LocalKindSpec, type LocalSpeciesSpec, type VocabularyContext } from './vocabulary';
 import type { Entity, Module } from './module';
 
 type Node = ohm.Node;
@@ -60,22 +60,23 @@ export class CatalogParser {
     SpeciesPart_described: CatalogParser.Described, SpeciesPart_living: CatalogParser.Living,
   };
   // The module's own kinds, made and joined to the catalogs, from the declarations that make them.
-  static declare(module: Module, fields: Field[], located: (i: number, run: () => void) => void) {
+  static declare(context: VocabularyContext, module: Module, fields: Field[],
+    located: (i: number, run: () => void) => void) {
     const catalog: KindsMade = {}, taught: [string, string][] = [];
     const capabilities = new Set(fields.filter(f => f.field === 'entity' && (f.value as Entity).type === 'capability')
       .map(f => (f.value as Entity).id));
     fields.forEach(({ field, value }, i) => located(i, () => {
       if (field === 'localkind') {
         const spec = value as LocalKindSpec;
-        (catalog.items ??= {})[spec.id] = Vocabularies.item(module.id, spec, capabilities);
+        (catalog.items ??= {})[spec.id] = context.item(module.id, spec, capabilities);
         if (spec.teaches) { taught.push([spec.id, spec.teaches]); }
       } else if (field === 'localspecies') {
         const spec = value as LocalSpeciesSpec;
-        (catalog.species ??= {})[spec.id] = Vocabularies.species(module.id, spec);
+        (catalog.species ??= {})[spec.id] = context.species(module.id, spec);
       }
     }));
     if (!catalog.items && !catalog.species) { return; }
-    Vocabularies.install(catalog);
+    context.install(catalog);
     module.catalog = catalog;
     // A kind declared here is a kind of thing in this world whether or not any of it is placed yet; what it weighs
     // is a fact of the world, for rules to read (see belongings.kyr).

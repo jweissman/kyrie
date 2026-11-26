@@ -1,7 +1,7 @@
 import type * as ohm from 'ohm-js';
 import { ModuleParser } from './module-parser';
 import { WorldConstructs, type ThingSpec } from './world-constructs';
-import { Vocabularies } from './vocabulary';
+import type { VocabularyContext } from './vocabulary';
 import { ModuleWriter } from './module-writer';
 import type { Change, Module, Person, Predicate } from './module';
 import { ObjectParser } from './object-parser';
@@ -287,14 +287,14 @@ export class PersonParser {
     return { field: 'actions', value: ids.asIteration().children.map(ModuleParser.text) };
   }
   // A person enters a module as a group where they stand, named for their role, with their states told near them.
-  static declare(module: Module, value: unknown) {
+  static declare(context: VocabularyContext, module: Module, value: unknown) {
     const { spec, peaceable, manner, temperament, ...p } = value as Person & { spec: ThingSpec; peaceable?: boolean;
       manner: Manner[]; temperament?: string };
     (module.people ??= []).push(p);
     PersonParser.manner(module, p.id, temperament, manner);
     // One nowhere who comes somewhere sets out their stock where they come.
     WorldConstructs.offers(module, { ...p, place: p.place ?? p.arrives?.place },
-      kind => Vocabularies.kind(kind)?.name);
+      kind => context.kind(kind));
     // A person's role follows their name ("Garth, shepherd"), unless it only repeats it, or it is what each
     // of a numbered group is ("a cave spider") rather than the group ("a sow bear and her grown cub").
     const each = (p.count ?? 1) > 1 && !/ and |,/.test(p.role ?? '');
@@ -309,7 +309,7 @@ export class PersonParser {
     for (const kind of p.wants ?? []) {
       module.initial.push({ kind: 'assert', call: { kind: 'call', name: 'wants', args: [p.id, kind] } });
     }
-    WorldConstructs.states(module, spec, { kind: 'near', id: p.id });
+    WorldConstructs.states(context, module, spec, { kind: 'near', id: p.id });
   }
   static company(module: Module, c: NonNullable<Module['company']>) {
     if (module.company) { throw new Error('A module declares at most one company'); }

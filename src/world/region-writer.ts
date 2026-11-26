@@ -40,6 +40,7 @@ import { RegionAnimals } from './region-animals';
 import { RegionRovers } from './region-rovers';
 import { RegionQuarters } from './region-quarters';
 import { GeneralStores } from './general-stores';
+import type { VocabularyContext } from '../lang';
 import { StoryPeople } from './story-people';
 import { RegionMeetings } from './region-meetings';
 import { ModuleCanon } from '../campaign/module-canon';
@@ -158,10 +159,10 @@ export class RegionWriter {
   // The settlement each site is reached from: the one it names, or one by turns.
   static near(region: Region, site: Site): Settlement { return RegionGeography.near(region, site); }
   // A region beyond the first (company null) has no company of its own: the one company comes to it from the others.
-  static source(region: Region, company: Company | null = { size: 3, contacts: [] },
-    taken: Record<string, string> = {}): string {
+  static source(region: Region, company: Company | null, taken: Record<string, string>,
+    vocabulary: VocabularyContext): string {
     // One text whole (a fixture, an author's look): what was declared as values written as its Kyr.
-    const body = this.body(region, taken).map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l);
+    const body = this.body(region, taken, vocabulary).map(l => ModuleSource.is(l) ? ModuleSource.read(l).kyr : l);
     return [`Module ${this.id} ${JSON.stringify(region.name)} {`, ...body, ...this.company(region, company),
       '}'].join('\n');
   }
@@ -171,10 +172,11 @@ export class RegionWriter {
   // item of one site may be written in a file before the one its kind was declared in (wren's chalice, two works'
   // own, was placed in a file before its kind's; in the browser, with no kinds left over from another start, Begin
   // failed on it).
-  static files(region: Region, company: Company | null, taken: Record<string, string> = {}): Record<string, string> {
+  static files(region: Region, company: Company | null, taken: Record<string, string>, vocabulary: VocabularyContext):
+    Record<string, string> {
     CommunityWriter.afresh(region);
     const head = `Module ${this.id} ${JSON.stringify(region.name)} {`, parts: string[][] = [[]];
-    const body = this.body(region, taken), own = body.filter(l => RegionWriter.ownKind.test(l));
+    const body = this.body(region, taken, vocabulary), own = body.filter(l => RegionWriter.ownKind.test(l));
     // A file ends only where a statement does: a rule whose words come on the line after its condition had been cut
     // between them (a rover's coming, 11 November: the drowned stair's country failed to parse).
     let depth = 0, size = 0, ended = true;
@@ -208,10 +210,10 @@ export class RegionWriter {
   private static braces(line: string): number {
     return [...line.replace(/"(?:[^"\\]|\\.)*"/g, '')].reduce((n, c) => n + (c === '{' ? 1 : c === '}' ? -1 : 0), 0);
   }
-  private static body(region: Region, taken: Record<string, string>): string[] {
-    return RegionNews.writing(region, () => this.parts(region, taken));
+  private static body(region: Region, taken: Record<string, string>, vocabulary: VocabularyContext): string[] {
+    return RegionNews.writing(region, () => this.parts(region, taken, vocabulary));
   }
-  private static parts(region: Region, taken: Record<string, string>): string[] {
+  private static parts(region: Region, taken: Record<string, string>, vocabulary: VocabularyContext): string[] {
     const q = JSON.stringify, lines: string[] = [];
     lines.push(
       `  Description ${q(`${region.name}: ${this.terrain(region.terrain)} country, home to ${this.peoples(region)}, who keep the faith of ${region.deity}.${this.meaning(region)}`)}.`,
@@ -227,7 +229,7 @@ export class RegionWriter {
       ...RegionMarvels.lines(region),
       ...RegionBorders.lines(region), ...RegionGates.lines(region),
       ...RegionSites.lines(region, taken), ...RegionRumours.lines(region),
-      ...RegionWorks.lines(region, taken), ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
+      ...RegionWorks.lines(region, taken, vocabulary), ...RegionFellows.lines(region), ...RegionTraffic.lines(region),
       // Finding a place is its own reward, once: a makers' work more than a cave (the owner, 1 November: hex
       // crawling encouraged, exploration rewarded).
       ...region.sites.map(w => `  Milestone ${w.id}_reached ${JSON.stringify(`found ${w.name}`)} worth ${w.work ? 20 : 10}`
@@ -313,8 +315,8 @@ export class RegionWriter {
   // own (data/imbar), as the authored countries beyond its marches are: the road over a march is no planar crossing.
   // The region's module written into a world's files: its manifest and its parts.
   static write(files: Record<string, string>, root: string, region: Region,
-    at: { company: Company | null; taken: Record<string, string>; beyond?: boolean }) {
-    const parts = this.files(region, at.company, at.taken);
+    at: { company: Company | null; taken: Record<string, string>; beyond?: boolean; vocabulary: VocabularyContext }) {
+    const parts = this.files(region, at.company, at.taken, at.vocabulary);
     const sources = Object.keys(parts).filter(n => RegionWriter.readsAsKyr(n)), ir = Object.keys(parts).filter(n => n.endsWith('.ir.json'));
     files[`${root}/region/module.json`] = JSON.stringify({ ...this.manifest(region, at.taken, at.beyond,
       { ...at.company ? { company: at.company } : {}, sources }),

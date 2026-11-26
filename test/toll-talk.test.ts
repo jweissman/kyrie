@@ -7,6 +7,7 @@ import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { RegionGeography } from '../src/world/region-geography';
 import { GeneratedWorld } from './support/generated';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // A toll can be talked down as well as paid or run (the play-structure investigation's PT-14: there was no talking down
 // a toll): the deserters told their war is over, the reeve told the company is on the lord's business. Said well, the
@@ -15,7 +16,8 @@ class Toll {
   static async stopped(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
-    const placed = (await ModuleBundle.campaign(w.path, w.source, seed)).composition!.placements
+    const placed = (await ModuleBundle.campaign(w.path, w.source,
+      CanonVocabulary.context(), seed)).composition!.placements
       .find(p => p.kit === 'toll_road')!.bindings;
     const road = RegionGeography.roads(w.report.region).find(r => `region__${r.way}` === placed.post)!;
     const s = await PlaySession.start(w.path, seed, w.source), way = `region__${road.way}`;

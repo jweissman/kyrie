@@ -114,7 +114,7 @@ export class Cast {
         && !module.entities.some(e => e.id === `${p.id}_${x.kind}` && e.type === 'service'));
       if (offers.length && module.relations.some(r => r.name === 'offers')) {
         WorldConstructs.offers(module, { id: p.id, ...p.place ? { place: p.place } : {}, offers },
-          kind => catalog.find(kind)?.name);
+          kind => catalog.find(kind));
       }
       // One who is nowhere keeps no hours anywhere (WPC-04).
       if (o.routine && p.place && !module.pursuits?.some(x => x.actor === p.id && x.id === `${p.id}_routine`)) {

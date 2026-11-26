@@ -1,6 +1,5 @@
 import { LocalKinds } from '../canon/local-catalog';
 import { Spatial } from '../lang/spatial';
-import { Canon } from '../canon/canon';
 import { Traits } from '../ports/traits';
 import { RuntimeCapabilities } from './runtime-capabilities';
 import { ItemCatalog } from '../item-catalog';
@@ -44,14 +43,15 @@ export type AdventureManifest = SituationManifest;
 // Combines declarative content and a reusable ruleset; contains no adventure-specific decisions.
 export class ModuleAssembly {
   static compose(situationSource: string | Module, rulesSource: string | Module, manifest: AdventureManifest,
-    at: { seed: string; kinds: Module['catalog'] }): CampaignInstance {
-    const situation = typeof situationSource === 'string' ? ModuleParser.parse(situationSource) : situationSource;
-    const rules = typeof rulesSource === 'string' ? ModuleParser.parse(rulesSource) : rulesSource;
+    at: { seed: string; kinds: Module['catalog']; vocabulary: import('../lang/vocabulary').VocabularyContext }): CampaignInstance {
+    const situation = typeof situationSource === 'string'
+      ? ModuleParser.parseWithin(at.vocabulary, situationSource) : situationSource;
+    const rules = typeof rulesSource === 'string' ? ModuleParser.parseWithin(at.vocabulary, rulesSource) : rulesSource;
     const module = this.joined(situation, rules, manifest), catalog = ItemCatalog.among(at.kinds, module.catalog);
     Spatial.addEscorts(module); Spatial.addSearches(module);
     Spatial.placeFacts(module); Cast.itemKinds(module, catalog); Cast.professions(module, situation.people ?? [],
       catalog);
-    this.talkers(module, manifest.imports ?? []); this.unheld(module); this.present(module, situation);
+    this.talkers(module, manifest.imports ?? [], catalog); this.unheld(module); this.present(module, situation);
     PutQuestions.lower(module);
     const { cast, conflicts, company, people } = this.people(catalog, module, situation.people ?? [], manifest);
     const seen = (situation.people ?? []).filter(p => p.seen);
@@ -81,7 +81,8 @@ export class ModuleAssembly {
     // Checked once, with each pressure's measure, outcome and goal a well-formed predicate over it: the whole module,
     // the shared rules' every declaration with it, had been checked again after it was instantiated, which settles
     // only its dice (AX-03; that each install checks the shared rules at all: test/shared-validity).
-    const compiler = new ModuleCompiler(RuntimeCapabilities.signatures, false, seed => new Expressions(seed));
+    const compiler = new ModuleCompiler(RuntimeCapabilities.signatures, false, seed => new Expressions(seed),
+      at.vocabulary);
     const instance = compiler.instantiate(module, at.seed, this.predicates(definition));
     for (const p of instance.module.pursuits ?? []) {
       const owner = definition.actors.find(a => a.id === p.actor)
@@ -253,9 +254,9 @@ export class ModuleAssembly {
   // Who can be talked to: a person of an ancestry (not a beast of a species), and anyone with something to be asked
   // (a Topic), not anyone an action is spoken by (Fair Weather's friction 14). Someone a module borrows from another
   // (an imported innkeeper) is said to talk by the module that has them.
-  private static talkers(module: Module, imported: string[]) {
+  private static talkers(module: Module, imported: string[], catalog: ItemCatalog) {
     if (!module.relations.some(r => r.name === 'talks')) { return; }
-    const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && Canon.isBody(p.raceId)))
+    const ids = new Set([...(module.people ?? []).filter(p => !p.creature && !(p.raceId && catalog.isBody(p.raceId)))
       .map(p => p.id), ...module.actions.flatMap(a => a.topic && a.speaker && !imported.includes(a.speaker)
       ? [a.speaker] : [])]);
     for (const id of ids) { module.initial.push({ kind: 'assert', call: ModuleWriter.call('talks', id) }); }

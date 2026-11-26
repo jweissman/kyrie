@@ -4,9 +4,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
-import { LocalKinds } from '../src/canon/local-catalog';
 import { ModuleParser } from '../src/lang/module-parser';
-import { ItemCatalog } from '../src/item-catalog';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // A kind declared in one file of a module is a kind of thing for the next, however the first came to be read. Found
 // measuring the browser: Begin on wren failed ("names a kind missing from the item catalog: abbey_chalice"), and
@@ -32,9 +31,7 @@ describe('a kind declared in one file of a module', () => {
         modules: [{ id: 'p', bundle: 'module.json' }], party: [{ name: 'Ama', raceId: 'human', classId: 'warrior' }] }));
       const path = join(dir, 'probe.campaign.json');
       await PlaySession.start(path, 'kinds', NodeBundleSource.shared);
-      // Another start meanwhile puts its own kinds in place of these; then this one is begun again, its first file
-      // kept as it was read, the other read afresh.
-      LocalKinds.reset();
+      // Another start has its own context; the already kept declaration remains campaign-local.
       writeFileSync(join(dir, 'site.kyr'), site('\n  // read again'));
       const again = await PlaySession.start(path, 'again', NodeBundleSource.shared);
       expect(again.campaign.module.entities.some(e => e.id === 'p__ox')).toBe(true);
@@ -43,10 +40,8 @@ describe('a kind declared in one file of a module', () => {
   // The parser keeps what it has read too: what it gives back declares its kinds again.
   it('is declared again by the parser when it gives back a text it read before', () => {
     const text = 'Module localkind "One file" {\n  Kind dreg_ox "a little ox of dreg" is treasure worth 2 weighing 1.\n}';
-    ModuleParser.parse(text);
-    LocalKinds.reset();
-    expect(ItemCatalog.ambient.dreg_ox).toBeUndefined();
-    ModuleParser.parse(text);
-    expect(ItemCatalog.ambient.dreg_ox?.name).toBe('a little ox of dreg');
+    const vocabulary = CanonVocabulary.context();
+    ModuleParser.parseWithin(vocabulary, text);
+    expect(vocabulary.kind('dreg_ox')?.name).toBe('a little ox of dreg');
   });
 });

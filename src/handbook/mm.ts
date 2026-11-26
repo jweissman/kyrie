@@ -11,6 +11,7 @@ import type { OrsinoAppendix } from './orsino-appendix';
 import { MonsterDescribers } from './mm-describers';
 import { CreatureVariants } from '../creature-variants';
 import { CreaturePortraits } from '../paintings/creature-portraits';
+import type { CanonItemReader } from './catalog';
 import geology from '../../data/catalog/geology.json';
 
 
@@ -18,7 +19,7 @@ import geology from '../../data/catalog/geology.json';
 // generator's tables, and Orsino's bestiary with how much of it Kyr holds.
 export class MonsterManual {
   readonly problems: Problem[] = [];
-  constructor(readonly appendix: OrsinoAppendix) {}
+  constructor(readonly appendix: OrsinoAppendix, readonly items: CanonItemReader) {}
   book(): Book {
     return { id: 'mm', title: 'Monster Manual', intro: [
       'The creatures of Kyr. A species is a kind of creature statted by its own nature: a natural weapon and hide, a hit '
@@ -32,7 +33,7 @@ export class MonsterManual {
       'A species acts as many times a turn as its kind does: most once, an owlbear or an angel twice, a dragon three '
         + 'times. Most of the bestiary is composed from Orsino\'s monster template and grows with level as the template '
         + 'does: every quality rises by one at levels 4, 12 and 20, and hit points by three a level.'],
-    sections: [this.species(), this.devices(), this.variations(), this.natural(), this.traits(), MonsterManual.plants(),
+    sections: [this.species(), this.devices(), this.variations(), this.natural(), this.traits(), this.plants(),
       this.orsino()] };
   }
   species(): Section {
@@ -60,14 +61,14 @@ export class MonsterManual {
   }
   creature(id: string): Entry {
     const s = Canon.creature(id), st = s.statistics;
-    const armor = st?.armor ? Canon.items[st.armor] : undefined;
+    const armor = st?.armor ? this.items.definition(st.armor) : undefined;
     const worth = s.worth ? `${s.worth.base ? `${s.worth.base} + ` : ''}${s.worth.perLevel} experience a level`
       : `${Advancement.table.species[s.type ?? ''] ?? Advancement.table.species.monster!} experience a level`;
     const facts: [string, string][] = [['Type', `${s.type ?? '—'} (${s.kind ?? 'monster'})`],
       ...st ? [['Hit points', MonsterManual.hitPoints(st)] as [string, string],
         ...st.actions && st.actions > 1 ? [['Actions a turn', String(st.actions)] as [string, string]] : [],
         ['Qualities', st.attributes === 'rolled' ? 'rolled (3d6 each)' : MonsterManual.scores(st.attributes)] as [string, string],
-        ['Attack', MonsterManual.attacks(st.attacks?.length ? st.attacks : [st.weapon])] as [string, string]] : [],
+        ['Attack', this.attacks(st.attacks?.length ? st.attacks : [st.weapon])] as [string, string]] : [],
       ...armor?.armor ? [['Hide', `${armor.name}, armour ${armor.armor.ac}`] as [string, string]] : [],
       ...Object.keys(Defenses.fractions(s.defenses)).length ? [['Resists',
         MonsterManual.resistances(Defenses.fractions(s.defenses))] as [string, string]] : [],
@@ -95,9 +96,9 @@ export class MonsterManual {
     return `${base} + ${perLevel === 1 ? '' : `${perLevel} × `}its level, its own powers drawing on them, back after a night's rest`;
   }
   // Its blow, or each of the blows of its round, one roll each (a dragon's claws, claws and bite: see AttackRoutine).
-  static attacks(weapons: string[]): string {
+  attacks(weapons: string[]): string {
     const said = weapons.map(id => {
-      const w = Canon.items[id];
+      const w = this.items.definition(id);
       return `${w?.name ?? id}${w?.weapon ? `, ${w.weapon.damage} ${w.weapon.type}` : ''}`;
     });
     return said.length > 1 ? `${said.join('; ')}, in one round` : said[0]!;
@@ -147,10 +148,10 @@ export class MonsterManual {
   }
   // What grows wild (data/catalog/plants.json): where, on what ground, what it gives and what it is good for, by its
   // plate (the owner's plants, 6 November: flavour, gathered where they grow; nothing yet made of them).
-  static plants(): Section {
+  plants(): Section {
     const entries = Object.entries(Canon.plants).sort(([, a], [, b]) => a.name.localeCompare(b.name))
       .map(([id, p]): Entry => {
-        const gives = p.yields ? Canon.items[p.yields] : undefined;
+        const gives = p.yields ? this.items.definition(p.yields) : undefined;
         const facts: [string, string][] = [['Grows in', p.habitats.map(h => Canon.habitats[h]?.name.toLowerCase() ?? h)
           .join(', ')], ...p.grounds?.length ? [['Does best on', MonsterManual.grounds(p.grounds)] as [string, string]] : [],
           ...gives ? [['Gathered', p.gathered ?? gives.name.toLowerCase()] as [string, string]] : [],

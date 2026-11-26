@@ -3,11 +3,13 @@
 import { resolve } from 'node:path';
 import { Handbooks } from '../handbook/handbooks';
 import { HandbookPublisher } from '../handbook/publish';
+import { CanonVocabulary } from '../canon/canon-vocabulary';
+import { CatalogContext } from '../item-catalog';
 
 export class HandbookTool {
   static readonly root = resolve(import.meta.dir, '../..');
   static async main(args: string[]): Promise<number> {
-    const handbooks = new Handbooks(this.root);
+    const handbooks = new Handbooks(this.root, CanonVocabulary.context(), CatalogContext.canon);
     await HandbookPublisher.markdown(handbooks, resolve(this.root, 'doc/handbook'));
     const at = args.indexOf('--html');
     if (at >= 0) { await HandbookPublisher.html(handbooks, resolve(args[at + 1] ?? 'out/site/handbook')); }

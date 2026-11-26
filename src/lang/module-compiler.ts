@@ -4,7 +4,7 @@ import { ObservationText } from './observation-text';
 import { Deem } from 'deem';
 import type { Aspect, Call, Change, Instance, Module, NumberValue, Predicate, Signature, Value } from './module';
 import { World } from './world';
-import { Vocabularies } from './vocabulary';
+import { VocabularyContext } from './vocabulary';
 import { EngineOwned } from './engine-owned';
 import { Arithmetic } from './arithmetic';
 import { CheckedActions } from './checked-actions';
@@ -24,7 +24,8 @@ export class ModuleCompiler {
   // world that held a lamp (the library tour, wren). dice: what rolls a module's dice as it is instantiated; a module
   // instantiated with none may roll none.
   constructor(private readonly capabilities: Signature[] = [], private readonly joined = false,
-    private readonly dice?: (seed: string) => Dice) {}
+    private readonly dice?: (seed: string) => Dice,
+    private readonly vocabulary: VocabularyContext = VocabularyContext.none) {}
   // goals: predicates over the module (a pressure's measure, outcomes, people's goals), each checked in the one pass
   // with it, rather than the whole module checked again as each one's goal: a scenario of a hundred people had been
   // checked whole hundreds of times, a second of a generated start (Mission 21, world/construction.md §6).
@@ -321,7 +322,7 @@ export class ModuleCompiler {
   // An ability of Orsino's that Kyr cannot run, said so with why, where it had been only an invalid argument (the Book
   // of Faces' BOF-05: true_sight, an hour lost).
   private unrun(arg: string, kind: string | undefined): string | undefined {
-    const ability = kind === 'ability' ? Vocabularies.ability(arg) : undefined;
+    const ability = kind === 'ability' ? this.vocabulary.ability(arg) : undefined;
     return ability?.unsupported ? `: ${ability.name} is Orsino's, and Kyr cannot run it (${Object.values(ability.unsupported)
       .join(' ')})` : undefined;
   }

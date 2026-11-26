@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import { resolve } from 'node:path';
 import { Canon } from '../src/canon/canon';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
+import { CatalogContext } from '../src/item-catalog';
 import { Handbooks } from '../src/handbook/handbooks';
 import { PlayChapters } from '../src/handbook/phb-play';
 import { HandbookStatus } from '../src/handbook/model';
@@ -8,7 +10,7 @@ import { CapabilityAudit } from '../src/handbook/audit';
 
 // The handbooks are views of the definitions the game plays from: every definition appears once with the status the
 // catalog gives it, a spell nobody can cast says so, and nothing points at an entry that is in no book.
-const handbooks = new Handbooks(resolve(import.meta.dir, '..'));
+const handbooks = new Handbooks(resolve(import.meta.dir, '..'), CanonVocabulary.context(), CatalogContext.canon);
 const index = handbooks.index();
 const coverage = handbooks.coverage();
 

@@ -1,9 +1,10 @@
 import type { Entity, Module } from '../lang/module';
 import { ModuleParser } from '../lang/module-parser';
+import type { VocabularyContext } from '../lang';
 import type { BundleSource } from './bundle-source';
 
 // What the canon declares: the ids that are the world's (its manifest's globals), and each one's declaration.
-export interface CanonDeclarations { ids: Set<string>; entities: Map<string, Entity> }
+export interface CanonDeclarations { ids: Set<string>; entities: Map<string, Entity>; catalog?: Module['catalog'] }
 // The world's canon, data/imbar: Imbar, the planes beyond it and their thresholds, and the names (the College of Dun
 // Rì, its House of Doors, the world events) that every world holds before any module is installed (see
 // CanonInstall). A module names those it uses in its manifest's "canon", and is given their declarations from this
@@ -23,12 +24,18 @@ export class ModuleCanon {
   }
   static is(path: string, source: BundleSource): boolean { return path === source.resolve(ModuleCanon.path); }
   // The canon a source holds, read once for it; none, for a source without data/imbar (a test's handful of files).
-  static declarations(source: BundleSource): Promise<CanonDeclarations | undefined> {
+  static async declarations(
+    source: BundleSource, vocabulary: VocabularyContext,
+  ): Promise<CanonDeclarations | undefined> {
     let read = this.sources.get(source);
-    if (!read) { read = this.read(source); this.sources.set(source, read); }
-    return read;
+    if (!read) { read = this.read(source, vocabulary); this.sources.set(source, read); }
+    const canon = await read;
+    if (canon) { vocabulary.install(canon.catalog); }
+    return canon;
   }
-  private static async read(source: BundleSource): Promise<CanonDeclarations | undefined> {
+  private static async read(
+    source: BundleSource, vocabulary: VocabularyContext,
+  ): Promise<CanonDeclarations | undefined> {
     const path = source.resolve(ModuleCanon.path);
     const text = await source.read(path).catch(() => undefined);
     if (text === undefined) { return undefined; }
@@ -38,8 +45,20 @@ export class ModuleCanon {
     const key = [text, ...texts].join('\u0000');
     let canon = this.parsed.get(key);
     if (!canon) {
-      const entities = texts.flatMap(t => ModuleParser.parse(t).entities);
-      canon = { ids: new Set(manifest.globals ?? []), entities: new Map(entities.map(e => [e.id, e])) };
+      const local = vocabulary.fork(), modules = texts.map(text => {
+        const module = ModuleParser.parseWithin(local, text);
+        local.install(module.catalog);
+        return module;
+      });
+      const entities = modules.flatMap(module => module.entities);
+      const items = Object.assign({}, ...modules.map(module => module.catalog?.items ?? {}));
+      const species = Object.assign({}, ...modules.map(module => module.catalog?.species ?? {}));
+      const catalog = {
+        ...Object.keys(items).length ? { items } : {},
+        ...Object.keys(species).length ? { species } : {},
+      };
+      canon = { ids: new Set(manifest.globals ?? []), entities: new Map(entities.map(e => [e.id, e])),
+        ...Object.keys(catalog).length ? { catalog } : {} };
       this.parsed.set(key, canon);
     }
     return canon;

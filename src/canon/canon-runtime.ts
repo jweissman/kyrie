@@ -17,6 +17,8 @@ export interface RuntimeItem {
 // definitions for Effects, item definitions for ItemCatalog, and the passive modifiers of traits.
 export class CanonRuntime {
   static resolve(family: Family, id: string): string { return Canon.resolve(family, id); }
+  static item(id: string): ItemKind | undefined { return Canon.items[this.resolve('items', id)]; }
+  static itemIds(): string[] { return Object.keys(Canon.items); }
   static isBody(id: string): boolean { return Canon.isBody(id); }
   private static withAliases<T>(family: Family, entries: Record<string, T>): Record<string, T> {
     const out = { ...entries };

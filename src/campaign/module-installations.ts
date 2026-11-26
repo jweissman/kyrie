@@ -20,6 +20,10 @@ import { Discovery } from '../lang/discovery';
 import { EngineOwned } from '../lang/engine-owned';
 
 export class ModuleInstallations {
+  static catalogAmong(...kinds: (Module['catalog'] | undefined)[]) {
+    const [catalog, ...own] = kinds;
+    return ItemCatalog.among(catalog, ...own);
+  }
   // Actors another installation declared take up the goals and actions this one gives them: each so extended a new
   // actor, the rest as they were (never changed after they are joined: every actor of the world had been copied
   // whole at every install, compile-once-plan.md step 3).

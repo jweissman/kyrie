@@ -7,6 +7,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { CommonNames } from '../src/world/common-names';
 import { Foundings } from '../src/world/founding';
 import { RegionLand } from '../src/world/region-land';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 class Regions {
   static make(ancestry: string): Region {
@@ -42,7 +43,8 @@ describe('generated places are named in their folk\'s tongue', () => {
     // A Common name needs no meaning told: nothing says what one is "Common for", in a place or on the chart, where
     // only the works' old names are glossed.
     const laid = PlaceNames.render(WorldAssembler.lay(Regions.make('human'), 'frostwold'));
-    const source = RegionWriter.source(laid), manifest = RegionWriter.manifest(laid) as { chart: { glosses: object } };
+    const source = RegionWriter.source(laid, null, {}, CanonVocabulary.context()),
+      manifest = RegionWriter.manifest(laid) as { chart: { glosses: object } };
     expect(source.split('\n').filter(l => /Observe \S+ at /.test(l) && l.includes('The name is'))).toEqual([]);
     expect(`${source}${JSON.stringify(manifest)}`).not.toContain('Common for');
     expect(Object.keys(manifest.chart.glosses).filter(id => /^s\d+$/.test(id))).toEqual([]);

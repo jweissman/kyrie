@@ -4,6 +4,7 @@ import type { Book, Entry, Section } from './model';
 import { KyrDoc } from './kyr-doc';
 import { OrsinoAppendix, type Definition } from './orsino-appendix';
 import { HandbookText } from './text';
+import type { VocabularyContext } from '../lang';
 
 interface Kit { id: string; name: string; about: string; slots?: Record<string, { is: string }>;
   proposals?: Record<string, { table: string; by?: string }>; provides?: string[]; modules?: unknown[] }
@@ -12,7 +13,7 @@ interface Campaign { name: string; pitch?: { text: string }; modules: { id: stri
 // The Dungeon Master's Guide: how the world runs (the rules modules every world loads, read from their source), how
 // worlds are made (kits, frameworks, the generator's tables), the campaigns, and Orsino's world material.
 export class DungeonMastersGuide {
-  constructor(readonly appendix: OrsinoAppendix, readonly root: string) {}
+  constructor(readonly appendix: OrsinoAppendix, readonly root: string, readonly vocabulary: VocabularyContext) {}
   book(): Book {
     return { id: 'dmg', title: 'Dungeon Master\'s Guide', intro: [
       'How the world runs. Everything in a Kyr world is a fact (a relation or a measure) that actions and rules change. '
@@ -26,7 +27,7 @@ export class DungeonMastersGuide {
   rules(): Section {
     const dir = join(this.root, 'data/rules');
     const sections = readdirSync(dir).filter(f => f.endsWith('.kyr')).sort()
-      .map(f => KyrDoc.section(f.replace(/\.kyr$/, ''), readFileSync(join(dir, f), 'utf8')));
+      .map(f => KyrDoc.section(f.replace(/\.kyr$/, ''), readFileSync(join(dir, f), 'utf8'), this.vocabulary.fork()));
     return { id: 'world-rules', title: 'The world\'s rules', sections };
   }
   making(): Section {

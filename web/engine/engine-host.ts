@@ -1,12 +1,9 @@
-import { Portraits } from '../../src/ui/portraits';
-import { CompanyPortraits } from '../../src/paintings/company-portraits';
+import { Portraits } from '../../src/ui/portraits'; import { CompanyPortraits } from '../../src/paintings/company-portraits';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
 import { PlayerView } from '../../src/presentation/player-view'; import { PlayerFrame } from '../../src/presentation/player-frame';
 import { ActionFeedbackView, type ActionFeedback } from '../../src/presentation/action-feedback';
-import { FictionalTime } from '../../src/campaign/fictional-time';
-import { Undertakings } from '../../src/presentation/undertakings';
-import { ScreenModel } from '../../src/ui/screen-model';
-import { CombatModel } from '../../src/ui/combat-model';
+import { FictionalTime } from '../../src/campaign/fictional-time'; import { Undertakings } from '../../src/presentation/undertakings';
+import { ScreenModel } from '../../src/ui/screen-model'; import { CombatModel } from '../../src/ui/combat-model';
 import { Tactics } from '../../src/tactics'; import { Pressing } from '../../src/pressing'; import { FoeIntents } from '../../src/foe-intents';
 import type { Battle } from '../../src/battle';
 import type { Command } from '../../src/model';
@@ -21,6 +18,7 @@ import { Frontier } from '../../src/world/frontier';
 import type { Campaign, CampaignEvent } from '../../src/campaign/campaign';
 import { Scenarios } from '../scenarios';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 import { PlayTranscript } from './transcript';
 import type { Entry, Frame, Leaf, Message, Request } from '../../src/creation/protocol';
 import { SaveCodec } from './save-codec';
@@ -84,7 +82,10 @@ export class EngineHost {
   constructor(private readonly post: (message: Message) => void) {}
   // The game begun, for a client in the same process (the terminal) that plays it on the same session.
   get played(): PlaySession | undefined { return this.session; }
-  warm() { setTimeout(() => void ModuleBundle.warmRules(Scenarios.source()).catch(() => undefined), 0); }
+  warm() {
+    const vocabulary = CanonVocabulary.context();
+    setTimeout(() => void ModuleBundle.warmRules(vocabulary, Scenarios.source()).catch(() => undefined), 0);
+  }
   async handle(request: Request): Promise<unknown> {
     // What a developer needs to reproduce what the player sees (the oracle, OR-1151): asked, it changes nothing, not
     // even the danger reckoned ahead is let go for it.

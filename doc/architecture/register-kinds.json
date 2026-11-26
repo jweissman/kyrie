@@ -1159,6 +1159,12 @@
    "pri": "P2",
    "why": "25 Nov: the installed context's remainder, ratcheted"
   },
+  "OR-1250": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: split from OR-531; SettingPort and Installed.during still order separate installations"
+  },
   "OR-535": {
    "kind": "requirement",
    "was": "defect",
@@ -3152,7 +3158,6 @@
   "US-04": "OR-310",
   "PL-31": "AP-03",
   "AP-11": "AP-03",
-  "AR-02": "OR-531",
   "OR-533": "OR-741",
   "AP-13": "OR-741",
   "R7-04": "OR-741",

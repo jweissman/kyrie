@@ -5,6 +5,7 @@ import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { Spatial } from '../src/lang/spatial';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // An adventure installed as a province of the country it is placed in, not as a country of its own (Mission 18's
 // Gate B): its own region is set within the host's, so its places lie in that country (the rules' `within` says so of
@@ -32,7 +33,7 @@ class Province {
   static async regions(adventure: string): Promise<Record<string, string | undefined>> {
     const base = NodeBundleSource.shared, request = { id: 'p', within: 'host__land',
       bundle: base.resolve(`data/adventures/${adventure}/module.json`) };
-    const draft = await ModuleBundle.load(request, { seed: 'p' }, base);
+    const draft = await ModuleBundle.load(request, { seed: 'p', vocabulary: CanonVocabulary.context() }, base);
     return Object.fromEntries(draft.instance.module.entities
       .filter(e => e.space?.kind === 'region' && e.id.startsWith('p__')).map(e => [e.id, e.space!.parent]));
   }

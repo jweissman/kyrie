@@ -6,6 +6,7 @@ import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ModuleWriter } from '../src/lang/module-writer';
 import { RegionGeography } from '../src/world/region-geography';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Generated regions as economies: each settlement's trade gives it its own kind of merchant (Deem's merchantType),
 // and a band that makes a road its own (the toll-road kit) is felt in the inns at either end, through the same
@@ -30,7 +31,7 @@ class Economy {
   // two ends.
   static async toll(seed: string) {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared);
-    const c = await ModuleBundle.campaign(w.path, w.source, seed);
+    const c = await ModuleBundle.campaign(w.path, w.source, CanonVocabulary.context(), seed);
     const b = c.composition!.placements.find(p => p.kit === 'toll_road')!.bindings;
     const road = RegionGeography.roads(w.report.region).find(r => `region__${r.way}` === b.post)!;
     return { way: road.way, market: b.market!.replace('region__', '').replace('_green', ''), from: road.from.id,
@@ -44,7 +45,7 @@ describe('generated campaigns', () => {
     async () => {
     const shapes = await Promise.all(['thorn', 'ash', 'brine', 'ember'].map(async seed => {
       const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared);
-      const c = await ModuleBundle.campaign(w.path, w.source, seed);
+      const c = await ModuleBundle.campaign(w.path, w.source, CanonVocabulary.context(), seed);
       return JSON.stringify({ terrain: w.report.region.terrain,
         merchants: w.report.region.settlements.map(s => s.merchantType),
         kits: c.composition!.placements.map(p => [p.kit, p.choices, p.bindings]) });

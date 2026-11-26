@@ -12,6 +12,7 @@ import { Draw } from '../src/autoplay/draw';
 import { Journey } from '../src/session/journey';
 import { Travel } from '../src/session/travel';
 import { Origins } from '../src/world/origins';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Sentences } from '../src/presentation/sentences';
@@ -30,7 +31,7 @@ export class ProseCensus {
   static async origins(seed: string): Promise<string[]> {
     const loaded = await Origins.load(NodeBundleSource.shared);
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared);
-    return Origins.choices(loaded, w.report.region, w.report.placements).map(o => o.id);
+    return Origins.choices(loaded, w.report.region, w.report.placements, CanonVocabulary.context()).map(o => o.id);
   }
   // One walk, every act as the page told it, in the first country (the frontier closed: a first hour's prose, and a
   // walk in seconds, not minutes).

@@ -2,7 +2,6 @@ import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../support/tiny';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../../src/campaign/overlay-bundle-source';
-import { Canon } from '../../src/canon/canon';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 
 // Two modules of one campaign each giving a kind of their own the same name, two meanings (OR-540: the debt's
@@ -28,13 +27,14 @@ describe('two modules of one campaign, one kind\'s name', () => {
     await t.campaign.install({ id: 'wages', bundle: 'kinds-two/module.json' }, source);
     const [a, b] = [kind(t, 't__purse'), kind(t, 'wages__wages_purse')];
     expect([a, b]).toEqual(['purse_kind', 'wages__purse_kind']);
-    expect([Canon.items[a!]?.name, Canon.items[b!]?.name]).toEqual(['a purse for the creditor', 'a purse of wages']);
+    expect([t.campaign.catalog.get(a!).name, t.campaign.catalog.get(b!).name])
+      .toEqual(['a purse for the creditor', 'a purse of wages']);
     expect([worth(t, a!), worth(t, b!)]).toEqual([0, 30]);
   });
   it('reads the later ahead and puts it aside, the campaign\'s own kind its own again', async () => {
-    await Tiny.start(first, { seed: 'kinds-two-ahead' });
-    await ModuleBundle.prepare(source.resolve('kinds-two/module.json'), source);
-    expect(Canon.items.purse_kind?.name).toBe('a purse for the creditor');
+    const t = await Tiny.start(first, { seed: 'kinds-two-ahead' });
+    await ModuleBundle.prepare(t.campaign.vocabulary, source.resolve('kinds-two/module.json'), source);
+    expect(t.campaign.catalog.find('purse_kind')?.name).toBe('a purse for the creditor');
   });
 });
 
@@ -43,8 +43,8 @@ describe('two campaigns of one process, one kind\'s name', () => {
     const a = await Tiny.start(first, { seed: 'kinds-two-a' });
     const b = await Tiny.start(second.replace('Module wages', 'Module b').replace('at 1, 0 outdoors.',
       'at 0, 0 outdoors. Company party "You" of 1 at mill.'), { seed: 'kinds-two-b' });
-    expect(b.campaign.within(() => Canon.items.purse_kind?.name)).toBe('a purse of wages');
+    expect(b.campaign.catalog.find('purse_kind')?.name).toBe('a purse of wages');
     await a.play('Wait a while');
-    expect(Canon.items.purse_kind?.name).toBe('a purse for the creditor');
+    expect(a.campaign.catalog.find('purse_kind')?.name).toBe('a purse for the creditor');
   });
 });

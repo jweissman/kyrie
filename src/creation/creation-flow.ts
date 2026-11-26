@@ -8,6 +8,7 @@ import type { Catalog, Member, Setting } from './protocol';
 import { CreationPerks } from './creation-perks';
 import { CreationSpells, type SpellStepId } from './creation-spells';
 import { CreationEntries } from './creation-entries';
+import { CatalogContext } from '../item-catalog';
 
 // One card of a step: what it is, in a few words and a sentence, the group it is shown under (a trade's kind), and why
 // it cannot be taken, where it cannot (a way an elf may not take).
@@ -192,7 +193,7 @@ export class CreationFlow {
         chosen: open.find(b => b.id === m.backgroundId)?.kind,
         cards: c.kinds.filter(k => open.some(b => b.kind === k.id))
           .map(k => ({ id: k.id, name: k.name, line: k.does, emblem: `life_${k.id}`, ...k.life ? { say: k.life } : {},
-            entry: CompanyChapters.kind(k.id) })) },
+            entry: CompanyChapters.kind(k.id, CatalogContext.canon) })) },
       ...this.trades(),
       // A perk, the last thing chosen of who one is (OR-153): one of each of the Atlas's five families (CreationPerks).
       ...c.perks?.length ? [{ id: 'perk' as const, ask: 'What sets you apart?', present: 'rows' as const, all: true as const,

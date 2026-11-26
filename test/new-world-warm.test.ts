@@ -32,11 +32,9 @@ describe('a new world, warm', () => {
     const tag = `warm${Date.now() % 1000000}`;
     await Warm.start('a1');
     await Warm.start(`${tag}-x`);
-    const texts: string[] = [], set = ParseCache.set.bind(ParseCache);
-    const kept = spyOn(ParseCache, 'set').mockImplementation((key, module, ms, bytes) => {
-      texts.push(key.slice(key.indexOf('\u0000') + 1)); set(key, module, ms, bytes);
-    });
+    const kept = spyOn(ParseCache, 'set');
     const run = await Warm.start(`${tag}-y`);
+    const texts = kept.mock.calls.map(([, key]) => key.slice(key.indexOf('\u0000') + 1));
     kept.mockRestore();
     console.log(`  a new world, warm: A ${run.a} ms, B ${run.b} ms, parse ${run.parse} ms of ${run.texts} new texts`);
     expect(run.texts).toBeGreaterThan(10);

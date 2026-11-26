@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Origins } from '../../src/world/origins';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 import { SettlementWriter } from '../../src/world/settlement-writer';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
@@ -20,7 +21,8 @@ describe('the brothers\' letter', () => {
       const source = files['x/origin/origin.kyr']!;
       expect(source).toContain(`to the ${role} at `);
       expect(source).toContain(`points the way to the ${role}, `);
-      expect(Origins.choices([order], region, [])[0]!.choice).toContain(`a letter for the ${role}.`);
+      expect(Origins.choices([order], region, [], CanonVocabulary.context())[0]!.choice)
+        .toContain(`a letter for the ${role}.`);
       seen.add(role.split(' ')[0]!);
     }
     // Both are met among these countries.

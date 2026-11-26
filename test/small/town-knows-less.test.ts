@@ -3,6 +3,7 @@ import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionWriter } from '../../src/world/region-writer';
 import { NewsFold } from '../../src/ui/news-fold';
 import type { Act } from '../../src/ui/screen-types';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 // The first town knows less (the owner's playtest, 25 November: "First town still feels incredibly busy and like the
 // character knows too much"; knowledge belongs to characters). The reference game's settlement keeps no roster of the
@@ -10,7 +11,7 @@ import type { Act } from '../../src/ui/screen-types';
 // company has not heard of. The country's text only, no world.
 const written = (seed: string) => {
   const region = WorldAssembler.region(seed, [0, 0]), t = region.settlements[0]!.id;
-  return { t, text: RegionWriter.source(region, { size: 1, contacts: [] }) };
+  return { t, text: RegionWriter.source(region, { size: 1, contacts: [] }, {}, CanonVocabulary.context()) };
 };
 describe('the first town', () => {
   it('has no traveller of the roads at its inn, nor a notice of another country\'s errand', () => {

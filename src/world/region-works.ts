@@ -29,6 +29,7 @@ import { Canon } from '../canon/canon';
 import { ItemNames } from '../lang/item-names';
 import type { Region, Settlement, Site } from './region-writer';
 import { RegionKey } from './region-key';
+import type { VocabularyContext } from '../lang';
 
 // The makers' works in a generated region, as Kyr, from their plans (data/generation/works). Every work has its
 // outside: how it looks and the name cut over it. One a scenario has not taken is written whole: its rooms and ways,
@@ -42,7 +43,7 @@ export class RegionWorks {
     for (const text of this.texts) { Histories.register(text); }
     for (const purpose of Object.values(DeepPurposes.all)) { Histories.add(DeepPurposes.plan(purpose)); }
   }
-  static lines(region: Region, taken: Record<string, string> = {}): string[] {
+  static lines(region: Region, taken: Record<string, string>, vocabulary: VocabularyContext): string[] {
     const history = region.history;
     if (!history) { return []; }
     return [...this.facts(region), ...region.sites.filter(s => s.work).flatMap(site => {
@@ -52,9 +53,12 @@ export class RegionWorks {
       const sections = WorkPlans.choose(plan, `${RegionKey.of(region)}:${work.id}:${work.plan}`, values)
         .filter(s => s.group === 'outside' || !taken[site.id]);
       const written = sections.flatMap(s => WorkPlans.fill(s.lines, values));
-      return [...written, ...taken[site.id] ? [] : [...RegionRenewal.work(region, site, { plan, written, values }),
-        ...RegionStock.work(region, site, { great: !!plan.great, written, values }),
-        ...RegionMarvels.work(region, site, work.plan, written), ...RegionRiddles.work(region, site, written)]];
+      const additions = taken[site.id] ? [] : [
+        ...RegionRenewal.work(region, site, { plan, written, values, vocabulary }),
+        ...RegionStock.work(region, site, { great: !!plan.great, written, values, vocabulary }),
+        ...RegionMarvels.work(region, site, { plan: work.plan, written, vocabulary }),
+        ...RegionRiddles.work(region, site, written, vocabulary)];
+      return [...written, ...additions];
     })];
   }
   // What a work's plan is given to say: the work's ids and names, its makers, and the kingdom after them.

@@ -1,5 +1,6 @@
 import { ModuleParser } from '../lang/module-parser';
 import type { Module } from '../lang/module';
+import type { VocabularyContext } from '../lang';
 
 // Kyr a generator has written (a work's sections, filled), read as Kyr: parsed, and asked of by what it declares,
 // never searched as text. Its rooms, who is at or lairs in each and whether they are peaceable, the two ends of a
@@ -7,16 +8,24 @@ import type { Module } from '../lang/module';
 // broke whenever a line was written otherwise (the owner, 2 November: structure read as structure). Each written
 // work is parsed once, however many ask of it.
 export class WrittenKyr {
-  private static readonly read = new WeakMap<string[], WrittenKyr>();
-  static of(written: string[]): WrittenKyr {
-    let kept = this.read.get(written);
-    if (!kept) { kept = new WrittenKyr(written); this.read.set(written, kept); }
+  private static readonly read = new WeakMap<VocabularyContext, {
+    fingerprint: string; values: WeakMap<string[], WrittenKyr>
+  }>();
+  static of(written: string[], vocabulary: VocabularyContext): WrittenKyr {
+    let cache = this.read.get(vocabulary);
+    const fingerprint = vocabulary.fingerprint();
+    if (!cache || cache.fingerprint !== fingerprint) {
+      cache = { fingerprint, values: new WeakMap() };
+      this.read.set(vocabulary, cache);
+    }
+    let kept = cache.values.get(written);
+    if (!kept) { kept = new WrittenKyr(written, vocabulary.fork()); cache.values.set(written, kept); }
     return kept;
   }
   readonly module: Module;
-  private constructor(written: string[]) {
-    this.module = ModuleParser.parse(['Module written "what a generator wrote" {', ...written, '  Goal false.', '}']
-      .join('\n'));
+  private constructor(written: string[], vocabulary: VocabularyContext) {
+    this.module = ModuleParser.parseWithin(vocabulary,
+      ['Module written "what a generator wrote" {', ...written, '  Goal false.', '}'].join('\n'));
   }
   private facts(name: string): string[][] {
     return this.module.initial.flatMap(c => c.kind === 'assert' && c.call.name === name ? [c.call.args] : []);

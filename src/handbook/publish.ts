@@ -23,7 +23,7 @@ export class HandbookPublisher {
     await mkdir(out, { recursive: true });
     const countries = Handbooks.read(handbooks.root, 'data/adventures/countries.json') as { countries: Land[] };
     const html = new EncyclopediaHtml(new Encyclopedia(handbooks, countries.countries.filter(c => c.heard),
-      Encyclopedia.canon(handbooks.root), HandbookPublisher.tongues()));
+      Encyclopedia.canon(handbooks.root, handbooks.vocabulary), HandbookPublisher.tongues()));
     for (const c of html.book.chapters) { await writeFile(join(out, `${c.id}.html`), html.chapter(c)); }
     await writeFile(join(out, 'index.html'), html.landing());
   }

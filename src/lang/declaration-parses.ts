@@ -14,7 +14,7 @@ import type { Declared } from './module-source';
 import { DeclaredValues } from './declared-values';
 import { DeclarationShapes } from './declaration-shapes';
 import { ModuleMade, type Field } from './module-made';
-import { Vocabularies } from './vocabulary';
+import { VocabularyContext } from './vocabulary';
 
 export interface Chunk { text: string; at: number }
 // A text matched: its module's id and name, and each declaration's field and text.
@@ -48,7 +48,8 @@ export class DeclarationParses {
   // rest matched together after the module's header (parts) and taken only where each part is exactly one
   // declaration; then the module made of them as a whole parse makes it (ModuleMade). None where the text does not
   // split so, or anything in it does not go so: the text is then parsed whole, and says what is wrong where it is.
-  static module(text: string, declared: readonly Declared[], parts: (text: string) => Parts | undefined)
+  static module(context: VocabularyContext, text: string, declared: readonly Declared[],
+    parts: (text: string) => Parts | undefined)
     : Module | undefined {
     const split = this.split(text);
     if (!split) { return undefined; }
@@ -57,7 +58,7 @@ export class DeclarationParses {
       const missing = keys.flatMap((k, i) => this.kept.has(k) ? [] : [i]);
       // Those not kept filled from their shapes, or matched together after the header (DeclarationShapes).
       let header: Parts | undefined;
-      const reading = Vocabularies.reading(() => DeclarationShapes.read(missing.map(i => split.chunks[i]!.text),
+      const reading = context.reading(() => DeclarationShapes.read(context, missing.map(i => split.chunks[i]!.text),
         texts => {
           const read = parts(`${split.head}\n${texts.join('\n')}\n}`);
           if (!read || read.sources.length !== texts.length || read.sources.some((t, j) => t !== texts[j])) {
@@ -72,7 +73,7 @@ export class DeclarationParses {
       if (!reading.reads.length) { for (const [i, f] of made) { this.remember(keys[i]!, structuredClone(f)); } }
       const fields = keys.map((k, i) => this.placedAt(made.get(i) ?? structuredClone(this.kept.get(k) as Field), text,
         split.chunks[i]!.at));
-      return DeclaredValues.during(declared, () => ModuleMade.of({ id: read.id, name: read.name, fields,
+      return DeclaredValues.during(declared, () => ModuleMade.of(context, { id: read.id, name: read.name, fields,
         starts: split.chunks.map(c => c.at) }, (i, run) => this.at(text, split.chunks[i]!.at, run)));
     } catch { return undefined; }
   }

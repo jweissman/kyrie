@@ -4,6 +4,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { ModuleParser } from '../lang/module-parser';
+import { CanonVocabulary } from '../canon/canon-vocabulary';
 import { PlaySession } from '../session/play-session';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
 import type { BundleSource } from '../campaign/bundle-source';
@@ -72,7 +73,8 @@ export class KyrLint {
   }
   static parsed(): { file: string; module: Module }[] {
     return this.files().flatMap(file => {
-      try { return [{ file: file.slice(this.root.length + 1), module: ModuleParser.parse(readFileSync(file, 'utf8')) }]; }
+      try { return [{ file: file.slice(this.root.length + 1),
+        module: ModuleParser.parseWithin(CanonVocabulary.context(), readFileSync(file, 'utf8')) }]; }
       catch { return []; }
     });
   }
@@ -96,7 +98,7 @@ export class KyrLint {
     const where = new Map<string, string[]>();
     for (const file of this.files()) {
       let m: Module;
-      try { m = ModuleParser.parse(readFileSync(file, 'utf8')); } catch { continue; }
+      try { m = ModuleParser.parseWithin(CanonVocabulary.context(), readFileSync(file, 'utf8')); } catch { continue; }
       for (const r of [...m.relations, ...m.measures]) {
         where.set(r.name, [...(where.get(r.name) ?? []), file.slice(this.root.length + 1)]);
       }

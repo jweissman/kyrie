@@ -1,7 +1,6 @@
 import { ItemCatalog } from './item-catalog';
 import { Spellcasting } from './rules/spellcasting';
 import { Callings } from './ports/callings';
-import './canon/canon-vocabulary';
 import { Costs } from './costs';
 import { buildSetting, Generator, Template } from 'deem';
 import type { DeemValue } from 'deem';
@@ -13,6 +12,8 @@ import { Canon } from './canon/canon';
 import { CanonRuntime } from './canon/canon-runtime';
 import { TraitGrants } from './canon/trait-grants';
 import { CanonValidation } from './canon/canon-validation';
+import { CanonVocabulary } from './canon/canon-vocabulary';
+import type { VocabularyContext } from './lang';
 import { CreatureSchema, type Attribute, type Creature } from './creature';
 import { CombatProjection } from './combat-projection';
 import { Overlays } from './overlays';
@@ -63,6 +64,7 @@ export type CreatureGenerationContext = Partial<Record<Attribute, number>> & {
   company?: number;
 };
 export class Content {
+  static vocabulary(): VocabularyContext { return CanonVocabulary.context(); }
   // What the creation screen and presenters show: classes and kinds by name.
   static readonly classes: Record<string, { name: string; playable?: boolean }> = { ...Callings.table() };
   // A people or a kind of creature by its id, as the catalogs have it now (an adventure's own species among them).

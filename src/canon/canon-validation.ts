@@ -18,7 +18,6 @@ import { StatBlockCheck } from './stat-block-check';
 import { CatalogFields } from './catalog-fields';
 import { CanonRuntime } from './canon-runtime';
 import { ModifierSet } from '../rules/modifiers';
-import { LocalKinds } from './local-catalog';
 import { CreatureVariants } from '../creature-variants';
 import { PaintingConcepts } from '../paintings/painting-concepts';
 
@@ -296,8 +295,7 @@ export class CanonValidation {
       const where = `item ${id}`;
       if (!CanonValidation.itemCategories.includes(i.category)) { this.fail(where, `unknown category ${i.category}`); }
       if (i.grants?.ability) { this.ability(where, i.grants.ability, ['technique', 'spell']); this.granted(where, [i.grants.ability]); }
-      // A module's own kind may grant a capability of the module's own, checked as the module was read (GTR-09).
-      if (i.grants?.skill && !Canon.skills[i.grants.skill] && !LocalKinds.local(id)) {
+      if (i.grants?.skill && !Canon.skills[i.grants.skill]) {
         this.fail(where, `grants unknown skill ${i.grants.skill}`);
       }
       for (const s of [...i.tool ?? [], ...i.aids ?? []].filter(s => !Canon.skills[s])) {

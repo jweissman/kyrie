@@ -21,7 +21,7 @@ const yard = `
   Goal false.`;
 const t = await Tiny.start(yard);
 freeze(Content.abilities); freeze(Content.statuses); freeze(Content.rules);
-for (const d of Object.values(ItemCatalog.ambient)) { freeze(d); }
+for (const d of Object.values(ItemCatalog.canon.ids.map(id => ItemCatalog.canon.get(id)))) { freeze(d); }
 for (const s of Object.values(Canon.species)) { freeze(s); }
 for (const kind of ['take_item', 'light_item', 'wait']) {
   const c = PlayerView.choices(t.campaign).map(x => x.choice.id).find(id => id.startsWith(kind));

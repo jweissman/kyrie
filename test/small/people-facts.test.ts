@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { CompanyChapters } from '../../src/handbook/phb-company';
 import { StatBlock } from '../../src/handbook/stat-block';
+import { CatalogContext } from '../../src/item-catalog';
 
 // An ancestry's entry is a stat block (the owner, 18 November, OR-83: "Ancestries especially seem like they need a SRD
 // style stat block"): its qualities, build, ages, where it lives, its tongue and its names, beside how it looks; and a
@@ -24,6 +25,8 @@ describe('the encyclopedia\'s peoples and callings', () => {
     expect(new Map(entries.find(e => e.id === 'ancestry:dwarf')!.facts).get('Tongue')).toBe('Khuzdul');
   });
   it('give every calling its life in the world', () => {
-    for (const e of CompanyChapters.callings().entries ?? []) { expect([e.id, e.text?.length]).toEqual([e.id, 2]); }
+    for (const e of CompanyChapters.callings(CatalogContext.canon).entries ?? []) {
+      expect([e.id, e.text?.length]).toEqual([e.id, 2]);
+    }
   });
 });

@@ -11,12 +11,13 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { RegionWriter, type Region } from '../src/world/region-writer';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 interface Profile { seed: string; cell: string; name: string; sets: Record<string, string[]>; region: Region }
 export class WorldCompare {
   static readonly cells: [number, number][] = [[0, 0], [0, -1], [-1, 0]];
   static profile(seed: string, at: [number, number]): Profile {
-    const r = WorldAssembler.region(seed, at), source = RegionWriter.source(r, null);
+    const r = WorldAssembler.region(seed, at), source = RegionWriter.source(r, null, {}, CanonVocabulary.context());
     const species = [...new Set([...source.matchAll(/Species ([a-z_]+)/g)].map(m => m[1]!))];
     const works = [...new Set(r.sites.flatMap(s => s.work ? [s.work.plan] : []))];
     return { seed, cell: at.join(','), name: r.name, region: r, sets: {
@@ -44,7 +45,8 @@ export class WorldCompare {
   // the people standing in them, every country's and settlement's name a letter or a letter and number.
   static dump(p: Profile, mask: Map<string, string>): string {
     const told = /^\s+(Description|Observe [a-z0-9_]+ at s\d_green|Person [a-z0-9_]+ "[^"]+" at s\d_)/;
-    const said = RegionWriter.source(p.region, null).split('\n').filter(l => told.test(l)).map(l => l.trim())
+    const said = RegionWriter.source(p.region, null, {}, CanonVocabulary.context()).split('\n')
+      .filter(l => told.test(l)).map(l => l.trim())
       .slice(0, 80);
     const text = [`# Country ${mask.get(p.name)}`, '', ...Object.entries(p.sets).map(([k, v]) => `- ${k}: ${v.join(', ')}`),
       `- settlements: ${p.region.settlements.map(s => `${s.size} living by ${s.trade}`).join('; ')}`, '', '```', ...said,

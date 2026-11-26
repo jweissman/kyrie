@@ -1,7 +1,7 @@
 import type { Module } from './module';
 import type { Declared } from './module-source';
 import { ParseCache } from './parse-cache';
-import { Vocabularies } from './vocabulary';
+import { VocabularyContext } from './vocabulary';
 
 // A parse kept, uncopied, for a caller that changes nothing of it: a cache of its own that copies what it hands out
 // (ModuleBundle's parses, and what it reads ahead), a reading of a country's places (Composition.region). Copying every
@@ -12,14 +12,15 @@ export class KeptParses {
   // (ModuleSource), as ModuleParser.parse keeps them; each parse by what it read of the kinds (see ParseCache), its
   // format the version's.
   static readonly version = 2;
-  static key(text: string, declared: readonly Declared[] = []): string {
-    return `\u0002${this.version}:${Vocabularies.id}\u0000${text}${declared.length
+  static key(context: VocabularyContext, text: string, declared: readonly Declared[] = []): string {
+    return `\u0002${this.version}:${context.id}\u0000${text}${declared.length
       ? `\u0000${JSON.stringify(declared)}` : ''}`;
   }
   // The kept parse, or the text parsed (ModuleParser.parse keeps a copy of its own).
-  static of(text: string, declared: readonly Declared[], parse: (t: string, d: readonly Declared[]) => Module): Module {
-    const known = ParseCache.get(this.key(text, declared));
-    if (known) { Vocabularies.install(known.catalog); return known; }
+  static of(context: VocabularyContext, text: string, declared: readonly Declared[],
+    parse: (t: string, d: readonly Declared[]) => Module): Module {
+    const known = ParseCache.get(context, this.key(context, text, declared));
+    if (known) { context.install(known.catalog); return known; }
     return parse(text, declared);
   }
 }

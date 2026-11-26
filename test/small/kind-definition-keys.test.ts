@@ -7,6 +7,8 @@ import { CompiledModules } from '../../src/campaign/compiled-modules';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../../src/campaign/overlay-bundle-source';
 import { Costs } from '../../src/costs';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
+import type { VocabularyContext } from '../../src/lang';
 // The language through its entry, after the runtime that loads its parser (OR-542).
 import { DeclarationParses, ModuleParser, ParseCache, type Module } from '../../src/lang';
 
@@ -16,12 +18,15 @@ import { DeclarationParses, ModuleParser, ParseCache, type Module } from '../../
 // was worth 1 is not the one for `token` worth 9: in the process, nor through the parse store that keeps parses
 // between processes (a process's memory let go between the readings below, as a new process's would be).
 // Each reading is kept by what it asked of the kinds, each name with what it stood for (Vocabularies.reading).
-const make = (name: string, worth: number) =>
-  LocalKinds.item(name, { id: 'token', name, base: { category: 'gear' }, worth } as never);
-const alpha = make('alpha', 1), beta = make('beta', 9);
-const among = (token: object) => LocalKinds.activate({ items: { token } } as never, {});
+const among = (name: string, worth: number) => {
+  const context = CanonVocabulary.context();
+  const token = context.item(name, { id: 'token', name, base: { category: 'gear' }, worth }, new Set());
+  context.install({ items: { token } });
+  return context;
+};
 const text = 'Module heir "Heir" { Kind made "made" like token. }';
-const parsed = () => (LocalKinds.merge(ModuleParser.parse(text, []).catalog).catalog?.items?.made as { value?: number })
+const parsed = (context: VocabularyContext) => (LocalKinds.merge(ModuleParser.parseWithin(context, text).catalog)
+  .catalog?.items?.made as { value?: number })
   ?.value;
 const source = new OverlayBundleSource(NodeBundleSource.shared, {
   'kind-keys/heir.kyr': 'Module heir "Heir" {\n  Kind made "made" like token.\n}',
@@ -30,8 +35,9 @@ const source = new OverlayBundleSource(NodeBundleSource.shared, {
     + '  Place yard "the yard" is room at 0, 0 outdoors.\n  Item ox "an ox" is own_ox at yard.\n'
     + '  Action take(actor: group) "Take an ox" { Time 1. On success { Give own_ox to actor. } }\n}',
   'kind-keys/own.json': JSON.stringify({ version: 1, source: 'own.kyr', rules: ['world'] }) });
-const compiled = async () => ((await ModuleBundle.load({ id: 'heir', bundle: 'kind-keys/module.json' },
-  { seed: 'kind-keys' }, source)).instance.module.catalog?.items?.made as { value?: number } | undefined)?.value;
+const compiled = async (vocabulary: VocabularyContext) => ((await ModuleBundle.load(
+  { id: 'heir', bundle: 'kind-keys/module.json' }, { seed: 'kind-keys', vocabulary }, source))
+  .instance.module.catalog?.items?.made as { value?: number } | undefined)?.value;
 // A store between processes, its entries written and read as the disk's are (ParseStore: v8's serialization).
 const disk = () => {
   const kept = new Map<string, Buffer>();
@@ -48,27 +54,29 @@ const forget = () => {
   DeclarationParses.kept.clear();
 };
 const store = ParseCache.store;
-afterEach(() => { ParseCache.store = store; LocalKinds.reset(); });
+afterEach(() => { ParseCache.store = store; });
 
 describe('a text that reads a kind like token', () => {
   it('is parsed by what token is, however its readings alternate', () => {
-    const seen = [alpha, beta, alpha].map(token => { among(token); return parsed(); });
+    const seen = [1, 9, 1].map(worth => { const context = among(`worth ${worth}`, worth); return parsed(context); });
     expect(seen).toEqual([1, 9, 1]);
   });
   it('is parsed by what token is through the parse store', () => {
     ParseCache.store = disk(); forget();
-    const seen = [alpha, beta, alpha].map(token => { forget(); among(token); return parsed(); });
+    const seen = [1, 9, 1].map(worth => { forget(); return parsed(among(`worth ${worth}`, worth)); });
     expect(seen).toEqual([1, 9, 1]);
   });
   it('is compiled by what token is, however its compilations alternate', async () => {
     const seen: (number | undefined)[] = [];
-    for (const token of [alpha, beta, alpha]) { among(token); seen.push(await compiled()); }
+    for (const worth of [1, 9, 1]) { seen.push(await compiled(among(`worth ${worth}`, worth))); }
     expect(seen).toEqual([1, 9, 1]);
   });
   it('is compiled by what token is through the parse store', async () => {
     ParseCache.store = disk(); forget();
     const seen: (number | undefined)[] = [];
-    for (const token of [alpha, beta, alpha]) { forget(); among(token); seen.push(await compiled()); }
+    for (const worth of [1, 9, 1]) {
+      forget(); seen.push(await compiled(among(`worth ${worth}`, worth)));
+    }
     expect(seen).toEqual([1, 9, 1]);
   });
   // What it reads of the kinds it declares is its own: kept compiled, it is taken again, in the process and from the
@@ -77,12 +85,13 @@ describe('a text that reads a kind like token', () => {
     ParseCache.store = disk(); forget();
     const kept = async () => {
       const mark = Costs.mark();
-      await ModuleBundle.load({ id: 'own', bundle: 'kind-keys/own.json' }, { seed: 'kind-keys' }, source);
+      await ModuleBundle.load({ id: 'own', bundle: 'kind-keys/own.json' },
+        { seed: 'kind-keys', vocabulary: CanonVocabulary.context() }, source);
       return Costs.since(mark)['compiled kept']?.n ?? 0;
     };
     const seen = [await kept()];
-    LocalKinds.reset(); seen.push(await kept());
-    forget(); LocalKinds.reset(); seen.push(await kept());
+    seen.push(await kept());
+    forget(); seen.push(await kept());
     expect(seen).toEqual([0, 1, 1]);
   });
 });

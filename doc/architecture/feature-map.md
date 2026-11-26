@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 203 pins (171 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 657 live rows, 217 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 203 pins (171 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 658 live rows, 218 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -724,7 +724,7 @@ page's colours and opportunities.)
 
 ### The engine
 
-- **Incremental computation** · 5 pins · 1 defects · 11 asks
+- **Incremental computation** · 5 pins · 2 defects · 10 asks
   - ✓ keeps each record and the revision
   - ✓ replaces only the record that changed, and moves the revision
   - ✓ is not solved again while the clock moves, and fires once the part that failed holds
@@ -736,12 +736,11 @@ page's colours and opportunities.)
   - requirement OR-183 P1: The decision is checked whole after every act: of the 1,211 action schemas grounded for the…
   - direction OR-408 P3: World assembly in medallion layers (the owner, 24 November): bronze, the raw sources (Kyr text,…
   - requirement OR-521 P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a…
-  - requirement OR-531 P2: What is still installed for the whole process after OR-520 (test/small/process-wide): SettingPort…
   - requirement OR-720 P2: Projection.refresh, a candidate for the act's cost (AX-10): each actor's facts projected again…
   - direction OR-1205 P2: Form and identity held apart in the kernel: a polymorph keeps identity and changes form, a…
   - requirement OR-726 P1: The player revision's remaining parts (split from OR-740, closed 26 Nov): the session's own state…
   - direction MT-08 P3: Step 8 (D): qualitative placement constraints realized deterministically, coordinates kept where…
-- **Architecture and layers** · 0 pins · 9 defects · 28 asks
+- **Architecture and layers** · 0 pins · 9 defects · 29 asks
   - requirement AR-01 P2: R1: campaign orchestration in one class; explicit command phases; lifecycle assertions around…
   - requirement AR-03 P2: R3: cache invalidation by convention across memo layers; cache and load telemetry;…
   - requirement AR-06 P2: One exported PlayerHost/PlayerFrame facade; nested PlayerSnapshot vs Screen/Leaf/Glance;…
@@ -759,6 +758,7 @@ page's colours and opportunities.)
   - requirement OR-66 P2: Kyr places carry literal coordinates ("room within X at 0, 0") whose units differ by level (a cell…
   - requirement BX-01 P2: The setting/framework boundary: can another setting define and execute its own game without…
   - requirement BX-02 P1: The shared rules cannot be taken in part: a world of its own must install the whole standard set…
+  - requirement OR-1250 P2: SettingPort's reckoning and sky remain process-wide, so distinct installations still take turns…
   - requirement OR-545 P2: Command state still in four places after OpenCommand's transitions were enforced (25 November):…
   - direction OR-1202 P2: Command points and declared budgets: a setting may declare further daily budgets of its own kind…
   - requirement OR-742 P2: ScreenModel pure over the projected inputs (the fifth review's step 7, the prerequisite of…
@@ -805,7 +805,7 @@ page's colours and opportunities.)
 
 ## Negative space
 
-### Common blockers (14)
+### Common blockers (13)
 
 Rows that, done, would retire many at once (register-kinds.json's blockedBy), by how many they block.
 
@@ -833,8 +833,6 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-452 (Passage arranged between cities)
 - **AR-13** P3: Five composition mechanisms; unfilled placeholders pass silently; .kyrt values unescaped · blocks 1 (1 P0/P1) over 1 capabilities
   - OR-541 (Narration)
-- **OR-531** P2: What is still installed for the whole process after OR-520 (test/small/process-wide): SettingPort (the setting's reckoning and sky), Vocabularies (parse-time… · blocks 1 (0 P0/P1) over 1 capabilities
-  - AR-02 (Architecture and layers)
 - **OR-745** P2: The page cold play's driver spec red on the nightly of 25 Nov (run 45574847769, browser specs 3/3): test/page-walk-browser's walk out of the adit finds no row… · blocks 1 (0 P0/P1) over 1 capabilities
   - GR-24 (Aims and the gold thread)
 
@@ -872,7 +870,7 @@ Each a request to file under its title, its acceptance the pins that prove or wa
 - **Playing in the terminal** (The terminal): TM-04, TM-05, TB-03, TB-04, TB-06, TB-07, OR-747, TB-11
 - **Authoring forms and their lint** (Kyr and Deem): AU-01, AU-03, AU-07, AU-12, AU-13, AU-14, OB-07, OB-11, OR-164, OR-224, OR-230, OR-522, OR-1112, OR-1113, OR-1116, OR-1212, OR-1213, OR-1215, OR-1216, OR-1105, OR-700, ST-05, ST-08, WB-07, AU-23, AU-24, AU-25, AU-29, AU-30, AU-31, AU-33, AU-39, AU-41, AU-42, AU-44, AU-45, AU-53, AU-57
 - **Generation and tables** (Kyr and Deem): AU-04, AU-10, AU-11, AB-12, OR-150, OR-405, OR-421, OR-671, OR-673, OR-781, OR-1111, OR-1115, KX-02, KX-04, AU-34, AU-51, AU-58, AU-60
-- **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, BX-02, OR-545, OR-1202, OR-742, OR-744, OR-1071, OR-1097, OR-634, MT-07, MT-16, MT-28, MT-31
+- **Architecture and layers** (The engine): AR-01, AR-03, AR-06, AR-07, AR-08, AR-09, AR-10, AR-12, AR-16, AR-18, AR-19, AX-04, AX-07, AX-08, OR-66, BX-01, BX-02, OR-1250, OR-545, OR-1202, OR-742, OR-744, OR-1071, OR-1097, OR-634, MT-07, MT-16, MT-28, MT-31
 - **Testing instruments** (The engine): TC-03, TC-04, TC-05, TC-07, TC-08, TC-09, TC-10, TC-11, TC-13, TC-14, OR-407, OR-456, OR-384, OR-389, OR-465, OR-508, OR-1151, OR-1080, OR-761, MT-29
 - **Documentation and the register** (The engine): DC-03, DC-05, DC-06, DC-07, DC-08, OB-03, OB-04
 

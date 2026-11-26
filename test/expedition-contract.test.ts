@@ -6,6 +6,7 @@ import { ModuleBundle } from '../src/campaign/module-bundle';
 import { PlacedSites } from '../src/world/placed-sites';
 import { ExpeditionContract, type Contract } from '../src/world/expedition-contract';
 import { WorkPlans } from '../src/world/history/work-plans';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // A site that makes every link but those given, declining these.
 function site(made: Partial<Contract['links']>, declines?: Record<string, string>): Contract {
@@ -22,7 +23,7 @@ describe('an expedition\'s contract', () => {
   it.each(['thorn', 'a1', 'b2'])('is kept by every placed site in %s', async seed => {
     const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
-    const composed = (await ModuleBundle.campaign(w.path, w.source, seed)).composition;
+    const composed = (await ModuleBundle.campaign(w.path, w.source, CanonVocabulary.context(), seed)).composition;
     const s = await PlaySession.start(w.path, seed, w.source), sites = PlacedSites.of(w.report, composed);
     const contracts = ExpeditionContract.of(s.campaign, sites), tally = ExpeditionContract.tally(contracts);
     console.log(seed, contracts.length, JSON.stringify(tally));

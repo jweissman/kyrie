@@ -4,7 +4,6 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { OverlayBundleSource } from '../src/campaign/overlay-bundle-source';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
-import { LocalKinds } from '../src/canon/local-catalog';
 
 // Campaign isolation is an architectural invariant (the architectural review of 20 November, Finding A and Stage 0;
 // MT-29, AR-02; the owner: the two-campaign boundary test is the isolation invariant's proof), held at the engine's
@@ -40,7 +39,6 @@ function take(s: PlaySession): string {
 }
 describe('two campaigns in one process', () => {
   it('each sees only its own catalog and rules, played interleaved, saved and resumed', async () => {
-    LocalKinds.reset();
     const gilt = await begin('gilt'), lead = await begin('lead');
     // Submitting an action in each, interleaved, and obtaining each one's frame after the other's.
     const [a, b] = [take(gilt), take(lead)];
@@ -61,14 +59,12 @@ describe('two campaigns in one process', () => {
     const again = PlaySession.resume(kept);
     expect(coin(again)).toEqual(['a gilt coin']);
     expect(again.canonical()).toBe(gilt.canonical());
-    LocalKinds.reset();
   }, 120000);
   // The feared case (Finding A; MT-24, command atomicity across two coordinators): one command yields mid-command,
   // after the campaign has carried it out and before the session has finished it (what came of it drawn: the
   // Expander, the country beyond; then what is told, the aims after it, its step), while the other campaign acts.
   // Neither a save of it nor its session's checkpoint may hold half a command: the world changed, the step not kept.
   it('keeps no half of a command that yields while the other acts', async () => {
-    LocalKinds.reset();
     const gilt = await begin('gilt'), lead = await begin('lead');
     let open!: () => void;
     const gate = new Promise<void>(resolve => { open = resolve; });
@@ -90,6 +86,5 @@ describe('two campaigns in one process', () => {
     expect(gilt.receipts.at(-1)).toEqual({ id: taking, revision: steps + 1, outcome: 'success' });
     const again = PlaySession.resume(gilt.checkpoint());
     expect([again.canonical() === gilt.canonical(), coin(again)]).toEqual([true, ['a gilt coin']]);
-    LocalKinds.reset();
   }, 120000);
 });

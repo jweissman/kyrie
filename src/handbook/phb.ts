@@ -3,11 +3,12 @@ import type { Book, Entry, Section } from './model';
 import { CompanyChapters } from './phb-company';
 import { PlayChapters } from './phb-play';
 import { OrsinoAppendix } from './orsino-appendix';
+import type { CanonItemReader } from './catalog';
 
 // The Player's Handbook: forming a company, what its members can be and carry, and how fights, magic and advancement
 // go. Orsino's ancestries and skills that Kyr has not taken in close it.
 export class PlayersHandbook {
-  constructor(readonly appendix: OrsinoAppendix) {}
+  constructor(readonly appendix: OrsinoAppendix, readonly items: CanonItemReader) {}
   book(): Book {
     return { id: 'phb', title: 'Player\'s Handbook', intro: [
       'A company is three companions. Each has an ancestry, a calling and a background; together they may make a '
@@ -15,9 +16,10 @@ export class PlayersHandbook {
         + 'plays it: Faithful to Orsino, Adapted from it with a stated difference, Kyr\'s own, Represented by something '
         + 'smaller, Not playable (defined, but never offered), or Unreachable (playable, but nothing in the game yet '
         + 'reaches it).'],
-    sections: [CompanyChapters.ancestries(), CompanyChapters.callings(), CompanyChapters.backgrounds(),
-      CompanyChapters.signs(), CompanyChapters.skills(), this.traits(), CompanyChapters.formations(),
-      CompanyChapters.equipment(),
+    sections: [CompanyChapters.ancestries(), CompanyChapters.callings(this.items),
+      CompanyChapters.backgrounds(this.items),
+      CompanyChapters.signs(), CompanyChapters.skills(this.items), this.traits(), CompanyChapters.formations(),
+      CompanyChapters.equipment(this.items),
       PlayChapters.combat(), PlayChapters.magic(), PlayChapters.techniques(), PlayChapters.advancement(),
       PlayChapters.feats(), PlayChapters.conditions(), this.orsino()] };
   }

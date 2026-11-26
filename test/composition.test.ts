@@ -11,6 +11,7 @@ import { Composition } from '../src/world/compose/composition';
 import { WorldAssembler } from '../src/world/world-assembler';
 import type { CreatureStore } from '../src/creature-store';
 import { GeneratedWorld } from './support/generated';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // The assembler as a partner to Deem: kits (data/kits/raider-hold, data/kits/bounty) placed into an authored region
 // (test/fixtures/fells), with slots fixed by an author or bound by requirement and preference, dimensions proposed by
@@ -36,7 +37,7 @@ class Compose {
 
 describe('composing kits', () => {
   it('builds the fells\' Hob-Knot from the raider-hold kit with every slot and dimension fixed by its author', async () => {
-    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
+    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, CanonVocabulary.context(), 'fells');
     const text = m.composition!.trace.text().join('\n');
     expect(text).toContain('approach = fells__knot_foot (fixed)');
     expect(text).toContain('folk: fixed hobs, accepted');
@@ -44,7 +45,7 @@ describe('composing kits', () => {
     expect(m.composition!.ledger.holds('ambushes', 'knot__band', 'fells__barrows')).toBe(true);
   }, 60000);
   it('binds what a proposal implies even when the author fixed the proposal: the settlement the hobs robbed of its bell', async () => {
-    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
+    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, CanonVocabulary.context(), 'fells');
     const placement = m.composition!.placements[0]!;
     expect(placement.bindings.chapel).toBe('fells__market');
     expect(m.composition!.trace.text().join('\n')).toMatch(/chapel = fells__market \(score \d+, of \d+ considered\)/);
@@ -53,11 +54,13 @@ describe('composing kits', () => {
   }, 60000);
   it('refuses a fixing that breaks a hard requirement, and names it', async () => {
     const { path, source } = await Compose.variant({ id: 'bad', fix: { approach: 'fells.market' } });
-    await expect(ModuleBundle.campaign(path, source, 'fells')).rejects.toThrow(/approach.*fells__market.*does not meet/);
+    await expect(ModuleBundle.campaign(path, source, CanonVocabulary.context(), 'fells'))
+      .rejects.toThrow(/approach.*fells__market.*does not meet/);
   }, 60000);
   it('binds open slots by requirement and preference, and Deem fills the dimensions, the same way for the same seed', async () => {
     const { path, source } = await Compose.variant({ id: 'open' });
-    const a = await ModuleBundle.campaign(path, source, 'one'), b = await ModuleBundle.campaign(path, source, 'one');
+    const a = await ModuleBundle.campaign(path, source, CanonVocabulary.context(), 'one');
+    const b = await ModuleBundle.campaign(path, source, CanonVocabulary.context(), 'one');
     const placed = a.composition!.placements[0]!;
     expect(b.composition!.placements[0]).toEqual(placed);
     // Whatever was chosen meets the kit's requirements: a free waypoint, a road within six hours, prey within eight.
@@ -74,7 +77,8 @@ describe('composing kits', () => {
     await s.leg('wait_hour');
     const before = s.campaign.world.describe().filter(f => f.startsWith('at('));
     const later = await Composition.introduce(NodeBundleSource.shared.resolve(Compose.fells),
-      { kit: Compose.kit, id: 'later' }, { seed: 'fells', source: NodeBundleSource.shared });
+      { kit: Compose.kit, id: 'later' }, { seed: 'fells', source: NodeBundleSource.shared,
+        vocabulary: s.campaign.vocabulary });
     expect(later.placement).toBeDefined();
     expect(later.placement!.bindings.approach).not.toBe('fells__knot_foot');
     for (const request of later.placement!.modules) { await s.campaign.install(request, NodeBundleSource.shared); }
@@ -87,7 +91,7 @@ describe('composing kits', () => {
 
 describe('a kit that builds on another', () => {
   it('puts a price on the band an earlier placement put in the world, bound through the ledger', async () => {
-    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, 'fells');
+    const m = await ModuleBundle.campaign(Compose.fells, NodeBundleSource.shared, CanonVocabulary.context(), 'fells');
     const price = m.composition!.placements.find(p => p.kit === 'bounty')!;
     expect(price.bindings).toEqual({ victim: 'fells__ford_green', power: 'knot__band', chief: 'knotFolk__chief',
       band: 'knotFolk__raiders', lair: 'fells__knot_foot' });
@@ -179,7 +183,7 @@ describe('the raider-hold kit in play', () => {
 describe('kits in generated regions', () => {
   async function generated(seed: string, terrain: string) {
     const world = await WorldAssembler.assemble(seed, NodeBundleSource.shared, { region: { terrain } });
-    const manifest = await ModuleBundle.campaign(world.path, world.source, seed);
+    const manifest = await ModuleBundle.campaign(world.path, world.source, CanonVocabulary.context(), seed);
     return { world, placement: manifest.composition!.placements[0]! };
   }
   it('holds the raiders off the roads, at a site or in the depths of wild country', async () => {

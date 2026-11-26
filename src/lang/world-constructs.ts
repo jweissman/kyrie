@@ -1,6 +1,6 @@
 import { ItemNames } from './item-names';
 import type { Anchor, Call, Change, Module, Predicate } from './module';
-import { Vocabularies } from './vocabulary';
+import type { VocabularyContext } from './vocabulary';
 
 export interface StateSpec { id: string; flags: string[]; text: string }
 export interface ChangeSpec {
@@ -50,7 +50,7 @@ export class WorldConstructs {
   // A kind of the catalog a module gives or spends (`Give lantern to actor.`) is a kind it names, as an Item of it
   // would name it: given by kind, it had been no entity of the module's, and refused (the owner's town quests,
   // 3 November, paying in lanterns and draughts).
-  static given(module: Module) {
+  static given(context: VocabularyContext, module: Module) {
     const changes = [...module.initial, ...module.actions.flatMap(a => [...a.success, ...a.failure]),
       ...(module.rules ?? []).flatMap(r => r.effects)];
     const kinds = changes.filter(x => ['assert', 'increase'].includes(x.kind)
@@ -65,7 +65,7 @@ export class WorldConstructs {
       c.call.args.forEach((arg, i) => { if (typed.get(c.call.name)?.[i] === 'itemkind') { held.add(arg); } });
     }
     for (const kind of [...kinds, ...held]) {
-      const known = Vocabularies.kind(kind)?.name;
+      const known = context.kind(kind)?.name;
       if (known && !module.entities.some(e => e.id === kind)) { this.entity(module, kind, 'itemkind', known); }
     }
   }
@@ -147,13 +147,14 @@ export class WorldConstructs {
     'track', 'road', 'causeway', 'bridge', 'ford', 'tunnel', 'crawl', 'culvert', 'drift', 'incline', 'ferry', 'climb',
     'portal', 'overland'];
   // An item instance with one name: the authored one, or its catalog kind's name.
-  static item(module: Module, i: { id: string; name?: string; kind: string; place?: string; inside?: boolean;
-    hidden?: string; owner?: string } & Partial<Pick<ThingSpec, 'states' | 'changes'>>, kindName?: string) {
+  static item(context: VocabularyContext, module: Module,
+    i: { id: string; name?: string; kind: string; place?: string; inside?: boolean; hidden?: string; owner?: string }
+      & Partial<Pick<ThingSpec, 'states' | 'changes'>>, kindName?: string) {
     if (!kindName) { throw new Error(`Item ${i.id} names a kind missing from the item catalog: ${i.kind}`); }
     module.entities.push({ id: i.id, type: 'item', name: i.name ?? ItemNames.called(kindName) });
     // Its states are seen near it, lying somewhere or carried, and its changes made by whoever reaches it (QTC-A23).
     if (i.states?.length) {
-      this.states(module, { id: i.id, name: i.name ?? kindName, type: 'item', states: i.states, changes: i.changes ?? [] },
+      this.states(context, module, { id: i.id, name: i.name ?? kindName, type: 'item', states: i.states, changes: i.changes ?? [] },
         { kind: 'near', id: i.id });
     }
     this.entity(module, i.kind, 'itemkind', kindName);
@@ -166,7 +167,7 @@ export class WorldConstructs {
   // A person's offers and wares: services with fees, counted goods, or item instances of catalog kinds for sale.
   static offers(module: Module, p: { id: string; place?: string; offers?: { kind: string; text: string; fee: number }[];
     sells?: { what: string; fee: number; stock: number }[]; buys?: { what: string; fee: number }[] },
-  catalog?: (kind: string) => string | undefined) {
+  catalog: (kind: string) => { name: string; use?: unknown } | undefined) {
     // What a person will pay for a kind of thing the company brings them, and coin to pay with: ten times the most they
     // pay, unless the module gives them their own (Low Water's 14: Halm bought finds and held nothing, and the page
     // never offered him one).
@@ -176,9 +177,9 @@ export class WorldConstructs {
         value: { kind: 'number', value: most * 10 } });
     }
     for (const b of p.buys ?? []) {
-      const kindName = catalog?.(b.what);
-      if (!kindName) { throw new Error(`${p.id} buys ${b.what}, which is no kind of item`); }
-      this.entity(module, b.what, 'itemkind', kindName);
+      const kind = catalog(b.what);
+      if (!kind) { throw new Error(`${p.id} buys ${b.what}, which is no kind of item`); }
+      this.entity(module, b.what, 'itemkind', kind.name);
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'pays', args: [p.id, b.what] }, value: { kind: 'number', value: b.fee } });
     }
     for (const o of p.offers ?? []) {
@@ -189,22 +190,22 @@ export class WorldConstructs {
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'fee', args: [id] }, value: { kind: 'number', value: o.fee } });
     }
     for (const s of p.sells ?? []) {
-      const kindName = catalog?.(s.what);
-      if (!kindName) {
+      const kind = catalog(s.what);
+      if (!kind) {
         this.assert(module, 'sells', p.id, s.what);
         for (const [name, value] of [['goodsPrice', s.fee], ['quantity', s.stock]] as const) {
           module.initial.push({ kind: 'set', call: { kind: 'call', name, args: [p.id, s.what] }, value: { kind: 'number', value } });
         }
         continue;
       }
-      this.entity(module, s.what, 'itemkind', kindName);
+      this.entity(module, s.what, 'itemkind', kind.name);
       module.initial.push({ kind: 'set', call: { kind: 'call', name: 'shelf', args: [p.id, s.what] }, value: { kind: 'number', value: s.stock } });
-      if (Vocabularies.kind(s.what)?.use && p.place) {
+      if (kind.use && p.place) {
         this.restock(module, { id: p.id, place: p.place }, s.what, s.stock);
       }
       for (let n = 1; n <= s.stock; n++) {
         const id = `${p.id}_${s.what}_${n}`;
-        module.entities.push({ id, type: 'item', name: ItemNames.called(kindName) });
+        module.entities.push({ id, type: 'item', name: ItemNames.called(kind.name) });
         // The stock of one who is nowhere is nowhere with them (WPC-04).
         this.assert(module, 'itemKind', id, s.what); if (p.place) { this.assert(module, 'at', id, p.place); }
         this.assert(module, 'forSale', id); this.assert(module, 'soldBy', id, p.id);
@@ -229,7 +230,8 @@ export class WorldConstructs {
   private static all(ps: Predicate[]): Predicate { return ps.reduce((left, right) => ({ kind: 'and', left, right })); }
   // States and changes of a thing or person. A thing's descriptions follow the thing: they are perceived where it
   // stands, or from either side of the passage it occupies, and only while it is in that state.
-  static states(module: Module, t: ThingSpec, anchor: { kind: Anchor; id: string; from?: string }) {
+  static states(context: VocabularyContext, module: Module, t: ThingSpec,
+    anchor: { kind: Anchor; id: string; from?: string }) {
     const names = new Set(t.states.map(s => s.id));
     if (names.size !== t.states.length) { throw new Error(`Duplicate state in ${t.id}`); }
     for (const c of t.changes) {
@@ -265,7 +267,7 @@ export class WorldConstructs {
       if (c.at) { this.assert(module, 'changeAt', id, c.at); }
       if (c.when) { this.withheld(module, t, id, c); }
       // Consuming a good spends some of the company's stock; consuming a kind of item uses one up.
-      const spent = c.consumes ? Vocabularies.kind(c.consumes)?.name : undefined;
+      const spent = c.consumes ? context.kind(c.consumes)?.name : undefined;
       if (spent) { this.entity(module, c.consumes!, 'itemkind', spent); this.assert(module, 'spends', id, c.consumes!); }
       else if (c.consumes) { this.assert(module, 'consumes', id, c.consumes); }
     }
@@ -304,7 +306,7 @@ export class WorldConstructs {
     from: ['natural', 'historical', 'technological', 'magical', 'planar', 'unknown'],
     rarity: ['ordinary', 'rare', 'unique', 'impossible'],
     for: ['aesthetic', 'cultural', 'material', 'scientific', 'spiritual', 'dangerous'] } as const;
-  private static wonder(module: Module, t: ThingSpec, w: NonNullable<ThingSpec['wonder']>) {
+  private static wonder(context: VocabularyContext, module: Module, t: ThingSpec, w: NonNullable<ThingSpec['wonder']>) {
     const { from, rarity } = this.wonders, worth = this.wonders.for as readonly string[];
     if (!(from as readonly string[]).includes(w.from)) {
       throw new Error(`Wonder ${t.id}: whence is one of ${from.join(', ')}`);
@@ -330,10 +332,10 @@ export class WorldConstructs {
     // teaching the discovery; never again once known.
     const party = 'party', lit: Predicate = { kind: 'not', value: this.call('benighted', party) };
     const here: Predicate = { kind: 'and', left: this.call('at', party, t.site.id), right: lit };
-    this.event(module, { id: `${met}__met`, anchor: { kind: 'at', id: t.site.id }, text: w.text, effects: [],
+    this.event(context, module, { id: `${met}__met`, anchor: { kind: 'at', id: t.site.id }, text: w.text, effects: [],
       when: { kind: 'and', left: here, right: { kind: 'not', value: this.call('knows', party, met) } }, teaches: met });
   }
-  static thing(module: Module, t: ThingSpec) {
+  static thing(context: VocabularyContext, module: Module, t: ThingSpec) {
     module.entities.push({ id: t.id, type: t.type, name: t.name, ...t.known ? { roles: t.known } : {} });
     // One nowhere is in no place until something puts it somewhere (M19-95).
     if (t.site) { this.assert(module, t.site.anchor, t.id, t.site.id); }
@@ -343,7 +345,7 @@ export class WorldConstructs {
     if (t.hidden) { this.assert(module, 'revealedBy', t.id, t.hidden); }
     if (t.holds) { this.assert(module, 'receptacle', t.id); }
     if (t.marvel) { this.assert(module, 'marvel', t.id); }
-    if (t.wonder) { this.wonder(module, t, t.wonder); }
+    if (t.wonder) { this.wonder(context, module, t, t.wonder); }
     // Anything a company can handle can be tried, in the ways that suit it; scenery only in the ways its author
     // offers (`Tries looking` had offered no way to look at the snow on a fell: Hessel's friction 20, HSL-19).
     const tries = t.type === 'group' ? [] : t.type === 'scenery' ? t.tries ?? [] : this.tries(t);
@@ -351,7 +353,7 @@ export class WorldConstructs {
       this.assert(module, 'probeable', t.id);
       for (const verb of tries) { this.assert(module, 'suits', t.id, verb); }
     }
-    this.states(module, t, t.site?.anchor === 'on' ? { kind: 'beside', id: t.site.id, from: t.site.from }
+    this.states(context, module, t, t.site?.anchor === 'on' ? { kind: 'beside', id: t.site.id, from: t.site.from }
       : { kind: 'near', id: t.id });
   }
   // How a thing may be tried, by what anyone can see of it, so that offering a try gives nothing away: anything can
@@ -365,7 +367,7 @@ export class WorldConstructs {
       ...on && (t.hurts || flags.has('dangerous')) ? ['prodding'] : [], ...t.tries ?? []])];
   }
   // An event happens once, when its condition first holds, and is perceived only by those at its anchor.
-  static event(module: Module, e: EventSpec) {
+  static event(context: VocabularyContext, module: Module, e: EventSpec) {
     const latch = `once_${e.id}`;
     module.relations.push({ name: latch, types: [], exclusive: false });
     (module.rules ??= []).push({ id: e.id, when: { kind: 'and', left: e.when,

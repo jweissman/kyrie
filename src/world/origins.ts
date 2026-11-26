@@ -3,6 +3,7 @@ import { FamilyNames } from './family-names';
 import type { BundleSource } from '../campaign/bundle-source';
 import type { BundleRequest } from '../campaign/module-bundle';
 import type { CreatureGenerationContext } from '../content';
+import type { VocabularyContext } from '../lang';
 import type { Company, Region, Settlement } from './region-writer';
 import type { Placement } from './world-assembler';
 import { RegionFaith } from './region-faith';
@@ -66,11 +67,12 @@ export class Origins {
   // settlement, only the lives that begin in it (OR-644, OR-682): "Coming home" had begun at the drover's town and the
   // fever's at the sick child's, where a going-on is set only outside the reference town (ScenarioTowns), so two of
   // four blind lives never saw the old woods. An origin named (a tester's, a spec's) still begins where it binds.
-  static choices(loaded: Loaded[], region: Region, placements: Placement[]): OriginChoice[] {
+  static choices(loaded: Loaded[], region: Region, placements: Placement[],
+    vocabulary: VocabularyContext): OriginChoice[] {
     return loaded.flatMap(o => {
       const found = this.bind(o.manifest.binder, region, placements);
       const bound = found && this.referenced(region, found.start) ? found : undefined;
-      const opening = bound && OriginOpenings.of(this.fill(o.source, bound.values), o.manifest.title);
+      const opening = bound && OriginOpenings.of(this.fill(o.source, bound.values), o.manifest.title, vocabulary);
       return bound ? [{ id: o.manifest.id, title: o.manifest.title, choice: this.fill(o.manifest.choice, bound.values),
         ...opening ? { opening } : {}, ...o.manifest.background ? { background: o.manifest.background } : {},
         ...o.manifest.kinds ? { kinds: o.manifest.kinds } : {} }] : [];

@@ -58,7 +58,7 @@ describe('a professional tool', () => {
         ['spellbook', 'tool', 'none'], ['first_aid_kit', 'tool', 'none'], ['bandages', 'tool', 'none']]);
     // What still grants a skill outright is magic, or a module's own; no catalog tool or gear does.
     expect(Object.entries(Canon.items).filter(([, i]) => i.grants?.skill && ['tool', 'gear'].includes(i.category))
-      .map(([id]) => id).filter(id => !LocalKinds.local(id))).toEqual([]);
+      .map(([id]) => id)).toEqual([]);
   });
 });
 
@@ -83,10 +83,11 @@ describe('an ordinary tool', () => {
     }
   });
   it('is the like of a module\'s kind only for what it grants: a crown of paste like the glossary reads no script', () => {
-    const crown = LocalKinds.item('test', { id: 'paste_crown', name: 'a crown of paste', base: { like: 'old_glossary' },
+    const kinds = new LocalKinds();
+    const crown = kinds.item('test', { id: 'paste_crown', name: 'a crown of paste', base: { like: 'old_glossary' },
       grants: 'persuasion' });
     expect([crown.grants?.skill, crown.aids, crown.tool]).toEqual(['persuasion', undefined, undefined]);
-    expect(LocalKinds.item('test', { id: 'second_glossary', name: 'a second glossary', base: { like: 'old_glossary' } })
+    expect(kinds.item('test', { id: 'second_glossary', name: 'a second glossary', base: { like: 'old_glossary' } })
       .aids).toEqual(['lore']);
   });
 });

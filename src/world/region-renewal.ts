@@ -1,5 +1,6 @@
 import { Draw } from './land/draw';
 import { WrittenKyr } from './written-kyr';
+import type { VocabularyContext } from '../lang';
 import { RegionEcology } from './region-ecology';
 import type { WorkPlan } from './history/work-plans';
 import type { Region, Site } from './region-writer';
@@ -17,9 +18,10 @@ export class RegionRenewal {
     return ['  Relation emptied(place). Measure nightsEmpty(place). Relation cleared(place).',
       '  Place elsewhere "somewhere else" is room.'];
   }
-  static work(region: Region, site: Site,
-    at: { plan: WorkPlan; written: string[]; values: Record<string, string> }): string[] {
-    const { plan, written, values } = at;
+  static work(region: Region, site: Site, at: {
+    plan: WorkPlan; written: string[]; values: Record<string, string>; vocabulary: VocabularyContext
+  }): string[] {
+    const { plan, written, values, vocabulary } = at;
     if (!plan.lair || plan.great) { return []; }
     const habitat = RegionEcology.habitat(region, site), beast = RegionEcology.den(region, habitat);
     if (!beast) { return []; }
@@ -28,7 +30,7 @@ export class RegionRenewal {
     const thanks = 10 * (2 + plan.danger + beast.count), they = beast.label.replace(/^the /, '');
     // Empty when whoever the work held is dead (not the peaceable, who live there); when it held no one, once the
     // company has been in its den.
-    const kyr = WrittenKyr.of(written), held = kyr.people().filter(p => !kyr.peaceable(p));
+    const kyr = WrittenKyr.of(written, vocabulary), held = kyr.people().filter(p => !kyr.peaceable(p));
     const empty = held.length ? held.map(p => `not able(${p})`).join(' and ') : `at(party, ${lair})`;
     return [`  Person ${comers} ${q(beast.label)} at elsewhere {`,
       `    Role ${q(`${beast.role}, moved into ${site.name} while it stood empty`)}. Species ${beast.species}. Numbers ${beast.count}. Level ${plan.danger + 1}. Temperament territorial. Lair ${lair}.`, '  }',

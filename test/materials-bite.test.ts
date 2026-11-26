@@ -1,9 +1,9 @@
 import { ItemCatalog } from '../src/item-catalog';
-import { afterAll, describe, expect, it } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 import { AbilityUse } from '../src/ability-use';
 import { Canon } from '../src/canon/canon';
 import { CanonValidation } from '../src/canon/canon-validation';
-import { LocalKinds } from '../src/canon/local-catalog';
+import type { LocalCatalog } from '../src/canon/local-catalog';
 import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
 import { CreatureSchema } from '../src/creature';
@@ -16,20 +16,21 @@ import type { CombatEvent, Fighter } from '../src/model';
 // (Defenses); no arms item is added, no loot table or market touched. Against a kind written for this spec alone
 // (t_shade, 10 off a blow unless silver), a silvered longsword's blow comes through whole and is told as silver
 // passing; the same longsword of its own steel loses ten.
-LocalKinds.install({ species: { t_shade: { ...Canon.creature('wolf'), name: 'Shade',
-  defenses: [{ kind: 'reduction', amount: 10, unless: ['silver'] }], source: { kyr: true } } } });
-afterAll(() => LocalKinds.reset());
+const catalog = ItemCatalog.of({ species: { t_shade: { ...Canon.creature('wolf'), name: 'Shade',
+  defenses: [{ kind: 'reduction', amount: 10, unless: ['silver'] }], source: { kyr: true } } } } as LocalCatalog);
 const content = new Content('materials-bite');
 const carrying = (material?: string) => {
-  const c = content.createCreature(ItemCatalog.canon, 'h', { raceId: 'human', classId: 'warrior', level: 5 });
+  const c = content.createCreature(catalog, 'h', { raceId: 'human', classId: 'warrior', level: 5 });
   c.state.inventory = [...(c.state.inventory ?? []).filter(i => !Canon.items[i.definition]?.weapon),
     { id: 'h__blade', definition: 'longsword', equipped: true, ...material ? { material } : {} }];
   return c;
 };
-const armed = (material?: string): Fighter => CombatProjection.fighter(ItemCatalog.canon, carrying(material), 'fighters');
+const armed = (material?: string): Fighter => CombatProjection.fighter(catalog, carrying(material), 'fighters');
 const struck = (material?: string) => {
   for (let n = 0; n < 40; n++) {
-    const hero = armed(material), shade: Fighter = { ...content.creature('t_shade', 's', 'goblins'), hp: 99, maxHp: 99 };
+    const hero = armed(material), shade: Fighter = CombatProjection.fighter(catalog,
+      content.createCreature(catalog, 's', { raceId: 't_shade' }), 'goblins');
+    shade.hp = shade.maxHp = 99;
     const events: CombatEvent[] = [], context = { actor: hero, fighters: [hero, shade], turn: 1, events, content,
       abilities: [], retreat: false, location: null, expressions: new Expressions(`blade-${n}`) } as EffectContext;
     if (AbilityUse.attack(hero, shade, context, false)) { return events.find(e => e.type === 'damage'); }

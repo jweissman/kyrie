@@ -798,10 +798,10 @@
   "phb": {
    "title": "Player's Handbook",
    "counts": {
-    "faithful": 722,
+    "faithful": 723,
     "adapted": 425,
     "represented": 4,
-    "kyr": 632,
+    "kyr": 633,
     "unsupported": 66,
     "unreachable": 4,
     "data-only": 12
@@ -902,10 +902,10 @@
      "id": "equipment",
      "title": "Equipment",
      "counts": {
-      "faithful": 241,
+      "faithful": 242,
       "adapted": 84,
       "represented": 0,
-      "kyr": 117,
+      "kyr": 118,
       "unsupported": 7,
       "unreachable": 0,
       "data-only": 0
@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 348,
+    "kyr": 342,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 303,
+      "kyr": 297,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -9221,6 +9221,20 @@
    "section": "equipment/gear"
   },
   {
+   "id": "item:healingdraught",
+   "title": "Minor Potion of Healing",
+   "status": "faithful",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
+   "id": "item:fire_flask",
+   "title": "Oil firebomb",
+   "status": "kyr",
+   "book": "phb",
+   "section": "equipment/gear"
+  },
+  {
    "id": "item:agate",
    "title": "Agate",
    "status": "adapted",
@@ -15360,34 +15374,6 @@
    "section": "world-rules/rules-dominion"
   },
   {
-   "id": "rule:world_elements.elementVerb",
-   "title": "elementVerb",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
-   "id": "rule:world_elements.put_to",
-   "title": "put_to",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
-   "id": "rule:world_elements.looses",
-   "title": "looses",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
-   "id": "rule:world_elements.loose_at",
-   "title": "loose at",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-elements"
-  },
-  {
    "id": "rule:world_growing.grows",
    "title": "grows, crop",
    "status": "kyr",
@@ -16137,20 +16123,6 @@
    "section": "world-rules/rules-people"
   },
   {
-   "id": "rule:probing.lockwork_suits",
-   "title": "lockwork_suits",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-probing"
-  },
-  {
-   "id": "rule:probing.opened_by_art",
-   "title": "opened_by_art",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "world-rules/rules-probing"
-  },
-  {
    "id": "rule:probing.look_closely",
    "title": "look closely",
    "status": "kyr",
@@ -16354,6 +16326,13 @@
    "section": "world-rules/rules-services"
   },
   {
+   "id": "kit:tinker",
+   "title": "A tinker at work",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "making-worlds/kits"
+  },
+  {
    "id": "kit:bounty",
    "title": "A price on a power",
    "status": "kyr",
@@ -16370,13 +16349,6 @@
   {
    "id": "kit:toll_road",
    "title": "A toll on a road",
-   "status": "kyr",
-   "book": "dmg",
-   "section": "making-worlds/kits"
-  },
-  {
-   "id": "kit:tinker",
-   "title": "A tinker at work",
    "status": "kyr",
    "book": "dmg",
    "section": "making-worlds/kits"

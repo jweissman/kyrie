@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { RegionWorks } from '../src/world/region-works';
 import { Origins } from '../src/world/origins';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Every country's brothers' errand is sent to a work that teaches what the errand waits on: who its makers were, or
 // how they ended (M21's playability list, PL-24). Kahitude's errand had been sent to Lapisrecs, a deep work, which
@@ -22,7 +23,7 @@ class Errand {
     if (!bound) { return undefined; }
     const delving = bound.imports.delving![0].replace(/^region\./, '');
     const waits = [bound.imports.history![0], bound.imports.fate![0]].map(x => x.replace(/^region\./, ''));
-    const teaches = RegionWorks.lines(region).flatMap(l => {
+    const teaches = RegionWorks.lines(region, {}, CanonVocabulary.context()).flatMap(l => {
       const m = new RegExp(`^\\s*Observe \\S+ at (${delving}\\S*) .* teaches (\\S+)\\.$`).exec(l);
       return m ? [m[2]!] : [];
     });

@@ -10,6 +10,6 @@ export class EngineDeclarations {
   // Among its campaign's kinds (kinds: the campaign's before it, none for the first).
   static declare(draft: { instance: Instance; imports: readonly string[] }, catalog: ItemCatalog) {
     Overlays.declareGear(draft.instance, catalog); Overlays.declareWorth(draft.instance, catalog);
-    LookAnswers.declare(draft); HerbRecipes.declare(draft.instance);
+    LookAnswers.declare(draft); HerbRecipes.declare(draft.instance, catalog);
   }
 }

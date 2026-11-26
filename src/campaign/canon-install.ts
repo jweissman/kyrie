@@ -6,10 +6,12 @@ import { FictionalTime } from './fictional-time';
 import { ModuleCanon } from './module-canon';
 import { ModuleInstallations } from './module-installations';
 import type { InstalledInstance } from './installed-instance';
+import type { VocabularyContext } from '../lang';
 
 // A world as the canon is installed into it: what it has installed, what it could not take, and how it takes more.
 interface Host {
   readonly installed: string[]; readonly conflicts: readonly string[];
+  readonly vocabulary: VocabularyContext;
   readonly tickState?: { current: { canonless?: true } };
   install(request: BundleRequest, source: BundleSource): Promise<void>;
   conflict(note: string): void;
@@ -23,10 +25,10 @@ export class CanonInstall {
   static readonly refused = 'The canon (data/imbar) could not be installed in this world';
   // The canon alone, as the base the first module of a campaign is installed on; nothing, for a source without one.
   // Never for a campaign of a setting of its own ("canon": false: BX-01, the setting/framework boundary).
-  static async first(seed: string, source: BundleSource, manifest?: CampaignManifest)
+  static async first(seed: string, source: BundleSource, vocabulary: VocabularyContext, manifest?: CampaignManifest)
     : Promise<InstalledInstance | undefined> {
-    if (manifest?.canon === false || !await ModuleCanon.declarations(source)) { return undefined; }
-    const draft = await ModuleBundle.load(ModuleCanon.request(source), { seed }, source);
+    if (manifest?.canon === false || !await ModuleCanon.declarations(source, vocabulary)) { return undefined; }
+    const draft = await ModuleBundle.load(ModuleCanon.request(source), { seed, vocabulary }, source);
     return ModuleInstallations.prepare(undefined, draft, 0, false);
   }
   // What a campaign's state keeps of its manifest as it begins: its date, its night, and whether it is of a setting
@@ -51,7 +53,7 @@ export class CanonInstall {
   static async before(host: Host, request: BundleRequest, source: BundleSource): Promise<void> {
     if (host.tickState?.current.canonless || request.id === ModuleCanon.id || host.installed.includes(ModuleCanon.id)
       || host.conflicts.some(c => c.startsWith(CanonInstall.refused))) { return; }
-    if (!await ModuleCanon.declarations(source)) { return; }
+    if (!await ModuleCanon.declarations(source, host.vocabulary)) { return; }
     try { await host.install(ModuleCanon.request(source), source); } catch (error) {
       host.conflict(`${CanonInstall.refused}: ${error instanceof Error ? error.message : String(error)}`);
     }

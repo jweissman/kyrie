@@ -11,6 +11,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { RegionGeography } from '../src/world/region-geography';
 import { Histories } from '../src/world/history/histories';
 import { Atlases } from '../src/world/land/atlas';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // A generated region's names and land: no two places so alike a traveller could take one for the other, and a river,
 // a pass and a peak that are places on the way, not words in a description.
@@ -72,7 +73,8 @@ describe('a generated region lies on real land', () => {
     }
     expect(joined.size).toBe(region.settlements.length);
     // A road over the fells climbs a pass, cold after dark; one that fords a river can be swept by it.
-    const source = RegionWriter.source(region), roads = RegionGeography.roads(region);
+    const source = RegionWriter.source(region, null, {}, CanonVocabulary.context());
+    const roads = RegionGeography.roads(region);
     for (const r of roads.filter(x => x.route.over)) { expect(source).toContain(`Rule ${r.way}_night when at(party, ${r.way}) and dark()`); }
     for (const r of roads.filter(x => x.form?.form === 'river' && x.route.crossings[0]?.kind === 'ford')) {
       expect(source).toContain(`Thing ${r.way}_water`);
@@ -91,7 +93,7 @@ describe('a generated region lies on real land', () => {
     const region = PlaceNames.render(WorldAssembler.lay({ ...Land.region('mountain'), sites: [
       { id: 'w1', kind: 'cave', name: 'Fern Cave', hours: 1 }, { id: 'w2', kind: 'mine', name: 'Old Delf', hours: 1 },
       { id: 'w3', kind: 'barrow', name: 'Long Howe', hours: 1 }] }, 'fells'));
-    const cover = region.atlas!.land.cover, source = RegionWriter.source(region);
+    const cover = region.atlas!.land.cover, source = RegionWriter.source(region, null, {}, CanonVocabulary.context());
     // A work stands on its plan's ground; the greatest of them anywhere dry, if its own ground is taken.
     for (const site of region.sites.filter(w => !w.work?.great)) {
       const ground = site.work ? Histories.plan(site.work.plan).ground : Atlases.grounds[site.kind];

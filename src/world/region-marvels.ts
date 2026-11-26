@@ -1,6 +1,7 @@
 import { Harm } from '../rules/harm';
 import { WrittenKyr } from './written-kyr';
 import { Canon } from '../canon/canon';
+import type { VocabularyContext } from '../lang';
 import { parseAbility, type Effect } from '../lang/parse';
 import { Draw } from './land/draw';
 import { Atlases } from './land/atlas';
@@ -63,14 +64,16 @@ export class RegionMarvels {
   }
   // What is in a work past its inner way: a trap on the way, more often than not; and in half the works that have
   // one, a wonder in the room beyond it, no two works of a country the same.
-  static work(region: Region, site: Site, plan: string, written: string[]): string[] {
+  static work(region: Region, site: Site,
+    at: { plan: string; written: string[]; vocabulary: VocabularyContext }): string[] {
+    const { plan, written, vocabulary } = at;
     const suffix = this.inner[plan], way = `${site.id}_${suffix}`;
-    const ends = suffix ? WrittenKyr.of(written).ends(way) : undefined;
+    const ends = suffix ? WrittenKyr.of(written, vocabulary).ends(way) : undefined;
     if (!ends) { return []; }
     const draw = new Draw(`${RegionKey.of(region)}:${site.id}:within`), beyond = ends[1];
-    const works = region.sites.filter(s => s.work).map(s => s.id), at = works.indexOf(site.id);
+    const works = region.sites.filter(s => s.work).map(s => s.id), index = works.indexOf(site.id);
     const within = new Draw(`${RegionKey.of(region)}:within`).shuffle(this.wonders.filter(([, w]) => w.where === 'within'));
-    const wonder = beyond && draw.chance(0.5) ? within[at % within.length] : undefined;
+    const wonder = beyond && draw.chance(0.5) ? within[index % within.length] : undefined;
     return [...this.trap(region, site, way),
       ...wonder ? this.wonder(wonder, beyond!, 'wonder',
         { fragment: this.fragmentOf(region, site.work?.art), near: ends[0] }) : []];

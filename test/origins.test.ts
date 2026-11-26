@@ -9,6 +9,7 @@ import { ScreenModel } from '../src/ui/screen-model';
 import { Narrator } from '../src/presentation/narrator';
 import { ActionFeedbackView } from '../src/presentation/action-feedback';
 import { Origins } from '../src/world/origins';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 import { SettlementWriter } from '../src/world/settlement-writer';
 import type { Change } from '../src/lang/module';
 import type { World } from '../src/lang/world';
@@ -57,7 +58,8 @@ class Opening {
 describe('an origin', () => {
   it('is offered only where the country holds what it needs', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
-    const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements);
+    const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements,
+      CanonVocabulary.context());
     expect(offered.map(o => o.id)).toEqual(['kin', 'order', 'debt', 'wanderer', 'map', 'lost', 'courier']);
     // The drover's family lives where the drover's story is set: a settlement with an inn to mourn him in.
     const home = w.report.region.settlements.find(t => t.id === w.report.placements.find(p => p.scenario === 'drover')!.bindings.town)!;
@@ -71,7 +73,8 @@ describe('an origin', () => {
   // chosen had set out a trader); an origin's own is its default, for a protagonist who chose none.
   it('makes the protagonist what its story says they are, but for the trade they chose, which they keep', async () => {
     const w = await WorldAssembler.assemble('a1', NodeBundleSource.shared);
-    const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements);
+    const offered = Origins.choices(await Origins.load(NodeBundleSource.shared), w.report.region, w.report.placements,
+      CanonVocabulary.context());
     expect(Object.fromEntries(offered.map(o => [o.id, o.background]))).toEqual(
       { kin: 'herdsman', order: 'scribe', debt: 'trader', wanderer: undefined, map: 'drifter', lost: 'prospector',
         courier: 'messenger' });

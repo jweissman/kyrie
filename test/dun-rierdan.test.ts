@@ -11,6 +11,7 @@ import { WorldAssembler } from '../src/world/world-assembler';
 import { WorldGrid } from '../src/world/world-grid';
 import { WorldShape } from '../src/world/world-shape';
 import { GeneratedWorld } from './support/generated';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // Dun Rìerdan, the City of Seven Towers (the canon's dun_ri), is in every world, where the shape's seat for it says
 // (data/imbar/shape.json): the chief town of the nearest country north of the first, in its column, that no great sea
@@ -40,7 +41,8 @@ describe('Dun Rìerdan, the City of Seven Towers', () => {
       expect([...region.settlements.slice(1), ...region.sites].filter(p => p.name === City.name)).toEqual([]);
       // The country itself is its seed's: it is named as drawn, not for the city.
       expect(region.name).not.toBe(City.name);
-      expect(RegionWriter.source(region, null)).toContain('  Initially Assert seatOf(dun_ri, s1).');
+      expect(RegionWriter.source(region, null, {}, CanonVocabulary.context()))
+        .toContain('  Initially Assert seatOf(dun_ri, s1).');
       expect((RegionWriter.manifest(region) as { canon: string[] }).canon).toContain('dun_ri');
       // No authored country is laid in its cell; no other country's chief town is the city.
       expect(Countries.plan(seed, WorldAssembler.region(seed, [0, 0]).terrain).has('x0ym1')).toBe(false);

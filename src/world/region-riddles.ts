@@ -5,6 +5,7 @@ import { WrittenKyr } from './written-kyr';
 import world from '../../data/generation/scenes/orsino-world.json';
 import type { Region, Site } from './region-writer';
 import { RegionKey } from './region-key';
+import type { VocabularyContext } from '../lang';
 
 interface Riddle { question: string; answer: string; kind: string; level: string; source: string }
 
@@ -16,8 +17,8 @@ interface Riddle { question: string; answer: string; kind: string; level: string
 export class RegionRiddles {
   static readonly riddles = world.riddles as Record<string, Riddle[]>;
   static readonly answers = (world as unknown as { riddleAnswers: Record<string, string[]> }).riddleAnswers;
-  static work(region: Region, site: Site, written: string[]): string[] {
-    const way = `${site.id}_in`, ends = WrittenKyr.of(written).ends(way);
+  static work(region: Region, site: Site, written: string[], vocabulary: VocabularyContext): string[] {
+    const way = `${site.id}_in`, ends = WrittenKyr.of(written, vocabulary).ends(way);
     const draw = new Draw(`${RegionKey.of(region)}:${site.id}:riddle`);
     if (!ends || site.work?.great || !draw.chance(0.4)) { return []; }
     const room = ends[0];

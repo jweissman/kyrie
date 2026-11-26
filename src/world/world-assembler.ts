@@ -2,6 +2,7 @@ import { Memorials } from './memorial'; import type { Memorial } from '../memori
 import { RegionWeather } from './region-weather';
 import type { DeemValue } from 'deem';
 import { Content, type CreatureGenerationContext } from '../content';
+import type { VocabularyContext } from '../lang';
 import { RandomStreams } from '../random-streams'; import { Costs } from '../costs';
 import type { BundleSource } from '../campaign/bundle-source'; import type { BundleRequest } from '../campaign/module-bundle';
 import { OverlayBundleSource } from '../campaign/overlay-bundle-source'; import { Expressions } from '../expressions';
@@ -94,6 +95,7 @@ export class WorldAssembler {
     // And which standing scenarios it holds, by id (all, unless said): see Drawn.standing.
     memorial?: Memorial; standing?: string[]; chain?: string; opening?: string;
   } = {}): Promise<{ path: string; source: BundleSource; report: WorldReport }> {
+    const vocabulary = Content.vocabulary();
     // The country as drawn for this seed and ask, its own copy (drawn once: see WorldDrawings).
     const { region, context, eligibility, placements, library, heralds, standing } =
       await WorldDrawings.of(seed, base, options);
@@ -117,13 +119,13 @@ export class WorldAssembler {
     const path = base.resolve(`${root}.campaign.json`);
     const framework = options.framework === null ? [] : await this.framework(base, region, options.framework);
     const company = { size: party.length, contacts, ...told ? { start: told.start, coin: told.coin } : {} };
-    this.write(region, { files, root, placements, company });
+    this.write(region, { files, root, placements, company, vocabulary });
     const kits = framework.map(k => ({ ...k, optional: true }));
     // What the inn's count says of the places the kits make their own, written once they are placed (FH-24).
     const written = new OverlayBundleSource(base, files);
-    const held = await RegionHeld.of(region, [...modules, ...kits], { seed, path, source: written });
+    const held = await RegionHeld.of(region, [...modules, ...kits], { seed, path, source: written, vocabulary });
     region.told = held.told;
-    if (Object.keys(region.told).length) { this.write(region, { files, root, placements, company }); }
+    if (Object.keys(region.told).length) { this.write(region, { files, root, placements, company, vocabulary }); }
     if (options.memorial) { Memorials.remember(options.memorial, files, `${root}/region`); }
     files[path] = JSON.stringify({ version: 1, name: region.name, modules: [...modules, ...kits], party,
       calendar: region.calendar,
@@ -160,7 +162,8 @@ export class WorldAssembler {
     const modules: BundleRequest[] = [{ id: rid, bundle: base.resolve(`${root}/region/module.json`),
       imports: { party: `${RegionWriter.id}.party` }, randomIdentity: rid }];
     this.spread(placements, { library: [...lib, ...own], base, region, contacts: [], context, files, root, modules });
-    RegionWriter.write(files, root, region, { company: null, taken: this.taken(placements), beyond: true });
+    RegionWriter.write(files, root, region, { company: null, taken: this.taken(placements), beyond: true,
+      vocabulary: Content.vocabulary() });
     return { requests: modules, source: new OverlayBundleSource(base, files), region };
   }
   // A region where it lies in its world, from its own seed: drawn by Deem, laid on its land, named and peopled.
@@ -264,8 +267,9 @@ export class WorldAssembler {
   // loads: wild country gives a kit the places off the roads it wants, and one refused all the same is left out of the
   // world (they are optional there), the trace saying why.
   private static write(region: Region, at: { files: Record<string, string>; root: string; placements: Placement[];
-    company: Company }) {
-    RegionWriter.write(at.files, at.root, region, { company: at.company, taken: this.taken(at.placements) });
+    company: Company; vocabulary: VocabularyContext }) {
+    RegionWriter.write(at.files, at.root, region, { company: at.company, taken: this.taken(at.placements),
+      vocabulary: at.vocabulary });
   }
   // A framework's kits, with their paths made absolute, to be composed into the campaign when it loads.
   // And the country's own, where the atlas places some (StrategicAtlas.kits), their paths as the framework's are.

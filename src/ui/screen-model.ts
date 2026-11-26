@@ -338,20 +338,19 @@ export class ScreenModel {
     const note = p.condition && p.type !== 'scenery' ? p.condition : owner ? `${owner}'s` : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     const look = p.type === 'item' ? this.described(at.campaign.catalog, w, p) : undefined;
-    const plate = p.type === 'item' ? ItemPlates.of(w, p.id) : undefined, within = p.within ? { within: p.within } : {};
+    const plate = p.type === 'item' ? ItemPlates.of(w, p.id, at.campaign.catalog) : undefined;
     // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
-    return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name, ...within,
-      ...(note ? { note } : {}), ...(look ? { look } : {}), ...plate ? { portrait: plate } : {},
+    return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
+      ...p.within ? { within: p.within } : {}, ...(note ? { note } : {}),
+      ...(look ? { look } : {}), ...plate ? { portrait: plate } : {},
       ...(p.type === 'item' && !forSale && !owner && Treasure.valuable(w, p.id) ? { valuable: true } : {}), acts };
   }
-  // A thing to be had, seen for what it is in its kind's own words (the follow-up review found a singer's token that
-  // offered nothing but Take, though its kind is described); none where those words are only its name.
+  // A thing is described in its kind's own words, unless those words are only its name.
   private static described(catalog: ItemCatalog, w: Campaign['world'], p: { id: string; name: string }) {
     const kind = w.module.relations.some(r => r.name === 'itemKind') ? w.one('itemKind', p.id) : undefined;
     const told = kind ? catalog.find(kind) : undefined;
     return !told || [p.name, told.name].some(n => ScreenModel.bare(n) === ScreenModel.bare(told.description))
-      ? undefined : told.description;
-  }
+      ? undefined : told.description; }
   private static bare(s: string): string { return s.toLowerCase().replace(/^(an?|the) /, ''); }
   // The formations the company was formed as: every member holds them, so the first living one says.
   private static formations(campaign: Campaign): Screen['formations'] {
@@ -439,7 +438,7 @@ export class ScreenModel {
     const party = state.creatures.filter(c => state.partyIds.includes(c.id)), carried = ItemUses.carried(party);
     return party.flatMap(c => (c.state.inventory ?? []).map(i => {
       const catalog = campaign.catalog, d = catalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
-      const kept = ItemUses.kept(catalog, i.definition, acts, carried), plate = ItemPlates.kind(i.definition);
+      const kept = ItemUses.kept(catalog, i.definition, acts, carried), plate = ItemPlates.kind(i.definition, catalog);
       const points = Seats.line(campaign.world, i.definition), mends = ItemUses.mends(catalog.use(i.definition));
       return { id: i.id, name: ItemNames.shown(entities.get(i.id)?.name, d.name), kind: i.definition,
         description: d.description, ...plate ? { plate } : {},

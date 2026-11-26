@@ -11,8 +11,8 @@ Kyr's capability audit against Orsino, one family of rules at a time. Each famil
 | Spells: traditions, slots, durations and unusual magic | 207 faithful, 45 adapted, 5 kyr, 30 not playable |
 | Summoning, transformation, domination, movement, divination and travel | 37 faithful, 6 adapted, 7 represented, 12 not playable |
 | Creatures: families, special attacks, resistances, behaviour and difficulty | 126 faithful, 131 adapted, 10 represented, 74 kyr, 4 not playable, 104 orsino data only |
-| Equipment, treasure and magic items | 344 faithful, 116 adapted, 9 represented, 117 kyr, 7 not playable, 6 orsino data only |
-| Environment, world and planar rules | 3 adapted, 7 represented, 302 kyr, 180 orsino data only |
+| Equipment, treasure and magic items | 345 faithful, 116 adapted, 9 represented, 118 kyr, 7 not playable, 6 orsino data only |
+| Environment, world and planar rules | 3 adapted, 7 represented, 296 kyr, 180 orsino data only |
 | Content authoring and generation | 45 kyr |
 
 ## Ancestries, callings, backgrounds and formations
@@ -157,7 +157,7 @@ Handbook sections: `mm:species`, `mm:natural-abilities`, `mm:creature-traits`, `
 
 ## Equipment, treasure and magic items
 
-Entries: 344 faithful, 116 adapted, 9 represented, 117 kyr, 7 not playable, 6 orsino data only.
+Entries: 345 faithful, 116 adapted, 9 represented, 118 kyr, 7 not playable, 6 orsino data only.
 
 **What Orsino defines.** 83 weapons, 15 armours, 68 pieces of gear, 48 magic items, 28 consumables, treasure tiers by depth.
 
@@ -177,7 +177,7 @@ Handbook sections: `phb:equipment`, `dmg:orsino-world/orsino-equipment`, `dmg:or
 
 ## Environment, world and planar rules
 
-Entries: 3 adapted, 7 represented, 302 kyr, 180 orsino data only.
+Entries: 3 adapted, 7 represented, 296 kyr, 180 orsino data only.
 
 **What Orsino defines.** Terrain and weather, light, traps with triggers and saves, wonders that grant, ten planes with alignment, terrain, domain and global effects applied to everyone resident.
 

@@ -1,4 +1,4 @@
-import { afterAll, describe, expect, it } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 import animals from '../data/catalog/animals.json';
 import monsters from '../data/catalog/monsters.json';
 import devices from '../data/catalog/devices.json';
@@ -8,7 +8,9 @@ import { Canon } from '../src/canon/canon';
 import { Content } from '../src/content';
 import { Effects, type EffectContext } from '../src/effects';
 import { Expressions } from '../src/expressions';
-import { LocalKinds } from '../src/canon/local-catalog';
+import { ItemCatalog } from '../src/item-catalog';
+import { CombatProjection } from '../src/combat-projection';
+import type { LocalCatalog } from '../src/canon/local-catalog';
 import { KindDefenses } from '../src/kind-defenses';
 import { CombatTelling } from '../src/ui/combat-telling';
 import type { Modifiers } from '../src/rules/modifiers';
@@ -100,10 +102,15 @@ describe('the old resistances, translated to defenses as the canon loads', () =>
 // Regeneration is a defense read at the end of its holder's turn: it mends unless harm of a kind it cannot mend
 // struck it since (a troll and fire). A kind declared for this spec alone, as a module declares its own.
 describe('regeneration', () => {
-  LocalKinds.install({ species: { t_troll: { ...Canon.creature('wolf'), name: 'Troll',
-    defenses: [{ kind: 'regeneration', amount: 5, stoppedBy: ['fire', 'acid'] }], source: { kyr: true } } } });
-  afterAll(() => LocalKinds.reset());
+  const catalog = ItemCatalog.of({ species: { t_troll: { ...Canon.creature('wolf'), name: 'Troll',
+    defenses: [{ kind: 'regeneration', amount: 5, stoppedBy: ['fire', 'acid'] }], source: { kyr: true } } } } as LocalCatalog);
   const content = new Content('regeneration'), expressions = new Expressions('regeneration');
+  const trollOf = (): Fighter => {
+    const creature = content.createCreature(catalog, 'troll', { raceId: 't_troll' });
+    const troll = CombatProjection.fighter(catalog, creature, 'goblins');
+    troll.name = 'the troll'; troll.hp = troll.maxHp = 40;
+    return troll;
+  };
   const turn = (troll: Fighter): CombatEvent[] => {
     const events: CombatEvent[] = [];
     Effects.turnEnd(troll, { fighters: [troll], turn: 1, events, content, abilities: [], retreat: false,
@@ -111,7 +118,7 @@ describe('regeneration', () => {
     return events;
   };
   it('mends a blade\'s harm and not fire\'s, and the telling says what stopped it', () => {
-    const troll = { ...content.creature('t_troll', 'troll', 'goblins'), name: 'the troll', hp: 40, maxHp: 40 };
+    const troll = trollOf();
     const context = { fighters: [troll], turn: 1, events: [] as CombatEvent[], content, abilities: [], retreat: false,
       location: null, expressions, source: { id: 'trap', kind: 'trap' } } as EffectContext;
     Effects.damage(troll, { amount: 12, type: 'slashing' }, context);

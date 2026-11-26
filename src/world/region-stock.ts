@@ -6,6 +6,7 @@ import { RegionWeather } from './region-weather';
 import type { Region, Site } from './region-writer';
 import { RegionKey } from './region-key';
 import { Canon } from '../canon/canon';
+import type { VocabularyContext } from '../lang';
 
 // What a makers' work holds besides what its plan wrote: its rooms had been bare but for one keeper and two
 // treasures, five to nine rooms with nothing in them (the owner, 31 October: interiors thin, secrets and treasure too
@@ -13,10 +14,11 @@ import { Canon } from '../canon/canon';
 // holds what someone put by there later, found only by searching it. Drawn by the work, so the same world holds the
 // same.
 export class RegionStock {
-  static work(region: Region, site: Site, at: { great: boolean; written: string[]; values: Record<string, string> }):
+  static work(region: Region, site: Site, at: { great: boolean; written: string[]; values: Record<string, string>;
+    vocabulary: VocabularyContext }):
     string[] {
     if (at.great) { return []; }
-    const rooms = this.bare(at.written), draw = new Draw(`${RegionKey.of(region)}:${site.id}:stock`);
+    const rooms = this.bare(at.written, at.vocabulary), draw = new Draw(`${RegionKey.of(region)}:${site.id}:stock`);
     if (rooms.length < 2) { return []; }
     const [den, cache] = draw.shuffle(rooms.slice(1));
     return [...this.den(region, site, den!), ...cache ? this.cache(site, cache, at.values) : []];
@@ -24,8 +26,8 @@ export class RegionStock {
   // The rooms no one lives in, in the order the plan wrote them (a room with a thing of its own in it is still one a
   // beast may den in, or something be put by in): read from the written Kyr parsed, its places and who is at or lairs
   // in each, not by matching its text (the owner, 2 November: structure read as structure).
-  private static bare(written: string[]): string[] {
-    const kyr = WrittenKyr.of(written), lived = kyr.lived();
+  private static bare(written: string[], vocabulary: VocabularyContext): string[] {
+    const kyr = WrittenKyr.of(written, vocabulary), lived = kyr.lived();
     return kyr.rooms().filter(r => !lived.has(r));
   }
   private static den(region: Region, site: Site, room: string): string[] {

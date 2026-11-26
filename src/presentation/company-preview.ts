@@ -3,6 +3,7 @@ import { Overlays } from '../overlays';
 import type { CreatureGenerationContext } from '../content';
 import { Formations } from '../rules/formations';
 import { PerkText } from './perk-text';
+import type { ItemCatalog } from '../item-catalog';
 
 // A formation the company makes, or would make with one companion changed: its name, what each perk does, and the
 // change it would take ("one more cleric").
@@ -15,7 +16,7 @@ export interface MemberPreview {
 // where from, and the skills nobody in the company has. Read from the same catalogs the game runs on.
 export class CompanyPreview {
   static readonly heard: Record<string, string> = { tavern: 'taproom', temple: 'shrine', market: 'market', road: 'road' };
-  static member(c: CreatureGenerationContext): MemberPreview {
+  static member(c: CreatureGenerationContext, catalog: ItemCatalog): MemberPreview {
     const klass = Canon.classes[Canon.resolve('classes', c.classId ?? '')];
     const background = c.backgroundId && Overlays.has(c.backgroundId) ? Overlays.get(c.backgroundId) : undefined;
     const skills = [...(klass?.skills ?? []).map(id => ({ id, from: klass!.name })),
@@ -23,7 +24,7 @@ export class CompanyPreview {
       .filter((s, i, all) => all.findIndex(o => o.id === s.id) === i)
       .map(s => ({ ...s, name: Canon.skills[s.id]?.name ?? s.id }));
     return { calling: klass?.name ?? '', practice: klass?.practice ?? klass?.description ?? '',
-      skills, gear: (background?.gear ?? []).map(g => Canon.items[g]?.name ?? g),
+      skills, gear: (background?.gear ?? []).map(g => catalog.find(g)?.name ?? g),
       ...(background?.contact ? { contact: `an old friend who hears ${this.heard[background.contact.channel]} news` } : {}),
       ...(background?.requiredClass && background.requiredClass !== c.classId
         ? { requires: `${background.name} is for ${background.requiredClass}s` } : {}) };
@@ -31,10 +32,10 @@ export class CompanyPreview {
   // The skills that open ways through the March's troubles, and who in the company has each.
   static readonly telling = ['woodcraft', 'lockwork', 'trapwork', 'mending', 'brawn', 'stealth', 'lore', 'rites',
     'climbing', 'digging', 'wayfinding'];
-  static company(party: CreatureGenerationContext[]): {
+  static company(party: CreatureGenerationContext[], catalog: ItemCatalog): {
     covered: { name: string; who: string[] }[]; missing: string[];
   } {
-    const members = party.map(c => ({ name: c.name ?? '', preview: this.member(c) }));
+    const members = party.map(c => ({ name: c.name ?? '', preview: this.member(c, catalog) }));
     const covered = this.telling.map(id => ({ id, name: Canon.skills[id]?.name ?? id,
       who: members.filter(m => m.preview.skills.some(s => s.id === id)).map(m => m.name) }));
     return { covered: covered.filter(c => c.who.length).map(({ name, who }) => ({ name, who })),

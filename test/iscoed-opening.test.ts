@@ -4,6 +4,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Journey } from '../src/session/journey';
 import { WorldAssembler } from '../src/world/world-assembler';
 import { Origins } from '../src/world/origins';
+import { CanonVocabulary } from '../src/canon/canon-vocabulary';
 
 // The reference start (mission-22/world/orientation.md §4, step 2): Iscoed, the atlas's salt fen, begins a life already
 // in it, one of three, each in its own place with its own people, and from any of them the other two are in the world
@@ -22,7 +23,7 @@ describe('the reference start, Iscoed', () => {
     const loaded = await Origins.load(NodeBundleSource.shared);
     const offered = async (seed: string) => {
       const w = await WorldAssembler.assemble(seed, NodeBundleSource.shared);
-      return Origins.choices(loaded, w.report.region, w.report.placements).map(o => o.id);
+      return Origins.choices(loaded, w.report.region, w.report.placements, CanonVocabulary.context()).map(o => o.id);
     };
     expect(await offered(Iscoed.seed)).toEqual(['drove', 'pans', 'weir']);
     expect(await offered('a1')).not.toContain('drove');

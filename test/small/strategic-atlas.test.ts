@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { WorldAssembler } from '../../src/world/world-assembler';
 import { RegionWriter } from '../../src/world/region-writer';
 import { StrategicAtlas } from '../../src/world/strategic-atlas';
+import { CanonVocabulary } from '../../src/canon/canon-vocabulary';
 
 // The strategic atlas (data/imbar/atlas.json; mission-22/world/orientation.md): the worlds it lists draw its countries
 // as it says, each with its own detail, and every other world is drawn as it was.
@@ -43,7 +44,7 @@ describe('the strategic atlas', () => {
     expect(new Set(sites).size).toBe(worlds.length);
   });
   it('writes the country\'s facts into its module, for its people to tell', () => {
-    const source = RegionWriter.source(first(worlds[0]!), null);
+    const source = RegionWriter.source(first(worlds[0]!), null, {}, CanonVocabulary.context());
     expect(source).toContain('Entity country_iscoed: fact "Iscoed is the Rì\'s southern march');
     expect(source).toContain('Entity country_iscoed_short: fact "Iscoed: fuel for the pans, iron');
     expect(source).toContain('Entity country_iscoed_west: fact "West of Iscoed is Brynach, a lordship of the fells');

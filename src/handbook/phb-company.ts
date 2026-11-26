@@ -9,6 +9,7 @@ import { HandbookText } from './text';
 import { PeopleFacts } from './phb-peoples';
 import { CanonValidation } from '../canon/canon-validation';
 import type { ItemKind } from '../rules/catalog-schema';
+import type { CanonItemReader } from './catalog';
 import sky from '../../data/imbar/sky.json';
 
 // The Player's Handbook, first part: who can be in a company and what they bring. Every line is read from the
@@ -33,12 +34,12 @@ export class CompanyChapters {
   }
   // A calling's facts say no gold: Orsino's is paid to no one, and a life's coin is its origin's and its trade's
   // (OR-257, OR-270: the bard's "Gold 25" had stood here against a purse of 13 coin).
-  static callings(): Section {
+  static callings(items: CanonItemReader): Section {
     const entries = Object.entries(Canon.classes).filter(([, c]) => c.playable).map(([id, c]): Entry => ({
       id: `class:${id}`, title: c.name, status: HandbookStatus.of(c), kind: c.spellcasting ? `calling; casts with ${c.spellcasting.attribute}` : 'calling',
       facts: [['Hit die', `d${c.hitDie}`], ['Qualities', HandbookText.attributes(c.attributes)],
         ['Weapons', HandbookText.proficiency(c.proficiencies.weapons)], ['Armour', HandbookText.proficiency(c.proficiencies.armor)],
-        ...c.startingGear?.length ? [['Carries from the start', c.startingGear.map(g => Canon.items[g]?.name ?? g).join(', ')] as [string, string]] : [],
+        ...c.startingGear?.length ? [['Carries from the start', c.startingGear.map(g => items.definition(g)?.name ?? g).join(', ')] as [string, string]] : [],
         ...c.skills?.length ? [['Skills', c.skills.map(s => Canon.skills[s]?.name ?? s).join(', ')] as [string, string]] : [],
         ...c.specializations?.length ? [['Specializations', c.specializations.map(s => Canon.traits[s]?.name ?? s).join(', ')] as [string, string]] : [],
         ...c.features?.length ? [['Later', c.features.map(f => `${f.level}: ${[...(f.abilities ?? []).map(a => HandbookText.ability(a)),
@@ -72,31 +73,33 @@ export class CompanyChapters {
   }
   // A kind of life as the reference says it, beside its choice at creation as in its own section (OR-88): what it
   // brings and carries, who its people know, and its trades; the rules of what it brings.
-  static kind(kind: string): { facts: [string, string][]; rules: string[] } {
+  static kind(kind: string, items: CanonItemReader): { facts: [string, string][]; rules: string[] } {
     const m = Canon.backgroundKinds[kind]!, skills = m.skills ?? [];
     const trades = Object.values(Canon.backgrounds).filter(b => b.kind === kind && !b.requiredClass).map(b => b.name);
     return { facts: [
       ...skills.length ? [['Brings', skills.map(s => Canon.skills[s]?.name ?? s).join(', ')] as [string, string]] : [],
-      ...m.gear?.length ? [['Carries', m.gear.map(g => Canon.items[g]?.name ?? g).join(', ')] as [string, string]] : [],
+      ...m.gear?.length ? [['Carries', m.gear.map(g => items.definition(g)?.name ?? g).join(', ')] as [string, string]] : [],
       ...m.channel ? [['Knows', `someone who hears news ${CompanyChapters.heard[m.channel]}`] as [string, string]] : [],
       ...trades.length ? [['Trades', `${trades.slice(0, 5).join(', ')}${trades.length > 5 ? ', …' : ''}`] as [string, string]] : []],
     rules: skills.map(s => `${Canon.skills[s]?.name ?? s}: ${Canon.skills[s]?.description ?? ''}`.trim()) };
   }
   static readonly heard: Record<string, string> = { road: 'on the road', tavern: 'at an inn', temple: 'at a shrine',
     market: 'at a market' };
-  static backgrounds(): Section {
+  static backgrounds(items: CanonItemReader): Section {
     const sections = Object.entries(Canon.backgroundKinds).map(([kind, meaning]): Section => {
       const ids = Object.keys(Canon.backgrounds).filter(id => Canon.backgrounds[id]!.kind === kind).sort();
       return { id: `backgrounds-${kind}`, title: meaning.name,
         intro: [...meaning.life ? [meaning.life] : [], `Brings ${meaning.skills?.length ? meaning.skills.map(s => Canon.skills[s]?.name ?? s).join(' and ').toLowerCase() : 'no skill'}`
-          + `${meaning.gear?.length ? `, carries ${meaning.gear.map(g => Canon.items[g]?.name ?? g).join(', ').toLowerCase()}` : ''}`
+          + `${meaning.gear?.length ? `, carries ${meaning.gear.map(g =>
+            items.definition(g)?.name ?? g).join(', ').toLowerCase()}` : ''}`
           + `${meaning.channel ? `, and knows someone who hears news ${CompanyChapters.heard[meaning.channel]}` : ''}.`],
         // Its coin as the purse is paid it, a coin for every ten of Orsino's gold (Canon.coins, as Overlays.coins).
         table: { head: ['Background', 'Qualities', 'Coin', 'For', 'Brings', 'Status'],
           rows: ids.map(id => { const b = Canon.backgrounds[id]!; return [b.name, HandbookText.attributes(b.attributes),
             String(Canon.coins(b.gold)),
             b.requiredClass ? Canon.classes[b.requiredClass]?.name ?? b.requiredClass : 'anyone',
-            [...(b.skills ?? []).map(s => Canon.skills[s]?.name ?? s), ...(b.gear ?? []).map(g => Canon.items[g]?.name ?? g)].join(', ') || '—',
+            [...(b.skills ?? []).map(s => Canon.skills[s]?.name ?? s),
+              ...(b.gear ?? []).map(g => items.definition(g)?.name ?? g)].join(', ') || '—',
             HandbookStatus.label(HandbookStatus.of(b))]; }),
           ids: ids.map(id => `background:${id}`), statuses: ids.map(id => HandbookStatus.of(Canon.backgrounds[id]!)) } };
     });
@@ -133,26 +136,29 @@ export class CompanyChapters {
   }
   // The skills, and apart from them the means a company holds (a light, an oath given it), which open ways as a skill
   // does but are not learned.
-  static skills(): Section {
-    const entries = Object.entries(Canon.skills).filter(([, s]) => !s.means).map(([id, s]): Entry => this.skill(id, s));
-    const means = Object.entries(Canon.skills).filter(([, s]) => s.means).map(([id, s]): Entry => this.skill(id, s));
+  static skills(items: CanonItemReader): Section {
+    const entries = Object.entries(Canon.skills).filter(([, s]) => !s.means)
+      .map(([id, s]): Entry => this.skill(id, s, items));
+    const means = Object.entries(Canon.skills).filter(([, s]) => s.means)
+      .map(([id, s]): Entry => this.skill(id, s, items));
     return { id: 'skills', title: 'Skills', intro: ['Kyr does not roll for a skill. A company either has someone who '
       + 'brings it, and can do what needs it, or does not. The way that needs it says so. Searching is the exception: the '
       + 'company\'s best searcher takes 10 on Orsino\'s check (Wisdom modifier and search bonuses, against 15).'], entries,
     sections: [{ id: 'means', title: 'Means held', intro: ['What a company has to hand, or has been given to say, opens a '
       + 'way as a skill does, but is not learned: carried, lit, or spoken while it is held.'], entries: means }] };
   }
-  private static skill(id: string, s: Skill): Entry {
+  private static skill(id: string, s: Skill, catalog: CanonItemReader): Entry {
+    const allItems = catalog.ids.map(kind => catalog.definition(kind)!);
     const from = [...Object.entries(Canon.classes).filter(([, c]) => c.skills?.includes(id)).map(([, c]) => c.name),
       ...Object.entries(Canon.backgroundKinds).filter(([, k]) => k.skills?.includes(id)).map(([, k]) => `${k.name} backgrounds`),
-      ...Object.values(Canon.items).filter(i => i.grants?.skill === id || i.aids?.includes(id)).map(i => i.name)];
-    const tools = Object.values(Canon.items).filter(i => i.tool?.includes(id)).map(i => i.name);
+      ...allItems.filter(i => i.grants?.skill === id || i.aids?.includes(id)).map(i => i.name)];
+    const tools = allItems.filter(i => i.tool?.includes(id)).map(i => i.name);
     return { id: `skill:${id}`, title: s.name, status: HandbookStatus.of(s), rules: [s.description],
       facts: [...from.length ? [['Brought by', from.join(', ')] as [string, string]] : [],
         ...tools.length ? [['Tools of the trade', tools.join(', ')] as [string, string]] : []] };
   }
-  static equipment(): Section {
-    const items = Object.entries(Canon.items);
+  static equipment(catalog: CanonItemReader): Section {
+    const items = catalog.ids.map(id => [id, catalog.definition(id)!] as const);
     const weapons = items.filter(([, i]) => i.weapon && !i.weapon.natural)
       .sort(([, a], [, b]) => a.name.localeCompare(b.name));
     const armor = items.filter(([, i]) => i.armor);
@@ -183,7 +189,7 @@ export class CompanyChapters {
     return skills.map(k => Canon.skills[k]?.name.toLowerCase() ?? k).join(' and ');
   }
   // The stones, each by its plate: what one of its rank is worth, which a stone found is by its cut, size and clarity.
-  private static stones(stones: [string, ItemKind][]): Section {
+  private static stones(stones: readonly (readonly [string, ItemKind])[]): Section {
     return { id: 'stones', title: 'Stones', intro: ['A stone found is cut or rough, of a size, and clear or clouded: '
       + 'a huge flawless one is worth three times one of middling size and good water, a tiny clouded one a quarter.'],
     entries: stones.map(([id, i]): Entry => ({ id: `item:${id}`, title: i.name, status: HandbookStatus.of(i),

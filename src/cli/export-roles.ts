@@ -4,8 +4,8 @@ import { KyrLint, type Finding } from './kyr-lint';
 import { ModuleBundle, type BundleManifest } from '../campaign/module-bundle';
 import { ModuleExports, type ExportReading } from '../campaign/module-exports';
 import { NodeBundleSource } from '../campaign/node-bundle-source';
-import { LocalKinds } from '../canon/local-catalog';
 import { ModuleCanon } from '../campaign/module-canon';
+import { CanonVocabulary } from '../canon/canon-vocabulary';
 import type { Module } from '../lang/module';
 import type { ModuleDraft } from '../campaign/module-namespace';
 
@@ -22,8 +22,9 @@ export class ExportRoles {
   // The kinds of the canon (data/imbar), which every module of a world is read among, as it is installed first.
   private static canon?: Promise<Module['catalog']>;
   private static kinds(): Promise<Module['catalog']> {
-    LocalKinds.reset();
-    this.canon ??= ModuleBundle.load(ModuleCanon.request(NodeBundleSource.shared), { seed: 'exports', unbound: true },
+    const vocabulary = CanonVocabulary.context();
+    this.canon ??= ModuleBundle.load(ModuleCanon.request(NodeBundleSource.shared),
+      { seed: 'exports', unbound: true, vocabulary },
       NodeBundleSource.shared).then(d => d.instance.module.catalog);
     return this.canon;
   }
@@ -38,10 +39,11 @@ export class ExportRoles {
   static async draft(path: string): Promise<ModuleDraft | { error: string }> {
     const module = path.startsWith(KyrLint.root) ? path.slice(KyrLint.root.length + 1) : path;
     const id = basename(dirname(path)).replace(/[^A-Za-z0-9-]/g, '-').replace(/^[^A-Za-z]/, 'm');
-    const kinds = await this.kinds();
-    LocalKinds.reset(); LocalKinds.install(kinds);
+    const kinds = await this.kinds(), vocabulary = CanonVocabulary.context();
+    vocabulary.install(kinds);
     try {
-      return await ModuleBundle.load({ id, bundle: module }, { seed: 'exports', unbound: true }, NodeBundleSource.shared);
+      return await ModuleBundle.load({ id, bundle: module }, { seed: 'exports', unbound: true, vocabulary },
+        NodeBundleSource.shared);
     } catch (e) {
       return { error: (e instanceof Error ? e.message : String(e)).split('\n')[0]! };
     }

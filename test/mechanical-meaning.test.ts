@@ -5,7 +5,6 @@ import { AbilityUse } from '../src/ability-use';
 import { Effects } from '../src/effects';
 import { Expressions } from '../src/expressions';
 import type { CombatEvent } from '../src/model';
-import { LocalKinds } from '../src/canon/local-catalog';
 
 // What a technique says is what it does (the architecture review's A5 and A15, from its probes): a cure lifts what
 // it names, by what the condition is and not its name alone; a stance that ends on answering a blow ends; a stun laid
@@ -82,7 +81,6 @@ describe('what a technique says', () => {
   }, 120000);
   it('one foe of several getting away leaves the fight alone', () => {
     // The kinds a campaign run before in this process declared are its own, not these wolves' (the review's H7).
-    LocalKinds.reset();
     // One of three wolves turned to flight (Orsino's fleeing: gone when the next round begins); a creature out of its
     // wits no longer happens into getting away.
     let fled = 0;
