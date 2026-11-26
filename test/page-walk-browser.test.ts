@@ -14,8 +14,8 @@ import type { MonoDriver } from './support/mono-driver';
 // own row; the Black Rhyne searched where the page draws Search; a walk about the town, held (the travel rows of
 // T8-T9 and T75); and Porthalen left by the map, its own row held. None of it by the page's automation.
 // A new life on Iscoed begins under the fall in the old adit (StockOpenings): out of it first, by a player's controls
-// as the rest is, a light made, past the badger's warning and under the fallen prop, and down to the green, where the
-// drove road's walk begins. The adit's own incidents are test/features/world/under-the-fall.pin's.
+// as the rest is, a light made, the badger fought (it stands between the company and the prop), under the fallen
+// prop, and down to the green, where the drove road's walk begins. The adit's own incidents are test/features/world/under-the-fall.pin's.
 // The prop is lifted from its own drawer, opened by its likeness (pressing the likeness alone had left it down, and
 // the drift's mouth beyond it pressed with the drawer open: the driver's fallback).
 // In the dark of the fall no way on is open: the compass's mark is shut, and M brings up no empty lens (OR-211).
@@ -26,12 +26,15 @@ const inTheDark = async (page: Page, d: MonoDriver) => {
   expect((await d.inspect()).place?.id).toMatch(/adit_fall$/);
 };
 const outOfTheAdit = async (d: MonoDriver) => {
-  for (const words of [/light a (torch|candle)/i, /^To the old gallery/, /^the fallen prop$/, /^Heave up alone/,
-    /^Up to the old drift/, /^To the landing at Porthalen/]) {
+  for (const words of [/light a (torch|candle)/i, /^To the old gallery/, /^To the old drift$/, /^Attack$/,
+    /^the fallen prop$/, /^Heave up alone/, /^Up to the old drift/, /^To the landing at Porthalen/]) {
     const s = await d.inspect();
     const row = [...s.choices, ...s.sections.flatMap(x => x.choices)].find(c => words.test(c.label));
     expect([String(words), row?.id]).toEqual([String(words), expect.any(String)]);
     expect(await d.act(row!.id)).not.toBe('fallback');
+    // The badger stands between the company and the prop until the bout with it is over (under-the-fall.pin, since
+    // OR-461 to OR-464): fought by the page's own fight, as a player fights it.
+    if (String(words) === String(/^Attack$/)) { await d.fight(); }
   }
   expect((await d.inspect()).place?.id).toBe('region__s1_green');
 };

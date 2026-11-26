@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 597 live rows, 205 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 70 capabilities; 186 pins (154 met, 1 missing, 31 unwritten; 54 experience pins in 6 families); 598 live rows, 206 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -112,7 +112,7 @@ page's colours and opportunities.)
 
 ### Travel
 
-- **Journeys over known ways** · 8 pins · 8 defects · 12 asks
+- **Journeys over known ways** · 8 pins · 9 defects · 12 asks
   - ○ the land is revealed as a journey crosses it, hex by hex, not after it
   - ○ exploring a region is an act of its own, rolled on the region's table of finds
   - ○ crossing into a new hex draws from what that hex may hold
@@ -748,6 +748,8 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - NP-19 (Narration), NP-18 (Narration), PL-29 (Companions and hirelings), T24-09 (Fights that cost), OR-195 (Fights that cost), GR-23 (Aims and the gold thread), CO-19 (Narration), CP-15 (The Atlas: marks and their witnesses), GR-21 (Aims and the gold thread), CL-50 (Dungeons and sites)
 - **AP-03** P1: Facets inferred from what Kyr does (the owner, 24 November: never indicators authors decorate acts with): an act whose effects give the company something to… · blocks 8 (6 P0/P1) over 7 capabilities
   - OR-140 (Rows, lenses and the frame), CL-31 (Dungeons and sites), AP-07 (The Atlas: marks and their witnesses), BO-07 (Conversation held to its focus), R11-02 (Conversation held to its focus), BO-11 (Days, hours and waiting), PL-31 (Spellcasting), AP-11 (What an act would teach)
+- **OR-741** P2: The knowledge door as a capability boundary (the fifth review's step 6), slice by slice: the door is declarative (ScreenModel takes the campaign and hands it… · blocks 5 (0 P0/P1) over 4 capabilities
+  - OR-774 (Journeys over known ways), OR-533 (News and rumour), AP-13 (The Atlas: marks and their witnesses), R7-04 (Journeys over known ways), NM-07 (Wayfinding and bearings)
 - **AX-05** P1: The screen costs more than the turn at full scale (63 % of 0.5 s), and `EngineHost.travel` builds a full screen per leg of a journey · **Partly (the lead, 15… · blocks 5 (2 P0/P1) over 5 capabilities
   - OR-145 (Rows, lenses and the frame), OR-182 (Accessibility and readability), AR-15 (Architecture and layers), OA-06 (Journeys over known ways), PL-04 (Fights that cost)
 - **AX-04** P1: A new world, which is what a player gets, starts in about 10 s warm, 4.2 s of it re-parsing the 1.7 MB of Kyr the generators just wrote: generate to the AST,… · blocks 4 (4 P0/P1) over 2 capabilities
@@ -758,8 +760,6 @@ Rows that, done, would retire many at once (register-kinds.json's blockedBy), by
   - OR-454 (Paintings by terrain, subject, season, weather and light), OA-14 (Paintings and portraits), CP-04 (Paintings and portraits), OR-46 (Paintings and portraits)
 - **OR-521** P2: An ordinary turn's time a quarter unattributed (36 ms, above the whole 30 ms target), and a journey leg builds a full frame (some 14 times its 5 ms target):… · blocks 4 (0 P0/P1) over 3 capabilities
   - OR-532 (Aims and the gold thread), TB-12 (Playing in the terminal), GR-09 (Aims and the gold thread), OR-219 (Architecture and layers)
-- **OR-741** P2: The knowledge door as a capability boundary (the fifth review's step 6), slice by slice: the door is declarative (ScreenModel takes the campaign and hands it… · blocks 4 (0 P0/P1) over 4 capabilities
-  - OR-533 (News and rumour), AP-13 (The Atlas: marks and their witnesses), R7-04 (Journeys over known ways), NM-07 (Wayfinding and bearings)
 - **BX-02** P1: The shared rules cannot be taken in part: a world of its own must install the whole standard set (data/rules: core, passages, people, needs, services,… · blocks 1 (1 P0/P1) over 1 capabilities
   - OR-407 (Testing instruments)
 - **OR-451** P2: Canonical cities as stable anchors (gamma G2): Aline, Marith, Dun Rìerdan, Garzab, Ydgn, the Lizardfolk name, rendered Andayeen by Northerners (the owner, 24… · blocks 1 (0 P0/P1) over 1 capabilities
