@@ -40,10 +40,10 @@ export class Quality {
   // p95, one of the walk's three slowest turns, acts or legs, which one pause moves (1.27 to 1.38 locally, CI's p90s
   // 1.52 and 1.58).
   static readonly slack: Partial<Record<Measure, number>> = { start: 1.75, leg: 2, still95: 2, decision95: 2,
-    leg95: 2 };
+    leg95: 2, page: 2, page95: 2 };
   static readonly slackOf = 1.5;
   static readonly walked: Walked[] = ['start', 'first', 'turn', 'still', 'still95', 'decision', 'decision95', 'leg',
-    'leg95', 'heap'];
+    'leg95', 'page', 'page95', 'heap'];
   static readonly timed = new Set<Measure>([...this.walked, 'ci']);
   // What a run prints its readings after, for --from to find in its log.
   static readonly said = 'quality readings: ';
@@ -53,7 +53,8 @@ export class Quality {
     still95: 'p95 turn setting out on no journey (headless ms)',
     decision: 'Median decision, act and legal actions (headless ms)',
     decision95: 'p95 decision, act and legal actions (headless ms)', leg: 'Median journey leg (headless ms)',
-    leg95: 'p95 journey leg (headless ms)', heap: 'Heap kept a turn, warrior walk (KB)',
+    leg95: 'p95 journey leg (headless ms)', page: 'Median journey leg, the page\'s host (headless ms)',
+    page95: 'p95 journey leg, the page\'s host (headless ms)', heap: 'Heap kept a turn, warrior walk (KB)',
     breaches: 'Continuity census breaches', ci: 'Main CI on a push (minutes)' };
 
   static slice(): Reading {

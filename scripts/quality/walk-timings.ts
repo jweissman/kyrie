@@ -6,10 +6,14 @@ import { Runner } from '../../src/cli/runner';
 import { Travel } from '../../src/session/travel';
 import { AsMeant } from '../../test/support/as-meant';
 import { GoldenWalk } from '../../test/support/golden-walk';
+import { Heard } from '../../test/support/heard';
+import { EngineHost } from '../../web/engine/engine-host';
+import type { Frame, Message } from '../../src/creation/protocol';
+import type { PlaySession } from '../../src/session/play-session';
 
 export interface Reading { value: number | null; note: string }
 export type Walked = 'start' | 'first' | 'turn' | 'still' | 'still95' | 'decision' | 'decision95' | 'leg' | 'leg95'
-  | 'heap';
+  | 'page' | 'page95' | 'heap';
 // What one turn of the walk took: whole, its decision (the engine's act and the legal actions after it, Costs' act and
 // legal), and the journey's legs within it (each Travel.step whole, as the page takes a leg).
 type Stepped = Record<'step', (...a: unknown[]) => Promise<unknown>>;
@@ -25,6 +29,10 @@ interface Turn { ms: number; act?: { n: number; ms: number }; legs: number[] }
 //   decision:   the engine's act and what the company may do after it, on a turn of one act, median and p95: 15 ms
 //   leg:        one leg of a journey, whole (Travel.step: the frame read, the way taken, whether to stop), median and
 //               p95: 5 ms (BRIEF.md §4)
+//   page:       one leg of a journey as the page's host takes it (EngineHost.leg: the way taken, told by its receipt
+//               where it can be, else its frame built), median and p95, over the first journeys of a warrior on kite
+//               told of every town (as test/journey-receipt sets out): the runner's leg above is not the page's
+//               (OR-1361, whose double observe the runner never paid; OR-1435)
 //   heap:       what a turn keeps, in KB (the heap after the last turn less the heap after the first, each collected)
 export class WalkTimings {
   private static legs: number[] = [];
@@ -44,7 +52,7 @@ export class WalkTimings {
     } finally { step.restore(); }
     held.push(this.heap());
     return { ...this.started(begun, turns), ...this.turned(turns), ...this.decided(turns), ...this.legged(turns),
-      heap: this.kept(held, turns.length) };
+      heap: this.kept(held, turns.length), ...await this.hosted() };
   }
   private static async turn(r: Runner, line: string): Promise<Turn> {
     const t = performance.now(), mark = Costs.mark(), from = this.legs.length;
@@ -75,6 +83,32 @@ export class WalkTimings {
     return { leg: { value: this.tenth(this.at(legs, 0.5)), note: `over ${legs.length} legs of ${journeys.length} journeys, target 5` },
       leg95: { value: this.tenth(this.at(legs, 0.95)), note: `the slowest ${this.tenth(legs.at(-1) ?? 0)} ms` } };
   }
+  // The page's legs: a new life on kite told of every town, set out on its first journeys from where the map offers,
+  // each EngineHost leg timed whole (a fight on the way pressed through by the company's tactics, as the page can).
+  static readonly journeys = 6;
+  private static async hosted(): Promise<Pick<Record<Walked, Reading>, 'page' | 'page95'>> {
+    const legs: number[] = [], host = new EngineHost(this.pressing.bind(this));
+    this.host = host;
+    let frame = await host.handle({ kind: 'begin', campaign: 'world', seed: 'kite', origin: 'wanderer',
+      party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] }) as Frame;
+    Heard.towns((host as unknown as { session: PlaySession }).session.campaign);
+    const h = host as unknown as Record<'leg', (...a: unknown[]) => Promise<unknown>>, leg = h.leg.bind(host);
+    h.leg = this.into.bind(this, legs, leg);
+    for (let n = 0; n < this.journeys && frame.screen.running; n++) {
+      const offered = [...frame.screen.roads ?? [], ...frame.screen.destinations ?? [], ...frame.screen.mapped ?? []];
+      const to = frame.bound?.id ?? offered[(n * 11) % Math.max(1, offered.length)]?.id;
+      if (!to) { break; }
+      frame = await host.handle({ kind: 'travel', destination: to }) as Frame;
+    }
+    const sorted = this.sorted(legs);
+    return { page: { value: this.tenth(this.at(sorted, 0.5)), note: `over ${legs.length} of the page's legs` },
+      page95: { value: this.tenth(this.at(sorted, 0.95)), note: `the slowest ${this.tenth(sorted.at(-1) ?? 0)} ms` } };
+  }
+  private static host?: EngineHost;
+  private static pressing(m: Message): void {
+    if (m.kind === 'frame' && m.frame.combat) { setTimeout(this.through.bind(this), 0); }
+  }
+  private static through(): void { void this.host?.handle({ kind: 'fight', through: true }); }
   private static kept(held: number[], turns: number): Reading {
     return { value: Math.round((held[1]! - held[0]!) / 1024 / Math.max(1, turns - 1)),
       note: `${Math.round(held[0]! / 1048576)} → ${Math.round(held[1]! / 1048576)} MB over ${turns - 1} turns, `
@@ -101,8 +135,12 @@ export class WalkTimings {
   }
   private static restore(t: Stepped, step: Stepped['step']): void { t.step = step; }
   private static async step(step: (...a: unknown[]) => Promise<unknown>, ...a: unknown[]): Promise<unknown> {
+    return this.into(this.legs, step, ...a);
+  }
+  private static async into(legs: number[], step: (...a: unknown[]) => Promise<unknown>, ...a: unknown[]):
+    Promise<unknown> {
     const t = performance.now();
-    try { return await step(...a); } finally { this.legs.push(performance.now() - t); }
+    try { return await step(...a); } finally { legs.push(performance.now() - t); }
   }
   static sorted(xs: number[]): number[] { return [...xs].sort((a, b) => a - b); }
   // A quantile of sorted readings (the nearest below it); none read is none.
