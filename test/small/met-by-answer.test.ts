@@ -15,7 +15,7 @@ const yard = `
   Goal false.`;
 describe('someone met by an answer', () => {
   it('is spoken to as someone already met', async () => {
-    const t = await Tiny.start(yard);
+    const t = await Tiny.start(yard, { horizon: [] });
     await t.perform('t__job_ask');
     await t.perform('talk_to(t__gek)');
     // A proud one met before (address.again.proud), not "I don't know you" (address.first.proud.2).

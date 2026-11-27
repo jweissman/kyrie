@@ -14,7 +14,7 @@ const bank = `
   Objective find when true toward vault "Find what lies behind {vault}.".`;
 describe('an aim toward a place not yet named', () => {
   it('names it nowhere until it is learned, and then by its name', async () => {
-    const t = await Tiny.start(bank, { party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
+    const t = await Tiny.start(bank, { horizon: [], party: [{ name: 'Aud', raceId: 'human', classId: 'warrior' }] });
     const shown = () => JSON.stringify([ScreenModel.build(t.campaign), t.leaf]);
     const aim = () => (ScreenModel.build(t.campaign).aims ?? []).find(a => a.id === 't__find')!;
     expect(aim()).toMatchObject({ text: 'Find what lies behind a low door in the bank.', places: ['t__vault'] });

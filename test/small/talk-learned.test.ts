@@ -19,7 +19,7 @@ const mill = `
 
 describe('what a talk teaches', () => {
   it('is told as learned by the exchange\'s own word for it', async () => {
-    const t = await Tiny.start(mill);
+    const t = await Tiny.start(mill, { horizon: [] });
     await t.perform(t.journey.choices().find(c => /^Ask Tam why the wheel stopped/.test(c.label))!.command);
     const exchange = t.leaf.exchange!;
     expect(exchange.noted?.filter(n => n.kind === 'learned').length).toBe(1);

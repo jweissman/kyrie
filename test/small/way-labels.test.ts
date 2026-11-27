@@ -20,7 +20,7 @@ const town = `
 describe('a way out, by its name', () => {
   it('is not told twice where its name says where it goes, and says where it goes where it does not', async () => {
     // As the terminal and every client name the act (the page's own short label is "To …").
-    const t = await Tiny.start(town);
+    const t = await Tiny.start(town, { horizon: [] });
     const labels = PlayerView.choices(t.campaign).map(r => r.choice.name).filter(l => /road/.test(l));
     expect(labels).toContainEqual(expect.stringMatching(/the road to the Lull$/));
     expect(labels.join(' | ')).not.toMatch(/to the Lull to /);
@@ -37,7 +37,7 @@ describe('a way out, by its name', () => {
       Passage off "the road, half an hour out of Reave" is road between square and fields taking 30 minutes.
       Passage off2 "the road, two hours out of Reave" is road between square and far taking 2 hours.
       Company party "You" of 1 at square.
-      Goal false.`);
+      Goal false.`, { horizon: [] });
     const said = PlayerView.choices(t.campaign).map(r => r.choice.name).filter(l => /fields/.test(l));
     expect(said).toContain('Take the road, half an hour out, to open fields south of Reave');
     const page = ChoiceList.ways(ScreenModel.build(t.campaign).exits).choices.map(c => c.label);

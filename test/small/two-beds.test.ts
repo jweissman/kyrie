@@ -27,12 +27,12 @@ const rows = async (t: Tiny): Promise<string[]> => {
 };
 describe('a host with a free bed beside a let one', () => {
   it('is drawn, with each bed to take and the work for the keep offered once', async () => {
-    const offered = await rows(await Tiny.start(shrine(true)));
+    const offered = await rows(await Tiny.start(shrine(true), { horizon: ['services'] }));
     expect(offered.filter(l => /^Take .* from Branwen/.test(l)).length, offered.join(" | ")).toBe(2);
     expect(offered.filter(l => l === 'Work for Branwen for your keep').length).toBe(1);
   });
   it('offers the work for the keep where the bed is only let', async () => {
-    const offered = await rows(await Tiny.start(shrine(false)));
+    const offered = await rows(await Tiny.start(shrine(false), { horizon: ['services'] }));
     expect(offered.filter(l => l === 'Work for Branwen for your keep').length, offered.join(' | ')).toBe(1);
   });
 });

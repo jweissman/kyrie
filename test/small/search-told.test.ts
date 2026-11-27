@@ -17,7 +17,7 @@ const hall = `
   Goal false.`;
 describe('a search', () => {
   it('says it found nothing where nothing is put away, and tells what it finds where something is', async () => {
-    const t = await Tiny.start(hall);
+    const t = await Tiny.start(hall, { horizon: [] });
     expect((await t.session.leg('search(party,t__hall)')).response).toBe(
       'With care, a little at a time, you search the cloth-hall. Nothing is hidden here but what you can already see.');
     await t.play('To the back store');

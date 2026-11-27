@@ -18,7 +18,7 @@ const knows = (t: Tiny) => t.world.related('knowsRecipe').length > 0;
 
 describe('an alchemist', () => {
   it('cannot make a secret recipe until an experiment has found it, then makes it from what it takes', async () => {
-    const t = await Tiny.start(yard);
+    const t = await Tiny.start(yard, { horizon: ['making'] });
     await t.perform(command(t, /^t__pick/)!);
     expect(command(t, /^make_plain\(/)).toBeUndefined();
     expect(command(t, /^experiment\(/)).toBeDefined();
