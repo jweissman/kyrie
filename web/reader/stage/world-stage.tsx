@@ -65,12 +65,14 @@ export class WorldStage {
         + `${stopped ? ' interrupted' : ''}${threat ? ' threatened' : ''}${!overworld && SceneRail.talking(app) ? ' talking' : ''}`
         + `${resting && Folded.open(app) ? ' lenses-up' : ''}`}
         id="page">
-        {!panel && <header ref={bar} className="world-bar" {...PageFrame.slot('header')}><div className="title-block"><Told.Heading frame={frame} app={app} /></div></header>}
+        {/* The sky sense under the place's head, in its flow (nothing floats over text): the painting's side on a wide
+            screen, the head's own line on a phone. */}
+        {!panel && <header ref={bar} className="world-bar" {...PageFrame.slot('header')}><div className="title-block"><Told.Heading frame={frame} app={app} />
+          {resting && <SkySense.View instruments={frame.leaf.instruments} />}</div></header>}
         <div className="world-body">
           <section className="surface" aria-label="Where you are" {...PageFrame.slot('background')}>
             {overworld ? <WorldStage.Board app={app} screen={screen} chosen={focus} choose={pick} />
               : <><SceneSurface.View screen={screen} />
-                {resting && <SkySense.View instruments={frame.leaf.instruments} />}
                 {frame.leaf.glance && SceneRail.talking(app) && <WorldStage.Portraits app={app} draw={draw} />}
                 </>}
           </section>
