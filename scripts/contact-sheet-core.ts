@@ -30,6 +30,10 @@ export class SheetCore {
     await cam.step('resting-more', 'The same place, Something else…: the next four of its rows, one menu', async () => {
       await d.click(PlacePages.more);
     });
+    await cam.step('character', 'Your character: the backstage, one page (OR-1492)', async () => {
+      await d.click('[data-choice="view:company"]');
+    });
+    await page.keyboard.press('Escape'); await d.settle();
     await cam.step('conversation', 'A conversation: Bask the salter, asked what the matter is', async () => {
       // Talked to by her row, on whichever of the place's pages holds it (OR-1490: no lens, one menu).
       const bask = '.glance ol.led [data-act="region__s2_merchant#talk"]';
