@@ -225,7 +225,7 @@ common calls, arguments, action uses and type signatures, but it does not yet in
 imports are absent. Catalog and language names are represented as external binding statuses, not declaration
 identities with their own provenance. Places share the entity namespace, and topics share the act namespace. Generated
 values have generator/construct provenance but no authored line; declarations produced later by module-wide lowering
-are marked unplaced. Consequently OR-700 remains open. OR-1340 tracks exact reference spans; OR-1341 tracks the
+are marked unplaced. Consequently OR-700 remains open. OR-1370 tracks exact reference spans; OR-1371 tracks the
 complete reference inventory and external/import identities. The remaining limitation is explicit rather than
 silently treated as a successful binding.
 
