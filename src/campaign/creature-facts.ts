@@ -7,7 +7,7 @@ import { Fighting } from '../rules/fighting';
 import { Creation } from '../rules/creation';
 import { Content } from '../content';
 import { FieldUse } from './field-use';
-import { CreatureStore } from '../creature-store';
+import type { CreatureStore } from '../creature-store';
 import { Effects } from '../effects';
 import { ModuleWriter } from '../lang/module-writer';
 import { Burden } from '../rules/burden';

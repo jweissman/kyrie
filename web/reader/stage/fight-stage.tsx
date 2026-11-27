@@ -67,6 +67,8 @@ export class FightStage {
               className={`began reckoning ${combat.standing.danger}`} data-region="reckoning">{Typography.curl(combat.standing.text)}</p>}
             {combat.moment && <p className="moment">{Typography.curl([combat.reckoned ?? '', combat.moment === 'seen'
               ? 'It has not reached you yet.' : 'It is on you, but not yet round you.'].filter(Boolean).join(' '))}</p>}
+            {/* What the company's skills tell of the kinds it faces, at the fight's start (OR-1432). */}
+            {first && combat.known?.map((l, i) => <p key={`k${i}`} className="known">{Typography.curl(l)}</p>)}
             {earlier.map(e => <div key={e.n} className="what earlier"><FightLog.Line exchange={e} /></div>)}
             {/* What just happened in prose, and how it fell (the rolls) one deliberate, keyboard- and reader-reachable
                 disclosure away, not in a hover and not an act (the owner, 16 November). */}

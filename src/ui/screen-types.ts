@@ -367,6 +367,8 @@ export interface CombatScreen {
   // How dangerous the fight is reckoned now, whichever way it is said (standing, or reckoned at its moment): what the
   // hand offers beside the blow reads it (OR-1391).
   danger?: Danger;
+  // In the fight's first round, what the company's skills tell of the kinds it faces: each a line (FoeLore, OR-1432).
+  known?: string[];
   // How the fight stands as the company reckons it now, every round it is not over (the owner, 6 November: a plain
   // danger line, not a ledger to read the odds from).
   standing?: { danger: Danger; text: string };

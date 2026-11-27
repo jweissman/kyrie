@@ -3456,6 +3456,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "a use of the rules the owner asks for, wanted: not a broken contract"
+  },
+  "OR-1433": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the economy review of 27 November, split from OR-1432"
   }
  },
  "blockedBy": {

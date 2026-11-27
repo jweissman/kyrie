@@ -1,7 +1,7 @@
 import type { Creature, ItemInstance } from '../creature';
 import { Canon } from '../canon/canon';
 import { Overlays } from '../overlays';
-import { ItemCatalog } from '../item-catalog';
+import type { ItemCatalog } from '../item-catalog';
 
 // Where a thing is kept, for the pack to part what is worn or in hand from the supplies a journey uses up and from
 // everything else carried (the owner, 9 November: everything carried and worn shown alike); and, for what was packed

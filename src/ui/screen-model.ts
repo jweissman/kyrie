@@ -12,7 +12,7 @@ import { Portraits } from './portraits'; import { Treasure } from './treasure'; 
 import { ConditionSense } from '../canon/condition-sense'; import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
 import { Illumination } from './illumination'; import { Standing } from './standing'; import { Patience } from './patience';
-import { ItemCatalog } from '../item-catalog'; import { ModuleWriter } from '../lang/module-writer';
+import type { ItemCatalog } from '../item-catalog'; import { ModuleWriter } from '../lang/module-writer';
 import { FictionalTime } from '../campaign/fictional-time'; import { CanonInstall } from '../campaign/canon-install';
 import { Calendar } from '../campaign/calendar'; import type { Entity } from '../lang/module';
 import { Earned } from '../lang/index';

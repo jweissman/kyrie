@@ -19,6 +19,7 @@ import { CombatTelling } from './combat-telling';
 import { Tactics } from '../tactics';
 import { Positions } from '../rules/positions';
 import { DangerSense } from '../presentation/danger-sense';
+import { FoeLore } from './foe-lore';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 import type { CombatantRow, CombatScreen } from './screen-types';
@@ -68,6 +69,7 @@ export class CombatModel {
       ...moment ? { moment: battle.opening, reckoned: moment.text } : {},
       ...(moment ?? standing) ? { danger: (moment ?? standing)!.danger } : {},
       ...standing ? { standing } : {},
+      ...this.lore(battle),
       // Who is still to act this round: not those who have fallen since it began (play 8's "then the second of the
       // risen dead", down).
       order: (state.order ?? []).filter((id, i) => !i || state.combatants.some(f => f.id === id && f.hp > 0))
@@ -78,6 +80,13 @@ export class CombatModel {
       round: battle.events.filter(e => e.type === 'initiative').length,
       exchanges: CombatTelling.exchanges(battle.events, state, said).map((t, n) => ({ n, ...t })),
     };
+  }
+  // In the fight's first round, what the company's skills tell of the kinds it faces (OR-1432: FoeLore).
+  private static lore(battle: Battle): Pick<CombatScreen, 'known'> {
+    if (battle.state.outcome || battle.events.filter(e => e.type === 'initiative').length > 1) { return {}; }
+    const known = FoeLore.told(battle.catalog, DangerSense.fighters(battle).ours,
+      battle.state.combatants.filter(f => f.team !== 'fighters' && f.hp > 0));
+    return known.length ? { known } : {};
   }
   // What the one acting knows and cannot use now, by its name, and why (see Unusable).
   private static unavailable(battle: Battle, actor: Fighter): Pick<CombatScreen, 'unavailable'> {

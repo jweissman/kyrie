@@ -16,8 +16,11 @@ export type Odds = 'sure' | 'likely' | 'even' | 'unlikely' | 'beyond';
 export class Checks {
   // The quality each skill rests on, as the catalog says (skills.json's `rests`), and keen eyes, which no one learns,
   // on wisdom. A new skill had been written in four shared places, one of them here (Wapshott's Circus, WPC-X03).
+  private static readonly skills = Canon.skills;
   static readonly qualities: Record<string, Attribute> = { perception: 'wisdom', ...Object.fromEntries(
-    Object.entries(Canon.skills).flatMap(([id, s]) => s.rests ? [[id, s.rests]] : [])) };
+    Object.entries(this.skills).flatMap(([id, s]) => s.rests ? [[id, s.rests]] : [])) };
+  // A skill's name, as the setting has it; none for one it does not have.
+  static named(id: string): string | undefined { return this.skills[id]?.name; }
   // How hard, as Kyr names it (Resolve check(actor, persuasion, dc_hard)): the number to meet or beat. Or as the world
   // measures it: a difficulty of a module's own is as hard as its toBeat, which its rules set from what they read (a
   // debt's size, a keeper's temper: OB-11), read by `measured` where it is made and where its odds are told.

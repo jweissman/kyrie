@@ -7,6 +7,13 @@ import variations from '../data/catalog/variations.json';
 import type { Fighter } from './model';
 import type { Effect } from './lang/parse';
 
+// What a kind is, as one who knows it would tell it (FoeLore, OR-1432): its type as it is met (one a variation makes of
+// the dead is of the dead), the harm it takes none of, takes half of, or is the worse for; whether every blow is halved
+// on it, or some of each turned (and by what not); and its mending, with what stops it.
+export interface KindTold {
+  type?: string; immune: string[]; halved: string[]; blows: boolean; worse: string[];
+  turned?: { amount: number | string; unless: string[] }; mends?: { stoppedBy: string[] };
+}
 // A blow as Effects.damage takes it: its amount and kind, what a critical added, and what its weapon carries.
 // triggers: false, its kind sets off none of the conditions it triggers (the SRD's harm: see Effect's).
 export interface Hit { amount: number; type: string; critical?: number; tags?: string[]; triggers?: false }
@@ -24,6 +31,23 @@ export class KindDefenses {
       return r ? [{ resistances: r }] : [];
     });
     return [...Object.keys(kind).length ? [{ resistances: kind }] : [], ...varied];
+  }
+  static told(fighter: Fighter): KindTold {
+    const fractions = Effects.modifiers(fighter).resistances ?? {}, defenses = this.of(fighter);
+    const physical = Content.rules.physicalDamage.filter(k => k !== 'physical');
+    const immune = defenses.flatMap(d => d.kind === 'immunity' ? d.to : []);
+    const halved = Object.entries(fractions).filter(([k, v]) => v >= 0.5 && k !== 'all' && !immune.includes(k))
+      .map(([k]) => k);
+    const blows = halved.includes('physical') || physical.every(k => halved.includes(k));
+    const turned = blows ? undefined : defenses.find(d => d.kind === 'reduction'
+      && (d.to ?? ['physical']).some(k => k === 'physical' || physical.includes(k)));
+    const mends = defenses.find(d => d.kind === 'regeneration');
+    const type = (fighter.variations ?? []).map(id => (variations.variations as Record<string, { type?: string }>)[id]
+      ?.type).find(Boolean);
+    return { ...type ? { type } : {}, immune, blows, halved: halved.filter(k => k !== 'physical' && !physical.includes(k)),
+      worse: Object.entries(fractions).filter(([k, v]) => v < 0 && k !== 'all').map(([k]) => k),
+      ...turned?.kind === 'reduction' ? { turned: { amount: turned.amount, unless: turned.unless ?? [] } } : {},
+      ...mends?.kind === 'regeneration' ? { mends: { stoppedBy: mends.stoppedBy ?? [] } } : {} };
   }
   // A harm's blow: its amount and kind, and whether its kind sets off what it triggers (see Effect's triggers).
   static blow(e: Extract<Effect, { kind: 'damage' | 'drain' }>, amount: number, otherwise = 'physical'): Hit {

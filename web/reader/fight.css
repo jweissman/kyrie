@@ -102,6 +102,8 @@
 .fight .beat .began { font-size: 18px; color: var(--ivory); }
 .fight .beat .moment { font: 500 14px/1.5 var(--do); color: var(--accent); padding: 10px 12px; border: 1px solid var(--accent-line);
   background: var(--accent-glow); }
+/* What a skill tells of the foe's kind, at the start: a quiet line of the telling, never a hue (OR-1432). */
+.fight .beat .known { margin: .5em 0 .8em; font: italic 400 15.5px/1.5 var(--told); color: var(--dim); }
 .fight .beat .what { font-size: 19px; line-height: 1.5; margin: 0 0 .6em; animation: arrive var(--settle) var(--ease) both; }
 .fight .beat .what p { margin: 0; }
 /* One line of its actor's: what they did, then what came of it, a breath apart; what anyone said of it, quieter, on
