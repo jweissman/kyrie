@@ -106,6 +106,29 @@ describe("The Pitch of the Glass", () => {
     expect(j.holds('fateTold', 'lintern')).toBe(true);
   }, 120000);
 
+  // Mended at integration (a placed world goes on after the ending): the Cut is a way on foot once the train is over,
+  // so a company on the far side can go back down the Stair, and the train waits where it was brought.
+  it('once the train is over, the Cut is walked back on foot, and the train waits on the far side', async () => {
+    const j = await start('wool', 'toTurns', 'toCairn');
+    expect(j.matches('To the Shelf').length).toBe(0);
+    await j.play('To the mouth of the Cut', 'Lead the train through the Cut');
+    await j.play('To the mouth of the Cut');
+    expect(j.at('party')).toBe('pitchpass__cut_mouth');
+    expect(j.at('crate')).toBe('pitchpass__ledge');
+    expect(j.matches('Lead the train through the Cut').length).toBe(0);
+    await j.play("To Lintern's cairn", 'To the Seven Turns');
+    expect(j.at('marta')).toBe('pitchpass__ledge');
+    await j.play("To Lintern's cairn", 'To the mouth of the Cut', 'To the Shelf', 'To the Cold Saddle');
+    expect(j.at('crate')).toBe('pitchpass__saddle');
+  }, 120000);
+
+  it('the talk that tells is kept: Lathe asked, the Shelf shows his place to a company that took nothing', async () => {
+    const j = await start('latheNo', 'wool', 'toTurns', 'toCairn');
+    expect(j.holds('knows', 'party', 'lathe_known')).toBe(true);
+    await j.play('To the mouth of the Cut', 'Lead the train through the Cut');
+    expect(j.seen()).toMatch(/Lathe would have meant/);
+  }, 120000);
+
   it('Lathe can be refused, and nothing is cut', async () => {
     const j = await start('latheNo', 'toTurns', 'toCairn');
     expect(j.holds('lathePaid', 'party')).toBe(false);

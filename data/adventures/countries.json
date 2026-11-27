@@ -1197,6 +1197,33 @@
    "heard": "West lies the Cleave, a gorge crossed by a road of spider-silk that nine great spiders keep, and the road is dead: they will not spin it again.",
    "skyline": "a black gorge in the high country, and a bridge across it of grey silk, hanging slack",
    "far": "a road of grey silk hangs slack across a black gorge, and great shapes sit still on the hub at its middle"
+  },
+  {
+   "id": "pitchpass",
+   "province": true,
+   "bundle": "pitchpass/placed.json",
+   "entry": "road",
+   "marker": "gnomon",
+   "side": "north",
+   "beside": [
+    "hills",
+    "forest",
+    "marsh",
+    "mountain",
+    "frost",
+    "desert"
+   ],
+   "covers": [
+    "fell",
+    "heath"
+   ],
+   "name": "the Organ Stair",
+   "topic": "Stairfoot under the Organ Stair, where a crate hums",
+   "terrain": "mountain",
+   "rumour": "'North, where the carriers' road gives up,' says {keeper}, 'there's a mule-yard at Stairfoot with a crate in it that hums. A mirror for the Star-Readers, they say, and Marta Vellacott wants hands to take it over the Cut.'",
+   "heard": "North, where the carriers' road ends, lies Stairfoot under the Organ Stair. A mule train waits there to carry a humming mirror over the Cut to the Star-Readers.",
+   "skyline": "a mountain road in seven pale zigzags, and near the top a crack in the rock that sounds when the wind is up",
+   "far": "a mule train waits to carry a humming mirror over a pass whose rock plays in the wind"
   }
  ]
 }

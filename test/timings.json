@@ -1482,6 +1482,8 @@
     "test/wetdrusilla.test.ts": 21000,
     "test/wetdrusilla-placed.test.ts": 17000,
     "test/overexall.test.ts": 11000,
-    "test/overexall-placed.test.ts": 17000
+    "test/overexall-placed.test.ts": 17000,
+    "test/pitchpass.test.ts": 27000,
+    "test/pitchpass-placed.test.ts": 20000
   }
 }
