@@ -3558,6 +3558,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1395's wanted routine (the review's threshold), not an observed failure of a claimed contract"
+  },
+  "OR-1400": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: these headless walk specs must control the terminal environment they assert"
   }
  },
  "blockedBy": {

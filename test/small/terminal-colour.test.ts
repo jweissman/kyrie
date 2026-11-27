@@ -4,6 +4,7 @@ import { Tiny } from '../support/tiny';
 import { TerminalWalk } from '../../src/cli/terminal-walk';
 import { WalkStyle } from '../../src/cli/walk-style';
 import { TerminalColour } from '../../src/cli/terminal-colour';
+import { noColor } from '../support/no-color';
 import { Emphasis } from '../../src/presentation/emphasis';
 import { Indicator } from '../../src/presentation/indicator';
 import { PlayerView } from '../../src/presentation/player-view';
@@ -51,7 +52,8 @@ describe('the terminal\'s colour', () => {
   });
   it('has no gold while nothing is followed, and gold on the one next step once the aim is', async () => {
     const t = await Tiny.start(yard);
-    const walked = await TerminalWalk.run(t.session, WalkStyle.scripted(['look', 'follow 1', 'look', 'wait']));
+    const walked = await noColor(() => TerminalWalk.run(t.session,
+      WalkStyle.scripted(['look', 'follow 1', 'look', 'wait'])));
     const [before, after] = walked.transcript.join('\n').split('> follow 1');
     expect(before).not.toContain('your aim');
     const gold = after!.split('\n').filter(l => /your aim/.test(l));
