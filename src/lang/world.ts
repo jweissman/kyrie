@@ -330,10 +330,15 @@ export class World {
   private change(change: Change, counts: Counts, displaced: Displaced) {
     const key = World.key(change.call);
     if (change.kind !== 'assert' && change.kind !== 'retract') { this.changeMeasure(change, key, counts); return; }
-    this.memoSnapshot = undefined;
-    this.stamps.set(change.call.name, ++World.writes);
     const relation = World.index(this.module).relations.get(change.call.name);
     if (!relation) { throw new Error(`Cannot write query or unknown relation ${change.call.name}`); }
+    // A fact written to what it already is (retracted where it does not hold, asserted where it does) writes nothing,
+    // and the relation keeps its stamp and its order, as a measure set to what it is does (OR-1360: the clock's
+    // dark(), written every watch, had woken every rule reading it each watch). An exclusive relation's assert is
+    // written whole, what it displaces within its list being the list's.
+    const held = this.byName.get(change.call.name)?.has(key) ?? false;
+    if (change.kind === 'retract' ? !held : held && !relation.exclusive) { return; }
+    this.memoSnapshot = undefined; this.stamps.set(change.call.name, ++World.writes);
     const named = this.named(change.call.name);
     RelationViews.forget(named);
     if (named.delete(key)) { this.sum(key, -1); this.count--; displaced.removed(change.call, key); }
