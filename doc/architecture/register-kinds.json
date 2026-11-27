@@ -3558,6 +3558,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1395's wanted routine (the review's threshold), not an observed failure of a claimed contract"
+  },
+  "OR-1500": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: an instrument the owner's playtest asked for (the first hour's wandering measured), not a failure of a claimed contract"
   }
  },
  "blockedBy": {
