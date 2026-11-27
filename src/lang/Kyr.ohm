@@ -1,6 +1,6 @@
 Kyr {
   Module = "Module" ident string "{" Declaration* "}"
-  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Route | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Chapter | Promise | Occasion | Situation | During | Milestone | Company | ItemDecl | HazardDecl
+  Declaration = Kind | LocalKind | LocalSpecies | Relation | Measure | Query | Verb | Entity | Initial | Goal | Action | Budget | Description | Observation | WorldRule | Pursuit | Route | Information | Person | Topic | Place | Exit | Passage | Thing | Event | Objective | Ending | Chapter | Promise | Occasion | Situation | During | Milestone | Company | ItemDecl | HazardDecl
   Place = "Place" ident string "is" ident PlaceParent? PlaceGrid? PlaceShelter? PlaceDepth? PlaceAlias? "."
   PlaceShelter = "outdoors" | "indoors" | "underground" | "elsewhere"
   PlaceDepth = integer "down"
@@ -240,6 +240,7 @@ Kyr {
   Measure = "Measure" ident "(" ListOf<ident, ","> ")" MeasureMost? "."
   MeasureMost = "at" "most" integer
   Query = "Query" ident "(" ListOf<Parameter, ","> ")" "means" Predicate "."
+  Verb = "Verb" ident "(" ListOf<Parameter, ","> ")" string "lowers" "to" Change "."
   Parameter = ident ":" ident
   Entity = "Entity" ident ":" ident string MemberBinding? "."
   MemberBinding = "bound" "to" ident

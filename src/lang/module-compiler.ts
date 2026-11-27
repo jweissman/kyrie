@@ -8,6 +8,10 @@ import { VocabularyContext } from './vocabulary';
 import { EngineOwned } from './engine-owned';
 import { Arithmetic } from './arithmetic';
 import { CheckedActions } from './checked-actions';
+import type { SiteSpan } from './declaration-sites';
+import { ModulePositions } from './module-positions';
+import { ModuleDiagnosticText } from './module-diagnostic-text';
+import { VerbDeclarations } from './verb-declarations';
 
 // Name lookups for one validation pass; validation reads every action, so linear scans make it quadratic.
 interface Lookup { types: Map<string, string>; relations: Signature[]; predicates: Signature[] }
@@ -18,6 +22,7 @@ export class ModuleCompiler {
     'reading', 'hearsay', 'sound', 'felt'];
   private lookup?: Lookup;
   private signatures = new WeakMap<Signature[], Map<string, Signature>>();
+  private positions?: ModulePositions;
   // joined: checking a world joined from modules each checked on its own already. An action's parameter named as
   // something another module brought into the world (the catalog's lamp, once a country gave someone one) is no
   // ambiguity there: in the action, its parameter is meant. The Strewnfield's fuel_lamp could not be installed into a
@@ -33,10 +38,11 @@ export class ModuleCompiler {
     this.lookup = { types: new Map(module.entities.map(e => [e.id, e.type])), relations: module.relations,
       predicates: [...module.relations, ...module.queries.map(q => ({ name: q.name,
         types: q.parameters.map(p => p.type), exclusive: false }))] };
+    this.positions = new ModulePositions(module);
     try {
       this.check(module);
       for (const goal of goals) { this.predicate(module, goal); }
-    } finally { this.lookup = undefined; this.signatures = new WeakMap(); }
+    } finally { this.lookup = undefined; this.signatures = new WeakMap(); this.positions = undefined; }
   }
   private check(module: Module) {
     Spatial.validate(module);
@@ -64,8 +70,9 @@ export class ModuleCompiler {
   }
   // Relations, measures and queries: well-typed, and no query defined in terms of itself.
   private signaturesOf(module: Module) {
-    for (const signature of [...module.relations, ...module.measures]) {
-      signature.types.forEach(type => this.kind(module, type));
+    for (const [index, signature] of [...module.relations, ...module.measures].entries()) {
+      signature.types.forEach((type, i) => this.kind(module, type,
+        index < module.relations.length ? this.positions?.type(index, i) : undefined));
       if (signature.exclusive && signature.types.length < 1) { throw new Error('Exclusive relation needs an argument'); }
     }
     for (const query of module.queries) {
@@ -75,6 +82,7 @@ export class ModuleCompiler {
       this.predicate(module, query.body, bindings);
       this.acyclic(module, query.name, []);
     }
+    VerbDeclarations.check(module, name => this.kind(module, name), (c, b) => this.change(module, c, b));
   }
   // What the world does on its own: people's pursuits, rules, and what is observed and wanted.
   private behaviours(module: Module) {
@@ -280,8 +288,8 @@ export class ModuleCompiler {
     this.noted?.push(`t ${id} ${type ?? ''}`);
     return type;
   }
-  private kind(module: Module, kind: string) {
-    if (kind !== 'entity' && !module.kinds.includes(kind)) { throw new Error(`Unknown kind ${kind}`); }
+  private kind(module: Module, kind: string, span?: SiteSpan) {
+    ModuleDiagnosticText.kind(module, kind, span);
     this.noted?.push(`k ${kind}`);
   }
   private index(signatures: Signature[]): Map<string, Signature> {
@@ -292,7 +300,9 @@ export class ModuleCompiler {
   private call(module: Module, call: Call, signatures: Signature[], bindings: Record<string, string> = {}) {
     const signature = this.index(signatures).get(call.name);
     if (!signature || signature.types.length !== call.args.length) {
-      throw new Error(`Unknown function or arity: ${World.format(call)}${signature ? `; it is ${this.shape(signature)}` : ''}`);
+      const shape = signature ? `; it is ${ModuleDiagnosticText.shape(signature)}` : '';
+      throw new Error(ModulePositions.message(this.positions?.call(call),
+        `Unknown function or arity: ${World.format(call)}${shape}`));
     }
     if (this.noted) {
       const label = (['p', 'r', 'm', 'c'] as const).find(l => this.list(module, l) === signatures);
@@ -310,27 +320,12 @@ export class ModuleCompiler {
         // refusal and it did not say so).
         const canon = !type && /(^|__)befell$/.test(call.name)
           ? `; a world event is read by listing ${arg} in the manifest's "canon"` : '';
-        throw new Error(`Invalid argument ${arg} in ${World.format(call)}${type ? signature.roles ? `; it is ${this.shape(signature)}` : ''
-          : this.unrun(arg, expected) ?? this.known(module, expected)}${canon}`);
+        const detail = type ? signature.roles ? `; it is ${ModuleDiagnosticText.shape(signature)}` : ''
+          : ModuleDiagnosticText.unrun(this.vocabulary, arg, expected) ?? ModuleDiagnosticText.known(module, expected);
+        const message = `Invalid argument ${arg} in ${World.format(call)}${detail}${canon}`;
+        throw new Error(ModulePositions.message(this.positions?.call(call, i), message));
       }
     });
-  }
-  // A relation as declared, with the part each argument plays where it names them (WPC-07).
-  private shape(s: Signature): string {
-    return `${s.name}(${s.types.map((t, i) => s.roles?.[i] ? `${s.roles[i]}: ${t}` : t).join(', ')})`;
-  }
-  // An ability of Orsino's that Kyr cannot run, said so with why, where it had been only an invalid argument (the Book
-  // of Faces' BOF-05: true_sight, an hour lost).
-  private unrun(arg: string, kind: string | undefined): string | undefined {
-    const ability = kind === 'ability' ? this.vocabulary.ability(arg) : undefined;
-    return ability?.unsupported ? `: ${ability.name} is Orsino's, and Kyr cannot run it (${Object.values(ability.unsupported)
-      .join(' ')})` : undefined;
-  }
-  // What there is of a kind, when there are few: an unknown manner says which the manners are (Fair Weather's 10,
-  // Behind the Wainscot's F12: refused with no line, and seven to guess).
-  private known(module: Module, kind: string | undefined): string {
-    const of = module.entities.filter(e => e.type === kind).map(e => e.name);
-    return of.length && of.length <= 12 ? `: no ${kind} of that name; the ${kind}s are ${of.join(', ')}` : '';
   }
   private predicate(module: Module, predicate: Predicate, bindings: Record<string, string> = {}) {
     switch (predicate.kind) {

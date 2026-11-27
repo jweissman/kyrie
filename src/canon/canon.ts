@@ -1,5 +1,6 @@
 import abilities from '../../data/catalog/abilities.json';
 import { Installed, type InstalledDomain } from '../ports/installed';
+import { FantasyVerbs } from './fantasy-verbs';
 import type { Change, Effect, World } from '../lang';
 import aliases from '../../data/catalog/aliases.json';
 import ancestries from '../../data/catalog/ancestries.json';
@@ -318,6 +319,11 @@ export class Canon {
   static lower(effects: readonly Effect[], at: { world: World; actor: string; target: string }): Change[] {
     const w = at.world, call = Canon.call;
     const changes = effects.flatMap(e => {
+      if (e.kind === 'learn') {
+        if (e.when || e.save) { throw new Error('Cannot forecast a conditional or resisted lesson without its resolution'); }
+        if (!w.relates('learned')) { throw new Error('The installed world does not declare learned(member, ability)'); }
+        return [this.lesson(e, at.target).call];
+      }
       if (e.kind === 'damage') {
         const element = this.elementOf(e.damageType);
         const verbs = element && w.relates('elementVerb') ? w.related('elementVerb').filter(r => r.args[0] === element)
@@ -336,6 +342,15 @@ export class Canon {
         .map(g => call('capable', at.actor, g));
     });
     return changes.map(c => ({ kind: 'assert' as const, call: c }));
+  }
+  static lesson(effect: Extract<Effect, { kind: 'learn' }>, member: string): Extract<Change, { kind: 'assert' }> {
+    const change = effect.lowering ?? { kind: 'assert' as const,
+      call: this.call('learned', effect.target, effect.ability) };
+    if (change.call.name !== 'learned' || change.call.args.length !== 2
+      || change.call.args[0] !== effect.target || change.call.args[1] !== effect.ability) {
+      throw new Error('A lesson must assert its target and ability in learned');
+    }
+    return { ...change, call: { ...change.call, args: [member, change.call.args[1]!] } };
   }
   private static call(this: void, name: string, ...args: string[]) { return { kind: 'call' as const, name, args }; }
   // An ability's effects by its id, as the runtime reads them (a sentence parsed: CanonRuntime), given by the
@@ -364,6 +379,6 @@ export const FantasyRules: InstalledDomain = Object.freeze({
   abilities: { ability: Canon.abilityOf.bind(Canon), all: Canon.allAbilities.bind(Canon) },
   traits: { one: Canon.traitOf.bind(Canon), table: Canon.traitTable.bind(Canon) },
   callings: { one: Canon.callingOf.bind(Canon), table: Canon.callingTable.bind(Canon) },
-  effects: { element: Canon.elementOf.bind(Canon), lower: Canon.lowerAbility.bind(Canon) },
+  effects: { element: Canon.elementOf.bind(Canon), lower: Canon.lowerAbility.bind(Canon), verb: FantasyVerbs.resolve },
 });
 Installed.base(FantasyRules);

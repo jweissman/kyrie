@@ -21,13 +21,13 @@ export class DeclarationShapes {
   // times one has been met that is not parsed yet.
   static readonly known = new Map<string, Known>();
   static readonly most = 30000;
-  private static readonly key = '\u0001declaration shapes 2';
+  private static readonly key = '\u0001declaration shapes 3';
   // How many declarations have been filled, not parsed (what test/small/declaration-shapes reads).
   static fills = 0;
   private static loaded = false;
   private static fresh = 0;
   static of(text: string): Shape | undefined {
-    if (/qz\d+zq/.test(text)) { return undefined; }
+    if (/qz\d+zq/.test(text) || /^Relation\b/.test(text)) { return undefined; }
     const values: string[] = [], index = new Map<string, number>();
     const shaped = text.replace(this.filled, (whole, string?: string, name?: string) =>
       string !== undefined ? `"${this.marked(string, values, index)}"`
@@ -76,7 +76,8 @@ export class DeclarationShapes {
     const learnt = learning.map(j => plain[j]!), shaped = this.shaped(learnt.map(i => shapes[i]!.text), parse);
     learnt.forEach((i, j) => {
       const field = shaped[j], filled = field && this.fill(field, shapes[i]!.values);
-      this.remember(keys[i]!, field && filled && JSON.stringify(filled) === JSON.stringify(out[i]) ? field : 'text');
+      this.remember(keys[i]!, field && !field.callSpans?.length && filled
+        && JSON.stringify(filled) === JSON.stringify(out[i]) ? field : 'text');
     });
     if (learnt.length) { this.save(learnt.length); }
     return out as Field[];

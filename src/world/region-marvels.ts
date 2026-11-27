@@ -3,6 +3,7 @@ import { WrittenKyr } from './written-kyr';
 import { Canon } from '../canon/canon';
 import type { VocabularyContext } from '../lang';
 import { parseAbility, type Effect } from '../lang/parse';
+import { EffectShadows } from '../ports/effects';
 import { Draw } from './land/draw';
 import { Atlases } from './land/atlas';
 import { RegionGeography } from './region-geography';
@@ -121,7 +122,7 @@ export class RegionMarvels {
   }
   // Whether every condition an effect applies is one the game runs.
   static runs(effect: string): boolean {
-    return parseAbility('wonder', 'wonder', effect).effects.flatMap(e => this.applied(e))
+    return parseAbility('wonder', 'wonder', effect, EffectShadows.verb()).effects.flatMap(e => this.applied(e))
       .every(id => { const c = Canon.conditions[Canon.resolve('conditions', id)]; return !!c && !c.unsupported; });
   }
   private static applied(e: Effect): string[] {

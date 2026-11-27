@@ -3,6 +3,7 @@ import { FixedStatBlock } from './rules/fixed-stat-block';
 import { ActorValues } from './rules/actor-values';
 import { Spellcasting } from './rules/spellcasting';
 import { DailyUses } from './rules/daily-uses';
+import { Lesson } from './lang';
 import { LevelDrain } from './rules/level-drain'; import { Flames } from './rules/flames';
 import { Summoning } from './summoning';
 import { Content } from './content';
@@ -357,10 +358,7 @@ export class Effects {
         break;
       }
       case 'gain': Effects.gain(effect, target, rolled, context); break;
-      case 'learn':
-        if (!target.abilities.includes(effect.ability)) { target.abilities.push(effect.ability); }
-        Effects.detail(context, target, { type: 'learn', detail: effect.ability });
-        break;
+      case 'learn': Effects.learn(effect, target, context); break;
       case 'summon': {
         if (!actor) { throw new Error('Summoning requires a creature actor'); }
         Summoning.call(effect, actor, context);
@@ -368,6 +366,12 @@ export class Effects {
       }
       case 'travel': context.location = effect.location; Effects.detail(context, target, { type: 'travel', detail: effect.location }); break;
     }
+  }
+  private static learn(effect: Extract<Effect, { kind: 'learn' }>, target: Fighter, context: EffectContext) {
+    const ability = Lesson.change(effect, target.id).call.args[1]!;
+    if (!target.abilities.includes(ability)) { target.abilities.push(ability); }
+    if (!(target.taught ??= []).includes(ability)) { target.taught.push(ability); }
+    Effects.detail(context, target, { type: 'learn', detail: ability });
   }
   // Spell slots made ready again, mana up to its maximum, or coin and experience.
   private static gain(effect: Extract<Effect, { kind: 'gain' }>, target: Fighter, rolled: number,

@@ -99,6 +99,7 @@ export class ModuleDeclarations {
       case 'relation': module.relations.push(ModuleDeclarations.own(value as Signature)); break;
       case 'measure': module.measures.push(value as Signature); break;
       case 'query': module.queries.push(value as Query); break;
+      case 'verb': (module.verbs ??= []).push(value as NonNullable<Module['verbs']>[number]); break;
       case 'entity': module.entities.push(value as Module['entities'][number]); break;
       case 'initial': module.initial.push(value as Change); break;
       case 'action': {

@@ -10,10 +10,10 @@ import { VocabularyContext } from './vocabulary';
 export class KeptParses {
   // What a text's parses are kept by: the vocabulary, the text, and what was declared for it as values
   // (ModuleSource), as ModuleParser.parse keeps them; each parse by what it read of the kinds (see ParseCache), its
-  // format the version's (3: a parse keeps where its names were declared, DeclarationSites).
-  static readonly version = 3;
+  // format the version's (6: a kept module has passed its verb vocabulary's validation).
+  static readonly version = 6;
   static key(context: VocabularyContext, text: string, declared: readonly Declared[] = []): string {
-    return `\u0002${this.version}:${context.id}\u0000${text}${declared.length
+    return `\u0002${this.version}:${context.id}:${context.verbKey}\u0000${text}${declared.length
       ? `\u0000${JSON.stringify(declared)}` : ''}`;
   }
   // The kept parse, or the text parsed (ModuleParser.parse keeps a copy of its own).
