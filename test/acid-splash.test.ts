@@ -3,6 +3,7 @@ import { Battle } from '../src/battle';
 import { Canon } from '../src/canon/canon';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
+import { ItemCatalog } from '../src/item-catalog';
 import { MechanicsText } from '../src/presentation/mechanics-text';
 import { SpellSelection } from '../src/rules/spell-selection';
 import { SpellResistance } from '../src/rules/spell-resistance';
@@ -14,9 +15,9 @@ import { Tiny } from './support/tiny';
 
 const fight = (seed: string) => {
   const content = new Content(seed);
-  const mage = content.createCreature('mage', { raceId: 'human', classId: 'mage', traits: ['conjurer'] });
-  const pixie = content.createCreature('pixie', { raceId: 'pixie' });
-  const battle = Battle.encounter(new CreatureStore([mage, pixie]),
+  const mage = content.createCreature(ItemCatalog.canon, 'mage', { raceId: 'human', classId: 'mage', traits: ['conjurer'] });
+  const pixie = content.createCreature(ItemCatalog.canon, 'pixie', { raceId: 'pixie' });
+  const battle = Battle.encounter(new CreatureStore(ItemCatalog.canon, [mage, pixie]),
     [{ creatureId: 'mage', team: 'fighters' }, { creatureId: 'pixie', team: 'goblins' }], { seed });
   for (let i = 0; i < 40 && battle.state.actor !== 'mage'; i++) {
     battle.step(battle.legalCommands().find(c => c.ability === 'wait') ?? battle.chosen());

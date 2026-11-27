@@ -48,7 +48,7 @@ describe('the fell owlbear by the SRD\'s numbers', () => {
     for (const level of [1, 5]) {
       const actor = content.creature('owlbear/fell', `o${level}`, 'goblins', level);
       const target = { ...content.character('warrior', 'mark', 'fighters'), dexterity: 10, hp: 1000, maxHp: 1000,
-        traits: [], statuses: [], equipment: { armorAc: 4, modifiers: {}, hooks: {},
+        traits: [], statuses: [], equipment: { armorAc: 4, modifiers: {}, hooks: {}, body: null,
           weapon: { id: 'fist', name: 'fist', damage: '1d3', type: 'bludgeoning' } } };
       const routine = actor.equipment.routine!, original = actor.equipment.weapon;
       expect(routine.map(w => [w.attackBonus, w.damageBonus])).toEqual([[9, 5], [9, 5], [4, 2]]);
@@ -76,9 +76,9 @@ describe('the fell owlbear by the SRD\'s numbers', () => {
     }
   });
   it('uses a wielded weapon instead of the natural routine', () => {
-    const creature = content.createCreature('armed', { raceId: 'owlbear/fell', level: 2 });
+    const creature = content.createCreature(ItemCatalog.canon, 'armed', { raceId: 'owlbear/fell', level: 2 });
     creature.state.inventory = [{ id: 'blade', definition: 'longsword', equipped: true }];
-    const equipped = CombatProjection.fighter(creature, 'goblins').equipment;
+    const equipped = CombatProjection.fighter(ItemCatalog.canon, creature, 'goblins').equipment;
     expect(equipped.weapon.id).toBe('longsword');
     expect(equipped.weapon.attackBonus).toBeUndefined();
     expect(equipped.routine).toBeUndefined();

@@ -3,6 +3,7 @@ import { Battle } from '../src/arena';
 import { CombatProjection } from '../src/combat-projection';
 import { Content } from '../src/content';
 import { CreatureStore } from '../src/creature-store';
+import { ItemCatalog } from '../src/item-catalog';
 import { Defenses } from '../src/rules/defenses';
 import { SpellResistance } from '../src/rules/spell-resistance';
 import { Creation } from '../web/engine/creation';
@@ -13,7 +14,7 @@ import type { Fighter } from '../src/model';
 const hardy = (f: Fighter): Fighter => ({ ...f, hp: 300, maxHp: 300 });
 const fight = (seed: string, resistant = false) => {
   const content = new Content(seed);
-  const mage = hardy(CombatProjection.fighter(content.createCreature('mage',
+  const mage = hardy(CombatProjection.fighter(ItemCatalog.canon, content.createCreature(ItemCatalog.canon, 'mage',
     { raceId: 'human', classId: 'mage', traits: ['necromancer'] }), 'fighters'));
   const dead = resistant
     ? { ...hardy(content.creature('pixie', 'dead', 'goblins', 1)), traits: ['undead'] }
@@ -43,7 +44,7 @@ describe('Disrupt Undead', () => {
     const mage = t.campaign.readout.creatures.find(c => c.id === 'lab__party_1')!;
     const ghoul = t.campaign.readout.creatures.find(c => c.id === 'lab__low_u_dead_person')!;
     expect(ghoul.raceId).toBe('ghoul');
-    const battle = Battle.encounter(new CreatureStore([mage, ghoul]),
+    const battle = Battle.encounter(new CreatureStore(t.campaign.catalog, [mage, ghoul]),
       [{ creatureId: mage.id, team: 'fighters' }, { creatureId: ghoul.id, team: 'goblins' }], { seed: 'lab' });
     for (let i = 0; i < 20 && battle.state.actor !== mage.id; i++) {
       battle.step(battle.legalCommands().find(c => c.ability === 'wait') ?? battle.chosen());
