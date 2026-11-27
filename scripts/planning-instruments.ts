@@ -9,7 +9,8 @@
 //   roadmap:  the platform's requirements and defects (architecture, startup, testing) and capabilities.json's state.
 //   trend:    the live defects and the slice's P0/P1 at past revisions, so improvement is read off the record.
 //   next:     a candidate active queue: the slice's P0/P1 defects not queued, densest feature first.
-//   bun scripts/planning-instruments.ts [defects|atlas|roadmap|trend|next]
+//   health:   the project health score, its evidence, moves and recorded trend.
+//   bun scripts/planning-instruments.ts [defects|atlas|roadmap|trend|next|health]
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -94,16 +95,26 @@ export class PlanningInstruments {
     return [`next: ${cands.length} slice P0/P1 defects not queued; the first ${size}, P0 first, densest feature first`,
       ...cands.slice(0, size).map(r => `  ${r.id} ${r.pri} ${r.feature}: ${r.what.slice(0, 84)}`)];
   }
-  static run(args: string[]): number {
+  static async run(args: string[]): Promise<number> {
     const view = args.find(a => !a.startsWith('--')) ?? 'defects';
     if (view === 'trend') { console.log(this.trend().join('\n')); return 0; }
+    if (view === 'health') {
+      const { HealthReport } = await import('./health/report');
+      console.log(HealthReport.run(!args.includes('--no-record')).join('\n'));
+      return 0;
+    }
     const rows = this.placed();
     const out = view === 'defects' ? this.defects(rows) : view === 'atlas' ? this.atlas(rows)
       : view === 'roadmap' ? this.roadmap(rows) : view === 'next' ? this.next(rows) : undefined;
-    if (!out) { console.error(`no view ${view}: defects, atlas, roadmap, trend, next`); return 1; }
+    if (!out) { console.error(`no view ${view}: defects, atlas, roadmap, trend, next, health`); return 1; }
+    if (view === 'next') {
+      const { HealthRead } = await import('./health/read'), { HealthReport } = await import('./health/report');
+      const today = new Date().toISOString().slice(0, 10);
+      out.push('', ...HealthReport.moves(HealthRead.snapshot(today).components.moves));
+    }
     console.log(out.join('\n'));
     return 0;
   }
 }
 
-if (import.meta.main) { process.exit(PlanningInstruments.run(process.argv.slice(2))); }
+if (import.meta.main) { process.exit(await PlanningInstruments.run(process.argv.slice(2))); }

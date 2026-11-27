@@ -1,0 +1,14 @@
+[
+  { "id": "slice", "name": "Supported-slice P1 defects", "path": "scripts/quality/baseline.json", "field": "ci.slice", "why": "The slice gate targets zero P0/P1 defects; the score excludes P0 and P1s filed today." },
+  { "id": "breaches", "name": "Continuity census breaches", "path": "scripts/quality/baseline.json", "field": "ci.breaches", "why": "Every continuity contract must hold." },
+  { "id": "layers", "name": "Wrong-way layer edges", "path": "doc/architecture/mission-22/layers-baseline.json", "field": "edges", "why": "Each forbidden layer import is to be removed." },
+  { "id": "cycles", "name": "Edges in folder cycles", "path": "doc/architecture/mission-22/cycles-baseline.json", "field": "edges", "why": "Value-import cycles between folders are to be removed." },
+  { "id": "offer-parity", "name": "Offer parity divergences", "path": "doc/architecture/mission-22/offer-parity-baseline.json", "field": "divergences", "why": "The clients must offer the same engine actions." },
+  { "id": "focus-parity", "name": "Focus parity divergences", "path": "doc/architecture/mission-22-beta/focus-parity-baseline.json", "field": "apart", "why": "The clients must agree on focus and questions." },
+  { "id": "closure", "name": "Closure-lint findings", "path": "doc/architecture/mission-22/closure-lint-baseline.json", "field": "findings", "why": "Closed rows must have complete, valid evidence." },
+  { "id": "compound-kinds", "name": "Compound kind uses", "path": "doc/architecture/mission-22/compound-kinds-baseline.json", "field": "", "why": "Generation names base kinds, not compound kinds." },
+  { "id": "unwitnessed", "name": "Marks without witnesses", "path": "scripts/quantity/baseline.json", "field": "ratchets.unwitnessed", "why": "Every mark must have a witness." },
+  { "id": "stranded", "name": "Stranded authored content", "path": "scripts/quantity/baseline.json", "field": "ratchets.stranded", "why": "Authored content should be reachable in a played world." },
+  { "id": "strayed", "name": "Lives missing the first dungeon", "path": "scripts/quantity/baseline.json", "field": "ratchets.strayed", "why": "A wanderer should also reach the first dungeon in the first hour." },
+  { "id": "aimless", "name": "Moves without a worthwhile lead", "path": "scripts/quantity/baseline.json", "field": "ratchets.aimless", "why": "No stretch should be blank of worthwhile leads." }
+]
