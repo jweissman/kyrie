@@ -3,7 +3,8 @@ import type { Call, Module, Predicate, Value, WorldRule } from '../lang/module';
 import { ObservationText } from '../lang/observation-text';
 
 // A way watched after dark, read from the rule that falls on whoever is there: one that sets a band on the company
-// where it stands on a way at night (the hobs' waylay: at(party, road) and dark() and dice(clock) <= 4), while the
+// where it stands on a way at night (the hobs' waylay: at(party, road) and dark() and fortune(raiders, road) <= 4; a
+// roll on the watch's die is read the same), while the
 // rest of what it asks holds (the raiders at home in their hall, able, not lying low). A camp there, or going onto it
 // at night, says so before it is chosen: a cold player camped on the road to Gatesend, Weary with one ration, and the
 // hobs came, nothing having said the road was watched (cold play 7, CL-58).
@@ -48,6 +49,6 @@ export class Waylaid {
     return p.kind === 'compare' && [p.left, p.right].some(v => this.rolled(v));
   }
   private static rolled(v: Value): boolean {
-    return v.kind === 'call' ? v.name === 'dice' : v.kind === 'arith' && [v.left, v.right].some(x => this.rolled(x));
+    return v.kind === 'call' ? v.name === 'dice' || v.name === 'fortune' : v.kind === 'arith' && [v.left, v.right].some(x => this.rolled(x));
   }
 }
