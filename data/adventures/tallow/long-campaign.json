@@ -12,11 +12,13 @@
     "quests.kyr",
     "lore.kyr",
     "long-campaign.kyr",
+    "long-road.kyr",
+    "long-aftermath.kyr",
     "company.kyr"
   ],
   "rules": ["world"],
   "globals": ["party"],
-  "canon": ["imbar", "cloudgate_fell", "slack_opened", "calx_opened", "tallow_names"],
+  "canon": ["imbar", "cloudgate_fell", "slack_opened", "calx_opened", "tallow_names", "sallowfield_held"],
   "exports": {
     "party": "party",
     "region": "edge",

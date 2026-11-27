@@ -1,0 +1,42 @@
+Module tallow "Tallow Deep" {
+  Relation lcTruce(group). Measure lcFoeFood(group).
+  Discovery lc_withdrawal_cost "The Ferryman will withdraw his men from the bank and road for four rations.".
+  Query lc_enemy_present() means (at(lc_raiders, bank) and able(lc_raiders))
+    or (at(lc_garrison, bank) and able(lc_garrison))
+    or (at(lc_vanguard, calx_portal) and able(lc_vanguard))
+    or (at(lc_vanguard, calx_way) and able(lc_vanguard))
+    or (at(lc_vanguard, gate_house) and able(lc_vanguard)).
+
+  Topic lc_withdrawal with lc_ferryman "Ask what it would take to withdraw his men" when lcTermsHeard(party)
+    and lcRaidArrived(party) and lc_enemy_present() and not lcTruce(party) once {
+    Says "'Four rations,' he says. 'I can use them to get my men to another post. I will order them off the bank and the old road. It is not a promise that the war is over.'".
+    On discuss { Assert knows(actor, lc_withdrawal_cost). }
+  }
+
+  Action lc_buy_withdrawal(actor: group, site: place) "Give the Ferryman four rations to withdraw his men" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(lc_ferryman, site)
+      and knows(actor, lc_withdrawal_cost) and lc_enemy_present() and not lcTruce(actor) and quantity(actor, rations) >= 4.
+    Time 1 hour.
+    On success { Decrease quantity(actor, rations) by 4. Set lcFoeFood(actor) to 4. Assert lcTruce(actor). }
+    Result "The Ferryman counts the food himself. 'My men leave the bank and the old road,' he says. 'This buys Swallet a breathing-space, not the end of the war.' He sends the word along the west road.".
+  }
+  Rule lc_raiders_withdraw when lcTruce(party) and at(lc_raiders, bank) and able(lc_raiders) {
+    Retract at(lc_raiders, bank).
+  }
+  Rule lc_garrison_withdraws when lcTruce(party) and at(lc_garrison, bank) and able(lc_garrison) {
+    Retract at(lc_garrison, bank).
+  }
+  Rule lc_guard_from_portal when lcTruce(party) and at(lc_vanguard, calx_portal) and able(lc_vanguard) {
+    Retract at(lc_vanguard, calx_portal).
+  }
+  Rule lc_guard_from_road when lcTruce(party) and at(lc_vanguard, calx_way) and able(lc_vanguard) {
+    Retract at(lc_vanguard, calx_way).
+  }
+  Rule lc_guard_from_gate when lcTruce(party) and at(lc_vanguard, gate_house) and able(lc_vanguard) {
+    Retract at(lc_vanguard, gate_house).
+  }
+  Observe lc_truce_at_green at green when lcTruce(party) and lcFoeFood(party) >= 4
+    "The Ferryman's men have gone from the bank and the old road. The four rations went with them.".
+  Observe lc_truce_at_inn at taproom when lcTruce(party) and lcFoeFood(party) >= 4
+    "Merren folds the paper boat flat. 'A breathing-space,' she says. 'We had better use it.'".
+}
