@@ -16,7 +16,9 @@ import { Rail } from './support/rail';
 // of a busy place, and the company and the rats in a fight. Opt in with KYRIE_BROWSER=1.
 interface Face { where: string; w: number; h: number; round: boolean; cover: boolean }
 class Faces {
-  static readonly selector = ['.plate .face', '.portraits .portrait .face', '.fight .fighter .face',
+  // A foe's likeness in a fight is a plate on its card, never an oval (the owner's playtest of 27 November, OR-1493):
+  // only the company's faces there are measured round.
+  static readonly selector = ['.plate .face', '.portraits .portrait .face', '.fight .ours .fighter .face',
     '.character .head-of .sat', '.lens-face', '.signature .face', '.roster > .act'].join(', ');
   static async measure(page: Page, where: string): Promise<Face[]> {
     return page.evaluate(([sel, at]) => [...document.querySelectorAll(sel)].flatMap(e => {
