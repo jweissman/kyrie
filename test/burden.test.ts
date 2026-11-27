@@ -18,6 +18,12 @@ class Load {
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     return PlaySession.start(w.path, 'wren', w.source);
   }
+  // Whoever lives in a room taken out of it (the hollow vault's ooze since OR-1234): the load is the subject.
+  static clear(s: PlaySession, room: string) {
+    this.set(s, s.campaign.world.related('at').filter(r => r.args[1] === room && r.args[0] !== 'party'
+      && s.campaign.module.entities.some(e => e.id === r.args[0] && e.type === 'group'))
+      .map(r => ({ kind: 'retract', call: ModuleWriter.call('at', ...r.args) })));
+  }
   static set(s: PlaySession, changes: Change[]) {
     const c = s.campaign as unknown as { world: { apply(c: Change[]): unknown }; commit(w: unknown): void };
     c.commit(c.world.apply(changes));
@@ -52,6 +58,7 @@ describe('what a company carries', () => {
       { kind: 'retract', call: ModuleWriter.call('unlit', 'region__w9_breach_heart') },
       { kind: 'retract', call: ModuleWriter.call('unlit', 'region__w9_breach_vault') },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', 'region__w9_breach_heart') }]);
+    Load.clear(s, 'region__w9_breach_vault');
     const light = await Load.take(s, /^Take the gallery to the hollow vault$/);
     await Load.take(s, /^Take the gallery to the heart of the vein$/);
     const taken = await Load.take(s, /^Collect the heart of the vein/);

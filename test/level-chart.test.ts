@@ -5,6 +5,7 @@ import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { PlaySession } from '../src/session/play-session';
 import { PlayerView } from '../src/presentation/player-view';
 import { ScreenModel } from '../src/ui/screen-model';
+import { WrenRecord } from './support/wren-record';
 
 // The plan of a deep site's level knows the site has others: the levels the company has stood on, top to bottom, and
 // which way each way off this level goes. The descent's own record, played to its first ride down the cage.
@@ -13,6 +14,7 @@ describe('the plan of a level', () => {
     const w = await WorldAssembler.assemble('wren', NodeBundleSource.shared,
       { origin: 'wanderer', party: [{ name: 'Wenna', raceId: 'human', classId: 'warrior' }] });
     const s = await PlaySession.start(w.path, 'wren', w.source);
+    WrenRecord.clear(s);
     const record = readFileSync(new URL('./fixtures/descent/wren.choices', import.meta.url), 'utf8').split('\n');
     for (const step of record.slice(0, record.indexOf('cage in the shaft') + 1)) {
       const c = PlayerView.choices(s.campaign).find(x => new RegExp(step, 'i').test(x.choice.name))!;
