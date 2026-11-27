@@ -146,7 +146,8 @@ export class Quality {
       }
       writeFileSync(this.file, `${JSON.stringify(baseline, null, 1)}\n`);
     }
-    return (failed && !update) || (cold && !ColdPlay.ready(cold)) ? 1 : 0;
+    // Cold play is the health scorecard's (scripts/health): reported here, never failing the gate (the owner).
+    return failed && !update ? 1 : 0;
   }
 }
 
