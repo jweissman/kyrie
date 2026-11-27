@@ -1,0 +1,221 @@
+Module leaven "The Mild Intention" {
+  // ── Ysmay Dreel, pilot ───────────────────────────────────────────────────────────────────────────────────────────
+  Person ysmay "Ysmay Dreel" at deck {
+    Role "who pilots the Mild Intention". Ancestry human. Pronouns she. Manner acerbic. Peaceable.
+    Greets "A woman in a leather cap sits at the tiller of a sloop that is not going anywhere, with her head turned a little to the right, like someone listening to a neighbour's quarrel. 'Passengers pay,' says Ysmay Dreel. 'Crew work. Which are you? Quickly. The wind does not wait for the answer.'".
+    Greets again "'Well?' says Ysmay.".
+    Farewell "'Mind the gangway,' says Ysmay. 'It has opinions.'".
+  }
+  Topic ysmay_pan with ysmay "Ask Ysmay how she reads the Pan" when true once {
+    Says "'It rings,' says Ysmay. 'Where it rings high it will hold you. Where it rings low there is a hole with a lid on it, and the lid is salt. Forty years I have listened to it, and it has not once lied to me.' She is quiet for a moment. 'Nor I to it.'".
+  }
+  Topic ysmay_avert with ysmay "Ask Ysmay about the baker" when true once {
+    Says "'A man who pays in advance for a thing he cannot hold in his hands is either a fool or a baker,' says Ysmay. 'He is both. I took his coin because the alternative was to be asked about it.'".
+  }
+  Topic ysmay_berth with ysmay "Ask Ysmay for a berth" when not avertHired(party) and not berthed(party) {
+    Says "'The baker has the say of who rides,' says Ysmay. 'Ask him. If he vouches for you it is fifteen coin, or you can earn it with your ears. I am short of ears.' She says it to the sky, and not to you.".
+  }
+  Topic ysmay_hears with ysmay "Ask Ysmay what she hears" when berthed(party) and mile() < 30 and wrongNow() and not yours() {
+    Says "'Quiet,' says Ysmay. 'Nothing under us at all. Hold to port, then, and let her run.' She holds her head a little to the right, and her face is perfectly calm.".
+  }
+  Topic ysmay_hears_hollow with ysmay "Ask Ysmay what she hears" when berthed(party) and mile() < 30 and not wrongNow() and not yours() {
+    Says "'Hollow off to starboard, a long way,' says Ysmay. 'Hold her to port of it and she will hold. Do not ask me twice. I heard you the first time.'".
+  }
+  Action berth_pay(actor: group, site: place) "Pay Ysmay fifteen coin for a berth" {
+    Speaker ysmay.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and avertHired(actor) and not berthed(actor) and quantity(actor, gold) >= 15.
+    On success { Decrease quantity(actor, gold) by 15. Assert berthed(actor). }
+    Result "Ysmay weighs the coin in her palm and does not count it. 'There's a hammock under the boom,' she says. 'Rabin sleeps in it when he is not in the scuppers.'".
+  }
+  Action berth_ear(actor: group, site: place) "Lay your ear to the quay and tell Ysmay what the Pan is saying" {
+    Speaker ysmay.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and avertHired(actor) and not berthed(actor).
+    Resolve check(actor, wayfinding, dc_fair).
+    On success { Assert berthed(actor). }
+    Result "You lie on the gangway with your cheek to the black timber, and something under it pings, high and small, once to each turn of the sun on the Pan. 'The near hind wheel,' you say. 'A tyre-band, working loose.' Ysmay looks at you until the boy coughs. 'Rabin,' she says. 'The near hind wheel.' 'She said it was fine,' says Rabin. 'Then she was wrong,' says Ysmay. 'You are crew.'".
+    Otherwise "You hear the Pan. It sounds like the Pan. 'Fifteen coin, then,' says Ysmay, not unkindly.".
+  }
+  Action ear_gentle(actor: group, site: place) "Tell Ysmay you will be her left ear, if she will have one" {
+    Speaker ysmay.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and knows(actor, ear_known) and not ysmayYields(actor) and not ysmayCold(actor).
+    On success { Assert ysmayYields(actor). }
+    Result "Ysmay does not turn her head. For a while she does nothing, and then she lets out the breath of a woman who has been carrying a heavy thing a long way, and put it down in front of a stranger. 'Since April,' she says. 'It came in with a fever and did not go out again.' She moves the tiller a half-inch. 'If you say a thing to me from the left, you will say it twice, and you will not tell the boy that I asked.'".
+  }
+  Action ear_blunt(actor: group, site: place) "Tell Ysmay she is deaf on the port side" {
+    Speaker ysmay.
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and not ysmayYields(actor) and not ysmayCold(actor) and wrongNow().
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert ysmayYields(actor). Assert knows(actor, ear_known). }
+    Result "'I am not,' says Ysmay, and then, in a different voice, 'How long have you known?' She has taken her hand off the tiller. 'Tell me what you hear, then,' she says. 'And tell it loud.'".
+    Otherwise "Ysmay turns her good ear towards you, as a gun is turned. 'Passengers,' she says, 'pay.' She says nothing else for an hour, and she hears nothing from the port side for the rest of the crossing.".
+    On failure { Assert ysmayCold(actor). }
+  }
+
+  // ── Rabin Fende, deckhand ────────────────────────────────────────────────────────────────────────────────────────
+  Person rabin "Rabin Fende" at deck {
+    Role "Ysmay's deckhand". Ancestry human. Pronouns he. Manner cheerful. Peaceable.
+    Greets "A boy of seventeen lies on his back under the boom, tying a knot he has tied four hundred times, for the sake of the tying. 'Ysmay says you are a passenger,' he says. 'Ysmay is wrong about nearly everything but the Pan. I am Rabin. I am going to be a pilot.'".
+    Greets again "'Hullo,' says Rabin, and ties the knot again.".
+  }
+  Topic rabin_pan with rabin "Ask Rabin how a pilot reads the Pan" when true once {
+    Says "'By ear,' says Rabin. 'You lie on the boards and listen. A good crust rings like a plate. A thin one rings like a barrel with the head knocked out. Ysmay can tell you the thickness of a crust to the width of a finger.' He considers. 'I can tell thick from thin. Mostly.'".
+  }
+  Topic rabin_ear with rabin "Ask Rabin why Ysmay sits sideways" when true once {
+    Says "Rabin stops tying. 'She will not say,' he says, low. 'She listened out of both sides last year, I would swear it. Now when I call from the port she says What, and says she was talking to the weather.' He picks at the knot. 'Do not tell her I told you. A pilot who cannot hear the Pan is not a pilot, and she knows it, and so do I, and it is the end of the whole thing.'".
+    On discuss { Assert knows(actor, ear_known). }
+  }
+  Topic rabin_quiet with rabin "Ask Rabin whether the Pan is ever quiet" when knows(party, ear_known) once {
+    Says "'Never,' says Rabin. 'A quiet Pan is a lying Pan. There is always a hollow somewhere, a long way off, or underneath. If she says it is quiet she is not hearing it. That is all that means.' He looks aft, and then very hard at his knot.".
+  }
+  Topic rabin_holin with rabin "Ask Rabin about the Weatherwife" when true once {
+    Says "'Odiot,' says Rabin, and spits over the side, carefully, downwind. 'Ysmay's apprentice for nine years. Best ears on the Pan after Ysmay's, and she got them from her. She comes out of the glare with four sleds and takes what you have.' He thinks. 'She has never killed anybody. They say she has. She lets them walk it, mind, forty miles. Some of them never forgave her for the blisters.'".
+    On discuss { Assert knows(actor, holin_known). }
+  }
+
+  // ── Avert Maugh, Master Baker of Corsey ─────────────────────────────────────────────────────────────────────────
+  Person avert "Avert Maugh" at quay {
+    Role "Corsey's Master Baker". Ancestry human. Pronouns he. Manner proud. Peaceable.
+    Greets "'Do not jolt her,' says the man on the bollard. He has not looked up. 'I am Avert Maugh, Master Baker of the Corsey bakehouses, and this is the Mother, and she has not been fed since the second bell.'".
+    Greets again "'Quietly,' says Avert, and moves the basket a half-inch.".
+    Farewell "'Quietly,' says Avert, to the basket and to you.".
+  }
+  Topic avert_corsey with avert "Ask Avert why he has come" when true once {
+    Says "'Corsey's Mother died in the frost,' says Avert. 'Two hundred years old. Nineteen days of flat cakes. A city of sixty thousand sulks without its bread, and it is a very loud sulk.' He moves the basket a half-inch. 'Maing's Mother is her sister. Orla Selve gave me this with her own hands, and wept on the crock. I came across the Pan once on a sled, and I did not enjoy it, and I am going back on a sloop, and I shall enjoy it less.'".
+    On discuss { Assert knows(actor, avert_known). }
+  }
+  Topic avert_hire with avert "Offer to guard the Mother on the crossing" when knows(party, avert_known) and not avertHired(party) once {
+    Says "'Guard her?' Avert looks at you for the first time, and then at your hands, as a man looks who would like to know what they have held. 'Forty coin on the Corsey landing if she is breathing when you set her down. Ysmay Dreel carries whoever I vouch for. I vouch for you. Do not make me sorry. I have a poor way of being sorry.'".
+    On discuss { Assert avertHired(actor). }
+  }
+  Topic avert_keep with avert "Ask Avert how to keep the Mother" when avertHired(party) once {
+    Says "'Rye and sweet water, a cupful of each, every twelve hours at the outside,' says Avert. 'She is sluggish by sixteen and sulking by a day and dead in a day and a half, and I shall be dead the same hour. Keep her warm when the Pan goes cold. A brick of peat in the stove. She was bred in a cellar. She does not hold with weather.'".
+    On discuss { Assert knows(actor, hunger_known). }
+  }
+  Topic avert_guilt with avert "Ask Avert how Corsey's Mother really died" when berthed(party) and knows(party, avert_known) once {
+    Says "'The frost,' says Avert. 'I have said the frost.' He is quiet while the crock ticks. 'The cellars were warm. It was not the frost. We had a rule in the guild that no cutting left the hill: not to Maing, not to anyone, to keep her pure. Do you know what a Mother is? She is a thing that goes on because she is shared. We kept one pot for two hundred years, and the day it failed there was nothing left in the world to take a spoon from.' He looks at the basket. 'Orla's pot is the grandchild of a cutting a baker's boy stole from us when my great-grandfather was in his cradle. We have burned that boy in effigy every Lady Day since. He is the reason I am here.'".
+    On discuss { Assert knows(actor, guilt_known). Assert knows(actor, thieves_known). }
+  }
+  Rule avert_boards heard within ullamar when berthed(party) and at(avert, quay)
+    says "Avert Maugh comes up the gangway sideways, like a man carrying a full bath, and wedges the basket between the stove and the sacks. 'There,' he says. 'Do not breathe on her.'" { Retract at(avert, quay). Assert at(avert, deck). Assert at(mother, deck). }
+  Action cut_ask(actor: group, site: place) "Ask Avert to cut a share of the Mother for the Weatherwife" {
+    Speaker avert.
+    Requires able(actor) and company(actor) and at(actor, site) and at(avert, site) and at(holin, site) and knows(actor, guilt_known) and knows(actor, famine_known) and not avertYields(actor).
+    On success { Assert avertYields(actor). }
+    Result "Avert is looking at the Weatherwife, who is looking at the basket with the face of someone seeing a window lit in a house she was born in. 'Six years,' he says, to nobody. 'Eating gulls.' He lifts the cloth. 'Hand me the spoon,' he says. 'A cupful. Not a drop more. And she is to be fed every twelve hours, on rye, and she is to be talked to.' He does not look at you. 'Say it was a thief's bread. I would rather that.'".
+  }
+  Action cut_ask_cold(actor: group, site: place) "Ask Avert to cut a share of the Mother for the Weatherwife" {
+    Speaker avert.
+    Requires able(actor) and company(actor) and at(actor, site) and at(avert, site) and at(holin, site) and not avertYields(actor) and not (knows(actor, guilt_known) and knows(actor, famine_known)).
+    Resolve check(actor, persuasion, dc_hard).
+    On success { Assert avertYields(actor). }
+    Result "Avert Maugh looks at the sky, and the Pan, and the woman on his deck, and finally at the basket. 'It is a great deal to ask,' he says. 'It is a great deal.' He takes the spoon out of his pocket and holds it a long time. 'A cupful,' he says. 'Not a drop more.'".
+    Otherwise "'No,' says Avert, and holds the basket as one holds a child in a crowd. 'She is Corsey's. She is not for pirates.'".
+  }
+
+  // ── Gert Undery, chandler ────────────────────────────────────────────────────────────────────────────────────────
+  Person gert "Gert Undery" at quay {
+    Role "sailmaker and chandler". Ancestry human. Pronouns she. Manner jovial. Peaceable.
+    Sells mi_flour for 2 coin from 4.
+    Sells mi_water for 1 coin from 4.
+    Sells mi_peat for 1 coin from 8.
+    Sells mi_canvas for 3 coin from 2.
+    Sells rations for 2 coin from 6.
+    Greets "A woman with a sailmaker's palm and a mouthful of pins looks you over from a stool among drums of tar. 'Rye, water, peat, canvas,' says Gert Undery, round the pins, 'in that order, if you are going over. A Pan crossing is a matter of what you bring, and what the wind does about it.'".
+    Greets again "'Back?' says Gert. 'What did you forget?'".
+  }
+  Topic gert_pan with gert "Ask Gert about the Pan" when true once {
+    Says "'Forty miles, and twenty of them nothing,' says Gert. 'Ullamar was water when my grandmother was a girl. The quake took it in an afternoon. She said it made a noise like a man clearing his throat, and she never again trusted a floor.' She bites a pin in half. 'The middle sings, mind. Some nights. You will furl and wait it out, if you have any sense.'".
+  }
+  Topic gert_ysmay with gert "Ask Gert about Ysmay Dreel" when true once {
+    Says "'Three hundred crossings and never lost a hull,' says Gert. 'Lost a rudder last season. Lost her temper with a customer in the spring.' She takes the pins out of her mouth, which she does not do for a customer. 'I make sails. I notice a woman who has begun to stand with her right shoulder to the room. She did not use to.'".
+    On discuss { Assert knows(actor, ear_known). }
+  }
+
+  // ── Hawin Selve, the Dry Mooring ────────────────────────────────────────────────────────────────────────────────
+  Person hawin "Hawin Selve" at taproom {
+    Role "who keeps the Dry Mooring". Ancestry human. Profession innkeeper. Pronouns he. Manner jovial.
+    Peaceable.
+    Sells rations for 2 coin from 6.
+    Offers lodging "a bunk in the loft, over the boiler, warm all night" for 2 coin.
+    Greets "'Sit,' says Hawin Selve. 'Sit, sit. There is a slate by the door. Every crossing of the Pan has its odds on it, and I have never yet lost money on a sloop, which is a thing I find difficult to explain to my mother.'".
+    Greets again "'Well?' says Hawin, with the chalk in his hand.".
+  }
+  Topic hawin_odds with hawin "Ask Hawin about the odds on the Mild Intention" when true once {
+    Says "'Nine to four against,' says Hawin. 'It was three to one, and then the baker came in and I saw the basket. My mother is the Mother's keeper. I mean the Maing Mother's. She gave a share of it away this morning with her own hands, and has not stopped crying into the crock-cloth since. It is the sort of thing that does something to a book.' He rubs out the nine and writes it again, exactly as before.".
+  }
+  Topic hawin_weatherwife with hawin "Ask Hawin about the Weatherwife" when true once {
+    Says "'Holin Odiot,' says Hawin. 'She is nobody's idea of a villain, if you ask the ones she has robbed. They tell it as a sort of compliment. Nine years Ysmay Dreel's apprentice.' He lowers his voice, which in this room is unnecessary. 'The road went round the north end in the year of the Long Rains and the sloops stopped. Her people were pan-folk. What do you do, when the Pan is the only thing you know and the Pan is not wanted?'".
+    On discuss { Assert knows(actor, holin_known). Assert knows(actor, famine_known). }
+  }
+  Action lay_wager(actor: group, site: place) "Lay ten coin on the Mild Intention at nine to four" {
+    Speaker hawin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(hawin, site) and not wagered(actor) and quantity(actor, gold) >= 10.
+    On success { Decrease quantity(actor, gold) by 10. Assert wagered(actor). }
+    Result "Hawin writes your name under the nine, in small letters, with the air of a man recording a death in advance. 'Thirty-two coin on the Corsey landing,' he says, 'if you have the baker's face to show me.'".
+  }
+
+  // ── Holin Odiot, the Weatherwife ─────────────────────────────────────────────────────────────────────────────────
+  Person holin "Holin Odiot" nowhere {
+    Role "called the Weatherwife". Ancestry human. Pronouns she. Manner proud. Peaceable.
+    Arrives at deck when state(song, singing).
+    Arrives "Out of the singing, over the side, without a sound, comes a woman in a coat of gull-skins. There is a sled alongside that nobody heard arrive, with a square sail furled on it, and a face at its tiller. She stands on the deck with her weight on her heels, looking down into the basket. 'Is that bread?' says Holin Odiot.".
+    Greets "She wears twelve small rings in her ears, each of a different note, and she stands with her head tilted to take the sound of the sloop. 'You are not the pilot,' she says. 'I would know her breathing. She has not changed her step in nine years.'".
+    Greets again "'Well?' says Holin.".
+    Farewell "'I am in no hurry,' says Holin. 'It is only that I am hungry.'".
+  }
+  Person reavers "a hand off the Weatherwife's sled" nowhere {
+    Role "the Weatherwife's sled-hand". Ancestry human. Calling warrior. Level 1. Temperament savage.
+    Comes "The sled-hand comes over the rail with a knife out, thin as a rake, quiet as a cat, and does not stop to ask whether you are the right kind.".
+  }
+  Topic holin_want with holin "Ask Holin what she wants" when true once {
+    Says "'Not the pot,' says Holin. 'Not you, not the hull.' She takes her hand out of the basket. 'There are eighty of us on the south shore. We have eaten gull and salt-fish since the road came round the lake. In the spring I took a cargo of flour at the Reach: forty bags. We made cakes of it, with no leaven. They lay in us like cannonballs.' She looks at the cloth over the crock, which breathes. 'When did you last eat something that rose?'".
+    On discuss { Assert knows(actor, famine_known). }
+  }
+  Topic holin_sunk with holin "Ask Holin about the pilots she has sunk" when true once {
+    Says "'Two,' says Holin. 'Both walked to Corsey in four days, and I put water on their sleds. Both are drinking at the Cask, and telling it better each year.' She tilts her head. 'I have never sunk a thing I could not feed.'".
+  }
+  Topic holin_ysmay with holin "Ask Holin about Ysmay" when knows(party, holin_known) once {
+    Says "'Nine years on the planks,' says Holin. 'She would say, What do you hear? And I would tell her. And she would say, Wrong. Until I was right.' She looks aft, where Ysmay is studying the sky with great attention. 'She never once said so, when I was. I came up alongside her at the Reach in the spring, and called from the left, and she did not answer me at all. She has never in her life not answered me.'".
+    On discuss { Assert knows(actor, ear_known). }
+  }
+  Topic holin_thief with holin "Tell Holin whose bread the Mother is" when knows(party, thieves_known) and avertYields(party) and not holinWilling(party) once {
+    Says "'Maing's Mother was stolen,' you say. 'From Corsey, two hundred years ago, by a baker's boy. Every pot on this Pan is a thief's pot. If he had not stolen it there would be nothing for the baker to come back for.' Holin Odiot says nothing. Then she laughs, once, shortly, like a woman who has been hit with something soft. 'A thief's bread,' she says. 'Well. I can eat that. I could not have eaten charity.'".
+    On discuss { Assert holinWilling(actor). }
+  }
+  Action holin_proud(actor: group, site: place) "Press the share on Holin: say it is a gift, and she may give it back" {
+    Speaker holin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(holin, site) and avertYields(actor) and not holinWilling(actor) and not holinSettled(actor).
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert holinWilling(actor). }
+    Result "'Give it back,' says Holin, slowly, as though turning the words over to find what is under them. 'If I can.' She nods. 'Yes. Then I can take it.'".
+    Otherwise "'I do not take what is given,' says Holin. 'I take what is put in front of me and cannot be stopped.' Her ears are very still. She is not saying no. She is not saying anything.".
+  }
+  Action cut_give(actor: group, site: place) "Offer the Weatherwife a share of the Mother" {
+    Speaker holin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(holin, site) and avertYields(actor) and holinWilling(actor) and not holinSettled(actor).
+    Time 2.
+    On success { Assert cutGiven(actor). Assert holinSettled(actor). }
+    Result "Avert Maugh fills a little clay pot with his own spoon, a cupful of grey cream, and puts a plate over it, and gives it into Holin Odiot's hands like a man handing over a child. She holds it for as long as it takes to breathe in twice. 'It is warm,' she says. She sounds like a woman who has been told her mother is alive. 'It is,' says Avert. 'Rye, and sweet water, every twelve hours. She will want talking to.' 'I have eighty people,' says Holin, 'who have not been talked to in six years.' Then she says nothing at all.".
+  }
+  Action pay_toll(actor: group, site: place) "Pay the Weatherwife thirty coin to let the sloop pass" {
+    Speaker holin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(holin, site) and not holinSettled(actor) and quantity(actor, gold) >= 30.
+    On success { Decrease quantity(actor, gold) by 30. Assert tolled(actor). Assert holinSettled(actor). Retract at(holin, site). }
+    Result "Holin counts it with her thumb, once, and does not look pleased. 'I cannot eat this,' she says. 'But I can buy a cargo of flour for it, if anyone will sell me a cargo.' She goes over the rail the way she came, and the sled goes away across the Pan with no more sound than a cloud.".
+  }
+  Action fight_holin(actor: group, site: place) "Draw steel on the Weatherwife" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(holin, site) and not holinSettled(actor) and not holinFought(actor).
+    On success { Assert holinFought(actor). Assert assails(reavers, actor). Bring reavers. }
+    Result "Holin Odiot does not move her hand to her knife. She looks at your steel as she would at weather. 'Hand,' she says, quite softly, and over the rail comes the sled's one hand, thin as a rake.".
+  }
+  Rule reavers_down heard within ullamar when holinFought(party) and dead(reavers) and not holinSettled(party)
+    says "When the hand is down, Holin Odiot has not moved. She looks at him, and at you, and at the basket, and something goes out of her shoulders. 'Well,' she says. 'Eighty,' and walks to the rail, and does not look back at the sled she goes down to." { Assert holinSettled(party). Retract at(holin, deck). }
+  Action ask_ears(actor: group, site: place) "Ask Holin to be Ysmay's left ear as far as Corsey" {
+    Speaker holin.
+    Requires able(actor) and company(actor) and at(actor, site) and at(holin, site) and cutGiven(actor) and knows(actor, ear_known) and not holinAboard(actor).
+    On success { Assert holinAboard(actor). Retract ysmayCold(actor). }
+    Result "Holin looks aft. 'She will not have it from me,' she says. 'It would be like being handed a plate by a guest.' She hands the pot to her sled-hand over the rail, and takes off her gull-skin coat, and puts it on the hatch. 'You will tell her I was bored,' she says, and goes aft, and sits down on the deck beside the tiller, a little to Ysmay's left, with her legs crossed and her head on one side. Ysmay does not turn. After a while she says, 'You are sitting in my wind.' 'Yes,' says Holin.".
+  }
+  Rule holin_goes heard within ullamar when hoisted(party) and at(holin, deck) and not holinAboard(party)
+    says "Holin steps over the rail to her sled with the sail drawing, and the sled falls away behind, smaller and smaller on the white. She does not wave. At the last she lifts the hand without the pot, flat, and holds it still, as one does to a horse." { Retract at(holin, deck). }
+}

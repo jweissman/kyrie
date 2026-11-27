@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "source": [
+    "site.kyr",
+    "sloop.kyr",
+    "folk.kyr",
+    "fates.kyr",
+    "placed.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "ullamar",
+    "road": "road"
+  },
+  "imports": [
+    "party"
+  ],
+  "roles": {
+    "party": {
+      "type": "group"
+    }
+  }
+}

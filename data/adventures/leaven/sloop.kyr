@@ -1,0 +1,177 @@
+Module leaven "The Mild Intention" {
+  Kind mi_flour "a sack of rye flour" is gear worth 2 weighing 2 described "A small sack of coarse grey rye, stamped with the Maing millers' wheat-ear.".
+  Kind mi_water "a skin of sweet water" is gear worth 1 weighing 2 described "A goatskin of water carried from the Maing well. On the Pan it is dearer than beer.".
+  Kind mi_peat "a brick of peat" is gear worth 1 weighing 1 described "A black brick, dry as a book, that will burn a long time and smell of the hill it came off.".
+  Kind mi_canvas "a tarred canvas patch" is gear worth 3 weighing 1 described "A square of sailcloth stiff with tar, with a bone needle through one corner.".
+  Kind mi_heel "the heel of a Corsey loaf" is gear worth 5 weighing 1 described "A crust as dark as a boot, sour and sweet at once, with a crumb that springs back from a thumb. It has the Mother in it.".
+
+  Measure fedAt(entity). Measure thin1(). Measure thin2(). Measure thin3(). Measure mile().
+  Initially Set thin1() to (1d3). Initially Set thin2() to (1d3). Initially Set thin3() to (1d3).
+  Relation berthed(group). Relation avertHired(group). Relation listened(group). Relation ysmayYields(group). Relation ysmayCold(group).
+  Relation holinAboard(group). Relation holinSettled(group). Relation cutGiven(group). Relation tolled(group). Relation holinFought(group).
+  Relation avertYields(group). Relation wagered(group). Relation hoisted(group). Relation crackedNow(group). Relation fateTold(entity).
+  Relation holinWilling(group).
+  Query wrongNow() means not holinAboard(party) and ((mile() == 0 and thin1() == 1) or (mile() == 10 and thin2() == 1) or (mile() == 20 and thin3() == 1)).
+  Query yours() means listened(party) and ysmayYields(party).
+  Query arrived() means mile() >= 40.
+  Query aloft() means mile() >= 1 and mile() < 40.
+
+  Discovery avert_known "Avert Maugh, Master Baker of Corsey, crossed the Pan alone to fetch a cutting of Maing's Mother, and has not put it down since.".
+  Discovery ear_known "Ysmay Dreel has lost the hearing of her left ear. She calls the crust from her right, and hears nothing at all to port.".
+  Discovery holin_known "Holin Odiot, the Weatherwife, was Ysmay's apprentice nine years. Her sleds come out of the glare, low and fast, and the cargoes she takes are never seen again.".
+  Discovery hunger_known "The Mother wants feeding, rye and sweet water, before she sulks, and a warm stove when the Pan goes cold.".
+  Discovery guilt_known "Corsey's Mother died of being kept. The bakers' guild would never give a cutting to Maing or anyone, and a Mother that is not shared dies of being clever.".
+  Discovery thieves_known "Maing's Mother is a cutting stolen from Corsey two hundred years ago by a baker's boy. If he had not stolen it, there would have been no Mother left to come back for.".
+  Discovery famine_known "The Weatherwife's people have eaten gulls and salt-fish for six years, since the north road was built and the sloops stopped running.".
+
+  Hazard mi_crack "the crust going under the wheels" means "Deal (1d6) physical damage to ally unless dexterity save against (11).".
+
+  // ── The Mother ──────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing mother "the Mother" nowhere {
+    State lively "A stoneware crock the size of a ham sits in the basket with a cloth over its mouth. The cloth is domed, and breathes. The sloop smells faintly of apples.".
+    State sluggish "The crock's cloth has sunk flat. When you lift it a sourness comes up, and under the sourness something that is thinking about going on.".
+    State sulking "The crock is cold to the hand and grey inside, and the Mother has pulled down to the bottom of it in a skin. She is not dead. She is making a point.".
+    State spoiled "The crock is full of grey paste that smells of nail-varnish. Nothing in it will rise again.".
+  }
+  Initially Set fedAt(mother) to 0.
+  Action feed_mother(actor: group, site: place) "Feed the Mother rye and sweet water" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(mother, site) and not state(mother, spoiled) and holding(actor, mi_flour) and holding(actor, mi_water) and watch(clock) - fedAt(mother) >= 24.
+    Time 2.
+    On success { Spend mi_flour from actor. Spend mi_water from actor. Set fedAt(mother) to watch(clock). Assert state(mother, lively). Assert knows(actor, hunger_known). }
+    Result "You stir a cupful of rye into the crock with a wooden spoon, add water by the thumb, and cover her again. Avert Maugh watches every movement with the face of a man at a christening. The cloth begins, slowly, to rise.".
+  }
+  Observe mother_hungry at deck as sign when not state(mother, spoiled) and watch(clock) - fedAt(mother) >= 72 and watch(clock) - fedAt(mother) < 96 "The cloth over the Mother's crock has begun to settle. It is not a good sign, and Avert Maugh has noticed.".
+  Rule mother_slows heard within ullamar when state(mother, lively) and watch(clock) - fedAt(mother) > 96
+    says "The cloth over the Mother has gone flat. Avert Maugh says, very quietly, 'She is considering something.'" { Assert state(mother, sluggish). }
+  Rule mother_sulks heard within ullamar when state(mother, sluggish) and watch(clock) - fedAt(mother) > 150
+    says "When the cloth is lifted the Mother has drawn down into a grey skin. Avert does not say anything at all." { Assert state(mother, sulking). }
+  Rule mother_dies heard within ullamar when state(mother, sulking) and watch(clock) - fedAt(mother) > 230
+    says "At some hour nobody marked, the smell of the crock has changed. Avert lifts the cloth and puts it back, with great care, as one closes a door on a sleeper." { Assert state(mother, spoiled). }
+
+  Thing stove "the deck stove" at deck {
+    State cold "An iron stove the size of a bucket is bolted to the deck by the basket, cold.".
+    State lit "The stove glows through its grate. A brick of peat smoulders in it, and the basket beside it is as warm as a hearth-cat.".
+    Change bank "Bank the stove" from cold to lit consuming mi_peat.
+  }
+  Rule chill heard within ullamar when state(song, singing) and state(stove, cold) and state(mother, lively) and not state(mother, spoiled)
+    says "The Pan's cold comes up through the planks. Under the cloth the Mother draws in on herself, as one does in a draught, and sulks." { Assert state(mother, sluggish). }
+
+  // ── The sloop ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Thing hull "the Mild Intention's hull" at deck {
+    State sound "The planks are tight, black with tar, and sing under the wheels.".
+    State holed "One strake has started over a wheel, and the Pan comes up through it in a fine white spray of salt.".
+    State wrecked "The Mild Intention is down on one wheel in the crust with her axle in two pieces.".
+    Change patch "Patch the hull with canvas and tar" from holed to sound consuming mi_canvas.
+  }
+  Thing plank_w "the gangway" on west_plank {
+    State down "The gangway lies from the quay to the deck.".
+    State up blocking "The gangway is in. Maing is a long way behind.".
+  }
+  Rule gangway_in when mile() >= 1 and state(plank_w, down) { Assert state(plank_w, up). }
+  Action listen_pan(actor: group, site: place) "Lie flat on the deck and listen to the Pan" {
+    Requires able(actor) and company(actor) and at(actor, site) and berthed(actor) and mile() < 30 and not listened(actor) and not state(hull, wrecked).
+    Time 2.
+    On success { Assert listened(actor). }
+    Result "You lie on the planks with your cheek to the tar. The whole Pan comes up through the wood: wheels, wind, salt, a long ringing under it all that goes, in places, hollow.".
+  }
+  Observe hear_true_1 at deck as sound when listened(party) and not wrongNow() and mile() == 0 "Out on the white, far ahead and a little to starboard, the crust goes low and hollow, like a bell with a crack. To port it rings true, a cold plate from here to the edge of hearing.".
+  Observe hear_true_2 at deck as sound when listened(party) and not wrongNow() and mile() == 10 "Under the blisters the Pan has a deep slow note, like a cellar. Off to starboard one dome rings flat and empty. The ones to port ring as full as casks.".
+  Observe hear_true_3 at deck as sound when listened(party) and not wrongNow() and mile() == 20 "Ahead, among the Eyes, there are fast quick notes where the brine is near. Starboard of the third Eye the crust is a drum-skin. Port, the collars ring thick and low.".
+  Observe hear_port_1 at deck as sound when listened(party) and wrongNow() and mile() == 0 "To starboard the Pan rings true. To port, low and a long way down, it has the sound of a barrel with the head out. The crust is thin, and the sloop is steering for it.".
+  Observe hear_port_2 at deck as sound when listened(party) and wrongNow() and mile() == 10 "The domes to starboard ring full. Ahead on the port side one of them rings hollow, with a faint wet echo in it. That one is not a blister. It is a lid.".
+  Observe hear_port_3 at deck as sound when listened(party) and wrongNow() and mile() == 20 "The Eyes to starboard sing quick and shallow, and their collars are thick. To port, the nearest collar rings like a dish. A dish is as thick as a dish.".
+  Observe hear_port_with_holin at deck as sound when listened(party) and holinAboard(party) and mile() < 30 and ((mile() == 0 and thin1() == 1) or (mile() == 10 and thin2() == 1) or (mile() == 20 and thin3() == 1)) "To port the crust is hollow. Holin Odiot, without looking up, says 'Starboard of the dome', and Ysmay puts the tiller over before she has finished.".
+
+  // Ysmay's calls: she calls from her right. When the thin crust lies to port she hears nothing, and says it is quiet.
+  Action sail_one(actor: group, site: place) "Sail on as Ysmay calls it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 0 and not wrongNow() and not yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). }
+    Result "Ysmay lets the sail out a hand at a time, and the Mild Intention walks off the quay into the white. By noon Maing has gone out like a candle. The Pan rings under the wheels, true and high, and Rabin lets out a breath he has been holding since the chocks came off.".
+  }
+  Action sail_one_bad(actor: group, site: place) "Sail on as Ysmay calls it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 0 and wrongNow() and not yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). Assert crackedNow(actor). Assert strikes(mi_crack, party). }
+    Result "'Quiet to port,' says Ysmay, and puts her over to it. For an hour the Pan is quiet. Then the near wheel goes through the crust like a spoon through a crème, and the whole sloop slews, and cold brine comes over the bow in a sheet. She comes out of it on three wheels and then on four. Rabin is sitting in the scuppers, and he is laughing, which is the worst of it.".
+  }
+  Action sail_one_yours(actor: group, site: place) "Take the sloop out along the hollow's edge, as you heard it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 0 and yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). }
+    Result "'Starboard of the dome,' you say, and Ysmay takes it as she would take a blow, and puts the tiller over. The wheels ride the high white crust. To port, a long way down the glare, the hollow rings and rings, and the sloop goes by it like a person going quietly past a sleeping dog.".
+  }
+  Action sail_two(actor: group, site: place) "Sail on as Ysmay calls it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 10 and not wrongNow() and not yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). }
+    Result "The blisters go by, one hundred and four of them, each with its crack. Ysmay takes the seams at a slant and never once looks at the crowns. By dusk the Pan has turned the colour of an oyster-shell, and the wind has begun to fail.".
+  }
+  Action sail_two_bad(actor: group, site: place) "Sail on as Ysmay calls it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 10 and wrongNow() and not yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). Assert crackedNow(actor). Assert strikes(mi_crack, party). }
+    Result "'Nothing to port,' says Ysmay. One of the blisters is not a blister. It lets the sloop up onto it, a shoulder at a time, and then it is a hole, and the deck is a wall, and everything not lashed goes aft: Rabin, the stove-bricks, the basket, Avert Maugh clinging to the basket with both arms.".
+  }
+  Action sail_two_yours(actor: group, site: place) "Take the sloop between the blisters, as you heard them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 10 and yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). }
+    Result "You call the seams as you hear them, a word at a time, and Ysmay steers by your voice. For six hours she does not once argue. At the end of it she says, to nobody, 'Well,' and says nothing else for the rest of the watch.".
+  }
+  Action furl(actor: group, site: place) "Furl the sail and wait out the dead air" {
+    Requires able(actor) and company(actor) and at(actor, site) and berthed(actor) and mile() == 20 and state(song, waiting).
+    Time 30.
+    On success { Assert state(song, singing). }
+    Result "Ysmay brings her in until the wheels stop, and Rabin furls. The silence comes down as if a lid had been put on the world. Then, from nowhere, and from everywhere, and from under the planks, the Pan begins to sing.".
+  }
+  Action hoist(actor: group, site: place) "Hoist the sail on the first wind" {
+    Requires able(actor) and company(actor) and at(actor, site) and mile() == 20 and (state(song, singing) or state(song, answered)) and holinSettled(actor) and not hoisted(actor).
+    Time 12.
+    On success { Assert hoisted(actor). }
+    Result "Towards morning a breath comes out of the east, smelling of ovens a very long way off. The sail fills with a clap. The note stops, as a singer stops who has been called to supper.".
+  }
+  Action sail_three(actor: group, site: place) "Sail on as Ysmay calls it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 20 and hoisted(actor) and not wrongNow() and not yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). }
+    Result "The Eyes go by on both sides, black and breathing. Ysmay threads them by the white collars, one hand on the tiller and one on her knee, like a woman playing a harp she knows by heart.".
+  }
+  Action sail_three_bad(actor: group, site: place) "Sail on as Ysmay calls it" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 20 and hoisted(actor) and wrongNow() and not yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). Assert crackedNow(actor). Assert strikes(mi_crack, party). }
+    Result "The collar of the third Eye is a plate, and the plate is a skin. The sloop goes onto it with the confidence of a woman who has done this a thousand times, and the Pan opens a mouth under the near wheels and breathes out, hot and sour, a cloud of steam that smells of the bottom of a lake.".
+  }
+  Action sail_three_yours(actor: group, site: place) "Take the sloop through the Eyes, as you heard them" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 20 and hoisted(actor) and yours().
+    Time 36.
+    On success { Increase mile() by 10. Retract listened(actor). }
+    Result "You lie on the planks for three hours and call the Eyes by their sound: this one wide, that one shallow, this collar thick. Ysmay says each name back, quietly, as one repeats an order in a shop. When the last Eye is behind you she sits for a while with her hand flat on the tiller.".
+  }
+  Action sail_run(actor: group, site: place) "Run for the lights of Corsey" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(ysmay, site) and berthed(actor) and mile() == 30.
+    Time 24.
+    On success { Increase mile() by 10. }
+    Result "The last ten miles are a long clean run on a hard white floor. The lights come up one by one. At the end of it there is a quay, and a ring of people on it, and not one of them is saying a word.".
+  }
+  Rule crack_one heard within ullamar when crackedNow(party) and state(hull, sound)
+    says "The sloop is holed. The patch will need canvas and tar and two hours, and the Pan will be at the next crossing without sympathy." { Assert state(hull, holed). Retract crackedNow(party). Decrease fedAt(mother) by 30 or to nothing. }
+  Rule crack_two heard within ullamar when crackedNow(party) and state(hull, holed)
+    says "The strake that was holed lets go. The Mild Intention comes down on her axle in the crust, and the Pan, which has all the time in the world, begins to come in." { Assert state(hull, wrecked). Retract crackedNow(party). }
+  Rule crack_wrecked heard within ullamar when crackedNow(party) and state(hull, wrecked) { Retract crackedNow(party). }
+
+  // ── The singing: there whether or not anyone is saved ─────────────────────────────────────────────────────────────
+  Thing song "the singing of the Pan" at deck {
+    State waiting "The Pan is only the Pan.".
+    State singing "The note is under the deck, under the wheels, under the whole white floor: low, huge, patient, on one pitch, with a beat in it like a ship's bell a country wide. The ropes hum. The tar hums. Your teeth hum.".
+    State answered "The note has gone down into the crust, and stays there, like something with its head on a pillow.".
+    Change answer "Hum the Pan's note back to it" from singing to answered.
+    Wonder natural unique for aesthetic, spiritual "Forty miles of salt lie flat as a table where the lake was, and tick and ring faintly in the heat, so that you feel it in the soles of your feet. The old pilots say that on some nights, in the dead middle, the whole of it sings, and that it is the lake remembering.".
+  }
+  Rule song_rises heard within ullamar when state(song, singing) and state(stove, lit) and state(mother, lively) and not fateTold(song)
+    says "Under the cloth the Mother is rising to it. The crock's cloth domes, and domes, and begins to quiver in time with the note, and the whole deck smells of apples and beer. Avert Maugh has put both hands over his mouth." { Assert fateTold(song). }
+  Rule song_answered heard within ullamar when state(song, answered) and not fateTold(stove)
+    says "You hum it, low, the note the deck is making, and for a long moment you cannot tell your voice from the planks. The Mother lifts the cloth off the crock with her own dome. Ysmay has put her left hand flat on the deck, and her face has changed." teaches ear_known { Assert fateTold(stove). Set fedAt(mother) to watch(clock). }
+  Rule mother_waked heard within ullamar when state(song, answered) and not state(mother, spoiled) and not state(mother, lively) { Assert state(mother, lively). }
+}

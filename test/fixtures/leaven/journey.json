@@ -1,0 +1,60 @@
+{
+  "arrive": [
+    "To the sloop-quay"
+  ],
+  "hire": [
+    "Ask Avert why he has come",
+    "Offer to guard the Mother"
+  ],
+  "supplies": [
+    "Buy › A sack of rye flour",
+    "Buy › A skin of sweet water",
+    "Buy › A brick of peat",
+    "Buy › A tarred canvas patch"
+  ],
+  "board": [
+    "To the deck of the Mild Intention",
+    "Pay Ysmay fifteen coin"
+  ],
+  "ear": [
+    "Ask Rabin why Ysmay sits sideways",
+    "Tell Ysmay you will be her left ear"
+  ],
+  "stove": [
+    "Bank the stove"
+  ],
+  "legOne": [
+    "Lie flat on the deck",
+    "Take the sloop out along the hollow's edge"
+  ],
+  "legTwo": [
+    "Lie flat on the deck",
+    "Take the sloop between the blisters"
+  ],
+  "feed": [
+    "Feed the Mother"
+  ],
+  "furl": [
+    "Furl the sail and wait out the dead air"
+  ],
+  "share": [
+    "Ask Holin what she wants",
+    "Ask Avert how Corsey's Mother really died",
+    "Ask Avert to cut a share",
+    "Tell Holin whose bread",
+    "Offer the Weatherwife a share"
+  ],
+  "ears": [
+    "Ask Holin to be Ysmay's left ear"
+  ],
+  "hoist": [
+    "Hoist the sail on the first wind"
+  ],
+  "legThree": [
+    "Lie flat on the deck",
+    "Take the sloop through the Eyes"
+  ],
+  "run": [
+    "Run for the lights of Corsey"
+  ]
+}

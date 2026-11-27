@@ -1,0 +1,4 @@
+Module leaven "The Mild Intention" {
+  Company party "You" of 1 at road.
+  Initially Set quantity(party, gold) to 25. Initially Set quantity(party, rations) to 2.
+}

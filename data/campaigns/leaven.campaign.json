@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "name": "The Mild Intention",
+  "pitch": {
+    "heading": "The Mild Intention",
+    "text": "What is asked, and why it matters."
+  },
+  "modules": [
+    {
+      "id": "leaven",
+      "bundle": "../adventures/leaven/module.json"
+    }
+  ],
+  "party": [
+    {
+      "name": "Tester",
+      "raceId": "elf",
+      "classId": "ranger",
+      "backgroundId": "hunter"
+    }
+  ]
+}

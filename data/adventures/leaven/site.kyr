@@ -1,0 +1,32 @@
+Module leaven "The Mild Intention" {
+  Description "Maing, on the west shore of the dry lake Ullamar, and a land-sloop with a sour starter aboard that Corsey, forty miles across the salt, cannot bake without.".
+
+  Place ullamar "the Ullamar country" is region within imbar.
+  Place maing "Maing" is settlement within ullamar at 0, 0.
+  Place pan "the Pan" is wilderness within ullamar at 1, 0.
+  Place corsey "Corsey" is settlement within ullamar at 2, 0.
+  Place mooring "the Dry Mooring" is building within maing.
+
+  Place road "the Maing road" is room within maing at 0, 0 outdoors.
+  Place quay "the sloop-quay" is room within maing at 1, 0 outdoors.
+  Place taproom "the taproom of the Dry Mooring" is room within mooring at 1, 1.
+  Place deck "the deck of the Mild Intention" is room within pan at 0, 0 outdoors.
+
+  Passage dock_road "the road down to the quay" is road between road and quay taking 10 minutes.
+  Passage mooring_door "the Mooring's door" is door between quay and taproom.
+  Passage west_plank "the gangway" is steps between quay and deck.
+
+  Observe road_scene at road when true "The Maing road comes down a long slope of stubble to a town of tar-sheds and sail-lofts. Past the last roof the world stops, and a white floor begins, level and bright, to the end of sight.".
+  Observe road_smell at road as ambience when true "Everything smells of pitch. A boy is running up the slope with a sail on his shoulders, in the manner of a boy who has been told he is late.".
+  Observe quay_scene at quay when true "A quay of black timber, built for a harbour, stands on dry ground with its feet in salt. Sloops lie along it on their wheels, masts bare. The nearest is long, low and very much patched, with MILD INTENTION in tar across her bow.".
+  Observe quay_avert at quay when not knows(party, avert_known) "A tall man in a good coat sits on a bollard with a basket in his lap, held in both arms as one holds a sleeping child. He has not looked at the sloops. He is looking at the basket.".
+  Observe quay_noise at quay as sound when true "The Pan under the quay ticks and pings in the sun, like a very large kettle cooling.".
+  Observe taproom_scene at taproom when true "A long room with its windows shuttered against the glare. Charts of the Pan are pinned over every table, and every chart is wrong in a different place. Over the hearth hangs a boat's anchor, bone dry.".
+  Observe taproom_board at taproom when true "On a slate by the door: NAME OF SLOOP, WEATHER, ODDS. Against Mild Intention, in a firm hand, someone has written the number nine and rubbed it out and written it again.".
+  Observe deck_moored at deck when mile() == 0 "The Mild Intention lies at her quay with her wheels chocked. Forty feet of tarred ash, one mast, a boom like a gallows, a tiller as long as a man. Aft, a small iron stove is bolted to the deck, and next to it a corner has been padded with sacks to the size of a basket.".
+  Observe deck_glare at deck when mile() >= 1 and mile() < 10 "The Pan is white to every edge, and the white is not a colour but a noise in the eyes. Behind, Maing is a smudge. Ahead there is nothing, with a line at the end of it.".
+  Observe deck_blisters at deck when mile() >= 10 and mile() < 20 "The crust has come up in blisters, domes as wide as barns, each one cracked at the crown like a loaf. The wheels go over the seams with a sound like knuckles.".
+  Observe deck_dead at deck when mile() == 20 and not hoisted(party) "The wind has gone. The sail hangs. The light has gone the colour of pewter, and all round the sloop the Pan lies flat and listening. This is the middle: twenty miles from either shore, and no sound at all.".
+  Observe deck_eyes at deck when mile() >= 20 and hoisted(party) and mile() < 30 "Round black pools lie in the white, each as wide as a pond and steaming faintly, each ringed by a collar of pale crust no thicker than a plate. The sloop goes between them like a thread between beads.".
+  Observe deck_run at deck when mile() >= 30 and mile() < 40 "A line of yellow lamps has come up out of the glare: Corsey, low on the east shore, lit at midday for want of anything else to do. The wind is behind. The wheels sing.".
+}
