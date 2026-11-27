@@ -30,6 +30,7 @@
     "lore.kyr",
     "endings.kyr",
     "links.kyr",
+    "count.kyr",
     "placed.kyr",
     "voices.kyr",
     "depth.kyr"
@@ -46,7 +47,14 @@
     "remainder_harboured",
     "remainder_kept",
     "calx_opened",
-    "tallow_names"
+    "tallow_names",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "quorn_broken",
+    "quorn_served"
   ],
   "exports": {
     "party": "party",

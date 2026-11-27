@@ -1,0 +1,83 @@
+Module corrow "Let One Remember" {
+  Relation lrCoinFound(group). Relation lrBrannRead(group). Relation lrEvidence(group).
+  Relation lrGift(group). Relation lrRejected(group). Relation lrBoardRead(group).
+  Discovery lr_chain_known "The first chain survey says the tail was not built to hold a town, but to return a weight to its old place.".
+
+  Observe lr_coin_hint at hoist_house when not lrCoinFound(party)
+    "Under the hoist-house's oldest bolt, a scrap of green bronze is caught in the frozen grease.".
+  Action lr_find_coin(actor: group, site: place) "Ease the old bolt out of the hoist-house beam" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hoist_house) and not lrCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert lrCoinFound(actor). Give count_coin to actor. }
+    Result "A coin drops from the beam. The face is worn smooth, but twelve tiny weights are still cut around the rim. It was laid here by the first chain-crew, who paid each winter's keeper from a common bowl.".
+  }
+  Observe lr_count_chain at chain when befell(ash_count_begun) and not befell(ash_broken)
+    "The Ash's grey board is fastened to a Chain link. Its columns record each town that has held the mountain down.".
+  Observe lr_ash_broken at chain when befell(ash_broken)
+    "The board has been cut free. The old chain keeps its own weight without a tally.".
+  Observe lr_ash_triumphs at chain when befell(ash_triumphs)
+    "The Ash's board hangs from the Chain's horn. A clerk counts each person who holds the mountain in place.".
+
+  Person lr_engineer "Master Iselt Brann" nowhere {
+    Role "the Ash's engineer, here to put a winch on a chain already under strain". Ancestry human. Calling mage. Level 6. Manner grim. Carries battleaxe.
+    Arrives at chain when befell(ash_count_begun) and not befell(engineer_broken) and not befell(engineer_served).
+    Greets "Iselt Brann checks the Chain's curve against a brass rule. 'It is not the mountain that is wrong,' she says. 'Only the people who keep it down.'".
+    Greets again "'The horn will take the load,' says Brann. 'The people need not.'".
+  }
+  Person lr_riggers "Brann's chain-riggers" nowhere {
+    Role "the Ash's riggers, sent to fasten hooks to the Corrow's Chain". Ancestry human. Calling warrior. Level 3. Numbers 4. Temperament obedient. Uses go, assail. Plans 5 steps.
+    Arrives at chain when befell(ash_count_begun) and not befell(engineer_broken) and not befell(engineer_served).
+    Warns "Four riggers carry hooks and a short chain. One has already marked the horn for a winch.".
+  }
+  Person lr_charge_holder "a Hightown charge-holder" nowhere {
+    Role "one of the people who keeps the mountain down". Ancestry human. Calling commoner. Manner stoic.
+    Arrives at chain when befell(ash_count_begun) and not befell(engineer_broken) and not befell(engineer_served).
+    Greets "A charge-holder lays a hand on the Chain. 'We carry its weight,' she says. 'We do not lend it to a winch.'".
+    Greets again "'The horn is not a handle,' says the charge-holder.".
+  }
+  Initially Assert serves(lr_riggers, lr_engineer).
+  Action lr_stop_hooks(actor: group, site: place) "Stop Brann's riggers from hooking the Corrow's Chain" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chain) and able(lr_engineer) and not befell(engineer_broken).
+    Time 1 minute.
+    On success { Assert assails(lr_engineer, actor). Assert assails(lr_riggers, actor). }
+    Result "Brann steps clear of the line. The riggers take the hooks from their shoulders and come on.".
+  }
+  Action lr_search_survey(actor: group, site: place) "Search the hoist-house for the Chain's first survey" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hoist_house) and not knows(actor, lr_chain_known).
+    Time 15 minutes.
+    On success { Assert knows(actor, lr_chain_known). Assert lrEvidence(actor). }
+    Result "Behind the first counterweight is a brass survey plate. Its maker wrote that the Chain must leave weight on the plateau: the mountain remembers its socket by the load at its tail.".
+  }
+  Topic lr_show_survey with lr_charge_holder "Show the charge-holders the Chain's first survey" when knows(actor, lr_chain_known) and at(lr_engineer, chain) once {
+    Says "The charge-holders read the plate together. The old load is not spare weight; it is what keeps the Chain in the ground. They refuse Brann's hooks. She leaves before they can close the hoist-house.".
+    On discuss { Assert befell(engineer_broken). Retract at(lr_engineer, chain). Retract at(lr_riggers, chain). }
+  }
+  Action lr_buy_brann(actor: group, site: place) "Buy Brann's hooks off the Corrow's Chain" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chain) and able(lr_engineer) and quantity(actor, gold) >= 15 and not befell(engineer_broken).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 15. Assert befell(engineer_broken). Retract at(lr_engineer, chain). Retract at(lr_riggers, chain). }
+    Result "Brann sells you the hook chain. 'I can make a better one,' she says, and walks down the plateau without it.".
+  }
+  Rule lr_engineer_falls when at(lr_engineer, chain) and not able(lr_engineer) and (not able(lr_riggers) or routed(lr_riggers)) and assails(lr_riggers, party)
+    says "The hooks fall from the Chain. Brann goes down the plateau, and the mountain keeps its own slow balance." {
+    Assert befell(engineer_broken).
+  }
+  Action lr_serve_brann(actor: group, site: place) "Give Brann the Chain's horn and winch" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chain) and able(lr_engineer) and befell(company_sworn_ash) and not befell(engineer_served).
+    Time 5 minutes.
+    On success { Assert befell(engineer_served). Retract at(lr_engineer, chain). Retract at(lr_riggers, chain). Increase quantity(actor, gold) by 10. }
+    Result "Brann gives you ten gold. Her crew puts the hooks on the horn, and the Chain answers like a cable under sail.".
+  }
+  Topic lr_ri_oath with lr_charge_holder "Tell the Arbiter the company is sworn to the Rì" when befell(company_sworn_ri) and not lrGift(actor) once {
+    Says "The Arbiter marks the company as a counterweight. 'You are counted among those who hold,' she says. The Chain's next shift is entered against your names.".
+    On discuss { Assert lrGift(actor). Increase quantity(actor, gold) by 3. }
+  }
+  Topic lr_ash_oath with lr_charge_holder "Tell the charge-holders the company took the Ash's twelfth seat" when befell(company_sworn_ash) and not lrRejected(actor) once {
+    Says "The charge-holders remove your names from the ballast roll. 'The mountain will not be held by the hand that lets go,' one says.".
+    On discuss { Assert lrRejected(actor). }
+  }
+  Topic lr_board with lr_charge_holder "Show the Arbiter the company's grey board" when holding(actor, ash_tally) and not lrBoardRead(actor) once {
+    Says "The Arbiter sets the grey board against the Chain's horn. The twelfth column weighs nothing. She breaks the slate against the link and gives you the pieces.".
+    On discuss { Assert lrBoardRead(actor). Spend ash_tally from actor. }
+  }
+}

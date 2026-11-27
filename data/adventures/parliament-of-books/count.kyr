@@ -1,0 +1,80 @@
+Module calamy "A Parliament of Books" {
+  Relation pbCoinFound(group). Relation pbFellRead(group). Relation pbEvidence(group).
+  Relation pbGift(group). Relation pbRejected(group). Relation pbBoardRead(group).
+  Discovery pb_table_known "A suppressed table in the Binders' Hall proves the first copyists refused to count the unnamed as property.".
+
+  Observe pb_coin_hint at gutter_lane when not pbCoinFound(party)
+    "At the dead end of Gutter Lane, one paving brick is a printer's type, face-down. Its green edge shows.".
+  Action pb_find_coin(actor: group, site: place) "Lift the printer's type at the end of Gutter Lane" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, gutter_lane) and not pbCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert pbCoinFound(actor). Give count_coin to actor. }
+    Result "The coin has a woman with an open book on one face. The first binders used it to pay the widow who kept their type dry through the flood at Stitchgate.".
+  }
+  Observe pb_count_parliament at chamber when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board stands beside the Great Roll. Doctor Fell has copied the names of the books into twelve columns, and left the authors for last.".
+  Observe pb_ash_broken at chamber when befell(ash_broken)
+    "The board is gone. The Great Roll has been returned to its shelf, where no one agrees on its proper order.".
+  Observe pb_ash_triumphs at chamber when befell(ash_triumphs)
+    "The Parliament sits under a grey board. Each member has a column and a number; the books have none.".
+
+  Person pb_fell "Doctor Aumery Fell" nowhere {
+    Role "the Ash's heretic mathematician, here to make the Parliament's books agree by force". Ancestry human. Calling mage. Level 5. Manner acerbic. Carries dagger.
+    Arrives at chamber when befell(ash_count_begun) and not befell(heretic_broken) and not befell(heretic_served).
+    Greets "Doctor Fell lays out a table in which each book has one proper place. 'A dispute is a flaw in the copy,' he says. 'The Ash has no patience for flawed copies.'".
+    Greets again "'The table is exact,' says Fell. 'The books are not.'".
+  }
+  Person pb_readers "Fell's table-readers" nowhere {
+    Role "the Ash's copied clerks, set to enforce the order of Doctor Fell's table". Ancestry human. Calling warrior. Level 3. Numbers 4. Temperament obedient. Uses go, assail. Plans 5 steps.
+    Arrives at chamber when befell(ash_count_begun) and not befell(heretic_broken) and not befell(heretic_served).
+    Warns "Four clerks shut the chamber doors. Their book-straps hide short swords.".
+  }
+  Initially Assert serves(pb_readers, pb_fell).
+  Rule pb_mott_confronts when at(pb_fell, chamber) and at(mott, hall_floor) {
+    Retract at(mott, hall_floor). Assert at(mott, chamber).
+  }
+  Action pb_refuse_table(actor: group, site: place) "Refuse Doctor Fell's table of the books" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and able(pb_fell) and not befell(heretic_broken).
+    Time 1 minute.
+    On success { Assert assails(pb_fell, actor). Assert assails(pb_readers, actor). }
+    Result "Fell closes the book. The readers take their places between you and the door.".
+  }
+  Action pb_search_binders(actor: group, site: place) "Search the Binders' Hall for the suppressed first table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, hall_floor) and not knows(actor, pb_table_known).
+    Time 15 minutes.
+    On success { Assert knows(actor, pb_table_known). Assert pbEvidence(actor). }
+    Result "Between the boards of a book on bookbinding lies a suppressed table. Its first copyist left the twelfth column empty, with a note: no name was given, and none was owed.".
+  }
+  Topic pb_show_table with mott "Show Warden Mott the suppressed first table" when knows(actor, pb_table_known) and at(pb_fell, chamber) once {
+    Says "Mott lays the old table beside Fell's. The first copyists left the column empty by rule, not by error. He reads that ruling to the Parliament. Fell gathers his pages and leaves under the eyes of the binders.".
+    On discuss { Assert befell(heretic_broken). Retract at(pb_fell, chamber). Retract at(pb_readers, chamber). }
+  }
+  Action pb_buy_fell(actor: group, site: place) "Pay Fell to leave the Parliament's books unordered" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and able(pb_fell) and quantity(actor, gold) >= 15 and not befell(heretic_broken).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 15. Assert befell(heretic_broken). Retract at(pb_fell, chamber). Retract at(pb_readers, chamber). }
+    Result "Fell takes the fee. 'A disorderly library is still a library,' he says, and walks out with no books.".
+  }
+  Rule pb_fell_falls when at(pb_fell, chamber) and not able(pb_fell) and (not able(pb_readers) or routed(pb_readers)) and assails(pb_readers, party)
+    says "The readers fall back from the doors. Fell's table comes apart in the press of books, and he leaves the chamber without it." {
+    Assert befell(heretic_broken).
+  }
+  Action pb_serve_fell(actor: group, site: place) "Give Fell the Parliament's fair copy of his table" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, chamber) and able(pb_fell) and befell(company_sworn_ash) and not befell(heretic_served).
+    Time 5 minutes.
+    On success { Assert befell(heretic_served). Retract at(pb_fell, chamber). Retract at(pb_readers, chamber). Increase quantity(actor, gold) by 10. }
+    Result "Fell gives you ten gold. The Parliament's books go east, copied fair, with every title in its assigned column.".
+  }
+  Topic pb_ri_oath with mott "Tell Warden Mott the company is sworn to the Rì" when befell(company_sworn_ri) and not pbGift(actor) once {
+    Says "Mott gives you a reading-room token. 'The Parliament will copy no marching order,' he says. 'But it will keep the record of who refused one.'".
+    On discuss { Assert pbGift(actor). Increase quantity(actor, gold) by 3. }
+  }
+  Topic pb_ash_oath with mott "Tell Warden Mott the company took the Ash's twelfth seat" when befell(company_sworn_ash) and not pbRejected(actor) once {
+    Says "Mott closes the reading-room doors. 'You have made your name a heading,' he says. 'The books will not follow it.'".
+    On discuss { Assert pbRejected(actor). }
+  }
+  Topic pb_board with roll "Show the Great Roll the company's grey board" when holding(actor, ash_tally) and not pbBoardRead(actor) once {
+    Says "The Great Roll takes the board into its bindings. When it opens again, the twelfth column is blank. The Roll gives you the broken slate.".
+    On discuss { Assert pbBoardRead(actor). Spend ash_tally from actor. }
+  }
+}

@@ -31,6 +31,7 @@
     "endings.kyr",
     "aftermath.kyr",
     "growth.kyr",
+    "count.kyr",
     "company.kyr",
     "lore.kyr"
   ],
@@ -43,7 +44,14 @@
   "canon": [
     "imbar",
     "slack_opened",
-    "remainder_steadied"
+    "remainder_steadied",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "councillor_broken",
+    "councillor_served"
   ],
   "exports": {
     "party": "party",

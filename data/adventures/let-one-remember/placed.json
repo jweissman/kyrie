@@ -15,6 +15,7 @@
     "witness.kyr",
     "growth.kyr",
     "lore.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -45,7 +46,14 @@
   },
   "canon": [
     "imbar",
-    "perrin_lives"
+    "perrin_lives",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "engineer_broken",
+    "engineer_served"
   ],
   "optional": [
     "word",

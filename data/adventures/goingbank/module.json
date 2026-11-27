@@ -1,8 +1,33 @@
 {
   "version": 1,
-  "source": ["site.kyr","folk.kyr","gape.kyr","voices.kyr","endings.kyr","company.kyr"],
-  "rules": ["world"],
-  "globals": ["party"],
-  "canon": ["imbar"],
-  "exports": { "party": "party", "region": "country", "road": "road" }
+  "source": [
+    "site.kyr",
+    "folk.kyr",
+    "gape.kyr",
+    "voices.kyr",
+    "endings.kyr",
+    "count.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "redhand_broken",
+    "redhand_served"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "country",
+    "road": "road"
+  }
 }

@@ -1,0 +1,100 @@
+Module sennet "The Grand Tour" {
+  Relation tourCoinFound(group). Relation tourSpymasterGone(group). Relation tourRiAid(group). Relation tourAshRefused(group).
+  Discovery tour_blue_letter "The Blue Cords copied a letter from the Harbourmaster's book and altered its tide mark.".
+  Discovery tour_ri_word "Pumphrey will clear one berth for a Rì ship without the usual harbour fee.".
+  Discovery tour_ash_word "Pumphrey will not clear a berth for a company sworn to the Ash.".
+
+  Observe tour_coin_hint at pumphrey_office when not tourCoinFound(party)
+    "A ledger shelf has been nailed shut. One nail is new; the other three are green with harbour damp.".
+  Action tour_find_coin(actor: group, site: place) "Lift the new nail from the Harbourmaster's ledger shelf" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pumphrey_office) and not tourCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert tourCoinFound(actor). Give count_coin to actor. }
+    Result "A bronze disc sits behind the shelf, a man with a stylus on its face. Pumphrey says the first harbour clerk kept one for every ship measured at Sennet's quay.".
+  }
+
+  Observe tour_count_quay at quay when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board stands by the sounding line. The Ash is counting ships by their crews.".
+  Observe tour_count_glass at glass_market when befell(ash_count_begun) and not befell(ash_broken)
+    "The glass-sellers have covered their mirrors. A clerk reads the names of each ship that leaves the bay.".
+  Observe tour_ash_broken at quay when befell(ash_broken)
+    "The grey board has gone. Pumphrey has returned the sounding line to the quay.".
+  Observe tour_ash_triumphs at quay when befell(ash_triumphs)
+    "A grey board hangs above the harbour office. Every outbound ship waits for its name.".
+
+  Observe tour_spymaster_at_office at pumphrey_office when at(tour_spymaster, pumphrey_office)
+    "The Blue Cords' spymaster has opened Pumphrey's ledger. Four couriers wait at the door.".
+  Person tour_spymaster "the Spymaster of the Blue Cords" nowhere {
+    Role "the Ash's master of letters at Sennet". Ancestry human. Calling thief. Level 8. Peaceable. Pronouns they.
+    Manner acerbic. Carries dagger.
+    Arrives at pumphrey_office when befell(ash_count_begun) and not befell(spymaster_broken) and not befell(spymaster_served).
+    Greets "The spymaster closes Pumphrey's ledger with one finger. 'A port is a list of arrivals,' they say. 'The Ash has begun to keep one.'".
+    Greets again "'A letter waits for its tide,' says the spymaster. They do not leave the office.".
+  }
+  Person tour_couriers "the Blue Cords' couriers" nowhere {
+    Role "the Ash's letter couriers". Ancestry human. Calling thief. Level 4. Numbers 5. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Five couriers shut the office door. Each has a short blade sewn into a sleeve.".
+  }
+  Initially Assert serves(tour_couriers, tour_spymaster).
+  Rule tour_couriers_arrive when at(tour_spymaster, pumphrey_office) and not tourSpymasterGone(party) {
+    Assert at(tour_couriers, pumphrey_office).
+  }
+  Action tour_find_letter(actor: group, site: place) "Compare the two tide marks in Pumphrey's ledger" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pumphrey_office) and at(tour_spymaster, pumphrey_office) and not tourSpymasterGone(actor).
+    Time 5 minutes.
+    On success { Assert knows(actor, tour_blue_letter). }
+    Result "Two copies of the same tide notice lie under the ledger cord. One sends a ship to the Whelm; the other sends it into a shoal.".
+  }
+  Topic tour_show_letter with pumphrey "Show Pumphrey the false tide mark" when knows(actor, tour_blue_letter) and at(tour_spymaster, pumphrey_office) and not tourSpymasterGone(actor) once {
+    Says "Pumphrey checks the wax, then the cord. 'That seal is mine,' he says. 'The hand is not.' He calls the harbour watch. The Blue Cords leave by the quay.".
+    On discuss { Assert tourSpymasterGone(actor). Retract at(tour_spymaster, pumphrey_office). Retract at(tour_couriers, pumphrey_office). Assert befell(spymaster_broken). }
+  }
+  Action tour_send_false_tide(actor: group, site: place) "Send the false tide notice down the sounding line" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quay) and at(tour_spymaster, pumphrey_office) and knows(actor, tour_blue_letter) and not tourSpymasterGone(actor).
+    Time 5 minutes.
+    On success { Assert tourSpymasterGone(actor). Retract at(tour_spymaster, pumphrey_office). Retract at(tour_couriers, pumphrey_office). Assert befell(spymaster_broken). }
+    Result "Pumphrey calls the false tide through the sounding line. The couriers run for a ship that is not there; the spymaster follows them out.".
+  }
+  Action tour_challenge_spymaster(actor: group, site: place) "Challenge the Blue Cords' spymaster and couriers" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pumphrey_office) and able(tour_spymaster) and not tourSpymasterGone(actor).
+    Time 1 minute.
+    On success { Assert assails(tour_spymaster, actor). Assert assails(tour_couriers, actor). }
+    Result "The spymaster pulls a thread from their sleeve. The couriers take the office door.".
+  }
+  Rule tour_spymaster_broken when at(tour_spymaster, pumphrey_office) and assails(tour_couriers, party) and (not able(tour_couriers) or routed(tour_couriers)) {
+    Assert tourSpymasterGone(party). Retract at(tour_spymaster, pumphrey_office). Retract at(tour_couriers, pumphrey_office). Assert befell(spymaster_broken).
+  }
+  Action tour_serve_spymaster(actor: group, site: place) "Give the Blue Cords the letters leaving Sennet" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pumphrey_office) and at(tour_spymaster, pumphrey_office) and befell(company_sworn_ash) and not tourSpymasterGone(actor).
+    Time 10 minutes.
+    On success { Assert tourSpymasterGone(actor). Retract at(tour_spymaster, pumphrey_office). Retract at(tour_couriers, pumphrey_office). Assert befell(spymaster_served). Increase quantity(actor, gold) by 8. }
+    Result "The spymaster pays eight marks from the Ash's purse. The couriers take every letter from the office.".
+  }
+
+  Observe tour_ri_cleared at quay when tourRiAid(party) "The berth stands clear. Two marks from its fee lie on the quay wall.".
+
+  Topic tour_ri_oath with pumphrey "Tell Pumphrey your company is sworn to the Rì" when befell(company_sworn_ri) and not knows(actor, tour_ri_word) once {
+    Says "Pumphrey crosses a berth off his board. 'No fee for the Rì's ship,' he says. 'Sennet has enough cargo.'".
+    On discuss { Assert knows(actor, tour_ri_word). }
+  }
+  Action tour_ri_berth(actor: group, site: place) "Clear the quay berth for a ship of the Rì" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, quay) and knows(actor, tour_ri_word).
+    Time 5 minutes.
+    On success { Assert tourRiAid(actor). Increase quantity(actor, gold) by 2. }
+    Result "Pumphrey gives you two marks from the berth fee. He clears the quay.".
+  }
+  Topic tour_ash_oath with pumphrey "Tell Pumphrey your company took the Ash's twelfth seat" when befell(company_sworn_ash) and not knows(actor, tour_ash_word) once {
+    Says "Pumphrey closes the harbour ledger. 'No berth under that board,' he says. 'Take your ship elsewhere.'".
+    On discuss { Assert knows(actor, tour_ash_word). }
+  }
+  Action tour_ash_berth(actor: group, site: place) "Ask Pumphrey to clear a berth under the Ash's tally" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, pumphrey_office) and knows(actor, tour_ash_word) and quantity(actor, gold) >= 2.
+    Time 5 minutes.
+    On success { Assert tourAshRefused(actor). Decrease quantity(actor, gold) by 2. }
+    Result "Pumphrey takes two marks for the inspection. He leaves the berth on the board as closed.".
+  }
+  Topic tour_tally with pumphrey "Show Pumphrey the Ash's tally-board" when holding(actor, ash_tally) and not tourAshRefused(actor) once {
+    Says "Pumphrey puts the board in the sounding-line box. 'It will float,' he says. He returns the box empty.".
+    On discuss { Spend ash_tally from actor. Increase quantity(actor, gold) by 2. }
+  }
+}
