@@ -16,10 +16,10 @@ describe('every catalog ability as an effect sentence', () => {
     expect(census.differs).toEqual([]);
   });
   it('names what the language lacks for the rest', () => {
-    // The research's first five forms (§2.1): what resisting does, what a save does and a trait's filter are said, and a
-    // removal of any of the states named; a delivery by an attack next.
-    expect([census.lacks.onResist, census.lacks['save.success'], census.lacks.targetTrait, census.lacks['remove.pattern']])
-      .toEqual([undefined, undefined, undefined, undefined]);
+    // The research's first five forms (§2.1): what resisting does, what a save does and a trait's filter are said,
+    // and a removal of any of the states named; a delivery by an attack next.
+    const said = ['onResist', 'save.success', 'targetTrait', 'remove.pattern'];
+    expect(said.filter(form => census.lacks[form] !== undefined)).toEqual([]);
     expect(census.lacks.attack).toBeGreaterThan(0);
     expect(Object.values(census.lacks).reduce((n, x) => n + x, 0)).toBe(census.total - census.equal);
   });
