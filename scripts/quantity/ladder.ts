@@ -48,15 +48,15 @@ export class QuantityLadder {
     const last = l.coin.at(-1) ?? l.start, gain = l.coin.length ? (last - l.start) / l.coin.length : 0;
     return gain > 0 ? Math.min(this.never, l.coin.length + Math.ceil((price - last) / gain)) : this.never;
   }
-  // Expeditions to a rung's first ware and to its dearest, each held by the rung's band.
+  // Expeditions to a rung's first ware, which opens it and is held by the rung's band; its dearest said beside it (a
+  // rung's top held to the band that opens it would ask the rung bought out as soon as it opened: OR-1520).
   static rung(l: Ladder | undefined, n: number): Reading {
     if (!l) { return { value: null, note: 'not read' }; }
     const rung = this.rungs[n]!, on = this.on(l, rung);
-    if (!on.length) { return { value: this.never, each: { first: this.never }, note: `no ware on ${rung.name}` }; }
-    const [first, dearest] = [on[0]!, on.at(-1)!], each = { first: this.expeditions(l, first[1]),
-      dearest: this.expeditions(l, dearest[1]) };
-    return { value: each.first, each, note: `${on.length} wares, ${first[0]} ${first[1]} after ${each.first}, `
-      + `${dearest[0]} ${dearest[1]} after ${each.dearest}; purse ${l.start} then ${l.coin.join(', ')}` };
+    if (!on.length) { return { value: this.never, note: `no ware on ${rung.name}` }; }
+    const [first, dearest] = [on[0]!, on.at(-1)!], opened = this.expeditions(l, first[1]);
+    return { value: opened, note: `${on.length} wares, ${first[0]} ${first[1]} after ${opened}, `
+      + `${dearest[0]} ${dearest[1]} after ${this.expeditions(l, dearest[1])}; purse ${l.start} then ${l.coin.join(', ')}` };
   }
   // The rungs with a ware on them, of the four.
   static rungsHeld(l: Ladder | undefined): Reading {

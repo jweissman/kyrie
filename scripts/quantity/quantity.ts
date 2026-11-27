@@ -49,6 +49,7 @@ export class Quantity {
     if (groups.includes('expeditions')) {
       r.expeditions = await QuantityExpeditions.run();
       r.ladder = QuantityExpeditions.ladder;
+      r.takes = QuantityExpeditions.takes;
       console.error('expeditions');
     }
     if (groups.includes('leads')) { r.leads = await QuantityLeads.run(); console.error('leads'); }

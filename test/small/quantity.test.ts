@@ -125,7 +125,9 @@ describe('the quantity gate', () => {
     const at = (id: string, l: Ladder = ladder) =>
       Reckon[QuantityMeasures.all.find(m => m.id === id)!.read]({ ...fixed, ladder: l });
     // The purse holds 30 at the third return; 400 is past the fifth, at its mean gain of 12.6 an expedition.
-    expect(at('rung1').each).toEqual({ first: 3, dearest: 3 });
+    // A rung is opened by its first ware (held by its band); its dearest is said beside it, not held (OR-1520).
+    expect([at('rung1').value, at('rung1').each]).toEqual([3, undefined]);
+    expect(at('rung1').note).toContain('banded 60 after 3');
     expect([at('rung2').value, at('rungs').value]).toEqual([5 + Math.ceil(325 / 12.6), 3]);
     // The best take, 77 at the third return, is 86% of the first rung's 90.
     expect(at('bought').value).toBe(86);
@@ -134,5 +136,9 @@ describe('the quantity gate', () => {
     expect(QuantityLadder.expeditions({ ...ladder, coin: [9, 9] }, 400)).toBe(QuantityLadder.never);
     expect(QuantityLadder.expeditions(ladder, 10)).toBe(0);
     expect(Reckon.rung1(fixed).value).toBeNull();
+    // What each level of the reference dungeon holds to carry home, against the rung of its depth (OR-1129).
+    const takes = [{ id: 'region__s1_ud_barrow', take: 53 }, { id: 'region__s1_ud_halls', take: 495 }];
+    expect([Reckon.take1({ ...fixed, takes }).value, Reckon.take2({ ...fixed, takes }).value]).toEqual([53, 495]);
+    expect(Reckon.take2({ ...fixed, takes: takes.slice(0, 1) }).value).toBeNull();
   });
 });

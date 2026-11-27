@@ -8,6 +8,7 @@ import { DangerSense } from '../../src/presentation/danger-sense';
 import type { Battle } from '../../src/arena';
 import { Tactics } from '../../src/tactics';
 import { QuantityLadder, type Ladder } from './ladder';
+import { QuantityDungeon } from './dungeon';
 
 // Five expeditions on the reference seed (OR-1390, the economy review's Priority 0: doc/reviews/conflict-economy-
 // boredom-stimulation.md §8, §9): a rung-3 player with an explicit policy, not a search.
@@ -67,6 +68,7 @@ export class QuantityExpeditions {
     const { journey } = await PlayTool.start(PlayTool.parse(['--world', this.seed, '--as', 'human/warrior/Wenna',
       '--opening', 'none', '--origin', 'wanderer']));
     const s = journey.session, out: Trip[] = [], start = this.coin(s), wares = QuantityLadder.wares(s.campaign);
+    this.takes = QuantityDungeon.takes(s.campaign, 'region__s1_ud_site');
     let last = this.snapshot(s);
     const seen = new Map<string, Set<string>>();
     for (let n = 1; n <= trips && s.campaign.running && this.standing(s); n++) {
@@ -78,8 +80,10 @@ export class QuantityExpeditions {
     this.ladder = QuantityLadder.of(start, wares, out);
     return out;
   }
-  // The town's wares and the purse at the start and each return, as the ladder reads them (OR-1125).
+  // The town's wares and the purse at the start and each return, as the ladder reads them (OR-1125); and what each
+  // level of the dungeon held to carry home before the first went down (OR-1129).
   static ladder?: Ladder;
+  static takes: { id: string; take: number }[] = [];
   // One expedition, from the town and back to it.
   private static async trip(s: PlaySession, n: number, seen: Map<string, Set<string>>): Promise<Trip> {
     const from = s.campaign.history.length, before = this.items(s), trip: Trip = { n, prepared: [], approach:

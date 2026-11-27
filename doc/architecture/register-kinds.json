@@ -3618,6 +3618,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov, split from OR-407: the specs' cost (each fragment on its horizon), a maturity task, not an observed violation of a player-facing contract"
+  },
+  "OR-1622": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of OR-1520, wanted (the flagship's fifth expedition), not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {
