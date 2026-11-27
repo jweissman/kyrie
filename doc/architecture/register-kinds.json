@@ -3633,5 +3633,20 @@
   "GR-24": "OR-745",
   "OR-881": "OR-741",
   "OR-920": "OR-741"
+ },
+ "OR-1490": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "an observed violation of the one-menu, strict-four contract (the owner's playtest)"
+ },
+ "OR-1494": {
+  "kind": "requirement",
+  "pri": "P2",
+  "why": "the other clients' reading of a question the page already draws; no contract broken"
+ },
+ "OR-1495": {
+  "kind": "direction",
+  "pri": "P2",
+  "why": "how the rest of a big place should be chosen, a design question beyond the contract"
  }
 }
