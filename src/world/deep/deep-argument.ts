@@ -37,13 +37,17 @@ export class DeepArgument {
     return [`  Relation ${w}_heard(group). Relation ${w}_won(group). Relation ${w}_promised(group).`,
       `  Relation ${w}_argued(group, entity).`,
       `  Entity ${w}_grief: fact ${q(this.fill(said, this.said.grief))}.`,
-      ...this.stand(w, p, said), ...this.said.moves.map(m => this.move(w, p, m, said)), ...this.promise(w, p, said),
+      ...this.stand(w, p, said, seal.a), ...this.said.moves.map(m => this.move(w, p, m, said)),
+      ...this.promise(w, p, said),
       ...this.after({ w, p, wall, holy: values.holy ?? `${values.town}_shrine`, said })];
   }
   // What the priest holds, and says once asked; and what they say once won over.
-  private static stand(w: string, p: string, said: Words): string[] {
+  // Asked once the wall has been seen, from the room above it (OR-1680: knowing the place's name, a fresh life had been
+  // offered the walled stair in it).
+  private static stand(w: string, p: string, said: Words, above: string): string[] {
     const q = this.q, f = this.fill.bind(this, said);
-    return [`  Topic ${w}_wall with ${p} ${q(f(this.said.ask))} when knows(actor, ${w}_named) and not ${w}_heard(${p}) {`,
+    return [`  Topic ${w}_wall with ${p} ${q(f(this.said.ask))} when knows(actor, ${w}_named) and been(actor, ${above})`
+      + ` and not ${w}_heard(${p}) {`,
       `    Says ${q(f(this.said.stand))}.`, `    On discuss { Assert ${w}_heard(${p}). }`, '  }',
       `  Topic ${w}_since with ${p} ${q(f(this.said.again))} when ${w}_won(${p}) once {`,
       `    Says ${q(`${f(this.said.careful)}${said.carry ? f(this.said.carry) : ''}`)}.`, '  }'];

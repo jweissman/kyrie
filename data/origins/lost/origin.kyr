@@ -5,6 +5,9 @@ Module origin "Gone under" {
   // Where she went, and the way, as her letter told it: the aim is on the map (Origins.delve).
   Entity named: fact "Where it is". Entity found: fact "The way there".
   Initially Assert knows(party, named). Initially Assert knows(party, found).
+  // Known from her letter: said where it grounds a question (OR-1680).
+  Entity sisters_letter: source "your sister's letter". Initially Assert reveals(sisters_letter, named).
+  Initially Assert at(sisters_letter, approach). Initially Assert learnedFrom(party, sisters_letter, named).
   Observe arrival at approach as fixture when true "{scene}".
   Observe letter at approach as feature when watch(clock) < 1 "Her last letter is in your coat, read so often it has come apart at the folds. She was going out to {work}, in {where}, with two men from {home} who swore there was silver in it. She would write when she was rich. The two men came back at the end of the summer. She did not, and they will not say why.".
   // Someone at home to ask of her, and where to look (Origins.lost): followed, the hook had gone quiet with no one to

@@ -13,7 +13,8 @@ import { Journey } from '../../src/session/journey';
 // opening), and everyone in the opening's rooms and the first town, each spoken with where they stand, the company
 // put there and nothing done: what can be said to them, as the conversation holds it (TalkFocus.simple), not what is
 // had of them for coin or work, nor a fight's.
-export interface Asked { who: string; name: string; place: string; questions: string[] }
+// grounds: each question's words, and how the company knows enough to ask it where its row says (TopicGrounds).
+export interface Asked { who: string; name: string; place: string; questions: string[]; grounds: [string, string?][] }
 export class FirstQuestions {
   static readonly trade = /^(buy|haggle|attack|talk_round|face_down)/;
   static async life(seed: string): Promise<PlaySession> {
@@ -46,7 +47,8 @@ export class FirstQuestions {
     return scene.subjects.filter(x => x.kind === 'person' && !x.danger).map(subject => {
       const said = TalkFocus.simple(Attending.talk(scene, subject.id)?.replies ?? [])
         .filter(q => !TalkFocus.services.has(q.does ?? '') && !this.trade.test(q.does ?? ''));
-      return { who: subject.id, name: subject.name, place, questions: said.map(q => q.label) };
+      return { who: subject.id, name: subject.name, place, questions: said.map(q => q.label),
+        grounds: said.map(q => [q.label, q.note] as [string, string?]) };
     });
   }
 }

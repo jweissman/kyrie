@@ -64,8 +64,12 @@
     Warns "The boar comes up out of the mud all at once. It stands and blows. It does not mean to go anywhere.".
   }
   Initially Set encounterXp({t}_wood_boar) to 100.
+  // Seen above the town from its green: the ground for asking after them (OR-1680; a fresh life had been offered the
+  // woods by name before it had seen or heard of them).
+  Entity {t}_wood_seen: fact "The old woods come down to the last field above {town}.".
+  Observe {t}_wood_above at {t}_green as fixture when true "Above the last field the old woods come down, dark under the hill." teaches {t}_wood_seen.
   // Asked, the one who buys what the woods give asks back, and tells what they know of the woods.
-  Topic {t}_wood_asked with {dealer} "Ask {{dealer}} about the old woods" when true once {
+  Topic {t}_wood_asked with {dealer} "Ask {{dealer}} about the old woods" when knows(actor, {t}_wood_seen) or been(actor, {t}_wood_edge) once {
     Says "'Have you been into the old woods?' says {{dealer}}, and looks at your boots. 'Go up by the field path, and keep to the old ride. Bring back woundwort, there's a price for it here. Keep away from the holly where the ground is churned, there's a boar that has had two dogs this year. And up the ride, where the beeches start, are the old stones. Nobody goes there. The burners went, and didn't burn in the woods again.'".
     On discuss { Assert knows(actor, {t}_wood_stones_known). }
   }

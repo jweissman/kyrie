@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 226 pins (195 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 729 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 73 capabilities; 229 pins (198 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 729 live rows, 239 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -63,7 +63,7 @@ page's colours and opportunities.)
 
 ### Conversation
 
-- **Conversation held to its focus** · 11 pins · 4 defects · 6 asks
+- **Conversation held to its focus** · 11 pins · 3 defects · 6 asks
   - ✓ draws her topics alone, every one within reach over its pages, and her leave-taking on each
   - ✓ shows a short list whole, with nothing folded
   - ✓ shows three, folds the rest, and sets trading apart
@@ -96,6 +96,10 @@ page's colours and opportunities.)
   - direction OR-854 P3: The put question and the spoken answer are readings of existing forms (a question's condition…
   - direction OR-855 P3: Knowledge checks in talk use Kyrie's own skills (woodcraft for what the SRD calls Nature, lore for…
   - requirement BO-07 P1: Talking to someone teaches nothing: 138 talk_to acts in the census, one taught anything; each a…
+- **Questions asked on grounds** · 3 pins · 1 defects · 0 asks
+  - ✓ offers the mill only once it is heard of, and says who told it
+  - ✓ writes the reference game's questions with their grounds in their conditions
+  - ✓ says where what was known from the first came from
 - **News and rumour** · 0 pins · 1 defects · 1 asks
   - direction OR-365 P3: News and rumour: people tell what they have heard of places and people far off, and the company…
 

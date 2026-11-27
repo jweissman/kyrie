@@ -30,6 +30,7 @@ import { Stakes } from './stakes'; import { Quarters } from './quarters'; import
 import type { Act, ItemRow, MemberRow, Screen, TargetRow } from './screen-types';
 import { Deeds } from '../presentation/deeds';
 import { ScreenPrices } from './screen-prices';
+import { TopicGrounds } from './topic-grounds';
 
 // Builds the renderer-independent game screen from the authoritative campaign. Pure: same campaign, same screen.
 export class ScreenModel {
@@ -52,8 +53,9 @@ export class ScreenModel {
     const names = new KnownNames(campaign), prices = ScreenPrices.items(world), knowing = frame.knowing;
     const present = new Set(view.present.map(p => p.id)), teaches = knowing.teaches.bind(knowing);
     const passageOf = this.passageOf(world, view.location?.id ?? ''), fees = ScreenPrices.fees(campaign), catalog = campaign.catalog;
+    const ground = TopicGrounds.said.bind(TopicGrounds, view, names, view.actor);
     const grouped = ChoiceGrouping.group(Withheld.rows(campaign, frame.rows), { present, names, prices, passageOf, fees,
-      tell: ScreenModel.tell, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
+      tell: ScreenModel.tell, ground, ...Exposure.of(world), ...view.party.length === 1 ? { solo: true } : {},
       world, reckon: DangerSense.reckon.bind(DangerSense, campaign), worn: Carriers.worn(campaign), teaches, catalog,
       ...(view.actor ? { carrier: Carriers.carrier.bind(null, catalog, world, view.actor) } : {}) });
     const here = view.location?.id ?? '', passages = new Passages(entities, world, view.actor);
@@ -73,8 +75,7 @@ export class ScreenModel {
       title: view.title, clock: FictionalTime.at(view.elapsed, view.minutes), elapsed: view.elapsed,
       running: view.running, ...Patience.of(campaign, view.minutes),
       ...this.when(campaign, view.elapsed), path: here ? passages.path(here) : [], place: passages.place(here),
-      prose: scene.prose, fresh: scene.fresh, observed: view.observations,
-      dark: view.observations.some(o => o.id === 'darkness'),
+      prose: scene.prose, fresh: scene.fresh, observed: view.observations, dark,
       exits: here ? Headings.of(world.module, passages.path(here), here, passages.exits(here, grouped.exits,
         { ...(view.spatial ? { spatial: view.spatial } : {}), visited })) : [],
       // A kind's painting is of its kind, as an emblem is (the menagerie, 6 November): two dogs here are both dogs.

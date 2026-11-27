@@ -306,7 +306,7 @@ export class ChoiceList {
       : /^Make camp/.test(a.label) ? 'until morning' : a.minutes && a.minutes > 10 ? this.minutes(a.minutes) : '';
     // One that cannot be made now says why beneath it (the coin it costs, the skill it wants), not that no one can.
     const odds = a.reckoned ? this.chances[a.reckoned.danger] : '';
-    const note = a.disabled ? '' : [priced?.[1] ?? '', span, a.by?.join(', ') ?? '', odds].filter(Boolean).join(' · ');
+    const note = a.disabled ? '' : [priced?.[1], span, a.by?.join(', '), odds, a.ground].filter(Boolean).join(' · ');
     const about = [a.about, a.reckoned?.text].filter(Boolean).join(' ');
     return { id, label, tone, ...(a.command ? { command: a.command } : {}), ...(note ? { note } : {}),
       ...(a.minutes ? { minutes: a.minutes } : {}), ...(about ? { about } : {}),

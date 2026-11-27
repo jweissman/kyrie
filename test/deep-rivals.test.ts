@@ -62,6 +62,9 @@ describe('rivals for a deep site\'s prize', () => {
   it('are told of by their head, who pays for the prize and stands the company an advance against it', async () => {
     const s = await Rivals.start();
     Rivals.put(s, 'region__s1_green');
+    // Asked by one who has heard of the workings (OR-1680: never on no grounds), as the innkeeper tells of them.
+    expect(Rivals.names(s).some(n => /^Ask the prior about the old workings$/.test(n))).toBe(false);
+    Rivals.set(s, [{ kind: 'assert', call: ModuleWriter.call('knows', 'party', 'region__w9_named') }]);
     expect(await Rivals.take(s, /^Ask the prior about the old workings$/))
       .toMatch(/The brothers of Ísenheald kept that place once.*we can give 150 coin/);
     expect([Rivals.test(s, 'knows', 'party', `${Rivals.id}_offer`), Rivals.test(s, 'knows', 'party', 'region__w9_named')])

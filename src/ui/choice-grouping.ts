@@ -70,6 +70,8 @@ export interface GroupingContext {
   // Whether an act would teach the company something it could foresee (Knowing.teaches: the knowledge boundary's
   // door, OR-527): what it would know after it that it does not now.
   teaches?: (action: Operator) => boolean;
+  // How the company knows enough to put a topic, in a few words (TopicGrounds, OR-1680).
+  ground?: (action: Operator) => string | undefined;
 }
 
 // Organizes legal commands by what the player is acting on. It never adds, removes or reinterprets a command;
@@ -274,6 +276,11 @@ export class ChoiceGrouping {
   private static owned(action: Operator): { own?: boolean; deed?: boolean } {
     return /^\w+__\w/.test(action.id) ? { own: true, ...action.speaker && action.topic ? {} : { deed: true } } : {};
   }
+  // A topic's ground, where it has one the company can name (TopicGrounds).
+  private static grounded(action: Operator, context: GroupingContext): { ground?: string } {
+    const ground = action.topic ? context.ground?.(action) : undefined;
+    return ground ? { ground } : {};
+  }
   // A sleep that lasts until morning says when it will end: at seven, or eight hours on, by day.
   // The hour only, or with "tomorrow" if it ends on the next day ("3:00 p.m. on day 2" was said of a camp made in the
   // morning: play 11).
@@ -303,7 +310,8 @@ export class ChoiceGrouping {
       ...(action.description ? { about: action.description } : {}),
       ...(row.by?.length && !context.solo ? { by: row.by } : {}),
       ...(bound.length ? { bound } : {}), ...(action.grave ? { grave: action.grave } : {}),
-      ...(action.answers ? { answer: true } : {}), ...ChoiceGrouping.owned(action) };
+      ...(action.answers ? { answer: true } : {}), ...ChoiceGrouping.owned(action),
+      ...ChoiceGrouping.grounded(action, context) };
     const schema = action.schema ?? action.id, b = action.bindings ?? {}, by = action.speaker;
     ChoiceGrouping.warn(leaf, action, context);
     if (action.movement) {

@@ -33,6 +33,9 @@ export interface Act {
   teaches?: boolean;
   // What the action's author says it means, shown before it is chosen.
   about?: string;
+  // How the company knows enough to put it, a topic about something in particular (TopicGrounds, OR-1680): "from the
+  // brothers' letter", "Veyas told you"; said on its row, beside its words.
+  ground?: string;
   // Who in the company makes it possible (the one with the skill it needs), or why it cannot be done.
   by?: string[]; disabled?: string;
   // The names of what it is done to or with, to tell it from another choice that reads the same.

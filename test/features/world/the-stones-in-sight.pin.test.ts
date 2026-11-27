@@ -49,7 +49,8 @@ describe('World › The stones in sight', () => {
   });
   it('leads the herb-wife\'s word straight to the stones and down, not round by the shrine', async () => {
     const t = await Tiny.start(woods);
-    await t.play('Ask Sable about the old woods');
+    // The woods seen above the green first, the ground for asking after them (OR-1680).
+    await t.play('Wait a while', 'Ask Sable about the old woods');
     const aims = () => t.campaign.module.objectives!.filter(o => t.world.test(o.when)).map(o => o.id);
     expect(aims()).toEqual(['t__n_wood_go']);
     await t.play('>t__n_wood_edge', '>t__n_wood_ride', '>t__n_wood_stones');
