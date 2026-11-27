@@ -10,6 +10,7 @@ import { Overland } from '../ui/overland';
 import { RuleWords } from '../narrative/rule-words';
 import { ArrivalAttention, type Attention, type AttentionReason } from '../presentation/arrival-attention';
 import { ActionFeedbackView } from '../presentation/action-feedback';
+import { SeenPerceptions } from './seen-perceptions';
 
 // A journey made: each leg as it was done (its command and what came of it), and why it stopped where it did.
 // passed: what came on a leg that asked nothing of the player and so did not stop it, in the words a stop would
@@ -178,11 +179,14 @@ export class Travel {
   // The event is the campaign's copy of its own record, never the record itself, so it is told from the others by
   // when it was and what it did: compared as the same object, every perception had been seen already, in the leg's
   // own record, and nothing staged ever stopped a journey (found by the wild's meetings: OWN-27).
+  // Seen in another event of the log: counted as the log grows (SeenPerceptions), less the leg's own (OR-1361: every
+  // event of the log had been read again on every leg).
   private static fresh(campaign: Campaign, event: CampaignEvent): boolean {
     const own = campaign.history.findLastIndex(e => e.action === event.action && e.elapsed === event.elapsed);
-    const seen = new Set(campaign.history.filter((_, i) => i !== own)
-      .flatMap(e => (e.perceptions ?? []).map(p => p.id)));
-    return (event.perceptions ?? []).some(p => p.kind !== 'discovery' && !seen.has(p.id));
+    const mine = new Set((campaign.history[own]?.perceptions ?? []).map(p => p.id));
+    const seen = SeenPerceptions.of(campaign);
+    return (event.perceptions ?? [])
+      .some(p => p.kind !== 'discovery' && (seen.get(p.id) ?? 0) - Number(mine.has(p.id)) < 1);
   }
   // Whether something said is said by one who goes with the company: an Event near them.
   private static aside(campaign: Campaign, id: string): boolean {
