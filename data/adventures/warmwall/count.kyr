@@ -1,0 +1,74 @@
+Module warmwall "The Warm Wall" {
+  Relation wwlCoinFound(group). Relation wwlDangerSettled(group). Relation wwlRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe wwl_coin_hint at cold_wheel when not wwlCoinFound(party)
+    "The cold wheelhouse door has a new wedge. Its wood is older than the bath-yard gate.".
+  Action wwl_find_coin(actor: group, site: place) "Pull the old wedge from the cold wheelhouse door" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cold_wheel) and not wwlCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert wwlCoinFound(actor). Give count_coin to actor. }
+    Result "A woman with a sickle is pressed into the coin. The bath-keepers put it by the cold wheel when the spring first failed, to remember who had to wait.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe wwl_count_begins at road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board closes the drove road. The bath’s cold spring is listed as a levy for the Ash.".
+  Observe wwl_count_broken at road when befell(ash_broken)
+    "The board is gone. The queues form again by the pools, without a guard at the gate.".
+  Observe wwl_count_triumph at road when befell(ash_triumphs)
+    "The Ash counts the bathers by the pool. The spring runs under an armed watch.".
+  Observe wwl_party_saved at road when wwlDangerSettled(party)
+    "The wheel stops turning, leaving only steam. The bath attendants reopen the stair to the cold room.".
+
+  Person wwl_counting_party "six ash levies under Sergeant Alden Crake" nowhere {
+    Role "ash-fed bath levies who guard the cold wheel’s last safe passage". Ancestry human. Calling warrior. Level 2. Numbers 6.
+    Temperament defensive. Uses go, assail. Plans 4 steps.
+    Warns "Six levies carry furnace hooks and damp cloaks. Sergeant Alden Crake blocks the wheelhouse stair.".
+  }
+  Rule wwl_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not wwlDangerSettled(party) {
+    Assert at(wwl_counting_party, road).
+  }
+  Action wwl_fight(actor: group, site: place) "Hold the cold-wheel road against Sergeant Crake" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wwl_counting_party, road) and not wwlDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(wwl_counting_party, actor). }
+    Result "Steam leaps from the cold wheel. Six ash levies close the gap beneath its iron spokes.".
+  }
+  Rule wwl_force_broken when at(wwl_counting_party, road) and (not able(wwl_counting_party) or routed(wwl_counting_party)) and assails(wwl_counting_party, party) {
+    Assert wwlDangerSettled(party). Retract at(wwl_counting_party, road).
+  }
+  Action wwl_coin_way(actor: group, site: place) "Offer the old bath coin as a place in the queue" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wwl_counting_party, road)
+      and not wwlDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert wwlDangerSettled(actor). Retract at(wwl_counting_party, road). }
+    Result "The sergeant recognizes the spring mark. His men leave the bathers to their turns.".
+  }
+  Action wwl_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wwl_counting_party, road)
+      and not wwlDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert wwlDangerSettled(actor). Retract at(wwl_counting_party, road). }
+    Result "The levies read the company’s name and let it pass the bath gate.".
+  }
+  Action wwl_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wwl_counting_party, road)
+      and not wwlDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert wwlDangerSettled(actor). Retract at(wwl_counting_party, road). }
+    Result "The board is enough to send the levies back to the drove road.".
+  }
+  Action wwl_local_way(actor: group, site: place) "Lift the wheelhouse hatch with Nesta’s maul" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, road) and at(wwl_counting_party, road)
+      and not wwlDangerSettled(actor) and holding(actor, wm_maul).
+    Time 5 minutes.
+    On success { Assert wwlDangerSettled(actor). Retract at(wwl_counting_party, road). }
+    Result "The maul lifts the hatch without cracking the boards. The party leaves the levies guarding an empty stair.".
+  }
+  Topic wwl_ri_help with nesta "Ask Nesta to lend her maul to the Rì’s hands" when befell(company_sworn_ri) and not wwlRiHelped(actor) once {
+    Says "Nesta sets her mason’s maul in your hands. “The wheelhouse hatch sticks when the steam swells the wood. This will lift it.”".
+    On discuss { Assert wwlRiHelped(actor). Give wm_maul to actor. }
+  }
+
+}

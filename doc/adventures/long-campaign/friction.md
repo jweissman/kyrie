@@ -153,6 +153,12 @@ observed authoring friction from ambitions that have not yet been attempted.
     whole war's reach is carried by thirty events and two items. That is honest, but an event is boolean: no module
     can read "how far the Ash has got", only whether a named threshold befell. A canon quantity (a shared measure,
     exported read-only) would let distant places feel a war that is going badly, not just one that has begun.
+33. **A fight hides the search.** In the muster, once its own fight begins, the coin's search is no longer offered:
+    acts outside a fight vanish while one is on. A search placed in a fought-over room has to be found before the
+    fight, which is a constraint on where hooks can hide, not one an author sees until a spec fails.
+34. **A placed spec depends on the hour of arrival.** `test/the-lull-placed.test.ts` expects Sixways' chalk board
+    (LULL IN n), whose Observe is `not dark()`; the company now arrives at night, so the board is unread. It fails on
+    this branch's base without any of this work, so it is recorded here rather than mended in passing.
 
 ## Generation boundary and unbuilt requests
 

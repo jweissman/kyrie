@@ -17,6 +17,7 @@
     "endings.kyr",
     "after.kyr",
     "growth.kyr",
+    "count.kyr",
     "company.kyr",
     "lore.kyr",
     "tracks.kyr"
@@ -32,7 +33,12 @@
     "slack_opened",
     "remainder_kept",
     "scarth_kept",
-    "scarth_lost"
+    "scarth_lost",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "exports": {
     "party": "party",

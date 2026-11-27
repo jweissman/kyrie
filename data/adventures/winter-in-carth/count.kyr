@@ -1,0 +1,80 @@
+Module gaunt "A Winter in Carth" {
+  Relation carCoinFound(group). Relation carDangerSettled(group). Relation carRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe car_coin_hint at deadfall when not carCoinFound(party)
+    "The yew at the deadfall has a white thread tied low on its trunk. It is not a boundary mark.".
+  Action car_find_coin(actor: group, site: place) "Search the yew roots below the white thread" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, deadfall) and not carCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert carCoinFound(actor). Give count_coin to actor. }
+    Result "A man with a stylus shows through the wear. The vigil-keepers put it here for the first barefoot penitent who crossed without a beadle.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe car_count_begins at cross_road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board stands at the Penitent’s Cross. It counts the road’s penances as levies. The vigil-house window is dark.".
+  Observe car_count_broken at cross_road when befell(ash_broken)
+    "The board is gone from the Cross. The road is still cold, but no one is listed for it.".
+  Observe car_count_triumph at cross_road when befell(ash_triumphs)
+    "The Ash posts a clerk at the Cross. Penance is exacted in bodies now.".
+  Observe car_party_saved at cross_road when carDangerSettled(party)
+    "The deadfall road is passable once more. Hern does not hurry the last of the levy down the fell.".
+
+  Person car_counting_leader "Sister Mera Ord" nowhere {
+    Role "a vigil sister sent to take the deadfall road’s names in penance". Ancestry human. Calling cleric. Level 4.
+    Temperament proud. Uses go, assail. Plans 5 steps.
+    Warns "Sister Mera Ord has set the levy at the deadfall. Three white-road collectors wait behind her.".
+  }
+  Person car_counting_party "the three white-road collectors" nowhere {
+    Role "white-road collectors who turn the pilgrim’s deadfall into a place of levy". Ancestry human. Calling warrior. Level 2. Numbers 3.
+    Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Three collectors carry ash wands and a roll of names. They have placed a deadfall across the road.".
+  }
+  Initially Assert serves(car_counting_party, car_counting_leader).
+  Rule car_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not carDangerSettled(party) {
+    Assert at(car_counting_party, cross_road). Assert at(car_counting_leader, cross_road).
+  }
+  Action car_fight(actor: group, site: place) "Keep Sister Ord from levying the deadfall road" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(car_counting_party, cross_road) and at(car_counting_leader, cross_road) and not carDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(car_counting_party, actor). Assert assails(car_counting_leader, actor). }
+    Result "Sister Mera rings the vigil-bell once. Three white-road collectors step down from the deadfall, faces pale with ash.".
+  }
+  Rule car_force_broken when at(car_counting_party, cross_road) and at(car_counting_leader, cross_road) and (not able(car_counting_party) or routed(car_counting_party)) and (not able(car_counting_leader) or routed(car_counting_leader)) and assails(car_counting_party, party) and assails(car_counting_leader, party) {
+    Assert carDangerSettled(party). Retract at(car_counting_party, cross_road). Retract at(car_counting_leader, cross_road).
+  }
+  Action car_coin_way(actor: group, site: place) "Offer the worn coin as the penitent’s old due" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(car_counting_party, cross_road) and at(car_counting_leader, cross_road)
+      and not carDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert carDangerSettled(actor). Retract at(car_counting_party, cross_road). Retract at(car_counting_leader, cross_road). }
+    Result "The sergeant sees the keeper’s mark. His men leave the walkers to the road.".
+  }
+  Action car_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(car_counting_party, cross_road) and at(car_counting_leader, cross_road)
+      and not carDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert carDangerSettled(actor). Retract at(car_counting_party, cross_road). Retract at(car_counting_leader, cross_road). }
+    Result "The levies read the company’s place and let it pass the Cross.".
+  }
+  Action car_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(car_counting_party, cross_road) and at(car_counting_leader, cross_road)
+      and not carDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert carDangerSettled(actor). Retract at(car_counting_party, cross_road). Retract at(car_counting_leader, cross_road). }
+    Result "The tally-board gives the levies a reason to go. They take no walker.".
+  }
+  Action car_local_way(actor: group, site: place) "Follow Hern over the old fell path" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cross_road) and at(car_counting_party, cross_road) and at(car_counting_leader, cross_road)
+      and not carDangerSettled(actor) and following(hern, actor).
+    Time 5 minutes.
+    On success { Assert carDangerSettled(actor). Retract at(car_counting_party, cross_road). Retract at(car_counting_leader, cross_road). }
+    Result "Hern leads the party around the deadfall by the path he once walked barefoot. The collectors keep their count on the road.".
+  }
+  Topic car_ri_help with hern "Ask Hern to lead the Rì’s company past the deadfall" when befell(company_sworn_ri) and not carRiHelped(actor) once {
+    Says "Ninian Hern takes his stick from the snow. “I know the fell paths where a man can walk barefoot and leave no sound. Stay close.”".
+    On discuss { Assert carRiHelped(actor). Assert following(hern, actor). }
+  }
+
+}

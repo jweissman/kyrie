@@ -15,6 +15,7 @@
     "ways.kyr",
     "week.kyr",
     "aftermath.kyr",
+    "count.kyr",
     "company.kyr",
     "lore.kyr",
     "callings.kyr"
@@ -27,7 +28,12 @@
   ],
   "canon": [
     "imbar",
-    "remainder_harboured"
+    "remainder_harboured",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "exports": {
     "party": "party",

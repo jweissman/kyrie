@@ -1,8 +1,34 @@
 {
   "version": 1,
-  "source": ["site.kyr","ship.kyr","people.kyr","song.kyr","raiders.kyr","singing.kyr","silver.kyr","acts.kyr","company.kyr"],
-  "rules": ["world"],
-  "globals": ["party"],
-  "canon": ["imbar"],
-  "exports": { "party": "party", "region": "country", "road": "road" }
+  "source": [
+    "site.kyr",
+    "ship.kyr",
+    "people.kyr",
+    "song.kyr",
+    "raiders.kyr",
+    "singing.kyr",
+    "silver.kyr",
+    "acts.kyr",
+    "count.kyr",
+    "company.kyr"
+  ],
+  "rules": [
+    "world"
+  ],
+  "globals": [
+    "party"
+  ],
+  "canon": [
+    "imbar",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
+  ],
+  "exports": {
+    "party": "party",
+    "region": "country",
+    "road": "road"
+  }
 }
