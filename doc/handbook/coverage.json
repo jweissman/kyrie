@@ -1010,7 +1010,7 @@
     "faithful": 230,
     "adapted": 37,
     "represented": 28,
-    "kyr": 357,
+    "kyr": 359,
     "unsupported": 0,
     "unreachable": 0,
     "data-only": 197
@@ -1023,7 +1023,7 @@
       "faithful": 0,
       "adapted": 0,
       "represented": 0,
-      "kyr": 311,
+      "kyr": 313,
       "unsupported": 0,
       "unreachable": 0,
       "data-only": 0
@@ -15754,6 +15754,20 @@
   {
    "id": "rule:inhabitants.quit",
    "title": "quit",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.stirs",
+   "title": "stirs",
+   "status": "kyr",
+   "book": "dmg",
+   "section": "world-rules/rules-inhabitants"
+  },
+  {
+   "id": "rule:inhabitants.deepMoved",
+   "title": "deepMoved, dugIn",
    "status": "kyr",
    "book": "dmg",
    "section": "world-rules/rules-inhabitants"

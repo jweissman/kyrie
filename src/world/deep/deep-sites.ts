@@ -3,6 +3,7 @@ import { Canon } from '../../canon/canon';
 import { ItemNames } from '../../lang/item-names';
 import { DeepLayouts, type DeepLayout, type DeepLink, type DeepRoom } from './deep-layout';
 import { DeepMechanisms } from './deep-mechanisms';
+import { DeepKnown } from './deep-known';
 import { DeepLoosed } from './deep-loosed';
 import { DeepParley } from './deep-parley';
 import { DeepShortcuts } from './deep-shortcuts';
@@ -47,7 +48,7 @@ export class DeepSites {
         : at.buried ? purpose.under ?? purpose.outside : purpose.outside).replaceAll('{oldup}', values.oldup!))}`
         + ` teaches ${site.id}_named.`, ...this.marks(site.id, purpose, values),
       ...this.places(layout, at.buried ? { purpose, town: at.buried, wooded: !!at.wooded } : undefined),
-      ...this.ways(layout, handled),
+      ...this.ways(layout, handled), ...DeepKnown.lines(layout),
       ...DeepMechanisms.lines(layout, { fate: values.fate!, oldup: values.oldup!,
         ...purpose.bane ? { bane: purpose.bane.cut, taught: `${site.id}_bane` } : {} }, purpose.mechanisms),
       ...DeepShortcuts.lines(layout, purpose.mechanisms.shortcuts ?? []),

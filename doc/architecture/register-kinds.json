@@ -3522,6 +3522,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1392's wanted grammars (the review's experience), not an observed failure of a claimed contract"
+  },
+  "OR-1461": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of OR-1395's wanted routine (the review's threshold), not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {

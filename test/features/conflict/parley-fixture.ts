@@ -9,7 +9,7 @@ export class ParleyFixture {
     ask: 'Ask {band} what is worth having down here', tells: "'There is a tunnel out of the bones,' says {band}.",
     way: ['halls', 'ossuary'] as [string, string], found: 'A tunnel goes down behind the bones.',
     slips: 'Taken for one of the gang, you hear of a tunnel out of the bones.', quit: 'The den is empty.',
-    known: 'The captain is waiting, and knows you now.' };
+    known: 'The captain is waiting, and knows you now.', sign: 'No smoke comes from the den now.' };
   static kyr(): string {
     const room = (id: string, role: string) => ({ id, level: 0, role, x: 0, y: 0, name: id, scene: '', lit: true });
     const layout: DeepLayout = { site: 'pit', levels: [{ id: 'pit_halls', index: 0, name: 'the halls', flooded: false,

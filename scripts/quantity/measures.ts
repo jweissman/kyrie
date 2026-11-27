@@ -16,7 +16,7 @@ export interface Measure { id: string; label: string; kind: Kind; why: string; f
   read: Reckoned }
 export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
-  | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered'
+  | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered' | 'kept'
   | 'identity';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
@@ -42,9 +42,15 @@ export class QuantityMeasures {
       why: 'each of the first dungeon\'s levels its own conflict grammar (OR-1392): fought, gone round, listened for, '
         + 'talked round, lied to, warned off, asked, searched, a thing worked, a trap risked; may only rise',
       read: 'answered' },
-    { id: 'routine', label: '1. Traversal and administration after the first expedition (%)', kind: 'report',
-      why: 'the review\'s first threshold to calibrate, at most a fifth of post-first moves (§9.3, OR-1440); said',
+    { id: 'routine', label: '1. Traversal and administration after the first expedition (%)', kind: 'down',
+      why: 'the review\'s first threshold, at most a fifth of post-first moves (§9.3, OR-1440, OR-1395): a deep level\'s '
+        + 'known, unchanged ground crossed in one act (OR-1448); may only fall, and only beside kept, which says the '
+        + 'world time and the ground known did not fall with it',
       read: 'routine' },
+    { id: 'kept', label: '1. Watches spent below and above after the first expedition', kind: 'report',
+      why: 'the review\'s acceptance for compressing routine: no fall in meaningful world time, nor in the company\'s '
+        + 'sense of where it is (the rooms below it has been in, by each return); said beside routine',
+      read: 'kept' },
     { id: 'roads', label: '1. Fights per game hour on the roads, walked', kind: 'report',
       why: 'roads with a little more danger (the owner, 24 November): said, not held, a modest chance', read: 'roads' },
     { id: 'returned', label: '1. Combat places quests return a company to, near the first town', kind: 'band', floor: 2,
