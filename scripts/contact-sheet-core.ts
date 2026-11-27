@@ -27,10 +27,12 @@ export class SheetCore {
       await page.waitForSelector('[data-mode="explore"]', { timeout: 120000 });
       await hour.to('region__s2_green');
     });
-    await cam.step('resting-more', 'The same place, Something else…: the next four of its rows, one menu', async () => {
+    await cam.step('resting-more', 'The same place, Something else…: what is worth doing, and the rest by kind', async () => {
       await d.click(PlacePages.more);
     });
     await cam.step('character', 'Your character: the backstage, one page (OR-1492)', async () => {
+      // Among what is worth doing, or under Yourself… (OR-1495).
+      await PlacePages.seek(page, '[data-choice="view:company"]', () => d.settle());
       await d.click('[data-choice="view:company"]');
     });
     await page.keyboard.press('Escape'); await d.settle();

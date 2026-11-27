@@ -23,7 +23,7 @@ describe('every resting page of the census walks', () => {
       const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', w.as]));
       const s = journey.session, r = new Runner(s), honest = new HonestPlayer(s), wrong: string[] = [];
       const turns = w.lines ? ContinuityCensus.lines(w.lines) : Array.from({ length: w.steps ?? 0 }, () => '');
-      const pages: Counted[] = [];
+      const pages: Counted[] = [], paged: { of: number; top: number }[] = [];
       for (const [turn, line] of turns.entries()) {
         if (w.lines) { await AsMeant.ask(r, line); } else if (!await honest.step()) { break; }
         if (!w.lines) { r.said(); }
@@ -34,6 +34,8 @@ describe('every resting page of the census walks', () => {
         const frame = { ...framed, question: MenuTree.question(framed, s.focus, s.conversation) } as Frame;
         const c = MenuCensus.count(MenuCensus.html(frame));
         pages.push(c);
+        const place = frame.question?.place;
+        if (place) { paged.push({ of: place.page.of, top: place.page.top ?? place.page.of }); }
         const lost = MenuCensus.unreached(frame);
         const why = [c.menus !== 1 ? `${c.menus} menus (${c.holders.join(' ')})` : '',
           c.promoted > 4 ? `${c.promoted} promoted` : '', c.sources.opener ? `${c.sources.opener} rows of the page's own` : '',
@@ -45,7 +47,13 @@ describe('every resting page of the census walks', () => {
         + `${pages.filter(c => c.menus > 1).length}); rows offer ${sum(c => c.sources.offer ?? 0)}, question `
         + `${sum(c => c.sources.question ?? 0)}, the page's own ${sum(c => c.sources.opener ?? 0)}; most promoted `
         + `${Math.max(0, ...pages.map(c => c.promoted))}; rails ${pages.filter(c => c.rail).length}`);
+      // Pages per place (OR-1495): all of them, and those Something else… turns through before coming round.
+      const mean = (xs: number[]) => (xs.reduce((a, b) => a + b, 0) / Math.max(1, xs.length)).toFixed(1);
+      console.log(`${w.name}: pages per place ${mean(paged.map(p => p.of))} (most ${Math.max(0, ...paged.map(p => p.of))}),`
+        + ` turned through ${mean(paged.map(p => p.top))} (most ${Math.max(0, ...paged.map(p => p.top))})`);
       expect(pages.length).toBeGreaterThan(turns.length / 4);
+      // Before OR-1495, Something else… turned through every page: on average 10.2, 6.9 and 8.8, and as many as 16.
+      expect(Math.max(0, ...paged.map(p => p.top))).toBeLessThanOrEqual(3);
       expect(wrong).toEqual([]);
     }, 900000);
   }

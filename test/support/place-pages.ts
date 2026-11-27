@@ -6,13 +6,28 @@ import type { Page } from 'playwright-core';
 export class PlacePages {
   static readonly more = '[data-choice="place:more"]';
   static async seek(page: Page, find: string, settle: () => Promise<unknown>): Promise<boolean> {
-    for (let turns = 0; turns < 24; turns++) {
+    // Round every first page twice at most (the pages after the four are few: OR-1495).
+    for (let turns = 0; turns < 8; turns++) {
       if (await page.locator(find).count()) { return true; }
+      // A kind folded into pages of its own (OR-1495), opened where it may hold what is sought.
+      const kind = page.locator('[data-choice^="place:kind:"]');
+      for (let i = 0; i < await kind.count(); i++) {
+        await kind.nth(i).click(); await settle();
+        if (await PlacePages.kindHolds(page, find, settle)) { return true; }
+      }
       const more = page.locator(PlacePages.more);
       if (!await more.count()) { return false; }
-      const back = /^Back/.test(await more.innerText());
       await more.click(); await settle();
-      if (back) { return (await page.locator(find).count()) > 0; }
+    }
+    return false;
+  }
+  // Through a kind's own pages until it is there, else back to the first page after the four.
+  private static async kindHolds(page: Page, find: string, settle: () => Promise<unknown>): Promise<boolean> {
+    for (let turns = 0; turns < 12; turns++) {
+      if (await page.locator(find).count()) { return true; }
+      const more = page.locator(PlacePages.more), back = /^\s*Back/.test(await more.innerText());
+      await more.click(); await settle();
+      if (back) { return false; }
     }
     return false;
   }

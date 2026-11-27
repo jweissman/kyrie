@@ -117,9 +117,13 @@ export class ThreeClients {
   private static focus(f?: Question['focus']): string { return f?.kind === 'talk' ? `person:${f.with}` : 'place'; }
   private pageRows(): Record<string, string[]> {
     const m = this.menu(), marks = this.page.frame.menu.marks, talk = this.page.frame.question?.talk;
-    return Object.fromEntries(ThreeClients.flat(m.choices).map(c => [c.command ?? c.id,
+    // A kind's row on the place's page turns to its own pages (OR-1495), a row of the question's as the others have it.
+    const place = this.page.frame.question?.place;
+    const kinds = place ? PlaceQuestion.paged(place).filter(r => r.command.startsWith('focus:'))
+      .map(r => [r.command, [...r.aspects].sort()]) : [];
+    return Object.fromEntries([...kinds, ...ThreeClients.flat(m.choices).map(c => [c.command ?? c.id,
       [...new Set((talk ? talk.marks[c.id] : marks.replies[c.id] ?? marks.rows[c.id] ?? [])
-        ?.flatMap(l => l.witnesses.flatMap(w => w.aspects)) ?? [])].map(String).sort()]));
+        ?.flatMap(l => l.witnesses.flatMap(w => w.aspects)) ?? [])].map(String).sort()])]);
   }
   private terminalRows(at: ReturnType<ThreeClients['terminalAsked']>): Record<string, string[]> {
     const offered = Terminal.foreground(this.terminal, at.glance, at.screen, { question: at.question });
