@@ -55,11 +55,21 @@ The public `PlayerView.choices` contract remains a fresh mutable copy for each c
 | Part | Before p50/p95 ms | After p50/p95 ms | Calls/turns |
 |---|---:|---:|---:|
 | `PlayerView.choices` (public mutable-copy path) | 3.8 / 40.5 | 0 / 0 (not used by frame) | 55 / 53 before; 0 / 0 after |
-| `PlayerView.frameRows` (immutable frame path) | not present | 5.5 / 36.1 | 55 / 53 after |
-| `PlayerFrame.of` | 4.1 / 45.1 | 6.4 / 53.8 | 400 / 58 |
-| `ScreenModel.built` | 52.0 / 141.3 | 68.4 / 233.4 | 56 / 55 |
+| `PlayerView.frameRows` (immutable frame path) | not present | 4.8 / 31.0 | 55 / 53 after |
+| `PlayerFrame.of` | 4.1 / 45.1 | 5.2 / 42.6 | 400 / 58 |
+| `ScreenModel.built` | 52.0 / 141.3 | 53.5 / 168.9 | 56 / 55 |
 
-This profile does not establish a speed win: the immutable frame path measures 5.5/36.1 ms versus 3.8/40.5 ms for the previous public-choice path, and the inclusive screen varies under shared load. Its proven results are safer cache invalidation, preserved public mutability, and immutable row sharing. The quality readings were turn 221 then 202 ms, still-turn 202/443 then 194/455 ms, and decision 65/172 then 61/149 ms (median/p95); the latest after both parts was 186 ms, 179/418 ms, and 56/153 ms. These loaded, un-interleaved runs are directional only. Turn and decision remain above the ratchets; no baseline was widened or updated.
+This profile does not establish a speed win: timings vary under shared load and the inclusive screen is higher in this run. Its proven results are safer cache invalidation, preserved public mutability, and immutable row sharing. The quality readings across these runs ranged from turn 186–235 ms, still-turn 179–216/418–457 ms, and decision 56–65/151–179 ms (median/p95). The variation and ratchets show no reliable gain; turn and decision remain above baseline. No baseline was widened or updated.
+
+## Third Part: Fees
+
+`ScreenModel.fees` now keeps the map of service, goods, hire and sale prices through `KeptParts`; its non-World key is the measures array's identity and length, while `WorldReads` records each measure it reads. The full screen oracle and fee-specific tests pass.
+
+| Part | Before p50/p95 ms | After p50/p95 ms | Calls/turns |
+|---|---:|---:|---:|
+| `ScreenModel.fees` | 0.3 / 0.6 | 0.0 / 0.1 | 56 / 55 |
+
+The saved time is small but the cache now follows the same dependency contract as prices. No quality baseline is lowered: the final local reading was turn 235 ms, still-turn 216/457 ms, and decision 65/179 ms (median/p95), a loaded run that did not beat the ratchets.
 
 ## Scope Notes
 

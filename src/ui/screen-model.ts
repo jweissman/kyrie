@@ -116,14 +116,15 @@ export class ScreenModel {
   // What things cost: a service's fee, goods by the measure, and what a sale fetches (what a buyer pays for a kind, and
   // what a valuable is worth).
   private static fees(campaign: Campaign): Map<string, number> {
-    const world = campaign.world; return new Map([
+    const world = campaign.world, measures = world.module.measures;
+    return KeptParts.of(world, 'fees', `${KeptParts.token(measures)}.${measures.length}`, () => new Map([
       ...EntityIndex.of(campaign.module.entities).typed('service').map(e => [e.id, world.number(ModuleWriter.call('fee', e.id))] as const),
       ...world.measured('goodsPrice').map(m => [`${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('pays').map(m => [`pays:${m.call.args[0]}:${m.call.args[1]}`, m.value] as const),
       ...world.measured('hire').map(m => [`hire:${m.call.args[0]}`, m.value] as const),
       // What a dealer pays for a treasure, as the sale is labelled: the dealer's price, not its worth.
       ...world.measured(world.module.measures.some(m => m.name === 'dealerPays') ? 'dealerPays' : 'worth')
-        .map(m => [`worth:${m.call.args[0]}`, m.value] as const)]);
+        .map(m => [`worth:${m.call.args[0]}`, m.value] as const)]));
   }
   // How someone here stands to the company: with it, one it has a stake in, one with something to be asked now (not
   // only written: the hobs' Gaffer, whose terms wait on a parley, had been led "Talk to the Gaffer" onto nothing to
