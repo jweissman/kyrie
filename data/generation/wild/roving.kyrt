@@ -84,13 +84,14 @@
 --- night wolves 2
   // By night, now and then, a pack (the owner, 26 November: danger at night, a little, as on the roads): one band to a
   // country besides its footpads, going about a stretch of open country and road away from its towns; met only in
-  // the dark, once, on the die of a leg or a watch there. It warns first: gone on from, it lets the company go.
+  // the dark, once, by its fortune on that stretch for the night's day (OR-1345). It warns first: gone on from, it lets
+  // the company go.
   Person {r} "the night pack" at {home} {
     Role "three grey wolves, hunting in the dark". Species wolf. Numbers 3. Level 1. Temperament territorial. Lair {home}.
     Warns "Eyes in the dark, low down, two pairs and then three. The pack stands off at the edge of the light, heads low. They will let you go if you go on.".
   }
   Initially Set encounterXp({r}) to 60.
-  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and dark() and dice(clock) <= 15 and able({r})
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and dark() and fortune({r}, ?p) <= 15 and able({r})
     says "Out in the dark a wolf howls, close, and another answers it from across the way." {
     Assert at({r}, ?p). Assert roved({r}).
   }
@@ -102,7 +103,7 @@
     Warns "Two stooping shapes come up out of the dark ahead and stop when the light finds them. They hiss, and do not come on yet.".
   }
   Initially Set encounterXp({r}) to 60.
-  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and dark() and dice(clock) <= 15 and able({r})
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and dark() and fortune({r}, ?p) <= 15 and able({r})
     says "Ahead in the dark there is a sound of digging with bare hands, and then it stops." {
     Assert at({r}, ?p). Assert roved({r}).
   }
