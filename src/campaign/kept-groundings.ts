@@ -1,5 +1,4 @@
-import type { Module, Operator } from '../lang/module';
-import type { World } from '../lang/world';
+import type { Module, Operator, World } from '../lang';
 import { KeptReading, type Kept } from '../lang/kept-reading';
 import { WorldReads } from '../lang/world-reads';
 
@@ -33,8 +32,11 @@ export class KeptGroundings {
     const kept = this.actor(actor ?? '').kept, was = kept.get(schema.id);
     if (was && was.module === world.module && KeptReading.holds(world, was)) { return was.value; }
     const read = KeptReading.read(world, ground);
-    if (read.kept) { kept.set(schema.id, { ...read.kept, module: world.module }); } else { kept.delete(schema.id); }
-    return read.value;
+    // The same operators as were kept are given as the same list, so that what is kept by it holds (see all).
+    const value = was && KeptGroundings.alike(was.value, read.value) ? was.value : read.value;
+    if (read.kept) { kept.set(schema.id, { ...read.kept, value, module: world.module }); }
+    else { kept.delete(schema.id); }
+    return value;
   }
   // What the schemas ground to together, in their order: each as `of` has it. A schema the caller finds shut in this
   // world (closed: no one it needs is with the actor, see PresenceGate) grounds to nothing without a reading of its
@@ -51,13 +53,19 @@ export class KeptGroundings {
       if (shut) { a.kept.delete(schema.id); }
       const value = shut ? KeptGroundings.none : this.of(world, schema, actor, () => ask.ground(schema));
       this.index(line, schema.id, a.kept.get(schema.id));
-      if (value !== line.values.get(schema.id)) { changed = true; line.values.set(schema.id, value); }
+      const had = line.values.get(schema.id);
+      if (value !== had && !(had && KeptGroundings.alike(had, value))) {
+        changed = true; line.values.set(schema.id, value);
+      }
     }
     if (changed) { line.out = schemas.flatMap(s => line.values.get(s.id) ?? []); }
     for (const name of line.by.keys()) { line.stamps.set(name, world.stamp(name)); }
     line.line = world.stamped([]);
     a.line = line;
     return line.out;
+  }
+  private static alike(a: readonly Operator[], b: readonly Operator[]): boolean {
+    return a.length === b.length && a.every((op, i) => op === b[i]);
   }
   private static line(world: World, schemas: readonly Operator[]): Line {
     return { line: world.stamped([]), module: world.module, schemas, out: [], values: new Map(), by: new Map(),

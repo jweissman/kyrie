@@ -57,18 +57,25 @@ export class WorldReads {
   }
   // What a reading gives, and the names it read; none where it read everything (nothing then is kept of it). Of the
   // names it read only in part, what it picked.
-  static of<T>(read: () => T): { value: T; reads?: string[]; picks?: Picks } {
+  static of<T>(read: () => T, within = true): { value: T; reads?: string[]; picks?: Picks } {
     const reading: Open = { names: new Set(), picks: new Map(), noted: new Set() };
     this.open.push(reading);
     let value: T;
     try { value = read(); } finally {
       const at = this.open.lastIndexOf(reading);
       this.open.splice(at, 1);
-      if (at > 0) { this.within(reading, this.open[at - 1]!); }
+      if (within && at > 0) { this.within(reading, this.open[at - 1]!); }
     }
     if (reading.names.has(this.every)) { return { value }; }
     const picks = new Map([...reading.picks].filter(([name]) => !reading.names.has(name)));
     return { value, reads: [...reading.names, ...picks.keys()], ...picks.size ? { picks } : {} };
+  }
+  // A reading kept apart from any under way: what it read is noted there only as its asker chooses (note, all), as
+  // where one part of a question settles it alone and the parts asked before it do not (SchemaAsks).
+  static apart<T>(read: () => T): { value: T; reads?: string[]; picks?: Picks } { return this.of(read, false); }
+  // What a reading read, noted in the one under way (see apart).
+  static noted(read: { reads?: readonly string[]; picks?: Picks }): void {
+    if (read.reads) { this.note(read.reads, read.picks); } else { this.all(); }
   }
   // What a reading read, read too by the one it was within.
   private static within(reading: Open, outer: Open): void {

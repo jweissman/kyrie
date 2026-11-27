@@ -1,13 +1,13 @@
 import { ActionSchemas } from './action-schemas';
 import { ComputedRelations } from '../lang/computed-relations';
 import type { CampaignActor } from './definition';
-import type { Call, Module, Operator, Predicate } from '../lang/module';
-import type { World } from '../lang/world';
+import type { Call, Module, Operator, Predicate, World } from '../lang';
 import { Candidates } from '../lang/candidates';
 import { PresenceGate } from './presence-gate';
 import { EntityIndex } from '../lang/entity-index';
 import { KeptGroundings } from './kept-groundings';
 import { WorldMemo } from '../lang/world-memo';
+import { SchemaAsks } from './schema-asks';
 
 type Actors = readonly Pick<CampaignActor, 'id' | 'actions' | 'allActions'>[];
 type Binding = Record<string, string>;
@@ -103,6 +103,11 @@ export class Operators {
     if (!schema.parameters?.length) {
       return world.test(schema.requires) && world.admits(schema.success) ? [schema] : [];
     }
+    // Not where one of its needs is unmet (see SchemaAsks), asked first, so that it reads no more than they did.
+    if (!SchemaAsks.met(world, schema, actor)) {
+      if (Operators.checking) { this.unmet(world, schema, actor); }
+      return [];
+    }
     // Not where whoever it needs beside the actor is not (see PresenceGate): a word with someone elsewhere.
     if (actor !== undefined && !PresenceGate.open(world, schema, actor)) {
       if (Operators.checking) { this.unneeded(world, schema, actor); }
@@ -121,6 +126,10 @@ export class Operators {
   private unneeded(world: World, schema: Operator, actor: string) {
     const found = this.grounded(world, schema, actor);
     if (found.length) { throw new Error(`PresenceGate closed ${schema.id} for ${actor}, but ${found[0]!.id} holds`); }
+  }
+  private unmet(world: World, schema: Operator, actor?: string) {
+    const found = SchemaAsks.aside(() => this.grounded(world, schema, actor));
+    if (found.length) { throw new Error(`SchemaAsks found ${schema.id} unmet, but ${found[0]!.id} holds`); }
   }
   private make(schema: Operator, binding: Binding): Operator {
     const id = `${schema.id}(${schema.parameters!.map(p => binding[p.name]).join(',')})`;

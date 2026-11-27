@@ -19,7 +19,9 @@ import { Glob } from 'bun';
 // CompanySenses (src/presentation/company-senses.ts), which reads the language through its entry (OR-741).
 // 1244 → 1242 on 27 November: the campaign, handbook and region readers take VocabularyContext from Kyr's entry.
 // 1242 → 1241 on 27 November: the screen's price readers (ScreenPrices) take theirs from Kyr's entry.
-const kept = 1241;
+// 1241 → 1239 on 27 November: the operators' and their kept groundings' types from Kyr's entry; what a schema asks
+// (SchemaAsks) reads the world's reads and what is computed directly, as the operators do.
+const kept = 1239;
 class Deep {
   static count(): number {
     const roots = ['src/**/*.ts', 'web/**/*.{ts,tsx}', 'scripts/**/*.ts', 'test/**/*.ts', 'bin/**/*.ts'];
