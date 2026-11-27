@@ -1,4 +1,6 @@
 import type { Change, Module, Predicate, Query, Value } from './module';
+import { Stamps } from './stamps';
+import { ComputedRelations } from './computed-relations';
 
 type Part = Predicate | Value | Change;
 
@@ -14,6 +16,39 @@ export class Reads {
     const names = new Set<string>();
     for (const part of parts) { if (part) { this.visit(part, queries, names); } }
     return [...names].sort();
+  }
+  // What a part reads, as a rule held idle on it waits for it (OR-1438): a stored relation or measure asked of one
+  // thing given, not a ?variable (state(bell, rung), at(party, ?p), patience(boar)), by its name and that thing
+  // (Stamps.key), so that the part is asked again when that thing's facts are written, not whenever any of the
+  // relation's are; anything else (a query, a computed relation, a die, a thing asked as a variable) by its name.
+  static keyed(module: Module, part: Part): string[] {
+    const queries = this.queries(module), keys = new Set<string>();
+    this.keys(part, queries, keys);
+    return [...keys].sort();
+  }
+  private static queries(module: Module): Map<string, Query> {
+    let queries = this.byName.get(module);
+    if (!queries) { queries = new Map(module.queries.map(q => [q.name, q])); this.byName.set(module, queries); }
+    return queries;
+  }
+  private static readonly drawn = new Set(['dice', 'fortune', 'within']);
+  private static keys(part: Part, queries: Map<string, Query>, keys: Set<string>) {
+    const first = part.kind === 'call' ? part.args[0] : undefined;
+    if (part.kind === 'call' && first !== undefined && !first.startsWith('?') && !queries.has(part.name)
+      && !ComputedRelations.has(part.name) && !this.drawn.has(part.name)) {
+      keys.add(Stamps.key(part.name, first)); return;
+    }
+    switch (part.kind) {
+      case 'not': this.keys(part.value, queries, keys); return;
+      case 'and': case 'or': case 'compare': case 'arith':
+        this.keys(part.left, queries, keys); this.keys(part.right, queries, keys); return;
+      case 'count': this.keys(part.of, queries, keys); return;
+      default: {
+        const names = new Set<string>();
+        this.visit(part, queries, names);
+        for (const n of names) { keys.add(n); }
+      }
+    }
   }
   private static visit(part: Part, queries: Map<string, Query>, names: Set<string>) {
     switch (part.kind) {

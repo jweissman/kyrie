@@ -138,7 +138,11 @@ export class CampaignTick {
     const rules = host.module.rules ?? [];
     this.pass(host, rules, false, { happenings, began });
     this.pass(host, rules, true, { happenings, began });
+    CampaignTick.ruled?.(host.world);
   }
+  // A spec's look at the world as each watch's rules leave it (test/rule-wakes-watches: the oracle, every rule asked
+  // afresh, against the rules a write wakes).
+  static ruled?: (world: World) => void;
   // One pass over the rules in their order (again: the upkeep and the late), asking only those a write has woken (see
   // RuleWakes): a rule held idle whose names are unwritten since would find nothing. Whatever fires writes the world,
   // and what it wrote may wake a rule after it in the pass, so the rules asleep are read again from the world it left.
@@ -324,7 +328,7 @@ export class CampaignTick {
     if (idle.module && idle.module !== world.module) { RuleWakes.of(idle.module).free(rule); }
     idle.module = world.module;
     const wakes = RuleWakes.of(world.module);
-    if (idle.held) { wakes.hold(rule, idle.held, idle.stamped!); } else { wakes.free(rule); }
+    if (idle.held) { wakes.hold(rule, idle.held, idle.stamped!, world); } else { wakes.free(rule); }
     return found;
   }
   // The names of the part of a rule's condition that keeps it from holding (see idle), read longest ago; none where
@@ -336,7 +340,8 @@ export class CampaignTick {
     const { closed, atoms } = this.closed(rule);
     for (const part of [...closed, ...atoms]) {
       if (closed.includes(part) ? world.test(part) : !this.none(world, part as Call)) { continue; }
-      const reads = Reads.names(world.module, [part]), at = Math.max(0, ...reads.map(n => world.stamp(n)));
+      // Held on what it reads of the one thing it asks of, where it asks of one (Reads.keyed: OR-1438).
+      const reads = Reads.keyed(world.module, part), at = Math.max(0, ...reads.map(n => world.stamp(n)));
       if (!best || at < best.at) { best = { reads, at }; }
     }
     return best?.reads;

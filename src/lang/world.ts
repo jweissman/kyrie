@@ -2,7 +2,7 @@ import { Arithmetic } from './arithmetic';
 import type { Call, Change, Module, NumberValue, Predicate, Signature, Value, WorldState } from './module';
 import { ComputedRelations } from './computed-relations'; import { RelationViews } from './relation-views';
 import { Asking } from './asking'; import { QueryModes } from './query-modes'; import { Counts } from './counts';
-import { Displaced } from './displaced'; import { WorldReads } from './world-reads'; import { DeclaredReads } from './declared-reads';
+import { Displaced } from './displaced'; import { Stamps } from './stamps'; import { WorldReads } from './world-reads'; import { DeclaredReads } from './declared-reads';
 
 // Name lookups for a module's signatures. Modules are assembled before execution; a changed signature list
 // (by identity or length) rebuilds the index.
@@ -25,8 +25,7 @@ export class World {
   private measureCount = 0;
   // A globally unique stamp per write to each relation or measure name, so views derived from some names can tell
   // whether those names changed between two worlds.
-  private stamps = new Map<string, number>();
-  private static writes = 0;
+  private stamps = new Stamps();
   // Which line of worlds this one is of: a world built from state starts one, and the worlds forked from it are of
   // it; only between worlds of one line do stamps say what changed.
   private static lines = 0;
@@ -47,7 +46,7 @@ export class World {
     next.byName = new Map(from.byName); next.measuresByName = new Map(from.measuresByName);
     next.owned = new Set(); next.ownedMeasures = new Set();
     next.count = from.count; next.measureCount = from.measureCount;
-    next.stamps = new Map(from.stamps); next.sums = [...from.sums]; next.lineage = from.lineage;
+    next.stamps = from.stamps.fork(); next.sums = [...from.sums]; next.lineage = from.lineage;
     return next;
   }
   private static copy(call: Call): Call { return { ...call, args: [...call.args] }; }
@@ -314,18 +313,18 @@ export class World {
     this.measuresByName.set(name, own); this.ownedMeasures.add(name);
     return own;
   }
-  stamp(name: string): number { return this.stamps.get(name) ?? 0; }
+  // A name's stamp, or a name's for one first argument (Stamps.key).
+  stamp(name: string): number { return this.stamps.stamp(name); }
+  // Its stamps, for a reader that asks often of one thing's (RuleWakes: Stamps.of, Stamps.written).
+  get stamping(): Stamps { return this.stamps; }
   // These names' stamps and the world's line, to hold a later world to (see `agrees`).
   stamped(names: readonly string[]): number[] { return [this.lineage, ...names.map(n => this.stamp(n))]; }
   // Whether this world is of the line of the one these stamps were taken of, and has the same stamps for its names:
   // if so, it holds just what that world held of every one of them.
   agrees(names: readonly string[], stamped: readonly number[] | undefined): boolean {
-    if (stamped?.[0] !== this.lineage) { return false; }
-    for (let i = 0; i < names.length; i++) {
-      if ((this.stamps.get(names[i]!) ?? 0) !== stamped[i + 1]) { return false; }
-    }
-    return true;
+    return stamped?.[0] === this.lineage && this.stamps.agree(names, stamped);
   }
+
   // Whether two worlds are of one line, so that what each shares with the other is shared (see `differing`).
   sameLine(other: World): boolean { return this.lineage === other.lineage; }
   private change(change: Change, counts: Counts, displaced: Displaced) {
@@ -339,12 +338,14 @@ export class World {
     // written whole, what it displaces within its list being the list's.
     const held = this.byName.get(change.call.name)?.has(key) ?? false;
     if (change.kind === 'retract' ? !held : held && !relation.exclusive) { return; }
-    this.memoSnapshot = undefined; this.stamps.set(change.call.name, ++World.writes);
+    this.memoSnapshot = undefined; this.stamps.write(change.call.name, change.call.args[0]);
     const named = this.named(change.call.name);
     RelationViews.forget(named);
     if (named.delete(key)) { this.sum(key, -1); this.count--; displaced.removed(change.call, key); }
     if (change.kind === 'assert' && relation.exclusive) {
-      for (const k of displaced.take(named, change.call)) { if (named.delete(k)) { this.sum(k, -1); this.count--; } }
+      // A fact displaced is written too, by its own first argument (an exclusive fact of one argument: another's).
+      const gone = this.stamps.displaced(change.call.name, named, displaced.take(named, change.call));
+      for (const k of gone) { if (named.delete(k)) { this.sum(k, -1); this.count--; } }
     }
     if (change.kind === 'assert') {
       const call = World.copy(change.call); named.set(key, call); this.sum(key, 1); this.count++;
@@ -362,7 +363,7 @@ export class World {
     if (!Number.isSafeInteger(value)) { throw new Error(`Invalid quantity for ${World.format(change.call)}`); }
     if ((this.measuresByName.get(change.call.name)?.get(key)?.value ?? 0) === value) { return; }
     this.memoSnapshot = undefined;
-    this.stamps.set(change.call.name, ++World.writes);
+    this.stamps.write(change.call.name, change.call.args[0]);
     const { name } = change.call, named = this.namedMeasures(name), held = named.get(key);
     RelationViews.forget(named);
     if (held) { named.delete(key); this.sum(`${key}=${held.value}`, -1); this.measureCount--; }
@@ -451,8 +452,7 @@ export class World {
   // What changed from an earlier world to this one, as "- fact" and "+ fact" lines: of the same line, only what was
   // written since is compared; of another, everything.
   changes(from: World): string[] {
-    const names = from.lineage === this.lineage ? new Set([...this.stamps.keys(), ...from.stamps.keys()]
-      .filter(n => this.stamp(n) !== from.stamp(n))) : undefined;
+    const names = from.lineage === this.lineage ? new Set(this.stamps.written(from.stamps, true)) : undefined;
     const previous = from.describe(names), next = this.describe(names);
     const was = new Set(previous), is = new Set(next);
     return [...previous.filter(s => !is.has(s)).map(s => `- ${s}`), ...next.filter(s => !was.has(s)).map(s => `+ ${s}`)];

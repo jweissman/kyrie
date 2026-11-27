@@ -36,6 +36,7 @@ export * from './parse';
 export * from './parse-cache';
 export * from './query-index';
 export * from './reads';
+export * from './stamps';
 export * from './routes';
 export * from './semantic-record';
 export * from './situations';

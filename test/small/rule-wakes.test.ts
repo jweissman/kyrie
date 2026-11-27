@@ -33,6 +33,22 @@ describe('rules woken by what was written', () => {
     expect(CampaignTick.instances(feed!, w).length).toBe(1);
     expect(CampaignTick.instances(cry!, w)).toEqual([]);
   });
+  // Held on what it asks of the one thing it names (OR-1438): the yard's gate rule waits on the reeve's whereabouts,
+  // not on anyone's; the hen walking in wakes nothing, the reeve coming does.
+  it('wakes a rule asking of one thing only when that thing\'s facts are written', () => {
+    const y = ModuleParser.parse(`Module y "Y" { Kind thing. Kind place. Relation at(thing, place) exclusive.
+      Relation opened(place). Entity reeve: thing "the reeve". Entity hen: thing "the hen". Entity yard: place "the yard".
+      Entity lane: place "the lane". Initially Assert at(reeve, lane). Initially Assert at(hen, lane).
+      Rule gate when at(reeve, yard) and not opened(yard) { Assert opened(yard). } }`);
+    const gate = y.rules![0]!, wakes = RuleWakes.of(y);
+    let w = new World(y).apply(y.initial);
+    expect(CampaignTick.instances(gate, w)).toEqual([]);
+    w = w.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'hen', 'yard') }]);
+    expect(wakes.sleeps(wakes.asleep(w), gate)).toBe(true);
+    w = w.apply([{ kind: 'assert', call: ModuleWriter.call('at', 'reeve', 'yard') }]);
+    expect(wakes.sleeps(wakes.asleep(w), gate)).toBe(false);
+    expect(CampaignTick.instances(gate, w).length).toBe(1);
+  });
   it('holds nothing asleep in a world of another line', () => {
     const w = new World(m).apply(m.initial);
     for (const r of m.rules!) { CampaignTick.instances(r, w); }
