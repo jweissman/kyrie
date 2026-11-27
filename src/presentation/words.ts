@@ -24,6 +24,8 @@ export class Words {
     const m = /^((?:To|Into|Out to|Up|Down|Back to) .+?) (?:— |(?=by ))(.+)$/.exec(label);
     return m ? [m[1]!, m[2]!] : [label];
   }
+  // A noun's plural, as Counted makes it (wolf, wolves).
+  static plural(noun: string): string { return Counted.plural(noun); }
   static upper(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }
   // "Bask", "Bask and Mik", "Bask, Mik and Ulf".
   static listed(xs: string[]): string { return xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs.at(-1)}`; }

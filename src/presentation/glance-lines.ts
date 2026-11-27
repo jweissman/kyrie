@@ -1,3 +1,4 @@
+import { Words } from './words';
 import { Sentences } from './sentences';
 import type { Campaign } from '../campaign/campaign';
 import type { Module, Observation } from '../lang/module';
@@ -165,8 +166,10 @@ export class GlanceLines {
   // here: a mummy.": CL-44).
   private static here(row: TargetRow, warned = false): string {
     const name = row.name.split(', ')[0]!, kind = row.kind === 'person' ? undefined : row.entry?.name.toLowerCase();
-    const named = !kind || name.toLowerCase().includes(kind.split(' ').at(-1)!.replace(/s$/, ''));
-    const what = named ? '' : `: ${row.many ? `${kind}s` : `${/^[aeiou]/.test(kind) ? 'an' : 'a'} ${kind}`}`;
+    // By the kind's last word, one or many of it ("the wolves" says wolf, and is not told "wolfs").
+    const last = kind?.split(' ').at(-1), lower = name.toLowerCase();
+    const named = !kind || lower.includes(last!.replace(/s$/, '')) || lower.includes(Words.plural(last!));
+    const what = named ? '' : `: ${row.many ? Words.plural(kind) : `${/^[aeiou]/.test(kind) ? 'an' : 'a'} ${kind}`}`;
     const called = `${name.charAt(0).toUpperCase()}${name.slice(1)} ${row.many ? 'are' : 'is'} here`;
     const looks = row.entry?.looks && Sentences.split(row.entry.looks)[0];
     if (!looks) { return `${called}${what}.`; }
