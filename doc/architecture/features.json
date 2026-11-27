@@ -2,6 +2,13 @@
  "about": "The feature map (the owner, 15 November): what the game is made of, where each part lives, and which specs guard it, so that any defect, report or request can be placed on a feature and any changed file on the defects it could touch. Read by scripts/register-tickets.ts; every path must exist (test/small/register-tickets). A register row is placed by, in order: an entry in `rows`; for the cross-cutting prefixes in `textFirst`, the first `byText` rule its words match; its id's prefix in `byPrefix`.",
  "pins": {
   "files": {
+   "conflict/fights-cost": "fight",
+   "conflict/fights-foretold": "fight",
+   "conflict/words-before-blows": "fight",
+   "conflict/parley": "fight",
+   "world/kings-door": "discovery",
+   "world/known-way": "discovery",
+   "world/delay-costs": "discovery",
    "character/creation-and-checks": "creation", "character/company-faces": "company",
    "choice/consequence": "consequence",
    "choice/first-aims": "undertakings", "choice/first-aims-followed": "undertakings",
