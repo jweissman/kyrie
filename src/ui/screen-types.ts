@@ -369,7 +369,8 @@ export interface CombatScreen {
   laws?: { name: string; text: string }[];
   // Each exchange (someone acts, and what follows) told as the company saw it, with the dice behind it, numbered from
   // the start of the fight, with its round and who acted.
-  log: string[]; exchanges: { n: number; text: string; detail: string; round: number; actor?: string }[];
+  log: string[]; exchanges: { n: number; text: string; detail: string; round: number; actor?: string; cause?: string;
+    effect?: string; bark?: string }[];
   // A fight that has ended: how it ended, and what was gained by it, held on its page until the player goes on.
   after?: string[];
 }

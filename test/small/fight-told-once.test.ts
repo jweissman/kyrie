@@ -20,8 +20,9 @@ describe('a fight told through the runner', () => {
   for (const pressOn of [false, true]) {
     it(`tells each fall once, in the fight's own names${pressOn ? ', pressed on to the end' : ''}`, async () => {
       const said = await fought(pressOn);
-      expect(said.match(/\bRat 1 falls\b/g)).toHaveLength(1);
-      expect(said.match(/\bRat 2 falls\b/g)).toHaveLength(1);
+      // Its fall said once, by its name or by "it" where the blow that felled it has just named it (OR-1352).
+      expect(said.match(/\bRat 1(?: falls|[^.\n]*, for \d+\. It falls)\b/g)).toHaveLength(1);
+      expect(said.match(/\bRat 2(?: falls|[^.\n]*, for \d+\. It falls)\b/g)).toHaveLength(1);
       expect(said).not.toMatch(/the (first|second) rat|slashing damage|gains \d+ experience/);
       expect(said.match(/The fight is won\./g)).toHaveLength(1);
     });

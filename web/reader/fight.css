@@ -104,6 +104,9 @@
   background: var(--accent-glow); }
 .fight .beat .what { font-size: 19px; line-height: 1.5; margin: 0 0 .6em; animation: arrive var(--settle) var(--ease) both; }
 .fight .beat .what p { margin: 0; }
+/* One line of its actor's: what they did, then what came of it, a breath apart; what anyone said of it, quieter, on
+   its own line (OR-1352). */
+.fight .beat .what .bark, .fight-log .bark { font-style: italic; font-size: .82em; color: var(--dim); margin-top: 2px; }
 .fight .beat .what .how { margin-top: 2px; }
 .fight .beat .what .how > summary { cursor: pointer; list-style: none; font: 400 12px/1.4 var(--do); color: var(--faint);
   width: max-content; }

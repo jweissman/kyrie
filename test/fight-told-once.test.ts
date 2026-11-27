@@ -15,7 +15,7 @@ import type { BattleState, CombatEvent } from '../src/model';
 // is a sentence the scene after it knows to leave to the fight's own page (see Told.Happened).
 describe('a fight ended', () => {
   const state = { combatants: [{ id: 'h', name: 'Hamo', equipment: {} },
-    { id: 'r', name: 'the third rat', equipment: {} }] } as unknown as BattleState;
+    { id: 'r', name: 'the third rat', raceId: 'rat', equipment: {} }] } as unknown as BattleState;
   const last: CombatEvent[] = [{ type: 'action', turn: 5, command: { actor: 'h', ability: 'melee', target: 'r' } },
     { type: 'attack', turn: 5, actor: 'h', target: 'r', die: 17, need: 9, toHit: 2, armorClass: 7, weapon: 'battleaxe',
       success: true, critical: false },
@@ -24,7 +24,9 @@ describe('a fight ended', () => {
     { type: 'end', turn: 5, outcome: 'fighters', reason: 'elimination' } as unknown as CombatEvent];
   it('tells the last blow once, and how it fell by its dice alone', () => {
     const [told] = CombatTelling.exchanges(last, state);
-    expect(told!.text).toContain('The third rat falls.');
+    // Its falling said by "it" where the blow has just named it (one line of the actor's, cause then effect: OR-1352).
+    expect(told!.text).toContain('Hamo hits the third rat, for 8. It falls.');
+    expect([told!.cause, told!.effect]).toEqual(['Hamo hits the third rat, for 8.', 'It falls.']);
     // The killing blow told with what it dealt, once, and its falling once (the owner, 18 November, over BP-02's
     // no number): never "for 9" and then "takes 1"; its dice are the detail.
     expect(told!.text.match(/for \d+/g)).toHaveLength(1);

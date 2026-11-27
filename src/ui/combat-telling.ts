@@ -9,8 +9,14 @@ import type { BattleState, CombatEvent, Fighter } from '../model';
 import { ItemCatalog } from '../item-catalog';
 import { ItemNames } from '../lang/item-names';
 
-// One exchange: what was told, the dice behind it, the round it fell in, and who acted (if anyone did).
-export interface Telling { text: string; detail: string; round: number; actor?: string }
+// One exchange: what was told, the dice behind it, the round it fell in, and who acted (if anyone did); told as one
+// line of its actor's (the owner, 26 November, the combat experiment's legibility: "one line per actor, cause then
+// effect"):
+// cause, what the actor did and how it landed; effect, what came of it, a fighter it struck down said by "it" where it
+// was just named; and apart, what anyone said of it (bark), never run into the blow. text is all of them, for a client
+// that reads one line.
+export interface Telling { text: string; detail: string; round: number; actor?: string; cause?: string; effect?: string;
+  bark?: string }
 type Of<T extends CombatEvent['type']> = Extract<CombatEvent, { type: T }>;
 type Harm = Extract<CombatEvent, { type: 'damage' | 'heal' }>;
 interface Blow { attack: Extract<CombatEvent, { type: 'attack' }>; damage?: Harm }
@@ -78,12 +84,16 @@ export class CombatTelling {
     // "miss" and cost 2 (cold play 3, CL-13).
     const blows = CombatTelling.blows(rest);
     const dealt = new Set<CombatEvent>(blows.flatMap(b => b.damage ? [b.damage] : []));
-    const sentences = [...stepped,
-      ...first?.type === 'action' ? [...told.act(first, rest, blows), ...told.after(rest, dealt)]
-        : told.after(group, new Set()),
-      ...told.guards(group), ...bark ? [bark] : []];
+    const acted = first?.type === 'action';
+    const cause = CombatTelling.joined([...stepped, ...acted ? told.act(first, rest, blows) : []]);
+    // Its target, where it is another than the actor (one fleeing is no "it").
+    const target = acted && first.command.target !== first.command.actor ? first.command.target : undefined;
+    const after = acted ? told.after(rest, dealt) : told.after(group, new Set());
+    const effect = CombatTelling.joined(told.pronouned([...after, ...told.guards(group)], target, cause));
+    const sentences = [cause, effect, ...bark ? [bark] : []];
     // Two conditions that come to the same thing ("cannot act") are said once.
-    return { text: [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' '),
+    return { text: [...new Set(sentences.filter(Boolean))].join(' '),
+      ...cause ? { cause } : {}, ...effect ? { effect } : {}, ...bark ? { bark } : {},
       // Each sentence begun as one ("The fourth bat misses Ralf", not "the fourth bat misses Ralf").
       // How it fell is the dice, not the blow again: the last blow of the rats' fight was told, then told again
       // with its rolls, its rat falling and the fight won (the owner, 11 November late).
@@ -92,6 +102,23 @@ export class CombatTelling {
         .map(l => `${l.charAt(0).toUpperCase()}${l.slice(1)}`).join(' '),
       round, ...first?.type === 'action' ? { actor: first.command.actor } : {} };
   }
+  // Sentences as one telling: each begun as a sentence, two that come to the same thing said once.
+  private static joined(sentences: string[]): string {
+    return [...new Set(sentences.filter(Boolean).map(s => s.charAt(0).toUpperCase() + s.slice(1)))].join(' ');
+  }
+  // What came of a blow, its target said by "it" where the blow has just named it (a creature of no calling, never one
+  // who follows one, said by name): "Hamo hits the hungry dead of the ossuary with the battleaxe, for 10. It falls."
+  private pronouned(effects: string[], target: string | undefined, cause: string): string[] {
+    const f = target ? this.fighter(target) : undefined, name = target && this.name(target);
+    // Not where the blow itself was said by "it" ("and it lands"): "It falls" would be the blow's.
+    if (!f?.raceId || f.classId || !name || !cause.includes(name) || / it /.test(cause)
+      || CombatTelling.many(name)) { return effects; }
+    const said = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return effects.map(e => e.replace(new RegExp(`^${said}'s\\s`, 'i'), 'Its ')
+      .replace(new RegExp(`^${said}(?=\\s)`, 'i'), 'It'));
+  }
+  // A name of many ("the rats"), never said by "it".
+  private static many(name: string): boolean { return /s$/.test(name.split(/\s+(?:of|in|under|by)\s+/)[0]!); }
   // Bleeding is told once it has lasted, as it bleeds ("Bruni bleeds, for 1"), and not as the wound is dealt: a bite
   // in the round a fight ended in had been told "Bruni is bleeding", and the bleeding was gone with the fight before it
   // ever bled; nor is a second bite's held save told, of one bleeding already, as their not bleeding (the cold
