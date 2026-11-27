@@ -14,6 +14,7 @@
     "long-campaign.kyr",
     "long-road.kyr",
     "long-aftermath.kyr",
+    "long-meal.kyr",
     "company.kyr"
   ],
   "rules": ["world"],
