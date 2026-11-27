@@ -4,10 +4,15 @@
     "name": "The Road Under the Hill",
     "_kind": "=lookup(longCellKind, 'any')",
     "creatures": [],
-    "actors": { "order": [] },
+    "actors": {
+      "order": []
+    },
     "casting": "=gen(long_cell_cast)",
-    "facts": "=concat(gen(long_cell_kind))",
-    "initial": "=concat(gen(long_cell_food))",
+    "_discA": "=1d3",
+    "_discB": "=1d3",
+    "_discC": "=1d3",
+    "facts": "=concat(gen(long_cell_kind), gen(long_count_quirk_bread), gen(long_count_quirk_trough), gen(long_count_quirk_bank))",
+    "initial": "=concat(gen(long_cell_food), gen(long_count_disc_bread), gen(long_count_disc_trough), gen(long_count_disc_bank), gen(long_count_pane))",
     "outcomes": []
   },
   "long_cell_cast": {
@@ -29,7 +34,57 @@
   "long_cell_food": {
     "__no_id": true,
     ">name": "quantity",
-    "args": ["lc_cell", "rations"],
+    "args": [
+      "lc_cell",
+      "rations"
+    ],
     "value": "=#_kind == 'marauders' ? 3 : 2"
+  },
+  "long_count_quirk_bread": {
+    "__no_id": true,
+    ">name": "lcQuirk",
+    "args": "=concat('lc_rill_bread', lookup(longCountQuirks, 'bread'))"
+  },
+  "long_count_quirk_trough": {
+    "__no_id": true,
+    ">name": "lcQuirk",
+    "args": "=concat('lc_rill_trough', lookup(longCountQuirks, 'trough'))"
+  },
+  "long_count_quirk_bank": {
+    "__no_id": true,
+    ">name": "lcQuirk",
+    "args": "=concat('lc_rill_bank', lookup(longCountQuirks, 'bank'))"
+  },
+  "long_count_disc_bread": {
+    "__no_id": true,
+    ">name": "lcDisc",
+    "args": [
+      "lc_rill_bread"
+    ],
+    "value": "=#_discA"
+  },
+  "long_count_disc_trough": {
+    "__no_id": true,
+    ">name": "lcDisc",
+    "args": [
+      "lc_rill_trough"
+    ],
+    "value": "=#_discB"
+  },
+  "long_count_disc_bank": {
+    "__no_id": true,
+    ">name": "lcDisc",
+    "args": [
+      "lc_rill_bank"
+    ],
+    "value": "=#_discC"
+  },
+  "long_count_pane": {
+    "__no_id": true,
+    ">name": "lcPaneTarget",
+    "args": [
+      "party"
+    ],
+    "value": "=#_discA + #_discB + #_discC"
   }
 }

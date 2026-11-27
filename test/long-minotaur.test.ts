@@ -24,9 +24,11 @@ describe('the keeper of the angles', () => {
     expect(resumed.at('party')).toBe('tallow__quiet_gallery');
   }, 10000);
 
-  it('can prepare and execute its real charge in combat', () => {
+  it('charges as the minotaur warrior it is', () => {
     const content = new Content('minotaur-charge');
-    const keeper = content.createCreature(ItemCatalog.canon, 'keeper', { raceId: 'minotaur', level: 6 }, 'keeper');
+    const keeper = content.createCreature(ItemCatalog.canon, 'keeper', { raceId: 'minotaur', classId: 'warrior', level: 6 },
+      'keeper');
+    expect(keeper.raceId).toBe('minotaur');
     const hero = content.createCreature(ItemCatalog.canon, 'hero', { raceId: 'human', classId: 'warrior' }, 'hero');
     hero.base.maxHp = hero.state.hp = 300;
     const store = new CreatureStore(ItemCatalog.canon, [keeper, hero]);

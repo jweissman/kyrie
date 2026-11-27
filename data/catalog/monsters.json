@@ -2523,47 +2523,6 @@
         "notes": "The SRD unicorn (srd35-westernesse-v1): its 4d10+20 Hit Dice (42), its scores, its horn (1d8) and two hooves (1d4), and its immunity to poison. Its AC 18 is Westernesse 3 (its hide borrowed from the catalog's shell, ac 4, until bodies have natural armour: the briefing's section 2). The record's own 10 against acid, cold and lightning and 10 off a blow unless magic are kept as the author wrote them; they are the SRD celestial template's at twelve Hit Dice, not the SRD unicorn's. Adapted: its hooves take no Strength (a lesser blow). Omitted: magic circle against evil, teleport, its cure and neutralize powers beyond Heal, immunity to charm and compulsion, wild empathy. An author's own creation (the owner, 6 November) before."
       }
     },
-    "minotaur": {
-      "name": "Minotaur",
-      "type": "humanoid",
-      "kind": "monster",
-      "description": "A horned keeper of difficult ways, powerful enough to drive an intruder back with a charge.",
-      "looks": "A broad figure with a bull's head, a worn coat and a heavy axe. One horn has been mended with a band of brass.",
-      "statistics": {
-        "attributes": {
-          "strength": 19,
-          "dexterity": 10,
-          "constitution": 15,
-          "intelligence": 7,
-          "wisdom": 10,
-          "charisma": 8
-        },
-        "hitDice": "6d8+12",
-        "primary": "strength",
-        "weapon": "battleaxe",
-        "armor": "shell",
-        "attacks": [
-          "battleaxe",
-          "horn"
-        ]
-      },
-      "abilities": [
-        "prepare_charge",
-        "charge"
-      ],
-      "traits": [],
-      "worth": {
-        "base": 150,
-        "perLevel": 50
-      },
-      "source": {
-        "kyr": true,
-        "fidelity": "adapted",
-        "srd35": "monster:minotaur",
-        "conversion": "srd35-westernesse-v1",
-        "notes": "The SRD minotaur's scores and 6d8+12 Hit Dice. The battleaxe and horn stand in for its greataxe and gore; their damage and attack bonuses are not the SRD's. Orsino's prepared charge takes two actions and deals 3d8+1+level without the SRD's attack roll, rather than powerful charge's 4d6+6. Armour, saves, darkvision, scent and natural cunning are not the SRD stat block. No habitats: this keeper is placed only in the long campaign."
-      }
-    },
     "xill": {
       "name": "Xill",
       "type": "aberration",

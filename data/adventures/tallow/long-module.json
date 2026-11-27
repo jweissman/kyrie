@@ -31,6 +31,8 @@
     "long-pool.kyr",
     "long-aftermath.kyr",
     "long-meal.kyr",
+    "long-count.kyr",
+    "long-war.kyr",
     "company.kyr"
   ],
   "rules": ["world"],

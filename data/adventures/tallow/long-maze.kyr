@@ -14,7 +14,8 @@ Module tallow "Tallow Deep" {
   Observe lc_maze_heart_scene at lc_maze_heart when true
     "A brass pointer stands between two doors. Each door casts a shadow through the other. The pointer rests on the seam of one; a blade-wide groove runs along it.".
   Person lc_minotaur "the keeper of the angles" at lc_maze_mouth {
-    Role "a horned keeper with a heavy axe and a brass band on one horn". Species minotaur. Level 6. Temperament territorial.
+    Role "a horned keeper with a heavy axe and a brass band on one horn". Ancestry minotaur. Calling warrior. Level 6.
+    Carries battleaxe. Temperament territorial.
     Warns "A broad figure with a bull's head steps in front of the door. 'Two rations,' the keeper says. 'I have not eaten. Pay, or turn back.'".
     Comes "The keeper lowers their head, the brass band bright against the horn, and comes forward with the axe.".
     Lair lc_maze_mouth.

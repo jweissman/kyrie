@@ -47,7 +47,7 @@ observed authoring friction from ambitions that have not yet been attempted.
 9. **A proud creature without a declared tribute lets the player pay zero.** The young dragon's generic payment
    action said the company had paid while no money moved. Its author now sets a twelve-coin tribute and has the
    dragon name it; `test/long-dragon-fight.test.ts` checks the actual transfer and opened way. This was an authored
-   omission enabled by a zero default. The generic wording and defaults are tracked as OR-1300.
+   omission enabled by a zero default. The generic wording and defaults are tracked as OR-1176.
 10. **A deadline set by an action is measured from the action's start.** Landing an eel takes a watch. Setting
     the smoking deadline to the current watch plus 36 initially made the promised six hours only five hours and
     fifty minutes after the eel was landed. The fishing action accounts for its own duration; the spec checks the
@@ -111,6 +111,35 @@ observed authoring friction from ambitions that have not yet been attempted.
 22. **An accepted refusal must beat the purchase in the same watch.** Tavi could agree not to buy food just before
     the deadline, then buy it anyway because the purchase rule ran before the return rule. The purchase now checks
     the refusal itself; `test/long-gnoll.test.ts` exercises the exact deadline with the real money and food.
+23. **A charm cannot gate a field act.** `canCast(bard, charm)` is never true outside a fight: `FieldUse` projects
+    a spell into the field only if it heals an ally, puts its target out of action, travels or lets something loose.
+    Charm Person applies `charmed`, which is none of those. The bard's unmasking of a reflection in `long-count.kyr`
+    therefore asks for the calling (`hasCalling(bard, calling_bard)`), not the spell, and spends nothing. A field
+    charm, cast for its slot with a saving throw like the hostile field spells, would let an author write the act the
+    fiction describes.
+24. **New Deem draws must come after older ones in a template.** Adding the reflections' disc rolls straight after
+    the cell's `_kind` shifted the random stream and changed which race each seeded cell cast
+    (`test/long-cell-gnoll.test.ts`). They now follow `casting`. A template's draws come in order from one seeded stream, so
+    a template's draw order is a compatibility surface that nothing declares. Keying each `_variable`'s draw by its
+    own name would make additions safe.
+25. **The census makes evidence of flavour.** `Consequence.census` flags a topic or reading act whose words are all it
+    does. The six such rows in Act II now each assert something later play reads: a reflection's answer opens a bard's
+    song to her or points to the floor prints; turning over a disc teaches the window the pane walk needs; reading
+    the ledger is required before the rally. This is the intended discipline, but a status reading (the ledger's
+    march count) is honestly useful repeated, and only passes once it gates something.
+26. **There is no numeric input.** The pane puzzle's answer is a number (the sum of three rolled discs), but the
+    page can only offer acts. The player steps pane by pane ("Step along to the next pane") and presses; a wrong press
+    costs cold damage and resets the count. That is a fair puzzle, but it is a walk, not a typed answer; a riddle or
+    combination lock with a typed or chosen number would need an engine-owned question.
+27. **A generated measure has no declared default.** If the template has not
+    run (an installation without generation), `lcDisc` and `lcPaneTarget` are absent and the puzzle cannot open. A
+    rule supplies fixed discs (2, 1, 3; target 6) when generation did not. A declared default for a generated measure
+    would remove the hand-written fallback.
+28. **A creature without a painting cannot be catalogued.** The menagerie requires every catalogued monster to
+    have its own cut painting, and a local `Species` can only be `like` another species, which takes that species'
+    painting. A species also takes no calling. The minotaur therefore became a people (`Ancestry minotaur. Calling
+    warrior.`), met by its emblem. Kyr has no way to declare a creature as awaiting a painting, which would show an
+    emblem meanwhile and file the request for a picture.
 
 ## Generation boundary and unbuilt requests
 
@@ -183,10 +212,12 @@ warned opponent. Rill can awaken a stronger strike at the brass pointer after it
 both strikes before real fights, transfer and re-equipping, and save continuity; they use isolated placements and
 road-order setup, not a complete expedition.
 Beyond Rill's shelter, a minotaur guards a room whose door can be opened back to the Quiet Gallery. The keeper accepts
-two actual rations or can be fought; an isolated test checks both approaches and the return after a save. Its adapted
-body has the SRD minotaur's scores and Hit Dice, but its axe, horn, armour and saves are not the SRD's. Its working
-charge is Orsino's two-action charge, not the SRD's powerful charge; scent and natural cunning are not implemented.
-The catalog entry has no habitats, so generated dens do not draw it; the encounter laboratory enumerates all species.
+two actual rations or can be fought; an isolated test checks both approaches and the return after a save. The keeper
+is a minotaur warrior of level 6 with a battleaxe, and its charge is the warrior's two-action charge, not the SRD's
+powerful charge. The minotaur is a Kyr ancestry (the SRD's ability adjustments halved to this scale), not a catalogued
+monster: every catalogued monster must be painted with its own picture, no minotaur has been painted, and each painted
+base (owlbear, behemoth, colossus) would show the wrong creature. A minotaur painting would let it return to the bestiary
+with the SRD's Hit Dice, gore and scent. Scent and natural cunning are not implemented.
 The remaining seasons and finale, a weapon whose ordinary combat statistics grow, a faithful minotaur, a credible dragon progression,
 encounter-table loop and further character-cast miracles are not implemented by this thread. The field's restoration is
 an actual world effect, not a spell the company casts.
