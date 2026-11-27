@@ -46,7 +46,7 @@ Module origin "The brothers' errand" {
   // 7 November: every origin's first goal names a place the company can go to).
   // What "copied" asks, said: the old writing read, who made the place or how its makers ended (round 8, N: the
   // inscription read at the king's door, and no way to tell what copying the writing would take).
-  Objective errand_letter when expects(priest, party) and not copied(party) toward priest "The brothers want the old writing at {delving} read and set down: who made the place, or how its makers ended. Their letter is for {priest}, who will show you the way.".
+{then}  Objective errand_letter when expects(priest, party) and not copied(party) toward priest "The brothers want the old writing at {delving} read and set down: who made the place, or how its makers ended. Their letter is for {priest}, who will show you the way.".
   Objective errand when not expects(priest, party) and not copied(party) and not knows(party, history) and not knows(party, fate) toward delving "The brothers want the old writing at {delving} read and set down. Find what is written there of who made the place, or how its makers ended.".
   // Known, and not yet set down there: a clue to what is cut at the place, which is still to be gone to.
   Objective errand_known when not expects(priest, party) and not copied(party) and not setDown(party) and (knows(party, history) or knows(party, fate)) toward delving "You know now what the old writing at {delving} should say. The brothers asked for it copied where it is cut: go there, and set it down.".

@@ -12,7 +12,10 @@ const inn = (fee: number) => `
     Offers lodging "a bed and supper" for ${fee} coin. }
   Goal false.`;
 const rows = async (t: Tiny): Promise<string[]> => {
-  const s = await new Runner(t.session).ask(JSON.stringify({ act: 't__keeper#talk' }));
+  // What is had of them for coin is under Trade (the engine's question, OR-1451).
+  const r = new Runner(t.session);
+  await r.ask(JSON.stringify({ act: 't__keeper#talk' }));
+  const s = await r.ask(JSON.stringify({ act: 'focus:trade:on' }));
   if ('error' in s) { throw new Error(s.error); }
   return [...s.offer?.primary ?? [], ...s.offer?.rest ?? []].map(r => r.label);
 };

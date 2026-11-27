@@ -7,6 +7,7 @@ import { PlayerFrame } from '../presentation/player-frame';
 import { VisitedPlaces } from '../presentation/visited-places';
 import { Itineraries } from '../ui/itinerary';
 import { Travel } from '../session/travel';
+import { Focusing } from '../session/focus';
 import { ModuleWriter } from '../lang/module-writer';
 import type { CampaignEvent } from '../campaign/campaign';
 import { AutoPlayer, type Move, type PolicyName, type Situation } from './player';
@@ -156,7 +157,9 @@ export class AutoplayRun {
     return [...acts.flatMap(a => a.choice.endsWith('#talk')
       ? [...a.for ? [a.for] : [], ...a.command?.startsWith('ask(') ? [a.command] : [],
         ...[Doable.one(glance!, screen, a.choice, a.command).does ?? []].flat()]
-      : a.command ? [this.charted(s, a.command)] : []), ...added];
+      : a.command ? [this.charted(s, a.command)] : []), ...added]
+      // A turning to someone with no greeting is the session's own (focus:talk), no act of the world to play.
+      .filter(c => !Focusing.is(c));
   }
   // Whether a led act is what a walker prefers: the gold walker goes by the one the glance marks as carrying the aim
   // on (Promoted.continues); the silver by what is worth exploring.

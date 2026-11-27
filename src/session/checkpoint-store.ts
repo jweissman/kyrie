@@ -59,7 +59,7 @@ export class CheckpointStore {
   }
   private static checkpoint(value: SessionCheckpoint): SessionCheckpoint {
     const t = value?.transcript;
-    if (value?.version !== 1 || t?.version !== 1 || typeof t.scenario !== 'string' || typeof t.seed !== 'string'
+    if ((value?.version !== 1 && value?.version !== 2) || t?.version !== 1 || typeof t.scenario !== 'string' || typeof t.seed !== 'string'
       || !Array.isArray(t.steps) || t.steps.some(s => typeof s?.command !== 'string') || value.save?.version !== 1) {
       throw new Error('Invalid session checkpoint');
     }

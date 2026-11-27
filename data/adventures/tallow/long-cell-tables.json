@@ -1,0 +1,55 @@
+{
+  "longCellKind": {
+    "discriminator": "region",
+    "groups": {
+      "any": [
+        "cult",
+        "musicians",
+        "marauders"
+      ]
+    }
+  },
+  "longCellPeople": {
+    "discriminator": "kind",
+    "groups": {
+      "cult": [
+        "human",
+        "elf",
+        "dwarf",
+        "gnoll"
+      ],
+      "musicians": [
+        "human",
+        "elf",
+        "dwarf",
+        "gnoll"
+      ],
+      "marauders": [
+        "human",
+        "elf",
+        "dwarf",
+        "gnoll"
+      ]
+    }
+  },
+  "longCountQuirks": {
+    "discriminator": "reflection",
+    "groups": {
+      "bread": [
+        "lc_quirk_loaf",
+        "lc_quirk_spoons",
+        "lc_quirk_apron"
+      ],
+      "trough": [
+        "lc_quirk_salute",
+        "lc_quirk_ducks",
+        "lc_quirk_echo"
+      ],
+      "bank": [
+        "lc_quirk_wading",
+        "lc_quirk_stones",
+        "lc_quirk_sums"
+      ]
+    }
+  }
+}

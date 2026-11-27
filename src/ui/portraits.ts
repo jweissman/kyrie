@@ -1,8 +1,6 @@
-import { Likeness } from '../paintings/likeness';
-import { Sittings } from '../paintings/sittings';
+import { PresentationResources, type Face } from '../ports/presentation-resources';
 import type { Campaign } from '../campaign/campaign';
 import type { TargetRow } from './screen-types';
-import type { Face } from '../paintings/company-portraits';
 import type { MemberRow } from './screen-types';
 
 // The painting each person is met in, the same wherever they are met, and no one else of their country's (see
@@ -11,11 +9,12 @@ export class Portraits {
   // In a fight, each foe who is someone (a person of the world, painted where they are met) by their own likeness, as
   // the company is by theirs (M19-78: a person fought had been a creature's painting, or none). Keyed by member.
   static foes(campaign: Campaign): Map<string, Face> {
-    const out = new Map<string, Face>();
+    const out = new Map<string, Face>(), sittings = PresentationResources.sittings();
+    const likeness = PresentationResources.likeness();
     for (const actor of campaign.actors.filter(a => !a.player)) {
-      const painting = Sittings.painted(campaign, actor.id) ? Sittings.of(campaign, actor.id) : undefined;
+      const painting = sittings.painted(campaign, actor.id) ? sittings.of(campaign, actor.id) : undefined;
       if (!painting) { continue; }
-      const face = { id: painting, src: Likeness.src(painting), medium: Likeness.src(painting) };
+      const face = { id: painting, src: likeness.src(painting), medium: likeness.src(painting) };
       for (const member of actor.members) { out.set(member, face); }
     }
     return out;
@@ -25,11 +24,13 @@ export class Portraits {
   // been a woman bard on his own page, his name saying nothing of him (the owner's fresh session, 7 November).
   static met(campaign: Campaign, ref: string | undefined): string | undefined {
     const world = campaign.world, joined = ref && world.relates('joinedAs') ? world.one('joinedAs', ref) : undefined;
-    return joined && Sittings.painted(campaign, joined) ? Sittings.of(campaign, joined) : undefined;
+    const sittings = PresentationResources.sittings();
+    return joined && sittings.painted(campaign, joined) ? sittings.of(campaign, joined) : undefined;
   }
   static of(campaign: Campaign, id: string): TargetRow['portrait'] {
-    const painting = Sittings.painted(campaign, id) ? Sittings.of(campaign, id) : undefined;
-    return painting ? Likeness.portrait(painting) : undefined;
+    const sittings = PresentationResources.sittings();
+    const painting = sittings.painted(campaign, id) ? sittings.of(campaign, id) : undefined;
+    return painting ? PresentationResources.likeness().portrait(painting) : undefined;
   }
   // A member of the company's one face, wherever they are drawn (their page, the roster, a fight, the scene they are
   // in): the likeness they were met in or chosen at creation, else the portrait of their calling (see MemberRow).

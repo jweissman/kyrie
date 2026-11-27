@@ -1,7 +1,20 @@
 {
   "about": "Specs held out of every gating lane (the owner, 23 November: 'aggressively quarantine flaky tests'; scripts/test-lane.ts). A quarantined spec runs only in the optional quarantine workflow (.github/workflows/quarantine.yml), after CI has passed on main and the deploy has begun; it never fails a run. Each entry says why it flakes and what the lower-order test that replaces it would be; a spec leaves quarantine by being rewritten lower, or by being made steady and passing there run after run.",
   "files": {
-    "test/act-budget.test.ts": { "since": "2026-11-23", "why": "a wall-clock median (500 ms on CI) that a loaded runner crosses: 512 ms on run 45270018815, a docs-only commit", "lower": "the turn-cost ratchet's stage counts (schemas re-grounded, legs walked), not milliseconds, on push; milliseconds nightly, reported not gated" },
-    "test/board-update-browser.test.ts": { "since": "2026-11-24", "why": "two different flakes on CI's full runs of otherwise green suites (45350664372: a board update over its 200 ms at 1280x800, line 110; 45370499802: the mark not seen stepping hex by hex, line 100), each passing when its job was run again: a loaded runner drops the frames it reads", "lower": "test/board-update (the map updated in place at a journey's end, drawing what a board made again would), with the per-leg stepping held by the journey's own legs headless (Journeyed.legs), not by sampled frames" }
+    "test/act-budget.test.ts": {
+      "since": "2026-11-23",
+      "why": "a wall-clock median (500 ms on CI) that a loaded runner crosses: 512 ms on run 45270018815, a docs-only commit",
+      "lower": "the turn-cost ratchet's stage counts (schemas re-grounded, legs walked), not milliseconds, on push; milliseconds nightly, reported not gated"
+    },
+    "test/board-update-browser.test.ts": {
+      "since": "2026-11-24",
+      "why": "two different flakes on CI's full runs of otherwise green suites (45350664372: a board update over its 200 ms at 1280x800, line 110; 45370499802: the mark not seen stepping hex by hex, line 100), each passing when its job was run again: a loaded runner drops the frames it reads",
+      "lower": "test/board-update (the map updated in place at a journey's end, drawing what a board made again would), with the per-leg stepping held by the journey's own legs headless (Journeyed.legs), not by sampled frames"
+    },
+    "test/small/aim-successor.test.ts": {
+      "since": "2026-11-27",
+      "why": "\"what pulls after an aim > offers the asking that would tell of somewhere\" passes alone (5 of 5) and failed under the machine's load in three unrelated gates in a night (the rules gate twice, a docs-only commit; the combat builder's test:small twice), at 2.9 to 4.0 s: a walk that runs near its time bound when other suites share the machine",
+      "lower": "the asking found by AimSuccessor over a Tiny world where nothing known leads anywhere, its offered row asserted directly, without walking the first town"
+    }
   }
 }

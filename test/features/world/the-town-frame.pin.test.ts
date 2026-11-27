@@ -7,6 +7,7 @@ import { ModuleWriter } from '../../../src/lang/module-writer';
 import { KyrTemplates } from '../../../src/world/kyr-template';
 import { RegionUndertown } from '../../../src/world/region-undertown';
 import { AsMeant } from '../../support/as-meant';
+import { TalkWay } from '../../support/talk-way';
 
 // The first town's frame varies (the corpus review, November 2026): every first town had had the churchyard's
 // raised dead and the quarry's spiders. Each has a second cause now, and the loop under the town keeps its shape with
@@ -33,7 +34,10 @@ class Walk {
   }
   async play(steps: string[]): Promise<void> {
     for (const step of steps) {
-      const row = step === 'through' ? undefined : rows(this.s).find(x => new RegExp(step, 'i').test(x.label));
+      // Found as the page's player finds it, a talk open (TalkWay, OR-1451).
+      const found = step === 'through' ? undefined : await TalkWay.find(this.r, this.s, x => new RegExp(step, 'i').test(x.label));
+      if (found) { this.s = found.said; }
+      const row = found?.o;
       if (step !== 'through') { expect([step, row?.label]).toEqual([step, expect.any(String)]); }
       let said = await AsMeant.ask(this.r, JSON.stringify({ act: row?.id ?? RunnerFight.through }));
       // Pressed on, the fight is handed back at each new danger (PressOn, OR-830), and pressed on again past it.

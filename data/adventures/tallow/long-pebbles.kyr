@@ -1,0 +1,65 @@
+Module tallow "Tallow Deep" {
+  Discovery lc_pebble_rules "Merren plays a game of eight pebbles: take one or two in turn; whoever takes the last loses.".
+  Relation lcPebblePlaying(group). Relation lcPebbleReply(group). Relation lcPebbleWon(group).
+  Measure lcPebbles(group). Measure lcPebbleAgain(group).
+
+  Topic lc_pebble_question with lc_quartermaster "Ask Merren about the pebbles on the table"
+    when knows(actor, lc_enemy_news) and not knows(actor, lc_pebble_rules) once {
+    Says "'Eight pebbles. We take one or two each, in turn. Whoever takes the last loses. A ferryman taught me that one summer. He was better at this than at boats.'".
+    On discuss { Assert knows(actor, lc_pebble_rules). }
+  }
+  Action lc_pebble_start(actor: group, site: place) "Play the pebble game with Merren" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom)
+      and at(lc_quartermaster, site) and able(lc_quartermaster) and knows(actor, lc_pebble_rules)
+      and not lcPebblePlaying(actor) and not lcPebbleWon(actor) and watch(clock) >= lcPebbleAgain(actor).
+    Time 10 minutes.
+    On success { Set lcPebbles(actor) to 8. Assert lcPebblePlaying(actor). }
+    Result "Merren lays out eight pebbles. 'You begin.'".
+  }
+  Observe lc_pebble_count at taproom when lcPebblePlaying(party) and not lcPebbleReply(party)
+    and at(lc_quartermaster, taproom) and able(lc_quartermaster)
+    "There are {lcPebbles(party)} pebbles on the table. It is your turn.".
+  Action lc_pebble_one(actor: group, site: place) "Take one pebble" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom)
+      and at(lc_quartermaster, site) and able(lc_quartermaster)
+      and lcPebblePlaying(actor) and not lcPebbleReply(actor) and lcPebbles(actor) >= 1.
+    Time 10 minutes.
+    On success { Decrease lcPebbles(actor) by 1. Assert lcPebbleReply(actor). }
+    Result "You take one pebble.".
+  }
+  Action lc_pebble_two(actor: group, site: place) "Take two pebbles" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, taproom)
+      and at(lc_quartermaster, site) and able(lc_quartermaster)
+      and lcPebblePlaying(actor) and not lcPebbleReply(actor) and lcPebbles(actor) >= 2.
+    Time 10 minutes.
+    On success { Decrease lcPebbles(actor) by 2. Assert lcPebbleReply(actor). }
+    Result "You take two pebbles.".
+  }
+  Rule lc_pebble_lost when lcPebblePlaying(party) and lcPebbleReply(party) and lcPebbles(party) == 0
+    and at(party, taproom) and able(party) and at(lc_quartermaster, taproom) and able(lc_quartermaster)
+    says "Merren points to the last pebble in your hand. 'It does not look dangerous, does it?' She sets the others aside for another time." {
+    Retract lcPebblePlaying(party). Retract lcPebbleReply(party). Set lcPebbleAgain(party) to watch(clock) + 6.
+  }
+  Rule lc_pebble_won when lcPebblePlaying(party) and lcPebbleReply(party) and lcPebbles(party) == 1
+    and at(party, taproom) and able(party) and at(lc_quartermaster, taproom) and able(lc_quartermaster)
+    says "Merren takes the last pebble. 'He used to leave me with that one.' She folds a scrap of paper into a boat. 'His boats always sank. He said the water was unfair.' She sets it on the sill." teaches lc_boats_memory {
+    Set lcPebbles(party) to 0. Retract lcPebblePlaying(party). Retract lcPebbleReply(party).
+    Assert lcPebbleWon(party).
+  }
+  Rule lc_pebble_reply_one when lcPebblePlaying(party) and lcPebbleReply(party)
+    and (lcPebbles(party) == 2 or lcPebbles(party) == 4 or lcPebbles(party) == 5 or lcPebbles(party) == 7)
+    and at(party, taproom) and able(party) and at(lc_quartermaster, taproom) and able(lc_quartermaster)
+    says "Merren takes one pebble." {
+    Decrease lcPebbles(party) by 1. Retract lcPebbleReply(party).
+  }
+  Rule lc_pebble_reply_two when lcPebblePlaying(party) and lcPebbleReply(party)
+    and (lcPebbles(party) == 3 or lcPebbles(party) == 6)
+    and at(party, taproom) and able(party) and at(lc_quartermaster, taproom) and able(lc_quartermaster)
+    says "Merren takes two pebbles." {
+    Decrease lcPebbles(party) by 2. Retract lcPebbleReply(party).
+  }
+  Rule lc_pebble_abandoned when lcPebblePlaying(party)
+    and (not at(party, taproom) or not able(party) or not at(lc_quartermaster, taproom) or not able(lc_quartermaster)) {
+    Retract lcPebblePlaying(party). Retract lcPebbleReply(party). Set lcPebbleAgain(party) to watch(clock) + 6.
+  }
+}

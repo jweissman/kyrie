@@ -88,7 +88,9 @@ export class RunnerOffer {
     }
     if (!r.opens) { return [this.one(r, at, entry, entry)].flatMap(o => o ?? []); }
     const opens = this.leaves(r).flatMap(k => this.one(k, at, undefined, entry) ?? []);
-    return opens.length ? [{ ...this.made(r.id, r.label, entry), opens, ...r.says ? { says: r.says } : {} }] : [];
+    // A talk with no greeting of its own is turned to by the session's command (MenuTree.turning, OR-1451).
+    const who = /^(.+)#talk$/.exec(r.id)?.[1], turn = who ? { does: `focus:talk:${who}` } : {};
+    return opens.length ? [{ ...this.made(r.id, r.label, entry, turn), opens, ...r.says ? { says: r.says } : {} }] : [];
   }
   private static leaves(r: Row): Row[] { return r.opens ? r.opens.flatMap(k => this.leaves(k)) : [r]; }
   // A row done by its command (Doable makes none that does what nothing here offers: Doable.made, so none is

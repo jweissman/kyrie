@@ -1,9 +1,9 @@
 # The setting gives the runtime its parts (src/setting-port.ts, MT-16 S6) before any file run here asks for them: the
 # specs, and the scripts and tools run with bun. The page, the worker and bin/kyrie fill it at their own roots. And an
 # installation is carried through awaits (src/cli/installed-carried.ts), so campaigns under two may run at once.
-preload = ["./src/canon/setting-install.ts", "./src/cli/installed-carried.ts"]
+preload = ["./src/canon/setting-install.ts", "./src/paintings/presentation-install.ts", "./src/cli/installed-carried.ts"]
 
 [test]
 # And every read of a relation no module declares fails the spec that makes it (MT-25; a read that may name another
 # module's relation says so: DeclaredReads.optional).
-preload = ["./src/canon/setting-install.ts", "./src/cli/installed-carried.ts", "./test/support/declared-strict.ts"]
+preload = ["./src/canon/setting-install.ts", "./src/paintings/presentation-install.ts", "./src/cli/installed-carried.ts", "./test/support/declared-strict.ts"]

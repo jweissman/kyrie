@@ -6,6 +6,8 @@ import type { Lens, Promoted } from '../presentation/glance-types';
 import { Fold, type Chosen, type Leaf } from '../presentation/fold';
 import { Attest, type Projected } from '../presentation/attest';
 import { MenuModel, type Menu, type Sheets } from './menu-model';
+import { TalkQuestion, type Question } from './talk-question';
+import type { Focus, Conversation } from '../session/focus';
 
 // The resting scene's menu, as the frame holds it (OR-1071; the owner, 26 November: "we definitely need to move
 // everything to scanning one tree"): the engine works it out once a frame, and every client reads it, never building
@@ -42,6 +44,12 @@ export class MenuTree {
   static framed<F extends Omit<Frame, 'menu'>>(frame: F): F & Pick<Frame, 'menu'> {
     return { ...frame, menu: this.of(frame) };
   }
+  // The question asked from the session's focus (OR-1451): while it is a talk, the talk's menu, built once here over
+  // the frame for every client (TalkQuestion). Its rows are the frame's (the screen's, of PlayerFrame.of's rows; the
+  // incremental frame's kept rows, PR #12, once it has settled one), never built again for it.
+  static question(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Focus, conversation?: Conversation): Question {
+    return TalkQuestion.of(frame, focus, conversation);
+  }
   static of(frame: Omit<Frame, 'menu'>): MenuNode {
     const raw = SceneModel.build(frame.screen), found = Attending.place(raw);
     const tops = [...found.subjects.flatMap(s => s.choices), ...found.near, ...found.far, ...found.you];
@@ -55,6 +63,13 @@ export class MenuTree {
     // Its marks from the rows as the scene holds them, an opener's the fold of its own rows (MenuTree.marks).
     return { ...node, marks: this.marks(frame, this.opened({ ...node, choices: full.choices, under: this.under(tops) },
       []), raw) };
+  }
+  // One row, "Talk to …" (the owner's ruling, OR-1451): turned to and greeted in one act where the world has a greeting
+  // (its row does talk_to), else turned to by the session's own command, which takes no time (focus:talk): every client
+  // does the row by its command. (The glance reads the talk as it was, with no command of its own.)
+  static turning(this: void, c: Choice): Choice {
+    const who = !c.command && /^(.+)#talk$/.exec(c.id)?.[1];
+    return who ? { ...c, command: `focus:talk:${who}` } : c;
   }
   // One flat level outside a fight (AGENTS.md: "Unfolding menus only in a fight"; the owner's playtest, 26 November,
   // OR-1295: "Look at the bronze ring" had opened its acts beneath it): no row of the resting scene unfolds rows of its

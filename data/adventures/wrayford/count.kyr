@@ -1,0 +1,80 @@
+Module wrayford "The Third Night" {
+  Relation wryCoinFound(group). Relation wryDangerSettled(group). Relation wryRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe wry_coin_hint at counting_room when not wryCoinFound(party)
+    "A door in the counting-house floor has been nailed shut from above. Its nail heads are bright.".
+  Action wry_find_coin(actor: group, site: place) "Pry up the new nails in the Bridge Company’s counting-house" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, counting_room) and not wryCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert wryCoinFound(actor). Give count_coin to actor. }
+    Result "A sickle-woman is rubbed thin on the coin. The bridge company set it down when the first toll was paid in grain instead of names.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe wry_count_begins at drove_road when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board stands above Wrayford. The bridge toll is counted in bodies before a cart reaches the gate.".
+  Observe wry_count_broken at drove_road when befell(ash_broken)
+    "The board has been pitched in the Wray. The bridge keeps its old toll book.".
+  Observe wry_count_triumph at drove_road when befell(ash_triumphs)
+    "Ash clerks take the bridge toll. The carters queue under a list of the dead.".
+  Observe wry_party_saved at drove_road when wryDangerSettled(party)
+    "The bridge bar rises. Amos Pinch counts no names from the far bank.".
+
+  Person wry_counting_leader "Captain Latter" nowhere {
+    Role "a bridge captain who charges the ford twice: once in coin, once in men". Ancestry human. Calling warrior. Level 5.
+    Temperament territorial. Uses go, assail. Plans 5 steps.
+    Warns "Captain Latter has lowered the bridge bar. Four enforcers hold the drove road while the toll is counted.".
+  }
+  Person wry_counting_party "the four bridge enforcers" nowhere {
+    Role "bridge enforcers who hold each wagon while the ledger is read". Ancestry human. Calling warrior. Level 2. Numbers 4.
+    Temperament defensive. Uses go, assail. Plans 4 steps.
+    Warns "Four enforcers have taken the bridge planks. The toll clerk has ordered them to hold every wagon for the count.".
+  }
+  Initially Assert serves(wry_counting_party, wry_counting_leader).
+  Rule wry_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not wryDangerSettled(party) {
+    Assert at(wry_counting_party, drove_road). Assert at(wry_counting_leader, drove_road).
+  }
+  Action wry_fight(actor: group, site: place) "Hold the bridge against Captain Latter" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drove_road) and at(wry_counting_party, drove_road) and at(wry_counting_leader, drove_road) and not wryDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(wry_counting_party, actor). Assert assails(wry_counting_leader, actor). }
+    Result "Captain Latter lowers the bridge bar. Four enforcers spread along the plank to seize the carts.".
+  }
+  Rule wry_force_broken when at(wry_counting_party, drove_road) and at(wry_counting_leader, drove_road) and (not able(wry_counting_party) or routed(wry_counting_party)) and (not able(wry_counting_leader) or routed(wry_counting_leader)) and assails(wry_counting_party, party) and assails(wry_counting_leader, party) {
+    Assert wryDangerSettled(party). Retract at(wry_counting_party, drove_road). Retract at(wry_counting_leader, drove_road).
+  }
+  Action wry_coin_way(actor: group, site: place) "Offer the old toll coin as the bridge-company’s first due" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drove_road) and at(wry_counting_party, drove_road) and at(wry_counting_leader, drove_road)
+      and not wryDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert wryDangerSettled(actor). Retract at(wry_counting_party, drove_road). Retract at(wry_counting_leader, drove_road). }
+    Result "The sergeant recognizes the old toll mark. His men leave the carters to their carts.".
+  }
+  Action wry_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drove_road) and at(wry_counting_party, drove_road) and at(wry_counting_leader, drove_road)
+      and not wryDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert wryDangerSettled(actor). Retract at(wry_counting_party, drove_road). Retract at(wry_counting_leader, drove_road). }
+    Result "The press-gang sees the company’s place and clears the drove road.".
+  }
+  Action wry_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drove_road) and at(wry_counting_party, drove_road) and at(wry_counting_leader, drove_road)
+      and not wryDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert wryDangerSettled(actor). Retract at(wry_counting_party, drove_road). Retract at(wry_counting_leader, drove_road). }
+    Result "The board is plain enough to turn the press-gang back toward the river.".
+  }
+  Action wry_local_way(actor: group, site: place) "Show Pinch’s bridge token at the bar" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, drove_road) and at(wry_counting_party, drove_road) and at(wry_counting_leader, drove_road)
+      and not wryDangerSettled(actor) and holding(actor, bridge_token_kind).
+    Time 5 minutes.
+    On success { Assert wryDangerSettled(actor). Retract at(wry_counting_party, drove_road). Retract at(wry_counting_leader, drove_road). }
+    Result "The token bears the old bridge mark. Latter raises the bar rather than hold up the traffic.".
+  }
+  Topic wry_ri_help with pinch "Ask Amos Pinch for a bridge token for the Rì" when befell(company_sworn_ri) and not wryRiHelped(actor) once {
+    Says "Amos Pinch gives you a bridge token. “The far bank is not a muster yard. Show this at the bar and keep the wagons moving.”".
+    On discuss { Assert wryRiHelped(actor). Give bridge_token_kind to actor. }
+  }
+
+}

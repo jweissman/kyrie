@@ -1,0 +1,80 @@
+Module goingbank "The Going Bank" {
+  Relation gbCoinFound(group). Relation gbRedhandRead(group). Relation gbEvidence(group).
+  Relation gbGift(group). Relation gbRejected(group). Relation gbBoardRead(group).
+  Discovery gb_cord_known "Sabra's old cord records the Plait's changing gap before the Ash's riders came to the Gape.".
+
+  Observe gb_coin_hint at loft when not gbCoinFound(party)
+    "The newest knot-board has a loose peg at the bottom. Green bronze shines in the hole behind it.".
+  Action gb_find_coin(actor: group, site: place) "Pull the loose peg from the newest knot-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, loft) and not gbCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert gbCoinFound(actor). Give count_coin to actor. }
+    Result "A coin falls from the peg-hole. Its face shows a man holding a plaited rope. The first plaiters put it there after the bank moved a pace east and they had to weave the bridge longer.".
+  }
+  Observe gb_count_lip at lip_end when befell(ash_count_begun) and not befell(ash_broken)
+    "A grey board is nailed to the windlass. The riders count the village by the rope lengths it still owes.".
+  Observe gb_ash_broken at lip_end when befell(ash_broken)
+    "The grey board is gone. The windlass has its old toll-board back, with no names on it.".
+  Observe gb_ash_triumphs at lip_end when befell(ash_triumphs)
+    "The Plait is closed to the west. A grey board lists the people of both banks as one company.".
+
+  Person gb_redhand "Gethin Redhand" nowhere {
+    Role "the Ash's raider, here to use the Gape's failing bridge as a gate". Ancestry human. Calling warrior. Level 5. Manner grim. Carries spear.
+    Arrives at plait_west when befell(ash_count_begun) and not befell(redhand_broken) and not befell(redhand_served).
+    Greets "Gethin Redhand tests the old rope with his boot. 'The ground is going east,' he says. 'A bridge that ends is a road with a gate.'".
+    Greets again "'The Join will hold long enough,' says Redhand. 'It only needs to hold once.'".
+  }
+  Person gb_riders "Redhand's Gape riders" nowhere {
+    Role "Ash riders sent to cross the Plait before it parts". Ancestry human. Calling warrior. Level 3. Numbers 6. Temperament obedient. Uses go, assail. Plans 6 steps.
+    Arrives at plait_west when befell(ash_count_begun) and not befell(redhand_broken) and not befell(redhand_served).
+    Warns "Six riders dismount at the west stub. They carry hatchets for the grass-rope and bows for the far bank.".
+  }
+  Initially Assert serves(gb_riders, gb_redhand).
+  Rule gb_osbel_confronts when at(gb_redhand, plait_west) and at(osbel, green) {
+    Retract at(osbel, green). Assert at(osbel, plait_west).
+  }
+  Action gb_hold_join(actor: group, site: place) "Hold the west stub against Redhand's riders" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plait_west) and able(gb_redhand) and not befell(redhand_broken).
+    Time 1 minute.
+    On success { Assert assails(gb_redhand, actor). Assert assails(gb_riders, actor). }
+    Result "Redhand cuts the guide-rope. His riders come across the stub while the Plait still holds.".
+  }
+  Action gb_search_cord(actor: group, site: place) "Search the plaiters' loft for Sabra's oldest gap-cord" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, loft) and not knows(actor, gb_cord_known).
+    Time 15 minutes.
+    On success { Assert knows(actor, gb_cord_known). Assert gbEvidence(actor). }
+    Result "Behind the oldest knot-board is Sabra's first cord. Its knots show that the Gape moved before the riders arrived; the east bank has been going for generations.".
+  }
+  Topic gb_show_cord with osbel "Show Osbel the old cord's account of the moving bank" when knows(actor, gb_cord_known) and at(gb_redhand, plait_west) once {
+    Says "Osbel takes the cord to the green, then looks across at the riders. 'This is our trouble,' he says. 'Not a road for your war.' Both villages turn to face Redhand. The riders leave the grass bridge standing.".
+    On discuss { Assert befell(redhand_broken). Retract at(gb_redhand, plait_west). Retract at(gb_riders, plait_west). }
+  }
+  Action gb_buy_redhand(actor: group, site: place) "Pay Redhand to leave the Plait standing" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plait_west) and able(gb_redhand) and quantity(actor, gold) >= 15 and not befell(redhand_broken).
+    Time 5 minutes.
+    On success { Decrease quantity(actor, gold) by 15. Assert befell(redhand_broken). Retract at(gb_redhand, plait_west). Retract at(gb_riders, plait_west). }
+    Result "Redhand takes the money. He tells his riders to leave the rope alone and walks east without looking at the gap.".
+  }
+  Rule gb_redhand_falls when at(gb_redhand, plait_west) and not able(gb_redhand) and (not able(gb_riders) or routed(gb_riders)) and assails(gb_riders, party)
+    says "The riders leave their bows in the grass. Redhand crosses the Plait alone and does not cut it behind him." {
+    Assert befell(redhand_broken).
+  }
+  Action gb_serve_redhand(actor: group, site: place) "Give Redhand the Plait and the way into Ketter" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, plait_west) and able(gb_redhand) and befell(company_sworn_ash) and not befell(redhand_served).
+    Time 5 minutes.
+    On success { Assert befell(redhand_served). Retract at(gb_redhand, plait_west). Retract at(gb_riders, plait_west). Increase quantity(actor, gold) by 10. }
+    Result "Redhand gives you ten gold. His riders cross the Plait and cut its west rope behind them.".
+  }
+  Topic gb_ri_oath with sabra "Tell Sabra the company is sworn to the Rì" when befell(company_sworn_ri) and not gbGift(actor) once {
+    Says "Sabra gives you a coil of sound rope. 'The Rì may need a bridge,' she says. 'This one is ours to keep.'".
+    On discuss { Assert gbGift(actor). Increase quantity(actor, gold) by 3. }
+  }
+  Topic gb_ash_oath with osbel "Tell Osbel the company is sworn to the Ash" when befell(company_sworn_ash) and not gbRejected(actor) once {
+    Says "Osbel bars the green to you. 'The bank is going without your help,' he says. 'We will not go with it.'".
+    On discuss { Assert gbRejected(actor). Assert refusesService(osbel, actor). }
+  }
+  Topic gb_board with pipit "Show Pipit the company's grey board" when holding(actor, ash_tally) and not gbBoardRead(actor) once {
+    Says "Pipit takes the slate to the toll-board and writes the Plait's measured gap across the twelfth column. Then she breaks the board on the windlass.".
+    On discuss { Assert gbBoardRead(actor). Spend ash_tally from actor. }
+  }
+}

@@ -25,11 +25,12 @@ import { RunnerLed } from './runner-led';
 import { Glance } from '../presentation/glance';
 import { Promotion } from '../ui/promotion';
 import { RunnerOffer, type Kept } from './runner-offer';
-import { Doable } from '../presentation/doable';
 import { DoableJourneys } from '../presentation/doable-journeys';
 import { Itineraries } from '../ui/itinerary';
 import { RunnerTalks } from './runner-talks';
-import { Leaving } from '../presentation/leaving';
+import { MenuTree } from '../frame/menu-tree';
+import { QuestionAsked } from '../frame/question-asked';
+import type { Question } from '../frame/talk-question';
 import { PackSaid } from '../presentation/pack-said';
 import { RunnerAgain } from './runner-again';
 import { RunnerEnding } from './runner-ending';
@@ -102,10 +103,12 @@ export class Runner {
   private again = new RunnerAgain();
   // since: how long the story was as it began (see FightBegun), and its words.
   private doing?: { act: string; before: ReturnType<typeof PlayerView.observe>; leg: Promise<CampaignEvent>;
-    with?: string; since: number; label?: string };
-  // Whom the company is talking with: turned to (talk:<id>), talked to, or asked something; until it does anything
-  // else or goes elsewhere (the page's Conversation attention).
-  private with?: string;
+    since: number; label?: string };
+  // Whom the company is talking with is the session's (PlaySession.focus, OR-1451), as for every client.
+  private get with(): string | undefined {
+    const focus = this.session.focus;
+    return focus.kind === 'talk' ? focus.with : undefined;
+  }
   // The turn as it stands, built once until anything is done: its screen, its glance and its choices' words (OR-91:
   // the screen had been built up to five times a turn, most of an act's time). Kept while the world it was built of
   // is the world (a world changed is a new one: an act, or a change made from outside, as a spec's coin).
@@ -140,9 +143,11 @@ export class Runner {
     const c = this.campaign, now = this.standing, screen = now.screen;
     const leaf = this.journeyed(this.scene.leaf(c, screen, this.told), screen);
     now.glance = { of: leaf.glance }; this.leafed = leaf;
+    // The question asked of the turn told (the session's focus: a talk's rows, as every client has them).
+    const question = c.running ? QuestionAsked.settle(this.session, { screen, leaf }) : undefined;
     const lines = this.scene.lines(screen, leaf, turned, turned === 'act' && !!this.with).filter(l => l.trim());
     const g = leaf.glance, aim = AimSaid.of(screen, g?.aim);
-    const { offer } = c.running ? this.offer(screen, g) : { offer: RunnerEnding.offer(this.session) };
+    const { offer } = c.running ? this.offer(screen, g, question) : { offer: RunnerEnding.offer(this.session) };
     const led = RunnerLed.of(now.frame, screen, offer.primary, { lead: g?.lead, rest: offer.rest, gilt: (g?.acts ?? [])
       .filter(a => a.facets?.includes('aimed') && Promotion.continuing.includes(a.why)).map(a => a.choice) });
     return { turn: this.n, moment: turned === 'arrive' ? 'arrive' : turned === 'act' ? 'outcome' : 'inspect',
@@ -181,11 +186,16 @@ export class Runner {
     const kept = this.told?.moved && turned === 'arrive' ? this.payoff.back(this.campaign, screen.place.id) : undefined;
     return { at: screen.place.id, ...changed.length ? { changed } : {}, ...kept ? { kept } : {} };
   }
-  // The glance's own offer (Offers.scene) as rows that can be done (RunnerOffer, from Doable): its four and its rest.
-  private offer(screen: Screen, g: Leaf['glance']) {
+  // The glance's own offer (Offers.scene) as rows that can be done (RunnerOffer, from Doable): its four and its rest;
+  // in a talk, the question's rows alone (RunnerTalks.asked), every act of the place still to be asked for.
+  private offer(screen: Screen, g: Leaf['glance'], question?: Question) {
     const made = RunnerOffer.of(screen, g, this.names(), this.with);
-    this.again.keep(RunnerOffer.flat([...made.offer.primary, ...made.offer.rest, ...made.under]));
-    return made;
+    const asked = question?.talk ? RunnerTalks.asked(question, RunnerOffer.flat([...made.offer.primary,
+      ...made.offer.rest, ...made.under])) : undefined;
+    const out = asked ? { ...made, offer: { primary: asked, rest: [] }, under: [...made.offer.primary,
+      ...made.offer.rest, ...made.under] } : made;
+    this.again.keep(RunnerOffer.flat([...out.offer.primary, ...out.offer.rest, ...out.under]));
+    return out;
   }
   // A row by its id, by what it does, or by the id an older build kept it by (its place among its siblings: ChoiceIds).
   private static row<T extends { id: string; does?: string }>(all: T[], id: string): T | undefined {
@@ -268,7 +278,7 @@ export class Runner {
     // A journey asked for that the scene does not lay is the map's: asked of the turn charted (see chart).
     const mapped = /^(travel|map):/.test(asked.act) && !this.lays(asked.act) ? this.chart() : undefined;
     const screen = mapped?.screen ?? this.standing.screen, g = mapped?.glance ?? this.glanced();
-    const { offer: o, under } = this.offer(screen, g);
+    const { offer: o, under } = this.offer(screen, g, this.asking(screen));
     // What pulls next is offered too, by its own act.
     // And what is under each person's talk, offered as it is on the page (see RunnerTalks), and under an opener.
     const all = RunnerOffer.flat([...o.primary, ...o.rest, ...under]);
@@ -280,14 +290,14 @@ export class Runner {
     const row = Runner.row(all, asked.act), act = row?.does ?? asked.act;
     // Turning to someone with acts held within their talk takes no time: by the engine's holder (<person>#talk) where
     // it does nothing of its own (a companion's, which only holds; one the four lead for an act does that act: TB-01),
-    // or by talk:<person>, as the cold plays' kept lines turned to people before the engine held a person's acts
-    // (MT-18).
+    // or by talk:<person>, the cold plays' kept lines' (an alias of focus:talk:<person>, the session's own: OR-1451).
     const holder = row?.id === asked.act && !row.does ? /^(.+)#talk$/.exec(asked.act)?.[1] : undefined;
     const turned = /^talk:(.+)$/.exec(asked.act)?.[1] ?? holder;
-    if (turned && g && [...RunnerTalks.whose(Doable.of(g, screen)).values()].includes(turned)) {
-      this.with = turned;
-      return this.talk(screen, turned);
-    }
+    if (turned) { return this.focused(`focus:talk:${turned}`); }
+    if (act.startsWith('focus:')) { return this.focused(act); }
+    // Talking to the one already talked with greets no one again: it turns back to what is said (the owner's ruling,
+    // OR-1451: "Talk to" turns and greets in one act only when not already talking).
+    if (this.with && act === `talk_to(${this.with})`) { return this.focused(`focus:talk:${this.with}`); }
     // The map opens at any place a journey goes from here (map:<place>), led with or not, as the page's map does.
     const at = /^map:(.+)$/.exec(asked.act)?.[1];
     if (at && offered.includes(`travel:${at}`)) { return this.lensed('journeys', `travel:${at}`); }
@@ -304,13 +314,10 @@ export class Runner {
     if (charted) { return this.lensed('journeys', charted[1] && `travel:${charted[1]}`); }
     // An aim chosen to follow: the session's own command, no event of the world to be told.
     if (act.startsWith('follow:')) { this.now = undefined; await this.session.leg(act); return this.said('look'); }
-    // And one of the replies of whoever the company is talking with keeps it talking with them, as the page's
-    // conversation does (a plea to Wat, made in his talk, is said in it with its dice: test/small/talk-roll-said).
-    const talking = /^talk_to\(([^)]+)\)$/.exec(act)?.[1] ?? RunnerTalks.whose(g ? Doable.of(g, screen) : []).get(act)
-      ?? (this.with && !act.startsWith('take_leave(') && RunnerTalks.theirs(screen, this.with, act) ? this.with : undefined);
+    // Whether the company goes on talking after it is the session's (Focusing.after: a plea to Wat, made in his talk,
+    // is said in it with its dice: test/small/talk-roll-said).
     this.doing = { act, before: PlayerView.observe(this.campaign), since: this.campaign.history.length,
-      label: this.names().get(act), leg: this.lead(act),
-      ...talking ? { with: talking } : {} };
+      label: this.names().get(act), leg: this.lead(act) };
     return this.went();
   }
   // Anything asked once the story has ended is answered with the ending, and what it offers done (CL-53: a look after
@@ -320,7 +327,7 @@ export class Runner {
     if (!RunnerEnding.can(this.session)) { return { error: `not offered: ${asked.act}` }; }
     this.current = await RunnerEnding.begin(this.session);
     this.payoff = new RunnerPayoff(); this.scene = new TerminalScene(); this.fight = new RunnerFight();
-    this.told = undefined; this.now = undefined; this.with = undefined; this.doing = undefined;
+    this.told = undefined; this.now = undefined; this.doing = undefined;
     this.n++;
     return this.said('arrive');
   }
@@ -351,7 +358,6 @@ export class Runner {
     const feedback = this.fight.closed(ActionFeedbackView.read(this.campaign, event, before));
     this.told = { event, feedback, said: doing.act, moved };
     this.now = undefined;
-    this.with = moved ? undefined : doing.with;
     if (before.location?.id) { this.payoff.note(before.location.id, RunnerPayoff.changed(event, doing.act)); }
     this.n++;
     return this.said();
@@ -391,26 +397,21 @@ export class Runner {
     return { turn: this.n, moment: 'inspect', scene: { lines, prose: [] },
       offer: RunnerOffer.lensed(screen, g, this.names(), lens) };
   }
-  // An opener opened: its rows, the four first, where the company stands; nothing led nor gilded but as they are.
-  // One with a focus reads it out whole, and every row of it is led with: a riddle and all its answers (CL-34).
-  // A talk taken up again, as the page opens it: who is spoken to and what can be seen of them now, with what can be
-  // said to them, not the place again ("Talk to the factor" had told the green whole: cold play 4, CL-49).
-  private talk(screen: Screen, who: string): Said {
-    const said = this.said('look'), p = screen.people.find(x => x.id === who);
-    if (!p) { return said; }
+  // A command of the focus (focus:…: turned to someone, a page of the talk, its wares): the session's own, no time.
+  // Turned to someone, as the page opens the talk: who is spoken to and what can be seen of them now, with what can
+  // be said to them, not the place again ("Talk to the factor" had told the green whole: cold play 4, CL-49).
+  private async focused(command: string): Promise<Said | { error: string }> {
+    try { await this.session.leg(command); } catch (e) { return { error: `not offered: ${command}: ${e instanceof Error ? e.message : String(e)}` }; }
+    const said = this.said('look'), who = this.with, screen = this.standing.screen;
+    const p = who && command.startsWith('focus:talk:') ? screen.people.find(x => x.id === who) : undefined;
+    if (!p) { return { ...said, moment: 'inspect' }; }
     const seen = (p.says?.length ? p.says : [p.name]).map(l => Typography.plain(l));
-    const g = this.glanced(), lines = [`${p.name.split(', ')[0]}:`, ...seen];
-    const whose = RunnerTalks.whose(g ? Doable.of(g, screen) : []);
-    // What the engine holds within their talk, the act it was led for among it (CL-33: Ianto's boat, gold on "Talk to
-    // Ianto", had not been among what was had of him once turned to).
-    const all = [...said.offer.primary, ...said.offer.rest];
-    // Taking leave of them the last of what is had of them (Leaving: their four were cut before it had been reached).
-    const ways = Leaving.ways(screen), theirs = all.filter(o => whose.get(o.does ?? o.id) === who);
-    const go = theirs.filter(o => Leaving.is(o, ways)).slice(0, 1);
-    const primary = [...theirs.filter(o => !Leaving.is(o, ways)).slice(0, 4 - go.length), ...go];
-    const rest = Leaving.last(all.filter(o => !primary.includes(o)), o => Leaving.is(o, ways));
-    return { ...said, moment: 'inspect', scene: { lines, prose: seen },
-      offer: primary.length ? { ...said.offer, primary, rest } : said.offer };
+    return { ...said, moment: 'inspect', scene: { lines: [`${p.name.split(', ')[0]}:`, ...seen], prose: seen } };
+  }
+  // The question the turn as it stands asks (the session's focus), its frame told as the turn was.
+  private asking(screen: Screen): Question | undefined {
+    return this.with ? MenuTree.question({ screen, leaf: this.leafed ?? { glance: this.glanced() } as Leaf },
+      this.session.focus, this.session.conversation) : undefined;
   }
   private opened(opener: Offered, screen: Screen): Said {
     const rows = opener.opens ?? [], g = this.glanced(), says = opener.says ? [Typography.plain(opener.says)] : [];

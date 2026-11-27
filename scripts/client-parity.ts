@@ -146,6 +146,8 @@ export class ClientParity {
     // the engine's where a row of the engine's by that id opens: it does no act, so it is met by its id.
     const opening = new Set(Doable.flat(rows).filter(r => r.opens?.length).map(r => r.id));
     for (const [act, at] of acts) {
+      // (A talk with no greeting is turned to by the session's command, focus:talk, no act of the world's: OR-1451.)
+      if (act.startsWith('focus:talk:') && at.every(d => d.id.endsWith('#talk'))) { continue; }
       if (!engine.has(act) && !at.every(d => d.id === act && opening.has(d.id))) {
         out.add(`page only: ${at[0]!.where} ${this.short(act)}`);
       }

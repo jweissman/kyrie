@@ -2,6 +2,7 @@ import type { AbilityDomain } from './abilities';
 import type { CallingsDomain } from './callings';
 import type { ConditionDomain } from './conditions';
 import type { EffectDomain } from './effects';
+import type { PresentationDomain } from './presentation-resources';
 import type { TraitsDomain } from './traits';
 
 // What a setting installs for the runtime's rules to ask of (the installed context, OR-520; platform-separation.md,
@@ -15,6 +16,7 @@ export interface InstalledDomain {
   readonly traits?: TraitsDomain;
   readonly callings?: CallingsDomain;
   readonly effects?: EffectDomain;
+  readonly presentation?: PresentationDomain;
 }
 // What carries an installation along an asynchronous operation, through its awaits, apart from any other under way at
 // once (Node's and Bun's AsyncLocalStorage, given by their composition roots: src/cli/installed-carried.ts). The page's
@@ -24,26 +26,45 @@ export interface Carrier {
   getStore(): InstalledDomain | undefined;
 }
 export class Installed {
+  private static baseDomain?: InstalledDomain;
   private static root?: InstalledDomain;
   private static carrier?: Carrier;
   private static readonly scope: InstalledDomain[] = [];
   // How many asynchronous operations are under way within each installation, by its id (where nothing carries them).
   private static readonly awaiting = new Map<string, number>();
-  // The composition root's installation, named once; named again otherwise, it is refused.
+  // The composition root's installation, named once; named again otherwise, it is refused. Capability enrichment
+  // replaces the root value, not this identity, so naming the same installation again keeps its enriched value.
   static base(domain: InstalledDomain): void {
-    if (this.root && this.root !== domain) {
-      throw new Error(`The composition root has installed ${this.root.id}; ${domain.id} cannot replace it`);
+    if (this.baseDomain && this.baseDomain !== domain) {
+      throw new Error(`The composition root has installed ${this.root!.id}; ${domain.id} cannot replace it`);
     }
-    this.root = domain;
+    this.baseDomain ??= domain;
+    this.root ??= domain;
   }
   static get rootId(): string | undefined { return this.root?.id; }
   // What carries an installation through awaits, given once by a composition root that has one.
   static carriedBy(carrier: Carrier): void { this.carrier ??= carrier; }
+  private static selected(): InstalledDomain | undefined {
+    return (this.carrier ? this.carrier.getStore() : this.scope.at(-1)) ?? this.root;
+  }
   // The installation in scope, else the composition root's.
   static current(): InstalledDomain {
-    const domain = (this.carrier ? this.carrier.getStore() : this.scope.at(-1)) ?? this.root;
+    const domain = this.selected();
     if (!domain) { throw new Error('Nothing installed: a setting installs its rules at the composition root'); }
     return domain;
+  }
+  // An optional capability, plain when a setting supplies none.
+  static optional<K extends Exclude<keyof InstalledDomain, 'id'>>(part: K): InstalledDomain[K] {
+    return this.selected()?.[part];
+  }
+  // Adds a capability while the composition root is assembling, before a campaign starts. A scoped campaign's
+  // installation is never merged back into the process root.
+  static provide<K extends Exclude<keyof InstalledDomain, 'id'>>(part: K, value: NonNullable<InstalledDomain[K]>): void {
+    if (!this.root) { throw new Error('Nothing installed: install the setting before providing its resources'); }
+    if (this.selected() !== this.root) {
+      throw new Error('Cannot provide an installed capability inside a scoped campaign');
+    }
+    this.root = Object.freeze({ ...this.root, [part]: value });
   }
   // Runs within an installation: synchronously, the scope left as it was however it ends.
   static within<T>(domain: InstalledDomain, run: () => T): T {

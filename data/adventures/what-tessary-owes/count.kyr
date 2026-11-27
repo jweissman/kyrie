@@ -1,0 +1,80 @@
+Module tessary "What Tessary Owes" {
+  Relation tsoCoinFound(group). Relation tsoDangerSettled(group). Relation tsoRiHelped(group).
+
+  // A small First Count coin, hidden in this place's own old measure.
+  Observe tso_coin_hint at cistern when not tsoCoinFound(party)
+    "The old causeway stone has a hollow on its marsh side. It is packed with dry rushes.".
+  Action tso_find_coin(actor: group, site: place) "Search the rush-filled hollow in the causeway stone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, cistern) and not tsoCoinFound(actor).
+    Time 15 minutes.
+    On success { Assert tsoCoinFound(actor). Give count_coin to actor. }
+    Result "A woman with a sickle is cut on the coin. The first causeway keepers hid one here for every winter a debtor crossed without a surety.".
+  }
+
+  // The world changes at the road before the company arrives.
+  Observe tso_count_begins at causeway_end when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs)
+    "A grey board blocks the causeway. Sault’s clerks have listed the sleepers before they list the debtors.".
+  Observe tso_count_broken at causeway_end when befell(ash_broken)
+    "The board is pulled from the causeway. The marsh takes the footmarks by morning.".
+  Observe tso_count_triumph at causeway_end when befell(ash_triumphs)
+    "The Ash owns the causeway book. Tessary’s debts are read aloud at the gate.".
+  Observe tso_party_saved at causeway_end when tsoDangerSettled(party)
+    "The causeway is quiet again. Nan leaves the tide-board open to the salt air.".
+
+  Person tso_counting_leader "Sergeant Ennet Wyle" nowhere {
+    Role "a board-sergeant who makes the flood’s ledger serve the Ash". Ancestry human. Calling warrior. Level 5.
+    Temperament obedient. Uses go, assail. Plans 5 steps.
+    Warns "Sergeant Ennet Wyle has turned the low-water board into a muster roll. Three spearmen hold the causeway for him.".
+  }
+  Person tso_counting_party "the three causeway spearmen" nowhere {
+    Role "causeway spearmen who collect names from dwellings below the tide mark". Ancestry human. Calling warrior. Level 2. Numbers 3.
+    Temperament wary. Uses go, assail. Plans 4 steps.
+    Warns "Three spearmen wait where the causeway narrows. Their officer has a board of names and a tide clock.".
+  }
+  Initially Assert serves(tso_counting_party, tso_counting_leader).
+  Rule tso_arrive when befell(ash_count_begun) and not befell(ash_broken) and not befell(ash_triumphs) and not tsoDangerSettled(party) {
+    Assert at(tso_counting_party, causeway_end). Assert at(tso_counting_leader, causeway_end).
+  }
+  Action tso_fight(actor: group, site: place) "Keep Sergeant Wyle from closing the causeway" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway_end) and at(tso_counting_party, causeway_end) and at(tso_counting_leader, causeway_end) and not tsoDangerSettled(actor).
+    Time 1 minute.
+    On success { Assert assails(tso_counting_party, actor). Assert assails(tso_counting_leader, actor). }
+    Result "Sergeant Ennet Wyle turns the board toward the sleepers. His three spearmen close the causeway one name at a time.".
+  }
+  Rule tso_force_broken when at(tso_counting_party, causeway_end) and at(tso_counting_leader, causeway_end) and (not able(tso_counting_party) or routed(tso_counting_party)) and (not able(tso_counting_leader) or routed(tso_counting_leader)) and assails(tso_counting_party, party) and assails(tso_counting_leader, party) {
+    Assert tsoDangerSettled(party). Retract at(tso_counting_party, causeway_end). Retract at(tso_counting_leader, causeway_end).
+  }
+  Action tso_coin_way(actor: group, site: place) "Offer the old coin as surety for the causeway" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway_end) and at(tso_counting_party, causeway_end) and at(tso_counting_leader, causeway_end)
+      and not tsoDangerSettled(actor) and holding(actor, count_coin).
+    Time 5 minutes.
+    On success { Assert tsoDangerSettled(actor). Retract at(tso_counting_party, causeway_end). Retract at(tso_counting_leader, causeway_end). }
+    Result "The sergeant accepts the coin as a keeper’s mark. His men leave the sleepers off their roll.".
+  }
+  Action tso_ash_way(actor: group, site: place) "Show the company’s place on the Ash board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway_end) and at(tso_counting_party, causeway_end) and at(tso_counting_leader, causeway_end)
+      and not tsoDangerSettled(actor) and befell(company_sworn_ash).
+    Time 5 minutes.
+    On success { Assert tsoDangerSettled(actor). Retract at(tso_counting_party, causeway_end). Retract at(tso_counting_leader, causeway_end). }
+    Result "The boardmen recognize the company’s place and let it pass the causeway.".
+  }
+  Action tso_tally_way(actor: group, site: place) "Hold up the Ash’s grey tally-board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway_end) and at(tso_counting_party, causeway_end) and at(tso_counting_leader, causeway_end)
+      and not tsoDangerSettled(actor) and holding(actor, ash_tally).
+    Time 5 minutes.
+    On success { Assert tsoDangerSettled(actor). Retract at(tso_counting_party, causeway_end). Retract at(tso_counting_leader, causeway_end). }
+    Result "The tally-board gives the boardmen their answer. They leave the sleepers uncounted.".
+  }
+  Action tso_local_way(actor: group, site: place) "Use Nan’s tide-table to cross below Wyle’s board" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, causeway_end) and at(tso_counting_party, causeway_end) and at(tso_counting_leader, causeway_end)
+      and not tsoDangerSettled(actor) and holding(actor, tide_table).
+    Time 5 minutes.
+    On success { Assert tsoDangerSettled(actor). Retract at(tso_counting_party, causeway_end). Retract at(tso_counting_leader, causeway_end). }
+    Result "The table shows a dry cut below the causeway. The party reaches the far bank before Wyle can call the names again.".
+  }
+  Topic tso_ri_help with nan "Ask Nan Teazle to lend the Rì her tide-table" when befell(company_sworn_ri) and not tsoRiHelped(actor) once {
+    Says "Nan Teazle opens the tide-table on the right hour. “The causeway is dry before Wyle’s men can turn back. Take the safe crossing.”".
+    On discuss { Assert tsoRiHelped(actor). Give tide_table to actor. }
+  }
+
+}

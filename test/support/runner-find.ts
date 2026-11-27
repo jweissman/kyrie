@@ -1,5 +1,6 @@
 import type { Offered, Runner, Said } from '../../src/cli/runner';
 import { RunnerOffer } from '../../src/cli/runner-offer';
+import { TalkWay } from './talk-way';
 
 // An act found by its words as a player finds it: among what is offered, else under the talk of one of the people here
 // (turned to, taking no time, or talked to by their own row: the runner holds what is said to someone under their
@@ -10,17 +11,32 @@ export class RunnerFind {
     const all = (x: Said) => RunnerOffer.flat([...x.offer.primary, ...x.offer.rest]);
     const here = all(s).find(x => label.test(x.label));
     if (here) { return { said: s, o: here }; }
-    // As the turn stands now (a talk already turned to since s was said).
-    const now = r.said(), held = all(now).find(x => label.test(x.label));
-    if (held) { return { said: now, o: held }; }
+    // As the turn stands now (a talk already turned to since s was said): in it, on another page, under its Trade, or
+    // at the place once the talk is put by (TalkWay: focus:place, no time).
+    const now = await TalkWay.find(r, r.said(), x => label.test(x.label));
+    if (now.o) { return { said: now.said, o: now.o }; }
+    if (now.said !== s && !TalkWay.talking(now.said)) { s = now.said; }
     // Each person here talked to (talk_to), else turned to (talk:<person>, no time): a talk is their row
     // (<person>#talk, led for something within it or not) or one that talks to them.
     const talks = all(s).filter(x => RunnerFind.whom(x));
     for (const talk of talks) {
       const turned = await RunnerFind.turn(r, RunnerFind.whom(talk)!);
       if ('error' in turned) { continue; }
-      const o = all(turned).find(x => label.test(x.label));
+      const o = RunnerFind.paged(all, turned, label);
       if (o) { return { said: turned, o }; }
+      // On another page of their talk (focus:page, the engine's question: OR-1451).
+      for (let pages = 0, at: Said | { error: string } = turned; pages < 8 && !('error' in at); pages++) {
+        const next = all(at).find(x => x.does?.startsWith('focus:page:'));
+        if (!next) { break; }
+        at = await r.ask(JSON.stringify({ act: next.does }));
+        const found = 'error' in at ? undefined : RunnerFind.paged(all, at, label);
+        if (found && !('error' in at)) { return { said: at, o: found }; }
+      }
+      // Or under their Trade (the engine's question, OR-1451: what is had of them for coin).
+      const trading = all(turned).some(x => x.does === 'focus:trade:on')
+        ? await r.ask(JSON.stringify({ act: 'focus:trade:on' })) : undefined;
+      const sold = trading && !('error' in trading) ? all(trading).find(x => label.test(x.label)) : undefined;
+      if (trading && !('error' in trading) && sold) { return { said: trading, o: sold }; }
     }
     // A journey folded out of the rest, through the journeys' lens (CL-33), or what is done with a thing carried,
     // through the pack (CL-67), as the turn still stands.
@@ -30,6 +46,9 @@ export class RunnerFind {
       if (far) { return { said: s, o: far }; }
     }
     return { said: s };
+  }
+  private static paged(all: (x: Said) => Offered[], s: Said, label: RegExp): Offered | undefined {
+    return all(s).find(x => label.test(x.label));
   }
   private static async turn(r: Runner, whom: string): Promise<Said | { error: string }> {
     const talked = await r.ask(JSON.stringify({ act: `talk_to(${whom})` }));

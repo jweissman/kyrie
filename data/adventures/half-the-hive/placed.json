@@ -22,6 +22,7 @@
     "growth.kyr",
     "wake.kyr",
     "lore.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -50,6 +51,11 @@
   ],
   "canon": [
     "imbar",
-    "remainder_harboured"
+    "remainder_harboured",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ]
 }

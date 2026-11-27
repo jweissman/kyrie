@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "source": "long-link.kyr",
+  "rules": ["world"],
+  "imports": ["here", "there", "party", "broken"],
+  "roles": {
+    "here": { "type": "place" },
+    "there": { "type": "place" },
+    "party": { "type": "group" }
+  }
+}

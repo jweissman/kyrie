@@ -4,6 +4,7 @@ import type { CombatScreen, Screen } from '../ui/screen-types';
 import type { Exchange, Leaf } from '../presentation/narrator';
 import type { Memorial } from '../memorial';
 import type { MenuNode } from '../frame/menu-tree';
+import type { Question } from '../frame/talk-question';
 export type { Exchange, Leaf };
 
 // What passes between the page and the engine. The engine (Kyrie, in a worker) is the only authority on what
@@ -45,13 +46,15 @@ export interface FirstSpell {
   id: string; name: string; line: string; does: string; rules: string[]; level: number; kind: string; own?: boolean;
 }
 
+export interface CatalogEntry { facts: [string, string][]; rules: string[] }
+
 // The choices a company is made from, read from the same catalogs the game runs on.
 export interface Catalog {
   // A people: what it is, in a sentence and in a few words (its card's line), the callings it follows (an elf is no
   // cleric) and the ways it may not take (an elf is no necromancer), what it adds to the qualities, and its gifts by
   // birth ("Keen Senses: +4 to search checks").
   ancestries: { id: string; name: string; text: string; line: string; callings: string[]; forbids: string[];
-    qualities: Record<string, number>; gifts: string[] }[];
+    qualities: Record<string, number>; gifts: string[]; entry?: CatalogEntry }[];
   // A calling, in a sentence and in a few words; and its specializations (a cleric's domains, a mage's schools, a
   // warrior's ways): each by name (a domain's, not its clerics' title), what one who takes it is called and what one
   // is in the line of their life ("abjurer"; "cleric of Life"; "warrior, tough as old boots"), what it is in a sentence
@@ -62,11 +65,11 @@ export interface Catalog {
     specializations: { id: string; name: string; title?: string; who?: string; text?: string; line?: string;
       of?: string; rules?: string[]; spells?: FirstSpell[]; picks?: string[];
       // The first-level spells chosen among: how many, those of the way one must be, and all that are open.
-      first?: { count: number; school: string[]; open: FirstSpell[] } }[];
+      first?: { count: number; school: string[]; open: FirstSpell[] }; entry?: CatalogEntry }[];
     qualities: Record<string, number>;
     // Its hit die, the armour it may wear and the skills it brings, in words; the quality its spells rest on, if it
     // casts; and whether it can brace a weapon against a charge (Set Spear).
-    hitDie: number; armour: string; skills: string[]; casts?: string; braces?: boolean;
+    hitDie: number; armour: string; skills: string[]; casts?: string; braces?: boolean; entry?: CatalogEntry;
     // The weapons a protagonist of the calling may set out with, one of them chosen, each as the rules have it: its
     // die, the harm it does, its kind and weight, whether it is shot (struck with by quickness) or wielded (by
     // strength), whether it is set against a charge, and whether it is one the calling sets out with of its own.
@@ -79,7 +82,7 @@ export interface Catalog {
   backgrounds: { id: string; name: string; kind: string; text: string; qualities: Record<string, number>; coin: number;
     gear: string[]; calling?: string; forms?: { man?: string; woman?: string; neither?: string } }[];
   // A kind's question for its trades and its life in a sentence (OR-88, OR-90).
-  kinds: { id: string; name: string; does: string; asks?: string; life?: string }[];
+  kinds: { id: string; name: string; does: string; asks?: string; life?: string; entry: CatalogEntry }[];
   presets: { id: string; label: string; note: string; members: Member[] }[];
   // Imbar's sky (data/imbar/sky.json): each sign, its month, what is said of those born under it, its stars (x, y,
   // magnitude, colour), the lines between them and the figure it is named for (an SVG path on a field of 100).
@@ -89,7 +92,7 @@ export interface Catalog {
   // reference says it.
   perks: { id: string; name: string; line: string; family: string }[];
   signs: { id: string; name: string; month: string; line: string; stars: number[][]; lines: number[][];
-    figure?: string; gifts: { id: string; name: string; text: string; does: string }[] }[];
+    figure?: string; gifts: { id: string; name: string; text: string; does: string }[]; entry?: CatalogEntry }[];
   campaigns: CampaignChoice[];
 }
 // What a company would bring, before it sets out.
@@ -107,6 +110,9 @@ export interface Frame {
   leaf: Leaf;
   // The resting scene's menu and the marks drawn of it, worked out by the engine (MenuTree): read, never built again.
   menu: MenuNode;
+  // The question asked from the session's focus (OR-1451): the focus, and while it is a talk, the talk's menu, worked
+  // out by the engine for every client (MenuTree.question).
+  question?: Question;
   combat?: CombatScreen;
   // How a fight began, as it was seen: the moment that started it.
   opening: string[];

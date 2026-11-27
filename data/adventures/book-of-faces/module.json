@@ -1,7 +1,13 @@
 {
   "version": 1,
   "canon": [
-    "rose_made_whole"
+    "imbar",
+    "rose_made_whole",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs"
   ],
   "source": [
     "clock.kyr",
@@ -38,6 +44,7 @@
     "ranger.kyr",
     "bard.kyr",
     "revision.kyr",
+    "count.kyr",
     "company.kyr"
   ],
   "rules": [

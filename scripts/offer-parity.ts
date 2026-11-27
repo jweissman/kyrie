@@ -70,6 +70,9 @@ export class OfferParity {
   private static turn(runner: Runner, said: Said, out: Set<string>) {
     const glance = runner.leaf?.glance;
     if (!glance || said.moment === 'fight') { return; }
+    // Nor a turn in a talk: its rows are the talk's question (MenuTree.question, OR-1451), held across the clients by
+    // test/focus-parity, not the scene's.
+    if (runner.session.focus.kind === 'talk') { return; }
     // The page and serve at the same turn (scripts/client-parity.ts), named by client.
     ClientParity.turn(runner, out);
     const rows = Doable.of(glance, ScreenModel.build(runner.session.campaign)), engine = this.engine(rows);

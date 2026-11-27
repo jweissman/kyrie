@@ -5,7 +5,7 @@ import { RegionShops } from './region-shops';
 import { RegionMarket } from './region-market';
 import { Outfitters } from './outfitters';
 import { SettlementWriter } from './settlement-writer';
-import { Voice } from '../narrative/voice';
+import { VoiceWords } from '../lang/index';
 import { CommunityWriter } from './community/community-writer';
 import { RegionSites } from './region-sites';
 import { RegionNews } from './region-news';
@@ -161,10 +161,10 @@ export class RegionTraffic {
     `    Result ${q(this.say(t, tr.done, {}))}.`, '  }',
     `  Rule ${id}_sorted when inTrouble(${id}) and hour(clock) >= 17 { Retract inTrouble(${id}). }`];
   }
-  private static they(t: Traveller): string { return Voice.pronouns[t.pronoun]?.they ?? 'they'; }
+  private static they(t: Traveller): string { return VoiceWords.pronouns[t.pronoun]?.they ?? 'they'; }
   private static say(t: Traveller, text: string, words: Record<string, string>): string {
     const filled = text.replace(/\{Name\}/g, t.name)
       .replace(/\{(to|from|life|gossip|seen|where|near)\}/g, (m, k: string) => words[k] ?? m);
-    return Voice.render(filled, { pronoun: t.pronoun });
+    return VoiceWords.render(filled, { pronoun: t.pronoun });
   }
 }

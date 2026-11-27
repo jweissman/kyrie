@@ -1964,6 +1964,7 @@
    "status": "integrated",
    "mechanics": "executable",
    "kyr": [
+    "ancestry:gnoll",
     "ancestry:gnoll"
    ]
   },

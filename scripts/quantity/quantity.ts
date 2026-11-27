@@ -7,7 +7,7 @@
 // the Atlas's marks are, what is near the first town, how varied and how far the first hour's aims, the first
 // dungeon, and what authored content no world reaches. Each composes the instruments that already read it
 // (doc/architecture/quantity.md).
-//   bun scripts/quantity/quantity.ts [--update | --rebase] [--only walks,delve,expeditions,countries,stranded]
+//   bun scripts/quantity/quantity.ts [--update | --rebase] [--only walks,delve,expeditions,leads,countries,stranded]
 //     [--seeds iscoed,a1,thorn]
 // Bands are written by hand in baseline.json, each with its reason in measures.ts. --update writes a ratchet where it
 // has moved the right way (or has no baseline yet), so the ratchet holds the gain; --rebase writes every ratchet as
@@ -20,9 +20,10 @@ import { QuantityMeasures, type Measure, type Reading, type Readings } from './m
 import { QuantityWalks } from './walks';
 import { QuantityDelver } from './delver';
 import { QuantityExpeditions } from './expeditions';
+import { QuantityLeads } from './leads';
 import { Reckon } from './reckon';
 
-type Group = 'walks' | 'delve' | 'expeditions' | 'countries' | 'stranded';
+type Group = 'walks' | 'delve' | 'expeditions' | 'leads' | 'countries' | 'stranded';
 export interface Baseline {
   bands: Record<string, { floor?: number; ceiling?: number }>; ratchets: Record<string, number>;
 }
@@ -46,6 +47,7 @@ export class Quantity {
       for (const seed of seeds) { r.delved.push(await QuantityDelver.walk(seed)); console.error(`delved ${seed}`); }
     }
     if (groups.includes('expeditions')) { r.expeditions = await QuantityExpeditions.run(); console.error('expeditions'); }
+    if (groups.includes('leads')) { r.leads = await QuantityLeads.run(); console.error('leads'); }
     if (groups.includes('countries')) {
       for (const seed of seeds) { r.countries.push(await QuantityCountry.read(seed)); console.error(`read ${seed}`); }
     }
@@ -104,7 +106,7 @@ export class Quantity {
     } catch { /* A reading not kept is only not said. */ }
   }
   static async run(args: string[]): Promise<number> {
-    const groups = (this.option(args, 'only')?.split(',') ?? ['walks', 'delve', 'expeditions', 'countries', 'stranded']) as Group[];
+    const groups = (this.option(args, 'only')?.split(',') ?? ['walks', 'delve', 'expeditions', 'leads', 'countries', 'stranded']) as Group[];
     const seeds = this.option(args, 'seeds')?.split(',') ?? this.seeds;
     const readings = await this.gather(seeds, groups), base = this.baseline(), rebase = args.includes('--rebase');
     const rows = QuantityMeasures.all.map(m => {

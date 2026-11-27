@@ -1,6 +1,5 @@
-import { Likeness } from '../paintings/likeness'; import { CompanyPortraits } from '../paintings/company-portraits';
+import { PresentationResources } from '../ports/presentation-resources';
 import { Band } from './band'; import { Costs } from '../costs';
-import { CreaturePortraits } from '../paintings/creature-portraits'; import { ItemPlates } from '../paintings/item-plates';
 import { Emblems } from '../presentation/emblems'; import { EncyclopediaEntry } from './encyclopedia-entry';
 import { CharacterSheets } from '../presentation/character-sheet'; import { Itineraries } from './itinerary';
 import type { World } from '../lang/world'; import { EntityIndex } from '../lang/entity-index';
@@ -9,7 +8,7 @@ import { KnownNames } from './known-names'; import { Engaged } from '../presenta
 import { MechanicsText } from '../presentation/mechanics-text';
 import { AbilityRows } from './ability-rows'; import { SpellSchools } from '../presentation/spell-schools';
 import { Portraits } from './portraits'; import { Treasure } from './treasure'; import { Owed } from './owed'; import { BackgroundCatalog } from '../rules/background-catalog';
-import { ConditionSense } from '../canon/condition-sense'; import { Advancement } from '../rules/advancement';
+import { Conditions as ConditionSense } from '../ports/conditions'; import { Advancement } from '../rules/advancement';
 import { Canon } from '../canon/canon'; import { Content } from '../content';
 import { Illumination } from './illumination'; import { Standing } from './standing'; import { Patience } from './patience';
 import type { ItemCatalog } from '../item-catalog'; import { ModuleWriter } from '../lang/module-writer';
@@ -319,7 +318,8 @@ export class ScreenModel {
       const likened = playable && (p.members?.length ?? 1) === 1 && Canon.ancestries[member!.raceId]?.playable === true;
       // A creature is shown by its kind's painting, where its kind has one (see CreaturePortraits).
       const portrait = likened && at.campaign ? Portraits.of(at.campaign, p.id)
-        : !playable && member && !dark ? CreaturePortraits.of(catalog, member.raceId) : undefined;
+        : !playable && member && !dark
+          ? PresentationResources.creaturePortraits().of(catalog, member.raceId) : undefined;
       // A beast by the beast's emblem, keeping the peace or not (hounds denned in a room are beasts too).
       const beast = !playable && !!member && catalog.isSpecies(member.raceId)
         && catalog.creature(member.raceId).kind === 'animal';
@@ -339,7 +339,7 @@ export class ScreenModel {
     const note = p.condition && p.type !== 'scenery' ? p.condition : owner ? `${owner}'s` : p.within ? `in ${p.within}` : forSale ? 'for sale' : p.type === 'source' ? (p.intact === false ? 'destroyed' : acts.length ? 'can be read' : 'already read')
       : coin ? `${coin} coin` : food ? `${food} ration${food === 1 ? '' : 's'} left` : p.type === 'mechanism' ? 'mechanism' : undefined;
     const look = p.type === 'item' ? this.described(at.campaign.catalog, w, p) : undefined;
-    const plate = p.type === 'item' ? ItemPlates.of(w, p.id, at.campaign.catalog) : undefined;
+    const plate = p.type === 'item' ? PresentationResources.itemPlates().of(w, p.id, at.campaign.catalog) : undefined;
     // A treasure lying here, not for sale: what a delve is for, and led with (see Affordances).
     return { id: p.id, kind: ['mechanism', 'door'].includes(p.type) ? 'feature' : 'thing', name: p.name,
       ...p.within ? { within: p.within } : {}, ...(note ? { note } : {}),
@@ -366,13 +366,13 @@ export class ScreenModel {
         race = Content.race(campaign.catalog, m.raceId)?.name ?? m.raceId;
       const klass = Content.classes[m.classId as keyof typeof Content.classes]?.name ?? m.classId;
       const likeness = campaign.readout.creatures.find(c => c.id === m.id)?.likeness ?? Portraits.met(campaign, ref);
-      const pronoun = ref ? CompanyPortraits.said(campaign.world, ref) : undefined, trade = Canon.backgrounds[m.backgroundId ?? ''];
+      const portraits = PresentationResources.companyPortraits(), likenesses = PresentationResources.likeness();
+      const pronoun = ref ? portraits.said(campaign.world, ref) : undefined, trade = Canon.backgrounds[m.backgroundId ?? ''];
       const background = trade && BackgroundCatalog.called(trade, pronoun);
-      const face = CompanyPortraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} },
-        taken);
+      const face = portraits.member(m, { ...pronoun ? { pronoun } : {}, ...likeness ? { likeness } : {} }, taken);
       const emblems = [m.raceId, m.classId].filter((x): x is string => !!x && Emblems.has(x));
       return { id: m.id, ...(ref ? { ref } : {}), name: m.name, line: `${race} ${klass}`.toLowerCase(), emblems,
-        ...likeness && Likeness.ids.has(likeness) ? { portrait: Likeness.portrait(likeness) } : {},
+        ...likeness && likenesses.ids.has(likeness) ? { portrait: likenesses.portrait(likeness) } : {},
         ...face ? { face } : {}, ...m.classId ? { calling: m.classId } : {},
         ...(background ? { background } : {}), level: m.level, hp: m.hp, maxHp: m.maxHp, mana: m.mana,
         maxMana: m.maxMana, ...(m.maxSlots ? { slots: m.slots, maxSlots: m.maxSlots } : {}),
@@ -426,20 +426,21 @@ export class ScreenModel {
       grants: all.filter(x => x.source === oid).map(x => x.kind === 'skill' ? `${campaign.module.entities.find(e => e.id === x.value)?.name ?? x.value} (skill)`
         : x.kind === 'gear' ? campaign.catalog.get(x.value).name : x.kind === 'gold' ? `+${x.value} coin` : x.value) }));
   }
-  private static condition(id: string): string { return Canon.conditions[Canon.resolve('conditions', id)]?.name ?? id; }
+  private static condition(id: string): string { return ConditionSense.name(id); }
   // A condition that helps (a lit torch, a blessing, a ward) is told apart from one that hurts.
   private static boon(id: string): boolean { return ConditionSense.helps(id); }
   // A thing whose use brings light: its effect applies a condition that grants it (a torch, a lantern).
   private static lights(use?: string): boolean {
     const status = use && /^Apply (\w+) to/.exec(use)?.[1];
-    return !!status && !!Canon.conditions[Canon.resolve('conditions', status)]?.grants?.includes('light');
+    return !!status && !!ConditionSense.of(status)?.grants?.includes('light');
   }
   private static items(campaign: Campaign, grouped: Grouped, entities: Map<string, Entity>): ItemRow[] {
     const state = campaign.readout;
     const party = state.creatures.filter(c => state.partyIds.includes(c.id)), carried = ItemUses.carried(party);
     return party.flatMap(c => (c.state.inventory ?? []).map(i => {
       const catalog = campaign.catalog, d = catalog.get(i.definition), acts = grouped.items.get(i.id) ?? [];
-      const kept = ItemUses.kept(catalog, i.definition, acts, carried), plate = ItemPlates.kind(i.definition, catalog);
+      const kept = ItemUses.kept(catalog, i.definition, acts, carried);
+      const plate = PresentationResources.itemPlates().kind(i.definition, catalog);
       const points = Seats.line(campaign.world, i.definition), mends = ItemUses.mends(catalog.use(i.definition));
       return { id: i.id, name: ItemNames.shown(entities.get(i.id)?.name, d.name), kind: i.definition,
         description: d.description, ...plate ? { plate } : {},

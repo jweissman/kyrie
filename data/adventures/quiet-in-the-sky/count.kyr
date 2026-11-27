@@ -1,0 +1,97 @@
+Module larum "The Quiet in the Sky" {
+  // Under the long campaign's count (doc/design/direction-2026-11-27-the-long-campaign.md, "The war's reach"): the
+  // Field has been quiet for forty days, and the Ash has sent a herald up the Pass to sell the dead what they have never
+  // had: an ending. His tokens are made things, so on the Field they stay. If no one answers him before the Testing, a
+  // column of the dead goes down through the White with him. A First Count coin lies under the top stone of the cairn
+  // on the highest Tooth, left for a man who served the old count and died up here.
+  Relation lqCoinFound(group). Relation lqHeraldGone(group). Relation lqMarched(group). Relation lqFought(group).
+  Relation lqToldTokens(group). Relation lqHelped(group). Relation lqSheepskin(group). Relation lqNanceShut(group).
+  Relation lqSaltashCounter(group).
+
+  Action lq_find_coin(actor: group, site: place) "Lift the top stones of the cairn, one by one" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, high_cairn) and not lqCoinFound(actor).
+    Time 20 minutes.
+    Resolve check(actor, perception, dc_fair).
+    On success { Assert lqCoinFound(actor). Give count_coin to actor. }
+    Result "Under the third stone, in a hollow pressed into frozen moss, a bronze disc lies face up where somebody laid it: eleven strokes, and a twelfth scratched across them all, as if someone had tried to close the count and could not.".
+    Otherwise "Stones, frost, a wind that wants your fingers. If anything was left here, the cairn is keeping it.".
+  }
+
+  Person lq_herald "Ulpian Sarre" nowhere {
+    Role "a herald of the Ash, the only other breather on the Field, who has come up the Pass to recruit the dead". Ancestry human. Calling bard. Level 4. Manner stoic. Carries dagger.
+    Arrives at banner_lanes when befell(ash_count_begun) and cameUp(party) and day(clock) > upDay(clock) and not lqHeraldGone(party).
+    Arrives "A man comes up the banner lanes with his breath going up white in front of him, and all down the lanes the dead turn to look, as they turned for you.".
+    Greets "He wears grey, and a bronze chain with twelve links, and his voice is low and patient, like a man explaining arithmetic to a child he is fond of. 'My masters have made a study of endings,' he says. 'Even here, a sum can be closed.'".
+    Greets again "Ulpian Sarre is pressing a little wooden token into a dead hand. Each token has twelve notches. He has a sack of them.".
+  }
+  Person lq_lancers "Sarre's lancers" nowhere {
+    Role "two grey lancers who came up the Pass on foot and are stamping to keep warm". Ancestry human. Calling warrior. Level 4. Numbers 2. Temperament obedient. Carries spear. Uses go, assail. Plans 3 steps.
+    Arrives at banner_lanes when befell(ash_count_begun) and cameUp(party) and day(clock) > upDay(clock) and not lqHeraldGone(party).
+  }
+  Initially Assert serves(lq_lancers, lq_herald).
+  Observe lq_tokens at halt_cross when at(lq_herald, banner_lanes) and haltStands()
+    "On Trophy Row the swapping has changed. Nobody will trade the little notched tokens. They are carried in fists, and looked at, and put away again.".
+
+  // At the Hour on the day of the Testing, whoever holds a token goes. The Field is thinner every year after.
+  Rule lq_march when at(lq_herald, banner_lanes) and afterTesting() and not lqHeraldGone(party) and not lqMarched(party) {
+    Assert lqMarched(party). Assert lqHeraldGone(party). Retract at(lq_herald, banner_lanes). Retract at(lq_lancers, banner_lanes).
+  }
+  Observe lq_marched_halt at banner_lanes when lqMarched(party) and haltStands()
+    "A third of the banner tents in the lanes stand empty, their flaps tied back. On each tent-pole someone has cut twelve notches.".
+  Observe lq_marched_larum at larum_street when lqMarched(party)
+    "Larum heard boots on the Pass the night of the Testing: a long column, going down, very quiet. Nobody in the street will say what they saw. Every door has salt across its sill.".
+
+  // Ways round. The company may take him on in the lanes, which the dead watch with professional interest.
+  Action lq_fight(actor: group, site: place) "Draw on the herald in front of the dead" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, banner_lanes) and at(lq_herald, banner_lanes) and not lqFought(actor) and not befell(company_sworn_ash).
+    Time 1 minute.
+    On success { Assert lqFought(actor). Assert assails(lq_lancers, actor). Assert assails(lq_herald, actor). }
+    Result "The dead step back to make a ring, without being asked, the way soldiers have always done. Somebody starts taking wagers.".
+  }
+  Rule lq_herald_dies at banner_lanes when at(party, banner_lanes) and dead(lq_herald) and not lqHeraldGone(party)
+    says "He does not get up at the Hour. None of the dead expected him to; they come and look anyway. A woman in bronze scale takes his sack of tokens to the Oven, and the Oven eats them." {
+    Assert lqHeraldGone(party). Retract at(lq_lancers, banner_lanes).
+  }
+
+  // Or tell the dead what they already know about the Field: what is made here stays. A stripe would too.
+  Action lq_tell(actor: group, site: place) "Tell the dead in the lanes that a stripe, like a spoon, would stay" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, banner_lanes) and at(lq_herald, banner_lanes) and knows(actor, makings_last) and not lqToldTokens(actor).
+    Time 10 minutes.
+    Resolve check(actor, persuasion, dc_fair).
+    On success { Assert lqToldTokens(actor). Assert lqHeraldGone(actor). Retract at(lq_herald, banner_lanes). Retract at(lq_lancers, banner_lanes). }
+    On failure { Assert lqToldTokens(actor). }
+    Result "The crossbowwoman with the bad spoon looks at her token for a long time. Then she drops it in the snow. One by one the others do the same, until the lanes are scattered with them. Sarre watches, nods, and goes down the Pass with his lancers, without collecting a single one.".
+    Otherwise "'An ending is an ending,' says the man in the mailed hood, and closes his fist on his token. 'Even counted. You have one coming, breather. Don't begrudge us.'".
+  }
+  // Or give them an ending of their own: Halvard taken off his bier, the Field has seen a death that was not sold.
+  Rule lq_halvard_answers when not state(halvard, lying) and at(lq_herald, banner_lanes) and not lqHeraldGone(party) {
+    Assert lqHeraldGone(party). Retract at(lq_herald, banner_lanes). Retract at(lq_lancers, banner_lanes).
+  }
+  Observe lq_halvard_answered at banner_lanes when lqHeraldGone(party) and not lqMarched(party) and not dead(lq_herald) and not state(halvard, lying)
+    "The herald's tokens lie in the trodden snow of the lanes. After Halvard went, nobody wanted one; Sarre counted the tents twice, and went down.".
+
+  Topic lq_carry with lq_herald "Carry Sarre's tokens to the halls for the Ash" when befell(company_sworn_ash) and not lqHelped(actor) once {
+    Says "Sarre fills your pack with tokens and counts out silver for the trouble. 'Living hands,' he says. 'They trust what steams.'".
+    On discuss { Assert lqHelped(actor). Increase quantity(actor, gold) by 4. }
+  }
+  Observe lq_helped_known at morrow_yard when lqHelped(party)
+    "Mab Treloar is sparring with nobody and will not look round. A token lies on the chopping block, split neatly in two.".
+
+  Observe lq_broken at hark when befell(ash_broken)
+    "Behind Bet Garside's bar, on a nail, hangs a little wooden token with twelve notches. 'Came down off the Pass on its own,' she says. 'In the thaw.'".
+  Observe lq_triumph at pass_foot when befell(ash_triumphs)
+    "Grey lancers keep a post at the foot of the Pass, with a brazier and a slate. They write down who goes up, and nobody comes down.".
+
+  Topic lq_ri_bet with bet "Tell Bet Garside the company is sworn to the Rì" when befell(company_sworn_ri) and not lqSheepskin(actor) once {
+    Says "'The King in the West,' says Bet, and laughs. 'My grandmother would have curtseyed.' She curtseys, rather well, and pushes a parcel of bread and dripping across the bar. 'For the White. It's cold for kings up there.'".
+    On discuss { Assert lqSheepskin(actor). Increase quantity(actor, rations) by 2. }
+  }
+  Topic lq_ash_nance with nance "Tell Nance Pellett the company is sworn to the Ash" when befell(company_sworn_ash) and not lqNanceShut(actor) once {
+    Says "Nance goes on kneading. When she has finished the loaf she covers it with a cloth, as if from weather. 'There's no bread today,' she says. 'There's no bread for you any day.'".
+    On discuss { Assert lqNanceShut(actor). Assert refusesService(nance, actor). }
+  }
+  Topic lq_tally_saltash with saltash "Show Old Saltash the Ash's tally-board" when holding(actor, ash_tally) and not lqSaltashCounter(actor) once {
+    Says "Saltash turns it over, and over again, and lays it on two helms in front of his blanket. 'A counter,' he says, with enormous satisfaction. 'Nine hundred years, and now I am a shop.'".
+    On discuss { Assert lqSaltashCounter(actor). Spend ash_tally from actor. }
+  }
+}

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { PlaySession } from '../src/session/play-session';
 import { NodeBundleSource } from '../src/campaign/node-bundle-source';
 import { Glanced } from './support/glanced';
-import { Conversation } from '../web/reader/conversation';
+import { TalkLines } from '../src/frame/talk-lines';
 
 // A discovery an author marks as deserving the page to itself (`as revelation`) is told as one, set apart from the run
 // of what happened (NAR-14: a body found, a betrayal, a revelation had been told in the ordinary register). The probe's
@@ -19,7 +19,7 @@ describe('a revelation', () => {
     expect(lines.find(l => /mirror.s glass is clean/.test(l.text))?.kind).toBe('change');
     // And the conversation keeps it as one, as the page draws it (a line of its own kind).
     const frame = { ...g.frame(), leaf: g.leaf }, wipe = { id: 'x', label: 'Wipe the glass of the mirror' };
-    expect(Conversation.lines(frame, wipe as never, 'Wipe the glass of the mirror').map(l => l.kind))
+    expect(TalkLines.lines(frame, wipe as never, 'Wipe the glass of the mirror').map(l => l.kind))
       .toContain('revelation');
     await g.choose(/drawer_open/);
     expect(g.leaf.exchange!.lines.map(l => l.kind)).not.toContain('revelation');

@@ -8,6 +8,7 @@
     "slope.kyr",
     "lowmere.kyr",
     "lore.kyr",
+    "count.kyr",
     "placed.kyr"
   ],
   "rules": [
@@ -38,5 +39,15 @@
     "word_free",
     "word_chair",
     "word_sold"
+  ],
+  "canon": [
+    "imbar",
+    "ash_count_begun",
+    "company_sworn_ri",
+    "company_sworn_ash",
+    "ash_broken",
+    "ash_triumphs",
+    "glass_mage_broken",
+    "glass_mage_served"
   ]
 }

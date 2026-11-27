@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "source": "long-relief.kyr",
+  "rules": ["world"],
+  "canon": ["sallowfield_burned", "sallowfield_held"],
+  "imports": ["party", "elland", "home", "swallet"],
+  "roles": {
+    "party": { "type": "group" },
+    "elland": { "type": "group" },
+    "home": { "type": "place" },
+    "swallet": { "type": "place" }
+  }
+}

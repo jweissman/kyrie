@@ -1,0 +1,100 @@
+Module lull "The Lull" {
+  Relation lulCoinFound(group). Relation lulAelethGone(group). Relation lulRiAid(group). Relation lulAshRefused(group).
+  Discovery lul_stone_record "The oldest marks on the Tump count the strikers' turns, not the people who slept beneath it.".
+  Discovery lul_ri_word "Piran will set the mill wheel to the west road's measure for a company sworn to the Rì.".
+  Discovery lul_ash_word "Piran will not mend a wheel for a company carrying the Ash's count.".
+
+  Observe lul_coin_hint at wheel_pit when not lulCoinFound(party)
+    "Under the wheel's lowest spoke, a patch of mortar is pale against the old black stones.".
+  Action lul_find_coin(actor: group, site: place) "Pry up the pale mortar under the wheel's lowest spoke" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, wheel_pit) and not lulCoinFound(actor).
+    Time 10 minutes.
+    On success { Assert lulCoinFound(actor). Give count_coin to actor. }
+    Result "A green bronze disc rests in the grit, a man with a stylus worn down to one eye. The miller says the first shift at the Lull mill was counted on this stone; nobody agrees when the wheel began.".
+  }
+
+  Observe lul_count_green at green when befell(ash_count_begun) and not befell(ash_broken)
+    "Grey boards stand beside the Tump. The Ash has made a place for each striker and left the last one blank.".
+  Observe lul_count_mill at mill_yard when befell(ash_count_begun) and not befell(ash_broken)
+    "Piran has stopped the wheel. The new tally on its frame gives the Lull a number of days.".
+  Observe lul_ash_broken at green when befell(ash_broken)
+    "The grey boards are down. A child has drawn a hopscotch grid over the columns.".
+  Observe lul_ash_triumphs at strike_post when befell(ash_triumphs)
+    "A board hangs from the strike-post. The last striker's place is filled with a name in fresh chalk.".
+
+  Observe lul_aeleth_at_tump at strike_post when at(lul_aeleth, strike_post)
+    "Aeleth stands by the striker stones. Six armed followers keep their eyes on her hands.".
+  Person lul_aeleth "Aeleth" nowhere {
+    Role "the last watcher of the stones in the Lull". Ancestry elf. Calling ranger. Level 8. Peaceable. Pronouns she.
+    Manner stoic. Carries spear.
+    Arrives at strike_post when befell(ash_count_begun) and not befell(stone_elf_broken) and not befell(stone_elf_served).
+    Greets "Aeleth rests her palm on the top stone. 'These marks are turns of work,' she says. 'The Ash would make them names.'".
+    Greets again "'The stones keep their hour,' says Aeleth. She does not look away from the Tump.".
+  }
+  Person lul_stone_guard "the Ash's stone-keepers" nowhere {
+    Role "Aeleth's Ash-sworn stone-keepers". Ancestry elf. Calling warrior. Level 4. Numbers 6. Temperament obedient. Uses go, assail. Plans 4 steps.
+    Warns "Six stone-keepers leave the Tump. They carry spears cut from ash wood.".
+  }
+  Initially Assert serves(lul_stone_guard, lul_aeleth).
+  Rule lul_stone_guard_arrive when at(lul_aeleth, strike_post) and not lulAelethGone(party) {
+    Assert at(lul_stone_guard, strike_post).
+  }
+  Action lul_read_stone(actor: group, site: place) "Trace the old turn-marks on the striker stone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, strike_post) and at(lul_aeleth, strike_post) and not lulAelethGone(actor).
+    Time 5 minutes.
+    On success { Assert knows(actor, lul_stone_record). }
+    Result "The marks fall into groups of seven. They count the work week, not the sleepers who came after.".
+  }
+  Topic lul_show_stone with lul_aeleth "Show Aeleth the old count of the strikers' turns" when knows(actor, lul_stone_record) and not lulAelethGone(actor) once {
+    Says "Aeleth traces the groups with one finger. 'They kept the work, not the names,' she says. She turns the Ash board face down and goes back into the valley.".
+    On discuss { Assert lulAelethGone(actor). Retract at(lul_aeleth, strike_post). Retract at(lul_stone_guard, strike_post). Assert befell(stone_elf_broken). }
+  }
+  Action lul_offer_coin(actor: group, site: place) "Give Aeleth the old counting-coin for the empty stone" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, strike_post) and at(lul_aeleth, strike_post) and holding(actor, count_coin) and not lulAelethGone(actor).
+    Time 5 minutes.
+    On success { Spend count_coin from actor. Assert lulAelethGone(actor). Retract at(lul_aeleth, strike_post). Retract at(lul_stone_guard, strike_post). Assert befell(stone_elf_broken). }
+    Result "Aeleth turns the blank coin in her fingers. 'A place is not a person,' she says. She leaves it on the stone and walks down the valley.".
+  }
+  Action lul_challenge_aeleth(actor: group, site: place) "Challenge Aeleth and her stone-keepers" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, strike_post) and able(lul_aeleth) and not lulAelethGone(actor).
+    Time 1 minute.
+    On success { Assert assails(lul_aeleth, actor). Assert assails(lul_stone_guard, actor). }
+    Result "Aeleth gives the stone-keepers a short nod. Six spears come up.".
+  }
+  Rule lul_aeleth_broken when at(lul_aeleth, strike_post) and assails(lul_stone_guard, party) and (not able(lul_stone_guard) or routed(lul_stone_guard)) {
+    Assert lulAelethGone(party). Retract at(lul_aeleth, strike_post). Retract at(lul_stone_guard, strike_post). Assert befell(stone_elf_broken).
+  }
+  Action lul_serve_aeleth(actor: group, site: place) "Swear to keep the striker stones for the Ash" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, strike_post) and at(lul_aeleth, strike_post) and befell(company_sworn_ash) and not lulAelethGone(actor).
+    Time 10 minutes.
+    On success { Assert lulAelethGone(actor). Retract at(lul_aeleth, strike_post). Retract at(lul_stone_guard, strike_post). Assert befell(stone_elf_served). Increase quantity(actor, gold) by 8. }
+    Result "Aeleth takes eight marks from the Ash's purse. She sets a grey board against the strike-post and watches the road.".
+  }
+
+  Observe lul_ri_wheel_set at piran_shop when lulRiAid(party) "The mill wheel turns westward. Piran has left two marks on the bench.".
+
+  Topic lul_ri_oath with piran "Tell Piran your company is sworn to the Rì" when befell(company_sworn_ri) and not knows(actor, lul_ri_word) once {
+    Says "Piran checks the wheel's spokes. 'The west road runs straight through my shop,' he says. 'I can make it turn for you.'".
+    On discuss { Assert knows(actor, lul_ri_word). }
+  }
+  Action lul_ri_wheel(actor: group, site: place) "Ask Piran to turn the mill wheel westward" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, piran_shop) and knows(actor, lul_ri_word).
+    Time 10 minutes.
+    On success { Assert lulRiAid(actor). Increase quantity(actor, gold) by 2. }
+    Result "Piran gives you two marks from the mill purse. 'The west road can buy its own axle grease.'".
+  }
+  Topic lul_ash_oath with piran "Tell Piran your company is sworn to the Ash" when befell(company_sworn_ash) and not knows(actor, lul_ash_word) once {
+    Says "Piran stops turning the spoke. 'I won't mend a wheel for a board,' he says, and keeps the shop door shut.".
+    On discuss { Assert knows(actor, lul_ash_word). }
+  }
+  Action lul_ash_mill(actor: group, site: place) "Ask Piran to turn the mill wheel under the Ash's tally" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(actor, piran_shop) and knows(actor, lul_ash_word) and quantity(actor, gold) >= 2.
+    Time 10 minutes.
+    On success { Assert lulAshRefused(actor). Decrease quantity(actor, gold) by 2. }
+    Result "Piran takes two marks for the wheel's oil. He leaves the door shut behind you.".
+  }
+  Topic lul_tally with piran "Show Piran the Ash's tally-board" when holding(actor, ash_tally) and not lulAshRefused(actor) once {
+    Says "Piran lays the board beside the mill wheel. 'A mark is not a turn,' he says. He gives the board back without oiling it.".
+    On discuss { Spend ash_tally from actor. Increase quantity(actor, gold) by 2. }
+  }
+}

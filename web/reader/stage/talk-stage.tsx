@@ -3,9 +3,8 @@ import { Glyphs } from '../creation/glyphs';
 import { DigitSettle } from '../digit-settle';
 import type { Talk } from '../../../src/ui/attention';
 import type { Choice } from '../../../src/ui/choice-list';
-import type { Counter } from '../../../src/ui/trade-model';
 import type { ReaderApp } from '../reader-app';
-import type { TalkLine } from '../conversation';
+import type { TalkLine } from '../../../src/frame/talk-lines';
 import { Typography } from '../../../src/presentation/typography';
 import { RecruitSaid } from '../../../src/presentation/recruit-said';
 import { Words } from '../../../src/presentation/words';
@@ -13,9 +12,10 @@ import { Act, type Draw } from './act';
 import { Stage } from './stage';
 import { Moments } from './moments';
 import { Told } from './told';
-import { Wares, type Ware } from '../../../src/frame/wares';
+import type { Ware } from '../../../src/frame/wares';
 import { TalkFocus } from '../../../src/ui/talk-focus';
-import { Paging } from '../paging';
+import { MenuTree } from '../../../src/frame/menu-tree';
+import { TalkQuestion, type TalkAsked } from '../../../src/frame/talk-question';
 import { AimNear } from '../aim-near';
 import { Guidance } from '../guidance';
 import { Pip } from './pip';
@@ -38,41 +38,28 @@ export class TalkStage {
       : screen?.aims?.some(a => a.about?.includes(line.text))) { return 'Of your aim'; }
     return !screen || AimNear.near(screen, line.aim ? { id: line.aim } : line.text) ? 'A new aim' : 'Noted, further off';
   }
-  // at: the page of its topics it opens on (turned by More…; a census reads each page as the page draws it).
-  static View({ app, talk, at = 0 }: { app: ReaderApp; talk: Talk; at?: number }) {
+  // at: the page of its topics to draw where it is not the one the engine's question is on (a census reads each page
+  // as the page draws it): the question asked again at that page.
+  // Everything drawn is the engine's question (OR-1451: MenuTree.question, the frame's): what has passed, what has
+  // been asked, the page of what can be said, the wares open; the page keeps none of it, and turning the page, Trade
+  // and Back are its rows, done as any act is (focus:…).
+  static View({ app, talk, at }: { app: ReaderApp; talk: Talk; at?: number }) {
     // The numbered replies seen as they are drawn, so that a digit pressed as they change is refused (DigitSettle).
     useLayoutEffect(() => { DigitSettle.seen(DigitSettle.drawn()); });
-    const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app);
+    const s = app.state, frame = s.frame!, who = talk.subject, draw = Act.draw(app), q = TalkStage.question(app, talk, at);
     // A name begins with a capital where it heads the page ("The wagoner", not "the wagoner": the owner, 7 November).
     const [name, ...role] = [Words.upper(Words.short(who.name)), who.note && Words.described(who.note)]
       .filter(Boolean) as string[];
-    const counter = frame.screen.trade.find(c => c.id === who.id), { wares, rest } = Wares.of(counter, talk.replies);
-    const led = frame.leaf.glance?.acts.find(a => a.subject === who.id)?.for;
-    const inside = (s.turned ?? frame.leaf.glance?.acts ?? []).filter(a => a.subject === who.id)
-      .flatMap(a => (a.inside ?? []).map(x => x.command));
-    const focus = TalkFocus.of(rest, { ...led ? { led } : {}, marked: inside, ...s.heard ? { heard: s.heard } : {}, asked: s.asked,
-      weighty: frame.screen.weighty ?? [], paying: frame.screen.paying ?? [] });
-    // What the aim followed asks of them is drawn in its gold, as their likeness is (the owner, 8 November: the
-    // merchant the rats job sent the company to, and the question to ask her, had been drawn like any other): the
-    // glance's own next step (Emphasis.within), never a reply whose words echo the aim's (M21's PL-15).
-    // Gold only on what carries the aim on, not whatever the page leads with for them: "Ask Jassin to join the
-    // company", led as a recruit, had been drawn in the aim's gold (round 9, Q 54b).
-    // And each reply is drawn as what the glance found in it, and only that, so that a likeness drawn blue, or rose,
-    // has its blue question, or its asking to come along, drawn so here, and one drawn plain has nothing drawn (see
-    // Emphasis.within): a salter with no mark had had every question blue, for each told something.
-    // What pays the company is drawn green, as their likeness is (see SceneSubject.owed).
-    // As each reply stands now, never as the talk was led with when it was turned to (the trust contracts: no promise
-    // kept after it is spent; see Attest.reply).
+    // What the aim followed asks of them is drawn in its gold, as their likeness is (the owner, 8 November): the
+    // glance's own next step (Emphasis.within), never a reply whose words echo the aim's (M21's PL-15); each reply as
+    // what the glance found in it, and only that (the question's marks: Attest.reply), as it stands now.
     const gilded = Guidance.shown(app);
-    const spent = (c: Choice) => s.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
-    // Each reply's leaves are the frame's (MenuTree's marks); one asked already bears nothing now.
-    const drawn = TalkStage.drawn.bind(null, frame.menu.marks.replies, s.asked);
-
+    const spent = (c: Choice) => q.asked.includes(c.id) || /_again(\(|$)/.test(c.command ?? '');
+    const drawn = (c: Choice) => q.marks[c.id] ?? [], row = (id: string) => q.rows.find(r => r.id === id);
+    const opened = new Set(q.opened), a = q.answers.length, trade = row(TalkQuestion.trade), more = row(TalkQuestion.more);
+    const back = row(TalkQuestion.back);
     // Four acts in view (the owner's ruling 2): taking your leave always, and in the three rows before it any answer
     // owed, then what can be said and Trade, a page at a time; each row's key is its place, 1 to 4.
-    const trades = wares.length > 0 || focus.services.length > 0 || (counter?.buys.length ?? 0) > 0;
-    const [page, turn] = useState(at), room = 3 - focus.answers.length, a = focus.answers.length;
-    const paged = Paging.of([...focus.salient, ...trades ? ['trade' as const] : [], ...focus.more], room, page);
     // No × beside the menu: taking your leave is its last row, and Escape (the owner, 16 November night: every
     // control of a page in its one menu or its rail).
     return (
@@ -80,48 +67,46 @@ export class TalkStage {
         background={<TalkStage.Sitter app={app} />}
         header={<TalkStage.Speaker app={app} name={name!} role={role.join(' · ')}>
           <Stage.When frame={frame} extra={frame.screen.place.name} /></TalkStage.Speaker>}
-        narrative={<TalkStage.Lines lines={s.talk} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />}
+        narrative={<TalkStage.Lines lines={q.lines} pending={s.pending?.said} ready={Moments.ready(frame.screen)} app={app} />}
         menu={<div className="answer">
             <div className="choosing">
-              {s.trading ? <TalkStage.Trading app={app} wares={wares} services={focus.services} buys={counter?.buys ?? []}
-                short={counter?.short ?? []} who={counter?.name ?? ''}
-                draw={draw} /> : <>
+              {q.trading ? <TalkStage.Trading app={app} q={q} draw={draw} /> : <>
                 {who.recruit && <TalkStage.Recruit recruit={who.recruit} coin={frame.screen.purse.coin} />}
                 {/* A question put to the company is answered first, by its answers (Low Water's 5, the Liberty of the
                     Ice's 10: three answers to Callow's question had stood among the rest, as topics). */}
-                {focus.answers.length > 0 && <><p className="answering">Your answer</p>
-                  <ol className="replies answers" aria-label="Your answer">{focus.answers.map((c, i) => <TalkStage.Reply
+                {q.answers.length > 0 && <><p className="answering">Your answer</p>
+                  <ol className="replies answers" aria-label="Your answer">{q.answers.map((c, i) => <TalkStage.Reply
                     key={c.id} choice={c} draw={draw} number={i + 1} leaves={drawn(c)} gilded={gilded} />)}</ol></>}
                 {/* Trade in the aim's gold where what the aim asks of them is had in trade (a sale, to the debtor home
                     with what would fetch coin: Mission 20). */}
-                <TalkStage.Topics draw={draw} name={name!} paged={paged} first={a + 1} spent={spent} opened={focus.opened}
-                  gilded={gilded} drawn={drawn} paying={frame.screen.paying} trade={<TalkStage.ToTrade app={app}
-                    leaves={focus.services.flatMap(x => drawn(x))} gilded={gilded} />} />
+                <TalkStage.Topics draw={draw} name={name!} shown={q.shown} first={a + 1} spent={spent} opened={opened}
+                  gilded={gilded} drawn={drawn} paying={frame.screen.paying} trade={trade && <TalkStage.ToTrade app={app}
+                    row={trade} leaves={drawn(trade)} gilded={gilded} />} />
               </>}
             </div>
             {/* The way out, always in view at the foot (round 5: under the fade at a long counter, half there): Back
                 from trading, which is the way out while trading; else taking your leave, the last of the four. */}
             <ol className="leave replies">
-              {s.trading ? <li><ChoiceRow.Button data={{ action: 'trade-back' }} onClick={() => app.trade(false)}
+              {q.trading && back ? <li><ChoiceRow.Button data={{ action: 'trade-back' }} onClick={() => app.choose(back)}
                 plain="neutral" label="Back" /></li>
-                : <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={a + paged.shown.length + 1}
+                : <li><ChoiceRow.Act choice={talk.leave} draw={draw} number={a + q.shown.length + 1}
                   plain="neutral" label={talk.leave.label} /></li>}
               {/* The page turned last, below the acts, which run 1 to 4 without a gap (M22's review: 1, 2, 3, the
                   pager, 4). */}
               {/* Marked by the fold of what it turns to (AT-07 §5 step 3): Trade's services, and the topics not in view. */}
-              {!s.trading && paged.pages > 1 && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
-                onClick={() => turn(paged.at + 1)} {...ChoiceRow.mark(Fold.mark([...focus.salient, ...trades
-                  ? ['trade' as const] : [], ...focus.more].filter(x => !paged.shown.includes(x))
-                  .flatMap(x => x === 'trade' ? focus.services : [x]).flatMap(x => drawn(x)), gilded))}
-                label={[...focus.salient, ...focus.more].every(spent) ? 'Ask again…' : 'Something else…'}
-                aside={`${paged.at + 1} of ${paged.pages}`} /></li>}
+              {!q.trading && more && <li className="more-talk"><ChoiceRow.Button data={{ action: 'more-talk' }}
+                onClick={() => app.choose(more)} {...ChoiceRow.mark(Fold.mark(drawn(more), gilded))}
+                label={more.label} aside={more.note} /></li>}
             </ol>
           </div>} />
     );
   }
-  // What a reply bears, as leaves of a fold (Fold): itself, or what it opens, as the frame holds them.
-  private static drawn(replies: Record<string, Leaf[]>, asked: string[], c: Choice): Leaf[] {
-    return (replies[c.id] ?? []).filter(l => !asked.includes(l.id));
+  // The engine's question of the talk drawn (the frame's), or asked again at another page of it for a census.
+  static question(app: ReaderApp, talk: Talk, at?: number): TalkAsked {
+    const frame = app.state.frame!, asked = frame.question?.talk;
+    if (asked && asked.talk.subject.id === talk.subject.id && at === undefined) { return asked; }
+    const focus = { kind: 'talk' as const, with: talk.subject.id, page: at ?? 0, trading: false };
+    return MenuTree.question(frame, focus).talk!;
   }
   // An act as it was led with, but for the aim's gold, which is the aim's next step as it is now.
   static ungilded(a: Promoted): Promoted {
@@ -131,11 +116,11 @@ export class TalkStage {
   }
   // Trade, drawn as what the glance found among what is had of them for coin (a bed for the night, what the aim waits
   // on to be sold: Mission 20).
-  static ToTrade({ app, leaves, gilded }: { app: ReaderApp; leaves: Leaf[]; gilded: boolean }) {
+  static ToTrade({ app, row, leaves, gilded }: { app: ReaderApp; row: Choice; leaves: Leaf[]; gilded: boolean }) {
     const indicator = Fold.mark(leaves, gilded);
     // A row like the questions, the width of them all (the owner, 16 November: an action is a full-width row), among them.
     return <ChoiceRow.Button className={indicator?.tone === 'gold' ? 'aimed' : ''}
-      data={{ action: 'trade', aspects: TalkStage.aspects(leaves) || undefined }} onClick={() => app.trade(true)} label="Trade"
+      data={{ action: 'trade', aspects: TalkStage.aspects(leaves) || undefined }} onClick={() => app.choose(row)} label={row.label}
       {...indicator?.tone ? { indicator } : {}} />;
   }
   static aspects(leaves: readonly Leaf[] | undefined): string {
@@ -275,9 +260,9 @@ export class TalkStage {
   // exception to the four, a list that scrolls in the menu's place, not pages): what they will buy of what the company
   // carries, what is on their counter (a thing for each of the company that could take it is a row for each), their
   // services; the purse said once above, and what they buy in a line; Back, by the leave, returns to the conversation.
-  static Trading({ app, wares, services, buys, short, who, draw }: { app: ReaderApp; wares: Ware[]; services: Choice[];
-    buys: Counter['buys']; short: NonNullable<Counter['short']>; who: string; draw: Draw }) {
-    const coin = app.state.frame!.screen.purse.coin, { sales, rest } = TalkFocus.parted(services);
+  static Trading({ app, q, draw }: { app: ReaderApp; q: TalkAsked; draw: Draw }) {
+    const coin = app.state.frame!.screen.purse.coin, { sales, services: rest, wares, buys, short } = q;
+    const who = app.state.frame!.screen.trade.find(c => c.id === q.talk.subject.id)?.name ?? '';
     // Each row drawn with its key, its place on the page (1 to 4).
     const rows: ((n: number) => ReactNode)[] = [
       ...sales.map(c => (n: number) => <TalkStage.Reply key={c.id} choice={c} draw={draw} number={n} />),
@@ -321,13 +306,13 @@ export class TalkStage {
   // What it is to the company is the one indicator at its left, as a led act's is (see Pip).
   // What can be said, and Trade among it, a page at a time in the rows the leave and any answer leave (see View); the
   // row that turns the page (no act) is under the leave.
-  static Topics({ draw, name, paged, first, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
-    name: string; paged: ReturnType<typeof Paging.of<Choice | 'trade'>>; first: number;
+  static Topics({ draw, name, shown, first, spent, opened, gilded, drawn, paying, trade }: { draw: Draw;
+    name: string; shown: (Choice | 'trade')[]; first: number;
     spent: (c: Choice) => boolean; opened: Set<string>; gilded: boolean; drawn: (c: Choice) => Leaf[];
     paying?: string[]; trade: ReactNode }) {
     return <>
       <ol className="replies" aria-label={`What you might say to ${name}`}>
-        {paged.shown.map((c, i) => c === 'trade' ? <li key="trade" className="to-trade">{trade}</li>
+        {shown.map((c, i) => c === 'trade' ? <li key="trade" className="to-trade">{trade}</li>
           : <TalkStage.Reply key={c.id} choice={c} draw={draw} number={first + i} asked={spent(c)} fresh={opened.has(c.id)}
             leaves={drawn(c)} gilded={gilded} pays={TalkFocus.pays(c, paying)} />)}</ol>
     </>;

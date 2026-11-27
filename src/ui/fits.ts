@@ -1,5 +1,5 @@
-import table from '../../data/paintings/fit.json';
-import seen from '../../data/paintings/seen.json';
+import { PresentationResources } from '../ports/presentation-resources';
+import type { PaintingLook } from '../ports/presentation-resources';
 import type { Screen } from './screen-types';
 
 // What a painting may not show of a place (data/paintings/fit.json), read against what the painting shows (seen.json):
@@ -10,24 +10,33 @@ import type { Screen } from './screen-types';
 // told: what the place's own description begins by saying it is (a shrine "A well-head with a carved lip").
 interface Rule { id: string; place?: string; told?: string; weather?: string; daylight?: string; underground?: boolean;
   forbids: string; unless?: string }
-export interface Looked { shows?: string; light?: string; season?: string; weather?: string }
+export type Looked = PaintingLook;
 export type Seen = Pick<Screen, 'weather'> & { place: Pick<Screen['place'], 'name' | 'underground'> & { description?: string };
   expedition?: Pick<Screen['expedition'], 'daylight'> };
 export class Fits {
-  private static readonly rules = (table.rules as Rule[]).map(r => ({ ...r, forbidden: new RegExp(r.forbids, 'i'),
-    ...r.unless ? { answered: new RegExp(r.unless, 'i') } : {} }));
-  private static readonly seen = (seen as { paintings: Record<string, Looked> }).paintings;
+  private static readonly compiled = new WeakMap<object, {
+    rules: (Rule & { forbidden: RegExp; answered?: RegExp })[]; seen: Record<string, PaintingLook> }>();
+  private static resources(): { rules: (Rule & { forbidden: RegExp; answered?: RegExp })[];
+    seen: Record<string, PaintingLook> } {
+    const domain = PresentationResources.domain(), kept = this.compiled.get(domain);
+    if (kept) { return kept; }
+    const resources = PresentationResources.paintingFit();
+    const made = { rules: (resources.rules as Rule[]).map(r => ({ ...r, forbidden: new RegExp(r.forbids, 'i'),
+      ...r.unless ? { answered: new RegExp(r.unless, 'i') } : {} })), seen: resources.paintings };
+    this.compiled.set(domain, made);
+    return made;
+  }
   // Whether a painting may stand for the place as it now is (its own words, and the kind's word for it, if any).
   static fits(screen: Seen, painting: string, words = ''): boolean {
     const shows = this.words(painting);
-    return !this.rules.some(r => this.applies(r, screen, `${screen.place.name} ${words}`)
+    return !this.resources().rules.some(r => this.applies(r, screen, `${screen.place.name} ${words}`)
       && r.forbidden.test(shows) && !r.answered?.test(shows));
   }
   // What a painting was seen to show, as recorded (its light and weather read by PaintedSky).
-  static looked(painting: string): Looked | undefined { return this.seen[painting]; }
+  static looked(painting: string): Looked | undefined { return this.resources().seen[painting]; }
   // All a painting was seen to show: its few words, and its light, season and weather where it shows them.
   static words(painting: string): string {
-    const p = this.seen[painting];
+    const p = this.resources().seen[painting];
     return p ? [p.shows, p.light, p.season, p.weather].filter(Boolean).join(' ') : '';
   }
   // The rules a place stands under now.

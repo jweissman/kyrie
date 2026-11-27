@@ -1,5 +1,6 @@
 // The setting gives the page its parts (SettingPort, MT-16 S6).
 import '../../src/canon/setting-install';
+import '../../src/paintings/presentation-install';
 import { Component } from 'react';
 import { createRoot } from 'react-dom/client';
 import type { Choice } from '../../src/ui/choice-list';

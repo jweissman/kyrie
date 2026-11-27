@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { PlayTool } from '../../../src/cli/play-tool';
 import { Runner, type Said } from '../../../src/cli/runner';
+import { TalkWay } from '../../support/talk-way';
 
 // Feature pins: see test/features/choice/consequence.pin.test.ts. World › The herb-wife asks, and the shrine tests (the
 // owner, 26 November: interlocutors that ask you things, pose puzzles, let you make use of skill checks, and ask for
@@ -10,8 +11,9 @@ import { Runner, type Said } from '../../../src/cli/runner';
 // lesson teaches woodcraft, and the old ride's tracks show the boar's runs off it, a way nobody showed you. Come back
 // with woundwort in your pack and you are asked whether you know what you carry: a woodcraft check, rolled in the talk,
 // and named right it is worth a poultice. At the shrine, asked what is under the stones, the shrine-keeper wants to
-// hear what is cut on them first; answered wrong, nothing is told, and the company is sent up to look; come back from
-// the stones, it says what it saw there, and the way down between them is known without a search.
+// hear what is cut on them first; answered wrong, nothing is told, and the company is sent up to look; the way down
+// between them is in plain sight there (OR-1501), and come back from the stones, it says what it saw, and is told
+// what lies under them: the place's name, which the old sayings of it are asked by.
 type Row = { id: string; label: string; opens?: Row[] };
 const flat = (rs: Row[]): Row[] => rs.flatMap(r => [r, ...flat(r.opens ?? [])]);
 const rows = (s: Said): Row[] => flat([...s.offer?.primary ?? [], ...s.offer?.rest ?? [],
@@ -30,17 +32,22 @@ describe('World › The herb-wife asks, and the shrine tests', () => {
       expect([id, 'error' in next ? next.error : '']).toEqual([id, '']);
       s = next as Said;
     };
+    // Found as the page's player finds it, a talk open (TalkWay, OR-1451: on another page, under Trade, else put by).
     const act = async (words: string) => {
-      const found = rows(s).find(x => new RegExp(words, 'i').test(x.label));
+      const way = await TalkWay.find(r, s, x => new RegExp(words, 'i').test(x.label)), found = way.o;
+      s = way.said;
       if (!found) { throw new Error(`${words}: ${rows(s).map(x => x.label).join(' | ')}`); }
       await say(found.id);
     };
     // Taking leave, where the talk still stands (an hour's lesson ends it).
     const maybe = async (words: string) => {
-      const found = rows(s).find(x => new RegExp(words, 'i').test(x.label));
+      const way = await TalkWay.find(r, s, x => new RegExp(words, 'i').test(x.label), { stay: true }), found = way.o;
+      s = way.said;
       if (found) { await say(found.id); }
     };
     const to = async (place: string) => {
+      // The ways are the place's: a talk still open is put by (focus:place, no time: OR-1451).
+      if (TalkWay.talking(s)) { await say('focus:place'); }
       const way = rows(s).find(x => x.id === `exit:${P(place)}` || x.id.startsWith(`exit:${P(place)}/`))
         ?? rows(s).find(x => x.id.startsWith('travel:') && x.id.includes(P(place)));
       if (!way) { throw new Error(`no way to ${place}: ${rows(s).filter(x => /^(exit|travel)/.test(x.id)).map(x => x.id).join(' ')}`); }
@@ -56,6 +63,8 @@ describe('World › The herb-wife asks, and the shrine tests', () => {
     expect(rows(s).some(x => /asks what brings you/.test(x.label))).toBe(false);
     await act(talk(dealer));
     expect(said()).toMatch(/What brings you up to the old woods\?/);
+    // Asked from the place by her talk's row, then turned to (talk:, no time): her talk's question is offered.
+    if (!TalkWay.talking(s)) { await say(`talk:${P('innkeeper')}`); }
     // Answered from the engine's rows: her answers, and the lie among them, rolled.
     expect(rows(s).map(x => x.label)).toEqual(expect.arrayContaining(['Say you have come for what grows there',
       'Say you are going up to the old stones']));
@@ -90,13 +99,14 @@ describe('World › The herb-wife asks, and the shrine tests', () => {
     await act('^Say a sun, rising');
     expect(said()).toMatch(/Go and look, and come back/);
     expect(knows('wood_door')).toBe(false);
-    // Up to the stones, and back to say what is there.
+    // Up to the stones, where the way down is seen, and back to say what is there.
     await maybe('^Take your leave'); await to('green'); await to('wood_edge'); await to('wood_ride');
-    await to('wood_burners'); await to('wood_stones');
-    expect(rows(s).some(x => x.id === `exit:${P('ud')}`)).toBe(false);
-    await to('wood_burners'); await to('wood_ride'); await to('wood_edge'); await to('green'); await to('shrine');
-    await act('a shut door is cut on the stones');
+    await to('wood_stones');
+    expect(rows(s).some(x => x.id === `exit:${P('ud')}`)).toBe(true);
+    expect([knows('wood_door'), knows('ud_named')]).toEqual([true, false]);
+    await to('wood_ride'); await to('wood_edge'); await to('green'); await to('shrine');
+    await act(talk(priest)); await act('a shut door is cut on the stones');
     expect(said()).toMatch(/a stair goes down/);
-    expect(knows('wood_door')).toBe(true);
+    expect(knows('ud_named')).toBe(true);
   }, 120000);
 });

@@ -196,7 +196,8 @@ export class Campaign implements WatchHost {
   // Access exposes mutable state outside World; enclosing world-read computations cannot be kept.
   get readout() { WorldReads.all(); return { ...this.current, creatures: this.creatures.live }; }
   // The log, the action schemas and the company as it would fight, likewise without copies. Never change them.
-  get history(): readonly CampaignEvent[] { return this.log; }
+  // elapsed: the turns elapsed now, for the session's reckoning between commands (its focus, OR-1451); no rule's.
+  get history(): readonly CampaignEvent[] { return this.log; } get elapsed(): number { return this.current.elapsed; }
   get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
   get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
   get fighters(): Fighter[] { return this.party; }

@@ -242,6 +242,12 @@ this help the player forget the interface and become interested in what happens 
     - placements and structures from templates;
     - authored content written for variation.
   - **Conversation:** a skill check in conversation earns experience.
+- **One menu, four promoted items, nothing earned by level** (the owner's playtest, 27 November, superseding the
+  lenses at act II): a page draws one menu, from one source, with at most four promoted items and the places among them,
+  never in a block of their own. Everything is in one hex, so there is no map, and there are no lenses. The rail comes up
+  only when something is genuinely earned by a find: a map found, a library visited. Backstage is just your character.
+  No ovals for opponents' portraits. The first dungeon is unmistakable from the first town, and its quests connect
+  forward: the owner's biggest complaint was pointless wandering among thin, unconnected fetch quests.
 - **Unfolding menus only in a fight.** Elsewhere rows are one flat level. Long lists appear only in a store.
 - **The map is an in-world instrument**, not an app (hidden for now, under compactification). It opens for inspection while the character stays in the scene;
   "Put away the map" is an act. **Ways to another hex appear only on the map** (the owner, 25 November, overruling

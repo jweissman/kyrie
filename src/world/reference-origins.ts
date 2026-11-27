@@ -20,7 +20,7 @@ export interface Arrive {
 // nearest of the makers' works two hexes off, the brothers' errand to another, the debt to the old places the inn
 // counted off, the sealed letter to the next town; and come over the hills, to an inn that had no work to tell of. Here
 // each is the same story told of the stones in the old woods: what the map marks, where she went down, where the old
-// writing is cut, what pays the debt. The way down is still found there, by searching (RegionWoods). The sealed letter
+// writing is cut, what pays the debt. The way down is seen there, between the stones (RegionWoods). The sealed letter
 // is a road to another town, and is not offered here; it is told as ever in a country whose first town is not this one.
 // undefined: the country has no reference settlement (Origins binds as ever); null: the life is not begun here.
 export class ReferenceOrigins {
@@ -53,17 +53,32 @@ export class ReferenceOrigins {
     const { start, approach } = by.arriving(region, s);
     // The map marks the stones; her letter, the place she went down to.
     const work = lost ? RegionUndertown.called(region, s) : 'the fallen stones';
-    return { values: { ...by.approach(region, s), work, where: this.where(region, s) }, start,
-      imports: { approach, ...this.down(s, 'stones'), ...lost ? { keeper: [`region.${s.id}_innkeeper`, 'group'] as [string, string] } : {} } };
+    return { values: { ...by.approach(region, s), work, where: this.where(region, s), then: this.then(lost) }, start,
+      imports: { approach, ...this.down(s, 'stones'), story: [`region.${s.id}_ud_story`, 'fact'],
+        ...lost ? { keeper: [`region.${s.id}_innkeeper`, 'group'] as [string, string] } : {} } };
+  }
+  // What a reason's find opens in the reference country (OR-1505: a find decomposed into understanding, not an end):
+  // the dead man's box holds his note of what lies with the old king, the sister's pin her mark and what she went
+  // down for; either way the story of the crown is known, and the aim to bring it up (the deep's own) is held.
+  private static then(lost: boolean): string {
+    const what = lost ? 'pin' : 'cache', said = lost
+      ? 'Under her mark on the pin she scratched two words more: the crown. She went down for the first king\'s crown.'
+      : 'On the back of the paper in the box the dead man wrote what he was after: the first king\'s crown, on his bier below.';
+    return `  Entity story: fact "What lies with the old king".\n  Rule ${what}_story when carries(party, ${what}) and not knows(party, story) says "${said}" teaches story { }\n`;
   }
   // The brothers want the makers' marks at the door under the stones copied, which the shrine-keeper shows the way to.
   private static order(region: Region, s: Settlement, by: Arrive): OriginBound {
     const makers = RegionUndertown.makers(region), holy = `${s.id}_shrine`;
     const cult = RegionFaith.cults(region)[region.settlements.indexOf(s)]!;
+    // The copies shown, the shrine-keeper reads in them what the makers feared below (OR-1505): the jar of day.
+    const then = '  Entity bane: fact "What the makers feared below".\n  Rule copies_read when copied(party) and not knows(party, bane) says "The shrine-keeper reads your'
+      + ' copy again at the door. ‘The makers kept day in a jar,’ she says. ‘Against what sleeps below.’"'
+      + ' teaches bane { }\n';
     return { values: { ...by.approach(region, s), work: RegionUndertown.called(region, s), cult: cult.name,
-      where: this.where(region, s), priestly: SettlementWriter.called(region, s) }, start: { place: holy },
+      where: this.where(region, s), priestly: SettlementWriter.called(region, s), then }, start: { place: holy },
     imports: { shrine: [`region.${holy}`, 'place'], priest: [`region.${s.id}_priest`, 'group'], ...this.down(s, 'stair', true),
-      history: [`region.history_${makers.art}`, 'fact'], fate: [`region.history_${makers.art}_fate`, 'fact'] } };
+      history: [`region.history_${makers.art}`, 'fact'], fate: [`region.history_${makers.art}_fate`, 'fact'],
+      bane: [`region.${s.id}_ud_bane`, 'fact'] } };
   }
   // The debt is paid from what lies with the old dead under the stones: asked about the old woods (the stones then
   // known), the aim is the deep place. No load to carry to another town, nor an old place two hexes off.

@@ -143,12 +143,12 @@
     },
     "gnoll": {
       "name": "Gnoll",
-      "description": "A tall, hyena-headed raider of the dry hills and the edges of the woods.",
-      "appearance": "A spotted, sloping hide, a long jaw full of teeth, a stiff mane down the back, and a laugh that carries.",
-      "society": "Gnolls go in packs under the strongest, and live by what they take: herds, stores, travellers on the roads. A pack that finds old workings or a barrow near a town makes its den there and raids out of it until it is driven off.",
-      "build": "Seven feet when they stand up straight, which is seldom; lean and long-armed.",
-      "ages": "Grown at ten; old at fifty.",
-      "nameGroup": "gnoll",
+      "description": "A hyena-featured person, strong and enduring; some join raiding packs along the dry hills and woods.",
+      "appearance": "A spotted coat, long muzzle, rounded ears and a stiff mane, marked differently in every person.",
+      "society": "Gnolls live in households and travelling bands. Some keep animals, work the roads or hire out their strength; others raid in packs under the strongest, taking herds, stores and travellers. A pack that finds old workings or a barrow near a town may make its den there until driven off.",
+      "build": "Tall and strongly built, long-armed.",
+      "ages": "Grown in their late teens.",
+      "nameGroup": "hero",
       "classes": [
         "warrior",
         "ranger",
@@ -171,7 +171,7 @@
       "source": {
         "orsino": "ancestry:gnoll",
         "fidelity": "faithful",
-        "notes": "Orsino racialModifier attributes, occupation options and racial traits (tough, resilient); humanoid is given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make gnolls a player race: in Kyr a pack of them moves into a first dungeon's way in once its first dwellers are dealt with (OR-1236)."
+        "notes": "Orsino racialModifier attributes, occupation options and racial traits (tough, resilient); humanoid is given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Gnolls are people with varied lives; some raiding packs move into a first dungeon's way in once its first dwellers are dealt with (OR-1236)."
       }
     },
     "glimmerkin": {
@@ -562,6 +562,39 @@
         "orsino": "ancestry:fae",
         "fidelity": "faithful",
         "notes": "Orsino racialModifier attributes, occupation options and forbidden traits; its racial traits and humanoid are given at birth, as in the pc template. Kyr adds the commoner, which is open to every ancestry. Orsino does not make it a player race; in Kyr its people live in generated regions and may be met and recruited there."
+      }
+    },
+    "minotaur": {
+      "name": "Minotaur",
+      "description": "A bull-headed person, powerful and patient, a keeper of difficult ways.",
+      "appearance": "A bull's head on a broad body taller than a door is made for, with horns that are mended, banded or carved, and never cut.",
+      "society": "Minotaurs live alone or in pairs, each keeping one difficult way: a maze, a ford or a mill-race. A keeper takes a toll and keeps the way open in return. They count debts carefully and do not forget them.",
+      "build": "Seven feet tall and heavy in the shoulder.",
+      "ages": "Grown at twenty; a keeper may hold one way for a century.",
+      "nameGroup": "hero",
+      "classes": [
+        "warrior",
+        "commoner"
+      ],
+      "attributes": {
+        "strength": 4,
+        "dexterity": 0,
+        "constitution": 2,
+        "intelligence": -2,
+        "wisdom": 0,
+        "charisma": -1
+      },
+      "traits": [
+        "humanoid",
+        "tough",
+        "fierce"
+      ],
+      "source": {
+        "kyr": true,
+        "srd35": "monster:minotaur",
+        "fidelity": "adapted",
+        "conversion": "srd35-westernesse-v1",
+        "notes": "Kyr's keepers of difficult ways, met in the long campaign's hall of angles. The SRD minotaur's +8 Strength, +4 Constitution, -4 Intelligence and -2 Charisma, halved to this scale; its charge is the warrior's. A people rather than a catalogued monster until a minotaur is painted (every monster is painted by its own picture). Not a player ancestry."
       }
     }
   }
