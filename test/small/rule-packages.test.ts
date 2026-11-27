@@ -3,10 +3,8 @@ import { readFileSync } from 'node:fs';
 import { Tiny } from '../support/tiny';
 import { ModuleBundle } from '../../src/campaign/module-bundle';
 import { RulePackages, type RulePackageDeclaration } from '../../src/campaign/rule-packages';
-import { SingleModule } from '../../src/campaign/single-module';
 import { OverlayBundleSource } from '../../src/campaign/overlay-bundle-source';
 import { NodeBundleSource } from '../../src/campaign/node-bundle-source';
-import { PlaySession } from '../../src/session/play-session';
 import { ModuleParser } from '../../src/lang/index';
 
 // The shared rules as packages (BX-02): each file of data/rules declares, in data/rules/packages.json, the packages it
@@ -25,11 +23,10 @@ class Declared {
     return new Set([...m.kinds, ...m.entities.map(e => e.id), ...m.relations.map(r => r.name),
       ...m.measures.map(r => r.name), ...m.queries.map(q => q.name)]);
   }
-  // A world of one place on a package, installed from a source of the rules (the standard one, or one whose
-  // declaration says less).
-  static start(name: string, base = NodeBundleSource.shared): Promise<PlaySession> {
-    const { source, campaign } = SingleModule.source(yard, { rules: [name], own: true, base, party: plotHolder });
-    return PlaySession.start(campaign, `alone-${name}`, source);
+  // A world of one place on a package and what it declares it reads, installed from a source of the rules (the
+  // standard one, or one whose declaration says less).
+  static start(name: string, base = NodeBundleSource.shared): Promise<Tiny> {
+    return Tiny.start(yard, { horizon: [name], own: true, night: 'none', base, party: plotHolder });
   }
 }
 
@@ -60,7 +57,7 @@ describe('the shared rules, as packages', () => {
   });
   it('installs and plays each package with only what it declares', async () => {
     for (const name of packages.names) {
-      const t = await Tiny.start(yard, { rules: [name], own: true, night: 'none', party: plotHolder });
+      const t = await Declared.start(name);
       expect({ name, at: t.where() }).toEqual({ name, at: 't__yard' });
     }
   });
@@ -69,13 +66,13 @@ describe('the shared rules, as packages', () => {
       'belongings', 'dominion', 'making']);
     expect(packages.closure(['inhabitants'])).toEqual(['core', 'passages', 'people', 'discovery', 'dominion',
       'inhabitants']);
-    const t = await Tiny.start(yard, { rules: ['inhabitants'], own: true, night: 'none', party: plotHolder });
+    const t = await Declared.start('inhabitants');
     expect(t.campaign.module.relations.some(r => r.name === 'captured')).toBe(true);
     expect(t.campaign.module.relations.some(r => r.name === 'soldBy')).toBe(false);
   });
   it("brings the catalog's abilities only with the package that declares them (care's lessons)", async () => {
-    const abilities = async (name: string) => (await Tiny.start(yard, { rules: [name], own: true, night: 'none',
-      party: plotHolder })).campaign.module.entities.filter(e => e.type === 'ability').length;
+    const abilities = async (name: string) => (await Declared.start(name)).campaign.module.entities
+      .filter(e => e.type === 'ability').length;
     expect(await abilities('core')).toBe(0);
     expect(await abilities('care')).toBeGreaterThan(300);
   });

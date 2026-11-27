@@ -11,10 +11,9 @@ import { PlaySession } from '../../src/session/play-session';
 // a player sees, its receipts kept, saved and taken up again to the same game; and without the petition read, the
 // motion carries.
 const kyr = readFileSync(join(import.meta.dir, '../fixtures/boundary/allotment.kyr'), 'utf8');
-// On the shared rules' kernel alone (BX-02): places and ways, people and talk, and what is known; nothing of a fight's,
-// of care, belongings, trade or rule over places.
-const kernel = ['core', 'passages', 'people', 'discovery'];
-const start = () => Tiny.start(kyr, { own: true, currency: 'pound', night: 'none', rules: kernel,
+// On the shared rules' kernel alone (BX-02; its horizon names no package, OR-407): places and ways, people and talk,
+// and what is known; nothing of a fight's, of care, belongings, trade or rule over places.
+const start = () => Tiny.start(kyr, { own: true, currency: 'pound', night: 'none', horizon: [],
   party: [{ name: 'Robin Ashe', raceId: 'human', classId: 'commoner', outfit: 'own' }] });
 const labels = (t: Tiny) => t.journey.choices().map(c => c.label);
 
