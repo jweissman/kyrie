@@ -9,7 +9,11 @@ import { EngineOwned } from './engine-owned';
 export interface SymbolSource { module: Module; file: string }
 // What a table is built of: the shared rules an installation is read with, and each module installed in it, by its
 // installed id, of its files.
-export interface SymbolInstallation { shared: SymbolSource[]; modules: { id: string; files: SymbolSource[] }[] }
+export interface SymbolImport { unit: string; namespace: 'relation' | 'measure'; name: string }
+export interface SymbolInstallation {
+  shared: SymbolSource[];
+  modules: { id: string; files: SymbolSource[]; imports?: Record<string, SymbolImport> }[];
+}
 export interface SymbolSpan extends SiteSpan { file: string }
 // authored: written as itself; lowered: made by the lowering of a declaration written (span: that declaration's);
 // generated: declared by a generator as a value (span.generator: by whom; no line of the text); unplaced: made by the
@@ -54,12 +58,20 @@ export class SymbolTable {
   private readonly named = new Map<string, SymbolDeclaration[]>();
   private readonly read = new Map<string, readonly SymbolReference[]>();
   private readonly files = new Map<string, SymbolSource[]>();
+  private readonly imports = new Map<string, Map<string, SymbolDeclaration>>();
+  private readonly pendingImports = new Map<string, Record<string, SymbolImport>>();
   private readonly siteMaps = new WeakMap<SymbolSource, Map<string, DeclarationSite>>();
   private constructor(private readonly context: VocabularyContext) {}
   static of(context: VocabularyContext, installation: SymbolInstallation): SymbolTable {
     const t = new SymbolTable(context);
     for (const s of installation.shared) { t.declare(s.module.id, 'shared', s); }
-    for (const m of installation.modules) { for (const f of m.files) { t.declare(m.id, 'own', f); } }
+    for (const m of installation.modules) {
+      for (const f of m.files) { t.declare(m.id, 'own', f); }
+      t.pendingImports.set(m.id, m.imports ?? {});
+    }
+    for (const m of installation.modules) {
+      for (const name of Object.keys(m.imports ?? {})) { t.import(m.id, name, []); }
+    }
     return t;
   }
   // Every declaration, or a unit's, in the order its files declare them.
@@ -87,6 +99,8 @@ export class SymbolTable {
   // How a name is bound from a unit: its own, the shared rules', the language's, the catalog's.
   resolve(unit: string, name: string, sought: SymbolSought): SymbolBinding {
     const namespaces = searched[sought];
+    const imported = this.imports.get(unit)?.get(name);
+    if (imported && namespaces.includes(imported.namespace)) { return { status: 'bound', to: imported }; }
     for (const scope of ['own', 'shared'] as const) {
       const found = this.lookup(name, scope, namespaces, scope === 'own' ? unit : undefined);
       if (found.length) { return SymbolTable.one(found); }
@@ -100,6 +114,28 @@ export class SymbolTable {
     const meanings = new Set(found.map(d => `${d.namespace}\u0000${d.meaning ?? ''}`));
     return meanings.size === 1 ? { status: 'bound', to: found[0]! } : { status: 'ambiguous', candidates: found };
   }
+  private import(unit: string, name: string, stack: string[]): SymbolDeclaration {
+    const saved = this.imports.get(unit)?.get(name);
+    if (saved) { return saved; }
+    const key = `${unit}:${name}`;
+    if (stack.includes(key)) { throw new Error(`Cyclic import ${[...stack, key].join(' -> ')}`); }
+    const target = this.pendingImports.get(unit)?.[name];
+    if (!target) { throw new Error(`Unresolved import ${key}`); }
+    const local = this.lookup(name, 'own', [target.namespace], unit);
+    const exported = this.lookup(target.name, 'own', [target.namespace], target.unit);
+    const left = SymbolTable.one(local), right = SymbolTable.one(exported);
+    if (!local.length || !exported.length || left.status !== 'bound' || right.status !== 'bound') {
+      throw new Error(`Unresolved or ambiguous import ${unit}:${name} from ${target.unit}:${target.name}`);
+    }
+    const origin = this.pendingImports.get(target.unit)?.[target.name]
+      ? this.import(target.unit, target.name, [...stack, key]) : right.to;
+    if (origin.namespace !== target.namespace || left.to.meaning !== origin.meaning) {
+      throw new Error(`Incompatible import ${unit}:${name} from ${target.unit}:${target.name}`);
+    }
+    const imports = this.imports.get(unit) ?? new Map<string, SymbolDeclaration>();
+    imports.set(name, origin); this.imports.set(unit, imports);
+    return origin;
+  }
   private declare(unit: string, scope: 'own' | 'shared', source: SymbolSource) {
     const m = source.module;
     if (!this.byUnit.has(unit)) { this.byUnit.set(unit, []); }
@@ -108,10 +144,12 @@ export class SymbolTable {
     for (const e of m.entities) { this.add({ source, unit, scope, namespace: 'entity', name: e.id, type: e.type }); }
     for (const p of m.people ?? []) { this.add({ source, unit, scope, namespace: 'person', name: p.id, type: 'person' }); }
     for (const r of m.relations) {
-      this.add({ source, unit, scope, namespace: 'relation', name: r.name, meaning: r.types.join(',') });
+      this.add({ source, unit, scope, namespace: 'relation', name: r.name,
+        meaning: JSON.stringify({ types: r.types, exclusive: r.exclusive }) });
     }
     for (const r of m.measures) {
-      this.add({ source, unit, scope, namespace: 'measure', name: r.name, meaning: r.types.join(',') });
+      this.add({ source, unit, scope, namespace: 'measure', name: r.name,
+        meaning: JSON.stringify({ types: r.types, most: r.most }) });
     }
     for (const q of m.queries) {
       const meaning = q.parameters.map(p => p.type).join(',');

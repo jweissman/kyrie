@@ -65,6 +65,34 @@ describe('the installation symbol table', () => {
     expect(isolated.resolve('one', 'known', 'function')).toEqual({ status: 'unresolved' });
   });
 
+  it('binds an imported relation to the specified installed declaration, through a re-export', () => {
+    const source = parsed('source.kyr', 'Module source "Source" { Relation known(group). }');
+    const relay = parsed('relay.kyr', 'Module relay "Relay" { Relation news(group). }');
+    const user = parsed('user.kyr', 'Module user "User" { Relation tidings(group). Query check() means tidings(?x). }');
+    const other = parsed('other.kyr', 'Module other "Other" { Relation known(group). }');
+    const symbols = SymbolTable.of(VocabularyContext.none.fork(), { shared: [], modules: [
+      { id: 'user', files: [user], imports: { tidings: { unit: 'relay', namespace: 'relation', name: 'news' } } },
+      { id: 'relay', files: [relay], imports: { news: { unit: 'source', namespace: 'relation', name: 'known' } } },
+      module('source', [source]), module('other', [other]),
+    ] });
+    const binding = symbols.references('user').find(r => r.name === 'tidings')?.binding;
+    expect(binding).toMatchObject({ status: 'bound', to: { id: 'source:relation:known', file: 'source.kyr' } });
+  });
+
+  it('rejects mismatched and cyclic imports instead of binding a local stand-in', () => {
+    const source = parsed('source.kyr', 'Module source "Source" { Relation known(group) exclusive. }');
+    const own = parsed('own.kyr', 'Module own "Own" { Relation news(group). }');
+    const entry = (id: string, file: SymbolSource, target: string, local: string) => ({
+      id, files: [file], imports: { [local]: { unit: target, namespace: 'relation' as const,
+        name: local === 'news' ? 'known' : 'news' } },
+    });
+    expect(() => SymbolTable.of(VocabularyContext.none.fork(), { shared: [],
+      modules: [module('source', [source]), entry('own', own, 'source', 'news')] })).toThrow('Incompatible import');
+    expect(() => SymbolTable.of(VocabularyContext.none.fork(), { shared: [], modules: [
+      entry('source', source, 'own', 'known'), entry('own', own, 'source', 'news'),
+    ] })).toThrow('Cyclic import');
+  });
+
   it('keeps the existing twins lint findings exactly', () => {
     const parsed = [
       { file: 'data/rules/core.kyr', module: parsedModule('rules', 'Relation known(group). Query wanted() means true.') },
