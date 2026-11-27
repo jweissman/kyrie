@@ -2,6 +2,8 @@
 export interface BundleSource {
   read(path: string): Promise<string>;
   resolve(relative: string, from?: string): string;
+  // A portable identity for a source inside the installation, if the host can provide one.
+  identity?(path: string): string | undefined;
 }
 export class BundlePaths {
   static dirname(path: string): string {

@@ -7,6 +7,7 @@ export class OverlayBundleSource implements BundleSource {
     for (const [path, text] of Object.entries(files)) { this.files.set(base.resolve(path), text); }
   }
   resolve(relative: string, from?: string): string { return this.base.resolve(relative, from); }
+  identity(path: string): string | undefined { return this.base.identity?.(path); }
   read(path: string): Promise<string> {
     const text = this.files.get(path);
     return text === undefined ? this.base.read(path) : Promise.resolve(text);

@@ -6,6 +6,7 @@ import { ModuleExports, type ExportEntry } from './module-exports';
 import type { InstalledModule } from './definition';
 import type { ModuleDraft } from './module-namespace';
 import type { Module } from '../lang';
+import type { BundleSource } from './bundle-source';
 
 type Unit = SymbolInstallation['modules'][number];
 export interface InstalledSymbols {
@@ -20,14 +21,16 @@ export class ModuleSymbols {
   }
   static prepare(draft: ModuleDraft, at: Omit<Parameters<typeof ModuleSymbols.bind>[0], 'own' | 'shared'> & {
     module: Module; unbound?: boolean; mine: Module[]; files: SourceFile[]; rules: SourceFile[];
+    source: BundleSource;
     declared: (FileSource | undefined)[];
     parse(context: VocabularyContext, file: SourceFile): Module;
     parseOwn(context: VocabularyContext, files: SourceFile[], values: (FileSource | undefined)[]): Module[];
   }): void {
     if (this.needed(at.module, at.imports, at.exports)) {
       const originals = at.mine.length ? at.mine : at.parseOwn(at.context, at.files, at.declared);
-      const own = originals.map((module, i) => ({ module, file: at.files[i]!.path }));
-      const shared = at.rules.map(file => ({ module: at.parse(at.context.fork(), file), file: file.path }));
+      const own = originals.map((module, i) => ({ module, file: this.file(at.source, at.files[i]!.path, `${at.id}/source/${i}`) }));
+      const shared = at.rules.map((file, i) => ({ module: at.parse(at.context.fork(), file),
+        file: this.file(at.source, file.path, `${at.id}/rule/${i}`) }));
       draft.symbols = this.bind({ ...at, own, shared });
     }
     if (at.unbound) { return; }
@@ -35,6 +38,10 @@ export class ModuleSymbols {
     if (!Object.keys(declared).length) { return; }
     ModuleExports.check(at.id, ModuleExports.read(at.exports, draft.exports, draft.instance.module));
     draft.exported = declared;
+  }
+  private static file(source: BundleSource, path: string, fallback: string): string {
+    const id = source.identity?.(path) ?? path;
+    return /^(?:\/|[A-Za-z]:[\\/]|\\\\)/.test(id) ? fallback : id;
   }
   static bind(at: { id: string; context: VocabularyContext; own: SymbolSource[]; shared: SymbolSource[];
     imports: Record<string, string>; requested: Record<string, string> | undefined;

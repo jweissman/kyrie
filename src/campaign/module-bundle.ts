@@ -422,7 +422,7 @@ export class ModuleBundle {
       draft = new ModuleNamespace(instance, combined, { id: request.id, seed,
         imports, globals: bound.globals ?? [], exports: ModuleExports.locals(manifest.exports), kinds: options.kinds })
         .draft();
-      ModuleSymbols.prepare(draft, { id: request.id, context: vocabulary, imports, module: instance.module,
+      ModuleSymbols.prepare(draft, { id: request.id, context: vocabulary, imports, source, module: instance.module,
         requested: request.imports, exports: manifest.exports, installed: options.installed, unbound: options.unbound,
         mine, files: own, rules, declared: sources, parse: this.parsed.bind(this), parseOwn: this.own.bind(this) });
     } catch (error) {
