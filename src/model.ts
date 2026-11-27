@@ -20,6 +20,8 @@ export interface Fighter {
   prepared?: string[][]; ready?: string[][];
   gold: number; experience: number;
   abilitySources?: Record<string, { id: string; kind: 'item'; name: string; use?: string; casterLevel?: number }>;
+  // Lessons received during this projection, including powers also supplied by equipment.
+  taught?: string[];
   // What it carries that it can use up here, by the ability each is used as (the items of that kind not yet used),
   // and what it has used up in this fight (PT-07).
   stock?: Record<string, string[]>; spent?: string[];

@@ -66,7 +66,7 @@ export class ModuleActions {
       Module: M.Module, Observation: M.Observation, Speaker: PersonParser.Speaker,
       WorldRule: M.WorldRule, Pursuit: M.Pursuit, PursuitUsing: M.PursuitUsing,
       Kind: StatementParser.Kind, Relation: M.Relation, Measure: M.Measure,
-      Query: M.Query, Parameter: StatementParser.Parameter, Entity: M.Entity,
+      Query: M.Query, Verb: M.Verb, Parameter: StatementParser.Parameter, Entity: M.Entity,
       Initial: StatementParser.Initial, Goal: StatementParser.Goal, Budget: StatementParser.Budget,
       Description: StatementParser.Description, ActionParameters: StatementParser.ActionParameters,
       Action: M.Action, Requires: StatementParser.Requires, Give: StatementParser.Give,

@@ -51,6 +51,40 @@ describe('relations and measures as typed exports', () => {
       .toEqual([['kind__tuned'], ['kind__tug']]);
     expect(ours(m.initial.map(c => c.call.name))).toEqual(['kind__tuned', 'kind__tug']);
     expect(user.imports).toEqual(expect.arrayContaining(['kind__tuned', 'kind__tug']));
+    expect(user.symbols?.bindings.tuned).toMatchObject({
+      id: 'kind:relation:tuned', name: 'tuned', namespace: 'relation', scope: 'own',
+    });
+    expect(user.symbols?.bindings.tuned?.file).toEndWith('v/kind.kyr');
+  });
+
+  it('rejects same-spelled local kinds from different installed modules', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'v/kind.json': JSON.stringify({ version: 1, source: 'kind.kyr', rules: ['world'], exports: { tuned: 'tuned' } }),
+      'v/kind.kyr': 'Module kind "Kind" { Kind mark. Relation tuned(mark). Goal false. }',
+      'v/user.json': JSON.stringify({ version: 1, source: 'user.kyr', rules: ['world'], imports: ['tuned'] }),
+      'v/user.kyr': 'Module user "User" { Kind mark. Relation tuned(mark). Goal false. }',
+    });
+    const kind = await Vocabulary.kind(source);
+    await expect(Vocabulary.user(source, [kind], { tuned: 'kind.tuned' })).rejects.toThrow('Incompatible import');
+  });
+  it('carries the original declaration through an installed re-export', async () => {
+    const source = new OverlayBundleSource(NodeBundleSource.shared, {
+      'v/kind.json': JSON.stringify({ version: 1, source: 'kind.kyr', rules: ['world'], exports: { tuned: 'tuned' } }),
+      'v/kind.kyr': 'Module kind "Kind" { Relation tuned(item, fact). Goal false. }',
+      'v/relay.json': JSON.stringify({ version: 1, source: 'relay.kyr', rules: ['world'],
+        imports: ['news'], exports: { news: 'news' } }),
+      'v/relay.kyr': 'Module relay "Relay" { Relation news(item, fact). Goal false. }',
+      'v/user.json': JSON.stringify({ version: 1, source: 'user.kyr', rules: ['world'], imports: ['tidings'] }),
+      'v/user.kyr': 'Module user "User" { Relation tidings(item, fact). Goal false. }',
+    });
+    const kind = await Vocabulary.kind(source);
+    const relay = await ModuleBundle.load({ id: 'relay', bundle: source.resolve('v/relay.json'),
+      imports: { news: 'kind.tuned' } }, { seed: 's', installed: [kind], vocabulary: Vocabulary.context }, source);
+    const user = await ModuleBundle.load({ id: 'user', bundle: source.resolve('v/user.json'),
+      imports: { tidings: 'relay.news' } }, { seed: 's', installed: [kind, ModuleNamespace.record(relay, 0)],
+      vocabulary: Vocabulary.context }, source);
+    expect(user.symbols?.bindings.tidings).toMatchObject({ id: 'kind:relation:tuned', name: 'tuned' });
+    expect(user.instance.module.relations.map(r => r.name)).toContain('kind__tuned');
   });
   it('keeps the consumer\'s own where it imports nothing', async () => {
     const source = Vocabulary.source(both, []), kind = await Vocabulary.kind(source);
@@ -65,4 +99,17 @@ describe('relations and measures as typed exports', () => {
     await expect(Vocabulary.user(source, [kind], { tuned: 'kind.tuned', tug: 'kind.tug' }))
       .rejects.toThrow(/Unresolved module import tug/);
   });
+});
+
+it('does not reuse a compiled hazard across verb vocabulary editions', async () => {
+  const source = new OverlayBundleSource(NodeBundleSource.shared, {
+    'v/hazard.json': JSON.stringify({ version: 1, source: 'hazard.kyr', rules: ['world'] }),
+    'v/hazard.kyr': 'Module hazard "Hazard" { Hazard hazard_lesson "Lesson" means "Instruct fire_ward to ally.". Goal false. }',
+  });
+  const request = { id: 'hazard', bundle: source.resolve('v/hazard.json') };
+  const accepts = CanonVocabulary.context().withVerbs(
+    () => ({ kind: 'learn', ability: 'fire_ward', target: 'ally' }), 'accepts');
+  const refuses = CanonVocabulary.context().withVerbs(() => { throw new Error('No such verb'); }, 'refuses');
+  await ModuleBundle.load(request, { seed: 's', vocabulary: accepts }, source);
+  await expect(ModuleBundle.load(request, { seed: 's', vocabulary: refuses }, source)).rejects.toThrow('No such verb');
 });

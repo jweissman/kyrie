@@ -12,6 +12,7 @@ export interface ModuleDraft {
   roles?: BoundRole[]; experience?: number;
   // The roles its manifest declares for its exports, by export (see ModuleExports).
   exported?: Record<string, ExportRole>;
+  symbols?: import('./module-symbols').InstalledSymbols;
   // Installed into a world already under way (a country beyond a march): its ending closes its chapter, not the book.
   chapter?: boolean;
 }
@@ -86,6 +87,17 @@ export class ModuleNamespace {
     if ('value' in next) { next.value = this.value(next.value, bound); }
     return next;
   }
+  private verb(v: NonNullable<Module['verbs']>[number]): NonNullable<Module['verbs']>[number] {
+    const name = this.rules.verbs?.some(shared => shared.name === v.name) ? v.name : `${this.bindings.id}__${v.name}`;
+    return { ...v, name,
+      parameters: v.parameters.map(p => ({ ...p, type: this.kinds[p.type] ?? p.type })),
+      lowering: this.change(v.lowering, v.parameters.map(p => p.name)) };
+  }
+  private query(q: Module['queries'][number]): Module['queries'][number] {
+    return { ...q, name: this.functions[q.name]!,
+      parameters: q.parameters.map(p => ({ ...p, type: this.kinds[p.type] ?? p.type })),
+      body: this.predicate(q.body, q.parameters.map(p => p.name)) };
+  }
   private action(action: Operator): Operator {
     const parameters = action.parameters?.map(p => ({ ...p, type: this.kinds[p.type] ?? p.type }));
     const bound = parameters?.map(p => p.name) ?? [];
@@ -138,9 +150,8 @@ export class ModuleNamespace {
         types: s.types.map(t => this.kinds[t] ?? t) })),
       measures: original.measures.map(s => ({ ...s, name: this.functions[s.name]!,
         types: s.types.map(t => this.kinds[t] ?? t) })),
-      queries: original.queries.map(q => ({ ...q, name: this.functions[q.name]!,
-        parameters: q.parameters.map(p => ({ ...p, type: this.kinds[p.type] ?? p.type })),
-        body: this.predicate(q.body, q.parameters.map(p => p.name)) })),
+      queries: original.queries.map(q => this.query(q)),
+      ...original.verbs ? { verbs: original.verbs.map(v => this.verb(v)) } : {},
       pursuits: original.pursuits?.map(p => ({ ...p, actor: this.entities[p.actor]!,
         ...(p.label ? { label: this.text(p.label) } : {}),
         when: this.predicate(p.when), target: this.predicate(p.target) })),
@@ -225,6 +236,7 @@ export class ModuleNamespace {
       actors: definition.actors.map(a => a.id), pressures: definition.pressures.map(p => p.id),
       outcomes: structuredClone(definition.outcomes), exports: draft.exports,
       ...(draft.exported ? { exported: { ...draft.exported } } : {}),
+      ...(draft.symbols ? { symbols: structuredClone(draft.symbols) } : {}),
       ...(draft.experience ? { experience: draft.experience } : {}), ...(draft.chapter ? { chapter: true } : {}) };
   }
 }

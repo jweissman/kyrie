@@ -1,5 +1,6 @@
 import { Canon } from '../canon/canon';
 import { parseAbility } from '../lang/parse';
+import { EffectShadows } from '../ports/effects';
 import { Content } from '../content';
 import { MechanicsText } from '../presentation/mechanics-text';
 import { PerkText } from '../presentation/perk-text';
@@ -39,7 +40,7 @@ export class HandbookText {
   }
   // What using an item does, said from the effect it is written as ("Heal (1d4 + 1) health to ally.").
   static use(effect: string): string {
-    try { return MechanicsText.ability(parseAbility('use', 'Use', effect)).summary.replace(/\.$/, ''); }
+    try { return MechanicsText.ability(parseAbility('use', 'Use', effect, EffectShadows.verb())).summary.replace(/\.$/, ''); }
     catch { return effect.replace(/\.$/, ''); }
   }
   static capital(s: string): string { return s.charAt(0).toUpperCase() + s.slice(1); }

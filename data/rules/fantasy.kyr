@@ -1,0 +1,3 @@
+Module fantasy_rules "Fantasy ability verbs" {
+  Verb teach(spell: ability, target: member) "Teach {spell} to {target}" lowers to Assert learned(target, spell).
+}

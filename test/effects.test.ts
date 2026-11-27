@@ -2,6 +2,7 @@ import { describe, expect, it } from 'bun:test';
 import { Battle, createArena } from '../src/arena';
 import { Content } from '../src/content';
 import { parseAbility } from '../src/lang/parse';
+import { FantasyVerbs } from '../src/canon/fantasy-verbs';
 import type { Fighter, Scenario } from '../src/model';
 
 // Turn order is Orsino's initiative (d20 + DEX modifier + initiative bonus, rolled each round); the fixture fixes it
@@ -20,7 +21,7 @@ class Fixture {
       f.traits = [];
     }
     scenario.combatants[0]!.abilities.push('test');
-    scenario.abilities = [...Content.abilities, { ...parseAbility('test', 'Test', text), ...options }];
+    scenario.abilities = [...Content.abilities, { ...parseAbility('test', 'Test', text, FantasyVerbs.resolve), ...options }];
     return scenario;
   }
   static battle(text: string, options: { cost?: number; cooldown?: number; seed?: string } = {}) {

@@ -10,6 +10,7 @@ import { Perks, type PerkContext } from '../rules/perks';
 import { Searching } from '../rules/searching';
 import { Effects, type EffectContext } from '../effects';
 import { parseAbility, type ArenaAbility } from '../lang/parse';
+import { EffectShadows } from '../ports/effects';
 import type { CreatureStore } from '../creature-store';
 import type { Creature } from '../creature';
 import type { Entity } from '../lang/module';
@@ -85,7 +86,7 @@ export class Items {
   }
   private static hazard(id: string, entities: Entity[] = []): ArenaAbility | undefined {
     const hazard = entities.find(e => e.id === id && e.type === 'hazard');
-    return hazard?.effect ? parseAbility(hazard.id, hazard.name, hazard.effect)
+    return hazard?.effect ? parseAbility(hazard.id, hazard.name, hazard.effect, EffectShadows.verb())
       : Content.abilities.find(a => a.id === id);
   }
   // A hazard is a mechanism of the installed module, carrying its own effect; legacy modules still name global
@@ -116,7 +117,8 @@ export class Items {
     if (!domain?.blessing) { throw new Error(`The faith of ${id} has no shrine blessing`); }
     const touch = domain.alignment === 'good' ? 'Heal (1d3) health to ally.'
       : `Deal (1d2) ${domain.alignment === 'evil' ? 'necrotic' : 'radiant'} damage to ally.`;
-    const ability = parseAbility(`favor_${id}`, `Favour of ${domain.name.toLowerCase()}`, `${touch} Apply favor_${id} to ally for 10 turns.`);
+    const ability = parseAbility(`favor_${id}`, `Favour of ${domain.name.toLowerCase()}`,
+      `${touch} Apply favor_${id} to ally for 10 turns.`, EffectShadows.verb());
     return this.resolve(store, { ids: [options.target], ability, actorId: options.source,
       targetId: options.target, seed: options.seed,
       source: { id: options.source, kind: 'shrine', name: options.name ?? domain.name } });
@@ -180,7 +182,7 @@ export class Items {
   private static consumable(kind: string, name: string, source: string): ArenaAbility {
     const key = `${kind}\u0000${source}`;
     let ability = this.consumables.get(key);
-    if (!ability) { ability = parseAbility(`item-${kind}`, name, source); this.consumables.set(key, ability); }
+    if (!ability) { ability = parseAbility(`item-${kind}`, name, source, EffectShadows.verb()); this.consumables.set(key, ability); }
     return { ...ability, name };
   }
   private static resolve(store: CreatureStore, options: { ids: string[]; ability: ArenaAbility; actorId: string;

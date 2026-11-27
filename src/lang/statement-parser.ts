@@ -3,6 +3,7 @@ import { ModuleParser } from './module-parser';
 import { KyrText } from './kyr-text';
 import { Arithmetic } from './arithmetic';
 import { Bringing } from './bringing';
+import { ReferenceSpans } from './reference-spans';
 
 type Node = ohm.Node;
 type Field = { field: string; value: unknown };
@@ -117,7 +118,10 @@ export class StatementParser {
     return { kind: 'compare', left: ModuleParser.ast(left), right: ModuleParser.ast(right), operator: operator.sourceString };
   }
   static Call(name: Node, _open: Node, args: Node, _close: Node) {
-    return { kind: 'call', name: name.sourceString, args: args.asIteration().children.map(ModuleParser.text) };
+    const children = args.asIteration().children;
+    const call = { kind: 'call' as const, name: name.sourceString, args: children.map(ModuleParser.text) };
+    ReferenceSpans.call(call, name, children);
+    return call;
   }
   static Expression(_open: Node, parts: Node, _close: Node) {
     return { kind: 'deem', expression: parts.sourceString.trim() };

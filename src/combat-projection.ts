@@ -26,8 +26,8 @@ export class CombatProjection {
         ...(fighter.prepared
           ? { prepared: structuredClone(fighter.prepared), ready: structuredClone(fighter.ready ?? []) } : {}),
         learnedAbilities: fighter.abilities.filter(id => !(original?.base.abilities ?? fighter.abilities).includes(id)
-          && !(original && fighter.abilitySources?.[id]
-            && !original.state.learnedAbilities.includes(id)) && !fighter.stock?.[id]),
+          && (fighter.taught?.includes(id) || (!(original && fighter.abilitySources?.[id]
+            && !original.state.learnedAbilities.includes(id)) && !fighter.stock?.[id]))),
         conditions: structuredClone(fighter.statuses),
         // What it used up in the fight is gone from its pack; a wand used and not spent keeps the charges it has left.
         ...(original?.state.inventory ? { inventory: structuredClone(original.state.inventory

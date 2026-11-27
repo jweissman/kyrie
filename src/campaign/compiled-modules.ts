@@ -34,7 +34,7 @@ export class CompiledModules {
   // Taken before the module's own files would be read: its texts and the rules' edition; each compiled reading of
   // them kept by what it read (get).
   static key(context: VocabularyContext, edition: string, texts: readonly string[]): string {
-    return `\u0004compiled\u0000${context.id}\u0000${edition}\u0000${texts.join('\u0001')}`;
+    return `\u0004compiled\u0000${context.id}\u0000${context.verbKey}\u0000${edition}\u0000${texts.join('\u0001')}`;
   }
   // The module compiled before, its own kinds put back in the catalogs as reading it would have put them: a copy, or,
   // shared, the one kept, for a caller that writes nothing of it (ModuleBundle.loading, which copies only what it

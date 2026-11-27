@@ -9,10 +9,15 @@ import { Superseded } from './superseded';
 import { Bringing } from './bringing';
 import type { VocabularyContext } from './vocabulary';
 import { DeclarationSites } from './declaration-sites';
+import { SymbolReferences } from './symbol-references';
+import type { Call } from './module';
+import type { CallSpans } from './reference-spans';
 
 // A module made of its header and its declarations' fields, as a whole parse makes it (ModuleParser.Module) and a
 // text parsed a declaration at a time does (DeclarationParses): the one way either is made.
-export type Field = { field: string; value: unknown };
+export type Field = {
+  field: string; value: unknown; typeSpans?: { at: number; end: number }[]; callSpans?: CallSpans[];
+};
 export class ModuleMade {
   // A module's header and its declarations' fields, each where it begins (by the character) in the text it was read
   // in, made one module; an error in one said where it is (locate). Where each name came from is kept beside it
@@ -30,14 +35,24 @@ export class ModuleMade {
     // And what a generator declared for it as values, each where its line was (DeclaredValues).
     DeclaredValues.interleave(starts, { context, module, into },
       i => sites.during({ field: fields[i]!.field, at: starts[i]! }, DeclarationSites.named(fields[i]!.value),
+        fields[i]!.typeSpans,
         () => locate(i, () => ModuleDeclarations.declare(context, module, fields[i]!, into))),
-      (d, place) => sites.during({ field: d.kind, at: d.at, generator: d.generator }, d.name, place));
+      (d, place) => sites.during({ field: d.kind, at: d.at, generator: d.generator }, d.name, undefined, place));
     const expanded = Discovery.describe(information);
     module.entities.push(...expanded.entities); module.initial.push(...expanded.initial);
     if (expanded.observations.length) { (module.observations ??= []).push(...expanded.observations); }
     Spatial.addEscorts(module); Spatial.addSearches(module); Endings.rank(module, fields);
     Superseded.lower(module, false); Bringing.lower(module);
-    module.sites = sites.finish(at.text);
+    const calls = new Map<Call, { field: string; start: number; spans: CallSpans }>();
+    fields.forEach((f, i) => f.callSpans?.forEach(spans =>
+      calls.set(spans.call, { field: f.field, start: starts[i]!, spans })));
+    const references = SymbolReferences.of(module).flatMap((ref, index) => {
+      const found = ref.call && calls.get(ref.call);
+      const span = found && (ref.argIndex === undefined ? found.spans.name : found.spans.args[ref.argIndex]);
+      return found && span ? [{ index, span: { field: found.field, at: found.start + span.at,
+        end: found.start + span.end } }] : [];
+    });
+    module.sites = sites.finish(at.text, references);
     // A module that never says what would end it goes on: Goal false is the default, and one file of a module in
     // several files says it for all of them.
     return module;
