@@ -17,6 +17,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { TerminalWalk } from '../../src/cli/terminal-walk';
 import { WalkStyle } from '../../src/cli/walk-style';
+import { noColor } from '../support/no-color';
 import { Creation } from '../../web/engine/creation';
 import { CreationFlow } from '../../src/creation/creation-flow';
 import type { Setting } from '../../src/creation/protocol';
@@ -252,7 +253,7 @@ describe('the terminal\'s headless mode, in the awkward world', () => {
   // 14 November: "worth a look" told the player where curiosity ought to occur before the fiction had produced it).
   it('keeps its plain lines: numbered, the aim said in words, never an editorial word', async () => {
     const t = await Awkward.start();
-    const walked = await TerminalWalk.run(t.session, WalkStyle.scripted(['follow 1', 'look']));
+    const walked = await noColor(() => TerminalWalk.run(t.session, WalkStyle.scripted(['follow 1', 'look'])));
     const text = walked.transcript.join('\n');
     expect(text).not.toContain('\x1b[');
     expect(text).toMatch(/^1\. Ask Osric whether .* {2}\[your aim\]$/m);

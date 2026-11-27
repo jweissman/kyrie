@@ -35,6 +35,17 @@ describe('a player revision', () => {
     for (const k of Object.keys(once) as (keyof typeof once)[]) { expect(again[k]).toBe(once[k] as never); }
     expect(once.seen.choices.every((choice, i) => choice === once.frame.rows[i]!.choice)).toBe(true);
   });
+  it('does not ask for offers again on an unchanged between-command revision', async () => {
+    const c = (await Arrivals.start()).campaign, offered = c.offered.bind(c);
+    let calls = 0;
+    c.offered = () => { calls++; return offered(); };
+    const revision = PlayerRevision.of(c), made = calls;
+    expect(PlayerRevision.of(c)).toBe(revision);
+    expect(calls).toBe(made);
+    c.fighting = true;
+    PlayerRevision.of(c);
+    expect(calls).toBe(made + 1);
+  });
   it('is a new revision, and its readings new, where the world or the log changes', async () => {
     const s = await Arrivals.start(), c = s.campaign, before = readings(c), revision = PlayerRevision.of(c);
     Arrivals.returning(s);

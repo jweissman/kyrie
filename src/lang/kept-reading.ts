@@ -15,6 +15,22 @@ export interface Kept<T> { value: T; reads: string[]; stamped: number[]; picks?:
 // in order found first: a name of which that happened is held to have changed whole. What holds is brought up to this
 // world, so the next is compared with it; and what it read is noted in any reading under way (see WorldReads.note).
 export class KeptReading {
+  private static readonly memoed = new WeakMap<object,
+    WeakMap<object, { module: World['module']; kept: Kept<unknown> }>>();
+  // A keyed view kept only while its world reads hold; a non-World dependency must be part of the key or unkeepable.
+  static memo<T>(world: World, key: object, read: () => T,
+    options: { keep?: boolean; scope?: object } = {}): T {
+    const keep = options.keep ?? true, scope = options.scope ?? world.module;
+    if (!keep) { return read(); }
+    const scoped = this.memoed.get(scope) ?? new WeakMap<object, { module: World['module']; kept: Kept<unknown> }>();
+    this.memoed.set(scope, scoped);
+    const was = scoped.get(key);
+    if (was && was.module === world.module && this.holds(world, was.kept)) { return was.kept.value as T; }
+    const now = this.read(world, read);
+    if (now.kept) { scoped.set(key, { module: world.module, kept: now.kept }); }
+    else { scoped.delete(key); }
+    return now.value;
+  }
   // A reading done afresh, and kept if it read by name (none where it read everything).
   static read<T>(world: World, read: () => T): { value: T; kept?: Kept<T> } {
     const { value, reads, picks } = WorldReads.of(read);

@@ -5,6 +5,7 @@ import { Runner, type Said } from '../../src/cli/runner';
 import { RunnerFight } from '../../src/cli/runner-fight';
 import { TerminalWalk } from '../../src/cli/terminal-walk';
 import { WalkStyle } from '../../src/cli/walk-style';
+import { noColor } from '../support/no-color';
 
 // A company that falls is told how, wherever it is played (AB-04, the adventure branch's R80: "a fallen company is left
 // with nothing offered and no ending"). The page had its last page (Obituary); the terminal had said only "The story
@@ -38,7 +39,8 @@ describe('a company fallen', () => {
   });
   it('is told its ending by the terminal', async () => {
     const t = await Tiny.start(hall, { party });
-    const walked = await TerminalWalk.run(t.session, WalkStyle.scripted(['Attack the barrow-king', 'Press on to the end']));
+    const walked = await noColor(() => TerminalWalk.run(t.session,
+      WalkStyle.scripted(['Attack the barrow-king', 'Press on to the end'])));
     const text = walked.transcript.join('\n');
     expect(text).toMatch(/^Ama is dead$/m);
     expect(text).toMatch(/Ama fell at the hall/);

@@ -429,7 +429,7 @@ export class Runner {
   // The question the turn as it stands asks (the session's focus), its frame told as the turn was.
   private asking(screen: Screen): Question | undefined {
     return this.with ? MenuTree.question({ screen, leaf: this.leafed ?? { glance: this.glanced() } as Leaf },
-      this.session.focus, this.session.conversation) : undefined;
+      this.session.focus, this.session.conversation, this.session.campaign) : undefined;
   }
   private opened(opener: Offered, screen: Screen): Said {
     const rows = opener.opens ?? [], g = this.glanced(), says = opener.says ? [Typography.plain(opener.says)] : [];

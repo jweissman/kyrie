@@ -32,6 +32,7 @@ export interface SpatialScene {
 }
 // What kind of place it is (a room, a settlement, wild country); and the zone it is in, which no module now says.
 export interface SceneMetadata { kind?: string; zone?: string }
+export type ChoiceRows = ReadonlyArray<Readonly<ReturnType<typeof ActionPresentation.choices>[number]>>;
 export interface PartyMember {
   id: string; name: string; raceId: string; classId?: string; level: number; hp: number; maxHp: number;
   mana: number; maxMana: number; slots?: number[]; maxSlots?: number[]; gold: number; experience: number;
@@ -107,15 +108,18 @@ export class PlayerView {
   private static test(world: World, name: string, ...args: string[]): boolean {
     return world.relates(name) && world.test(ModuleWriter.call(name, ...args));
   }
-  // The choices are worked out once for each list of actions on offer; each caller gets its own rows.
-  private static readonly listed = new WeakMap<readonly Operator[], ReturnType<typeof PlayerView.list>>();
+  // Rows reuse their WorldReads only while those reads hold; readout-dependent rows stay within a player revision.
   static choices(campaign: Campaign): ReturnType<typeof PlayerView.list> {
-    return Costs.time('rows asked', () => {
-      const offered = campaign.offered();
-      let rows = this.listed.get(offered);
-      if (!rows) { rows = Costs.time('rows', () => this.list(campaign, offered)); this.listed.set(offered, rows); }
-      return rows.map(row => ({ ...row, choice: { ...row.choice } }));
-    });
+    return Costs.time('rows asked', () => this.frameRows(campaign)
+      .map(row => ({ ...row, choice: { ...row.choice } })));
+  }
+  static frameRows(campaign: Campaign): ChoiceRows {
+    const revision = PlayerRevision.of(campaign);
+    return revision.reading('frameRows', () => campaign.within(() => campaign.readWorld(revision.offered, () => {
+      const rows = Costs.time('rows', () => this.list(campaign, revision.offered));
+      for (const row of rows) { Object.freeze(row.choice); Object.freeze(row); }
+      return Object.freeze(rows);
+    }, { keep: PlayerRevision.keeping, scope: campaign }) as ChoiceRows));
   }
   // Actions as the page offers them: what the company sees, named as it would name them, worded, alike ones as one
   // (also what the company could do with more coin: CoinReading).

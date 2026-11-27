@@ -7,7 +7,8 @@ import { ModuleBundle, type BundleRequest } from './module-bundle'; import type 
 import { ModuleInstallations } from './module-installations'; import { CanonInstall } from './canon-install';
 import { CreatureFacts } from './creature-facts'; import { Progression } from './progression';
 import type { InstalledModule, CampaignActor, CampaignDefinition, CampaignInstance } from './definition';
-import { ModuleWriter } from '../lang/module-writer'; import { ModuleCompiler, WorldReads } from '../lang';
+import { KeptReading, ModuleCompiler, WorldReads } from '../lang';
+import { ModuleWriter } from '../lang/module-writer';
 import { CreatureStore } from '../creature-store'; import { HeldConditions } from './held-conditions';
 import { CommittedWorld } from './committed-world'; import { Endings } from '../lang/endings';
 import { Projection } from './projection'; import { CampaignGrounding } from './campaign-grounding';
@@ -187,7 +188,7 @@ export class Campaign implements WatchHost {
   }
   get state(): CampaignState {
     this.keepFacts();
-    return { ...structuredClone(this.current), party: this.party, creatures: this.creatures.snapshot,
+    return { ...structuredClone(this.current), party: this.fighters, creatures: this.creatures.snapshot,
       ...(this.definition?.installations
         ? { modules: Progression.statuses(this.installations, this.world, this.observations) } : {}),
       ...(this.definition ? { outcomes: Progression.outcomes(this.world, this.definition),
@@ -195,14 +196,12 @@ export class Campaign implements WatchHost {
   }
   // Access exposes mutable state outside World; enclosing world-read computations cannot be kept.
   get readout() { WorldReads.all(); return { ...this.current, creatures: this.creatures.live }; }
+  get readWorld() { return KeptReading.memo.bind(KeptReading, this.world); }
   // The log, the action schemas and the company as it would fight, likewise without copies. Never change them.
-  // elapsed: the turns elapsed now, for the session's reckoning between commands (its focus, OR-1451); no rule's.
-  get history(): readonly CampaignEvent[] { return this.log; } get elapsed(): number { return this.current.elapsed; }
-  get schemaList(): readonly Operator[] { return this.definition?.schemas ?? []; }
+  get history() { return this.log; } get schemaList() { return this.definition?.schemas ?? []; }
   get installed(): string[] { return (this.definition?.installations ?? []).map(m => m.id); }
-  get fighters(): Fighter[] { return this.party; }
-  private get party(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.catalog, this.creatures.get(id), 'fighters')); }
-  get events(): CampaignEvent[] { return structuredClone(this.log); }
+  get fighters(): Fighter[] { return this.current.partyIds.map(id => CombatProjection.fighter(this.catalog, this.creatures.get(id), 'fighters')); }
+  get events() { return structuredClone(this.log); }
   // What the company was told of the last command, kept with it (see Telling): what it has heard is not said again.
   // And what the world said that was held back as told lately (see RuleWords).
   told(voiced: NonNullable<CampaignEvent['voiced']>, unsaid: string[] = []) {

@@ -20,7 +20,7 @@ export class QuestionAsked {
       session.tell([...says ? [{ kind: 'telling' as const, text: says }] : [], ...untold.exchange
         ? TalkLines.lines(frame as Frame, choice, untold.said ?? '', c.lines).filter(l => this.said(l)) : []]);
     }
-    const question = MenuTree.question(frame, session.focus, session.conversation);
+    const question = MenuTree.question(frame, session.focus, session.conversation, session.campaign);
     session.questioned({ screen: frame.screen, glance: frame.leaf.glance, question });
     return question;
   }

@@ -95,7 +95,7 @@ export class Focusing {
         const kept = at.conversation ? { conversation: at.conversation } : {};
         return { focus: { ...focus, page: 0, trading: false }, ...kept };
       }
-      const now = campaign.elapsed;
+      const now = campaign.tickState.current.elapsed;
       return { focus: { kind: 'talk', with: c.with, page: 0, trading: false }, conversation: { with: c.with, since: now,
         at: now, lines: [], asked: [], turned: at.turned, untold: { opening: true, exchange: false } } };
     }
