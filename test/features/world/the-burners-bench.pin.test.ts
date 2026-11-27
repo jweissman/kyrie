@@ -34,7 +34,7 @@ describe('World › The burners\' bench', () => {
     await t.play('^Talk to Sable', '?^Say you have come for what grows there', '^Say you do not know');
     expect(knows('wood_hut')).toBe(false);
     await t.play('^Ask Sable why the burners left the woods');
-    expect(told()).toMatch(/A door is cut on the stone, he said, drawn shut/);
+    expect(told()).toMatch(/a door cut on the stone, he said/);
     expect([knows('wood_hut'), knows('wood_mark')]).toEqual([true, true]);
     // The shrine-keeper, told the mark unasked, says what lies under the stones: the company has never been there.
     await t.play('^Take your leave', '^Talk to Ida', '^Tell Ida a shut door is cut on the stones');

@@ -28,7 +28,7 @@ describe('World › The stones in sight', () => {
     const ways = () => t.journey.choices().map(c => c.command).filter(c => c.startsWith('go('));
     await t.play('>t__n_wood_edge', '>t__n_wood_ride');
     expect(knows('wood_stones_known')).toBe(true);
-    expect(t.journey.seen()).toMatch(/grey stones lie in a broken row/);
+    expect(t.journey.seen()).toMatch(/Grey stones lie in a broken row/);
     expect(ways().some(w => w.endsWith(',t__n_wood_stones)'))).toBe(true);
     await t.play('>t__n_wood_stones');
     // Seen, not searched for: the steps between the stones, and the way down them.

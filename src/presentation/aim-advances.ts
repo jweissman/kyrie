@@ -52,9 +52,10 @@ export class AimAdvances {
   static readonly worthy = 5;
   private static raises(campaign: Campaign, action: Operator, actor: string): boolean {
     if (!/^sell/.test(action.schema ?? '')) { return this.pays(action, actor); }
-    const w = campaign.world, ware = action.bindings?.ware, kind = ware ? w.one('itemKind', ware) : undefined;
-    if (!kind || !w.module.measures.some(m => m.name === 'worth')) { return true; }
-    return w.number(ModuleWriter.call('worth', kind)) >= this.worthy;
+    // Its worth as the catalog says it, by the kind the sale names (its form): a kind the catalog does not price is
+    // the module's own, and sells.
+    const value = campaign.catalog.find(action.bindings?.form ?? '')?.value;
+    return value === undefined || value >= this.worthy;
   }
   // Where what the aim followed waits on lies hidden, to be searched for: the places, while it is still to be found.
   // From anywhere else the way there is the aim's (see Glance.ways): inside Murkweard, the cross at its door still to
