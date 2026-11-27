@@ -49,6 +49,31 @@ describe('rules woken by what was written', () => {
     expect(wakes.sleeps(wakes.asleep(w), gate)).toBe(false);
     expect(CampaignTick.instances(gate, w).length).toBe(1);
   });
+  // A command that fails in its watches puts the world back as it was (test/command-faults): what was filed in the
+  // failed watches is of another branch of the line, and a name written there and not here (the reeve marked, then
+  // put back) wakes what it held, as a name written here does (OR-1438: the rim path's stoodAt, never asserted again
+  // when the wait was done over).
+  it('wakes in a world put back what was filed in the branch that failed', () => {
+    const y = ModuleParser.parse(`Module b "B" { Kind thing. Kind place. Relation at(thing, place) exclusive.
+      Relation marked(thing). Entity reeve: thing "the reeve". Entity yard: place "the yard".
+      Entity lane: place "the lane". Initially Assert at(reeve, lane).
+      Rule mark when at(reeve, yard) and not marked(reeve) { Assert marked(reeve). } }`);
+    const mark = y.rules![0]!, wakes = RuleWakes.of(y), base = new World(y).apply(y.initial);
+    const there = ModuleWriter.call('at', 'reeve', 'yard');
+    expect(CampaignTick.instances(mark, base)).toEqual([]);
+    wakes.asleep(base);
+    // The branch that failed: the reeve came, the rule fired, and it was held again on his being marked.
+    const failed = base.apply([{ kind: 'assert', call: there }]);
+    expect(wakes.sleeps(wakes.asleep(failed), mark)).toBe(false);
+    const marked = failed.apply([{ kind: 'assert', call: ModuleWriter.call('marked', 'reeve') }]);
+    wakes.asleep(marked);
+    expect(CampaignTick.instances(mark, marked)).toEqual([]);
+    wakes.asleep(marked);
+    // Put back, and done again: the reeve comes, unmarked, and the rule is awake to mark him.
+    const again = base.apply([{ kind: 'assert', call: there }]);
+    expect(wakes.sleeps(wakes.asleep(again), mark)).toBe(false);
+    expect(CampaignTick.instances(mark, again).length).toBe(1);
+  });
   it('holds nothing asleep in a world of another line', () => {
     const w = new World(m).apply(m.initial);
     for (const r of m.rules!) { CampaignTick.instances(r, w); }
