@@ -3660,5 +3660,10 @@
   "kind": "direction",
   "pri": "P2",
   "why": "how the rest of a big place should be chosen, a design question beyond the contract"
+ },
+ "OR-1491": {
+  "kind": "defect",
+  "pri": "P1",
+  "why": "surfaces shown without being earned, against the owner's ruling"
  }
 }

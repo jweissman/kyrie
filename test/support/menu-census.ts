@@ -2,6 +2,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { Frame } from '../../src/creation/protocol';
 import { MenuModel } from '../../src/frame/menu-model';
+import { MenuTree } from '../../src/frame/menu-tree';
 import type { Choice } from '../../src/ui/choice-list';
 import type { AppState, ReaderApp } from '../../web/reader/reader-app';
 import { WorldStage } from '../../web/reader/stage/world-stage';
@@ -56,5 +57,29 @@ export class MenuCensus {
     }
     return { holders: [...holders].map(h => named.get(h) ?? '?'), menus: holders.size, rows, promoted, sources,
       rail: /\sdata-rail="true"/.test(html) };
+  }
+  // What the lenses gave (each act of every lens: its four, its rest, and what is within its openers) that the place's
+  // one menu does not reach (OR-1491: the lenses are not earned, so nothing they gave may be out of reach): an act is
+  // reached where it is a row of one of the question's pages, or within the page of a row there (someone talked to,
+  // a thing looked at, a way's own acts), by the row that opens it.
+  static unreached(frame: Frame): string[] {
+    const first = frame.question?.place;
+    if (!first) { return []; }
+    const rows = Array.from({ length: first.page.of }, (_, n) =>
+      MenuTree.question(frame, { kind: 'place', page: n }).place?.rows ?? []).flat();
+    const ids = new Set(rows.flatMap(r => [r.id, r.command ?? '']));
+    const lenses = Object.values(frame.leaf.glance?.lenses ?? {});
+    const acts = lenses.flatMap(l => [...l.promoted, ...l.rest, ...Object.values(l.leaves ?? {}).flat(),
+      ...l.kept ?? []]);
+    // A way into another hex is the map's, earned by a map found (the owner, 25 November): not the menu's to reach.
+    const crossing = new Set(frame.screen.exits.filter(e => e.crosses).map(e => e.id));
+    return [...new Set(acts.filter(a => !crossing.has(a.choice) && !MenuCensus.reached(ids, a))
+      .map(a => `${a.choice} (${a.label})`))];
+  }
+  private static reached(ids: Set<string>, a: { choice: string; command?: string; subject?: string }): boolean {
+    if (ids.has(a.choice) || (a.command && ids.has(a.command))) { return true; }
+    const of = [a.subject, /^(.+?)[#/]/.exec(a.choice)?.[1]].filter((x): x is string => !!x);
+    return of.some(x => ids.has(x) || ids.has(`${x}#talk`) || ids.has(`${x}#look`)
+      || [...ids].some(id => id.startsWith(`${x}/`)));
   }
 }

@@ -14,10 +14,12 @@ import { ContinuityCensus } from '../scripts/continuity-census';
 // walks (the warrior's golden walk, which is the first hour, the cold mage's, eighty steps of the gold-follower), on a
 // life that has earned nothing, the page drawn whole (MenuCensus) holds exactly one menu, every row in it is the
 // engine's (its four, or the place's question: its pages and Something else…), none of the page's own, and at most four
-// of them promoted. And no rail, with nothing earned. The census is printed, for the commit to quote.
+// of them promoted. And no rail where nothing is earned (OR-1491: the mage, a scholar, has the journal), and every
+// act the lenses would have given within reach of the one menu (MenuCensus.unreached). The census is printed,
+// for the commit to quote.
 describe('every resting page of the census walks', () => {
   for (const w of ContinuityCensus.walks) {
-    it(`${w.name}: one menu, the engine's rows, at most four promoted, no rail`, async () => {
+    it(`${w.name}: one menu, the engine's rows, four promoted at most, no rail, the lenses' acts reached`, async () => {
       const { journey } = await PlayTool.start(PlayTool.parse(['--world', 'iscoed', '--as', w.as]));
       const s = journey.session, r = new Runner(s), honest = new HonestPlayer(s), wrong: string[] = [];
       const turns = w.lines ? ContinuityCensus.lines(w.lines) : Array.from({ length: w.steps ?? 0 }, () => '');
@@ -32,8 +34,10 @@ describe('every resting page of the census walks', () => {
         const frame = { ...framed, question: MenuTree.question(framed, s.focus, s.conversation) } as Frame;
         const c = MenuCensus.count(MenuCensus.html(frame));
         pages.push(c);
-        const why = [c.menus !== 1 ? `${c.menus} menus (${c.holders.join(' ')})` : '', c.promoted > 4 ? `${c.promoted} promoted` : '',
-          c.sources.opener ? `${c.sources.opener} rows of the page's own` : ''].filter(Boolean);
+        const lost = MenuCensus.unreached(frame);
+        const why = [c.menus !== 1 ? `${c.menus} menus (${c.holders.join(' ')})` : '',
+          c.promoted > 4 ? `${c.promoted} promoted` : '', c.sources.opener ? `${c.sources.opener} rows of the page's own` : '',
+          c.rail && !screen.surfaces?.length ? 'a rail, nothing earned' : '', lost.length ? `out of reach: ${lost.join('; ')}` : ''].filter(Boolean);
         if (why.length) { wrong.push(`t${turn} ${screen.place.id}: ${why.join(', ')}`); }
       }
       const sum = (f: (c: Counted) => number) => pages.reduce((n, c) => n + f(c), 0);

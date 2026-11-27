@@ -128,9 +128,10 @@ Module world_core "Bodies, places, time and the shared catalog" {
   Entity craft_court: craft "the court". Entity craft_margins: craft "the margins".
   // What of the game's own surfaces the company has earned (compactification, the owner, 26 November: "surfaces are
   // earned"): each lens, the map, the encyclopedia and the journal, shown to every client once earned and kept after.
-  // The engine writes it (CreatureFacts), never a module: every lens once any of the company has come to the fourth
-  // level (act II); the encyclopedia once it has stood in a library; the journal once one of it has done the work of
-  // learning (a scholar, a scribe). Nothing writes the map's while compactification holds.
+  // The engine writes it (CreatureFacts), never a module, and only by a find (the owner's playtest of 27 November: level
+  // alone earns nothing): the map once one of the company carries a map of the land; the encyclopedia once it has stood
+  // in a library; the journal once one of it has done the work of learning (a scholar, a scribe). No find grants a lens
+  // yet, so none is earned.
   Kind surface. Relation earned(group, surface).
   Entity lens_talk: surface "the talk lens". Entity lens_go: surface "the places lens".
   Entity lens_look: surface "the things lens". Entity lens_wait: surface "the time lens".

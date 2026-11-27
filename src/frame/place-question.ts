@@ -1,6 +1,7 @@
 import type { Choice } from '../ui/choice-list';
 import type { Frame } from '../creation/protocol';
 import type { Offered } from '../presentation/offer';
+import type { LensAct, Lensed } from '../presentation/glance-types';
 import type { Leaf } from '../presentation/fold';
 import { Attending } from '../ui/attention';
 import type { MenuNode } from './menu-tree';
@@ -30,7 +31,8 @@ export class PlaceQuestion {
     const all = [...Attending.all(menu.choices), ...Attending.all(menu.scene.subjects.flatMap(x => x.choices))];
     const four = offer.primary.map(o => this.chosen(all, o));
     const led = new Set(four.flatMap(c => [c.id, c.command ?? '']));
-    const rest = [this.yourself, ...this.top(menu).filter(c => !led.has(c.id) && !(c.command && led.has(c.command)))];
+    const rest = [this.yourself, ...this.top(menu), ...this.lensed(frame, menu)]
+      .filter(c => !led.has(c.id) && !(c.command && led.has(c.command)));
     // All of it on one page where it fits there; else the four, then the rest a page of four at a time.
     if (four.length + rest.length <= this.room) {
       const rows = [...four, ...rest];
@@ -56,6 +58,22 @@ export class PlaceQuestion {
   private static top(menu: MenuNode): Choice[] {
     return menu.choices.map((c, i) => ({ c, i })).sort((a, b) => this.rank(a.c) - this.rank(b.c) || a.i - b.i)
       .map(x => x.c);
+  }
+  // What the lenses give that the scene's rows do not hold (standing one's ground before a threat, a blow at someone
+  // dangerous on the picture), so that with no lens earned nothing they gave is out of reach (OR-1491); never a way
+  // into another hex, which is the map's (the owner, 25 November: ways to another hex appear only on the map).
+  private static lensed(frame: Pick<Frame, 'screen' | 'leaf'>, menu: MenuNode): Choice[] {
+    const lenses = frame.leaf.glance?.lenses ?? {}, crossing = new Set(frame.screen.exits.filter(e => e.crosses)
+      .map(e => e.id));
+    const had = new Set([...Attending.all(menu.choices), ...Attending.all(menu.scene.subjects.flatMap(x => x.choices))]
+      .flatMap(c => [c.id, c.command ?? '']));
+    const tones = { places: 'way', people: 'person', things: 'thing', time: 'company' } as const;
+    const all = Object.entries(lenses) as [string, Lensed][];
+    return all.flatMap(([lens, l]) => [...l.promoted, ...l.rest].map(a => ({ a: a as LensAct, lens })))
+      .filter(({ a }) => !!a.command && !had.has(a.choice) && !had.has(a.command) && !crossing.has(a.choice))
+      .filter(({ a }, i, all) => all.findIndex(x => x.a.choice === a.choice) === i)
+      .map(({ a, lens }) => ({ id: a.choice, label: a.label, command: a.command!,
+        tone: tones[lens as keyof typeof tones] ?? 'company', ...'disabled' in a && a.disabled ? { disabled: a.disabled } : {} }));
   }
   private static rank(c: Choice): number {
     return c.tone === 'way' ? 0 : ['person', 'creature'].includes(c.tone) ? 1 : c.tone === 'thing' ? 2 : 3;

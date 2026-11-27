@@ -37,6 +37,9 @@ export class SceneRail {
     // beside it; the map and the book beside it either way. Folded, the strip cannot be pressed: the diamond alone is.
     // Only the lenses earned stand in it (Surfaces, OR-1241): with none, neither they nor their diamond.
     const rail = app.state.frame?.leaf.glance?.rail, any = !rail || rail.lenses.length > 0;
+    // No rail at all until something on it is earned by a find (the owner's playtest of 27 November, OR-1491): a map,
+    // the journal, a lens. The company's own page is a row of the place's one menu (PlaceQuestion.yourself).
+    if (!any && !SceneRail.earned(app)) { return null; }
     const folded = !!rail && any, open = folded && Folded.open(app);
     const lenses = <>
         {Surfaces.lens(rail, 'talk') && <SceneRail.Talk app={app} />}
@@ -61,7 +64,7 @@ export class SceneRail {
         {...folded ? { 'data-fold': 'folded' } : {}} aria-label="Go, look, wait, search, the map and your book">
         {folded ? <><div className="lenses-fold" id="lenses-fold" role="group" aria-label="The lenses">{lenses}</div>
           <Folded.Mark app={app} open={open} /></> : any && lenses}
-        <span className="rail-gap" aria-hidden="true" />
+        {any && SceneRail.earned(app) && <span className="rail-gap" aria-hidden="true" />}
         <SceneRail.Books app={app} />
       </nav>
     );
@@ -94,12 +97,15 @@ export class SceneRail {
   // rest (the owner, 11 November: no bar of them across the top of the page).
   // On the map, its mark is pressed, and touched goes back to where the company is (the owner, 11 November: the map
   // had its own bar of Map and Book across its top).
+  // Each only once earned (OR-1491): the map by a map of the land carried, the book by the journal (its notes); with
+  // neither, no rail (the company's page is the menu's row, and its key).
   static Books({ app, alone, onMap }: { app: ReaderApp; alone?: boolean; onMap?: boolean }) {
+    if (!onMap && !SceneRail.earned(app)) { return null; }
     const marks = <>
       <SceneRail.MapMark app={app} onMap={onMap} />
-      <button type="button" className="rail-mark" data-action="book" aria-label="Your book"
-        onClick={() => app.show(SceneRail.book(app))}><Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} />
-      </button>
+      {Surfaces.has(app.state.frame?.screen, 'the_journal') && <button type="button" className="rail-mark"
+        data-action="book" aria-label="Your book" onClick={() => app.show(SceneRail.book(app))}>
+        <Glyphs.View id="the_book" className="rail-glyph" /><News.Pip app={app} /></button>}
     </>;
     return alone ? <nav {...PageFrame.slot('rail')} className={`scene-rail${onMap ? ' on-map' : ''}`} aria-label="The map and your book">{marks}</nav>
       : marks;
@@ -147,6 +153,13 @@ export class SceneRail {
       <Glyphs.View id={glyph} className="rail-glyph" />
       {!shut && <Pip.View mark={lit} />}
     </button>;
+  }
+  // Whether anything of the map's or the book's is earned: the map (or, inside, the compass, which is the places
+  // lens), or the journal.
+  static earned(app: ReaderApp): boolean {
+    const screen = app.state.frame?.screen;
+    return Surfaces.has(screen, 'the_journal')
+      || (CompassStage.of(app) ? Surfaces.has(screen, 'lens_go') : Surfaces.has(screen, 'the_map'));
   }
   // The book's page it opens at: the notes where the journal is earned, else the company, its one page (OR-1244).
   static book(app: ReaderApp): 'journal' | 'company' {
