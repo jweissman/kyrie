@@ -2,6 +2,8 @@ import { EngineHost } from '../../web/engine/engine-host';
 import { Creation } from '../../web/engine/creation';
 import { MenuModel, type Menu } from '../../src/frame/menu-model';
 import { TalkQuestion, type Question } from '../../src/frame/talk-question';
+import { PlaceQuestion } from '../../src/frame/place-question';
+import { MenuTree } from '../../src/frame/menu-tree';
 import { QuestionAsked } from '../../src/frame/question-asked';
 import { PlaySession, type SessionCheckpoint } from '../../src/session/play-session';
 import { Runner, type Said } from '../../src/cli/runner';
@@ -19,7 +21,8 @@ import type { Frame } from '../../src/creation/protocol';
 // What one client shows at a step (OR-1450, engine-focus.md §6): the world (its digest) and where the company is;
 // whom it attends to (the focus: "place", "person:<id>", "thing:<id>"); and the question's rows, each by the command
 // it does (a turning to someone, which does none, by its own id), with the Atlas kinds it is marked by.
-export interface Seen { digest: string; place: string; focus: string; rows: Record<string, string[]> }
+// paged: at the place, the page of its question each draws (OR-1494), by the commands of its rows, in order.
+export interface Seen { digest: string; place: string; focus: string; rows: Record<string, string[]>; paged: string[] }
 export type Client = 'page' | 'terminal' | 'runner';
 
 // The three clients over one game (the page's engine, the terminal's session and its turn, and the runner over a
@@ -72,22 +75,42 @@ export class ThreeClients {
     glance: ReturnType<typeof Narrator.leaf>['glance'] } {
     const c = this.terminal.campaign, screen = ScreenModel.build(c);
     const leaf = new TerminalScene().leaf(c, screen, this.told);
-    return { question: QuestionAsked.settle(this.terminal, { screen, leaf }), screen, glance: leaf.glance };
+    const framed = MenuTree.framed({ screen, leaf } as unknown as Omit<Frame, 'menu'>);
+    return { question: QuestionAsked.settle(this.terminal, framed), screen, glance: leaf.glance };
   }
   // What each shows now.
   seen(): Record<Client, Seen> {
     const runner = this.runner.session, terminal = this.terminalAsked();
     return {
       page: this.of(Digest.of(this.terminalOf(this.host)), this.page.frame.screen.place.id,
-        ThreeClients.focus(this.page.frame.question?.focus), this.pageRows()),
+        ThreeClients.focus(this.page.frame.question?.focus), { rows: this.pageRows(), paged: this.pagePaged() }),
       terminal: this.of(Digest.of(this.terminal.campaign), terminal.screen.place.id,
-        ThreeClients.focus(terminal.question.focus), this.terminalRows(terminal)),
+        ThreeClients.focus(terminal.question.focus),
+        { rows: this.terminalRows(terminal), paged: this.terminalPaged(terminal) }),
       runner: this.of(Digest.of(runner.campaign), ScreenModel.build(runner.campaign).place.id,
-        ThreeClients.focus(runner.focus), this.runnerRows()),
+        ThreeClients.focus(runner.focus), { rows: this.runnerRows(), paged: this.runnerPaged() }),
     };
   }
-  private of(digest: string, place: string, focus: string, rows: Record<string, string[]>): Seen {
-    return { digest, place, focus, rows };
+  private of(digest: string, place: string, focus: string, seen: Pick<Seen, 'rows' | 'paged'>): Seen {
+    return { digest, place, focus, ...seen };
+  }
+  // The place's page each draws (OR-1494): the page's question, the terminal's first, the runner's primary.
+  private pagePaged(): string[] {
+    const place = this.page.frame.question?.place;
+    // The first page's four are the glance's offer, held alike by the rows above (test/small/one-projection).
+    return place ? [...place.page.at ? PlaceQuestion.paged(place).map(r => r.command) : [],
+      PlaceQuestion.next(place)?.command ?? ''] : [];
+  }
+  private terminalPaged(at: ReturnType<ThreeClients['terminalAsked']>): string[] {
+    if (!at.question.place) { return []; }
+    const o = Terminal.foreground(this.terminal, at.glance, at.screen, { question: at.question });
+    return [...at.question.place.page.at ? o.first.map(l => l.id) : [], o.next?.command ?? ''];
+  }
+  private runnerPaged(): string[] {
+    const o = this.said?.offer;
+    const turned = !!o?.page?.at;
+    return this.runner.session.focus.kind === 'place' ? [...turned ? (o?.primary ?? []).map(x => x.does ?? x.id) : [],
+      o?.page?.next ?? ''] : [];
   }
   private terminalOf(host: EngineHost) { return (host as unknown as { session: PlaySession }).session.campaign; }
   // A focus as the harness compares it: the place, or whom the company talks with.
@@ -119,6 +142,9 @@ export class ThreeClients {
     for (const other of ['terminal', 'runner'] as const) {
       const theirs = seen[other];
       if (theirs.focus !== page.focus) { out.push(`focus ${other}: ${theirs.focus.replace(/:.*/, '')} where page ${focus}`); }
+      if (focus === 'place' && theirs.paged.join() !== page.paged.join()) {
+        out.push(`place page ${other}: ${theirs.paged.join(' ')} where page ${page.paged.join(' ')}`);
+      }
       for (const k of Object.keys(page.rows)) { if (!(k in theirs.rows)) { out.push(`${focus} row page, not ${other}: ${k}`); } }
       for (const k of Object.keys(theirs.rows)) { if (!(k in page.rows)) { out.push(`${focus} row ${other} only: ${k}`); } }
       for (const [k, kinds] of Object.entries(page.rows)) {
@@ -153,6 +179,8 @@ export class ThreeClients {
     // (The leave is the question's last row but the next page; taken by its command.)
     if (leave?.command) { await t.act(leave.command); look(); }
     await t.act('wait'); look();
+    // The place's pages (OR-1494): turned twice by Something else…, and back to the first.
+    for (const n of [1, 2, 0]) { await t.act(`focus:page:${n}`); look(); }
     return { steps: worlds.length, worlds, apart: [...apart].sort() };
   }
 }

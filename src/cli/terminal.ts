@@ -1,3 +1,6 @@
+import type { Frame } from '../creation/protocol';
+import { MenuTree } from '../frame/menu-tree';
+import { TerminalPlace } from './terminal-place';
 import { TerminalInput, type Asking, type Picking } from './terminal-input';
 import { TerminalFight } from './terminal-fight';
 import { TerminalBooks } from './terminal-books';
@@ -50,7 +53,9 @@ export interface Listed {
 // What a turn offers: every act, the few led with (or said to whoever is spoken with), and the lens they come through.
 // rest: where the few are a surface's own (a lens, a talk), the rest of its own, as the page's All or Something
 // else… has them.
+// next: at the place, Something else… (PlaceQuestion.next): its command, typed as next.
 export interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?: number; rest?: Listed[];
+  next?: { command: string; label: string; at: number; of: number };
   lens?: { name: Lens; more: number }; opened?: string; says?: string }
 // How a play is shown: its scene (a walk keeps its own), with profile, and saved as asked.
 interface Played { scene?: TerminalScene; profile?: boolean; saveAs?: boolean }
@@ -123,7 +128,8 @@ export class Terminal {
       turn.profile.world = undefined;
     }
     // The question asked of the turn told (a talk's rows, as every client has them).
-    return { screen, leaf, question: QuestionAsked.settle(session, { screen, leaf }) };
+    // Over the frame's menu, so that the place's pages are asked of it as the page's are (OR-1494).
+    return { screen, leaf, question: QuestionAsked.settle(session, MenuTree.framed({ screen, leaf } as Omit<Frame, 'menu'>)) };
   }
   // What a turn offers (read by test/support/three-clients too, beside the page's and the runner's: OR-1450).
   static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
@@ -168,6 +174,8 @@ export class Terminal {
     if (o && opened) { return { all, ...opened, first: opened.first.map(c => this.drawn(acts, c)), opened: o.name }; }
     const talked = question?.talk && this.talk(question, byId);
     if (talked) { return { all, ...talked }; }
+    // At the place, its page of the question (OR-1494): the four and Something else…, or a page after them, as the
+    // page draws it; every other act under all.
     // Through a lens, its own few, ranked as the scene's are, from the same acts (Glance.lenses): attention, not time.
     const lensed = lens && glance?.lenses[lens];
     const chosen = lensed ? lensed.promoted.map(a => key(a)) : [...new Set(ids)];
@@ -175,6 +183,9 @@ export class Terminal {
     const more = lensed ? lensed.promoted.length + lensed.rest.length - first.length : 0;
     const shown = (first.length || lensed ? first : all.slice(0, 4)).map(c => this.drawn(acts, c));
     const after = lensed ? lensed.rest.flatMap(a => byId.get(key(a)) ?? []) : [];
+    // At the place, its page of the question (OR-1494), as the page draws it (TerminalPlace).
+    const placed = !lensed && question?.place && TerminalPlace.offered(question.place, byId, { all, shown });
+    if (placed) { return placed; }
     return { all, first: shown,
       ...lensed ? { lens: { name: lens, more }, rest: after } : { more: all.length - shown.length } };
   }
@@ -284,6 +295,7 @@ export class Terminal {
     if (offered.lens) { console.log(`(${offered.lens.name}${offered.lens.more ? ` · ${offered.lens.more} more: all` : ''})`); }
     this.choices(offered.first);
     if (offered.more) { console.log(this.more(glance, offered.all, offered.more)); }
+    if (offered.next) { console.log(TerminalPlace.said(offered.next)); }
     // The commands when asked, and a word of where they are once: a line said the same after every act, and a
     // heading over the choices, are static context (the owner, 14 November: TM-02).
     if (!turn.helped) { console.log('(? for commands)'); turn.helped = true; }
@@ -341,6 +353,7 @@ export class Terminal {
   private static async aside(session: PlaySession, answer: string, all: Listed[],
     { turn, input }: { turn: Turn; input: Asking }): Promise<boolean> {
     if (answer === 'look') { turn.told = undefined; turn.current = this.scene(session, turn, true); return true; }
+    if (await TerminalPlace.next(session, answer, turn)) { return true; }
     if (answer === 'help' || answer === '?') { console.log(Terminal.commands); return true; }
     // A lens: what is led with, by kind (things, people, places, time); here, the scene's own. It takes no time.
     if (Terminal.lenses.has(answer)) {
