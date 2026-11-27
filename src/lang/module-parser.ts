@@ -1,7 +1,7 @@
 import { parseAbility } from './parse'; import type { DiscoveryDefinition } from './discovery';
 import type { Declared } from './module-source'; import * as ohm from 'ohm-js';
 import { Grammars } from './grammars'; import { ModuleActions } from './module-actions';
-import type { Change, Module, Operator, Predicate } from './module';
+import type { Call, Change, Module, Operator, Predicate } from './module';
 import type { PassageSpec } from './world-constructs'; import { PersonParser } from './person-parser';
 import { ObjectParser } from './object-parser'; import { InformationParser } from './information-parser';
 import { VocabularyContext } from './vocabulary'; import { type Parts } from './declaration-parses';
@@ -226,12 +226,20 @@ export class ModuleParser {
   // A topic is put to someone where they are; one "travelling" to someone who has joined the company, wherever it is.
   // One that cannot be undone (a hand shaken on a bargain) says so before or after its words, and the page asks first
   // (Liberty of the Ice's 13: every handshake had to be an action to be asked about).
+  // A question put in conversation may be a check (Resolve …), its Says told when it comes off and its Otherwise when
+  // not (OB-11).
   static Topic(_t: Node, id: Node, _with: Node, speaker: Node, travelling: Node, title: Node, answering: Node,
-    _when: Node, condition: Node, once: Node, _open: Node, before: Node, _says: Node, response: Node, again: Node,
-    _dot: Node, after: Node, effects: Node, _close: Node): Field {
+    _when: Node, condition: Node, once: Node, _open: Node, before: Node, resolve: Node, _says: Node, response: Node,
+    again: Node, _dot: Node, otherwise: Node, after: Node, effects: Node, _close: Node): Field {
     const who = speaker.sourceString;
+    const check = resolve.children.map(r => ModuleParser.ast(r) as Field & { once?: true })[0];
+    const failed = otherwise.children.map(o => ModuleParser.ast(o) as Field);
+    const told = failed.filter(f => f.field === 'told').map(f => f.value as NonNullable<Operator['told']>[number]);
+    const plain = failed.find(f => f.field === 'otherwise')?.value as string | undefined;
     return { field: 'action', value: { id: id.sourceString, name: ModuleParser.ast(title), description: '', speaker: who,
       topic: true, report: ModuleParser.ast(response), ...PersonParser.topic(once, [before, after], answering, again),
+      ...check ? { resolve: check.value as Call, ...check.once ? { tried: true } : {} } : {},
+      ...plain === undefined ? {} : { otherwise: plain }, ...told.length ? { told } : {},
       parameters: [{ name: 'actor', type: 'group' }, { name: 'site', type: 'place' }],
       requires: { kind: 'and', left: TemplatedPredicates.topic(who, travelling.children.length > 0,
         ModuleParser.predicate), right: ModuleParser.ast(condition) },

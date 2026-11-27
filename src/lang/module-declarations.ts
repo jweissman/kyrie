@@ -109,6 +109,7 @@ export class ModuleDeclarations {
         // one put once only cannot (The Third Night's friction 6). One that says something else again (Says "…" again
         // "…": R60) is put once by that, and its again says that, whatever it taught.
         if (answer !== undefined && only) { throw new Error(`Topic ${action.id} is put once only, and cannot say again`); }
+        Milestones.talked(module, action);
         const again = once && topic && !only ? WorldConstructs.recall(action, answer) : [];
         if (once) { WorldConstructs.once(module, action); }
         if (tried) { WorldConstructs.tried(module, action); }

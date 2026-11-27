@@ -1,5 +1,5 @@
 import type * as ohm from 'ohm-js';
-import type { Module, Predicate } from './module';
+import type { Module, Operator, Predicate } from './module';
 import type { World } from './world';
 import { ModuleWriter } from './module-writer';
 
@@ -29,6 +29,16 @@ export class Milestones {
     const achieved = ModuleWriter.call('achieved', m.id);
     (module.rules ??= []).push({ id: `${m.id}_achieved`, when: { kind: 'and', left: m.when,
       right: { kind: 'not', value: achieved } }, effects: [{ kind: 'assert', call: achieved }] });
+  }
+  // A question won in conversation (a Topic that carries a check) is worth a little experience, the first time it
+  // comes off (the compactification's third stage, 26 November): the smallest milestone authors give.
+  static readonly talk = 25;
+  static talked(module: Module, action: Operator) {
+    if (!action.topic || action.resolve?.name !== 'check') { return; }
+    const id = `${action.id}_won`;
+    module.entities.push({ id, type: 'milestone', name: action.name });
+    module.initial.push({ kind: 'set', call: ModuleWriter.call('merit', id), value: ModuleWriter.number(this.talk) });
+    action.success.push({ kind: 'assert', call: ModuleWriter.call('achieved', id) });
   }
   // The milestones achieved, with what each is worth and called: given once each, as they come.
   static achieved(world: World): { id: string; title: string; worth: number }[] {

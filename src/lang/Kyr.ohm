@@ -161,7 +161,7 @@ Kyr {
   PersonClass = ("Class" | "Calling") ident "."
   PersonLevel = "Level" integer "."
   PersonUses = "Uses" ListOf<ident, ","> "."
-  Topic = "Topic" ident "with" ident TopicTravelling? string TopicAnswering? "when" Predicate TopicOnce? "{" Grave? "Says" string TopicAgain? "." Grave? TopicEffects? "}"
+  Topic = "Topic" ident "with" ident TopicTravelling? string TopicAnswering? "when" Predicate TopicOnce? "{" Grave? Resolve? "Says" string TopicAgain? "." Otherwise* Grave? TopicEffects? "}"
   TopicAgain = "again" string
   TopicAnswering = "answering" ident
   TopicTravelling = "travelling"

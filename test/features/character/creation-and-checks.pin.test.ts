@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { Tiny } from '../../support/tiny';
+import { ModuleWriter } from '../../../src/lang/index';
 import { Creation } from '../../../web/engine/creation';
 import { CreationFlow } from '../../../src/creation/creation-flow';
 import type { Setting } from '../../../src/creation/protocol';
@@ -22,20 +23,30 @@ describe('Character › Creation with meaningful differentiation', () => {
 });
 
 describe('Character › Stat checks woven into narrative moments', () => {
-  // OB-11: a check inside a conversation, its outcome told in the speaker's own words. A Topic cannot carry a check.
-  it.failing('missing: a question put in conversation is a check, its outcome said by the one asked', async () => {
-    const t = await Tiny.start(`
+  // OB-11: a check inside a conversation, its outcome told in the speaker's own words.
+  it('a question put in conversation is a check, its outcome said by the one asked', async () => {
+    const gate = `
       Place yard "the yard" is room at 0, 0 outdoors.
       Person wat "Wat" at yard { Role "the gatekeeper". Ancestry human. Peaceable. Pronouns he. }
       Company party "You" of 1 at yard.
+      Relation opened(group).
       Topic wat_gate with wat "Talk Wat round to opening the gate" when true once {
         Resolve check(actor, persuasion, dc_hard).
         Says "'Oh, go on, then,' says Wat.".
         Otherwise "'Not for you,' says Wat.".
-      }`);
-    t.journey.roll('fail');
-    await t.play('Talk to Wat', 'Talk Wat round');
-    expect(t.campaign.events.at(-1)!.response).toContain('Not for you');
+        On discuss { Assert opened(wat). }
+      }`;
+    const won = await Tiny.start(gate), lost = await Tiny.start(gate);
+    won.journey.roll('pass'); lost.journey.roll('fail');
+    await won.play('Talk to Wat', 'Talk Wat round'); await lost.play('Talk to Wat', 'Talk Wat round');
+    expect(won.campaign.events.at(-1)!.response).toContain('go on, then');
+    expect(lost.campaign.events.at(-1)!.response).toContain('Not for you');
+    const opened = ModuleWriter.call('t__opened', 't__wat');
+    expect([won.world.test(opened), lost.world.test(opened)]).toEqual([true, false]);
+    // A question won in conversation earns experience; one lost does not (the compactification's third stage).
+    const gained = (t: typeof won) => t.campaign.events.at(-1)!.combat
+      .filter(e => e.type === 'gain' && e.detail?.startsWith('experience')).length;
+    expect([gained(won) > 0, gained(lost)]).toEqual([true, 0]);
   });
 });
 
