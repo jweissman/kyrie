@@ -106,6 +106,7 @@
           "found": "Behind the fallen bones in the ossuary, a tunnel propped with grave-boards goes down under the king's door. It is the robbers' way to his treasury.",
           "slips": "Taken for one of the gang, you hear the gang's business. Nobody breaks the king's door. A tunnel behind the fallen bones in the ossuary comes up in his treasury.",
           "quit": "The recess is empty. The captain's fire has been kicked out and the bedroll taken; only a cut strap and the smell of smoke are left. The warning was taken.",
+          "sign": "No smoke comes down the passage now. The robbers' fire is out.",
           "known": "The captain is waiting, sword out. A night was long enough to think over what you said you were after."
         } }
     ] },
@@ -228,7 +229,7 @@
       "readLabel": "Read what is cut round the king's door",
       "read": "{oldup}. HERE THE KING KEEPS THE BOUNDS. LET HIM KEEP THEM. {FATE}",
       "told": "Read aloud, the old words say plainly enough who is behind the door, and what he cannot abide.",
-      "loosed": { "role": "guard_room", "scene": "The king's men have come up through the broken door. They stand on this side of it now, with the living." } },
+      "loosed": { "role": "guard_room", "scene": "The king's men have come up through the broken door. They stand on this side of it now, with the living.", "sign": "A cold comes down the stair to meet you, and the smell of the grave with it. The king's men are walking the halls." } },
     "vent": { "found": "Where the light and the air come from: the light-box over the door, a slot of stones a body could squeeze through, out to the top of the mound.",
       "sign": "A thread of grey daylight lies along the floor of the passage, coming from somewhere above the door.",
       "night": "A breath of night air comes along the floor of the passage, from somewhere above the door, and it smells of grass.",

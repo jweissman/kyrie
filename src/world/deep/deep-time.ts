@@ -3,6 +3,7 @@ import { Draw } from '../land/draw';
 import type { DeepContent } from './deep-pacing';
 import type { DeepPurpose } from './deep-purposes';
 import type { DeepLayout } from './deep-layout';
+import { DeepKnown } from './deep-known';
 import { DeepSounds } from './deep-sounds';
 
 // Who moves in (id), from where they wait (beyond), on which level, after whom (gone), and where (room).
@@ -30,6 +31,8 @@ export class DeepTime {
       return [`  Place ${beyond} "the workings beyond" is room within ${level.id}.`,
         `  Person ${id} ${q(group.label)} at ${beyond} { Role ${q(group.role)}. ${who} Numbers ${group.count}.`
           + ` Level ${rank}. Temperament ${group.temperament}. }`,
+        ...this.seen({ id, beyond, level: level.id, entry: DeepKnown.entry(layout, level)?.id,
+          temperament: group.temperament }),
         ...held.flatMap(c => [
           ...this.succession({ id, beyond, level: level.id, gone: c.dwellers!.id, room: c.room.id }),
           // Moved in, they are heard as whoever was there before them was.
@@ -37,11 +40,31 @@ export class DeepTime {
             ...group.species ? { kind: Canon.creature(group.species).type } : {} })])];
     });
   }
+  static readonly said = {
+    sign: 'The dust at the way onto this level is trodden fresh, and not by you. New dwellers have come in since you were'
+      + ' last down.',
+    settled: 'The newcomers have made this place their own. They have heaped the old bones at the door, and they do not'
+      + ' wait to warn.',
+  };
+  // Moved in, they are seen at the way onto the level (OR-1449); and a dawn later, with the company off the level,
+  // they have made it their own, and fall on whoever comes in without warning (OR-1460: delay costs).
+  private static seen(at: { id: string; beyond: string; level: string; entry?: string; temperament: string }):
+    string[] {
+    const { id, beyond, level, entry, temperament } = at, q = this.q;
+    const off = `not (at(party, ?p) and deepLevelOf(?p, ${level}))`;
+    return [...entry ? [`  Observe ${id}_sign at ${entry} as sign when not at(${id}, ${beyond}) and able(${id})`
+      + ` ${q(this.said.sign)}.`] : [],
+    ...temperament === 'savage' ? [] : [`  Rule ${id}_settles when not at(${id}, ${beyond}) and able(${id})`
+      + ` and not dugIn(${id}) and deepMoved(${id}) < day(clock) and untilLight(clock) == 1 and ${off} {`
+      + ` Assert dugIn(${id}). Retract temperament(${id}, temper_${temperament}). Assert temperament(${id}, temper_savage). }`]];
+  }
   private static succession(at: Succession): string[] {
     const { id, beyond, level, gone, room } = at;
     return [`  Rule ${gone}_succeeded when dead(${gone}) and at(${id}, ${beyond}) and untilLight(clock) == 1`
       + ` and not (at(party, ?p) and deepLevelOf(?p, ${level}))`
-      + ` { Retract at(${id}, ${beyond}). Assert at(${id}, ${room}). }`,
+      + ` { Retract at(${id}, ${beyond}). Assert at(${id}, ${room}). Set deepMoved(${id}) to day(clock). }`,
+      `  Observe ${id}_settled_${room} at ${room} when dugIn(${id}) and at(${id}, ${room}) and able(${id})`
+        + ` ${this.q(this.said.settled)}.`,
       `  Observe ${gone}_succession at ${room} when dead(${gone}) and at(${id}, ${room}) ${this.q('The dead you left here have been dragged into a corner and picked over, and the place smells of something else now: whoever lives here came after you went.')}.`];
   }
 }

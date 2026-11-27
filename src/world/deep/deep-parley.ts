@@ -1,3 +1,4 @@
+import { DeepKnown } from './deep-known';
 import type { DeepLayout, DeepLink } from './deep-layout';
 import type { DeepContent } from './deep-pacing';
 
@@ -15,6 +16,8 @@ export interface Parley {
   // knowing it says, and what the band lets slip to one it takes for its own; its place once it has quit, and the
   // band again after a night to think, lied to.
   ask: string; tells: string; way: [string, string]; found: string; slips: string; quit: string; known: string;
+  // What shows at the way onto its level once it has quit (OR-1449).
+  sign?: string;
 }
 export class DeepParley {
   static readonly q = JSON.stringify;
@@ -25,7 +28,9 @@ export class DeepParley {
   static lines(layout: DeepLayout, content: DeepContent[]): string[] {
     return content.flatMap(c => {
       const p = c.dwellers?.group.parley, b = c.dwellers?.id;
-      return p && b ? this.band(layout, { b, room: c.room.id, p }) : [];
+      const level = layout.levels[c.room.level], entry = level && DeepKnown.entry(layout, level)?.id;
+      return p && b ? [...this.band(layout, { b, room: c.room.id, p }),
+        ...p.sign && entry ? [`  Observe ${b}_gone at ${entry} as sign when quit(${b}) ${this.say(b, p.sign)}.`] : []] : [];
     });
   }
   private static way(layout: DeepLayout, p: Parley): DeepLink | undefined {

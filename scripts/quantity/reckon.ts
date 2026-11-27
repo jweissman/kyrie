@@ -186,7 +186,14 @@ export class Reckon {
     if (!r.expeditions) { return { value: null, note: 'not read' }; }
     const all = ts.reduce((n, t) => n + Object.values(t.moves).reduce((a, b) => a + b, 0), 0);
     const routine = ts.reduce((n, t) => n + t.moves.traversal + t.moves.administration, 0);
-    return { value: this.pct(routine, all), note: `${routine} of ${all} moves` };
+    const below = ts.reduce((n, t) => n + (t.routine?.below ?? 0), 0);
+    return { value: this.pct(routine, all), note: `${routine} of ${all} moves, ${below} of them below` };
+  }
+  static kept(r: Readings): Reading {
+    const ts = (r.expeditions ?? []).slice(1);
+    if (!r.expeditions) { return { value: null, note: 'not read' }; }
+    return { value: ts.reduce((n, t) => n + t.watches, 0),
+      note: ts.map(t => `${t.n}: ${t.watches} watches, ${t.rooms} rooms known, coin ${t.coin}`).join('; ') };
   }
   // Fights begun per game hour by the delver in each seed's first dungeon (QuantityDelver).
   static delved(r: Readings): Reading {

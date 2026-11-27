@@ -1606,7 +1606,7 @@ Also kept, without comment: arrival, plea, greeting, greeted, petted, warned, yi
 
 | Kinds | Relations | Measures | Queries | Rules | Actions |
 |---|---|---|---|---|---|
-| 1 | 30 | 2 | 1 | 23 | 6 |
+| 1 | 31 | 3 | 3 | 23 | 6 |
 
 #### temperament
 
@@ -1977,6 +1977,18 @@ A lie instead of either (OR-1392, the thinking inhabitants' grammar): told you a
 *Kyr · relation(group)* · `rule:inhabitants.quit`
 
 Warned off where it has nowhere of its own to fall back to (a deep site's band, DeepParley), it does not stay to be warned again: once the company has gone, it quits the place, and whoever comes by finds where it was empty.
+
+#### stirs
+
+*Kyr · query(p: place, c: group)* · `rule:inhabitants.stirs`
+
+What changes a deep level's known ground (DeepKnown): a band there that does not let the company be, and a trap set on a way.
+
+#### deepMoved, dugIn
+
+*Kyr · measure(group); relation(group)* · `rule:inhabitants.deepMoved`
+
+Since when a deep band has been where it is (its day), and one that has made a place its own (DeepTime, DeepLoosed).
 
 #### pay tribute
 

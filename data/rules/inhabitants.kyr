@@ -265,6 +265,12 @@ Module inhabitants "How creatures that live somewhere answer those who come into
   // Warned off where it has nowhere of its own to fall back to (a deep site's band, DeepParley), it does not stay to be
   // warned again: once the company has gone, it quits the place, and whoever comes by finds where it was empty.
   Relation quit(group).
+  // What changes a deep level's known ground (DeepKnown): a band there that does not let the company be, and a trap set
+  // on a way.
+  Query stirs(p: place, c: group) means at(?g, p) and able(?g) and not tolerates(?g, c) and not company(?g).
+  // Since when a deep band has been where it is (its day), and one that has made a place its own (DeepTime, DeepLoosed).
+  Measure deepMoved(group). Relation dugIn(group).
+  Query armed(w: passage) means on(?t, w) and state(?t, ?s) and harmsWhen(?t, ?s).
   // A proud creature's price, paid: it lets the company be.
   // Said without a pronoun, which a band and one alike agree with ("Give the footpads what it asks": Hessel friction 8).
   Action pay_tribute(actor: group, lord: group, site: place) "Pay {lord} the price named" {

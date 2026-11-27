@@ -34,6 +34,10 @@ export interface Trip {
   approach: { attacks: number; traps: number; risked: number; avoided: number; deepest: number; turned: string };
   // How it met what it met below, each kind of answer once (Answer), in the order first used.
   answers: Answer[];
+  // Where its routine moves (traversal and administration) were made, below or above; the watches it took; and the
+  // rooms below the company has been in by its return (OR-1395: routine compressed without a fall in world time or in
+  // the sense of where it is).
+  routine: { below: number; above: number }; watches: number; rooms: number;
   moves: Record<Kind, number>; coin: number; items: string[]; fell: boolean;
   changed: { options: number; world: number; learned: number; risk: number; memory: number };
 }
@@ -72,9 +76,11 @@ export class QuantityExpeditions {
   // One expedition, from the town and back to it.
   private static async trip(s: PlaySession, n: number, seen: Map<string, Set<string>>): Promise<Trip> {
     const from = s.campaign.history.length, before = this.items(s), trip: Trip = { n, prepared: [], approach:
-      { attacks: 0, traps: 0, risked: 0, avoided: 0, deepest: 0, turned: '' }, answers: [], moves: this.zero(), coin: 0, items: [], fell: false,
+      { attacks: 0, traps: 0, risked: 0, avoided: 0, deepest: 0, turned: '' }, answers: [], routine: { below: 0, above: 0 }, watches: 0, rooms: 0, moves: this.zero(), coin: 0, items: [], fell: false,
       changed: { options: 0, world: 0, learned: 0, risk: 0, memory: 0 } };
     let options = 0;
+    const began = this.watch(s);
+    this.tally = trip.routine;
     if (n === 1) {
       const h = new HonestPlayer(s);
       for (let i = 0; i < 80 && s.campaign.running && this.here(s) !== 'region__s1_ud'; i++) {
@@ -93,6 +99,9 @@ export class QuantityExpeditions {
     await this.sell(s);
     for (const e of s.campaign.history.slice(from)) { trip.moves[this.kind(e.action)]++; }
     trip.coin = this.coin(s);
+    trip.watches = this.watch(s) - began;
+    trip.rooms = s.campaign.world.related('been').filter(r => r.args[0] === 'party' && r.args[1]!.startsWith('region__s1_ud_'))
+      .length;
     trip.items = this.items(s);
     trip.fell = !this.standing(s);
     trip.changed.options = options;
@@ -174,6 +183,9 @@ export class QuantityExpeditions {
     const ways = ids.filter(id => id.startsWith('go(') && !grave.has(id))
       .map(id => ({ id, to: /,([^,)]+)\)$/.exec(id)?.[1] ?? '' }))
       .filter(w => QuantityPlaces.place(c, w.to) === at.place && w.to !== 'region__s1_ud' && this.depth(s, w.to) <= at.most);
+    // A level's way through, known and unchanged (DeepKnown, OR-1448), is taken in one act, not room by room.
+    const through = ways.find(w => /^go\([^,]*_through,/.test(w.id) && !at.been.has(w.to));
+    if (through) { return through.id; }
     const unseen = ways.filter(w => !at.been.has(w.to))
       .sort((a, b) => this.depth(s, b.to) - this.depth(s, a.to));
     // Listened for first where a way can be listened at (the halls' sounds): one that tells of what lies in wait is
@@ -226,7 +238,12 @@ export class QuantityExpeditions {
   private static async act(s: PlaySession, id?: string): Promise<CampaignEvent | undefined> {
     if (!id) { return undefined; }
     try {
-      return await s.leg(id, b => Promise.resolve(this.fight(b)));
+      const below = this.here(s).startsWith('region__s1_ud'), from = s.campaign.history.length;
+      const event = await s.leg(id, b => Promise.resolve(this.fight(b)));
+      for (const e of s.campaign.history.slice(from)) {
+        if (['traversal', 'administration'].includes(this.kind(e.action))) { this.tally[below ? 'below' : 'above']++; }
+      }
+      return event;
     } catch { return undefined; }
   }
   // A fight fought by the company's own tactics, and run from once one of the company is down to a third.
@@ -282,6 +299,10 @@ export class QuantityExpeditions {
   // The rows the page offers, as the page's journey reads them from its screen (never asked for outside the frame).
   private static ids(s: PlaySession): string[] { return Journey.of(s).choices().map(c => c.command); }
   private static here(s: PlaySession): string { return s.campaign.world.one('at', 'party') ?? ''; }
+  static tally = { below: 0, above: 0 };
+  private static watch(s: PlaySession): number {
+    return s.campaign.world.number({ kind: 'call', name: 'watch', args: ['clock'] });
+  }
   private static coin(s: PlaySession): number {
     return s.campaign.world.number({ kind: 'call', name: 'quantity', args: ['party', 'gold'] });
   }

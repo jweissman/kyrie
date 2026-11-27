@@ -57,5 +57,9 @@ describe('Conflict › A band answered more ways than one', () => {
     expect(t.where('t__cap')).toBeUndefined();
     await t.perform('go(t__den_hall,t__den)');
     expect(JSON.stringify(t.leaf)).toContain('The den is empty.');
+    // And seen at the way onto the level (OR-1449): here, the ossuary.
+    await t.perform('go(t__den_hall,t__hall)');
+    await t.perform('go(t__hall_bones,t__bones)');
+    expect(JSON.stringify(t.leaf)).toContain('No smoke comes from the den now.');
   });
 });
