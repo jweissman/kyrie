@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 204 pins (173 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 702 live rows, 228 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 204 pins (173 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 703 live rows, 229 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -103,7 +103,7 @@ page's colours and opportunities.)
   - requirement OA-05 P2: Review T1, a departure reckoning: before setting out, route and terrain, duration and arrival…
   - requirement OP-04 P2: The owner asks whether foes should fall on a company that walks out of their ground. As the rules…
   - requirement OR-343 P2: Engagements and warnings: the capability as its pins hold it (before a fight the company is told…
-- **Fights that cost** · 5 pins · 18 defects · 17 asks
+- **Fights that cost** · 5 pins · 19 defects · 17 asks
   - ○ a fight won costs something kept after it (wounds, a spell spent) and changes what follows
   - ✓ meets a fight on the golden walk, and it costs the company something past its first round
   - ✓ costs the company something in most fights that stand: hit in most trials, in nearly every band
