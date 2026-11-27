@@ -61,7 +61,7 @@ Module outlaw_folk "Outlaws" {
   }
   Rule growing_impatient when demanding(band) and together(band, party) and not impatient(band) and able(band) { Assert impatient(band). }
   Rule demand_dropped when demanding(band) and not able(band) { Retract demanding(band). Retract impatient(band). }
-  Rule hold_up when at(party, road) and not dark() and dice(clock) <= 6 and at(band, yard) and able(band)
+  Rule hold_up when at(party, road) and not dark() and fortune(band, road) <= 6 and at(band, yard) and able(band)
     and not quiet(band) and not tolerates(band, party) and not ended(band)
     says "Men step out of the trees on both sides of the road with bows drawn. 'Stand,' says one. 'Road-money, in Sir Hamo's name: five crowns, or we take it off your bodies.'" {
     Assert at(band, road). Assert halts(band, party). Assert demanding(band).

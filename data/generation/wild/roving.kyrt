@@ -2,8 +2,8 @@
 // A Kyr template (see src/world/kyr-template.ts), written for a few rovers in each generated country (see
 // src/world/region-rovers.ts, which chooses them and the stretches each ranges over). The meetings (meetings.kyrt) and
 // the animals (animals.kyrt) stay where they are; a rover goes about, and comes to the stretch the company is in, by
-// day, once, on the die of whatever the company does there (a leg of a journey is one, so about one leg in seven over
-// its ground): so that a long walk over open country meets someone or something now and then, and
+// day, once, by its fortune on that stretch for the day (fortune({r}, stretch): a leg walked there on a given day meets
+// the same fate however long the acts before it took, OR-1345; about one stretch-day in seven over its ground): so that a long walk over open country meets someone or something now and then, and
 // is not a crossing of empty hexes (the owner's blocking report of 11 November: "ordinary exploration still feels
 // empty"; most stretches hold nothing, by design, and nothing came to them). Not more monsters: of the options, one is
 // a danger, written only for a rover that keeps away from the roads and the towns, and it warns first.
@@ -20,7 +20,7 @@
   Person {r} "a pedlar" at {home} {
     Role "with a pack on a frame and a staff, walking the drove-ways between the farms". Ancestry {folk}. Background laborer. Peaceable. Pronouns {he}. Manner cheerful.
   }
-  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 15 and able({r})
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and fortune({r}, ?p) <= 15 and able({r})
     says "A pedlar is coming the other way along the sheep-track, bent under a pack on a frame, and lifts {his} staff to you from a long way off." {
     Assert at({r}, ?p). Assert roved({r}).
   }
@@ -39,7 +39,7 @@
   Person {r} "a shepherd" at {home} {
     Role "with a crook and a young dog at heel, looking about as if for something lost". Ancestry {folk}. Background herdsman. Peaceable. Pronouns {he}. Manner stoic.
   }
-  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 15 and able({r})
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and fortune({r}, ?p) <= 15 and able({r})
     says "A whistle, and a young dog comes bounding at you through the grass and stops short, and behind it a shepherd, crook in hand, who calls it off and looks you over." {
     Assert at({r}, ?p). Assert roved({r}).
   }
@@ -62,7 +62,7 @@
     Warns "The two wolves stop on a rise and watch you, heads low. The nearer lifts its lip. They will not come closer if you go on your way.".
   }
   Initially Set encounterXp({r}) to 40.
-  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 10 and able({r})
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and fortune({r}, ?p) <= 10 and able({r})
     says "Two grey wolves keep pace with you a long stone's throw off, now in sight and now gone." {
     Assert at({r}, ?p). Assert roved({r}).
   }
@@ -77,7 +77,7 @@
     Warns "Two men with cudgels step out of the hedge ahead and stand in the road. 'Far enough,' says one. 'Turn about, or come on and see.'".
   }
   Initially Set encounterXp({r}) to 50.
-  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and dice(clock) <= 12 and able({r})
+  Rule {r}_comes when at(party, ?p) and roams({r}, ?p) and not roved({r}) and not dark() and fortune({r}, ?p) <= 12 and able({r})
     says "Ahead on the road two men are sitting on a field gate with cudgels across their knees, watching you come." {
     Assert at({r}, ?p). Assert roved({r}).
   }

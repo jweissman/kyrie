@@ -71,6 +71,11 @@ export class CampaignTick {
       night.push({ kind: 'set', call: ModuleWriter.call('season', 'clock'),
         value: ModuleWriter.number(this.seasons.indexOf(Calendar.date(calendar, elapsed).season) + 1) });
     }
+    if (world.module.measures.some(m => m.name === 'dayDice')) {
+      const day = FictionalTime.day(elapsed);
+      night.push({ kind: 'set', call: ModuleWriter.call('dayDice', 'clock'),
+        value: ModuleWriter.number(new Expressions(RandomStreams.key(seed, 'dayDice', day)).number('1d100')) });
+    }
     if (world.module.measures.some(m => m.name === 'dice')) {
       night.push({ kind: 'set', call: ModuleWriter.call('dice', 'clock'),
         value: ModuleWriter.number(new Expressions(RandomStreams.key(seed, 'dice', elapsed)).number('1d100')) });

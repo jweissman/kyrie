@@ -162,20 +162,21 @@ export class World {
     const call = this.bind(value, bindings), changed = counts?.now(World.key(call));
     if (changed !== undefined) { return changed; }
     if (call.name === 'dice' && call.args[0] !== 'clock') { return this.die(call.args[0]!); }
+    if (call.name === 'fortune') { return this.fortune(call.args); }
     return this.measure(call)?.value ?? 0;
   }
   // Each thing's own die for the watch, 1 to 100 (dice(?room)): drawn from the watch's die and the thing's name, so
   // that two rooms, or two people, left to chance in the same watch do not come out alike, and the same watch comes
-  // out the same way again.
-  private die(of: string): number {
+  // out the same way again. A thing's fortune at a place (fortune(?band, ?road)) is drawn from the day's die, the day
+  // and the two names: a leg walked on a given day meets the same fate however long the acts before it took (OR-1345).
+  private die(of: string): number { return World.hundred(`${this.reading('dice')}:${this.reading('watch')}:${of}`); }
+  private fortune(of: string[]): number { return World.hundred([this.reading('dayDice'), this.reading('day'), ...of].join(':')); }
+  private static hundred(key: string): number {
     let hash = 2166136261;
-    const key = `${this.reading('dice')}:${this.reading('watch')}:${of}`;
     for (let i = 0; i < key.length; i++) { hash = Math.imul(hash ^ key.charCodeAt(i), 16777619); }
     return ((hash >>> 0) % 100) + 1;
   }
-  private reading(name: string): number {
-    return this.measure({ kind: 'call', name, args: ['clock'] })?.value ?? 0;
-  }
+  private reading(name: string): number { return this.measure({ kind: 'call', name, args: ['clock'] })?.value ?? 0; }
   // A predicate may contain existential variables (?name). Closed predicates keep the direct evaluator.
   test(predicate: Predicate, bindings: Record<string, string> = {}): boolean {
     if (!World.variables(predicate)) { return this.closed(predicate, bindings); }

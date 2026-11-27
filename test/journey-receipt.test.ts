@@ -71,14 +71,12 @@ describe('a journey told leg by leg from its receipts', () => {
       stops.add((a.travel!.stopped ?? (a.travel!.arrived ? 'arrived' : '')).split(/[,.:]/)[0]!);
       legs += a.travel!.legs.length;
     }
-    // Each kind of stop met (so that the equality is not of arrivals alone), and legs told without their frames. Harm
-    // on the way is met as a wound or as a fight on a leg: since the journey stops for a threat that blocks the way
-    // (ArrivalAttention, the lead's ruling of 25 November), kite's road bands mostly stop it before they set upon it,
-    // but one met on a leg sets upon the company there (OR-773's case), told whole by its receipt as by its frames.
-    // A bar across the road is the pikes let down or a band standing in it (the cudgel-men out of the hedge).
+    // Each kind of stop met (so that the equality is not of arrivals alone), and legs told without their frames. A bar
+    // across the road is the pikes let down or a band standing in it (the cudgel-men out of the hedge). Harm on a leg
+    // (OR-773's case) is not met on these journeys since a road's roll is the band's fortune for the day (OR-1345):
+    // kite's road bands stop the journey before they set upon it, which the danger and the bar here are.
     expect([...stops]).toEqual(expect.arrayContaining(['arrived', 'There is danger here', 'Night has come on']));
     expect([...stops].some(s => /^Pikes come down across the road|stand in the road$/.test(s))).toBe(true);
-    expect([...stops].some(s => ['Someone was hurt on the way', 'You were set upon on the way'].includes(s))).toBe(true);
     expect(held).toBeGreaterThan(0);
     expect(legs).toBeGreaterThan(30);
     expect(screens.told).toBeLessThan(screens.whole - legs / 2);

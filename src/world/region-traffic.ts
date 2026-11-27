@@ -150,7 +150,7 @@ export class RegionTraffic {
     const tr = t.kind.trouble, q = JSON.stringify;
     if (!tr) { return []; }
     const way = t.road.way, id = t.id;
-    return [`  Rule ${id}_trouble when at(${id}, ${way}) and hour(clock) >= 10 and hour(clock) < 13 and dice(clock) <= 15`
+    return [`  Rule ${id}_trouble when at(${id}, ${way}) and hour(clock) >= 10 and hour(clock) < 13 and fortune(${id}, ${way}) <= 15`
       + ` and not inTrouble(${id}) and not helpedBy(${id}, party) and not staged(${way}, ?story) { Assert inTrouble(${id}). }`,
     `  Observe ${id}_troubled near ${id} of ${id} when at(${id}, ${way}) and inTrouble(${id}) ${q(this.say(t, tr.seen, {}))}.`,
     `  Action ${id}_help(actor: group, site: place) ${q(this.say(t, tr.act, {}))} {`,

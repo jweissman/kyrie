@@ -192,6 +192,9 @@ Module world_core "Bodies, places, time and the shared catalog" {
   // A die thrown each watch, 1 to 100, for what is left to chance: dice(clock) for the world, and dice(x) for each
   // thing's own, so that what is left to chance in two places, or for two people, does not fall out alike.
   Measure dice(entity).
+  // A thing's fortune at a place for the day, 1 to 100: the same all that day, however long the acts before it took
+  // (a road's band, met on a leg: fortune(band, road)), drawn from the day's die (dayDice).
+  Measure dayDice(clock). Measure fortune(entity, place).
   // The season by the campaign's calendar, when it keeps one: 1 spring, 2 summer, 3 autumn, 4 winter (0: none).
   Measure season(clock).
   // A company sitting out the hours (until first light, until dark) puts its lights out while it waits, as it does to

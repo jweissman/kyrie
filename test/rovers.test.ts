@@ -23,7 +23,11 @@ describe('the rovers of a country', () => {
     const s = await DrawnWorld.start('kahitude', { origin: 'debt', party: [{ name: 'Ralf', raceId: 'human',
       classId: 'warrior' }] }, NodeBundleSource.shared);
     const c = s.campaign, roams = c.world.related('region__roams');
-    const [rover, there] = roams.find(r => r.args[1] !== r.args[0]!.replace('__wr', '__t'))!.args as [string, string];
+    // A rover of the day (not the night's band) on a stretch not its own, whose fortune there today is to come
+    // (at most ten, the least any rover asks): a road's roll is the band's fortune for the day since OR-1345.
+    const fortune = (r: string, at: string) => c.world.number({ kind: 'call', name: 'fortune', args: [r, at] });
+    const [rover, there] = roams.find(r => r.args[1] !== r.args[0]!.replace('__wr', '__t') && !/n$/.test(r.args[0]!)
+      && fortune(r.args[0]!, r.args[1]!) <= 10)!.args as [string, string];
     c.commitWorld(c.world.apply([{ kind: 'retract', call: ModuleWriter.call('at', 'party', c.world.one('at', 'party')!) },
       { kind: 'assert', call: ModuleWriter.call('at', 'party', there) }]));
     for (let i = 0; i < 30 && c.world.one('at', rover) !== there; i++) { await s.perform('wait'); }

@@ -22,6 +22,8 @@ export class Reads {
         names.add(part.name);
         // A thing's own die (dice(?room)) is drawn from the watch's die and the watch (see World.die).
         if (part.name === 'dice') { names.add('watch'); }
+        // A thing's fortune at a place is drawn from the day's die and the day (see World.fortune).
+        if (part.name === 'fortune') { names.add('dayDice'); names.add('day'); }
         // Whether something is within an area is where it is (see ComputedRelations): a rule asking it is asked again
         // when the company moves (the Lull's friction F3, LUL-03: never, before).
         if (part.name === 'within') { names.add('at'); }

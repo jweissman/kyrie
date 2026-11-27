@@ -137,7 +137,7 @@ Module hob_folk "Hobs" {
   Measure shame(group).
   // The raiding party is the band the Gaffer sends to hold anything the hobs take.
   Initially Assert posts(raiders, gaffer).
-  Rule waylay when at(party, road) and dark() and dice(clock) <= 4 and at(raiders, hall) and able(raiders)
+  Rule waylay when at(party, road) and dark() and fortune(raiders, road) <= 4 and at(raiders, hall) and able(raiders)
     and not quiet(raiders) and not tolerates(raiders, party)
     says "Shapes rise out of the dark beside the road: hobs, grinning, with cudgels and a sack for whatever you are carrying." {
     Assert at(raiders, road). Assert assails(raiders, party).
