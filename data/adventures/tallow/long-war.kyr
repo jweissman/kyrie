@@ -74,7 +74,7 @@ Module tallow "Tallow Deep" {
     Requires able(actor) and company(actor) and lcWarBegun(actor) and knows(actor, lc_true_count) and not lcWarEnded(actor).
     Time 10 minutes.
     On success { Assert lcLedgerRead(actor). }
-    Result "Of the eight marches between the Mere and the Calx, the free westerners hold {lcMarches(actor)}. Against the Ash, by Merren's reckoning, weigh {lcWestScore(actor)} things done; for it, {lcAshScore(actor)}.".
+    Result "Of the eight marches between the Mere and the Calx, the free westerners hold {lcMarches(actor)}. Against the Ash, by Merren's reckoning, weigh {lcWestScore(actor)} things done; for it, {lcAshScore(actor)}. At the back she kept five columns, West to Ash: supply {lcWSupply(actor)} to {lcASupply(actor)}, force {lcWForce(actor)} to {lcAForce(actor)}, roads {lcWDeploy(actor)} to {lcADeploy(actor)}, eyes {lcWIntel(actor)} to {lcAIntel(actor)}, councils {lcWPolity(actor)} to {lcAPolity(actor)}.".
   }
 
   Person lc_free_host "the Rì's host" nowhere {
@@ -84,7 +84,7 @@ Module tallow "Tallow Deep" {
   Action lc_rally(actor: group, site: place) "Raise Merren's wheel at the Calx Gate and send the count west" {
     Description "The Rì will come if the West has shown it can hold. Needs Merren's ledger, read to its last page, and her wheel, or her reflection's word.".
     Requires able(actor) and company(actor) and at(actor, site) and at(actor, gate_house)
-      and lcWarBegun(actor) and not lcWarEnded(actor) and not lcRallied(actor)
+      and lcWarBegun(actor) and not lcWarEnded(actor) and not lcRallied(actor) and not lcSwornAsh(actor)
       and knows(actor, lc_true_count) and lcLedgerRead(actor) and (lcWheelGiven(actor) or lcReflectionTurned(actor))
       and lcWestScore(actor) >= 3.
     Time 1 hour.
