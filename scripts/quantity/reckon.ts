@@ -201,6 +201,14 @@ export class Reckon {
   static rung1(r: Readings): Reading { return QuantityLadder.rung(r.ladder, 1); }
   static rung2(r: Readings): Reading { return QuantityLadder.rung(r.ladder, 2); }
   static bought(r: Readings): Reading { return QuantityLadder.bought(r.ladder); }
+  // What a level of the reference dungeon holds to carry home, coin and sold (QuantityDungeon.takes).
+  static take1(r: Readings): Reading { return this.take(r, 0); }
+  static take2(r: Readings): Reading { return this.take(r, 1); }
+  private static take(r: Readings, n: number): Reading {
+    const level = r.takes?.[n];
+    return level ? { value: level.take, note: (r.takes ?? []).map(l => `${l.id.replace(/^region__s1_ud_/, '')} ${l.take}`)
+      .join(', ') } : { value: null, note: 'not read' };
+  }
   // Fights begun per game hour by the delver in each seed's first dungeon (QuantityDelver).
   static delved(r: Readings): Reading {
     const ds = (r.delved ?? []).filter(d => d.minutes > 0);

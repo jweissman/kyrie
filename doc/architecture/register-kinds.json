@@ -3588,6 +3588,12 @@
    "was": "defect",
    "pri": "P3",
    "why": "27 Nov: the remainder of OR-1502's legible ways (a retreat drawn plain and a held way drawn bare, each by a contract of its own), not an observed failure of a claimed contract"
+  },
+  "OR-1622": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: the remainder of OR-1520, wanted (the flagship's fifth expedition), not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {

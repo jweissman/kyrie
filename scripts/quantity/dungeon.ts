@@ -67,6 +67,36 @@ export class QuantityDungeon {
       EconomyMeasure.kind(w, i)))), 0);
     return { id: level, ...bands[0] ? { boss: bands[0].id } : {}, bossLevel: bands[0]?.level ?? 0, cache };
   }
+  // What each level of a deep site holds to carry home and sell (OR-1129): the coin lying in its rooms, and what a
+  // dealer pays for each thing lying there or in a box there that someone buys (a valuable, or a ware of a trade).
+  // Shallowest first, as the site's levels are written.
+  static takes(c: Campaign, site: string): { id: string; take: number }[] {
+    const byId = EntityIndex.of(c.module.entities).byId, inside = QuantityDungeon.inside.bind(QuantityDungeon, byId);
+    return c.module.entities.filter(e => e.space?.kind === 'level' && inside(e.id, site))
+      .map(l => ({ id: l.id, take: this.coin(c, l.id, inside) + this.sold(c, l.id, inside) }));
+  }
+  private static sold(c: Campaign, level: string, inside: (id: string, of: string) => boolean): number {
+    const w = c.world;
+    return w.related('itemKind').map(r => r.args[0]!).filter(i => !w.test(ModuleWriter.call('forSale', i))
+      && inside(this.where(c, i), level) && this.sells(c, EconomyMeasure.kind(w, i)))
+      .reduce((t, i) => t + Math.max(0, w.number(ModuleWriter.call('dealerPays', EconomyMeasure.kind(w, i)))), 0);
+  }
+  // Where a thing lies, or the box it is in.
+  private static where(c: Campaign, item: string): string {
+    const w = c.world;
+    return w.one('at', item) ?? w.one('at', w.one('inside', item) ?? '') ?? '';
+  }
+  // Whether someone buys a kind: a dealer in valuables, or a trade that deals in it.
+  private static sells(c: Campaign, kind: string): boolean {
+    return c.world.test(ModuleWriter.call('valuable', kind)) || c.world.related('tradeOf', kind).length > 0;
+  }
+  // The coin lying in a level's rooms (rooms.kyrt's coins: a rule that pays it once they are gathered).
+  private static coin(c: Campaign, level: string, inside: (id: string, of: string) => boolean): number {
+    return (c.module.rules ?? []).filter(r => r.id.endsWith('_coins_counted')
+      && inside(c.world.one('at', r.id.replace(/_counted$/, '')) ?? '', level))
+      .flatMap(r => r.effects).reduce((t, e) => t + (e.kind === 'increase' && e.call.name === 'quantity'
+        && e.call.args[0] === 'party' && e.value.kind === 'number' ? e.value.value : 0), 0);
+  }
   // Someone with a hire who stands at the dungeon's way in, or within reach of it (the ledge above its first level).
   private static companion(c: Campaign, entry: string): boolean {
     const w = c.world, near = NoviceCountry.distances(c, entry);
