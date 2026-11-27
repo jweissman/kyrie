@@ -3570,6 +3570,12 @@
    "was": "defect",
    "pri": "P2",
    "why": "27 Nov: the remainder of OR-1503's wanted connections, not an observed failure of a claimed contract"
+  },
+  "OR-1520": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "27 Nov: OR-1124's acceptance unmet as quantity reads it, a slice of OR-1124, not an observed failure of a claimed contract"
   }
  },
  "blockedBy": {

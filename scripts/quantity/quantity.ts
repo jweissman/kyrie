@@ -46,7 +46,11 @@ export class Quantity {
       r.delved = [];
       for (const seed of seeds) { r.delved.push(await QuantityDelver.walk(seed)); console.error(`delved ${seed}`); }
     }
-    if (groups.includes('expeditions')) { r.expeditions = await QuantityExpeditions.run(); console.error('expeditions'); }
+    if (groups.includes('expeditions')) {
+      r.expeditions = await QuantityExpeditions.run();
+      r.ladder = QuantityExpeditions.ladder;
+      console.error('expeditions');
+    }
     if (groups.includes('leads')) { r.leads = await QuantityLeads.run(); console.error('leads'); }
     if (groups.includes('countries')) {
       for (const seed of seeds) { r.countries.push(await QuantityCountry.read(seed)); console.error(`read ${seed}`); }

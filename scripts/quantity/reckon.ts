@@ -2,6 +2,7 @@ import type { Read } from './country';
 import type { Reading, Readings } from './measures';
 import type { Walked } from './walks';
 import { QuantityBestiary } from './bestiary';
+import { QuantityLadder } from './ladder';
 
 // How each quantity is worked out from what was read (see QuantityMeasures for what each is held to).
 export class Reckon {
@@ -195,6 +196,11 @@ export class Reckon {
     return { value: ts.reduce((n, t) => n + t.watches, 0),
       note: ts.map(t => `${t.n}: ${t.watches} watches, ${t.rooms} rooms known, coin ${t.coin}`).join('; ') };
   }
+  // The economy's ladder (QuantityLadder): its rungs held, the expeditions to each, a rung bought out.
+  static rungs(r: Readings): Reading { return QuantityLadder.rungsHeld(r.ladder); }
+  static rung1(r: Readings): Reading { return QuantityLadder.rung(r.ladder, 1); }
+  static rung2(r: Readings): Reading { return QuantityLadder.rung(r.ladder, 2); }
+  static bought(r: Readings): Reading { return QuantityLadder.bought(r.ladder); }
   // Fights begun per game hour by the delver in each seed's first dungeon (QuantityDelver).
   static delved(r: Readings): Reading {
     const ds = (r.delved ?? []).filter(d => d.minutes > 0);

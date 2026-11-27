@@ -3,10 +3,11 @@ import type { Walked } from './walks';
 import type { Delved } from './delver';
 import type { Trip } from './expeditions';
 import type { Led } from './leads';
+import type { Ladder } from './ladder';
 
 // What the quantity gate reads, over the worlds and the walks (scripts/quantity/quantity.ts gathers them).
 export interface Readings { golden?: Walked; gold: Walked[]; countries: Read[]; stranded?: Record<string, string[]>;
-  delved?: Delved[]; expeditions?: Trip[]; leads?: Led[] }
+  delved?: Delved[]; expeditions?: Trip[]; ladder?: Ladder; leads?: Led[] }
 // A number as read: one for the measure, and where it is read per seed or walk, each (a band holds each).
 export interface Reading { value: number | null; each?: Record<string, number>; note: string }
 // band: held between a floor and a ceiling (either may be open); up, down: a ratchet that may only rise, or only
@@ -18,7 +19,7 @@ export interface Measure { id: string; label: string; kind: Kind; why: string; f
 export type Reckoned = 'fights' | 'places' | 'roads' | 'returned' | 'again' | 'bands' | 'fair' | 'economy' | 'treasure' | 'marks' | 'blank' | 'unwitnessed'
   | 'reach' | 'variety' | 'recurrence' | 'errand' | 'nowhere' | 'minutes' | 'hexes' | 'ready' | 'levels' | 'outfit' | 'handed'
   | 'stranded' | 'bestiary' | 'delved' | 'renewed' | 'prepared' | 'routine' | 'answered' | 'kept'
-  | 'identity' | 'mouth' | 'strayed' | 'colours' | 'connected' | 'aimless';
+  | 'identity' | 'mouth' | 'strayed' | 'colours' | 'connected' | 'aimless' | 'rungs' | 'rung1' | 'rung2' | 'bought';
 
 // The measures, each with its kind and why it is held so (doc/architecture/quantity.md says them at length). A band's
 // floor and ceiling here are its first; baseline.json holds them after.
@@ -129,6 +130,19 @@ export class QuantityMeasures {
     { id: 'aimless', label: '5. Moves with nothing worth going to in reach, first hour (median a life)', kind: 'down',
       why: 'every place a company stands in shows what in reach is worth going to, and no stretch is blank (OR-1502); '
         + 'may only fall (27 November: from 14)', read: 'aimless' },
+    // The economy's ladder (OR-1124, OR-1125: scripts/quantity/ladder.ts), read from the five expeditions on s0.
+    { id: 'rungs', label: '3. Rungs of the ladder with a ware in the reference town (of 4)', kind: 'band', floor: 2,
+      why: 'something worth saving for at each rung: a start\'s purse, the first rung (26 to 250), the second (251 to '
+        + '1,500), the long haul (OR-1124)', read: 'rungs' },
+    { id: 'rung1', label: '3. Expeditions to afford the first rung (its first ware)', kind: 'down',
+      why: 'OR-1124: the first rung after one or two expeditions, read from the gold-follower\'s five expeditions '
+        + '(the dearest beside it); held as a ratchet until the take meets the band (OR-1520); may only fall',
+      read: 'rung1' },
+    { id: 'rung2', label: '3. Expeditions to afford the second rung (its first ware)', kind: 'down',
+      why: 'OR-1124: the second rung after three to six expeditions; past the fifth return, the purse\'s mean gain '
+        + 'carried on, 99 for none; a ratchet until the take meets the band (OR-1520); may only fall', read: 'rung2' },
+    { id: 'bought', label: '3. One expedition\'s best take against a rung\'s whole shelf (%, the most)', kind: 'band',
+      ceiling: 100, why: 'no rung bought out by one expedition (OR-1124)', read: 'bought' },
     { id: 'identity', label: 'Consequential people with a name (%)', kind: 'report',
       why: 'OR-304, OR-281: unbaselined at first', read: 'identity' }];
 }

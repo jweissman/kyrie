@@ -6,6 +6,7 @@ import { Reckon } from '../../scripts/quantity/reckon';
 import { QuantityWalks, type Walked } from '../../scripts/quantity/walks';
 import { QuantityCountry, type Read } from '../../scripts/quantity/country';
 import { QuantityLeads, type Led } from '../../scripts/quantity/leads';
+import { QuantityLadder, type Ladder } from '../../scripts/quantity/ladder';
 import type { Campaign } from '../../src/campaign/campaign';
 import type { Predicate } from '../../src/lang/module';
 
@@ -117,5 +118,21 @@ describe('the quantity gate', () => {
     const c = { module: { charts: { land: { width: 6, height: 6 } } } } as unknown as Campaign;
     expect(QuantityCountry.hexes(c, { land: 'land', cell: 0 }, { land: 'land', cell: 3 })).toBe(3);
     expect(QuantityCountry.hexes(c, { land: 'land', cell: 0 }, { land: 'other', cell: 0 })).toBe(Infinity);
+  });
+  it('reads the economy\'s ladder: expeditions to each rung, a rung with no ware, a rung bought out (OR-1125)', () => {
+    const ladder: Ladder = { start: 12, coin: [9, 0, 77, 75, 75],
+      wares: [['torch', 1], ['dagger', 2], ['greatsword', 30], ['banded', 60], ['plate', 400]] };
+    const at = (id: string, l: Ladder = ladder) =>
+      Reckon[QuantityMeasures.all.find(m => m.id === id)!.read]({ ...fixed, ladder: l });
+    // The purse holds 30 at the third return; 400 is past the fifth, at its mean gain of 12.6 an expedition.
+    expect(at('rung1').each).toEqual({ first: 3, dearest: 3 });
+    expect([at('rung2').value, at('rungs').value]).toEqual([5 + Math.ceil(325 / 12.6), 3]);
+    // The best take, 77 at the third return, is 86% of the first rung's 90.
+    expect(at('bought').value).toBe(86);
+    // A rung with no ware, and a purse that never grows, are read as never.
+    expect(at('rung2', { ...ladder, wares: ladder.wares.slice(0, 4) }).note).toBe('no ware on the second rung');
+    expect(QuantityLadder.expeditions({ ...ladder, coin: [9, 9] }, 400)).toBe(QuantityLadder.never);
+    expect(QuantityLadder.expeditions(ladder, 10)).toBe(0);
+    expect(Reckon.rung1(fixed).value).toBeNull();
   });
 });

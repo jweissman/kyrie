@@ -47,6 +47,12 @@
   },
   "outfit": {
    "floor": 4
+  },
+  "rungs": {
+   "floor": 2
+  },
+  "bought": {
+   "ceiling": 100
   }
  },
  "ratchets": {
@@ -65,6 +71,8 @@
   "mouth": 15,
   "strayed": 0,
   "colours": 3,
-  "aimless": 10
+  "aimless": 10,
+  "rung1": 3,
+  "rung2": 99
  }
 }
