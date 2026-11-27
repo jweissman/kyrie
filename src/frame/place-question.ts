@@ -17,8 +17,12 @@ import type { MenuNode } from './menu-tree';
 // first page's); marks: each row's leaves (the four's as the glance leads them, every other as the scene's drawer
 // marks it, Something else… the fold of what is not in view).
 export interface PlaceAsked {
-  rows: Choice[]; promoted: number; page: { at: number; of: number }; marks: Record<string, Leaf[]>;
+  rows: Choice[]; promoted: number; page: { at: number; of: number; top?: number }; marks: Record<string, Leaf[]>;
 }
+// A page of the question: its rows, the page Something else… (or Back) turns to, and its words.
+interface Page { rows: Choice[]; next: number; label: string }
+// A kind of row folded into pages of its own (OR-1495), named for what it holds.
+interface Kind { id: string; label: string; tone: Choice['tone']; rows: Choice[] }
 export class PlaceQuestion {
   static readonly more = 'place:more';
   static readonly room = 4;
@@ -33,19 +37,74 @@ export class PlaceQuestion {
     const led = new Set(four.flatMap(c => [c.id, c.command ?? '']));
     const rest = [this.yourself, ...this.top(menu), ...this.lensed(frame, menu)]
       .filter(c => !led.has(c.id) && !(c.command && led.has(c.command)));
-    // All of it on one page where it fits there; else the four, then the rest a page of four at a time.
+    // All of it on one page where it fits there.
     if (four.length + rest.length <= this.room) {
       const rows = [...four, ...rest];
-      return { rows, promoted: four.length, page: { at: 0, of: 1 }, marks: this.marks(menu, rows) };
+      return { rows, promoted: four.length, page: { at: 0, of: 1, top: 1 }, marks: this.marks(menu, rows) };
     }
-    const pages = [four, ...Array.from({ length: Math.ceil(rest.length / this.room) },
-      (_, i) => rest.slice(i * this.room, (i + 1) * this.room))];
-    const at = ((page % pages.length) + pages.length) % pages.length, next = (at + 1) % pages.length;
-    const more: Choice = { id: this.more, label: next ? 'Something else…' : 'Back to the first',
-      tone: 'way', command: `focus:page:${next}`, note: `${next + 1} of ${pages.length}` };
-    const hidden = this.marks(menu, pages.filter((_, i) => i !== at).flat());
-    return { rows: [...pages[at]!, more], promoted: at ? 0 : four.length, page: { at, of: pages.length },
-      marks: { ...this.marks(menu, pages[at]!), [more.id]: Object.values(hidden).flat() } };
+    return this.turned(frame, menu, { four, rest }, page);
+  }
+  // The rest chosen by reason (OR-1495: fourteen pages in Iscoed's square had been too many to page through): what is
+  // worth doing here leads, each row whose mark bears an opportunity and each way to somewhere not yet seen; the rest
+  // folds by what it is, each kind of two rows or more one row that turns to its own pages, named for what it holds
+  // (the other ways from here, the others here, the things at hand, yourself). Something else… turns the first pages
+  // and comes round; a kind's own pages turn among themselves and come back to the page its row stands on.
+  private static turned(frame: Pick<Frame, 'screen' | 'leaf'>, menu: MenuNode, at: { four: Choice[]; rest: Choice[] },
+    page: number): PlaceAsked {
+    const { top, folded, starts } = this.folded(frame, menu, at.rest);
+    const pages: Page[] = [{ rows: at.four, next: top.length ? 1 : 0, label: 'Something else…' },
+      ...top.map((p, i) => ({ rows: p, next: i + 1 < top.length ? i + 2 : 0,
+        label: i + 1 < top.length ? 'Something else…' : 'Back to the first' })),
+      ...folded.flatMap(k => this.chunk(k.rows).map((rows, i, all) => ({ rows,
+        next: i + 1 < all.length ? starts[k.id]! + i + 1 : 1 + top.findIndex(p => p.some(c => c.id === `place:kind:${k.id}`)),
+        label: i + 1 < all.length ? `More of ${k.label.toLowerCase()}…` : 'Back' })))];
+    const n = ((page % pages.length) + pages.length) % pages.length, shown = pages[n]!;
+    const more: Choice = { id: this.more, label: shown.label, tone: 'way', command: `focus:page:${shown.next}` };
+    const marks = { ...this.marks(menu, shown.rows),
+      ...Object.fromEntries(folded.map(k => [`place:kind:${k.id}`, Object.values(this.marks(menu, k.rows)).flat()])) };
+    // Something else… the fold of what the first pages hold out of view; Back, of nothing.
+    const hidden = pages.filter((_, i) => i !== n && i <= top.length).flatMap(p => p.rows)
+      .flatMap(c => marks[c.id] ?? this.marks(menu, [c])[c.id] ?? []);
+    return { rows: [...shown.rows, more], promoted: n ? 0 : at.four.length,
+      page: { at: n, of: pages.length, top: 1 + top.length },
+      marks: { ...marks, [more.id]: n > top.length ? [] : hidden } };
+  }
+  // The rest by reason, then by kind: the first pages' rows (each kind of two or more its one row), the kinds folded,
+  // and the page each kind's own pages begin at.
+  private static folded(frame: Pick<Frame, 'screen' | 'leaf'>, menu: MenuNode, rest: Choice[]):
+    { top: Choice[][]; folded: Kind[]; starts: Record<string, number> } {
+    const marked = this.marks(menu, rest);
+    const unseen = new Set(frame.screen.exits.filter(e => !e.visited && !e.crosses).map(e => e.id));
+    // What is worth doing, one page of it at most, in the order the glance's offer ranks its rest (by reason).
+    const ranked = new Map((frame.leaf.glance?.offer?.rest ?? []).flatMap((o, i) => [[o.choice, i], [o.command ?? '', i]]));
+    const worth = rest.filter(c => (marked[c.id] ?? []).some(l => l.witnesses.some(w => w.aspects.length > 0))
+      || unseen.has(c.id)).sort((a, b) => this.at(ranked, a) - this.at(ranked, b)).slice(0, this.room);
+    const kinds = this.kinds.map(k => ({ ...k, rows: rest.filter(c => !worth.includes(c) && this.kind(c) === k.id) }))
+      .filter(k => k.rows.length);
+    const folded = kinds.filter(k => k.rows.length > 1);
+    const loose = kinds.filter(k => k.rows.length < 2).flatMap(k => k.rows);
+    const top = this.chunk([...worth, ...loose, ...folded.map(k => this.opener(k, 0))]);
+    const starts: Record<string, number> = {};
+    let n = 1 + top.length;
+    for (const k of folded) { starts[k.id] = n; n += this.chunk(k.rows).length; }
+    return { top: top.map(p => p.map(c => { const k = folded.find(x => c.id === `place:kind:${x.id}`);
+      return k ? this.opener(k, starts[k.id]!) : c; })), folded, starts };
+  }
+  private static at(ranked: Map<string, number>, c: Choice): number {
+    return ranked.get(c.id) ?? ranked.get(c.command ?? '') ?? Number.MAX_SAFE_INTEGER;
+  }
+  private static opener(k: Kind, page: number): Choice {
+    return { id: `place:kind:${k.id}`, label: `${k.label}…`, tone: k.tone, command: `focus:page:${page}` };
+  }
+  private static chunk<T>(xs: T[]): T[][] {
+    return Array.from({ length: Math.ceil(xs.length / this.room) },
+      (_, i) => xs.slice(i * this.room, (i + 1) * this.room));
+  }
+  static readonly kinds: Omit<Kind, 'rows'>[] = [
+    { id: 'ways', label: 'Other ways from here', tone: 'way' }, { id: 'people', label: 'Others here', tone: 'person' },
+    { id: 'things', label: 'Things at hand', tone: 'thing' }, { id: 'yours', label: 'Yourself', tone: 'company' }];
+  private static kind(c: Choice): string {
+    return ['ways', 'people', 'things', 'yours'][this.rank(c)]!;
   }
   // Each row's leaves: one of the four's as the glance leads it, any other's as the scene's drawer marks it.
   private static marks(menu: MenuNode, rows: Choice[]): Record<string, Leaf[]> {

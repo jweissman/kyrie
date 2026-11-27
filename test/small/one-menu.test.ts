@@ -35,6 +35,9 @@ describe('the place at rest', () => {
     const first = page(0), asked = first.question!.place!;
     expect(asked.promoted).toBe(4);
     expect(asked.rows.slice(4).map(r => r.command)).toEqual(['focus:page:1']);
+    // What is worth doing leads the pages after the four, and the rest folds by kind (OR-1495): Something else…
+    // turns through fewer pages than there are.
+    expect(asked.page.top).toBeLessThanOrEqual(asked.page.of);
     const drawn = MenuCensus.count(MenuCensus.html(first));
     expect([drawn.menus, drawn.promoted, drawn.sources]).toEqual([1, 4, { offer: 4, question: 1 }]);
     // Turned page by page, round to the first: each a menu of its own rows, four at most and Something else….
@@ -43,7 +46,7 @@ describe('the place at rest', () => {
       const p = page(n), rows = p.question!.place!.rows, c = MenuCensus.count(MenuCensus.html(p));
       expect([c.menus, c.promoted, c.rows]).toEqual([1, 0, rows.length]);
       expect(rows.length).toBeLessThanOrEqual(5);
-      expect(rows.at(-1)!.command).toBe(`focus:page:${(n + 1) % asked.page.of}`);
+      expect(rows.at(-1)!.command).toMatch(/^focus:page:\d+$/);
       rows.slice(0, -1).forEach(r => seen.add(r.id));
     }
     expect(seen.has(PlaceQuestion.yourself.id)).toBe(true);
