@@ -19,7 +19,7 @@ const kitchen = `
 
 describe('a question asked and answered', () => {
   it('is no longer what its asker is led for: the next question is', async () => {
-    const t = await Tiny.start(kitchen);
+    const t = await Tiny.start(kitchen, { horizon: [] });
     const wat = () => t.glance.acts.find(a => a.subject === 't__brother');
     expect(wat()?.for).toBe('t__father');
     await t.perform('t__father');

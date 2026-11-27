@@ -15,7 +15,7 @@ const den = `
 
 describe('the telling of a fight just won', () => {
   it('tells the fall in the fight, not again as lying dead; the next page says where it lies', async () => {
-    const t = await Tiny.start(den);
+    const t = await Tiny.start(den, { horizon: ['inhabitants'] });
     await t.perform(t.journey.choices().find(c => /^attack\(/.test(c.command))!.command);
     expect(t.leaf.exchange?.lines.map(l => l.text).join(' ')).toMatch(/falls/);
     expect(t.leaf.presence.join(' ')).not.toMatch(/lies dead/);

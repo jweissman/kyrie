@@ -29,7 +29,7 @@ const cleric: CreatureGenerationContext = {
 
 describe('casting a healing spell on another person', () => {
   it('heals the injured person and spends the caster’s spell slot', async () => {
-    const t = await Tiny.start(scene, { party: [cleric], seed: 'cure-keeper' });
+    const t = await Tiny.start(scene, { horizon: ['care'], party: [cleric], seed: 'cure-keeper' });
     await t.play('The keeper cuts a hand');
     const keeper = () => t.campaign.readout.creatures.find(c => c.id.startsWith('t__patient_person'))!;
     const caster = () => t.campaign.readout.creatures.find(c => c.id === 't__party_1')!;

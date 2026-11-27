@@ -33,7 +33,7 @@ const yard = `
 
 describe('what someone has to be told, asked or settled with', () => {
   it('is what bears on an aim, asks them along or tells a place, and not a label that begins "Tell"', async () => {
-    const t = await Tiny.start(yard);
+    const t = await Tiny.start(yard, { horizon: [] });
     expect(new Set(t.screen.weighty)).toEqual(new Set(['t__tell_job', 't__ask_along', 't__ask_cache']));
   });
 });
