@@ -30,7 +30,7 @@ Module raingourd "The Rain-Gourd" {
   }
   Initially Assert serves(rg_hands, rg_factor).
   Observe rg_casks at waterfront when at(rg_factor, waterfront)
-    "Six casks stand chained at the head of the slipway, by the dry rain-stone. A line of women with jugs waits for them in the sun.".
+    "Six casks stand chained at the head of the slipway, by the dry rain-stone. A line of women with jugs waits for them.".
 
   // A full gourd, carried down past the man who sells water: he wants it off the stone and into a cask. Once Oyelle has
   // said she will come down to see it poured, Palla is out on the slipway waiting for her, and he will not be seen to
@@ -50,8 +50,11 @@ Module raingourd "The Rain-Gourd" {
   Observe rg_oyelle_shames at waterfront when at(oyelle, waterfront) and at(rg_factor, waterfront)
     "Coss sees Oyelle come down the slipway on your arm and stands up off his cask. He does not sell a jug while she is in sight.".
 
-  Rule rg_sails when state(sky, rain_sky) and at(rg_factor, waterfront) and not rgFactorGone(party)
+  Rule rg_sails at waterfront when state(sky, rain_sky) and at(rg_factor, waterfront) and not rgFactorGone(party)
     says "Coss stands in the rain with his slate going to grey milk. Every roof in Palla is running into a barrel. He rolls his casks into the shallows, empties them, and rows out to the coaster without a word." {
+    Assert rgFactorGone(party). Retract at(rg_factor, waterfront). Retract at(rg_hands, waterfront).
+  }
+  Rule rg_sails_unseen when state(sky, rain_sky) and at(rg_factor, waterfront) and not at(party, waterfront) and not rgFactorGone(party) {
     Assert rgFactorGone(party). Retract at(rg_factor, waterfront). Retract at(rg_hands, waterfront).
   }
   Observe rg_empty_casks at beach when rgFactorGone(party)
