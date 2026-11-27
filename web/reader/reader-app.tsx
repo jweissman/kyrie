@@ -8,10 +8,10 @@ import { JourneyCourse } from './journey-course';
 import { MenuModel, type Menu, type Travel, type View } from '../../src/frame/menu-model';
 import { WorldStage } from './stage/world-stage';
 import { Explorer, type Part } from './stage/explorer';
-import { Conversation, type TalkLine } from './conversation';
-import { PageFocus } from './page-focus';
+import { TalkLines } from '../../src/frame/talk-lines';
+import { TalkQuestion } from '../../src/frame/talk-question';
+import { Focusing } from '../../src/session/focus';
 import type { Attention } from '../../src/ui/attention';
-import type { Promoted } from '../../src/presentation/glance-types';
 import { Surfaces } from '../../src/presentation/surfaces'; import { Earned } from '../../src/lang/index';
 import type { Screen } from '../../src/ui/screen-types';
 import { ReaderStore, type SavedGame } from './reader-store';
@@ -101,15 +101,10 @@ export interface AppState {
   // What is under way, as it is said; a journey, by what way (where it is known), and that it is one.
   // taken: the choice it was, drawn taken while the engine answers.
   pending?: { said: string; travel?: Travel; going?: boolean; taken?: string };
-  // What the player is attending to (the place, someone spoken with, one thing looked at), what has been said in
-  // the conversation under way, and which of its questions have been put already.
-  attention: Attention; talk: TalkLine[]; asked: string[];
-  // In a conversation: what could be said before the last thing said (what is new since stands out: see TalkFocus),
-  // and whether the trading is open (wares and services, apart from what is said).
-  heard?: string[]; trading?: boolean;
-  // What the place led with about whoever was turned to, as it was when they were turned to: turning to someone tells
-  // the world they were talked to, and what there was to ask them is no longer led with after (see TalkStage.drawn).
-  turned?: Promoted[];
+  // The one thing looked at, if any (its page: examination moves into the engine's focus with OR-1452). Whom the
+  // company talks with, what has been said and asked, and the wares open are the engine's (Frame.question, OR-1451),
+  // never the page's.
+  examined?: string;
   // Whether the likenesses of who is here are shown (the talk lens, see SceneRail.Talk): put away while Go or Look is
   // open, whose lenses stand where they do.
   talking?: boolean;
@@ -145,7 +140,6 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   private static initial(saved?: SavedGame): AppState {
     return { phase: 'title', options: ReaderOptions.read(), campaign: '', seed: '', party: [], editing: -1, view: 'here',
       cursor: 0, open: [],
-      attention: Conversation.place, talk: [], asked: [],
       member: '', stage: '', error: '', help: false, ...saved ? { saved } : {} };
   }
   override componentDidMount() {
@@ -176,9 +170,9 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       }
     }
     // So does someone or something turned to (a phone kept the place's scroll, and opened a portrait at its chest).
-    const [was, now] = [prev.attention, this.state.attention];
+    const [was, now] = [ReaderApp.attending(prev), this.attention];
     if (now.kind !== 'place' && (was.kind !== now.kind || was.id !== now.id)) { ReaderApp.top(); }
-    if (was !== now) { PressGuard.changed(); }
+    if (was.kind !== now.kind || ('id' in was && 'id' in now && was.id !== now.id)) { PressGuard.changed(); }
     if (prev.cursor !== this.state.cursor && prev.frame === frame && this.state.keyed && !this.state.hovered) {
       // On the sheet raised over a place, when it is there too (a way rowed under the glance and among every way).
       const at = `[data-action="choice"][data-index="${this.state.cursor}"]`;
@@ -208,7 +202,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         : { seen: 0, hp: {}, first: true, began: Object.fromEntries(combat.allies.map(f => [f.id, f.hp])) } : undefined;
       const news = [...this.state.news ?? [], ...News.of(message.frame, this.state.news)];
       this.setState({ frame: message.frame, pending: undefined, cursor: 0, open: [], hovered: undefined, fight, news,
-        attention: Conversation.place, talk: [], asked: [], confirming: undefined, charted: undefined,
+        examined: undefined, confirming: undefined, charted: undefined,
         outdoors: !!message.frame.screen.region?.land && !combat && Surfaces.has(message.frame.screen, 'the_map') });
       if (this.props.query.has('earned') && message.frame.screen.surfaces?.length !== Earned.surfaces.length) {
         void this.earn();
@@ -240,18 +234,17 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     // Not kept (the browser's storage is full, or refused): the player is told, and given the save to take.
     else if (!this.state.unkept) { this.setState({ unkept: true }); }
   }
-  private built?: { frame?: Frame; view: View; open: string[]; attention: Attention; member: string; asked: string[];
-    heard?: string[]; trading?: boolean; menu: Menu };
-  // What can be chosen now, built once for each frame, view, attention, member shown, set of open choices and what has
-  // been asked in a conversation.
+  private built?: { frame?: Frame; view: View; open: string[]; examined?: string; member: string; menu: Menu };
+  // What can be chosen now, built once for each frame, view, thing looked at, member shown and set of open choices: in
+  // a talk, the engine's question (its rows, as every client has them).
   get menu(): Menu {
-    const { frame, view, open, attention, member, asked, heard, trading } = this.state, b = this.built;
-    if (b && b.frame === frame && b.view === view && b.open === open && b.attention === attention && b.member === member
-      && b.asked === asked && b.heard === heard && b.trading === trading) {
+    const { frame, view, open, examined, member } = this.state, b = this.built;
+    if (b && b.frame === frame && b.view === view && b.open === open && b.examined === examined && b.member === member) {
       return b.menu;
     }
-    this.built = { frame, view, open, attention, member, asked, heard, trading,
-      menu: MenuModel.build(frame, view, open, { attention, member, asked, heard, trading }) };
+    const talked = view === 'here' && !frame?.combat && frame ? TalkQuestion.menu(frame) : undefined;
+    this.built = { frame, view, open, examined, member,
+      menu: talked ?? MenuModel.build(frame, view, open, { attention: ReaderApp.attending(this.state), member }) };
     return this.built.menu;
   }
   // A choice made: what it opens is shown beneath it (or put away again); a fight goes on; or the company does it.
@@ -265,8 +258,11 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const { frame, pending } = this.state;
     if (pending || choice.disabled || !frame) { return; }
     if (frame.combat?.outcome) { this.onward(); return; }
-    const turned = Conversation.turn(choice);
-    if (turned) { this.attend(choice, turned); return; }
+    // A thing looked at, or looked away from, on the page's own (until OR-1452); someone talked to, or left, is the
+    // engine's, by the row's command (talk_to or focus:talk, take_leave or focus:place).
+    const turned = TalkLines.turn(choice);
+    if (turned && turned.kind !== 'person' && !/#leave$/.test(choice.id)) { this.attend(choice, turned); return; }
+    if (turned && choice.command) { void this.perform(choice, choice.label); return; }
     if (choice.children) { Folds.toggle(this, choice); return; }
     if (!choice.command) { if (this.state.view === 'company') { this.setState({ member: choice.id }); } return; }
     // A pointer to a book (a development to spend is spent in the character).
@@ -290,16 +286,19 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     }
     void this.perform(choice, said);
   };
-  // Attention turned: to someone (saying so to them, when the world has a way to), to a thing, or back to the place
-  // (taking leave, when there is leave to take).
+  // Attention turned to a thing, or back from it to the place.
   private attend(choice: Choice, attention: Attention) {
-    // A conversation opens on what they were doing when the company came over.
-    const doing = attention.kind === 'person' ? this.menu.scene?.subjects.find(x => x.id === attention.id)?.says?.[0] : undefined;
-    const turned = attention.kind === 'place' ? []
-      : (this.state.frame?.leaf.glance?.acts ?? []).filter(a => a.subject === attention.id);
-    const { talk, asked } = PageFocus.turned(this.state, attention, doing);
-    this.setState({ attention, open: [], cursor: 0, hovered: undefined, keyed: false, turned, talk, asked });
-    if (choice.command) { void this.perform(choice, choice.label, attention); }
+    this.setState({ examined: attention.kind === 'thing' ? attention.id : undefined, open: [], cursor: 0,
+      hovered: undefined, keyed: false });
+    if (choice.command) { void this.perform(choice, choice.label); }
+  }
+  // What the page attends to: whom the engine's focus talks with (Frame.question), else the thing looked at, else the
+  // place.
+  get attention(): Attention { return ReaderApp.attending(this.state); }
+  static attending(s: Pick<AppState, 'frame' | 'examined'>): Attention {
+    const focus = s.frame?.question?.focus;
+    return focus?.kind === 'talk' ? { kind: 'person', id: focus.with }
+      : s.examined ? { kind: 'thing', id: s.examined } : TalkLines.place;
   }
   // Automation (kyrieMono.act): a command done by its id, as choosing it would, and timed as a choice is.
   readonly act = (command: string, said: string) => {
@@ -333,11 +332,13 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
   private readonly failed = (error: unknown) => {
     this.setState({ pending: undefined, error: error instanceof Error ? error.message : String(error) });
   };
-  private async perform(choice: Choice, said: string, turning?: Attention) {
+  private async perform(choice: Choice, said: string) {
     performance.mark('page:perform');
     const frame = this.state.frame!, travel = MenuModel.travel(choice, frame), going = /^travel:/.test(choice.command!);
-    const heard = this.menu.talk?.replies.map(c => c.id), was = this.state.attention;
-    this.setState({ pending: { said, taken: choice.id, ...travel ? { travel } : {}, ...going ? { going } : {} }, error: '' });
+    // A command of the focus (the talk's page, its wares, turning to someone) is not said: nothing is said by it.
+    const focus = Focusing.is(choice.command!);
+    this.setState({ pending: { said: focus ? '' : said, taken: choice.id, ...travel ? { travel } : {},
+      ...going ? { going } : {} }, error: '' });
     try {
       const journey = /^travel:(.+)$/.exec(choice.command!)?.[1], unbind = choice.command === MenuModel.unbind;
       const next = journey ? await this.engine.request<Frame>({ kind: 'travel', destination: journey })
@@ -354,19 +355,20 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
       performance.mark('page:answered');
       if (walked && Surfaces.has(next.screen, 'the_map')) { await this.walk(walked, next.screen.region?.land?.known); }
       performance.mark('page:walked');
-      // What is done from the pack or the company page in the middle of a conversation is not said in it: the follow-up
-      // review tended a wound from the pack and was put back in the creditor's dialogue, the bandaging told there.
-      const aside = !turning && (this.state.view === 'pack' || this.state.view === 'company');
-      const { attention, talk, asked, heard: since, trading } = PageFocus.after({ ...this.state, attention: was },
-        { choice, said, ...turning ? { turning } : {}, aside, frame, next, ...heard ? { replies: heard } : {} });
+      // Whom the company is talking with, and what was said, is the engine's (Frame.question): what is done from the
+      // pack or the company page in the middle of a conversation is the session's to put aside (Focusing.after).
+      // A thing looked at stays looked at while it is there and the company has not gone, nor done it from the pack.
+      const aside = this.state.view === 'pack' || this.state.view === 'company', thing = this.state.examined;
+      const held = thing && !aside ? TalkLines.holds({ kind: 'thing', id: thing }, frame, next) : TalkLines.place;
+      const attention = ReaderApp.attending({ frame: next, examined: held.kind === 'thing' ? held.id : undefined });
       const keeps = ReaderApp.keeps(this.state.exploring, frame, next);
       performance.mark('page:frame');
       this.setState({ frame: next, pending: undefined, cursor: 0,
         open: keeps ? this.state.open : this.kept(next, attention), hovered: keeps ? this.state.hovered : undefined,
         // Set out from the map, the journey is told where it arrives; anything else done from the map or the company
         // leaves it open.
-        view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '', attention, talk,
-        asked, heard: since, trading,
+        view: !journey && ['map', 'company'].includes(this.state.view) ? this.state.view : 'here', stage: '',
+        examined: attention.kind === 'thing' ? attention.id : undefined,
         // A journey across the land (from one hex to another) is told on the map, and come to a town the company is at
         // its gate, not yet in it: entering is the player's. Set out on from the scene, the scene is back once the walk
         // is shown. A walk within a town or a site never raises the map (the
@@ -380,7 +382,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
         // Talk is a lens on one place: gone on to another, it is put away (the contact sheet, 12 November: the rats
         // lay dead in the next room's foot, Talk still on).
         talking: next.screen.place.id === frame.screen.place.id ? this.state.talking : undefined,
-        acted: this.state.attention.kind === 'thing' ? this.state.attention.id : undefined }, () => { Explorer.settle(this); });
+        acted: thing }, () => { Explorer.settle(this); });
     } catch (error) { this.failed(error); }
   }
   // Whether the map is up after a command: come into open country, it is; come into a town or a site, or anything done
@@ -389,8 +391,6 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     return after.screen.place.id !== before.screen.place.id && !after.combat && WorldStage.wild(after.screen)
       && Surfaces.has(after.screen, 'the_map');
   }
-  // The trading opened in a conversation, or shut (back to what is said).
-  readonly trade = (open: boolean) => { this.setState({ trading: open || undefined, cursor: 0, hovered: undefined }); };
   // What is opened over the place (see Explorer), or put away.
   readonly explore = (part?: Part) => { Explorer.open(this, part); };
   // What stays open over what was done in it: a thing's pane, a wait, while the company is where it was and no fight
@@ -399,7 +399,7 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     return (part === 'look' || part === 'wait') && !after.combat && after.screen.place.id === before.screen.place.id;
   }
   // The map up, or put away (entering where the company stands, or backing out of it to the map).
-  readonly outdoor = (up: boolean) => { this.setState({ outdoors: up, view: 'here', attention: Conversation.place, cursor: 0,
+  readonly outdoor = (up: boolean) => { this.setState({ outdoors: up, view: 'here', examined: undefined, cursor: 0,
     open: [], hovered: undefined, exploring: undefined }); };
   // The map up with a place on it chosen, brought into view clear of the card that says it: "A lone tower, on the
   // map", in the Notes, had opened the map on the town, the tower neither chosen nor in sight (the fresh playtest of 7
@@ -430,15 +430,17 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     if (s.frame?.combat?.outcome) { this.onward(); }
     else if (s.help) { this.setState({ help: false }); }
     else if (s.exploring) { this.setState({ exploring: undefined }); }
-    else if (s.trading) { this.setState({ trading: undefined, cursor: 0 }); }
+    else if (s.frame?.question?.focus.kind === 'talk' && s.frame.question.focus.trading && this.menu.talk) {
+      this.choose(this.menu.choices.find(c => c.id === TalkQuestion.back) ?? this.menu.talk.leave);
+    }
     else if (s.open.length) { this.setState({ open: s.open.slice(0, -1), cursor: 0 }); }
     // The map raised over a town or a building: a hex chosen on it let go of, then the map put away (a cold player could
     // not leave it by Escape: Mission 20's third round). Out in the wild country the map is the place itself.
     else if (s.outdoors && s.frame && !WorldStage.wild(s.frame.screen)) { this.outdoor(false); this.setState({ charted: undefined }); }
     else if (s.outdoors && s.charted?.id) { this.setState({ charted: undefined }); }
     else if (s.view !== 'here') { this.setState({ view: 'here', cursor: 0 }); }
-    else if (s.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
-    else if (s.attention.kind !== 'place') { this.setState({ attention: Conversation.place, cursor: 0 }); }
+    else if (this.attention.kind === 'person' && this.menu.talk) { this.choose(this.menu.talk.leave); }
+    else if (s.examined) { this.setState({ examined: undefined, cursor: 0 }); }
   };
   show(asked: View, who?: string) {
     if (this.state.frame?.combat && asked !== 'here') { return; }
@@ -504,16 +506,16 @@ export class ReaderApp extends Component<{ query: URLSearchParams }, AppState> {
     const s = this.state, menu = this.menu, frame = s.frame;
     const mode = s.phase !== 'play' ? { title: 'title', begin: 'begin', closed: 'closed', options: 'options', campaigns: 'campaigns',
       company: 'create', loading: 'create' }[s.phase]
-      : Stage.prologue(this) ? 'prologue' : frame?.combat ? 'combat' : s.view === 'here' && s.attention.kind !== 'place'
-        ? { person: 'talk', thing: 'examine' }[s.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
+      : Stage.prologue(this) ? 'prologue' : frame?.combat ? 'combat' : s.view === 'here' && this.attention.kind !== 'place'
+        ? { person: 'talk', thing: 'examine' }[this.attention.kind] : { here: 'explore', company: 'party', pack: 'pack',
           journal: 'journal', map: 'map', story: 'story' }[s.view];
     return { mode, observed: this.observed(), place: frame?.screen.place, path: frame?.screen.path,
-      attention: s.attention, talk: s.talk,
+      attention: this.attention, talk: frame?.question?.talk?.lines ?? [],
       sections: menu.sections.map(sec => ({ id: sec.id, title: sec.title, choices: sec.choices.map(MenuModel.shape) })),
       choices: menu.choices.map(MenuModel.shape), selected: s.keyed ? menu.choices[s.cursor]?.id : undefined, trail: s.open,
       // A place at a glance: how the company came, what it leads with and why, the ways it rows; where the rest is drawn;
       // and a choice chosen once that asks again before it is done.
-      ...frame?.leaf.glance && menu.sheets && s.view === 'here' && s.attention.kind === 'place' && !frame.combat
+      ...frame?.leaf.glance && menu.sheets && s.view === 'here' && this.attention.kind === 'place' && !frame.combat
         ? { glance: { arrival: frame.leaf.glance.arrival, sight: frame.leaf.glance.sight?.id,
           acts: frame.leaf.glance.acts.map(a => ({ choice: a.choice, why: a.why, marks: a.marks.map(m => m.kind) })),
           ways: frame.leaf.glance.ways }, sheets: menu.sheets } : {},

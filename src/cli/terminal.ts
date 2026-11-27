@@ -31,7 +31,9 @@ import { Narrator, type Told } from '../presentation/narrator';
 import { ActionFeedbackView } from '../presentation/action-feedback';
 import type { Screen } from '../ui/screen-types';
 import { SceneModel } from '../ui/scene';
-import { Attending } from '../ui/attention';
+import { Focusing } from '../session/focus';
+import type { Question } from '../frame/talk-question';
+import { QuestionAsked } from '../frame/question-asked';
 import type { Choice } from '../ui/choice-list';
 import type { Aspect, Glance, Lens, Promoted, Successor } from '../presentation/glance-types';
 import type { ActType } from '../presentation/offer';
@@ -52,10 +54,10 @@ export interface Offered { all: Listed[]; first: Listed[]; talk?: boolean; more?
   lens?: { name: Lens; more: number }; opened?: string; says?: string }
 // How a play is shown: its scene (a walk keeps its own), with profile, and saved as asked.
 interface Played { scene?: TerminalScene; profile?: boolean; saveAs?: boolean }
-// Whom the company is speaking with (and what the likeness turned to was drawn for), what was last told, the scene.
-export interface Talking { id: string; inside: Promoted['inside'] }
+// What was last told, the scene, and the question asked of it (whom the company speaks with is the session's focus:
+// OR-1451).
 interface Turn {
-  told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf> }; talking?: Talking;
+  told?: Told; current?: { screen: Screen; leaf: ReturnType<typeof Narrator.leaf>; question?: Question };
   scene?: TerminalScene; helped?: boolean; attended?: boolean; profile?: { world?: number }; lens?: Lens;
   // The last act and how long the engine took over it, for the oracle (OR-1151).
   last?: OracleAct;
@@ -111,7 +113,8 @@ export class Terminal {
     turn.attended = false;
     // Picked at a terminal, each line broken at its words to the terminal's width, not where the terminal breaks it.
     const width = turn.width?.();
-    for (const line of scene.lines(screen, leaf, turned, turned === 'act' && !!turn.talking)) {
+    const talking = session.focus.kind === 'talk';
+    for (const line of scene.lines(screen, leaf, turned, turned === 'act' && talking)) {
       for (const l of width && line ? TerminalWidth.wrap(line, width - 1) : [line]) { console.log(l); }
     }
     if (turn.profile) {
@@ -119,12 +122,13 @@ export class Terminal {
       console.log(`  (${world}the telling ${Stopwatch.seconds(performance.now() - began)})`);
       turn.profile.world = undefined;
     }
-    return { screen, leaf };
+    // The question asked of the turn told (a talk's rows, as every client has them).
+    return { screen, leaf, question: QuestionAsked.settle(session, { screen, leaf }) };
   }
   // What a turn offers (read by test/support/three-clients too, beside the page's and the runner's: OR-1450).
   static foreground(session: PlaySession, glance: ReturnType<typeof Narrator.leaf>['glance'], screen: Screen,
-    at: { talking?: Talking; lens?: Lens; opened?: Listed; travel?: Asked } = {}): Offered {
-    const { talking, lens } = at;
+    at: { question?: Question; lens?: Lens; opened?: Listed; travel?: Asked } = {}): Offered {
+    const { question, lens } = at;
     // Each choice's minutes, as the page says them (ActionTime.minutes), not its ticks: "Bury him · 1 min" had taken
     // two hours, a way into the next stretch of country listed in minutes took ninety (cold review A, 12 November).
     const world = session.campaign.world;
@@ -157,13 +161,12 @@ export class Terminal {
     // "Talk to Odo" had led the terminal's foreground, and "Ask Odo about the road your father took" was only under
     // `all`, eight times in one cold review (12 November); the page shows it as the talk's own line.
     const ids = TerminalDoable.led(glance, screen);
-    // Inside a talk, each reply drawn as the likeness turned to was drawn for it (see Promoted.inside; E185).
-    const acts = [...TerminalDoable.acts(glance, screen), ...talking ? [{ inside: talking.inside } as Promoted] : []];
+    const acts = TerminalDoable.acts(glance, screen);
     // An opener taken: its rows, the four first.
     // One with a focus reads it out, and every row of it is among the first: a riddle and all its answers (CL-34).
     const o = at.opened, opened = o?.opens && TerminalDoable.unfolded(o.opens.flatMap(k => byId.get(k) ?? []), o.says);
     if (o && opened) { return { all, ...opened, first: opened.first.map(c => this.drawn(acts, c)), opened: o.name }; }
-    const talked = talking && this.talk(talking, { screen, byId, acts });
+    const talked = question?.talk && this.talk(question, byId);
     if (talked) { return { all, ...talked }; }
     // Through a lens, its own few, ranked as the scene's are, from the same acts (Glance.lenses): attention, not time.
     const lensed = lens && glance?.lenses[lens];
@@ -174,13 +177,6 @@ export class Terminal {
     const after = lensed ? lensed.rest.flatMap(a => byId.get(key(a)) ?? []) : [];
     return { all, first: shown,
       ...lensed ? { lens: { name: lens, more }, rest: after } : { more: all.length - shown.length } };
-  }
-  // Whom the company is speaking with after an act: no one once it has moved or taken its leave; whom it spoke to, by
-  // talking to them; else as before (OR-1450: the terminal's step, read beside the page's and the runner's).
-  static talked(talking: Talking | undefined, at: { moved: boolean; does?: string; target?: string;
-    inside?: Promoted['inside'] }): Talking | undefined {
-    if (at.moved || at.does === 'take_leave') { return undefined; }
-    return at.does === 'talk_to' && at.target ? { id: at.target, inside: at.inside } : talking;
   }
   // As an aim is seen through, what pulls next (see Succession, PL-06): offered, as the choice to type or the aim to
   // follow, never followed for the player.
@@ -208,21 +204,15 @@ export class Terminal {
     const aspects = Emphasis.drawn(Emphasis.within(acts, { command: c.id } as Choice, act?.aspects ?? []), next);
     return aspects.length ? { ...c, aspects } : c;
   }
-  // While someone is spoken with, what can be put to them, as the page's conversation lists it (Attending.talk):
+  // While someone is spoken with, what can be put to them: the engine's question (OR-1451), each row as the turn lists
+  // its act, marked as the question marks it, the question's own rows (Trade, the next page, Back) by their commands.
   // "Talk to the wagoner" had been drawn blue, and opened onto nothing to ask him (M21's playability investigation).
-  // Four at most, as everywhere: the replies the talk leads with, and leaving it always among them.
-  private static talk(talking: Talking, at: { screen: Screen; byId: Map<string, Listed>; acts: Promoted[] })
-    : Omit<Offered, 'all'> | undefined {
-    const { screen, byId, acts } = at, talk = Attending.talk(SceneModel.build(screen), talking.id);
-    if (!talk) { return undefined; }
-    const replies = talk.replies.flatMap(c => this.leaves(c));
-    const asked = replies.flatMap(c => byId.get(c.command!) ?? []).map(l => ({ ...l,
-      told: this.topic(replies.find(c => c.command === l.id)!, acts) }));
-    const leave = this.leaves(talk.leave).flatMap(c => byId.get(c.command!) ?? []);
-    const shown = asked.slice(0, 4 - leave.length), more = asked.length - shown.length;
-    if (!shown.length && !leave.length) { return undefined; }
-    return { first: [...shown, ...leave].map(c => this.drawn(acts, c)), talk: true, ...more ? { more } : {},
-      rest: asked.slice(shown.length).map(c => this.drawn(acts, c)) };
+  private static talk(question: Question, byId: Map<string, Listed>): Omit<Offered, 'all'> | undefined {
+    const talk = question.talk!;
+    const first = talk.rows.flatMap(r => !r.command ? [] : [{ ...byId.get(r.command) ?? { id: r.command, name: r.label,
+      time: 0 }, aspects: [...new Set((talk.marks[r.id] ?? []).flatMap(l => l.witnesses.flatMap(w => w.aspects)))],
+    ...r.teaches ? { told: ['teaches'] } : {} } as Listed]);
+    return first.length ? { first, talk: true, rest: [] } : undefined;
   }
   // What a question does, from its act's own fields: that it teaches, that it bears on an aim (what it costs or why it
   // waits is its note, said with every row's). Talk's rows had carried their words and little else.
@@ -266,8 +256,8 @@ export class Terminal {
       if (!turn.current) { turn.current = this.scene(session, turn); turn.spaced = false; }
       const { screen, leaf } = turn.current;
       const offered = this.foreground(session, leaf.glance, screen,
-        { talking: turn.talking, lens: turn.lens, opened: turn.opened, travel: leaf.travel });
-      if (turn.talking && !offered.talk) { turn.talking = undefined; }
+        { ...turn.current.question ? { question: turn.current.question } : {}, lens: turn.lens, opened: turn.opened,
+          travel: leaf.travel });
       this.next(leaf.glance?.next, screen, { all: offered.all, human });
       const answer = human ? await this.picked(input, offered, { turn, session })
         : await this.typed(input, offered, turn);
@@ -312,7 +302,7 @@ export class Terminal {
       all: offered.rest ? [...offered.first, ...offered.rest] : offered.all.filter(c => !folded.has(c.id)),
       ...offered.lens ? { lens: offered.lens.name } : {}, instruments: turn.current?.leaf.instruments,
       ...turn.current?.screen.surfaces ? { surfaces: turn.current.screen.surfaces } : {},
-      ...turn.talking ? { with: this.whom(turn.current?.screen, turn.talking.id) } : {},
+      ...session.focus.kind === 'talk' ? { with: this.whom(turn.current?.screen, session.focus.with) } : {},
       ...turn.focus ? { focus: turn.focus } : {} }));
     if (!picked) { return null; }
     if ('command' in picked) {
@@ -405,8 +395,13 @@ export class Terminal {
     // An opener taken opens: its rows listed, no time; anything done lets it go.
     turn.opened = choice.opens ? choice : undefined;
     if (choice.opens) { return true; }
+    // A command of the focus (a page of the talk, its wares, turning to someone): the session's own, no time.
+    if (Focusing.is(choice.id)) {
+      try { await session.leg(choice.id); } catch (error) { console.log(`! ${error instanceof Error ? error.message : String(error)}`); }
+      turn.told = undefined; turn.attended = true; turn.current = undefined;
+      return true;
+    }
     const before = PlayerView.observe(session.campaign);
-    const does = PlayerFrame.of(session.campaign).rows.find(r => r.choice.id === choice.id)?.action.schema;
     try {
       const began = performance.now();
       // A foregone fight is one act, fought through by the company's tactics unless it turns, as the page's host
@@ -438,9 +433,6 @@ export class Terminal {
       const after = PlayerView.observe(session.campaign);
       const feedback = ActionFeedbackView.read(session.campaign, event, before);
       const moved = before.location?.id !== after.location?.id;
-      const turned = turn.current?.leaf.glance?.acts.find(a => (a.command ?? a.choice) === choice.id);
-      turn.talking = Terminal.talked(turn.talking,
-        { moved, does, target: choice.targets?.[0], inside: turned?.inside });
       turn.told = { event, feedback, said: choice.name, moved };
       if (moved) { turn.lens = undefined; }
       turn.current = undefined;

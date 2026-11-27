@@ -5,7 +5,7 @@ import { Typography } from '../../../src/presentation/typography';
 import { Words } from '../../../src/presentation/words';
 import { Act } from './act';
 import { ChoiceRow } from './choice-row';
-import { Paging } from '../paging';
+import { Paging } from '../../../src/frame/paging';
 
 // What the one whose turn it is can do, as a few things to do and not every act the rules allow (the owner, 9
 // November: "something like eighteen action buttons"; Attack had opened a list of names). Across the foot: Attack, and

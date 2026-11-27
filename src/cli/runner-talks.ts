@@ -3,6 +3,7 @@ import { TalkFocus } from '../ui/talk-focus';
 import { TradeModel } from '../ui/trade-model';
 import type { Offered } from './runner';
 import { Doable, type Row } from '../presentation/doable';
+import type { Question } from '../frame/talk-question';
 
 // What can be said to each of the people here, as the engine holds it (MT-18, mt18-grouping.md): a row within a
 // person's talk (Doable's within) is drawn when the company turns to them, by their talk (talk_to, the engine's own
@@ -31,7 +32,8 @@ export class RunnerTalks {
   private static holders(rows: readonly Row[], rest: Offered[], drawn: Offered[], whose: Map<string, string>):
     Offered[] {
     const people = [...new Set(rest.flatMap(o => whose.get(o.does ?? o.id) ?? []))];
-    return people.filter(p => !drawn.some(o => (o.does ?? o.id) === `talk_to(${p})`)).flatMap(p => {
+    return people.filter(p => !drawn.some(o => [`talk_to(${p})`, `focus:talk:${p}`].includes(o.does ?? o.id)
+      || o.id === `${p}#talk`)).flatMap(p => {
       // Never one the four lead with: it is drawn there.
       const row = Doable.flat(rows).find(r => r.id === `${p}#talk` && !r.led);
       return row ? [{ id: row.id, label: row.label, ...row.does ? { does: row.does } : {}, aspects: [],
@@ -52,10 +54,20 @@ export class RunnerTalks {
     return new Set(screen.people.flatMap(p => this.flat(p.acts)).filter(a => a.command
       && (TalkFocus.services.has(a.does ?? '') || ['haggle', 'buy_item'].includes(a.does ?? ''))).map(a => a.command!));
   }
-  // Whether a command is one of a person's own (what is said to them, or done with them), as the page's conversation
-  // offers it among their replies.
-  static theirs(screen: Screen, person: string, command: string): boolean {
-    return this.flat(screen.people.find(p => p.id === person)?.acts ?? []).some(a => a.command === command);
+  // The talk's question as the runner offers it (OR-1451): the engine's rows (MenuTree.question), each as the scene
+  // offers its act (its words, minutes and note), marked as the question marks it, and every row of the question's own
+  // (Trade, the next page, Back, a leave the world has none of) by its command; nothing of the place beside it.
+  static asked(question: Question, all: Offered[]): Offered[] {
+    const talk = question.talk;
+    if (!talk) { return []; }
+    return talk.rows.flatMap(r => {
+      if (!r.command) { return []; }
+      const known = all.find(o => o.does === r.command || o.id === r.command);
+      const aspects = [...new Set((talk.marks[r.id] ?? []).flatMap(l => l.witnesses.flatMap(w => w.aspects)))]
+        .map(String);
+      return [{ ...known ?? { id: r.command, label: r.label, type: 'talk' as const, marks: [] }, does: r.command,
+        aspects, ...r.note && !known ? { note: r.note } : {} }];
+    });
   }
   // A talk called as the page calls it ("Talk to Kynes", not "Talk to Kynes, innkeeper").
   private static called(screen: Screen, person: string): string | undefined {

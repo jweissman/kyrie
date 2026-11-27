@@ -61,8 +61,10 @@ export class SheetHour {
   async talk(): Promise<void> {
     const { page, d, cam } = this;
     await cam.step('talk-lens', 'Talk: the likenesses of who is here', () => d.talk());
-    await cam.step('talk', 'A conversation: Bask the salter', () =>
-      page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait'));
+    // Turned to by the engine (OR-1451: the talk is the session's), its frame waited for.
+    await cam.step('talk', 'A conversation: Bask the salter', async () => {
+      await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait'); await d.settle();
+    });
     await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     await cam.step('talk-reply', 'A conversation: her answer about the rats', () =>
       d.pick(c => /^Ask about the rats in the corn-store/.test(c.label), 'the rats'));

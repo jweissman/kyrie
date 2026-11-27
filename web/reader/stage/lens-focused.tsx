@@ -9,7 +9,7 @@ import { GlanceStage } from './glance';
 import { LensFocus, type Unit } from './lens-focus';
 import { Guidance } from '../guidance';
 import { PageFrame } from '../page-frame';
-import { Paging } from '../paging';
+import { Paging } from '../../../src/frame/paging';
 import { Attending } from '../../../src/ui/attention';
 import { LensRows } from './lens-rows';
 

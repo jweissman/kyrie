@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { Paging } from '../web/reader/paging';
+import { Paging } from '../src/frame/paging';
 
 // A conversation is four acts in view (the owner's ruling 2, 16 November): taking your leave always, and in the three
 // rows before it any answer owed, then what can be said and Trade, a page at a time, the rest paged and never unfolded

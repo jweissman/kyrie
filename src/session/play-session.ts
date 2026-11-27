@@ -18,6 +18,9 @@ import { Travel, type Journeyed } from './travel';
 import { HexBoundary } from '../hex-boundary';
 import { Undertakings } from '../presentation/undertakings'; import { HeldLead } from '../presentation/held-lead';
 import { Digest } from './digest';
+import { SessionFocus, type Focused, type Told } from './session-focus';
+import { Focusing, type Focus, type Conversation } from './focus';
+import type { TalkLine } from '../frame/talk-lines';
 
 // digest: what the game was after it (see Digest).
 export interface TranscriptStep { command: string; combat?: Command[]; digest?: string }
@@ -36,7 +39,10 @@ export interface Drawn { party: CreatureGenerationContext[]; terrain?: string; o
   opening?: string }
 // Chooses the next command for the player's side. Must return one of battle.legalCommands().
 export type CombatController = (battle: Battle) => Promise<Command>;
-export interface SessionCheckpoint { version: 1; transcript: Transcript; save: CampaignSave }
+// Version 2 carries the focus and the conversation under way (OR-1451), so that a game taken up again mid-talk opens on
+// the same talk, its questions put and its new replies as they were; version 1 resumes at the place.
+export interface SessionCheckpoint {
+  version: 1 | 2; transcript: Transcript; save: CampaignSave; focus?: Focus; conversation?: Conversation }
 
 export interface Expander { expand(campaign: Campaign): Promise<unknown> }
 export type { Receipt } from './open-command';
@@ -71,7 +77,10 @@ export class PlaySession {
   // What the world draws as the company goes (the country beyond a march-stone, see Frontier): drawn as part of the
   // command, so that the same commands replayed draw the same world.
   private expander?: Expander;
-  private constructor(readonly campaign: Campaign, history: Omit<Transcript, 'version'>) {
+  // What the company attends to, and the conversation under way (SessionFocus): the session's, not the world's.
+  private attending: SessionFocus;
+  private constructor(readonly campaign: Campaign, history: Omit<Transcript, 'version'>, focused?: Focused) {
+    this.attending = new SessionFocus(focused);
     this.party = structuredClone(history.party); this.drawn = structuredClone(history.drawn);
     this.scenario = history.scenario; this.seed = history.seed;
     this.steps = structuredClone(history.steps); this.complete = history.complete;
@@ -87,8 +96,10 @@ export class PlaySession {
   }
   // handed: the checkpoint is the session's own from now on (owned), and was kept by this engine (trusted).
   static resume(checkpoint: SessionCheckpoint, handed: { owned?: boolean; trusted?: boolean } = {}): PlaySession {
-    if (checkpoint.version !== 1) { throw new Error('Unsupported session checkpoint'); }
-    const t = checkpoint.transcript, session = new PlaySession(Campaign.restore(checkpoint.save, handed), t);
+    if (checkpoint.version !== 1 && checkpoint.version !== 2) { throw new Error('Unsupported session checkpoint'); }
+    const { focus, conversation } = checkpoint, focused = checkpoint.version === 2 && focus
+      ? { focus, ...conversation ? { conversation } : {} } : undefined;
+    const t = checkpoint.transcript, session = new PlaySession(Campaign.restore(checkpoint.save, handed), t, focused);
     // Kept by this build, it is what its own record says it was after its last step (see Digest).
     const last = t.steps.at(-1)?.digest;
     if (handed.trusted && last && last !== Digest.of(session.campaign)) {
@@ -104,8 +115,16 @@ export class PlaySession {
   // its own; as a checkpoint resumed would be, without the round trip (see Campaign.copy).
   copy(): PlaySession {
     if (this.busy) { throw new Error('Copy only between campaign commands'); }
-    return new PlaySession(this.campaign.copy(), this.transcript);
+    return new PlaySession(this.campaign.copy(), this.transcript, this.attending.kept);
   }
+  // What the company attends to (Focus), and the conversation under way: the session's own (OR-1451).
+  get focus(): Focus { return this.attending.focus; }
+  get conversation(): Conversation | undefined { return this.attending.conversation; }
+  // The frame a client last told and the question asked of it, and the lines it told the conversation with
+  // (QuestionAsked.settle, src/frame: every client reads its question so).
+  get told(): Told | undefined { return this.attending.before; }
+  tell(lines: TalkLine[]): void { this.attending.told(lines); }
+  questioned(told: Told): void { this.attending.asked(told); }
   get transcript(): Transcript {
     return { version: 1, ...(this.party ? { party: structuredClone(this.party) } : {}), scenario: this.scenario,
       seed: this.seed, ...(this.drawn ? { drawn: structuredClone(this.drawn) } : {}),
@@ -120,7 +139,9 @@ export class PlaySession {
   // its effects but not its step (the independent review's A2).
   checkpoint(live = false): SessionCheckpoint {
     if (this.busy) { throw new Error('Save only between campaign commands'); }
-    return { version: 1, transcript: this.transcript, save: this.campaign.save(true, live) };
+    const { focus, conversation } = this.attending.kept;
+    return { version: 2, transcript: this.transcript, save: this.campaign.save(true, live), focus,
+      ...conversation ? { conversation } : {} };
   }
   // A step as a player takes it, for a scripted journey (a spec's, a driver's) and for the terminal, which plays every
   // choice through it (a 1:1 player of the same system: workflow-parity.md): a way into the next hex is set out on
@@ -141,7 +162,7 @@ export class PlaySession {
       const way = Travel.way(done);
       return last ? way.length ? { ...last, way } : last : this.perform('wait', controller);
     }
-    if (command.startsWith('follow:')) { return this.perform(command, controller); }
+    if (command.startsWith('follow:') || Focusing.is(command)) { return this.perform(command, controller); }
     const to = this.whither(command);
     return to ? this.campaign.crossing.travelling(to, () => this.perform(command, controller))
       : this.perform(command, controller);
@@ -165,17 +186,13 @@ export class PlaySession {
   // id: the act the command is of, where the one who asks has it already (a journey's leg, its way's row: OR-1361).
   async perform(command: string, controller = PlaySession.auto, id?: string): Promise<CampaignEvent> {
     if (this.busy) { throw new Error('A command is already in progress'); }
-    if (command.startsWith('follow:')) {
-      const followed = this.follow(command.slice('follow:'.length));
-      this.last = new OpenCommand(command);
-      this.receipts.push(this.last.receipt(this.steps.length, followed.result));
-      return followed;
-    }
+    if (command.startsWith('follow:') || Focusing.is(command)) { return this.aside(command); }
     const { id: act, aims } = Costs.time('resolve', () => this.resolving(command, id));
+    const ahead = this.attending.ahead(this.campaign, act);
     // Open from resolved to committed: no save, no frame meanwhile.
     this.campaign.command = act;
     const open = this.last = new OpenCommand(command);
-    const combat: Command[] = [], barked: Voiced[] = [];
+    const combat: Command[] = [], barked: Voiced[] = [], fights: Battle[] = [];
     try {
       const event = await this.campaign.executeAsync(act, async battle => {
         // What fighters said in the fights before is not said again in this one (see Barks).
@@ -192,7 +209,7 @@ export class PlaySession {
           if (player) { combat.push({ ...chosen }); }
           battle.step(chosen);
         }
-        barked.push(...CombatTelling.barks(battle.events, battle.state));
+        barked.push(...CombatTelling.barks(battle.events, battle.state)); fights.push(battle);
       });
       open.reach('executed');
       // Everything that comes of the command after the world's own act is one with it: what comes after (the country
@@ -217,6 +234,7 @@ export class PlaySession {
         this.steps.push({ command, ...combat.length ? { combat } : {}, digest });
         if (voiced.length || words.unsaid.length) { this.campaign.told(voiced, words.unsaid); }
       } catch (error) { this.steps.length = kept; this.campaign.undo(); throw error; }
+      this.attending.after(this.campaign, { command, event, ahead, fought: fights.length > 0 });
       if (voiced.length || words.unsaid.length) { event.voiced = voiced; }
       if (words.unsaid.length) { event.unsaid = words.unsaid; }
       this.receipts.push(open.receipt(this.steps.length, event.result));
@@ -255,6 +273,20 @@ export class PlaySession {
       view.location?.id ?? '').aims, text = aims?.find(a => a.id === aim)?.text ?? aim;
     return { action: 'follow', elapsed: 0, changes: [], result: 'success', combat: [],
       response: aim ? `You set your mind to it: ${AimSaid.title(text)}.` : 'You set your mind to nothing in particular.' };
+  }
+  // A command of the session's own, no act of the world: an aim followed (follow:), or the focus (focus:…), whose
+  // steps are kept as follow:'s are, so that a replay reaches the same focus; told as no event of the world.
+  private aside(command: string): CampaignEvent {
+    const done = Focusing.is(command) ? this.focusing(command) : this.follow(command.slice('follow:'.length));
+    this.last = new OpenCommand(command);
+    this.receipts.push(this.last.receipt(this.steps.length, done.result));
+    return done;
+  }
+  private focusing(command: string): CampaignEvent {
+    this.attending.command(command, this.campaign);
+    this.steps.push({ command, digest: Digest.of(this.campaign) });
+    return { action: 'focus', elapsed: this.campaign.history.at(-1)?.elapsed ?? 0, changes: [], result: 'success',
+      combat: [] };
   }
   static auto(this: void, battle: Battle): Promise<Command> {
     return Promise.resolve(Tactics.choose(battle.state, battle.plain(battle.legalCommands())));

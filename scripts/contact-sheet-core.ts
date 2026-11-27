@@ -28,7 +28,7 @@ export class SheetCore {
     });
     await cam.step('conversation', 'A conversation: Bask the salter, asked what the matter is', async () => {
       await d.talk();
-      await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait');
+      await page.click('.surface .portraits [data-subject="region__s2_merchant"] .portrait'); await d.settle();
       await d.pick(c => /what the matter is/.test(c.label), 'what the matter is');
     });
     await cam.step('trade', "Trade: Bask's stall, its goods", async () => {

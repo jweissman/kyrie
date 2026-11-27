@@ -9,7 +9,7 @@ import { Act } from '../../web/reader/stage/act';
 import { GlanceStage } from '../../web/reader/stage/glance';
 import { Tiny } from '../support/tiny';
 import { Glanced } from '../support/glanced';
-import { Conversation } from '../../web/reader/conversation';
+import { TalkLines } from '../../src/frame/talk-lines';
 
 // A thing's look among the scene's four does what the engine's one row for it does (Doable, TB-12; AT-07 step 4): the
 // one act under it where it holds only that, done at once; else it turns to the thing's own page of flat acts, where
@@ -64,6 +64,6 @@ describe('a thing\'s look among the four', () => {
       acts: [led(look.id)] }));
     expect(/data-act="t__tablet#look"/.test(html)).toBe(true);
     expect(html).not.toContain('aria-expanded');
-    expect(Conversation.turn(look)).toEqual({ kind: 'thing', id: 't__tablet' });
+    expect(TalkLines.turn(look)).toEqual({ kind: 'thing', id: 't__tablet' });
   });
 });

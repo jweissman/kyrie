@@ -3457,6 +3457,36 @@
    "pri": "P1",
    "why": "a step of OR-1364's design (engine-focus.md), committed once the design is accepted"
   },
+  "OR-1470": {
+   "kind": "requirement",
+   "was": "defect",
+   "pri": "P2",
+   "why": "the parity harness's own coverage, not a broken contract"
+  },
+  "OR-1471": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "where the telling of a conversation should live once the frame is incremental"
+  },
+  "OR-1472": {
+   "kind": "defect",
+   "was": "requirement",
+   "pri": "P2",
+   "why": "a talk reloaded is drawn in another order than it stood"
+  },
+  "OR-1473": {
+   "kind": "direction",
+   "was": "defect",
+   "pri": "P2",
+   "why": "a call on how strictly the runner holds to the one question"
+  },
+  "OR-1474": {
+   "kind": "defect",
+   "was": "requirement",
+   "pri": "P2",
+   "why": "the terminal may turn to a companion by its own state, not the session's"
+  },
   "OR-1366": {
    "kind": "requirement",
    "was": "defect",

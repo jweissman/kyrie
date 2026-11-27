@@ -42,7 +42,11 @@ describe('a journey reviewed', () => {
     const acts = review.steps.filter(s => s.chosen?.from !== 'asked' && !s.error);
     expect(acts.length).toBeGreaterThan(10);
     for (const s of acts) {
-      const offered = review.frames[s.before]!.offer.find(o => [o.id, o.row].includes(s.chosen!.command));
+      const before = review.frames[s.before]!;
+      const offered = before.offer.find(o => [o.id, o.row].includes(s.chosen!.command));
+      // Chosen in a talk from the place's own acts, which the runner still takes though the talk's question offers
+      // only what is said to them (OR-1451: one question for every client; the cold player's kept line runs unchanged).
+      if (!offered && before.offer.some(o => /^(take_leave\(|focus:place$)/.test(o.id))) { continue; }
       expect([s.n, offered?.label]).toEqual([s.n, s.chosen!.label]);
     }
     const refused = review.steps.find(s => s.error)!;
@@ -85,8 +89,10 @@ describe('a journey reviewed', () => {
     const pens = review.frames.flatMap(f => f.offer).find(o => o.id === 'go(drove__pens_gate,drove__pens)' && o.led);
     expect([pens?.why, pens?.note]).toEqual(['named', 'your aim']);
     const freed = review.steps.find(s => s.chosen?.command === 'drove__show_drowned(party,drove__customs)')!;
-    expect(review.frames[freed.after!]!.withdrawn).toContainEqual({ id: 'talk_to(drove__bran)',
-      label: 'Talk to Bran ap Ifor' });
+    // Shown to the clerk in his talk, what could be said to him that the world no longer allows (the talk's question,
+    // OR-1451: Bran's talk is the place's, not offered beside the clerk's).
+    expect(review.frames[freed.after!]!.withdrawn).toContainEqual({ id: 'drove__clerk_fear',
+      label: 'Ask Mardle who he counts for' });
     expect(review.frames.filter(f => f.withdrawn).every(f => f.withdrawn!.length)).toBe(true);
   });
   it('knows the Topic that told Owain\'s answer, and the observations of the opening', () => {

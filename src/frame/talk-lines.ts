@@ -1,10 +1,10 @@
-import type { Choice } from '../../src/ui/choice-list';
-import { Attending, type Attention } from '../../src/ui/attention';
-import { SceneModel } from '../../src/ui/scene';
-import type { Frame } from '../../src/creation/protocol';
-import { Words } from '../../src/presentation/words';
-import { Noted } from '../../src/presentation/noted';
-import type { Typed } from '../../src/presentation/line-moments';
+import type { Choice } from '../ui/choice-list';
+import { Attending, type Attention } from '../ui/attention';
+import { SceneModel } from '../ui/scene';
+import type { Frame } from '../creation/protocol';
+import { Words } from '../presentation/words';
+import { Noted } from '../presentation/noted';
+import type { Typed } from '../presentation/line-moments';
 
 // One line of a conversation as it is kept on the page: what the company said, what was said back or done, what it
 // came to know, and what it paid or was given.
@@ -23,7 +23,7 @@ export interface TalkLine extends Pick<Typed, 'ended' | 'levelled' | 'roll'> {
 // or taking leave are choices like any other, known by their ids; whether attention holds after something is done is
 // the world's to say: it holds while the one spoken with (or the thing looked at) is still there, and the company has
 // not gone anywhere, come to blows, or slept the night (or half a day) away.
-export class Conversation {
+export class TalkLines {
   static readonly place: Attention = { kind: 'place' };
   // Ten-minute turns: past six hours, whatever was being said is over.
   static readonly night = 36;

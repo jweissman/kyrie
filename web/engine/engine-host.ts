@@ -25,7 +25,6 @@ import type { Entry, Frame, Leaf, Message, Request } from '../../src/creation/pr
 import { SaveCodec } from './save-codec';
 import { KeptGame, type Keyed } from './kept-game';
 import { Narrator, type Told } from '../../src/presentation/narrator';
-import { SceneBudget } from '../../src/presentation/scene-budget';
 import { Prologue } from '../../src/presentation/prologue';
 import { FightBegun } from '../../src/presentation/fight-begun';
 import { Obituary } from '../../src/narrative/obituary';
@@ -34,7 +33,7 @@ import { Travel } from '../../src/session/travel';
 import { Itineraries } from '../../src/ui/itinerary'; import { TravelQuestion } from '../../src/presentation/travel-question';
 import { BuildStamp } from '../../src/session/build-stamp';
 import { Oracle, type OracleAct } from '../../src/presentation/oracle';
-import { ChoiceList } from '../../src/ui/choice-list'; import { MenuTree } from '../../src/frame/menu-tree';
+import { ChoiceList } from '../../src/ui/choice-list'; import { EngineAside } from './engine-aside';
 import { Likenesses } from '../../src/presentation/likenesses';
 import { Glance } from '../../src/presentation/glance'; import { DangerAhead } from './danger-ahead'; import { DangerSense } from '../../src/presentation/danger-sense';
 import { BoundJourney } from './bound-journey'; import { LegTold, type LegPassed } from './leg-told'; import { Earned } from '../../src/lang/index';
@@ -146,7 +145,7 @@ export class EngineHost {
     const game = this.abandon(); this.foresight.drop();
     const { parsed, part } = await KeptGame.opened(text, world);
     if (game !== this.game) { throw new Error('Another game was begun meanwhile.'); }
-    const saved = KeptGame.join(parsed, part), kept = 'version' in parsed && parsed.version === 2;
+    const saved = KeptGame.join(parsed, part), kept = KeptGame.state(parsed);
     // Parsed here for this alone, it is handed over; one this very build kept (state and world) is not checked again.
     // One kept by another build is checked as it is opened, and if it cannot be, the player is told why.
     const trusted = kept && parsed.build === BuildStamp.current;
@@ -155,7 +154,7 @@ export class EngineHost {
     }
     // The world it came with is kept already: known by the same key, and by the module the campaign now holds.
     const live = this.session.checkpoint(true).save;
-    this.world = 'version' in parsed && parsed.version === 2 && part ? { key: parsed.world, kept: true,
+    this.world = KeptGame.state(parsed) && part ? { key: parsed.world, kept: true,
       part: { ...part, module: live.module, ...live.definition ? { definition: live.definition } : {} },
       index: KeptGame.index(part.base ?? []) } : undefined;
     const t = saved.checkpoint.transcript, terrain = t.drawn?.terrain;
@@ -187,11 +186,11 @@ export class EngineHost {
     // (test/action-identity), which no telling of what came before decides.
     if (command.startsWith('follow:')) {
       const event = await session.perform(command); this.told = undefined; this.saving();
-      // And, as any act done where the company stands, the place it already said is held, not told again over it.
-      const frame = this.settled(), g = frame.leaf.glanced;
-      return event.response ? { ...frame, leaf: { ...frame.leaf, ...g ? { glanced: SceneBudget.held(g) } : {},
-        exchange: { lines: [{ kind: 'telling', text: event.response }], notes: [], tone: 'act' } } } : frame;
+      return EngineAside.followed(this.settled(), event.response);
     }
+    // A command of the focus (turning to someone, a page of the talk, the wares): the session's, no world act, so the
+    // frame last told is told again with its question asked anew (EngineAside).
+    if (EngineAside.focus(command)) { return await this.aside.again(session, command, this.keeping) ?? this.settled(); }
     await this.act(command, context);
     return this.settled();
   }
@@ -237,7 +236,7 @@ export class EngineHost {
   private abandon(): number {
     const turn = this.turn;
     this.turn = undefined; this.fought = undefined; this.busy = undefined; this.working = Promise.resolve();
-    this.bound = undefined; this.last = undefined;
+    this.bound = undefined; this.last = undefined; this.aside.forget();
     if (turn) { turn.resolve(Tactics.choose(turn.battle.state, turn.battle.plain(turn.battle.legalCommands()))); }
     return ++this.game;
   }
@@ -282,7 +281,7 @@ export class EngineHost {
     // The journey is one line of the glance where it ends; its legs stay with the place's full telling.
     const glance = frame.leaf.glance && Glance.came(frame.leaf.glance, travel);
     // Its menu worked out again over the glance as it now is.
-    return glance ? MenuTree.framed({ ...frame, leaf: { ...frame.leaf, glance }, travel }) : { ...frame, travel };
+    return glance ? this.asked({ ...frame, leaf: { ...frame.leaf, glance }, travel }) : { ...frame, travel };
   }
   // One leg of a journey, done as the page does a way chosen, and kept as it was told: by its receipt (LegTold), where
   // it tells all the page tells of it; else by its frame, built whole. wholeLegs: every leg by its frame, as before
@@ -483,7 +482,7 @@ export class EngineHost {
       leaf.glance = Likenesses.with(Glance.held(leaf.glance, { ...going.bound ? { bound: going.bound } : {},
         ...leaf.recap ? { resumed: true } : {}, elapsed: this.screen.elapsed }, this.screen), this.screen);
     }
-    return MenuTree.framed({ title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen,
+    return this.asked({ title: region ?? this.screen.title.split(' — ')[0]!, screen: this.screen,
       entries: this.log.slice(-120), leaf,
       // A fight that ended the story is held too, ahead of the end: the last act chosen in it had gone unseen, the
       // page turning to the end as it was struck (the cold playtest's "my last strike's result never shown": CMB-02).
@@ -500,6 +499,9 @@ export class EngineHost {
         .map(e => ({ at: FictionalTime.at(e.at), text: e.text, detail: e.detail })),
       ...going, transcript: session.transcript });
   }
+  // The frame with the question asked of it from the session's focus (OR-1451), kept as the last frame told.
+  private readonly aside = new EngineAside(); private readonly keeping = () => { this.saving(); };
+  private asked(frame: Omit<Frame, 'menu'>): Frame { return this.aside.asked(this.session!, frame); }
   // The journey held, as the page shows it: where to, the way on from here leg by leg and how long; or, come to it
   // (by whatever way), none.
   private journeying(): Pick<Frame, 'bound'> {

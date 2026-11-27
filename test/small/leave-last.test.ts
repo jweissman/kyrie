@@ -37,10 +37,11 @@ describe('what leaves', () => {
     expect(here.offer.rest.at(-1)?.id).toBe('exit:t__lane');
     expect(here.offer.primary.some(o => Leaving.is(o, ways))).toBe(false);
     expect(trails(here.offer.rest)).toBe(true);
-    // Turned to Mabel: what is had of her, taking leave of her last.
+    // Turned to Mabel: what is had of her, taking leave of her last (the engine's question, OR-1451: what she has for
+    // sale under Trade, the place's ways not beside her talk).
     const talk = await ask(r, { act: 't__mabel#talk' });
     const all = [...talk.offer.primary, ...talk.offer.rest];
-    expect(all.slice(-2).map(o => o.does).sort()).toEqual(['go(t__door,t__lane)', 'take_leave(t__mabel)']);
+    expect(all.at(-1)?.does).toBe('take_leave(t__mabel)');
     expect(trails(talk.offer.rest)).toBe(true);
     t.look();
     const rows = Doable.of(t.glance, t.screen);
@@ -63,7 +64,9 @@ describe('a trader\'s wares', () => {
     expect(here.filter(o => /^(buy_item|haggle_item)\(/.test(o.does ?? '') || /^(Buy|Haggle)\b/.test(o.label))
       .map(o => o.label)).toEqual([]);
     expect(here.filter(o => o.id === 't__mabel#talk').length).toBe(1);
-    const talk = flat([...(await ask(r, { act: 't__mabel#talk' })).offer.rest]);
+    await ask(r, { act: 't__mabel#talk' });
+    const trading = await ask(r, { act: 'focus:trade:on' });
+    const talk = flat([...trading.offer.primary, ...trading.offer.rest]);
     // The lantern and the crowbar are dearer than a coin, and may be haggled for; the torch may not.
     expect(talk.filter(o => /^haggle_item\(/.test(o.does ?? '')).length).toBe(2);
     expect(talk.filter(o => /^buy_item\(/.test(o.does ?? '')).length).toBe(3);

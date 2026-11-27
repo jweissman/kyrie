@@ -51,8 +51,8 @@ export class Stage {
     if (Stage.prologue(app)) { return 'prologue'; }
     if (held) { return held; }
     if (s.view !== 'here') { return 'book'; }
-    if (s.attention.kind === 'person' && menu.talk) { return 'talk'; }
-    if (s.attention.kind === 'thing' && menu.examined) { return 'examine'; }
+    if (app.attention.kind === 'person' && menu.talk) { return 'talk'; }
+    if (app.attention.kind === 'thing' && menu.examined) { return 'examine'; }
     // A road is open country like any other (the owner, 4 November, night: no road page apart from the hex): on the
     // map when come to, and entered to deal with whatever stopped the journey there.
     return 'explore';
