@@ -6,7 +6,10 @@ Module tallow "Tallow Deep" {
     or (at(lc_garrison, bank) and able(lc_garrison))
     or (at(lc_vanguard, calx_portal) and able(lc_vanguard))
     or (at(lc_vanguard, calx_way) and able(lc_vanguard))
-    or (at(lc_vanguard, gate_house) and able(lc_vanguard)).
+    or (at(lc_vanguard, gate_house) and able(lc_vanguard))
+    or (at(lc_convoy, calx_portal) and able(lc_convoy))
+    or (at(lc_convoy, calx_way) and able(lc_convoy))
+    or (at(lc_convoy, gate_house) and able(lc_convoy)).
 
   Topic lc_withdrawal with lc_ferryman "Ask what it would take to withdraw his men" when lcTermsHeard(party)
     and lcRaidArrived(party) and lc_enemy_present() and not lcTruce(party) once {
@@ -51,6 +54,15 @@ Module tallow "Tallow Deep" {
   }
   Rule lc_guard_from_gate when lcTruce(party) and at(lc_vanguard, gate_house) and able(lc_vanguard) {
     Retract at(lc_vanguard, gate_house).
+  }
+  Rule lc_convoy_from_portal when lcTruce(party) and at(lc_convoy, calx_portal) and able(lc_convoy) {
+    Retract at(lc_convoy, calx_portal).
+  }
+  Rule lc_convoy_from_road when lcTruce(party) and at(lc_convoy, calx_way) and able(lc_convoy) {
+    Retract at(lc_convoy, calx_way).
+  }
+  Rule lc_convoy_from_gate when lcTruce(party) and at(lc_convoy, gate_house) and able(lc_convoy) {
+    Retract at(lc_convoy, gate_house).
   }
   Observe lc_truce_at_green at green when lcTruce(party) and lcFoeFood(party) >= 3
     "The Ferryman's men have gone from the bank and the old road. The rations went with them.".

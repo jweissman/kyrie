@@ -50,6 +50,8 @@ describe('The road under the hill: a breathing-space', () => {
       'Send Merren\'s crew to clear the western portal', '==+30');
     expect(j.holds('lcWorkPaused', 'party')).toBe(true);
     expect(j.at('lc_vanguard')).toBe('tallow__calx_portal');
+    expect(j.holds('lcConvoyOrdered', 'party')).toBe(true);
+    expect(j.holds('lcConvoyArrived', 'party')).toBe(false);
     await j.play('Out to Swallet green', 'Ask what it would take to withdraw his men',
       'Into Usk\'s store', 'Buy › A ration', 'Buy › A ration', 'Buy › A ration', 'Buy › A ration',
       'Out to Swallet green', 'Give the Ferryman four rations to withdraw his men', '==+24');
@@ -57,6 +59,7 @@ describe('The road under the hill: a breathing-space', () => {
     expect(j.holds('lcWorkPaused', 'party')).toBe(false);
     expect(j.holds('lcClearedByCrew', 'party')).toBe(true);
     expect(j.holds('lcFoeDug', 'party')).toBe(false);
+    expect(j.holds('lcConvoyArrived', 'party')).toBe(false);
   }, 120000);
 
   it('cancels a road guard ordered before the withdrawal but not yet arrived', async () => {
