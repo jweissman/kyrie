@@ -376,7 +376,16 @@ describe('The Banns at Hessel in the world', () => {
     expect(c.installations.find(m => m.id === rid)?.chapter).toBe(true);
     const j = Journey.of(s);
     expect(c.world.one('at', 'party')).toBe(`${rid}__south_road`);
-    // In by the bridge and up through the town, as a stranger: the chair comes down the Parade at whoever is there.
+    // In by the bridge and up through the town, as a stranger, in the morning (Hessel's gate lies beyond two hexes of
+    // the first town since 239047cac, OR-1346, and the road comes to it later in the day: the night camped out, and
+    // in at eight, when Mrs Cherrett is up and not yet wheeled to her parlour): the chair comes down the Parade at
+    // whoever is there.
+    const hour = () => c.world.number({ kind: 'call', name: 'hour', args: ['clock'] });
+    if (hour() < 8 || hour() >= 10) {
+      if (!c.world.test({ kind: 'call', name: 'dark', args: [] })) { await j.play('Wait until dark'); }
+      await j.play('^Make camp');
+    }
+    for (let i = 0; i < 4 && hour() < 8; i++) { await j.play('Wait an hour'); }
     const yard = await j.play('foot of Lim Bridge', 'Quay Lane', 'Stall Street', 'Abbey Yard');
     expect(j.page).toMatch(/comes a bath-chair/);
     expect(yard).toBeDefined();

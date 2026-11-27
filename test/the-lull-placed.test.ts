@@ -20,7 +20,10 @@ describe('The Lull in the world', () => {
     const j = Journey.of(s);
     expect(c.world.one('at', 'party')).toBe(k('march_road'));
     expect(came).toMatch(/a hamlet of one street/);
-    // The board by the pump counts the days to the Lull; the stone waits for it; the road goes down at six.
+    // Come by daylight (its gate lies beyond two hexes of the first town since 239047cac, OR-1346, and the road there
+    // can end in the dark): the board by the pump counts the days to the Lull; the stone waits for it; the road goes
+    // down at six.
+    if (c.world.test({ kind: 'call', name: 'dark', args: [] })) { await j.play('Wait until first light'); }
     await j.play('Sixways street$');
     expect(j.page).toMatch(/LULL IN \d/);
     await j.play('To the Fold-stone$');

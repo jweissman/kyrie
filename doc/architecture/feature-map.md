@@ -5,7 +5,7 @@ sections, capabilities), doc/architecture/features.json (each row's feature, the
 families), test/features, the experience pins and the register. Do not edit. (The Atlas is the design's own: the
 page's colours and opportunities.)
 
-6 aspects, 72 capabilities; 204 pins (173 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 699 live rows, 227 of them defects. ✓ met · ✗ missing · ○ unwritten.
+6 aspects, 72 capabilities; 204 pins (173 met, 0 missing, 31 unwritten; 54 experience pins in 6 families); 700 live rows, 228 of them defects. ✓ met · ✗ missing · ○ unwritten.
 
 ## I. Play: what a player does
 
@@ -365,7 +365,7 @@ page's colours and opportunities.)
 
 ### Places to explore
 
-- **Dungeons and sites** · 11 pins · 7 defects · 20 asks
+- **Dungeons and sites** · 11 pins · 8 defects · 20 asks
   - ✓ is noticed from the first town, prepared for, recruited for, explored, fought, searched and returned from
   - ✓ has someone to take on, and a lantern and food to be found by searching
   - ✓ is walked by the offered rows alone, out and back twice, and the town answers
