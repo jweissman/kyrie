@@ -8,6 +8,9 @@
 //   for first light and goes on by the play's own next line (28), arriving at Holyking as the play did.
 // - the ghouls' fight in the bone hall rolls otherwise after that fight and that night, and is still going after the
 //   play's last blow (line 54): it is pressed on to its end, as the play pressed it.
+// - the robbers' tunnel out of the ossuary is hidden now until the robbers' captain tells of it or the ossuary is
+//   searched (OR-1443): the company searches the ossuary once its fight is over (line 82), and takes the tunnel by the
+//   play's own next line (83), as it did.
 import { readFileSync } from 'node:fs';
 
 const act = (id: string) => JSON.stringify({ act: id });
@@ -17,6 +20,7 @@ export class ColdFour {
     27: [act('region__wr173r/0:Ask two footpads to let you by · an even chance · one try'), act('fight:through'),
       act('travel:region__w8'), act('company/0:Wait until first light')],
     54: [act('fight:through')],
+    82: [act('search(region__w8_halls_ossuary)')],
   };
   static lines(): string[] { return readFileSync(this.path, 'utf8').split('\n').filter(Boolean); }
   // The play's first n lines, each followed by what the world now asks after it.
