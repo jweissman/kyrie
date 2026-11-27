@@ -37,6 +37,16 @@ describe('World › The stones in sight', () => {
     expect(ways().some(w => w.endsWith(',t__n_ud)'))).toBe(true);
     expect(t.campaign.history.some(e => e.action.startsWith('search'))).toBe(false);
   });
+  // And among them the woods' one marvel (violet, the Atlas's wonder, met above ground: OR-1506): a stone that hums,
+  // listened at, with the door the shrine-keeper asks after cut in its face.
+  it('has a humming stone among them, whose cut door is the shrine-keeper\'s answer', async () => {
+    const t = await Tiny.start(woods);
+    await t.play('>t__n_wood_edge', '>t__n_wood_ride', '>t__n_wood_stones');
+    expect(t.glance.acts.some(a => a.subject === 't__n_wood_doorstone' && a.aspects.includes('wonder'))).toBe(true);
+    await t.play('^Listen at it');
+    expect(t.journey.seen()).toMatch(/humming, very low/);
+    expect(t.world.test(call('knows', 'party', 't__n_wood_mark'))).toBe(true);
+  });
   it('leads the herb-wife\'s word straight to the stones and down, not round by the shrine', async () => {
     const t = await Tiny.start(woods);
     await t.play('Ask Sable about the old woods');

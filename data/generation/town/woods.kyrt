@@ -36,6 +36,14 @@
   Observe {t}_wood_stones_scene at {t}_wood_stones as fixture when true "Under the beeches the ground rises to a long mound. Great stones lie fallen along it, grey and green with moss. They were set up in a row once, by {old}. Between two of them the earth has fallen in onto steps of dressed stone, going down into the dark. Cold air comes up them." teaches {t}_wood_door.
   Observe {t}_wood_stones_marks at {t}_wood_stones as sign noticed by lore when not knows(party, {t}_wood_mark) "On the inner face of one fallen stone is a mark cut in the way of {old}: a door, drawn shut. It is cut beside the steps, as a word is written over a door." teaches {t}_wood_mark.
   Entity {t}_wood_mark: fact "On a fallen stone beside the steps, {old} cut a door drawn shut.".
+  // The door-stone, the woods' one marvel (OR-1506: the Atlas's violet met above ground, where the first hour had met
+  // only gold and blue): it hums under the ear like a struck bell, and the door cut in it is the shrine-keeper's answer.
+  Thing {t}_wood_doorstone "the humming stone" at {t}_wood_stones {
+    Marvel.
+    Tries listening.
+    State still "One stone lies apart from the rest, on its back, and moss will not grow on its face.".
+  }
+  Observe {t}_wood_doorstone_heard near {t}_wood_doorstone when tried({t}_wood_doorstone, listening) "You lay your ear to the stone. It is humming, very low, the note a bell keeps after it is struck. Under your cheek a door is cut in the face, drawn shut." teaches {t}_wood_mark.
   Discovery {t}_wood_door "Between two of the fallen stones a slot goes down into the dark, with steps in it.".
   // The burners' hut: what they left, and why they left (found by searching here, or told by the herb-wife once she
   // trusts the company): a lamp, and on the bench the mark the old ones cut on the stones, which the shrine-keeper asks.
