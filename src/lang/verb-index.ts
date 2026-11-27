@@ -1,11 +1,12 @@
 import type { Change, VerbDeclaration } from './module';
 import { ModulePositions } from './module-positions';
 import { SymbolTable, type SymbolDeclaration } from './symbol-table';
+import { TextHash } from './text-hash';
 
 type Token = string | null;
 interface Pattern {
   declaration: SymbolDeclaration; verb: VerbDeclaration; relation: SymbolDeclaration;
-  expression: RegExp; slots: string[]; forms: Token[][];
+  expression: RegExp; slots: string[]; forms: Token[][]; kinds: string[];
 }
 export interface BoundVerb { declaration: SymbolDeclaration; relation: SymbolDeclaration; change: Change }
 export type VerbOperand = { kind: 'identifier' } | { kind: 'choice'; values: readonly string[] };
@@ -21,6 +22,11 @@ export class VerbIndex {
       }
     }
     return index;
+  }
+  key(): string {
+    return TextHash.of(JSON.stringify([...this.heads.values()].flat().map(p => [
+      p.declaration.id, p.verb, p.kinds, p.relation.id, p.relation.scope, p.relation.types, p.expression.source,
+    ])));
   }
   private add(symbols: SymbolTable, declaration: SymbolDeclaration, operands: ReadonlyMap<string, VerbOperand>): void {
     const verb = declaration.verb!;
@@ -58,7 +64,13 @@ export class VerbIndex {
     if (slots.length !== verb.parameters.length || !words[0] || words[0].startsWith('{')) {
       throw new Error(`Invalid phrase slots in verb ${verb.name}`);
     }
-    const pattern = { declaration, verb, relation: binding.to, expression: new RegExp(`^${expression}$`, 'u'), slots, forms };
+    const kinds = verb.parameters.map(parameter => {
+      const kind = symbols.resolve(declaration.unit, parameter.type, 'kind');
+      if (kind.status !== 'bound') { throw new Error(`Unbound operand kind ${parameter.type} in verb ${verb.name}`); }
+      return kind.to.id;
+    });
+    const pattern = { declaration, verb, relation: binding.to, expression: new RegExp(`^${expression}$`, 'u'),
+      slots, forms, kinds };
     const head = words[0], others = this.heads.get(head) ?? [];
     if (others.some(other => VerbIndex.overlaps(pattern, other))) {
       throw new Error(`Ambiguous verb phrase ${verb.phrase}`);

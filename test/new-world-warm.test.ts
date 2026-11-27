@@ -51,6 +51,7 @@ describe('a new world, warm', () => {
     looked.mockRestore();
     console.log(`  a new world, warm: A ${run.a} ms, B ${run.b} ms, parse ${run.parse} ms of ${run.texts} new texts`);
     expect(run.texts).toBeGreaterThan(10);
+    expect(run.texts).toBeLessThan(80);
     expect(run.a).toBeLessThan(Warm.budget.a);
     expect(run.b).toBeLessThan(Warm.budget.b);
     // Its new texts, each parsed a declaration at a time where it splits so, are what their whole parse makes.
