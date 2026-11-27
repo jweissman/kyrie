@@ -9,6 +9,7 @@ Module tallow "Tallow Deep" {
   Discovery lc_drawing_risk "A drawing sold to a stranger could reach people looking for the hill's entrances.".
   Discovery lc_rival_need "Linnet searches the hill to feed her household.".
   Discovery lc_boats_memory "Merren remembers racing paper boats with the Ferryman.".
+  Relation lcSallowNews(group).
 
   Person lc_quartermaster "Quartermaster Merren Talwick" at taproom {
     Role "a quartermaster sent to provision the Rì's road crews". Ancestry human. Calling warrior. Level 2. Peaceable. Pronouns she. Manner stoic.
@@ -25,6 +26,11 @@ Module tallow "Tallow Deep" {
   Topic lc_offer with lc_quartermaster "Ask Merren what she needs from Swallet" when been(party, adit) and not lcStarted(party) once {
     Says "'Word of the entrances, first. Then food for the crew. If you sell a drawing to the buyer on the green, he will pay; I cannot tell you where it will go. Keep it, and any stranger must look for himself. Either way, once you answer him, I must send for the crew.'".
     On discuss { Assert knows(actor, lc_drawing_risk). }
+  }
+  Topic lc_sallow_ford with lc_quartermaster "Tell Merren Sallowfield still stands" when knows(party, sallowfield_held)
+    and lcStarted(party) and (lcFed(party) or lcSaved(party)) and not lcCrewArrived(party) once {
+    Says "'Then the crew can stop there for water and a place to sleep,' Merren says. 'I will send word. That should save them an hour, if the bank here stays open.'".
+    On discuss { Assert lcSallowNews(actor). }
   }
 
   Person lc_buyer "the buyer of drawings" at green {
@@ -135,25 +141,32 @@ Module tallow "Tallow Deep" {
     On success { Assert lcRefused(actor). }
     Result "'Then watch the bank,' he says. He goes to the trough and washes the mud off his pole.".
   }
-  Rule lc_raid when lcStarted(party) and not lcAccepted(party) and not lcRaidArrived(party) and watch(clock) >= lcRaidAt(party) {
+  Rule lc_raid when lcStarted(party) and not lcAccepted(party) and not lcRaidArrived(party) and not lcTruce(party)
+    and watch(clock) >= lcRaidAt(party) {
     Assert lcRaidArrived(party). Assert at(lc_raiders, bank).
   }
-  Rule lc_garrison_arrives when lcStarted(party) and lcAccepted(party) and not lcRaidArrived(party) and watch(clock) >= lcRaidAt(party) {
+  Rule lc_garrison_arrives when lcStarted(party) and lcAccepted(party) and not lcRaidArrived(party) and not lcTruce(party)
+    and watch(clock) >= lcRaidAt(party) {
     Assert lcRaidArrived(party). Assert lcOccupied(party). Assert at(lc_garrison, bank).
   }
-  Rule lc_crew_fed_arrives when lcFed(party) and not lcCrewArrived(party) and not lcOccupied(party) and watch(clock) >= lcStart(party) + 60 {
+  Rule lc_crew_fed_arrives when lcFed(party) and not lcCrewArrived(party) and not lcOccupied(party)
+    and ((lcSallowNews(party) and watch(clock) >= lcStart(party) + 54) or watch(clock) >= lcStart(party) + 60) {
     Assert lcCrewArrived(party). Assert at(lc_crew, taproom).
   }
-  Rule lc_crew_late_arrives when lcSaved(party) and not lcCrewArrived(party) and not lcOccupied(party) and watch(clock) >= lcStart(party) + 132 {
+  Rule lc_crew_late_arrives when lcSaved(party) and not lcCrewArrived(party) and not lcOccupied(party)
+    and ((lcSallowNews(party) and watch(clock) >= lcStart(party) + 126) or watch(clock) >= lcStart(party) + 132) {
     Assert lcCrewArrived(party). Assert at(lc_crew, taproom).
   }
-  Rule lc_take_bank when lcRaidArrived(party) and able(lc_raiders) and not lcOccupied(party) and watch(clock) >= lcRaidAt(party) + 36 {
-    Assert lcOccupied(party).
+  Rule lc_take_bank when lcRaidArrived(party) and not lcAccepted(party) and not lcTruce(party) and at(lc_raiders, bank)
+    and able(lc_raiders) and not lcOccupied(party) and watch(clock) >= lcRaidAt(party) + 36 {
+    Assert lcOccupied(party). Retract lcCleared(party).
   }
-  Rule lc_clear_bank when lcOccupied(party) and not lcAccepted(party) and lcRaidArrived(party) and not able(lc_raiders) and not lcCleared(party) {
+  Rule lc_clear_bank when lcOccupied(party) and not lcAccepted(party) and lcRaidArrived(party)
+    and (not at(lc_raiders, bank) or not able(lc_raiders)) and not lcCleared(party) {
     Retract lcOccupied(party). Assert lcCleared(party).
   }
-  Rule lc_clear_garrison when lcOccupied(party) and lcAccepted(party) and lcRaidArrived(party) and not able(lc_garrison) and not lcCleared(party) {
+  Rule lc_clear_garrison when lcOccupied(party) and lcAccepted(party) and lcRaidArrived(party)
+    and (not at(lc_garrison, bank) or not able(lc_garrison)) and not lcCleared(party) {
     Retract lcOccupied(party). Assert lcCleared(party).
   }
   Observe lc_raid_sign at bank when lcRaidArrived(party) and able(lc_raiders) "Fresh bootprints go from the water to the path. Three men have come up carrying weapons.".

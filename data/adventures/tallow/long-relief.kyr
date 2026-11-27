@@ -1,0 +1,50 @@
+Module relief "The road from Sallowfield" {
+  Entity party: group "Your company".
+  Entity elland: group "Tib Elland".
+  Place home "Sallowfield green" is room.
+  Place swallet "Swallet green" is room.
+  Relation reliefDeparted(group). Relation reliefArrived(group). Relation reliefSent(group). Relation reliefDelivered(group).
+  Relation heldWordSent(group).
+  Measure reliefDue(group). Measure reliefReturnDue(group). Measure heldWordDue(group).
+  Discovery relief_need "Tib Elland can carry two rations back to the people of Sallowfield.".
+
+  Rule held_word_sets_out when befell(sallowfield_held) and not heldWordSent(party) {
+    Assert heldWordSent(party). Set heldWordDue(party) to watch(clock) + 36.
+  }
+  Rule held_word_arrives when heldWordSent(party) and watch(clock) >= heldWordDue(party)
+    and at(party, swallet) and not knows(party, sallowfield_held)
+    says "A carter from the ford stops at the trough. Sallowfield's green still stands, he says, though the night was hard."
+    teaches sallowfield_held { }
+  Observe held_seen at home when befell(sallowfield_held)
+    "Sallowfield's green is still standing. People are coming out to count what was lost." teaches sallowfield_held.
+  Rule elland_sets_out when befell(sallowfield_burned) and able(elland) and at(elland, ?place)
+    and not travelsWith(elland, party) and not reliefDeparted(party) {
+    Assert reliefDeparted(party). Retract at(elland, ?place). Set reliefDue(party) to watch(clock) + 36.
+  }
+  Rule elland_arrives when reliefDeparted(party) and not reliefArrived(party) and able(elland) and watch(clock) >= reliefDue(party) {
+    Assert reliefArrived(party). Assert at(elland, swallet).
+  }
+  Topic ask_elland with elland "Ask Tib Elland what Sallowfield needs" when reliefArrived(party) and not reliefSent(party) once {
+    Says "'Food that can be carried,' Tib says. 'I can take two rations back on foot. They are counting what is left in the granary, but the green is gone.'".
+    On discuss { Assert knows(actor, relief_need). }
+  }
+  Action give_relief(actor: group, site: place) "Give Tib two rations for Sallowfield" {
+    Requires able(actor) and company(actor) and at(actor, site) and at(elland, site)
+      and knows(actor, relief_need) and not reliefSent(actor) and quantity(actor, rations) >= 2.
+    Time 10 minutes.
+    On success {
+      Decrease quantity(actor, rations) by 2. Increase quantity(elland, rations) by 2.
+      Assert reliefSent(actor). Retract at(elland, site). Set reliefReturnDue(actor) to watch(clock) + 36.
+    }
+    Result "Tib packs the food in his coat. 'Six hours, if the road stays clear.' He goes back the way he came.".
+  }
+  Rule elland_returns when reliefSent(party) and not reliefDelivered(party) and able(elland)
+    and watch(clock) >= reliefReturnDue(party) {
+    Assert reliefDelivered(party). Assert at(elland, home).
+  }
+  Observe relief_on_green at swallet when reliefArrived(party) and not reliefSent(party) and at(elland, swallet)
+    "Tib Elland has come from Sallowfield on foot. His coat smells of smoke.".
+  Observe relief_home at home when reliefDelivered(party) and at(elland, home)
+    "Tib has brought the rations back to Sallowfield. He sets them down beside the blackened well.".
+  Goal false.
+}

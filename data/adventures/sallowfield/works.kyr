@@ -118,12 +118,12 @@ Module sallowfield "Three Nights at Sallowfield" {
   }
   Relation sixtyCollected(group).
 
-  Observe ledger_0 near party when not wyreEarly(party) and watch(clock) >= 0 and watch(clock) < 72 and not battleOn() "Two days and a night before the night he is expected. The wall alone is eighteen hours, the pits fourteen, the drill ten each, the caltrops nine; the iron is only enough for the coach or the caltrops. There are not enough hours for the lot.".
-  Observe ledger_1 near party when not wyreEarly(party) and watch(clock) >= 72 and watch(clock) < 144 and not battleOn() "A day and most of a night. If the wall is not up by the second dusk it will not be up. Choose what you will not do.".
-  Observe ledger_2 near party when not wyreEarly(party) and watch(clock) >= 144 and watch(clock) < 204 and not battleOn() "The second day. The boy in the reeds comes tonight, and the farm is raided the same hour; the company is one body.".
-  Observe ledger_3 near party when not wyreEarly(party) and watch(clock) >= 204 and watch(clock) < 246 and not battleOn() "The second evening. What was not begun by now will not be finished before the stone.".
-  Observe ledger_4 near party when not wyreEarly(party) and watch(clock) >= 246 and watch(clock) < 306 and not battleOn() "The last morning. Whatever is half done is half done.".
-  Observe ledger_5 near party when not wyreEarly(party) and watch(clock) >= 306 and watch(clock) < 342 and not battleOn() "The last afternoon. He is at the stone at noon, if he comes to talk.".
-  Observe ledger_6 near party when not wyreEarly(party) and watch(clock) >= 342 and watch(clock) < 366 and not battleOn() "Dusk. Whatever is built is what there is.".
-  Observe ledger_early near party when wyreEarly(party) and not battleOn() "He is coming tonight. Whatever is not done is not going to be.".
+  Observe ledger_0 within vale when not wyreEarly(party) and watch(clock) >= 0 and watch(clock) < 72 and not battleOn() "Two days and a night before the night he is expected. The wall alone is eighteen hours, the pits fourteen, the drill ten each, the caltrops nine; the iron is only enough for the coach or the caltrops. There are not enough hours for the lot.".
+  Observe ledger_1 within vale when not wyreEarly(party) and watch(clock) >= 72 and watch(clock) < 144 and not battleOn() "A day and most of a night. If the wall is not up by the second dusk it will not be up. Choose what you will not do.".
+  Observe ledger_2 within vale when not wyreEarly(party) and watch(clock) >= 144 and watch(clock) < 204 and not battleOn() "The second day. The boy in the reeds comes tonight, and the farm is raided the same hour; the company is one body.".
+  Observe ledger_3 within vale when not wyreEarly(party) and watch(clock) >= 204 and watch(clock) < 246 and not battleOn() "The second evening. What was not begun by now will not be finished before the stone.".
+  Observe ledger_4 within vale when not wyreEarly(party) and watch(clock) >= 246 and watch(clock) < 306 and not battleOn() "The last morning. Whatever is half done is half done.".
+  Observe ledger_5 within vale when not wyreEarly(party) and watch(clock) >= 306 and watch(clock) < 342 and not battleOn() "The last afternoon. He is at the stone at noon, if he comes to talk.".
+  Observe ledger_6 within vale when not wyreEarly(party) and watch(clock) >= 342 and watch(clock) < 366 and not battleOn() "Dusk. Whatever is built is what there is.".
+  Observe ledger_early within vale when wyreEarly(party) and not battleOn() "He is coming tonight. Whatever is not done is not going to be.".
 }

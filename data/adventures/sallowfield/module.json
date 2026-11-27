@@ -28,6 +28,9 @@
   "exports": {
     "party": "party",
     "region": "vale",
-    "road": "east_road"
+    "road": "east_road",
+    "green": "green",
+    "elland": "elland",
+    "companyBroken": { "entity": "companyBroken", "role": "relation" }
   }
 }

@@ -1,16 +1,27 @@
 # The long campaign: a season-by-season sketch
 
-27 November 2026. **Creative direction; a first standalone playable thread is in progress.** The names and
+27 November 2026. **Creative direction; a two-adventure playable thread is in progress.** The names and
 connections proposed below are possibilities, not new canon. The reference game and its fifth expedition come first:
 do not populate the opening with this outline or require the wider world for beta.
 
 The optional `data/adventures/tallow/long-campaign.campaign.json` plays Tallow Deep with an additional Swallet thread:
 a drawing, a rival's food, a road crew and the Ferryman's approach. Its choices change supplies, timing and who
-occupies the river bank. The existing Tallow campaign is unchanged. This is not yet the four-season arc: the other
-episodes, independent adventure outcomes, strategic plans and the interlocked finale remain to be built and proven.
-Play the standalone thread with `bin/kyrie play data/adventures/tallow/long-campaign.campaign.json`. It is not
-installed in the generated reference game. Its raiders follow a timed authored arrival, not an autonomous strategic
-simulation; the road crew's arrival does not yet repair the road.
+occupies the river bank. The crew can clear the real western fall; a guard may interrupt it, dig its way in, and be
+stopped at the Calx Gate. A negotiated withdrawal costs four rations and clears the actual positions, not the war.
+
+The optional `data/adventures/tallow/long-ford.campaign.json` starts at Sallowfield and joins its east road to Swallet.
+The same company travels between them. The Sallowfield chapter closes without stopping a surviving company, but a
+defeat there still ends the campaign. If Sallowfield holds, a carter brings the news and the village can shelter
+Merren's crew, bringing it an hour sooner. If it
+burns and Tib Elland survives, he walks to Swallet and can carry two donated rations back. Sallowfield's clock starts
+at the coach; Swallet's raid starts only after the company makes its choice about the drawing. The player can leave
+Sallowfield before its battle, which still unfolds there.
+
+Play either with `bin/kyrie play` and the path above. The existing standalone adventures are unchanged apart from
+keeping Sallowfield's picked men in its vale when the company has gone, and its accounting of Tib's location. These
+variants are not installed in the generated reference game. This is not yet the four-season arc: most episodes,
+strategic plans and the interlocked finale remain to be built and proven. Raiders follow timed authored rules, not an
+autonomous strategic simulation.
 
 ## A war seen from a doorway
 
