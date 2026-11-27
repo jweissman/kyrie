@@ -8,6 +8,7 @@ import { Attest, type Projected } from '../presentation/attest';
 import { MenuModel, type Menu, type Sheets } from './menu-model';
 import { TalkQuestion, type Question } from './talk-question';
 import type { Focus, Conversation } from '../session/focus';
+import type { Campaign } from '../campaign/campaign';
 
 // The resting scene's menu, as the frame holds it (OR-1071; the owner, 26 November: "we definitely need to move
 // everything to scanning one tree"): the engine works it out once a frame, and every client reads it, never building
@@ -45,10 +46,11 @@ export class MenuTree {
     return { ...frame, menu: this.of(frame) };
   }
   // The question asked from the session's focus (OR-1451): while it is a talk, the talk's menu, built once here over
-  // the frame for every client (TalkQuestion). Its rows are the frame's (the screen's, of PlayerFrame.of's rows; the
-  // incremental frame's kept rows, PR #12, once it has settled one), never built again for it.
-  static question(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Focus, conversation?: Conversation): Question {
-    return TalkQuestion.of(frame, focus, conversation);
+  // the frame for every client (TalkQuestion). Its rows come from the player's immutable kept rows, never a fresh
+  // PlayerFrame rebuild for this question.
+  static question(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Focus, conversation?: Conversation,
+    campaign?: Campaign): Question {
+    return TalkQuestion.of(frame, focus, conversation, campaign);
   }
   static of(frame: Omit<Frame, 'menu'>): MenuNode {
     const raw = SceneModel.build(frame.screen), found = Attending.place(raw);

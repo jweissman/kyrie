@@ -11,6 +11,8 @@ import { Wares, type Ware } from './wares';
 import { Paging } from './paging';
 import type { TalkLine } from './talk-lines';
 import type { Menu } from './menu-model';
+import type { Campaign } from '../campaign/campaign';
+import { PlayerFrame } from '../presentation/player-frame';
 
 // The question asked from the focus, on every frame (OR-1451, engine-focus.md §4): the focus, and while it is a talk,
 // the talk's menu, worked out once here for every client (the page draws it, the terminal prints it, the runner offers
@@ -44,10 +46,12 @@ export class TalkQuestion {
     return { scene: SceneModel.build(frame.screen), talk: t.talk, choices: t.rows, sections: [{ id: t.talk.subject.id,
       title: t.talk.subject.name, tone: 'person', glyph: '☺', choices: t.rows }] };
   }
-  static of(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Focus, conversation?: Conversation): Question {
+  static of(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Focus, conversation?: Conversation,
+    campaign?: Campaign): Question {
     if (focus.kind !== 'talk') { return { focus }; }
     const talk = this.talk(frame, focus);
-    return talk ? { focus, talk: this.asked(frame, focus, talk, conversation) } : { focus: { kind: 'place' } };
+    return talk ? { focus, talk: this.asked(frame, focus, talk, conversation, campaign) }
+      : { focus: { kind: 'place' } };
   }
   // The one talked with as the scene holds them, their leave the session's own where the world has none to take (a
   // companion's talk, turned to by its holder).
@@ -57,7 +61,7 @@ export class TalkQuestion {
     return talk.leave.command ? talk : { ...talk, leave: { ...talk.leave, command: 'focus:place' } };
   }
   private static asked(frame: Pick<Frame, 'screen' | 'leaf'>, focus: Extract<Focus, { kind: 'talk' }>, talk: Talk,
-    conversation?: Conversation): TalkAsked {
+    conversation?: Conversation, campaign?: Campaign): TalkAsked {
     const screen = frame.screen, g = frame.leaf.glance, who = talk.subject.id;
     const counter = screen.trade.find(c => c.id === who), { wares, rest } = Wares.of(counter, talk.replies);
     const all = Attending.all(TalkFocus.simple(rest)), asked = this.ids(all, conversation?.asked ?? []);
@@ -76,7 +80,10 @@ export class TalkQuestion {
     const out = { talk, lines: conversation?.lines ?? [], trading: focus.trading, asked, opened: [...focused.opened],
       answers: focused.answers, shown: paged.shown, page: { at: paged.at, of: paged.pages }, trades, sales, services,
       wares, short: counter?.short ?? [], buys: counter?.buys ?? [] };
-    const rows = focus.trading ? this.trading(out) : this.talking(out, focused.salient, focused.more);
+    const rows = (focus.trading ? this.trading(out) : this.talking(out, focused.salient, focused.more)).map(row => {
+      const name = campaign && PlayerFrame.keptRows(campaign).find(r => r.choice.id === row.id)?.choice.name;
+      return name ? { ...row, label: name } : row;
+    });
     const hidden = [...focused.salient, ...trades ? ['trade' as const] : [], ...focused.more]
       .filter(x => !paged.shown.includes(x)).flatMap(x => x === 'trade' ? focused.services : [x]);
     return { ...out, rows, marks: this.marks(rows, replies, { services: focused.services, hidden }) };
