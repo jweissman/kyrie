@@ -140,6 +140,19 @@ observed authoring friction from ambitions that have not yet been attempted.
     painting. A species also takes no calling. The minotaur therefore became a people (`Ancestry minotaur. Calling
     warrior.`), met by its emblem. Kyr has no way to declare a creature as awaiting a painting, which would show an
     emblem meanwhile and file the request for a picture.
+29. **A world event is declared in three places.** A new canon event needs its `Entity` in
+    `data/imbar/events.kyr`, its name in `data/imbar/module.json`'s globals and exports, and its name again in the
+    `canon` list of every reading module's `placed.json` and `module.json`. Forty adventures reading six events meant
+    a helper script to edit eighty manifests. A module importing a canon file whole, or the lint inferring the canon
+    names a module reads, would remove the bookkeeping.
+30. **A rule cannot teach by `Assert knows`.** Only `says "…" teaches fact` teaches from a rule, so a rule that
+    should quietly teach must also say something. Actions can `Assert knows`; rules cannot.
+31. **Importing the language before the session crashes a spec.** `import { ModuleWriter } from '../src/lang'`
+    placed before `Journey` hits a circular import at load. The order of imports is load-bearing and nothing says so.
+32. **Cross-module state is items and events only.** The bible forbids one module reading another's flags, so the
+    whole war's reach is carried by thirty events and two items. That is honest, but an event is boolean: no module
+    can read "how far the Ash has got", only whether a named threshold befell. A canon quantity (a shared measure,
+    exported read-only) would let distant places feel a war that is going badly, not just one that has begun.
 
 ## Generation boundary and unbuilt requests
 

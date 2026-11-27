@@ -410,6 +410,73 @@ None of these colours is declared: each comes from what the acts teach or hand o
 - The reflection, if turned, is a double agent with a ledger.
 - The panes show that the Ash's war is a count: the third act is entering what does the counting.
 
+## The war's reach
+
+Act II does not stay in Tallow. The long campaign asserts world events (`data/imbar/events.kyr`); every adventure
+reads them by `befell`, never by another module's flags, so the change happens even where the player has never been.
+Two canon items carry the rest: the Aenean counting-coin (`count_coin`) and the Ash's grey board with the company's
+name heading the twelfth column (`ash_tally`).
+
+### The First Count: the campaign before this one
+
+Six hundred years before the Ash, Lucan Vey, Prefect of the Marches, counted the western valleys for a levy against
+an enemy his decree calls only the Cinder. Eleven counters went out with styluses. The twelfth, Hiel of the fens,
+would not write down those who had no names to give. The coins struck for the levy disagree: those with a man and a stylus say Hiel was
+hanged at Vey's gate for her blank column; those with a woman and a sickle say she was pardoned; the blank coins say
+nothing, and weigh the most. Nobody alive knows which is true. Vey's decree left the twelfth place empty "until the count
+is just", and the Ash, which descends from Vey's rump province, keeps it empty still.
+
+None of this is told. It is found, a coin at a time, behind a mortar patch at Hexworth, under a trough at Tallow, in
+out-of-the-way searches across the marches; Mistress Orpe in Tallow weighs them, and at one, three, five, eight and
+eleven coins teaches a fragment. At eleven she offers the bowl's twelfth place: left empty (the West's polity leans)
+or laid with the Ash's board (the Ash's). The deep campaign is played out only in its consequences: what was counted
+then is what is being counted now.
+
+### The Ash's order of battle
+
+The Ash is a dark lord with institutions, not a horde. Eleven seats at the Ferryman's board, each exploiting an old
+adventure's own trouble rather than causing it, and a twelfth kept empty:
+
+| Seat | Who | Where | What they are |
+|---|---|---|---|
+| Hierophant | Sister Ondine Vasse | Hexworth | a mystery cult of the Blank: the drowned are owed, not dead |
+| General | Corvin Hask | the muster (Kell Ford) | a regular column on the old paved road |
+| Tallymen | the Tallymen of Wickering | Weatherdrove | a slaving ring that counts people for sale |
+| Fence | Mother Quorn | Quittance | a crime lord laundering the Ash's silver as salvage |
+| Engineer | Master Iselt Brann | the Corrow | an inventor setting hooks in the mountain's chain |
+| Heretic | Doctor Aumery Fell | Calamy | a heretic mathematician with false tables |
+| Warlord | Gethin Redhand | the Gape | irregular riders, marauders and raiders |
+| Glass mage | Sabine of the Glass | the Strewnfield | a broken mage reading too far |
+| Stone elf | Aeleth | the Lull | a tormented elf, last watcher of the stones |
+| Turncoat | Captain Hollis Drey | Haddle | a haunted traitor who sold his company's colours |
+| Councillor | Alderman Wystan Pellow | Pellam | a wealthy advisor on the Wool Council |
+| Spymaster | the Blue Cords | Sennet | a spy network reading the port's letters |
+
+Each arrives with Act II and offers an OSR-lethal fight and at least two ways around it (evidence shown to the right
+local, a bargain, a trick in the adventure's own mechanics). Breaking one asserts `<seat>_broken`; a company sworn to
+the Ash may serve instead (`<seat>_served`). Every seat weighs once on the war ledger.
+
+### Five columns, not regiments
+
+The war ledger reads five columns for each side: supply, force, deployment, intelligence and polity. Tallow's own
+flags feed them (the field, the ford, the bells, the Rills); the twelve seats feed them from afar. A column that leans
+does something, not just a score: West intelligence delays the Ash's next turn by six days; West supply brings the
+host a day sooner; West force retakes a march, Ash force takes one; deployment and polity weigh on the final count.
+Logistics, deployment, force, tradecraft and statecraft are therefore all played as ordinary acts in ordinary places.
+
+### Allegiance
+
+A company can swear to the Rì (the brass wheel on the Calx chain) or defect: Assessor Ninefold sits in Merren's chair
+in Tallow's taproom and offers the twelfth seat. Taking it gives the grey board and closes the rally. Every adventure
+reads both oaths and the board: doors close or open, people give or refuse, a fight begins. Refusing the assessor is a
+fight in the taproom with his guard; paying the guard to take him home is quieter and tells the Ash who you are.
+
+### After the war
+
+Both endings (`ash_broken`, `ash_triumphs`) are read everywhere: a grey board on Swallet green, or counters walking
+east with their boards. Neither is the end. The Act III setups stand: Merren behind the glass; the Ferryman's doubt;
+the coin's twelfth face still contested.
+
 ## What would have to be proved
 
 This outline is not a claim that today's runtime can play the whole campaign. The
